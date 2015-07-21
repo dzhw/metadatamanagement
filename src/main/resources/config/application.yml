@@ -10,7 +10,7 @@ info:
 spring:
   data:
     elasticsearch:
-      cluster-name: fdzprototype
+      cluster-name: metadatamanagement
       properties:
         node.local: false
         node.data: true
