@@ -1,0 +1,25 @@
+proxy:
+  build: .
+  dockerfile: Dockerfile_nginx
+  pid: "host"
+  links:
+   - node1
+   - node2
+   - node3
+  ports:
+   - 8080:80
+node1:
+  image: ${project.artifactId}:${project.version}
+  pid: "host"
+node2:
+  image: ${project.artifactId}:${project.version}
+  pid: "host"
+  links:
+   - node1:node1
+node3:
+  image: ${project.artifactId}:${project.version}
+  pid: "host"
+  links:
+   - node1:node1
+   - node2:node2
+
