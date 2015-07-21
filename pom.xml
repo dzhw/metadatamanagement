@@ -30,7 +30,7 @@
 		<!-- use UTF-8 for everything -->
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-		<start-class>eu.dzhw.fdz.prototype.Application</start-class>
+		<start-class>eu.dzhw.fdz.metadatamanagement.MetaDataManagementApplication</start-class>
 		<travis.url>https://travis-ci.org/dzhw/metadatamanagement</travis.url>
 		<test.system.url>https://metadatamanagement.cfapps.io</test.system.url>
 	</properties>
@@ -214,13 +214,13 @@
 					<target>http://api.run.pivotal.io</target>
 					<org>DZHW</org>
 					<space>development</space>
-					<appname>fdzprototype</appname>
-					<url>fdzprototype.cfapps.io</url>
+					<appname>metadatamanagement</appname>
+					<url>metadatamanagement.cfapps.io</url>
 					<buildpack>https://github.com/cloudfoundry/java-buildpack</buildpack>
 					<memory>1024</memory>
 					<diskQuota>1024</diskQuota>
 					<healthCheckTimeout>60</healthCheckTimeout>
-					<instances>2</instances>
+					<instances>1</instances>
 				</configuration>
 			</plugin>
 			<!-- wrap the jar into a docker image -->
