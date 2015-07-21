@@ -1,0 +1,31 @@
+# send this to the alpha platform to enable docker
+#dist: trusty
+# send this build to the container based infrastructure anymore
+sudo: false
+language: java
+jdk:
+  - oraclejdk8
+# sacrifized caching for being able to build docker images
+cache:
+  directories:
+  - $HOME/.m2
+  - node_modules
+  - src/main/resources/static/bower_components
+# turn off travis default mvn install call
+install:
+  - node --version
+  - npm --version
+  - npm install
+  - node_modules/bower/bin/bower install
+# do not install into local maven repo to avoid polluting the cache
+#script: mvn --settings ./settings.xml -B -DrepoToken=$COVERALLS_TOKEN verify cf:push-only site coveralls:report
+script: mvn install
+# deploy Maven Site to GitHub Pages
+#after_success: ./travis/deploy-site.sh
+notifications:
+  email:
+    recipients:
+      - secure: "vGNnvLJqhsEaXdYwtp9dxlkmvyTqG2fPabu+I5kk51IHfO0r44bajnvTbsCZLN9cuq9geaH0Gk32hIcwW6TbkTMBwSzdq7TyYMUa5dIFxKb66ueN+BVxqwIeggcL/t/O1kqILDAZKY8ncYPXq4zwDKvy0gmgFz5+WDis8DNfk/HNFCejx1IEWZJuO0N9FE0NGKl9sBI970zmNFj6kc4WQLBNKRDvVby4HBDhLujissbie4s5o3zOSjznq/Yl/1l/SWgYoSLD+F9cvaPU3TbC23LWFlQf9hNP1VWrFXJ03oPVe5EIYW6YUJxpelN04SB1KyuDAd9P1bEA3Iz+UAtyjNRSQVNrNprvS+XuYJLw4oEmEfYvVcgCq1G3v8IesE0sHj810szZu1Wl1mMrigvaqvQj+sptUc8TC7TNcK6qo41NRk6815C1oGAlOldS/pDt6k24KkKs49LWwwZzk5hhX/RTUQ2aUT3Ft9sSqtNP5F1fIMpywCMm6x9c+Kthb2whelZ6vNIyTs8XWrXbRZ9kRJb3RXJhsD6duEV6NXXd/r59sGdLseSW/9ssnW2V90NzDXTNSZkM2t8flvxgvkk01HiJTHxAG5h49KZEiasFrQvtiDMkYcRu+zbJZGYL2//UDRJyv2zQzhdxx3jEvGfURLolbvBE6SYCq6R2rRxL7n0="
+      - secure: "kwl+gSbu0vkbQedTM0aEPqfxcD+3y10mnYkoLxHjyVlzioRjhfQl6CwwE8jI6/QFX1a5iKYTlPFixeWKQhcXOaIrf52bLUtekXc7kY/59bG/C8an+GpXMdWFkx1ozMghkol7Y+YLK4TWVey3zk3Dcb736x1ODbb3pAJKMG/6pm8oF+Y6IL6xz5XqiImmKaFaRvPB7UFA9g5BAACr9JhQopdV6nPriRWV+ySzlefp58OvuJG3cLGU5pftPuq/3kg5SfHS66xZ5//N5kz3G7+wZkZTDkQ69oyLgHZKkZ3O6ZT4chrQZRZ4tSTzpM199+jGU+ZkotUvDtY0/aXeNW9YG4hArl9FElyI82NljBVoKCiLAI0l165mfLgqhCdWaPYw+CNAYqnQroYccZoqv3Zz1o4Ub3ulD8AbH5Tqq1Wb0gGHiwYVc2qM5VZBr/RL2X8Muh3RzzCwAvc1Jsw8nCjMyGKyEinKMboL2TASK2iJ6C9D204sd6LPorR2yB63nxY65QioZWb0FEWokXEIbLi3eiw6PCvK6AjMKuaL730I0PcI36q+c2qRs1e8Diz9XONp5A9AaFBTPw9s9TUjcWZ72uQmvjnyJ1Zqi4p1IYOz/HK2V6/XipqSwMmKbi4PixquS7ayQ8QHUAEvsXZajyt4CPDcIqgBsxjk9N2Yi+FHJ2I="
+      - secure: "lBfpFTp+Jiw02z0ziv8M15TuU0SmhG9OF/dm+5RcnqsT0aCoo1XWoBSzqQWmV23KT4zQHnmh3vvkhlJmlyQHYp3DsEZ/Wr61TKZlsCnr1oUfycm2YLDbB5hDQWSAbWGPHoorioyQkzcUkAf+ypcM6c2whGObdPtKEw3YTwd+/rbHLavt3Ip/rK0PRiUnqI4BqADJrbdwunxl7nF5PrwWC9xG9hISbTLriRg1/DwsRFGvNmQ3H1/oFy3OjWc8StYhkNCrrrW44llyQJVxniKnDQUHMv3URed0CtpHmqOrEedE8KSpJ8ixsen3WjvZNbWBYBXYQv3kBIohaeMyk+XDuIpPx2gHVw+RD2EJxVxUH27F3sG1ezoEKfzbp+KE9XezmE67lFO7FIJxHwDUJcA0AmrgLKJTETPzdni4CZDuicLbQRp1kVV3DORLuYXbhGhVJdnNssA+RYqyrLPZp5wSU7gTWOtiHURMJq7FJsYv1tGXYyfsMXfoBG2vTqw2DixcqiyJh6cZhdtqWK6G5zsU5uZARXmmk0MEfG6+PSKcc1OVXef3nsLr9Zw6KnjZ0/MCCFCMnESaXQ//czKh9G02s34YbF8r8t8oHMJpInUqBbL/blQbGBgtL6eoD3vvtNKVTzaA6kCjwGE6Yh9WwJ2Xm3mYeFp5AY/KZ8aUGP5vwOo="
+
