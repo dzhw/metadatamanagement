@@ -1,0 +1,31 @@
+#set version by maven filter
+info:
+  app.version: '@project.version@'
+  app.spring.version: '@project.parent.version@'
+  app.buildtime: '@buildtime@'
+  app.buildtime.format: '@maven.build.timestamp.format@'
+  app.elasticsearch.version: '@elasticsearch.version@'
+
+#set the clustername for production
+spring:
+  data:
+    elasticsearch:
+      cluster-name: fdzprototype
+      properties:
+        node.local: false
+        node.data: true
+        http.enabled: false
+        discovery.zen.master_election.filter_client: false
+  #set base name for message sources
+  messages:
+    basename: i18n/messages
+      
+#enable detailed health info without authentication
+endpoints:
+  health:
+    sensitive: false
+    
+#enable gzip compression
+server:
+  compression:
+    enabled: true

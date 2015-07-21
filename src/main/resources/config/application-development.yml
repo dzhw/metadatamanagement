@@ -1,0 +1,30 @@
+#Don't cache anything when running on the developers laptop so that
+#we can see our changes without a server restart
+spring:
+  thymeleaf:
+    cache: false
+  messages:
+    cache-seconds: 0
+  data:
+    elasticsearch:
+      #set clustername to user name for dev purposes
+      cluster-name: ${user.name}
+      #set network host to loop address to enable multicast on localhost
+      properties:
+        network.host: 127.0.0.1
+        #enable rest endpoint for development
+        http.enabled: true
+        #move elasticsearch data folder to the target folder
+        path.data: target/elasticsearch
+        index.search.slowlog.threshold.query.info: 1ms
+
+#set buildtime equal to startuptime cause in devmode 
+info:
+  app.buildtime: ${info.app.startuptime}
+
+#enable logging of elasticsearch queries
+logging:
+  level:
+    org.elasticsearch.index.search.slowlog.query: INFO
+    
+#logging.level.org.elasticsearch.discovery=TRACE
