@@ -1,374 +1,359 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-	<modelVersion>4.0.0</modelVersion>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
 
-	<groupId>eu.dzhw.fdz</groupId>
-	<artifactId>metadatamanagement</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
-	<packaging>jar</packaging>
+  <parent>
+    <artifactId>spring-boot-starter-parent</artifactId>
+    <groupId>org.springframework.boot</groupId>
+    <version>1.3.0.M2</version>
+    <relativePath></relativePath>
+    <!-- lookup parent from repository -->
+  </parent>
 
-	<name>MetaDataManagement</name>
-	<description>This platform gathers all metadata of the surveys published by our FDZ.</description>
-	<url>http://dzhw.github.io/metadatamanagement</url>
+  <groupId>eu.dzhw.fdz</groupId>
+  <artifactId>metadatamanagement</artifactId>
+  <version>0.0.1-SNAPSHOT</version>
+  <packaging>jar</packaging>
 
-	<parent>
-		<groupId>org.springframework.boot</groupId>
-		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>1.3.0.M2</version>
-		<relativePath /> <!-- lookup parent from repository -->
-	</parent>
+  <name>MetaDataManagement</name>
+  <description>This platform gathers all metadata of the surveys published by our FDZ.</description>
+  <url>http://dzhw.github.io/metadatamanagement</url>
 
-	<properties>
-		<buildtime>${maven.build.timestamp}</buildtime>
-		<cloudfoundry.prototype.url>https://metadatamanagement.cfapps.io</cloudfoundry.prototype.url>
-		<coveralls.url>https://coveralls.io/r/dzhw/metadatamanagement</coveralls.url>
-		<java.version>1.8</java.version>
-		<jacoco.version>0.7.5.201505241946</jacoco.version>
-		<maven.build.timestamp.format>yyyy-MM-dd HH:mm</maven.build.timestamp.format>
-		<pivotal.console.url>https://console.run.pivotal.io/organizations/0c7fb2aa-17e1-4d57-824c-2a6d3dbc335b#spacesit</pivotal.console.url>
-		<!-- use UTF-8 for everything -->
-		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-		<start-class>eu.dzhw.fdz.metadatamanagement.MetaDataManagementApplication</start-class>
-		<travis.url>https://travis-ci.org/dzhw/metadatamanagement</travis.url>
-		<test.system.url>https://metadatamanagement.cfapps.io</test.system.url>
-	</properties>
+  <organization>
+    <name>DZHW GmbH</name>
+    <url>http://www.dzhw.eu</url>
+  </organization>
 
-	<organization>
-		<name>DZHW GmbH</name>
-		<url>http://www.dzhw.eu</url>
-	</organization>
+  <developers>
+    <developer>
+      <name>René Reitmann</name>
+      <organization>DZHW GmbH</organization>
+      <roles>
+        <role>Developer</role>
+      </roles>
+    </developer>
+    <developer>
+      <name>Amine Limouri</name>
+      <organization>DZHW GmbH</organization>
+      <roles>
+        <role>Developer</role>
+      </roles>
+    </developer>
+    <developer>
+      <name>Daniel Katzberg</name>
+      <organization>DZHW GmbH</organization>
+      <roles>
+        <role>Developer</role>
+      </roles>
+    </developer>
+  </developers>
 
-	<developers>
-		<developer>
-			<name>René Reitmann</name>
-			<organization>DZHW GmbH</organization>
-			<roles>
-				<role>Developer</role>
-			</roles>
-		</developer>
-		<developer>
-			<name>Amine Limouri</name>
-			<organization>DZHW GmbH</organization>
-			<roles>
-				<role>Developer</role>
-			</roles>
-		</developer>
-		<developer>
-			<name>Daniel Katzberg</name>
-			<organization>DZHW GmbH</organization>
-			<roles>
-				<role>Developer</role>
-			</roles>
-		</developer>
-	</developers>
+  <scm>
+    <connection>scm:https://github.com/dzhw/metadatamanagement.git</connection>
+    <developerConnection>scm:https://github.com/dzhw/metadatamanagement.git</developerConnection>
+    <url>https://github.com/dzhw/metadatamanagement</url>
+  </scm>
 
-	<scm>
-		<connection>scm:https://github.com/dzhw/metadatamanagement.git</connection>
-		<developerConnection>scm:https://github.com/dzhw/metadatamanagement.git</developerConnection>
-		<url>https://github.com/dzhw/metadatamanagement</url>
-	</scm>
+  <issueManagement>
+    <system>Github</system>
+    <url>https://github.com/dzhw/metadatamanagement/issues</url>
+  </issueManagement>
 
-	<issueManagement>
-		<system>Github</system>
-		<url>https://github.com/dzhw/metadatamanagement/issues</url>
-	</issueManagement>
+  <ciManagement>
+    <system>Travis</system>
+    <url>${travis.url}</url>
+  </ciManagement>
 
-	<ciManagement>
-		<system>Travis</system>
-		<url>${travis.url}</url>
-	</ciManagement>
+  <properties>
+    <buildtime>${maven.build.timestamp}</buildtime>
+    <cloudfoundry.prototype.url>https://metadatamanagement.cfapps.io</cloudfoundry.prototype.url>
+    <coveralls.url>https://coveralls.io/r/dzhw/metadatamanagement</coveralls.url>
+    <jacoco.version>0.7.5.201505241946</jacoco.version>
+    <java.version>1.8</java.version>
+    <maven.build.timestamp.format>yyyy-MM-dd HH:mm</maven.build.timestamp.format>
+    <pivotal.console.url>https://console.run.pivotal.io/organizations/0c7fb2aa-17e1-4d57-824c-2a6d3dbc335b#spacesit</pivotal.console.url>
+    <!-- use UTF-8 for everything -->
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+    <start-class>eu.dzhw.fdz.metadatamanagement.MetaDataManagementApplication</start-class>
+    <test.system.url>https://metadatamanagement.cfapps.io</test.system.url>
+    <travis.url>https://travis-ci.org/dzhw/metadatamanagement</travis.url>
+  </properties>
 
-	<dependencies>
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-thymeleaf</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-undertow</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-web</artifactId>
-			<exclusions>
-				<exclusion>
-					<artifactId>spring-boot-starter-tomcat</artifactId>
-					<groupId>org.springframework.boot</groupId>
-				</exclusion>
-			</exclusions>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-actuator</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-data-elasticsearch</artifactId>
-		</dependency>
-		<!-- test dependencies come here -->
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-test</artifactId>
-			<scope>test</scope>
-		</dependency>
-		<!-- webjars -->
-		<dependency>
-			<groupId>org.webjars</groupId>
-			<artifactId>bootstrap</artifactId>
-			<version>3.3.4</version>
-		</dependency>
-		<dependency>
-			<groupId>org.webjars</groupId>
-			<artifactId>jquery</artifactId>
-			<version>2.1.3</version>
-		</dependency>
-		<dependency>
-			<groupId>org.webjars</groupId>
-			<artifactId>jquery-ui</artifactId>
-			<version>1.9.2</version>
-		</dependency>
-	</dependencies>
+  <dependencies>
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-actuator</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-data-elasticsearch</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-thymeleaf</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-undertow</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-web</artifactId>
+      <exclusions>
+        <exclusion>
+          <artifactId>spring-boot-starter-tomcat</artifactId>
+          <groupId>org.springframework.boot</groupId>
+        </exclusion>
+      </exclusions>
+    </dependency>
+ 
+    <!-- test dependencies come here -->
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-test</artifactId>
+      <scope>test</scope>
+    </dependency>
+  </dependencies>
 
-	<!-- Add Spring repositories -->
-	<!-- (you don't need this if you are using a .RELEASE version) -->
-	<repositories>
-		<repository>
-			<snapshots>
-				<enabled>true</enabled>
-			</snapshots>
-			<id>spring-snapshots</id>
-			<url>http://repo.spring.io/snapshot</url>
-		</repository>
-		<repository>
-			<id>spring-milestones</id>
-			<url>http://repo.spring.io/milestone</url>
-		</repository>
-	</repositories>
+  <!-- Add Spring repositories -->
+  <!-- (you don't need this if you are using a .RELEASE version) -->
+  <repositories>
+    <repository>
+      <snapshots>
+        <enabled>true</enabled>
+      </snapshots>
+      <id>spring-snapshots</id>
+      <url>http://repo.spring.io/snapshot</url>
+    </repository>
+    <repository>
+      <id>spring-milestones</id>
+      <url>http://repo.spring.io/milestone</url>
+    </repository>
+  </repositories>
 
-	<pluginRepositories>
-		<pluginRepository>
-			<id>spring-snapshots</id>
-			<url>http://repo.spring.io/snapshot</url>
-		</pluginRepository>
-		<pluginRepository>
-			<id>spring-milestones</id>
-			<url>http://repo.spring.io/milestone</url>
-		</pluginRepository>
-	</pluginRepositories>
+  <pluginRepositories>
+    <pluginRepository>
+      <id>spring-snapshots</id>
+      <url>http://repo.spring.io/snapshot</url>
+    </pluginRepository>
+    <pluginRepository>
+      <id>spring-milestones</id>
+      <url>http://repo.spring.io/milestone</url>
+    </pluginRepository>
+  </pluginRepositories>
 
-	<build>
-		<plugins>
-			<!-- reuse README.md as index on github pages -->
-			<plugin>
-				<artifactId>maven-resources-plugin</artifactId>
-				<executions>
-					<execution>
-						<id>copy-readme</id>
-						<phase>generate-sources</phase>
-						<goals>
-							<goal>copy-resources</goal>
-						</goals>
-						<configuration>
-							<outputDirectory>${basedir}/src/site/markdown</outputDirectory>
-							<resources>
-								<resource>
-									<directory>${basedir}</directory>
-									<includes>
-										<include>README.md</include>
-									</includes>
-								</resource>
-							</resources>
-						</configuration>
-					</execution>
-					<execution>
-						<id>copy-dockerfiles</id>
-						<!-- here the phase you need -->
-						<phase>validate</phase>
-						<goals>
-							<goal>copy-resources</goal>
-						</goals>
-						<configuration>
-							<outputDirectory>${project.build.directory}/docker</outputDirectory>
-							<resources>
-								<resource>
-									<directory>docker</directory>
-									<filtering>true</filtering>
-								</resource>
-							</resources>
-						</configuration>
-					</execution>
-				</executions>
-			</plugin>
-			<!-- build a fat jar -->
-			<plugin>
-				<groupId>org.springframework.boot</groupId>
-				<artifactId>spring-boot-maven-plugin</artifactId>
-				<configuration>
-					<arguments>
-						<argument>--spring.profiles.active=development</argument>
-					</arguments>
-				</configuration>
-				<dependencies>
-					<dependency>
-						<groupId>org.springframework</groupId>
-						<artifactId>springloaded</artifactId>
-						<version>1.2.3.RELEASE</version>
-					</dependency>
-				</dependencies>
-			</plugin>
-			<!-- create git.properties -->
-			<plugin>
-				<groupId>pl.project13.maven</groupId>
-				<artifactId>git-commit-id-plugin</artifactId>
-			</plugin>
-			<!-- deploy fat jar to cloudfoundry -->
-			<plugin>
-				<groupId>org.cloudfoundry</groupId>
-				<artifactId>cf-maven-plugin</artifactId>
-				<version>1.1.2</version>
-				<configuration>
-					<path>${project.build.directory}/${project.build.finalName}.${project.packaging}</path>
-					<server>cloudfoundry</server>
-					<target>http://api.run.pivotal.io</target>
-					<org>DZHW</org>
-					<space>development</space>
-					<appname>metadatamanagement</appname>
-					<url>metadatamanagement.cfapps.io</url>
-					<buildpack>https://github.com/cloudfoundry/java-buildpack</buildpack>
-					<memory>1024</memory>
-					<diskQuota>1024</diskQuota>
-					<healthCheckTimeout>60</healthCheckTimeout>
-					<instances>1</instances>
-				</configuration>
-			</plugin>
-			<!-- wrap the jar into a docker image -->
-			<plugin>
-				<groupId>com.spotify</groupId>
-				<artifactId>docker-maven-plugin</artifactId>
-				<version>0.2.11</version>
-				<configuration>
-					<imageName>${project.artifactId}:${project.version}</imageName>
-					<dockerDirectory>${project.build.directory}/docker</dockerDirectory>
-					<!-- copy the service's jar file from target into the root directory 
+  <build>
+    <plugins>
+      <!-- reuse README.md as index on github pages -->
+      <plugin>
+        <artifactId>maven-resources-plugin</artifactId>
+        <executions>
+          <execution>
+            <id>copy-readme</id>
+            <phase>generate-sources</phase>
+            <goals>
+              <goal>copy-resources</goal>
+            </goals>
+            <configuration>
+              <outputDirectory>${basedir}/src/site/markdown</outputDirectory>
+              <resources>
+                <resource>
+                  <directory>${basedir}</directory>
+                  <includes>
+                    <include>README.md</include>
+                  </includes>
+                </resource>
+              </resources>
+            </configuration>
+          </execution>
+          <execution>
+            <id>copy-dockerfiles</id>
+            <!-- here the phase you need -->
+            <phase>validate</phase>
+            <goals>
+              <goal>copy-resources</goal>
+            </goals>
+            <configuration>
+              <outputDirectory>${project.build.directory}/docker</outputDirectory>
+              <resources>
+                <resource>
+                  <directory>docker</directory>
+                  <filtering>true</filtering>
+                </resource>
+              </resources>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+      <!-- build a fat jar -->
+      <plugin>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-maven-plugin</artifactId>
+        <dependencies>
+          <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>springloaded</artifactId>
+            <version>1.2.3.RELEASE</version>
+          </dependency>
+        </dependencies>
+        <configuration>
+          <arguments>
+            <argument>--spring.profiles.active=development</argument>
+          </arguments>
+        </configuration>
+      </plugin>
+      <!-- create git.properties -->
+      <plugin>
+        <groupId>pl.project13.maven</groupId>
+        <artifactId>git-commit-id-plugin</artifactId>
+      </plugin>
+      <!-- deploy fat jar to cloudfoundry -->
+      <plugin>
+        <groupId>org.cloudfoundry</groupId>
+        <artifactId>cf-maven-plugin</artifactId>
+        <version>1.1.2</version>
+        <configuration>
+          <path>${project.build.directory}/${project.build.finalName}.${project.packaging}</path>
+          <server>cloudfoundry</server>
+          <target>http://api.run.pivotal.io</target>
+          <org>DZHW</org>
+          <space>development</space>
+          <appname>metadatamanagement</appname>
+          <url>metadatamanagement.cfapps.io</url>
+          <buildpack>https://github.com/cloudfoundry/java-buildpack</buildpack>
+          <memory>1024</memory>
+          <diskQuota>1024</diskQuota>
+          <healthCheckTimeout>60</healthCheckTimeout>
+          <instances>1</instances>
+        </configuration>
+      </plugin>
+      <!-- wrap the jar into a docker image -->
+      <plugin>
+        <groupId>com.spotify</groupId>
+        <artifactId>docker-maven-plugin</artifactId>
+        <version>0.2.11</version>
+        <configuration>
+          <imageName>${project.artifactId}:${project.version}</imageName>
+          <dockerDirectory>${project.build.directory}/docker</dockerDirectory>
+          <!-- copy the service's jar file from target into the root directory 
 						of the image -->
-					<resources>
-						<resource>
-							<targetPath>/</targetPath>
-							<directory>${project.build.directory}</directory>
-							<include>${project.build.finalName}.${project.packaging}</include>
-						</resource>
-					</resources>
-				</configuration>
-			</plugin>
-			<!-- Measure java code coverage with jacoco -->
-			<plugin>
-				<groupId>org.jacoco</groupId>
-				<artifactId>jacoco-maven-plugin</artifactId>
-				<version>${jacoco.version}</version>
-				<executions>
-					<execution>
-						<id>prepare-agent</id>
-						<goals>
-							<goal>prepare-agent</goal>
-						</goals>
-					</execution>
-				</executions>
-			</plugin>
-			<!-- report code coverage to coveralls -->
-			<plugin>
-				<groupId>org.eluder.coveralls</groupId>
-				<artifactId>coveralls-maven-plugin</artifactId>
-				<version>3.1.0</version>
-			</plugin>
-			<!-- Plugins for the maven site -->
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-site-plugin</artifactId>
-				<dependencies>
-					<!-- enable reflow skin and markdown support -->
-					<dependency>
-						<groupId>lt.velykis.maven.skins</groupId>
-						<artifactId>reflow-velocity-tools</artifactId>
-						<version>1.1.1</version>
-					</dependency>
-					<!-- Reflow skin requires Velocity >= 1.7 -->
-					<dependency>
-						<groupId>org.apache.velocity</groupId>
-						<artifactId>velocity</artifactId>
-						<version>1.7</version>
-					</dependency>
-				</dependencies>
-				<!-- Disable "normal" site deployment -->
-				<configuration>
-					<skipDeploy>true</skipDeploy>
-				</configuration>
-			</plugin>
-			<!-- sort the pom.xml -->
-			<plugin>
-				<groupId>com.github.ekryd.sortpom</groupId>
-				<artifactId>sortpom-maven-plugin</artifactId>
-				<version>2.4.0</version>
-				<configuration>
-					<encoding>${project.build.sourceEncoding}</encoding>
-					<createBackupFile>false</createBackupFile>
-					<sortDependencies>scope,groupId,artifactId</sortDependencies>
-					<sortProperties>true</sortProperties>
-					<keepBlankLines>true</keepBlankLines>
-				</configuration>
-			</plugin>
-		</plugins>
-	</build>
+          <resources>
+            <resource>
+              <targetPath>/</targetPath>
+              <directory>${project.build.directory}</directory>
+              <include>${project.build.finalName}.${project.packaging}</include>
+            </resource>
+          </resources>
+        </configuration>
+      </plugin>
+      <!-- Measure java code coverage with jacoco -->
+      <plugin>
+        <groupId>org.jacoco</groupId>
+        <artifactId>jacoco-maven-plugin</artifactId>
+        <version>${jacoco.version}</version>
+        <executions>
+          <execution>
+            <id>prepare-agent</id>
+            <goals>
+              <goal>prepare-agent</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+      <!-- report code coverage to coveralls -->
+      <plugin>
+        <groupId>org.eluder.coveralls</groupId>
+        <artifactId>coveralls-maven-plugin</artifactId>
+        <version>3.1.0</version>
+      </plugin>
+      <!-- Plugins for the maven site -->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-site-plugin</artifactId>
+        <dependencies>
+          <!-- enable reflow skin and markdown support -->
+          <dependency>
+            <groupId>lt.velykis.maven.skins</groupId>
+            <artifactId>reflow-velocity-tools</artifactId>
+            <version>1.1.1</version>
+          </dependency>
+          <!-- Reflow skin requires Velocity >= 1.7 -->
+          <dependency>
+            <groupId>org.apache.velocity</groupId>
+            <artifactId>velocity</artifactId>
+            <version>1.7</version>
+          </dependency>
+        </dependencies>
+        <!-- Disable "normal" site deployment -->
+        <configuration>
+          <skipDeploy>true</skipDeploy>
+        </configuration>
+      </plugin>
+      <!-- sort the pom.xml -->
+      <plugin>
+        <groupId>com.github.ekryd.sortpom</groupId>
+        <artifactId>sortpom-maven-plugin</artifactId>
+        <version>2.4.0</version>
+        <configuration>
+          <encoding>${project.build.sourceEncoding}</encoding>
+          <createBackupFile>false</createBackupFile>
+          <sortDependencies>scope,groupId,artifactId</sortDependencies>
+          <sortProperties>true</sortProperties>
+          <keepBlankLines>true</keepBlankLines>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
 
-	<reporting>
-		<plugins>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-project-info-reports-plugin</artifactId>
-				<version>2.8</version>
-				<reportSets>
-					<reportSet>
-						<reports>
-							<report>project-team</report>
-							<report>issue-tracking</report>
-							<report>dependencies</report>
-							<report>dependency-convergence</report>
-							<report>plugins</report>
-						</reports>
-					</reportSet>
-				</reportSets>
-			</plugin>
-			<plugin>
-				<groupId>org.codehaus.mojo</groupId>
-				<artifactId>versions-maven-plugin</artifactId>
-				<version>2.2</version>
-				<reportSets>
-					<reportSet>
-						<reports>
-							<report>dependency-updates-report</report>
-							<report>plugin-updates-report</report>
-						</reports>
-					</reportSet>
-				</reportSets>
-			</plugin>
-			<plugin>
-				<groupId>org.jacoco</groupId>
-				<artifactId>jacoco-maven-plugin</artifactId>
-				<version>${jacoco.version}</version>
-			</plugin>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-javadoc-plugin</artifactId>
-				<version>2.10.3</version>
-				<reportSets>
-					<reportSet>
-						<reports>
-							<report>javadoc-no-fork</report>
-						</reports>
-					</reportSet>
-				</reportSets>
-			</plugin>
-		</plugins>
-	</reporting>
+  <reporting>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-project-info-reports-plugin</artifactId>
+        <version>2.8</version>
+        <reportSets>
+          <reportSet>
+            <reports>
+              <report>project-team</report>
+              <report>issue-tracking</report>
+              <report>dependencies</report>
+              <report>dependency-convergence</report>
+              <report>plugins</report>
+            </reports>
+          </reportSet>
+        </reportSets>
+      </plugin>
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>versions-maven-plugin</artifactId>
+        <version>2.2</version>
+        <reportSets>
+          <reportSet>
+            <reports>
+              <report>dependency-updates-report</report>
+              <report>plugin-updates-report</report>
+            </reports>
+          </reportSet>
+        </reportSets>
+      </plugin>
+      <plugin>
+        <groupId>org.jacoco</groupId>
+        <artifactId>jacoco-maven-plugin</artifactId>
+        <version>${jacoco.version}</version>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-javadoc-plugin</artifactId>
+        <version>2.10.3</version>
+        <reportSets>
+          <reportSet>
+            <reports>
+              <report>javadoc-no-fork</report>
+            </reports>
+          </reportSet>
+        </reportSets>
+      </plugin>
+    </plugins>
+  </reporting>
 </project>
