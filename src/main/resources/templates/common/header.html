@@ -5,57 +5,54 @@
 </head>
 <body>
 	<header th:fragment="head">
-		<nav class="navbar navbar-default navbar-fixed-top">
+		 <nav class="navbar navbar-default navbar-fixed-top">
 			<div class="container">
-				<!-- Brand and toggle get grouped for better mobile display -->
 				<div class="navbar-header">
-					<a class="navbar-brand visible-xs" href="/"
-						th:text="#{bootstrap.title}">FDZ Prototype</a> <a
-						class="navbar-brand hidden-xs" href="/"
-						th:text="#{bootstrap.brand(${@environment.getProperty('info.app.version')})}">FDZ
-						Prototype</a>
-					<button type="button" class="navbar-toggle collapsed"
-						data-toggle="collapse" data-target="#navbar-collapse">
-						<span class="sr-only" th:text="#{bootstrap.navtoggle}"></span> <span
-							class="icon-bar"></span> <span class="icon-bar"></span> <span
-							class="icon-bar"></span>
+					<a class="navbar-brand visible-xs" href="/" th:text="#{nav.title}">MetaDataManagement</a>
+					<a class="navbar-brand hidden-xs" href="/" th:text="#{nav.brand(${@environment.getProperty('info.app.version')})}">Version</a>
+					<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse">
+						<span class="sr-only" th:text="#{nav.navtoggle}"></span>
+						<span class="icon-bar"></span>
+						<span class="icon-bar"></span>
+						<span class="icon-bar"></span>
 					</button>
 				</div>
-				<!-- Collect the nav links, forms, and other content for toggling -->
-				<div class="collapse navbar-collapse" id="navbar-collapse">
-					<ul class="nav navbar-nav navbar-left">
-					</ul>
+			 	<div class="collapse navbar-collapse" id="navbar-collapse">
+					<ul class="nav navbar-nav navbar-left">dfdf</ul>
 					<ul class="nav navbar-nav navbar-right">
-						<li class="dropdown"><a href="#" class="dropdown-toggle"
-							data-toggle="dropdown" role="button" aria-expanded="false"
-							th:inline="text"> <span class="glyphicon glyphicon-flag"></span>
-								[[#{language}]] <span class="caret"></span></a>
+						<li class="dropdown">
+						   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false" th:inline="text"> 
+							<span class="glyphicon glyphicon-flag"></span>[[#{nav.language}]]
+							<span class="caret"></span>
+							</a>
 							<ul class="dropdown-menu" role="menu">
-								<li th:classappend="${#locale.language=='de'? 'active' : ''}"><a
-									th:href="${@urlHelper.getUrlWithAdditionalQueryParam(#httpServletRequest,'language','de')}"
-									th:text="#{language.german}">German</a></li>
-								<li th:classappend="${#locale.language=='en'? 'active' : ''}"><a
-									th:href="${@urlHelper.getUrlWithAdditionalQueryParam(#httpServletRequest,'language','en')}"
-									th:text="#{language.english}">English</a></li>
-							</ul></li>
+							 	<li th:classappend="${#locale.language=='de'? 'active' : ''}">
+								   <a th:href="${@urlHelper.getUrlWithAdditionalQueryParam(#httpServletRequest,'language','de')}"
+									th:text="#{nav.language.german}">German</a>
+								</li>
+								<li th:classappend="${#locale.language=='en'? 'active' : ''}">
+								   <a th:href="${@urlHelper.getUrlWithAdditionalQueryParam(#httpServletRequest,'language','en')}"
+									  th:text="#{nav.language.english}">English</a>
+								</li>
+							</ul>
+						</li>
 						<li class="about"><a href="#aboutarea" th:inline="text"
 							data-toggle="modal"> <span
-								class="glyphicon glyphicon-question-sign"></span> [[#{about}]]
+								class="glyphicon glyphicon-question-sign"></span>
+								[[#{nav.about}]]
 						</a></li>
 					</ul>
 				</div>
-				<!-- /.navbar-collapse -->
 			</div>
-			<!-- /.container-fluid -->
 		</nav>
 
 		<div class="jumbotron">
 			<div class="container">
 				<h1 th:inline="text">
-					[[#{bootstrap.title}]] <small th:text="#{bootstrap.subtitle}">Subtitle</small>
+					[[#{welcome.title}]] <small th:text="#{welcome.subtitle}">Subtitle</small>
 				</h1>
-				<p th:text="#{bootstrap.intro}">This is just an example page
-					which demonstrates bootstrap, input validation and autocomplete.</p>
+				<p th:text="#{welcome.intro}">This is just an example page which
+					demonstrates bootstrap, input validation and autocomplete.</p>
 			</div>
 		</div>
 		<div class="modal fade" id="aboutarea" tabindex="-1" role="dialog"
@@ -65,39 +62,38 @@
 					<div class="modal-header">
 						<button id="close-button" tabindex="1" type="button" class="close"
 							data-dismiss="modal" aria-hidden="true">&times;</button>
-						<h4 class="modal-title" id="modalLabel"
-							th:text="#{bootstrap.about}">About</h4>
+						<h4 class="modal-title" id="modalLabel" th:text="#{modal.about}">About</h4>
 					</div>
 					<div class="modal-body">
-						<span class="list-group-item active" th:text="#{bootstrap.app}">Application</span>
+						<span class="list-group-item active" th:text="#{modal.app}">Application</span>
 						<span class="list-group-item"
-							th:text="#{bootstrap.brand(${@environment.getProperty('info.app.version')})}"></span>
+							th:text="#{modal.brand(${@environment.getProperty('info.app.version')})}"></span>
 						<span class="list-group-item"
-							th:text="#{bootstrap.application.buildtime(${@environment.getProperty('info.app.buildtime')})}"></span>
+							th:text="#{modal.application.buildtime(${@environment.getProperty('info.app.buildtime')})}"></span>
 						<span class="list-group-item"
-							th:text="#{bootstrap.application.starttime(${@environment.getProperty('info.app.startuptime')})}"></span>
+							th:text="#{modal.application.starttime(${@environment.getProperty('info.app.startuptime')})}"></span>
 						<span class="list-group-item active">Springboot</span> <span
 							class="list-group-item"
-							th:text="#{bootstrap.springboot(${@environment.getProperty('info.app.spring.version')})}"></span>
+							th:text="#{modal.springboot(${@environment.getProperty('info.app.spring.version')})}"></span>
 						<span class="list-group-item active">Elasticsearch</span> <span
 							class="list-group-item"
-							th:text="#{bootstrap.elasticsearch(${@environment.getProperty('info.app.elasticsearch.version')})}"></span>
+							th:text="#{modal.elasticsearch(${@environment.getProperty('info.app.elasticsearch.version')})}"></span>
 						<span class="list-group-item active">Java</span> <span
 							class="list-group-item"
-							th:text="#{bootstrap.javavendor(${@environment.getProperty('java.vendor')})}"></span>
+							th:text="#{modal.javavendor(${@environment.getProperty('java.vendor')})}"></span>
 						<span class="list-group-item"
-							th:text="#{bootstrap.javaversion(${@environment.getProperty('java.version')})}"></span>
-						<span class="list-group-item active" th:text="#{bootstrap.os}">OS</span>
+							th:text="#{modal.javaversion(${@environment.getProperty('java.version')})}"></span>
+						<span class="list-group-item active" th:text="#{modal.os}">OS</span>
 						<span class="list-group-item"
-							th:text="#{bootstrap.osname(${@environment.getProperty('os.name')})}"></span>
+							th:text="#{modal.osname(${@environment.getProperty('os.name')})}"></span>
 						<span class="list-group-item"
-							th:text="#{bootstrap.osarchitectur(${@environment.getProperty('os.arch')})}"></span>
+							th:text="#{modal.osarchitectur(${@environment.getProperty('os.arch')})}"></span>
 						<span class="list-group-item"
-							th:text="#{bootstrap.osversion(${@environment.getProperty('os.version')})}"></span>
+							th:text="#{modal.osversion(${@environment.getProperty('os.version')})}"></span>
 					</div>
 					<div class="modal-footer">
 						<button type="button" tabindex="2" class="btn btn-primary"
-							data-dismiss="modal" th:text="#{button.close}">close</button>
+							data-dismiss="modal" th:text="#{common.button.close}">close</button>
 					</div>
 				</div>
 			</div>
