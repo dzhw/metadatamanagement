@@ -158,24 +158,24 @@
 						<version>6.8.1</version>
 					</dependency>
 				</dependencies>
-<!-- 				<executions> -->
-<!-- 					<execution> -->
-<!-- 						<id>validate</id> -->
-<!-- 						<phase>validate</phase> -->
-<!-- 						<configuration> -->
-<!-- 							<configLocation>buildconfig/checkstyle.xml</configLocation> -->
-<!-- 							<encoding>UTF-8</encoding> -->
-<!-- 							<consoleOutput>true</consoleOutput> -->
-<!-- 							<failsOnError>true</failsOnError> -->
-<!-- 							<failOnViolation>true</failOnViolation> -->
-<!-- 							<maxAllowedViolations>0</maxAllowedViolations> -->
-<!-- 							<linkXRef>false</linkXRef> -->
-<!-- 						</configuration> -->
-<!-- 						<goals> -->
-<!-- 							<goal>check</goal> -->
-<!-- 						</goals> -->
-<!-- 					</execution> -->
-<!-- 				</executions> -->
+				<executions>
+					<execution>
+						<id>validate</id>
+						<phase>validate</phase>
+						<configuration>
+							<configLocation>buildconfig/checkstyle.xml</configLocation>
+							<encoding>UTF-8</encoding>
+							<consoleOutput>true</consoleOutput>
+							<failsOnError>true</failsOnError>
+							<failOnViolation>true</failOnViolation>
+							<maxAllowedViolations>0</maxAllowedViolations>
+							<linkXRef>false</linkXRef>
+						</configuration>
+						<goals>
+							<goal>check</goal>
+						</goals>
+					</execution>
+				</executions>
 			</plugin>
 			<!-- reuse README.md as index on github pages -->
 			<plugin>
@@ -244,7 +244,7 @@
 			<plugin>
 				<groupId>org.cloudfoundry</groupId>
 				<artifactId>cf-maven-plugin</artifactId>
-				<version>1.1.2</version>
+				<version>1.1.3</version>
 				<configuration>
 					<path>${project.build.directory}/${project.build.finalName}.${project.packaging}</path>
 					<server>cloudfoundry</server>

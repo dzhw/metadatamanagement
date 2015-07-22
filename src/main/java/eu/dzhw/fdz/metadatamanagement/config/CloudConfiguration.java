@@ -76,5 +76,5 @@ public class CloudConfiguration {
     public void destroy() {
       // nothing todo
     }
-  };
+  }
 }
