@@ -1,0 +1,54 @@
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-spring4-4.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+</head>
+<body>
+<div th:fragment="navbar">
+  <nav class="navbar navbar-default navbar-fixed-top">
+			<div class="container">
+				<div class="navbar-header">
+					<a class="navbar-brand visible-xs" th:href="@{/}" th:text="#{nav.title}">MetaDataManagement</a>
+					<a class="navbar-brand hidden-xs" th:href="@{/}" th:text="#{nav.brand(${@environment.getProperty('info.app.version')})}">Version</a>
+					<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse">
+						<span class="sr-only" th:text="#{nav.navtoggle}"></span>
+						<span class="icon-bar"></span>
+						<span class="icon-bar"></span>
+						<span class="icon-bar"></span>
+					</button>
+				</div>
+			 	<div class="collapse navbar-collapse" id="navbar-collapse">
+					<ul class="nav navbar-nav navbar-left">
+					    <li class="about">
+						   <a th:href="@{/variables}" th:text="#{nav.variable}" th:inline="text">Variables</a>
+						</li>
+					</ul>
+					<ul class="nav navbar-nav navbar-right">
+						<li class="dropdown">
+						   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false" th:inline="text"> 
+							<span class="glyphicon glyphicon-flag" ></span>[[#{nav.language}]]
+							<span class="caret"></span>
+							</a>
+							<ul class="dropdown-menu" role="menu">
+							 	<li th:classappend="${#locale.language=='de'? 'active' : ''}">
+								   <a th:href="${@urlHelper.getUrlWithAdditionalQueryParam(#httpServletRequest,'language','de')}"
+									th:text="#{nav.language.german}">German</a>
+								</li>
+								<li th:classappend="${#locale.language=='en'? 'active' : ''}">
+								   <a th:href="${@urlHelper.getUrlWithAdditionalQueryParam(#httpServletRequest,'language','en')}"
+									  th:text="#{nav.language.english}">English</a>
+								</li>
+							</ul>
+						</li>
+						<li class="about">
+						   <a href="#aboutarea" th:inline="text" data-toggle="modal">
+						     <span class="glyphicon glyphicon-question-sign"></span>[[#{nav.about}]]
+						   </a>
+						</li>
+					</ul>
+				</div>
+			</div>
+		</nav>
+</div>
+</body>
+</html>
