@@ -9,9 +9,9 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class CustomHealthIndicatorConfiguration {
 
-    @Bean(name = "elasticsearchHealthIndicator")
-    public HealthIndicator customElasticSearchHealthIndicator(Client client,
-	    ElasticsearchHealthIndicatorProperties properties) {
-	return new CustomElasticSearchHealthIndicator(client, properties);
-    }
+  @Bean(name = "elasticsearchHealthIndicator")
+  public HealthIndicator customElasticSearchHealthIndicator(Client client,
+      ElasticsearchHealthIndicatorProperties properties) {
+    return new CustomElasticSearchHealthIndicator(client, properties);
+  }
 }

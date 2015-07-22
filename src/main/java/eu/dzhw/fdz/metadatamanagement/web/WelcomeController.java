@@ -10,15 +10,15 @@ import org.springframework.web.context.request.async.DeferredResult;
  */
 @Controller
 public class WelcomeController {
-    
-    /**
-     * Show welcome page
-     * @return welcome.html
-     */
-    @RequestMapping("/")
-    public DeferredResult<String> showWelcomeFile() {
-	DeferredResult<String> result = new DeferredResult<String>();
-	result.setResult("welcome");
-	return result;
-    }
+
+  /**
+   * Show welcome page.
+   * @return welcome.html
+   */
+  @RequestMapping("/")
+  public final DeferredResult<String> showWelcomeFile() {
+    DeferredResult<String> result = new DeferredResult<String>();
+    result.setResult("welcome");
+    return result;
+  }
 }

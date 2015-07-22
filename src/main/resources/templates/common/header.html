@@ -32,10 +32,10 @@
 								[[#{language}]] <span class="caret"></span></a>
 							<ul class="dropdown-menu" role="menu">
 								<li th:classappend="${#locale.language=='de'? 'active' : ''}"><a
-									th:href="${@urlHelper.getURLWithAdditionalQueryParam(#httpServletRequest,'language','de')}"
+									th:href="${@urlHelper.getUrlWithAdditionalQueryParam(#httpServletRequest,'language','de')}"
 									th:text="#{language.german}">German</a></li>
 								<li th:classappend="${#locale.language=='en'? 'active' : ''}"><a
-									th:href="${@urlHelper.getURLWithAdditionalQueryParam(#httpServletRequest,'language','en')}"
+									th:href="${@urlHelper.getUrlWithAdditionalQueryParam(#httpServletRequest,'language','en')}"
 									th:text="#{language.english}">English</a></li>
 							</ul></li>
 						<li class="about"><a href="#aboutarea" th:inline="text"
