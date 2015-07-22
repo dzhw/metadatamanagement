@@ -160,8 +160,7 @@
 				</dependencies>
 				<executions>
 					<execution>
-						<id>validate</id>
-						<phase>validate</phase>
+						<id>checkstyle</id>
 						<configuration>
 							<configLocation>buildconfig/checkstyle.xml</configLocation>
 							<encoding>UTF-8</encoding>
@@ -174,9 +173,11 @@
 						<goals>
 							<goal>check</goal>
 						</goals>
+						<phase>validate</phase>
 					</execution>
 				</executions>
 			</plugin>
+			<!-- Findbugs and fail the build -->
 			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
 				<artifactId>findbugs-maven-plugin</artifactId>
@@ -188,8 +189,25 @@
 				</configuration>
 				<executions>
 					<execution>
+						<id>findbugs</id>
 						<goals>
 							<goal>check</goal>
+						</goals>
+						<phase>validate</phase>
+					</execution>
+				</executions>
+			</plugin>
+			<!-- PMD analysis may fail the build -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-pmd-plugin</artifactId>
+				<version>3.5</version>
+				<executions>
+					<execution>
+						<id>pmd check</id>
+						<goals>
+							<goal>check</goal>
+							<goal>cpd-check</goal>
 						</goals>
 						<phase>validate</phase>
 					</execution>
@@ -356,8 +374,7 @@
 		</plugins>
 		<pluginManagement>
 			<plugins>
-				<!--This plugin's configuration is used to store Eclipse m2e settings 
-					only. It has no influence on the Maven build itself. -->
+				<!--This plugin's configuration is used to store Eclipse m2e settings only. It has no influence on the Maven build itself.-->
 				<plugin>
 					<groupId>org.eclipse.m2e</groupId>
 					<artifactId>lifecycle-mapping</artifactId>

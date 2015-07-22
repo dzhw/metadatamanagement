@@ -3,6 +3,8 @@
 .classpath
 .project
 .springBeans
+.pmd
+.pmdruleset.xml
 /.settings
 /node_modules
 /src/main/resources/static/bower_components
