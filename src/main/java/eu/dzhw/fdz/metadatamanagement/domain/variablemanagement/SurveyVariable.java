@@ -1,8 +1,5 @@
 package eu.dzhw.fdz.metadatamanagement.domain.variablemanagement;
 
-import java.util.List;
-
-import javax.validation.Valid;
 import javax.validation.constraints.Size;
 
 import org.hibernate.validator.constraints.NotEmpty;
@@ -10,8 +7,9 @@ import org.springframework.data.annotation.Id;
 
 import eu.dzhw.fdz.metadatamanagement.domain.variablemanagement.enumclasses.DataTypes;
 import eu.dzhw.fdz.metadatamanagement.domain.variablemanagement.enumclasses.ScaleLevel;
-import eu.dzhw.fdz.metadatamanagement.domain.variablemanagement.validator.ValueLableWrapper;
+import eu.dzhw.fdz.metadatamanagement.domain.variablemanagement.validator.Value;
 import eu.dzhw.fdz.metadatamanagement.domain.variablemanagement.validator.annotations.Enum;
+import eu.dzhw.fdz.metadatamanagement.domain.variablemanagement.validator.annotations.ListSizeComparement;
 
 /**
  * This is a representation of a variable. All fields describe the attributes of the variable, for
@@ -59,18 +57,9 @@ public class SurveyVariable {
   @Enum(enumClass = ScaleLevel.class)
   private String scaleLevel;
 
-  /**
-   * A list of answer values for the variable.
-   */
-  // List.size >= wertLabel.List.size
-  private List<String> answerValue;
-
-  /**
-   * A list of lables for the answer values.
-   */
-  // List.size <= wertLabel.List.size
-  @Valid
-  private List<ValueLableWrapper> answerValueLable;
+  //TODO nested
+  @ListSizeComparement
+  private Value value;
 
   public String getFdzId() {
     return fdzId;
@@ -120,19 +109,11 @@ public class SurveyVariable {
     this.scaleLevel = scaleLevel;
   }
 
-  public List<String> getAnswerValue() {
-    return answerValue;
+  public Value getValue() {
+    return value;
   }
 
-  public void setAnswerValue(List<String> answerValue) {
-    this.answerValue = answerValue;
-  }
-
-  public List<ValueLableWrapper> getAnswerValueLable() {
-    return answerValueLable;
-  }
-
-  public void setAnswerValueLable(List<ValueLableWrapper> answerValueLable) {
-    this.answerValueLable = answerValueLable;
+  public void setValue(Value value) {
+    this.value = value;
   }
 }

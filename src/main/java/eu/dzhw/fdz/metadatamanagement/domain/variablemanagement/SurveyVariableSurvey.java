@@ -1,12 +1,11 @@
 package eu.dzhw.fdz.metadatamanagement.domain.variablemanagement;
 
-import java.time.LocalDate;
-
 import javax.validation.constraints.Size;
 
 import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.data.annotation.Id;
-import org.springframework.format.annotation.DateTimeFormat;
+
+import eu.dzhw.fdz.metadatamanagement.domain.variablemanagement.validator.annotations.DateOrder;
 
 /**
  * This class is a representation of a survey. This can be a nested object of a survey variable.
@@ -32,20 +31,11 @@ public class SurveyVariableSurvey {
   @Size(min = 1, max = 32)
   @NotEmpty
   private String title;
+  
+  @DateOrder
+  //TODO Nested
+  private DateRange dateRange;
 
-  /**
-   * The start date of the survey. The checked pattern is: {@code yyyy-MM-dd}
-   */
-  // TODO Before(end)
-  @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
-  private LocalDate startDate;
-
-  /**
-   * The end date of the survey. The checked pattern is: {@code yyyy-MM-dd}
-   */
-  // TODO After(end)
-  @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
-  private LocalDate endDate;
 
   public String getSurveyId() {
     return surveyId;
@@ -63,19 +53,11 @@ public class SurveyVariableSurvey {
     this.title = title;
   }
 
-  public LocalDate getStartDate() {
-    return startDate;
+  public DateRange getDateRange() {
+    return dateRange;
   }
 
-  public void setStartDate(LocalDate startDate) {
-    this.startDate = startDate;
-  }
-
-  public LocalDate getEndDate() {
-    return endDate;
-  }
-
-  public void setEndDate(LocalDate endDate) {
-    this.endDate = endDate;
-  }
+  public void setDateRange(DateRange dateRange) {
+    this.dateRange = dateRange;
+  }  
 }
