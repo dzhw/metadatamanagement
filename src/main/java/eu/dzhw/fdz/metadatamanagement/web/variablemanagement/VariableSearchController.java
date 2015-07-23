@@ -1,4 +1,4 @@
-package eu.dzhw.fdz.metadatamanagement.web;
+package eu.dzhw.fdz.metadatamanagement.web.variablemanagement;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -11,14 +11,15 @@ import org.springframework.web.context.request.async.DeferredResult;
  * @author Amine Limouri
  */
 @Controller
+@RequestMapping(value = "/variables")
 public class VariableSearchController {
 
   /**
-   * Show variables page.
+   * Show variable search page.
    * 
-   * @return variables.html
+   * @return variableSearch.html
    */
-  @RequestMapping(value = "/variables", method = RequestMethod.GET)
+  @RequestMapping(method = RequestMethod.GET)
   public DeferredResult<String> showVariableSearch() {
     DeferredResult<String> result = new DeferredResult<String>();
     result.setResult("variables/variableSearch");
