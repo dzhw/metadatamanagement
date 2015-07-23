@@ -4,6 +4,7 @@
 .project
 .springBeans
 .pmd
+.checkstyle
 .pmdruleset.xml
 /.settings
 /node_modules
