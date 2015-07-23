@@ -191,6 +191,9 @@
             <property name="allowedAnnotations" value="Override, Test"/>
             <property name="allowThrowsTagsForSubclasses" value="true"/>
         </module>
+        <!-- Added javadoc from sun configuration -->
+        <module name="JavadocType"/>
+        <module name="JavadocStyle"/>
         <module name="MethodName">
             <property name="format" value="^[a-z][a-z0-9][a-zA-Z0-9_]*$"/>
             <message key="name.invalidPattern"

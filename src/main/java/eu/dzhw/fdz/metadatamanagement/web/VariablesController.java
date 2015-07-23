@@ -13,7 +13,7 @@ import org.springframework.web.context.request.async.DeferredResult;
 public class VariablesController {
 
   /**
-   * Show variables page
+   * Show variables page.
    * 
    * @return variables.html
    */

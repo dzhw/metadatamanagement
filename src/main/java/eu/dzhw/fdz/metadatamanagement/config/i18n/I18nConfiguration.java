@@ -12,6 +12,11 @@ import org.springframework.web.servlet.i18n.LocaleChangeInterceptor;
 
 import eu.dzhw.fdz.metadatamanagement.MetaDataManagementApplication;
 
+/**
+ * Spring configuration which adds i18n based on cookies.
+ * 
+ * @author René Reitmann
+ */
 @Configuration
 public class I18nConfiguration extends WebMvcConfigurerAdapter {
 
