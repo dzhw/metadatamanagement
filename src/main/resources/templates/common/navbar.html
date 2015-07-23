@@ -20,13 +20,14 @@
 			 	<div class="collapse navbar-collapse" id="navbar-collapse">
 					<ul class="nav navbar-nav navbar-left">
 					    <li>
-						   <a th:href="@{/variables}" th:text="#{nav.variable}" th:inline="text" class="active">Variables</a>
+						   <a th:href="@{/variables}" th:text="#{nav.variable}" class="active">Variables</a>
 						</li>
 					</ul>
 					<ul class="nav navbar-nav navbar-right">
 						<li class="dropdown">
-						   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false" th:inline="text"> 
-							<span class="glyphicon glyphicon-flag" ></span>[[#{nav.language}]]
+						   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"> 
+							<span class="glyphicon glyphicon-flag" ></span>
+							<span th:text="#{nav.language}"></span>
 							<span class="caret"></span>
 							</a>
 							<ul class="dropdown-menu" role="menu">
@@ -41,8 +42,9 @@
 							</ul>
 						</li>
 						<li class="about">
-						   <a href="#aboutarea" th:inline="text" data-toggle="modal">
-						     <span class="glyphicon glyphicon-question-sign"></span>[[#{nav.about}]]
+						   <a href="#aboutarea" data-toggle="modal">
+						     <span class="glyphicon glyphicon-question-sign"></span>
+						     <span th:text="#{nav.about}"></span>
 						   </a>
 						</li>
 					</ul>

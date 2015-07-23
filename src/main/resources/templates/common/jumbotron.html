@@ -7,8 +7,8 @@
   <div th:fragment="jumbotron(title)">
        <div class="jumbotron">
 			<div class="container">
-				<h1 th:inline="text">
-					[[#{common.jumbo.title}]]
+				<h1 th:text="#{common.jumbo.title}">
+					Welcome
 				</h1>
 				<p th:text="${title}">Welcome</p>
 			</div>
