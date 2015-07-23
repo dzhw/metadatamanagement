@@ -1,6 +1,3 @@
-/**
- * 
- */
 package eu.dzhw.fdz.metadatamanagement.domain.variablemanagement;
 
 import java.time.LocalDate;
@@ -12,7 +9,7 @@ import org.springframework.data.annotation.Id;
 import org.springframework.format.annotation.DateTimeFormat;
 
 /**
- * The representation of a survey. This can be a nested object of a survey variable.
+ * This class is a representation of a survey. This can be a nested object of a survey variable.
  * 
  * @see SurveyVariable
  * 
@@ -22,15 +19,15 @@ import org.springframework.format.annotation.DateTimeFormat;
 public class SurveyVariableSurvey {
 
   /**
-   * The primary key for a survey.
+   * The surveyID is a primary.
    */
   @Id
   @Size(min = 1, max = 32)
   @NotEmpty
-  private String surveyID;
+  private String surveyId;
 
   /**
-   * The title of a survey
+   * This holds the title of a survey.
    */
   @Size(min = 1, max = 32)
   @NotEmpty
@@ -50,60 +47,34 @@ public class SurveyVariableSurvey {
   @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
   private LocalDate endDate;
 
-  /* GETTER / SETTER */
-
-  /**
-   * @return the surveyID
-   */
-  public String getSurveyID() {
-    return surveyID;
+  public String getSurveyId() {
+    return surveyId;
   }
 
-  /**
-   * @param surveyID the surveyID to set
-   */
-  public void setSurveyID(String surveyID) {
-    this.surveyID = surveyID;
+  public void setSurveyId(String surveyId) {
+    this.surveyId = surveyId;
   }
 
-  /**
-   * @return the title
-   */
   public String getTitle() {
     return title;
   }
 
-  /**
-   * @param title the title to set
-   */
   public void setTitle(String title) {
     this.title = title;
   }
 
-  /**
-   * @return the startDate
-   */
   public LocalDate getStartDate() {
     return startDate;
   }
 
-  /**
-   * @param startDate the startDate to set
-   */
   public void setStartDate(LocalDate startDate) {
     this.startDate = startDate;
   }
 
-  /**
-   * @return the endDate
-   */
   public LocalDate getEndDate() {
     return endDate;
   }
 
-  /**
-   * @param endDate the endDate to set
-   */
   public void setEndDate(LocalDate endDate) {
     this.endDate = endDate;
   }

@@ -1,6 +1,3 @@
-/**
- * 
- */
 package eu.dzhw.fdz.metadatamanagement.domain.variablemanagement;
 
 import java.util.List;
@@ -32,7 +29,7 @@ public class SurveyVariable {
   @Id
   @Size(min = 1, max = 32)
   @NotEmpty
-  private String fdzID;
+  private String fdzId;
 
   // TODO nested
   private SurveyVariableSurvey surveyVariableSurvey;
@@ -75,116 +72,66 @@ public class SurveyVariable {
   @Valid
   private List<ValueLableWrapper> answerValueLable;
 
-  /* GETTER / SETTER */
-
-  /**
-   * @return the fdzID
-   */
-  public String getFdzID() {
-    return fdzID;
+  public String getFdzId() {
+    return fdzId;
   }
 
-  /**
-   * @param fdzID the fdzID to set
-   */
-  public void setFdzID(String fdzID) {
-    this.fdzID = fdzID;
+  public void setFdzId(String fdzId) {
+    this.fdzId = fdzId;
   }
 
-  /**
-   * @return the name
-   */
-  public String getName() {
-    return name;
-  }
-
-  /**
-   * @param name the name to set
-   */
-  public void setName(String name) {
-    this.name = name;
-  }
-
-  /**
-   * @return the surveyVariableSurvey
-   */
   public SurveyVariableSurvey getSurveyVariableSurvey() {
     return surveyVariableSurvey;
   }
 
-  /**
-   * @param surveyVariableSurvey the surveyVariableSurvey to set
-   */
   public void setSurveyVariableSurvey(SurveyVariableSurvey surveyVariableSurvey) {
     this.surveyVariableSurvey = surveyVariableSurvey;
   }
 
-  /**
-   * @return the dataType
-   */
+  public String getName() {
+    return name;
+  }
+
+  public void setName(String name) {
+    this.name = name;
+  }
+
   public String getDataType() {
     return dataType;
   }
 
-  /**
-   * @param dataType the dataType to set
-   */
   public void setDataType(String dataType) {
     this.dataType = dataType;
   }
 
-  /**
-   * @return the lable
-   */
   public String getLable() {
     return lable;
   }
 
-  /**
-   * @param lable the lable to set
-   */
   public void setLable(String lable) {
     this.lable = lable;
   }
 
-  /**
-   * @return the scaleLevel
-   */
   public String getScaleLevel() {
     return scaleLevel;
   }
 
-  /**
-   * @param scaleLevel the scaleLevel to set
-   */
   public void setScaleLevel(String scaleLevel) {
     this.scaleLevel = scaleLevel;
   }
 
-  /**
-   * @return the answerValue
-   */
   public List<String> getAnswerValue() {
     return answerValue;
   }
 
-  /**
-   * @param answerValue the answerValue to set
-   */
   public void setAnswerValue(List<String> answerValue) {
     this.answerValue = answerValue;
   }
 
-  /**
-   * @return the answerValueLable
-   */
   public List<ValueLableWrapper> getAnswerValueLable() {
     return answerValueLable;
   }
 
-  /**
-   * @param answerValueLable the answerValueLable to set
-   */
   public void setAnswerValueLable(List<ValueLableWrapper> answerValueLable) {
     this.answerValueLable = answerValueLable;
   }

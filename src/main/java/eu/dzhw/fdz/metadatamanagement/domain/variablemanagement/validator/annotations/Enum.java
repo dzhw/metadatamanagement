@@ -1,6 +1,3 @@
-/**
- * 
- */
 package eu.dzhw.fdz.metadatamanagement.domain.variablemanagement.validator.annotations;
 
 import java.lang.annotation.Documented;
@@ -25,7 +22,13 @@ import eu.dzhw.fdz.metadatamanagement.domain.variablemanagement.validator.EnumVa
  */
 public @interface Enum {
 
+  /**
+   * This is the error message if the validation does not accept a value. 
+   */
   public abstract String message() default "Not a accepted value.";// TODO
 
-  public abstract Class<? extends java.lang.Enum<?>>enumClass();
+  /**
+   * This is parameter for getting a enumeration class for the validation.
+   */
+  public abstract Class<? extends java.lang.Enum<?>> enumClass();
 }

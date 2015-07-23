@@ -1,6 +1,3 @@
-/**
- * 
- */
 package eu.dzhw.fdz.metadatamanagement.domain.variablemanagement.enumclasses;
 
 /**
