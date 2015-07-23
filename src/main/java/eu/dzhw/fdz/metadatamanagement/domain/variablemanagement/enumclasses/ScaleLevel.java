@@ -7,5 +7,7 @@ package eu.dzhw.fdz.metadatamanagement.domain.variablemanagement.enumclasses;
  *
  */
 public enum ScaleLevel {
-
+  
+  NOMINAL, ORDINAL, METRIC ;
+  
 }

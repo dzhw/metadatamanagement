@@ -14,13 +14,11 @@ public class Value {
   /**
    * A list of answer values for the variable.
    */
-  // List.size >= wertLabel.List.size
   private List<String> values;
 
   /**
    * A list of lables for the answer values.
    */
-  // List.size <= wertLabel.List.size
   @Valid
   private List<ValueLableWrapper> valueLables;
 
