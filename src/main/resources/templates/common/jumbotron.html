@@ -4,13 +4,13 @@
 <head>
 </head>
 <body>
-  <div th:fragment="jumbotrone">
+  <div th:fragment="jumbotron(title)">
        <div class="jumbotron">
 			<div class="container">
 				<h1 th:inline="text">
 					[[#{common.jumbo.title}]]
 				</h1>
-				<p th:text="${var}">Welcome</p>
+				<p th:text="${title}">Welcome</p>
 			</div>
 		</div>
    </div>

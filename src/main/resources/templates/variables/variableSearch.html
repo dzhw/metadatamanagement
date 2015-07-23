@@ -22,7 +22,10 @@
     <![endif]-->
 </head>
 <body>
-	<header th:include="common/header::head(var=#{jumbo.variables.intro})"></header>
+	<header>
+	<div th:include="common/navbar::navbar"></div>
+	<div th:include="common/jumbotron::jumbotron(title=#{jumbo.variables.intro})"></div>
+	</header>
 	<div class="container">Hello world 3</div>
 
 	<script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>

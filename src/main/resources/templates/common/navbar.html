@@ -5,7 +5,7 @@
 </head>
 <body>
 <div th:fragment="navbar">
-  <nav class="navbar navbar-default navbar-fixed-top">
+  <nav class="navbar navbar-default navbar-fixed-top" >
 			<div class="container">
 				<div class="navbar-header">
 					<a class="navbar-brand visible-xs" th:href="@{/}" th:text="#{nav.title}">MetaDataManagement</a>
@@ -49,6 +49,7 @@
 				</div>
 			</div>
 		</nav>
+		<div th:include="common/aboutdialog::aboutdialog"></div>
 </div>
 </body>
 </html>
