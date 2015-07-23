@@ -1,0 +1,14 @@
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-spring4-4.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org"
+	th:lang="${T(org.springframework.context.i18n.LocaleContextHolder).getLocale().getLanguage()}">
+<head>
+</head>
+<body>
+	<div th:fragment="js">
+		<script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
+		<script
+			src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+	</div>
+</body>
+</html>

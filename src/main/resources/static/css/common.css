@@ -1,0 +1,4 @@
+/* Fix bootstrap overlapping of body and navbar */
+body {
+	padding-top: 50px;
+}
