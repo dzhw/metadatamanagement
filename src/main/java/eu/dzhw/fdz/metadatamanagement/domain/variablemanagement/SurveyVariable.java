@@ -6,11 +6,11 @@ import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.elasticsearch.annotations.Document;
 import org.springframework.data.elasticsearch.annotations.Field;
+import org.springframework.data.elasticsearch.annotations.FieldIndex;
 import org.springframework.data.elasticsearch.annotations.FieldType;
 
 import eu.dzhw.fdz.metadatamanagement.domain.variablemanagement.enumclasses.DataTypes;
 import eu.dzhw.fdz.metadatamanagement.domain.variablemanagement.enumclasses.ScaleLevel;
-import eu.dzhw.fdz.metadatamanagement.domain.variablemanagement.validator.annotations.Enum;
 
 /**
  * This is a representation of a variable. All fields describe the attributes of the variable, for
@@ -48,8 +48,8 @@ public class SurveyVariable {
   /**
    * The data type of the variable.
    */
-  @Enum(enumClass = DataTypes.class)
-  private String dataType;
+  @Field(index = FieldIndex.not_analyzed)
+  private DataTypes dataType;
 
   /**
    * The label of the variable.
@@ -60,29 +60,29 @@ public class SurveyVariable {
   /**
    * A optional scale level of the variable, if the variable is e.g. not a String.
    */
-  @Enum(enumClass = ScaleLevel.class)
-  private String scaleLevel;
+  @Field(index = FieldIndex.not_analyzed)
+  private ScaleLevel scaleLevel;
 
   /**
    * The value (answer options) with depending labels are represent in this nested field.
    */
   @Field(type = FieldType.Object)
   private Value value;
-  
+
   /**
    * Output is a summarize of a variable. Example:
    * 
-   * {@codeSurvey [fdzId=fdz123, SurveyVariableSurvey [surveyId=SId123, title=ExampleTitle, 
-   * DateRange [StartDate=2015-07-22, EndDate=2015-07-24]], name=ExampleName, dataType=NUMERIC, 
+   * {@codeSurvey [fdzId=fdz123, SurveyVariableSurvey [surveyId=SId123, title=ExampleTitle,
+   * DateRange [StartDate=2015-07-22, EndDate=2015-07-24]], name=ExampleName, dataType=NUMERIC,
    * label=ExampleLabel, scaleLevel=METRIC, Value [Value.values.size=5, Values.valueLabels.size=5]]}
-   *  
+   * 
    * @return A String which will summarizes the object date range.
    */
   @Override
   public String toString() {
-    return "Survey [fdzId=" + this.fdzId + ", " + this.surveyVariableSurvey + ", "
-        + "name= " + this.name + ", dataType=" + this.dataType + ", label=" + this.label  
-        + ", scaleLevel=" + this.scaleLevel + ", " + this.value + "]";
+    return "Survey [fdzId=" + this.fdzId + ", " + this.surveyVariableSurvey + ", " + "name= "
+        + this.name + ", dataType=" + this.dataType.toString() + ", label=" + this.label
+        + ", scaleLevel=" + this.scaleLevel.toString() + ", " + this.value + "]";
   }
 
   /* GETTER / SETTER */
@@ -110,14 +110,6 @@ public class SurveyVariable {
     this.name = name;
   }
 
-  public String getDataType() {
-    return dataType;
-  }
-
-  public void setDataType(String dataType) {
-    this.dataType = dataType;
-  }
-
   public String getLabel() {
     return label;
   }
@@ -126,19 +118,27 @@ public class SurveyVariable {
     this.label = label;
   }
 
-  public String getScaleLevel() {
-    return scaleLevel;
-  }
-
-  public void setScaleLevel(String scaleLevel) {
-    this.scaleLevel = scaleLevel;
-  }
-
   public Value getValue() {
     return value;
   }
 
   public void setValue(Value value) {
     this.value = value;
+  }
+
+  public DataTypes getDataType() {
+    return dataType;
+  }
+
+  public void setDataType(DataTypes dataType) {
+    this.dataType = dataType;
+  }
+
+  public ScaleLevel getScaleLevel() {
+    return scaleLevel;
+  }
+
+  public void setScaleLevel(ScaleLevel scaleLevel) {
+    this.scaleLevel = scaleLevel;
   }
 }

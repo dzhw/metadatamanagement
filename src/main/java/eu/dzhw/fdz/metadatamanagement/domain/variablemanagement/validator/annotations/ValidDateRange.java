@@ -12,6 +12,7 @@ import eu.dzhw.fdz.metadatamanagement.domain.variablemanagement.validator.DateRa
 
 /**
  * This annotation compares two dates and check the correct time line order of the two dates.
+ * 
  * @author Daniel Katzberg
  *
  */
@@ -24,7 +25,7 @@ public @interface ValidDateRange {
   /**
    * Defines the default error message.
    */
-//TODO i18n is still missing
-  public abstract String message() default "The dates are not in correct order.";
-  
+  public abstract String message() default "{eu.dzhw.fdz.metadatamanagement.domain."
+      + "variablemanagement.validator.annotations.ValidDateRange.message}";
+
 }

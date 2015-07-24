@@ -12,8 +12,8 @@ import eu.dzhw.fdz.metadatamanagement.domain.variablemanagement.Value;
 import eu.dzhw.fdz.metadatamanagement.domain.variablemanagement.validator.ValueListSizeValidator;
 
 /**
- * This annotation compares the size of two list of the {@link Value} class. The list value
- * {@code Value.getValues()} has to be bigger than the list of value lables
+ * This annotation compares the size of two list of the {@link Value} class. The list
+ * value {@code Value.getValues()} has to be bigger than the list of value lables
  * {@code Value.getValueLables()}
  * 
  * @author Daniel Katzberg
@@ -28,7 +28,7 @@ public @interface ValidValueListSize {
   /**
    * Defines the default error message.
    */
-//TODO i18n is still missing
-  public abstract String message() default "The size of the lists is not ok.";
+  public abstract String message() default "{eu.dzhw.fdz.metadatamanagement.domain."
+  + "variablemanagement.validator.annotations.ValidValueListSize.message}";
 
 }
