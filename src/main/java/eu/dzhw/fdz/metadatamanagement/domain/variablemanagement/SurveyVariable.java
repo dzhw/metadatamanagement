@@ -11,7 +11,6 @@ import org.springframework.data.elasticsearch.annotations.FieldType;
 import eu.dzhw.fdz.metadatamanagement.domain.variablemanagement.enumclasses.DataTypes;
 import eu.dzhw.fdz.metadatamanagement.domain.variablemanagement.enumclasses.ScaleLevel;
 import eu.dzhw.fdz.metadatamanagement.domain.variablemanagement.validator.annotations.Enum;
-import eu.dzhw.fdz.metadatamanagement.domain.variablemanagement.validator.annotations.ListSizeComparement;
 
 /**
  * This is a representation of a variable. All fields describe the attributes of the variable, for
@@ -68,7 +67,6 @@ public class SurveyVariable {
    * The value (answer options) with depending labels are represent in this nested field.
    */
   @Field(type = FieldType.Object)
-  @ListSizeComparement
   private Value value;
   
   /**

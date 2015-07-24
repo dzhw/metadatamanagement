@@ -5,6 +5,7 @@ import java.util.List;
 import javax.validation.Valid;
 
 import eu.dzhw.fdz.metadatamanagement.domain.variablemanagement.validator.ValueLabelWrapper;
+import eu.dzhw.fdz.metadatamanagement.domain.variablemanagement.validator.annotations.ValidValueListSize;
 
 /**
  * This value class includes a list of values and the depending value labels.
@@ -12,6 +13,7 @@ import eu.dzhw.fdz.metadatamanagement.domain.variablemanagement.validator.ValueL
  * @author Daniel Katzberg
  *
  */
+@ValidValueListSize
 public class Value {
 
   /**

@@ -9,7 +9,7 @@ import java.lang.annotation.Target;
 import javax.validation.Constraint;
 
 import eu.dzhw.fdz.metadatamanagement.domain.variablemanagement.Value;
-import eu.dzhw.fdz.metadatamanagement.domain.variablemanagement.validator.ListSizeValueValidator;
+import eu.dzhw.fdz.metadatamanagement.domain.variablemanagement.validator.ValueListSizeValidator;
 
 /**
  * This annotation compares the size of two list of the {@link Value} class. The list value
@@ -20,10 +20,10 @@ import eu.dzhw.fdz.metadatamanagement.domain.variablemanagement.validator.ListSi
  *
  */
 @Documented
-@Constraint(validatedBy = {ListSizeValueValidator.class})
-@Target({ElementType.FIELD})
+@Constraint(validatedBy = {ValueListSizeValidator.class})
+@Target({ElementType.TYPE})
 @Retention(RetentionPolicy.RUNTIME)
-public @interface ListSizeComparement {
+public @interface ValidValueListSize {
 
   /**
    * Defines the default error message.

@@ -4,7 +4,7 @@ import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 
 import eu.dzhw.fdz.metadatamanagement.domain.variablemanagement.DateRange;
-import eu.dzhw.fdz.metadatamanagement.domain.variablemanagement.validator.annotations.DateOrder;
+import eu.dzhw.fdz.metadatamanagement.domain.variablemanagement.validator.annotations.ValidDateRange;
 
 /**
  * The Validator compares to {@code LocalDate} time stamps and compares for the correct order. The
@@ -13,7 +13,7 @@ import eu.dzhw.fdz.metadatamanagement.domain.variablemanagement.validator.annota
  * @author Daniel Katzberg
  *
  */
-public class DateOrderValidator implements ConstraintValidator<DateOrder, DateRange> {
+public class DateRangeValidator implements ConstraintValidator<ValidDateRange, DateRange> {
 
   /*
    * (non-Javadoc)
@@ -21,7 +21,7 @@ public class DateOrderValidator implements ConstraintValidator<DateOrder, DateRa
    * @see javax.validation.ConstraintValidator#initialize(java.lang.annotation.Annotation)
    */
   @Override
-  public void initialize(DateOrder dateOrder) {
+  public void initialize(ValidDateRange dateOrder) {
     // Do nothing
   }
 

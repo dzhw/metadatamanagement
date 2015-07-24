@@ -4,14 +4,14 @@ import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 
 import eu.dzhw.fdz.metadatamanagement.domain.variablemanagement.Value;
-import eu.dzhw.fdz.metadatamanagement.domain.variablemanagement.validator.annotations.ListSizeComparement;
+import eu.dzhw.fdz.metadatamanagement.domain.variablemanagement.validator.annotations.ValidValueListSize;
 
 /**
  * This validator compares to list sizes.
  * 
  * @author Daniel Katzberg
  */
-public class ListSizeValueValidator implements ConstraintValidator<ListSizeComparement, Value> {
+public class ValueListSizeValidator implements ConstraintValidator<ValidValueListSize, Value> {
 
   /*
    * (non-Javadoc)
@@ -19,7 +19,7 @@ public class ListSizeValueValidator implements ConstraintValidator<ListSizeCompa
    * @see javax.validation.ConstraintValidator#initialize(java.lang.annotation.Annotation)
    */
   @Override
-  public void initialize(ListSizeComparement constraintAnnotation) {
+  public void initialize(ValidValueListSize constraintAnnotation) {
     // do nothing
   }
 
