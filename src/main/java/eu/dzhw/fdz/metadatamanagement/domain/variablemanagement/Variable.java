@@ -9,7 +9,7 @@ import org.springframework.data.elasticsearch.annotations.Field;
 import org.springframework.data.elasticsearch.annotations.FieldIndex;
 import org.springframework.data.elasticsearch.annotations.FieldType;
 
-import eu.dzhw.fdz.metadatamanagement.domain.variablemanagement.enumclasses.DataTypes;
+import eu.dzhw.fdz.metadatamanagement.domain.variablemanagement.enumclasses.DataType;
 import eu.dzhw.fdz.metadatamanagement.domain.variablemanagement.enumclasses.ScaleLevel;
 
 /**
@@ -22,7 +22,7 @@ import eu.dzhw.fdz.metadatamanagement.domain.variablemanagement.enumclasses.Scal
  */
 @Document(indexName = "#{T(org.springframework.context.i18n.LocaleContextHolder)"
     + ".getLocale().getLanguage()+'_surveyVariable'}", type = "surveyVariable")
-public class SurveyVariable {
+public class Variable {
 
   /**
    * A fdzID as primary key for the identification of the variable of a survey.
@@ -36,7 +36,7 @@ public class SurveyVariable {
    * This is a nested reference to the survey.
    */
   @Field(type = FieldType.Object)
-  private SurveyVariableSurvey surveyVariableSurvey;
+  private VariableSurvey surveyVariableSurvey;
 
   /**
    * The name of the variable.
@@ -49,7 +49,7 @@ public class SurveyVariable {
    * The data type of the variable.
    */
   @Field(index = FieldIndex.not_analyzed)
-  private DataTypes dataType;
+  private DataType dataType;
 
   /**
    * The label of the variable.
@@ -94,11 +94,11 @@ public class SurveyVariable {
     this.fdzId = fdzId;
   }
 
-  public SurveyVariableSurvey getSurveyVariableSurvey() {
+  public VariableSurvey getSurveyVariableSurvey() {
     return surveyVariableSurvey;
   }
 
-  public void setSurveyVariableSurvey(SurveyVariableSurvey surveyVariableSurvey) {
+  public void setSurveyVariableSurvey(VariableSurvey surveyVariableSurvey) {
     this.surveyVariableSurvey = surveyVariableSurvey;
   }
 
@@ -126,11 +126,11 @@ public class SurveyVariable {
     this.value = value;
   }
 
-  public DataTypes getDataType() {
+  public DataType getDataType() {
     return dataType;
   }
 
-  public void setDataType(DataTypes dataType) {
+  public void setDataType(DataType dataType) {
     this.dataType = dataType;
   }
 

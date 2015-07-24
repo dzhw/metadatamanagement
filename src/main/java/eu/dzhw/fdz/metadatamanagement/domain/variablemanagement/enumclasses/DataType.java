@@ -6,7 +6,7 @@ package eu.dzhw.fdz.metadatamanagement.domain.variablemanagement.enumclasses;
  * @author Daniel Katzberg
  *
  */
-public enum DataTypes {
+public enum DataType {
   
   STRING, NUMERIC;
 

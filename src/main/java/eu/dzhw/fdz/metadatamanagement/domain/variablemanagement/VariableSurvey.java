@@ -10,12 +10,12 @@ import org.springframework.data.elasticsearch.annotations.FieldType;
 /**
  * This class is a representation of a survey. This can be a nested object of a survey variable.
  * 
- * @see SurveyVariable
+ * @see Variable
  * 
  * @author Daniel Katzberg
  *
  */
-public class SurveyVariableSurvey {
+public class VariableSurvey {
 
   /**
    * The surveyID is a primary.
