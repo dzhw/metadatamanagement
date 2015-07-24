@@ -1,7 +1,6 @@
 package eu.dzhw.fdz.metadatamanagement.domain.variablemanagement.validator;
 
-import javax.validation.constraints.Max;
-import javax.validation.constraints.Min;
+import javax.validation.constraints.Size;
 
 import org.hibernate.validator.constraints.NotEmpty;
 
@@ -11,17 +10,16 @@ import org.hibernate.validator.constraints.NotEmpty;
  * @author Daniel Katzberg
  *
  */
-public class ValueLableWrapper {
-  private String valueLable;
+public class ValueLabelWrapper {
+  private String valueLabel;
 
-  public ValueLableWrapper(String valueLable) {
-    this.valueLable = valueLable;
+  public ValueLabelWrapper(String valueLabel) {
+    this.valueLabel = valueLabel;
   }
 
-  @Min(value = 1)
-  @Max(value = 60)
+  @Size(max = 60)
   @NotEmpty
-  String getValueLable() {
-    return valueLable;
+  String getValueLabel() {
+    return valueLabel;
   }
 }

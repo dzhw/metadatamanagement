@@ -3,6 +3,7 @@ package eu.dzhw.fdz.metadatamanagement.domain.variablemanagement.validator;
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 
+import eu.dzhw.fdz.metadatamanagement.domain.variablemanagement.Value;
 import eu.dzhw.fdz.metadatamanagement.domain.variablemanagement.validator.annotations.ListSizeComparement;
 
 /**
@@ -20,7 +21,6 @@ public class ListSizeValueValidator implements ConstraintValidator<ListSizeCompa
   @Override
   public void initialize(ListSizeComparement constraintAnnotation) {
     // do nothing
-
   }
 
   /*
@@ -31,7 +31,7 @@ public class ListSizeValueValidator implements ConstraintValidator<ListSizeCompa
    */
   @Override
   public boolean isValid(Value value, ConstraintValidatorContext context) {
-    return value.getValues().size() >= value.getValueLables().size();
+    return value.getValues().size() >= value.getValueLabels().size();
   }
 
 }

@@ -8,8 +8,8 @@ import java.lang.annotation.Target;
 
 import javax.validation.Constraint;
 
+import eu.dzhw.fdz.metadatamanagement.domain.variablemanagement.Value;
 import eu.dzhw.fdz.metadatamanagement.domain.variablemanagement.validator.ListSizeValueValidator;
-import eu.dzhw.fdz.metadatamanagement.domain.variablemanagement.validator.Value;
 
 /**
  * This annotation compares the size of two list of the {@link Value} class. The list value
@@ -28,6 +28,7 @@ public @interface ListSizeComparement {
   /**
    * Defines the default error message.
    */
-  public abstract String message() default "The size of the lists is not ok.";// TODO
+//TODO i18n is still missing
+  public abstract String message() default "The size of the lists is not ok.";
 
 }

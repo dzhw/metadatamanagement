@@ -25,7 +25,8 @@ public @interface Enum {
   /**
    * This is the error message if the validation does not accept a value.
    */
-  public abstract String message() default "Not a accepted value.";// TODO
+  //TODO i18n is still missing
+  public abstract String message() default "Not a accepted value.";
 
   /**
    * This is parameter for getting a enumeration class for the validation.

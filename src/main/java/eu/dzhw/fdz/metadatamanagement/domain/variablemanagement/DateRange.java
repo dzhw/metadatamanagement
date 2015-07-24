@@ -25,7 +25,19 @@ public class DateRange {
   @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
   private LocalDate endDate;
 
+  /**
+   * Output is a summarize of the start and end date. Example:
+   * {@code DateRange [StartDate=2015-07-22, EndDate=2015-07-24]}
+   * 
+   * @return A String which will summarizes the object date range.
+   */
+  @Override
+  public String toString() {
+    return "DateRange [StartDate=" + this.startDate.toString() + ", EndDate="
+        + this.endDate.toString() + "]";
+  }
 
+  /* GETTER / SETTER */
   public LocalDate getStartDate() {
     return startDate;
   }

@@ -24,6 +24,7 @@ public @interface DateOrder {
   /**
    * Defines the default error message.
    */
-  public abstract String message() default "The dates are not in correct order.";// TODO
+//TODO i18n is still missing
+  public abstract String message() default "The dates are not in correct order.";
   
 }
