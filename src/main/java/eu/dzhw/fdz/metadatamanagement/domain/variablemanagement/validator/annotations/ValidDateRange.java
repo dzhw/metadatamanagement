@@ -7,6 +7,7 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 import javax.validation.Constraint;
+import javax.validation.Payload;
 
 import eu.dzhw.fdz.metadatamanagement.domain.variablemanagement.validator.DateRangeValidator;
 
@@ -18,7 +19,7 @@ import eu.dzhw.fdz.metadatamanagement.domain.variablemanagement.validator.DateRa
  */
 @Documented
 @Constraint(validatedBy = {DateRangeValidator.class})
-@Target({ElementType.TYPE})
+@Target({ElementType.FIELD})
 @Retention(RetentionPolicy.RUNTIME)
 public @interface ValidDateRange {
 
@@ -27,5 +28,15 @@ public @interface ValidDateRange {
    */
   public abstract String message() default "{eu.dzhw.fdz.metadatamanagement.domain."
       + "variablemanagement.validator.annotations.ValidDateRange.message}";
+
+  /**
+   * This contains groups.
+   */
+  public Class<?>[]groups() default {};
+
+  /**
+   * This method contains the payload.
+   */
+  public Class<? extends Payload>[]payload() default {};
 
 }

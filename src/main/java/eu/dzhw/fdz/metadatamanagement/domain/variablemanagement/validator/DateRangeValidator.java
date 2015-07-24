@@ -32,7 +32,16 @@ public class DateRangeValidator implements ConstraintValidator<ValidDateRange, D
    * javax.validation.ConstraintValidatorContext)
    */
   @Override
-  public boolean isValid(DateRange value, ConstraintValidatorContext context) { 
+  public boolean isValid(DateRange value, ConstraintValidatorContext context) {
+
+    if (value == null) {
+      return true; // TODO default case, redesign later
+    }
+
+    if (value.getStartDate() == null || value.getEndDate() == null) {
+      return true; // TODO default case, redesign later
+    }
+
     return value.getStartDate().isBefore(value.getEndDate());
   }
 }

@@ -7,6 +7,8 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.elasticsearch.annotations.Field;
 import org.springframework.data.elasticsearch.annotations.FieldType;
 
+import eu.dzhw.fdz.metadatamanagement.domain.variablemanagement.validator.annotations.ValidDateRange;
+
 /**
  * This class is a representation of a survey. This can be a nested object of a survey variable.
  * 
@@ -36,6 +38,7 @@ public class VariableSurvey {
    * DateRange is the representation of the range of the survey. This is a nested object.
    */
   @Field(type = FieldType.Object)
+  @ValidDateRange
   private DateRange dateRange;
 
   /**

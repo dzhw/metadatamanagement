@@ -11,8 +11,7 @@ import eu.dzhw.fdz.metadatamanagement.domain.variablemanagement.validator.annota
  * 
  * @author Daniel Katzberg
  */
-public class ValueListSizeValidator
-    implements ConstraintValidator<ValidValueListSize, Value> {
+public class ValueListSizeValidator implements ConstraintValidator<ValidValueListSize, Value> {
 
   /*
    * (non-Javadoc)
@@ -32,6 +31,15 @@ public class ValueListSizeValidator
    */
   @Override
   public boolean isValid(Value value, ConstraintValidatorContext context) {
+
+    if (value == null) {
+      return true; // TODO default case. redesign later
+    }
+
+    if (value.getValues() == null || value.getValueLabels() == null) {
+      return true; // TODO default case. redesign later
+    }
+
     return value.getValues().size() >= value.getValueLabels().size();
   }
 

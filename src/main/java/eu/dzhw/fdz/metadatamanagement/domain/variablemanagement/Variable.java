@@ -1,5 +1,6 @@
 package eu.dzhw.fdz.metadatamanagement.domain.variablemanagement;
 
+import javax.validation.Valid;
 import javax.validation.constraints.Size;
 
 import org.hibernate.validator.constraints.NotEmpty;
@@ -11,6 +12,7 @@ import org.springframework.data.elasticsearch.annotations.FieldType;
 
 import eu.dzhw.fdz.metadatamanagement.domain.variablemanagement.enumclasses.DataType;
 import eu.dzhw.fdz.metadatamanagement.domain.variablemanagement.enumclasses.ScaleLevel;
+import eu.dzhw.fdz.metadatamanagement.domain.variablemanagement.validator.annotations.ValidValueListSize;
 
 /**
  * This is a representation of a variable. All fields describe the attributes of the variable, for
@@ -36,7 +38,8 @@ public class Variable {
    * This is a nested reference to the survey.
    */
   @Field(type = FieldType.Object)
-  private VariableSurvey surveyVariableSurvey;
+  @Valid
+  private VariableSurvey variableSurvey;
 
   /**
    * The name of the variable.
@@ -67,6 +70,7 @@ public class Variable {
    * The value (answer options) with depending labels are represent in this nested field.
    */
   @Field(type = FieldType.Object)
+  @ValidValueListSize
   private Value value;
 
   /**
@@ -80,9 +84,9 @@ public class Variable {
    */
   @Override
   public String toString() {
-    return "Survey [fdzId=" + this.fdzId + ", " + this.surveyVariableSurvey + ", " + "name= "
+    return "Survey [fdzId=" + this.fdzId + ", " + this.variableSurvey.toString() + ", " + "name= "
         + this.name + ", dataType=" + this.dataType.toString() + ", label=" + this.label
-        + ", scaleLevel=" + this.scaleLevel.toString() + ", " + this.value + "]";
+        + ", scaleLevel=" + this.scaleLevel.toString() + ", " + this.value.toString() + "]";
   }
 
   /* GETTER / SETTER */
@@ -94,12 +98,12 @@ public class Variable {
     this.fdzId = fdzId;
   }
 
-  public VariableSurvey getSurveyVariableSurvey() {
-    return surveyVariableSurvey;
+  public VariableSurvey getVariableSurvey() {
+    return variableSurvey;
   }
 
-  public void setSurveyVariableSurvey(VariableSurvey surveyVariableSurvey) {
-    this.surveyVariableSurvey = surveyVariableSurvey;
+  public void setVariableSurvey(VariableSurvey variableSurvey) {
+    this.variableSurvey = variableSurvey;
   }
 
   public String getName() {

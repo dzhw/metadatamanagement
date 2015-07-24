@@ -7,13 +7,14 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 import javax.validation.Constraint;
+import javax.validation.Payload;
 
 import eu.dzhw.fdz.metadatamanagement.domain.variablemanagement.Value;
 import eu.dzhw.fdz.metadatamanagement.domain.variablemanagement.validator.ValueListSizeValidator;
 
 /**
- * This annotation compares the size of two list of the {@link Value} class. The list
- * value {@code Value.getValues()} has to be bigger than the list of value lables
+ * This annotation compares the size of two list of the {@link Value} class. The list value
+ * {@code Value.getValues()} has to be bigger than the list of value labels
  * {@code Value.getValueLables()}
  * 
  * @author Daniel Katzberg
@@ -21,7 +22,7 @@ import eu.dzhw.fdz.metadatamanagement.domain.variablemanagement.validator.ValueL
  */
 @Documented
 @Constraint(validatedBy = {ValueListSizeValidator.class})
-@Target({ElementType.TYPE})
+@Target({ElementType.FIELD})
 @Retention(RetentionPolicy.RUNTIME)
 public @interface ValidValueListSize {
 
@@ -29,6 +30,16 @@ public @interface ValidValueListSize {
    * Defines the default error message.
    */
   public abstract String message() default "{eu.dzhw.fdz.metadatamanagement.domain."
-  + "variablemanagement.validator.annotations.ValidValueListSize.message}";
+      + "variablemanagement.validator.annotations.ValidValueListSize.message}";
+
+  /**
+   * This contains groups.
+   */
+  public Class<?>[]groups() default {};
+
+  /**
+   * This method contains the payload.
+   */
+  public Class<? extends Payload>[]payload() default {};
 
 }
