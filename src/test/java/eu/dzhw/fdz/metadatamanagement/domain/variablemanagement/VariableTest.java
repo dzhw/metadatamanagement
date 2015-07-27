@@ -7,6 +7,7 @@ import static org.junit.Assert.assertEquals;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 
 import javax.validation.ConstraintViolation;
@@ -21,7 +22,6 @@ import org.slf4j.LoggerFactory;
 
 import eu.dzhw.fdz.metadatamanagement.domain.variablemanagement.enumclasses.DataType;
 import eu.dzhw.fdz.metadatamanagement.domain.variablemanagement.enumclasses.ScaleLevel;
-import eu.dzhw.fdz.metadatamanagement.domain.variablemanagement.validator.ValueLabelWrapper;
 
 /**
  * @author Daniel Katzberg
@@ -142,18 +142,20 @@ public class VariableTest {
   }
 
   @Test
-  public void valueTest() {
+  public void answerOptionsTest() {
 
     Variable variable = new Variable();
     variable.setFdzId("ThisIDisOkay.");
     variable.setName("ThisNameIsOkay.");
 
-    Value value = new Value();
-    value.setValues(new ArrayList<>());
-    value.setValueLabels(new ArrayList<>());
-    value.getValueLabels().add(new ValueLabelWrapper("AddAExtraLabelForAnTestValidationError."));
+    
+    AnswerOption answerOption = new AnswerOption();
+    answerOption.setLabel("AddAExtraLabelForAnTestValidationError.AddAExtraLabelForAnTestValidationError.");
 
-    variable.setValue(value);
+    List<AnswerOption> answerOptions = new ArrayList<>();
+    answerOptions.add(answerOption);
+    
+    variable.setAnswerOptions(answerOptions);
     Set<ConstraintViolation<Variable>> variableVialations = validator.validate(variable);
 
     // one field for the name is too long error
@@ -165,56 +167,16 @@ public class VariableTest {
           + variableVialation.getMessage());
 
       assertEquals(
-          "{eu.dzhw.fdz.metadatamanagement.domain."
-              + "variablemanagement.validator.annotations.ValidValueListSize.message}",
+          "{javax.validation.constraints.Size.message}",
           variableVialation.getMessageTemplate());
     }
-
-    value.getValues().add("AGenericValue");
+    
+    variable.getAnswerOptions().get(0).setLabel("AddAExtraLabelForAnTestValidationError");
     variableVialations = validator.validate(variable);
 
     // now is everything okay
     assertEquals(0, variableVialations.size());
   }
-
-  //TODO prepare changes on the listsizeannotation
-//  @Test
-//  public void valueLabelTest() {
-//
-//    Variable variable = new Variable();
-//    variable.setFdzId("ThisIDisOkay.");
-//    variable.setName("ThisNameIsOkay.");
-//
-//    Value value = new Value();
-//    value.setValues(new ArrayList<>());
-//    value.setValueLabels(new ArrayList<>());
-//    value.getValues().add("AGenericValue");
-//    value.getValueLabels().add(new ValueLabelWrapper(
-//        "ThisLabelIsNotOkay.ThisLabelIsTooLong.TheLimitIsSmallerThanTheLengthOfThisStringButThisIsATest."));
-//
-//    variable.setValue(value);
-//    Set<ConstraintViolation<Variable>> variableVialations = validator.validate(variable);
-//
-//    // one field for the name is too long error
-//    assertEquals(1, variableVialations.size());
-//
-//    for (ConstraintViolation<Variable> variableVialation : variableVialations) {
-//
-//      LOGGER.debug("ValueLabelTest()" + variableVialation.getMessageTemplate() + " -> "
-//          + variableVialation.getMessage());
-//
-//      assertEquals("{javax.validation.constraints.Size.message}",
-//          variableVialation.getMessageTemplate());
-//    }
-//
-//    value.getValueLabels().remove(0);
-//    value.getValueLabels().add(new ValueLabelWrapper("ThisValueIsOkay."));
-//
-//    variableVialations = validator.validate(variable);
-//
-//    // now is everything okay
-//    assertEquals(0, variableVialations.size());
-//  }
 
   @Test
   public void variableSurveyForSingleStringTest() {

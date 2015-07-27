@@ -1,5 +1,7 @@
 package eu.dzhw.fdz.metadatamanagement.domain.variablemanagement;
 
+import java.util.List;
+
 import javax.validation.Valid;
 import javax.validation.constraints.Size;
 
@@ -12,7 +14,6 @@ import org.springframework.data.elasticsearch.annotations.FieldType;
 
 import eu.dzhw.fdz.metadatamanagement.domain.variablemanagement.enumclasses.DataType;
 import eu.dzhw.fdz.metadatamanagement.domain.variablemanagement.enumclasses.ScaleLevel;
-import eu.dzhw.fdz.metadatamanagement.domain.variablemanagement.validator.annotations.ValidValueListSize;
 
 /**
  * This is a representation of a variable. All fields describe the attributes of the variable, for
@@ -70,15 +71,15 @@ public class Variable {
    * The value (answer options) with depending labels are represent in this nested field.
    */
   @Field(type = FieldType.Object)
-  @ValidValueListSize
-  private Value value;
+  @Valid
+  private List<AnswerOption> answerOptions;
 
   /**
    * Output is a summarize of a variable. Example:
    * 
    * {@codeSurvey [fdzId=fdz123, SurveyVariableSurvey [surveyId=SId123, title=ExampleTitle,
    * DateRange [StartDate=2015-07-22, EndDate=2015-07-24]], name=ExampleName, dataType=NUMERIC,
-   * label=ExampleLabel, scaleLevel=METRIC, Value [Value.values.size=5, Values.valueLabels.size=5]]}
+   * label=ExampleLabel, scaleLevel=METRIC, AnswerOptions.size=6]}
    * 
    * @return A String which will summarizes the object date range.
    */
@@ -86,7 +87,8 @@ public class Variable {
   public String toString() {
     return "Survey [fdzId=" + this.fdzId + ", " + this.variableSurvey.toString() + ", " + "name= "
         + this.name + ", dataType=" + this.dataType.toString() + ", label=" + this.label
-        + ", scaleLevel=" + this.scaleLevel.toString() + ", " + this.value.toString() + "]";
+        + ", scaleLevel=" + this.scaleLevel.toString() 
+        + ", AnswerOptions.size=" + this.answerOptions.size() + "]";
   }
 
   /* GETTER / SETTER */
@@ -122,14 +124,6 @@ public class Variable {
     this.label = label;
   }
 
-  public Value getValue() {
-    return value;
-  }
-
-  public void setValue(Value value) {
-    this.value = value;
-  }
-
   public DataType getDataType() {
     return dataType;
   }
@@ -145,4 +139,13 @@ public class Variable {
   public void setScaleLevel(ScaleLevel scaleLevel) {
     this.scaleLevel = scaleLevel;
   }
+
+  public List<AnswerOption> getAnswerOptions() {
+    return answerOptions;
+  }
+
+  public void setAnswerOptions(List<AnswerOption> answerOptions) {
+    this.answerOptions = answerOptions;
+  }
+  
 }
