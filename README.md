@@ -15,4 +15,4 @@ mvn spring-boot:run
 and point your browser to [http://localhost:8080/](http://localhost:8080/)
 
 ## Pivotal Cloudfoundry
-This project is currently built and deployed to Pivotal Cloudfoundry by Travis CI. You can play with the latest version on [https://metadatamanagement.cfapps.io/](https://metadatamanagement.cfapps.io/)
+This project is currently built and deployed to Pivotal Cloudfoundry by Travis CI. You can test the latest version on [https://metadatamanagement.cfapps.io/](https://metadatamanagement.cfapps.io/)
