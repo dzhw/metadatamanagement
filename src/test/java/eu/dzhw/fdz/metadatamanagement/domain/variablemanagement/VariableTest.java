@@ -27,7 +27,6 @@ import eu.dzhw.fdz.metadatamanagement.domain.variablemanagement.enumclasses.Scal
  * @author Daniel Katzberg
  *
  */
-// TODO prepare unit tests for the variable
 public class VariableTest {
 
   private static final Logger LOGGER = LoggerFactory.getLogger(VariableTest.class);

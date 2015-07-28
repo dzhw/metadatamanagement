@@ -30,8 +30,8 @@ public class VariableSurvey {
   /**
    * This holds the title of a survey.
    */
-  @Size(max = 32)
   @NotEmpty
+  @Size(max = 32)
   private String title;
 
   /**

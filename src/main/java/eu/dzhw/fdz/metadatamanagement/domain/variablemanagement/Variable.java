@@ -23,8 +23,9 @@ import eu.dzhw.fdz.metadatamanagement.domain.variablemanagement.enumclasses.Scal
  * @author Daniel Katzberg
  *
  */
-@Document(indexName = "#{T(org.springframework.context.i18n.LocaleContextHolder)"
-    + ".getLocale().getLanguage()+'_surveyVariable'}", type = "surveyVariable")
+@Document(indexName = "#{'metaDataVariable_'"
+    + "+T(org.springframework.context.i18n.LocaleContextHolder).getLocale().getLanguage()}", 
+    type = "variable")
 public class Variable {
 
   /**

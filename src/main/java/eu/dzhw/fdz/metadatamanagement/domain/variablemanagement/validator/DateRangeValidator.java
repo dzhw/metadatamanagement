@@ -34,12 +34,14 @@ public class DateRangeValidator implements ConstraintValidator<ValidDateRange, D
   @Override
   public boolean isValid(DateRange value, ConstraintValidatorContext context) {
 
+    // no given date range, so the date range logic is not broken.
     if (value == null) {
-      return true; // TODO default case, redesign later
+      return true;
     }
 
+    // no given date range, so the date range logic is not broken.
     if (value.getStartDate() == null || value.getEndDate() == null) {
-      return true; // TODO default case, redesign later
+      return true;
     }
 
     return value.getStartDate().isBefore(value.getEndDate());
