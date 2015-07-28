@@ -2,3 +2,17 @@
 
 # MetaDataManagement
 This platform gathers all metadata of the surveys published by our FDZ.
+
+## Getting started
+Clone this repo
+```
+git clone https://github.com/dzhw/metadatamanagement.git
+```
+and install JDK 1.8 and Apache Maven 3 than start the server.
+```
+mvn spring-boot:run
+```
+and point your browser to [http://localhost:8080/](http://localhost:8080/)
+
+## Pivotal Cloudfoundry
+This project is currently built and deployed to Pivotal Cloudfoundry by Travis CI. You can play with the latest version on [https://metadatamanagement.cfapps.io/](https://metadatamanagement.cfapps.io/)
