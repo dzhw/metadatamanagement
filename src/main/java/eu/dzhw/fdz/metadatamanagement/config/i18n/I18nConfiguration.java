@@ -4,6 +4,8 @@ import java.util.Locale;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.format.FormatterRegistry;
+import org.springframework.format.datetime.standard.DateTimeFormatterRegistrar;
 import org.springframework.web.servlet.LocaleResolver;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
@@ -54,5 +56,15 @@ public class I18nConfiguration extends WebMvcConfigurerAdapter {
   @Override
   public void addInterceptors(InterceptorRegistry registry) {
     registry.addInterceptor(localeChangeInterceptor());
+  }
+
+  /**
+   * Enable automatic binding from ISO formatted strings to JSR 310 compatible date time objects.
+   */
+  @Override
+  public void addFormatters(FormatterRegistry registry) {
+    DateTimeFormatterRegistrar dateTimeFormatterRegistrar = new DateTimeFormatterRegistrar();
+    dateTimeFormatterRegistrar.setUseIsoFormat(true);
+    dateTimeFormatterRegistrar.registerFormatters(registry);
   }
 }
