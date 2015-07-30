@@ -152,22 +152,37 @@ public class VariableTest {
     AnswerOption answerOption = new AnswerOption();
     answerOption
         .setCode("AddAExtraLabelForAnTestValidationError.AddAExtraLabelForAnTestValidationError.");
-    
+
     List<AnswerOption> answerOptions = new ArrayList<>();
     answerOptions.add(answerOption);
 
     variable.setAnswerOptions(answerOptions);
     Set<ConstraintViolation<Variable>> variableVialations = validator.validate(variable);
-    
+
     // one field for the name is too long error
     // needed label
-    assertEquals(2, variableVialations.size()); 
+    assertEquals(2, variableVialations.size());
     Iterator<ConstraintViolation<Variable>> ite = variableVialations.iterator();
-    assertEquals("{javax.validation.constraints.Size.message}", ite.next().getMessageTemplate());
-    assertEquals("{org.hibernate.validator.constraints.NotEmpty.message}", ite.next().getMessageTemplate());
-    
-    //code is okay, label too long
-    variable.getAnswerOptions().get(0).setLabel("AddAExtraLabelForAnTestValidationError.AddAExtraLabelForAnTestValidationError.");
+
+    // both messages found (it is not possible to expect an exact order of error messages
+    boolean foundSize = false;
+    boolean foundNotEmpty = false;
+    while (ite.hasNext()) {
+      String msgTemplate = ite.next().getMessageTemplate();
+      if (msgTemplate.equals("{javax.validation.constraints.Size.message}") && !foundSize) {
+        foundSize = true;
+      }
+      if (msgTemplate.equals("{org.hibernate.validator.constraints.NotEmpty.message}")
+          && !foundNotEmpty) {
+        foundNotEmpty = true;
+      }
+    }
+    assertEquals(true, foundSize);
+    assertEquals(true, foundNotEmpty);
+
+    // code is okay, label too long
+    variable.getAnswerOptions().get(0)
+        .setLabel("AddAExtraLabelForAnTestValidationError.AddAExtraLabelForAnTestValidationError.");
     variable.getAnswerOptions().get(0).setCode("This code is okay.");
     variableVialations = validator.validate(variable);
 
@@ -188,7 +203,8 @@ public class VariableTest {
 
     // now is everything okay
     assertEquals(0, variableVialations.size());
-    assertEquals("AddAExtraLabelForAnTestValidationError", variable.getAnswerOptions().get(0).getLabel());
+    assertEquals("AddAExtraLabelForAnTestValidationError",
+        variable.getAnswerOptions().get(0).getLabel());
     assertEquals("This code is okay.", variable.getAnswerOptions().get(0).getCode());
   }
 
@@ -299,26 +315,24 @@ public class VariableTest {
 
   @Test
   public void toStringTest() {
-    //Empty Variable
+    // Empty Variable
     Variable variable = new Variable();
     assertEquals(
         "Survey [fdzId=null, null, name=null, dataType=null, label=null, scaleLevel=null, AnswerOptions.size=0]",
         variable.toString());
 
-    //Variable with VariableSurvey
+    // Variable with VariableSurvey
     variable.setVariableSurvey(new VariableSurvey());
-    assertEquals(
-        "Survey [fdzId=null, SurveyVariableSurvey [surveyId=null, "
+    assertEquals("Survey [fdzId=null, SurveyVariableSurvey [surveyId=null, "
         + "title=null, null], name=null, dataType=null, label=null, "
-        + "scaleLevel=null, AnswerOptions.size=0]",
-        variable.toString());
+        + "scaleLevel=null, AnswerOptions.size=0]", variable.toString());
 
-    //Variable Survey with empty RangeDate
+    // Variable Survey with empty RangeDate
     variable.getVariableSurvey().setDateRange(new DateRange());;
     assertEquals(
         "Survey [fdzId=null, SurveyVariableSurvey [surveyId=null, "
-        + "title=null, DateRange [StartDate=null, EndDate=null]], name=null, "
-        + "dataType=null, label=null, scaleLevel=null, AnswerOptions.size=0]",
+            + "title=null, DateRange [StartDate=null, EndDate=null]], name=null, "
+            + "dataType=null, label=null, scaleLevel=null, AnswerOptions.size=0]",
         variable.toString());
   }
 }
