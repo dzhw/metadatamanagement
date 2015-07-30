@@ -14,6 +14,9 @@ spring:
         network.host: 127.0.0.1
         #enable rest endpoint for development
         http.enabled: true
+        #enable cors for local usage of kopf plugin and sense
+        http.cors.enabled: true
+        http.cors.allow-origin: /.*/
         #move elasticsearch data folder to the target folder
         path.data: target/elasticsearch
         index.search.slowlog.threshold.query.info: 1ms
