@@ -22,33 +22,35 @@ import eu.dzhw.fdz.metadatamanagement.MetaDataManagementApplication;
 @Configuration
 public class I18nConfiguration extends WebMvcConfigurerAdapter {
 
+  public static final Locale[] SUPPORTED_LANGUAGES = {Locale.ENGLISH, Locale.GERMAN};
+
+  public I18nConfiguration() {
+    // set the system locale to english
+    Locale.setDefault(Locale.ENGLISH);
+  }
+
   /**
    * Add a cookie locale resolver which determines the users current language by looking into a
-   * cookie if present. If not present it will determine the current locale from the accept header.
+   * cookie if present. If not present it will use german as default.
    * 
    * @return the cookie locale resolver
    */
   @Bean
   public LocaleResolver localeResolver() {
-    // set the system locale to en_US
-    // this has two effects:
-    // 1. all log messages are english
-    // 2. english is the fallback locale for the http requests (if neither
-    // an accept-header nor a cookie is present)
-    Locale.setDefault(Locale.US);
     CookieLocaleResolver cookieLocaleResolver = new CookieLocaleResolver();
     cookieLocaleResolver.setCookieName(MetaDataManagementApplication.class.getName());
+    cookieLocaleResolver.setDefaultLocale(Locale.GERMAN);
     return cookieLocaleResolver;
   }
 
   /**
-   * Intercept get requests with url param "locale=de_DE" for instance to change the cookie.
+   * Intercept get requests with url param "language=de" for instance to change the cookie.
    * 
    * @return the interceptor
    */
   @Bean
   public LocaleChangeInterceptor localeChangeInterceptor() {
-    LocaleChangeInterceptor lci = new LocaleChangeInterceptor();
+    LocaleChangeInterceptor lci = new RestrictedLocaleChangeInterceptor();
     lci.setParamName("language");
     return lci;
   }
