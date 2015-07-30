@@ -7,7 +7,7 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.elasticsearch.annotations.Field;
 import org.springframework.data.elasticsearch.annotations.FieldType;
 
-import eu.dzhw.fdz.metadatamanagement.domain.variablemanagement.validator.annotations.ValidDateRange;
+import eu.dzhw.fdz.metadatamanagement.domain.annotation.ValidDateRange;
 
 /**
  * This class is a representation of a survey. This can be a nested object of a survey variable.

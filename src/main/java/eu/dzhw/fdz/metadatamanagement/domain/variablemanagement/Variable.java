@@ -12,14 +12,13 @@ import org.springframework.data.elasticsearch.annotations.Field;
 import org.springframework.data.elasticsearch.annotations.FieldIndex;
 import org.springframework.data.elasticsearch.annotations.FieldType;
 
-import eu.dzhw.fdz.metadatamanagement.domain.variablemanagement.enumclasses.DataType;
-import eu.dzhw.fdz.metadatamanagement.domain.variablemanagement.enumclasses.ScaleLevel;
+import eu.dzhw.fdz.metadatamanagement.domain.variablemanagement.enums.DataType;
+import eu.dzhw.fdz.metadatamanagement.domain.variablemanagement.enums.ScaleLevel;
 
 /**
  * This is a representation of a variable. All fields describe the attributes of the variable, for
  * example the possible answers, the labels or the data type.
- * 
- * 
+ *  
  * @author Daniel Katzberg
  *
  */

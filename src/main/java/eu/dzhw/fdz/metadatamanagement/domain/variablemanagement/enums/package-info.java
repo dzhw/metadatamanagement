@@ -6,4 +6,4 @@
  * @author Daniel Katzberg
  *
  */
-package eu.dzhw.fdz.metadatamanagement.domain.variablemanagement.enumclasses;
+package eu.dzhw.fdz.metadatamanagement.domain.variablemanagement.enums;

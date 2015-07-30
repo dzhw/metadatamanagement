@@ -1,4 +1,4 @@
-package eu.dzhw.fdz.metadatamanagement.domain.variablemanagement.enumclasses;
+package eu.dzhw.fdz.metadatamanagement.domain.variablemanagement.enums;
 
 /**
  * This enum includes all accepted data types for a variable.

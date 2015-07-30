@@ -20,8 +20,8 @@ import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import eu.dzhw.fdz.metadatamanagement.domain.variablemanagement.enumclasses.DataType;
-import eu.dzhw.fdz.metadatamanagement.domain.variablemanagement.enumclasses.ScaleLevel;
+import eu.dzhw.fdz.metadatamanagement.domain.variablemanagement.enums.DataType;
+import eu.dzhw.fdz.metadatamanagement.domain.variablemanagement.enums.ScaleLevel;
 
 /**
  * @author Daniel Katzberg

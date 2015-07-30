@@ -1,4 +1,4 @@
 /**
- * This is the base package of our application.
+ * This is the root package of the meta management application.
  */
 package eu.dzhw.fdz.metadatamanagement;
