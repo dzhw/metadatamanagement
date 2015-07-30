@@ -1,28 +1,26 @@
-package eu.dzhw.fdz.metadatamanagement.domain.variablemanagement;
+package eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents;
 
 import javax.validation.constraints.Size;
 
 import org.hibernate.validator.constraints.NotEmpty;
-import org.springframework.data.annotation.Id;
 import org.springframework.data.elasticsearch.annotations.Field;
 import org.springframework.data.elasticsearch.annotations.FieldType;
 
-import eu.dzhw.fdz.metadatamanagement.domain.annotation.ValidDateRange;
+import eu.dzhw.fdz.metadatamanagement.data.common.annotation.ValidDateRange;
 
 /**
  * This class is a representation of a survey. This can be a nested object of a survey variable.
  * 
- * @see Variable
+ * @see VariableDocument
  * 
  * @author Daniel Katzberg
  *
  */
-public class VariableSurvey {
+public class VariableSurveyDocument {
 
   /**
    * The surveyID is a primary.
    */
-  @Id
   @Size(max = 32)
   @NotEmpty
   private String surveyId;
@@ -39,7 +37,18 @@ public class VariableSurvey {
    */
   @Field(type = FieldType.Object)
   @ValidDateRange
+  // TODO dateRange need an another name
   private DateRange dateRange;
+
+  /**
+   * The alias is by default a copy of the {@code VariableDocument.getName()}. It will be used for
+   * the front end. If the alias is different from the {@code VariableDocument.getName()}, the
+   * system displays this alias.
+   */
+  @Size(max = 32)
+  @NotEmpty
+  // TODO validate that the name is unique within a survey
+  private String alias;
 
   /**
    * Output is a summarize of survey of a variable. Example:
@@ -84,5 +93,13 @@ public class VariableSurvey {
 
   public void setDateRange(DateRange dateRange) {
     this.dateRange = dateRange;
+  }
+
+  public String getAlias() {
+    return alias;
+  }
+
+  public void setAlias(String alias) {
+    this.alias = alias;
   }
 }
