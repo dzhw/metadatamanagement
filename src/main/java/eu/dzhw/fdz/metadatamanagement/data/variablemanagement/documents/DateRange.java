@@ -1,4 +1,4 @@
-package eu.dzhw.fdz.metadatamanagement.domain.variablemanagement;
+package eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents;
 
 import java.time.LocalDate;
 
@@ -14,38 +14,24 @@ import org.springframework.format.annotation.DateTimeFormat;
 public class DateRange {
 
   /**
-   * The start date of the survey. The checked pattern is: {@code yyyy-MM-dd}
+   * The start date of the range. The checked pattern is: {@code yyyy-MM-dd}
    */
   @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
   private LocalDate startDate;
 
   /**
-   * The end date of the survey. The checked pattern is: {@code yyyy-MM-dd}
+   * The end date of the range. The checked pattern is: {@code yyyy-MM-dd}
    */
   @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
   private LocalDate endDate;
 
-  /**
-   * Output is a summarize of the start and end date. Example:
-   * {@code DateRange [StartDate=2015-07-22, EndDate=2015-07-24]}
-   * 
-   * @return A String which will summarizes the object date range.
+  /*
+   * (non-Javadoc)
+   * @see java.lang.Object#toString()
    */
   @Override
   public String toString() {
-    
-    String startDateStr = "null";
-    if (this.getStartDate() != null) {
-      startDateStr = this.getStartDate().toString();
-    }
-    
-    String endDateStr = "null";
-    if (this.getEndDate() != null) {
-      endDateStr = this.getEndDate().toString();
-    }
-    
-    return "DateRange [StartDate=" + startDateStr + ", EndDate="
-        + endDateStr + "]";
+    return "DateRange [getStartDate()=" + getStartDate() + ", getEndDate()=" + getEndDate() + "]";
   }
 
   /* GETTER / SETTER */

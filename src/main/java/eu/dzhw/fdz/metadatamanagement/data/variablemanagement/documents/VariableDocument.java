@@ -1,4 +1,4 @@
-package eu.dzhw.fdz.metadatamanagement.domain.variablemanagement;
+package eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents;
 
 import java.util.List;
 
@@ -12,8 +12,8 @@ import org.springframework.data.elasticsearch.annotations.Field;
 import org.springframework.data.elasticsearch.annotations.FieldIndex;
 import org.springframework.data.elasticsearch.annotations.FieldType;
 
-import eu.dzhw.fdz.metadatamanagement.domain.variablemanagement.enums.DataType;
-import eu.dzhw.fdz.metadatamanagement.domain.variablemanagement.enums.ScaleLevel;
+import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.enums.DataType;
+import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.enums.ScaleLevel;
 
 /**
  * This is a representation of a variable. All fields describe the attributes of the variable, for
@@ -23,10 +23,10 @@ import eu.dzhw.fdz.metadatamanagement.domain.variablemanagement.enums.ScaleLevel
  *
  */
 @Document(
-    indexName = "#{'metaDataVariable_'"
+    indexName = "#{'metadata_'"
         + "+T(org.springframework.context.i18n.LocaleContextHolder).getLocale().getLanguage()}",
-    type = "variable")
-public class Variable {
+    type = "variables")
+public class VariableDocument {
 
   /**
    * A fdzID as primary key for the identification of the variable of a survey.
@@ -41,7 +41,7 @@ public class Variable {
    */
   @Field(type = FieldType.Object)
   @Valid
-  private VariableSurvey variableSurvey;
+  private VariableSurveyDocument variableSurveyDocument;
 
   /**
    * The name of the variable.
@@ -66,6 +66,7 @@ public class Variable {
    * A optional scale level of the variable, if the variable is e.g. not a String.
    */
   @Field(index = FieldIndex.not_analyzed)
+  // TODO validate not null for variables with data type numeric
   private ScaleLevel scaleLevel;
 
   /**
@@ -75,33 +76,18 @@ public class Variable {
   @Valid
   private List<AnswerOption> answerOptions;
 
-  /**
-   * Output is a summarize of a variable. Example:
-   * 
-   * {@codeSurvey [fdzId=fdz123, SurveyVariableSurvey [surveyId=SId123, title=ExampleTitle,
-   * DateRange [StartDate=2015-07-22, EndDate=2015-07-24]], name=ExampleName, dataType=NUMERIC,
-   * label=ExampleLabel, scaleLevel=METRIC, AnswerOptions.size=6]}
-   * 
-   * @return A String which will summarizes the object date range.
+  /*
+   * (non-Javadoc)
+   * @see java.lang.Object#toString()
    */
   @Override
   public String toString() {
-    
-    String variableSurvey = "null";
-    if (this.getVariableSurvey() != null) {
-      variableSurvey = this.getVariableSurvey().toString();
-    }
-    
-    String answerOptionsSize = "0";
-    if (this.getAnswerOptions() != null) {
-      answerOptionsSize = this.getAnswerOptions().size() + "";
-    }
-    
-    return "Survey [fdzId=" + this.getFdzId() + ", " + variableSurvey + ", "
-        + "name=" + this.getName() + ", dataType=" + this.getDataType() + ", label="
-        + this.getLabel() + ", scaleLevel=" + this.getScaleLevel()
-        + ", AnswerOptions.size=" + answerOptionsSize + "]";
+    return "VariableDocument [getFdzId()=" + getFdzId() + ", getVariableSurveyDocument()="
+        + getVariableSurveyDocument() + ", getName()=" + getName() + ", getLabel()=" + getLabel()
+        + ", getDataType()=" + getDataType() + ", getScaleLevel()=" + getScaleLevel()
+        + ", getAnswerOptions()=" + getAnswerOptions() + "]";
   }
+
 
   /* GETTER / SETTER */
   public String getFdzId() {
@@ -112,12 +98,12 @@ public class Variable {
     this.fdzId = fdzId;
   }
 
-  public VariableSurvey getVariableSurvey() {
-    return variableSurvey;
+  public VariableSurveyDocument getVariableSurveyDocument() {
+    return variableSurveyDocument;
   }
 
-  public void setVariableSurvey(VariableSurvey variableSurvey) {
-    this.variableSurvey = variableSurvey;
+  public void setVariableSurveyDocument(VariableSurveyDocument variableSurveyDocument) {
+    this.variableSurveyDocument = variableSurveyDocument;
   }
 
   public String getName() {
