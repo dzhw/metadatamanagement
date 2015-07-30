@@ -1,7 +1,7 @@
 /**
  * 
  */
-package eu.dzhw.fdz.metadatamanagement.domain.variablemanagement;
+package eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents;
 
 import static org.junit.Assert.assertEquals;
 
@@ -21,10 +21,6 @@ import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.AnswerOption;
-import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.DateRange;
-import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.VariableDocument;
-import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.VariableSurveyDocument;
 import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.enums.DataType;
 import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.enums.ScaleLevel;
 
@@ -405,7 +401,7 @@ public class VariableTest {
     DateRange surveyPeriod = new DateRange();
     surveyPeriod.setStartDate(LocalDate.now());
     surveyPeriod.setEndDate(surveyPeriod.getStartDate().minusDays(2));
-    variableSurveyDocument.setDateRange(surveyPeriod);
+    variableSurveyDocument.setSurveyPeriod(surveyPeriod);
 
     variableDocument.setVariableSurveyDocument(variableSurveyDocument);
     
@@ -443,7 +439,7 @@ public class VariableTest {
     DateRange surveyPeriod = new DateRange();
     surveyPeriod.setStartDate(LocalDate.now());
     surveyPeriod.setEndDate(surveyPeriod.getStartDate().plusDays(2));
-    variableSurveyDocument.setDateRange(surveyPeriod);
+    variableSurveyDocument.setSurveyPeriod(surveyPeriod);
 
     variableDocument.setVariableSurveyDocument(variableSurveyDocument);
     
@@ -466,7 +462,7 @@ public class VariableTest {
     variableDocument.getVariableSurveyDocument().setAlias(variableDocument.getName());
 
     // set a date, but without a start and end date
-    variableDocument.getVariableSurveyDocument().setDateRange(new DateRange());
+    variableDocument.getVariableSurveyDocument().setSurveyPeriod(new DateRange());
 
 
     Set<ConstraintViolation<VariableDocument>> variableVialations = VALIDATOR.validate(variableDocument);
@@ -476,32 +472,71 @@ public class VariableTest {
   }
   
   @Test
-  public void toStringTest() {
-    // Empty Variable
-    VariableDocument variable = new VariableDocument();
+  public void testVariableDocumentToString() {
+    //Arrange
+    VariableDocument variableDocument = new VariableDocument();
+    
+    //Act
+    
+    //Assert
+    assertEquals("VariableDocument [getFdzId()=null, getVariableSurveyDocument()=null, "
+        + "getName()=null, getLabel()=null, getDataType()=null, getScaleLevel()=null, "
+        + "getAnswerOptions()=null]",
+        variableDocument.toString());
+  }
+  
+  @Test
+  public void testVariableDocumentWithSurvayToString() {
+    //Arrange
+    VariableDocument variableDocument = new VariableDocument();
+    variableDocument.setVariableSurveyDocument(new VariableSurveyDocument());
+    variableDocument.setAnswerOptions(new ArrayList<>());
+    
+    //Act
+    
+    //Assert
+    assertEquals("VariableDocument [getFdzId()=null, getVariableSurveyDocument()=VariableSurveyDocument "
+        + "[getSurveyId()=null, getTitle()=null, getDateRange()=null, getAlias()=null], "
+        + "getName()=null, getLabel()=null, getDataType()=null, getScaleLevel()=null, "
+        + "getAnswerOptions()=[]]", variableDocument.toString());
+  }
+  
+  @Test
+  public void testVariableDocumentWithSurveyAndEmptyDateRangeToString() {
+    //Arrange
+    VariableDocument variableDocument = new VariableDocument();
+    variableDocument.setVariableSurveyDocument(new VariableSurveyDocument());
+    variableDocument.setAnswerOptions(new ArrayList<>());
+    variableDocument.getVariableSurveyDocument().setSurveyPeriod(new DateRange());
+    
+    //Act
+    
+    //Assert
     assertEquals(
-        "Survey [fdzId=null, null, name=null, dataType=null, label=null, scaleLevel=null, AnswerOptions.size=0]",
-        variable.toString());
-
-    // Variable with VariableSurvey and answerOptions
-    variable.setVariableSurveyDocument(new VariableSurveyDocument());
-    variable.setAnswerOptions(new ArrayList<>());
-    assertEquals("Survey [fdzId=null, SurveyVariableSurvey [surveyId=null, "
-        + "title=null, null], name=null, dataType=null, label=null, "
-        + "scaleLevel=null, AnswerOptions.size=0]", variable.toString());
-
-    // Variable Survey with empty RangeDate
-    variable.getVariableSurveyDocument().setDateRange(new DateRange());;
-    assertEquals(
-        "Survey [fdzId=null, SurveyVariableSurvey [surveyId=null, "
-            + "title=null, DateRange [StartDate=null, EndDate=null]], name=null, "
-            + "dataType=null, label=null, scaleLevel=null, AnswerOptions.size=0]",
-        variable.toString());
-
-    variable.getVariableSurveyDocument().getDateRange().setStartDate(LocalDate.of(2015, 1, 1));
-    variable.getVariableSurveyDocument().getDateRange().setEndDate(LocalDate.of(2015, 2, 1));
-    assertEquals("Survey [fdzId=null, SurveyVariableSurvey [surveyId=null, title=null, "
-        + "DateRange [StartDate=2015-01-01, EndDate=2015-02-01]], name=null, dataType=null, "
-        + "label=null, scaleLevel=null, AnswerOptions.size=0]", variable.toString());
+        "VariableDocument [getFdzId()=null, getVariableSurveyDocument()=VariableSurveyDocument "
+        + "[getSurveyId()=null, getTitle()=null, getDateRange()=null, getAlias()=null], "
+        + "getName()=null, getLabel()=null, getDataType()=null, getScaleLevel()=null, "
+        + "getAnswerOptions()=[]]",
+        variableDocument.toString());
+  }
+  
+  
+  @Test
+  public void testVariableDocumentWithSurveyAndFilledDateRangeToString() {
+    //Arrange
+    VariableDocument variableDocument = new VariableDocument();
+    variableDocument.setVariableSurveyDocument(new VariableSurveyDocument());
+    variableDocument.setAnswerOptions(new ArrayList<>());
+    variableDocument.getVariableSurveyDocument().setSurveyPeriod(new DateRange());
+    variableDocument.getVariableSurveyDocument().getSurveyPeriod().setStartDate(LocalDate.of(2015, 1, 1));
+    variableDocument.getVariableSurveyDocument().getSurveyPeriod().setEndDate(LocalDate.of(2015, 2, 1));
+    
+    //Act
+    
+    //Assert
+    assertEquals("VariableDocument [getFdzId()=null, getVariableSurveyDocument()=VariableSurveyDocument "
+        + "[getSurveyId()=null, getTitle()=null, getDateRange()=null, getAlias()=null], getName()=null, "
+        + "getLabel()=null, getDataType()=null, getScaleLevel()=null, getAnswerOptions()=[]]", 
+        variableDocument.toString());
   }
 }

@@ -9,7 +9,7 @@ import org.springframework.data.elasticsearch.annotations.FieldType;
 import eu.dzhw.fdz.metadatamanagement.data.common.annotation.ValidDateRange;
 
 /**
- * This class is a representation of a survey. This can be a nested object of a survey variable.
+ * This class is a representation of a survey. This is a nested object of a survey variable.
  * 
  * @see VariableDocument
  * 
@@ -37,8 +37,7 @@ public class VariableSurveyDocument {
    */
   @Field(type = FieldType.Object)
   @ValidDateRange
-  // TODO dateRange need an another name
-  private DateRange dateRange;
+  private DateRange surveyPeriod;
 
   /**
    * The alias is by default a copy of the {@code VariableDocument.getName()}. It will be used for
@@ -50,23 +49,14 @@ public class VariableSurveyDocument {
   // TODO validate that the name is unique within a survey
   private String alias;
 
-  /**
-   * Output is a summarize of survey of a variable. Example:
-   * {@code SurveyVariableSurvey [surveyId=SId123, title=ExampleTitle, 
-   * DateRange [StartDate=2015-07-22, EndDate=2015-07-24]]}
-   * 
-   * @return A String which will summarizes the object date range.
+  /*
+   * (non-Javadoc)
+   * @see java.lang.Object#toString()
    */
   @Override
   public String toString() {
-
-    String dateRange = "null";
-    if (this.getDateRange() != null) {
-      dateRange = this.getDateRange().toString();
-    }
-
-    return "SurveyVariableSurvey [surveyId=" + this.getSurveyId() + ", title=" + this.getTitle()
-        + ", " + dateRange + "]";
+    return "VariableSurveyDocument [getSurveyId()=" + getSurveyId() + ", getTitle()=" + getTitle()
+        + ", getDateRange()=" + getSurveyId() + ", getAlias()=" + getAlias() + "]";
   }
 
 
@@ -87,14 +77,6 @@ public class VariableSurveyDocument {
     this.title = title;
   }
 
-  public DateRange getDateRange() {
-    return dateRange;
-  }
-
-  public void setDateRange(DateRange dateRange) {
-    this.dateRange = dateRange;
-  }
-
   public String getAlias() {
     return alias;
   }
@@ -102,4 +84,12 @@ public class VariableSurveyDocument {
   public void setAlias(String alias) {
     this.alias = alias;
   }
+
+  public DateRange getSurveyPeriod() {
+    return surveyPeriod;
+  }
+
+  public void setSurveyPeriod(DateRange surveyPeriod) {
+    this.surveyPeriod = surveyPeriod;
+  }  
 }

@@ -76,32 +76,16 @@ public class VariableDocument {
   @Valid
   private List<AnswerOption> answerOptions;
 
-  /**
-   * Output is a summarize of a variable. Example:
-   * 
-   * {@codeSurvey [fdzId=fdz123, SurveyVariableSurvey [surveyId=SId123, title=ExampleTitle,
-   * DateRange [StartDate=2015-07-22, EndDate=2015-07-24]], name=ExampleName, dataType=NUMERIC,
-   * label=ExampleLabel, scaleLevel=METRIC, AnswerOptions.size=6]}
-   * 
-   * @return A String which will summarizes the object date range.
+  /*
+   * (non-Javadoc)
+   * @see java.lang.Object#toString()
    */
   @Override
   public String toString() {
-
-    String variableSurvey = "null";
-    if (this.getVariableSurveyDocument() != null) {
-      variableSurvey = this.getVariableSurveyDocument().toString();
-    }
-
-    String answerOptionsSize = "0";
-    if (this.getAnswerOptions() != null) {
-      answerOptionsSize = this.getAnswerOptions().size() + "";
-    }
-
-    return "Survey [fdzId=" + this.getFdzId() + ", " + variableSurvey + ", " + "name="
-        + this.getName() + ", dataType=" + this.getDataType() + ", label=" + this.getLabel()
-        + ", scaleLevel=" + this.getScaleLevel() + ", AnswerOptions.size=" + answerOptionsSize
-        + "]";
+    return "VariableDocument [getFdzId()=" + getFdzId() + ", getVariableSurveyDocument()="
+        + getVariableSurveyDocument() + ", getName()=" + getName() + ", getLabel()=" + getLabel()
+        + ", getDataType()=" + getDataType() + ", getScaleLevel()=" + getScaleLevel()
+        + ", getAnswerOptions()=" + getAnswerOptions() + "]";
   }
 
 
