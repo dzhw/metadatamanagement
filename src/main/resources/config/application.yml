@@ -6,10 +6,10 @@ info:
   app.buildtime.format: '@maven.build.timestamp.format@'
   app.elasticsearch.version: '@elasticsearch.version@'
 
-#set the clustername for production
 spring:
   data:
     elasticsearch:
+      #set the clustername for production
       cluster-name: metadatamanagement
       properties:
         node.local: false
@@ -19,6 +19,13 @@ spring:
   #set base name for message sources
   messages:
     basename: i18n/messages
+  #enable ISO serialization of JSR 310 date time objects
+  jackson:
+    serialization:
+      write-dates-as-timestamps: false
+  mvc:
+    async:
+      request-timeout: 10
       
 #enable detailed health info without authentication
 endpoints:

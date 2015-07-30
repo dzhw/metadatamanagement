@@ -1,9 +1,9 @@
 spring:
   data:
     elasticsearch:
-      cluster-name: fdztestcluster
+      cluster-name: metadatatestcluster
       properties:
-        name: fdztestnode
+        name: metadatatestnode
         #move elasticsearch data folder to the target folder
         path.data: target/elasticsearch
         node.local: true
@@ -24,4 +24,4 @@ logging:
 
 #set buildtime to arbitrary string to fix unit test in eclipse
 info:
-  app.buildtime=test
+  app.buildtime=test 
