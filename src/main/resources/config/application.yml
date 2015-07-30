@@ -1,7 +1,7 @@
 #set version by maven filter
 info:
   app.version: '@project.version@'
-  app.spring.version: '@project.parent.version@'
+  app.springboot.version: '@project.parent.version@'
   app.buildtime: '@buildtime@'
   app.buildtime.format: '@maven.build.timestamp.format@'
   app.elasticsearch.version: '@elasticsearch.version@'

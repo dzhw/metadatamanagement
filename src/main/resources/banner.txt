@@ -16,5 +16,5 @@
                                                                      |___/                               
 
  Version ${info.app.version} 
- Running on Spring Boot ${info.app.spring.version} and Elasticsearch ${info.app.elasticsearch.version} 
+ Running on Spring Boot ${info.app.springboot.version} and Elasticsearch ${info.app.elasticsearch.version} 
  
