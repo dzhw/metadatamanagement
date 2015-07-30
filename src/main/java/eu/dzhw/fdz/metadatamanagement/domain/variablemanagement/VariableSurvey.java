@@ -50,8 +50,14 @@ public class VariableSurvey {
    */
   @Override
   public String toString() {
-    return "SurveyVariableSurvey [surveyId=" + this.surveyId + ", title=" + this.title + ", "
-        + this.dateRange.toString() + "]";
+
+    String dateRange = "null";
+    if (this.getDateRange() != null) {
+      dateRange = this.getDateRange().toString();
+    }
+
+    return "SurveyVariableSurvey [surveyId=" + this.getSurveyId() + ", title=" + this.getTitle()
+        + ", " + dateRange + "]";
   }
 
 

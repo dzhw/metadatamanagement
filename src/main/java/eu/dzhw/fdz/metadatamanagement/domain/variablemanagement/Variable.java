@@ -18,12 +18,13 @@ import eu.dzhw.fdz.metadatamanagement.domain.variablemanagement.enums.ScaleLevel
 /**
  * This is a representation of a variable. All fields describe the attributes of the variable, for
  * example the possible answers, the labels or the data type.
- *  
+ * 
  * @author Daniel Katzberg
  *
  */
-@Document(indexName = "#{'metaDataVariable_'"
-    + "+T(org.springframework.context.i18n.LocaleContextHolder).getLocale().getLanguage()}", 
+@Document(
+    indexName = "#{'metaDataVariable_'"
+        + "+T(org.springframework.context.i18n.LocaleContextHolder).getLocale().getLanguage()}",
     type = "variable")
 public class Variable {
 
@@ -85,10 +86,21 @@ public class Variable {
    */
   @Override
   public String toString() {
-    return "Survey [fdzId=" + this.fdzId + ", " + this.variableSurvey.toString() + ", " + "name= "
-        + this.name + ", dataType=" + this.dataType.toString() + ", label=" + this.label
-        + ", scaleLevel=" + this.scaleLevel.toString() 
-        + ", AnswerOptions.size=" + this.answerOptions.size() + "]";
+    
+    String variableSurvey = "null";
+    if (this.getVariableSurvey() != null) {
+      variableSurvey = this.getVariableSurvey().toString();
+    }
+    
+    String answerOptionsSize = "0";
+    if (this.getAnswerOptions() != null) {
+      answerOptionsSize = this.getAnswerOptions().size() + "";
+    }
+    
+    return "Survey [fdzId=" + this.getFdzId() + ", " + variableSurvey + ", "
+        + "name=" + this.getName() + ", dataType=" + this.getDataType() + ", label="
+        + this.getLabel() + ", scaleLevel=" + this.getScaleLevel()
+        + ", AnswerOptions.size=" + answerOptionsSize + "]";
   }
 
   /* GETTER / SETTER */
@@ -147,5 +159,5 @@ public class Variable {
   public void setAnswerOptions(List<AnswerOption> answerOptions) {
     this.answerOptions = answerOptions;
   }
-  
+
 }

@@ -33,8 +33,19 @@ public class DateRange {
    */
   @Override
   public String toString() {
-    return "DateRange [StartDate=" + this.startDate.toString() + ", EndDate="
-        + this.endDate.toString() + "]";
+    
+    String startDateStr = "null";
+    if (this.getStartDate() != null) {
+      startDateStr = this.getStartDate().toString();
+    }
+    
+    String endDateStr = "null";
+    if (this.getEndDate() != null) {
+      endDateStr = this.getEndDate().toString();
+    }
+    
+    return "DateRange [StartDate=" + startDateStr + ", EndDate="
+        + endDateStr + "]";
   }
 
   /* GETTER / SETTER */

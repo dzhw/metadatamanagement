@@ -7,6 +7,7 @@ import static org.junit.Assert.assertEquals;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
@@ -147,15 +148,28 @@ public class VariableTest {
     variable.setFdzId("ThisIDisOkay.");
     variable.setName("ThisNameIsOkay.");
 
-    
-    AnswerOption answerOption = new AnswerOption();
-    answerOption.setLabel("AddAExtraLabelForAnTestValidationError.AddAExtraLabelForAnTestValidationError.");
 
+    AnswerOption answerOption = new AnswerOption();
+    answerOption
+        .setCode("AddAExtraLabelForAnTestValidationError.AddAExtraLabelForAnTestValidationError.");
+    
     List<AnswerOption> answerOptions = new ArrayList<>();
     answerOptions.add(answerOption);
-    
+
     variable.setAnswerOptions(answerOptions);
     Set<ConstraintViolation<Variable>> variableVialations = validator.validate(variable);
+    
+    // one field for the name is too long error
+    // needed label
+    assertEquals(2, variableVialations.size()); 
+    Iterator<ConstraintViolation<Variable>> ite = variableVialations.iterator();
+    assertEquals("{javax.validation.constraints.Size.message}", ite.next().getMessageTemplate());
+    assertEquals("{org.hibernate.validator.constraints.NotEmpty.message}", ite.next().getMessageTemplate());
+    
+    //code is okay, label too long
+    variable.getAnswerOptions().get(0).setLabel("AddAExtraLabelForAnTestValidationError.AddAExtraLabelForAnTestValidationError.");
+    variable.getAnswerOptions().get(0).setCode("This code is okay.");
+    variableVialations = validator.validate(variable);
 
     // one field for the name is too long error
     assertEquals(1, variableVialations.size());
@@ -165,16 +179,17 @@ public class VariableTest {
       LOGGER.debug("ValueTest() " + variableVialation.getMessageTemplate() + " -> "
           + variableVialation.getMessage());
 
-      assertEquals(
-          "{javax.validation.constraints.Size.message}",
+      assertEquals("{javax.validation.constraints.Size.message}",
           variableVialation.getMessageTemplate());
     }
-    
+
     variable.getAnswerOptions().get(0).setLabel("AddAExtraLabelForAnTestValidationError");
     variableVialations = validator.validate(variable);
 
     // now is everything okay
     assertEquals(0, variableVialations.size());
+    assertEquals("AddAExtraLabelForAnTestValidationError", variable.getAnswerOptions().get(0).getLabel());
+    assertEquals("This code is okay.", variable.getAnswerOptions().get(0).getCode());
   }
 
   @Test
@@ -272,14 +287,38 @@ public class VariableTest {
           "{eu.dzhw.fdz.metadatamanagement.domain.variablemanagement."
               + "validator.annotations.ValidDateRange.message}",
           variableVialation.getMessageTemplate());
-    }    
+    }
     variable.getVariableSurvey().getDateRange().setEndDate(dateRange.getStartDate().plusDays(2));
-    
-    
-     variableVialations = validator.validate(variable);
-    
-     // now is everything okay
-     assertEquals(0, variableVialations.size());
+
+
+    variableVialations = validator.validate(variable);
+
+    // now is everything okay
+    assertEquals(0, variableVialations.size());
   }
 
+  @Test
+  public void toStringTest() {
+    //Empty Variable
+    Variable variable = new Variable();
+    assertEquals(
+        "Survey [fdzId=null, null, name=null, dataType=null, label=null, scaleLevel=null, AnswerOptions.size=0]",
+        variable.toString());
+
+    //Variable with VariableSurvey
+    variable.setVariableSurvey(new VariableSurvey());
+    assertEquals(
+        "Survey [fdzId=null, SurveyVariableSurvey [surveyId=null, "
+        + "title=null, null], name=null, dataType=null, label=null, "
+        + "scaleLevel=null, AnswerOptions.size=0]",
+        variable.toString());
+
+    //Variable Survey with empty RangeDate
+    variable.getVariableSurvey().setDateRange(new DateRange());;
+    assertEquals(
+        "Survey [fdzId=null, SurveyVariableSurvey [surveyId=null, "
+        + "title=null, DateRange [StartDate=null, EndDate=null]], name=null, "
+        + "dataType=null, label=null, scaleLevel=null, AnswerOptions.size=0]",
+        variable.toString());
+  }
 }
