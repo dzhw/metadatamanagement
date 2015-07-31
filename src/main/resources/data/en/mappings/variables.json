@@ -1,0 +1,61 @@
+{
+  "variables": {
+    "properties": {
+      "answerOptions": {
+        "type": "nested",
+        "properties": {
+          "code": {
+            "type": "string"
+          },
+          "label": {
+            "type": "string"
+          }
+        }
+      },
+      "dataType": {
+        "type": "string",
+        "index": "not_analyzed"
+      },
+      "fdzId": {
+        "type": "string"
+      },
+      "label": {
+        "type": "string"
+      },
+      "name": {
+        "type": "string"
+      },
+      "scaleLevel": {
+        "type": "string",
+        "index": "not_analyzed"
+      },
+      "variableSurveyDocument": {
+        "type": "nested",
+        "properties": {
+          "alias": {
+            "type": "string"
+          },
+          "surveyId": {
+            "type": "string"
+          },
+          "surveyPeriod": {
+            "type": "nested",
+            "properties": {
+              "endDate": {
+                "type": "date",
+                "format": "date"
+              },
+              "startDate": {
+                "type": "date",
+                "format": "date"
+              }
+            }
+          },
+          "title": {
+            "type": "string"
+          }
+        }
+      }
+    }
+  }
+}

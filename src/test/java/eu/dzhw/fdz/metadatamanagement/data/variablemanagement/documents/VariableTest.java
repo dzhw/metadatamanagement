@@ -159,7 +159,7 @@ public class VariableTest {
   }
 
   @Test
-  public void testInvalidCodeAtAnswerOption() {
+  public void testInvalidLabelAtAnswerOption() {
 
     // Arrange
     VariableDocument variableDocument = new VariableDocument();
@@ -167,7 +167,7 @@ public class VariableTest {
     variableDocument.setName("ThisNameIsOkay.");
     AnswerOption answerOption = new AnswerOption();
     answerOption
-        .setCode("AddAExtraLabelForAnTestValidationError.AddAExtraLabelForAnTestValidationError.");
+        .setLabel("AddAExtraLabelForAnTestValidationError.AddAExtraLabelForAnTestValidationError.");
     List<AnswerOption> answerOptions = new ArrayList<>();
     answerOptions.add(answerOption);
     variableDocument.setAnswerOptions(answerOptions);
@@ -198,16 +198,16 @@ public class VariableTest {
 
 
   @Test
-  public void testInvalidLabelAtAnswerOption() {
+  public void testInvalidCodeAtAnswerOption() {
 
     // Arrange
     VariableDocument variableDocument = new VariableDocument();
     variableDocument.setFdzId("ThisIDisOkay.");
     variableDocument.setName("ThisNameIsOkay.");
     AnswerOption answerOption = new AnswerOption();
-    answerOption.setCode("This code is okay.");
+    answerOption.setLabel("This label is okay.");
     answerOption
-        .setLabel("AddAExtraLabelForAnTestValidationError.AddAExtraLabelForAnTestValidationError.");
+        .setCode("AddAExtraLabelForAnTestValidationError.AddAExtraLabelForAnTestValidationError.");
     List<AnswerOption> answerOptions = new ArrayList<>();
     answerOptions.add(answerOption);
     variableDocument.setAnswerOptions(answerOptions);

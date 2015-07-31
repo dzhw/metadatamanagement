@@ -17,13 +17,13 @@ public class AnswerOption {
    * This is the code of an answer. It is internal code representation of the answer.
    */
   @Size(max = 60)
+  @NotEmpty
   private String code;
   
   /**
    * The Label is the answer which are read by the subjects.
    */
   @Size(max = 60)
-  @NotEmpty
   private String label;
 
   public String getCode() {

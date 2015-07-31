@@ -11,7 +11,9 @@ import org.springframework.data.elasticsearch.annotations.Document;
 import org.springframework.data.elasticsearch.annotations.Field;
 import org.springframework.data.elasticsearch.annotations.FieldIndex;
 import org.springframework.data.elasticsearch.annotations.FieldType;
+import org.springframework.data.elasticsearch.annotations.Setting;
 
+import eu.dzhw.fdz.metadatamanagement.data.common.documents.AbstractDocument;
 import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.enums.DataType;
 import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.enums.ScaleLevel;
 
@@ -23,10 +25,11 @@ import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.enums.Sc
  *
  */
 @Document(
-    indexName = "#{'metadata_'"
+    indexName = "#{'" + VariableDocument.METADATA_INDEX + "_'"
         + "+T(org.springframework.context.i18n.LocaleContextHolder).getLocale().getLanguage()}",
     type = "variables")
-public class VariableDocument {
+@Setting(settingPath = "data/settings/settings.json")
+public class VariableDocument extends AbstractDocument{
 
   /**
    * A fdzID as primary key for the identification of the variable of a survey.

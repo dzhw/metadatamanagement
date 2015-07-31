@@ -1,0 +1,31 @@
+{
+  "_class" : "eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.VariableDocument",
+  "fdzId" : "FDZ001",
+  "variableSurveyDocument" : {
+    "surveyId" : "SurveyID007",
+    "title" : "A title.",
+    "surveyPeriod" : {
+      "startDate" : "2015-07-29",
+      "endDate" : "2015-12-24"
+    },
+    "alias" : "An alias"
+  },
+  "name" : "A name.",
+  "dataType" : "NUMERIC",
+  "label" : "A label.",
+  "scaleLevel" : "METRIC",
+  "answerOptions" : [
+      {
+        "code" : "A code",
+        "label" : "A label"
+      },
+      {
+        "code" : "A code 2",
+        "label" : "A label 2"
+      },
+      {
+        "code" : "A code 3",
+        "label" : "A label 3"
+      }
+    ]
+}

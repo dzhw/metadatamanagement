@@ -2,8 +2,6 @@ package eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents;
 
 import java.time.LocalDate;
 
-import org.springframework.format.annotation.DateTimeFormat;
-
 /**
  * The date range has two {@code LocalDate} object for representing a time range. The the
  * {@code DateOrderValidator} is used to check the order of the range.
@@ -16,13 +14,11 @@ public class DateRange {
   /**
    * The start date of the range. The checked pattern is: {@code yyyy-MM-dd}
    */
-  @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
   private LocalDate startDate;
 
   /**
    * The end date of the range. The checked pattern is: {@code yyyy-MM-dd}
    */
-  @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
   private LocalDate endDate;
 
   /*
