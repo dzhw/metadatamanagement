@@ -1,6 +1,167 @@
 {
   "_class" : "eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.VariableDocument",
-  "fdzId" : "FDZ001",
+  "fdzId" : "SurveyID01",
+  "variableSurveyDocument" : {
+    "surveyId" : "SSurveyID007",
+    "title" : "A title.",
+    "surveyPeriod" : {
+      "startDate" : "2015-07-29",
+      "endDate" : "2015-12-24"
+    },
+    "alias" : "An alias"
+  },
+  "name" : "A name",
+  "dataType" : "NUMERIC",
+  "label" : "A label.",
+  "scaleLevel" : "METRIC",
+  "answerOptions" : [
+      {
+        "code" : "A code",
+        "label" : "A label"
+      },
+      {
+        "code" : "A code 2",
+        "label" : "A label 2"
+      },
+      {
+        "code" : "A code 3",
+        "label" : "A label 3"
+      }
+    ]
+},
+
+
+{
+  "_class" : "eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.VariableDocument",
+  "fdzId" : "Survey_ID_02",
+  "variableSurveyDocument" : {
+    "surveyId" : "SSurveyID007",
+    "title" : "A title.",
+    "surveyPeriod" : {
+      "startDate" : "2015-07-29",
+      "endDate" : "2015-12-24"
+    },
+    "alias" : "An alias"
+  },
+  "name" : "A name",
+  "dataType" : "NUMERIC",
+  "label" : "A label.",
+  "scaleLevel" : "METRIC",
+  "answerOptions" : [
+      {
+        "code" : "A code",
+        "label" : "A label"
+      },
+      {
+        "code" : "A code 2",
+        "label" : "A label 2"
+      },
+      {
+        "code" : "A code 3",
+        "label" : "A label 3"
+      }
+    ]
+},
+
+{
+  "_class" : "eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.VariableDocument",
+  "fdzId" : "SurveyID-03",
+  "variableSurveyDocument" : {
+    "surveyId" : "SSurveyID007",
+    "title" : "A title.",
+    "surveyPeriod" : {
+      "startDate" : "2015-07-29",
+      "endDate" : "2015-12-24"
+    },
+    "alias" : "An alias"
+  },
+  "name" : "A name",
+  "dataType" : "NUMERIC",
+  "label" : "A label.",
+  "scaleLevel" : "METRIC",
+  "answerOptions" : [
+      {
+        "code" : "A code",
+        "label" : "A label"
+      },
+      {
+        "code" : "A code 2",
+        "label" : "A label 2"
+      },
+      {
+        "code" : "A code 3",
+        "label" : "A label 3"
+      }
+    ]
+},
+
+{
+  "_class" : "eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.VariableDocument",
+  "fdzId" : "SurveyÄD04",
+  "variableSurveyDocument" : {
+    "surveyId" : "SSurveyID007",
+    "title" : "A title.",
+    "surveyPeriod" : {
+      "startDate" : "2015-07-29",
+      "endDate" : "2015-12-24"
+    },
+    "alias" : "An alias"
+  },
+  "name" : "A name",
+  "dataType" : "NUMERIC",
+  "label" : "A label.",
+  "scaleLevel" : "METRIC",
+  "answerOptions" : [
+      {
+        "code" : "A code",
+        "label" : "A label"
+      },
+      {
+        "code" : "A code 2",
+        "label" : "A label 2"
+      },
+      {
+        "code" : "A code 3",
+        "label" : "A label 3"
+      }
+    ]
+},
+
+{
+  "_class" : "eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.VariableDocument",
+  "fdzId" : "SurväyID 05",
+  "variableSurveyDocument" : {
+    "surveyId" : "SurveyID002",
+    "title" : "A title.",
+    "surveyPeriod" : {
+      "startDate" : "2015-07-29",
+      "endDate" : "2015-12-24"
+    },
+    "alias" : "An alias"
+  },
+  "name" : "A name",
+  "dataType" : "NUMERIC",
+  "label" : "A label.",
+  "scaleLevel" : "METRIC",
+  "answerOptions" : [
+      {
+        "code" : "A code",
+        "label" : "A label"
+      },
+      {
+        "code" : "A code 2",
+        "label" : "A label 2"
+      },
+      {
+        "code" : "A code 3",
+        "label" : "A label 3"
+      }
+    ]
+},
+
+{
+  "_class" : "eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.VariableDocument",
+  "fdzId" : "Survey! ID 06",
   "variableSurveyDocument" : {
     "surveyId" : "SurveyID007",
     "title" : "A title.",
@@ -10,7 +171,295 @@
     },
     "alias" : "An alias"
   },
-  "name" : "A name.",
+  "name" : "A name",
+  "dataType" : "NUMERIC",
+  "label" : "A label.",
+  "scaleLevel" : "METRIC",
+  "answerOptions" : [
+      {
+        "code" : "A code",
+        "label" : "A label"
+      },
+      {
+        "code" : "A code 2",
+        "label" : "A label 2"
+      },
+      {
+        "code" : "A code 3",
+        "label" : "A label 3"
+      }
+    ]
+},
+
+{
+  "_class" : "eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.VariableDocument",
+  "fdzId" : "?urvey #07",
+  "variableSurveyDocument" : {
+    "surveyId" : "SurveyID007",
+    "title" : "A title.",
+    "surveyPeriod" : {
+      "startDate" : "2015-07-29",
+      "endDate" : "2015-12-24"
+    },
+    "alias" : "An alias"
+  },
+  "name" : "A name",
+  "dataType" : "NUMERIC",
+  "label" : "A label.",
+  "scaleLevel" : "METRIC",
+  "answerOptions" : [
+      {
+        "code" : "A code",
+        "label" : "A label"
+      },
+      {
+        "code" : "A code 2",
+        "label" : "A label 2"
+      },
+      {
+        "code" : "A code 3",
+        "label" : "A label 3"
+      }
+    ]
+},
+
+{
+  "_class" : "eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.VariableDocument",
+  "fdzId" : "~''rv@y Ö8",
+  "variableSurveyDocument" : {
+    "surveyId" : "SurveyID007",
+    "title" : "A title.",
+    "surveyPeriod" : {
+      "startDate" : "2015-07-29",
+      "endDate" : "2015-12-24"
+    },
+    "alias" : "An alias"
+  },
+  "name" : "A name",
+  "dataType" : "NUMERIC",
+  "label" : "A label.",
+  "scaleLevel" : "METRIC",
+  "answerOptions" : [
+      {
+        "code" : "A code",
+        "label" : "A label"
+      },
+      {
+        "code" : "A code 2",
+        "label" : "A label 2"
+      },
+      {
+        "code" : "A code 3",
+        "label" : "A label 3"
+      }
+    ]
+},
+
+{
+  "_class" : "eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.VariableDocument",
+  "fdzId" : "Sür&ß /D 09",
+  "variableSurveyDocument" : {
+    "surveyId" : "SurveyID",
+    "title" : "A title.",
+    "surveyPeriod" : {
+      "startDate" : "2015-07-29",
+      "endDate" : "2015-12-24"
+    },
+    "alias" : "An alias"
+  },
+  "name" : "A name",
+  "dataType" : "NUMERIC",
+  "label" : "A label.",
+  "scaleLevel" : "METRIC",
+  "answerOptions" : [
+      {
+        "code" : "A code",
+        "label" : "A label"
+      },
+      {
+        "code" : "A code 2",
+        "label" : "A label 2"
+      },
+      {
+        "code" : "A code 3",
+        "label" : "A label 3"
+      }
+    ]
+},
+
+{
+  "_class" : "eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.VariableDocument",
+  "fdzId" : "S%rv#y () 10",
+  "variableSurveyDocument" : {
+    "surveyId" : "SurveyID007",
+    "title" : "A title.",
+    "surveyPeriod" : {
+      "startDate" : "2015-07-29",
+      "endDate" : "2015-12-24"
+    },
+    "alias" : "An alias"
+  },
+  "name" : "A name",
+  "dataType" : "NUMERIC",
+  "label" : "A label.",
+  "scaleLevel" : "METRIC",
+  "answerOptions" : [
+      {
+        "code" : "A code",
+        "label" : "A label"
+      },
+      {
+        "code" : "A code 2",
+        "label" : "A label 2"
+      },
+      {
+        "code" : "A code 3",
+        "label" : "A label 3"
+      }
+    ]
+},
+
+{
+  "_class" : "eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.VariableDocument",
+  "fdzId" : "*+rv3y {11}",
+  "variableSurveyDocument" : {
+    "surveyId" : "SurveyID007",
+    "title" : "A title.",
+    "surveyPeriod" : {
+      "startDate" : "2015-07-29",
+      "endDate" : "2015-12-24"
+    },
+    "alias" : "An alias"
+  },
+  "name" : "A name",
+  "dataType" : "NUMERIC",
+  "label" : "A label.",
+  "scaleLevel" : "METRIC",
+  "answerOptions" : [
+      {
+        "code" : "A code",
+        "label" : "A label"
+      },
+      {
+        "code" : "A code 2",
+        "label" : "A label 2"
+      },
+      {
+        "code" : "A code 3",
+        "label" : "A label 3"
+      }
+    ]
+},
+
+{
+  "_class" : "eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.VariableDocument",
+  "fdzId" : "$ur^y ' -ID- 12",
+  "variableSurveyDocument" : {
+    "surveyId" : "SurveyID007",
+    "title" : "A title.",
+    "surveyPeriod" : {
+      "startDate" : "2015-07-29",
+      "endDate" : "2015-12-24"
+    },
+    "alias" : "An alias"
+  },
+  "name" : "A name",
+  "dataType" : "NUMERIC",
+  "label" : "A label.",
+  "scaleLevel" : "METRIC",
+  "answerOptions" : [
+      {
+        "code" : "A code",
+        "label" : "A label"
+      },
+      {
+        "code" : "A code 2",
+        "label" : "A label 2"
+      },
+      {
+        "code" : "A code 3",
+        "label" : "A label 3"
+      }
+    ]
+},
+
+{
+  "_class" : "eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.VariableDocument",
+  "fdzId" : "S<>rv=y Öá ID 13",
+  "variableSurveyDocument" : {
+    "surveyId" : "Survey ID 13",
+    "title" : "A title.",
+    "surveyPeriod" : {
+      "startDate" : "2015-07-29",
+      "endDate" : "2015-12-24"
+    },
+    "alias" : "An alias"
+  },
+  "name" : "A name",
+  "dataType" : "NUMERIC",
+  "label" : "A label.",
+  "scaleLevel" : "METRIC",
+  "answerOptions" : [
+      {
+        "code" : "A code",
+        "label" : "A label"
+      },
+      {
+        "code" : "A code 2",
+        "label" : "A label 2"
+      },
+      {
+        "code" : "A code 3",
+        "label" : "A label 3"
+      }
+    ]
+},
+
+{
+  "_class" : "eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.VariableDocument",
+  "fdzId" : ".S,;ve: ID- _14_",
+  "variableSurveyDocument" : {
+    "surveyId" : "SurveyID007",
+    "title" : "A title.",
+    "surveyPeriod" : {
+      "startDate" : "2015-07-29",
+      "endDate" : "2015-12-24"
+    },
+    "alias" : "An alias"
+  },
+  "name" : "A name",
+  "dataType" : "NUMERIC",
+  "label" : "A label.",
+  "scaleLevel" : "METRIC",
+  "answerOptions" : [
+      {
+        "code" : "A code",
+        "label" : "A label"
+      },
+      {
+        "code" : "A code 2",
+        "label" : "A label 2"
+      },
+      {
+        "code" : "A code 3",
+        "label" : "A label 3"
+      }
+    ]
+},
+
+{
+  "_class" : "eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.VariableDocument",
+  "fdzId" : "§\^/r\/e? ID 15",
+  "variableSurveyDocument" : {
+    "surveyId" : "SurveyID007",
+    "title" : "A title.",
+    "surveyPeriod" : {
+      "startDate" : "2015-07-29",
+      "endDate" : "2015-12-24"
+    },
+    "alias" : "An alias"
+  },
+  "name" : "A name",
   "dataType" : "NUMERIC",
   "label" : "A label.",
   "scaleLevel" : "METRIC",

@@ -1,6 +1,453 @@
 {
   "_class" : "eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.VariableDocument",
-  "fdzId" : "FDZ001",
+  "fdzId" : "SurveyID01",
+  "variableSurveyDocument" : {
+    "surveyId" : "SSurveyID007",
+    "title" : "Ein Titel.",
+    "surveyPeriod" : {
+      "startDate" : "2015-07-29",
+      "endDate" : "2015-12-24"
+    },
+    "alias" : "Ein Alias"
+  },
+  "name" : "Ein Name",
+  "dataType" : "NUMERIC",
+  "label" : "Ein Label.",
+  "scaleLevel" : "METRIC",
+  "answerOptions" : [
+      {
+        "code" : "Ein Code",
+        "label" : "Ein Label"
+      },
+      {
+        "code" : "Ein Code 2",
+        "label" : "Ein Label 2"
+      },
+      {
+        "code" : "Ein Code 3",
+        "label" : "Ein Label 3"
+      }
+    ]
+},
+{
+  "_class" : "eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.VariableDocument",
+  "fdzId" : "Survey_ID_02",
+  "variableSurveyDocument" : {
+    "surveyId" : "SSurveyID007",
+    "title" : "Ein Titel.",
+    "surveyPeriod" : {
+      "startDate" : "2015-07-29",
+      "endDate" : "2015-12-24"
+    },
+    "alias" : "Ein Alias"
+  },
+  "name" : "Ein Name",
+  "dataType" : "NUMERIC",
+  "label" : "Ein Label.",
+  "scaleLevel" : "METRIC",
+  "answerOptions" : [
+      {
+        "code" : "Ein Code",
+        "label" : "Ein Label"
+      },
+      {
+        "code" : "Ein Code 2",
+        "label" : "Ein Label 2"
+      },
+      {
+        "code" : "Ein Code 3",
+        "label" : "Ein Label 3"
+      }
+    ]
+},
+
+{
+  "_class" : "eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.VariableDocument",
+  "fdzId" : "SurveyID-03",
+  "variableSurveyDocument" : {
+    "surveyId" : "SSurveyID007",
+    "title" : "Ein Titel.",
+    "surveyPeriod" : {
+      "startDate" : "2015-07-29",
+      "endDate" : "2015-12-24"
+    },
+    "alias" : "Ein Alias"
+  },
+  "name" : "Ein Name",
+  "dataType" : "NUMERIC",
+  "label" : "Ein Label.",
+  "scaleLevel" : "METRIC",
+  "answerOptions" : [
+      {
+        "code" : "Ein Code",
+        "label" : "Ein Label"
+      },
+      {
+        "code" : "Ein Code 2",
+        "label" : "Ein Label 2"
+      },
+      {
+        "code" : "Ein Code 3",
+        "label" : "Ein Label 3"
+      }
+    ]
+},
+
+{
+  "_class" : "eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.VariableDocument",
+  "fdzId" : "SurveyÄD04",
+  "variableSurveyDocument" : {
+    "surveyId" : "SSurveyID007",
+    "title" : "Ein Titel.",
+    "surveyPeriod" : {
+      "startDate" : "2015-07-29",
+      "endDate" : "2015-12-24"
+    },
+    "alias" : "Ein Alias"
+  },
+  "name" : "Ein Name",
+  "dataType" : "NUMERIC",
+  "label" : "Ein Label.",
+  "scaleLevel" : "METRIC",
+  "answerOptions" : [
+      {
+        "code" : "Ein Code",
+        "label" : "Ein Label"
+      },
+      {
+        "code" : "Ein Code 2",
+        "label" : "Ein Label 2"
+      },
+      {
+        "code" : "Ein Code 3",
+        "label" : "Ein Label 3"
+      }
+    ]
+},
+
+{
+  "_class" : "eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.VariableDocument",
+  "fdzId" : "SurväyID 05",
+  "variableSurveyDocument" : {
+    "surveyId" : "SurveyID002",
+    "title" : "Ein Titel.",
+    "surveyPeriod" : {
+      "startDate" : "2015-07-29",
+      "endDate" : "2015-12-24"
+    },
+    "alias" : "Ein Alias"
+  },
+  "name" : "Ein Name",
+  "dataType" : "NUMERIC",
+  "label" : "Ein Label.",
+  "scaleLevel" : "METRIC",
+  "answerOptions" : [
+      {
+        "code" : "Ein Code",
+        "label" : "Ein Label"
+      },
+      {
+        "code" : "Ein Code 2",
+        "label" : "Ein Label 2"
+      },
+      {
+        "code" : "Ein Code 3",
+        "label" : "Ein Label 3"
+      }
+    ]
+},
+
+{
+  "_class" : "eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.VariableDocument",
+  "fdzId" : "Survey! ID 06",
+  "variableSurveyDocument" : {
+    "surveyId" : "SurveyID007",
+    "title" : "Ein Titel.",
+    "surveyPeriod" : {
+      "startDate" : "2015-07-29",
+      "endDate" : "2015-12-24"
+    },
+    "alias" : "Ein Alias"
+  },
+  "name" : "Ein Name",
+  "dataType" : "NUMERIC",
+  "label" : "Ein Label.",
+  "scaleLevel" : "METRIC",
+  "answerOptions" : [
+      {
+        "code" : "Ein Code",
+        "label" : "Ein Label"
+      },
+      {
+        "code" : "Ein Code 2",
+        "label" : "Ein Label 2"
+      },
+      {
+        "code" : "Ein Code 3",
+        "label" : "Ein Label 3"
+      }
+    ]
+},
+
+{
+  "_class" : "eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.VariableDocument",
+  "fdzId" : "?urvey #07",
+  "variableSurveyDocument" : {
+    "surveyId" : "SurveyID007",
+    "title" : "Ein Titel.",
+    "surveyPeriod" : {
+      "startDate" : "2015-07-29",
+      "endDate" : "2015-12-24"
+    },
+    "alias" : "Ein Alias"
+  },
+  "name" : "Ein Name",
+  "dataType" : "NUMERIC",
+  "label" : "Ein Label.",
+  "scaleLevel" : "METRIC",
+  "answerOptions" : [
+      {
+        "code" : "Ein Code",
+        "label" : "Ein Label"
+      },
+      {
+        "code" : "Ein Code 2",
+        "label" : "Ein Label 2"
+      },
+      {
+        "code" : "Ein Code 3",
+        "label" : "Ein Label 3"
+      }
+    ]
+},
+
+{
+  "_class" : "eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.VariableDocument",
+  "fdzId" : "~''rv@y Ö8",
+  "variableSurveyDocument" : {
+    "surveyId" : "SurveyID007",
+    "title" : "Ein Titel.",
+    "surveyPeriod" : {
+      "startDate" : "2015-07-29",
+      "endDate" : "2015-12-24"
+    },
+    "alias" : "Ein Alias"
+  },
+  "name" : "Ein Name",
+  "dataType" : "NUMERIC",
+  "label" : "Ein Label.",
+  "scaleLevel" : "METRIC",
+  "answerOptions" : [
+      {
+        "code" : "Ein Code",
+        "label" : "Ein Label"
+      },
+      {
+        "code" : "Ein Code 2",
+        "label" : "Ein Label 2"
+      },
+      {
+        "code" : "Ein Code 3",
+        "label" : "Ein Label 3"
+      }
+    ]
+},
+
+{
+  "_class" : "eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.VariableDocument",
+  "fdzId" : "Sür&ß /D 09",
+  "variableSurveyDocument" : {
+    "surveyId" : "SurveyID",
+    "title" : "Ein Titel.",
+    "surveyPeriod" : {
+      "startDate" : "2015-07-29",
+      "endDate" : "2015-12-24"
+    },
+    "alias" : "Ein Alias"
+  },
+  "name" : "Ein Name",
+  "dataType" : "NUMERIC",
+  "label" : "Ein Label.",
+  "scaleLevel" : "METRIC",
+  "answerOptions" : [
+      {
+        "code" : "Ein Code",
+        "label" : "Ein Label"
+      },
+      {
+        "code" : "Ein Code 2",
+        "label" : "Ein Label 2"
+      },
+      {
+        "code" : "Ein Code 3",
+        "label" : "Ein Label 3"
+      }
+    ]
+},
+
+{
+  "_class" : "eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.VariableDocument",
+  "fdzId" : "S%rv#y () 10",
+  "variableSurveyDocument" : {
+    "surveyId" : "SurveyID007",
+    "title" : "Ein Titel.",
+    "surveyPeriod" : {
+      "startDate" : "2015-07-29",
+      "endDate" : "2015-12-24"
+    },
+    "alias" : "Ein Alias"
+  },
+  "name" : "Ein Name",
+  "dataType" : "NUMERIC",
+  "label" : "Ein Label.",
+  "scaleLevel" : "METRIC",
+  "answerOptions" : [
+      {
+        "code" : "Ein Code",
+        "label" : "Ein Label"
+      },
+      {
+        "code" : "Ein Code 2",
+        "label" : "Ein Label 2"
+      },
+      {
+        "code" : "Ein Code 3",
+        "label" : "Ein Label 3"
+      }
+    ]
+},
+
+{
+  "_class" : "eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.VariableDocument",
+  "fdzId" : "*+rv3y {11}",
+  "variableSurveyDocument" : {
+    "surveyId" : "SurveyID007",
+    "title" : "Ein Titel.",
+    "surveyPeriod" : {
+      "startDate" : "2015-07-29",
+      "endDate" : "2015-12-24"
+    },
+    "alias" : "Ein Alias"
+  },
+  "name" : "Ein Name",
+  "dataType" : "NUMERIC",
+  "label" : "Ein Label.",
+  "scaleLevel" : "METRIC",
+  "answerOptions" : [
+      {
+        "code" : "Ein Code",
+        "label" : "Ein Label"
+      },
+      {
+        "code" : "Ein Code 2",
+        "label" : "Ein Label 2"
+      },
+      {
+        "code" : "Ein Code 3",
+        "label" : "Ein Label 3"
+      }
+    ]
+},
+
+{
+  "_class" : "eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.VariableDocument",
+  "fdzId" : "$ur^y ' -ID- 12",
+  "variableSurveyDocument" : {
+    "surveyId" : "SurveyID007",
+    "title" : "Ein Titel.",
+    "surveyPeriod" : {
+      "startDate" : "2015-07-29",
+      "endDate" : "2015-12-24"
+    },
+    "alias" : "Ein Alias"
+  },
+  "name" : "Ein Name",
+  "dataType" : "NUMERIC",
+  "label" : "Ein Label.",
+  "scaleLevel" : "METRIC",
+  "answerOptions" : [
+      {
+        "code" : "Ein Code",
+        "label" : "Ein Label"
+      },
+      {
+        "code" : "Ein Code 2",
+        "label" : "Ein Label 2"
+      },
+      {
+        "code" : "Ein Code 3",
+        "label" : "Ein Label 3"
+      }
+    ]
+},
+
+{
+  "_class" : "eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.VariableDocument",
+  "fdzId" : "S<>rv=y Öá ID 13",
+  "variableSurveyDocument" : {
+    "surveyId" : "Survey ID 13",
+    "title" : "Ein Titel.",
+    "surveyPeriod" : {
+      "startDate" : "2015-07-29",
+      "endDate" : "2015-12-24"
+    },
+    "alias" : "Ein Alias"
+  },
+  "name" : "Ein Name",
+  "dataType" : "NUMERIC",
+  "label" : "Ein Label.",
+  "scaleLevel" : "METRIC",
+  "answerOptions" : [
+      {
+        "code" : "Ein Code",
+        "label" : "Ein Label"
+      },
+      {
+        "code" : "Ein Code 2",
+        "label" : "Ein Label 2"
+      },
+      {
+        "code" : "Ein Code 3",
+        "label" : "Ein Label 3"
+      }
+    ]
+},
+
+{
+  "_class" : "eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.VariableDocument",
+  "fdzId" : ".S,;ve: ID- _14_",
+  "variableSurveyDocument" : {
+    "surveyId" : "SurveyID007",
+    "title" : "Ein Titel.",
+    "surveyPeriod" : {
+      "startDate" : "2015-07-29",
+      "endDate" : "2015-12-24"
+    },
+    "alias" : "Ein Alias"
+  },
+  "name" : "Ein Name",
+  "dataType" : "NUMERIC",
+  "label" : "Ein Label.",
+  "scaleLevel" : "METRIC",
+  "answerOptions" : [
+      {
+        "code" : "Ein Code",
+        "label" : "Ein Label"
+      },
+      {
+        "code" : "Ein Code 2",
+        "label" : "Ein Label 2"
+      },
+      {
+        "code" : "Ein Code 3",
+        "label" : "Ein Label 3"
+      }
+    ]
+},
+
+{
+  "_class" : "eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.VariableDocument",
+  "fdzId" : "§\^/r\/e? ID 15",
   "variableSurveyDocument" : {
     "surveyId" : "SurveyID007",
     "title" : "Ein Titel.",
