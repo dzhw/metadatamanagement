@@ -156,7 +156,7 @@
 						<arg>-Werror</arg>
 					</compilerArgs>
 					<showDeprecation>true</showDeprecation>
-					<showWarnings>true</showWarnings>					
+					<showWarnings>true</showWarnings>
 				</configuration>
 			</plugin>
 			<!-- Checkstyle and fail the build -->
@@ -259,6 +259,26 @@
 						</configuration>
 					</execution>
 				</executions>
+			</plugin>
+			<!-- fail build on js hint errors -->
+			<plugin>
+				<groupId>com.cj.jshintmojo</groupId>
+				<artifactId>jshint-maven-plugin</artifactId>
+				<version>1.6.0</version>
+				<executions>
+					<execution>
+						<goals>
+							<goal>lint</goal>
+						</goals>
+					</execution>
+				</executions>
+				<configuration>
+					<version>2.4.3</version>
+					<directories>
+						<directory>src/main/resources/static/js</directory>
+					</directories>
+					<failOnError>true</failOnError>
+				</configuration>
 			</plugin>
 			<!-- build a fat jar -->
 			<plugin>

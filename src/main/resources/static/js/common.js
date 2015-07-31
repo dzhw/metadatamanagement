@@ -1,6 +1,5 @@
-"use strict";
-
 (function(GlobalSetup) {
+	"use strict";
 	// jquery setup
 	$.ajaxSetup({
 		beforeSend : function(xhr) {
@@ -12,6 +11,7 @@
 
 /* fix default focus of bootstrap modals */
 $(document).ready(function() {
+	"use strict";
 	$("#aboutarea").on('shown.bs.modal', function() {
 		$("#close-button").focus();
 	});
