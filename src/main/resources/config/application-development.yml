@@ -31,3 +31,8 @@ logging:
     org.elasticsearch.index.search.slowlog.query: INFO
     
 #logging.level.org.elasticsearch.discovery=TRACE
+
+management:
+     port: 8080
+     address: 127.0.0.1
+     context-path: /manage

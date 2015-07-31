@@ -36,3 +36,8 @@ endpoints:
 server:
   compression:
     enabled: true
+    
+#redirect endpoints     
+management: 
+     address: metadatamanagement.cfapps.io
+     context-path: /manage

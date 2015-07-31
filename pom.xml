@@ -98,6 +98,11 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
 		</dependency>
+		<!-- HATEOAS -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-hateoas</artifactId>
+		</dependency>
 		<!-- json binding for LocalDate etc.. -->
 		<dependency>
 			<groupId>com.fasterxml.jackson.datatype</groupId>
