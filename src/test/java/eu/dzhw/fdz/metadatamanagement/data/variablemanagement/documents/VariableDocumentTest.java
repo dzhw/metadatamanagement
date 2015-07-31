@@ -28,9 +28,9 @@ import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.enums.Sc
  * @author Daniel Katzberg
  *
  */
-public class VariableTest {
+public class VariableDocumentTest {
 
-  private static final Logger LOGGER = LoggerFactory.getLogger(VariableTest.class);
+  private static final Logger LOGGER = LoggerFactory.getLogger(VariableDocumentTest.class);
 
   private static Validator VALIDATOR;
 

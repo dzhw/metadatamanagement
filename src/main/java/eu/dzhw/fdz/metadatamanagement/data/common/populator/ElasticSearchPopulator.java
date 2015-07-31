@@ -33,7 +33,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import eu.dzhw.fdz.metadatamanagement.config.i18n.I18nConfiguration;
 import eu.dzhw.fdz.metadatamanagement.data.common.documents.AbstractDocument;
-import eu.dzhw.fdz.metadatamanagement.data.common.utils.PopulatorUtils;
 
 /**
  * This is a json file to elasticsearch database populator. This populator reads the the supported

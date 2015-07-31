@@ -1,4 +1,4 @@
-package eu.dzhw.fdz.metadatamanagement.data.common.utils;
+package eu.dzhw.fdz.metadatamanagement.data.common.populator;
 
 import java.io.IOException;
 import java.util.Locale;

@@ -10,6 +10,7 @@ import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.Variable
  * @author Daniel Katzberg
  *
  */
-public interface VariablesRepository extends ElasticsearchRepository<VariableDocument, String> {
+public interface VariablesRepository
+    extends ElasticsearchRepository<VariableDocument, String>, VariablesRepositoryCustom {
 
 }
