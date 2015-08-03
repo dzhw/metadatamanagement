@@ -40,4 +40,4 @@ server:
 #redirect endpoints     
 management: 
      address: metadatamanagement.cfapps.io
-     context-path: /manage
+     context-path: /admin

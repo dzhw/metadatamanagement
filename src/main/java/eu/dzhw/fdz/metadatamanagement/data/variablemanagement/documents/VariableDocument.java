@@ -24,10 +24,10 @@ import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.enums.Sc
  *
  */
 @Document(
-    indexName = "#{'" + VariableDocument.METADATA_INDEX + "_'"
+    indexName = "#{'" + AbstractDocument.METADATA_INDEX + "_'"
         + "+T(org.springframework.context.i18n.LocaleContextHolder).getLocale().getLanguage()}",
     type = "variables")
-public class VariableDocument extends AbstractDocument{
+public class VariableDocument extends AbstractDocument {
 
   /**
    * A fdzID as primary key for the identification of the variable of a survey.
@@ -79,6 +79,7 @@ public class VariableDocument extends AbstractDocument{
 
   /*
    * (non-Javadoc)
+   * 
    * @see java.lang.Object#toString()
    */
   @Override
