@@ -1,18 +1,15 @@
 package eu.dzhw.fdz.metadatamanagement.config.i18n;
 
+import java.util.HashSet;
 import java.util.Locale;
+import java.util.Set;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.format.FormatterRegistry;
 import org.springframework.format.datetime.standard.DateTimeFormatterRegistrar;
 import org.springframework.web.servlet.LocaleResolver;
-import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
-import org.springframework.web.servlet.i18n.CookieLocaleResolver;
-import org.springframework.web.servlet.i18n.LocaleChangeInterceptor;
-
-import eu.dzhw.fdz.metadatamanagement.MetaDataManagementApplication;
 
 /**
  * Spring configuration which adds i18n based on cookies.
@@ -22,11 +19,18 @@ import eu.dzhw.fdz.metadatamanagement.MetaDataManagementApplication;
 @Configuration
 public class I18nConfiguration extends WebMvcConfigurerAdapter {
 
-  public static final Locale[] SUPPORTED_LANGUAGES = {Locale.ENGLISH, Locale.GERMAN};
+  public static final Set<Locale> SUPPORTED_LANGUAGES;
+  public static final Locale DEFAULT_LOCALE = Locale.ENGLISH;
+
+  static {
+    SUPPORTED_LANGUAGES = new HashSet<>(2);
+    SUPPORTED_LANGUAGES.add(Locale.ENGLISH);
+    SUPPORTED_LANGUAGES.add(Locale.GERMAN);
+  }
 
   public I18nConfiguration() {
     // set the system locale to english
-    Locale.setDefault(Locale.ENGLISH);
+    Locale.setDefault(DEFAULT_LOCALE);
   }
 
   /**
@@ -37,27 +41,7 @@ public class I18nConfiguration extends WebMvcConfigurerAdapter {
    */
   @Bean
   public LocaleResolver localeResolver() {
-    CookieLocaleResolver cookieLocaleResolver = new CookieLocaleResolver();
-    cookieLocaleResolver.setCookieName(MetaDataManagementApplication.class.getName());
-    cookieLocaleResolver.setDefaultLocale(Locale.GERMAN);
-    return cookieLocaleResolver;
-  }
-
-  /**
-   * Intercept get requests with url param "language=de" for instance to change the cookie.
-   * 
-   * @return the interceptor
-   */
-  @Bean
-  public LocaleChangeInterceptor localeChangeInterceptor() {
-    LocaleChangeInterceptor lci = new RestrictedLocaleChangeInterceptor();
-    lci.setParamName("language");
-    return lci;
-  }
-
-  @Override
-  public void addInterceptors(InterceptorRegistry registry) {
-    registry.addInterceptor(localeChangeInterceptor());
+    return new PathLocaleResolver();
   }
 
   /**

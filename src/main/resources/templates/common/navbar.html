@@ -1,6 +1,6 @@
 <!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-spring4-4.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
-	xmlns:th="http://www.thymeleaf.org" th:lang="${T(org.springframework.context.i18n.LocaleContextHolder).getLocale().getLanguage()}">
+	xmlns:th="http://www.thymeleaf.org" th:lang="${#locale.language}">
 <head>
 </head>
 <body>
@@ -32,11 +32,11 @@
 							</a>
 							<ul class="dropdown-menu" role="menu">
 							 	<li th:classappend="${#locale.language=='de'? 'active' : ''}">
-								   <a th:href="${@urlHelper.getUrlWithAdditionalQueryParam(#httpServletRequest,'language','de')}"
+								   <a th:href="@{/de}"
 									th:text="#{nav.language.german}">German</a>
 								</li>
 								<li th:classappend="${#locale.language=='en'? 'active' : ''}">
-								   <a th:href="${@urlHelper.getUrlWithAdditionalQueryParam(#httpServletRequest,'language','en')}"
+								   <a th:href="@{/en}"
 									  th:text="#{nav.language.english}">English</a>
 								</li>
 							</ul>
