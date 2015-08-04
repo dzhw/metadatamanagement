@@ -1,4 +1,4 @@
-package eu.dzhw.fdz.metadatamanagement;
+package eu.dzhw.fdz.metadatamanagement.web;
 
 import org.junit.Before;
 import org.junit.runner.RunWith;
@@ -11,6 +11,8 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
+import eu.dzhw.fdz.metadatamanagement.MetaDataManagementApplication;
+
 /**
  * Base class for all MVC Controller tests. Sets up the application context and initializes the mvc
  * mock and enables the test profile.
@@ -19,7 +21,7 @@ import org.springframework.web.context.WebApplicationContext;
 @SpringApplicationConfiguration(classes = MetaDataManagementApplication.class)
 @ActiveProfiles("test")
 @WebAppConfiguration
-public abstract class AbstractTest {
+public abstract class AbstractWebTest {
   @Autowired
   private WebApplicationContext wac;
 

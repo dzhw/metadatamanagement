@@ -13,14 +13,12 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import org.junit.Test;
 import org.springframework.test.web.servlet.MvcResult;
 
-import eu.dzhw.fdz.metadatamanagement.AbstractTest;
-
 /**
  * Test which checks if the {@link WelcomeController} answers as expected
  * 
  * @author René Reitmann
  */
-public class WelcomeControllerTest extends AbstractTest {
+public class WelcomeControllerTest extends AbstractWebTest {
 
   @Test
   public void testGermanWelcomePage() throws Exception {
