@@ -1,4 +1,4 @@
-package eu.dzhw.fdz.metadatamanagement.data.variablemanagement.repository;
+package eu.dzhw.fdz.metadatamanagement.data.variablemanagement.repositories;
 
 import org.elasticsearch.common.unit.Fuzziness;
 import org.elasticsearch.index.query.QueryBuilders;

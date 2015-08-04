@@ -1,4 +1,4 @@
-package eu.dzhw.fdz.metadatamanagement.web.resources;
+package eu.dzhw.fdz.metadatamanagement.web.variablemanagement.resources;
 
 import org.springframework.hateoas.mvc.ResourceAssemblerSupport;
 import org.springframework.stereotype.Component;

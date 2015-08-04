@@ -3,7 +3,7 @@ package eu.dzhw.fdz.metadatamanagement.data.common.documents;
 import org.springframework.data.elasticsearch.annotations.Document;
 import org.springframework.data.elasticsearch.annotations.Setting;
 
-import eu.dzhw.fdz.metadatamanagement.data.common.populator.PopulatorUtils;
+import eu.dzhw.fdz.metadatamanagement.data.common.PopulatorUtils;
 
 /**
  * The AbstractDocument is used for creating of the index for ElasticSearch. This is the abstract

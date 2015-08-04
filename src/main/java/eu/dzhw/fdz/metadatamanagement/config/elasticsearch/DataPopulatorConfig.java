@@ -6,8 +6,8 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.ResourceLoader;
 import org.springframework.data.elasticsearch.core.ElasticsearchTemplate;
 
-import eu.dzhw.fdz.metadatamanagement.data.common.populator.ElasticSearchPopulator;
-import eu.dzhw.fdz.metadatamanagement.data.common.populator.PopulatorUtils;
+import eu.dzhw.fdz.metadatamanagement.data.common.ElasticSearchPopulator;
+import eu.dzhw.fdz.metadatamanagement.data.common.PopulatorUtils;
 
 /**
  * This is the configuration file of the data populator.

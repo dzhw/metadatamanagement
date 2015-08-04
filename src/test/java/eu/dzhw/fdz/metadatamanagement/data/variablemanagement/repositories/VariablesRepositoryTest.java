@@ -1,7 +1,7 @@
 /**
  * 
  */
-package eu.dzhw.fdz.metadatamanagement.data.variablemanagement.repository;
+package eu.dzhw.fdz.metadatamanagement.data.variablemanagement.repositories;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
@@ -14,6 +14,7 @@ import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.data.domain.PageRequest;
 
 import eu.dzhw.fdz.metadatamanagement.MetaDataManagementApplicationSmokeTest;
+import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.repositories.VariablesRepository;
 
 /**
  * @author Daniel Katzberg

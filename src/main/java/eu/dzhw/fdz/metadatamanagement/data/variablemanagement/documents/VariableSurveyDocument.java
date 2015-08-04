@@ -6,7 +6,7 @@ import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.data.elasticsearch.annotations.Field;
 import org.springframework.data.elasticsearch.annotations.FieldType;
 
-import eu.dzhw.fdz.metadatamanagement.data.common.annotation.ValidDateRange;
+import eu.dzhw.fdz.metadatamanagement.data.common.validation.ValidDateRange;
 
 /**
  * This class is a representation of a survey. This is a nested object of a survey variable.

@@ -6,7 +6,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.VariableDocument;
-import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.repository.VariablesRepository;
+import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.repositories.VariablesRepository;
 
 /**
  * A service for searching variables.

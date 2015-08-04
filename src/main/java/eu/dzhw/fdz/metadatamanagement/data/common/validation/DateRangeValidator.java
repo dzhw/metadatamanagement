@@ -1,9 +1,8 @@
-package eu.dzhw.fdz.metadatamanagement.data.common.validator;
+package eu.dzhw.fdz.metadatamanagement.data.common.validation;
 
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 
-import eu.dzhw.fdz.metadatamanagement.data.common.annotation.ValidDateRange;
 import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.DateRange;
 
 /**

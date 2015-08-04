@@ -1,4 +1,4 @@
-package eu.dzhw.fdz.metadatamanagement.config;
+package eu.dzhw.fdz.metadatamanagement.config.https;
 
 import javax.servlet.Filter;
 
@@ -6,7 +6,6 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
 
-import eu.dzhw.fdz.metadatamanagement.config.https.HttpsRedirectFilter;
 import eu.dzhw.fdz.metadatamanagement.web.util.UrlHelper;
 
 /**

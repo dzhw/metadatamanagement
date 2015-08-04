@@ -14,8 +14,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.VariableDocument;
 import eu.dzhw.fdz.metadatamanagement.service.variablemanagement.VariableService;
-import eu.dzhw.fdz.metadatamanagement.web.resources.VariableResource;
-import eu.dzhw.fdz.metadatamanagement.web.resources.VariableResourceAssembler;
+import eu.dzhw.fdz.metadatamanagement.web.variablemanagement.resources.VariableResource;
+import eu.dzhw.fdz.metadatamanagement.web.variablemanagement.resources.VariableResourceAssembler;
 
 /**
  * Controller for searching variables.

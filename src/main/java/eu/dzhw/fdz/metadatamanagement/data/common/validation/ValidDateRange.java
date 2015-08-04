@@ -1,4 +1,4 @@
-package eu.dzhw.fdz.metadatamanagement.data.common.annotation;
+package eu.dzhw.fdz.metadatamanagement.data.common.validation;
 
 import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;
@@ -8,8 +8,6 @@ import java.lang.annotation.Target;
 
 import javax.validation.Constraint;
 import javax.validation.Payload;
-
-import eu.dzhw.fdz.metadatamanagement.data.common.validator.DateRangeValidator;
 
 /**
  * This annotation compares two dates and check the correct time line order of the two dates.

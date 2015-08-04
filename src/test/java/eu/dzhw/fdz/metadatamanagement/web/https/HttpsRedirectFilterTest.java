@@ -1,4 +1,4 @@
-package eu.dzhw.fdz.metadatamanagement.web;
+package eu.dzhw.fdz.metadatamanagement.web.https;
 
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;

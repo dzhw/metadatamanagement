@@ -1,4 +1,4 @@
-package eu.dzhw.fdz.metadatamanagement.data.variablemanagement.repository;
+package eu.dzhw.fdz.metadatamanagement.data.variablemanagement.repositories;
 
 import org.springframework.data.elasticsearch.repository.ElasticsearchRepository;
 
