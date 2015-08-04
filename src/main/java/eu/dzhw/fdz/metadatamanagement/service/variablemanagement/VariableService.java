@@ -6,7 +6,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.VariableDocument;
-import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.repositories.VariablesRepository;
+import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.repositories.VariableRepository;
 
 /**
  * A service for searching variables.
@@ -16,16 +16,14 @@ import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.repositories.Varia
 @Service
 public class VariableService {
 
-  private final VariablesRepository variablesRepository;
+  private final VariableRepository variableRepository;
 
   @Autowired
-  public VariableService(VariablesRepository variablesRepository) {
-    this.variablesRepository = variablesRepository;
+  public VariableService(VariableRepository variablesRepository) {
+    this.variableRepository = variablesRepository;
   }
 
   public Page<VariableDocument> search(String query, Pageable pageable) {
-    return variablesRepository.searchAllFields(query, pageable);
+    return variableRepository.searchAllFields(query, pageable);
   }
-
-
 }

@@ -12,7 +12,7 @@ import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.Variable
  * @author Daniel Katzberg
  *
  */
-public interface VariablesRepositoryCustom {
+public interface VariableRepositoryCustom {
 
   /**
    * This method search in the elasticsearch _all field. This search use the fuzzyness of 0.1.

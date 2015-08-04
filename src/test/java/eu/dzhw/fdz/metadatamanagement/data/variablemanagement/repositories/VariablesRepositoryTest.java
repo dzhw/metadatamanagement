@@ -14,7 +14,7 @@ import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.data.domain.PageRequest;
 
 import eu.dzhw.fdz.metadatamanagement.MetaDataManagementApplicationSmokeTest;
-import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.repositories.VariablesRepository;
+import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.repositories.VariableRepository;
 
 /**
  * @author Daniel Katzberg
@@ -23,7 +23,7 @@ import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.repositories.Varia
 public class VariablesRepositoryTest extends MetaDataManagementApplicationSmokeTest {
 
   @Autowired
-  private VariablesRepository variablesRepository;
+  private VariableRepository variablesRepository;
 
   @Test
   public void testSearchAllFields() {

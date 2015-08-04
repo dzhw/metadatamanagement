@@ -18,7 +18,7 @@ import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.Variable
  * @author Daniel Katzberg
  *
  */
-public class VariablesRepositoryImpl implements VariablesRepositoryCustom {
+public class VariableRepositoryImpl implements VariableRepositoryCustom {
 
   @Autowired
   private ElasticsearchTemplate elasticsearchTemplate;
