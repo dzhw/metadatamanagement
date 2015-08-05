@@ -74,7 +74,6 @@ public class VariableSearchController {
           supportedLocale.getLanguage()));
     }
 
-    System.out.println(pagedVariableResource.getContent().size());
     modelAndView.addObject("query", query);
     modelAndView.addObject("resource", pagedVariableResource);
     return modelAndView;
