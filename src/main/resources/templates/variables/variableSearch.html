@@ -44,7 +44,7 @@
 		<div class="row">
 			<div id="content" class="col-md-8 col-md-offset-2">
 				<div class="list-group">
-					<a th:if="${resource.page.content.size() gt 0}" href="#" class="list-group-item "
+					<a th:if="${resource.page.content.size() gt 0}" th:href="${variable.id.href}" class="list-group-item "
 						th:each="variable : ${resource.page}">
 						<h4 class="list-group-item-heading"
 							th:text="${variable.variableDocument.name}"></h4>
