@@ -21,6 +21,7 @@ import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.Variable
 import eu.dzhw.fdz.metadatamanagement.service.variablemanagement.VariableService;
 import eu.dzhw.fdz.metadatamanagement.web.variablemanagement.resources.VariableResource;
 import eu.dzhw.fdz.metadatamanagement.web.variablemanagement.resources.VariableResourceAssembler;
+import eu.dzhw.fdz.metadatamanagement.web.variablemanagement.resources.VariableSearchPageResource;
 
 /**
  * Controller for searching variables.
@@ -62,20 +63,20 @@ public class VariableSearchController {
    */
   @RequestMapping(method = RequestMethod.GET)
   public ModelAndView get(@RequestParam(required = false) String query, Pageable pageable) {
-
-    ModelAndView modelAndView = new ModelAndView("variables/variableSearch");
     Page<VariableDocument> variableDocument = variableService.search(query, pageable);
     PagedResources<VariableResource> pagedVariableResource =
         pagedResourcesAssembler.toResource(variableDocument, variableResourceAssembler);
 
+    VariableSearchPageResource resource = new VariableSearchPageResource(pagedVariableResource);
     for (Locale supportedLocale : I18nConfiguration.SUPPORTED_LANGUAGES) {
-      pagedVariableResource.add(controllerLinkBuilderFactory.linkTo(
-          methodOn(VariableSearchController.class, supportedLocale).get(query, pageable)).withRel(
-          supportedLocale.getLanguage()));
+      resource.add(controllerLinkBuilderFactory
+          .linkTo(methodOn(VariableSearchController.class, supportedLocale).get(query, pageable))
+          .withRel(supportedLocale.getLanguage()));
     }
 
+    ModelAndView modelAndView = new ModelAndView("variables/variableSearch");
     modelAndView.addObject("query", query);
-    modelAndView.addObject("resource", pagedVariableResource);
+    modelAndView.addObject("resource", resource);
     return modelAndView;
   }
 }

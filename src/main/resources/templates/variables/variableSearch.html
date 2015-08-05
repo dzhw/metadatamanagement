@@ -18,7 +18,7 @@
 							<div class="panel panel-primary">
 								<div class="panel-body">
 									<form id="searchVariables" action="#"
-										th:action="@{/}+${#locale.language}+'/variables/search'"
+										th:action="${resource.variablesLink.href}"
 										role="search">
 										<div class="input-group">
 											<label class="sr-only" for="search"
@@ -44,8 +44,8 @@
 		<div class="row">
 			<div id="content" class="col-md-8 col-md-offset-2">
 				<div class="list-group">
-					<a th:if="${resource.getContent().size() gt 0}" href="#" class="list-group-item "
-						th:each="variable : ${resource}">
+					<a th:if="${resource.page.content.size() gt 0}" href="#" class="list-group-item "
+						th:each="variable : ${resource.page}">
 						<h4 class="list-group-item-heading"
 							th:text="${variable.variableDocument.name}"></h4>
 						<p class="list-group-item-text"
@@ -55,7 +55,7 @@
 						<p class="list-group-item-text"
 							th:text="'Survey: '+${variable.variableDocument.variableSurveyDocument.title}"></p>
 					</a>
-					<a th:if="${resource.getContent().size() == 0}" href="#" class="list-group-item ">
+					<a th:if="${resource.page.content.size() == 0}" href="#" class="list-group-item ">
 						<h4 class="list-group-item-heading"
 							th:text="#{variables.noresults}">
 						</h4>
@@ -66,14 +66,14 @@
 				<nav>
 					<ul class="pagination">
 						<li th:class="page">
-						  <a th:if="${resource.getPreviousLink() != null}" th:href="${resource.getPreviousLink().getHref()}"
+						  <a th:if="${resource.page.previousLink != null}" th:href="${resource.page.previousLink.href}"
 							 aria-label="Previous">
 							 <span aria-hidden="true">&laquo;</span>
 						  </a>
 						</li>
 						<!-- <li th:class="page" th:each="page : ${pages}"><a th:href="@{}" th:text="${page.index}"></a></li> -->
 						<li th:class="page">
-						  <a th:if="${resource.getNextLink() != null}" th:href="${resource.getNextLink().getHref()}" aria-label="Next">
+						  <a th:if="${resource.page.nextLink != null}" th:href="${resource.page.nextLink.href}" aria-label="Next">
 						     <span aria-hidden="true">&raquo;</span>
 						  </a>
 						 </li>

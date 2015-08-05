@@ -8,8 +8,8 @@
   <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
 			<div class="container">
 				<div class="navbar-header">
-					<a class="navbar-brand visible-xs" th:href="@{/}" th:text="#{nav.title}">MetaDataManagement</a>
-					<a class="navbar-brand hidden-xs" th:href="@{/}" th:text="#{nav.brand(${@environment.getProperty('info.app.version')})}">Version</a>
+					<a class="navbar-brand visible-xs" th:href="${resource.homeLink.href}" th:text="#{nav.title}">MetaDataManagement</a>
+					<a class="navbar-brand hidden-xs" th:href="${resource.homeLink.href}" th:text="#{nav.brand(${@environment.getProperty('info.app.version')})}">Version</a>
 					<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse">
 						<span class="sr-only" th:text="#{nav.navtoggle}"></span>
 						<span class="icon-bar"></span>
@@ -20,7 +20,7 @@
 			 	<div class="collapse navbar-collapse" id="navbar-collapse">
 					<ul class="nav navbar-nav navbar-left">
 					    <li>
-						   <a th:href="@{/}+${#locale.language}+'/variables'" th:text="#{nav.variable}" class="active">Variables</a>
+						   <a th:href="${resource.variablesLink.href}" th:text="#{nav.variable}" class="active">Variables</a>
 						</li>
 					</ul>
 					<ul class="nav navbar-nav navbar-right">
@@ -32,11 +32,11 @@
 							</a>
 							<ul class="dropdown-menu" role="menu">
 							 	<li th:classappend="${#locale.language=='de'? 'active' : ''}">
-								   <a th:href="@{/de}"
+								   <a th:href="${resource.germanLink.href}"
 									th:text="#{nav.language.german}">German</a>
 								</li>
 								<li th:classappend="${#locale.language=='en'? 'active' : ''}">
-								   <a th:href="@{/en}"
+								   <a th:href="${resource.englishLink.href}"
 									  th:text="#{nav.language.english}">English</a>
 								</li>
 							</ul>

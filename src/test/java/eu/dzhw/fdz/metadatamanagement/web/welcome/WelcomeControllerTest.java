@@ -1,4 +1,4 @@
-package eu.dzhw.fdz.metadatamanagement.web;
+package eu.dzhw.fdz.metadatamanagement.web.welcome;
 
 import static org.hamcrest.Matchers.instanceOf;
 import static org.hamcrest.core.IsNot.not;
@@ -12,6 +12,9 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import org.junit.Test;
 import org.springframework.test.web.servlet.MvcResult;
+import org.springframework.web.servlet.ModelAndView;
+
+import eu.dzhw.fdz.metadatamanagement.web.AbstractWebTest;
 
 /**
  * Test which checks if the {@link WelcomeController} answers as expected
@@ -24,7 +27,7 @@ public class WelcomeControllerTest extends AbstractWebTest {
   public void testGermanWelcomePage() throws Exception {
     MvcResult mvcResult = this.mockMvc.perform(get("/de")).andExpect(status().isOk())
         .andExpect(request().asyncStarted())
-        .andExpect(request().asyncResult(instanceOf(String.class))).andReturn();
+        .andExpect(request().asyncResult(instanceOf(ModelAndView.class))).andReturn();
 
     this.mockMvc
         // wait for the async result
@@ -40,7 +43,7 @@ public class WelcomeControllerTest extends AbstractWebTest {
   public void testEnglishWelcomePage() throws Exception {
     MvcResult mvcResult = this.mockMvc.perform(get("/en")).andExpect(status().isOk())
         .andExpect(request().asyncStarted())
-        .andExpect(request().asyncResult(instanceOf(String.class))).andReturn();
+        .andExpect(request().asyncResult(instanceOf(ModelAndView.class))).andReturn();
 
     this.mockMvc
         // wait for the async result
