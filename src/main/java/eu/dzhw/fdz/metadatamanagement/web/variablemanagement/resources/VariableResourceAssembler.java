@@ -3,11 +3,14 @@ package eu.dzhw.fdz.metadatamanagement.web.variablemanagement.resources;
 import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
 import static org.springframework.hateoas.mvc.ControllerLinkBuilder.methodOn;
 
+import java.io.UnsupportedEncodingException;
+import java.nio.charset.StandardCharsets;
 import java.util.Locale;
 
 import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.hateoas.mvc.ResourceAssemblerSupport;
 import org.springframework.stereotype.Component;
+import org.springframework.web.util.UriUtils;
 
 import eu.dzhw.fdz.metadatamanagement.config.i18n.I18nConfiguration;
 import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.VariableDocument;
@@ -19,8 +22,8 @@ import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.Variable
  * @author Amine Limouri
  */
 @Component
-public class VariableResourceAssembler extends
-    ResourceAssemblerSupport<VariableDocument, VariableResource> {
+public class VariableResourceAssembler
+    extends ResourceAssemblerSupport<VariableDocument, VariableResource> {
 
   public VariableResourceAssembler() {
     super(VariableDetailsController.class, VariableResource.class);
@@ -28,13 +31,17 @@ public class VariableResourceAssembler extends
 
   @Override
   public VariableResource toResource(VariableDocument variableDocument) {
-    VariableResource resource =
-        createResourceWithId(variableDocument.getFdzId(), variableDocument, LocaleContextHolder
-            .getLocale().getLanguage());
+    VariableResource resource;
+    try {
+      resource = createResourceWithId(
+          UriUtils.encode(variableDocument.getFdzId(), StandardCharsets.UTF_8.name()),
+          variableDocument, LocaleContextHolder.getLocale().getLanguage());
+    } catch (UnsupportedEncodingException e) {
+      throw new RuntimeException(e);
+    }
     for (Locale supportedLocale : I18nConfiguration.SUPPORTED_LANGUAGES) {
-      resource.add(linkTo(
-          methodOn(VariableDetailsController.class, supportedLocale).get(
-              variableDocument.getFdzId(), null)).withRel(supportedLocale.getLanguage()));
+      resource.add(linkTo(methodOn(VariableDetailsController.class, supportedLocale)
+          .get(variableDocument.getFdzId(), null)).withRel(supportedLocale.getLanguage()));
     }
     return resource;
   }
