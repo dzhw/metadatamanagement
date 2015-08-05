@@ -1,9 +1,5 @@
 package eu.dzhw.fdz.metadatamanagement.web.variablemanagement;
 
-import static org.springframework.hateoas.mvc.ControllerLinkBuilder.methodOn;
-
-import java.util.Locale;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -16,7 +12,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
-import eu.dzhw.fdz.metadatamanagement.config.i18n.I18nConfiguration;
 import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.VariableDocument;
 import eu.dzhw.fdz.metadatamanagement.service.variablemanagement.VariableService;
 import eu.dzhw.fdz.metadatamanagement.web.variablemanagement.resources.VariableResource;
@@ -68,12 +63,8 @@ public class VariableSearchController {
         pagedResourcesAssembler.toResource(variableDocument, variableResourceAssembler);
 
     VariableSearchPageResource resource = new VariableSearchPageResource(pagedVariableResource);
-    for (Locale supportedLocale : I18nConfiguration.SUPPORTED_LANGUAGES) {
-      resource.add(controllerLinkBuilderFactory
-          .linkTo(methodOn(VariableSearchController.class, supportedLocale).get(query, pageable))
-          .withRel(supportedLocale.getLanguage()));
-    }
-
+    resource.addInternationalizationLinks(VariableSearchController.class,
+        controllerLinkBuilderFactory, new Object[] {query, pageable});
     ModelAndView modelAndView = new ModelAndView("variables/variableSearch");
     modelAndView.addObject("query", query);
     modelAndView.addObject("resource", resource);

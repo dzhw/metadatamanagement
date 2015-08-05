@@ -1,7 +1,5 @@
 package eu.dzhw.fdz.metadatamanagement.web.welcome;
 
-import static org.springframework.hateoas.mvc.ControllerLinkBuilder.methodOn;
-
 import java.util.Locale;
 import java.util.concurrent.Callable;
 
@@ -12,9 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
-import eu.dzhw.fdz.metadatamanagement.config.i18n.I18nConfiguration;
 import eu.dzhw.fdz.metadatamanagement.config.i18n.PathLocaleResolver;
-import eu.dzhw.fdz.metadatamanagement.web.common.NavigatablePageResource;
 
 /**
  * Simple Controller which returns a welcome page for all requests which contain a supported
@@ -40,12 +36,8 @@ public class WelcomeController {
   @RequestMapping(path = "/{language}", method = RequestMethod.GET)
   public Callable<ModelAndView> get() {
     return () -> {
-      NavigatablePageResource resource = new NavigatablePageResource();
-      for (Locale supportedLocale : I18nConfiguration.SUPPORTED_LANGUAGES) {
-        resource.add(controllerLinkBuilderFactory
-            .linkTo(methodOn(WelcomeController.class, supportedLocale).get())
-            .withRel(supportedLocale.getLanguage()));
-      }
+      WelcomePageResource resource = new WelcomePageResource();
+      resource.addInternationalizationLinks(WelcomeController.class, controllerLinkBuilderFactory);
 
       ModelAndView result = new ModelAndView("welcome");
       result.addObject("resource", resource);
