@@ -1,7 +1,7 @@
 <!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-spring4-4.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:th="http://www.thymeleaf.org"
-	th:lang="${T(org.springframework.context.i18n.LocaleContextHolder).getLocale().getLanguage()}">
+	th:lang="${#locale.language}">
 <head th:include="common/head::head">
 </head>
 <body>
@@ -42,21 +42,30 @@
 				</div>
 			</div>
 		</div>
-		<div th:if="${size != null and size != 0}" class="col-md-12">
+		<!-- <div th:if="${size != null and size != 0}" class="col-md-12"> -->
 		<div class="row">
 			<div id="content" class="col-md-8 col-md-offset-2">
 				<div class="list-group">
-					<a href="#" class="list-group-item " th:each="variable : ${variables}">
+					<a href="#" class="list-group-item " th:each="variable : ${resource}">
 						<h4 class="list-group-item-heading" th:text="${variable.variableDocument.name}" ></h4>
 						<p class="list-group-item-text" th:text="'ID: '+${variable.variableDocument.fdzId}" ></p>
 						<p class="list-group-item-text" th:text="'Label: '+${variable.variableDocument.label}" ></p>
 						<p class="list-group-item-text" th:text="'Survey: '+${variable.variableDocument.variableSurveyDocument.title}" ></p>
 					</a>
 				</div>
-			</div>
+		<!-- 	</div> -->
+		<!--    <div class="col-md-8 col-md-offset-2" >
+					<nav>
+						<ul class="pagination" >
+						<li th:class="page"><a th:href="${resource.getPreviousLink().getHref()}" aria-label="Previous"><span aria-hidden="true">&laquo;</span></a></li> -->
+						<!-- <li th:class="page" th:each="page : ${pages}"><a th:href="@{}" th:text="${page.index}"></a></li> -->
+					 <!--    <li th:class="page"><a th:href="${resource.getNextLink().getHref()}" aria-label="Next"><span aria-hidden="true">&raquo;</span></a></li>
+						</ul>
+					</nav>
+				</div> -->
 		</div>
 		</div>
-		<div th:if="${size == 0}" class="col-md-12">
+	<!-- 	<div th:if="${size == 0}" class="col-md-12">
 		<div class="row">
 				<div class="col-md-8 col-md-offset-2">
 					<h4>
@@ -65,7 +74,7 @@
 					</h4>
 				</div>
 			</div>
-		</div>
+		</div> -->
 	</div>
 	<div th:include="common/js_libraries::js"></div>
 </body>

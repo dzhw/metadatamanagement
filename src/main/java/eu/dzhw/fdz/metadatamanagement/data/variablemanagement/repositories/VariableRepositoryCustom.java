@@ -25,4 +25,5 @@ public interface VariableRepositoryCustom {
    */
   Page<VariableDocument> searchAllFields(String query, Pageable pageable);
 
+
 }

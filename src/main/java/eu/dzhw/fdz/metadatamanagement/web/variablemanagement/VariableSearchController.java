@@ -1,17 +1,22 @@
 package eu.dzhw.fdz.metadatamanagement.web.variablemanagement;
 
-import java.util.concurrent.Callable;
+import static org.springframework.hateoas.mvc.ControllerLinkBuilder.methodOn;
+
+import java.util.Locale;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PagedResourcesAssembler;
 import org.springframework.hateoas.PagedResources;
+import org.springframework.hateoas.mvc.ControllerLinkBuilderFactory;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.ModelAndView;
 
+import eu.dzhw.fdz.metadatamanagement.config.i18n.I18nConfiguration;
 import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.VariableDocument;
 import eu.dzhw.fdz.metadatamanagement.service.variablemanagement.VariableService;
 import eu.dzhw.fdz.metadatamanagement.web.variablemanagement.resources.VariableResource;
@@ -23,29 +28,31 @@ import eu.dzhw.fdz.metadatamanagement.web.variablemanagement.resources.VariableR
  * @author Amine Limouri
  */
 @Controller
-@RequestMapping(value = "/{language}/variables")
+@RequestMapping(value = "/{language}/variables/search")
 public class VariableSearchController {
 
-  @Autowired
-  private VariableResourceAssembler variableResourceAssembler;
-
-  @Autowired
-  private PagedResourcesAssembler<VariableDocument> assembler;
-
-  @Autowired
   private VariableService variableService;
-
+  private ControllerLinkBuilderFactory controllerLinkBuilderFactory;
+  private VariableResourceAssembler variableResourceAssembler;
+  private PagedResourcesAssembler<VariableDocument> pagedResourcesAssembler;
 
   /**
-   * Show variable search page.
+   * Autowire needed objects.
    * 
-   * @return variableSearch.html
+   * @param variableService his is a case with description
+   * @param controllerLinkBuilderFactory his is a case with description
+   * @param variableResourceAssembler his is a case with description
+   * @param pagedResourcesAssembler his is a case with description
    */
-  @RequestMapping(method = RequestMethod.GET)
-  public final Callable<String> showVariableSearch() {
-    return () -> {
-      return "variables/variableSearch";
-    };
+  @Autowired
+  public VariableSearchController(VariableService variableService,
+      ControllerLinkBuilderFactory controllerLinkBuilderFactory,
+      VariableResourceAssembler variableResourceAssembler,
+      PagedResourcesAssembler<VariableDocument> pagedResourcesAssembler) {
+    this.variableService = variableService;
+    this.controllerLinkBuilderFactory = controllerLinkBuilderFactory;
+    this.variableResourceAssembler = variableResourceAssembler;
+    this.pagedResourcesAssembler = pagedResourcesAssembler;
   }
 
   /**
@@ -53,18 +60,23 @@ public class VariableSearchController {
    * 
    * @return variableSearch.html
    */
-  @RequestMapping(value = "/search", method = RequestMethod.GET)
-  public Callable<String> search(String query, Pageable pageable, Model model) {
-    return () -> {
-      Page<VariableDocument> variableDocument = variableService.search(query, pageable);
-      PagedResources<VariableResource> pagedVariableResource =
-          assembler.toResource(variableDocument, variableResourceAssembler);
+  @RequestMapping(method = RequestMethod.GET)
+  public ModelAndView get(@RequestParam(required = false) String query, Pageable pageable) {
 
-      System.err.println(pagedVariableResource.getContent().size());
-      model.addAttribute("size", pagedVariableResource.getContent().size());
-      model.addAttribute("query", query);
-      model.addAttribute("variables", pagedVariableResource);
-      return "variables/variableSearch";
-    };
+    ModelAndView modelAndView = new ModelAndView("variables/variableSearch");
+    Page<VariableDocument> variableDocument = variableService.search(query, pageable);
+    PagedResources<VariableResource> pagedVariableResource =
+        pagedResourcesAssembler.toResource(variableDocument, variableResourceAssembler);
+
+    for (Locale supportedLocale : I18nConfiguration.SUPPORTED_LANGUAGES) {
+      pagedVariableResource.add(controllerLinkBuilderFactory.linkTo(
+          methodOn(VariableSearchController.class, supportedLocale).get(query, pageable)).withRel(
+          supportedLocale.getLanguage()));
+    }
+
+    System.out.println(pagedVariableResource.getContent().size());
+    modelAndView.addObject("query", query);
+    modelAndView.addObject("resource", pagedVariableResource);
+    return modelAndView;
   }
 }

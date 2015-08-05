@@ -14,7 +14,7 @@ public class VariableResource extends ResourceSupport {
   private VariableDocument variableDocument;
 
   public VariableResource(VariableDocument variableDocument) {
-    this.setVariableDocument(variableDocument);
+    this.variableDocument = variableDocument;
   }
 
   public VariableDocument getVariableDocument() {
