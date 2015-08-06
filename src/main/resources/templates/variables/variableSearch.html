@@ -7,78 +7,89 @@
 	<header>
 		<div th:include="common/navbar::navbar"></div>
 		<div
-			th:include="common/jumbotron::jumbotron(title=#{jumbo.variables.search.intro})"></div>
+			th:include="common/jumbotron::jumbotron(title=#{jumbo.variables.search.intro},subtitle='')"></div>
 	</header>
 	<div class="container">
-		<div class="row">
-			<div class="searchBox">
-				<div class="col-md-12">
-					<div class="row">
-						<div class="col-md-8 col-md-offset-2">
-							<div class="panel panel-primary">
-								<div class="panel-body">
-									<form id="searchVariables" action="#"
-										th:action="${resource.variablesLink.href}"
-										role="search">
-										<div class="input-group">
-											<label class="sr-only" for="search"
-												th:text="#{variables.searchlabel}">Search for
-												Variables</label> <input type="text" class="form-control" id="term"
-												name="query" th:value="${query}"
-												th:placeholder="#{variables.searchlabel}" /> <span
-												class="input-group-btn">
-												<button type="submit" class="btn btn-default">
-													<span class="glyphicon glyphicon-search" aria-hidden="true"></span>
-												</button>
-											</span>
-										</div>
-									</form>
-								</div>
+		<!-- SearchBox -->
+		<div class="row col-md-12">
+			<div class="col-md-8 col-md-offset-3 well">
+				<div class="panel panel-primary">
+					<div class="panel-body">
+						<form id="searchVariables" action="#"
+							th:action="${resource.variablesLink.href}" role="search">
+							<div class="input-group">
+								<label class="sr-only" for="search"
+									th:text="#{variables.searchlabel}">Search for Variables</label>
+								<input type="text" class="form-control" id="term" name="query"
+									th:value="${query}" th:placeholder="#{variables.searchlabel}" />
+								<span class="input-group-btn">
+									<button type="submit" class="btn btn-default">
+										<span class="glyphicon glyphicon-search" aria-hidden="true"></span>
+									</button>
+								</span>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- Results and Filter -->
+		<div class="row col-md-12">
+			<!-- Filter -->
+			<div class="col-md-3">
+				<div class="panel panel-primary">
+					<div class="panel-heading" data-toggle="collapse"
+						data-target="#collapsesearch1">
+						<a class="panel-title panel-toggle" href="#collapsesearch1"
+							data-toggle="collapse">Filter </a>
+					</div>
+					<div id="collapsesearch1" class="panel-collapse collapse fade in">
+						<div class="panel-body">
+							<div class="checkbox">
+								<label><input type="checkbox" value="">Option</input></label>
 							</div>
 						</div>
 					</div>
 				</div>
 			</div>
-		</div>
-		<!-- <div th:if="${size != null and size != 0}" class="col-md-12"> -->
-		<div class="row">
-			<div id="content" class="col-md-8 col-md-offset-2">
-				<div class="list-group">
-					<a th:if="${resource.page.content.size() gt 0}" th:href="${variable.id.href}" class="list-group-item "
-						th:each="variable : ${resource.page}">
-						<h4 class="list-group-item-heading"
-							th:text="${variable.variableDocument.name}"></h4>
-						<p class="list-group-item-text"
-							th:text="'ID: '+${variable.variableDocument.fdzId}"></p>
-						<p class="list-group-item-text"
-							th:text="'Label: '+${variable.variableDocument.label}"></p>
-						<p class="list-group-item-text"
-							th:text="'Survey: '+${variable.variableDocument.variableSurveyDocument.title}"></p>
-					</a>
-					<a th:if="${resource.page.content.size() == 0}" href="#" class="list-group-item ">
-						<h4 class="list-group-item-heading"
-							th:text="#{variables.noresults}">
-						</h4>
-					</a>
-				</div>
-			</div>
-			<div class="col-md-8 col-md-offset-2">
-				<nav>
-					<ul class="pagination">
-						<li th:class="page">
-						  <a th:if="${resource.page.previousLink != null}" th:href="${resource.page.previousLink.href}"
-							 aria-label="Previous">
-							 <span aria-hidden="true">&laquo;</span>
-						  </a>
+			<!-- result and page -->
+			<div class="col-md-8 well">
+				<div id="content">
+					<div class="list-group">
+						<a th:if="${resource.page.content.size() gt 0}"
+							th:href="${variable.id.href}" class="list-group-item "
+							th:each="variable : ${resource.page}">
+							<h4 class="list-group-item-heading"
+								th:text="${variable.variableDocument.name}"></h4>
+							<p class="list-group-item-text"
+								th:text="'ID: '+${variable.variableDocument.fdzId}"></p>
+							<p class="list-group-item-text"
+								th:text="'Label: '+${variable.variableDocument.label}"></p>
+							<p class="list-group-item-text"
+								th:text="'Survey: '+${variable.variableDocument.variableSurveyDocument.title}"></p>
+						</a> <a th:if="${resource.page.content.size() == 0}" href="#"
+							class="list-group-item ">
+							<h4 class="list-group-item-heading"
+								th:text="#{variables.noresults}"></h4>
+						</a>
+					</div>
+					<ul class="pager">
+						<li class="previous" th:if="${resource.page.previousLink != null}">
+							<a th:href="${resource.page.previousLink.href}">&larr; <span
+								th:text="#{variables.previous}"></span></a>
 						</li>
-						<!-- <li th:class="page" th:each="page : ${pages}"><a th:href="@{}" th:text="${page.index}"></a></li> -->
-						<li th:class="page">
-						  <a th:if="${resource.page.nextLink != null}" th:href="${resource.page.nextLink.href}" aria-label="Next">
-						     <span aria-hidden="true">&raquo;</span>
-						  </a>
-						 </li>
+						<li class="previous disabled"
+							th:if="${resource.page.previousLink == null}"><a>&larr;
+								<span th:text="#{variables.previous}"></span>
+						</a></li>
+						<li class="next" th:if="${resource.page.nextLink != null}"><a
+							th:href="${resource.page.nextLink.href}"><span
+								th:text="#{variables.next}"></span> &rarr;</a></li>
+						<li class="next disabled"
+							th:if="${resource.page.nextLink == null}"><a><span
+								th:text="#{variables.next}"></span> &rarr;</a></li>
 					</ul>
-				</nav>
+				</div>
 			</div>
 		</div>
 	</div>

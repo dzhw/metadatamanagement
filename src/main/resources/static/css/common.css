@@ -2,3 +2,27 @@
 body {
 	padding-top: 50px;
 }
+
+/* hover effect for filter*/
+.panel-heading {
+	  cursor:pointer;	  
+}
+.panel-heading:hover {
+	-webkit-animation-name: blinking;
+    -webkit-animation-duration: 1s;
+    animation-name: blinking;
+    animation-duration: 1s;
+    animation-timing-function:ease-in-out;
+}
+
+@-webkit-keyframes blinking {
+    0% { opacity: 1.0; }
+    50% { opacity: 0.4; }
+    100% {opacity: 1.0; }
+}
+
+@keyframes blinking {
+    0% { opacity: 1.0; }
+    50% { opacity: 0.4; }
+    100% {opacity: 1.0; }
+}

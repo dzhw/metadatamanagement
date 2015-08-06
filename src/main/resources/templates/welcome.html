@@ -8,9 +8,9 @@
 	<header>
 		<div th:include="common/navbar::navbar"></div>
 		<div
-			th:include="common/jumbotron::jumbotron(title=#{jumbo.welcome.intro})"></div>
+			th:include="common/jumbotron::jumbotron(title=#{common.jumbo.title},subtitle=#{jumbo.welcome.intro})"></div>
 	</header>
-	<div class="container">Hello world 2</div>
+	<div class="container"></div>
 	<div th:include="common/js_libraries::js"></div>
 </body>
 </html>
