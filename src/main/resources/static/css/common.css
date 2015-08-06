@@ -3,6 +3,31 @@ body {
 	padding-top: 50px;
 }
 
+/* chevron Up and Down and link style */
+.panel-heading .panel-toggle:after {
+	/* symbol for "opening" panels */
+	font-family: 'Glyphicons Halflings';
+	/* essential for enabling glyphicon */
+	content: "\e113"; /* adjust as needed, taken from bootstrap.css */
+	float: right; /* adjust as needed */
+	color: white; /* adjust as needed */
+}
+
+.panel-heading .panel-toggle.collapsed:after {
+	/* symbol for "collapsed" panels */
+	content: "\e114"; /* adjust as needed, taken from bootstrap.css */
+}
+
+.panel-primary .panel-heading a:focus {
+	color: white;
+	outline-color: white;
+}
+
+.panel-primary .panel-heading a:hover {
+	color: white;
+}
+
+
 /* hover effect for filter*/
 .panel-heading {
 	  cursor:pointer;	  
