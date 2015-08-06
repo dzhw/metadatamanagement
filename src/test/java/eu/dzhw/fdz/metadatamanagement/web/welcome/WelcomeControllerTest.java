@@ -40,18 +40,22 @@ public class WelcomeControllerTest extends AbstractWebTest {
         .andExpect(content().string(not(containsString("${"))));
   }
 
-  /*
-   * @Test public void testEnglishWelcomePage() throws Exception { MvcResult mvcResult =
-   * this.mockMvc.perform(get("/en")).andExpect(status().isOk())
-   * .andExpect(request().asyncStarted())
-   * .andExpect(request().asyncResult(instanceOf(ModelAndView.class))).andReturn();
-   * 
-   * this.mockMvc // wait for the async result
-   * .perform(asyncDispatch(mvcResult)).andExpect(status().isOk()) // check that the german version
-   * is rendered .andExpect(content().string((containsString("Language")))) // ensure that all
-   * thymeleaf/spel tags are processed .andExpect(content().string(not(containsString("#{"))))
-   * .andExpect(content().string(not(containsString("${")))); }
-   */
+  @Test
+  public void testEnglishWelcomePage() throws Exception {
+    MvcResult mvcResult =
+        this.mockMvc.perform(get("/en")).andExpect(status().isOk())
+            .andExpect(request().asyncStarted())
+            .andExpect(request().asyncResult(instanceOf(ModelAndView.class))).andReturn();
+
+    this.mockMvc
+        // wait for the async result
+        .perform(asyncDispatch(mvcResult)).andExpect(status().isOk())
+        // check that the german version is rendered
+        .andExpect(content().string((containsString("Language"))))
+        // ensure that all thymeleaf/spel tags are processed
+        .andExpect(content().string(not(containsString("#{"))))
+        .andExpect(content().string(not(containsString("${"))));
+  }
 
   @Test
   public void testDefaultRedirectionToDefaultLanguage() throws Exception {
