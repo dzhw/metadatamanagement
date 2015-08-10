@@ -34,14 +34,14 @@ public class VariableResourceAssembler
     VariableResource resource;
     try {
       resource = createResourceWithId(
-          UriUtils.encode(variableDocument.getFdzId(), StandardCharsets.UTF_8.name()),
+          UriUtils.encode(variableDocument.getId(), StandardCharsets.UTF_8.name()),
           variableDocument, LocaleContextHolder.getLocale().getLanguage());
     } catch (UnsupportedEncodingException e) {
       throw new RuntimeException(e);
     }
     for (Locale supportedLocale : I18nConfiguration.SUPPORTED_LANGUAGES) {
       resource.add(linkTo(methodOn(VariableDetailsController.class, supportedLocale)
-          .get(variableDocument.getFdzId(), null)).withRel(supportedLocale.getLanguage()));
+          .get(variableDocument.getId(), null)).withRel(supportedLocale.getLanguage()));
     }
     return resource;
   }

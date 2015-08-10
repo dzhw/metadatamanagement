@@ -1,5 +1,10 @@
 package eu.dzhw.fdz.metadatamanagement.data.common.documents;
 
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
+
+import org.hibernate.validator.constraints.NotEmpty;
+import org.springframework.data.annotation.Id;
 import org.springframework.data.elasticsearch.annotations.Document;
 import org.springframework.data.elasticsearch.annotations.Setting;
 
@@ -21,5 +26,23 @@ public class AbstractDocument {
    * The basic index name.
    */
   public static final String METADATA_INDEX = "metadata";
+  
+  /**
+   * A fdzID as primary key for the identification of the variable of a survey.
+   */
+  @Id
+  @Size(max = 32)
+  @NotEmpty
+  @Pattern(regexp = "^[a-zA-Z_-]*")
+  private String id;
+  
+  /* GETTER / SETTER */
+  public String getId() {
+    return id;
+  }
+
+  public void setId(String id) {
+    this.id = id;
+  }
   
 }
