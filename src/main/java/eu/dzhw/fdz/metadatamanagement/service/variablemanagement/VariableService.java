@@ -20,9 +20,7 @@ public class VariableService {
   private final VariableRepository variableRepository;
 
   /**
-   * Show variable search page.
-   * 
-   * @return variableSearch.html
+   * A constructor.
    */
   @Autowired
   public VariableService(VariableRepository variablesRepository) {
@@ -30,29 +28,27 @@ public class VariableService {
   }
 
   /**
-   * Show variable search page.
+   * Obtain variables from data layer.
    * 
-   * @return variableSearch.html
+   * @param query the query for the search in name field.
+   * @param pageable a pageable object.
+   * 
+   * @return Page of VariableDocuments
    */
   public Page<VariableDocument> search(String query, Pageable pageable) {
     if (!StringUtils.isEmpty(query)) {
-      return variableRepository.searchAllFields(query, pageable);
+      return variableRepository.phrasePrefixQuery(query, pageable);
     }
-    return variableRepository.searchAllFields("name", pageable);
+    return variableRepository.matchAllQuery(pageable);
   }
 
   /**
-   * Show variable search page.
+   * Obtain variables from data layer.
    * 
-   * @return variableSearch.html
+   * @param id the id for the document.
+   * 
+   * @return VariableDocument
    */
-  public Page<VariableDocument> searchPhrasePrefix(String query, Pageable pageable) {
-    if (!StringUtils.isEmpty(query)) {
-      return variableRepository.searchPhrasePrefix(query, pageable);
-    }
-    return variableRepository.searchPhrasePrefix("name", pageable);
-  }
-
   public VariableDocument get(String id) {
     return variableRepository.findOne(id);
   }

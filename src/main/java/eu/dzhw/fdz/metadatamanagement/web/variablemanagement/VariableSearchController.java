@@ -62,7 +62,7 @@ public class VariableSearchController {
   public Callable<ModelAndView> get(@RequestParam(required = false) String query, Pageable pa) {
     return () -> {
       // Page<VariableDocument> variableDocument = variableService.search(query, pa);
-      Page<VariableDocument> variableDocument1 = variableService.searchPhrasePrefix(query, pa);
+      Page<VariableDocument> variableDocument1 = variableService.search(query, pa);
       PagedResources<VariableResource> pagedVariableResource =
           pagedResourcesAssembler.toResource(variableDocument1, variableResourceAssembler);
 

@@ -34,13 +34,12 @@ public class VariablesRepositoryTest extends MetaDataManagementApplicationSmokeT
   }
 
   @Test
-  public void testsearchPhrasePrefix() {
+  public void testPhrasePrefixQuery() {
 
     LocaleContextHolder.setLocale(Locale.GERMAN);
     Page<VariableDocument> result =
-        this.variablesRepository.searchPhrasePrefix("Name", new PageRequest(0, 20));
+        this.variablesRepository.phrasePrefixQuery("Name", new PageRequest(0, 20));
     assertThat(result.getNumberOfElements(), is(15));
-    // assertThat(result.getContent().get(0).getName(), is("Ein <em>Name</em>"));
   }
 
 }
