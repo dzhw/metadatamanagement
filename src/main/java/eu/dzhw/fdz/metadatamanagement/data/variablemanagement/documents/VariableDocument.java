@@ -6,7 +6,6 @@ import javax.validation.Valid;
 import javax.validation.constraints.Size;
 
 import org.hibernate.validator.constraints.NotEmpty;
-import org.springframework.data.annotation.Id;
 import org.springframework.data.elasticsearch.annotations.Document;
 import org.springframework.data.elasticsearch.annotations.Field;
 import org.springframework.data.elasticsearch.annotations.FieldIndex;
@@ -29,13 +28,7 @@ import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.enums.Sc
     type = "variables")
 public class VariableDocument extends AbstractDocument {
 
-  /**
-   * A fdzID as primary key for the identification of the variable of a survey.
-   */
-  @Id
-  @Size(max = 32)
-  @NotEmpty
-  private String fdzId;
+  
 
   /**
    * This is a nested reference to the survey.
@@ -84,7 +77,7 @@ public class VariableDocument extends AbstractDocument {
    */
   @Override
   public String toString() {
-    return "VariableDocument [getFdzId()=" + getFdzId() + ", getVariableSurveyDocument()="
+    return "VariableDocument [getFdzId()=" + getId() + ", getVariableSurveyDocument()="
         + getVariableSurveyDocument() + ", getName()=" + getName() + ", getLabel()=" + getLabel()
         + ", getDataType()=" + getDataType() + ", getScaleLevel()=" + getScaleLevel()
         + ", getAnswerOptions()=" + getAnswerOptions() + "]";
@@ -92,14 +85,7 @@ public class VariableDocument extends AbstractDocument {
 
 
   /* GETTER / SETTER */
-  public String getFdzId() {
-    return fdzId;
-  }
-
-  public void setFdzId(String fdzId) {
-    this.fdzId = fdzId;
-  }
-
+  
   public VariableSurveyDocument getVariableSurveyDocument() {
     return variableSurveyDocument;
   }

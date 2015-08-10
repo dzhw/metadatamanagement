@@ -38,7 +38,19 @@ public class VariableService {
     if (!StringUtils.isEmpty(query)) {
       return variableRepository.searchAllFields(query, pageable);
     }
-    return variableRepository.searchAllFields("ma", pageable);
+    return variableRepository.searchAllFields("name", pageable);
+  }
+
+  /**
+   * Show variable search page.
+   * 
+   * @return variableSearch.html
+   */
+  public Page<VariableDocument> searchPhrasePrefix(String query, Pageable pageable) {
+    if (!StringUtils.isEmpty(query)) {
+      return variableRepository.searchPhrasePrefix(query, pageable);
+    }
+    return variableRepository.searchPhrasePrefix("name", pageable);
   }
 
   public VariableDocument get(String id) {

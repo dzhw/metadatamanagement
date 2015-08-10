@@ -1,5 +1,7 @@
 package eu.dzhw.fdz.metadatamanagement.web.variablemanagement;
 
+import java.util.concurrent.Callable;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -57,17 +59,21 @@ public class VariableSearchController {
    * @return variableSearch.html
    */
   @RequestMapping(method = RequestMethod.GET)
-  public ModelAndView get(@RequestParam(required = false) String query, Pageable pageable) {
-    Page<VariableDocument> variableDocument = variableService.search(query, pageable);
-    PagedResources<VariableResource> pagedVariableResource =
-        pagedResourcesAssembler.toResource(variableDocument, variableResourceAssembler);
+  public Callable<ModelAndView> get(@RequestParam(required = false) String query, Pageable pa) {
+    return () -> {
+      // Page<VariableDocument> variableDocument = variableService.search(query, pa);
+      Page<VariableDocument> variableDocument1 = variableService.searchPhrasePrefix(query, pa);
+      PagedResources<VariableResource> pagedVariableResource =
+          pagedResourcesAssembler.toResource(variableDocument1, variableResourceAssembler);
 
-    VariableSearchPageResource resource = new VariableSearchPageResource(pagedVariableResource);
-    resource.addInternationalizationLinks(VariableSearchController.class,
-        controllerLinkBuilderFactory, new Object[] {query, pageable});
-    ModelAndView modelAndView = new ModelAndView("variables/variableSearch");
-    modelAndView.addObject("query", query);
-    modelAndView.addObject("resource", resource);
-    return modelAndView;
+      VariableSearchPageResource resource = new VariableSearchPageResource(pagedVariableResource);
+      resource.addInternationalizationLinks(VariableSearchController.class,
+          controllerLinkBuilderFactory, new Object[] {query, pa});
+      ModelAndView modelAndView = new ModelAndView("variables/variableSearch");
+      modelAndView.addObject("query", query);
+      modelAndView.addObject("resource", resource);
+
+      return modelAndView;
+    };
   }
 }
