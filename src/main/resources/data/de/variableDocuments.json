@@ -1,7 +1,7 @@
 [
     {
         "_class": "eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.VariableDocument",
-        "fdzId": "SurveyID01",
+        "id": "SurveyID01",
         "variableSurveyDocument": {
             "surveyId": "SSurveyID007",
             "title": "Ein Titel.",
@@ -32,7 +32,7 @@
     },
     {
         "_class": "eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.VariableDocument",
-        "fdzId": "Survey_ID_02",
+        "id": "Survey_ID_02",
         "variableSurveyDocument": {
             "surveyId": "SSurveyID007",
             "title": "Ein Titel.",
@@ -63,7 +63,7 @@
     },
     {
         "_class": "eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.VariableDocument",
-        "fdzId": "SurveyID-03",
+        "id": "SurveyID-03",
         "variableSurveyDocument": {
             "surveyId": "SSurveyID007",
             "title": "Ein Titel.",
@@ -94,7 +94,7 @@
     },
     {
         "_class": "eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.VariableDocument",
-        "fdzId": "SurveyÄD04",
+        "id": "SurveyID04",
         "variableSurveyDocument": {
             "surveyId": "SSurveyID007",
             "title": "Ein Titel.",
@@ -125,7 +125,7 @@
     },
     {
         "_class": "eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.VariableDocument",
-        "fdzId": "SurväyID 05",
+        "id": "SurveyID05",
         "variableSurveyDocument": {
             "surveyId": "SurveyID002",
             "title": "Ein Titel.",
@@ -156,7 +156,7 @@
     },
     {
         "_class": "eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.VariableDocument",
-        "fdzId": "Survey! ID 06",
+        "id": "SurveyID06",
         "variableSurveyDocument": {
             "surveyId": "SurveyID007",
             "title": "Ein Titel.",
@@ -187,7 +187,7 @@
     },
     {
         "_class": "eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.VariableDocument",
-        "fdzId": "?urvey #07",
+        "id": "Survey07",
         "variableSurveyDocument": {
             "surveyId": "SurveyID007",
             "title": "Ein Titel.",
@@ -218,7 +218,7 @@
     },
     {
         "_class": "eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.VariableDocument",
-        "fdzId": "~''rv@y Ö8",
+        "id": "Survey8",
         "variableSurveyDocument": {
             "surveyId": "SurveyID007",
             "title": "Ein Titel.",
@@ -249,7 +249,7 @@
     },
     {
         "_class": "eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.VariableDocument",
-        "fdzId": "Sür&ß /D 09",
+        "id": "SrD09",
         "variableSurveyDocument": {
             "surveyId": "SurveyID",
             "title": "Ein Titel.",
@@ -280,7 +280,7 @@
     },
     {
         "_class": "eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.VariableDocument",
-        "fdzId": "S%rv#y () 10",
+        "id": "Srvy10",
         "variableSurveyDocument": {
             "surveyId": "SurveyID007",
             "title": "Ein Titel.",
@@ -311,7 +311,7 @@
     },
     {
         "_class": "eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.VariableDocument",
-        "fdzId": "*+rv3y {11}",
+        "id": "rv3y11",
         "variableSurveyDocument": {
             "surveyId": "SurveyID007",
             "title": "Ein Titel.",
@@ -342,7 +342,7 @@
     },
     {
         "_class": "eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.VariableDocument",
-        "fdzId": "$ur^y ' -ID- 12",
+        "id": "ury-ID-12",
         "variableSurveyDocument": {
             "surveyId": "SurveyID007",
             "title": "Ein Titel.",
@@ -373,7 +373,7 @@
     },
     {
         "_class": "eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.VariableDocument",
-        "fdzId": "S<>rv=y Öá ID 13",
+        "id": "SrvyID13",
         "variableSurveyDocument": {
             "surveyId": "Survey ID 13",
             "title": "Ein Titel.",
@@ -404,7 +404,7 @@
     },
     {
         "_class": "eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.VariableDocument",
-        "fdzId": ".S,;ve: ID- _14_",
+        "id": "SveID-_14_",
         "variableSurveyDocument": {
             "surveyId": "SurveyID007",
             "title": "Ein Titel.",
@@ -435,7 +435,7 @@
     },
     {
         "_class": "eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.VariableDocument",
-        "fdzId": "ID 15",
+        "id": "ID15",
         "variableSurveyDocument": {
             "surveyId": "SurveyID007",
             "title": "Ein Titel.",

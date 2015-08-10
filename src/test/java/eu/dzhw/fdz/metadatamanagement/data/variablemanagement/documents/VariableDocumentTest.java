@@ -101,11 +101,11 @@ public class VariableDocumentTest {
   }
   
   @Test
-  public void testValidID() {
+  public void testValidIDWithSigns() {
 
     // Assert
     VariableDocument variableDocument = new VariableDocument();
-    variableDocument.setId("ThisIDisokay");
+    variableDocument.setId("This-ID_is-okay");
     variableDocument.setName("This name is okay.");
 
     // Act

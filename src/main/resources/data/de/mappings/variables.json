@@ -16,7 +16,7 @@
         "type": "string",
         "index": "not_analyzed"
       },
-      "fdzId": {
+      "id": {
         "type": "string"
       },
       "label": {
