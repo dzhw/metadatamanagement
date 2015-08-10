@@ -360,7 +360,7 @@
       <plugin>
         <groupId>com.spotify</groupId>
         <artifactId>docker-maven-plugin</artifactId>
-        <version>0.2.12</version>
+        <version>0.3.1</version>
         <configuration>
           <imageName>${project.artifactId}:${project.version}</imageName>
           <dockerDirectory>${project.build.directory}/docker</dockerDirectory>
