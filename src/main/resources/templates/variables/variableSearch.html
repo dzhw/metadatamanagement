@@ -60,8 +60,8 @@
 					</div>
 					<!-- result and page -->
 					<div class="col-md-9">
-						<div id="content">
-							<div class="list-group well">
+						<div class="well">
+							<div class="list-group">
 								<a th:if="${resource.page.content.size() gt 0}"
 									th:href="${variable.id.href}" class="list-group-item "
 									th:each="variable : ${resource.page}">
@@ -75,31 +75,33 @@
 										th:text="'Survey: '+${variable.variableDocument.variableSurveyDocument.title}"></p>
 								</a>
 								<p th:if="${resource.page.content.size() == 0}">
-								<h4 th:if="${resource.page.content.size() == 0}"
-									class="list-group-item-heading"
+								<h4 class="list-group-item-heading"
 									th:text="#{variables.search.noresults}+${query}"></h4>
 								</p>
 							</div>
-							<ul class="pager">
-								<li class="previous"
-									th:if="${resource.page.previousLink != null}"><a
-									th:href="${resource.page.previousLink.href}">&larr; <span
-										th:text="#{variables.search.previous}"></span></a></li>
-								<li class="previous disabled"
-									th:if="${resource.page.previousLink == null}"><a>&larr;
-										<span th:text="#{variables.search.previous}"></span>
-								</a></li>
+							<div
+								th:if="${resource.page.previousLink != null or resource.page.nextLink != null}">
+								<ul class="pager">
+									<li class="previous"
+										th:if="${resource.page.previousLink != null}"><a
+										th:href="${resource.page.previousLink.href}">&larr; <span
+											th:text="#{variables.search.previous}"></span></a></li>
+									<li class="previous disabled"
+										th:if="${resource.page.previousLink == null}"><a>&larr;
+											<span th:text="#{variables.search.previous}"></span>
+									</a></li>
 
-								<li th:if="${resource.page.previousLink != null or resource.page.nextLink != null}"><a> <span
-										th:text="#{common.page}+(${resource.page.metadata.number}+1)+' '+#{common.of}+${resource.page.metadata.totalPages}"></span>
-								</a></li>
-								<li class="next" th:if="${resource.page.nextLink != null}"><a
-									th:href="${resource.page.nextLink.href}"><span
-										th:text="#{variables.search.next}"></span> &rarr;</a></li>
-								<li class="next disabled"
-									th:if="${resource.page.nextLink == null}"><a><span
-										th:text="#{variables.search.next}"></span> &rarr;</a></li>
-							</ul>
+									<li><a> <span
+											th:text="#{common.page}+(${resource.page.metadata.number}+1)+' '+#{common.of}+${resource.page.metadata.totalPages}"></span>
+									</a></li>
+									<li class="next" th:if="${resource.page.nextLink != null}"><a
+										th:href="${resource.page.nextLink.href}"><span
+											th:text="#{variables.search.next}"></span> &rarr;</a></li>
+									<li class="next disabled"
+										th:if="${resource.page.nextLink == null}"><a><span
+											th:text="#{variables.search.next}"></span> &rarr;</a></li>
+								</ul>
+							</div>
 						</div>
 					</div>
 				</div>
