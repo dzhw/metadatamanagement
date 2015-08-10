@@ -1,4 +1,4 @@
-package eu.dzhw.fdz.metadatamanagement.web.variablemanagement.resources;
+package eu.dzhw.fdz.metadatamanagement.web.variablemanagement.details;
 
 import org.springframework.hateoas.ResourceSupport;
 
@@ -20,9 +20,4 @@ public class VariableResource extends ResourceSupport {
   public VariableDocument getVariableDocument() {
     return variableDocument;
   }
-
-  public void setVariableDocument(VariableDocument variableDocument) {
-    this.variableDocument = variableDocument;
-  }
-
 }

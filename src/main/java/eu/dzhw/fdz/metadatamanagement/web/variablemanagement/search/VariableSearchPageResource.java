@@ -1,4 +1,4 @@
-package eu.dzhw.fdz.metadatamanagement.web.variablemanagement.resources;
+package eu.dzhw.fdz.metadatamanagement.web.variablemanagement.search;
 
 import static org.springframework.hateoas.mvc.ControllerLinkBuilder.methodOn;
 
@@ -10,7 +10,7 @@ import org.springframework.hateoas.mvc.ControllerLinkBuilderFactory;
 
 import eu.dzhw.fdz.metadatamanagement.config.i18n.I18nConfiguration;
 import eu.dzhw.fdz.metadatamanagement.web.common.NavigatablePageResource;
-import eu.dzhw.fdz.metadatamanagement.web.variablemanagement.VariableSearchController;
+import eu.dzhw.fdz.metadatamanagement.web.variablemanagement.details.VariableResource;
 
 /**
  * Resource for the {@link VariableSearchController}.

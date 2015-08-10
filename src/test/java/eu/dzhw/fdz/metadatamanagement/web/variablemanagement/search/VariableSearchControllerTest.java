@@ -1,4 +1,4 @@
-package eu.dzhw.fdz.metadatamanagement.web.variablemanagement;
+package eu.dzhw.fdz.metadatamanagement.web.variablemanagement.search;
 
 import static org.hamcrest.Matchers.instanceOf;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.asyncDispatch;
@@ -12,7 +12,7 @@ import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.web.servlet.ModelAndView;
 
 import eu.dzhw.fdz.metadatamanagement.web.AbstractWebTest;
-import eu.dzhw.fdz.metadatamanagement.web.variablemanagement.resources.VariableSearchPageResource;
+import eu.dzhw.fdz.metadatamanagement.web.variablemanagement.search.VariableSearchPageResource;
 
 
 public class VariableSearchControllerTest extends AbstractWebTest {

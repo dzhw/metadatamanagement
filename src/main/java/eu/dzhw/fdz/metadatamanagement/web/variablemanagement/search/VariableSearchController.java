@@ -1,4 +1,4 @@
-package eu.dzhw.fdz.metadatamanagement.web.variablemanagement;
+package eu.dzhw.fdz.metadatamanagement.web.variablemanagement.search;
 
 import java.util.concurrent.Callable;
 
@@ -16,9 +16,8 @@ import org.springframework.web.servlet.ModelAndView;
 
 import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.VariableDocument;
 import eu.dzhw.fdz.metadatamanagement.service.variablemanagement.VariableService;
-import eu.dzhw.fdz.metadatamanagement.web.variablemanagement.resources.VariableResource;
-import eu.dzhw.fdz.metadatamanagement.web.variablemanagement.resources.VariableResourceAssembler;
-import eu.dzhw.fdz.metadatamanagement.web.variablemanagement.resources.VariableSearchPageResource;
+import eu.dzhw.fdz.metadatamanagement.web.variablemanagement.details.VariableResource;
+import eu.dzhw.fdz.metadatamanagement.web.variablemanagement.details.VariableResourceAssembler;
 
 /**
  * Controller for searching variables.

@@ -10,7 +10,7 @@ import org.springframework.hateoas.Link;
 import org.springframework.hateoas.ResourceSupport;
 import org.springframework.hateoas.mvc.ControllerLinkBuilderFactory;
 
-import eu.dzhw.fdz.metadatamanagement.web.variablemanagement.VariableSearchController;
+import eu.dzhw.fdz.metadatamanagement.web.variablemanagement.search.VariableSearchController;
 import eu.dzhw.fdz.metadatamanagement.web.welcome.WelcomeController;
 
 /**
