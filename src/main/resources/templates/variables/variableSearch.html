@@ -90,11 +90,9 @@
 										<span th:text="#{variables.search.previous}"></span>
 								</a></li>
 
-								<li><a> <span
-										th:text="${resource.page.metadata.number}+1"></span>
+								<li th:if="${resource.page.previousLink != null or resource.page.nextLink != null}"><a> <span
+										th:text="#{common.page}+(${resource.page.metadata.number}+1)+' '+#{common.of}+${resource.page.metadata.totalPages}"></span>
 								</a></li>
-
-
 								<li class="next" th:if="${resource.page.nextLink != null}"><a
 									th:href="${resource.page.nextLink.href}"><span
 										th:text="#{variables.search.next}"></span> &rarr;</a></li>
