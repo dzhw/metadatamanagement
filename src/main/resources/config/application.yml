@@ -25,7 +25,8 @@ spring:
       write-dates-as-timestamps: false
   mvc:
     async:
-      request-timeout: 10
+      #use ten seconds as request timeout
+      request-timeout: 10000
       
 #enable detailed health info without authentication
 endpoints:
