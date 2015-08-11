@@ -4,7 +4,7 @@ body {
 }
 
 /* chevron Up and Down and link style */
-.panel-heading .panel-toggle:after {
+.custom-panel-heading .panel-toggle:after {
 	/* symbol for "opening" panels */
 	font-family: 'Glyphicons Halflings';
 	/* essential for enabling glyphicon */
@@ -13,26 +13,26 @@ body {
 	color: white; /* adjust as needed */
 }
 
-.panel-heading .panel-toggle.collapsed:after {
+.custom-panel-heading .panel-toggle.collapsed:after {
 	/* symbol for "collapsed" panels */
 	content: "\e114"; /* adjust as needed, taken from bootstrap.css */
 }
 
-.panel-primary .panel-heading a:focus {
+.panel-primary .custom-panel-heading a:focus {
 	color: white;
 	outline-color: white;
 }
 
-.panel-primary .panel-heading a:hover {
+.panel-primary .custom-panel-heading a:hover {
 	color: white;
 }
 
 
 /* hover effect for filter*/
-.panel-heading {
+.custom-panel-heading {
 	  cursor:pointer;	  
 }
-.panel-heading:hover {
+.custom-panel-heading:hover {
 	-webkit-animation-name: blinking;
     -webkit-animation-duration: 1s;
     animation-name: blinking;
