@@ -32,9 +32,9 @@ public class VariableDocument extends AbstractDocument {
   /**
    * This is a nested reference to the survey.
    */
-  @Field(type = FieldType.Object)
+  @Field(type = FieldType.Nested)
   @Valid
-  private VariableSurveyDocument variableSurveyDocument;
+  private VariableSurvey variableSurvey;
 
   /**
    * The name of the variable.
@@ -65,7 +65,7 @@ public class VariableDocument extends AbstractDocument {
   /**
    * The value (answer options) with depending labels are represent in this nested field.
    */
-  @Field(type = FieldType.Object)
+  @Field(type = FieldType.Nested)
   @Valid
   private List<AnswerOption> answerOptions;
 
@@ -85,12 +85,12 @@ public class VariableDocument extends AbstractDocument {
 
   /* GETTER / SETTER */
 
-  public VariableSurveyDocument getVariableSurveyDocument() {
-    return variableSurveyDocument;
+  public VariableSurvey getVariableSurveyDocument() {
+    return variableSurvey;
   }
 
-  public void setVariableSurveyDocument(VariableSurveyDocument variableSurveyDocument) {
-    this.variableSurveyDocument = variableSurveyDocument;
+  public void setVariableSurveyDocument(VariableSurvey variableSurvey) {
+    this.variableSurvey = variableSurvey;
   }
 
   public String getName() {

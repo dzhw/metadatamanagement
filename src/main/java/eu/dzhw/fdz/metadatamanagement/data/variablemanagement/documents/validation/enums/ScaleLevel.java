@@ -12,9 +12,9 @@ import org.springframework.context.i18n.LocaleContextHolder;
  */
 public enum ScaleLevel {
   
-  NOMINAL("Nominal", "Nominal"), 
-  ORDINAL("Ordinal", "Ordinal"), 
-  METRIC ("Metrisch", "Metric");
+  NOMINAL("nominal", "nominal"), 
+  ORDINAL("ordinal", "ordinal"), 
+  METRIC ("metrisch", "metric");
   
   /**
    * This fields holds the accepted German translation.

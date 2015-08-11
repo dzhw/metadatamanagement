@@ -367,8 +367,8 @@ public class VariableDocumentTest{
     VariableDocument variableDocument = new VariableDocument();
     variableDocument.setId("ThisIDisOkay");
     variableDocument.setName("ThisNameIsOkay.");
-    VariableSurveyDocument variableSurveyDocument = new VariableSurveyDocument();
-    variableDocument.setVariableSurveyDocument(variableSurveyDocument);
+    VariableSurvey variableSurvey = new VariableSurvey();
+    variableDocument.setVariableSurveyDocument(variableSurvey);
 
     // Act
     Set<ConstraintViolation<VariableDocument>> variableVialations =
@@ -393,8 +393,8 @@ public class VariableDocumentTest{
     VariableDocument variableDocument = new VariableDocument();
     variableDocument.setId("ThisIDisOkay");
     variableDocument.setName("ThisNameIsOkay.");
-    VariableSurveyDocument variableSurveyDocument = new VariableSurveyDocument();
-    variableDocument.setVariableSurveyDocument(variableSurveyDocument);
+    VariableSurvey variableSurvey = new VariableSurvey();
+    variableDocument.setVariableSurveyDocument(variableSurvey);
     variableDocument.getVariableSurveyDocument().setSurveyId("AliasIsOkay.");
     variableDocument.getVariableSurveyDocument().setTitle("TitleIsOkay.");
     variableDocument.getVariableSurveyDocument()
@@ -424,8 +424,8 @@ public class VariableDocumentTest{
     VariableDocument variableDocument = new VariableDocument();
     variableDocument.setId("ThisIDisOkay");
     variableDocument.setName("ThisNameIsOkay.");
-    VariableSurveyDocument variableSurveyDocument = new VariableSurveyDocument();
-    variableDocument.setVariableSurveyDocument(variableSurveyDocument);
+    VariableSurvey variableSurvey = new VariableSurvey();
+    variableDocument.setVariableSurveyDocument(variableSurvey);
     variableDocument.getVariableSurveyDocument()
         .setSurveyId("SurveyIdIsTooLong.ItWillThrowAnException");
     variableDocument.getVariableSurveyDocument().setTitle("TitleIsOkay.");
@@ -456,8 +456,8 @@ public class VariableDocumentTest{
     VariableDocument variableDocument = new VariableDocument();
     variableDocument.setId("ThisIDisOkay");
     variableDocument.setName("ThisNameIsOkay.");
-    VariableSurveyDocument variableSurveyDocument = new VariableSurveyDocument();
-    variableDocument.setVariableSurveyDocument(variableSurveyDocument);
+    VariableSurvey variableSurvey = new VariableSurvey();
+    variableDocument.setVariableSurveyDocument(variableSurvey);
     variableDocument.getVariableSurveyDocument().setAlias(variableDocument.getName());
     variableDocument.getVariableSurveyDocument().setSurveyId("SurveyIdIsOkay.");
     variableDocument.getVariableSurveyDocument().setTitle("TitleIsNotOkay.TheTitleIsTooLong.");
@@ -487,8 +487,8 @@ public class VariableDocumentTest{
     VariableDocument variableDocument = new VariableDocument();
     variableDocument.setId("ThisIDisOkay");
     variableDocument.setName("ThisNameIsOkay.");
-    VariableSurveyDocument variableSurveyDocument = new VariableSurveyDocument();
-    variableDocument.setVariableSurveyDocument(variableSurveyDocument);
+    VariableSurvey variableSurvey = new VariableSurvey();
+    variableDocument.setVariableSurveyDocument(variableSurvey);
     variableDocument.getVariableSurveyDocument().setSurveyId("SurveyIdIsOkay.");
     variableDocument.getVariableSurveyDocument().setTitle("TitleIsOkay.");
     variableDocument.getVariableSurveyDocument().setAlias(variableDocument.getName());
@@ -510,17 +510,17 @@ public class VariableDocumentTest{
     variableDocument.setId("ThisIDisOkay");
     variableDocument.setName("ThisNameIsOkay.");
 
-    VariableSurveyDocument variableSurveyDocument = new VariableSurveyDocument();
-    variableSurveyDocument.setSurveyId("SurveyIdIsOkay.");
-    variableSurveyDocument.setTitle("TitleIsOkay.");
-    variableSurveyDocument.setAlias(variableDocument.getName());
+    VariableSurvey variableSurvey = new VariableSurvey();
+    variableSurvey.setSurveyId("SurveyIdIsOkay.");
+    variableSurvey.setTitle("TitleIsOkay.");
+    variableSurvey.setAlias(variableDocument.getName());
 
     DateRange surveyPeriod = new DateRange();
     surveyPeriod.setStartDate(LocalDate.now());
     surveyPeriod.setEndDate(surveyPeriod.getStartDate().minusDays(2));
-    variableSurveyDocument.setSurveyPeriod(surveyPeriod);
+    variableSurvey.setSurveyPeriod(surveyPeriod);
 
-    variableDocument.setVariableSurveyDocument(variableSurveyDocument);
+    variableDocument.setVariableSurveyDocument(variableSurvey);
 
     // Act
     Set<ConstraintViolation<VariableDocument>> variableVialations =
@@ -549,17 +549,17 @@ public class VariableDocumentTest{
     variableDocument.setId("ThisIDisOkay");
     variableDocument.setName("ThisNameIsOkay.");
 
-    VariableSurveyDocument variableSurveyDocument = new VariableSurveyDocument();
-    variableSurveyDocument.setSurveyId("SurveyIdIsOkay.");
-    variableSurveyDocument.setTitle("TitleIsOkay.");
-    variableSurveyDocument.setAlias(variableDocument.getName());
+    VariableSurvey variableSurvey = new VariableSurvey();
+    variableSurvey.setSurveyId("SurveyIdIsOkay.");
+    variableSurvey.setTitle("TitleIsOkay.");
+    variableSurvey.setAlias(variableDocument.getName());
 
     DateRange surveyPeriod = new DateRange();
     surveyPeriod.setStartDate(LocalDate.now());
     surveyPeriod.setEndDate(surveyPeriod.getStartDate().plusDays(2));
-    variableSurveyDocument.setSurveyPeriod(surveyPeriod);
+    variableSurvey.setSurveyPeriod(surveyPeriod);
 
-    variableDocument.setVariableSurveyDocument(variableSurveyDocument);
+    variableDocument.setVariableSurveyDocument(variableSurvey);
 
     // Act
     Set<ConstraintViolation<VariableDocument>> variableVialations =
@@ -575,7 +575,7 @@ public class VariableDocumentTest{
     VariableDocument variableDocument = new VariableDocument();
     variableDocument.setId("ID");
     variableDocument.setName("name");
-    variableDocument.setVariableSurveyDocument(new VariableSurveyDocument());
+    variableDocument.setVariableSurveyDocument(new VariableSurvey());
     variableDocument.getVariableSurveyDocument().setSurveyId("ID_Survey");
     variableDocument.getVariableSurveyDocument().setTitle("TitleIsOkay.");
     variableDocument.getVariableSurveyDocument().setAlias(variableDocument.getName());
@@ -608,7 +608,7 @@ public class VariableDocumentTest{
   public void testVariableDocumentWithSurvayToString() {
     // Arrange
     VariableDocument variableDocument = new VariableDocument();
-    variableDocument.setVariableSurveyDocument(new VariableSurveyDocument());
+    variableDocument.setVariableSurveyDocument(new VariableSurvey());
     variableDocument.setAnswerOptions(new ArrayList<>());
 
     // Act
@@ -626,7 +626,7 @@ public class VariableDocumentTest{
   public void testVariableDocumentWithSurveyAndEmptyDateRangeToString() {
     // Arrange
     VariableDocument variableDocument = new VariableDocument();
-    variableDocument.setVariableSurveyDocument(new VariableSurveyDocument());
+    variableDocument.setVariableSurveyDocument(new VariableSurvey());
     variableDocument.setAnswerOptions(new ArrayList<>());
     variableDocument.getVariableSurveyDocument().setSurveyPeriod(new DateRange());
 
@@ -646,7 +646,7 @@ public class VariableDocumentTest{
   public void testVariableDocumentWithSurveyAndFilledDateRangeToString() {
     // Arrange
     VariableDocument variableDocument = new VariableDocument();
-    variableDocument.setVariableSurveyDocument(new VariableSurveyDocument());
+    variableDocument.setVariableSurveyDocument(new VariableSurvey());
     variableDocument.setAnswerOptions(new ArrayList<>());
     variableDocument.getVariableSurveyDocument().setSurveyPeriod(new DateRange());
     variableDocument.getVariableSurveyDocument().getSurveyPeriod()

@@ -16,7 +16,7 @@ import eu.dzhw.fdz.metadatamanagement.data.common.validation.ValidDateRange;
  * @author Daniel Katzberg
  *
  */
-public class VariableSurveyDocument {
+public class VariableSurvey {
 
   /**
    * The surveyID is a primary.

@@ -12,7 +12,7 @@ import org.springframework.context.i18n.LocaleContextHolder;
  */
 public enum DataType {
 
-  STRING("String", "String"), NUMERIC("Numerisch", "Numeric");
+  STRING("string", "string"), NUMERIC("numerisch", "numeric");
 
   /**
    * This fields holds the accepted German translation.
