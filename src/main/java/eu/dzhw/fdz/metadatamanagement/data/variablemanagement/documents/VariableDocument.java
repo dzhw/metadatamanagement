@@ -12,8 +12,8 @@ import org.springframework.data.elasticsearch.annotations.FieldIndex;
 import org.springframework.data.elasticsearch.annotations.FieldType;
 
 import eu.dzhw.fdz.metadatamanagement.data.common.documents.AbstractDocument;
-import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.enums.DataType;
 import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.enums.ScaleLevel;
+import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.enums.validation.ValidDataType;
 
 /**
  * This is a representation of a variable. All fields describe the attributes of the variable, for
@@ -28,7 +28,7 @@ import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.enums.Sc
     type = "variables")
 public class VariableDocument extends AbstractDocument {
 
-  
+
 
   /**
    * This is a nested reference to the survey.
@@ -47,8 +47,8 @@ public class VariableDocument extends AbstractDocument {
   /**
    * The data type of the variable.
    */
-  @Field(index = FieldIndex.not_analyzed)
-  private DataType dataType;
+  @ValidDataType
+  private String dataType;
 
   /**
    * The label of the variable.
@@ -85,7 +85,7 @@ public class VariableDocument extends AbstractDocument {
 
 
   /* GETTER / SETTER */
-  
+
   public VariableSurveyDocument getVariableSurveyDocument() {
     return variableSurveyDocument;
   }
@@ -110,11 +110,11 @@ public class VariableDocument extends AbstractDocument {
     this.label = label;
   }
 
-  public DataType getDataType() {
+  protected String getDataType() {
     return dataType;
   }
 
-  public void setDataType(DataType dataType) {
+  protected void setDataType(String dataType) {
     this.dataType = dataType;
   }
 

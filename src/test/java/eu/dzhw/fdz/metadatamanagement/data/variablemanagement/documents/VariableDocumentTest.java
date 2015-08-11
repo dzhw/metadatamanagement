@@ -21,17 +21,16 @@ import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.enums.DataType;
 import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.enums.ScaleLevel;
 
 /**
  * @author Daniel Katzberg
  *
  */
-public class VariableDocumentTest {
+public class VariableDocumentTest{
 
   private static final Logger LOGGER = LoggerFactory.getLogger(VariableDocumentTest.class);
-
+  
   private static Validator VALIDATOR;
 
   @BeforeClass
@@ -71,12 +70,13 @@ public class VariableDocumentTest {
     variableDocument.setName("ThisNameIsOkay.");
 
     // Act
-    Set<ConstraintViolation<VariableDocument>> variableVialations = VALIDATOR.validate(variableDocument);
+    Set<ConstraintViolation<VariableDocument>> variableVialations =
+        VALIDATOR.validate(variableDocument);
 
     // Assert
     assertEquals(0, variableVialations.size());
   }
-  
+
   @Test
   public void testInvalidID() {
 
@@ -86,7 +86,8 @@ public class VariableDocumentTest {
     variableDocument.setName("This name is okay.");
 
     // Act
-    Set<ConstraintViolation<VariableDocument>> variableVialations = VALIDATOR.validate(variableDocument);
+    Set<ConstraintViolation<VariableDocument>> variableVialations =
+        VALIDATOR.validate(variableDocument);
 
     // Assert
     assertEquals(1, variableVialations.size());
@@ -99,7 +100,7 @@ public class VariableDocumentTest {
           variableVialation.getMessageTemplate());
     }
   }
-  
+
   @Test
   public void testValidIDWithSigns() {
 
@@ -109,7 +110,8 @@ public class VariableDocumentTest {
     variableDocument.setName("This name is okay.");
 
     // Act
-    Set<ConstraintViolation<VariableDocument>> variableVialations = VALIDATOR.validate(variableDocument);
+    Set<ConstraintViolation<VariableDocument>> variableVialations =
+        VALIDATOR.validate(variableDocument);
 
     // Assert
     assertEquals(0, variableVialations.size());
@@ -124,7 +126,8 @@ public class VariableDocumentTest {
     variableDocument.setName("ThisNameIsTooLongAndThrowAnException.");
 
     // Act
-    Set<ConstraintViolation<VariableDocument>> variableVialations = VALIDATOR.validate(variableDocument);
+    Set<ConstraintViolation<VariableDocument>> variableVialations =
+        VALIDATOR.validate(variableDocument);
 
     // Assert
     assertEquals(1, variableVialations.size());
@@ -149,7 +152,8 @@ public class VariableDocumentTest {
         + "ButTheLabelLengthIsVeryLong.ItNeedsManyWordsForTheException.");
 
     // Act
-    Set<ConstraintViolation<VariableDocument>> variableVialations = VALIDATOR.validate(variableDocument);
+    Set<ConstraintViolation<VariableDocument>> variableVialations =
+        VALIDATOR.validate(variableDocument);
 
     // Assert
     assertEquals(1, variableVialations.size());
@@ -173,10 +177,52 @@ public class VariableDocumentTest {
     variableDocument.setLabel("ThisLabelIsOkay.");
 
     // Act
-    Set<ConstraintViolation<VariableDocument>> variableVialations = VALIDATOR.validate(variableDocument);
+    Set<ConstraintViolation<VariableDocument>> variableVialations =
+        VALIDATOR.validate(variableDocument);
 
     // Assert
     assertEquals(0, variableVialations.size());
+  }
+
+  @Test
+  public void testValidDataField() {
+    // Assert
+    VariableDocument variableDocument = new VariableDocument();
+    variableDocument.setId("ThisIDisOkay");
+    variableDocument.setName("ThisNameIsOkay.");
+    variableDocument.setDataType("sTrinG");
+
+    // Act
+    Set<ConstraintViolation<VariableDocument>> variableVialations =
+        VALIDATOR.validate(variableDocument);
+    
+    // Assert
+    assertEquals(0, variableVialations.size());
+  }
+  
+  @Test
+  public void testInvalidDataField() {
+    // Assert
+    VariableDocument variableDocument = new VariableDocument();
+    variableDocument.setId("ThisIDisOkay");
+    variableDocument.setName("ThisNameIsOkay.");
+    variableDocument.setDataType("sTrinGIsNotOkay");
+
+    // Act
+    Set<ConstraintViolation<VariableDocument>> variableVialations =
+        VALIDATOR.validate(variableDocument);
+    
+    // Assert
+    assertEquals(1, variableVialations.size());
+    for (ConstraintViolation<VariableDocument> variableVialation : variableVialations) {
+
+      LOGGER.debug("testInvalidDataField() " + variableVialation.getMessageTemplate()
+          + " -> " + variableVialation.getMessage());
+
+      assertEquals("{eu.dzhw.fdz.metadatamanagement.data.variablemanagement."
+          + "documents.enum.validation.validDataType.message}",
+          variableVialation.getMessageTemplate());
+    }
   }
 
   @Test
@@ -186,11 +232,11 @@ public class VariableDocumentTest {
     VariableDocument variableDocument = new VariableDocument();
     variableDocument.setId("ThisIDisOkay");
     variableDocument.setName("ThisNameIsOkay.");
-    variableDocument.setDataType(DataType.STRING);
     variableDocument.setScaleLevel(ScaleLevel.ORDINAL);
 
     // Act
-    Set<ConstraintViolation<VariableDocument>> variableVialations = VALIDATOR.validate(variableDocument);
+    Set<ConstraintViolation<VariableDocument>> variableVialations =
+        VALIDATOR.validate(variableDocument);
 
     // Assert
     assertEquals(0, variableVialations.size());
@@ -211,7 +257,8 @@ public class VariableDocumentTest {
     variableDocument.setAnswerOptions(answerOptions);
 
     // Act
-    Set<ConstraintViolation<VariableDocument>> variableVialations = VALIDATOR.validate(variableDocument);
+    Set<ConstraintViolation<VariableDocument>> variableVialations =
+        VALIDATOR.validate(variableDocument);
 
     // Arrange
     assertEquals(2, variableVialations.size());
@@ -251,7 +298,8 @@ public class VariableDocumentTest {
     variableDocument.setAnswerOptions(answerOptions);
 
     // Act
-    Set<ConstraintViolation<VariableDocument>> variableVialations = VALIDATOR.validate(variableDocument);
+    Set<ConstraintViolation<VariableDocument>> variableVialations =
+        VALIDATOR.validate(variableDocument);
 
     // Assert
     assertEquals(1, variableVialations.size());
@@ -280,7 +328,8 @@ public class VariableDocumentTest {
     variableDocument.setAnswerOptions(answerOptions);
 
     // Act
-    Set<ConstraintViolation<VariableDocument>> variableVialations = VALIDATOR.validate(variableDocument);
+    Set<ConstraintViolation<VariableDocument>> variableVialations =
+        VALIDATOR.validate(variableDocument);
 
     // Assert
     assertEquals(0, variableVialations.size());
@@ -299,7 +348,8 @@ public class VariableDocumentTest {
     variableDocument.setVariableSurveyDocument(variableSurveyDocument);
 
     // Act
-    Set<ConstraintViolation<VariableDocument>> variableVialations = VALIDATOR.validate(variableDocument);
+    Set<ConstraintViolation<VariableDocument>> variableVialations =
+        VALIDATOR.validate(variableDocument);
 
     // Assert
     assertEquals(3, variableVialations.size());
@@ -324,10 +374,12 @@ public class VariableDocumentTest {
     variableDocument.setVariableSurveyDocument(variableSurveyDocument);
     variableDocument.getVariableSurveyDocument().setSurveyId("AliasIsOkay.");
     variableDocument.getVariableSurveyDocument().setTitle("TitleIsOkay.");
-    variableDocument.getVariableSurveyDocument().setAlias("ThisAliasIsTooLong.ItWillThrowAnException");
+    variableDocument.getVariableSurveyDocument()
+        .setAlias("ThisAliasIsTooLong.ItWillThrowAnException");
 
     // Act
-    Set<ConstraintViolation<VariableDocument>> variableVialations = VALIDATOR.validate(variableDocument);
+    Set<ConstraintViolation<VariableDocument>> variableVialations =
+        VALIDATOR.validate(variableDocument);
 
     // Assert
     assertEquals(1, variableVialations.size());
@@ -341,7 +393,7 @@ public class VariableDocumentTest {
           variableVialation.getMessageTemplate());
     }
   }
-  
+
   @Test
   public void testInvalidVariableDocumentSurveyWithInvalidSurveyId() {
 
@@ -351,12 +403,14 @@ public class VariableDocumentTest {
     variableDocument.setName("ThisNameIsOkay.");
     VariableSurveyDocument variableSurveyDocument = new VariableSurveyDocument();
     variableDocument.setVariableSurveyDocument(variableSurveyDocument);
-    variableDocument.getVariableSurveyDocument().setSurveyId("SurveyIdIsTooLong.ItWillThrowAnException");
+    variableDocument.getVariableSurveyDocument()
+        .setSurveyId("SurveyIdIsTooLong.ItWillThrowAnException");
     variableDocument.getVariableSurveyDocument().setTitle("TitleIsOkay.");
     variableDocument.getVariableSurveyDocument().setAlias(variableDocument.getName());
 
     // Act
-    Set<ConstraintViolation<VariableDocument>> variableVialations = VALIDATOR.validate(variableDocument);
+    Set<ConstraintViolation<VariableDocument>> variableVialations =
+        VALIDATOR.validate(variableDocument);
 
     // Assert
     assertEquals(1, variableVialations.size());
@@ -370,8 +424,8 @@ public class VariableDocumentTest {
           variableVialation.getMessageTemplate());
     }
   }
-  
-  
+
+
   @Test
   public void testInvalidVariableDocumentSurveyWithInvalidTitle() {
 
@@ -386,7 +440,8 @@ public class VariableDocumentTest {
     variableDocument.getVariableSurveyDocument().setTitle("TitleIsNotOkay.TheTitleIsTooLong.");
 
     // Act
-    Set<ConstraintViolation<VariableDocument>> variableVialations = VALIDATOR.validate(variableDocument);
+    Set<ConstraintViolation<VariableDocument>> variableVialations =
+        VALIDATOR.validate(variableDocument);
 
     // Assert
     assertEquals(1, variableVialations.size());
@@ -400,8 +455,8 @@ public class VariableDocumentTest {
           variableVialation.getMessageTemplate());
     }
   }
-  
-  
+
+
   @Test
   public void testValidVariableDocumentSurvey() {
 
@@ -416,7 +471,8 @@ public class VariableDocumentTest {
     variableDocument.getVariableSurveyDocument().setAlias(variableDocument.getName());
 
     // Act
-    Set<ConstraintViolation<VariableDocument>> variableVialations = VALIDATOR.validate(variableDocument);
+    Set<ConstraintViolation<VariableDocument>> variableVialations =
+        VALIDATOR.validate(variableDocument);
 
     // Assert
     assertEquals(0, variableVialations.size());
@@ -426,7 +482,7 @@ public class VariableDocumentTest {
   @Test
   public void testInvalidDateRange() {
 
-    //Assert
+    // Assert
     VariableDocument variableDocument = new VariableDocument();
     variableDocument.setId("ThisIDisOkay");
     variableDocument.setName("ThisNameIsOkay.");
@@ -442,12 +498,13 @@ public class VariableDocumentTest {
     variableSurveyDocument.setSurveyPeriod(surveyPeriod);
 
     variableDocument.setVariableSurveyDocument(variableSurveyDocument);
-    
-    //Act
-    Set<ConstraintViolation<VariableDocument>> variableVialations = VALIDATOR.validate(variableDocument);
 
-    //Assert
-//    assertEquals(1, variableVialations.size());
+    // Act
+    Set<ConstraintViolation<VariableDocument>> variableVialations =
+        VALIDATOR.validate(variableDocument);
+
+    // Assert
+    // assertEquals(1, variableVialations.size());
 
     for (ConstraintViolation<VariableDocument> variableVialation : variableVialations) {
 
@@ -455,16 +512,16 @@ public class VariableDocumentTest {
           + variableVialation.getMessage());
 
       assertEquals(
-          "{eu.dzhw.fdz.metadatamanagement.domain.variablemanagement."
-              + "validator.annotations.ValidDateRange.message}",
+          "{eu.dzhw.fdz.metadatamanagement.data.variablemanagement."
+          + "common.validation.validDateRange.message}",
           variableVialation.getMessageTemplate());
     }
   }
-  
+
   @Test
   public void testValidDateRange() {
 
-    //Assert
+    // Assert
     VariableDocument variableDocument = new VariableDocument();
     variableDocument.setId("ThisIDisOkay");
     variableDocument.setName("ThisNameIsOkay.");
@@ -480,11 +537,12 @@ public class VariableDocumentTest {
     variableSurveyDocument.setSurveyPeriod(surveyPeriod);
 
     variableDocument.setVariableSurveyDocument(variableSurveyDocument);
-    
-    //Act
-    Set<ConstraintViolation<VariableDocument>> variableVialations = VALIDATOR.validate(variableDocument);
 
-    //Assert
+    // Act
+    Set<ConstraintViolation<VariableDocument>> variableVialations =
+        VALIDATOR.validate(variableDocument);
+
+    // Assert
     assertEquals(0, variableVialations.size());
   }
 
@@ -503,78 +561,83 @@ public class VariableDocumentTest {
     variableDocument.getVariableSurveyDocument().setSurveyPeriod(new DateRange());
 
 
-    Set<ConstraintViolation<VariableDocument>> variableVialations = VALIDATOR.validate(variableDocument);
+    Set<ConstraintViolation<VariableDocument>> variableVialations =
+        VALIDATOR.validate(variableDocument);
 
     // everything okay
     assertEquals(0, variableVialations.size());
   }
-  
+
   @Test
   public void testVariableDocumentToString() {
-    //Arrange
+    // Arrange
     VariableDocument variableDocument = new VariableDocument();
-    
-    //Act
-    
-    //Assert
+
+    // Act
+
+    // Assert
     assertEquals("VariableDocument [getFdzId()=null, getVariableSurveyDocument()=null, "
         + "getName()=null, getLabel()=null, getDataType()=null, getScaleLevel()=null, "
-        + "getAnswerOptions()=null]",
-        variableDocument.toString());
+        + "getAnswerOptions()=null]", variableDocument.toString());
   }
-  
+
   @Test
   public void testVariableDocumentWithSurvayToString() {
-    //Arrange
+    // Arrange
     VariableDocument variableDocument = new VariableDocument();
     variableDocument.setVariableSurveyDocument(new VariableSurveyDocument());
     variableDocument.setAnswerOptions(new ArrayList<>());
-    
-    //Act
-    
-    //Assert
-    assertEquals("VariableDocument [getFdzId()=null, getVariableSurveyDocument()=VariableSurveyDocument "
-        + "[getSurveyId()=null, getTitle()=null, getDateRange()=null, getAlias()=null], "
-        + "getName()=null, getLabel()=null, getDataType()=null, getScaleLevel()=null, "
-        + "getAnswerOptions()=[]]", variableDocument.toString());
-  }
-  
-  @Test
-  public void testVariableDocumentWithSurveyAndEmptyDateRangeToString() {
-    //Arrange
-    VariableDocument variableDocument = new VariableDocument();
-    variableDocument.setVariableSurveyDocument(new VariableSurveyDocument());
-    variableDocument.setAnswerOptions(new ArrayList<>());
-    variableDocument.getVariableSurveyDocument().setSurveyPeriod(new DateRange());
-    
-    //Act
-    
-    //Assert
+
+    // Act
+
+    // Assert
     assertEquals(
         "VariableDocument [getFdzId()=null, getVariableSurveyDocument()=VariableSurveyDocument "
-        + "[getSurveyId()=null, getTitle()=null, getDateRange()=null, getAlias()=null], "
-        + "getName()=null, getLabel()=null, getDataType()=null, getScaleLevel()=null, "
-        + "getAnswerOptions()=[]]",
+            + "[getSurveyId()=null, getTitle()=null, getDateRange()=null, getAlias()=null], "
+            + "getName()=null, getLabel()=null, getDataType()=null, getScaleLevel()=null, "
+            + "getAnswerOptions()=[]]",
         variableDocument.toString());
   }
-  
-  
+
   @Test
-  public void testVariableDocumentWithSurveyAndFilledDateRangeToString() {
-    //Arrange
+  public void testVariableDocumentWithSurveyAndEmptyDateRangeToString() {
+    // Arrange
     VariableDocument variableDocument = new VariableDocument();
     variableDocument.setVariableSurveyDocument(new VariableSurveyDocument());
     variableDocument.setAnswerOptions(new ArrayList<>());
     variableDocument.getVariableSurveyDocument().setSurveyPeriod(new DateRange());
-    variableDocument.getVariableSurveyDocument().getSurveyPeriod().setStartDate(LocalDate.of(2015, 1, 1));
-    variableDocument.getVariableSurveyDocument().getSurveyPeriod().setEndDate(LocalDate.of(2015, 2, 1));
-    
-    //Act
-    
-    //Assert
-    assertEquals("VariableDocument [getFdzId()=null, getVariableSurveyDocument()=VariableSurveyDocument "
-        + "[getSurveyId()=null, getTitle()=null, getDateRange()=null, getAlias()=null], getName()=null, "
-        + "getLabel()=null, getDataType()=null, getScaleLevel()=null, getAnswerOptions()=[]]", 
+
+    // Act
+
+    // Assert
+    assertEquals(
+        "VariableDocument [getFdzId()=null, getVariableSurveyDocument()=VariableSurveyDocument "
+            + "[getSurveyId()=null, getTitle()=null, getDateRange()=null, getAlias()=null], "
+            + "getName()=null, getLabel()=null, getDataType()=null, getScaleLevel()=null, "
+            + "getAnswerOptions()=[]]",
+        variableDocument.toString());
+  }
+
+
+  @Test
+  public void testVariableDocumentWithSurveyAndFilledDateRangeToString() {
+    // Arrange
+    VariableDocument variableDocument = new VariableDocument();
+    variableDocument.setVariableSurveyDocument(new VariableSurveyDocument());
+    variableDocument.setAnswerOptions(new ArrayList<>());
+    variableDocument.getVariableSurveyDocument().setSurveyPeriod(new DateRange());
+    variableDocument.getVariableSurveyDocument().getSurveyPeriod()
+        .setStartDate(LocalDate.of(2015, 1, 1));
+    variableDocument.getVariableSurveyDocument().getSurveyPeriod()
+        .setEndDate(LocalDate.of(2015, 2, 1));
+
+    // Act
+
+    // Assert
+    assertEquals(
+        "VariableDocument [getFdzId()=null, getVariableSurveyDocument()=VariableSurveyDocument "
+            + "[getSurveyId()=null, getTitle()=null, getDateRange()=null, getAlias()=null], getName()=null, "
+            + "getLabel()=null, getDataType()=null, getScaleLevel()=null, getAnswerOptions()=[]]",
         variableDocument.toString());
   }
 }
