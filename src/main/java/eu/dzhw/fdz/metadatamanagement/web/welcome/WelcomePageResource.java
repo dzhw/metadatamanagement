@@ -16,12 +16,19 @@ import eu.dzhw.fdz.metadatamanagement.web.common.NavigatablePageResource;
  */
 public class WelcomePageResource extends NavigatablePageResource<WelcomeController> {
 
-  @Override
-  public void addInternationalizationLinks(Class<WelcomeController> pageController,
-      ControllerLinkBuilderFactory factory, Object... params) {
+  /**
+   * Create the navigation links and the i18n links.
+   * 
+   * @param pageController the controller for the welcome page
+   * @param factory the controller link factory which can resolve query params
+   */
+  public WelcomePageResource(Class<WelcomeController> pageController,
+      ControllerLinkBuilderFactory factory) {
+    super();
     for (Locale supportedLocale : I18nConfiguration.SUPPORTED_LANGUAGES) {
       this.add(factory.linkTo(methodOn(pageController, supportedLocale).get())
           .withRel(supportedLocale.getLanguage()));
     }
   }
+
 }

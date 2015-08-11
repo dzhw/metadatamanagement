@@ -8,7 +8,6 @@ import java.util.Locale;
 import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.hateoas.Link;
 import org.springframework.hateoas.ResourceSupport;
-import org.springframework.hateoas.mvc.ControllerLinkBuilderFactory;
 
 import eu.dzhw.fdz.metadatamanagement.web.variablemanagement.search.VariableSearchController;
 import eu.dzhw.fdz.metadatamanagement.web.welcome.WelcomeController;
@@ -39,9 +38,6 @@ public abstract class NavigatablePageResource<T> extends ResourceSupport
         methodOn(VariableSearchController.class, LocaleContextHolder.getLocale().getLanguage())
             .get(null, null)).withRel(VARIABLES_REL));
   }
-
-  public abstract void addInternationalizationLinks(Class<T> pageController,
-      ControllerLinkBuilderFactory factory, Object... params);
 
   public Link getHomeLink() {
     return this.getLink(HOME_REL);

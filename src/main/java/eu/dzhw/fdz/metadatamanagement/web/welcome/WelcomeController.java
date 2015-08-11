@@ -36,8 +36,8 @@ public class WelcomeController {
   @RequestMapping(path = "/{language}", method = RequestMethod.GET)
   public Callable<ModelAndView> get() {
     return () -> {
-      WelcomePageResource resource = new WelcomePageResource();
-      resource.addInternationalizationLinks(WelcomeController.class, controllerLinkBuilderFactory);
+      WelcomePageResource resource =
+          new WelcomePageResource(WelcomeController.class, controllerLinkBuilderFactory);
 
       ModelAndView result = new ModelAndView("welcome");
       result.addObject("resource", resource);
