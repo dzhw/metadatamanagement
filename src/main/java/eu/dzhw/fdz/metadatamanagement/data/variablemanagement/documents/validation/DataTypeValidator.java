@@ -3,7 +3,9 @@ package eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.validat
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 
-import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.validation.enums.DataType;
+import org.springframework.context.i18n.LocaleContextHolder;
+
+import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.validation.types.DataTypes;
 
 /**
  * The validator checks a String input is a part of the given data type enumeration. The enumeration
@@ -39,10 +41,9 @@ public class DataTypeValidator implements ConstraintValidator<ValidDataType, Str
     }
 
     // Look for accepted data type
-    for (DataType dataType : DataType.values()) {
-      if (dataType.getI18nValue().equalsIgnoreCase(value)) {
-        return true;
-      }
+    if (DataTypes.getDataTypes().getDataTypesMap().get(LocaleContextHolder.getLocale())
+        .contains(value)) {
+      return true;
     }
 
     // return false, no accepted data type found

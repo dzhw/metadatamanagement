@@ -3,7 +3,7 @@ package eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.validat
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 
-import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.validation.enums.ScaleLevel;
+import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.validation.types.ScaleLevel;
 
 /**
  * The validator checks a String input is a part of the given scale level enumeration. The
