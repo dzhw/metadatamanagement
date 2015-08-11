@@ -11,6 +11,7 @@ import org.springframework.data.elasticsearch.annotations.Field;
 import org.springframework.data.elasticsearch.annotations.FieldType;
 
 import eu.dzhw.fdz.metadatamanagement.data.common.documents.AbstractDocument;
+import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.validation.NotNullScaleLevelOnNumericDataType;
 import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.validation.ValidDataType;
 import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.validation.ValidScaleLevel;
 
@@ -25,6 +26,7 @@ import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.validati
     indexName = "#{'" + AbstractDocument.METADATA_INDEX + "_'"
         + "+T(org.springframework.context.i18n.LocaleContextHolder).getLocale().getLanguage()}",
     type = "variables")
+@NotNullScaleLevelOnNumericDataType
 public class VariableDocument extends AbstractDocument {
 
 
@@ -58,7 +60,6 @@ public class VariableDocument extends AbstractDocument {
   /**
    * A optional scale level of the variable, if the variable is e.g. not a String.
    */
-  // TODO validate not null for variables with data type numeric
   @ValidScaleLevel
   private String scaleLevel;
 
@@ -107,7 +108,7 @@ public class VariableDocument extends AbstractDocument {
     this.label = label;
   }
 
-  protected String getDataType() {
+  public String getDataType() {
     return dataType;
   }
 

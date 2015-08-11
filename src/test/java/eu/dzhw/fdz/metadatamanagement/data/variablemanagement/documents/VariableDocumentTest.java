@@ -9,6 +9,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Locale;
 import java.util.Set;
 
 import javax.validation.ConstraintViolation;
@@ -20,6 +21,7 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.context.i18n.LocaleContextHolder;
 
 /**
  * @author Daniel Katzberg
@@ -219,7 +221,7 @@ public class VariableDocumentTest {
 
       assertEquals(
           "{eu.dzhw.fdz.metadatamanagement.data.variablemanagement."
-              + "documents.enum.validation.validdatatype.message}",
+              + "documents.validation.validdatatype.message}",
           variableVialation.getMessageTemplate());
     }
   }
@@ -262,7 +264,34 @@ public class VariableDocumentTest {
 
       assertEquals(
           "{eu.dzhw.fdz.metadatamanagement.data.variablemanagement."
-              + "documents.enum.validation.validscalelevel.message}",
+              + "documents.validation.validscalelevel.message}",
+          variableVialation.getMessageTemplate());
+    }
+  }
+  
+  @Test
+  public void testNotNullScaleLevelAtNumericDataType(){
+    LocaleContextHolder.setLocale(Locale.ENGLISH);
+    // Assert
+    VariableDocument variableDocument = new VariableDocument();
+    variableDocument.setId("ThisIDisOkay");
+    variableDocument.setName("ThisNameIsOkay.");
+    variableDocument.setDataType("numeric");
+
+    // Act
+    Set<ConstraintViolation<VariableDocument>> variableVialations =
+        VALIDATOR.validate(variableDocument);
+
+    // Assert
+    assertEquals(1, variableVialations.size());
+    for (ConstraintViolation<VariableDocument> variableVialation : variableVialations) {
+
+      LOGGER.debug("testInvalidDataField() " + variableVialation.getMessageTemplate() + " -> "
+          + variableVialation.getMessage());
+
+      assertEquals(
+          "{eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents."
+          + "validation.notnullscalelevelonnumericdatatype.message}",
           variableVialation.getMessageTemplate());
     }
   }

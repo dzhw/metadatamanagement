@@ -28,7 +28,7 @@ public @interface ValidDataType {
    * Defines the default error message.
    */
   public abstract String message() default "{eu.dzhw.fdz.metadatamanagement.data."
-      + "variablemanagement.documents.enum.validation.validdatatype.message}";
+      + "variablemanagement.documents.validation.validdatatype.message}";
 
   /**
    * This contains groups.

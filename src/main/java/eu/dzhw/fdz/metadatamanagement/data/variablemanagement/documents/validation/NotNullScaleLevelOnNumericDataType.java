@@ -9,26 +9,23 @@ import java.lang.annotation.Target;
 import javax.validation.Constraint;
 import javax.validation.Payload;
 
-import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.validation.enums.ScaleLevel;
-
 /**
- * This annotation checks for an input of the scalelevel field. Only some values are acceptable,
- * define by the depending enum class {@link ScaleLevel}
+ * This annotation checks for a not null scale level, if a data type is numeric.
  * 
  * @author Daniel Katzberg
  *
  */
 @Documented
-@Constraint(validatedBy = {ScaleLevelValidator.class})
-@Target({ElementType.FIELD})
+@Constraint(validatedBy = {NotNullScaleLevelOnNumericDataTypeValidator.class})
+@Target({ElementType.TYPE})
 @Retention(RetentionPolicy.RUNTIME)
-public @interface ValidScaleLevel {
+public @interface NotNullScaleLevelOnNumericDataType {
 
   /**
    * Defines the default error message.
    */
   public abstract String message() default "{eu.dzhw.fdz.metadatamanagement.data."
-      + "variablemanagement.documents.validation.validscalelevel.message}";
+      + "variablemanagement.documents.validation.notnullscalelevelonnumericdatatype.message}";
 
   /**
    * This contains groups.
