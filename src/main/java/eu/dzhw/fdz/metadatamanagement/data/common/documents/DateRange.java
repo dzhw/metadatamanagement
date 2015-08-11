@@ -1,4 +1,4 @@
-package eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents;
+package eu.dzhw.fdz.metadatamanagement.data.common.documents;
 
 import java.time.LocalDate;
 

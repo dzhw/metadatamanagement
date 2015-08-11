@@ -3,7 +3,7 @@ package eu.dzhw.fdz.metadatamanagement.data.common.validation;
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 
-import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.DateRange;
+import eu.dzhw.fdz.metadatamanagement.data.common.documents.DateRange;
 
 /**
  * The Validator compares to {@code LocalDate} time stamps and compares for the correct order. The

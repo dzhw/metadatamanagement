@@ -4,6 +4,7 @@ import javax.validation.constraints.Size;
 
 import org.hibernate.validator.constraints.NotEmpty;
 
+import eu.dzhw.fdz.metadatamanagement.data.common.documents.DateRange;
 import eu.dzhw.fdz.metadatamanagement.data.common.validation.ValidDateRange;
 
 /**
