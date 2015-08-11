@@ -187,7 +187,7 @@ public class VariableDocumentTest extends AbstractWebTest {
     VariableDocument variableDocument = new VariableDocument();
     variableDocument.setId("ThisIDisOkay");
     variableDocument.setName("ThisNameIsOkay.");
-    variableDocument.setDataType("sTrinG");
+    variableDocument.setDataType("string");
 
     // Act
     Set<ConstraintViolation<VariableDocument>> variableViolations =
@@ -230,7 +230,7 @@ public class VariableDocumentTest extends AbstractWebTest {
     VariableDocument variableDocument = new VariableDocument();
     variableDocument.setId("ThisIDisOkay");
     variableDocument.setName("ThisNameIsOkay.");
-    variableDocument.setScaleLevel("oRdiNal");
+    variableDocument.setScaleLevel("ordinal");
 
     // Act
     Set<ConstraintViolation<VariableDocument>> variableViolations =

@@ -4,7 +4,7 @@ import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 
 import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.VariableDocument;
-import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.validation.enums.DataType;
+import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.validation.types.DataTypes;
 
 /**
  * The validator checks for a not null scale level field, if a data type is numeric.
@@ -40,7 +40,7 @@ public class NotNullScaleLevelOnNumericDataTypeValidator
     }
 
     // check numeric field with look for a null scale level
-    if (value.getDataType().trim().equalsIgnoreCase(DataType.NUMERIC.getI18nValue())
+    if (value.getDataType().equals(DataTypes.getDataTypes().getNumericValueByLocale())
         && value.getScaleLevel() == null) {
       return false;
     }

@@ -9,11 +9,11 @@ import java.lang.annotation.Target;
 import javax.validation.Constraint;
 import javax.validation.Payload;
 
-import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.validation.enums.DataType;
+import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.validation.types.DataTypes;
 
 /**
  * This annotation checks for an input of the datatype field. Only some values are acceptable,
- * define by the depending enum class {@link DataType}
+ * define by the depending enum class {@link DataTypes}
  * 
  * @author Daniel Katzberg
  *
