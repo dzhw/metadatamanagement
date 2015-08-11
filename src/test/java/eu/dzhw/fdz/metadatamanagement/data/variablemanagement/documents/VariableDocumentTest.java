@@ -21,8 +21,6 @@ import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.validation.enums.ScaleLevel;
-
 /**
  * @author Daniel Katzberg
  *
@@ -220,19 +218,19 @@ public class VariableDocumentTest{
           + " -> " + variableVialation.getMessage());
 
       assertEquals("{eu.dzhw.fdz.metadatamanagement.data.variablemanagement."
-          + "documents.enum.validation.validDataType.message}",
+          + "documents.enum.validation.validdatatype.message}",
           variableVialation.getMessageTemplate());
     }
   }
 
   @Test
-  public void testValidEnums() {
+  public void testValidScaleLevel() {
 
     // Assert
     VariableDocument variableDocument = new VariableDocument();
     variableDocument.setId("ThisIDisOkay");
     variableDocument.setName("ThisNameIsOkay.");
-    variableDocument.setScaleLevel(ScaleLevel.ORDINAL);
+    variableDocument.setScaleLevel("oRdiNal");
 
     // Act
     Set<ConstraintViolation<VariableDocument>> variableVialations =
@@ -240,6 +238,31 @@ public class VariableDocumentTest{
 
     // Assert
     assertEquals(0, variableVialations.size());
+  }
+  
+  @Test
+  public void testInvalidScaleLevel() {
+    // Assert
+    VariableDocument variableDocument = new VariableDocument();
+    variableDocument.setId("ThisIDisOkay");
+    variableDocument.setName("ThisNameIsOkay.");
+    variableDocument.setScaleLevel("oRdiNalIsNotOkay");
+
+    // Act
+    Set<ConstraintViolation<VariableDocument>> variableVialations =
+        VALIDATOR.validate(variableDocument);
+    
+    // Assert
+    assertEquals(1, variableVialations.size());
+    for (ConstraintViolation<VariableDocument> variableVialation : variableVialations) {
+
+      LOGGER.debug("testInvalidDataField() " + variableVialation.getMessageTemplate()
+          + " -> " + variableVialation.getMessage());
+
+      assertEquals("{eu.dzhw.fdz.metadatamanagement.data.variablemanagement."
+          + "documents.enum.validation.validscalelevel.message}",
+          variableVialation.getMessageTemplate());
+    }
   }
 
   @Test

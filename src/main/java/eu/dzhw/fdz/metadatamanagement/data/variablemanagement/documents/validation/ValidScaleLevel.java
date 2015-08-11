@@ -9,26 +9,26 @@ import java.lang.annotation.Target;
 import javax.validation.Constraint;
 import javax.validation.Payload;
 
-import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.validation.enums.DataType;
+import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.validation.enums.ScaleLevel;
 
 /**
- * This annotation checks for an input of the datatype field. Only some values are acceptable,
- * define by the depending enum class {@link DataType}
+ * This annotation checks for an input of the scalelevel field. Only some values are acceptable,
+ * define by the depending enum class {@link ScaleLevel}
  * 
  * @author Daniel Katzberg
  *
  */
 @Documented
-@Constraint(validatedBy = {DataTypeValidator.class})
+@Constraint(validatedBy = {ScaleLevelValidator.class})
 @Target({ElementType.FIELD})
 @Retention(RetentionPolicy.RUNTIME)
-public @interface ValidDataType {
+public @interface ValidScaleLevel {
 
   /**
    * Defines the default error message.
    */
   public abstract String message() default "{eu.dzhw.fdz.metadatamanagement.data."
-      + "variablemanagement.documents.enum.validation.validdatatype.message}";
+      + "variablemanagement.documents.enum.validation.validscalelevel.message}";
 
   /**
    * This contains groups.
@@ -39,6 +39,5 @@ public @interface ValidDataType {
    * This method contains the payload.
    */
   public Class<? extends Payload>[]payload() default {};
-
 
 }

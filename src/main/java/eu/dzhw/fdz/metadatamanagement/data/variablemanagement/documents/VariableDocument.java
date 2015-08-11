@@ -8,12 +8,11 @@ import javax.validation.constraints.Size;
 import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.data.elasticsearch.annotations.Document;
 import org.springframework.data.elasticsearch.annotations.Field;
-import org.springframework.data.elasticsearch.annotations.FieldIndex;
 import org.springframework.data.elasticsearch.annotations.FieldType;
 
 import eu.dzhw.fdz.metadatamanagement.data.common.documents.AbstractDocument;
 import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.validation.ValidDataType;
-import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.validation.enums.ScaleLevel;
+import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.validation.ValidScaleLevel;
 
 /**
  * This is a representation of a variable. All fields describe the attributes of the variable, for
@@ -59,9 +58,9 @@ public class VariableDocument extends AbstractDocument {
   /**
    * A optional scale level of the variable, if the variable is e.g. not a String.
    */
-  @Field(index = FieldIndex.not_analyzed)
   // TODO validate not null for variables with data type numeric
-  private ScaleLevel scaleLevel;
+  @ValidScaleLevel
+  private String scaleLevel;
 
   /**
    * The value (answer options) with depending labels are represent in this nested field.
@@ -118,11 +117,11 @@ public class VariableDocument extends AbstractDocument {
     this.dataType = dataType;
   }
 
-  public ScaleLevel getScaleLevel() {
+  public String getScaleLevel() {
     return scaleLevel;
   }
 
-  public void setScaleLevel(ScaleLevel scaleLevel) {
+  public void setScaleLevel(String scaleLevel) {
     this.scaleLevel = scaleLevel;
   }
 
