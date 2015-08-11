@@ -36,10 +36,10 @@ public class VariableService {
    * @return Page of VariableDocuments
    */
   public Page<VariableDocument> search(String query, Pageable pageable) {
-    if (!StringUtils.isEmpty(query)) {
-      return variableRepository.phrasePrefixQuery(query, pageable);
+    if (StringUtils.hasText(query)) {
+      return variableRepository.matchQueryInAllField(query, pageable);
     }
-    return variableRepository.matchAllQuery(pageable);
+    return variableRepository.matchQueryInAllField("*", pageable);
   }
 
   /**

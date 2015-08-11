@@ -1,6 +1,7 @@
 package eu.dzhw.fdz.metadatamanagement.data.variablemanagement.repositories;
 
 import org.elasticsearch.common.unit.Fuzziness;
+import org.elasticsearch.index.query.MatchQueryBuilder.ZeroTermsQuery;
 import org.elasticsearch.index.query.QueryBuilder;
 import org.elasticsearch.index.query.QueryBuilders;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +11,7 @@ import org.springframework.data.elasticsearch.core.ElasticsearchTemplate;
 import org.springframework.data.elasticsearch.core.query.NativeSearchQueryBuilder;
 import org.springframework.data.elasticsearch.core.query.SearchQuery;
 
+import eu.dzhw.fdz.metadatamanagement.data.common.QueryAnalyzers;
 import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.VariableDocument;
 
 /**
@@ -33,13 +35,15 @@ public class VariableRepositoryImpl implements VariableRepositoryCustom {
    * 
    * @see
    * eu.dzhw.fdz.metadatamanagement.data.variablemanagement.repository.VariablesRepositoryCustom#
-   * searchAllFields(java.lang.String, org.springframework.data.domain.Pageable)
+   * matchQueryInAllField(java.lang.String, org.springframework.data.domain.Pageable)
    */
   @Override
-  public Page<VariableDocument> searchAllFields(String query, Pageable pageable) {
-    SearchQuery searchQuery = new NativeSearchQueryBuilder()
-        .withQuery(QueryBuilders.matchQuery("_all", query).fuzziness(Fuzziness.AUTO))
-        .withPageable(pageable).build();
+  public Page<VariableDocument> matchQueryInAllField(String query, Pageable pageable) {
+    QueryBuilder queryBuilder = QueryBuilders.matchQuery("_all", query).fuzziness(Fuzziness.AUTO)
+        .analyzer(QueryAnalyzers.getAnalyzerForCurrentLocale()).zeroTermsQuery(ZeroTermsQuery.ALL);
+
+    SearchQuery searchQuery =
+        new NativeSearchQueryBuilder().withQuery(queryBuilder).withPageable(pageable).build();
 
     return this.elasticsearchTemplate.queryForPage(searchQuery, VariableDocument.class);
   }
@@ -49,7 +53,7 @@ public class VariableRepositoryImpl implements VariableRepositoryCustom {
    * 
    * @see
    * eu.dzhw.fdz.metadatamanagement.data.variablemanagement.repository.VariablesRepositoryCustom#
-   * matchAll(java.lang.String, org.springframework.data.domain.Pageable)
+   * matchAllQuery(java.lang.String, org.springframework.data.domain.Pageable)
    */
   @Override
   public Page<VariableDocument> matchAllQuery(Pageable pageable) {
@@ -67,16 +71,16 @@ public class VariableRepositoryImpl implements VariableRepositoryCustom {
    * 
    * @see
    * eu.dzhw.fdz.metadatamanagement.data.variablemanagement.repository.VariablesRepositoryCustom#
-   * searchPhrasePrefix(java.lang.String, org.springframework.data.domain.Pageable)
+   * matchPhrasePrefixQuery(java.lang.String, org.springframework.data.domain.Pageable)
    */
   @Override
-  public Page<VariableDocument> phrasePrefixQuery(String term, Pageable pageable) {
+  public Page<VariableDocument> matchPhrasePrefixQuery(String query, Pageable pageable) {
 
-    QueryBuilder query =
-        QueryBuilders.matchPhrasePrefixQuery("_all", term).fuzziness(Fuzziness.AUTO);
+    QueryBuilder queryBuilder = QueryBuilders.matchPhrasePrefixQuery("_all", query)
+        .fuzziness(Fuzziness.AUTO).analyzer(QueryAnalyzers.getAnalyzerForCurrentLocale());
 
     SearchQuery searchQuery =
-        new NativeSearchQueryBuilder().withQuery(query).withPageable(pageable).build();
+        new NativeSearchQueryBuilder().withQuery(queryBuilder).withPageable(pageable).build();
 
     return this.elasticsearchTemplate.queryForPage(searchQuery, VariableDocument.class);
   }

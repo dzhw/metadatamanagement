@@ -23,7 +23,7 @@ public interface VariableRepositoryCustom {
    * @return A page object with all found variable documents.
    * @see Fuzziness
    */
-  Page<VariableDocument> searchAllFields(String query, Pageable pageable);
+  Page<VariableDocument> matchQueryInAllField(String query, Pageable pageable);
 
   /**
    * This method search in the elasticsearch. This search use the fuzzyness of 0.1.
@@ -42,6 +42,6 @@ public interface VariableRepositoryCustom {
    * @return A page object with all found variable documents.
    * @see Fuzziness
    */
-  Page<VariableDocument> phrasePrefixQuery(String query, Pageable pageable);
+  Page<VariableDocument> matchPhrasePrefixQuery(String query, Pageable pageable);
 
 }

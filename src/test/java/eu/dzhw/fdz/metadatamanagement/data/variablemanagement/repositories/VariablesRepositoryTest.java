@@ -27,18 +27,18 @@ public class VariablesRepositoryTest extends MetaDataManagementApplicationSmokeT
   private VariableRepository variablesRepository;
 
   @Test
-  public void testSearchAllFields() {
+  public void testMatchQueryInAllField() {
     LocaleContextHolder.setLocale(Locale.ENGLISH);
-    assertThat(this.variablesRepository.searchAllFields("A name", new PageRequest(0, 10))
+    assertThat(this.variablesRepository.matchQueryInAllField("A name", new PageRequest(0, 10))
         .getNumberOfElements(), is(10));
   }
 
   @Test
-  public void testPhrasePrefixQuery() {
+  public void testMatchPhrasePrefixQuery() {
 
     LocaleContextHolder.setLocale(Locale.GERMAN);
     Page<VariableDocument> result =
-        this.variablesRepository.phrasePrefixQuery("FdZ_ID01", new PageRequest(0, 20));
+        this.variablesRepository.matchPhrasePrefixQuery("FdZ_ID01", new PageRequest(0, 20));
     assertThat(result.getNumberOfElements(), is(15));
   }
 
