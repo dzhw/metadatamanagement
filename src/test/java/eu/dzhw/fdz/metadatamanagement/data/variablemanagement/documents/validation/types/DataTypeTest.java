@@ -1,4 +1,4 @@
-package eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.validation.enums;
+package eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.validation.types;
 
 import static org.hamcrest.CoreMatchers.not;
 import static org.junit.Assert.assertEquals;
