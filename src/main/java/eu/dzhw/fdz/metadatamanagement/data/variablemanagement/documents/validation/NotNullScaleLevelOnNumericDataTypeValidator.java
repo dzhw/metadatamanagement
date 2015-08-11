@@ -39,13 +39,10 @@ public class NotNullScaleLevelOnNumericDataTypeValidator
       return true;
     }
 
-    // check numeric field
-    if (value.getDataType().trim().equalsIgnoreCase(DataType.NUMERIC.getI18nValue())) {
-
-      // empty scale level
-      if (value.getScaleLevel() == null) {
-        return false;
-      }
+    // check numeric field with look for a null scale level
+    if (value.getDataType().trim().equalsIgnoreCase(DataType.NUMERIC.getI18nValue())
+        && value.getScaleLevel() == null) {
+      return false;
     }
 
     // not a numeric field
