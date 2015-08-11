@@ -41,5 +41,13 @@ public class VariablesRepositoryTest extends MetaDataManagementApplicationSmokeT
         this.variablesRepository.matchPhrasePrefixQuery("FdZ_ID01", new PageRequest(0, 20));
     assertThat(result.getNumberOfElements(), is(15));
   }
+  
+  @Test
+  public void testMatchFilterBySurveyId() {
+    LocaleContextHolder.setLocale(Locale.GERMAN);
+    Page<VariableDocument> result =
+        this.variablesRepository.matchPhrasePrefixQuery("ALLBUS", new PageRequest(0, 20));
+    assertThat(result.getNumberOfElements(), is(8));
+  }
 
 }

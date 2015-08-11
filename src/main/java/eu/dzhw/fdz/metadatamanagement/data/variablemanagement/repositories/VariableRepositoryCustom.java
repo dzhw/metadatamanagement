@@ -35,4 +35,15 @@ public interface VariableRepositoryCustom {
    */
   Page<VariableDocument> matchPhrasePrefixQuery(String query, Pageable pageable);
 
+  /**
+   * This method search in the elasticsearch. This search use the fuzzyness of 0.1. It looks for the
+   * all variables with the same survey id.
+   * 
+   * @param query the query for the search. It can be any value of name.
+   * @param pageable a pageable object.
+   * @return A page object with all found variable documents.
+   * @see Fuzziness
+   */
+  Page<VariableDocument> matchFilterBySurveyId(String query, Pageable pageable);
+
 }
