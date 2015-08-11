@@ -53,24 +53,6 @@ public class VariableRepositoryImpl implements VariableRepositoryCustom {
    * 
    * @see
    * eu.dzhw.fdz.metadatamanagement.data.variablemanagement.repository.VariablesRepositoryCustom#
-   * matchAllQuery(java.lang.String, org.springframework.data.domain.Pageable)
-   */
-  @Override
-  public Page<VariableDocument> matchAllQuery(Pageable pageable) {
-
-    QueryBuilder query = QueryBuilders.matchAllQuery();
-
-    SearchQuery searchQuery =
-        new NativeSearchQueryBuilder().withQuery(query).withPageable(pageable).build();
-
-    return this.elasticsearchTemplate.queryForPage(searchQuery, VariableDocument.class);
-  }
-
-  /*
-   * (non-Javadoc)
-   * 
-   * @see
-   * eu.dzhw.fdz.metadatamanagement.data.variablemanagement.repository.VariablesRepositoryCustom#
    * matchPhrasePrefixQuery(java.lang.String, org.springframework.data.domain.Pageable)
    */
   @Override

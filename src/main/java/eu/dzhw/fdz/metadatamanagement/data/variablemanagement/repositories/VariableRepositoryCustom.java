@@ -28,15 +28,6 @@ public interface VariableRepositoryCustom {
   /**
    * This method search in the elasticsearch. This search use the fuzzyness of 0.1.
    * 
-   * @param pageable a pageable object.
-   * @return A page object with all found variable documents.
-   * @see Fuzziness
-   */
-  Page<VariableDocument> matchAllQuery(Pageable pageable);
-
-  /**
-   * This method search in the elasticsearch. This search use the fuzzyness of 0.1.
-   * 
    * @param query the query for the search. It can be any value of name.
    * @param pageable a pageable object.
    * @return A page object with all found variable documents.

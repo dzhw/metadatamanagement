@@ -11,7 +11,7 @@ import org.springframework.context.i18n.LocaleContextHolder;
  * @author René Reitmann
  *
  */
-public final class QueryAnalyzers {
+public abstract class QueryAnalyzers {
 
   private static final HashMap<Locale, String> ANALYZERS = new HashMap<>();
 
