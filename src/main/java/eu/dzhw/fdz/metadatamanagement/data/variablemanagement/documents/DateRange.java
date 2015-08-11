@@ -31,7 +31,7 @@ public class DateRange {
    */
   @Override
   public String toString() {
-    return "DateRange [getStartDate()=" + getStartDate() + ", getEndDate()=" + getEndDate() + "]";
+    return "DateRange [startDate=" + startDate + ", endDate=" + endDate + "]";
   }
 
   /* GETTER / SETTER */

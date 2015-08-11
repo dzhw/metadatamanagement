@@ -71,15 +71,13 @@ public class VariableDocument extends AbstractDocument {
 
   /*
    * (non-Javadoc)
-   * 
    * @see java.lang.Object#toString()
    */
   @Override
   public String toString() {
-    return "VariableDocument [getFdzId()=" + getId() + ", getVariableSurveyDocument()="
-        + getVariableSurveyDocument() + ", getName()=" + getName() + ", getLabel()=" + getLabel()
-        + ", getDataType()=" + getDataType() + ", getScaleLevel()=" + getScaleLevel()
-        + ", getAnswerOptions()=" + getAnswerOptions() + "]";
+    return "VariableDocument [variableSurvey=" + variableSurvey + ", name=" + name + ", dataType="
+        + dataType + ", label=" + label + ", scaleLevel=" + scaleLevel + ", answerOptions="
+        + answerOptions + "]";
   }
 
 

@@ -55,8 +55,8 @@ public class VariableSurvey {
    */
   @Override
   public String toString() {
-    return "VariableSurveyDocument [getSurveyId()=" + getSurveyId() + ", getTitle()=" + getTitle()
-        + ", getDateRange()=" + getSurveyId() + ", getAlias()=" + getAlias() + "]";
+    return "VariableSurvey [surveyId=" + surveyId + ", title=" + title + ", surveyPeriod="
+        + surveyPeriod + ", alias=" + alias + "]";
   }
 
 

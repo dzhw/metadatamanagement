@@ -25,10 +25,10 @@ import org.slf4j.LoggerFactory;
  * @author Daniel Katzberg
  *
  */
-public class VariableDocumentTest{
+public class VariableDocumentTest {
 
   private static final Logger LOGGER = LoggerFactory.getLogger(VariableDocumentTest.class);
-  
+
   private static Validator VALIDATOR;
 
   @BeforeClass
@@ -193,11 +193,11 @@ public class VariableDocumentTest{
     // Act
     Set<ConstraintViolation<VariableDocument>> variableVialations =
         VALIDATOR.validate(variableDocument);
-    
+
     // Assert
     assertEquals(0, variableVialations.size());
   }
-  
+
   @Test
   public void testInvalidDataField() {
     // Assert
@@ -209,16 +209,17 @@ public class VariableDocumentTest{
     // Act
     Set<ConstraintViolation<VariableDocument>> variableVialations =
         VALIDATOR.validate(variableDocument);
-    
+
     // Assert
     assertEquals(1, variableVialations.size());
     for (ConstraintViolation<VariableDocument> variableVialation : variableVialations) {
 
-      LOGGER.debug("testInvalidDataField() " + variableVialation.getMessageTemplate()
-          + " -> " + variableVialation.getMessage());
+      LOGGER.debug("testInvalidDataField() " + variableVialation.getMessageTemplate() + " -> "
+          + variableVialation.getMessage());
 
-      assertEquals("{eu.dzhw.fdz.metadatamanagement.data.variablemanagement."
-          + "documents.enum.validation.validdatatype.message}",
+      assertEquals(
+          "{eu.dzhw.fdz.metadatamanagement.data.variablemanagement."
+              + "documents.enum.validation.validdatatype.message}",
           variableVialation.getMessageTemplate());
     }
   }
@@ -239,7 +240,7 @@ public class VariableDocumentTest{
     // Assert
     assertEquals(0, variableVialations.size());
   }
-  
+
   @Test
   public void testInvalidScaleLevel() {
     // Assert
@@ -251,16 +252,17 @@ public class VariableDocumentTest{
     // Act
     Set<ConstraintViolation<VariableDocument>> variableVialations =
         VALIDATOR.validate(variableDocument);
-    
+
     // Assert
     assertEquals(1, variableVialations.size());
     for (ConstraintViolation<VariableDocument> variableVialation : variableVialations) {
 
-      LOGGER.debug("testInvalidDataField() " + variableVialation.getMessageTemplate()
-          + " -> " + variableVialation.getMessage());
+      LOGGER.debug("testInvalidDataField() " + variableVialation.getMessageTemplate() + " -> "
+          + variableVialation.getMessage());
 
-      assertEquals("{eu.dzhw.fdz.metadatamanagement.data.variablemanagement."
-          + "documents.enum.validation.validscalelevel.message}",
+      assertEquals(
+          "{eu.dzhw.fdz.metadatamanagement.data.variablemanagement."
+              + "documents.enum.validation.validscalelevel.message}",
           variableVialation.getMessageTemplate());
     }
   }
@@ -536,7 +538,7 @@ public class VariableDocumentTest{
 
       assertEquals(
           "{eu.dzhw.fdz.metadatamanagement.data.variablemanagement."
-          + "common.validation.validDateRange.message}",
+              + "common.validation.validDateRange.message}",
           variableVialation.getMessageTemplate());
     }
   }
@@ -599,9 +601,10 @@ public class VariableDocumentTest{
     // Act
 
     // Assert
-    assertEquals("VariableDocument [getFdzId()=null, getVariableSurveyDocument()=null, "
-        + "getName()=null, getLabel()=null, getDataType()=null, getScaleLevel()=null, "
-        + "getAnswerOptions()=null]", variableDocument.toString());
+    assertEquals(
+        "VariableDocument [variableSurvey=null, name=null, dataType=null, "
+        + "label=null, scaleLevel=null, answerOptions=null]",
+        variableDocument.toString());
   }
 
   @Test
@@ -615,10 +618,8 @@ public class VariableDocumentTest{
 
     // Assert
     assertEquals(
-        "VariableDocument [getFdzId()=null, getVariableSurveyDocument()=VariableSurveyDocument "
-            + "[getSurveyId()=null, getTitle()=null, getDateRange()=null, getAlias()=null], "
-            + "getName()=null, getLabel()=null, getDataType()=null, getScaleLevel()=null, "
-            + "getAnswerOptions()=[]]",
+        "VariableDocument [variableSurvey=VariableSurvey [surveyId=null, title=null, surveyPeriod=null, "
+        + "alias=null], name=null, dataType=null, label=null, scaleLevel=null, answerOptions=[]]",
         variableDocument.toString());
   }
 
@@ -634,10 +635,9 @@ public class VariableDocumentTest{
 
     // Assert
     assertEquals(
-        "VariableDocument [getFdzId()=null, getVariableSurveyDocument()=VariableSurveyDocument "
-            + "[getSurveyId()=null, getTitle()=null, getDateRange()=null, getAlias()=null], "
-            + "getName()=null, getLabel()=null, getDataType()=null, getScaleLevel()=null, "
-            + "getAnswerOptions()=[]]",
+        "VariableDocument [variableSurvey=VariableSurvey [surveyId=null, title=null, "
+        + "surveyPeriod=DateRange [startDate=null, endDate=null], alias=null], name=null, "
+        + "dataType=null, label=null, scaleLevel=null, answerOptions=[]]",
         variableDocument.toString());
   }
 
@@ -658,9 +658,9 @@ public class VariableDocumentTest{
 
     // Assert
     assertEquals(
-        "VariableDocument [getFdzId()=null, getVariableSurveyDocument()=VariableSurveyDocument "
-            + "[getSurveyId()=null, getTitle()=null, getDateRange()=null, getAlias()=null], getName()=null, "
-            + "getLabel()=null, getDataType()=null, getScaleLevel()=null, getAnswerOptions()=[]]",
+        "VariableDocument [variableSurvey=VariableSurvey [surveyId=null, title=null, "
+        + "surveyPeriod=DateRange [startDate=2015-01-01, endDate=2015-02-01], alias=null], "
+        + "name=null, dataType=null, label=null, scaleLevel=null, answerOptions=[]]",
         variableDocument.toString());
   }
 }
