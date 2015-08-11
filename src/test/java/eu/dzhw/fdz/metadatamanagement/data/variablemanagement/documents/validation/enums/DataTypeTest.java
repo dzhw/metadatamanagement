@@ -9,8 +9,6 @@ import java.util.Locale;
 import org.junit.Test;
 import org.springframework.context.i18n.LocaleContextHolder;
 
-import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.validation.enums.DataType;
-
 /**
  * @author Daniel Katzberg
  *
@@ -21,14 +19,14 @@ public class DataTypeTest{
   public void testValidNumericFieldGerman(){
     LocaleContextHolder.setLocale(Locale.GERMANY);
     String messageDE = DataType.NUMERIC.getI18nValue();
-    assertEquals("Numerisch", messageDE);
+    assertEquals("numerisch", messageDE);
   }
   
   @Test
   public void testInValidNumericFieldEnglish(){
     LocaleContextHolder.setLocale(Locale.ENGLISH);
     String messageEN = DataType.NUMERIC.getI18nValue();
-    assertThat("Numerisch", not(messageEN));
+    assertThat("numerisch", not(messageEN));
   }
 
 }

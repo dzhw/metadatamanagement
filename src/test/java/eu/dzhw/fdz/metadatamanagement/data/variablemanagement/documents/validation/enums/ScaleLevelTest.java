@@ -22,14 +22,14 @@ public class ScaleLevelTest {
   public void testValidNumericFieldGerman(){
     LocaleContextHolder.setLocale(Locale.GERMANY);
     String messageDE = ScaleLevel.METRIC.getI18nValue();
-    assertEquals("Metrisch", messageDE);
+    assertEquals("metrisch", messageDE);
   }
   
   @Test
   public void testInValidNumericFieldEnglish(){
     LocaleContextHolder.setLocale(Locale.ENGLISH);
     String messageEN = ScaleLevel.METRIC.getI18nValue();
-    assertThat("Metrisch", not(messageEN));
+    assertThat("metrisch", not(messageEN));
   }
 
 }
