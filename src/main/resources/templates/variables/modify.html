@@ -1,0 +1,21 @@
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-spring4-4.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org" th:lang="${#locale.language}">
+<head th:include="common/head::head">
+</head>
+<body>
+	<header>
+		<div th:include="common/navbar::navbar"></div>
+		<div
+			th:include="common/jumbotron::jumbotron(title=#{jumbo.variables.create.intro},subtitle='')"></div>
+	</header>
+	<div class="container">
+	<div class="col-md-12">
+						<div id="form-container" class="well">
+							
+						</div>
+					</div>
+	</div>
+	<div th:include="common/js_libraries::js"></div>
+</body>
+</html>

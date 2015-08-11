@@ -9,6 +9,7 @@ import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.hateoas.Link;
 import org.springframework.hateoas.ResourceSupport;
 
+import eu.dzhw.fdz.metadatamanagement.web.variablemanagement.modify.VariableModifyController;
 import eu.dzhw.fdz.metadatamanagement.web.variablemanagement.search.VariableSearchController;
 import eu.dzhw.fdz.metadatamanagement.web.welcome.WelcomeController;
 
@@ -19,10 +20,11 @@ import eu.dzhw.fdz.metadatamanagement.web.welcome.WelcomeController;
  * @param <T> the page controller
  * @author René Reitmann
  */
-public abstract class NavigatablePageResource<T> extends ResourceSupport
-    implements InternationalizedResource {
+public abstract class NavigatablePageResource<T> extends ResourceSupport implements
+    InternationalizedResource {
 
-  public static final String VARIABLES_REL = "variables";
+  public static final String VARIABLES_SEARCH_REL = "search";
+  public static final String VARIABLES_CREATE_REL = "create";
   public static final String HOME_REL = "home";
   public static final String GERMAN_REL = Locale.GERMAN.getLanguage();
   public static final String ENGLISH_REL = Locale.ENGLISH.getLanguage();
@@ -33,18 +35,25 @@ public abstract class NavigatablePageResource<T> extends ResourceSupport
   public NavigatablePageResource() {
     this.add(linkTo(
         methodOn(WelcomeController.class, LocaleContextHolder.getLocale().getLanguage()).get())
-            .withRel(HOME_REL));
+        .withRel(HOME_REL));
     this.add(linkTo(
         methodOn(VariableSearchController.class, LocaleContextHolder.getLocale().getLanguage())
-            .get(null, null)).withRel(VARIABLES_REL));
+            .get(null, null)).withRel(VARIABLES_SEARCH_REL));
+    this.add(linkTo(
+        methodOn(VariableModifyController.class, LocaleContextHolder.getLocale().getLanguage())
+            .get()).withRel(VARIABLES_CREATE_REL));
   }
 
   public Link getHomeLink() {
     return this.getLink(HOME_REL);
   }
 
-  public Link getVariablesLink() {
-    return this.getLink(VARIABLES_REL);
+  public Link getVariablesSearchLink() {
+    return this.getLink(VARIABLES_SEARCH_REL);
+  }
+
+  public Link getVariablesCreateLink() {
+    return this.getLink(VARIABLES_CREATE_REL);
   }
 
   @Override
