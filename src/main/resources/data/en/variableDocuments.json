@@ -2,14 +2,14 @@
     {
         "_class": "eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.VariableDocument",
         "id": "SurveyID01",
-        "variableSurveyDocument": {
+        "variableSurvey": {
             "surveyId": "SSurveyID007",
             "title": "A title.",
             "surveyPeriod": {
                 "startDate": "2015-07-29",
                 "endDate": "2015-12-24"
             },
-            "alias": "An alias"
+            "variableAlias": "An variableAlias"
         },
         "name": "A name",
         "dataType": "NUMERIC",
@@ -33,14 +33,14 @@
     {
         "_class": "eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.VariableDocument",
         "id": "Survey_ID_02",
-        "variableSurveyDocument": {
+        "variableSurvey": {
             "surveyId": "SSurveyID007",
             "title": "A title.",
             "surveyPeriod": {
                 "startDate": "2015-07-29",
                 "endDate": "2015-12-24"
             },
-            "alias": "An alias"
+            "variableAlias": "An variableAlias"
         },
         "name": "A name",
         "dataType": "NUMERIC",
@@ -64,14 +64,14 @@
     {
         "_class": "eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.VariableDocument",
         "id": "SurveyID-03",
-        "variableSurveyDocument": {
+        "variableSurvey": {
             "surveyId": "SSurveyID007",
             "title": "A title.",
             "surveyPeriod": {
                 "startDate": "2015-07-29",
                 "endDate": "2015-12-24"
             },
-            "alias": "An alias"
+            "variableAlias": "An variableAlias"
         },
         "name": "A name",
         "dataType": "NUMERIC",
@@ -95,14 +95,14 @@
     {
         "_class": "eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.VariableDocument",
         "id": "SurveyD04",
-        "variableSurveyDocument": {
+        "variableSurvey": {
             "surveyId": "SSurveyID007",
             "title": "A title.",
             "surveyPeriod": {
                 "startDate": "2015-07-29",
                 "endDate": "2015-12-24"
             },
-            "alias": "An alias"
+            "variableAlias": "An variableAlias"
         },
         "name": "A name",
         "dataType": "NUMERIC",
@@ -126,14 +126,14 @@
     {
         "_class": "eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.VariableDocument",
         "id": "SurvyID05",
-        "variableSurveyDocument": {
+        "variableSurvey": {
             "surveyId": "SurveyID002",
             "title": "A title.",
             "surveyPeriod": {
                 "startDate": "2015-07-29",
                 "endDate": "2015-12-24"
             },
-            "alias": "An alias"
+            "variableAlias": "An variableAlias"
         },
         "name": "A name",
         "dataType": "NUMERIC",
@@ -157,14 +157,14 @@
     {
         "_class": "eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.VariableDocument",
         "id": "SurveyID06",
-        "variableSurveyDocument": {
+        "variableSurvey": {
             "surveyId": "SurveyID007",
             "title": "A title.",
             "surveyPeriod": {
                 "startDate": "2015-07-29",
                 "endDate": "2015-12-24"
             },
-            "alias": "An alias"
+            "variableAlias": "An variableAlias"
         },
         "name": "A name",
         "dataType": "NUMERIC",
@@ -188,14 +188,14 @@
     {
         "_class": "eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.VariableDocument",
         "id": "urvey07",
-        "variableSurveyDocument": {
+        "variableSurvey": {
             "surveyId": "SurveyID007",
             "title": "A title.",
             "surveyPeriod": {
                 "startDate": "2015-07-29",
                 "endDate": "2015-12-24"
             },
-            "alias": "An alias"
+            "variableAlias": "An variableAlias"
         },
         "name": "A name",
         "dataType": "NUMERIC",
@@ -219,14 +219,14 @@
     {
         "_class": "eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.VariableDocument",
         "id": "rvy8",
-        "variableSurveyDocument": {
+        "variableSurvey": {
             "surveyId": "SurveyID007",
             "title": "A title.",
             "surveyPeriod": {
                 "startDate": "2015-07-29",
                 "endDate": "2015-12-24"
             },
-            "alias": "An alias"
+            "variableAlias": "An variableAlias"
         },
         "name": "A name",
         "dataType": "NUMERIC",
@@ -250,14 +250,14 @@
     {
         "_class": "eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.VariableDocument",
         "id": "SrD09",
-        "variableSurveyDocument": {
+        "variableSurvey": {
             "surveyId": "SurveyID",
             "title": "A title.",
             "surveyPeriod": {
                 "startDate": "2015-07-29",
                 "endDate": "2015-12-24"
             },
-            "alias": "An alias"
+            "variableAlias": "An variableAlias"
         },
         "name": "A name",
         "dataType": "NUMERIC",
@@ -281,14 +281,14 @@
     {
         "_class": "eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.VariableDocument",
         "id": "Srvy10",
-        "variableSurveyDocument": {
+        "variableSurvey": {
             "surveyId": "SurveyID007",
             "title": "A title.",
             "surveyPeriod": {
                 "startDate": "2015-07-29",
                 "endDate": "2015-12-24"
             },
-            "alias": "An alias"
+            "variableAlias": "An variableAlias"
         },
         "name": "A name",
         "dataType": "NUMERIC",
@@ -312,14 +312,14 @@
     {
         "_class": "eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.VariableDocument",
         "id": "rv3y11",
-        "variableSurveyDocument": {
+        "variableSurvey": {
             "surveyId": "SurveyID007",
             "title": "A title.",
             "surveyPeriod": {
                 "startDate": "2015-07-29",
                 "endDate": "2015-12-24"
             },
-            "alias": "An alias"
+            "variableAlias": "An variableAlias"
         },
         "name": "A name",
         "dataType": "NUMERIC",
@@ -343,14 +343,14 @@
     {
         "_class": "eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.VariableDocument",
         "id": "ury-ID-12",
-        "variableSurveyDocument": {
+        "variableSurvey": {
             "surveyId": "SurveyID007",
             "title": "A title.",
             "surveyPeriod": {
                 "startDate": "2015-07-29",
                 "endDate": "2015-12-24"
             },
-            "alias": "An alias"
+            "variableAlias": "An variableAlias"
         },
         "name": "A name",
         "dataType": "NUMERIC",
@@ -374,14 +374,14 @@
     {
         "_class": "eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.VariableDocument",
         "id": "SrvyID13",
-        "variableSurveyDocument": {
+        "variableSurvey": {
             "surveyId": "Survey ID 13",
             "title": "A title.",
             "surveyPeriod": {
                 "startDate": "2015-07-29",
                 "endDate": "2015-12-24"
             },
-            "alias": "An alias"
+            "variableAlias": "An variableAlias"
         },
         "name": "A name",
         "dataType": "NUMERIC",
@@ -405,14 +405,14 @@
     {
         "_class": "eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.VariableDocument",
         "id": "SveID-_14_",
-        "variableSurveyDocument": {
+        "variableSurvey": {
             "surveyId": "SurveyID007",
             "title": "A title.",
             "surveyPeriod": {
                 "startDate": "2015-07-29",
                 "endDate": "2015-12-24"
             },
-            "alias": "An alias"
+            "variableAlias": "An variableAlias"
         },
         "name": "A name",
         "dataType": "NUMERIC",
@@ -436,14 +436,14 @@
     {
         "_class": "eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.VariableDocument",
         "id": "ID15",
-        "variableSurveyDocument": {
+        "variableSurvey": {
             "surveyId": "SurveyID007",
             "title": "A title.",
             "surveyPeriod": {
                 "startDate": "2015-07-29",
                 "endDate": "2015-12-24"
             },
-            "alias": "An alias"
+            "variableAlias": "An variableAlias"
         },
         "name": "A name",
         "dataType": "NUMERIC",

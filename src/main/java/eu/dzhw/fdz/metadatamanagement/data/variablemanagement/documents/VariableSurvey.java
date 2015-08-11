@@ -3,8 +3,6 @@ package eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents;
 import javax.validation.constraints.Size;
 
 import org.hibernate.validator.constraints.NotEmpty;
-import org.springframework.data.elasticsearch.annotations.Field;
-import org.springframework.data.elasticsearch.annotations.FieldType;
 
 import eu.dzhw.fdz.metadatamanagement.data.common.validation.ValidDateRange;
 
@@ -35,7 +33,6 @@ public class VariableSurvey {
   /**
    * DateRange is the representation of the range of the survey. This is a nested object.
    */
-  @Field(type = FieldType.Object)
   @ValidDateRange
   private DateRange surveyPeriod;
 
@@ -47,16 +44,17 @@ public class VariableSurvey {
   @Size(max = 32)
   @NotEmpty
   // TODO validate that the name is unique within a survey
-  private String alias;
+  private String variableAlias;
 
   /*
    * (non-Javadoc)
+   * 
    * @see java.lang.Object#toString()
    */
   @Override
   public String toString() {
     return "VariableSurvey [surveyId=" + surveyId + ", title=" + title + ", surveyPeriod="
-        + surveyPeriod + ", alias=" + alias + "]";
+        + surveyPeriod + ", variableAlias=" + variableAlias + "]";
   }
 
 
@@ -77,12 +75,12 @@ public class VariableSurvey {
     this.title = title;
   }
 
-  public String getAlias() {
-    return alias;
+  public String getVariableAlias() {
+    return variableAlias;
   }
 
-  public void setAlias(String alias) {
-    this.alias = alias;
+  public void setVariableAlias(String alias) {
+    this.variableAlias = alias;
   }
 
   public DateRange getSurveyPeriod() {
@@ -91,5 +89,5 @@ public class VariableSurvey {
 
   public void setSurveyPeriod(DateRange surveyPeriod) {
     this.surveyPeriod = surveyPeriod;
-  }  
+  }
 }

@@ -20,7 +20,7 @@
       },
       "id": {
         "type": "string",
-        "analyzer": "english"
+        "index": "not_analyzed"
       },
       "label": {
         "type": "string",
@@ -34,16 +34,16 @@
         "type": "string",
         "analyzer": "english"
       },
-      "variableSurveyDocument": {
+      "variableSurvey": {
         "type": "nested",
         "properties": {
-          "alias": {
+          "variablevariableAlias": {
             "type": "string",
             "analyzer": "english"
           },
           "surveyId": {
             "type": "string",
-            "analyzer": "english"
+            "index": "not_analyzed"
           },
           "surveyPeriod": {
             "type": "nested",

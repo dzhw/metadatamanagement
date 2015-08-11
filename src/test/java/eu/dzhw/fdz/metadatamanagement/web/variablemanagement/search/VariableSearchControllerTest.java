@@ -69,7 +69,7 @@ public class VariableSearchControllerTest extends AbstractWebTest {
         .andExpect(request().asyncResult(instanceOf(ModelAndView.class))).andReturn();
 
     ModelAndViewAssert.assertViewName((ModelAndView) mvcResult.getAsyncResult(),
-        "variables/variableSearch");
+        "variables/search");
     ModelAndViewAssert.assertModelAttributeValue((ModelAndView) mvcResult.getAsyncResult(), "query",
         "ALLBUS");
     ModelAndViewAssert.assertModelAttributeAvailable((ModelAndView) mvcResult.getAsyncResult(),
@@ -91,7 +91,7 @@ public class VariableSearchControllerTest extends AbstractWebTest {
             .andExpect(request().asyncResult(instanceOf(ModelAndView.class))).andReturn();
 
     ModelAndViewAssert.assertViewName((ModelAndView) mvcResult.getAsyncResult(),
-        "variables/variableSearch");
+        "variables/search");
     ModelAndViewAssert.assertModelAttributeValue((ModelAndView) mvcResult.getAsyncResult(), "query",
         "ALLBUS");
     ModelAndViewAssert.assertModelAttributeAvailable((ModelAndView) mvcResult.getAsyncResult(),

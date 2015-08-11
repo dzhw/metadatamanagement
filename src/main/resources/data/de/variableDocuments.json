@@ -2,14 +2,14 @@
 	{
 		"_class": "eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.VariableDocument",
 		"id": "FdZ_ID01",
-		"variableSurveyDocument": {
+		"variableSurvey": {
 			"surveyId": "Ge_ALL_04",
 			"title": "ALLBUS 2014",
 		"surveyPeriod": {
 				"startDate": "2014-03-01",
 				"endDate": "2014-09-30"
 			},
-			"alias": "Schicht"
+			"variableAlias": "Schicht"
 		},
 		"name": "V850",
 		"dataType": "NUMERIC",
@@ -45,14 +45,14 @@
 	{
 		"_class": "eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.VariableDocument",
 		"id": "FdZ_ID02",
-		"variableSurveyDocument": {
+		"variableSurvey": {
 			"surveyId": "Ge_ALL_04",
 			"title": "ALLBUS 2014",
 		"surveyPeriod": {
 				"startDate": "2014-03-01",
 				"endDate": "2014-09-30"
 			},
-			"alias": "Geschlecht"
+			"variableAlias": "Geschlecht"
 		},
 		"name": "V81",
 		"dataType": "NUMERIC",
@@ -72,14 +72,14 @@
 	{
 		"_class": "eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.VariableDocument",
 		"id": "FdZ_ID03",
-		"variableSurveyDocument": {
+		"variableSurvey": {
 			"surveyId": "Ge_ALL_04",
 			"title": "ALLBUS 2014",
 		"surveyPeriod": {
 				"startDate": "2014-03-01",
 				"endDate": "2014-09-30"
 			},
-			"alias": "Fachhochschulabschluss"
+			"variableAlias": "Fachhochschulabschluss"
 		},
 		"name": "V100",
 		"dataType": "NUMERIC",
@@ -127,14 +127,14 @@
 	{
 		"_class": "eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.VariableDocument",
 		"id": "FdZ_ID04",
-		"variableSurveyDocument": {
+		"variableSurvey": {
 			"surveyId": "Ge_ALL_04",
 			"title": "ALLBUS 2014",
 		"surveyPeriod": {
 				"startDate": "2014-03-01",
 				"endDate": "2014-09-30"
 			},
-			"alias": "Arbeitsstunden"
+			"variableAlias": "Arbeitsstunden"
 		},
 		"name": "V118",
 		"dataType": "NUMERIC",
@@ -158,14 +158,14 @@
 	{
 		"_class": "eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.VariableDocument",
 		"id": "FdZ_ID05",
-		"variableSurveyDocument": {
+		"variableSurvey": {
 			"surveyId": "Ge_ALL_04",
 			"title": "ALLBUS 2014",
 		"surveyPeriod": {
 				"startDate": "2014-03-01",
 				"endDate": "2014-09-30"
 			},
-			"alias": "BeaufsichtigtePersonen"
+			"variableAlias": "BeaufsichtigtePersonen"
 		},
 		"name": "V124",
 		"dataType": "NUMERIC",
@@ -213,14 +213,14 @@
 	{
 		"_class": "eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.VariableDocument",
 		"id": "FdZ_ID06",
-		"variableSurveyDocument": {
+		"variableSurvey": {
 			"surveyId": "Ge_ALL_04",
 			"title": "ALLBUS 2014",
 		"surveyPeriod": {
 				"startDate": "2014-03-01",
 				"endDate": "2014-09-30"
 			},
-			"alias": "StellungVater"
+			"variableAlias": "StellungVater"
 		},
 		"name": "V131",
 		"dataType": "NUMERIC",
@@ -264,14 +264,14 @@
 	{
 		"_class": "eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.VariableDocument",
 		"id": "FdZ_ID07",
-		"variableSurveyDocument": {
+		"variableSurvey": {
 			"surveyId": "Ge_ALL_04",
 			"title": "ALLBUS 2014",
 		"surveyPeriod": {
 				"startDate": "2014-03-01",
 				"endDate": "2014-09-30"
 			},
-			"alias": "Staatsbürgerschaft"
+			"variableAlias": "Staatsbürgerschaft"
 		},
 		"name": "V370",
 		"dataType": "NUMERIC",
@@ -375,14 +375,14 @@
 	{
 		"_class": "eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.VariableDocument",
 		"id": "FdZ_ID08",
-		"variableSurveyDocument": {
+		"variableSurvey": {
 			"surveyId": "Ge_ALL_04",
 			"title": "ALLBUS 2014",
 		"surveyPeriod": {
 				"startDate": "2014-03-01",
 				"endDate": "2014-09-30"
 			},
-			"alias": "LinksRechts"
+			"variableAlias": "LinksRechts"
 		},
 		"name": "V215",
 		"dataType": "NUMERIC",
@@ -438,14 +438,14 @@
 	{
 		"_class": "eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.VariableDocument",
 		"id": "FdZ_ID09",
-		"variableSurveyDocument": {
+		"variableSurvey": {
 			"surveyId": "DZHW_AP_01",
 			"title": "Absolbentenpanel 2001",
 		"surveyPeriod": {
 				"startDate": "2000-08-01",
 				"endDate": "2001-09-30"
 			},
-			"alias": "ID"
+			"variableAlias": "ID"
 		},
 		"name": "id_suf",
 		"dataType": "NUMERIC",
@@ -465,14 +465,14 @@
 	{
 		"_class": "eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.VariableDocument",
 		"id": "FdZ_ID10",
-		"variableSurveyDocument": {
+		"variableSurvey": {
 			"surveyId": "DZHW_AP_01",
 			"title": "Absolbentenpanel 2001",
 		"surveyPeriod": {
 				"startDate": "2000-08-01",
 				"endDate": "2001-09-30"
 			},
-			"alias": "Strukturiertheit"
+			"variableAlias": "Strukturiertheit"
 		},
 		"name": "a1sitstruk",
 		"dataType": "NUMERIC",
@@ -508,14 +508,14 @@
 	{
 		"_class": "eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.VariableDocument",
 		"id": "FdZ_ID11",
-		"variableSurveyDocument": {
+		"variableSurvey": {
 			"surveyId": "DZHW_AP_01",
 			"title": "Absolbentenpanel 2001",
 		"surveyPeriod": {
 				"startDate": "2000-08-01",
 				"endDate": "2001-09-30"
 			},
-			"alias": "Studienberechtigung"
+			"variableAlias": "Studienberechtigung"
 		},
 		"name": "klstudber",
 		"dataType": "NUMERIC",
@@ -547,14 +547,14 @@
 	{
 		"_class": "eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.VariableDocument",
 		"id": "FdZ_ID12",
-		"variableSurveyDocument": {
+		"variableSurvey": {
 			"surveyId": "DZHW_AP_01",
 			"title": "Absolbentenpanel 2001",
 		"surveyPeriod": {
 				"startDate": "2000-08-01",
 				"endDate": "2001-09-30"
 			},
-			"alias": "Lbensunterhalt"
+			"variableAlias": "Lbensunterhalt"
 		},
 		"name": "b1leberwan",
 		"dataType": "NUMERIC",
@@ -574,14 +574,14 @@
 	{
 		"_class": "eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.VariableDocument",
 		"id": "FdZ_ID13",
-		"variableSurveyDocument": {
+		"variableSurvey": {
 			"surveyId": "DZHW_SE_20",
 			"title": "20. Sozialerhebung",
 		"surveyPeriod": {
 				"startDate": "2012-05-01",
 				"endDate": "2012-08-31"
 			},
-			"alias": "Hochschulsemester (aggregiert)"
+			"variableAlias": "Hochschulsemester (aggregiert)"
 		},
 		"name": "ssemhsa",
 		"dataType": "NUMERIC",
@@ -625,14 +625,14 @@
 	{
 		"_class": "eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.VariableDocument",
 		"id": "FdZ_ID14",
-		"variableSurveyDocument": {
+		"variableSurvey": {
 			"surveyId": "DZHW_SE_20",
 			"title": "20. Sozialerhebung",
 		"surveyPeriod": {
 				"startDate": "2012-05-01",
 				"endDate": "2012-08-31"
 			},
-			"alias": "keine Erwerbstaet. (wg Kind)"
+			"variableAlias": "keine Erwerbstaet. (wg Kind)"
 		},
 		"name": "engrkin",
 		"dataType": "NUMERIC",
@@ -660,14 +660,14 @@
 	{
 		"_class": "eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.VariableDocument",
 		"id": "FdZ_ID15",
-		"variableSurveyDocument": {
+		"variableSurvey": {
 			"surveyId": "DZHW_SE_20",
 			"title": "20. Sozialerhebung",
 		"surveyPeriod": {
 				"startDate": "2012-05-01",
 				"endDate": "2012-08-31"
 			},
-			"alias": "Staatsangehörigkeit"
+			"variableAlias": "Staatsangehörigkeit"
 		},
 		"name": "dnatsta",
 		"dataType": "NUMERIC",

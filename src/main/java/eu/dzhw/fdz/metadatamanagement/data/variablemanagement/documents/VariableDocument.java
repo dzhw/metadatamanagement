@@ -7,8 +7,6 @@ import javax.validation.constraints.Size;
 
 import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.data.elasticsearch.annotations.Document;
-import org.springframework.data.elasticsearch.annotations.Field;
-import org.springframework.data.elasticsearch.annotations.FieldType;
 
 import eu.dzhw.fdz.metadatamanagement.data.common.documents.AbstractDocument;
 import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.validation.NotNullScaleLevelOnNumericDataType;
@@ -29,12 +27,9 @@ import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.validati
 @NotNullScaleLevelOnNumericDataType
 public class VariableDocument extends AbstractDocument {
 
-
-
   /**
    * This is a nested reference to the survey.
    */
-  @Field(type = FieldType.Nested)
   @Valid
   private VariableSurvey variableSurvey;
 
@@ -66,12 +61,12 @@ public class VariableDocument extends AbstractDocument {
   /**
    * The value (answer options) with depending labels are represent in this nested field.
    */
-  @Field(type = FieldType.Nested)
   @Valid
   private List<AnswerOption> answerOptions;
 
   /*
    * (non-Javadoc)
+   * 
    * @see java.lang.Object#toString()
    */
   @Override
@@ -84,11 +79,11 @@ public class VariableDocument extends AbstractDocument {
 
   /* GETTER / SETTER */
 
-  public VariableSurvey getVariableSurveyDocument() {
+  public VariableSurvey getVariableSurvey() {
     return variableSurvey;
   }
 
-  public void setVariableSurveyDocument(VariableSurvey variableSurvey) {
+  public void setVariableSurvey(VariableSurvey variableSurvey) {
     this.variableSurvey = variableSurvey;
   }
 
