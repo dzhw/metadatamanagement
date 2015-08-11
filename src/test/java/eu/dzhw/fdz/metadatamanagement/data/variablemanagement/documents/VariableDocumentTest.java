@@ -13,31 +13,26 @@ import java.util.Locale;
 import java.util.Set;
 
 import javax.validation.ConstraintViolation;
-import javax.validation.Validation;
 import javax.validation.Validator;
-import javax.validation.ValidatorFactory;
 
-import org.junit.BeforeClass;
 import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.i18n.LocaleContextHolder;
+
+import eu.dzhw.fdz.metadatamanagement.web.AbstractWebTest;
 
 /**
  * @author Daniel Katzberg
  *
  */
-public class VariableDocumentTest {
+public class VariableDocumentTest extends AbstractWebTest {
 
   private static final Logger LOGGER = LoggerFactory.getLogger(VariableDocumentTest.class);
 
-  private static Validator VALIDATOR;
-
-  @BeforeClass
-  public static void setUpValidatorAndDates() {
-    ValidatorFactory validatorFactory = Validation.buildDefaultValidatorFactory();
-    VALIDATOR = validatorFactory.getValidator();
-  }
+  @Autowired
+  private Validator validator;
 
   @Test
   public void testEmptyInValidVariableDocument() {
@@ -47,11 +42,11 @@ public class VariableDocumentTest {
     variable.setId("");
 
     // Act
-    Set<ConstraintViolation<VariableDocument>> variableVialations = VALIDATOR.validate(variable);
+    Set<ConstraintViolation<VariableDocument>> variableViolations = this.validator.validate(variable);
 
     // Assert
-    assertEquals(2, variableVialations.size());
-    for (ConstraintViolation<VariableDocument> variableVialation : variableVialations) {
+    assertEquals(2, variableViolations.size());
+    for (ConstraintViolation<VariableDocument> variableVialation : variableViolations) {
 
       LOGGER.debug("testEmptyInValidVariable()" + variableVialation.getMessageTemplate() + " -> "
           + variableVialation.getMessage());
@@ -70,11 +65,11 @@ public class VariableDocumentTest {
     variableDocument.setName("ThisNameIsOkay.");
 
     // Act
-    Set<ConstraintViolation<VariableDocument>> variableVialations =
-        VALIDATOR.validate(variableDocument);
+    Set<ConstraintViolation<VariableDocument>> variableViolations =
+        this.validator.validate(variableDocument);
 
     // Assert
-    assertEquals(0, variableVialations.size());
+    assertEquals(0, variableViolations.size());
   }
 
   @Test
@@ -86,12 +81,12 @@ public class VariableDocumentTest {
     variableDocument.setName("This name is okay.");
 
     // Act
-    Set<ConstraintViolation<VariableDocument>> variableVialations =
-        VALIDATOR.validate(variableDocument);
+    Set<ConstraintViolation<VariableDocument>> variableViolations =
+        this.validator.validate(variableDocument);
 
     // Assert
-    assertEquals(1, variableVialations.size());
-    for (ConstraintViolation<VariableDocument> variableVialation : variableVialations) {
+    assertEquals(1, variableViolations.size());
+    for (ConstraintViolation<VariableDocument> variableVialation : variableViolations) {
 
       LOGGER.debug("testInvalidID()" + variableVialation.getMessageTemplate() + " -> "
           + variableVialation.getMessage());
@@ -110,11 +105,11 @@ public class VariableDocumentTest {
     variableDocument.setName("This name is okay.");
 
     // Act
-    Set<ConstraintViolation<VariableDocument>> variableVialations =
-        VALIDATOR.validate(variableDocument);
+    Set<ConstraintViolation<VariableDocument>> variableViolations =
+        this.validator.validate(variableDocument);
 
     // Assert
-    assertEquals(0, variableVialations.size());
+    assertEquals(0, variableViolations.size());
   }
 
   @Test
@@ -126,12 +121,12 @@ public class VariableDocumentTest {
     variableDocument.setName("ThisNameIsTooLongAndThrowAnException.");
 
     // Act
-    Set<ConstraintViolation<VariableDocument>> variableVialations =
-        VALIDATOR.validate(variableDocument);
+    Set<ConstraintViolation<VariableDocument>> variableViolations =
+        this.validator.validate(variableDocument);
 
     // Assert
-    assertEquals(1, variableVialations.size());
-    for (ConstraintViolation<VariableDocument> variableVialation : variableVialations) {
+    assertEquals(1, variableViolations.size());
+    for (ConstraintViolation<VariableDocument> variableVialation : variableViolations) {
 
       LOGGER.debug("testInvalidName()" + variableVialation.getMessageTemplate() + " -> "
           + variableVialation.getMessage());
@@ -152,12 +147,12 @@ public class VariableDocumentTest {
         + "ButTheLabelLengthIsVeryLong.ItNeedsManyWordsForTheException.");
 
     // Act
-    Set<ConstraintViolation<VariableDocument>> variableVialations =
-        VALIDATOR.validate(variableDocument);
+    Set<ConstraintViolation<VariableDocument>> variableViolations =
+        this.validator.validate(variableDocument);
 
     // Assert
-    assertEquals(1, variableVialations.size());
-    for (ConstraintViolation<VariableDocument> variableVialation : variableVialations) {
+    assertEquals(1, variableViolations.size());
+    for (ConstraintViolation<VariableDocument> variableVialation : variableViolations) {
 
       LOGGER.debug("testInvalidLabel()" + variableVialation.getMessageTemplate() + " -> "
           + variableVialation.getMessage());
@@ -177,11 +172,11 @@ public class VariableDocumentTest {
     variableDocument.setLabel("ThisLabelIsOkay.");
 
     // Act
-    Set<ConstraintViolation<VariableDocument>> variableVialations =
-        VALIDATOR.validate(variableDocument);
+    Set<ConstraintViolation<VariableDocument>> variableViolations =
+        this.validator.validate(variableDocument);
 
     // Assert
-    assertEquals(0, variableVialations.size());
+    assertEquals(0, variableViolations.size());
   }
 
   @Test
@@ -193,11 +188,11 @@ public class VariableDocumentTest {
     variableDocument.setDataType("sTrinG");
 
     // Act
-    Set<ConstraintViolation<VariableDocument>> variableVialations =
-        VALIDATOR.validate(variableDocument);
+    Set<ConstraintViolation<VariableDocument>> variableViolations =
+        this.validator.validate(variableDocument);
 
     // Assert
-    assertEquals(0, variableVialations.size());
+    assertEquals(0, variableViolations.size());
   }
 
   @Test
@@ -209,12 +204,12 @@ public class VariableDocumentTest {
     variableDocument.setDataType("sTrinGIsNotOkay");
 
     // Act
-    Set<ConstraintViolation<VariableDocument>> variableVialations =
-        VALIDATOR.validate(variableDocument);
+    Set<ConstraintViolation<VariableDocument>> variableViolations =
+        this.validator.validate(variableDocument);
 
     // Assert
-    assertEquals(1, variableVialations.size());
-    for (ConstraintViolation<VariableDocument> variableVialation : variableVialations) {
+    assertEquals(1, variableViolations.size());
+    for (ConstraintViolation<VariableDocument> variableVialation : variableViolations) {
 
       LOGGER.debug("testInvalidDataField() " + variableVialation.getMessageTemplate() + " -> "
           + variableVialation.getMessage());
@@ -236,11 +231,11 @@ public class VariableDocumentTest {
     variableDocument.setScaleLevel("oRdiNal");
 
     // Act
-    Set<ConstraintViolation<VariableDocument>> variableVialations =
-        VALIDATOR.validate(variableDocument);
+    Set<ConstraintViolation<VariableDocument>> variableViolations =
+        this.validator.validate(variableDocument);
 
     // Assert
-    assertEquals(0, variableVialations.size());
+    assertEquals(0, variableViolations.size());
   }
 
   @Test
@@ -252,12 +247,12 @@ public class VariableDocumentTest {
     variableDocument.setScaleLevel("oRdiNalIsNotOkay");
 
     // Act
-    Set<ConstraintViolation<VariableDocument>> variableVialations =
-        VALIDATOR.validate(variableDocument);
+    Set<ConstraintViolation<VariableDocument>> variableViolations =
+        this.validator.validate(variableDocument);
 
     // Assert
-    assertEquals(1, variableVialations.size());
-    for (ConstraintViolation<VariableDocument> variableVialation : variableVialations) {
+    assertEquals(1, variableViolations.size());
+    for (ConstraintViolation<VariableDocument> variableVialation : variableViolations) {
 
       LOGGER.debug("testInvalidDataField() " + variableVialation.getMessageTemplate() + " -> "
           + variableVialation.getMessage());
@@ -279,12 +274,12 @@ public class VariableDocumentTest {
     variableDocument.setDataType("numeric");
 
     // Act
-    Set<ConstraintViolation<VariableDocument>> variableVialations =
-        VALIDATOR.validate(variableDocument);
+    Set<ConstraintViolation<VariableDocument>> variableViolations =
+        this.validator.validate(variableDocument);
 
     // Assert
-    assertEquals(1, variableVialations.size());
-    for (ConstraintViolation<VariableDocument> variableVialation : variableVialations) {
+    assertEquals(1, variableViolations.size());
+    for (ConstraintViolation<VariableDocument> variableVialation : variableViolations) {
 
       LOGGER.debug("testInvalidDataField() " + variableVialation.getMessageTemplate() + " -> "
           + variableVialation.getMessage());
@@ -311,12 +306,12 @@ public class VariableDocumentTest {
     variableDocument.setAnswerOptions(answerOptions);
 
     // Act
-    Set<ConstraintViolation<VariableDocument>> variableVialations =
-        VALIDATOR.validate(variableDocument);
+    Set<ConstraintViolation<VariableDocument>> variableViolations =
+        this.validator.validate(variableDocument);
 
     // Arrange
-    assertEquals(2, variableVialations.size());
-    Iterator<ConstraintViolation<VariableDocument>> ite = variableVialations.iterator();
+    assertEquals(2, variableViolations.size());
+    Iterator<ConstraintViolation<VariableDocument>> ite = variableViolations.iterator();
 
     // both messages found (it is not possible to expect an exact order of error messages
     boolean foundSize = false;
@@ -352,12 +347,12 @@ public class VariableDocumentTest {
     variableDocument.setAnswerOptions(answerOptions);
 
     // Act
-    Set<ConstraintViolation<VariableDocument>> variableVialations =
-        VALIDATOR.validate(variableDocument);
+    Set<ConstraintViolation<VariableDocument>> variableViolations =
+        this.validator.validate(variableDocument);
 
     // Assert
-    assertEquals(1, variableVialations.size());
-    for (ConstraintViolation<VariableDocument> variableVialation : variableVialations) {
+    assertEquals(1, variableViolations.size());
+    for (ConstraintViolation<VariableDocument> variableVialation : variableViolations) {
 
       LOGGER.debug("testInvalidLabelAtAnswerOption() " + variableVialation.getMessageTemplate()
           + " -> " + variableVialation.getMessage());
@@ -382,11 +377,11 @@ public class VariableDocumentTest {
     variableDocument.setAnswerOptions(answerOptions);
 
     // Act
-    Set<ConstraintViolation<VariableDocument>> variableVialations =
-        VALIDATOR.validate(variableDocument);
+    Set<ConstraintViolation<VariableDocument>> variableViolations =
+        this.validator.validate(variableDocument);
 
     // Assert
-    assertEquals(0, variableVialations.size());
+    assertEquals(0, variableViolations.size());
     assertEquals("Label is okay.", variableDocument.getAnswerOptions().get(0).getLabel());
     assertEquals("This code is okay.", variableDocument.getAnswerOptions().get(0).getCode());
   }
@@ -402,12 +397,12 @@ public class VariableDocumentTest {
     variableDocument.setVariableSurveyDocument(variableSurvey);
 
     // Act
-    Set<ConstraintViolation<VariableDocument>> variableVialations =
-        VALIDATOR.validate(variableDocument);
+    Set<ConstraintViolation<VariableDocument>> variableViolations =
+        this.validator.validate(variableDocument);
 
     // Assert
-    assertEquals(3, variableVialations.size());
-    for (ConstraintViolation<VariableDocument> variableVialation : variableVialations) {
+    assertEquals(3, variableViolations.size());
+    for (ConstraintViolation<VariableDocument> variableVialation : variableViolations) {
 
       LOGGER.debug("testInvalidVariableDocumentSurveyWithEmptyFields()"
           + variableVialation.getMessageTemplate() + " -> " + variableVialation.getMessage());
@@ -432,13 +427,13 @@ public class VariableDocumentTest {
         .setAlias("ThisAliasIsTooLong.ItWillThrowAnException");
 
     // Act
-    Set<ConstraintViolation<VariableDocument>> variableVialations =
-        VALIDATOR.validate(variableDocument);
+    Set<ConstraintViolation<VariableDocument>> variableViolations =
+        this.validator.validate(variableDocument);
 
     // Assert
-    assertEquals(1, variableVialations.size());
+    assertEquals(1, variableViolations.size());
 
-    for (ConstraintViolation<VariableDocument> variableVialation : variableVialations) {
+    for (ConstraintViolation<VariableDocument> variableVialation : variableViolations) {
 
       LOGGER.debug("testInvalidVariableDocumentSurveyWithInvalidSurveyId()"
           + variableVialation.getMessageTemplate() + " -> " + variableVialation.getMessage());
@@ -463,13 +458,13 @@ public class VariableDocumentTest {
     variableDocument.getVariableSurveyDocument().setAlias(variableDocument.getName());
 
     // Act
-    Set<ConstraintViolation<VariableDocument>> variableVialations =
-        VALIDATOR.validate(variableDocument);
+    Set<ConstraintViolation<VariableDocument>> variableViolations =
+        this.validator.validate(variableDocument);
 
     // Assert
-    assertEquals(1, variableVialations.size());
+    assertEquals(1, variableViolations.size());
 
-    for (ConstraintViolation<VariableDocument> variableVialation : variableVialations) {
+    for (ConstraintViolation<VariableDocument> variableVialation : variableViolations) {
 
       LOGGER.debug("testInvalidVariableDocumentSurveyWithInvalidSurveyId()"
           + variableVialation.getMessageTemplate() + " -> " + variableVialation.getMessage());
@@ -494,13 +489,13 @@ public class VariableDocumentTest {
     variableDocument.getVariableSurveyDocument().setTitle("TitleIsNotOkay.TheTitleIsTooLong.");
 
     // Act
-    Set<ConstraintViolation<VariableDocument>> variableVialations =
-        VALIDATOR.validate(variableDocument);
+    Set<ConstraintViolation<VariableDocument>> variableViolations =
+        this.validator.validate(variableDocument);
 
     // Assert
-    assertEquals(1, variableVialations.size());
+    assertEquals(1, variableViolations.size());
 
-    for (ConstraintViolation<VariableDocument> variableVialation : variableVialations) {
+    for (ConstraintViolation<VariableDocument> variableVialation : variableViolations) {
 
       LOGGER.debug("variableSurveyTest()" + variableVialation.getMessageTemplate() + " -> "
           + variableVialation.getMessage());
@@ -525,11 +520,11 @@ public class VariableDocumentTest {
     variableDocument.getVariableSurveyDocument().setAlias(variableDocument.getName());
 
     // Act
-    Set<ConstraintViolation<VariableDocument>> variableVialations =
-        VALIDATOR.validate(variableDocument);
+    Set<ConstraintViolation<VariableDocument>> variableViolations =
+        this.validator.validate(variableDocument);
 
     // Assert
-    assertEquals(0, variableVialations.size());
+    assertEquals(0, variableViolations.size());
   }
 
 
@@ -554,13 +549,13 @@ public class VariableDocumentTest {
     variableDocument.setVariableSurveyDocument(variableSurvey);
 
     // Act
-    Set<ConstraintViolation<VariableDocument>> variableVialations =
-        VALIDATOR.validate(variableDocument);
+    Set<ConstraintViolation<VariableDocument>> variableViolations =
+        this.validator.validate(variableDocument);
 
     // Assert
-    // assertEquals(1, variableVialations.size());
+    // assertEquals(1, variableViolations.size());
 
-    for (ConstraintViolation<VariableDocument> variableVialation : variableVialations) {
+    for (ConstraintViolation<VariableDocument> variableVialation : variableViolations) {
 
       LOGGER.debug("testInvalidDateRange()" + variableVialation.getMessageTemplate() + " -> "
           + variableVialation.getMessage());
@@ -593,11 +588,11 @@ public class VariableDocumentTest {
     variableDocument.setVariableSurveyDocument(variableSurvey);
 
     // Act
-    Set<ConstraintViolation<VariableDocument>> variableVialations =
-        VALIDATOR.validate(variableDocument);
+    Set<ConstraintViolation<VariableDocument>> variableViolations =
+        this.validator.validate(variableDocument);
 
     // Assert
-    assertEquals(0, variableVialations.size());
+    assertEquals(0, variableViolations.size());
   }
 
   @Test
@@ -615,11 +610,11 @@ public class VariableDocumentTest {
     variableDocument.getVariableSurveyDocument().setSurveyPeriod(new DateRange());
 
 
-    Set<ConstraintViolation<VariableDocument>> variableVialations =
-        VALIDATOR.validate(variableDocument);
+    Set<ConstraintViolation<VariableDocument>> variableViolations =
+        this.validator.validate(variableDocument);
 
     // everything okay
-    assertEquals(0, variableVialations.size());
+    assertEquals(0, variableViolations.size());
   }
 
   @Test
