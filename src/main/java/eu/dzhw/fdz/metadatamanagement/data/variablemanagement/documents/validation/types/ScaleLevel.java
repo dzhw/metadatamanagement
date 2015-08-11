@@ -51,7 +51,7 @@ public class ScaleLevel {
   }
 
   /**
-   * @return Return the translated field of metric depending at the actual locale.
+   * @return Returns the translated field of metric depending at the actual locale.
    */
   public String getMetricByLocal() {
     if (LocaleContextHolder.getLocale().equals(Locale.GERMAN)) {
@@ -59,7 +59,28 @@ public class ScaleLevel {
     } else {
       return ENGLISH_METRIC;
     }
-
+  }
+  
+  /**
+   * @return Returns the translated field of nominal depending at the actual locale.
+   */
+  public String getNominalByLocal() {
+    if (LocaleContextHolder.getLocale().equals(Locale.GERMAN)) {
+      return GERMAN_NOMINAL;
+    } else {
+      return ENGLISH_NOMINAL;
+    }
+  }
+  
+  /**
+   * @return Returns the translated field of ordinal depending at the actual locale.
+   */
+  public String getOrdinalByLocal() {
+    if (LocaleContextHolder.getLocale().equals(Locale.GERMAN)) {
+      return GERMAN_ORDINAL;
+    } else {
+      return ENGLISH_ORDINAL;
+    }
   }
 
   /**

@@ -53,6 +53,17 @@ public class DataTypes {
       return ENGLISH_NUMERIC;
     }
   }
+  
+  /**
+   * @return The language depended versions of numeric.
+   */
+  public String getStringValueByLocale() {
+    if (LocaleContextHolder.getLocale().equals(Locale.GERMAN)) {
+      return GERMAN_STRING;
+    } else {
+      return ENGLISH_STRING;
+    }
+  }
 
   /**
    * DataTypes is a singleton. This method is the only way to get the data types.
