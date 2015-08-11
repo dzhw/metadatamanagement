@@ -5,36 +5,45 @@
         "type": "nested",
         "properties": {
           "code": {
-            "type": "string"
+            "type": "string",
+            "analyzer": "german"
           },
           "label": {
-            "type": "string"
+            "type": "string",
+            "analyzer": "german"
           }
         }
       },
       "dataType": {
-        "type": "string"
+        "type": "string",
+        "analyzer": "german"
       },
       "id": {
-        "type": "string"
+        "type": "string",
+        "analyzer": "german"
       },
       "label": {
-        "type": "string"
+        "type": "string",
+        "analyzer": "german"
       },
       "name": {
-        "type": "string"
+        "type": "string",
+        "analyzer": "german"
       },
       "scaleLevel": {
-        "type": "string"
+        "type": "string",
+        "analyzer": "german"        
       },
       "variableSurveyDocument": {
         "type": "nested",
         "properties": {
           "alias": {
-            "type": "string"
+            "type": "string",
+            "analyzer": "german"
           },
           "surveyId": {
-            "type": "string"
+            "type": "string",
+            "analyzer": "german"
           },
           "surveyPeriod": {
             "type": "nested",
@@ -50,7 +59,8 @@
             }
           },
           "title": {
-            "type": "string"
+            "type": "string",
+            "analyzer": "german"
           }
         }
       }
