@@ -1,467 +1,695 @@
 [
-    {
-        "_class": "eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.VariableDocument",
-        "id": "SurveyID01",
-        "variableSurveyDocument": {
-            "surveyId": "SSurveyID007",
-            "title": "Ein Titel.",
-            "surveyPeriod": {
-                "startDate": "2015-07-29",
-                "endDate": "2015-12-24"
-            },
-            "alias": "Ein Alias"
-        },
-        "name": "Ein Name",
-        "dataType": "NUMERIC",
-        "label": "Ein Label.",
-        "scaleLevel": "METRIC",
-        "answerOptions": [
-            {
-                "code": "Ein Code",
-                "label": "Ein Label"
-            },
-            {
-                "code": "Ein Code 2",
-                "label": "Ein Label 2"
-            },
-            {
-                "code": "Ein Code 3",
-                "label": "Ein Label 3"
-            }
-        ]
-    },
-    {
-        "_class": "eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.VariableDocument",
-        "id": "Survey_ID_02",
-        "variableSurveyDocument": {
-            "surveyId": "SSurveyID007",
-            "title": "Ein Titel.",
-            "surveyPeriod": {
-                "startDate": "2015-07-29",
-                "endDate": "2015-12-24"
-            },
-            "alias": "Ein Alias"
-        },
-        "name": "Ein Name",
-        "dataType": "NUMERIC",
-        "label": "Ein Label.",
-        "scaleLevel": "METRIC",
-        "answerOptions": [
-            {
-                "code": "Ein Code",
-                "label": "Ein Label"
-            },
-            {
-                "code": "Ein Code 2",
-                "label": "Ein Label 2"
-            },
-            {
-                "code": "Ein Code 3",
-                "label": "Ein Label 3"
-            }
-        ]
-    },
-    {
-        "_class": "eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.VariableDocument",
-        "id": "SurveyID-03",
-        "variableSurveyDocument": {
-            "surveyId": "SSurveyID007",
-            "title": "Ein Titel.",
-            "surveyPeriod": {
-                "startDate": "2015-07-29",
-                "endDate": "2015-12-24"
-            },
-            "alias": "Ein Alias"
-        },
-        "name": "Ein Name",
-        "dataType": "NUMERIC",
-        "label": "Ein Label.",
-        "scaleLevel": "METRIC",
-        "answerOptions": [
-            {
-                "code": "Ein Code",
-                "label": "Ein Label"
-            },
-            {
-                "code": "Ein Code 2",
-                "label": "Ein Label 2"
-            },
-            {
-                "code": "Ein Code 3",
-                "label": "Ein Label 3"
-            }
-        ]
-    },
-    {
-        "_class": "eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.VariableDocument",
-        "id": "SurveyID04",
-        "variableSurveyDocument": {
-            "surveyId": "SSurveyID007",
-            "title": "Ein Titel.",
-            "surveyPeriod": {
-                "startDate": "2015-07-29",
-                "endDate": "2015-12-24"
-            },
-            "alias": "Ein Alias"
-        },
-        "name": "Ein Name",
-        "dataType": "NUMERIC",
-        "label": "Ein Label.",
-        "scaleLevel": "METRIC",
-        "answerOptions": [
-            {
-                "code": "Ein Code",
-                "label": "Ein Label"
-            },
-            {
-                "code": "Ein Code 2",
-                "label": "Ein Label 2"
-            },
-            {
-                "code": "Ein Code 3",
-                "label": "Ein Label 3"
-            }
-        ]
-    },
-    {
-        "_class": "eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.VariableDocument",
-        "id": "SurveyID05",
-        "variableSurveyDocument": {
-            "surveyId": "SurveyID002",
-            "title": "Ein Titel.",
-            "surveyPeriod": {
-                "startDate": "2015-07-29",
-                "endDate": "2015-12-24"
-            },
-            "alias": "Ein Alias"
-        },
-        "name": "Ein Name",
-        "dataType": "NUMERIC",
-        "label": "Ein Label.",
-        "scaleLevel": "METRIC",
-        "answerOptions": [
-            {
-                "code": "Ein Code",
-                "label": "Ein Label"
-            },
-            {
-                "code": "Ein Code 2",
-                "label": "Ein Label 2"
-            },
-            {
-                "code": "Ein Code 3",
-                "label": "Ein Label 3"
-            }
-        ]
-    },
-    {
-        "_class": "eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.VariableDocument",
-        "id": "SurveyID06",
-        "variableSurveyDocument": {
-            "surveyId": "SurveyID007",
-            "title": "Ein Titel.",
-            "surveyPeriod": {
-                "startDate": "2015-07-29",
-                "endDate": "2015-12-24"
-            },
-            "alias": "Ein Alias"
-        },
-        "name": "Ein Name",
-        "dataType": "NUMERIC",
-        "label": "Ein Label.",
-        "scaleLevel": "METRIC",
-        "answerOptions": [
-            {
-                "code": "Ein Code",
-                "label": "Ein Label"
-            },
-            {
-                "code": "Ein Code 2",
-                "label": "Ein Label 2"
-            },
-            {
-                "code": "Ein Code 3",
-                "label": "Ein Label 3"
-            }
-        ]
-    },
-    {
-        "_class": "eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.VariableDocument",
-        "id": "Survey07",
-        "variableSurveyDocument": {
-            "surveyId": "SurveyID007",
-            "title": "Ein Titel.",
-            "surveyPeriod": {
-                "startDate": "2015-07-29",
-                "endDate": "2015-12-24"
-            },
-            "alias": "Ein Alias"
-        },
-        "name": "Ein Name",
-        "dataType": "NUMERIC",
-        "label": "Ein Label.",
-        "scaleLevel": "METRIC",
-        "answerOptions": [
-            {
-                "code": "Ein Code",
-                "label": "Ein Label"
-            },
-            {
-                "code": "Ein Code 2",
-                "label": "Ein Label 2"
-            },
-            {
-                "code": "Ein Code 3",
-                "label": "Ein Label 3"
-            }
-        ]
-    },
-    {
-        "_class": "eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.VariableDocument",
-        "id": "Survey8",
-        "variableSurveyDocument": {
-            "surveyId": "SurveyID007",
-            "title": "Ein Titel.",
-            "surveyPeriod": {
-                "startDate": "2015-07-29",
-                "endDate": "2015-12-24"
-            },
-            "alias": "Ein Alias"
-        },
-        "name": "Ein Name",
-        "dataType": "NUMERIC",
-        "label": "Ein Label.",
-        "scaleLevel": "METRIC",
-        "answerOptions": [
-            {
-                "code": "Ein Code",
-                "label": "Ein Label"
-            },
-            {
-                "code": "Ein Code 2",
-                "label": "Ein Label 2"
-            },
-            {
-                "code": "Ein Code 3",
-                "label": "Ein Label 3"
-            }
-        ]
-    },
-    {
-        "_class": "eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.VariableDocument",
-        "id": "SrD09",
-        "variableSurveyDocument": {
-            "surveyId": "SurveyID",
-            "title": "Ein Titel.",
-            "surveyPeriod": {
-                "startDate": "2015-07-29",
-                "endDate": "2015-12-24"
-            },
-            "alias": "Ein Alias"
-        },
-        "name": "Ein Name",
-        "dataType": "NUMERIC",
-        "label": "Ein Label.",
-        "scaleLevel": "METRIC",
-        "answerOptions": [
-            {
-                "code": "Ein Code",
-                "label": "Ein Label"
-            },
-            {
-                "code": "Ein Code 2",
-                "label": "Ein Label 2"
-            },
-            {
-                "code": "Ein Code 3",
-                "label": "Ein Label 3"
-            }
-        ]
-    },
-    {
-        "_class": "eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.VariableDocument",
-        "id": "Srvy10",
-        "variableSurveyDocument": {
-            "surveyId": "SurveyID007",
-            "title": "Ein Titel.",
-            "surveyPeriod": {
-                "startDate": "2015-07-29",
-                "endDate": "2015-12-24"
-            },
-            "alias": "Ein Alias"
-        },
-        "name": "Ein Name",
-        "dataType": "NUMERIC",
-        "label": "Ein Label.",
-        "scaleLevel": "METRIC",
-        "answerOptions": [
-            {
-                "code": "Ein Code",
-                "label": "Ein Label"
-            },
-            {
-                "code": "Ein Code 2",
-                "label": "Ein Label 2"
-            },
-            {
-                "code": "Ein Code 3",
-                "label": "Ein Label 3"
-            }
-        ]
-    },
-    {
-        "_class": "eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.VariableDocument",
-        "id": "rv3y11",
-        "variableSurveyDocument": {
-            "surveyId": "SurveyID007",
-            "title": "Ein Titel.",
-            "surveyPeriod": {
-                "startDate": "2015-07-29",
-                "endDate": "2015-12-24"
-            },
-            "alias": "Ein Alias"
-        },
-        "name": "Ein Name",
-        "dataType": "NUMERIC",
-        "label": "Ein Label.",
-        "scaleLevel": "METRIC",
-        "answerOptions": [
-            {
-                "code": "Ein Code",
-                "label": "Ein Label"
-            },
-            {
-                "code": "Ein Code 2",
-                "label": "Ein Label 2"
-            },
-            {
-                "code": "Ein Code 3",
-                "label": "Ein Label 3"
-            }
-        ]
-    },
-    {
-        "_class": "eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.VariableDocument",
-        "id": "ury-ID-12",
-        "variableSurveyDocument": {
-            "surveyId": "SurveyID007",
-            "title": "Ein Titel.",
-            "surveyPeriod": {
-                "startDate": "2015-07-29",
-                "endDate": "2015-12-24"
-            },
-            "alias": "Ein Alias"
-        },
-        "name": "Ein Name",
-        "dataType": "NUMERIC",
-        "label": "Ein Label.",
-        "scaleLevel": "METRIC",
-        "answerOptions": [
-            {
-                "code": "Ein Code",
-                "label": "Ein Label"
-            },
-            {
-                "code": "Ein Code 2",
-                "label": "Ein Label 2"
-            },
-            {
-                "code": "Ein Code 3",
-                "label": "Ein Label 3"
-            }
-        ]
-    },
-    {
-        "_class": "eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.VariableDocument",
-        "id": "SrvyID13",
-        "variableSurveyDocument": {
-            "surveyId": "Survey ID 13",
-            "title": "Ein Titel.",
-            "surveyPeriod": {
-                "startDate": "2015-07-29",
-                "endDate": "2015-12-24"
-            },
-            "alias": "Ein Alias"
-        },
-        "name": "Ein Name",
-        "dataType": "NUMERIC",
-        "label": "Ein Label.",
-        "scaleLevel": "METRIC",
-        "answerOptions": [
-            {
-                "code": "Ein Code",
-                "label": "Ein Label"
-            },
-            {
-                "code": "Ein Code 2",
-                "label": "Ein Label 2"
-            },
-            {
-                "code": "Ein Code 3",
-                "label": "Ein Label 3"
-            }
-        ]
-    },
-    {
-        "_class": "eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.VariableDocument",
-        "id": "SveID-_14_",
-        "variableSurveyDocument": {
-            "surveyId": "SurveyID007",
-            "title": "Ein Titel.",
-            "surveyPeriod": {
-                "startDate": "2015-07-29",
-                "endDate": "2015-12-24"
-            },
-            "alias": "Ein Alias"
-        },
-        "name": "Ein Name",
-        "dataType": "NUMERIC",
-        "label": "Ein Label.",
-        "scaleLevel": "METRIC",
-        "answerOptions": [
-            {
-                "code": "Ein Code",
-                "label": "Ein Label"
-            },
-            {
-                "code": "Ein Code 2",
-                "label": "Ein Label 2"
-            },
-            {
-                "code": "Ein Code 3",
-                "label": "Ein Label 3"
-            }
-        ]
-    },
-    {
-        "_class": "eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.VariableDocument",
-        "id": "ID15",
-        "variableSurveyDocument": {
-            "surveyId": "SurveyID007",
-            "title": "Ein Titel.",
-            "surveyPeriod": {
-                "startDate": "2015-07-29",
-                "endDate": "2015-12-24"
-            },
-            "alias": "Ein Alias"
-        },
-        "name": "Ein Name",
-        "dataType": "NUMERIC",
-        "label": "Ein Label.",
-        "scaleLevel": "METRIC",
-        "answerOptions": [
-            {
-                "code": "Ein Code",
-                "label": "Ein Label"
-            },
-            {
-                "code": "Ein Code 2",
-                "label": "Ein Label 2"
-            },
-            {
-                "code": "Ein Code 3",
-                "label": "Ein Label 3"
-            }
-        ]
-    }
+	{
+		"_class": "eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.VariableDocument",
+		"id": "FdZ_ID01",
+		"variableSurveyDocument": {
+			"surveyId": "Ge_ALL_04",
+			"title": "ALLBUS 2014",
+		"surveyPeriod": {
+				"startDate": "2014-03-01",
+				"endDate": "2014-09-30"
+			},
+			"alias": "Schicht"
+		},
+		"name": "V850",
+		"dataType": "NUMERIC",
+		"label": "Zu welcher Schicht gehört Ihrer Meinung nach der Haushalt? Vermutlich zur",
+		"scaleLevel": "ORDINAL",
+		"answerOptions": [
+			{
+				"code": "1",
+				"label": "Unterschicht"
+			},
+			{
+				"code": "2",
+				"label": "Arbeiterschicht"
+			},
+			{
+				"code": "3",
+				"label": "Mittelschicht"
+			},
+			{
+				"code": "4",
+				"label": "oberen Mittelschicht"
+			},
+			{
+				"code": "5",
+				"label": "Oberschicht"
+			},
+			{
+				"code": "6",
+				"label": "nicht erkennbar"
+			}
+		]
+	},
+	{
+		"_class": "eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.VariableDocument",
+		"id": "FdZ_ID02",
+		"variableSurveyDocument": {
+			"surveyId": "Ge_ALL_04",
+			"title": "ALLBUS 2014",
+		"surveyPeriod": {
+				"startDate": "2014-03-01",
+				"endDate": "2014-09-30"
+			},
+			"alias": "Geschlecht"
+		},
+		"name": "V81",
+		"dataType": "NUMERIC",
+		"label": "Geschlecht der befragten Person ohne Befragen eintragen!",
+		"scaleLevel": "NOMINAL",
+		"answerOptions": [
+			{
+				"code": "1",
+				"label": "Männlich"
+			},
+			{
+				"code": "2",
+				"label": "Weiblich"
+			}
+		]
+	},
+	{
+		"_class": "eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.VariableDocument",
+		"id": "FdZ_ID03",
+		"variableSurveyDocument": {
+			"surveyId": "Ge_ALL_04",
+			"title": "ALLBUS 2014",
+		"surveyPeriod": {
+				"startDate": "2014-03-01",
+				"endDate": "2014-09-30"
+			},
+			"alias": "Fachhochschulabschluss"
+		},
+		"name": "V100",
+		"dataType": "NUMERIC",
+		"label": "Um welche Art von Fachhochschulabschluss handelt es sich dabei? Bitte nennen Sie mir nur den höchsten Abschluss, den Sie erlangt haben.",
+		"scaleLevel": "ORDINAL",
+		"answerOptions": [
+			{
+				"code": "0",
+				"label": "trifft nicht zu"
+			},
+			{
+				"code": "1",
+				"label": "Bachelor"
+			},
+			{
+				"code": "2",
+				"label": "Master"
+			},
+			{
+				"code": "3",
+				"label": "Diplom"
+			},
+			{
+				"code": "4",
+				"label": "Magister"
+			},
+			{
+				"code": "5",
+				"label": "Staatsexamen oder LAS"
+			},
+			{
+				"code": "6",
+				"label": "Promotion"
+			},
+			{
+				"code": "7",
+				"label": "Sonstiger Abschluss"
+			},
+			{
+				"code": "99",
+				"label": "kA"
+			}
+		]
+	},
+	{
+		"_class": "eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.VariableDocument",
+		"id": "FdZ_ID04",
+		"variableSurveyDocument": {
+			"surveyId": "Ge_ALL_04",
+			"title": "ALLBUS 2014",
+		"surveyPeriod": {
+				"startDate": "2014-03-01",
+				"endDate": "2014-09-30"
+			},
+			"alias": "Arbeitsstunden"
+		},
+		"name": "V118",
+		"dataType": "NUMERIC",
+		"label": "Wie viele Stunden pro Woche arbeiten Sie normalerweise in Ihrem Hauptberuf, einschließlich Überstunden?",
+		"scaleLevel": "METRIC",
+		"answerOptions": [
+			{
+				"code": "____",
+				"label": "Stunden pro Wochen"
+			},
+			{
+				"code": "999.6",
+				"label": "nicht erwerbstätig"
+			},
+			{
+				"code": "999.9",
+				"label": "keine Angabe"
+			}
+		]
+	},
+	{
+		"_class": "eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.VariableDocument",
+		"id": "FdZ_ID05",
+		"variableSurveyDocument": {
+			"surveyId": "Ge_ALL_04",
+			"title": "ALLBUS 2014",
+		"surveyPeriod": {
+				"startDate": "2014-03-01",
+				"endDate": "2014-09-30"
+			},
+			"alias": "BeaufsichtigtePersonen"
+		},
+		"name": "V124",
+		"dataType": "NUMERIC",
+		"label": "Wie viele Personen beaufsichtigen Sie direkt?",
+		"scaleLevel": "ORDINAL",
+		"answerOptions": [
+			{
+				"code": "0",
+				"label": "Befragter nicht erwerbstätig "
+			},
+			{
+				"code": "1",
+				"label": "1 - 2 Personen"
+			},
+			{
+				"code": "2",
+				"label": "3 - 5 Personen"
+			},
+			{
+				"code": "3",
+				"label": "6 - 9 Personen"
+			},
+			{
+				"code": "4",
+				"label": "10 - 19 Personen"
+			},
+			{
+				"code": "5",
+				"label": "20 - 49 Personen"
+			},
+			{
+				"code": "6",
+				"label": "50 - 149 Personen"
+			},
+			{
+				"code": "7",
+				"label": "150 und mehr Personen"
+			},
+			{
+				"code": "99",
+				"label": "Keine Angabe"
+			}
+		]
+	},
+	{
+		"_class": "eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.VariableDocument",
+		"id": "FdZ_ID06",
+		"variableSurveyDocument": {
+			"surveyId": "Ge_ALL_04",
+			"title": "ALLBUS 2014",
+		"surveyPeriod": {
+				"startDate": "2014-03-01",
+				"endDate": "2014-09-30"
+			},
+			"alias": "StellungVater"
+		},
+		"name": "V131",
+		"dataType": "NUMERIC",
+		"label": "Wenn Sie Ihre heutige berufliche Stellung mit der Ihres Vaters vergleichen, wie schätzen Sie Ihreeigene berufliche Stellung ein: viel höher, etwas höher, ungefähr gleich, etwas niedriger, vielniedriger?",
+		"scaleLevel": "ORDINAL",
+		"answerOptions": [
+			{
+				"code": "0",
+				"label": "Befragter nicht  erwerbstätig "
+			},
+			{
+				"code": "1",
+				"label": "viel höher"
+			},
+			{
+				"code": "2",
+				"label": "etwas höher"
+			},
+			{
+				"code": "3",
+				"label": "ungefähr gleich"
+			},
+			{
+				"code": "4",
+				"label": "etwas niedriger"
+			},
+			{
+				"code": "5",
+				"label": "viel niedriger"
+			},
+			{
+				"code": "7",
+				"label": "Stellung des Vaters nicht bekannt"
+			},
+			{
+				"code": "99",
+				"label": "Keine Angabe"
+			}
+		]
+	},
+	{
+		"_class": "eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.VariableDocument",
+		"id": "FdZ_ID07",
+		"variableSurveyDocument": {
+			"surveyId": "Ge_ALL_04",
+			"title": "ALLBUS 2014",
+		"surveyPeriod": {
+				"startDate": "2014-03-01",
+				"endDate": "2014-09-30"
+			},
+			"alias": "Staatsbürgerschaft"
+		},
+		"name": "V370",
+		"dataType": "NUMERIC",
+		"label": "Welche Staatsbürgerschaft haben Sie? Wenn Sie die Staatsbürgerschaft mehrerer Länder besitzen, nennen Sie mir bitte alle.",
+		"scaleLevel": "NOMINAL",
+		"answerOptions": [
+			{
+				"code": "0",
+				"label": "Keine 2. Staatsbürgerschaft"
+			},
+			{
+				"code": "2",
+				"label": "Dänemark"
+			},
+			{
+				"code": "3",
+				"label": "Frankreich"
+			},
+			{
+				"code": "4",
+				"label": "Griechenland"
+			},
+			{
+				"code": "5",
+				"label": "Großbritannien und Nordirland"
+			},
+			{
+				"code": "6",
+				"label": "Irland"
+			},
+			{
+				"code": "7",
+				"label": "Italien"
+			},
+			{
+				"code": "8",
+				"label": "Ehemaliges Jugoslawien "
+			},
+			{
+				"code": "9",
+				"label": "Niederlande"
+			},
+			{
+				"code": "10",
+				"label": "Österreich"
+			},
+			{
+				"code": "11",
+				"label": "Polen"
+			},
+			{
+				"code": "12",
+				"label": "Portugal"
+			},
+			{
+				"code": "13",
+				"label": "Rumänien"
+			},
+			{
+				"code": "14",
+				"label": "Schweden"
+			},
+			{
+				"code": "15",
+				"label": "Schweiz"
+			},
+			{
+				"code": "16",
+				"label": "Russland, ehemalige UdSSR"
+			},
+			{
+				"code": "17",
+				"label": "Spanien"
+			},
+			{
+				"code": "18",
+				"label": "Ehemalige Tschechoslowakei"
+			},
+			{
+				"code": "19",
+				"label": "Türkei"
+			},
+			{
+				"code": "20",
+				"label": "Ungarn"
+			},
+			{
+				"code": "21",
+				"label": "USA"
+			},
+			{
+				"code": "22",
+				"label": "Vietnam"
+			},
+			{
+				"code": "23",
+				"label": "Anderes Land, und zwar _________"
+			}
+		]
+	},
+	{
+		"_class": "eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.VariableDocument",
+		"id": "FdZ_ID08",
+		"variableSurveyDocument": {
+			"surveyId": "Ge_ALL_04",
+			"title": "ALLBUS 2014",
+		"surveyPeriod": {
+				"startDate": "2014-03-01",
+				"endDate": "2014-09-30"
+			},
+			"alias": "LinksRechts"
+		},
+		"name": "V215",
+		"dataType": "NUMERIC",
+		"label": "Wenn Sie an Ihre eigenen politischen Ansichten denken, wo würden Sie diese Ansichten auf dieser Skala einstufen?",
+		"scaleLevel": "ORDINAL",
+		"answerOptions": [
+			{
+				"code": "1",
+				"label": "Links"
+			},
+			{
+				"code": "2",
+				"label": "NA"
+			},
+			{
+				"code": "3",
+				"label": "NA"
+			},
+			{
+				"code": "4",
+				"label": "NA"
+			},
+			{
+				"code": "5",
+				"label": "NA"
+			},
+			{
+				"code": "6",
+				"label": "NA"
+			},
+			{
+				"code": "7",
+				"label": "NA"
+			},
+			{
+				"code": "8",
+				"label": "NA"
+			},
+			{
+				"code": "9",
+				"label": "NA"
+			},
+			{
+				"code": "10",
+				"label": "Rechts"
+			},
+			{
+				"code": "99",
+				"label": "Keine Angabe"
+			}
+		]
+	},
+	{
+		"_class": "eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.VariableDocument",
+		"id": "FdZ_ID09",
+		"variableSurveyDocument": {
+			"surveyId": "DZHW_AP_01",
+			"title": "Absolbentenpanel 2001",
+		"surveyPeriod": {
+				"startDate": "2000-08-01",
+				"endDate": "2001-09-30"
+			},
+			"alias": "ID"
+		},
+		"name": "id_suf",
+		"dataType": "NUMERIC",
+		"label": "Identifikationsnummer",
+		"scaleLevel": "METRIC",
+		"answerOptions": [
+			{
+				"code": "??",
+				"label": "NA"
+			},
+			{
+				"code": "??",
+				"label": "NA"
+			}
+		]
+	},
+	{
+		"_class": "eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.VariableDocument",
+		"id": "FdZ_ID10",
+		"variableSurveyDocument": {
+			"surveyId": "DZHW_AP_01",
+			"title": "Absolbentenpanel 2001",
+		"surveyPeriod": {
+				"startDate": "2000-08-01",
+				"endDate": "2001-09-30"
+			},
+			"alias": "Strukturiertheit"
+		},
+		"name": "a1sitstruk",
+		"dataType": "NUMERIC",
+		"label": "Wie beurteilen Sie folgenden Aspekte Ihres Studiums? Strukturiertheit",
+		"scaleLevel": "ORDINAL",
+		"answerOptions": [
+			{
+				"code": "-1",
+				"label": "fehlende Angabe"
+			},
+			{
+				"code": "1",
+				"label": "sehr gut"
+			},
+			{
+				"code": "2",
+				"label": "NA"
+			},
+			{
+				"code": "3",
+				"label": "NA"
+			},
+			{
+				"code": "4",
+				"label": "NA"
+			},
+			{
+				"code": "5",
+				"label": "sehr schlecht"
+			}
+		]
+	},
+	{
+		"_class": "eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.VariableDocument",
+		"id": "FdZ_ID11",
+		"variableSurveyDocument": {
+			"surveyId": "DZHW_AP_01",
+			"title": "Absolbentenpanel 2001",
+		"surveyPeriod": {
+				"startDate": "2000-08-01",
+				"endDate": "2001-09-30"
+			},
+			"alias": "Studienberechtigung"
+		},
+		"name": "klstudber",
+		"dataType": "NUMERIC",
+		"label": "Mit welcher Studienberechtigung haben Sie Ihr (erstes) Studium begonnen",
+		"scaleLevel": "NOMINAL",
+		"answerOptions": [
+			{
+				"code": "-1",
+				"label": "fehlende Angabe"
+			},
+			{
+				"code": "1",
+				"label": "allgemein HS-Reife"
+			},
+			{
+				"code": "2",
+				"label": "fachgebunde HS-Reife"
+			},
+			{
+				"code": "3",
+				"label": "Fachhochschulreife"
+			},
+			{
+				"code": "4",
+				"label": "ausländische Studienberechtigung"
+			}
+		]
+	},
+	{
+		"_class": "eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.VariableDocument",
+		"id": "FdZ_ID12",
+		"variableSurveyDocument": {
+			"surveyId": "DZHW_AP_01",
+			"title": "Absolbentenpanel 2001",
+		"surveyPeriod": {
+				"startDate": "2000-08-01",
+				"endDate": "2001-09-30"
+			},
+			"alias": "Lbensunterhalt"
+		},
+		"name": "b1leberwan",
+		"dataType": "NUMERIC",
+		"label": "Wie finanzierten Sie Ihren Lebensunterhalt während des Studiums zu den unten genannten Zeitpunkten? (prozentuale Angaben)",
+		"scaleLevel": "METRIC",
+		"answerOptions": [
+			{
+				"code": "-1",
+				"label": "fehlende Angabe"
+			},
+			{
+				"code": "____",
+				"label": "offene Angabe"
+			}
+		]
+	},
+	{
+		"_class": "eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.VariableDocument",
+		"id": "FdZ_ID13",
+		"variableSurveyDocument": {
+			"surveyId": "DZHW_SE_20",
+			"title": "20. Sozialerhebung",
+		"surveyPeriod": {
+				"startDate": "2012-05-01",
+				"endDate": "2012-08-31"
+			},
+			"alias": "Hochschulsemester (aggregiert)"
+		},
+		"name": "ssemhsa",
+		"dataType": "NUMERIC",
+		"label": "Wie viele Semester (einschl. Sommersemester 2012) sind Sie bisher insgesamt an Hochschulen eingeschrieben?",
+		"scaleLevel": "ORDINAL",
+		"answerOptions": [
+			{
+				"code": "-3",
+				"label": "nicht bestimmbar "
+			},
+			{
+				"code": "1",
+				"label": "1. + 2. Semester "
+			},
+			{
+				"code": "2",
+				"label": "3. + 4. Semester"
+			},
+			{
+				"code": "3",
+				"label": " 5. + 6. Semester"
+			},
+			{
+				"code": "4",
+				"label": "7. + 8. Semester "
+			},
+			{
+				"code": "5",
+				"label": "9. + 10. Semester"
+			},
+			{
+				"code": "6",
+				"label": "11. + 12. Semester"
+			},
+			{
+				"code": "7",
+				"label": "13. + 14. Semester"
+			}
+		]
+	},
+	{
+		"_class": "eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.VariableDocument",
+		"id": "FdZ_ID14",
+		"variableSurveyDocument": {
+			"surveyId": "DZHW_SE_20",
+			"title": "20. Sozialerhebung",
+		"surveyPeriod": {
+				"startDate": "2012-05-01",
+				"endDate": "2012-08-31"
+			},
+			"alias": "keine Erwerbstaet. (wg Kind)"
+		},
+		"name": "engrkin",
+		"dataType": "NUMERIC",
+		"label": "Sind Sie seit Beginn der Vorlesungszeit des Sommersemesters 2012 einer Tätigkeit nachgegangen, mit der Sie Geld verdienen? (nein, wegen Kindererziehung nicht möglich)",
+		"scaleLevel": "NOMINAL",
+		"answerOptions": [
+			{
+				"code": "-2",
+				"label": "keine Angabe"
+			},
+			{
+				"code": "-1",
+				"label": "trifft nicht zu (Filter)"
+			},
+			{
+				"code": "0",
+				"label": "nicht genannt"
+			},
+			{
+				"code": "1",
+				"label": "genannt"
+			}
+		]
+	},
+	{
+		"_class": "eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.VariableDocument",
+		"id": "FdZ_ID15",
+		"variableSurveyDocument": {
+			"surveyId": "DZHW_SE_20",
+			"title": "20. Sozialerhebung",
+		"surveyPeriod": {
+				"startDate": "2012-05-01",
+				"endDate": "2012-08-31"
+			},
+			"alias": "Staatsangehörigkeit"
+		},
+		"name": "dnatsta",
+		"dataType": "NUMERIC",
+		"label": "Welche Staatsangehörigkeit(en) haben Sie?",
+		"scaleLevel": "NOMINAL",
+		"answerOptions": [
+			{
+				"code": "-2",
+				"label": "keine Angabe"
+			},
+			{
+				"code": "1",
+				"label": "deutsche Staatsang."
+			},
+			{
+				"code": "2",
+				"label": "andere Staatsang."
+			},
+			{
+				"code": "3",
+				"label": "dt. u. and. Staatsang."
+			}
+		]
+	}
 ]

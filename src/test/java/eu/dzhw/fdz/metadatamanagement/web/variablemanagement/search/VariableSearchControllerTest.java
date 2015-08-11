@@ -42,14 +42,14 @@ public class VariableSearchControllerTest extends AbstractWebTest {
   @Test
   public void testSearch() throws Exception {
     MvcResult mvcResult =
-        this.mockMvc.perform(get("/de/variables/search?query=name")).andExpect(status().isOk())
+        this.mockMvc.perform(get("/de/variables/search?query=ALLBUS")).andExpect(status().isOk())
             .andExpect(request().asyncStarted())
             .andExpect(request().asyncResult(instanceOf(ModelAndView.class))).andReturn();
 
     ModelAndViewAssert.assertViewName((ModelAndView) mvcResult.getAsyncResult(),
         "variables/variableSearch");
     ModelAndViewAssert.assertModelAttributeValue((ModelAndView) mvcResult.getAsyncResult(),
-        "query", "name");
+        "query", "ALLBUS");
     ModelAndViewAssert.assertModelAttributeAvailable((ModelAndView) mvcResult.getAsyncResult(),
         "resource");
     ModelAndViewAssert.assertAndReturnModelAttributeOfType(
@@ -58,20 +58,20 @@ public class VariableSearchControllerTest extends AbstractWebTest {
     VariableSearchPageResource resource =
         (VariableSearchPageResource) ((ModelAndView) mvcResult.getAsyncResult()).getModelMap().get(
             "resource");
-    assertThat(resource.getPage().getContent().size(), is(10));
+    assertThat(resource.getPage().getContent().size(), is(8));
   }
 
   @Test
   public void testSearchWithPage() throws Exception {
     MvcResult mvcResult =
-        this.mockMvc.perform(get("/de/variables/search?query=name&page=1&size=3"))
+        this.mockMvc.perform(get("/de/variables/search?query=ALLBUS&page=1&size=3"))
             .andExpect(status().isOk()).andExpect(request().asyncStarted())
             .andExpect(request().asyncResult(instanceOf(ModelAndView.class))).andReturn();
 
     ModelAndViewAssert.assertViewName((ModelAndView) mvcResult.getAsyncResult(),
         "variables/variableSearch");
     ModelAndViewAssert.assertModelAttributeValue((ModelAndView) mvcResult.getAsyncResult(),
-        "query", "name");
+        "query", "ALLBUS");
     ModelAndViewAssert.assertModelAttributeAvailable((ModelAndView) mvcResult.getAsyncResult(),
         "resource");
     ModelAndViewAssert.assertAndReturnModelAttributeOfType(
@@ -84,13 +84,13 @@ public class VariableSearchControllerTest extends AbstractWebTest {
     assertThat(resource.getPage().getContent().size(), is(3));
     assertThat(
         resource.getPage().getId().getHref()
-            .contains("/de/variables/search?query=name&page=1&size=3"), is(true));
+            .contains("/de/variables/search?query=ALLBUS&page=1&size=3"), is(true));
     assertThat(
         resource.getPage().getPreviousLink().getHref()
-            .contains("/de/variables/search?query=name&page=0&size=3"), is(true));
+            .contains("/de/variables/search?query=ALLBUS&page=0&size=3"), is(true));
     assertThat(
         resource.getPage().getNextLink().getHref()
-            .contains("/de/variables/search?query=name&page=2&size=3"), is(true));
+            .contains("/de/variables/search?query=ALLBUS&page=2&size=3"), is(true));
 
   }
 }

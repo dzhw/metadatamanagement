@@ -38,7 +38,7 @@ public class VariablesRepositoryTest extends MetaDataManagementApplicationSmokeT
 
     LocaleContextHolder.setLocale(Locale.GERMAN);
     Page<VariableDocument> result =
-        this.variablesRepository.phrasePrefixQuery("Name", new PageRequest(0, 20));
+        this.variablesRepository.phrasePrefixQuery("FdZ_ID01", new PageRequest(0, 20));
     assertThat(result.getNumberOfElements(), is(15));
   }
 

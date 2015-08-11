@@ -28,7 +28,7 @@ public class VariableService {
   }
 
   /**
-   * Obtain variables from data layer.
+   * Search variables by query.
    * 
    * @param query the query for the search in name field.
    * @param pageable a pageable object.
@@ -43,7 +43,7 @@ public class VariableService {
   }
 
   /**
-   * Obtain variables from data layer.
+   * Load variable by id.
    * 
    * @param id the id for the document.
    * 

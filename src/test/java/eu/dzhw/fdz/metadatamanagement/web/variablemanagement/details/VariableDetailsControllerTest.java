@@ -23,22 +23,24 @@ public class VariableDetailsControllerTest extends AbstractWebTest {
 
   @Test
   public void testGetByValidId() throws Exception {
-    MvcResult mvcResult = this.mockMvc.perform(get("/de/variables/ID15")).andExpect(status().isOk())
-        .andExpect(request().asyncStarted())
-        .andExpect(request().asyncResult(instanceOf(VariableResource.class))).andReturn();
+    MvcResult mvcResult =
+        this.mockMvc.perform(get("/de/variables/FdZ_ID01")).andExpect(status().isOk())
+            .andExpect(request().asyncStarted())
+            .andExpect(request().asyncResult(instanceOf(VariableResource.class))).andReturn();
 
     this.mockMvc
-        // wait for the async result
+    // wait for the async result
         .perform(asyncDispatch(mvcResult)).andExpect(status().isOk());
   }
 
   @Test
   public void testGetByInValidId() throws Exception {
-    MvcResult mvcResult = this.mockMvc.perform(get("/de/variables/fjsgjfd"))
-        .andExpect(status().isOk()).andExpect(request().asyncStarted()).andReturn();
+    MvcResult mvcResult =
+        this.mockMvc.perform(get("/de/variables/fjsgjfd")).andExpect(status().isOk())
+            .andExpect(request().asyncStarted()).andReturn();
 
     this.mockMvc
-        // wait for the async result
+    // wait for the async result
         .perform(asyncDispatch(mvcResult)).andExpect(status().isOk());
 
     assertThat(mvcResult.getAsyncResult(), is(nullValue()));
