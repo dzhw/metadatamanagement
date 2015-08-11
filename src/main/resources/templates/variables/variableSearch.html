@@ -76,11 +76,10 @@
 								</a>
 								<p th:if="${resource.page.content.size() == 0}">
 								<h4 class="list-group-item-heading"
-									th:text="#{variables.search.noresults}+${query}"></h4>
+									th:text="#{variables.search.noresults}+'\''+${query}+#{variables.search.noresults.found}"></h4>
 								</p>
 							</div>
-							<div
-								th:if="${resource.page.previousLink != null or resource.page.nextLink != null}">
+							<div th:if="${resource.page.content.size() gt 0}">
 								<ul class="pager">
 									<li class="previous"
 										th:if="${resource.page.previousLink != null}"><a
