@@ -1,4 +1,4 @@
-package eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.enums.validation;
+package eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.validation;
 
 import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;
@@ -9,7 +9,7 @@ import java.lang.annotation.Target;
 import javax.validation.Constraint;
 import javax.validation.Payload;
 
-import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.enums.DataType;
+import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.validation.enums.DataType;
 
 /**
  * This annotation checks for an input of the datatype field. Only some values are acceptable,

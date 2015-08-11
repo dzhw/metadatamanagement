@@ -9,7 +9,7 @@ import java.util.Locale;
 import org.junit.Test;
 import org.springframework.context.i18n.LocaleContextHolder;
 
-import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.enums.DataType;
+import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.validation.enums.DataType;
 
 /**
  * @author Daniel Katzberg

@@ -1,9 +1,9 @@
-package eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.enums.validation;
+package eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.validation;
 
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 
-import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.enums.DataType;
+import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.validation.enums.DataType;
 
 /**
  * The validator checks a String input is a part of the given enumeration. The enumeration is a list

@@ -8,4 +8,4 @@
  * @author Daniel Katzberg
  *
  */
-package eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.enums.validation;
+package eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.validation;

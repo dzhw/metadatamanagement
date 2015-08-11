@@ -1,4 +1,4 @@
-package eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.enums;
+package eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.validation.enums;
 
 import java.util.Locale;
 

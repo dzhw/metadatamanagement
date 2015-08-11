@@ -12,8 +12,8 @@ import org.springframework.data.elasticsearch.annotations.FieldIndex;
 import org.springframework.data.elasticsearch.annotations.FieldType;
 
 import eu.dzhw.fdz.metadatamanagement.data.common.documents.AbstractDocument;
-import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.enums.ScaleLevel;
-import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.enums.validation.ValidDataType;
+import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.validation.ValidDataType;
+import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.validation.enums.ScaleLevel;
 
 /**
  * This is a representation of a variable. All fields describe the attributes of the variable, for
