@@ -9,6 +9,7 @@ import org.springframework.data.elasticsearch.annotations.Document;
 import org.springframework.data.elasticsearch.annotations.Setting;
 
 import eu.dzhw.fdz.metadatamanagement.data.common.PopulatorUtils;
+import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.validation.UniqueId;
 
 /**
  * The AbstractDocument is used for creating of the index for ElasticSearch. This is the abstract
@@ -31,6 +32,7 @@ public class AbstractDocument {
    * A fdzID as primary key for the identification of the variable of a survey.
    */
   @Id
+  @UniqueId
   @Size(max = 32)
   @NotEmpty
   @Pattern(regexp = "^[a-zA-Z_-]*")
