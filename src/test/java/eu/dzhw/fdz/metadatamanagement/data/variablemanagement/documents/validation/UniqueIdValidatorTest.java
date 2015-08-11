@@ -51,7 +51,9 @@ public class UniqueIdValidatorTest extends AbstractWebTest {
 
     // Assert
     assertEquals(0, variableViolations.size());
-    this.repository.deleteAll();
+    
+    //Delete
+    this.repository.delete(variableDocument1.getId());
     
   }
 
@@ -82,6 +84,8 @@ public class UniqueIdValidatorTest extends AbstractWebTest {
           "{eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.validation.uniqueid.message}",
           variableVialation.getMessageTemplate());
     }
-    this.repository.deleteAll();
+    
+    //Delete
+    this.repository.delete(variableDocument1.getId());
   }
 }
