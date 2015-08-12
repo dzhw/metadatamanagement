@@ -34,7 +34,6 @@ public class UniqueVariableAliasTest extends AbstractWebTest{
   @Autowired
   private Validator validator;
   
-  //TODO
   @Test
   public void testInvalidVariableSecondDocumentSurvey() {
 
@@ -101,26 +100,26 @@ public class UniqueVariableAliasTest extends AbstractWebTest{
     variableDocument1.setVariableSurvey(variableSurvey1);
     this.repository.save(variableDocument1);
     
-    VariableDocument variableDocument = new VariableDocument();
-    variableDocument.setId("ThisIDisOkay2");
-    variableDocument.setName("ThisNameIsOkay2.");
+    VariableDocument variableDocument2 = new VariableDocument();
+    variableDocument2.setId("ThisIDisOkay2");
+    variableDocument2.setName("ThisNameIsOkay2.");
 
-    VariableSurvey variableSurvey = new VariableSurvey();
-    variableSurvey.setSurveyId("SurveyIdIsOkay.");
-    variableSurvey.setTitle("TitleIsOkay.");
-    variableSurvey.setVariableAlias(variableDocument.getName());
+    VariableSurvey variableSurvey2 = new VariableSurvey();
+    variableSurvey2.setSurveyId("SurveyIdIsOkay.");
+    variableSurvey2.setTitle("TitleIsOkay.");
+    variableSurvey2.setVariableAlias(variableDocument2.getName());
     
-    variableDocument.setVariableSurvey(variableSurvey);
+    variableDocument2.setVariableSurvey(variableSurvey2);
     
     
     // Act
     Set<ConstraintViolation<VariableDocument>> variableViolations =
-        this.validator.validate(variableDocument);
+        this.validator.validate(variableDocument2);
 
     // Assert
     assertEquals(0, variableViolations.size());
     
     //Delete
-    this.repository.delete(variableDocument.getId());
+    this.repository.delete(variableDocument1.getId());
   }
 }
