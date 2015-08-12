@@ -106,18 +106,16 @@ public class VariableRepositoryImpl implements VariableRepositoryCustom {
   @Override
   public Page<VariableDocument> multiMatchQueryOnAllStringFields(String query, Pageable pageable) {
     QueryBuilder queryBuilder = boolQuery()
-        .should(
-            multiMatchQuery(query, VariableDocument.DATA_TYPE_FIELD, VariableDocument.LABEL_FIELD,
-                VariableDocument.NAME_FIELD, VariableDocument.SCALE_LEVEL_FIELD,
-                VariableDocument.ID_FIELD).fuzziness(Fuzziness.AUTO))
+        .should(multiMatchQuery(query, VariableDocument.DATA_TYPE_FIELD,
+            VariableDocument.LABEL_FIELD, VariableDocument.NAME_FIELD,
+            VariableDocument.SCALE_LEVEL_FIELD, VariableDocument.ID_FIELD))
         .should(nestedQuery(VariableDocument.VARIABLE_SURVEY_FIELD,
             multiMatchQuery(query, VariableDocument.NESTED_VARIABLE_SURVEY_ID_FIELD,
                 VariableDocument.NESTED_VARIABLE_SURVEY_TITLE_FIELD,
-                VariableDocument.NESTED_VARIABLE_SURVEY_VARIABLE_ALIAS_FIELD)
-                    .fuzziness(Fuzziness.AUTO)))
+                VariableDocument.NESTED_VARIABLE_SURVEY_VARIABLE_ALIAS_FIELD)))
         .should(nestedQuery(VariableDocument.ANSWER_OPTIONS_FIELD,
             multiMatchQuery(query, VariableDocument.NESTED_ANSWER_OPTIONS_CODE_FIELD,
-                VariableDocument.NESTED_ANSWER_OPTIONS_LABEL_FIELD).fuzziness(Fuzziness.AUTO)));
+                VariableDocument.NESTED_ANSWER_OPTIONS_LABEL_FIELD)));
 
     SearchQuery searchQuery =
         new NativeSearchQueryBuilder().withQuery(queryBuilder).withPageable(pageable).build();

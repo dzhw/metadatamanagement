@@ -32,7 +32,7 @@ public class VariableDocument extends AbstractDocument {
   public static final String NAME_FIELD = "name";
   public static final String DATA_TYPE_FIELD = "dataType";
   public static final String LABEL_FIELD = "label";
-  public static final String SCALE_LEVEL_FIELD = "scaleLevel";
+  public static final String SCALE_LEVEL_FIELD = "scaleLtevel";
   public static final String ANSWER_OPTIONS_FIELD = "answerOptions";
   public static final String VARIABLE_SURVEY_FIELD = "variableSurvey";
   public static final String NESTED_VARIABLE_SURVEY_TITLE_FIELD =
