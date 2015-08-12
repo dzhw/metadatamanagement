@@ -37,7 +37,7 @@
       "variableSurvey": {
         "type": "nested",
         "properties": {
-          "variablevariableAlias": {
+          "variableAlias": {
             "type": "string",
             "analyzer": "german"
           },
