@@ -35,7 +35,7 @@ public class AbstractDocument {
   @UniqueId
   @Size(max = 32)
   @NotEmpty
-  @Pattern(regexp = "^[a-zA-Z_-]*")
+  @Pattern(regexp = "^[0-9a-zA-Z_-]*")
   private String id;
   
   /* GETTER / SETTER */

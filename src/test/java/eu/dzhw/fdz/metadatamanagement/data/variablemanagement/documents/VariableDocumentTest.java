@@ -3,6 +3,9 @@
  */
 package eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents;
 
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.anyOf;
+import static org.hamcrest.Matchers.equalTo;
 import static org.junit.Assert.assertEquals;
 
 import java.time.LocalDate;
@@ -403,14 +406,17 @@ public class VariableDocumentTest extends AbstractWebTest {
         this.validator.validate(variableDocument);
 
     // Assert
-    assertEquals(3, variableViolations.size());
+    assertEquals(4, variableViolations.size());
     for (ConstraintViolation<VariableDocument> variableVialation : variableViolations) {
 
       LOGGER.debug("testInvalidVariableDocumentSurveyWithEmptyFields()"
           + variableVialation.getMessageTemplate() + " -> " + variableVialation.getMessage());
 
-      assertEquals("{org.hibernate.validator.constraints.NotEmpty.message}",
-          variableVialation.getMessageTemplate());
+      assertThat(variableVialation.getMessageTemplate(),
+          anyOf(equalTo("{org.hibernate.validator.constraints.NotEmpty.message}"), equalTo(
+              "{eu.dzhw.fdz.metadatamanagement.data.variablemanagement."
+              + "documents.validation.uniquevariablealias.message}")));
+
     }
   }
 
@@ -528,7 +534,6 @@ public class VariableDocumentTest extends AbstractWebTest {
     assertEquals(0, variableViolations.size());
   }
 
-
   @Test
   public void testInvalidDateRange() {
 
@@ -571,7 +576,7 @@ public class VariableDocumentTest extends AbstractWebTest {
   @Test
   public void testValidDateRange() {
 
-    // Assert
+    // Arrange
     VariableDocument variableDocument = new VariableDocument();
     variableDocument.setId("ThisIDisOkay");
     variableDocument.setName("ThisNameIsOkay.");

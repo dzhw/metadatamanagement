@@ -40,8 +40,9 @@ public class UniqueVariableAliasValidator
   @Override
   public boolean isValid(VariableSurvey value, ConstraintValidatorContext context) {
 
+    //Both are not empty fields -> no valid if there are null
     if (value.getSurveyId() == null || value.getVariableAlias() == null) {
-      return true;
+      return false;
     }
 
     // no elements found
