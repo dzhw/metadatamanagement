@@ -28,7 +28,8 @@ public class VariableService {
   }
 
   /**
-   * Search variables by query.
+   * Search variables by query. If the query string does not contain text the first n variables are
+   * returned as defined in the pageable.
    * 
    * @param query the query for the search in name field.
    * @param pageable a pageable object.
@@ -37,9 +38,9 @@ public class VariableService {
    */
   public Page<VariableDocument> search(String query, Pageable pageable) {
     if (StringUtils.hasText(query)) {
-      return variableRepository.matchQueryInAllField(query, pageable);
+      return variableRepository.multiMatchQueryOnAllStringFields(query, pageable);
     }
-    return variableRepository.matchQueryInAllField("*", pageable);
+    return variableRepository.findAll(pageable);
   }
 
   /**

@@ -46,4 +46,14 @@ public interface VariableRepositoryCustom {
    */
   Page<VariableDocument> filterBySurveyIdAndVariableAlias(String surveyId, String variableAlias);
 
+  /**
+   * Query for variable documents with the given query string using all fields. Non-String fields
+   * are skipped for the moment.
+   * 
+   * @param query The string to query for.
+   * @param pageable a pageable object.
+   * @return A Page holding the variable documents
+   */
+  Page<VariableDocument> multiMatchQueryOnAllStringFields(String query, Pageable pageable);
+
 }

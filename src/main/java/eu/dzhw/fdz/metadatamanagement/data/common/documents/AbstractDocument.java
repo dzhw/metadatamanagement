@@ -22,12 +22,13 @@ import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.validati
     + "+T(org.springframework.context.i18n.LocaleContextHolder).getLocale().getLanguage()}")
 @Setting(settingPath = "data/settings/settings.json")
 public class AbstractDocument {
-  
+
   /**
    * The basic index name.
    */
   public static final String METADATA_INDEX = "metadata";
-  
+  public static final String ID_FIELD = "id";
+
   /**
    * A fdzID as primary key for the identification of the variable of a survey.
    */
@@ -37,7 +38,7 @@ public class AbstractDocument {
   @NotEmpty
   @Pattern(regexp = "^[0-9a-zA-Z_-]*")
   private String id;
-  
+
   /* GETTER / SETTER */
   public String getId() {
     return id;
@@ -46,5 +47,5 @@ public class AbstractDocument {
   public void setId(String id) {
     this.id = id;
   }
-  
+
 }

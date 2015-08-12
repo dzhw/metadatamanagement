@@ -9,6 +9,7 @@ import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.data.elasticsearch.annotations.Document;
 
 import eu.dzhw.fdz.metadatamanagement.data.common.documents.AbstractDocument;
+import eu.dzhw.fdz.metadatamanagement.data.common.documents.DateRange;
 import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.validation.NotNullScaleLevelOnNumericDataType;
 import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.validation.ValidDataType;
 import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.validation.ValidScaleLevel;
@@ -27,6 +28,29 @@ import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.validati
 @NotNullScaleLevelOnNumericDataType
 public class VariableDocument extends AbstractDocument {
 
+  // Public constants which are used in queries as fieldnames.
+  public static final String NAME_FIELD = "name";
+  public static final String DATA_TYPE_FIELD = "dataType";
+  public static final String LABEL_FIELD = "label";
+  public static final String SCALE_LEVEL_FIELD = "scaleLevel";
+  public static final String ANSWER_OPTIONS_FIELD = "answerOptions";
+  public static final String VARIABLE_SURVEY_FIELD = "variableSurvey";
+  public static final String NESTED_VARIABLE_SURVEY_TITLE_FIELD =
+      VARIABLE_SURVEY_FIELD + "." + VariableSurvey.TITLE_FIELD;
+  public static final String NESTED_VARIABLE_SURVEY_VARIABLE_ALIAS_FIELD =
+      VARIABLE_SURVEY_FIELD + "." + VariableSurvey.VARIABLE_ALIAS_FIELD;
+  public static final String NESTED_VARIABLE_SURVEY_ID_FIELD =
+      VARIABLE_SURVEY_FIELD + "." + VariableSurvey.SURVEY_ID_FIELD;
+  public static final String NESTED_VARIABLE_SURVEY_PERIOD_FIELD =
+      VARIABLE_SURVEY_FIELD + "." + VariableSurvey.SURVEY_PERIOD_FIELD;
+  public static final String NESTED_VARIABLE_SURVEY_NESTED_PERIOD_START_DATE = VARIABLE_SURVEY_FIELD
+      + "." + VariableSurvey.SURVEY_PERIOD_FIELD + "." + DateRange.STARTDATE_FIELD;
+  public static final String NESTED_VARIABLE_SURVEY_NESTED_PERIOD_END_DATE = VARIABLE_SURVEY_FIELD
+      + "." + VariableSurvey.SURVEY_PERIOD_FIELD + "." + DateRange.ENDDATE_FIELD;
+  public static final String NESTED_ANSWER_OPTIONS_CODE_FIELD =
+      ANSWER_OPTIONS_FIELD + "." + AnswerOption.CODE_FIELD;
+  public static final String NESTED_ANSWER_OPTIONS_LABEL_FIELD =
+      ANSWER_OPTIONS_FIELD + "." + AnswerOption.LABEL_FIELD;
   /**
    * This is a nested reference to the survey.
    */
@@ -126,5 +150,4 @@ public class VariableDocument extends AbstractDocument {
   public void setAnswerOptions(List<AnswerOption> answerOptions) {
     this.answerOptions = answerOptions;
   }
-
 }

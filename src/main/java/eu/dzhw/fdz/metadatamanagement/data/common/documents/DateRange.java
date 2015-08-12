@@ -13,6 +13,10 @@ import org.springframework.format.annotation.DateTimeFormat;
  */
 public class DateRange {
 
+  // Public constants which are used in queries as fieldnames.
+  public static final String STARTDATE_FIELD = "startDate";
+  public static final String ENDDATE_FIELD = "endDate";
+
   /**
    * The start date of the range. The checked pattern is: {@code yyyy-MM-dd}
    */
@@ -27,6 +31,7 @@ public class DateRange {
 
   /*
    * (non-Javadoc)
+   * 
    * @see java.lang.Object#toString()
    */
   @Override

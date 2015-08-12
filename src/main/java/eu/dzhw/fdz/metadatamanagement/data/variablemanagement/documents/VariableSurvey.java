@@ -19,6 +19,12 @@ import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.validati
 @UniqueVariableAlias
 public class VariableSurvey {
 
+  // Public constants which are used in queries as fieldnames.
+  public static final String SURVEY_ID_FIELD = "surveyId";
+  public static final String TITLE_FIELD = "title";
+  public static final String SURVEY_PERIOD_FIELD = "surveyPeriod";
+  public static final String VARIABLE_ALIAS_FIELD = "variableAlias";
+
   /**
    * The surveyID is a primary.
    */
