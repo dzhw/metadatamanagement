@@ -3,9 +3,10 @@ package eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.validat
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.i18n.LocaleContextHolder;
 
-import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.validation.types.ScaleLevel;
+import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.validation.provider.ScaleLevelProvider;
 
 /**
  * The validator checks a String input is a part of the given scale level enumeration. The
@@ -16,6 +17,9 @@ import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.validati
  */
 public class ScaleLevelValidator implements ConstraintValidator<ValidScaleLevel, String> {
 
+  @Autowired
+  private ScaleLevelProvider scaleLevelProvider;
+  
   /*
    * (non-Javadoc)
    * 
@@ -41,7 +45,7 @@ public class ScaleLevelValidator implements ConstraintValidator<ValidScaleLevel,
     }
 
     // Look for accepted scale level
-    if (ScaleLevel.getScaleLevel().getScaleLevelMap().get(LocaleContextHolder.getLocale())
+    if (this.scaleLevelProvider.getScaleLevelMap().get(LocaleContextHolder.getLocale())
         .contains(value)) {
       return true;
     }

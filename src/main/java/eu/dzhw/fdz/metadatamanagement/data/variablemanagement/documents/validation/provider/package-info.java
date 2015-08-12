@@ -6,4 +6,4 @@
  * @author Daniel Katzberg
  *
  */
-package eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.validation.types;
+package eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.validation.provider;

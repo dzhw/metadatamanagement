@@ -1,10 +1,11 @@
-package eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.validation.types;
+package eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.validation.provider;
 
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Locale;
 
 import org.springframework.context.i18n.LocaleContextHolder;
+import org.springframework.stereotype.Component;
 
 /**
  * This class includes all accepted data types for a variable.
@@ -12,7 +13,8 @@ import org.springframework.context.i18n.LocaleContextHolder;
  * @author Daniel Katzberg
  *
  */
-public class DataTypes {
+@Component
+public class DataTypesProvider {
 
   private static final String ENGLISH_STRING = "string";
   private static final String ENGLISH_NUMERIC = "numeric";
@@ -20,14 +22,16 @@ public class DataTypes {
   private static final String GERMAN_STRING = "string";
   private static final String GERMAN_NUMERIC = "numerisch";
 
-  private static volatile DataTypes DATATYPES;
-
   /**
    * This fields holds the accepted translations of all supported languages.
    */
   private HashMap<Locale, HashSet<String>> dataTypesMap;
 
-  private DataTypes() {
+  /**
+   * The basic constructor fills a map with valid language translations of the String and Numeric
+   * data type.
+   */
+  public DataTypesProvider() {
     this.dataTypesMap = new HashMap<>();
 
     // put english
@@ -53,7 +57,7 @@ public class DataTypes {
       return ENGLISH_NUMERIC;
     }
   }
-  
+
   /**
    * @return The language depended versions of numeric.
    */
@@ -63,23 +67,6 @@ public class DataTypes {
     } else {
       return ENGLISH_STRING;
     }
-  }
-
-  /**
-   * DataTypes is a singleton. This method is the only way to get the data types.
-   * 
-   * @return The DataTypes singleton object.
-   */
-  public static DataTypes getDataTypes() {
-    if (DATATYPES == null) {
-      synchronized (DataTypes.class) {
-        if (DATATYPES == null) {
-          DATATYPES = new DataTypes();
-        }
-      }
-    }
-
-    return DATATYPES;
   }
 
   /* GETTER / SETTER */

@@ -3,8 +3,10 @@ package eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.validat
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 
+import org.springframework.beans.factory.annotation.Autowired;
+
 import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.VariableDocument;
-import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.validation.types.DataTypes;
+import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.validation.provider.DataTypesProvider;
 
 /**
  * The validator checks for a not null scale level field, if a data type is numeric.
@@ -15,6 +17,9 @@ import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.validati
 public class NotNullScaleLevelOnNumericDataTypeValidator
     implements ConstraintValidator<NotNullScaleLevelOnNumericDataType, VariableDocument> {
 
+  @Autowired
+  private DataTypesProvider dataTypesProvider;
+  
   /*
    * (non-Javadoc)
    * 
@@ -40,7 +45,7 @@ public class NotNullScaleLevelOnNumericDataTypeValidator
     }
 
     // check numeric field with look for a null scale level
-    if (value.getDataType().equals(DataTypes.getDataTypes().getNumericValueByLocale())
+    if (value.getDataType().equals(this.dataTypesProvider.getNumericValueByLocale())
         && value.getScaleLevel() == null) {
       return false;
     }

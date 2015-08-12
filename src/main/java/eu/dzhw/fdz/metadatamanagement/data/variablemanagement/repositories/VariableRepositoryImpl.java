@@ -76,7 +76,7 @@ public class VariableRepositoryImpl implements VariableRepositoryCustom {
    * matchFilterBySurveyId(java.lang.String, java.lang.String)
    */
   @Override
-  public Page<VariableDocument> matchFilterBySurveyId(String surveyIdQuery,
+  public Page<VariableDocument> filterBySurveyIdAndVariableAlias(String surveyIdQuery,
       String variableAliasQuery) {
 
     QueryBuilder queryBuilder = QueryBuilders.filteredQuery(QueryBuilders.matchAllQuery(),

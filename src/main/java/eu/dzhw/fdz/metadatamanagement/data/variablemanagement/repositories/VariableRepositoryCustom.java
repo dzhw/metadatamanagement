@@ -39,11 +39,11 @@ public interface VariableRepositoryCustom {
    * This method search in the elasticsearch. This search use the fuzzyness of 0.1. It looks for the
    * all variables with the same survey id.
    * 
-   * @param surveyIdQuery the surveyId of the survey
-   * @param variableAliasQuery variableAlias of the survey
+   * @param surveyId the surveyId of the survey
+   * @param variableAlias variableAlias of the survey
    * @return A page object with all found variable documents.
    * @see Fuzziness
    */
-  Page<VariableDocument> matchFilterBySurveyId(String surveyIdQuery, String variableAliasQuery);
+  Page<VariableDocument> filterBySurveyIdAndVariableAlias(String surveyId, String variableAlias);
 
 }

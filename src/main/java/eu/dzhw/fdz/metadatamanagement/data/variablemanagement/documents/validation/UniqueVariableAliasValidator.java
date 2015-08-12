@@ -45,7 +45,8 @@ public class UniqueVariableAliasValidator
     }
 
     // no elements found
-    if (variableRepository.matchFilterBySurveyId(value.getSurveyId(), value.getVariableAlias())
+    if (variableRepository
+        .filterBySurveyIdAndVariableAlias(value.getSurveyId(), value.getVariableAlias())
         .getNumberOfElements() == 0) {
       return true;
       // found elements

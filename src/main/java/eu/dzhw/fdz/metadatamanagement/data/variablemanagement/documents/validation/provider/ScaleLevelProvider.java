@@ -1,10 +1,11 @@
-package eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.validation.types;
+package eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.validation.provider;
 
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Locale;
 
 import org.springframework.context.i18n.LocaleContextHolder;
+import org.springframework.stereotype.Component;
 
 /**
  * This enumeration includes all accepted scale levels.
@@ -12,7 +13,8 @@ import org.springframework.context.i18n.LocaleContextHolder;
  * @author Daniel Katzberg
  *
  */
-public class ScaleLevel {
+@Component
+public class ScaleLevelProvider {
 
   private static final String ENGLISH_METRIC = "metric";
   private static final String ENGLISH_NOMINAL = "nominal";
@@ -26,13 +28,11 @@ public class ScaleLevel {
    */
   private HashMap<Locale, HashSet<String>> scaleLevelMap;
 
-  private static volatile ScaleLevel SCALELEVEL;
-
   /**
-   * @param localeGerman The accepted value for the German input.
-   * @param localEnglish The accepted value for the English input.
+   * The basic constructor fills a map with valid language translations of the Metric, Nominal and
+   * Ordinal scale level.
    */
-  private ScaleLevel() {
+  public ScaleLevelProvider() {
     this.scaleLevelMap = new HashMap<>();
 
     // put english
@@ -60,7 +60,7 @@ public class ScaleLevel {
       return ENGLISH_METRIC;
     }
   }
-  
+
   /**
    * @return Returns the translated field of nominal depending at the actual locale.
    */
@@ -71,7 +71,7 @@ public class ScaleLevel {
       return ENGLISH_NOMINAL;
     }
   }
-  
+
   /**
    * @return Returns the translated field of ordinal depending at the actual locale.
    */
@@ -81,23 +81,6 @@ public class ScaleLevel {
     } else {
       return ENGLISH_ORDINAL;
     }
-  }
-
-  /**
-   * DataTypes is a singleton. This method is the only way to get the data types.
-   * 
-   * @return The DataTypes singleton object.
-   */
-  public static ScaleLevel getScaleLevel() {
-    if (SCALELEVEL == null) {
-      synchronized (ScaleLevel.class) {
-        if (SCALELEVEL == null) {
-          SCALELEVEL = new ScaleLevel();
-        }
-      }
-    }
-
-    return SCALELEVEL;
   }
 
   /* GETTER / SETTER */
