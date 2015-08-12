@@ -1,10 +1,7 @@
 package eu.dzhw.fdz.metadatamanagement.data.variablemanagement.repositories;
 
-import static org.elasticsearch.index.query.FilterBuilders.boolFilter;
-import static org.elasticsearch.index.query.FilterBuilders.termFilter;
-
 import org.elasticsearch.common.unit.Fuzziness;
-import org.elasticsearch.index.query.FilterBuilder;
+import org.elasticsearch.index.query.FilterBuilders;
 import org.elasticsearch.index.query.MatchQueryBuilder.ZeroTermsQuery;
 import org.elasticsearch.index.query.QueryBuilder;
 import org.elasticsearch.index.query.QueryBuilders;
@@ -76,15 +73,19 @@ public class VariableRepositoryImpl implements VariableRepositoryCustom {
    * 
    * @see
    * eu.dzhw.fdz.metadatamanagement.data.variablemanagement.repositories.VariableRepositoryCustom#
-   * matchFilterBySurveyId(java.lang.String, org.springframework.data.domain.Pageable)
+   * matchFilterBySurveyId(java.lang.String, java.lang.String)
    */
   @Override
-  public Page<VariableDocument> matchFilterBySurveyId(String query, Pageable pageable) {
+  public Page<VariableDocument> matchFilterBySurveyId(String surveyIdQuery,
+      String variableAliasQuery) {
 
-    FilterBuilder filter = boolFilter().must(termFilter("surveyId", query));
-    
-    SearchQuery searchQuery =
-        new NativeSearchQueryBuilder().withFilter(filter).withPageable(pageable).build();
+    QueryBuilder queryBuilder = QueryBuilders.filteredQuery(QueryBuilders.matchAllQuery(),
+        FilterBuilders.nestedFilter("variableSurvey",
+            FilterBuilders.boolFilter()
+                .must(FilterBuilders.termFilter("variableSurvey.surveyId", surveyIdQuery),
+            FilterBuilders.termFilter("variableSurvey.variableAlias", variableAliasQuery))));
+
+    SearchQuery searchQuery = new NativeSearchQueryBuilder().withQuery(queryBuilder).build();
 
     return this.elasticsearchTemplate.queryForPage(searchQuery, VariableDocument.class);
   }

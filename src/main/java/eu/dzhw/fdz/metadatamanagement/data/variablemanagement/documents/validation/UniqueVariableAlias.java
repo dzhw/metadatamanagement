@@ -18,7 +18,7 @@ import javax.validation.Payload;
  */
 @Documented
 @Constraint(validatedBy = {UniqueVariableAliasValidator.class})
-@Target({ElementType.FIELD})
+@Target({ElementType.TYPE})
 @Retention(RetentionPolicy.RUNTIME)
 public @interface UniqueVariableAlias {
 

@@ -28,7 +28,7 @@
       },
       "name": {
         "type": "string",
-        "analyzer": "english"
+        "index": "not_analyzed"
       },
       "scaleLevel": {
         "type": "string",
@@ -39,7 +39,7 @@
         "properties": {
           "variableAlias": {
             "type": "string",
-            "analyzer": "english"
+            "index": "not_analyzed"
           },
           "surveyId": {
             "type": "string",

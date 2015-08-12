@@ -46,8 +46,8 @@ public class VariablesRepositoryTest extends MetaDataManagementApplicationSmokeT
   public void testMatchFilterBySurveyId() {
     LocaleContextHolder.setLocale(Locale.GERMAN);
     Page<VariableDocument> result =
-        this.variablesRepository.matchPhrasePrefixQuery("ALLBUS", new PageRequest(0, 20));
-    assertThat(result.getNumberOfElements(), is(8));
+        this.variablesRepository.matchFilterBySurveyId("Ge_ALL_04", "Staatsbürgerschaft");
+    assertThat(result.getNumberOfElements(), is(1));
   }
 
 }

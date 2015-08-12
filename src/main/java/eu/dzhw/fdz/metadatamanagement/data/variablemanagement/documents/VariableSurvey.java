@@ -6,6 +6,7 @@ import org.hibernate.validator.constraints.NotEmpty;
 
 import eu.dzhw.fdz.metadatamanagement.data.common.documents.DateRange;
 import eu.dzhw.fdz.metadatamanagement.data.common.validation.ValidDateRange;
+import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.validation.UniqueVariableAlias;
 
 /**
  * This class is a representation of a survey. This is a nested object of a survey variable.
@@ -15,6 +16,7 @@ import eu.dzhw.fdz.metadatamanagement.data.common.validation.ValidDateRange;
  * @author Daniel Katzberg
  *
  */
+@UniqueVariableAlias
 public class VariableSurvey {
 
   /**
@@ -44,7 +46,6 @@ public class VariableSurvey {
    */
   @Size(max = 32)
   @NotEmpty
-  // TODO validate that the name is unique within a survey
   private String variableAlias;
 
   /*
