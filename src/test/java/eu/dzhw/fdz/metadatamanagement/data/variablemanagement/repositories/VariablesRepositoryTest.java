@@ -30,7 +30,7 @@ public class VariablesRepositoryTest extends MetaDataManagementApplicationSmokeT
   public void testMatchQueryInAllField() {
     LocaleContextHolder.setLocale(Locale.ENGLISH);
     assertThat(this.variablesRepository.matchQueryInAllField("A name", new PageRequest(0, 10))
-        .getNumberOfElements(), is(10));
+        .getNumberOfElements(), is(4));
   }
 
   @Test

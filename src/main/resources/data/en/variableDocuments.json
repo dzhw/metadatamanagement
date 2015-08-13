@@ -1,467 +1,966 @@
 [
-    {
-        "_class": "eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.VariableDocument",
-        "id": "SurveyID01",
-        "variableSurvey": {
-            "surveyId": "SSurveyID007",
-            "title": "A title.",
-            "surveyPeriod": {
-                "startDate": "2015-07-29",
-                "endDate": "2015-12-24"
-            },
-            "variableAlias": "An variableAlias"
-        },
-        "name": "A name",
-        "dataType": "NUMERIC",
-        "label": "A label.",
-        "scaleLevel": "METRIC",
-        "answerOptions": [
-            {
-                "code": "1",
-                "label": "A label"
-            },
-            {
-                "code": "2",
-                "label": "A label 2"
-            },
-            {
-                "code": "3",
-                "label": "A label 3"
-            }
-        ]
-    },
-    {
-        "_class": "eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.VariableDocument",
-        "id": "Survey_ID_02",
-        "variableSurvey": {
-            "surveyId": "SSurveyID007",
-            "title": "A title.",
-            "surveyPeriod": {
-                "startDate": "2015-07-29",
-                "endDate": "2015-12-24"
-            },
-            "variableAlias": "An variableAlias"
-        },
-        "name": "A name",
-        "dataType": "NUMERIC",
-        "label": "A label.",
-        "scaleLevel": "METRIC",
-        "answerOptions": [
-            {
-                "code": "1",
-                "label": "A label"
-            },
-            {
-                "code": "2",
-                "label": "A label 2"
-            },
-            {
-                "code": "3",
-                "label": "A label 3"
-            }
-        ]
-    },
-    {
-        "_class": "eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.VariableDocument",
-        "id": "SurveyID-03",
-        "variableSurvey": {
-            "surveyId": "SSurveyID007",
-            "title": "A title.",
-            "surveyPeriod": {
-                "startDate": "2015-07-29",
-                "endDate": "2015-12-24"
-            },
-            "variableAlias": "An variableAlias"
-        },
-        "name": "A name",
-        "dataType": "NUMERIC",
-        "label": "A label.",
-        "scaleLevel": "METRIC",
-        "answerOptions": [
-            {
-                "code": "1",
-                "label": "A label"
-            },
-            {
-                "code": "2",
-                "label": "A label 2"
-            },
-            {
-                "code": "3",
-                "label": "A label 3"
-            }
-        ]
-    },
-    {
-        "_class": "eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.VariableDocument",
-        "id": "SurveyD04",
-        "variableSurvey": {
-            "surveyId": "SSurveyID007",
-            "title": "A title.",
-            "surveyPeriod": {
-                "startDate": "2015-07-29",
-                "endDate": "2015-12-24"
-            },
-            "variableAlias": "An variableAlias"
-        },
-        "name": "A name",
-        "dataType": "NUMERIC",
-        "label": "A label.",
-        "scaleLevel": "METRIC",
-        "answerOptions": [
-            {
-                "code": "1",
-                "label": "A label"
-            },
-            {
-                "code": "2",
-                "label": "A label 2"
-            },
-            {
-                "code": "3",
-                "label": "A label 3"
-            }
-        ]
-    },
-    {
-        "_class": "eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.VariableDocument",
-        "id": "SurvyID05",
-        "variableSurvey": {
-            "surveyId": "SurveyID002",
-            "title": "A title.",
-            "surveyPeriod": {
-                "startDate": "2015-07-29",
-                "endDate": "2015-12-24"
-            },
-            "variableAlias": "An variableAlias"
-        },
-        "name": "A name",
-        "dataType": "NUMERIC",
-        "label": "A label.",
-        "scaleLevel": "METRIC",
-        "answerOptions": [
-            {
-                "code": "1",
-                "label": "A label"
-            },
-            {
-                "code": "2",
-                "label": "A label 2"
-            },
-            {
-                "code": "3",
-                "label": "A label 3"
-            }
-        ]
-    },
-    {
-        "_class": "eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.VariableDocument",
-        "id": "SurveyID06",
-        "variableSurvey": {
-            "surveyId": "SurveyID007",
-            "title": "A title.",
-            "surveyPeriod": {
-                "startDate": "2015-07-29",
-                "endDate": "2015-12-24"
-            },
-            "variableAlias": "An variableAlias"
-        },
-        "name": "A name",
-        "dataType": "NUMERIC",
-        "label": "A label.",
-        "scaleLevel": "METRIC",
-        "answerOptions": [
-            {
-                "code": "1",
-                "label": "A label"
-            },
-            {
-                "code": "2",
-                "label": "A label 2"
-            },
-            {
-                "code": "3",
-                "label": "A label 3"
-            }
-        ]
-    },
-    {
-        "_class": "eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.VariableDocument",
-        "id": "urvey07",
-        "variableSurvey": {
-            "surveyId": "SurveyID007",
-            "title": "A title.",
-            "surveyPeriod": {
-                "startDate": "2015-07-29",
-                "endDate": "2015-12-24"
-            },
-            "variableAlias": "An variableAlias"
-        },
-        "name": "A name",
-        "dataType": "NUMERIC",
-        "label": "A label.",
-        "scaleLevel": "METRIC",
-        "answerOptions": [
-            {
-                "code": "1",
-                "label": "A label"
-            },
-            {
-                "code": "2",
-                "label": "A label 2"
-            },
-            {
-                "code": "3",
-                "label": "A label 3"
-            }
-        ]
-    },
-    {
-        "_class": "eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.VariableDocument",
-        "id": "rvy8",
-        "variableSurvey": {
-            "surveyId": "SurveyID007",
-            "title": "A title.",
-            "surveyPeriod": {
-                "startDate": "2015-07-29",
-                "endDate": "2015-12-24"
-            },
-            "variableAlias": "An variableAlias"
-        },
-        "name": "A name",
-        "dataType": "NUMERIC",
-        "label": "A label.",
-        "scaleLevel": "METRIC",
-        "answerOptions": [
-            {
-                "code": "1",
-                "label": "A label"
-            },
-            {
-                "code": "2",
-                "label": "A label 2"
-            },
-            {
-                "code": "3",
-                "label": "A label 3"
-            }
-        ]
-    },
-    {
-        "_class": "eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.VariableDocument",
-        "id": "SrD09",
-        "variableSurvey": {
-            "surveyId": "SurveyID",
-            "title": "A title.",
-            "surveyPeriod": {
-                "startDate": "2015-07-29",
-                "endDate": "2015-12-24"
-            },
-            "variableAlias": "An variableAlias"
-        },
-        "name": "A name",
-        "dataType": "NUMERIC",
-        "label": "A label.",
-        "scaleLevel": "METRIC",
-        "answerOptions": [
-            {
-                "code": "1",
-                "label": "A label"
-            },
-            {
-                "code": "2",
-                "label": "A label 2"
-            },
-            {
-                "code": "3",
-                "label": "A label 3"
-            }
-        ]
-    },
-    {
-        "_class": "eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.VariableDocument",
-        "id": "Srvy10",
-        "variableSurvey": {
-            "surveyId": "SurveyID007",
-            "title": "A title.",
-            "surveyPeriod": {
-                "startDate": "2015-07-29",
-                "endDate": "2015-12-24"
-            },
-            "variableAlias": "An variableAlias"
-        },
-        "name": "A name",
-        "dataType": "NUMERIC",
-        "label": "A label.",
-        "scaleLevel": "METRIC",
-        "answerOptions": [
-            {
-                "code": "1",
-                "label": "A label"
-            },
-            {
-                "code": "2",
-                "label": "A label 2"
-            },
-            {
-                "code": "3",
-                "label": "A label 3"
-            }
-        ]
-    },
-    {
-        "_class": "eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.VariableDocument",
-        "id": "rv3y11",
-        "variableSurvey": {
-            "surveyId": "SurveyID007",
-            "title": "A title.",
-            "surveyPeriod": {
-                "startDate": "2015-07-29",
-                "endDate": "2015-12-24"
-            },
-            "variableAlias": "An variableAlias"
-        },
-        "name": "A name",
-        "dataType": "NUMERIC",
-        "label": "A label.",
-        "scaleLevel": "METRIC",
-        "answerOptions": [
-            {
-                "code": "1",
-                "label": "A label"
-            },
-            {
-                "code": "2",
-                "label": "A label 2"
-            },
-            {
-                "code": "3",
-                "label": "A label 3"
-            }
-        ]
-    },
-    {
-        "_class": "eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.VariableDocument",
-        "id": "ury-ID-12",
-        "variableSurvey": {
-            "surveyId": "SurveyID007",
-            "title": "A title.",
-            "surveyPeriod": {
-                "startDate": "2015-07-29",
-                "endDate": "2015-12-24"
-            },
-            "variableAlias": "An variableAlias"
-        },
-        "name": "A name",
-        "dataType": "NUMERIC",
-        "label": "A label.",
-        "scaleLevel": "METRIC",
-        "answerOptions": [
-            {
-                "code": "1",
-                "label": "A label"
-            },
-            {
-                "code": "2",
-                "label": "A label 2"
-            },
-            {
-                "code": "3",
-                "label": "A label 3"
-            }
-        ]
-    },
-    {
-        "_class": "eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.VariableDocument",
-        "id": "SrvyID13",
-        "variableSurvey": {
-            "surveyId": "Survey ID 13",
-            "title": "A title.",
-            "surveyPeriod": {
-                "startDate": "2015-07-29",
-                "endDate": "2015-12-24"
-            },
-            "variableAlias": "An variableAlias"
-        },
-        "name": "A name",
-        "dataType": "NUMERIC",
-        "label": "A label.",
-        "scaleLevel": "METRIC",
-        "answerOptions": [
-            {
-                "code": "1",
-                "label": "A label"
-            },
-            {
-                "code": "2",
-                "label": "A label 2"
-            },
-            {
-                "code": "3",
-                "label": "A label 3"
-            }
-        ]
-    },
-    {
-        "_class": "eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.VariableDocument",
-        "id": "SveID-_14_",
-        "variableSurvey": {
-            "surveyId": "SurveyID007",
-            "title": "A title.",
-            "surveyPeriod": {
-                "startDate": "2015-07-29",
-                "endDate": "2015-12-24"
-            },
-            "variableAlias": "An variableAlias"
-        },
-        "name": "A name",
-        "dataType": "NUMERIC",
-        "label": "A label.",
-        "scaleLevel": "METRIC",
-        "answerOptions": [
-            {
-                "code": "1",
-                "label": "A label"
-            },
-            {
-                "code": "2",
-                "label": "A label 2"
-            },
-            {
-                "code": "3",
-                "label": "A label 3"
-            }
-        ]
-    },
-    {
-        "_class": "eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.VariableDocument",
-        "id": "ID15",
-        "variableSurvey": {
-            "surveyId": "SurveyID007",
-            "title": "A title.",
-            "surveyPeriod": {
-                "startDate": "2015-07-29",
-                "endDate": "2015-12-24"
-            },
-            "variableAlias": "An variableAlias"
-        },
-        "name": "A name",
-        "dataType": "NUMERIC",
-        "label": "A label.",
-        "scaleLevel": "METRIC",
-        "answerOptions": [
-            {
-                "code": "1",
-                "label": "A label"
-            },
-            {
-                "code": "2",
-                "label": "A label 2"
-            },
-            {
-                "code": "3",
-                "label": "A label 3"
-            }
-        ]
-    }
+	{
+		"_class": "eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.VariableDocument",
+		"id": "FDZ_DE_01",
+		"variableSurvey": {
+			"surveyId": "share_09",
+			"title": "share 2009",
+			"surveyPeriod": {
+				"startDate": "2015-08-01",
+				"endDate": "2015-08-13"
+			},
+			"alias": "country"
+		},
+		"name": "country",
+		"dataType": "NUMERIC",
+		"label": "Land",
+		"scaleLevel": "NOMINAL",
+		"answerOptions": [
+			{
+				"code": "11",
+				"label": "Austria"
+			},
+			{
+				"code": "12",
+				"label": "Germany"
+			},
+			{
+				"code": "13",
+				"label": "Sweden"
+			},
+			{
+				"code": "14",
+				"label": "Netherlands"
+			},
+			{
+				"code": "15",
+				"label": "Spain"
+			},
+			{
+				"code": "16",
+				"label": "Italy"
+			},
+			{
+				"code": "17",
+				"label": "France"
+			},
+			{
+				"code": "18",
+				"label": "Denmark"
+			},
+			{
+				"code": "19",
+				"label": "Greece"
+			},
+			{
+				"code": "20",
+				"label": "Switzerland"
+			},
+			{
+				"code": "23",
+				"label": "Belgium"
+			},
+			{
+				"code": "25",
+				"label": "Israel"
+			}
+		]
+	},
+	{
+		"_class": "eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.VariableDocument",
+		"id": "FDZ_PH_01",
+		"variableSurvey": {
+			"surveyId": "share_09",
+			"title": "share 2009",
+			"surveyPeriod": {
+				"startDate": "2015-08-01",
+				"endDate": "2015-08-13"
+			},
+			"alias": "Physical health"
+		},
+		"name": "ph005",
+		"dataType": "NUMERIC",
+		"label": "For the past six months at least, to what extent have you been limited because of health problems in activities people usually do?",
+		"scaleLevel": "ORDINAL",
+		"answerOptions": [
+			{
+				"code": "1",
+				"label": "Severely limited"
+			},
+			{
+				"code": "2",
+				"label": "Limited, but not severely"
+			},
+			{
+				"code": "3",
+				"label": "Not limited"
+			},
+			{
+				"code": "98",
+				"label": "Refusal"
+			},
+			{
+				"code": "99",
+				"label": "Don´t know"
+			},
+			{
+				"code": "-5",
+				"label": "missing"
+			}
+		]
+	},
+	{
+		"_class": "eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.VariableDocument",
+		"id": "FDZ_BR_01",
+		"variableSurvey": {
+			"surveyId": "share_09",
+			"title": "share 2009",
+			"surveyPeriod": {
+				"startDate": "2015-08-01",
+				"endDate": "2015-08-13"
+			},
+			"alias": "Behavioural risk"
+		},
+		"name": "br010",
+		"dataType": "NUMERIC",
+		"label": "Please look at card 11. During the last six months, how often have you drunk any alcoholic beverages, like beer, cider, wine, spirits or cocktails?",
+		"scaleLevel": "ORDINAL",
+		"answerOptions": [
+			{
+				"code": "1",
+				"label": "Almost every day"
+			},
+			{
+				"code": "2",
+				"label": "Five or six days a week"
+			},
+			{
+				"code": "3",
+				"label": "Three or four days a week "
+			},
+			{
+				"code": "4",
+				"label": "Once or twice a week"
+			},
+			{
+				"code": "5",
+				"label": "Once or twice a month"
+			},
+			{
+				"code": "6",
+				"label": "Less than once a month "
+			},
+			{
+				"code": "7",
+				"label": "Not at all in the last 6 months"
+			},
+			{
+				"code": "98",
+				"label": "Refusal"
+			},
+			{
+				"code": "99",
+				"label": "Don´t know"
+			},
+			{
+				"code": "-5",
+				"label": "missing"
+			}
+		]
+	},
+	{
+		"_class": "eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.VariableDocument",
+		"id": "FDZ_CF_01",
+		"variableSurvey": {
+			"surveyId": "share_09",
+			"title": "share 2009",
+			"surveyPeriod": {
+				"startDate": "2015-08-01",
+				"endDate": "2015-08-13"
+			},
+			"alias": "cognitive function"
+		},
+		"name": "cf012",
+		"dataType": "NUMERIC",
+		"label": "If the chance of getting a disease is 10 per cent, how many people out of 1,000 (one thousand) would be expected to get the disease?",
+		"scaleLevel": "NOMINAL",
+		"answerOptions": [
+			{
+				"code": "1",
+				"label": "100"
+			},
+			{
+				"code": "2",
+				"label": "10"
+			},
+			{
+				"code": "3",
+				"label": "90"
+			},
+			{
+				"code": "4",
+				"label": "900"
+			},
+			{
+				"code": "97",
+				"label": "Other answer"
+			},
+			{
+				"code": "998",
+				"label": "Refusal"
+			},
+			{
+				"code": "999",
+				"label": "Don´t know"
+			},
+			{
+				"code": "-5",
+				"label": "missing"
+			}
+		]
+	},
+	{
+		"_class": "eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.VariableDocument",
+		"id": "FDZ_MH_01",
+		"variableSurvey": {
+			"surveyId": "share_09",
+			"title": "share 2009",
+			"surveyPeriod": {
+				"startDate": "2015-08-01",
+				"endDate": "2015-08-13"
+			},
+			"alias": "mental health"
+		},
+		"name": "mh013",
+		"dataType": "NUMERIC",
+		"label": "In the last month, have you had too little energy to do the things you wanted to do?",
+		"scaleLevel": "NOMINAL",
+		"answerOptions": [
+			{
+				"code": "1",
+				"label": "Yes"
+			},
+			{
+				"code": "5",
+				"label": "No"
+			},
+			{
+				"code": "98",
+				"label": "Refusal"
+			},
+			{
+				"code": "99",
+				"label": "Don´t know"
+			},
+			{
+				"code": "-5",
+				"label": "missing"
+			}
+		]
+	},
+	{
+		"_class": "eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.VariableDocument",
+		"id": "FDZ_HC_01",
+		"variableSurvey": {
+			"surveyId": "share_09",
+			"title": "share 2009",
+			"surveyPeriod": {
+				"startDate": "2015-08-01",
+				"endDate": "2015-08-13"
+			},
+			"alias": "Health care"
+		},
+		"name": "hc005",
+		"dataType": "NUMERIC",
+		"label": "Which of these specialists did you consult most recently?",
+		"scaleLevel": "NOMINAL",
+		"answerOptions": [
+			{
+				"code": "1",
+				"label": "Specialist for heart disease, pulmonary, gastroenterology, diabetes or endocrine diseases"
+			},
+			{
+				"code": "2",
+				"label": "Dermatologist"
+			},
+			{
+				"code": "3",
+				"label": "Neurologist"
+			},
+			{
+				"code": "4",
+				"label": "Opthalmologist"
+			},
+			{
+				"code": "5",
+				"label": "Ear, nose and throat specialist"
+			},
+			{
+				"code": "6",
+				"label": "Rheumatologist or physiatrist"
+			},
+			{
+				"code": "7",
+				"label": "Orthopaedist"
+			},
+			{
+				"code": "8",
+				"label": "Surgeon"
+			},
+			{
+				"code": "9",
+				"label": "Psychiatrist"
+			},
+			{
+				"code": "10",
+				"label": "Gynaecologist"
+			},
+			{
+				"code": "11",
+				"label": "Urologist"
+			},
+			{
+				"code": "12",
+				"label": "Oncologist"
+			},
+			{
+				"code": "13",
+				"label": "Geriatrician"
+			},
+			{
+				"code": "998",
+				"label": "Refusal"
+			},
+			{
+				"code": "999",
+				"label": "Don´t know"
+			},
+			{
+				"code": "-5",
+				"label": "missing"
+			}
+		]
+	},
+	{
+		"_class": "eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.VariableDocument",
+		"id": "FDZ_EP_01",
+		"variableSurvey": {
+			"surveyId": "share_09",
+			"title": "share 2009",
+			"surveyPeriod": {
+				"startDate": "2015-08-01",
+				"endDate": "2015-08-13"
+			},
+			"alias": "Working time"
+		},
+		"name": "ep012_1",
+		"dataType": "NUMERIC",
+		"label": "What are your total basic or contracted hours each week in this job, excluding meal breaks and any paid or unpaid overtime?",
+		"scaleLevel": "METRIC",
+		"answerOptions": [
+			{
+				"code": "0",
+				"label": "offene Angabe (Stunden)"
+			},
+			{
+				"code": "999998",
+				"label": "Refusal"
+			},
+			{
+				"code": "999999",
+				"label": "Don´t know"
+			},
+			{
+				"code": "-5",
+				"label": "missing"
+			}
+		]
+	},
+	{
+		"_class": "eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.VariableDocument",
+		"id": "FDZ_WS_01",
+		"variableSurvey": {
+			"surveyId": "share_09",
+			"title": "share 2009",
+			"surveyPeriod": {
+				"startDate": "2015-08-01",
+				"endDate": "2015-08-13"
+			},
+			"alias": "test ability"
+		},
+		"name": "ws003",
+		"dataType": "NUMERIC",
+		"label": "Do you have any problems from recent surgery, an injury, or other health conditions that might prevent you from walking?",
+		"scaleLevel": "NOMINAL",
+		"answerOptions": [
+			{
+				"code": "1",
+				"label": "No apparent restriction"
+			},
+			{
+				"code": "2",
+				"label": "Yes, recent surgery"
+			},
+			{
+				"code": "3",
+				"label": "Yes, injury"
+			},
+			{
+				"code": "4",
+				"label": "Yes, other health condition"
+			},
+			{
+				"code": "98",
+				"label": "Refusal"
+			},
+			{
+				"code": "99",
+				"label": "Don´t know"
+			},
+			{
+				"code": "-5",
+				"label": "missing"
+			}
+		]
+	},
+	{
+		"_class": "eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.VariableDocument",
+		"id": "FDZ_CH_01",
+		"variableSurvey": {
+			"surveyId": "share_09",
+			"title": "share 2009",
+			"surveyPeriod": {
+				"startDate": "2015-08-01",
+				"endDate": "2015-08-13"
+			},
+			"alias": "child1 living"
+		},
+		"name": "ch007",
+		"dataType": "NUMERIC",
+		"label": "Where does child 1 live?",
+		"scaleLevel": "ORDINAL",
+		"answerOptions": [
+			{
+				"code": "1",
+				"label": "In the same household"
+			},
+			{
+				"code": "2",
+				"label": "In the same building"
+			},
+			{
+				"code": "3",
+				"label": "Less than 1 km away"
+			},
+			{
+				"code": "4",
+				"label": "Between 1 and 5 km away"
+			},
+			{
+				"code": "5",
+				"label": "Between 5 and 25 km away"
+			},
+			{
+				"code": "6",
+				"label": "Between 25 and 100 km away"
+			},
+			{
+				"code": "7",
+				"label": "Between 100 and 500 km away"
+			},
+			{
+				"code": "8",
+				"label": "More than 500 km away"
+			},
+			{
+				"code": "9",
+				"label": "More than 500 km away in another country"
+			},
+			{
+				"code": "98",
+				"label": "Refusal"
+			},
+			{
+				"code": "99",
+				"label": "Don´t know"
+			},
+			{
+				"code": "-5",
+				"label": "missing"
+			}
+		]
+	},
+	{
+		"_class": "eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.VariableDocument",
+		"id": "FDZ_SS_01",
+		"variableSurvey": {
+			"surveyId": "share_09",
+			"title": "share 2009",
+			"surveyPeriod": {
+				"startDate": "2015-08-01",
+				"endDate": "2015-08-13"
+			},
+			"alias": "help not household"
+		},
+		"name": "sp003_1",
+		"dataType": "NUMERIC ",
+		"label": "Which family member from outside the household, friend or neighbour has helped you or your husband/wife/partner in the last twelve months?",
+		"scaleLevel": "NOMINAL",
+		"answerOptions": [
+			{
+				"code": "1",
+				"label": "Spouse/Partner"
+			},
+			{
+				"code": "2",
+				"label": "Mother"
+			},
+			{
+				"code": "3",
+				"label": "Father"
+			},
+			{
+				"code": "4",
+				"label": "Mother-in-law"
+			},
+			{
+				"code": "5",
+				"label": "Father-in-law"
+			},
+			{
+				"code": "6",
+				"label": "Stepmother"
+			},
+			{
+				"code": "7",
+				"label": "Stepfather"
+			},
+			{
+				"code": "8",
+				"label": "Brother "
+			},
+			{
+				"code": "9",
+				"label": "Sister"
+			},
+			{
+				"code": "10",
+				"label": "Child 1 "
+			},
+			{
+				"code": "11",
+				"label": "Child 2"
+			},
+			{
+				"code": "12",
+				"label": "Child 3"
+			},
+			{
+				"code": "13",
+				"label": "Child 4"
+			},
+			{
+				"code": "14",
+				"label": "Child 5"
+			},
+			{
+				"code": "15",
+				"label": "Child 6"
+			},
+			{
+				"code": "16",
+				"label": "Child 7"
+			},
+			{
+				"code": "17",
+				"label": "Child 8"
+			},
+			{
+				"code": "18",
+				"label": "Child 9"
+			},
+			{
+				"code": "19",
+				"label": "Other child"
+			},
+			{
+				"code": "20",
+				"label": "Son-in-law"
+			},
+			{
+				"code": "21",
+				"label": "Daughter-in-law"
+			},
+			{
+				"code": "22",
+				"label": "Grandchild"
+			},
+			{
+				"code": "23",
+				"label": "Grandparent"
+			},
+			{
+				"code": "24",
+				"label": "Aunt"
+			},
+			{
+				"code": "25",
+				"label": "Uncle"
+			},
+			{
+				"code": "26",
+				"label": "Niece"
+			},
+			{
+				"code": "27",
+				"label": "Nephew"
+			},
+			{
+				"code": "28",
+				"label": "Other relative"
+			},
+			{
+				"code": "29",
+				"label": "Friend"
+			},
+			{
+				"code": "30",
+				"label": "(Ex-)Colleague"
+			},
+			{
+				"code": "31",
+				"label": "Neighbour"
+			},
+			{
+				"code": "32",
+				"label": "Ex-spouse/partner"
+			},
+			{
+				"code": "33",
+				"label": "other acquaintance"
+			},
+			{
+				"code": "998",
+				"label": "Refusal"
+			},
+			{
+				"code": "999",
+				"label": "Don´t know"
+			},
+			{
+				"code": "-5",
+				"label": "missing"
+			}
+		]
+	},
+	{
+		"_class": "eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.VariableDocument",
+		"id": "FDZ_FT_01",
+		"variableSurvey": {
+			"surveyId": "share_09",
+			"title": "share 2009",
+			"surveyPeriod": {
+				"startDate": "2015-08-01",
+				"endDate": "2015-08-13"
+			},
+			"alias": "Amount Person 1"
+		},
+		"name": "ft004ub1",
+		"dataType": "NUMERIC",
+		"label": "About how much did you or your husband/wife/partner give to this person altogether in the last twelve months?",
+		"scaleLevel": "ORDINAL",
+		"answerOptions": [
+			{
+				"code": "1",
+				"label": "Less than low entry point"
+			},
+			{
+				"code": "2",
+				"label": "About low entry point"
+			},
+			{
+				"code": "3",
+				"label": "Between low and mid entry point"
+			},
+			{
+				"code": "4",
+				"label": "About mid entry point"
+			},
+			{
+				"code": "5",
+				"label": "Between mid and high entry point"
+			},
+			{
+				"code": "6",
+				"label": "About high entry point"
+			},
+			{
+				"code": "7",
+				"label": "More than high entry point"
+			},
+			{
+				"code": "98",
+				"label": "Refusal"
+			},
+			{
+				"code": "99",
+				"label": "Don´t know"
+			},
+			{
+				"code": "-5",
+				"label": "missing"
+			}
+		]
+	},
+	{
+		"_class": "eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.VariableDocument",
+		"id": "FDZ_HO_01",
+		"variableSurvey": {
+			"surveyId": "share_09",
+			"title": "share 2009",
+			"surveyPeriod": {
+				"startDate": "2015-08-01",
+				"endDate": "2015-08-13"
+			},
+			"alias": "building household"
+		},
+		"name": "ho036",
+		"dataType": "NUMERIC",
+		"label": "What type of building does your household live in?",
+		"scaleLevel": "NOMINAL",
+		"answerOptions": [
+			{
+				"code": "1",
+				"label": "A farm house"
+			},
+			{
+				"code": "2",
+				"label": "A free-standing one or two family house"
+			},
+			{
+				"code": "3",
+				"label": "A one or two family house as row or double house"
+			},
+			{
+				"code": "4",
+				"label": "A building with 2 to 8 flats"
+			},
+			{
+				"code": "5",
+				"label": "A building with 9 or more flats but no more than 8 floors"
+			},
+			{
+				"code": "6",
+				"label": "A high-rise with 9 or more floors"
+			},
+			{
+				"code": "7",
+				"label": "A housing complex with services for elderly"
+			},
+			{
+				"code": "8",
+				"label": "Special housing for elderly (24 hours attention)"
+			},
+			{
+				"code": "98",
+				"label": "Refusal"
+			},
+			{
+				"code": "99",
+				"label": "Don´t know"
+			},
+			{
+				"code": "-5",
+				"label": "missing"
+			}
+		]
+	},
+	{
+		"_class": "eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.VariableDocument",
+		"id": "FDZ_HI_01",
+		"variableSurvey": {
+			"surveyId": "share_09",
+			"title": "share 2009",
+			"surveyPeriod": {
+				"startDate": "2015-08-01",
+				"endDate": "2015-08-13"
+			},
+			"alias": "Social Payments"
+		},
+		"name": "hh010",
+		"dataType": "NUMERIC",
+		"label": "Some households receive payments such as housing allowances, child benefits, poverty relief etc. Did your household or anyone in your household receive any such payments in 2003?",
+		"scaleLevel": "NOMINAL",
+		"answerOptions": [
+			{
+				"code": "1",
+				"label": "Yes"
+			},
+			{
+				"code": "5",
+				"label": "No"
+			},
+			{
+				"code": "98",
+				"label": "Refusal"
+			},
+			{
+				"code": "99",
+				"label": "Don´t know"
+			},
+			{
+				"code": "-5",
+				"label": "missing"
+			}
+		]
+	},
+	{
+		"_class": "eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.VariableDocument",
+		"id": "FDZ_CO_01",
+		"variableSurvey": {
+			"surveyId": "share_09",
+			"title": "share 2009",
+			"surveyPeriod": {
+				"startDate": "2015-08-01",
+				"endDate": "2015-08-13"
+			},
+			"alias": "make ends meet"
+		},
+		"name": "co007",
+		"dataType": "NUMERIC",
+		"label": "Thinking of your household’s total monthly income, would you say that your household is able to make ends meet …",
+		"scaleLevel": "ORDINAL",
+		"answerOptions": [
+			{
+				"code": "1",
+				"label": "With great difficulty"
+			},
+			{
+				"code": "2",
+				"label": "With some difficullty"
+			},
+			{
+				"code": "3",
+				"label": "Fairly easily"
+			},
+			{
+				"code": "4",
+				"label": "Easily"
+			},
+			{
+				"code": "98",
+				"label": "Refusal"
+			},
+			{
+				"code": "99",
+				"label": "Don´t know"
+			},
+			{
+				"code": "-5",
+				"label": "missing"
+			}
+		]
+	},
+	{
+		"_class": "eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.VariableDocument",
+		"id": "FDZ_AS_01",
+		"variableSurvey": {
+			"surveyId": "share_09",
+			"title": "share 2009",
+			"surveyPeriod": {
+				"startDate": "2015-08-01",
+				"endDate": "2015-08-13"
+			},
+			"alias": "mutual funds"
+		},
+		"name": "as017ub",
+		"dataType": "NUMERIC",
+		"label": "About how much did you or your husband/wife/partner have in mutual funds or managed investment accounts at the end of 2003?",
+		"scaleLevel": "ORDINAL",
+		"answerOptions": [
+			{
+				"code": "1",
+				"label": "Less than low entry point"
+			},
+			{
+				"code": "2",
+				"label": "About low entry point"
+			},
+			{
+				"code": "3",
+				"label": "Between low and mid entry point"
+			},
+			{
+				"code": "4",
+				"label": "About mid entry point"
+			},
+			{
+				"code": "5",
+				"label": "Between mid and high entry point"
+			},
+			{
+				"code": "6",
+				"label": "About high entry point"
+			},
+			{
+				"code": "7",
+				"label": "More than high entry point"
+			},
+			{
+				"code": "98",
+				"label": "Refusal"
+			},
+			{
+				"code": "99",
+				"label": "Don´t know"
+			},
+			{
+				"code": "-5",
+				"label": "missing"
+			}
+		]
+	},
+	{
+		"_class": "eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.VariableDocument",
+		"id": "FDZ_AC_01",
+		"variableSurvey": {
+			"surveyId": "share_09",
+			"title": "share 2009",
+			"surveyPeriod": {
+				"startDate": "2015-08-01",
+				"endDate": "2015-08-13"
+			},
+			"alias": "political organisation"
+		},
+		"name": "ac003_7",
+		"dataType": "NUMERIC",
+		"label": "How often in the last four weeks have you taken part in a political or community-related organisation?",
+		"scaleLevel": "ORDINAL",
+		"answerOptions": [
+			{
+				"code": "1",
+				"label": "Almost daily"
+			},
+			{
+				"code": "2",
+				"label": "Almost every week"
+			},
+			{
+				"code": "3",
+				"label": "Less often"
+			},
+			{
+				"code": "98",
+				"label": "Refusal"
+			},
+			{
+				"code": "99",
+				"label": "Don´t know"
+			},
+			{
+				"code": "-5",
+				"label": "missing"
+			}
+		]
+	}
 ]
