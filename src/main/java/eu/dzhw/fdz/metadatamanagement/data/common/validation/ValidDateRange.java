@@ -25,7 +25,7 @@ public @interface ValidDateRange {
    * Defines the default error message.
    */
   public abstract String message() default "{eu.dzhw.fdz.metadatamanagement.data."
-      + "variablemanagement.common.validation.validDateRange.message}";
+      + "variablemanagement.common.validation.validdaterange.message}";
 
   /**
    * This contains groups.
