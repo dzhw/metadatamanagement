@@ -27,7 +27,7 @@ public class VariableModifyResource extends NavigatablePageResource<VariableModi
       ControllerLinkBuilderFactory factory) {
     super();
     for (Locale supportedLocale : I18nConfiguration.SUPPORTED_LANGUAGES) {
-      this.add(factory.linkTo(methodOn(modifyController, supportedLocale).get()).withRel(
+      this.add(factory.linkTo(methodOn(modifyController, supportedLocale).get(null, null)).withRel(
           supportedLocale.getLanguage()));
     }
   }
