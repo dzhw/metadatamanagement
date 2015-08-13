@@ -38,17 +38,16 @@ public class UniqueVariableAliasValidator
    * javax.validation.ConstraintValidatorContext)
    */
   @Override
-  public boolean isValid(VariableSurvey value, ConstraintValidatorContext context) {
+  public boolean isValid(VariableSurvey variableSurvey, ConstraintValidatorContext context) {
 
-    //Both are not empty fields -> no valid if there are null
-    if (value.getSurveyId() == null || value.getVariableAlias() == null) {
+    // Both are not empty fields -> no valid if there are null
+    if (variableSurvey.getSurveyId() == null || variableSurvey.getVariableAlias() == null) {
       return false;
     }
 
     // no elements found
-    if (variableRepository
-        .filterBySurveyIdAndVariableAlias(value.getSurveyId(), value.getVariableAlias())
-        .getNumberOfElements() == 0) {
+    if (variableRepository.filterBySurveyIdAndVariableAlias(variableSurvey.getSurveyId(),
+        variableSurvey.getVariableAlias()).getNumberOfElements() == 0) {
       return true;
       // found elements
     } else {

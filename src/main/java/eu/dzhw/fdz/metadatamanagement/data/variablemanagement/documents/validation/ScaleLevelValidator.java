@@ -37,16 +37,16 @@ public class ScaleLevelValidator implements ConstraintValidator<ValidScaleLevel,
    * javax.validation.ConstraintValidatorContext)
    */
   @Override
-  public boolean isValid(String value, ConstraintValidatorContext context) {
+  public boolean isValid(String scaleLevel, ConstraintValidatorContext context) {
 
     // is not a must -> no input, no error.
-    if (value == null) {
+    if (scaleLevel == null) {
       return true;
     }
 
     // Look for accepted scale level
     if (this.scaleLevelProvider.getScaleLevelMap().get(LocaleContextHolder.getLocale())
-        .contains(value)) {
+        .contains(scaleLevel)) {
       return true;
     }
 

@@ -37,16 +37,16 @@ public class DataTypeValidator implements ConstraintValidator<ValidDataType, Str
    * javax.validation.ConstraintValidatorContext)
    */
   @Override
-  public boolean isValid(String value, ConstraintValidatorContext context) {
+  public boolean isValid(String dataType, ConstraintValidatorContext context) {
 
     // is not a must -> no input, no error.
-    if (value == null) {
+    if (dataType == null) {
       return true;
     }
 
     // Look for accepted data type
     if (this.dataTypesProvider.getDataTypesMap().get(LocaleContextHolder.getLocale())
-        .contains(value)) {
+        .contains(dataType)) {
       return true;
     }
 

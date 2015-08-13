@@ -33,16 +33,18 @@ public class UniqueAnswerCodeValidator
    * javax.validation.ConstraintValidatorContext)
    */
   @Override
-  public boolean isValid(List<AnswerOption> value, ConstraintValidatorContext context) {
+  public boolean isValid(List<AnswerOption> answerOptions, ConstraintValidatorContext context) {
 
     // check for an empty field
-    if (value == null) {
+    if (answerOptions == null) {
       return true;
     }
 
-    // Are there
-    for (AnswerOption answerOption : value) {
+    // check answer option for double used codes
+    // performance O(n^2)
+    for (AnswerOption answerOption : answerOptions) {
 
+      //check for empty code field
       if (answerOption.getCode() == null) {
         continue;
       }
@@ -50,12 +52,15 @@ public class UniqueAnswerCodeValidator
       int code = answerOption.getCode();
       int countCode = 0;
 
-      for (AnswerOption answerOptionCheck : value) {
+      //check double entry
+      for (AnswerOption answerOptionCheck : answerOptions) {
         if (code == answerOptionCheck.getCode()) {
           countCode++;
         }
       }
 
+      // = 1 : find itself
+      // > 1 : find double or more use
       if (countCode > 1) {
         return false;
       }
