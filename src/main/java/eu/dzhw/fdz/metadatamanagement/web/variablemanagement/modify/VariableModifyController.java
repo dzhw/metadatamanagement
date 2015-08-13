@@ -19,6 +19,7 @@ import org.springframework.web.servlet.ModelAndView;
 import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.AnswerOption;
 import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.VariableDocument;
 import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.VariableSurvey;
+import eu.dzhw.fdz.metadatamanagement.service.variablemanagement.VariableService;
 
 
 /**
@@ -31,21 +32,21 @@ import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.Variable
 public class VariableModifyController {
 
 
-  // @param variableService his is a case with description
-  // private VariableService variableService;
+  private VariableService variableService;
   private ControllerLinkBuilderFactory controllerLinkBuilderFactory;
   private Validator validator;
 
   /**
    * Autowire needed objects.
    * 
+   * @param variableService his is a case with description
    * @param controllerLinkBuilderFactory his is a case with description
    * @param validator sdsdsds
    */
   @Autowired
-  public VariableModifyController(// VariableService variableService,
+  public VariableModifyController(VariableService variableService,
       ControllerLinkBuilderFactory controllerLinkBuilderFactory, Validator validator) {
-    // this.variableService = variableService;
+    this.variableService = variableService;
     this.controllerLinkBuilderFactory = controllerLinkBuilderFactory;
     this.validator = validator;
   }
@@ -110,7 +111,10 @@ public class VariableModifyController {
           new VariableModifyResource(VariableModifyController.class, controllerLinkBuilderFactory);
       try {
         int lastIndex = variableDocument.getAnswerOptions().size();
-        variableDocument.getAnswerOptions().remove(lastIndex - 1);
+        if (lastIndex > 1) {
+          variableDocument.getAnswerOptions().remove(lastIndex - 1);
+        }
+
       } catch (NullPointerException e) {
         e.printStackTrace();
       }
@@ -131,10 +135,27 @@ public class VariableModifyController {
    * @return fgfgfgfg
    */
   @RequestMapping(method = RequestMethod.POST)
-  public Callable<String> post(
+  public Callable<ModelAndView> post(
       @Valid VariableDocument variableDocument, BindingResult bindingResult) {
     return () -> {
-      return "redirect:/{language}/variables/" + "FdZ_ID07";
+      ModelAndView modelAndView;
+      VariableModifyResource resource =
+          new VariableModifyResource(VariableModifyController.class, controllerLinkBuilderFactory);
+      validator.validate(variableDocument, bindingResult);
+      if (!bindingResult.hasErrors()) {
+        variableService.save(variableDocument);
+        modelAndView =
+            new ModelAndView("redirect:/{language}/variables/" + variableDocument.getId());
+        // modelAndView.addObject("resource", resource);
+        return modelAndView;
+      } else {
+        modelAndView = new ModelAndView("variables/modify");
+        modelAndView.addObject("resource", resource);
+        modelAndView
+            .addObject("variableDocument", bindingResult.getModel().get("variableDocument"));
+        return modelAndView;
+      }
+
     };
   }
 
@@ -148,7 +169,6 @@ public class VariableModifyController {
     final VariableSurvey survey = new VariableSurvey();
     final List<AnswerOption> answerOpt = new ArrayList<>();
     final AnswerOption answer = new AnswerOption();
-
 
     answerOpt.add(answer);
     document.setAnswerOptions(answerOpt);
