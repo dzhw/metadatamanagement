@@ -10,6 +10,7 @@ import org.elasticsearch.index.query.MatchQueryBuilder.ZeroTermsQuery;
 import org.elasticsearch.index.query.QueryBuilder;
 import org.elasticsearch.index.query.QueryBuilders;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.elasticsearch.core.ElasticsearchTemplate;
@@ -26,6 +27,9 @@ import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.Variable
  *
  */
 public class VariableRepositoryImpl implements VariableRepositoryCustom {
+
+  @Value("${search.minimum-should-match-ngrams}")
+  private String minimumShouldMatch;
 
   private ElasticsearchTemplate elasticsearchTemplate;
 
@@ -63,7 +67,7 @@ public class VariableRepositoryImpl implements VariableRepositoryCustom {
     QueryBuilder queryBuilder =
         boolQuery().should(matchQuery("_all", query).zeroTermsQuery(ZeroTermsQuery.ALL))
             .should(matchQuery(VariableDocument.ALL_STRINGS_AS_NGRAMS_FIELD, query)
-                .minimumShouldMatch("80%"));
+                .minimumShouldMatch(minimumShouldMatch));
 
     SearchQuery searchQuery =
         new NativeSearchQueryBuilder().withQuery(queryBuilder).withPageable(pageable).build();
