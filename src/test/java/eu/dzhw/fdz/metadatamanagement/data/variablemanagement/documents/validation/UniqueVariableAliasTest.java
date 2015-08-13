@@ -122,4 +122,22 @@ public class UniqueVariableAliasTest extends AbstractWebTest{
     //Delete
     this.repository.delete(variableDocument1.getId());
   }
+    
+  @Test
+  public void testUniqueAliasWithNullSurvey() {
+
+    //Arrange
+    VariableDocument variableDocument = new VariableDocument();
+    variableDocument.setId("ThisIDisOkay");
+    variableDocument.setName("ThisNameIsOkay.");    
+    variableDocument.setVariableSurvey(null);
+    
+    
+    // Act
+    Set<ConstraintViolation<VariableDocument>> variableViolations =
+        this.validator.validate(variableDocument);
+
+    // Assert
+    assertEquals(0, variableViolations.size());
+  }
 }
