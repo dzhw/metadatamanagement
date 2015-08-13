@@ -29,6 +29,7 @@ import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.validati
 public class VariableDocument extends AbstractDocument {
 
   // Public constants which are used in queries as fieldnames.
+  public static final String ALL_STRINGS_AS_NGRAMS_FIELD = "allStringsAsNgrams";
   public static final String NAME_FIELD = "name";
   public static final String DATA_TYPE_FIELD = "dataType";
   public static final String LABEL_FIELD = "label";

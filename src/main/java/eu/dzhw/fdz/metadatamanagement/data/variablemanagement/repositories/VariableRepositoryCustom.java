@@ -54,6 +54,7 @@ public interface VariableRepositoryCustom {
    * @param pageable The page size and number and sort.
    * @return A page holding the first variable documents
    */
-  Page<VariableDocument> matchQueryInAllFieldWithFuzziness(String query, Pageable pageable);
+  Page<VariableDocument> matchQueryInAllFieldAndNgrams(String query,
+      Pageable pageable);
 
 }

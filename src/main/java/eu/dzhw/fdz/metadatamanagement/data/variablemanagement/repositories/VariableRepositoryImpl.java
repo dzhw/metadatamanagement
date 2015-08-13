@@ -56,13 +56,14 @@ public class VariableRepositoryImpl implements VariableRepositoryCustom {
    * 
    * @see
    * eu.dzhw.fdz.metadatamanagement.data.variablemanagement.repositories.VariableRepositoryCustom#
-   * matchQueryInAllFieldWithFuzziness(java.lang.String, org.springframework.data.domain.Pageable)
+   * matchQueryInAllFieldAndNgrams(java.lang.String, org.springframework.data.domain.Pageable)
    */
   @Override
-  public Page<VariableDocument> matchQueryInAllFieldWithFuzziness(String query, Pageable pageable) {
+  public Page<VariableDocument> matchQueryInAllFieldAndNgrams(String query, Pageable pageable) {
     QueryBuilder queryBuilder =
         boolQuery().should(matchQuery("_all", query).zeroTermsQuery(ZeroTermsQuery.ALL))
-            .should(matchQuery("_all", query).fuzziness(Fuzziness.AUTO));
+            .should(matchQuery(VariableDocument.ALL_STRINGS_AS_NGRAMS_FIELD, query)
+                .minimumShouldMatch("80%"));
 
     SearchQuery searchQuery =
         new NativeSearchQueryBuilder().withQuery(queryBuilder).withPageable(pageable).build();

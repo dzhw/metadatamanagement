@@ -1,4 +1,25 @@
 {
-	"number_of_shards": "1",    
-    "number_of_replicas": "0"
+	"index" : {
+		"number_of_shards": "1",    
+    	"number_of_replicas": "0",
+    	"analysis": {
+            "filter": {
+                "trigrams_filter": {
+                    "type":     "ngram",
+                    "min_gram": 3,
+                    "max_gram": 3
+                }
+            },
+            "analyzer": {
+                "trigrams": {
+                    "type":      "custom",
+                    "tokenizer": "standard",
+                    "filter":   [
+                        "lowercase",
+                        "trigrams_filter"
+                    ]
+              	}
+         	}
+    	}
+	}
 }
