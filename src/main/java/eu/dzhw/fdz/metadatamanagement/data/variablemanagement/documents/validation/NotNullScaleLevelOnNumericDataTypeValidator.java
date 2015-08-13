@@ -37,16 +37,16 @@ public class NotNullScaleLevelOnNumericDataTypeValidator
    * javax.validation.ConstraintValidatorContext)
    */
   @Override
-  public boolean isValid(VariableDocument value, ConstraintValidatorContext context) {
+  public boolean isValid(VariableDocument variableDocument, ConstraintValidatorContext context) {
 
     // check for null
-    if (value.getDataType() == null) {
+    if (variableDocument.getDataType() == null) {
       return true;
     }
 
     // check numeric field with look for a null scale level
-    if (value.getDataType().equals(this.dataTypesProvider.getNumericValueByLocale())
-        && value.getScaleLevel() == null) {
+    if (variableDocument.getDataType().equals(this.dataTypesProvider.getNumericValueByLocale())
+        && variableDocument.getScaleLevel() == null) {
       return false;
     }
 
