@@ -131,7 +131,7 @@ public class VariableDocument extends AbstractDocument {
     return dataType;
   }
 
-  protected void setDataType(String dataType) {
+  public void setDataType(String dataType) {
     this.dataType = dataType;
   }
 

@@ -53,4 +53,25 @@ public class VariableService {
   public VariableDocument get(String id) {
     return variableRepository.findOne(id);
   }
+
+  /**
+   * Saves a variable document to the repository.
+   * 
+   * @param variableDocument The variableDocument which should be save.
+   * @return The saved VariableDocument
+   * @see VariableDocument
+   */
+  public VariableDocument save(VariableDocument variableDocument) {
+    return this.variableRepository.save(variableDocument);
+  }
+
+  /**
+   * Deletes a variable document from the repository by a given id.
+   * 
+   * @param id The id of the variable document.
+   */
+  public void delete(String id) {
+    this.variableRepository.delete(id);
+  }
+
 }

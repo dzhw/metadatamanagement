@@ -16,11 +16,11 @@ import org.springframework.stereotype.Component;
 @Component
 public class DataTypesProvider {
 
-  private static final String ENGLISH_STRING = "string";
-  private static final String ENGLISH_NUMERIC = "numeric";
+  public static final String ENGLISH_STRING = "string";
+  public static final String ENGLISH_NUMERIC = "numeric";
 
-  private static final String GERMAN_STRING = "string";
-  private static final String GERMAN_NUMERIC = "numerisch";
+  public static final String GERMAN_STRING = "string";
+  public static final String GERMAN_NUMERIC = "numerisch";
 
   /**
    * This fields holds the accepted translations of all supported languages.

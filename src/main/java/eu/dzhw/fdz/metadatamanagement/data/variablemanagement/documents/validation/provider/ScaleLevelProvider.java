@@ -16,13 +16,13 @@ import org.springframework.stereotype.Component;
 @Component
 public class ScaleLevelProvider {
 
-  private static final String ENGLISH_METRIC = "metric";
-  private static final String ENGLISH_NOMINAL = "nominal";
-  private static final String ENGLISH_ORDINAL = "ordinal";
+  public static final String ENGLISH_METRIC = "metric";
+  public static final String ENGLISH_NOMINAL = "nominal";
+  public static final String ENGLISH_ORDINAL = "ordinal";
 
-  private static final String GERMAN_METRIC = "metrisch";
-  private static final String GERMAN_NOMINAL = "nominal";
-  private static final String GERMAN_ORDINAL = "ordinal";
+  public static final String GERMAN_METRIC = "metrisch";
+  public static final String GERMAN_NOMINAL = "nominal";
+  public static final String GERMAN_ORDINAL = "ordinal";
   /**
    * This fields holds the accepted translations of all supported languages.
    */
