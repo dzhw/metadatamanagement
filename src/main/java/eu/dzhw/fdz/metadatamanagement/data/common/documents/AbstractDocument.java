@@ -3,7 +3,7 @@ package eu.dzhw.fdz.metadatamanagement.data.common.documents;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
-import org.hibernate.validator.constraints.NotEmpty;
+import org.hibernate.validator.constraints.NotBlank;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.elasticsearch.annotations.Document;
 import org.springframework.data.elasticsearch.annotations.Setting;
@@ -35,7 +35,7 @@ public class AbstractDocument {
   @Id
   @UniqueId
   @Size(max = 32)
-  @NotEmpty
+  @NotBlank
   @Pattern(regexp = "^[0-9a-zA-Z_-]*")
   private String id;
 
