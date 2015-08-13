@@ -11,6 +11,7 @@ import org.springframework.data.elasticsearch.annotations.Document;
 import eu.dzhw.fdz.metadatamanagement.data.common.documents.AbstractDocument;
 import eu.dzhw.fdz.metadatamanagement.data.common.documents.DateRange;
 import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.validation.NotNullScaleLevelOnNumericDataType;
+import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.validation.UniqueAnswerCode;
 import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.validation.ValidDataType;
 import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.validation.ValidScaleLevel;
 
@@ -87,6 +88,7 @@ public class VariableDocument extends AbstractDocument {
    * The value (answer options) with depending labels are represent in this nested field.
    */
   @Valid
+  @UniqueAnswerCode
   private List<AnswerOption> answerOptions;
 
   /*
