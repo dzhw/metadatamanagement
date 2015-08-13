@@ -114,8 +114,7 @@ public class VariableRepositoryImpl implements VariableRepositoryCustom {
                 VariableDocument.NESTED_VARIABLE_SURVEY_TITLE_FIELD,
                 VariableDocument.NESTED_VARIABLE_SURVEY_VARIABLE_ALIAS_FIELD)))
         .should(nestedQuery(VariableDocument.ANSWER_OPTIONS_FIELD,
-            multiMatchQuery(query, VariableDocument.NESTED_ANSWER_OPTIONS_CODE_FIELD,
-                VariableDocument.NESTED_ANSWER_OPTIONS_LABEL_FIELD)));
+            multiMatchQuery(query, VariableDocument.NESTED_ANSWER_OPTIONS_LABEL_FIELD)));
 
     SearchQuery searchQuery =
         new NativeSearchQueryBuilder().withQuery(queryBuilder).withPageable(pageable).build();

@@ -142,15 +142,15 @@
 		"scaleLevel": "METRIC",
 		"answerOptions": [
 			{
-				"code": "____",
+				"code": "0",
 				"label": "Stunden pro Wochen"
 			},
 			{
-				"code": "999.6",
+				"code": "999",
 				"label": "nicht erwerbstätig"
 			},
 			{
-				"code": "999.9",
+				"code": "996",
 				"label": "keine Angabe"
 			}
 		]
@@ -453,11 +453,11 @@
 		"scaleLevel": "METRIC",
 		"answerOptions": [
 			{
-				"code": "??",
+				"code": "-1",
 				"label": "NA"
 			},
 			{
-				"code": "??",
+				"code": "-1",
 				"label": "NA"
 			}
 		]
@@ -566,7 +566,7 @@
 				"label": "fehlende Angabe"
 			},
 			{
-				"code": "____",
+				"code": "-1",
 				"label": "offene Angabe"
 			}
 		]

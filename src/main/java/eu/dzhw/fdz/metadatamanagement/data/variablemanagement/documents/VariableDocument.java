@@ -5,7 +5,7 @@ import java.util.List;
 import javax.validation.Valid;
 import javax.validation.constraints.Size;
 
-import org.hibernate.validator.constraints.NotEmpty;
+import org.hibernate.validator.constraints.NotBlank;
 import org.springframework.data.elasticsearch.annotations.Document;
 
 import eu.dzhw.fdz.metadatamanagement.data.common.documents.AbstractDocument;
@@ -61,7 +61,7 @@ public class VariableDocument extends AbstractDocument {
    * The name of the variable.
    */
   @Size(max = 32)
-  @NotEmpty
+  @NotBlank
   private String name;
 
   /**

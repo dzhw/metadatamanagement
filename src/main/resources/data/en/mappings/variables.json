@@ -5,8 +5,7 @@
         "type": "nested",
         "properties": {
           "code": {
-            "type": "string",
-            "analyzer": "english"
+            "type": "integer"
           },
           "label": {
             "type": "string",

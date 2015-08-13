@@ -2,7 +2,7 @@ package eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents;
 
 import javax.validation.constraints.Size;
 
-import org.hibernate.validator.constraints.NotEmpty;
+import org.hibernate.validator.constraints.NotBlank;
 
 import eu.dzhw.fdz.metadatamanagement.data.common.documents.DateRange;
 import eu.dzhw.fdz.metadatamanagement.data.common.validation.ValidDateRange;
@@ -29,14 +29,14 @@ public class VariableSurvey {
    * The surveyID is a primary.
    */
   @Size(max = 32)
-  @NotEmpty
+  @NotBlank
   private String surveyId;
 
   /**
    * This holds the title of a survey.
    */
-  @NotEmpty
   @Size(max = 32)
+  @NotBlank
   private String title;
 
   /**
@@ -51,7 +51,7 @@ public class VariableSurvey {
    * system displays this alias.
    */
   @Size(max = 32)
-  @NotEmpty
+  @NotBlank
   private String variableAlias;
 
   /*

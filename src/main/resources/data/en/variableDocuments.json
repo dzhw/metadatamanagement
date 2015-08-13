@@ -17,15 +17,15 @@
         "scaleLevel": "METRIC",
         "answerOptions": [
             {
-                "code": "A code",
+                "code": "1",
                 "label": "A label"
             },
             {
-                "code": "A code 2",
+                "code": "2",
                 "label": "A label 2"
             },
             {
-                "code": "A code 3",
+                "code": "3",
                 "label": "A label 3"
             }
         ]
@@ -48,15 +48,15 @@
         "scaleLevel": "METRIC",
         "answerOptions": [
             {
-                "code": "A code",
+                "code": "1",
                 "label": "A label"
             },
             {
-                "code": "A code 2",
+                "code": "2",
                 "label": "A label 2"
             },
             {
-                "code": "A code 3",
+                "code": "3",
                 "label": "A label 3"
             }
         ]
@@ -79,15 +79,15 @@
         "scaleLevel": "METRIC",
         "answerOptions": [
             {
-                "code": "A code",
+                "code": "1",
                 "label": "A label"
             },
             {
-                "code": "A code 2",
+                "code": "2",
                 "label": "A label 2"
             },
             {
-                "code": "A code 3",
+                "code": "3",
                 "label": "A label 3"
             }
         ]
@@ -110,15 +110,15 @@
         "scaleLevel": "METRIC",
         "answerOptions": [
             {
-                "code": "A code",
+                "code": "1",
                 "label": "A label"
             },
             {
-                "code": "A code 2",
+                "code": "2",
                 "label": "A label 2"
             },
             {
-                "code": "A code 3",
+                "code": "3",
                 "label": "A label 3"
             }
         ]
@@ -141,15 +141,15 @@
         "scaleLevel": "METRIC",
         "answerOptions": [
             {
-                "code": "A code",
+                "code": "1",
                 "label": "A label"
             },
             {
-                "code": "A code 2",
+                "code": "2",
                 "label": "A label 2"
             },
             {
-                "code": "A code 3",
+                "code": "3",
                 "label": "A label 3"
             }
         ]
@@ -172,15 +172,15 @@
         "scaleLevel": "METRIC",
         "answerOptions": [
             {
-                "code": "A code",
+                "code": "1",
                 "label": "A label"
             },
             {
-                "code": "A code 2",
+                "code": "2",
                 "label": "A label 2"
             },
             {
-                "code": "A code 3",
+                "code": "3",
                 "label": "A label 3"
             }
         ]
@@ -203,15 +203,15 @@
         "scaleLevel": "METRIC",
         "answerOptions": [
             {
-                "code": "A code",
+                "code": "1",
                 "label": "A label"
             },
             {
-                "code": "A code 2",
+                "code": "2",
                 "label": "A label 2"
             },
             {
-                "code": "A code 3",
+                "code": "3",
                 "label": "A label 3"
             }
         ]
@@ -234,15 +234,15 @@
         "scaleLevel": "METRIC",
         "answerOptions": [
             {
-                "code": "A code",
+                "code": "1",
                 "label": "A label"
             },
             {
-                "code": "A code 2",
+                "code": "2",
                 "label": "A label 2"
             },
             {
-                "code": "A code 3",
+                "code": "3",
                 "label": "A label 3"
             }
         ]
@@ -265,15 +265,15 @@
         "scaleLevel": "METRIC",
         "answerOptions": [
             {
-                "code": "A code",
+                "code": "1",
                 "label": "A label"
             },
             {
-                "code": "A code 2",
+                "code": "2",
                 "label": "A label 2"
             },
             {
-                "code": "A code 3",
+                "code": "3",
                 "label": "A label 3"
             }
         ]
@@ -296,15 +296,15 @@
         "scaleLevel": "METRIC",
         "answerOptions": [
             {
-                "code": "A code",
+                "code": "1",
                 "label": "A label"
             },
             {
-                "code": "A code 2",
+                "code": "2",
                 "label": "A label 2"
             },
             {
-                "code": "A code 3",
+                "code": "3",
                 "label": "A label 3"
             }
         ]
@@ -327,15 +327,15 @@
         "scaleLevel": "METRIC",
         "answerOptions": [
             {
-                "code": "A code",
+                "code": "1",
                 "label": "A label"
             },
             {
-                "code": "A code 2",
+                "code": "2",
                 "label": "A label 2"
             },
             {
-                "code": "A code 3",
+                "code": "3",
                 "label": "A label 3"
             }
         ]
@@ -358,15 +358,15 @@
         "scaleLevel": "METRIC",
         "answerOptions": [
             {
-                "code": "A code",
+                "code": "1",
                 "label": "A label"
             },
             {
-                "code": "A code 2",
+                "code": "2",
                 "label": "A label 2"
             },
             {
-                "code": "A code 3",
+                "code": "3",
                 "label": "A label 3"
             }
         ]
@@ -389,15 +389,15 @@
         "scaleLevel": "METRIC",
         "answerOptions": [
             {
-                "code": "A code",
+                "code": "1",
                 "label": "A label"
             },
             {
-                "code": "A code 2",
+                "code": "2",
                 "label": "A label 2"
             },
             {
-                "code": "A code 3",
+                "code": "3",
                 "label": "A label 3"
             }
         ]
@@ -420,15 +420,15 @@
         "scaleLevel": "METRIC",
         "answerOptions": [
             {
-                "code": "A code",
+                "code": "1",
                 "label": "A label"
             },
             {
-                "code": "A code 2",
+                "code": "2",
                 "label": "A label 2"
             },
             {
-                "code": "A code 3",
+                "code": "3",
                 "label": "A label 3"
             }
         ]
@@ -451,15 +451,15 @@
         "scaleLevel": "METRIC",
         "answerOptions": [
             {
-                "code": "A code",
+                "code": "1",
                 "label": "A label"
             },
             {
-                "code": "A code 2",
+                "code": "2",
                 "label": "A label 2"
             },
             {
-                "code": "A code 3",
+                "code": "3",
                 "label": "A label 3"
             }
         ]

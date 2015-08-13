@@ -1,8 +1,7 @@
 package eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents;
 
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-
-import org.hibernate.validator.constraints.NotEmpty;
 
 /**
  * The answer option represents the options of answer for closed questions. The answer option bases
@@ -19,9 +18,8 @@ public class AnswerOption {
   /**
    * This is the code of an answer. It is internal code representation of the answer.
    */
-  @Size(max = 60)
-  @NotEmpty
-  private String code;
+  @NotNull
+  private Integer code;
 
   /**
    * The Label is the answer which are read by the subjects.
@@ -29,11 +27,11 @@ public class AnswerOption {
   @Size(max = 60)
   private String label;
 
-  public String getCode() {
+  public Integer getCode() {
     return code;
   }
 
-  public void setCode(String code) {
+  public void setCode(Integer code) {
     this.code = code;
   }
 

@@ -56,8 +56,9 @@ public class VariableDocumentTest extends AbstractWebTest {
       LOGGER.debug("testEmptyInValidVariable()" + variableVialation.getMessageTemplate() + " -> "
           + variableVialation.getMessage());
 
-      assertEquals("{org.hibernate.validator.constraints.NotEmpty.message}",
-          variableVialation.getMessageTemplate());
+      assertThat(variableVialation.getMessageTemplate(),
+          anyOf(equalTo("{org.hibernate.validator.constraints.NotEmpty.message}"), equalTo(
+              "{org.hibernate.validator.constraints.NotBlank.message}")));
     }
   }
 
@@ -320,19 +321,22 @@ public class VariableDocumentTest extends AbstractWebTest {
 
     // both messages found (it is not possible to expect an exact order of error messages
     boolean foundSize = false;
-    boolean foundNotEmpty = false;
+    boolean foundNotNull = false;
     while (ite.hasNext()) {
       String msgTemplate = ite.next().getMessageTemplate();
+      
+      LOGGER.info("testInvalidLabelAtAnswerOption() " + msgTemplate);
+      
       if (msgTemplate.equals("{javax.validation.constraints.Size.message}") && !foundSize) {
         foundSize = true;
       }
-      if (msgTemplate.equals("{org.hibernate.validator.constraints.NotEmpty.message}")
-          && !foundNotEmpty) {
-        foundNotEmpty = true;
+      if (msgTemplate.equals("{javax.validation.constraints.NotNull.message}")
+          && !foundNotNull) {
+        foundNotNull = true;
       }
     }
     assertEquals(true, foundSize);
-    assertEquals(true, foundNotEmpty);
+    assertEquals(true, foundNotNull); 
   }
 
 
@@ -346,7 +350,7 @@ public class VariableDocumentTest extends AbstractWebTest {
     AnswerOption answerOption = new AnswerOption();
     answerOption.setLabel("This label is okay.");
     answerOption
-        .setCode("AddAExtraLabelForAnTestValidationError.AddAExtraLabelForAnTestValidationError.");
+        .setCode(null);
     List<AnswerOption> answerOptions = new ArrayList<>();
     answerOptions.add(answerOption);
     variableDocument.setAnswerOptions(answerOptions);
@@ -362,7 +366,7 @@ public class VariableDocumentTest extends AbstractWebTest {
       LOGGER.debug("testInvalidLabelAtAnswerOption() " + variableVialation.getMessageTemplate()
           + " -> " + variableVialation.getMessage());
 
-      assertEquals("{javax.validation.constraints.Size.message}",
+      assertEquals("{javax.validation.constraints.NotNull.message}",
           variableVialation.getMessageTemplate());
     }
   }
@@ -375,7 +379,7 @@ public class VariableDocumentTest extends AbstractWebTest {
     variableDocument.setId("ThisIDisOkay");
     variableDocument.setName("ThisNameIsOkay.");
     AnswerOption answerOption = new AnswerOption();
-    answerOption.setCode("This code is okay.");
+    answerOption.setCode(5);
     answerOption.setLabel("Label is okay.");
     List<AnswerOption> answerOptions = new ArrayList<>();
     answerOptions.add(answerOption);
@@ -388,7 +392,7 @@ public class VariableDocumentTest extends AbstractWebTest {
     // Assert
     assertEquals(0, variableViolations.size());
     assertEquals("Label is okay.", variableDocument.getAnswerOptions().get(0).getLabel());
-    assertEquals("This code is okay.", variableDocument.getAnswerOptions().get(0).getCode());
+    assertEquals(new Integer(5), variableDocument.getAnswerOptions().get(0).getCode());
   }
 
   @Test
@@ -413,7 +417,7 @@ public class VariableDocumentTest extends AbstractWebTest {
           + variableVialation.getMessageTemplate() + " -> " + variableVialation.getMessage());
 
       assertThat(variableVialation.getMessageTemplate(),
-          anyOf(equalTo("{org.hibernate.validator.constraints.NotEmpty.message}"), equalTo(
+          anyOf(equalTo("{org.hibernate.validator.constraints.NotBlank.message}"), equalTo(
               "{eu.dzhw.fdz.metadatamanagement.data.variablemanagement."
               + "documents.validation.uniquevariablealias.message}")));
 
