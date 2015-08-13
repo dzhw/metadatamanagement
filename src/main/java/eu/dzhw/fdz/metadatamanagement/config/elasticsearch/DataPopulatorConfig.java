@@ -11,6 +11,7 @@ import eu.dzhw.fdz.metadatamanagement.data.common.PopulatorUtils;
 
 /**
  * This is the configuration file of the data populator.
+ * 
  * @author Daniel Katzberg
  *
  */
@@ -19,8 +20,10 @@ public class DataPopulatorConfig {
 
   @Bean
   public ElasticSearchPopulator repositoryPopulator(ApplicationContext applicationContext,
-      PopulatorUtils populatorUtils, ElasticsearchTemplate elasticsearchTemplate) {
-    return new ElasticSearchPopulator(applicationContext, populatorUtils, elasticsearchTemplate);
+      PopulatorUtils populatorUtils, ElasticsearchTemplate elasticsearchTemplate,
+      ResourceLoader resourceLoader) {
+    return new ElasticSearchPopulator(applicationContext, populatorUtils, elasticsearchTemplate,
+        resourceLoader);
   }
 
   @Bean

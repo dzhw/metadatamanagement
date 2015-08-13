@@ -22,6 +22,7 @@ spring:
         node.data: true
         http.enabled: false
         discovery.zen.master_election.filter_client: false
+        path.data: elasticsearch/data
   #set base name for message sources
   messages:
     basename: i18n/messages

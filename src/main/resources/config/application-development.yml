@@ -18,7 +18,7 @@ spring:
         http.cors.enabled: true
         http.cors.allow-origin: /.*/
         #move elasticsearch data folder to the target folder
-        path.data: target/elasticsearch
+        path.data: target/elasticsearch/data
         index.search.slowlog.threshold.query.info: 1ms
 
 #set buildtime equal to startuptime cause in devmode 

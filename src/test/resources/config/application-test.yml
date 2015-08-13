@@ -5,7 +5,7 @@ spring:
       properties:
         name: metadatatestnode
         #move elasticsearch data folder to the target folder
-        path.data: target/elasticsearch
+        path.data: target/elasticsearch/data
         node.local: true
         index.search.slowlog.threshold.query.info: 1ms
         discovery.zen.master_election.filter_client: false

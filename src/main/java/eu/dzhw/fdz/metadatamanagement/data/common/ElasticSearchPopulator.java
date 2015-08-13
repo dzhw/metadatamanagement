@@ -18,6 +18,7 @@ import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.core.annotation.AnnotationUtils;
 import org.springframework.core.io.Resource;
+import org.springframework.core.io.ResourceLoader;
 import org.springframework.data.elasticsearch.annotations.Document;
 import org.springframework.data.elasticsearch.core.ElasticsearchTemplate;
 import org.springframework.data.repository.init.Jackson2ResourceReader;
@@ -26,7 +27,6 @@ import org.springframework.data.repository.support.Repositories;
 import org.springframework.data.repository.support.RepositoryInvoker;
 import org.springframework.data.repository.support.RepositoryInvokerFactory;
 import org.springframework.util.FileCopyUtils;
-import org.springframework.util.ResourceUtils;
 
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -74,6 +74,11 @@ public class ElasticSearchPopulator implements ApplicationListener<ContextRefres
   private HashMap<Locale, Set<Class<?>>> createdMappingsPerLocale = new HashMap<>();
 
   /**
+   * Spring bean for loading classpath resources.
+   */
+  private ResourceLoader resourceLoader;
+
+  /**
    * This constructor needs all information for reading/loading the resource files from the
    * classpath: 1.) Application Context 2.) Populator Resources and 3.) A given template.
    * 
@@ -83,7 +88,8 @@ public class ElasticSearchPopulator implements ApplicationListener<ContextRefres
    */
   @Autowired
   public ElasticSearchPopulator(ApplicationContext applicationContext,
-      PopulatorUtils populatorUtils, ElasticsearchTemplate elasticsearchTemplate) {
+      PopulatorUtils populatorUtils, ElasticsearchTemplate elasticsearchTemplate,
+      ResourceLoader resourceLoader) {
     ObjectMapper objectMapper = new ObjectMapper();
     objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
     // add JSR 310 support to the json mapper
@@ -92,6 +98,7 @@ public class ElasticSearchPopulator implements ApplicationListener<ContextRefres
     this.repositories = new Repositories(applicationContext);
     this.populatorUtils = populatorUtils;
     this.elasticsearchTemplate = elasticsearchTemplate;
+    this.resourceLoader = resourceLoader;
   }
 
   /**
@@ -150,8 +157,10 @@ public class ElasticSearchPopulator implements ApplicationListener<ContextRefres
     // create mapping if not created already
     if (!createdMappings.contains(class1)) {
       String type = AnnotationUtils.getAnnotation(class1, Document.class).type();
-      String mapping = new String(FileCopyUtils.copyToByteArray(ResourceUtils.getFile(
-          "classpath:data/" + currentLocale.getLanguage() + "/mappings/" + type + ".json")));
+      String mapping = new String(FileCopyUtils.copyToByteArray(resourceLoader
+          .getResource(
+              "classpath:data/" + currentLocale.getLanguage() + "/mappings/" + type + ".json")
+          .getInputStream()));
       elasticsearchTemplate.putMapping(class1, mapping);
       createdMappings.add(class1);
     }
