@@ -572,7 +572,7 @@ public class VariableDocumentTest extends AbstractWebTest {
 
       assertEquals(
           "{eu.dzhw.fdz.metadatamanagement.data.variablemanagement."
-              + "common.validation.validDateRange.message}",
+          + "common.validation.validdaterange.message}",
           variableVialation.getMessageTemplate());
     }
   }
