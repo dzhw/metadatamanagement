@@ -325,7 +325,7 @@ public class VariableDocumentTest extends AbstractWebTest {
     while (ite.hasNext()) {
       String msgTemplate = ite.next().getMessageTemplate();
       
-      LOGGER.info("testInvalidLabelAtAnswerOption() " + msgTemplate);
+      LOGGER.debug("testInvalidLabelAtAnswerOption() " + msgTemplate);
       
       if (msgTemplate.equals("{javax.validation.constraints.Size.message}") && !foundSize) {
         foundSize = true;
