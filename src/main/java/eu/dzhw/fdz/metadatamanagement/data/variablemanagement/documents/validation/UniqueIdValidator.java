@@ -35,9 +35,15 @@ public class UniqueIdValidator implements ConstraintValidator<UniqueId, String> 
    * javax.validation.ConstraintValidatorContext)
    */
   @Override
-  public boolean isValid(String value, ConstraintValidatorContext context) {
+  public boolean isValid(String variableDocumentId, ConstraintValidatorContext context) {
 
-    if (this.variableRepository.findOne(value) == null) {
+    // is an necessary field
+    if (variableDocumentId == null) {
+      return false;
+    }
+
+    // check id
+    if (this.variableRepository.findOne(variableDocumentId) == null) {
       return true;
     } else {
       return false;
