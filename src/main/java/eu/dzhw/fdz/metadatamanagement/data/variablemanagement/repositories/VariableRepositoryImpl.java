@@ -3,8 +3,6 @@ package eu.dzhw.fdz.metadatamanagement.data.variablemanagement.repositories;
 
 import static org.elasticsearch.index.query.QueryBuilders.boolQuery;
 import static org.elasticsearch.index.query.QueryBuilders.matchQuery;
-import static org.elasticsearch.index.query.QueryBuilders.multiMatchQuery;
-import static org.elasticsearch.index.query.QueryBuilders.nestedQuery;
 
 import org.elasticsearch.common.unit.Fuzziness;
 import org.elasticsearch.index.query.FilterBuilders;
@@ -45,8 +43,26 @@ public class VariableRepositoryImpl implements VariableRepositoryCustom {
    */
   @Override
   public Page<VariableDocument> matchQueryInAllField(String query, Pageable pageable) {
+    QueryBuilder queryBuilder = matchQuery("_all", query).zeroTermsQuery(ZeroTermsQuery.ALL);
+
+    SearchQuery searchQuery =
+        new NativeSearchQueryBuilder().withQuery(queryBuilder).withPageable(pageable).build();
+
+    return this.elasticsearchTemplate.queryForPage(searchQuery, VariableDocument.class);
+  }
+
+  /*
+   * (non-Javadoc)
+   * 
+   * @see
+   * eu.dzhw.fdz.metadatamanagement.data.variablemanagement.repositories.VariableRepositoryCustom#
+   * matchQueryInAllFieldWithFuzziness(java.lang.String, org.springframework.data.domain.Pageable)
+   */
+  @Override
+  public Page<VariableDocument> matchQueryInAllFieldWithFuzziness(String query, Pageable pageable) {
     QueryBuilder queryBuilder =
-        matchQuery("_all", query).fuzziness(Fuzziness.AUTO).zeroTermsQuery(ZeroTermsQuery.ALL);
+        boolQuery().should(matchQuery("_all", query).zeroTermsQuery(ZeroTermsQuery.ALL))
+            .should(matchQuery("_all", query).fuzziness(Fuzziness.AUTO));
 
     SearchQuery searchQuery =
         new NativeSearchQueryBuilder().withQuery(queryBuilder).withPageable(pageable).build();
@@ -81,43 +97,18 @@ public class VariableRepositoryImpl implements VariableRepositoryCustom {
    * matchFilterBySurveyId(java.lang.String, java.lang.String)
    */
   @Override
-  public Page<VariableDocument> filterBySurveyIdAndVariableAlias(String surveyIdQuery,
-      String variableAliasQuery) {
+  public Page<VariableDocument> filterBySurveyIdAndVariableAlias(String surveyId,
+      String variableAlias) {
 
     QueryBuilder queryBuilder = QueryBuilders.filteredQuery(QueryBuilders.matchAllQuery(),
-        FilterBuilders.nestedFilter("variableSurvey",
-            FilterBuilders.boolFilter()
-                .must(FilterBuilders.termFilter("variableSurvey.surveyId",
-                    surveyIdQuery),
-            FilterBuilders.termFilter("variableSurvey.variableAlias", variableAliasQuery))));
+        FilterBuilders.nestedFilter(VariableDocument.VARIABLE_SURVEY_FIELD,
+            FilterBuilders.boolFilter().must(
+                FilterBuilders.termFilter(VariableDocument.NESTED_VARIABLE_SURVEY_ID_FIELD,
+                    surveyId),
+                FilterBuilders.termFilter(
+                    VariableDocument.NESTED_VARIABLE_SURVEY_VARIABLE_ALIAS_FIELD, variableAlias))));
 
     SearchQuery searchQuery = new NativeSearchQueryBuilder().withQuery(queryBuilder).build();
-
-    return this.elasticsearchTemplate.queryForPage(searchQuery, VariableDocument.class);
-  }
-
-  /*
-   * (non-Javadoc)
-   * 
-   * @see
-   * eu.dzhw.fdz.metadatamanagement.data.variablemanagement.repositories.VariableRepositoryCustom#
-   * multiMatchQueryOnAllStringFields(java.lang.String, org.springframework.data.domain.Pageable)
-   */
-  @Override
-  public Page<VariableDocument> multiMatchQueryOnAllStringFields(String query, Pageable pageable) {
-    QueryBuilder queryBuilder = boolQuery()
-        .should(multiMatchQuery(query, VariableDocument.DATA_TYPE_FIELD,
-            VariableDocument.LABEL_FIELD, VariableDocument.NAME_FIELD,
-            VariableDocument.SCALE_LEVEL_FIELD, VariableDocument.ID_FIELD))
-        .should(nestedQuery(VariableDocument.VARIABLE_SURVEY_FIELD,
-            multiMatchQuery(query, VariableDocument.NESTED_VARIABLE_SURVEY_ID_FIELD,
-                VariableDocument.NESTED_VARIABLE_SURVEY_TITLE_FIELD,
-                VariableDocument.NESTED_VARIABLE_SURVEY_VARIABLE_ALIAS_FIELD)))
-        .should(nestedQuery(VariableDocument.ANSWER_OPTIONS_FIELD,
-            multiMatchQuery(query, VariableDocument.NESTED_ANSWER_OPTIONS_LABEL_FIELD)));
-
-    SearchQuery searchQuery =
-        new NativeSearchQueryBuilder().withQuery(queryBuilder).withPageable(pageable).build();
 
     return this.elasticsearchTemplate.queryForPage(searchQuery, VariableDocument.class);
   }

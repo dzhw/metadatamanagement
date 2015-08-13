@@ -47,13 +47,13 @@ public interface VariableRepositoryCustom {
   Page<VariableDocument> filterBySurveyIdAndVariableAlias(String surveyId, String variableAlias);
 
   /**
-   * Query for variable documents with the given query string using all fields. Non-String fields
-   * are skipped for the moment.
+   * Query for all variable documents by using the all field for exact matches as well as fuzzy
+   * matches.
    * 
-   * @param query The string to query for.
-   * @param pageable a pageable object.
-   * @return A Page holding the variable documents
+   * @param query The query to be executed.
+   * @param pageable The page size and number and sort.
+   * @return A page holding the first variable documents
    */
-  Page<VariableDocument> multiMatchQueryOnAllStringFields(String query, Pageable pageable);
+  Page<VariableDocument> matchQueryInAllFieldWithFuzziness(String query, Pageable pageable);
 
 }

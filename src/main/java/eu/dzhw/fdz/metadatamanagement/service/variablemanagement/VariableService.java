@@ -38,7 +38,7 @@ public class VariableService {
    */
   public Page<VariableDocument> search(String query, Pageable pageable) {
     if (StringUtils.hasText(query)) {
-      return variableRepository.multiMatchQueryOnAllStringFields(query, pageable);
+      return variableRepository.matchQueryInAllFieldWithFuzziness(query, pageable);
     }
     return variableRepository.findAll(pageable);
   }
