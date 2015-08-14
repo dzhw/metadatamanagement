@@ -15,6 +15,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import eu.dzhw.fdz.metadatamanagement.data.common.documents.DateRange;
 import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.VariableDocument;
 import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.VariableSurvey;
 import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.repositories.VariableRepository;
@@ -46,6 +47,7 @@ public class UniqueVariableAliasTest extends AbstractWebTest{
     variableSurvey1.setSurveyId("SurveyIdIsOkay.");
     variableSurvey1.setTitle("TitleIsOkay.");
     variableSurvey1.setVariableAlias(variableDocument1.getName());
+    variableSurvey1.setSurveyPeriod(new DateRange());
     
     variableDocument1.setVariableSurvey(variableSurvey1);
     this.repository.save(variableDocument1);
@@ -57,6 +59,7 @@ public class UniqueVariableAliasTest extends AbstractWebTest{
     VariableSurvey variableSurvey = new VariableSurvey();
     variableSurvey.setSurveyId("SurveyIdIsOkay.");
     variableSurvey.setTitle("TitleIsOkay.");
+    variableSurvey.setSurveyPeriod(new DateRange());
     //here is the error, double used alias
     variableSurvey.setVariableAlias(variableDocument1.getName());
     
@@ -96,6 +99,7 @@ public class UniqueVariableAliasTest extends AbstractWebTest{
     variableSurvey1.setSurveyId("SurveyIdIsOkay.");
     variableSurvey1.setTitle("TitleIsOkay.");
     variableSurvey1.setVariableAlias(variableDocument1.getName());
+    variableSurvey1.setSurveyPeriod(new DateRange());
     
     variableDocument1.setVariableSurvey(variableSurvey1);
     this.repository.save(variableDocument1);
@@ -108,6 +112,7 @@ public class UniqueVariableAliasTest extends AbstractWebTest{
     variableSurvey2.setSurveyId("SurveyIdIsOkay.");
     variableSurvey2.setTitle("TitleIsOkay.");
     variableSurvey2.setVariableAlias(variableDocument2.getName());
+    variableSurvey2.setSurveyPeriod(new DateRange());
     
     variableDocument2.setVariableSurvey(variableSurvey2);
     

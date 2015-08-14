@@ -1,5 +1,6 @@
 package eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents;
 
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 import org.hibernate.validator.constraints.NotBlank;
@@ -43,6 +44,7 @@ public class VariableSurvey {
    * DateRange is the representation of the range of the survey. This is a nested object.
    */
   @ValidDateRange
+  @NotNull
   private DateRange surveyPeriod;
 
   /**

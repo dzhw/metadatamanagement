@@ -410,7 +410,7 @@ public class VariableDocumentTest extends AbstractWebTest {
         this.validator.validate(variableDocument);
 
     // Assert
-    assertEquals(4, variableViolations.size());
+    assertEquals(5, variableViolations.size());
     for (ConstraintViolation<VariableDocument> variableVialation : variableViolations) {
 
       LOGGER.debug("testInvalidVariableDocumentSurveyWithEmptyFields()"
@@ -419,7 +419,7 @@ public class VariableDocumentTest extends AbstractWebTest {
       assertThat(variableVialation.getMessageTemplate(),
           anyOf(equalTo("{org.hibernate.validator.constraints.NotBlank.message}"), equalTo(
               "{eu.dzhw.fdz.metadatamanagement.data.variablemanagement."
-              + "documents.validation.uniquevariablealias.message}")));
+              + "documents.validation.uniquevariablealias.message}"), equalTo("{javax.validation.constraints.NotNull.message}")));
 
     }
   }
@@ -437,6 +437,7 @@ public class VariableDocumentTest extends AbstractWebTest {
     variableDocument.getVariableSurvey().setTitle("TitleIsOkay.");
     variableDocument.getVariableSurvey()
         .setVariableAlias("ThisAliasIsTooLong.ItWillThrowAnException");
+    variableSurvey.setSurveyPeriod(new DateRange());
 
     // Act
     Set<ConstraintViolation<VariableDocument>> variableViolations =
@@ -467,6 +468,7 @@ public class VariableDocumentTest extends AbstractWebTest {
     variableDocument.getVariableSurvey().setSurveyId("SurveyIdIsTooLong.ItWillThrowAnException");
     variableDocument.getVariableSurvey().setTitle("TitleIsOkay.");
     variableDocument.getVariableSurvey().setVariableAlias(variableDocument.getName());
+    variableDocument.getVariableSurvey().setSurveyPeriod(new DateRange());
 
     // Act
     Set<ConstraintViolation<VariableDocument>> variableViolations =
@@ -498,6 +500,7 @@ public class VariableDocumentTest extends AbstractWebTest {
     variableDocument.getVariableSurvey().setVariableAlias(variableDocument.getName());
     variableDocument.getVariableSurvey().setSurveyId("SurveyIdIsOkay.");
     variableDocument.getVariableSurvey().setTitle("TitleIsNotOkay.TheTitleIsTooLong.");
+    variableDocument.getVariableSurvey().setSurveyPeriod(new DateRange());
 
     // Act
     Set<ConstraintViolation<VariableDocument>> variableViolations =
@@ -529,6 +532,7 @@ public class VariableDocumentTest extends AbstractWebTest {
     variableDocument.getVariableSurvey().setSurveyId("SurveyIdIsOkay.");
     variableDocument.getVariableSurvey().setTitle("TitleIsOkay.");
     variableDocument.getVariableSurvey().setVariableAlias(variableDocument.getName());
+    variableDocument.getVariableSurvey().setSurveyPeriod(new DateRange());
 
     // Act
     Set<ConstraintViolation<VariableDocument>> variableViolations =
@@ -615,7 +619,8 @@ public class VariableDocumentTest extends AbstractWebTest {
     variableDocument.getVariableSurvey().setSurveyId("ID_Survey");
     variableDocument.getVariableSurvey().setTitle("TitleIsOkay.");
     variableDocument.getVariableSurvey().setVariableAlias(variableDocument.getName());
-
+    variableDocument.getVariableSurvey().setSurveyPeriod(new DateRange());
+    
     // set a date, but without a start and end date
     variableDocument.getVariableSurvey().setSurveyPeriod(new DateRange());
 
