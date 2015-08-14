@@ -7,7 +7,7 @@
     "properties": {
       "allStringsAsNgrams" : {
       	"type": "string",
-      	"analyzer": "trigrams"
+      	"analyzer": "quadgrams"
       },
       "answerOptions": {
         "type": "nested",

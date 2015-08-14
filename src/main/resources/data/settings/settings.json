@@ -4,19 +4,19 @@
     	"number_of_replicas": "0",
     	"analysis": {
             "filter": {
-                "trigrams_filter": {
+                "quadgrams_filter": {
                     "type":     "ngram",
-                    "min_gram": 3,
-                    "max_gram": 3
+                    "min_gram": 4,
+                    "max_gram": 4
                 }
             },
             "analyzer": {
-                "trigrams": {
+                "quadgrams": {
                     "type":      "custom",
                     "tokenizer": "standard",
                     "filter":   [
                         "lowercase",
-                        "trigrams_filter"
+                        "quadgrams_filter"
                     ]
               	}
          	}
