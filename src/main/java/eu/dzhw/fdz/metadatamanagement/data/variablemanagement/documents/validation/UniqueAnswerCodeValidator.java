@@ -54,6 +54,12 @@ public class UniqueAnswerCodeValidator
 
       //check double entry
       for (AnswerOption answerOptionCheck : answerOptions) {
+        
+        //check for empty code field
+        if (answerOptionCheck.getCode() == null) {
+          continue;
+        }
+        
         if (code == answerOptionCheck.getCode()) {
           countCode++;
         }
