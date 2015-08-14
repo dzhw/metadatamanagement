@@ -39,7 +39,7 @@ public class VariableModifyControllerTest extends AbstractWebTest {
         .andExpect(content().string((containsString("Sprache"))))
         .andExpect(content().string(not(containsString("#{"))))
         .andExpect(content().string(not(containsString("${"))))
-        // .andExpect(content().string(not(containsString("??"))))
+        .andExpect(content().string(not(containsString("??"))))
         .andExpect(model().attributeHasFieldErrors("variableDocument"));
 
   }

@@ -69,12 +69,6 @@ public class VariableModifyController {
       modelAndView.addObject("resource", resource);
       modelAndView.addObject("variableDocument", bindingResult.getModel().get("variableDocument"));
 
-      /*
-       * Iterator<FieldError> it = bindingResult.getFieldErrors().iterator();
-       * System.out.println("------------"); while (it.hasNext()) {
-       * System.out.println(it.next().getField() + " : " + it.next().getDefaultMessage()); }
-       */
-
       return modelAndView;
     };
   }
@@ -97,15 +91,6 @@ public class VariableModifyController {
       modelAndView.addObject("resource", resource);
       modelAndView.addObject("variableDocument", bindingResult.getModel().get("variableDocument"));
 
-      /*
-       * Iterator<ObjectError> itG = bindingResult.getGlobalErrors().iterator();
-       * System.out.println("AddG------------"); while (itG.hasNext()) {
-       * System.out.println(itG.next().getObjectName() + " : " + itG.next().getDefaultMessage()); }
-       * Iterator<FieldError> it = bindingResult.getFieldErrors().iterator();
-       * System.out.println("Add------------"); while (it.hasNext()) { try {
-       * System.out.println(it.next().getField() + " : " + it.next().getDefaultMessage()); } catch
-       * (NoSuchElementException e) { e.printStackTrace(); } }
-       */
       return modelAndView;
     };
   }
@@ -144,16 +129,9 @@ public class VariableModifyController {
    * @return sdsdsdsd
    */
   @RequestMapping(method = RequestMethod.POST, params = {"reset"})
-  public Callable<ModelAndView> reset(
-      @ModelAttribute VariableDocument variableDocument, BindingResult bindingResult) {
+  public Callable<ModelAndView> reset() {
     return () -> {
-      VariableModifyResource resource =
-          new VariableModifyResource(VariableModifyController.class, controllerLinkBuilderFactory);
-
-      validator.validate(createVariableDocument(), bindingResult);
-      ModelAndView modelAndView = new ModelAndView("variables/modify");
-      modelAndView.addObject("variableDocument", bindingResult.getModel().get("variableDocument"));
-      modelAndView.addObject("resource", resource);
+      ModelAndView modelAndView = new ModelAndView("redirect:/{language}/variables/create");
       return modelAndView;
     };
   }
@@ -178,15 +156,13 @@ public class VariableModifyController {
         modelAndView =
             new ModelAndView("redirect:/{language}/variables/" + variableDocument.getId());
         modelAndView.addObject("resource", resource);
-        return modelAndView;
       } else {
         modelAndView = new ModelAndView("variables/modify");
         modelAndView.addObject("resource", resource);
         modelAndView
             .addObject("variableDocument", bindingResult.getModel().get("variableDocument"));
-        return modelAndView;
       }
-
+      return modelAndView;
     };
   }
 

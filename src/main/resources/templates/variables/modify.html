@@ -137,33 +137,33 @@
 							<div class="form-group has-feedback "
 								th:classappend="${#fields.hasErrors('answerOptions[__${rowStat.index}__].label')}? has-error : has-success">
 								<label th:text="#{variables.modify.answerOptionLabel}">Label
-								</label> <input type="text" autocomplete="off" class="form-control"
+								</label>
+								<input type="text" autocomplete="off" class="form-control"
 									th:field="*{answerOptions[__${rowStat.index}__].label}" /> <span
 									class="glyphicon form-control-feedback"
-									th:classappend="*{answerOptions[__${rowStat.index}__].label}? glyphicon-remove : glyphicon-ok"></span>
+									th:classappend="${#fields.hasErrors('answerOptions[__${rowStat.index}__].label')}? glyphicon-remove : glyphicon-ok"></span>
 								<span class="help-block">
-									<p th:if="*{answerOptions[__${rowStat.index}__].label}"
+									<p th:if="${#fields.hasErrors('answerOptions[__${rowStat.index}__].label')}"
 										th:errors="*{answerOptions[__${rowStat.index}__].label}">Incorrect
-										label</p>
+										Label</p>
 								</span>
 							</div>
-
-
 							<div class="form-group has-feedback "
 								th:classappend="${#fields.hasErrors('answerOptions[__${rowStat.index}__].code')}? has-error : has-success">
 								<label th:text="#{variables.modify.answerOptionCode}">Code
-								</label> <input type="text" autocomplete="off" class="form-control"
+								</label>
+								<input type="text" autocomplete="off" class="form-control"
 									th:field="*{answerOptions[__${rowStat.index}__].code}" /> <span
 									class="glyphicon form-control-feedback"
-									th:classappend="*{answerOptions[__${rowStat.index}__].code}? glyphicon-remove : glyphicon-ok"></span>
+									th:classappend="${#fields.hasErrors('answerOptions[__${rowStat.index}__].code')}? glyphicon-remove : glyphicon-ok"></span>
 								<span class="help-block">
-									<p th:if="*{answerOptions[__${rowStat.index}__].code}"
+									<p
+										th:if="${#fields.hasErrors('answerOptions[__${rowStat.index}__].code')}"
 										th:errors="*{answerOptions[__${rowStat.index}__].code}">Incorrect
-										code</p>
+										Code</p>
 								</span>
 							</div>
 						</div>
-
 						<button type="submit" name="addOption" class="btn"
 							th:text="#{variables.modify.addAnswerOption}">Add</button>
 						<button type="submit" name="removeOption" class="btn"
@@ -173,7 +173,7 @@
 					<div>
 						<button type="submit" class="btn btn-default btn-primary"
 							th:text="#{common.button.submit}">Save</button>
-						<button form="form" type="reset" class="btn"
+						<button form="form" type="submit" class="btn" name="reset"
 							th:text="#{common.button.cancel}">Cancel</button>
 					</div>
 				</form>
