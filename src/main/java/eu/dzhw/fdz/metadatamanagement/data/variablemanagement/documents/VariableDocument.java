@@ -77,6 +77,13 @@ public class VariableDocument extends AbstractDocument {
    */
   @Size(max = 80)
   private String label;
+  
+  /**
+   * This field holds the questions of the variable.
+   */
+  @Size(max = 256)
+  //TODO @NotBlank
+  private String question;
 
   /**
    * A optional scale level of the variable, if the variable is e.g. not a String.
@@ -152,5 +159,13 @@ public class VariableDocument extends AbstractDocument {
 
   public void setAnswerOptions(List<AnswerOption> answerOptions) {
     this.answerOptions = answerOptions;
+  }
+
+  public String getQuestion() {
+    return question;
+  }
+  
+  public void setQuestion(String question) {
+    this.question = question;
   }
 }
