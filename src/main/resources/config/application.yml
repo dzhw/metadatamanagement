@@ -3,14 +3,14 @@ search.minimum-should-match-ngrams: 100%
 
 info:
   #set some properties by maven filter
-  app.version: ${project.version}
-  app.buildtime: ${buildtime}
-  springboot.version: ${project.parent.version}
-  elasticsearch.version: ${elasticsearch.version}
-  git.commit.id: ${git.commit.id}
-  git.commit.user: ${git.commit.user.name}
-  git.commit.message: ${git.commit.message.short}
-  git.commit.time: ${git.commit.time}
+  app.version: '@project.version@'
+  app.buildtime: '@buildtime@'
+  springboot.version: '@project.parent.version@'
+  elasticsearch.version: '@elasticsearch.version@'
+  git.commit.id: '@git.commit.id@'
+  git.commit.user: '@git.commit.user.name@'
+  git.commit.message: '@git.commit.message.short@'
+  git.commit.time: '@git.commit.time@'
   
 spring:
   data:
