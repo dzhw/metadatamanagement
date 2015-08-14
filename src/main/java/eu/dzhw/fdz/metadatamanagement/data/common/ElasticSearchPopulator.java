@@ -112,6 +112,8 @@ public class ElasticSearchPopulator implements ApplicationListener<ContextRefres
   private void populateJsonFiles(Locale locale) throws Exception {
     // set temporary the local of the system
     LocaleContextHolder.setLocale(locale);
+    // delete existing index to avoid problems with previously created index by spring data
+    elasticsearchTemplate.deleteIndex(AbstractDocument.class);
     // create the (currently just one) index per language
     elasticsearchTemplate.createIndex(AbstractDocument.class);
 

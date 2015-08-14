@@ -1,5 +1,9 @@
 {
   "variables": {
+  	  "_all" : {	
+  		 "enabled" : true,
+  		 "analyzer": "english"
+  	  },
     "properties": {
       "allStringsAsNgrams" : {
       	"type": "string",

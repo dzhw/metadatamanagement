@@ -29,8 +29,8 @@ public class VariablesRepositoryTest extends MetaDataManagementApplicationSmokeT
   @Test
   public void testMatchQueryInAllField() {
     LocaleContextHolder.setLocale(Locale.ENGLISH);
-    assertThat(this.variablesRepository.matchQueryInAllField("A name", new PageRequest(0, 10))
-        .getNumberOfElements(), is(4));
+    assertThat(this.variablesRepository.matchQueryInAllField("A child", new PageRequest(0, 10))
+        .getNumberOfElements(), is(3));
   }
 
   @Test
@@ -41,12 +41,12 @@ public class VariablesRepositoryTest extends MetaDataManagementApplicationSmokeT
         this.variablesRepository.matchPhrasePrefixQuery("FdZ_ID01", new PageRequest(0, 20));
     assertThat(result.getNumberOfElements(), is(15));
   }
-  
+
   @Test
   public void testMatchFilterBySurveyId() {
     LocaleContextHolder.setLocale(Locale.GERMAN);
-    Page<VariableDocument> result =
-        this.variablesRepository.filterBySurveyIdAndVariableAlias("Ge_ALL_04", "Staatsbürgerschaft");
+    Page<VariableDocument> result = this.variablesRepository
+        .filterBySurveyIdAndVariableAlias("Ge_ALL_04", "Staatsbürgerschaft");
     assertThat(result.getNumberOfElements(), is(1));
   }
 
