@@ -18,11 +18,13 @@
 				<form th:fragment="form-container" action="#" th:action="@{create}"
 					th:object="${variableDocument}" method="post" role="form" id="form">
 					<fieldset class="scheduler-border">
-						<legend class="scheduler-border" th:text="#{variabledocument}">Variable document</legend>
+						<legend class="scheduler-border" th:text="#{variabledocument}">Variable
+							document</legend>
 						<div class="form-group has-feedback"
 							th:classappend="${#fields.hasErrors('id')}? has-error : has-success">
-							<label th:text="#{variables.modify.variableDocumentID}">Variable document id</label> <input type="text"
-								autocomplete="off" class="form-control" th:field="*{id}" /> <span
+							<label th:text="#{variables.modify.variableDocumentID}">Variable
+								document id</label> <input type="text" autocomplete="off"
+								class="form-control" th:field="*{id}" /> <span
 								class="glyphicon form-control-feedback"
 								th:classappend="${#fields.hasErrors('id')}? glyphicon-remove : glyphicon-ok"></span>
 							<span class="help-block">
@@ -33,8 +35,9 @@
 
 						<div class="form-group has-feedback"
 							th:classappend="${#fields.hasErrors('name')}? has-error : has-success">
-							<label th:text="#{variables.modify.variableDocumentName}">Variable document name</label> <input type="text"
-								autocomplete="off" class="form-control" th:field="*{name}" /> <span
+							<label th:text="#{variables.modify.variableDocumentName}">Variable
+								document name</label> <input type="text" autocomplete="off"
+								class="form-control" th:field="*{name}" /> <span
 								class="glyphicon form-control-feedback"
 								th:classappend="${#fields.hasErrors('name')}? glyphicon-remove : glyphicon-ok"></span>
 							<span class="help-block">
@@ -45,9 +48,10 @@
 
 						<div class="form-group has-feedback"
 							th:classappend="${#fields.hasErrors('label')}? has-error : has-success">
-							<label th:text="#{variables.modify.variableDocumentLabel}">Variable document label</label> <input type="text"
-								autocomplete="off" class="form-control" th:field="*{label}" />
-							<span class="glyphicon form-control-feedback"
+							<label th:text="#{variables.modify.variableDocumentLabel}">Variable
+								document label</label> <input type="text" autocomplete="off"
+								class="form-control" th:field="*{label}" /> <span
+								class="glyphicon form-control-feedback"
 								th:classappend="${#fields.hasErrors('label')}? glyphicon-remove : glyphicon-ok"></span>
 							<span class="help-block">
 								<p th:if="${#fields.hasErrors('label')}" th:errors="*{id}">Incorrect
@@ -60,8 +64,9 @@
 						<th:block th:object="${variableDocument.variableSurvey}">
 							<div class="form-group has-feedback"
 								th:classappend="${#fields.hasErrors('surveyId')}? has-error : has-success">
-								<label th:text="#{variables.modify.surveyID}">Survey id</label> <input type="text" autocomplete="off"
-									class="form-control" th:field="*{surveyId}" /> <span
+								<label th:text="#{variables.modify.surveyID}">Survey id</label>
+								<input type="text" autocomplete="off" class="form-control"
+									th:field="*{surveyId}" /> <span
 									class="glyphicon form-control-feedback"
 									th:classappend="${#fields.hasErrors('surveyId')}? glyphicon-remove : glyphicon-ok"></span>
 								<span class="help-block">
@@ -71,9 +76,10 @@
 							</div>
 							<div class="form-group has-feedback"
 								th:classappend="${#fields.hasErrors('title')}? has-error : has-success">
-								<label th:text="#{variables.modify.surveyTitle}">Survey title</label> <input type="text"
-									autocomplete="off" class="form-control" th:field="*{title}" />
-								<span class="glyphicon form-control-feedback"
+								<label th:text="#{variables.modify.surveyTitle}">Survey
+									title</label> <input type="text" autocomplete="off"
+									class="form-control" th:field="*{title}" /> <span
+									class="glyphicon form-control-feedback"
 									th:classappend="${#fields.hasErrors('title')}? glyphicon-remove : glyphicon-ok"></span>
 								<span class="help-block">
 									<p th:if="${#fields.hasErrors('title')}" th:errors="*{title}">Incorrect
@@ -82,9 +88,9 @@
 							</div>
 							<div class="form-group has-feedback"
 								th:classappend="${#fields.hasErrors('variableAlias')}? has-error : has-success">
-								<label th:text="#{variables.modify.surveyVariableAlias}">Variable alias </label> <input type="text"
-									autocomplete="off" class="form-control"
-									th:field="*{variableAlias}" /> <span
+								<label th:text="#{variables.modify.surveyVariableAlias}">Variable
+									alias </label> <input type="text" autocomplete="off"
+									class="form-control" th:field="*{variableAlias}" /> <span
 									class="glyphicon form-control-feedback"
 									th:classappend="${#fields.hasErrors('variableAlias')}? glyphicon-remove : glyphicon-ok"></span>
 								<span class="help-block">
@@ -95,8 +101,9 @@
 
 							<div class="form-group has-feedback"
 								th:classappend="${#fields.hasErrors('surveyPeriod')}? has-error : has-success">
-								<label th:text="#{variables.modify.surveyStartDate}">From </label> <input type="date" autocomplete="off"
-									class="form-control" th:field="*{surveyPeriod.startDate}" /> <span
+								<label th:text="#{variables.modify.surveyStartDate}">From
+								</label> <input type="date" autocomplete="off" class="form-control"
+									th:field="*{surveyPeriod.startDate}" /> <span
 									class="glyphicon form-control-feedback"
 									th:classappend="${#fields.hasErrors('surveyPeriod')}? glyphicon-remove : glyphicon-ok"></span>
 								<span class="help-block">
@@ -106,8 +113,9 @@
 							</div>
 							<div class="form-group has-feedback"
 								th:classappend="${#fields.hasErrors('surveyPeriod')}? has-error : has-success">
-								<label th:text="#{variables.modify.surveyEndDate}">To </label> <input type="date" autocomplete="off"
-									class="form-control" th:field="*{surveyPeriod.endDate}" /> <span
+								<label th:text="#{variables.modify.surveyEndDate}">To </label> <input
+									type="date" autocomplete="off" class="form-control"
+									th:field="*{surveyPeriod.endDate}" /> <span
 									class="glyphicon form-control-feedback"
 									th:classappend="${#fields.hasErrors('surveyPeriod')}? glyphicon-remove : glyphicon-ok"></span>
 								<span class="help-block">
@@ -122,48 +130,56 @@
 
 					<fieldset class="scheduler-border">
 						<legend class="scheduler-border" th:text="#{answeroptions}">AnswerOptions</legend>
-						
-						<div  th:each="answerOption, rowStat : *{answerOptions}">
-						<label th:text="#{variables.modify.answerOption}+': '+${rowStat.index+1}">AnswerOption</label>
-						 <div class="form-group has-feedback "
+
+						<div th:each="answerOption, rowStat : *{answerOptions}">
+							<label
+								th:text="#{variables.modify.answerOption}+': '+${rowStat.index+1}">AnswerOption</label>
+							<div class="form-group has-feedback "
 								th:classappend="${#fields.hasErrors('answerOptions[__${rowStat.index}__].label')}? has-error : has-success">
-								<label th:text="#{variables.modify.answerOptionLabel}">Label </label> <input type="text" autocomplete="off"
-									class="form-control" th:field="*{answerOptions[__${rowStat.index}__].label}" /> <span
+								<label th:text="#{variables.modify.answerOptionLabel}">Label
+								</label> <input type="text" autocomplete="off" class="form-control"
+									th:field="*{answerOptions[__${rowStat.index}__].label}" /> <span
 									class="glyphicon form-control-feedback"
 									th:classappend="*{answerOptions[__${rowStat.index}__].label}? glyphicon-remove : glyphicon-ok"></span>
 								<span class="help-block">
 									<p th:if="*{answerOptions[__${rowStat.index}__].label}"
-										th:errors="*{answerOptions[__${rowStat.index}__].label}">Incorrect label</p>
+										th:errors="*{answerOptions[__${rowStat.index}__].label}">Incorrect
+										label</p>
 								</span>
 							</div>
-						
-						
+
+
 							<div class="form-group has-feedback "
 								th:classappend="${#fields.hasErrors('answerOptions[__${rowStat.index}__].code')}? has-error : has-success">
-								<label th:text="#{variables.modify.answerOptionCode}">Code </label> <input type="text" autocomplete="off"
-									class="form-control" th:field="*{answerOptions[__${rowStat.index}__].code}" /> <span
+								<label th:text="#{variables.modify.answerOptionCode}">Code
+								</label> <input type="text" autocomplete="off" class="form-control"
+									th:field="*{answerOptions[__${rowStat.index}__].code}" /> <span
 									class="glyphicon form-control-feedback"
 									th:classappend="*{answerOptions[__${rowStat.index}__].code}? glyphicon-remove : glyphicon-ok"></span>
 								<span class="help-block">
 									<p th:if="*{answerOptions[__${rowStat.index}__].code}"
-										th:errors="*{answerOptions[__${rowStat.index}__].code}">Incorrect code</p>
+										th:errors="*{answerOptions[__${rowStat.index}__].code}">Incorrect
+										code</p>
 								</span>
 							</div>
 						</div>
 
-						<button type="submit" name="addOption" class="btn" th:text="#{variables.modify.addAnswerOption}">Add</button>
-						<button type="submit" name="removeOption" class="btn" th:text="#{variables.modify.removeAnswerOption}">Remove</button>
+						<button type="submit" name="addOption" class="btn"
+							th:text="#{variables.modify.addAnswerOption}">Add</button>
+						<button type="submit" name="removeOption" class="btn"
+							th:text="#{variables.modify.removeAnswerOption}">Remove</button>
 					</fieldset>
 					<hr class="divider"></hr>
 					<div>
-					<button type="submit" class="btn btn-default btn-primary"
-						th:text="#{common.button.submit}">Save</button>
-					<button form="form" type="reset" class="btn" th:text="#{common.button.cancel}">Cancel</button>
+						<button type="submit" class="btn btn-default btn-primary"
+							th:text="#{common.button.submit}">Save</button>
+						<button form="form" type="reset" class="btn"
+							th:text="#{common.button.cancel}">Cancel</button>
 					</div>
 				</form>
 			</div>
 		</div>
-
 	</div>
+	<div th:include="common/js_libraries::js"></div>
 </body>
 </html>

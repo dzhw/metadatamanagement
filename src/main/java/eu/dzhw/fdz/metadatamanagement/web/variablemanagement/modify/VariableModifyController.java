@@ -58,22 +58,23 @@ public class VariableModifyController {
    */
   @RequestMapping(method = RequestMethod.GET)
   public Callable<ModelAndView> get(
-      @ModelAttribute VariableDocument variableDocument, BindingResult bindingResult) {
+      VariableDocument variableDocument, BindingResult bindingResult) {
     return () -> {
       VariableModifyResource resource =
           new VariableModifyResource(VariableModifyController.class, controllerLinkBuilderFactory);
 
-
       validator.validate(createVariableDocument(), bindingResult);
 
+      ModelAndView modelAndView = new ModelAndView("variables/modify");
+      modelAndView.addObject("resource", resource);
+      modelAndView.addObject("variableDocument", bindingResult.getModel().get("variableDocument"));
+
       /*
-       * Iterator<FieldError> it = bindingResult.getFieldErrors().iterator(); while (it.hasNext()) {
-       * System.out.println(it.next().getDefaultMessage()); }
+       * Iterator<FieldError> it = bindingResult.getFieldErrors().iterator();
+       * System.out.println("------------"); while (it.hasNext()) {
+       * System.out.println(it.next().getField() + " : " + it.next().getDefaultMessage()); }
        */
 
-      ModelAndView modelAndView = new ModelAndView("variables/modify");
-      modelAndView.addObject("variableDocument", bindingResult.getModel().get("variableDocument"));
-      modelAndView.addObject("resource", resource);
       return modelAndView;
     };
   }
@@ -83,7 +84,7 @@ public class VariableModifyController {
    * 
    * @return sdsdsdsd
    */
-  @RequestMapping(params = {"addOption"})
+  @RequestMapping(method = RequestMethod.POST, params = {"addOption"})
   public Callable<ModelAndView> addOption(
       @ModelAttribute VariableDocument variableDocument, BindingResult bindingResult) {
     return () -> {
@@ -91,9 +92,20 @@ public class VariableModifyController {
           new VariableModifyResource(VariableModifyController.class, controllerLinkBuilderFactory);
       variableDocument.getAnswerOptions().add(new AnswerOption());
       validator.validate(variableDocument, bindingResult);
+
       ModelAndView modelAndView = new ModelAndView("variables/modify");
       modelAndView.addObject("resource", resource);
       modelAndView.addObject("variableDocument", bindingResult.getModel().get("variableDocument"));
+
+      /*
+       * Iterator<ObjectError> itG = bindingResult.getGlobalErrors().iterator();
+       * System.out.println("AddG------------"); while (itG.hasNext()) {
+       * System.out.println(itG.next().getObjectName() + " : " + itG.next().getDefaultMessage()); }
+       * Iterator<FieldError> it = bindingResult.getFieldErrors().iterator();
+       * System.out.println("Add------------"); while (it.hasNext()) { try {
+       * System.out.println(it.next().getField() + " : " + it.next().getDefaultMessage()); } catch
+       * (NoSuchElementException e) { e.printStackTrace(); } }
+       */
       return modelAndView;
     };
   }
@@ -103,7 +115,7 @@ public class VariableModifyController {
    * 
    * @return sdsdsdsd
    */
-  @RequestMapping(params = {"removeOption"})
+  @RequestMapping(method = RequestMethod.POST, params = {"removeOption"})
   public Callable<ModelAndView> removeOption(
       @ModelAttribute VariableDocument variableDocument, BindingResult bindingResult) {
     return () -> {
@@ -126,6 +138,25 @@ public class VariableModifyController {
     };
   }
 
+  /**
+   * reset sdsdsds.
+   * 
+   * @return sdsdsdsd
+   */
+  @RequestMapping(method = RequestMethod.POST, params = {"reset"})
+  public Callable<ModelAndView> reset(
+      @ModelAttribute VariableDocument variableDocument, BindingResult bindingResult) {
+    return () -> {
+      VariableModifyResource resource =
+          new VariableModifyResource(VariableModifyController.class, controllerLinkBuilderFactory);
+
+      validator.validate(createVariableDocument(), bindingResult);
+      ModelAndView modelAndView = new ModelAndView("variables/modify");
+      modelAndView.addObject("variableDocument", bindingResult.getModel().get("variableDocument"));
+      modelAndView.addObject("resource", resource);
+      return modelAndView;
+    };
+  }
 
   /**
    * dfdfdfdfdf.
@@ -146,7 +177,7 @@ public class VariableModifyController {
         variableService.save(variableDocument);
         modelAndView =
             new ModelAndView("redirect:/{language}/variables/" + variableDocument.getId());
-        // modelAndView.addObject("resource", resource);
+        modelAndView.addObject("resource", resource);
         return modelAndView;
       } else {
         modelAndView = new ModelAndView("variables/modify");
@@ -165,11 +196,10 @@ public class VariableModifyController {
    * @return VariableDocument
    */
   private VariableDocument createVariableDocument() {
-    final VariableDocument document = new VariableDocument();
-    final VariableSurvey survey = new VariableSurvey();
-    final List<AnswerOption> answerOpt = new ArrayList<>();
-    final AnswerOption answer = new AnswerOption();
-
+    VariableDocument document = new VariableDocument();
+    VariableSurvey survey = new VariableSurvey();
+    List<AnswerOption> answerOpt = new ArrayList<>();
+    AnswerOption answer = new AnswerOption();
     answerOpt.add(answer);
     document.setAnswerOptions(answerOpt);
     document.setVariableSurvey(survey);
