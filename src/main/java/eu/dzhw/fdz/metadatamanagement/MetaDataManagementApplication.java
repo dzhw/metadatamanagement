@@ -1,7 +1,5 @@
 package eu.dzhw.fdz.metadatamanagement;
 
-import java.time.LocalDateTime;
-
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
@@ -19,8 +17,6 @@ public class MetaDataManagementApplication {
    * @param args Currently no args are supported.
    */
   public static void main(final String[] args) {
-    // TODO should be replaced by jmx property
-    System.setProperty("info.app.startuptime", LocalDateTime.now().toString());
     SpringApplication.run(MetaDataManagementApplication.class, args);
   }
 }
