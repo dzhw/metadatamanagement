@@ -82,7 +82,7 @@ public class VariableDocument extends AbstractDocument {
    * This field holds the questions of the variable.
    */
   @Size(max = 256)
-  //TODO @NotBlank
+  @NotBlank
   private String question;
 
   /**

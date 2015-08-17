@@ -50,7 +50,7 @@ public class VariableDocumentTest extends AbstractWebTest {
         this.validator.validate(variable);
 
     // Assert
-    assertEquals(2, variableViolations.size());
+    assertEquals(3, variableViolations.size());
     for (ConstraintViolation<VariableDocument> variableVialation : variableViolations) {
 
       LOGGER.debug("testEmptyInValidVariable()" + variableVialation.getMessageTemplate() + " -> "
@@ -69,6 +69,7 @@ public class VariableDocumentTest extends AbstractWebTest {
     VariableDocument variableDocument = new VariableDocument();
     variableDocument.setId("ThisIDisOkay");
     variableDocument.setName("ThisNameIsOkay.");
+    variableDocument.setQuestion("DefaultQuestion?");
 
     // Act
     Set<ConstraintViolation<VariableDocument>> variableViolations =
@@ -85,6 +86,7 @@ public class VariableDocumentTest extends AbstractWebTest {
     VariableDocument variableDocument = new VariableDocument();
     variableDocument.setId("This ID is not okay.");
     variableDocument.setName("This name is okay.");
+    variableDocument.setQuestion("DefaultQuestion?");
 
     // Act
     Set<ConstraintViolation<VariableDocument>> variableViolations =
@@ -109,6 +111,7 @@ public class VariableDocumentTest extends AbstractWebTest {
     VariableDocument variableDocument = new VariableDocument();
     variableDocument.setId("This-ID_is-okay");
     variableDocument.setName("This name is okay.");
+    variableDocument.setQuestion("DefaultQuestion?");
 
     // Act
     Set<ConstraintViolation<VariableDocument>> variableViolations =
@@ -125,6 +128,7 @@ public class VariableDocumentTest extends AbstractWebTest {
     VariableDocument variableDocument = new VariableDocument();
     variableDocument.setId("ThisIDisOkay");
     variableDocument.setName("ThisNameIsTooLongAndThrowAnException.");
+    variableDocument.setQuestion("DefaultQuestion?");
 
     // Act
     Set<ConstraintViolation<VariableDocument>> variableViolations =
@@ -151,6 +155,7 @@ public class VariableDocumentTest extends AbstractWebTest {
     variableDocument.setName("ThisNameIsOkay.");
     variableDocument.setLabel("ThisLabelIsNotOkay.ItIsTooLongAndThrowsAnException."
         + "ButTheLabelLengthIsVeryLong.ItNeedsManyWordsForTheException.");
+    variableDocument.setQuestion("DefaultQuestion?");
 
     // Act
     Set<ConstraintViolation<VariableDocument>> variableViolations =
@@ -176,6 +181,7 @@ public class VariableDocumentTest extends AbstractWebTest {
     variableDocument.setId("ThisIDisOkay");
     variableDocument.setName("ThisNameIsOkay.");
     variableDocument.setLabel("ThisLabelIsOkay.");
+    variableDocument.setQuestion("DefaultQuestion?");
 
     // Act
     Set<ConstraintViolation<VariableDocument>> variableViolations =
@@ -192,6 +198,7 @@ public class VariableDocumentTest extends AbstractWebTest {
     variableDocument.setId("ThisIDisOkay");
     variableDocument.setName("ThisNameIsOkay.");
     variableDocument.setDataType("string");
+    variableDocument.setQuestion("DefaultQuestion?");
 
     // Act
     Set<ConstraintViolation<VariableDocument>> variableViolations =
@@ -208,6 +215,7 @@ public class VariableDocumentTest extends AbstractWebTest {
     variableDocument.setId("ThisIDisOkay");
     variableDocument.setName("ThisNameIsOkay.");
     variableDocument.setDataType("sTrinGIsNotOkay");
+    variableDocument.setQuestion("DefaultQuestion?");
 
     // Act
     Set<ConstraintViolation<VariableDocument>> variableViolations =
@@ -235,6 +243,7 @@ public class VariableDocumentTest extends AbstractWebTest {
     variableDocument.setId("ThisIDisOkay");
     variableDocument.setName("ThisNameIsOkay.");
     variableDocument.setScaleLevel("ordinal");
+    variableDocument.setQuestion("DefaultQuestion?");
 
     // Act
     Set<ConstraintViolation<VariableDocument>> variableViolations =
@@ -251,6 +260,7 @@ public class VariableDocumentTest extends AbstractWebTest {
     variableDocument.setId("ThisIDisOkay");
     variableDocument.setName("ThisNameIsOkay.");
     variableDocument.setScaleLevel("oRdiNalIsNotOkay");
+    variableDocument.setQuestion("DefaultQuestion?");
 
     // Act
     Set<ConstraintViolation<VariableDocument>> variableViolations =
@@ -278,6 +288,7 @@ public class VariableDocumentTest extends AbstractWebTest {
     variableDocument.setId("ThisIDisOkay");
     variableDocument.setName("ThisNameIsOkay.");
     variableDocument.setDataType("numeric");
+    variableDocument.setQuestion("DefaultQuestion?");
 
     // Act
     Set<ConstraintViolation<VariableDocument>> variableViolations =
@@ -304,6 +315,7 @@ public class VariableDocumentTest extends AbstractWebTest {
     VariableDocument variableDocument = new VariableDocument();
     variableDocument.setId("ThisIDisOkay");
     variableDocument.setName("ThisNameIsOkay.");
+    variableDocument.setQuestion("DefaultQuestion?");
     AnswerOption answerOption = new AnswerOption();
     answerOption
         .setLabel("AddAExtraLabelForAnTestValidationError.AddAExtraLabelForAnTestValidationError.");
@@ -347,6 +359,7 @@ public class VariableDocumentTest extends AbstractWebTest {
     VariableDocument variableDocument = new VariableDocument();
     variableDocument.setId("ThisIDisOkay");
     variableDocument.setName("ThisNameIsOkay.");
+    variableDocument.setQuestion("DefaultQuestion?");
     AnswerOption answerOption = new AnswerOption();
     answerOption.setLabel("This label is okay.");
     answerOption
@@ -378,6 +391,7 @@ public class VariableDocumentTest extends AbstractWebTest {
     VariableDocument variableDocument = new VariableDocument();
     variableDocument.setId("ThisIDisOkay");
     variableDocument.setName("ThisNameIsOkay.");
+    variableDocument.setQuestion("DefaultQuestion?");
     AnswerOption answerOption = new AnswerOption();
     answerOption.setCode(5);
     answerOption.setLabel("Label is okay.");
@@ -402,6 +416,7 @@ public class VariableDocumentTest extends AbstractWebTest {
     VariableDocument variableDocument = new VariableDocument();
     variableDocument.setId("ThisIDisOkay");
     variableDocument.setName("ThisNameIsOkay.");
+    variableDocument.setQuestion("DefaultQuestion?");
     VariableSurvey variableSurvey = new VariableSurvey();
     variableDocument.setVariableSurvey(variableSurvey);
 
@@ -431,6 +446,7 @@ public class VariableDocumentTest extends AbstractWebTest {
     VariableDocument variableDocument = new VariableDocument();
     variableDocument.setId("ThisIDisOkay");
     variableDocument.setName("ThisNameIsOkay.");
+    variableDocument.setQuestion("DefaultQuestion?");
     VariableSurvey variableSurvey = new VariableSurvey();
     variableDocument.setVariableSurvey(variableSurvey);
     variableDocument.getVariableSurvey().setSurveyId("AliasIsOkay.");
@@ -463,6 +479,7 @@ public class VariableDocumentTest extends AbstractWebTest {
     VariableDocument variableDocument = new VariableDocument();
     variableDocument.setId("ThisIDisOkay");
     variableDocument.setName("ThisNameIsOkay.");
+    variableDocument.setQuestion("DefaultQuestion?");
     VariableSurvey variableSurvey = new VariableSurvey();
     variableDocument.setVariableSurvey(variableSurvey);
     variableDocument.getVariableSurvey().setSurveyId("SurveyIdIsTooLong.ItWillThrowAnException");
@@ -495,6 +512,7 @@ public class VariableDocumentTest extends AbstractWebTest {
     VariableDocument variableDocument = new VariableDocument();
     variableDocument.setId("ThisIDisOkay");
     variableDocument.setName("ThisNameIsOkay.");
+    variableDocument.setQuestion("DefaultQuestion?");
     VariableSurvey variableSurvey = new VariableSurvey();
     variableDocument.setVariableSurvey(variableSurvey);
     variableDocument.getVariableSurvey().setVariableAlias(variableDocument.getName());
@@ -527,6 +545,7 @@ public class VariableDocumentTest extends AbstractWebTest {
     VariableDocument variableDocument = new VariableDocument();
     variableDocument.setId("ThisIDisOkay");
     variableDocument.setName("ThisNameIsOkay.");
+    variableDocument.setQuestion("DefaultQuestion?");
     VariableSurvey variableSurvey = new VariableSurvey();
     variableDocument.setVariableSurvey(variableSurvey);
     variableDocument.getVariableSurvey().setSurveyId("SurveyIdIsOkay.");
@@ -549,6 +568,7 @@ public class VariableDocumentTest extends AbstractWebTest {
     VariableDocument variableDocument = new VariableDocument();
     variableDocument.setId("ThisIDisOkay");
     variableDocument.setName("ThisNameIsOkay.");
+    variableDocument.setQuestion("DefaultQuestion?");
 
     VariableSurvey variableSurvey = new VariableSurvey();
     variableSurvey.setSurveyId("SurveyIdIsOkay.");
@@ -588,6 +608,7 @@ public class VariableDocumentTest extends AbstractWebTest {
     VariableDocument variableDocument = new VariableDocument();
     variableDocument.setId("ThisIDisOkay");
     variableDocument.setName("ThisNameIsOkay.");
+    variableDocument.setQuestion("DefaultQuestion?");
 
     VariableSurvey variableSurvey = new VariableSurvey();
     variableSurvey.setSurveyId("SurveyIdIsOkay.");
@@ -615,6 +636,7 @@ public class VariableDocumentTest extends AbstractWebTest {
     VariableDocument variableDocument = new VariableDocument();
     variableDocument.setId("ID");
     variableDocument.setName("name");
+    variableDocument.setQuestion("DefaultQuestion?");
     variableDocument.setVariableSurvey(new VariableSurvey());
     variableDocument.getVariableSurvey().setSurveyId("ID_Survey");
     variableDocument.getVariableSurvey().setTitle("TitleIsOkay.");
@@ -697,5 +719,29 @@ public class VariableDocumentTest extends AbstractWebTest {
             + "surveyPeriod=DateRange [startDate=2015-01-01, endDate=2015-02-01], variableAlias=null], "
             + "name=null, dataType=null, label=null, scaleLevel=null, answerOptions=[]]",
         variableDocument.toString());
+  }
+  
+  @Test
+  public void testInvalidVariableDocumentWithEmptyQuest(){
+    // Arrange
+    VariableDocument variableDocument = new VariableDocument();
+    variableDocument.setId("ThisIDisOkay");
+    variableDocument.setName("ThisNameIsOkay.");
+    
+    // Act
+    Set<ConstraintViolation<VariableDocument>> variableViolations =
+        this.validator.validate(variableDocument);
+
+    // Assert
+    assertEquals(1, variableViolations.size());
+
+    for (ConstraintViolation<VariableDocument> variableVialation : variableViolations) {
+
+      LOGGER.debug("variableSurveyTest()" + variableVialation.getMessageTemplate() + " -> "
+          + variableVialation.getMessage());
+
+      assertEquals("{org.hibernate.validator.constraints.NotBlank.message}",
+          variableVialation.getMessageTemplate());
+    }
   }
 }

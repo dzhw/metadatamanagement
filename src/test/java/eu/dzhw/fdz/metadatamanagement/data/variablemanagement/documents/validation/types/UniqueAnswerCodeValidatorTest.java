@@ -39,6 +39,7 @@ public class UniqueAnswerCodeValidatorTest extends AbstractWebTest{
     VariableDocument variableDocument = new VariableDocument();
     variableDocument.setId("ThisIDisOkay");
     variableDocument.setName("ThisNameIsOkay.");
+    variableDocument.setQuestion("DefaultQuestion?");
     
     AnswerOption answerOption1 = new AnswerOption();
     answerOption1.setCode(1);
@@ -67,6 +68,7 @@ public class UniqueAnswerCodeValidatorTest extends AbstractWebTest{
     VariableDocument variableDocument = new VariableDocument();
     variableDocument.setId("ThisIDisOkay");
     variableDocument.setName("ThisNameIsOkay.");
+    variableDocument.setQuestion("DefaultQuestion?");
     
     AnswerOption answerOption1 = new AnswerOption();
     answerOption1.setCode(1);

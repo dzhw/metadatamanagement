@@ -39,11 +39,13 @@ public class UniqueIdValidatorTest extends AbstractWebTest {
     VariableDocument variableDocument1 = new VariableDocument();
     variableDocument1.setId("ThisIDisOkay");
     variableDocument1.setName("ThisNameIsOkay.");
+    variableDocument1.setQuestion("DefaultQuestion?");
     this.repository.save(variableDocument1);
 
     VariableDocument variableDocument2 = new VariableDocument();
     variableDocument2.setId("ThisIDisStillOkay");
     variableDocument2.setName("ThisNameIsOkay.");
+    variableDocument2.setQuestion("DefaultQuestion?");
 
     // Act
     Set<ConstraintViolation<VariableDocument>> variableViolations =
@@ -63,11 +65,13 @@ public class UniqueIdValidatorTest extends AbstractWebTest {
     VariableDocument variableDocument1 = new VariableDocument();
     variableDocument1.setId("ThisIDisOkay");
     variableDocument1.setName("ThisNameIsOkay.");
+    variableDocument1.setQuestion("DefaultQuestion?");
     this.repository.save(variableDocument1);
 
     VariableDocument variableDocument2 = new VariableDocument();
     variableDocument2.setId("ThisIDisOkay");
     variableDocument2.setName("ThisNameIsOkay.");
+    variableDocument2.setQuestion("DefaultQuestion?");
 
     // Act
     Set<ConstraintViolation<VariableDocument>> variableViolations =

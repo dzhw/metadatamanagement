@@ -42,6 +42,7 @@ public class UniqueVariableAliasTest extends AbstractWebTest{
     VariableDocument variableDocument1 = new VariableDocument();
     variableDocument1.setId("ThisIDisOkay");
     variableDocument1.setName("ThisNameIsOkay.");
+    variableDocument1.setQuestion("DefaultQuestion?");
 
     VariableSurvey variableSurvey1 = new VariableSurvey();
     variableSurvey1.setSurveyId("SurveyIdIsOkay.");
@@ -55,6 +56,7 @@ public class UniqueVariableAliasTest extends AbstractWebTest{
     VariableDocument variableDocument = new VariableDocument();
     variableDocument.setId("ThisIDisOkay2");
     variableDocument.setName("ThisNameIsOkay2.");
+    variableDocument.setQuestion("DefaultQuestion?");
 
     VariableSurvey variableSurvey = new VariableSurvey();
     variableSurvey.setSurveyId("SurveyIdIsOkay.");
@@ -94,6 +96,7 @@ public class UniqueVariableAliasTest extends AbstractWebTest{
     VariableDocument variableDocument1 = new VariableDocument();
     variableDocument1.setId("ThisIDisOkay");
     variableDocument1.setName("ThisNameIsOkay.");
+    variableDocument1.setQuestion("DefaultQuestion?");
 
     VariableSurvey variableSurvey1 = new VariableSurvey();
     variableSurvey1.setSurveyId("SurveyIdIsOkay.");
@@ -107,6 +110,7 @@ public class UniqueVariableAliasTest extends AbstractWebTest{
     VariableDocument variableDocument2 = new VariableDocument();
     variableDocument2.setId("ThisIDisOkay2");
     variableDocument2.setName("ThisNameIsOkay2.");
+    variableDocument2.setQuestion("DefaultQuestion?");
 
     VariableSurvey variableSurvey2 = new VariableSurvey();
     variableSurvey2.setSurveyId("SurveyIdIsOkay.");
@@ -134,7 +138,8 @@ public class UniqueVariableAliasTest extends AbstractWebTest{
     //Arrange
     VariableDocument variableDocument = new VariableDocument();
     variableDocument.setId("ThisIDisOkay");
-    variableDocument.setName("ThisNameIsOkay.");    
+    variableDocument.setName("ThisNameIsOkay.");
+    variableDocument.setQuestion("DefaultQuestion?");
     variableDocument.setVariableSurvey(null);
     
     
