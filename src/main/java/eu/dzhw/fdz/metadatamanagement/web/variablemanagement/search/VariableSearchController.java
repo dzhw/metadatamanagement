@@ -35,11 +35,6 @@ public class VariableSearchController {
 
   /**
    * Autowire needed objects.
-   * 
-   * @param variableService his is a case with description
-   * @param controllerLinkBuilderFactory his is a case with description
-   * @param variableResourceAssembler his is a case with description
-   * @param pagedResourcesAssembler his is a case with description
    */
   @Autowired
   public VariableSearchController(VariableService variableService,
@@ -72,8 +67,6 @@ public class VariableSearchController {
       ModelAndView modelAndView = new ModelAndView("variables/search");
       modelAndView.addObject("query", query);
       modelAndView.addObject("resource", resource);
-      // resource.
-
       return modelAndView;
     };
   }

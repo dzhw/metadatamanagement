@@ -35,10 +35,6 @@ public class VariableModifyController {
 
   /**
    * Autowire needed objects.
-   * 
-   * @param variableService his is a case with description
-   * @param controllerLinkBuilderFactory his is a case with description
-   * @param validator sdsdsds
    */
   @Autowired
   public VariableModifyController(VariableService variableService,
@@ -49,9 +45,9 @@ public class VariableModifyController {
   }
 
   /**
-   * dfdfdfdfdf.
+   * Show edit and create variable page.
    * 
-   * @return fgfgfgfg
+   * @return modify.html
    */
   @RequestMapping(method = RequestMethod.GET)
   public Callable<ModelAndView> get(
@@ -71,9 +67,9 @@ public class VariableModifyController {
   }
 
   /**
-   * adding sdsdsds.
+   * add an answer option to the variable.
    * 
-   * @return sdsdsdsd
+   * @return modify.html
    */
   @RequestMapping(method = RequestMethod.POST, params = {"addOption"})
   public Callable<ModelAndView> addAnswerOption(
@@ -93,9 +89,9 @@ public class VariableModifyController {
   }
 
   /**
-   * add sdsdsds.
+   * remove an answer option from the variable.
    * 
-   * @return sdsdsdsd
+   * @return modify.html
    */
   @RequestMapping(method = RequestMethod.POST, params = {"removeOption"})
   public Callable<ModelAndView> removeAnswerOption(
@@ -121,9 +117,9 @@ public class VariableModifyController {
   }
 
   /**
-   * reset sdsdsds.
+   * reload the create and edit dialog.
    * 
-   * @return sdsdsdsd
+   * @return modify.html
    */
   @RequestMapping(method = RequestMethod.POST, params = {"reset"})
   public Callable<ModelAndView> reset() {
@@ -134,11 +130,9 @@ public class VariableModifyController {
   }
 
   /**
-   * dfdfdfdfdf.
+   * save a valid variable document.
    * 
-   * @param variableDocument fgfgfgfg
-   * @param bindingResult fgfggfgf
-   * @return fgfgfgfg
+   * @return variableDetails.html or modify.html
    */
   @RequestMapping(method = RequestMethod.POST)
   public Callable<ModelAndView> postVariableDocument(
@@ -164,7 +158,7 @@ public class VariableModifyController {
   }
 
   /**
-   * dsdsdsdsd.
+   * create a new variable document.
    * 
    * @return VariableDocument
    */
