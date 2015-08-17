@@ -26,7 +26,7 @@ public class PathLocaleResolverTest {
   private PathLocaleResolver pathLocaleResolver;
 
   @Before
-  public void setUp() {
+  public void createPathLocalResolver() {
     pathLocaleResolver = new PathLocaleResolver();
   }
 

@@ -162,7 +162,7 @@ public class ElasticSearchPopulator implements ApplicationListener<ContextRefres
       String mapping = new String(FileCopyUtils.copyToByteArray(resourceLoader
           .getResource(
               "classpath:data/" + currentLocale.getLanguage() + "/mappings/" + type + ".json")
-          .getInputStream()));
+          .getInputStream()), "UTF-8");
       elasticsearchTemplate.putMapping(class1, mapping);
       createdMappings.add(class1);
     }

@@ -43,4 +43,41 @@ public class AnswerOption {
     this.label = label;
   }
 
+  @Override
+  public int hashCode() {
+    final int prime = 31;
+    int result = 1;
+    result = prime * result + ((this.code == null) ? 0 : this.code.hashCode());
+    result = prime * result + ((this.label == null) ? 0 : this.label.hashCode());
+    return result;
+  }
+
+  @Override
+  public boolean equals(Object obj) {
+    if (this == obj) {
+      return true;
+    }
+    if (obj == null) {
+      return false;
+    }
+    if (getClass() != obj.getClass()) {
+      return false;
+    }
+    AnswerOption other = (AnswerOption) obj;
+    if (this.code == null) {
+      if (other.code != null) {
+        return false;
+      }
+    } else if (!this.code.equals(other.code)) {
+      return false;
+    }
+    if (this.label == null) {
+      if (other.label != null) {
+        return false;
+      }
+    } else if (!this.label.equals(other.label)) {
+      return false;
+    }
+    return true;
+  }
 }

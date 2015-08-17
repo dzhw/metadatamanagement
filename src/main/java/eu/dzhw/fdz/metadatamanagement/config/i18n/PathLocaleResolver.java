@@ -35,28 +35,30 @@ public class PathLocaleResolver implements LocaleResolver {
    * @param servletRequest the complete servlet request
    */
   private void parsePathIfNecessary(HttpServletRequest servletRequest) {
-
-    String url = servletRequest.getRequestURI().substring(servletRequest.getContextPath().length());
-    Optional<Locale> supportedLocale = I18nConfiguration.SUPPORTED_LANGUAGES.stream()
-        .filter(locale -> url.startsWith("/" + locale.getLanguage())).findAny();
-    if (supportedLocale.isPresent()) {
-      servletRequest.setAttribute(LOCALE_ATTRIBUTE, supportedLocale.get());
-      return;
-    }
-
-    // get all locales from the clients accept header
-    Enumeration<Locale> acceptedLocales = servletRequest.getLocales();
-
-    while (acceptedLocales.hasMoreElements()) {
-      Locale acceptedLocale = acceptedLocales.nextElement();
-      if (I18nConfiguration.SUPPORTED_LANGUAGES.contains(acceptedLocale)) {
-        // return the accept-header locale if supported
-        servletRequest.setAttribute(LOCALE_ATTRIBUTE, acceptedLocale);
+    if (servletRequest.getAttribute(LOCALE_ATTRIBUTE) == null) {
+      String url =
+          servletRequest.getRequestURI().substring(servletRequest.getContextPath().length());
+      Optional<Locale> supportedLocale = I18nConfiguration.SUPPORTED_LANGUAGES.stream()
+          .filter(locale -> url.startsWith("/" + locale.getLanguage())).findAny();
+      if (supportedLocale.isPresent()) {
+        servletRequest.setAttribute(LOCALE_ATTRIBUTE, supportedLocale.get());
         return;
       }
+
+      // get all locales from the clients accept header
+      Enumeration<Locale> acceptedLocales = servletRequest.getLocales();
+
+      while (acceptedLocales.hasMoreElements()) {
+        Locale acceptedLocale = acceptedLocales.nextElement();
+        if (I18nConfiguration.SUPPORTED_LANGUAGES.contains(acceptedLocale)) {
+          // return the accept-header locale if supported
+          servletRequest.setAttribute(LOCALE_ATTRIBUTE, acceptedLocale);
+          return;
+        }
+      }
+      // use english as the default locale
+      servletRequest.setAttribute(LOCALE_ATTRIBUTE, I18nConfiguration.DEFAULT_LOCALE);
     }
-    // use english as the default locale
-    servletRequest.setAttribute(LOCALE_ATTRIBUTE, I18nConfiguration.DEFAULT_LOCALE);
   }
 
   @Override

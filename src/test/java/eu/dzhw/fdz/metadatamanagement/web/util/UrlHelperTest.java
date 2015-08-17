@@ -5,10 +5,8 @@ import static org.hamcrest.Matchers.is;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 
-import org.junit.Before;
 import org.junit.Test;
 
 /**
@@ -18,12 +16,7 @@ import org.junit.Test;
  */
 public class UrlHelperTest {
 
-  private UrlHelper urlHelper;
-
-  @Before
-  public void setup() throws ServletException {
-    urlHelper = new UrlHelper();
-  }
+  private UrlHelper urlHelper = new UrlHelper();
 
   @Test
   public void testWithQueryParam() {

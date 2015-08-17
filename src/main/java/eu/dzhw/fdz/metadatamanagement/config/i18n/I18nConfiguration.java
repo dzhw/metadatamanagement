@@ -1,5 +1,6 @@
 package eu.dzhw.fdz.metadatamanagement.config.i18n;
 
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.Locale;
 import java.util.Set;
@@ -23,9 +24,10 @@ public class I18nConfiguration extends WebMvcConfigurerAdapter {
   public static final Locale DEFAULT_LOCALE = Locale.ENGLISH;
 
   static {
-    SUPPORTED_LANGUAGES = new HashSet<>(2);
-    SUPPORTED_LANGUAGES.add(Locale.ENGLISH);
-    SUPPORTED_LANGUAGES.add(Locale.GERMAN);
+    Set<Locale> temp = new HashSet<>(2);
+    temp.add(Locale.ENGLISH);
+    temp.add(Locale.GERMAN);
+    SUPPORTED_LANGUAGES = Collections.unmodifiableSet(temp);
   }
 
   public I18nConfiguration() {

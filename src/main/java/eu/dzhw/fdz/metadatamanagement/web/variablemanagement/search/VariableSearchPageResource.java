@@ -44,4 +44,34 @@ public class VariableSearchPageResource extends NavigatablePageResource<Variable
   public PagedResources<VariableResource> getPage() {
     return this.page;
   }
+
+  @Override
+  public int hashCode() {
+    final int prime = 31;
+    int result = super.hashCode();
+    result = prime * result + ((this.page == null) ? 0 : this.page.hashCode());
+    return result;
+  }
+
+  @Override
+  public boolean equals(Object obj) {
+    if (this == obj) {
+      return true;
+    }
+    if (!super.equals(obj)) {
+      return false;
+    }
+    if (getClass() != obj.getClass()) {
+      return false;
+    }
+    VariableSearchPageResource other = (VariableSearchPageResource) obj;
+    if (this.page == null) {
+      if (other.page != null) {
+        return false;
+      }
+    } else if (!this.page.equals(other.page)) {
+      return false;
+    }
+    return true;
+  }
 }

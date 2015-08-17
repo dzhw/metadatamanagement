@@ -225,7 +225,7 @@
         <executions>
           <execution>
             <id>findbugs</id>
-            <phase>validate</phase>
+            <phase>compile</phase>
             <goals>
               <goal>check</goal>
             </goals>

@@ -28,7 +28,6 @@ import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.validati
     type = "variables")
 @NotNullScaleLevelOnNumericDataType
 public class VariableDocument extends AbstractDocument {
-
   // Public constants which are used in queries as fieldnames.
   public static final String ALL_STRINGS_AS_NGRAMS_FIELD = "allStringsAsNgrams";
   public static final String NAME_FIELD = "name";
@@ -79,7 +78,7 @@ public class VariableDocument extends AbstractDocument {
    */
   @Size(max = 80)
   private String label;
-  
+
   /**
    * This field holds the questions of the variable.
    */
@@ -166,8 +165,87 @@ public class VariableDocument extends AbstractDocument {
   public String getQuestion() {
     return question;
   }
-  
+
   public void setQuestion(String question) {
     this.question = question;
+  }
+
+  @Override
+  public int hashCode() {
+    final int prime = 31;
+    int result = 1;
+    result = prime * result + ((this.answerOptions == null) ? 0 : this.answerOptions.hashCode());
+    result = prime * result + ((this.dataType == null) ? 0 : this.dataType.hashCode());
+    result = prime * result + ((this.label == null) ? 0 : this.label.hashCode());
+    result = prime * result + ((this.name == null) ? 0 : this.name.hashCode());
+    result = prime * result + ((this.question == null) ? 0 : this.question.hashCode());
+    result = prime * result + ((this.scaleLevel == null) ? 0 : this.scaleLevel.hashCode());
+    result = prime * result + ((this.variableSurvey == null) ? 0 : this.variableSurvey.hashCode());
+    return result;
+  }
+
+
+  @Override
+  public boolean equals(Object obj) {
+    if (this == obj) {
+      return true;
+    }
+    if (obj == null) {
+      return false;
+    }
+    if (getClass() != obj.getClass()) {
+      return false;
+    }
+    VariableDocument other = (VariableDocument) obj;
+    if (this.answerOptions == null) {
+      if (other.answerOptions != null) {
+        return false;
+      }
+    } else if (!this.answerOptions.equals(other.answerOptions)) {
+      return false;
+    }
+    if (this.dataType == null) {
+      if (other.dataType != null) {
+        return false;
+      }
+    } else if (!this.dataType.equals(other.dataType)) {
+      return false;
+    }
+    if (this.label == null) {
+      if (other.label != null) {
+        return false;
+      }
+    } else if (!this.label.equals(other.label)) {
+      return false;
+    }
+    if (this.name == null) {
+      if (other.name != null) {
+        return false;
+      }
+    } else if (!this.name.equals(other.name)) {
+      return false;
+    }
+    if (this.question == null) {
+      if (other.question != null) {
+        return false;
+      }
+    } else if (!this.question.equals(other.question)) {
+      return false;
+    }
+    if (this.scaleLevel == null) {
+      if (other.scaleLevel != null) {
+        return false;
+      }
+    } else if (!this.scaleLevel.equals(other.scaleLevel)) {
+      return false;
+    }
+    if (this.variableSurvey == null) {
+      if (other.variableSurvey != null) {
+        return false;
+      }
+    } else if (!this.variableSurvey.equals(other.variableSurvey)) {
+      return false;
+    }
+    return true;
   }
 }

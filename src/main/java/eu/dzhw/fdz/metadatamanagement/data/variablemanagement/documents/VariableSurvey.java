@@ -100,4 +100,59 @@ public class VariableSurvey {
   public void setSurveyPeriod(DateRange surveyPeriod) {
     this.surveyPeriod = surveyPeriod;
   }
+
+
+  @Override
+  public int hashCode() {
+    final int prime = 31;
+    int result = 1;
+    result = prime * result + ((this.surveyId == null) ? 0 : this.surveyId.hashCode());
+    result = prime * result + ((this.surveyPeriod == null) ? 0 : this.surveyPeriod.hashCode());
+    result = prime * result + ((this.title == null) ? 0 : this.title.hashCode());
+    result = prime * result + ((this.variableAlias == null) ? 0 : this.variableAlias.hashCode());
+    return result;
+  }
+
+  @Override
+  public boolean equals(Object obj) {
+    if (this == obj) {
+      return true;
+    }
+    if (obj == null) {
+      return false;
+    }
+    if (getClass() != obj.getClass()) {
+      return false;
+    }
+    VariableSurvey other = (VariableSurvey) obj;
+    if (this.surveyId == null) {
+      if (other.surveyId != null) {
+        return false;
+      }
+    } else if (!this.surveyId.equals(other.surveyId)) {
+      return false;
+    }
+    if (this.surveyPeriod == null) {
+      if (other.surveyPeriod != null) {
+        return false;
+      }
+    } else if (!this.surveyPeriod.equals(other.surveyPeriod)) {
+      return false;
+    }
+    if (this.title == null) {
+      if (other.title != null) {
+        return false;
+      }
+    } else if (!this.title.equals(other.title)) {
+      return false;
+    }
+    if (this.variableAlias == null) {
+      if (other.variableAlias != null) {
+        return false;
+      }
+    } else if (!this.variableAlias.equals(other.variableAlias)) {
+      return false;
+    }
+    return true;
+  }
 }

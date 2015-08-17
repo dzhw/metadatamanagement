@@ -57,8 +57,8 @@ public class VariableDocumentTest extends AbstractWebTest {
           + variableVialation.getMessage());
 
       assertThat(variableVialation.getMessageTemplate(),
-          anyOf(equalTo("{org.hibernate.validator.constraints.NotEmpty.message}"), equalTo(
-              "{org.hibernate.validator.constraints.NotBlank.message}")));
+          anyOf(equalTo("{org.hibernate.validator.constraints.NotEmpty.message}"),
+              equalTo("{org.hibernate.validator.constraints.NotBlank.message}")));
     }
   }
 
@@ -336,19 +336,18 @@ public class VariableDocumentTest extends AbstractWebTest {
     boolean foundNotNull = false;
     while (ite.hasNext()) {
       String msgTemplate = ite.next().getMessageTemplate();
-      
+
       LOGGER.debug("testInvalidLabelAtAnswerOption() " + msgTemplate);
-      
+
       if (msgTemplate.equals("{javax.validation.constraints.Size.message}") && !foundSize) {
         foundSize = true;
       }
-      if (msgTemplate.equals("{javax.validation.constraints.NotNull.message}")
-          && !foundNotNull) {
+      if (msgTemplate.equals("{javax.validation.constraints.NotNull.message}") && !foundNotNull) {
         foundNotNull = true;
       }
     }
     assertEquals(true, foundSize);
-    assertEquals(true, foundNotNull); 
+    assertEquals(true, foundNotNull);
   }
 
   @Test
@@ -361,8 +360,7 @@ public class VariableDocumentTest extends AbstractWebTest {
     variableDocument.setQuestion("DefaultQuestion?");
     AnswerOption answerOption = new AnswerOption();
     answerOption.setLabel("This label is okay.");
-    answerOption
-        .setCode(null);
+    answerOption.setCode(null);
     List<AnswerOption> answerOptions = new ArrayList<>();
     answerOptions.add(answerOption);
     variableDocument.setAnswerOptions(answerOptions);
@@ -405,9 +403,9 @@ public class VariableDocumentTest extends AbstractWebTest {
     // Assert
     assertEquals(0, variableViolations.size());
     assertEquals("Label is okay.", variableDocument.getAnswerOptions().get(0).getLabel());
-    assertEquals(new Integer(5), variableDocument.getAnswerOptions().get(0).getCode());
+    assertEquals(Integer.valueOf(5), variableDocument.getAnswerOptions().get(0).getCode());
   }
-  
+
   @Test
   public void testInvalidAnswerOptionWithANullCode() {
 
@@ -470,9 +468,10 @@ public class VariableDocumentTest extends AbstractWebTest {
           + variableVialation.getMessageTemplate() + " -> " + variableVialation.getMessage());
 
       assertThat(variableVialation.getMessageTemplate(),
-          anyOf(equalTo("{org.hibernate.validator.constraints.NotBlank.message}"), equalTo(
-              "{eu.dzhw.fdz.metadatamanagement.data.variablemanagement."
-              + "documents.validation.uniquevariablealias.message}"), equalTo("{javax.validation.constraints.NotNull.message}")));
+          anyOf(equalTo("{org.hibernate.validator.constraints.NotBlank.message}"),
+              equalTo("{eu.dzhw.fdz.metadatamanagement.data.variablemanagement."
+                  + "documents.validation.uniquevariablealias.message}"),
+          equalTo("{javax.validation.constraints.NotNull.message}")));
 
     }
   }
@@ -634,7 +633,7 @@ public class VariableDocumentTest extends AbstractWebTest {
 
       assertEquals(
           "{eu.dzhw.fdz.metadatamanagement.data.variablemanagement."
-          + "common.validation.validdaterange.message}",
+              + "common.validation.validdaterange.message}",
           variableVialation.getMessageTemplate());
     }
   }
@@ -680,7 +679,7 @@ public class VariableDocumentTest extends AbstractWebTest {
     variableDocument.getVariableSurvey().setTitle("TitleIsOkay.");
     variableDocument.getVariableSurvey().setVariableAlias(variableDocument.getName());
     variableDocument.getVariableSurvey().setSurveyPeriod(new DateRange());
-    
+
     // set a date, but without a start and end date
     variableDocument.getVariableSurvey().setSurveyPeriod(new DateRange());
 
@@ -758,14 +757,14 @@ public class VariableDocumentTest extends AbstractWebTest {
             + "name=null, dataType=null, label=null, scaleLevel=null, answerOptions=[]]",
         variableDocument.toString());
   }
-  
+
   @Test
-  public void testInvalidVariableDocumentWithEmptyQuest(){
+  public void testInvalidVariableDocumentWithEmptyQuest() {
     // Arrange
     VariableDocument variableDocument = new VariableDocument();
     variableDocument.setId("ThisIDisOkay");
     variableDocument.setName("ThisNameIsOkay.");
-    
+
     // Act
     Set<ConstraintViolation<VariableDocument>> variableViolations =
         this.validator.validate(variableDocument);
