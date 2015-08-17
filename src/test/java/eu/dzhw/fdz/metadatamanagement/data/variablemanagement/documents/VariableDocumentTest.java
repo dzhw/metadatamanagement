@@ -351,7 +351,6 @@ public class VariableDocumentTest extends AbstractWebTest {
     assertEquals(true, foundNotNull); 
   }
 
-
   @Test
   public void testInvalidCodeAtAnswerOption() {
 
@@ -407,6 +406,45 @@ public class VariableDocumentTest extends AbstractWebTest {
     assertEquals(0, variableViolations.size());
     assertEquals("Label is okay.", variableDocument.getAnswerOptions().get(0).getLabel());
     assertEquals(new Integer(5), variableDocument.getAnswerOptions().get(0).getCode());
+  }
+  
+  @Test
+  public void testInvalidAnswerOptionWithANullCode() {
+
+    // Arrange
+    VariableDocument variableDocument = new VariableDocument();
+    variableDocument.setId("ThisIDisOkay");
+    variableDocument.setName("ThisNameIsOkay.");
+    variableDocument.setQuestion("DefaultQuestion?");
+    AnswerOption answerOption = new AnswerOption();
+    answerOption.setCode(5);
+    answerOption.setLabel("Label is okay.");
+    AnswerOption answerOption1 = new AnswerOption();
+    answerOption1.setCode(null);
+    answerOption1.setLabel("Label is okay.");
+    AnswerOption answerOption2 = new AnswerOption();
+    answerOption2.setCode(2);
+    answerOption2.setLabel("Label is okay.");
+    List<AnswerOption> answerOptions = new ArrayList<>();
+    answerOptions.add(answerOption);
+    answerOptions.add(answerOption1);
+    answerOptions.add(answerOption2);
+    variableDocument.setAnswerOptions(answerOptions);
+
+    // Act
+    Set<ConstraintViolation<VariableDocument>> variableViolations =
+        this.validator.validate(variableDocument);
+
+    // Assert
+    assertEquals(1, variableViolations.size());
+    for (ConstraintViolation<VariableDocument> variableVialation : variableViolations) {
+
+      LOGGER.debug("testInvalidLabelAtAnswerOption() " + variableVialation.getMessageTemplate()
+          + " -> " + variableVialation.getMessage());
+
+      assertEquals("{javax.validation.constraints.NotNull.message}",
+          variableVialation.getMessageTemplate());
+    }
   }
 
   @Test

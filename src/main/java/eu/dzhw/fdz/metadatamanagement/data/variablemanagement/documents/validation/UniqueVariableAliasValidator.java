@@ -40,10 +40,8 @@ public class UniqueVariableAliasValidator
   @Override
   public boolean isValid(VariableSurvey variableSurvey, ConstraintValidatorContext context) {
 
-    // No needed field
-    if (variableSurvey == null) {
-      return true;
-    }
+    // A check for null is not necessary, because it is a type annotation. it can only be checked by
+    // initialized objects
 
     // Both are not empty fields -> no valid if there are null
     if (variableSurvey.getSurveyId() == null || variableSurvey.getVariableAlias() == null) {
