@@ -9,11 +9,12 @@
 				"startDate": "2015-08-01",
 				"endDate": "2015-08-13"
 			},
-			"alias": "country"
+			"variableAlias": "con"
 		},
 		"name": "country",
 		"dataType": "NUMERIC",
-		"label": "Land",
+		"label": "country",
+		"question": "What country do you live in?",
 		"scaleLevel": "NOMINAL",
 		"answerOptions": [
 			{
@@ -76,11 +77,12 @@
 				"startDate": "2015-08-01",
 				"endDate": "2015-08-13"
 			},
-			"alias": "Physical health"
+			"variableAlias": "phhe"
 		},
 		"name": "ph005",
 		"dataType": "NUMERIC",
-		"label": "For the past six months at least, to what extent have you been limited because of health problems in activities people usually do?",
+		"label": "Physical health",
+		"question": "For the past six months at least, to what extent have you been limited because of health problems in activities people usually do?",
 		"scaleLevel": "ORDINAL",
 		"answerOptions": [
 			{
@@ -119,11 +121,12 @@
 				"startDate": "2015-08-01",
 				"endDate": "2015-08-13"
 			},
-			"alias": "Behavioural risk"
+			"variableAlias": "beri"
 		},
 		"name": "br010",
 		"dataType": "NUMERIC",
-		"label": "Please look at card 11. During the last six months, how often have you drunk any alcoholic beverages, like beer, cider, wine, spirits or cocktails?",
+		"label": "Behavioural risk",
+		"question": "Please look at card 11. During the last six months, how often have you drunk any alcoholic beverages, like beer, cider, wine, spirits or cocktails?",
 		"scaleLevel": "ORDINAL",
 		"answerOptions": [
 			{
@@ -178,11 +181,12 @@
 				"startDate": "2015-08-01",
 				"endDate": "2015-08-13"
 			},
-			"alias": "cognitive function"
+			"variableAlias": "cofu"
 		},
 		"name": "cf012",
 		"dataType": "NUMERIC",
-		"label": "If the chance of getting a disease is 10 per cent, how many people out of 1,000 (one thousand) would be expected to get the disease?",
+		"label": "cognitive function",
+		"question": "If the chance of getting a disease is 10 per cent, how many people out of 1,000 (one thousand) would be expected to get the disease?",
 		"scaleLevel": "NOMINAL",
 		"answerOptions": [
 			{
@@ -229,11 +233,12 @@
 				"startDate": "2015-08-01",
 				"endDate": "2015-08-13"
 			},
-			"alias": "mental health"
+			"variableAlias": "mehe"
 		},
 		"name": "mh013",
 		"dataType": "NUMERIC",
-		"label": "In the last month, have you had too little energy to do the things you wanted to do?",
+		"label": "mental health",
+		"question": "In the last month, have you had too little energy to do the things you wanted to do?",
 		"scaleLevel": "NOMINAL",
 		"answerOptions": [
 			{
@@ -268,11 +273,12 @@
 				"startDate": "2015-08-01",
 				"endDate": "2015-08-13"
 			},
-			"alias": "Health care"
+			"variableAlias": "heca"
 		},
 		"name": "hc005",
 		"dataType": "NUMERIC",
-		"label": "Which of these specialists did you consult most recently?",
+		"label": "Health care",
+		"question": "Which of these specialists did you consult most recently?",
 		"scaleLevel": "NOMINAL",
 		"answerOptions": [
 			{
@@ -351,11 +357,12 @@
 				"startDate": "2015-08-01",
 				"endDate": "2015-08-13"
 			},
-			"alias": "Working time"
+			"variableAlias": "woti"
 		},
 		"name": "ep012_1",
 		"dataType": "NUMERIC",
-		"label": "What are your total basic or contracted hours each week in this job, excluding meal breaks and any paid or unpaid overtime?",
+		"label": "Working time",
+		"question": "What are your total basic or contracted hours each week in this job, excluding meal breaks and any paid or unpaid overtime?",
 		"scaleLevel": "METRIC",
 		"answerOptions": [
 			{
@@ -386,11 +393,12 @@
 				"startDate": "2015-08-01",
 				"endDate": "2015-08-13"
 			},
-			"alias": "test ability"
+			"variableAlias": "teab"
 		},
 		"name": "ws003",
 		"dataType": "NUMERIC",
-		"label": "Do you have any problems from recent surgery, an injury, or other health conditions that might prevent you from walking?",
+		"label": "test ability",
+		"question": "Do you have any problems from recent surgery, an injury, or other health conditions that might prevent you from walking?",
 		"scaleLevel": "NOMINAL",
 		"answerOptions": [
 			{
@@ -433,11 +441,12 @@
 				"startDate": "2015-08-01",
 				"endDate": "2015-08-13"
 			},
-			"alias": "child1 living"
+			"variableAlias": "ch1li"
 		},
 		"name": "ch007",
 		"dataType": "NUMERIC",
-		"label": "Where does child 1 live?",
+		"label": "child1 living",
+		"question": "Where does child 1 live?",
 		"scaleLevel": "ORDINAL",
 		"answerOptions": [
 			{
@@ -500,11 +509,12 @@
 				"startDate": "2015-08-01",
 				"endDate": "2015-08-13"
 			},
-			"alias": "help not household"
+			"variableAlias": "henho"
 		},
 		"name": "sp003_1",
 		"dataType": "NUMERIC ",
-		"label": "Which family member from outside the household, friend or neighbour has helped you or your husband/wife/partner in the last twelve months?",
+		"label": "help not household",
+		"question": "Which family member from outside the household, friend or neighbour has helped you or your husband/wife/partner in the last twelve months?",
 		"scaleLevel": "NOMINAL",
 		"answerOptions": [
 			{
@@ -663,11 +673,12 @@
 				"startDate": "2015-08-01",
 				"endDate": "2015-08-13"
 			},
-			"alias": "Amount Person 1"
+			"variableAlias": "ampe"
 		},
 		"name": "ft004ub1",
 		"dataType": "NUMERIC",
-		"label": "About how much did you or your husband/wife/partner give to this person altogether in the last twelve months?",
+		"label": "Amount Person 1",
+		"question": "About how much did you or your husband/wife/partner give to this person altogether in the last twelve months?",
 		"scaleLevel": "ORDINAL",
 		"answerOptions": [
 			{
@@ -722,11 +733,12 @@
 				"startDate": "2015-08-01",
 				"endDate": "2015-08-13"
 			},
-			"alias": "building household"
+			"variableAlias": "buho"
 		},
 		"name": "ho036",
 		"dataType": "NUMERIC",
-		"label": "What type of building does your household live in?",
+		"label": "building household",
+		"question": "What type of building does your household live in?",
 		"scaleLevel": "NOMINAL",
 		"answerOptions": [
 			{
@@ -785,11 +797,12 @@
 				"startDate": "2015-08-01",
 				"endDate": "2015-08-13"
 			},
-			"alias": "Social Payments"
+			"variableAlias": "sopa"
 		},
 		"name": "hh010",
 		"dataType": "NUMERIC",
-		"label": "Some households receive payments such as housing allowances, child benefits, poverty relief etc. Did your household or anyone in your household receive any such payments in 2003?",
+		"label": "Social Payments",
+		"question": "Some households receive payments such as housing allowances, child benefits, poverty relief etc. Did your household or anyone in your household receive any such payments in 2003?",
 		"scaleLevel": "NOMINAL",
 		"answerOptions": [
 			{
@@ -824,11 +837,12 @@
 				"startDate": "2015-08-01",
 				"endDate": "2015-08-13"
 			},
-			"alias": "make ends meet"
+			"variableAlias": "mem"
 		},
 		"name": "co007",
 		"dataType": "NUMERIC",
-		"label": "Thinking of your household’s total monthly income, would you say that your household is able to make ends meet …",
+		"label": "make ends meet",
+		"question": "Thinking of your household’s total monthly income, would you say that your household is able to make ends meet …",
 		"scaleLevel": "ORDINAL",
 		"answerOptions": [
 			{
@@ -871,11 +885,12 @@
 				"startDate": "2015-08-01",
 				"endDate": "2015-08-13"
 			},
-			"alias": "mutual funds"
+			"variableAlias": "mufu"
 		},
 		"name": "as017ub",
 		"dataType": "NUMERIC",
-		"label": "About how much did you or your husband/wife/partner have in mutual funds or managed investment accounts at the end of 2003?",
+		"label": "mutual funds",
+		"question": "About how much did you or your husband/wife/partner have in mutual funds or managed investment accounts at the end of 2003?",
 		"scaleLevel": "ORDINAL",
 		"answerOptions": [
 			{
@@ -930,11 +945,12 @@
 				"startDate": "2015-08-01",
 				"endDate": "2015-08-13"
 			},
-			"alias": "political organisation"
+			"variableAlias": "poor"
 		},
 		"name": "ac003_7",
 		"dataType": "NUMERIC",
-		"label": "How often in the last four weeks have you taken part in a political or community-related organisation?",
+		"label": "political organisation",
+		"question": "How often in the last four weeks have you taken part in a political or community-related organisation?",
 		"scaleLevel": "ORDINAL",
 		"answerOptions": [
 			{

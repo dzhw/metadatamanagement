@@ -5,15 +5,16 @@
 		"variableSurvey": {
 			"surveyId": "Ge_ALL_04",
 			"title": "ALLBUS 2014",
-		"surveyPeriod": {
+			"surveyPeriod": {
 				"startDate": "2014-03-01",
 				"endDate": "2014-09-30"
 			},
-			"variableAlias": "Schicht"
+			"variableAlias": "class"
 		},
 		"name": "V850",
 		"dataType": "NUMERIC",
-		"label": "Zu welcher Schicht gehört Ihrer Meinung nach der Haushalt? Vermutlich zur",
+		"label": "Schichtzugehörigkeit",
+		"question": "Zu welcher Schicht gehört Ihrer Meinung nach der Haushalt? Vermutlich zur",
 		"scaleLevel": "ORDINAL",
 		"answerOptions": [
 			{
@@ -48,15 +49,16 @@
 		"variableSurvey": {
 			"surveyId": "Ge_ALL_04",
 			"title": "ALLBUS 2014",
-		"surveyPeriod": {
+			"surveyPeriod": {
 				"startDate": "2014-03-01",
 				"endDate": "2014-09-30"
 			},
-			"variableAlias": "Geschlecht"
+			"variableAlias": "sex"
 		},
 		"name": "V81",
 		"dataType": "NUMERIC",
-		"label": "Geschlecht der befragten Person ohne Befragen eintragen!",
+		"label": "Geschlecht",
+		"question": "Geschlecht der befragten Person ohne Befragen eintragen!",
 		"scaleLevel": "NOMINAL",
 		"answerOptions": [
 			{
@@ -75,15 +77,16 @@
 		"variableSurvey": {
 			"surveyId": "Ge_ALL_04",
 			"title": "ALLBUS 2014",
-		"surveyPeriod": {
+			"surveyPeriod": {
 				"startDate": "2014-03-01",
 				"endDate": "2014-09-30"
 			},
-			"variableAlias": "Fachhochschulabschluss"
+			"variableAlias": "hiedu"
 		},
 		"name": "V100",
 		"dataType": "NUMERIC",
-		"label": "Um welche Art von Fachhochschulabschluss handelt es sich dabei? Bitte nennen Sie mir nur den höchsten Abschluss, den Sie erlangt haben.",
+		"label": "Hochschulabschluss",
+		"question": "Um welche Art von Fachhochschulabschluss handelt es sich dabei? Bitte nennen Sie mir nur den höchsten Abschluss, den Sie erlangt haben.",
 		"scaleLevel": "ORDINAL",
 		"answerOptions": [
 			{
@@ -130,15 +133,16 @@
 		"variableSurvey": {
 			"surveyId": "Ge_ALL_04",
 			"title": "ALLBUS 2014",
-		"surveyPeriod": {
+			"surveyPeriod": {
 				"startDate": "2014-03-01",
 				"endDate": "2014-09-30"
 			},
-			"variableAlias": "Arbeitsstunden"
+			"variableAlias": "workh"
 		},
 		"name": "V118",
 		"dataType": "NUMERIC",
-		"label": "Wie viele Stunden pro Woche arbeiten Sie normalerweise in Ihrem Hauptberuf, einschließlich Überstunden?",
+		"label": "Arbeitsstunden (hauptberuflich)",
+		"question": "Wie viele Stunden pro Woche arbeiten Sie normalerweise in Ihrem Hauptberuf, einschließlich Überstunden?",
 		"scaleLevel": "METRIC",
 		"answerOptions": [
 			{
@@ -146,11 +150,11 @@
 				"label": "Stunden pro Wochen"
 			},
 			{
-				"code": "999",
+				"code": "998",
 				"label": "nicht erwerbstätig"
 			},
 			{
-				"code": "996",
+				"code": "999",
 				"label": "keine Angabe"
 			}
 		]
@@ -161,15 +165,16 @@
 		"variableSurvey": {
 			"surveyId": "Ge_ALL_04",
 			"title": "ALLBUS 2014",
-		"surveyPeriod": {
+			"surveyPeriod": {
 				"startDate": "2014-03-01",
 				"endDate": "2014-09-30"
 			},
-			"variableAlias": "BeaufsichtigtePersonen"
+			"variableAlias": "supper"
 		},
 		"name": "V124",
 		"dataType": "NUMERIC",
-		"label": "Wie viele Personen beaufsichtigen Sie direkt?",
+		"label": "Beaufsichtigte Personen",
+		"question": "Wie viele Personen beaufsichtigen Sie direkt?",
 		"scaleLevel": "ORDINAL",
 		"answerOptions": [
 			{
@@ -216,15 +221,16 @@
 		"variableSurvey": {
 			"surveyId": "Ge_ALL_04",
 			"title": "ALLBUS 2014",
-		"surveyPeriod": {
+			"surveyPeriod": {
 				"startDate": "2014-03-01",
 				"endDate": "2014-09-30"
 			},
-			"variableAlias": "StellungVater"
+			"variableAlias": "clacomp"
 		},
 		"name": "V131",
 		"dataType": "NUMERIC",
-		"label": "Wenn Sie Ihre heutige berufliche Stellung mit der Ihres Vaters vergleichen, wie schätzen Sie Ihreeigene berufliche Stellung ein: viel höher, etwas höher, ungefähr gleich, etwas niedriger, vielniedriger?",
+		"label": "Stellungsvergleich(Vater)",
+		"question": "Wenn Sie Ihre heutige berufliche Stellung mit der Ihres Vaters vergleichen, wie schätzen Sie Ihreeigene berufliche Stellung ein: viel höher, etwas höher, ungefähr gleich, etwas niedriger, vielniedriger?",
 		"scaleLevel": "ORDINAL",
 		"answerOptions": [
 			{
@@ -267,15 +273,16 @@
 		"variableSurvey": {
 			"surveyId": "Ge_ALL_04",
 			"title": "ALLBUS 2014",
-		"surveyPeriod": {
+			"surveyPeriod": {
 				"startDate": "2014-03-01",
 				"endDate": "2014-09-30"
 			},
-			"variableAlias": "Staatsbürgerschaft"
+			"variableAlias": "citsh"
 		},
 		"name": "V370",
 		"dataType": "NUMERIC",
-		"label": "Welche Staatsbürgerschaft haben Sie? Wenn Sie die Staatsbürgerschaft mehrerer Länder besitzen, nennen Sie mir bitte alle.",
+		"label": "Staatsbürgerschaft",
+		"question": "Welche Staatsbürgerschaft haben Sie? Wenn Sie die Staatsbürgerschaft mehrerer Länder besitzen, nennen Sie mir bitte alle.",
 		"scaleLevel": "NOMINAL",
 		"answerOptions": [
 			{
@@ -378,15 +385,16 @@
 		"variableSurvey": {
 			"surveyId": "Ge_ALL_04",
 			"title": "ALLBUS 2014",
-		"surveyPeriod": {
+			"surveyPeriod": {
 				"startDate": "2014-03-01",
 				"endDate": "2014-09-30"
 			},
-			"variableAlias": "LinksRechts"
+			"variableAlias": "poldir"
 		},
 		"name": "V215",
 		"dataType": "NUMERIC",
-		"label": "Wenn Sie an Ihre eigenen politischen Ansichten denken, wo würden Sie diese Ansichten auf dieser Skala einstufen?",
+		"label": "Politische Ausrichtung",
+		"question": "Wenn Sie an Ihre eigenen politischen Ansichten denken, wo würden Sie diese Ansichten auf dieser Skala einstufen?",
 		"scaleLevel": "ORDINAL",
 		"answerOptions": [
 			{
@@ -440,24 +448,25 @@
 		"id": "FdZ_ID09",
 		"variableSurvey": {
 			"surveyId": "DZHW_AP_01",
-			"title": "Absolbentenpanel 2001",
-		"surveyPeriod": {
+			"title": "Absolventenpanel 2001",
+			"surveyPeriod": {
 				"startDate": "2000-08-01",
 				"endDate": "2001-09-30"
 			},
-			"variableAlias": "ID"
+			"variableAlias": "id"
 		},
 		"name": "id_suf",
 		"dataType": "NUMERIC",
-		"label": "Identifikationsnummer",
+		"label": "ID",
+		"question": "Identifikationsnummer",
 		"scaleLevel": "METRIC",
 		"answerOptions": [
 			{
-				"code": "-1",
+				"code": "0",
 				"label": "NA"
 			},
 			{
-				"code": "-1",
+				"code": "0",
 				"label": "NA"
 			}
 		]
@@ -467,16 +476,17 @@
 		"id": "FdZ_ID10",
 		"variableSurvey": {
 			"surveyId": "DZHW_AP_01",
-			"title": "Absolbentenpanel 2001",
-		"surveyPeriod": {
+			"title": "Absolventenpanel 2001",
+			"surveyPeriod": {
 				"startDate": "2000-08-01",
 				"endDate": "2001-09-30"
 			},
-			"variableAlias": "Strukturiertheit"
+			"variableAlias": "stuev"
 		},
 		"name": "a1sitstruk",
 		"dataType": "NUMERIC",
-		"label": "Wie beurteilen Sie folgenden Aspekte Ihres Studiums? Strukturiertheit",
+		"label": "Studiumsbeurteilung (Strukturietheit)",
+		"question": "Wie beurteilen Sie folgenden Aspekte Ihres Studiums? Strukturiertheit",
 		"scaleLevel": "ORDINAL",
 		"answerOptions": [
 			{
@@ -510,16 +520,17 @@
 		"id": "FdZ_ID11",
 		"variableSurvey": {
 			"surveyId": "DZHW_AP_01",
-			"title": "Absolbentenpanel 2001",
-		"surveyPeriod": {
+			"title": "Absolventenpanel 2001",
+			"surveyPeriod": {
 				"startDate": "2000-08-01",
 				"endDate": "2001-09-30"
 			},
-			"variableAlias": "Studienberechtigung"
+			"variableAlias": "stureq"
 		},
 		"name": "klstudber",
 		"dataType": "NUMERIC",
-		"label": "Mit welcher Studienberechtigung haben Sie Ihr (erstes) Studium begonnen",
+		"label": "Studiumszulassung",
+		"question": "Mit welcher Studienberechtigung haben Sie Ihr (erstes) Studium begonnen",
 		"scaleLevel": "NOMINAL",
 		"answerOptions": [
 			{
@@ -549,16 +560,17 @@
 		"id": "FdZ_ID12",
 		"variableSurvey": {
 			"surveyId": "DZHW_AP_01",
-			"title": "Absolbentenpanel 2001",
-		"surveyPeriod": {
+			"title": "Absolventenpanel 2001",
+			"surveyPeriod": {
 				"startDate": "2000-08-01",
 				"endDate": "2001-09-30"
 			},
-			"variableAlias": "Lbensunterhalt"
+			"variableAlias": "fisu"
 		},
 		"name": "b1leberwan",
 		"dataType": "NUMERIC",
-		"label": "Wie finanzierten Sie Ihren Lebensunterhalt während des Studiums zu den unten genannten Zeitpunkten? (prozentuale Angaben)",
+		"label": "Finanzierung  Lebensunterhalt",
+		"question": "Wie finanzierten Sie Ihren Lebensunterhalt während des Studiums zu den unten genannten Zeitpunkten? (prozentuale Angaben)",
 		"scaleLevel": "METRIC",
 		"answerOptions": [
 			{
@@ -566,7 +578,7 @@
 				"label": "fehlende Angabe"
 			},
 			{
-				"code": "-1",
+				"code": "0",
 				"label": "offene Angabe"
 			}
 		]
@@ -577,15 +589,16 @@
 		"variableSurvey": {
 			"surveyId": "DZHW_SE_20",
 			"title": "20. Sozialerhebung",
-		"surveyPeriod": {
+			"surveyPeriod": {
 				"startDate": "2012-05-01",
 				"endDate": "2012-08-31"
 			},
-			"variableAlias": "Hochschulsemester (aggregiert)"
+			"variableAlias": "term"
 		},
 		"name": "ssemhsa",
 		"dataType": "NUMERIC",
-		"label": "Wie viele Semester (einschl. Sommersemester 2012) sind Sie bisher insgesamt an Hochschulen eingeschrieben?",
+		"label": "Hochschulsemester (aggregiert)",
+		"question": "Wie viele Semester (einschl. Sommersemester 2012) sind Sie bisher insgesamt an Hochschulen eingeschrieben?",
 		"scaleLevel": "ORDINAL",
 		"answerOptions": [
 			{
@@ -628,15 +641,16 @@
 		"variableSurvey": {
 			"surveyId": "DZHW_SE_20",
 			"title": "20. Sozialerhebung",
-		"surveyPeriod": {
+			"surveyPeriod": {
 				"startDate": "2012-05-01",
 				"endDate": "2012-08-31"
 			},
-			"variableAlias": "keine Erwerbstaet. (wg Kind)"
+			"variableAlias": "noemp"
 		},
 		"name": "engrkin",
 		"dataType": "NUMERIC",
-		"label": "Sind Sie seit Beginn der Vorlesungszeit des Sommersemesters 2012 einer Tätigkeit nachgegangen, mit der Sie Geld verdienen? (nein, wegen Kindererziehung nicht möglich)",
+		"label": "keine Erwerbstaet. (wg Kind)",
+		"question": "Sind Sie seit Beginn der Vorlesungszeit des Sommersemesters 2012 einer Tätigkeit nachgegangen, mit der Sie Geld verdienen? (nein, wegen Kindererziehung nicht möglich)",
 		"scaleLevel": "NOMINAL",
 		"answerOptions": [
 			{
@@ -663,15 +677,16 @@
 		"variableSurvey": {
 			"surveyId": "DZHW_SE_20",
 			"title": "20. Sozialerhebung",
-		"surveyPeriod": {
+			"surveyPeriod": {
 				"startDate": "2012-05-01",
 				"endDate": "2012-08-31"
 			},
-			"variableAlias": "Staatsangehörigkeit"
+			"variableAlias": "nat"
 		},
 		"name": "dnatsta",
 		"dataType": "NUMERIC",
-		"label": "Welche Staatsangehörigkeit(en) haben Sie?",
+		"label": "Staatsangehörigkeit",
+		"question": "Welche Staatsangehörigkeit(en) haben Sie?",
 		"scaleLevel": "NOMINAL",
 		"answerOptions": [
 			{
