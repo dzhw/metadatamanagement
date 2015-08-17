@@ -4,14 +4,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Callable;
 
-import javax.validation.Valid;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.mvc.ControllerLinkBuilderFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.Validator;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
@@ -79,8 +76,8 @@ public class VariableModifyController {
    * @return sdsdsdsd
    */
   @RequestMapping(method = RequestMethod.POST, params = {"addOption"})
-  public Callable<ModelAndView> addOption(
-      @ModelAttribute VariableDocument variableDocument, BindingResult bindingResult) {
+  public Callable<ModelAndView> addAnswerOption(
+      VariableDocument variableDocument, BindingResult bindingResult) {
     return () -> {
       VariableModifyResource resource =
           new VariableModifyResource(VariableModifyController.class, controllerLinkBuilderFactory);
@@ -101,8 +98,8 @@ public class VariableModifyController {
    * @return sdsdsdsd
    */
   @RequestMapping(method = RequestMethod.POST, params = {"removeOption"})
-  public Callable<ModelAndView> removeOption(
-      @ModelAttribute VariableDocument variableDocument, BindingResult bindingResult) {
+  public Callable<ModelAndView> removeAnswerOption(
+      VariableDocument variableDocument, BindingResult bindingResult) {
     return () -> {
       VariableModifyResource resource =
           new VariableModifyResource(VariableModifyController.class, controllerLinkBuilderFactory);
@@ -144,8 +141,8 @@ public class VariableModifyController {
    * @return fgfgfgfg
    */
   @RequestMapping(method = RequestMethod.POST)
-  public Callable<ModelAndView> post(
-      @Valid VariableDocument variableDocument, BindingResult bindingResult) {
+  public Callable<ModelAndView> postVariableDocument(
+      VariableDocument variableDocument, BindingResult bindingResult) {
     return () -> {
       ModelAndView modelAndView;
       VariableModifyResource resource =
