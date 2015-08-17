@@ -153,6 +153,11 @@ public class VariableModifyController {
         modelAndView
             .addObject("variableDocument", bindingResult.getModel().get("variableDocument"));
       }
+      /*
+       * System.out.println(bindingResult.getGlobalErrors().size() + " : " +
+       * bindingResult.getGlobalError().getArguments().length + " : " +
+       * bindingResult.getGlobalErrorCount());
+       */
       return modelAndView;
     };
   }
