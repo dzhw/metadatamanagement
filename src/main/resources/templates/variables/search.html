@@ -69,11 +69,12 @@
 									th:href="${variable.id.href}" class="list-group-item "
 									th:each="variable : ${resource.page}">
 									<h4 class="list-group-item-heading"
-										th:text="${variable.variableDocument.name}"></h4>
+										th:text="${variable.variableDocument.label}"></h4>
 									<p class="list-group-item-text"
-										th:text="'ID: '+${variable.variableDocument.id}"></p>
+										th:text="'Name: '+${variable.variableDocument.name}"></p>
 									<p class="list-group-item-text"
-										th:text="'Label: '+${variable.variableDocument.label}"></p>
+										th:text="#{variables.search.question(${variable.variableDocument.question})}"></p>
+									
 									<p class="list-group-item-text"
 										th:text="'Survey: '+${variable.variableDocument.variableSurvey.title}"></p>
 								</a>

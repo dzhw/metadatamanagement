@@ -58,19 +58,21 @@ public class VariableSearchController {
    * @return variableSearch.html
    */
   @RequestMapping(method = RequestMethod.GET)
-  public Callable<ModelAndView> get(@RequestParam(required = false) String query,
-      Pageable pageable) {
+  public Callable<ModelAndView> get(
+      @RequestParam(required = false) String query, Pageable pageable) {
     return () -> {
       Page<VariableDocument> variablePage = variableService.search(query, pageable);
       PagedResources<VariableResource> pagedVariableResource =
           pagedResourcesAssembler.toResource(variablePage, variableResourceAssembler);
 
-      VariableSearchPageResource resource = new VariableSearchPageResource(pagedVariableResource,
-          VariableSearchController.class, controllerLinkBuilderFactory, query, pageable);
+      VariableSearchPageResource resource =
+          new VariableSearchPageResource(pagedVariableResource, VariableSearchController.class,
+              controllerLinkBuilderFactory, query, pageable);
 
       ModelAndView modelAndView = new ModelAndView("variables/search");
       modelAndView.addObject("query", query);
       modelAndView.addObject("resource", resource);
+      // resource.
 
       return modelAndView;
     };
