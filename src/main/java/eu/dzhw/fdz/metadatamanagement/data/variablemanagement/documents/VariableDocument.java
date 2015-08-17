@@ -35,6 +35,7 @@ public class VariableDocument extends AbstractDocument {
   public static final String DATA_TYPE_FIELD = "dataType";
   public static final String LABEL_FIELD = "label";
   public static final String SCALE_LEVEL_FIELD = "scaleLtevel";
+  public static final String QUESTION_FIELD = "question";
   public static final String ANSWER_OPTIONS_FIELD = "answerOptions";
   public static final String VARIABLE_SURVEY_FIELD = "variableSurvey";
   public static final String NESTED_VARIABLE_SURVEY_TITLE_FIELD =
@@ -53,6 +54,7 @@ public class VariableDocument extends AbstractDocument {
       ANSWER_OPTIONS_FIELD + "." + AnswerOption.CODE_FIELD;
   public static final String NESTED_ANSWER_OPTIONS_LABEL_FIELD =
       ANSWER_OPTIONS_FIELD + "." + AnswerOption.LABEL_FIELD;
+    
   /**
    * This is a nested reference to the survey.
    */
