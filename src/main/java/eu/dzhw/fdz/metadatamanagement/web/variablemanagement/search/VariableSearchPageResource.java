@@ -45,6 +45,10 @@ public class VariableSearchPageResource extends NavigatablePageResource<Variable
     return this.page;
   }
 
+  /*
+   * (non-Javadoc)
+   * @see org.springframework.hateoas.ResourceSupport#hashCode()
+   */
   @Override
   public int hashCode() {
     final int prime = 31;
@@ -53,6 +57,10 @@ public class VariableSearchPageResource extends NavigatablePageResource<Variable
     return result;
   }
 
+  /*
+   * (non-Javadoc)
+   * @see org.springframework.hateoas.ResourceSupport#equals(java.lang.Object)
+   */
   @Override
   public boolean equals(Object obj) {
     if (this == obj) {
