@@ -10,7 +10,6 @@ import org.springframework.data.elasticsearch.annotations.Document;
 
 import eu.dzhw.fdz.metadatamanagement.data.common.documents.AbstractDocument;
 import eu.dzhw.fdz.metadatamanagement.data.common.documents.DateRange;
-import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.validation.NotNullScaleLevelOnNumericDataType;
 import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.validation.UniqueAnswerCode;
 import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.validation.ValidDataType;
 import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.validation.ValidScaleLevel;
@@ -26,14 +25,13 @@ import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.validati
     indexName = "#{'" + AbstractDocument.METADATA_INDEX + "_'"
         + "+T(org.springframework.context.i18n.LocaleContextHolder).getLocale().getLanguage()}",
     type = "variables")
-@NotNullScaleLevelOnNumericDataType
 public class VariableDocument extends AbstractDocument {
   // Public constants which are used in queries as fieldnames.
   public static final String ALL_STRINGS_AS_NGRAMS_FIELD = "allStringsAsNgrams";
   public static final String NAME_FIELD = "name";
   public static final String DATA_TYPE_FIELD = "dataType";
   public static final String LABEL_FIELD = "label";
-  public static final String SCALE_LEVEL_FIELD = "scaleLtevel";
+  public static final String SCALE_LEVEL_FIELD = "scaleLevel";
   public static final String QUESTION_FIELD = "question";
   public static final String ANSWER_OPTIONS_FIELD = "answerOptions";
   public static final String VARIABLE_SURVEY_FIELD = "variableSurvey";

@@ -10,7 +10,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.mvc.ControllerLinkBuilderFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.Validator;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -19,6 +18,7 @@ import org.springframework.web.servlet.ModelAndView;
 import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.AnswerOption;
 import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.VariableDocument;
 import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.VariableSurvey;
+import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.validation.VariableDocumentValidator;
 import eu.dzhw.fdz.metadatamanagement.service.variablemanagement.VariableService;
 
 
@@ -34,14 +34,15 @@ public class VariableModifyController {
 
   private VariableService variableService;
   private ControllerLinkBuilderFactory controllerLinkBuilderFactory;
-  private Validator validator;
+  private VariableDocumentValidator validator;
 
   /**
    * Autowire needed objects.
    */
   @Autowired
   public VariableModifyController(VariableService variableService,
-      ControllerLinkBuilderFactory controllerLinkBuilderFactory, Validator validator) {
+      ControllerLinkBuilderFactory controllerLinkBuilderFactory,
+      VariableDocumentValidator validator) {
     this.variableService = variableService;
     this.controllerLinkBuilderFactory = controllerLinkBuilderFactory;
     this.validator = validator;

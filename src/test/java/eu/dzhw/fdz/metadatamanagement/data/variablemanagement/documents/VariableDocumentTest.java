@@ -6,13 +6,13 @@ package eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.anyOf;
 import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertEquals;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Locale;
 import java.util.Set;
 
 import javax.validation.ConstraintViolation;
@@ -22,9 +22,11 @@ import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.i18n.LocaleContextHolder;
+import org.springframework.validation.BeanPropertyBindingResult;
+import org.springframework.validation.Errors;
 
 import eu.dzhw.fdz.metadatamanagement.data.common.documents.DateRange;
+import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.validation.VariableDocumentValidator;
 import eu.dzhw.fdz.metadatamanagement.web.AbstractWebTest;
 
 /**
@@ -37,6 +39,9 @@ public class VariableDocumentTest extends AbstractWebTest {
 
   @Autowired
   private Validator validator;
+
+  @Autowired
+  private VariableDocumentValidator variableDocumentValidator;
 
   @Test
   public void testEmptyInValidVariableDocument() {
@@ -282,7 +287,6 @@ public class VariableDocumentTest extends AbstractWebTest {
 
   @Test
   public void testNotNullScaleLevelAtNumericDataType() {
-    LocaleContextHolder.setLocale(Locale.ENGLISH);
     // Assert
     VariableDocument variableDocument = new VariableDocument();
     variableDocument.setId("ThisIDisOkay");
@@ -291,21 +295,13 @@ public class VariableDocumentTest extends AbstractWebTest {
     variableDocument.setQuestion("DefaultQuestion?");
 
     // Act
-    Set<ConstraintViolation<VariableDocument>> variableViolations =
-        this.validator.validate(variableDocument);
+    Errors errors = new BeanPropertyBindingResult(variableDocument, "variableDocument");
+    variableDocumentValidator.validate(variableDocument, errors);
 
     // Assert
-    assertEquals(1, variableViolations.size());
-    for (ConstraintViolation<VariableDocument> variableVialation : variableViolations) {
+    assertThat(errors.getFieldError("scaleLevel").getCode(),
+        is(VariableDocumentValidator.MANDATORY_SCALE_LEVEL_MESSAGE_CODE));
 
-      LOGGER.debug("testInvalidDataField() " + variableVialation.getMessageTemplate() + " -> "
-          + variableVialation.getMessage());
-
-      assertEquals(
-          "{eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents."
-              + "validation.notnullscalelevelonnumericdatatype.message}",
-          variableVialation.getMessageTemplate());
-    }
   }
 
   @Test
@@ -781,50 +777,51 @@ public class VariableDocumentTest extends AbstractWebTest {
           variableVialation.getMessageTemplate());
     }
   }
-  
+
   @Test
-  public void testHashCode(){
+  public void testHashCode() {
     // Arrange
     VariableDocument variableDocument = new VariableDocument();
     variableDocument.setId("ThisIDisOkay");
     variableDocument.setName("ThisNameIsOkay.");
     variableDocument.setQuestion("DefaultQuestion?");
-    
-    //Act
-    
-    //Assert
+
+    // Act
+
+    // Assert
     assertEquals(-923525232, variableDocument.hashCode());
   }
-  
+
   @Test
-  public void testEquals(){
-    //Arrange
+  public void testEquals() {
+    // Arrange
     VariableDocument variableDocument = new VariableDocument();
     variableDocument.setId("ThisIDisOkay");
     variableDocument.setName("ThisNameIsOkay.");
     variableDocument.setQuestion("DefaultQuestion?");
-    
+
     VariableDocument variableDocument2 = new VariableDocument();
     VariableDocument variableDocument3 = new VariableDocument();
-    
+
     List<AnswerOption> answerOptions = new ArrayList<>();
     List<AnswerOption> answerOptions2 = new ArrayList<>();
     AnswerOption answerOption = new AnswerOption();
     answerOption.setCode(1);
     answerOption.setLabel("Label");
     answerOptions2.add(answerOption);
-    
+
     VariableSurvey variableSurvey = new VariableSurvey();
     variableSurvey.setSurveyId("1");
     VariableSurvey variableSurvey2 = new VariableSurvey();
     variableSurvey.setSurveyId("2");
-    
-    
-    //Act
+
+
+    // Act
     boolean checkNull = variableDocument.equals(null);
     boolean checkDifferentClass = variableDocument.equals(new Object());
     boolean checkDifferentVariableDocument = variableDocument.equals(variableDocument2);
-    boolean checkDifferentVariableDocumentWithNullName = variableDocument3.equals(variableDocument2);
+    boolean checkDifferentVariableDocumentWithNullName =
+        variableDocument3.equals(variableDocument2);
     variableDocument.setAnswerOptions(answerOptions);
     boolean checkAnswerOptionsOther = variableDocument2.equals(variableDocument);
     variableDocument2.setAnswerOptions(answerOptions);
@@ -877,8 +874,8 @@ public class VariableDocumentTest extends AbstractWebTest {
     boolean checkVariableSurveyBoth = variableDocument2.equals(variableDocument);
     variableDocument2.setVariableSurvey(variableSurvey);
     boolean checkVariableSurveyBothSame = variableDocument2.equals(variableDocument);
-    
-    //Assert
+
+    // Assert
     assertEquals(false, checkNull);
     assertEquals(false, checkDifferentClass);
     assertEquals(false, checkDifferentVariableDocument);
@@ -900,8 +897,8 @@ public class VariableDocumentTest extends AbstractWebTest {
     assertEquals(false, checkScaleLevelOther);
     assertEquals(false, checkScaleLevelBoth);
     assertEquals(true, checkScaleLevelBothSame);
-    assertEquals(false, checkVariableSurveyOther);    
-    assertEquals(false, checkVariableSurveyBoth);    
+    assertEquals(false, checkVariableSurveyOther);
+    assertEquals(false, checkVariableSurveyBoth);
     assertEquals(true, checkVariableSurveyBothSame);
   }
 }
