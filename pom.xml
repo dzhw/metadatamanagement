@@ -380,7 +380,7 @@
 						</goals>
 						<configuration>
 							<waitForInterrupt>false</waitForInterrupt>
-							<waitAfterLaunch>30</waitAfterLaunch>
+							<waitAfterLaunch>60</waitAfterLaunch>
 							<healthcheckUrl>http://localhost:${tomcat.http.port}/</healthcheckUrl>
 							<arguments>
 								<argument>java</argument>
