@@ -16,20 +16,12 @@
 				<!-- Bootstrap form -->
 				<form th:fragment="form-container" action="#" th:action="@{create}"
 					th:object="${variableDocument}" method="post" role="form" id="form">
+						  <div>
+     <p th:each="err : ${#fields.errors('global')}" th:text="${err}">sdsdsds</p>
+     </div>
+					
 
-
-					<div th:each="e : ${#fields.detailedErrors()}"
-						th:class="${e.global}? globalerr : fielderr">
-
-						<div class="alert alert-danger fade in">
-							<a href="#" class="close" data-dismiss="alert">&times;</a> <span
-								th:text="${e.global}? '*' : ${e.fieldName}">The field
-								name</span> | <span th:text="${e.message}">The error message</span>
-						</div>
-					</div>
-
-				
-
+	
 					<div class="well">
 
 						<fieldset class="scheduler-border">
