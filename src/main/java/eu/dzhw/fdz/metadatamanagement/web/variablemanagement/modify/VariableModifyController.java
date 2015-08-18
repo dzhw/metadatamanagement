@@ -5,11 +5,14 @@ import java.util.List;
 import java.util.concurrent.Callable;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.mvc.ControllerLinkBuilderFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.WebDataBinder;
+import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -48,20 +51,22 @@ public class VariableModifyController {
     this.validator = validator;
   }
 
+  @InitBinder("variableDocument")
+  protected void initBinder(WebDataBinder binder) {
+    binder.setValidator(validator);
+  }
+
   /**
    * Show edit and create variable page.
    * 
    * @return modify.html
    */
   @RequestMapping(method = RequestMethod.GET)
-  public Callable<ModelAndView> get(VariableDocument variableDocument,
+  public Callable<ModelAndView> get(@Valid VariableDocument variableDocument,
       BindingResult bindingResult) {
     return () -> {
       VariableModifyResource resource =
           new VariableModifyResource(VariableModifyController.class, controllerLinkBuilderFactory);
-
-
-      validator.validate(createVariableDocument(), bindingResult);
 
       ModelAndView modelAndView = new ModelAndView("variables/modify");
       modelAndView.addObject("resource", resource);
@@ -81,11 +86,9 @@ public class VariableModifyController {
   public Callable<ModelAndView> addSurvey(VariableDocument variableDocument,
       BindingResult bindingResult) {
     return () -> {
+      VariableSurvey survey = new VariableSurvey();
+      variableDocument.setVariableSurvey(survey);
 
-      if (variableDocument.getVariableSurvey() == null) {
-        VariableSurvey survey = new VariableSurvey();
-        variableDocument.setVariableSurvey(survey);
-      }
       validator.validate(variableDocument, bindingResult);
 
       VariableModifyResource resource =
@@ -187,35 +190,22 @@ public class VariableModifyController {
    * @return variableDetails.html or modify.html
    */
   @RequestMapping(method = RequestMethod.POST)
-  public Callable<ModelAndView> postVariableDocument(VariableDocument variableDocument,
+  public Callable<ModelAndView> postVariableDocument(@Valid VariableDocument variableDocument,
       BindingResult bindingResult) {
     return () -> {
       ModelAndView modelAndView;
-      VariableModifyResource resource =
-          new VariableModifyResource(VariableModifyController.class, controllerLinkBuilderFactory);
-      validator.validate(variableDocument, bindingResult);
       if (!bindingResult.hasErrors()) {
         variableService.save(variableDocument);
         modelAndView =
             new ModelAndView("redirect:/{language}/variables/" + variableDocument.getId());
-        modelAndView.addObject("resource", resource);
       } else {
         modelAndView = new ModelAndView("variables/modify");
+        VariableModifyResource resource = new VariableModifyResource(VariableModifyController.class,
+            controllerLinkBuilderFactory);
         modelAndView.addObject("resource", resource);
         modelAndView.addObject("variableDocument", variableDocument);
       }
       return modelAndView;
     };
   }
-
-  /**
-   * create a new variable document.
-   * 
-   * @return VariableDocument
-   */
-  private VariableDocument createVariableDocument() {
-    VariableDocument document = new VariableDocument();
-    return document;
-  }
-
 }
