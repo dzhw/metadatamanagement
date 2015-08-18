@@ -781,4 +781,127 @@ public class VariableDocumentTest extends AbstractWebTest {
           variableVialation.getMessageTemplate());
     }
   }
+  
+  @Test
+  public void testHashCode(){
+    // Arrange
+    VariableDocument variableDocument = new VariableDocument();
+    variableDocument.setId("ThisIDisOkay");
+    variableDocument.setName("ThisNameIsOkay.");
+    variableDocument.setQuestion("DefaultQuestion?");
+    
+    //Act
+    
+    //Assert
+    assertEquals(-923525232, variableDocument.hashCode());
+  }
+  
+  @Test
+  public void testEquals(){
+    //Arrange
+    VariableDocument variableDocument = new VariableDocument();
+    variableDocument.setId("ThisIDisOkay");
+    variableDocument.setName("ThisNameIsOkay.");
+    variableDocument.setQuestion("DefaultQuestion?");
+    
+    VariableDocument variableDocument2 = new VariableDocument();
+    VariableDocument variableDocument3 = new VariableDocument();
+    
+    List<AnswerOption> answerOptions = new ArrayList<>();
+    List<AnswerOption> answerOptions2 = new ArrayList<>();
+    AnswerOption answerOption = new AnswerOption();
+    answerOption.setCode(1);
+    answerOption.setLabel("Label");
+    answerOptions2.add(answerOption);
+    
+    VariableSurvey variableSurvey = new VariableSurvey();
+    variableSurvey.setSurveyId("1");
+    VariableSurvey variableSurvey2 = new VariableSurvey();
+    variableSurvey.setSurveyId("2");
+    
+    
+    //Act
+    boolean checkNull = variableDocument.equals(null);
+    boolean checkDifferentClass = variableDocument.equals(new Object());
+    boolean checkDifferentVariableDocument = variableDocument.equals(variableDocument2);
+    boolean checkDifferentVariableDocumentWithNullName = variableDocument3.equals(variableDocument2);
+    variableDocument.setAnswerOptions(answerOptions);
+    boolean checkAnswerOptionsOther = variableDocument2.equals(variableDocument);
+    variableDocument2.setAnswerOptions(answerOptions);
+    boolean checkAnswerOptionsOtherBoth = variableDocument2.equals(variableDocument);
+    variableDocument2.setAnswerOptions(answerOptions2);
+    boolean checkAnswerOptionsOtherBothDifferent = variableDocument2.equals(variableDocument);
+    variableDocument.setDataType("string");
+    variableDocument2.setAnswerOptions(null);
+    variableDocument.setAnswerOptions(null);
+    boolean checkDifferentDataType = variableDocument2.equals(variableDocument);
+    variableDocument2.setDataType("string");
+    boolean checkDifferentDataTypeBoth = variableDocument2.equals(variableDocument);
+    variableDocument2.setDataType("numeric");
+    boolean checkDifferentDataTypeBothDifferent = variableDocument2.equals(variableDocument);
+    variableDocument.setDataType(null);
+    variableDocument2.setDataType(null);
+    variableDocument.setLabel("Label 1");
+    boolean checkLabelOther = variableDocument2.equals(variableDocument);
+    variableDocument2.setLabel("Label 2");
+    boolean checkLabelBoth = variableDocument2.equals(variableDocument);
+    variableDocument2.setLabel("Label 1");
+    boolean checkLabelBothSame = variableDocument2.equals(variableDocument);
+    variableDocument.setLabel(null);
+    variableDocument2.setLabel(null);
+    variableDocument2.setName("Another Name");
+    boolean checkDifferentName = variableDocument2.equals(variableDocument);
+    variableDocument2.setName(variableDocument.getName());
+    boolean checkSameName = variableDocument2.equals(variableDocument);
+    variableDocument2.setName(null);
+    variableDocument.setName(null);
+    variableDocument.setQuestion("DefaultQuestion?");
+    boolean checkQuestionOther = variableDocument2.equals(variableDocument);
+    variableDocument2.setQuestion("AnotherDefaultQuestion?");
+    boolean checkQuestionBoth = variableDocument2.equals(variableDocument);
+    variableDocument2.setQuestion(variableDocument.getQuestion());
+    boolean checkQuestionBothSame = variableDocument2.equals(variableDocument);
+    variableDocument.setQuestion(null);
+    variableDocument2.setQuestion(null);
+    variableDocument.setScaleLevel("nominal");
+    boolean checkScaleLevelOther = variableDocument2.equals(variableDocument);
+    variableDocument2.setScaleLevel("metric");
+    boolean checkScaleLevelBoth = variableDocument2.equals(variableDocument);
+    variableDocument2.setScaleLevel(variableDocument.getScaleLevel());
+    boolean checkScaleLevelBothSame = variableDocument2.equals(variableDocument);
+    variableDocument.setScaleLevel(null);
+    variableDocument2.setScaleLevel(null);
+    variableDocument.setVariableSurvey(variableSurvey);
+    boolean checkVariableSurveyOther = variableDocument2.equals(variableDocument);
+    variableDocument2.setVariableSurvey(variableSurvey2);
+    boolean checkVariableSurveyBoth = variableDocument2.equals(variableDocument);
+    variableDocument2.setVariableSurvey(variableSurvey);
+    boolean checkVariableSurveyBothSame = variableDocument2.equals(variableDocument);
+    
+    //Assert
+    assertEquals(false, checkNull);
+    assertEquals(false, checkDifferentClass);
+    assertEquals(false, checkDifferentVariableDocument);
+    assertEquals(true, checkDifferentVariableDocumentWithNullName);
+    assertEquals(false, checkAnswerOptionsOther);
+    assertEquals(false, checkAnswerOptionsOtherBoth);
+    assertEquals(false, checkAnswerOptionsOtherBothDifferent);
+    assertEquals(false, checkDifferentDataType);
+    assertEquals(false, checkDifferentDataTypeBoth);
+    assertEquals(false, checkDifferentDataTypeBothDifferent);
+    assertEquals(false, checkLabelOther);
+    assertEquals(false, checkLabelBoth);
+    assertEquals(false, checkLabelBothSame);
+    assertEquals(false, checkDifferentName);
+    assertEquals(false, checkSameName);
+    assertEquals(false, checkQuestionOther);
+    assertEquals(false, checkQuestionBoth);
+    assertEquals(true, checkQuestionBothSame);
+    assertEquals(false, checkScaleLevelOther);
+    assertEquals(false, checkScaleLevelBoth);
+    assertEquals(true, checkScaleLevelBothSame);
+    assertEquals(false, checkVariableSurveyOther);    
+    assertEquals(false, checkVariableSurveyBoth);    
+    assertEquals(true, checkVariableSurveyBothSame);
+  }
 }

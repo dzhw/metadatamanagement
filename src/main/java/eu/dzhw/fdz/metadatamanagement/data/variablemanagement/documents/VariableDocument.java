@@ -53,7 +53,7 @@ public class VariableDocument extends AbstractDocument {
       ANSWER_OPTIONS_FIELD + "." + AnswerOption.CODE_FIELD;
   public static final String NESTED_ANSWER_OPTIONS_LABEL_FIELD =
       ANSWER_OPTIONS_FIELD + "." + AnswerOption.LABEL_FIELD;
-    
+
   /**
    * This is a nested reference to the survey.
    */
@@ -170,6 +170,11 @@ public class VariableDocument extends AbstractDocument {
     this.question = question;
   }
 
+  /*
+   * (non-Javadoc)
+   * 
+   * @see eu.dzhw.fdz.metadatamanagement.data.common.documents.AbstractDocument#hashCode()
+   */
   @Override
   public int hashCode() {
     final int prime = 31;
@@ -185,6 +190,12 @@ public class VariableDocument extends AbstractDocument {
   }
 
 
+  /*
+   * (non-Javadoc)
+   * 
+   * @see
+   * eu.dzhw.fdz.metadatamanagement.data.common.documents.AbstractDocument#equals(java.lang.Object)
+   */
   @Override
   public boolean equals(Object obj) {
     if (this == obj) {
