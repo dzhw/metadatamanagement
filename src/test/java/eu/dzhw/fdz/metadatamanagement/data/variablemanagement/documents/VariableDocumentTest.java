@@ -299,7 +299,7 @@ public class VariableDocumentTest extends AbstractWebTest {
     variableDocumentValidator.validate(variableDocument, errors);
 
     // Assert
-    assertThat(errors.getFieldError("scaleLevel").getCode(),
+    assertThat(errors.getFieldError(VariableDocument.SCALE_LEVEL_FIELD).getCode(),
         is(VariableDocumentValidator.MANDATORY_SCALE_LEVEL_MESSAGE_CODE));
 
   }
