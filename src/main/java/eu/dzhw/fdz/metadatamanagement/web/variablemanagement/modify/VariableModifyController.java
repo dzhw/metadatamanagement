@@ -58,11 +58,12 @@ public class VariableModifyController {
       VariableModifyResource resource =
           new VariableModifyResource(VariableModifyController.class, controllerLinkBuilderFactory);
 
+
       validator.validate(createVariableDocument(), bindingResult);
 
       ModelAndView modelAndView = new ModelAndView("variables/modify");
       modelAndView.addObject("resource", resource);
-      modelAndView.addObject("variableDocument", bindingResult.getModel().get("variableDocument"));
+      modelAndView.addObject("variableDocument", variableDocument);
 
       return modelAndView;
     };
@@ -89,7 +90,7 @@ public class VariableModifyController {
           new VariableModifyResource(VariableModifyController.class, controllerLinkBuilderFactory);
       ModelAndView modelAndView = new ModelAndView("variables/modify");
       modelAndView.addObject("resource", resource);
-      modelAndView.addObject("variableDocument", bindingResult.getModel().get("variableDocument"));
+      modelAndView.addObject("variableDocument", variableDocument);
 
       return modelAndView;
     };
@@ -110,7 +111,7 @@ public class VariableModifyController {
       validator.validate(variableDocument, bindingResult);
       ModelAndView modelAndView = new ModelAndView("variables/modify");
       modelAndView.addObject("resource", resource);
-      modelAndView.addObject("variableDocument", bindingResult.getModel().get("variableDocument"));
+      modelAndView.addObject("variableDocument", variableDocument);
       return modelAndView;
     };
   }
@@ -134,7 +135,7 @@ public class VariableModifyController {
           new VariableModifyResource(VariableModifyController.class, controllerLinkBuilderFactory);
       ModelAndView modelAndView = new ModelAndView("variables/modify");
       modelAndView.addObject("resource", resource);
-      modelAndView.addObject("variableDocument", bindingResult.getModel().get("variableDocument"));
+      modelAndView.addObject("variableDocument", variableDocument);
 
       return modelAndView;
     };
@@ -163,7 +164,7 @@ public class VariableModifyController {
       validator.validate(variableDocument, bindingResult);
       ModelAndView modelAndView = new ModelAndView("variables/modify");
       modelAndView.addObject("resource", resource);
-      modelAndView.addObject("variableDocument", bindingResult.getModel().get("variableDocument"));
+      modelAndView.addObject("variableDocument", variableDocument);
       return modelAndView;
     };
   }
@@ -202,15 +203,8 @@ public class VariableModifyController {
       } else {
         modelAndView = new ModelAndView("variables/modify");
         modelAndView.addObject("resource", resource);
-        modelAndView
-            .addObject("variableDocument", bindingResult.getModel().get("variableDocument"));
+        modelAndView.addObject("variableDocument", variableDocument);
       }
-      /*
-       * try { System.out.println(bindingResult.getGlobalErrors().size() + " : " +
-       * bindingResult.getGlobalErrorCount() + bindingResult.getErrorCount() + " : " +
-       * bindingResult.getFieldErrorCount() + " : " + bindingResult.getAllErrors().size()); } catch
-       * (Exception e) { e.printStackTrace(); }
-       */
       return modelAndView;
     };
   }
