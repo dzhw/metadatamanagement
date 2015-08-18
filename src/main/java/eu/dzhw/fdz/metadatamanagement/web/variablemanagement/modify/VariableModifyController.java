@@ -13,6 +13,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.Validator;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.AnswerOption;
@@ -52,8 +53,8 @@ public class VariableModifyController {
    * @return modify.html
    */
   @RequestMapping(method = RequestMethod.GET)
-  public Callable<ModelAndView> get(
-      VariableDocument variableDocument, BindingResult bindingResult) {
+  public Callable<ModelAndView> get(VariableDocument variableDocument,
+      BindingResult bindingResult) {
     return () -> {
       VariableModifyResource resource =
           new VariableModifyResource(VariableModifyController.class, controllerLinkBuilderFactory);
@@ -76,8 +77,8 @@ public class VariableModifyController {
    * @return modify.html
    */
   @RequestMapping(method = RequestMethod.POST, params = {"addSurvey"})
-  public Callable<ModelAndView> addSurvey(
-      VariableDocument variableDocument, BindingResult bindingResult) {
+  public Callable<ModelAndView> addSurvey(VariableDocument variableDocument,
+      BindingResult bindingResult) {
     return () -> {
 
       if (variableDocument.getVariableSurvey() == null) {
@@ -102,8 +103,8 @@ public class VariableModifyController {
    * @return modify.html
    */
   @RequestMapping(method = RequestMethod.POST, params = {"removeSurvey"})
-  public Callable<ModelAndView> removeSurvey(
-      VariableDocument variableDocument, BindingResult bindingResult) {
+  public Callable<ModelAndView> removeSurvey(VariableDocument variableDocument,
+      BindingResult bindingResult) {
     return () -> {
       VariableModifyResource resource =
           new VariableModifyResource(VariableModifyController.class, controllerLinkBuilderFactory);
@@ -122,8 +123,8 @@ public class VariableModifyController {
    * @return modify.html
    */
   @RequestMapping(method = RequestMethod.POST, params = {"addOption"})
-  public Callable<ModelAndView> addAnswerOption(
-      VariableDocument variableDocument, BindingResult bindingResult) {
+  public Callable<ModelAndView> addAnswerOption(VariableDocument variableDocument,
+      BindingResult bindingResult) {
     return () -> {
       if (variableDocument.getAnswerOptions() == null) {
         List<AnswerOption> answerOpt = new ArrayList<>();
@@ -148,17 +149,14 @@ public class VariableModifyController {
    */
   @RequestMapping(method = RequestMethod.POST, params = {"removeOption"})
   public Callable<ModelAndView> removeAnswerOption(
-      HttpServletRequest request, VariableDocument variableDocument, BindingResult bindingResult) {
+      @RequestParam("removeOption") Integer indexAnswerOption, HttpServletRequest request,
+      VariableDocument variableDocument, BindingResult bindingResult) {
     return () -> {
-      try {
-        int index = Integer.parseInt(request.getParameter("removeOption"));
-        variableDocument.getAnswerOptions().remove(index);
-        if (variableDocument.getAnswerOptions().isEmpty()) {
-          variableDocument.setAnswerOptions(null);
-        }
-      } catch (NumberFormatException e) {
-        e.printStackTrace();
+      variableDocument.getAnswerOptions().remove(indexAnswerOption);
+      if (variableDocument.getAnswerOptions().isEmpty()) {
+        variableDocument.setAnswerOptions(null);
       }
+
       VariableModifyResource resource =
           new VariableModifyResource(VariableModifyController.class, controllerLinkBuilderFactory);
       validator.validate(variableDocument, bindingResult);
@@ -188,8 +186,8 @@ public class VariableModifyController {
    * @return variableDetails.html or modify.html
    */
   @RequestMapping(method = RequestMethod.POST)
-  public Callable<ModelAndView> postVariableDocument(
-      VariableDocument variableDocument, BindingResult bindingResult) {
+  public Callable<ModelAndView> postVariableDocument(VariableDocument variableDocument,
+      BindingResult bindingResult) {
     return () -> {
       ModelAndView modelAndView;
       VariableModifyResource resource =
