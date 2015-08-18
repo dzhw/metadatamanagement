@@ -16,14 +16,10 @@
 				<!-- Bootstrap form -->
 				<form th:fragment="form-container" action="#" th:action="@{create}"
 					th:object="${variableDocument}" method="post" role="form" id="form">
-						  <div>
-     <p th:each="err : ${#fields.errors('global')}" th:text="${err}">sdsdsds</p>
-     </div>
-					
-
-	
+					<div th:each="err : ${#fields.errors('global')}" class="alert alert-danger">
+						<p th:text="${err}">Error</p>
+					</div>
 					<div class="well">
-
 						<fieldset class="scheduler-border">
 							<legend class="scheduler-border" th:text="#{variabledocument}">Variable
 								document</legend>
@@ -40,7 +36,6 @@
 										id</p>
 								</span>
 							</div>
-
 							<div class="form-group has-feedback"
 								th:classappend="${#fields.hasErrors('name')}? has-error : has-success">
 								<label th:text="#{variables.modify.variableDocumentName}">Variable
@@ -54,7 +49,6 @@
 										name</p>
 								</span>
 							</div>
-
 							<div class="form-group has-feedback"
 								th:classappend="${#fields.hasErrors('label')}? has-error : has-success">
 								<label th:text="#{variables.modify.variableDocumentLabel}">Variable
@@ -68,7 +62,6 @@
 										label</p>
 								</span>
 							</div>
-
 							<div class="form-group has-feedback"
 								th:classappend="${#fields.hasErrors('dataType')}? has-error : has-success">
 								<label th:text="#{variables.modify.variableDocumentDataType}">Variable
@@ -109,12 +102,11 @@
 										th:errors="*{question}">Incorrect question</p>
 								</span>
 							</div>
-
-
 						</fieldset>
 						<fieldset class="scheduler-border">
 							<legend class="scheduler-border" th:text="#{survey}">Survey</legend>
-							<th:block th:object="${variableDocument.variableSurvey}">
+							<th:block th:if="${variableDocument.variableSurvey != null}"
+								th:object="${variableDocument.variableSurvey}">
 								<div class="form-group has-feedback"
 									th:classappend="${#fields.hasErrors('surveyId')}? has-error : has-success">
 									<label th:text="#{variables.modify.surveyID}">Survey id</label>
@@ -154,7 +146,6 @@
 											th:errors="*{variableAlias}">Incorrect variable alias</p>
 									</span>
 								</div>
-
 								<div class="form-group has-feedback"
 									th:classappend="${#fields.hasErrors('surveyPeriod')}? has-error : has-success">
 									<label th:text="#{variables.modify.surveyStartDate}">From
@@ -181,14 +172,14 @@
 											th:errors="*{surveyPeriod}">Incorrect End date</p>
 									</span>
 								</div>
-
+								<button type="submit" name="removeSurvey" class="btn"
+								th:text="#{variables.modify.remove}">Remove</button>
 							</th:block>
+							<button th:if="${variableDocument.variableSurvey == null}" type="submit" name="addSurvey" class="btn"
+								th:text="#{variables.modify.add}">Add</button>
 						</fieldset>
-
-
 						<fieldset class="scheduler-border">
 							<legend class="scheduler-border" th:text="#{answeroptions}">AnswerOptions</legend>
-
 							<div th:each="answerOption, rowStat : *{answerOptions}">
 								<label
 									th:text="#{variables.modify.answerOption}+': '+${rowStat.index+1}">AnswerOption</label>
@@ -222,11 +213,12 @@
 											Code</p>
 									</span>
 								</div>
+								<button type="submit" name="removeOption" th:value="${rowStat.index}" class="btn"
+								th:text="#{variables.modify.remove}">Remove</button>
+								<hr class="divider"></hr>
 							</div>
 							<button type="submit" name="addOption" class="btn"
-								th:text="#{variables.modify.addAnswerOption}">Add</button>
-							<button type="submit" name="removeOption" class="btn"
-								th:text="#{variables.modify.removeAnswerOption}">Remove</button>
+								th:text="#{variables.modify.add}">Add</button>
 						</fieldset>
 						<hr class="divider"></hr>
 						<div>

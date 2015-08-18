@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Callable;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.mvc.ControllerLinkBuilderFactory;
 import org.springframework.stereotype.Controller;
@@ -66,6 +68,53 @@ public class VariableModifyController {
     };
   }
 
+
+  /**
+   * add a survey to the variable.
+   * 
+   * @return modify.html
+   */
+  @RequestMapping(method = RequestMethod.POST, params = {"addSurvey"})
+  public Callable<ModelAndView> addSurvey(
+      VariableDocument variableDocument, BindingResult bindingResult) {
+    return () -> {
+
+      if (variableDocument.getVariableSurvey() == null) {
+        VariableSurvey survey = new VariableSurvey();
+        variableDocument.setVariableSurvey(survey);
+      }
+      validator.validate(variableDocument, bindingResult);
+
+      VariableModifyResource resource =
+          new VariableModifyResource(VariableModifyController.class, controllerLinkBuilderFactory);
+      ModelAndView modelAndView = new ModelAndView("variables/modify");
+      modelAndView.addObject("resource", resource);
+      modelAndView.addObject("variableDocument", bindingResult.getModel().get("variableDocument"));
+
+      return modelAndView;
+    };
+  }
+
+  /**
+   * remove a survey from the variable.
+   * 
+   * @return modify.html
+   */
+  @RequestMapping(method = RequestMethod.POST, params = {"removeSurvey"})
+  public Callable<ModelAndView> removeSurvey(
+      VariableDocument variableDocument, BindingResult bindingResult) {
+    return () -> {
+      VariableModifyResource resource =
+          new VariableModifyResource(VariableModifyController.class, controllerLinkBuilderFactory);
+      variableDocument.setVariableSurvey(null);
+      validator.validate(variableDocument, bindingResult);
+      ModelAndView modelAndView = new ModelAndView("variables/modify");
+      modelAndView.addObject("resource", resource);
+      modelAndView.addObject("variableDocument", bindingResult.getModel().get("variableDocument"));
+      return modelAndView;
+    };
+  }
+
   /**
    * add an answer option to the variable.
    * 
@@ -75,11 +124,14 @@ public class VariableModifyController {
   public Callable<ModelAndView> addAnswerOption(
       VariableDocument variableDocument, BindingResult bindingResult) {
     return () -> {
-      VariableModifyResource resource =
-          new VariableModifyResource(VariableModifyController.class, controllerLinkBuilderFactory);
+      if (variableDocument.getAnswerOptions() == null) {
+        List<AnswerOption> answerOpt = new ArrayList<>();
+        variableDocument.setAnswerOptions(answerOpt);
+      }
       variableDocument.getAnswerOptions().add(new AnswerOption());
       validator.validate(variableDocument, bindingResult);
-
+      VariableModifyResource resource =
+          new VariableModifyResource(VariableModifyController.class, controllerLinkBuilderFactory);
       ModelAndView modelAndView = new ModelAndView("variables/modify");
       modelAndView.addObject("resource", resource);
       modelAndView.addObject("variableDocument", bindingResult.getModel().get("variableDocument"));
@@ -95,19 +147,19 @@ public class VariableModifyController {
    */
   @RequestMapping(method = RequestMethod.POST, params = {"removeOption"})
   public Callable<ModelAndView> removeAnswerOption(
-      VariableDocument variableDocument, BindingResult bindingResult) {
+      HttpServletRequest request, VariableDocument variableDocument, BindingResult bindingResult) {
     return () -> {
-      VariableModifyResource resource =
-          new VariableModifyResource(VariableModifyController.class, controllerLinkBuilderFactory);
       try {
-        int lastIndex = variableDocument.getAnswerOptions().size();
-        if (lastIndex > 1) {
-          variableDocument.getAnswerOptions().remove(lastIndex - 1);
+        int index = Integer.parseInt(request.getParameter("removeOption"));
+        variableDocument.getAnswerOptions().remove(index);
+        if (variableDocument.getAnswerOptions().isEmpty()) {
+          variableDocument.setAnswerOptions(null);
         }
-
-      } catch (NullPointerException e) {
+      } catch (NumberFormatException e) {
         e.printStackTrace();
       }
+      VariableModifyResource resource =
+          new VariableModifyResource(VariableModifyController.class, controllerLinkBuilderFactory);
       validator.validate(variableDocument, bindingResult);
       ModelAndView modelAndView = new ModelAndView("variables/modify");
       modelAndView.addObject("resource", resource);
@@ -154,9 +206,10 @@ public class VariableModifyController {
             .addObject("variableDocument", bindingResult.getModel().get("variableDocument"));
       }
       /*
-       * System.out.println(bindingResult.getGlobalErrors().size() + " : " +
-       * bindingResult.getGlobalError().getArguments().length + " : " +
-       * bindingResult.getGlobalErrorCount());
+       * try { System.out.println(bindingResult.getGlobalErrors().size() + " : " +
+       * bindingResult.getGlobalErrorCount() + bindingResult.getErrorCount() + " : " +
+       * bindingResult.getFieldErrorCount() + " : " + bindingResult.getAllErrors().size()); } catch
+       * (Exception e) { e.printStackTrace(); }
        */
       return modelAndView;
     };
@@ -169,13 +222,6 @@ public class VariableModifyController {
    */
   private VariableDocument createVariableDocument() {
     VariableDocument document = new VariableDocument();
-    VariableSurvey survey = new VariableSurvey();
-    List<AnswerOption> answerOpt = new ArrayList<>();
-    AnswerOption answer = new AnswerOption();
-    answerOpt.add(answer);
-    document.setAnswerOptions(answerOpt);
-    document.setVariableSurvey(survey);
-
     return document;
   }
 

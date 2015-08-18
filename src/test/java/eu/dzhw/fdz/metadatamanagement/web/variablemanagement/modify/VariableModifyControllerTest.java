@@ -28,16 +28,17 @@ import eu.dzhw.fdz.metadatamanagement.web.AbstractWebTest;
  *
  */
 public class VariableModifyControllerTest extends AbstractWebTest {
-  
+
   @Autowired
   private VariableService variableService;
 
   @Test
   public void testGetForm() throws Exception {
     // Check the Requestpath of the VariableModifyControllerPath
-    MvcResult mvcResult = this.mockMvc.perform(get("/de/variables/create"))
-        .andExpect(status().isOk()).andExpect(request().asyncStarted())
-        .andExpect(request().asyncResult(instanceOf(ModelAndView.class))).andReturn();
+    MvcResult mvcResult =
+        this.mockMvc.perform(get("/de/variables/create")).andExpect(status().isOk())
+            .andExpect(request().asyncStarted())
+            .andExpect(request().asyncResult(instanceOf(ModelAndView.class))).andReturn();
 
     this.mockMvc.perform(asyncDispatch(mvcResult)).andExpect(status().isOk())
         .andExpect(content().string((containsString("Sprache"))))
@@ -47,93 +48,96 @@ public class VariableModifyControllerTest extends AbstractWebTest {
         .andExpect(model().attributeHasFieldErrors("variableDocument"));
 
   }
-  
+
   @Test
-  public void testPostRemoveAnswerOptionMethod() throws Exception{
+  public void testPostRemoveAnswerOptionMethod() throws Exception {
     // Arrange
-    MvcResult mvcResult = this.mockMvc.perform(post("/de/variables/create")
-        .param(VariableDocument.ID_FIELD, "ID007")
-        .param(VariableDocument.NAME_FIELD, "Ein Name")
-        .param(VariableDocument.QUESTION_FIELD,"Eine Frage?")
-        .param(VariableDocument.NESTED_ANSWER_OPTIONS_CODE_FIELD,"11111")
-        .param(VariableDocument.NESTED_ANSWER_OPTIONS_LABEL_FIELD,"11111Label")
-        .param("removeOption",""))
-        .andExpect(status().isOk()).andExpect(request().asyncStarted())
-        .andExpect(request().asyncResult(instanceOf(ModelAndView.class))).andReturn();
-    
-    //Act and Assert
-    this.mockMvc
-        .perform(asyncDispatch(mvcResult)).andExpect(status().is2xxSuccessful())
+    MvcResult mvcResult =
+        this.mockMvc
+            .perform(
+                post("/de/variables/create").param(VariableDocument.ID_FIELD, "ID007")
+                    .param(VariableDocument.NAME_FIELD, "Ein Name")
+                    .param(VariableDocument.QUESTION_FIELD, "Eine Frage?")
+                    .param(VariableDocument.NESTED_ANSWER_OPTIONS_CODE_FIELD, "11111")
+                    .param(VariableDocument.NESTED_ANSWER_OPTIONS_LABEL_FIELD, "11111Label")
+                    .param("removeOption", "")).andExpect(status().isOk())
+            .andExpect(request().asyncStarted())
+            .andExpect(request().asyncResult(instanceOf(ModelAndView.class))).andReturn();
+
+    // Act and Assert
+    this.mockMvc.perform(asyncDispatch(mvcResult)).andExpect(status().is2xxSuccessful())
         .andExpect(redirectedUrl(null));
   }
-  
-  
+
+
   @Test
-  public void testPostAddAnswerOptionMethod() throws Exception{
+  public void testPostAddAnswerOptionMethod() throws Exception {
     // Arrange
-    MvcResult mvcResult = this.mockMvc.perform(post("/de/variables/create")
-        .param(VariableDocument.ID_FIELD, "ID007")
-        .param(VariableDocument.NAME_FIELD, "Ein Name")
-        .param(VariableDocument.QUESTION_FIELD,"Eine Frage?")
-        .param(VariableDocument.NESTED_ANSWER_OPTIONS_CODE_FIELD,"11111")
-        .param(VariableDocument.NESTED_ANSWER_OPTIONS_LABEL_FIELD,"11111Label")
-        .param("addOption",""))
-        .andExpect(status().isOk()).andExpect(request().asyncStarted())
-        .andExpect(request().asyncResult(instanceOf(ModelAndView.class))).andReturn();
-    
-    //Act and Assert
-    this.mockMvc
-        .perform(asyncDispatch(mvcResult)).andExpect(status().is2xxSuccessful())
+    MvcResult mvcResult =
+        this.mockMvc
+            .perform(
+                post("/de/variables/create").param(VariableDocument.ID_FIELD, "ID007")
+                    .param(VariableDocument.NAME_FIELD, "Ein Name")
+                    .param(VariableDocument.QUESTION_FIELD, "Eine Frage?")
+                    .param(VariableDocument.NESTED_ANSWER_OPTIONS_CODE_FIELD, "11111")
+                    .param(VariableDocument.NESTED_ANSWER_OPTIONS_LABEL_FIELD, "11111Label")
+                    .param("addOption", "")).andExpect(status().isOk())
+            .andExpect(request().asyncStarted())
+            .andExpect(request().asyncResult(instanceOf(ModelAndView.class))).andReturn();
+
+    // Act and Assert
+    this.mockMvc.perform(asyncDispatch(mvcResult)).andExpect(status().is2xxSuccessful())
         .andExpect(redirectedUrl(null));
   }
-  
+
   @Test
-  public void testPostResetMethod() throws Exception{
+  public void testPostResetMethod() throws Exception {
     // Arrange
-    //Emty Question Field generates a error
-    MvcResult mvcResult = this.mockMvc.perform(post("/de/variables/create")
-        .param("reset",""))
-        .andExpect(status().isOk()).andExpect(request().asyncStarted())
-        .andExpect(request().asyncResult(instanceOf(ModelAndView.class))).andReturn();
-    
-    //Act and Assert
-    this.mockMvc
-        .perform(asyncDispatch(mvcResult)).andExpect(status().is3xxRedirection())
+    // Emty Question Field generates a error
+    MvcResult mvcResult =
+        this.mockMvc.perform(post("/de/variables/create").param("reset", ""))
+            .andExpect(status().isOk()).andExpect(request().asyncStarted())
+            .andExpect(request().asyncResult(instanceOf(ModelAndView.class))).andReturn();
+
+    // Act and Assert
+    this.mockMvc.perform(asyncDispatch(mvcResult)).andExpect(status().is3xxRedirection())
         .andExpect(redirectedUrl("/de/variables/create"));
   }
-  
+
   @Test
   public void testPostInvalidVariableDocument() throws Exception {
     // Arrange
-    //Emty Question Field generates a error
-    MvcResult mvcResult = this.mockMvc.perform(post("/de/variables/create")
-        .param(VariableDocument.ID_FIELD, "ID007")
-        .param(VariableDocument.NAME_FIELD, "Ein Name"))
-        .andExpect(status().isOk()).andExpect(request().asyncStarted())
-        .andExpect(request().asyncResult(instanceOf(ModelAndView.class))).andReturn();
-    
-    //Act and Assert
-    this.mockMvc
-        .perform(asyncDispatch(mvcResult)).andExpect(status().is2xxSuccessful())
+    // Emty Question Field generates a error
+    MvcResult mvcResult =
+        this.mockMvc
+            .perform(
+                post("/de/variables/create").param(VariableDocument.ID_FIELD, "ID007").param(
+                    VariableDocument.NAME_FIELD, "Ein Name")).andExpect(status().isOk())
+            .andExpect(request().asyncStarted())
+            .andExpect(request().asyncResult(instanceOf(ModelAndView.class))).andReturn();
+
+    // Act and Assert
+    this.mockMvc.perform(asyncDispatch(mvcResult)).andExpect(status().is2xxSuccessful())
         .andExpect(redirectedUrl(null));
   }
 
   @Test
   public void testPostValidVariableDocument() throws Exception {
     // Arrange
-    MvcResult mvcResult = this.mockMvc.perform(post("/de/variables/create")
-        .param(VariableDocument.ID_FIELD, "ID007")
-        .param(VariableDocument.NAME_FIELD, "Ein Name")
-        .param(VariableDocument.QUESTION_FIELD,"Eine Frage?"))
-        .andExpect(status().isOk()).andExpect(request().asyncStarted())
-        .andExpect(request().asyncResult(instanceOf(ModelAndView.class))).andReturn();
-    
-    //Act and Assert
-    this.mockMvc
-        .perform(asyncDispatch(mvcResult)).andExpect(status().is3xxRedirection())
+    MvcResult mvcResult =
+        this.mockMvc
+            .perform(
+                post("/de/variables/create").param(VariableDocument.ID_FIELD, "ID007")
+                    .param(VariableDocument.NAME_FIELD, "Ein Name")
+                    .param(VariableDocument.QUESTION_FIELD, "Eine Frage?"))
+            .andExpect(status().isOk()).andExpect(request().asyncStarted())
+            .andExpect(request().asyncResult(instanceOf(ModelAndView.class))).andReturn();
+
+    // Act and Assert
+    this.mockMvc.perform(asyncDispatch(mvcResult)).andExpect(status().is3xxRedirection())
         .andExpect(redirectedUrl("/de/variables/ID007"));
-    
-    //Delete
+
+    // Delete
     this.variableService.delete("ID007");
   }
 }
