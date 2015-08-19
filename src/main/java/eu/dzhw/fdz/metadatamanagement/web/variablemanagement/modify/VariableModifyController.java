@@ -33,8 +33,6 @@ import eu.dzhw.fdz.metadatamanagement.service.variablemanagement.VariableService
 @Controller
 @RequestMapping(value = "/{language:de|en}/variables/create")
 public class VariableModifyController {
-
-
   private VariableService variableService;
   private ControllerLinkBuilderFactory controllerLinkBuilderFactory;
   private VariableDocumentValidator validator;
@@ -126,7 +124,7 @@ public class VariableModifyController {
    * 
    * @return modify.html
    */
-  @RequestMapping(method = RequestMethod.POST, params = {"addOption"})
+  @RequestMapping(method = RequestMethod.POST, params = {"addAnswerOption"})
   public Callable<ModelAndView> addAnswerOption(VariableDocument variableDocument,
       BindingResult bindingResult) {
     return () -> {
@@ -151,19 +149,16 @@ public class VariableModifyController {
    * 
    * @return modify.html
    */
-  @RequestMapping(method = RequestMethod.POST, params = {"removeOption"})
+  @RequestMapping(method = RequestMethod.POST, params = {"removeAnswerOption"})
   public Callable<ModelAndView> removeAnswerOption(
-      @RequestParam("removeOption") Integer indexAnswerOption, HttpServletRequest request,
+      @RequestParam("removeAnswerOption") int indexAnswerOption, HttpServletRequest request,
       VariableDocument variableDocument, BindingResult bindingResult) {
     return () -> {
       variableDocument.getAnswerOptions().remove(indexAnswerOption);
-      if (variableDocument.getAnswerOptions().isEmpty()) {
-        variableDocument.setAnswerOptions(null);
-      }
+      validator.validate(variableDocument, bindingResult);
 
       VariableModifyResource resource =
           new VariableModifyResource(VariableModifyController.class, controllerLinkBuilderFactory);
-      validator.validate(variableDocument, bindingResult);
       ModelAndView modelAndView = new ModelAndView("variables/modify");
       modelAndView.addObject("resource", resource);
       modelAndView.addObject("variableDocument", variableDocument);

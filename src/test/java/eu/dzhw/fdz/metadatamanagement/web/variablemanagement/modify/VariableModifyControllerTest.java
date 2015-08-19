@@ -33,7 +33,7 @@ public class VariableModifyControllerTest extends AbstractWebTest {
 
   @Autowired
   private VariableService variableService;
-  
+
   @Rule
   public ExpectedException thrown = ExpectedException.none();
 
@@ -115,7 +115,7 @@ public class VariableModifyControllerTest extends AbstractWebTest {
             .param(VariableDocument.NAME_FIELD, "Ein Name")
             .param(VariableDocument.QUESTION_FIELD, "Eine Frage?")
             .param("answerOptions[0].code", "11111").param("answerOptions[0].label", "11111Label")
-            .param("removeOption", "0"))
+            .param("removeAnswerOption", "0"))
         .andExpect(status().isOk()).andExpect(request().asyncStarted())
         .andExpect(request().asyncResult(instanceOf(ModelAndView.class))).andReturn();
 
@@ -133,7 +133,7 @@ public class VariableModifyControllerTest extends AbstractWebTest {
             .param(VariableDocument.QUESTION_FIELD, "Eine Frage?")
             .param(VariableDocument.NESTED_ANSWER_OPTIONS_CODE_FIELD, "11111")
             .param(VariableDocument.NESTED_ANSWER_OPTIONS_LABEL_FIELD, "11111Label")
-            .param("addOption", ""))
+            .param("addAnswerOption", ""))
         .andExpect(status().isOk()).andExpect(request().asyncStarted())
         .andExpect(request().asyncResult(instanceOf(ModelAndView.class))).andReturn();
 
@@ -148,7 +148,7 @@ public class VariableModifyControllerTest extends AbstractWebTest {
     MvcResult mvcResult = this.mockMvc
         .perform(post("/de/variables/create").param(VariableDocument.ID_FIELD, "ID007")
             .param(VariableDocument.NAME_FIELD, "Ein Name")
-            .param(VariableDocument.QUESTION_FIELD, "Eine Frage?").param("addOption", ""))
+            .param(VariableDocument.QUESTION_FIELD, "Eine Frage?").param("addAnswerOption", ""))
         .andExpect(status().isOk()).andExpect(request().asyncStarted())
         .andExpect(request().asyncResult(instanceOf(ModelAndView.class))).andReturn();
 
