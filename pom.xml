@@ -2,7 +2,7 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
-	
+
 	<parent>
 		<artifactId>spring-boot-starter-parent</artifactId>
 		<groupId>org.springframework.boot</groupId>
@@ -114,6 +114,14 @@
 			<scope>test</scope>
 		</dependency>
 
+		<dependency>
+			<groupId>net.karneim</groupId>
+			<artifactId>pojobuilder</artifactId>
+			<version>3.4.0</version>
+			<!-- 'provided' scope because this is only needed during compilation -->
+			<scope>provided</scope>
+		</dependency>
+
 		<!-- test dependencies come here -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -203,11 +211,30 @@
 				<configuration>
 					<compilerArgs>
 						<arg>-Xlint</arg>
-						<arg>-Werror</arg>
+						<!-- <arg>-Werror</arg> -->
+						<arg>-proc:none</arg>
 					</compilerArgs>
 					<showDeprecation>true</showDeprecation>
 					<showWarnings>true</showWarnings>
 				</configuration>
+			</plugin>
+			<!-- Generate Builder Classes -->
+			<plugin>
+				<groupId>org.bsc.maven</groupId>
+				<artifactId>maven-processor-plugin</artifactId>
+				<version>2.2.4</version>
+				<configuration>
+					<defaultOutputDirectory>${project.build.directory}/generated-sources/</defaultOutputDirectory>
+				</configuration>
+				<executions>
+					<execution>
+						<id>process</id>
+						<goals>
+							<goal>process</goal>
+						</goals>
+						<phase>process-sources</phase>
+					</execution>
+				</executions>
 			</plugin>
 			<!-- Checkstyle and fail the build -->
 			<plugin>
@@ -222,6 +249,7 @@
 							<goal>check</goal>
 						</goals>
 						<configuration>
+							<excludes>${project.build.directory}/generated-sources/**</excludes>
 							<configLocation>buildconfig/google_checks.xml</configLocation>
 							<encoding>UTF-8</encoding>
 							<consoleOutput>true</consoleOutput>
@@ -362,6 +390,18 @@
 							<portNames>
 								<portName>tomcat.http.port</portName>
 							</portNames>
+						</configuration>
+					</execution>
+					<execution>
+						<id>add-source</id>
+						<phase>generate-sources</phase>
+						<goals>
+							<goal>add-source</goal>
+						</goals>
+						<configuration>
+							<sources>
+								<source>${project.build.directory}/generated-sources/</source>
+							</sources>
 						</configuration>
 					</execution>
 				</executions>

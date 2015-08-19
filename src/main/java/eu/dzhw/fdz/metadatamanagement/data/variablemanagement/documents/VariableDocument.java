@@ -13,6 +13,7 @@ import eu.dzhw.fdz.metadatamanagement.data.common.documents.DateRange;
 import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.validation.UniqueAnswerCode;
 import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.validation.ValidDataType;
 import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.validation.ValidScaleLevel;
+import net.karneim.pojobuilder.GeneratePojoBuilder;
 
 /**
  * This is a representation of a variable. All fields describe the attributes of the variable, for
@@ -25,6 +26,8 @@ import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.validati
     indexName = "#{'" + AbstractDocument.METADATA_INDEX + "_'"
         + "+T(org.springframework.context.i18n.LocaleContextHolder).getLocale().getLanguage()}",
     type = "variables")
+@GeneratePojoBuilder(
+    intoPackage = "eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents")
 public class VariableDocument extends AbstractDocument {
   // Public constants which are used in queries as fieldnames.
   public static final String ALL_STRINGS_AS_NGRAMS_FIELD = "allStringsAsNgrams";

@@ -3,6 +3,8 @@ package eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
+import net.karneim.pojobuilder.GeneratePojoBuilder;
+
 /**
  * The answer option represents the options of answer for closed questions. The answer option bases
  * on two elements: the answer code itself and a label.
@@ -10,6 +12,7 @@ import javax.validation.constraints.Size;
  * @author Daniel Katzberg
  *
  */
+@GeneratePojoBuilder
 public class AnswerOption {
 
   public static final String CODE_FIELD = "code";

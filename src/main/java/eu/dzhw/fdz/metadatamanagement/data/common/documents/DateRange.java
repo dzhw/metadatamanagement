@@ -4,6 +4,8 @@ import java.time.LocalDate;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
+import net.karneim.pojobuilder.GeneratePojoBuilder;
+
 /**
  * The date range has two {@code LocalDate} object for representing a time range. The the
  * {@code DateOrderValidator} is used to check the order of the range.
@@ -11,6 +13,7 @@ import org.springframework.format.annotation.DateTimeFormat;
  * @author Daniel Katzberg
  *
  */
+@GeneratePojoBuilder
 public class DateRange {
 
   // Public constants which are used in queries as fieldnames.

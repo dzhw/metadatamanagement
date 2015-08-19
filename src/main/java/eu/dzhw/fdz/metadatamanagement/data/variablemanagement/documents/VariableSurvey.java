@@ -8,6 +8,7 @@ import org.hibernate.validator.constraints.NotBlank;
 import eu.dzhw.fdz.metadatamanagement.data.common.documents.DateRange;
 import eu.dzhw.fdz.metadatamanagement.data.common.validation.ValidDateRange;
 import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.validation.UniqueVariableAlias;
+import net.karneim.pojobuilder.GeneratePojoBuilder;
 
 /**
  * This class is a representation of a survey. This is a nested object of a survey variable.
@@ -17,6 +18,7 @@ import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.validati
  * @author Daniel Katzberg
  *
  */
+@GeneratePojoBuilder
 @UniqueVariableAlias
 public class VariableSurvey {
 

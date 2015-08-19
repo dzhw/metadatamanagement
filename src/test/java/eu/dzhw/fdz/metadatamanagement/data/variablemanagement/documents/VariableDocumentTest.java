@@ -166,7 +166,7 @@ public class VariableDocumentTest extends AbstractWebTest {
     // Assert
     assertEquals(0, errors.getErrorCount());
   }
-  
+
   @Test
   public void testInvalidLabelAtAnswerOption() {
 
@@ -279,16 +279,16 @@ public class VariableDocumentTest extends AbstractWebTest {
         is(NotNull.class.getSimpleName()));
   }
 
+  // TODO
   @Test
   public void testInvalidVariableDocumentSurveyWithEmptyFields() {
 
     // Arrange
-    VariableDocument variableDocument = new VariableDocument();
-    variableDocument.setId("ThisIDisOkay");
-    variableDocument.setName("ThisNameIsOkay.");
-    variableDocument.setQuestion("DefaultQuestion?");
-    VariableSurvey variableSurvey = new VariableSurvey();
-    variableDocument.setVariableSurvey(variableSurvey);
+    VariableSurveyBuilder variableSurveyBuilder = new VariableSurveyBuilder();
+    VariableDocumentBuilder variableDocumentBuilder = new VariableDocumentBuilder();
+    variableDocumentBuilder.withId("ThisIDisOkay").withName("ThisNameIsOkay.")
+        .withQuestion("DefaultQuestion?").withVariableSurvey(variableSurveyBuilder.build());
+    VariableDocument variableDocument = variableDocumentBuilder.build();
 
     // Act
     Errors errors = new BeanPropertyBindingResult(variableDocument, "variableDocument");
