@@ -1,5 +1,6 @@
 package eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.validation.Valid;
@@ -100,6 +101,45 @@ public class VariableDocument extends AbstractDocument {
   @UniqueAnswerCode
   private List<AnswerOption> answerOptions;
 
+  /**
+   * Create a variableDocument with a empty AnswerOption.
+   */
+  public VariableDocument() {
+    this.setAnswerOptions(new ArrayList<>());
+  }
+
+  /**
+   * Adds a answer Option to the list.
+   * 
+   * @param answerOption an AnswerOption
+   * @return Feedback for successful adding
+   */
+  public boolean addAnswerOption(AnswerOption answerOption) {
+
+    // ignore null options
+    if (answerOption == null) {
+      return false;
+    }
+
+    return this.answerOptions.add(answerOption);
+  }
+
+  /**
+   * Removes a answer Option from the list.
+   * 
+   * @param index an the index of the AnswerOption
+   * @return The deleted AnswerOption
+   */
+  public AnswerOption removeAnswerOption(int index) {
+
+    // ignore wrong index
+    if (index < 0 || index >= this.answerOptions.size()) {
+      return null;
+    }
+
+    return this.answerOptions.remove(index);
+  }
+
   /*
    * (non-Javadoc)
    * 
@@ -112,64 +152,6 @@ public class VariableDocument extends AbstractDocument {
         + answerOptions + "]";
   }
 
-
-  /* GETTER / SETTER */
-
-  public VariableSurvey getVariableSurvey() {
-    return variableSurvey;
-  }
-
-  public void setVariableSurvey(VariableSurvey variableSurvey) {
-    this.variableSurvey = variableSurvey;
-  }
-
-  public String getName() {
-    return name;
-  }
-
-  public void setName(String name) {
-    this.name = name;
-  }
-
-  public String getLabel() {
-    return label;
-  }
-
-  public void setLabel(String label) {
-    this.label = label;
-  }
-
-  public String getDataType() {
-    return dataType;
-  }
-
-  public void setDataType(String dataType) {
-    this.dataType = dataType;
-  }
-
-  public String getScaleLevel() {
-    return scaleLevel;
-  }
-
-  public void setScaleLevel(String scaleLevel) {
-    this.scaleLevel = scaleLevel;
-  }
-
-  public List<AnswerOption> getAnswerOptions() {
-    return answerOptions;
-  }
-
-  public void setAnswerOptions(List<AnswerOption> answerOptions) {
-    this.answerOptions = answerOptions;
-  }
-
-  public String getQuestion() {
-    return question;
-  }
-
-  public void setQuestion(String question) {
-    this.question = question;
-  }
 
   /*
    * (non-Javadoc)
@@ -260,4 +242,64 @@ public class VariableDocument extends AbstractDocument {
     }
     return true;
   }
+
+
+  /* GETTER / SETTER */
+
+  public VariableSurvey getVariableSurvey() {
+    return variableSurvey;
+  }
+
+  public void setVariableSurvey(VariableSurvey variableSurvey) {
+    this.variableSurvey = variableSurvey;
+  }
+
+  public String getName() {
+    return name;
+  }
+
+  public void setName(String name) {
+    this.name = name;
+  }
+
+  public String getLabel() {
+    return label;
+  }
+
+  public void setLabel(String label) {
+    this.label = label;
+  }
+
+  public String getDataType() {
+    return dataType;
+  }
+
+  public void setDataType(String dataType) {
+    this.dataType = dataType;
+  }
+
+  public String getScaleLevel() {
+    return scaleLevel;
+  }
+
+  public void setScaleLevel(String scaleLevel) {
+    this.scaleLevel = scaleLevel;
+  }
+
+  public List<AnswerOption> getAnswerOptions() {
+    return answerOptions;
+  }
+
+  public void setAnswerOptions(List<AnswerOption> answerOptions) {
+    this.answerOptions = answerOptions;
+  }
+
+  public String getQuestion() {
+    return question;
+  }
+
+  public void setQuestion(String question) {
+    this.question = question;
+  }
+
 }

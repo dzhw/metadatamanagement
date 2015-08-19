@@ -28,7 +28,7 @@ public class VariableResourceTest {
         
     //Assert
     assertEquals(31, hashCodeWithoutVariableDocument);
-    assertEquals(1742810366, hashCodeWithVariableDocument);
+    assertEquals(-1664653249, hashCodeWithVariableDocument);
   }
   
   @Test
