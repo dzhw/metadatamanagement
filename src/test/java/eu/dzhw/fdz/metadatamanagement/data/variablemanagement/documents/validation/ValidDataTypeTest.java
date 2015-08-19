@@ -13,6 +13,7 @@ import org.springframework.validation.BeanPropertyBindingResult;
 import org.springframework.validation.Errors;
 
 import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.VariableDocument;
+import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.validation.provider.DataTypesProvider;
 import eu.dzhw.fdz.metadatamanagement.web.AbstractWebTest;
 
 /**
@@ -20,10 +21,13 @@ import eu.dzhw.fdz.metadatamanagement.web.AbstractWebTest;
  *
  */
 public class ValidDataTypeTest extends AbstractWebTest {
-  
+
   @Autowired
   private VariableDocumentValidator variableDocumentValidator;
-  
+
+  @Autowired
+  private DataTypesProvider dataTypeProvider;
+
   @Test
   public void testValidDataField() {
     // Assert
@@ -59,14 +63,14 @@ public class ValidDataTypeTest extends AbstractWebTest {
     assertThat(errors.getFieldError(VariableDocument.DATA_TYPE_FIELD).getCode(),
         is(ValidDataType.class.getSimpleName()));
   }
-  
+
   @Test
   public void testNotNullScaleLevelAtNumericDataType() {
     // Assert
     VariableDocument variableDocument = new VariableDocument();
     variableDocument.setId("ThisIDisOkay");
     variableDocument.setName("ThisNameIsOkay.");
-    variableDocument.setDataType("numeric");
+    variableDocument.setDataType(dataTypeProvider.getNumericValueByLocale());
     variableDocument.setQuestion("DefaultQuestion?");
 
     // Act
