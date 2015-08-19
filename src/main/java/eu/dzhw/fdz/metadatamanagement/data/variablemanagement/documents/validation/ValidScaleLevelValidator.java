@@ -15,7 +15,7 @@ import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.validati
  * @author Daniel Katzberg
  *
  */
-public class ScaleLevelValidator implements ConstraintValidator<ValidScaleLevel, String> {
+public class ValidScaleLevelValidator implements ConstraintValidator<ValidScaleLevel, String> {
 
   @Autowired
   private ScaleLevelProvider scaleLevelProvider;

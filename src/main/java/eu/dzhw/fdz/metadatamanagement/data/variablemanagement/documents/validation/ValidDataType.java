@@ -19,7 +19,7 @@ import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.validati
  *
  */
 @Documented
-@Constraint(validatedBy = {DataTypeValidator.class})
+@Constraint(validatedBy = {ValidDataTypeValidator.class})
 @Target({ElementType.FIELD})
 @Retention(RetentionPolicy.RUNTIME)
 public @interface ValidDataType {

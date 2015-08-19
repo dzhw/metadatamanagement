@@ -19,7 +19,7 @@ import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.validati
  *
  */
 @Documented
-@Constraint(validatedBy = {ScaleLevelValidator.class})
+@Constraint(validatedBy = {ValidScaleLevelValidator.class})
 @Target({ElementType.FIELD})
 @Retention(RetentionPolicy.RUNTIME)
 public @interface ValidScaleLevel {

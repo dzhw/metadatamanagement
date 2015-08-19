@@ -31,7 +31,7 @@ import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.validati
  */
 public class VariableServiceTest extends MetaDataManagementApplicationSmokeTest {
 
-  // TOD Depending on json test files
+  // TODO Depending on json test files
   @Autowired
   private VariableService variableService;
 

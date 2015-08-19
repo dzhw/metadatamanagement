@@ -10,13 +10,19 @@ import static org.junit.Assert.assertEquals;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Pattern;
 
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+
+import org.hibernate.validator.constraints.NotBlank;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.BeanPropertyBindingResult;
 import org.springframework.validation.Errors;
 
 import eu.dzhw.fdz.metadatamanagement.data.common.documents.DateRange;
+import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.validation.UniqueVariableAlias;
 import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.validation.VariableDocumentValidator;
 import eu.dzhw.fdz.metadatamanagement.web.AbstractWebTest;
 
@@ -42,9 +48,12 @@ public class VariableDocumentTest extends AbstractWebTest {
 
     // Assert
     assertEquals(3, errors.getErrorCount());
-    assertThat(errors.getFieldError(VariableDocument.NAME_FIELD).getCode(), is("NotBlank"));
-    assertThat(errors.getFieldError(VariableDocument.QUESTION_FIELD).getCode(), is("NotBlank"));
-    assertThat(errors.getFieldError(VariableDocument.ID_FIELD).getCode(), is("NotBlank"));
+    assertThat(errors.getFieldError(VariableDocument.NAME_FIELD).getCode(),
+        is(NotBlank.class.getSimpleName()));
+    assertThat(errors.getFieldError(VariableDocument.QUESTION_FIELD).getCode(),
+        is(NotBlank.class.getSimpleName()));
+    assertThat(errors.getFieldError(VariableDocument.ID_FIELD).getCode(),
+        is(NotBlank.class.getSimpleName()));
   }
 
   @Test
@@ -79,7 +88,8 @@ public class VariableDocumentTest extends AbstractWebTest {
 
     // Assert
     assertEquals(1, errors.getErrorCount());
-    assertThat(errors.getFieldError(VariableDocument.ID_FIELD).getCode(), is("Pattern"));
+    assertThat(errors.getFieldError(VariableDocument.ID_FIELD).getCode(),
+        is(Pattern.class.getSimpleName()));
   }
 
   @Test
@@ -114,7 +124,8 @@ public class VariableDocumentTest extends AbstractWebTest {
 
     // Assert
     assertEquals(1, errors.getErrorCount());
-    assertThat(errors.getFieldError(VariableDocument.NAME_FIELD).getCode(), is("Size"));
+    assertThat(errors.getFieldError(VariableDocument.NAME_FIELD).getCode(),
+        is(Size.class.getSimpleName()));
   }
 
   @Test
@@ -134,7 +145,8 @@ public class VariableDocumentTest extends AbstractWebTest {
 
     // Assert
     assertEquals(1, errors.getErrorCount());
-    assertThat(errors.getFieldError(VariableDocument.LABEL_FIELD).getCode(), is("Size"));
+    assertThat(errors.getFieldError(VariableDocument.LABEL_FIELD).getCode(),
+        is(Size.class.getSimpleName()));
   }
 
   @Test
@@ -154,100 +166,7 @@ public class VariableDocumentTest extends AbstractWebTest {
     // Assert
     assertEquals(0, errors.getErrorCount());
   }
-
-  @Test
-  public void testValidDataField() {
-    // Assert
-    VariableDocument variableDocument = new VariableDocument();
-    variableDocument.setId("ThisIDisOkay");
-    variableDocument.setName("ThisNameIsOkay.");
-    variableDocument.setDataType("string");
-    variableDocument.setQuestion("DefaultQuestion?");
-
-    // Act
-    Errors errors = new BeanPropertyBindingResult(variableDocument, "variableDocument");
-    this.variableDocumentValidator.validate(variableDocument, errors);
-
-    // Assert
-    assertEquals(0, errors.getErrorCount());
-  }
-
-  @Test
-  public void testInvalidDataField() {
-    // Assert
-    VariableDocument variableDocument = new VariableDocument();
-    variableDocument.setId("ThisIDisOkay");
-    variableDocument.setName("ThisNameIsOkay.");
-    variableDocument.setDataType("sTrinGIsNotOkay");
-    variableDocument.setQuestion("DefaultQuestion?");
-
-    // Act
-    Errors errors = new BeanPropertyBindingResult(variableDocument, "variableDocument");
-    this.variableDocumentValidator.validate(variableDocument, errors);
-
-    // Assert
-    assertEquals(1, errors.getErrorCount());
-    assertThat(errors.getFieldError(VariableDocument.DATA_TYPE_FIELD).getCode(),
-        is("ValidDataType"));
-  }
-
-  @Test
-  public void testValidScaleLevel() {
-
-    // Assert
-    VariableDocument variableDocument = new VariableDocument();
-    variableDocument.setId("ThisIDisOkay");
-    variableDocument.setName("ThisNameIsOkay.");
-    variableDocument.setScaleLevel("ordinal");
-    variableDocument.setQuestion("DefaultQuestion?");
-
-    // Act
-    Errors errors = new BeanPropertyBindingResult(variableDocument, "variableDocument");
-    this.variableDocumentValidator.validate(variableDocument, errors);
-
-    // Assert
-    assertEquals(0, errors.getErrorCount());
-  }
-
-  @Test
-  public void testInvalidScaleLevel() {
-    // Assert
-    VariableDocument variableDocument = new VariableDocument();
-    variableDocument.setId("ThisIDisOkay");
-    variableDocument.setName("ThisNameIsOkay.");
-    variableDocument.setScaleLevel("oRdiNalIsNotOkay");
-    variableDocument.setQuestion("DefaultQuestion?");
-
-    // Act
-    Errors errors = new BeanPropertyBindingResult(variableDocument, "variableDocument");
-    this.variableDocumentValidator.validate(variableDocument, errors);
-
-    // Assert
-    assertEquals(1, errors.getErrorCount());
-    assertThat(errors.getFieldError(VariableDocument.SCALE_LEVEL_FIELD).getCode(),
-        is("ValidScaleLevel"));
-
-  }
-
-  @Test
-  public void testNotNullScaleLevelAtNumericDataType() {
-    // Assert
-    VariableDocument variableDocument = new VariableDocument();
-    variableDocument.setId("ThisIDisOkay");
-    variableDocument.setName("ThisNameIsOkay.");
-    variableDocument.setDataType("numeric");
-    variableDocument.setQuestion("DefaultQuestion?");
-
-    // Act
-    Errors errors = new BeanPropertyBindingResult(variableDocument, "variableDocument");
-    variableDocumentValidator.validate(variableDocument, errors);
-
-    // Assert
-    assertThat(errors.getFieldError(VariableDocument.SCALE_LEVEL_FIELD).getCode(),
-        is(VariableDocumentValidator.MANDATORY_SCALE_LEVEL_MESSAGE_CODE));
-
-  }
-
+  
   @Test
   public void testInvalidLabelAtAnswerOption() {
 
@@ -269,8 +188,10 @@ public class VariableDocumentTest extends AbstractWebTest {
 
     // Arrange
     assertEquals(2, errors.getErrorCount());
-    assertThat(errors.getFieldError("answerOptions[0].label").getCode(), is("Size"));
-    assertThat(errors.getFieldError("answerOptions[0].code").getCode(), is("NotNull"));
+    assertThat(errors.getFieldError("answerOptions[0].label").getCode(),
+        is(Size.class.getSimpleName()));
+    assertThat(errors.getFieldError("answerOptions[0].code").getCode(),
+        is(NotNull.class.getSimpleName()));
 
 
   }
@@ -296,7 +217,8 @@ public class VariableDocumentTest extends AbstractWebTest {
 
     // Assert
     assertEquals(1, errors.getErrorCount());
-    assertThat(errors.getFieldError("answerOptions[0].code").getCode(), is("NotNull"));
+    assertThat(errors.getFieldError("answerOptions[0].code").getCode(),
+        is(NotNull.class.getSimpleName()));
   }
 
   @Test
@@ -353,7 +275,8 @@ public class VariableDocumentTest extends AbstractWebTest {
 
     // Assert
     assertEquals(1, errors.getErrorCount());
-    assertThat(errors.getFieldError("answerOptions[1].code").getCode(), is("NotNull"));
+    assertThat(errors.getFieldError("answerOptions[1].code").getCode(),
+        is(NotNull.class.getSimpleName()));
   }
 
   @Test
@@ -374,15 +297,15 @@ public class VariableDocumentTest extends AbstractWebTest {
     // Assert
     assertEquals(5, errors.getErrorCount());
     assertThat(errors.getFieldError(VariableDocument.NESTED_VARIABLE_SURVEY_ID_FIELD).getCode(),
-        is("NotBlank"));
+        is(NotBlank.class.getSimpleName()));
     assertThat(errors.getFieldError(VariableDocument.NESTED_VARIABLE_SURVEY_TITLE_FIELD).getCode(),
-        is("NotBlank"));
+        is(NotBlank.class.getSimpleName()));
     assertThat(errors.getFieldError(VariableDocument.NESTED_VARIABLE_SURVEY_PERIOD_FIELD).getCode(),
-        is("NotNull"));
+        is(NotNull.class.getSimpleName()));
     assertThat(errors.getFieldError(VariableDocument.NESTED_VARIABLE_SURVEY_VARIABLE_ALIAS_FIELD)
-        .getCode(), is("NotBlank"));
+        .getCode(), is(NotBlank.class.getSimpleName()));
     assertThat(errors.getFieldError(VariableDocument.VARIABLE_SURVEY_FIELD).getCode(),
-        is("UniqueVariableAlias"));
+        is(UniqueVariableAlias.class.getSimpleName()));
   }
 
   @Test
@@ -408,7 +331,7 @@ public class VariableDocumentTest extends AbstractWebTest {
     // Assert
     assertEquals(1, errors.getErrorCount());
     assertThat(errors.getFieldError(VariableDocument.NESTED_VARIABLE_SURVEY_VARIABLE_ALIAS_FIELD)
-        .getCode(), is("Size"));
+        .getCode(), is(Size.class.getSimpleName()));
   }
 
   @Test
@@ -433,7 +356,7 @@ public class VariableDocumentTest extends AbstractWebTest {
     // Assert
     assertEquals(1, errors.getErrorCount());
     assertThat(errors.getFieldError(VariableDocument.NESTED_VARIABLE_SURVEY_ID_FIELD).getCode(),
-        is("Size"));
+        is(Size.class.getSimpleName()));
   }
 
 
@@ -459,7 +382,7 @@ public class VariableDocumentTest extends AbstractWebTest {
     // Assert
     assertEquals(1, errors.getErrorCount());
     assertThat(errors.getFieldError(VariableDocument.NESTED_VARIABLE_SURVEY_TITLE_FIELD).getCode(),
-        is("Size"));
+        is(Size.class.getSimpleName()));
   }
 
 
@@ -476,90 +399,6 @@ public class VariableDocumentTest extends AbstractWebTest {
     variableDocument.getVariableSurvey().setSurveyId("SurveyIdIsOkay.");
     variableDocument.getVariableSurvey().setTitle("TitleIsOkay.");
     variableDocument.getVariableSurvey().setVariableAlias(variableDocument.getName());
-    variableDocument.getVariableSurvey().setSurveyPeriod(new DateRange());
-
-    // Act
-    Errors errors = new BeanPropertyBindingResult(variableDocument, "variableDocument");
-    this.variableDocumentValidator.validate(variableDocument, errors);
-
-    // Assert
-    assertEquals(0, errors.getErrorCount());
-  }
-
-  @Test
-  public void testInvalidDateRange() {
-
-    // Assert
-    VariableDocument variableDocument = new VariableDocument();
-    variableDocument.setId("ThisIDisOkay");
-    variableDocument.setName("ThisNameIsOkay.");
-    variableDocument.setQuestion("DefaultQuestion?");
-
-    VariableSurvey variableSurvey = new VariableSurvey();
-    variableSurvey.setSurveyId("SurveyIdIsOkay.");
-    variableSurvey.setTitle("TitleIsOkay.");
-    variableSurvey.setVariableAlias(variableDocument.getName());
-
-    DateRange surveyPeriod = new DateRange();
-    surveyPeriod.setStartDate(LocalDate.now());
-    surveyPeriod.setEndDate(surveyPeriod.getStartDate().minusDays(2));
-    variableSurvey.setSurveyPeriod(surveyPeriod);
-
-    variableDocument.setVariableSurvey(variableSurvey);
-
-    // Act
-    Errors errors = new BeanPropertyBindingResult(variableDocument, "variableDocument");
-    this.variableDocumentValidator.validate(variableDocument, errors);
-
-    // Assert
-    assertEquals(1, errors.getErrorCount());
-    assertThat(errors.getFieldError(VariableDocument.NESTED_VARIABLE_SURVEY_PERIOD_FIELD).getCode(),
-        is("ValidDateRange"));
-  }
-
-  @Test
-  public void testValidDateRange() {
-
-    // Arrange
-    VariableDocument variableDocument = new VariableDocument();
-    variableDocument.setId("ThisIDisOkay");
-    variableDocument.setName("ThisNameIsOkay.");
-    variableDocument.setQuestion("DefaultQuestion?");
-
-    VariableSurvey variableSurvey = new VariableSurvey();
-    variableSurvey.setSurveyId("SurveyIdIsOkay.");
-    variableSurvey.setTitle("TitleIsOkay.");
-    variableSurvey.setVariableAlias(variableDocument.getName());
-
-    DateRange surveyPeriod = new DateRange();
-    surveyPeriod.setStartDate(LocalDate.now());
-    surveyPeriod.setEndDate(surveyPeriod.getStartDate().plusDays(2));
-    variableSurvey.setSurveyPeriod(surveyPeriod);
-
-    variableDocument.setVariableSurvey(variableSurvey);
-
-    // Act
-    Errors errors = new BeanPropertyBindingResult(variableDocument, "variableDocument");
-    this.variableDocumentValidator.validate(variableDocument, errors);
-
-    // Assert
-    assertEquals(0, errors.getErrorCount());
-  }
-
-  @Test
-  public void testEmptyDateRangeValidator() {
-    // Arrange
-    VariableDocument variableDocument = new VariableDocument();
-    variableDocument.setId("ID");
-    variableDocument.setName("name");
-    variableDocument.setQuestion("DefaultQuestion?");
-    variableDocument.setVariableSurvey(new VariableSurvey());
-    variableDocument.getVariableSurvey().setSurveyId("ID_Survey");
-    variableDocument.getVariableSurvey().setTitle("TitleIsOkay.");
-    variableDocument.getVariableSurvey().setVariableAlias(variableDocument.getName());
-    variableDocument.getVariableSurvey().setSurveyPeriod(new DateRange());
-
-    // set a date, but without a start and end date
     variableDocument.getVariableSurvey().setSurveyPeriod(new DateRange());
 
     // Act
@@ -650,7 +489,8 @@ public class VariableDocumentTest extends AbstractWebTest {
 
     // Assert
     assertEquals(1, errors.getErrorCount());
-    assertThat(errors.getFieldError(VariableDocument.QUESTION_FIELD).getCode(), is("NotBlank"));
+    assertThat(errors.getFieldError(VariableDocument.QUESTION_FIELD).getCode(),
+        is(NotBlank.class.getSimpleName()));
   }
 
   @Test

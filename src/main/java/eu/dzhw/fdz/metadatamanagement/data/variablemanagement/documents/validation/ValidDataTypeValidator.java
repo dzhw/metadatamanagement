@@ -15,7 +15,7 @@ import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.validati
  * @author Daniel Katzberg
  *
  */
-public class DataTypeValidator implements ConstraintValidator<ValidDataType, String> {
+public class ValidDataTypeValidator implements ConstraintValidator<ValidDataType, String> {
 
   @Autowired
   private DataTypesProvider dataTypesProvider;
