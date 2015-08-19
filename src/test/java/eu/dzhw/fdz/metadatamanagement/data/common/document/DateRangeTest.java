@@ -10,7 +10,7 @@ import java.time.LocalDate;
 import org.junit.Test;
 
 import eu.dzhw.fdz.metadatamanagement.data.common.documents.DateRange;
-import eu.dzhw.fdz.metadatamanagement.data.common.documents.DateRangeBuilder;
+import eu.dzhw.fdz.metadatamanagement.data.common.documents.builders.DateRangeBuilder;
 
 /**
  * @author Daniel Katzberg

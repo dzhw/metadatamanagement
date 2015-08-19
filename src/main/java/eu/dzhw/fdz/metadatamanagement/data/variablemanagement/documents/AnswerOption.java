@@ -12,7 +12,8 @@ import net.karneim.pojobuilder.GeneratePojoBuilder;
  * @author Daniel Katzberg
  *
  */
-@GeneratePojoBuilder
+@GeneratePojoBuilder(
+    intoPackage = "eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.builders")
 public class AnswerOption {
 
   public static final String CODE_FIELD = "code";

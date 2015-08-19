@@ -18,7 +18,8 @@ import net.karneim.pojobuilder.GeneratePojoBuilder;
  * @author Daniel Katzberg
  *
  */
-@GeneratePojoBuilder
+@GeneratePojoBuilder(
+    intoPackage = "eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.builders")
 @UniqueVariableAlias
 public class VariableSurvey {
 

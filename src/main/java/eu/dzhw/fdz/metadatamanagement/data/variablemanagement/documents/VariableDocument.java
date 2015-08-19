@@ -28,7 +28,7 @@ import net.karneim.pojobuilder.GeneratePojoBuilder;
         + "+T(org.springframework.context.i18n.LocaleContextHolder).getLocale().getLanguage()}",
     type = "variables")
 @GeneratePojoBuilder(
-    intoPackage = "eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents")
+    intoPackage = "eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.builders")
 public class VariableDocument extends AbstractDocument {
   // Public constants which are used in queries as fieldnames.
   public static final String ALL_STRINGS_AS_NGRAMS_FIELD = "allStringsAsNgrams";

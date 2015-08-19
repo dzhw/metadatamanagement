@@ -10,6 +10,7 @@ import java.time.LocalDate;
 import org.junit.Test;
 
 import eu.dzhw.fdz.metadatamanagement.data.common.documents.DateRange;
+import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.builders.VariableSurveyBuilder;
 
 /**
  * @author Daniel Katzberg

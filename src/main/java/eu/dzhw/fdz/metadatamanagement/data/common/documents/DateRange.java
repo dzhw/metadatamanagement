@@ -13,7 +13,8 @@ import net.karneim.pojobuilder.GeneratePojoBuilder;
  * @author Daniel Katzberg
  *
  */
-@GeneratePojoBuilder
+@GeneratePojoBuilder(
+    intoPackage = "eu.dzhw.fdz.metadatamanagement.data.common.documents.builders")
 public class DateRange {
 
   // Public constants which are used in queries as fieldnames.

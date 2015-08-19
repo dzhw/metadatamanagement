@@ -224,7 +224,7 @@
 				<artifactId>maven-processor-plugin</artifactId>
 				<version>2.2.4</version>
 				<configuration>
-					<defaultOutputDirectory>${project.build.directory}/generated-sources/</defaultOutputDirectory>
+					<defaultOutputDirectory>${project.build.directory}/generated-test-sources/</defaultOutputDirectory>
 				</configuration>
 				<executions>
 					<execution>
@@ -249,7 +249,7 @@
 							<goal>check</goal>
 						</goals>
 						<configuration>
-							<excludes>${project.build.directory}/generated-sources/**</excludes>
+							<excludes>${project.build.directory}/generated-test-sources/**</excludes>
 							<configLocation>buildconfig/google_checks.xml</configLocation>
 							<encoding>UTF-8</encoding>
 							<consoleOutput>true</consoleOutput>
@@ -394,13 +394,13 @@
 					</execution>
 					<execution>
 						<id>add-source</id>
-						<phase>generate-sources</phase>
+						<phase>generate-test-sources</phase>
 						<goals>
 							<goal>add-source</goal>
 						</goals>
 						<configuration>
 							<sources>
-								<source>${project.build.directory}/generated-sources/</source>
+								<source>${project.build.directory}/generated-test-sources/</source>
 							</sources>
 						</configuration>
 					</execution>
@@ -507,6 +507,11 @@
 				<groupId>org.jacoco</groupId>
 				<artifactId>jacoco-maven-plugin</artifactId>
 				<version>${jacoco.version}</version>
+				<configuration>
+					<excludes>
+						<exclude>**/builders/</exclude>
+					</excludes>
+				</configuration>
 				<executions>
 					<execution>
 						<id>prepare-agent</id>
