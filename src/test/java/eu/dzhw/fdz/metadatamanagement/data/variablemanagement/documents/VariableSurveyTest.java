@@ -16,31 +16,32 @@ import eu.dzhw.fdz.metadatamanagement.data.common.documents.DateRange;
  *
  */
 public class VariableSurveyTest {
-  
+
   @Test
-  public void testHashCode(){
-    //Arrange
-    VariableSurvey variableSurvey = new VariableSurvey();
-    variableSurvey.setSurveyId("Survey01");
-    
-    //Act
-    
-    //Assert
+  public void testHashCode() {
+
+    // Arrange
+    VariableSurvey variableSurvey = new VariableSurveyBuilder().withSurveyId("Survey01").build();
+
+    // Act
+
+    // Assert
     assertEquals(-2079109466, variableSurvey.hashCode());
   }
-  
+
   @Test
-  public void testEquals(){
-    //Arrange
-    VariableSurvey variableSurvey = new VariableSurvey();
-    VariableSurvey variableSurvey2 = new VariableSurvey();
-    
+  public void testEquals() {
+
+    // Arrange
+    VariableSurvey variableSurvey = new VariableSurveyBuilder().build();
+    VariableSurvey variableSurvey2 = new VariableSurveyBuilder().build();
+
     DateRange dateRange = new DateRange();
     dateRange.setStartDate(LocalDate.now().plusDays(1));
     DateRange dateRange2 = new DateRange();
     dateRange2.setStartDate(LocalDate.now().plusDays(2));
-    
-    //Act
+
+    // Act
     boolean checkNullObject = variableSurvey.equals(null);
     boolean checkDifferentClass = variableSurvey.equals(new Object());
     variableSurvey2.setSurveyId("ID2");
@@ -73,8 +74,8 @@ public class VariableSurveyTest {
     boolean checkVariableAliasBoth = variableSurvey.equals(variableSurvey2);
     variableSurvey.setVariableAlias("Alias 2");
     boolean checkVariableAliasBothSame = variableSurvey.equals(variableSurvey2);
-    
-    //Assert
+
+    // Assert
     assertEquals(false, checkNullObject);
     assertEquals(false, checkDifferentClass);
     assertEquals(false, checkSurveyOther);

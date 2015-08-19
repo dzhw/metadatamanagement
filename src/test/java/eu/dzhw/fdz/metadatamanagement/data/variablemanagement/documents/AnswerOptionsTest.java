@@ -14,25 +14,25 @@ import org.junit.Test;
 public class AnswerOptionsTest {
   
   @Test
-  public void testHashCode(){
-    //Arrange
-    AnswerOption answerOption = new AnswerOption();
-    answerOption.setCode(1);
-    answerOption.setLabel("Label 1");
+  public void testHashCode() {
     
-    //Act
-        
-    //Assert
-    assertEquals(1601450437, answerOption.hashCode());
+    // Arrange
+    AnswerOption answerOption = new AnswerOptionBuilder().withCode(1).withLabel("1").build();
+
+    // Act
+
+    // Assert
+    assertEquals(1041, answerOption.hashCode());
   }
-  
+
   @Test
-  public void testEquals(){
-    //Arrange
-    AnswerOption answerOption = new AnswerOption();
-    AnswerOption answerOption2 = new AnswerOption();
+  public void testEquals() {
     
-    //Act
+    // Arrange
+    AnswerOption answerOption = new AnswerOptionBuilder().build();
+    AnswerOption answerOption2 = new AnswerOptionBuilder().build();
+
+    // Act
     boolean checkSame = answerOption.equals(answerOption);
     boolean checkNull = answerOption.equals(null);
     boolean checkOtherClass = answerOption.equals(new Object());
@@ -50,8 +50,8 @@ public class AnswerOptionsTest {
     boolean checkLabelBoth = answerOption.equals(answerOption2);
     answerOption.setLabel("Label 2");
     boolean checkLabelBothSame = answerOption.equals(answerOption2);
-    
-    //Assert
+
+    // Assert
     assertEquals(true, checkSame);
     assertEquals(false, checkNull);
     assertEquals(false, checkOtherClass);

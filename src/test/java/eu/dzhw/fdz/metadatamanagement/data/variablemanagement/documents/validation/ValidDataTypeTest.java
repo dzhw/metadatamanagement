@@ -13,6 +13,7 @@ import org.springframework.validation.BeanPropertyBindingResult;
 import org.springframework.validation.Errors;
 
 import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.VariableDocument;
+import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.VariableDocumentBuilder;
 import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.validation.provider.DataTypesProvider;
 import eu.dzhw.fdz.metadatamanagement.web.AbstractWebTest;
 
@@ -31,11 +32,9 @@ public class ValidDataTypeTest extends AbstractWebTest {
   @Test
   public void testValidDataField() {
     // Assert
-    VariableDocument variableDocument = new VariableDocument();
-    variableDocument.setId("ThisIDisOkay");
-    variableDocument.setName("ThisNameIsOkay.");
-    variableDocument.setDataType("string");
-    variableDocument.setQuestion("DefaultQuestion?");
+    VariableDocument variableDocument = new VariableDocumentBuilder().withId("ThisIDisOkay")
+        .withName("ThisNameIsOkay.").withQuestion("DefaultQuestion?")
+        .withDataType(dataTypeProvider.getStringValueByLocale()).build();
 
     // Act
     Errors errors = new BeanPropertyBindingResult(variableDocument, "variableDocument");
@@ -48,11 +47,9 @@ public class ValidDataTypeTest extends AbstractWebTest {
   @Test
   public void testInvalidDataField() {
     // Assert
-    VariableDocument variableDocument = new VariableDocument();
-    variableDocument.setId("ThisIDisOkay");
-    variableDocument.setName("ThisNameIsOkay.");
-    variableDocument.setDataType("sTrinGIsNotOkay");
-    variableDocument.setQuestion("DefaultQuestion?");
+    VariableDocument variableDocument =
+        new VariableDocumentBuilder().withId("ThisIDisOkay").withName("ThisNameIsOkay.")
+            .withQuestion("DefaultQuestion?").withDataType("sTrinGIsNotOkay").build();
 
     // Act
     Errors errors = new BeanPropertyBindingResult(variableDocument, "variableDocument");
@@ -67,11 +64,9 @@ public class ValidDataTypeTest extends AbstractWebTest {
   @Test
   public void testNotNullScaleLevelAtNumericDataType() {
     // Assert
-    VariableDocument variableDocument = new VariableDocument();
-    variableDocument.setId("ThisIDisOkay");
-    variableDocument.setName("ThisNameIsOkay.");
-    variableDocument.setDataType(dataTypeProvider.getNumericValueByLocale());
-    variableDocument.setQuestion("DefaultQuestion?");
+    VariableDocument variableDocument = new VariableDocumentBuilder().withId("ThisIDisOkay")
+        .withName("ThisNameIsOkay.").withQuestion("DefaultQuestion?")
+        .withDataType(dataTypeProvider.getNumericValueByLocale()).build();
 
     // Act
     Errors errors = new BeanPropertyBindingResult(variableDocument, "variableDocument");
@@ -80,7 +75,5 @@ public class ValidDataTypeTest extends AbstractWebTest {
     // Assert
     assertThat(errors.getFieldError(VariableDocument.SCALE_LEVEL_FIELD).getCode(),
         is(VariableDocumentValidator.MANDATORY_SCALE_LEVEL_MESSAGE_CODE));
-
   }
-
 }

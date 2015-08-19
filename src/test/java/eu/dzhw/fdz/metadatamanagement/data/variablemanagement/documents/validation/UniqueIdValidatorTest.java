@@ -13,6 +13,7 @@ import org.springframework.validation.BeanPropertyBindingResult;
 import org.springframework.validation.Errors;
 
 import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.VariableDocument;
+import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.VariableDocumentBuilder;
 import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.repositories.VariableRepository;
 import eu.dzhw.fdz.metadatamanagement.web.AbstractWebTest;
 
@@ -27,20 +28,17 @@ public class UniqueIdValidatorTest extends AbstractWebTest {
 
   @Autowired
   private VariableDocumentValidator variableDocumentValidator;
-  
+
   @Test
   public void testValidUniqueId() {
+
     // Arrange
-    VariableDocument variableDocument1 = new VariableDocument();
-    variableDocument1.setId("ThisIDisOkay");
-    variableDocument1.setName("ThisNameIsOkay.");
-    variableDocument1.setQuestion("DefaultQuestion?");
+    VariableDocument variableDocument1 = new VariableDocumentBuilder().withId("ThisIDisOkay")
+        .withName("ThisNameIsOkay.").withQuestion("DefaultQuestion?").build();
     this.repository.save(variableDocument1);
 
-    VariableDocument variableDocument2 = new VariableDocument();
-    variableDocument2.setId("ThisIDisStillOkay");
-    variableDocument2.setName("ThisNameIsOkay.");
-    variableDocument2.setQuestion("DefaultQuestion?");
+    VariableDocument variableDocument2 = new VariableDocumentBuilder().withId("ThisIDisStillOkay")
+        .withName("ThisNameIsOkay.").withQuestion("DefaultQuestion?").build();
 
     // Act
     Errors errors = new BeanPropertyBindingResult(variableDocument2, "variableDocument");
@@ -48,24 +46,21 @@ public class UniqueIdValidatorTest extends AbstractWebTest {
 
     // Assert
     assertEquals(0, errors.getErrorCount());
-    
-    //Delete
-    this.repository.delete(variableDocument1.getId());    
+
+    // Delete
+    this.repository.delete(variableDocument1.getId());
   }
 
   @Test
   public void testInvalidUniqueId() {
     // Arrange
-    VariableDocument variableDocument1 = new VariableDocument();
-    variableDocument1.setId("ThisIDisOkay");
-    variableDocument1.setName("ThisNameIsOkay.");
-    variableDocument1.setQuestion("DefaultQuestion?");
+    VariableDocument variableDocument1 = new VariableDocumentBuilder().withId("ThisIDisOkay")
+        .withName("ThisNameIsOkay.").withQuestion("DefaultQuestion?").build();
     this.repository.save(variableDocument1);
 
-    VariableDocument variableDocument2 = new VariableDocument();
-    variableDocument2.setId("ThisIDisOkay");
-    variableDocument2.setName("ThisNameIsOkay.");
-    variableDocument2.setQuestion("DefaultQuestion?");
+    VariableDocument variableDocument2 = new VariableDocumentBuilder().withId("ThisIDisOkay")
+        .withName("ThisNameIsOkay.").withQuestion("DefaultQuestion?").build();
+    this.repository.save(variableDocument1);
 
     // Act
     Errors errors = new BeanPropertyBindingResult(variableDocument2, "variableDocument");
@@ -73,9 +68,10 @@ public class UniqueIdValidatorTest extends AbstractWebTest {
 
     // Assert
     assertEquals(1, errors.getErrorCount());
-    assertThat(errors.getFieldError(VariableDocument.ID_FIELD).getCode(), is(UniqueId.class.getSimpleName()));    
-    
-    //Delete
+    assertThat(errors.getFieldError(VariableDocument.ID_FIELD).getCode(),
+        is(UniqueId.class.getSimpleName()));
+
+    // Delete
     this.repository.delete(variableDocument1.getId());
   }
 }

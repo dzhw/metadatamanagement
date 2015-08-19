@@ -30,6 +30,7 @@ import eu.dzhw.fdz.metadatamanagement.web.AbstractWebTest;
  * @author Daniel Katzberg
  *
  */
+//TODO Buildern Pattern
 public class VariableDocumentTest extends AbstractWebTest {
 
   @Autowired

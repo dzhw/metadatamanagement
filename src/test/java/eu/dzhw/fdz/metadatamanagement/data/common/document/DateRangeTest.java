@@ -10,6 +10,7 @@ import java.time.LocalDate;
 import org.junit.Test;
 
 import eu.dzhw.fdz.metadatamanagement.data.common.documents.DateRange;
+import eu.dzhw.fdz.metadatamanagement.data.common.documents.DateRangeBuilder;
 
 /**
  * @author Daniel Katzberg
@@ -20,7 +21,7 @@ public class DateRangeTest {
   @Test
   public void testHashCode() {
     // Arrange
-    DateRange dateRange = new DateRange();
+    DateRange dateRange = new DateRangeBuilder().build();
 
     // Act
 
@@ -31,9 +32,9 @@ public class DateRangeTest {
   @Test
   public void testEquals() {
     // Arrange
-    DateRange dateRange = new DateRange();
-    DateRange dateRange2 = new DateRange();
-    
+    DateRange dateRange = new DateRangeBuilder().build();
+    DateRange dateRange2 = new DateRangeBuilder().build();
+
     LocalDate startDate = LocalDate.now();
     LocalDate endDate = LocalDate.now().plusDays(2);
 

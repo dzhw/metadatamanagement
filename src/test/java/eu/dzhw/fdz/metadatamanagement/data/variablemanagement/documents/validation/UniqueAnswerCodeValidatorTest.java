@@ -16,8 +16,9 @@ import org.springframework.validation.BeanPropertyBindingResult;
 import org.springframework.validation.Errors;
 
 import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.AnswerOption;
+import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.AnswerOptionBuilder;
 import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.VariableDocument;
-import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.validation.VariableDocumentValidator;
+import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.VariableDocumentBuilder;
 import eu.dzhw.fdz.metadatamanagement.web.AbstractWebTest;
 
 /**
@@ -32,23 +33,14 @@ public class UniqueAnswerCodeValidatorTest extends AbstractWebTest {
   @Test
   public void testValidAnswerCode() {
 
-    // Assert
-    VariableDocument variableDocument = new VariableDocument();
-    variableDocument.setId("ThisIDisOkay");
-    variableDocument.setName("ThisNameIsOkay.");
-    variableDocument.setQuestion("DefaultQuestion?");
-
-    AnswerOption answerOption1 = new AnswerOption();
-    answerOption1.setCode(1);
-    answerOption1.setLabel("Label 1");
-    AnswerOption answerOption2 = new AnswerOption();
-    answerOption2.setCode(2);
-    answerOption2.setLabel("Label 2");
+    // Arrange
     List<AnswerOption> answerOptions = new ArrayList<>();
-    answerOptions.add(answerOption1);
-    answerOptions.add(answerOption2);
+    answerOptions.add(new AnswerOptionBuilder().withCode(1).withLabel("Label 1").build());
+    answerOptions.add(new AnswerOptionBuilder().withCode(2).withLabel("Label 2").build());
 
-    variableDocument.setAnswerOptions(answerOptions);
+    VariableDocument variableDocument =
+        new VariableDocumentBuilder().withId("ThisIDisOkay").withName("ThisNameIsOkay.")
+            .withQuestion("DefaultQuestion?").withAnswerOptions(answerOptions).build();
 
     // Act
     Errors errors = new BeanPropertyBindingResult(variableDocument, "variableDocument");
@@ -61,23 +53,15 @@ public class UniqueAnswerCodeValidatorTest extends AbstractWebTest {
   @Test
   public void testInvalidAnswerCode() {
 
-    // Assert
-    VariableDocument variableDocument = new VariableDocument();
-    variableDocument.setId("ThisIDisOkay");
-    variableDocument.setName("ThisNameIsOkay.");
-    variableDocument.setQuestion("DefaultQuestion?");
-
-    AnswerOption answerOption1 = new AnswerOption();
-    answerOption1.setCode(1);
-    answerOption1.setLabel("Label 1");
-    AnswerOption answerOption2 = new AnswerOption();
-    answerOption2.setCode(1);
-    answerOption2.setLabel("Label 2");
+    // Arrange
     List<AnswerOption> answerOptions = new ArrayList<>();
-    answerOptions.add(answerOption1);
-    answerOptions.add(answerOption2);
+    // Invalid of the same code = 1
+    answerOptions.add(new AnswerOptionBuilder().withCode(1).withLabel("Label 1").build());
+    answerOptions.add(new AnswerOptionBuilder().withCode(1).withLabel("Label 2").build());
 
-    variableDocument.setAnswerOptions(answerOptions);
+    VariableDocument variableDocument =
+        new VariableDocumentBuilder().withId("ThisIDisOkay").withName("ThisNameIsOkay.")
+            .withQuestion("DefaultQuestion?").withAnswerOptions(answerOptions).build();
 
     // Act
     Errors errors = new BeanPropertyBindingResult(variableDocument, "variableDocument");

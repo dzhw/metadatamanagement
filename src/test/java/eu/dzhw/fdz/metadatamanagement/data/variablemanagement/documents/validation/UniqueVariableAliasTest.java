@@ -12,9 +12,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.BeanPropertyBindingResult;
 import org.springframework.validation.Errors;
 
-import eu.dzhw.fdz.metadatamanagement.data.common.documents.DateRange;
+import eu.dzhw.fdz.metadatamanagement.data.common.documents.DateRangeBuilder;
 import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.VariableDocument;
+import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.VariableDocumentBuilder;
 import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.VariableSurvey;
+import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.VariableSurveyBuilder;
 import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.repositories.VariableRepository;
 import eu.dzhw.fdz.metadatamanagement.web.AbstractWebTest;
 
@@ -34,33 +36,23 @@ public class UniqueVariableAliasTest extends AbstractWebTest {
   public void testInvalidVariableSecondDocumentSurvey() {
 
     // Arrange
-    VariableDocument variableDocument1 = new VariableDocument();
-    variableDocument1.setId("ThisIDisOkay");
-    variableDocument1.setName("ThisNameIsOkay.");
-    variableDocument1.setQuestion("DefaultQuestion?");
+    VariableSurvey variableSurvey1 =
+        new VariableSurveyBuilder().withSurveyId("SurveyIdIsOkay").withTitle("TitleIsOkay")
+            .withVariableAlias("ThisNameIsOkay").withSurveyPeriod(new DateRangeBuilder().build()).build();
 
-    VariableSurvey variableSurvey1 = new VariableSurvey();
-    variableSurvey1.setSurveyId("SurveyIdIsOkay.");
-    variableSurvey1.setTitle("TitleIsOkay.");
-    variableSurvey1.setVariableAlias(variableDocument1.getName());
-    variableSurvey1.setSurveyPeriod(new DateRange());
-
-    variableDocument1.setVariableSurvey(variableSurvey1);
+    VariableDocument variableDocument1 =
+        new VariableDocumentBuilder().withId("ThisIDisOkay").withName("ThisNameIsOkay.")
+            .withQuestion("DefaultQuestion?").withVariableSurvey(variableSurvey1).build();
     this.repository.save(variableDocument1);
 
-    VariableDocument variableDocument = new VariableDocument();
-    variableDocument.setId("ThisIDisOkay2");
-    variableDocument.setName("ThisNameIsOkay2.");
-    variableDocument.setQuestion("DefaultQuestion?");
-
-    VariableSurvey variableSurvey = new VariableSurvey();
-    variableSurvey.setSurveyId("SurveyIdIsOkay.");
-    variableSurvey.setTitle("TitleIsOkay.");
-    variableSurvey.setSurveyPeriod(new DateRange());
     // here is the error, double used alias
-    variableSurvey.setVariableAlias(variableDocument1.getName());
+    VariableSurvey variableSurvey =
+        new VariableSurveyBuilder().withSurveyId("SurveyIdIsOkay").withTitle("TitleIsOkay")
+            .withVariableAlias("ThisNameIsOkay").withSurveyPeriod(new DateRangeBuilder().build()).build();
 
-    variableDocument.setVariableSurvey(variableSurvey);
+    VariableDocument variableDocument =
+        new VariableDocumentBuilder().withId("ThisIDisStillOkay").withName("ThisNameIsStillOkay.")
+            .withQuestion("DefaultQuestion2?").withVariableSurvey(variableSurvey).build();
 
     // Act
     Errors errors = new BeanPropertyBindingResult(variableDocument, "variableDocument");
@@ -72,7 +64,7 @@ public class UniqueVariableAliasTest extends AbstractWebTest {
         is(UniqueVariableAlias.class.getSimpleName()));
 
     // Delete
-    this.repository.delete(variableDocument.getId());
+    this.repository.delete(variableDocument1.getId());
   }
 
 
@@ -80,36 +72,27 @@ public class UniqueVariableAliasTest extends AbstractWebTest {
   public void testValidVariableSecondDocumentSurvey() {
 
     // Arrange
-    VariableDocument variableDocument1 = new VariableDocument();
-    variableDocument1.setId("ThisIDisOkay");
-    variableDocument1.setName("ThisNameIsOkay.");
-    variableDocument1.setQuestion("DefaultQuestion?");
+    VariableSurvey variableSurvey1 =
+        new VariableSurveyBuilder().withSurveyId("SurveyIdIsOkay").withTitle("TitleIsOkay")
+            .withVariableAlias("ThisNameIsOkay").withSurveyPeriod(new DateRangeBuilder().build()).build();
 
-    VariableSurvey variableSurvey1 = new VariableSurvey();
-    variableSurvey1.setSurveyId("SurveyIdIsOkay.");
-    variableSurvey1.setTitle("TitleIsOkay.");
-    variableSurvey1.setVariableAlias(variableDocument1.getName());
-    variableSurvey1.setSurveyPeriod(new DateRange());
-
-    variableDocument1.setVariableSurvey(variableSurvey1);
+    VariableDocument variableDocument1 =
+        new VariableDocumentBuilder().withId("ThisIDisOkay").withName("ThisNameIsOkay.")
+            .withQuestion("DefaultQuestion?").withVariableSurvey(variableSurvey1).build();
     this.repository.save(variableDocument1);
 
-    VariableDocument variableDocument2 = new VariableDocument();
-    variableDocument2.setId("ThisIDisOkay2");
-    variableDocument2.setName("ThisNameIsOkay2.");
-    variableDocument2.setQuestion("DefaultQuestion?");
+    // here is the error, double used alias
+    VariableSurvey variableSurvey = new VariableSurveyBuilder().withSurveyId("SurveyIdIsOkay")
+        .withTitle("TitleIsOkay").withVariableAlias("ThisNameIsStillOkay")
+        .withSurveyPeriod(new DateRangeBuilder().build()).build();
 
-    VariableSurvey variableSurvey2 = new VariableSurvey();
-    variableSurvey2.setSurveyId("SurveyIdIsOkay.");
-    variableSurvey2.setTitle("TitleIsOkay.");
-    variableSurvey2.setVariableAlias(variableDocument2.getName());
-    variableSurvey2.setSurveyPeriod(new DateRange());
-
-    variableDocument2.setVariableSurvey(variableSurvey2);
+    VariableDocument variableDocument =
+        new VariableDocumentBuilder().withId("ThisIDisStillOkay").withName("ThisNameIsStillOkay.")
+            .withQuestion("DefaultQuestion2?").withVariableSurvey(variableSurvey).build();
 
     // Act
-    Errors errors = new BeanPropertyBindingResult(variableDocument2, "variableDocument");
-    this.variableDocumentValidator.validate(variableDocument2, errors);
+    Errors errors = new BeanPropertyBindingResult(variableDocument, "variableDocument");
+    this.variableDocumentValidator.validate(variableDocument, errors);
 
     // Assert
     assertEquals(0, errors.getFieldErrorCount());
@@ -122,11 +105,9 @@ public class UniqueVariableAliasTest extends AbstractWebTest {
   public void testUniqueAliasWithNullSurvey() {
 
     // Arrange
-    VariableDocument variableDocument = new VariableDocument();
-    variableDocument.setId("ThisIDisOkay");
-    variableDocument.setName("ThisNameIsOkay.");
-    variableDocument.setQuestion("DefaultQuestion?");
-    variableDocument.setVariableSurvey(null);
+    VariableDocument variableDocument =
+        new VariableDocumentBuilder().withId("ThisIDisOkay").withName("ThisNameIsOkay.")
+            .withQuestion("DefaultQuestion?").withVariableSurvey(null).build();
 
     // Act
     Errors errors = new BeanPropertyBindingResult(variableDocument, "variableDocument");
