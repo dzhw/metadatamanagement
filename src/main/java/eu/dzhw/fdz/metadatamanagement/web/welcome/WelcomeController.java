@@ -33,7 +33,7 @@ public class WelcomeController {
    * 
    * @return welcome.html
    */
-  @RequestMapping(path = "/{language}", method = RequestMethod.GET)
+  @RequestMapping(path = "/{language:de|en}", method = RequestMethod.GET)
   public Callable<ModelAndView> get() {
     return () -> {
       WelcomePageResource resource =

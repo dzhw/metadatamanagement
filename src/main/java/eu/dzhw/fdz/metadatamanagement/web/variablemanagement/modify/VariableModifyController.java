@@ -31,7 +31,7 @@ import eu.dzhw.fdz.metadatamanagement.service.variablemanagement.VariableService
  * @author Amine Limouri
  */
 @Controller
-@RequestMapping(value = "/{language}/variables/create")
+@RequestMapping(value = "/{language:de|en}/variables/create")
 public class VariableModifyController {
 
 

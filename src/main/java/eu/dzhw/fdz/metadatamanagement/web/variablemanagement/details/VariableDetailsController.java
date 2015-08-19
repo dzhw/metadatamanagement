@@ -18,7 +18,7 @@ import eu.dzhw.fdz.metadatamanagement.service.variablemanagement.VariableService
  * @return variableSearch.html
  */
 @Controller
-@RequestMapping(path = "/{language}/variables")
+@RequestMapping(path = "/{language:de|en}/variables")
 public class VariableDetailsController {
 
   private final VariableService variableService;
