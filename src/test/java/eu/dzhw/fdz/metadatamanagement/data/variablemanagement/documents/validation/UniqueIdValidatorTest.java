@@ -73,7 +73,7 @@ public class UniqueIdValidatorTest extends AbstractWebTest {
 
     // Assert
     assertEquals(1, errors.getErrorCount());
-    assertThat(errors.getFieldError(VariableDocument.ID_FIELD).getCode(), is("UniqueId"));    
+    assertThat(errors.getFieldError(VariableDocument.ID_FIELD).getCode(), is(UniqueId.class.getSimpleName()));    
     
     //Delete
     this.repository.delete(variableDocument1.getId());

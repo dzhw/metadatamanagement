@@ -1,54 +1,37 @@
 /**
  * 
  */
-package eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.validation.types;
+package eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.validation;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertEquals;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.BeanPropertyBindingResult;
 import org.springframework.validation.Errors;
 
-import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.AnswerOption;
 import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.VariableDocument;
-import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.validation.VariableDocumentValidator;
 import eu.dzhw.fdz.metadatamanagement.web.AbstractWebTest;
 
 /**
  * @author Daniel Katzberg
  *
  */
-public class UniqueAnswerCodeValidatorTest extends AbstractWebTest {
-
+public class ValidDataTypeTest extends AbstractWebTest {
+  
   @Autowired
   private VariableDocumentValidator variableDocumentValidator;
-
+  
   @Test
-  public void testValidAnswerCode() {
-
+  public void testValidDataField() {
     // Assert
     VariableDocument variableDocument = new VariableDocument();
     variableDocument.setId("ThisIDisOkay");
     variableDocument.setName("ThisNameIsOkay.");
+    variableDocument.setDataType("string");
     variableDocument.setQuestion("DefaultQuestion?");
-
-    AnswerOption answerOption1 = new AnswerOption();
-    answerOption1.setCode(1);
-    answerOption1.setLabel("Label 1");
-    AnswerOption answerOption2 = new AnswerOption();
-    answerOption2.setCode(2);
-    answerOption2.setLabel("Label 2");
-    List<AnswerOption> answerOptions = new ArrayList<>();
-    answerOptions.add(answerOption1);
-    answerOptions.add(answerOption2);
-
-    variableDocument.setAnswerOptions(answerOptions);
 
     // Act
     Errors errors = new BeanPropertyBindingResult(variableDocument, "variableDocument");
@@ -59,25 +42,13 @@ public class UniqueAnswerCodeValidatorTest extends AbstractWebTest {
   }
 
   @Test
-  public void testInvalidAnswerCode() {
-
+  public void testInvalidDataField() {
     // Assert
     VariableDocument variableDocument = new VariableDocument();
     variableDocument.setId("ThisIDisOkay");
     variableDocument.setName("ThisNameIsOkay.");
+    variableDocument.setDataType("sTrinGIsNotOkay");
     variableDocument.setQuestion("DefaultQuestion?");
-
-    AnswerOption answerOption1 = new AnswerOption();
-    answerOption1.setCode(1);
-    answerOption1.setLabel("Label 1");
-    AnswerOption answerOption2 = new AnswerOption();
-    answerOption2.setCode(1);
-    answerOption2.setLabel("Label 2");
-    List<AnswerOption> answerOptions = new ArrayList<>();
-    answerOptions.add(answerOption1);
-    answerOptions.add(answerOption2);
-
-    variableDocument.setAnswerOptions(answerOptions);
 
     // Act
     Errors errors = new BeanPropertyBindingResult(variableDocument, "variableDocument");
@@ -85,7 +56,27 @@ public class UniqueAnswerCodeValidatorTest extends AbstractWebTest {
 
     // Assert
     assertEquals(1, errors.getErrorCount());
-    assertThat(errors.getFieldError(VariableDocument.ANSWER_OPTIONS_FIELD).getCode(),
-        is("UniqueAnswerCode"));
+    assertThat(errors.getFieldError(VariableDocument.DATA_TYPE_FIELD).getCode(),
+        is(ValidDataType.class.getSimpleName()));
   }
+  
+  @Test
+  public void testNotNullScaleLevelAtNumericDataType() {
+    // Assert
+    VariableDocument variableDocument = new VariableDocument();
+    variableDocument.setId("ThisIDisOkay");
+    variableDocument.setName("ThisNameIsOkay.");
+    variableDocument.setDataType("numeric");
+    variableDocument.setQuestion("DefaultQuestion?");
+
+    // Act
+    Errors errors = new BeanPropertyBindingResult(variableDocument, "variableDocument");
+    variableDocumentValidator.validate(variableDocument, errors);
+
+    // Assert
+    assertThat(errors.getFieldError(VariableDocument.SCALE_LEVEL_FIELD).getCode(),
+        is(VariableDocumentValidator.MANDATORY_SCALE_LEVEL_MESSAGE_CODE));
+
+  }
+
 }

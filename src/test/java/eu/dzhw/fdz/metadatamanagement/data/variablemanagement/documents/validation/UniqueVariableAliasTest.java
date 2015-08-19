@@ -69,7 +69,7 @@ public class UniqueVariableAliasTest extends AbstractWebTest {
     // Assert
     assertEquals(1, errors.getErrorCount());
     assertThat(errors.getFieldError(VariableDocument.VARIABLE_SURVEY_FIELD).getCode(),
-        is("UniqueVariableAlias"));
+        is(UniqueVariableAlias.class.getSimpleName()));
 
     // Delete
     this.repository.delete(variableDocument.getId());
