@@ -25,7 +25,6 @@ import eu.dzhw.fdz.metadatamanagement.web.variablemanagement.details.VariableRes
  * @author Amine Limouri
  */
 @Controller
-@RequestMapping(value = "/{language}/variables/search")
 public class VariableSearchController {
 
   private VariableService variableService;
@@ -52,17 +51,16 @@ public class VariableSearchController {
    * 
    * @return variableSearch.html
    */
-  @RequestMapping(method = RequestMethod.GET)
-  public Callable<ModelAndView> get(
-      @RequestParam(required = false) String query, Pageable pageable) {
+  @RequestMapping(value = "/{language:de|en}/variables/search", method = RequestMethod.GET)
+  public Callable<ModelAndView> get(@RequestParam(required = false) String query,
+      Pageable pageable) {
     return () -> {
       Page<VariableDocument> variablePage = variableService.search(query, pageable);
       PagedResources<VariableResource> pagedVariableResource =
           pagedResourcesAssembler.toResource(variablePage, variableResourceAssembler);
 
-      VariableSearchPageResource resource =
-          new VariableSearchPageResource(pagedVariableResource, VariableSearchController.class,
-              controllerLinkBuilderFactory, query, pageable);
+      VariableSearchPageResource resource = new VariableSearchPageResource(pagedVariableResource,
+          VariableSearchController.class, controllerLinkBuilderFactory, query, pageable);
 
       ModelAndView modelAndView = new ModelAndView("variables/search");
       modelAndView.addObject("query", query);
