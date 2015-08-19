@@ -24,29 +24,49 @@ public class DataTypeTest extends AbstractWebTest{
   
   @Test
   public void testValidNumericFieldGerman(){
+    //Arrange
     LocaleContextHolder.setLocale(Locale.GERMAN);
     String messageDE = this.dataTypesProvider.getNumericValueByLocale();
+    
+    //Act
+    
+    //Assert
     assertEquals("numerisch", messageDE);
   }
   
   @Test
   public void testInValidNumericFieldEnglish(){
+    //Arrange
     LocaleContextHolder.setLocale(Locale.ENGLISH);
     String messageEN = this.dataTypesProvider.getNumericValueByLocale();
+    
+    //Act
+    
+    //Assert
     assertThat("numerisch", not(messageEN));
   }
   
   @Test
   public void testValidStringFieldGerman(){
+    //Arrange
     LocaleContextHolder.setLocale(Locale.GERMAN);
     String messageDE = this.dataTypesProvider.getStringValueByLocale();
+    
+    //Act
+    
+    //Assert
     assertEquals("string", messageDE);
   }
   
   @Test
   public void testInValidStringFieldEnglish(){
+    //Arrange
     LocaleContextHolder.setLocale(Locale.ENGLISH);
     String messageEN = this.dataTypesProvider.getStringValueByLocale();
+    
+    //Act
+    
+    //Assert
     assertEquals("string", messageEN);
   }
 

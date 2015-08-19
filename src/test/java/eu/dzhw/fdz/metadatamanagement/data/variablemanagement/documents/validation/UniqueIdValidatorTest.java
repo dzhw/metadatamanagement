@@ -3,17 +3,14 @@
  */
 package eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.validation;
 
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertEquals;
 
-import java.util.Set;
-
-import javax.validation.ConstraintViolation;
-import javax.validation.Validator;
-
 import org.junit.Test;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.BeanPropertyBindingResult;
+import org.springframework.validation.Errors;
 
 import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.VariableDocument;
 import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.repositories.VariableRepository;
@@ -25,13 +22,11 @@ import eu.dzhw.fdz.metadatamanagement.web.AbstractWebTest;
  */
 public class UniqueIdValidatorTest extends AbstractWebTest {
 
-  private static final Logger LOGGER = LoggerFactory.getLogger(UniqueIdValidatorTest.class);
-
   @Autowired
   private VariableRepository repository;
 
   @Autowired
-  private Validator validator;
+  private VariableDocumentValidator variableDocumentValidator;
   
   @Test
   public void testValidUniqueId() {
@@ -48,15 +43,14 @@ public class UniqueIdValidatorTest extends AbstractWebTest {
     variableDocument2.setQuestion("DefaultQuestion?");
 
     // Act
-    Set<ConstraintViolation<VariableDocument>> variableViolations =
-        this.validator.validate(variableDocument2);
+    Errors errors = new BeanPropertyBindingResult(variableDocument2, "variableDocument");
+    this.variableDocumentValidator.validate(variableDocument2, errors);
 
     // Assert
-    assertEquals(0, variableViolations.size());
+    assertEquals(0, errors.getErrorCount());
     
     //Delete
-    this.repository.delete(variableDocument1.getId());
-    
+    this.repository.delete(variableDocument1.getId());    
   }
 
   @Test
@@ -74,20 +68,12 @@ public class UniqueIdValidatorTest extends AbstractWebTest {
     variableDocument2.setQuestion("DefaultQuestion?");
 
     // Act
-    Set<ConstraintViolation<VariableDocument>> variableViolations =
-        this.validator.validate(variableDocument2);
+    Errors errors = new BeanPropertyBindingResult(variableDocument2, "variableDocument");
+    this.variableDocumentValidator.validate(variableDocument2, errors);
 
     // Assert
-    assertEquals(1, variableViolations.size());
-    for (ConstraintViolation<VariableDocument> variableVialation : variableViolations) {
-
-      LOGGER.debug("testInvalidDataField() " + variableVialation.getMessageTemplate() + " -> "
-          + variableVialation.getMessage());
-
-      assertEquals(
-          "{eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.validation.uniqueid.message}",
-          variableVialation.getMessageTemplate());
-    }
+    assertEquals(1, errors.getErrorCount());
+    assertThat(errors.getFieldError(VariableDocument.ID_FIELD).getCode(), is("UniqueId"));    
     
     //Delete
     this.repository.delete(variableDocument1.getId());

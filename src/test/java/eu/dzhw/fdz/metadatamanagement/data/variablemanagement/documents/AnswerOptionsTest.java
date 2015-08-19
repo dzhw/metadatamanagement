@@ -61,8 +61,6 @@ public class AnswerOptionsTest {
     assertEquals(false, checkLabelOther);
     assertEquals(false, checkLabelBoth);
     assertEquals(true, checkLabelBothSame);
-    
-    
   }
 
 }

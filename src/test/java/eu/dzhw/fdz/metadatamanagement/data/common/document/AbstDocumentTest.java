@@ -14,29 +14,29 @@ import eu.dzhw.fdz.metadatamanagement.data.common.documents.AbstractDocument;
  *
  */
 public class AbstDocumentTest {
-  
+
   @Test
-  public void testHashCode(){
-    //Arrange
+  public void testHashCode() {
+    // Arrange
     AbstractDocument abstractDocument = new AbstractDocument();
-    
-    //Act
+
+    // Act
     int emptyIdHashCode = abstractDocument.hashCode();
     abstractDocument.setId("1");
     int withIdHashCode = abstractDocument.hashCode();
-    
-    //Assert
+
+    // Assert
     assertEquals(31, emptyIdHashCode);
     assertEquals(80, withIdHashCode);
   }
-  
+
   @Test
-  public void testEquals(){
-    //Arrange
+  public void testEquals() {
+    // Arrange
     AbstractDocument abstractDocument = new AbstractDocument();
     AbstractDocument abstractDocument2 = new AbstractDocument();
-    
-    //Act
+
+    // Act
     boolean checkSame = abstractDocument.equals(abstractDocument);
     boolean checkNull = abstractDocument.equals(null);
     boolean checkOtherClass = abstractDocument.equals(new Object());
@@ -47,8 +47,8 @@ public class AbstDocumentTest {
     boolean checkIdBoth = abstractDocument.equals(abstractDocument2);
     abstractDocument.setId("2");
     boolean checkIdBothSame = abstractDocument.equals(abstractDocument2);
-    
-    //Assert
+
+    // Assert
     assertEquals(true, checkSame);
     assertEquals(false, checkNull);
     assertEquals(false, checkOtherClass);
@@ -56,7 +56,5 @@ public class AbstDocumentTest {
     assertEquals(false, checkIdOther);
     assertEquals(false, checkIdBoth);
     assertEquals(true, checkIdBothSame);
-    
   }
-
 }

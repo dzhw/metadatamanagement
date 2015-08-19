@@ -4,23 +4,14 @@
 package eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents;
 
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.anyOf;
-import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertEquals;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
-import java.util.Set;
-
-import javax.validation.ConstraintViolation;
-import javax.validation.Validator;
 
 import org.junit.Test;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.BeanPropertyBindingResult;
 import org.springframework.validation.Errors;
@@ -35,11 +26,6 @@ import eu.dzhw.fdz.metadatamanagement.web.AbstractWebTest;
  */
 public class VariableDocumentTest extends AbstractWebTest {
 
-  private static final Logger LOGGER = LoggerFactory.getLogger(VariableDocumentTest.class);
-
-  @Autowired
-  private Validator validator;
-
   @Autowired
   private VariableDocumentValidator variableDocumentValidator;
 
@@ -47,24 +33,18 @@ public class VariableDocumentTest extends AbstractWebTest {
   public void testEmptyInValidVariableDocument() {
 
     // Arrange
-    VariableDocument variable = new VariableDocument();
-    variable.setId("");
+    VariableDocument variableDocument = new VariableDocument();
+    variableDocument.setId("");
 
     // Act
-    Set<ConstraintViolation<VariableDocument>> variableViolations =
-        this.validator.validate(variable);
+    Errors errors = new BeanPropertyBindingResult(variableDocument, "variableDocument");
+    this.variableDocumentValidator.validate(variableDocument, errors);
 
     // Assert
-    assertEquals(3, variableViolations.size());
-    for (ConstraintViolation<VariableDocument> variableVialation : variableViolations) {
-
-      LOGGER.debug("testEmptyInValidVariable()" + variableVialation.getMessageTemplate() + " -> "
-          + variableVialation.getMessage());
-
-      assertThat(variableVialation.getMessageTemplate(),
-          anyOf(equalTo("{org.hibernate.validator.constraints.NotEmpty.message}"),
-              equalTo("{org.hibernate.validator.constraints.NotBlank.message}")));
-    }
+    assertEquals(3, errors.getErrorCount());
+    assertThat(errors.getFieldError(VariableDocument.NAME_FIELD).getCode(), is("NotBlank"));
+    assertThat(errors.getFieldError(VariableDocument.QUESTION_FIELD).getCode(), is("NotBlank"));
+    assertThat(errors.getFieldError(VariableDocument.ID_FIELD).getCode(), is("NotBlank"));
   }
 
   @Test
@@ -77,11 +57,11 @@ public class VariableDocumentTest extends AbstractWebTest {
     variableDocument.setQuestion("DefaultQuestion?");
 
     // Act
-    Set<ConstraintViolation<VariableDocument>> variableViolations =
-        this.validator.validate(variableDocument);
+    Errors errors = new BeanPropertyBindingResult(variableDocument, "variableDocument");
+    this.variableDocumentValidator.validate(variableDocument, errors);
 
     // Assert
-    assertEquals(0, variableViolations.size());
+    assertEquals(0, errors.getErrorCount());
   }
 
   @Test
@@ -94,19 +74,12 @@ public class VariableDocumentTest extends AbstractWebTest {
     variableDocument.setQuestion("DefaultQuestion?");
 
     // Act
-    Set<ConstraintViolation<VariableDocument>> variableViolations =
-        this.validator.validate(variableDocument);
+    Errors errors = new BeanPropertyBindingResult(variableDocument, "variableDocument");
+    this.variableDocumentValidator.validate(variableDocument, errors);
 
     // Assert
-    assertEquals(1, variableViolations.size());
-    for (ConstraintViolation<VariableDocument> variableVialation : variableViolations) {
-
-      LOGGER.debug("testInvalidID()" + variableVialation.getMessageTemplate() + " -> "
-          + variableVialation.getMessage());
-
-      assertEquals("{javax.validation.constraints.Pattern.message}",
-          variableVialation.getMessageTemplate());
-    }
+    assertEquals(1, errors.getErrorCount());
+    assertThat(errors.getFieldError(VariableDocument.ID_FIELD).getCode(), is("Pattern"));
   }
 
   @Test
@@ -119,11 +92,11 @@ public class VariableDocumentTest extends AbstractWebTest {
     variableDocument.setQuestion("DefaultQuestion?");
 
     // Act
-    Set<ConstraintViolation<VariableDocument>> variableViolations =
-        this.validator.validate(variableDocument);
+    Errors errors = new BeanPropertyBindingResult(variableDocument, "variableDocument");
+    this.variableDocumentValidator.validate(variableDocument, errors);
 
     // Assert
-    assertEquals(0, variableViolations.size());
+    assertEquals(0, errors.getErrorCount());
   }
 
   @Test
@@ -136,19 +109,12 @@ public class VariableDocumentTest extends AbstractWebTest {
     variableDocument.setQuestion("DefaultQuestion?");
 
     // Act
-    Set<ConstraintViolation<VariableDocument>> variableViolations =
-        this.validator.validate(variableDocument);
+    Errors errors = new BeanPropertyBindingResult(variableDocument, "variableDocument");
+    this.variableDocumentValidator.validate(variableDocument, errors);
 
     // Assert
-    assertEquals(1, variableViolations.size());
-    for (ConstraintViolation<VariableDocument> variableVialation : variableViolations) {
-
-      LOGGER.debug("testInvalidName()" + variableVialation.getMessageTemplate() + " -> "
-          + variableVialation.getMessage());
-
-      assertEquals("{javax.validation.constraints.Size.message}",
-          variableVialation.getMessageTemplate());
-    }
+    assertEquals(1, errors.getErrorCount());
+    assertThat(errors.getFieldError(VariableDocument.NAME_FIELD).getCode(), is("Size"));
   }
 
   @Test
@@ -163,19 +129,12 @@ public class VariableDocumentTest extends AbstractWebTest {
     variableDocument.setQuestion("DefaultQuestion?");
 
     // Act
-    Set<ConstraintViolation<VariableDocument>> variableViolations =
-        this.validator.validate(variableDocument);
+    Errors errors = new BeanPropertyBindingResult(variableDocument, "variableDocument");
+    this.variableDocumentValidator.validate(variableDocument, errors);
 
     // Assert
-    assertEquals(1, variableViolations.size());
-    for (ConstraintViolation<VariableDocument> variableVialation : variableViolations) {
-
-      LOGGER.debug("testInvalidLabel()" + variableVialation.getMessageTemplate() + " -> "
-          + variableVialation.getMessage());
-
-      assertEquals("{javax.validation.constraints.Size.message}",
-          variableVialation.getMessageTemplate());
-    }
+    assertEquals(1, errors.getErrorCount());
+    assertThat(errors.getFieldError(VariableDocument.LABEL_FIELD).getCode(), is("Size"));
   }
 
   @Test
@@ -189,11 +148,11 @@ public class VariableDocumentTest extends AbstractWebTest {
     variableDocument.setQuestion("DefaultQuestion?");
 
     // Act
-    Set<ConstraintViolation<VariableDocument>> variableViolations =
-        this.validator.validate(variableDocument);
+    Errors errors = new BeanPropertyBindingResult(variableDocument, "variableDocument");
+    this.variableDocumentValidator.validate(variableDocument, errors);
 
     // Assert
-    assertEquals(0, variableViolations.size());
+    assertEquals(0, errors.getErrorCount());
   }
 
   @Test
@@ -206,11 +165,11 @@ public class VariableDocumentTest extends AbstractWebTest {
     variableDocument.setQuestion("DefaultQuestion?");
 
     // Act
-    Set<ConstraintViolation<VariableDocument>> variableViolations =
-        this.validator.validate(variableDocument);
+    Errors errors = new BeanPropertyBindingResult(variableDocument, "variableDocument");
+    this.variableDocumentValidator.validate(variableDocument, errors);
 
     // Assert
-    assertEquals(0, variableViolations.size());
+    assertEquals(0, errors.getErrorCount());
   }
 
   @Test
@@ -223,21 +182,13 @@ public class VariableDocumentTest extends AbstractWebTest {
     variableDocument.setQuestion("DefaultQuestion?");
 
     // Act
-    Set<ConstraintViolation<VariableDocument>> variableViolations =
-        this.validator.validate(variableDocument);
+    Errors errors = new BeanPropertyBindingResult(variableDocument, "variableDocument");
+    this.variableDocumentValidator.validate(variableDocument, errors);
 
     // Assert
-    assertEquals(1, variableViolations.size());
-    for (ConstraintViolation<VariableDocument> variableVialation : variableViolations) {
-
-      LOGGER.debug("testInvalidDataField() " + variableVialation.getMessageTemplate() + " -> "
-          + variableVialation.getMessage());
-
-      assertEquals(
-          "{eu.dzhw.fdz.metadatamanagement.data.variablemanagement."
-              + "documents.validation.validdatatype.message}",
-          variableVialation.getMessageTemplate());
-    }
+    assertEquals(1, errors.getErrorCount());
+    assertThat(errors.getFieldError(VariableDocument.DATA_TYPE_FIELD).getCode(),
+        is("ValidDataType"));
   }
 
   @Test
@@ -251,11 +202,11 @@ public class VariableDocumentTest extends AbstractWebTest {
     variableDocument.setQuestion("DefaultQuestion?");
 
     // Act
-    Set<ConstraintViolation<VariableDocument>> variableViolations =
-        this.validator.validate(variableDocument);
+    Errors errors = new BeanPropertyBindingResult(variableDocument, "variableDocument");
+    this.variableDocumentValidator.validate(variableDocument, errors);
 
     // Assert
-    assertEquals(0, variableViolations.size());
+    assertEquals(0, errors.getErrorCount());
   }
 
   @Test
@@ -268,21 +219,14 @@ public class VariableDocumentTest extends AbstractWebTest {
     variableDocument.setQuestion("DefaultQuestion?");
 
     // Act
-    Set<ConstraintViolation<VariableDocument>> variableViolations =
-        this.validator.validate(variableDocument);
+    Errors errors = new BeanPropertyBindingResult(variableDocument, "variableDocument");
+    this.variableDocumentValidator.validate(variableDocument, errors);
 
     // Assert
-    assertEquals(1, variableViolations.size());
-    for (ConstraintViolation<VariableDocument> variableVialation : variableViolations) {
+    assertEquals(1, errors.getErrorCount());
+    assertThat(errors.getFieldError(VariableDocument.SCALE_LEVEL_FIELD).getCode(),
+        is("ValidScaleLevel"));
 
-      LOGGER.debug("testInvalidDataField() " + variableVialation.getMessageTemplate() + " -> "
-          + variableVialation.getMessage());
-
-      assertEquals(
-          "{eu.dzhw.fdz.metadatamanagement.data.variablemanagement."
-              + "documents.validation.validscalelevel.message}",
-          variableVialation.getMessageTemplate());
-    }
   }
 
   @Test
@@ -320,30 +264,15 @@ public class VariableDocumentTest extends AbstractWebTest {
     variableDocument.setAnswerOptions(answerOptions);
 
     // Act
-    Set<ConstraintViolation<VariableDocument>> variableViolations =
-        this.validator.validate(variableDocument);
+    Errors errors = new BeanPropertyBindingResult(variableDocument, "variableDocument");
+    this.variableDocumentValidator.validate(variableDocument, errors);
 
     // Arrange
-    assertEquals(2, variableViolations.size());
-    Iterator<ConstraintViolation<VariableDocument>> ite = variableViolations.iterator();
+    assertEquals(2, errors.getErrorCount());
+    assertThat(errors.getFieldError("answerOptions[0].label").getCode(), is("Size"));
+    assertThat(errors.getFieldError("answerOptions[0].code").getCode(), is("NotNull"));
 
-    // both messages found (it is not possible to expect an exact order of error messages
-    boolean foundSize = false;
-    boolean foundNotNull = false;
-    while (ite.hasNext()) {
-      String msgTemplate = ite.next().getMessageTemplate();
 
-      LOGGER.debug("testInvalidLabelAtAnswerOption() " + msgTemplate);
-
-      if (msgTemplate.equals("{javax.validation.constraints.Size.message}") && !foundSize) {
-        foundSize = true;
-      }
-      if (msgTemplate.equals("{javax.validation.constraints.NotNull.message}") && !foundNotNull) {
-        foundNotNull = true;
-      }
-    }
-    assertEquals(true, foundSize);
-    assertEquals(true, foundNotNull);
   }
 
   @Test
@@ -362,19 +291,12 @@ public class VariableDocumentTest extends AbstractWebTest {
     variableDocument.setAnswerOptions(answerOptions);
 
     // Act
-    Set<ConstraintViolation<VariableDocument>> variableViolations =
-        this.validator.validate(variableDocument);
+    Errors errors = new BeanPropertyBindingResult(variableDocument, "variableDocument");
+    this.variableDocumentValidator.validate(variableDocument, errors);
 
     // Assert
-    assertEquals(1, variableViolations.size());
-    for (ConstraintViolation<VariableDocument> variableVialation : variableViolations) {
-
-      LOGGER.debug("testInvalidLabelAtAnswerOption() " + variableVialation.getMessageTemplate()
-          + " -> " + variableVialation.getMessage());
-
-      assertEquals("{javax.validation.constraints.NotNull.message}",
-          variableVialation.getMessageTemplate());
-    }
+    assertEquals(1, errors.getErrorCount());
+    assertThat(errors.getFieldError("answerOptions[0].code").getCode(), is("NotNull"));
   }
 
   @Test
@@ -393,11 +315,11 @@ public class VariableDocumentTest extends AbstractWebTest {
     variableDocument.setAnswerOptions(answerOptions);
 
     // Act
-    Set<ConstraintViolation<VariableDocument>> variableViolations =
-        this.validator.validate(variableDocument);
+    Errors errors = new BeanPropertyBindingResult(variableDocument, "variableDocument");
+    this.variableDocumentValidator.validate(variableDocument, errors);
 
     // Assert
-    assertEquals(0, variableViolations.size());
+    assertEquals(0, errors.getErrorCount());
     assertEquals("Label is okay.", variableDocument.getAnswerOptions().get(0).getLabel());
     assertEquals(Integer.valueOf(5), variableDocument.getAnswerOptions().get(0).getCode());
   }
@@ -426,19 +348,12 @@ public class VariableDocumentTest extends AbstractWebTest {
     variableDocument.setAnswerOptions(answerOptions);
 
     // Act
-    Set<ConstraintViolation<VariableDocument>> variableViolations =
-        this.validator.validate(variableDocument);
+    Errors errors = new BeanPropertyBindingResult(variableDocument, "variableDocument");
+    this.variableDocumentValidator.validate(variableDocument, errors);
 
     // Assert
-    assertEquals(1, variableViolations.size());
-    for (ConstraintViolation<VariableDocument> variableVialation : variableViolations) {
-
-      LOGGER.debug("testInvalidLabelAtAnswerOption() " + variableVialation.getMessageTemplate()
-          + " -> " + variableVialation.getMessage());
-
-      assertEquals("{javax.validation.constraints.NotNull.message}",
-          variableVialation.getMessageTemplate());
-    }
+    assertEquals(1, errors.getErrorCount());
+    assertThat(errors.getFieldError("answerOptions[1].code").getCode(), is("NotNull"));
   }
 
   @Test
@@ -453,23 +368,21 @@ public class VariableDocumentTest extends AbstractWebTest {
     variableDocument.setVariableSurvey(variableSurvey);
 
     // Act
-    Set<ConstraintViolation<VariableDocument>> variableViolations =
-        this.validator.validate(variableDocument);
+    Errors errors = new BeanPropertyBindingResult(variableDocument, "variableDocument");
+    this.variableDocumentValidator.validate(variableDocument, errors);
 
     // Assert
-    assertEquals(5, variableViolations.size());
-    for (ConstraintViolation<VariableDocument> variableVialation : variableViolations) {
-
-      LOGGER.debug("testInvalidVariableDocumentSurveyWithEmptyFields()"
-          + variableVialation.getMessageTemplate() + " -> " + variableVialation.getMessage());
-
-      assertThat(variableVialation.getMessageTemplate(),
-          anyOf(equalTo("{org.hibernate.validator.constraints.NotBlank.message}"),
-              equalTo("{eu.dzhw.fdz.metadatamanagement.data.variablemanagement."
-                  + "documents.validation.uniquevariablealias.message}"),
-          equalTo("{javax.validation.constraints.NotNull.message}")));
-
-    }
+    assertEquals(5, errors.getErrorCount());
+    assertThat(errors.getFieldError(VariableDocument.NESTED_VARIABLE_SURVEY_ID_FIELD).getCode(),
+        is("NotBlank"));
+    assertThat(errors.getFieldError(VariableDocument.NESTED_VARIABLE_SURVEY_TITLE_FIELD).getCode(),
+        is("NotBlank"));
+    assertThat(errors.getFieldError(VariableDocument.NESTED_VARIABLE_SURVEY_PERIOD_FIELD).getCode(),
+        is("NotNull"));
+    assertThat(errors.getFieldError(VariableDocument.NESTED_VARIABLE_SURVEY_VARIABLE_ALIAS_FIELD)
+        .getCode(), is("NotBlank"));
+    assertThat(errors.getFieldError(VariableDocument.VARIABLE_SURVEY_FIELD).getCode(),
+        is("UniqueVariableAlias"));
   }
 
   @Test
@@ -489,20 +402,13 @@ public class VariableDocumentTest extends AbstractWebTest {
     variableSurvey.setSurveyPeriod(new DateRange());
 
     // Act
-    Set<ConstraintViolation<VariableDocument>> variableViolations =
-        this.validator.validate(variableDocument);
+    Errors errors = new BeanPropertyBindingResult(variableDocument, "variableDocument");
+    this.variableDocumentValidator.validate(variableDocument, errors);
 
     // Assert
-    assertEquals(1, variableViolations.size());
-
-    for (ConstraintViolation<VariableDocument> variableVialation : variableViolations) {
-
-      LOGGER.debug("testInvalidVariableDocumentSurveyWithInvalidSurveyId()"
-          + variableVialation.getMessageTemplate() + " -> " + variableVialation.getMessage());
-
-      assertEquals("{javax.validation.constraints.Size.message}",
-          variableVialation.getMessageTemplate());
-    }
+    assertEquals(1, errors.getErrorCount());
+    assertThat(errors.getFieldError(VariableDocument.NESTED_VARIABLE_SURVEY_VARIABLE_ALIAS_FIELD)
+        .getCode(), is("Size"));
   }
 
   @Test
@@ -521,20 +427,13 @@ public class VariableDocumentTest extends AbstractWebTest {
     variableDocument.getVariableSurvey().setSurveyPeriod(new DateRange());
 
     // Act
-    Set<ConstraintViolation<VariableDocument>> variableViolations =
-        this.validator.validate(variableDocument);
+    Errors errors = new BeanPropertyBindingResult(variableDocument, "variableDocument");
+    this.variableDocumentValidator.validate(variableDocument, errors);
 
     // Assert
-    assertEquals(1, variableViolations.size());
-
-    for (ConstraintViolation<VariableDocument> variableVialation : variableViolations) {
-
-      LOGGER.debug("testInvalidVariableDocumentSurveyWithInvalidSurveyId()"
-          + variableVialation.getMessageTemplate() + " -> " + variableVialation.getMessage());
-
-      assertEquals("{javax.validation.constraints.Size.message}",
-          variableVialation.getMessageTemplate());
-    }
+    assertEquals(1, errors.getErrorCount());
+    assertThat(errors.getFieldError(VariableDocument.NESTED_VARIABLE_SURVEY_ID_FIELD).getCode(),
+        is("Size"));
   }
 
 
@@ -554,20 +453,13 @@ public class VariableDocumentTest extends AbstractWebTest {
     variableDocument.getVariableSurvey().setSurveyPeriod(new DateRange());
 
     // Act
-    Set<ConstraintViolation<VariableDocument>> variableViolations =
-        this.validator.validate(variableDocument);
+    Errors errors = new BeanPropertyBindingResult(variableDocument, "variableDocument");
+    this.variableDocumentValidator.validate(variableDocument, errors);
 
     // Assert
-    assertEquals(1, variableViolations.size());
-
-    for (ConstraintViolation<VariableDocument> variableVialation : variableViolations) {
-
-      LOGGER.debug("variableSurveyTest()" + variableVialation.getMessageTemplate() + " -> "
-          + variableVialation.getMessage());
-
-      assertEquals("{javax.validation.constraints.Size.message}",
-          variableVialation.getMessageTemplate());
-    }
+    assertEquals(1, errors.getErrorCount());
+    assertThat(errors.getFieldError(VariableDocument.NESTED_VARIABLE_SURVEY_TITLE_FIELD).getCode(),
+        is("Size"));
   }
 
 
@@ -587,11 +479,11 @@ public class VariableDocumentTest extends AbstractWebTest {
     variableDocument.getVariableSurvey().setSurveyPeriod(new DateRange());
 
     // Act
-    Set<ConstraintViolation<VariableDocument>> variableViolations =
-        this.validator.validate(variableDocument);
+    Errors errors = new BeanPropertyBindingResult(variableDocument, "variableDocument");
+    this.variableDocumentValidator.validate(variableDocument, errors);
 
     // Assert
-    assertEquals(0, variableViolations.size());
+    assertEquals(0, errors.getErrorCount());
   }
 
   @Test
@@ -616,22 +508,13 @@ public class VariableDocumentTest extends AbstractWebTest {
     variableDocument.setVariableSurvey(variableSurvey);
 
     // Act
-    Set<ConstraintViolation<VariableDocument>> variableViolations =
-        this.validator.validate(variableDocument);
+    Errors errors = new BeanPropertyBindingResult(variableDocument, "variableDocument");
+    this.variableDocumentValidator.validate(variableDocument, errors);
 
     // Assert
-    // assertEquals(1, variableViolations.size());
-
-    for (ConstraintViolation<VariableDocument> variableVialation : variableViolations) {
-
-      LOGGER.debug("testInvalidDateRange()" + variableVialation.getMessageTemplate() + " -> "
-          + variableVialation.getMessage());
-
-      assertEquals(
-          "{eu.dzhw.fdz.metadatamanagement.data.variablemanagement."
-              + "common.validation.validdaterange.message}",
-          variableVialation.getMessageTemplate());
-    }
+    assertEquals(1, errors.getErrorCount());
+    assertThat(errors.getFieldError(VariableDocument.NESTED_VARIABLE_SURVEY_PERIOD_FIELD).getCode(),
+        is("ValidDateRange"));
   }
 
   @Test
@@ -656,16 +539,16 @@ public class VariableDocumentTest extends AbstractWebTest {
     variableDocument.setVariableSurvey(variableSurvey);
 
     // Act
-    Set<ConstraintViolation<VariableDocument>> variableViolations =
-        this.validator.validate(variableDocument);
+    Errors errors = new BeanPropertyBindingResult(variableDocument, "variableDocument");
+    this.variableDocumentValidator.validate(variableDocument, errors);
 
     // Assert
-    assertEquals(0, variableViolations.size());
+    assertEquals(0, errors.getErrorCount());
   }
 
   @Test
   public void testEmptyDateRangeValidator() {
-
+    // Arrange
     VariableDocument variableDocument = new VariableDocument();
     variableDocument.setId("ID");
     variableDocument.setName("name");
@@ -679,12 +562,12 @@ public class VariableDocumentTest extends AbstractWebTest {
     // set a date, but without a start and end date
     variableDocument.getVariableSurvey().setSurveyPeriod(new DateRange());
 
+    // Act
+    Errors errors = new BeanPropertyBindingResult(variableDocument, "variableDocument");
+    this.variableDocumentValidator.validate(variableDocument, errors);
 
-    Set<ConstraintViolation<VariableDocument>> variableViolations =
-        this.validator.validate(variableDocument);
-
-    // everything okay
-    assertEquals(0, variableViolations.size());
+    // Assert
+    assertEquals(0, errors.getErrorCount());
   }
 
   @Test
@@ -755,27 +638,19 @@ public class VariableDocumentTest extends AbstractWebTest {
   }
 
   @Test
-  public void testInvalidVariableDocumentWithEmptyQuest() {
+  public void testInvalidVariableDocumentWithEmptyQuestion() {
     // Arrange
     VariableDocument variableDocument = new VariableDocument();
     variableDocument.setId("ThisIDisOkay");
     variableDocument.setName("ThisNameIsOkay.");
 
     // Act
-    Set<ConstraintViolation<VariableDocument>> variableViolations =
-        this.validator.validate(variableDocument);
+    Errors errors = new BeanPropertyBindingResult(variableDocument, "variableDocument");
+    this.variableDocumentValidator.validate(variableDocument, errors);
 
     // Assert
-    assertEquals(1, variableViolations.size());
-
-    for (ConstraintViolation<VariableDocument> variableVialation : variableViolations) {
-
-      LOGGER.debug("variableSurveyTest()" + variableVialation.getMessageTemplate() + " -> "
-          + variableVialation.getMessage());
-
-      assertEquals("{org.hibernate.validator.constraints.NotBlank.message}",
-          variableVialation.getMessageTemplate());
-    }
+    assertEquals(1, errors.getErrorCount());
+    assertThat(errors.getFieldError(VariableDocument.QUESTION_FIELD).getCode(), is("NotBlank"));
   }
 
   @Test

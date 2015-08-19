@@ -26,35 +26,45 @@ import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.validati
 import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.validation.provider.ScaleLevelProvider;
 
 
+/**
+ * @author Daniel Katzberg
+ */
 public class VariableServiceTest extends MetaDataManagementApplicationSmokeTest {
 
+  // TOD Depending on json test files
   @Autowired
   private VariableService variableService;
-  
+
   @Test
   public void testSearchWithQuery() {
-
+    // Arrange
     Pageable pageable = new PageRequest(0, 10);
 
+    // Act
+
+    // Assert
     assertThat(variableService.search("name", pageable).getSize(), is(10));
 
   }
 
   @Test
   public void testSearchWithoutQuery() {
-
+    // Arrange
     Pageable pageable = new PageRequest(0, 10);
 
+    // Act
+
+    // Assert
     assertThat(variableService.search(null, pageable).getSize(), is(10));
 
   }
-  
+
   @Test
-  public void testSaveAndDelete(){
+  public void testSaveAndDelete() {
     String id = "FDZ_ID0000001";
-    
-    //Arrange
-    //Variable Document
+
+    // Arrange
+    // Variable Document
     LocaleContextHolder.setLocale(Locale.GERMAN);
     VariableDocument variableDocument = new VariableDocument();
     variableDocument.setId(id);
@@ -62,8 +72,8 @@ public class VariableServiceTest extends MetaDataManagementApplicationSmokeTest 
     variableDocument.setLabel("A label for a Document");
     variableDocument.setScaleLevel(ScaleLevelProvider.GERMAN_NOMINAL);
     variableDocument.setDataType(DataTypesProvider.GERMAN_NUMERIC);
-    
-    //Answer Options
+
+    // Answer Options
     List<AnswerOption> answerOptions = new ArrayList<>();
     AnswerOption answerOption1 = new AnswerOption();
     answerOption1.setCode(1);
@@ -72,34 +82,34 @@ public class VariableServiceTest extends MetaDataManagementApplicationSmokeTest 
     answerOption2.setCode(2);
     answerOption2.setLabel("Label 2");
     answerOptions.add(answerOption1);
-    answerOptions.add(answerOption2);    
+    answerOptions.add(answerOption2);
     variableDocument.setAnswerOptions(answerOptions);
-    
-    //DateRange
+
+    // DateRange
     DateRange dateRange = new DateRange();
     dateRange.setStartDate(LocalDate.now());
     dateRange.setEndDate(LocalDate.now().plusDays(3));
-    
-    //Variable Survey
+
+    // Variable Survey
     VariableSurvey variableSurvey = new VariableSurvey();
     variableSurvey.setSurveyId("Survey_ID_1");
     variableSurvey.setTitle("Title 1");
     variableSurvey.setVariableAlias(variableDocument.getName());
     variableSurvey.setSurveyPeriod(dateRange);
     variableDocument.setVariableSurvey(variableSurvey);
-    
-    //Act    
+
+    // Act
     VariableDocument savedVariableDocument = this.variableService.save(variableDocument);
     this.variableService.delete(id);
-    
+
     Pageable pageable = new PageRequest(0, 10);
     Page<VariableDocument> results = this.variableService.search(id, pageable);
     int numberElements = results.getNumberOfElements();
-    
-    //Assert
+
+    // Assert
     assertThat(savedVariableDocument, is(variableDocument));
     assertThat(savedVariableDocument, not(nullValue()));
     assertThat(numberElements, is(0));
-    
+
   }
 }

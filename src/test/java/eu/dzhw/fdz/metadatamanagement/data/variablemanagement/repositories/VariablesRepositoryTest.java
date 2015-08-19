@@ -23,6 +23,7 @@ import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.Variable
  */
 public class VariablesRepositoryTest extends MetaDataManagementApplicationSmokeTest {
 
+  //TODO depending on json test data 
   @Autowired
   private VariableRepository variablesRepository;
 

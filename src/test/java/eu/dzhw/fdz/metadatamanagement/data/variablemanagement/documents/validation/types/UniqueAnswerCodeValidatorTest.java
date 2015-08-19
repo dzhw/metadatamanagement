@@ -3,35 +3,32 @@
  */
 package eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.validation.types;
 
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertEquals;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
-
-import javax.validation.ConstraintViolation;
-import javax.validation.Validator;
 
 import org.junit.Test;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.BeanPropertyBindingResult;
+import org.springframework.validation.Errors;
 
 import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.AnswerOption;
 import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.VariableDocument;
+import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.validation.VariableDocumentValidator;
 import eu.dzhw.fdz.metadatamanagement.web.AbstractWebTest;
 
 /**
  * @author Daniel Katzberg
  *
  */
-public class UniqueAnswerCodeValidatorTest extends AbstractWebTest{
-  
-  private static final Logger LOGGER = LoggerFactory.getLogger(UniqueAnswerCodeValidatorTest.class);
-  
+public class UniqueAnswerCodeValidatorTest extends AbstractWebTest {
+
   @Autowired
-  private Validator validator;
-  
+  private VariableDocumentValidator variableDocumentValidator;
+
   @Test
   public void testValidAnswerCode() {
 
@@ -40,7 +37,7 @@ public class UniqueAnswerCodeValidatorTest extends AbstractWebTest{
     variableDocument.setId("ThisIDisOkay");
     variableDocument.setName("ThisNameIsOkay.");
     variableDocument.setQuestion("DefaultQuestion?");
-    
+
     AnswerOption answerOption1 = new AnswerOption();
     answerOption1.setCode(1);
     answerOption1.setLabel("Label 1");
@@ -50,17 +47,17 @@ public class UniqueAnswerCodeValidatorTest extends AbstractWebTest{
     List<AnswerOption> answerOptions = new ArrayList<>();
     answerOptions.add(answerOption1);
     answerOptions.add(answerOption2);
-    
+
     variableDocument.setAnswerOptions(answerOptions);
 
     // Act
-    Set<ConstraintViolation<VariableDocument>> variableViolations =
-        this.validator.validate(variableDocument);
+    Errors errors = new BeanPropertyBindingResult(variableDocument, "variableDocument");
+    this.variableDocumentValidator.validate(variableDocument, errors);
 
     // Assert
-    assertEquals(0, variableViolations.size());
+    assertEquals(0, errors.getErrorCount());
   }
-  
+
   @Test
   public void testInvalidAnswerCode() {
 
@@ -69,7 +66,7 @@ public class UniqueAnswerCodeValidatorTest extends AbstractWebTest{
     variableDocument.setId("ThisIDisOkay");
     variableDocument.setName("ThisNameIsOkay.");
     variableDocument.setQuestion("DefaultQuestion?");
-    
+
     AnswerOption answerOption1 = new AnswerOption();
     answerOption1.setCode(1);
     answerOption1.setLabel("Label 1");
@@ -79,24 +76,16 @@ public class UniqueAnswerCodeValidatorTest extends AbstractWebTest{
     List<AnswerOption> answerOptions = new ArrayList<>();
     answerOptions.add(answerOption1);
     answerOptions.add(answerOption2);
-    
+
     variableDocument.setAnswerOptions(answerOptions);
 
     // Act
-    Set<ConstraintViolation<VariableDocument>> variableViolations =
-        this.validator.validate(variableDocument);
+    Errors errors = new BeanPropertyBindingResult(variableDocument, "variableDocument");
+    this.variableDocumentValidator.validate(variableDocument, errors);
 
     // Assert
-    assertEquals(1, variableViolations.size());
-    for (ConstraintViolation<VariableDocument> variableVialation : variableViolations) {
-
-      LOGGER.debug("testInvalidDataField() " + variableVialation.getMessageTemplate() + " -> "
-          + variableVialation.getMessage());
-
-      assertEquals(
-          "{eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.validation.uniqueanswercode.message}",
-          variableVialation.getMessageTemplate());
-    }
+    assertEquals(1, errors.getErrorCount());
+    assertThat(errors.getFieldError(VariableDocument.ANSWER_OPTIONS_FIELD).getCode(),
+        is("UniqueAnswerCode"));
   }
-
 }

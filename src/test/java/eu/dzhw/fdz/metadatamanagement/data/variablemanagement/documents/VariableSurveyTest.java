@@ -19,8 +19,13 @@ public class VariableSurveyTest {
   
   @Test
   public void testHashCode(){
+    //Arrange
     VariableSurvey variableSurvey = new VariableSurvey();
     variableSurvey.setSurveyId("Survey01");
+    
+    //Act
+    
+    //Assert
     assertEquals(-2079109466, variableSurvey.hashCode());
   }
   

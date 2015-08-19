@@ -27,44 +27,73 @@ public class ScaleLevelTest extends AbstractWebTest{
   
   @Test
   public void testValidNumericFieldGerman(){
+    //Arrange
     LocaleContextHolder.setLocale(Locale.GERMAN);
     String messageDE = this.scaleLevelProvider.getMetricByLocal();
+    
+    //Act
+    
+    //Assert
     assertEquals("metrisch", messageDE);
   }
   
   @Test
   public void testInValidNumericFieldEnglish(){
+    //Arrange
     LocaleContextHolder.setLocale(Locale.ENGLISH);
     String messageEN = this.scaleLevelProvider.getMetricByLocal();
+    
+    //Act
+    
+    //Assert
     assertThat("metrisch", not(messageEN));
   }
   
   @Test
   public void testValidNominalFieldGerman(){
+    //Arrange
     LocaleContextHolder.setLocale(Locale.GERMAN);
     String messageDE = this.scaleLevelProvider.getNominalByLocal();
+    
+    //Act
+    
+    //Assert
     assertEquals("nominal", messageDE);
   }
   
   @Test
   public void testInValidNominalFieldEnglish(){
+    //Arrange
     LocaleContextHolder.setLocale(Locale.ENGLISH);
     String messageEN = this.scaleLevelProvider.getNominalByLocal();
+    
+    //Act
+    
+    //Assert
     assertEquals("nominal", messageEN);
   }
   
   @Test
   public void testValidOrdinalFieldGerman(){
+    //Arrange
     LocaleContextHolder.setLocale(Locale.GERMAN);
     String messageDE = this.scaleLevelProvider.getOrdinalByLocal();
+    
+    //Act
+    
+    //Assert
     assertEquals("ordinal", messageDE);
   }
   
   @Test
   public void testInValidOrdinalFieldEnglish(){
+    //Arrange
     LocaleContextHolder.setLocale(Locale.ENGLISH);
     String messageEN = this.scaleLevelProvider.getOrdinalByLocal();
+    
+    //Act
+    
+    //Assert
     assertEquals("ordinal", messageEN);
   }
-
 }
