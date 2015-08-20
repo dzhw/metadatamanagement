@@ -12,6 +12,7 @@ import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
 import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
@@ -64,18 +65,33 @@ public class VariableValidateController {
     return () -> {
       ValidationResultDto validationResult = new ValidationResultDto();
       if (!bindingResult.hasErrors()) {
+        // return empty map if there are no errors
         validationResult.setErrorMessageMap(new HashMap<String, List<String>>());
       } else {
-        List<ObjectError> allErrors = bindingResult.getAllErrors();
         Map<String, List<String>> errorMessages = new HashMap<String, List<String>>();
-        for (ObjectError error : allErrors) {
-          if (errorMessages.containsKey(error.getObjectName())) {
-            List<String> messages = errorMessages.get(error.getObjectName());
+
+        // convert all field errors into string map
+        List<FieldError> allFieldErrors = bindingResult.getFieldErrors();
+        for (FieldError error : allFieldErrors) {
+          if (errorMessages.containsKey(error.getField())) {
+            List<String> messages = errorMessages.get(error.getField());
             messages.add(messageSource.getMessage(error, locale));
           } else {
             List<String> messages = new ArrayList<String>();
             messages.add(messageSource.getMessage(error, locale));
-            errorMessages.put(error.getObjectName(), messages);
+            errorMessages.put(error.getField(), messages);
+          }
+        }
+        // convert all global errors into string map
+        List<ObjectError> allGlobalErrors = bindingResult.getGlobalErrors();
+        for (ObjectError error : allGlobalErrors) {
+          if (errorMessages.containsKey("global")) {
+            List<String> messages = errorMessages.get("global");
+            messages.add(messageSource.getMessage(error, locale));
+          } else {
+            List<String> messages = new ArrayList<String>();
+            messages.add(messageSource.getMessage(error, locale));
+            errorMessages.put("global", messages);
           }
         }
         validationResult.setErrorMessageMap(errorMessages);
