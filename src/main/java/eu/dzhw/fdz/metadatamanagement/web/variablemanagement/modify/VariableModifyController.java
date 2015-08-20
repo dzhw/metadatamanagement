@@ -47,9 +47,9 @@ public class VariableModifyController {
    */
   @Autowired
   public VariableModifyController(VariableService variableService,
-          ControllerLinkBuilderFactory controllerLinkBuilderFactory,
-          VariableDocumentValidator validator, ScaleLevelProvider scaleLevelProvider,
-          DataTypesProvider dataTypesProvider) {
+      ControllerLinkBuilderFactory controllerLinkBuilderFactory,
+      VariableDocumentValidator validator, ScaleLevelProvider scaleLevelProvider,
+      DataTypesProvider dataTypesProvider) {
     this.variableService = variableService;
     this.controllerLinkBuilderFactory = controllerLinkBuilderFactory;
     this.validator = validator;
@@ -58,9 +58,7 @@ public class VariableModifyController {
   }
 
   @InitBinder("variableDocument")
-  protected
-          void initBinder(
-                  WebDataBinder binder) {
+  protected void initBinder(WebDataBinder binder) {
     binder.setValidator(validator);
   }
 
@@ -70,14 +68,12 @@ public class VariableModifyController {
    * @return modify.html
    */
   @RequestMapping(method = RequestMethod.GET)
-  public
-          Callable<ModelAndView> get(
-                  @Valid VariableDocument variableDocument, BindingResult bindingResult) {
+  public Callable<ModelAndView> get(@Valid VariableDocument variableDocument,
+      BindingResult bindingResult) {
     return () -> {
 
-      VariableModifyResource resource =
-              new VariableModifyResource(VariableModifyController.class,
-                      VariableValidateController.class, controllerLinkBuilderFactory);
+      VariableModifyResource resource = new VariableModifyResource(VariableModifyController.class,
+          VariableValidateController.class, controllerLinkBuilderFactory);
 
 
       ModelAndView modelAndView = new ModelAndView("variables/modify");
@@ -97,21 +93,20 @@ public class VariableModifyController {
    * @return modify.html
    */
   @RequestMapping(method = RequestMethod.POST, params = {"addSurvey"})
-  public
-          Callable<ModelAndView> addSurvey(
-                  VariableDocument variableDocument, BindingResult bindingResult) {
+  public Callable<ModelAndView> addSurvey(VariableDocument variableDocument,
+      BindingResult bindingResult) {
     return () -> {
       VariableSurvey survey = new VariableSurvey();
       variableDocument.setVariableSurvey(survey);
 
       validator.validate(variableDocument, bindingResult);
 
-      VariableModifyResource resource =
-              new VariableModifyResource(VariableModifyController.class,
-                      VariableValidateController.class, controllerLinkBuilderFactory);
+      VariableModifyResource resource = new VariableModifyResource(VariableModifyController.class,
+          VariableValidateController.class, controllerLinkBuilderFactory);
 
       ModelAndView modelAndView = new ModelAndView("variables/modify");
       modelAndView.addObject("resource", resource);
+      modelAndView.addObject("focusElementId", "removeSurveyButton");
       modelAndView.addObject("scaleLevelMap", scaleLevelProvider.getAllScaleLevel());
       modelAndView.addObject("dataTypesMap", dataTypesProvider.getAllDataTypes());
       modelAndView.addObject("variableDocument", variableDocument);
@@ -126,19 +121,18 @@ public class VariableModifyController {
    * @return modify.html
    */
   @RequestMapping(method = RequestMethod.POST, params = {"removeSurvey"})
-  public
-          Callable<ModelAndView> removeSurvey(
-                  VariableDocument variableDocument, BindingResult bindingResult) {
+  public Callable<ModelAndView> removeSurvey(VariableDocument variableDocument,
+      BindingResult bindingResult) {
     return () -> {
 
-      VariableModifyResource resource =
-              new VariableModifyResource(VariableModifyController.class,
-                      VariableValidateController.class, controllerLinkBuilderFactory);
+      VariableModifyResource resource = new VariableModifyResource(VariableModifyController.class,
+          VariableValidateController.class, controllerLinkBuilderFactory);
 
       variableDocument.setVariableSurvey(null);
       validator.validate(variableDocument, bindingResult);
       ModelAndView modelAndView = new ModelAndView("variables/modify");
       modelAndView.addObject("resource", resource);
+      modelAndView.addObject("focusElementId", "addSurveyButton");
       modelAndView.addObject("scaleLevelMap", scaleLevelProvider.getAllScaleLevel());
       modelAndView.addObject("dataTypesMap", dataTypesProvider.getAllDataTypes());
       modelAndView.addObject("variableDocument", variableDocument);
@@ -152,9 +146,8 @@ public class VariableModifyController {
    * @return modify.html
    */
   @RequestMapping(method = RequestMethod.POST, params = {"addAnswerOption"})
-  public
-          Callable<ModelAndView> addAnswerOption(
-                  VariableDocument variableDocument, BindingResult bindingResult) {
+  public Callable<ModelAndView> addAnswerOption(VariableDocument variableDocument,
+      BindingResult bindingResult) {
     return () -> {
       if (variableDocument.getAnswerOptions() == null) {
         List<AnswerOption> answerOpt = new ArrayList<>();
@@ -163,11 +156,11 @@ public class VariableModifyController {
       variableDocument.getAnswerOptions().add(new AnswerOption());
       validator.validate(variableDocument, bindingResult);
 
-      VariableModifyResource resource =
-              new VariableModifyResource(VariableModifyController.class,
-                      VariableValidateController.class, controllerLinkBuilderFactory);
+      VariableModifyResource resource = new VariableModifyResource(VariableModifyController.class,
+          VariableValidateController.class, controllerLinkBuilderFactory);
 
       ModelAndView modelAndView = new ModelAndView("variables/modify");
+      modelAndView.addObject("focusElementId", "addAnswerOptionButton");
       modelAndView.addObject("resource", resource);
       modelAndView.addObject("scaleLevelMap", scaleLevelProvider.getAllScaleLevel());
       modelAndView.addObject("dataTypesMap", dataTypesProvider.getAllDataTypes());
@@ -183,22 +176,20 @@ public class VariableModifyController {
    * @return modify.html
    */
   @RequestMapping(method = RequestMethod.POST, params = {"removeAnswerOption"})
-  public
-          Callable<ModelAndView> removeAnswerOption(
-                  @RequestParam("removeAnswerOption") int indexAnswerOption,
-                  HttpServletRequest request, VariableDocument variableDocument,
-                  BindingResult bindingResult) {
+  public Callable<ModelAndView> removeAnswerOption(
+      @RequestParam("removeAnswerOption") int indexAnswerOption, HttpServletRequest request,
+      VariableDocument variableDocument, BindingResult bindingResult) {
     return () -> {
       variableDocument.getAnswerOptions().remove(indexAnswerOption);
       validator.validate(variableDocument, bindingResult);
 
 
-      VariableModifyResource resource =
-              new VariableModifyResource(VariableModifyController.class,
-                      VariableValidateController.class, controllerLinkBuilderFactory);
+      VariableModifyResource resource = new VariableModifyResource(VariableModifyController.class,
+          VariableValidateController.class, controllerLinkBuilderFactory);
 
       ModelAndView modelAndView = new ModelAndView("variables/modify");
       modelAndView.addObject("resource", resource);
+      modelAndView.addObject("focusElementId", "addAnswerOptionButton");
       modelAndView.addObject("scaleLevelMap", scaleLevelProvider.getAllScaleLevel());
       modelAndView.addObject("dataTypesMap", dataTypesProvider.getAllDataTypes());
       modelAndView.addObject("variableDocument", variableDocument);
@@ -212,20 +203,18 @@ public class VariableModifyController {
    * @return variableDetails.html or modify.html
    */
   @RequestMapping(method = RequestMethod.POST)
-  public
-          Callable<ModelAndView> postVariableDocument(
-                  @Valid VariableDocument variableDocument, BindingResult bindingResult) {
+  public Callable<ModelAndView> postVariableDocument(@Valid VariableDocument variableDocument,
+      BindingResult bindingResult) {
     return () -> {
       ModelAndView modelAndView;
       if (!bindingResult.hasErrors()) {
         variableService.save(variableDocument);
         modelAndView =
-                new ModelAndView("redirect:/{language}/variables/" + variableDocument.getId());
+            new ModelAndView("redirect:/{language}/variables/" + variableDocument.getId());
       } else {
         modelAndView = new ModelAndView("variables/modify");
-        VariableModifyResource resource =
-                new VariableModifyResource(VariableModifyController.class,
-                        VariableValidateController.class, controllerLinkBuilderFactory);
+        VariableModifyResource resource = new VariableModifyResource(VariableModifyController.class,
+            VariableValidateController.class, controllerLinkBuilderFactory);
 
         modelAndView.addObject("resource", resource);
         modelAndView.addObject("scaleLevelMap", scaleLevelProvider.getAllScaleLevel());

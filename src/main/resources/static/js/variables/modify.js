@@ -34,3 +34,14 @@ VariableModifyForm.validate = function(form) {
 		}
 	}, 'json');
 };
+
+$(document).ready(function() {
+	// scroll to the button which has just created ne dynamic form fields
+	var focusElementId = $('body').data('focus-element-id');
+	if (focusElementId) {		
+		$('html, body').animate({
+			scrollTop: $('#' + focusElementId).offset().top
+		}, 1000);
+		$('#' + focusElementId).focus();
+	}
+});

@@ -3,7 +3,7 @@
 	xmlns:th="http://www.thymeleaf.org" th:lang="${#locale.language}">
 <head th:include="common/head::head">
 </head>
-<body>
+<body th:attr="data-focus-element-id=${focusElementId?:''}">
 	<header>
 		<div th:include="common/navbar::navbar"></div>
 		<div
@@ -17,7 +17,7 @@
 				<form action="#" th:action="${resource.id.href}" th:attr="data-validate-url=${resource.getLink('validate').href}"
 					th:object="${variableDocument}" method="post" role="form" id="form" oninput="VariableModifyForm.validate(this)">
 					<div th:each="err : ${#fields.errors('global')}"
-						class="alert alert-danger">
+						class="alert alert-danger" name=''>
 						<p th:text="${err}">Error</p>
 					</div>
 					<div class="row">
@@ -183,7 +183,8 @@
 									</div>
 								</div>
 							</div>
-							<button type="submit" name="addAnswerOption" class="btn">
+							<a id="addAnswerOption"></a>
+							<button id="addAnswerOptionButton" type="submit" name="addAnswerOption" class="btn">
 								<span class="glyphicon glyphicon-plus" aria-hidden="true"></span><span
 									th:text="' ' + #{variables.modify.add}">Hinzufügen</span>
 							</button>
@@ -281,11 +282,11 @@
 										</div>
 									</div>
 								</div>
-								<button type="submit" name="removeSurvey" class="btn"
+								<button id="removeSurveyButton" type="submit" name="removeSurvey" class="btn"
 									th:text="#{variables.modify.remove}">Remove</button>
 
 							</th:block>
-							<button th:if="${variableDocument.variableSurvey == null}"
+							<button id="addSurveyButton" th:if="${variableDocument.variableSurvey == null}"
 								type="submit" name="addSurvey" class="btn"
 								th:text="#{variables.modify.add}">Add</button>
 						</div>
