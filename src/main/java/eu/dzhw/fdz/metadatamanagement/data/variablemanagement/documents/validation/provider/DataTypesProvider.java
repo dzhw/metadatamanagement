@@ -46,6 +46,17 @@ public class DataTypesProvider {
     allTranslationsGerman.add(GERMAN_NUMERIC);
     this.dataTypesMap.put(Locale.GERMAN, allTranslationsGerman);
   }
+  
+  /**
+   * @return Returns all data types depending by the locale. 
+   */
+  public HashSet<String> getAllDataTypes() {
+    if (LocaleContextHolder.getLocale().equals(Locale.GERMAN)) {
+      return this.dataTypesMap.get(Locale.GERMAN);
+    } else {
+      return this.dataTypesMap.get(Locale.ENGLISH);
+    }
+  }
 
   /**
    * @return The language depended versions of numeric.

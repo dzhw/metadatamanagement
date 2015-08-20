@@ -51,6 +51,17 @@ public class ScaleLevelProvider {
   }
 
   /**
+   * @return Returns all scale level depending by the locale. 
+   */
+  public HashSet<String> getAllScaleLevel() {
+    if (LocaleContextHolder.getLocale().equals(Locale.GERMAN)) {
+      return this.scaleLevelMap.get(Locale.GERMAN);
+    } else {
+      return this.scaleLevelMap.get(Locale.ENGLISH);
+    }
+  }
+
+  /**
    * @return Returns the translated field of metric depending at the actual locale.
    */
   public String getMetricByLocal() {
