@@ -3,7 +3,9 @@
  */
 package eu.dzhw.fdz.metadatamanagement.data.common.document;
 
+import static org.hamcrest.Matchers.not;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertThat;
 
 import java.time.LocalDate;
 
@@ -26,7 +28,7 @@ public class DateRangeTest {
     // Act
 
     // Assert
-    assertEquals(961, dateRange.hashCode());
+    assertThat(dateRange.hashCode(), not(0));
   }
 
   @Test

@@ -3,7 +3,9 @@
  */
 package eu.dzhw.fdz.metadatamanagement.data.common.document;
 
+import static org.hamcrest.Matchers.not;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertThat;
 
 import org.junit.Test;
 
@@ -26,8 +28,8 @@ public class BasicDocumentTest {
     int withIdHashCode = basicDocument.hashCode();
 
     // Assert
-    assertEquals(31, emptyIdHashCode);
-    assertEquals(80, withIdHashCode);
+    assertThat(emptyIdHashCode, not(0));
+    assertThat(withIdHashCode, not(0));
   }
 
   @Test

@@ -1,7 +1,10 @@
 package eu.dzhw.fdz.metadatamanagement.web.variablemanagement.modify;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.Callable;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +22,8 @@ import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.AnswerOp
 import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.VariableDocument;
 import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.VariableSurvey;
 import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.validation.VariableDocumentValidator;
+import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.validation.provider.DataTypesProvider;
+import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.validation.provider.ScaleLevelProvider;
 import eu.dzhw.fdz.metadatamanagement.service.variablemanagement.VariableService;
 import eu.dzhw.fdz.metadatamanagement.web.variablemanagement.validate.VariableValidateController;
 
@@ -34,21 +39,28 @@ public class VariableModifyController {
   private VariableService variableService;
   private ControllerLinkBuilderFactory controllerLinkBuilderFactory;
   private VariableDocumentValidator validator;
+  private ScaleLevelProvider scaleLevelProvider;
+  private DataTypesProvider dataTypesProvider;
 
   /**
    * Autowire needed objects.
    */
   @Autowired
   public VariableModifyController(VariableService variableService,
-      ControllerLinkBuilderFactory controllerLinkBuilderFactory,
-      VariableDocumentValidator validator) {
+          ControllerLinkBuilderFactory controllerLinkBuilderFactory,
+          VariableDocumentValidator validator, ScaleLevelProvider scaleLevelProvider,
+          DataTypesProvider dataTypesProvider) {
     this.variableService = variableService;
     this.controllerLinkBuilderFactory = controllerLinkBuilderFactory;
     this.validator = validator;
+    this.scaleLevelProvider = scaleLevelProvider;
+    this.dataTypesProvider = dataTypesProvider;
   }
 
   @InitBinder("variableDocument")
-  protected void initBinder(WebDataBinder binder) {
+  protected
+          void initBinder(
+                  WebDataBinder binder) {
     binder.setValidator(validator);
   }
 
@@ -58,14 +70,20 @@ public class VariableModifyController {
    * @return modify.html
    */
   @RequestMapping(method = RequestMethod.GET)
-  public Callable<ModelAndView> get(@Valid VariableDocument variableDocument,
-      BindingResult bindingResult) {
+  public
+          Callable<ModelAndView> get(
+                  @Valid VariableDocument variableDocument, BindingResult bindingResult) {
     return () -> {
-      VariableModifyResource resource = new VariableModifyResource(VariableModifyController.class,
-          VariableValidateController.class, controllerLinkBuilderFactory);
+
+      VariableModifyResource resource =
+              new VariableModifyResource(VariableModifyController.class,
+                      VariableValidateController.class, controllerLinkBuilderFactory);
+
 
       ModelAndView modelAndView = new ModelAndView("variables/modify");
       modelAndView.addObject("resource", resource);
+      modelAndView.addObject("scaleLevelMap", scaleLevelProvider.getAllScaleLevel());
+      modelAndView.addObject("dataTypesMap", dataTypesProvider.getAllDataTypes());
       modelAndView.addObject("variableDocument", variableDocument);
 
       return modelAndView;
@@ -79,17 +97,23 @@ public class VariableModifyController {
    * @return modify.html
    */
   @RequestMapping(method = RequestMethod.POST, params = {"addSurvey"})
-  public Callable<ModelAndView> addSurvey(VariableDocument variableDocument,
-      BindingResult bindingResult) {
+  public
+          Callable<ModelAndView> addSurvey(
+                  VariableDocument variableDocument, BindingResult bindingResult) {
     return () -> {
-      variableDocument.setVariableSurvey(new VariableSurvey());
+      VariableSurvey survey = new VariableSurvey();
+      variableDocument.setVariableSurvey(survey);
 
       validator.validate(variableDocument, bindingResult);
 
-      VariableModifyResource resource = new VariableModifyResource(VariableModifyController.class,
-          VariableValidateController.class, controllerLinkBuilderFactory);
+      VariableModifyResource resource =
+              new VariableModifyResource(VariableModifyController.class,
+                      VariableValidateController.class, controllerLinkBuilderFactory);
+
       ModelAndView modelAndView = new ModelAndView("variables/modify");
       modelAndView.addObject("resource", resource);
+      modelAndView.addObject("scaleLevelMap", scaleLevelProvider.getAllScaleLevel());
+      modelAndView.addObject("dataTypesMap", dataTypesProvider.getAllDataTypes());
       modelAndView.addObject("variableDocument", variableDocument);
 
       return modelAndView;
@@ -102,15 +126,21 @@ public class VariableModifyController {
    * @return modify.html
    */
   @RequestMapping(method = RequestMethod.POST, params = {"removeSurvey"})
-  public Callable<ModelAndView> removeSurvey(VariableDocument variableDocument,
-      BindingResult bindingResult) {
+  public
+          Callable<ModelAndView> removeSurvey(
+                  VariableDocument variableDocument, BindingResult bindingResult) {
     return () -> {
-      VariableModifyResource resource = new VariableModifyResource(VariableModifyController.class,
-          VariableValidateController.class, controllerLinkBuilderFactory);
+
+      VariableModifyResource resource =
+              new VariableModifyResource(VariableModifyController.class,
+                      VariableValidateController.class, controllerLinkBuilderFactory);
+
       variableDocument.setVariableSurvey(null);
       validator.validate(variableDocument, bindingResult);
       ModelAndView modelAndView = new ModelAndView("variables/modify");
       modelAndView.addObject("resource", resource);
+      modelAndView.addObject("scaleLevelMap", scaleLevelProvider.getAllScaleLevel());
+      modelAndView.addObject("dataTypesMap", dataTypesProvider.getAllDataTypes());
       modelAndView.addObject("variableDocument", variableDocument);
       return modelAndView;
     };
@@ -122,15 +152,25 @@ public class VariableModifyController {
    * @return modify.html
    */
   @RequestMapping(method = RequestMethod.POST, params = {"addAnswerOption"})
-  public Callable<ModelAndView> addAnswerOption(VariableDocument variableDocument,
-      BindingResult bindingResult) {
+  public
+          Callable<ModelAndView> addAnswerOption(
+                  VariableDocument variableDocument, BindingResult bindingResult) {
     return () -> {
-      variableDocument.addAnswerOption(new AnswerOption());
+      if (variableDocument.getAnswerOptions() == null) {
+        List<AnswerOption> answerOpt = new ArrayList<>();
+        variableDocument.setAnswerOptions(answerOpt);
+      }
+      variableDocument.getAnswerOptions().add(new AnswerOption());
       validator.validate(variableDocument, bindingResult);
-      VariableModifyResource resource = new VariableModifyResource(VariableModifyController.class,
-          VariableValidateController.class, controllerLinkBuilderFactory);
+
+      VariableModifyResource resource =
+              new VariableModifyResource(VariableModifyController.class,
+                      VariableValidateController.class, controllerLinkBuilderFactory);
+
       ModelAndView modelAndView = new ModelAndView("variables/modify");
       modelAndView.addObject("resource", resource);
+      modelAndView.addObject("scaleLevelMap", scaleLevelProvider.getAllScaleLevel());
+      modelAndView.addObject("dataTypesMap", dataTypesProvider.getAllDataTypes());
       modelAndView.addObject("variableDocument", variableDocument);
 
       return modelAndView;
@@ -143,31 +183,25 @@ public class VariableModifyController {
    * @return modify.html
    */
   @RequestMapping(method = RequestMethod.POST, params = {"removeAnswerOption"})
-  public Callable<ModelAndView> removeAnswerOption(
-      @RequestParam("removeAnswerOption") int indexAnswerOption, VariableDocument variableDocument,
-      BindingResult bindingResult) {
+  public
+          Callable<ModelAndView> removeAnswerOption(
+                  @RequestParam("removeAnswerOption") int indexAnswerOption,
+                  HttpServletRequest request, VariableDocument variableDocument,
+                  BindingResult bindingResult) {
     return () -> {
-      variableDocument.removeAnswerOption(indexAnswerOption);
+      variableDocument.getAnswerOptions().remove(indexAnswerOption);
       validator.validate(variableDocument, bindingResult);
 
-      VariableModifyResource resource = new VariableModifyResource(VariableModifyController.class,
-          VariableValidateController.class, controllerLinkBuilderFactory);
+
+      VariableModifyResource resource =
+              new VariableModifyResource(VariableModifyController.class,
+                      VariableValidateController.class, controllerLinkBuilderFactory);
+
       ModelAndView modelAndView = new ModelAndView("variables/modify");
       modelAndView.addObject("resource", resource);
+      modelAndView.addObject("scaleLevelMap", scaleLevelProvider.getAllScaleLevel());
+      modelAndView.addObject("dataTypesMap", dataTypesProvider.getAllDataTypes());
       modelAndView.addObject("variableDocument", variableDocument);
-      return modelAndView;
-    };
-  }
-
-  /**
-   * reload the create and edit dialog.
-   * 
-   * @return modify.html
-   */
-  @RequestMapping(method = RequestMethod.POST, params = {"reset"})
-  public Callable<ModelAndView> reset() {
-    return () -> {
-      ModelAndView modelAndView = new ModelAndView("redirect:/{language}/variables/create");
       return modelAndView;
     };
   }
@@ -178,19 +212,24 @@ public class VariableModifyController {
    * @return variableDetails.html or modify.html
    */
   @RequestMapping(method = RequestMethod.POST)
-  public Callable<ModelAndView> postVariableDocument(@Valid VariableDocument variableDocument,
-      BindingResult bindingResult) {
+  public
+          Callable<ModelAndView> postVariableDocument(
+                  @Valid VariableDocument variableDocument, BindingResult bindingResult) {
     return () -> {
       ModelAndView modelAndView;
       if (!bindingResult.hasErrors()) {
         variableService.save(variableDocument);
         modelAndView =
-            new ModelAndView("redirect:/{language}/variables/" + variableDocument.getId());
+                new ModelAndView("redirect:/{language}/variables/" + variableDocument.getId());
       } else {
         modelAndView = new ModelAndView("variables/modify");
-        VariableModifyResource resource = new VariableModifyResource(VariableModifyController.class,
-            VariableValidateController.class, controllerLinkBuilderFactory);
+        VariableModifyResource resource =
+                new VariableModifyResource(VariableModifyController.class,
+                        VariableValidateController.class, controllerLinkBuilderFactory);
+
         modelAndView.addObject("resource", resource);
+        modelAndView.addObject("scaleLevelMap", scaleLevelProvider.getAllScaleLevel());
+        modelAndView.addObject("dataTypesMap", dataTypesProvider.getAllDataTypes());
         modelAndView.addObject("variableDocument", variableDocument);
       }
       return modelAndView;

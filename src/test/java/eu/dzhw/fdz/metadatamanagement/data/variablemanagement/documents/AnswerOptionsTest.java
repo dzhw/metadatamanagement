@@ -3,7 +3,9 @@
  */
 package eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents;
 
+import static org.hamcrest.Matchers.not;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertThat;
 
 import org.junit.Test;
 
@@ -24,7 +26,7 @@ public class AnswerOptionsTest {
     // Act
 
     // Assert
-    assertEquals(1041, answerOption.hashCode());
+    assertThat(answerOption.hashCode(), not(0));
   }
 
   @Test
