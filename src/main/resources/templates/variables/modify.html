@@ -131,8 +131,13 @@
 						<div class="panel-heading"
 							th:text="#{variables.modify.variable.answerOptions}">Antwortoptionen</div>
 						<div class="panel-body">
-							<div th:each="answerOption, rowStat : *{answerOptions}"
+						<div th:each="err : ${#fields.errors('answerOptions')}"
+						class="alert alert-danger">
+						<p th:text="${err}">Error</p>
+					</div>
+						<div th:each="answerOption, rowStat : *{answerOptions}"
 								class="row">
+								
 								<div class="col-md-5">
 									<div class="form-group has-feedback "
 										th:classappend="${#fields.hasErrors('answerOptions[__${rowStat.index}__].code')}? has-error : has-success">
@@ -249,7 +254,18 @@
 									</div>
 								</div>
 								<div class="row">
-									<div class=" col-md-6">
+								<div class=" col-md-12">
+									<div class="panel panel-primary">
+									<div class="panel-heading"
+							th:text="#{variables.modify.variable.survey.period}">Erhebungszeitraum</div>
+						<div class="panel-body">
+									<div th:each="err : ${#fields.errors('surveyPeriod')}"
+						class="alert alert-danger">
+						<p th:text="${err}">Error</p>
+					</div>
+					                  
+					                  
+					                   <div class="col-md-6">
 										<div class="form-group has-feedback"
 											th:classappend="${#fields.hasErrors('surveyPeriod.startDate')}? has-error : has-success">
 											<label
@@ -265,7 +281,8 @@
 											</span>
 										</div>
 									</div>
-									<div class=" col-md-6">
+									
+									<div class="col-md-6">
 										<div class="form-group has-feedback"
 											th:classappend="${#fields.hasErrors('surveyPeriod.endDate')}? has-error : has-success">
 											<label
@@ -281,6 +298,13 @@
 											</span>
 										</div>
 									</div>
+									
+									
+									</div>
+									</div>
+									
+									</div>
+									
 								</div>
 								<button id="removeSurveyButton" type="submit" name="removeSurvey" class="btn"
 									th:text="#{variables.modify.remove}">Remove</button>
