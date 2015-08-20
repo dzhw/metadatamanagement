@@ -191,21 +191,17 @@ public class VariableModifyControllerTest extends AbstractWebTest {
             .andExpect(redirectedUrl(null));
   }
 
-  @Test
-  public
-          void testPostResetMethod()
-                  throws Exception {
-    // Arrange
-    // Emty Question Field generates a error
-    MvcResult mvcResult =
-            this.mockMvc.perform(post("/de/variables/create").param("reset", ""))
-                    .andExpect(status().isOk()).andExpect(request().asyncStarted())
-                    .andExpect(request().asyncResult(instanceOf(ModelAndView.class))).andReturn();
-
-    // Act and Assert
-    this.mockMvc.perform(asyncDispatch(mvcResult)).andExpect(status().is3xxRedirection())
-            .andExpect(redirectedUrl("/de/variables/create"));
-  }
+  /*
+   * @Test public void testPostResetMethod() throws Exception { // Arrange // Emty Question Field
+   * generates a error MvcResult mvcResult =
+   * this.mockMvc.perform(post("/de/variables/create").param("reset", ""))
+   * .andExpect(status().isOk()).andExpect(request().asyncStarted())
+   * .andExpect(request().asyncResult(instanceOf(ModelAndView.class))).andReturn();
+   * 
+   * // Act and Assert
+   * this.mockMvc.perform(asyncDispatch(mvcResult)).andExpect(status().is3xxRedirection())
+   * .andExpect(redirectedUrl("/de/variables/create")); }
+   */
 
   /*
    * @Test public void testPostInvalidVariableDocument() throws Exception { // Arrange // Emty

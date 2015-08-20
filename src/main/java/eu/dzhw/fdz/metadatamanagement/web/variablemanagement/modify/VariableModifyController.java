@@ -207,20 +207,6 @@ public class VariableModifyController {
   }
 
   /**
-   * reload the create and edit dialog.
-   * 
-   * @return modify.html
-   */
-  @RequestMapping(method = RequestMethod.POST, params = {"reset"})
-  public
-          Callable<ModelAndView> reset() {
-    return () -> {
-      ModelAndView modelAndView = new ModelAndView("redirect:/{language}/variables/create");
-      return modelAndView;
-    };
-  }
-
-  /**
    * save a valid variable document.
    * 
    * @return variableDetails.html or modify.html
