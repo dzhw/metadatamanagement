@@ -1,10 +1,7 @@
 package eu.dzhw.fdz.metadatamanagement.web.variablemanagement.modify;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.concurrent.Callable;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -84,8 +81,7 @@ public class VariableModifyController {
   public Callable<ModelAndView> addSurvey(VariableDocument variableDocument,
       BindingResult bindingResult) {
     return () -> {
-      VariableSurvey survey = new VariableSurvey();
-      variableDocument.setVariableSurvey(survey);
+      variableDocument.setVariableSurvey(new VariableSurvey());
 
       validator.validate(variableDocument, bindingResult);
 
@@ -128,11 +124,7 @@ public class VariableModifyController {
   public Callable<ModelAndView> addAnswerOption(VariableDocument variableDocument,
       BindingResult bindingResult) {
     return () -> {
-      if (variableDocument.getAnswerOptions() == null) {
-        List<AnswerOption> answerOpt = new ArrayList<>();
-        variableDocument.setAnswerOptions(answerOpt);
-      }
-      variableDocument.getAnswerOptions().add(new AnswerOption());
+      variableDocument.addAnswerOption(new AnswerOption());
       validator.validate(variableDocument, bindingResult);
       VariableModifyResource resource =
           new VariableModifyResource(VariableModifyController.class, controllerLinkBuilderFactory);
@@ -151,10 +143,10 @@ public class VariableModifyController {
    */
   @RequestMapping(method = RequestMethod.POST, params = {"removeAnswerOption"})
   public Callable<ModelAndView> removeAnswerOption(
-      @RequestParam("removeAnswerOption") int indexAnswerOption, HttpServletRequest request,
-      VariableDocument variableDocument, BindingResult bindingResult) {
+      @RequestParam("removeAnswerOption") int indexAnswerOption, VariableDocument variableDocument,
+      BindingResult bindingResult) {
     return () -> {
-      variableDocument.getAnswerOptions().remove(indexAnswerOption);
+      variableDocument.removeAnswerOption(indexAnswerOption);
       validator.validate(variableDocument, bindingResult);
 
       VariableModifyResource resource =
