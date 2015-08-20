@@ -77,8 +77,10 @@
 									document label</label> <select th:field="*{dataType}"
 									class="form-control">
 									<option value=""></option>
-									<option value="numerisch">numerisch</option>
-									<option value="string">string</option>
+									<p th:each="dataTypeEnrty: ${dataTypesMap}">
+										<option th:selected="${dataTypeEnrty} == *{dataType}"
+											th:text="${dataTypeEnrty}" th:value="${dataTypeEnrty}"></option>
+									</p>
 								</select> <span class="glyphicon form-control-feedback"
 									th:classappend="${#fields.hasErrors('dataType')}? glyphicon-remove : glyphicon-ok"></span>
 								<span class="help-block">
@@ -94,9 +96,10 @@
 									document scalelevel</label> <select th:field="*{scaleLevel}"
 									class="form-control">
 									<option value=""></option>
-									<option value="metrisch">metrisch</option>
-									<option value="ordinal">ordinal</option>
-									<option value="nominal">nominal</option>
+									<p th:each="scaleLevelEnrty: ${scaleLevelMap}">
+										<option th:selected="${scaleLevelEnrty} == *{scaleLevel}"
+											th:text="${scaleLevelEnrty}" th:value="${scaleLevelEnrty}"></option>
+									</p>
 								</select> <span class="glyphicon form-control-feedback"
 									th:classappend="${#fields.hasErrors('scaleLevel')}? glyphicon-remove : glyphicon-ok"></span>
 								<span class="help-block">
