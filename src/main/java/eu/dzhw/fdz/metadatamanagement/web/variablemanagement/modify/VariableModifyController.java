@@ -20,6 +20,7 @@ import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.Variable
 import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.VariableSurvey;
 import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.validation.VariableDocumentValidator;
 import eu.dzhw.fdz.metadatamanagement.service.variablemanagement.VariableService;
+import eu.dzhw.fdz.metadatamanagement.web.variablemanagement.validate.VariableValidateController;
 
 
 /**
@@ -60,8 +61,8 @@ public class VariableModifyController {
   public Callable<ModelAndView> get(@Valid VariableDocument variableDocument,
       BindingResult bindingResult) {
     return () -> {
-      VariableModifyResource resource =
-          new VariableModifyResource(VariableModifyController.class, controllerLinkBuilderFactory);
+      VariableModifyResource resource = new VariableModifyResource(VariableModifyController.class,
+          VariableValidateController.class, controllerLinkBuilderFactory);
 
       ModelAndView modelAndView = new ModelAndView("variables/modify");
       modelAndView.addObject("resource", resource);
@@ -85,8 +86,8 @@ public class VariableModifyController {
 
       validator.validate(variableDocument, bindingResult);
 
-      VariableModifyResource resource =
-          new VariableModifyResource(VariableModifyController.class, controllerLinkBuilderFactory);
+      VariableModifyResource resource = new VariableModifyResource(VariableModifyController.class,
+          VariableValidateController.class, controllerLinkBuilderFactory);
       ModelAndView modelAndView = new ModelAndView("variables/modify");
       modelAndView.addObject("resource", resource);
       modelAndView.addObject("variableDocument", variableDocument);
@@ -104,8 +105,8 @@ public class VariableModifyController {
   public Callable<ModelAndView> removeSurvey(VariableDocument variableDocument,
       BindingResult bindingResult) {
     return () -> {
-      VariableModifyResource resource =
-          new VariableModifyResource(VariableModifyController.class, controllerLinkBuilderFactory);
+      VariableModifyResource resource = new VariableModifyResource(VariableModifyController.class,
+          VariableValidateController.class, controllerLinkBuilderFactory);
       variableDocument.setVariableSurvey(null);
       validator.validate(variableDocument, bindingResult);
       ModelAndView modelAndView = new ModelAndView("variables/modify");
@@ -126,8 +127,8 @@ public class VariableModifyController {
     return () -> {
       variableDocument.addAnswerOption(new AnswerOption());
       validator.validate(variableDocument, bindingResult);
-      VariableModifyResource resource =
-          new VariableModifyResource(VariableModifyController.class, controllerLinkBuilderFactory);
+      VariableModifyResource resource = new VariableModifyResource(VariableModifyController.class,
+          VariableValidateController.class, controllerLinkBuilderFactory);
       ModelAndView modelAndView = new ModelAndView("variables/modify");
       modelAndView.addObject("resource", resource);
       modelAndView.addObject("variableDocument", variableDocument);
@@ -149,8 +150,8 @@ public class VariableModifyController {
       variableDocument.removeAnswerOption(indexAnswerOption);
       validator.validate(variableDocument, bindingResult);
 
-      VariableModifyResource resource =
-          new VariableModifyResource(VariableModifyController.class, controllerLinkBuilderFactory);
+      VariableModifyResource resource = new VariableModifyResource(VariableModifyController.class,
+          VariableValidateController.class, controllerLinkBuilderFactory);
       ModelAndView modelAndView = new ModelAndView("variables/modify");
       modelAndView.addObject("resource", resource);
       modelAndView.addObject("variableDocument", variableDocument);
@@ -188,7 +189,7 @@ public class VariableModifyController {
       } else {
         modelAndView = new ModelAndView("variables/modify");
         VariableModifyResource resource = new VariableModifyResource(VariableModifyController.class,
-            controllerLinkBuilderFactory);
+            VariableValidateController.class, controllerLinkBuilderFactory);
         modelAndView.addObject("resource", resource);
         modelAndView.addObject("variableDocument", variableDocument);
       }
