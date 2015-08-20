@@ -978,5 +978,713 @@
 				"label": "missing"
 			}
 		]
+	},
+	{
+		"_class": "eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.VariableDocument",
+		"id": "FdZ_ID01",
+		"variableSurvey": {
+			"surveyId": "Ge_ALL_04",
+			"title": "ALLBUS 2014",
+			"surveyPeriod": {
+				"startDate": "2014-03-01",
+				"endDate": "2014-09-30"
+			},
+			"variableAlias": "class"
+		},
+		"name": "V850",
+		"dataType": "NUMERIC",
+		"label": "Social Class",
+		"question": "To which class belongs your household? Probably to",
+		"scaleLevel": "ORDINAL",
+		"answerOptions": [
+			{
+				"code": "1",
+				"label": "lower class"
+			},
+			{
+				"code": "2",
+				"label": "working class"
+			},
+			{
+				"code": "3",
+				"label": "middle class"
+			},
+			{
+				"code": "4",
+				"label": "upper middle class"
+			},
+			{
+				"code": "5",
+				"label": "upper class"
+			},
+			{
+				"code": "6",
+				"label": "not visible"
+			}
+		]
+	},
+	{
+		"_class": "eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.VariableDocument",
+		"id": "FdZ_ID02",
+		"variableSurvey": {
+			"surveyId": "Ge_ALL_04",
+			"title": "ALLBUS 2014",
+			"surveyPeriod": {
+				"startDate": "2014-03-01",
+				"endDate": "2014-09-30"
+			},
+			"variableAlias": "sex"
+		},
+		"name": "V81",
+		"dataType": "NUMERIC",
+		"label": "Sex",
+		"question": "Sex of respondent person. Record without questioning",
+		"scaleLevel": "NOMINAL",
+		"answerOptions": [
+			{
+				"code": "1",
+				"label": "male"
+			},
+			{
+				"code": "2",
+				"label": "female"
+			}
+		]
+	},
+	{
+		"_class": "eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.VariableDocument",
+		"id": "FdZ_ID03",
+		"variableSurvey": {
+			"surveyId": "Ge_ALL_04",
+			"title": "ALLBUS 2014",
+			"surveyPeriod": {
+				"startDate": "2014-03-01",
+				"endDate": "2014-09-30"
+			},
+			"variableAlias": "hiedu"
+		},
+		"name": "V100",
+		"dataType": "NUMERIC",
+		"label": "Polytechnic degree",
+		"question": "Which kind of polytechnic degree do you have? Just mention the highest degree",
+		"scaleLevel": "ORDINAL",
+		"answerOptions": [
+			{
+				"code": "0",
+				"label": "does not apply(Filter)"
+			},
+			{
+				"code": "1",
+				"label": "bachelor"
+			},
+			{
+				"code": "2",
+				"label": "master"
+			},
+			{
+				"code": "3",
+				"label": "diploma"
+			},
+			{
+				"code": "4",
+				"label": "graduate"
+			},
+			{
+				"code": "5",
+				"label": "state examination"
+			},
+			{
+				"code": "6",
+				"label": "promotion"
+			},
+			{
+				"code": "7",
+				"label": "other degree"
+			},
+			{
+				"code": "99",
+				"label": "not specified"
+			}
+		]
+	},
+	{
+		"_class": "eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.VariableDocument",
+		"id": "FdZ_ID04",
+		"variableSurvey": {
+			"surveyId": "Ge_ALL_04",
+			"title": "ALLBUS 2014",
+			"surveyPeriod": {
+				"startDate": "2014-03-01",
+				"endDate": "2014-09-30"
+			},
+			"variableAlias": "workh"
+		},
+		"name": "V118",
+		"dataType": "NUMERIC",
+		"label": "Working hours (main profession)",
+		"question": "How many hours per week do you work in your main profession? Inclusive overtime",
+		"scaleLevel": "METRIC",
+		"answerOptions": [
+			{
+				"code": "0",
+				"label": "hours per week"
+			},
+			{
+				"code": "998",
+				"label": "unemployed"
+			},
+			{
+				"code": "999",
+				"label": "not specified"
+			}
+		]
+	},
+	{
+		"_class": "eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.VariableDocument",
+		"id": "FdZ_ID05",
+		"variableSurvey": {
+			"surveyId": "Ge_ALL_04",
+			"title": "ALLBUS 2014",
+			"surveyPeriod": {
+				"startDate": "2014-03-01",
+				"endDate": "2014-09-30"
+			},
+			"variableAlias": "supper"
+		},
+		"name": "V124",
+		"dataType": "NUMERIC",
+		"label": "Supervising persons",
+		"question": "How many persons are supervising you?",
+		"scaleLevel": "ORDINAL",
+		"answerOptions": [
+			{
+				"code": "0",
+				"label": "Respondent not employed"
+			},
+			{
+				"code": "1",
+				"label": "1 - 2 persons"
+			},
+			{
+				"code": "2",
+				"label": "3 - 5 persons"
+			},
+			{
+				"code": "3",
+				"label": "6 - 9 persons"
+			},
+			{
+				"code": "4",
+				"label": "10 - 19 persons"
+			},
+			{
+				"code": "5",
+				"label": "20 - 49 persons"
+			},
+			{
+				"code": "6",
+				"label": "50 - 149 persons"
+			},
+			{
+				"code": "7",
+				"label": "150 and more persons"
+			},
+			{
+				"code": "99",
+				"label": "not specified"
+			}
+		]
+	},
+	{
+		"_class": "eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.VariableDocument",
+		"id": "FdZ_ID06",
+		"variableSurvey": {
+			"surveyId": "Ge_ALL_04",
+			"title": "ALLBUS 2014",
+			"surveyPeriod": {
+				"startDate": "2014-03-01",
+				"endDate": "2014-09-30"
+			},
+			"variableAlias": "clacomp"
+		},
+		"name": "V131",
+		"dataType": "NUMERIC",
+		"label": "Comparison occupational status (father)",
+		"question": "If you compare your occupational status with your fathers, how would you rate your status: much higher, a little higher, about the same,  a little lower, much lower",
+		"scaleLevel": "ORDINAL",
+		"answerOptions": [
+			{
+				"code": "0",
+				"label": "Respondent not employed"
+			},
+			{
+				"code": "1",
+				"label": "much higher"
+			},
+			{
+				"code": "2",
+				"label": "a little higher"
+			},
+			{
+				"code": "3",
+				"label": "about the same"
+			},
+			{
+				"code": "4",
+				"label": "a little lower"
+			},
+			{
+				"code": "5",
+				"label": "much lower"
+			},
+			{
+				"code": "7",
+				"label": "Occupational status father not known"
+			},
+			{
+				"code": "99",
+				"label": "not specified"
+			}
+		]
+	},
+	{
+		"_class": "eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.VariableDocument",
+		"id": "FdZ_ID07",
+		"variableSurvey": {
+			"surveyId": "Ge_ALL_04",
+			"title": "ALLBUS 2014",
+			"surveyPeriod": {
+				"startDate": "2014-03-01",
+				"endDate": "2014-09-30"
+			},
+			"variableAlias": "citsh"
+		},
+		"name": "V370",
+		"dataType": "NUMERIC",
+		"label": "Citizenship",
+		"question": "Which citizenship do you have? If you have more then one citizenhip please mention all.",
+		"scaleLevel": "NOMINAL",
+		"answerOptions": [
+			{
+				"code": "0",
+				"label": "no second citizenhip"
+			},
+			{
+				"code": "2",
+				"label": "Denmark"
+			},
+			{
+				"code": "3",
+				"label": "France"
+			},
+			{
+				"code": "4",
+				"label": "Greece"
+			},
+			{
+				"code": "5",
+				"label": "United Kingdom"
+			},
+			{
+				"code": "6",
+				"label": "Ireland"
+			},
+			{
+				"code": "7",
+				"label": "Italy"
+			},
+			{
+				"code": "8",
+				"label": "Former Yugoslawia"
+			},
+			{
+				"code": "9",
+				"label": "Netherlands"
+			},
+			{
+				"code": "10",
+				"label": "Austria"
+			},
+			{
+				"code": "11",
+				"label": "Poland"
+			},
+			{
+				"code": "12",
+				"label": "Portugal"
+			},
+			{
+				"code": "13",
+				"label": "Romania"
+			},
+			{
+				"code": "14",
+				"label": "Sweden"
+			},
+			{
+				"code": "15",
+				"label": "Switzerland"
+			},
+			{
+				"code": "16",
+				"label": "Russia, former USSR"
+			},
+			{
+				"code": "17",
+				"label": "Spain"
+			},
+			{
+				"code": "18",
+				"label": "former Czechoslovakia"
+			},
+			{
+				"code": "19",
+				"label": "Turkey"
+			},
+			{
+				"code": "20",
+				"label": "Hungary"
+			},
+			{
+				"code": "21",
+				"label": "USA"
+			},
+			{
+				"code": "22",
+				"label": "Vietnam"
+			},
+			{
+				"code": "23",
+				"label": "Other country, in fact _________"
+			}
+		]
+	},
+	{
+		"_class": "eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.VariableDocument",
+		"id": "FdZ_ID08",
+		"variableSurvey": {
+			"surveyId": "Ge_ALL_04",
+			"title": "ALLBUS 2014",
+			"surveyPeriod": {
+				"startDate": "2014-03-01",
+				"endDate": "2014-09-30"
+			},
+			"variableAlias": "poldir"
+		},
+		"name": "V215",
+		"dataType": "NUMERIC",
+		"label": "Political attitude",
+		"question": "If you think about your own political attitude, where at this scale would you classify yourself?",
+		"scaleLevel": "ORDINAL",
+		"answerOptions": [
+			{
+				"code": "1",
+				"label": "Left"
+			},
+			{
+				"code": "2",
+				"label": "NA"
+			},
+			{
+				"code": "3",
+				"label": "NA"
+			},
+			{
+				"code": "4",
+				"label": "NA"
+			},
+			{
+				"code": "5",
+				"label": "NA"
+			},
+			{
+				"code": "6",
+				"label": "NA"
+			},
+			{
+				"code": "7",
+				"label": "NA"
+			},
+			{
+				"code": "8",
+				"label": "NA"
+			},
+			{
+				"code": "9",
+				"label": "NA"
+			},
+			{
+				"code": "10",
+				"label": "Right"
+			},
+			{
+				"code": "99",
+				"label": "not specified"
+			}
+		]
+	},
+	{
+		"_class": "eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.VariableDocument",
+		"id": "FdZ_ID09",
+		"variableSurvey": {
+			"surveyId": "DZHW_AP_01",
+			"title": "Absolventenpanel 2001",
+			"surveyPeriod": {
+				"startDate": "2000-08-01",
+				"endDate": "2001-09-30"
+			},
+			"variableAlias": "id"
+		},
+		"name": "id_suf",
+		"dataType": "NUMERIC",
+		"label": "ID",
+		"question": "Identification number",
+		"scaleLevel": "METRIC",
+		"answerOptions": [
+			{
+				"code": "0",
+				"label": "NA"
+			},
+			{
+				"code": "0",
+				"label": "NA"
+			}
+		]
+	},
+	{
+		"_class": "eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.VariableDocument",
+		"id": "FdZ_ID10",
+		"variableSurvey": {
+			"surveyId": "DZHW_AP_01",
+			"title": "Absolventenpanel 2001",
+			"surveyPeriod": {
+				"startDate": "2000-08-01",
+				"endDate": "2001-09-30"
+			},
+			"variableAlias": "stuev"
+		},
+		"name": "a1sitstruk",
+		"dataType": "NUMERIC",
+		"label": "Judgement of academic studies (structuredness)",
+		"question": "How would you judge the following aspects of your academic studies? Structuredness",
+		"scaleLevel": "ORDINAL",
+		"answerOptions": [
+			{
+				"code": "-1",
+				"label": "missing data"
+			},
+			{
+				"code": "1",
+				"label": "very positive"
+			},
+			{
+				"code": "2",
+				"label": "NA"
+			},
+			{
+				"code": "3",
+				"label": "NA"
+			},
+			{
+				"code": "4",
+				"label": "NA"
+			},
+			{
+				"code": "5",
+				"label": "very negative"
+			}
+		]
+	},
+	{
+		"_class": "eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.VariableDocument",
+		"id": "FdZ_ID11",
+		"variableSurvey": {
+			"surveyId": "DZHW_AP_01",
+			"title": "Absolventenpanel 2001",
+			"surveyPeriod": {
+				"startDate": "2000-08-01",
+				"endDate": "2001-09-30"
+			},
+			"variableAlias": "stureq"
+		},
+		"name": "klstudber",
+		"dataType": "NUMERIC",
+		"label": "Admission for academic studies",
+		"question": "Which qualifications did you have for your (first) academic studies?",
+		"scaleLevel": "NOMINAL",
+		"answerOptions": [
+			{
+				"code": "-1",
+				"label": "missing data"
+			},
+			{
+				"code": "1",
+				"label": "general higher education entrance qualification in Europe"
+			},
+			{
+				"code": "2",
+				"label": "subject-linked eligibility of university admission"
+			},
+			{
+				"code": "3",
+				"label": "university of applied sciences entrance qualification"
+			},
+			{
+				"code": "4",
+				"label": "foreign education entrance qualification"
+			}
+		]
+	},
+	{
+		"_class": "eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.VariableDocument",
+		"id": "FdZ_ID12",
+		"variableSurvey": {
+			"surveyId": "DZHW_AP_01",
+			"title": "Absolventenpanel 2001",
+			"surveyPeriod": {
+				"startDate": "2000-08-01",
+				"endDate": "2001-09-30"
+			},
+			"variableAlias": "fisu"
+		},
+		"name": "b1leberwan",
+		"dataType": "NUMERIC",
+		"label": "livelihood finance",
+		"question": "How do you fund your livelihood, while studying by the mentionend times?",
+		"scaleLevel": "METRIC",
+		"answerOptions": [
+			{
+				"code": "-1",
+				"label": "missing data"
+			},
+			{
+				"code": "0",
+				"label": "open specification"
+			}
+		]
+	},
+	{
+		"_class": "eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.VariableDocument",
+		"id": "FdZ_ID13",
+		"variableSurvey": {
+			"surveyId": "DZHW_SE_20",
+			"title": "20. Sozialerhebung",
+			"surveyPeriod": {
+				"startDate": "2012-05-01",
+				"endDate": "2012-08-31"
+			},
+			"variableAlias": "term"
+		},
+		"name": "ssemhsa",
+		"dataType": "NUMERIC",
+		"label": "University semester (aggregated)",
+		"question": "How many semesters (incl. summer semester 2012) are u registered at universities?",
+		"scaleLevel": "ORDINAL",
+		"answerOptions": [
+			{
+				"code": "-3",
+				"label": "not determinable"
+			},
+			{
+				"code": "1",
+				"label": "1. + 2. semester "
+			},
+			{
+				"code": "2",
+				"label": "3. + 4. semester"
+			},
+			{
+				"code": "3",
+				"label": " 5. + 6. semester"
+			},
+			{
+				"code": "4",
+				"label": "7. + 8. semester "
+			},
+			{
+				"code": "5",
+				"label": "9. + 10. semester"
+			},
+			{
+				"code": "6",
+				"label": "11. + 12. semester"
+			},
+			{
+				"code": "7",
+				"label": "13. + 14. semester"
+			}
+		]
+	},
+	{
+		"_class": "eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.VariableDocument",
+		"id": "FdZ_ID14",
+		"variableSurvey": {
+			"surveyId": "DZHW_SE_20",
+			"title": "20. Sozialerhebung",
+			"surveyPeriod": {
+				"startDate": "2012-05-01",
+				"endDate": "2012-08-31"
+			},
+			"variableAlias": "noemp"
+		},
+		"name": "engrkin",
+		"dataType": "NUMERIC",
+		"label": "not employed (parenting)",
+		"question": "Do you work for money, since the summer semester 2012 started? (not possible because of parenting)",
+		"scaleLevel": "NOMINAL",
+		"answerOptions": [
+			{
+				"code": "-2",
+				"label": "not specified"
+			},
+			{
+				"code": "-1",
+				"label": "does not apply(Filter)"
+			},
+			{
+				"code": "0",
+				"label": "not known"
+			},
+			{
+				"code": "1",
+				"label": "named"
+			}
+		]
+	},
+	{
+		"_class": "eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.VariableDocument",
+		"id": "FdZ_ID15",
+		"variableSurvey": {
+			"surveyId": "DZHW_SE_20",
+			"title": "20. Sozialerhebung",
+			"surveyPeriod": {
+				"startDate": "2012-05-01",
+				"endDate": "2012-08-31"
+			},
+			"variableAlias": "nat"
+		},
+		"name": "dnatsta",
+		"dataType": "NUMERIC",
+		"label": "Nationality",
+		"question": "Which citizenship do you have?",
+		"scaleLevel": "NOMINAL",
+		"answerOptions": [
+			{
+				"code": "-2",
+				"label": "not specified"
+			},
+			{
+				"code": "1",
+				"label": "german citizenship"
+			},
+			{
+				"code": "2",
+				"label": "other citizenship"
+			},
+			{
+				"code": "3",
+				"label": "germand and another citizenship"
+			}
+		]
 	}
 ]

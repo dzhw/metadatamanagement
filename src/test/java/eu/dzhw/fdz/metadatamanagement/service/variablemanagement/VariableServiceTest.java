@@ -1,6 +1,7 @@
 package eu.dzhw.fdz.metadatamanagement.service.variablemanagement;
 
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.greaterThanOrEqualTo;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.not;
 import static org.hamcrest.Matchers.nullValue;
@@ -17,99 +18,136 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 
-import eu.dzhw.fdz.metadatamanagement.MetaDataManagementApplicationSmokeTest;
 import eu.dzhw.fdz.metadatamanagement.data.common.documents.DateRange;
+import eu.dzhw.fdz.metadatamanagement.data.common.documents.builders.DateRangeBuilder;
 import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.AnswerOption;
 import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.VariableDocument;
 import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.VariableSurvey;
+import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.builders.AnswerOptionBuilder;
+import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.builders.VariableDocumentBuilder;
+import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.builders.VariableSurveyBuilder;
 import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.validation.provider.DataTypesProvider;
 import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.validation.provider.ScaleLevelProvider;
+import eu.dzhw.fdz.metadatamanagement.web.AbstractWebTest;
 
 
 /**
  * @author Daniel Katzberg
  */
-public class VariableServiceTest extends MetaDataManagementApplicationSmokeTest {
+public class VariableServiceTest extends AbstractWebTest {
 
-  // TODO Depending on json test files
   @Autowired
   private VariableService variableService;
 
+  @Autowired
+  private DataTypesProvider dataTypesProvider;
+
+  @Autowired
+  private ScaleLevelProvider scaleLevelProvider;
+
   @Test
-  public void testSearchWithQuery() {
+  public void testSearchWithQueryGerman() {
+
     // Arrange
     Pageable pageable = new PageRequest(0, 10);
+    LocaleContextHolder.setLocale(Locale.GERMAN);
+    for (int i = 1; i <= 9; i++) {
+      VariableSurvey variableSurvey = new VariableSurveyBuilder()
+          .withSurveyId("SearchUnitTest_Survey_ID").withTitle("SearchUnitTestTitle 0" + i)
+          .withVariableAlias("SearchUnitTestVariableAlias 0" + i).build();
+
+      VariableDocument variableDocument = new VariableDocumentBuilder()
+          .withId("SearchUnitTest_ID0" + i).withName("SearchUnitTestName 0" + i)
+          .withLabel("SearchUnitTestLabel 0" + i).withQuestion("SearchUnitTestQuestion 0" + i)
+          .withDataType(this.dataTypesProvider.getNumericValueByLocale())
+          .withScaleLevel(this.scaleLevelProvider.getMetricByLocal())
+          .withVariableSurvey(variableSurvey).build();
+      this.variableService.save(variableDocument);
+    }
 
     // Act
+    Page<VariableDocument> result = this.variableService.search("SearchUnitTestName", pageable);
 
     // Assert
-    assertThat(variableService.search("name", pageable).getSize(), is(10));
+    assertThat(result.getNumberOfElements(), is(9));
 
+    // Delete
+    for (int i = 1; i <= 9; i++) {
+      this.variableService.delete("SearchUnitTest_ID0" + i);
+    }
   }
 
   @Test
-  public void testSearchWithoutQuery() {
+  public void testSearchWithoutQueryEnglish() {
     // Arrange
     Pageable pageable = new PageRequest(0, 10);
+    LocaleContextHolder.setLocale(Locale.ENGLISH);
+    for (int i = 1; i <= 9; i++) {
+      VariableSurvey variableSurvey = new VariableSurveyBuilder()
+          .withSurveyId("SearchNullUnitTest_Survey_ID").withTitle("SearchNullUnitTestTitle 0" + i)
+          .withVariableAlias("SearchNullUnitTestVariableAlias 0" + i).build();
+
+      VariableDocument variableDocument =
+          new VariableDocumentBuilder().withId("SearchNullUnitTest_ID0" + i)
+              .withName("SearchNullUnitTestName 0" + i).withLabel("SearchNullUnitTestLabel 0" + i)
+              .withQuestion("SearchNullUnitTestQuestion 0" + i)
+              .withDataType(this.dataTypesProvider.getNumericValueByLocale())
+              .withScaleLevel(this.scaleLevelProvider.getMetricByLocal())
+              .withVariableSurvey(variableSurvey).build();
+      this.variableService.save(variableDocument);
+    }
 
     // Act
+    Page<VariableDocument> result = variableService.search(null, pageable);
 
     // Assert
-    assertThat(variableService.search(null, pageable).getSize(), is(10));
+    assertThat(result.getNumberOfElements(), greaterThanOrEqualTo(9));
 
+    // Delete
+    for (int i = 1; i <= 9; i++) {
+      this.variableService.delete("SearchNullFilterUnitTest_ID0" + i);
+    }
   }
 
   @Test
   public void testSaveAndDelete() {
-    String id = "FDZ_ID0000001";
+    String idVariableDocument = "FDZ_ID0000001";
 
     // Arrange
-    // Variable Document
     LocaleContextHolder.setLocale(Locale.GERMAN);
-    VariableDocument variableDocument = new VariableDocument();
-    variableDocument.setId(id);
-    variableDocument.setName("A name for a Document");
-    variableDocument.setLabel("A label for a Document");
-    variableDocument.setScaleLevel(ScaleLevelProvider.GERMAN_NOMINAL);
-    variableDocument.setDataType(DataTypesProvider.GERMAN_NUMERIC);
+
+    // DateRange
+    DateRange dateRange = new DateRangeBuilder().withStartDate(LocalDate.now())
+        .withEndDate(LocalDate.now().plusDays(3)).build();
+
+    // Variable Survey
+    VariableSurvey variableSurvey =
+        new VariableSurveyBuilder().withSurveyId("Survey_ID_1").withTitle("Title 1")
+            .withVariableAlias("A name for a Document").withSurveyPeriod(dateRange).build();
 
     // Answer Options
     List<AnswerOption> answerOptions = new ArrayList<>();
-    AnswerOption answerOption1 = new AnswerOption();
-    answerOption1.setCode(1);
-    answerOption1.setLabel("Label 1");
-    AnswerOption answerOption2 = new AnswerOption();
-    answerOption2.setCode(2);
-    answerOption2.setLabel("Label 2");
-    answerOptions.add(answerOption1);
-    answerOptions.add(answerOption2);
-    variableDocument.setAnswerOptions(answerOptions);
+    answerOptions.add(new AnswerOptionBuilder().withCode(1).withLabel("Label 1").build());
+    answerOptions.add(new AnswerOptionBuilder().withCode(2).withLabel("Label 2").build());
 
-    // DateRange
-    DateRange dateRange = new DateRange();
-    dateRange.setStartDate(LocalDate.now());
-    dateRange.setEndDate(LocalDate.now().plusDays(3));
-
-    // Variable Survey
-    VariableSurvey variableSurvey = new VariableSurvey();
-    variableSurvey.setSurveyId("Survey_ID_1");
-    variableSurvey.setTitle("Title 1");
-    variableSurvey.setVariableAlias(variableDocument.getName());
-    variableSurvey.setSurveyPeriod(dateRange);
-    variableDocument.setVariableSurvey(variableSurvey);
-
+    // Variable Document
+    VariableDocument variableDocument =
+        new VariableDocumentBuilder().withId(idVariableDocument).withName("A name for a Document")
+            .withLabel("A label for a Document").withScaleLevel(ScaleLevelProvider.GERMAN_NOMINAL)
+            .withDataType(DataTypesProvider.GERMAN_NUMERIC).withAnswerOptions(answerOptions)
+            .withVariableSurvey(variableSurvey).build();
+    
     // Act
     VariableDocument savedVariableDocument = this.variableService.save(variableDocument);
-    this.variableService.delete(id);
+    this.variableService.delete(idVariableDocument);
 
     Pageable pageable = new PageRequest(0, 10);
-    Page<VariableDocument> results = this.variableService.search(id, pageable);
-    int numberElements = results.getNumberOfElements();
+    Page<VariableDocument> results = this.variableService.search(idVariableDocument, pageable);
 
     // Assert
     assertThat(savedVariableDocument, is(variableDocument));
     assertThat(savedVariableDocument, not(nullValue()));
-    assertThat(numberElements, is(0));
+    assertThat(results.getNumberOfElements(), is(0));
 
   }
 }
