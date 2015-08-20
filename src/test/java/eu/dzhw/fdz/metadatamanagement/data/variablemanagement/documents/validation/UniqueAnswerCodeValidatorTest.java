@@ -41,13 +41,20 @@ public class UniqueAnswerCodeValidatorTest extends AbstractWebTest {
     VariableDocument variableDocument =
         new VariableDocumentBuilder().withId("ThisIDisOkay").withName("ThisNameIsOkay.")
             .withQuestion("DefaultQuestion?").withAnswerOptions(answerOptions).build();
+    
+    VariableDocument variableDocumentNullAnswerOptions =
+        new VariableDocumentBuilder().withId("ThisIDisOkay").withName("ThisNameIsOkay.")
+            .withQuestion("DefaultQuestion?").withAnswerOptions(null).build();
 
     // Act
     Errors errors = new BeanPropertyBindingResult(variableDocument, "variableDocument");
     this.variableDocumentValidator.validate(variableDocument, errors);
+    Errors errorsNullAnswerOptions = new BeanPropertyBindingResult(variableDocumentNullAnswerOptions, "variableDocument");
+    this.variableDocumentValidator.validate(variableDocumentNullAnswerOptions, errors);
 
     // Assert
     assertEquals(0, errors.getErrorCount());
+    assertEquals(0, errorsNullAnswerOptions.getErrorCount());
   }
 
   @Test

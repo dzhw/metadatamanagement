@@ -452,17 +452,65 @@ public class VariableDocumentTest extends AbstractWebTest {
     assertThat(errors.getFieldError(VariableDocument.QUESTION_FIELD).getCode(),
         is(NotBlank.class.getSimpleName()));
   }
+  
+  @Test
+  public void testRemoveAnswerOption() {
+    // Arrange
+    List<AnswerOption> answerOptions = new ArrayList<>();
+    answerOptions.add(new AnswerOptionBuilder().withCode(1).withLabel("Label 1").build());
+    answerOptions.add(new AnswerOptionBuilder().withCode(2).build());
+    answerOptions.add(new AnswerOptionBuilder().withCode(3).withLabel("Label 3").build());
+    VariableDocument variableDocument = new VariableDocumentBuilder().withId("ThisIDisOkay")
+        .withName("ThisNameIsOkay.").withQuestion("DefaultQuestion?").withAnswerOptions(answerOptions).build();
+
+    // Act
+    AnswerOption answerOption1 = variableDocument.removeAnswerOption(1);
+    AnswerOption answerOption2 = variableDocument.removeAnswerOption(1);
+    AnswerOption answerOption3 = variableDocument.removeAnswerOption(4);
+    AnswerOption answerOption4 = variableDocument.removeAnswerOption(-10);
+
+    // Assert
+    assertEquals(new Integer("2"), answerOption1.getCode());
+    assertEquals(new Integer("3"), answerOption2.getCode());
+    assertEquals("Label 3", answerOption2.getLabel());
+    assertEquals(1, variableDocument.getAnswerOptions().size());
+    assertEquals(null, answerOption3);
+    assertEquals(null, answerOption4);
+  }
+
+  @Test
+  public void testAddAnswerOption() {
+    // Arrange
+    VariableDocument variableDocument = new VariableDocumentBuilder().withId("ThisIDisOkay")
+        .withName("ThisNameIsOkay.").withQuestion("DefaultQuestion?").build();
+
+    // Act
+    boolean checkNull = variableDocument.addAnswerOption(null);
+    boolean checkValidCompleteAnswerOption = variableDocument
+        .addAnswerOption(new AnswerOptionBuilder().withCode(1).withLabel("Label").build());
+    boolean checkEmptyAnswerOption = variableDocument
+        .addAnswerOption(new AnswerOptionBuilder().build());
+
+    // Assert
+    assertEquals(false, checkNull);
+    assertEquals(true, checkValidCompleteAnswerOption);
+    assertEquals(true, checkEmptyAnswerOption);
+  }
 
   @Test
   public void testHashCode() {
     // Arrange
     VariableDocument variableDocument = new VariableDocumentBuilder().withId("ThisIDisOkay")
         .withName("ThisNameIsOkay.").withQuestion("DefaultQuestion?").build();
+    VariableDocument variableDocument2 =
+        new VariableDocumentBuilder().withId("ThisIDisOkay").withName("ThisNameIsOkay.")
+            .withQuestion("DefaultQuestion?").withAnswerOptions(null).build();
 
     // Act
 
     // Assert
     assertEquals(-36021551, variableDocument.hashCode());
+    assertEquals(-923525232, variableDocument2.hashCode());
   }
 
   @Test
@@ -488,6 +536,7 @@ public class VariableDocumentTest extends AbstractWebTest {
     boolean checkDifferentVariableDocumentWithNullName =
         variableDocument3.equals(variableDocument2);
     variableDocument.setAnswerOptions(answerOptions);
+    variableDocument2.setAnswerOptions(null);
     boolean checkAnswerOptionsOther = variableDocument2.equals(variableDocument);
     variableDocument2.setAnswerOptions(answerOptions);
     boolean checkAnswerOptionsOtherBoth = variableDocument2.equals(variableDocument);

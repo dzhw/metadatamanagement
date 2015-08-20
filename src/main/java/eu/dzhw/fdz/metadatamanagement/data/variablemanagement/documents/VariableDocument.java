@@ -9,7 +9,7 @@ import javax.validation.constraints.Size;
 import org.hibernate.validator.constraints.NotBlank;
 import org.springframework.data.elasticsearch.annotations.Document;
 
-import eu.dzhw.fdz.metadatamanagement.data.common.documents.AbstractDocument;
+import eu.dzhw.fdz.metadatamanagement.data.common.documents.BasicDocument;
 import eu.dzhw.fdz.metadatamanagement.data.common.documents.DateRange;
 import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.validation.UniqueAnswerCode;
 import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.validation.ValidDataType;
@@ -24,12 +24,12 @@ import net.karneim.pojobuilder.GeneratePojoBuilder;
  *
  */
 @Document(
-    indexName = "#{'" + AbstractDocument.METADATA_INDEX + "_'"
+    indexName = "#{'" + BasicDocument.METADATA_INDEX + "_'"
         + "+T(org.springframework.context.i18n.LocaleContextHolder).getLocale().getLanguage()}",
     type = "variables")
 @GeneratePojoBuilder(
     intoPackage = "eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.builders")
-public class VariableDocument extends AbstractDocument {
+public class VariableDocument extends BasicDocument {
   // Public constants which are used in queries as fieldnames.
   public static final String ALL_STRINGS_AS_NGRAMS_FIELD = "allStringsAsNgrams";
   public static final String NAME_FIELD = "name";

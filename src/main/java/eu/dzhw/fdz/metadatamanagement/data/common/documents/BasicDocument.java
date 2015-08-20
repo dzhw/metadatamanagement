@@ -18,10 +18,10 @@ import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.validati
  * @author Daniel Katzberg
  * @see PopulatorUtils
  */
-@Document(indexName = "#{'" + AbstractDocument.METADATA_INDEX + "_'"
+@Document(indexName = "#{'" + BasicDocument.METADATA_INDEX + "_'"
     + "+T(org.springframework.context.i18n.LocaleContextHolder).getLocale().getLanguage()}")
 @Setting(settingPath = "data/settings/settings.json")
-public class AbstractDocument {
+public class BasicDocument {
 
   /**
    * The basic index name.
@@ -75,7 +75,7 @@ public class AbstractDocument {
     if (getClass() != obj.getClass()) {
       return false;
     }
-    AbstractDocument other = (AbstractDocument) obj;
+    BasicDocument other = (BasicDocument) obj;
     if (this.id == null) {
       if (other.id != null) {
         return false;

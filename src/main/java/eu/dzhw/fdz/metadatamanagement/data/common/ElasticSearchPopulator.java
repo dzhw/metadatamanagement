@@ -32,7 +32,7 @@ import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import eu.dzhw.fdz.metadatamanagement.config.i18n.I18nConfiguration;
-import eu.dzhw.fdz.metadatamanagement.data.common.documents.AbstractDocument;
+import eu.dzhw.fdz.metadatamanagement.data.common.documents.BasicDocument;
 
 /**
  * This is a json file to elasticsearch database populator. This populator reads the the supported
@@ -113,9 +113,9 @@ public class ElasticSearchPopulator implements ApplicationListener<ContextRefres
     // set temporary the local of the system
     LocaleContextHolder.setLocale(locale);
     // delete existing index to avoid problems with previously created index by spring data
-    elasticsearchTemplate.deleteIndex(AbstractDocument.class);
+    elasticsearchTemplate.deleteIndex(BasicDocument.class);
     // create the (currently just one) index per language
-    elasticsearchTemplate.createIndex(AbstractDocument.class);
+    elasticsearchTemplate.createIndex(BasicDocument.class);
 
     // read the json data
     Resource[] resources = this.populatorUtils.loadJsonData(locale);
