@@ -4,6 +4,7 @@ import static org.hamcrest.CoreMatchers.not;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThat;
 
+import java.util.HashSet;
 import java.util.Locale;
 
 import org.junit.Test;
@@ -69,5 +70,31 @@ public class DataTypeTest extends AbstractWebTest{
     //Assert
     assertEquals("string", messageEN);
   }
+  
+  @Test
+  public void testGetAllDataTypeEnglish(){
+    //Arrange
+    LocaleContextHolder.setLocale(Locale.ENGLISH);
+        
+    //Act
+    HashSet<String> allDataTypes = this.dataTypesProvider.getAllDataTypes();
+    
+    //Assert
+    assertEquals(true, allDataTypes.contains("numeric"));
+    assertEquals(2, allDataTypes.size());
+  }
 
+  @Test
+  public void testGetAllDataTypeGerman(){
+    //Arrange
+    LocaleContextHolder.setLocale(Locale.GERMAN);
+        
+    //Act
+    HashSet<String> allDataTypes = this.dataTypesProvider.getAllDataTypes();
+    
+    //Assert
+    assertEquals(true, allDataTypes.contains("numerisch"));
+    assertEquals(2, allDataTypes.size());
+  }
+  
 }

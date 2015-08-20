@@ -7,6 +7,7 @@ import static org.hamcrest.CoreMatchers.not;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThat;
 
+import java.util.HashSet;
 import java.util.Locale;
 
 import org.junit.Test;
@@ -95,5 +96,31 @@ public class ScaleLevelTest extends AbstractWebTest{
     
     //Assert
     assertEquals("ordinal", messageEN);
+  }
+  
+  @Test
+  public void testGetAllDataTypeEnglish(){
+    //Arrange
+    LocaleContextHolder.setLocale(Locale.ENGLISH);
+        
+    //Act
+    HashSet<String> allScaleLevel = this.scaleLevelProvider.getAllScaleLevel();
+    
+    //Assert
+    assertEquals(true, allScaleLevel.contains("metric"));
+    assertEquals(3, allScaleLevel.size());
+  }
+  
+  @Test
+  public void testGetAllDataTypeGerman(){
+    //Arrange
+    LocaleContextHolder.setLocale(Locale.GERMAN);
+        
+    //Act
+    HashSet<String> allScaleLevel = this.scaleLevelProvider.getAllScaleLevel();
+    
+    //Assert
+    assertEquals(true, allScaleLevel.contains("metrisch"));
+    assertEquals(3, allScaleLevel.size());
   }
 }
