@@ -5,6 +5,7 @@ package eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.not;
 import static org.junit.Assert.assertEquals;
 
 import java.time.LocalDate;
@@ -509,8 +510,8 @@ public class VariableDocumentTest extends AbstractWebTest {
     // Act
 
     // Assert
-    assertEquals(-36021551, variableDocument.hashCode());
-    assertEquals(-923525232, variableDocument2.hashCode());
+    assertThat(variableDocument.hashCode(), not(0));
+    assertThat(variableDocument2.hashCode(), not(0));
   }
 
   @Test

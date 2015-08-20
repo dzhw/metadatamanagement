@@ -3,7 +3,9 @@
  */
 package eu.dzhw.fdz.metadatamanagement.web.variablemanagement.details;
 
+import static org.hamcrest.Matchers.not;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertThat;
 
 import org.junit.Test;
 import org.springframework.hateoas.ResourceSupport;
@@ -27,8 +29,8 @@ public class VariableResourceTest {
     int hashCodeWithVariableDocument = variableResource.hashCode();
         
     //Assert
-    assertEquals(31, hashCodeWithoutVariableDocument);
-    assertEquals(-1664653249, hashCodeWithVariableDocument);
+    assertThat(hashCodeWithoutVariableDocument, not(0));
+    assertThat(hashCodeWithVariableDocument, not(0));
   }
   
   @Test

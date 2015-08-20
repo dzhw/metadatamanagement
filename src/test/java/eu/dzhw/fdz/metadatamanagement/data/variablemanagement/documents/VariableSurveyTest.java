@@ -3,7 +3,9 @@
  */
 package eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents;
 
+import static org.hamcrest.Matchers.not;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertThat;
 
 import java.time.LocalDate;
 
@@ -27,7 +29,7 @@ public class VariableSurveyTest {
     // Act
 
     // Assert
-    assertEquals(-2079109466, variableSurvey.hashCode());
+    assertThat(variableSurvey.hashCode(), not(0));
   }
 
   @Test

@@ -3,7 +3,9 @@
  */
 package eu.dzhw.fdz.metadatamanagement.web.variablemanagement.search;
 
+import static org.hamcrest.Matchers.not;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertThat;
 
 import java.util.ArrayList;
 
@@ -46,9 +48,9 @@ public class VariableSearchResourceTest extends AbstractWebTest {
     int withoutPageHashCode = variableSearchPageResource.hashCode();
     int withPageHashCode = variableSearchPageResource2.hashCode();
 
-    // Assert
-    assertEquals(-97370770, withoutPageHashCode);
-    assertEquals(111492632, withPageHashCode);
+    // Assert    
+    assertThat(withoutPageHashCode, not(0));
+    assertThat(withPageHashCode, not(0));
   }
 
   @SuppressWarnings("unchecked")
