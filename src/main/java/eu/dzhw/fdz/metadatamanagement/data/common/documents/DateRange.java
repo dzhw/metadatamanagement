@@ -2,8 +2,6 @@ package eu.dzhw.fdz.metadatamanagement.data.common.documents;
 
 import java.time.LocalDate;
 
-import org.springframework.format.annotation.DateTimeFormat;
-
 import net.karneim.pojobuilder.GeneratePojoBuilder;
 
 /**
@@ -13,8 +11,7 @@ import net.karneim.pojobuilder.GeneratePojoBuilder;
  * @author Daniel Katzberg
  *
  */
-@GeneratePojoBuilder(
-    intoPackage = "eu.dzhw.fdz.metadatamanagement.data.common.documents.builders")
+@GeneratePojoBuilder(intoPackage = "eu.dzhw.fdz.metadatamanagement.data.common.documents.builders")
 public class DateRange {
 
   // Public constants which are used in queries as fieldnames.
@@ -22,15 +19,13 @@ public class DateRange {
   public static final String ENDDATE_FIELD = "endDate";
 
   /**
-   * The start date of the range. The checked pattern is: {@code yyyy-MM-dd}
+   * The start date of the range.
    */
-  @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
   private LocalDate startDate;
 
   /**
-   * The end date of the range. The checked pattern is: {@code yyyy-MM-dd}
+   * The end date of the range.
    */
-  @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
   private LocalDate endDate;
 
   /*
@@ -62,6 +57,7 @@ public class DateRange {
 
   /*
    * (non-Javadoc)
+   * 
    * @see java.lang.Object#hashCode()
    */
   @Override
@@ -75,6 +71,7 @@ public class DateRange {
 
   /*
    * (non-Javadoc)
+   * 
    * @see java.lang.Object#equals(java.lang.Object)
    */
   @Override
