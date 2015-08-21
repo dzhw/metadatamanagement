@@ -9,6 +9,8 @@ import org.springframework.data.web.PagedResourcesAssembler;
 import org.springframework.hateoas.PagedResources;
 import org.springframework.hateoas.mvc.ControllerLinkBuilderFactory;
 import org.springframework.stereotype.Controller;
+import org.springframework.util.StringUtils;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -52,9 +54,11 @@ public class VariableSearchController {
    * @return variableSearch.html
    */
   @RequestMapping(value = "/{language:de|en}/variables/search", method = RequestMethod.GET)
-  public Callable<ModelAndView> get(@RequestParam(required = false) String query,
-      Pageable pageable) {
+  public Callable<ModelAndView> get(
+      @RequestHeader(name = "X-Requested-With", required = false) String ajaxHeader,
+      @RequestParam(required = false) String query, Pageable pageable) {
     return () -> {
+      
       Page<VariableDocument> variablePage = variableService.search(query, pageable);
       PagedResources<VariableResource> pagedVariableResource =
           pagedResourcesAssembler.toResource(variablePage, variableResourceAssembler);
@@ -62,9 +66,18 @@ public class VariableSearchController {
       VariableSearchPageResource resource = new VariableSearchPageResource(pagedVariableResource,
           VariableSearchController.class, controllerLinkBuilderFactory, query, pageable);
 
-      ModelAndView modelAndView = new ModelAndView("variables/search");
+      //Check for X-Requested-With Header
+      //if not in the header, return the complete
+      String viewName = "variables/search";
+      if (StringUtils.hasText(ajaxHeader)) {
+      //if it is in the headers, return only a div
+        viewName += " :: #searchResults";
+      }
+      
+      ModelAndView modelAndView = new ModelAndView(viewName);
       modelAndView.addObject("query", query);
       modelAndView.addObject("resource", resource);
+      
       return modelAndView;
     };
   }
