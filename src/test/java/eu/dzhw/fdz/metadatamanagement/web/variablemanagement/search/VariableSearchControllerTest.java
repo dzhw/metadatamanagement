@@ -12,20 +12,69 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.request;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+import java.util.Locale;
+
+import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.test.web.ModelAndViewAssert;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.web.servlet.ModelAndView;
 
+import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.DataTypesProvider;
+import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.ScaleLevelProvider;
+import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.VariableDocument;
+import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.VariableSurvey;
+import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.builders.VariableDocumentBuilder;
+import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.builders.VariableSurveyBuilder;
+import eu.dzhw.fdz.metadatamanagement.service.variablemanagement.VariableService;
 import eu.dzhw.fdz.metadatamanagement.web.AbstractWebTest;
 
 /**
  * Test which checks if the {@link VariableSearchController} answers as expected
  * 
  * @author Amine Limouri
+ * @author Daniel Katzberg
  */
-//TODO depending on json files
 public class VariableSearchControllerTest extends AbstractWebTest {
+
+  @Autowired
+  private VariableService variableService;
+
+  @Autowired
+  private DataTypesProvider dataTypesProvider;
+
+  @Autowired
+  private ScaleLevelProvider scaleLevelProvider;
+
+  @Before
+  public void before() {
+
+    LocaleContextHolder.setLocale(Locale.GERMAN);
+    for (int i = 1; i <= 9; i++) {
+      VariableSurvey variableSurvey = new VariableSurveyBuilder()
+          .withSurveyId("SearchUnitTest_Survey_ID").withTitle("SearchUnitTestTitle 0" + i)
+          .withVariableAlias("SearchUnitTestVariableAlias 0" + i).build();
+
+      VariableDocument variableDocument = new VariableDocumentBuilder()
+          .withId("SearchUnitTest_ID0" + i).withName("SearchUnitTestName 0" + i)
+          .withLabel("SearchUnitTestLabel 0" + i).withQuestion("SearchUnitTestQuestion 0" + i)
+          .withDataType(this.dataTypesProvider.getNumericValueByLocale())
+          .withScaleLevel(this.scaleLevelProvider.getMetricByLocal())
+          .withVariableSurvey(variableSurvey).build();
+      this.variableService.save(variableDocument);
+    }
+  }
+
+  @After
+  public void after() {
+    // Delete
+    for (int i = 1; i <= 9; i++) {
+      this.variableService.delete("SearchUnitTest_ID0" + i);
+    }
+  }
 
   @Test
   public void testGermanTemplate() throws Exception {
@@ -65,14 +114,14 @@ public class VariableSearchControllerTest extends AbstractWebTest {
 
   @Test
   public void testSearch() throws Exception {
-    MvcResult mvcResult = this.mockMvc.perform(get("/de/variables/search?query=ALLBUS"))
+    MvcResult mvcResult = this.mockMvc.perform(get("/de/variables/search?query=SearchUnitTest_Survey_ID"))
         .andExpect(status().isOk()).andExpect(request().asyncStarted())
         .andExpect(request().asyncResult(instanceOf(ModelAndView.class))).andReturn();
 
     ModelAndViewAssert.assertViewName((ModelAndView) mvcResult.getAsyncResult(),
         "variables/search");
     ModelAndViewAssert.assertModelAttributeValue((ModelAndView) mvcResult.getAsyncResult(), "query",
-        "ALLBUS");
+        "SearchUnitTest_Survey_ID");
     ModelAndViewAssert.assertModelAttributeAvailable((ModelAndView) mvcResult.getAsyncResult(),
         "resource");
     ModelAndViewAssert.assertAndReturnModelAttributeOfType(
@@ -87,14 +136,14 @@ public class VariableSearchControllerTest extends AbstractWebTest {
   @Test
   public void testSearchWithPage() throws Exception {
     MvcResult mvcResult =
-        this.mockMvc.perform(get("/de/variables/search?query=ALLBUS&page=1&size=3"))
+        this.mockMvc.perform(get("/de/variables/search?query=SearchUnitTest_Survey_ID&page=1&size=3"))
             .andExpect(status().isOk()).andExpect(request().asyncStarted())
             .andExpect(request().asyncResult(instanceOf(ModelAndView.class))).andReturn();
 
     ModelAndViewAssert.assertViewName((ModelAndView) mvcResult.getAsyncResult(),
         "variables/search");
     ModelAndViewAssert.assertModelAttributeValue((ModelAndView) mvcResult.getAsyncResult(), "query",
-        "ALLBUS");
+        "SearchUnitTest_Survey_ID");
     ModelAndViewAssert.assertModelAttributeAvailable((ModelAndView) mvcResult.getAsyncResult(),
         "resource");
     ModelAndViewAssert.assertAndReturnModelAttributeOfType(
@@ -106,11 +155,11 @@ public class VariableSearchControllerTest extends AbstractWebTest {
 
     assertThat(resource.getPage().getContent().size(), is(3));
     assertThat(resource.getPage().getId().getHref()
-        .contains("/de/variables/search?query=ALLBUS&page=1&size=3"), is(true));
+        .contains("/de/variables/search?query=SearchUnitTest_Survey_ID&page=1&size=3"), is(true));
     assertThat(resource.getPage().getPreviousLink().getHref()
-        .contains("/de/variables/search?query=ALLBUS&page=0&size=3"), is(true));
+        .contains("/de/variables/search?query=SearchUnitTest_Survey_ID&page=0&size=3"), is(true));
     assertThat(resource.getPage().getNextLink().getHref()
-        .contains("/de/variables/search?query=ALLBUS&page=2&size=3"), is(true));
+        .contains("/de/variables/search?query=SearchUnitTest_Survey_ID&page=2&size=3"), is(true));
 
   }
 }
