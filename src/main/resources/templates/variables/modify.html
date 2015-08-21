@@ -14,185 +14,73 @@
 			<div class="panel-heading" th:text="#{variables.modify.variableData}">Variableninformationen</div>
 			<div class="panel-body">
 				<!-- Bootstrap form -->
-				<form action="#" th:action="${resource.id.href}" th:attr="data-validate-url=${resource.getLink('validate').href}"
-					th:object="${variableDocument}" method="post" role="form" id="form" oninput="VariableModifyForm.validate(this)">
+				<form action="#" th:action="${resource.id.href}"
+					th:attr="data-validate-url=${resource.getLink('validate').href}"
+					th:object="${variableDocument}" method="post" role="form" id="form"
+					oninput="VariableModifyForm.validate(this)">
 					<div th:each="err : ${#fields.errors('global')}"
 						class="alert alert-danger" name=''>
 						<p th:text="${err}">Error</p>
 					</div>
 					<div class="row">
 						<div class="col-md-6">
-							<div class="form-group has-feedback"
-								th:classappend="${#fields.hasErrors('id')}? has-error : has-success">
-								<label th:text="#{variables.modify.variable.id}">Variable
-									document id</label> <input type="text" class="form-control"
-									th:field="*{id}"
-									th:placeholder="#{variables.modify.variable.id}" /> <span
-									class="glyphicon form-control-feedback"
-									th:classappend="${#fields.hasErrors('id')}? glyphicon-remove : glyphicon-ok"></span>
-								<span class="help-block">
-									<p th:if="${#fields.hasErrors('id')}" th:errors="*{id}">Incorrect
-										id</p>
-								</span>
-							</div>
+							<div
+								th:replace="common/inputsFormControll::addInput(attribute=id,label=#{variables.modify.variable.id},placeholder=#{variables.modify.variable.id},type=text)"></div>
 						</div>
 					</div>
 					<div class="row">
 						<div class="col-md-6">
-							<div class="form-group has-feedback"
-								th:classappend="${#fields.hasErrors('name')}? has-error : has-success">
-								<label th:text="#{variables.modify.variable.name}">Variable
-									document name</label> <input type="text" class="form-control"
-									th:field="*{name}" 
-									th:placeholder="#{variables.modify.variable.name}" /> <span
-									class="glyphicon form-control-feedback"
-									th:classappend="${#fields.hasErrors('name')}? glyphicon-remove : glyphicon-ok"></span>
-								<span class="help-block">
-									<p th:if="${#fields.hasErrors('name')}" th:errors="*{name}">Incorrect
-										name</p>
-								</span>
-							</div>
+							<div
+								th:replace="common/inputsFormControll::addInput(attribute=name,label=#{variables.modify.variable.name},placeholder=#{variables.modify.variable.name},type=text)"></div>
 						</div>
 						<div class=" col-md-6">
-							<div class="form-group has-feedback"
-								th:classappend="${#fields.hasErrors('label')}? has-error : has-success">
-								<label th:text="#{variables.modify.variable.label}">Variable
-									document label</label> <input type="text" class="form-control"
-									th:field="*{label}" 
-									th:placeholder="#{variables.modify.variable.label}" /> <span
-									class="glyphicon form-control-feedback"
-									th:classappend="${#fields.hasErrors('label')}? glyphicon-remove : glyphicon-ok"></span>
-								<span class="help-block">
-									<p th:if="${#fields.hasErrors('label')}" th:errors="*{id}">Incorrect
-										label</p>
-								</span>
-							</div>
+							<div
+								th:replace="common/inputsFormControll::addInput(attribute=label,label=#{variables.modify.variable.label},placeholder=#{variables.modify.variable.label},type=text)"></div>
 						</div>
 					</div>
 					<div class="row">
 						<div class=" col-md-6">
-							<div class="form-group has-feedback"
-								th:classappend="${#fields.hasErrors('dataType')}? has-error : has-success">
-								<label th:text="#{variables.modify.variable.dataType}">Variable
-									document label</label> <select th:field="*{dataType}"
-									class="form-control" >
-									<option value=""></option>
-									<p th:each="dataTypeEnrty: ${dataTypesMap}">
-										<option th:selected="${dataTypeEnrty} == *{dataType}"
-											th:text="${dataTypeEnrty}" th:value="${dataTypeEnrty}"></option>
-									</p>
-								</select> <span class="glyphicon form-control-feedback"
-									th:classappend="${#fields.hasErrors('dataType')}? glyphicon-remove : glyphicon-ok"></span>
-								<span class="help-block">
-									<p th:if="${#fields.hasErrors('dataType')}"
-										th:errors="*{dataType}">Incorrect data Type</p>
-								</span>
-							</div>
+							<div
+								th:replace="common/inputsFormControll::addSelectOptions(attribute=dataType,label=#{variables.modify.variable.dataType},valuesMap=dataTypesMap)"></div>
 						</div>
 						<div class=" col-md-6">
-							<div class="form-group has-feedback"
-								th:classappend="${#fields.hasErrors('scaleLevel')}? has-error : has-success">
-								<label th:text="#{variables.modify.variable.scaleLevel}">Variable
-									document scalelevel</label> <select th:field="*{scaleLevel}"
-									class="form-control" >
-									<option value=""></option>
-									<p th:each="scaleLevelEnrty: ${scaleLevelMap}">
-										<option th:selected="${scaleLevelEnrty} == *{scaleLevel}"
-											th:text="${scaleLevelEnrty}" th:value="${scaleLevelEnrty}"></option>
-									</p>
-								</select> <span class="glyphicon form-control-feedback"
-									th:classappend="${#fields.hasErrors('scaleLevel')}? glyphicon-remove : glyphicon-ok"></span>
-								<span class="help-block">
-									<p th:if="${#fields.hasErrors('scaleLevel')}"
-										th:errors="*{scaleLevel}">Incorrect scaleLevel</p>
-								</span>
-							</div>
+							<div
+								th:replace="common/inputsFormControll::addSelectOptions(attribute=scaleLevel,label=#{variables.modify.variable.scaleLevel},valuesMap=scaleLevelMap)"></div>
 						</div>
 					</div>
 					<div class="row">
 						<div class=" col-md-12">
-							<div class="form-group has-feedback"
-								th:classappend="${#fields.hasErrors('question')}? has-error : has-success">
-								<label th:text="#{variables.modify.variable.question}">Variable
-									document question</label>
-								<textarea rows="4" class="form-control" th:field="*{question}"
-									th:placeholder="#{variables.modify.variable.question}" >
-								</textarea>
-								<span class="glyphicon form-control-feedback"
-									th:classappend="${#fields.hasErrors('question')}? glyphicon-remove : glyphicon-ok"></span>
-								<span class="help-block">
-									<p th:if="${#fields.hasErrors('question')}"
-										th:errors="*{question}">Incorrect question</p>
-								</span>
-							</div>
+							<div
+								th:replace="common/inputsFormControll::addTextArea(attribute=question,label=#{variables.modify.variable.question},placeholder=#{variables.modify.variable.question},rows=4)"></div>
 						</div>
 					</div>
 					<div class="panel panel-primary">
 						<div class="panel-heading"
 							th:text="#{variables.modify.variable.answerOptions}">Antwortoptionen</div>
 						<div class="panel-body">
-						<div th:each="err : ${#fields.errors('answerOptions')}"
-						class="alert alert-danger">
-						<p th:text="${err}">Error</p>
-					</div>
-						<div th:each="answerOption, rowStat : *{answerOptions}"
+							<div th:each="err : ${#fields.errors('answerOptions')}"
+								class="alert alert-danger">
+								<p th:text="${err}">Error</p>
+							</div>
+							<div th:each="answerOption, rowStat : *{answerOptions}"
 								class="row">
-								
 								<div class="col-md-5">
-									<div class="form-group has-feedback "
-										th:classappend="${#fields.hasErrors('answerOptions[__${rowStat.index}__].code')}? has-error : has-success">
-										<label
-											th:text="#{variables.modify.variable.answerOption.code}">Code
-										</label> <input type="text" class="form-control" 
-											th:field="*{answerOptions[__${rowStat.index}__].code}"
-											th:placeholder="#{variables.modify.variable.answerOption.code}" />
-										<span class="glyphicon form-control-feedback"
-											th:classappend="${#fields.hasErrors('answerOptions[__${rowStat.index}__].code')}? glyphicon-remove : glyphicon-ok"></span>
-										<span class="help-block">
-											<p
-												th:if="${#fields.hasErrors('answerOptions[__${rowStat.index}__].code')}"
-												th:errors="*{answerOptions[__${rowStat.index}__].code}">Incorrect
-												Code</p>
-										</span>
-									</div>
+									<div
+										th:replace="common/inputsFormControll::addInput(attribute=answerOptions[__${rowStat.index}__].code,label=#{variables.modify.variable.answerOption.code},placeholder=#{variables.modify.variable.answerOption.code},type=text)"></div>
 								</div>
 								<div class="col-md-5">
-									<div class="form-group has-feedback"
-										th:classappend="${#fields.hasErrors('answerOptions[__${rowStat.index}__].label')}? has-error : has-success">
-										<label
-											th:text="#{variables.modify.variable.answerOption.label}">Label
-										</label> <input type="text" class="form-control" 
-											th:field="*{answerOptions[__${rowStat.index}__].label}"
-											th:placeholder="#{variables.modify.variable.answerOption.label}" />
-										<span class="glyphicon form-control-feedback"
-											th:classappend="${#fields.hasErrors('answerOptions[__${rowStat.index}__].label')}? glyphicon-remove : glyphicon-ok"></span>
-										<span class="help-block">
-											<p
-												th:if="${#fields.hasErrors('answerOptions[__${rowStat.index}__].label')}"
-												th:errors="*{answerOptions[__${rowStat.index}__].label}">Incorrect
-												Label</p>
-										</span>
-									</div>
+									<div
+										th:replace="common/inputsFormControll::addInput(attribute=answerOptions[__${rowStat.index}__].label,label=#{variables.modify.variable.answerOption.label},placeholder=#{variables.modify.variable.answerOption.label},type=text)"></div>
 								</div>
 								<div class="col-md-2">
-									<div class="form-group has-feedback">
-										<label
-											th:text="#{variables.modify.variable.answerOption.remove}">Antwortoption
-											entfernen</label>
-										<div class="input-group">
-											<button class="btn" type="submit" name="removeAnswerOption"
-												th:value="${rowStat.index}">
-												<span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
-											</button>
-										</div>
+									<div
+										th:replace="common/buttons::removeAnswerOption(index=${rowStat.index})">
 									</div>
 								</div>
 							</div>
 							<a id="addAnswerOption"></a>
-							<button id="addAnswerOptionButton" type="submit" name="addAnswerOption" class="btn">
-								<span class="glyphicon glyphicon-plus" aria-hidden="true"></span><span
-									th:text="' ' + #{variables.modify.add}">Hinzufügen</span>
-							</button>
+							<button
+								th:replace="common/buttons::addButton(id=addAnswerOptionButton,name=addAnswerOption)"></button>
 						</div>
 					</div>
 					<div class="panel panel-primary">
@@ -203,128 +91,62 @@
 								th:object="${variableDocument.variableSurvey}">
 								<div class="row">
 									<div class=" col-md-6">
-										<div class="form-group has-feedback"
-											th:classappend="${#fields.hasErrors('surveyId')}? has-error : has-success">
-											<label th:text="#{variables.modify.variable.survey.id}">Survey
-												id</label> <input type="text" class="form-control"
-												th:field="*{surveyId}" 
-												th:placeholder="#{variables.modify.variable.survey.id}" />
-											<span class="glyphicon form-control-feedback"
-												th:classappend="${#fields.hasErrors('surveyId')}? glyphicon-remove : glyphicon-ok"></span>
-											<span class="help-block">
-												<p th:if="${#fields.hasErrors('surveyId')}"
-													th:errors="*{surveyId}">Incorrect survey id</p>
-											</span>
-										</div>
+										<div
+											th:replace="common/inputsFormControll::addInput(attribute=surveyId,label=#{variables.modify.variable.survey.id},placeholder=#{variables.modify.variable.survey.id},type=text)"></div>
 									</div>
 								</div>
 								<div class="row">
 									<div class=" col-md-6">
-										<div class="form-group has-feedback"
-											th:classappend="${#fields.hasErrors('title')}? has-error : has-success">
-											<label th:text="#{variables.modify.variable.survey.title}">Survey
-												title</label> <input type="text" class="form-control"
-												th:field="*{title}" 
-												th:placeholder="#{variables.modify.variable.survey.title}" />
-											<span class="glyphicon form-control-feedback"
-												th:classappend="${#fields.hasErrors('title')}? glyphicon-remove : glyphicon-ok"></span>
-											<span class="help-block">
-												<p th:if="${#fields.hasErrors('title')}"
-													th:errors="*{title}">Incorrect survey title</p>
-											</span>
-										</div>
+										<div
+											th:replace="common/inputsFormControll::addInput(attribute=title,label=#{variables.modify.variable.survey.title},placeholder=#{variables.modify.variable.survey.title},type=text)"></div>
 									</div>
 								</div>
 								<div class="row">
 									<div class=" col-md-6">
-										<div class="form-group has-feedback"
-											th:classappend="${#fields.hasErrors('variableAlias')}? has-error : has-success">
-											<label
-												th:text="#{variables.modify.variable.survey.variableAlias}">Variable
-												alias </label> <input type="text" class="form-control"
-												th:field="*{variableAlias}" 
-												th:placeholder="#{variables.modify.variable.survey.variableAlias}" />
-											<span class="glyphicon form-control-feedback"
-												th:classappend="${#fields.hasErrors('variableAlias')}? glyphicon-remove : glyphicon-ok"></span>
-											<span class="help-block">
-												<p th:if="${#fields.hasErrors('variableAlias')}"
-													th:errors="*{variableAlias}">Incorrect variable alias</p>
-											</span>
-										</div>
+										<div
+											th:replace="common/inputsFormControll::addInput(attribute=variableAlias,label=#{variables.modify.variable.survey.variableAlias},placeholder=#{variables.modify.variable.survey.variableAlias},type=text)"></div>
 									</div>
 								</div>
 								<div class="row">
-								<div class=" col-md-12">
-									<div class="panel panel-primary">
-									<div class="panel-heading"
-							th:text="#{variables.modify.variable.survey.period}">Erhebungszeitraum</div>
-						<div class="panel-body">
-									<div th:each="err : ${#fields.errors('surveyPeriod')}"
-						class="alert alert-danger">
-						<p th:text="${err}">Error</p>
-					</div>
-					                  
-					                  
-					                   <div class="col-md-6">
-										<div class="form-group has-feedback"
-											th:classappend="${#fields.hasErrors('surveyPeriod.startDate')}? has-error : has-success">
-											<label
-												th:text="#{variables.modify.variable.survey.period.start}">From
-											</label> <input type="date" class="form-control"
-												th:field="*{surveyPeriod.startDate}" 
-												th:placeholder="#{variables.modify.variable.survey.period.start}" />
-											<span class="glyphicon form-control-feedback"
-												th:classappend="${#fields.hasErrors('surveyPeriod.startDate')}? glyphicon-remove : glyphicon-ok"></span>
-											<span class="help-block">
-												<p th:if="${#fields.hasErrors('surveyPeriod.startDate')}"
-													th:errors="*{surveyPeriod.startDate}">Incorrect Start date</p>
-											</span>
+									<div class=" col-md-12">
+										<div class="panel panel-primary">
+											<div class="panel-heading"
+												th:text="#{variables.modify.variable.survey.period}">Erhebungszeitraum</div>
+											<div class="panel-body">
+												<div th:each="err : ${#fields.errors('surveyPeriod')}"
+													class="alert alert-danger">
+													<p th:text="${err}">Error</p>
+												</div>
+												<div class="col-md-6">
+													<div
+														th:replace="common/inputsFormControll::addInput(attribute=surveyPeriod.startDate,label=#{variables.modify.variable.survey.period.start},placeholder=#{variables.modify.variable.survey.period.start},type=date)"></div>
+												</div>
+												<div class="col-md-6">
+													<div
+														th:replace="common/inputsFormControll::addInput(attribute=surveyPeriod.endDate,label=#{variables.modify.variable.survey.period.end},placeholder=#{variables.modify.variable.survey.period.end},type=date)"></div>
+												</div>
+											</div>
 										</div>
 									</div>
-									
-									<div class="col-md-6">
-										<div class="form-group has-feedback"
-											th:classappend="${#fields.hasErrors('surveyPeriod.endDate')}? has-error : has-success">
-											<label
-												th:text="#{variables.modify.variable.survey.period.end}">To
-											</label> <input type="date" class="form-control"
-												th:field="*{surveyPeriod.endDate}" 
-												th:placeholder="#{variables.modify.variable.survey.period.end}" />
-											<span class="glyphicon form-control-feedback"
-												th:classappend="${#fields.hasErrors('surveyPeriod.endDate')}? glyphicon-remove : glyphicon-ok"></span>
-											<span class="help-block">
-												<p th:if="${#fields.hasErrors('surveyPeriod.endDate')}"
-													th:errors="*{surveyPeriod.endDate}">Incorrect End date</p>
-											</span>
-										</div>
-									</div>
-									
-									
-									</div>
-									</div>
-									
-									</div>
-									
 								</div>
-								<button id="removeSurveyButton" type="submit" name="removeSurvey" class="btn"
-									th:text="#{variables.modify.remove}">Remove</button>
-
+								<button
+									th:replace="common/buttons::removeSurveyButton(id=removeSurveyButton,name=removeSurvey)">Remove</button>
 							</th:block>
-							<button id="addSurveyButton" th:if="${variableDocument.variableSurvey == null}"
-								type="submit" name="addSurvey" class="btn"
-								th:text="#{variables.modify.add}">Add</button>
+							<p th:if="${variableDocument.variableSurvey == null}">
+								<button
+									th:replace="common/buttons::addButton(id=addSurveyButton,name=addSurvey)"></button>
+							</p>
 						</div>
 					</div>
 					<div>
-						<button type="submit" class="btn btn-default btn-primary"
-							th:text="#{common.button.submit}">Save</button>
-							<a  th:href="${resource.id.href}" class="btn btn-default" role="button" th:text="#{common.button.cancel}">Cancel</a>
+						<button th:replace="common/buttons::saveButton"></button>
+						<a th:replace="common/buttons::cancelButton">Cancel</a>
 					</div>
 				</form>
 			</div>
 		</div>
 	</div>
 	<div th:include="common/js_libraries::js"></div>
-	<script	src="/js/variables/modify.js"></script>
+	<script src="/js/variables/modify.js"></script>
 </body>
 </html>

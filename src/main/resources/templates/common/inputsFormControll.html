@@ -1,0 +1,41 @@
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-spring4-4.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org" th:lang="${#locale.language}">
+<head>
+</head>
+<body>
+
+<div th:fragment="addInput(attribute,label,placeholder,type)" class="form-group has-feedback" th:classappend="${#fields.hasErrors('__${attribute}__')}? has-error : has-success">
+<label th:text="${label}"></label> 
+<input th:type="${type}" class="form-control" th:field="*{__${attribute}__}" th:placeholder="${placeholder}" /> 
+<span class="glyphicon form-control-feedback" th:classappend="${#fields.hasErrors('__${attribute}__')}? glyphicon-remove : glyphicon-ok"></span>
+<span class="help-block">
+<p th:if="${#fields.hasErrors('__${attribute}__')}" th:errors="*{__${attribute}__}"></p>
+</span>
+</div>	
+
+<div th:fragment="addTextArea(attribute,label,placeholder,rows)" class="form-group has-feedback" th:classappend="${#fields.hasErrors('__${attribute}__')}? has-error : has-success">
+<label th:text="${label}"></label> 
+<textarea th:rows="${rows}" class="form-control" th:field="*{__${attribute}__}" th:placeholder="${placeholder}" ></textarea>								
+<span class="glyphicon form-control-feedback" th:classappend="${#fields.hasErrors('__${attribute}__')}? glyphicon-remove : glyphicon-ok"></span>
+<span class="help-block">
+<p th:if="${#fields.hasErrors('__${attribute}__')}" th:errors="*{__${attribute}__}"></p>
+</span>
+</div>
+
+<div th:fragment="addSelectOptions(attribute,label,valuesMap)" class="form-group has-feedback" th:classappend="${#fields.hasErrors('__${attribute}__')}? has-error : has-success">
+<label th:text="${label}"></label> 
+<select th:field="*{__${attribute}__}" class="form-control" >
+<option value=""></option>
+<p th:each="value: ${__${valuesMap}__}">
+<option th:selected="${value} == *{__${attribute}__}" th:text="${value}" th:value="${value}"></option>
+</p>
+</select>
+<span class="glyphicon form-control-feedback" th:classappend="${#fields.hasErrors('__${attribute}__')}? glyphicon-remove : glyphicon-ok"></span>
+<span class="help-block">
+<p th:if="${#fields.hasErrors('__${attribute}__')}" th:errors="*{__${attribute}__}"></p>
+</span>
+</div>
+					
+</body>
+</html>
