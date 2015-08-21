@@ -9,7 +9,7 @@ import java.lang.annotation.Target;
 import javax.validation.Constraint;
 import javax.validation.Payload;
 
-import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.validation.provider.DataTypesProvider;
+import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.DataTypesProvider;
 
 /**
  * This annotation checks for an input of the datatype field. Only some values are acceptable,

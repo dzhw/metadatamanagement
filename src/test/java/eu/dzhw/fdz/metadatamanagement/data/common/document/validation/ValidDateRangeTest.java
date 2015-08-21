@@ -1,7 +1,7 @@
 /**
  * 
  */
-package eu.dzhw.fdz.metadatamanagement.data.common.validation;
+package eu.dzhw.fdz.metadatamanagement.data.common.document.validation;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
@@ -16,6 +16,7 @@ import org.springframework.validation.Errors;
 
 import eu.dzhw.fdz.metadatamanagement.data.common.documents.DateRange;
 import eu.dzhw.fdz.metadatamanagement.data.common.documents.builders.DateRangeBuilder;
+import eu.dzhw.fdz.metadatamanagement.data.common.documents.validation.ValidDateRange;
 import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.VariableDocument;
 import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.VariableSurvey;
 import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.builders.VariableDocumentBuilder;
@@ -78,6 +79,29 @@ public class ValidDateRangeTest extends AbstractWebTest {
 
     // Assert
     assertEquals(0, errors.getErrorCount());
+  }
+
+  @Test
+  public void testEqualStartDateAndEndDate() {
+
+    // Arrange
+    DateRange surveyPeriod =
+        new DateRangeBuilder().withStartDate(LocalDate.now()).withEndDate(LocalDate.now()).build();
+
+    VariableSurvey variableSurvey =
+        new VariableSurveyBuilder().withSurveyId("SurveyIdIsOkay").withTitle("TitleIsOkay")
+            .withVariableAlias("ThisNameIsOkay").withSurveyPeriod(surveyPeriod).build();
+
+    VariableDocument variableDocument =
+        new VariableDocumentBuilder().withId("ThisIDisOkay").withName("ThisNameIsOkay.")
+            .withQuestion("DefaultQuestion?").withVariableSurvey(variableSurvey).build();
+
+    // Act
+    Errors errors = new BeanPropertyBindingResult(variableDocument, "variableDocument");
+    this.variableDocumentValidator.validate(variableDocument, errors);
+
+    // Assert
+    assertEquals(1, errors.getErrorCount());
   }
 
   @Test

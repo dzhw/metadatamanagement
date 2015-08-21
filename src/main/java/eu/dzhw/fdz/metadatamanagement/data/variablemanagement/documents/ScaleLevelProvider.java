@@ -1,4 +1,4 @@
-package eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.validation.provider;
+package eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents;
 
 import java.util.HashMap;
 import java.util.HashSet;

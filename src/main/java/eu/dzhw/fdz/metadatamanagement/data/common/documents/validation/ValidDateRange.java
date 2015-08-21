@@ -1,4 +1,4 @@
-package eu.dzhw.fdz.metadatamanagement.data.common.validation;
+package eu.dzhw.fdz.metadatamanagement.data.common.documents.validation;
 
 import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;

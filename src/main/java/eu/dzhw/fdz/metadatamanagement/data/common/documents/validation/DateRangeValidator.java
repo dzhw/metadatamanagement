@@ -1,4 +1,4 @@
-package eu.dzhw.fdz.metadatamanagement.data.common.validation;
+package eu.dzhw.fdz.metadatamanagement.data.common.documents.validation;
 
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
