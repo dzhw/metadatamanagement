@@ -24,6 +24,7 @@ import eu.dzhw.fdz.metadatamanagement.web.AbstractWebTest;
  * 
  * @author Amine Limouri
  */
+//TODO depending on json files
 public class VariableSearchControllerTest extends AbstractWebTest {
 
   @Test
@@ -80,7 +81,7 @@ public class VariableSearchControllerTest extends AbstractWebTest {
     VariableSearchPageResource resource =
         (VariableSearchPageResource) ((ModelAndView) mvcResult.getAsyncResult()).getModelMap()
             .get("resource");
-    assertThat(resource.getPage().getContent().size(), is(8));
+    assertThat(resource.getPage().getContent().size(), is(9));
   }
 
   @Test

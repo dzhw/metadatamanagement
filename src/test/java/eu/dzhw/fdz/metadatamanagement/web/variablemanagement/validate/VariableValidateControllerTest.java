@@ -14,6 +14,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import java.util.List;
 
+import org.apache.log4j.Logger;
 import org.junit.Test;
 import org.springframework.test.web.servlet.MvcResult;
 
@@ -26,6 +27,9 @@ import eu.dzhw.fdz.metadatamanagement.web.common.dtos.ValidationResultDto;
  *
  */
 public class VariableValidateControllerTest extends AbstractWebTest {
+  
+  //Logger
+  private static Logger LOGGER = Logger.getLogger(VariableValidateControllerTest.class);
 
   @Test
   public void testvalidateWithMinOneError() throws Exception {
@@ -89,9 +93,9 @@ public class VariableValidateControllerTest extends AbstractWebTest {
       String key = validationResultDto.getErrorMessageMap().keySet().iterator().next();
       List<String> value = validationResultDto.getErrorMessageMap().get(key);
 
-      System.out.println(key);
+      LOGGER.info("Key / Field: " + key);
       for (String error : value) {
-        System.out.println("Error: " + error);
+        LOGGER.info("Error of Field: " + error);
       }
     }  
 

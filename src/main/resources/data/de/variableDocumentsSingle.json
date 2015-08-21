@@ -1,0 +1,45 @@
+
+	{
+		"_class": "eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.VariableDocument",
+		"id": "FdZ_ID01Single",
+		"variableSurvey": {
+			"surveyId": "Ge_ALL_04",
+			"title": "ALLBUS 2014",
+			"surveyPeriod": {
+				"startDate": "2014-03-01",
+				"endDate": "2014-09-30"
+			},
+			"variableAlias": "hours"
+		},
+		"name": "V850S",
+		"dataType": "NUMERIC",
+		"label": "Arbeitsstunden",
+		"question": "Wie viele Stunden Arbeiten Sie pro Woche?",
+		"scaleLevel": "ORDINAL",
+		"answerOptions": [
+			{
+				"code": "1",
+				"label": "0-10"
+			},
+			{
+				"code": "2",
+				"label": "11-20"
+			},
+			{
+				"code": "3",
+				"label": "21-30"
+			},
+			{
+				"code": "4",
+				"label": "31-40"
+			},
+			{
+				"code": "5",
+				"label": "41-50"
+			},
+			{
+				"code": "6",
+				"label": "Mehr als 50"
+			}
+		]
+	}
