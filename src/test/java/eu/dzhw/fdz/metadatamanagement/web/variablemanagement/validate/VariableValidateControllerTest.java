@@ -12,6 +12,8 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.request;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+import java.util.List;
+
 import org.junit.Test;
 import org.springframework.test.web.servlet.MvcResult;
 
@@ -82,6 +84,16 @@ public class VariableValidateControllerTest extends AbstractWebTest {
     ValidationResultDto validationResultDto = (ValidationResultDto) mvcResult.getAsyncResult();
     boolean isEmpty = validationResultDto.getErrorMessageMap().isEmpty();
     int size = validationResultDto.getErrorMessageMap().size();
+
+    if(!isEmpty){
+      String key = validationResultDto.getErrorMessageMap().keySet().iterator().next();
+      List<String> value = validationResultDto.getErrorMessageMap().get(key);
+
+      System.out.println(key);
+      for (String error : value) {
+        System.out.println("Error: " + error);
+      }
+    }  
 
     // Act and Assert
     assertEquals(true, isEmpty);
