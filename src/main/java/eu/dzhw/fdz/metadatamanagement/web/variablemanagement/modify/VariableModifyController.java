@@ -1,7 +1,5 @@
 package eu.dzhw.fdz.metadatamanagement.web.variablemanagement.modify;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.concurrent.Callable;
 
 import javax.servlet.http.HttpServletRequest;
@@ -149,10 +147,6 @@ public class VariableModifyController {
   public Callable<ModelAndView> addAnswerOption(VariableDocument variableDocument,
       BindingResult bindingResult) {
     return () -> {
-      if (variableDocument.getAnswerOptions() == null) {
-        List<AnswerOption> answerOpt = new ArrayList<>();
-        variableDocument.setAnswerOptions(answerOpt);
-      }
       variableDocument.getAnswerOptions().add(new AnswerOption());
       validator.validate(variableDocument, bindingResult);
 
