@@ -74,7 +74,7 @@ public class VariableValidateControllerTest extends AbstractWebTest {
 
     // Arrange
     MvcResult mvcResult = this.mockMvc
-        .perform(post("/de/variables/validate").param(VariableDocument.ID_FIELD, "ID007")
+        .perform(post("/de/variables/validate").param(VariableDocument.ID_FIELD, "UnitTestID007")
             .param(VariableDocument.NAME_FIELD, "Ein Name")
             .param(VariableDocument.QUESTION_FIELD, "Eine Frage?").param("removeSurvey", ""))
         .andExpect(status().isOk()).andExpect(request().asyncStarted())
