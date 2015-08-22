@@ -14,8 +14,8 @@
 			<div class="panel-heading" th:text="#{variables.modify.variableData}">Variableninformationen</div>
 			<div class="panel-body">
 				<!-- Bootstrap form -->
-				<form action="#" th:action="${resource.id.href}"
-					th:attr="data-validate-url=${resource.getLink('validate').href}"
+				<form action="#" th:action="${resource.saveLink}"
+					th:attr="data-validate-url=${resource.validateLink}"
 					th:object="${variableDocument}" method="post" role="form" id="form"
 					oninput="VariableModifyForm.validate(this)">
 					<div th:each="err : ${#fields.errors('global')}"

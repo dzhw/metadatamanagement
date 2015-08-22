@@ -21,7 +21,8 @@ import eu.dzhw.fdz.metadatamanagement.service.variablemanagement.VariableService
 @RequestMapping(path = "/{language:de|en}/variables")
 public class VariableDetailsController {
 
-  private final VariableService variableService;
+  private VariableResourceAssembler variableResourceAssembler;
+  private VariableService variableService;
 
   /**
    * Show variable search page.
@@ -29,8 +30,10 @@ public class VariableDetailsController {
    * @return variableSearch.html
    */
   @Autowired
-  public VariableDetailsController(VariableService variableService) {
+  public VariableDetailsController(VariableService variableService,
+      VariableResourceAssembler variableResourceAssembler) {
     this.variableService = variableService;
+    this.variableResourceAssembler = variableResourceAssembler;
   }
 
   /**
@@ -38,10 +41,9 @@ public class VariableDetailsController {
    * 
    * @return variableSearch.html
    */
-  @RequestMapping(path = "/{id}", method = RequestMethod.GET)
+  @RequestMapping(path = "/{variableId}", method = RequestMethod.GET)
   @ResponseBody
-  public Callable<VariableResource> get(@PathVariable("id") String id,
-      VariableResourceAssembler variableResourceAssembler) {
+  public Callable<VariableResource> get(@PathVariable("variableId") String id) {
     return () -> {
       VariableDocument variableDocument = variableService.get(id);
       if (variableDocument != null) {

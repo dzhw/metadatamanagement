@@ -29,11 +29,12 @@ import eu.dzhw.fdz.metadatamanagement.web.AbstractWebTest;
  * @author Amine Limouri
  *
  */
-public class VariableModifyControllerTest extends AbstractWebTest {
+public class VariableCreateControllerTest extends AbstractWebTest {
 
   @Autowired
   private VariableService variableService;
 
+  // TODO what is this for?
   @Rule
   public ExpectedException thrown = ExpectedException.none();
 

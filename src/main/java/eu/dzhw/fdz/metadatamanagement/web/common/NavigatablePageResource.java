@@ -9,7 +9,7 @@ import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.hateoas.Link;
 import org.springframework.hateoas.ResourceSupport;
 
-import eu.dzhw.fdz.metadatamanagement.web.variablemanagement.modify.VariableModifyController;
+import eu.dzhw.fdz.metadatamanagement.web.variablemanagement.modify.VariableCreateController;
 import eu.dzhw.fdz.metadatamanagement.web.variablemanagement.search.VariableSearchController;
 import eu.dzhw.fdz.metadatamanagement.web.welcome.WelcomeController;
 
@@ -20,8 +20,8 @@ import eu.dzhw.fdz.metadatamanagement.web.welcome.WelcomeController;
  * @param <T> the page controller
  * @author René Reitmann
  */
-public abstract class NavigatablePageResource<T> extends ResourceSupport implements
-    InternationalizedResource {
+public abstract class NavigatablePageResource<T> extends ResourceSupport
+    implements InternationalizedResource {
 
   public static final String VARIABLES_SEARCH_REL = "search";
   public static final String VARIABLES_CREATE_REL = "create";
@@ -35,13 +35,13 @@ public abstract class NavigatablePageResource<T> extends ResourceSupport impleme
   public NavigatablePageResource() {
     this.add(linkTo(
         methodOn(WelcomeController.class, LocaleContextHolder.getLocale().getLanguage()).get())
-        .withRel(HOME_REL));
+            .withRel(HOME_REL));
     this.add(linkTo(
         methodOn(VariableSearchController.class, LocaleContextHolder.getLocale().getLanguage())
             .get(null, null, null)).withRel(VARIABLES_SEARCH_REL));
     this.add(linkTo(
-        methodOn(VariableModifyController.class, LocaleContextHolder.getLocale().getLanguage())
-            .get(null, null)).withRel(VARIABLES_CREATE_REL));
+        methodOn(VariableCreateController.class, LocaleContextHolder.getLocale().getLanguage())
+            .create(null, null)).withRel(VARIABLES_CREATE_REL));
   }
 
   public Link getHomeLink() {
