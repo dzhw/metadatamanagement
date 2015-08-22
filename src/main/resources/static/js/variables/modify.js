@@ -19,7 +19,7 @@ VariableModifyForm.validate = _.debounce(function(form) {
 		var $inputs = $(form).find('.form-control');
 		for (var i = 0; i < $inputs.length; i++) {
 			var error = response.errorMessageMap[$inputs[i].name];
-			$formGroup = $($inputs[i].closest('.form-group'));
+			var $formGroup = $($inputs[i].closest('.form-group'));
 			if (error) {
 				//field has error thus add messages and styles
 				$formGroup.addClass('has-error');
