@@ -1,6 +1,8 @@
 var VariableModifyForm = {};
 
-VariableModifyForm.validate = function(form) {
+// validate the form if the user stopped typing for 200 ms
+VariableModifyForm.validate = _.debounce(function(form) {
+	"use strict";
 	var data = "";
 	var validateUrl = $(form).data('validate-url');
 
@@ -33,10 +35,11 @@ VariableModifyForm.validate = function(form) {
 			}
 		}
 	}, 'json');
-};
+},200);
 
 $(document).ready(function() {
-	// scroll to the button which has just created ne dynamic form fields
+	"use strict";
+	// scroll to the button which has just created dynamic form fields
 	var focusElementId = $('body').data('focus-element-id');
 	if (focusElementId) {		
 		$('html, body').animate({

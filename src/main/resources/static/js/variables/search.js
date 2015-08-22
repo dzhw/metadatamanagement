@@ -1,6 +1,7 @@
 VariableSearchForm = {};
 
-VariableSearchForm.search = function(form) {
+// search if the user stopped typing for 200 ms
+VariableSearchForm.search = _.debounce(function(form) {
 	"use strict";
 	var formData = $(form).serialize();
 	var searchUrl = $(form).attr('action');
@@ -12,7 +13,7 @@ VariableSearchForm.search = function(form) {
 		var newUrl = searchUrl + '?' + formData;
 		history.pushState({}, '', newUrl);
 	});
-};
+},200);
 
 window.onpopstate = function(event) {
 	"use strict";
