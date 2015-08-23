@@ -12,10 +12,10 @@
 			"variableAlias": "hours"
 		},
 		"name": "V850S",
-		"dataType": "NUMERIC",
+		"dataType": "numerisch",
 		"label": "Arbeitsstunden",
 		"question": "Wie viele Stunden Arbeiten Sie pro Woche?",
-		"scaleLevel": "ORDINAL",
+		"scaleLevel": "ordinal",
 		"answerOptions": [
 			{
 				"code": "1",

@@ -12,10 +12,10 @@
 			"variableAlias": "class"
 		},
 		"name": "V850",
-		"dataType": "NUMERIC",
+		"dataType": "numerisch",
 		"label": "Schichtzugehörigkeit",
 		"question": "Zu welcher Schicht gehört Ihrer Meinung nach der Haushalt? Vermutlich zur",
-		"scaleLevel": "ORDINAL",
+		"scaleLevel": "ordinal",
 		"answerOptions": [
 			{
 				"code": "1",
@@ -56,10 +56,10 @@
 			"variableAlias": "sex"
 		},
 		"name": "V81",
-		"dataType": "NUMERIC",
+		"dataType": "numerisch",
 		"label": "Geschlecht",
 		"question": "Geschlecht der befragten Person ohne Befragen eintragen!",
-		"scaleLevel": "NOMINAL",
+		"scaleLevel": "nominal",
 		"answerOptions": [
 			{
 				"code": "1",
@@ -84,10 +84,10 @@
 			"variableAlias": "hiedu"
 		},
 		"name": "V100",
-		"dataType": "NUMERIC",
+		"dataType": "numerisch",
 		"label": "Hochschulabschluss",
 		"question": "Um welche Art von Fachhochschulabschluss handelt es sich dabei? Bitte nennen Sie mir nur den höchsten Abschluss, den Sie erlangt haben.",
-		"scaleLevel": "ORDINAL",
+		"scaleLevel": "ordinal",
 		"answerOptions": [
 			{
 				"code": "0",
@@ -140,10 +140,10 @@
 			"variableAlias": "workh"
 		},
 		"name": "V118",
-		"dataType": "NUMERIC",
+		"dataType": "numerisch",
 		"label": "Arbeitsstunden (hauptberuflich)",
 		"question": "Wie viele Stunden pro Woche arbeiten Sie normalerweise in Ihrem Hauptberuf, einschließlich Überstunden?",
-		"scaleLevel": "METRIC",
+		"scaleLevel": "metrisch",
 		"answerOptions": [
 			{
 				"code": "0",
@@ -172,10 +172,10 @@
 			"variableAlias": "supper"
 		},
 		"name": "V124",
-		"dataType": "NUMERIC",
+		"dataType": "numerisch",
 		"label": "Beaufsichtigte Personen",
 		"question": "Wie viele Personen beaufsichtigen Sie direkt?",
-		"scaleLevel": "ORDINAL",
+		"scaleLevel": "ordinal",
 		"answerOptions": [
 			{
 				"code": "0",
@@ -228,10 +228,10 @@
 			"variableAlias": "clacomp"
 		},
 		"name": "V131",
-		"dataType": "NUMERIC",
+		"dataType": "numerisch",
 		"label": "Stellungsvergleich(Vater)",
 		"question": "Wenn Sie Ihre heutige berufliche Stellung mit der Ihres Vaters vergleichen, wie schätzen Sie Ihreeigene berufliche Stellung ein: viel höher, etwas höher, ungefähr gleich, etwas niedriger, vielniedriger?",
-		"scaleLevel": "ORDINAL",
+		"scaleLevel": "ordinal",
 		"answerOptions": [
 			{
 				"code": "0",
@@ -280,10 +280,10 @@
 			"variableAlias": "citsh"
 		},
 		"name": "V370",
-		"dataType": "NUMERIC",
+		"dataType": "numerisch",
 		"label": "Staatsbürgerschaft",
 		"question": "Welche Staatsbürgerschaft haben Sie? Wenn Sie die Staatsbürgerschaft mehrerer Länder besitzen, nennen Sie mir bitte alle.",
-		"scaleLevel": "NOMINAL",
+		"scaleLevel": "nominal",
 		"answerOptions": [
 			{
 				"code": "0",
@@ -392,10 +392,10 @@
 			"variableAlias": "poldir"
 		},
 		"name": "V215",
-		"dataType": "NUMERIC",
+		"dataType": "numerisch",
 		"label": "Politische Ausrichtung",
 		"question": "Wenn Sie an Ihre eigenen politischen Ansichten denken, wo würden Sie diese Ansichten auf dieser Skala einstufen?",
-		"scaleLevel": "ORDINAL",
+		"scaleLevel": "ordinal",
 		"answerOptions": [
 			{
 				"code": "1",
@@ -456,10 +456,10 @@
 			"variableAlias": "id"
 		},
 		"name": "id_suf",
-		"dataType": "NUMERIC",
+		"dataType": "numerisch",
 		"label": "ID",
 		"question": "Identifikationsnummer",
-		"scaleLevel": "METRIC",
+		"scaleLevel": "metrisch",
 		"answerOptions": [
 			{
 				"code": "0",
@@ -484,10 +484,10 @@
 			"variableAlias": "stuev"
 		},
 		"name": "a1sitstruk",
-		"dataType": "NUMERIC",
+		"dataType": "numerisch",
 		"label": "Studiumsbeurteilung (Strukturietheit)",
 		"question": "Wie beurteilen Sie folgenden Aspekte Ihres Studiums? Strukturiertheit",
-		"scaleLevel": "ORDINAL",
+		"scaleLevel": "ordinal",
 		"answerOptions": [
 			{
 				"code": "-1",
@@ -528,10 +528,10 @@
 			"variableAlias": "stureq"
 		},
 		"name": "klstudber",
-		"dataType": "NUMERIC",
+		"dataType": "numerisch",
 		"label": "Studiumszulassung",
 		"question": "Mit welcher Studienberechtigung haben Sie Ihr (erstes) Studium begonnen",
-		"scaleLevel": "NOMINAL",
+		"scaleLevel": "nominal",
 		"answerOptions": [
 			{
 				"code": "-1",
@@ -568,10 +568,10 @@
 			"variableAlias": "fisu"
 		},
 		"name": "b1leberwan",
-		"dataType": "NUMERIC",
+		"dataType": "numerisch",
 		"label": "Finanzierung  Lebensunterhalt",
 		"question": "Wie finanzierten Sie Ihren Lebensunterhalt während des Studiums zu den unten genannten Zeitpunkten? (prozentuale Angaben)",
-		"scaleLevel": "METRIC",
+		"scaleLevel": "metrisch",
 		"answerOptions": [
 			{
 				"code": "-1",
@@ -596,10 +596,10 @@
 			"variableAlias": "term"
 		},
 		"name": "ssemhsa",
-		"dataType": "NUMERIC",
+		"dataType": "numerisch",
 		"label": "Hochschulsemester (aggregiert)",
 		"question": "Wie viele Semester (einschl. Sommersemester 2012) sind Sie bisher insgesamt an Hochschulen eingeschrieben?",
-		"scaleLevel": "ORDINAL",
+		"scaleLevel": "ordinal",
 		"answerOptions": [
 			{
 				"code": "-3",
@@ -648,10 +648,10 @@
 			"variableAlias": "noemp"
 		},
 		"name": "engrkin",
-		"dataType": "NUMERIC",
+		"dataType": "numerisch",
 		"label": "keine Erwerbstaet. (wg Kind)",
 		"question": "Sind Sie seit Beginn der Vorlesungszeit des Sommersemesters 2012 einer Tätigkeit nachgegangen, mit der Sie Geld verdienen? (nein, wegen Kindererziehung nicht möglich)",
-		"scaleLevel": "NOMINAL",
+		"scaleLevel": "nominal",
 		"answerOptions": [
 			{
 				"code": "-2",
@@ -684,10 +684,10 @@
 			"variableAlias": "nat"
 		},
 		"name": "dnatsta",
-		"dataType": "NUMERIC",
+		"dataType": "numerisch",
 		"label": "Staatsangehörigkeit",
 		"question": "Welche Staatsangehörigkeit(en) haben Sie?",
-		"scaleLevel": "NOMINAL",
+		"scaleLevel": "nominal",
 		"answerOptions": [
 			{
 				"code": "-2",

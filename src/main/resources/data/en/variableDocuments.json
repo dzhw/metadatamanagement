@@ -12,10 +12,10 @@
 			"variableAlias": "con"
 		},
 		"name": "country",
-		"dataType": "NUMERIC",
+		"dataType": "numeric",
 		"label": "country",
 		"question": "What country do you live in?",
-		"scaleLevel": "NOMINAL",
+		"scaleLevel": "nominal",
 		"answerOptions": [
 			{
 				"code": "11",
@@ -80,10 +80,10 @@
 			"variableAlias": "phhe"
 		},
 		"name": "ph005",
-		"dataType": "NUMERIC",
+		"dataType": "numeric",
 		"label": "Physical health",
 		"question": "For the past six months at least, to what extent have you been limited because of health problems in activities people usually do?",
-		"scaleLevel": "ORDINAL",
+		"scaleLevel": "ordinal",
 		"answerOptions": [
 			{
 				"code": "1",
@@ -124,10 +124,10 @@
 			"variableAlias": "beri"
 		},
 		"name": "br010",
-		"dataType": "NUMERIC",
+		"dataType": "numeric",
 		"label": "Behavioural risk",
 		"question": "Please look at card 11. During the last six months, how often have you drunk any alcoholic beverages, like beer, cider, wine, spirits or cocktails?",
-		"scaleLevel": "ORDINAL",
+		"scaleLevel": "ordinal",
 		"answerOptions": [
 			{
 				"code": "1",
@@ -184,10 +184,10 @@
 			"variableAlias": "cofu"
 		},
 		"name": "cf012",
-		"dataType": "NUMERIC",
+		"dataType": "numeric",
 		"label": "cognitive function",
 		"question": "If the chance of getting a disease is 10 per cent, how many people out of 1,000 (one thousand) would be expected to get the disease?",
-		"scaleLevel": "NOMINAL",
+		"scaleLevel": "nominal",
 		"answerOptions": [
 			{
 				"code": "1",
@@ -236,10 +236,10 @@
 			"variableAlias": "mehe"
 		},
 		"name": "mh013",
-		"dataType": "NUMERIC",
+		"dataType": "numeric",
 		"label": "mental health",
 		"question": "In the last month, have you had too little energy to do the things you wanted to do?",
-		"scaleLevel": "NOMINAL",
+		"scaleLevel": "nominal",
 		"answerOptions": [
 			{
 				"code": "1",
@@ -276,10 +276,10 @@
 			"variableAlias": "heca"
 		},
 		"name": "hc005",
-		"dataType": "NUMERIC",
+		"dataType": "numeric",
 		"label": "Health care",
 		"question": "Which of these specialists did you consult most recently?",
-		"scaleLevel": "NOMINAL",
+		"scaleLevel": "nominal",
 		"answerOptions": [
 			{
 				"code": "1",
@@ -360,10 +360,10 @@
 			"variableAlias": "woti"
 		},
 		"name": "ep012_1",
-		"dataType": "NUMERIC",
+		"dataType": "numeric",
 		"label": "Working time",
 		"question": "What are your total basic or contracted hours each week in this job, excluding meal breaks and any paid or unpaid overtime?",
-		"scaleLevel": "METRIC",
+		"scaleLevel": "metric",
 		"answerOptions": [
 			{
 				"code": "0",
@@ -396,10 +396,10 @@
 			"variableAlias": "teab"
 		},
 		"name": "ws003",
-		"dataType": "NUMERIC",
+		"dataType": "numeric",
 		"label": "test ability",
 		"question": "Do you have any problems from recent surgery, an injury, or other health conditions that might prevent you from walking?",
-		"scaleLevel": "NOMINAL",
+		"scaleLevel": "nominal",
 		"answerOptions": [
 			{
 				"code": "1",
@@ -444,10 +444,10 @@
 			"variableAlias": "ch1li"
 		},
 		"name": "ch007",
-		"dataType": "NUMERIC",
+		"dataType": "numeric",
 		"label": "child1 living",
 		"question": "Where does child 1 live?",
-		"scaleLevel": "ORDINAL",
+		"scaleLevel": "ordinal",
 		"answerOptions": [
 			{
 				"code": "1",
@@ -512,10 +512,10 @@
 			"variableAlias": "henho"
 		},
 		"name": "sp003_1",
-		"dataType": "NUMERIC ",
+		"dataType": "numeric ",
 		"label": "help not household",
 		"question": "Which family member from outside the household, friend or neighbour has helped you or your husband/wife/partner in the last twelve months?",
-		"scaleLevel": "NOMINAL",
+		"scaleLevel": "nominal",
 		"answerOptions": [
 			{
 				"code": "1",
@@ -676,10 +676,10 @@
 			"variableAlias": "ampe"
 		},
 		"name": "ft004ub1",
-		"dataType": "NUMERIC",
+		"dataType": "numeric",
 		"label": "Amount Person 1",
 		"question": "About how much did you or your husband/wife/partner give to this person altogether in the last twelve months?",
-		"scaleLevel": "ORDINAL",
+		"scaleLevel": "ordinal",
 		"answerOptions": [
 			{
 				"code": "1",
@@ -736,10 +736,10 @@
 			"variableAlias": "buho"
 		},
 		"name": "ho036",
-		"dataType": "NUMERIC",
+		"dataType": "numeric",
 		"label": "building household",
 		"question": "What type of building does your household live in?",
-		"scaleLevel": "NOMINAL",
+		"scaleLevel": "nominal",
 		"answerOptions": [
 			{
 				"code": "1",
@@ -800,10 +800,10 @@
 			"variableAlias": "sopa"
 		},
 		"name": "hh010",
-		"dataType": "NUMERIC",
+		"dataType": "numeric",
 		"label": "Social Payments",
 		"question": "Some households receive payments such as housing allowances, child benefits, poverty relief etc. Did your household or anyone in your household receive any such payments in 2003?",
-		"scaleLevel": "NOMINAL",
+		"scaleLevel": "nominal",
 		"answerOptions": [
 			{
 				"code": "1",
@@ -840,10 +840,10 @@
 			"variableAlias": "mem"
 		},
 		"name": "co007",
-		"dataType": "NUMERIC",
+		"dataType": "numeric",
 		"label": "make ends meet",
 		"question": "Thinking of your household’s total monthly income, would you say that your household is able to make ends meet …",
-		"scaleLevel": "ORDINAL",
+		"scaleLevel": "ordinal",
 		"answerOptions": [
 			{
 				"code": "1",
@@ -888,10 +888,10 @@
 			"variableAlias": "mufu"
 		},
 		"name": "as017ub",
-		"dataType": "NUMERIC",
+		"dataType": "numeric",
 		"label": "mutual funds",
 		"question": "About how much did you or your husband/wife/partner have in mutual funds or managed investment accounts at the end of 2003?",
-		"scaleLevel": "ORDINAL",
+		"scaleLevel": "ordinal",
 		"answerOptions": [
 			{
 				"code": "1",
@@ -948,10 +948,10 @@
 			"variableAlias": "poor"
 		},
 		"name": "ac003_7",
-		"dataType": "NUMERIC",
+		"dataType": "numeric",
 		"label": "political organisation",
 		"question": "How often in the last four weeks have you taken part in a political or community-related organisation?",
-		"scaleLevel": "ORDINAL",
+		"scaleLevel": "ordinal",
 		"answerOptions": [
 			{
 				"code": "1",
@@ -992,10 +992,10 @@
 			"variableAlias": "class"
 		},
 		"name": "V850",
-		"dataType": "NUMERIC",
+		"dataType": "numeric",
 		"label": "Social Class",
 		"question": "To which class belongs your household? Probably to",
-		"scaleLevel": "ORDINAL",
+		"scaleLevel": "ordinal",
 		"answerOptions": [
 			{
 				"code": "1",
@@ -1036,10 +1036,10 @@
 			"variableAlias": "sex"
 		},
 		"name": "V81",
-		"dataType": "NUMERIC",
+		"dataType": "numeric",
 		"label": "Sex",
 		"question": "Sex of respondent person. Record without questioning",
-		"scaleLevel": "NOMINAL",
+		"scaleLevel": "nominal",
 		"answerOptions": [
 			{
 				"code": "1",
@@ -1064,10 +1064,10 @@
 			"variableAlias": "hiedu"
 		},
 		"name": "V100",
-		"dataType": "NUMERIC",
+		"dataType": "numeric",
 		"label": "Polytechnic degree",
 		"question": "Which kind of polytechnic degree do you have? Just mention the highest degree",
-		"scaleLevel": "ORDINAL",
+		"scaleLevel": "ordinal",
 		"answerOptions": [
 			{
 				"code": "0",
@@ -1120,10 +1120,10 @@
 			"variableAlias": "workh"
 		},
 		"name": "V118",
-		"dataType": "NUMERIC",
+		"dataType": "numeric",
 		"label": "Working hours (main profession)",
 		"question": "How many hours per week do you work in your main profession? Inclusive overtime",
-		"scaleLevel": "METRIC",
+		"scaleLevel": "metric",
 		"answerOptions": [
 			{
 				"code": "0",
@@ -1152,10 +1152,10 @@
 			"variableAlias": "supper"
 		},
 		"name": "V124",
-		"dataType": "NUMERIC",
+		"dataType": "numeric",
 		"label": "Supervising persons",
 		"question": "How many persons are supervising you?",
-		"scaleLevel": "ORDINAL",
+		"scaleLevel": "ordinal",
 		"answerOptions": [
 			{
 				"code": "0",
@@ -1208,10 +1208,10 @@
 			"variableAlias": "clacomp"
 		},
 		"name": "V131",
-		"dataType": "NUMERIC",
+		"dataType": "numeric",
 		"label": "Comparison occupational status (father)",
 		"question": "If you compare your occupational status with your fathers, how would you rate your status: much higher, a little higher, about the same,  a little lower, much lower",
-		"scaleLevel": "ORDINAL",
+		"scaleLevel": "ordinal",
 		"answerOptions": [
 			{
 				"code": "0",
@@ -1260,10 +1260,10 @@
 			"variableAlias": "citsh"
 		},
 		"name": "V370",
-		"dataType": "NUMERIC",
+		"dataType": "numeric",
 		"label": "Citizenship",
 		"question": "Which citizenship do you have? If you have more then one citizenhip please mention all.",
-		"scaleLevel": "NOMINAL",
+		"scaleLevel": "nominal",
 		"answerOptions": [
 			{
 				"code": "0",
@@ -1372,10 +1372,10 @@
 			"variableAlias": "poldir"
 		},
 		"name": "V215",
-		"dataType": "NUMERIC",
+		"dataType": "numeric",
 		"label": "Political attitude",
 		"question": "If you think about your own political attitude, where at this scale would you classify yourself?",
-		"scaleLevel": "ORDINAL",
+		"scaleLevel": "ordinal",
 		"answerOptions": [
 			{
 				"code": "1",
@@ -1436,10 +1436,10 @@
 			"variableAlias": "id"
 		},
 		"name": "id_suf",
-		"dataType": "NUMERIC",
+		"dataType": "numeric",
 		"label": "ID",
 		"question": "Identification number",
-		"scaleLevel": "METRIC",
+		"scaleLevel": "metric",
 		"answerOptions": [
 			{
 				"code": "0",
@@ -1464,10 +1464,10 @@
 			"variableAlias": "stuev"
 		},
 		"name": "a1sitstruk",
-		"dataType": "NUMERIC",
+		"dataType": "numeric",
 		"label": "Judgement of academic studies (structuredness)",
 		"question": "How would you judge the following aspects of your academic studies? Structuredness",
-		"scaleLevel": "ORDINAL",
+		"scaleLevel": "ordinal",
 		"answerOptions": [
 			{
 				"code": "-1",
@@ -1508,10 +1508,10 @@
 			"variableAlias": "stureq"
 		},
 		"name": "klstudber",
-		"dataType": "NUMERIC",
+		"dataType": "numeric",
 		"label": "Admission for academic studies",
 		"question": "Which qualifications did you have for your (first) academic studies?",
-		"scaleLevel": "NOMINAL",
+		"scaleLevel": "nominal",
 		"answerOptions": [
 			{
 				"code": "-1",
@@ -1548,10 +1548,10 @@
 			"variableAlias": "fisu"
 		},
 		"name": "b1leberwan",
-		"dataType": "NUMERIC",
+		"dataType": "numeric",
 		"label": "livelihood finance",
 		"question": "How do you fund your livelihood, while studying by the mentionend times?",
-		"scaleLevel": "METRIC",
+		"scaleLevel": "metric",
 		"answerOptions": [
 			{
 				"code": "-1",
@@ -1576,10 +1576,10 @@
 			"variableAlias": "term"
 		},
 		"name": "ssemhsa",
-		"dataType": "NUMERIC",
+		"dataType": "numeric",
 		"label": "University semester (aggregated)",
 		"question": "How many semesters (incl. summer semester 2012) are u registered at universities?",
-		"scaleLevel": "ORDINAL",
+		"scaleLevel": "ordinal",
 		"answerOptions": [
 			{
 				"code": "-3",
@@ -1628,10 +1628,10 @@
 			"variableAlias": "noemp"
 		},
 		"name": "engrkin",
-		"dataType": "NUMERIC",
+		"dataType": "numeric",
 		"label": "not employed (parenting)",
 		"question": "Do you work for money, since the summer semester 2012 started? (not possible because of parenting)",
-		"scaleLevel": "NOMINAL",
+		"scaleLevel": "nominal",
 		"answerOptions": [
 			{
 				"code": "-2",
@@ -1664,10 +1664,10 @@
 			"variableAlias": "nat"
 		},
 		"name": "dnatsta",
-		"dataType": "NUMERIC",
+		"dataType": "numeric",
 		"label": "Nationality",
 		"question": "Which citizenship do you have?",
-		"scaleLevel": "NOMINAL",
+		"scaleLevel": "nominal",
 		"answerOptions": [
 			{
 				"code": "-2",

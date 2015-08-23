@@ -6,6 +6,7 @@ import java.util.concurrent.Callable;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.mvc.ControllerLinkBuilderFactory;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BeanPropertyBindingResult;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -52,7 +53,12 @@ public class VariableEditController extends AbstractVariableModifyController {
   public Callable<ModelAndView> edit(@PathVariable("variableId") String variableId) {
     return () -> {
       VariableDocument variableDocument = variableService.get(variableId);
-      return createModelAndView(variableDocument, Optional.empty());
+      BeanPropertyBindingResult errors =
+          new BeanPropertyBindingResult(variableDocument, "variableDocument");
+      validator.validate(variableDocument, errors);
+      ModelAndView modelAndView = createModelAndView(variableDocument, Optional.empty());
+      modelAndView.addAllObjects(errors.getModel());
+      return modelAndView;
     };
   }
 
