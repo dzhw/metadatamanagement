@@ -1,0 +1,16 @@
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-spring4-4.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org" th:lang="${#locale.language}">
+<head>
+</head>
+<body>
+	<!-- add div element which contains text of global errors -->
+	<div th:fragment="globalAlerts(name,field)" class="global"
+		th:name="${name}">
+		<div th:each="err : ${#fields.errors('__${field}__')}"
+			class="alert alert-danger">
+			<p th:text="${err}">Error</p>
+		</div>
+	</div>
+</body>
+</html>
