@@ -22,6 +22,12 @@
 						class="alert alert-danger" name=''>
 						<p th:text="${err}">Error</p>
 					</div>
+					<div class="global" th:name='variableDocument'>
+						<div th:each="err : ${#fields.errors('global')}"
+							class="alert alert-danger">
+							<p th:text="${err}">Error</p>
+						</div>
+					</div>
 					<div class="row">
 						<div class="col-md-6">
 							<div
@@ -58,11 +64,11 @@
 						<div class="panel-heading"
 							th:text="#{variables.modify.variable.answerOptions}">Antwortoptionen</div>
 						<div class="panel-body">
-						<div class="global" th:name="answerOptions">
-							<div th:each="err : ${#fields.errors('answerOptions')}"
-								class="alert alert-danger">
-								<p th:text="${err}">Error</p>
-							</div>
+							<div class="global" th:name="answerOptions">
+								<div th:each="err : ${#fields.errors('answerOptions')}"
+									class="alert alert-danger">
+									<p th:text="${err}">Error</p>
+								</div>
 							</div>
 							<div th:each="answerOption, rowStat : *{answerOptions}"
 								class="row">
@@ -91,6 +97,14 @@
 						<div class="panel-body">
 							<th:block th:if="${variableDocument.variableSurvey != null}"
 								th:object="${variableDocument.variableSurvey}">
+
+								<div class="global" th:name='variableSurvey'>
+									<div th:each="err : ${#fields.errors('global')}"
+										class="alert alert-danger">
+										<p th:text="${err}">Error</p>
+									</div>
+								</div>
+
 								<div class="row">
 									<div class=" col-md-6">
 										<div
@@ -115,11 +129,11 @@
 											<div class="panel-heading"
 												th:text="#{variables.modify.variable.survey.period}">Erhebungszeitraum</div>
 											<div class="panel-body">
-											<div class="global" th:name='variableSurvey.surveyPeriod'>
-												<div th:each="err : ${#fields.errors('surveyPeriod')}"
-													class="alert alert-danger global">
-													<p th:text="${err}">Error</p>
-												</div>
+												<div class="global" th:name='variableSurvey.surveyPeriod'>
+													<div th:each="err : ${#fields.errors('surveyPeriod')}"
+														class="alert alert-danger">
+														<p th:text="${err}">Error</p>
+													</div>
 												</div>
 												<div class="col-md-6">
 													<div
