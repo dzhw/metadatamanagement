@@ -41,27 +41,20 @@ public class VariableResourceTest {
     variableResource.getVariableDocument().setName("1");
     VariableResource variableResource2 = new VariableResource(new VariableDocument());
     variableResource2.getVariableDocument().setName("2");
-    VariableResource variableResource3 = new VariableResource(null);
-    VariableResource variableResource4 = new VariableResource(null);
-    VariableResource variableResource5 = new VariableResource(new VariableDocument());
-    variableResource5.getVariableDocument().setName("2");
-    
+        
     //Act
     boolean checkSame = variableResource.equals(variableResource);
     boolean checkNull = variableResource.equals(null);
     boolean checkOtherClass = variableResource.equals(new ResourceSupport());
-    boolean checkVariableDocumentNone = variableResource3.equals(variableResource4);
-    boolean checkVariableDocumentOther = variableResource3.equals(variableResource2);
-    boolean checkVariableDocumentBoth = variableResource.equals(variableResource2);
-    boolean checkVariableDocumentBothSame = variableResource5.equals(variableResource2);
+    boolean checkVariableDocumentOther = variableResource.equals(variableResource2);
+    variableResource2.getVariableDocument().setName("1");
+    boolean checkVariableDocumentBothSame = variableResource.equals(variableResource2);
     
     //Assert
     assertEquals(true, checkSame);
     assertEquals(false, checkNull);
     assertEquals(false, checkOtherClass);    
-    assertEquals(true, checkVariableDocumentNone);
     assertEquals(false, checkVariableDocumentOther);
-    assertEquals(false, checkVariableDocumentBoth);
     assertEquals(true, checkVariableDocumentBothSame);
     
   }

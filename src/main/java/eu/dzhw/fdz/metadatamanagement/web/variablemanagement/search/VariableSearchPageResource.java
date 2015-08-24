@@ -8,6 +8,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.hateoas.PagedResources;
 import org.springframework.hateoas.mvc.ControllerLinkBuilderFactory;
 
+import com.google.common.base.Objects;
+
 import eu.dzhw.fdz.metadatamanagement.config.i18n.I18nConfiguration;
 import eu.dzhw.fdz.metadatamanagement.web.common.NavigatablePageResource;
 import eu.dzhw.fdz.metadatamanagement.web.variablemanagement.details.VariableResource;
@@ -47,39 +49,30 @@ public class VariableSearchPageResource extends NavigatablePageResource<Variable
 
   /*
    * (non-Javadoc)
+   * 
    * @see org.springframework.hateoas.ResourceSupport#hashCode()
    */
   @Override
   public int hashCode() {
-    final int prime = 31;
-    int result = super.hashCode();
-    result = prime * result + ((this.page == null) ? 0 : this.page.hashCode());
-    return result;
+    return Objects.hashCode(super.hashCode(), page);
   }
 
   /*
    * (non-Javadoc)
+   * 
    * @see org.springframework.hateoas.ResourceSupport#equals(java.lang.Object)
    */
   @Override
-  public boolean equals(Object obj) {
-    if (this == obj) {
-      return true;
-    }
-    if (!super.equals(obj)) {
-      return false;
-    }
-    if (getClass() != obj.getClass()) {
-      return false;
-    }
-    VariableSearchPageResource other = (VariableSearchPageResource) obj;
-    if (this.page == null) {
-      if (other.page != null) {
+  public boolean equals(Object object) {
+    if (object != null && getClass() == object.getClass()) {
+      if (!super.equals(object)) {
         return false;
-      }
-    } else if (!this.page.equals(other.page)) {
-      return false;
+      }  
+      VariableSearchPageResource that = (VariableSearchPageResource) object;
+      return Objects.equal(this.page, that.page);
     }
-    return true;
+    return false;
   }
+
+
 }
