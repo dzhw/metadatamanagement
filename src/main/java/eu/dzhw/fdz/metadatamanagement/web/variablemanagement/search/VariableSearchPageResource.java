@@ -36,8 +36,9 @@ public class VariableSearchPageResource extends NavigatablePageResource<Variable
     super();
     this.page = page;
     for (Locale supportedLocale : I18nConfiguration.SUPPORTED_LANGUAGES) {
-      this.add(factory.linkTo(methodOn(pageController, supportedLocale).get(null, query, pageable))
-          .withRel(supportedLocale.getLanguage()));
+      this.add(
+          factory.linkTo(methodOn(pageController, supportedLocale).get(null, query, pageable, null))
+              .withRel(supportedLocale.getLanguage()));
     }
   }
 
@@ -47,6 +48,7 @@ public class VariableSearchPageResource extends NavigatablePageResource<Variable
 
   /*
    * (non-Javadoc)
+   * 
    * @see org.springframework.hateoas.ResourceSupport#hashCode()
    */
   @Override
@@ -59,6 +61,7 @@ public class VariableSearchPageResource extends NavigatablePageResource<Variable
 
   /*
    * (non-Javadoc)
+   * 
    * @see org.springframework.hateoas.ResourceSupport#equals(java.lang.Object)
    */
   @Override
