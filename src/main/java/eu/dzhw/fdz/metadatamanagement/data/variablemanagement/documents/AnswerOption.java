@@ -3,6 +3,9 @@ package eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
+import com.google.common.base.MoreObjects;
+import com.google.common.base.Objects;
+
 import net.karneim.pojobuilder.GeneratePojoBuilder;
 
 /**
@@ -31,6 +34,40 @@ public class AnswerOption {
   @Size(max = 60)
   private String label;
 
+  /*
+   * (non-Javadoc)
+   * 
+   * @see java.lang.Object#toString()
+   */
+  @Override
+  public String toString() {
+    return MoreObjects.toStringHelper(this).add("code", code).add("label", label).toString();
+  }
+
+  /*
+   * (non-Javadoc)
+   * 
+   * @see java.lang.Object#hashCode()
+   */
+  @Override
+  public int hashCode() {
+    return Objects.hashCode(code, label);
+  }
+
+  /*
+   * (non-Javadoc)
+   * 
+   * @see java.lang.Object#equals(java.lang.Object)
+   */
+  @Override
+  public boolean equals(Object object) {
+    if (object != null && getClass() == object.getClass()) {
+      AnswerOption that = (AnswerOption) object;
+      return Objects.equal(this.code, that.code) && Objects.equal(this.label, that.label);
+    }
+    return false;
+  }
+
   public Integer getCode() {
     return code;
   }
@@ -45,51 +82,5 @@ public class AnswerOption {
 
   public void setLabel(String label) {
     this.label = label;
-  }
-
-  /*
-   * (non-Javadoc)
-   * @see java.lang.Object#hashCode()
-   */
-  @Override
-  public int hashCode() {
-    final int prime = 31;
-    int result = 1;
-    result = prime * result + ((this.code == null) ? 0 : this.code.hashCode());
-    result = prime * result + ((this.label == null) ? 0 : this.label.hashCode());
-    return result;
-  }
-
-  /*
-   * (non-Javadoc)
-   * @see java.lang.Object#equals(java.lang.Object)
-   */
-  @Override
-  public boolean equals(Object obj) {
-    if (this == obj) {
-      return true;
-    }
-    if (obj == null) {
-      return false;
-    }
-    if (getClass() != obj.getClass()) {
-      return false;
-    }
-    AnswerOption other = (AnswerOption) obj;
-    if (this.code == null) {
-      if (other.code != null) {
-        return false;
-      }
-    } else if (!this.code.equals(other.code)) {
-      return false;
-    }
-    if (this.label == null) {
-      if (other.label != null) {
-        return false;
-      }
-    } else if (!this.label.equals(other.label)) {
-      return false;
-    }
-    return true;
   }
 }
