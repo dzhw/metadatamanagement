@@ -15,14 +15,14 @@ VariableModifyForm.validate = _.debounce(function(form) {
 		$(form).find('.help-block').empty();
 		$(form).find('.form-control-feedback').removeClass('glyphicon-remove');
 		$(form).find('.form-control-feedback').removeClass('glyphicon-ok');
-		$(form).find('.global').removeClass('alert alert-danger');
-		$(form).find('.global').empty();
+		$(form).find('.globalError').removeClass('alert alert-danger');
+		$(form).find('.globalError').empty();
 
 		var $inputs = $(form).find('.form-control');
-		var $globalErrorDivs = $(form).find('.global');
+		var $globalErrorDivs = $(form).find('.globalError');
 		
 		for (var j = 0; j < $globalErrorDivs.length; j++){
-			var globalError = response.errorMessageMap[$($globalErrorDivs[j]).attr('name')];
+			var globalError = response.errorMessageMap[$globalErrorDivs[j].id];
 			if(globalError){
 				  $($globalErrorDivs[j]).first().addClass('alert alert-danger');
 				$($globalErrorDivs[j]).html(

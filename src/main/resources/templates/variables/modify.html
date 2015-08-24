@@ -18,7 +18,7 @@
 					th:attr="data-validate-url=${resource.validateLink}"
 					th:object="${variableDocument}" method="post" role="form" id="form"
 					oninput="VariableModifyForm.validate(this)">
-					<div th:replace="common/errorAlerts::globalAlerts(name=variableDocument,field=global)"></div>
+					<div th:replace="common/errorAlerts::globalAlerts(field=global)"></div>
 					<div class="row">
 						<div class="col-md-6">
 							<div
@@ -55,7 +55,7 @@
 						<div class="panel-heading"
 							th:text="#{variables.modify.variable.answerOptions}">Antwortoptionen</div>
 						<div class="panel-body">
-							<div th:replace="common/errorAlerts::globalAlerts(name=answerOptions,field=answerOptions)"></div>
+							<div th:replace="common/errorAlerts::globalAlerts(field=answerOptions)"></div>
 							<div th:each="answerOption, rowStat : *{answerOptions}"
 								class="row">
 								<div class="col-md-5">
@@ -81,25 +81,25 @@
 						<div class="panel-heading"
 							th:text="#{variables.modify.variable.surveyData}">Erhebungsdaten</div>
 						<div class="panel-body">
-							<th:block th:if="${variableDocument.variableSurvey != null}"
-								th:object="${variableDocument.variableSurvey}">
-								<div th:replace="common/errorAlerts::globalAlerts(name=variableSurvey,field=global)"></div>
+							<th:block th:if="${variableDocument.variableSurvey != null}">
+							<!-- 	th:object="${variableDocument.variableSurvey}"> -->
+								<div th:replace="common/errorAlerts::globalAlerts(field=variableSurvey)"></div>
 								<div class="row">
 									<div class=" col-md-6">
 										<div
-											th:replace="common/inputs::input(field=surveyId,label=#{variables.modify.variable.survey.id},placeholder=#{variables.modify.variable.survey.id},type=text)"></div>
+											th:replace="common/inputs::input(field=variableSurvey.surveyId,label=#{variables.modify.variable.survey.id},placeholder=#{variables.modify.variable.survey.id},type=text)"></div>
 									</div>
 								</div>
 								<div class="row">
 									<div class=" col-md-6">
 										<div
-											th:replace="common/inputs::input(field=title,label=#{variables.modify.variable.survey.title},placeholder=#{variables.modify.variable.survey.title},type=text)"></div>
+											th:replace="common/inputs::input(field=variableSurvey.title,label=#{variables.modify.variable.survey.title},placeholder=#{variables.modify.variable.survey.title},type=text)"></div>
 									</div>
 								</div>
 								<div class="row">
 									<div class=" col-md-6">
 										<div
-											th:replace="common/inputs::input(field=variableAlias,label=#{variables.modify.variable.survey.variableAlias},placeholder=#{variables.modify.variable.survey.variableAlias},type=text)"></div>
+											th:replace="common/inputs::input(field=variableSurvey.variableAlias,label=#{variables.modify.variable.survey.variableAlias},placeholder=#{variables.modify.variable.survey.variableAlias},type=text)"></div>
 									</div>
 								</div>
 								<div class="row">
@@ -108,14 +108,14 @@
 											<div class="panel-heading"
 												th:text="#{variables.modify.variable.survey.period}">Erhebungszeitraum</div>
 											<div class="panel-body">
-												<div th:replace="common/errorAlerts::globalAlerts(name=variableSurvey.surveyPeriod,field=surveyPeriod)"></div>
+												<div th:replace="common/errorAlerts::globalAlerts(field=variableSurvey.surveyPeriod)"></div>
 												<div class="col-md-6">
 													<div
-														th:replace="common/inputs::input(field=surveyPeriod.startDate,label=#{variables.modify.variable.survey.period.start},placeholder=#{variables.modify.variable.survey.period.start},type=date)"></div>
+														th:replace="common/inputs::input(field=variableSurvey.surveyPeriod.startDate,label=#{variables.modify.variable.survey.period.start},placeholder=#{variables.modify.variable.survey.period.start},type=date)"></div>
 												</div>
 												<div class="col-md-6">
 													<div
-														th:replace="common/inputs::input(field=surveyPeriod.endDate,label=#{variables.modify.variable.survey.period.end},placeholder=#{variables.modify.variable.survey.period.end},type=date)"></div>
+														th:replace="common/inputs::input(field=variableSurvey.surveyPeriod.endDate,label=#{variables.modify.variable.survey.period.end},placeholder=#{variables.modify.variable.survey.period.end},type=date)"></div>
 												</div>
 											</div>
 										</div>
