@@ -1,5 +1,7 @@
 package eu.dzhw.fdz.metadatamanagement.data.common.documents;
 
+import java.util.Arrays;
+
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
@@ -8,7 +10,7 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.elasticsearch.annotations.Document;
 import org.springframework.data.elasticsearch.annotations.Setting;
 
-import com.google.common.base.Objects;
+import com.google.common.base.MoreObjects;
 
 import eu.dzhw.fdz.metadatamanagement.data.common.PopulatorUtils;
 import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.validation.UniqueId;
@@ -41,22 +43,23 @@ public abstract class AbstractDocument {
   @Pattern(regexp = "^[0-9a-zA-Z_-]*")
   private String id;
 
-  /* GETTER / SETTER */
-  public String getId() {
-    return id;
+  /*
+   * (non-Javadoc)
+   * @see java.lang.Object#toString()
+   */
+  @Override
+  public String toString() {
+    return MoreObjects.toStringHelper(this).add("id", Arrays.deepToString(new Object[] {id}))
+        .toString();
   }
-
-  public void setId(String id) {
-    this.id = id;
-  }
-
+  
   /*
    * (non-Javadoc)
    * @see java.lang.Object#hashCode()
    */
   @Override
   public int hashCode() {
-    return Objects.hashCode(id);
+    return Arrays.deepHashCode(new Object[] {id});
   }
 
   /*
@@ -65,11 +68,20 @@ public abstract class AbstractDocument {
    */
   @Override
   public boolean equals(Object object) {
-    if (object instanceof AbstractDocument) {
+    if (object != null && getClass() == object.getClass()) {
       AbstractDocument that = (AbstractDocument) object;
-      return Objects.equal(this.id, that.id);
+      return Arrays.deepEquals(new Object[] {this.id}, new Object[] {that.id});
     }
     return false;
   }
-  
+     
+
+  /* GETTER / SETTER */
+  public String getId() {
+    return id;
+  }
+
+  public void setId(String id) {
+    this.id = id;
+  }  
 }

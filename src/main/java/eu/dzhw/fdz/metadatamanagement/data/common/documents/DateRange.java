@@ -2,6 +2,9 @@ package eu.dzhw.fdz.metadatamanagement.data.common.documents;
 
 import java.time.LocalDate;
 
+import com.google.common.base.MoreObjects;
+import com.google.common.base.Objects;
+
 import net.karneim.pojobuilder.GeneratePojoBuilder;
 
 /**
@@ -35,8 +38,36 @@ public class DateRange {
    */
   @Override
   public String toString() {
-    return "DateRange [startDate=" + startDate + ", endDate=" + endDate + "]";
+    return MoreObjects.toStringHelper(this).add("startDate", startDate).add("endDate", endDate)
+        .toString();
   }
+
+  /*
+   * (non-Javadoc)
+   * 
+   * @see java.lang.Object#hashCode()
+   */
+  @Override
+  public int hashCode() {
+    return Objects.hashCode(startDate, endDate);
+  }
+
+  /*
+   * (non-Javadoc)
+   * 
+   * @see java.lang.Object#equals(java.lang.Object)
+   */
+  @Override
+  public boolean equals(Object object) {
+    if (object != null && getClass() == object.getClass()) {
+      DateRange that = (DateRange) object;
+      return Objects.equal(this.startDate, that.startDate)
+          && Objects.equal(this.endDate, that.endDate);
+    }
+    return false;
+  }
+
+
 
   /* GETTER / SETTER */
   public LocalDate getStartDate() {
@@ -53,53 +84,5 @@ public class DateRange {
 
   public void setEndDate(LocalDate endDate) {
     this.endDate = endDate;
-  }
-
-  /*
-   * (non-Javadoc)
-   * 
-   * @see java.lang.Object#hashCode()
-   */
-  @Override
-  public int hashCode() {
-    final int prime = 31;
-    int result = 1;
-    result = prime * result + ((this.endDate == null) ? 0 : this.endDate.hashCode());
-    result = prime * result + ((this.startDate == null) ? 0 : this.startDate.hashCode());
-    return result;
-  }
-
-  /*
-   * (non-Javadoc)
-   * 
-   * @see java.lang.Object#equals(java.lang.Object)
-   */
-  @Override
-  public boolean equals(Object obj) {
-    if (this == obj) {
-      return true;
-    }
-    if (obj == null) {
-      return false;
-    }
-    if (getClass() != obj.getClass()) {
-      return false;
-    }
-    DateRange other = (DateRange) obj;
-    if (this.endDate == null) {
-      if (other.endDate != null) {
-        return false;
-      }
-    } else if (!this.endDate.equals(other.endDate)) {
-      return false;
-    }
-    if (this.startDate == null) {
-      if (other.startDate != null) {
-        return false;
-      }
-    } else if (!this.startDate.equals(other.startDate)) {
-      return false;
-    }
-    return true;
   }
 }

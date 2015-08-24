@@ -378,7 +378,9 @@ public class VariableDocumentTest extends AbstractWebTest {
 
     // Assert
     assertEquals(
-        "VariableDocument [variableSurvey=null, name=null, dataType=null, label=null, scaleLevel=null, answerOptions=[]]",
+        "VariableDocument [variableSurvey=null, name=null, dataType=null, label=null, "
+        + "question=null, scaleLevel=null, answerOptions=[], "
+        + "toString()=VariableDocument{id=[null]}]",
         variableDocument.toString());
   }
 
@@ -393,8 +395,9 @@ public class VariableDocumentTest extends AbstractWebTest {
 
     // Assert
     assertEquals(
-        "VariableDocument [variableSurvey=VariableSurvey [surveyId=null, title=null, surveyPeriod=null, "
-            + "variableAlias=null], name=null, dataType=null, label=null, scaleLevel=null, answerOptions=[]]",
+        "VariableDocument [variableSurvey=VariableSurvey{surveyId=null, title=null, "
+        + "surveyPeriod=null, variableAlias=null}, name=null, dataType=null, label=null, "
+        + "question=null, scaleLevel=null, answerOptions=[], toString()=VariableDocument{id=[null]}]",
         variableDocument.toString());
   }
 
@@ -411,9 +414,10 @@ public class VariableDocumentTest extends AbstractWebTest {
 
     // Assert
     assertEquals(
-        "VariableDocument [variableSurvey=VariableSurvey [surveyId=null, title=null, "
-            + "surveyPeriod=DateRange [startDate=null, endDate=null], variableAlias=null], name=null, "
-            + "dataType=null, label=null, scaleLevel=null, answerOptions=[]]",
+        "VariableDocument [variableSurvey=VariableSurvey{surveyId=null, title=null, "
+        + "surveyPeriod=DateRange{startDate=null, endDate=null}, variableAlias=null}, "
+        + "name=null, dataType=null, label=null, question=null, scaleLevel=null, "
+        + "answerOptions=[], toString()=VariableDocument{id=[null]}]",
         variableDocument.toString());
   }
 
@@ -432,9 +436,10 @@ public class VariableDocumentTest extends AbstractWebTest {
 
     // Assert
     assertEquals(
-        "VariableDocument [variableSurvey=VariableSurvey [surveyId=null, title=null, "
-            + "surveyPeriod=DateRange [startDate=2015-01-01, endDate=2015-02-01], variableAlias=null], "
-            + "name=null, dataType=null, label=null, scaleLevel=null, answerOptions=[]]",
+        "VariableDocument [variableSurvey=VariableSurvey{surveyId=null, title=null, "
+        + "surveyPeriod=DateRange{startDate=2015-01-01, endDate=2015-02-01}, "
+        + "variableAlias=null}, name=null, dataType=null, label=null, question=null, "
+        + "scaleLevel=null, answerOptions=[], toString()=VariableDocument{id=[null]}]",
         variableDocument.toString());
   }
 
@@ -453,7 +458,7 @@ public class VariableDocumentTest extends AbstractWebTest {
     assertThat(errors.getFieldError(VariableDocument.QUESTION_FIELD).getCode(),
         is(NotBlank.class.getSimpleName()));
   }
-  
+
   @Test
   public void testRemoveAnswerOption() {
     // Arrange
@@ -461,8 +466,9 @@ public class VariableDocumentTest extends AbstractWebTest {
     answerOptions.add(new AnswerOptionBuilder().withCode(1).withLabel("Label 1").build());
     answerOptions.add(new AnswerOptionBuilder().withCode(2).build());
     answerOptions.add(new AnswerOptionBuilder().withCode(3).withLabel("Label 3").build());
-    VariableDocument variableDocument = new VariableDocumentBuilder().withId("ThisIDisOkay")
-        .withName("ThisNameIsOkay.").withQuestion("DefaultQuestion?").withAnswerOptions(answerOptions).build();
+    VariableDocument variableDocument =
+        new VariableDocumentBuilder().withId("ThisIDisOkay").withName("ThisNameIsOkay.")
+            .withQuestion("DefaultQuestion?").withAnswerOptions(answerOptions).build();
 
     // Act
     AnswerOption answerOption1 = variableDocument.removeAnswerOption(1);
@@ -489,8 +495,8 @@ public class VariableDocumentTest extends AbstractWebTest {
     boolean checkNull = variableDocument.addAnswerOption(null);
     boolean checkValidCompleteAnswerOption = variableDocument
         .addAnswerOption(new AnswerOptionBuilder().withCode(1).withLabel("Label").build());
-    boolean checkEmptyAnswerOption = variableDocument
-        .addAnswerOption(new AnswerOptionBuilder().build());
+    boolean checkEmptyAnswerOption =
+        variableDocument.addAnswerOption(new AnswerOptionBuilder().build());
 
     // Assert
     assertEquals(false, checkNull);
@@ -520,15 +526,15 @@ public class VariableDocumentTest extends AbstractWebTest {
     VariableDocument variableDocument = new VariableDocumentBuilder().withId("ThisIDisOkay")
         .withName("ThisNameIsOkay.").withQuestion("DefaultQuestion?").build();
     VariableDocument variableDocument2 = new VariableDocumentBuilder().build();
-    
+
     VariableSurvey variableSurvey = new VariableSurveyBuilder().withSurveyId("ID1").build();
     VariableSurvey variableSurvey2 = new VariableSurveyBuilder().withSurveyId("ID2").build();
-    
+
     List<AnswerOption> answerOptions = new ArrayList<>();
     answerOptions.add(new AnswerOptionBuilder().withCode(1).withLabel("Label1").build());
     List<AnswerOption> answerOptions2 = new ArrayList<>();
     answerOptions2.add(new AnswerOptionBuilder().withCode(2).withLabel("Label2").build());
-    
+
     // Act
     boolean checkNull = variableDocument.equals(null);
     boolean checkDifferentClass = variableDocument.equals(new Object());
@@ -550,13 +556,15 @@ public class VariableDocumentTest extends AbstractWebTest {
     variableDocument2.setScaleLevel("ordinal");
     boolean checkDifferentScaleLevel = variableDocument.equals(variableDocument2);
     variableDocument2.setScaleLevel("metric");
+    variableDocument.setAnswerOptions(answerOptions);
+    variableDocument2.setAnswerOptions(answerOptions2);
     boolean checkDifferentAnswerOptions = variableDocument.equals(variableDocument2);
 
     // Assert
     assertEquals(false, checkNull);
     assertEquals(false, checkDifferentClass);
     assertEquals(false, checkDifferentVariableDocument);
-    assertEquals(true, checkSame);    
+    assertEquals(true, checkSame);
     assertEquals(false, checkDifferentSurvey);
     assertEquals(false, checkDifferentName);
     assertEquals(false, checkDifferentLabel);

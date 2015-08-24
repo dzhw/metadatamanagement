@@ -33,6 +33,11 @@ public class VariableResourceAssembler
     this.factory = factory;
   }
 
+  /*
+   * (non-Javadoc)
+   * 
+   * @see org.springframework.hateoas.ResourceAssembler#toResource(java.lang.Object)
+   */
   @Override
   public VariableResource toResource(VariableDocument variableDocument) {
     VariableResource resource;
@@ -50,6 +55,12 @@ public class VariableResourceAssembler
     return resource;
   }
 
+  /*
+   * (non-Javadoc)
+   * 
+   * @see
+   * org.springframework.hateoas.mvc.ResourceAssemblerSupport#instantiateResource(java.lang.Object)
+   */
   @Override
   protected VariableResource instantiateResource(VariableDocument variableDocument) {
     return new VariableResource(variableDocument);

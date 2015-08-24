@@ -145,13 +145,13 @@ public class VariableDocument extends AbstractDocument {
   /*
    * (non-Javadoc)
    * 
-   * @see java.lang.Object#toString()
+   * @see eu.dzhw.fdz.metadatamanagement.data.common.documents.AbstractDocument#toString()
    */
   @Override
   public String toString() {
     return "VariableDocument [variableSurvey=" + variableSurvey + ", name=" + name + ", dataType="
-        + dataType + ", label=" + label + ", scaleLevel=" + scaleLevel + ", answerOptions="
-        + answerOptions + "]";
+        + dataType + ", label=" + label + ", question=" + question + ", scaleLevel=" + scaleLevel
+        + ", answerOptions=" + answerOptions + ", toString()=" + super.toString() + "]";
   }
 
   /*
@@ -173,10 +173,10 @@ public class VariableDocument extends AbstractDocument {
    */
   @Override
   public boolean equals(Object object) {
-    if (object instanceof VariableDocument) {
+    if (object != null && getClass() == object.getClass()) {
       if (!super.equals(object)) {
         return false;
-      }
+      }  
       VariableDocument that = (VariableDocument) object;
       return Objects.equal(this.variableSurvey, that.variableSurvey)
           && Objects.equal(this.name, that.name) && Objects.equal(this.dataType, that.dataType)
@@ -186,7 +186,6 @@ public class VariableDocument extends AbstractDocument {
     }
     return false;
   }
-
 
   /* GETTER / SETTER */
   public VariableSurvey getVariableSurvey() {

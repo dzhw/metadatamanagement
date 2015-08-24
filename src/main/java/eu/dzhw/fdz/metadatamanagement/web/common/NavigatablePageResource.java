@@ -56,11 +56,21 @@ public abstract class NavigatablePageResource<T> extends ResourceSupport
     return this.getLink(VARIABLES_CREATE_REL);
   }
 
+  /*
+   * (non-Javadoc)
+   * 
+   * @see eu.dzhw.fdz.metadatamanagement.web.common.InternationalizedResource#getEnglishLink()
+   */
   @Override
   public Link getEnglishLink() {
     return this.getLink(ENGLISH_REL);
   }
 
+  /*
+   * (non-Javadoc)
+   * 
+   * @see eu.dzhw.fdz.metadatamanagement.web.common.InternationalizedResource#getGermanLink()
+   */
   @Override
   public Link getGermanLink() {
     return this.getLink(GERMAN_REL);

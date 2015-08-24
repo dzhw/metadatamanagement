@@ -18,10 +18,7 @@
 					th:attr="data-validate-url=${resource.validateLink}"
 					th:object="${variableDocument}" method="post" role="form" id="form"
 					oninput="VariableModifyForm.validate(this)">
-					<div th:each="err : ${#fields.errors('global')}"
-						class="alert alert-danger" name=''>
-						<p th:text="${err}">Error</p>
-					</div>
+					<div th:replace="common/errorAlerts::globalAlerts(name=variableDocument,field=global)"></div>
 					<div class="row">
 						<div class="col-md-6">
 							<div
@@ -58,10 +55,7 @@
 						<div class="panel-heading"
 							th:text="#{variables.modify.variable.answerOptions}">Antwortoptionen</div>
 						<div class="panel-body">
-							<div th:each="err : ${#fields.errors('answerOptions')}"
-								class="alert alert-danger">
-								<p th:text="${err}">Error</p>
-							</div>
+							<div th:replace="common/errorAlerts::globalAlerts(name=answerOptions,field=answerOptions)"></div>
 							<div th:each="answerOption, rowStat : *{answerOptions}"
 								class="row">
 								<div class="col-md-5">
@@ -89,6 +83,7 @@
 						<div class="panel-body">
 							<th:block th:if="${variableDocument.variableSurvey != null}"
 								th:object="${variableDocument.variableSurvey}">
+								<div th:replace="common/errorAlerts::globalAlerts(name=variableSurvey,field=global)"></div>
 								<div class="row">
 									<div class=" col-md-6">
 										<div
@@ -113,10 +108,7 @@
 											<div class="panel-heading"
 												th:text="#{variables.modify.variable.survey.period}">Erhebungszeitraum</div>
 											<div class="panel-body">
-												<div th:each="err : ${#fields.errors('surveyPeriod')}"
-													class="alert alert-danger">
-													<p th:text="${err}">Error</p>
-												</div>
+												<div th:replace="common/errorAlerts::globalAlerts(name=variableSurvey.surveyPeriod,field=surveyPeriod)"></div>
 												<div class="col-md-6">
 													<div
 														th:replace="common/inputs::input(field=surveyPeriod.startDate,label=#{variables.modify.variable.survey.period.start},placeholder=#{variables.modify.variable.survey.period.start},type=date)"></div>

@@ -18,7 +18,7 @@ import eu.dzhw.fdz.metadatamanagement.web.AbstractWebTest;
  * @author Daniel Katzberg
  *
  */
-public class DataTypeTest extends AbstractWebTest{
+public class DataTypeProviderTest extends AbstractWebTest{
   
   @Autowired
   private DataTypesProvider dataTypesProvider;

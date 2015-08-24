@@ -46,16 +46,9 @@ public class DateRangeTest {
     boolean checkOtherClass = dateRange.equals(new Object());
     dateRange2.setEndDate(endDate);
     boolean checkEndDateOther = dateRange.equals(dateRange2);
-    dateRange.setEndDate(startDate);
-    boolean checkEndDateBoth = dateRange.equals(dateRange2);
     dateRange.setEndDate(endDate);
-    boolean checkEndDateBothSame = dateRange.equals(dateRange2);
-    dateRange.setEndDate(null);
-    dateRange2.setEndDate(null);
     dateRange2.setStartDate(startDate);
     boolean checkStartDateOther = dateRange.equals(dateRange2);
-    dateRange.setStartDate(endDate);
-    boolean checkStartDateBoth = dateRange.equals(dateRange2);
     dateRange.setStartDate(startDate);
     boolean checkStartDateBothSame = dateRange.equals(dateRange2);
 
@@ -64,10 +57,7 @@ public class DateRangeTest {
     assertEquals(false, checkNull);
     assertEquals(false, checkOtherClass);
     assertEquals(false, checkEndDateOther);
-    assertEquals(false, checkEndDateBoth);
-    assertEquals(true, checkEndDateBothSame);
     assertEquals(false, checkStartDateOther);
-    assertEquals(false, checkStartDateBoth);
     assertEquals(true, checkStartDateBothSame);
   }
 

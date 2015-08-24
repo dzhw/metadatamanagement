@@ -21,7 +21,7 @@ import eu.dzhw.fdz.metadatamanagement.web.AbstractWebTest;
  * @author Daniel Katzberg
  *
  */
-public class ScaleLevelTest extends AbstractWebTest{
+public class ScaleLevelProviderTest extends AbstractWebTest{
   
   @Autowired
   private ScaleLevelProvider scaleLevelProvider;

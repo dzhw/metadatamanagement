@@ -1,6 +1,6 @@
 var VariableModifyForm = {};
 
-// validate as the user types but not more than every 500 ms
+// validate the form if the user stopped typing for 500 ms
 VariableModifyForm.validate = _.debounce(function(form) {
 	"use strict";
 	var data = "";
@@ -15,8 +15,21 @@ VariableModifyForm.validate = _.debounce(function(form) {
 		$(form).find('.help-block').empty();
 		$(form).find('.form-control-feedback').removeClass('glyphicon-remove');
 		$(form).find('.form-control-feedback').removeClass('glyphicon-ok');
+		$(form).find('.global').removeClass('alert alert-danger');
+		$(form).find('.global').empty();
 
 		var $inputs = $(form).find('.form-control');
+		var $globalErrorDivs = $(form).find('.global');
+		
+		for (var j = 0; j < $globalErrorDivs.length; j++){
+			var globalError = response.errorMessageMap[$($globalErrorDivs[j]).attr('name')];
+			if(globalError){
+				  $($globalErrorDivs[j]).first().addClass('alert alert-danger');
+				$($globalErrorDivs[j]).html(
+						'<p>' + globalError + '</p>');
+			}
+		}	
+		
 		for (var i = 0; i < $inputs.length; i++) {
 			var error = response.errorMessageMap[$inputs[i].name];
 			var $formGroup = $($inputs[i].closest('.form-group'));
@@ -33,7 +46,7 @@ VariableModifyForm.validate = _.debounce(function(form) {
 				$formGroup.find('.form-control-feedback').addClass(
 						'glyphicon-ok');
 			}
-		}
+		}	
 	}, 'json');
 },500);
 

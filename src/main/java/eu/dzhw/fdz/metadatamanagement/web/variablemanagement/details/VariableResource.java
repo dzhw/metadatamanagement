@@ -2,6 +2,8 @@ package eu.dzhw.fdz.metadatamanagement.web.variablemanagement.details;
 
 import org.springframework.hateoas.ResourceSupport;
 
+import com.google.common.base.Objects;
+
 import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.VariableDocument;
 
 /**
@@ -26,34 +28,30 @@ public class VariableResource extends ResourceSupport {
     return variableDocument;
   }
 
+  /*
+   * (non-Javadoc)
+   * @see org.springframework.hateoas.ResourceSupport#hashCode()
+   */
   @Override
   public int hashCode() {
-    final int prime = 31;
-    int result = super.hashCode();
-    result =
-        prime * result + ((this.variableDocument == null) ? 0 : this.variableDocument.hashCode());
-    return result;
+    return Objects.hashCode(super.hashCode(), variableDocument);
   }
 
+  /*
+   * (non-Javadoc)
+   * @see org.springframework.hateoas.ResourceSupport#equals(java.lang.Object)
+   */
   @Override
-  public boolean equals(Object obj) {
-    if (this == obj) {
-      return true;
-    }
-    if (!super.equals(obj)) {
-      return false;
-    }
-    if (getClass() != obj.getClass()) {
-      return false;
-    }
-    VariableResource other = (VariableResource) obj;
-    if (this.variableDocument == null) {
-      if (other.variableDocument != null) {
+  public boolean equals(Object object) {
+    if (object != null && getClass() == object.getClass()) {
+      if (!super.equals(object)) {
         return false;
-      }
-    } else if (!this.variableDocument.equals(other.variableDocument)) {
-      return false;
+      }  
+      VariableResource that = (VariableResource) object;
+      return Objects.equal(this.variableDocument, that.variableDocument);
     }
-    return true;
+    return false;
   }
+
+  
 }
