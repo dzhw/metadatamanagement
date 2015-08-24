@@ -5,26 +5,40 @@
 </head>
 <body>
 
-  <button  th:fragment="addButton(id,name)" th:id="${id}" type="submit" th:name="${name}" class="btn">
-      <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
-      <span th:text="' ' + #{variables.modify.add}">Hinzufügen</span>
-  </button>
-  
-  <button th:fragment="removeSurveyButton(id,name)" th:id="${id}" type="submit" th:name="${name}" class="btn">
-      <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
-      <span th:text="' ' + #{variables.modify.remove}">Entfernen</span>
-  </button>
-  
-  <div th:fragment="removeAnswerOption(index)" class="form-group has-feedback">
-      <label th:text="#{variables.modify.variable.answerOption.remove}">Antwortoption entfernen</label>
-      <div class="input-group">
-      <button class="btn" type="submit" name="removeAnswerOption" th:value="${index}">
-      <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
-      </button>
-      </div>
-  </div>
-  
-  <button th:fragment="saveButton" type="submit" class="btn btn-default btn-primary"  th:text="#{common.button.submit}">Save</button>
-  <a  th:fragment="cancelButton" th:href="${resource.id.href}" class="btn btn-default" role="button" th:text="#{common.button.cancel}">Cancel</a>
+	<!-- add button which contains a + sign and text -->
+	<button th:fragment="addButton(id,name)" th:id="${id}" type="submit"
+		th:name="${name}" class="btn">
+		<span class="glyphicon glyphicon-plus" aria-hidden="true"></span> <span
+			th:text="' ' + #{variables.modify.add}">Hinzufügen</span>
+	</button>
+
+	<!-- remove button which contains a trash icon and text -->
+	<button th:fragment="removeButton(id,name)" th:id="${id}" type="submit"
+		th:name="${name}" class="btn">
+		<span class="glyphicon glyphicon-trash" aria-hidden="true"></span> <span
+			th:text="' ' + #{variables.modify.remove}">Entfernen</span>
+	</button>
+
+	<!-- remove button which contains only a trash icon -->
+	<div th:fragment="removeButtonSmall(index)"
+		class="form-group has-feedback">
+		<label th:text="#{variables.modify.variable.answerOption.remove}">Antwortoption
+			entfernen</label>
+		<div class="input-group">
+			<button class="btn" type="submit" name="removeAnswerOption"
+				th:value="${index}">
+				<span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
+			</button>
+		</div>
+	</div>
+
+	<!-- a save button for use in forms -->
+	<button th:fragment="saveButton" type="submit"
+		class="btn btn-default btn-primary" th:text="#{common.button.submit}">Save</button>
+	
+	<!-- a link which looks like a button and reloads the current page -->
+	<a th:fragment="cancelButton" th:href="${resource.id.href}"
+		class="btn btn-default" role="button"
+		th:text="#{common.button.cancel}">Cancel</a>
 </body>
 </html>

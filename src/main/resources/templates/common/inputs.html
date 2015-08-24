@@ -1,0 +1,58 @@
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-spring4-4.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org" th:lang="${#locale.language}">
+<head>
+</head>
+<body>
+
+	<!-- fragment holding a bootstrap form-group with input, label and  help-block -->
+	<div th:fragment="input(field,label,placeholder,type)"
+		class="form-group has-feedback"
+		th:classappend="${#fields.hasErrors('__${field}__')}? has-error : has-success">
+		<label th:text="${label}"></label> <input th:type="${type}"
+			class="form-control" th:field="*{__${field}__}"
+			th:placeholder="${placeholder}" /> <span
+			class="glyphicon form-control-feedback"
+			th:classappend="${#fields.hasErrors('__${field}__')}? glyphicon-remove : glyphicon-ok"></span>
+		<span class="help-block">
+			<p th:if="${#fields.hasErrors('__${field}__')}"
+				th:errors="*{__${field}__}"></p>
+		</span>
+	</div>
+
+	<!-- fragment holding a bootstrap form-group with textarea, label and  help-block -->
+	<div th:fragment="textarea(field,label,placeholder,rows)"
+		class="form-group has-feedback"
+		th:classappend="${#fields.hasErrors('__${field}__')}? has-error : has-success">
+		<label th:text="${label}"></label>
+		<textarea th:rows="${rows}" class="form-control"
+			th:field="*{__${field}__}" th:placeholder="${placeholder}"></textarea>
+		<span class="glyphicon form-control-feedback"
+			th:classappend="${#fields.hasErrors('__${field}__')}? glyphicon-remove : glyphicon-ok"></span>
+		<span class="help-block">
+			<p th:if="${#fields.hasErrors('__${field}__')}"
+				th:errors="*{__${field}__}"></p>
+		</span>
+	</div>
+
+	<!-- fragment holding a bootstrap form-group with select, label and  help-block -->
+	<div th:fragment="select(field,label,valuesMap)"
+		class="form-group has-feedback"
+		th:classappend="${#fields.hasErrors('__${field}__')}? has-error : has-success">
+		<label th:text="${label}"></label> <select th:field="*{__${field}__}"
+			class="form-control">
+			<option value=""></option>
+			<p th:each="value: ${__${valuesMap}__}">
+				<option th:selected="${value} == *{__${field}__}" th:text="${value}"
+					th:value="${value}"></option>
+			</p>
+		</select> <span class="glyphicon form-control-feedback"
+			th:classappend="${#fields.hasErrors('__${field}__')}? glyphicon-remove : glyphicon-ok"></span>
+		<span class="help-block">
+			<p th:if="${#fields.hasErrors('__${field}__')}"
+				th:errors="*{__${field}__}"></p>
+		</span>
+	</div>
+
+</body>
+</html>
