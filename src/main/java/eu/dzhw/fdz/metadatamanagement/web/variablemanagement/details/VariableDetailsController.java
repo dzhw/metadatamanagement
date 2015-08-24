@@ -3,6 +3,9 @@ package eu.dzhw.fdz.metadatamanagement.web.variablemanagement.details;
 import java.util.concurrent.Callable;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -41,15 +44,17 @@ public class VariableDetailsController {
    * 
    * @return variableSearch.html
    */
-  @RequestMapping(path = "/{variableId}", method = RequestMethod.GET)
+  @RequestMapping(path = "/{variableId}", method = RequestMethod.GET,
+      produces = MediaType.APPLICATION_JSON_VALUE)
   @ResponseBody
-  public Callable<VariableResource> get(@PathVariable("variableId") String id) {
+  public Callable<ResponseEntity<VariableResource>> get(@PathVariable("variableId") String id) {
     return () -> {
       VariableDocument variableDocument = variableService.get(id);
       if (variableDocument != null) {
-        return variableResourceAssembler.toResource(variableDocument);
+        return new ResponseEntity<VariableResource>(
+            variableResourceAssembler.toResource(variableDocument), HttpStatus.OK);
       } else {
-        return null;
+        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
       }
     };
   }
