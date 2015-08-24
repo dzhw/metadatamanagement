@@ -58,9 +58,11 @@
 						<div class="panel-heading"
 							th:text="#{variables.modify.variable.answerOptions}">Antwortoptionen</div>
 						<div class="panel-body">
+						<div class="global" th:name="answerOptions">
 							<div th:each="err : ${#fields.errors('answerOptions')}"
 								class="alert alert-danger">
 								<p th:text="${err}">Error</p>
+							</div>
 							</div>
 							<div th:each="answerOption, rowStat : *{answerOptions}"
 								class="row">
@@ -113,9 +115,11 @@
 											<div class="panel-heading"
 												th:text="#{variables.modify.variable.survey.period}">Erhebungszeitraum</div>
 											<div class="panel-body">
+											<div class="global" th:name='variableSurvey.surveyPeriod'>
 												<div th:each="err : ${#fields.errors('surveyPeriod')}"
-													class="alert alert-danger">
+													class="alert alert-danger global">
 													<p th:text="${err}">Error</p>
+												</div>
 												</div>
 												<div class="col-md-6">
 													<div
