@@ -5,15 +5,13 @@ VariableSearchForm.search = _.throttle(function(form) {
 	"use strict";
 	var formData = $(form).serialize();
 	var searchUrl = $(form).attr('action');
-	//fix for missing query string in document.documentElement.innerHTML
-	$('#query').attr('value',$('#query').val());
 	// return only a div container of the search results
 	// and replace the searchResults div contrainer
 	$.get(searchUrl, formData, function(response) {
 		$("#searchResults").replaceWith(response);
 
 		var newUrl = searchUrl + '?' + formData;
-		// change the browsers url and cache the current search results
+		// change the browsers url
 		history.pushState({},'' , newUrl);
 	});
 },500);
