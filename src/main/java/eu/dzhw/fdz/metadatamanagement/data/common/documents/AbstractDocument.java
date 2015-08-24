@@ -8,6 +8,8 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.elasticsearch.annotations.Document;
 import org.springframework.data.elasticsearch.annotations.Setting;
 
+import com.google.common.base.Objects;
+
 import eu.dzhw.fdz.metadatamanagement.data.common.PopulatorUtils;
 import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.validation.UniqueId;
 
@@ -18,10 +20,10 @@ import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.validati
  * @author Daniel Katzberg
  * @see PopulatorUtils
  */
-@Document(indexName = "#{'" + BasicDocument.METADATA_INDEX + "_'"
+@Document(indexName = "#{'" + AbstractDocument.METADATA_INDEX + "_'"
     + "+T(org.springframework.context.i18n.LocaleContextHolder).getLocale().getLanguage()}")
 @Setting(settingPath = "data/settings/settings.json")
-public class BasicDocument {
+public abstract class AbstractDocument {
 
   /**
    * The basic index name.
@@ -54,10 +56,7 @@ public class BasicDocument {
    */
   @Override
   public int hashCode() {
-    final int prime = 31;
-    int result = 1;
-    result = prime * result + ((this.id == null) ? 0 : this.id.hashCode());
-    return result;
+    return Objects.hashCode(id);
   }
 
   /*
@@ -65,24 +64,12 @@ public class BasicDocument {
    * @see java.lang.Object#equals(java.lang.Object)
    */
   @Override
-  public boolean equals(Object obj) {
-    if (this == obj) {
-      return true;
+  public boolean equals(Object object) {
+    if (object instanceof AbstractDocument) {
+      AbstractDocument that = (AbstractDocument) object;
+      return Objects.equal(this.id, that.id);
     }
-    if (obj == null) {
-      return false;
-    }
-    if (getClass() != obj.getClass()) {
-      return false;
-    }
-    BasicDocument other = (BasicDocument) obj;
-    if (this.id == null) {
-      if (other.id != null) {
-        return false;
-      }
-    } else if (!this.id.equals(other.id)) {
-      return false;
-    }
-    return true;
+    return false;
   }
+  
 }

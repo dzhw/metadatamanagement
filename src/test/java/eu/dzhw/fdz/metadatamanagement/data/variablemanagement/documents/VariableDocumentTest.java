@@ -519,101 +519,48 @@ public class VariableDocumentTest extends AbstractWebTest {
     // Arrange
     VariableDocument variableDocument = new VariableDocumentBuilder().withId("ThisIDisOkay")
         .withName("ThisNameIsOkay.").withQuestion("DefaultQuestion?").build();
-
     VariableDocument variableDocument2 = new VariableDocumentBuilder().build();
-    VariableDocument variableDocument3 = new VariableDocumentBuilder().build();
-
+    
+    VariableSurvey variableSurvey = new VariableSurveyBuilder().withSurveyId("ID1").build();
+    VariableSurvey variableSurvey2 = new VariableSurveyBuilder().withSurveyId("ID2").build();
+    
     List<AnswerOption> answerOptions = new ArrayList<>();
+    answerOptions.add(new AnswerOptionBuilder().withCode(1).withLabel("Label1").build());
     List<AnswerOption> answerOptions2 = new ArrayList<>();
-    answerOptions2.add(new AnswerOptionBuilder().withCode(1).withLabel("Label").build());
-
-    VariableSurvey variableSurvey = new VariableSurveyBuilder().withSurveyId("1").build();
-    VariableSurvey variableSurvey2 = new VariableSurveyBuilder().withSurveyId("2").build();
-
+    answerOptions2.add(new AnswerOptionBuilder().withCode(2).withLabel("Label2").build());
+    
     // Act
     boolean checkNull = variableDocument.equals(null);
     boolean checkDifferentClass = variableDocument.equals(new Object());
     boolean checkDifferentVariableDocument = variableDocument.equals(variableDocument2);
-    boolean checkDifferentVariableDocumentWithNullName =
-        variableDocument3.equals(variableDocument2);
-    variableDocument.setAnswerOptions(answerOptions);
-    variableDocument2.setAnswerOptions(null);
-    boolean checkAnswerOptionsOther = variableDocument2.equals(variableDocument);
-    variableDocument2.setAnswerOptions(answerOptions);
-    boolean checkAnswerOptionsOtherBoth = variableDocument2.equals(variableDocument);
-    variableDocument2.setAnswerOptions(answerOptions2);
-    boolean checkAnswerOptionsOtherBothDifferent = variableDocument2.equals(variableDocument);
-    variableDocument.setDataType("string");
-    variableDocument2.setAnswerOptions(null);
-    variableDocument.setAnswerOptions(null);
-    boolean checkDifferentDataType = variableDocument2.equals(variableDocument);
-    variableDocument2.setDataType("string");
-    boolean checkDifferentDataTypeBoth = variableDocument2.equals(variableDocument);
-    variableDocument2.setDataType("numeric");
-    boolean checkDifferentDataTypeBothDifferent = variableDocument2.equals(variableDocument);
-    variableDocument.setDataType(null);
-    variableDocument2.setDataType(null);
-    variableDocument.setLabel("Label 1");
-    boolean checkLabelOther = variableDocument2.equals(variableDocument);
-    variableDocument2.setLabel("Label 2");
-    boolean checkLabelBoth = variableDocument2.equals(variableDocument);
-    variableDocument2.setLabel("Label 1");
-    boolean checkLabelBothSame = variableDocument2.equals(variableDocument);
-    variableDocument.setLabel(null);
-    variableDocument2.setLabel(null);
-    variableDocument2.setName("Another Name");
-    boolean checkDifferentName = variableDocument2.equals(variableDocument);
-    variableDocument2.setName(variableDocument.getName());
-    boolean checkSameName = variableDocument2.equals(variableDocument);
-    variableDocument2.setName(null);
-    variableDocument.setName(null);
-    variableDocument.setQuestion("DefaultQuestion?");
-    boolean checkQuestionOther = variableDocument2.equals(variableDocument);
-    variableDocument2.setQuestion("AnotherDefaultQuestion?");
-    boolean checkQuestionBoth = variableDocument2.equals(variableDocument);
-    variableDocument2.setQuestion(variableDocument.getQuestion());
-    boolean checkQuestionBothSame = variableDocument2.equals(variableDocument);
-    variableDocument.setQuestion(null);
-    variableDocument2.setQuestion(null);
-    variableDocument.setScaleLevel("nominal");
-    boolean checkScaleLevelOther = variableDocument2.equals(variableDocument);
-    variableDocument2.setScaleLevel("metric");
-    boolean checkScaleLevelBoth = variableDocument2.equals(variableDocument);
-    variableDocument2.setScaleLevel(variableDocument.getScaleLevel());
-    boolean checkScaleLevelBothSame = variableDocument2.equals(variableDocument);
-    variableDocument.setScaleLevel(null);
-    variableDocument2.setScaleLevel(null);
+    boolean checkSame = variableDocument.equals(variableDocument);
     variableDocument.setVariableSurvey(variableSurvey);
-    boolean checkVariableSurveyOther = variableDocument2.equals(variableDocument);
     variableDocument2.setVariableSurvey(variableSurvey2);
-    boolean checkVariableSurveyBoth = variableDocument2.equals(variableDocument);
+    boolean checkDifferentSurvey = variableDocument.equals(variableDocument2);
     variableDocument2.setVariableSurvey(variableSurvey);
-    boolean checkVariableSurveyBothSame = variableDocument2.equals(variableDocument);
+    variableDocument.setName("Name1");
+    variableDocument2.setName("Name2");
+    boolean checkDifferentName = variableDocument.equals(variableDocument2);
+    variableDocument2.setName("Name1");
+    variableDocument.setLabel("Label1");
+    variableDocument2.setLabel("Label2");
+    boolean checkDifferentLabel = variableDocument.equals(variableDocument2);
+    variableDocument2.setLabel("Label1");
+    variableDocument.setScaleLevel("metric");
+    variableDocument2.setScaleLevel("ordinal");
+    boolean checkDifferentScaleLevel = variableDocument.equals(variableDocument2);
+    variableDocument2.setScaleLevel("metric");
+    boolean checkDifferentAnswerOptions = variableDocument.equals(variableDocument2);
 
     // Assert
     assertEquals(false, checkNull);
     assertEquals(false, checkDifferentClass);
     assertEquals(false, checkDifferentVariableDocument);
-    assertEquals(true, checkDifferentVariableDocumentWithNullName);
-    assertEquals(false, checkAnswerOptionsOther);
-    assertEquals(false, checkAnswerOptionsOtherBoth);
-    assertEquals(false, checkAnswerOptionsOtherBothDifferent);
-    assertEquals(false, checkDifferentDataType);
-    assertEquals(false, checkDifferentDataTypeBoth);
-    assertEquals(false, checkDifferentDataTypeBothDifferent);
-    assertEquals(false, checkLabelOther);
-    assertEquals(false, checkLabelBoth);
-    assertEquals(false, checkLabelBothSame);
+    assertEquals(true, checkSame);    
+    assertEquals(false, checkDifferentSurvey);
     assertEquals(false, checkDifferentName);
-    assertEquals(false, checkSameName);
-    assertEquals(false, checkQuestionOther);
-    assertEquals(false, checkQuestionBoth);
-    assertEquals(true, checkQuestionBothSame);
-    assertEquals(false, checkScaleLevelOther);
-    assertEquals(false, checkScaleLevelBoth);
-    assertEquals(true, checkScaleLevelBothSame);
-    assertEquals(false, checkVariableSurveyOther);
-    assertEquals(false, checkVariableSurveyBoth);
-    assertEquals(true, checkVariableSurveyBothSame);
+    assertEquals(false, checkDifferentLabel);
+    assertEquals(false, checkDifferentScaleLevel);
+    assertEquals(false, checkDifferentAnswerOptions);
   }
 }

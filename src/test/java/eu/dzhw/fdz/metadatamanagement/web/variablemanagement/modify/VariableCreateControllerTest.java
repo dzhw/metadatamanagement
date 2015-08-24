@@ -12,9 +12,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.request;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-import org.junit.Rule;
 import org.junit.Test;
-import org.junit.rules.ExpectedException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.web.servlet.ModelAndView;
@@ -33,11 +31,7 @@ public class VariableCreateControllerTest extends AbstractWebTest {
 
   @Autowired
   private VariableService variableService;
-
-  // TODO what is this for?
-  @Rule
-  public ExpectedException thrown = ExpectedException.none();
-
+  
   @Test
   public void testGetForm() throws Exception {
     // Check the Requestpath of the VariableModifyControllerPath
