@@ -1,6 +1,6 @@
 var VariableModifyForm = {};
 
-// validate the form if the user stopped typing for 500 ms
+// validate the form if the user stopped typing for 250 ms
 VariableModifyForm.validate = _.debounce(function(form) {
 	"use strict";
 	var data = "";
@@ -48,7 +48,7 @@ VariableModifyForm.validate = _.debounce(function(form) {
 			}
 		}	
 	}, 'json');
-},500);
+},250);
 
 $(document).ready(function() {
 	"use strict";

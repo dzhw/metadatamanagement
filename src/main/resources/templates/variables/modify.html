@@ -21,8 +21,19 @@
 					<div th:replace="common/errorAlerts::globalAlerts(field=global)"></div>
 					<div class="row">
 						<div class="col-md-6">
-							<div
-								th:replace="common/inputs::input(field=id,label=#{variables.modify.variable.id},placeholder=#{variables.modify.variable.id},type=text)"></div>
+							<th:block th:if="${resource.id.href.contains('create')}">
+								<div
+									th:replace="common/inputs::input(field=id,label=#{variables.modify.variable.id},placeholder=#{variables.modify.variable.id},type=text)"></div>
+							</th:block>
+							<th:block th:if="${resource.id.href.contains('edit')}">
+								<div class="form-group has-feedback has-success">
+									<label th:text="#{variables.modify.variable.id}"></label> <input
+										th:type="text" class="form-control" th:field="*{id}"
+										th:placeholder="#{variables.modify.variable.id}"
+										readonly="readonly" /> <span
+										class="glyphicon form-control-feedback glyphicon-ok"></span>
+								</div>
+							</th:block>
 						</div>
 					</div>
 					<div class="row">
@@ -55,7 +66,8 @@
 						<div class="panel-heading"
 							th:text="#{variables.modify.variable.answerOptions}">Antwortoptionen</div>
 						<div class="panel-body">
-							<div th:replace="common/errorAlerts::globalAlerts(field=answerOptions)"></div>
+							<div
+								th:replace="common/errorAlerts::globalAlerts(field=answerOptions)"></div>
 							<div th:each="answerOption, rowStat : *{answerOptions}"
 								class="row">
 								<div class="col-md-5">
@@ -82,8 +94,9 @@
 							th:text="#{variables.modify.variable.surveyData}">Erhebungsdaten</div>
 						<div class="panel-body">
 							<th:block th:if="${variableDocument.variableSurvey != null}">
-							<!-- 	th:object="${variableDocument.variableSurvey}"> -->
-								<div th:replace="common/errorAlerts::globalAlerts(field=variableSurvey)"></div>
+								<!-- 	th:object="${variableDocument.variableSurvey}"> -->
+								<div
+									th:replace="common/errorAlerts::globalAlerts(field=variableSurvey)"></div>
 								<div class="row">
 									<div class=" col-md-6">
 										<div
@@ -108,7 +121,8 @@
 											<div class="panel-heading"
 												th:text="#{variables.modify.variable.survey.period}">Erhebungszeitraum</div>
 											<div class="panel-body">
-												<div th:replace="common/errorAlerts::globalAlerts(field=variableSurvey.surveyPeriod)"></div>
+												<div
+													th:replace="common/errorAlerts::globalAlerts(field=variableSurvey.surveyPeriod)"></div>
 												<div class="col-md-6">
 													<div
 														th:replace="common/inputs::input(field=variableSurvey.surveyPeriod.startDate,label=#{variables.modify.variable.survey.period.start},placeholder=#{variables.modify.variable.survey.period.start},type=date)"></div>
@@ -124,10 +138,10 @@
 								<button
 									th:replace="common/buttons::removeButton(id=removeSurveyButton,name=removeSurvey)">Remove</button>
 							</th:block>
-							<p th:if="${variableDocument.variableSurvey == null}">
+							<th:block th:if="${variableDocument.variableSurvey == null}">
 								<button
 									th:replace="common/buttons::addButton(id=addSurveyButton,name=addSurvey)"></button>
-							</p>
+							</th:block>
 						</div>
 					</div>
 					<div>

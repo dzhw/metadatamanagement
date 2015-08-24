@@ -5,7 +5,7 @@
 </head>
 <body>
 	<!-- add div element which contains text of global errors -->
-	<div th:fragment="globalAlerts(field)" class="globalError"
+	<div th:fragment="globalAlerts(field)" class="global-error"
 		th:id="${field}">
 		<div th:each="err : ${#fields.errors('__${field}__')}"
 			class="alert alert-danger">
