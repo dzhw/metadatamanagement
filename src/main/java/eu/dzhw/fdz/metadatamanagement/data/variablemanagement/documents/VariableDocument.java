@@ -9,7 +9,9 @@ import javax.validation.constraints.Size;
 import org.hibernate.validator.constraints.NotBlank;
 import org.springframework.data.elasticsearch.annotations.Document;
 
-import eu.dzhw.fdz.metadatamanagement.data.common.documents.BasicDocument;
+import com.google.common.base.Objects;
+
+import eu.dzhw.fdz.metadatamanagement.data.common.documents.AbstractDocument;
 import eu.dzhw.fdz.metadatamanagement.data.common.documents.DateRange;
 import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.validation.UniqueAnswerCode;
 import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.validation.ValidDataType;
@@ -24,12 +26,12 @@ import net.karneim.pojobuilder.GeneratePojoBuilder;
  *
  */
 @Document(
-    indexName = "#{'" + BasicDocument.METADATA_INDEX + "_'"
+    indexName = "#{'" + AbstractDocument.METADATA_INDEX + "_'"
         + "+T(org.springframework.context.i18n.LocaleContextHolder).getLocale().getLanguage()}",
     type = "variables")
 @GeneratePojoBuilder(
     intoPackage = "eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.builders")
-public class VariableDocument extends BasicDocument {
+public class VariableDocument extends AbstractDocument {
   // Public constants which are used in queries as fieldnames.
   public static final String ALL_STRINGS_AS_NGRAMS_FIELD = "allStringsAsNgrams";
   public static final String NAME_FIELD = "name";
@@ -152,7 +154,6 @@ public class VariableDocument extends BasicDocument {
         + answerOptions + "]";
   }
 
-
   /*
    * (non-Javadoc)
    * 
@@ -160,18 +161,9 @@ public class VariableDocument extends BasicDocument {
    */
   @Override
   public int hashCode() {
-    final int prime = 31;
-    int result = 1;
-    result = prime * result + ((this.answerOptions == null) ? 0 : this.answerOptions.hashCode());
-    result = prime * result + ((this.dataType == null) ? 0 : this.dataType.hashCode());
-    result = prime * result + ((this.label == null) ? 0 : this.label.hashCode());
-    result = prime * result + ((this.name == null) ? 0 : this.name.hashCode());
-    result = prime * result + ((this.question == null) ? 0 : this.question.hashCode());
-    result = prime * result + ((this.scaleLevel == null) ? 0 : this.scaleLevel.hashCode());
-    result = prime * result + ((this.variableSurvey == null) ? 0 : this.variableSurvey.hashCode());
-    return result;
+    return Objects.hashCode(super.hashCode(), variableSurvey, name, dataType, label, question,
+        scaleLevel, answerOptions);
   }
-
 
   /*
    * (non-Javadoc)
@@ -180,72 +172,23 @@ public class VariableDocument extends BasicDocument {
    * eu.dzhw.fdz.metadatamanagement.data.common.documents.AbstractDocument#equals(java.lang.Object)
    */
   @Override
-  public boolean equals(Object obj) {
-    if (this == obj) {
-      return true;
-    }
-    if (obj == null) {
-      return false;
-    }
-    if (getClass() != obj.getClass()) {
-      return false;
-    }
-    VariableDocument other = (VariableDocument) obj;
-    if (this.answerOptions == null) {
-      if (other.answerOptions != null) {
+  public boolean equals(Object object) {
+    if (object instanceof VariableDocument) {
+      if (!super.equals(object)) {
         return false;
       }
-    } else if (!this.answerOptions.equals(other.answerOptions)) {
-      return false;
+      VariableDocument that = (VariableDocument) object;
+      return Objects.equal(this.variableSurvey, that.variableSurvey)
+          && Objects.equal(this.name, that.name) && Objects.equal(this.dataType, that.dataType)
+          && Objects.equal(this.label, that.label) && Objects.equal(this.question, that.question)
+          && Objects.equal(this.scaleLevel, that.scaleLevel)
+          && Objects.equal(this.answerOptions, that.answerOptions);
     }
-    if (this.dataType == null) {
-      if (other.dataType != null) {
-        return false;
-      }
-    } else if (!this.dataType.equals(other.dataType)) {
-      return false;
-    }
-    if (this.label == null) {
-      if (other.label != null) {
-        return false;
-      }
-    } else if (!this.label.equals(other.label)) {
-      return false;
-    }
-    if (this.name == null) {
-      if (other.name != null) {
-        return false;
-      }
-    } else if (!this.name.equals(other.name)) {
-      return false;
-    }
-    if (this.question == null) {
-      if (other.question != null) {
-        return false;
-      }
-    } else if (!this.question.equals(other.question)) {
-      return false;
-    }
-    if (this.scaleLevel == null) {
-      if (other.scaleLevel != null) {
-        return false;
-      }
-    } else if (!this.scaleLevel.equals(other.scaleLevel)) {
-      return false;
-    }
-    if (this.variableSurvey == null) {
-      if (other.variableSurvey != null) {
-        return false;
-      }
-    } else if (!this.variableSurvey.equals(other.variableSurvey)) {
-      return false;
-    }
-    return true;
+    return false;
   }
 
 
   /* GETTER / SETTER */
-
   public VariableSurvey getVariableSurvey() {
     return variableSurvey;
   }
