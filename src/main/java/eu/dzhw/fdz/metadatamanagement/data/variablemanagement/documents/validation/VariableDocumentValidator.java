@@ -10,8 +10,8 @@ import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.DataType
 import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.VariableDocument;
 
 /**
- * A custom spring validator for the variable document. It current uses the default JSR-303
- * validator and additionally checks if the scale level is valid depending on the current datatype.
+ * A custom spring validator for the variable document. It uses the default JSR-303 validator and
+ * additionally checks if the scale level is valid depending on the current datatype.
  * 
  * @author René Reitmann
  */
