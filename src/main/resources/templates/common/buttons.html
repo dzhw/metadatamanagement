@@ -9,23 +9,22 @@
 	<button th:fragment="addButton(id,name)" th:id="${id}" type="submit"
 		th:name="${name}" class="btn">
 		<span class="glyphicon glyphicon-plus" aria-hidden="true"></span> <span
-			th:text="' ' + #{variables.modify.add}">Hinzufügen</span>
+			th:text="' ' + #{common.button.add}">Hinzufügen</span>
 	</button>
 
 	<!-- remove button which contains a trash icon and text -->
 	<button th:fragment="removeButton(id,name)" th:id="${id}" type="submit"
 		th:name="${name}" class="btn">
 		<span class="glyphicon glyphicon-trash" aria-hidden="true"></span> <span
-			th:text="' ' + #{variables.modify.remove}">Entfernen</span>
+			th:text="' ' + #{common.button.remove}">Entfernen</span>
 	</button>
 
 	<!-- remove button which contains only a trash icon -->
-	<div th:fragment="removeButtonSmall(index)"
+	<div th:fragment="removeButtonSmall(index,name)"
 		class="form-group has-feedback">
-		<label th:text="#{variables.modify.variable.answerOption.remove}">Antwortoption
-			entfernen</label>
+		<label th:text="#{common.buttonSmall.remove}"></label>
 		<div class="input-group">
-			<button class="btn" type="submit" name="removeAnswerOption"
+			<button class="btn" type="submit" th:name="${name}"
 				th:value="${index}">
 				<span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
 			</button>
