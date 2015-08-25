@@ -54,10 +54,18 @@ $(document).ready(function() {
 	"use strict";
 	// scroll to the button which has just created dynamic form fields
 	var focusElementId = $('body').data('focus-element-id');
+	
 	if (focusElementId) {		
-		$('html, body').animate({
-			scrollTop: $('#' + focusElementId).offset().top
-		}, 1000);
+		//focus the button which has just created dynamic form fields
 		$('#' + focusElementId).focus();
 	}
+	
+	//scroll to the last scroll position (0 if the page is loaded for the first time)
+	$(window).scrollTop($('#windowYPosition').val());
 });
+
+// bind y scroll position to hidden input field 
+$(window).scroll(function() {
+	$('#windowYPosition').val($(window).scrollTop());
+});
+

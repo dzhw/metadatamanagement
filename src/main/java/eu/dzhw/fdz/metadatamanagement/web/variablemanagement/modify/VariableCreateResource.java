@@ -30,9 +30,10 @@ public class VariableCreateResource extends AbstractVariableModifyResource {
             .linkTo(methodOn(VariableCreateController.class,
                 LocaleContextHolder.getLocale().getLanguage()).create(null, null))
         .withRel(Link.REL_SELF));
-    this.add(factory.linkTo(
-        methodOn(VariableCreateController.class, LocaleContextHolder.getLocale().getLanguage())
-            .save(null, null))
+    this.add(
+        factory
+            .linkTo(methodOn(VariableCreateController.class,
+                LocaleContextHolder.getLocale().getLanguage()).save(null, null, null))
         .withRel("save"));
     for (Locale supportedLocale : I18nConfiguration.SUPPORTED_LANGUAGES) {
       this.add(factory

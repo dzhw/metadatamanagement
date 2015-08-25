@@ -18,12 +18,16 @@
 					th:attr="data-validate-url=${resource.validateLink}"
 					th:object="${variableDocument}" method="post" role="form" id="form"
 					oninput="VariableModifyForm.validate(this)">
+					
+					<input type="hidden" id="windowYPosition" name="windowYPosition"
+						th:value="${windowYPosition}" />
+
 					<div th:replace="common/errorAlerts::globalAlerts(field=global)"></div>
 					<div class="row">
 						<div class="col-md-6">
-								<div
-									th:replace="common/inputs::input(field=id,label=#{variables.modify.variable.id},placeholder=#{variables.modify.variable.id},type=text,readonly=${!resource.createMode})"></div>
-						</div>							
+							<div
+								th:replace="common/inputs::input(field=id,label=#{variables.modify.variable.id},placeholder=#{variables.modify.variable.id},type=text,readonly=${!resource.createMode})"></div>
+						</div>
 					</div>
 					<div class="row">
 						<div class="col-md-6">

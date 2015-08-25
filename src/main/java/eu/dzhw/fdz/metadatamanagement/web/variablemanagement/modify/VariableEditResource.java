@@ -34,7 +34,7 @@ public class VariableEditResource extends AbstractVariableModifyResource {
         .withRel(Link.REL_SELF));
     this.add(factory
         .linkTo(methodOn(VariableEditController.class,
-            LocaleContextHolder.getLocale().getLanguage(), variableId).save(null, null))
+            LocaleContextHolder.getLocale().getLanguage(), variableId).save(null, null, null))
         .withRel("save"));
     for (Locale supportedLocale : I18nConfiguration.SUPPORTED_LANGUAGES) {
       this.add(

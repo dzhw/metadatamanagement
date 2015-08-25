@@ -60,9 +60,9 @@ public abstract class AbstractVariableModifyController {
    * @param dataTypesProvider a provider returning valid datatypes
    */
   protected AbstractVariableModifyController(VariableService variableService,
-          ControllerLinkBuilderFactory controllerLinkBuilderFactory,
-          VariableDocumentValidator validator, ScaleLevelProvider scaleLevelProvider,
-          DataTypesProvider dataTypesProvider) {
+      ControllerLinkBuilderFactory controllerLinkBuilderFactory,
+      VariableDocumentValidator validator, ScaleLevelProvider scaleLevelProvider,
+      DataTypesProvider dataTypesProvider) {
     this.variableService = variableService;
     this.controllerLinkBuilderFactory = controllerLinkBuilderFactory;
     this.validator = validator;
@@ -71,15 +71,12 @@ public abstract class AbstractVariableModifyController {
   }
 
   @InitBinder("variableDocument")
-  protected
-          void initBinder(
-                  WebDataBinder binder) {
+  protected void initBinder(WebDataBinder binder) {
     binder.setValidator(validator);
   }
 
-  protected
-          ModelAndView createModelAndView(
-                  VariableDocument variableDocument, Optional<String> focusElementId) {
+  protected ModelAndView createModelAndView(VariableDocument variableDocument,
+      Optional<String> focusElementId, Integer windowYPosition) {
     ModelAndView modelAndView = new ModelAndView("variables/modify");
     modelAndView.addObject("resource", createResource(variableDocument.getId()));
     modelAndView.addObject("scaleLevelMap", scaleLevelProvider.getAllScaleLevel());
@@ -88,6 +85,7 @@ public abstract class AbstractVariableModifyController {
     if (focusElementId.isPresent()) {
       modelAndView.addObject("focusElementId", focusElementId.get());
     }
+    modelAndView.addObject("windowYPosition", windowYPosition);
     return modelAndView;
   }
 
@@ -97,16 +95,16 @@ public abstract class AbstractVariableModifyController {
    * @return modify.html
    */
   @RequestMapping(method = RequestMethod.POST, params = {"addSurvey"})
-  public
-          Callable<ModelAndView> addSurvey(
-                  VariableDocument variableDocument, BindingResult bindingResult) {
+  public Callable<ModelAndView> addSurvey(VariableDocument variableDocument,
+      BindingResult bindingResult, Integer windowYPosition) {
     return () -> {
       VariableSurvey survey = new VariableSurvey();
       variableDocument.setVariableSurvey(survey);
 
       validator.validate(variableDocument, bindingResult);
 
-      return createModelAndView(variableDocument, Optional.of("removeSurveyButton"));
+      return createModelAndView(variableDocument, Optional.of("removeSurveyButton"),
+          windowYPosition);
     };
   }
 
@@ -116,15 +114,14 @@ public abstract class AbstractVariableModifyController {
    * @return modify.html
    */
   @RequestMapping(method = RequestMethod.POST, params = {"removeSurvey"})
-  public
-          Callable<ModelAndView> removeSurvey(
-                  VariableDocument variableDocument, BindingResult bindingResult) {
+  public Callable<ModelAndView> removeSurvey(VariableDocument variableDocument,
+      BindingResult bindingResult, Integer windowYPosition) {
     return () -> {
       variableDocument.setVariableSurvey(null);
 
       validator.validate(variableDocument, bindingResult);
 
-      return createModelAndView(variableDocument, Optional.of("addSurveyButton"));
+      return createModelAndView(variableDocument, Optional.of("addSurveyButton"), windowYPosition);
     };
   }
 
@@ -134,15 +131,15 @@ public abstract class AbstractVariableModifyController {
    * @return modify.html
    */
   @RequestMapping(method = RequestMethod.POST, params = {"addAnswerOption"})
-  public
-          Callable<ModelAndView> addAnswerOption(
-                  VariableDocument variableDocument, BindingResult bindingResult) {
+  public Callable<ModelAndView> addAnswerOption(VariableDocument variableDocument,
+      BindingResult bindingResult, Integer windowYPosition) {
     return () -> {
       variableDocument.addAnswerOption(new AnswerOption());
 
       validator.validate(variableDocument, bindingResult);
 
-      return createModelAndView(variableDocument, Optional.of("addAnswerOptionButton"));
+      return createModelAndView(variableDocument, Optional.of("addAnswerOptionButton"),
+          windowYPosition);
     };
   }
 
@@ -152,15 +149,15 @@ public abstract class AbstractVariableModifyController {
    * @return modify.html
    */
   @RequestMapping(method = RequestMethod.POST, params = {"removeAnswerOption"})
-  public
-          Callable<ModelAndView> removeAnswerOption(
-                  @RequestParam("removeAnswerOption") int indexAnswerOption,
-                  VariableDocument variableDocument, BindingResult bindingResult) {
+  public Callable<ModelAndView> removeAnswerOption(
+      @RequestParam("removeAnswerOption") int indexAnswerOption, VariableDocument variableDocument,
+      BindingResult bindingResult, Integer windowYPosition) {
     return () -> {
       variableDocument.getAnswerOptions().remove(indexAnswerOption);
       validator.validate(variableDocument, bindingResult);
 
-      return createModelAndView(variableDocument, Optional.of("addAnswerOptionButton"));
+      return createModelAndView(variableDocument, Optional.of("addAnswerOptionButton"),
+          windowYPosition);
     };
   }
 
@@ -170,17 +167,17 @@ public abstract class AbstractVariableModifyController {
    * @return variableDetails.html or modify.html
    */
   @RequestMapping(method = RequestMethod.POST)
-  public
-          Callable<ModelAndView> save(
-                  @Valid VariableDocument variableDocument, BindingResult bindingResult) {
+  public Callable<ModelAndView> save(@Valid VariableDocument variableDocument,
+      BindingResult bindingResult, Integer windowYPosition) {
     return () -> {
+      System.out.println(windowYPosition);
       if (!bindingResult.hasErrors()) {
         variableService.save(variableDocument);
         // TODO remove hardcoded url
         return new ModelAndView("redirect:/{language}/variables/" + variableDocument.getId());
       } else {
 
-        return createModelAndView(variableDocument, Optional.empty());
+        return createModelAndView(variableDocument, Optional.empty(), windowYPosition);
       }
     };
   }
@@ -195,12 +192,10 @@ public abstract class AbstractVariableModifyController {
    */
   // VariableValidateController
   @RequestMapping(method = RequestMethod.POST, value = "/validate",
-          produces = MediaType.APPLICATION_JSON_VALUE)
+      produces = MediaType.APPLICATION_JSON_VALUE)
   @ResponseBody
-  public
-          Callable<ValidationResultDto> validate(
-                  @Valid VariableDocument variableDocument, BindingResult bindingResult,
-                  Locale locale) {
+  public Callable<ValidationResultDto> validate(@Valid VariableDocument variableDocument,
+      BindingResult bindingResult, Locale locale) {
     return () -> {
       ValidationResultDto validationResult = new ValidationResultDto();
       if (!bindingResult.hasErrors()) {
@@ -239,7 +234,5 @@ public abstract class AbstractVariableModifyController {
     };
   }
 
-  protected abstract
-          AbstractVariableModifyResource createResource(
-                  String variableId);
+  protected abstract AbstractVariableModifyResource createResource(String variableId);
 }

@@ -56,7 +56,7 @@ public class VariableCreateController extends AbstractVariableModifyController {
   public Callable<ModelAndView> create(@Valid VariableDocument variableDocument,
       BindingResult bindingResult) {
     return () -> {
-      return createModelAndView(variableDocument, Optional.empty());
+      return createModelAndView(variableDocument, Optional.empty(), 0);
     };
   }
 

@@ -56,7 +56,7 @@ public class VariableEditController extends AbstractVariableModifyController {
       BeanPropertyBindingResult errors =
           new BeanPropertyBindingResult(variableDocument, "variableDocument");
       validator.validate(variableDocument, errors);
-      ModelAndView modelAndView = createModelAndView(variableDocument, Optional.empty());
+      ModelAndView modelAndView = createModelAndView(variableDocument, Optional.empty(), 0);
       modelAndView.addAllObjects(errors.getModel());
       return modelAndView;
     };
