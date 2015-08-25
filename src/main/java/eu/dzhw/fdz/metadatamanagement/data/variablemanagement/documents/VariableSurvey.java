@@ -12,7 +12,6 @@ import eu.dzhw.fdz.metadatamanagement.data.common.documents.DateRange;
 import eu.dzhw.fdz.metadatamanagement.data.common.documents.validation.ValidDateRange;
 import eu.dzhw.fdz.metadatamanagement.data.common.documents.validation.groups.ModifyValidationGroup.Create;
 import eu.dzhw.fdz.metadatamanagement.data.common.documents.validation.groups.ModifyValidationGroup.Edit;
-import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.validation.UniqueVariableAlias;
 import net.karneim.pojobuilder.GeneratePojoBuilder;
 
 /**
@@ -23,10 +22,8 @@ import net.karneim.pojobuilder.GeneratePojoBuilder;
  * @author Daniel Katzberg
  *
  */
-//TODO redesign the validation. (different logic at create and edit)
 @GeneratePojoBuilder(
     intoPackage = "eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.builders")
-@UniqueVariableAlias(groups = {Create.class, Edit.class})
 public class VariableSurvey {
 
   // Public constants which are used in queries as fieldnames.

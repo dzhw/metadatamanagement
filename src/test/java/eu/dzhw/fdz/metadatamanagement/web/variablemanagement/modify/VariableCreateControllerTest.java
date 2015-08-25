@@ -76,7 +76,9 @@ public class VariableCreateControllerTest extends AbstractWebTest {
             .param(VariableDocument.NESTED_VARIABLE_SURVEY_ID_FIELD, "SurveyID")
             .param("addSurvey", ""))
         .andExpect(status().isOk()).andExpect(request().asyncStarted())
-        .andExpect(request().asyncResult(instanceOf(ModelAndView.class))).andReturn();
+        .andExpect(request()
+            .asyncResult(instanceOf(ModelAndView.class)))
+        .andReturn();
 
     // Act and Assert
     this.mockMvc.perform(asyncDispatch(mvcResult)).andExpect(status().is2xxSuccessful())

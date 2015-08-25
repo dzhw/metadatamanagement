@@ -95,6 +95,10 @@ public class VariableDocument extends AbstractDocument {
   /**
    * A optional scale level of the variable, if the variable is e.g. not a String.
    */
+  /*
+   * One more validation (must field if datatype is numeric. happens in the Validator
+   * VariableDocumentValidator.
+   */
   @ValidScaleLevel(groups = {Create.class, Edit.class})
   private String scaleLevel;
 
@@ -178,7 +182,7 @@ public class VariableDocument extends AbstractDocument {
     if (object != null && getClass() == object.getClass()) {
       if (!super.equals(object)) {
         return false;
-      }  
+      }
       VariableDocument that = (VariableDocument) object;
       return Objects.equal(this.variableSurvey, that.variableSurvey)
           && Objects.equal(this.name, that.name) && Objects.equal(this.dataType, that.dataType)

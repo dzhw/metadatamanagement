@@ -26,7 +26,6 @@ import eu.dzhw.fdz.metadatamanagement.data.common.documents.builders.DateRangeBu
 import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.builders.AnswerOptionBuilder;
 import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.builders.VariableDocumentBuilder;
 import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.builders.VariableSurveyBuilder;
-import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.validation.UniqueVariableAlias;
 import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.validation.validators.VariableDocumentCreateValidator;
 import eu.dzhw.fdz.metadatamanagement.web.AbstractWebTest;
 
@@ -278,8 +277,8 @@ public class VariableDocumentTest extends AbstractWebTest {
         is(NotNull.class.getSimpleName()));
     assertThat(errors.getFieldError(VariableDocument.NESTED_VARIABLE_SURVEY_VARIABLE_ALIAS_FIELD)
         .getCode(), is(NotBlank.class.getSimpleName()));
-    assertThat(errors.getFieldError(VariableDocument.VARIABLE_SURVEY_FIELD).getCode(),
-        is(UniqueVariableAlias.class.getSimpleName()));
+    assertThat(errors.getFieldError(VariableDocument.NESTED_VARIABLE_SURVEY_VARIABLE_ALIAS_FIELD).getCode(),
+        is(NotBlank.class.getSimpleName()));
   }
 
   @Test
