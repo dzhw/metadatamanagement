@@ -13,6 +13,7 @@ import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.hateoas.mvc.ControllerLinkBuilderFactory;
+import org.springframework.http.MediaType;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.validation.ObjectError;
@@ -21,6 +22,7 @@ import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.AnswerOption;
@@ -58,9 +60,9 @@ public abstract class AbstractVariableModifyController {
    * @param dataTypesProvider a provider returning valid datatypes
    */
   protected AbstractVariableModifyController(VariableService variableService,
-      ControllerLinkBuilderFactory controllerLinkBuilderFactory,
-      VariableDocumentValidator validator, ScaleLevelProvider scaleLevelProvider,
-      DataTypesProvider dataTypesProvider) {
+          ControllerLinkBuilderFactory controllerLinkBuilderFactory,
+          VariableDocumentValidator validator, ScaleLevelProvider scaleLevelProvider,
+          DataTypesProvider dataTypesProvider) {
     this.variableService = variableService;
     this.controllerLinkBuilderFactory = controllerLinkBuilderFactory;
     this.validator = validator;
@@ -69,12 +71,15 @@ public abstract class AbstractVariableModifyController {
   }
 
   @InitBinder("variableDocument")
-  protected void initBinder(WebDataBinder binder) {
+  protected
+          void initBinder(
+                  WebDataBinder binder) {
     binder.setValidator(validator);
   }
 
-  protected ModelAndView createModelAndView(VariableDocument variableDocument,
-      Optional<String> focusElementId) {
+  protected
+          ModelAndView createModelAndView(
+                  VariableDocument variableDocument, Optional<String> focusElementId) {
     ModelAndView modelAndView = new ModelAndView("variables/modify");
     modelAndView.addObject("resource", createResource(variableDocument.getId()));
     modelAndView.addObject("scaleLevelMap", scaleLevelProvider.getAllScaleLevel());
@@ -92,8 +97,9 @@ public abstract class AbstractVariableModifyController {
    * @return modify.html
    */
   @RequestMapping(method = RequestMethod.POST, params = {"addSurvey"})
-  public Callable<ModelAndView> addSurvey(VariableDocument variableDocument,
-      BindingResult bindingResult) {
+  public
+          Callable<ModelAndView> addSurvey(
+                  VariableDocument variableDocument, BindingResult bindingResult) {
     return () -> {
       VariableSurvey survey = new VariableSurvey();
       variableDocument.setVariableSurvey(survey);
@@ -110,8 +116,9 @@ public abstract class AbstractVariableModifyController {
    * @return modify.html
    */
   @RequestMapping(method = RequestMethod.POST, params = {"removeSurvey"})
-  public Callable<ModelAndView> removeSurvey(VariableDocument variableDocument,
-      BindingResult bindingResult) {
+  public
+          Callable<ModelAndView> removeSurvey(
+                  VariableDocument variableDocument, BindingResult bindingResult) {
     return () -> {
       variableDocument.setVariableSurvey(null);
 
@@ -127,8 +134,9 @@ public abstract class AbstractVariableModifyController {
    * @return modify.html
    */
   @RequestMapping(method = RequestMethod.POST, params = {"addAnswerOption"})
-  public Callable<ModelAndView> addAnswerOption(VariableDocument variableDocument,
-      BindingResult bindingResult) {
+  public
+          Callable<ModelAndView> addAnswerOption(
+                  VariableDocument variableDocument, BindingResult bindingResult) {
     return () -> {
       variableDocument.addAnswerOption(new AnswerOption());
 
@@ -144,9 +152,10 @@ public abstract class AbstractVariableModifyController {
    * @return modify.html
    */
   @RequestMapping(method = RequestMethod.POST, params = {"removeAnswerOption"})
-  public Callable<ModelAndView> removeAnswerOption(
-      @RequestParam("removeAnswerOption") int indexAnswerOption, VariableDocument variableDocument,
-      BindingResult bindingResult) {
+  public
+          Callable<ModelAndView> removeAnswerOption(
+                  @RequestParam("removeAnswerOption") int indexAnswerOption,
+                  VariableDocument variableDocument, BindingResult bindingResult) {
     return () -> {
       variableDocument.getAnswerOptions().remove(indexAnswerOption);
       validator.validate(variableDocument, bindingResult);
@@ -161,8 +170,9 @@ public abstract class AbstractVariableModifyController {
    * @return variableDetails.html or modify.html
    */
   @RequestMapping(method = RequestMethod.POST)
-  public Callable<ModelAndView> save(@Valid VariableDocument variableDocument,
-      BindingResult bindingResult) {
+  public
+          Callable<ModelAndView> save(
+                  @Valid VariableDocument variableDocument, BindingResult bindingResult) {
     return () -> {
       if (!bindingResult.hasErrors()) {
         variableService.save(variableDocument);
@@ -184,9 +194,13 @@ public abstract class AbstractVariableModifyController {
    * @return Return a Map fieldName->List of error messages
    */
   // VariableValidateController
-  @RequestMapping(method = RequestMethod.POST, value = "/validate")
-  public Callable<ValidationResultDto> validate(@Valid VariableDocument variableDocument,
-      BindingResult bindingResult, Locale locale) {
+  @RequestMapping(method = RequestMethod.POST, value = "/validate",
+          produces = MediaType.APPLICATION_JSON_VALUE)
+  @ResponseBody
+  public
+          Callable<ValidationResultDto> validate(
+                  @Valid VariableDocument variableDocument, BindingResult bindingResult,
+                  Locale locale) {
     return () -> {
       ValidationResultDto validationResult = new ValidationResultDto();
       if (!bindingResult.hasErrors()) {
@@ -225,5 +239,7 @@ public abstract class AbstractVariableModifyController {
     };
   }
 
-  protected abstract AbstractVariableModifyResource createResource(String variableId);
+  protected abstract
+          AbstractVariableModifyResource createResource(
+                  String variableId);
 }
