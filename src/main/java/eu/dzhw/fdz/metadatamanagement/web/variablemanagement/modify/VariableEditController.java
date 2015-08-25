@@ -15,7 +15,7 @@ import org.springframework.web.servlet.ModelAndView;
 import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.DataTypesProvider;
 import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.ScaleLevelProvider;
 import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.VariableDocument;
-import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.validation.VariableDocumentValidator;
+import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.validation.validators.VariableDocumentEditValidator;
 import eu.dzhw.fdz.metadatamanagement.service.variablemanagement.VariableService;
 
 /**
@@ -38,7 +38,7 @@ public class VariableEditController extends AbstractVariableModifyController {
   @Autowired
   public VariableEditController(VariableService variableService,
       ControllerLinkBuilderFactory controllerLinkBuilderFactory,
-      VariableDocumentValidator validator, ScaleLevelProvider scaleLevelProvider,
+      VariableDocumentEditValidator validator, ScaleLevelProvider scaleLevelProvider,
       DataTypesProvider dataTypesProvider) {
     super(variableService, controllerLinkBuilderFactory, validator, scaleLevelProvider,
         dataTypesProvider);

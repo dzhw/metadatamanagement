@@ -6,6 +6,8 @@ import javax.validation.constraints.Size;
 import com.google.common.base.MoreObjects;
 import com.google.common.base.Objects;
 
+import eu.dzhw.fdz.metadatamanagement.data.common.documents.validation.groups.ModifyValidationGroup.Create;
+import eu.dzhw.fdz.metadatamanagement.data.common.documents.validation.groups.ModifyValidationGroup.Edit;
 import net.karneim.pojobuilder.GeneratePojoBuilder;
 
 /**
@@ -25,13 +27,13 @@ public class AnswerOption {
   /**
    * This is the code of an answer. It is internal code representation of the answer.
    */
-  @NotNull
+  @NotNull(groups = {Create.class, Edit.class})
   private Integer code;
 
   /**
    * The Label is the answer which are read by the subjects.
    */
-  @Size(max = 60)
+  @Size(max = 60, groups = {Create.class, Edit.class})
   private String label;
 
   /*

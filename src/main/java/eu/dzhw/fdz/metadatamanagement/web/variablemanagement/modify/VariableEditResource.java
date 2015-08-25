@@ -3,6 +3,7 @@ package eu.dzhw.fdz.metadatamanagement.web.variablemanagement.modify;
 import static org.springframework.hateoas.mvc.ControllerLinkBuilder.methodOn;
 
 import java.util.Locale;
+import java.util.Optional;
 
 import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.hateoas.Link;
@@ -24,7 +25,7 @@ public class VariableEditResource extends AbstractVariableModifyResource {
    * @param factory the {@link ControllerLinkBuilderFactory}
    */
   public VariableEditResource(ControllerLinkBuilderFactory factory, String variableId) {
-    super(factory);
+    super(factory, Optional.of(variableId));
     // create links for edit mode
     this.add(
         factory
@@ -51,5 +52,20 @@ public class VariableEditResource extends AbstractVariableModifyResource {
   @Override
   public boolean isCreateMode() {
     return false;
+  }
+
+  /*
+   * (non-Javadoc)
+   * 
+   * @see
+   * eu.dzhw.fdz.metadatamanagement.web.variablemanagement.modify.AbstractVariableModifyResource#
+   * addValidateLink(org.springframework.hateoas.mvc.ControllerLinkBuilderFactory)
+   */
+  @Override
+  protected void addValidateLink(ControllerLinkBuilderFactory factory,
+      Optional<String> variableId) {
+    this.add(factory.linkTo(methodOn(VariableEditController.class,
+        LocaleContextHolder.getLocale().getLanguage(), variableId.get()).validate(null, null, null))
+        .withRel("validate"));
   }
 }

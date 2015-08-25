@@ -1,12 +1,10 @@
 package eu.dzhw.fdz.metadatamanagement.web.variablemanagement.modify;
 
-import static org.springframework.hateoas.mvc.ControllerLinkBuilder.methodOn;
+import java.util.Optional;
 
-import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.hateoas.mvc.ControllerLinkBuilderFactory;
 
 import eu.dzhw.fdz.metadatamanagement.web.common.NavigatablePageResource;
-import eu.dzhw.fdz.metadatamanagement.web.variablemanagement.validate.VariableValidateController;
 
 /**
  * Base resource for the two variable modify resources.
@@ -22,13 +20,22 @@ public abstract class AbstractVariableModifyResource
    * 
    * @param factory The {@link ControllerLinkBuilderFactory}
    */
-  public AbstractVariableModifyResource(ControllerLinkBuilderFactory factory) {
+  public AbstractVariableModifyResource(ControllerLinkBuilderFactory factory,
+      Optional<String> variableId) {
     super();
-    this.add(factory
-        .linkTo(methodOn(VariableValidateController.class,
-            LocaleContextHolder.getLocale().getLanguage()).validate(null, null, null))
-        .withRel("validate"));
+    this.addValidateLink(factory, variableId);
   }
+
+  /**
+   * This method at the validation link to the resource.
+   * 
+   * @param factory A factory which links the validate link to the resource.
+   * @param variableId The optional validateId, which is a part of the link at edit variable
+   */
+  protected abstract void addValidateLink(ControllerLinkBuilderFactory factory,
+      Optional<String> variableId);
+
+
 
   /**
    * Indicate the mode of the page (create or edit).

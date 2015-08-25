@@ -13,6 +13,8 @@ import com.google.common.base.Objects;
 
 import eu.dzhw.fdz.metadatamanagement.data.common.documents.AbstractDocument;
 import eu.dzhw.fdz.metadatamanagement.data.common.documents.DateRange;
+import eu.dzhw.fdz.metadatamanagement.data.common.documents.validation.groups.ModifyValidationGroup.Create;
+import eu.dzhw.fdz.metadatamanagement.data.common.documents.validation.groups.ModifyValidationGroup.Edit;
 import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.validation.UniqueAnswerCode;
 import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.validation.ValidDataType;
 import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.validation.ValidScaleLevel;
@@ -67,40 +69,40 @@ public class VariableDocument extends AbstractDocument {
   /**
    * The name of the variable.
    */
-  @Size(max = 32)
-  @NotBlank
+  @Size(max = 32, groups = {Create.class, Edit.class})
+  @NotBlank(groups = {Create.class, Edit.class})
   private String name;
 
   /**
    * The data type of the variable.
    */
-  @ValidDataType
+  @ValidDataType(groups = {Create.class, Edit.class})
   private String dataType;
 
   /**
    * The label of the variable.
    */
-  @Size(max = 80)
+  @Size(max = 80, groups = {Create.class, Edit.class})
   private String label;
 
   /**
    * This field holds the questions of the variable.
    */
-  @Size(max = 256)
-  @NotBlank
+  @Size(max = 256, groups = {Create.class, Edit.class})
+  @NotBlank(groups = {Create.class, Edit.class})
   private String question;
 
   /**
    * A optional scale level of the variable, if the variable is e.g. not a String.
    */
-  @ValidScaleLevel
+  @ValidScaleLevel(groups = {Create.class, Edit.class})
   private String scaleLevel;
 
   /**
    * The value (answer options) with depending labels are represent in this nested field.
    */
   @Valid
-  @UniqueAnswerCode
+  @UniqueAnswerCode(groups = {Create.class, Edit.class})
   private List<AnswerOption> answerOptions;
 
   /**

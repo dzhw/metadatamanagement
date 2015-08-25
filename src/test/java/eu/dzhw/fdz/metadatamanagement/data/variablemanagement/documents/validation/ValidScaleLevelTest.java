@@ -15,6 +15,7 @@ import org.springframework.validation.Errors;
 import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.ScaleLevelProvider;
 import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.VariableDocument;
 import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.builders.VariableDocumentBuilder;
+import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.validation.validators.VariableDocumentCreateValidator;
 import eu.dzhw.fdz.metadatamanagement.web.AbstractWebTest;
 
 /**
@@ -24,7 +25,7 @@ import eu.dzhw.fdz.metadatamanagement.web.AbstractWebTest;
 public class ValidScaleLevelTest extends AbstractWebTest {
 
   @Autowired
-  private VariableDocumentValidator variableDocumentValidator;
+  private VariableDocumentCreateValidator variableDocumentCreateValidator;
   
   @Autowired
   private ScaleLevelProvider scaleLevelProvider;
@@ -39,7 +40,7 @@ public class ValidScaleLevelTest extends AbstractWebTest {
     
     // Act
     Errors errors = new BeanPropertyBindingResult(variableDocument, "variableDocument");
-    this.variableDocumentValidator.validate(variableDocument, errors);
+    this.variableDocumentCreateValidator.validate(variableDocument, errors);
 
     // Assert
     assertEquals(0, errors.getErrorCount());
@@ -54,7 +55,7 @@ public class ValidScaleLevelTest extends AbstractWebTest {
     
     // Act
     Errors errors = new BeanPropertyBindingResult(variableDocument, "variableDocument");
-    this.variableDocumentValidator.validate(variableDocument, errors);
+    this.variableDocumentCreateValidator.validate(variableDocument, errors);
 
     // Assert
     assertEquals(1, errors.getErrorCount());

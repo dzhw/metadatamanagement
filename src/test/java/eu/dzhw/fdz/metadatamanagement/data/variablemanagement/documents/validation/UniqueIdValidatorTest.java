@@ -14,6 +14,7 @@ import org.springframework.validation.Errors;
 
 import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.VariableDocument;
 import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.builders.VariableDocumentBuilder;
+import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.validation.validators.VariableDocumentCreateValidator;
 import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.repositories.VariableRepository;
 import eu.dzhw.fdz.metadatamanagement.web.AbstractWebTest;
 
@@ -27,7 +28,7 @@ public class UniqueIdValidatorTest extends AbstractWebTest {
   private VariableRepository repository;
 
   @Autowired
-  private VariableDocumentValidator variableDocumentValidator;
+  private VariableDocumentCreateValidator variableDocumentCreateValidator;
 
   @Test
   public void testValidUniqueId() {
@@ -42,7 +43,7 @@ public class UniqueIdValidatorTest extends AbstractWebTest {
 
     // Act
     Errors errors = new BeanPropertyBindingResult(variableDocument2, "variableDocument");
-    this.variableDocumentValidator.validate(variableDocument2, errors);
+    this.variableDocumentCreateValidator.validate(variableDocument2, errors);
 
     // Assert
     assertEquals(0, errors.getErrorCount());
@@ -64,7 +65,7 @@ public class UniqueIdValidatorTest extends AbstractWebTest {
 
     // Act
     Errors errors = new BeanPropertyBindingResult(variableDocument2, "variableDocument");
-    this.variableDocumentValidator.validate(variableDocument2, errors);
+    this.variableDocumentCreateValidator.validate(variableDocument2, errors);
 
     // Assert
     assertEquals(1, errors.getErrorCount());

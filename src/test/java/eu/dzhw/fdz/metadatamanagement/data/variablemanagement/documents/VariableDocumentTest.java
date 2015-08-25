@@ -27,7 +27,7 @@ import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.builders
 import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.builders.VariableDocumentBuilder;
 import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.builders.VariableSurveyBuilder;
 import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.validation.UniqueVariableAlias;
-import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.validation.VariableDocumentValidator;
+import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.validation.validators.VariableDocumentCreateValidator;
 import eu.dzhw.fdz.metadatamanagement.web.AbstractWebTest;
 
 /**
@@ -37,7 +37,7 @@ import eu.dzhw.fdz.metadatamanagement.web.AbstractWebTest;
 public class VariableDocumentTest extends AbstractWebTest {
 
   @Autowired
-  private VariableDocumentValidator variableDocumentValidator;
+  private VariableDocumentCreateValidator variableDocumentCreateValidator;
 
   @Test
   public void testEmptyInValidVariableDocument() {
@@ -47,7 +47,7 @@ public class VariableDocumentTest extends AbstractWebTest {
 
     // Act
     Errors errors = new BeanPropertyBindingResult(variableDocument, "variableDocument");
-    this.variableDocumentValidator.validate(variableDocument, errors);
+    this.variableDocumentCreateValidator.validate(variableDocument, errors);
 
     // Assert
     assertEquals(3, errors.getErrorCount());
@@ -68,7 +68,7 @@ public class VariableDocumentTest extends AbstractWebTest {
 
     // Act
     Errors errors = new BeanPropertyBindingResult(variableDocument, "variableDocument");
-    this.variableDocumentValidator.validate(variableDocument, errors);
+    this.variableDocumentCreateValidator.validate(variableDocument, errors);
 
     // Assert
     assertEquals(0, errors.getErrorCount());
@@ -83,7 +83,7 @@ public class VariableDocumentTest extends AbstractWebTest {
 
     // Act
     Errors errors = new BeanPropertyBindingResult(variableDocument, "variableDocument");
-    this.variableDocumentValidator.validate(variableDocument, errors);
+    this.variableDocumentCreateValidator.validate(variableDocument, errors);
 
     // Assert
     assertEquals(1, errors.getErrorCount());
@@ -100,7 +100,7 @@ public class VariableDocumentTest extends AbstractWebTest {
 
     // Act
     Errors errors = new BeanPropertyBindingResult(variableDocument, "variableDocument");
-    this.variableDocumentValidator.validate(variableDocument, errors);
+    this.variableDocumentCreateValidator.validate(variableDocument, errors);
 
     // Assert
     assertEquals(0, errors.getErrorCount());
@@ -115,7 +115,7 @@ public class VariableDocumentTest extends AbstractWebTest {
 
     // Act
     Errors errors = new BeanPropertyBindingResult(variableDocument, "variableDocument");
-    this.variableDocumentValidator.validate(variableDocument, errors);
+    this.variableDocumentCreateValidator.validate(variableDocument, errors);
 
     // Assert
     assertEquals(1, errors.getErrorCount());
@@ -135,7 +135,7 @@ public class VariableDocumentTest extends AbstractWebTest {
 
     // Act
     Errors errors = new BeanPropertyBindingResult(variableDocument, "variableDocument");
-    this.variableDocumentValidator.validate(variableDocument, errors);
+    this.variableDocumentCreateValidator.validate(variableDocument, errors);
 
     // Assert
     assertEquals(1, errors.getErrorCount());
@@ -153,7 +153,7 @@ public class VariableDocumentTest extends AbstractWebTest {
 
     // Act
     Errors errors = new BeanPropertyBindingResult(variableDocument, "variableDocument");
-    this.variableDocumentValidator.validate(variableDocument, errors);
+    this.variableDocumentCreateValidator.validate(variableDocument, errors);
 
     // Assert
     assertEquals(0, errors.getErrorCount());
@@ -174,7 +174,7 @@ public class VariableDocumentTest extends AbstractWebTest {
 
     // Act
     Errors errors = new BeanPropertyBindingResult(variableDocument, "variableDocument");
-    this.variableDocumentValidator.validate(variableDocument, errors);
+    this.variableDocumentCreateValidator.validate(variableDocument, errors);
 
     // Arrange
     assertEquals(2, errors.getErrorCount());
@@ -200,7 +200,7 @@ public class VariableDocumentTest extends AbstractWebTest {
 
     // Act
     Errors errors = new BeanPropertyBindingResult(variableDocument, "variableDocument");
-    this.variableDocumentValidator.validate(variableDocument, errors);
+    this.variableDocumentCreateValidator.validate(variableDocument, errors);
 
     // Assert
     assertEquals(1, errors.getErrorCount());
@@ -222,7 +222,7 @@ public class VariableDocumentTest extends AbstractWebTest {
 
     // Act
     Errors errors = new BeanPropertyBindingResult(variableDocument, "variableDocument");
-    this.variableDocumentValidator.validate(variableDocument, errors);
+    this.variableDocumentCreateValidator.validate(variableDocument, errors);
 
     // Assert
     assertEquals(0, errors.getErrorCount());
@@ -248,7 +248,7 @@ public class VariableDocumentTest extends AbstractWebTest {
 
     // Act
     Errors errors = new BeanPropertyBindingResult(variableDocument, "variableDocument");
-    this.variableDocumentValidator.validate(variableDocument, errors);
+    this.variableDocumentCreateValidator.validate(variableDocument, errors);
 
     // Assert
     assertEquals(1, errors.getErrorCount());
@@ -266,7 +266,7 @@ public class VariableDocumentTest extends AbstractWebTest {
 
     // Act
     Errors errors = new BeanPropertyBindingResult(variableDocument, "variableDocument");
-    this.variableDocumentValidator.validate(variableDocument, errors);
+    this.variableDocumentCreateValidator.validate(variableDocument, errors);
 
     // Assert
     assertEquals(5, errors.getErrorCount());
@@ -296,7 +296,7 @@ public class VariableDocumentTest extends AbstractWebTest {
 
     // Act
     Errors errors = new BeanPropertyBindingResult(variableDocument, "variableDocument");
-    this.variableDocumentValidator.validate(variableDocument, errors);
+    this.variableDocumentCreateValidator.validate(variableDocument, errors);
 
     // Assert
     assertEquals(1, errors.getErrorCount());
@@ -318,7 +318,7 @@ public class VariableDocumentTest extends AbstractWebTest {
 
     // Act
     Errors errors = new BeanPropertyBindingResult(variableDocument, "variableDocument");
-    this.variableDocumentValidator.validate(variableDocument, errors);
+    this.variableDocumentCreateValidator.validate(variableDocument, errors);
 
     // Assert
     assertEquals(1, errors.getErrorCount());
@@ -341,7 +341,7 @@ public class VariableDocumentTest extends AbstractWebTest {
 
     // Act
     Errors errors = new BeanPropertyBindingResult(variableDocument, "variableDocument");
-    this.variableDocumentValidator.validate(variableDocument, errors);
+    this.variableDocumentCreateValidator.validate(variableDocument, errors);
 
     // Assert
     assertEquals(1, errors.getErrorCount());
@@ -363,7 +363,7 @@ public class VariableDocumentTest extends AbstractWebTest {
             .withQuestion("DefaultQuestion?").withVariableSurvey(variableSurvey).build();
     // Act
     Errors errors = new BeanPropertyBindingResult(variableDocument, "variableDocument");
-    this.variableDocumentValidator.validate(variableDocument, errors);
+    this.variableDocumentCreateValidator.validate(variableDocument, errors);
 
     // Assert
     assertEquals(0, errors.getErrorCount());
@@ -451,7 +451,7 @@ public class VariableDocumentTest extends AbstractWebTest {
 
     // Act
     Errors errors = new BeanPropertyBindingResult(variableDocument, "variableDocument");
-    this.variableDocumentValidator.validate(variableDocument, errors);
+    this.variableDocumentCreateValidator.validate(variableDocument, errors);
 
     // Assert
     assertEquals(1, errors.getErrorCount());

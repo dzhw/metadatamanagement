@@ -10,6 +10,8 @@ import com.google.common.base.Objects;
 
 import eu.dzhw.fdz.metadatamanagement.data.common.documents.DateRange;
 import eu.dzhw.fdz.metadatamanagement.data.common.documents.validation.ValidDateRange;
+import eu.dzhw.fdz.metadatamanagement.data.common.documents.validation.groups.ModifyValidationGroup.Create;
+import eu.dzhw.fdz.metadatamanagement.data.common.documents.validation.groups.ModifyValidationGroup.Edit;
 import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.validation.UniqueVariableAlias;
 import net.karneim.pojobuilder.GeneratePojoBuilder;
 
@@ -21,9 +23,10 @@ import net.karneim.pojobuilder.GeneratePojoBuilder;
  * @author Daniel Katzberg
  *
  */
+//TODO redesign the validation. (different logic at create and edit)
 @GeneratePojoBuilder(
     intoPackage = "eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.builders")
-@UniqueVariableAlias
+@UniqueVariableAlias(groups = {Create.class, Edit.class})
 public class VariableSurvey {
 
   // Public constants which are used in queries as fieldnames.
@@ -35,22 +38,22 @@ public class VariableSurvey {
   /**
    * The surveyID is a primary.
    */
-  @Size(max = 32)
-  @NotBlank
+  @Size(max = 32, groups = {Create.class, Edit.class})
+  @NotBlank(groups = {Create.class, Edit.class})
   private String surveyId;
 
   /**
    * This holds the title of a survey.
    */
-  @Size(max = 32)
-  @NotBlank
+  @Size(max = 32, groups = {Create.class, Edit.class})
+  @NotBlank(groups = {Create.class, Edit.class})
   private String title;
 
   /**
    * DateRange is the representation of the range of the survey. This is a nested object.
    */
-  @ValidDateRange
-  @NotNull
+  @ValidDateRange(groups = {Create.class, Edit.class})
+  @NotNull(groups = {Create.class, Edit.class})
   private DateRange surveyPeriod;
 
   /**
@@ -58,8 +61,8 @@ public class VariableSurvey {
    * the front end. If the alias is different from the {@code VariableDocument.getName()}, the
    * system displays this alias.
    */
-  @Size(max = 32)
-  @NotBlank
+  @Size(max = 32, groups = {Create.class, Edit.class})
+  @NotBlank(groups = {Create.class, Edit.class})
   private String variableAlias;
 
   /*

@@ -21,7 +21,7 @@ import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.Variable
 import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.VariableSurvey;
 import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.builders.VariableDocumentBuilder;
 import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.builders.VariableSurveyBuilder;
-import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.validation.VariableDocumentValidator;
+import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.validation.validators.VariableDocumentCreateValidator;
 import eu.dzhw.fdz.metadatamanagement.web.AbstractWebTest;
 
 /**
@@ -31,7 +31,7 @@ import eu.dzhw.fdz.metadatamanagement.web.AbstractWebTest;
 public class ValidDateRangeTest extends AbstractWebTest {
 
   @Autowired
-  private VariableDocumentValidator variableDocumentValidator;
+  private VariableDocumentCreateValidator variableDocumentCreateValidator;
 
   @Test
   public void testInvalidDateRange() {
@@ -50,7 +50,7 @@ public class ValidDateRangeTest extends AbstractWebTest {
 
     // Act
     Errors errors = new BeanPropertyBindingResult(variableDocument, "variableDocument");
-    this.variableDocumentValidator.validate(variableDocument, errors);
+    this.variableDocumentCreateValidator.validate(variableDocument, errors);
 
     // Assert
     assertEquals(1, errors.getErrorCount());
@@ -75,7 +75,7 @@ public class ValidDateRangeTest extends AbstractWebTest {
 
     // Act
     Errors errors = new BeanPropertyBindingResult(variableDocument, "variableDocument");
-    this.variableDocumentValidator.validate(variableDocument, errors);
+    this.variableDocumentCreateValidator.validate(variableDocument, errors);
 
     // Assert
     assertEquals(0, errors.getErrorCount());
@@ -98,7 +98,7 @@ public class ValidDateRangeTest extends AbstractWebTest {
 
     // Act
     Errors errors = new BeanPropertyBindingResult(variableDocument, "variableDocument");
-    this.variableDocumentValidator.validate(variableDocument, errors);
+    this.variableDocumentCreateValidator.validate(variableDocument, errors);
 
     // Assert
     assertEquals(1, errors.getErrorCount());
@@ -119,7 +119,7 @@ public class ValidDateRangeTest extends AbstractWebTest {
 
     // Act
     Errors errors = new BeanPropertyBindingResult(variableDocument, "variableDocument");
-    this.variableDocumentValidator.validate(variableDocument, errors);
+    this.variableDocumentCreateValidator.validate(variableDocument, errors);
 
     // Assert
     assertEquals(0, errors.getErrorCount());

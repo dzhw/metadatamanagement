@@ -18,6 +18,10 @@ spring:
         index.number_of_shards: 1
         index.number_of_replicas: 0
 
+  mvc:
+    async:
+      request-timeout: 60000
+
 logging:
   level:
     org.elasticsearch.index.search.slowlog.query: INFO

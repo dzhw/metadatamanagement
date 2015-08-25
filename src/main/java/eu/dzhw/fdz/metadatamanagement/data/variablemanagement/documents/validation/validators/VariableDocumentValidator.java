@@ -1,9 +1,8 @@
-package eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.validation;
+package eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.validation.validators;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
+import org.springframework.validation.SmartValidator;
 import org.springframework.validation.Validator;
 
 import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.DataTypesProvider;
@@ -15,20 +14,31 @@ import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.Variable
  * 
  * @author René Reitmann
  */
-@Component
-public class VariableDocumentValidator implements Validator {
+public abstract class VariableDocumentValidator implements Validator {
 
   public static final String MANDATORY_SCALE_LEVEL_MESSAGE_CODE =
       "MandatoryScaleLevelOnNumericDataType.variabledocument.scaleLevel";
 
-  private Validator jsrValidator;
+  private SmartValidator jsrValidator;
 
   private DataTypesProvider dataTypesProvider;
 
-  @Autowired
+  public abstract Object[] getValidateHints();
+
+  /**
+   * Yeah.
+   * 
+   * @param jsrValidator More yeah.
+   * @param dataTypesProvider More yeah.
+   */
   public VariableDocumentValidator(@Qualifier("mvcValidator") Validator jsrValidator,
       DataTypesProvider dataTypesProvider) {
-    this.jsrValidator = jsrValidator;
+    if (jsrValidator instanceof SmartValidator) {
+      this.jsrValidator = (SmartValidator) jsrValidator;
+    } else {
+      throw new RuntimeException(
+          "Cast not successful at validators... (should be a smart validator.)");
+    }
     this.dataTypesProvider = dataTypesProvider;
   }
 
@@ -40,7 +50,7 @@ public class VariableDocumentValidator implements Validator {
   @Override
   public void validate(Object target, Errors errors) {
     // first execute JSR-303 validation
-    jsrValidator.validate(target, errors);
+    this.jsrValidator.validate(target, errors, this.getValidateHints());
 
     VariableDocument variableDocument = (VariableDocument) target;
 

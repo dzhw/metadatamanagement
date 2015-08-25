@@ -19,6 +19,7 @@ import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.AnswerOp
 import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.VariableDocument;
 import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.builders.AnswerOptionBuilder;
 import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.builders.VariableDocumentBuilder;
+import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.validation.validators.VariableDocumentCreateValidator;
 import eu.dzhw.fdz.metadatamanagement.web.AbstractWebTest;
 
 /**
@@ -28,7 +29,7 @@ import eu.dzhw.fdz.metadatamanagement.web.AbstractWebTest;
 public class UniqueAnswerCodeValidatorTest extends AbstractWebTest {
 
   @Autowired
-  private VariableDocumentValidator variableDocumentValidator;
+  private VariableDocumentCreateValidator variableDocumentCreateValidator;
 
   @Test
   public void testValidAnswerCode() {
@@ -48,9 +49,9 @@ public class UniqueAnswerCodeValidatorTest extends AbstractWebTest {
 
     // Act
     Errors errors = new BeanPropertyBindingResult(variableDocument, "variableDocument");
-    this.variableDocumentValidator.validate(variableDocument, errors);
+    this.variableDocumentCreateValidator.validate(variableDocument, errors);
     Errors errorsNullAnswerOptions = new BeanPropertyBindingResult(variableDocumentNullAnswerOptions, "variableDocument");
-    this.variableDocumentValidator.validate(variableDocumentNullAnswerOptions, errors);
+    this.variableDocumentCreateValidator.validate(variableDocumentNullAnswerOptions, errors);
 
     // Assert
     assertEquals(0, errors.getErrorCount());
@@ -72,7 +73,7 @@ public class UniqueAnswerCodeValidatorTest extends AbstractWebTest {
 
     // Act
     Errors errors = new BeanPropertyBindingResult(variableDocument, "variableDocument");
-    this.variableDocumentValidator.validate(variableDocument, errors);
+    this.variableDocumentCreateValidator.validate(variableDocument, errors);
 
     // Assert
     assertEquals(1, errors.getErrorCount());
