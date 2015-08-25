@@ -21,45 +21,34 @@
 					<div th:replace="common/errorAlerts::globalAlerts(field=global)"></div>
 					<div class="row">
 						<div class="col-md-6">
-							<th:block th:if="${resource.id.href.contains('create')}">
 								<div
-									th:replace="common/inputs::input(field=id,label=#{variables.modify.variable.id},placeholder=#{variables.modify.variable.id},type=text)"></div>
-							</th:block>
-							<th:block th:if="${resource.id.href.contains('edit')}">
-								<div class="form-group has-feedback has-success">
-									<label th:text="#{variables.modify.variable.id}"></label> <input
-										th:type="text" class="form-control" th:field="*{id}"
-										th:placeholder="#{variables.modify.variable.id}"
-										readonly="readonly" /> <span
-										class="glyphicon form-control-feedback glyphicon-ok"></span>
-								</div>
-							</th:block>
-						</div>
+									th:replace="common/inputs::input(field=id,label=#{variables.modify.variable.id},placeholder=#{variables.modify.variable.id},type=text,readonly=${!resource.createMode})"></div>
+						</div>							
 					</div>
 					<div class="row">
 						<div class="col-md-6">
 							<div
-								th:replace="common/inputs::input(field=name,label=#{variables.modify.variable.name},placeholder=#{variables.modify.variable.name},type=text)"></div>
+								th:replace="common/inputs::input(field=name,label=#{variables.modify.variable.name},placeholder=#{variables.modify.variable.name},type=text,readonly=false)"></div>
 						</div>
 						<div class=" col-md-6">
 							<div
-								th:replace="common/inputs::input(field=label,label=#{variables.modify.variable.label},placeholder=#{variables.modify.variable.label},type=text)"></div>
+								th:replace="common/inputs::input(field=label,label=#{variables.modify.variable.label},placeholder=#{variables.modify.variable.label},type=text,readonly=false)"></div>
 						</div>
 					</div>
 					<div class="row">
 						<div class=" col-md-6">
 							<div
-								th:replace="common/inputs::select(field=dataType,label=#{variables.modify.variable.dataType},valuesMap=dataTypesMap)"></div>
+								th:replace="common/inputs::select(field=dataType,label=#{variables.modify.variable.dataType},valuesMap=dataTypesMap,readonly=false)"></div>
 						</div>
 						<div class=" col-md-6">
 							<div
-								th:replace="common/inputs::select(field=scaleLevel,label=#{variables.modify.variable.scaleLevel},valuesMap=scaleLevelMap)"></div>
+								th:replace="common/inputs::select(field=scaleLevel,label=#{variables.modify.variable.scaleLevel},valuesMap=scaleLevelMap,,readonly=false)"></div>
 						</div>
 					</div>
 					<div class="row">
 						<div class=" col-md-12">
 							<div
-								th:replace="common/inputs::textarea(field=question,label=#{variables.modify.variable.question},placeholder=#{variables.modify.variable.question},rows=4)"></div>
+								th:replace="common/inputs::textarea(field=question,label=#{variables.modify.variable.question},placeholder=#{variables.modify.variable.question},rows=4,readonly=false)"></div>
 						</div>
 					</div>
 					<div class="panel panel-primary">
@@ -72,11 +61,11 @@
 								class="row">
 								<div class="col-md-5">
 									<div
-										th:replace="common/inputs::input(field=answerOptions[__${rowStat.index}__].code,label=#{variables.modify.variable.answerOption.code},placeholder=#{variables.modify.variable.answerOption.code},type=text)"></div>
+										th:replace="common/inputs::input(field=answerOptions[__${rowStat.index}__].code,label=#{variables.modify.variable.answerOption.code},placeholder=#{variables.modify.variable.answerOption.code},type=text,readonly=false)"></div>
 								</div>
 								<div class="col-md-5">
 									<div
-										th:replace="common/inputs::input(field=answerOptions[__${rowStat.index}__].label,label=#{variables.modify.variable.answerOption.label},placeholder=#{variables.modify.variable.answerOption.label},type=text)"></div>
+										th:replace="common/inputs::input(field=answerOptions[__${rowStat.index}__].label,label=#{variables.modify.variable.answerOption.label},placeholder=#{variables.modify.variable.answerOption.label},type=text,readonly=false)"></div>
 								</div>
 								<div class="col-md-2">
 									<div
@@ -100,19 +89,19 @@
 								<div class="row">
 									<div class=" col-md-6">
 										<div
-											th:replace="common/inputs::input(field=variableSurvey.surveyId,label=#{variables.modify.variable.survey.id},placeholder=#{variables.modify.variable.survey.id},type=text)"></div>
+											th:replace="common/inputs::input(field=variableSurvey.surveyId,label=#{variables.modify.variable.survey.id},placeholder=#{variables.modify.variable.survey.id},type=text,readonly=false)"></div>
 									</div>
 								</div>
 								<div class="row">
 									<div class=" col-md-6">
 										<div
-											th:replace="common/inputs::input(field=variableSurvey.title,label=#{variables.modify.variable.survey.title},placeholder=#{variables.modify.variable.survey.title},type=text)"></div>
+											th:replace="common/inputs::input(field=variableSurvey.title,label=#{variables.modify.variable.survey.title},placeholder=#{variables.modify.variable.survey.title},type=text,readonly=false)"></div>
 									</div>
 								</div>
 								<div class="row">
 									<div class=" col-md-6">
 										<div
-											th:replace="common/inputs::input(field=variableSurvey.variableAlias,label=#{variables.modify.variable.survey.variableAlias},placeholder=#{variables.modify.variable.survey.variableAlias},type=text)"></div>
+											th:replace="common/inputs::input(field=variableSurvey.variableAlias,label=#{variables.modify.variable.survey.variableAlias},placeholder=#{variables.modify.variable.survey.variableAlias},type=text,readonly=false)"></div>
 									</div>
 								</div>
 								<div class="row">
@@ -125,11 +114,11 @@
 													th:replace="common/errorAlerts::globalAlerts(field=variableSurvey.surveyPeriod)"></div>
 												<div class="col-md-6">
 													<div
-														th:replace="common/inputs::input(field=variableSurvey.surveyPeriod.startDate,label=#{variables.modify.variable.survey.period.start},placeholder=#{variables.modify.variable.survey.period.start},type=date)"></div>
+														th:replace="common/inputs::input(field=variableSurvey.surveyPeriod.startDate,label=#{variables.modify.variable.survey.period.start},placeholder=#{variables.modify.variable.survey.period.start},type=date,readonly=false)"></div>
 												</div>
 												<div class="col-md-6">
 													<div
-														th:replace="common/inputs::input(field=variableSurvey.surveyPeriod.endDate,label=#{variables.modify.variable.survey.period.end},placeholder=#{variables.modify.variable.survey.period.end},type=date)"></div>
+														th:replace="common/inputs::input(field=variableSurvey.surveyPeriod.endDate,label=#{variables.modify.variable.survey.period.end},placeholder=#{variables.modify.variable.survey.period.end},type=date,readonly=false)"></div>
 												</div>
 											</div>
 										</div>
