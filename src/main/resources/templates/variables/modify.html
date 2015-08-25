@@ -72,8 +72,8 @@
 										th:replace="common/inputs::input(field=answerOptions[__${rowStat.index}__].label,label=#{variables.modify.variable.answerOption.label},placeholder=#{variables.modify.variable.answerOption.label},type=text,readonly=false)"></div>
 								</div>
 								<div class="col-md-2">
-									<div
-										th:replace="common/buttons::removeButtonSmall(index=${rowStat.index})">
+									<div						
+										th:replace="common/buttons::removeButtonSmall(index=${rowStat.index},name=removeAnswerOption)">
 									</div>
 								</div>
 							</div>
