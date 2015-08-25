@@ -27,6 +27,11 @@
         "analyzer": "english",
         "copy_to": "allStringsAsNgrams"
       },
+      "question": {
+        "type": "string",
+        "analyzer": "english",
+        "copy_to": "allStringsAsNgrams"
+      },
       "id": {
         "type": "string",
         "index": "not_analyzed",
