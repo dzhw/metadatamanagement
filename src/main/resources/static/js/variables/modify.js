@@ -24,9 +24,23 @@ VariableModifyForm.validate = _.debounce(function(form) {
 		for (var j = 0; j < $globalErrorDivs.length; j++){
 			var globalError = response.errorMessageMap[$globalErrorDivs[j].id];
 			if(globalError){
-				  $($globalErrorDivs[j]).first().addClass('alert alert-danger');
-				$($globalErrorDivs[j]).html(
-						'<p>' + globalError + '</p>');
+				var div=$('<div></div>', {
+				    'class':'alert alert-danger',
+				    'role':"alert",
+				});
+				var spanIcon=$('<span></span>', {
+				    'class':'glyphicon glyphicon-exclamation-sign',
+				});
+				var spanReader=$('<span></span>', {
+				    'class':'sr-only',
+				    'text':globalError,
+				});
+				var spanText=$('<span></span>', {
+				    'text':' '+globalError,
+				});
+				
+				div.append(spanIcon).append(spanReader).append(spanText);
+				  $($globalErrorDivs[j]).append(div);
 			}
 		}	
 		
