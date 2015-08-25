@@ -106,7 +106,14 @@ public abstract class VariableDocumentValidator implements Validator {
     }
   }
 
-  //TODO Dkatzberg: Write javadoc
+  /**
+   * This method is abstract for compensation of validation groups. Every implementation of this
+   * methods is equivalent to depending to a validation group, because a validator depending on a
+   * given web controller, which uses a validation class.
+   * 
+   * @param variableDocument A representation of a variable.
+   * @param errors An list object, with countains validation errors.
+   */
   protected abstract void validateUniqueVariableAlias(VariableDocument variableDocument,
       Errors errors);
 }

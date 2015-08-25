@@ -268,7 +268,7 @@ public class VariableDocumentTest extends AbstractWebTest {
     this.variableDocumentCreateValidator.validate(variableDocument, errors);
 
     // Assert
-    assertEquals(5, errors.getErrorCount());
+    assertEquals(4, errors.getErrorCount());
     assertThat(errors.getFieldError(VariableDocument.NESTED_VARIABLE_SURVEY_ID_FIELD).getCode(),
         is(NotBlank.class.getSimpleName()));
     assertThat(errors.getFieldError(VariableDocument.NESTED_VARIABLE_SURVEY_TITLE_FIELD).getCode(),
@@ -277,8 +277,6 @@ public class VariableDocumentTest extends AbstractWebTest {
         is(NotNull.class.getSimpleName()));
     assertThat(errors.getFieldError(VariableDocument.NESTED_VARIABLE_SURVEY_VARIABLE_ALIAS_FIELD)
         .getCode(), is(NotBlank.class.getSimpleName()));
-    assertThat(errors.getFieldError(VariableDocument.NESTED_VARIABLE_SURVEY_VARIABLE_ALIAS_FIELD).getCode(),
-        is(NotBlank.class.getSimpleName()));
   }
 
   @Test

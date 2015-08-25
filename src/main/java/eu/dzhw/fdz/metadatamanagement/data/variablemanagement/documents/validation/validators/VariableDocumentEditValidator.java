@@ -46,7 +46,55 @@ public class VariableDocumentEditValidator extends VariableDocumentValidator {
    */
   @Override
   protected void validateUniqueVariableAlias(VariableDocument variableDocument, Errors errors) {
-    // TODO DKatzberg: Prepare impl.
-  }
+    // A check for null is not necessary, because it is a type annotation. it can only be checked
+    // by
+    // initialized objects
+    if (variableDocument == null) {
+      return;
+    }
 
+    if (variableDocument.getVariableSurvey() == null) {
+      return;
+    }
+
+    // All fields are not empty fields -> no valid if there are null
+    // but it return valid, because of the NotBlank field. That handles null fields.
+    if (variableDocument.getVariableSurvey().getSurveyId() == null
+        || variableDocument.getVariableSurvey().getVariableAlias() == null
+        || variableDocument.getId() == null) {
+      return;
+    }
+
+    // get the entry from the database
+    VariableDocument variableDocumentFromDatabase =
+        this.variableRepository.findOne(variableDocument.getId());
+
+    // All fields are not empty fields -> no valid if there are null
+    // but it return valid, because of the NotBlank field. That handles null fields.
+    if (variableDocumentFromDatabase.getVariableSurvey().getSurveyId() == null
+        || variableDocumentFromDatabase.getVariableSurvey().getVariableAlias() == null
+        || variableDocumentFromDatabase.getId() == null) {
+      return;
+    }
+
+    // no change -> every is okay
+    if (variableDocumentFromDatabase.getVariableSurvey().getVariableAlias()
+        .equals(variableDocument.getVariableSurvey().getVariableAlias())) {
+      return;
+    //CHANGE!!! check for unique variable alias.
+    } else {
+      // no elements found
+      if (this.variableRepository
+          .filterBySurveyIdAndVariableAlias(variableDocument.getVariableSurvey().getSurveyId(),
+              variableDocument.getVariableSurvey().getVariableAlias())
+          .getNumberOfElements() == 0) {
+        return;
+        // found elements
+      } else {
+        errors.rejectValue(VariableDocument.NESTED_VARIABLE_SURVEY_VARIABLE_ALIAS_FIELD,
+            MANDATORY_VARIABLE_SURVEY_VARIABLEALIAS_MESSAGE_CODE);
+        return;
+      }
+    }
+  }
 }

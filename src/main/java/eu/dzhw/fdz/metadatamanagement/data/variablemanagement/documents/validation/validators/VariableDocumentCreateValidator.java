@@ -59,10 +59,9 @@ public class VariableDocumentCreateValidator extends VariableDocumentValidator {
       }
 
       // Both are not empty fields -> no valid if there are null
+      //but it return valid, because of the NotBlank field. That handles null fields.
       if (variableDocument.getVariableSurvey().getSurveyId() == null
           || variableDocument.getVariableSurvey().getVariableAlias() == null) {
-        errors.rejectValue(VariableDocument.NESTED_VARIABLE_SURVEY_VARIABLE_ALIAS_FIELD,
-            MANDATORY_VARIABLE_SURVEY_VARIABLEALIAS_MESSAGE_CODE);
         return;
       }
 
