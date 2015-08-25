@@ -97,7 +97,7 @@
 												<span th:text="#{common.pager.previous}"></span>
 										</a></li>
 
-										<li><a> <span
+										<li class="hidden-xs"><a> <span
 												th:text="#{common.pagenumbers(${resource.page.metadata.number}+1,${resource.page.metadata.totalPages})}"></span>
 										</a></li>
 										<li class="next" th:if="${resource.page.nextLink != null}"><a

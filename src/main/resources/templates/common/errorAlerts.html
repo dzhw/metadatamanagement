@@ -8,8 +8,10 @@
 	<div th:fragment="globalAlerts(field)" class="global-error"
 		th:id="${field}">
 		<div th:each="err : ${#fields.errors('__${field}__')}"
-			class="alert alert-danger">
-			<p th:text="${err}">Error</p>
+			class="alert alert-danger" role="alert">
+			<span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+			<span class="sr-only" th:text="${err}"></span>
+			<span th:text="${err}"></span>
 		</div>
 	</div>
 </body>
