@@ -15,6 +15,7 @@ import com.google.common.base.MoreObjects;
 import eu.dzhw.fdz.metadatamanagement.data.common.PopulatorUtils;
 import eu.dzhw.fdz.metadatamanagement.data.common.documents.validation.groups.ModifyValidationGroup.Create;
 import eu.dzhw.fdz.metadatamanagement.data.common.documents.validation.groups.ModifyValidationGroup.Edit;
+import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.validation.NoEditableId;
 import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.validation.UniqueId;
 
 /**
@@ -38,9 +39,9 @@ public abstract class AbstractDocument {
   /**
    * A fdzID as primary key for the identification of the variable of a survey.
    */
-  //TODO different unique id at create. no changed id validator at edit mode
   @Id
-  @UniqueId(groups = {Create.class})
+  @UniqueId(groups = {Create.class}) 
+  @NoEditableId(groups = {Edit.class})
   @Size(max = 32, groups = {Create.class, Edit.class})
   @NotBlank(groups = {Create.class, Edit.class})
   @Pattern(regexp = "^[0-9a-zA-Z_-]*", groups = {Create.class, Edit.class})
