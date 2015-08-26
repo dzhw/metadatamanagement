@@ -41,6 +41,9 @@ import eu.dzhw.fdz.metadatamanagement.web.common.dtos.ValidationResultDto;
  */
 public abstract class AbstractVariableModifyController {
 
+  public static String VARIABLE_PATH = "variables/";
+  public static String SUPPORTED_LANGUAGES_PATH = "{language:de|en}/";
+
   protected VariableService variableService;
   protected ControllerLinkBuilderFactory controllerLinkBuilderFactory;
   protected VariableDocumentValidator validator;
@@ -173,8 +176,8 @@ public abstract class AbstractVariableModifyController {
       System.out.println(windowYPosition);
       if (!bindingResult.hasErrors()) {
         variableService.save(variableDocument);
-        // TODO remove hardcoded url
-        return new ModelAndView("redirect:/{language}/variables/" + variableDocument.getId());
+        return new ModelAndView(
+            "redirect:/" + SUPPORTED_LANGUAGES_PATH + VARIABLE_PATH + variableDocument.getId());
       } else {
 
         return createModelAndView(variableDocument, Optional.empty(), windowYPosition);
