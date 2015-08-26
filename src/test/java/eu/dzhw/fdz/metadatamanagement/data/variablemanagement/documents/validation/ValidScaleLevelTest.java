@@ -26,18 +26,18 @@ public class ValidScaleLevelTest extends AbstractWebTest {
 
   @Autowired
   private VariableDocumentCreateValidator variableDocumentCreateValidator;
-  
+
   @Autowired
   private ScaleLevelProvider scaleLevelProvider;
-  
+
   @Test
   public void testValidScaleLevel() {
 
     // Assert
-    VariableDocument variableDocument =
-        new VariableDocumentBuilder().withId("ThisIDisOkay").withName("ThisNameIsOkay.")
-            .withQuestion("DefaultQuestion?").withScaleLevel(this.scaleLevelProvider.getOrdinalByLocal()).build();
-    
+    VariableDocument variableDocument = new VariableDocumentBuilder().withId("ThisIDisOkay")
+        .withName("ThisNameIsOkay.").withQuestion("DefaultQuestion?").withLabel("LabelIsOkay")
+        .withScaleLevel(this.scaleLevelProvider.getOrdinalByLocal()).build();
+
     // Act
     Errors errors = new BeanPropertyBindingResult(variableDocument, "variableDocument");
     this.variableDocumentCreateValidator.validate(variableDocument, errors);
@@ -49,10 +49,10 @@ public class ValidScaleLevelTest extends AbstractWebTest {
   @Test
   public void testInvalidScaleLevel() {
     // Assert
-    VariableDocument variableDocument =
-        new VariableDocumentBuilder().withId("ThisIDisOkay").withName("ThisNameIsOkay.")
-            .withQuestion("DefaultQuestion?").withScaleLevel("oRdiNalIsNotOkay").build();
-    
+    VariableDocument variableDocument = new VariableDocumentBuilder().withId("ThisIDisOkay")
+        .withName("ThisNameIsOkay.").withQuestion("DefaultQuestion?").withLabel("LabelIsOkay")
+        .withScaleLevel("oRdiNalIsNotOkay").build();
+
     // Act
     Errors errors = new BeanPropertyBindingResult(variableDocument, "variableDocument");
     this.variableDocumentCreateValidator.validate(variableDocument, errors);

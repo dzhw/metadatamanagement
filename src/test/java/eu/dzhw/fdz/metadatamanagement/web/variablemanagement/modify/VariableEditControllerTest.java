@@ -83,6 +83,7 @@ public class VariableEditControllerTest extends AbstractWebTest {
     MvcResult mvcResult = this.mockMvc
         .perform(post("/de/variables/testPostInvalidateValidID007/edit/validate")
             .param(VariableDocument.ID_FIELD, "testPostInvalidateValidID007")
+            .param(VariableDocument.LABEL_FIELD, "Ein Label")
             .param(VariableDocument.NAME_FIELD, "Ein Name"))
         .andExpect(status().isOk()).andExpect(request().asyncStarted())
         .andExpect(request().asyncResult(instanceOf(ValidationResultDto.class))).andReturn();
@@ -119,6 +120,7 @@ public class VariableEditControllerTest extends AbstractWebTest {
         .perform(post("/de/variables/testPostValidateValidID007/edit/validate")
             .param(VariableDocument.ID_FIELD, "testPostValidateValidID007")
             .param(VariableDocument.QUESTION_FIELD, "Question.")
+            .param(VariableDocument.LABEL_FIELD, "Ein Label")
             .param(VariableDocument.NAME_FIELD, "Ein Name"))
         .andExpect(status().isOk()).andExpect(request().asyncStarted())
         .andExpect(request().asyncResult(instanceOf(ValidationResultDto.class))).andReturn();

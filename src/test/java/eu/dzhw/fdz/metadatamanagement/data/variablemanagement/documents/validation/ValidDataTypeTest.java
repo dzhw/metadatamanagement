@@ -35,7 +35,7 @@ public class ValidDataTypeTest extends AbstractWebTest {
   public void testValidDataField() {
     // Assert
     VariableDocument variableDocument = new VariableDocumentBuilder().withId("ThisIDisOkay")
-        .withName("ThisNameIsOkay.").withQuestion("DefaultQuestion?")
+        .withName("ThisNameIsOkay.").withLabel("LabelIsOkay").withQuestion("DefaultQuestion?")
         .withDataType(dataTypeProvider.getStringValueByLocale()).build();
 
     // Act
@@ -49,9 +49,9 @@ public class ValidDataTypeTest extends AbstractWebTest {
   @Test
   public void testInvalidDataField() {
     // Assert
-    VariableDocument variableDocument =
-        new VariableDocumentBuilder().withId("ThisIDisOkay").withName("ThisNameIsOkay.")
-            .withQuestion("DefaultQuestion?").withDataType("sTrinGIsNotOkay").build();
+    VariableDocument variableDocument = new VariableDocumentBuilder().withId("ThisIDisOkay")
+        .withName("ThisNameIsOkay.").withQuestion("DefaultQuestion?").withLabel("LabelIsOkay")
+        .withDataType("sTrinGIsNotOkay").build();
 
     // Act
     Errors errors = new BeanPropertyBindingResult(variableDocument, "variableDocument");
@@ -67,7 +67,7 @@ public class ValidDataTypeTest extends AbstractWebTest {
   public void testNotNullScaleLevelAtNumericDataType() {
     // Assert
     VariableDocument variableDocument = new VariableDocumentBuilder().withId("ThisIDisOkay")
-        .withName("ThisNameIsOkay.").withQuestion("DefaultQuestion?")
+        .withName("ThisNameIsOkay.").withLabel("LabelIsOkay").withQuestion("DefaultQuestion?")
         .withDataType(dataTypeProvider.getNumericValueByLocale()).build();
 
     // Act

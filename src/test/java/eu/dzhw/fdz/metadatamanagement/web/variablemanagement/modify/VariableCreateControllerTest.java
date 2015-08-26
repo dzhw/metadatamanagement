@@ -195,6 +195,7 @@ public class VariableCreateControllerTest extends AbstractWebTest {
     MvcResult mvcResult = this.mockMvc
         .perform(post("/de/variables/create").param(VariableDocument.ID_FIELD, "ID007")
             .param(VariableDocument.NAME_FIELD, "Ein Name")
+            .param(VariableDocument.LABEL_FIELD, "Ein Label")
             .param(VariableDocument.QUESTION_FIELD, "Eine Frage?"))
         .andExpect(status().isOk()).andExpect(request().asyncStarted())
         .andExpect(request().asyncResult(instanceOf(ModelAndView.class))).andReturn();
@@ -217,6 +218,7 @@ public class VariableCreateControllerTest extends AbstractWebTest {
     MvcResult mvcResult = this.mockMvc
         .perform(post("/de/variables/create/validate")
             .param(VariableDocument.ID_FIELD, "testPostValidateInvalidID007")
+            .param(VariableDocument.LABEL_FIELD, "Ein Label")
             .param(VariableDocument.NAME_FIELD, "Ein Name"))
         .andExpect(status().isOk()).andExpect(request().asyncStarted())
         .andExpect(request().asyncResult(instanceOf(ValidationResultDto.class))).andReturn();
@@ -245,6 +247,7 @@ public class VariableCreateControllerTest extends AbstractWebTest {
         .perform(post("/de/variables/create/validate")
             .param(VariableDocument.ID_FIELD, "testPostValidateValidID007")
             .param(VariableDocument.QUESTION_FIELD, "Question.")
+            .param(VariableDocument.LABEL_FIELD, "Ein Label")
             .param(VariableDocument.NAME_FIELD, "Ein Name"))
         .andExpect(status().isOk()).andExpect(request().asyncStarted())
         .andExpect(request().asyncResult(instanceOf(ValidationResultDto.class))).andReturn();
@@ -271,6 +274,7 @@ public class VariableCreateControllerTest extends AbstractWebTest {
                 .param(VariableDocument.ID_FIELD, "testValidSurveyPeriodID007")
                 .param(VariableDocument.NAME_FIELD, "Ein Name")
                 .param(VariableDocument.QUESTION_FIELD, "Eine Frage?")
+                .param(VariableDocument.LABEL_FIELD, "Ein Label")
                 .param(VariableDocument.NESTED_VARIABLE_SURVEY_ID_FIELD, "ID001")
                 .param(VariableDocument.NESTED_VARIABLE_SURVEY_TITLE_FIELD, "ID001")
                 .param(VariableDocument.NESTED_VARIABLE_SURVEY_VARIABLE_ALIAS_FIELD, "ID007")

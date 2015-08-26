@@ -49,12 +49,14 @@ public class VariableDocumentTest extends AbstractWebTest {
     this.variableDocumentCreateValidator.validate(variableDocument, errors);
 
     // Assert
-    assertEquals(3, errors.getErrorCount());
+    assertEquals(4, errors.getErrorCount());
     assertThat(errors.getFieldError(VariableDocument.NAME_FIELD).getCode(),
         is(NotBlank.class.getSimpleName()));
     assertThat(errors.getFieldError(VariableDocument.QUESTION_FIELD).getCode(),
         is(NotBlank.class.getSimpleName()));
     assertThat(errors.getFieldError(VariableDocument.ID_FIELD).getCode(),
+        is(NotBlank.class.getSimpleName()));
+    assertThat(errors.getFieldError(VariableDocument.LABEL_FIELD).getCode(),
         is(NotBlank.class.getSimpleName()));
   }
 
@@ -62,8 +64,9 @@ public class VariableDocumentTest extends AbstractWebTest {
   public void testEmptyValidVariableDocument() {
 
     // Arrange
-    VariableDocument variableDocument = new VariableDocumentBuilder().withId("ThisIDisOkay")
-        .withName("ThisNameIsOkay.").withQuestion("DefaultQuestion?").build();
+    VariableDocument variableDocument =
+        new VariableDocumentBuilder().withId("ThisIDisOkay").withName("ThisNameIsOkay.")
+            .withLabel("LabelIsOkay").withQuestion("DefaultQuestion?").build();
 
     // Act
     Errors errors = new BeanPropertyBindingResult(variableDocument, "variableDocument");
@@ -77,8 +80,9 @@ public class VariableDocumentTest extends AbstractWebTest {
   public void testInvalidID() {
 
     // Assert
-    VariableDocument variableDocument = new VariableDocumentBuilder().withId("This ID is not Okay")
-        .withName("This Name Is Okay.").withQuestion("DefaultQuestion?").build();
+    VariableDocument variableDocument =
+        new VariableDocumentBuilder().withId("This ID is not Okay").withName("This Name Is Okay.")
+            .withLabel("LabelIsOkay").withQuestion("DefaultQuestion?").build();
 
     // Act
     Errors errors = new BeanPropertyBindingResult(variableDocument, "variableDocument");
@@ -94,8 +98,9 @@ public class VariableDocumentTest extends AbstractWebTest {
   public void testValidIDWithSigns() {
 
     // Assert
-    VariableDocument variableDocument = new VariableDocumentBuilder().withId("This-ID_is-okay")
-        .withName("ThisNameIsOkay.").withQuestion("DefaultQuestion?").build();
+    VariableDocument variableDocument =
+        new VariableDocumentBuilder().withId("This-ID_is-okay").withName("ThisNameIsOkay.")
+            .withLabel("LabelIsOkay").withQuestion("DefaultQuestion?").build();
 
     // Act
     Errors errors = new BeanPropertyBindingResult(variableDocument, "variableDocument");
@@ -110,7 +115,8 @@ public class VariableDocumentTest extends AbstractWebTest {
 
     // Assert
     VariableDocument variableDocument = new VariableDocumentBuilder().withId("ThisIDisOkay")
-        .withName("ThisNameIsTooLongAndThrowAnException.").withQuestion("DefaultQuestion?").build();
+        .withName("ThisNameIsTooLongAndThrowAnException.").withLabel("LabelIsOkay")
+        .withQuestion("DefaultQuestion?").build();
 
     // Act
     Errors errors = new BeanPropertyBindingResult(variableDocument, "variableDocument");
@@ -167,9 +173,9 @@ public class VariableDocumentTest extends AbstractWebTest {
         .withLabel("AddAExtraLabelForAnTestValidationError.AddAExtraLabelForAnTestValidationError.")
         .build());
 
-    VariableDocument variableDocument =
-        new VariableDocumentBuilder().withId("ThisIDisOkay").withName("ThisNameIsOkay.")
-            .withQuestion("DefaultQuestion?").withAnswerOptions(answerOptions).build();
+    VariableDocument variableDocument = new VariableDocumentBuilder().withId("ThisIDisOkay")
+        .withName("ThisNameIsOkay.").withQuestion("DefaultQuestion?").withLabel("LabelIsOkay")
+        .withAnswerOptions(answerOptions).build();
 
     // Act
     Errors errors = new BeanPropertyBindingResult(variableDocument, "variableDocument");
@@ -193,9 +199,9 @@ public class VariableDocumentTest extends AbstractWebTest {
     answerOptions
         .add(new AnswerOptionBuilder().withLabel("This label is okay.").withCode(null).build());
 
-    VariableDocument variableDocument =
-        new VariableDocumentBuilder().withId("ThisIDisOkay").withName("ThisNameIsOkay.")
-            .withQuestion("DefaultQuestion?").withAnswerOptions(answerOptions).build();
+    VariableDocument variableDocument = new VariableDocumentBuilder().withId("ThisIDisOkay")
+        .withName("ThisNameIsOkay.").withQuestion("DefaultQuestion?").withLabel("LabelIsOkay")
+        .withAnswerOptions(answerOptions).build();
 
     // Act
     Errors errors = new BeanPropertyBindingResult(variableDocument, "variableDocument");
@@ -215,9 +221,9 @@ public class VariableDocumentTest extends AbstractWebTest {
     answerOptions
         .add(new AnswerOptionBuilder().withLabel("This label is okay.").withCode(5).build());
 
-    VariableDocument variableDocument =
-        new VariableDocumentBuilder().withId("ThisIDisOkay").withName("ThisNameIsOkay.")
-            .withQuestion("DefaultQuestion?").withAnswerOptions(answerOptions).build();
+    VariableDocument variableDocument = new VariableDocumentBuilder().withId("ThisIDisOkay")
+        .withName("ThisNameIsOkay.").withQuestion("DefaultQuestion?").withLabel("LabelIsOkay")
+        .withAnswerOptions(answerOptions).build();
 
     // Act
     Errors errors = new BeanPropertyBindingResult(variableDocument, "variableDocument");
@@ -241,9 +247,9 @@ public class VariableDocumentTest extends AbstractWebTest {
     answerOptions
         .add(new AnswerOptionBuilder().withLabel("This label is okay.").withCode(2).build());
 
-    VariableDocument variableDocument =
-        new VariableDocumentBuilder().withId("ThisIDisOkay").withName("ThisNameIsOkay.")
-            .withQuestion("DefaultQuestion?").withAnswerOptions(answerOptions).build();
+    VariableDocument variableDocument = new VariableDocumentBuilder().withId("ThisIDisOkay")
+        .withName("ThisNameIsOkay.").withQuestion("DefaultQuestion?").withLabel("LabelIsOkay")
+        .withAnswerOptions(answerOptions).build();
 
     // Act
     Errors errors = new BeanPropertyBindingResult(variableDocument, "variableDocument");
@@ -260,7 +266,7 @@ public class VariableDocumentTest extends AbstractWebTest {
 
     // Arrange
     VariableDocument variableDocument = new VariableDocumentBuilder().withId("ThisIDisOkay")
-        .withName("ThisNameIsOkay.").withQuestion("DefaultQuestion?")
+        .withName("ThisNameIsOkay.").withLabel("LabelIsOkay").withQuestion("DefaultQuestion?")
         .withVariableSurvey(new VariableSurveyBuilder().build()).build();
 
     // Act
@@ -287,9 +293,9 @@ public class VariableDocumentTest extends AbstractWebTest {
         .withTitle("TitleIsOkay").withVariableAlias("ThisAliasIsTooLong.ItWillThrowAnException")
         .withSurveyPeriod(new DateRangeBuilder().build()).build();
 
-    VariableDocument variableDocument =
-        new VariableDocumentBuilder().withId("ThisIDisOkay").withName("ThisNameIsOkay.")
-            .withQuestion("DefaultQuestion?").withVariableSurvey(variableSurvey).build();
+    VariableDocument variableDocument = new VariableDocumentBuilder().withId("ThisIDisOkay")
+        .withName("ThisNameIsOkay.").withQuestion("DefaultQuestion?").withLabel("LabelIsOkay")
+        .withVariableSurvey(variableSurvey).build();
 
     // Act
     Errors errors = new BeanPropertyBindingResult(variableDocument, "variableDocument");
@@ -309,9 +315,9 @@ public class VariableDocumentTest extends AbstractWebTest {
         .withSurveyId("SurveyIdIsTooLong.ItWillThrowAnException").withTitle("TitleIsOkay")
         .withVariableAlias("TitleIsOkay.").withSurveyPeriod(new DateRangeBuilder().build()).build();
 
-    VariableDocument variableDocument =
-        new VariableDocumentBuilder().withId("ThisIDisOkay").withName("ThisNameIsOkay.")
-            .withQuestion("DefaultQuestion?").withVariableSurvey(variableSurvey).build();
+    VariableDocument variableDocument = new VariableDocumentBuilder().withId("ThisIDisOkay")
+        .withName("ThisNameIsOkay.").withQuestion("DefaultQuestion?").withLabel("LabelIsOkay")
+        .withVariableSurvey(variableSurvey).build();
 
     // Act
     Errors errors = new BeanPropertyBindingResult(variableDocument, "variableDocument");
@@ -332,9 +338,9 @@ public class VariableDocumentTest extends AbstractWebTest {
         .withTitle("TitleIsNotOkay.TheTitleIsTooLong.").withVariableAlias("ThisNameIsOkay")
         .withSurveyPeriod(new DateRangeBuilder().build()).build();
 
-    VariableDocument variableDocument =
-        new VariableDocumentBuilder().withId("ThisIDisOkay").withName("ThisNameIsOkay.")
-            .withQuestion("DefaultQuestion?").withVariableSurvey(variableSurvey).build();
+    VariableDocument variableDocument = new VariableDocumentBuilder().withId("ThisIDisOkay")
+        .withName("ThisNameIsOkay.").withQuestion("DefaultQuestion?").withLabel("LabelIsOkay")
+        .withVariableSurvey(variableSurvey).build();
 
     // Act
     Errors errors = new BeanPropertyBindingResult(variableDocument, "variableDocument");
@@ -346,7 +352,6 @@ public class VariableDocumentTest extends AbstractWebTest {
         is(Size.class.getSimpleName()));
   }
 
-
   @Test
   public void testValidVariableDocumentSurvey() {
 
@@ -355,9 +360,9 @@ public class VariableDocumentTest extends AbstractWebTest {
         .withTitle("TitleIsOkay.").withVariableAlias("ThisNameIsOkay")
         .withSurveyPeriod(new DateRangeBuilder().build()).build();
 
-    VariableDocument variableDocument =
-        new VariableDocumentBuilder().withId("ThisIDisOkay").withName("ThisNameIsOkay.")
-            .withQuestion("DefaultQuestion?").withVariableSurvey(variableSurvey).build();
+    VariableDocument variableDocument = new VariableDocumentBuilder().withId("ThisIDisOkay")
+        .withName("ThisNameIsOkay.").withQuestion("DefaultQuestion?").withLabel("LabelIsOkay")
+        .withVariableSurvey(variableSurvey).build();
     // Act
     Errors errors = new BeanPropertyBindingResult(variableDocument, "variableDocument");
     this.variableDocumentCreateValidator.validate(variableDocument, errors);
@@ -374,11 +379,9 @@ public class VariableDocumentTest extends AbstractWebTest {
     // Act
 
     // Assert
-    assertEquals(
-        "VariableDocument [variableSurvey=null, name=null, dataType=null, label=null, "
+    assertEquals("VariableDocument [variableSurvey=null, name=null, dataType=null, label=null, "
         + "question=null, scaleLevel=null, answerOptions=[], "
-        + "toString()=VariableDocument{id=[null]}]",
-        variableDocument.toString());
+        + "toString()=VariableDocument{id=[null]}]", variableDocument.toString());
   }
 
   @Test
@@ -393,8 +396,8 @@ public class VariableDocumentTest extends AbstractWebTest {
     // Assert
     assertEquals(
         "VariableDocument [variableSurvey=VariableSurvey{surveyId=null, title=null, "
-        + "surveyPeriod=null, variableAlias=null}, name=null, dataType=null, label=null, "
-        + "question=null, scaleLevel=null, answerOptions=[], toString()=VariableDocument{id=[null]}]",
+            + "surveyPeriod=null, variableAlias=null}, name=null, dataType=null, label=null, "
+            + "question=null, scaleLevel=null, answerOptions=[], toString()=VariableDocument{id=[null]}]",
         variableDocument.toString());
   }
 
@@ -412,9 +415,9 @@ public class VariableDocumentTest extends AbstractWebTest {
     // Assert
     assertEquals(
         "VariableDocument [variableSurvey=VariableSurvey{surveyId=null, title=null, "
-        + "surveyPeriod=DateRange{startDate=null, endDate=null}, variableAlias=null}, "
-        + "name=null, dataType=null, label=null, question=null, scaleLevel=null, "
-        + "answerOptions=[], toString()=VariableDocument{id=[null]}]",
+            + "surveyPeriod=DateRange{startDate=null, endDate=null}, variableAlias=null}, "
+            + "name=null, dataType=null, label=null, question=null, scaleLevel=null, "
+            + "answerOptions=[], toString()=VariableDocument{id=[null]}]",
         variableDocument.toString());
   }
 
@@ -434,17 +437,17 @@ public class VariableDocumentTest extends AbstractWebTest {
     // Assert
     assertEquals(
         "VariableDocument [variableSurvey=VariableSurvey{surveyId=null, title=null, "
-        + "surveyPeriod=DateRange{startDate=2015-01-01, endDate=2015-02-01}, "
-        + "variableAlias=null}, name=null, dataType=null, label=null, question=null, "
-        + "scaleLevel=null, answerOptions=[], toString()=VariableDocument{id=[null]}]",
+            + "surveyPeriod=DateRange{startDate=2015-01-01, endDate=2015-02-01}, "
+            + "variableAlias=null}, name=null, dataType=null, label=null, question=null, "
+            + "scaleLevel=null, answerOptions=[], toString()=VariableDocument{id=[null]}]",
         variableDocument.toString());
   }
 
   @Test
   public void testInvalidVariableDocumentWithEmptyQuestion() {
     // Arrange
-    VariableDocument variableDocument =
-        new VariableDocumentBuilder().withId("ThisIDisOkay").withName("ThisNameIsOkay.").build();
+    VariableDocument variableDocument = new VariableDocumentBuilder().withId("ThisIDisOkay")
+        .withLabel("LabelIsOkay").withName("ThisNameIsOkay.").build();
 
     // Act
     Errors errors = new BeanPropertyBindingResult(variableDocument, "variableDocument");
@@ -457,15 +460,31 @@ public class VariableDocumentTest extends AbstractWebTest {
   }
 
   @Test
+  public void testInvalidVariableDocumentWithEmptyLabel() {
+    // Arrange
+    VariableDocument variableDocument = new VariableDocumentBuilder().withId("ThisIDisOkay")
+        .withQuestion("Question.").withName("ThisNameIsOkay.").build();
+
+    // Act
+    Errors errors = new BeanPropertyBindingResult(variableDocument, "variableDocument");
+    this.variableDocumentCreateValidator.validate(variableDocument, errors);
+
+    // Assert
+    assertEquals(1, errors.getErrorCount());
+    assertThat(errors.getFieldError(VariableDocument.LABEL_FIELD).getCode(),
+        is(NotBlank.class.getSimpleName()));
+  }
+
+  @Test
   public void testRemoveAnswerOption() {
     // Arrange
     List<AnswerOption> answerOptions = new ArrayList<>();
     answerOptions.add(new AnswerOptionBuilder().withCode(1).withLabel("Label 1").build());
     answerOptions.add(new AnswerOptionBuilder().withCode(2).build());
     answerOptions.add(new AnswerOptionBuilder().withCode(3).withLabel("Label 3").build());
-    VariableDocument variableDocument =
-        new VariableDocumentBuilder().withId("ThisIDisOkay").withName("ThisNameIsOkay.")
-            .withQuestion("DefaultQuestion?").withAnswerOptions(answerOptions).build();
+    VariableDocument variableDocument = new VariableDocumentBuilder().withId("ThisIDisOkay")
+        .withName("ThisNameIsOkay.").withQuestion("DefaultQuestion?").withLabel("LabelIsOkay")
+        .withAnswerOptions(answerOptions).build();
 
     // Act
     AnswerOption answerOption1 = variableDocument.removeAnswerOption(1);
@@ -485,8 +504,9 @@ public class VariableDocumentTest extends AbstractWebTest {
   @Test
   public void testAddAnswerOption() {
     // Arrange
-    VariableDocument variableDocument = new VariableDocumentBuilder().withId("ThisIDisOkay")
-        .withName("ThisNameIsOkay.").withQuestion("DefaultQuestion?").build();
+    VariableDocument variableDocument =
+        new VariableDocumentBuilder().withId("ThisIDisOkay").withName("ThisNameIsOkay.")
+            .withLabel("LabelIsOkay").withQuestion("DefaultQuestion?").build();
 
     // Act
     boolean checkNull = variableDocument.addAnswerOption(null);
@@ -504,8 +524,9 @@ public class VariableDocumentTest extends AbstractWebTest {
   @Test
   public void testHashCode() {
     // Arrange
-    VariableDocument variableDocument = new VariableDocumentBuilder().withId("ThisIDisOkay")
-        .withName("ThisNameIsOkay.").withQuestion("DefaultQuestion?").build();
+    VariableDocument variableDocument =
+        new VariableDocumentBuilder().withId("ThisIDisOkay").withName("ThisNameIsOkay.")
+            .withLabel("LabelIsOkay").withQuestion("DefaultQuestion?").build();
     VariableDocument variableDocument2 =
         new VariableDocumentBuilder().withId("ThisIDisOkay").withName("ThisNameIsOkay.")
             .withQuestion("DefaultQuestion?").withAnswerOptions(null).build();
@@ -520,8 +541,9 @@ public class VariableDocumentTest extends AbstractWebTest {
   @Test
   public void testEquals() {
     // Arrange
-    VariableDocument variableDocument = new VariableDocumentBuilder().withId("ThisIDisOkay")
-        .withName("ThisNameIsOkay.").withQuestion("DefaultQuestion?").build();
+    VariableDocument variableDocument =
+        new VariableDocumentBuilder().withId("ThisIDisOkay").withName("ThisNameIsOkay.")
+            .withLabel("LabelIsOkay").withQuestion("DefaultQuestion?").build();
     VariableDocument variableDocument2 = new VariableDocumentBuilder().build();
 
     VariableSurvey variableSurvey = new VariableSurveyBuilder().withSurveyId("ID1").build();
