@@ -31,7 +31,7 @@ public class VariableCreateControllerTest extends AbstractWebTest {
 
   @Autowired
   private VariableService variableService;
-  
+
   @Test
   public void testGetForm() throws Exception {
     // Check the Requestpath of the VariableModifyControllerPath
@@ -76,9 +76,7 @@ public class VariableCreateControllerTest extends AbstractWebTest {
             .param(VariableDocument.NESTED_VARIABLE_SURVEY_ID_FIELD, "SurveyID")
             .param("addSurvey", ""))
         .andExpect(status().isOk()).andExpect(request().asyncStarted())
-        .andExpect(request()
-            .asyncResult(instanceOf(ModelAndView.class)))
-        .andReturn();
+        .andExpect(request().asyncResult(instanceOf(ModelAndView.class))).andReturn();
 
     // Act and Assert
     this.mockMvc.perform(asyncDispatch(mvcResult)).andExpect(status().is2xxSuccessful())
@@ -175,6 +173,31 @@ public class VariableCreateControllerTest extends AbstractWebTest {
         .perform(post("/de/variables/create").param(VariableDocument.ID_FIELD, "ID007")
             .param(VariableDocument.NAME_FIELD, "Ein Name")
             .param(VariableDocument.QUESTION_FIELD, "Eine Frage?"))
+        .andExpect(status().isOk()).andExpect(request().asyncStarted())
+        .andExpect(request().asyncResult(instanceOf(ModelAndView.class))).andReturn();
+
+    // Act and Assert
+    this.mockMvc.perform(asyncDispatch(mvcResult)).andExpect(status().is3xxRedirection())
+        .andExpect(redirectedUrl("/de/variables/ID007"));
+
+    // Delete
+    this.variableService.delete("ID007");
+  }
+
+  @Test
+  public void testValidSurveyPeriod() throws Exception {
+    // Arrange
+    MvcResult mvcResult =
+        this.mockMvc
+            .perform(post("/de/variables/create").param(VariableDocument.ID_FIELD, "ID007")
+                .param(VariableDocument.NAME_FIELD, "Ein Name")
+                .param(VariableDocument.QUESTION_FIELD, "Eine Frage?")
+                .param(VariableDocument.NESTED_VARIABLE_SURVEY_ID_FIELD, "ID001")
+                .param(VariableDocument.NESTED_VARIABLE_SURVEY_TITLE_FIELD, "ID001")
+                .param(VariableDocument.NESTED_VARIABLE_SURVEY_VARIABLE_ALIAS_FIELD, "ID007")
+                .param(VariableDocument.NESTED_VARIABLE_SURVEY_NESTED_PERIOD_START_DATE,
+                    "2013-02-01")
+        .param(VariableDocument.NESTED_VARIABLE_SURVEY_NESTED_PERIOD_END_DATE, "2013-02-02"))
         .andExpect(status().isOk()).andExpect(request().asyncStarted())
         .andExpect(request().asyncResult(instanceOf(ModelAndView.class))).andReturn();
 

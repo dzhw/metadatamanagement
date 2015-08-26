@@ -173,7 +173,6 @@ public abstract class AbstractVariableModifyController {
   public Callable<ModelAndView> save(@Valid VariableDocument variableDocument,
       BindingResult bindingResult, Integer windowYPosition) {
     return () -> {
-      System.out.println(windowYPosition);
       if (!bindingResult.hasErrors()) {
         variableService.save(variableDocument);
         return new ModelAndView(
@@ -193,7 +192,6 @@ public abstract class AbstractVariableModifyController {
    * @param locale The current locale
    * @return Return a Map fieldName->List of error messages
    */
-  // VariableValidateController
   @RequestMapping(method = RequestMethod.POST, value = "/validate",
       produces = MediaType.APPLICATION_JSON_VALUE)
   @ResponseBody
