@@ -148,7 +148,7 @@ public class VariableCreateControllerTest extends AbstractWebTest {
             .param(VariableDocument.QUESTION_FIELD, "Eine Frage?").param("addAnswerOption", ""))
         .andExpect(status().isOk()).andExpect(request().asyncStarted())
         .andExpect(request().asyncResult(instanceOf(ModelAndView.class))).andReturn();
-
+    
     // Act and Assert
     this.mockMvc.perform(asyncDispatch(mvcResult)).andExpect(status().is2xxSuccessful())
         .andExpect(redirectedUrl(null));
