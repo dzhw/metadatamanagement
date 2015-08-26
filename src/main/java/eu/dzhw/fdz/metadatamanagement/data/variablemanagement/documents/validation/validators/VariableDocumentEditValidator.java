@@ -9,6 +9,7 @@ import org.springframework.validation.Validator;
 import eu.dzhw.fdz.metadatamanagement.data.common.documents.validation.groups.ModifyValidationGroup.Edit;
 import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.DataTypesProvider;
 import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.VariableDocument;
+import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.repositories.VariableRepository;
 
 /**
  * This is the validator for editing the variable document.
@@ -21,18 +22,18 @@ public class VariableDocumentEditValidator extends VariableDocumentValidator {
 
   @Autowired
   public VariableDocumentEditValidator(@Qualifier("mvcValidator") Validator jsrValidator,
-      DataTypesProvider dataTypesProvider) {
-    super(jsrValidator, dataTypesProvider);
+      DataTypesProvider dataTypesProvider, VariableRepository variableRepository) {
+    super(jsrValidator, dataTypesProvider, variableRepository);
   }
 
   /*
    * (non-Javadoc)
    * 
    * @see eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.validation.validators.
-   * VariableDocumentValidator#getValidateHints()
+   * VariableDocumentValidator#getValidationHints()
    */
   @Override
-  public Object[] getValidateHints() {
+  public Object[] getValidationHints() {
     Object[] validateHints = {Edit.class};
     return validateHints;
   }
@@ -73,7 +74,7 @@ public class VariableDocumentEditValidator extends VariableDocumentValidator {
     if (variableDocumentFromDatabase.getVariableSurvey().getVariableAlias()
         .equals(variableDocument.getVariableSurvey().getVariableAlias())) {
       return;
-    //CHANGE!!! check for unique variable alias.
+      // CHANGE!!! check for unique variable alias.
     } else {
       // no elements found -> alias is okay and unique
       if (this.variableRepository

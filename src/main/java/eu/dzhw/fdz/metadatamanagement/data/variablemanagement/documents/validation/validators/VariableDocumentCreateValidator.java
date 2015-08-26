@@ -9,6 +9,7 @@ import org.springframework.validation.Validator;
 import eu.dzhw.fdz.metadatamanagement.data.common.documents.validation.groups.ModifyValidationGroup.Create;
 import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.DataTypesProvider;
 import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.VariableDocument;
+import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.repositories.VariableRepository;
 
 /**
  * This is the validator for create a variable document.
@@ -21,18 +22,18 @@ public class VariableDocumentCreateValidator extends VariableDocumentValidator {
 
   @Autowired
   public VariableDocumentCreateValidator(@Qualifier("mvcValidator") Validator jsrValidator,
-      DataTypesProvider dataTypesProvider) {
-    super(jsrValidator, dataTypesProvider);
+      DataTypesProvider dataTypesProvider, VariableRepository variableRepository) {
+    super(jsrValidator, dataTypesProvider, variableRepository);
   }
 
   /*
    * (non-Javadoc)
    * 
    * @see eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.validation.validators.
-   * VariableDocumentValidator#getValidateHints()
+   * VariableDocumentValidator#getValidationHints()
    */
   @Override
-  public Object[] getValidateHints() {
+  public Object[] getValidationHints() {
     Object[] validateHints = {Create.class};
     return validateHints;
   }
@@ -59,7 +60,7 @@ public class VariableDocumentCreateValidator extends VariableDocumentValidator {
       }
 
       // Both are not empty fields -> no valid if there are null
-      //but it return valid, because of the NotBlank field. That handles null fields.
+      // but it return valid, because of the NotBlank field. That handles null fields.
       if (variableDocument.getVariableSurvey().getSurveyId() == null
           || variableDocument.getVariableSurvey().getVariableAlias() == null) {
         return;

@@ -1,11 +1,10 @@
 package eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.validation.validators;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.validation.Errors;
 import org.springframework.validation.SmartValidator;
 import org.springframework.validation.Validator;
 
+import eu.dzhw.fdz.metadatamanagement.data.common.documents.validation.groups.ModifyValidationGroup;
 import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.DataTypesProvider;
 import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.VariableDocument;
 import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.repositories.VariableRepository;
@@ -29,10 +28,7 @@ public abstract class VariableDocumentValidator implements Validator {
 
   private DataTypesProvider dataTypesProvider;
 
-  @Autowired
   protected VariableRepository variableRepository;
-
-  public abstract Object[] getValidateHints();
 
   /**
    * The variable document validator is abstract validator which defines the default implementation
@@ -42,15 +38,16 @@ public abstract class VariableDocumentValidator implements Validator {
    * @param dataTypesProvider The Datatype provider holds language depended fields of the valid data
    *        types of the variable management.
    */
-  public VariableDocumentValidator(@Qualifier("mvcValidator") Validator jsrValidator,
-      DataTypesProvider dataTypesProvider) {
+  public VariableDocumentValidator(Validator jsrValidator, DataTypesProvider dataTypesProvider,
+      VariableRepository variableRepository) {
     if (jsrValidator instanceof SmartValidator) {
       this.jsrValidator = (SmartValidator) jsrValidator;
     } else {
-      throw new RuntimeException(
+      throw new IllegalStateException(
           "Cast not successful at validators... (should be a smart validator.)");
     }
     this.dataTypesProvider = dataTypesProvider;
+    this.variableRepository = variableRepository;
   }
 
   /*
@@ -72,7 +69,7 @@ public abstract class VariableDocumentValidator implements Validator {
   @Override
   public void validate(Object target, Errors errors) {
     // first execute JSR-303 validation
-    this.jsrValidator.validate(target, errors, this.getValidateHints());
+    this.jsrValidator.validate(target, errors, this.getValidationHints());
 
     VariableDocument variableDocument = (VariableDocument) target;
 
@@ -116,4 +113,11 @@ public abstract class VariableDocumentValidator implements Validator {
    */
   protected abstract void validateUniqueVariableAlias(VariableDocument variableDocument,
       Errors errors);
+
+  /**
+   * Create the validtion hints used by the JSR validator.
+   * 
+   * @return An array of {@link ModifyValidationGroup} classes
+   */
+  protected abstract Object[] getValidationHints();
 }
