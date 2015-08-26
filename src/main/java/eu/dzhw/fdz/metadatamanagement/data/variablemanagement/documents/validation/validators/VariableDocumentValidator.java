@@ -129,9 +129,7 @@ public abstract class VariableDocumentValidator implements Validator {
       VariableDocument existingVariableWithSameAlias = variablesWithSameAlias.get(0);
       errors.rejectValue(VariableDocument.NESTED_VARIABLE_SURVEY_VARIABLE_ALIAS_FIELD,
           MANDATORY_VARIABLE_SURVEY_VARIABLEALIAS_MESSAGE_CODE,
-          new Object[] {existingVariableWithSameAlias.getId(),
-              existingVariableWithSameAlias.getVariableSurvey().getSurveyId()},
-          "Invalid variable alias code!");
+          new Object[] {existingVariableWithSameAlias.getId()}, "Invalid variable alias!");
       return;
     }
   }
