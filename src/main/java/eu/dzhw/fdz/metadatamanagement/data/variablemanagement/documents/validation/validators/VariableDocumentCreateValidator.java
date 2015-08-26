@@ -66,18 +66,7 @@ public class VariableDocumentCreateValidator extends VariableDocumentValidator {
         return;
       }
 
-      // no elements found
-      if (this.variableRepository
-          .filterBySurveyIdAndVariableAlias(variableDocument.getVariableSurvey().getSurveyId(),
-              variableDocument.getVariableSurvey().getVariableAlias())
-          .getNumberOfElements() == 0) {
-        return;
-        // found elements
-      } else {
-        errors.rejectValue(VariableDocument.NESTED_VARIABLE_SURVEY_VARIABLE_ALIAS_FIELD,
-            MANDATORY_VARIABLE_SURVEY_VARIABLEALIAS_MESSAGE_CODE);
-        return;
-      }
+      rejectDuplicateAliasIfNecessary(variableDocument, errors);
     }
   }
 

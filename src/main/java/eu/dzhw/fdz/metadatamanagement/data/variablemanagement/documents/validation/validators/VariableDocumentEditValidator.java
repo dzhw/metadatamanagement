@@ -76,18 +76,8 @@ public class VariableDocumentEditValidator extends VariableDocumentValidator {
       return;
       // CHANGE!!! check for unique variable alias.
     } else {
-      // no elements found -> alias is okay and unique
-      if (this.variableRepository
-          .filterBySurveyIdAndVariableAlias(variableDocument.getVariableSurvey().getSurveyId(),
-              variableDocument.getVariableSurvey().getVariableAlias())
-          .getNumberOfElements() == 0) {
-        return;
-        // found elements -> alias is used and not okay
-      } else {
-        errors.rejectValue(VariableDocument.NESTED_VARIABLE_SURVEY_VARIABLE_ALIAS_FIELD,
-            MANDATORY_VARIABLE_SURVEY_VARIABLEALIAS_MESSAGE_CODE);
-        return;
-      }
+      rejectDuplicateAliasIfNecessary(variableDocument, errors);
+      return;
     }
   }
 }

@@ -1,5 +1,7 @@
 package eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.validation.validators;
 
+import java.util.List;
+
 import org.springframework.validation.Errors;
 import org.springframework.validation.SmartValidator;
 import org.springframework.validation.Validator;
@@ -113,6 +115,26 @@ public abstract class VariableDocumentValidator implements Validator {
    */
   protected abstract void validateUniqueVariableAlias(VariableDocument variableDocument,
       Errors errors);
+
+  protected void rejectDuplicateAliasIfNecessary(VariableDocument variableDocument, Errors errors) {
+    List<VariableDocument> variablesWithSameAlias = this.variableRepository
+        .filterBySurveyIdAndVariableAlias(variableDocument.getVariableSurvey().getSurveyId(),
+            variableDocument.getVariableSurvey().getVariableAlias())
+        .getContent();
+    // no elements found
+    if (variablesWithSameAlias == null || variablesWithSameAlias.isEmpty()) {
+      return;
+      // found elements -> alias is used and not okay
+    } else {
+      VariableDocument existingVariableWithSameAlias = variablesWithSameAlias.get(0);
+      errors.rejectValue(VariableDocument.NESTED_VARIABLE_SURVEY_VARIABLE_ALIAS_FIELD,
+          MANDATORY_VARIABLE_SURVEY_VARIABLEALIAS_MESSAGE_CODE,
+          new Object[] {existingVariableWithSameAlias.getId(),
+              existingVariableWithSameAlias.getVariableSurvey().getSurveyId()},
+          "Invalid variable alias code!");
+      return;
+    }
+  }
 
   /**
    * Create the validtion hints used by the JSR validator.
