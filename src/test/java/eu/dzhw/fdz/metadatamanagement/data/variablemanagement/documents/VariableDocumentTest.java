@@ -291,7 +291,9 @@ public class VariableDocumentTest extends AbstractWebTest {
     // Arrange
     VariableSurvey variableSurvey = new VariableSurveyBuilder().withSurveyId("SurveyIdIsOkay")
         .withTitle("TitleIsOkay").withVariableAlias("ThisAliasIsTooLong.ItWillThrowAnException")
-        .withSurveyPeriod(new DateRangeBuilder().build()).build();
+        .withSurveyPeriod(new DateRangeBuilder().withStartDate(LocalDate.now())
+            .withEndDate(LocalDate.now().plusDays(1)).build())
+        .build();
 
     VariableDocument variableDocument = new VariableDocumentBuilder().withId("ThisIDisOkay")
         .withName("ThisNameIsOkay.").withQuestion("DefaultQuestion?").withLabel("LabelIsOkay")
@@ -313,7 +315,9 @@ public class VariableDocumentTest extends AbstractWebTest {
     // Arrange
     VariableSurvey variableSurvey = new VariableSurveyBuilder()
         .withSurveyId("SurveyIdIsTooLong.ItWillThrowAnException").withTitle("TitleIsOkay")
-        .withVariableAlias("TitleIsOkay.").withSurveyPeriod(new DateRangeBuilder().build()).build();
+        .withVariableAlias("TitleIsOkay.").withSurveyPeriod(new DateRangeBuilder()
+            .withStartDate(LocalDate.now()).withEndDate(LocalDate.now().plusDays(1)).build())
+        .build();
 
     VariableDocument variableDocument = new VariableDocumentBuilder().withId("ThisIDisOkay")
         .withName("ThisNameIsOkay.").withQuestion("DefaultQuestion?").withLabel("LabelIsOkay")
@@ -335,8 +339,10 @@ public class VariableDocumentTest extends AbstractWebTest {
 
     // Arrange
     VariableSurvey variableSurvey = new VariableSurveyBuilder().withSurveyId("SurveyIdIsOkay.")
-        .withTitle("TitleIsNotOkay.TheTitleIsTooLong.").withVariableAlias("ThisNameIsOkay")
-        .withSurveyPeriod(new DateRangeBuilder().build()).build();
+        .withTitle("TitleIsNotOkay.TheTitleIsTooLong.")
+        .withVariableAlias("ThisNameIsOkay").withSurveyPeriod(new DateRangeBuilder()
+            .withStartDate(LocalDate.now()).withEndDate(LocalDate.now().plusDays(1)).build())
+        .build();
 
     VariableDocument variableDocument = new VariableDocumentBuilder().withId("ThisIDisOkay")
         .withName("ThisNameIsOkay.").withQuestion("DefaultQuestion?").withLabel("LabelIsOkay")
@@ -356,9 +362,11 @@ public class VariableDocumentTest extends AbstractWebTest {
   public void testValidVariableDocumentSurvey() {
 
     // Arrange
-    VariableSurvey variableSurvey = new VariableSurveyBuilder().withSurveyId("SurveyIdIsOkay.")
-        .withTitle("TitleIsOkay.").withVariableAlias("ThisNameIsOkay")
-        .withSurveyPeriod(new DateRangeBuilder().build()).build();
+    VariableSurvey variableSurvey =
+        new VariableSurveyBuilder().withSurveyId("SurveyIdIsOkay.").withTitle("TitleIsOkay.")
+            .withVariableAlias("ThisNameIsOkay").withSurveyPeriod(new DateRangeBuilder()
+                .withStartDate(LocalDate.now()).withEndDate(LocalDate.now().plusDays(1)).build())
+        .build();
 
     VariableDocument variableDocument = new VariableDocumentBuilder().withId("ThisIDisOkay")
         .withName("ThisNameIsOkay.").withQuestion("DefaultQuestion?").withLabel("LabelIsOkay")

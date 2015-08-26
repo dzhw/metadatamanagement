@@ -38,9 +38,9 @@ public class DateRangeValidator implements ConstraintValidator<ValidDateRange, D
       return true;
     }
 
-    // no given date range, so the date range logic is not broken.
+    // start and end are mandatory for a valid date range
     if (dateRange.getStartDate() == null || dateRange.getEndDate() == null) {
-      return true;
+      return false;
     }
 
     return dateRange.getStartDate().isBefore(dateRange.getEndDate());
