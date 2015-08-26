@@ -154,17 +154,15 @@ public class VariableCreateControllerTest extends AbstractWebTest {
             .param(VariableDocument.QUESTION_FIELD, "Eine Frage?").param("addAnswerOption", ""))
         .andExpect(status().isOk()).andExpect(request().asyncStarted())
         .andExpect(request().asyncResult(instanceOf(ModelAndView.class))).andReturn();
-
+    
     // Act and Assert
     this.mockMvc.perform(asyncDispatch(mvcResult)).andExpect(status().is2xxSuccessful())
         .andExpect(redirectedUrl(null));
   }
 
   @Test
-  public void testPostInvalidVariableDocument() throws Exception {
-    // Arrange
-    // EmtyQuestion Field
-    // generates a error
+  public void testPostInvalidVariableDocument() throws Exception { // Arrange // EmtyQuestion Field
+                                                                   // generates a error
     MvcResult mvcResult = this.mockMvc
         .perform(post("/de/variables/create").param(VariableDocument.ID_FIELD, "ID007")
             .param(VariableDocument.NAME_FIELD, "Ein Name"))
@@ -248,4 +246,29 @@ public class VariableCreateControllerTest extends AbstractWebTest {
     // Delete
     this.variableService.delete("testPostValidateValidID007");
   }
+
+  @Test
+  public void testValidSurveyPeriod() throws Exception {
+    // Arrange
+    MvcResult mvcResult =
+        this.mockMvc
+            .perform(post("/de/variables/create").param(VariableDocument.ID_FIELD, "ID007")
+                .param(VariableDocument.NAME_FIELD, "Ein Name")
+                .param(VariableDocument.QUESTION_FIELD, "Eine Frage?")
+                .param(VariableDocument.NESTED_VARIABLE_SURVEY_ID_FIELD, "ID001")
+                .param(VariableDocument.NESTED_VARIABLE_SURVEY_TITLE_FIELD, "ID001")
+                .param(VariableDocument.NESTED_VARIABLE_SURVEY_VARIABLE_ALIAS_FIELD, "ID007")
+                .param(VariableDocument.NESTED_VARIABLE_SURVEY_NESTED_PERIOD_START_DATE,
+                    "2013-02-01")
+        .param(VariableDocument.NESTED_VARIABLE_SURVEY_NESTED_PERIOD_END_DATE, "2013-02-02"))
+        .andExpect(status().isOk()).andExpect(request().asyncStarted())
+        .andExpect(request().asyncResult(instanceOf(ModelAndView.class))).andReturn();
+
+    // Act and Assert
+    this.mockMvc.perform(asyncDispatch(mvcResult)).andExpect(status().is3xxRedirection())
+        .andExpect(redirectedUrl("/de/variables/ID007"));
+
+    // Delete
+    this.variableService.delete("ID007");
+  }  
 }
