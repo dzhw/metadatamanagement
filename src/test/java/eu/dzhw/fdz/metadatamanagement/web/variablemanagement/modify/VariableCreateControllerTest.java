@@ -71,6 +71,8 @@ public class VariableCreateControllerTest extends AbstractWebTest {
     this.mockMvc.perform(asyncDispatch(mvcResult)).andExpect(status().is2xxSuccessful())
         .andExpect(redirectedUrl(null));
 
+    // Delete
+    this.variableService.delete("ID007");
   }
 
   @Test
@@ -90,6 +92,8 @@ public class VariableCreateControllerTest extends AbstractWebTest {
     this.mockMvc.perform(asyncDispatch(mvcResult)).andExpect(status().is2xxSuccessful())
         .andExpect(redirectedUrl(null));
 
+    // Delete
+    this.variableService.delete("ID007");
   }
 
   @Test
@@ -107,6 +111,8 @@ public class VariableCreateControllerTest extends AbstractWebTest {
     this.mockMvc.perform(asyncDispatch(mvcResult)).andExpect(status().is2xxSuccessful())
         .andExpect(redirectedUrl(null));
 
+    // Delete
+    this.variableService.delete("ID007");
   }
 
   @Test
@@ -125,6 +131,9 @@ public class VariableCreateControllerTest extends AbstractWebTest {
     // Act and Assert
     this.mockMvc.perform(asyncDispatch(mvcResult)).andExpect(status().is2xxSuccessful())
         .andExpect(redirectedUrl(null));
+
+    // Delete
+    this.variableService.delete("ID007");
   }
 
   @Test
@@ -143,6 +152,9 @@ public class VariableCreateControllerTest extends AbstractWebTest {
     // Act and Assert
     this.mockMvc.perform(asyncDispatch(mvcResult)).andExpect(status().is2xxSuccessful())
         .andExpect(redirectedUrl(null));
+
+    // Delete
+    this.variableService.delete("ID007");
   }
 
   @Test
@@ -154,10 +166,13 @@ public class VariableCreateControllerTest extends AbstractWebTest {
             .param(VariableDocument.QUESTION_FIELD, "Eine Frage?").param("addAnswerOption", ""))
         .andExpect(status().isOk()).andExpect(request().asyncStarted())
         .andExpect(request().asyncResult(instanceOf(ModelAndView.class))).andReturn();
-    
+
     // Act and Assert
     this.mockMvc.perform(asyncDispatch(mvcResult)).andExpect(status().is2xxSuccessful())
         .andExpect(redirectedUrl(null));
+
+    // Delete
+    this.variableService.delete("ID007");
   }
 
   @Test
@@ -241,7 +256,7 @@ public class VariableCreateControllerTest extends AbstractWebTest {
     this.mockMvc.perform(asyncDispatch(mvcResult)).andExpect(status().is2xxSuccessful())
         .andExpect(redirectedUrl(null));
     assertEquals(0, errorKeySize);
-    
+
 
     // Delete
     this.variableService.delete("testPostValidateValidID007");
@@ -252,7 +267,7 @@ public class VariableCreateControllerTest extends AbstractWebTest {
     // Arrange
     MvcResult mvcResult =
         this.mockMvc
-            .perform(post("/de/variables/create").param(VariableDocument.ID_FIELD, "ID007")
+            .perform(post("/de/variables/create")
                 .param(VariableDocument.NAME_FIELD, "Ein Name")
                 .param(VariableDocument.QUESTION_FIELD, "Eine Frage?")
                 .param(VariableDocument.NESTED_VARIABLE_SURVEY_ID_FIELD, "ID001")
@@ -266,9 +281,9 @@ public class VariableCreateControllerTest extends AbstractWebTest {
 
     // Act and Assert
     this.mockMvc.perform(asyncDispatch(mvcResult)).andExpect(status().is3xxRedirection())
-        .andExpect(redirectedUrl("/de/variables/ID007"));
+        .andExpect(redirectedUrl("/de/variables/testValidSurveyPeriodID007"));
 
     // Delete
-    this.variableService.delete("ID007");
-  }  
+    this.variableService.delete("testValidSurveyPeriodID007");
+  }
 }
