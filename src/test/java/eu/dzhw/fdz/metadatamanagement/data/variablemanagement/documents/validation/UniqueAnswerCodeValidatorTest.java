@@ -39,18 +39,19 @@ public class UniqueAnswerCodeValidatorTest extends AbstractWebTest {
     answerOptions.add(new AnswerOptionBuilder().withCode(1).withLabel("Label 1").build());
     answerOptions.add(new AnswerOptionBuilder().withCode(2).withLabel("Label 2").build());
 
-    VariableDocument variableDocument =
-        new VariableDocumentBuilder().withId("ThisIDisOkay").withName("ThisNameIsOkay.")
-            .withQuestion("DefaultQuestion?").withAnswerOptions(answerOptions).build();
-    
-    VariableDocument variableDocumentNullAnswerOptions =
-        new VariableDocumentBuilder().withId("ThisIDisOkay").withName("ThisNameIsOkay.")
-            .withQuestion("DefaultQuestion?").withAnswerOptions(null).build();
+    VariableDocument variableDocument = new VariableDocumentBuilder().withId("ThisIDisOkay")
+        .withName("ThisNameIsOkay.").withQuestion("DefaultQuestion?")
+        .withLabel("LabelIsOkay").withAnswerOptions(answerOptions).build();
+
+    VariableDocument variableDocumentNullAnswerOptions = new VariableDocumentBuilder()
+        .withId("ThisIDisOkay").withName("ThisNameIsOkay.").withQuestion("DefaultQuestion?")
+        .withLabel("LabelIsOkay").withAnswerOptions(null).build();
 
     // Act
     Errors errors = new BeanPropertyBindingResult(variableDocument, "variableDocument");
     this.variableDocumentCreateValidator.validate(variableDocument, errors);
-    Errors errorsNullAnswerOptions = new BeanPropertyBindingResult(variableDocumentNullAnswerOptions, "variableDocument");
+    Errors errorsNullAnswerOptions =
+        new BeanPropertyBindingResult(variableDocumentNullAnswerOptions, "variableDocument");
     this.variableDocumentCreateValidator.validate(variableDocumentNullAnswerOptions, errors);
 
     // Assert
@@ -67,9 +68,9 @@ public class UniqueAnswerCodeValidatorTest extends AbstractWebTest {
     answerOptions.add(new AnswerOptionBuilder().withCode(1).withLabel("Label 1").build());
     answerOptions.add(new AnswerOptionBuilder().withCode(1).withLabel("Label 2").build());
 
-    VariableDocument variableDocument =
-        new VariableDocumentBuilder().withId("ThisIDisOkay").withName("ThisNameIsOkay.")
-            .withQuestion("DefaultQuestion?").withAnswerOptions(answerOptions).build();
+    VariableDocument variableDocument = new VariableDocumentBuilder().withId("ThisIDisOkay")
+        .withName("ThisNameIsOkay.").withQuestion("DefaultQuestion?")
+        .withLabel("LabelIsOkay").withAnswerOptions(answerOptions).build();
 
     // Act
     Errors errors = new BeanPropertyBindingResult(variableDocument, "variableDocument");

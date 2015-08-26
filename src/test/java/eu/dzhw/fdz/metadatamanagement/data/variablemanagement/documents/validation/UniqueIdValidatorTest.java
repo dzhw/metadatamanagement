@@ -34,12 +34,14 @@ public class UniqueIdValidatorTest extends AbstractWebTest {
   public void testValidUniqueId() {
 
     // Arrange
-    VariableDocument variableDocument1 = new VariableDocumentBuilder().withId("ThisIDisOkay")
-        .withName("ThisNameIsOkay.").withQuestion("DefaultQuestion?").build();
+    VariableDocument variableDocument1 =
+        new VariableDocumentBuilder().withId("ThisIDisOkay").withName("ThisNameIsOkay.")
+            .withLabel("LabelIsOkay").withQuestion("DefaultQuestion?").build();
     this.repository.save(variableDocument1);
 
-    VariableDocument variableDocument2 = new VariableDocumentBuilder().withId("ThisIDisStillOkay")
-        .withName("ThisNameIsOkay.").withQuestion("DefaultQuestion?").build();
+    VariableDocument variableDocument2 =
+        new VariableDocumentBuilder().withId("ThisIDisStillOkay").withName("ThisNameIsOkay.")
+            .withLabel("LabelIsOkay").withQuestion("DefaultQuestion?").build();
 
     // Act
     Errors errors = new BeanPropertyBindingResult(variableDocument2, "variableDocument");
@@ -55,12 +57,14 @@ public class UniqueIdValidatorTest extends AbstractWebTest {
   @Test
   public void testInvalidUniqueId() {
     // Arrange
-    VariableDocument variableDocument1 = new VariableDocumentBuilder().withId("ThisIDisOkay")
-        .withName("ThisNameIsOkay.").withQuestion("DefaultQuestion?").build();
+    VariableDocument variableDocument1 =
+        new VariableDocumentBuilder().withId("ThisIDisOkay").withName("ThisNameIsOkay.")
+            .withLabel("LabelIsOkay").withQuestion("DefaultQuestion?").build();
     this.repository.save(variableDocument1);
 
-    VariableDocument variableDocument2 = new VariableDocumentBuilder().withId("ThisIDisOkay")
-        .withName("ThisNameIsOkay.").withQuestion("DefaultQuestion?").build();
+    VariableDocument variableDocument2 =
+        new VariableDocumentBuilder().withId("ThisIDisOkay").withName("ThisNameIsOkay.")
+            .withLabel("LabelIsOkay").withQuestion("DefaultQuestion?").build();
     this.repository.save(variableDocument1);
 
     // Act

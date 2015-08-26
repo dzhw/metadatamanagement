@@ -83,6 +83,7 @@ public class VariableDocument extends AbstractDocument {
    * The label of the variable.
    */
   @Size(max = 80, groups = {Create.class, Edit.class})
+  @NotBlank(groups = {Create.class, Edit.class})
   private String label;
 
   /**
