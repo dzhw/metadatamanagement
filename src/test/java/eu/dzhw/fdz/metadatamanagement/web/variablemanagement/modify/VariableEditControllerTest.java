@@ -65,7 +65,7 @@ public class VariableEditControllerTest extends AbstractWebTest {
         .andExpect(model().attributeHasFieldErrors("variableDocument"));
 
     // Delete
-    this.variableService.delete("");
+    this.variableService.delete(id);
   }
 
   @Test

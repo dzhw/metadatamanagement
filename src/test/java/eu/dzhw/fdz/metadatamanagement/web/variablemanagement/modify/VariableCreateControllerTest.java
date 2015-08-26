@@ -268,6 +268,7 @@ public class VariableCreateControllerTest extends AbstractWebTest {
     MvcResult mvcResult =
         this.mockMvc
             .perform(post("/de/variables/create")
+                .param(VariableDocument.ID_FIELD, "testValidSurveyPeriodID007")
                 .param(VariableDocument.NAME_FIELD, "Ein Name")
                 .param(VariableDocument.QUESTION_FIELD, "Eine Frage?")
                 .param(VariableDocument.NESTED_VARIABLE_SURVEY_ID_FIELD, "ID001")
