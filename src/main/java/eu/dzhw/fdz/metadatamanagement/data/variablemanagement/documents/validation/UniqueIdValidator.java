@@ -38,8 +38,9 @@ public class UniqueIdValidator implements ConstraintValidator<UniqueId, String> 
   public boolean isValid(String variableDocumentId, ConstraintValidatorContext context) {
 
     // is an necessary field
+    //but the NotBlank handles the case of no input. 
     if (variableDocumentId == null) {
-      return false;
+      return true;
     }
 
     // check id

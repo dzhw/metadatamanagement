@@ -1,8 +1,11 @@
 package eu.dzhw.fdz.metadatamanagement.web.variablemanagement.modify;
 
 import static org.hamcrest.Matchers.instanceOf;
+import static org.hamcrest.Matchers.is;
 import static org.hamcrest.core.IsNot.not;
 import static org.hamcrest.core.StringContains.containsString;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertThat;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.asyncDispatch;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -12,14 +15,19 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.request;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+import java.util.List;
+import java.util.Locale;
+
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.web.servlet.ModelAndView;
 
 import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.VariableDocument;
 import eu.dzhw.fdz.metadatamanagement.service.variablemanagement.VariableService;
 import eu.dzhw.fdz.metadatamanagement.web.AbstractWebTest;
+import eu.dzhw.fdz.metadatamanagement.web.common.dtos.ValidationResultDto;
 
 /**
  * 
@@ -31,7 +39,7 @@ public class VariableCreateControllerTest extends AbstractWebTest {
 
   @Autowired
   private VariableService variableService;
-  
+
   @Test
   public void testGetForm() throws Exception {
     // Check the Requestpath of the VariableModifyControllerPath
@@ -76,9 +84,7 @@ public class VariableCreateControllerTest extends AbstractWebTest {
             .param(VariableDocument.NESTED_VARIABLE_SURVEY_ID_FIELD, "SurveyID")
             .param("addSurvey", ""))
         .andExpect(status().isOk()).andExpect(request().asyncStarted())
-        .andExpect(request()
-            .asyncResult(instanceOf(ModelAndView.class)))
-        .andReturn();
+        .andExpect(request().asyncResult(instanceOf(ModelAndView.class))).andReturn();
 
     // Act and Assert
     this.mockMvc.perform(asyncDispatch(mvcResult)).andExpect(status().is2xxSuccessful())
@@ -148,15 +154,17 @@ public class VariableCreateControllerTest extends AbstractWebTest {
             .param(VariableDocument.QUESTION_FIELD, "Eine Frage?").param("addAnswerOption", ""))
         .andExpect(status().isOk()).andExpect(request().asyncStarted())
         .andExpect(request().asyncResult(instanceOf(ModelAndView.class))).andReturn();
-    
+
     // Act and Assert
     this.mockMvc.perform(asyncDispatch(mvcResult)).andExpect(status().is2xxSuccessful())
         .andExpect(redirectedUrl(null));
   }
 
   @Test
-  public void testPostInvalidVariableDocument() throws Exception { // Arrange // EmtyQuestion Field
-                                                                   // generates a error
+  public void testPostInvalidVariableDocument() throws Exception {
+    // Arrange
+    // EmtyQuestion Field
+    // generates a error
     MvcResult mvcResult = this.mockMvc
         .perform(post("/de/variables/create").param(VariableDocument.ID_FIELD, "ID007")
             .param(VariableDocument.NAME_FIELD, "Ein Name"))
@@ -184,5 +192,60 @@ public class VariableCreateControllerTest extends AbstractWebTest {
 
     // Delete
     this.variableService.delete("ID007");
+  }
+
+  @Test
+  public void testPostValidateInvalidVariableDocument() throws Exception {
+    LocaleContextHolder.setLocale(Locale.GERMAN);
+
+    // Arrange
+    // EmtyQuestion Field
+    // generates a error
+    MvcResult mvcResult = this.mockMvc
+        .perform(post("/de/variables/create/validate")
+            .param(VariableDocument.ID_FIELD, "testPostValidateInvalidID007")
+            .param(VariableDocument.NAME_FIELD, "Ein Name"))
+        .andExpect(status().isOk()).andExpect(request().asyncStarted())
+        .andExpect(request().asyncResult(instanceOf(ValidationResultDto.class))).andReturn();
+
+    ValidationResultDto validationResultDto = (ValidationResultDto) mvcResult.getAsyncResult();
+    int errorKeySize = validationResultDto.getErrorMessageMap().keySet().size();
+    String key = validationResultDto.getErrorMessageMap().keySet().iterator().next();
+    List<String> errors = validationResultDto.getErrorMessageMap().get(key);
+    int errorsSize = errors.size();
+    String error1 = errors.get(0);
+
+    // Act and Assert
+    this.mockMvc.perform(asyncDispatch(mvcResult)).andExpect(status().is2xxSuccessful())
+        .andExpect(redirectedUrl(null));
+    assertEquals(1, errorKeySize);
+    assertEquals(1, errorsSize);
+    assertThat(error1, is("Bitte geben Sie eine Frage an."));
+  }
+
+  @Test
+  public void testPostValidateValidVariableDocument() throws Exception {
+    LocaleContextHolder.setLocale(Locale.GERMAN);
+
+    // Arrange
+    MvcResult mvcResult = this.mockMvc
+        .perform(post("/de/variables/create/validate")
+            .param(VariableDocument.ID_FIELD, "testPostValidateValidID007")
+            .param(VariableDocument.QUESTION_FIELD, "Question.")
+            .param(VariableDocument.NAME_FIELD, "Ein Name"))
+        .andExpect(status().isOk()).andExpect(request().asyncStarted())
+        .andExpect(request().asyncResult(instanceOf(ValidationResultDto.class))).andReturn();
+
+    ValidationResultDto validationResultDto = (ValidationResultDto) mvcResult.getAsyncResult();
+    int errorKeySize = validationResultDto.getErrorMessageMap().keySet().size();
+
+    // Act and Assert
+    this.mockMvc.perform(asyncDispatch(mvcResult)).andExpect(status().is2xxSuccessful())
+        .andExpect(redirectedUrl(null));
+    assertEquals(0, errorKeySize);
+    
+
+    // Delete
+    this.variableService.delete("testPostValidateValidID007");
   }
 }
