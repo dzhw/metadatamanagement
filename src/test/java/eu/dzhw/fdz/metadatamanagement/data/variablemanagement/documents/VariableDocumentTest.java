@@ -50,7 +50,7 @@ public class VariableDocumentTest extends AbstractWebTest {
     this.variableDocumentCreateValidator.validate(variableDocument, errors);
 
     // Assert
-    assertEquals(8, errors.getErrorCount());
+    assertEquals(9, errors.getErrorCount());
     assertThat(errors.getFieldError(VariableDocument.NAME_FIELD).getCode(),
         is(NotBlank.class.getSimpleName()));
     assertThat(errors.getFieldError(VariableDocument.QUESTION_FIELD).getCode(),
@@ -61,8 +61,11 @@ public class VariableDocumentTest extends AbstractWebTest {
         is(NotBlank.class.getSimpleName()));
     assertThat(errors.getFieldError(VariableDocument.NESTED_VARIABLE_SURVEY_ID_FIELD).getCode(),
         is(NotBlank.class.getSimpleName()));
-    assertThat(errors.getFieldError(VariableDocument.NESTED_VARIABLE_SURVEY_PERIOD_FIELD).getCode(),
+    assertThat(errors
+        .getFieldError(VariableDocument.NESTED_VARIABLE_SURVEY_NESTED_PERIOD_START_DATE).getCode(),
         is(NotNull.class.getSimpleName()));
+    assertThat(errors.getFieldError(VariableDocument.NESTED_VARIABLE_SURVEY_NESTED_PERIOD_END_DATE)
+        .getCode(), is(NotNull.class.getSimpleName()));
     assertThat(errors.getFieldError(VariableDocument.NESTED_VARIABLE_SURVEY_TITLE_FIELD).getCode(),
         is(NotBlank.class.getSimpleName()));
     assertThat(errors.getFieldError(VariableDocument.NESTED_VARIABLE_SURVEY_VARIABLE_ALIAS_FIELD)
@@ -333,13 +336,16 @@ public class VariableDocumentTest extends AbstractWebTest {
     this.variableDocumentCreateValidator.validate(variableDocument, errors);
 
     // Assert
-    assertEquals(4, errors.getErrorCount());
+    assertEquals(5, errors.getErrorCount());
     assertThat(errors.getFieldError(VariableDocument.NESTED_VARIABLE_SURVEY_ID_FIELD).getCode(),
         is(NotBlank.class.getSimpleName()));
     assertThat(errors.getFieldError(VariableDocument.NESTED_VARIABLE_SURVEY_TITLE_FIELD).getCode(),
         is(NotBlank.class.getSimpleName()));
-    assertThat(errors.getFieldError(VariableDocument.NESTED_VARIABLE_SURVEY_PERIOD_FIELD).getCode(),
+    assertThat(errors
+        .getFieldError(VariableDocument.NESTED_VARIABLE_SURVEY_NESTED_PERIOD_START_DATE).getCode(),
         is(NotNull.class.getSimpleName()));
+    assertThat(errors.getFieldError(VariableDocument.NESTED_VARIABLE_SURVEY_NESTED_PERIOD_END_DATE)
+        .getCode(), is(NotNull.class.getSimpleName()));
     assertThat(errors.getFieldError(VariableDocument.NESTED_VARIABLE_SURVEY_VARIABLE_ALIAS_FIELD)
         .getCode(), is(NotBlank.class.getSimpleName()));
   }
@@ -447,9 +453,9 @@ public class VariableDocumentTest extends AbstractWebTest {
 
     // Assert
     assertEquals("VariableDocument [variableSurvey=VariableSurvey{surveyId=null, title=null, "
-        + "surveyPeriod=null, variableAlias=null}, name=null, dataType=null, label=null, "
-        + "question=null, scaleLevel=null, answerOptions=[], "
-        + "toString()=VariableDocument{id=[null]}]", variableDocument.toString());
+        + "surveyPeriod=DateRange{startDate=null, endDate=null}, variableAlias=null}, "
+        + "name=null, dataType=null, label=null, question=null, scaleLevel=null, answerOptions=[],"
+        + " toString()=VariableDocument{id=[null]}]", variableDocument.toString());
   }
 
   @Test
@@ -462,11 +468,10 @@ public class VariableDocumentTest extends AbstractWebTest {
     // Act
 
     // Assert
-    assertEquals(
-        "VariableDocument [variableSurvey=VariableSurvey{surveyId=null, title=null, "
-            + "surveyPeriod=null, variableAlias=null}, name=null, dataType=null, label=null, "
-            + "question=null, scaleLevel=null, answerOptions=[], toString()=VariableDocument{id=[null]}]",
-        variableDocument.toString());
+    assertEquals("VariableDocument [variableSurvey=VariableSurvey{surveyId=null, title=null,"
+        + " surveyPeriod=DateRange{startDate=null, endDate=null}, variableAlias=null},"
+        + " name=null, dataType=null, label=null, question=null, scaleLevel=null, answerOptions=[],"
+        + " toString()=VariableDocument{id=[null]}]", variableDocument.toString());
   }
 
   @Test

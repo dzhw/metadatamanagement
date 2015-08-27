@@ -7,6 +7,9 @@ import javax.validation.constraints.NotNull;
 import com.google.common.base.MoreObjects;
 import com.google.common.base.Objects;
 
+import eu.dzhw.fdz.metadatamanagement.data.common.documents.validation.ValidDateRange;
+import eu.dzhw.fdz.metadatamanagement.data.common.documents.validation.groups.ModifyValidationGroup.Create;
+import eu.dzhw.fdz.metadatamanagement.data.common.documents.validation.groups.ModifyValidationGroup.Edit;
 import net.karneim.pojobuilder.GeneratePojoBuilder;
 
 /**
@@ -17,6 +20,7 @@ import net.karneim.pojobuilder.GeneratePojoBuilder;
  *
  */
 @GeneratePojoBuilder(intoPackage = "eu.dzhw.fdz.metadatamanagement.data.common.documents.builders")
+@ValidDateRange(groups = {Create.class, Edit.class})
 public class DateRange {
 
   // Public constants which are used in queries as fieldnames.
@@ -26,13 +30,13 @@ public class DateRange {
   /**
    * The start date of the range.
    */
-  @NotNull
+  @NotNull(groups = {Create.class, Edit.class})
   private LocalDate startDate;
 
   /**
    * The end date of the range.
    */
-  @NotNull
+  @NotNull(groups = {Create.class, Edit.class})
   private LocalDate endDate;
 
   /*

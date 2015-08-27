@@ -1,5 +1,6 @@
 package eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents;
 
+import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
@@ -9,7 +10,6 @@ import com.google.common.base.MoreObjects;
 import com.google.common.base.Objects;
 
 import eu.dzhw.fdz.metadatamanagement.data.common.documents.DateRange;
-import eu.dzhw.fdz.metadatamanagement.data.common.documents.validation.ValidDateRange;
 import eu.dzhw.fdz.metadatamanagement.data.common.documents.validation.groups.ModifyValidationGroup.Create;
 import eu.dzhw.fdz.metadatamanagement.data.common.documents.validation.groups.ModifyValidationGroup.Edit;
 import net.karneim.pojobuilder.GeneratePojoBuilder;
@@ -49,7 +49,7 @@ public class VariableSurvey {
   /**
    * DateRange is the representation of the range of the survey. This is a nested object.
    */
-  @ValidDateRange(groups = {Create.class, Edit.class})
+  @Valid
   @NotNull(groups = {Create.class, Edit.class})
   private DateRange surveyPeriod;
 
@@ -61,6 +61,10 @@ public class VariableSurvey {
   @Size(max = 32, groups = {Create.class, Edit.class})
   @NotBlank(groups = {Create.class, Edit.class})
   private String variableAlias;
+
+  public VariableSurvey() {
+    this.surveyPeriod = new DateRange();
+  }
 
   /*
    * (non-Javadoc)

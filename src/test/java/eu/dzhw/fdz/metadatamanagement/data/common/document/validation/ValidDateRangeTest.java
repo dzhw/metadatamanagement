@@ -123,7 +123,7 @@ public class ValidDateRangeTest extends AbstractWebTest {
     this.variableDocumentCreateValidator.validate(variableDocument, errors);
 
     // Assert
-    assertEquals(1, errors.getErrorCount());
+    assertEquals(2, errors.getErrorCount());
   }
 
 }
