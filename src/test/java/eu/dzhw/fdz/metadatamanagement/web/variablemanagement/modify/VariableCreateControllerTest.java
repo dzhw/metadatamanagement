@@ -19,6 +19,7 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.Locale;
 
+import org.junit.Before;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.i18n.LocaleContextHolder;
@@ -41,7 +42,10 @@ public class VariableCreateControllerTest extends AbstractWebTest {
   @Autowired
   private VariableService variableService;
 
-
+  @Before
+  public void setLocale() {
+    LocaleContextHolder.setLocale(Locale.GERMAN);
+  }
 
   @Test
   public void testGetForm() throws Exception {
@@ -167,8 +171,6 @@ public class VariableCreateControllerTest extends AbstractWebTest {
 
   @Test
   public void testPostValidateInvalidVariableDocument() throws Exception {
-    LocaleContextHolder.setLocale(Locale.GERMAN);
-
     // Arrange
     // EmtyQuestion Field
     // generates a error

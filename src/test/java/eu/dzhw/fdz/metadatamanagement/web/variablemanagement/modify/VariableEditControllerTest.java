@@ -22,6 +22,7 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.Locale;
 
+import org.junit.Before;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.i18n.LocaleContextHolder;
@@ -46,12 +47,15 @@ public class VariableEditControllerTest extends AbstractWebTest {
 
   @Autowired
   private VariableService variableService;
-  
+
+  @Before
+  public void setLocale() {
+    LocaleContextHolder.setLocale(Locale.GERMAN);
+  }
+
   @Test
   public void testGetForm() throws Exception {
-
     // Arrange
-    LocaleContextHolder.setLocale(Locale.GERMAN);
     String id = "testGetEditForm";
     VariableDocument variableDocument = new VariableDocumentBuilder().withId(id).build();
     this.variableService.save(variableDocument);
@@ -75,8 +79,6 @@ public class VariableEditControllerTest extends AbstractWebTest {
 
   @Test
   public void testPostValidateInvalidVariableDocument() throws Exception {
-    LocaleContextHolder.setLocale(Locale.GERMAN);
-
     // Arrange
     // EmtyQuestion Field
     // generates a error
@@ -124,14 +126,12 @@ public class VariableEditControllerTest extends AbstractWebTest {
     assertThat(error1, is("Bitte geben Sie eine Frage an."));
 
     // Delete
-    this.variableService.delete("testPostValidateValidID007");
+    this.variableService.delete(variableDocument.getId());
   }
 
   @Test
   public void testPostValidateValidVariableDocument() throws Exception {
-
     // Arrange
-    LocaleContextHolder.setLocale(Locale.GERMAN);
     DateRange dateRange = new DateRangeBuilder().withStartDate(LocalDate.now())
         .withEndDate(LocalDate.now().plusDays(2)).build();
     VariableSurvey variableSurvey =
@@ -171,7 +171,7 @@ public class VariableEditControllerTest extends AbstractWebTest {
     assertEquals(0, errorKeySize);
 
     // Delete
-    this.variableService.delete("testPostValidateValidID007");
+    this.variableService.delete(variableDocument.getId());
   }
 
 }

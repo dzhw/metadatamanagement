@@ -17,6 +17,7 @@ import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.core.annotation.AnnotationUtils;
+import org.springframework.core.env.Environment;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.ResourceLoader;
 import org.springframework.data.elasticsearch.annotations.Document;
@@ -79,17 +80,24 @@ public class ElasticSearchPopulator implements ApplicationListener<ContextRefres
   private ResourceLoader resourceLoader;
 
   /**
-   * This constructor needs all information for reading/loading the resource files from the
+   * Spring bean holding active profiles for instance.
+   */
+  private Environment environment;
+
+  /**
+   * /** This constructor needs all information for reading/loading the resource files from the
    * classpath: 1.) Application Context 2.) Populator Resources and 3.) A given template.
    * 
    * @param applicationContext The application context of the metadata management
    * @param populatorUtils For reading the resource files of the classpath.
    * @param elasticsearchTemplate a given elasticsearch template
+   * @param resourceLoader The bean for loading classpath resources
+   * @param environment The bean holding system properties
    */
   @Autowired
   public ElasticSearchPopulator(ApplicationContext applicationContext,
       PopulatorUtils populatorUtils, ElasticsearchTemplate elasticsearchTemplate,
-      ResourceLoader resourceLoader) {
+      ResourceLoader resourceLoader, Environment environment) {
     ObjectMapper objectMapper = new ObjectMapper();
     objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
     // add JSR 310 support to the json mapper
@@ -99,6 +107,7 @@ public class ElasticSearchPopulator implements ApplicationListener<ContextRefres
     this.populatorUtils = populatorUtils;
     this.elasticsearchTemplate = elasticsearchTemplate;
     this.resourceLoader = resourceLoader;
+    this.environment = environment;
   }
 
   /**
@@ -169,17 +178,19 @@ public class ElasticSearchPopulator implements ApplicationListener<ContextRefres
   }
 
   /**
-   * This method write the json objects into the elastic search database.
+   * This method writes the json objects into the elastic search database but only if this is not
+   * running within unit tests.
    * 
    * @param resultList A list of mapped Object (based on the json files).
    */
   private void persist(List<Object> resultList) {
     RepositoryInvokerFactory invokerFactory =
         new DefaultRepositoryInvokerFactory(this.repositories);
-
-    for (Object result : resultList) {
-      RepositoryInvoker invoker = invokerFactory.getInvokerFor(result.getClass());
-      invoker.invokeSave(result);
+    if (!environment.acceptsProfiles("test")) {
+      for (Object result : resultList) {
+        RepositoryInvoker invoker = invokerFactory.getInvokerFor(result.getClass());
+        invoker.invokeSave(result);
+      }
     }
   }
 

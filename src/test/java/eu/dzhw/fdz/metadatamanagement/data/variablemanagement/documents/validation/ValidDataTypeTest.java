@@ -9,8 +9,6 @@ import static org.junit.Assert.assertEquals;
 
 import java.time.LocalDate;
 
-import javax.annotation.PostConstruct;
-
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.BeanPropertyBindingResult;
@@ -25,7 +23,6 @@ import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.builders
 import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.builders.VariableSurveyBuilder;
 import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.validation.validators.VariableDocumentCreateValidator;
 import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.validation.validators.VariableDocumentValidator;
-import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.repositories.VariableRepository;
 import eu.dzhw.fdz.metadatamanagement.web.AbstractWebTest;
 
 /**
@@ -39,14 +36,6 @@ public class ValidDataTypeTest extends AbstractWebTest {
 
   @Autowired
   private DataTypesProvider dataTypeProvider;
-  
-  @Autowired
-  private VariableRepository variableRepository;
-  
-  @PostConstruct
-  private void postConstruct(){
-    this.variableRepository.deleteAll();
-  }
 
   @Test
   public void testValidDataField() {

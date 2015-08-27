@@ -3,6 +3,7 @@ package eu.dzhw.fdz.metadatamanagement.config.elasticsearch;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.env.Environment;
 import org.springframework.core.io.ResourceLoader;
 import org.springframework.data.elasticsearch.core.ElasticsearchTemplate;
 
@@ -21,9 +22,9 @@ public class DataPopulatorConfig {
   @Bean
   public ElasticSearchPopulator repositoryPopulator(ApplicationContext applicationContext,
       PopulatorUtils populatorUtils, ElasticsearchTemplate elasticsearchTemplate,
-      ResourceLoader resourceLoader) {
+      ResourceLoader resourceLoader, Environment environment) {
     return new ElasticSearchPopulator(applicationContext, populatorUtils, elasticsearchTemplate,
-        resourceLoader);
+        resourceLoader, environment);
   }
 
   @Bean

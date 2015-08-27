@@ -11,8 +11,6 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.annotation.PostConstruct;
-
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.BeanPropertyBindingResult;
@@ -27,7 +25,6 @@ import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.builders
 import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.builders.VariableDocumentBuilder;
 import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.builders.VariableSurveyBuilder;
 import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.validation.validators.VariableDocumentCreateValidator;
-import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.repositories.VariableRepository;
 import eu.dzhw.fdz.metadatamanagement.web.AbstractWebTest;
 
 /**
@@ -38,14 +35,6 @@ public class UniqueAnswerCodeValidatorTest extends AbstractWebTest {
 
   @Autowired
   private VariableDocumentCreateValidator variableDocumentCreateValidator;
-  
-  @Autowired
-  private VariableRepository variableRepository;
-  
-  @PostConstruct
-  private void postConstruct(){
-    this.variableRepository.deleteAll();
-  }
 
   @Test
   public void testValidAnswerCode() {

@@ -43,7 +43,6 @@ public class VariableDetailsControllerTest extends AbstractWebTest {
 
   @Before
   public void before() {
-
     LocaleContextHolder.setLocale(Locale.GERMAN);
     for (int i = 1; i <= 9; i++) {
       VariableSurvey variableSurvey = new VariableSurveyBuilder()

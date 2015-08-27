@@ -52,7 +52,6 @@ public class VariableSearchControllerTest extends AbstractWebTest {
 
   @Before
   public void before() {
-    Locale currentLocale = LocaleContextHolder.getLocale();
     for (Locale locale : I18nConfiguration.SUPPORTED_LANGUAGES) {
       LocaleContextHolder.setLocale(locale);
       for (int i = 1; i <= 9; i++) {
@@ -69,12 +68,10 @@ public class VariableSearchControllerTest extends AbstractWebTest {
         this.variableService.save(variableDocument);
       }
     }
-    LocaleContextHolder.setLocale(currentLocale);
   }
 
   @After
   public void after() {
-    Locale currentLocale = LocaleContextHolder.getLocale();
     for (Locale locale : I18nConfiguration.SUPPORTED_LANGUAGES) {
       LocaleContextHolder.setLocale(locale);
       // Delete
@@ -82,7 +79,6 @@ public class VariableSearchControllerTest extends AbstractWebTest {
         this.variableService.delete("SearchUnitTest_ID0" + i);
       }
     }
-    LocaleContextHolder.setLocale(currentLocale);
   }
 
   @Test

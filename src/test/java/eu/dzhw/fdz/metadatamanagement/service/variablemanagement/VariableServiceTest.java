@@ -83,9 +83,10 @@ public class VariableServiceTest extends AbstractWebTest {
     Pageable pageable = new PageRequest(0, 10);
     LocaleContextHolder.setLocale(Locale.ENGLISH);
     for (int i = 1; i <= 9; i++) {
-      VariableSurvey variableSurvey = new VariableSurveyBuilder()
-          .withSurveyId("SearchNullUnitTest_Survey_ID").withTitle("SearchNullUnitTestTitle 0" + i)
-          .withVariableAlias("SearchNullUnitTestVariableAlias 0" + i).build();
+      VariableSurvey variableSurvey =
+          new VariableSurveyBuilder().withSurveyId("SearchNullUnitTest_Survey_ID" + i)
+              .withTitle("SearchNullUnitTestTitle 0" + i)
+              .withVariableAlias("SearchNullUnitTestVariableAlias 0" + i).build();
 
       VariableDocument variableDocument =
           new VariableDocumentBuilder().withId("SearchNullUnitTest_ID0" + i)
@@ -105,7 +106,7 @@ public class VariableServiceTest extends AbstractWebTest {
 
     // Delete
     for (int i = 1; i <= 9; i++) {
-      this.variableService.delete("SearchNullFilterUnitTest_ID0" + i);
+      this.variableService.delete("SearchNullUnitTest_ID0" + i);
     }
   }
 
@@ -136,7 +137,7 @@ public class VariableServiceTest extends AbstractWebTest {
             .withLabel("A label for a Document").withScaleLevel(ScaleLevelProvider.GERMAN_NOMINAL)
             .withDataType(DataTypesProvider.GERMAN_NUMERIC).withAnswerOptions(answerOptions)
             .withVariableSurvey(variableSurvey).build();
-    
+
     // Act
     VariableDocument savedVariableDocument = this.variableService.save(variableDocument);
     this.variableService.delete(idVariableDocument);
