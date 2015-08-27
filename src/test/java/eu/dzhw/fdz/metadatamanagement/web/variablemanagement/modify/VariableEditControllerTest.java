@@ -18,6 +18,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.request;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Locale;
 
@@ -27,8 +28,12 @@ import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.web.servlet.ModelAndView;
 
+import eu.dzhw.fdz.metadatamanagement.data.common.documents.DateRange;
+import eu.dzhw.fdz.metadatamanagement.data.common.documents.builders.DateRangeBuilder;
 import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.VariableDocument;
+import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.VariableSurvey;
 import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.builders.VariableDocumentBuilder;
+import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.builders.VariableSurveyBuilder;
 import eu.dzhw.fdz.metadatamanagement.service.variablemanagement.VariableService;
 import eu.dzhw.fdz.metadatamanagement.web.AbstractWebTest;
 import eu.dzhw.fdz.metadatamanagement.web.common.dtos.ValidationResultDto;
@@ -41,7 +46,7 @@ public class VariableEditControllerTest extends AbstractWebTest {
 
   @Autowired
   private VariableService variableService;
-
+  
   @Test
   public void testGetForm() throws Exception {
 
@@ -75,18 +80,34 @@ public class VariableEditControllerTest extends AbstractWebTest {
     // Arrange
     // EmtyQuestion Field
     // generates a error
+    DateRange dateRange = new DateRangeBuilder().withStartDate(LocalDate.now())
+        .withEndDate(LocalDate.now().plusDays(2)).build();
+    VariableSurvey variableSurvey =
+        new VariableSurveyBuilder().withSurveyId("Survey_ID").withTitle("Title 1")
+            .withVariableAlias("VariableAlias 1").withSurveyPeriod(dateRange).build();
     VariableDocument variableDocument = new VariableDocumentBuilder()
-        .withId("testPostInvalidateValidID007").withQuestion("Question").withName("Ein Name").build();
+        .withId("testPostInvalidateValidID007").withQuestion("Question").withName("Ein Name")
+        .withVariableSurvey(variableSurvey).build();
 
     this.variableService.save(variableDocument);
-    
-    MvcResult mvcResult = this.mockMvc
-        .perform(post("/de/variables/testPostInvalidateValidID007/edit/validate")
-            .param(VariableDocument.ID_FIELD, "testPostInvalidateValidID007")
-            .param(VariableDocument.LABEL_FIELD, "Ein Label")
-            .param(VariableDocument.NAME_FIELD, "Ein Name"))
-        .andExpect(status().isOk()).andExpect(request().asyncStarted())
-        .andExpect(request().asyncResult(instanceOf(ValidationResultDto.class))).andReturn();
+
+    MvcResult mvcResult =
+        this.mockMvc
+            .perform(post("/de/variables/testPostInvalidateValidID007/edit/validate")
+                .param(VariableDocument.ID_FIELD, "testPostInvalidateValidID007")
+                .param(VariableDocument.LABEL_FIELD, "Ein Label")
+                .param(VariableDocument.NAME_FIELD, "Ein Name")
+                .param(VariableDocument.NESTED_VARIABLE_SURVEY_ID_FIELD, "VariableSurveyID001")
+                .param(VariableDocument.NESTED_VARIABLE_SURVEY_TITLE_FIELD,
+                    "VariableSurveyTitel001")
+            .param(VariableDocument.NESTED_VARIABLE_SURVEY_VARIABLE_ALIAS_FIELD,
+                "VariableSurveyAlias001")
+            .param(VariableDocument.NESTED_VARIABLE_SURVEY_NESTED_PERIOD_START_DATE,
+                LocalDate.now().toString())
+            .param(VariableDocument.NESTED_VARIABLE_SURVEY_NESTED_PERIOD_END_DATE,
+                LocalDate.now().plusDays(2).toString()))
+            .andExpect(status().isOk()).andExpect(request().asyncStarted())
+            .andExpect(request().asyncResult(instanceOf(ValidationResultDto.class))).andReturn();
 
     ValidationResultDto validationResultDto = (ValidationResultDto) mvcResult.getAsyncResult();
     int errorKeySize = validationResultDto.getErrorMessageMap().keySet().size();
@@ -108,22 +129,38 @@ public class VariableEditControllerTest extends AbstractWebTest {
 
   @Test
   public void testPostValidateValidVariableDocument() throws Exception {
-    LocaleContextHolder.setLocale(Locale.GERMAN);
 
-    VariableDocument variableDocument = new VariableDocumentBuilder()
-        .withId("testPostValidateValidID007").withQuestion("Question").withName("Ein Name").build();
+    // Arrange
+    LocaleContextHolder.setLocale(Locale.GERMAN);
+    DateRange dateRange = new DateRangeBuilder().withStartDate(LocalDate.now())
+        .withEndDate(LocalDate.now().plusDays(2)).build();
+    VariableSurvey variableSurvey =
+        new VariableSurveyBuilder().withSurveyId("Survey_ID").withTitle("Title 1")
+            .withVariableAlias("VariableAlias 1").withSurveyPeriod(dateRange).build();
+    VariableDocument variableDocument =
+        new VariableDocumentBuilder().withId("testPostValidateValidID007").withQuestion("Question")
+            .withName("Ein Name").withVariableSurvey(variableSurvey).build();
 
     this.variableService.save(variableDocument);
 
-    // Arrange
-    MvcResult mvcResult = this.mockMvc
-        .perform(post("/de/variables/testPostValidateValidID007/edit/validate")
-            .param(VariableDocument.ID_FIELD, "testPostValidateValidID007")
-            .param(VariableDocument.QUESTION_FIELD, "Question.")
-            .param(VariableDocument.LABEL_FIELD, "Ein Label")
-            .param(VariableDocument.NAME_FIELD, "Ein Name"))
-        .andExpect(status().isOk()).andExpect(request().asyncStarted())
-        .andExpect(request().asyncResult(instanceOf(ValidationResultDto.class))).andReturn();
+    MvcResult mvcResult =
+        this.mockMvc
+            .perform(post("/de/variables/testPostValidateValidID007/edit/validate")
+                .param(VariableDocument.ID_FIELD, "testPostValidateValidID007")
+                .param(VariableDocument.QUESTION_FIELD, "Question.")
+                .param(VariableDocument.LABEL_FIELD, "Ein Label")
+                .param(VariableDocument.NAME_FIELD, "Ein Name")
+                .param(VariableDocument.NESTED_VARIABLE_SURVEY_ID_FIELD, "VariableSurveyID001")
+                .param(VariableDocument.NESTED_VARIABLE_SURVEY_TITLE_FIELD,
+                    "VariableSurveyTitel001")
+            .param(VariableDocument.NESTED_VARIABLE_SURVEY_VARIABLE_ALIAS_FIELD,
+                "VariableSurveyAlias001")
+            .param(VariableDocument.NESTED_VARIABLE_SURVEY_NESTED_PERIOD_START_DATE,
+                LocalDate.now().toString())
+            .param(VariableDocument.NESTED_VARIABLE_SURVEY_NESTED_PERIOD_END_DATE,
+                LocalDate.now().plusDays(2).toString()))
+            .andExpect(status().isOk()).andExpect(request().asyncStarted())
+            .andExpect(request().asyncResult(instanceOf(ValidationResultDto.class))).andReturn();
 
     ValidationResultDto validationResultDto = (ValidationResultDto) mvcResult.getAsyncResult();
     int errorKeySize = validationResultDto.getErrorMessageMap().keySet().size();

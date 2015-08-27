@@ -15,6 +15,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.request;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Locale;
 
@@ -39,6 +40,8 @@ public class VariableCreateControllerTest extends AbstractWebTest {
 
   @Autowired
   private VariableService variableService;
+
+
 
   @Test
   public void testGetForm() throws Exception {
@@ -187,17 +190,31 @@ public class VariableCreateControllerTest extends AbstractWebTest {
     // Act and Assert
     this.mockMvc.perform(asyncDispatch(mvcResult)).andExpect(status().is2xxSuccessful())
         .andExpect(redirectedUrl(null));
+
+    // Delete
+    this.variableService.delete("ID007");
   }
 
   @Test
   public void testPostValidVariableDocument() throws Exception {
     // Arrange
-    MvcResult mvcResult = this.mockMvc
-        .perform(post("/de/variables/create").param(VariableDocument.ID_FIELD, "ID007")
-            .param(VariableDocument.NAME_FIELD, "Ein Name")
-            .param(VariableDocument.LABEL_FIELD, "Ein Label")
-            .param(VariableDocument.QUESTION_FIELD, "Eine Frage?"))
-        .andExpect(status().isOk()).andExpect(request().asyncStarted())
+    MvcResult mvcResult =
+        this.mockMvc
+            .perform(post("/de/variables/create")
+                .param(VariableDocument.ID_FIELD, "ID007")
+                .param(VariableDocument.NAME_FIELD, "Ein Name")
+                .param(VariableDocument.LABEL_FIELD, "Ein Label")
+                .param(VariableDocument.QUESTION_FIELD, "Eine Frage?")
+                .param(VariableDocument.NESTED_VARIABLE_SURVEY_ID_FIELD, "VariableSurveyID001")
+                .param(VariableDocument.NESTED_VARIABLE_SURVEY_TITLE_FIELD,
+                    "VariableSurveyTitel001")
+        .param(VariableDocument.NESTED_VARIABLE_SURVEY_VARIABLE_ALIAS_FIELD,
+            "VariableSurveyAlias001")
+        .param(VariableDocument.NESTED_VARIABLE_SURVEY_NESTED_PERIOD_START_DATE,
+            LocalDate.now().toString())
+        .param(VariableDocument.NESTED_VARIABLE_SURVEY_NESTED_PERIOD_END_DATE,
+            LocalDate.now().plusDays(2).toString())).andExpect(status().isOk())
+        .andExpect(request().asyncStarted())
         .andExpect(request().asyncResult(instanceOf(ModelAndView.class))).andReturn();
 
     // Act and Assert
@@ -215,12 +232,22 @@ public class VariableCreateControllerTest extends AbstractWebTest {
     // Arrange
     // EmtyQuestion Field
     // generates a error
-    MvcResult mvcResult = this.mockMvc
-        .perform(post("/de/variables/create/validate")
-            .param(VariableDocument.ID_FIELD, "testPostValidateInvalidID007")
-            .param(VariableDocument.LABEL_FIELD, "Ein Label")
-            .param(VariableDocument.NAME_FIELD, "Ein Name"))
-        .andExpect(status().isOk()).andExpect(request().asyncStarted())
+    MvcResult mvcResult =
+        this.mockMvc
+            .perform(post("/de/variables/create/validate")
+                .param(VariableDocument.ID_FIELD, "testPostValidateInvalidID008")
+                .param(VariableDocument.LABEL_FIELD, "Ein Label 5")
+                .param(VariableDocument.NAME_FIELD, "Ein Name 9")
+                .param(VariableDocument.NESTED_VARIABLE_SURVEY_ID_FIELD, "VariableSurveyID082")
+                .param(VariableDocument.NESTED_VARIABLE_SURVEY_TITLE_FIELD,
+                    "VariableSurveyTitel012")
+        .param(VariableDocument.NESTED_VARIABLE_SURVEY_VARIABLE_ALIAS_FIELD,
+            "VariableSurveyAlias054")
+        .param(VariableDocument.NESTED_VARIABLE_SURVEY_NESTED_PERIOD_START_DATE,
+            LocalDate.now().toString())
+        .param(VariableDocument.NESTED_VARIABLE_SURVEY_NESTED_PERIOD_END_DATE,
+            LocalDate.now().plusDays(2).toString())).andExpect(status().isOk())
+        .andExpect(request().asyncStarted())
         .andExpect(request().asyncResult(instanceOf(ValidationResultDto.class))).andReturn();
 
     ValidationResultDto validationResultDto = (ValidationResultDto) mvcResult.getAsyncResult();
@@ -236,6 +263,9 @@ public class VariableCreateControllerTest extends AbstractWebTest {
     assertEquals(1, errorKeySize);
     assertEquals(1, errorsSize);
     assertThat(error1, is("Bitte geben Sie eine Frage an."));
+
+    // Delete
+    this.variableService.delete("testPostValidateInvalidID008");
   }
 
   @Test
@@ -243,13 +273,23 @@ public class VariableCreateControllerTest extends AbstractWebTest {
     LocaleContextHolder.setLocale(Locale.GERMAN);
 
     // Arrange
-    MvcResult mvcResult = this.mockMvc
-        .perform(post("/de/variables/create/validate")
-            .param(VariableDocument.ID_FIELD, "testPostValidateValidID007")
-            .param(VariableDocument.QUESTION_FIELD, "Question.")
-            .param(VariableDocument.LABEL_FIELD, "Ein Label")
-            .param(VariableDocument.NAME_FIELD, "Ein Name"))
-        .andExpect(status().isOk()).andExpect(request().asyncStarted())
+    MvcResult mvcResult =
+        this.mockMvc
+            .perform(post("/de/variables/create/validate")
+                .param(VariableDocument.ID_FIELD, "testPostValidateValidID007")
+                .param(VariableDocument.QUESTION_FIELD, "Question.")
+                .param(VariableDocument.LABEL_FIELD, "Ein Label")
+                .param(VariableDocument.NAME_FIELD, "Ein Name")
+                .param(VariableDocument.NESTED_VARIABLE_SURVEY_ID_FIELD, "VariableSurveyID001")
+                .param(VariableDocument.NESTED_VARIABLE_SURVEY_TITLE_FIELD,
+                    "VariableSurveyTitel001")
+        .param(VariableDocument.NESTED_VARIABLE_SURVEY_VARIABLE_ALIAS_FIELD,
+            "VariableSurveyAlias001")
+        .param(VariableDocument.NESTED_VARIABLE_SURVEY_NESTED_PERIOD_START_DATE,
+            LocalDate.now().toString())
+        .param(VariableDocument.NESTED_VARIABLE_SURVEY_NESTED_PERIOD_END_DATE,
+            LocalDate.now().plusDays(2).toString())).andExpect(status().isOk())
+        .andExpect(request().asyncStarted())
         .andExpect(request().asyncResult(instanceOf(ValidationResultDto.class))).andReturn();
 
     ValidationResultDto validationResultDto = (ValidationResultDto) mvcResult.getAsyncResult();
@@ -259,7 +299,6 @@ public class VariableCreateControllerTest extends AbstractWebTest {
     this.mockMvc.perform(asyncDispatch(mvcResult)).andExpect(status().is2xxSuccessful())
         .andExpect(redirectedUrl(null));
     assertEquals(0, errorKeySize);
-
 
     // Delete
     this.variableService.delete("testPostValidateValidID007");

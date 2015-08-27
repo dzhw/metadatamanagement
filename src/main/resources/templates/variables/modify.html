@@ -87,7 +87,6 @@
 							th:text="#{variables.modify.variable.surveyData}">Erhebungsdaten</div>
 						<div class="panel-body">
 							<th:block th:if="${variableDocument.variableSurvey != null}">
-								<!-- 	th:object="${variableDocument.variableSurvey}"> -->
 								<div
 									th:replace="common/errorAlerts::globalAlerts(field=variableSurvey)"></div>
 								<div class="row">

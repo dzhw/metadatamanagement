@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 import org.hibernate.validator.constraints.NotBlank;
@@ -64,6 +65,7 @@ public class VariableDocument extends AbstractDocument {
    * This is a nested reference to the survey.
    */
   @Valid
+  @NotNull
   private VariableSurvey variableSurvey;
 
   /**
@@ -114,7 +116,8 @@ public class VariableDocument extends AbstractDocument {
    * Create a variableDocument with a empty AnswerOption.
    */
   public VariableDocument() {
-    this.setAnswerOptions(new ArrayList<>());
+    this.answerOptions = new ArrayList<>();
+    this.variableSurvey = new VariableSurvey();
   }
 
   /**
