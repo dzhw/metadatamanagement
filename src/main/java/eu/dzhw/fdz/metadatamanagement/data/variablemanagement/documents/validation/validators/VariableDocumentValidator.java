@@ -10,6 +10,7 @@ import eu.dzhw.fdz.metadatamanagement.data.common.documents.validation.groups.Mo
 import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.DataTypesProvider;
 import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.VariableDocument;
 import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.repositories.VariableRepository;
+import eu.dzhw.fdz.metadatamanagement.web.variablemanagement.details.VariableResourceAssembler;
 
 /**
  * A custom spring validator for the variable document. It uses the default JSR-303 validator and
@@ -32,6 +33,10 @@ public abstract class VariableDocumentValidator implements Validator {
 
   protected VariableRepository variableRepository;
 
+  protected VariableResourceAssembler variableResourceAssembler;
+
+
+
   /**
    * The variable document validator is abstract validator which defines the default implementation
    * of the edit and create validators.
@@ -41,7 +46,7 @@ public abstract class VariableDocumentValidator implements Validator {
    *        types of the variable management.
    */
   public VariableDocumentValidator(Validator jsrValidator, DataTypesProvider dataTypesProvider,
-      VariableRepository variableRepository) {
+      VariableRepository variableRepository, VariableResourceAssembler variableResourceAssembler) {
     if (jsrValidator instanceof SmartValidator) {
       this.jsrValidator = (SmartValidator) jsrValidator;
     } else {
@@ -50,6 +55,7 @@ public abstract class VariableDocumentValidator implements Validator {
     }
     this.dataTypesProvider = dataTypesProvider;
     this.variableRepository = variableRepository;
+    this.variableResourceAssembler = variableResourceAssembler;
   }
 
   /*
@@ -127,9 +133,12 @@ public abstract class VariableDocumentValidator implements Validator {
       // found elements -> alias is used and not okay
     } else {
       VariableDocument existingVariableWithSameAlias = variablesWithSameAlias.get(0);
+      String detailPageUrlExistingVariable = this.variableResourceAssembler
+          .toResource(existingVariableWithSameAlias).getId().getHref();
       errors.rejectValue(VariableDocument.NESTED_VARIABLE_SURVEY_VARIABLE_ALIAS_FIELD,
           MANDATORY_VARIABLE_SURVEY_VARIABLEALIAS_MESSAGE_CODE,
-          new Object[] {existingVariableWithSameAlias.getId()}, "Invalid variable alias!");
+          new Object[] {existingVariableWithSameAlias.getId(), detailPageUrlExistingVariable},
+          "Invalid variable alias!");
       return;
     }
   }

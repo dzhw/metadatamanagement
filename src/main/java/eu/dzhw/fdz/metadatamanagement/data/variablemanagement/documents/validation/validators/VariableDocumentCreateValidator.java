@@ -10,6 +10,7 @@ import eu.dzhw.fdz.metadatamanagement.data.common.documents.validation.groups.Mo
 import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.DataTypesProvider;
 import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.VariableDocument;
 import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.repositories.VariableRepository;
+import eu.dzhw.fdz.metadatamanagement.web.variablemanagement.details.VariableResourceAssembler;
 
 /**
  * This is the validator for create a variable document.
@@ -22,8 +23,9 @@ public class VariableDocumentCreateValidator extends VariableDocumentValidator {
 
   @Autowired
   public VariableDocumentCreateValidator(@Qualifier("mvcValidator") Validator jsrValidator,
-      DataTypesProvider dataTypesProvider, VariableRepository variableRepository) {
-    super(jsrValidator, dataTypesProvider, variableRepository);
+      DataTypesProvider dataTypesProvider, VariableRepository variableRepository,
+      VariableResourceAssembler variableResourceAssembler) {
+    super(jsrValidator, dataTypesProvider, variableRepository, variableResourceAssembler);
   }
 
   /*
