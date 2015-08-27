@@ -7,7 +7,7 @@
 	<header>
 		<div th:include="common/navbar::navbar"></div>
 		<div
-			th:include="common/jumbotron::jumbotron(title=#{variables.modify.title},subtitle=#{variables.modify.subtitle})"></div>
+			th:include="common/jumbotron::jumbotron(title=#{__${resource.createMode?'variables.create.title':'variables.edit.title'}__},subtitle=#{__${resource.createMode?'variables.create.subtitle':'variables.edit.subtitle'}__})"></div>
 	</header>
 	<div class="container">
 		<div class="panel panel-primary">
