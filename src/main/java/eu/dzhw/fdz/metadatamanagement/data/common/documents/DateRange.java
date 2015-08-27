@@ -2,6 +2,8 @@ package eu.dzhw.fdz.metadatamanagement.data.common.documents;
 
 import java.time.LocalDate;
 
+import javax.validation.constraints.NotNull;
+
 import com.google.common.base.MoreObjects;
 import com.google.common.base.Objects;
 
@@ -24,11 +26,13 @@ public class DateRange {
   /**
    * The start date of the range.
    */
+  @NotNull
   private LocalDate startDate;
 
   /**
    * The end date of the range.
    */
+  @NotNull
   private LocalDate endDate;
 
   /*
