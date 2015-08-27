@@ -23,6 +23,7 @@ import org.springframework.test.web.ModelAndViewAssert;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.web.servlet.ModelAndView;
 
+import eu.dzhw.fdz.metadatamanagement.config.i18n.I18nConfiguration;
 import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.DataTypesProvider;
 import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.ScaleLevelProvider;
 import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.VariableDocument;
@@ -51,29 +52,37 @@ public class VariableSearchControllerTest extends AbstractWebTest {
 
   @Before
   public void before() {
+    Locale currentLocale = LocaleContextHolder.getLocale();
+    for (Locale locale : I18nConfiguration.SUPPORTED_LANGUAGES) {
+      LocaleContextHolder.setLocale(locale);
+      for (int i = 1; i <= 9; i++) {
+        VariableSurvey variableSurvey = new VariableSurveyBuilder()
+            .withSurveyId("SearchUnitTest_Survey_ID").withTitle("SearchUnitTestTitle 0" + i)
+            .withVariableAlias("SearchUnitTestVariableAlias 0" + i).build();
 
-    LocaleContextHolder.setLocale(Locale.GERMAN);
-    for (int i = 1; i <= 9; i++) {
-      VariableSurvey variableSurvey = new VariableSurveyBuilder()
-          .withSurveyId("SearchUnitTest_Survey_ID").withTitle("SearchUnitTestTitle 0" + i)
-          .withVariableAlias("SearchUnitTestVariableAlias 0" + i).build();
-
-      VariableDocument variableDocument = new VariableDocumentBuilder()
-          .withId("SearchUnitTest_ID0" + i).withName("SearchUnitTestName 0" + i)
-          .withLabel("SearchUnitTestLabel 0" + i).withQuestion("SearchUnitTestQuestion 0" + i)
-          .withDataType(this.dataTypesProvider.getNumericValueByLocale())
-          .withScaleLevel(this.scaleLevelProvider.getMetricByLocal())
-          .withVariableSurvey(variableSurvey).build();
-      this.variableService.save(variableDocument);
+        VariableDocument variableDocument = new VariableDocumentBuilder()
+            .withId("SearchUnitTest_ID0" + i).withName("SearchUnitTestName 0" + i)
+            .withLabel("SearchUnitTestLabel 0" + i).withQuestion("SearchUnitTestQuestion 0" + i)
+            .withDataType(this.dataTypesProvider.getNumericValueByLocale())
+            .withScaleLevel(this.scaleLevelProvider.getMetricByLocal())
+            .withVariableSurvey(variableSurvey).build();
+        this.variableService.save(variableDocument);
+      }
     }
+    LocaleContextHolder.setLocale(currentLocale);
   }
 
   @After
   public void after() {
-    // Delete
-    for (int i = 1; i <= 9; i++) {
-      this.variableService.delete("SearchUnitTest_ID0" + i);
+    Locale currentLocale = LocaleContextHolder.getLocale();
+    for (Locale locale : I18nConfiguration.SUPPORTED_LANGUAGES) {
+      LocaleContextHolder.setLocale(locale);
+      // Delete
+      for (int i = 1; i <= 9; i++) {
+        this.variableService.delete("SearchUnitTest_ID0" + i);
+      }
     }
+    LocaleContextHolder.setLocale(currentLocale);
   }
 
   @Test
@@ -114,9 +123,10 @@ public class VariableSearchControllerTest extends AbstractWebTest {
 
   @Test
   public void testSearch() throws Exception {
-    MvcResult mvcResult = this.mockMvc.perform(get("/de/variables/search?query=SearchUnitTest_Survey_ID"))
-        .andExpect(status().isOk()).andExpect(request().asyncStarted())
-        .andExpect(request().asyncResult(instanceOf(ModelAndView.class))).andReturn();
+    MvcResult mvcResult =
+        this.mockMvc.perform(get("/de/variables/search?query=SearchUnitTest_Survey_ID"))
+            .andExpect(status().isOk()).andExpect(request().asyncStarted())
+            .andExpect(request().asyncResult(instanceOf(ModelAndView.class))).andReturn();
 
     ModelAndViewAssert.assertViewName((ModelAndView) mvcResult.getAsyncResult(),
         "variables/search");
@@ -135,10 +145,10 @@ public class VariableSearchControllerTest extends AbstractWebTest {
 
   @Test
   public void testSearchWithPage() throws Exception {
-    MvcResult mvcResult =
-        this.mockMvc.perform(get("/de/variables/search?query=SearchUnitTest_Survey_ID&page=1&size=3"))
-            .andExpect(status().isOk()).andExpect(request().asyncStarted())
-            .andExpect(request().asyncResult(instanceOf(ModelAndView.class))).andReturn();
+    MvcResult mvcResult = this.mockMvc
+        .perform(get("/de/variables/search?query=SearchUnitTest_Survey_ID&page=1&size=3"))
+        .andExpect(status().isOk()).andExpect(request().asyncStarted())
+        .andExpect(request().asyncResult(instanceOf(ModelAndView.class))).andReturn();
 
     ModelAndViewAssert.assertViewName((ModelAndView) mvcResult.getAsyncResult(),
         "variables/search");

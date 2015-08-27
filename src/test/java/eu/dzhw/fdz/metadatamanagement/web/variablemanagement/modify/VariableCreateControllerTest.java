@@ -60,65 +60,6 @@ public class VariableCreateControllerTest extends AbstractWebTest {
   }
 
   @Test
-  public void testAddSurvey() throws Exception {
-
-    // Arrange
-    MvcResult mvcResult = this.mockMvc
-        .perform(post("/de/variables/create").param(VariableDocument.ID_FIELD, "ID007")
-            .param(VariableDocument.NAME_FIELD, "Ein Name")
-            .param(VariableDocument.QUESTION_FIELD, "Eine Frage?").param("addSurvey", ""))
-        .andExpect(status().isOk()).andExpect(request().asyncStarted())
-        .andExpect(request().asyncResult(instanceOf(ModelAndView.class))).andReturn();
-
-    // Act and Assert
-    this.mockMvc.perform(asyncDispatch(mvcResult)).andExpect(status().is2xxSuccessful())
-        .andExpect(redirectedUrl(null));
-
-    // Delete
-    this.variableService.delete("ID007");
-  }
-
-  @Test
-  public void testAddSurveyWithNotNullSurvey() throws Exception {
-
-    // Arrange
-    MvcResult mvcResult = this.mockMvc
-        .perform(post("/de/variables/create").param(VariableDocument.ID_FIELD, "ID007")
-            .param(VariableDocument.NAME_FIELD, "Ein Name")
-            .param(VariableDocument.QUESTION_FIELD, "Eine Frage?")
-            .param(VariableDocument.NESTED_VARIABLE_SURVEY_ID_FIELD, "SurveyID")
-            .param("addSurvey", ""))
-        .andExpect(status().isOk()).andExpect(request().asyncStarted())
-        .andExpect(request().asyncResult(instanceOf(ModelAndView.class))).andReturn();
-
-    // Act and Assert
-    this.mockMvc.perform(asyncDispatch(mvcResult)).andExpect(status().is2xxSuccessful())
-        .andExpect(redirectedUrl(null));
-
-    // Delete
-    this.variableService.delete("ID007");
-  }
-
-  @Test
-  public void testRemoveSurvey() throws Exception {
-
-    // Arrange
-    MvcResult mvcResult = this.mockMvc
-        .perform(post("/de/variables/create").param(VariableDocument.ID_FIELD, "ID007")
-            .param(VariableDocument.NAME_FIELD, "Ein Name")
-            .param(VariableDocument.QUESTION_FIELD, "Eine Frage?").param("removeSurvey", ""))
-        .andExpect(status().isOk()).andExpect(request().asyncStarted())
-        .andExpect(request().asyncResult(instanceOf(ModelAndView.class))).andReturn();
-
-    // Act and Assert
-    this.mockMvc.perform(asyncDispatch(mvcResult)).andExpect(status().is2xxSuccessful())
-        .andExpect(redirectedUrl(null));
-
-    // Delete
-    this.variableService.delete("ID007");
-  }
-
-  @Test
   public void testPostRemoveAnswerOptionMethod() throws Exception {
 
     // Arrange
@@ -200,8 +141,7 @@ public class VariableCreateControllerTest extends AbstractWebTest {
     // Arrange
     MvcResult mvcResult =
         this.mockMvc
-            .perform(post("/de/variables/create")
-                .param(VariableDocument.ID_FIELD, "ID007")
+            .perform(post("/de/variables/create").param(VariableDocument.ID_FIELD, "ID007")
                 .param(VariableDocument.NAME_FIELD, "Ein Name")
                 .param(VariableDocument.LABEL_FIELD, "Ein Label")
                 .param(VariableDocument.QUESTION_FIELD, "Eine Frage?")

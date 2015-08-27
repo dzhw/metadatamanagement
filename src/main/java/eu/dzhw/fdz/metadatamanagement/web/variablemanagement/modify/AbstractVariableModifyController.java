@@ -29,7 +29,6 @@ import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.AnswerOp
 import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.DataTypesProvider;
 import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.ScaleLevelProvider;
 import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.VariableDocument;
-import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.VariableSurvey;
 import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.validation.validators.VariableDocumentValidator;
 import eu.dzhw.fdz.metadatamanagement.service.variablemanagement.VariableService;
 import eu.dzhw.fdz.metadatamanagement.web.common.dtos.ValidationResultDto;
@@ -90,42 +89,6 @@ public abstract class AbstractVariableModifyController {
     }
     modelAndView.addObject("windowYPosition", windowYPosition);
     return modelAndView;
-  }
-
-  /**
-   * add a survey to the variable.
-   * 
-   * @return modify.html
-   */
-  @RequestMapping(method = RequestMethod.POST, params = {"addSurvey"})
-  public Callable<ModelAndView> addSurvey(VariableDocument variableDocument,
-      BindingResult bindingResult, Integer windowYPosition) {
-    return () -> {
-      VariableSurvey survey = new VariableSurvey();
-      variableDocument.setVariableSurvey(survey);
-
-      validator.validate(variableDocument, bindingResult);
-
-      return createModelAndView(variableDocument, Optional.of("removeSurveyButton"),
-          windowYPosition);
-    };
-  }
-
-  /**
-   * remove a survey from the variable.
-   * 
-   * @return modify.html
-   */
-  @RequestMapping(method = RequestMethod.POST, params = {"removeSurvey"})
-  public Callable<ModelAndView> removeSurvey(VariableDocument variableDocument,
-      BindingResult bindingResult, Integer windowYPosition) {
-    return () -> {
-      variableDocument.setVariableSurvey(null);
-
-      validator.validate(variableDocument, bindingResult);
-
-      return createModelAndView(variableDocument, Optional.of("addSurveyButton"), windowYPosition);
-    };
   }
 
   /**
