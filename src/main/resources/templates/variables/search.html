@@ -90,14 +90,14 @@
 									<ul class="pager">
 										<li class="previous"
 											th:classappend="${resource.page.previousLink==null?'disabled':''}"><a
-											th:href="${resource.page.previousLink?.href?:'#'}">&larr; <span
+											th:href="${resource.page.previousLink?.href?:'javascript:;'}">&larr; <span
 												th:text="#{common.pager.previous}"></span></a></li>
 										<li class="hidden-xs"><a> <span
 												th:text="#{common.pagenumbers(${resource.page.metadata.number}+1,${resource.page.metadata.totalPages})}"></span>
 										</a></li>
 										<li class="next"
 											th:classappend="${resource.page.nextLink==null?'disabled':''}"><a
-											th:href="${resource.page.nextLink?.href?:'#'}"><span
+											th:href="${resource.page.nextLink?.href?:'javascript:;'}"><span
 												th:text="#{common.pager.next}"></span> &rarr;</a></li>
 									</ul>
 								</div>
