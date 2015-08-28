@@ -4,6 +4,7 @@ import java.util.Optional;
 import java.util.concurrent.Callable;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.hateoas.mvc.ControllerLinkBuilderFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BeanPropertyBindingResult;
@@ -53,6 +54,11 @@ public class VariableEditController extends AbstractVariableModifyController {
   public Callable<ModelAndView> edit(@PathVariable("variableId") String variableId) {
     return () -> {
       VariableDocument variableDocument = variableService.get(variableId);
+      if (variableDocument == null) {
+        // TODO create custom DocumentNotFoundException
+        throw new IllegalStateException("Variable with ID" + variableId + "("
+            + LocaleContextHolder.getLocale().getLanguage() + ")not found!");
+      }
       BeanPropertyBindingResult errors =
           new BeanPropertyBindingResult(variableDocument, "variableDocument");
       validator.validate(variableDocument, errors);
