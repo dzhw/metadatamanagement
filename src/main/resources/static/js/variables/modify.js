@@ -53,7 +53,7 @@ VariableModifyForm.validate = _.debounce(function(form) {
 				$formGroup.find('.form-control-feedback').addClass(
 						'glyphicon-remove');
 				$formGroup.find('.help-block').html(
-						'<p>' + error.sort().join('<br>') + '</p>');
+						'<span>' + error.sort().join('<br>') + '</span>');
 			} else {
 				//field is valid
 				$formGroup.addClass('has-success');
