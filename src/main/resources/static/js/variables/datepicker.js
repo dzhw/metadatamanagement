@@ -3,7 +3,7 @@ $(document).ready(
 			 locale = $('html').attr('lang');
 			$.datepicker.setDefaults($.datepicker.regional[locale]);
 			$(this).datepicker({
-				altField :"#"+$(this).attr('id')+"_alt",
+				altField :"#"+replaceId($(this).attr('id'))+"_alt",
 				altFormat : "yy-mm-dd",
 				gotoCurrent : true,
 				onSelect : function() {
@@ -13,8 +13,7 @@ $(document).ready(
 				changeYear : true,
 				yearRange: '1970:2040',
 				firstDay: 1 
-			}).on(
-					'keyup',
+			}).on('keyup',
 					function() {
 						$(this).datepicker("hide");
 						var date='';
@@ -34,12 +33,15 @@ $(document).ready(
 								// JavaScript months are 0-11
 								var month = ("0" + (date.getMonth() + 1))
 										.slice(-2);
-								$("#"+$(this).attr('id')+"_alt").val(
+								$("#"+replaceId($(this).attr('id'))+"_alt").val(
 										year + '-' + month + '-' + day);
 						} catch (e) {
-							$("#"+$(this).attr('id')+"_alt").val('invalid date');
+							$("#"+replaceId($(this).attr('id'))+"_alt").val('invalid date');
 						}
 					});
 		 })
 		);
 		 
+function replaceId(oldId){
+	return oldId.replace(/\./g,"\\.");
+}

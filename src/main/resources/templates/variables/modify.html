@@ -116,11 +116,11 @@
 												th:replace="common/errorAlerts::globalAlerts(field=variableSurvey.surveyPeriod)"></div>
 											<div class="col-md-6">
 													<div
-														th:replace="common/calendar::date(id=startDate,field=variableSurvey.surveyPeriod.startDate,label=#{variables.modify.variable.survey.period.start},placeholder=#{variables.modify.variable.survey.period.start},readonly=false)"></div>
+														th:replace="common/calendar::date(field=variableSurvey.surveyPeriod.startDate,label=#{variables.modify.variable.survey.period.start},placeholder=#{variables.modify.variable.survey.period.start},readonly=false)"></div>
 												</div>
 												<div class="col-md-6">
 													<div
-														th:replace="common/calendar::date(id=endDate,field=variableSurvey.surveyPeriod.endDate,label=#{variables.modify.variable.survey.period.end},placeholder=#{variables.modify.variable.survey.period.end},readonly=false)"></div>
+														th:replace="common/calendar::date(field=variableSurvey.surveyPeriod.endDate,label=#{variables.modify.variable.survey.period.end},placeholder=#{variables.modify.variable.survey.period.end},readonly=false)"></div>
 												</div>
 										</div>
 									</div>
