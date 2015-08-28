@@ -9,7 +9,7 @@
 		class="form-group has-feedback"
 		th:classappend="${#fields.hasErrors('__${field}__')}? has-error : has-success">
 		<label th:text="${label}"></label> 
-		<input th:id="${field}" th:type="text" class="form-control datepicker" th:placeholder="${placeholder}" th:readonly="${readonly}"></input>
+		<input th:id="${field}" th:type="text" class="form-control datepicker" th:placeholder="${placeholder}" th:readonly="${readonly}" th:value="*{__${field}__}"></input>
 		<input th:id="${field}+'_alt'" th:type="hidden"
 			class="form-control" th:field="*{__${field}__}"/>
 			<span

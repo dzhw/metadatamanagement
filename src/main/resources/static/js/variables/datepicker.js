@@ -1,6 +1,9 @@
 $(document).ready(	
 		 $(".datepicker").each(function() {
 			 locale = $('html').attr('lang');
+			 
+		//	 $(replaceId($(this).attr('id'))).val($("#"+replaceId($(this).attr('id'))+"_alt").val());
+			 
 			$.datepicker.setDefaults($.datepicker.regional[locale]);
 			$(this).datepicker({
 				altField :"#"+replaceId($(this).attr('id'))+"_alt",
