@@ -11,7 +11,8 @@ $(document).ready(
 				},
 				changeMonth : true,
 				changeYear : true,
-				yearRange: '1970:2040'
+				yearRange: '1970:2040',
+				firstDay: 1 
 			}).on(
 					'keyup',
 					function() {
