@@ -16,7 +16,6 @@ import eu.dzhw.fdz.metadatamanagement.data.common.PopulatorUtils;
 import eu.dzhw.fdz.metadatamanagement.data.common.documents.validation.groups.ModifyValidationGroup.Create;
 import eu.dzhw.fdz.metadatamanagement.data.common.documents.validation.groups.ModifyValidationGroup.Edit;
 import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.validation.NoEditableId;
-import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.validation.UniqueId;
 
 /**
  * The AbstractDocument is used for creating of the index for ElasticSearch. This is the abstract
@@ -40,7 +39,6 @@ public abstract class AbstractDocument {
    * A fdzID as primary key for the identification of the variable of a survey.
    */
   @Id
-  @UniqueId(groups = {Create.class}) 
   @NoEditableId(groups = {Edit.class})
   @Size(max = 32, groups = {Create.class, Edit.class})
   @NotBlank(groups = {Create.class, Edit.class})
@@ -49,6 +47,7 @@ public abstract class AbstractDocument {
 
   /*
    * (non-Javadoc)
+   * 
    * @see java.lang.Object#toString()
    */
   @Override
@@ -56,9 +55,10 @@ public abstract class AbstractDocument {
     return MoreObjects.toStringHelper(this).add("id", Arrays.deepToString(new Object[] {id}))
         .toString();
   }
-  
+
   /*
    * (non-Javadoc)
+   * 
    * @see java.lang.Object#hashCode()
    */
   @Override
@@ -68,6 +68,7 @@ public abstract class AbstractDocument {
 
   /*
    * (non-Javadoc)
+   * 
    * @see java.lang.Object#equals(java.lang.Object)
    */
   @Override
@@ -78,7 +79,7 @@ public abstract class AbstractDocument {
     }
     return false;
   }
-     
+
 
   /* GETTER / SETTER */
   public String getId() {
@@ -87,5 +88,5 @@ public abstract class AbstractDocument {
 
   public void setId(String id) {
     this.id = id;
-  }  
+  }
 }

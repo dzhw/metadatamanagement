@@ -10,6 +10,7 @@ import eu.dzhw.fdz.metadatamanagement.data.common.documents.validation.groups.Mo
 import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.DataTypesProvider;
 import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.VariableDocument;
 import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.repositories.VariableRepository;
+import eu.dzhw.fdz.metadatamanagement.web.variablemanagement.details.VariableResource;
 import eu.dzhw.fdz.metadatamanagement.web.variablemanagement.details.VariableResourceAssembler;
 
 /**
@@ -20,6 +21,8 @@ import eu.dzhw.fdz.metadatamanagement.web.variablemanagement.details.VariableRes
  */
 @Component(value = "VariableDocumentCreateValidator")
 public class VariableDocumentCreateValidator extends VariableDocumentValidator {
+
+  public static final String UNIQUE_ID_VARIABLE_DOCUMENT_ID = "UniqueId.variableDocument.id";
 
   @Autowired
   public VariableDocumentCreateValidator(@Qualifier("mvcValidator") Validator jsrValidator,
@@ -71,5 +74,34 @@ public class VariableDocumentCreateValidator extends VariableDocumentValidator {
       rejectDuplicateAliasIfNecessary(variableDocument, errors);
     }
   }
+
+  @Override
+  public void validate(Object target, Errors errors) {
+    super.validate(target, errors);
+
+    validateUniqueId((VariableDocument) target, errors);
+  }
+
+  private void validateUniqueId(VariableDocument variableDocument, Errors errors) {
+
+    // id is a mandatory field
+    // but the jsr annotation NotBlank handles the case of no input
+    if (variableDocument.getId() == null) {
+      return;
+    }
+
+    VariableDocument existingVariable = this.variableRepository.findOne(variableDocument.getId());
+    // check id
+    if (existingVariable == null) {
+      return;
+    } else {
+      VariableResource variableResource = variableResourceAssembler.toResource(variableDocument);
+      errors.rejectValue(VariableDocument.ID_FIELD, UNIQUE_ID_VARIABLE_DOCUMENT_ID,
+          new Object[] {variableDocument.getId(), variableResource.getId().getHref()},
+          "FDZ Id already exists!");
+      return;
+    }
+  }
+
 
 }
