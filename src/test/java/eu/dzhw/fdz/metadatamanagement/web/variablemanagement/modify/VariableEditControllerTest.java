@@ -76,6 +76,32 @@ public class VariableEditControllerTest extends AbstractWebTest {
     // Delete
     this.variableService.delete(id);
   }
+  
+  @Test(expected=AssertionError.class)
+  public void testGetInvalidForm() throws Exception {
+    // Arrange
+    String id = "testGetEditForm";
+    VariableDocument variableDocument = new VariableDocumentBuilder().withId(id).build();
+    this.variableService.save(variableDocument);
+    
+    id = "nowitsinvalid";
+
+    // Check the Requestpath of the VariableModifyControllerPath
+    MvcResult mvcResult = this.mockMvc.perform(get("/de/variables/" + id + "/edit"))
+        .andExpect(status().isOk()).andExpect(request().asyncStarted())
+        .andExpect(request().asyncResult(instanceOf(ModelAndView.class))).andReturn();
+
+    // Act and Assert
+    this.mockMvc.perform(asyncDispatch(mvcResult)).andExpect(status().isOk())
+        .andExpect(content().string((containsString("Sprache"))))
+        .andExpect(content().string(not(containsString("#{"))))
+        .andExpect(content().string(not(containsString("${"))))
+        .andExpect(content().string(not(containsString("??"))))
+        .andExpect(model().attributeHasFieldErrors("variableDocument"));
+
+    // Delete
+    this.variableService.delete(id);
+  }
 
   @Test
   public void testPostValidateInvalidVariableDocument() throws Exception {
@@ -172,6 +198,5 @@ public class VariableEditControllerTest extends AbstractWebTest {
 
     // Delete
     this.variableService.delete(variableDocument.getId());
-  }
-
+  }  
 }
