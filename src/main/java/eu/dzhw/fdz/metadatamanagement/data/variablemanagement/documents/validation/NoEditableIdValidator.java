@@ -15,8 +15,13 @@ import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.repositories.Varia
  */
 public class NoEditableIdValidator implements ConstraintValidator<NoEditableId, String> {
 
-  @Autowired
+  
   private VariableRepository variableRepository;
+  
+  @Autowired  
+  public NoEditableIdValidator(VariableRepository variableRepository) {
+    this.variableRepository = variableRepository;
+  }
 
   /*
    * (non-Javadoc)
