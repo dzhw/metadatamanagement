@@ -37,13 +37,18 @@ public class VariableSearchController {
   private PagedResourcesAssembler<VariableDocument> pagedResourcesAssembler;
 
   /**
-   * Autowire needed objects.
+   * Create the controller.
+   * 
+   * @param variableService the service managing the variable state
+   * @param controllerLinkBuilderFactory a factory for building links to resources
+   * @param variableResourceAssembler to transform a VariableDocument into a VariableResource.
+   * @param pagedResourcesAssembler to convert a Page instances into PagedResources.
    */
   @Autowired
   public VariableSearchController(VariableService variableService,
-      ControllerLinkBuilderFactory controllerLinkBuilderFactory,
-      VariableResourceAssembler variableResourceAssembler,
-      PagedResourcesAssembler<VariableDocument> pagedResourcesAssembler) {
+          ControllerLinkBuilderFactory controllerLinkBuilderFactory,
+          VariableResourceAssembler variableResourceAssembler,
+          PagedResourcesAssembler<VariableDocument> pagedResourcesAssembler) {
     this.variableService = variableService;
     this.controllerLinkBuilderFactory = controllerLinkBuilderFactory;
     this.variableResourceAssembler = variableResourceAssembler;
@@ -56,19 +61,21 @@ public class VariableSearchController {
    * @return variableSearch.html
    */
   @RequestMapping(value = "/{language:de|en}/variables/search", method = RequestMethod.GET)
-  public Callable<ModelAndView> get(
-      @RequestHeader(name = "X-Requested-With", required = false) String ajaxHeader,
-      @RequestParam(required = false) String query, Pageable pageable,
-      final HttpServletResponse httpServletResponse) {
+  public
+          Callable<ModelAndView> get(
+                  @RequestHeader(name = "X-Requested-With", required = false) String ajaxHeader,
+                  @RequestParam(required = false) String query, Pageable pageable,
+                  final HttpServletResponse httpServletResponse) {
     return () -> {
       ModelAndView modelAndView = new ModelAndView();
       modelAndView.addObject("query", query);
 
       Page<VariableDocument> variablePage = variableService.search(query, pageable);
       PagedResources<VariableResource> pagedVariableResource =
-          pagedResourcesAssembler.toResource(variablePage, variableResourceAssembler);
-      VariableSearchPageResource resource = new VariableSearchPageResource(pagedVariableResource,
-          VariableSearchController.class, controllerLinkBuilderFactory, query, pageable);
+              pagedResourcesAssembler.toResource(variablePage, variableResourceAssembler);
+      VariableSearchPageResource resource =
+              new VariableSearchPageResource(pagedVariableResource, VariableSearchController.class,
+                      controllerLinkBuilderFactory, query, pageable);
       modelAndView.addObject("resource", resource);
 
       // Check for X-Requested-With Header
@@ -84,7 +91,7 @@ public class VariableSearchController {
       // disable caching of the search page to prevent displaying partial responses when
       // clicking the back button
       httpServletResponse.addHeader("Cache-Control",
-          "no-cache, max-age=0, must-revalidate, no-store");
+              "no-cache, max-age=0, must-revalidate, no-store");
 
       return modelAndView;
     };

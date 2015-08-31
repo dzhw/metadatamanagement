@@ -7,7 +7,7 @@ import com.google.common.base.Objects;
 import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.VariableDocument;
 
 /**
- * Build and Wrap a VariableDocument resource from a VariableDocument object.
+ * Build and Wrap a {@link VariableDocument} resource from a {@link VariableDocument} object.
  * 
  * @author Amine Limouri
  */
@@ -24,34 +24,40 @@ public class VariableResource extends ResourceSupport {
     this.variableDocument = variableDocument;
   }
 
-  public VariableDocument getVariableDocument() {
+  public
+          VariableDocument getVariableDocument() {
     return variableDocument;
   }
 
   /*
    * (non-Javadoc)
+   * 
    * @see org.springframework.hateoas.ResourceSupport#hashCode()
    */
   @Override
-  public int hashCode() {
+  public
+          int hashCode() {
     return Objects.hashCode(super.hashCode(), variableDocument);
   }
 
   /*
    * (non-Javadoc)
+   * 
    * @see org.springframework.hateoas.ResourceSupport#equals(java.lang.Object)
    */
   @Override
-  public boolean equals(Object object) {
+  public
+          boolean equals(
+                  Object object) {
     if (object != null && getClass() == object.getClass()) {
       if (!super.equals(object)) {
         return false;
-      }  
+      }
       VariableResource that = (VariableResource) object;
       return Objects.equal(this.variableDocument, that.variableDocument);
     }
     return false;
   }
 
-  
+
 }

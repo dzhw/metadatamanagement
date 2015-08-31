@@ -16,9 +16,8 @@ import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.Variable
 import eu.dzhw.fdz.metadatamanagement.service.variablemanagement.VariableService;
 
 /**
- * Show variable search page.
+ * A Controller which returns a details page for a variable.
  * 
- * @return variableSearch.html
  */
 @Controller
 @RequestMapping(path = "/{language:de|en}/variables")
@@ -28,31 +27,34 @@ public class VariableDetailsController {
   private VariableService variableService;
 
   /**
-   * Show variable search page.
+   * Create the controller.
    * 
-   * @return variableSearch.html
+   * @param variableService the service managing the variable state
+   * @param variableResourceAssembler to transform a VariableDocument into a VariableResource.
    */
   @Autowired
   public VariableDetailsController(VariableService variableService,
-      VariableResourceAssembler variableResourceAssembler) {
+          VariableResourceAssembler variableResourceAssembler) {
     this.variableService = variableService;
     this.variableResourceAssembler = variableResourceAssembler;
   }
 
   /**
-   * Show variable search page.
+   * Show variable datails page.
    * 
-   * @return variableSearch.html
+   * @return String as JSON Media type
    */
   @RequestMapping(path = "/{variableId}", method = RequestMethod.GET,
-      produces = MediaType.APPLICATION_JSON_VALUE)
+          produces = MediaType.APPLICATION_JSON_VALUE)
   @ResponseBody
-  public Callable<ResponseEntity<VariableResource>> get(@PathVariable("variableId") String id) {
+  public
+          Callable<ResponseEntity<VariableResource>> get(
+                  @PathVariable("variableId") String id) {
     return () -> {
       VariableDocument variableDocument = variableService.get(id);
       if (variableDocument != null) {
         return new ResponseEntity<VariableResource>(
-            variableResourceAssembler.toResource(variableDocument), HttpStatus.OK);
+                variableResourceAssembler.toResource(variableDocument), HttpStatus.OK);
       } else {
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
       }
