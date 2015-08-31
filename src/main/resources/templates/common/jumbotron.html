@@ -7,8 +7,10 @@
 	<div th:fragment="jumbotron(title,subtitle)">
 		<div class="container">
 			<div class="jumbotron">
-				<h1 th:text="${title}"></h1>
-				<p th:text="${subtitle}"></p>
+				<div class="container">
+					<h1 th:text="${title}"></h1>
+					<p th:text="${subtitle}"></p>
+				</div>
 			</div>
 		</div>
 	</div>
