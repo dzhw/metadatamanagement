@@ -17,9 +17,20 @@ import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.DataType
  */
 public class ValidDataTypeValidator implements ConstraintValidator<ValidDataType, String> {
 
-  @Autowired
+  /**
+   * The DateTypesProvider holds all valid data types for a variable.
+   */
   private DataTypesProvider dataTypesProvider;
-  
+
+  /**
+   * @param dataTypesProvider Injects a datatype provider, which hold the valid data types for the
+   *        different languages.
+   */
+  @Autowired
+  public ValidDataTypeValidator(DataTypesProvider dataTypesProvider) {
+    this.dataTypesProvider = dataTypesProvider;
+  }
+
   /*
    * (non-Javadoc)
    * 

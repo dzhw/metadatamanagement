@@ -15,10 +15,17 @@ import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.repositories.Varia
  */
 public class NoEditableIdValidator implements ConstraintValidator<NoEditableId, String> {
 
-  
+  /**
+   * Repository for variables. Writes in different indexes which are depending at the supported
+   * languages.
+   */
   private VariableRepository variableRepository;
-  
-  @Autowired  
+
+  /**
+   * @param variableRepository The variableRepository writes and deletes variables to the
+   *        repository.
+   */
+  @Autowired
   public NoEditableIdValidator(VariableRepository variableRepository) {
     this.variableRepository = variableRepository;
   }

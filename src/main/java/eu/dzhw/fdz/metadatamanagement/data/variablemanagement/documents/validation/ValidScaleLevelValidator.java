@@ -17,9 +17,21 @@ import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.ScaleLev
  */
 public class ValidScaleLevelValidator implements ConstraintValidator<ValidScaleLevel, String> {
 
-  @Autowired
+  /**
+   * The ScaleLevelProvider inludes all valid scale level for numeric data types for all supported
+   * languages.
+   */
   private ScaleLevelProvider scaleLevelProvider;
-  
+
+  /**
+   * @param scaleLevelProvider The ScaleLevelProvider inludes all valid scale level for numeric data
+   *        types for all supported languages.
+   */
+  @Autowired
+  public ValidScaleLevelValidator(ScaleLevelProvider scaleLevelProvider) {
+    this.scaleLevelProvider = scaleLevelProvider;
+  }
+
   /*
    * (non-Javadoc)
    * 
