@@ -47,6 +47,16 @@ public class I18nConfiguration extends WebMvcConfigurerAdapter {
   }
 
   /**
+   * Create the {@link CustomLocalDateFormatter}.
+   * 
+   * @return the {@link CustomLocalDateFormatter}
+   */
+  @Bean
+  public CustomLocalDateFormatter customLocalDateFormatter() {
+    return new CustomLocalDateFormatter();
+  }
+
+  /**
    * Enable automatic binding from ISO formatted strings to JSR 310 compatible date time objects.
    */
   @Override
