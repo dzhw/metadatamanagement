@@ -18,6 +18,7 @@ import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.ScaleLev
 import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.VariableDocument;
 import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.validation.validators.VariableDocumentEditValidator;
 import eu.dzhw.fdz.metadatamanagement.service.variablemanagement.VariableService;
+import eu.dzhw.fdz.metadatamanagement.web.common.exceptions.DocumentNotFoundException;
 
 /**
  * Controller used for editing variables with the variables/modify template.
@@ -55,8 +56,7 @@ public class VariableEditController extends AbstractVariableModifyController {
     return () -> {
       VariableDocument variableDocument = variableService.get(variableId);
       if (variableDocument == null) {
-        // TODO create custom DocumentNotFoundException
-        throw new IllegalStateException("Variable with ID" + variableId + "("
+        throw new DocumentNotFoundException("Variable with ID" + variableId + "("
             + LocaleContextHolder.getLocale().getLanguage() + ")not found!");
       }
       BeanPropertyBindingResult errors =
