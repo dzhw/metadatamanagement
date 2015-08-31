@@ -42,7 +42,7 @@
 		th:classappend="${#fields.hasErrors('__${field}__')}? has-error : has-success">
 		<label th:text="${label}"></label> <select th:field="*{__${field}__}"
 			class="form-control" th:readonly="${readonly}">
-			<option value=""></option>
+			<option value="" th:text="#{common.select.empty}">--Nothing selected--</option>
 			<option th:each="value: ${__${valuesMap}__}"
 				th:selected="${value} == *{__${field}__}" th:text="${value}"
 				th:value="${value}"></option>

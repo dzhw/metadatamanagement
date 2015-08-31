@@ -16,7 +16,7 @@
 				<!-- Bootstrap form -->
 				<form action="#" th:action="${resource.saveLink}"
 					th:attr="data-validate-url=${resource.validateLink}"
-					th:object="${variableDocument}" method="post" role="form" id="form"
+					th:object="${variableDocument}" method="post" id="form"
 					oninput="VariableModifyForm.validate(this)">
 
 					<input type="hidden" id="windowYPosition" name="windowYPosition"

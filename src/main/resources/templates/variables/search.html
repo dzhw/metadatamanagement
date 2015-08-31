@@ -19,10 +19,10 @@
 							<div class="panel-body">
 								<form id="searchVariables" action="#"
 									th:action="${resource.variablesSearchLink.href}"
-									oninput="VariableSearchForm.search(this)" role="search"
+									oninput="VariableSearchForm.search(this)"
 									autocomplete="off">
 									<div class="input-group">
-										<label class="sr-only" for="search"
+										<label class="sr-only" for="query"
 											th:text="#{variables.search.searchinput.placeholder}">Search
 											for Variables</label> <input type="text" class="form-control"
 											id="query" name="query" th:value="${query}"
