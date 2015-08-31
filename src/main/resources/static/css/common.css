@@ -3,6 +3,11 @@ body {
 	padding-top: 70px;
 }
 
+/* Adjust bootstraps jumbotron margin-bottom (original is 30px)*/
+.jumbotron {
+	margin-bottom: 20px;
+}
+
 /* chevron Up and Down and link style */
 .custom-panel-heading .panel-toggle:after {
 	/* symbol for "opening" panels */
