@@ -1,5 +1,7 @@
 package eu.dzhw.fdz.metadatamanagement.web.common.exceptions;
 
+import java.util.Locale;
+
 /**
  * The application is not in a valid state, if a document is not found. This exception will be
  * thrown in this case of matter.
@@ -15,40 +17,15 @@ public class DocumentNotFoundException extends IllegalStateException {
   private static final long serialVersionUID = 1L;
 
   /**
-   * The default constructor without an explaining message and a thrown cause.
-   */
-  public DocumentNotFoundException() {
-    super();
-  }
-
-  /**
-   * This constructor has a message that explain the exception.
+   * The 'document not found' constructor needs three kinds of information: The id and class of a
+   * document and a locale. It generates a message from this information and supports the super
+   * constructor with a given String message.
    * 
-   * @param message A detailed message.
+   * @param documentId The id of a document.
+   * @param locale A given locale.
+   * @param documentClazz The Class of the document.
    */
-  public DocumentNotFoundException(String message) {
-    super(message);
+  public DocumentNotFoundException(String documentId, Locale locale, String documentClazz) {
+    super(documentClazz + " with ID" + documentId + " (" + locale + ") not found!");
   }
-
-  /**
-   * The constructor with an explaining message and a thrown cause.
-   * 
-   * @param message A detailed message that explain the exception.
-   * @param cause A {@code Throwable} cause, that indicates a null value. The null value should be
-   *        in a valid way the document, but it was not found.
-   */
-  public DocumentNotFoundException(String message, Throwable cause) {
-    super(message, cause);
-  }
-
-  /**
-   * The constructor with a thrown cause.
-   * 
-   * @param cause A {@code Throwable} cause, that indicates a null value. The null value should be
-   *        in a valid way the document, but it was not found.
-   */
-  public DocumentNotFoundException(Throwable cause) {
-    super(cause);
-  }
-
 }
