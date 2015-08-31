@@ -56,8 +56,8 @@ public class VariableEditController extends AbstractVariableModifyController {
     return () -> {
       VariableDocument variableDocument = variableService.get(variableId);
       if (variableDocument == null) {
-        throw new DocumentNotFoundException("Variable with ID" + variableId + "("
-            + LocaleContextHolder.getLocale().getLanguage() + ")not found!");
+        throw new DocumentNotFoundException(variableId, LocaleContextHolder.getLocale(),
+            VariableDocument.class.getSimpleName());
       }
       BeanPropertyBindingResult errors =
           new BeanPropertyBindingResult(variableDocument, "variableDocument");
