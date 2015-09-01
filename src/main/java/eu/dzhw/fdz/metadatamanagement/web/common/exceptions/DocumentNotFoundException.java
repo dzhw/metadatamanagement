@@ -25,7 +25,10 @@ public class DocumentNotFoundException extends IllegalStateException {
    * @param locale A given locale.
    * @param documentClazz The Class of the document.
    */
+  //TODO internalization of this exception.
   public DocumentNotFoundException(String documentId, Locale locale, String documentClazz) {
     super(documentClazz + " with ID" + documentId + " (" + locale + ") not found!");
   }
+  
+  
 }

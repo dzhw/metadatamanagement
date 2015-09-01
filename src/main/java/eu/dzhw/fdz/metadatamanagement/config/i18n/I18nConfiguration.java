@@ -16,8 +16,10 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter
  * Spring configuration which adds i18n based on cookies.
  * 
  * @author René Reitmann
+ * @author Daniel Katzberg
  */
 @Configuration
+//@EnableWebMvc //TODO DKatzberg: Remove or use?
 public class I18nConfiguration extends WebMvcConfigurerAdapter {
 
   public static final Set<Locale> SUPPORTED_LANGUAGES;
@@ -65,4 +67,17 @@ public class I18nConfiguration extends WebMvcConfigurerAdapter {
     dateTimeFormatterRegistrar.setUseIsoFormat(true);
     dateTimeFormatterRegistrar.registerFormatters(registry);
   }
+
+  //TODO DKatzberg: Remove or use?
+//  /**
+//   * @return The message source of the application.
+//   */
+//  @Bean
+//  public MessageSource messageSource() {
+//    ReloadableResourceBundleMessageSource messageSource =
+//        new ReloadableResourceBundleMessageSource();
+//    messageSource.setBasename("classpath:i18n/messages");
+//    messageSource.setDefaultEncoding("UTF-8");
+//    return messageSource;
+//  }
 }

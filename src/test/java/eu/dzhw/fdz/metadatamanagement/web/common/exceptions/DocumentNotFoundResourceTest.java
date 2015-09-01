@@ -9,8 +9,10 @@ import static org.junit.Assert.assertThat;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.springframework.hateoas.mvc.ControllerLinkBuilderFactory;
 
 import eu.dzhw.fdz.metadatamanagement.web.AbstractWebTest;
+import eu.dzhw.fdz.metadatamanagement.web.welcome.WelcomeController;
 
 /**
  * @author Daniel Katzberg
@@ -21,10 +23,14 @@ public class DocumentNotFoundResourceTest extends AbstractWebTest {
   private DocumentNotFoundResource documentNotFoundResource;
   private String unknownId;
 
+  // TODO DKatzberg: Wrong use. It uses the WelcomeController. It has to be changed with the next
+  // commit.
+
   @Before
   public void beforeTest() {
     this.unknownId = "unknownId";
-    this.documentNotFoundResource = new DocumentNotFoundResource(this.unknownId);
+    this.documentNotFoundResource = new DocumentNotFoundResource(this.unknownId,
+        WelcomeController.class, new ControllerLinkBuilderFactory());
   }
 
   @Test
@@ -47,9 +53,11 @@ public class DocumentNotFoundResourceTest extends AbstractWebTest {
     boolean otherClassCheck = this.documentNotFoundResource.equals(new Object());
     boolean sameCheck = this.documentNotFoundResource.equals(this.documentNotFoundResource);
     boolean sameIdCheck =
-        this.documentNotFoundResource.equals(new DocumentNotFoundResource(this.unknownId));
-    boolean differentIdCheck = this.documentNotFoundResource
-        .equals(new DocumentNotFoundResource(this.unknownId + "_Other"));
+        this.documentNotFoundResource.equals(new DocumentNotFoundResource(this.unknownId,
+            WelcomeController.class, new ControllerLinkBuilderFactory()));
+    boolean differentIdCheck =
+        this.documentNotFoundResource.equals(new DocumentNotFoundResource(this.unknownId + "_Other",
+            WelcomeController.class, new ControllerLinkBuilderFactory()));
 
     // Assert
     assertThat(nullCheck, is(false));
