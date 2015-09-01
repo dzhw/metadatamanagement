@@ -9,7 +9,9 @@
 	<div th:fragment="input(field,label,placeholder,type,readonly)"
 		class="form-group has-feedback"
 		th:classappend="${#fields.hasErrors('__${field}__')}? has-error : has-success">
-		<label th:text="${label}"></label> <input th:type="${type}"
+		<label class="hidden-xs hidden-sm" th:text="${label}"></label>
+		<label class="visible-xs visible-sm" th:text="${placeholder}"></label>
+		<input th:type="${type}"
 			class="form-control" th:field="*{__${field}__}"
 			th:placeholder="${placeholder}" th:readonly="${readonly}" /> <span
 			class="glyphicon form-control-feedback"
