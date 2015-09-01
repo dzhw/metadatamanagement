@@ -16,6 +16,7 @@ import org.springframework.validation.Errors;
 
 import eu.dzhw.fdz.metadatamanagement.data.common.documents.DateRange;
 import eu.dzhw.fdz.metadatamanagement.data.common.documents.builders.DateRangeBuilder;
+import eu.dzhw.fdz.metadatamanagement.data.common.documents.validation.DateRangeValidator;
 import eu.dzhw.fdz.metadatamanagement.data.common.documents.validation.ValidDateRange;
 import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.VariableDocument;
 import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.VariableSurvey;
@@ -125,5 +126,62 @@ public class ValidDateRangeTest extends AbstractWebTest {
     // Assert
     assertEquals(2, errors.getErrorCount());
   }
+  
+  @Test
+  public void testOnlyStartDate() {
 
+    // Arrange
+    DateRange surveyPeriod =
+        new DateRangeBuilder().withStartDate(LocalDate.now()).build();
+
+    VariableSurvey variableSurvey =
+        new VariableSurveyBuilder().withSurveyId("SurveyIdIsOkay").withTitle("TitleIsOkay")
+            .withVariableAlias("ThisNameIsOkay").withSurveyPeriod(surveyPeriod).build();
+
+    VariableDocument variableDocument = new VariableDocumentBuilder().withId("ThisIDisOkay")
+        .withName("ThisNameIsOkay.").withQuestion("DefaultQuestion?").withLabel("LabelisOkay")
+        .withVariableSurvey(variableSurvey).build();
+
+    // Act
+    Errors errors = new BeanPropertyBindingResult(variableDocument, "variableDocument");
+    this.variableDocumentCreateValidator.validate(variableDocument, errors);
+
+    // Assert
+    assertEquals(1, errors.getErrorCount());
+  }
+  
+  @Test
+  public void testOnlyeNDDate() {
+
+    // Arrange
+    DateRange surveyPeriod =
+        new DateRangeBuilder().withEndDate(LocalDate.now()).build();
+
+    VariableSurvey variableSurvey =
+        new VariableSurveyBuilder().withSurveyId("SurveyIdIsOkay").withTitle("TitleIsOkay")
+            .withVariableAlias("ThisNameIsOkay").withSurveyPeriod(surveyPeriod).build();
+
+    VariableDocument variableDocument = new VariableDocumentBuilder().withId("ThisIDisOkay")
+        .withName("ThisNameIsOkay.").withQuestion("DefaultQuestion?").withLabel("LabelisOkay")
+        .withVariableSurvey(variableSurvey).build();
+
+    // Act
+    Errors errors = new BeanPropertyBindingResult(variableDocument, "variableDocument");
+    this.variableDocumentCreateValidator.validate(variableDocument, errors);
+
+    // Assert
+    assertEquals(1, errors.getErrorCount());
+  }
+  
+  @Test
+  public void testDirectlyANullValue(){
+    //Arrange
+    DateRangeValidator dateRangeValidator = new DateRangeValidator();
+    
+    //Act
+    boolean isValid = dateRangeValidator.isValid(null, null);
+    
+    //Assert
+    assertEquals(true, isValid);
+  }
 }
