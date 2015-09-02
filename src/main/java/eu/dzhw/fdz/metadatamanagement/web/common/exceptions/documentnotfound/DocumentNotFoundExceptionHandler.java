@@ -48,7 +48,7 @@ public class DocumentNotFoundExceptionHandler extends AbstractExceptionHandler {
     String navMessageLanguage =
         this.getExceptionLanguageUtils().getCorrectReadableLanguage(exception.getLocale());
     String documentType =
-        this.getExceptionLanguageUtils().getCorrectReadableLanguage(exception.getDocumentClazz());
+        this.getExceptionLanguageUtils().getCorrectDocumentType(exception.getDocumentClazz());
 
     // build model and view
     ModelAndView modelAndView = new ModelAndView("/common/exceptionAlert");

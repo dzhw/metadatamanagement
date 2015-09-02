@@ -16,8 +16,12 @@ import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.Variable
  */
 public class ExceptionLanguageUtils {
 
-  private static final String NAV_LANGUAGE_GERMAN = "nav.language.german";
-  private static final String NAV_LANGUAGE_ENGLISH = "nav.language.english";
+  //Document Types
+  public static final String DOCUMENTTYPE_VARIABLE = "documenttype.variable";
+    
+  //Languages
+  public static final String NAV_LANGUAGE_GERMAN = "nav.language.german";
+  public static final String NAV_LANGUAGE_ENGLISH = "nav.language.english";
 
   /**
    * With readable value should be represent for a used language? This method checks a given
@@ -42,10 +46,10 @@ public class ExceptionLanguageUtils {
    * @return A attribute name from the message property which returns a human readable entry of a
    *         document type
    */
-  public String getCorrectReadableLanguage(@SuppressWarnings("rawtypes") Class clazz) {
+  public String getCorrectDocumentType(@SuppressWarnings("rawtypes") Class clazz) {
     // English
     if (VariableDocument.class == clazz) {
-      return "documenttype.variable";
+      return DOCUMENTTYPE_VARIABLE;
     }
 
     return "";
