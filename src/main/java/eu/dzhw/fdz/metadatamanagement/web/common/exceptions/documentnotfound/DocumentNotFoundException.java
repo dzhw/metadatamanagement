@@ -29,7 +29,8 @@ public class DocumentNotFoundException extends IllegalStateException {
   /**
    * The class which throws the exception.
    */
-  private String documentClazz;
+  @SuppressWarnings("rawtypes")
+  private Class documentClazz;
 
   /**
    * The 'document not found' constructor needs three kinds of information: The id and class of a
@@ -40,7 +41,8 @@ public class DocumentNotFoundException extends IllegalStateException {
    * @param locale A given locale.
    * @param documentClazz The Class of the document.
    */
-  public DocumentNotFoundException(String unknownId, Locale locale, String documentClazz) {
+  public DocumentNotFoundException(String unknownId, Locale locale,
+      @SuppressWarnings("rawtypes") Class documentClazz) {
     super();
     this.unknownId = unknownId;
     this.locale = locale;
@@ -56,7 +58,8 @@ public class DocumentNotFoundException extends IllegalStateException {
     return locale;
   }
 
-  public String getDocumentClazz() {
+  @SuppressWarnings("rawtypes")
+  public Class getDocumentClazz() {
     return documentClazz;
   }
 }

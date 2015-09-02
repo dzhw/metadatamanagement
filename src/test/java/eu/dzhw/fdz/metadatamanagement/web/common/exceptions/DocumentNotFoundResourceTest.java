@@ -33,7 +33,7 @@ public class DocumentNotFoundResourceTest extends AbstractWebTest {
   public void beforeTest() {
     this.unknownId = "unknownId";
     this.documentNotFoundException = new DocumentNotFoundException(this.unknownId, Locale.GERMAN,
-        VariableDocument.class.getSimpleName());
+        VariableDocument.class);
     this.documentNotFoundResource = new DocumentNotFoundResource(documentNotFoundException,
         WelcomeController.class, new ControllerLinkBuilderFactory());
   }
@@ -62,7 +62,7 @@ public class DocumentNotFoundResourceTest extends AbstractWebTest {
             WelcomeController.class, new ControllerLinkBuilderFactory()));
 
     DocumentNotFoundException documentNotFoundException2 = new DocumentNotFoundException(
-        this.unknownId + "_other", Locale.GERMAN, VariableDocument.class.getSimpleName());
+        this.unknownId + "_other", Locale.GERMAN, VariableDocument.class);
     boolean differentIdCheck = this.documentNotFoundResource
         .equals(new DocumentNotFoundResource(documentNotFoundException2,
             WelcomeController.class, new ControllerLinkBuilderFactory()));

@@ -38,14 +38,24 @@ public class DocumentNotFoundExceptionHandler extends AbstractExceptionHandler {
   ModelAndView handleDocumentNotFoundException(DocumentNotFoundException exception)
       throws Exception {
 
+
+
     // get the unknown id by the exception
     DocumentNotFoundResource notFoundResource = new DocumentNotFoundResource(exception,
         WelcomeController.class, this.controllerLinkBuilderFactory);
+
+    // get language depending attribute names of the message property
+    String navMessageLanguage =
+        this.getExceptionLanguageUtils().getCorrectReadableLanguage(exception.getLocale());
+    String documentType =
+        this.getExceptionLanguageUtils().getCorrectReadableLanguage(exception.getDocumentClazz());
 
     // build model and view
     ModelAndView modelAndView = new ModelAndView("/common/exceptionAlert");
     modelAndView.addObject("exception", exception);
     modelAndView.addObject("resource", notFoundResource);
+    modelAndView.addObject("navMessageLanguage", navMessageLanguage);
+    modelAndView.addObject("documentType", documentType);
     return modelAndView;
   }
 }

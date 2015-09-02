@@ -56,7 +56,7 @@ public class VariableDetailsController {
       VariableDocument variableDocument = variableService.get(id);
       if (variableDocument == null) {
         throw new DocumentNotFoundException(id, LocaleContextHolder.getLocale(),
-            VariableDocument.class.getSimpleName());
+            VariableDocument.class);
       } else {
         return new ResponseEntity<VariableResource>(
                 variableResourceAssembler.toResource(variableDocument), HttpStatus.OK);
