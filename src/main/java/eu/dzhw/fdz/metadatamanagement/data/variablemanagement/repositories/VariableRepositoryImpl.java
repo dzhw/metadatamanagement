@@ -65,7 +65,7 @@ public class VariableRepositoryImpl implements VariableRepositoryCustom {
   @Override
   public Page<VariableDocument> matchQueryInAllFieldAndNgrams(String query, Pageable pageable) {
     QueryBuilder queryBuilder =
-        boolQuery().should(matchQuery("_all", query).zeroTermsQuery(ZeroTermsQuery.ALL))
+        boolQuery().should(matchQuery("_all", query).zeroTermsQuery(ZeroTermsQuery.NONE))
             .should(matchQuery(VariableDocument.ALL_STRINGS_AS_NGRAMS_FIELD, query)
                 .minimumShouldMatch(minimumShouldMatch));
 
