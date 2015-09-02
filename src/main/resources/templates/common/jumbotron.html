@@ -14,5 +14,19 @@
 			</div>
 		</div>
 	</div>
+
+	<div th:fragment="jumbotronError(title,subtitle)">
+		<div class="container">
+			<div class="alert alert-danger jumbotron">
+				<div class="container">
+					<h1 th:text="${title}"></h1>
+					<p>
+						<span class="glyphicon glyphicon-exclamation-sign"
+							aria-hidden="true"></span> <span th:text="${subtitle}"></span>
+					</p>
+				</div>
+			</div>
+		</div>
+	</div>
 </body>
 </html>

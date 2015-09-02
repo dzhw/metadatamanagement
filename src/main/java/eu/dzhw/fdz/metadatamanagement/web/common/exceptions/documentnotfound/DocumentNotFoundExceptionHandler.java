@@ -21,7 +21,6 @@ import eu.dzhw.fdz.metadatamanagement.web.welcome.WelcomeController;
  *
  */
 @ControllerAdvice
-// @RequestMapping(value = "/{language:de|en}/variables/{unknownId}/edit")
 public class DocumentNotFoundExceptionHandler extends AbstractExceptionHandler {
 
   private final ControllerLinkBuilderFactory controllerLinkBuilderFactory;
@@ -44,7 +43,7 @@ public class DocumentNotFoundExceptionHandler extends AbstractExceptionHandler {
         WelcomeController.class, this.controllerLinkBuilderFactory);
 
     // build model and view
-    ModelAndView modelAndView = new ModelAndView("/common/exception");
+    ModelAndView modelAndView = new ModelAndView("/common/exceptionAlert");
     modelAndView.addObject("exception", exception);
     modelAndView.addObject("resource", notFoundResource);
     return modelAndView;

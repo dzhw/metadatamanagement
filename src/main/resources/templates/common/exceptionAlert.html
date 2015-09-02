@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org" th:lang="${#locale.language}">
+<head th:include="common/head::head">
+</head>
+<body>
+	<header>
+		<div th:include="common/navbar::navbar"></div>
+		<div
+			th:include="common/jumbotron::jumbotronError(title=#{error.title},subtitle=#{error.documentNotFoundException.message(${exception.documentClazz}, ${exception.unknownId}, ${exception.locale})})"></div>
+	</header>
+
+	<div th:include="common/js_libraries::js"></div>
+</body>
+</html>
