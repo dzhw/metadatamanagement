@@ -15,6 +15,8 @@ import org.springframework.hateoas.mvc.ControllerLinkBuilderFactory;
 
 import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.VariableDocument;
 import eu.dzhw.fdz.metadatamanagement.web.AbstractWebTest;
+import eu.dzhw.fdz.metadatamanagement.web.common.exceptions.documentnotfound.DocumentNotFoundException;
+import eu.dzhw.fdz.metadatamanagement.web.common.exceptions.documentnotfound.DocumentNotFoundResource;
 import eu.dzhw.fdz.metadatamanagement.web.welcome.WelcomeController;
 
 /**

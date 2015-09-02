@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.VariableDocument;
 import eu.dzhw.fdz.metadatamanagement.service.variablemanagement.VariableService;
-import eu.dzhw.fdz.metadatamanagement.web.common.exceptions.DocumentNotFoundException;
+import eu.dzhw.fdz.metadatamanagement.web.common.exceptions.documentnotfound.DocumentNotFoundException;
 
 /**
  * A Controller which returns a details page for a variable.

@@ -1,8 +1,6 @@
-package eu.dzhw.fdz.metadatamanagement.web.common.exceptions;
+package eu.dzhw.fdz.metadatamanagement.web.common.exceptions.documentnotfound;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.i18n.LocaleContextHolder;
-import org.springframework.context.support.ReloadableResourceBundleMessageSource;
 import org.springframework.hateoas.mvc.ControllerLinkBuilderFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -11,6 +9,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.servlet.ModelAndView;
 
+import eu.dzhw.fdz.metadatamanagement.web.common.exceptions.AbstractExceptionHandler;
 import eu.dzhw.fdz.metadatamanagement.web.welcome.WelcomeController;
 
 /**
@@ -28,9 +27,9 @@ public class DocumentNotFoundExceptionHandler extends AbstractExceptionHandler {
   private final ControllerLinkBuilderFactory controllerLinkBuilderFactory;
 
   @Autowired
-  public DocumentNotFoundExceptionHandler(ReloadableResourceBundleMessageSource resourceBundle,
+  public DocumentNotFoundExceptionHandler(
       ControllerLinkBuilderFactory controllerLinkBuilderFactory) {
-    super(resourceBundle);
+    super();
     this.controllerLinkBuilderFactory = controllerLinkBuilderFactory;
   }
 
@@ -40,19 +39,14 @@ public class DocumentNotFoundExceptionHandler extends AbstractExceptionHandler {
   ModelAndView handleDocumentNotFoundException(DocumentNotFoundException exception)
       throws Exception {
 
-    String[] args =
-        {exception.getDocumentClazz(), exception.getUnknownId(), exception.getLocale().toString()};
-    String message = getResourceBundle().getMessage("error.documentNotFoundException.message", args,
-        LocaleContextHolder.getLocale());
-
-    ModelAndView modelAndView = new ModelAndView("/common/exception");
-    modelAndView.addObject("exception", exception);
-
     // get the unknown id by the exception
     DocumentNotFoundResource notFoundResource = new DocumentNotFoundResource(exception,
         WelcomeController.class, this.controllerLinkBuilderFactory);
+
+    // build model and view
+    ModelAndView modelAndView = new ModelAndView("/common/exception");
+    modelAndView.addObject("exception", exception);
     modelAndView.addObject("resource", notFoundResource);
-    modelAndView.addObject("errorMessage", message);
     return modelAndView;
   }
 }

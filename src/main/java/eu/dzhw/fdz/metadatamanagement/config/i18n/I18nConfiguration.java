@@ -5,10 +5,8 @@ import java.util.HashSet;
 import java.util.Locale;
 import java.util.Set;
 
-import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.support.ReloadableResourceBundleMessageSource;
 import org.springframework.format.FormatterRegistry;
 import org.springframework.format.datetime.standard.DateTimeFormatterRegistrar;
 import org.springframework.web.servlet.LocaleResolver;
@@ -67,17 +65,5 @@ public class I18nConfiguration extends WebMvcConfigurerAdapter {
     DateTimeFormatterRegistrar dateTimeFormatterRegistrar = new DateTimeFormatterRegistrar();
     dateTimeFormatterRegistrar.setUseIsoFormat(true);
     dateTimeFormatterRegistrar.registerFormatters(registry);
-  }
-
-  /**
-   * @return The message source of the application.
-   */
-  @Bean
-  public MessageSource messageSource() {
-    ReloadableResourceBundleMessageSource messageSource =
-        new ReloadableResourceBundleMessageSource();
-    messageSource.setBasename("classpath:i18n/messages");
-    messageSource.setDefaultEncoding("UTF-8");
-    return messageSource;
   }
 }

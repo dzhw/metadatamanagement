@@ -1,4 +1,4 @@
-package eu.dzhw.fdz.metadatamanagement.web.common.exceptions;
+package eu.dzhw.fdz.metadatamanagement.web.common.exceptions.documentnotfound;
 
 import static org.springframework.hateoas.mvc.ControllerLinkBuilder.methodOn;
 

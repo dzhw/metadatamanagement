@@ -11,7 +11,7 @@
 	</header>
 	<div class="container">
 		<div class="panel panel-primary">
-			<div class="panel-body" th:text="${errorMessage}">
+			<div class="panel-body" th:text="#{error.documentNotFoundException.message(${exception.documentClazz}, ${exception.unknownId}, ${exception.locale})}">
 						<!-- Bootstrap form -->
 			</div>
 		</div>

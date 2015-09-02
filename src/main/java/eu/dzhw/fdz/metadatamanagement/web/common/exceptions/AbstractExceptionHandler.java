@@ -1,11 +1,7 @@
 package eu.dzhw.fdz.metadatamanagement.web.common.exceptions;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.support.ReloadableResourceBundleMessageSource;
-
 /**
- * This is the abstract implementation of ExceptionHandler. The Handler holds an injected reference
- * to the ResourceBundle for internalization.
+ * This is the abstract implementation of ExceptionHandler.
  * 
  * @author Daniel Katzberg
  *
@@ -13,26 +9,9 @@ import org.springframework.context.support.ReloadableResourceBundleMessageSource
 public abstract class AbstractExceptionHandler {
 
   /**
-   * The resource bundle for the message properties.
+   * A basic constructor for the abstract exception handler. 
    */
-  private ReloadableResourceBundleMessageSource resourceBundle;
-
-  /**
-   * Constructor with a injected resource bundle.
-   * 
-   * @param resourceBundle The resource bundle is a reference to the message source.
-   */
-  @Autowired
-  public AbstractExceptionHandler(ReloadableResourceBundleMessageSource resourceBundle) {
-    this.resourceBundle = resourceBundle;
-  }
+  public AbstractExceptionHandler() {}
 
   /* GETTER / SETTER */
-  public ReloadableResourceBundleMessageSource getResourceBundle() {
-    return resourceBundle;
-  }
-
-  public void setResourceBundle(ReloadableResourceBundleMessageSource resourceBundle) {
-    this.resourceBundle = resourceBundle;
-  }
 }
