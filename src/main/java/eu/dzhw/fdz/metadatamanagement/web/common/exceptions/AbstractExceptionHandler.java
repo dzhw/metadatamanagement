@@ -1,5 +1,6 @@
 package eu.dzhw.fdz.metadatamanagement.web.common.exceptions;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.support.ReloadableResourceBundleMessageSource;
 
 /**
@@ -21,10 +22,10 @@ public abstract class AbstractExceptionHandler {
    * 
    * @param resourceBundle The resource bundle is a reference to the message source.
    */
-//  @Autowired
-//  public AbstractExceptionHandler(ReloadableResourceBundleMessageSource resourceBundle) {
-//    this.resourceBundle = resourceBundle;
-//  }
+  @Autowired
+  public AbstractExceptionHandler(ReloadableResourceBundleMessageSource resourceBundle) {
+    this.resourceBundle = resourceBundle;
+  }
 
   /* GETTER / SETTER */
   public ReloadableResourceBundleMessageSource getResourceBundle() {
