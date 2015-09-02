@@ -24,22 +24,24 @@ public class DocumentNotFoundResource extends NavigatablePageResource<VariableEd
   /**
    * The id of the not found document.
    */
-  private String unknownId;
+  private DocumentNotFoundException documentNotFoundException;
 
   /**
    * Constructor of the DocumentNotFoundResource.
    * 
-   * @param unknownId The id of the not found element.
+   * @param documentNotFoundException The exception of the not found element.
    */
-  public DocumentNotFoundResource(String unknownId,
+  public DocumentNotFoundResource(DocumentNotFoundException documentNotFoundException,
       Class<DocumentNotFoundExceptionHandler> pageController,
       ControllerLinkBuilderFactory factory) {
     super();
-    this.unknownId = unknownId;
+    this.documentNotFoundException = documentNotFoundException;
 
-    //Support all languages
+    // Support all languages
     for (Locale supportedLocale : I18nConfiguration.SUPPORTED_LANGUAGES) {
-      this.add(factory.linkTo(methodOn(pageController, supportedLocale).get(this.unknownId))
+      this.add(factory
+          .linkTo(methodOn(pageController, supportedLocale)
+              .get(this.documentNotFoundException.getUnknownId()))
           .withRel(supportedLocale.getLanguage()));
     }
   }
@@ -51,7 +53,7 @@ public class DocumentNotFoundResource extends NavigatablePageResource<VariableEd
    */
   @Override
   public int hashCode() {
-    return Objects.hashCode(super.hashCode(), unknownId);
+    return Objects.hashCode(super.hashCode(), documentNotFoundException);
   }
 
   /*
@@ -64,15 +66,16 @@ public class DocumentNotFoundResource extends NavigatablePageResource<VariableEd
     if (object != null && getClass() == object.getClass()) {
       if (!super.equals(object)) {
         return false;
-      }
+      }  
       DocumentNotFoundResource that = (DocumentNotFoundResource) object;
-      return Objects.equal(this.unknownId, that.unknownId);
+      return Objects.equal(this.documentNotFoundException, that.documentNotFoundException);
     }
     return false;
   }
 
+
   /* GETTER / SETTER */
-  public String getUnknownId() {
-    return this.unknownId;
+  public DocumentNotFoundException getDocumentNotFoundException() {
+    return documentNotFoundException;
   }
 }

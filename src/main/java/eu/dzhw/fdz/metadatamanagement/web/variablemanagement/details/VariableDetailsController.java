@@ -3,6 +3,7 @@ package eu.dzhw.fdz.metadatamanagement.web.variablemanagement.details;
 import java.util.concurrent.Callable;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.VariableDocument;
 import eu.dzhw.fdz.metadatamanagement.service.variablemanagement.VariableService;
+import eu.dzhw.fdz.metadatamanagement.web.common.exceptions.DocumentNotFoundException;
 
 /**
  * A Controller which returns a details page for a variable.
@@ -52,12 +54,13 @@ public class VariableDetailsController {
                   @PathVariable("variableId") String id) {
     return () -> {
       VariableDocument variableDocument = variableService.get(id);
-      if (variableDocument != null) {
+      if (variableDocument == null) {
+        throw new DocumentNotFoundException(id, LocaleContextHolder.getLocale(),
+            VariableDocument.class.getSimpleName());
+      } else {
         return new ResponseEntity<VariableResource>(
                 variableResourceAssembler.toResource(variableDocument), HttpStatus.OK);
-      } else {
-        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-      }
+      } 
     };
   }
 }

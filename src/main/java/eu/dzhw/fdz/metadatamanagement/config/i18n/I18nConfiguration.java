@@ -12,7 +12,6 @@ import org.springframework.context.support.ReloadableResourceBundleMessageSource
 import org.springframework.format.FormatterRegistry;
 import org.springframework.format.datetime.standard.DateTimeFormatterRegistrar;
 import org.springframework.web.servlet.LocaleResolver;
-import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 
 /**
@@ -22,7 +21,6 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter
  * @author Daniel Katzberg
  */
 @Configuration
-@EnableWebMvc
 public class I18nConfiguration extends WebMvcConfigurerAdapter {
 
   public static final Set<Locale> SUPPORTED_LANGUAGES;

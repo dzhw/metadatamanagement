@@ -2,8 +2,6 @@ package eu.dzhw.fdz.metadatamanagement.web.common.exceptions;
 
 import java.util.concurrent.Callable;
 
-import javax.servlet.http.HttpServletRequest;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.context.support.ReloadableResourceBundleMessageSource;
@@ -41,22 +39,20 @@ public class DocumentNotFoundExceptionHandler extends AbstractExceptionHandler {
   @ExceptionHandler(DocumentNotFoundException.class)
   @ResponseStatus(value = HttpStatus.INTERNAL_SERVER_ERROR)
   @ResponseBody
-  ModelAndView handleDocumentNotFoundException(HttpServletRequest req,
-      DocumentNotFoundException exception) throws Exception {
+  ModelAndView handleDocumentNotFoundException(DocumentNotFoundException exception)
+      throws Exception {
 
-    String[] args = {exception.getDocumentClazz(), exception.getUnknownId(),
-        exception.getLocale().toString()};
+    String[] args =
+        {exception.getDocumentClazz(), exception.getUnknownId(), exception.getLocale().toString()};
     String message = getResourceBundle().getMessage("error.documentNotFoundException.message", args,
         LocaleContextHolder.getLocale());
 
     ModelAndView modelAndView = new ModelAndView("/common/exception");
     modelAndView.addObject("exception", exception);
-    modelAndView.addObject("url", req.getRequestURL());
 
     // get the unknown id by the exception
-    DocumentNotFoundResource notFoundResource =
-        new DocumentNotFoundResource(exception.getUnknownId(),
-            DocumentNotFoundExceptionHandler.class, this.controllerLinkBuilderFactory);
+    DocumentNotFoundResource notFoundResource = new DocumentNotFoundResource(exception,
+        DocumentNotFoundExceptionHandler.class, this.controllerLinkBuilderFactory);
     modelAndView.addObject("resource", notFoundResource);
     modelAndView.addObject("errorMessage", message);
     return modelAndView;
