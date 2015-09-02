@@ -15,6 +15,7 @@ import org.springframework.hateoas.mvc.ControllerLinkBuilderFactory;
 
 import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.VariableDocument;
 import eu.dzhw.fdz.metadatamanagement.web.AbstractWebTest;
+import eu.dzhw.fdz.metadatamanagement.web.welcome.WelcomeController;
 
 /**
  * @author Daniel Katzberg
@@ -32,7 +33,7 @@ public class DocumentNotFoundResourceTest extends AbstractWebTest {
     this.documentNotFoundException = new DocumentNotFoundException(this.unknownId, Locale.GERMAN,
         VariableDocument.class.getSimpleName());
     this.documentNotFoundResource = new DocumentNotFoundResource(documentNotFoundException,
-        DocumentNotFoundExceptionHandler.class, new ControllerLinkBuilderFactory());
+        WelcomeController.class, new ControllerLinkBuilderFactory());
   }
 
   @Test
@@ -56,13 +57,13 @@ public class DocumentNotFoundResourceTest extends AbstractWebTest {
     boolean sameCheck = this.documentNotFoundResource.equals(this.documentNotFoundResource);
     boolean sameIdCheck = this.documentNotFoundResource
         .equals(new DocumentNotFoundResource(this.documentNotFoundException,
-            DocumentNotFoundExceptionHandler.class, new ControllerLinkBuilderFactory()));
+            WelcomeController.class, new ControllerLinkBuilderFactory()));
 
     DocumentNotFoundException documentNotFoundException2 = new DocumentNotFoundException(
         this.unknownId + "_other", Locale.GERMAN, VariableDocument.class.getSimpleName());
     boolean differentIdCheck = this.documentNotFoundResource
         .equals(new DocumentNotFoundResource(documentNotFoundException2,
-            DocumentNotFoundExceptionHandler.class, new ControllerLinkBuilderFactory()));
+            WelcomeController.class, new ControllerLinkBuilderFactory()));
 
     // Assert
     assertThat(nullCheck, is(false));

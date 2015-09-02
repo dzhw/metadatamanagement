@@ -11,6 +11,7 @@ import com.google.common.base.Objects;
 import eu.dzhw.fdz.metadatamanagement.config.i18n.I18nConfiguration;
 import eu.dzhw.fdz.metadatamanagement.web.common.NavigatablePageResource;
 import eu.dzhw.fdz.metadatamanagement.web.variablemanagement.modify.VariableEditController;
+import eu.dzhw.fdz.metadatamanagement.web.welcome.WelcomeController;
 
 /**
  * The Resource handles the {@link DocumentNotFoundException}. An id is part of the url at the
@@ -32,16 +33,12 @@ public class DocumentNotFoundResource extends NavigatablePageResource<VariableEd
    * @param documentNotFoundException The exception of the not found element.
    */
   public DocumentNotFoundResource(DocumentNotFoundException documentNotFoundException,
-      Class<DocumentNotFoundExceptionHandler> pageController,
-      ControllerLinkBuilderFactory factory) {
+      Class<WelcomeController> pageController, ControllerLinkBuilderFactory factory) {
     super();
     this.documentNotFoundException = documentNotFoundException;
 
-    // Support all languages
     for (Locale supportedLocale : I18nConfiguration.SUPPORTED_LANGUAGES) {
-      this.add(factory
-          .linkTo(methodOn(pageController, supportedLocale)
-              .get(this.documentNotFoundException.getUnknownId()))
+      this.add(factory.linkTo(methodOn(pageController, supportedLocale).get())
           .withRel(supportedLocale.getLanguage()));
     }
   }
@@ -66,7 +63,7 @@ public class DocumentNotFoundResource extends NavigatablePageResource<VariableEd
     if (object != null && getClass() == object.getClass()) {
       if (!super.equals(object)) {
         return false;
-      }  
+      }
       DocumentNotFoundResource that = (DocumentNotFoundResource) object;
       return Objects.equal(this.documentNotFoundException, that.documentNotFoundException);
     }

@@ -1,7 +1,5 @@
 package eu.dzhw.fdz.metadatamanagement.web.common.exceptions;
 
-import java.util.concurrent.Callable;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.context.support.ReloadableResourceBundleMessageSource;
@@ -9,12 +7,11 @@ import org.springframework.hateoas.mvc.ControllerLinkBuilderFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.servlet.ModelAndView;
+
+import eu.dzhw.fdz.metadatamanagement.web.welcome.WelcomeController;
 
 /**
  * The document not found exception handler handles document not found over the whole application,
@@ -25,6 +22,7 @@ import org.springframework.web.servlet.ModelAndView;
  *
  */
 @ControllerAdvice
+// @RequestMapping(value = "/{language:de|en}/variables/{unknownId}/edit")
 public class DocumentNotFoundExceptionHandler extends AbstractExceptionHandler {
 
   private final ControllerLinkBuilderFactory controllerLinkBuilderFactory;
@@ -52,24 +50,9 @@ public class DocumentNotFoundExceptionHandler extends AbstractExceptionHandler {
 
     // get the unknown id by the exception
     DocumentNotFoundResource notFoundResource = new DocumentNotFoundResource(exception,
-        DocumentNotFoundExceptionHandler.class, this.controllerLinkBuilderFactory);
+        WelcomeController.class, this.controllerLinkBuilderFactory);
     modelAndView.addObject("resource", notFoundResource);
     modelAndView.addObject("errorMessage", message);
     return modelAndView;
   }
-
-  /**
-   * Language Support for error pages.
-   * 
-   * @return empty model and view object for language support
-   */
-  // TODO Question: Is there a better workaround?
-  @RequestMapping(value = "/{language:de|en}/variables/{unknownId}/edit",
-      method = RequestMethod.GET)
-  public Callable<ModelAndView> get(@PathVariable("unknownId") String unknownId) {
-    return () -> {
-      return new ModelAndView();
-    };
-  }
-
 }
