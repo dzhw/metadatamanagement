@@ -15,6 +15,8 @@ public class DocumentNotFoundException extends IllegalStateException {
    * Default serial UID.
    */
   private static final long serialVersionUID = 1L;
+  
+  private String unknownId;
 
   /**
    * The 'document not found' constructor needs three kinds of information: The id and class of a
@@ -26,9 +28,13 @@ public class DocumentNotFoundException extends IllegalStateException {
    * @param documentClazz The Class of the document.
    */
   //TODO internalization of this exception.
-  public DocumentNotFoundException(String documentId, Locale locale, String documentClazz) {
-    super(documentClazz + " with ID" + documentId + " (" + locale + ") not found!");
+  public DocumentNotFoundException(String unknownId, Locale locale, String documentClazz) {
+    super(documentClazz + " with ID" + unknownId + " (" + locale + ") not found!");
+    this.unknownId = unknownId;
   }
-  
-  
+
+  /* GETTER / SETTER */
+  public String getUnknownId() {
+    return unknownId;
+  }
 }

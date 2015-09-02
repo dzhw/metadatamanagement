@@ -11,7 +11,6 @@ import com.google.common.base.Objects;
 import eu.dzhw.fdz.metadatamanagement.config.i18n.I18nConfiguration;
 import eu.dzhw.fdz.metadatamanagement.web.common.NavigatablePageResource;
 import eu.dzhw.fdz.metadatamanagement.web.variablemanagement.modify.VariableEditController;
-import eu.dzhw.fdz.metadatamanagement.web.welcome.WelcomeController;
 
 /**
  * The Resource handles the {@link DocumentNotFoundException}. An id is part of the url at the
@@ -32,15 +31,15 @@ public class DocumentNotFoundResource extends NavigatablePageResource<VariableEd
    * 
    * @param unknownId The id of the not found element.
    */
-  public DocumentNotFoundResource(String unknownId, Class<WelcomeController> pageController,
+  public DocumentNotFoundResource(String unknownId,
+      Class<DocumentNotFoundExceptionHandler> pageController,
       ControllerLinkBuilderFactory factory) {
     super();
     this.unknownId = unknownId;
 
-    // TODO DKatzberg: Use WelcomeController -> Change!! Own get Method in this Handler or separated
-    // Controller
+    //Support all languages
     for (Locale supportedLocale : I18nConfiguration.SUPPORTED_LANGUAGES) {
-      this.add(factory.linkTo(methodOn(pageController, supportedLocale).get())
+      this.add(factory.linkTo(methodOn(pageController, supportedLocale).get(this.unknownId))
           .withRel(supportedLocale.getLanguage()));
     }
   }
