@@ -28,7 +28,8 @@ public abstract class AbstractWebTest {
   protected MockMvc mockMvc;
 
   @Before
-  public void setup() {
+  public
+          void setup() {
     this.mockMvc = MockMvcBuilders.webAppContextSetup(this.wac).build();
   }
 }

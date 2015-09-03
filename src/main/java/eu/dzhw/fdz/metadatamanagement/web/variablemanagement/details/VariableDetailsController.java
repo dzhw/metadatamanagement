@@ -4,63 +4,61 @@ import java.util.concurrent.Callable;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.i18n.LocaleContextHolder;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
+import org.springframework.hateoas.mvc.ControllerLinkBuilderFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
 
 import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.VariableDocument;
 import eu.dzhw.fdz.metadatamanagement.service.variablemanagement.VariableService;
 import eu.dzhw.fdz.metadatamanagement.web.common.exceptions.DocumentNotFoundException;
 
 /**
- * A Controller which returns a details page for a variable.
+ * A Controller which returns a details page for a variable or error a page.
  * 
  */
 @Controller
 @RequestMapping(path = "/{language:de|en}/variables")
 public class VariableDetailsController {
 
-  private VariableResourceAssembler variableResourceAssembler;
   private VariableService variableService;
+  protected ControllerLinkBuilderFactory controllerLinkBuilderFactory;
 
   /**
    * Create the controller.
    * 
    * @param variableService the service managing the variable state
-   * @param variableResourceAssembler to transform a VariableDocument into a VariableResource.
+   * @param controllerLinkBuilderFactory a factory for building links to resources
    */
   @Autowired
   public VariableDetailsController(VariableService variableService,
-          VariableResourceAssembler variableResourceAssembler) {
+      ControllerLinkBuilderFactory controllerLinkBuilderFactory) {
     this.variableService = variableService;
-    this.variableResourceAssembler = variableResourceAssembler;
+    this.controllerLinkBuilderFactory = controllerLinkBuilderFactory;
   }
 
   /**
-   * Show variable datails page.
+   * return the details or throw exception.
    * 
-   * @return String as JSON Media type
+   * @return details.html
    */
-  @RequestMapping(path = "/{variableId}", method = RequestMethod.GET,
-          produces = MediaType.APPLICATION_JSON_VALUE)
-  @ResponseBody
-  public
-          Callable<ResponseEntity<VariableResource>> get(
-                  @PathVariable("variableId") String id) {
+  @RequestMapping(path = "/{variableId}", method = RequestMethod.GET)
+  public Callable<ModelAndView> get(@PathVariable("variableId") String variableId) {
     return () -> {
-      VariableDocument variableDocument = variableService.get(id);
+      VariableDocument variableDocument = variableService.get(variableId);
       if (variableDocument == null) {
-        throw new DocumentNotFoundException(id, LocaleContextHolder.getLocale(),
+        throw new DocumentNotFoundException(variableId, LocaleContextHolder.getLocale(),
             VariableDocument.class);
       } else {
-        return new ResponseEntity<VariableResource>(
-                variableResourceAssembler.toResource(variableDocument), HttpStatus.OK);
-      } 
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.setViewName("variables/details");
+        modelAndView.addObject("variableDocument", variableDocument);
+        modelAndView.addObject("resource", new VariableDetailsResource(
+            controllerLinkBuilderFactory, variableDocument.getId()));
+        return modelAndView;
+      }
     };
   }
 }

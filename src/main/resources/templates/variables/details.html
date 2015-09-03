@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org"
+	th:lang="${#locale.language}">
+<head th:include="common/head::head">
+</head>
+<body>
+	<header>
+		<div th:include="common/navbar::navbar"></div>
+		<div
+			th:include="common/jumbotron::jumbotron(title=#{variable.details.title},subtitle=#{variable.details.subtitle(${variableDocument.id})})"></div>
+	</header>
+	<div class="container"></div>
+	<div th:include="common/js_libraries::js"></div>
+	<div>
+	<span th:text="${variableDocument}"></span>
+	</div>
+</body>
+</html>
