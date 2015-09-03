@@ -5,6 +5,7 @@ import static org.elasticsearch.index.query.QueryBuilders.boolQuery;
 import static org.elasticsearch.index.query.QueryBuilders.matchQuery;
 
 import org.elasticsearch.common.unit.Fuzziness;
+import org.elasticsearch.index.query.FilterBuilder;
 import org.elasticsearch.index.query.FilterBuilders;
 import org.elasticsearch.index.query.MatchQueryBuilder.ZeroTermsQuery;
 import org.elasticsearch.index.query.QueryBuilder;
@@ -66,14 +67,23 @@ public class VariableRepositoryImpl implements VariableRepositoryCustom {
   @Override
   public Page<VariableDocument> matchQueryInAllFieldAndNgrams(String query, String scaleLevel,
       Pageable pageable) {
-    // TODO DKatzberg create filter
+    
+    //create search query
     QueryBuilder queryBuilder =
         boolQuery().should(matchQuery("_all", query).zeroTermsQuery(ZeroTermsQuery.NONE))
             .should(matchQuery(VariableDocument.ALL_STRINGS_AS_NGRAMS_FIELD, query)
                 .minimumShouldMatch(minimumShouldMatch));
 
-    SearchQuery searchQuery =
-        new NativeSearchQueryBuilder().withQuery(queryBuilder).withPageable(pageable).build();
+    //create filter for scale level
+    FilterBuilder filterBuilder = null;
+    if (scaleLevel != null) {
+      filterBuilder = FilterBuilders.boolFilter()
+          .must(FilterBuilders.termFilter(VariableDocument.SCALE_LEVEL_FIELD, scaleLevel));
+    }
+    
+    //extended search query with filter
+    SearchQuery searchQuery = new NativeSearchQueryBuilder().withQuery(queryBuilder)
+        .withFilter(filterBuilder).withPageable(pageable).build();
 
     return this.elasticsearchTemplate.queryForPage(searchQuery, VariableDocument.class);
   }
