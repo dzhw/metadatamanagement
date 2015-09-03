@@ -6,6 +6,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.elasticsearch.core.DefaultResultMapper;
 import org.springframework.data.elasticsearch.core.FacetedPage;
 
+import eu.dzhw.fdz.metadatamanagement.config.elasticsearch.JacksonDocumentMapper;
+
 /**
  * The aggregation result mapper is a sub class from the {@link DefaultResultMapper}. It extends the
  * MapResuts method for saving the aggregations.
@@ -19,6 +21,10 @@ public class AggregationResultMapper extends DefaultResultMapper {
    * The actual aggregations of a query result.
    */
   private Aggregations aggregations;
+
+  public AggregationResultMapper() {
+    super(new JacksonDocumentMapper());
+  }
 
   /*
    * (non-Javadoc)
