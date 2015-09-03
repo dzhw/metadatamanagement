@@ -85,6 +85,6 @@ public class VariableDetailsControllerTest extends AbstractWebTest {
 
     this.mockMvc
         // wait for the async result
-        .perform(asyncDispatch(mvcResult)).andExpect(status().isInternalServerError());
+        .perform(asyncDispatch(mvcResult)).andExpect(status().isNotFound());
   }
 }

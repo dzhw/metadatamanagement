@@ -9,7 +9,7 @@
 		
 		
 		<div
-			th:include="common/jumbotron::jumbotronError(title=#{error.title},subtitle=#{error.documentNotFoundException.message(#{${documentType}}, ${exception.unknownId}, #{${navMessageLanguage}})})">
+			th:include="common/jumbotron::jumbotronError(title=#{error.title},subtitle=#{error.documentNotFoundException.message(#{${documentType}}, ${resource.exception.unknownId}, #{${navMessageLanguage}})})">
 		</div>
 	</header>
 

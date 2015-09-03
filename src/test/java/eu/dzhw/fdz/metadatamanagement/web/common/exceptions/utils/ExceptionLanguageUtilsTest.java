@@ -12,6 +12,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.VariableDocument;
+import eu.dzhw.fdz.metadatamanagement.web.common.exceptions.ExceptionLanguageUtils;
 
 /**
  * @author Daniel Katzberg

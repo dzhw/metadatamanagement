@@ -1,4 +1,4 @@
-package eu.dzhw.fdz.metadatamanagement.web.common.exceptions.documentnotfound;
+package eu.dzhw.fdz.metadatamanagement.web.common.exceptions;
 
 import static org.springframework.hateoas.mvc.ControllerLinkBuilder.methodOn;
 
@@ -20,7 +20,7 @@ import eu.dzhw.fdz.metadatamanagement.web.welcome.WelcomeController;
  * 
  * @author Daniel Katzberg
  */
-public class DocumentNotFoundResource extends NavigatablePageResource<VariableEditController> {
+public class ExceptionPageResource extends NavigatablePageResource<VariableEditController> {
 
   /**
    * The id of the not found document.
@@ -32,7 +32,7 @@ public class DocumentNotFoundResource extends NavigatablePageResource<VariableEd
    * 
    * @param documentNotFoundException The exception of the not found element.
    */
-  public DocumentNotFoundResource(DocumentNotFoundException documentNotFoundException,
+  public ExceptionPageResource(DocumentNotFoundException documentNotFoundException,
       Class<WelcomeController> pageController, ControllerLinkBuilderFactory factory) {
     super();
     this.documentNotFoundException = documentNotFoundException;
@@ -64,7 +64,7 @@ public class DocumentNotFoundResource extends NavigatablePageResource<VariableEd
       if (!super.equals(object)) {
         return false;
       }
-      DocumentNotFoundResource that = (DocumentNotFoundResource) object;
+      ExceptionPageResource that = (ExceptionPageResource) object;
       return Objects.equal(this.documentNotFoundException, that.documentNotFoundException);
     }
     return false;
@@ -72,7 +72,7 @@ public class DocumentNotFoundResource extends NavigatablePageResource<VariableEd
 
 
   /* GETTER / SETTER */
-  public DocumentNotFoundException getDocumentNotFoundException() {
+  public DocumentNotFoundException getException() {
     return documentNotFoundException;
   }
 }

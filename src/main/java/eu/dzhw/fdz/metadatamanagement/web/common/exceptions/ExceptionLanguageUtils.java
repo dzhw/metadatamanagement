@@ -1,4 +1,4 @@
-package eu.dzhw.fdz.metadatamanagement.web.common.exceptions.utils;
+package eu.dzhw.fdz.metadatamanagement.web.common.exceptions;
 
 import java.util.Locale;
 

@@ -15,8 +15,6 @@ import org.springframework.hateoas.mvc.ControllerLinkBuilderFactory;
 
 import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.VariableDocument;
 import eu.dzhw.fdz.metadatamanagement.web.AbstractWebTest;
-import eu.dzhw.fdz.metadatamanagement.web.common.exceptions.documentnotfound.DocumentNotFoundException;
-import eu.dzhw.fdz.metadatamanagement.web.common.exceptions.documentnotfound.DocumentNotFoundResource;
 import eu.dzhw.fdz.metadatamanagement.web.welcome.WelcomeController;
 
 /**
@@ -25,7 +23,7 @@ import eu.dzhw.fdz.metadatamanagement.web.welcome.WelcomeController;
  */
 public class DocumentNotFoundResourceTest extends AbstractWebTest {
 
-  private DocumentNotFoundResource documentNotFoundResource;
+  private ExceptionPageResource documentNotFoundResource;
   private String unknownId;
   private DocumentNotFoundException documentNotFoundException;
 
@@ -34,7 +32,7 @@ public class DocumentNotFoundResourceTest extends AbstractWebTest {
     this.unknownId = "unknownId";
     this.documentNotFoundException = new DocumentNotFoundException(this.unknownId, Locale.GERMAN,
         VariableDocument.class);
-    this.documentNotFoundResource = new DocumentNotFoundResource(documentNotFoundException,
+    this.documentNotFoundResource = new ExceptionPageResource(documentNotFoundException,
         WelcomeController.class, new ControllerLinkBuilderFactory());
   }
 
@@ -58,13 +56,13 @@ public class DocumentNotFoundResourceTest extends AbstractWebTest {
     boolean otherClassCheck = this.documentNotFoundResource.equals(new Object());
     boolean sameCheck = this.documentNotFoundResource.equals(this.documentNotFoundResource);
     boolean sameIdCheck = this.documentNotFoundResource
-        .equals(new DocumentNotFoundResource(this.documentNotFoundException,
+        .equals(new ExceptionPageResource(this.documentNotFoundException,
             WelcomeController.class, new ControllerLinkBuilderFactory()));
 
     DocumentNotFoundException documentNotFoundException2 = new DocumentNotFoundException(
         this.unknownId + "_other", Locale.GERMAN, VariableDocument.class);
     boolean differentIdCheck = this.documentNotFoundResource
-        .equals(new DocumentNotFoundResource(documentNotFoundException2,
+        .equals(new ExceptionPageResource(documentNotFoundException2,
             WelcomeController.class, new ControllerLinkBuilderFactory()));
 
     // Assert
@@ -80,7 +78,7 @@ public class DocumentNotFoundResourceTest extends AbstractWebTest {
     // Arrange
 
     // Act
-    String unknownId = this.documentNotFoundResource.getDocumentNotFoundException().getUnknownId();
+    String unknownId = this.documentNotFoundResource.getException().getUnknownId();
 
     // Assert
     assertThat(unknownId, is(this.unknownId));
