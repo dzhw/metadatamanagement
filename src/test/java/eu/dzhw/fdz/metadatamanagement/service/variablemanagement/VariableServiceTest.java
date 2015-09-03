@@ -28,6 +28,7 @@ import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.Variable
 import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.builders.AnswerOptionBuilder;
 import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.builders.VariableDocumentBuilder;
 import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.builders.VariableSurveyBuilder;
+import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.repositories.datatype.PageableAggregrationType;
 import eu.dzhw.fdz.metadatamanagement.web.AbstractWebTest;
 
 
@@ -66,7 +67,9 @@ public class VariableServiceTest extends AbstractWebTest {
     }
 
     // Act
-    Page<VariableDocument> result = this.variableService.search("SearchUnitTestName", null, pageable);
+    PageableAggregrationType<VariableDocument> pageableAggregrationType =
+        this.variableService.search("SearchUnitTestName", null, pageable);
+    Page<VariableDocument> result = pageableAggregrationType.getPage();
 
     // Assert
     assertThat(result.getNumberOfElements(), is(9));
@@ -99,7 +102,9 @@ public class VariableServiceTest extends AbstractWebTest {
     }
 
     // Act
-    Page<VariableDocument> result = variableService.search(null, null,pageable);
+    PageableAggregrationType<VariableDocument> pageableAggregrationType =
+        variableService.search(null, null, pageable);
+    Page<VariableDocument> result = pageableAggregrationType.getPage();
 
     // Assert
     assertThat(result.getNumberOfElements(), greaterThanOrEqualTo(9));
@@ -141,9 +146,10 @@ public class VariableServiceTest extends AbstractWebTest {
     // Act
     VariableDocument savedVariableDocument = this.variableService.save(variableDocument);
     this.variableService.delete(idVariableDocument);
-
     Pageable pageable = new PageRequest(0, 10);
-    Page<VariableDocument> results = this.variableService.search(idVariableDocument, null, pageable);
+    PageableAggregrationType<VariableDocument> pageableAggregrationType =
+        this.variableService.search(idVariableDocument, null, pageable);
+    Page<VariableDocument> results = pageableAggregrationType.getPage();
 
     // Assert
     assertThat(savedVariableDocument, is(variableDocument));

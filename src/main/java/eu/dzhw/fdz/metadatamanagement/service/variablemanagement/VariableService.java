@@ -1,13 +1,13 @@
 package eu.dzhw.fdz.metadatamanagement.service.variablemanagement;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
 import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.VariableDocument;
 import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.repositories.VariableRepository;
+import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.repositories.datatype.PageableAggregrationType;
 
 /**
  * A service for searching variables.
@@ -35,13 +35,16 @@ public class VariableService {
    * @param scaleLevel a given scalelevel value for filtering the results
    * @param pageable a pageable object.
    * 
-   * @return Page of VariableDocuments
+   * @return Page of VariableDocuments and Aggregations
    */
-  public Page<VariableDocument> search(String query, String scaleLevel, Pageable pageable) {
+  public PageableAggregrationType<VariableDocument> search(String query, String scaleLevel,
+      Pageable pageable) {
     if (StringUtils.hasText(query)) {
       return variableRepository.matchQueryInAllFieldAndNgrams(query, scaleLevel, pageable);
     }
-    return variableRepository.findAll(pageable);
+    // TODO DKatzberg: Special case for filter without query
+    return new PageableAggregrationType<VariableDocument>(variableRepository.findAll(pageable),
+        null);
   }
 
   /**
