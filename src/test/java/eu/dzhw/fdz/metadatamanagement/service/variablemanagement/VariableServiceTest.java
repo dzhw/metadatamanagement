@@ -66,7 +66,7 @@ public class VariableServiceTest extends AbstractWebTest {
     }
 
     // Act
-    Page<VariableDocument> result = this.variableService.search("SearchUnitTestName", pageable);
+    Page<VariableDocument> result = this.variableService.search("SearchUnitTestName", null, pageable);
 
     // Assert
     assertThat(result.getNumberOfElements(), is(9));
@@ -99,7 +99,7 @@ public class VariableServiceTest extends AbstractWebTest {
     }
 
     // Act
-    Page<VariableDocument> result = variableService.search(null, pageable);
+    Page<VariableDocument> result = variableService.search(null, null,pageable);
 
     // Assert
     assertThat(result.getNumberOfElements(), greaterThanOrEqualTo(9));
@@ -143,7 +143,7 @@ public class VariableServiceTest extends AbstractWebTest {
     this.variableService.delete(idVariableDocument);
 
     Pageable pageable = new PageRequest(0, 10);
-    Page<VariableDocument> results = this.variableService.search(idVariableDocument, pageable);
+    Page<VariableDocument> results = this.variableService.search(idVariableDocument, null, pageable);
 
     // Assert
     assertThat(savedVariableDocument, is(variableDocument));

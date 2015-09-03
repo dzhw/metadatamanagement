@@ -51,10 +51,11 @@ public interface VariableRepositoryCustom {
    * matches.
    * 
    * @param query The query to be executed.
+   * @param scaleLevel A filter for reduce the results of a given scaleLevel
    * @param pageable The page size and number and sort.
    * @return A page holding the first variable documents
    */
-  Page<VariableDocument> matchQueryInAllFieldAndNgrams(String query,
+  Page<VariableDocument> matchQueryInAllFieldAndNgrams(String query, String scaleLevel,
       Pageable pageable);
 
 }

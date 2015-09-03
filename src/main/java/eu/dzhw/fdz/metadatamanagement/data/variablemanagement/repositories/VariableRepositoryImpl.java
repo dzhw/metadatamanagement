@@ -60,10 +60,13 @@ public class VariableRepositoryImpl implements VariableRepositoryCustom {
    * 
    * @see
    * eu.dzhw.fdz.metadatamanagement.data.variablemanagement.repositories.VariableRepositoryCustom#
-   * matchQueryInAllFieldAndNgrams(java.lang.String, org.springframework.data.domain.Pageable)
+   * matchQueryInAllFieldAndNgrams(java.lang.String, java.lang.String,
+   * org.springframework.data.domain.Pageable)
    */
   @Override
-  public Page<VariableDocument> matchQueryInAllFieldAndNgrams(String query, Pageable pageable) {
+  public Page<VariableDocument> matchQueryInAllFieldAndNgrams(String query, String scaleLevel,
+      Pageable pageable) {
+    // TODO DKatzberg create filter
     QueryBuilder queryBuilder =
         boolQuery().should(matchQuery("_all", query).zeroTermsQuery(ZeroTermsQuery.NONE))
             .should(matchQuery(VariableDocument.ALL_STRINGS_AS_NGRAMS_FIELD, query)

@@ -30,17 +30,18 @@ public class VariableSearchPageResource extends NavigatablePageResource<Variable
    * @param pageController The controller for this resource
    * @param factory The {@link ControllerLinkBuilderFactory}
    * @param query the query request param
+   * @param scaleLevel a filter which base on a given scale level
    * @param pageable the pagerequest request param
    */
   public VariableSearchPageResource(PagedResources<VariableResource> page,
       Class<VariableSearchController> pageController, ControllerLinkBuilderFactory factory,
-      String query, Pageable pageable) {
+      String query, String scaleLevel, Pageable pageable) {
     super();
     this.page = page;
     for (Locale supportedLocale : I18nConfiguration.SUPPORTED_LANGUAGES) {
-      this.add(
-          factory.linkTo(methodOn(pageController, supportedLocale).get(null, query, pageable, null))
-              .withRel(supportedLocale.getLanguage()));
+      this.add(factory.linkTo(
+          methodOn(pageController, supportedLocale).get(null, query, scaleLevel, pageable, null))
+          .withRel(supportedLocale.getLanguage()));
     }
   }
 
@@ -68,7 +69,7 @@ public class VariableSearchPageResource extends NavigatablePageResource<Variable
     if (object != null && getClass() == object.getClass()) {
       if (!super.equals(object)) {
         return false;
-      }  
+      }
       VariableSearchPageResource that = (VariableSearchPageResource) object;
       return Objects.equal(this.page, that.page);
     }

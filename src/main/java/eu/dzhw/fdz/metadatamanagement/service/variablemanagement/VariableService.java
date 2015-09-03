@@ -32,13 +32,14 @@ public class VariableService {
    * returned as defined in the pageable.
    * 
    * @param query the query for the search in name field.
+   * @param scaleLevel a given scalelevel value for filtering the results
    * @param pageable a pageable object.
    * 
    * @return Page of VariableDocuments
    */
-  public Page<VariableDocument> search(String query, Pageable pageable) {
+  public Page<VariableDocument> search(String query, String scaleLevel, Pageable pageable) {
     if (StringUtils.hasText(query)) {
-      return variableRepository.matchQueryInAllFieldAndNgrams(query, pageable);
+      return variableRepository.matchQueryInAllFieldAndNgrams(query, scaleLevel, pageable);
     }
     return variableRepository.findAll(pageable);
   }
