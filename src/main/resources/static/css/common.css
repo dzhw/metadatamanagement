@@ -32,30 +32,6 @@ body {
 	color: white;
 }
 
-/* hover effect for filter*/
-.custom-panel-heading {
-	  cursor:pointer;	  
-}
-.custom-panel-heading:hover {
-	-webkit-animation-name: blinking;
-    -webkit-animation-duration: 1s;
-    animation-name: blinking;
-    animation-duration: 1s;
-    animation-timing-function:ease-in-out;
-}
-
-@-webkit-keyframes blinking {
-    0% { opacity: 1.0; }
-    50% { opacity: 0.4; }
-    100% {opacity: 1.0; }
-}
-
-@keyframes blinking {
-    0% { opacity: 1.0; }
-    50% { opacity: 0.4; }
-    100% {opacity: 1.0; }
-}
-
 /* fix for error and success glyphicons on dropdowns 
    see https://github.com/twbs/bootstrap/issues/14202 */ 
 select ~ .form-control-feedback {

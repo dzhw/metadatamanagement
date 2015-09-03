@@ -8,12 +8,122 @@
 	<header>
 		<div th:include="common/navbar::navbar"></div>
 		<div
-			th:include="common/jumbotron::jumbotron(title=#{variable.details.title},subtitle=#{variable.details.subtitle(${variableDocument.id})})"></div>
+			th:include="common/jumbotron::jumbotron(title=#{variable.details.subtitle(${variableDocument.label})},subtitle='')"></div>
 	</header>
-	<div class="container"></div>
-	<div th:include="common/js_libraries::js"></div>
-	<div>
-	<span th:text="${variableDocument}"></span>
+	<div class="container">
+		<div class="row">
+			<!-- SearchBox -->
+			<!-- Results and Filter area -->
+			<div class="col-md-12" id="searchResults">
+				<div class="row">
+					
+					<!-- result and page -->
+					<div class="col-md-9">
+						<div class="panel panel-primary">
+							<div class="panel-heading custom-panel-heading"
+								data-toggle="collapse" data-target="#variableInfo">
+								<a class="panel-title panel-toggle" href="#variableInfo"
+									data-toggle="collapse" th:text="#{variables.details.variableData}"></a>
+							</div>
+							<div id="variableInfo" class="panel-collapse collapse fade in">
+								<div class="panel-body">
+								
+								<div class="row">
+									<div th:replace="common/textOutput::output(label=#{variables.details.variable.name},text=${variableDocument.name},column=6, columnOffset=2)"></div>
+									<div th:replace="common/textOutput::output(label=#{variables.details.variable.id},text=${variableDocument.id},column=3,columnOffset=0)"></div>
+								</div>
+								
+								<div class="row">
+								<div th:replace="common/textOutput::output(label=#{variables.details.variable.question},text=${variableDocument.question},column=9,columnOffset=2)"></div>
+								</div>
+								
+								<div class="row">
+								<div th:replace="common/textOutput::output(label=#{variables.details.variable.dataType},text=${variableDocument.dataType},column=6,columnOffset=2)"></div>
+								<div th:replace="common/textOutput::output(label=#{variables.details.variable.scaleLevel},text=${variableDocument.scaleLevel},column=3,columnOffset=0)"></div>
+								</div>
+								
+								</div>
+							</div>
+						</div>
+	
+						<div class="panel panel-primary">
+							<div class="panel-heading custom-panel-heading"
+								data-toggle="collapse" data-target="#answeroptions">
+								<a class="panel-title panel-toggle" href="#answeroptions"
+									data-toggle="collapse" th:text="#{variables.details.variable.answerOptions}"></a>
+							</div>
+							<div id="answeroptions" class="panel-collapse collapse fade in">
+								<div class="panel-body">
+								<div class="row hidden-xs hidden-sm col-md-6 col-md-offset-3">
+								<div th:replace="common/textOutput::output(label=#{variables.modify.variable.answerOption.code},text='',column=3,columnOffset=3)"></div>
+								<div th:replace="common/textOutput::output(label=#{variables.modify.variable.answerOption.label},text='',column=3,columnOffset=0)"></div>
+								</div>
+								<div th:each="answerOption, rowStat : *{variableDocument.answerOptions}" class="row">
+								<div class="col-md-6 col-md-offset-3">
+								<div th:replace="common/textOutput::output(label='',text=${variableDocument.answerOptions[__${rowStat.index}__].code},column=3,columnOffset=3)"></div>
+								<div th:replace="common/textOutput::output(label='',text=${variableDocument.answerOptions[__${rowStat.index}__].label},column=3,columnOffset=0)"></div>
+								</div>
+								<hr class="col-md-6 col-md-offset-3 visible-xs visible-sm"></hr>
+								</div>
+								</div>
+							</div>
+						</div>
+						
+						<div class="panel panel-primary">
+							<div class="panel-heading custom-panel-heading"
+								data-toggle="collapse" data-target="#survey">
+								<a class="panel-title panel-toggle" href="#survey"
+									data-toggle="collapse" th:text="#{variables.details.variable.surveyData}"></a>
+							</div>
+							<div id="survey" class="panel-collapse collapse fade in">
+								<div class="panel-body">
+								
+								<div class="row">
+								<div th:replace="common/textOutput::output(label=#{variables.details.variable.survey.title},text=${variableDocument.variableSurvey.title},column=9,columnOffset=2)"></div>
+								</div>
+								
+								<div class="row">
+									<div th:replace="common/textOutput::output(label=#{variables.details.variable.survey.id},text=${variableDocument.variableSurvey.surveyId},column=9,columnOffset=2)"></div>
+								</div>
+								
+								<div class="row">
+								<div th:replace="common/textOutput::output(label=#{variables.details.variable.survey.variableAlias},text=${variableDocument.variableSurvey.variableAlias},column=9,columnOffset=2)"></div>
+								</div>
+								<div class="row hidden-xs hidden-sm">
+								<div th:replace="common/textOutput::output(label=#{variables.details.variable.survey.period},text='',column=3,columnOffset=2)"></div>
+								</div>
+								<div class="row">
+								<div th:replace="common/textOutput::output(label=#{variables.details.variable.survey.period.start},text=${variableDocument.variableSurvey.surveyPeriod.startDate},column=3,columnOffset=3)"></div>
+								<div th:replace="common/textOutput::output(label=#{variables.details.variable.survey.period.end},text=${variableDocument.variableSurvey.surveyPeriod.endDate},column=3,columnOffset=0)"></div>
+								</div>
+								
+								
+								</div>
+							</div>
+						</div>
+						
+						
+					</div>
+					
+					<!-- Filter -->
+					<div class="col-md-3">
+						<div class="panel panel-primary">
+							<div class="panel-heading custom-panel-heading"
+								data-toggle="collapse" data-target="#collapsePanel">
+								<a class="panel-title panel-toggle" href="#collapsePanel"
+									data-toggle="collapse" th:text="#{variables.details.extras}"></a>
+							</div>
+							<div id="collapsePanel" class="panel-collapse collapse fade in">
+								<div class="panel-body">B*** are coming soon...</div>
+							</div>
+						</div>
+					</div>
+					
+					
+				</div>
+			</div>
+		</div>
 	</div>
+	<div th:include="common/js_libraries::js"></div>
 </body>
 </html>
