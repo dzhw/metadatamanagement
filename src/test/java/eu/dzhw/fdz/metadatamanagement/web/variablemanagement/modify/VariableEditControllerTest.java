@@ -17,6 +17,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.redirectedUrl;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.request;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -38,6 +39,7 @@ import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.builders
 import eu.dzhw.fdz.metadatamanagement.service.variablemanagement.VariableService;
 import eu.dzhw.fdz.metadatamanagement.web.AbstractWebTest;
 import eu.dzhw.fdz.metadatamanagement.web.common.dtos.ValidationResultDto;
+import eu.dzhw.fdz.metadatamanagement.web.common.exceptions.DocumentNotFoundException;
 
 /**
  * @author Daniel Katzberg
@@ -76,14 +78,14 @@ public class VariableEditControllerTest extends AbstractWebTest {
     // Delete
     this.variableService.delete(id);
   }
-  
-  @Test(expected=AssertionError.class)
+
+  @Test(expected = AssertionError.class)
   public void testGetInvalidForm() throws Exception {
     // Arrange
     String id = "testGetEditForm";
     VariableDocument variableDocument = new VariableDocumentBuilder().withId(id).build();
     this.variableService.save(variableDocument);
-    
+
     id = "nowitsinvalid";
 
     // Check the Requestpath of the VariableModifyControllerPath
@@ -198,5 +200,16 @@ public class VariableEditControllerTest extends AbstractWebTest {
 
     // Delete
     this.variableService.delete(variableDocument.getId());
-  }  
+  }
+
+  @Test
+  public void testGetWithInvalidId() throws Exception {
+    MvcResult mvcResult = this.mockMvc.perform(get("/de/variables/hurz/edit"))
+        .andExpect(status().isOk()).andExpect(request().asyncStarted())
+        .andExpect(request().asyncResult(instanceOf(DocumentNotFoundException.class))).andReturn();
+
+    this.mockMvc.perform(asyncDispatch(mvcResult)).andExpect(status().isNotFound())
+        .andExpect(view().name("exceptionView"))
+        .andExpect(model().attribute("navMessageLanguage", "nav.language.german"));
+  }
 }
