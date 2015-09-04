@@ -1,9 +1,13 @@
 package eu.dzhw.fdz.metadatamanagement.web.variablemanagement.search;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.Callable;
 
 import javax.servlet.http.HttpServletResponse;
 
+import org.elasticsearch.search.aggregations.bucket.terms.StringTerms;
+import org.elasticsearch.search.aggregations.bucket.terms.Terms.Bucket;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -76,15 +80,25 @@ public class VariableSearchController {
     return () -> {
       ModelAndView modelAndView = new ModelAndView();
       modelAndView.addObject("query", query);
-      modelAndView.addObject("scaleLevel", scaleLevel);
+      modelAndView.addObject(VariableDocument.SCALE_LEVEL_FIELD, scaleLevel);
 
       PageableAggregrationType<VariableDocument> pageableAggregrationType =
           variableService.search(query, scaleLevel, pageable);
+
+      // Get Buckets
+      List<Bucket> bucketsScaleLevel = new ArrayList<>(); // default
+      if (pageableAggregrationType.getAggregations() != null) {
+        StringTerms aggrogationsScaleLevel =
+            pageableAggregrationType.getAggregations().get(VariableDocument.SCALE_LEVEL_FIELD);
+        bucketsScaleLevel = aggrogationsScaleLevel.getBuckets();
+      }
+      
+      System.out.println(bucketsScaleLevel.size());
+      
+      modelAndView.addObject("scaleLevelBuckets", bucketsScaleLevel);
+
+
       Page<VariableDocument> variablePage = pageableAggregrationType.getPage();
-
-      // TODO DKatzberg The aggregration is in the controller now
-      // Aggregations aggregations = pageableAggregrationType.getAggregations();
-
       PagedResources<VariableResource> pagedVariableResource =
           pagedResourcesAssembler.toResource(variablePage, variableResourceAssembler);
       VariableSearchPageResource resource =

@@ -89,12 +89,14 @@ public class VariableRepositoryImpl implements VariableRepositoryCustom {
     if (StringUtils.hasText(scaleLevel)) {
       FilterBuilder filterBuilder = FilterBuilders.boolFilter()
           .must(FilterBuilders.termFilter(VariableDocument.SCALE_LEVEL_FIELD, scaleLevel));
-      nativeSearchQueryBuilder.withFilter(filterBuilder).addAggregation(AggregationBuilders
-          .terms(VariableDocument.SCALE_LEVEL_FIELD).field(VariableDocument.SCALE_LEVEL_FIELD));
+      nativeSearchQueryBuilder.withFilter(filterBuilder);
     }
 
     // extended search query with filter
-    SearchQuery searchQuery = nativeSearchQueryBuilder.withPageable(pageable).build();
+    SearchQuery searchQuery = nativeSearchQueryBuilder
+        .withPageable(pageable).addAggregation(AggregationBuilders
+            .terms(VariableDocument.SCALE_LEVEL_FIELD).field(VariableDocument.SCALE_LEVEL_FIELD))
+        .build();
 
     // No Problems with thread safe queries, because every query has an own mapper
     AggregationResultMapper resultMapper = new AggregationResultMapper();

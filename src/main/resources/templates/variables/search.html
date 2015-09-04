@@ -19,8 +19,7 @@
 							<div class="panel-body">
 								<form id="searchVariables" action="#"
 									th:action="${resource.variablesSearchLink.href}"
-									oninput="VariableSearchForm.search(this)"
-									autocomplete="off">
+									oninput="VariableSearchForm.search(this)" autocomplete="off">
 									<div class="input-group">
 										<label class="sr-only" for="query"
 											th:text="#{variables.search.searchinput.placeholder}">Search
@@ -52,7 +51,14 @@
 									data-toggle="collapse">Filter </a>
 							</div>
 							<div id="collapsePanel" class="panel-collapse collapse fade in">
-								<div class="panel-body">Filters are coming soon...</div>
+								<!-- DKatzberg WORK HERE -->
+								<div class="panel-body"
+									th:text="#{variables.common.variable.scaleLevel}">
+									<div class="list-group-item"
+										th:each="bucket : ${scaleLevelBuckets}">
+										<span th:text="${bucket.key} [${bucket.docCount}]"></span>
+									</div>
+								</div>
 							</div>
 						</div>
 					</div>
@@ -90,8 +96,9 @@
 									<ul class="pager">
 										<li class="previous"
 											th:classappend="${resource.page.previousLink==null?'disabled':''}"><a
-											th:href="${resource.page.previousLink?.href?:'javascript:;'}">&larr; <span
-												th:text="#{common.pager.previous}"></span></a></li>
+											th:href="${resource.page.previousLink?.href?:'javascript:;'}">&larr;
+												<span th:text="#{common.pager.previous}"></span>
+										</a></li>
 										<li class="hidden-xs"><a> <span
 												th:text="#{common.pagenumbers(${resource.page.metadata.number}+1,${resource.page.metadata.totalPages})}"></span>
 										</a></li>
