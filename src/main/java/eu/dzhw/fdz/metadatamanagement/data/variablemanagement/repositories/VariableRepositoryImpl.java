@@ -19,6 +19,7 @@ import org.springframework.data.elasticsearch.core.ElasticsearchTemplate;
 import org.springframework.data.elasticsearch.core.FacetedPage;
 import org.springframework.data.elasticsearch.core.query.NativeSearchQueryBuilder;
 import org.springframework.data.elasticsearch.core.query.SearchQuery;
+import org.springframework.util.StringUtils;
 
 import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.VariableDocument;
 import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.repositories.datatype.PageableAggregrationType;
@@ -72,35 +73,37 @@ public class VariableRepositoryImpl implements VariableRepositoryCustom {
   public PageableAggregrationType<VariableDocument> matchQueryInAllFieldAndNgrams(String query,
       String scaleLevel, Pageable pageable) {
 
+    NativeSearchQueryBuilder nativeSearchQueryBuilder = new NativeSearchQueryBuilder();
+
     // create search query
-    QueryBuilder queryBuilder =
-        boolQuery().should(matchQuery("_all", query).zeroTermsQuery(ZeroTermsQuery.NONE))
-            .should(matchQuery(VariableDocument.ALL_STRINGS_AS_NGRAMS_FIELD, query)
-                .minimumShouldMatch(minimumShouldMatch));
+    if (StringUtils.hasText(query)) {
+      QueryBuilder queryBuilder =
+          boolQuery().should(matchQuery("_all", query).zeroTermsQuery(ZeroTermsQuery.NONE))
+              .should(matchQuery(VariableDocument.ALL_STRINGS_AS_NGRAMS_FIELD, query)
+                  .minimumShouldMatch(minimumShouldMatch));
+      nativeSearchQueryBuilder.withQuery(queryBuilder);
+    }
+
 
     // create filter and aggregation for scale level
-    FilterBuilder filterBuilder = null;
-    if (scaleLevel != null) {
-      filterBuilder = FilterBuilders.boolFilter()
+    if (StringUtils.hasText(scaleLevel)) {
+      FilterBuilder filterBuilder = FilterBuilders.boolFilter()
           .must(FilterBuilders.termFilter(VariableDocument.SCALE_LEVEL_FIELD, scaleLevel));
-
+      nativeSearchQueryBuilder.withFilter(filterBuilder).addAggregation(AggregationBuilders
+          .terms(VariableDocument.SCALE_LEVEL_FIELD).field(VariableDocument.SCALE_LEVEL_FIELD));
     }
 
     // extended search query with filter
-    SearchQuery searchQuery =
-        new NativeSearchQueryBuilder().withQuery(queryBuilder).withFilter(filterBuilder)
-            .addAggregation(AggregationBuilders.terms("scaleLevel").field("scaleLevel"))
-            .withPageable(pageable).build();
+    SearchQuery searchQuery = nativeSearchQueryBuilder.withPageable(pageable).build();
 
     // No Problems with thread safe queries, because every query has an own mapper
     AggregationResultMapper resultMapper = new AggregationResultMapper();
     FacetedPage<VariableDocument> facetPages =
         this.elasticsearchTemplate.queryForPage(searchQuery, VariableDocument.class, resultMapper);
 
-    // return pageable object and the aggegations
+    // return pageable object and the aggregations
     return new PageableAggregrationType<VariableDocument>(facetPages,
         resultMapper.getAggregations());
-
   }
 
   /*
