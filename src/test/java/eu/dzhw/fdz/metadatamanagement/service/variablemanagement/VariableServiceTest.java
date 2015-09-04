@@ -216,14 +216,14 @@ public class VariableServiceTest extends AbstractWebTest {
           .withId("SearchUnitTest_ID0" + i).withName("SearchUnitTestName 0" + i)
           .withLabel("SearchUnitTestLabel 0" + i).withQuestion("SearchUnitTestQuestion 0" + i)
           .withDataType(this.dataTypesProvider.getNumericValueByLocale())
-          .withScaleLevel(this.scaleLevelProvider.getMetricByLocal())
+          .withScaleLevel(this.scaleLevelProvider.getOrdinalByLocal())
           .withVariableSurvey(variableSurvey).build();
       this.variableService.save(variableDocument);
     }
 
     // Act
     PageableAggregrationType<VariableDocument> pageableAggregrationTypeWithResults =
-        this.variableService.search(null, ScaleLevelProvider.GERMAN_METRIC, pageable);
+        this.variableService.search(null, ScaleLevelProvider.GERMAN_ORDINAL, pageable);
     Page<VariableDocument> resultOkay = pageableAggregrationTypeWithResults.getPage();
     Aggregations aggregationsOkay = pageableAggregrationTypeWithResults.getAggregations();        
     
@@ -232,7 +232,7 @@ public class VariableServiceTest extends AbstractWebTest {
         
     // Assert
     assertThat(resultOkay.getNumberOfElements(), is(9));
-    assertThat(agg.getBuckets().get(0).getKey(), is(ScaleLevelProvider.GERMAN_METRIC));
+    assertThat(agg.getBuckets().get(0).getKey(), is(ScaleLevelProvider.GERMAN_ORDINAL));
     assertThat(agg.getBuckets().get(0).getDocCount(), is(9L));
 
     // Delete
