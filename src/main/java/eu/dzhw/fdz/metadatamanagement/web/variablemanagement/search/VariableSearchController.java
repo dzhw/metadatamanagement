@@ -1,13 +1,9 @@
 package eu.dzhw.fdz.metadatamanagement.web.variablemanagement.search;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.concurrent.Callable;
 
 import javax.servlet.http.HttpServletResponse;
 
-import org.elasticsearch.search.aggregations.bucket.terms.StringTerms;
-import org.elasticsearch.search.aggregations.bucket.terms.Terms.Bucket;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PagedResourcesAssembler;
@@ -22,7 +18,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.VariableDocument;
-import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.repositories.datatype.PageWithAggregations;
+import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.repositories.datatype.PageWithBuckets;
 import eu.dzhw.fdz.metadatamanagement.service.variablemanagement.VariableService;
 import eu.dzhw.fdz.metadatamanagement.web.variablemanagement.details.VariableResource;
 import eu.dzhw.fdz.metadatamanagement.web.variablemanagement.details.VariableResourceAssembler;
@@ -81,20 +77,9 @@ public class VariableSearchController {
       modelAndView.addObject("query", query);
       modelAndView.addObject(VariableDocument.SCALE_LEVEL_FIELD, scaleLevel);
 
-      PageWithAggregations<VariableDocument> pageableAggregrationType =
+      PageWithBuckets<VariableDocument> pageableAggregrationType =
           variableService.search(query, scaleLevel, pageable);
-
-      // Get Buckets
-      List<Bucket> bucketsScaleLevel = new ArrayList<>(); // default
-      if (pageableAggregrationType.getAggregations() != null) {
-        StringTerms aggrogationsScaleLevel =
-            pageableAggregrationType.getAggregations().get(VariableDocument.SCALE_LEVEL_FIELD);
-        bucketsScaleLevel = aggrogationsScaleLevel.getBuckets();
-      }
-
-      System.out.println(bucketsScaleLevel.size());
-
-      modelAndView.addObject("scaleLevelBuckets", bucketsScaleLevel);
+      modelAndView.addObject("bucketsScaleLevel", pageableAggregrationType.getBuckets());
 
       PagedResources<VariableResource> pagedVariableResource =
           pagedResourcesAssembler.toResource(pageableAggregrationType, variableResourceAssembler);

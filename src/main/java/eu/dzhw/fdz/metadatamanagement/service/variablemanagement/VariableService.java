@@ -7,7 +7,7 @@ import org.springframework.util.StringUtils;
 
 import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.VariableDocument;
 import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.repositories.VariableRepository;
-import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.repositories.datatype.PageWithAggregations;
+import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.repositories.datatype.PageWithBuckets;
 
 /**
  * A service for searching variables.
@@ -37,7 +37,7 @@ public class VariableService {
    * 
    * @return Page of VariableDocuments and Aggregations
    */
-  public PageWithAggregations<VariableDocument> search(String query, String scaleLevel,
+  public PageWithBuckets<VariableDocument> search(String query, String scaleLevel,
       Pageable pageable) {
 
     // in this case of query oder scaleLevel are have text elements

@@ -24,7 +24,7 @@ import org.springframework.util.StringUtils;
 
 import eu.dzhw.fdz.metadatamanagement.config.elasticsearch.AggregationResultMapper;
 import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.VariableDocument;
-import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.repositories.datatype.PageWithAggregations;
+import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.repositories.datatype.PageWithBuckets;
 
 /**
  * This class implements the interface of the custom variable documents repository. This class will
@@ -75,7 +75,7 @@ public class VariableRepositoryImpl implements VariableRepositoryCustom {
    * org.springframework.data.domain.Pageable)
    */
   @Override
-  public PageWithAggregations<VariableDocument> matchQueryInAllFieldAndNgrams(String query,
+  public PageWithBuckets<VariableDocument> matchQueryInAllFieldAndNgrams(String query,
       String scaleLevel, Pageable pageable) {
 
     NativeSearchQueryBuilder nativeSearchQueryBuilder = new NativeSearchQueryBuilder();
@@ -108,7 +108,7 @@ public class VariableRepositoryImpl implements VariableRepositoryCustom {
         this.elasticsearchTemplate.queryForPage(searchQuery, VariableDocument.class, resultMapper);
 
     // return pageable object and the aggregations
-    return (PageWithAggregations<VariableDocument>) facetedPage;
+    return (PageWithBuckets<VariableDocument>) facetedPage;
   }
 
   /*
@@ -162,7 +162,7 @@ public class VariableRepositoryImpl implements VariableRepositoryCustom {
    * matchAllWithAggregations(org.springframework.data.domain.Pageable)
    */
   @Override
-  public PageWithAggregations<VariableDocument> matchAllWithAggregations(Pageable pageable) {
+  public PageWithBuckets<VariableDocument> matchAllWithAggregations(Pageable pageable) {
     NativeSearchQueryBuilder nativeSearchQueryBuilder = new NativeSearchQueryBuilder();
 
     QueryBuilder queryBuilder = matchAllQuery();
@@ -179,6 +179,6 @@ public class VariableRepositoryImpl implements VariableRepositoryCustom {
         this.elasticsearchTemplate.queryForPage(searchQuery, VariableDocument.class, resultMapper);
 
     // return pageable object and the aggregations
-    return (PageWithAggregations<VariableDocument>) facetedPage;
+    return (PageWithBuckets<VariableDocument>) facetedPage;
   }
 }
