@@ -82,7 +82,7 @@ public class VariableSearchController {
           variableService.search(query, scaleLevel, pageable);
       Page<VariableDocument> variablePage = pageableAggregrationType.getPage();
 
-      // TODO DKatzberg The aggregration is now in the controller
+      // TODO DKatzberg The aggregration is in the controller now
       // Aggregations aggregations = pageableAggregrationType.getAggregations();
 
       PagedResources<VariableResource> pagedVariableResource =

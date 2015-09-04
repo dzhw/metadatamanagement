@@ -10,7 +10,8 @@ import eu.dzhw.fdz.metadatamanagement.config.elasticsearch.JacksonDocumentMapper
 
 /**
  * The aggregation result mapper is a sub class from the {@link DefaultResultMapper}. It extends the
- * MapResuts method for saving the aggregations.
+ * MapResuts method for saving the aggregations. It uses the JacksonDocumentMapper for mapping e.g.
+ * LocalDate Object from Strings.
  * 
  * @author Daniel Katzberg
  *
@@ -18,10 +19,13 @@ import eu.dzhw.fdz.metadatamanagement.config.elasticsearch.JacksonDocumentMapper
 public class AggregationResultMapper extends DefaultResultMapper {
 
   /**
-   * The actual aggregations of a query result.
+   * The actual aggregations of a query result. It
    */
   private Aggregations aggregations;
 
+  /**
+   * The default Constructor uses the JacksonDocumentMapper for the depending super call.
+   */
   public AggregationResultMapper() {
     super(new JacksonDocumentMapper());
   }

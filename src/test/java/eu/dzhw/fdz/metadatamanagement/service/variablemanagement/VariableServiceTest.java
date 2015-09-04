@@ -11,6 +11,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
+import org.elasticsearch.search.aggregations.Aggregation;
+import org.elasticsearch.search.aggregations.Aggregations;
+import org.elasticsearch.search.aggregations.bucket.terms.StringTerms;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.i18n.LocaleContextHolder;
@@ -156,5 +159,80 @@ public class VariableServiceTest extends AbstractWebTest {
     assertThat(savedVariableDocument, not(nullValue()));
     assertThat(results.getNumberOfElements(), is(0));
 
+  }
+  
+  @Test
+  public void testSearchWithQueryGermanAndFilterScaleLevel() {
+
+    // Arrange
+    Pageable pageable = new PageRequest(0, 10);
+    LocaleContextHolder.setLocale(Locale.GERMAN);
+    for (int i = 1; i <= 9; i++) {
+      VariableSurvey variableSurvey = new VariableSurveyBuilder()
+          .withSurveyId("SearchUnitTest_Survey_ID").withTitle("SearchUnitTestTitle 0" + i)
+          .withVariableAlias("SearchUnitTestVariableAlias 0" + i).build();
+
+      VariableDocument variableDocument = new VariableDocumentBuilder()
+          .withId("SearchUnitTest_ID0" + i).withName("SearchUnitTestName 0" + i)
+          .withLabel("SearchUnitTestLabel 0" + i).withQuestion("SearchUnitTestQuestion 0" + i)
+          .withDataType(this.dataTypesProvider.getNumericValueByLocale())
+          .withScaleLevel(this.scaleLevelProvider.getMetricByLocal())
+          .withVariableSurvey(variableSurvey).build();
+      this.variableService.save(variableDocument);
+    }
+
+    // Act
+    PageableAggregrationType<VariableDocument> pageableAggregrationTypeWithResults =
+        this.variableService.search("SearchUnitTestName", ScaleLevelProvider.GERMAN_METRIC, pageable);
+    Page<VariableDocument> resultOkay = pageableAggregrationTypeWithResults.getPage();
+    Aggregations aggregationsOkay = pageableAggregrationTypeWithResults.getAggregations();        
+    
+    Aggregation aggregation = aggregationsOkay.asList().get(0);
+    StringTerms agg = aggregationsOkay.get(aggregation.getName());
+        
+    // Assert
+    assertThat(resultOkay.getNumberOfElements(), is(9));
+    assertThat(agg.getBuckets().get(0).getKey(), is(ScaleLevelProvider.GERMAN_METRIC));
+    assertThat(agg.getBuckets().get(0).getDocCount(), is(9L));
+
+    // Delete
+    for (int i = 1; i <= 9; i++) {
+      this.variableService.delete("SearchUnitTest_ID0" + i);
+    }
+  }
+  
+  
+  @Test
+  public void testSearchWithQueryGermanAndWrongFilterScaleLevel() {
+
+    // Arrange
+    Pageable pageable = new PageRequest(0, 10);
+    LocaleContextHolder.setLocale(Locale.GERMAN);
+    for (int i = 1; i <= 9; i++) {
+      VariableSurvey variableSurvey = new VariableSurveyBuilder()
+          .withSurveyId("SearchUnitTest_Survey_ID").withTitle("SearchUnitTestTitle 0" + i)
+          .withVariableAlias("SearchUnitTestVariableAlias 0" + i).build();
+
+      VariableDocument variableDocument = new VariableDocumentBuilder()
+          .withId("SearchUnitTest_ID0" + i).withName("SearchUnitTestName 0" + i)
+          .withLabel("SearchUnitTestLabel 0" + i).withQuestion("SearchUnitTestQuestion 0" + i)
+          .withDataType(this.dataTypesProvider.getNumericValueByLocale())
+          .withScaleLevel(this.scaleLevelProvider.getMetricByLocal())
+          .withVariableSurvey(variableSurvey).build();
+      this.variableService.save(variableDocument);
+    }
+
+    // Act
+    PageableAggregrationType<VariableDocument> pageableAggregrationTypeWithoutResults =
+        this.variableService.search("SearchUnitTestName", ScaleLevelProvider.GERMAN_ORDINAL, pageable);
+    Page<VariableDocument> resultNotOkay = pageableAggregrationTypeWithoutResults.getPage();
+    
+    // Assert
+    assertThat(resultNotOkay.getNumberOfElements(), is(0));
+
+    // Delete
+    for (int i = 1; i <= 9; i++) {
+      this.variableService.delete("SearchUnitTest_ID0" + i);
+    }
   }
 }

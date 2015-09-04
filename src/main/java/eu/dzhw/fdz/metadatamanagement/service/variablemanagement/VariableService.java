@@ -39,10 +39,12 @@ public class VariableService {
    */
   public PageableAggregrationType<VariableDocument> search(String query, String scaleLevel,
       Pageable pageable) {
-    if (StringUtils.hasText(query)) {
+    
+    //in this case of query oder scaleLevel are have text elements
+    if (StringUtils.hasText(query) || StringUtils.hasText(scaleLevel)) {
       return variableRepository.matchQueryInAllFieldAndNgrams(query, scaleLevel, pageable);
     }
-    // TODO DKatzberg: Special case for filter without query
+    // No special case needed for filter like scale level. for no filter and no query -> find all
     return new PageableAggregrationType<VariableDocument>(variableRepository.findAll(pageable),
         null);
   }
