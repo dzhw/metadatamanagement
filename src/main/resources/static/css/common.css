@@ -43,3 +43,21 @@ select ~ .form-control-feedback {
 select[multiple] ~ .form-control-feedback {
   margin-right: 0;
 }
+
+/* make text bold*/
+.labelTextBold{
+	 font-weight: bold;
+}
+
+/* Responsive table handling*/
+.table-responsive
+{
+    overflow-x: auto;
+}
+/* add hover effect to panels */
+.custom-panel-heading{
+	  cursor:pointer !important;	  
+}
+.custom-panel-heading:hover {
+  background-color: #0D67B5!important;
+}

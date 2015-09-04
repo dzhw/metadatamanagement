@@ -6,12 +6,8 @@
 <body>
 	<div th:fragment="output(label,text,column,columnOffset)">
 		<div th:class="'col-md-'+${column}+' col-md-offset-'+${columnOffset}">
-			<h4>
-				<span class="label label-info" th:text="${label}">Info</span>
-			</h4>
-			<h4>
+				<span class="labelTextBold" th:text="${label}">label</span><br></br>			
 				<span class="text-left" th:text="${text}"></span>
-			</h4>
 		</div>
 	</div>
 </body>
