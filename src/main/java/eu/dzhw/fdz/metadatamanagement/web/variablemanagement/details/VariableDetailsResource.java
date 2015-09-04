@@ -27,16 +27,16 @@ public class VariableDetailsResource extends NavigatablePageResource<VariableDet
    * @param variableId the id of the document
    */
   public VariableDetailsResource(ControllerLinkBuilderFactory controllerLinkBuilderFactory,
-          String variableId) {
+      String variableId) {
     super();
     for (Locale supportedLocale : I18nConfiguration.SUPPORTED_LANGUAGES) {
       this.add(controllerLinkBuilderFactory.linkTo(
-              methodOn(VariableDetailsController.class, supportedLocale).get(variableId)).withRel(
-              supportedLocale.getLanguage()));
+          methodOn(VariableDetailsController.class, supportedLocale).get(variableId)).withRel(
+          supportedLocale.getLanguage()));
     }
     this.add(controllerLinkBuilderFactory.linkTo(
-            methodOn(VariableEditController.class, LocaleContextHolder.getLocale().getLanguage())
-                    .edit(variableId)).withRel("edit"));
+        methodOn(VariableEditController.class, LocaleContextHolder.getLocale().getLanguage()).edit(
+            variableId)).withRel("edit"));
   }
 
 }
