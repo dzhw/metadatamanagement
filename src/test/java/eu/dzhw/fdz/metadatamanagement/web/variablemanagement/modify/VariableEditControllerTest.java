@@ -79,30 +79,29 @@ public class VariableEditControllerTest extends AbstractWebTest {
     this.variableService.delete(id);
   }
 
-  @Test(expected = AssertionError.class)
+  @Test
   public void testGetInvalidForm() throws Exception {
     // Arrange
-    String id = "testGetEditForm";
-    VariableDocument variableDocument = new VariableDocumentBuilder().withId(id).build();
+    String validId = "testGetEditForm";
+    VariableDocument variableDocument = new VariableDocumentBuilder().withId(validId).build();
     this.variableService.save(variableDocument);
 
-    id = "nowitsinvalid";
+    String invalidId = "nowitsinvalid";
 
     // Check the Requestpath of the VariableModifyControllerPath
-    MvcResult mvcResult = this.mockMvc.perform(get("/de/variables/" + id + "/edit"))
+    MvcResult mvcResult = this.mockMvc.perform(get("/de/variables/" + invalidId + "/edit"))
         .andExpect(status().isOk()).andExpect(request().asyncStarted())
-        .andExpect(request().asyncResult(instanceOf(ModelAndView.class))).andReturn();
+        .andExpect(request().asyncResult(instanceOf(DocumentNotFoundException.class))).andReturn();
 
     // Act and Assert
-    this.mockMvc.perform(asyncDispatch(mvcResult)).andExpect(status().isOk())
+    this.mockMvc.perform(asyncDispatch(mvcResult)).andExpect(status().isNotFound())
         .andExpect(content().string((containsString("Sprache"))))
         .andExpect(content().string(not(containsString("#{"))))
         .andExpect(content().string(not(containsString("${"))))
-        .andExpect(content().string(not(containsString("??"))))
-        .andExpect(model().attributeHasFieldErrors("variableDocument"));
+        .andExpect(content().string(not(containsString("??"))));
 
     // Delete
-    this.variableService.delete(id);
+    this.variableService.delete(validId);
   }
 
   @Test
