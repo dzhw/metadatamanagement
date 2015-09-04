@@ -11,9 +11,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
-import org.elasticsearch.search.aggregations.Aggregation;
-import org.elasticsearch.search.aggregations.Aggregations;
-import org.elasticsearch.search.aggregations.bucket.terms.StringTerms;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.i18n.LocaleContextHolder;
@@ -30,7 +27,7 @@ import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.Variable
 import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.builders.AnswerOptionBuilder;
 import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.builders.VariableDocumentBuilder;
 import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.builders.VariableSurveyBuilder;
-import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.repositories.datatype.PageWithAggregations;
+import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.repositories.datatype.PageWithBuckets;
 import eu.dzhw.fdz.metadatamanagement.web.AbstractWebTest;
 
 
@@ -69,7 +66,7 @@ public class VariableServiceTest extends AbstractWebTest {
     }
 
     // Act
-    PageWithAggregations<VariableDocument> result =
+    PageWithBuckets<VariableDocument> result =
         this.variableService.search("SearchUnitTestName", null, pageable);
 
     // Assert
@@ -103,7 +100,7 @@ public class VariableServiceTest extends AbstractWebTest {
     }
 
     // Act
-    PageWithAggregations<VariableDocument> result = variableService.search(null, null, pageable);
+    PageWithBuckets<VariableDocument> result = variableService.search(null, null, pageable);
 
     // Assert
     assertThat(result.getNumberOfElements(), greaterThanOrEqualTo(9));
@@ -146,7 +143,7 @@ public class VariableServiceTest extends AbstractWebTest {
     VariableDocument savedVariableDocument = this.variableService.save(variableDocument);
     this.variableService.delete(idVariableDocument);
     Pageable pageable = new PageRequest(0, 10);
-    PageWithAggregations<VariableDocument> results =
+    PageWithBuckets<VariableDocument> results =
         this.variableService.search(idVariableDocument, null, pageable);
 
     // Assert
@@ -177,17 +174,13 @@ public class VariableServiceTest extends AbstractWebTest {
     }
 
     // Act
-    PageWithAggregations<VariableDocument> resultOkay = this.variableService
+    PageWithBuckets<VariableDocument> resultOkay = this.variableService
         .search("SearchUnitTestName", ScaleLevelProvider.GERMAN_METRIC, pageable);
-    Aggregations aggregationsOkay = resultOkay.getAggregations();
-
-    Aggregation aggregation = aggregationsOkay.asList().get(0);
-    StringTerms agg = aggregationsOkay.get(aggregation.getName());
-
+    
     // Assert
     assertThat(resultOkay.getNumberOfElements(), is(9));
-    assertThat(agg.getBuckets().get(0).getKey(), is(ScaleLevelProvider.GERMAN_METRIC));
-    assertThat(agg.getBuckets().get(0).getDocCount(), is(9L));
+    assertThat(resultOkay.getBuckets().get(0).getKey(), is(ScaleLevelProvider.GERMAN_METRIC));
+    assertThat(resultOkay.getBuckets().get(0).getDocCount(), is(9L));
 
     // Delete
     for (int i = 1; i <= 9; i++) {
@@ -216,17 +209,13 @@ public class VariableServiceTest extends AbstractWebTest {
     }
 
     // Act
-    PageWithAggregations<VariableDocument> resultOkay =
+    PageWithBuckets<VariableDocument> resultOkay =
         this.variableService.search(null, ScaleLevelProvider.GERMAN_ORDINAL, pageable);
-    Aggregations aggregationsOkay = resultOkay.getAggregations();
-
-    Aggregation aggregation = aggregationsOkay.asList().get(0);
-    StringTerms agg = aggregationsOkay.get(aggregation.getName());
 
     // Assert
     assertThat(resultOkay.getNumberOfElements(), is(9));
-    assertThat(agg.getBuckets().get(0).getKey(), is(ScaleLevelProvider.GERMAN_ORDINAL));
-    assertThat(agg.getBuckets().get(0).getDocCount(), is(9L));
+    assertThat(resultOkay.getBuckets().get(0).getKey(), is(ScaleLevelProvider.GERMAN_ORDINAL));
+    assertThat(resultOkay.getBuckets().get(0).getDocCount(), is(9L));
 
     // Delete
     for (int i = 1; i <= 9; i++) {
@@ -256,7 +245,7 @@ public class VariableServiceTest extends AbstractWebTest {
     }
 
     // Act
-    PageWithAggregations<VariableDocument> resultNotOkay = this.variableService
+    PageWithBuckets<VariableDocument> resultNotOkay = this.variableService
         .search("SearchUnitTestName", ScaleLevelProvider.GERMAN_ORDINAL, pageable);
 
     // Assert

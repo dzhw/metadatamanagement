@@ -126,6 +126,14 @@
 			<scope>test</scope>
 		</dependency>
 
+<!-- 	For FindBugs Annotation. -->
+		<dependency>
+			<groupId>com.google.code.findbugs</groupId>
+			<artifactId>findbugs</artifactId>
+			<version>3.0.1</version>
+		</dependency>
+
+
 		<!-- test dependencies come here -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>

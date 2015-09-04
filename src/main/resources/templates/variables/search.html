@@ -53,12 +53,10 @@
 							<div id="collapsePanel" class="panel-collapse collapse fade in">
 								<!-- DKatzberg WORK HERE -->
 								<div class="panel-body"
-									th:text="#{variables.common.variable.scaleLevel}">
-									<div class="list-group-item"
-										th:each="bucket : ${scaleLevelBuckets}">
-										<span th:text="${bucket.key} [${bucket.docCount}]"></span>
-									</div>
-								</div>
+									th:text="#{variables.common.variable.scaleLevel}"></div>
+								<ul th:each="bucket : ${bucketsScaleLevel}">
+									<li th:text="${bucket.key + ' [' + bucket.docCount + ']'}"  ></li>
+								</ul>
 							</div>
 						</div>
 					</div>
