@@ -2,6 +2,7 @@ package eu.dzhw.fdz.metadatamanagement.data.variablemanagement.repositories;
 
 
 import static org.elasticsearch.index.query.QueryBuilders.boolQuery;
+import static org.elasticsearch.index.query.QueryBuilders.matchAllQuery;
 import static org.elasticsearch.index.query.QueryBuilders.matchQuery;
 
 import org.elasticsearch.common.unit.Fuzziness;
@@ -21,9 +22,9 @@ import org.springframework.data.elasticsearch.core.query.NativeSearchQueryBuilde
 import org.springframework.data.elasticsearch.core.query.SearchQuery;
 import org.springframework.util.StringUtils;
 
+import eu.dzhw.fdz.metadatamanagement.config.elasticsearch.AggregationResultMapper;
 import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.VariableDocument;
-import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.repositories.datatype.PageableAggregrationType;
-import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.repositories.mapper.AggregationResultMapper;
+import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.repositories.datatype.PageWithAggregations;
 
 /**
  * This class implements the interface of the custom variable documents repository. This class will
@@ -39,9 +40,13 @@ public class VariableRepositoryImpl implements VariableRepositoryCustom {
 
   private ElasticsearchTemplate elasticsearchTemplate;
 
+  private AggregationResultMapper resultMapper;
+
   @Autowired
-  public VariableRepositoryImpl(ElasticsearchTemplate elasticsearchTemplate) {
+  public VariableRepositoryImpl(ElasticsearchTemplate elasticsearchTemplate,
+      AggregationResultMapper resultMapper) {
     this.elasticsearchTemplate = elasticsearchTemplate;
+    this.resultMapper = resultMapper;
   }
 
   /*
@@ -70,7 +75,7 @@ public class VariableRepositoryImpl implements VariableRepositoryCustom {
    * org.springframework.data.domain.Pageable)
    */
   @Override
-  public PageableAggregrationType<VariableDocument> matchQueryInAllFieldAndNgrams(String query,
+  public PageWithAggregations<VariableDocument> matchQueryInAllFieldAndNgrams(String query,
       String scaleLevel, Pageable pageable) {
 
     NativeSearchQueryBuilder nativeSearchQueryBuilder = new NativeSearchQueryBuilder();
@@ -99,13 +104,11 @@ public class VariableRepositoryImpl implements VariableRepositoryCustom {
         .build();
 
     // No Problems with thread safe queries, because every query has an own mapper
-    AggregationResultMapper resultMapper = new AggregationResultMapper();
-    FacetedPage<VariableDocument> facetPages =
+    FacetedPage<VariableDocument> facetedPage =
         this.elasticsearchTemplate.queryForPage(searchQuery, VariableDocument.class, resultMapper);
 
     // return pageable object and the aggregations
-    return new PageableAggregrationType<VariableDocument>(facetPages,
-        resultMapper.getAggregations());
+    return (PageWithAggregations<VariableDocument>) facetedPage;
   }
 
   /*
@@ -138,16 +141,44 @@ public class VariableRepositoryImpl implements VariableRepositoryCustom {
   public Page<VariableDocument> filterBySurveyIdAndVariableAlias(String surveyId,
       String variableAlias) {
 
-    QueryBuilder queryBuilder = QueryBuilders.filteredQuery(QueryBuilders.matchAllQuery(),
+    QueryBuilder queryBuilder = QueryBuilders.filteredQuery(matchAllQuery(),
         FilterBuilders.nestedFilter(VariableDocument.VARIABLE_SURVEY_FIELD,
             FilterBuilders.boolFilter().must(
                 FilterBuilders.termFilter(VariableDocument.NESTED_VARIABLE_SURVEY_ID_FIELD,
                     surveyId),
-                FilterBuilders.termFilter(
-                    VariableDocument.NESTED_VARIABLE_SURVEY_VARIABLE_ALIAS_FIELD, variableAlias))));
+            FilterBuilders.termFilter(VariableDocument.NESTED_VARIABLE_SURVEY_VARIABLE_ALIAS_FIELD,
+                variableAlias))));
 
     SearchQuery searchQuery = new NativeSearchQueryBuilder().withQuery(queryBuilder).build();
 
     return this.elasticsearchTemplate.queryForPage(searchQuery, VariableDocument.class);
+  }
+
+  /*
+   * (non-Javadoc)
+   * 
+   * @see
+   * eu.dzhw.fdz.metadatamanagement.data.variablemanagement.repositories.VariableRepositoryCustom#
+   * matchAllWithAggregations(org.springframework.data.domain.Pageable)
+   */
+  @Override
+  public PageWithAggregations<VariableDocument> matchAllWithAggregations(Pageable pageable) {
+    NativeSearchQueryBuilder nativeSearchQueryBuilder = new NativeSearchQueryBuilder();
+
+    QueryBuilder queryBuilder = matchAllQuery();
+    nativeSearchQueryBuilder.withQuery(queryBuilder);
+
+    // create aggregation for scaleLevel
+    nativeSearchQueryBuilder.addAggregation(AggregationBuilders
+        .terms(VariableDocument.SCALE_LEVEL_FIELD).field(VariableDocument.SCALE_LEVEL_FIELD));
+
+    SearchQuery searchQuery = nativeSearchQueryBuilder.withPageable(pageable).build();
+
+    // No Problems with thread safe queries, because every query has an own mapper
+    FacetedPage<VariableDocument> facetedPage =
+        this.elasticsearchTemplate.queryForPage(searchQuery, VariableDocument.class, resultMapper);
+
+    // return pageable object and the aggregations
+    return (PageWithAggregations<VariableDocument>) facetedPage;
   }
 }

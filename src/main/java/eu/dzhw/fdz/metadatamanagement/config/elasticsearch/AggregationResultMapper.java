@@ -1,12 +1,11 @@
-package eu.dzhw.fdz.metadatamanagement.data.variablemanagement.repositories.mapper;
+package eu.dzhw.fdz.metadatamanagement.config.elasticsearch;
 
 import org.elasticsearch.action.search.SearchResponse;
-import org.elasticsearch.search.aggregations.Aggregations;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.elasticsearch.core.DefaultResultMapper;
 import org.springframework.data.elasticsearch.core.FacetedPage;
 
-import eu.dzhw.fdz.metadatamanagement.config.elasticsearch.JacksonDocumentMapper;
+import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.repositories.datatype.PageWithAggregations;
 
 /**
  * The aggregation result mapper is a sub class from the {@link DefaultResultMapper}. It extends the
@@ -17,17 +16,11 @@ import eu.dzhw.fdz.metadatamanagement.config.elasticsearch.JacksonDocumentMapper
  *
  */
 public class AggregationResultMapper extends DefaultResultMapper {
-
-  /**
-   * The actual aggregations of a query result. It
-   */
-  private Aggregations aggregations;
-
   /**
    * The default Constructor uses the JacksonDocumentMapper for the depending super call.
    */
-  public AggregationResultMapper() {
-    super(new JacksonDocumentMapper());
+  public AggregationResultMapper(JacksonDocumentMapper jacksonDocumentMapper) {
+    super(jacksonDocumentMapper);
   }
 
   /*
@@ -39,13 +32,7 @@ public class AggregationResultMapper extends DefaultResultMapper {
    */
   @Override
   public <T> FacetedPage<T> mapResults(SearchResponse response, Class<T> clazz, Pageable pageable) {
-
-    this.aggregations = response.getAggregations();
-    return super.mapResults(response, clazz, pageable);
-  }
-
-  /* GETTER / SETTER */
-  public Aggregations getAggregations() {
-    return aggregations;
+    FacetedPage<T> facetedPage = super.mapResults(response, clazz, pageable);
+    return new PageWithAggregations<T>(facetedPage, pageable, response.getAggregations());
   }
 }

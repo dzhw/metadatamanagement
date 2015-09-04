@@ -7,7 +7,7 @@ import org.springframework.util.StringUtils;
 
 import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.VariableDocument;
 import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.repositories.VariableRepository;
-import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.repositories.datatype.PageableAggregrationType;
+import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.repositories.datatype.PageWithAggregations;
 
 /**
  * A service for searching variables.
@@ -37,16 +37,15 @@ public class VariableService {
    * 
    * @return Page of VariableDocuments and Aggregations
    */
-  public PageableAggregrationType<VariableDocument> search(String query, String scaleLevel,
+  public PageWithAggregations<VariableDocument> search(String query, String scaleLevel,
       Pageable pageable) {
-    
-    //in this case of query oder scaleLevel are have text elements
+
+    // in this case of query oder scaleLevel are have text elements
     if (StringUtils.hasText(query) || StringUtils.hasText(scaleLevel)) {
       return variableRepository.matchQueryInAllFieldAndNgrams(query, scaleLevel, pageable);
     }
     // No special case needed for filter like scale level. for no filter and no query -> find all
-    return new PageableAggregrationType<VariableDocument>(variableRepository.findAll(pageable),
-        null);
+    return variableRepository.matchAllWithAggregations(pageable);
   }
 
   /**

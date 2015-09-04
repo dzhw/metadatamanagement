@@ -17,7 +17,6 @@ import org.elasticsearch.search.aggregations.bucket.terms.StringTerms;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.i18n.LocaleContextHolder;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 
@@ -31,7 +30,7 @@ import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.Variable
 import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.builders.AnswerOptionBuilder;
 import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.builders.VariableDocumentBuilder;
 import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.builders.VariableSurveyBuilder;
-import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.repositories.datatype.PageableAggregrationType;
+import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.repositories.datatype.PageWithAggregations;
 import eu.dzhw.fdz.metadatamanagement.web.AbstractWebTest;
 
 
@@ -70,9 +69,8 @@ public class VariableServiceTest extends AbstractWebTest {
     }
 
     // Act
-    PageableAggregrationType<VariableDocument> pageableAggregrationType =
+    PageWithAggregations<VariableDocument> result =
         this.variableService.search("SearchUnitTestName", null, pageable);
-    Page<VariableDocument> result = pageableAggregrationType.getPage();
 
     // Assert
     assertThat(result.getNumberOfElements(), is(9));
@@ -105,9 +103,7 @@ public class VariableServiceTest extends AbstractWebTest {
     }
 
     // Act
-    PageableAggregrationType<VariableDocument> pageableAggregrationType =
-        variableService.search(null, null, pageable);
-    Page<VariableDocument> result = pageableAggregrationType.getPage();
+    PageWithAggregations<VariableDocument> result = variableService.search(null, null, pageable);
 
     // Assert
     assertThat(result.getNumberOfElements(), greaterThanOrEqualTo(9));
@@ -150,9 +146,8 @@ public class VariableServiceTest extends AbstractWebTest {
     VariableDocument savedVariableDocument = this.variableService.save(variableDocument);
     this.variableService.delete(idVariableDocument);
     Pageable pageable = new PageRequest(0, 10);
-    PageableAggregrationType<VariableDocument> pageableAggregrationType =
+    PageWithAggregations<VariableDocument> results =
         this.variableService.search(idVariableDocument, null, pageable);
-    Page<VariableDocument> results = pageableAggregrationType.getPage();
 
     // Assert
     assertThat(savedVariableDocument, is(variableDocument));
@@ -160,7 +155,7 @@ public class VariableServiceTest extends AbstractWebTest {
     assertThat(results.getNumberOfElements(), is(0));
 
   }
-  
+
   @Test
   public void testSearchWithQueryGermanAndFilterScaleLevel() {
 
@@ -182,14 +177,13 @@ public class VariableServiceTest extends AbstractWebTest {
     }
 
     // Act
-    PageableAggregrationType<VariableDocument> pageableAggregrationTypeWithResults =
-        this.variableService.search("SearchUnitTestName", ScaleLevelProvider.GERMAN_METRIC, pageable);
-    Page<VariableDocument> resultOkay = pageableAggregrationTypeWithResults.getPage();
-    Aggregations aggregationsOkay = pageableAggregrationTypeWithResults.getAggregations();        
-    
+    PageWithAggregations<VariableDocument> resultOkay = this.variableService
+        .search("SearchUnitTestName", ScaleLevelProvider.GERMAN_METRIC, pageable);
+    Aggregations aggregationsOkay = resultOkay.getAggregations();
+
     Aggregation aggregation = aggregationsOkay.asList().get(0);
     StringTerms agg = aggregationsOkay.get(aggregation.getName());
-        
+
     // Assert
     assertThat(resultOkay.getNumberOfElements(), is(9));
     assertThat(agg.getBuckets().get(0).getKey(), is(ScaleLevelProvider.GERMAN_METRIC));
@@ -200,7 +194,7 @@ public class VariableServiceTest extends AbstractWebTest {
       this.variableService.delete("SearchUnitTest_ID0" + i);
     }
   }
-  
+
   @Test
   public void testSearchWithoutQueryGermanButWithFilterScaleLevel() {
 
@@ -222,14 +216,13 @@ public class VariableServiceTest extends AbstractWebTest {
     }
 
     // Act
-    PageableAggregrationType<VariableDocument> pageableAggregrationTypeWithResults =
+    PageWithAggregations<VariableDocument> resultOkay =
         this.variableService.search(null, ScaleLevelProvider.GERMAN_ORDINAL, pageable);
-    Page<VariableDocument> resultOkay = pageableAggregrationTypeWithResults.getPage();
-    Aggregations aggregationsOkay = pageableAggregrationTypeWithResults.getAggregations();        
-    
+    Aggregations aggregationsOkay = resultOkay.getAggregations();
+
     Aggregation aggregation = aggregationsOkay.asList().get(0);
     StringTerms agg = aggregationsOkay.get(aggregation.getName());
-        
+
     // Assert
     assertThat(resultOkay.getNumberOfElements(), is(9));
     assertThat(agg.getBuckets().get(0).getKey(), is(ScaleLevelProvider.GERMAN_ORDINAL));
@@ -240,8 +233,8 @@ public class VariableServiceTest extends AbstractWebTest {
       this.variableService.delete("SearchUnitTest_ID0" + i);
     }
   }
-  
-  
+
+
   @Test
   public void testSearchWithQueryGermanAndWrongFilterScaleLevel() {
 
@@ -263,10 +256,9 @@ public class VariableServiceTest extends AbstractWebTest {
     }
 
     // Act
-    PageableAggregrationType<VariableDocument> pageableAggregrationTypeWithoutResults =
-        this.variableService.search("SearchUnitTestName", ScaleLevelProvider.GERMAN_ORDINAL, pageable);
-    Page<VariableDocument> resultNotOkay = pageableAggregrationTypeWithoutResults.getPage();
-    
+    PageWithAggregations<VariableDocument> resultNotOkay = this.variableService
+        .search("SearchUnitTestName", ScaleLevelProvider.GERMAN_ORDINAL, pageable);
+
     // Assert
     assertThat(resultNotOkay.getNumberOfElements(), is(0));
 

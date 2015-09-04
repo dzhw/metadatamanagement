@@ -5,7 +5,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.VariableDocument;
-import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.repositories.datatype.PageableAggregrationType;
+import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.repositories.datatype.PageWithAggregations;
 
 /**
  * This is the interface for custom methods of the repository for the variable documents.
@@ -56,7 +56,15 @@ public interface VariableRepositoryCustom {
    * @param pageable The page size and number and sort.
    * @return A page holding the first variable documents
    */
-  PageableAggregrationType<VariableDocument> matchQueryInAllFieldAndNgrams(String query,
+  PageWithAggregations<VariableDocument> matchQueryInAllFieldAndNgrams(String query,
       String scaleLevel, Pageable pageable);
+
+  /**
+   * Query for all variable documents including all aggregations vor variables.
+   * 
+   * @param pageable The page size and number and sort.
+   * @return A page holding the first variable documents and aggreagations
+   */
+  PageWithAggregations<VariableDocument> matchAllWithAggregations(Pageable pageable);
 
 }

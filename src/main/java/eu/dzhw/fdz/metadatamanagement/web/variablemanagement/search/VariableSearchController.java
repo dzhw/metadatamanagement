@@ -9,7 +9,6 @@ import javax.servlet.http.HttpServletResponse;
 import org.elasticsearch.search.aggregations.bucket.terms.StringTerms;
 import org.elasticsearch.search.aggregations.bucket.terms.Terms.Bucket;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PagedResourcesAssembler;
 import org.springframework.hateoas.PagedResources;
@@ -23,7 +22,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.VariableDocument;
-import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.repositories.datatype.PageableAggregrationType;
+import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.repositories.datatype.PageWithAggregations;
 import eu.dzhw.fdz.metadatamanagement.service.variablemanagement.VariableService;
 import eu.dzhw.fdz.metadatamanagement.web.variablemanagement.details.VariableResource;
 import eu.dzhw.fdz.metadatamanagement.web.variablemanagement.details.VariableResourceAssembler;
@@ -82,7 +81,7 @@ public class VariableSearchController {
       modelAndView.addObject("query", query);
       modelAndView.addObject(VariableDocument.SCALE_LEVEL_FIELD, scaleLevel);
 
-      PageableAggregrationType<VariableDocument> pageableAggregrationType =
+      PageWithAggregations<VariableDocument> pageableAggregrationType =
           variableService.search(query, scaleLevel, pageable);
 
       // Get Buckets
@@ -92,15 +91,13 @@ public class VariableSearchController {
             pageableAggregrationType.getAggregations().get(VariableDocument.SCALE_LEVEL_FIELD);
         bucketsScaleLevel = aggrogationsScaleLevel.getBuckets();
       }
-      
+
       System.out.println(bucketsScaleLevel.size());
-      
+
       modelAndView.addObject("scaleLevelBuckets", bucketsScaleLevel);
 
-
-      Page<VariableDocument> variablePage = pageableAggregrationType.getPage();
       PagedResources<VariableResource> pagedVariableResource =
-          pagedResourcesAssembler.toResource(variablePage, variableResourceAssembler);
+          pagedResourcesAssembler.toResource(pageableAggregrationType, variableResourceAssembler);
       VariableSearchPageResource resource =
           new VariableSearchPageResource(pagedVariableResource, VariableSearchController.class,
               controllerLinkBuilderFactory, query, scaleLevel, pageable);
