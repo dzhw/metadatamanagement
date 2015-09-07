@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import eu.dzhw.fdz.metadatamanagement.data.common.documents.filter.FilterManager;
 import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.VariableDocument;
 import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.repositories.datatype.PageWithBuckets;
 import eu.dzhw.fdz.metadatamanagement.service.variablemanagement.VariableService;
@@ -80,6 +81,11 @@ public class VariableSearchController {
       PageWithBuckets<VariableDocument> pageableAggregrationType =
           variableService.search(query, scaleLevel, pageable);
       modelAndView.addObject("bucketsScaleLevel", pageableAggregrationType.getBuckets());
+      
+      FilterManager filterManager = new FilterManager();
+      filterManager.initScaleLevelFilters(pageableAggregrationType.getBuckets(), scaleLevel);
+      
+      modelAndView.addObject("filterManager", filterManager);
 
       PagedResources<VariableResource> pagedVariableResource =
           pagedResourcesAssembler.toResource(pageableAggregrationType, variableResourceAssembler);

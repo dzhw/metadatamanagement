@@ -54,10 +54,10 @@
 									<div class="panel-body"
 										th:text="#{variables.common.variable.scaleLevel}"></div>
 									<ul>
-										<li th:each="bucket : ${bucketsScaleLevel}" th:label="${bucket.key + ' [' + bucket.docCount + ']'}"
+										<li th:each="filter : ${filterManager.scaleLevelFilters}" th:label="${filter.value + ' [' + filter.docCount + ']'}"
 											style="list-style-type: none;"><input type="checkbox"
-											th:id="${bucket.key}" name="scaleLevel" th:value="${bucket.key}" /> <label
-											th:text="${bucket.key + ' [' + bucket.docCount + ']'}"></label>
+											th:id="${filter.value}" name="scaleLevel" th:value="${filter.value}" th:checked="${filter.choosen}" /> <label
+											th:text="${filter.value + ' [' + filter.docCount + ']'}"></label>
 										</li>
 									</ul>
 								</div>
