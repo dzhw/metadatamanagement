@@ -52,7 +52,7 @@ select[multiple] ~ .form-control-feedback {
 /* Responsive table handling*/
 .table-responsive
 {
-    overflow-x: auto;
+    overflow-x: scroll;
 }
 /* add hover effect to panels */
 .custom-panel-heading{
@@ -60,4 +60,8 @@ select[multiple] ~ .form-control-feedback {
 }
 .custom-panel-heading:hover {
   background-color: #0D67B5!important;
+}
+/* add white space between icon and text */
+.textForIcon{
+	margin-left: 3px;
 }
