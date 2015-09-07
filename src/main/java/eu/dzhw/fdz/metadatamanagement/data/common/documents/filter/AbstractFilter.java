@@ -61,8 +61,14 @@ public abstract class AbstractFilter<T> {
    * @return If there are more than zero results or is choosen return true.
    */
   public boolean foundResults() {
-    return this.choosen || this.docCount > 0L;
+    return (this.choosen || this.docCount > 0L) && this.isValid();
   }
+
+  /**
+   * @return True if the Filter has a valid value / data. Return false if the value / data is not
+   *         valid.
+   */
+  public abstract boolean isValid();
 
   /* GETTER / SETTER */
   public boolean isChoosen() {

@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.elasticsearch.search.aggregations.bucket.terms.Terms;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.ScaleLevelProvider;
 
@@ -34,6 +35,7 @@ public class FilterManager {
    *        scale levels.
    * @see ScaleLevelProvider
    */
+  @Autowired
   public FilterManager(ScaleLevelProvider scaleLevelProvider) {
     this.scaleLevelProvider = scaleLevelProvider;
     this.initScalelevelFilters();
@@ -43,7 +45,8 @@ public class FilterManager {
     this.scaleLevelFilters = new ArrayList<>();
 
     for (String scaleLevel : this.scaleLevelProvider.getAllScaleLevel()) {
-      this.scaleLevelFilters.add(new ScaleLevelFilter(false, scaleLevel, 0L));
+      this.scaleLevelFilters
+          .add(new ScaleLevelFilter(false, scaleLevel, 0L, this.scaleLevelProvider));
     }
   }
 
@@ -56,7 +59,7 @@ public class FilterManager {
   public void updateScaleLevelFilters(List<Terms.Bucket> buckets, String scaleLevelRequestParam) {
 
     // reset scale level filter
-    this.scaleLevelFilters.forEach( scaleFilter -> { 
+    this.scaleLevelFilters.forEach(scaleFilter -> {
         scaleFilter.setDocCount(0L);
         if (scaleLevelRequestParam != null) {
           if (scaleFilter.getValue().equals(scaleLevelRequestParam)) {
