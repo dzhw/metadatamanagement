@@ -49,7 +49,6 @@
       },
       "scaleLevel": {
         "type": "string",
-        "analyzer": "german",
         "copy_to": "allStringsAsNgrams"
       },
       "variableSurvey": {
