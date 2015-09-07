@@ -80,7 +80,7 @@
 							<div id="answeroptions" class="panel-collapse collapse fade in">
 								<div class="panel-body">
 								<div class="table-responsive">
-									<table class="table table-hover">
+									<table class="col-md-12 table table-hover">
 										<thead>
 											<tr>
 												<th th:text="#{variables.common.variable.answerOption.code}">Code</th>
@@ -136,7 +136,7 @@
 										<li class="list-group-item">
 											<div class="row">
 												<div
-													th:replace="common/textOutput::output(label=#{variables.common.variable.survey.period.start},text=${variableDocument.variableSurvey.surveyPeriod.startDate},column=3,columnOffset=0)"></div>
+													th:replace="common/textOutput::output(label=#{variables.common.variable.survey.period.start},text=${variableDocument.variableSurvey.surveyPeriod.startDate},column=6,columnOffset=0)"></div>
 												<div
 													th:replace="common/textOutput::output(label=#{variables.common.variable.survey.period.end},text=${variableDocument.variableSurvey.surveyPeriod.endDate},column=3,columnOffset=0)"></div>
 											</div>
