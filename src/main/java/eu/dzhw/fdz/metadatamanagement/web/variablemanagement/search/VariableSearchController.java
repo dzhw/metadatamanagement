@@ -17,10 +17,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
-import eu.dzhw.fdz.metadatamanagement.data.common.documents.filter.FilterManager;
+import eu.dzhw.fdz.metadatamanagement.data.common.documents.filters.FilterManager;
 import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.ScaleLevelProvider;
 import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.VariableDocument;
-import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.repositories.datatype.PageWithBuckets;
+import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.repositories.datatypes.PageWithBuckets;
 import eu.dzhw.fdz.metadatamanagement.service.variablemanagement.VariableService;
 import eu.dzhw.fdz.metadatamanagement.web.variablemanagement.details.VariableResource;
 import eu.dzhw.fdz.metadatamanagement.web.variablemanagement.details.VariableResourceAssembler;

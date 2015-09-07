@@ -7,7 +7,7 @@ import org.springframework.util.StringUtils;
 
 import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.VariableDocument;
 import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.repositories.VariableRepository;
-import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.repositories.datatype.PageWithBuckets;
+import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.repositories.datatypes.PageWithBuckets;
 
 /**
  * A service for searching variables.

@@ -1,4 +1,4 @@
-package eu.dzhw.fdz.metadatamanagement.data.common.documents.filter;
+package eu.dzhw.fdz.metadatamanagement.data.common.documents.filters;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -101,9 +101,5 @@ public class FilterManager {
   /* GETTER / SETTER */
   public List<ScaleLevelFilter> getScaleLevelFilters() {
     return scaleLevelFilters;
-  }
-
-  public void setScaleLevelFilters(List<ScaleLevelFilter> scaleLevelFilters) {
-    this.scaleLevelFilters = scaleLevelFilters;
   }
 }

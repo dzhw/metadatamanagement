@@ -1,4 +1,4 @@
-package eu.dzhw.fdz.metadatamanagement.data.common.documents.filter;
+package eu.dzhw.fdz.metadatamanagement.data.common.documents.filters;
 
 import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.ScaleLevelProvider;
 import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.VariableDocument;
@@ -20,7 +20,8 @@ public class ScaleLevelFilter extends AbstractFilter<String> {
    * Default constructor, which initialized the filter by null values.
    */
   public ScaleLevelFilter(ScaleLevelProvider scaleLevelProvider) {
-    this(false, null, 0L, scaleLevelProvider);
+    super(false, null, 0L, VariableDocument.SCALE_LEVEL_FIELD);
+    this.scaleLevelProvider = scaleLevelProvider;
   }
 
   /**

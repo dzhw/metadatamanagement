@@ -7,7 +7,7 @@ import org.springframework.data.elasticsearch.core.DefaultResultMapper;
 import org.springframework.data.elasticsearch.core.FacetedPage;
 
 import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.VariableDocument;
-import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.repositories.datatype.PageWithBuckets;
+import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.repositories.datatypes.PageWithBuckets;
 
 /**
  * The aggregation result mapper is a sub class from the {@link DefaultResultMapper}. It extends the

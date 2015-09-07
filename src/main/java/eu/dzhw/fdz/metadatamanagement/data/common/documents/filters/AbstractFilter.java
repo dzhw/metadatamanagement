@@ -1,4 +1,4 @@
-package eu.dzhw.fdz.metadatamanagement.data.common.documents.filter;
+package eu.dzhw.fdz.metadatamanagement.data.common.documents.filters;
 
 /**
  * This abstract class handles a generic filter with the status for the correct view on the web

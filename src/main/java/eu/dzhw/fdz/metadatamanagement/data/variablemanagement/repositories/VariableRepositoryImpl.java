@@ -24,7 +24,7 @@ import org.springframework.util.StringUtils;
 
 import eu.dzhw.fdz.metadatamanagement.config.elasticsearch.AggregationResultMapper;
 import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.VariableDocument;
-import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.repositories.datatype.PageWithBuckets;
+import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.repositories.datatypes.PageWithBuckets;
 
 /**
  * This class implements the interface of the custom variable documents repository. This class will

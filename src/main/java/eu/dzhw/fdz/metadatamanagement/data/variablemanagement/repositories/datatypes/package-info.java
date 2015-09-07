@@ -5,4 +5,4 @@
  * @author Daniel Katzberg
  *
  */
-package eu.dzhw.fdz.metadatamanagement.data.variablemanagement.repositories.datatype;
+package eu.dzhw.fdz.metadatamanagement.data.variablemanagement.repositories.datatypes;
