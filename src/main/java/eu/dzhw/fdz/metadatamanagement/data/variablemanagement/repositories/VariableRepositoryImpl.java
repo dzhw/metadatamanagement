@@ -80,22 +80,29 @@ public class VariableRepositoryImpl implements VariableRepositoryCustom {
 
     NativeSearchQueryBuilder nativeSearchQueryBuilder = new NativeSearchQueryBuilder();
 
+    QueryBuilder queryBuilder = null;
     // create search query
     if (StringUtils.hasText(query)) {
-      QueryBuilder queryBuilder =
+      queryBuilder = 
           boolQuery().should(matchQuery("_all", query).zeroTermsQuery(ZeroTermsQuery.NONE))
               .should(matchQuery(VariableDocument.ALL_STRINGS_AS_NGRAMS_FIELD, query)
                   .minimumShouldMatch(minimumShouldMatch));
-      nativeSearchQueryBuilder.withQuery(queryBuilder);
-    }
-
+    } else {
+      // Match all case if there is an aggregation with a filter but without a query
+      queryBuilder = matchAllQuery();
+    }    
 
     // create filter and aggregation for scale level
     if (StringUtils.hasText(scaleLevel)) {
-      FilterBuilder filterBuilder = FilterBuilders.boolFilter()
-          .must(FilterBuilders.termFilter(VariableDocument.SCALE_LEVEL_FIELD, scaleLevel));
-      nativeSearchQueryBuilder.withFilter(filterBuilder);
+      FilterBuilder filterBuilder =
+          FilterBuilders.termFilter(VariableDocument.SCALE_LEVEL_FIELD, scaleLevel);
+      
+      //do not use nativeSearchQueryBuilder.withFilter(). It uses the post_filter!
+      queryBuilder = QueryBuilders.filteredQuery(queryBuilder, filterBuilder);
     }
+    
+    //add query (with filter)
+    nativeSearchQueryBuilder.withQuery(queryBuilder);
 
     // extended search query with filter
     SearchQuery searchQuery = nativeSearchQueryBuilder
@@ -162,6 +169,7 @@ public class VariableRepositoryImpl implements VariableRepositoryCustom {
    * matchAllWithAggregations(org.springframework.data.domain.Pageable)
    */
   @Override
+  // TODO DKatzberg
   public PageWithBuckets<VariableDocument> matchAllWithAggregations(Pageable pageable) {
     NativeSearchQueryBuilder nativeSearchQueryBuilder = new NativeSearchQueryBuilder();
 
