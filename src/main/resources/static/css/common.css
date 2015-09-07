@@ -61,3 +61,8 @@ select[multiple] ~ .form-control-feedback {
 .textForIcon{
 	margin-left: 3px;
 }
+.custom-table{
+	 height: 400px !important;
+	 overflow: auto;
+	   -webkit-overflow-scrolling: touch;
+}
