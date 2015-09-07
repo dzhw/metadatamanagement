@@ -51,10 +51,22 @@ public class ScaleLevelProvider {
   }
 
   /**
-   * @return Returns all scale level depending by the locale. 
+   * @return Returns all scale level depending by the locale.
    */
   public HashSet<String> getAllScaleLevel() {
     if (LocaleContextHolder.getLocale().equals(Locale.GERMAN)) {
+      return this.scaleLevelMap.get(Locale.GERMAN);
+    } else {
+      return this.scaleLevelMap.get(Locale.ENGLISH);
+    }
+  }
+
+  /**
+   * @param locale The returning scale level are depending on this locale.
+   * @return Returns all scale level depending by the locale.
+   */
+  public HashSet<String> getAllScaleLevel(Locale locale) {
+    if (locale.equals(Locale.GERMAN)) {
       return this.scaleLevelMap.get(Locale.GERMAN);
     } else {
       return this.scaleLevelMap.get(Locale.ENGLISH);

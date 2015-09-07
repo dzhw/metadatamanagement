@@ -9,17 +9,18 @@
 		<div
 			th:include="common/jumbotron::jumbotron(title=#{variables.search.title},subtitle=#{variables.search.subtitle})"></div>
 	</header>
-	<div class="container">
-		<div class="row">
-			<!-- SearchBox -->
-			<div class="col-md-12 col-md-offset-3">
-				<div class="row">
-					<div class="col-md-9">
-						<div class="panel panel-primary">
-							<div class="panel-body">
-								<form id="searchVariables" action="#"
-									th:action="${resource.variablesSearchLink.href}"
-									oninput="VariableSearchForm.search(this)" autocomplete="off">
+	<form id="searchVariables" action="#"
+		th:action="${resource.variablesSearchLink.href}"
+		oninput="VariableSearchForm.search(this)"
+		onclick="VariableSearchForm.search(this)" autocomplete="off">
+		<div class="container">
+			<div class="row">
+				<!-- SearchBox -->
+				<div class="col-md-12 col-md-offset-3">
+					<div class="row">
+						<div class="col-md-9">
+							<div class="panel panel-primary">
+								<div class="panel-body">
 									<div class="input-group">
 										<label class="sr-only" for="query"
 											th:text="#{variables.search.searchinput.placeholder}">Search
@@ -32,79 +33,82 @@
 											</button>
 										</span>
 									</div>
-								</form>
-							</div>
-						</div>
-					</div>
-
-				</div>
-			</div>
-			<!-- Results and Filter area -->
-			<div class="col-md-12" id="searchResults">
-				<div class="row">
-					<!-- Filter -->
-					<div class="col-md-3">
-						<div class="panel panel-primary">
-							<div class="panel-heading custom-panel-heading"
-								data-toggle="collapse" data-target="#collapsePanel">
-								<a class="panel-title panel-toggle" href="#collapsePanel"
-									data-toggle="collapse">Filter </a>
-							</div>
-							<div id="collapsePanel" class="panel-collapse collapse fade in">
-								<!-- DKatzberg WORK HERE -->
-								<div class="panel-body"
-									th:text="#{variables.common.variable.scaleLevel}"></div>
-								<ul th:each="bucket : ${bucketsScaleLevel}">
-									<li th:text="${bucket.key + ' [' + bucket.docCount + ']'}"  ></li>
-								</ul>
-							</div>
-						</div>
-					</div>
-					<!-- result and page -->
-					<div class="col-md-9">
-						<div class="panel panel-primary">
-							<div class="panel-heading">
-								<span class="panel-title"
-									th:text="${resource.page.metadata.totalElements}>0?#{variables.search.numberOfResults(${resource.page.metadata.totalElements},${resource.page.metadata.number}*${resource.page.metadata.size}+1,${resource.page.metadata.number}*${resource.page.metadata.size}+${resource.page.content.size()})}:#{variables.search.noresults(${query})}">100
-									Variablen gefunden </span>
-							</div>
-							<div class="panel-body">
-								<div class="list-group">
-									<div th:if="${resource.page.content.size() gt 0}"
-										class="list-group-item" th:each="variable : ${resource.page}">
-										<h4 class="list-group-item-heading">
-											<a th:href="${variable.id.href}"
-												th:text="${variable.variableDocument.label}"> </a>
-										</h4>
-										<p class="list-group-item-text"
-											th:text="#{variables.search.name(${variable.variableDocument.name})}"></p>
-										<p class="list-group-item-text"
-											th:text="#{variables.search.question(${variable.variableDocument.question})}"></p>
-
-										<p class="list-group-item-text"
-											th:text="#{variables.search.survey(${variable.variableDocument.variableSurvey.title})}"></p>
-									</div>
-									<div th:if="${resource.page.content.size() == 0}"
-										class="list-group-item">
-										<h4 class="list-group-item-heading"
-											th:text="#{variables.search.noresults(${query})}"></h4>
-									</div>
 								</div>
-								<div th:if="${resource.page.content.size() gt 0}">
-									<ul class="pager">
-										<li class="previous"
-											th:classappend="${resource.page.previousLink==null?'disabled':''}"><a
-											th:href="${resource.page.previousLink?.href?:'javascript:;'}">&larr;
-												<span th:text="#{common.pager.previous}"></span>
-										</a></li>
-										<li class="hidden-xs"><a> <span
-												th:text="#{common.pagenumbers(${resource.page.metadata.number}+1,${resource.page.metadata.totalPages})}"></span>
-										</a></li>
-										<li class="next"
-											th:classappend="${resource.page.nextLink==null?'disabled':''}"><a
-											th:href="${resource.page.nextLink?.href?:'javascript:;'}"><span
-												th:text="#{common.pager.next}"></span> &rarr;</a></li>
+							</div>
+						</div>
+
+					</div>
+				</div>
+				<!-- Results and Filter area -->
+				<div class="col-md-12" id="searchResults">
+					<div class="row">
+						<!-- Filter -->
+						<div class="col-md-3">
+							<div class="panel panel-primary">
+								<div class="panel-heading custom-panel-heading"
+									data-toggle="collapse" data-target="#collapsePanel">
+									<a class="panel-title panel-toggle" href="#collapsePanel"
+										data-toggle="collapse">Filter </a>
+								</div>
+								<div id="collapsePanel" class="panel-collapse collapse fade in">
+									<div class="panel-body"
+										th:text="#{variables.common.variable.scaleLevel}"></div>
+									<ul>
+										<li th:each="bucket : ${bucketsScaleLevel}" th:label="${bucket.key + ' [' + bucket.docCount + ']'}"
+											style="list-style-type: none;"><input type="checkbox"
+											th:id="${bucket.key}" name="scaleLevel" th:value="${bucket.key}" /> <label
+											th:text="${bucket.key + ' [' + bucket.docCount + ']'}"></label>
+										</li>
 									</ul>
+								</div>
+							</div>
+						</div>
+						<!-- result and page -->
+						<div class="col-md-9">
+							<div class="panel panel-primary">
+								<div class="panel-heading">
+									<span class="panel-title"
+										th:text="${resource.page.metadata.totalElements}>0?#{variables.search.numberOfResults(${resource.page.metadata.totalElements},${resource.page.metadata.number}*${resource.page.metadata.size}+1,${resource.page.metadata.number}*${resource.page.metadata.size}+${resource.page.content.size()})}:#{variables.search.noresults(${query})}">100
+										Variablen gefunden </span>
+								</div>
+								<div class="panel-body">
+									<div class="list-group">
+										<div th:if="${resource.page.content.size() gt 0}"
+											class="list-group-item" th:each="variable : ${resource.page}">
+											<h4 class="list-group-item-heading">
+												<a th:href="${variable.id.href}"
+													th:text="${variable.variableDocument.label}"> </a>
+											</h4>
+											<p class="list-group-item-text"
+												th:text="#{variables.search.name(${variable.variableDocument.name})}"></p>
+											<p class="list-group-item-text"
+												th:text="#{variables.search.question(${variable.variableDocument.question})}"></p>
+
+											<p class="list-group-item-text"
+												th:text="#{variables.search.survey(${variable.variableDocument.variableSurvey.title})}"></p>
+										</div>
+										<div th:if="${resource.page.content.size() == 0}"
+											class="list-group-item">
+											<h4 class="list-group-item-heading"
+												th:text="#{variables.search.noresults(${query})}"></h4>
+										</div>
+									</div>
+									<div th:if="${resource.page.content.size() gt 0}">
+										<ul class="pager">
+											<li class="previous"
+												th:classappend="${resource.page.previousLink==null?'disabled':''}"><a
+												th:href="${resource.page.previousLink?.href?:'javascript:;'}">&larr;
+													<span th:text="#{common.pager.previous}"></span>
+											</a></li>
+											<li class="hidden-xs"><a> <span
+													th:text="#{common.pagenumbers(${resource.page.metadata.number}+1,${resource.page.metadata.totalPages})}"></span>
+											</a></li>
+											<li class="next"
+												th:classappend="${resource.page.nextLink==null?'disabled':''}"><a
+												th:href="${resource.page.nextLink?.href?:'javascript:;'}"><span
+													th:text="#{common.pager.next}"></span> &rarr;</a></li>
+										</ul>
+									</div>
 								</div>
 							</div>
 						</div>
@@ -112,7 +116,7 @@
 				</div>
 			</div>
 		</div>
-	</div>
+	</form>
 	<div th:include="common/js_libraries::js"></div>
 	<script src="/js/variables/search.js"></script>
 </body>
