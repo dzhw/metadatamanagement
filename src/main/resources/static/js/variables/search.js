@@ -5,6 +5,7 @@ VariableSearchForm.search = _.throttle(function(form) {
 	"use strict";
 	var formData = $(form).serialize();
 	var searchUrl = $(form).attr('action');
+	
 	// return only a div container of the search results
 	// and replace the searchResults div contrainer
 	$.get(searchUrl, formData, function(response) {

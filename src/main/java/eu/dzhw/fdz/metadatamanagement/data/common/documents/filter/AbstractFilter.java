@@ -26,7 +26,7 @@ public abstract class AbstractFilter<T> {
    * This is the name of the filter. For example VariableDocument.SCALE_LEVEL_FIELD
    */
   private String name;
-  
+
   /**
    * The field for saving the number of found elements by the filter.
    */
@@ -44,13 +44,24 @@ public abstract class AbstractFilter<T> {
    * 
    * @param choosen is a filter choosen?
    * @param value the value of the filter.
-   * @param name the name of the filter.
+   * @param docCount The number of found results by the filter
+   * @param name The name is the name of the filter. e.g. VariableDocument.SCALE_LEVEL_FIELD
    */
   public AbstractFilter(boolean choosen, T value, long docCount, String name) {
     this.choosen = choosen;
     this.value = value;
     this.name = name;
     this.docCount = docCount;
+  }
+
+  /**
+   * The check of this.choosen is very important! This check holds the scaleLevel request parameter
+   * in the url and the checkbox in the filter menu, even if there are no results.
+   * 
+   * @return If there are more than zero results or is choosen return true.
+   */
+  public boolean foundResults() {
+    return this.choosen || this.docCount > 0L;
   }
 
   /* GETTER / SETTER */

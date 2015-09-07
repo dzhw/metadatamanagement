@@ -11,8 +11,7 @@
 	</header>
 	<form id="searchVariables" action="#"
 		th:action="${resource.variablesSearchLink.href}"
-		oninput="VariableSearchForm.search(this)"
-		onclick="VariableSearchForm.search(this)" autocomplete="off">
+		oninput="VariableSearchForm.search(this)" autocomplete="off" onclick="VariableSearchForm.search(this)">
 		<div class="container">
 			<div class="row">
 				<!-- SearchBox -->
@@ -54,11 +53,14 @@
 									<div class="panel-body"
 										th:text="#{variables.common.variable.scaleLevel}"></div>
 									<ul>
-										<li th:each="filter : ${filterManager.scaleLevelFilters}" th:label="${filter.value + ' [' + filter.docCount + ']'}"
+										<li th:each="filter : ${filterManager.scaleLevelFilters}"
+											th:label="${filter.value + ' [' + filter.docCount + ']'}"
 											style="list-style-type: none;"><input type="checkbox"
-											th:id="${filter.value}" name="scaleLevel" th:value="${filter.value}" th:checked="${filter.choosen}" /> <label
-											th:text="${filter.value + ' [' + filter.docCount + ']'}"></label>
-										</li>
+											th:id="${filter.value}" name="scaleLevel"
+											th:value="${filter.value}" th:checked="${filter.choosen}"
+											th:if="${filter.foundResults()}" /> <label
+											th:text="${filter.value + ' [' + filter.docCount + ']'}"
+											th:if="${filter.foundResults()}"></label></li>
 									</ul>
 								</div>
 							</div>

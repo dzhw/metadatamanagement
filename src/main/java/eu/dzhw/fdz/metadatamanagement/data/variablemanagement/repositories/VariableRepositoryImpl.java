@@ -169,7 +169,6 @@ public class VariableRepositoryImpl implements VariableRepositoryCustom {
    * matchAllWithAggregations(org.springframework.data.domain.Pageable)
    */
   @Override
-  // TODO DKatzberg
   public PageWithBuckets<VariableDocument> matchAllWithAggregations(Pageable pageable) {
     NativeSearchQueryBuilder nativeSearchQueryBuilder = new NativeSearchQueryBuilder();
 

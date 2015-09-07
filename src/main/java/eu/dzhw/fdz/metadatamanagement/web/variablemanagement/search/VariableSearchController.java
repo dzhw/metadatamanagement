@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import eu.dzhw.fdz.metadatamanagement.data.common.documents.filter.FilterManager;
+import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.ScaleLevelProvider;
 import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.VariableDocument;
 import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.repositories.datatype.PageWithBuckets;
 import eu.dzhw.fdz.metadatamanagement.service.variablemanagement.VariableService;
@@ -36,6 +37,7 @@ public class VariableSearchController {
   private ControllerLinkBuilderFactory controllerLinkBuilderFactory;
   private VariableResourceAssembler variableResourceAssembler;
   private PagedResourcesAssembler<VariableDocument> pagedResourcesAssembler;
+  private ScaleLevelProvider scaleLevelProvider;
 
   /**
    * Create the controller.
@@ -49,11 +51,13 @@ public class VariableSearchController {
   public VariableSearchController(VariableService variableService,
       ControllerLinkBuilderFactory controllerLinkBuilderFactory,
       VariableResourceAssembler variableResourceAssembler,
-      PagedResourcesAssembler<VariableDocument> pagedResourcesAssembler) {
+      PagedResourcesAssembler<VariableDocument> pagedResourcesAssembler,
+      ScaleLevelProvider scaleLevelProvider) {
     this.variableService = variableService;
     this.controllerLinkBuilderFactory = controllerLinkBuilderFactory;
     this.variableResourceAssembler = variableResourceAssembler;
     this.pagedResourcesAssembler = pagedResourcesAssembler;
+    this.scaleLevelProvider = scaleLevelProvider;
   }
 
   /**
@@ -78,13 +82,12 @@ public class VariableSearchController {
       modelAndView.addObject("query", query);
       modelAndView.addObject(VariableDocument.SCALE_LEVEL_FIELD, scaleLevel);
 
+      // add the filter manager to the model and view
+      // the filter manager supports filter and save the status
       PageWithBuckets<VariableDocument> pageableAggregrationType =
           variableService.search(query, scaleLevel, pageable);
-      modelAndView.addObject("bucketsScaleLevel", pageableAggregrationType.getBuckets());
-      
-      FilterManager filterManager = new FilterManager();
-      filterManager.initScaleLevelFilters(pageableAggregrationType.getBuckets(), scaleLevel);
-      
+      FilterManager filterManager = new FilterManager(this.scaleLevelProvider);
+      filterManager.updateScaleLevelFilters(pageableAggregrationType.getBuckets(), scaleLevel);
       modelAndView.addObject("filterManager", filterManager);
 
       PagedResources<VariableResource> pagedVariableResource =
