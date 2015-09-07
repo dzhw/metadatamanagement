@@ -49,11 +49,7 @@ select[multiple] ~ .form-control-feedback {
 	 font-weight: bold;
 }
 
-/* Responsive table handling*/
-.table-responsive
-{
-    overflow-x: scroll;
-}
+
 /* add hover effect to panels */
 .custom-panel-heading{
 	  cursor:pointer !important;	  
