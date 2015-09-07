@@ -66,7 +66,7 @@ select[multiple] ~ .form-control-feedback {
 	 overflow: auto;
 	   -webkit-overflow-scrolling: touch;
 }*/
- @media (max-width: 767px) { 
+ @media (max-width: 992px) { 
    .custom-table{
 	 overflow-x: scroll;
 }
