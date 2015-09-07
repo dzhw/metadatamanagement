@@ -47,6 +47,7 @@ select[multiple] ~ .form-control-feedback {
 /* make text bold*/
 .labelTextBold {
 	font-weight: bold;
+	line-height: 150%;
 }
 
 /* add hover effect to panels */
