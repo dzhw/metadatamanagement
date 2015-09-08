@@ -11,26 +11,24 @@
 	</header>
 	<div class="container">
 		<div class="row">
-			<!-- Results and Filter area -->
 			<div class="col-md-12">
 				<div class="row">
-					<!-- Filter -->
 					<div class="col-md-3">
 						<div class="panel panel-primary">
 							<div class="panel-heading custom-panel-heading"
 								data-toggle="collapse" data-target="#collapsePanel">
 								<a class="panel-title panel-toggle" href="#collapsePanel"
-									data-toggle="collapse" th:text="#{variables.details.extras}"></a>
+									data-toggle="collapse" th:text="#{variables.details.options}"></a>
 							</div>
 							<div id="collapsePanel" class="panel-collapse collapse fade in">
 								<div class="panel-body">
-									<a th:href="${resource.variableResource.getLink('edit').getHref()}"><i class="glyphicon glyphicon-edit"></i><span class="textForIcon" th:text="Edit"></span></a>
+									<a th:href="${resource.variableResource.getLink('edit').getHref()}"><i class="glyphicon glyphicon-edit"></i><span th:text="' '+#{variables.edit.title}"></span></a>
 								</div>
 							</div>
 						</div>
 					</div>
-					<!-- result and page -->
 					<div class="col-md-9">
+					 <div class="panel-group">
 						<div class="panel panel-primary">
 							<div class="panel-heading custom-panel-heading"
 								data-toggle="collapse" data-target="#variableInfo">
@@ -70,16 +68,29 @@
 							</div>
 						</div>
 
-						<div class="panel panel-primary">
+						<div th:if="${resource.variableResource.variableDocument.answerOptions.size() eq 0}" class="panel panel-primary">
+							<div class="panel-heading custom-panel-heading"
+								data-toggle="collapse" data-target="#answeroptions">
+								<a class="panel-title panel-toggle collapsed" href="#answeroptions"
+									data-toggle="collapse"
+									th:text="#{variables.common.variable.answerOptions}" ></a>
+							</div>
+							<div id="answeroptions" class="panel-collapse collapse fade">
+								<div class="panel-body">
+								<span th:text="#{variable.details.notaplicable}"></span>
+								</div>
+							</div>		
+						</div>
+						
+						<div th:if="${resource.variableResource.variableDocument.answerOptions.size() gt 0}" class="panel panel-primary">
 							<div class="panel-heading custom-panel-heading"
 								data-toggle="collapse" data-target="#answeroptions">
 								<a class="panel-title panel-toggle" href="#answeroptions"
 									data-toggle="collapse"
-									th:text="#{variables.common.variable.answerOptions}"></a>
+									th:text="#{variables.common.variable.answerOptions}" ></a>
 							</div>
 							<div id="answeroptions" class="panel-collapse collapse fade in">
 								<div class="panel-body">
-								<div class="container">
 								<div class="table-responsive custom-table">
 									<table class="col-md-12 table table-hover">
 										<thead>
@@ -100,10 +111,10 @@
 										</tbody>
 									</table>
 									</div>
-									</div>
 								</div>
-							</div>
+							</div>		
 						</div>
+						
 						<div class="panel panel-primary">
 							<div class="panel-heading custom-panel-heading"
 								data-toggle="collapse" data-target="#survey">
@@ -138,9 +149,9 @@
 										<li class="list-group-item">
 											<div class="row">
 												<div
-													th:replace="common/textOutput::output(label=#{variables.common.variable.survey.period.start},text=${resource.variableResource.variableDocument.variableSurvey.surveyPeriod.startDate},column=6,columnOffset=0)"></div>
+													th:replace="common/textOutput::output(label=#{variables.common.variable.survey.period.start},text=${@customLocalDateFormatter.format(resource.variableResource.variableDocument.variableSurvey.surveyPeriod.startDate,#locale)},column=6,columnOffset=0)"></div>
 												<div
-													th:replace="common/textOutput::output(label=#{variables.common.variable.survey.period.end},text=${resource.variableResource.variableDocument.variableSurvey.surveyPeriod.endDate},column=3,columnOffset=0)"></div>
+													th:replace="common/textOutput::output(label=#{variables.common.variable.survey.period.end},text=${@customLocalDateFormatter.format(resource.variableResource.variableDocument.variableSurvey.surveyPeriod.endDate,#locale)},column=3,columnOffset=0)"></div>
 											</div>
 										</li>
 									</ul>
@@ -148,6 +159,9 @@
 							</div>
 						</div>
 					</div>
+					
+					</div>
+					
 				</div>
 			</div>
 		</div>
