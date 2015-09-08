@@ -11,7 +11,8 @@
 	</header>
 	<form id="searchVariables" action="#"
 		th:action="${resource.variablesSearchLink.href}"
-		oninput="VariableSearchForm.search(this)" autocomplete="off" onclick="VariableSearchForm.search(this)">
+		oninput="VariableSearchForm.search(this)" autocomplete="off"
+		onclick="VariableSearchForm.search(this)">
 		<div class="container">
 			<div class="row">
 				<!-- SearchBox -->
@@ -50,17 +51,17 @@
 										data-toggle="collapse">Filter </a>
 								</div>
 								<div id="collapsePanel" class="panel-collapse collapse fade in">
-									<div class="panel-body"
-										th:text="#{variables.common.variable.scaleLevel}"></div>
-									<ul>
-										<li th:each="filter : ${filterManager.scaleLevelFilters}"
-											style="list-style-type: none;"><input type="checkbox"
-											th:id="${filter.value}" name="scaleLevel"
-											th:value="${filter.value}" th:checked="${filter.choosen}"
-											th:if="${filter.foundResults()}" /> <label
-											th:text="${filter.value + ' [' + filter.docCount + ']'}"
-											th:if="${filter.foundResults()}"></label></li>
-									</ul>
+									<div class="text-center"><ins><strong><span th:text="#{variables.common.variable.scaleLevel}"></span></strong></ins></div>
+									<div class="input-group input-group-sm"
+										th:each="filter : ${filterManager.scaleLevelFilters}">
+										<label th:if="${filter.foundResults()}"
+											class="input-group-addon text-capitalize"><strong><span
+												th:text="${filter.value + ' [' + filter.docCount + ']'}"></span></strong>
+											<input type="checkbox" th:id="${filter.value}"
+											name="scaleLevel" th:value="${filter.value}"
+											th:checked="${filter.choosen}"
+											class="checkbox style-2 pull-left" /></label>
+									</div>
 								</div>
 							</div>
 						</div>
