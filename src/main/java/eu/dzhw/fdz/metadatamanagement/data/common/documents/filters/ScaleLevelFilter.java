@@ -11,7 +11,7 @@ import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.validati
  * @author Daniel Katzberg
  *
  */
-public class ScaleLevelFilter extends AbstractFilter<String> {
+public class ScaleLevelFilter extends AbstractFilter {
 
 
   private ScaleLevelProvider scaleLevelProvider;

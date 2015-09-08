@@ -53,7 +53,7 @@
 								<div id="collapsePanel" class="panel-collapse collapse fade in">
 									<div class="text-center"><ins><strong><span th:text="#{variables.common.variable.scaleLevel}"></span></strong></ins></div>
 									<div class="input-group input-group-sm"
-										th:each="filter : ${filterManager.scaleLevelFilters}">
+										th:each="filter : ${filterManager.filterMap.values()}">
 										<label th:if="${filter.foundResults()}"
 											class="input-group-addon text-capitalize"><strong><span
 												th:text="${filter.value + ' [' + filter.docCount + ']'}"></span></strong>

@@ -36,13 +36,13 @@ public class VariableSearchResourceTest extends AbstractWebTest {
         new VariableSearchPageResource(null,
             (Class<VariableSearchController>) Class
                 .forName(VariableSearchController.class.getName()),
-            new ControllerLinkBuilderFactory(), null, null, null);
+            new ControllerLinkBuilderFactory(), null, null);
     VariableSearchPageResource variableSearchPageResource2 =
         new VariableSearchPageResource(
             new PagedResources<VariableResource>(new ArrayList<>(), null, links),
             (Class<VariableSearchController>) Class
                 .forName(VariableSearchController.class.getName()),
-        new ControllerLinkBuilderFactory(), null, null, null);
+        new ControllerLinkBuilderFactory(), null, null);
 
     // Act
     int withoutPageHashCode = variableSearchPageResource.hashCode();
@@ -66,19 +66,19 @@ public class VariableSearchResourceTest extends AbstractWebTest {
         new VariableSearchPageResource(null,
             (Class<VariableSearchController>) Class
                 .forName(VariableSearchController.class.getName()),
-            new ControllerLinkBuilderFactory(), null, null, null);
+            new ControllerLinkBuilderFactory(), null, null);
     VariableSearchPageResource variableSearchPageResource2 =
         new VariableSearchPageResource(
             new PagedResources<VariableResource>(new ArrayList<>(), null, links),
             (Class<VariableSearchController>) Class
                 .forName(VariableSearchController.class.getName()),
-        new ControllerLinkBuilderFactory(), null, null, null);
+        new ControllerLinkBuilderFactory(), null, null);
     VariableSearchPageResource variableSearchPageResource3 =
         new VariableSearchPageResource(
             new PagedResources<VariableResource>(new ArrayList<>(), null, links),
             (Class<VariableSearchController>) Class
                 .forName(VariableSearchController.class.getName()),
-        new ControllerLinkBuilderFactory(), null, null, null);
+        new ControllerLinkBuilderFactory(), null, null);
 
 
     // Act

@@ -14,7 +14,6 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import eu.dzhw.fdz.metadatamanagement.data.common.documents.filters.FilterManager;
@@ -24,6 +23,7 @@ import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.repositories.datat
 import eu.dzhw.fdz.metadatamanagement.service.variablemanagement.VariableService;
 import eu.dzhw.fdz.metadatamanagement.web.variablemanagement.details.VariableResource;
 import eu.dzhw.fdz.metadatamanagement.web.variablemanagement.details.VariableResourceAssembler;
+import eu.dzhw.fdz.metadatamanagement.web.variablemanagement.search.dto.SearchFormDto;
 
 /**
  * Controller for searching variables.
@@ -65,8 +65,7 @@ public class VariableSearchController {
    * 
    * @param ajaxHeader An ajaxheader with comes from a partial reload of the page. (search results
    *        returned by server)
-   * @param query The query parameter for a given search query
-   * @param scaleLevel A filter which base on the scale level
+   * @param searchFormDto the data tranfer object of the search form
    * @param pageable A pageable object for the
    * @param httpServletResponse A Servlet response from the server from the search
    * @return variableSearch.html
@@ -74,28 +73,25 @@ public class VariableSearchController {
   @RequestMapping(value = "/{language:de|en}/variables/search", method = RequestMethod.GET)
   public Callable<ModelAndView> get(
       @RequestHeader(name = "X-Requested-With", required = false) String ajaxHeader,
-      @RequestParam(required = false) String query,
-      @RequestParam(required = false) String scaleLevel, Pageable pageable,
+      SearchFormDto searchFormDto, Pageable pageable,
       final HttpServletResponse httpServletResponse) {
     return () -> {
       ModelAndView modelAndView = new ModelAndView();
-      modelAndView.addObject("query", query);
-      modelAndView.addObject(VariableDocument.SCALE_LEVEL_FIELD, scaleLevel);
+      modelAndView.addObject("searchFormDto", searchFormDto);
 
       // add the filter manager to the model and view
       // the filter manager supports filter and save the status
       PageWithBuckets<VariableDocument> pageableAggregrationType =
-          variableService.search(query, scaleLevel, pageable);
-      FilterManager filterManager = new FilterManager(this.scaleLevelProvider);
-      filterManager.updateScaleLevelFilters(pageableAggregrationType.getBuckets(), scaleLevel);
+          variableService.search(searchFormDto, pageable);
+      FilterManager filterManager = new FilterManager(this.scaleLevelProvider, searchFormDto);
+      filterManager.updateScaleLevelFilters(pageableAggregrationType.getBuckets());
       modelAndView.addObject("filterManager", filterManager);
       modelAndView.addObject("pageableAggregrationType", pageableAggregrationType);
 
       PagedResources<VariableResource> pagedVariableResource =
           pagedResourcesAssembler.toResource(pageableAggregrationType, variableResourceAssembler);
-      VariableSearchPageResource resource =
-          new VariableSearchPageResource(pagedVariableResource, VariableSearchController.class,
-              controllerLinkBuilderFactory, query, scaleLevel, pageable);
+      VariableSearchPageResource resource = new VariableSearchPageResource(pagedVariableResource,
+          VariableSearchController.class, controllerLinkBuilderFactory, searchFormDto, pageable);
       modelAndView.addObject("resource", resource);
 
       // Check for X-Requested-With Header

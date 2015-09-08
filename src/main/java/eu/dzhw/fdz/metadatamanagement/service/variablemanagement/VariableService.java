@@ -3,11 +3,11 @@ package eu.dzhw.fdz.metadatamanagement.service.variablemanagement;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-import org.springframework.util.StringUtils;
 
 import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.VariableDocument;
 import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.repositories.VariableRepository;
 import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.repositories.datatypes.PageWithBuckets;
+import eu.dzhw.fdz.metadatamanagement.web.variablemanagement.search.dto.SearchFormDto;
 
 /**
  * A service for searching variables.
@@ -31,18 +31,16 @@ public class VariableService {
    * Search variables by query. If the query string does not contain text the first n variables are
    * returned as defined in the pageable.
    * 
-   * @param query the query for the search in name field.
-   * @param scaleLevel a given scalelevel value for filtering the results
+   * @param searchFormDto the data transfer object of the search. has all request parameter
    * @param pageable a pageable object.
    * 
    * @return Page of VariableDocuments and Aggregations
    */
-  public PageWithBuckets<VariableDocument> search(String query, String scaleLevel,
-      Pageable pageable) {
+  public PageWithBuckets<VariableDocument> search(SearchFormDto searchFormDto, Pageable pageable) {
 
     // in this case of query oder scaleLevel are have text elements
-    if (StringUtils.hasText(query) || StringUtils.hasText(scaleLevel)) {
-      return variableRepository.matchQueryInAllFieldAndNgrams(query, scaleLevel, pageable);
+    if (searchFormDto.hasTextInAnyField()) {
+      return variableRepository.matchQueryInAllFieldAndNgrams(searchFormDto, pageable);
     }
     // No special case needed for filter like scale level. for no filter and no query -> find all
     return variableRepository.matchAllWithAggregations(pageable);

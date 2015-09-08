@@ -25,6 +25,7 @@ import org.springframework.util.StringUtils;
 import eu.dzhw.fdz.metadatamanagement.config.elasticsearch.AggregationResultMapper;
 import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.VariableDocument;
 import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.repositories.datatypes.PageWithBuckets;
+import eu.dzhw.fdz.metadatamanagement.web.variablemanagement.search.dto.SearchFormDto;
 
 /**
  * This class implements the interface of the custom variable documents repository. This class will
@@ -71,37 +72,37 @@ public class VariableRepositoryImpl implements VariableRepositoryCustom {
    * 
    * @see
    * eu.dzhw.fdz.metadatamanagement.data.variablemanagement.repositories.VariableRepositoryCustom#
-   * matchQueryInAllFieldAndNgrams(java.lang.String, java.lang.String,
-   * org.springframework.data.domain.Pageable)
+   * matchQueryInAllFieldAndNgrams(eu.dzhw.fdz.metadatamanagement.web.variablemanagement.search.dto.
+   * SearchFormDto, org.springframework.data.domain.Pageable)
    */
   @Override
-  public PageWithBuckets<VariableDocument> matchQueryInAllFieldAndNgrams(String query,
-      String scaleLevel, Pageable pageable) {
+  public PageWithBuckets<VariableDocument> matchQueryInAllFieldAndNgrams(SearchFormDto formDto,
+      Pageable pageable) {
 
     NativeSearchQueryBuilder nativeSearchQueryBuilder = new NativeSearchQueryBuilder();
 
     QueryBuilder queryBuilder = null;
     // create search query
-    if (StringUtils.hasText(query)) {
-      queryBuilder = 
-          boolQuery().should(matchQuery("_all", query).zeroTermsQuery(ZeroTermsQuery.NONE))
-              .should(matchQuery(VariableDocument.ALL_STRINGS_AS_NGRAMS_FIELD, query)
-                  .minimumShouldMatch(minimumShouldMatch));
+    if (StringUtils.hasText(formDto.getQuery())) {
+      queryBuilder = boolQuery()
+          .should(matchQuery("_all", formDto.getQuery()).zeroTermsQuery(ZeroTermsQuery.NONE))
+          .should(matchQuery(VariableDocument.ALL_STRINGS_AS_NGRAMS_FIELD, formDto.getQuery())
+              .minimumShouldMatch(minimumShouldMatch));
     } else {
       // Match all case if there is an aggregation with a filter but without a query
       queryBuilder = matchAllQuery();
-    }    
+    }
 
     // create filter and aggregation for scale level
-    if (StringUtils.hasText(scaleLevel)) {
+    if (StringUtils.hasText(formDto.getScaleLevel())) {
       FilterBuilder filterBuilder =
-          FilterBuilders.termFilter(VariableDocument.SCALE_LEVEL_FIELD, scaleLevel);
-      
-      //do not use nativeSearchQueryBuilder.withFilter(). It uses the post_filter!
+          FilterBuilders.termFilter(VariableDocument.SCALE_LEVEL_FIELD, formDto.getScaleLevel());
+
+      // do not use nativeSearchQueryBuilder.withFilter(). It uses the post_filter!
       queryBuilder = QueryBuilders.filteredQuery(queryBuilder, filterBuilder);
     }
-    
-    //add query (with filter)
+
+    // add query (with filter)
     nativeSearchQueryBuilder.withQuery(queryBuilder);
 
     // extended search query with filter

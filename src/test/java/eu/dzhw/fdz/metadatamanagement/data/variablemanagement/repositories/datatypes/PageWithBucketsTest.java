@@ -4,6 +4,7 @@
 package eu.dzhw.fdz.metadatamanagement.data.variablemanagement.repositories.datatypes;
 
 import static org.hamcrest.Matchers.instanceOf;
+import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.not;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThat;
@@ -31,19 +32,20 @@ import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.builders
 import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.builders.VariableSurveyBuilder;
 import eu.dzhw.fdz.metadatamanagement.service.variablemanagement.VariableService;
 import eu.dzhw.fdz.metadatamanagement.web.AbstractWebTest;
+import eu.dzhw.fdz.metadatamanagement.web.variablemanagement.search.dto.SearchFormDto;
 
 /**
  * @author Daniel Katzberg
  *
  */
-public class PageWithBucketsTest extends AbstractWebTest{
-  
+public class PageWithBucketsTest extends AbstractWebTest {
+
   @Autowired
   private DataTypesProvider dataTypesProvider;
 
   @Autowired
   private ScaleLevelProvider scaleLevelProvider;
-  
+
   @Autowired
   private VariableService variableService;
 
@@ -77,7 +79,7 @@ public class PageWithBucketsTest extends AbstractWebTest{
       }
     }
   }
-  
+
   @SuppressWarnings("unchecked")
   @Test
   public void testHashCode() throws Exception {
@@ -87,20 +89,21 @@ public class PageWithBucketsTest extends AbstractWebTest{
         .perform(get("/de/variables/search?query=SearchUnitTestName&scaleLevel=metrisch"))
         .andExpect(status().isOk()).andExpect(request().asyncStarted())
         .andExpect(request().asyncResult(instanceOf(ModelAndView.class))).andReturn();
-    PageWithBuckets<VariableDocument> pageableAggregrationType =
-        (PageWithBuckets<VariableDocument>) ((ModelAndView) mvcResult.getAsyncResult()).getModelMap()
-            .get("pageableAggregrationType");
 
-    //Act
-    
-    
-    //Assert
+    // Act
+    PageWithBuckets<VariableDocument> pageableAggregrationType =
+        (PageWithBuckets<VariableDocument>) ((ModelAndView) mvcResult.getAsyncResult())
+            .getModelMap().get("pageableAggregrationType");
+
+    SearchFormDto searchFormDto = (SearchFormDto) ((ModelAndView) mvcResult.getAsyncResult())
+        .getModelMap().get("searchFormDto");
+
+
+    // Assert
     ModelAndViewAssert.assertViewName((ModelAndView) mvcResult.getAsyncResult(),
         "variables/search");
-    ModelAndViewAssert.assertModelAttributeValue((ModelAndView) mvcResult.getAsyncResult(), "query",
-        "SearchUnitTestName");
-    ModelAndViewAssert.assertModelAttributeValue((ModelAndView) mvcResult.getAsyncResult(), "scaleLevel",
-        "metrisch");
+    assertThat(searchFormDto.getQuery(), is("SearchUnitTestName"));
+    assertThat(searchFormDto.getScaleLevel(), is("metrisch"));
     assertThat(pageableAggregrationType.hashCode(), not(0));
   }
 
@@ -114,17 +117,22 @@ public class PageWithBucketsTest extends AbstractWebTest{
         .andExpect(status().isOk()).andExpect(request().asyncStarted())
         .andExpect(request().asyncResult(instanceOf(ModelAndView.class))).andReturn();
     PageWithBuckets<VariableDocument> pageWithBuckets =
-        (PageWithBuckets<VariableDocument>) ((ModelAndView) mvcResult.getAsyncResult()).getModelMap()
-            .get("pageableAggregrationType");
+        (PageWithBuckets<VariableDocument>) ((ModelAndView) mvcResult.getAsyncResult())
+            .getModelMap().get("pageableAggregrationType");
     MvcResult mvcResult2 = this.mockMvc
         .perform(get("/de/variables/search?query=SearchUnitTestName&scaleLevel=nominal"))
         .andExpect(status().isOk()).andExpect(request().asyncStarted())
         .andExpect(request().asyncResult(instanceOf(ModelAndView.class))).andReturn();
     PageWithBuckets<VariableDocument> pageWithBuckets2 =
-        (PageWithBuckets<VariableDocument>) ((ModelAndView) mvcResult2.getAsyncResult()).getModelMap()
-            .get("pageableAggregrationType");
+        (PageWithBuckets<VariableDocument>) ((ModelAndView) mvcResult2.getAsyncResult())
+            .getModelMap().get("pageableAggregrationType");
 
     // Act
+    SearchFormDto searchFormDto = (SearchFormDto) ((ModelAndView) mvcResult.getAsyncResult())
+        .getModelMap().get("searchFormDto");
+    SearchFormDto searchFormDto2 = (SearchFormDto) ((ModelAndView) mvcResult2.getAsyncResult())
+        .getModelMap().get("searchFormDto");
+
     boolean checkNullObject = pageWithBuckets.equals(null);
     boolean checkSame = pageWithBuckets.equals(pageWithBuckets);
     boolean checkDifferentClass = pageWithBuckets.equals(new Object());
@@ -133,16 +141,12 @@ public class PageWithBucketsTest extends AbstractWebTest{
     // Assert
     ModelAndViewAssert.assertViewName((ModelAndView) mvcResult.getAsyncResult(),
         "variables/search");
-    ModelAndViewAssert.assertModelAttributeValue((ModelAndView) mvcResult.getAsyncResult(), "query",
-        "SearchUnitTestName");
-    ModelAndViewAssert.assertModelAttributeValue((ModelAndView) mvcResult.getAsyncResult(), "scaleLevel",
-        "metrisch");
     ModelAndViewAssert.assertViewName((ModelAndView) mvcResult2.getAsyncResult(),
         "variables/search");
-    ModelAndViewAssert.assertModelAttributeValue((ModelAndView) mvcResult2.getAsyncResult(), "query",
-        "SearchUnitTestName");
-    ModelAndViewAssert.assertModelAttributeValue((ModelAndView) mvcResult2.getAsyncResult(), "scaleLevel",
-        "nominal");
+    assertThat(searchFormDto.getQuery(), is("SearchUnitTestName"));
+    assertThat(searchFormDto.getScaleLevel(), is("metrisch"));
+    assertThat(searchFormDto2.getQuery(), is("SearchUnitTestName"));
+    assertThat(searchFormDto2.getScaleLevel(), is("nominal"));
     assertEquals(false, checkNullObject);
     assertEquals(true, checkSame);
     assertEquals(false, checkDifferentClass);

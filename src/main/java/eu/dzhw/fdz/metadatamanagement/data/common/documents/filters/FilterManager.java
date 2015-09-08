@@ -1,12 +1,14 @@
 package eu.dzhw.fdz.metadatamanagement.data.common.documents.filters;
 
-import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.elasticsearch.search.aggregations.bucket.terms.Terms;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.ScaleLevelProvider;
+import eu.dzhw.fdz.metadatamanagement.web.variablemanagement.search.dto.SearchFormDto;
 
 /**
  * This class manage filter and the depending status. Is a filter choosen? Which value has which
@@ -20,12 +22,17 @@ public class FilterManager {
   /**
    * A list with all scaleLevelFilter.
    */
-  private List<ScaleLevelFilter> scaleLevelFilters;
+  private Map<String, AbstractFilter> filterMap;
 
   /**
    * Injected entity of scale level provider for get the "values" of the scale levels.
    */
   private ScaleLevelProvider scaleLevelProvider;
+
+  /**
+   * The data transfer object of the search form.
+   */
+  private SearchFormDto searchFormDto;
 
   /**
    * Initialize the filter manager with default filled list. The list are depending on different
@@ -36,17 +43,18 @@ public class FilterManager {
    * @see ScaleLevelProvider
    */
   @Autowired
-  public FilterManager(ScaleLevelProvider scaleLevelProvider) {
+  public FilterManager(ScaleLevelProvider scaleLevelProvider, SearchFormDto searchFormDto) {
     this.scaleLevelProvider = scaleLevelProvider;
+    this.searchFormDto = searchFormDto;
     this.initScalelevelFilters();
   }
 
   private void initScalelevelFilters() {
-    this.scaleLevelFilters = new ArrayList<>();
+    this.filterMap = new HashMap<>();
 
     for (String scaleLevel : this.scaleLevelProvider.getAllScaleLevel()) {
-      this.scaleLevelFilters
-          .add(new ScaleLevelFilter(false, scaleLevel, 0L, this.scaleLevelProvider));
+      this.filterMap.put(scaleLevel,
+          new ScaleLevelFilter(false, scaleLevel, 0L, this.scaleLevelProvider));
     }
   }
 
@@ -54,52 +62,35 @@ public class FilterManager {
    * Builds a new list for the scale level filters.
    * 
    * @param buckets The buckets from the repository layer
-   * @param scaleLevelRequestParam The given scaleLevelRequestParam from the web layer
    */
-  public void updateScaleLevelFilters(List<Terms.Bucket> buckets, String scaleLevelRequestParam) {
+  public void updateScaleLevelFilters(List<Terms.Bucket> buckets) {
 
     // reset scale level filter
-    this.scaleLevelFilters.forEach(scaleFilter -> {
-        scaleFilter.setDocCount(0L);
-        if (scaleLevelRequestParam != null) {
-          if (scaleFilter.getValue().equals(scaleLevelRequestParam)) {
-            scaleFilter.setChoosen(true);
+    this.filterMap.values().forEach(filter -> {
+        filter.setDocCount(0L);
+        if (this.searchFormDto.getScaleLevel() != null) {
+          if (filter.getValue().equals(this.searchFormDto.getScaleLevel())) {
+            filter.setChoosen(true);
           } else {
-            scaleFilter.setChoosen(false);
+            filter.setChoosen(false);
           }
         }
       });
 
-    // complexity with n2. but there are only three elements at the moment.
+    // update the doc count.
     buckets.forEach(bucket -> {
-
-        // set doc count
-        int index = this.getIndexByValue(this.scaleLevelFilters, bucket.getKey());
+        AbstractFilter abstractFilter = this.filterMap.remove(bucket.getKey());
   
-        if (index > -1) {
-          this.scaleLevelFilters.get(index).setDocCount(bucket.getDocCount());
+        if (abstractFilter != null) {
+          abstractFilter.setDocCount(bucket.getDocCount());
+          this.filterMap.put(bucket.getKey(), abstractFilter);
         }
+  
       });
   }
 
-  /**
-   * @param list a given list
-   * @param value a given value by an abstract element
-   * @return The index of an element which has the parameter value.
-   */
-  private int getIndexByValue(List<ScaleLevelFilter> list, String value) {
-
-    for (AbstractFilter<String> element : list) {
-      if (element.getValue().equals(value)) {
-        return list.indexOf(element);
-      }
-    }
-
-    return -1;
-  }
-
   /* GETTER / SETTER */
-  public List<ScaleLevelFilter> getScaleLevelFilters() {
-    return scaleLevelFilters;
+  public Map<String, AbstractFilter> getFilterMap() {
+    return filterMap;
   }
 }

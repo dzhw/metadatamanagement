@@ -3,14 +3,11 @@ package eu.dzhw.fdz.metadatamanagement.data.common.documents.filters;
 /**
  * This abstract class handles a generic filter with the status for the correct view on the web
  * layer.
- * 
- * @param <T> Is the type of the value. For example: It could be a date, a tuple of dates, String,
- *        List and etc.
- * 
+ *  
  * @author Daniel Katzberg
  *
  */
-public abstract class AbstractFilter<T> {
+public abstract class AbstractFilter {
 
   /**
    * The default value is false. Represent the status if a filter is choosen.
@@ -20,7 +17,7 @@ public abstract class AbstractFilter<T> {
   /**
    * Represent the value of a filter. It should be by default the name of the bucket.getKey()
    */
-  private T value;
+  private String value;
 
   /**
    * This is the name of the filter. For example VariableDocument.SCALE_LEVEL_FIELD
@@ -47,7 +44,7 @@ public abstract class AbstractFilter<T> {
    * @param docCount The number of found results by the filter
    * @param name The name is the name of the filter. e.g. VariableDocument.SCALE_LEVEL_FIELD
    */
-  public AbstractFilter(boolean choosen, T value, long docCount, String name) {
+  public AbstractFilter(boolean choosen, String value, long docCount, String name) {
     this.choosen = choosen;
     this.value = value;
     this.name = name;
@@ -79,11 +76,11 @@ public abstract class AbstractFilter<T> {
     this.choosen = choosen;
   }
 
-  public T getValue() {
+  public String getValue() {
     return value;
   }
 
-  public void setValue(T value) {
+  public void setValue(String value) {
     this.value = value;
   }
 

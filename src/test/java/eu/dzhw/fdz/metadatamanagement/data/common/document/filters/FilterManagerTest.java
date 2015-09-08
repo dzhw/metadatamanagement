@@ -18,6 +18,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import eu.dzhw.fdz.metadatamanagement.data.common.documents.filters.FilterManager;
 import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.ScaleLevelProvider;
 import eu.dzhw.fdz.metadatamanagement.web.AbstractWebTest;
+import eu.dzhw.fdz.metadatamanagement.web.variablemanagement.search.dto.SearchFormDto;
 
 /**
  * @author Daniel Katzberg
@@ -34,7 +35,7 @@ public class FilterManagerTest extends AbstractWebTest {
 
   @Before
   public void beforeTest() {
-    this.filterManager = new FilterManager(this.scaleLevelProvider);
+    this.filterManager = new FilterManager(this.scaleLevelProvider, new SearchFormDto());
 
     this.buckets = new ArrayList<>();
 
@@ -48,11 +49,10 @@ public class FilterManagerTest extends AbstractWebTest {
     //Arrange
     
     //Act
-    this.filterManager.updateScaleLevelFilters(this.buckets,
-        this.scaleLevelProvider.getOrdinalByLocal());
+    this.filterManager.updateScaleLevelFilters(this.buckets);
     
     //Assert
-    assertThat(this.filterManager.getScaleLevelFilters().size(), is(3));
+    assertThat(this.filterManager.getFilterMap().values().size(), is(3));
   }
 
   @Test
@@ -60,9 +60,9 @@ public class FilterManagerTest extends AbstractWebTest {
     //Arrange
     
     //Act
-    this.filterManager.updateScaleLevelFilters(this.buckets, null);
+    this.filterManager.updateScaleLevelFilters(this.buckets);
     
     //Assert
-    assertThat(this.filterManager.getScaleLevelFilters().size(), is(3));
+    assertThat(this.filterManager.getFilterMap().values().size(), is(3));
   }
 }
