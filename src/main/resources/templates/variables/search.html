@@ -11,8 +11,7 @@
 	</header>
 	<form id="searchVariables" action="#"
 		th:action="${resource.variablesSearchLink.href}"
-		oninput="VariableSearchForm.search(this)" autocomplete="off"
-		onclick="VariableSearchForm.search(this)">
+		oninput="VariableSearchForm.search(this)" autocomplete="off">
 		<div class="container">
 			<div class="row">
 				<!-- SearchBox -->
@@ -51,21 +50,23 @@
 										data-toggle="collapse">Filter </a>
 								</div>
 								<div id="collapsePanel" class="panel-collapse collapse fade in">
-									<div class="text-center">
+									<div>
 										<ins>
-											<strong><span
+											<strong><span class="filter-margin"
 												th:text="#{variables.common.variable.scaleLevel}"></span></strong>
 										</ins>
-									</div>
-									<div class="input-group input-group-sm"
-										th:each="filter : ${filterManager.filterMap.values()}">
-										<label th:if="${filter.foundResults()}"
-											class="input-group-addon text-capitalize"><strong><span
-												th:text="${filter.value + ' [' + filter.docCount + ']'}"></span></strong>
-											<input type="checkbox" th:id="${filter.value}"
-											name="scaleLevel" th:value="${filter.value}"
-											th:checked="${filter.choosen}"
-											class="checkbox style-2 pull-left" /></label>
+										<div class="checkbox" th:each="filter : ${filterManager.filterMap.values()}">
+											<input class="filter-margin"
+												th:if="${filter.foundResults()}" type="checkbox"
+												th:id="${filter.value}" name="scaleLevel"
+												onclick="VariableSearchForm.search(this)"
+												th:action="${resource.variablesSearchLink.href}"
+												th:value="${filter.value}" th:checked="${filter.choosen}" />
+												
+											<label th:if="${filter.foundResults()}"
+												class="text-capitalize filter-margin" th:for="${filter.value}"
+												th:text="${filter.value + ' [' + filter.docCount + ']'}"></label>
+										</div>
 									</div>
 								</div>
 							</div>

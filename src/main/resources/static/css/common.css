@@ -8,6 +8,12 @@ body {
 	margin-bottom: 20px;
 }
 
+/* Adjust the filter checkboxes and headlines with margin-left to 10xp. (Original 0px)
+ It would be overwrite by the checkbox class. This is the reason of the !important.*/
+.filter-margin{
+	margin-left: 5px !important;
+}
+
 /* chevron Up and Down and link style */
 .custom-panel-heading .panel-toggle:after {
 	/* symbol for "opening" panels */
