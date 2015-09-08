@@ -51,7 +51,12 @@
 										data-toggle="collapse">Filter </a>
 								</div>
 								<div id="collapsePanel" class="panel-collapse collapse fade in">
-									<div class="text-center"><ins><strong><span th:text="#{variables.common.variable.scaleLevel}"></span></strong></ins></div>
+									<div class="text-center">
+										<ins>
+											<strong><span
+												th:text="#{variables.common.variable.scaleLevel}"></span></strong>
+										</ins>
+									</div>
 									<div class="input-group input-group-sm"
 										th:each="filter : ${filterManager.filterMap.values()}">
 										<label th:if="${filter.foundResults()}"
@@ -92,7 +97,7 @@
 										<div th:if="${resource.page.content.size() == 0}"
 											class="list-group-item">
 											<h4 class="list-group-item-heading"
-												th:text="#{variables.search.noresults(${query})}"></h4>
+												th:text="#{variables.search.noresults(${searchFormDto.getFillerForErrorMessage()})}"></h4>
 										</div>
 									</div>
 									<div th:if="${resource.page.content.size() gt 0}">

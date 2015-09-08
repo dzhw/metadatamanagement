@@ -5,7 +5,6 @@ import java.util.List;
 import java.util.Map;
 
 import org.elasticsearch.search.aggregations.bucket.terms.Terms;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.ScaleLevelProvider;
 import eu.dzhw.fdz.metadatamanagement.web.variablemanagement.search.dto.SearchFormDto;
@@ -42,7 +41,6 @@ public class FilterManager {
    *        scale levels.
    * @see ScaleLevelProvider
    */
-  @Autowired
   public FilterManager(ScaleLevelProvider scaleLevelProvider, SearchFormDto searchFormDto) {
     this.scaleLevelProvider = scaleLevelProvider;
     this.searchFormDto = searchFormDto;
@@ -54,7 +52,7 @@ public class FilterManager {
 
     for (String scaleLevel : this.scaleLevelProvider.getAllScaleLevel()) {
       this.filterMap.put(scaleLevel,
-          new ScaleLevelFilter(false, scaleLevel, 0L, this.scaleLevelProvider));
+          new ScaleLevelFilter(false, scaleLevel, 0L));
     }
   }
 
@@ -65,7 +63,7 @@ public class FilterManager {
    */
   public void updateScaleLevelFilters(List<Terms.Bucket> buckets) {
 
-    // reset scale level filter
+    // reset count and save the request parameter to the variables 
     this.filterMap.values().forEach(filter -> {
         filter.setDocCount(0L);
         if (this.searchFormDto.getScaleLevel() != null) {
