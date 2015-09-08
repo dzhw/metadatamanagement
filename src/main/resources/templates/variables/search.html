@@ -54,7 +54,6 @@
 										th:text="#{variables.common.variable.scaleLevel}"></div>
 									<ul>
 										<li th:each="filter : ${filterManager.scaleLevelFilters}"
-											th:label="${filter.value + ' [' + filter.docCount + ']'}"
 											style="list-style-type: none;"><input type="checkbox"
 											th:id="${filter.value}" name="scaleLevel"
 											th:value="${filter.value}" th:checked="${filter.choosen}"
