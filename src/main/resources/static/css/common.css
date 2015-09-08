@@ -45,7 +45,7 @@ select[multiple] ~ .form-control-feedback {
 }
 
 /* make text bold*/
-.labelTextBold {
+.customLabel  {
 	font-weight: bold;
 	line-height: 150%;
 }
@@ -58,10 +58,7 @@ select[multiple] ~ .form-control-feedback {
 .custom-panel-heading:hover {
 	background-color: #0D67B5 !important;
 }
-/* add white space between icon and text */
-.textForIcon {
-	margin-left: 3px;
-}
+
 /* show scrollbar on mobile divices*/
 @media ( max-width : 767px) {
 	.custom-table {
