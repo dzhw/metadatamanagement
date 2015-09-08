@@ -7,7 +7,7 @@
 	<div th:fragment="output(label,text,column,columnOffset)">
 		<div th:class="'col-md-'+${column}+' col-md-offset-'+${columnOffset}">
 				<span class="customLabel" th:text="${label}">label</span><br></br>			
-				<span th:if="${text != ''}" class="text-left" th:text="${text}">Keine angaben</span>
+				<span th:if="${text != null}" class="text-left" th:text="${text}">Keine angaben</span>
 				<span th:if="${text == null}" class="text-left" th:text="#{variable.details.notaplicable}">Keine angaben</span>
 		</div>
 	</div>
