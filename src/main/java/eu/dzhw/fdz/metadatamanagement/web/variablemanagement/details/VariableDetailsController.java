@@ -18,25 +18,30 @@ import eu.dzhw.fdz.metadatamanagement.web.common.exceptions.DocumentNotFoundExce
 /**
  * A Controller which returns a details page for a variable or error a page.
  * 
+ * @author Amine limouri
  */
 @Controller
 @RequestMapping(path = "/{language:de|en}/variables")
 public class VariableDetailsController {
 
   private VariableService variableService;
-  protected ControllerLinkBuilderFactory controllerLinkBuilderFactory;
+  private ControllerLinkBuilderFactory controllerLinkBuilderFactory;
+  private VariableResourceAssembler variableResourceAssembler;
 
   /**
    * Create the controller.
    * 
    * @param variableService the service managing the variable state
    * @param controllerLinkBuilderFactory a factory for building links to resources
+   * @param variableResourceAssembler to transform a VariableDocument into a VariableResource.
    */
   @Autowired
   public VariableDetailsController(VariableService variableService,
-      ControllerLinkBuilderFactory controllerLinkBuilderFactory) {
+      ControllerLinkBuilderFactory controllerLinkBuilderFactory,
+      VariableResourceAssembler variableResourceAssembler) {
     this.variableService = variableService;
     this.controllerLinkBuilderFactory = controllerLinkBuilderFactory;
+    this.variableResourceAssembler = variableResourceAssembler;
   }
 
   /**
@@ -53,10 +58,11 @@ public class VariableDetailsController {
             VariableDocument.class);
       } else {
         ModelAndView modelAndView = new ModelAndView();
+        VariableResource variableResource = variableResourceAssembler.toResource(variableDocument);
+        VariableDetailsResource resource =
+            new VariableDetailsResource(controllerLinkBuilderFactory, variableResource);
+        modelAndView.addObject("resource", resource);
         modelAndView.setViewName("variables/details");
-        modelAndView.addObject("variableDocument", variableDocument);
-        modelAndView.addObject("resource", new VariableDetailsResource(
-            controllerLinkBuilderFactory, variableDocument.getId()));
         return modelAndView;
       }
     };

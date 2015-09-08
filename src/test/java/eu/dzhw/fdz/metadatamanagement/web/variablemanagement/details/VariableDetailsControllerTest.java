@@ -73,9 +73,10 @@ public class VariableDetailsControllerTest extends AbstractWebTest {
 
   @Test
   public void testGermanTemplate() throws Exception {
-    MvcResult mvcResult = this.mockMvc.perform(get("/de/variables/GetByValidTest_ID01"))
-        .andExpect(status().isOk()).andExpect(request().asyncStarted())
-        .andExpect(request().asyncResult(instanceOf(ModelAndView.class))).andReturn();
+    MvcResult mvcResult =
+        this.mockMvc.perform(get("/de/variables/GetByValidTest_ID01")).andExpect(status().isOk())
+            .andExpect(request().asyncStarted())
+            .andExpect(request().asyncResult(instanceOf(ModelAndView.class))).andReturn();
 
     this.mockMvc.perform(asyncDispatch(mvcResult)).andExpect(status().isOk())
         .andExpect(content().string((containsString("Sprache"))))
@@ -86,9 +87,10 @@ public class VariableDetailsControllerTest extends AbstractWebTest {
 
   @Test
   public void testEnglishTemplate() throws Exception {
-    MvcResult mvcResult = this.mockMvc.perform(get("/en/variables/GetByValidTest_ID01"))
-        .andExpect(status().isOk()).andExpect(request().asyncStarted())
-        .andExpect(request().asyncResult(instanceOf(ModelAndView.class))).andReturn();
+    MvcResult mvcResult =
+        this.mockMvc.perform(get("/en/variables/GetByValidTest_ID01")).andExpect(status().isOk())
+            .andExpect(request().asyncStarted())
+            .andExpect(request().asyncResult(instanceOf(ModelAndView.class))).andReturn();
 
     this.mockMvc.perform(asyncDispatch(mvcResult)).andExpect(status().isOk())
         .andExpect(content().string((containsString("Language"))))
@@ -99,9 +101,10 @@ public class VariableDetailsControllerTest extends AbstractWebTest {
 
   @Test
   public void testGetByValidId() throws Exception {
-    MvcResult mvcResult = this.mockMvc.perform(get("/de/variables/GetByValidTest_ID01"))
-        .andExpect(status().isOk()).andExpect(request().asyncStarted())
-        .andExpect(request().asyncResult(instanceOf(ModelAndView.class))).andReturn();
+    MvcResult mvcResult =
+        this.mockMvc.perform(get("/de/variables/GetByValidTest_ID01")).andExpect(status().isOk())
+            .andExpect(request().asyncStarted())
+            .andExpect(request().asyncResult(instanceOf(ModelAndView.class))).andReturn();
 
     this.mockMvc.perform(asyncDispatch(mvcResult)).andExpect(status().isOk())
         .andExpect(content().string((containsString("Sprache"))))
@@ -109,25 +112,28 @@ public class VariableDetailsControllerTest extends AbstractWebTest {
         .andExpect(content().string(not(containsString("${"))))
         .andExpect(content().string(not(containsString("??"))));
 
-    VariableDocument variableDocument =
-        (VariableDocument) ((ModelAndView) mvcResult.getAsyncResult()).getModelMap()
-            .get("variableDocument");
-    VariableDetailsResource resource =
-        (VariableDetailsResource) ((ModelAndView) mvcResult.getAsyncResult()).getModelMap()
-            .get("resource");
 
-    assertThat(variableDocument.getId(), is("GetByValidTest_ID01"));
+    VariableDetailsResource resource =
+        (VariableDetailsResource) ((ModelAndView) mvcResult.getAsyncResult()).getModelMap().get(
+            "resource");
+
+    assertThat(resource.getVariableResource().getVariableDocument().getId(),
+        is("GetByValidTest_ID01"));
     assertThat(resource.getEnglishLink().getHref().contains("/en/variables/GetByValidTest_ID01"),
         is(true));
   }
 
   @Test
   public void testGetByInvalidId() throws Exception {
-    MvcResult mvcResult = this.mockMvc.perform(get("/de/variables/GetByInvalidTest_ID012"))
-        .andExpect(status().isOk()).andExpect(request().asyncStarted())
-        .andExpect(request().asyncResult(instanceOf(DocumentNotFoundException.class))).andReturn();
+    MvcResult mvcResult =
+        this.mockMvc.perform(get("/de/variables/GetByInvalidTest_ID012"))
+            .andExpect(status().isOk()).andExpect(request().asyncStarted())
+            .andExpect(request().asyncResult(instanceOf(DocumentNotFoundException.class)))
+            .andReturn();
 
-    this.mockMvc.perform(asyncDispatch(mvcResult)).andExpect(status().isNotFound())
+    this.mockMvc
+        .perform(asyncDispatch(mvcResult))
+        .andExpect(status().isNotFound())
         .andExpect(content().string((containsString("Sprache"))))
         .andExpect(content().string(not(containsString("#{"))))
         .andExpect(content().string(not(containsString("${"))))
@@ -135,9 +141,11 @@ public class VariableDetailsControllerTest extends AbstractWebTest {
         .andExpect(view().name("exceptionView"))
         .andExpect(model().attribute("navMessageLanguage", "nav.language.german"))
         .andExpect(model().attribute("documentType", "documenttype.variable"))
-        .andExpect(model().attribute("resource",
-            Matchers.hasProperty("exception",
-                Matchers.hasProperty("unknownId", Matchers.equalTo("GetByInvalidTest_ID012")))))
+        .andExpect(
+            model().attribute(
+                "resource",
+                Matchers.hasProperty("exception",
+                    Matchers.hasProperty("unknownId", Matchers.equalTo("GetByInvalidTest_ID012")))))
         .andExpect(model().attribute("documentType", "documenttype.variable"));
 
   }
@@ -146,14 +154,16 @@ public class VariableDetailsControllerTest extends AbstractWebTest {
       String variableLabel, String question, String title, String alias, String surveyId) {
 
     LocaleContextHolder.setLocale(locale);
-    VariableSurvey variableSurvey = new VariableSurveyBuilder().withSurveyId(surveyId)
-        .withTitle(title).withVariableAlias(alias).build();
+    VariableSurvey variableSurvey =
+        new VariableSurveyBuilder().withSurveyId(surveyId).withTitle(title)
+            .withVariableAlias(alias).build();
 
-    VariableDocument variableDocument = new VariableDocumentBuilder().withId(variableId)
-        .withName(variableName).withLabel(variableLabel).withQuestion(question)
-        .withDataType(this.dataTypesProvider.getNumericValueByLocale())
-        .withScaleLevel(this.scaleLevelProvider.getMetricByLocal())
-        .withVariableSurvey(variableSurvey).build();
+    VariableDocument variableDocument =
+        new VariableDocumentBuilder().withId(variableId).withName(variableName)
+            .withLabel(variableLabel).withQuestion(question)
+            .withDataType(this.dataTypesProvider.getNumericValueByLocale())
+            .withScaleLevel(this.scaleLevelProvider.getMetricByLocal())
+            .withVariableSurvey(variableSurvey).build();
 
     this.variableService.save(variableDocument);
 
