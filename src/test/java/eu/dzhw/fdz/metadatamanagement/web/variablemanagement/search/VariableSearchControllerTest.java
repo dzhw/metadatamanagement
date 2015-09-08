@@ -4,7 +4,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.greaterThan;
 import static org.hamcrest.Matchers.instanceOf;
 import static org.hamcrest.Matchers.is;
-import static org.hamcrest.core.IsNot.not;
+import static org.hamcrest.Matchers.not;
 import static org.hamcrest.core.StringContains.containsString;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.asyncDispatch;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -30,6 +30,7 @@ import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.Variable
 import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.VariableSurvey;
 import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.builders.VariableDocumentBuilder;
 import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.builders.VariableSurveyBuilder;
+import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.repositories.datatypes.PageWithBuckets;
 import eu.dzhw.fdz.metadatamanagement.service.variablemanagement.VariableService;
 import eu.dzhw.fdz.metadatamanagement.web.AbstractWebTest;
 
@@ -167,5 +168,54 @@ public class VariableSearchControllerTest extends AbstractWebTest {
     assertThat(resource.getPage().getNextLink().getHref()
         .contains("/de/variables/search?query=SearchUnitTest_Survey_ID&page=2&size=3"), is(true));
 
+  }
+  
+  @SuppressWarnings("unchecked")
+  @Test
+  public void testSearchWithScaleLevel() throws Exception {
+
+    // Arrange
+    MvcResult mvcResult = this.mockMvc
+        .perform(get("/de/variables/search?query=SearchUnitTestName&scaleLevel=metrisch"))
+        .andExpect(status().isOk()).andExpect(request().asyncStarted())
+        .andExpect(request().asyncResult(instanceOf(ModelAndView.class))).andReturn();
+    PageWithBuckets<VariableDocument> pageableAggregrationType =
+        (PageWithBuckets<VariableDocument>) ((ModelAndView) mvcResult.getAsyncResult()).getModelMap()
+            .get("pageableAggregrationType");
+
+    //Act
+    
+    
+    //Assert
+    ModelAndViewAssert.assertViewName((ModelAndView) mvcResult.getAsyncResult(),
+        "variables/search");
+    ModelAndViewAssert.assertModelAttributeValue((ModelAndView) mvcResult.getAsyncResult(), "query",
+        "SearchUnitTestName");
+    ModelAndViewAssert.assertModelAttributeValue((ModelAndView) mvcResult.getAsyncResult(), "scaleLevel",
+        "metrisch");
+    assertThat(pageableAggregrationType.getNumberOfElements(), greaterThan(0));
+  }
+  
+  @SuppressWarnings("unchecked")
+  @Test
+  public void testSearchWithScaleLevelWithNoResults() throws Exception {
+
+    // Arrange
+    MvcResult mvcResult = this.mockMvc
+        .perform(get("/en/variables/search?query=&scaleLevel=ordinal"))
+        .andExpect(status().isOk()).andExpect(request().asyncStarted())
+        .andExpect(request().asyncResult(instanceOf(ModelAndView.class))).andReturn();
+    PageWithBuckets<VariableDocument> pageableAggregrationType =
+        (PageWithBuckets<VariableDocument>) ((ModelAndView) mvcResult.getAsyncResult()).getModelMap()
+            .get("pageableAggregrationType");
+
+    //Act
+        
+    //Assert
+    ModelAndViewAssert.assertViewName((ModelAndView) mvcResult.getAsyncResult(),
+        "variables/search");
+    ModelAndViewAssert.assertModelAttributeValue((ModelAndView) mvcResult.getAsyncResult(), "scaleLevel",
+        "ordinal");
+    assertThat(pageableAggregrationType.getNumberOfElements(), is(0));
   }
 }

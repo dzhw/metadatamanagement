@@ -14,7 +14,6 @@ import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.i18n.LocaleContextHolder;
 
-import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.ScaleLevelProvider;
 import eu.dzhw.fdz.metadatamanagement.web.AbstractWebTest;
 
 /**
@@ -99,7 +98,7 @@ public class ScaleLevelProviderTest extends AbstractWebTest{
   }
   
   @Test
-  public void testGetAllDataTypeEnglish(){
+  public void testGetAllScaleLevelEnglish(){
     //Arrange
     LocaleContextHolder.setLocale(Locale.ENGLISH);
         
@@ -112,12 +111,25 @@ public class ScaleLevelProviderTest extends AbstractWebTest{
   }
   
   @Test
-  public void testGetAllDataTypeGerman(){
+  public void testGetAllScaleLevelGerman(){
     //Arrange
     LocaleContextHolder.setLocale(Locale.GERMAN);
         
     //Act
     HashSet<String> allScaleLevel = this.scaleLevelProvider.getAllScaleLevel();
+    
+    //Assert
+    assertEquals(true, allScaleLevel.contains("metrisch"));
+    assertEquals(3, allScaleLevel.size());
+  }
+  
+  @Test
+  public void testGetAllScaleLevel(){
+    //Arrange
+    
+        
+    //Act
+    HashSet<String> allScaleLevel = this.scaleLevelProvider.getAllScaleLevel(Locale.GERMAN);
     
     //Assert
     assertEquals(true, allScaleLevel.contains("metrisch"));

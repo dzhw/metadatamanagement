@@ -89,6 +89,7 @@ public class VariableSearchController {
       FilterManager filterManager = new FilterManager(this.scaleLevelProvider);
       filterManager.updateScaleLevelFilters(pageableAggregrationType.getBuckets(), scaleLevel);
       modelAndView.addObject("filterManager", filterManager);
+      modelAndView.addObject("pageableAggregrationType", pageableAggregrationType);
 
       PagedResources<VariableResource> pagedVariableResource =
           pagedResourcesAssembler.toResource(pageableAggregrationType, variableResourceAssembler);
