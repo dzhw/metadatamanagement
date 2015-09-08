@@ -30,13 +30,6 @@ public abstract class AbstractFilter {
   private long docCount;
 
   /**
-   * Default constructor, which initialized the filter by null values.
-   */
-  public AbstractFilter() {
-    this(false, null, 0L, null);
-  }
-
-  /**
    * A constructor for setting all fields.
    * 
    * @param choosen is a filter choosen?
