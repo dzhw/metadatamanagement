@@ -55,14 +55,14 @@
 									class="panel-collapse collapse fade in">
 									<ul class="list-group">
 										<li class="list-group-item"
-											th:each="filter : ${filterManager.filterMap.get('scaleLevel')}">
+											th:each="scaleLevel : ${availableScaleLevels}">
 											<div class="checkbox">
 												<label class="text-capitalize"><input
 													type="checkbox" th:field="${searchFormDto.scaleLevel}"
-													th:value="${filter.value}"
+													th:value="${scaleLevel.key}"
 													onclick="VariableSearchForm.search(this.form)" /><span
-													th:text="${filter.value}"></span> </label><span
-													class="badge pull-right" th:text="${filter.docCount}">14</span>
+													th:text="${scaleLevel.key}"></span> </label><span
+													class="badge pull-right" th:text="${scaleLevel.docCount}">14</span>
 											</div>
 										</li>
 									</ul>

@@ -31,7 +31,6 @@ import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.Variable
 import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.VariableSurvey;
 import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.builders.VariableDocumentBuilder;
 import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.builders.VariableSurveyBuilder;
-import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.repositories.datatypes.PageWithBuckets;
 import eu.dzhw.fdz.metadatamanagement.service.variablemanagement.VariableService;
 import eu.dzhw.fdz.metadatamanagement.web.AbstractWebTest;
 import eu.dzhw.fdz.metadatamanagement.web.variablemanagement.search.dto.VariableSearchFormDto;
@@ -122,22 +121,23 @@ public class VariableSearchControllerTest extends AbstractWebTest {
 
   @Test
   public void testSearch() throws Exception {
-    
-    //Arrange
+
+    // Arrange
     MvcResult mvcResult =
         this.mockMvc.perform(get("/de/variables/search?query=SearchUnitTest_Survey_ID"))
             .andExpect(status().isOk()).andExpect(request().asyncStarted())
             .andExpect(request().asyncResult(instanceOf(ModelAndView.class))).andReturn();
 
-    //Act
+    // Act
     VariableSearchPageResource resource =
         (VariableSearchPageResource) ((ModelAndView) mvcResult.getAsyncResult()).getModelMap()
             .get("resource");
-    
-    VariableSearchFormDto variableSearchFormDto = (VariableSearchFormDto) ((ModelAndView) mvcResult.getAsyncResult())
-        .getModelMap().get("searchFormDto");
-    
-    //Assert
+
+    VariableSearchFormDto variableSearchFormDto =
+        (VariableSearchFormDto) ((ModelAndView) mvcResult.getAsyncResult()).getModelMap()
+            .get("searchFormDto");
+
+    // Assert
     ModelAndViewAssert.assertViewName((ModelAndView) mvcResult.getAsyncResult(),
         "variables/search");
     ModelAndViewAssert.assertModelAttributeAvailable((ModelAndView) mvcResult.getAsyncResult(),
@@ -151,22 +151,23 @@ public class VariableSearchControllerTest extends AbstractWebTest {
 
   @Test
   public void testSearchWithPage() throws Exception {
-    
-    //Arrange
+
+    // Arrange
     MvcResult mvcResult = this.mockMvc
         .perform(get("/de/variables/search?query=SearchUnitTest_Survey_ID&page=1&size=3"))
         .andExpect(status().isOk()).andExpect(request().asyncStarted())
         .andExpect(request().asyncResult(instanceOf(ModelAndView.class))).andReturn();
-    
-    //Act
-    VariableSearchFormDto variableSearchFormDto = (VariableSearchFormDto) ((ModelAndView) mvcResult.getAsyncResult())
-        .getModelMap().get("searchFormDto");
-    
+
+    // Act
+    VariableSearchFormDto variableSearchFormDto =
+        (VariableSearchFormDto) ((ModelAndView) mvcResult.getAsyncResult()).getModelMap()
+            .get("searchFormDto");
+
     VariableSearchPageResource resource =
         (VariableSearchPageResource) ((ModelAndView) mvcResult.getAsyncResult()).getModelMap()
             .get("resource");
-    
-    //Assert
+
+    // Assert
     ModelAndViewAssert.assertViewName((ModelAndView) mvcResult.getAsyncResult(),
         "variables/search");
     ModelAndViewAssert.assertModelAttributeAvailable((ModelAndView) mvcResult.getAsyncResult(),
@@ -195,11 +196,12 @@ public class VariableSearchControllerTest extends AbstractWebTest {
         .perform(get("/de/variables/search?query=SearchUnitTestName&scaleLevel=metrisch"))
         .andExpect(status().isOk()).andExpect(request().asyncStarted())
         .andExpect(request().asyncResult(instanceOf(ModelAndView.class))).andReturn();
-    PageWithBuckets<VariableDocument> pageWithBuckets =
-        (PageWithBuckets<VariableDocument>) ((ModelAndView) mvcResult.getAsyncResult())
-            .getModelMap().get("pageableWithBuckets");
-    VariableSearchFormDto variableSearchFormDto = (VariableSearchFormDto) ((ModelAndView) mvcResult.getAsyncResult())
-        .getModelMap().get("searchFormDto");
+    VariableSearchPageResource resource =
+        (VariableSearchPageResource) ((ModelAndView) mvcResult.getAsyncResult()).getModelMap()
+            .get("resource");
+    VariableSearchFormDto variableSearchFormDto =
+        (VariableSearchFormDto) ((ModelAndView) mvcResult.getAsyncResult()).getModelMap()
+            .get("searchFormDto");
 
     // Act
 
@@ -209,7 +211,7 @@ public class VariableSearchControllerTest extends AbstractWebTest {
         "variables/search");
     assertThat(variableSearchFormDto.getQuery(), is("SearchUnitTestName"));
     assertThat(variableSearchFormDto.getScaleLevel(), is("metrisch"));
-    assertThat(pageWithBuckets.getNumberOfElements(), greaterThan(0));
+    assertThat(resource.getPage().getContent().size(), greaterThan(0));
   }
 
   @SuppressWarnings("unchecked")
@@ -221,21 +223,22 @@ public class VariableSearchControllerTest extends AbstractWebTest {
         this.mockMvc.perform(get("/en/variables/search?query=&scaleLevel=ordinal"))
             .andExpect(status().isOk()).andExpect(request().asyncStarted())
             .andExpect(request().asyncResult(instanceOf(ModelAndView.class))).andReturn();
-    
+
 
     // Act
-    PageWithBuckets<VariableDocument> pageableWithBuckets =
-        (PageWithBuckets<VariableDocument>) ((ModelAndView) mvcResult.getAsyncResult())
-            .getModelMap().get("pageableWithBuckets");
-    
-    VariableSearchFormDto variableSearchFormDto = (VariableSearchFormDto) ((ModelAndView) mvcResult.getAsyncResult())
-        .getModelMap().get("searchFormDto");
+    VariableSearchPageResource resource =
+        (VariableSearchPageResource) ((ModelAndView) mvcResult.getAsyncResult()).getModelMap()
+            .get("resource");
+
+    VariableSearchFormDto variableSearchFormDto =
+        (VariableSearchFormDto) ((ModelAndView) mvcResult.getAsyncResult()).getModelMap()
+            .get("searchFormDto");
 
     // Assert
     ModelAndViewAssert.assertViewName((ModelAndView) mvcResult.getAsyncResult(),
         "variables/search");
     assertThat(variableSearchFormDto.getQuery(), is(nullValue()));
     assertThat(variableSearchFormDto.getScaleLevel(), is("ordinal"));
-    assertThat(pageableWithBuckets.getNumberOfElements(), is(0));
+    assertThat(resource.getPage().getContent().size(), is(0));
   }
 }

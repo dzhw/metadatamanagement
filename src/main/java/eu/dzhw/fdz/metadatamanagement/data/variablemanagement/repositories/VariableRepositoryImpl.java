@@ -22,9 +22,9 @@ import org.springframework.data.elasticsearch.core.query.NativeSearchQueryBuilde
 import org.springframework.data.elasticsearch.core.query.SearchQuery;
 import org.springframework.util.StringUtils;
 
-import eu.dzhw.fdz.metadatamanagement.config.elasticsearch.AggregationResultMapper;
+import eu.dzhw.fdz.metadatamanagement.data.common.aggregations.AggregationResultMapper;
+import eu.dzhw.fdz.metadatamanagement.data.common.aggregations.PageWithBuckets;
 import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.VariableDocument;
-import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.repositories.datatypes.PageWithBuckets;
 import eu.dzhw.fdz.metadatamanagement.web.variablemanagement.search.dto.VariableSearchFormDto;
 
 /**

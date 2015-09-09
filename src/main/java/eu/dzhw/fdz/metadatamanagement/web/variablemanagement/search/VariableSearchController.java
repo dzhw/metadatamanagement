@@ -16,10 +16,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
-import eu.dzhw.fdz.metadatamanagement.data.common.documents.filters.FilterManager;
+import eu.dzhw.fdz.metadatamanagement.data.common.aggregations.PageWithBuckets;
 import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.VariableDocument;
-import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.repositories.datatypes.PageWithBuckets;
 import eu.dzhw.fdz.metadatamanagement.service.variablemanagement.VariableService;
+import eu.dzhw.fdz.metadatamanagement.web.common.FilterManager;
 import eu.dzhw.fdz.metadatamanagement.web.variablemanagement.details.VariableResource;
 import eu.dzhw.fdz.metadatamanagement.web.variablemanagement.details.VariableResourceAssembler;
 import eu.dzhw.fdz.metadatamanagement.web.variablemanagement.search.dto.VariableSearchFormDto;
@@ -82,9 +82,9 @@ public class VariableSearchController {
       PageWithBuckets<VariableDocument> pageableWithBuckets =
           this.variableService.search(variableSearchFormDto, pageable);
       FilterManager filterManager =
-          new FilterManager(variableSearchFormDto, pageableWithBuckets.getFilterBuckets());
-      modelAndView.addObject("filterManager", filterManager);
-      modelAndView.addObject("pageableWithBuckets", pageableWithBuckets);
+          new FilterManager(variableSearchFormDto, pageableWithBuckets.getBucketMap());
+      modelAndView.addObject("availableScaleLevels",
+          filterManager.getFilterMap().get(VariableDocument.SCALE_LEVEL_FIELD));
 
       // Create Resource
       PagedResources<VariableResource> pagedVariableResource = this.pagedResourcesAssembler

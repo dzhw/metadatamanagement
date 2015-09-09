@@ -17,6 +17,7 @@ import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 
+import eu.dzhw.fdz.metadatamanagement.data.common.aggregations.PageWithBuckets;
 import eu.dzhw.fdz.metadatamanagement.data.common.documents.DateRange;
 import eu.dzhw.fdz.metadatamanagement.data.common.documents.builders.DateRangeBuilder;
 import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.AnswerOption;
@@ -27,7 +28,6 @@ import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.Variable
 import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.builders.AnswerOptionBuilder;
 import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.builders.VariableDocumentBuilder;
 import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.builders.VariableSurveyBuilder;
-import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.repositories.datatypes.PageWithBuckets;
 import eu.dzhw.fdz.metadatamanagement.web.AbstractWebTest;
 import eu.dzhw.fdz.metadatamanagement.web.variablemanagement.search.dto.VariableSearchFormDto;
 import eu.dzhw.fdz.metadatamanagement.web.variablemanagement.search.dto.builders.VariableSearchFormDtoBuilder;
@@ -190,8 +190,8 @@ public class VariableServiceTest extends AbstractWebTest {
 
     // Assert
     assertThat(resultOkay.getNumberOfElements(), is(9));
-    assertThat(resultOkay.getFilterBuckets().get(VariableDocument.SCALE_LEVEL_FIELD).get(0).getValue(), is(ScaleLevelProvider.GERMAN_METRIC));
-    assertThat(resultOkay.getFilterBuckets().get(VariableDocument.SCALE_LEVEL_FIELD).get(0).getDocCount(), is(9L));
+    assertThat(resultOkay.getBucketMap().get(VariableDocument.SCALE_LEVEL_FIELD).get(0).getKey(), is(ScaleLevelProvider.GERMAN_METRIC));
+    assertThat(resultOkay.getBucketMap().get(VariableDocument.SCALE_LEVEL_FIELD).get(0).getDocCount(), is(9L));
 
     // Delete
     for (int i = 1; i <= 9; i++) {
@@ -228,8 +228,8 @@ public class VariableServiceTest extends AbstractWebTest {
 
     // Assert
     assertThat(resultOkay.getNumberOfElements(), is(9));
-    assertThat(resultOkay.getFilterBuckets().get(VariableDocument.SCALE_LEVEL_FIELD).get(0).getValue(), is(ScaleLevelProvider.GERMAN_ORDINAL));
-    assertThat(resultOkay.getFilterBuckets().get(VariableDocument.SCALE_LEVEL_FIELD).get(0).getDocCount(), is(9L));
+    assertThat(resultOkay.getBucketMap().get(VariableDocument.SCALE_LEVEL_FIELD).get(0).getKey(), is(ScaleLevelProvider.GERMAN_ORDINAL));
+    assertThat(resultOkay.getBucketMap().get(VariableDocument.SCALE_LEVEL_FIELD).get(0).getDocCount(), is(9L));
 
     // Delete
     for (int i = 1; i <= 9; i++) {

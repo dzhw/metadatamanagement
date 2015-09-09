@@ -4,9 +4,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import eu.dzhw.fdz.metadatamanagement.data.common.aggregations.PageWithBuckets;
 import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.VariableDocument;
 import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.repositories.VariableRepository;
-import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.repositories.datatypes.PageWithBuckets;
 import eu.dzhw.fdz.metadatamanagement.web.variablemanagement.search.dto.VariableSearchFormDto;
 
 /**

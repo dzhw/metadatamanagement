@@ -1,4 +1,4 @@
-package eu.dzhw.fdz.metadatamanagement.config.elasticsearch;
+package eu.dzhw.fdz.metadatamanagement.data.common.aggregations;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -11,8 +11,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.elasticsearch.core.DefaultResultMapper;
 import org.springframework.data.elasticsearch.core.FacetedPage;
 
-import eu.dzhw.fdz.metadatamanagement.data.common.documents.filters.FilterBucket;
-import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.repositories.datatypes.PageWithBuckets;
+import eu.dzhw.fdz.metadatamanagement.config.elasticsearch.JacksonDocumentMapper;
 
 /**
  * The aggregation result mapper is a sub class from the {@link DefaultResultMapper}. It extends the
@@ -43,17 +42,17 @@ public class AggregationResultMapper extends DefaultResultMapper {
     
     //Build grouped aggrogations / filter
     //iterate over names
-    Map<String, List<FilterBucket>> map = new HashMap<>();    
-    response.getAggregations().asMap().keySet().forEach(name -> {
-        StringTerms aggrogationsScaleLevel =
-            response.getAggregations().get(name);
+    Map<String, List<Bucket>> map = new HashMap<>();    
+    response.getAggregations().asMap().keySet().forEach(aggregationName -> {
+        StringTerms aggregation =
+            response.getAggregations().get(aggregationName);
         
         //create list
-        List<FilterBucket> listFilterBucket = new ArrayList<>();
-        aggrogationsScaleLevel.getBuckets().forEach(bucket -> {
-            listFilterBucket.add(new FilterBucket(bucket.getKey(), bucket.getDocCount()));
+        List<Bucket> listFilterBucket = new ArrayList<>();
+        aggregation.getBuckets().forEach(bucket -> {
+            listFilterBucket.add(new Bucket(bucket.getKey(), bucket.getDocCount()));
           });
-        map.put(name, listFilterBucket);
+        map.put(aggregationName, listFilterBucket);
       });
     
     return new PageWithBuckets<T>(facetedPage, pageable, map);

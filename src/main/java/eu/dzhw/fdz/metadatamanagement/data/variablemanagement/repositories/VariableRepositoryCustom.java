@@ -4,8 +4,8 @@ import org.elasticsearch.common.unit.Fuzziness;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
+import eu.dzhw.fdz.metadatamanagement.data.common.aggregations.PageWithBuckets;
 import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.VariableDocument;
-import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.repositories.datatypes.PageWithBuckets;
 import eu.dzhw.fdz.metadatamanagement.web.variablemanagement.search.dto.VariableSearchFormDto;
 
 /**
