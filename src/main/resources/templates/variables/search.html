@@ -77,29 +77,27 @@
 										th:text="${resource.page.metadata.totalElements}>0?#{variables.search.numberOfResults(${resource.page.metadata.totalElements},${resource.page.metadata.number}*${resource.page.metadata.size}+1,${resource.page.metadata.number}*${resource.page.metadata.size}+${resource.page.content.size()})}:#{variables.search.noresults}">100
 										Variablen gefunden </span>
 								</div>
-								<div class="panel-body">
-									<div class="list-group">
-										<div th:if="${resource.page.content.size() gt 0}"
-											class="list-group-item" th:each="variable : ${resource.page}">
-											<h4 class="list-group-item-heading">
-												<a th:href="${variable.id.href}"
-													th:text="${variable.variableDocument.label}"> </a>
-											</h4>
-											<p class="list-group-item-text"
-												th:text="#{variables.search.name(${variable.variableDocument.name})}"></p>
-											<p class="list-group-item-text"
-												th:text="#{variables.search.question(${variable.variableDocument.question})}"></p>
+								<ul class="list-group">
+									<li th:if="${resource.page.content.size() gt 0}"
+										class="list-group-item" th:each="variable : ${resource.page}">
+										<h4 class="list-group-item-heading">
+											<a th:href="${variable.id.href}"
+												th:text="${variable.variableDocument.label}"> </a>
+										</h4>
+										<p class="list-group-item-text"
+											th:text="#{variables.search.name(${variable.variableDocument.name})}"></p>
+										<p class="list-group-item-text"
+											th:text="#{variables.search.question(${variable.variableDocument.question})}"></p>
 
-											<p class="list-group-item-text"
-												th:text="#{variables.search.survey(${variable.variableDocument.variableSurvey.title})}"></p>
-										</div>
-										<div th:if="${resource.page.content.size() == 0}"
-											class="list-group-item">
-											<h4 class="list-group-item-heading"
-												th:text="#{variables.search.noresults}"></h4>
-										</div>
-									</div>
-									<div th:if="${resource.page.content.size() gt 0}">
+										<p class="list-group-item-text"
+											th:text="#{variables.search.survey(${variable.variableDocument.variableSurvey.title})}"></p>
+									</li>
+									<li th:if="${resource.page.content.size() == 0}"
+										class="list-group-item">
+										<h4 class="list-group-item-heading"
+											th:text="#{variables.search.noresults}"></h4>
+									</li>
+									<li class="list-group-item" th:if="${resource.page.content.size() gt 0}">
 										<ul class="pager">
 											<li class="previous"
 												th:classappend="${resource.page.previousLink==null?'disabled':''}"><a
@@ -114,8 +112,8 @@
 												th:href="${resource.page.nextLink?.href?:'javascript:;'}"><span
 													th:text="#{common.pager.next}"></span> &rarr;</a></li>
 										</ul>
-									</div>
-								</div>
+									</li>
+								</ul>
 							</div>
 						</div>
 					</div>
