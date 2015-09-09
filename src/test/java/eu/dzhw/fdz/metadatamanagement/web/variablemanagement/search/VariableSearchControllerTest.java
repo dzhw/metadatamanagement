@@ -197,7 +197,7 @@ public class VariableSearchControllerTest extends AbstractWebTest {
         .andExpect(request().asyncResult(instanceOf(ModelAndView.class))).andReturn();
     PageWithBuckets<VariableDocument> pageWithBuckets =
         (PageWithBuckets<VariableDocument>) ((ModelAndView) mvcResult.getAsyncResult())
-            .getModelMap().get("pageableAggregrationType");
+            .getModelMap().get("pageableWithBuckets");
     SearchFormDto searchFormDto = (SearchFormDto) ((ModelAndView) mvcResult.getAsyncResult())
         .getModelMap().get("searchFormDto");
 
@@ -224,9 +224,9 @@ public class VariableSearchControllerTest extends AbstractWebTest {
     
 
     // Act
-    PageWithBuckets<VariableDocument> pageableAggregrationType =
+    PageWithBuckets<VariableDocument> pageableWithBuckets =
         (PageWithBuckets<VariableDocument>) ((ModelAndView) mvcResult.getAsyncResult())
-            .getModelMap().get("pageableAggregrationType");
+            .getModelMap().get("pageableWithBuckets");
     
     SearchFormDto searchFormDto = (SearchFormDto) ((ModelAndView) mvcResult.getAsyncResult())
         .getModelMap().get("searchFormDto");
@@ -236,6 +236,6 @@ public class VariableSearchControllerTest extends AbstractWebTest {
         "variables/search");
     assertThat(searchFormDto.getQuery(), is(nullValue()));
     assertThat(searchFormDto.getScaleLevel(), is("ordinal"));
-    assertThat(pageableAggregrationType.getNumberOfElements(), is(0));
+    assertThat(pageableWithBuckets.getNumberOfElements(), is(0));
   }
 }

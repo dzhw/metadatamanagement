@@ -13,6 +13,7 @@ import eu.dzhw.fdz.metadatamanagement.web.variablemanagement.search.dto.SearchFo
  * A service for searching variables.
  * 
  * @author Amine Limouri
+ * @author Daniel Katzberg
  */
 @Service
 public class VariableService {
@@ -20,7 +21,7 @@ public class VariableService {
   private final VariableRepository variableRepository;
 
   /**
-   * A constructor.
+   * @param variablesRepository A reference to the repositoy for the variables.
    */
   @Autowired
   public VariableService(VariableRepository variablesRepository) {
@@ -34,15 +35,16 @@ public class VariableService {
    * @param searchFormDto the data transfer object of the search. has all request parameter
    * @param pageable a pageable object.
    * 
-   * @return Page of VariableDocuments and Aggregations
+   * @return Page with buckets from the filter of the VariableDocuments and Aggregations
    */
   public PageWithBuckets<VariableDocument> search(SearchFormDto searchFormDto, Pageable pageable) {
 
-    // in this case of query oder scaleLevel are have text elements
+    // any kind of request parameter is set? if yes -> matchquery
     if (searchFormDto.hasTextInAnyField()) {
       return variableRepository.matchQueryInAllFieldAndNgrams(searchFormDto, pageable);
     }
     // No special case needed for filter like scale level. for no filter and no query -> find all
+    // (matchall)
     return variableRepository.matchAllWithAggregations(pageable);
   }
 

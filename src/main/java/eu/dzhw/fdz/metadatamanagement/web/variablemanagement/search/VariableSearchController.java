@@ -29,6 +29,7 @@ import eu.dzhw.fdz.metadatamanagement.web.variablemanagement.search.dto.SearchFo
  * Controller for searching variables.
  * 
  * @author Amine Limouri
+ * @author Daniel Katzberg
  */
 @Controller
 public class VariableSearchController {
@@ -61,7 +62,8 @@ public class VariableSearchController {
   }
 
   /**
-   * Show variable search page.
+   * Show variable search page. All request parameter are set at the searchFormDto. It includes the
+   * parameter for the query and all filter/Aggregations.
    * 
    * @param ajaxHeader An ajaxheader with comes from a partial reload of the page. (search results
    *        returned by server)
@@ -81,17 +83,19 @@ public class VariableSearchController {
 
       // add the filter manager to the model and view
       // the filter manager supports filter and save the status
-      PageWithBuckets<VariableDocument> pageableAggregrationType =
-          variableService.search(searchFormDto, pageable);
+      PageWithBuckets<VariableDocument> pageableWithBuckets =
+          this.variableService.search(searchFormDto, pageable);
       FilterManager filterManager = new FilterManager(this.scaleLevelProvider, searchFormDto);
-      filterManager.updateScaleLevelFilters(pageableAggregrationType.getBuckets());
+      filterManager.updateScaleLevelFilters(pageableWithBuckets.getBuckets());
       modelAndView.addObject("filterManager", filterManager);
-      modelAndView.addObject("pageableAggregrationType", pageableAggregrationType);
+      modelAndView.addObject("pageableWithBuckets", pageableWithBuckets);
 
-      PagedResources<VariableResource> pagedVariableResource =
-          pagedResourcesAssembler.toResource(pageableAggregrationType, variableResourceAssembler);
-      VariableSearchPageResource resource = new VariableSearchPageResource(pagedVariableResource,
-          VariableSearchController.class, controllerLinkBuilderFactory, searchFormDto, pageable);
+      // Create Resource
+      PagedResources<VariableResource> pagedVariableResource = this.pagedResourcesAssembler
+          .toResource(pageableWithBuckets, this.variableResourceAssembler);
+      VariableSearchPageResource resource =
+          new VariableSearchPageResource(pagedVariableResource, VariableSearchController.class,
+              this.controllerLinkBuilderFactory, searchFormDto, pageable);
       modelAndView.addObject("resource", resource);
 
       // Check for X-Requested-With Header
@@ -101,7 +105,6 @@ public class VariableSearchController {
         // if it is in the headers, return only a div
         viewName += " :: #searchResults";
       }
-
       modelAndView.setViewName(viewName);
 
       // disable caching of the search page to prevent displaying partial responses when

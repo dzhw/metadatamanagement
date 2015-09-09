@@ -36,11 +36,22 @@ import eu.dzhw.fdz.metadatamanagement.web.variablemanagement.search.dto.SearchFo
  */
 public class VariableRepositoryImpl implements VariableRepositoryCustom {
 
+  /**
+   * This String defines a limit by searching within ngrams. The limit is: how many ngrams of a
+   * searching word should be match another ngrams from a word in the database for a valid result.
+   */
   @Value("${search.minimum-should-match-ngrams}")
   private String minimumShouldMatch;
 
+  /**
+   * A elasticsearch template for start queries.
+   */
   private ElasticsearchTemplate elasticsearchTemplate;
 
+  /**
+   * This result mapper support a facedpage with buckets. The default mapper does not support the
+   * opportunity the returning of the buckets of the aggregations.
+   */
   private AggregationResultMapper resultMapper;
 
   @Autowired

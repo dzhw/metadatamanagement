@@ -93,7 +93,7 @@ public class PageWithBucketsTest extends AbstractWebTest {
     // Act
     PageWithBuckets<VariableDocument> pageableAggregrationType =
         (PageWithBuckets<VariableDocument>) ((ModelAndView) mvcResult.getAsyncResult())
-            .getModelMap().get("pageableAggregrationType");
+            .getModelMap().get("pageableWithBuckets");
 
     SearchFormDto searchFormDto = (SearchFormDto) ((ModelAndView) mvcResult.getAsyncResult())
         .getModelMap().get("searchFormDto");
@@ -118,7 +118,7 @@ public class PageWithBucketsTest extends AbstractWebTest {
         .andExpect(request().asyncResult(instanceOf(ModelAndView.class))).andReturn();
     PageWithBuckets<VariableDocument> pageWithBuckets =
         (PageWithBuckets<VariableDocument>) ((ModelAndView) mvcResult.getAsyncResult())
-            .getModelMap().get("pageableAggregrationType");
+            .getModelMap().get("pageableWithBuckets");
     MvcResult mvcResult2 = this.mockMvc
         .perform(get("/de/variables/search?query=SearchUnitTestName&scaleLevel=nominal"))
         .andExpect(status().isOk()).andExpect(request().asyncStarted())
