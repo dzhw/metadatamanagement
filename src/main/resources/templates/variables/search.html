@@ -24,8 +24,9 @@
 											th:text="#{variables.search.searchinput.placeholder}">Search
 											for Variables</label> <input type="text" class="form-control"
 											id="query" th:field="*{query}"
-											th:placeholder="#{variables.search.searchinput.placeholder}" oninput="VariableSearchForm.search(this.form)"/>
-										<span class="input-group-btn">
+											th:placeholder="#{variables.search.searchinput.placeholder}"
+											oninput="VariableSearchForm.search(this.form)" /> <span
+											class="input-group-btn">
 											<button type="submit" class="btn btn-default">
 												<span class="glyphicon glyphicon-search" aria-hidden="true"></span>
 											</button>
@@ -45,24 +46,26 @@
 							<div class="panel panel-default">
 								<div class="panel-heading custom-panel-heading"
 									data-toggle="collapse" data-target="#collapseScaleLevelPanel">
-									<a class="panel-title panel-toggle" href="#collapseScaleLevelPanel"
-										data-toggle="collapse"
+									<a class="panel-title panel-toggle"
+										href="#collapseScaleLevelPanel" data-toggle="collapse"
 										th:text="#{variables.common.variable.scaleLevel}">ScaleLevel
 									</a>
 								</div>
 								<div id="collapseScaleLevelPanel"
 									class="panel-collapse collapse fade in">
-									<div class="panel-body">
-										<div class="checkbox"
+									<ul class="list-group">
+										<li class="list-group-item"
 											th:each="filter : ${filterManager.getFilterGroupByName('scaleLevel')}">
-											<label class="text-capitalize"><input type="checkbox"
-												th:field="${searchFormDto.scaleLevel}"
-												th:value="${filter.value}"
-												onclick="VariableSearchForm.search(this.form)"
-												th:text="${filter.value}" /> </label><span class="badge pull-right"
-												th:text="${filter.docCount}">14</span>
-										</div>
-									</div>
+											<div class="checkbox">
+												<label class="text-capitalize"><input
+													type="checkbox" th:field="${searchFormDto.scaleLevel}"
+													th:value="${filter.value}"
+													onclick="VariableSearchForm.search(this.form)"
+													th:text="${filter.value}" /> </label><span
+													class="badge pull-right" th:text="${filter.docCount}">14</span>
+											</div>
+										</li>
+									</ul>
 								</div>
 							</div>
 						</div>
