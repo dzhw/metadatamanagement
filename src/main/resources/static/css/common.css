@@ -58,11 +58,3 @@ select[multiple] ~ .form-control-feedback {
 .custom-panel-heading:hover {
 	background-color: #0D67B5 !important;
 }
-
-/* show scrollbar on mobile divices*/
-@media ( max-width : 767px) {
-	.custom-table {
-		overflow-x: scroll;
-		-webkit-overflow-scrolling-x: scroll;
-	}
-}
