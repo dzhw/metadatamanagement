@@ -59,8 +59,7 @@
 											<input class="filter-margin"
 												th:if="${filter.foundResults()}" type="checkbox"
 												th:id="${filter.value}" name="scaleLevel"
-												onclick="VariableSearchForm.search(this)"
-												th:action="${resource.variablesSearchLink.href}"
+												onclick="VariableSearchForm.search(document.getElementById('searchVariables'));"
 												th:value="${filter.value}" th:checked="${filter.choosen}" />
 												
 											<label th:if="${filter.foundResults()}"
