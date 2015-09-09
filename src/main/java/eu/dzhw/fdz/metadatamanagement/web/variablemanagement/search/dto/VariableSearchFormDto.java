@@ -1,10 +1,11 @@
 package eu.dzhw.fdz.metadatamanagement.web.variablemanagement.search.dto;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.springframework.util.StringUtils;
 
+import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.VariableDocument;
 import net.karneim.pojobuilder.GeneratePojoBuilder;
 
 /**
@@ -24,12 +25,12 @@ public class VariableSearchFormDto {
   /**
    * @return A list with all filter values.
    */
-  public List<String> getAllFilterValues() {
-    List<String> filterValues = new ArrayList<>();
+  public Map<String, String> getAllFilterValues() {
+    Map<String, String> filterValues = new HashMap<>();
 
     // ScaleLevel
     if (StringUtils.hasText(this.scaleLevel)) {
-      filterValues.add(this.scaleLevel);
+      filterValues.put(VariableDocument.SCALE_LEVEL_FIELD, this.scaleLevel);
     }
 
     return filterValues;

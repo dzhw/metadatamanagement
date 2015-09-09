@@ -1,13 +1,9 @@
 package eu.dzhw.fdz.metadatamanagement.data.common.documents.filters;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.elasticsearch.search.aggregations.bucket.terms.Terms;
-
-import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.ScaleLevelProvider;
 import eu.dzhw.fdz.metadatamanagement.web.variablemanagement.search.dto.VariableSearchFormDto;
 
 /**
@@ -22,7 +18,7 @@ public class FilterManager {
   /**
    * A list with all scaleLevelFilter.
    */
-  private Map<String, AbstractFilter> filterMap;
+  private Map<String, List<FilterBucket>> filterMap;
 
   /**
    * The data transfer object of the search form.
@@ -33,66 +29,43 @@ public class FilterManager {
    * Initialize the filter manager with default filled list. The list are depending on different
    * class. For more information visit the linked pages.
    * 
-   * @param scaleLevelProvider Injected entity of scale level provider for get the "values" of the
-   *        scale levels.
-   * @see ScaleLevelProvider
+   * @param variableSearchFormDto A instance of the variable search form dto. It has all actual
+   *        values of the query and all filter within the url as request parameter..
    */
-  public FilterManager(VariableSearchFormDto variableSearchFormDto) {
+  public FilterManager(VariableSearchFormDto variableSearchFormDto, 
+      Map<String, List<FilterBucket>> filterMap) {
     this.variableSearchFormDto = variableSearchFormDto;
-    this.initScalelevelFilters();
-  }
-
-  private void initScalelevelFilters() {
-    this.filterMap = new HashMap<>();
-  }
-
-  /**
-   * Returns all filter by one named group. A name is the request parameter name like
-   * "scaleLevel". This values are constans in the document classes like e.g.
-   * VariableDocument.SCALE_LEVEL_FIELD.
-   * 
-   * @param name The name of a filter / request parameter.
-   * @return A list with all known filter by the name
-   */
-  public List<AbstractFilter> getFilterGroupByName(String name) {
-    List<AbstractFilter> abstractFilters = new ArrayList<>();
-
-    this.filterMap.values().forEach(filter -> {
-        if (filter.getName().equals(name)) {
-          abstractFilters.add(filter);
-        }
-      });
-
-    return abstractFilters;
+    this.filterMap = filterMap;
+    this.mergeFilterWithDtoInformation();
   }
 
   /**
    * Updates the list by a key and the given buckets from the elastic search aggregation.
-   * 
-   * @param buckets The buckets from the repository layer
    */
-  public void updateAllFilter(List<Terms.Bucket> buckets) {
-
-    // Clear Map
-    this.filterMap.clear();
-
-    // put buckets to the list
-    buckets.forEach(bucket -> {
-        this.filterMap.put(bucket.getKey(),
-            new ScaleLevelFilter(bucket.getKey(), bucket.getDocCount()));
-      });
-
-    // update all choosen status of used filter
-    this.variableSearchFormDto.getAllFilterValues().forEach(filter -> {
-
-        if (this.getFilterMap().get(filter) == null) {
-          this.filterMap.put(filter, new ScaleLevelFilter(filter, 0L));
+  private void mergeFilterWithDtoInformation() {
+    
+    // merge dto
+    this.variableSearchFormDto.getAllFilterValues().keySet().forEach(filterName -> {
+        String filterValue = this.variableSearchFormDto.getAllFilterValues().get(filterName);
+        FilterBucket dtoFilterBucket = new FilterBucket(filterValue, 0L);
+        
+        if (!this.filterMap.containsKey(filterName)) {
+          List<FilterBucket> filterBucketList = new ArrayList<>();
+          filterBucketList.add(dtoFilterBucket);
+          this.filterMap.put(filterName, filterBucketList);
+          //okay group is in the map, check here for the value
+        } else {
+          if (!this.filterMap.get(filterName).contains(dtoFilterBucket)) {
+            List<FilterBucket> filterBucketList = this.filterMap.get(filterName);
+            filterBucketList.add(dtoFilterBucket);
+            this.getFilterMap().put(filterName, filterBucketList);
+          }
         }
       });
   }
 
   /* GETTER / SETTER */
-  public Map<String, AbstractFilter> getFilterMap() {
+  public Map<String, List<FilterBucket>> getFilterMap() {
     return filterMap;
-  }
+  }  
 }

@@ -1,12 +1,17 @@
 package eu.dzhw.fdz.metadatamanagement.config.elasticsearch;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import org.elasticsearch.action.search.SearchResponse;
 import org.elasticsearch.search.aggregations.bucket.terms.StringTerms;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.elasticsearch.core.DefaultResultMapper;
 import org.springframework.data.elasticsearch.core.FacetedPage;
 
-import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.VariableDocument;
+import eu.dzhw.fdz.metadatamanagement.data.common.documents.filters.FilterBucket;
 import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.repositories.datatypes.PageWithBuckets;
 
 /**
@@ -36,10 +41,21 @@ public class AggregationResultMapper extends DefaultResultMapper {
   public <T> FacetedPage<T> mapResults(SearchResponse response, Class<T> clazz, Pageable pageable) {
     FacetedPage<T> facetedPage = super.mapResults(response, clazz, pageable);
     
-    //TODO DKatzberg Hard coded scale level. Need to be a filter object.
-    StringTerms aggrogationsScaleLevel =
-        response.getAggregations().get(VariableDocument.SCALE_LEVEL_FIELD);
+    //Build grouped aggrogations / filter
+    //iterate over names
+    Map<String, List<FilterBucket>> map = new HashMap<>();    
+    response.getAggregations().asMap().keySet().forEach(name -> {
+        StringTerms aggrogationsScaleLevel =
+            response.getAggregations().get(name);
+        
+        //create list
+        List<FilterBucket> listFilterBucket = new ArrayList<>();
+        aggrogationsScaleLevel.getBuckets().forEach(bucket -> {
+            listFilterBucket.add(new FilterBucket(bucket.getKey(), bucket.getDocCount()));
+          });
+        map.put(name, listFilterBucket);
+      });
     
-    return new PageWithBuckets<T>(facetedPage, pageable, aggrogationsScaleLevel.getBuckets());
+    return new PageWithBuckets<T>(facetedPage, pageable, map);
   }
 }

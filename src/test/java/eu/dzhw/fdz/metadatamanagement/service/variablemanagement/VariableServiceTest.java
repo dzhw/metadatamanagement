@@ -190,8 +190,8 @@ public class VariableServiceTest extends AbstractWebTest {
 
     // Assert
     assertThat(resultOkay.getNumberOfElements(), is(9));
-    assertThat(resultOkay.getBuckets().get(0).getKey(), is(ScaleLevelProvider.GERMAN_METRIC));
-    assertThat(resultOkay.getBuckets().get(0).getDocCount(), is(9L));
+    assertThat(resultOkay.getFilterBuckets().get(VariableDocument.SCALE_LEVEL_FIELD).get(0).getValue(), is(ScaleLevelProvider.GERMAN_METRIC));
+    assertThat(resultOkay.getFilterBuckets().get(VariableDocument.SCALE_LEVEL_FIELD).get(0).getDocCount(), is(9L));
 
     // Delete
     for (int i = 1; i <= 9; i++) {
@@ -228,8 +228,8 @@ public class VariableServiceTest extends AbstractWebTest {
 
     // Assert
     assertThat(resultOkay.getNumberOfElements(), is(9));
-    assertThat(resultOkay.getBuckets().get(0).getKey(), is(ScaleLevelProvider.GERMAN_ORDINAL));
-    assertThat(resultOkay.getBuckets().get(0).getDocCount(), is(9L));
+    assertThat(resultOkay.getFilterBuckets().get(VariableDocument.SCALE_LEVEL_FIELD).get(0).getValue(), is(ScaleLevelProvider.GERMAN_ORDINAL));
+    assertThat(resultOkay.getFilterBuckets().get(VariableDocument.SCALE_LEVEL_FIELD).get(0).getDocCount(), is(9L));
 
     // Delete
     for (int i = 1; i <= 9; i++) {

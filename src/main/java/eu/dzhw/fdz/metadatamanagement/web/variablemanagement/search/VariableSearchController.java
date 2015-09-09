@@ -81,8 +81,8 @@ public class VariableSearchController {
       // the filter manager supports filter and save the status
       PageWithBuckets<VariableDocument> pageableWithBuckets =
           this.variableService.search(variableSearchFormDto, pageable);
-      FilterManager filterManager = new FilterManager(variableSearchFormDto);
-      filterManager.updateAllFilter(pageableWithBuckets.getBuckets());
+      FilterManager filterManager =
+          new FilterManager(variableSearchFormDto, pageableWithBuckets.getFilterBuckets());
       modelAndView.addObject("filterManager", filterManager);
       modelAndView.addObject("pageableWithBuckets", pageableWithBuckets);
 

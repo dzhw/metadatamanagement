@@ -55,7 +55,7 @@
 									class="panel-collapse collapse fade in">
 									<ul class="list-group">
 										<li class="list-group-item"
-											th:each="filter : ${filterManager.getFilterGroupByName('scaleLevel')}">
+											th:each="filter : ${filterManager.filterMap.get('scaleLevel')}">
 											<div class="checkbox">
 												<label class="text-capitalize"><input
 													type="checkbox" th:field="${searchFormDto.scaleLevel}"
