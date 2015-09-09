@@ -51,30 +51,28 @@ public class FilterManager {
     this.filterMap = new HashMap<>();
 
     for (String scaleLevel : this.scaleLevelProvider.getAllScaleLevel()) {
-      this.filterMap.put(scaleLevel,
-          new ScaleLevelFilter(false, scaleLevel, 0L));
+      this.filterMap.put(scaleLevel, new ScaleLevelFilter(false, scaleLevel, 0L));
     }
   }
-
+  
   /**
-   * Builds a new list for the scale level filters.
+   * update the list by a key and the given buckets from the elastic search aggregation.
    * 
    * @param buckets The buckets from the repository layer
    */
-  public void updateScaleLevelFilters(List<Terms.Bucket> buckets) {
-
-    // reset count and save the request parameter to the variables 
+  public void updateAllFilter(List<Terms.Bucket> buckets) {
+    
+    // reset count and choosen parameter
     this.filterMap.values().forEach(filter -> {
         filter.setDocCount(0L);
-        if (this.searchFormDto.getScaleLevel() != null) {
-          if (filter.getValue().equals(this.searchFormDto.getScaleLevel())) {
-            filter.setChoosen(true);
-          } else {
-            filter.setChoosen(false);
-          }
-        }
+        filter.setChoosen(false);
       });
-
+    
+    //update all choosen status of used filter
+    this.searchFormDto.getAllFilterValues().forEach(filter -> {
+        this.updateFilters(filter);
+      });
+        
     // update the doc count.
     buckets.forEach(bucket -> {
         AbstractFilter abstractFilter = this.filterMap.remove(bucket.getKey());
@@ -85,6 +83,24 @@ public class FilterManager {
         }
   
       });
+  }
+
+  /**
+   * update the filter status of choosen by a key. 
+   * 
+   * @param buckets The buckets from the repository layer
+   * @param key The key is a value of the request parameter. e.g.: ?requestParameter=value
+   */
+  private void updateFilters(String key) {
+
+    // update choosen field
+    if (key != null) {
+      AbstractFilter abstractFilter = this.filterMap.remove(key);
+      if (abstractFilter != null) {
+        abstractFilter.setChoosen(true);
+        this.filterMap.put(key, abstractFilter);
+      }
+    }
   }
 
   /* GETTER / SETTER */

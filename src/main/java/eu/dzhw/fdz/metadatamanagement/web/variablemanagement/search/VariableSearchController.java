@@ -86,7 +86,7 @@ public class VariableSearchController {
       PageWithBuckets<VariableDocument> pageableWithBuckets =
           this.variableService.search(searchFormDto, pageable);
       FilterManager filterManager = new FilterManager(this.scaleLevelProvider, searchFormDto);
-      filterManager.updateScaleLevelFilters(pageableWithBuckets.getBuckets());
+      filterManager.updateAllFilter(pageableWithBuckets.getBuckets());
       modelAndView.addObject("filterManager", filterManager);
       modelAndView.addObject("pageableWithBuckets", pageableWithBuckets);
 
