@@ -29,8 +29,6 @@ public class ScaleLevelFilterTest{
 
     // Assert
     assertThat(filter.getName(), is(VariableDocument.SCALE_LEVEL_FIELD));
-    assertThat(filter.isChoosen(), is(false));
-    assertThat(filter.foundResults(), is(false));
     assertThat(filter.getDocCount(), is(0L));
     assertThat(filter.getValue(), is(nullValue()));
   }
@@ -42,15 +40,12 @@ public class ScaleLevelFilterTest{
     ScaleLevelFilter filter = new ScaleLevelFilter();
 
     // Act
-    filter.setChoosen(true);
     filter.setDocCount(1L);
     filter.setName("Name");
     filter.setValue("Value");
 
     // Assert
     assertThat(filter.getName(), not(VariableDocument.SCALE_LEVEL_FIELD));
-    assertThat(filter.isChoosen(), is(true));
-    assertThat(filter.foundResults(), is(true));
     assertThat(filter.getDocCount(), is(1L));
     assertThat(filter.getValue(), is("Value"));
   }

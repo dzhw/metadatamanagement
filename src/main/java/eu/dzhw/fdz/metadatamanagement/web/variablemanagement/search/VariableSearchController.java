@@ -17,13 +17,12 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 import eu.dzhw.fdz.metadatamanagement.data.common.documents.filters.FilterManager;
-import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.ScaleLevelProvider;
 import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.VariableDocument;
 import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.repositories.datatypes.PageWithBuckets;
 import eu.dzhw.fdz.metadatamanagement.service.variablemanagement.VariableService;
 import eu.dzhw.fdz.metadatamanagement.web.variablemanagement.details.VariableResource;
 import eu.dzhw.fdz.metadatamanagement.web.variablemanagement.details.VariableResourceAssembler;
-import eu.dzhw.fdz.metadatamanagement.web.variablemanagement.search.dto.SearchFormDto;
+import eu.dzhw.fdz.metadatamanagement.web.variablemanagement.search.dto.VariableSearchFormDto;
 
 /**
  * Controller for searching variables.
@@ -38,7 +37,6 @@ public class VariableSearchController {
   private ControllerLinkBuilderFactory controllerLinkBuilderFactory;
   private VariableResourceAssembler variableResourceAssembler;
   private PagedResourcesAssembler<VariableDocument> pagedResourcesAssembler;
-  private ScaleLevelProvider scaleLevelProvider;
 
   /**
    * Create the controller.
@@ -52,13 +50,11 @@ public class VariableSearchController {
   public VariableSearchController(VariableService variableService,
       ControllerLinkBuilderFactory controllerLinkBuilderFactory,
       VariableResourceAssembler variableResourceAssembler,
-      PagedResourcesAssembler<VariableDocument> pagedResourcesAssembler,
-      ScaleLevelProvider scaleLevelProvider) {
+      PagedResourcesAssembler<VariableDocument> pagedResourcesAssembler) {
     this.variableService = variableService;
     this.controllerLinkBuilderFactory = controllerLinkBuilderFactory;
     this.variableResourceAssembler = variableResourceAssembler;
     this.pagedResourcesAssembler = pagedResourcesAssembler;
-    this.scaleLevelProvider = scaleLevelProvider;
   }
 
   /**
@@ -67,7 +63,7 @@ public class VariableSearchController {
    * 
    * @param ajaxHeader An ajaxheader with comes from a partial reload of the page. (search results
    *        returned by server)
-   * @param searchFormDto the data tranfer object of the search form
+   * @param variableSearchFormDto the data tranfer object of the search form
    * @param pageable A pageable object for the
    * @param httpServletResponse A Servlet response from the server from the search
    * @return variableSearch.html
@@ -75,17 +71,17 @@ public class VariableSearchController {
   @RequestMapping(value = "/{language:de|en}/variables/search", method = RequestMethod.GET)
   public Callable<ModelAndView> get(
       @RequestHeader(name = "X-Requested-With", required = false) String ajaxHeader,
-      SearchFormDto searchFormDto, Pageable pageable,
+      VariableSearchFormDto variableSearchFormDto, Pageable pageable,
       final HttpServletResponse httpServletResponse) {
     return () -> {
       ModelAndView modelAndView = new ModelAndView();
-      modelAndView.addObject("searchFormDto", searchFormDto);
+      modelAndView.addObject("searchFormDto", variableSearchFormDto);
 
       // add the filter manager to the model and view
       // the filter manager supports filter and save the status
       PageWithBuckets<VariableDocument> pageableWithBuckets =
-          this.variableService.search(searchFormDto, pageable);
-      FilterManager filterManager = new FilterManager(this.scaleLevelProvider, searchFormDto);
+          this.variableService.search(variableSearchFormDto, pageable);
+      FilterManager filterManager = new FilterManager(variableSearchFormDto);
       filterManager.updateAllFilter(pageableWithBuckets.getBuckets());
       modelAndView.addObject("filterManager", filterManager);
       modelAndView.addObject("pageableWithBuckets", pageableWithBuckets);
@@ -95,7 +91,7 @@ public class VariableSearchController {
           .toResource(pageableWithBuckets, this.variableResourceAssembler);
       VariableSearchPageResource resource =
           new VariableSearchPageResource(pagedVariableResource, VariableSearchController.class,
-              this.controllerLinkBuilderFactory, searchFormDto, pageable);
+              this.controllerLinkBuilderFactory, variableSearchFormDto, pageable);
       modelAndView.addObject("resource", resource);
 
       // Check for X-Requested-With Header

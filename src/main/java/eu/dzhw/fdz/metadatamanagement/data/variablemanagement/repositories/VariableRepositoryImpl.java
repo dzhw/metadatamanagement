@@ -25,7 +25,7 @@ import org.springframework.util.StringUtils;
 import eu.dzhw.fdz.metadatamanagement.config.elasticsearch.AggregationResultMapper;
 import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.VariableDocument;
 import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.repositories.datatypes.PageWithBuckets;
-import eu.dzhw.fdz.metadatamanagement.web.variablemanagement.search.dto.SearchFormDto;
+import eu.dzhw.fdz.metadatamanagement.web.variablemanagement.search.dto.VariableSearchFormDto;
 
 /**
  * This class implements the interface of the custom variable documents repository. This class will
@@ -87,8 +87,8 @@ public class VariableRepositoryImpl implements VariableRepositoryCustom {
    * SearchFormDto, org.springframework.data.domain.Pageable)
    */
   @Override
-  public PageWithBuckets<VariableDocument> matchQueryInAllFieldAndNgrams(SearchFormDto formDto,
-      Pageable pageable) {
+  public PageWithBuckets<VariableDocument> matchQueryInAllFieldAndNgrams(
+      VariableSearchFormDto formDto, Pageable pageable) {
 
     NativeSearchQueryBuilder nativeSearchQueryBuilder = new NativeSearchQueryBuilder();
 

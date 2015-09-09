@@ -6,7 +6,7 @@ import org.springframework.data.domain.Pageable;
 
 import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.VariableDocument;
 import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.repositories.datatypes.PageWithBuckets;
-import eu.dzhw.fdz.metadatamanagement.web.variablemanagement.search.dto.SearchFormDto;
+import eu.dzhw.fdz.metadatamanagement.web.variablemanagement.search.dto.VariableSearchFormDto;
 
 /**
  * This is the interface for custom methods of the repository for the variable documents.
@@ -52,13 +52,13 @@ public interface VariableRepositoryCustom {
    * Query for all variable documents by using the all field for exact matches as well as fuzzy
    * matches.
    * 
-   * @param searchFormDto the data transfer object of the search
+   * @param variableSearchFormDto the data transfer object of the search
    * @param scaleLevel A filter for reduce the results of a given scaleLevel
    * @param pageable The page size and number and sort.
    * @return A page holding the first variable documents
    */
-  PageWithBuckets<VariableDocument> matchQueryInAllFieldAndNgrams(SearchFormDto searchFormDto,
-      Pageable pageable);
+  PageWithBuckets<VariableDocument> matchQueryInAllFieldAndNgrams(
+      VariableSearchFormDto variableSearchFormDto, Pageable pageable);
 
   /**
    * Query for all variable documents including all aggregations vor variables.

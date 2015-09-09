@@ -32,7 +32,7 @@ import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.builders
 import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.builders.VariableSurveyBuilder;
 import eu.dzhw.fdz.metadatamanagement.service.variablemanagement.VariableService;
 import eu.dzhw.fdz.metadatamanagement.web.AbstractWebTest;
-import eu.dzhw.fdz.metadatamanagement.web.variablemanagement.search.dto.SearchFormDto;
+import eu.dzhw.fdz.metadatamanagement.web.variablemanagement.search.dto.VariableSearchFormDto;
 
 /**
  * @author Daniel Katzberg
@@ -95,15 +95,15 @@ public class PageWithBucketsTest extends AbstractWebTest {
         (PageWithBuckets<VariableDocument>) ((ModelAndView) mvcResult.getAsyncResult())
             .getModelMap().get("pageableWithBuckets");
 
-    SearchFormDto searchFormDto = (SearchFormDto) ((ModelAndView) mvcResult.getAsyncResult())
+    VariableSearchFormDto variableSearchFormDto = (VariableSearchFormDto) ((ModelAndView) mvcResult.getAsyncResult())
         .getModelMap().get("searchFormDto");
 
 
     // Assert
     ModelAndViewAssert.assertViewName((ModelAndView) mvcResult.getAsyncResult(),
         "variables/search");
-    assertThat(searchFormDto.getQuery(), is("SearchUnitTestName"));
-    assertThat(searchFormDto.getScaleLevel(), is("metrisch"));
+    assertThat(variableSearchFormDto.getQuery(), is("SearchUnitTestName"));
+    assertThat(variableSearchFormDto.getScaleLevel(), is("metrisch"));
     assertThat(pageableAggregrationType.hashCode(), not(0));
   }
 
@@ -128,9 +128,9 @@ public class PageWithBucketsTest extends AbstractWebTest {
             .getModelMap().get("pageableAggregrationType");
 
     // Act
-    SearchFormDto searchFormDto = (SearchFormDto) ((ModelAndView) mvcResult.getAsyncResult())
+    VariableSearchFormDto variableSearchFormDto = (VariableSearchFormDto) ((ModelAndView) mvcResult.getAsyncResult())
         .getModelMap().get("searchFormDto");
-    SearchFormDto searchFormDto2 = (SearchFormDto) ((ModelAndView) mvcResult2.getAsyncResult())
+    VariableSearchFormDto searchFormDto2 = (VariableSearchFormDto) ((ModelAndView) mvcResult2.getAsyncResult())
         .getModelMap().get("searchFormDto");
 
     boolean checkNullObject = pageWithBuckets.equals(null);
@@ -143,8 +143,8 @@ public class PageWithBucketsTest extends AbstractWebTest {
         "variables/search");
     ModelAndViewAssert.assertViewName((ModelAndView) mvcResult2.getAsyncResult(),
         "variables/search");
-    assertThat(searchFormDto.getQuery(), is("SearchUnitTestName"));
-    assertThat(searchFormDto.getScaleLevel(), is("metrisch"));
+    assertThat(variableSearchFormDto.getQuery(), is("SearchUnitTestName"));
+    assertThat(variableSearchFormDto.getScaleLevel(), is("metrisch"));
     assertThat(searchFormDto2.getQuery(), is("SearchUnitTestName"));
     assertThat(searchFormDto2.getScaleLevel(), is("nominal"));
     assertEquals(false, checkNullObject);

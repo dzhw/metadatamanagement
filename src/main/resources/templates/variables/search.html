@@ -9,7 +9,7 @@
 		<div
 			th:include="common/jumbotron::jumbotron(title=#{variables.search.title},subtitle=#{variables.search.subtitle})"></div>
 	</header>
-	<form id="searchVariables" action="#"
+	<form id="searchVariables" action="#" th:object="${searchFormDto}"
 		th:action="${resource.variablesSearchLink.href}"
 		oninput="VariableSearchForm.search(this)" autocomplete="off">
 		<div class="container">
@@ -24,7 +24,7 @@
 										<label class="sr-only" for="query"
 											th:text="#{variables.search.searchinput.placeholder}">Search
 											for Variables</label> <input type="text" class="form-control"
-											id="query" name="query" th:value="${query}"
+											id="query" th:field="*{query}"
 											th:placeholder="#{variables.search.searchinput.placeholder}" />
 										<span class="input-group-btn">
 											<button type="submit" class="btn btn-default">
@@ -57,13 +57,12 @@
 										</ins>
 										
 										<div class="checkbox" th:each="filter : ${filterManager.filterMap.values()}">
-											<input 
-												th:if="${filter.foundResults()}" type="checkbox"
-												th:id="${filter.value}" name="scaleLevel"
-												onclick="VariableSearchForm.search(document.getElementById('searchVariables'));"
-												th:value="${filter.value}" th:checked="${filter.choosen}" />
+											<input
+												type="checkbox"
+												th:id="${filter.value}" th:field="${searchFormDto.scaleLevel}" th:value="${filter.value}"
+												onclick="VariableSearchForm.search(this.form);" />
 												
-											<label th:if="${filter.foundResults()}"
+											<label
 												class="text-capitalize " th:for="${filter.value}"
 												th:text="${filter.value + ' [' + filter.docCount + ']'}"></label>
 										</div>

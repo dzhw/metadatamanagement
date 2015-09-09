@@ -15,7 +15,7 @@ import net.karneim.pojobuilder.GeneratePojoBuilder;
  */
 @GeneratePojoBuilder(
     intoPackage = "eu.dzhw.fdz.metadatamanagement.web.variablemanagement.search.dto.builders")
-public class SearchFormDto {
+public class VariableSearchFormDto {
 
   private String query;
 

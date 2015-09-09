@@ -29,8 +29,8 @@ import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.builders
 import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.builders.VariableSurveyBuilder;
 import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.repositories.datatypes.PageWithBuckets;
 import eu.dzhw.fdz.metadatamanagement.web.AbstractWebTest;
-import eu.dzhw.fdz.metadatamanagement.web.variablemanagement.search.dto.SearchFormDto;
-import eu.dzhw.fdz.metadatamanagement.web.variablemanagement.search.dto.builders.SearchFormDtoBuilder;
+import eu.dzhw.fdz.metadatamanagement.web.variablemanagement.search.dto.VariableSearchFormDto;
+import eu.dzhw.fdz.metadatamanagement.web.variablemanagement.search.dto.builders.VariableSearchFormDtoBuilder;
 
 
 /**
@@ -67,11 +67,11 @@ public class VariableServiceTest extends AbstractWebTest {
       this.variableService.save(variableDocument);
     }
 
-    SearchFormDto searchFormDto =
-        new SearchFormDtoBuilder().withQuery("SearchUnitTestName").build();
+    VariableSearchFormDto variableSearchFormDto =
+        new VariableSearchFormDtoBuilder().withQuery("SearchUnitTestName").build();
 
     // Act
-    PageWithBuckets<VariableDocument> result = this.variableService.search(searchFormDto, pageable);
+    PageWithBuckets<VariableDocument> result = this.variableService.search(variableSearchFormDto, pageable);
 
     // Assert
     assertThat(result.getNumberOfElements(), is(9));
@@ -103,10 +103,10 @@ public class VariableServiceTest extends AbstractWebTest {
       this.variableService.save(variableDocument);
     }
 
-    SearchFormDto searchFormDto = new SearchFormDtoBuilder().build();
+    VariableSearchFormDto variableSearchFormDto = new VariableSearchFormDtoBuilder().build();
 
     // Act
-    PageWithBuckets<VariableDocument> result = variableService.search(searchFormDto, pageable);
+    PageWithBuckets<VariableDocument> result = variableService.search(variableSearchFormDto, pageable);
 
     // Assert
     assertThat(result.getNumberOfElements(), greaterThanOrEqualTo(9));
@@ -145,14 +145,14 @@ public class VariableServiceTest extends AbstractWebTest {
             .withDataType(DataTypesProvider.GERMAN_NUMERIC).withAnswerOptions(answerOptions)
             .withVariableSurvey(variableSurvey).build();
 
-    SearchFormDto searchFormDto = new SearchFormDtoBuilder().withQuery(idVariableDocument).build();
+    VariableSearchFormDto variableSearchFormDto = new VariableSearchFormDtoBuilder().withQuery(idVariableDocument).build();
 
     // Act
     VariableDocument savedVariableDocument = this.variableService.save(variableDocument);
     this.variableService.delete(idVariableDocument);
     Pageable pageable = new PageRequest(0, 10);
     PageWithBuckets<VariableDocument> results =
-        this.variableService.search(searchFormDto, pageable);
+        this.variableService.search(variableSearchFormDto, pageable);
 
     // Assert
     assertThat(savedVariableDocument, is(variableDocument));
@@ -181,12 +181,12 @@ public class VariableServiceTest extends AbstractWebTest {
       this.variableService.save(variableDocument);
     }
 
-    SearchFormDto searchFormDto = new SearchFormDtoBuilder().withQuery("SearchUnitTestName")
+    VariableSearchFormDto variableSearchFormDto = new VariableSearchFormDtoBuilder().withQuery("SearchUnitTestName")
         .withScaleLevel(ScaleLevelProvider.GERMAN_METRIC).build();
 
     // Act
     PageWithBuckets<VariableDocument> resultOkay =
-        this.variableService.search(searchFormDto, pageable);
+        this.variableService.search(variableSearchFormDto, pageable);
 
     // Assert
     assertThat(resultOkay.getNumberOfElements(), is(9));
@@ -219,12 +219,12 @@ public class VariableServiceTest extends AbstractWebTest {
       this.variableService.save(variableDocument);
     }
 
-    SearchFormDto searchFormDto =
-        new SearchFormDtoBuilder().withScaleLevel(ScaleLevelProvider.GERMAN_ORDINAL).build();
+    VariableSearchFormDto variableSearchFormDto =
+        new VariableSearchFormDtoBuilder().withScaleLevel(ScaleLevelProvider.GERMAN_ORDINAL).build();
 
     // Act
     PageWithBuckets<VariableDocument> resultOkay =
-        this.variableService.search(searchFormDto, pageable);
+        this.variableService.search(variableSearchFormDto, pageable);
 
     // Assert
     assertThat(resultOkay.getNumberOfElements(), is(9));
@@ -258,12 +258,12 @@ public class VariableServiceTest extends AbstractWebTest {
       this.variableService.save(variableDocument);
     }
 
-    SearchFormDto searchFormDto = new SearchFormDtoBuilder().withQuery("SearchUnitTestName")
+    VariableSearchFormDto variableSearchFormDto = new VariableSearchFormDtoBuilder().withQuery("SearchUnitTestName")
         .withScaleLevel(ScaleLevelProvider.GERMAN_ORDINAL).build();
 
     // Act
     PageWithBuckets<VariableDocument> resultNotOkay =
-        this.variableService.search(searchFormDto, pageable);
+        this.variableService.search(variableSearchFormDto, pageable);
 
     // Assert
     assertThat(resultNotOkay.getNumberOfElements(), is(0));

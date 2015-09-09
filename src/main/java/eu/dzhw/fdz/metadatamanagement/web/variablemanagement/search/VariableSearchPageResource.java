@@ -13,7 +13,7 @@ import com.google.common.base.Objects;
 import eu.dzhw.fdz.metadatamanagement.config.i18n.I18nConfiguration;
 import eu.dzhw.fdz.metadatamanagement.web.common.NavigatablePageResource;
 import eu.dzhw.fdz.metadatamanagement.web.variablemanagement.details.VariableResource;
-import eu.dzhw.fdz.metadatamanagement.web.variablemanagement.search.dto.SearchFormDto;
+import eu.dzhw.fdz.metadatamanagement.web.variablemanagement.search.dto.VariableSearchFormDto;
 
 /**
  * Resource for the {@link VariableSearchController}.
@@ -30,18 +30,17 @@ public class VariableSearchPageResource extends NavigatablePageResource<Variable
    * @param page The page of variable resources
    * @param pageController The controller for this resource
    * @param factory The {@link ControllerLinkBuilderFactory}
-   * @param searchFormDto the data transfer object of the search form
+   * @param variableSearchFormDto the data transfer object of the search form
    * @param pageable the pagerequest request param
    */
   public VariableSearchPageResource(PagedResources<VariableResource> page,
       Class<VariableSearchController> pageController, ControllerLinkBuilderFactory factory,
-      SearchFormDto searchFormDto, Pageable pageable) {
+      VariableSearchFormDto variableSearchFormDto, Pageable pageable) {
     super();
     this.page = page;
     for (Locale supportedLocale : I18nConfiguration.SUPPORTED_LANGUAGES) {
-      this.add(factory.linkTo(
-          methodOn(pageController, supportedLocale).get(null, searchFormDto, pageable, null))
-          .withRel(supportedLocale.getLanguage()));
+      this.add(factory.linkTo(methodOn(pageController, supportedLocale).get(null,
+          variableSearchFormDto, pageable, null)).withRel(supportedLocale.getLanguage()));
     }
   }
 

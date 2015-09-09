@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service;
 import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.VariableDocument;
 import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.repositories.VariableRepository;
 import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.repositories.datatypes.PageWithBuckets;
-import eu.dzhw.fdz.metadatamanagement.web.variablemanagement.search.dto.SearchFormDto;
+import eu.dzhw.fdz.metadatamanagement.web.variablemanagement.search.dto.VariableSearchFormDto;
 
 /**
  * A service for searching variables.
@@ -32,16 +32,17 @@ public class VariableService {
    * Search variables by query. If the query string does not contain text the first n variables are
    * returned as defined in the pageable.
    * 
-   * @param searchFormDto the data transfer object of the search. has all request parameter
+   * @param variableSearchFormDto the data transfer object of the search. has all request parameter
    * @param pageable a pageable object.
    * 
    * @return Page with buckets from the filter of the VariableDocuments and Aggregations
    */
-  public PageWithBuckets<VariableDocument> search(SearchFormDto searchFormDto, Pageable pageable) {
+  public PageWithBuckets<VariableDocument> search(VariableSearchFormDto variableSearchFormDto,
+      Pageable pageable) {
 
     // any kind of request parameter is set? if yes -> matchquery
-    if (searchFormDto.hasTextInAnyField()) {
-      return variableRepository.matchQueryInAllFieldAndNgrams(searchFormDto, pageable);
+    if (variableSearchFormDto.hasTextInAnyField()) {
+      return variableRepository.matchQueryInAllFieldAndNgrams(variableSearchFormDto, pageable);
     }
     // No special case needed for filter like scale level. for no filter and no query -> find all
     // (matchall)

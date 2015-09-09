@@ -13,12 +13,10 @@ import org.elasticsearch.search.aggregations.bucket.terms.Terms;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import eu.dzhw.fdz.metadatamanagement.data.common.documents.filters.FilterManager;
-import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.ScaleLevelProvider;
 import eu.dzhw.fdz.metadatamanagement.web.AbstractWebTest;
-import eu.dzhw.fdz.metadatamanagement.web.variablemanagement.search.dto.SearchFormDto;
+import eu.dzhw.fdz.metadatamanagement.web.variablemanagement.search.dto.VariableSearchFormDto;
 
 /**
  * @author Daniel Katzberg
@@ -26,16 +24,13 @@ import eu.dzhw.fdz.metadatamanagement.web.variablemanagement.search.dto.SearchFo
  */
 public class FilterManagerTest extends AbstractWebTest {
 
-  @Autowired
-  private ScaleLevelProvider scaleLevelProvider;
-
   private FilterManager filterManager;
 
   private List<Terms.Bucket> buckets;
 
   @Before
   public void beforeTest() {
-    this.filterManager = new FilterManager(this.scaleLevelProvider, new SearchFormDto());
+    this.filterManager = new FilterManager(new VariableSearchFormDto());
 
     this.buckets = new ArrayList<>();
 
@@ -52,7 +47,7 @@ public class FilterManagerTest extends AbstractWebTest {
     this.filterManager.updateAllFilter(this.buckets);
     
     //Assert
-    assertThat(this.filterManager.getFilterMap().values().size(), is(3));
+    assertThat(this.filterManager.getFilterMap().values().size(), is(1));
   }
 
   @Test
@@ -63,6 +58,6 @@ public class FilterManagerTest extends AbstractWebTest {
     this.filterManager.updateAllFilter(this.buckets);
     
     //Assert
-    assertThat(this.filterManager.getFilterMap().values().size(), is(3));
+    assertThat(this.filterManager.getFilterMap().values().size(), is(1));
   }
 }
