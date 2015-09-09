@@ -1,5 +1,8 @@
 package eu.dzhw.fdz.metadatamanagement.web.variablemanagement.search.dto;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.springframework.util.StringUtils;
 
 import net.karneim.pojobuilder.GeneratePojoBuilder;
@@ -40,6 +43,20 @@ public class SearchFormDto {
 
     // remove last ,
     return buffer.toString().replace(",)", ")");
+  }
+
+  /**
+   * @return A list with all filter values.
+   */
+  public List<String> getAllFilterValues() {
+    List<String> filterValues = new ArrayList<>();
+
+    // ScaleLevel
+    if (StringUtils.hasText(this.scaleLevel)) {
+      filterValues.add(this.scaleLevel);
+    }
+
+    return filterValues;
   }
 
   /**

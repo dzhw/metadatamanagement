@@ -49,7 +49,7 @@ public class FilterManagerTest extends AbstractWebTest {
     //Arrange
     
     //Act
-    this.filterManager.updateScaleLevelFilters(this.buckets);
+    this.filterManager.updateAllFilter(this.buckets);
     
     //Assert
     assertThat(this.filterManager.getFilterMap().values().size(), is(3));
@@ -60,7 +60,7 @@ public class FilterManagerTest extends AbstractWebTest {
     //Arrange
     
     //Act
-    this.filterManager.updateScaleLevelFilters(this.buckets);
+    this.filterManager.updateAllFilter(this.buckets);
     
     //Assert
     assertThat(this.filterManager.getFilterMap().values().size(), is(3));
