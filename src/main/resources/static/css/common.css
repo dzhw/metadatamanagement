@@ -15,7 +15,7 @@ body {
 	/* essential for enabling glyphicon */
 	content: "\e113"; /* adjust as needed, taken from bootstrap.css */
 	float: right; /* adjust as needed */
-	color: white; /* adjust as needed */
+	color: inherit; /* adjust as needed */
 }
 
 .custom-panel-heading .panel-toggle.collapsed:after {
@@ -56,5 +56,5 @@ select[multiple] ~ .form-control-feedback {
 }
 
 .custom-panel-heading:hover {
-	background-color: #0D67B5 !important;
+	opacity: 0.7;
 }
