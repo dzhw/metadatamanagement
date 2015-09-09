@@ -11,7 +11,9 @@
 	</header>
 	<div class="container">
 		<div class="panel panel-primary">
-			<div class="panel-heading" th:text="#{variables.common.variableData}">Variableninformationen</div>
+			<div class="panel-heading">
+				<span class="panel-title" th:text="#{variables.common.variableData}">Variableninformationen</span>
+			</div>
 			<div class="panel-body">
 				<!-- Bootstrap form -->
 				<form action="#" th:action="${resource.saveLink}"
@@ -56,8 +58,10 @@
 						</div>
 					</div>
 					<div class="panel panel-primary">
-						<div class="panel-heading"
-							th:text="#{variables.common.variable.answerOptions}">Antwortoptionen</div>
+						<div class="panel-heading">
+							<span class="panel-title"
+								th:text="#{variables.common.variable.answerOptions}">Antwortoptionen</span>
+						</div>
 						<div class="panel-body">
 							<div
 								th:replace="common/errorAlerts::globalAlerts(field=answerOptions)"></div>
@@ -83,8 +87,10 @@
 						</div>
 					</div>
 					<div class="panel panel-primary">
-						<div class="panel-heading"
-							th:text="#{variables.common.variable.surveyData}">Erhebungsdaten</div>
+						<div class="panel-heading">
+							<span class="panel-title"
+								th:text="#{variables.common.variable.surveyData}">Erhebungsdaten</span>
+						</div>
 						<div class="panel-body">
 							<div
 								th:replace="common/errorAlerts::globalAlerts(field=variableSurvey)"></div>
@@ -109,19 +115,21 @@
 							<div class="row">
 								<div class=" col-md-12">
 									<div class="panel panel-primary">
-										<div class="panel-heading"
-											th:text="#{variables.common.variable.survey.period}">Erhebungszeitraum</div>
+										<div class="panel-heading">
+											<span class="panel-title"
+												th:text="#{variables.common.variable.survey.period}">Erhebungszeitraum</span>
+										</div>
 										<div class="panel-body">
 											<div
 												th:replace="common/errorAlerts::globalAlerts(field=variableSurvey.surveyPeriod)"></div>
 											<div class="col-md-6">
-													<div
-														th:replace="common/calendar::date(field=variableSurvey.surveyPeriod.startDate,label=#{variables.common.variable.survey.period.start},placeholder=#{variables.common.variable.survey.period.start},readonly=false)"></div>
-												</div>
-												<div class="col-md-6">
-													<div
-														th:replace="common/calendar::date(field=variableSurvey.surveyPeriod.endDate,label=#{variables.common.variable.survey.period.end},placeholder=#{variables.common.variable.survey.period.end},readonly=false)"></div>
-												</div>
+												<div
+													th:replace="common/calendar::date(field=variableSurvey.surveyPeriod.startDate,label=#{variables.common.variable.survey.period.start},placeholder=#{variables.common.variable.survey.period.start},readonly=false)"></div>
+											</div>
+											<div class="col-md-6">
+												<div
+													th:replace="common/calendar::date(field=variableSurvey.surveyPeriod.endDate,label=#{variables.common.variable.survey.period.end},placeholder=#{variables.common.variable.survey.period.end},readonly=false)"></div>
+											</div>
 										</div>
 									</div>
 								</div>
