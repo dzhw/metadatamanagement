@@ -56,7 +56,7 @@
 												th:text="#{variables.common.variable.scaleLevel}"></span></strong>
 										</ins>
 										
-										<div class="checkbox" th:each="filter : ${filterManager.filterMap.values()}">
+										<div class="checkbox" th:each="filter : ${filterManager.getFilterGroupByName('scaleLevel')}">
 											<input
 												type="checkbox"
 												th:id="${filter.value}" th:field="${searchFormDto.scaleLevel}" th:value="${filter.value}"

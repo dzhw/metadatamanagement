@@ -1,5 +1,6 @@
 package eu.dzhw.fdz.metadatamanagement.data.common.documents.filters;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -46,7 +47,27 @@ public class FilterManager {
   }
 
   /**
-   * update the list by a key and the given buckets from the elastic search aggregation.
+   * Returns all filter by one named group. A name is the request parameter name like
+   * "scaleLevel". This values are constans in the document classes like e.g.
+   * VariableDocument.SCALE_LEVEL_FIELD.
+   * 
+   * @param name The name of a filter / request parameter.
+   * @return A list with all known filter by the name
+   */
+  public List<AbstractFilter> getFilterGroupByName(String name) {
+    List<AbstractFilter> abstractFilters = new ArrayList<>();
+
+    this.filterMap.values().forEach(filter -> {
+        if (filter.getName().equals(name)) {
+          abstractFilters.add(filter);
+        }
+      });
+
+    return abstractFilters;
+  }
+
+  /**
+   * Updates the list by a key and the given buckets from the elastic search aggregation.
    * 
    * @param buckets The buckets from the repository layer
    */
@@ -69,18 +90,6 @@ public class FilterManager {
         }
       });
   }
-
-  /**
-   * update the filter status of choosen by a key.
-   * 
-   * @param buckets The buckets from the repository layer
-   * @param key The key is a value of the request parameter. e.g.: ?requestParameter=value
-   */
-  // private void updateFilters(List<Terms.Bucket> buckets, String key) {
-  //
-  //
-  //
-  // }
 
   /* GETTER / SETTER */
   public Map<String, AbstractFilter> getFilterMap() {
