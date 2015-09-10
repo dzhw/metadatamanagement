@@ -1,7 +1,7 @@
 /**
  * 
  */
-package eu.dzhw.fdz.metadatamanagement.web.variablemanagement;
+package eu.dzhw.fdz.metadatamanagement.web.variablemanagement.search;
 
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertThat;
