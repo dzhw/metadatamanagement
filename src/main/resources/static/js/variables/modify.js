@@ -61,6 +61,7 @@ VariableModifyForm.validate = _.debounce(function(form) {
 						'glyphicon-ok');
 			}
 		}	
+		initDatePicker();
 	}, 'json');
 },250);
 
@@ -76,6 +77,7 @@ $(document).ready(function() {
 	
 	//scroll to the last scroll position (0 if the page is loaded for the first time)
 	$(window).scrollTop($('#windowYPosition').val());
+	initDatePicker();
 });
 
 // bind y scroll position to hidden input field 

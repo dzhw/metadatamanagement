@@ -1,4 +1,4 @@
-$(document).ready(	
+function initDatePicker(){
 		 $(".datepicker").each(function() {
 			 locale = $('html').attr('lang');
 			 
@@ -38,12 +38,13 @@ $(document).ready(
 										.slice(-2);
 								$("#"+replaceId($(this).attr('id'))+"_alt").val(
 										year + '-' + month + '-' + day);
+								$("form").trigger("submit");
 						} catch (e) {
 							$("#"+replaceId($(this).attr('id'))+"_alt").val('invalid date');
 						}
 					});
-		 })
-		);
+		 });
+}
 		 
 function replaceId(oldId){
 	return oldId.replace(/\./g,"\\.");

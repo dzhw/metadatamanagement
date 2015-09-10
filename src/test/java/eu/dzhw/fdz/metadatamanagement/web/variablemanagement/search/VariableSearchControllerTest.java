@@ -57,16 +57,18 @@ public class VariableSearchControllerTest extends AbstractWebTest {
     for (Locale locale : I18nConfiguration.SUPPORTED_LANGUAGES) {
       LocaleContextHolder.setLocale(locale);
       for (int i = 1; i <= 9; i++) {
-        VariableSurvey variableSurvey = new VariableSurveyBuilder()
-            .withSurveyId("SearchUnitTest_Survey_ID").withTitle("SearchUnitTestTitle 0" + i)
-            .withVariableAlias("SearchUnitTestVariableAlias 0" + i).build();
+        VariableSurvey variableSurvey =
+            new VariableSurveyBuilder().withSurveyId("SearchUnitTest_Survey_ID")
+                .withTitle("SearchUnitTestTitle 0" + i)
+                .withVariableAlias("SearchUnitTestVariableAlias 0" + i).build();
 
-        VariableDocument variableDocument = new VariableDocumentBuilder()
-            .withId("SearchUnitTest_ID0" + i).withName("SearchUnitTestName 0" + i)
-            .withLabel("SearchUnitTestLabel 0" + i).withQuestion("SearchUnitTestQuestion 0" + i)
-            .withDataType(this.dataTypesProvider.getNumericValueByLocale())
-            .withScaleLevel(this.scaleLevelProvider.getMetricByLocal())
-            .withVariableSurvey(variableSurvey).build();
+        VariableDocument variableDocument =
+            new VariableDocumentBuilder().withId("SearchUnitTest_ID0" + i)
+                .withName("SearchUnitTestName 0" + i).withLabel("SearchUnitTestLabel 0" + i)
+                .withQuestion("SearchUnitTestQuestion 0" + i)
+                .withDataType(this.dataTypesProvider.getNumericValueByLocale())
+                .withScaleLevel(this.scaleLevelProvider.getMetricByLocal())
+                .withVariableSurvey(variableSurvey).build();
         this.variableService.save(variableDocument);
       }
     }
@@ -85,9 +87,10 @@ public class VariableSearchControllerTest extends AbstractWebTest {
 
   @Test
   public void testGermanTemplate() throws Exception {
-    MvcResult mvcResult = this.mockMvc.perform(get("/de/variables/search"))
-        .andExpect(status().isOk()).andExpect(request().asyncStarted())
-        .andExpect(request().asyncResult(instanceOf(ModelAndView.class))).andReturn();
+    MvcResult mvcResult =
+        this.mockMvc.perform(get("/de/variables/search")).andExpect(status().isOk())
+            .andExpect(request().asyncStarted())
+            .andExpect(request().asyncResult(instanceOf(ModelAndView.class))).andReturn();
 
     this.mockMvc.perform(asyncDispatch(mvcResult)).andExpect(status().isOk())
         .andExpect(content().string((containsString("Sprache"))))
@@ -96,16 +99,17 @@ public class VariableSearchControllerTest extends AbstractWebTest {
         .andExpect(content().string(not(containsString("??"))));
 
     VariableSearchPageResource resource =
-        (VariableSearchPageResource) ((ModelAndView) mvcResult.getAsyncResult()).getModelMap()
-            .get("resource");
+        (VariableSearchPageResource) ((ModelAndView) mvcResult.getAsyncResult()).getModelMap().get(
+            "resource");
     assertThat(resource.getPage().getContent().size(), is(greaterThan(0)));
   }
 
   @Test
   public void testEnglishTemplate() throws Exception {
-    MvcResult mvcResult = this.mockMvc.perform(get("/en/variables/search"))
-        .andExpect(status().isOk()).andExpect(request().asyncStarted())
-        .andExpect(request().asyncResult(instanceOf(ModelAndView.class))).andReturn();
+    MvcResult mvcResult =
+        this.mockMvc.perform(get("/en/variables/search")).andExpect(status().isOk())
+            .andExpect(request().asyncStarted())
+            .andExpect(request().asyncResult(instanceOf(ModelAndView.class))).andReturn();
 
     this.mockMvc.perform(asyncDispatch(mvcResult)).andExpect(status().isOk())
         .andExpect(content().string((containsString("Language"))))
@@ -114,8 +118,8 @@ public class VariableSearchControllerTest extends AbstractWebTest {
         .andExpect(content().string(not(containsString("??"))));
 
     VariableSearchPageResource resource =
-        (VariableSearchPageResource) ((ModelAndView) mvcResult.getAsyncResult()).getModelMap()
-            .get("resource");
+        (VariableSearchPageResource) ((ModelAndView) mvcResult.getAsyncResult()).getModelMap().get(
+            "resource");
     assertThat(resource.getPage().getContent().size(), is(greaterThan(0)));
   }
 
@@ -130,16 +134,16 @@ public class VariableSearchControllerTest extends AbstractWebTest {
 
     // Act
     VariableSearchPageResource resource =
-        (VariableSearchPageResource) ((ModelAndView) mvcResult.getAsyncResult()).getModelMap()
-            .get("resource");
+        (VariableSearchPageResource) ((ModelAndView) mvcResult.getAsyncResult()).getModelMap().get(
+            "resource");
 
     VariableSearchFormDto variableSearchFormDto =
-        (VariableSearchFormDto) ((ModelAndView) mvcResult.getAsyncResult()).getModelMap()
-            .get("searchFormDto");
+        (VariableSearchFormDto) ((ModelAndView) mvcResult.getAsyncResult()).getModelMap().get(
+            "variableSearchFormDto");
 
     // Assert
-    ModelAndViewAssert.assertViewName((ModelAndView) mvcResult.getAsyncResult(),
-        "variables/search");
+    ModelAndViewAssert
+        .assertViewName((ModelAndView) mvcResult.getAsyncResult(), "variables/search");
     ModelAndViewAssert.assertModelAttributeAvailable((ModelAndView) mvcResult.getAsyncResult(),
         "resource");
     ModelAndViewAssert.assertAndReturnModelAttributeOfType(
@@ -153,23 +157,24 @@ public class VariableSearchControllerTest extends AbstractWebTest {
   public void testSearchWithPage() throws Exception {
 
     // Arrange
-    MvcResult mvcResult = this.mockMvc
-        .perform(get("/de/variables/search?query=SearchUnitTest_Survey_ID&page=1&size=3"))
-        .andExpect(status().isOk()).andExpect(request().asyncStarted())
-        .andExpect(request().asyncResult(instanceOf(ModelAndView.class))).andReturn();
+    MvcResult mvcResult =
+        this.mockMvc
+            .perform(get("/de/variables/search?query=SearchUnitTest_Survey_ID&page=1&size=3"))
+            .andExpect(status().isOk()).andExpect(request().asyncStarted())
+            .andExpect(request().asyncResult(instanceOf(ModelAndView.class))).andReturn();
 
     // Act
     VariableSearchFormDto variableSearchFormDto =
-        (VariableSearchFormDto) ((ModelAndView) mvcResult.getAsyncResult()).getModelMap()
-            .get("searchFormDto");
+        (VariableSearchFormDto) ((ModelAndView) mvcResult.getAsyncResult()).getModelMap().get(
+            "variableSearchFormDto");
 
     VariableSearchPageResource resource =
-        (VariableSearchPageResource) ((ModelAndView) mvcResult.getAsyncResult()).getModelMap()
-            .get("resource");
+        (VariableSearchPageResource) ((ModelAndView) mvcResult.getAsyncResult()).getModelMap().get(
+            "resource");
 
     // Assert
-    ModelAndViewAssert.assertViewName((ModelAndView) mvcResult.getAsyncResult(),
-        "variables/search");
+    ModelAndViewAssert
+        .assertViewName((ModelAndView) mvcResult.getAsyncResult(), "variables/search");
     ModelAndViewAssert.assertModelAttributeAvailable((ModelAndView) mvcResult.getAsyncResult(),
         "resource");
     ModelAndViewAssert.assertAndReturnModelAttributeOfType(
@@ -178,12 +183,18 @@ public class VariableSearchControllerTest extends AbstractWebTest {
     assertThat(variableSearchFormDto.getQuery(), is("SearchUnitTest_Survey_ID"));
     assertThat(variableSearchFormDto.getScaleLevel(), is(nullValue()));
     assertThat(resource.getPage().getContent().size(), is(3));
-    assertThat(resource.getPage().getId().getHref()
-        .contains("/de/variables/search?query=SearchUnitTest_Survey_ID&page=1&size=3"), is(true));
-    assertThat(resource.getPage().getPreviousLink().getHref()
-        .contains("/de/variables/search?query=SearchUnitTest_Survey_ID&page=0&size=3"), is(true));
-    assertThat(resource.getPage().getNextLink().getHref()
-        .contains("/de/variables/search?query=SearchUnitTest_Survey_ID&page=2&size=3"), is(true));
+    assertThat(
+        resource.getPage().getId().getHref()
+            .contains("/de/variables/search?query=SearchUnitTest_Survey_ID&page=1&size=3"),
+        is(true));
+    assertThat(
+        resource.getPage().getPreviousLink().getHref()
+            .contains("/de/variables/search?query=SearchUnitTest_Survey_ID&page=0&size=3"),
+        is(true));
+    assertThat(
+        resource.getPage().getNextLink().getHref()
+            .contains("/de/variables/search?query=SearchUnitTest_Survey_ID&page=2&size=3"),
+        is(true));
 
   }
 
@@ -192,23 +203,24 @@ public class VariableSearchControllerTest extends AbstractWebTest {
   public void testSearchWithScaleLevel() throws Exception {
 
     // Arrange
-    MvcResult mvcResult = this.mockMvc
-        .perform(get("/de/variables/search?query=SearchUnitTestName&scaleLevel=metrisch"))
-        .andExpect(status().isOk()).andExpect(request().asyncStarted())
-        .andExpect(request().asyncResult(instanceOf(ModelAndView.class))).andReturn();
+    MvcResult mvcResult =
+        this.mockMvc
+            .perform(get("/de/variables/search?query=SearchUnitTestName&scaleLevel=metrisch"))
+            .andExpect(status().isOk()).andExpect(request().asyncStarted())
+            .andExpect(request().asyncResult(instanceOf(ModelAndView.class))).andReturn();
     VariableSearchPageResource resource =
-        (VariableSearchPageResource) ((ModelAndView) mvcResult.getAsyncResult()).getModelMap()
-            .get("resource");
+        (VariableSearchPageResource) ((ModelAndView) mvcResult.getAsyncResult()).getModelMap().get(
+            "resource");
     VariableSearchFormDto variableSearchFormDto =
-        (VariableSearchFormDto) ((ModelAndView) mvcResult.getAsyncResult()).getModelMap()
-            .get("searchFormDto");
+        (VariableSearchFormDto) ((ModelAndView) mvcResult.getAsyncResult()).getModelMap().get(
+            "variableSearchFormDto");
 
     // Act
 
 
     // Assert
-    ModelAndViewAssert.assertViewName((ModelAndView) mvcResult.getAsyncResult(),
-        "variables/search");
+    ModelAndViewAssert
+        .assertViewName((ModelAndView) mvcResult.getAsyncResult(), "variables/search");
     assertThat(variableSearchFormDto.getQuery(), is("SearchUnitTestName"));
     assertThat(variableSearchFormDto.getScaleLevel(), is("metrisch"));
     assertThat(resource.getPage().getContent().size(), greaterThan(0));
@@ -227,16 +239,16 @@ public class VariableSearchControllerTest extends AbstractWebTest {
 
     // Act
     VariableSearchPageResource resource =
-        (VariableSearchPageResource) ((ModelAndView) mvcResult.getAsyncResult()).getModelMap()
-            .get("resource");
+        (VariableSearchPageResource) ((ModelAndView) mvcResult.getAsyncResult()).getModelMap().get(
+            "resource");
 
     VariableSearchFormDto variableSearchFormDto =
-        (VariableSearchFormDto) ((ModelAndView) mvcResult.getAsyncResult()).getModelMap()
-            .get("searchFormDto");
+        (VariableSearchFormDto) ((ModelAndView) mvcResult.getAsyncResult()).getModelMap().get(
+            "variableSearchFormDto");
 
     // Assert
-    ModelAndViewAssert.assertViewName((ModelAndView) mvcResult.getAsyncResult(),
-        "variables/search");
+    ModelAndViewAssert
+        .assertViewName((ModelAndView) mvcResult.getAsyncResult(), "variables/search");
     assertThat(variableSearchFormDto.getQuery(), is(nullValue()));
     assertThat(variableSearchFormDto.getScaleLevel(), is("ordinal"));
     assertThat(resource.getPage().getContent().size(), is(0));
