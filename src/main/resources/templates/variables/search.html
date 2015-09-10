@@ -10,7 +10,7 @@
 			th:include="common/jumbotron::jumbotron(title=#{variables.search.title},subtitle=#{variables.search.subtitle})"></div>
 	</header>
 	<form id="searchVariables" action="#"
-		th:object="${variableSearchFormDto}"
+		th:object="${searchFormDto}"
 		th:action="${resource.variablesSearchLink.href}" autocomplete="off">
 		<div class="container">
 			<div class="row">
@@ -70,7 +70,7 @@
 								</div>
 							</div>
 							<!-- DateRange -->
-							<div class="panel panel-default">
+				<!-- 			<div class="panel panel-default">
 								<div class="panel-heading custom-panel-heading"
 									data-toggle="collapse" data-target="#collapseDateRangePanel">
 									<a class="panel-title panel-toggle"
@@ -92,7 +92,7 @@
 										</li>
 									</ul>
 								</div>
-							</div>
+							</div>  -->
 						</div>
 						<!-- result and page -->
 						<div class="col-md-9">
