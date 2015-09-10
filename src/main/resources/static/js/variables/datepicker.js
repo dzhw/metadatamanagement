@@ -1,4 +1,4 @@
-function initDatePicker(){
+function initDatePicker(mode){
 		 $(".datepicker").each(function() {
 			 locale = $('html').attr('lang');
 			 
@@ -40,7 +40,14 @@ function initDatePicker(){
 										year + '-' + month + '-' + day);
 								$("form").trigger("submit");
 						} catch (e) {
+							if(mode=='modify'){
 							$("#"+replaceId($(this).attr('id'))+"_alt").val('invalid date');
+							}else{
+								$("#"+replaceId($(this).attr('id'))+"_alt").val('');
+								if($(this).val() === ''){
+									$("form").trigger("submit");
+								}
+							}
 						}
 					});
 		 });

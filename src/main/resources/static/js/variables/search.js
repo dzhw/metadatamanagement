@@ -14,7 +14,7 @@ VariableSearchForm.search = _.throttle(function(form) {
 		var newUrl = searchUrl + '?' + formData;
 		// change the browsers url
 		history.pushState({},'' , newUrl);
-		initDatePicker();
+		initDatePicker('search');
 	});
 },500);
 
@@ -26,5 +26,5 @@ $(document).ready(function() {
 			location.reload();
 		}
 	};	
-	initDatePicker();
+	initDatePicker('search');
 });
