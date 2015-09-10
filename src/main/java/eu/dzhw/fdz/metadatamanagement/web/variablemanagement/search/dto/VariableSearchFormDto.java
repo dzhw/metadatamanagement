@@ -1,6 +1,8 @@
 package eu.dzhw.fdz.metadatamanagement.web.variablemanagement.search.dto;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.validation.Valid;
@@ -48,6 +50,41 @@ public class VariableSearchFormDto {
     }
 
     return filterValues;
+  }
+
+  /**
+   * @return Returns a List with all filternames.
+   */
+  public List<String> getFilterNames() {
+    List<String> filterNames = new ArrayList<>();
+
+    // ScaleLevel
+    filterNames.add(VariableDocument.SCALE_LEVEL_FIELD);
+
+    // Survey Title
+    filterNames.add(VariableDocument.NESTED_VARIABLE_SURVEY_TITLE_FIELD);
+
+    return filterNames;
+  }
+
+  /**
+   * @param filterName If a filterName has a dot, then it is a nested filterobject
+   * @return return true, if a nested filtername has a dot.
+   */
+  // TODO Refactoring
+  public static boolean isNestedFilter(String filterName) {
+    return filterName.contains(".");
+  }
+
+  /**
+   * Returns the basic path.
+   * 
+   * @param filterName If a filterName has a dot, then it is a nested filterobject
+   * @return return the basic path of the nested path
+   */
+  // TODO For Refactoring
+  public static String getBasicPath(String filterName) {
+    return filterName.substring(0, filterName.indexOf("."));
   }
 
   /* GETTER / SETTER */
