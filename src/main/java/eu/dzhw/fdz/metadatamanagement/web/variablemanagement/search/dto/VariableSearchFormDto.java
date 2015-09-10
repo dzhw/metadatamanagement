@@ -22,6 +22,8 @@ public class VariableSearchFormDto {
 
   private String scaleLevel;
 
+  private String surveyTitel;
+
   /**
    * @return A list with all filter values.
    */
@@ -33,6 +35,11 @@ public class VariableSearchFormDto {
       filterValues.put(VariableDocument.SCALE_LEVEL_FIELD, this.scaleLevel);
     }
 
+    // Survey Title
+    if (StringUtils.hasText(this.surveyTitel)) {
+      filterValues.put(VariableDocument.NESTED_VARIABLE_SURVEY_TITLE_FIELD, this.surveyTitel);
+    }
+
     return filterValues;
   }
 
@@ -40,7 +47,7 @@ public class VariableSearchFormDto {
    * @return Return true if in any field is text.
    */
   public boolean hasTextInAnyField() {
-    return StringUtils.hasText(this.query) || StringUtils.hasText(this.scaleLevel);
+    return StringUtils.hasText(this.query) || !this.getAllFilterValues().isEmpty();
   }
 
   /* GETTER / SETTER */
@@ -58,5 +65,13 @@ public class VariableSearchFormDto {
 
   public void setScaleLevel(String scaleLevel) {
     this.scaleLevel = scaleLevel;
+  }
+
+  public String getSurveyTitel() {
+    return surveyTitel;
+  }
+
+  public void setSurveyTitel(String surveyTitel) {
+    this.surveyTitel = surveyTitel;
   }
 }
