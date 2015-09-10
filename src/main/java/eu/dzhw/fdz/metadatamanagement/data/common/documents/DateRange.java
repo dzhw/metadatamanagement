@@ -12,6 +12,7 @@ import com.google.common.base.Objects;
 import eu.dzhw.fdz.metadatamanagement.data.common.documents.validation.ValidDateRange;
 import eu.dzhw.fdz.metadatamanagement.data.common.documents.validation.groups.ModifyValidationGroup.Create;
 import eu.dzhw.fdz.metadatamanagement.data.common.documents.validation.groups.ModifyValidationGroup.Edit;
+import eu.dzhw.fdz.metadatamanagement.data.common.documents.validation.groups.SearchValidationGroup.Search;
 
 /**
  * The date range has two {@code LocalDate} object for representing a time range. The the
@@ -21,7 +22,7 @@ import eu.dzhw.fdz.metadatamanagement.data.common.documents.validation.groups.Mo
  *
  */
 @GeneratePojoBuilder(intoPackage = "eu.dzhw.fdz.metadatamanagement.data.common.documents.builders")
-@ValidDateRange(groups = {Create.class, Edit.class})
+@ValidDateRange(groups = {Create.class, Edit.class, Search.class})
 public class DateRange {
 
   // Public constants which are used in queries as fieldnames.

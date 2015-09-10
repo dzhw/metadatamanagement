@@ -7,6 +7,8 @@ import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
+import net.karneim.pojobuilder.GeneratePojoBuilder;
+
 import org.hibernate.validator.constraints.NotBlank;
 import org.springframework.data.elasticsearch.annotations.Document;
 
@@ -19,7 +21,6 @@ import eu.dzhw.fdz.metadatamanagement.data.common.documents.validation.groups.Mo
 import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.validation.UniqueAnswerCode;
 import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.validation.ValidDataType;
 import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.validation.ValidScaleLevel;
-import net.karneim.pojobuilder.GeneratePojoBuilder;
 
 /**
  * This is a representation of a variable. All fields describe the attributes of the variable, for
@@ -28,9 +29,8 @@ import net.karneim.pojobuilder.GeneratePojoBuilder;
  * @author Daniel Katzberg
  *
  */
-@Document(
-    indexName = "#{'" + AbstractDocument.METADATA_INDEX + "_'"
-        + "+T(org.springframework.context.i18n.LocaleContextHolder).getLocale().getLanguage()}",
+@Document(indexName = "#{'" + AbstractDocument.METADATA_INDEX + "_'"
+    + "+T(org.springframework.context.i18n.LocaleContextHolder).getLocale().getLanguage()}",
     type = "variables")
 @GeneratePojoBuilder(
     intoPackage = "eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.builders")
@@ -44,22 +44,23 @@ public class VariableDocument extends AbstractDocument {
   public static final String QUESTION_FIELD = "question";
   public static final String ANSWER_OPTIONS_FIELD = "answerOptions";
   public static final String VARIABLE_SURVEY_FIELD = "variableSurvey";
-  public static final String NESTED_VARIABLE_SURVEY_TITLE_FIELD =
-      VARIABLE_SURVEY_FIELD + "." + VariableSurvey.TITLE_FIELD;
-  public static final String NESTED_VARIABLE_SURVEY_VARIABLE_ALIAS_FIELD =
-      VARIABLE_SURVEY_FIELD + "." + VariableSurvey.VARIABLE_ALIAS_FIELD;
-  public static final String NESTED_VARIABLE_SURVEY_ID_FIELD =
-      VARIABLE_SURVEY_FIELD + "." + VariableSurvey.SURVEY_ID_FIELD;
-  public static final String NESTED_VARIABLE_SURVEY_PERIOD_FIELD =
-      VARIABLE_SURVEY_FIELD + "." + VariableSurvey.SURVEY_PERIOD_FIELD;
-  public static final String NESTED_VARIABLE_SURVEY_NESTED_PERIOD_START_DATE = VARIABLE_SURVEY_FIELD
-      + "." + VariableSurvey.SURVEY_PERIOD_FIELD + "." + DateRange.STARTDATE_FIELD;
+  public static final String NESTED_VARIABLE_SURVEY_TITLE_FIELD = VARIABLE_SURVEY_FIELD + "."
+      + VariableSurvey.TITLE_FIELD;
+  public static final String NESTED_VARIABLE_SURVEY_VARIABLE_ALIAS_FIELD = VARIABLE_SURVEY_FIELD
+      + "." + VariableSurvey.VARIABLE_ALIAS_FIELD;
+  public static final String NESTED_VARIABLE_SURVEY_ID_FIELD = VARIABLE_SURVEY_FIELD + "."
+      + VariableSurvey.SURVEY_ID_FIELD;
+  public static final String NESTED_VARIABLE_SURVEY_PERIOD_FIELD = VARIABLE_SURVEY_FIELD + "."
+      + VariableSurvey.SURVEY_PERIOD_FIELD;
+  public static final String NESTED_VARIABLE_SURVEY_NESTED_PERIOD_START_DATE =
+      VARIABLE_SURVEY_FIELD + "." + VariableSurvey.SURVEY_PERIOD_FIELD + "."
+          + DateRange.STARTDATE_FIELD;
   public static final String NESTED_VARIABLE_SURVEY_NESTED_PERIOD_END_DATE = VARIABLE_SURVEY_FIELD
       + "." + VariableSurvey.SURVEY_PERIOD_FIELD + "." + DateRange.ENDDATE_FIELD;
-  public static final String NESTED_ANSWER_OPTIONS_CODE_FIELD =
-      ANSWER_OPTIONS_FIELD + "." + AnswerOption.CODE_FIELD;
-  public static final String NESTED_ANSWER_OPTIONS_LABEL_FIELD =
-      ANSWER_OPTIONS_FIELD + "." + AnswerOption.LABEL_FIELD;
+  public static final String NESTED_ANSWER_OPTIONS_CODE_FIELD = ANSWER_OPTIONS_FIELD + "."
+      + AnswerOption.CODE_FIELD;
+  public static final String NESTED_ANSWER_OPTIONS_LABEL_FIELD = ANSWER_OPTIONS_FIELD + "."
+      + AnswerOption.LABEL_FIELD;
 
   /**
    * This is a nested reference to the survey.

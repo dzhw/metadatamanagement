@@ -3,12 +3,13 @@ package eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
+import net.karneim.pojobuilder.GeneratePojoBuilder;
+
 import com.google.common.base.MoreObjects;
 import com.google.common.base.Objects;
 
 import eu.dzhw.fdz.metadatamanagement.data.common.documents.validation.groups.ModifyValidationGroup.Create;
 import eu.dzhw.fdz.metadatamanagement.data.common.documents.validation.groups.ModifyValidationGroup.Edit;
-import net.karneim.pojobuilder.GeneratePojoBuilder;
 
 /**
  * The answer option represents the options of answer for closed questions. The answer option bases

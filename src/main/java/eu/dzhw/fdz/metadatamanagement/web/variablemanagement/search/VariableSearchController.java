@@ -22,8 +22,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import eu.dzhw.fdz.metadatamanagement.data.common.aggregations.Bucket;
 import eu.dzhw.fdz.metadatamanagement.data.common.aggregations.PageWithBuckets;
-import eu.dzhw.fdz.metadatamanagement.data.common.documents.DateRange;
-import eu.dzhw.fdz.metadatamanagement.data.common.documents.validation.groups.ModifyValidationGroup.Create;
+import eu.dzhw.fdz.metadatamanagement.data.common.documents.validation.groups.SearchValidationGroup.Search;
 import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.VariableDocument;
 import eu.dzhw.fdz.metadatamanagement.service.variablemanagement.VariableService;
 import eu.dzhw.fdz.metadatamanagement.web.variablemanagement.details.VariableResource;
@@ -77,23 +76,24 @@ public class VariableSearchController {
   @RequestMapping(value = "/{language:de|en}/variables/search", method = RequestMethod.GET)
   public Callable<ModelAndView> get(
       @RequestHeader(name = "X-Requested-With", required = false) String ajaxHeader,
-      VariableSearchFormDto variableSearchFormDto, Pageable pageable,
-      final HttpServletResponse httpServletResponse, @Validated(Create.class) DateRange dateRange,
-      BindingResult bindingResult) {
+      @Validated(Search.class) VariableSearchFormDto variableSearchFormDto,
+      BindingResult bindingResult, Pageable pageable, 
+      final HttpServletResponse httpServletResponse) {
     return () -> {
       ModelAndView modelAndView = new ModelAndView();
       modelAndView.addObject("searchFormDto", variableSearchFormDto);
 
       PageWithBuckets<VariableDocument> pageableWithBuckets =
           this.variableService.search(variableSearchFormDto, pageable);
-      Map<String, HashSet<Bucket>> bucketMap = BucketManager
-          .addEmptyBucketsIfNecessary(variableSearchFormDto, pageableWithBuckets.getBucketMap());
-      modelAndView.addObject("scaleLevelBuckets",
-          bucketMap.get(VariableDocument.SCALE_LEVEL_FIELD));
-      modelAndView.addObject("dateRange", dateRange);
+      Map<String, HashSet<Bucket>> bucketMap =
+          BucketManager.addEmptyBucketsIfNecessary(variableSearchFormDto,
+              pageableWithBuckets.getBucketMap());
+      modelAndView
+          .addObject("scaleLevelBuckets", bucketMap.get(VariableDocument.SCALE_LEVEL_FIELD));
       // Create Resource
-      PagedResources<VariableResource> pagedVariableResource = this.pagedResourcesAssembler
-          .toResource(pageableWithBuckets, this.variableResourceAssembler);
+      PagedResources<VariableResource> pagedVariableResource =
+          this.pagedResourcesAssembler.toResource(pageableWithBuckets,
+              this.variableResourceAssembler);
       VariableSearchPageResource resource =
           new VariableSearchPageResource(pagedVariableResource, VariableSearchController.class,
               this.controllerLinkBuilderFactory, variableSearchFormDto, pageable);

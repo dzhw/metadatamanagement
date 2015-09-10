@@ -9,7 +9,8 @@
 		<div
 			th:include="common/jumbotron::jumbotron(title=#{variables.search.title},subtitle=#{variables.search.subtitle})"></div>
 	</header>
-	<form id="searchVariables" action="#" th:object="${searchFormDto}"
+	<form id="searchVariables" action="#"
+		th:object="${variableSearchFormDto}"
 		th:action="${resource.variablesSearchLink.href}" autocomplete="off">
 		<div class="container">
 			<div class="row">
@@ -69,7 +70,7 @@
 								</div>
 							</div>
 							<!-- DateRange -->
-							<div class="panel panel-default" th:object="${dateRange}">
+							<div class="panel panel-default">
 								<div class="panel-heading custom-panel-heading"
 									data-toggle="collapse" data-target="#collapseDateRangePanel">
 									<a class="panel-title panel-toggle"
@@ -82,11 +83,11 @@
 									<ul class="list-group">
 										<li class="list-group-item">
 											<div
-												th:replace="common/errorAlerts::globalAlerts(field=global)"></div>
+												th:replace="common/errorAlerts::globalAlerts(field=dateRange)"></div>
 											<div
-												th:replace="common/calendar::date(field=startDate,label=#{variables.common.variable.survey.period.start},placeholder=#{variables.common.variable.survey.period.start},readonly=false)"></div>
+												th:replace="common/calendar::date(field=dateRange.startDate,label=#{variables.common.variable.survey.period.start},placeholder=#{variables.common.variable.survey.period.start},readonly=false)"></div>
 											<div
-												th:replace="common/calendar::date(field=endDate,label=#{variables.common.variable.survey.period.end},placeholder=#{variables.common.variable.survey.period.end},readonly=false)"></div>
+												th:replace="common/calendar::date(field=dateRange.endDate,label=#{variables.common.variable.survey.period.end},placeholder=#{variables.common.variable.survey.period.end},readonly=false)"></div>
 
 										</li>
 									</ul>

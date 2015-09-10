@@ -3,10 +3,14 @@ package eu.dzhw.fdz.metadatamanagement.web.variablemanagement.search.dto;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.validation.Valid;
+
+import net.karneim.pojobuilder.GeneratePojoBuilder;
+
 import org.springframework.util.StringUtils;
 
+import eu.dzhw.fdz.metadatamanagement.data.common.documents.DateRange;
 import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.VariableDocument;
-import net.karneim.pojobuilder.GeneratePojoBuilder;
 
 /**
  * The SearchForm Data transfer object (dto). This dto
@@ -23,6 +27,9 @@ public class VariableSearchFormDto {
   private String scaleLevel;
 
   private String surveyTitel;
+
+  @Valid
+  private DateRange dateRange;
 
   /**
    * @return A list with all filter values.
@@ -66,5 +73,13 @@ public class VariableSearchFormDto {
 
   public void setSurveyTitel(String surveyTitel) {
     this.surveyTitel = surveyTitel;
+  }
+
+  public DateRange getDateRange() {
+    return dateRange;
+  }
+
+  public void setDateRange(DateRange dateRange) {
+    this.dateRange = dateRange;
   }
 }
