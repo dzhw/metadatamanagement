@@ -15,47 +15,71 @@ import org.junit.Test;
  *
  */
 public class BucketTest {
-  
+
   @Test
-  public void testSetter(){
-    //Arrange
+  public void testSetter() {
+    // Arrange
     Bucket bucket = new Bucket("Key1", 0L);
-    
-    //Act
+
+    // Act
     bucket.setKey("Key2");
     bucket.setDocCount(1L);
-    
-    //Assert
+
+    // Assert
     assertThat(bucket.getKey(), is("Key2"));
     assertThat(bucket.getDocCount(), is(1L));
   }
-  
+
   @Test
-  public void testHashCode(){
-    //Arrange
+  public void testHashCode() {
+    // Arrange
     Bucket bucket = new Bucket("Key1", 0L);
-    
-    //Act
-    
-    //Assert
+
+    // Act
+
+    // Assert
     assertThat(bucket.hashCode(), not(0));
   }
-  
+
   @Test
-  public void testEquals(){
+  public void testEquals() {
     Bucket bucket = new Bucket("Key1", 0L);
     Bucket bucket2 = new Bucket("Key2", 1L);
-    
-    //Act
+
+    // Act
     boolean checkSame = bucket.equals(bucket);
     boolean checkNull = bucket.equals(null);
     boolean checkOtherClass = bucket.equals(new Object());
     boolean checkDifferent = bucket.equals(bucket2);
-    
-    //Assert
+
+    // Assert
     assertEquals(true, checkSame);
     assertEquals(false, checkNull);
     assertEquals(false, checkOtherClass);
     assertEquals(false, checkDifferent);
+  }
+
+  @Test
+  public void testEqualsWithSameKeyButDifferentDocCount() {
+    Bucket bucket = new Bucket("Key1", 0L);
+    Bucket bucket2 = new Bucket("Key1", 1L);
+
+    // Act
+    boolean checkSame = bucket.equals(bucket2);
+
+    // Assert
+    assertEquals(true, checkSame);
+  }
+
+  @Test
+  public void testHashCodeWithSameKeyButDifferentDocCount() {
+    Bucket bucket = new Bucket("Key1", 0L);
+    Bucket bucket2 = new Bucket("Key1", 1L);
+
+    // Act
+    boolean checkSame = bucket.hashCode() == bucket2.hashCode();
+
+    // Assert
+    assertEquals(true, checkSame);
   }
 }
