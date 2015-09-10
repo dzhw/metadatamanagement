@@ -108,7 +108,7 @@ public class VariableRepositoryImpl implements VariableRepositoryCustom {
     }
 
     // create a list from filterbuilder from the dto
-    Map<String, String> filterValues = formDto.getAllFilterValues();
+    Map<String, String> filterValues = formDto.getAllFilters();
     List<FilterBuilder> termFilterBuilders = new ArrayList<>();
     for (String filterName : filterValues.keySet()) {
       termFilterBuilders.add(FilterBuilders.termFilter(filterName, formDto.getScaleLevel()));
@@ -116,14 +116,14 @@ public class VariableRepositoryImpl implements VariableRepositoryCustom {
 
     // add filter only, if the user used min once.
     if (!termFilterBuilders.isEmpty()) {
-      
-      //add 1..* term filter
+
+      // add 1..* term filter
       BoolFilterBuilder filterBoolBuilder = FilterBuilders.boolFilter();
       for (FilterBuilder termFilterBuilder : termFilterBuilders) {
         filterBoolBuilder = filterBoolBuilder.must(termFilterBuilder);
       }
 
-      //add bool filter to query 
+      // add bool filter to query
       queryBuilder = QueryBuilders.filteredQuery(queryBuilder, filterBoolBuilder);
     }
 

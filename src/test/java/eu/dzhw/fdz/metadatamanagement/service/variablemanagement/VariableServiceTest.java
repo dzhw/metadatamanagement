@@ -71,7 +71,8 @@ public class VariableServiceTest extends AbstractWebTest {
         new VariableSearchFormDtoBuilder().withQuery("SearchUnitTestName").build();
 
     // Act
-    PageWithBuckets<VariableDocument> result = this.variableService.search(variableSearchFormDto, pageable);
+    PageWithBuckets<VariableDocument> result =
+        this.variableService.search(variableSearchFormDto, pageable);
 
     // Assert
     assertThat(result.getNumberOfElements(), is(9));
@@ -106,7 +107,8 @@ public class VariableServiceTest extends AbstractWebTest {
     VariableSearchFormDto variableSearchFormDto = new VariableSearchFormDtoBuilder().build();
 
     // Act
-    PageWithBuckets<VariableDocument> result = variableService.search(variableSearchFormDto, pageable);
+    PageWithBuckets<VariableDocument> result =
+        variableService.search(variableSearchFormDto, pageable);
 
     // Assert
     assertThat(result.getNumberOfElements(), greaterThanOrEqualTo(9));
@@ -145,7 +147,8 @@ public class VariableServiceTest extends AbstractWebTest {
             .withDataType(DataTypesProvider.GERMAN_NUMERIC).withAnswerOptions(answerOptions)
             .withVariableSurvey(variableSurvey).build();
 
-    VariableSearchFormDto variableSearchFormDto = new VariableSearchFormDtoBuilder().withQuery(idVariableDocument).build();
+    VariableSearchFormDto variableSearchFormDto =
+        new VariableSearchFormDtoBuilder().withQuery(idVariableDocument).build();
 
     // Act
     VariableDocument savedVariableDocument = this.variableService.save(variableDocument);
@@ -181,8 +184,8 @@ public class VariableServiceTest extends AbstractWebTest {
       this.variableService.save(variableDocument);
     }
 
-    VariableSearchFormDto variableSearchFormDto = new VariableSearchFormDtoBuilder().withQuery("SearchUnitTestName")
-        .withScaleLevel(ScaleLevelProvider.GERMAN_METRIC).build();
+    VariableSearchFormDto variableSearchFormDto = new VariableSearchFormDtoBuilder()
+        .withQuery("SearchUnitTestName").withScaleLevel(ScaleLevelProvider.GERMAN_METRIC).build();
 
     // Act
     PageWithBuckets<VariableDocument> resultOkay =
@@ -190,8 +193,10 @@ public class VariableServiceTest extends AbstractWebTest {
 
     // Assert
     assertThat(resultOkay.getNumberOfElements(), is(9));
-    assertThat(resultOkay.getBucketMap().get(VariableDocument.SCALE_LEVEL_FIELD).get(0).getKey(), is(ScaleLevelProvider.GERMAN_METRIC));
-    assertThat(resultOkay.getBucketMap().get(VariableDocument.SCALE_LEVEL_FIELD).get(0).getDocCount(), is(9L));
+    resultOkay.getBucketMap().get(VariableDocument.SCALE_LEVEL_FIELD).forEach(bucket -> {
+      assertThat(bucket.getKey(), is(ScaleLevelProvider.GERMAN_METRIC));
+      assertThat(bucket.getDocCount(), is(9L));
+    });
 
     // Delete
     for (int i = 1; i <= 9; i++) {
@@ -219,8 +224,8 @@ public class VariableServiceTest extends AbstractWebTest {
       this.variableService.save(variableDocument);
     }
 
-    VariableSearchFormDto variableSearchFormDto =
-        new VariableSearchFormDtoBuilder().withScaleLevel(ScaleLevelProvider.GERMAN_ORDINAL).build();
+    VariableSearchFormDto variableSearchFormDto = new VariableSearchFormDtoBuilder()
+        .withScaleLevel(ScaleLevelProvider.GERMAN_ORDINAL).build();
 
     // Act
     PageWithBuckets<VariableDocument> resultOkay =
@@ -228,8 +233,10 @@ public class VariableServiceTest extends AbstractWebTest {
 
     // Assert
     assertThat(resultOkay.getNumberOfElements(), is(9));
-    assertThat(resultOkay.getBucketMap().get(VariableDocument.SCALE_LEVEL_FIELD).get(0).getKey(), is(ScaleLevelProvider.GERMAN_ORDINAL));
-    assertThat(resultOkay.getBucketMap().get(VariableDocument.SCALE_LEVEL_FIELD).get(0).getDocCount(), is(9L));
+    resultOkay.getBucketMap().get(VariableDocument.SCALE_LEVEL_FIELD).forEach(bucket -> {
+      assertThat(bucket.getKey(), is(ScaleLevelProvider.GERMAN_ORDINAL));
+      assertThat(bucket.getDocCount(), is(9L));
+    });
 
     // Delete
     for (int i = 1; i <= 9; i++) {
@@ -258,8 +265,8 @@ public class VariableServiceTest extends AbstractWebTest {
       this.variableService.save(variableDocument);
     }
 
-    VariableSearchFormDto variableSearchFormDto = new VariableSearchFormDtoBuilder().withQuery("SearchUnitTestName")
-        .withScaleLevel(ScaleLevelProvider.GERMAN_ORDINAL).build();
+    VariableSearchFormDto variableSearchFormDto = new VariableSearchFormDtoBuilder()
+        .withQuery("SearchUnitTestName").withScaleLevel(ScaleLevelProvider.GERMAN_ORDINAL).build();
 
     // Act
     PageWithBuckets<VariableDocument> resultNotOkay =

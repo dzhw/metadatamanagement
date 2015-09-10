@@ -7,9 +7,8 @@ import static org.hamcrest.Matchers.not;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThat;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
+import java.util.HashSet;
 import java.util.Map;
 
 import org.junit.Test;
@@ -32,7 +31,7 @@ public class PageWithBucketsTest {
     // Arrange
     FacetedPage<VariableDocument> facetedPage = Mockito.mock(FacetedPage.class);
     Pageable pageable = Mockito.mock(Pageable.class);
-    Map<String, List<Bucket>> bucketMap = new HashMap<>();
+    Map<String, HashSet<Bucket>> bucketMap = new HashMap<>();
     PageWithBuckets<VariableDocument> pageWithBuckets =
         new PageWithBuckets<>(facetedPage, pageable, bucketMap);
 
@@ -45,25 +44,25 @@ public class PageWithBucketsTest {
   @SuppressWarnings("unchecked")
   @Test
   public void testEquals() {
-    //Arrange
+    // Arrange
     FacetedPage<VariableDocument> facetedPage = Mockito.mock(FacetedPage.class);
     Pageable pageable = Mockito.mock(Pageable.class);
-    Map<String, List<Bucket>> bucketMap = new HashMap<>();
-    Map<String, List<Bucket>> bucketMap2 = new HashMap<>();
-    List<Bucket> buckets = new ArrayList<>();
+    Map<String, HashSet<Bucket>> bucketMap = new HashMap<>();
+    Map<String, HashSet<Bucket>> bucketMap2 = new HashMap<>();
+    HashSet<Bucket> buckets = new HashSet<>();
     bucketMap2.put(VariableDocument.SCALE_LEVEL_FIELD, buckets);
     PageWithBuckets<VariableDocument> pageWithBuckets =
         new PageWithBuckets<>(facetedPage, pageable, bucketMap);
     PageWithBuckets<VariableDocument> pageWithBuckets2 =
         new PageWithBuckets<>(facetedPage, pageable, bucketMap2);
 
-    //Act
+    // Act
     boolean checkSame = pageWithBuckets.equals(pageWithBuckets);
     boolean checkNull = pageWithBuckets.equals(null);
     boolean checkOtherClass = pageWithBuckets.equals(new Object());
     boolean checkDifferent = pageWithBuckets.equals(pageWithBuckets2);
-    
-    //Assert
+
+    // Assert
     assertEquals(true, checkSame);
     assertEquals(false, checkNull);
     assertEquals(false, checkOtherClass);

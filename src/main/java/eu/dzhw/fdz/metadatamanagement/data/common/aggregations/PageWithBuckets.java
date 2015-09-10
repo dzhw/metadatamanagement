@@ -1,6 +1,6 @@
 package eu.dzhw.fdz.metadatamanagement.data.common.aggregations;
 
-import java.util.List;
+import java.util.HashSet;
 import java.util.Map;
 
 import org.springframework.data.domain.Pageable;
@@ -22,7 +22,7 @@ public class PageWithBuckets<T> extends FacetedPageImpl<T> {
   private static final long serialVersionUID = -5002782339546000833L;
 
   @edu.umd.cs.findbugs.annotations.SuppressFBWarnings(value = "SE_BAD_FIELD")
-  private Map<String, List<Bucket>> bucketMap;
+  private Map<String, HashSet<Bucket>> bucketMap;
 
   /**
    * Constructs a PageWithAggregations from a given facetedPage.
@@ -32,7 +32,7 @@ public class PageWithBuckets<T> extends FacetedPageImpl<T> {
    * @param bucketMap A map aggreagation name -> list of buckets
    */
   public PageWithBuckets(FacetedPage<T> facetedPage, Pageable pageable,
-      Map<String, List<Bucket>> bucketMap) {
+      Map<String, HashSet<Bucket>> bucketMap) {
     super(facetedPage.getContent(), pageable, facetedPage.getTotalElements(),
         facetedPage.getFacets());
     this.bucketMap = bucketMap;
@@ -70,7 +70,7 @@ public class PageWithBuckets<T> extends FacetedPageImpl<T> {
    * 
    * @return A map aggregation name -> list of buckets
    */
-  public Map<String, List<Bucket>> getBucketMap() {
+  public Map<String, HashSet<Bucket>> getBucketMap() {
     return bucketMap;
   }
 }

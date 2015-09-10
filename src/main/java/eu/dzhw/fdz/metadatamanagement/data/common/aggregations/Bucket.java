@@ -48,12 +48,17 @@ public class Bucket {
     this.docCount = docCount;
   }
 
+  /**
+   * Only the key is relevant for equality.
+   */
   @Override
-  // TODO docCount not in equals and hashCode?
   public int hashCode() {
     return Objects.hashCode(key);
   }
 
+  /**
+   * Only the key is relevant for equality.
+   */
   @Override
   public boolean equals(Object object) {
     if (object instanceof Bucket) {

@@ -27,7 +27,7 @@ public class VariableSearchFormDto {
   /**
    * @return A list with all filter values.
    */
-  public Map<String, String> getAllFilterValues() {
+  public Map<String, String> getAllFilters() {
     Map<String, String> filterValues = new HashMap<>();
 
     // ScaleLevel
