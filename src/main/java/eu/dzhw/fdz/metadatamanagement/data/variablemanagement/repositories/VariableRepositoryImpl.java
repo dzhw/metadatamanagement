@@ -8,6 +8,7 @@ import static org.elasticsearch.index.query.QueryBuilders.matchQuery;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import org.elasticsearch.common.unit.Fuzziness;
 import org.elasticsearch.index.query.BoolFilterBuilder;
@@ -16,6 +17,7 @@ import org.elasticsearch.index.query.FilterBuilders;
 import org.elasticsearch.index.query.MatchQueryBuilder.ZeroTermsQuery;
 import org.elasticsearch.index.query.QueryBuilder;
 import org.elasticsearch.index.query.QueryBuilders;
+import org.elasticsearch.search.aggregations.AggregationBuilder;
 import org.elasticsearch.search.aggregations.AggregationBuilders;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -91,30 +93,47 @@ public class VariableRepositoryImpl implements VariableRepositoryCustom {
    * search(eu.dzhw.fdz.metadatamanagement.web.variablemanagement.search.dto.VariableSearchFormDto,
    * org.springframework.data.domain.Pageable)
    */
+  @SuppressWarnings("rawtypes")
   @Override
   public PageWithBuckets<VariableDocument> search(VariableSearchFormDto formDto,
       Pageable pageable) {
 
-    // create search query
-    QueryBuilder queryBuilder = null;
-    if (StringUtils.hasText(formDto.getQuery())) {
-      queryBuilder = boolQuery()
-          .should(matchQuery("_all", formDto.getQuery()).zeroTermsQuery(ZeroTermsQuery.NONE))
-          .should(matchQuery(VariableDocument.ALL_STRINGS_AS_NGRAMS_FIELD, formDto.getQuery())
-              .minimumShouldMatch(minimumShouldMatch));
-    } else {
-      // Match all case if there is an aggregation with a filter but without a query
-      queryBuilder = matchAllQuery();
+    // create search query (with filter)
+    QueryBuilder queryBuilder = this.createQueryBuilder(formDto.getQuery());
+    List<FilterBuilder> termFilterBuilders = this.createTermFilterBuilders(formDto.getAllFilters());
+    queryBuilder = this.addFilterToQuery(queryBuilder, termFilterBuilders);
+
+    // prepare search query (with filter)
+    NativeSearchQueryBuilder nativeSearchQueryBuilder = new NativeSearchQueryBuilder();
+    nativeSearchQueryBuilder.withQuery(queryBuilder);
+
+    // add Aggregations
+    List<AggregationBuilder> aggregationBuilders =
+        this.createAggregations(formDto.getFilterNames());
+    for (AggregationBuilder aggregationBuilder : aggregationBuilders) {
+      nativeSearchQueryBuilder.addAggregation(aggregationBuilder);
     }
 
-    // create a list from filterbuilder from the dto
-    Map<String, String> filterValues = formDto.getAllFilters();
-    List<FilterBuilder> termFilterBuilders = new ArrayList<>();
-    for (String filterName : filterValues.keySet()) {
-      termFilterBuilders.add(FilterBuilders.termFilter(filterName, formDto.getScaleLevel()));
-    }
+    // Create search query
+    SearchQuery searchQuery = nativeSearchQueryBuilder.withPageable(pageable).build();
 
-    // add filter only, if the user used min once.
+    // No Problems with thread safe queries, because every query has an own mapper
+    FacetedPage<VariableDocument> facetedPage =
+        this.elasticsearchTemplate.queryForPage(searchQuery, VariableDocument.class, resultMapper);
+
+    // return pageable object and the aggregations
+    return (PageWithBuckets<VariableDocument>) facetedPage;
+  }
+
+  /**
+   * Adds all termfilter to a query.
+   * 
+   * @param queryBuilder A query builder for creation of a query
+   * @param termFilterBuilders all term filters for the query.
+   * @return a query builder with filter
+   */
+  private QueryBuilder addFilterToQuery(QueryBuilder queryBuilder,
+      List<FilterBuilder> termFilterBuilders) {
     if (!termFilterBuilders.isEmpty()) {
 
       // add 1..* term filter
@@ -127,22 +146,78 @@ public class VariableRepositoryImpl implements VariableRepositoryCustom {
       queryBuilder = QueryBuilders.filteredQuery(queryBuilder, filterBoolBuilder);
     }
 
-    // add query (with filter)
-    NativeSearchQueryBuilder nativeSearchQueryBuilder = new NativeSearchQueryBuilder();
-    nativeSearchQueryBuilder.withQuery(queryBuilder);
+    return queryBuilder;
+  }
 
-    // extended search query with filter
-    SearchQuery searchQuery = nativeSearchQueryBuilder
-        .withPageable(pageable).addAggregation(AggregationBuilders
-            .terms(VariableDocument.SCALE_LEVEL_FIELD).field(VariableDocument.SCALE_LEVEL_FIELD))
-        .build();
+  /**
+   * Creates all aggregation for the buckets of the filter information.
+   * 
+   * @param filterNames all known filters.
+   * @return a list of aggregations builder for the aggregation information.
+   */
+  @SuppressWarnings("rawtypes")
+  private List<AggregationBuilder> createAggregations(List<String> filterNames) {
+    List<AggregationBuilder> aggregationBuilders = new ArrayList<>();
 
-    // No Problems with thread safe queries, because every query has an own mapper
-    FacetedPage<VariableDocument> facetedPage =
-        this.elasticsearchTemplate.queryForPage(searchQuery, VariableDocument.class, resultMapper);
+    for (String filterName : filterNames) {
+      // TODO DKatzberg: nested aggregations
+      // if (VariableSearchFormDto.isNestedFilter(filterName)) {
+      // aggregationBuilders
+      // .add(AggregationBuilders.nested(VariableSearchFormDto.getBasicPath(filterName))
+      // .subAggregation(AggregationBuilders.terms(filterName).field(filterName)));
+      // } else {
+      aggregationBuilders.add(AggregationBuilders.terms(filterName).field(filterName));
+      // }
+    }
 
-    // return pageable object and the aggregations
-    return (PageWithBuckets<VariableDocument>) facetedPage;
+
+    return aggregationBuilders;
+  }
+
+  /**
+   * returns a basic query builder without filter.
+   * 
+   * @param query The request parameter value of the query
+   * @return Returns a query builder
+   */
+  private QueryBuilder createQueryBuilder(String query) {
+    QueryBuilder queryBuilder = null;
+    if (StringUtils.hasText(query)) {
+      queryBuilder =
+          boolQuery().should(matchQuery("_all", query).zeroTermsQuery(ZeroTermsQuery.NONE))
+              .should(matchQuery(VariableDocument.ALL_STRINGS_AS_NGRAMS_FIELD, query)
+                  .minimumShouldMatch(minimumShouldMatch));
+    } else {
+      // Match all case if there is an aggregation with a filter but without a query
+      queryBuilder = matchAllQuery();
+    }
+
+    return queryBuilder;
+  }
+
+  /**
+   * This method creates the term filter builder. It differs between nested and flat filter.
+   * 
+   * @param filterValues A map. The key is the filter name and the object is the value of the filter
+   * @return a list of all filter
+   * 
+   * @see FilterBuilders
+   * @see FilterBuilder
+   */
+  private List<FilterBuilder> createTermFilterBuilders(Map<String, String> filterValues) {
+    List<FilterBuilder> termFilterBuilders = new ArrayList<>();
+    for (Entry<String, String> entry : filterValues.entrySet()) {
+
+      if (VariableSearchFormDto.isNestedFilter(entry.getKey())) {
+        termFilterBuilders
+            .add(FilterBuilders.nestedFilter(VariableSearchFormDto.getBasicPath(entry.getKey()),
+                FilterBuilders.termFilter(entry.getKey(), entry.getValue())));
+      } else {
+        termFilterBuilders.add(FilterBuilders.termFilter(entry.getKey(), entry.getValue()));
+      }
+    }
+
+    return termFilterBuilders;
   }
 
   /*
