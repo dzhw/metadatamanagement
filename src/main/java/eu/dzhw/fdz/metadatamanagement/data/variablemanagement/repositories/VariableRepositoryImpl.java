@@ -5,7 +5,12 @@ import static org.elasticsearch.index.query.QueryBuilders.boolQuery;
 import static org.elasticsearch.index.query.QueryBuilders.matchAllQuery;
 import static org.elasticsearch.index.query.QueryBuilders.matchQuery;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+
 import org.elasticsearch.common.unit.Fuzziness;
+import org.elasticsearch.index.query.BoolFilterBuilder;
 import org.elasticsearch.index.query.FilterBuilder;
 import org.elasticsearch.index.query.FilterBuilders;
 import org.elasticsearch.index.query.MatchQueryBuilder.ZeroTermsQuery;
@@ -90,10 +95,8 @@ public class VariableRepositoryImpl implements VariableRepositoryCustom {
   public PageWithBuckets<VariableDocument> search(VariableSearchFormDto formDto,
       Pageable pageable) {
 
-    NativeSearchQueryBuilder nativeSearchQueryBuilder = new NativeSearchQueryBuilder();
-
-    QueryBuilder queryBuilder = null;
     // create search query
+    QueryBuilder queryBuilder = null;
     if (StringUtils.hasText(formDto.getQuery())) {
       queryBuilder = boolQuery()
           .should(matchQuery("_all", formDto.getQuery()).zeroTermsQuery(ZeroTermsQuery.NONE))
@@ -104,16 +107,28 @@ public class VariableRepositoryImpl implements VariableRepositoryCustom {
       queryBuilder = matchAllQuery();
     }
 
-    // create filter and aggregation for scale level
-    if (StringUtils.hasText(formDto.getScaleLevel())) {
-      FilterBuilder filterBuilder =
-          FilterBuilders.termFilter(VariableDocument.SCALE_LEVEL_FIELD, formDto.getScaleLevel());
+    // create a list from filterbuilder from the dto
+    Map<String, String> filterValues = formDto.getAllFilterValues();
+    List<FilterBuilder> termFilterBuilders = new ArrayList<>();
+    for (String filterName : filterValues.keySet()) {
+      termFilterBuilders.add(FilterBuilders.termFilter(filterName, formDto.getScaleLevel()));
+    }
 
-      // do not use nativeSearchQueryBuilder.withFilter(). It uses the post_filter!
-      queryBuilder = QueryBuilders.filteredQuery(queryBuilder, filterBuilder);
+    // add filter only, if the user used min once.
+    if (!termFilterBuilders.isEmpty()) {
+      
+      //add 1..* term filter
+      BoolFilterBuilder filterBoolBuilder = FilterBuilders.boolFilter();
+      for (FilterBuilder termFilterBuilder : termFilterBuilders) {
+        filterBoolBuilder = filterBoolBuilder.must(termFilterBuilder);
+      }
+
+      //add bool filter to query 
+      queryBuilder = QueryBuilders.filteredQuery(queryBuilder, filterBoolBuilder);
     }
 
     // add query (with filter)
+    NativeSearchQueryBuilder nativeSearchQueryBuilder = new NativeSearchQueryBuilder();
     nativeSearchQueryBuilder.withQuery(queryBuilder);
 
     // extended search query with filter
