@@ -83,12 +83,12 @@ public class VariableRepositoryImpl implements VariableRepositoryCustom {
    * 
    * @see
    * eu.dzhw.fdz.metadatamanagement.data.variablemanagement.repositories.VariableRepositoryCustom#
-   * matchQueryInAllFieldAndNgrams(eu.dzhw.fdz.metadatamanagement.web.variablemanagement.search.dto.
-   * SearchFormDto, org.springframework.data.domain.Pageable)
+   * search(eu.dzhw.fdz.metadatamanagement.web.variablemanagement.search.dto.VariableSearchFormDto,
+   * org.springframework.data.domain.Pageable)
    */
   @Override
-  public PageWithBuckets<VariableDocument> matchQueryInAllFieldAndNgrams(
-      VariableSearchFormDto formDto, Pageable pageable) {
+  public PageWithBuckets<VariableDocument> search(VariableSearchFormDto formDto,
+      Pageable pageable) {
 
     NativeSearchQueryBuilder nativeSearchQueryBuilder = new NativeSearchQueryBuilder();
 

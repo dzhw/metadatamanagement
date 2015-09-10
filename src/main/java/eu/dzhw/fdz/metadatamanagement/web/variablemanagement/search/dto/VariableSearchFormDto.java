@@ -43,13 +43,6 @@ public class VariableSearchFormDto {
     return filterValues;
   }
 
-  /**
-   * @return Return true if in any field is text.
-   */
-  public boolean hasTextInAnyField() {
-    return StringUtils.hasText(this.query) || !this.getAllFilterValues().isEmpty();
-  }
-
   /* GETTER / SETTER */
   public String getQuery() {
     return query;

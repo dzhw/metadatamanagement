@@ -57,7 +57,7 @@ public interface VariableRepositoryCustom {
    * @param pageable The page size and number and sort.
    * @return A page holding the first variable documents
    */
-  PageWithBuckets<VariableDocument> matchQueryInAllFieldAndNgrams(
+  PageWithBuckets<VariableDocument> search(
       VariableSearchFormDto variableSearchFormDto, Pageable pageable);
 
   /**

@@ -39,14 +39,8 @@ public class VariableService {
    */
   public PageWithBuckets<VariableDocument> search(VariableSearchFormDto variableSearchFormDto,
       Pageable pageable) {
-
-    // any kind of request parameter is set? if yes -> matchquery
-    if (variableSearchFormDto.hasTextInAnyField()) {
-      return variableRepository.matchQueryInAllFieldAndNgrams(variableSearchFormDto, pageable);
-    }
-    // No special case needed for filter like scale level. for no filter and no query -> find all
-    // (matchall)
-    return variableRepository.matchAllWithAggregations(pageable);
+    return variableRepository.search(variableSearchFormDto, pageable);
+    
   }
 
   /**
