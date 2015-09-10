@@ -10,7 +10,7 @@ $(document).ready(
 				altFormat : "yy-mm-dd",
 				gotoCurrent : true,
 				onSelect : function() {
-					$("form").trigger("oninput");
+					$("form").trigger("submit");
 				},
 				changeMonth : true,
 				changeYear : true,
