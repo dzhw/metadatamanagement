@@ -81,15 +81,15 @@ public class VariableSearchController {
       final HttpServletResponse httpServletResponse) {
     return () -> {
       ModelAndView modelAndView = new ModelAndView();
-      modelAndView.addObject("searchFormDto", variableSearchFormDto);
-
+      modelAndView.addObject("variableSearchFormDto", variableSearchFormDto);
       PageWithBuckets<VariableDocument> pageableWithBuckets =
           this.variableService.search(variableSearchFormDto, pageable);
 
-      Map<String, HashSet<Bucket>> bucketMap = BucketManager
-          .addEmptyBucketsIfNecessary(variableSearchFormDto, pageableWithBuckets.getBucketMap());
-      modelAndView.addObject("scaleLevelBuckets",
-          bucketMap.get(VariableDocument.SCALE_LEVEL_FIELD));
+      Map<String, HashSet<Bucket>> bucketMap =
+          BucketManager.addEmptyBucketsIfNecessary(variableSearchFormDto,
+              pageableWithBuckets.getBucketMap());
+      modelAndView
+          .addObject("scaleLevelBuckets", bucketMap.get(VariableDocument.SCALE_LEVEL_FIELD));
       modelAndView.addObject("surveyTitleBuckets",
           bucketMap.get(VariableDocument.NESTED_VARIABLE_SURVEY_TITLE_FIELD));
       // Create Resource

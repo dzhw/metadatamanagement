@@ -10,7 +10,7 @@
 			th:include="common/jumbotron::jumbotron(title=#{variables.search.title},subtitle=#{variables.search.subtitle})"></div>
 	</header>
 	<form id="searchVariables" action="#"
-		th:object="${searchFormDto}"
+		th:object="${variableSearchFormDto}"
 		th:action="${resource.variablesSearchLink.href}" autocomplete="off">
 		<div class="container">
 			<div class="row">
@@ -40,7 +40,7 @@
 					</div>
 				</div>
 				<!-- Results and Filter area -->
-				<div class="col-md-12" id="searchResults">
+				<div class="col-md-12" id="searchResults" th:object="${variableSearchFormDto}">
 					<div class="row">
 						<!-- Filter -->
 						<div class="col-md-3">
@@ -59,7 +59,8 @@
 											th:each="scaleLevel : ${scaleLevelBuckets}">
 											<div class="checkbox">
 												<label class="text-capitalize"><input
-													type="checkbox" th:field="${searchFormDto.scaleLevel}"
+													type="checkbox"
+													th:field="*{scaleLevel}"
 													th:value="${scaleLevel.key}"
 													onclick="VariableSearchForm.search(this.form)" /><span
 													th:text="${scaleLevel.key}"></span> </label><span
@@ -70,7 +71,7 @@
 								</div>
 							</div>
 							<!-- DateRange -->
-				<!-- 			<div class="panel panel-default">
+							<div class="panel panel-default">
 								<div class="panel-heading custom-panel-heading"
 									data-toggle="collapse" data-target="#collapseDateRangePanel">
 									<a class="panel-title panel-toggle"
@@ -92,7 +93,7 @@
 										</li>
 									</ul>
 								</div>
-							</div>  -->
+							</div>
 						</div>
 						<!-- result and page -->
 						<div class="col-md-9">
