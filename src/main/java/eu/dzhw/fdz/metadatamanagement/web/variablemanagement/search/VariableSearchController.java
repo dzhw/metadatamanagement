@@ -11,12 +11,16 @@ import org.springframework.hateoas.PagedResources;
 import org.springframework.hateoas.mvc.ControllerLinkBuilderFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.StringUtils;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 import eu.dzhw.fdz.metadatamanagement.data.common.aggregations.PageWithBuckets;
+import eu.dzhw.fdz.metadatamanagement.data.common.documents.DateRange;
+import eu.dzhw.fdz.metadatamanagement.data.common.documents.validation.groups.ModifyValidationGroup.Create;
 import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.VariableDocument;
 import eu.dzhw.fdz.metadatamanagement.service.variablemanagement.VariableService;
 import eu.dzhw.fdz.metadatamanagement.web.common.FilterManager;
@@ -72,7 +76,8 @@ public class VariableSearchController {
   public Callable<ModelAndView> get(
       @RequestHeader(name = "X-Requested-With", required = false) String ajaxHeader,
       VariableSearchFormDto variableSearchFormDto, Pageable pageable,
-      final HttpServletResponse httpServletResponse) {
+      final HttpServletResponse httpServletResponse, @Validated(Create.class) DateRange dateRange,
+      BindingResult bindingResult) {
     return () -> {
       ModelAndView modelAndView = new ModelAndView();
       modelAndView.addObject("searchFormDto", variableSearchFormDto);
@@ -85,10 +90,11 @@ public class VariableSearchController {
           new FilterManager(variableSearchFormDto, pageableWithBuckets.getBucketMap());
       modelAndView.addObject("availableScaleLevels",
           filterManager.getFilterMap().get(VariableDocument.SCALE_LEVEL_FIELD));
-
+      modelAndView.addObject("dateRange", dateRange);
       // Create Resource
-      PagedResources<VariableResource> pagedVariableResource = this.pagedResourcesAssembler
-          .toResource(pageableWithBuckets, this.variableResourceAssembler);
+      PagedResources<VariableResource> pagedVariableResource =
+          this.pagedResourcesAssembler.toResource(pageableWithBuckets,
+              this.variableResourceAssembler);
       VariableSearchPageResource resource =
           new VariableSearchPageResource(pagedVariableResource, VariableSearchController.class,
               this.controllerLinkBuilderFactory, variableSearchFormDto, pageable);

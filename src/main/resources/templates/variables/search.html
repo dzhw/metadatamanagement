@@ -68,6 +68,30 @@
 									</ul>
 								</div>
 							</div>
+							<!-- DateRange -->
+							<div class="panel panel-default" th:object="${dateRange}">
+								<div class="panel-heading custom-panel-heading"
+									data-toggle="collapse" data-target="#collapseDateRangePanel">
+									<a class="panel-title panel-toggle"
+										href="#collapseDateRangePanel" data-toggle="collapse"
+										th:text="#{variables.common.variable.survey.period}">DateRange
+									</a>
+								</div>
+								<div id="collapseDateRangePanel"
+									class="panel-collapse collapse fade in">
+									<ul class="list-group">
+										<li class="list-group-item">
+											<div
+												th:replace="common/errorAlerts::globalAlerts(field=global)"></div>
+											<div
+												th:replace="common/calendar::date(field=startDate,label=#{variables.common.variable.survey.period.start},placeholder=#{variables.common.variable.survey.period.start},readonly=false)"></div>
+											<div
+												th:replace="common/calendar::date(field=endDate,label=#{variables.common.variable.survey.period.end},placeholder=#{variables.common.variable.survey.period.end},readonly=false)"></div>
+
+										</li>
+									</ul>
+								</div>
+							</div>
 						</div>
 						<!-- result and page -->
 						<div class="col-md-9">
@@ -97,7 +121,8 @@
 										<p class="list-group-item-text"
 											th:text="#{variables.search.noresults}"></p>
 									</li>
-									<li class="list-group-item" th:if="${resource.page.content.size() gt 0}">
+									<li class="list-group-item"
+										th:if="${resource.page.content.size() gt 0}">
 										<ul class="pager">
 											<li class="previous"
 												th:classappend="${resource.page.previousLink==null?'disabled':''}"><a
@@ -123,5 +148,6 @@
 	</form>
 	<div th:include="common/js_libraries::js"></div>
 	<script src="/js/variables/search.js"></script>
+	<script src="/js/variables/datepicker.js"></script>
 </body>
 </html>

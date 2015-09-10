@@ -39,8 +39,9 @@ public class VariableSearchPageResource extends NavigatablePageResource<Variable
     super();
     this.page = page;
     for (Locale supportedLocale : I18nConfiguration.SUPPORTED_LANGUAGES) {
-      this.add(factory.linkTo(methodOn(pageController, supportedLocale).get(null,
-          variableSearchFormDto, pageable, null)).withRel(supportedLocale.getLanguage()));
+      this.add(factory.linkTo(
+          methodOn(pageController, supportedLocale).get(null, variableSearchFormDto, pageable,
+              null, null, null)).withRel(supportedLocale.getLanguage()));
     }
   }
 

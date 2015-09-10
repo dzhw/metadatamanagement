@@ -4,13 +4,14 @@ import java.time.LocalDate;
 
 import javax.validation.constraints.NotNull;
 
+import net.karneim.pojobuilder.GeneratePojoBuilder;
+
 import com.google.common.base.MoreObjects;
 import com.google.common.base.Objects;
 
 import eu.dzhw.fdz.metadatamanagement.data.common.documents.validation.ValidDateRange;
 import eu.dzhw.fdz.metadatamanagement.data.common.documents.validation.groups.ModifyValidationGroup.Create;
 import eu.dzhw.fdz.metadatamanagement.data.common.documents.validation.groups.ModifyValidationGroup.Edit;
-import net.karneim.pojobuilder.GeneratePojoBuilder;
 
 /**
  * The date range has two {@code LocalDate} object for representing a time range. The the

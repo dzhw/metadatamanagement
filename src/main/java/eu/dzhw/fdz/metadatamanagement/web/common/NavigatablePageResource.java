@@ -20,8 +20,8 @@ import eu.dzhw.fdz.metadatamanagement.web.welcome.WelcomeController;
  * @param <T> the page controller
  * @author René Reitmann
  */
-public abstract class NavigatablePageResource<T> extends ResourceSupport
-    implements InternationalizedResource {
+public abstract class NavigatablePageResource<T> extends ResourceSupport implements
+    InternationalizedResource {
 
   public static final String VARIABLES_SEARCH_REL = "search";
   public static final String VARIABLES_CREATE_REL = "create";
@@ -35,10 +35,10 @@ public abstract class NavigatablePageResource<T> extends ResourceSupport
   public NavigatablePageResource() {
     this.add(linkTo(
         methodOn(WelcomeController.class, LocaleContextHolder.getLocale().getLanguage()).get())
-            .withRel(HOME_REL));
+        .withRel(HOME_REL));
     this.add(linkTo(
         methodOn(VariableSearchController.class, LocaleContextHolder.getLocale().getLanguage())
-            .get(null, null, null, null)).withRel(VARIABLES_SEARCH_REL));
+            .get(null, null, null, null, null, null)).withRel(VARIABLES_SEARCH_REL));
     this.add(linkTo(
         methodOn(VariableCreateController.class, LocaleContextHolder.getLocale().getLanguage())
             .create(null, null)).withRel(VARIABLES_CREATE_REL));

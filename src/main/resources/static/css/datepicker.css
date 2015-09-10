@@ -3,6 +3,7 @@
 	background: #ffffff;
 	font-family: "Helvetica", "Arial", "sans-serif";
 	font-weight: bold;
+	z-index: 10000 !important;
 }
 /*Head style*/
 .ui-widget-header {
