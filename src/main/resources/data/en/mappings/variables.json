@@ -49,6 +49,7 @@
       },
       "scaleLevel": {
         "type": "string",
+        "index": "not_analyzed",
         "copy_to": "allStringsAsNgrams"
       },
       "variableSurvey": {
@@ -79,6 +80,7 @@
           },
           "title": {
             "type": "string",
+            "index": "not_analyzed",
             "copy_to": "allStringsAsNgrams"
           }
         }
