@@ -28,7 +28,7 @@ import eu.dzhw.fdz.metadatamanagement.web.AbstractWebTest;
 public class VariablesRepositoryTest extends AbstractWebTest {
 
   @Autowired
-  private VariableRepository variablesRepository;
+  private VariableDocumentRepository variablesRepository;
 
   @Autowired
   private DataTypesProvider dataTypesProvider;

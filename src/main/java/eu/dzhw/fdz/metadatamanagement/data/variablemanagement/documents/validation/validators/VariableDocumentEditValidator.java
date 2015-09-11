@@ -9,7 +9,7 @@ import org.springframework.validation.Validator;
 import eu.dzhw.fdz.metadatamanagement.data.common.documents.validation.groups.ModifyValidationGroup.Edit;
 import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.DataTypesProvider;
 import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.VariableDocument;
-import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.repositories.VariableRepository;
+import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.repositories.VariableDocumentRepository;
 import eu.dzhw.fdz.metadatamanagement.web.variablemanagement.details.VariableResourceAssembler;
 
 /**
@@ -23,7 +23,7 @@ public class VariableDocumentEditValidator extends VariableDocumentValidator {
 
   @Autowired
   public VariableDocumentEditValidator(@Qualifier("mvcValidator") Validator jsrValidator,
-      DataTypesProvider dataTypesProvider, VariableRepository variableRepository,
+      DataTypesProvider dataTypesProvider, VariableDocumentRepository variableRepository,
       VariableResourceAssembler variableResourceAssembler) {
     super(jsrValidator, dataTypesProvider, variableRepository, variableResourceAssembler);
   }

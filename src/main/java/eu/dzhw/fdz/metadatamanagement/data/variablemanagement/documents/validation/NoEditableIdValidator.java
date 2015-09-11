@@ -5,7 +5,7 @@ import javax.validation.ConstraintValidatorContext;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
-import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.repositories.VariableRepository;
+import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.repositories.VariableDocumentRepository;
 
 /**
  * This is the validator for the annoation {@link NoEditableId}. It checks in an edit process, that
@@ -19,14 +19,14 @@ public class NoEditableIdValidator implements ConstraintValidator<NoEditableId, 
    * Repository for variables. Writes in different indexes which are depending at the supported
    * languages.
    */
-  private VariableRepository variableRepository;
+  private VariableDocumentRepository variableRepository;
 
   /**
    * @param variableRepository The variableRepository writes and deletes variables to the
    *        repository.
    */
   @Autowired
-  public NoEditableIdValidator(VariableRepository variableRepository) {
+  public NoEditableIdValidator(VariableDocumentRepository variableRepository) {
     this.variableRepository = variableRepository;
   }
 

@@ -14,7 +14,7 @@ import eu.dzhw.fdz.metadatamanagement.web.variablemanagement.search.dto.Variable
  * @author Daniel Katzberg
  *
  */
-public interface VariableRepositoryCustom {
+public interface VariableDocumentRepositoryCustom {
 
   /**
    * This method search in the elasticsearch. This search use the fuzzyness of 0.1. It looks for the

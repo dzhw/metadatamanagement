@@ -18,7 +18,7 @@ import org.springframework.web.context.WebApplicationContext;
 
 import eu.dzhw.fdz.metadatamanagement.MetaDataManagementApplication;
 import eu.dzhw.fdz.metadatamanagement.config.i18n.I18nConfiguration;
-import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.repositories.VariableRepository;
+import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.repositories.VariableDocumentRepository;
 
 /**
  * Base class for all MVC Controller tests. Sets up the application context and initializes the mvc
@@ -35,7 +35,7 @@ public abstract class AbstractWebTest {
   protected MockMvc mockMvc;
 
   @Autowired
-  private VariableRepository variableRepository;
+  private VariableDocumentRepository variableRepository;
 
   @Before
   public void setup() {

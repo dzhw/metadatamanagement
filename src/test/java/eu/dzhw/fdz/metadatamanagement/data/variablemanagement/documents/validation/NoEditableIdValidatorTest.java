@@ -21,7 +21,7 @@ import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.Variable
 import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.VariableSurvey;
 import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.builders.VariableDocumentBuilder;
 import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.builders.VariableSurveyBuilder;
-import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.repositories.VariableRepository;
+import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.repositories.VariableDocumentRepository;
 import eu.dzhw.fdz.metadatamanagement.web.AbstractWebTest;
 
 /**
@@ -33,7 +33,7 @@ public class NoEditableIdValidatorTest extends AbstractWebTest {
   private NoEditableIdValidator noEditableIdValidator;
   
   @Autowired 
-  private VariableRepository variableRepository;
+  private VariableDocumentRepository variableRepository;
   
   @Before
   public void beforeTest(){

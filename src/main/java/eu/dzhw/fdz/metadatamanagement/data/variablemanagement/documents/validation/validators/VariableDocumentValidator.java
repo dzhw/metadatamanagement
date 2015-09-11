@@ -8,7 +8,7 @@ import org.springframework.validation.Validator;
 
 import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.DataTypesProvider;
 import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.VariableDocument;
-import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.repositories.VariableRepository;
+import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.repositories.VariableDocumentRepository;
 import eu.dzhw.fdz.metadatamanagement.web.variablemanagement.details.VariableResourceAssembler;
 
 /**
@@ -30,7 +30,7 @@ public abstract class VariableDocumentValidator implements Validator {
 
   private DataTypesProvider dataTypesProvider;
 
-  protected VariableRepository variableRepository;
+  protected VariableDocumentRepository variableRepository;
 
   protected VariableResourceAssembler variableResourceAssembler;
 
@@ -45,7 +45,8 @@ public abstract class VariableDocumentValidator implements Validator {
    *        types of the variable management.
    */
   public VariableDocumentValidator(Validator jsrValidator, DataTypesProvider dataTypesProvider,
-      VariableRepository variableRepository, VariableResourceAssembler variableResourceAssembler) {
+      VariableDocumentRepository variableRepository,
+      VariableResourceAssembler variableResourceAssembler) {
     if (jsrValidator instanceof SmartValidator) {
       this.jsrValidator = (SmartValidator) jsrValidator;
     } else {
@@ -122,22 +123,21 @@ public abstract class VariableDocumentValidator implements Validator {
       Errors errors);
 
   protected void rejectDuplicateAliasIfNecessary(VariableDocument variableDocument, Errors errors) {
-    List<VariableDocument> variablesWithSameAlias =
-        this.variableRepository.filterBySurveyIdAndVariableAlias(
-            variableDocument.getVariableSurvey().getSurveyId(),
-            variableDocument.getVariableSurvey().getVariableAlias()).getContent();
+    List<VariableDocument> variablesWithSameAlias = this.variableRepository
+        .filterBySurveyIdAndVariableAlias(variableDocument.getVariableSurvey().getSurveyId(),
+            variableDocument.getVariableSurvey().getVariableAlias())
+        .getContent();
     // no elements found
     if (variablesWithSameAlias == null || variablesWithSameAlias.isEmpty()) {
       return;
       // found elements -> alias is used and not okay
     } else {
       VariableDocument existingVariableWithSameAlias = variablesWithSameAlias.get(0);
-      String detailPageUrlExistingVariable =
-          this.variableResourceAssembler.toResource(existingVariableWithSameAlias).getId()
-              .getHref();
+      String detailPageUrlExistingVariable = this.variableResourceAssembler
+          .toResource(existingVariableWithSameAlias).getId().getHref();
       errors.rejectValue(VariableDocument.NESTED_VARIABLE_SURVEY_VARIABLE_ALIAS_FIELD,
-          MANDATORY_VARIABLE_SURVEY_VARIABLEALIAS_MESSAGE_CODE, new Object[] {
-              existingVariableWithSameAlias.getId(), detailPageUrlExistingVariable},
+          MANDATORY_VARIABLE_SURVEY_VARIABLEALIAS_MESSAGE_CODE,
+          new Object[] {existingVariableWithSameAlias.getId(), detailPageUrlExistingVariable},
           "Invalid variable alias!");
       return;
     }

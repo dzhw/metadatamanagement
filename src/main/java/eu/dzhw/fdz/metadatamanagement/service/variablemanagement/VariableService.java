@@ -6,7 +6,7 @@ import org.springframework.stereotype.Service;
 
 import eu.dzhw.fdz.metadatamanagement.data.common.aggregations.PageWithBuckets;
 import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.VariableDocument;
-import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.repositories.VariableRepository;
+import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.repositories.VariableDocumentRepository;
 import eu.dzhw.fdz.metadatamanagement.web.variablemanagement.search.dto.VariableSearchFormDto;
 
 /**
@@ -18,13 +18,13 @@ import eu.dzhw.fdz.metadatamanagement.web.variablemanagement.search.dto.Variable
 @Service
 public class VariableService {
 
-  private final VariableRepository variableRepository;
+  private final VariableDocumentRepository variableRepository;
 
   /**
    * @param variablesRepository A reference to the repositoy for the variables.
    */
   @Autowired
-  public VariableService(VariableRepository variablesRepository) {
+  public VariableService(VariableDocumentRepository variablesRepository) {
     this.variableRepository = variablesRepository;
   }
 

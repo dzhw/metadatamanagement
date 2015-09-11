@@ -41,7 +41,7 @@ import eu.dzhw.fdz.metadatamanagement.web.variablemanagement.search.dto.Variable
  * @author Daniel Katzberg
  *
  */
-public class VariableRepositoryImpl implements VariableRepositoryCustom {
+public class VariableDocumentRepositoryImpl implements VariableDocumentRepositoryCustom {
 
   /**
    * This String defines a limit by searching within ngrams. The limit is: how many ngrams of a
@@ -62,7 +62,7 @@ public class VariableRepositoryImpl implements VariableRepositoryCustom {
   private AggregationResultMapper resultMapper;
 
   @Autowired
-  public VariableRepositoryImpl(ElasticsearchTemplate elasticsearchTemplate,
+  public VariableDocumentRepositoryImpl(ElasticsearchTemplate elasticsearchTemplate,
       AggregationResultMapper resultMapper) {
     this.elasticsearchTemplate = elasticsearchTemplate;
     this.resultMapper = resultMapper;

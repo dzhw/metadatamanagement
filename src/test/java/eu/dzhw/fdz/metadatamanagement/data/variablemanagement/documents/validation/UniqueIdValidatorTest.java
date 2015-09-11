@@ -21,7 +21,7 @@ import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.Variable
 import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.builders.VariableDocumentBuilder;
 import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.builders.VariableSurveyBuilder;
 import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.validation.validators.VariableDocumentCreateValidator;
-import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.repositories.VariableRepository;
+import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.repositories.VariableDocumentRepository;
 import eu.dzhw.fdz.metadatamanagement.web.AbstractWebTest;
 
 /**
@@ -31,7 +31,7 @@ import eu.dzhw.fdz.metadatamanagement.web.AbstractWebTest;
 public class UniqueIdValidatorTest extends AbstractWebTest {
 
   @Autowired
-  private VariableRepository repository;
+  private VariableDocumentRepository repository;
 
   @Autowired
   private VariableDocumentCreateValidator variableDocumentCreateValidator;
