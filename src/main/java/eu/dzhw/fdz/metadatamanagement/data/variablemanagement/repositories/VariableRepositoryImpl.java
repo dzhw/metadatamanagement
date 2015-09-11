@@ -10,7 +10,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import org.elasticsearch.common.unit.Fuzziness;
 import org.elasticsearch.index.query.BoolFilterBuilder;
 import org.elasticsearch.index.query.FilterBuilder;
 import org.elasticsearch.index.query.FilterBuilders;
@@ -67,23 +66,6 @@ public class VariableRepositoryImpl implements VariableRepositoryCustom {
       AggregationResultMapper resultMapper) {
     this.elasticsearchTemplate = elasticsearchTemplate;
     this.resultMapper = resultMapper;
-  }
-
-  /*
-   * (non-Javadoc)
-   * 
-   * @see
-   * eu.dzhw.fdz.metadatamanagement.data.variablemanagement.repository.VariablesRepositoryCustom#
-   * matchQueryInAllField(java.lang.String, org.springframework.data.domain.Pageable)
-   */
-  @Override
-  public Page<VariableDocument> matchQueryInAllField(String query, Pageable pageable) {
-    QueryBuilder queryBuilder = matchQuery("_all", query).zeroTermsQuery(ZeroTermsQuery.ALL);
-
-    SearchQuery searchQuery =
-        new NativeSearchQueryBuilder().withQuery(queryBuilder).withPageable(pageable).build();
-
-    return this.elasticsearchTemplate.queryForPage(searchQuery, VariableDocument.class);
   }
 
   /*
@@ -247,25 +229,6 @@ public class VariableRepositoryImpl implements VariableRepositoryCustom {
    * (non-Javadoc)
    * 
    * @see
-   * eu.dzhw.fdz.metadatamanagement.data.variablemanagement.repository.VariablesRepositoryCustom#
-   * matchPhrasePrefixQuery(java.lang.String, org.springframework.data.domain.Pageable)
-   */
-  @Override
-  public Page<VariableDocument> matchPhrasePrefixQuery(String query, Pageable pageable) {
-
-    QueryBuilder queryBuilder =
-        QueryBuilders.matchPhrasePrefixQuery("_all", query).fuzziness(Fuzziness.AUTO);
-
-    SearchQuery searchQuery =
-        new NativeSearchQueryBuilder().withQuery(queryBuilder).withPageable(pageable).build();
-
-    return this.elasticsearchTemplate.queryForPage(searchQuery, VariableDocument.class);
-  }
-
-  /*
-   * (non-Javadoc)
-   * 
-   * @see
    * eu.dzhw.fdz.metadatamanagement.data.variablemanagement.repositories.VariableRepositoryCustom#
    * matchFilterBySurveyId(java.lang.String, java.lang.String)
    */
@@ -284,33 +247,5 @@ public class VariableRepositoryImpl implements VariableRepositoryCustom {
     SearchQuery searchQuery = new NativeSearchQueryBuilder().withQuery(queryBuilder).build();
 
     return this.elasticsearchTemplate.queryForPage(searchQuery, VariableDocument.class);
-  }
-
-  /*
-   * (non-Javadoc)
-   * 
-   * @see
-   * eu.dzhw.fdz.metadatamanagement.data.variablemanagement.repositories.VariableRepositoryCustom#
-   * matchAllWithAggregations(org.springframework.data.domain.Pageable)
-   */
-  @Override
-  public PageWithBuckets<VariableDocument> matchAllWithAggregations(Pageable pageable) {
-    NativeSearchQueryBuilder nativeSearchQueryBuilder = new NativeSearchQueryBuilder();
-
-    QueryBuilder queryBuilder = matchAllQuery();
-    nativeSearchQueryBuilder.withQuery(queryBuilder);
-
-    // create aggregation for scaleLevel
-    nativeSearchQueryBuilder.addAggregation(AggregationBuilders
-        .terms(VariableDocument.SCALE_LEVEL_FIELD).field(VariableDocument.SCALE_LEVEL_FIELD));
-
-    SearchQuery searchQuery = nativeSearchQueryBuilder.withPageable(pageable).build();
-
-    // No Problems with thread safe queries, because every query has an own mapper
-    FacetedPage<VariableDocument> facetedPage =
-        this.elasticsearchTemplate.queryForPage(searchQuery, VariableDocument.class, resultMapper);
-
-    // return pageable object and the aggregations
-    return (PageWithBuckets<VariableDocument>) facetedPage;
   }
 }
