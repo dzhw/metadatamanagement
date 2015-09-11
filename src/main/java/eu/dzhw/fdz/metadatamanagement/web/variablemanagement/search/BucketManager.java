@@ -31,11 +31,12 @@ public class BucketManager {
       // get basic variables from the entry and the nested object
       Field field = filter.getKey();
       String filterValue = filter.getValue();
-      String nestedPath = BucketManager.getNestedKey(field);
 
-      Bucket emptyBucket = new Bucket(filterValue, 0L);
 
       // check for the group in the map
+      String nestedPath = field.getNestedPath();
+      Bucket emptyBucket = new Bucket(filterValue, 0L);
+      
       if (!bucketMap.containsKey(nestedPath)) {
         HashSet<Bucket> filterBucketList = new HashSet<>();
         filterBucketList.add(emptyBucket);
@@ -50,20 +51,5 @@ public class BucketManager {
     }
 
     return bucketMap;
-  }
-
-  /**
-   * This is a helper method for addEmptyBucketsIfNecessary. Return the correct nested Path for the
-   * bucketMap, where the key is the complete nested path.
-   * 
-   * @param field a nested or not nested field. this is the key in the filters Hashmap
-   * @return the complete (nested) path
-   */
-  private static String getNestedKey(Field field) {
-    if (field.isNested()) {
-      return BucketManager.getNestedKey(field.getNestedField());
-    } else {
-      return field.getPath();
-    }
   }
 }
