@@ -50,6 +50,7 @@ public class AggregationResultMapper extends DefaultResultMapper {
         // StringTerms or non nested aggregation
         if (response.getAggregations().get(aggregationName).getClass()
             .isAssignableFrom(StringTerms.class)) {
+          //TODO dkatzberg refactor duplicate code
           StringTerms aggregation = response.getAggregations().get(aggregationName);
           HashSet<Bucket> buckets = new HashSet<>();
           aggregation.getBuckets().forEach(bucket -> {
@@ -68,6 +69,7 @@ public class AggregationResultMapper extends DefaultResultMapper {
             for (Entry<String, Aggregation> entry : aggregation.getAggregations().asMap()
                 .entrySet()) {
               String nestedAggregationName = entry.getKey();
+              //TODO dkatzberg refactor duplicate code
               StringTerms subAggregation = (StringTerms) entry.getValue();
               
               //get buckets from nested aggrogation
