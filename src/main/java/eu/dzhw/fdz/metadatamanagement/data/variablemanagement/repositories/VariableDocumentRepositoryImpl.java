@@ -13,6 +13,7 @@ import java.util.Map.Entry;
 import org.elasticsearch.index.query.BoolFilterBuilder;
 import org.elasticsearch.index.query.FilterBuilder;
 import org.elasticsearch.index.query.FilterBuilders;
+import org.elasticsearch.index.query.MatchQueryBuilder.Operator;
 import org.elasticsearch.index.query.MatchQueryBuilder.ZeroTermsQuery;
 import org.elasticsearch.index.query.QueryBuilder;
 import org.elasticsearch.index.query.QueryBuilders;
@@ -176,10 +177,12 @@ public class VariableDocumentRepositoryImpl implements VariableDocumentRepositor
   private QueryBuilder createQueryBuilder(String query) {
     QueryBuilder queryBuilder = null;
     if (StringUtils.hasText(query)) {
-      queryBuilder =
-          boolQuery().should(matchQuery("_all", query).zeroTermsQuery(ZeroTermsQuery.NONE))
-              .should(matchQuery(VariableDocument.ALL_STRINGS_AS_NGRAMS_FIELD, query)
-                  .minimumShouldMatch(minimumShouldMatch));
+      queryBuilder = boolQuery()
+          .should(
+              matchQuery("_all", query).zeroTermsQuery(ZeroTermsQuery.NONE).operator(Operator.AND))
+          .should(matchQuery(VariableDocument.ALL_STRINGS_AS_NGRAMS_FIELD, query)
+              .zeroTermsQuery(ZeroTermsQuery.NONE).operator(Operator.AND)
+              .minimumShouldMatch(minimumShouldMatch));
     } else {
       // Match all case if there is an aggregation with a filter but without a query
       queryBuilder = matchAllQuery();
