@@ -10,6 +10,7 @@ import javax.validation.Valid;
 import org.springframework.util.StringUtils;
 
 import eu.dzhw.fdz.metadatamanagement.data.common.documents.DateRange;
+import eu.dzhw.fdz.metadatamanagement.data.common.documents.Field;
 import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.VariableDocument;
 import net.karneim.pojobuilder.GeneratePojoBuilder;
 
@@ -23,29 +24,44 @@ import net.karneim.pojobuilder.GeneratePojoBuilder;
     intoPackage = "eu.dzhw.fdz.metadatamanagement.web.variablemanagement.search.dto.builders")
 public class VariableSearchFormDto {
 
+  /**
+   * This is the request parameter of the query. The value is the search query.
+   */
   private String query;
 
+  /**
+   * This is the request parameter of the scaleLevel filter.
+   */
   private String scaleLevel;
 
+  /**
+   * This is the request parameter of the surveyTitle filter.
+   */
   private String surveyTitle;
 
+  /**
+   * This is the request parameter of the dateRange filter.
+   */
   @Valid
   private DateRange dateRange;
 
   /**
    * @return A list with all filter values.
    */
-  public Map<String, String> getAllFilters() {
-    Map<String, String> filterValues = new HashMap<>();
+  public Map<Field, String> getAllFilters() {
+    Map<Field, String> filterValues = new HashMap<>();
 
     // ScaleLevel
     if (StringUtils.hasText(this.scaleLevel)) {
-      filterValues.put(VariableDocument.SCALE_LEVEL_FIELD, this.scaleLevel);
+
+      filterValues.put(new Field(VariableDocument.SCALE_LEVEL_FIELD), this.scaleLevel);
     }
 
     // Survey Title
     if (StringUtils.hasText(this.surveyTitle)) {
-      filterValues.put(VariableDocument.NESTED_VARIABLE_SURVEY_TITLE_FIELD, this.surveyTitle);
+      Field nestedField = new Field(VariableDocument.VARIABLE_SURVEY_FIELD,
+          new Field(VariableDocument.NESTED_VARIABLE_SURVEY_TITLE_FIELD));
+      filterValues.put(nestedField, this.surveyTitle);
     }
 
     return filterValues;
@@ -54,36 +70,17 @@ public class VariableSearchFormDto {
   /**
    * @return Returns a List with all filternames.
    */
-  public List<String> getFilterNames() {
-    List<String> filterNames = new ArrayList<>();
+  public List<Field> getFilterNames() {
+    List<Field> filterNames = new ArrayList<>();
 
     // ScaleLevel
-    filterNames.add(VariableDocument.SCALE_LEVEL_FIELD);
+    filterNames.add(new Field(VariableDocument.SCALE_LEVEL_FIELD));
 
     // Survey Title
-    filterNames.add(VariableDocument.NESTED_VARIABLE_SURVEY_TITLE_FIELD);
+    filterNames.add(new Field(VariableDocument.VARIABLE_SURVEY_FIELD,
+        new Field(VariableDocument.NESTED_VARIABLE_SURVEY_TITLE_FIELD)));
 
     return filterNames;
-  }
-
-  /**
-   * @param filterName If a filterName has a dot, then it is a nested filterobject
-   * @return return true, if a nested filtername has a dot.
-   */
-  // TODO Refactoring
-  public static boolean isNestedFilter(String filterName) {
-    return filterName.contains(".");
-  }
-
-  /**
-   * Returns the basic path.
-   * 
-   * @param filterName If a filterName has a dot, then it is a nested filterobject
-   * @return return the basic path of the nested path
-   */
-  // TODO For Refactoring
-  public static String getBasicPath(String filterName) {
-    return filterName.substring(0, filterName.indexOf("."));
   }
 
   /* GETTER / SETTER */

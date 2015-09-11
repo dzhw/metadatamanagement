@@ -4,6 +4,7 @@ import java.util.HashSet;
 import java.util.Map;
 
 import eu.dzhw.fdz.metadatamanagement.data.common.aggregations.Bucket;
+import eu.dzhw.fdz.metadatamanagement.data.common.documents.Field;
 import eu.dzhw.fdz.metadatamanagement.web.variablemanagement.search.dto.VariableSearchFormDto;
 
 /**
@@ -22,19 +23,19 @@ public class BucketManager {
    */
   public static Map<String, HashSet<Bucket>> addEmptyBucketsIfNecessary(
       VariableSearchFormDto variableSearchFormDto, Map<String, HashSet<Bucket>> bucketMap) {
-    Map<String, String> filters = variableSearchFormDto.getAllFilters();
+    Map<Field, String> filters = variableSearchFormDto.getAllFilters();
 
     filters.keySet().forEach(filterName -> {
         String filterValue = filters.get(filterName);
         Bucket emptyBucket = new Bucket(filterValue, 0L);
-        if (!bucketMap.containsKey(filterName)) {
+        if (!bucketMap.containsKey(filterName.getPath())) {
           HashSet<Bucket> filterBucketList = new HashSet<>();
           filterBucketList.add(emptyBucket);
-          bucketMap.put(filterName, filterBucketList);
+          bucketMap.put(filterName.getPath(), filterBucketList);
           // okay group is in the map, check here for the value
         } else {
-          if (!bucketMap.get(filterName).contains(emptyBucket)) {
-            HashSet<Bucket> filterBucketList = bucketMap.get(filterName);
+          if (!bucketMap.get(filterName.getPath()).contains(emptyBucket)) {
+            HashSet<Bucket> filterBucketList = bucketMap.get(filterName.getPath());
             filterBucketList.add(emptyBucket);
           }
         }

@@ -31,6 +31,7 @@ import org.springframework.util.StringUtils;
 
 import eu.dzhw.fdz.metadatamanagement.data.common.aggregations.AggregationResultMapper;
 import eu.dzhw.fdz.metadatamanagement.data.common.aggregations.PageWithBuckets;
+import eu.dzhw.fdz.metadatamanagement.data.common.documents.Field;
 import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.VariableDocument;
 import eu.dzhw.fdz.metadatamanagement.web.variablemanagement.search.dto.VariableSearchFormDto;
 
@@ -156,21 +157,32 @@ public class VariableRepositoryImpl implements VariableRepositoryCustom {
    * @return a list of aggregations builder for the aggregation information.
    */
   @SuppressWarnings("rawtypes")
-  private List<AggregationBuilder> createAggregations(List<String> filterNames) {
+  private List<AggregationBuilder> createAggregations(List<Field> filterNames) {
     List<AggregationBuilder> aggregationBuilders = new ArrayList<>();
 
-    for (String filterName : filterNames) {
-      if (VariableSearchFormDto.isNestedFilter(filterName)) {
-        aggregationBuilders
-            .add(AggregationBuilders.nested(VariableSearchFormDto.getBasicPath(filterName))
-                .path(VariableSearchFormDto.getBasicPath(filterName))
-                .subAggregation(AggregationBuilders.terms(filterName).field(filterName)));
-      } else {
-        aggregationBuilders.add(AggregationBuilders.terms(filterName).field(filterName));
-      }
+    // add nested or not nested aggregations
+    for (Field filterName : filterNames) {
+      aggregationBuilders.add(this.createAggregations(filterName));
     }
 
     return aggregationBuilders;
+  }
+
+  /**
+   * This is a helper method for the creation of nested aggregations. It can create non nested
+   * aggregations to. It supports any nested depth by recursion.
+   * 
+   * @param field a given field with the path name and a optional nested field
+   * @return an nested or not nested aggregations
+   */
+  @SuppressWarnings("rawtypes")
+  private AggregationBuilder createAggregations(Field field) {
+    if (field.isNested()) {
+      return AggregationBuilders.nested(field.getPath()).path(field.getPath())
+          .subAggregation(this.createAggregations(field.getNestedField()));
+    } else {
+      return AggregationBuilders.terms(field.getPath()).field(field.getPath());
+    }
   }
 
   /**
@@ -203,20 +215,32 @@ public class VariableRepositoryImpl implements VariableRepositoryCustom {
    * @see FilterBuilders
    * @see FilterBuilder
    */
-  private List<FilterBuilder> createTermFilterBuilders(Map<String, String> filterValues) {
+  private List<FilterBuilder> createTermFilterBuilders(Map<Field, String> filterValues) {
     List<FilterBuilder> termFilterBuilders = new ArrayList<>();
-    for (Entry<String, String> entry : filterValues.entrySet()) {
 
-      if (VariableSearchFormDto.isNestedFilter(entry.getKey())) {
-        termFilterBuilders
-            .add(FilterBuilders.nestedFilter(VariableSearchFormDto.getBasicPath(entry.getKey()),
-                FilterBuilders.termFilter(entry.getKey(), entry.getValue())));
-      } else {
-        termFilterBuilders.add(FilterBuilders.termFilter(entry.getKey(), entry.getValue()));
-      }
+    // create nested or not nested filter.
+    for (Entry<Field, String> entry : filterValues.entrySet()) {
+      termFilterBuilders.add(this.createNestedFilterBuilder(entry.getKey(), entry.getValue()));
     }
 
     return termFilterBuilders;
+  }
+
+  /**
+   * This is a helper method for the creation of nested filter. It supports not nested filter, too.
+   * And it supports any nested depth by recursion.
+   * 
+   * @param field A field with a given path of the nested path and nested fields.
+   * @param value the value of the request parameter / value of the field
+   * @return A nested or not nested FilterBuilder
+   */
+  private FilterBuilder createNestedFilterBuilder(Field field, String value) {
+    if (field.isNested()) {
+      return FilterBuilders.nestedFilter(field.getPath(),
+          this.createNestedFilterBuilder(field.getNestedField(), value));
+    } else {
+      return FilterBuilders.termFilter(field.getPath(), value);
+    }
   }
 
   /*
