@@ -44,6 +44,32 @@
 					<div class="row">
 						<!-- Filter -->
 						<div class="col-md-3">
+						<!-- Survey Title Filter -->
+							<div class="panel panel-default">
+								<div class="panel-heading custom-panel-heading"
+									data-toggle="collapse" data-target="#collapseSurveyTitelPanel">
+									<a class="panel-title panel-toggle"
+										href="#collapseSurveyTitelPanel" data-toggle="collapse"
+										th:text="Erhebungstitel">Survey Title </a>
+								</div>
+								<div id="collapseSurveyTitlePanel"
+									class="panel-collapse collapse fade in">
+									<ul class="list-group">
+										<li class="list-group-item"
+											th:each="surveyTitle : ${surveyTitleBuckets}">
+											<div class="checkbox">
+												<label class="text-capitalize"><input
+													type="checkbox" th:field="*{surveyTitle}"
+													th:value="${surveyTitle.key}"
+													onclick="VariableSearchForm.search(this.form)" /><span
+													th:text="${surveyTitle.key}"></span> </label><span
+													class="badge pull-right" th:text="${surveyTitle.docCount}">14</span>
+											</div>
+										</li>
+									</ul>
+								</div>
+							</div>
+							<!-- Scale Level Filter -->
 							<div class="panel panel-default">
 								<div class="panel-heading custom-panel-heading"
 									data-toggle="collapse" data-target="#collapseScaleLevelPanel">

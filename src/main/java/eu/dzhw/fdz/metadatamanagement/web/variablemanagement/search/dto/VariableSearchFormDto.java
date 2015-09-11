@@ -7,12 +7,11 @@ import java.util.Map;
 
 import javax.validation.Valid;
 
-import net.karneim.pojobuilder.GeneratePojoBuilder;
-
 import org.springframework.util.StringUtils;
 
 import eu.dzhw.fdz.metadatamanagement.data.common.documents.DateRange;
 import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.VariableDocument;
+import net.karneim.pojobuilder.GeneratePojoBuilder;
 
 /**
  * The SearchForm Data transfer object (dto). This dto
@@ -28,7 +27,7 @@ public class VariableSearchFormDto {
 
   private String scaleLevel;
 
-  private String surveyTitel;
+  private String surveyTitle;
 
   @Valid
   private DateRange dateRange;
@@ -45,8 +44,8 @@ public class VariableSearchFormDto {
     }
 
     // Survey Title
-    if (StringUtils.hasText(this.surveyTitel)) {
-      filterValues.put(VariableDocument.NESTED_VARIABLE_SURVEY_TITLE_FIELD, this.surveyTitel);
+    if (StringUtils.hasText(this.surveyTitle)) {
+      filterValues.put(VariableDocument.NESTED_VARIABLE_SURVEY_TITLE_FIELD, this.surveyTitle);
     }
 
     return filterValues;
@@ -104,12 +103,12 @@ public class VariableSearchFormDto {
     this.scaleLevel = scaleLevel;
   }
 
-  public String getSurveyTitel() {
-    return surveyTitel;
+  public String getSurveyTitle() {
+    return surveyTitle;
   }
 
-  public void setSurveyTitel(String surveyTitel) {
-    this.surveyTitel = surveyTitel;
+  public void setSurveyTitle(String surveyTitle) {
+    this.surveyTitle = surveyTitle;
   }
 
   public DateRange getDateRange() {
