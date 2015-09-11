@@ -77,7 +77,7 @@ public class VariableSearchController {
   public Callable<ModelAndView> get(
       @RequestHeader(name = "X-Requested-With", required = false) String ajaxHeader,
       @Validated(Search.class) VariableSearchFormDto variableSearchFormDto,
-      BindingResult bindingResult, Pageable pageable, 
+      BindingResult bindingResult, Pageable pageable,
       final HttpServletResponse httpServletResponse) {
     return () -> {
       ModelAndView modelAndView = new ModelAndView();
@@ -85,17 +85,15 @@ public class VariableSearchController {
       PageWithBuckets<VariableDocument> pageableWithBuckets =
           this.variableService.search(variableSearchFormDto, pageable);
 
-      Map<String, HashSet<Bucket>> bucketMap =
-          BucketManager.addEmptyBucketsIfNecessary(variableSearchFormDto,
-              pageableWithBuckets.getBucketMap());
-      modelAndView
-          .addObject("scaleLevelBuckets", bucketMap.get(VariableDocument.SCALE_LEVEL_FIELD));
+      Map<String, HashSet<Bucket>> bucketMap = BucketManager
+          .addEmptyBucketsIfNecessary(variableSearchFormDto, pageableWithBuckets.getBucketMap());
+      modelAndView.addObject("scaleLevelBuckets",
+          bucketMap.get(VariableDocument.SCALE_LEVEL_FIELD.getPath()));
       modelAndView.addObject("surveyTitleBuckets",
-          bucketMap.get(VariableDocument.NESTED_VARIABLE_SURVEY_TITLE_FIELD));
+          bucketMap.get(VariableDocument.NESTED_VARIABLE_SURVEY_TITLE_FIELD.getNestedPath()));
       // Create Resource
-      PagedResources<VariableResource> pagedVariableResource =
-          this.pagedResourcesAssembler.toResource(pageableWithBuckets,
-              this.variableResourceAssembler);
+      PagedResources<VariableResource> pagedVariableResource = this.pagedResourcesAssembler
+          .toResource(pageableWithBuckets, this.variableResourceAssembler);
       VariableSearchPageResource resource =
           new VariableSearchPageResource(pagedVariableResource, VariableSearchController.class,
               this.controllerLinkBuilderFactory, variableSearchFormDto, pageable);
