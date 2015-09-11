@@ -3,8 +3,11 @@ package eu.dzhw.fdz.metadatamanagement.data.common.aggregations;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import org.elasticsearch.action.search.SearchResponse;
+import org.elasticsearch.search.aggregations.Aggregation;
+import org.elasticsearch.search.aggregations.bucket.nested.InternalNested;
 import org.elasticsearch.search.aggregations.bucket.terms.StringTerms;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.elasticsearch.core.DefaultResultMapper;
@@ -43,16 +46,39 @@ public class AggregationResultMapper extends DefaultResultMapper {
     // iterate over names
     Map<String, HashSet<Bucket>> map = new HashMap<>();
     response.getAggregations().asMap().keySet().forEach(aggregationName -> {
-        StringTerms aggregation = response.getAggregations().get(aggregationName);
 
-        // create list
-        HashSet<Bucket> buckets = new HashSet<>();
-        aggregation.getBuckets().forEach(bucket -> {
-            buckets.add(new Bucket(bucket.getKey(), bucket.getDocCount()));
-          });
-        map.put(aggregationName, buckets);
+        // StringTerms or non nested aggregation
+        if (response.getAggregations().get(aggregationName).getClass()
+            .isAssignableFrom(StringTerms.class)) {
+          StringTerms aggregation = response.getAggregations().get(aggregationName);
+          HashSet<Bucket> buckets = new HashSet<>();
+          aggregation.getBuckets().forEach(bucket -> {
+              buckets.add(new Bucket(bucket.getKey(), bucket.getDocCount()));
+            });
+          map.put(aggregationName, buckets);
+        } else {
+          // InternalNested means nested aggrogrations
+          if (response.getAggregations().get(aggregationName).getClass()
+              .isAssignableFrom(InternalNested.class)) {
+            //Get aggregation
+            InternalNested aggregation = response.getAggregations().get(aggregationName);
+            HashSet<Bucket> buckets = new HashSet<>();
+            
+            //get entry for nested entries for the aggregation
+            for (Entry<String, Aggregation> entry : aggregation.getAggregations().asMap()
+                .entrySet()) {
+              String nestedAggregationName = entry.getKey();
+              StringTerms subAggregation = (StringTerms) entry.getValue();
+              
+              //get buckets from nested aggrogation
+              subAggregation.getBuckets().forEach(bucket -> {
+                  buckets.add(new Bucket(bucket.getKey(), bucket.getDocCount()));
+                });
+              map.put(nestedAggregationName, buckets);
+            }
+          }
+        }
       });
-
     return new PageWithBuckets<T>(facetedPage, pageable, map);
   }
 }

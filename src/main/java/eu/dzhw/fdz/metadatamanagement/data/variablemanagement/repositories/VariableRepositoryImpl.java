@@ -160,16 +160,15 @@ public class VariableRepositoryImpl implements VariableRepositoryCustom {
     List<AggregationBuilder> aggregationBuilders = new ArrayList<>();
 
     for (String filterName : filterNames) {
-      // TODO DKatzberg: nested aggregations
-      // if (VariableSearchFormDto.isNestedFilter(filterName)) {
-      // aggregationBuilders
-      // .add(AggregationBuilders.nested(VariableSearchFormDto.getBasicPath(filterName))
-      // .subAggregation(AggregationBuilders.terms(filterName).field(filterName)));
-      // } else {
-      aggregationBuilders.add(AggregationBuilders.terms(filterName).field(filterName));
-      // }
+      if (VariableSearchFormDto.isNestedFilter(filterName)) {
+        aggregationBuilders
+            .add(AggregationBuilders.nested(VariableSearchFormDto.getBasicPath(filterName))
+                .path(VariableSearchFormDto.getBasicPath(filterName))
+                .subAggregation(AggregationBuilders.terms(filterName).field(filterName)));
+      } else {
+        aggregationBuilders.add(AggregationBuilders.terms(filterName).field(filterName));
+      }
     }
-
 
     return aggregationBuilders;
   }
