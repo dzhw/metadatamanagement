@@ -120,23 +120,23 @@ public class VariableEditControllerTest extends AbstractWebTest {
 
     this.variableService.save(variableDocument);
 
-    MvcResult mvcResult =
-        this.mockMvc
-            .perform(post("/de/variables/testPostInvalidateValidID007/edit/validate")
-                .param(VariableDocument.ID_FIELD, "testPostInvalidateValidID007")
-                .param(VariableDocument.LABEL_FIELD, "Ein Label")
-                .param(VariableDocument.NAME_FIELD, "Ein Name")
-                .param(VariableDocument.NESTED_VARIABLE_SURVEY_ID_FIELD, "VariableSurveyID001")
-                .param(VariableDocument.NESTED_VARIABLE_SURVEY_TITLE_FIELD,
-                    "VariableSurveyTitel001")
-            .param(VariableDocument.NESTED_VARIABLE_SURVEY_VARIABLE_ALIAS_FIELD,
+    MvcResult mvcResult = this.mockMvc
+        .perform(post("/de/variables/testPostInvalidateValidID007/edit/validate")
+            .param(VariableDocument.ID_FIELD.getPath(), "testPostInvalidateValidID007")
+            .param(VariableDocument.LABEL_FIELD.getPath(), "Ein Label")
+            .param(VariableDocument.NAME_FIELD.getPath(), "Ein Name")
+            .param(VariableDocument.NESTED_VARIABLE_SURVEY_ID_FIELD.getNestedPath(),
+                "VariableSurveyID001")
+            .param(VariableDocument.NESTED_VARIABLE_SURVEY_TITLE_FIELD.getNestedPath(),
+                "VariableSurveyTitel001")
+            .param(VariableDocument.NESTED_VARIABLE_SURVEY_VARIABLE_ALIAS_FIELD.getNestedPath(),
                 "VariableSurveyAlias001")
-            .param(VariableDocument.NESTED_VARIABLE_SURVEY_NESTED_PERIOD_START_DATE,
+            .param(VariableDocument.NESTED_VARIABLE_SURVEY_NESTED_PERIOD_START_DATE.getNestedPath(),
                 LocalDate.now().toString())
-            .param(VariableDocument.NESTED_VARIABLE_SURVEY_NESTED_PERIOD_END_DATE,
+            .param(VariableDocument.NESTED_VARIABLE_SURVEY_NESTED_PERIOD_END_DATE.getNestedPath(),
                 LocalDate.now().plusDays(2).toString()))
-            .andExpect(status().isOk()).andExpect(request().asyncStarted())
-            .andExpect(request().asyncResult(instanceOf(ValidationResultDto.class))).andReturn();
+        .andExpect(status().isOk()).andExpect(request().asyncStarted())
+        .andExpect(request().asyncResult(instanceOf(ValidationResultDto.class))).andReturn();
 
     ValidationResultDto validationResultDto = (ValidationResultDto) mvcResult.getAsyncResult();
     int errorKeySize = validationResultDto.getErrorMessageMap().keySet().size();
@@ -170,24 +170,24 @@ public class VariableEditControllerTest extends AbstractWebTest {
 
     this.variableService.save(variableDocument);
 
-    MvcResult mvcResult =
-        this.mockMvc
-            .perform(post("/de/variables/testPostValidateValidID007/edit/validate")
-                .param(VariableDocument.ID_FIELD, "testPostValidateValidID007")
-                .param(VariableDocument.QUESTION_FIELD, "Question.")
-                .param(VariableDocument.LABEL_FIELD, "Ein Label")
-                .param(VariableDocument.NAME_FIELD, "Ein Name")
-                .param(VariableDocument.NESTED_VARIABLE_SURVEY_ID_FIELD, "VariableSurveyID001")
-                .param(VariableDocument.NESTED_VARIABLE_SURVEY_TITLE_FIELD,
-                    "VariableSurveyTitel001")
-            .param(VariableDocument.NESTED_VARIABLE_SURVEY_VARIABLE_ALIAS_FIELD,
+    MvcResult mvcResult = this.mockMvc
+        .perform(post("/de/variables/testPostValidateValidID007/edit/validate")
+            .param(VariableDocument.ID_FIELD.getPath(), "testPostValidateValidID007")
+            .param(VariableDocument.QUESTION_FIELD.getPath(), "Question.")
+            .param(VariableDocument.LABEL_FIELD.getPath(), "Ein Label")
+            .param(VariableDocument.NAME_FIELD.getPath(), "Ein Name")
+            .param(VariableDocument.NESTED_VARIABLE_SURVEY_ID_FIELD.getNestedPath(),
+                "VariableSurveyID001")
+            .param(VariableDocument.NESTED_VARIABLE_SURVEY_TITLE_FIELD.getNestedPath(),
+                "VariableSurveyTitel001")
+            .param(VariableDocument.NESTED_VARIABLE_SURVEY_VARIABLE_ALIAS_FIELD.getNestedPath(),
                 "VariableSurveyAlias001")
-            .param(VariableDocument.NESTED_VARIABLE_SURVEY_NESTED_PERIOD_START_DATE,
+            .param(VariableDocument.NESTED_VARIABLE_SURVEY_NESTED_PERIOD_START_DATE.getNestedPath(),
                 LocalDate.now().toString())
-            .param(VariableDocument.NESTED_VARIABLE_SURVEY_NESTED_PERIOD_END_DATE,
+            .param(VariableDocument.NESTED_VARIABLE_SURVEY_NESTED_PERIOD_END_DATE.getNestedPath(),
                 LocalDate.now().plusDays(2).toString()))
-            .andExpect(status().isOk()).andExpect(request().asyncStarted())
-            .andExpect(request().asyncResult(instanceOf(ValidationResultDto.class))).andReturn();
+        .andExpect(status().isOk()).andExpect(request().asyncStarted())
+        .andExpect(request().asyncResult(instanceOf(ValidationResultDto.class))).andReturn();
 
     ValidationResultDto validationResultDto = (ValidationResultDto) mvcResult.getAsyncResult();
     int errorKeySize = validationResultDto.getErrorMessageMap().keySet().size();

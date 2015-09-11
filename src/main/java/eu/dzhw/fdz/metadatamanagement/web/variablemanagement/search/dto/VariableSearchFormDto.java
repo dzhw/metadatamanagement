@@ -53,15 +53,12 @@ public class VariableSearchFormDto {
 
     // ScaleLevel
     if (StringUtils.hasText(this.scaleLevel)) {
-
-      filterValues.put(new Field(VariableDocument.SCALE_LEVEL_FIELD), this.scaleLevel);
+      filterValues.put(VariableDocument.SCALE_LEVEL_FIELD, this.scaleLevel);
     }
 
     // Survey Title
     if (StringUtils.hasText(this.surveyTitle)) {
-      Field nestedField = new Field(VariableDocument.VARIABLE_SURVEY_FIELD,
-          new Field(VariableDocument.NESTED_VARIABLE_SURVEY_TITLE_FIELD));
-      filterValues.put(nestedField, this.surveyTitle);
+      filterValues.put(VariableDocument.NESTED_VARIABLE_SURVEY_TITLE_FIELD, this.surveyTitle);
     }
 
     return filterValues;
@@ -74,11 +71,10 @@ public class VariableSearchFormDto {
     List<Field> filterNames = new ArrayList<>();
 
     // ScaleLevel
-    filterNames.add(new Field(VariableDocument.SCALE_LEVEL_FIELD));
+    filterNames.add(VariableDocument.SCALE_LEVEL_FIELD);
 
     // Survey Title
-    filterNames.add(new Field(VariableDocument.VARIABLE_SURVEY_FIELD,
-        new Field(VariableDocument.NESTED_VARIABLE_SURVEY_TITLE_FIELD)));
+    filterNames.add(VariableDocument.NESTED_VARIABLE_SURVEY_TITLE_FIELD);
 
     return filterNames;
   }

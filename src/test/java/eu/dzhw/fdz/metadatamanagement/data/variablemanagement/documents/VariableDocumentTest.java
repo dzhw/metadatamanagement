@@ -51,24 +51,31 @@ public class VariableDocumentTest extends AbstractWebTest {
 
     // Assert
     assertEquals(9, errors.getErrorCount());
-    assertThat(errors.getFieldError(VariableDocument.NAME_FIELD).getCode(),
+    assertThat(errors.getFieldError(VariableDocument.NAME_FIELD.getPath()).getCode(),
         is(NotBlank.class.getSimpleName()));
-    assertThat(errors.getFieldError(VariableDocument.QUESTION_FIELD).getCode(),
+    assertThat(errors.getFieldError(VariableDocument.QUESTION_FIELD.getPath()).getCode(),
         is(NotBlank.class.getSimpleName()));
-    assertThat(errors.getFieldError(VariableDocument.ID_FIELD).getCode(),
+    assertThat(errors.getFieldError(VariableDocument.ID_FIELD.getPath()).getCode(),
         is(NotBlank.class.getSimpleName()));
-    assertThat(errors.getFieldError(VariableDocument.LABEL_FIELD).getCode(),
-        is(NotBlank.class.getSimpleName()));
-    assertThat(errors.getFieldError(VariableDocument.NESTED_VARIABLE_SURVEY_ID_FIELD).getCode(),
+    assertThat(errors.getFieldError(VariableDocument.LABEL_FIELD.getPath()).getCode(),
         is(NotBlank.class.getSimpleName()));
     assertThat(errors
-        .getFieldError(VariableDocument.NESTED_VARIABLE_SURVEY_NESTED_PERIOD_START_DATE).getCode(),
-        is(NotNull.class.getSimpleName()));
-    assertThat(errors.getFieldError(VariableDocument.NESTED_VARIABLE_SURVEY_NESTED_PERIOD_END_DATE)
-        .getCode(), is(NotNull.class.getSimpleName()));
-    assertThat(errors.getFieldError(VariableDocument.NESTED_VARIABLE_SURVEY_TITLE_FIELD).getCode(),
+        .getFieldError(VariableDocument.NESTED_VARIABLE_SURVEY_ID_FIELD.getNestedPath()).getCode(),
         is(NotBlank.class.getSimpleName()));
-    assertThat(errors.getFieldError(VariableDocument.NESTED_VARIABLE_SURVEY_VARIABLE_ALIAS_FIELD)
+    assertThat(errors
+        .getFieldError(
+            VariableDocument.NESTED_VARIABLE_SURVEY_NESTED_PERIOD_START_DATE.getNestedPath())
+        .getCode(), is(NotNull.class.getSimpleName()));
+    assertThat(errors
+        .getFieldError(
+            VariableDocument.NESTED_VARIABLE_SURVEY_NESTED_PERIOD_END_DATE.getNestedPath())
+        .getCode(), is(NotNull.class.getSimpleName()));
+    assertThat(
+        errors.getFieldError(VariableDocument.NESTED_VARIABLE_SURVEY_TITLE_FIELD.getNestedPath())
+            .getCode(),
+        is(NotBlank.class.getSimpleName()));
+    assertThat(errors
+        .getFieldError(VariableDocument.NESTED_VARIABLE_SURVEY_VARIABLE_ALIAS_FIELD.getNestedPath())
         .getCode(), is(NotBlank.class.getSimpleName()));
   }
 
@@ -112,7 +119,7 @@ public class VariableDocumentTest extends AbstractWebTest {
 
     // Assert
     assertEquals(1, errors.getErrorCount());
-    assertThat(errors.getFieldError(VariableDocument.ID_FIELD).getCode(),
+    assertThat(errors.getFieldError(VariableDocument.ID_FIELD.getPath()).getCode(),
         is(Pattern.class.getSimpleName()));
   }
 
@@ -156,7 +163,7 @@ public class VariableDocumentTest extends AbstractWebTest {
 
     // Assert
     assertEquals(1, errors.getErrorCount());
-    assertThat(errors.getFieldError(VariableDocument.NAME_FIELD).getCode(),
+    assertThat(errors.getFieldError(VariableDocument.NAME_FIELD.getPath()).getCode(),
         is(Size.class.getSimpleName()));
   }
 
@@ -181,7 +188,7 @@ public class VariableDocumentTest extends AbstractWebTest {
 
     // Assert
     assertEquals(1, errors.getErrorCount());
-    assertThat(errors.getFieldError(VariableDocument.LABEL_FIELD).getCode(),
+    assertThat(errors.getFieldError(VariableDocument.LABEL_FIELD.getPath()).getCode(),
         is(Size.class.getSimpleName()));
   }
 
@@ -337,16 +344,23 @@ public class VariableDocumentTest extends AbstractWebTest {
 
     // Assert
     assertEquals(5, errors.getErrorCount());
-    assertThat(errors.getFieldError(VariableDocument.NESTED_VARIABLE_SURVEY_ID_FIELD).getCode(),
+    assertThat(errors
+        .getFieldError(VariableDocument.NESTED_VARIABLE_SURVEY_ID_FIELD.getNestedPath()).getCode(),
         is(NotBlank.class.getSimpleName()));
-    assertThat(errors.getFieldError(VariableDocument.NESTED_VARIABLE_SURVEY_TITLE_FIELD).getCode(),
+    assertThat(
+        errors.getFieldError(VariableDocument.NESTED_VARIABLE_SURVEY_TITLE_FIELD.getNestedPath())
+            .getCode(),
         is(NotBlank.class.getSimpleName()));
     assertThat(errors
-        .getFieldError(VariableDocument.NESTED_VARIABLE_SURVEY_NESTED_PERIOD_START_DATE).getCode(),
-        is(NotNull.class.getSimpleName()));
-    assertThat(errors.getFieldError(VariableDocument.NESTED_VARIABLE_SURVEY_NESTED_PERIOD_END_DATE)
+        .getFieldError(
+            VariableDocument.NESTED_VARIABLE_SURVEY_NESTED_PERIOD_START_DATE.getNestedPath())
         .getCode(), is(NotNull.class.getSimpleName()));
-    assertThat(errors.getFieldError(VariableDocument.NESTED_VARIABLE_SURVEY_VARIABLE_ALIAS_FIELD)
+    assertThat(errors
+        .getFieldError(
+            VariableDocument.NESTED_VARIABLE_SURVEY_NESTED_PERIOD_END_DATE.getNestedPath())
+        .getCode(), is(NotNull.class.getSimpleName()));
+    assertThat(errors
+        .getFieldError(VariableDocument.NESTED_VARIABLE_SURVEY_VARIABLE_ALIAS_FIELD.getNestedPath())
         .getCode(), is(NotBlank.class.getSimpleName()));
   }
 
@@ -370,7 +384,7 @@ public class VariableDocumentTest extends AbstractWebTest {
 
     // Assert
     assertEquals(1, errors.getErrorCount());
-    assertThat(errors.getFieldError(VariableDocument.NESTED_VARIABLE_SURVEY_VARIABLE_ALIAS_FIELD)
+    assertThat(errors.getFieldError(VariableDocument.NESTED_VARIABLE_SURVEY_VARIABLE_ALIAS_FIELD.getNestedPath())
         .getCode(), is(Size.class.getSimpleName()));
   }
 
@@ -394,7 +408,7 @@ public class VariableDocumentTest extends AbstractWebTest {
 
     // Assert
     assertEquals(1, errors.getErrorCount());
-    assertThat(errors.getFieldError(VariableDocument.NESTED_VARIABLE_SURVEY_ID_FIELD).getCode(),
+    assertThat(errors.getFieldError(VariableDocument.NESTED_VARIABLE_SURVEY_ID_FIELD.getNestedPath()).getCode(),
         is(Size.class.getSimpleName()));
   }
 
@@ -419,7 +433,7 @@ public class VariableDocumentTest extends AbstractWebTest {
 
     // Assert
     assertEquals(1, errors.getErrorCount());
-    assertThat(errors.getFieldError(VariableDocument.NESTED_VARIABLE_SURVEY_TITLE_FIELD).getCode(),
+    assertThat(errors.getFieldError(VariableDocument.NESTED_VARIABLE_SURVEY_TITLE_FIELD.getNestedPath()).getCode(),
         is(Size.class.getSimpleName()));
   }
 
@@ -534,7 +548,7 @@ public class VariableDocumentTest extends AbstractWebTest {
 
     // Assert
     assertEquals(1, errors.getErrorCount());
-    assertThat(errors.getFieldError(VariableDocument.QUESTION_FIELD).getCode(),
+    assertThat(errors.getFieldError(VariableDocument.QUESTION_FIELD.getPath()).getCode(),
         is(NotBlank.class.getSimpleName()));
   }
 
@@ -556,7 +570,7 @@ public class VariableDocumentTest extends AbstractWebTest {
 
     // Assert
     assertEquals(1, errors.getErrorCount());
-    assertThat(errors.getFieldError(VariableDocument.LABEL_FIELD).getCode(),
+    assertThat(errors.getFieldError(VariableDocument.LABEL_FIELD.getPath()).getCode(),
         is(NotBlank.class.getSimpleName()));
   }
 

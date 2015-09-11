@@ -14,7 +14,6 @@ import org.junit.Test;
 
 import eu.dzhw.fdz.metadatamanagement.data.common.aggregations.Bucket;
 import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.VariableDocument;
-import eu.dzhw.fdz.metadatamanagement.web.variablemanagement.search.BucketManager;
 import eu.dzhw.fdz.metadatamanagement.web.variablemanagement.search.dto.VariableSearchFormDto;
 import eu.dzhw.fdz.metadatamanagement.web.variablemanagement.search.dto.builders.VariableSearchFormDtoBuilder;
 
@@ -39,9 +38,11 @@ public class BucketManagerTest {
 
     // Assert
     assertThat(extendedMap.keySet().size(), is(1));
-    assertThat(extendedMap.keySet().iterator().next(), is(VariableDocument.SCALE_LEVEL_FIELD));
+    assertThat(extendedMap.keySet().iterator().next(),
+        is(VariableDocument.SCALE_LEVEL_FIELD.getPath()));
 
-    HashSet<Bucket> scaleLevelBuckets = extendedMap.get(VariableDocument.SCALE_LEVEL_FIELD);
+    HashSet<Bucket> scaleLevelBuckets =
+        extendedMap.get(VariableDocument.SCALE_LEVEL_FIELD.getPath());
     for (Bucket bucket : scaleLevelBuckets) {
       assertThat(bucket.getKey(), is("nominal"));
     }
@@ -52,7 +53,7 @@ public class BucketManagerTest {
     // Arrange
     HashSet<Bucket> filterList = new HashSet<>();
     Map<String, HashSet<Bucket>> filterMap = new HashMap<>();
-    filterMap.put(VariableDocument.SCALE_LEVEL_FIELD, filterList);
+    filterMap.put(VariableDocument.SCALE_LEVEL_FIELD.getPath(), filterList);
     VariableSearchFormDto variableSearchFormDto = new VariableSearchFormDtoBuilder()
         .withQuery("EmptyQuery").withScaleLevel("ordinal").build();
 
@@ -63,8 +64,10 @@ public class BucketManagerTest {
 
     // Assert
     assertThat(extendedMap.keySet().size(), is(1));
-    assertThat(extendedMap.keySet().iterator().next(), is(VariableDocument.SCALE_LEVEL_FIELD));
-    HashSet<Bucket> scaleLevelBuckets = extendedMap.get(VariableDocument.SCALE_LEVEL_FIELD);
+    assertThat(extendedMap.keySet().iterator().next(),
+        is(VariableDocument.SCALE_LEVEL_FIELD.getPath()));
+    HashSet<Bucket> scaleLevelBuckets =
+        extendedMap.get(VariableDocument.SCALE_LEVEL_FIELD.getPath());
     for (Bucket bucket : scaleLevelBuckets) {
       assertThat(bucket.getKey(), is("ordinal"));
     }

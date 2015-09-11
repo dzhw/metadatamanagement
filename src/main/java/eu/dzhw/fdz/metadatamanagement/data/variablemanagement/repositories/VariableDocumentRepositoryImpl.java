@@ -180,7 +180,7 @@ public class VariableDocumentRepositoryImpl implements VariableDocumentRepositor
       queryBuilder = boolQuery()
           .should(
               matchQuery("_all", query).zeroTermsQuery(ZeroTermsQuery.NONE).operator(Operator.AND))
-          .should(matchQuery(VariableDocument.ALL_STRINGS_AS_NGRAMS_FIELD, query)
+          .should(matchQuery(VariableDocument.ALL_STRINGS_AS_NGRAMS_FIELD.getPath(), query)
               .zeroTermsQuery(ZeroTermsQuery.NONE).operator(Operator.AND)
               .minimumShouldMatch(minimumShouldMatch));
     } else {
@@ -239,13 +239,16 @@ public class VariableDocumentRepositoryImpl implements VariableDocumentRepositor
   public Page<VariableDocument> filterBySurveyIdAndVariableAlias(String surveyId,
       String variableAlias) {
 
-    QueryBuilder queryBuilder = QueryBuilders.filteredQuery(matchAllQuery(),
-        FilterBuilders.nestedFilter(VariableDocument.VARIABLE_SURVEY_FIELD,
-            FilterBuilders.boolFilter().must(
-                FilterBuilders.termFilter(VariableDocument.NESTED_VARIABLE_SURVEY_ID_FIELD,
-                    surveyId),
-            FilterBuilders.termFilter(VariableDocument.NESTED_VARIABLE_SURVEY_VARIABLE_ALIAS_FIELD,
-                variableAlias))));
+    QueryBuilder queryBuilder =
+        QueryBuilders
+            .filteredQuery(matchAllQuery(),
+                FilterBuilders.nestedFilter(VariableDocument.VARIABLE_SURVEY_FIELD.getPath(),
+                    FilterBuilders.boolFilter().must(
+                        FilterBuilders.termFilter(VariableDocument.NESTED_VARIABLE_SURVEY_ID_FIELD
+                            .getNestedPath(), surveyId),
+                FilterBuilders.termFilter(
+                    VariableDocument.NESTED_VARIABLE_SURVEY_VARIABLE_ALIAS_FIELD.getNestedPath(),
+                    variableAlias))));
 
     SearchQuery searchQuery = new NativeSearchQueryBuilder().withQuery(queryBuilder).build();
 

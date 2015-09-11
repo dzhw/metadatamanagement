@@ -7,8 +7,6 @@ import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
-import net.karneim.pojobuilder.GeneratePojoBuilder;
-
 import org.hibernate.validator.constraints.NotBlank;
 import org.springframework.data.elasticsearch.annotations.Document;
 
@@ -16,11 +14,13 @@ import com.google.common.base.Objects;
 
 import eu.dzhw.fdz.metadatamanagement.data.common.documents.AbstractDocument;
 import eu.dzhw.fdz.metadatamanagement.data.common.documents.DateRange;
+import eu.dzhw.fdz.metadatamanagement.data.common.documents.Field;
 import eu.dzhw.fdz.metadatamanagement.data.common.documents.validation.groups.ModifyValidationGroup.Create;
 import eu.dzhw.fdz.metadatamanagement.data.common.documents.validation.groups.ModifyValidationGroup.Edit;
 import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.validation.UniqueAnswerCode;
 import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.validation.ValidDataType;
 import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.validation.ValidScaleLevel;
+import net.karneim.pojobuilder.GeneratePojoBuilder;
 
 /**
  * This is a representation of a variable. All fields describe the attributes of the variable, for
@@ -29,38 +29,62 @@ import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.validati
  * @author Daniel Katzberg
  *
  */
-@Document(indexName = "#{'" + AbstractDocument.METADATA_INDEX + "_'"
-    + "+T(org.springframework.context.i18n.LocaleContextHolder).getLocale().getLanguage()}",
+@Document(
+    indexName = "#{'" + AbstractDocument.METADATA_INDEX + "_'"
+        + "+T(org.springframework.context.i18n.LocaleContextHolder).getLocale().getLanguage()}",
     type = "variables")
 @GeneratePojoBuilder(
     intoPackage = "eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.builders")
 public class VariableDocument extends AbstractDocument {
-  // Public constants which are used in queries as fieldnames.
-  public static final String ALL_STRINGS_AS_NGRAMS_FIELD = "allStringsAsNgrams";
-  public static final String NAME_FIELD = "name";
-  public static final String DATA_TYPE_FIELD = "dataType";
-  public static final String LABEL_FIELD = "label";
-  public static final String SCALE_LEVEL_FIELD = "scaleLevel";
-  public static final String QUESTION_FIELD = "question";
-  public static final String ANSWER_OPTIONS_FIELD = "answerOptions";
-  public static final String VARIABLE_SURVEY_FIELD = "variableSurvey";
-  public static final String NESTED_VARIABLE_SURVEY_TITLE_FIELD = VARIABLE_SURVEY_FIELD + "."
-      + VariableSurvey.TITLE_FIELD;
-  public static final String NESTED_VARIABLE_SURVEY_VARIABLE_ALIAS_FIELD = VARIABLE_SURVEY_FIELD
-      + "." + VariableSurvey.VARIABLE_ALIAS_FIELD;
-  public static final String NESTED_VARIABLE_SURVEY_ID_FIELD = VARIABLE_SURVEY_FIELD + "."
-      + VariableSurvey.SURVEY_ID_FIELD;
-  public static final String NESTED_VARIABLE_SURVEY_PERIOD_FIELD = VARIABLE_SURVEY_FIELD + "."
-      + VariableSurvey.SURVEY_PERIOD_FIELD;
-  public static final String NESTED_VARIABLE_SURVEY_NESTED_PERIOD_START_DATE =
-      VARIABLE_SURVEY_FIELD + "." + VariableSurvey.SURVEY_PERIOD_FIELD + "."
-          + DateRange.STARTDATE_FIELD;
-  public static final String NESTED_VARIABLE_SURVEY_NESTED_PERIOD_END_DATE = VARIABLE_SURVEY_FIELD
-      + "." + VariableSurvey.SURVEY_PERIOD_FIELD + "." + DateRange.ENDDATE_FIELD;
-  public static final String NESTED_ANSWER_OPTIONS_CODE_FIELD = ANSWER_OPTIONS_FIELD + "."
-      + AnswerOption.CODE_FIELD;
-  public static final String NESTED_ANSWER_OPTIONS_LABEL_FIELD = ANSWER_OPTIONS_FIELD + "."
-      + AnswerOption.LABEL_FIELD;
+
+  // Basic Fields
+  public static final Field ALL_STRINGS_AS_NGRAMS_FIELD = new Field("allStringsAsNgrams");
+  public static final Field NAME_FIELD = new Field("name");
+  public static final Field DATA_TYPE_FIELD = new Field("dataType");
+  public static final Field LABEL_FIELD = new Field("label");
+  public static final Field SCALE_LEVEL_FIELD = new Field("scaleLevel");
+  public static final Field QUESTION_FIELD = new Field("question");
+  public static final Field ANSWER_OPTIONS_FIELD = new Field("answerOptions");
+  public static final Field VARIABLE_SURVEY_FIELD = new Field("variableSurvey");
+
+  // Nested: Variable Document - Variable Survey
+  public static final Field NESTED_VARIABLE_SURVEY_TITLE_FIELD =
+      VARIABLE_SURVEY_FIELD.clone().withNestedField(
+          new Field(VARIABLE_SURVEY_FIELD.getPath() + "." + VariableSurvey.TITLE_FIELD.getPath()));
+  
+  public static final Field NESTED_VARIABLE_SURVEY_VARIABLE_ALIAS_FIELD =
+      VARIABLE_SURVEY_FIELD.clone().withNestedField(new Field(
+          VARIABLE_SURVEY_FIELD.getPath() + "." + VariableSurvey.VARIABLE_ALIAS_FIELD.getPath()));
+  
+  public static final Field NESTED_VARIABLE_SURVEY_ID_FIELD =
+      VARIABLE_SURVEY_FIELD.clone().withNestedField(new Field(
+          VARIABLE_SURVEY_FIELD.getPath() + "." + VariableSurvey.SURVEY_ID_FIELD.getPath()));
+  
+  public static final Field NESTED_VARIABLE_SURVEY_PERIOD_FIELD =
+      VARIABLE_SURVEY_FIELD.clone().withNestedField(new Field(
+          VARIABLE_SURVEY_FIELD.getPath() + "." + VariableSurvey.SURVEY_PERIOD_FIELD.getPath()));
+
+  // Nested: Variable Document - Variable Survey - Survey Period
+  public static final Field NESTED_VARIABLE_SURVEY_NESTED_PERIOD_START_DATE =
+      NESTED_VARIABLE_SURVEY_PERIOD_FIELD.clone()
+          .withNestedField(new Field(
+              VARIABLE_SURVEY_FIELD.getPath() + "." + VariableSurvey.SURVEY_PERIOD_FIELD.getPath()
+                  + "." + DateRange.STARTDATE_FIELD.getPath()));
+  
+  public static final Field NESTED_VARIABLE_SURVEY_NESTED_PERIOD_END_DATE =
+      NESTED_VARIABLE_SURVEY_PERIOD_FIELD.clone()
+          .withNestedField(new Field(
+              VARIABLE_SURVEY_FIELD.getPath() + "." + VariableSurvey.SURVEY_PERIOD_FIELD.getPath()
+                  + "." + DateRange.ENDDATE_FIELD.getPath()));
+
+  // Nested: Variable Document - Answer Options
+  public static final Field NESTED_ANSWER_OPTIONS_CODE_FIELD =
+      ANSWER_OPTIONS_FIELD.clone().withNestedField(
+          new Field(ANSWER_OPTIONS_FIELD.getPath() + "." + AnswerOption.CODE_FIELD.getPath()));
+  
+  public static final Field NESTED_ANSWER_OPTIONS_LABEL_FIELD =
+      ANSWER_OPTIONS_FIELD.clone().withNestedField(
+          new Field(ANSWER_OPTIONS_FIELD.getPath() + "." + AnswerOption.LABEL_FIELD.getPath()));
 
   /**
    * This is a nested reference to the survey.
