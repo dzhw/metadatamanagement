@@ -27,22 +27,24 @@ public class BucketManager {
     Map<Field, String> filters = variableSearchFormDto.getAllFilters();
 
     for (Entry<Field, String> filter : filters.entrySet()) {
-      
-      //get basic variables from the entry and the nested object
+
+      // get basic variables from the entry and the nested object
       Field field = filter.getKey();
       String filterValue = filter.getValue();
       String nestedPath = BucketManager.getNestedKey(field);
-      
-      //check for the group in the map
+
+      Bucket emptyBucket = new Bucket(filterValue, 0L);
+
+      // check for the group in the map
       if (!bucketMap.containsKey(nestedPath)) {
         HashSet<Bucket> filterBucketList = new HashSet<>();
-        filterBucketList.add(new Bucket(filterValue, 0L));
+        filterBucketList.add(emptyBucket);
         bucketMap.put(nestedPath, filterBucketList);
         // okay group is in the map, check here for the value
       } else {
-        if (!bucketMap.get(nestedPath).contains(new Bucket(filterValue, 0L))) {
+        if (!bucketMap.get(nestedPath).contains(emptyBucket)) {
           HashSet<Bucket> filterBucketList = bucketMap.get(nestedPath);
-          filterBucketList.add(new Bucket(filterValue, 0L));
+          filterBucketList.add(emptyBucket);
         }
       }
     }
