@@ -58,10 +58,10 @@
 										<li class="list-group-item"
 											th:each="surveyTitle : ${surveyTitleBuckets}">
 											<div class="checkbox">
-												<label class="text-capitalize"><input
+												<label class="text-capitalize label-with-text-and-badge"><input
 													type="checkbox" th:field="*{surveyTitle}"
 													th:value="${surveyTitle.key}"
-													onclick="VariableSearchForm.search(this.form)" /><span
+													onclick="VariableSearchForm.search(this.form)" /><span class="abbreviated-text"
 													th:text="${surveyTitle.key}"></span> </label><span
 													class="badge pull-right" th:text="${surveyTitle.docCount}">14</span>
 											</div>

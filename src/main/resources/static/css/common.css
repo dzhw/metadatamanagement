@@ -55,3 +55,16 @@ select[multiple] ~ .form-control-feedback {
 	cursor: pointer !important;
 }
 
+/* shorten text with ellipsis */
+.label-with-text-and-badge {
+	max-width: 85%;
+}
+
+/* shorten text with ellipsis */
+.abbreviated-text {
+	text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+    display: block;
+}
+
