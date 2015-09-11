@@ -161,7 +161,7 @@ public class VariableDocumentRepositoryImpl implements VariableDocumentRepositor
   @SuppressWarnings("rawtypes")
   private AggregationBuilder createAggregations(Field field) {
     if (field.isNested()) {
-      return AggregationBuilders.nested(field.getPath()).path(field.getPath())
+      return AggregationBuilders.nested(field.getNestedPath()).path(field.getPath())
           .subAggregation(this.createAggregations(field.getNestedField()));
     } else {
       return AggregationBuilders.terms(field.getPath()).field(field.getPath());
