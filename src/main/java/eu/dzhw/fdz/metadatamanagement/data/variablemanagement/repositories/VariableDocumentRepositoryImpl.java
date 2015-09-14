@@ -142,8 +142,13 @@ public class VariableDocumentRepositoryImpl implements VariableDocumentRepositor
     List<AggregationBuilder> aggregationBuilders = new ArrayList<>();
 
     // add nested or not nested aggregations
-    for (Field aggregationField : aggregationFields.keySet()) {
-      aggregationBuilders.add(this.createAggregations(aggregationField));
+    for (Entry<Field, Integer> aggregationField : aggregationFields.entrySet()) {
+      AggregationBuilder aggregationBuilder =
+          this.createAggregations(aggregationField.getKey(), aggregationField.getValue());
+      // check for default case (no aggregation filter was found
+      if (aggregationBuilder != null) {
+        aggregationBuilders.add(aggregationBuilder);
+      }
     }
 
     return aggregationBuilders;
@@ -157,12 +162,23 @@ public class VariableDocumentRepositoryImpl implements VariableDocumentRepositor
    * @return an nested or not nested aggregations
    */
   @SuppressWarnings("rawtypes")
-  private AggregationBuilder createAggregations(Field field) {
+  private AggregationBuilder createAggregations(Field field, int aggregationType) {
+
+    // recursive / nested aggregation
     if (field.isNested()) {
       return AggregationBuilders.nested(field.getNestedPath()).path(field.getPath())
-          .subAggregation(this.createAggregations(field.getNestedField()));
+          .subAggregation(this.createAggregations(field.getNestedField(), aggregationType));
     } else {
-      return AggregationBuilders.terms(field.getPath()).field(field.getPath());
+
+      // Switch between the different cases
+      switch (aggregationType) {
+
+        case AbstractQueryDto.AGGREGATION_TERM:
+          return AggregationBuilders.terms(field.getPath()).field(field.getPath());
+
+        default:
+          return null;
+      }
     }
   }
 
