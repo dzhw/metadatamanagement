@@ -25,8 +25,8 @@ import net.karneim.pojobuilder.GeneratePojoBuilder;
 public class DateRange {
 
   // Public constants which are used in queries as fieldnames.
-  public static final Field STARTDATE_FIELD = new Field("startDate");
-  public static final Field ENDDATE_FIELD = new Field("endDate");
+  public static final Field STARTDATE_FIELD = new Field("startDate").withTermFilter();
+  public static final Field ENDDATE_FIELD = new Field("endDate").withTermFilter();
 
   /**
    * The start date of the range.

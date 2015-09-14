@@ -38,28 +38,32 @@ import net.karneim.pojobuilder.GeneratePojoBuilder;
 public class VariableDocument extends AbstractDocument {
 
   // Basic Fields
-  public static final Field ALL_STRINGS_AS_NGRAMS_FIELD = new Field("allStringsAsNgrams");
+  public static final Field ALL_STRINGS_AS_NGRAMS_FIELD =
+      new Field("allStringsAsNgrams").withTermFilter();
   public static final Field NAME_FIELD = new Field("name");
   public static final Field DATA_TYPE_FIELD = new Field("dataType");
   public static final Field LABEL_FIELD = new Field("label");
-  public static final Field SCALE_LEVEL_FIELD = new Field("scaleLevel");
+  public static final Field SCALE_LEVEL_FIELD =
+      new Field("scaleLevel").withTermFilter().withAggregation();
   public static final Field QUESTION_FIELD = new Field("question");
   public static final Field ANSWER_OPTIONS_FIELD = new Field("answerOptions");
   public static final Field VARIABLE_SURVEY_FIELD = new Field("variableSurvey");
 
   // Nested: Variable Document - Variable Survey
   public static final Field NESTED_VARIABLE_SURVEY_TITLE_FIELD =
-      VARIABLE_SURVEY_FIELD.clone().withNestedField(
-          new Field(VARIABLE_SURVEY_FIELD.getPath() + "." + VariableSurvey.TITLE_FIELD.getPath()));
-  
+      VARIABLE_SURVEY_FIELD.clone()
+          .withNestedField(new Field(
+              VARIABLE_SURVEY_FIELD.getPath() + "." + VariableSurvey.TITLE_FIELD.getPath())
+                  .withTermFilter().withAggregation());
+
   public static final Field NESTED_VARIABLE_SURVEY_VARIABLE_ALIAS_FIELD =
       VARIABLE_SURVEY_FIELD.clone().withNestedField(new Field(
           VARIABLE_SURVEY_FIELD.getPath() + "." + VariableSurvey.VARIABLE_ALIAS_FIELD.getPath()));
-  
+
   public static final Field NESTED_VARIABLE_SURVEY_ID_FIELD =
       VARIABLE_SURVEY_FIELD.clone().withNestedField(new Field(
           VARIABLE_SURVEY_FIELD.getPath() + "." + VariableSurvey.SURVEY_ID_FIELD.getPath()));
-  
+
   public static final Field NESTED_VARIABLE_SURVEY_PERIOD_FIELD =
       VARIABLE_SURVEY_FIELD.clone().withNestedField(new Field(
           VARIABLE_SURVEY_FIELD.getPath() + "." + VariableSurvey.SURVEY_PERIOD_FIELD.getPath()));
@@ -67,21 +71,25 @@ public class VariableDocument extends AbstractDocument {
   // Nested: Variable Document - Variable Survey - Survey Period
   public static final Field NESTED_VARIABLE_SURVEY_NESTED_PERIOD_START_DATE =
       NESTED_VARIABLE_SURVEY_PERIOD_FIELD.clone()
-          .withNestedField(new Field(
-              VARIABLE_SURVEY_FIELD.getPath() + "." + VariableSurvey.SURVEY_PERIOD_FIELD.getPath()
-                  + "." + DateRange.STARTDATE_FIELD.getPath()));
-  
+          .withNestedField(
+              NESTED_VARIABLE_SURVEY_PERIOD_FIELD.getNestedField().clone().withNestedField(
+                  new Field(NESTED_VARIABLE_SURVEY_PERIOD_FIELD.getNestedField().getNestedPath()
+                      + "." + DateRange.STARTDATE_FIELD.getPath())))
+          .withTermFilter();
+
   public static final Field NESTED_VARIABLE_SURVEY_NESTED_PERIOD_END_DATE =
       NESTED_VARIABLE_SURVEY_PERIOD_FIELD.clone()
-          .withNestedField(new Field(
-              VARIABLE_SURVEY_FIELD.getPath() + "." + VariableSurvey.SURVEY_PERIOD_FIELD.getPath()
-                  + "." + DateRange.ENDDATE_FIELD.getPath()));
+          .withNestedField(
+              NESTED_VARIABLE_SURVEY_PERIOD_FIELD.getNestedField().clone().withNestedField(
+                  new Field(NESTED_VARIABLE_SURVEY_PERIOD_FIELD.getNestedField().getNestedPath()
+                      + "." + DateRange.ENDDATE_FIELD.getPath())))
+          .withTermFilter();
 
   // Nested: Variable Document - Answer Options
   public static final Field NESTED_ANSWER_OPTIONS_CODE_FIELD =
       ANSWER_OPTIONS_FIELD.clone().withNestedField(
           new Field(ANSWER_OPTIONS_FIELD.getPath() + "." + AnswerOption.CODE_FIELD.getPath()));
-  
+
   public static final Field NESTED_ANSWER_OPTIONS_LABEL_FIELD =
       ANSWER_OPTIONS_FIELD.clone().withNestedField(
           new Field(ANSWER_OPTIONS_FIELD.getPath() + "." + AnswerOption.LABEL_FIELD.getPath()));

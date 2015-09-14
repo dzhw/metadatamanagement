@@ -80,8 +80,7 @@ public class AggregationResultMapper extends DefaultResultMapper {
               aggregation.getAggregations().asMap().entrySet()) {
             String nestedAggregationName = entry.getKey();
             // TODO dkatzberg refactor duplicate code
-            InternalTerms subAggregation = (InternalTerms) entry.getValue();
-  
+            StringTerms subAggregation = (StringTerms) entry.getValue();
             // get buckets from nested aggrogation
             subAggregation.getBuckets().forEach(bucket -> {
                 buckets.add(new Bucket(bucket.getKey(), bucket.getDocCount()));

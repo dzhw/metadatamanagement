@@ -6,6 +6,8 @@ package eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.not;
+import static org.hamcrest.Matchers.notNullValue;
+import static org.hamcrest.Matchers.nullValue;
 import static org.junit.Assert.assertEquals;
 
 import java.time.LocalDate;
@@ -23,6 +25,7 @@ import org.springframework.validation.BeanPropertyBindingResult;
 import org.springframework.validation.Errors;
 
 import eu.dzhw.fdz.metadatamanagement.data.common.documents.DateRange;
+import eu.dzhw.fdz.metadatamanagement.data.common.documents.Field;
 import eu.dzhw.fdz.metadatamanagement.data.common.documents.builders.DateRangeBuilder;
 import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.builders.AnswerOptionBuilder;
 import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.builders.VariableDocumentBuilder;
@@ -688,5 +691,33 @@ public class VariableDocumentTest extends AbstractWebTest {
     assertEquals(false, checkDifferentLabel);
     assertEquals(false, checkDifferentScaleLevel);
     assertEquals(false, checkDifferentAnswerOptions);
+  }
+  
+  @Test
+  public void testDepthFieldSurveyPeriod() {
+    //Arrange
+    Field variableDocumentSurveyStartDate = VariableDocument.NESTED_VARIABLE_SURVEY_NESTED_PERIOD_START_DATE;
+    Field variableDocumentSurveyEndDate = VariableDocument.NESTED_VARIABLE_SURVEY_NESTED_PERIOD_END_DATE;
+    
+    //Act
+    Field surveyStartDate = variableDocumentSurveyStartDate.getNestedField();
+    Field startDate = surveyStartDate.getNestedField();
+    Field surveyEndDate = variableDocumentSurveyEndDate.getNestedField();
+    Field endDate = surveyEndDate.getNestedField();
+    
+    //Assert
+    assertThat(variableDocumentSurveyStartDate.getPath(), is("variableSurvey"));
+    assertThat(variableDocumentSurveyStartDate.getNestedField(), is(notNullValue()));
+    assertThat(surveyStartDate.getPath(), is("variableSurvey.surveyPeriod"));
+    assertThat(surveyStartDate.getNestedField(), is(notNullValue()));
+    assertThat(startDate.getPath(), is("variableSurvey.surveyPeriod.startDate"));
+    assertThat(startDate.getNestedField(), is(nullValue()));
+    
+    assertThat(variableDocumentSurveyEndDate.getPath(), is("variableSurvey"));
+    assertThat(variableDocumentSurveyEndDate.getNestedField(), is(notNullValue()));
+    assertThat(surveyEndDate.getPath(), is("variableSurvey.surveyPeriod"));
+    assertThat(surveyEndDate.getNestedField(), is(notNullValue()));
+    assertThat(endDate.getPath(), is("variableSurvey.surveyPeriod.endDate"));
+    assertThat(endDate.getNestedField(), is(nullValue()));
   }
 }

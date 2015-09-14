@@ -26,6 +26,21 @@ public class Field implements Cloneable {
    */
   private Field nestedField;
 
+  /*
+   * Boolean variable for the use of a term filer.
+   */
+  private boolean termFilter;
+
+  /*
+   * Boolean variable for the use of a range filer.
+   */
+  private boolean rangeFilter;
+
+  /**
+   * Boolean variable for the use of a aggregation.
+   */
+  private boolean aggregation;
+
   /**
    * This is the constructor for a not nested field. It has only the field path.
    * 
@@ -44,6 +59,8 @@ public class Field implements Cloneable {
   public Field(String path, Field nestedField) {
     this.path = path;
     this.nestedField = nestedField;
+    this.setAllFilterToFalse();
+    this.aggregation = false;
   }
 
   /*
@@ -58,7 +75,7 @@ public class Field implements Cloneable {
       clone.path = this.path;
       if (this.isNested()) {
         clone.nestedField = this.nestedField.clone();
-      }  
+      }
       return clone;
     } catch (CloneNotSupportedException e) {
       LOG.error("Cannot clone Field (" + this.path + ")", e);
@@ -73,6 +90,48 @@ public class Field implements Cloneable {
   public Field withNestedField(Field nestedField) {
     this.nestedField = nestedField;
     return this;
+  }
+
+  /**
+   * All filter types are exclusive. If the term filter is used, all other filters will be set to
+   * false.
+   * 
+   * @return Fluent Filter which uses a range filter
+   */
+  public Field withRangeFilter() {
+    // only one filter could be true
+    this.setAllFilterToFalse();
+    this.rangeFilter = true;
+    return this;
+  }
+
+  /**
+   * All filter types are exclusive. If the term filter is used, all other filters will be set to
+   * false.
+   * 
+   * @return Fluent Filter which uses a term filter
+   */
+  public Field withTermFilter() {
+    // only one filter could be true
+    this.setAllFilterToFalse();
+    this.termFilter = true;
+    return this;
+  }
+
+  /**
+   * @return This Field use a Aggregation.
+   */
+  public Field withAggregation() {
+    this.aggregation = true;
+    return this;
+  }
+
+  /**
+   * Sets all possible boolean fields to false.
+   */
+  private void setAllFilterToFalse() {
+    this.termFilter = false;
+    this.rangeFilter = false;
   }
 
   /**
@@ -95,6 +154,18 @@ public class Field implements Cloneable {
     return this.nestedField != null;
   }
 
+  /**
+   * @return This isAggregation method is a recursive return value of the deepest layer (the
+   *         specific field). A specific field overwrite the value of the generic layer
+   */
+  public boolean isAggregation() {
+    if (this.isNested()) {
+      return this.getNestedField().isAggregation();
+    } else {
+      return this.aggregation;
+    }
+  }
+
   /* GETTER / SETTER */
   public String getPath() {
     return path;
@@ -102,5 +173,13 @@ public class Field implements Cloneable {
 
   public Field getNestedField() {
     return nestedField;
+  }
+
+  public boolean isTermFilter() {
+    return termFilter;
+  }
+
+  public boolean isDateRangeFilter() {
+    return rangeFilter;
   }
 }

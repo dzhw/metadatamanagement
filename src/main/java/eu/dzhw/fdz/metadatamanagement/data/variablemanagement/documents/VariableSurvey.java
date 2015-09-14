@@ -29,7 +29,7 @@ public class VariableSurvey {
 
   // Public constants which are used in queries as fieldnames.
   public static final Field SURVEY_ID_FIELD = new Field("surveyId");
-  public static final Field TITLE_FIELD = new Field("title");
+  public static final Field TITLE_FIELD = new Field("title").withTermFilter().withAggregation();
   public static final Field SURVEY_PERIOD_FIELD = new Field("surveyPeriod");
   public static final Field VARIABLE_ALIAS_FIELD = new Field("variableAlias");
 

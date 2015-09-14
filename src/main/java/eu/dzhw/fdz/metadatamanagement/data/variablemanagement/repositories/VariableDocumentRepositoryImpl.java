@@ -145,7 +145,9 @@ public class VariableDocumentRepositoryImpl implements VariableDocumentRepositor
 
     // add nested or not nested aggregations
     for (Field filterName : filterNames) {
-      aggregationBuilders.add(this.createAggregations(filterName));
+      if (filterName.isAggregation()) {
+        aggregationBuilders.add(this.createAggregations(filterName));
+      }  
     }
 
     return aggregationBuilders;
