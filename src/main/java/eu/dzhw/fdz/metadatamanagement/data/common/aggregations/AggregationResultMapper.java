@@ -3,12 +3,10 @@ package eu.dzhw.fdz.metadatamanagement.data.common.aggregations;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
-import java.util.Map.Entry;
 
 import org.elasticsearch.action.search.SearchResponse;
-import org.elasticsearch.search.aggregations.Aggregation;
+import org.elasticsearch.search.aggregations.Aggregations;
 import org.elasticsearch.search.aggregations.bucket.nested.InternalNested;
-import org.elasticsearch.search.aggregations.bucket.terms.InternalTerms;
 import org.elasticsearch.search.aggregations.bucket.terms.StringTerms;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.elasticsearch.core.DefaultResultMapper;
@@ -43,52 +41,46 @@ public class AggregationResultMapper extends DefaultResultMapper {
   public <T> FacetedPage<T> mapResults(SearchResponse response, Class<T> clazz, Pageable pageable) {
     FacetedPage<T> facetedPage = super.mapResults(response, clazz, pageable);
 
-    // Build grouped aggrogations / filter
+    // Build grouped aggregations / filter
     // iterate over names
     Map<String, HashSet<Bucket>> map = new HashMap<>();
     response.getAggregations().asMap().keySet().forEach(aggregationName -> {
-
-        // StringTerms or non nested aggregation
+      
+        //Not nested Aggregations
+        Aggregations aggregations = response.getAggregations();
+      
+        //Nested Aggregations
         if (response.getAggregations().get(aggregationName).getClass()
-            .isAssignableFrom(StringTerms.class)) {
-          // TODO dkatzberg refactor duplicate code
-          StringTerms aggregation = response.getAggregations().get(aggregationName);
-          HashSet<Bucket> buckets = new HashSet<>();
-          aggregation.getBuckets().forEach(bucket -> {
-              buckets.add(new Bucket(bucket.getKey(), bucket.getDocCount()));
-            });
-          map.put(aggregationName, buckets);
-          // InternalNested means nested aggrogrations
-        } else if (response.getAggregations().get(aggregationName).getClass()
-            .isAssignableFrom(InternalTerms.class)) {
-          // TODO dkatzberg refactor duplicate code
-          InternalTerms aggregation = response.getAggregations().get(aggregationName);
-          HashSet<Bucket> buckets = new HashSet<>();
-          aggregation.getBuckets().forEach(bucket -> {
-              buckets.add(new Bucket(bucket.getKey(), bucket.getDocCount()));
-            });
-          map.put(aggregationName, buckets);
-          // InternalNested means nested aggrogrations
-        } else if (response.getAggregations().get(aggregationName).getClass()
             .isAssignableFrom(InternalNested.class)) {
-          // Get aggregation
           InternalNested aggregation = response.getAggregations().get(aggregationName);
-          HashSet<Bucket> buckets = new HashSet<>();
-  
-          // get entry for nested entries for the aggregation
-          for (Entry<String, Aggregation> entry : 
-              aggregation.getAggregations().asMap().entrySet()) {
-            String nestedAggregationName = entry.getKey();
-            // TODO dkatzberg refactor duplicate code
-            StringTerms subAggregation = (StringTerms) entry.getValue();
-            // get buckets from nested aggrogation
-            subAggregation.getBuckets().forEach(bucket -> {
-                buckets.add(new Bucket(bucket.getKey(), bucket.getDocCount()));
-              });
-            map.put(nestedAggregationName, buckets);
-          }
-        }
-      });
+          aggregations = aggregation.getAggregations();
+        } 
+        
+        //add buckets to the FacetedPage
+        map.put(aggregationName, 
+            this.getStringTerms(aggregations, aggregationName));
+      }); 
+    
     return new PageWithBuckets<T>(facetedPage, pageable, map);
+  }
+
+  /**
+   * Creates a HashSet of Buckets of Aggregations and a given aggregation name. 
+   * This method supports only StringTerms.
+   * 
+   * @param aggregations Many aggregations for by a given aggregation name.
+   * @param aggregationName the name of the aggregation (unique)
+   * @return A Hashset of Buckets with aggregation information.
+   * 
+   * @see StringTerms
+   */
+  private HashSet<Bucket> getStringTerms(Aggregations aggregations, String aggregationName) {
+    StringTerms aggregation = aggregations.get(aggregationName);
+    HashSet<Bucket> buckets = new HashSet<>();
+    aggregation.getBuckets().forEach(bucket -> {
+        buckets.add(new Bucket(bucket.getKey(), bucket.getDocCount()));
+      });
+
+    return buckets;
   }
 }
