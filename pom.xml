@@ -497,7 +497,7 @@
 			<plugin>
 				<groupId>com.spotify</groupId>
 				<artifactId>docker-maven-plugin</artifactId>
-				<version>0.3.2</version>
+				<version>0.3.3</version>
 				<configuration>
 					<imageName>${project.artifactId}:${project.version}</imageName>
 					<dockerDirectory>${project.build.directory}/docker</dockerDirectory>
@@ -581,7 +581,7 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-project-info-reports-plugin</artifactId>
-				<version>2.8</version>
+				<version>2.8.1</version>
 				<reportSets>
 					<reportSet>
 						<reports>
