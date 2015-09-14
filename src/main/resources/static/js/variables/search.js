@@ -1,5 +1,5 @@
-// var $focusedDatepicker=null;
-
+ 
+var lastFocused='';
 VariableSearchForm = {};
 
 // search as the user types but not more then every 500 ms
@@ -16,16 +16,9 @@ VariableSearchForm.search = _.throttle(function(form) {
 		var newUrl = searchUrl + '?' + formData;
 		// change the browsers url
 		history.pushState({},'' , newUrl);
-		initDatePicker('search');
-		
-		//set focus on datepicker when used
-		/*if($focusedDatepicker){
-			console.log($focusedDatepicker.attr('id'));
-			$focusedDatepicker.css("background-color", "#FFFFCC");
-		}
+	    // Set focus on last selected element
+		$("#"+replaceId(lastFocused)).focus();
 		getLastFocused();
-		console.log("-> "+$focusedDatepicker.parent().attr('class'));
-		$focusedDatepicker.parent().focusin();*/
 	});
 },500);
 
@@ -37,18 +30,17 @@ $(document).ready(function() {
 			location.reload();
 		}
 	};
-	initDatePicker('search');
-	//getLastFocused();
+	$('dateRange.startDate').focus();
+	getLastFocused();
 });
 
-/*function getLastFocused(){
-	$("input").focusin(function(){
-	    var correntClass = $(this).attr("class");
-	    if(correntClass === 'form-control datepicker hasDatepicker'){
-	    	$focusedDatepicker=$(this);
-	    	$focusedDatepicker.css("background-color", "#FFFFCC");
-	    }else{
-	    	$focusedDatepicker=null;
-	    }
+//set the mode for datepicker
+function setmode(){
+	return 'search';
+}
+// get id of last focused element
+function getLastFocused(){
+	$("input").focus(function(){
+		lastFocused=$(this).attr('id');
 	});
-}*/
+}

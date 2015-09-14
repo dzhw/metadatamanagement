@@ -1,3 +1,4 @@
+var lastFocused='';
 var VariableModifyForm = {};
 
 // validate the form if the user stopped typing for 250 ms
@@ -61,8 +62,10 @@ VariableModifyForm.validate = _.debounce(function(form) {
 						'glyphicon-ok');
 			}
 		}	
-		initDatePicker('modify');
 	}, 'json');
+	// set focus on last selected element
+	$("#"+replaceId(lastFocused)).focus();
+	getLastFocused();
 },250);
 
 $(document).ready(function() {
@@ -77,11 +80,21 @@ $(document).ready(function() {
 	
 	//scroll to the last scroll position (0 if the page is loaded for the first time)
 	$(window).scrollTop($('#windowYPosition').val());
-	initDatePicker('modify');
+	
+	getLastFocused();
 });
 
 // bind y scroll position to hidden input field 
 $(window).scroll(function() {
 	$('#windowYPosition').val($(window).scrollTop());
 });
-
+// set the mode for datepicker
+function setmode(){
+	return 'modify';
+}
+// get id of last focused element
+function getLastFocused(){
+	$("input").focus(function(){
+		lastFocused=$(this).attr('id');
+	});
+}
