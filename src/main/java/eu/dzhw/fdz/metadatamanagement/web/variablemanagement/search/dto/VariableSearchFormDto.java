@@ -101,11 +101,11 @@ public class VariableSearchFormDto extends AbstractQueryDto {
 
     // Date Range Start Date
     filterFields.put(VariableDocument.NESTED_VARIABLE_SURVEY_NESTED_PERIOD_START_DATE,
-        VariableSearchFormDto.FILTER_RANGE);
+        VariableSearchFormDto.FILTER_RANGE_GTE);
 
     // Date Range End Date
     filterFields.put(VariableDocument.NESTED_VARIABLE_SURVEY_NESTED_PERIOD_END_DATE,
-        VariableSearchFormDto.FILTER_RANGE);
+        VariableSearchFormDto.FILTER_RANGE_LTE);
 
     return filterFields;
   }

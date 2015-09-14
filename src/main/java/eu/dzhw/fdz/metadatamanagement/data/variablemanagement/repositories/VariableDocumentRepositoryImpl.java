@@ -82,7 +82,8 @@ public class VariableDocumentRepositoryImpl implements VariableDocumentRepositor
 
     // create search query (with filter)
     QueryBuilder queryBuilder = this.createQueryBuilder(formDto.getQuery());
-    List<FilterBuilder> termFilterBuilders = this.createTermFilterBuilders(formDto.getAllFilters());
+    List<FilterBuilder> termFilterBuilders =
+        this.createTermFilterBuilders(formDto.getAllFilters(), formDto.getFilterFields());
     queryBuilder = this.addFilterToQuery(queryBuilder, termFilterBuilders);
 
     // prepare search query (with filter)
@@ -208,18 +209,29 @@ public class VariableDocumentRepositoryImpl implements VariableDocumentRepositor
   /**
    * This method creates the term filter builder. It differs between nested and flat filter.
    * 
-   * @param filterValues A map. The key is the filter name and the object is the value of the filter
+   * @param filterValues A map. The key is the filter field and the object is the value of the
+   *        filter
+   * @param filterTypes A map. The key is the filter field and the value is the type of the filter
    * @return a list of all filter
    * 
    * @see FilterBuilders
    * @see FilterBuilder
    */
-  private List<FilterBuilder> createTermFilterBuilders(Map<Field, String> filterValues) {
+  private List<FilterBuilder> createTermFilterBuilders(Map<Field, String> filterValues,
+      Map<Field, Integer> filterTypes) {
     List<FilterBuilder> termFilterBuilders = new ArrayList<>();
 
     // create nested or not nested filter.
     for (Entry<Field, String> entry : filterValues.entrySet()) {
-      termFilterBuilders.add(this.createNestedFilterBuilder(entry.getKey(), entry.getValue()));
+      
+      int filterType = filterTypes.get(entry.getKey());
+      
+      FilterBuilder filterBuilder =
+          this.createNestedFilterBuilder(entry.getKey(), entry.getValue(), filterType);
+      //catch the default case with return null of the create method.
+      if (filterBuilder != null) {
+        termFilterBuilders.add(filterBuilder);
+      }
     }
 
     return termFilterBuilders;
@@ -231,14 +243,31 @@ public class VariableDocumentRepositoryImpl implements VariableDocumentRepositor
    * 
    * @param field A field with a given path of the nested path and nested fields.
    * @param value the value of the request parameter / value of the field
+   * @param filterType The value is the type of the filter
    * @return A nested or not nested FilterBuilder
    */
-  private FilterBuilder createNestedFilterBuilder(Field field, String value) {
+  private FilterBuilder createNestedFilterBuilder(Field field, String value,
+      int filterType) {
+    
     if (field.isNested()) {
       return FilterBuilders.nestedFilter(field.getPath(),
-          this.createNestedFilterBuilder(field.getNestedField(), value));
-    } else {
-      return FilterBuilders.termFilter(field.getPath(), value);
+          this.createNestedFilterBuilder(field.getNestedField(), value, filterType));
+    } else {     
+
+      switch (filterType) {
+        case AbstractQueryDto.FILTER_TERM:
+          return FilterBuilders.termFilter(field.getPath(), value);
+          
+        case AbstractQueryDto.FILTER_RANGE_GTE:
+          return FilterBuilders.rangeFilter(field.getNestedPath()).gte(value);
+          
+        case AbstractQueryDto.FILTER_RANGE_LTE:
+          return FilterBuilders.rangeFilter(field.getNestedPath()).lte(value);  
+
+        default:
+          return null;
+      }
+
     }
   }
 

@@ -18,9 +18,18 @@ public abstract class AbstractQueryDto {
   public static final int FILTER_TERM = 1_001;
 
   /**
-   * The value for a range filter. 1_ means filter and the last 002 means range.
+   * The value for a range filter. 1_ means filter. 
+   * The middle 002 means range filter. 
+   * The last 051 means greater than equals.
    */
-  public static final int FILTER_RANGE = 1_002;
+  public static final int FILTER_RANGE_GTE = 1_002_051;
+  
+  /**
+   * The value for a range filter. 1_ means filter. 
+   * The middle 002 means range filter. 
+   * The last 049 means lower than equals.
+   */
+  public static final int FILTER_RANGE_LTE = 1_002_049;
 
   /**
    * The value for a term aggregation. 2_ means aggregation and the last 001 term mean term.
@@ -33,14 +42,14 @@ public abstract class AbstractQueryDto {
   public abstract Map<Field, String> getAllFilters();
 
   /**
-   * @return Returns a map with all filter fields. The value of the map is the key for the kind of
+   * @return Returns a map with all filter fields. The value of the map is type of
    *         filter. (like term filter)
    */
   public abstract Map<Field, Integer> getFilterFields();
 
   /**
-   * @return Returns a List with all aggregation fields.The value of the map is the key for the kind
-   *         of filter. (like term aggregation)
+   * @return Returns a List with all aggregation fields.The value of the map is type
+   *         of aggregation. (like term aggregation)
    */
   public abstract Map<Field, Integer> getAggregationFields();
 
