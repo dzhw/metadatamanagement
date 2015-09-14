@@ -7,7 +7,7 @@
 	<header>
 		<div th:include="common/navbar::navbar"></div>
 		<div
-			th:include="common/jumbotron::jumbotron(title=#{variables.search.title},subtitle=#{variables.search.subtitle})"></div>
+			th:include="common/pageHeader::pageHeader(title=#{variables.search.title},subtitle='')"></div>
 	</header>
 	<form id="searchVariables" action="#"
 		th:object="${variableSearchFormDto}"
@@ -40,17 +40,19 @@
 					</div>
 				</div>
 				<!-- Results and Filter area -->
-				<div class="col-md-12" id="searchResults" th:object="${variableSearchFormDto}">
+				<div class="col-md-12" id="searchResults"
+					th:object="${variableSearchFormDto}">
 					<div class="row">
 						<!-- Filter -->
 						<div class="col-md-3">
-						<!-- Survey Title Filter -->
+							<!-- Survey Title Filter -->
 							<div class="panel panel-default">
 								<div class="panel-heading custom-panel-heading"
 									data-toggle="collapse" data-target="#collapseSurveyTitlePanel">
 									<a class="panel-title panel-toggle"
 										href="#collapseSurveyTitlePanel" data-toggle="collapse"
-										th:text="#{variables.common.variable.surveyTitle}">Survey Title </a>
+										th:text="#{variables.common.variable.surveyTitle}">Survey
+										Title </a>
 								</div>
 								<div id="collapseSurveyTitlePanel"
 									class="panel-collapse collapse fade in">
@@ -61,36 +63,10 @@
 												<label class="text-capitalize label-with-text-and-badge"><input
 													type="checkbox" th:field="*{surveyTitle}"
 													th:value="${surveyTitle.key}"
-													onclick="VariableSearchForm.search(this.form)" /><span class="abbreviated-text"
-													th:text="${surveyTitle.key}"></span> </label><span
-													class="badge pull-right" th:text="${surveyTitle.docCount}">14</span>
-											</div>
-										</li>
-									</ul>
-								</div>
-							</div>
-							<!-- Scale Level Filter -->
-							<div class="panel panel-default">
-								<div class="panel-heading custom-panel-heading"
-									data-toggle="collapse" data-target="#collapseScaleLevelPanel">
-									<a class="panel-title panel-toggle"
-										href="#collapseScaleLevelPanel" data-toggle="collapse"
-										th:text="#{variables.common.variable.scaleLevel}">ScaleLevel
-									</a>
-								</div>
-								<div id="collapseScaleLevelPanel"
-									class="panel-collapse collapse fade in">
-									<ul class="list-group">
-										<li class="list-group-item"
-											th:each="scaleLevel : ${scaleLevelBuckets}">
-											<div class="checkbox">
-												<label class="text-capitalize"><input
-													type="checkbox"
-													th:field="*{scaleLevel}"
-													th:value="${scaleLevel.key}"
 													onclick="VariableSearchForm.search(this.form)" /><span
-													th:text="${scaleLevel.key}"></span> </label><span
-													class="badge pull-right" th:text="${scaleLevel.docCount}">14</span>
+													class="abbreviated-text" th:text="${surveyTitle.key}"></span>
+												</label><span class="badge pull-right"
+													th:text="${surveyTitle.docCount}">14</span>
 											</div>
 										</li>
 									</ul>
@@ -116,6 +92,32 @@
 											<div
 												th:replace="common/calendar::date(field=dateRange.endDate,label=#{variables.common.variable.survey.period.end},placeholder=#{variables.common.variable.survey.period.end},readonly=false)"></div>
 
+										</li>
+									</ul>
+								</div>
+							</div>
+							<!-- Scale Level Filter -->
+							<div class="panel panel-default">
+								<div class="panel-heading custom-panel-heading"
+									data-toggle="collapse" data-target="#collapseScaleLevelPanel">
+									<a class="panel-title panel-toggle"
+										href="#collapseScaleLevelPanel" data-toggle="collapse"
+										th:text="#{variables.common.variable.scaleLevel}">ScaleLevel
+									</a>
+								</div>
+								<div id="collapseScaleLevelPanel"
+									class="panel-collapse collapse fade in">
+									<ul class="list-group">
+										<li class="list-group-item"
+											th:each="scaleLevel : ${scaleLevelBuckets}">
+											<div class="checkbox">
+												<label class="text-capitalize"><input
+													type="checkbox" th:field="*{scaleLevel}"
+													th:value="${scaleLevel.key}"
+													onclick="VariableSearchForm.search(this.form)" /><span
+													th:text="${scaleLevel.key}"></span> </label><span
+													class="badge pull-right" th:text="${scaleLevel.docCount}">14</span>
+											</div>
 										</li>
 									</ul>
 								</div>
