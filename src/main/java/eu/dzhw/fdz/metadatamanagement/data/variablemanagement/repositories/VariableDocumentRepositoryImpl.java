@@ -33,7 +33,7 @@ import eu.dzhw.fdz.metadatamanagement.data.common.aggregations.AggregationResult
 import eu.dzhw.fdz.metadatamanagement.data.common.aggregations.PageWithBuckets;
 import eu.dzhw.fdz.metadatamanagement.data.common.documents.Field;
 import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.VariableDocument;
-import eu.dzhw.fdz.metadatamanagement.web.variablemanagement.search.dto.VariableSearchFormDto;
+import eu.dzhw.fdz.metadatamanagement.web.common.dtos.AbstractQueryDto;
 
 /**
  * This class implements the interface of the custom variable documents repository. This class will
@@ -72,15 +72,13 @@ public class VariableDocumentRepositoryImpl implements VariableDocumentRepositor
   /*
    * (non-Javadoc)
    * 
-   * @see
-   * eu.dzhw.fdz.metadatamanagement.data.variablemanagement.repositories.VariableRepositoryCustom#
-   * search(eu.dzhw.fdz.metadatamanagement.web.variablemanagement.search.dto.VariableSearchFormDto,
-   * org.springframework.data.domain.Pageable)
+   * @see eu.dzhw.fdz.metadatamanagement.data.variablemanagement.repositories.
+   * VariableDocumentRepositoryCustom#search(eu.dzhw.fdz.metadatamanagement.web.common.dtos.
+   * AbstractQueryDto, org.springframework.data.domain.Pageable)
    */
   @SuppressWarnings("rawtypes")
   @Override
-  public PageWithBuckets<VariableDocument> search(VariableSearchFormDto formDto,
-      Pageable pageable) {
+  public PageWithBuckets<VariableDocument> search(AbstractQueryDto formDto, Pageable pageable) {
 
     // create search query (with filter)
     QueryBuilder queryBuilder = this.createQueryBuilder(formDto.getQuery());
@@ -93,7 +91,7 @@ public class VariableDocumentRepositoryImpl implements VariableDocumentRepositor
 
     // add Aggregations
     List<AggregationBuilder> aggregationBuilders =
-        this.createAggregations(formDto.getFilterNames());
+        this.createAggregations(formDto.getAggregationFields());
     for (AggregationBuilder aggregationBuilder : aggregationBuilders) {
       nativeSearchQueryBuilder.addAggregation(aggregationBuilder);
     }
@@ -136,18 +134,16 @@ public class VariableDocumentRepositoryImpl implements VariableDocumentRepositor
   /**
    * Creates all aggregation for the buckets of the filter information.
    * 
-   * @param filterNames all known filters.
+   * @param aggregationFields all known filters.
    * @return a list of aggregations builder for the aggregation information.
    */
   @SuppressWarnings("rawtypes")
-  private List<AggregationBuilder> createAggregations(List<Field> filterNames) {
+  private List<AggregationBuilder> createAggregations(Map<Field, Integer> aggregationFields) {
     List<AggregationBuilder> aggregationBuilders = new ArrayList<>();
 
     // add nested or not nested aggregations
-    for (Field filterName : filterNames) {
-      if (filterName.isAggregation()) {
-        aggregationBuilders.add(this.createAggregations(filterName));
-      }  
+    for (Field aggregationField : aggregationFields.keySet()) {
+      aggregationBuilders.add(this.createAggregations(aggregationField));
     }
 
     return aggregationBuilders;

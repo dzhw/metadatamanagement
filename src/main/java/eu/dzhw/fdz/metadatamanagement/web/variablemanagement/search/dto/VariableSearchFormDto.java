@@ -1,8 +1,6 @@
 package eu.dzhw.fdz.metadatamanagement.web.variablemanagement.search.dto;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import javax.validation.Valid;
@@ -12,6 +10,7 @@ import org.springframework.util.StringUtils;
 import eu.dzhw.fdz.metadatamanagement.data.common.documents.DateRange;
 import eu.dzhw.fdz.metadatamanagement.data.common.documents.Field;
 import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.VariableDocument;
+import eu.dzhw.fdz.metadatamanagement.web.common.dtos.AbstractQueryDto;
 import net.karneim.pojobuilder.GeneratePojoBuilder;
 
 /**
@@ -22,7 +21,7 @@ import net.karneim.pojobuilder.GeneratePojoBuilder;
  */
 @GeneratePojoBuilder(
     intoPackage = "eu.dzhw.fdz.metadatamanagement.web.variablemanagement.search.dto.builders")
-public class VariableSearchFormDto {
+public class VariableSearchFormDto extends AbstractQueryDto {
 
   /**
    * This is the request parameter of the query. The value is the search query.
@@ -45,9 +44,12 @@ public class VariableSearchFormDto {
   @Valid
   private DateRange dateRange;
 
-  /**
-   * @return A list with all filter values.
+  /*
+   * (non-Javadoc)
+   * 
+   * @see eu.dzhw.fdz.metadatamanagement.web.common.dtos.AbstractQueryDto#getAllFilters()
    */
+  @Override
   public Map<Field, String> getAllFilters() {
     Map<Field, String> filterValues = new HashMap<>();
 
@@ -81,32 +83,64 @@ public class VariableSearchFormDto {
     return filterValues;
   }
 
-  /**
-   * @return Returns a List with all filternames.
+  /*
+   * (non-Javadoc)
+   * 
+   * @see eu.dzhw.fdz.metadatamanagement.web.common.dtos.AbstractQueryDto#getFilterFields()
    */
-  public List<Field> getFilterNames() {
-    List<Field> filterNames = new ArrayList<>();
+  @Override
+  public Map<Field, Integer> getFilterFields() {
+    Map<Field, Integer> filterFields = new HashMap<>();
 
     // ScaleLevel
-    filterNames.add(VariableDocument.SCALE_LEVEL_FIELD);
+    filterFields.put(VariableDocument.SCALE_LEVEL_FIELD, VariableSearchFormDto.FILTER_TERM);
 
     // Survey Title
-    filterNames.add(VariableDocument.NESTED_VARIABLE_SURVEY_TITLE_FIELD);
+    filterFields.put(VariableDocument.NESTED_VARIABLE_SURVEY_TITLE_FIELD,
+        VariableSearchFormDto.FILTER_TERM);
 
     // Date Range Start Date
-    filterNames.add(VariableDocument.NESTED_VARIABLE_SURVEY_NESTED_PERIOD_START_DATE);
+    filterFields.put(VariableDocument.NESTED_VARIABLE_SURVEY_NESTED_PERIOD_START_DATE,
+        VariableSearchFormDto.FILTER_RANGE);
 
     // Date Range End Date
-    filterNames.add(VariableDocument.NESTED_VARIABLE_SURVEY_NESTED_PERIOD_END_DATE);
+    filterFields.put(VariableDocument.NESTED_VARIABLE_SURVEY_NESTED_PERIOD_END_DATE,
+        VariableSearchFormDto.FILTER_RANGE);
 
-    return filterNames;
+    return filterFields;
   }
 
-  /* GETTER / SETTER */
+  /*
+   * (non-Javadoc)
+   * 
+   * @see eu.dzhw.fdz.metadatamanagement.web.common.dtos.AbstractQueryDto#getAggregationFields()
+   */
+  @Override
+  public Map<Field, Integer> getAggregationFields() {
+    Map<Field, Integer> aggregationFields = new HashMap<>();
+
+    // ScaleLevel
+    aggregationFields.put(VariableDocument.SCALE_LEVEL_FIELD,
+        VariableSearchFormDto.AGGREGATION_TERM);
+
+    // Survey Title
+    aggregationFields.put(VariableDocument.NESTED_VARIABLE_SURVEY_TITLE_FIELD,
+        VariableSearchFormDto.AGGREGATION_TERM);
+
+    return aggregationFields;
+  }
+
+  /*
+   * (non-Javadoc)
+   * 
+   * @see eu.dzhw.fdz.metadatamanagement.web.common.dtos.AbstractQueryDto#getQuery()
+   */
+  @Override
   public String getQuery() {
     return query;
   }
 
+  /* GETTER / SETTER */
   public void setQuery(String query) {
     this.query = query;
   }
