@@ -7,7 +7,7 @@ function initDatePicker(mode) {
 			altFormat : "yy-mm-dd",
 			gotoCurrent : true,
 			onSelect : function() {
-				triggerOnValidDate(mode,this.form);
+				triggerOnValidDate(mode, this.form);
 			},
 			changeMonth : true,
 			changeYear : true,
@@ -33,9 +33,9 @@ function initDatePicker(mode) {
 				// JavaScript months are 0-11
 				var month = ("0" + (date.getMonth() + 1)).slice(-2);
 				$altFiledInput.val(year + '-' + month + '-' + day);
-				triggerOnValidDate(mode,this.form);
+				triggerOnValidDate(mode, this.form);
 			} catch (e) {
-				triggerOnInvalidDate(mode,$(this).val(),this.form);
+				triggerOnInvalidDate(mode, $(this).val(), this.form);
 			}
 		});
 	});
@@ -45,16 +45,17 @@ function replaceId(oldId) {
 	return oldId.replace(/\./g, "\\.");
 }
 
-function triggerOnValidDate(mode,form){
-	if(mode === 'modify'){
-		$("form").trigger("submit");
-		}else{
-			VariableSearchForm.search(form);
-		}
+function triggerOnValidDate(mode, form) {
+	if (mode === 'modify') {
+		VariableModifyForm.validate(form);
+	} else {
+		VariableSearchForm.search(form);
+	}
 }
-function triggerOnInvalidDate(mode,value,form){
+function triggerOnInvalidDate(mode, value, form) {
 	if (mode === 'modify') {
 		$altFiledInput.val('invalid date');
+		VariableModifyForm.validate(form);
 	} else {
 		$altFiledInput.val('');
 		if (value === '') {

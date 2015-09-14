@@ -193,7 +193,7 @@ public class VariableServiceTest extends AbstractWebTest {
 
     // Assert
     assertThat(resultOkay.getNumberOfElements(), is(9));
-    resultOkay.getBucketMap().get(VariableDocument.SCALE_LEVEL_FIELD).forEach(bucket -> {
+    resultOkay.getBucketMap().get(VariableDocument.SCALE_LEVEL_FIELD.getPath()).forEach(bucket -> {
       assertThat(bucket.getKey(), is(ScaleLevelProvider.GERMAN_METRIC));
       assertThat(bucket.getDocCount(), is(9L));
     });
@@ -233,7 +233,7 @@ public class VariableServiceTest extends AbstractWebTest {
 
     // Assert
     assertThat(resultOkay.getNumberOfElements(), is(9));
-    resultOkay.getBucketMap().get(VariableDocument.SCALE_LEVEL_FIELD).forEach(bucket -> {
+    resultOkay.getBucketMap().get(VariableDocument.SCALE_LEVEL_FIELD.getPath()).forEach(bucket -> {
       assertThat(bucket.getKey(), is(ScaleLevelProvider.GERMAN_ORDINAL));
       assertThat(bucket.getDocCount(), is(9L));
     });

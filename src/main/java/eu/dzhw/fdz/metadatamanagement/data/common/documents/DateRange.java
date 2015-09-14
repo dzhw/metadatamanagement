@@ -4,8 +4,6 @@ import java.time.LocalDate;
 
 import javax.validation.constraints.NotNull;
 
-import net.karneim.pojobuilder.GeneratePojoBuilder;
-
 import com.google.common.base.MoreObjects;
 import com.google.common.base.Objects;
 
@@ -13,6 +11,7 @@ import eu.dzhw.fdz.metadatamanagement.data.common.documents.validation.ValidDate
 import eu.dzhw.fdz.metadatamanagement.data.common.documents.validation.groups.ModifyValidationGroup.Create;
 import eu.dzhw.fdz.metadatamanagement.data.common.documents.validation.groups.ModifyValidationGroup.Edit;
 import eu.dzhw.fdz.metadatamanagement.data.common.documents.validation.groups.SearchValidationGroup.Search;
+import net.karneim.pojobuilder.GeneratePojoBuilder;
 
 /**
  * The date range has two {@code LocalDate} object for representing a time range. The the
@@ -26,8 +25,8 @@ import eu.dzhw.fdz.metadatamanagement.data.common.documents.validation.groups.Se
 public class DateRange {
 
   // Public constants which are used in queries as fieldnames.
-  public static final String STARTDATE_FIELD = "startDate";
-  public static final String ENDDATE_FIELD = "endDate";
+  public static final Field STARTDATE_FIELD = new Field("startDate");
+  public static final Field ENDDATE_FIELD = new Field("endDate");
 
   /**
    * The start date of the range.

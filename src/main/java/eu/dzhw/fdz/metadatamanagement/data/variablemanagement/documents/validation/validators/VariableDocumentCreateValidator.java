@@ -96,8 +96,9 @@ public class VariableDocumentCreateValidator extends VariableDocumentValidator {
       return;
     } else {
       VariableResource variableResource = variableResourceAssembler.toResource(variableDocument);
-      errors.rejectValue(VariableDocument.ID_FIELD, UNIQUE_ID_VARIABLE_DOCUMENT_ID, new Object[] {
-          variableDocument.getId(), variableResource.getId().getHref()}, "FDZ Id already exists!");
+      errors.rejectValue(VariableDocument.ID_FIELD.getPath(), UNIQUE_ID_VARIABLE_DOCUMENT_ID,
+          new Object[] {variableDocument.getId(), variableResource.getId().getHref()},
+          "FDZ Id already exists!");
       return;
     }
   }

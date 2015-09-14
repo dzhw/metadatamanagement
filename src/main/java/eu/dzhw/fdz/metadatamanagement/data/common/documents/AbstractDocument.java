@@ -33,7 +33,7 @@ public abstract class AbstractDocument {
    * The basic index name.
    */
   public static final String METADATA_INDEX = "metadata";
-  public static final String ID_FIELD = "id";
+  public static final Field ID_FIELD = new Field("id");
 
   /**
    * A fdzID as primary key for the identification of the variable of a survey.

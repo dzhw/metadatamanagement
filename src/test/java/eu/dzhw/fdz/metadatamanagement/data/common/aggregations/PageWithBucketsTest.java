@@ -50,7 +50,7 @@ public class PageWithBucketsTest {
     Map<String, HashSet<Bucket>> bucketMap = new HashMap<>();
     Map<String, HashSet<Bucket>> bucketMap2 = new HashMap<>();
     HashSet<Bucket> buckets = new HashSet<>();
-    bucketMap2.put(VariableDocument.SCALE_LEVEL_FIELD, buckets);
+    bucketMap2.put(VariableDocument.SCALE_LEVEL_FIELD.getPath(), buckets);
     PageWithBuckets<VariableDocument> pageWithBuckets =
         new PageWithBuckets<>(facetedPage, pageable, bucketMap);
     PageWithBuckets<VariableDocument> pageWithBuckets2 =

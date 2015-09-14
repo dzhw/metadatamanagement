@@ -13,7 +13,7 @@
 		<label class="visible-xs visible-sm" th:text="${placeholder}"></label>
 		<input th:type="${type}"
 			class="form-control" th:field="*{__${field}__}"
-			th:placeholder="${placeholder}" th:readonly="${readonly}" /> <span
+			th:placeholder="${placeholder}" th:readonly="${readonly}" oninput="VariableModifyForm.validate(this.form)"/> <span
 			class="glyphicon form-control-feedback"
 			th:classappend="${#fields.hasErrors('__${field}__')}? glyphicon-remove : glyphicon-ok"></span>
 		<span class="help-block">
@@ -29,7 +29,7 @@
 		<label th:text="${label}"></label>
 		<textarea th:rows="${rows}" class="form-control"
 			th:field="*{__${field}__}" th:placeholder="${placeholder}"
-			th:readonly="${readonly}"></textarea>
+			th:readonly="${readonly}" oninput="VariableModifyForm.validate(this.form)"></textarea>
 		<span class="glyphicon form-control-feedback"
 			th:classappend="${#fields.hasErrors('__${field}__')}? glyphicon-remove : glyphicon-ok"></span>
 		<span class="help-block">
@@ -43,7 +43,7 @@
 		class="form-group has-feedback"
 		th:classappend="${#fields.hasErrors('__${field}__')}? has-error : has-success">
 		<label th:text="${label}"></label> <select th:field="*{__${field}__}"
-			class="form-control" th:readonly="${readonly}">
+			class="form-control" th:readonly="${readonly}" oninput="VariableModifyForm.validate(this.form)">
 			<option value="" th:text="#{common.select.empty}">--Nothing selected--</option>
 			<option th:each="value: ${__${valuesMap}__}"
 				th:selected="${value} == *{__${field}__}" th:text="${value}"

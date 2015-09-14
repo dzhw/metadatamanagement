@@ -8,6 +8,7 @@ import java.util.Map.Entry;
 import org.elasticsearch.action.search.SearchResponse;
 import org.elasticsearch.search.aggregations.Aggregation;
 import org.elasticsearch.search.aggregations.bucket.nested.InternalNested;
+import org.elasticsearch.search.aggregations.bucket.terms.InternalTerms;
 import org.elasticsearch.search.aggregations.bucket.terms.StringTerms;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.elasticsearch.core.DefaultResultMapper;
@@ -50,34 +51,42 @@ public class AggregationResultMapper extends DefaultResultMapper {
         // StringTerms or non nested aggregation
         if (response.getAggregations().get(aggregationName).getClass()
             .isAssignableFrom(StringTerms.class)) {
-          //TODO dkatzberg refactor duplicate code
+          // TODO dkatzberg refactor duplicate code
           StringTerms aggregation = response.getAggregations().get(aggregationName);
           HashSet<Bucket> buckets = new HashSet<>();
           aggregation.getBuckets().forEach(bucket -> {
               buckets.add(new Bucket(bucket.getKey(), bucket.getDocCount()));
             });
           map.put(aggregationName, buckets);
-        } else {
           // InternalNested means nested aggrogrations
-          if (response.getAggregations().get(aggregationName).getClass()
-              .isAssignableFrom(InternalNested.class)) {
-            //Get aggregation
-            InternalNested aggregation = response.getAggregations().get(aggregationName);
-            HashSet<Bucket> buckets = new HashSet<>();
-            
-            //get entry for nested entries for the aggregation
-            for (Entry<String, Aggregation> entry : aggregation.getAggregations().asMap()
-                .entrySet()) {
-              String nestedAggregationName = entry.getKey();
-              //TODO dkatzberg refactor duplicate code
-              StringTerms subAggregation = (StringTerms) entry.getValue();
-              
-              //get buckets from nested aggrogation
-              subAggregation.getBuckets().forEach(bucket -> {
-                  buckets.add(new Bucket(bucket.getKey(), bucket.getDocCount()));
-                });
-              map.put(nestedAggregationName, buckets);
-            }
+        } else if (response.getAggregations().get(aggregationName).getClass()
+            .isAssignableFrom(InternalTerms.class)) {
+          // TODO dkatzberg refactor duplicate code
+          InternalTerms aggregation = response.getAggregations().get(aggregationName);
+          HashSet<Bucket> buckets = new HashSet<>();
+          aggregation.getBuckets().forEach(bucket -> {
+              buckets.add(new Bucket(bucket.getKey(), bucket.getDocCount()));
+            });
+          map.put(aggregationName, buckets);
+          // InternalNested means nested aggrogrations
+        } else if (response.getAggregations().get(aggregationName).getClass()
+            .isAssignableFrom(InternalNested.class)) {
+          // Get aggregation
+          InternalNested aggregation = response.getAggregations().get(aggregationName);
+          HashSet<Bucket> buckets = new HashSet<>();
+  
+          // get entry for nested entries for the aggregation
+          for (Entry<String, Aggregation> entry : 
+              aggregation.getAggregations().asMap().entrySet()) {
+            String nestedAggregationName = entry.getKey();
+            // TODO dkatzberg refactor duplicate code
+            InternalTerms subAggregation = (InternalTerms) entry.getValue();
+  
+            // get buckets from nested aggrogation
+            subAggregation.getBuckets().forEach(bucket -> {
+                buckets.add(new Bucket(bucket.getKey(), bucket.getDocCount()));
+              });
+            map.put(nestedAggregationName, buckets);
           }
         }
       });

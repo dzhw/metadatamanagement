@@ -98,7 +98,7 @@ public class UniqueAnswerCodeValidatorTest extends AbstractWebTest {
 
     // Assert
     assertEquals(1, errors.getErrorCount());
-    assertThat(errors.getFieldError(VariableDocument.ANSWER_OPTIONS_FIELD).getCode(),
+    assertThat(errors.getFieldError(VariableDocument.ANSWER_OPTIONS_FIELD.getPath()).getCode(),
         is("UniqueAnswerCode"));
   }
 }

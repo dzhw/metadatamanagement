@@ -94,7 +94,7 @@ public class UniqueIdValidatorTest extends AbstractWebTest {
 
     // Assert
     assertEquals(1, errors.getErrorCount());
-    assertThat(errors.getFieldError(VariableDocument.ID_FIELD).getCode(),
+    assertThat(errors.getFieldError(VariableDocument.ID_FIELD.getPath()).getCode(),
         is(VariableDocumentCreateValidator.UNIQUE_ID_VARIABLE_DOCUMENT_ID));
 
     // Delete

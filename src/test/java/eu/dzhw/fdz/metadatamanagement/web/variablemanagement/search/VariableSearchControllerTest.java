@@ -198,7 +198,6 @@ public class VariableSearchControllerTest extends AbstractWebTest {
 
   }
 
-  @SuppressWarnings("unchecked")
   @Test
   public void testSearchWithScaleLevel() throws Exception {
 
@@ -226,7 +225,6 @@ public class VariableSearchControllerTest extends AbstractWebTest {
     assertThat(resource.getPage().getContent().size(), greaterThan(0));
   }
 
-  @SuppressWarnings("unchecked")
   @Test
   public void testSearchWithScaleLevelWithNoResults() throws Exception {
 
