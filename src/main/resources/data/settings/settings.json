@@ -3,20 +3,22 @@
 		"number_of_shards": "1",    
     	"number_of_replicas": "0",
     	"analysis": {
-            "filter": {
-                "quadgrams_filter": {
+            "tokenizer": {
+                "quadgrams_tokenizer": {
                     "type":     "ngram",
                     "min_gram": 4,
-                    "max_gram": 4
+                    "max_gram": 4,
+                    "token_chars": [
+            			"letter","digit"
+          			]
                 }
             },
             "analyzer": {
                 "quadgrams": {
                     "type":      "custom",
-                    "tokenizer": "standard",
+                    "tokenizer": "quadgrams_tokenizer",
                     "filter":   [
-                        "lowercase",
-                        "quadgrams_filter"
+                        "lowercase"
                     ]
               	}
          	}
