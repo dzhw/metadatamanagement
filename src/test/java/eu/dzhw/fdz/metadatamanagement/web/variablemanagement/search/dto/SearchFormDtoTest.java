@@ -71,9 +71,9 @@ public class SearchFormDtoTest {
 
     // Assert
     assertThat(filterMap.size(), is(4));
-    assertThat(filterMap.get(VariableDocument.NESTED_VARIABLE_SURVEY_NESTED_PERIOD_START_DATE),
-        is(LocalDate.now().minusDays(2).toString()));
     assertThat(filterMap.get(VariableDocument.NESTED_VARIABLE_SURVEY_NESTED_PERIOD_END_DATE),
+        is(LocalDate.now().minusDays(2).toString()));
+    assertThat(filterMap.get(VariableDocument.NESTED_VARIABLE_SURVEY_NESTED_PERIOD_START_DATE),
         is(LocalDate.now().toString()));
     assertThat(filterMap.get(VariableDocument.NESTED_VARIABLE_SURVEY_TITLE_FIELD),
         is("SurveyTitle"));
@@ -96,9 +96,9 @@ public class SearchFormDtoTest {
     assertThat(filterFields.get(VariableDocument.NESTED_VARIABLE_SURVEY_TITLE_FIELD),
         is(VariableSearchFormDto.FILTER_TERM));
     assertThat(filterFields.get(VariableDocument.NESTED_VARIABLE_SURVEY_NESTED_PERIOD_START_DATE),
-        is(VariableSearchFormDto.FILTER_RANGE_GTE));
-    assertThat(filterFields.get(VariableDocument.NESTED_VARIABLE_SURVEY_NESTED_PERIOD_END_DATE),
         is(VariableSearchFormDto.FILTER_RANGE_LTE));
+    assertThat(filterFields.get(VariableDocument.NESTED_VARIABLE_SURVEY_NESTED_PERIOD_END_DATE),
+        is(VariableSearchFormDto.FILTER_RANGE_GTE));
   }
   
   @Test
