@@ -17,8 +17,8 @@ import eu.dzhw.fdz.metadatamanagement.web.common.dtos.AbstractQueryDto;
 public interface VariableDocumentRepositoryCustom {
 
   /**
-   * This method search in the elasticsearch. This search use the fuzzyness of 0.1. It looks for the
-   * all variables with the same survey id.
+   * This method search in the elasticsearch. It looks for the all variables with the same survey
+   * id.
    * 
    * @param surveyId the surveyId of the survey
    * @param variableAlias variableAlias of the survey
@@ -36,6 +36,5 @@ public interface VariableDocumentRepositoryCustom {
    * @param pageable The page size and number and sort.
    * @return A page holding the first variable documents
    */
-  PageWithBuckets<VariableDocument> search(
-      AbstractQueryDto abstractQueryDto, Pageable pageable);
+  PageWithBuckets<VariableDocument> search(AbstractQueryDto abstractQueryDto, Pageable pageable);
 }

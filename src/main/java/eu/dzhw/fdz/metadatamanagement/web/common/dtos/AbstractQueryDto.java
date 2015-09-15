@@ -7,6 +7,20 @@ import eu.dzhw.fdz.metadatamanagement.data.common.documents.Field;
 /**
  * This query is a abstract version of all Data Transfer Object which are used for different kind of
  * queries.
+ * The static values are group and every position is define by value.
+ * <p></p>
+ * First Number: (General)
+ *              1_ = FILTER
+ *              2_ = AGGREGATION
+ *<p></p>
+ * Middle Number: (Type of the General)
+ *              001_ = TERM
+ *              002_ = RANGE
+ * <p></p>             
+ * Last Number: (Additional information)
+ *              000 = Nothing special.
+ *              051 = GTE (Greater Than Or Equals)
+ *              049 = LTE (Lower Than Or Equals)
  * 
  * @author Daniel Katzberg
  */
@@ -15,7 +29,7 @@ public abstract class AbstractQueryDto {
   /**
    * The value for a term filter. 1_ means filter and the last 001 means term.
    */
-  public static final int FILTER_TERM = 1_001;
+  public static final int FILTER_TERM = 1_001_000;
 
   /**
    * The value for a range filter. 1_ means filter. 
@@ -34,7 +48,7 @@ public abstract class AbstractQueryDto {
   /**
    * The value for a term aggregation. 2_ means aggregation and the last 001 term mean term.
    */
-  public static final int AGGREGATION_TERM = 2_001;
+  public static final int AGGREGATION_TERM = 2_001_000;
 
   /**
    * @return A map with all filter values.
