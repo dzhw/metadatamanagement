@@ -63,19 +63,21 @@ public class VariableSearchFormDto extends AbstractQueryDto {
       filterValues.put(VariableDocument.NESTED_VARIABLE_SURVEY_TITLE_FIELD, this.surveyTitle);
     }
 
-    // Date Range Start Date
+    //Date Range Start Date value. This value have to be checked by the end field
+    //StartDate (Input by User) <= EndDate (Variable)
     if (this.dateRange != null) {
       if (this.dateRange.getStartDate() != null
           && StringUtils.hasText(this.dateRange.getStartDate().toString())) {
-        filterValues.put(VariableDocument.NESTED_VARIABLE_SURVEY_NESTED_PERIOD_START_DATE,
+        filterValues.put(VariableDocument.NESTED_VARIABLE_SURVEY_NESTED_PERIOD_END_DATE,
             this.dateRange.getStartDate().toString());
 
       }
 
-      // Date Range End Date
+      // Date Range End Date This value have to be checked by the start field
+      //StartDate (Variable) <= EndDate (Input by User)
       if (this.dateRange.getEndDate() != null
           && StringUtils.hasText(this.dateRange.getEndDate().toString())) {
-        filterValues.put(VariableDocument.NESTED_VARIABLE_SURVEY_NESTED_PERIOD_END_DATE,
+        filterValues.put(VariableDocument.NESTED_VARIABLE_SURVEY_NESTED_PERIOD_START_DATE,
             this.dateRange.getEndDate().toString());
       }
     }
@@ -101,11 +103,11 @@ public class VariableSearchFormDto extends AbstractQueryDto {
 
     // Date Range Start Date
     filterFields.put(VariableDocument.NESTED_VARIABLE_SURVEY_NESTED_PERIOD_START_DATE,
-        VariableSearchFormDto.FILTER_RANGE_GTE);
+        VariableSearchFormDto.FILTER_RANGE_LTE);
 
     // Date Range End Date
     filterFields.put(VariableDocument.NESTED_VARIABLE_SURVEY_NESTED_PERIOD_END_DATE,
-        VariableSearchFormDto.FILTER_RANGE_LTE);
+        VariableSearchFormDto.FILTER_RANGE_GTE);
 
     return filterFields;
   }
