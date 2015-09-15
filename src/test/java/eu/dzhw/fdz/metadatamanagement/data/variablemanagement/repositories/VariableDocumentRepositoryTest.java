@@ -5,14 +5,21 @@ package eu.dzhw.fdz.metadatamanagement.data.variablemanagement.repositories;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.not;
+import static org.hamcrest.Matchers.nullValue;
 
+import java.time.LocalDate;
 import java.util.Locale;
 
 import org.junit.Test;
+import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
+import eu.dzhw.fdz.metadatamanagement.data.common.aggregations.PageWithBuckets;
+import eu.dzhw.fdz.metadatamanagement.data.common.documents.builders.DateRangeBuilder;
 import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.DataTypesProvider;
 import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.ScaleLevelProvider;
 import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.VariableDocument;
@@ -20,12 +27,13 @@ import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.Variable
 import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.builders.VariableDocumentBuilder;
 import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.builders.VariableSurveyBuilder;
 import eu.dzhw.fdz.metadatamanagement.web.AbstractWebTest;
+import eu.dzhw.fdz.metadatamanagement.web.variablemanagement.search.dto.VariableSearchFormDto;
 
 /**
  * @author Daniel Katzberg
  *
  */
-public class VariablesRepositoryTest extends AbstractWebTest {
+public class VariableDocumentRepositoryTest extends AbstractWebTest {
 
   @Autowired
   private VariableDocumentRepository variablesRepository;
@@ -35,7 +43,7 @@ public class VariablesRepositoryTest extends AbstractWebTest {
 
   @Autowired
   private ScaleLevelProvider scaleLevelProvider;
-  
+
   @Test
   public void testMatchFilterBySurveyIdGerman() {
 
@@ -58,10 +66,8 @@ public class VariablesRepositoryTest extends AbstractWebTest {
     }
 
     // Act
-    Page<VariableDocument> result =
-        this.variablesRepository
-        .filterBySurveyIdAndVariableAlias("SurveyFilterUnitTest_Survey_ID", 
-            "SurveyFilterUnitTestVariableAlias 08");
+    Page<VariableDocument> result = this.variablesRepository.filterBySurveyIdAndVariableAlias(
+        "SurveyFilterUnitTest_Survey_ID", "SurveyFilterUnitTestVariableAlias 08");
 
     // Assert
     assertThat(result.getNumberOfElements(), is(1));
@@ -72,4 +78,27 @@ public class VariablesRepositoryTest extends AbstractWebTest {
     }
   }
 
+  @Test
+  public void testSearch() {
+
+    // Arrange
+    VariableSearchFormDto variableSearchFormDto = new VariableSearchFormDto();
+    variableSearchFormDto.setQuery("query");
+    variableSearchFormDto.setScaleLevel(this.scaleLevelProvider.getMetricByLocal());
+    variableSearchFormDto.setSurveyTitle("SurveyTitle");
+    variableSearchFormDto.setDateRange(new DateRangeBuilder()
+        .withStartDate(LocalDate.now().minusDays(2)).withEndDate(LocalDate.now()).build());
+
+    // Act
+    PageWithBuckets<VariableDocument> pageWithBuckets =
+        this.variablesRepository.search(variableSearchFormDto, Mockito.mock(Pageable.class));
+    
+    // Assert
+    assertThat(pageWithBuckets, not(nullValue()));
+    assertThat(pageWithBuckets.getBucketMap().size(), is(2));
+    assertThat(pageWithBuckets.getBucketMap().get(VariableDocument.SCALE_LEVEL_FIELD.getPath()),
+        not(nullValue()));
+    assertThat(pageWithBuckets.getBucketMap()
+        .get("variableSurvey.title").size(), not(nullValue()));
+  }
 }
