@@ -1,4 +1,7 @@
 function triggerDatepicker(id){
+	var x = event.type;
+	console.log(x);
+	event.preventDefault();
 	locale = $('html').attr('lang');
 	mode = setmode();
 	$.datepicker.setDefaults($.datepicker.regional[locale]);
@@ -10,39 +13,48 @@ function triggerDatepicker(id){
 		gotoCurrent : true,
 		onSelect : function() {
 			triggerOnValidDate(mode, $element.closest("form"));
-			 $element.off( "focus" );
 		},
 		changeMonth : true,
 		changeYear : true,
+		autoclose: true,
 		yearRange : '1970:2040',
 		firstDay : 1
-	}).datepicker('show').on('keyup', function() {
-		$element.datepicker("hide");
-		$altFiledInput = $("#" +convertedId + "_alt");
-		var date = '';
-		try {
-			switch (locale) {
-			case 'de':
-				date = $.datepicker.parseDate('dd.mm.yy', $element.val());
-				break;
-			case 'en':
-				date = $.datepicker.parseDate('mm/dd/yy', $element.val());
-				break;
-			default:
-				break;
-			}
-			var day = ("0" + (date.getDate())).slice(-2);
-			var year = date.getFullYear();
-			// JavaScript months are 0-11
-			var month = ("0" + (date.getMonth() + 1)).slice(-2);
-			$altFiledInput.val(year + '-' + month + '-' + day);
-			triggerOnValidDate(mode,  $element.closest("form"));
-		} catch (e) {
-			triggerOnInvalidDate(mode, $element.val(), $element.closest("form"));
-		}
-	});
+	}).datepicker('show');
 }
-
+function triggerOnKeyup(id){
+	convertedId=replaceId(id);
+	$element=$("#" + convertedId);
+	$element.datepicker("hide");
+	var x = event.type;
+	console.log(x);
+	 if(event.keyCode == 46) {
+		 
+		 $element.val('');
+	    }
+	event.preventDefault();
+	$altFiledInput = $("#" +convertedId + "_alt");
+	var date = '';
+	try {
+		switch (locale) {
+		case 'de':
+			date = $.datepicker.parseDate('dd.mm.yy', $element.val());
+			break;
+		case 'en':
+			date = $.datepicker.parseDate('mm/dd/yy', $element.val());
+			break;
+		default:
+			break;
+		}
+		var day = ("0" + (date.getDate())).slice(-2);
+		var year = date.getFullYear();
+		// JavaScript months are 0-11
+		var month = ("0" + (date.getMonth() + 1)).slice(-2);
+		$altFiledInput.val(year + '-' + month + '-' + day);
+		triggerOnValidDate(mode,  $element.closest("form"));
+	} catch (e) {
+		triggerOnInvalidDate(mode, $element);
+	}
+}
 function replaceId(oldId) {
 	return oldId.replace(/\./g, "\\.");
 }
@@ -54,14 +66,14 @@ function triggerOnValidDate(mode, form) {
 		VariableSearchForm.search(form);
 	}
 }
-function triggerOnInvalidDate(mode, value, form) {
+function triggerOnInvalidDate(mode,element) {
 	if (mode === 'modify') {
 		$altFiledInput.val('invalid date');
-		VariableModifyForm.validate(form);
+		VariableModifyForm.validate(element.closest("form"));
 	} else {
-		$altFiledInput.val('');
-		if (value === '') {
-			VariableSearchForm.search(form);
+		if ( element.val() === '') {
+			$altFiledInput.val('');
+			VariableSearchForm.search(element.closest("form"));
 		}
 	}
 }

@@ -9,8 +9,10 @@
 		class="form-group has-feedback"
 		th:classappend="${#fields.hasErrors('__${field}__')}? has-error : has-success">
 		<label th:text="${label}"></label> 
-		<input onclick="triggerDatepicker(this.id)" th:id="${field}" th:type="text" class="form-control datepicker" th:placeholder="${placeholder}" th:readonly="${readonly}" th:value="*{@customLocalDateFormatter.format(__${field}__,#locale)}"></input>
-		<input th:id="${field}+'_alt'" th:type="hidden"
+		<div th:id="temp+${field}">
+		<input onclick="triggerDatepicker(this.id)" onkeyup="triggerOnKeyup(this.id)" th:id="${field}" th:type="text" class="form-control datepicker" th:placeholder="${placeholder}" th:readonly="${readonly}" th:value="*{@customLocalDateFormatter.format(__${field}__,#locale)}"></input>
+		</div>
+		<input  th:id="${field}+'_alt'" th:type="hidden"
 			class="form-control" th:field="*{__${field}__}"/>
 			<span
 			class="glyphicon form-control-feedback"
