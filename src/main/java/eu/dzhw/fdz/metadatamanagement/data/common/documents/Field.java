@@ -3,6 +3,8 @@ package eu.dzhw.fdz.metadatamanagement.data.common.documents;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.google.common.base.Objects;
+
 /**
  * This is a field representation of fields in elasticsearch documents. Fields can be organized as
  * chains meaning the can have one subfield.
@@ -100,9 +102,22 @@ public class Field implements Cloneable {
    */
   public String getLeafSubFieldPath() {
     if (this.hasSubfield()) {
-      return this.getSubField().getLeafSubFieldPath();
+      return this.subField.getLeafSubFieldPath();
     } else {
-      return this.getPath();
+      return path;
+    }
+  }
+
+  /**
+   * Return the last subfield (which has no subfields).
+   * 
+   * @return the last subfield (which has no subfields).
+   */
+  public Field getLeafSubField() {
+    if (this.hasSubfield()) {
+      return this.subField.getLeafSubField();
+    } else {
+      return this;
     }
   }
 
@@ -120,5 +135,19 @@ public class Field implements Cloneable {
 
   public Field getSubField() {
     return subField;
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hashCode(path, subField);
+  }
+
+  @Override
+  public boolean equals(Object object) {
+    if (object instanceof Field) {
+      Field that = (Field) object;
+      return Objects.equal(this.path, that.path) && Objects.equal(this.subField, that.subField);
+    }
+    return false;
   }
 }

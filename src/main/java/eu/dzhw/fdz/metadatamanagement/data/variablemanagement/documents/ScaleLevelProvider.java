@@ -116,7 +116,7 @@ public class ScaleLevelProvider {
    *          If Metric , Return 3    
    *          If none of them, Return 0 (Default)
    */
-  public int castScaleLevelToInt(String scaleLevel) {
+  public int getScaleLevelOrder(String scaleLevel) {
     
     //NOMINAL = 1
     if (scaleLevel.equals(this.getNominalByLocal())) {

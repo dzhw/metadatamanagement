@@ -41,8 +41,8 @@ public class ScaleLevelBucket extends Bucket {
   @Override
   public int compareTo(Bucket other) {
 
-    int thisScaleLevelOrder = this.scaleLevelProvider.castScaleLevelToInt(this.getKey());
-    int otherScaleLevelOrder = this.scaleLevelProvider.castScaleLevelToInt(other.getKey());
+    int thisScaleLevelOrder = this.scaleLevelProvider.getScaleLevelOrder(this.getKey());
+    int otherScaleLevelOrder = this.scaleLevelProvider.getScaleLevelOrder(other.getKey());
 
     return thisScaleLevelOrder - otherScaleLevelOrder;
   }

@@ -3,6 +3,7 @@ package eu.dzhw.fdz.metadatamanagement.web.variablemanagement.search;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.Callable;
+import java.util.stream.Collectors;
 
 import javax.servlet.http.HttpServletResponse;
 
@@ -22,6 +23,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import eu.dzhw.fdz.metadatamanagement.data.common.aggregations.Bucket;
 import eu.dzhw.fdz.metadatamanagement.data.common.aggregations.PageWithBuckets;
+import eu.dzhw.fdz.metadatamanagement.data.common.documents.Field;
 import eu.dzhw.fdz.metadatamanagement.data.common.documents.validation.groups.SearchValidationGroup.Search;
 import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.VariableDocument;
 import eu.dzhw.fdz.metadatamanagement.service.variablemanagement.VariableService;
@@ -85,12 +87,14 @@ public class VariableSearchController {
       PageWithBuckets<VariableDocument> pageableWithBuckets =
           this.variableService.search(variableSearchFilter, pageable);
 
-      Map<String, Set<Bucket>> bucketMap = BucketManager
+      Map<Field, Set<Bucket>> bucketMap = BucketManager
           .addEmptyBucketsIfNecessary(variableSearchFilter, pageableWithBuckets.getBucketMap());
       modelAndView.addObject("scaleLevelBuckets",
-          bucketMap.get(VariableDocument.SCALE_LEVEL_FIELD.getPath()));
+          bucketMap.get(VariableDocument.SCALE_LEVEL_FIELD.getLeafSubField()).stream().sorted()
+              .collect(Collectors.toList()));
       modelAndView.addObject("surveyTitleBuckets",
-          bucketMap.get(VariableDocument.NESTED_VARIABLE_SURVEY_TITLE_FIELD.getLeafSubFieldPath()));
+          bucketMap.get(VariableDocument.NESTED_VARIABLE_SURVEY_TITLE_FIELD.getLeafSubField())
+              .stream().sorted().collect(Collectors.toList()));
       // Create Resource
       PagedResources<VariableResource> pagedVariableResource = this.pagedResourcesAssembler
           .toResource(pageableWithBuckets, this.variableResourceAssembler);

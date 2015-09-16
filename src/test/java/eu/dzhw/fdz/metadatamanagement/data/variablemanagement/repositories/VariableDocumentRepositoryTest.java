@@ -115,9 +115,12 @@ public class VariableDocumentRepositoryTest extends AbstractWebTest {
     // Assert
     assertThat(pageWithBuckets, not(nullValue()));
     assertThat(pageWithBuckets.getBucketMap().size(), is(2));
-    assertThat(pageWithBuckets.getBucketMap().get(VariableDocument.SCALE_LEVEL_FIELD.getPath()),
+    assertThat(pageWithBuckets.getBucketMap().get(VariableDocument.SCALE_LEVEL_FIELD),
         not(nullValue()));
-    assertThat(pageWithBuckets.getBucketMap().get("variableSurvey.title").size(), not(nullValue()));
+    assertThat(
+        pageWithBuckets.getBucketMap()
+            .get(VariableDocument.NESTED_VARIABLE_SURVEY_TITLE_FIELD.getLeafSubField()).size(),
+        not(nullValue()));
   }
 
   @Test

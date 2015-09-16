@@ -14,6 +14,7 @@ import java.util.TreeSet;
 import org.junit.Test;
 
 import eu.dzhw.fdz.metadatamanagement.data.common.aggregations.Bucket;
+import eu.dzhw.fdz.metadatamanagement.data.common.documents.Field;
 import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.VariableDocument;
 import eu.dzhw.fdz.metadatamanagement.web.variablemanagement.search.dto.VariableSearchFilter;
 import eu.dzhw.fdz.metadatamanagement.web.variablemanagement.search.dto.builders.VariableSearchFilterBuilder;
@@ -28,22 +29,20 @@ public class BucketManagerTest {
   @Test
   public void testMergeFilterWithDtoInformationEmptyFilterMap() {
     // Arrange
-    Map<String, Set<Bucket>> filterMap = new HashMap<>();
+    Map<Field, Set<Bucket>> filterMap = new HashMap<>();
     VariableSearchFilter variableSearchFormDto =
         new VariableSearchFilterBuilder().withQuery("EmptyQuery").withScaleLevel("nominal").build();
 
-    Map<String, Set<Bucket>> extendedMap =
+    Map<Field, Set<Bucket>> extendedMap =
         BucketManager.addEmptyBucketsIfNecessary(variableSearchFormDto, filterMap);
 
     // Act
 
     // Assert
     assertThat(extendedMap.keySet().size(), is(1));
-    assertThat(extendedMap.keySet().iterator().next(),
-        is(VariableDocument.SCALE_LEVEL_FIELD.getPath()));
+    assertThat(extendedMap.keySet().iterator().next(), is(VariableDocument.SCALE_LEVEL_FIELD));
 
-    Set<Bucket> scaleLevelBuckets =
-        extendedMap.get(VariableDocument.SCALE_LEVEL_FIELD.getPath());
+    Set<Bucket> scaleLevelBuckets = extendedMap.get(VariableDocument.SCALE_LEVEL_FIELD);
     for (Bucket bucket : scaleLevelBuckets) {
       assertThat(bucket.getKey(), is("nominal"));
     }
@@ -53,22 +52,20 @@ public class BucketManagerTest {
   public void testMergeFilterWithDtoInformationFilledMap() {
     // Arrange
     Set<Bucket> filterList = new TreeSet<>();
-    Map<String, Set<Bucket>> filterMap = new HashMap<>();
-    filterMap.put(VariableDocument.SCALE_LEVEL_FIELD.getPath(), filterList);
+    Map<Field, Set<Bucket>> filterMap = new HashMap<>();
+    filterMap.put(VariableDocument.SCALE_LEVEL_FIELD, filterList);
     VariableSearchFilter variableSearchFormDto =
         new VariableSearchFilterBuilder().withQuery("EmptyQuery").withScaleLevel("ordinal").build();
 
-    Map<String, Set<Bucket>> extendedMap =
+    Map<Field, Set<Bucket>> extendedMap =
         BucketManager.addEmptyBucketsIfNecessary(variableSearchFormDto, filterMap);
 
     // Act
 
     // Assert
     assertThat(extendedMap.keySet().size(), is(1));
-    assertThat(extendedMap.keySet().iterator().next(),
-        is(VariableDocument.SCALE_LEVEL_FIELD.getPath()));
-    Set<Bucket> scaleLevelBuckets =
-        extendedMap.get(VariableDocument.SCALE_LEVEL_FIELD.getPath());
+    assertThat(extendedMap.keySet().iterator().next(), is(VariableDocument.SCALE_LEVEL_FIELD));
+    Set<Bucket> scaleLevelBuckets = extendedMap.get(VariableDocument.SCALE_LEVEL_FIELD);
     for (Bucket bucket : scaleLevelBuckets) {
       assertThat(bucket.getKey(), is("ordinal"));
     }

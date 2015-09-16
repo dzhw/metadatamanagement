@@ -1,9 +1,9 @@
 package eu.dzhw.fdz.metadatamanagement.web.variablemanagement.search;
 
+import java.util.HashSet;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
-import java.util.TreeSet;
 
 import eu.dzhw.fdz.metadatamanagement.data.common.aggregations.Bucket;
 import eu.dzhw.fdz.metadatamanagement.data.common.documents.Field;
@@ -23,29 +23,27 @@ public class BucketManager {
    * 
    * @return The extended bucket map.
    */
-  public static Map<String, Set<Bucket>> addEmptyBucketsIfNecessary(
-      VariableSearchFilter variableSearchFormDto, Map<String, Set<Bucket>> bucketMap) {
+  public static Map<Field, Set<Bucket>> addEmptyBucketsIfNecessary(
+      VariableSearchFilter variableSearchFormDto, Map<Field, Set<Bucket>> bucketMap) {
     Map<Field, String> filters = variableSearchFormDto.getAllFilterValues();
 
     for (Entry<Field, String> filter : filters.entrySet()) {
 
       // get basic variables from the entry and the nested object
-      Field field = filter.getKey();
+      Field field = filter.getKey().getLeafSubField();
       String filterValue = filter.getValue();
 
-
       // check for the group in the map
-      String nestedPath = field.getLeafSubFieldPath();
       Bucket emptyBucket = new Bucket(filterValue, 0L);
-      
-      if (!bucketMap.containsKey(nestedPath)) {
-        Set<Bucket> filterBucketList = new TreeSet<>();
+
+      if (!bucketMap.containsKey(field)) {
+        Set<Bucket> filterBucketList = new HashSet<>();
         filterBucketList.add(emptyBucket);
-        bucketMap.put(nestedPath, filterBucketList);
+        bucketMap.put(field, filterBucketList);
         // okay group is in the map, check here for the value
       } else {
-        if (!bucketMap.get(nestedPath).contains(emptyBucket)) {
-          Set<Bucket> filterBucketList = bucketMap.get(nestedPath);
+        if (!bucketMap.get(field).contains(emptyBucket)) {
+          Set<Bucket> filterBucketList = bucketMap.get(field);
           filterBucketList.add(emptyBucket);
         }
       }
