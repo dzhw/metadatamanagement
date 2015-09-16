@@ -64,7 +64,9 @@ VariableModifyForm.validate = _.debounce(function(form) {
 		}	
 	}, 'json');
 	// set focus on last selected element
-	$("#"+replaceId(lastFocused)).focus();
+	if (lastFocused.search("dateRange") >= 0) {
+		$("#" + replaceId(lastFocused)).focus();
+	}
 	getLastFocused();
 },250);
 

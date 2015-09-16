@@ -1,6 +1,5 @@
+var mode='';
 function triggerDatepicker(id){
-	var x = event.type;
-	console.log(x);
 	event.preventDefault();
 	locale = $('html').attr('lang');
 	mode = setmode();
@@ -25,10 +24,7 @@ function triggerOnKeyup(id){
 	convertedId=replaceId(id);
 	$element=$("#" + convertedId);
 	$element.datepicker("hide");
-	var x = event.type;
-	console.log(x);
 	 if(event.keyCode == 46) {
-		 
 		 $element.val('');
 	    }
 	event.preventDefault();
