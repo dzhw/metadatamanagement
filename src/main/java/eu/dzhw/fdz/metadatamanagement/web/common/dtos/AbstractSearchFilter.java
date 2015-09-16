@@ -24,7 +24,7 @@ import eu.dzhw.fdz.metadatamanagement.data.common.documents.Field;
  * 
  * @author Daniel Katzberg
  */
-public abstract class AbstractQueryDto {
+public abstract class AbstractSearchFilter {
 
   /**
    * The value for a term filter. 1_ means filter and the last 001 means term.

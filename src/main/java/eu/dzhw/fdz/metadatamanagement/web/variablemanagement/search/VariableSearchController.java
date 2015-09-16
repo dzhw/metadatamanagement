@@ -27,7 +27,7 @@ import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.Variable
 import eu.dzhw.fdz.metadatamanagement.service.variablemanagement.VariableService;
 import eu.dzhw.fdz.metadatamanagement.web.variablemanagement.details.VariableResource;
 import eu.dzhw.fdz.metadatamanagement.web.variablemanagement.details.VariableResourceAssembler;
-import eu.dzhw.fdz.metadatamanagement.web.variablemanagement.search.dto.VariableSearchFormDto;
+import eu.dzhw.fdz.metadatamanagement.web.variablemanagement.search.dto.VariableSearchFilter;
 
 /**
  * Controller for searching variables.
@@ -68,7 +68,7 @@ public class VariableSearchController {
    * 
    * @param ajaxHeader An ajaxheader with comes from a partial reload of the page. (search results
    *        returned by server)
-   * @param variableSearchFormDto the data tranfer object of the search form
+   * @param variableSearchFilter the data tranfer object of the search form
    * @param pageable A pageable object for the
    * @param httpServletResponse A Servlet response from the server from the search
    * @return variableSearch.html
@@ -76,17 +76,17 @@ public class VariableSearchController {
   @RequestMapping(value = "/{language:de|en}/variables/search", method = RequestMethod.GET)
   public Callable<ModelAndView> get(
       @RequestHeader(name = "X-Requested-With", required = false) String ajaxHeader,
-      @Validated(Search.class) VariableSearchFormDto variableSearchFormDto,
+      @Validated(Search.class) VariableSearchFilter variableSearchFilter,
       BindingResult bindingResult, Pageable pageable,
       final HttpServletResponse httpServletResponse) {
     return () -> {
       ModelAndView modelAndView = new ModelAndView();
-      modelAndView.addObject("variableSearchFormDto", variableSearchFormDto);
+      modelAndView.addObject("variableSearchFilter", variableSearchFilter);
       PageWithBuckets<VariableDocument> pageableWithBuckets =
-          this.variableService.search(variableSearchFormDto, pageable);
+          this.variableService.search(variableSearchFilter, pageable);
 
       Map<String, TreeSet<Bucket>> bucketMap = BucketManager
-          .addEmptyBucketsIfNecessary(variableSearchFormDto, pageableWithBuckets.getBucketMap());
+          .addEmptyBucketsIfNecessary(variableSearchFilter, pageableWithBuckets.getBucketMap());
       modelAndView.addObject("scaleLevelBuckets",
           bucketMap.get(VariableDocument.SCALE_LEVEL_FIELD.getPath()));
       modelAndView.addObject("surveyTitleBuckets",
@@ -96,7 +96,7 @@ public class VariableSearchController {
           .toResource(pageableWithBuckets, this.variableResourceAssembler);
       VariableSearchPageResource resource =
           new VariableSearchPageResource(pagedVariableResource, VariableSearchController.class,
-              this.controllerLinkBuilderFactory, variableSearchFormDto, pageable);
+              this.controllerLinkBuilderFactory, variableSearchFilter, pageable);
       modelAndView.addObject("resource", resource);
 
       // Check for X-Requested-With Header

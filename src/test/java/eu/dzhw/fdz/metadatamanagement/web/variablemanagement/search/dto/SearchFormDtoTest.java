@@ -23,7 +23,7 @@ public class SearchFormDtoTest {
   @Test
   public void testGetAllFiltersEmptyMap() {
     // Arrange
-    VariableSearchFormDto emptyFormDto = new VariableSearchFormDto();
+    VariableSearchFilter emptyFormDto = new VariableSearchFilter();
 
     // Act
     Map<Field, String> emptyMap = emptyFormDto.getAllFilters();
@@ -35,7 +35,7 @@ public class SearchFormDtoTest {
   @Test
   public void testGetAllFiltersIncompleteDateRange() {
     // Arrange
-    VariableSearchFormDto formDto = new VariableSearchFormDto();
+    VariableSearchFilter formDto = new VariableSearchFilter();
     formDto.setQuery("Query");
     formDto.setScaleLevel("ScaleLevel");
     formDto.setSurveyTitle("SurveyTitle");
@@ -59,7 +59,7 @@ public class SearchFormDtoTest {
   @Test
   public void testGetAllFilters() {
     // Arrange
-    VariableSearchFormDto formDto = new VariableSearchFormDto();
+    VariableSearchFilter formDto = new VariableSearchFilter();
     formDto.setQuery("Query");
     formDto.setScaleLevel("ScaleLevel");
     formDto.setSurveyTitle("SurveyTitle");
@@ -84,7 +84,7 @@ public class SearchFormDtoTest {
   @Test
   public void testGetFilterFields() {
     // Arrange
-    VariableSearchFormDto formDto = new VariableSearchFormDto();
+    VariableSearchFilter formDto = new VariableSearchFilter();
 
     // Act
     Map<Field, Integer> filterFields = formDto.getFilterFields();
@@ -92,19 +92,19 @@ public class SearchFormDtoTest {
     // Assert
     assertThat(filterFields.size(), is(4));
     assertThat(filterFields.get(VariableDocument.SCALE_LEVEL_FIELD),
-        is(VariableSearchFormDto.FILTER_TERM));
+        is(VariableSearchFilter.FILTER_TERM));
     assertThat(filterFields.get(VariableDocument.NESTED_VARIABLE_SURVEY_TITLE_FIELD),
-        is(VariableSearchFormDto.FILTER_TERM));
+        is(VariableSearchFilter.FILTER_TERM));
     assertThat(filterFields.get(VariableDocument.NESTED_VARIABLE_SURVEY_NESTED_PERIOD_START_DATE),
-        is(VariableSearchFormDto.FILTER_RANGE_LTE));
+        is(VariableSearchFilter.FILTER_RANGE_LTE));
     assertThat(filterFields.get(VariableDocument.NESTED_VARIABLE_SURVEY_NESTED_PERIOD_END_DATE),
-        is(VariableSearchFormDto.FILTER_RANGE_GTE));
+        is(VariableSearchFilter.FILTER_RANGE_GTE));
   }
   
   @Test
   public void testGetAggrogationFields() {
     // Arrange
-    VariableSearchFormDto formDto = new VariableSearchFormDto();
+    VariableSearchFilter formDto = new VariableSearchFilter();
 
     // Act
     Map<Field, Integer> aggrogationFields = formDto.getAggregationFields();
@@ -112,9 +112,9 @@ public class SearchFormDtoTest {
     // Assert
     assertThat(aggrogationFields.size(), is(2));
     assertThat(aggrogationFields.get(VariableDocument.SCALE_LEVEL_FIELD),
-        is(VariableSearchFormDto.AGGREGATION_TERM));
+        is(VariableSearchFilter.AGGREGATION_TERM));
     assertThat(aggrogationFields.get(VariableDocument.NESTED_VARIABLE_SURVEY_TITLE_FIELD),
-        is(VariableSearchFormDto.AGGREGATION_TERM));
+        is(VariableSearchFilter.AGGREGATION_TERM));
   }
   
 }

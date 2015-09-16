@@ -30,7 +30,7 @@ import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.Variable
 import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.builders.VariableDocumentBuilder;
 import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.builders.VariableSurveyBuilder;
 import eu.dzhw.fdz.metadatamanagement.web.AbstractWebTest;
-import eu.dzhw.fdz.metadatamanagement.web.variablemanagement.search.dto.VariableSearchFormDto;
+import eu.dzhw.fdz.metadatamanagement.web.variablemanagement.search.dto.VariableSearchFilter;
 
 /**
  * @author Daniel Katzberg
@@ -98,7 +98,7 @@ public class VariableDocumentRepositoryTest extends AbstractWebTest {
   public void testSearch() {
 
     // Arrange
-    VariableSearchFormDto variableSearchFormDto = new VariableSearchFormDto();
+    VariableSearchFilter variableSearchFormDto = new VariableSearchFilter();
     variableSearchFormDto.setQuery("query");
     variableSearchFormDto.setScaleLevel(this.scaleLevelProvider.getMetricByLocal());
     variableSearchFormDto.setSurveyTitle("SurveyTitle");
@@ -124,7 +124,7 @@ public class VariableDocumentRepositoryTest extends AbstractWebTest {
     // Filter: ----------[-]----
 
     // Arrange
-    VariableSearchFormDto variableSearchFormDto = new VariableSearchFormDto();
+    VariableSearchFilter variableSearchFormDto = new VariableSearchFilter();
     variableSearchFormDto.setDateRange(new DateRangeBuilder()
         .withStartDate(LocalDate.now().minusDays(2)).withEndDate(LocalDate.now()).build());
 
@@ -146,7 +146,7 @@ public class VariableDocumentRepositoryTest extends AbstractWebTest {
     // Filter: ------[---------]--
 
     // Arrange
-    VariableSearchFormDto variableSearchFormDto = new VariableSearchFormDto();
+    VariableSearchFilter variableSearchFormDto = new VariableSearchFilter();
     variableSearchFormDto
         .setDateRange(new DateRangeBuilder().withStartDate(LocalDate.now().minusMonths(12))
             .withEndDate(LocalDate.now().plusMonths(12)).build());
@@ -168,7 +168,7 @@ public class VariableDocumentRepositoryTest extends AbstractWebTest {
     // Filter: -----[-----]-----------
 
     // Arrange
-    VariableSearchFormDto variableSearchFormDto = new VariableSearchFormDto();
+    VariableSearchFilter variableSearchFormDto = new VariableSearchFilter();
     variableSearchFormDto
         .setDateRange(new DateRangeBuilder().withStartDate(LocalDate.now().minusMonths(24))
             .withEndDate(LocalDate.now().minusMonths(12)).build());
@@ -190,7 +190,7 @@ public class VariableDocumentRepositoryTest extends AbstractWebTest {
     // Filter: ------------------[-----]--
 
     // Arrange
-    VariableSearchFormDto variableSearchFormDto = new VariableSearchFormDto();
+    VariableSearchFilter variableSearchFormDto = new VariableSearchFilter();
     variableSearchFormDto
         .setDateRange(new DateRangeBuilder().withStartDate(LocalDate.now().plusMonths(12))
             .withEndDate(LocalDate.now().plusMonths(24)).build());
@@ -212,7 +212,7 @@ public class VariableDocumentRepositoryTest extends AbstractWebTest {
     // Filter: ------[-----]-----
 
     // Arrange
-    VariableSearchFormDto variableSearchFormDto = new VariableSearchFormDto();
+    VariableSearchFilter variableSearchFormDto = new VariableSearchFilter();
     variableSearchFormDto
         .setDateRange(new DateRangeBuilder().withStartDate(LocalDate.now().minusMonths(12))
             .withEndDate(LocalDate.now().minusMonths(5)).build());
@@ -235,7 +235,7 @@ public class VariableDocumentRepositoryTest extends AbstractWebTest {
     // Filter: -----------[-----]--
 
     // Arrange
-    VariableSearchFormDto variableSearchFormDto = new VariableSearchFormDto();
+    VariableSearchFilter variableSearchFormDto = new VariableSearchFilter();
     variableSearchFormDto
         .setDateRange(new DateRangeBuilder().withStartDate(LocalDate.now().plusMonths(5))
             .withEndDate(LocalDate.now().plusMonths(12)).build());

@@ -33,7 +33,7 @@ import eu.dzhw.fdz.metadatamanagement.data.common.aggregations.AggregationResult
 import eu.dzhw.fdz.metadatamanagement.data.common.aggregations.PageWithBuckets;
 import eu.dzhw.fdz.metadatamanagement.data.common.documents.Field;
 import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.VariableDocument;
-import eu.dzhw.fdz.metadatamanagement.web.common.dtos.AbstractQueryDto;
+import eu.dzhw.fdz.metadatamanagement.web.common.dtos.AbstractSearchFilter;
 
 /**
  * This class implements the interface of the custom variable documents repository. This class will
@@ -74,16 +74,17 @@ public class VariableDocumentRepositoryImpl implements VariableDocumentRepositor
    * 
    * @see eu.dzhw.fdz.metadatamanagement.data.variablemanagement.repositories.
    * VariableDocumentRepositoryCustom#search(eu.dzhw.fdz.metadatamanagement.web.common.dtos.
-   * AbstractQueryDto, org.springframework.data.domain.Pageable)
+   * AbstractSearchFilter, org.springframework.data.domain.Pageable)
    */
   @SuppressWarnings("rawtypes")
   @Override
-  public PageWithBuckets<VariableDocument> search(AbstractQueryDto formDto, Pageable pageable) {
+  public PageWithBuckets<VariableDocument> search(AbstractSearchFilter searchFilter,
+      Pageable pageable) {
 
     // create search query (with filter)
-    QueryBuilder queryBuilder = this.createQueryBuilder(formDto.getQuery());
+    QueryBuilder queryBuilder = this.createQueryBuilder(searchFilter.getQuery());
     List<FilterBuilder> termFilterBuilders =
-        this.createTermFilterBuilders(formDto.getAllFilters(), formDto.getFilterFields());
+        this.createTermFilterBuilders(searchFilter.getAllFilters(), searchFilter.getFilterFields());
     queryBuilder = this.addFilterToQuery(queryBuilder, termFilterBuilders);
 
     // prepare search query (with filter)
@@ -92,7 +93,7 @@ public class VariableDocumentRepositoryImpl implements VariableDocumentRepositor
 
     // add Aggregations
     List<AggregationBuilder> aggregationBuilders =
-        this.createAggregations(formDto.getAggregationFields());
+        this.createAggregations(searchFilter.getAggregationFields());
     for (AggregationBuilder aggregationBuilder : aggregationBuilders) {
       nativeSearchQueryBuilder.addAggregation(aggregationBuilder);
     }
@@ -174,7 +175,7 @@ public class VariableDocumentRepositoryImpl implements VariableDocumentRepositor
       // Switch between the different cases
       switch (aggregationType) {
 
-        case AbstractQueryDto.AGGREGATION_TERM:
+        case AbstractSearchFilter.AGGREGATION_TERM:
           return AggregationBuilders.terms(field.getPath()).field(field.getPath());
 
         default:
@@ -223,12 +224,12 @@ public class VariableDocumentRepositoryImpl implements VariableDocumentRepositor
 
     // create nested or not nested filter.
     for (Entry<Field, String> entry : filterValues.entrySet()) {
-      
+
       int filterType = filterTypes.get(entry.getKey());
-      
+
       FilterBuilder filterBuilder =
           this.createNestedFilterBuilder(entry.getKey(), entry.getValue(), filterType);
-      //catch the default case with return null of the create method.
+      // catch the default case with return null of the create method.
       if (filterBuilder != null) {
         termFilterBuilders.add(filterBuilder);
       }
@@ -246,23 +247,22 @@ public class VariableDocumentRepositoryImpl implements VariableDocumentRepositor
    * @param filterType The value is the type of the filter
    * @return A nested or not nested FilterBuilder
    */
-  private FilterBuilder createNestedFilterBuilder(Field field, String value,
-      int filterType) {
-    
+  private FilterBuilder createNestedFilterBuilder(Field field, String value, int filterType) {
+
     if (field.isNested()) {
       return FilterBuilders.nestedFilter(field.getPath(),
           this.createNestedFilterBuilder(field.getNestedField(), value, filterType));
-    } else {     
+    } else {
 
       switch (filterType) {
-        case AbstractQueryDto.FILTER_TERM:
+        case AbstractSearchFilter.FILTER_TERM:
           return FilterBuilders.termFilter(field.getPath(), value);
-          
-        case AbstractQueryDto.FILTER_RANGE_GTE:
+
+        case AbstractSearchFilter.FILTER_RANGE_GTE:
           return FilterBuilders.rangeFilter(field.getNestedPath()).gte(value);
-          
-        case AbstractQueryDto.FILTER_RANGE_LTE:
-          return FilterBuilders.rangeFilter(field.getNestedPath()).lte(value);  
+
+        case AbstractSearchFilter.FILTER_RANGE_LTE:
+          return FilterBuilders.rangeFilter(field.getNestedPath()).lte(value);
 
         default:
           return null;

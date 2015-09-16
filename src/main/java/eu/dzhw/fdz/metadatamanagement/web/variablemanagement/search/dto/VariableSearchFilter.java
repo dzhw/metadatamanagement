@@ -10,7 +10,7 @@ import org.springframework.util.StringUtils;
 import eu.dzhw.fdz.metadatamanagement.data.common.documents.DateRange;
 import eu.dzhw.fdz.metadatamanagement.data.common.documents.Field;
 import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.VariableDocument;
-import eu.dzhw.fdz.metadatamanagement.web.common.dtos.AbstractQueryDto;
+import eu.dzhw.fdz.metadatamanagement.web.common.dtos.AbstractSearchFilter;
 import net.karneim.pojobuilder.GeneratePojoBuilder;
 
 /**
@@ -21,7 +21,7 @@ import net.karneim.pojobuilder.GeneratePojoBuilder;
  */
 @GeneratePojoBuilder(
     intoPackage = "eu.dzhw.fdz.metadatamanagement.web.variablemanagement.search.dto.builders")
-public class VariableSearchFormDto extends AbstractQueryDto {
+public class VariableSearchFilter extends AbstractSearchFilter {
 
   /**
    * This is the request parameter of the query. The value is the search query.
@@ -95,19 +95,19 @@ public class VariableSearchFormDto extends AbstractQueryDto {
     Map<Field, Integer> filterFields = new HashMap<>();
 
     // ScaleLevel
-    filterFields.put(VariableDocument.SCALE_LEVEL_FIELD, VariableSearchFormDto.FILTER_TERM);
+    filterFields.put(VariableDocument.SCALE_LEVEL_FIELD, VariableSearchFilter.FILTER_TERM);
 
     // Survey Title
     filterFields.put(VariableDocument.NESTED_VARIABLE_SURVEY_TITLE_FIELD,
-        VariableSearchFormDto.FILTER_TERM);
+        VariableSearchFilter.FILTER_TERM);
 
     // Date Range Start Date
     filterFields.put(VariableDocument.NESTED_VARIABLE_SURVEY_NESTED_PERIOD_START_DATE,
-        VariableSearchFormDto.FILTER_RANGE_LTE);
+        VariableSearchFilter.FILTER_RANGE_LTE);
 
     // Date Range End Date
     filterFields.put(VariableDocument.NESTED_VARIABLE_SURVEY_NESTED_PERIOD_END_DATE,
-        VariableSearchFormDto.FILTER_RANGE_GTE);
+        VariableSearchFilter.FILTER_RANGE_GTE);
 
     return filterFields;
   }
@@ -123,11 +123,11 @@ public class VariableSearchFormDto extends AbstractQueryDto {
 
     // ScaleLevel
     aggregationFields.put(VariableDocument.SCALE_LEVEL_FIELD,
-        VariableSearchFormDto.AGGREGATION_TERM);
+        VariableSearchFilter.AGGREGATION_TERM);
 
     // Survey Title
     aggregationFields.put(VariableDocument.NESTED_VARIABLE_SURVEY_TITLE_FIELD,
-        VariableSearchFormDto.AGGREGATION_TERM);
+        VariableSearchFilter.AGGREGATION_TERM);
 
     return aggregationFields;
   }

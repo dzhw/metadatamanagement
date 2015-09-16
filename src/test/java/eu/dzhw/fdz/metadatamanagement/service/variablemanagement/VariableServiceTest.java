@@ -29,8 +29,8 @@ import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.builders
 import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.builders.VariableDocumentBuilder;
 import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.builders.VariableSurveyBuilder;
 import eu.dzhw.fdz.metadatamanagement.web.AbstractWebTest;
-import eu.dzhw.fdz.metadatamanagement.web.variablemanagement.search.dto.VariableSearchFormDto;
-import eu.dzhw.fdz.metadatamanagement.web.variablemanagement.search.dto.builders.VariableSearchFormDtoBuilder;
+import eu.dzhw.fdz.metadatamanagement.web.variablemanagement.search.dto.VariableSearchFilter;
+import eu.dzhw.fdz.metadatamanagement.web.variablemanagement.search.dto.builders.VariableSearchFilterBuilder;
 
 
 /**
@@ -67,8 +67,8 @@ public class VariableServiceTest extends AbstractWebTest {
       this.variableService.save(variableDocument);
     }
 
-    VariableSearchFormDto variableSearchFormDto =
-        new VariableSearchFormDtoBuilder().withQuery("SearchUnitTestName").build();
+    VariableSearchFilter variableSearchFormDto =
+        new VariableSearchFilterBuilder().withQuery("SearchUnitTestName").build();
 
     // Act
     PageWithBuckets<VariableDocument> result =
@@ -104,7 +104,7 @@ public class VariableServiceTest extends AbstractWebTest {
       this.variableService.save(variableDocument);
     }
 
-    VariableSearchFormDto variableSearchFormDto = new VariableSearchFormDtoBuilder().build();
+    VariableSearchFilter variableSearchFormDto = new VariableSearchFilterBuilder().build();
 
     // Act
     PageWithBuckets<VariableDocument> result =
@@ -147,8 +147,8 @@ public class VariableServiceTest extends AbstractWebTest {
             .withDataType(DataTypesProvider.GERMAN_NUMERIC).withAnswerOptions(answerOptions)
             .withVariableSurvey(variableSurvey).build();
 
-    VariableSearchFormDto variableSearchFormDto =
-        new VariableSearchFormDtoBuilder().withQuery(idVariableDocument).build();
+    VariableSearchFilter variableSearchFormDto =
+        new VariableSearchFilterBuilder().withQuery(idVariableDocument).build();
 
     // Act
     VariableDocument savedVariableDocument = this.variableService.save(variableDocument);
@@ -184,7 +184,7 @@ public class VariableServiceTest extends AbstractWebTest {
       this.variableService.save(variableDocument);
     }
 
-    VariableSearchFormDto variableSearchFormDto = new VariableSearchFormDtoBuilder()
+    VariableSearchFilter variableSearchFormDto = new VariableSearchFilterBuilder()
         .withQuery("SearchUnitTestName").withScaleLevel(ScaleLevelProvider.GERMAN_METRIC).build();
 
     // Act
@@ -224,8 +224,8 @@ public class VariableServiceTest extends AbstractWebTest {
       this.variableService.save(variableDocument);
     }
 
-    VariableSearchFormDto variableSearchFormDto = new VariableSearchFormDtoBuilder()
-        .withScaleLevel(ScaleLevelProvider.GERMAN_ORDINAL).build();
+    VariableSearchFilter variableSearchFormDto =
+        new VariableSearchFilterBuilder().withScaleLevel(ScaleLevelProvider.GERMAN_ORDINAL).build();
 
     // Act
     PageWithBuckets<VariableDocument> resultOkay =
@@ -265,7 +265,7 @@ public class VariableServiceTest extends AbstractWebTest {
       this.variableService.save(variableDocument);
     }
 
-    VariableSearchFormDto variableSearchFormDto = new VariableSearchFormDtoBuilder()
+    VariableSearchFilter variableSearchFormDto = new VariableSearchFilterBuilder()
         .withQuery("SearchUnitTestName").withScaleLevel(ScaleLevelProvider.GERMAN_ORDINAL).build();
 
     // Act

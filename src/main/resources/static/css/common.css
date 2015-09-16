@@ -1,6 +1,10 @@
 /* Fix bootstrap overlapping of body and navbar */
-body {
+.body-with-jumbotron {
 	padding-top: 70px;
+}
+
+.body-with-pageheader {
+	padding-top: 40px;
 }
 
 /* Adjust bootstraps jumbotron margin-bottom (original is 30px)*/

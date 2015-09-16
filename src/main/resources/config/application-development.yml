@@ -20,6 +20,9 @@ spring:
         #move elasticsearch data folder to the target folder
         path.data: target/elasticsearch/data
         index.search.slowlog.threshold.query.info: 1ms
+  mvc:
+    async:
+      request-timeout: 300000
 
 #set buildtime equal to startuptime cause in devmode 
 info:

@@ -14,8 +14,8 @@ import org.junit.Test;
 
 import eu.dzhw.fdz.metadatamanagement.data.common.aggregations.Bucket;
 import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.VariableDocument;
-import eu.dzhw.fdz.metadatamanagement.web.variablemanagement.search.dto.VariableSearchFormDto;
-import eu.dzhw.fdz.metadatamanagement.web.variablemanagement.search.dto.builders.VariableSearchFormDtoBuilder;
+import eu.dzhw.fdz.metadatamanagement.web.variablemanagement.search.dto.VariableSearchFilter;
+import eu.dzhw.fdz.metadatamanagement.web.variablemanagement.search.dto.builders.VariableSearchFilterBuilder;
 
 /**
  * @author Daniel Katzberg
@@ -28,8 +28,8 @@ public class BucketManagerTest {
   public void testMergeFilterWithDtoInformationEmptyFilterMap() {
     // Arrange
     Map<String, TreeSet<Bucket>> filterMap = new HashMap<>();
-    VariableSearchFormDto variableSearchFormDto = new VariableSearchFormDtoBuilder()
-        .withQuery("EmptyQuery").withScaleLevel("nominal").build();
+    VariableSearchFilter variableSearchFormDto =
+        new VariableSearchFilterBuilder().withQuery("EmptyQuery").withScaleLevel("nominal").build();
 
     Map<String, TreeSet<Bucket>> extendedMap =
         BucketManager.addEmptyBucketsIfNecessary(variableSearchFormDto, filterMap);
@@ -54,8 +54,8 @@ public class BucketManagerTest {
     TreeSet<Bucket> filterList = new TreeSet<>();
     Map<String, TreeSet<Bucket>> filterMap = new HashMap<>();
     filterMap.put(VariableDocument.SCALE_LEVEL_FIELD.getPath(), filterList);
-    VariableSearchFormDto variableSearchFormDto = new VariableSearchFormDtoBuilder()
-        .withQuery("EmptyQuery").withScaleLevel("ordinal").build();
+    VariableSearchFilter variableSearchFormDto =
+        new VariableSearchFilterBuilder().withQuery("EmptyQuery").withScaleLevel("ordinal").build();
 
     Map<String, TreeSet<Bucket>> extendedMap =
         BucketManager.addEmptyBucketsIfNecessary(variableSearchFormDto, filterMap);

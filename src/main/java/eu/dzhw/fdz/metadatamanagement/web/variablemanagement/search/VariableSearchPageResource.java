@@ -13,7 +13,7 @@ import com.google.common.base.Objects;
 import eu.dzhw.fdz.metadatamanagement.config.i18n.I18nConfiguration;
 import eu.dzhw.fdz.metadatamanagement.web.common.NavigatablePageResource;
 import eu.dzhw.fdz.metadatamanagement.web.variablemanagement.details.VariableResource;
-import eu.dzhw.fdz.metadatamanagement.web.variablemanagement.search.dto.VariableSearchFormDto;
+import eu.dzhw.fdz.metadatamanagement.web.variablemanagement.search.dto.VariableSearchFilter;
 
 /**
  * Resource for the {@link VariableSearchController}.
@@ -35,7 +35,7 @@ public class VariableSearchPageResource extends NavigatablePageResource<Variable
    */
   public VariableSearchPageResource(PagedResources<VariableResource> page,
       Class<VariableSearchController> pageController, ControllerLinkBuilderFactory factory,
-      VariableSearchFormDto variableSearchFormDto, Pageable pageable) {
+      VariableSearchFilter variableSearchFormDto, Pageable pageable) {
     super();
     this.page = page;
     for (Locale supportedLocale : I18nConfiguration.SUPPORTED_LANGUAGES) {
