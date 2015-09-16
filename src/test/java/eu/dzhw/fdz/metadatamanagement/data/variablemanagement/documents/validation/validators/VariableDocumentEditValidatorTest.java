@@ -168,12 +168,14 @@ public class VariableDocumentEditValidatorTest extends AbstractWebTest {
     // Assert
     assertEquals(1, errors.getErrorCount());
     assertThat(
-        errors.getFieldError(VariableDocument.NESTED_VARIABLE_SURVEY_VARIABLE_ALIAS_FIELD.getLeafSubFieldPath())
+        errors
+            .getFieldError(
+                VariableDocument.NESTED_VARIABLE_SURVEY_VARIABLE_ALIAS_FIELD.getAbsolutePath())
             .getCode(),
         is(VariableDocumentEditValidator.MANDATORY_VARIABLE_SURVEY_VARIABLEALIAS_MESSAGE_CODE));
 
     // Delete
     this.variableRepository.delete(variableDocument.getId());
     this.variableRepository.delete(variableDocument2.getId());
-  }  
+  }
 }

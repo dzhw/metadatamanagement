@@ -2,7 +2,7 @@ package eu.dzhw.fdz.metadatamanagement.web.common.dtos;
 
 import java.util.Map;
 
-import eu.dzhw.fdz.metadatamanagement.data.common.documents.Field;
+import eu.dzhw.fdz.metadatamanagement.data.common.documents.DocumentField;
 
 /**
  * This class declares methods which are common to all search filters.
@@ -13,17 +13,17 @@ public abstract class AbstractSearchFilter {
   /**
    * @return A map with all filter values.
    */
-  public abstract Map<Field, String> getAllFilterValues();
+  public abstract Map<DocumentField, String> getAllFilterValues();
 
   /**
-   * @return Returns a map {@link Field} -> {@link FilterType}.
+   * @return Returns a map {@link DocumentField} -> {@link FilterType}.
    */
-  public abstract Map<Field, FilterType> getAllFilterTypes();
+  public abstract Map<DocumentField, FilterType> getAllFilterTypes();
 
   /**
-   * @return Return a map {@link Field} -> {@link AggregationType}.
+   * @return Return a map {@link DocumentField} -> {@link AggregationType}.
    */
-  public abstract Map<Field, AggregationType> getAllAggregationTypes();
+  public abstract Map<DocumentField, AggregationType> getAllAggregationTypes();
 
   /**
    * @return Returns the basic query as String.

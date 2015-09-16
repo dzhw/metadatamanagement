@@ -14,7 +14,7 @@ import com.google.common.base.Objects;
 
 import eu.dzhw.fdz.metadatamanagement.data.common.documents.AbstractDocument;
 import eu.dzhw.fdz.metadatamanagement.data.common.documents.DateRange;
-import eu.dzhw.fdz.metadatamanagement.data.common.documents.Field;
+import eu.dzhw.fdz.metadatamanagement.data.common.documents.DocumentField;
 import eu.dzhw.fdz.metadatamanagement.data.common.documents.validation.groups.ModifyValidationGroup.Create;
 import eu.dzhw.fdz.metadatamanagement.data.common.documents.validation.groups.ModifyValidationGroup.Edit;
 import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.validation.UniqueAnswerCode;
@@ -38,42 +38,50 @@ import net.karneim.pojobuilder.GeneratePojoBuilder;
 public class VariableDocument extends AbstractDocument {
 
   // Basic Fields
-  public static final Field ALL_STRINGS_AS_NGRAMS_FIELD = new Field("allStringsAsNgrams");
-  public static final Field NAME_FIELD = new Field("name");
-  public static final Field DATA_TYPE_FIELD = new Field("dataType");
-  public static final Field LABEL_FIELD = new Field("label");
-  public static final Field SCALE_LEVEL_FIELD = new Field("scaleLevel");
-  public static final Field QUESTION_FIELD = new Field("question");
-  public static final Field ANSWER_OPTIONS_FIELD = new Field("answerOptions");
-  public static final Field VARIABLE_SURVEY_FIELD = new Field("variableSurvey");
+  public static final DocumentField ALL_STRINGS_AS_NGRAMS_FIELD =
+      new DocumentField("allStringsAsNgrams");
+  public static final DocumentField NAME_FIELD = new DocumentField("name");
+  public static final DocumentField DATA_TYPE_FIELD = new DocumentField("dataType");
+  public static final DocumentField LABEL_FIELD = new DocumentField("label");
+  public static final DocumentField SCALE_LEVEL_FIELD = new DocumentField("scaleLevel");
+  public static final DocumentField QUESTION_FIELD = new DocumentField("question");
+  public static final DocumentField ANSWER_OPTIONS_FIELD = new DocumentField("answerOptions");
+  public static final DocumentField VARIABLE_SURVEY_FIELD = new DocumentField("variableSurvey");
 
   // Nested: Variable Document - Variable Survey
-  public static final Field NESTED_VARIABLE_SURVEY_TITLE_FIELD =
-      VARIABLE_SURVEY_FIELD.clone().withNewLeafSubField(VariableSurvey.TITLE_FIELD.getPath());
+  public static final DocumentField NESTED_VARIABLE_SURVEY_TITLE_FIELD =
+      new DocumentField(VariableDocument.VARIABLE_SURVEY_FIELD.getAbsolutePath()
+          + DocumentField.PATH_DELIMITER + VariableSurvey.TITLE_FIELD);
 
-  public static final Field NESTED_VARIABLE_SURVEY_VARIABLE_ALIAS_FIELD = VARIABLE_SURVEY_FIELD
-      .clone().withNewLeafSubField(VariableSurvey.VARIABLE_ALIAS_FIELD.getPath());
+  public static final DocumentField NESTED_VARIABLE_SURVEY_VARIABLE_ALIAS_FIELD =
+      new DocumentField(VariableDocument.VARIABLE_SURVEY_FIELD.getAbsolutePath()
+          + DocumentField.PATH_DELIMITER + VariableSurvey.VARIABLE_ALIAS_FIELD);
 
-  public static final Field NESTED_VARIABLE_SURVEY_ID_FIELD =
-      VARIABLE_SURVEY_FIELD.clone().withNewLeafSubField(VariableSurvey.SURVEY_ID_FIELD.getPath());
+  public static final DocumentField NESTED_VARIABLE_SURVEY_ID_FIELD =
+      new DocumentField(VariableDocument.VARIABLE_SURVEY_FIELD.getAbsolutePath()
+          + DocumentField.PATH_DELIMITER + VariableSurvey.SURVEY_ID_FIELD);
 
-  public static final Field NESTED_VARIABLE_SURVEY_PERIOD_FIELD = VARIABLE_SURVEY_FIELD.clone()
-      .withNewLeafSubField(VariableSurvey.SURVEY_PERIOD_FIELD.getPath());
+  public static final DocumentField NESTED_VARIABLE_SURVEY_PERIOD_FIELD =
+      new DocumentField(VariableDocument.VARIABLE_SURVEY_FIELD.getAbsolutePath()
+          + DocumentField.PATH_DELIMITER + VariableSurvey.SURVEY_PERIOD_FIELD);
 
   // Nested: Variable Document - Variable Survey - Survey Period
-  public static final Field NESTED_VARIABLE_SURVEY_NESTED_PERIOD_START_DATE =
-      NESTED_VARIABLE_SURVEY_PERIOD_FIELD.clone()
-          .withNewLeafSubField(DateRange.STARTDATE_FIELD.getPath());
-  public static final Field NESTED_VARIABLE_SURVEY_NESTED_PERIOD_END_DATE =
-      NESTED_VARIABLE_SURVEY_PERIOD_FIELD.clone()
-          .withNewLeafSubField(DateRange.ENDDATE_FIELD.getPath());
+  public static final DocumentField NESTED_VARIABLE_SURVEY_NESTED_PERIOD_START_DATE =
+      new DocumentField(NESTED_VARIABLE_SURVEY_PERIOD_FIELD.getAbsolutePath()
+          + DocumentField.PATH_DELIMITER + DateRange.STARTDATE_FIELD);
+
+  public static final DocumentField NESTED_VARIABLE_SURVEY_NESTED_PERIOD_END_DATE =
+      new DocumentField(NESTED_VARIABLE_SURVEY_PERIOD_FIELD.getAbsolutePath()
+          + DocumentField.PATH_DELIMITER + DateRange.ENDDATE_FIELD);
 
   // Nested: Variable Document - Answer Options
-  public static final Field NESTED_ANSWER_OPTIONS_CODE_FIELD =
-      ANSWER_OPTIONS_FIELD.clone().withNewLeafSubField(AnswerOption.CODE_FIELD.getPath());
+  public static final DocumentField NESTED_ANSWER_OPTIONS_CODE_FIELD =
+      new DocumentField(ANSWER_OPTIONS_FIELD.getAbsolutePath() + DocumentField.PATH_DELIMITER
+          + AnswerOption.CODE_FIELD);
 
-  public static final Field NESTED_ANSWER_OPTIONS_LABEL_FIELD =
-      ANSWER_OPTIONS_FIELD.clone().withNewLeafSubField(AnswerOption.LABEL_FIELD.getPath());
+  public static final DocumentField NESTED_ANSWER_OPTIONS_LABEL_FIELD =
+      new DocumentField(ANSWER_OPTIONS_FIELD.getAbsolutePath() + DocumentField.PATH_DELIMITER
+          + AnswerOption.LABEL_FIELD);
 
   /**
    * This is a nested reference to the survey.

@@ -120,7 +120,9 @@ public class VariableDocumentCreateValidatorTest extends AbstractWebTest {
     // Assert
     assertEquals(1, errors.getErrorCount());
     assertThat(
-        errors.getFieldError(VariableDocument.NESTED_VARIABLE_SURVEY_VARIABLE_ALIAS_FIELD.getLeafSubFieldPath())
+        errors
+            .getFieldError(
+                VariableDocument.NESTED_VARIABLE_SURVEY_VARIABLE_ALIAS_FIELD.getAbsolutePath())
             .getCode(),
         is(VariableDocumentCreateValidator.MANDATORY_VARIABLE_SURVEY_VARIABLEALIAS_MESSAGE_CODE));
 

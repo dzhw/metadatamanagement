@@ -76,7 +76,7 @@ public class ValidDataTypeTest extends AbstractWebTest {
 
     // Assert
     assertEquals(1, errors.getErrorCount());
-    assertThat(errors.getFieldError(VariableDocument.DATA_TYPE_FIELD.getPath()).getCode(),
+    assertThat(errors.getFieldError(VariableDocument.DATA_TYPE_FIELD.getAbsolutePath()).getCode(),
         is(ValidDataType.class.getSimpleName()));
   }
 
@@ -98,7 +98,7 @@ public class ValidDataTypeTest extends AbstractWebTest {
     variableDocumentCreateValidator.validate(variableDocument, errors);
 
     // Assert
-    assertThat(errors.getFieldError(VariableDocument.SCALE_LEVEL_FIELD.getPath()).getCode(),
+    assertThat(errors.getFieldError(VariableDocument.SCALE_LEVEL_FIELD.getAbsolutePath()).getCode(),
         is(VariableDocumentValidator.MANDATORY_SCALE_LEVEL_MESSAGE_CODE));
   }
 }

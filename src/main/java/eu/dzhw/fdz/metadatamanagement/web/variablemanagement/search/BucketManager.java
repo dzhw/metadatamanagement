@@ -6,7 +6,7 @@ import java.util.Map.Entry;
 import java.util.Set;
 
 import eu.dzhw.fdz.metadatamanagement.data.common.aggregations.Bucket;
-import eu.dzhw.fdz.metadatamanagement.data.common.documents.Field;
+import eu.dzhw.fdz.metadatamanagement.data.common.documents.DocumentField;
 import eu.dzhw.fdz.metadatamanagement.web.variablemanagement.search.dto.VariableSearchFilter;
 
 /**
@@ -23,14 +23,14 @@ public class BucketManager {
    * 
    * @return The extended bucket map.
    */
-  public static Map<Field, Set<Bucket>> addEmptyBucketsIfNecessary(
-      VariableSearchFilter variableSearchFormDto, Map<Field, Set<Bucket>> bucketMap) {
-    Map<Field, String> filters = variableSearchFormDto.getAllFilterValues();
+  public static Map<DocumentField, Set<Bucket>> addEmptyBucketsIfNecessary(
+      VariableSearchFilter variableSearchFormDto, Map<DocumentField, Set<Bucket>> bucketMap) {
+    Map<DocumentField, String> filters = variableSearchFormDto.getAllFilterValues();
 
-    for (Entry<Field, String> filter : filters.entrySet()) {
+    for (Entry<DocumentField, String> filter : filters.entrySet()) {
 
       // get basic variables from the entry and the nested object
-      Field field = filter.getKey().getLeafSubField();
+      DocumentField field = filter.getKey();
       String filterValue = filter.getValue();
 
       // check for the group in the map

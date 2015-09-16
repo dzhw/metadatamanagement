@@ -106,7 +106,7 @@ public abstract class VariableDocumentValidator implements Validator {
     // register an error if the datatype is numeric and scale level is not set
     if (variableDocument.getDataType().equals(this.dataTypesProvider.getNumericValueByLocale())
         && variableDocument.getScaleLevel() == null) {
-      errors.rejectValue(VariableDocument.SCALE_LEVEL_FIELD.getPath(),
+      errors.rejectValue(VariableDocument.SCALE_LEVEL_FIELD.getAbsolutePath(),
           MANDATORY_SCALE_LEVEL_MESSAGE_CODE);
       return;
     }
@@ -137,7 +137,7 @@ public abstract class VariableDocumentValidator implements Validator {
       String detailPageUrlExistingVariable = this.variableResourceAssembler
           .toResource(existingVariableWithSameAlias).getId().getHref();
       errors.rejectValue(
-          VariableDocument.NESTED_VARIABLE_SURVEY_VARIABLE_ALIAS_FIELD.getLeafSubFieldPath(),
+          VariableDocument.NESTED_VARIABLE_SURVEY_VARIABLE_ALIAS_FIELD.getAbsolutePath(),
           MANDATORY_VARIABLE_SURVEY_VARIABLEALIAS_MESSAGE_CODE,
           new Object[] {existingVariableWithSameAlias.getId(), detailPageUrlExistingVariable},
           "Invalid variable alias!");

@@ -71,11 +71,12 @@ public class VariableCreateControllerTest extends AbstractWebTest {
 
     // Arrange
     MvcResult mvcResult = this.mockMvc
-        .perform(post("/de/variables/create").param(VariableDocument.ID_FIELD.getPath(), "ID007")
-            .param(VariableDocument.NAME_FIELD.getPath(), "Ein Name")
-            .param(VariableDocument.QUESTION_FIELD.getPath(), "Eine Frage?")
-            .param("answerOptions[0].code", "11111").param("answerOptions[0].label", "11111Label")
-            .param("removeAnswerOption", "0"))
+        .perform(
+            post("/de/variables/create").param(VariableDocument.ID_FIELD.getAbsolutePath(), "ID007")
+                .param(VariableDocument.NAME_FIELD.getAbsolutePath(), "Ein Name")
+                .param(VariableDocument.QUESTION_FIELD.getAbsolutePath(), "Eine Frage?")
+                .param("answerOptions[0].code", "11111")
+                .param("answerOptions[0].label", "11111Label").param("removeAnswerOption", "0"))
         .andExpect(status().isOk()).andExpect(request().asyncStarted())
         .andExpect(request().asyncResult(instanceOf(ModelAndView.class))).andReturn();
 
@@ -94,17 +95,16 @@ public class VariableCreateControllerTest extends AbstractWebTest {
   @Test
   public void testPostAddAnswerOptionMethod() throws Exception {
     // Arrange
-    MvcResult mvcResult =
-        this.mockMvc
-            .perform(
-                post("/de/variables/create").param(VariableDocument.ID_FIELD.getPath(), "ID007")
-                    .param(VariableDocument.NAME_FIELD.getPath(), "Ein Name")
-                    .param(VariableDocument.QUESTION_FIELD.getPath(), "Eine Frage?")
-                    .param(VariableDocument.NESTED_ANSWER_OPTIONS_CODE_FIELD.getLeafSubFieldPath(),
-                        "11111")
-        .param(VariableDocument.NESTED_ANSWER_OPTIONS_LABEL_FIELD.getLeafSubFieldPath(),
-            "11111Label").param("addAnswerOption", "")).andExpect(status().isOk())
-        .andExpect(request().asyncStarted())
+    MvcResult mvcResult = this.mockMvc
+        .perform(
+            post("/de/variables/create").param(VariableDocument.ID_FIELD.getAbsolutePath(), "ID007")
+                .param(VariableDocument.NAME_FIELD.getAbsolutePath(), "Ein Name")
+                .param(VariableDocument.QUESTION_FIELD.getAbsolutePath(), "Eine Frage?")
+                .param(VariableDocument.NESTED_ANSWER_OPTIONS_CODE_FIELD.getAbsolutePath(), "11111")
+                .param(VariableDocument.NESTED_ANSWER_OPTIONS_LABEL_FIELD.getAbsolutePath(),
+                    "11111Label")
+                .param("addAnswerOption", ""))
+        .andExpect(status().isOk()).andExpect(request().asyncStarted())
         .andExpect(request().asyncResult(instanceOf(ModelAndView.class))).andReturn();
 
     // Act and Assert
@@ -123,10 +123,11 @@ public class VariableCreateControllerTest extends AbstractWebTest {
   public void testPostAddFirstAnswerOptionMethod() throws Exception {
     // Arrange
     MvcResult mvcResult = this.mockMvc
-        .perform(post("/de/variables/create").param(VariableDocument.ID_FIELD.getPath(), "ID007")
-            .param(VariableDocument.NAME_FIELD.getPath(), "Ein Name")
-            .param(VariableDocument.QUESTION_FIELD.getPath(), "Eine Frage?")
-            .param("addAnswerOption", ""))
+        .perform(
+            post("/de/variables/create").param(VariableDocument.ID_FIELD.getAbsolutePath(), "ID007")
+                .param(VariableDocument.NAME_FIELD.getAbsolutePath(), "Ein Name")
+                .param(VariableDocument.QUESTION_FIELD.getAbsolutePath(), "Eine Frage?")
+                .param("addAnswerOption", ""))
         .andExpect(status().isOk()).andExpect(request().asyncStarted())
         .andExpect(request().asyncResult(instanceOf(ModelAndView.class))).andReturn();
 
@@ -146,8 +147,9 @@ public class VariableCreateControllerTest extends AbstractWebTest {
   public void testPostInvalidVariableDocument() throws Exception { // Arrange // EmtyQuestion Field
                                                                    // generates a error
     MvcResult mvcResult = this.mockMvc
-        .perform(post("/de/variables/create").param(VariableDocument.ID_FIELD.getPath(), "ID007")
-            .param(VariableDocument.NAME_FIELD.getPath(), "Ein Name"))
+        .perform(
+            post("/de/variables/create").param(VariableDocument.ID_FIELD.getAbsolutePath(), "ID007")
+                .param(VariableDocument.NAME_FIELD.getAbsolutePath(), "Ein Name"))
         .andExpect(status().isOk()).andExpect(request().asyncStarted())
         .andExpect(request().asyncResult(instanceOf(ModelAndView.class))).andReturn();
 
@@ -167,20 +169,20 @@ public class VariableCreateControllerTest extends AbstractWebTest {
   public void testPostValidVariableDocument() throws Exception {
     // Arrange
     MvcResult mvcResult = this.mockMvc
-        .perform(post("/de/variables/create").param(VariableDocument.ID_FIELD.getPath(), "ID007")
-            .param(VariableDocument.NAME_FIELD.getPath(), "Ein Name")
-            .param(VariableDocument.LABEL_FIELD.getPath(), "Ein Label")
-            .param(VariableDocument.QUESTION_FIELD.getPath(), "Eine Frage?")
-            .param(VariableDocument.NESTED_VARIABLE_SURVEY_ID_FIELD.getLeafSubFieldPath(),
-                "VariableSurveyID001")
-        .param(VariableDocument.NESTED_VARIABLE_SURVEY_TITLE_FIELD.getLeafSubFieldPath(),
+        .perform(
+            post("/de/variables/create").param(VariableDocument.ID_FIELD.getAbsolutePath(), "ID007")
+                .param(VariableDocument.NAME_FIELD.getAbsolutePath(), "Ein Name")
+                .param(VariableDocument.LABEL_FIELD.getAbsolutePath(), "Ein Label")
+                .param(VariableDocument.QUESTION_FIELD.getAbsolutePath(), "Eine Frage?")
+                .param(VariableDocument.NESTED_VARIABLE_SURVEY_ID_FIELD.getAbsolutePath(),
+                    "VariableSurveyID001")
+        .param(VariableDocument.NESTED_VARIABLE_SURVEY_TITLE_FIELD.getAbsolutePath(),
             "VariableSurveyTitel001")
-        .param(VariableDocument.NESTED_VARIABLE_SURVEY_VARIABLE_ALIAS_FIELD.getLeafSubFieldPath(),
+        .param(VariableDocument.NESTED_VARIABLE_SURVEY_VARIABLE_ALIAS_FIELD.getAbsolutePath(),
             "VariableSurveyAlias001")
-        .param(
-            VariableDocument.NESTED_VARIABLE_SURVEY_NESTED_PERIOD_START_DATE.getLeafSubFieldPath(),
+        .param(VariableDocument.NESTED_VARIABLE_SURVEY_NESTED_PERIOD_START_DATE.getAbsolutePath(),
             LocalDate.now().toString())
-        .param(VariableDocument.NESTED_VARIABLE_SURVEY_NESTED_PERIOD_END_DATE.getLeafSubFieldPath(),
+        .param(VariableDocument.NESTED_VARIABLE_SURVEY_NESTED_PERIOD_END_DATE.getAbsolutePath(),
             LocalDate.now().plusDays(2).toString()))
         .andExpect(status().isOk()).andExpect(request().asyncStarted())
         .andExpect(request().asyncResult(instanceOf(ModelAndView.class))).andReturn();
@@ -201,23 +203,25 @@ public class VariableCreateControllerTest extends AbstractWebTest {
     // Arrange
     // EmtyQuestion Field
     // generates a error
-    MvcResult mvcResult = this.mockMvc
-        .perform(post("/de/variables/create/validate")
-            .param(VariableDocument.ID_FIELD.getPath(), "testPostValidateInvalidID008")
-            .param(VariableDocument.LABEL_FIELD.getPath(), "Ein Label 5")
-            .param(VariableDocument.NAME_FIELD.getPath(), "Ein Name 9")
-            .param(VariableDocument.NESTED_VARIABLE_SURVEY_ID_FIELD.getLeafSubFieldPath(),
-                "VariableSurveyID082")
-        .param(VariableDocument.NESTED_VARIABLE_SURVEY_TITLE_FIELD.getLeafSubFieldPath(),
+    MvcResult mvcResult =
+        this.mockMvc
+            .perform(
+                post("/de/variables/create/validate")
+                    .param(VariableDocument.ID_FIELD.getAbsolutePath(),
+                        "testPostValidateInvalidID008")
+                    .param(VariableDocument.LABEL_FIELD.getAbsolutePath(), "Ein Label 5")
+                    .param(VariableDocument.NAME_FIELD.getAbsolutePath(), "Ein Name 9")
+                    .param(VariableDocument.NESTED_VARIABLE_SURVEY_ID_FIELD.getAbsolutePath(),
+                        "VariableSurveyID082")
+        .param(VariableDocument.NESTED_VARIABLE_SURVEY_TITLE_FIELD.getAbsolutePath(),
             "VariableSurveyTitel012")
-        .param(VariableDocument.NESTED_VARIABLE_SURVEY_VARIABLE_ALIAS_FIELD.getLeafSubFieldPath(),
+        .param(VariableDocument.NESTED_VARIABLE_SURVEY_VARIABLE_ALIAS_FIELD.getAbsolutePath(),
             "VariableSurveyAlias054")
-        .param(
-            VariableDocument.NESTED_VARIABLE_SURVEY_NESTED_PERIOD_START_DATE.getLeafSubFieldPath(),
+        .param(VariableDocument.NESTED_VARIABLE_SURVEY_NESTED_PERIOD_START_DATE.getAbsolutePath(),
             LocalDate.now().toString())
-        .param(VariableDocument.NESTED_VARIABLE_SURVEY_NESTED_PERIOD_END_DATE.getLeafSubFieldPath(),
-            LocalDate.now().plusDays(2).toString()))
-        .andExpect(status().isOk()).andExpect(request().asyncStarted())
+        .param(VariableDocument.NESTED_VARIABLE_SURVEY_NESTED_PERIOD_END_DATE.getAbsolutePath(),
+            LocalDate.now().plusDays(2).toString())).andExpect(status().isOk())
+        .andExpect(request().asyncStarted())
         .andExpect(request().asyncResult(instanceOf(ValidationResultDto.class))).andReturn();
 
     ValidationResultDto validationResultDto = (ValidationResultDto) mvcResult.getAsyncResult();
@@ -246,24 +250,26 @@ public class VariableCreateControllerTest extends AbstractWebTest {
     LocaleContextHolder.setLocale(Locale.GERMAN);
 
     // Arrange
-    MvcResult mvcResult = this.mockMvc
-        .perform(post("/de/variables/create/validate")
-            .param(VariableDocument.ID_FIELD.getPath(), "testPostValidateValidID007")
-            .param(VariableDocument.QUESTION_FIELD.getPath(), "Question.")
-            .param(VariableDocument.LABEL_FIELD.getPath(), "Ein Label")
-            .param(VariableDocument.NAME_FIELD.getPath(), "Ein Name")
-            .param(VariableDocument.NESTED_VARIABLE_SURVEY_ID_FIELD.getLeafSubFieldPath(),
-                "VariableSurveyID001")
-        .param(VariableDocument.NESTED_VARIABLE_SURVEY_TITLE_FIELD.getLeafSubFieldPath(),
+    MvcResult mvcResult =
+        this.mockMvc
+            .perform(
+                post("/de/variables/create/validate")
+                    .param(VariableDocument.ID_FIELD.getAbsolutePath(),
+                        "testPostValidateValidID007")
+                    .param(VariableDocument.QUESTION_FIELD.getAbsolutePath(), "Question.")
+                    .param(VariableDocument.LABEL_FIELD.getAbsolutePath(), "Ein Label")
+                    .param(VariableDocument.NAME_FIELD.getAbsolutePath(), "Ein Name")
+                    .param(VariableDocument.NESTED_VARIABLE_SURVEY_ID_FIELD.getAbsolutePath(),
+                        "VariableSurveyID001")
+        .param(VariableDocument.NESTED_VARIABLE_SURVEY_TITLE_FIELD.getAbsolutePath(),
             "VariableSurveyTitel001")
-        .param(VariableDocument.NESTED_VARIABLE_SURVEY_VARIABLE_ALIAS_FIELD.getLeafSubFieldPath(),
+        .param(VariableDocument.NESTED_VARIABLE_SURVEY_VARIABLE_ALIAS_FIELD.getAbsolutePath(),
             "VariableSurveyAlias001")
-        .param(
-            VariableDocument.NESTED_VARIABLE_SURVEY_NESTED_PERIOD_START_DATE.getLeafSubFieldPath(),
+        .param(VariableDocument.NESTED_VARIABLE_SURVEY_NESTED_PERIOD_START_DATE.getAbsolutePath(),
             LocalDate.now().toString())
-        .param(VariableDocument.NESTED_VARIABLE_SURVEY_NESTED_PERIOD_END_DATE.getLeafSubFieldPath(),
-            LocalDate.now().plusDays(2).toString()))
-        .andExpect(status().isOk()).andExpect(request().asyncStarted())
+        .param(VariableDocument.NESTED_VARIABLE_SURVEY_NESTED_PERIOD_END_DATE.getAbsolutePath(),
+            LocalDate.now().plusDays(2).toString())).andExpect(status().isOk())
+        .andExpect(request().asyncStarted())
         .andExpect(request().asyncResult(instanceOf(ValidationResultDto.class))).andReturn();
 
     ValidationResultDto validationResultDto = (ValidationResultDto) mvcResult.getAsyncResult();
@@ -287,20 +293,21 @@ public class VariableCreateControllerTest extends AbstractWebTest {
     // Arrange
     MvcResult mvcResult =
         this.mockMvc
-            .perform(post("/de/variables/create")
-                .param(VariableDocument.ID_FIELD.getPath(), "testValidSurveyPeriodID007")
-                .param(VariableDocument.NAME_FIELD.getPath(), "Ein Name")
-                .param(VariableDocument.QUESTION_FIELD.getPath(), "Eine Frage?")
-                .param(VariableDocument.LABEL_FIELD.getPath(), "Ein Label")
-                .param(VariableDocument.NESTED_VARIABLE_SURVEY_ID_FIELD.getLeafSubFieldPath(),
-                    "ID001")
-        .param(VariableDocument.NESTED_VARIABLE_SURVEY_TITLE_FIELD.getLeafSubFieldPath(), "ID001")
-        .param(VariableDocument.NESTED_VARIABLE_SURVEY_VARIABLE_ALIAS_FIELD.getLeafSubFieldPath(),
+            .perform(
+                post("/de/variables/create")
+                    .param(VariableDocument.ID_FIELD.getAbsolutePath(),
+                        "testValidSurveyPeriodID007")
+                    .param(VariableDocument.NAME_FIELD.getAbsolutePath(), "Ein Name")
+                    .param(VariableDocument.QUESTION_FIELD.getAbsolutePath(), "Eine Frage?")
+                    .param(VariableDocument.LABEL_FIELD.getAbsolutePath(), "Ein Label")
+                    .param(VariableDocument.NESTED_VARIABLE_SURVEY_ID_FIELD.getAbsolutePath(),
+                        "ID001")
+        .param(VariableDocument.NESTED_VARIABLE_SURVEY_TITLE_FIELD.getAbsolutePath(), "ID001")
+        .param(VariableDocument.NESTED_VARIABLE_SURVEY_VARIABLE_ALIAS_FIELD.getAbsolutePath(),
             "ID007")
-        .param(
-            VariableDocument.NESTED_VARIABLE_SURVEY_NESTED_PERIOD_START_DATE.getLeafSubFieldPath(),
+        .param(VariableDocument.NESTED_VARIABLE_SURVEY_NESTED_PERIOD_START_DATE.getAbsolutePath(),
             "2013-02-01")
-        .param(VariableDocument.NESTED_VARIABLE_SURVEY_NESTED_PERIOD_END_DATE.getLeafSubFieldPath(),
+        .param(VariableDocument.NESTED_VARIABLE_SURVEY_NESTED_PERIOD_END_DATE.getAbsolutePath(),
             "2013-02-02")).andExpect(status().isOk()).andExpect(request().asyncStarted())
         .andExpect(request().asyncResult(instanceOf(ModelAndView.class))).andReturn();
 

@@ -31,7 +31,7 @@ import org.springframework.util.StringUtils;
 
 import eu.dzhw.fdz.metadatamanagement.data.common.aggregations.AggregationResultMapper;
 import eu.dzhw.fdz.metadatamanagement.data.common.aggregations.PageWithBuckets;
-import eu.dzhw.fdz.metadatamanagement.data.common.documents.Field;
+import eu.dzhw.fdz.metadatamanagement.data.common.documents.DocumentField;
 import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.VariableDocument;
 import eu.dzhw.fdz.metadatamanagement.web.common.dtos.AbstractSearchFilter;
 import eu.dzhw.fdz.metadatamanagement.web.common.dtos.AggregationType;
@@ -85,8 +85,8 @@ public class VariableDocumentRepositoryImpl implements VariableDocumentRepositor
 
     // create search query (with filter)
     QueryBuilder queryBuilder = this.createQueryBuilder(searchFilter.getQuery());
-    List<FilterBuilder> termFilterBuilders = this.createTermFilterBuilders(
-        searchFilter.getAllFilterValues(), searchFilter.getAllFilterTypes());
+    List<FilterBuilder> termFilterBuilders = this
+        .createFilterBuilders(searchFilter.getAllFilterValues(), searchFilter.getAllFilterTypes());
     queryBuilder = this.addFilterToQuery(queryBuilder, termFilterBuilders);
 
     // prepare search query (with filter)
@@ -143,13 +143,13 @@ public class VariableDocumentRepositoryImpl implements VariableDocumentRepositor
    */
   @SuppressWarnings("rawtypes")
   private List<AggregationBuilder> createAggregations(
-      Map<Field, AggregationType> aggregationFields) {
+      Map<DocumentField, AggregationType> aggregationFields) {
     List<AggregationBuilder> aggregationBuilders = new ArrayList<>();
 
     // add nested or not nested aggregations
-    for (Entry<Field, AggregationType> aggregationField : aggregationFields.entrySet()) {
-      AggregationBuilder aggregationBuilder =
-          this.createAggregations(aggregationField.getKey(), aggregationField.getValue());
+    for (Entry<DocumentField, AggregationType> aggregationField : aggregationFields.entrySet()) {
+      AggregationBuilder aggregationBuilder = this
+          .createNestedAggregationBuilder(aggregationField.getKey(), aggregationField.getValue());
       // check for default case (no aggregation filter was found
       if (aggregationBuilder != null) {
         aggregationBuilders.add(aggregationBuilder);
@@ -167,24 +167,28 @@ public class VariableDocumentRepositoryImpl implements VariableDocumentRepositor
    * @return an nested or not nested aggregations
    */
   @SuppressWarnings("rawtypes")
-  private AggregationBuilder createAggregations(Field field, AggregationType aggregationType) {
+  private AggregationBuilder createNestedAggregationBuilder(DocumentField field,
+      AggregationType aggregationType) {
 
-    // recursive / nested aggregation
-    if (field.hasSubfield()) {
-      return AggregationBuilders.nested(field.getLeafSubFieldPath()).path(field.getPath())
-          .subAggregation(this.createAggregations(field.getSubField(), aggregationType));
-    } else {
+    AggregationBuilder aggregationBuilder;
 
-      // Switch between the different cases
-      switch (aggregationType) {
-
-        case TERM:
-          return AggregationBuilders.terms(field.getPath()).field(field.getPath());
-
-        default:
-          return null;
-      }
+    switch (aggregationType) {
+      case TERM:
+        aggregationBuilder =
+            AggregationBuilders.terms(field.getAbsolutePath()).field(field.getAbsolutePath());
+        break;
+      default:
+        throw new IllegalStateException("Undefined filter type!");
     }
+
+    // wrap nested aggregations if necessary
+    while (field.isNested()) {
+      field = field.getParent();
+      aggregationBuilder = AggregationBuilders.nested(field.getAbsolutePath())
+          .path(field.getAbsolutePath()).subAggregation(aggregationBuilder);
+    }
+
+    return aggregationBuilder;
   }
 
   /**
@@ -199,7 +203,7 @@ public class VariableDocumentRepositoryImpl implements VariableDocumentRepositor
       queryBuilder = boolQuery()
           .should(
               matchQuery("_all", query).zeroTermsQuery(ZeroTermsQuery.NONE).operator(Operator.AND))
-          .should(matchQuery(VariableDocument.ALL_STRINGS_AS_NGRAMS_FIELD.getPath(), query)
+          .should(matchQuery(VariableDocument.ALL_STRINGS_AS_NGRAMS_FIELD.getAbsolutePath(), query)
               .zeroTermsQuery(ZeroTermsQuery.NONE).operator(Operator.AND)
               .minimumShouldMatch(minimumShouldMatch));
     } else {
@@ -221,12 +225,12 @@ public class VariableDocumentRepositoryImpl implements VariableDocumentRepositor
    * @see FilterBuilders
    * @see FilterBuilder
    */
-  private List<FilterBuilder> createTermFilterBuilders(Map<Field, String> filterValues,
-      Map<Field, FilterType> filterTypes) {
-    List<FilterBuilder> termFilterBuilders = new ArrayList<>();
+  private List<FilterBuilder> createFilterBuilders(Map<DocumentField, String> filterValues,
+      Map<DocumentField, FilterType> filterTypes) {
+    List<FilterBuilder> filterBuilders = new ArrayList<>();
 
     // create nested or not nested filter.
-    for (Entry<Field, String> entry : filterValues.entrySet()) {
+    for (Entry<DocumentField, String> entry : filterValues.entrySet()) {
 
       FilterType filterType = filterTypes.get(entry.getKey());
 
@@ -234,11 +238,11 @@ public class VariableDocumentRepositoryImpl implements VariableDocumentRepositor
           this.createNestedFilterBuilder(entry.getKey(), entry.getValue(), filterType);
       // catch the default case with return null of the create method.
       if (filterBuilder != null) {
-        termFilterBuilders.add(filterBuilder);
+        filterBuilders.add(filterBuilder);
       }
     }
 
-    return termFilterBuilders;
+    return filterBuilders;
   }
 
   /**
@@ -250,29 +254,30 @@ public class VariableDocumentRepositoryImpl implements VariableDocumentRepositor
    * @param filterType The value is the type of the filter
    * @return A nested or not nested FilterBuilder
    */
-  private FilterBuilder createNestedFilterBuilder(Field field, String value,
+  private FilterBuilder createNestedFilterBuilder(DocumentField field, String value,
       FilterType filterType) {
 
-    if (field.hasSubfield()) {
-      return FilterBuilders.nestedFilter(field.getPath(),
-          this.createNestedFilterBuilder(field.getSubField(), value, filterType));
-    } else {
-
-      switch (filterType) {
-        case TERM:
-          return FilterBuilders.termFilter(field.getPath(), value);
-
-        case RANGE_GTE:
-          return FilterBuilders.rangeFilter(field.getLeafSubFieldPath()).gte(value);
-
-        case RANGE_LTE:
-          return FilterBuilders.rangeFilter(field.getLeafSubFieldPath()).lte(value);
-
-        default:
-          return null;
-      }
-
+    FilterBuilder filterBuilder;
+    switch (filterType) {
+      case TERM:
+        filterBuilder = FilterBuilders.termFilter(field.getAbsolutePath(), value);
+        break;
+      case RANGE_GTE:
+        filterBuilder = FilterBuilders.rangeFilter(field.getAbsolutePath()).gte(value);
+        break;
+      case RANGE_LTE:
+        filterBuilder = FilterBuilders.rangeFilter(field.getAbsolutePath()).lte(value);
+        break;
+      default:
+        throw new IllegalStateException("Undefined filter type!");
     }
+
+    // wrap nested filters around the specific filter if necessary
+    while (field.isNested()) {
+      field = field.getParent();
+      filterBuilder = FilterBuilders.nestedFilter(field.getAbsolutePath(), filterBuilder);
+    }
+    return filterBuilder;
   }
 
   /*
@@ -287,12 +292,13 @@ public class VariableDocumentRepositoryImpl implements VariableDocumentRepositor
       String variableAlias) {
 
     QueryBuilder queryBuilder = QueryBuilders.filteredQuery(matchAllQuery(),
-        FilterBuilders.nestedFilter(VariableDocument.VARIABLE_SURVEY_FIELD.getPath(),
-            FilterBuilders.boolFilter().must(FilterBuilders.termFilter(
-                VariableDocument.NESTED_VARIABLE_SURVEY_ID_FIELD.getLeafSubFieldPath(), surveyId),
-                FilterBuilders
-                    .termFilter(VariableDocument.NESTED_VARIABLE_SURVEY_VARIABLE_ALIAS_FIELD
-                        .getLeafSubFieldPath(), variableAlias))));
+        FilterBuilders.nestedFilter(VariableDocument.VARIABLE_SURVEY_FIELD.getAbsolutePath(),
+            FilterBuilders.boolFilter()
+                .must(FilterBuilders.termFilter(
+                    VariableDocument.NESTED_VARIABLE_SURVEY_ID_FIELD.getAbsolutePath(), surveyId),
+                FilterBuilders.termFilter(
+                    VariableDocument.NESTED_VARIABLE_SURVEY_VARIABLE_ALIAS_FIELD.getAbsolutePath(),
+                    variableAlias))));
 
     SearchQuery searchQuery = new NativeSearchQueryBuilder().withQuery(queryBuilder).build();
 

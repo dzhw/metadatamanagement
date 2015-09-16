@@ -10,7 +10,7 @@ import net.karneim.pojobuilder.GeneratePojoBuilder;
 import org.springframework.util.StringUtils;
 
 import eu.dzhw.fdz.metadatamanagement.data.common.documents.DateRange;
-import eu.dzhw.fdz.metadatamanagement.data.common.documents.Field;
+import eu.dzhw.fdz.metadatamanagement.data.common.documents.DocumentField;
 import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.VariableDocument;
 import eu.dzhw.fdz.metadatamanagement.web.common.dtos.AbstractSearchFilter;
 import eu.dzhw.fdz.metadatamanagement.web.common.dtos.AggregationType;
@@ -50,12 +50,12 @@ public class VariableSearchFilter extends AbstractSearchFilter {
   /**
    * Static map holding all filter types for the filter fields.
    */
-  private static final Map<Field, FilterType> filterTypes;
+  private static final Map<DocumentField, FilterType> filterTypes;
 
   /**
    * Static map holding all aggregation types for the filter fields.
    */
-  private static final Map<Field, AggregationType> aggregationTypes;
+  private static final Map<DocumentField, AggregationType> aggregationTypes;
 
   static {
     filterTypes = new HashMap<>();
@@ -89,8 +89,8 @@ public class VariableSearchFilter extends AbstractSearchFilter {
    * @see eu.dzhw.fdz.metadatamanagement.web.common.dtos.AbstractSearchFilter#getAllFilterValues()
    */
   @Override
-  public Map<Field, String> getAllFilterValues() {
-    Map<Field, String> filterValues = new HashMap<>();
+  public Map<DocumentField, String> getAllFilterValues() {
+    Map<DocumentField, String> filterValues = new HashMap<>();
 
     // ScaleLevel
     if (StringUtils.hasText(this.scaleLevel)) {
@@ -128,7 +128,7 @@ public class VariableSearchFilter extends AbstractSearchFilter {
    * @see eu.dzhw.fdz.metadatamanagement.web.common.dtos.AbstractSearchFilter#getAllFilterTypes()
    */
   @Override
-  public Map<Field, FilterType> getAllFilterTypes() {
+  public Map<DocumentField, FilterType> getAllFilterTypes() {
     return filterTypes;
   }
 
@@ -139,7 +139,7 @@ public class VariableSearchFilter extends AbstractSearchFilter {
    * eu.dzhw.fdz.metadatamanagement.web.common.dtos.AbstractSearchFilter#getAllAggregationTypes()
    */
   @Override
-  public Map<Field, AggregationType> getAllAggregationTypes() {
+  public Map<DocumentField, AggregationType> getAllAggregationTypes() {
     return aggregationTypes;
   }
 

@@ -55,7 +55,9 @@ public class ValidDateRangeTest extends AbstractWebTest {
 
     // Assert
     assertEquals(1, errors.getErrorCount());
-    assertThat(errors.getFieldError(VariableDocument.NESTED_VARIABLE_SURVEY_PERIOD_FIELD.getLeafSubFieldPath()).getCode(),
+    assertThat(
+        errors.getFieldError(VariableDocument.NESTED_VARIABLE_SURVEY_PERIOD_FIELD.getAbsolutePath())
+            .getCode(),
         is(ValidDateRange.class.getSimpleName()));
   }
 
@@ -126,13 +128,12 @@ public class ValidDateRangeTest extends AbstractWebTest {
     // Assert
     assertEquals(2, errors.getErrorCount());
   }
-  
+
   @Test
   public void testOnlyStartDate() {
 
     // Arrange
-    DateRange surveyPeriod =
-        new DateRangeBuilder().withStartDate(LocalDate.now()).build();
+    DateRange surveyPeriod = new DateRangeBuilder().withStartDate(LocalDate.now()).build();
 
     VariableSurvey variableSurvey =
         new VariableSurveyBuilder().withSurveyId("SurveyIdIsOkay").withTitle("TitleIsOkay")
@@ -149,13 +150,12 @@ public class ValidDateRangeTest extends AbstractWebTest {
     // Assert
     assertEquals(1, errors.getErrorCount());
   }
-  
+
   @Test
   public void testOnlyeNDDate() {
 
     // Arrange
-    DateRange surveyPeriod =
-        new DateRangeBuilder().withEndDate(LocalDate.now()).build();
+    DateRange surveyPeriod = new DateRangeBuilder().withEndDate(LocalDate.now()).build();
 
     VariableSurvey variableSurvey =
         new VariableSurveyBuilder().withSurveyId("SurveyIdIsOkay").withTitle("TitleIsOkay")
@@ -172,16 +172,16 @@ public class ValidDateRangeTest extends AbstractWebTest {
     // Assert
     assertEquals(1, errors.getErrorCount());
   }
-  
+
   @Test
-  public void testDirectlyANullValue(){
-    //Arrange
+  public void testDirectlyANullValue() {
+    // Arrange
     DateRangeValidator dateRangeValidator = new DateRangeValidator();
-    
-    //Act
+
+    // Act
     boolean isValid = dateRangeValidator.isValid(null, null);
-    
-    //Assert
+
+    // Assert
     assertEquals(true, isValid);
   }
 }

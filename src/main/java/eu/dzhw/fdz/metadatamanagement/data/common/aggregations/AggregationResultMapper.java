@@ -3,9 +3,11 @@ package eu.dzhw.fdz.metadatamanagement.data.common.aggregations;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Set;
 
 import org.elasticsearch.action.search.SearchResponse;
+import org.elasticsearch.search.aggregations.Aggregation;
 import org.elasticsearch.search.aggregations.Aggregations;
 import org.elasticsearch.search.aggregations.bucket.nested.InternalNested;
 import org.elasticsearch.search.aggregations.bucket.terms.StringTerms;
@@ -14,7 +16,7 @@ import org.springframework.data.elasticsearch.core.DefaultResultMapper;
 import org.springframework.data.elasticsearch.core.FacetedPage;
 
 import eu.dzhw.fdz.metadatamanagement.config.elasticsearch.JacksonDocumentMapper;
-import eu.dzhw.fdz.metadatamanagement.data.common.documents.Field;
+import eu.dzhw.fdz.metadatamanagement.data.common.documents.DocumentField;
 import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.ScaleLevelProvider;
 import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.VariableDocument;
 
@@ -50,44 +52,48 @@ public class AggregationResultMapper extends DefaultResultMapper {
   public <T> FacetedPage<T> mapResults(SearchResponse response, Class<T> clazz, Pageable pageable) {
     FacetedPage<T> facetedPage = super.mapResults(response, clazz, pageable);
 
-    // Build grouped aggregations / filter
-    // iterate over names
-    Map<Field, Set<Bucket>> map = new HashMap<>();
-    response.getAggregations().asMap().keySet().forEach(aggregationName -> {
-        // Not nested Aggregations
-        Aggregations aggregations = response.getAggregations();
+    // extract buckets
+    Map<DocumentField, Set<Bucket>> map = new HashMap<>();
 
-        // Nested Aggregations
-        if (response.getAggregations().get(aggregationName).getClass()
-            .isAssignableFrom(InternalNested.class)) {
-          InternalNested aggregation = response.getAggregations().get(aggregationName);
-          aggregations = aggregation.getAggregations();
-        }
-
-        // add buckets to the FacetedPage
-        map.put(new Field(aggregationName), 
-            this.getStringTermBuckets(aggregations, aggregationName));
-      });
+    extractStringTermAggregations(map, response.getAggregations());
 
     return new PageWithBuckets<T>(facetedPage, pageable, map);
   }
 
   /**
-   * Creates a TreeSet of Buckets of Aggregations and a given aggregation name. This method supports
-   * only StringTerms.
+   * Recursively search for {@link StringTerms} aggregations and add their buckets to the given map.
    * 
-   * @param aggregations Many aggregations for by a given aggregation name.
-   * @param aggregationName the name of the aggregation (unique)
-   * @return A Hashset of Buckets with aggregation information.
-   * 
-   * @see StringTerms
+   * @param map The resulting map which holds all buckets for the aggregations.
+   * @param aggregations The aggregations of the response or nested aggregations.
    */
-  private Set<Bucket> getStringTermBuckets(Aggregations aggregations, String aggregationName) {
-    StringTerms aggregation = aggregations.get(aggregationName);
+  private void extractStringTermAggregations(Map<DocumentField, Set<Bucket>> map,
+      Aggregations aggregations) {
+    for (Entry<String, Aggregation> entry : aggregations.asMap().entrySet()) {
+      if (entry.getValue().getClass().isAssignableFrom(StringTerms.class)) {
+        DocumentField field = new DocumentField(entry.getKey());
+        map.put(field, getStringTermBuckets(field, (StringTerms) entry.getValue()));
+      } else if (entry.getValue().getClass().isAssignableFrom(InternalNested.class)) {
+        InternalNested nestedAggregation = (InternalNested) entry.getValue();
+        extractStringTermAggregations(map, nestedAggregation.getAggregations());
+      } else {
+        throw new IllegalStateException("Not yet implemented");
+      }
+    }
+  }
+
+  /**
+   * Create buckets for the given field and {@link StringTerms} aggregation.
+   * 
+   * @param field The documents field as determined by the aggregation name.
+   * @param aggregation The aggregation which holds the buckets.
+   * @return buckets for the given field and {@link StringTerms} aggregation.
+   */
+  private Set<Bucket> getStringTermBuckets(DocumentField field, StringTerms aggregation) {
     Set<Bucket> buckets = new HashSet<>();
 
     // scale level filter needs a different order by sorting. this is given by scale level buckets
-    if (aggregationName.equals(VariableDocument.SCALE_LEVEL_FIELD.getLeafSubFieldPath())) {
+    // TODO AggregationResultMapper should be independent of concrete Document
+    if (field.equals(VariableDocument.SCALE_LEVEL_FIELD)) {
       aggregation.getBuckets().forEach(bucket -> {
           buckets.add(
               new ScaleLevelBucket(bucket.getKey(), bucket.getDocCount(), this.scaleLevelProvider));

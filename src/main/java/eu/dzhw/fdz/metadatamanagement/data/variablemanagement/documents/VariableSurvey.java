@@ -10,7 +10,6 @@ import com.google.common.base.MoreObjects;
 import com.google.common.base.Objects;
 
 import eu.dzhw.fdz.metadatamanagement.data.common.documents.DateRange;
-import eu.dzhw.fdz.metadatamanagement.data.common.documents.Field;
 import eu.dzhw.fdz.metadatamanagement.data.common.documents.validation.groups.ModifyValidationGroup.Create;
 import eu.dzhw.fdz.metadatamanagement.data.common.documents.validation.groups.ModifyValidationGroup.Edit;
 import net.karneim.pojobuilder.GeneratePojoBuilder;
@@ -28,10 +27,10 @@ import net.karneim.pojobuilder.GeneratePojoBuilder;
 public class VariableSurvey {
 
   // Public constants which are used in queries as fieldnames.
-  public static final Field SURVEY_ID_FIELD = new Field("surveyId");
-  public static final Field TITLE_FIELD = new Field("title");
-  public static final Field SURVEY_PERIOD_FIELD = new Field("surveyPeriod");
-  public static final Field VARIABLE_ALIAS_FIELD = new Field("variableAlias");
+  public static final String SURVEY_ID_FIELD = "surveyId";
+  public static final String TITLE_FIELD = "title";
+  public static final String SURVEY_PERIOD_FIELD = "surveyPeriod";
+  public static final String VARIABLE_ALIAS_FIELD = "variableAlias";
 
   /**
    * The surveyID is a primary.

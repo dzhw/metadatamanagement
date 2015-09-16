@@ -9,7 +9,7 @@ import java.util.Map;
 
 import org.junit.Test;
 
-import eu.dzhw.fdz.metadatamanagement.data.common.documents.Field;
+import eu.dzhw.fdz.metadatamanagement.data.common.documents.DocumentField;
 import eu.dzhw.fdz.metadatamanagement.data.common.documents.builders.DateRangeBuilder;
 import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.VariableDocument;
 import eu.dzhw.fdz.metadatamanagement.web.common.dtos.AggregationType;
@@ -27,7 +27,7 @@ public class SearchFormDtoTest {
     VariableSearchFilter emptyFormDto = new VariableSearchFilter();
 
     // Act
-    Map<Field, String> emptyMap = emptyFormDto.getAllFilterValues();
+    Map<DocumentField, String> emptyMap = emptyFormDto.getAllFilterValues();
 
     // Assert
     assertThat(emptyMap.size(), is(0));
@@ -43,7 +43,7 @@ public class SearchFormDtoTest {
     formDto.setSurveyPeriod(new DateRangeBuilder().build());
 
     // Act
-    Map<Field, String> filterMap = formDto.getAllFilterValues();
+    Map<DocumentField, String> filterMap = formDto.getAllFilterValues();
 
     // Assert
     assertThat(filterMap.size(), is(2));
@@ -68,7 +68,7 @@ public class SearchFormDtoTest {
         .withStartDate(LocalDate.now().minusDays(2)).build());
 
     // Act
-    Map<Field, String> filterMap = formDto.getAllFilterValues();
+    Map<DocumentField, String> filterMap = formDto.getAllFilterValues();
 
     // Assert
     assertThat(filterMap.size(), is(4));
@@ -88,7 +88,7 @@ public class SearchFormDtoTest {
     VariableSearchFilter formDto = new VariableSearchFilter();
 
     // Act
-    Map<Field, FilterType> filterFields = formDto.getAllFilterTypes();
+    Map<DocumentField, FilterType> filterFields = formDto.getAllFilterTypes();
 
     // Assert
     assertThat(filterFields.size(), is(4));
@@ -107,7 +107,7 @@ public class SearchFormDtoTest {
     VariableSearchFilter formDto = new VariableSearchFilter();
 
     // Act
-    Map<Field, AggregationType> aggrogationFields = formDto.getAllAggregationTypes();
+    Map<DocumentField, AggregationType> aggrogationFields = formDto.getAllAggregationTypes();
 
     // Assert
     assertThat(aggrogationFields.size(), is(2));

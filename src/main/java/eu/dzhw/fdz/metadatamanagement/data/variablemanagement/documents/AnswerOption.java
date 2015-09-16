@@ -6,7 +6,6 @@ import javax.validation.constraints.Size;
 import com.google.common.base.MoreObjects;
 import com.google.common.base.Objects;
 
-import eu.dzhw.fdz.metadatamanagement.data.common.documents.Field;
 import eu.dzhw.fdz.metadatamanagement.data.common.documents.validation.groups.ModifyValidationGroup.Create;
 import eu.dzhw.fdz.metadatamanagement.data.common.documents.validation.groups.ModifyValidationGroup.Edit;
 import net.karneim.pojobuilder.GeneratePojoBuilder;
@@ -22,8 +21,8 @@ import net.karneim.pojobuilder.GeneratePojoBuilder;
     intoPackage = "eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.builders")
 public class AnswerOption {
 
-  public static final Field CODE_FIELD = new Field("code");
-  public static final Field LABEL_FIELD = new Field("label");
+  public static final String CODE_FIELD = "code";
+  public static final String LABEL_FIELD = "label";
 
   /**
    * This is the code of an answer. It is internal code representation of the answer.

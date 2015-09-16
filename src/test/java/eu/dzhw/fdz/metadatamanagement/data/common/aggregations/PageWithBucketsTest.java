@@ -17,7 +17,7 @@ import org.mockito.Mockito;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.elasticsearch.core.FacetedPage;
 
-import eu.dzhw.fdz.metadatamanagement.data.common.documents.Field;
+import eu.dzhw.fdz.metadatamanagement.data.common.documents.DocumentField;
 import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.VariableDocument;
 
 /**
@@ -33,7 +33,7 @@ public class PageWithBucketsTest {
     // Arrange
     FacetedPage<VariableDocument> facetedPage = Mockito.mock(FacetedPage.class);
     Pageable pageable = Mockito.mock(Pageable.class);
-    Map<Field, Set<Bucket>> bucketMap = new HashMap<>();
+    Map<DocumentField, Set<Bucket>> bucketMap = new HashMap<>();
     PageWithBuckets<VariableDocument> pageWithBuckets =
         new PageWithBuckets<>(facetedPage, pageable, bucketMap);
 
@@ -49,8 +49,8 @@ public class PageWithBucketsTest {
     // Arrange
     FacetedPage<VariableDocument> facetedPage = Mockito.mock(FacetedPage.class);
     Pageable pageable = Mockito.mock(Pageable.class);
-    Map<Field, Set<Bucket>> bucketMap = new HashMap<>();
-    Map<Field, Set<Bucket>> bucketMap2 = new HashMap<>();
+    Map<DocumentField, Set<Bucket>> bucketMap = new HashMap<>();
+    Map<DocumentField, Set<Bucket>> bucketMap2 = new HashMap<>();
     TreeSet<Bucket> buckets = new TreeSet<>();
     bucketMap2.put(VariableDocument.SCALE_LEVEL_FIELD, buckets);
     PageWithBuckets<VariableDocument> pageWithBuckets =

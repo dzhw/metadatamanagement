@@ -76,7 +76,7 @@ public class ValidScaleLevelTest extends AbstractWebTest {
 
     // Assert
     assertEquals(1, errors.getErrorCount());
-    assertThat(errors.getFieldError(VariableDocument.SCALE_LEVEL_FIELD.getPath()).getCode(),
+    assertThat(errors.getFieldError(VariableDocument.SCALE_LEVEL_FIELD.getAbsolutePath()).getCode(),
         is(ValidScaleLevel.class.getSimpleName()));
   }
 
