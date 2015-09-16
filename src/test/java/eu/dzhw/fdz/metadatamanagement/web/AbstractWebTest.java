@@ -2,9 +2,13 @@ package eu.dzhw.fdz.metadatamanagement.web;
 
 import java.util.Locale;
 
+import javax.xml.bind.JAXBException;
+
 import org.junit.After;
 import org.junit.Before;
 import org.junit.runner.RunWith;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.SpringApplicationConfiguration;
 import org.springframework.context.i18n.LocaleContextHolder;
@@ -15,6 +19,9 @@ import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
+
+import com.bitplan.w3ccheck.W3CValidator;
+import com.bitplan.w3ccheck.W3CValidator.Body.ValidationResponse.Errors;
 
 import eu.dzhw.fdz.metadatamanagement.MetaDataManagementApplication;
 import eu.dzhw.fdz.metadatamanagement.config.i18n.I18nConfiguration;
@@ -33,12 +40,17 @@ public abstract class AbstractWebTest {
   private WebApplicationContext wac;
 
   protected MockMvc mockMvc;
-  
 
-  protected final String validationUrlW3C ="http://validator.w3.org/check";
-  
+
+  protected final String validationUrlW3C = "http://validator.w3.org/check";
+
   @Autowired
   private VariableDocumentRepository variableRepository;
+
+  /*
+   * A slf4j logger.
+   */
+  private static final Logger LOG = LoggerFactory.getLogger(AbstractWebTest.class);
 
   @Before
   public void setup() {
@@ -53,5 +65,23 @@ public abstract class AbstractWebTest {
         throw new IllegalStateException("Found variables in '" + locale.getLanguage() + "'-index.");
       }
     }
+  }
+
+
+  protected boolean checkHtmlValidation(String htmlResult, String methodeName) throws JAXBException {
+    //Validate
+    W3CValidator checkResult = W3CValidator.check(this.validationUrlW3C, htmlResult);
+    
+    //Check for Errors and put it to the log 
+    Errors errors = checkResult.body.response.errors;
+    LOG.info(methodeName + ": Number of Errors: " + errors.errorcount);
+    if (errors.errorcount > 0) {
+      errors.errorlist.forEach(e -> {
+        LOG.error(methodeName + ": Validation Error: (Line: " + e.line + ", Col.: " + e.col + ") " + e.message + "");
+        LOG.error(methodeName + ": Explanation Error: " + e.explanation);
+      });
+    }
+
+    return checkResult.body.response.validity;
   }
 }

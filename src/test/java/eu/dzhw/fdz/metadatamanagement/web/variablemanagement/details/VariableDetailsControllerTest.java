@@ -19,15 +19,10 @@ import org.hamcrest.Matchers;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.web.servlet.ModelAndView;
-
-import com.bitplan.w3ccheck.W3CValidator;
-import com.bitplan.w3ccheck.W3CValidator.Body.ValidationResponse.Errors;
 
 import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.DataTypesProvider;
 import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.ScaleLevelProvider;
@@ -54,11 +49,6 @@ public class VariableDetailsControllerTest extends AbstractWebTest {
 
   @Autowired
   private ScaleLevelProvider scaleLevelProvider;
-
-  /*
-   * A slf4j logger.
-   */
-  private static final Logger LOG = LoggerFactory.getLogger(VariableDetailsControllerTest.class);
 
   @Before
   public void before() {
@@ -87,11 +77,15 @@ public class VariableDetailsControllerTest extends AbstractWebTest {
         .andExpect(status().isOk()).andExpect(request().asyncStarted())
         .andExpect(request().asyncResult(instanceOf(ModelAndView.class))).andReturn();
 
-    this.mockMvc.perform(asyncDispatch(mvcResult)).andExpect(status().isOk())
+    mvcResult = this.mockMvc.perform(asyncDispatch(mvcResult)).andExpect(status().isOk())
         .andExpect(content().string((containsString("Sprache"))))
         .andExpect(content().string(not(containsString("#{"))))
         .andExpect(content().string(not(containsString("${"))))
-        .andExpect(content().string(not(containsString("??"))));
+        .andExpect(content().string(not(containsString("??")))).andReturn();
+
+    boolean validHtml = this.checkHtmlValidation(mvcResult.getResponse().getContentAsString(),
+        "VariableDetailsControllerTest.testGermanTemplate");
+    assertThat(validHtml, is(true));
   }
 
   @Test
@@ -100,11 +94,16 @@ public class VariableDetailsControllerTest extends AbstractWebTest {
         .andExpect(status().isOk()).andExpect(request().asyncStarted())
         .andExpect(request().asyncResult(instanceOf(ModelAndView.class))).andReturn();
 
-    this.mockMvc.perform(asyncDispatch(mvcResult)).andExpect(status().isOk())
+    mvcResult = this.mockMvc.perform(asyncDispatch(mvcResult)).andExpect(status().isOk())
         .andExpect(content().string((containsString("Language"))))
         .andExpect(content().string(not(containsString("#{"))))
         .andExpect(content().string(not(containsString("${"))))
-        .andExpect(content().string(not(containsString("??"))));
+        .andExpect(content().string(not(containsString("??")))).andReturn();
+
+    boolean validHtml = this.checkHtmlValidation(mvcResult.getResponse().getContentAsString(),
+        "VariableDetailsControllerTest.testEnglishTemplate");
+
+    assertThat(validHtml, is(true));
   }
 
   @Test
@@ -112,22 +111,25 @@ public class VariableDetailsControllerTest extends AbstractWebTest {
     MvcResult mvcResult = this.mockMvc.perform(get("/de/variables/GetByValidTest_ID01"))
         .andExpect(status().isOk()).andExpect(request().asyncStarted())
         .andExpect(request().asyncResult(instanceOf(ModelAndView.class))).andReturn();
-
-    this.mockMvc.perform(asyncDispatch(mvcResult)).andExpect(status().isOk())
-        .andExpect(content().string((containsString("Sprache"))))
-        .andExpect(content().string(not(containsString("#{"))))
-        .andExpect(content().string(not(containsString("${"))))
-        .andExpect(content().string(not(containsString("??"))));
-
-
+    
     VariableDetailsResource resource =
         (VariableDetailsResource) ((ModelAndView) mvcResult.getAsyncResult()).getModelMap()
             .get("resource");
+
+    mvcResult = this.mockMvc.perform(asyncDispatch(mvcResult)).andExpect(status().isOk())
+        .andExpect(content().string((containsString("Sprache"))))
+        .andExpect(content().string(not(containsString("#{"))))
+        .andExpect(content().string(not(containsString("${"))))
+        .andExpect(content().string(not(containsString("??")))).andReturn();
+
+    boolean validHtml = this.checkHtmlValidation(mvcResult.getResponse().getContentAsString(),
+        "VariableDetailsControllerTest.testGetByValidId");
 
     assertThat(resource.getVariableResource().getVariableDocument().getId(),
         is("GetByValidTest_ID01"));
     assertThat(resource.getEnglishLink().getHref().contains("/en/variables/GetByValidTest_ID01"),
         is(true));
+    assertThat(validHtml, is(true));
   }
 
   @Test
@@ -136,7 +138,7 @@ public class VariableDetailsControllerTest extends AbstractWebTest {
         .andExpect(status().isOk()).andExpect(request().asyncStarted())
         .andExpect(request().asyncResult(instanceOf(DocumentNotFoundException.class))).andReturn();
 
-    this.mockMvc.perform(asyncDispatch(mvcResult)).andExpect(status().isNotFound())
+    mvcResult = this.mockMvc.perform(asyncDispatch(mvcResult)).andExpect(status().isNotFound())
         .andExpect(content().string((containsString("Sprache"))))
         .andExpect(content().string(not(containsString("#{"))))
         .andExpect(content().string(not(containsString("${"))))
@@ -147,35 +149,13 @@ public class VariableDetailsControllerTest extends AbstractWebTest {
         .andExpect(model().attribute("resource",
             Matchers.hasProperty("exception",
                 Matchers.hasProperty("unknownId", Matchers.equalTo("GetByInvalidTest_ID012")))))
-        .andExpect(model().attribute("documentType", "documenttype.variable"));
+        .andExpect(model().attribute("documentType", "documenttype.variable")).andReturn();
 
-  }
+    boolean validHtml = this.checkHtmlValidation(mvcResult.getResponse().getContentAsString(),
+        "VariableDetailsControllerTest.testGetByInvalidId");
 
-  @Test
-  public void testHTMLValidation() throws Exception {
+    assertThat(validHtml, is(true));
 
-    // Arrange
-    MvcResult mvcResult = this.mockMvc.perform(get("/de/variables/GetByValidTest_ID01"))
-        .andExpect(status().isOk()).andExpect(request().asyncStarted())
-        .andExpect(request().asyncResult(instanceOf(ModelAndView.class))).andReturn();
-
-    mvcResult = this.mockMvc.perform(asyncDispatch(mvcResult)).andReturn();
-    String htmlResult = mvcResult.getResponse().getContentAsString();
-
-    // Act
-    W3CValidator checkResult = W3CValidator.check(this.validationUrlW3C, htmlResult);
-    boolean valid = checkResult.body.response.validity;
-    Errors errors = checkResult.body.response.errors;
-    LOG.info("VariableDetailsControllerTest.testHTMLValidation: Number of Errors: " + errors.errorcount);
-    
-    if (errors.errorcount > 0) {
-      errors.errorlist.forEach(e -> {
-          LOG.error("VariableDetailsControllerTest.testHTMLValidation: Error: (Line: " 
-              + e.line + ", Col.: " + e.col + ") " + e.message);
-      });
-    }
-    // Assert
-    assertThat(valid, is(true));
   }
 
   private void createVariable(Locale locale, String variableId, String variableName,
