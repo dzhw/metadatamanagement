@@ -92,8 +92,8 @@ public class VariableCreateControllerTest extends AbstractWebTest {
             .perform(post("/de/variables/create").param(VariableDocument.ID_FIELD.getPath(), "ID007")
                 .param(VariableDocument.NAME_FIELD.getPath(), "Ein Name")
                 .param(VariableDocument.QUESTION_FIELD.getPath(), "Eine Frage?")
-                .param(VariableDocument.NESTED_ANSWER_OPTIONS_CODE_FIELD.getNestedPath(), "11111")
-                .param(VariableDocument.NESTED_ANSWER_OPTIONS_LABEL_FIELD.getNestedPath(),
+                .param(VariableDocument.NESTED_ANSWER_OPTIONS_CODE_FIELD.getLeafSubFieldPath(), "11111")
+                .param(VariableDocument.NESTED_ANSWER_OPTIONS_LABEL_FIELD.getLeafSubFieldPath(),
                     "11111Label")
                 .param("addAnswerOption", ""))
             .andExpect(status().isOk()).andExpect(request().asyncStarted())
@@ -151,15 +151,15 @@ public class VariableCreateControllerTest extends AbstractWebTest {
             .param(VariableDocument.NAME_FIELD.getPath(), "Ein Name")
             .param(VariableDocument.LABEL_FIELD.getPath(), "Ein Label")
             .param(VariableDocument.QUESTION_FIELD.getPath(), "Eine Frage?")
-            .param(VariableDocument.NESTED_VARIABLE_SURVEY_ID_FIELD.getNestedPath(),
+            .param(VariableDocument.NESTED_VARIABLE_SURVEY_ID_FIELD.getLeafSubFieldPath(),
                 "VariableSurveyID001")
-        .param(VariableDocument.NESTED_VARIABLE_SURVEY_TITLE_FIELD.getNestedPath(),
+        .param(VariableDocument.NESTED_VARIABLE_SURVEY_TITLE_FIELD.getLeafSubFieldPath(),
             "VariableSurveyTitel001")
-        .param(VariableDocument.NESTED_VARIABLE_SURVEY_VARIABLE_ALIAS_FIELD.getNestedPath(),
+        .param(VariableDocument.NESTED_VARIABLE_SURVEY_VARIABLE_ALIAS_FIELD.getLeafSubFieldPath(),
             "VariableSurveyAlias001")
-        .param(VariableDocument.NESTED_VARIABLE_SURVEY_NESTED_PERIOD_START_DATE.getNestedPath(),
+        .param(VariableDocument.NESTED_VARIABLE_SURVEY_NESTED_PERIOD_START_DATE.getLeafSubFieldPath(),
             LocalDate.now().toString())
-        .param(VariableDocument.NESTED_VARIABLE_SURVEY_NESTED_PERIOD_END_DATE.getNestedPath(),
+        .param(VariableDocument.NESTED_VARIABLE_SURVEY_NESTED_PERIOD_END_DATE.getLeafSubFieldPath(),
             LocalDate.now().plusDays(2).toString()))
         .andExpect(status().isOk()).andExpect(request().asyncStarted())
         .andExpect(request().asyncResult(instanceOf(ModelAndView.class))).andReturn();
@@ -182,15 +182,15 @@ public class VariableCreateControllerTest extends AbstractWebTest {
             .param(VariableDocument.ID_FIELD.getPath(), "testPostValidateInvalidID008")
             .param(VariableDocument.LABEL_FIELD.getPath(), "Ein Label 5")
             .param(VariableDocument.NAME_FIELD.getPath(), "Ein Name 9")
-            .param(VariableDocument.NESTED_VARIABLE_SURVEY_ID_FIELD.getNestedPath(),
+            .param(VariableDocument.NESTED_VARIABLE_SURVEY_ID_FIELD.getLeafSubFieldPath(),
                 "VariableSurveyID082")
-        .param(VariableDocument.NESTED_VARIABLE_SURVEY_TITLE_FIELD.getNestedPath(),
+        .param(VariableDocument.NESTED_VARIABLE_SURVEY_TITLE_FIELD.getLeafSubFieldPath(),
             "VariableSurveyTitel012")
-        .param(VariableDocument.NESTED_VARIABLE_SURVEY_VARIABLE_ALIAS_FIELD.getNestedPath(),
+        .param(VariableDocument.NESTED_VARIABLE_SURVEY_VARIABLE_ALIAS_FIELD.getLeafSubFieldPath(),
             "VariableSurveyAlias054")
-        .param(VariableDocument.NESTED_VARIABLE_SURVEY_NESTED_PERIOD_START_DATE.getNestedPath(),
+        .param(VariableDocument.NESTED_VARIABLE_SURVEY_NESTED_PERIOD_START_DATE.getLeafSubFieldPath(),
             LocalDate.now().toString())
-        .param(VariableDocument.NESTED_VARIABLE_SURVEY_NESTED_PERIOD_END_DATE.getNestedPath(),
+        .param(VariableDocument.NESTED_VARIABLE_SURVEY_NESTED_PERIOD_END_DATE.getLeafSubFieldPath(),
             LocalDate.now().plusDays(2).toString()))
         .andExpect(status().isOk()).andExpect(request().asyncStarted())
         .andExpect(request().asyncResult(instanceOf(ValidationResultDto.class))).andReturn();
@@ -224,15 +224,15 @@ public class VariableCreateControllerTest extends AbstractWebTest {
             .param(VariableDocument.QUESTION_FIELD.getPath(), "Question.")
             .param(VariableDocument.LABEL_FIELD.getPath(), "Ein Label")
             .param(VariableDocument.NAME_FIELD.getPath(), "Ein Name")
-            .param(VariableDocument.NESTED_VARIABLE_SURVEY_ID_FIELD.getNestedPath(),
+            .param(VariableDocument.NESTED_VARIABLE_SURVEY_ID_FIELD.getLeafSubFieldPath(),
                 "VariableSurveyID001")
-        .param(VariableDocument.NESTED_VARIABLE_SURVEY_TITLE_FIELD.getNestedPath(),
+        .param(VariableDocument.NESTED_VARIABLE_SURVEY_TITLE_FIELD.getLeafSubFieldPath(),
             "VariableSurveyTitel001")
-        .param(VariableDocument.NESTED_VARIABLE_SURVEY_VARIABLE_ALIAS_FIELD.getNestedPath(),
+        .param(VariableDocument.NESTED_VARIABLE_SURVEY_VARIABLE_ALIAS_FIELD.getLeafSubFieldPath(),
             "VariableSurveyAlias001")
-        .param(VariableDocument.NESTED_VARIABLE_SURVEY_NESTED_PERIOD_START_DATE.getNestedPath(),
+        .param(VariableDocument.NESTED_VARIABLE_SURVEY_NESTED_PERIOD_START_DATE.getLeafSubFieldPath(),
             LocalDate.now().toString())
-        .param(VariableDocument.NESTED_VARIABLE_SURVEY_NESTED_PERIOD_END_DATE.getNestedPath(),
+        .param(VariableDocument.NESTED_VARIABLE_SURVEY_NESTED_PERIOD_END_DATE.getLeafSubFieldPath(),
             LocalDate.now().plusDays(2).toString()))
         .andExpect(status().isOk()).andExpect(request().asyncStarted())
         .andExpect(request().asyncResult(instanceOf(ValidationResultDto.class))).andReturn();
@@ -260,14 +260,14 @@ public class VariableCreateControllerTest extends AbstractWebTest {
                     .param(VariableDocument.NAME_FIELD.getPath(), "Ein Name")
                     .param(VariableDocument.QUESTION_FIELD.getPath(), "Eine Frage?")
                     .param(VariableDocument.LABEL_FIELD.getPath(), "Ein Label")
-                    .param(VariableDocument.NESTED_VARIABLE_SURVEY_ID_FIELD.getNestedPath(),
+                    .param(VariableDocument.NESTED_VARIABLE_SURVEY_ID_FIELD.getLeafSubFieldPath(),
                         "ID001")
-        .param(VariableDocument.NESTED_VARIABLE_SURVEY_TITLE_FIELD.getNestedPath(), "ID001")
-        .param(VariableDocument.NESTED_VARIABLE_SURVEY_VARIABLE_ALIAS_FIELD.getNestedPath(),
+        .param(VariableDocument.NESTED_VARIABLE_SURVEY_TITLE_FIELD.getLeafSubFieldPath(), "ID001")
+        .param(VariableDocument.NESTED_VARIABLE_SURVEY_VARIABLE_ALIAS_FIELD.getLeafSubFieldPath(),
             "ID007")
-        .param(VariableDocument.NESTED_VARIABLE_SURVEY_NESTED_PERIOD_START_DATE.getNestedPath(),
+        .param(VariableDocument.NESTED_VARIABLE_SURVEY_NESTED_PERIOD_START_DATE.getLeafSubFieldPath(),
             "2013-02-01")
-        .param(VariableDocument.NESTED_VARIABLE_SURVEY_NESTED_PERIOD_END_DATE.getNestedPath(),
+        .param(VariableDocument.NESTED_VARIABLE_SURVEY_NESTED_PERIOD_END_DATE.getLeafSubFieldPath(),
             "2013-02-02")).andExpect(status().isOk()).andExpect(request().asyncStarted())
         .andExpect(request().asyncResult(instanceOf(ModelAndView.class))).andReturn();
 

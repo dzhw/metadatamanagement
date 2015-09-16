@@ -90,7 +90,7 @@ public class VariableSearchController {
       modelAndView.addObject("scaleLevelBuckets",
           bucketMap.get(VariableDocument.SCALE_LEVEL_FIELD.getPath()));
       modelAndView.addObject("surveyTitleBuckets",
-          bucketMap.get(VariableDocument.NESTED_VARIABLE_SURVEY_TITLE_FIELD.getNestedPath()));
+          bucketMap.get(VariableDocument.NESTED_VARIABLE_SURVEY_TITLE_FIELD.getLeafSubFieldPath()));
       // Create Resource
       PagedResources<VariableResource> pagedVariableResource = this.pagedResourcesAssembler
           .toResource(pageableWithBuckets, this.variableResourceAssembler);

@@ -55,7 +55,7 @@ public class ValidDateRangeTest extends AbstractWebTest {
 
     // Assert
     assertEquals(1, errors.getErrorCount());
-    assertThat(errors.getFieldError(VariableDocument.NESTED_VARIABLE_SURVEY_PERIOD_FIELD.getNestedPath()).getCode(),
+    assertThat(errors.getFieldError(VariableDocument.NESTED_VARIABLE_SURVEY_PERIOD_FIELD.getLeafSubFieldPath()).getCode(),
         is(ValidDateRange.class.getSimpleName()));
   }
 

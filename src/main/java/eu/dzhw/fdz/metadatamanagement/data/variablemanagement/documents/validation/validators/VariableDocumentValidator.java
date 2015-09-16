@@ -137,7 +137,7 @@ public abstract class VariableDocumentValidator implements Validator {
       String detailPageUrlExistingVariable = this.variableResourceAssembler
           .toResource(existingVariableWithSameAlias).getId().getHref();
       errors.rejectValue(
-          VariableDocument.NESTED_VARIABLE_SURVEY_VARIABLE_ALIAS_FIELD.getNestedPath(),
+          VariableDocument.NESTED_VARIABLE_SURVEY_VARIABLE_ALIAS_FIELD.getLeafSubFieldPath(),
           MANDATORY_VARIABLE_SURVEY_VARIABLEALIAS_MESSAGE_CODE,
           new Object[] {existingVariableWithSameAlias.getId(), detailPageUrlExistingVariable},
           "Invalid variable alias!");

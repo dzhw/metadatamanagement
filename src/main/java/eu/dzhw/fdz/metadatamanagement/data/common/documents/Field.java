@@ -4,7 +4,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * This is a field representation of nested and not nested fields within filters and aggregations.
+ * This is a field representation of fields in elasticsearch documents. Fields can be organized as
+ * chains meaning the can have one subfield.
  * 
  * @author Daniel Katzberg
  *
@@ -17,33 +18,34 @@ public class Field implements Cloneable {
   private static final Logger LOG = LoggerFactory.getLogger(Field.class);
 
   /**
-   * The document Path. This path is used in elastic search filter and aggregations
+   * The path of the field in the document Path (e.g. "variableSurvey.title"). This path is used in
+   * elastic search queries, filters and aggregations
    */
   private String path;
 
   /**
-   * A nested field to support recursively any depth for nested.
+   * A sub field to support recursively any depth of subfields.
    */
-  private Field nestedField;
+  private Field subField;
 
   /**
-   * This is the constructor for a not nested field. It has only the field path.
+   * This is the constructor for a field without subfields. It has only the field path.
    * 
-   * @param path the name of a filter / aggregation field
+   * @param path the complete path of this field (e.g. variableSurvey.title)
    */
   public Field(String path) {
     this(path, null);
   }
 
   /**
-   * This is the constructor for a nested field. It has a field path and a nested field.
+   * This is the constructor for field with a subfield. It has a field path and a sub field.
    * 
-   * @param path the name of a filter / aggregation field (basic path)
-   * @param nestedField the nested field of a filter / aggregation.
+   * @param path the complete path of this field (e.g. variableSurvey.title)
+   * @param subField the sub field.
    */
-  public Field(String path, Field nestedField) {
+  public Field(String path, Field subField) {
     this.path = path;
-    this.nestedField = nestedField;
+    this.subField = subField;
   }
 
   /*
@@ -56,8 +58,8 @@ public class Field implements Cloneable {
     try {
       Field clone = (Field) super.clone();
       clone.path = this.path;
-      if (this.isNested()) {
-        clone.nestedField = this.nestedField.clone();
+      if (this.hasSubfield()) {
+        clone.subField = this.subField.clone();
       }
       return clone;
     } catch (CloneNotSupportedException e) {
@@ -67,22 +69,38 @@ public class Field implements Cloneable {
   }
 
   /**
-   * @param nestedField A nested field.
+   * @param subField A nested field.
    * @return Fluent Filter for easy readable extensions of the given field.
    */
-  public Field withNestedField(Field nestedField) {
-    this.nestedField = nestedField;
+  public Field withSubField(Field subField) {
+    this.subField = subField;
     return this;
   }
 
   /**
-   * Return the correct and complete nested Path.
+   * Go to the current leaf subfield and add a new subfield with the given path attached to the
+   * complete path.
    * 
-   * @return the complete (nested) path
+   * @param path of the subfield.
+   * @return this
    */
-  public String getNestedPath() {
-    if (this.isNested()) {
-      return this.getNestedField().getNestedPath();
+  public Field withNewLeafSubField(String path) {
+    if (this.hasSubfield()) {
+      this.subField.withNewLeafSubField(path);
+    } else {
+      this.subField = new Field(this.path + "." + path);
+    }
+    return this;
+  }
+
+  /**
+   * Return the path of the last subfield (which has no subfields).
+   * 
+   * @return the path of the last subfield (which has no subfields).
+   */
+  public String getLeafSubFieldPath() {
+    if (this.hasSubfield()) {
+      return this.getSubField().getLeafSubFieldPath();
     } else {
       return this.getPath();
     }
@@ -91,8 +109,8 @@ public class Field implements Cloneable {
   /**
    * @return Returns true if there is a nested Field in this field.
    */
-  public boolean isNested() {
-    return this.nestedField != null;
+  public boolean hasSubfield() {
+    return this.subField != null;
   }
 
   /* GETTER / SETTER */
@@ -100,7 +118,7 @@ public class Field implements Cloneable {
     return path;
   }
 
-  public Field getNestedField() {
-    return nestedField;
+  public Field getSubField() {
+    return subField;
   }
 }

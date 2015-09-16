@@ -35,7 +35,7 @@ public class BucketManager {
 
 
       // check for the group in the map
-      String nestedPath = field.getNestedPath();
+      String nestedPath = field.getLeafSubFieldPath();
       Bucket emptyBucket = new Bucket(filterValue, 0L);
       
       if (!bucketMap.containsKey(nestedPath)) {

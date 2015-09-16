@@ -46,6 +46,42 @@ public class VariableSearchFilter extends AbstractSearchFilter {
   @Valid
   private DateRange dateRange;
 
+  /**
+   * Static map holding all filter types for the filter fields.
+   */
+  private static final Map<Field, FilterType> filterTypes;
+
+  /**
+   * Static map holding all aggregation types for the filter fields.
+   */
+  private static final Map<Field, AggregationType> aggregationTypes;
+
+  static {
+    filterTypes = new HashMap<>();
+
+    // ScaleLevel
+    filterTypes.put(VariableDocument.SCALE_LEVEL_FIELD, FilterType.TERM);
+
+    // Survey Title
+    filterTypes.put(VariableDocument.NESTED_VARIABLE_SURVEY_TITLE_FIELD, FilterType.TERM);
+
+    // Date Range Start Date
+    filterTypes.put(VariableDocument.NESTED_VARIABLE_SURVEY_NESTED_PERIOD_START_DATE,
+        FilterType.RANGE_LTE);
+
+    // Date Range End Date
+    filterTypes.put(VariableDocument.NESTED_VARIABLE_SURVEY_NESTED_PERIOD_END_DATE,
+        FilterType.RANGE_GTE);
+
+    aggregationTypes = new HashMap<>();
+
+    // ScaleLevel
+    aggregationTypes.put(VariableDocument.SCALE_LEVEL_FIELD, AggregationType.TERM);
+
+    // Survey Title
+    aggregationTypes.put(VariableDocument.NESTED_VARIABLE_SURVEY_TITLE_FIELD, AggregationType.TERM);
+  }
+
   /*
    * (non-Javadoc)
    * 
@@ -68,8 +104,7 @@ public class VariableSearchFilter extends AbstractSearchFilter {
     // Date Range Start Date value. This value have to be checked by the end field
     // StartDate (Input by User) <= EndDate (Variable)
     if (this.dateRange != null) {
-      if (this.dateRange.getStartDate() != null
-          && StringUtils.hasText(this.dateRange.getStartDate().toString())) {
+      if (this.dateRange.getStartDate() != null) {
         filterValues.put(VariableDocument.NESTED_VARIABLE_SURVEY_NESTED_PERIOD_END_DATE,
             this.dateRange.getStartDate().toString());
 
@@ -77,8 +112,7 @@ public class VariableSearchFilter extends AbstractSearchFilter {
 
       // Date Range End Date This value have to be checked by the start field
       // StartDate (Variable) <= EndDate (Input by User)
-      if (this.dateRange.getEndDate() != null
-          && StringUtils.hasText(this.dateRange.getEndDate().toString())) {
+      if (this.dateRange.getEndDate() != null) {
         filterValues.put(VariableDocument.NESTED_VARIABLE_SURVEY_NESTED_PERIOD_START_DATE,
             this.dateRange.getEndDate().toString());
       }
@@ -94,23 +128,7 @@ public class VariableSearchFilter extends AbstractSearchFilter {
    */
   @Override
   public Map<Field, FilterType> getAllFilterTypes() {
-    Map<Field, FilterType> filterFields = new HashMap<>();
-
-    // ScaleLevel
-    filterFields.put(VariableDocument.SCALE_LEVEL_FIELD, FilterType.TERM);
-
-    // Survey Title
-    filterFields.put(VariableDocument.NESTED_VARIABLE_SURVEY_TITLE_FIELD, FilterType.TERM);
-
-    // Date Range Start Date
-    filterFields.put(VariableDocument.NESTED_VARIABLE_SURVEY_NESTED_PERIOD_START_DATE,
-        FilterType.RANGE_LTE);
-
-    // Date Range End Date
-    filterFields.put(VariableDocument.NESTED_VARIABLE_SURVEY_NESTED_PERIOD_END_DATE,
-        FilterType.RANGE_GTE);
-
-    return filterFields;
+    return filterTypes;
   }
 
   /*
@@ -121,16 +139,7 @@ public class VariableSearchFilter extends AbstractSearchFilter {
    */
   @Override
   public Map<Field, AggregationType> getAllAggregationTypes() {
-    Map<Field, AggregationType> aggregationFields = new HashMap<>();
-
-    // ScaleLevel
-    aggregationFields.put(VariableDocument.SCALE_LEVEL_FIELD, AggregationType.TERM);
-
-    // Survey Title
-    aggregationFields.put(VariableDocument.NESTED_VARIABLE_SURVEY_TITLE_FIELD,
-        AggregationType.TERM);
-
-    return aggregationFields;
+    return aggregationTypes;
   }
 
   /*

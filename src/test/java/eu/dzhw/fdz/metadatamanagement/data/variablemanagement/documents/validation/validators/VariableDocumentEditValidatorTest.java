@@ -168,7 +168,7 @@ public class VariableDocumentEditValidatorTest extends AbstractWebTest {
     // Assert
     assertEquals(1, errors.getErrorCount());
     assertThat(
-        errors.getFieldError(VariableDocument.NESTED_VARIABLE_SURVEY_VARIABLE_ALIAS_FIELD.getNestedPath())
+        errors.getFieldError(VariableDocument.NESTED_VARIABLE_SURVEY_VARIABLE_ALIAS_FIELD.getLeafSubFieldPath())
             .getCode(),
         is(VariableDocumentEditValidator.MANDATORY_VARIABLE_SURVEY_VARIABLEALIAS_MESSAGE_CODE));
 

@@ -170,9 +170,9 @@ public class VariableDocumentRepositoryImpl implements VariableDocumentRepositor
   private AggregationBuilder createAggregations(Field field, AggregationType aggregationType) {
 
     // recursive / nested aggregation
-    if (field.isNested()) {
-      return AggregationBuilders.nested(field.getNestedPath()).path(field.getPath())
-          .subAggregation(this.createAggregations(field.getNestedField(), aggregationType));
+    if (field.hasSubfield()) {
+      return AggregationBuilders.nested(field.getLeafSubFieldPath()).path(field.getPath())
+          .subAggregation(this.createAggregations(field.getSubField(), aggregationType));
     } else {
 
       // Switch between the different cases
@@ -253,9 +253,9 @@ public class VariableDocumentRepositoryImpl implements VariableDocumentRepositor
   private FilterBuilder createNestedFilterBuilder(Field field, String value,
       FilterType filterType) {
 
-    if (field.isNested()) {
+    if (field.hasSubfield()) {
       return FilterBuilders.nestedFilter(field.getPath(),
-          this.createNestedFilterBuilder(field.getNestedField(), value, filterType));
+          this.createNestedFilterBuilder(field.getSubField(), value, filterType));
     } else {
 
       switch (filterType) {
@@ -263,10 +263,10 @@ public class VariableDocumentRepositoryImpl implements VariableDocumentRepositor
           return FilterBuilders.termFilter(field.getPath(), value);
 
         case RANGE_GTE:
-          return FilterBuilders.rangeFilter(field.getNestedPath()).gte(value);
+          return FilterBuilders.rangeFilter(field.getLeafSubFieldPath()).gte(value);
 
         case RANGE_LTE:
-          return FilterBuilders.rangeFilter(field.getNestedPath()).lte(value);
+          return FilterBuilders.rangeFilter(field.getLeafSubFieldPath()).lte(value);
 
         default:
           return null;
@@ -286,16 +286,13 @@ public class VariableDocumentRepositoryImpl implements VariableDocumentRepositor
   public Page<VariableDocument> filterBySurveyIdAndVariableAlias(String surveyId,
       String variableAlias) {
 
-    QueryBuilder queryBuilder =
-        QueryBuilders
-            .filteredQuery(matchAllQuery(),
-                FilterBuilders.nestedFilter(VariableDocument.VARIABLE_SURVEY_FIELD.getPath(),
-                    FilterBuilders.boolFilter().must(
-                        FilterBuilders.termFilter(VariableDocument.NESTED_VARIABLE_SURVEY_ID_FIELD
-                            .getNestedPath(), surveyId),
-                FilterBuilders.termFilter(
-                    VariableDocument.NESTED_VARIABLE_SURVEY_VARIABLE_ALIAS_FIELD.getNestedPath(),
-                    variableAlias))));
+    QueryBuilder queryBuilder = QueryBuilders.filteredQuery(matchAllQuery(),
+        FilterBuilders.nestedFilter(VariableDocument.VARIABLE_SURVEY_FIELD.getPath(),
+            FilterBuilders.boolFilter().must(FilterBuilders.termFilter(
+                VariableDocument.NESTED_VARIABLE_SURVEY_ID_FIELD.getLeafSubFieldPath(), surveyId),
+                FilterBuilders
+                    .termFilter(VariableDocument.NESTED_VARIABLE_SURVEY_VARIABLE_ALIAS_FIELD
+                        .getLeafSubFieldPath(), variableAlias))));
 
     SearchQuery searchQuery = new NativeSearchQueryBuilder().withQuery(queryBuilder).build();
 

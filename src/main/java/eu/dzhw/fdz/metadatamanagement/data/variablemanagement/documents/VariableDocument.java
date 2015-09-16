@@ -38,63 +38,42 @@ import net.karneim.pojobuilder.GeneratePojoBuilder;
 public class VariableDocument extends AbstractDocument {
 
   // Basic Fields
-  public static final Field ALL_STRINGS_AS_NGRAMS_FIELD =
-      new Field("allStringsAsNgrams");
+  public static final Field ALL_STRINGS_AS_NGRAMS_FIELD = new Field("allStringsAsNgrams");
   public static final Field NAME_FIELD = new Field("name");
   public static final Field DATA_TYPE_FIELD = new Field("dataType");
   public static final Field LABEL_FIELD = new Field("label");
-  public static final Field SCALE_LEVEL_FIELD =
-      new Field("scaleLevel");
+  public static final Field SCALE_LEVEL_FIELD = new Field("scaleLevel");
   public static final Field QUESTION_FIELD = new Field("question");
   public static final Field ANSWER_OPTIONS_FIELD = new Field("answerOptions");
   public static final Field VARIABLE_SURVEY_FIELD = new Field("variableSurvey");
 
   // Nested: Variable Document - Variable Survey
   public static final Field NESTED_VARIABLE_SURVEY_TITLE_FIELD =
-      VARIABLE_SURVEY_FIELD.clone()
-          .withNestedField(new Field(
-              VARIABLE_SURVEY_FIELD.getPath() + "." + VariableSurvey.TITLE_FIELD.getPath()));
+      VARIABLE_SURVEY_FIELD.clone().withNewLeafSubField(VariableSurvey.TITLE_FIELD.getPath());
 
-  public static final Field NESTED_VARIABLE_SURVEY_VARIABLE_ALIAS_FIELD =
-      VARIABLE_SURVEY_FIELD.clone().withNestedField(new Field(
-          VARIABLE_SURVEY_FIELD.getPath() + "." + VariableSurvey.VARIABLE_ALIAS_FIELD.getPath()));
+  public static final Field NESTED_VARIABLE_SURVEY_VARIABLE_ALIAS_FIELD = VARIABLE_SURVEY_FIELD
+      .clone().withNewLeafSubField(VariableSurvey.VARIABLE_ALIAS_FIELD.getPath());
 
   public static final Field NESTED_VARIABLE_SURVEY_ID_FIELD =
-      VARIABLE_SURVEY_FIELD.clone().withNestedField(new Field(
-          VARIABLE_SURVEY_FIELD.getPath() + "." + VariableSurvey.SURVEY_ID_FIELD.getPath()));
+      VARIABLE_SURVEY_FIELD.clone().withNewLeafSubField(VariableSurvey.SURVEY_ID_FIELD.getPath());
 
-  public static final Field NESTED_VARIABLE_SURVEY_PERIOD_FIELD =
-      VARIABLE_SURVEY_FIELD.clone().withNestedField(new Field(
-          VARIABLE_SURVEY_FIELD.getPath() + "." + VariableSurvey.SURVEY_PERIOD_FIELD.getPath()));
+  public static final Field NESTED_VARIABLE_SURVEY_PERIOD_FIELD = VARIABLE_SURVEY_FIELD.clone()
+      .withNewLeafSubField(VariableSurvey.SURVEY_PERIOD_FIELD.getPath());
 
   // Nested: Variable Document - Variable Survey - Survey Period
-  public static final Field NESTED_VARIABLE_SURVEY_NESTED_PERIOD_START_DATE;
-  public static final Field NESTED_VARIABLE_SURVEY_NESTED_PERIOD_END_DATE;
-
-  static {
-    // Start Date Range as third depth layer
-    NESTED_VARIABLE_SURVEY_NESTED_PERIOD_START_DATE = NESTED_VARIABLE_SURVEY_PERIOD_FIELD.clone();
-    NESTED_VARIABLE_SURVEY_NESTED_PERIOD_START_DATE.getNestedField()
-        .withNestedField(
-            new Field(NESTED_VARIABLE_SURVEY_PERIOD_FIELD.getNestedField().getNestedPath() + "."
-                + DateRange.STARTDATE_FIELD.getPath()));
-
-    // End Date Range as third depth layer
-    NESTED_VARIABLE_SURVEY_NESTED_PERIOD_END_DATE = NESTED_VARIABLE_SURVEY_PERIOD_FIELD.clone();
-    NESTED_VARIABLE_SURVEY_NESTED_PERIOD_END_DATE.getNestedField()
-        .withNestedField(
-            new Field(NESTED_VARIABLE_SURVEY_PERIOD_FIELD.getNestedField().getNestedPath() + "."
-                + DateRange.ENDDATE_FIELD.getPath()));
-  }
+  public static final Field NESTED_VARIABLE_SURVEY_NESTED_PERIOD_START_DATE =
+      NESTED_VARIABLE_SURVEY_PERIOD_FIELD.clone()
+          .withNewLeafSubField(DateRange.STARTDATE_FIELD.getPath());
+  public static final Field NESTED_VARIABLE_SURVEY_NESTED_PERIOD_END_DATE =
+      NESTED_VARIABLE_SURVEY_PERIOD_FIELD.clone()
+          .withNewLeafSubField(DateRange.ENDDATE_FIELD.getPath());
 
   // Nested: Variable Document - Answer Options
   public static final Field NESTED_ANSWER_OPTIONS_CODE_FIELD =
-      ANSWER_OPTIONS_FIELD.clone().withNestedField(
-          new Field(ANSWER_OPTIONS_FIELD.getPath() + "." + AnswerOption.CODE_FIELD.getPath()));
+      ANSWER_OPTIONS_FIELD.clone().withNewLeafSubField(AnswerOption.CODE_FIELD.getPath());
 
   public static final Field NESTED_ANSWER_OPTIONS_LABEL_FIELD =
-      ANSWER_OPTIONS_FIELD.clone().withNestedField(
-          new Field(ANSWER_OPTIONS_FIELD.getPath() + "." + AnswerOption.LABEL_FIELD.getPath()));
+      ANSWER_OPTIONS_FIELD.clone().withNewLeafSubField(AnswerOption.LABEL_FIELD.getPath());
 
   /**
    * This is a nested reference to the survey.
