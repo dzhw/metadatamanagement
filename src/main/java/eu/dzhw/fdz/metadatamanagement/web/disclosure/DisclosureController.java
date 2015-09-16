@@ -1,4 +1,4 @@
-package eu.dzhw.fdz.metadatamanagement.web.impressum;
+package eu.dzhw.fdz.metadatamanagement.web.disclosure;
 
 import java.util.concurrent.Callable;
 

@@ -9,7 +9,7 @@ import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.hateoas.Link;
 import org.springframework.hateoas.ResourceSupport;
 
-import eu.dzhw.fdz.metadatamanagement.web.impressum.DisclosureController;
+import eu.dzhw.fdz.metadatamanagement.web.disclosure.DisclosureController;
 import eu.dzhw.fdz.metadatamanagement.web.variablemanagement.modify.VariableCreateController;
 import eu.dzhw.fdz.metadatamanagement.web.variablemanagement.search.VariableSearchController;
 import eu.dzhw.fdz.metadatamanagement.web.welcome.WelcomeController;

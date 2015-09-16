@@ -1,4 +1,4 @@
-package eu.dzhw.fdz.metadatamanagement.web.impressum;
+package eu.dzhw.fdz.metadatamanagement.web.disclosure;
 
 import static org.springframework.hateoas.mvc.ControllerLinkBuilder.methodOn;
 
