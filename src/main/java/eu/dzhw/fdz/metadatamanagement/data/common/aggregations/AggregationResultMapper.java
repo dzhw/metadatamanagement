@@ -65,14 +65,14 @@ public class AggregationResultMapper extends DefaultResultMapper {
         }
   
         // add buckets to the FacetedPage
-        map.put(aggregationName, this.getStringTerms(aggregations, aggregationName));
+        map.put(aggregationName, this.getStringTermBuckets(aggregations, aggregationName));
       });
 
     return new PageWithBuckets<T>(facetedPage, pageable, map);
   }
 
   /**
-   * Creates a HashSet of Buckets of Aggregations and a given aggregation name. This method supports
+   * Creates a TreeSet of Buckets of Aggregations and a given aggregation name. This method supports
    * only StringTerms.
    * 
    * @param aggregations Many aggregations for by a given aggregation name.
@@ -81,7 +81,7 @@ public class AggregationResultMapper extends DefaultResultMapper {
    * 
    * @see StringTerms
    */
-  private Set<Bucket> getStringTerms(Aggregations aggregations, String aggregationName) {
+  private Set<Bucket> getStringTermBuckets(Aggregations aggregations, String aggregationName) {
     StringTerms aggregation = aggregations.get(aggregationName);
     Set<Bucket> buckets = new TreeSet<>();
 
