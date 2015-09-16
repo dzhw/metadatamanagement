@@ -15,7 +15,7 @@ VariableSearchForm.search = _.throttle(function(form) {
 		var newUrl = searchUrl + '?' + formData;
 		// change the browsers url
 		history.pushState({}, '', newUrl);
-		
+
 		// Set focus on last selected element
 		if (lastFocused.search("dateRange") >= 0) {
 			$("#" + replaceId(lastFocused)).focus();
