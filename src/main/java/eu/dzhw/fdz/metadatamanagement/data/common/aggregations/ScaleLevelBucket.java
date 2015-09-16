@@ -1,10 +1,12 @@
 package eu.dzhw.fdz.metadatamanagement.data.common.aggregations;
 
+import com.google.common.base.Objects;
+
 import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.ScaleLevelProvider;
 
 /**
  * This is a special kind of buckets, because the sorting is not depending on the docCount. The
- * scalelevel filter needs his own sorting.
+ * scale level filter needs his own sorting.
  * 
  * @author Daniel Katzberg
  *
@@ -38,13 +40,38 @@ public class ScaleLevelBucket extends Bucket {
    */
   @Override
   public int compareTo(Bucket other) {
-    
+
     int thisScaleLevelOrder = this.scaleLevelProvider.castScaleLevelToInt(this.getKey());
     int otherScaleLevelOrder = this.scaleLevelProvider.castScaleLevelToInt(other.getKey());
-        
+
     return thisScaleLevelOrder - otherScaleLevelOrder;
   }
-  
-  
+
+  /*
+   * (non-Javadoc)
+   * 
+   * @see eu.dzhw.fdz.metadatamanagement.data.common.aggregations.Bucket#equals(java.lang.Object)
+   */
+  @Override
+  public boolean equals(Object object) {
+    if (object != null && getClass() == object.getClass()) {
+      if (!super.equals(object)) {
+        return false;
+      }
+      ScaleLevelBucket that = (ScaleLevelBucket) object;
+      return Objects.equal(this.getKey(), that.getKey());
+    }
+    return false;
+  }
+
+  /*
+   * (non-Javadoc)
+   * 
+   * @see eu.dzhw.fdz.metadatamanagement.data.common.aggregations.Bucket#hashCode()
+   */
+  @Override
+  public int hashCode() {
+    return Objects.hashCode(this.getKey());
+  }
 
 }

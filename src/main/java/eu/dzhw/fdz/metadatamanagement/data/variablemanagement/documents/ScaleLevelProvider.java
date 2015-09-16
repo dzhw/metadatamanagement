@@ -114,6 +114,7 @@ public class ScaleLevelProvider {
    * @return If Nominal, Return 1
    *          If Ordinal, Return 2
    *          If Metric , Return 3    
+   *          If none of them, Return 0 (Default)
    */
   public int castScaleLevelToInt(String scaleLevel) {
     

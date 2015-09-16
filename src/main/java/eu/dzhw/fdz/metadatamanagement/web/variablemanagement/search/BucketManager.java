@@ -2,6 +2,7 @@ package eu.dzhw.fdz.metadatamanagement.web.variablemanagement.search;
 
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Set;
 import java.util.TreeSet;
 
 import eu.dzhw.fdz.metadatamanagement.data.common.aggregations.Bucket;
@@ -22,8 +23,8 @@ public class BucketManager {
    * 
    * @return The extended bucket map.
    */
-  public static Map<String, TreeSet<Bucket>> addEmptyBucketsIfNecessary(
-      VariableSearchFilter variableSearchFormDto, Map<String, TreeSet<Bucket>> bucketMap) {
+  public static Map<String, Set<Bucket>> addEmptyBucketsIfNecessary(
+      VariableSearchFilter variableSearchFormDto, Map<String, Set<Bucket>> bucketMap) {
     Map<Field, String> filters = variableSearchFormDto.getAllFilterValues();
 
     for (Entry<Field, String> filter : filters.entrySet()) {
@@ -38,13 +39,13 @@ public class BucketManager {
       Bucket emptyBucket = new Bucket(filterValue, 0L);
       
       if (!bucketMap.containsKey(nestedPath)) {
-        TreeSet<Bucket> filterBucketList = new TreeSet<>();
+        Set<Bucket> filterBucketList = new TreeSet<>();
         filterBucketList.add(emptyBucket);
         bucketMap.put(nestedPath, filterBucketList);
         // okay group is in the map, check here for the value
       } else {
         if (!bucketMap.get(nestedPath).contains(emptyBucket)) {
-          TreeSet<Bucket> filterBucketList = bucketMap.get(nestedPath);
+          Set<Bucket> filterBucketList = bucketMap.get(nestedPath);
           filterBucketList.add(emptyBucket);
         }
       }

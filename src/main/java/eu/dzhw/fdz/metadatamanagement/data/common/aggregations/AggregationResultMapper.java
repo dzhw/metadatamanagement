@@ -2,6 +2,7 @@ package eu.dzhw.fdz.metadatamanagement.data.common.aggregations;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 import java.util.TreeSet;
 
 import org.elasticsearch.action.search.SearchResponse;
@@ -50,7 +51,7 @@ public class AggregationResultMapper extends DefaultResultMapper {
 
     // Build grouped aggregations / filter
     // iterate over names
-    Map<String, TreeSet<Bucket>> map = new HashMap<>();
+    Map<String, Set<Bucket>> map = new HashMap<>();
     response.getAggregations().asMap().keySet().forEach(aggregationName -> {
 
         // Not nested Aggregations
@@ -80,9 +81,9 @@ public class AggregationResultMapper extends DefaultResultMapper {
    * 
    * @see StringTerms
    */
-  private TreeSet<Bucket> getStringTerms(Aggregations aggregations, String aggregationName) {
+  private Set<Bucket> getStringTerms(Aggregations aggregations, String aggregationName) {
     StringTerms aggregation = aggregations.get(aggregationName);
-    TreeSet<Bucket> buckets = new TreeSet<>();
+    Set<Bucket> buckets = new TreeSet<>();
 
     //scale level filter needs a different order by sorting. this is given by scale level buckets
     if (aggregationName.equals(VariableDocument.SCALE_LEVEL_FIELD.getPath())) {

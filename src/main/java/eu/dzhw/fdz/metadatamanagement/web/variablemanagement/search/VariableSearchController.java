@@ -1,7 +1,7 @@
 package eu.dzhw.fdz.metadatamanagement.web.variablemanagement.search;
 
 import java.util.Map;
-import java.util.TreeSet;
+import java.util.Set;
 import java.util.concurrent.Callable;
 
 import javax.servlet.http.HttpServletResponse;
@@ -85,7 +85,7 @@ public class VariableSearchController {
       PageWithBuckets<VariableDocument> pageableWithBuckets =
           this.variableService.search(variableSearchFilter, pageable);
 
-      Map<String, TreeSet<Bucket>> bucketMap = BucketManager
+      Map<String, Set<Bucket>> bucketMap = BucketManager
           .addEmptyBucketsIfNecessary(variableSearchFilter, pageableWithBuckets.getBucketMap());
       modelAndView.addObject("scaleLevelBuckets",
           bucketMap.get(VariableDocument.SCALE_LEVEL_FIELD.getPath()));
