@@ -125,8 +125,14 @@
 			<artifactId>json</artifactId>
 			<scope>test</scope>
 		</dependency>
+		<dependency>
+			<groupId>com.bitplan</groupId>
+			<artifactId>w3cValidator</artifactId>
+			<version>0.0.2</version>
+			<scope>test</scope>
+		</dependency>
 
-<!-- 	For FindBugs Annotation. -->
+		<!-- For FindBugs Annotation. -->
 		<dependency>
 			<groupId>com.google.code.findbugs</groupId>
 			<artifactId>findbugs</artifactId>

@@ -33,7 +33,10 @@ public abstract class AbstractWebTest {
   private WebApplicationContext wac;
 
   protected MockMvc mockMvc;
+  
 
+  protected final String validationUrlW3C ="http://validator.w3.org/check";
+  
   @Autowired
   private VariableDocumentRepository variableRepository;
 
