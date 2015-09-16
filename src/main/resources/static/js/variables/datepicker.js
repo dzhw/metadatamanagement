@@ -16,7 +16,6 @@ function triggerDatepicker(id) {
 		autoclose : true,
 		changeMonth : true,
 		changeYear : true,
-		autoclose : true,
 		yearRange : '1970:2040',
 		firstDay : 1
 	}).datepicker('show');
