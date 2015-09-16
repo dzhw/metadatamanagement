@@ -77,6 +77,7 @@ public abstract class AbstractWebTest {
     LOG.info(methodeName + ": Number of Errors: " + errors.errorcount);
     if (errors.errorcount > 0) {
       errors.errorlist.forEach(e -> {
+        LOG.info("Content: " + htmlResult);
         LOG.error(methodeName + ": Validation Error: (Line: " + e.line + ", Col.: " + e.col + ") " + e.message + "");
         LOG.error(methodeName + ": Explanation Error: " + e.explanation);
       });

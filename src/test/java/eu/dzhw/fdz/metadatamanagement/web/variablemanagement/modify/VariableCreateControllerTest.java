@@ -1,11 +1,11 @@
 package eu.dzhw.fdz.metadatamanagement.web.variablemanagement.modify;
 
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.instanceOf;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.core.IsNot.not;
 import static org.hamcrest.core.StringContains.containsString;
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertThat;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.asyncDispatch;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -54,13 +54,16 @@ public class VariableCreateControllerTest extends AbstractWebTest {
         .andExpect(status().isOk()).andExpect(request().asyncStarted())
         .andExpect(request().asyncResult(instanceOf(ModelAndView.class))).andReturn();
 
-    this.mockMvc.perform(asyncDispatch(mvcResult)).andExpect(status().isOk())
+    mvcResult = this.mockMvc.perform(asyncDispatch(mvcResult)).andExpect(status().isOk())
         .andExpect(content().string((containsString("Sprache"))))
         .andExpect(content().string(not(containsString("#{"))))
         .andExpect(content().string(not(containsString("${"))))
         .andExpect(content().string(not(containsString("??"))))
-        .andExpect(model().attributeHasFieldErrors("variableDocument"));
+        .andExpect(model().attributeHasFieldErrors("variableDocument")).andReturn();
+    boolean validHtml = this.checkHtmlValidation(mvcResult.getResponse().getContentAsString(),
+        "VariableCreateControllerTest.testGetForm");
 
+    assertThat(validHtml, is(true));
   }
 
   @Test
@@ -77,8 +80,12 @@ public class VariableCreateControllerTest extends AbstractWebTest {
         .andExpect(request().asyncResult(instanceOf(ModelAndView.class))).andReturn();
 
     // Act and Assert
-    this.mockMvc.perform(asyncDispatch(mvcResult)).andExpect(status().is2xxSuccessful())
-        .andExpect(redirectedUrl(null));
+    mvcResult = this.mockMvc.perform(asyncDispatch(mvcResult)).andExpect(status().is2xxSuccessful())
+        .andExpect(redirectedUrl(null)).andReturn();
+
+    boolean validHtml = this.checkHtmlValidation(mvcResult.getResponse().getContentAsString(),
+        "VariableCreateControllerTest.testPostRemoveAnswerOptionMethod");
+    assertThat(validHtml, is(true));
 
     // Delete
     this.variableService.delete("ID007");
@@ -89,19 +96,24 @@ public class VariableCreateControllerTest extends AbstractWebTest {
     // Arrange
     MvcResult mvcResult =
         this.mockMvc
-            .perform(post("/de/variables/create").param(VariableDocument.ID_FIELD.getPath(), "ID007")
-                .param(VariableDocument.NAME_FIELD.getPath(), "Ein Name")
-                .param(VariableDocument.QUESTION_FIELD.getPath(), "Eine Frage?")
-                .param(VariableDocument.NESTED_ANSWER_OPTIONS_CODE_FIELD.getLeafSubFieldPath(), "11111")
-                .param(VariableDocument.NESTED_ANSWER_OPTIONS_LABEL_FIELD.getLeafSubFieldPath(),
-                    "11111Label")
-                .param("addAnswerOption", ""))
-            .andExpect(status().isOk()).andExpect(request().asyncStarted())
-            .andExpect(request().asyncResult(instanceOf(ModelAndView.class))).andReturn();
+            .perform(
+                post("/de/variables/create").param(VariableDocument.ID_FIELD.getPath(), "ID007")
+                    .param(VariableDocument.NAME_FIELD.getPath(), "Ein Name")
+                    .param(VariableDocument.QUESTION_FIELD.getPath(), "Eine Frage?")
+                    .param(VariableDocument.NESTED_ANSWER_OPTIONS_CODE_FIELD.getLeafSubFieldPath(),
+                        "11111")
+        .param(VariableDocument.NESTED_ANSWER_OPTIONS_LABEL_FIELD.getLeafSubFieldPath(),
+            "11111Label").param("addAnswerOption", "")).andExpect(status().isOk())
+        .andExpect(request().asyncStarted())
+        .andExpect(request().asyncResult(instanceOf(ModelAndView.class))).andReturn();
 
     // Act and Assert
-    this.mockMvc.perform(asyncDispatch(mvcResult)).andExpect(status().is2xxSuccessful())
-        .andExpect(redirectedUrl(null));
+    mvcResult = this.mockMvc.perform(asyncDispatch(mvcResult)).andExpect(status().is2xxSuccessful())
+        .andExpect(redirectedUrl(null)).andReturn();
+
+    boolean validHtml = this.checkHtmlValidation(mvcResult.getResponse().getContentAsString(),
+        "VariableCreateControllerTest.testPostAddAnswerOptionMethod");
+    assertThat(validHtml, is(true));
 
     // Delete
     this.variableService.delete("ID007");
@@ -119,8 +131,12 @@ public class VariableCreateControllerTest extends AbstractWebTest {
         .andExpect(request().asyncResult(instanceOf(ModelAndView.class))).andReturn();
 
     // Act and Assert
-    this.mockMvc.perform(asyncDispatch(mvcResult)).andExpect(status().is2xxSuccessful())
-        .andExpect(redirectedUrl(null));
+    mvcResult = this.mockMvc.perform(asyncDispatch(mvcResult)).andExpect(status().is2xxSuccessful())
+        .andExpect(redirectedUrl(null)).andReturn();
+
+    boolean validHtml = this.checkHtmlValidation(mvcResult.getResponse().getContentAsString(),
+        "VariableCreateControllerTest.testPostAddFirstAnswerOptionMethod");
+    assertThat(validHtml, is(true));
 
     // Delete
     this.variableService.delete("ID007");
@@ -136,8 +152,12 @@ public class VariableCreateControllerTest extends AbstractWebTest {
         .andExpect(request().asyncResult(instanceOf(ModelAndView.class))).andReturn();
 
     // Act and Assert
-    this.mockMvc.perform(asyncDispatch(mvcResult)).andExpect(status().is2xxSuccessful())
-        .andExpect(redirectedUrl(null));
+    mvcResult = this.mockMvc.perform(asyncDispatch(mvcResult)).andExpect(status().is2xxSuccessful())
+        .andExpect(redirectedUrl(null)).andReturn();
+
+    boolean validHtml = this.checkHtmlValidation(mvcResult.getResponse().getContentAsString(),
+        "VariableCreateControllerTest.testPostInvalidVariableDocument");
+    assertThat(validHtml, is(true));
 
     // Delete
     this.variableService.delete("ID007");
@@ -157,7 +177,8 @@ public class VariableCreateControllerTest extends AbstractWebTest {
             "VariableSurveyTitel001")
         .param(VariableDocument.NESTED_VARIABLE_SURVEY_VARIABLE_ALIAS_FIELD.getLeafSubFieldPath(),
             "VariableSurveyAlias001")
-        .param(VariableDocument.NESTED_VARIABLE_SURVEY_NESTED_PERIOD_START_DATE.getLeafSubFieldPath(),
+        .param(
+            VariableDocument.NESTED_VARIABLE_SURVEY_NESTED_PERIOD_START_DATE.getLeafSubFieldPath(),
             LocalDate.now().toString())
         .param(VariableDocument.NESTED_VARIABLE_SURVEY_NESTED_PERIOD_END_DATE.getLeafSubFieldPath(),
             LocalDate.now().plusDays(2).toString()))
@@ -165,8 +186,11 @@ public class VariableCreateControllerTest extends AbstractWebTest {
         .andExpect(request().asyncResult(instanceOf(ModelAndView.class))).andReturn();
 
     // Act and Assert
-    this.mockMvc.perform(asyncDispatch(mvcResult)).andExpect(status().is3xxRedirection())
-        .andExpect(redirectedUrl("/de/variables/ID007"));
+    mvcResult =
+        this.mockMvc.perform(asyncDispatch(mvcResult)).andExpect(status().is3xxRedirection())
+            .andExpect(redirectedUrl("/de/variables/ID007")).andReturn();
+
+    // No W3C Check because of the json content type
 
     // Delete
     this.variableService.delete("ID007");
@@ -188,7 +212,8 @@ public class VariableCreateControllerTest extends AbstractWebTest {
             "VariableSurveyTitel012")
         .param(VariableDocument.NESTED_VARIABLE_SURVEY_VARIABLE_ALIAS_FIELD.getLeafSubFieldPath(),
             "VariableSurveyAlias054")
-        .param(VariableDocument.NESTED_VARIABLE_SURVEY_NESTED_PERIOD_START_DATE.getLeafSubFieldPath(),
+        .param(
+            VariableDocument.NESTED_VARIABLE_SURVEY_NESTED_PERIOD_START_DATE.getLeafSubFieldPath(),
             LocalDate.now().toString())
         .param(VariableDocument.NESTED_VARIABLE_SURVEY_NESTED_PERIOD_END_DATE.getLeafSubFieldPath(),
             LocalDate.now().plusDays(2).toString()))
@@ -203,8 +228,11 @@ public class VariableCreateControllerTest extends AbstractWebTest {
     String error1 = errors.get(0);
 
     // Act and Assert
-    this.mockMvc.perform(asyncDispatch(mvcResult)).andExpect(status().is2xxSuccessful())
-        .andExpect(redirectedUrl(null));
+    mvcResult = this.mockMvc.perform(asyncDispatch(mvcResult)).andExpect(status().is2xxSuccessful())
+        .andExpect(redirectedUrl(null)).andReturn();
+
+    // No W3C Check because of the json content type
+
     assertEquals(1, errorKeySize);
     assertEquals(1, errorsSize);
     assertThat(error1, is("Bitte geben Sie eine Frage an."));
@@ -230,7 +258,8 @@ public class VariableCreateControllerTest extends AbstractWebTest {
             "VariableSurveyTitel001")
         .param(VariableDocument.NESTED_VARIABLE_SURVEY_VARIABLE_ALIAS_FIELD.getLeafSubFieldPath(),
             "VariableSurveyAlias001")
-        .param(VariableDocument.NESTED_VARIABLE_SURVEY_NESTED_PERIOD_START_DATE.getLeafSubFieldPath(),
+        .param(
+            VariableDocument.NESTED_VARIABLE_SURVEY_NESTED_PERIOD_START_DATE.getLeafSubFieldPath(),
             LocalDate.now().toString())
         .param(VariableDocument.NESTED_VARIABLE_SURVEY_NESTED_PERIOD_END_DATE.getLeafSubFieldPath(),
             LocalDate.now().plusDays(2).toString()))
@@ -240,9 +269,13 @@ public class VariableCreateControllerTest extends AbstractWebTest {
     ValidationResultDto validationResultDto = (ValidationResultDto) mvcResult.getAsyncResult();
     int errorKeySize = validationResultDto.getErrorMessageMap().keySet().size();
 
-    // Act and Assert
-    this.mockMvc.perform(asyncDispatch(mvcResult)).andExpect(status().is2xxSuccessful())
-        .andExpect(redirectedUrl(null));
+    // Act
+    mvcResult = this.mockMvc.perform(asyncDispatch(mvcResult)).andExpect(status().is2xxSuccessful())
+        .andExpect(redirectedUrl(null)).andReturn();
+
+    // No W3C Check because of the json content type
+
+    // Assert
     assertEquals(0, errorKeySize);
 
     // Delete
@@ -254,26 +287,29 @@ public class VariableCreateControllerTest extends AbstractWebTest {
     // Arrange
     MvcResult mvcResult =
         this.mockMvc
-            .perform(
-                post("/de/variables/create")
-                    .param(VariableDocument.ID_FIELD.getPath(), "testValidSurveyPeriodID007")
-                    .param(VariableDocument.NAME_FIELD.getPath(), "Ein Name")
-                    .param(VariableDocument.QUESTION_FIELD.getPath(), "Eine Frage?")
-                    .param(VariableDocument.LABEL_FIELD.getPath(), "Ein Label")
-                    .param(VariableDocument.NESTED_VARIABLE_SURVEY_ID_FIELD.getLeafSubFieldPath(),
-                        "ID001")
+            .perform(post("/de/variables/create")
+                .param(VariableDocument.ID_FIELD.getPath(), "testValidSurveyPeriodID007")
+                .param(VariableDocument.NAME_FIELD.getPath(), "Ein Name")
+                .param(VariableDocument.QUESTION_FIELD.getPath(), "Eine Frage?")
+                .param(VariableDocument.LABEL_FIELD.getPath(), "Ein Label")
+                .param(VariableDocument.NESTED_VARIABLE_SURVEY_ID_FIELD.getLeafSubFieldPath(),
+                    "ID001")
         .param(VariableDocument.NESTED_VARIABLE_SURVEY_TITLE_FIELD.getLeafSubFieldPath(), "ID001")
         .param(VariableDocument.NESTED_VARIABLE_SURVEY_VARIABLE_ALIAS_FIELD.getLeafSubFieldPath(),
             "ID007")
-        .param(VariableDocument.NESTED_VARIABLE_SURVEY_NESTED_PERIOD_START_DATE.getLeafSubFieldPath(),
+        .param(
+            VariableDocument.NESTED_VARIABLE_SURVEY_NESTED_PERIOD_START_DATE.getLeafSubFieldPath(),
             "2013-02-01")
         .param(VariableDocument.NESTED_VARIABLE_SURVEY_NESTED_PERIOD_END_DATE.getLeafSubFieldPath(),
             "2013-02-02")).andExpect(status().isOk()).andExpect(request().asyncStarted())
         .andExpect(request().asyncResult(instanceOf(ModelAndView.class))).andReturn();
 
     // Act and Assert
-    this.mockMvc.perform(asyncDispatch(mvcResult)).andExpect(status().is3xxRedirection())
-        .andExpect(redirectedUrl("/de/variables/testValidSurveyPeriodID007"));
+    mvcResult =
+        this.mockMvc.perform(asyncDispatch(mvcResult)).andExpect(status().is3xxRedirection())
+            .andExpect(redirectedUrl("/de/variables/testValidSurveyPeriodID007")).andReturn();
+
+    // No W3C Check because of the json content type
 
     // Delete
     this.variableService.delete("testValidSurveyPeriodID007");
