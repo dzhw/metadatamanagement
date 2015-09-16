@@ -6,6 +6,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.data.elasticsearch.core.ElasticsearchTemplate;
 
 import eu.dzhw.fdz.metadatamanagement.data.common.aggregations.AggregationResultMapper;
+import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.ScaleLevelProvider;
 
 /**
  * Custom Elasticsearch Configuration.
@@ -47,7 +48,7 @@ public class ElasticsearchConfiguration {
    */
   @Bean
   public AggregationResultMapper aggregationResultMapper(
-      JacksonDocumentMapper jacksonDocumentMapper) {
-    return new AggregationResultMapper(jacksonDocumentMapper);
+      JacksonDocumentMapper jacksonDocumentMapper, ScaleLevelProvider scaleLevelProvider) {
+    return new AggregationResultMapper(jacksonDocumentMapper, scaleLevelProvider);
   }
 }

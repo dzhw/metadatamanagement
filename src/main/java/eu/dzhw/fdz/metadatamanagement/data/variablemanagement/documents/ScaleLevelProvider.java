@@ -105,6 +105,36 @@ public class ScaleLevelProvider {
       return ENGLISH_ORDINAL;
     }
   }
+  
+  /**
+   * Cast the ScaleLevel to a given order of the scale levels.
+   * The order is: Nominal - Ordinal - Metric
+   * This method is independent from the used language.
+   * @param scaleLevel A given Scale Level to cast to an integer.
+   * @return If Nominal, Return 1
+   *          If Ordinal, Return 2
+   *          If Metric , Return 3    
+   */
+  public int castScaleLevelToInt(String scaleLevel) {
+    
+    //NOMINAL = 1
+    if (scaleLevel.equals(this.getNominalByLocal())) {
+      return 1;
+    }
+    
+    //ORDINAL = 2
+    if (scaleLevel.equals(this.getOrdinalByLocal())) {
+      return 2;
+    }
+    
+    //METRIC = 3
+    if (scaleLevel.equals(this.getMetricByLocal())) {
+      return 3;
+    }
+    
+    //Default Value, no Order
+    return 0;    
+  }
 
   /* GETTER / SETTER */
   public HashMap<Locale, HashSet<String>> getScaleLevelMap() {

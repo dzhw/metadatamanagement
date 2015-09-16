@@ -13,6 +13,8 @@ import org.springframework.data.elasticsearch.core.DefaultResultMapper;
 import org.springframework.data.elasticsearch.core.FacetedPage;
 
 import eu.dzhw.fdz.metadatamanagement.config.elasticsearch.JacksonDocumentMapper;
+import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.ScaleLevelProvider;
+import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.VariableDocument;
 
 /**
  * The aggregation result mapper is a sub class from the {@link DefaultResultMapper}. It extends the
@@ -23,11 +25,16 @@ import eu.dzhw.fdz.metadatamanagement.config.elasticsearch.JacksonDocumentMapper
  *
  */
 public class AggregationResultMapper extends DefaultResultMapper {
+
+  private ScaleLevelProvider scaleLevelProvider;
+
   /**
    * The default Constructor uses the JacksonDocumentMapper for the depending super call.
    */
-  public AggregationResultMapper(JacksonDocumentMapper jacksonDocumentMapper) {
+  public AggregationResultMapper(JacksonDocumentMapper jacksonDocumentMapper,
+      ScaleLevelProvider scaleLevelProvider) {
     super(jacksonDocumentMapper);
+    this.scaleLevelProvider = scaleLevelProvider;
   }
 
   /*
@@ -45,28 +52,27 @@ public class AggregationResultMapper extends DefaultResultMapper {
     // iterate over names
     Map<String, TreeSet<Bucket>> map = new HashMap<>();
     response.getAggregations().asMap().keySet().forEach(aggregationName -> {
-      
-        //Not nested Aggregations
+
+        // Not nested Aggregations
         Aggregations aggregations = response.getAggregations();
-      
-        //Nested Aggregations
+  
+        // Nested Aggregations
         if (response.getAggregations().get(aggregationName).getClass()
             .isAssignableFrom(InternalNested.class)) {
           InternalNested aggregation = response.getAggregations().get(aggregationName);
           aggregations = aggregation.getAggregations();
-        } 
-        
-        //add buckets to the FacetedPage
-        map.put(aggregationName, 
-            this.getStringTerms(aggregations, aggregationName));
-      }); 
-    
+        }
+  
+        // add buckets to the FacetedPage
+        map.put(aggregationName, this.getStringTerms(aggregations, aggregationName));
+      });
+
     return new PageWithBuckets<T>(facetedPage, pageable, map);
   }
 
   /**
-   * Creates a HashSet of Buckets of Aggregations and a given aggregation name. 
-   * This method supports only StringTerms.
+   * Creates a HashSet of Buckets of Aggregations and a given aggregation name. This method supports
+   * only StringTerms.
    * 
    * @param aggregations Many aggregations for by a given aggregation name.
    * @param aggregationName the name of the aggregation (unique)
@@ -77,10 +83,19 @@ public class AggregationResultMapper extends DefaultResultMapper {
   private TreeSet<Bucket> getStringTerms(Aggregations aggregations, String aggregationName) {
     StringTerms aggregation = aggregations.get(aggregationName);
     TreeSet<Bucket> buckets = new TreeSet<>();
-    aggregation.getBuckets().forEach(bucket -> {
-        buckets.add(new Bucket(bucket.getKey(), bucket.getDocCount()));
-      });
 
+    //scale level filter needs a different order by sorting. this is given by scale level buckets
+    if (aggregationName.equals(VariableDocument.SCALE_LEVEL_FIELD.getPath())) {
+      aggregation.getBuckets().forEach(bucket -> {
+          buckets.add(
+              new ScaleLevelBucket(bucket.getKey(), bucket.getDocCount(), this.scaleLevelProvider));
+        });
+    //default sorting by docCount. normal use of buckets.
+    } else {
+      aggregation.getBuckets().forEach(bucket -> {
+          buckets.add(new Bucket(bucket.getKey(), bucket.getDocCount()));
+        });
+    }
     return buckets;
   }
 }
