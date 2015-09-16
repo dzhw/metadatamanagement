@@ -6,7 +6,7 @@ package eu.dzhw.fdz.metadatamanagement.data.common;
  * @author Daniel Katzberg 
  */
 public class CastTypesUtils {
-  
+    
   /**
    * Casts a long value to an integer value. Checks the borders of integer for handling a incorrect
    * casting.
@@ -21,5 +21,4 @@ public class CastTypesUtils {
     }
     return (int) longValue;
   }
-
 }
