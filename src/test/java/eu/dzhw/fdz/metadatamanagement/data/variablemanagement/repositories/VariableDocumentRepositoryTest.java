@@ -52,20 +52,22 @@ public class VariableDocumentRepositoryTest extends AbstractWebTest {
     LocaleContextHolder.setLocale(Locale.GERMAN);
     for (int i = 1; i <= 9; i++) {
       VariableSurvey variableSurvey =
-          new VariableSurveyBuilder().withSurveyId("SurveyFilterUnitTest_Survey_ID")
+          new VariableSurveyBuilder()
+              .withSurveyId("SurveyFilterUnitTest_Survey_ID")
               .withTitle("SurveyFilterUnitTestTitle 0" + i)
               .withVariableAlias("SurveyFilterUnitTestVariableAlias 0" + i)
-              .withSurveyPeriod(new DateRangeBuilder().withEndDate(LocalDate.now().plusMonths(i))
-                  .withStartDate(LocalDate.now().minusMonths(i)).build())
-              .build();
+              .withSurveyPeriod(
+                  new DateRangeBuilder().withEndDate(LocalDate.now().plusMonths(i))
+                      .withStartDate(LocalDate.now().minusMonths(i)).build()).build();
 
-      VariableDocument variableDocument = new VariableDocumentBuilder()
-          .withId("SurveyFilterUnitTest_ID0" + i).withName("SurveyFilterUnitTestName 0" + i)
-          .withLabel("SurveyFilterUnitTestLabel 0" + i)
-          .withQuestion("SurveyFilterUnitTestQuestion 0" + i)
-          .withDataType(this.dataTypesProvider.getNumericValueByLocale())
-          .withScaleLevel(this.scaleLevelProvider.getMetricByLocal())
-          .withVariableSurvey(variableSurvey).build();
+      VariableDocument variableDocument =
+          new VariableDocumentBuilder().withId("SurveyFilterUnitTest_ID0" + i)
+              .withName("SurveyFilterUnitTestName 0" + i)
+              .withLabel("SurveyFilterUnitTestLabel 0" + i)
+              .withQuestion("SurveyFilterUnitTestQuestion 0" + i)
+              .withDataType(this.dataTypesProvider.getNumericValueByLocale())
+              .withScaleLevel(this.scaleLevelProvider.getMetricByLocal())
+              .withVariableSurvey(variableSurvey).build();
       this.variablesRepository.save(variableDocument);
     }
   }
@@ -85,8 +87,9 @@ public class VariableDocumentRepositoryTest extends AbstractWebTest {
 
 
     // Act
-    Page<VariableDocument> result = this.variablesRepository.filterBySurveyIdAndVariableAlias(
-        "SurveyFilterUnitTest_Survey_ID", "SurveyFilterUnitTestVariableAlias 08");
+    Page<VariableDocument> result =
+        this.variablesRepository.filterBySurveyIdAndVariableAlias("SurveyFilterUnitTest_Survey_ID",
+            "SurveyFilterUnitTestVariableAlias 08");
 
     // Assert
     assertThat(result.getNumberOfElements(), is(1));
@@ -102,7 +105,7 @@ public class VariableDocumentRepositoryTest extends AbstractWebTest {
     variableSearchFormDto.setQuery("query");
     variableSearchFormDto.setScaleLevel(this.scaleLevelProvider.getMetricByLocal());
     variableSearchFormDto.setSurveyTitle("SurveyTitle");
-    variableSearchFormDto.setDateRange(new DateRangeBuilder()
+    variableSearchFormDto.setSurveyPeriod(new DateRangeBuilder()
         .withStartDate(LocalDate.now().minusDays(2)).withEndDate(LocalDate.now()).build());
 
     // Act
@@ -125,7 +128,7 @@ public class VariableDocumentRepositoryTest extends AbstractWebTest {
 
     // Arrange
     VariableSearchFilter variableSearchFormDto = new VariableSearchFilter();
-    variableSearchFormDto.setDateRange(new DateRangeBuilder()
+    variableSearchFormDto.setSurveyPeriod(new DateRangeBuilder()
         .withStartDate(LocalDate.now().minusDays(2)).withEndDate(LocalDate.now()).build());
 
     // Act
@@ -147,9 +150,9 @@ public class VariableDocumentRepositoryTest extends AbstractWebTest {
 
     // Arrange
     VariableSearchFilter variableSearchFormDto = new VariableSearchFilter();
-    variableSearchFormDto
-        .setDateRange(new DateRangeBuilder().withStartDate(LocalDate.now().minusMonths(12))
-            .withEndDate(LocalDate.now().plusMonths(12)).build());
+    variableSearchFormDto.setSurveyPeriod(new DateRangeBuilder()
+        .withStartDate(LocalDate.now().minusMonths(12)).withEndDate(LocalDate.now().plusMonths(12))
+        .build());
 
     // Act
     PageWithBuckets<VariableDocument> pageWithBuckets =
@@ -169,9 +172,9 @@ public class VariableDocumentRepositoryTest extends AbstractWebTest {
 
     // Arrange
     VariableSearchFilter variableSearchFormDto = new VariableSearchFilter();
-    variableSearchFormDto
-        .setDateRange(new DateRangeBuilder().withStartDate(LocalDate.now().minusMonths(24))
-            .withEndDate(LocalDate.now().minusMonths(12)).build());
+    variableSearchFormDto.setSurveyPeriod(new DateRangeBuilder()
+        .withStartDate(LocalDate.now().minusMonths(24))
+        .withEndDate(LocalDate.now().minusMonths(12)).build());
 
     // Act
     PageWithBuckets<VariableDocument> pageWithBuckets =
@@ -191,9 +194,9 @@ public class VariableDocumentRepositoryTest extends AbstractWebTest {
 
     // Arrange
     VariableSearchFilter variableSearchFormDto = new VariableSearchFilter();
-    variableSearchFormDto
-        .setDateRange(new DateRangeBuilder().withStartDate(LocalDate.now().plusMonths(12))
-            .withEndDate(LocalDate.now().plusMonths(24)).build());
+    variableSearchFormDto.setSurveyPeriod(new DateRangeBuilder()
+        .withStartDate(LocalDate.now().plusMonths(12)).withEndDate(LocalDate.now().plusMonths(24))
+        .build());
 
     // Act
     PageWithBuckets<VariableDocument> pageWithBuckets =
@@ -213,9 +216,9 @@ public class VariableDocumentRepositoryTest extends AbstractWebTest {
 
     // Arrange
     VariableSearchFilter variableSearchFormDto = new VariableSearchFilter();
-    variableSearchFormDto
-        .setDateRange(new DateRangeBuilder().withStartDate(LocalDate.now().minusMonths(12))
-            .withEndDate(LocalDate.now().minusMonths(5)).build());
+    variableSearchFormDto.setSurveyPeriod(new DateRangeBuilder()
+        .withStartDate(LocalDate.now().minusMonths(12)).withEndDate(LocalDate.now().minusMonths(5))
+        .build());
 
     // Act
     PageWithBuckets<VariableDocument> pageWithBuckets =
@@ -230,15 +233,15 @@ public class VariableDocumentRepositoryTest extends AbstractWebTest {
 
   @Test
   public void testSearchDateRangeFilterCase6() {
- // Test Case 6: Find all, which are in the the filter Range
+    // Test Case 6: Find all, which are in the the filter Range
     // SurveyPeriod: --[-----]-----
     // Filter: -----------[-----]--
 
     // Arrange
     VariableSearchFilter variableSearchFormDto = new VariableSearchFilter();
-    variableSearchFormDto
-        .setDateRange(new DateRangeBuilder().withStartDate(LocalDate.now().plusMonths(5))
-            .withEndDate(LocalDate.now().plusMonths(12)).build());
+    variableSearchFormDto.setSurveyPeriod(new DateRangeBuilder()
+        .withStartDate(LocalDate.now().plusMonths(5)).withEndDate(LocalDate.now().plusMonths(12))
+        .build());
 
     // Act
     PageWithBuckets<VariableDocument> pageWithBuckets =

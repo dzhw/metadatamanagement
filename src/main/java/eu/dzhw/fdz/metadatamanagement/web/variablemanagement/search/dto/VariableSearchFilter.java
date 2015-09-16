@@ -5,6 +5,8 @@ import java.util.Map;
 
 import javax.validation.Valid;
 
+import net.karneim.pojobuilder.GeneratePojoBuilder;
+
 import org.springframework.util.StringUtils;
 
 import eu.dzhw.fdz.metadatamanagement.data.common.documents.DateRange;
@@ -13,7 +15,6 @@ import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.Variable
 import eu.dzhw.fdz.metadatamanagement.web.common.dtos.AbstractSearchFilter;
 import eu.dzhw.fdz.metadatamanagement.web.common.dtos.AggregationType;
 import eu.dzhw.fdz.metadatamanagement.web.common.dtos.FilterType;
-import net.karneim.pojobuilder.GeneratePojoBuilder;
 
 /**
  * The SearchForm Data transfer object (dto). This dto
@@ -44,7 +45,7 @@ public class VariableSearchFilter extends AbstractSearchFilter {
    * This is the request parameter of the dateRange filter.
    */
   @Valid
-  private DateRange dateRange;
+  private DateRange surveyPeriod;
 
   /**
    * Static map holding all filter types for the filter fields.
@@ -103,18 +104,18 @@ public class VariableSearchFilter extends AbstractSearchFilter {
 
     // Date Range Start Date value. This value have to be checked by the end field
     // StartDate (Input by User) <= EndDate (Variable)
-    if (this.dateRange != null) {
-      if (this.dateRange.getStartDate() != null) {
+    if (this.surveyPeriod != null) {
+      if (this.surveyPeriod.getStartDate() != null) {
         filterValues.put(VariableDocument.NESTED_VARIABLE_SURVEY_NESTED_PERIOD_END_DATE,
-            this.dateRange.getStartDate().toString());
+            this.surveyPeriod.getStartDate().toString());
 
       }
 
       // Date Range End Date This value have to be checked by the start field
       // StartDate (Variable) <= EndDate (Input by User)
-      if (this.dateRange.getEndDate() != null) {
+      if (this.surveyPeriod.getEndDate() != null) {
         filterValues.put(VariableDocument.NESTED_VARIABLE_SURVEY_NESTED_PERIOD_START_DATE,
-            this.dateRange.getEndDate().toString());
+            this.surveyPeriod.getEndDate().toString());
       }
     }
 
@@ -173,11 +174,13 @@ public class VariableSearchFilter extends AbstractSearchFilter {
     this.surveyTitle = surveyTitle;
   }
 
-  public DateRange getDateRange() {
-    return dateRange;
+  public DateRange getSurveyPeriod() {
+    return surveyPeriod;
   }
 
-  public void setDateRange(DateRange dateRange) {
-    this.dateRange = dateRange;
+  public void setSurveyPeriod(DateRange surveyPeriod) {
+    this.surveyPeriod = surveyPeriod;
   }
+
+
 }

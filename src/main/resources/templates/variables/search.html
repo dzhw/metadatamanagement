@@ -86,11 +86,11 @@
 									<ul class="list-group">
 										<li class="list-group-item">
 											<div
-												th:replace="common/errorAlerts::globalAlerts(field=dateRange)"></div>
+												th:replace="common/errorAlerts::globalAlerts(field=surveyPeriod)"></div>
 											<div
-												th:replace="common/calendar::date(field=dateRange.startDate,label=#{variables.common.variable.survey.period.start},placeholder=#{variables.common.variable.survey.period.start},readonly=false)"></div>
+												th:replace="common/calendar::date(field=surveyPeriod.startDate,label=#{variables.common.variable.survey.period.start},placeholder=#{variables.common.variable.survey.period.start},readonly=false)"></div>
 											<div
-												th:replace="common/calendar::date(field=dateRange.endDate,label=#{variables.common.variable.survey.period.end},placeholder=#{variables.common.variable.survey.period.end},readonly=false)"></div>
+												th:replace="common/calendar::date(field=surveyPeriod.endDate,label=#{variables.common.variable.survey.period.end},placeholder=#{variables.common.variable.survey.period.end},readonly=false)"></div>
 
 										</li>
 									</ul>

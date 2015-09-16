@@ -1,4 +1,3 @@
-
 package eu.dzhw.fdz.metadatamanagement.web.variablemanagement.search.dto;
 
 import static org.hamcrest.Matchers.is;
@@ -41,7 +40,7 @@ public class SearchFormDtoTest {
     formDto.setQuery("Query");
     formDto.setScaleLevel("ScaleLevel");
     formDto.setSurveyTitle("SurveyTitle");
-    formDto.setDateRange(new DateRangeBuilder().build());
+    formDto.setSurveyPeriod(new DateRangeBuilder().build());
 
     // Act
     Map<Field, String> filterMap = formDto.getAllFilterValues();
@@ -65,7 +64,7 @@ public class SearchFormDtoTest {
     formDto.setQuery("Query");
     formDto.setScaleLevel("ScaleLevel");
     formDto.setSurveyTitle("SurveyTitle");
-    formDto.setDateRange(new DateRangeBuilder().withEndDate(LocalDate.now())
+    formDto.setSurveyPeriod(new DateRangeBuilder().withEndDate(LocalDate.now())
         .withStartDate(LocalDate.now().minusDays(2)).build());
 
     // Act
