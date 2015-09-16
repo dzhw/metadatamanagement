@@ -1,16 +1,17 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
-	xmlns:th="http://www.thymeleaf.org"
-	th:lang="${#locale.language}">
+	xmlns:th="http://www.thymeleaf.org" th:lang="${#locale.language}">
 <head th:include="common/head::head">
 </head>
 <body class="body-with-jumbotron">
 	<header>
 		<div th:include="common/navbar::navbar"></div>
 		<div
-			th:include="common/jumbotron::jumbotron(title=#{welcome.title},subtitle=#{welcome.subtitle})"></div>
+			th:include="common/jumbotron::jumbotron(title=#{disclosure.title},subtitle='')"></div>
 	</header>
-	<div class="container"></div>
+	<div class="container">
+		<span th:text="#{disclosure.content}"></span>
+	</div>
 	<div th:replace="common/footer::pageFooter"></div>
 	<div th:include="common/js_libraries::js"></div>
 </body>

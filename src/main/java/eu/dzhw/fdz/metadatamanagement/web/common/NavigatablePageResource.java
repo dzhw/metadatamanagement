@@ -9,6 +9,7 @@ import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.hateoas.Link;
 import org.springframework.hateoas.ResourceSupport;
 
+import eu.dzhw.fdz.metadatamanagement.web.impressum.DisclosureController;
 import eu.dzhw.fdz.metadatamanagement.web.variablemanagement.modify.VariableCreateController;
 import eu.dzhw.fdz.metadatamanagement.web.variablemanagement.search.VariableSearchController;
 import eu.dzhw.fdz.metadatamanagement.web.welcome.WelcomeController;
@@ -26,6 +27,7 @@ public abstract class NavigatablePageResource<T> extends ResourceSupport impleme
   public static final String VARIABLES_SEARCH_REL = "search";
   public static final String VARIABLES_CREATE_REL = "create";
   public static final String HOME_REL = "home";
+  public static final String DISCLOSURE_REL = "disclosure";
   public static final String GERMAN_REL = Locale.GERMAN.getLanguage();
   public static final String ENGLISH_REL = Locale.ENGLISH.getLanguage();
 
@@ -37,6 +39,9 @@ public abstract class NavigatablePageResource<T> extends ResourceSupport impleme
         methodOn(WelcomeController.class, LocaleContextHolder.getLocale().getLanguage()).get())
         .withRel(HOME_REL));
     this.add(linkTo(
+        methodOn(DisclosureController.class, LocaleContextHolder.getLocale().getLanguage()).get())
+        .withRel(DISCLOSURE_REL));
+    this.add(linkTo(
         methodOn(VariableSearchController.class, LocaleContextHolder.getLocale().getLanguage())
             .get(null, null, null, null, null)).withRel(VARIABLES_SEARCH_REL));
     this.add(linkTo(
@@ -46,6 +51,10 @@ public abstract class NavigatablePageResource<T> extends ResourceSupport impleme
 
   public Link getHomeLink() {
     return this.getLink(HOME_REL);
+  }
+
+  public Link getDisclosureLink() {
+    return this.getLink(DISCLOSURE_REL);
   }
 
   public Link getVariablesSearchLink() {

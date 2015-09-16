@@ -11,6 +11,9 @@
 .jumbotron {
 	margin-bottom: 20px;
 }
+.footer {
+  background-color: #e7e7e7;
+}
 
 /* chevron Up and Down and link style */
 .custom-panel-heading .panel-toggle:after {
