@@ -1,8 +1,8 @@
 package eu.dzhw.fdz.metadatamanagement.web.variablemanagement.search;
 
-import java.util.HashSet;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.TreeSet;
 
 import eu.dzhw.fdz.metadatamanagement.data.common.aggregations.Bucket;
 import eu.dzhw.fdz.metadatamanagement.data.common.documents.Field;
@@ -22,8 +22,8 @@ public class BucketManager {
    * 
    * @return The extended bucket map.
    */
-  public static Map<String, HashSet<Bucket>> addEmptyBucketsIfNecessary(
-      VariableSearchFormDto variableSearchFormDto, Map<String, HashSet<Bucket>> bucketMap) {
+  public static Map<String, TreeSet<Bucket>> addEmptyBucketsIfNecessary(
+      VariableSearchFormDto variableSearchFormDto, Map<String, TreeSet<Bucket>> bucketMap) {
     Map<Field, String> filters = variableSearchFormDto.getAllFilters();
 
     for (Entry<Field, String> filter : filters.entrySet()) {
@@ -38,13 +38,13 @@ public class BucketManager {
       Bucket emptyBucket = new Bucket(filterValue, 0L);
       
       if (!bucketMap.containsKey(nestedPath)) {
-        HashSet<Bucket> filterBucketList = new HashSet<>();
+        TreeSet<Bucket> filterBucketList = new TreeSet<>();
         filterBucketList.add(emptyBucket);
         bucketMap.put(nestedPath, filterBucketList);
         // okay group is in the map, check here for the value
       } else {
         if (!bucketMap.get(nestedPath).contains(emptyBucket)) {
-          HashSet<Bucket> filterBucketList = bucketMap.get(nestedPath);
+          TreeSet<Bucket> filterBucketList = bucketMap.get(nestedPath);
           filterBucketList.add(emptyBucket);
         }
       }

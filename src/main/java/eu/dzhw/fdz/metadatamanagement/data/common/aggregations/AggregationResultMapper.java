@@ -1,8 +1,8 @@
 package eu.dzhw.fdz.metadatamanagement.data.common.aggregations;
 
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Map;
+import java.util.TreeSet;
 
 import org.elasticsearch.action.search.SearchResponse;
 import org.elasticsearch.search.aggregations.Aggregations;
@@ -43,7 +43,7 @@ public class AggregationResultMapper extends DefaultResultMapper {
 
     // Build grouped aggregations / filter
     // iterate over names
-    Map<String, HashSet<Bucket>> map = new HashMap<>();
+    Map<String, TreeSet<Bucket>> map = new HashMap<>();
     response.getAggregations().asMap().keySet().forEach(aggregationName -> {
       
         //Not nested Aggregations
@@ -74,9 +74,9 @@ public class AggregationResultMapper extends DefaultResultMapper {
    * 
    * @see StringTerms
    */
-  private HashSet<Bucket> getStringTerms(Aggregations aggregations, String aggregationName) {
+  private TreeSet<Bucket> getStringTerms(Aggregations aggregations, String aggregationName) {
     StringTerms aggregation = aggregations.get(aggregationName);
-    HashSet<Bucket> buckets = new HashSet<>();
+    TreeSet<Bucket> buckets = new TreeSet<>();
     aggregation.getBuckets().forEach(bucket -> {
         buckets.add(new Bucket(bucket.getKey(), bucket.getDocCount()));
       });

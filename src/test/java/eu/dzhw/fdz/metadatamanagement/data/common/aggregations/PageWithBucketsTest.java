@@ -8,8 +8,8 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThat;
 
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Map;
+import java.util.TreeSet;
 
 import org.junit.Test;
 import org.mockito.Mockito;
@@ -31,7 +31,7 @@ public class PageWithBucketsTest {
     // Arrange
     FacetedPage<VariableDocument> facetedPage = Mockito.mock(FacetedPage.class);
     Pageable pageable = Mockito.mock(Pageable.class);
-    Map<String, HashSet<Bucket>> bucketMap = new HashMap<>();
+    Map<String, TreeSet<Bucket>> bucketMap = new HashMap<>();
     PageWithBuckets<VariableDocument> pageWithBuckets =
         new PageWithBuckets<>(facetedPage, pageable, bucketMap);
 
@@ -47,9 +47,9 @@ public class PageWithBucketsTest {
     // Arrange
     FacetedPage<VariableDocument> facetedPage = Mockito.mock(FacetedPage.class);
     Pageable pageable = Mockito.mock(Pageable.class);
-    Map<String, HashSet<Bucket>> bucketMap = new HashMap<>();
-    Map<String, HashSet<Bucket>> bucketMap2 = new HashMap<>();
-    HashSet<Bucket> buckets = new HashSet<>();
+    Map<String, TreeSet<Bucket>> bucketMap = new HashMap<>();
+    Map<String, TreeSet<Bucket>> bucketMap2 = new HashMap<>();
+    TreeSet<Bucket> buckets = new TreeSet<>();
     bucketMap2.put(VariableDocument.SCALE_LEVEL_FIELD.getPath(), buckets);
     PageWithBuckets<VariableDocument> pageWithBuckets =
         new PageWithBuckets<>(facetedPage, pageable, bucketMap);

@@ -2,13 +2,15 @@ package eu.dzhw.fdz.metadatamanagement.data.common.aggregations;
 
 import com.google.common.base.Objects;
 
+import eu.dzhw.fdz.metadatamanagement.data.common.CastTypesUtils;
+
 /**
  * This class holds the result of an elasticsearch query with a term aggregation.
  * 
  * @author Daniel Katzberg
  *
  */
-public class Bucket {
+public class Bucket implements Comparable<Bucket> {
 
   /**
    * The key of the bucket is a term if used in term aggregations.
@@ -31,23 +33,6 @@ public class Bucket {
     this.docCount = docCount;
   }
 
-  /* GETTER / SETTER */
-  public String getKey() {
-    return key;
-  }
-
-  public void setKey(String key) {
-    this.key = key;
-  }
-
-  public long getDocCount() {
-    return docCount;
-  }
-
-  public void setDocCount(long docCount) {
-    this.docCount = docCount;
-  }
-
   /**
    * Only the key is relevant for equality.
    */
@@ -66,5 +51,32 @@ public class Bucket {
       return Objects.equal(this.key, that.key);
     }
     return false;
+  }
+
+  /*
+   * (non-Javadoc)
+   * 
+   * @see java.lang.Comparable#compareTo(java.lang.Object)
+   */
+  @Override
+  public int compareTo(Bucket other) {
+    return CastTypesUtils.castLongToInt(other.getDocCount() - this.docCount);
+  }
+
+  /* GETTER / SETTER */
+  public String getKey() {
+    return key;
+  }
+
+  public void setKey(String key) {
+    this.key = key;
+  }
+
+  public long getDocCount() {
+    return docCount;
+  }
+
+  public void setDocCount(long docCount) {
+    this.docCount = docCount;
   }
 }

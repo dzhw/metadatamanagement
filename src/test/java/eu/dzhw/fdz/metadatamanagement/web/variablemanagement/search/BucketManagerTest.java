@@ -7,8 +7,8 @@ import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertThat;
 
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Map;
+import java.util.TreeSet;
 
 import org.junit.Test;
 
@@ -27,11 +27,11 @@ public class BucketManagerTest {
   @Test
   public void testMergeFilterWithDtoInformationEmptyFilterMap() {
     // Arrange
-    Map<String, HashSet<Bucket>> filterMap = new HashMap<>();
+    Map<String, TreeSet<Bucket>> filterMap = new HashMap<>();
     VariableSearchFormDto variableSearchFormDto = new VariableSearchFormDtoBuilder()
         .withQuery("EmptyQuery").withScaleLevel("nominal").build();
 
-    Map<String, HashSet<Bucket>> extendedMap =
+    Map<String, TreeSet<Bucket>> extendedMap =
         BucketManager.addEmptyBucketsIfNecessary(variableSearchFormDto, filterMap);
 
     // Act
@@ -41,7 +41,7 @@ public class BucketManagerTest {
     assertThat(extendedMap.keySet().iterator().next(),
         is(VariableDocument.SCALE_LEVEL_FIELD.getPath()));
 
-    HashSet<Bucket> scaleLevelBuckets =
+    TreeSet<Bucket> scaleLevelBuckets =
         extendedMap.get(VariableDocument.SCALE_LEVEL_FIELD.getPath());
     for (Bucket bucket : scaleLevelBuckets) {
       assertThat(bucket.getKey(), is("nominal"));
@@ -51,13 +51,13 @@ public class BucketManagerTest {
   @Test
   public void testMergeFilterWithDtoInformationFilledMap() {
     // Arrange
-    HashSet<Bucket> filterList = new HashSet<>();
-    Map<String, HashSet<Bucket>> filterMap = new HashMap<>();
+    TreeSet<Bucket> filterList = new TreeSet<>();
+    Map<String, TreeSet<Bucket>> filterMap = new HashMap<>();
     filterMap.put(VariableDocument.SCALE_LEVEL_FIELD.getPath(), filterList);
     VariableSearchFormDto variableSearchFormDto = new VariableSearchFormDtoBuilder()
         .withQuery("EmptyQuery").withScaleLevel("ordinal").build();
 
-    Map<String, HashSet<Bucket>> extendedMap =
+    Map<String, TreeSet<Bucket>> extendedMap =
         BucketManager.addEmptyBucketsIfNecessary(variableSearchFormDto, filterMap);
 
     // Act
@@ -66,7 +66,7 @@ public class BucketManagerTest {
     assertThat(extendedMap.keySet().size(), is(1));
     assertThat(extendedMap.keySet().iterator().next(),
         is(VariableDocument.SCALE_LEVEL_FIELD.getPath()));
-    HashSet<Bucket> scaleLevelBuckets =
+    TreeSet<Bucket> scaleLevelBuckets =
         extendedMap.get(VariableDocument.SCALE_LEVEL_FIELD.getPath());
     for (Bucket bucket : scaleLevelBuckets) {
       assertThat(bucket.getKey(), is("ordinal"));
