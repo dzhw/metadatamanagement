@@ -34,6 +34,8 @@ import eu.dzhw.fdz.metadatamanagement.data.common.aggregations.PageWithBuckets;
 import eu.dzhw.fdz.metadatamanagement.data.common.documents.Field;
 import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.VariableDocument;
 import eu.dzhw.fdz.metadatamanagement.web.common.dtos.AbstractSearchFilter;
+import eu.dzhw.fdz.metadatamanagement.web.common.dtos.AggregationType;
+import eu.dzhw.fdz.metadatamanagement.web.common.dtos.FilterType;
 
 /**
  * This class implements the interface of the custom variable documents repository. This class will
@@ -83,8 +85,8 @@ public class VariableDocumentRepositoryImpl implements VariableDocumentRepositor
 
     // create search query (with filter)
     QueryBuilder queryBuilder = this.createQueryBuilder(searchFilter.getQuery());
-    List<FilterBuilder> termFilterBuilders =
-        this.createTermFilterBuilders(searchFilter.getAllFilters(), searchFilter.getFilterFields());
+    List<FilterBuilder> termFilterBuilders = this.createTermFilterBuilders(
+        searchFilter.getAllFilterValues(), searchFilter.getAllFilterTypes());
     queryBuilder = this.addFilterToQuery(queryBuilder, termFilterBuilders);
 
     // prepare search query (with filter)
@@ -93,7 +95,7 @@ public class VariableDocumentRepositoryImpl implements VariableDocumentRepositor
 
     // add Aggregations
     List<AggregationBuilder> aggregationBuilders =
-        this.createAggregations(searchFilter.getAggregationFields());
+        this.createAggregations(searchFilter.getAllAggregationTypes());
     for (AggregationBuilder aggregationBuilder : aggregationBuilders) {
       nativeSearchQueryBuilder.addAggregation(aggregationBuilder);
     }
@@ -140,11 +142,12 @@ public class VariableDocumentRepositoryImpl implements VariableDocumentRepositor
    * @return a list of aggregations builder for the aggregation information.
    */
   @SuppressWarnings("rawtypes")
-  private List<AggregationBuilder> createAggregations(Map<Field, Integer> aggregationFields) {
+  private List<AggregationBuilder> createAggregations(
+      Map<Field, AggregationType> aggregationFields) {
     List<AggregationBuilder> aggregationBuilders = new ArrayList<>();
 
     // add nested or not nested aggregations
-    for (Entry<Field, Integer> aggregationField : aggregationFields.entrySet()) {
+    for (Entry<Field, AggregationType> aggregationField : aggregationFields.entrySet()) {
       AggregationBuilder aggregationBuilder =
           this.createAggregations(aggregationField.getKey(), aggregationField.getValue());
       // check for default case (no aggregation filter was found
@@ -164,7 +167,7 @@ public class VariableDocumentRepositoryImpl implements VariableDocumentRepositor
    * @return an nested or not nested aggregations
    */
   @SuppressWarnings("rawtypes")
-  private AggregationBuilder createAggregations(Field field, int aggregationType) {
+  private AggregationBuilder createAggregations(Field field, AggregationType aggregationType) {
 
     // recursive / nested aggregation
     if (field.isNested()) {
@@ -175,7 +178,7 @@ public class VariableDocumentRepositoryImpl implements VariableDocumentRepositor
       // Switch between the different cases
       switch (aggregationType) {
 
-        case AbstractSearchFilter.AGGREGATION_TERM:
+        case TERM:
           return AggregationBuilders.terms(field.getPath()).field(field.getPath());
 
         default:
@@ -219,13 +222,13 @@ public class VariableDocumentRepositoryImpl implements VariableDocumentRepositor
    * @see FilterBuilder
    */
   private List<FilterBuilder> createTermFilterBuilders(Map<Field, String> filterValues,
-      Map<Field, Integer> filterTypes) {
+      Map<Field, FilterType> filterTypes) {
     List<FilterBuilder> termFilterBuilders = new ArrayList<>();
 
     // create nested or not nested filter.
     for (Entry<Field, String> entry : filterValues.entrySet()) {
 
-      int filterType = filterTypes.get(entry.getKey());
+      FilterType filterType = filterTypes.get(entry.getKey());
 
       FilterBuilder filterBuilder =
           this.createNestedFilterBuilder(entry.getKey(), entry.getValue(), filterType);
@@ -247,7 +250,8 @@ public class VariableDocumentRepositoryImpl implements VariableDocumentRepositor
    * @param filterType The value is the type of the filter
    * @return A nested or not nested FilterBuilder
    */
-  private FilterBuilder createNestedFilterBuilder(Field field, String value, int filterType) {
+  private FilterBuilder createNestedFilterBuilder(Field field, String value,
+      FilterType filterType) {
 
     if (field.isNested()) {
       return FilterBuilders.nestedFilter(field.getPath(),
@@ -255,13 +259,13 @@ public class VariableDocumentRepositoryImpl implements VariableDocumentRepositor
     } else {
 
       switch (filterType) {
-        case AbstractSearchFilter.FILTER_TERM:
+        case TERM:
           return FilterBuilders.termFilter(field.getPath(), value);
 
-        case AbstractSearchFilter.FILTER_RANGE_GTE:
+        case RANGE_GTE:
           return FilterBuilders.rangeFilter(field.getNestedPath()).gte(value);
 
-        case AbstractSearchFilter.FILTER_RANGE_LTE:
+        case RANGE_LTE:
           return FilterBuilders.rangeFilter(field.getNestedPath()).lte(value);
 
         default:

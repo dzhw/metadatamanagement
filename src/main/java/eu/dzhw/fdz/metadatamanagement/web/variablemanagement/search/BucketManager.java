@@ -24,7 +24,7 @@ public class BucketManager {
    */
   public static Map<String, TreeSet<Bucket>> addEmptyBucketsIfNecessary(
       VariableSearchFilter variableSearchFormDto, Map<String, TreeSet<Bucket>> bucketMap) {
-    Map<Field, String> filters = variableSearchFormDto.getAllFilters();
+    Map<Field, String> filters = variableSearchFormDto.getAllFilterValues();
 
     for (Entry<Field, String> filter : filters.entrySet()) {
 

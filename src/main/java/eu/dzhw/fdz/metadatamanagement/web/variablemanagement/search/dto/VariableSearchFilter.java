@@ -11,6 +11,8 @@ import eu.dzhw.fdz.metadatamanagement.data.common.documents.DateRange;
 import eu.dzhw.fdz.metadatamanagement.data.common.documents.Field;
 import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.VariableDocument;
 import eu.dzhw.fdz.metadatamanagement.web.common.dtos.AbstractSearchFilter;
+import eu.dzhw.fdz.metadatamanagement.web.common.dtos.AggregationType;
+import eu.dzhw.fdz.metadatamanagement.web.common.dtos.FilterType;
 import net.karneim.pojobuilder.GeneratePojoBuilder;
 
 /**
@@ -47,10 +49,10 @@ public class VariableSearchFilter extends AbstractSearchFilter {
   /*
    * (non-Javadoc)
    * 
-   * @see eu.dzhw.fdz.metadatamanagement.web.common.dtos.AbstractQueryDto#getAllFilters()
+   * @see eu.dzhw.fdz.metadatamanagement.web.common.dtos.AbstractSearchFilter#getAllFilterValues()
    */
   @Override
-  public Map<Field, String> getAllFilters() {
+  public Map<Field, String> getAllFilterValues() {
     Map<Field, String> filterValues = new HashMap<>();
 
     // ScaleLevel
@@ -63,8 +65,8 @@ public class VariableSearchFilter extends AbstractSearchFilter {
       filterValues.put(VariableDocument.NESTED_VARIABLE_SURVEY_TITLE_FIELD, this.surveyTitle);
     }
 
-    //Date Range Start Date value. This value have to be checked by the end field
-    //StartDate (Input by User) <= EndDate (Variable)
+    // Date Range Start Date value. This value have to be checked by the end field
+    // StartDate (Input by User) <= EndDate (Variable)
     if (this.dateRange != null) {
       if (this.dateRange.getStartDate() != null
           && StringUtils.hasText(this.dateRange.getStartDate().toString())) {
@@ -74,7 +76,7 @@ public class VariableSearchFilter extends AbstractSearchFilter {
       }
 
       // Date Range End Date This value have to be checked by the start field
-      //StartDate (Variable) <= EndDate (Input by User)
+      // StartDate (Variable) <= EndDate (Input by User)
       if (this.dateRange.getEndDate() != null
           && StringUtils.hasText(this.dateRange.getEndDate().toString())) {
         filterValues.put(VariableDocument.NESTED_VARIABLE_SURVEY_NESTED_PERIOD_START_DATE,
@@ -88,26 +90,25 @@ public class VariableSearchFilter extends AbstractSearchFilter {
   /*
    * (non-Javadoc)
    * 
-   * @see eu.dzhw.fdz.metadatamanagement.web.common.dtos.AbstractQueryDto#getFilterFields()
+   * @see eu.dzhw.fdz.metadatamanagement.web.common.dtos.AbstractSearchFilter#getAllFilterTypes()
    */
   @Override
-  public Map<Field, Integer> getFilterFields() {
-    Map<Field, Integer> filterFields = new HashMap<>();
+  public Map<Field, FilterType> getAllFilterTypes() {
+    Map<Field, FilterType> filterFields = new HashMap<>();
 
     // ScaleLevel
-    filterFields.put(VariableDocument.SCALE_LEVEL_FIELD, VariableSearchFilter.FILTER_TERM);
+    filterFields.put(VariableDocument.SCALE_LEVEL_FIELD, FilterType.TERM);
 
     // Survey Title
-    filterFields.put(VariableDocument.NESTED_VARIABLE_SURVEY_TITLE_FIELD,
-        VariableSearchFilter.FILTER_TERM);
+    filterFields.put(VariableDocument.NESTED_VARIABLE_SURVEY_TITLE_FIELD, FilterType.TERM);
 
     // Date Range Start Date
     filterFields.put(VariableDocument.NESTED_VARIABLE_SURVEY_NESTED_PERIOD_START_DATE,
-        VariableSearchFilter.FILTER_RANGE_LTE);
+        FilterType.RANGE_LTE);
 
     // Date Range End Date
     filterFields.put(VariableDocument.NESTED_VARIABLE_SURVEY_NESTED_PERIOD_END_DATE,
-        VariableSearchFilter.FILTER_RANGE_GTE);
+        FilterType.RANGE_GTE);
 
     return filterFields;
   }
@@ -115,19 +116,19 @@ public class VariableSearchFilter extends AbstractSearchFilter {
   /*
    * (non-Javadoc)
    * 
-   * @see eu.dzhw.fdz.metadatamanagement.web.common.dtos.AbstractQueryDto#getAggregationFields()
+   * @see
+   * eu.dzhw.fdz.metadatamanagement.web.common.dtos.AbstractSearchFilter#getAllAggregationTypes()
    */
   @Override
-  public Map<Field, Integer> getAggregationFields() {
-    Map<Field, Integer> aggregationFields = new HashMap<>();
+  public Map<Field, AggregationType> getAllAggregationTypes() {
+    Map<Field, AggregationType> aggregationFields = new HashMap<>();
 
     // ScaleLevel
-    aggregationFields.put(VariableDocument.SCALE_LEVEL_FIELD,
-        VariableSearchFilter.AGGREGATION_TERM);
+    aggregationFields.put(VariableDocument.SCALE_LEVEL_FIELD, AggregationType.TERM);
 
     // Survey Title
     aggregationFields.put(VariableDocument.NESTED_VARIABLE_SURVEY_TITLE_FIELD,
-        VariableSearchFilter.AGGREGATION_TERM);
+        AggregationType.TERM);
 
     return aggregationFields;
   }
