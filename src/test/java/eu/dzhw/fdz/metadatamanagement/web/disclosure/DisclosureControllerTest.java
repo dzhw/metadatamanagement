@@ -1,6 +1,8 @@
 package eu.dzhw.fdz.metadatamanagement.web.disclosure;
 
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.instanceOf;
+import static org.hamcrest.Matchers.is;
 import static org.hamcrest.core.IsNot.not;
 import static org.hamcrest.core.StringContains.containsString;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.asyncDispatch;
@@ -23,35 +25,41 @@ import eu.dzhw.fdz.metadatamanagement.web.AbstractWebTest;
 public class DisclosureControllerTest extends AbstractWebTest {
   @Test
   public void testGermanDisclosurePage() throws Exception {
-    MvcResult mvcResult =
-        this.mockMvc.perform(get("/de/disclosure")).andExpect(status().isOk())
-            .andExpect(request().asyncStarted())
-            .andExpect(request().asyncResult(instanceOf(ModelAndView.class))).andReturn();
+    MvcResult mvcResult = this.mockMvc.perform(get("/de/disclosure")).andExpect(status().isOk())
+        .andExpect(request().asyncStarted())
+        .andExpect(request().asyncResult(instanceOf(ModelAndView.class))).andReturn();
 
-    this.mockMvc
+    mvcResult = this.mockMvc
         // wait for the async result
         .perform(asyncDispatch(mvcResult)).andExpect(status().isOk())
         // check that the german version is rendered
         .andExpect(content().string((containsString("Sprache"))))
         // ensure that all thymeleaf/spel tags are processed
         .andExpect(content().string(not(containsString("#{"))))
-        .andExpect(content().string(not(containsString("${"))));
+        .andExpect(content().string(not(containsString("${")))).andReturn();
+
+    boolean validHtml = this.checkHtmlValidation(mvcResult.getResponse().getContentAsString(),
+        "DisclosureControllerTest.testGermanDisclosurePage");
+    assertThat(validHtml, is(true));
   }
 
   @Test
   public void testEnglishDisclosurePage() throws Exception {
-    MvcResult mvcResult =
-        this.mockMvc.perform(get("/en")).andExpect(status().isOk())
-            .andExpect(request().asyncStarted())
-            .andExpect(request().asyncResult(instanceOf(ModelAndView.class))).andReturn();
+    MvcResult mvcResult = this.mockMvc.perform(get("/en")).andExpect(status().isOk())
+        .andExpect(request().asyncStarted())
+        .andExpect(request().asyncResult(instanceOf(ModelAndView.class))).andReturn();
 
-    this.mockMvc
+    mvcResult = this.mockMvc
         // wait for the async result
         .perform(asyncDispatch(mvcResult)).andExpect(status().isOk())
         // check that the german version is rendered
         .andExpect(content().string((containsString("Language"))))
         // ensure that all thymeleaf/spel tags are processed
         .andExpect(content().string(not(containsString("#{"))))
-        .andExpect(content().string(not(containsString("${"))));
+        .andExpect(content().string(not(containsString("${")))).andReturn();
+
+    boolean validHtml = this.checkHtmlValidation(mvcResult.getResponse().getContentAsString(),
+        "DisclosureControllerTest.testEnglishDisclosurePage");
+    assertThat(validHtml, is(true));
   }
 }
