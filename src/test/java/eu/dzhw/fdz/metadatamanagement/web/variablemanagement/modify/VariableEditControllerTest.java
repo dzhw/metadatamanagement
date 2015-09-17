@@ -3,12 +3,12 @@
  */
 package eu.dzhw.fdz.metadatamanagement.web.variablemanagement.modify;
 
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.instanceOf;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.core.IsNot.not;
 import static org.hamcrest.core.StringContains.containsString;
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertThat;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.asyncDispatch;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -67,13 +67,19 @@ public class VariableEditControllerTest extends AbstractWebTest {
         .andExpect(status().isOk()).andExpect(request().asyncStarted())
         .andExpect(request().asyncResult(instanceOf(ModelAndView.class))).andReturn();
 
-    // Act and Assert
-    this.mockMvc.perform(asyncDispatch(mvcResult)).andExpect(status().isOk())
+    // Act
+    mvcResult = this.mockMvc.perform(asyncDispatch(mvcResult)).andExpect(status().isOk())
         .andExpect(content().string((containsString("Sprache"))))
         .andExpect(content().string(not(containsString("#{"))))
         .andExpect(content().string(not(containsString("${"))))
         .andExpect(content().string(not(containsString("??"))))
-        .andExpect(model().attributeHasFieldErrors("variableDocument"));
+        .andExpect(model().attributeHasFieldErrors("variableDocument")).andReturn();
+
+    boolean validHtml = this.checkHtmlValidation(mvcResult.getResponse().getContentAsString(),
+        "VariableEditControllerTest.testGetForm");
+
+    // Assert
+    assertThat(validHtml, is(true));
 
     // Delete
     this.variableService.delete(id);
@@ -93,12 +99,18 @@ public class VariableEditControllerTest extends AbstractWebTest {
         .andExpect(status().isOk()).andExpect(request().asyncStarted())
         .andExpect(request().asyncResult(instanceOf(DocumentNotFoundException.class))).andReturn();
 
-    // Act and Assert
-    this.mockMvc.perform(asyncDispatch(mvcResult)).andExpect(status().isNotFound())
+    // Act
+    mvcResult = this.mockMvc.perform(asyncDispatch(mvcResult)).andExpect(status().isNotFound())
         .andExpect(content().string((containsString("Sprache"))))
         .andExpect(content().string(not(containsString("#{"))))
         .andExpect(content().string(not(containsString("${"))))
-        .andExpect(content().string(not(containsString("??"))));
+        .andExpect(content().string(not(containsString("??")))).andReturn();
+
+    boolean validHtml = this.checkHtmlValidation(mvcResult.getResponse().getContentAsString(),
+        "VariableEditControllerTest.testGetInvalidForm");
+
+    // Assert
+    assertThat(validHtml, is(true));
 
     // Delete
     this.variableService.delete(validId);
@@ -149,9 +161,13 @@ public class VariableEditControllerTest extends AbstractWebTest {
     int errorsSize = errors.size();
     String error1 = errors.get(0);
 
-    // Act and Assert
-    this.mockMvc.perform(asyncDispatch(mvcResult)).andExpect(status().is2xxSuccessful())
-        .andExpect(redirectedUrl(null));
+    // Act
+    mvcResult = this.mockMvc.perform(asyncDispatch(mvcResult)).andExpect(status().is2xxSuccessful())
+        .andExpect(redirectedUrl(null)).andReturn();
+
+    // No W3C Validation Check, because return value is json.
+
+    // Assert
     assertEquals(1, errorKeySize);
     assertEquals(1, errorsSize);
     assertThat(error1, is("Bitte geben Sie eine Frage an."));
@@ -200,9 +216,13 @@ public class VariableEditControllerTest extends AbstractWebTest {
     ValidationResultDto validationResultDto = (ValidationResultDto) mvcResult.getAsyncResult();
     int errorKeySize = validationResultDto.getErrorMessageMap().keySet().size();
 
-    // Act and Assert
-    this.mockMvc.perform(asyncDispatch(mvcResult)).andExpect(status().is2xxSuccessful())
-        .andExpect(redirectedUrl(null));
+    // Act
+    mvcResult = this.mockMvc.perform(asyncDispatch(mvcResult)).andExpect(status().is2xxSuccessful())
+        .andExpect(redirectedUrl(null)).andReturn();
+
+    // No W3C Validation Check, because return value is json.
+
+    // Assert
     assertEquals(0, errorKeySize);
 
     // Delete
@@ -211,12 +231,20 @@ public class VariableEditControllerTest extends AbstractWebTest {
 
   @Test
   public void testGetWithInvalidId() throws Exception {
+    // Arrangr
     MvcResult mvcResult = this.mockMvc.perform(get("/de/variables/hurz/edit"))
         .andExpect(status().isOk()).andExpect(request().asyncStarted())
         .andExpect(request().asyncResult(instanceOf(DocumentNotFoundException.class))).andReturn();
 
-    this.mockMvc.perform(asyncDispatch(mvcResult)).andExpect(status().isNotFound())
+    mvcResult = this.mockMvc.perform(asyncDispatch(mvcResult)).andExpect(status().isNotFound())
         .andExpect(view().name("exceptionView"))
-        .andExpect(model().attribute("navMessageLanguage", "nav.language.german"));
+        .andExpect(model().attribute("navMessageLanguage", "nav.language.german")).andReturn();
+
+    // Act
+    boolean validHtml = this.checkHtmlValidation(mvcResult.getResponse().getContentAsString(),
+        "VariableEditControllerTest.testGetWithInvalidId");
+
+    // Assert
+    assertThat(validHtml, is(true));
   }
 }

@@ -41,7 +41,7 @@ public class WelcomeControllerTest extends AbstractWebTest {
         .andExpect(content().string(not(containsString("${")))).andReturn();
 
     boolean validHtml = this.checkHtmlValidation(mvcResult.getResponse().getContentAsString(),
-        "VariableCreateControllerTest.testPostAddFirstAnswerOptionMethod");
+        "WelcomeControllerTest.testGermanWelcomePage");
     assertThat(validHtml, is(true));
   }
 
@@ -61,7 +61,7 @@ public class WelcomeControllerTest extends AbstractWebTest {
         .andExpect(content().string(not(containsString("${")))).andReturn();
 
     boolean validHtml = this.checkHtmlValidation(mvcResult.getResponse().getContentAsString(),
-        "VariableCreateControllerTest.testPostAddFirstAnswerOptionMethod");
+        "WelcomeControllerTest.testGermanWelcomePage");
     assertThat(validHtml, is(true));
   }
 
