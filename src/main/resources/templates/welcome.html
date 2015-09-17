@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
-	xmlns:th="http://www.thymeleaf.org"
-	th:lang="${#locale.language}">
+	xmlns:th="http://www.thymeleaf.org" th:lang="${#locale.language}">
 <head th:include="common/head::head">
 </head>
 <body class="body-with-jumbotron">
@@ -10,7 +9,12 @@
 		<div
 			th:include="common/jumbotron::jumbotron(title=#{welcome.title},subtitle=#{welcome.subtitle})"></div>
 	</header>
-	<div class="container"></div>
+	<div class="container">
+		<div class="row">
+			<img th:src="@{'/images/BMBF_Logo_L_' + ${#locale.language} + '.jpg'}" th:title="#{logo.bmbf}"
+				th:alt="#{logo.bmbf}" class="img-responsive center-block" />
+		</div>
+	</div>
 	<div th:replace="common/footer::pageFooter"></div>
 	<div th:include="common/js_libraries::js"></div>
 </body>
