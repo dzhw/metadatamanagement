@@ -62,6 +62,7 @@ public abstract class AbstractWebTest {
     for (Locale locale : I18nConfiguration.SUPPORTED_LANGUAGES) {
       LocaleContextHolder.setLocale(locale);
       if (variableRepository.findAll(new PageRequest(0, 10)).hasContent()) {
+        LOG.error("Found variables in '" + locale.getLanguage() + "'-index.");
         throw new IllegalStateException("Found variables in '" + locale.getLanguage() + "'-index.");
       }
     }
@@ -85,11 +86,10 @@ public abstract class AbstractWebTest {
     Errors errors = checkResult.body.response.errors;
     LOG.info(methodeName + ": Number of Errors: " + errors.errorcount);
     if (errors.errorcount > 0) {
+      LOG.error("Content: " + htmlResult);
       errors.errorlist.forEach(e -> {
-        LOG.info("Content: " + htmlResult);
         LOG.error(methodeName + ": Validation Error: (Line: " + e.line + ", Col.: " + e.col + ") "
             + e.message + "");
-        LOG.error(methodeName + ": Explanation Error: " + e.explanation);
       });
     }
 
