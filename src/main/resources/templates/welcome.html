@@ -11,8 +11,10 @@
 	</header>
 	<div class="container">
 		<div class="row">
-			<img th:src="@{'/images/BMBF_Logo_L_' + ${#locale.language} + '.png'}" th:title="#{logo.bmbf}"
-				th:alt="#{logo.bmbf}" class="img-responsive center-block" />
+			<a th:href="'http://www.bmbf.de/' + ${#locale.language.equals('en')?'en':''}">
+				<img th:src="@{'/images/BMBF_Logo_L_' + ${#locale.language} + '.png'}" th:title="#{logo.bmbf}"
+					th:alt="#{logo.bmbf}" class="img-responsive center-block" />
+			</a>	
 		</div>
 	</div>
 	<div th:include="common/js_libraries::js"></div>
