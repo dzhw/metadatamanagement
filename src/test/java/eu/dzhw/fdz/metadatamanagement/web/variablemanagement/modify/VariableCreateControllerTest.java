@@ -60,10 +60,10 @@ public class VariableCreateControllerTest extends AbstractWebTest {
         .andExpect(content().string(not(containsString("${"))))
         .andExpect(content().string(not(containsString("??"))))
         .andExpect(model().attributeHasFieldErrors("variableDocument")).andReturn();
-    boolean validHtml = this.checkHtmlValidation(mvcResult.getResponse().getContentAsString(),
-        "VariableCreateControllerTest.testGetForm");
 
-    assertThat(validHtml, is(true));
+    // W3C Validation Check
+    this.checkHtmlValidation(mvcResult.getResponse().getContentAsString(),
+        "VariableCreateControllerTest.testGetForm");
   }
 
   @Test
@@ -84,9 +84,9 @@ public class VariableCreateControllerTest extends AbstractWebTest {
     mvcResult = this.mockMvc.perform(asyncDispatch(mvcResult)).andExpect(status().is2xxSuccessful())
         .andExpect(redirectedUrl(null)).andReturn();
 
-    boolean validHtml = this.checkHtmlValidation(mvcResult.getResponse().getContentAsString(),
+ // W3C Validation Check
+    this.checkHtmlValidation(mvcResult.getResponse().getContentAsString(),
         "VariableCreateControllerTest.testPostRemoveAnswerOptionMethod");
-    assertThat(validHtml, is(true));
 
     // Delete
     this.variableService.delete("ID007");
@@ -111,9 +111,9 @@ public class VariableCreateControllerTest extends AbstractWebTest {
     mvcResult = this.mockMvc.perform(asyncDispatch(mvcResult)).andExpect(status().is2xxSuccessful())
         .andExpect(redirectedUrl(null)).andReturn();
 
-    boolean validHtml = this.checkHtmlValidation(mvcResult.getResponse().getContentAsString(),
+    // W3C Validation Check
+    this.checkHtmlValidation(mvcResult.getResponse().getContentAsString(),
         "VariableCreateControllerTest.testPostAddAnswerOptionMethod");
-    assertThat(validHtml, is(true));
 
     // Delete
     this.variableService.delete("ID007");
@@ -135,9 +135,9 @@ public class VariableCreateControllerTest extends AbstractWebTest {
     mvcResult = this.mockMvc.perform(asyncDispatch(mvcResult)).andExpect(status().is2xxSuccessful())
         .andExpect(redirectedUrl(null)).andReturn();
 
-    boolean validHtml = this.checkHtmlValidation(mvcResult.getResponse().getContentAsString(),
+    // W3C Validation Check
+    this.checkHtmlValidation(mvcResult.getResponse().getContentAsString(),
         "VariableCreateControllerTest.testPostAddFirstAnswerOptionMethod");
-    assertThat(validHtml, is(true));
 
     // Delete
     this.variableService.delete("ID007");
@@ -157,9 +157,9 @@ public class VariableCreateControllerTest extends AbstractWebTest {
     mvcResult = this.mockMvc.perform(asyncDispatch(mvcResult)).andExpect(status().is2xxSuccessful())
         .andExpect(redirectedUrl(null)).andReturn();
 
-    boolean validHtml = this.checkHtmlValidation(mvcResult.getResponse().getContentAsString(),
+    // W3C Validation Check
+    this.checkHtmlValidation(mvcResult.getResponse().getContentAsString(),
         "VariableCreateControllerTest.testPostInvalidVariableDocument");
-    assertThat(validHtml, is(true));
 
     // Delete
     this.variableService.delete("ID007");

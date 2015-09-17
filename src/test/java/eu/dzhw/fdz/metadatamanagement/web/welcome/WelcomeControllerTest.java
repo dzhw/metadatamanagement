@@ -1,8 +1,6 @@
 package eu.dzhw.fdz.metadatamanagement.web.welcome;
 
-import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.instanceOf;
-import static org.hamcrest.Matchers.is;
 import static org.hamcrest.core.IsNot.not;
 import static org.hamcrest.core.StringContains.containsString;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.asyncDispatch;
@@ -40,9 +38,9 @@ public class WelcomeControllerTest extends AbstractWebTest {
         .andExpect(content().string(not(containsString("#{"))))
         .andExpect(content().string(not(containsString("${")))).andReturn();
 
-    boolean validHtml = this.checkHtmlValidation(mvcResult.getResponse().getContentAsString(),
+    // W3C Validation Check
+    this.checkHtmlValidation(mvcResult.getResponse().getContentAsString(),
         "WelcomeControllerTest.testGermanWelcomePage");
-    assertThat(validHtml, is(true));
   }
 
   @Test
@@ -60,9 +58,9 @@ public class WelcomeControllerTest extends AbstractWebTest {
         .andExpect(content().string(not(containsString("#{"))))
         .andExpect(content().string(not(containsString("${")))).andReturn();
 
-    boolean validHtml = this.checkHtmlValidation(mvcResult.getResponse().getContentAsString(),
+    // W3C Validation Check
+    this.checkHtmlValidation(mvcResult.getResponse().getContentAsString(),
         "WelcomeControllerTest.testGermanWelcomePage");
-    assertThat(validHtml, is(true));
   }
 
   @Test

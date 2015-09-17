@@ -83,9 +83,9 @@ public class VariableDetailsControllerTest extends AbstractWebTest {
         .andExpect(content().string(not(containsString("${"))))
         .andExpect(content().string(not(containsString("??")))).andReturn();
 
-    boolean validHtml = this.checkHtmlValidation(mvcResult.getResponse().getContentAsString(),
+    // W3C Validation Check
+    this.checkHtmlValidation(mvcResult.getResponse().getContentAsString(),
         "VariableDetailsControllerTest.testGermanTemplate");
-    assertThat(validHtml, is(true));
   }
 
   @Test
@@ -100,10 +100,9 @@ public class VariableDetailsControllerTest extends AbstractWebTest {
         .andExpect(content().string(not(containsString("${"))))
         .andExpect(content().string(not(containsString("??")))).andReturn();
 
-    boolean validHtml = this.checkHtmlValidation(mvcResult.getResponse().getContentAsString(),
+    // W3C Validation Check
+    this.checkHtmlValidation(mvcResult.getResponse().getContentAsString(),
         "VariableDetailsControllerTest.testEnglishTemplate");
-
-    assertThat(validHtml, is(true));
   }
 
   @Test
@@ -111,7 +110,7 @@ public class VariableDetailsControllerTest extends AbstractWebTest {
     MvcResult mvcResult = this.mockMvc.perform(get("/de/variables/GetByValidTest_ID01"))
         .andExpect(status().isOk()).andExpect(request().asyncStarted())
         .andExpect(request().asyncResult(instanceOf(ModelAndView.class))).andReturn();
-    
+
     VariableDetailsResource resource =
         (VariableDetailsResource) ((ModelAndView) mvcResult.getAsyncResult()).getModelMap()
             .get("resource");
@@ -122,14 +121,14 @@ public class VariableDetailsControllerTest extends AbstractWebTest {
         .andExpect(content().string(not(containsString("${"))))
         .andExpect(content().string(not(containsString("??")))).andReturn();
 
-    boolean validHtml = this.checkHtmlValidation(mvcResult.getResponse().getContentAsString(),
+    // W3C Validation Check
+    this.checkHtmlValidation(mvcResult.getResponse().getContentAsString(),
         "VariableDetailsControllerTest.testGetByValidId");
 
     assertThat(resource.getVariableResource().getVariableDocument().getId(),
         is("GetByValidTest_ID01"));
     assertThat(resource.getEnglishLink().getHref().contains("/en/variables/GetByValidTest_ID01"),
         is(true));
-    assertThat(validHtml, is(true));
   }
 
   @Test
@@ -151,11 +150,9 @@ public class VariableDetailsControllerTest extends AbstractWebTest {
                 Matchers.hasProperty("unknownId", Matchers.equalTo("GetByInvalidTest_ID012")))))
         .andExpect(model().attribute("documentType", "documenttype.variable")).andReturn();
 
-    boolean validHtml = this.checkHtmlValidation(mvcResult.getResponse().getContentAsString(),
+    // W3C Validation Check
+    this.checkHtmlValidation(mvcResult.getResponse().getContentAsString(),
         "VariableDetailsControllerTest.testGetByInvalidId");
-
-    assertThat(validHtml, is(true));
-
   }
 
   private void createVariable(Locale locale, String variableId, String variableName,

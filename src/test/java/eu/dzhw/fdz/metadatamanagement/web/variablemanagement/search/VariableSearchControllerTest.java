@@ -88,7 +88,7 @@ public class VariableSearchControllerTest extends AbstractWebTest {
     MvcResult mvcResult = this.mockMvc.perform(get("/de/variables/search"))
         .andExpect(status().isOk()).andExpect(request().asyncStarted())
         .andExpect(request().asyncResult(instanceOf(ModelAndView.class))).andReturn();
-    
+
     VariableSearchPageResource resource =
         (VariableSearchPageResource) ((ModelAndView) mvcResult.getAsyncResult()).getModelMap()
             .get("resource");
@@ -99,12 +99,11 @@ public class VariableSearchControllerTest extends AbstractWebTest {
         .andExpect(content().string(not(containsString("${"))))
         .andExpect(content().string(not(containsString("??")))).andReturn();
 
-    boolean validHtml = this.checkHtmlValidation(mvcResult.getResponse().getContentAsString(),
+    // W3C Validation Check
+    this.checkHtmlValidation(mvcResult.getResponse().getContentAsString(),
         "VariableSearchControllerTest.testGermanTemplate");
 
-    
     assertThat(resource.getPage().getContent().size(), is(greaterThan(0)));
-    assertThat(validHtml, is(true));
   }
 
   @Test
@@ -124,12 +123,12 @@ public class VariableSearchControllerTest extends AbstractWebTest {
         .andExpect(content().string(not(containsString("??")))).andReturn();
 
     // Act
-    boolean validHtml = this.checkHtmlValidation(mvcResult.getResponse().getContentAsString(),
+    // W3C Validation Check
+    this.checkHtmlValidation(mvcResult.getResponse().getContentAsString(),
         "VariableSearchControllerTest.testEnglishTemplate");
 
     // Assert
     assertThat(resource.getPage().getContent().size(), is(greaterThan(0)));
-    assertThat(validHtml, is(true));
   }
 
   @Test
@@ -161,13 +160,13 @@ public class VariableSearchControllerTest extends AbstractWebTest {
     mvcResult =
         this.mockMvc.perform(asyncDispatch(mvcResult)).andExpect(status().isOk()).andReturn();
 
-    boolean validHtml = this.checkHtmlValidation(mvcResult.getResponse().getContentAsString(),
+    // W3C Validation Check
+    this.checkHtmlValidation(mvcResult.getResponse().getContentAsString(),
         "VariableSearchControllerTest.testSearch");
 
     assertThat(variableSearchFilter.getQuery(), is("SearchUnitTest_Survey_ID"));
     assertThat(variableSearchFilter.getScaleLevel(), is(nullValue()));
     assertThat(resource.getPage().getContent().size(), is(9));
-    assertThat(validHtml, is(true));
   }
 
   @Test
@@ -199,7 +198,8 @@ public class VariableSearchControllerTest extends AbstractWebTest {
     mvcResult =
         this.mockMvc.perform(asyncDispatch(mvcResult)).andExpect(status().isOk()).andReturn();
 
-    boolean validHtml = this.checkHtmlValidation(mvcResult.getResponse().getContentAsString(),
+    // W3C Validation Check
+    this.checkHtmlValidation(mvcResult.getResponse().getContentAsString(),
         "VariableSearchControllerTest.testSearchWithPage");
 
     assertThat(variableSearchFilter.getQuery(), is("SearchUnitTest_Survey_ID"));
@@ -211,8 +211,6 @@ public class VariableSearchControllerTest extends AbstractWebTest {
         .contains("/de/variables/search?query=SearchUnitTest_Survey_ID&page=0&size=3"), is(true));
     assertThat(resource.getPage().getNextLink().getHref()
         .contains("/de/variables/search?query=SearchUnitTest_Survey_ID&page=2&size=3"), is(true));
-    assertThat(validHtml, is(true));
-
   }
 
   @Test
@@ -239,12 +237,12 @@ public class VariableSearchControllerTest extends AbstractWebTest {
     mvcResult =
         this.mockMvc.perform(asyncDispatch(mvcResult)).andExpect(status().isOk()).andReturn();
 
-    boolean validHtml = this.checkHtmlValidation(mvcResult.getResponse().getContentAsString(),
+    // W3C Validation Check
+    this.checkHtmlValidation(mvcResult.getResponse().getContentAsString(),
         "VariableSearchControllerTest.testSearchWithScaleLevel");
     assertThat(variableSearchFilter.getQuery(), is("SearchUnitTestName"));
     assertThat(variableSearchFilter.getScaleLevel(), is("metrisch"));
     assertThat(resource.getPage().getContent().size(), greaterThan(0));
-    assertThat(validHtml, is(true));
   }
 
   @Test
@@ -273,11 +271,11 @@ public class VariableSearchControllerTest extends AbstractWebTest {
     mvcResult =
         this.mockMvc.perform(asyncDispatch(mvcResult)).andExpect(status().isOk()).andReturn();
 
-    boolean validHtml = this.checkHtmlValidation(mvcResult.getResponse().getContentAsString(),
+    // W3C Validation Check
+    this.checkHtmlValidation(mvcResult.getResponse().getContentAsString(),
         "VariableSearchControllerTest.testSearchWithScaleLevelWithNoResults");
     assertThat(variableSearchFilter.getQuery(), is(nullValue()));
     assertThat(variableSearchFilter.getScaleLevel(), is("ordinal"));
     assertThat(resource.getPage().getContent().size(), is(0));
-    assertThat(validHtml, is(true));
   }
 }

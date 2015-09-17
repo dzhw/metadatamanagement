@@ -1,5 +1,8 @@
 package eu.dzhw.fdz.metadatamanagement.web;
 
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.is;
+
 import java.util.Locale;
 
 import javax.xml.bind.JAXBException;
@@ -41,9 +44,6 @@ public abstract class AbstractWebTest {
 
   protected MockMvc mockMvc;
 
-
-  protected final String validationUrlW3C = "http://validator.w3.org/check";
-
   @Autowired
   private VariableDocumentRepository variableRepository;
 
@@ -68,21 +68,32 @@ public abstract class AbstractWebTest {
   }
 
 
-  protected boolean checkHtmlValidation(String htmlResult, String methodeName) throws JAXBException {
-    //Validate
-    W3CValidator checkResult = W3CValidator.check(this.validationUrlW3C, htmlResult);
-    
-    //Check for Errors and put it to the log 
+  /**
+   * This method send a post to the official w3c validation. The validation url is:
+   * {@linkplain http://validator.w3.org/check}
+   * 
+   * @param htmlResult The html page as string
+   * @param methodeName the method, who call this validation (for debugging)
+   * @throws JAXBException catch umarshell exception by jaxb and other exception by jaxb.
+   */
+  protected void checkHtmlValidation(String htmlResult, String methodeName) throws JAXBException {
+    // Validate
+    final String validationUrlW3C = "http://validator.w3.org/check";
+    W3CValidator checkResult = W3CValidator.check(validationUrlW3C, htmlResult);
+
+    // Check for Errors and put it to the log
     Errors errors = checkResult.body.response.errors;
     LOG.info(methodeName + ": Number of Errors: " + errors.errorcount);
     if (errors.errorcount > 0) {
       errors.errorlist.forEach(e -> {
         LOG.info("Content: " + htmlResult);
-        LOG.error(methodeName + ": Validation Error: (Line: " + e.line + ", Col.: " + e.col + ") " + e.message + "");
+        LOG.error(methodeName + ": Validation Error: (Line: " + e.line + ", Col.: " + e.col + ") "
+            + e.message + "");
         LOG.error(methodeName + ": Explanation Error: " + e.explanation);
       });
     }
 
-    return checkResult.body.response.validity;
+    // Assert
+    assertThat(checkResult.body.response.validity, is(true));
   }
 }
