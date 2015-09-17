@@ -4,58 +4,59 @@
 <head>
 </head>
 <body>
-<div th:fragment="navbar">
-  <nav class="navbar navbar-default navbar-fixed-top">
+	<div th:fragment="navbar">
+		<nav class="navbar navbar-default navbar-fixed-top">
 			<div class="container">
 				<div class="navbar-header">
-					<a class="navbar-brand" th:href="${resource.homeLink.href}" th:text="#{nav.title}">FDZ</a>
-					<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse">
-						<span class="sr-only" th:text="#{nav.navtoggle}"></span>
-						<span class="icon-bar"></span>
-						<span class="icon-bar"></span>
-						<span class="icon-bar"></span>
+					<a class="navbar-brand" th:href="${resource.homeLink.href}"
+						th:text="#{nav.title}">FDZ</a>
+					<button type="button" class="navbar-toggle collapsed"
+						data-toggle="collapse" data-target="#navbar-collapse">
+						<span class="sr-only" th:text="#{nav.navtoggle}"></span> <span
+							class="icon-bar"></span> <span class="icon-bar"></span> <span
+							class="icon-bar"></span>
 					</button>
 				</div>
-			 	<div class="collapse navbar-collapse" id="navbar-collapse">
+				<div class="collapse navbar-collapse" id="navbar-collapse">
 					<ul class="nav navbar-nav navbar-left">
-					    <li class="dropdown">
-					     <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"> 
-							<span th:text="#{nav.variable}">variable</span>
-							<span class="caret"></span>
-							</a>
-					    
-					    <ul class="dropdown-menu" role="menu">
-					    <li>
-						   <a th:href="${resource.variablesSearchLink.href}" th:text="#{nav.variable.search}" class="active">Search</a>
-						</li>
-						<li>   
-						   <a th:href="${resource.variablesCreateLink.href}" th:text="#{nav.variable.create}" class="active">Create</a>
-						 </li>  
-						  </ul> 
-						</li>
+						<li class="dropdown"><a href="#" class="dropdown-toggle"
+							data-toggle="dropdown" role="button" aria-expanded="false"> <span
+								th:text="#{nav.variable}">variable</span> <span class="caret"></span>
+						</a>
+
+							<ul class="dropdown-menu" role="menu">
+								<li><a th:href="${resource.variablesSearchLink.href}"
+									th:text="#{nav.variable.search}" class="active">Search</a></li>
+								<li><a th:href="${resource.variablesCreateLink.href}"
+									th:text="#{nav.variable.create}" class="active">Create</a></li>
+							</ul></li>
 					</ul>
 					<ul class="nav navbar-nav navbar-right">
-						<li class="dropdown">
-						   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"> 
-							<span class="glyphicon glyphicon-flag" ></span>
-							<span th:text="#{nav.language}"></span>
-							<span class="caret"></span>
-							</a>
+						<li class="dropdown"><a href="#" class="dropdown-toggle"
+							data-toggle="dropdown" role="button" aria-expanded="false"> <span
+								class="glyphicon glyphicon-flag"></span> <span
+								th:text="#{nav.language}"></span> <span class="caret"></span>
+						</a>
 							<ul class="dropdown-menu" role="menu">
-							 	<li th:classappend="${#locale.language=='de'? 'active' : ''}">
-								   <a th:href="${resource.germanLink.href}"
+								<li th:classappend="${#locale.language=='de'? 'active' : ''}">
+									<a th:href="${resource.germanLink.href}"
 									th:text="#{nav.language.german}">German</a>
 								</li>
 								<li th:classappend="${#locale.language=='en'? 'active' : ''}">
-								   <a th:href="${resource.englishLink.href}"
-									  th:text="#{nav.language.english}">English</a>
+									<a th:href="${resource.englishLink.href}"
+									th:text="#{nav.language.english}">English</a>
 								</li>
-							</ul>
-						</li>
+							</ul></li>
+					</ul>
+					<ul class="nav navbar-nav navbar-right">
+						<li><a th:href="${resource.disclosureLink.href}"
+							class="dropdown-toggle" role="button"> <span
+								th:text="#{disclosure.title}"></span>
+						</a></li>
 					</ul>
 				</div>
 			</div>
 		</nav>
-</div>
+	</div>
 </body>
 </html>
