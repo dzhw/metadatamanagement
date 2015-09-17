@@ -29,9 +29,9 @@ import org.springframework.data.elasticsearch.core.query.NativeSearchQueryBuilde
 import org.springframework.data.elasticsearch.core.query.SearchQuery;
 import org.springframework.util.StringUtils;
 
-import eu.dzhw.fdz.metadatamanagement.data.common.aggregations.AggregationResultMapper;
 import eu.dzhw.fdz.metadatamanagement.data.common.aggregations.PageWithBuckets;
 import eu.dzhw.fdz.metadatamanagement.data.common.documents.DocumentField;
+import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.aggregations.VariableDocumentAggregrationResultMapper;
 import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.VariableDocument;
 import eu.dzhw.fdz.metadatamanagement.web.common.dtos.AbstractSearchFilter;
 import eu.dzhw.fdz.metadatamanagement.web.common.dtos.AggregationType;
@@ -62,11 +62,11 @@ public class VariableDocumentRepositoryImpl implements VariableDocumentRepositor
    * This result mapper support a facedpage with buckets. The default mapper does not support the
    * opportunity the returning of the buckets of the aggregations.
    */
-  private AggregationResultMapper resultMapper;
+  private VariableDocumentAggregrationResultMapper resultMapper;
 
   @Autowired
   public VariableDocumentRepositoryImpl(ElasticsearchTemplate elasticsearchTemplate,
-      AggregationResultMapper resultMapper) {
+      VariableDocumentAggregrationResultMapper resultMapper) {
     this.elasticsearchTemplate = elasticsearchTemplate;
     this.resultMapper = resultMapper;
   }

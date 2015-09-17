@@ -37,9 +37,12 @@ public class DocumentField {
   public DocumentField(String absolutePath) {
     this.absolutePath = absolutePath;
     int index = absolutePath.lastIndexOf(PATH_DELIMITER);
+
+    // case if there is a parent
     if (index > 0) {
       this.relativePath = absolutePath.substring(index + 1);
       parent = new DocumentField(absolutePath.substring(0, index));
+      // case if there is no parent
     } else {
       this.relativePath = absolutePath;
     }
@@ -82,6 +85,11 @@ public class DocumentField {
     return false;
   }
 
+  /*
+   * (non-Javadoc)
+   * 
+   * @see java.lang.Object#toString()
+   */
   @Override
   public String toString() {
     return "DocumentField [absolutePath=" + this.absolutePath + ", relativePath="

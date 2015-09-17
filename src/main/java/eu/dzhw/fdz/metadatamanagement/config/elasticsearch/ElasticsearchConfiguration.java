@@ -5,7 +5,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.elasticsearch.core.ElasticsearchTemplate;
 
-import eu.dzhw.fdz.metadatamanagement.data.common.aggregations.AggregationResultMapper;
+import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.aggregations.VariableDocumentAggregrationResultMapper;
 import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.ScaleLevelProvider;
 
 /**
@@ -47,8 +47,8 @@ public class ElasticsearchConfiguration {
    * @return a custom mapper which is capable of deserializing aggregations.
    */
   @Bean
-  public AggregationResultMapper aggregationResultMapper(
+  public VariableDocumentAggregrationResultMapper variableDocumentAggregationResultMapper(
       JacksonDocumentMapper jacksonDocumentMapper, ScaleLevelProvider scaleLevelProvider) {
-    return new AggregationResultMapper(jacksonDocumentMapper, scaleLevelProvider);
+    return new VariableDocumentAggregrationResultMapper(jacksonDocumentMapper, scaleLevelProvider);
   }
 }

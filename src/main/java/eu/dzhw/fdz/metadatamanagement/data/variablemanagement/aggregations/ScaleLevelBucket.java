@@ -1,7 +1,8 @@
-package eu.dzhw.fdz.metadatamanagement.data.common.aggregations;
+package eu.dzhw.fdz.metadatamanagement.data.variablemanagement.aggregations;
 
 import com.google.common.base.Objects;
 
+import eu.dzhw.fdz.metadatamanagement.data.common.aggregations.Bucket;
 import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.ScaleLevelProvider;
 
 /**

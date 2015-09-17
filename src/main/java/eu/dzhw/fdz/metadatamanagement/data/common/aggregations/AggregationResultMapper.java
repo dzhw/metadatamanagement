@@ -17,12 +17,10 @@ import org.springframework.data.elasticsearch.core.FacetedPage;
 
 import eu.dzhw.fdz.metadatamanagement.config.elasticsearch.JacksonDocumentMapper;
 import eu.dzhw.fdz.metadatamanagement.data.common.documents.DocumentField;
-import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.ScaleLevelProvider;
-import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.VariableDocument;
 
 /**
  * The aggregation result mapper is a sub class from the {@link DefaultResultMapper}. It extends the
- * MapResuts method for saving the aggregations. It uses the JacksonDocumentMapper for mapping e.g.
+ * MapResults method for saving the aggregations. It uses the JacksonDocumentMapper for mapping e.g.
  * LocalDate Object from Strings.
  * 
  * @author Daniel Katzberg
@@ -30,15 +28,13 @@ import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.Variable
  */
 public class AggregationResultMapper extends DefaultResultMapper {
 
-  private ScaleLevelProvider scaleLevelProvider;
+  
 
   /**
    * The default Constructor uses the JacksonDocumentMapper for the depending super call.
    */
-  public AggregationResultMapper(JacksonDocumentMapper jacksonDocumentMapper,
-      ScaleLevelProvider scaleLevelProvider) {
+  public AggregationResultMapper(JacksonDocumentMapper jacksonDocumentMapper) {
     super(jacksonDocumentMapper);
-    this.scaleLevelProvider = scaleLevelProvider;
   }
 
   /*
@@ -69,12 +65,18 @@ public class AggregationResultMapper extends DefaultResultMapper {
   private void extractStringTermAggregations(Map<DocumentField, Set<Bucket>> map,
       Aggregations aggregations) {
     for (Entry<String, Aggregation> entry : aggregations.asMap().entrySet()) {
+      
+      //STRINGTERM
       if (entry.getValue().getClass().isAssignableFrom(StringTerms.class)) {
         DocumentField field = new DocumentField(entry.getKey());
         map.put(field, getStringTermBuckets(field, (StringTerms) entry.getValue()));
+        
+      //INTERNAL NESTED
       } else if (entry.getValue().getClass().isAssignableFrom(InternalNested.class)) {
         InternalNested nestedAggregation = (InternalNested) entry.getValue();
         extractStringTermAggregations(map, nestedAggregation.getAggregations());
+      
+      //OTHER TERMS ARE NOT SUPPORTED YET  
       } else {
         throw new IllegalStateException("Not yet implemented");
       }
@@ -88,22 +90,13 @@ public class AggregationResultMapper extends DefaultResultMapper {
    * @param aggregation The aggregation which holds the buckets.
    * @return buckets for the given field and {@link StringTerms} aggregation.
    */
-  private Set<Bucket> getStringTermBuckets(DocumentField field, StringTerms aggregation) {
+  protected Set<Bucket> getStringTermBuckets(DocumentField field, StringTerms aggregation) {
     Set<Bucket> buckets = new HashSet<>();
 
-    // scale level filter needs a different order by sorting. this is given by scale level buckets
-    // TODO AggregationResultMapper should be independent of concrete Document
-    if (field.equals(VariableDocument.SCALE_LEVEL_FIELD)) {
-      aggregation.getBuckets().forEach(bucket -> {
-          buckets.add(
-              new ScaleLevelBucket(bucket.getKey(), bucket.getDocCount(), this.scaleLevelProvider));
-        });
-      // default sorting by docCount. normal use of buckets.
-    } else {
-      aggregation.getBuckets().forEach(bucket -> {
-          buckets.add(new Bucket(bucket.getKey(), bucket.getDocCount()));
-        });
-    }
+    aggregation.getBuckets().forEach(bucket -> {
+        buckets.add(new Bucket(bucket.getKey(), bucket.getDocCount()));
+      });
+    
     return buckets;
   }
 }
