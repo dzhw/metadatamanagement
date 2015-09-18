@@ -5,8 +5,6 @@ import java.util.Set;
 import java.util.concurrent.Callable;
 import java.util.stream.Collectors;
 
-import javax.servlet.http.HttpServletResponse;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PagedResourcesAssembler;
@@ -72,15 +70,13 @@ public class VariableSearchController {
    *        returned by server)
    * @param variableSearchFilter the data tranfer object of the search form
    * @param pageable A pageable object for the
-   * @param httpServletResponse A Servlet response from the server from the search
    * @return variableSearch.html
    */
   @RequestMapping(value = "/{language:de|en}/variables/search", method = RequestMethod.GET)
   public Callable<ModelAndView> get(
-      @RequestHeader(name = "X-Requested-With", required = false) String ajaxHeader,
+      @RequestHeader(name = "X-PJAX", required = false) String ajaxHeader,
       @Validated(Search.class) VariableSearchFilter variableSearchFilter,
-      BindingResult bindingResult, Pageable pageable,
-      final HttpServletResponse httpServletResponse) {
+      BindingResult bindingResult, Pageable pageable) {
     return () -> {
       ModelAndView modelAndView = new ModelAndView();
       modelAndView.addObject("variableSearchFilter", variableSearchFilter);
@@ -113,8 +109,8 @@ public class VariableSearchController {
 
       // disable caching of the search page to prevent displaying partial responses when
       // clicking the back button
-      httpServletResponse.addHeader("Cache-Control",
-          "no-cache, max-age=0, must-revalidate, no-store");
+//      httpServletResponse.addHeader("Cache-Control",
+//          "no-cache, max-age=0, must-revalidate, no-store");
 
       return modelAndView;
     };

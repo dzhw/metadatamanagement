@@ -43,7 +43,7 @@ public abstract class NavigatablePageResource<T> extends ResourceSupport impleme
         .withRel(DISCLOSURE_REL));
     this.add(linkTo(
         methodOn(VariableSearchController.class, LocaleContextHolder.getLocale().getLanguage())
-            .get(null, null, null, null, null)).withRel(VARIABLES_SEARCH_REL));
+            .get(null, null, null, null)).withRel(VARIABLES_SEARCH_REL));
     this.add(linkTo(
         methodOn(VariableCreateController.class, LocaleContextHolder.getLocale().getLanguage())
             .create(null, null)).withRel(VARIABLES_CREATE_REL));
