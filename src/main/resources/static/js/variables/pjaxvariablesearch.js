@@ -1,12 +1,8 @@
-$("#query").on('input', function() {
+$("#searchVariables").on('input', function() {
 	updateSearch();
 });
 
-$("#collapseSurveyTitlePanel").on('click', function() {
-	updateSearch();
-});
-
-$("#collapseScaleLevelPanel").on('click', function() {
+$("#searchVariables").on('click', function() {
 	updateSearch();
 });
 
