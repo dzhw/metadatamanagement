@@ -61,8 +61,8 @@
 											<div class="checkbox">
 												<label class="text-capitalize label-with-text-and-badge"><input
 													type="checkbox" th:field="*{surveyTitle}"
-													th:value="${surveyTitle.key}"
-													onclick="VariableSearchForm.search(this.form)" /><span
+													th:value="${surveyTitle.key}" />
+													<span
 													class="abbreviated-text" th:text="${surveyTitle.key}"></span>
 												</label><span class="badge pull-right"
 													th:text="${surveyTitle.docCount}">14</span>
@@ -112,8 +112,8 @@
 											<div class="checkbox">
 												<label class="text-capitalize"><input
 													type="checkbox" th:field="*{scaleLevel}"
-													th:value="${scaleLevel.key}"
-													onclick="VariableSearchForm.search(this.form)" /><span
+													th:value="${scaleLevel.key}" />
+													<span
 													th:text="${scaleLevel.key}"></span> </label><span
 													class="badge pull-right" th:text="${scaleLevel.docCount}">14</span>
 											</div>
@@ -176,8 +176,7 @@
 		</div>
 	</form>
 	<div th:include="common/js_libraries::js"></div>
-	<script src="/js/variables/search.js"></script>
-	<script src="/js/variables/datepicker.js"></script>
 	<script src="/js/variables/pjaxvariablesearch.js"></script>
+	<script src="/js/variables/datepicker.js"></script>
 </body>
 </html>

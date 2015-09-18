@@ -60,7 +60,8 @@ function triggerOnValidDate(mode, element) {
 		VariableModifyForm.validate(element.closest("form"));
 		$element.unbind('focus');
 	} else {
-		VariableSearchForm.search(element.closest("form"));
+		//update method is in the pjaxvariablesearch.js
+		updateSearch();
 	}
 }
 function triggerOnInvalidDate(mode, element) {
@@ -70,7 +71,8 @@ function triggerOnInvalidDate(mode, element) {
 	} else {
 		if (element.val() === '') {
 			$altFiledInput.val('');
-			VariableSearchForm.search(element.closest("form"));
+			//update method is in the pjaxvariablesearch.js
+			updateSearch();
 		}
 	}
 }
