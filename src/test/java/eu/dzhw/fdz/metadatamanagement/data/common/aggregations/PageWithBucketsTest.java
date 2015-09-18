@@ -34,8 +34,8 @@ public class PageWithBucketsTest {
     FacetedPage<VariableDocument> facetedPage = Mockito.mock(FacetedPage.class);
     Pageable pageable = Mockito.mock(Pageable.class);
     Map<DocumentField, Set<Bucket>> bucketMap = new HashMap<>();
-    PageWithBucketsAndHighlightedFields<VariableDocument> pageWithBuckets =
-        new PageWithBucketsAndHighlightedFields<>(facetedPage, pageable, bucketMap);
+    PageWithBuckets<VariableDocument> pageWithBuckets =
+        new PageWithBuckets<>(facetedPage, pageable, bucketMap);
 
     // Act
 
@@ -53,10 +53,10 @@ public class PageWithBucketsTest {
     Map<DocumentField, Set<Bucket>> bucketMap2 = new HashMap<>();
     TreeSet<Bucket> buckets = new TreeSet<>();
     bucketMap2.put(VariableDocument.SCALE_LEVEL_FIELD, buckets);
-    PageWithBucketsAndHighlightedFields<VariableDocument> pageWithBuckets =
-        new PageWithBucketsAndHighlightedFields<>(facetedPage, pageable, bucketMap);
-    PageWithBucketsAndHighlightedFields<VariableDocument> pageWithBuckets2 =
-        new PageWithBucketsAndHighlightedFields<>(facetedPage, pageable, bucketMap2);
+    PageWithBuckets<VariableDocument> pageWithBuckets =
+        new PageWithBuckets<>(facetedPage, pageable, bucketMap);
+    PageWithBuckets<VariableDocument> pageWithBuckets2 =
+        new PageWithBuckets<>(facetedPage, pageable, bucketMap2);
 
     // Act
     boolean checkSame = pageWithBuckets.equals(pageWithBuckets);

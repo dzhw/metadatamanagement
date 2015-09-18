@@ -19,7 +19,7 @@ import eu.dzhw.fdz.metadatamanagement.data.common.documents.DocumentField;
  *
  * @param <T> The param T means classes from the domain.
  */
-public class PageWithBucketsAndHighlightedFields<T> extends FacetedPageImpl<T> {
+public class PageWithBuckets<T> extends FacetedPageImpl<T> {
 
   private static final long serialVersionUID = -5002782339546000833L;
 
@@ -33,7 +33,7 @@ public class PageWithBucketsAndHighlightedFields<T> extends FacetedPageImpl<T> {
    * @param pageable A {@link Pageable}
    * @param bucketMap A map aggreagation name -> list of buckets
    */
-  public PageWithBucketsAndHighlightedFields(FacetedPage<T> facetedPage, Pageable pageable,
+  public PageWithBuckets(FacetedPage<T> facetedPage, Pageable pageable,
       Map<DocumentField, Set<Bucket>> bucketMap) {
     super(facetedPage.getContent(), pageable, facetedPage.getTotalElements(),
         facetedPage.getFacets());
@@ -57,11 +57,11 @@ public class PageWithBucketsAndHighlightedFields<T> extends FacetedPageImpl<T> {
    */
   @Override
   public boolean equals(Object object) {
-    if (object instanceof PageWithBucketsAndHighlightedFields) {
+    if (object instanceof PageWithBuckets) {
       if (!super.equals(object)) {
         return false;
       }
-      PageWithBucketsAndHighlightedFields<?> that = (PageWithBucketsAndHighlightedFields<?>) object;
+      PageWithBuckets<?> that = (PageWithBuckets<?>) object;
       return Objects.equal(this.bucketMap, that.bucketMap);
     }
     return false;

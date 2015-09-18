@@ -75,3 +75,8 @@ select[multiple] ~ .form-control-feedback {
     display: block;
 }
 
+.search-result em {
+	font-weight: bold;
+	font-style: normal;
+}
+

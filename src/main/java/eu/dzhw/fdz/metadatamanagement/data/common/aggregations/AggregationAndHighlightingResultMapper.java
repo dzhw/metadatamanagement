@@ -2,15 +2,20 @@ package eu.dzhw.fdz.metadatamanagement.data.common.aggregations;
 
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 
 import org.elasticsearch.action.search.SearchResponse;
+import org.elasticsearch.search.SearchHit;
 import org.elasticsearch.search.aggregations.Aggregation;
 import org.elasticsearch.search.aggregations.Aggregations;
 import org.elasticsearch.search.aggregations.bucket.nested.InternalNested;
 import org.elasticsearch.search.aggregations.bucket.terms.StringTerms;
+import org.elasticsearch.search.highlight.HighlightField;
+import org.springframework.beans.BeanWrapper;
+import org.springframework.beans.BeanWrapperImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.elasticsearch.core.DefaultResultMapper;
 import org.springframework.data.elasticsearch.core.FacetedPage;
@@ -26,14 +31,12 @@ import eu.dzhw.fdz.metadatamanagement.data.common.documents.DocumentField;
  * @author Daniel Katzberg
  *
  */
-public class AggregationResultMapper extends DefaultResultMapper {
-
-
+public class AggregationAndHighlightingResultMapper extends DefaultResultMapper {
 
   /**
    * The default Constructor uses the JacksonDocumentMapper for the depending super call.
    */
-  public AggregationResultMapper(JacksonDocumentMapper jacksonDocumentMapper) {
+  public AggregationAndHighlightingResultMapper(JacksonDocumentMapper jacksonDocumentMapper) {
     super(jacksonDocumentMapper);
   }
 
@@ -48,21 +51,31 @@ public class AggregationResultMapper extends DefaultResultMapper {
   public <T> FacetedPage<T> mapResults(SearchResponse response, Class<T> clazz, Pageable pageable) {
     FacetedPage<T> facetedPage = super.mapResults(response, clazz, pageable);
 
+    // both array and list should be of same size and order
+    SearchHit[] searchHits = response.getHits().hits();
+    List<T> pageContent = facetedPage.getContent();
+
+    for (int i = 0; i < searchHits.length; i++) {
+      SearchHit searchHit = searchHits[i];
+
+      Map<String, HighlightField> highlightedFields = searchHit.getHighlightFields();
+      if (!highlightedFields.isEmpty()) {
+        T mappedHit = pageContent.get(i);
+        for (Entry<String, HighlightField> entry : highlightedFields.entrySet()) {
+          // TODO rreitmann concat all fragments
+          BeanWrapper bean = new BeanWrapperImpl(mappedHit);
+          bean.setPropertyValue(entry.getValue().getName().replace(".highlight", ""),
+              entry.getValue().getFragments()[0].toString());
+        }
+      }
+    }
+
     // extract buckets
     Map<DocumentField, Set<Bucket>> map = new HashMap<>();
 
     extractStringTermAggregations(map, response.getAggregations());
 
-    // response.getHits().forEach(hit -> {
-    // Set<Entry<String,HighlightField>> fieldSet = hit.getHighlightFields().entrySet();
-    // fieldSet.forEach(entry -> {
-    // String highlightedFieldName = entry.getKey();
-    // HighlightField highlightedField = entry.getValue();
-    // highlightedField.getFragments().
-    // });
-    // });
-
-    return new PageWithBucketsAndHighlightedFields<T>(facetedPage, pageable, map);
+    return new PageWithBuckets<T>(facetedPage, pageable, map);
   }
 
   /**

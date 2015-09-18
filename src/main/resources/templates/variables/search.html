@@ -132,18 +132,18 @@
 								</div>
 								<ul class="list-group">
 									<li th:if="${resource.page.content.size() gt 0}"
-										class="list-group-item" th:each="variable : ${resource.page}">
+										class="list-group-item search-result" th:each="variable : ${resource.page}">
 										<h4 class="list-group-item-heading">
 											<a th:href="${variable.id.href}"
-												th:text="${variable.variableDocument.label}"> </a>
+												th:utext="${variable.variableDocument.label}"> </a>
 										</h4>
 										<p class="list-group-item-text"
-											th:text="#{variables.search.name(${variable.variableDocument.name})}"></p>
+											th:utext="#{variables.search.name(${variable.variableDocument.name})}"></p>
 										<p class="list-group-item-text"
-											th:text="#{variables.search.question(${variable.variableDocument.question})}"></p>
+											th:utext="#{variables.search.question(${variable.variableDocument.question})}"></p>
 
 										<p class="list-group-item-text"
-											th:text="#{variables.search.survey(${variable.variableDocument.variableSurvey.title})}"></p>
+											th:utext="#{variables.search.survey(${variable.variableDocument.variableSurvey.title})}"></p>
 									</li>
 									<li th:if="${resource.page.content.size() == 0}"
 										class="list-group-item">

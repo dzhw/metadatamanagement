@@ -4,7 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import eu.dzhw.fdz.metadatamanagement.data.common.aggregations.PageWithBucketsAndHighlightedFields;
+import eu.dzhw.fdz.metadatamanagement.data.common.aggregations.PageWithBuckets;
 import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.VariableDocument;
 import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.repositories.VariableDocumentRepository;
 import eu.dzhw.fdz.metadatamanagement.web.variablemanagement.search.dto.VariableSearchFilter;
@@ -37,7 +37,7 @@ public class VariableService {
    * 
    * @return Page with buckets from the filter of the VariableDocuments and Aggregations
    */
-  public PageWithBucketsAndHighlightedFields<VariableDocument> search(
+  public PageWithBuckets<VariableDocument> search(
       VariableSearchFilter variableSearchFormDto, Pageable pageable) {
     return variableRepository.search(variableSearchFormDto, pageable);
 

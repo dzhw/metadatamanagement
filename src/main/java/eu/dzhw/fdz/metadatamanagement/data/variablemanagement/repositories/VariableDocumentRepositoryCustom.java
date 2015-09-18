@@ -4,7 +4,7 @@ import org.elasticsearch.common.unit.Fuzziness;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
-import eu.dzhw.fdz.metadatamanagement.data.common.aggregations.PageWithBucketsAndHighlightedFields;
+import eu.dzhw.fdz.metadatamanagement.data.common.aggregations.PageWithBuckets;
 import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.VariableDocument;
 import eu.dzhw.fdz.metadatamanagement.web.common.dtos.AbstractSearchFilter;
 
@@ -36,6 +36,6 @@ public interface VariableDocumentRepositoryCustom {
    * @param pageable The page size and number and sort.
    * @return A page holding the first variable documents
    */
-  PageWithBucketsAndHighlightedFields<VariableDocument> search(
+  PageWithBuckets<VariableDocument> search(
       AbstractSearchFilter abstractSearchFilter, Pageable pageable);
 }

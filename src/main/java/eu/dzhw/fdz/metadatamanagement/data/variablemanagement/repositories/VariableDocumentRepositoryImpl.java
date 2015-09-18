@@ -30,7 +30,7 @@ import org.springframework.data.elasticsearch.core.query.NativeSearchQueryBuilde
 import org.springframework.data.elasticsearch.core.query.SearchQuery;
 import org.springframework.util.StringUtils;
 
-import eu.dzhw.fdz.metadatamanagement.data.common.aggregations.PageWithBucketsAndHighlightedFields;
+import eu.dzhw.fdz.metadatamanagement.data.common.aggregations.PageWithBuckets;
 import eu.dzhw.fdz.metadatamanagement.data.common.documents.DocumentField;
 import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.aggregations.VariableDocumentAggregrationResultMapper;
 import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.VariableDocument;
@@ -81,8 +81,8 @@ public class VariableDocumentRepositoryImpl implements VariableDocumentRepositor
    */
   @SuppressWarnings("rawtypes")
   @Override
-  public PageWithBucketsAndHighlightedFields<VariableDocument> search(
-      AbstractSearchFilter searchFilter, Pageable pageable) {
+  public PageWithBuckets<VariableDocument> search(AbstractSearchFilter searchFilter,
+      Pageable pageable) {
 
     // create search query (with filter)
     QueryBuilder queryBuilder = this.createQueryBuilder(searchFilter.getQuery());
@@ -101,6 +101,7 @@ public class VariableDocumentRepositoryImpl implements VariableDocumentRepositor
       nativeSearchQueryBuilder.addAggregation(aggregationBuilder);
     }
 
+    // TODO rreitmann move to filter
     nativeSearchQueryBuilder.withHighlightFields(new HighlightBuilder.Field("question.highlight"),
         new HighlightBuilder.Field("label.highlight"), new HighlightBuilder.Field("name.highlight"),
         new HighlightBuilder.Field("variableSurvey.title.highlight"));
@@ -113,7 +114,7 @@ public class VariableDocumentRepositoryImpl implements VariableDocumentRepositor
         this.elasticsearchTemplate.queryForPage(searchQuery, VariableDocument.class, resultMapper);
 
     // return pageable object and the aggregations
-    return (PageWithBucketsAndHighlightedFields<VariableDocument>) facetedPage;
+    return (PageWithBuckets<VariableDocument>) facetedPage;
   }
 
   /**
