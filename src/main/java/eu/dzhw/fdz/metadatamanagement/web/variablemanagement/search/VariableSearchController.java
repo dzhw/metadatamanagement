@@ -22,7 +22,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 import eu.dzhw.fdz.metadatamanagement.data.common.aggregations.Bucket;
-import eu.dzhw.fdz.metadatamanagement.data.common.aggregations.PageWithBuckets;
+import eu.dzhw.fdz.metadatamanagement.data.common.aggregations.PageWithBucketsAndHighlightedFields;
 import eu.dzhw.fdz.metadatamanagement.data.common.documents.DocumentField;
 import eu.dzhw.fdz.metadatamanagement.data.common.documents.validation.groups.SearchValidationGroup.Search;
 import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.VariableDocument;
@@ -84,7 +84,7 @@ public class VariableSearchController {
     return () -> {
       ModelAndView modelAndView = new ModelAndView();
       modelAndView.addObject("variableSearchFilter", variableSearchFilter);
-      PageWithBuckets<VariableDocument> pageableWithBuckets =
+      PageWithBucketsAndHighlightedFields<VariableDocument> pageableWithBuckets =
           this.variableService.search(variableSearchFilter, pageable);
 
       Map<DocumentField, Set<Bucket>> bucketMap = BucketManager

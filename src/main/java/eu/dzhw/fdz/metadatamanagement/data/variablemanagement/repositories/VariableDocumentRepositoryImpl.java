@@ -19,6 +19,7 @@ import org.elasticsearch.index.query.QueryBuilder;
 import org.elasticsearch.index.query.QueryBuilders;
 import org.elasticsearch.search.aggregations.AggregationBuilder;
 import org.elasticsearch.search.aggregations.AggregationBuilders;
+import org.elasticsearch.search.highlight.HighlightBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
@@ -29,7 +30,7 @@ import org.springframework.data.elasticsearch.core.query.NativeSearchQueryBuilde
 import org.springframework.data.elasticsearch.core.query.SearchQuery;
 import org.springframework.util.StringUtils;
 
-import eu.dzhw.fdz.metadatamanagement.data.common.aggregations.PageWithBuckets;
+import eu.dzhw.fdz.metadatamanagement.data.common.aggregations.PageWithBucketsAndHighlightedFields;
 import eu.dzhw.fdz.metadatamanagement.data.common.documents.DocumentField;
 import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.aggregations.VariableDocumentAggregrationResultMapper;
 import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.VariableDocument;
@@ -80,8 +81,8 @@ public class VariableDocumentRepositoryImpl implements VariableDocumentRepositor
    */
   @SuppressWarnings("rawtypes")
   @Override
-  public PageWithBuckets<VariableDocument> search(AbstractSearchFilter searchFilter,
-      Pageable pageable) {
+  public PageWithBucketsAndHighlightedFields<VariableDocument> search(
+      AbstractSearchFilter searchFilter, Pageable pageable) {
 
     // create search query (with filter)
     QueryBuilder queryBuilder = this.createQueryBuilder(searchFilter.getQuery());
@@ -100,6 +101,10 @@ public class VariableDocumentRepositoryImpl implements VariableDocumentRepositor
       nativeSearchQueryBuilder.addAggregation(aggregationBuilder);
     }
 
+    nativeSearchQueryBuilder.withHighlightFields(new HighlightBuilder.Field("question.highlight"),
+        new HighlightBuilder.Field("label.highlight"), new HighlightBuilder.Field("name.highlight"),
+        new HighlightBuilder.Field("variableSurvey.title.highlight"));
+
     // Create search query
     SearchQuery searchQuery = nativeSearchQueryBuilder.withPageable(pageable).build();
 
@@ -108,7 +113,7 @@ public class VariableDocumentRepositoryImpl implements VariableDocumentRepositor
         this.elasticsearchTemplate.queryForPage(searchQuery, VariableDocument.class, resultMapper);
 
     // return pageable object and the aggregations
-    return (PageWithBuckets<VariableDocument>) facetedPage;
+    return (PageWithBucketsAndHighlightedFields<VariableDocument>) facetedPage;
   }
 
   /**

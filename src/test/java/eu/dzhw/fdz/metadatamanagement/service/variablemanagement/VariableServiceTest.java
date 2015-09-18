@@ -17,7 +17,7 @@ import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 
-import eu.dzhw.fdz.metadatamanagement.data.common.aggregations.PageWithBuckets;
+import eu.dzhw.fdz.metadatamanagement.data.common.aggregations.PageWithBucketsAndHighlightedFields;
 import eu.dzhw.fdz.metadatamanagement.data.common.documents.DateRange;
 import eu.dzhw.fdz.metadatamanagement.data.common.documents.builders.DateRangeBuilder;
 import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.AnswerOption;
@@ -71,7 +71,7 @@ public class VariableServiceTest extends AbstractWebTest {
         new VariableSearchFilterBuilder().withQuery("SearchUnitTestName").build();
 
     // Act
-    PageWithBuckets<VariableDocument> result =
+    PageWithBucketsAndHighlightedFields<VariableDocument> result =
         this.variableService.search(variableSearchFormDto, pageable);
 
     // Assert
@@ -107,7 +107,7 @@ public class VariableServiceTest extends AbstractWebTest {
     VariableSearchFilter variableSearchFormDto = new VariableSearchFilterBuilder().build();
 
     // Act
-    PageWithBuckets<VariableDocument> result =
+    PageWithBucketsAndHighlightedFields<VariableDocument> result =
         variableService.search(variableSearchFormDto, pageable);
 
     // Assert
@@ -154,7 +154,7 @@ public class VariableServiceTest extends AbstractWebTest {
     VariableDocument savedVariableDocument = this.variableService.save(variableDocument);
     this.variableService.delete(idVariableDocument);
     Pageable pageable = new PageRequest(0, 10);
-    PageWithBuckets<VariableDocument> results =
+    PageWithBucketsAndHighlightedFields<VariableDocument> results =
         this.variableService.search(variableSearchFormDto, pageable);
 
     // Assert
@@ -188,7 +188,7 @@ public class VariableServiceTest extends AbstractWebTest {
         .withQuery("SearchUnitTestName").withScaleLevel(ScaleLevelProvider.GERMAN_METRIC).build();
 
     // Act
-    PageWithBuckets<VariableDocument> resultOkay =
+    PageWithBucketsAndHighlightedFields<VariableDocument> resultOkay =
         this.variableService.search(variableSearchFormDto, pageable);
 
     // Assert
@@ -228,7 +228,7 @@ public class VariableServiceTest extends AbstractWebTest {
         new VariableSearchFilterBuilder().withScaleLevel(ScaleLevelProvider.GERMAN_ORDINAL).build();
 
     // Act
-    PageWithBuckets<VariableDocument> resultOkay =
+    PageWithBucketsAndHighlightedFields<VariableDocument> resultOkay =
         this.variableService.search(variableSearchFormDto, pageable);
 
     // Assert
@@ -269,7 +269,7 @@ public class VariableServiceTest extends AbstractWebTest {
         .withQuery("SearchUnitTestName").withScaleLevel(ScaleLevelProvider.GERMAN_ORDINAL).build();
 
     // Act
-    PageWithBuckets<VariableDocument> resultNotOkay =
+    PageWithBucketsAndHighlightedFields<VariableDocument> resultNotOkay =
         this.variableService.search(variableSearchFormDto, pageable);
 
     // Assert

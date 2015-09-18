@@ -28,7 +28,7 @@ import eu.dzhw.fdz.metadatamanagement.data.common.documents.DocumentField;
  */
 public class AggregationResultMapper extends DefaultResultMapper {
 
-  
+
 
   /**
    * The default Constructor uses the JacksonDocumentMapper for the depending super call.
@@ -53,7 +53,16 @@ public class AggregationResultMapper extends DefaultResultMapper {
 
     extractStringTermAggregations(map, response.getAggregations());
 
-    return new PageWithBuckets<T>(facetedPage, pageable, map);
+    // response.getHits().forEach(hit -> {
+    // Set<Entry<String,HighlightField>> fieldSet = hit.getHighlightFields().entrySet();
+    // fieldSet.forEach(entry -> {
+    // String highlightedFieldName = entry.getKey();
+    // HighlightField highlightedField = entry.getValue();
+    // highlightedField.getFragments().
+    // });
+    // });
+
+    return new PageWithBucketsAndHighlightedFields<T>(facetedPage, pageable, map);
   }
 
   /**
@@ -65,18 +74,18 @@ public class AggregationResultMapper extends DefaultResultMapper {
   private void extractStringTermAggregations(Map<DocumentField, Set<Bucket>> map,
       Aggregations aggregations) {
     for (Entry<String, Aggregation> entry : aggregations.asMap().entrySet()) {
-      
-      //STRINGTERM
+
+      // STRINGTERM
       if (entry.getValue().getClass().isAssignableFrom(StringTerms.class)) {
         DocumentField field = new DocumentField(entry.getKey());
         map.put(field, getStringTermBuckets(field, (StringTerms) entry.getValue()));
-        
-      //INTERNAL NESTED
+
+        // INTERNAL NESTED
       } else if (entry.getValue().getClass().isAssignableFrom(InternalNested.class)) {
         InternalNested nestedAggregation = (InternalNested) entry.getValue();
         extractStringTermAggregations(map, nestedAggregation.getAggregations());
-      
-      //OTHER TERMS ARE NOT SUPPORTED YET  
+
+        // OTHER TERMS ARE NOT SUPPORTED YET
       } else {
         throw new IllegalStateException("Not yet implemented");
       }
@@ -96,7 +105,7 @@ public class AggregationResultMapper extends DefaultResultMapper {
     aggregation.getBuckets().forEach(bucket -> {
         buckets.add(new Bucket(bucket.getKey(), bucket.getDocCount()));
       });
-    
+
     return buckets;
   }
 }

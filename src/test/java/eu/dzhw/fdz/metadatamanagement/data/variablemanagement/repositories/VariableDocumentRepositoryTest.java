@@ -21,7 +21,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 
-import eu.dzhw.fdz.metadatamanagement.data.common.aggregations.PageWithBuckets;
+import eu.dzhw.fdz.metadatamanagement.data.common.aggregations.PageWithBucketsAndHighlightedFields;
 import eu.dzhw.fdz.metadatamanagement.data.common.documents.builders.DateRangeBuilder;
 import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.DataTypesProvider;
 import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.ScaleLevelProvider;
@@ -106,7 +106,7 @@ public class VariableDocumentRepositoryTest extends AbstractWebTest {
         .withStartDate(LocalDate.now().minusDays(2)).withEndDate(LocalDate.now()).build());
 
     // Act
-    PageWithBuckets<VariableDocument> pageWithBuckets =
+    PageWithBucketsAndHighlightedFields<VariableDocument> pageWithBuckets =
         this.variablesRepository.search(variableSearchFormDto, Mockito.mock(Pageable.class));
 
     // Assert
@@ -130,7 +130,7 @@ public class VariableDocumentRepositoryTest extends AbstractWebTest {
         .withStartDate(LocalDate.now().minusDays(2)).withEndDate(LocalDate.now()).build());
 
     // Act
-    PageWithBuckets<VariableDocument> pageWithBuckets =
+    PageWithBucketsAndHighlightedFields<VariableDocument> pageWithBuckets =
         this.variablesRepository.search(variableSearchFormDto, new PageRequest(0, 10));
 
 
@@ -153,7 +153,7 @@ public class VariableDocumentRepositoryTest extends AbstractWebTest {
             .withEndDate(LocalDate.now().plusMonths(12)).build());
 
     // Act
-    PageWithBuckets<VariableDocument> pageWithBuckets =
+    PageWithBucketsAndHighlightedFields<VariableDocument> pageWithBuckets =
         this.variablesRepository.search(variableSearchFormDto, new PageRequest(0, 10));
 
 
@@ -175,7 +175,7 @@ public class VariableDocumentRepositoryTest extends AbstractWebTest {
             .withEndDate(LocalDate.now().minusMonths(12)).build());
 
     // Act
-    PageWithBuckets<VariableDocument> pageWithBuckets =
+    PageWithBucketsAndHighlightedFields<VariableDocument> pageWithBuckets =
         this.variablesRepository.search(variableSearchFormDto, new PageRequest(0, 10));
 
 
@@ -197,7 +197,7 @@ public class VariableDocumentRepositoryTest extends AbstractWebTest {
             .withEndDate(LocalDate.now().plusMonths(24)).build());
 
     // Act
-    PageWithBuckets<VariableDocument> pageWithBuckets =
+    PageWithBucketsAndHighlightedFields<VariableDocument> pageWithBuckets =
         this.variablesRepository.search(variableSearchFormDto, new PageRequest(0, 10));
 
 
@@ -219,7 +219,7 @@ public class VariableDocumentRepositoryTest extends AbstractWebTest {
             .withEndDate(LocalDate.now().minusMonths(5)).build());
 
     // Act
-    PageWithBuckets<VariableDocument> pageWithBuckets =
+    PageWithBucketsAndHighlightedFields<VariableDocument> pageWithBuckets =
         this.variablesRepository.search(variableSearchFormDto, new PageRequest(0, 10));
 
 
@@ -242,7 +242,7 @@ public class VariableDocumentRepositoryTest extends AbstractWebTest {
             .withEndDate(LocalDate.now().plusMonths(12)).build());
 
     // Act
-    PageWithBuckets<VariableDocument> pageWithBuckets =
+    PageWithBucketsAndHighlightedFields<VariableDocument> pageWithBuckets =
         this.variablesRepository.search(variableSearchFormDto, new PageRequest(0, 10));
 
 
