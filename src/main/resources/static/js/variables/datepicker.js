@@ -33,6 +33,7 @@ function eventTrigger($element,event){
 	convertedId = replaceId($element.attr('id'));
 	$altFiledInput = $("#" + convertedId + "_alt");
 	var date = '';
+	// ignore event from keyup,keydown, keyleft and keyright
 	if((event.which != 37) && (event.which != 38) && (event.which != 39) && (event.which != 40)){
 	try {
 		switch (locale) {
