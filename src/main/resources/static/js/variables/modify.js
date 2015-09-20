@@ -92,7 +92,7 @@ $(window).scroll(function() {
 	$('#windowYPosition').val($(window).scrollTop());
 });
 // set the mode for datepicker
-function setmode() {
+function getMode() {
 	return 'modify';
 }
 // get id of last focused element

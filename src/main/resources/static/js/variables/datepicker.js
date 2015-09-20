@@ -1,35 +1,39 @@
-var mode = '';
-function triggerDatepicker(id) {
-	event.preventDefault();
+
+$(function() {
+	initDatepicker();
+});
+
+// initiate the datepicker
+function initDatepicker(){	
 	locale = $('html').attr('lang');
-	mode = setmode();
 	$.datepicker.setDefaults($.datepicker.regional[locale]);
-	convertedId = replaceId(id);
-	$element = $("#" + convertedId);
-	$element.datepicker({
-		altField : "#" + convertedId + "_alt",
+	$('.datepicker').each(function(){
+	 $(this).datepicker({
+		altField : "#" + replaceId($(this).attr('id')) + "_alt",
 		altFormat : "yy-mm-dd",
 		gotoCurrent : true,
 		onSelect : function() {
-			triggerOnValidDate(mode, $element);
+		triggerOnValidDate(getMode(), $(this));
 		},
-		autoclose : true,
+		clickInput:true,
 		changeMonth : true,
 		changeYear : true,
 		yearRange : '1970:2040',
-		firstDay : 1
-	}).datepicker('show');
+		firstDay : 1,
+		autoclose:true,
+	}).on('keyup',function(){
+		//$(this).datepicker('hide');
+		 eventTrigger($(this),event);
+	});
+	});
 }
-function triggerOnKeyup(id) {
-	convertedId = replaceId(id);
-	$element = $("#" + convertedId);
-	$element.datepicker("hide");
-	if (event.keyCode == 46) {
-		$element.val('');
-	}
-	event.preventDefault();
+
+// this will be triggered when user want to put date manually
+function eventTrigger($element,event){
+	convertedId = replaceId($element.attr('id'));
 	$altFiledInput = $("#" + convertedId + "_alt");
 	var date = '';
+	if((event.which != 37) && (event.which != 38) && (event.which != 39) && (event.which != 40)){
 	try {
 		switch (locale) {
 		case 'de':
@@ -41,16 +45,31 @@ function triggerOnKeyup(id) {
 		default:
 			break;
 		}
-		var day = ("0" + (date.getDate())).slice(-2);
-		var year = date.getFullYear();
-		// JavaScript months are 0-11
-		var month = ("0" + (date.getMonth() + 1)).slice(-2);
-		$altFiledInput.val(year + '-' + month + '-' + day);
-		triggerOnValidDate(mode, $element);
+		var day='';
+		var month='';
+		var tempMonthValue=(date.getMonth()+1);
+		var year ='';
+		
+		// set date format to a compatible iso form  
+		if((date.getDate() <= 9) &&(getMode==='modify')){
+			day = ("0" + (date.getDate())).slice(-2);
+		}else{
+			day = date.getDate();
+		}
+		if((tempMonthValue <= 9)&&(getMode==='modify')){
+			month = ("0" + tempMonthValue).slice(-2);
+		}else{
+			month = tempMonthValue;
+		}
+			correntDate = date.getFullYear() + '-' +month + '-' + day;
+			$altFiledInput.val(correntDate);
+			triggerOnValidDate(getMode(), $altFiledInput);
 	} catch (e) {
-		triggerOnInvalidDate(mode, $element);
-	}
+		triggerOnInvalidDate(getMode(),$element);
+	}}
 }
+
+// replace the dot in id attribute
 function replaceId(oldId) {
 	return oldId.replace(/\./g, "\\.");
 }
@@ -58,12 +77,16 @@ function replaceId(oldId) {
 function triggerOnValidDate(mode, element) {
 	if (mode === 'modify') {
 		VariableModifyForm.validate(element.closest("form"));
-		$element.unbind('focus');
 	} else {
-		//update method is in the pjaxvariablesearch.js
-		updateSearch();
+		// number of characters in input field
+		if(element.val().length === 10){
+		variableSearch();
+		}else{
+			$altFiledInput.val('');
+		}
 	}
 }
+
 function triggerOnInvalidDate(mode, element) {
 	if (mode === 'modify') {
 		$altFiledInput.val('invalid date');
@@ -71,8 +94,7 @@ function triggerOnInvalidDate(mode, element) {
 	} else {
 		if (element.val() === '') {
 			$altFiledInput.val('');
-			//update method is in the pjaxvariablesearch.js
-			updateSearch();
+			variableSearch();
 		}
 	}
 }
