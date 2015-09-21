@@ -81,7 +81,8 @@ function triggerOnValidDate(mode, element) {
 	} else {
 		// number of characters in input field
 		if(element.val().length === 10){
-		variableSearch();
+			updateSearch();
+//		variableSearch();
 		}else{
 			$altFiledInput.val('');
 		}
