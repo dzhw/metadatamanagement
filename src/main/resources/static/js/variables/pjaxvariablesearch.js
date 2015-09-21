@@ -11,7 +11,7 @@ function updateSearch() {
 	initDatepicker();
 
 	// serialize the form
-	$.pjax.submit(event, '#searchResults');
+	$.pjax.submit(event, '#pjax-container');
 }
 
 // this method set the correct value to the input field and the value field on
