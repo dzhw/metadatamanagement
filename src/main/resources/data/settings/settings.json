@@ -23,13 +23,18 @@
         		"english_possessive_stemmer": {
           			"type":       "stemmer",
           			"language":   "possessive_english"
-        		}
+        		},
+        		"trigrams_filter": {
+                    "type":     "ngram",
+                    "min_gram": 3,
+                    "max_gram": 8
+                }
       		},
             "tokenizer": {
                 "trigrams_tokenizer": {
                     "type":     "ngram",
                     "min_gram": 3,
-                    "max_gram": 3,
+                    "max_gram": 8,
                     "token_chars": [
             			"letter","digit"
           			]
@@ -45,29 +50,27 @@
               	},
               	"highlight_trigrams" : {
               		"type":      "custom",
-                    "tokenizer": "trigrams_tokenizer",
+                    "tokenizer": "standard",
                     "filter": [
-            			"lowercase"
+            			"lowercase",
+            			"trigrams_filter"
           			]
               	},
               	"highlight_de": {
               		"type":      "custom",
-                    "tokenizer": "trigrams_tokenizer",
+                    "tokenizer": "standard",
                     "filter": [
             			"lowercase",
-            			"german_stop",
             			"german_normalization",
-            			"german_stemmer"
+            			"trigrams_filter"
           			]
               	},
               	"highlight_en": {
               		"type":      "custom",
-                    "tokenizer": "trigrams_tokenizer",
+                    "tokenizer": "standard",
                     "filter": [
-            			"english_possessive_stemmer",
             			"lowercase",
-            			"english_stop",
-            			"english_stemmer"
+      					"trigrams_filter"
          			 ]
               	}
          	}

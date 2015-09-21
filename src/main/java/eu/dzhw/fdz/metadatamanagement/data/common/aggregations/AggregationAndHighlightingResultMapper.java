@@ -8,6 +8,7 @@ import java.util.Map.Entry;
 import java.util.Set;
 
 import org.elasticsearch.action.search.SearchResponse;
+import org.elasticsearch.common.text.Text;
 import org.elasticsearch.search.SearchHit;
 import org.elasticsearch.search.aggregations.Aggregation;
 import org.elasticsearch.search.aggregations.Aggregations;
@@ -62,10 +63,9 @@ public class AggregationAndHighlightingResultMapper extends DefaultResultMapper 
       if (!highlightedFields.isEmpty()) {
         T mappedHit = pageContent.get(i);
         for (Entry<String, HighlightField> entry : highlightedFields.entrySet()) {
-          // TODO rreitmann concat all fragments
           BeanWrapper bean = new BeanWrapperImpl(mappedHit);
           bean.setPropertyValue(entry.getValue().getName().replace(".highlight", ""),
-              entry.getValue().getFragments()[0].toString());
+              getAllFragmentsConcatenated(entry.getValue().getFragments()));
         }
       }
     }
@@ -76,6 +76,17 @@ public class AggregationAndHighlightingResultMapper extends DefaultResultMapper 
     extractStringTermAggregations(map, response.getAggregations());
 
     return new PageWithBuckets<T>(facetedPage, pageable, map);
+  }
+
+  private String getAllFragmentsConcatenated(Text[] fragments) {
+    StringBuilder stringBuilder = new StringBuilder();
+    for (Text text : fragments) {
+      if (stringBuilder.length() > 0) {
+        stringBuilder.append(" ");
+      }
+      stringBuilder.append(text.toString());
+    }
+    return stringBuilder.toString();
   }
 
   /**

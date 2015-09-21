@@ -4,6 +4,7 @@
 package eu.dzhw.fdz.metadatamanagement.data.variablemanagement.repositories;
 
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.not;
 import static org.hamcrest.Matchers.nullValue;
@@ -249,5 +250,19 @@ public class VariableDocumentRepositoryTest extends AbstractWebTest {
     // Assert
     assertThat(pageWithBuckets, not(nullValue()));
     assertThat(pageWithBuckets.getContent().size(), is(5));
+  }
+
+  @Test
+  public void testHighlighting() {
+    VariableSearchFilter variableSearchFormDto = new VariableSearchFilter();
+    variableSearchFormDto.setQuery("filter");
+
+    // Act
+    PageWithBuckets<VariableDocument> pageWithBuckets =
+        this.variablesRepository.search(variableSearchFormDto, new PageRequest(0, 10));
+
+    assertThat(pageWithBuckets.getContent().size(), is(9));
+    assertThat(pageWithBuckets.getContent().get(0).getQuestion(),
+        containsString("<em>SurveyFilterUnitTestQuestion</em>"));
   }
 }
