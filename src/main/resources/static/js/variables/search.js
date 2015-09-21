@@ -1,24 +1,34 @@
 var VariableSearchForm = {};
 
 // this function starts elasticsearch
-VariableSearchForm.updateSearch = function () {
+VariableSearchForm.search = function() {
 	"use strict";
 	
-	// serialize the form
+	// prevent the default submit action
 	event.preventDefault();
-	$.pjax.submit(event, '#pjax-container');
+	
+	// clone the event for the pjax api
+	var clonedEvent = {};
+	clonedEvent.currentTarget = event.currentTarget;
+	clonedEvent.preventDefault = function() {};
+	
+	VariableSearchForm.throttledSubmit(clonedEvent);
 };
+
+VariableSearchForm.throttledSubmit = _.throttle(function(event) {
+	$.pjax.submit(event, '#pjax-container');
+},500);
 
 $(document).ready(function() {
 	"use strict";
 	//if there is any input, update the search
-	$("#searchVariables").on('input', ".pjax-input", VariableSearchForm.updateSearch);
+	$("#searchVariables").on('input', ".pjax-input", VariableSearchForm.search);
 
 	// if there is any click, update the search
-	$("#searchVariables").on('click', ".pjax-filter", VariableSearchForm.updateSearch);
+	$("#searchVariables").on('click', ".pjax-filter", VariableSearchForm.search);
 
 	//if there is any change on the datepicker
-	$("#searchVariables").on('change', ".datepicker", VariableSearchForm.updateSearch);
+	$("#searchVariables").on('change', ".datepicker", VariableSearchForm.search);
 	
 	// this method set the correct value to the input field and the value field on
 	// history back
