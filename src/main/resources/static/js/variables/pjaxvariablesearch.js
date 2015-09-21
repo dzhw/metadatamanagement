@@ -6,7 +6,10 @@
 	updateSearch();
 });*/
 
-/*function updateSearch() {
+/*
+function updateSearch() {
+	var value = $("#query").val();
+	$("#query").val(value);
 	var form = $('#searchVariables');
 	$.pjax({
 		container : "#searchResults",
