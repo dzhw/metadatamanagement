@@ -11,7 +11,7 @@
 					<a class="navbar-brand" th:href="${resource.homeLink.href}"> <img
 						style="max-height: 45px; margin-top: -12px;"
 						th:src="@{/images/FDZ_Logo.svg}" th:title="#{logo.fdz}"
-					th:alt="#{logo.fdz}"></img></a>
+						th:alt="#{logo.fdz}"></img></a>
 					<button type="button" class="navbar-toggle collapsed"
 						data-toggle="collapse" data-target="#navbar-collapse">
 						<span class="sr-only" th:text="#{nav.navtoggle}"></span> <span
@@ -34,6 +34,10 @@
 							</ul></li>
 					</ul>
 					<ul class="nav navbar-nav navbar-right">
+						<li><a th:href="${resource.disclosureLink.href}"
+							class="dropdown-toggle" role="button"> <span
+								th:text="#{disclosure.title}"></span>
+						</a></li>
 						<li class="dropdown"><a href="#" class="dropdown-toggle"
 							data-toggle="dropdown" role="button" aria-expanded="false"> <span
 								class="glyphicon glyphicon-flag"></span> <span
@@ -49,12 +53,6 @@
 									th:text="#{nav.language.english}">English</a>
 								</li>
 							</ul></li>
-					</ul>
-					<ul class="nav navbar-nav navbar-right">
-						<li><a th:href="${resource.disclosureLink.href}"
-							class="dropdown-toggle" role="button"> <span
-								th:text="#{disclosure.title}"></span>
-						</a></li>
 					</ul>
 				</div>
 			</div>
