@@ -1,30 +1,21 @@
-$("#searchVariables").on('input', function() {
-	updateSearch();
-});
+//if there is any input, update the search
+$("#searchVariables").on('input', ".pjax-input", updateSearch);
 
-$("#searchVariables").on('click', function() {
-	updateSearch();
-});
+// if there is any click, update the search
+$("#searchVariables").on('click', ".pjax-filter",updateSearch);
 
+// this function starts elasticsearch
 function updateSearch() {
-
-	// sets the value in the html input field
-	$("#query").attr("value", $("#query").val());
 
 	// init the date picker
 	initDatepicker();
 
 	// serialize the form
-	var form = $('#searchVariables');
-	$.pjax({
-		container : "#searchResults",
-		data : form.serialize()
-	});
-
-	// $.pjax.submit(event, '#searchVariables');
+	$.pjax.submit(event, '#searchResults');
 }
 
-//this method set the correct value to the input field and the value field on history back
+// this method set the correct value to the input field and the value field on
+// history back
 window.addEventListener('popstate', function(e) {
 	$("#query").val(getUrlParameter('query'));
 	$("#query").attr("value", $("#query").val());
@@ -38,6 +29,7 @@ window.addEventListener('popstate', function(e) {
 // $(document).on('submit', 'form[data-pjax]', function(event) {
 // $.pjax.submit(event, '#pjax-container');
 // });
+
 $(document).ready(function() {
 	var lastFocused = $.cookie("lastFocused");
 	if (!lastFocused) {

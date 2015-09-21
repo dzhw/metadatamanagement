@@ -23,7 +23,7 @@
 									<div class="input-group">
 										<label class="sr-only" for="query"
 											th:text="#{variables.search.searchinput.placeholder}">Search
-											for Variables</label> <input type="text" class="form-control"
+											for Variables</label> <input type="text" class="form-control pjax-input"
 											id="query" th:field="*{query}"
 											th:placeholder="#{variables.search.searchinput.placeholder}"/>
 										<span class="input-group-btn">
@@ -61,7 +61,7 @@
 											<div class="checkbox">
 												<label class="text-capitalize label-with-text-and-badge"><input
 													type="checkbox" th:field="*{surveyTitle}"
-													th:value="${surveyTitle.key}" />
+													th:value="${surveyTitle.key}" class="pjax-filter" />
 													<span
 													class="abbreviated-text" th:text="${surveyTitle.key}"></span>
 												</label><span class="badge pull-right"
@@ -71,7 +71,7 @@
 									</ul>
 								</div>
 							</div>
-							<!-- DateRange -->
+							<!-- Survey Period -->
 							<div class="panel panel-default">
 								<div class="panel-heading custom-panel-heading"
 									data-toggle="collapse" data-target="#collapseDateRangePanel">
@@ -112,7 +112,7 @@
 											<div class="checkbox">
 												<label class="text-capitalize"><input
 													type="checkbox" th:field="*{scaleLevel}"
-													th:value="${scaleLevel.key}" />
+													th:value="${scaleLevel.key}" class="pjax-filter" />
 													<span
 													th:text="${scaleLevel.key}"></span> </label><span
 													class="badge pull-right" th:text="${scaleLevel.docCount}">14</span>
