@@ -85,7 +85,7 @@
 									class="panel-collapse collapse fade in">
 									<ul class="list-group">
 										<li class="list-group-item">
-											<div
+											<div 
 												th:replace="common/errorAlerts::globalAlerts(field=surveyPeriod)"></div>
 											<div
 												th:replace="common/calendar::date(field=surveyPeriod.startDate,label=#{variables.common.variable.survey.period.start},placeholder=#{variables.common.variable.survey.period.start},readonly=false)"></div>
@@ -178,8 +178,7 @@
 		</div>
 	</form>
 	<div th:include="common/js_libraries::js"></div>
-	<script src="/js/variables/pjaxvariablesearch.js"></script>
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.js"></script>
+	<script src="/js/variables/search.js"></script>
 	<script src="/js/variables/datepicker.js"></script>
 </body>
 </html>
