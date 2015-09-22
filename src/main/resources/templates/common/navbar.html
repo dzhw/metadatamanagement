@@ -5,9 +5,9 @@
 </head>
 <body>
 	<div th:fragment="navbar">
-		<nav class="navbar navbar-default navbar-fixed-top">
+		<nav class="navbar navbar-default navbar-fixed-top" style="min-width: 280px;">
 			<div class="container">
-				<div class="navbar-header" style="min-width: 280px;">
+				<div class="navbar-header">
 					<a class="navbar-brand" th:href="${resource.homeLink.href}"> <img
 						style="max-height: 45px; margin-top: -12px; max-width: 189px;"
 						th:src="@{/images/FDZ_Logo.svg}" th:title="#{logo.fdz}"
