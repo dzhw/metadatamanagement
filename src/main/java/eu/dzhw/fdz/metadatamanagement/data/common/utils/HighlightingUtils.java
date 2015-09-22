@@ -107,4 +107,8 @@ public class HighlightingUtils {
   public Map<String, String> getHighlightedFields() {
     return highlightedFields;
   }
+
+  public void setHighlightedFields(Map<String, String> highlightedFields) {
+    this.highlightedFields = highlightedFields;
+  }
 }
