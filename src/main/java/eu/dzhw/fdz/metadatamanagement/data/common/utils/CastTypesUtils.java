@@ -1,4 +1,4 @@
-package eu.dzhw.fdz.metadatamanagement.data.common;
+package eu.dzhw.fdz.metadatamanagement.data.common.utils;
 
 /**
  * This class cast types in a safety way from one type to an another one.

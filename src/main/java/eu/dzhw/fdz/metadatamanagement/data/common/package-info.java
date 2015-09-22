@@ -1,6 +1,6 @@
 /**
- * The common package includes validators, annotations or domain classes which are used in different
- * domains.
+ * The common package includes aggregations, utils or common document classes which are used in
+ * different domains.
  * 
  * @author Daniel Katzberg
  *

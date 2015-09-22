@@ -23,7 +23,7 @@ import org.springframework.data.elasticsearch.core.FacetedPage;
 
 import eu.dzhw.fdz.metadatamanagement.config.elasticsearch.JacksonDocumentMapper;
 import eu.dzhw.fdz.metadatamanagement.data.common.documents.DocumentField;
-import eu.dzhw.fdz.metadatamanagement.data.common.documents.HighlightingUtils;
+import eu.dzhw.fdz.metadatamanagement.data.common.utils.HighlightingUtils;
 
 /**
  * The aggregation result mapper is a sub class from the {@link DefaultResultMapper}. It extends the

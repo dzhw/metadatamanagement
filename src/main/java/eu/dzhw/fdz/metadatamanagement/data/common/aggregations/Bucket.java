@@ -2,7 +2,7 @@ package eu.dzhw.fdz.metadatamanagement.data.common.aggregations;
 
 import com.google.common.base.Objects;
 
-import eu.dzhw.fdz.metadatamanagement.data.common.CastTypesUtils;
+import eu.dzhw.fdz.metadatamanagement.data.common.utils.CastTypesUtils;
 
 /**
  * This class holds the result of an elasticsearch query with a term aggregation.

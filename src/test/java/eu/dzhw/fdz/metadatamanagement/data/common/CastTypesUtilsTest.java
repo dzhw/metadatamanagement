@@ -8,6 +8,8 @@ import static org.junit.Assert.assertThat;
 
 import org.junit.Test;
 
+import eu.dzhw.fdz.metadatamanagement.data.common.utils.CastTypesUtils;
+
 /**
  * @author Daniel Katzberg
  *

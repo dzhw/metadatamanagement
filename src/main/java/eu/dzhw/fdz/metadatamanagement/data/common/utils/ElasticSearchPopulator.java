@@ -1,4 +1,4 @@
-package eu.dzhw.fdz.metadatamanagement.data.common;
+package eu.dzhw.fdz.metadatamanagement.data.common.utils;
 
 import java.io.IOException;
 import java.util.ArrayList;

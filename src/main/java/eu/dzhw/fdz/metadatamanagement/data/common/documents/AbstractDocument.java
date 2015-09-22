@@ -12,9 +12,10 @@ import org.springframework.data.elasticsearch.annotations.Setting;
 
 import com.google.common.base.MoreObjects;
 
-import eu.dzhw.fdz.metadatamanagement.data.common.PopulatorUtils;
 import eu.dzhw.fdz.metadatamanagement.data.common.documents.validation.groups.ModifyValidationGroup.Create;
 import eu.dzhw.fdz.metadatamanagement.data.common.documents.validation.groups.ModifyValidationGroup.Edit;
+import eu.dzhw.fdz.metadatamanagement.data.common.utils.HighlightingUtils;
+import eu.dzhw.fdz.metadatamanagement.data.common.utils.PopulatorUtils;
 import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.validation.NoEditableId;
 
 /**
