@@ -1,11 +1,11 @@
 package eu.dzhw.fdz.metadatamanagement.web.variablemanagement.search.dto;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.validation.Valid;
-
-import net.karneim.pojobuilder.GeneratePojoBuilder;
 
 import org.springframework.util.StringUtils;
 
@@ -15,9 +15,10 @@ import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.Variable
 import eu.dzhw.fdz.metadatamanagement.web.common.dtos.AbstractSearchFilter;
 import eu.dzhw.fdz.metadatamanagement.web.common.dtos.AggregationType;
 import eu.dzhw.fdz.metadatamanagement.web.common.dtos.FilterType;
+import net.karneim.pojobuilder.GeneratePojoBuilder;
 
 /**
- * The SearchForm Data transfer object (dto). This dto
+ * The SearchForm Data transfer object (dto).
  * 
  * @author Daniel Katzberg
  *
@@ -153,6 +154,24 @@ public class VariableSearchFilter extends AbstractSearchFilter {
     return query;
   }
 
+  /*
+   * (non-Javadoc)
+   * 
+   * @see eu.dzhw.fdz.metadatamanagement.web.common.dtos.AbstractSearchFilter#
+   * getSupportedHighlightingFields()
+   */
+  @Override
+  public List<DocumentField> getSupportedHighlightingFields() {
+    List<DocumentField> supportedHighlightFields = new ArrayList<>();
+
+    supportedHighlightFields.add(VariableDocument.LABEL_FIELD);
+    supportedHighlightFields.add(VariableDocument.NAME_FIELD);
+    supportedHighlightFields.add(VariableDocument.QUESTION_FIELD);
+    supportedHighlightFields.add(VariableDocument.NESTED_VARIABLE_SURVEY_TITLE_FIELD);
+
+    return supportedHighlightFields;
+  }
+
   /* GETTER / SETTER */
   public void setQuery(String query) {
     this.query = query;
@@ -181,6 +200,4 @@ public class VariableSearchFilter extends AbstractSearchFilter {
   public void setSurveyPeriod(DateRange surveyPeriod) {
     this.surveyPeriod = surveyPeriod;
   }
-
-
 }

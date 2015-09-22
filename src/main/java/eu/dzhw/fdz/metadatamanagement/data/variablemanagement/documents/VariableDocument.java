@@ -143,8 +143,6 @@ public class VariableDocument extends AbstractDocument {
     this.variableSurvey = new VariableSurvey();
   }
 
-
-
   /**
    * Adds a answer Option to the list.
    * 

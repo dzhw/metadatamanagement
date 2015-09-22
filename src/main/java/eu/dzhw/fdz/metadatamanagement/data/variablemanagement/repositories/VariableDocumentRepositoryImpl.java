@@ -20,6 +20,7 @@ import org.elasticsearch.index.query.QueryBuilders;
 import org.elasticsearch.search.aggregations.AggregationBuilder;
 import org.elasticsearch.search.aggregations.AggregationBuilders;
 import org.elasticsearch.search.highlight.HighlightBuilder;
+import org.elasticsearch.search.highlight.HighlightBuilder.Field;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
@@ -89,7 +90,6 @@ public class VariableDocumentRepositoryImpl implements VariableDocumentRepositor
     List<FilterBuilder> termFilterBuilders = this
         .createFilterBuilders(searchFilter.getAllFilterValues(), searchFilter.getAllFilterTypes());
     queryBuilder = this.addFilterToQuery(queryBuilder, termFilterBuilders);
-
     // prepare search query (with filter)
     NativeSearchQueryBuilder nativeSearchQueryBuilder = new NativeSearchQueryBuilder();
     nativeSearchQueryBuilder.withQuery(queryBuilder);
@@ -101,10 +101,10 @@ public class VariableDocumentRepositoryImpl implements VariableDocumentRepositor
       nativeSearchQueryBuilder.addAggregation(aggregationBuilder);
     }
 
-    // TODO rreitmann move to filter    
-    nativeSearchQueryBuilder.withHighlightFields(new HighlightBuilder.Field("question.highlight"),
-        new HighlightBuilder.Field("label.highlight"), new HighlightBuilder.Field("name.highlight"),
-        new HighlightBuilder.Field("variableSurvey.title.highlight"));
+    // Add Highlighting fields
+    HighlightBuilder.Field[] fields =
+        this.createHighlightFields(searchFilter.getSupportedHighlightingFields());
+    nativeSearchQueryBuilder.withHighlightFields(fields);
 
     // Create search query
     SearchQuery searchQuery = nativeSearchQueryBuilder.withPageable(pageable).build();
@@ -115,6 +115,23 @@ public class VariableDocumentRepositoryImpl implements VariableDocumentRepositor
 
     // return pageable object and the aggregations
     return (PageWithBuckets<VariableDocument>) facetedPage;
+  }
+
+  /**
+   * @param supportedHighlightingFields A list with all field which are used for highlighting by
+   *        elasticsearch.
+   * @return A array with {@link HighlightBuilder.Field} elements for the highlighting.
+   */
+  private Field[] createHighlightFields(List<DocumentField> supportedHighlightingFields) {
+    HighlightBuilder.Field[] fields =
+        new HighlightBuilder.Field[supportedHighlightingFields.size()];
+
+    for (int i = 0; i < supportedHighlightingFields.size(); i++) {
+      fields[i] = new HighlightBuilder.Field(
+          supportedHighlightingFields.get(i).getAbsolutePath() + ".highlight");
+    }
+
+    return fields;
   }
 
   /**

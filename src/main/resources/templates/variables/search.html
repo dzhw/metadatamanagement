@@ -135,9 +135,10 @@
 											class="list-group-item search-result"
 											th:each="variable : ${resource.page}">
 											<h4 class="list-group-item-heading">
-												<!-- TODO: utext won't work if there are html characters in the data like '>' for example -->
-												<a th:href="${variable.id.href}"
+												<a th:href="${variable.id.href}" th:if="${variable.variableDocument.highlightingUtils.isHighlighted('label')} == false"
 													th:utext="${variable.variableDocument.label}"> </a>
+												<a th:href="${variable.id.href}" th:if="${variable.variableDocument.highlightingUtils.isHighlighted('label')} == true"
+													th:utext="${variable.variableDocument.highlightingUtils.highlightedFields.get('label')}"> </a>	
 											</h4>
 											<p class="list-group-item-text"
 												th:if="${variable.variableDocument.highlightingUtils.isHighlighted('name')} == false"
