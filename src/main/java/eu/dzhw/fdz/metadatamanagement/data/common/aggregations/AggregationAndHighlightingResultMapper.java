@@ -23,6 +23,7 @@ import org.springframework.data.elasticsearch.core.FacetedPage;
 
 import eu.dzhw.fdz.metadatamanagement.config.elasticsearch.JacksonDocumentMapper;
 import eu.dzhw.fdz.metadatamanagement.data.common.documents.DocumentField;
+import eu.dzhw.fdz.metadatamanagement.data.common.documents.HighlightingUtils;
 
 /**
  * The aggregation result mapper is a sub class from the {@link DefaultResultMapper}. It extends the
@@ -55,7 +56,6 @@ public class AggregationAndHighlightingResultMapper extends DefaultResultMapper 
     HashMap<String, String> highlightedMap = new HashMap<>();
 
     // both array and list should be of same size and order
-    // TODO hier die html entfernen.
     SearchHit[] searchHits = response.getHits().hits();
     List<T> pageContent = facetedPage.getContent();
 
@@ -68,8 +68,9 @@ public class AggregationAndHighlightingResultMapper extends DefaultResultMapper 
         
         for (Entry<String, HighlightField> entry : highlightedFields.entrySet()) {
           // add
+          String unescapedHtml = getAllFragmentsConcatenated(entry.getValue().getFragments());
           highlightedMap.put(entry.getValue().getName().replace(".highlight", ""),
-              getAllFragmentsConcatenated(entry.getValue().getFragments()));
+              HighlightingUtils.escapeHtml(unescapedHtml)); //escape html
         }
 
         //set Map

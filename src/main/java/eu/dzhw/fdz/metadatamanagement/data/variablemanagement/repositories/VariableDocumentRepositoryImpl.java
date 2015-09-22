@@ -101,9 +101,7 @@ public class VariableDocumentRepositoryImpl implements VariableDocumentRepositor
       nativeSearchQueryBuilder.addAggregation(aggregationBuilder);
     }
 
-    // TODO rreitmann move to filter
-    // TODO use encoder html to escape field values which may contain "<" for example
-    
+    // TODO rreitmann move to filter    
     nativeSearchQueryBuilder.withHighlightFields(new HighlightBuilder.Field("question.highlight"),
         new HighlightBuilder.Field("label.highlight"), new HighlightBuilder.Field("name.highlight"),
         new HighlightBuilder.Field("variableSurvey.title.highlight"));
