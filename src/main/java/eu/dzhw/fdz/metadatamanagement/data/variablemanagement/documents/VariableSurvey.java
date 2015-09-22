@@ -103,8 +103,6 @@ public class VariableSurvey {
     return false;
   }
 
-
-
   /* GETTER / SETTER */
   public String getSurveyId() {
     return surveyId;

@@ -103,6 +103,7 @@ public class VariableDocumentRepositoryImpl implements VariableDocumentRepositor
 
     // TODO rreitmann move to filter
     // TODO use encoder html to escape field values which may contain "<" for example
+    
     nativeSearchQueryBuilder.withHighlightFields(new HighlightBuilder.Field("question.highlight"),
         new HighlightBuilder.Field("label.highlight"), new HighlightBuilder.Field("name.highlight"),
         new HighlightBuilder.Field("variableSurvey.title.highlight"));

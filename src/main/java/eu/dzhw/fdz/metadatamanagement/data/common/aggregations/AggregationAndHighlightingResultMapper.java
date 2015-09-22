@@ -52,7 +52,10 @@ public class AggregationAndHighlightingResultMapper extends DefaultResultMapper 
   public <T> FacetedPage<T> mapResults(SearchResponse response, Class<T> clazz, Pageable pageable) {
     FacetedPage<T> facetedPage = super.mapResults(response, clazz, pageable);
 
+    HashMap<String, String> highlightedMap = new HashMap<>();
+
     // both array and list should be of same size and order
+    // TODO hier die html entfernen.
     SearchHit[] searchHits = response.getHits().hits();
     List<T> pageContent = facetedPage.getContent();
 
@@ -62,11 +65,17 @@ public class AggregationAndHighlightingResultMapper extends DefaultResultMapper 
       Map<String, HighlightField> highlightedFields = searchHit.getHighlightFields();
       if (!highlightedFields.isEmpty()) {
         T mappedHit = pageContent.get(i);
+        
         for (Entry<String, HighlightField> entry : highlightedFields.entrySet()) {
-          BeanWrapper bean = new BeanWrapperImpl(mappedHit);
-          bean.setPropertyValue(entry.getValue().getName().replace(".highlight", ""),
+          // add
+          highlightedMap.put(entry.getValue().getName().replace(".highlight", ""),
               getAllFragmentsConcatenated(entry.getValue().getFragments()));
         }
+
+        //set Map
+        BeanWrapper bean = new BeanWrapperImpl(mappedHit);
+        bean.setPropertyValue("highlightingUtils.highlightedFields", highlightedMap);
+
       }
     }
 

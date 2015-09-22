@@ -44,6 +44,18 @@ public abstract class AbstractDocument {
   @NotBlank(groups = {Create.class, Edit.class})
   @Pattern(regexp = "^[0-9a-zA-Z_-]*", groups = {Create.class, Edit.class})
   private String id;
+  
+  /**
+   * A map with all highlighted fields and other support / helper functions. 
+   */
+  private HighlightingUtils highlightingUtils;
+  
+  /**
+   * Basic Constructor.
+   */
+  public AbstractDocument() {
+    this.highlightingUtils = new HighlightingUtils();
+  }
 
   /*
    * (non-Javadoc)
@@ -88,5 +100,9 @@ public abstract class AbstractDocument {
 
   public void setId(String id) {
     this.id = id;
+  }
+
+  public HighlightingUtils getHighlightingUtils() {
+    return highlightingUtils;
   }
 }

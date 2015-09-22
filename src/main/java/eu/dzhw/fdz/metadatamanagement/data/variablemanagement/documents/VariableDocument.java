@@ -138,9 +138,12 @@ public class VariableDocument extends AbstractDocument {
    * Create a variableDocument with a empty AnswerOption.
    */
   public VariableDocument() {
+    super();
     this.answerOptions = new ArrayList<>();
     this.variableSurvey = new VariableSurvey();
   }
+
+
 
   /**
    * Adds a answer Option to the list.
@@ -268,6 +271,11 @@ public class VariableDocument extends AbstractDocument {
     this.answerOptions = answerOptions;
   }
 
+  /**
+   * The question field supports the highlighting.
+   * 
+   * @return The basic field or the highlighted field.
+   */
   public String getQuestion() {
     return question;
   }

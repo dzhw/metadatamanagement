@@ -23,9 +23,10 @@
 									<div class="input-group">
 										<label class="sr-only" for="query"
 											th:text="#{variables.search.searchinput.placeholder}">Search
-											for Variables</label> <input type="text" class="form-control pjax-input"
-											id="query" th:field="*{query}"
-											th:placeholder="#{variables.search.searchinput.placeholder}"/>
+											for Variables</label> <input type="text"
+											class="form-control pjax-input" id="query"
+											th:field="*{query}"
+											th:placeholder="#{variables.search.searchinput.placeholder}" />
 										<span class="input-group-btn">
 											<button type="submit" class="btn btn-default">
 												<span class="glyphicon glyphicon-search" aria-hidden="true"></span>
@@ -40,140 +41,152 @@
 				</div>
 				<!-- Results and Filter area -->
 				<div id="pjax-container">
-				<div class="col-md-12" id="searchResults"
-					th:object="${variableSearchFilter}">
-					<div class="row">
-						<!-- Filter -->
-						<div class="col-md-3">
-							<!-- Survey Title Filter -->
-							<div class="panel panel-default">
-								<div class="panel-heading custom-panel-heading"
-									data-toggle="collapse" data-target="#collapseSurveyTitlePanel">
-									<a class="panel-title panel-toggle"
-										href="#collapseSurveyTitlePanel" data-toggle="collapse"
-										th:text="#{variables.common.variable.surveyTitle}">Survey
-										Title </a>
-								</div>
-								<div id="collapseSurveyTitlePanel"
-									class="panel-collapse collapse fade in">
-									<ul class="list-group">
-										<li class="list-group-item"
-											th:each="surveyTitle : ${surveyTitleBuckets}">
-											<div class="checkbox">
-												<label class="text-capitalize label-with-text-and-badge"><input
-													type="checkbox" th:field="*{surveyTitle}"
-													th:value="${surveyTitle.key}" class="pjax-filter" />
-													<span
-													class="abbreviated-text" th:text="${surveyTitle.key}"></span>
-												</label><span class="badge pull-right"
-													th:text="${surveyTitle.docCount}">14</span>
-											</div>
-										</li>
-									</ul>
-								</div>
-							</div>
-							<!-- Survey Period -->
-							<div class="panel panel-default">
-								<div class="panel-heading custom-panel-heading"
-									data-toggle="collapse" data-target="#collapseDateRangePanel">
-									<a class="panel-title panel-toggle"
-										href="#collapseDateRangePanel" data-toggle="collapse"
-										th:text="#{variables.common.variable.survey.period}">DateRange
-									</a>
-								</div>
-								<div id="collapseDateRangePanel"
-									class="panel-collapse collapse fade in">
-									<ul class="list-group">
-										<li class="list-group-item">
-											<div 
-												th:replace="common/errorAlerts::globalAlerts(field=surveyPeriod)"></div>
-											<div
-												th:replace="common/calendar::date(field=surveyPeriod.startDate,label=#{variables.common.variable.survey.period.start},placeholder=#{variables.common.variable.survey.period.start},readonly=false)"></div>
-											<div
-												th:replace="common/calendar::date(field=surveyPeriod.endDate,label=#{variables.common.variable.survey.period.end},placeholder=#{variables.common.variable.survey.period.end},readonly=false)"></div>
-
-										</li>
-									</ul>
-								</div>
-							</div>
-							<!-- Scale Level Filter -->
-							<div class="panel panel-default">
-								<div class="panel-heading custom-panel-heading"
-									data-toggle="collapse" data-target="#collapseScaleLevelPanel">
-									<a class="panel-title panel-toggle"
-										href="#collapseScaleLevelPanel" data-toggle="collapse"
-										th:text="#{variables.common.variable.scaleLevel}">ScaleLevel
-									</a>
-								</div>
-								<div id="collapseScaleLevelPanel"
-									class="panel-collapse collapse fade in">
-									<ul class="list-group">
-										<li class="list-group-item"
-											th:each="scaleLevel : ${scaleLevelBuckets}">
-											<div class="checkbox">
-												<label class="text-capitalize"><input
-													type="checkbox" th:field="*{scaleLevel}"
-													th:value="${scaleLevel.key}" class="pjax-filter" />
-													<span
-													th:text="${scaleLevel.key}"></span> </label><span
-													class="badge pull-right" th:text="${scaleLevel.docCount}">14</span>
-											</div>
-										</li>
-									</ul>
-								</div>
-							</div>
-						</div>
-						<!-- result and page -->
-						<div class="col-md-9">
-							<div class="panel panel-primary">
-								<div class="panel-heading">
-									<span class="panel-title"
-										th:text="${resource.page.metadata.totalElements}>0?#{variables.search.numberOfResults(${resource.page.metadata.totalElements},${resource.page.metadata.number}*${resource.page.metadata.size}+1,${resource.page.metadata.number}*${resource.page.metadata.size}+${resource.page.content.size()})}:#{variables.search.noresults}">100
-										Variablen gefunden </span>
-								</div>
-								<ul class="list-group">
-									<li th:if="${resource.page.content.size() gt 0}"
-										class="list-group-item search-result" th:each="variable : ${resource.page}">
-										<h4 class="list-group-item-heading">
-											<!-- TODO: utext won't work if there are html characters in the data like '>' for example -->
-											<a th:href="${variable.id.href}"
-												th:utext="${variable.variableDocument.label}"> </a>
-										</h4>
-										<p class="list-group-item-text"
-											th:utext="#{variables.search.name(${variable.variableDocument.name})}"></p>
-										<p class="list-group-item-text"
-											th:utext="#{variables.search.question(${variable.variableDocument.question})}"></p>
-
-										<p class="list-group-item-text"
-											th:utext="#{variables.search.survey(${variable.variableDocument.variableSurvey.title})}"></p>
-									</li>
-									<li th:if="${resource.page.content.size() == 0}"
-										class="list-group-item">
-										<p class="list-group-item-text"
-											th:text="#{variables.search.noresults}"></p>
-									</li>
-									<li class="list-group-item"
-										th:if="${resource.page.content.size() gt 0}">
-										<ul class="pager">
-											<li class="previous"
-												th:classappend="${resource.page.previousLink==null?'disabled':''}"><a
-												th:href="${resource.page.previousLink?.href?:'javascript:;'}">&larr;
-													<span th:text="#{common.pager.previous}"></span>
-											</a></li>
-											<li class="hidden-xs"><a> <span
-													th:text="#{common.pagenumbers(${resource.page.metadata.number}+1,${resource.page.metadata.totalPages})}"></span>
-											</a></li>
-											<li class="next"
-												th:classappend="${resource.page.nextLink==null?'disabled':''}"><a
-												th:href="${resource.page.nextLink?.href?:'javascript:;'}"><span
-													th:text="#{common.pager.next}"></span> &rarr;</a></li>
+					<div class="col-md-12" id="searchResults"
+						th:object="${variableSearchFilter}">
+						<div class="row">
+							<!-- Filter -->
+							<div class="col-md-3">
+								<!-- Survey Title Filter -->
+								<div class="panel panel-default">
+									<div class="panel-heading custom-panel-heading"
+										data-toggle="collapse" data-target="#collapseSurveyTitlePanel">
+										<a class="panel-title panel-toggle"
+											href="#collapseSurveyTitlePanel" data-toggle="collapse"
+											th:text="#{variables.common.variable.surveyTitle}">Survey
+											Title </a>
+									</div>
+									<div id="collapseSurveyTitlePanel"
+										class="panel-collapse collapse fade in">
+										<ul class="list-group">
+											<li class="list-group-item"
+												th:each="surveyTitle : ${surveyTitleBuckets}">
+												<div class="checkbox">
+													<label class="text-capitalize label-with-text-and-badge"><input
+														type="checkbox" th:field="*{surveyTitle}"
+														th:value="${surveyTitle.key}" class="pjax-filter" /> <span
+														class="abbreviated-text" th:text="${surveyTitle.key}"></span>
+													</label><span class="badge pull-right"
+														th:text="${surveyTitle.docCount}">14</span>
+												</div>
+											</li>
 										</ul>
-									</li>
-								</ul>
+									</div>
+								</div>
+								<!-- Survey Period -->
+								<div class="panel panel-default">
+									<div class="panel-heading custom-panel-heading"
+										data-toggle="collapse" data-target="#collapseDateRangePanel">
+										<a class="panel-title panel-toggle"
+											href="#collapseDateRangePanel" data-toggle="collapse"
+											th:text="#{variables.common.variable.survey.period}">DateRange
+										</a>
+									</div>
+									<div id="collapseDateRangePanel"
+										class="panel-collapse collapse fade in">
+										<ul class="list-group">
+											<li class="list-group-item">
+												<div
+													th:replace="common/errorAlerts::globalAlerts(field=surveyPeriod)"></div>
+												<div
+													th:replace="common/calendar::date(field=surveyPeriod.startDate,label=#{variables.common.variable.survey.period.start},placeholder=#{variables.common.variable.survey.period.start},readonly=false)"></div>
+												<div
+													th:replace="common/calendar::date(field=surveyPeriod.endDate,label=#{variables.common.variable.survey.period.end},placeholder=#{variables.common.variable.survey.period.end},readonly=false)"></div>
+
+											</li>
+										</ul>
+									</div>
+								</div>
+								<!-- Scale Level Filter -->
+								<div class="panel panel-default">
+									<div class="panel-heading custom-panel-heading"
+										data-toggle="collapse" data-target="#collapseScaleLevelPanel">
+										<a class="panel-title panel-toggle"
+											href="#collapseScaleLevelPanel" data-toggle="collapse"
+											th:text="#{variables.common.variable.scaleLevel}">ScaleLevel
+										</a>
+									</div>
+									<div id="collapseScaleLevelPanel"
+										class="panel-collapse collapse fade in">
+										<ul class="list-group">
+											<li class="list-group-item"
+												th:each="scaleLevel : ${scaleLevelBuckets}">
+												<div class="checkbox">
+													<label class="text-capitalize"><input
+														type="checkbox" th:field="*{scaleLevel}"
+														th:value="${scaleLevel.key}" class="pjax-filter" /> <span
+														th:text="${scaleLevel.key}"></span> </label><span
+														class="badge pull-right" th:text="${scaleLevel.docCount}">14</span>
+												</div>
+											</li>
+										</ul>
+									</div>
+								</div>
+							</div>
+							<!-- result and page -->
+							<div class="col-md-9">
+								<div class="panel panel-primary">
+									<div class="panel-heading">
+										<span class="panel-title"
+											th:text="${resource.page.metadata.totalElements}>0?#{variables.search.numberOfResults(${resource.page.metadata.totalElements},${resource.page.metadata.number}*${resource.page.metadata.size}+1,${resource.page.metadata.number}*${resource.page.metadata.size}+${resource.page.content.size()})}:#{variables.search.noresults}">100
+											Variablen gefunden </span>
+									</div>
+									<ul class="list-group">
+										<li th:if="${resource.page.content.size() gt 0}"
+											class="list-group-item search-result"
+											th:each="variable : ${resource.page}">
+											<h4 class="list-group-item-heading">
+												<!-- TODO: utext won't work if there are html characters in the data like '>' for example -->
+												<a th:href="${variable.id.href}"
+													th:utext="${variable.variableDocument.label}"> </a>
+											</h4>
+											<p class="list-group-item-text"
+												th:if="${variable.variableDocument.highlightingUtils.isHighlighted('name')} == false"
+												th:utext="#{variables.search.name(${variable.variableDocument.name})}"></p>
+											<p class="list-group-item-text"
+												th:if="${variable.variableDocument.highlightingUtils.isHighlighted('name')} == true"
+												th:utext="#{variables.search.name(${variable.variableDocument.highlightingUtils.highlightedFields.get('name')})}"></p>
+
+											<p class="list-group-item-text"
+												th:if="${variable.variableDocument.highlightingUtils.isHighlighted('question')} == false"
+												th:utext="#{variables.search.question(${variable.variableDocument.question})}"></p>
+											<p class="list-group-item-text"
+												th:if="${variable.variableDocument.highlightingUtils.isHighlighted('question')} == true"
+												th:utext="#{variables.search.question(${variable.variableDocument.highlightingUtils.highlightedFields.get('question')})}"></p>
+
+											<p class="list-group-item-text"
+												th:if="${variable.variableDocument.highlightingUtils.isHighlighted('variableSurvey.title')} == false"
+												th:utext="#{variables.search.survey(${variable.variableDocument.variableSurvey.title})}"></p>
+											<p class="list-group-item-text"
+												th:if="${variable.variableDocument.highlightingUtils.isHighlighted('variableSurvey.title')} == true"
+												th:utext="#{variables.search.survey(${variable.variableDocument.highlightingUtils.highlightedFields.get('variableSurvey.title')})}"></p>
+										</li>
+										<li th:if="${resource.page.content.size() == 0}"
+											class="list-group-item">
+											<p class="list-group-item-text"
+												th:text="#{variables.search.noresults}"></p>
+										</li>
+										<li class="list-group-item"
+											th:if="${resource.page.content.size() gt 0}">
+											<ul class="pager">
+												<li class="previous"
+													th:classappend="${resource.page.previousLink==null?'disabled':''}"><a
+													th:href="${resource.page.previousLink?.href?:'javascript:;'}">&larr;
+														<span th:text="#{common.pager.previous}"></span>
+												</a></li>
+												<li class="hidden-xs"><a> <span
+														th:text="#{common.pagenumbers(${resource.page.metadata.number}+1,${resource.page.metadata.totalPages})}"></span>
+												</a></li>
+												<li class="next"
+													th:classappend="${resource.page.nextLink==null?'disabled':''}"><a
+													th:href="${resource.page.nextLink?.href?:'javascript:;'}"><span
+														th:text="#{common.pager.next}"></span> &rarr;</a></li>
+											</ul>
+										</li>
+									</ul>
+								</div>
 							</div>
 						</div>
 					</div>
-				</div>
 				</div>
 			</div>
 		</div>
