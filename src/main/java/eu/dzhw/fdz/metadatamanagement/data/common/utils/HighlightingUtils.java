@@ -59,22 +59,8 @@ public class HighlightingUtils {
       String unescapedHtmlPart = unescapedHtml.substring(0, indexOpenTag);
       stringBuffer.append(HtmlUtils.htmlEscape(unescapedHtmlPart));
     }
-    stringBuffer.append(HighlightingUtils.replaceTags(HtmlUtils.htmlEscape(tag)));
+    
+    stringBuffer.append(tag);
     return unescapedHtml.substring(indexOpenTag + tag.length());
   }
-
-  /**
-   * This method is called only at the position wehre the open / close highlighting tag will be
-   * insert in the escaped html.
-   * 
-   * @param escapedHtml the escaped html with the wrong em tags
-   * @return Overwrites the &lt; and &gt; elements again the html tags signs.
-   */
-  //TODO remove work around
-  private static String replaceTags(String escapedHtml) {
-    escapedHtml = escapedHtml.replaceAll("&lt;", "<");
-    return escapedHtml.replaceAll("&gt;", ">");
-  }
-
-
 }
