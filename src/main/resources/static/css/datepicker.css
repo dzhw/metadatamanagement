@@ -21,7 +21,7 @@
 }
 /*Corrent day*/
 .ui-datepicker-calendar td.ui-datepicker-today a {
-	background: #0073ea;
+	background: #6fabf1;
 	color: #ffffff;
 }
 /* Selected day */
@@ -29,4 +29,8 @@
 	background: #0073ea;
     color: #ffffff;
 }
+
+button.ui-datepicker-current {
+	display: none;
+}​
 

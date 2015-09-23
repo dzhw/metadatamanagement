@@ -16,6 +16,7 @@ VariableSearchForm.search = function(event) {
 };
 
 VariableSearchForm.throttledSubmit = _.throttle(function(event) {
+	"use strict";
 	$.pjax.submit(event, '#pjax-container');
 },500);
 
@@ -26,23 +27,21 @@ $(document).ready(function() {
 
 	// if there is any click, update the search
 	$("#searchVariables").on('click', ".pjax-filter", VariableSearchForm.search);
-
-	//if there is any change on the datepicker
+	
+	//if there is any change on the datepickers
 	$("#searchVariables").on('change', ".datepicker", VariableSearchForm.search);
 	
 	// this method set the correct value to the input field and the value field on
 	// history back
 	window.addEventListener('popstate', function(e) {
-		$("#query").val(getUrlParameter('query'));
+		$("#query").val(getUrlParameterValue('query'));
 	});
 	
 	$(document).on('pjax:success', function() {
-		// init the date picker
-		initDatepicker();
+		// re-init the datepickers after partial page refresh
+		Datepicker.initAll();
 	});
+	
+	// first setup of the datepickers
+	Datepicker.initAll();
 });
-
-// set the mode for datepicker
-function getMode() {
-	return 'search';
-}
