@@ -25,6 +25,13 @@ Datepicker.initAll = function() {
 			showButtonPanel: true
 		});
 	});
+	
+	// we need to clear the alt field when the user cleared the visible input
+	$(".datepicker").change(function(){
+		if (!$(this).val()) {
+			$("#" + Datepicker.escapeId($(this).attr('id')) + "_alt").val('');
+		}
+	});
 };
 
 // replace the dot in id attribute
@@ -32,14 +39,3 @@ Datepicker.escapeId = function(id) {
 	"use strict";
 	return id.replace(/\./g, "\\.");
 };
-
-$(document).ready(function() {
-	"use strict";
-	// we need to clear the alt field when the user cleared the visible input
-	$(".datepicker").change(function(){
-		if (!$(this).val()) {
-			$("#" + Datepicker.escapeId($(this).attr('id')) + "_alt").val('');
-		}
-	});	
-});
-
