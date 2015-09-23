@@ -53,14 +53,13 @@ public class AggregationAndHighlightingResultMapper extends DefaultResultMapper 
   public <T> FacetedPage<T> mapResults(SearchResponse response, Class<T> clazz, Pageable pageable) {
     FacetedPage<T> facetedPage = super.mapResults(response, clazz, pageable);
 
-    HashMap<String, String> highlightedMap = new HashMap<>();
-
     // both array and list should be of same size and order
     SearchHit[] searchHits = response.getHits().hits();
     List<T> pageContent = facetedPage.getContent();
 
     for (int i = 0; i < searchHits.length; i++) {
       SearchHit searchHit = searchHits[i];
+      HashMap<String, String> highlightedMap = new HashMap<>();
 
       Map<String, HighlightField> highlightedFields = searchHit.getHighlightFields();
       if (!highlightedFields.isEmpty()) {
@@ -76,15 +75,12 @@ public class AggregationAndHighlightingResultMapper extends DefaultResultMapper 
         //set Map
         BeanWrapper bean = new BeanWrapperImpl(mappedHit);
         bean.setPropertyValue("highlightedFields", highlightedMap);
-
       }
     }
 
     // extract buckets
     Map<DocumentField, Set<Bucket>> map = new HashMap<>();
-
     extractStringTermAggregations(map, response.getAggregations());
-
     return new PageWithBuckets<T>(facetedPage, pageable, map);
   }
 
