@@ -1,7 +1,7 @@
 var VariableSearchForm = {};
 
 // this function starts elasticsearch
-VariableSearchForm.search = function() {
+VariableSearchForm.search = function(event) {
 	"use strict";
 	
 	// prevent the default submit action
@@ -9,7 +9,7 @@ VariableSearchForm.search = function() {
 	
 	// clone the event for the pjax api
 	var clonedEvent = {};
-	clonedEvent.currentTarget = event.currentTarget;
+	clonedEvent.currentTarget = document.forms.searchVariables;
 	clonedEvent.preventDefault = function() {};
 	
 	VariableSearchForm.throttledSubmit(clonedEvent);

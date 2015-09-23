@@ -10,7 +10,7 @@
 			th:include="common/pageHeader::pageHeader(title=#{variables.search.title},subtitle='')"></div>
 	</header>
 	<form id="searchVariables" class="data-pjax" action="#"
-		th:object="${variableSearchFilter}"
+		th:object="${variableSearchFilter}" name="searchVariables"
 		th:action="${resource.variablesSearchLink.href}" autocomplete="off">
 		<div class="container">
 			<div class="row">

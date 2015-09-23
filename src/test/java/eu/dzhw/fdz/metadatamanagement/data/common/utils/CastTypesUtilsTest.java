@@ -1,7 +1,7 @@
 /**
  * 
  */
-package eu.dzhw.fdz.metadatamanagement.data.common;
+package eu.dzhw.fdz.metadatamanagement.data.common.utils;
 
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertThat;
