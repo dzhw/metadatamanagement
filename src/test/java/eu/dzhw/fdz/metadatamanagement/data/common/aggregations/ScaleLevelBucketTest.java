@@ -23,7 +23,7 @@ public class ScaleLevelBucketTest extends AbstractWebTest {
 
   @Autowired
   private ScaleLevelProvider scaleLevelProvider;
-  
+
   @Test
   public void testSetter() {
     // Arrange
@@ -51,6 +51,7 @@ public class ScaleLevelBucketTest extends AbstractWebTest {
 
   @Test
   public void testEquals() {
+    // Arrange
     ScaleLevelBucket scaleLevelBucket = new ScaleLevelBucket("Key1", 0L, this.scaleLevelProvider);
     ScaleLevelBucket scaleLevelBucket2 = new ScaleLevelBucket("Key2", 1L, this.scaleLevelProvider);
 
@@ -69,6 +70,7 @@ public class ScaleLevelBucketTest extends AbstractWebTest {
 
   @Test
   public void testEqualsWithSameKeyButDifferentDocCount() {
+    // Arrange
     ScaleLevelBucket bucket = new ScaleLevelBucket("Key1", 0L, this.scaleLevelProvider);
     ScaleLevelBucket bucket2 = new ScaleLevelBucket("Key1", 1L, this.scaleLevelProvider);
 
@@ -81,6 +83,7 @@ public class ScaleLevelBucketTest extends AbstractWebTest {
 
   @Test
   public void testHashCodeWithSameKeyButDifferentDocCount() {
+    // Arrange
     ScaleLevelBucket bucket = new ScaleLevelBucket("Key1", 0L, this.scaleLevelProvider);
     ScaleLevelBucket bucket2 = new ScaleLevelBucket("Key1", 1L, this.scaleLevelProvider);
 
@@ -89,5 +92,19 @@ public class ScaleLevelBucketTest extends AbstractWebTest {
 
     // Assert
     assertEquals(true, checkSame);
+  }
+
+  @Test
+  public void testCompareTo() {
+    //Arrange
+    ScaleLevelProvider levelProvider = new ScaleLevelProvider();
+    ScaleLevelBucket bucket1 = new ScaleLevelBucket(levelProvider.getMetricByLocal(), 1L, new ScaleLevelProvider());
+    ScaleLevelBucket bucket2 = new ScaleLevelBucket(levelProvider.getNominalByLocal(), 2L, new ScaleLevelProvider());
+    
+    //Act
+    int compareOrder = bucket1.compareTo(bucket2);
+    
+    //Assert
+    assertThat(compareOrder, is(2));
   }
 }

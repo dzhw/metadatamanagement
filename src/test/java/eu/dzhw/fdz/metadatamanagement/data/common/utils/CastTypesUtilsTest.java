@@ -4,11 +4,10 @@
 package eu.dzhw.fdz.metadatamanagement.data.common.utils;
 
 import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.notNullValue;
 import static org.junit.Assert.assertThat;
 
 import org.junit.Test;
-
-import eu.dzhw.fdz.metadatamanagement.data.common.utils.CastTypesUtils;
 
 /**
  * @author Daniel Katzberg
@@ -19,6 +18,7 @@ public class CastTypesUtilsTest {
   @Test
   public void testDefaultLongIntCast() {
     //Arrange
+    CastTypesUtils castTypesUtils = new CastTypesUtils();
     
     //Act
     int positive = CastTypesUtils.castLongToInt(25);
@@ -27,6 +27,7 @@ public class CastTypesUtilsTest {
     //Assert
     assertThat(positive, is(25));
     assertThat(negative, is(-25));
+    assertThat(castTypesUtils, is(notNullValue()));
   }
   
   @Test(expected = IllegalArgumentException.class)
