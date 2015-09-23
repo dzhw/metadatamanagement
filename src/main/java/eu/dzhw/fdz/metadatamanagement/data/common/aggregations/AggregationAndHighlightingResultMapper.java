@@ -75,7 +75,7 @@ public class AggregationAndHighlightingResultMapper extends DefaultResultMapper 
 
         //set Map
         BeanWrapper bean = new BeanWrapperImpl(mappedHit);
-        bean.setPropertyValue("highlightingUtils.highlightedFields", highlightedMap);
+        bean.setPropertyValue("highlightedFields", highlightedMap);
 
       }
     }

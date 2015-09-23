@@ -1,12 +1,6 @@
 package eu.dzhw.fdz.metadatamanagement.data.common.utils;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import org.springframework.web.util.HtmlUtils;
-
-import eu.dzhw.fdz.metadatamanagement.data.common.aggregations.AggregationAndHighlightingResultMapper;
-import eu.dzhw.fdz.metadatamanagement.data.common.documents.DocumentField;
 
 /**
  * This util class supports and adds highlighting by elastic search for specific fields.
@@ -25,19 +19,6 @@ public class HighlightingUtils {
    * The defined html close tag for an highlighted part.
    */
   public static final String HIGHLIGHTING_CLOSE_TAG = "</em>";
-
-  /**
-   * This map values are highlighted elements by elastic search. This maps will be set by the
-   * Resultmapper ({@link AggregationAndHighlightingResultMapper}.
-   */
-  private Map<String, String> highlightedFields;
-
-  /**
-   * Basic Constructor.
-   */
-  public HighlightingUtils() {
-    this.highlightedFields = new HashMap<>();
-  }
 
   /**
    * @param unescapedHtml a string element with no escaped html.
@@ -89,26 +70,11 @@ public class HighlightingUtils {
    * @param escapedHtml the escaped html with the wrong em tags
    * @return Overwrites the &lt; and &gt; elements again the html tags signs.
    */
+  //TODO remove work around
   private static String replaceTags(String escapedHtml) {
     escapedHtml = escapedHtml.replaceAll("&lt;", "<");
     return escapedHtml.replaceAll("&gt;", ">");
   }
 
-  /**
-   * @param absolutePath The absolute path of a document field
-   * @return if there is a highlight variant of the value of a document field.
-   * @see DocumentField
-   */
-  public boolean isFieldHighlighted(String absolutePath) {
-    return this.getHighlightedFields().containsKey(absolutePath);
-  }
 
-  /* GETTER / SETTER */
-  public Map<String, String> getHighlightedFields() {
-    return highlightedFields;
-  }
-
-  public void setHighlightedFields(Map<String, String> highlightedFields) {
-    this.highlightedFields = highlightedFields;
-  }
 }

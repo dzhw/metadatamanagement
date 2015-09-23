@@ -135,31 +135,31 @@
 											class="list-group-item search-result"
 											th:each="variable : ${resource.page}">
 											<h4 class="list-group-item-heading">
-												<a th:href="${variable.id.href}" th:if="${variable.variableDocument.highlightingUtils.isFieldHighlighted('label')} == false"
+												<a th:href="${variable.id.href}" th:if="${variable.variableDocument.isFieldHighlighted('label')} == false"
 													th:text="${variable.variableDocument.label}"> </a>
-												<a th:href="${variable.id.href}" th:if="${variable.variableDocument.highlightingUtils.isFieldHighlighted('label')} == true"
-													th:utext="${variable.variableDocument.highlightingUtils.highlightedFields.get('label')}"> </a>	
+												<a th:href="${variable.id.href}" th:if="${variable.variableDocument.isFieldHighlighted('label')} == true"
+													th:utext="${variable.variableDocument.highlightedFields.get('label')}"> </a>	
 											</h4>
 											<p class="list-group-item-text"
-												th:if="${variable.variableDocument.highlightingUtils.isFieldHighlighted('name')} == false"
+												th:if="${variable.variableDocument.isFieldHighlighted('name')} == false"
 												th:text="#{variables.search.name(${variable.variableDocument.name})}"></p>
 											<p class="list-group-item-text"
-												th:if="${variable.variableDocument.highlightingUtils.isFieldHighlighted('name')} == true"
-												th:utext="#{variables.search.name(${variable.variableDocument.highlightingUtils.highlightedFields.get('name')})}"></p>
+												th:if="${variable.variableDocument.isFieldHighlighted('name')} == true"
+												th:utext="#{variables.search.name(${variable.variableDocument.highlightedFields.get('name')})}"></p>
 
 											<p class="list-group-item-text"
-												th:if="${variable.variableDocument.highlightingUtils.isFieldHighlighted('question')} == false"
+												th:if="${variable.variableDocument.isFieldHighlighted('question')} == false"
 												th:text="#{variables.search.question(${variable.variableDocument.question})}"></p>
 											<p class="list-group-item-text"
-												th:if="${variable.variableDocument.highlightingUtils.isFieldHighlighted('question')} == true"
-												th:utext="#{variables.search.question(${variable.variableDocument.highlightingUtils.highlightedFields.get('question')})}"></p>
+												th:if="${variable.variableDocument.isFieldHighlighted('question')} == true"
+												th:utext="#{variables.search.question(${variable.variableDocument.highlightedFields.get('question')})}"></p>
 
 											<p class="list-group-item-text"
-												th:if="${variable.variableDocument.highlightingUtils.isFieldHighlighted('variableSurvey.title')} == false"
+												th:if="${variable.variableDocument.isFieldHighlighted('variableSurvey.title')} == false"
 												th:text="#{variables.search.survey(${variable.variableDocument.variableSurvey.title})}"></p>
 											<p class="list-group-item-text"
-												th:if="${variable.variableDocument.highlightingUtils.isFieldHighlighted('variableSurvey.title')} == true"
-												th:utext="#{variables.search.survey(${variable.variableDocument.highlightingUtils.highlightedFields.get('variableSurvey.title')})}"></p>
+												th:if="${variable.variableDocument.isFieldHighlighted('variableSurvey.title')} == true"
+												th:utext="#{variables.search.survey(${variable.variableDocument.highlightedFields.get('variableSurvey.title')})}"></p>
 										</li>
 										<li th:if="${resource.page.content.size() == 0}"
 											class="list-group-item">

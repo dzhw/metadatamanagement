@@ -263,7 +263,7 @@ public class VariableDocumentRepositoryTest extends AbstractWebTest {
 
     assertThat(pageWithBuckets.getContent().size(), is(9));
     assertThat(
-        pageWithBuckets.getContent().get(0).getHighlightingUtils().getHighlightedFields()
+        pageWithBuckets.getContent().get(0).getHighlightedFields()
             .get(VariableDocument.QUESTION_FIELD.getAbsolutePath()),
         containsString("<em>SurveyFilterUnitTestQuestion</em>"));
   }

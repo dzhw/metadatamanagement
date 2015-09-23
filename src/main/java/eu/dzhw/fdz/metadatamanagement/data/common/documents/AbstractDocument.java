@@ -1,6 +1,8 @@
 package eu.dzhw.fdz.metadatamanagement.data.common.documents;
 
 import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
@@ -12,9 +14,9 @@ import org.springframework.data.elasticsearch.annotations.Setting;
 
 import com.google.common.base.MoreObjects;
 
+import eu.dzhw.fdz.metadatamanagement.data.common.aggregations.AggregationAndHighlightingResultMapper;
 import eu.dzhw.fdz.metadatamanagement.data.common.documents.validation.groups.ModifyValidationGroup.Create;
 import eu.dzhw.fdz.metadatamanagement.data.common.documents.validation.groups.ModifyValidationGroup.Edit;
-import eu.dzhw.fdz.metadatamanagement.data.common.utils.HighlightingUtils;
 import eu.dzhw.fdz.metadatamanagement.data.common.utils.PopulatorUtils;
 import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.validation.NoEditableId;
 
@@ -47,15 +49,26 @@ public abstract class AbstractDocument {
   private String id;
   
   /**
-   * A map with all highlighted fields and other support / helper functions. 
+   * This map values are highlighted elements by elastic search. This maps will be set by the
+   * Resultmapper ({@link AggregationAndHighlightingResultMapper}.
    */
-  private HighlightingUtils highlightingUtils;
+  private Map<String, String> highlightedFields;
   
+   
   /**
    * Basic Constructor.
    */
   public AbstractDocument() {
-    this.highlightingUtils = new HighlightingUtils();
+    this.highlightedFields = new HashMap<>();
+  }
+  
+  /**
+   * @param absolutePath The absolute path of a document field
+   * @return if there is a highlight variant of the value of a document field.
+   * @see DocumentField
+   */
+  public boolean isFieldHighlighted(String absolutePath) {
+    return this.getHighlightedFields().containsKey(absolutePath);
   }
 
   /*
@@ -93,7 +106,6 @@ public abstract class AbstractDocument {
     return false;
   }
 
-
   /* GETTER / SETTER */
   public String getId() {
     return id;
@@ -102,8 +114,12 @@ public abstract class AbstractDocument {
   public void setId(String id) {
     this.id = id;
   }
+  
+  public Map<String, String> getHighlightedFields() {
+    return highlightedFields;
+  }
 
-  public HighlightingUtils getHighlightingUtils() {
-    return highlightingUtils;
+  public void setHighlightedFields(Map<String, String> highlightedFields) {
+    this.highlightedFields = highlightedFields;
   }
 }

@@ -6,11 +6,14 @@ package eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.not;
+import static org.hamcrest.Matchers.nullValue;
 import static org.junit.Assert.assertEquals;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.regex.Pattern;
 
 import javax.validation.constraints.NotNull;
@@ -729,5 +732,23 @@ public class VariableDocumentTest extends AbstractWebTest {
     assertThat(variableDocumentSurveyEndDate.getRelativePath(), is("endDate"));
     assertThat(surveyPeriodOfEndDate.getAbsolutePath(), is("variableSurvey.surveyPeriod"));
     assertThat(variableSurveyOfEndDate.getAbsolutePath(), is("variableSurvey"));
+  }
+  
+  @Test
+  public void testisHighlighted() {
+    //Arrange
+    VariableDocument variableDocument = new VariableDocument();
+    Map<String, String> map = new HashMap<>();
+    
+    //Act
+    map.put("Highlight1", "Value1");
+    variableDocument.setHighlightedFields(map);
+    
+    //Assert
+    assertThat(variableDocument.getHighlightedFields().size(), is(1));
+    assertThat(variableDocument.getHighlightedFields().get("Highlight1"), is("Value1"));
+    assertThat(variableDocument.getHighlightedFields().get("Highlight2"), is(nullValue()));
+    assertThat(variableDocument.isFieldHighlighted("Highlight1"), is(true));
+    assertThat(variableDocument.isFieldHighlighted("Highlight2"), is(false));
   }
 }
