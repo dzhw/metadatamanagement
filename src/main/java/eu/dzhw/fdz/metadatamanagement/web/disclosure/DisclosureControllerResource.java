@@ -17,7 +17,7 @@ import eu.dzhw.fdz.metadatamanagement.web.common.NavigatablePageResource;
 public class DisclosureControllerResource extends NavigatablePageResource<DisclosureController> {
 
   /**
-   * Create the navigation links and the i18n links.
+   * Creates the navigation links and the i18n links.
    * 
    * @param pageController the controller for the Legal disclosure page
    * @param factory the controller link factory which can resolve query params
@@ -30,5 +30,4 @@ public class DisclosureControllerResource extends NavigatablePageResource<Disclo
           supportedLocale.getLanguage()));
     }
   }
-
 }

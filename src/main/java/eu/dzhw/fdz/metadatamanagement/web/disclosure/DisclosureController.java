@@ -26,7 +26,7 @@ public class DisclosureController {
   }
 
   /**
-   * Show disclosure page.
+   * Shows disclosure page.
    * 
    * @return disclosure.html
    */
