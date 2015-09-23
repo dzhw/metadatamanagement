@@ -43,8 +43,8 @@ public class HighlightingUtilsTest {
     assertThat(highlightingUtils.getHighlightedFields().size(), is(1));
     assertThat(highlightingUtils.getHighlightedFields().get("Highlight1"), is("Value1"));
     assertThat(highlightingUtils.getHighlightedFields().get("Highlight2"), is(nullValue()));
-    assertThat(highlightingUtils.isHighlighted("Highlight1"), is(true));
-    assertThat(highlightingUtils.isHighlighted("Highlight2"), is(false));
+    assertThat(highlightingUtils.isFieldHighlighted("Highlight1"), is(true));
+    assertThat(highlightingUtils.isFieldHighlighted("Highlight2"), is(false));
   }
 
 }

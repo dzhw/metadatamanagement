@@ -99,7 +99,7 @@ public class HighlightingUtils {
    * @return if there is a highlight variant of the value of a document field.
    * @see DocumentField
    */
-  public boolean isHighlighted(String absolutePath) {
+  public boolean isFieldHighlighted(String absolutePath) {
     return this.getHighlightedFields().containsKey(absolutePath);
   }
 

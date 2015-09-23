@@ -9,7 +9,7 @@ VariableSearchForm.search = function(event) {
 	
 	// clone the event for the pjax api
 	var clonedEvent = {};
-	clonedEvent.currentTarget = document.forms.searchVariables;
+	clonedEvent.currentTarget = event.currentTarget.form;
 	clonedEvent.preventDefault = function() {};
 	
 	VariableSearchForm.throttledSubmit(clonedEvent);
