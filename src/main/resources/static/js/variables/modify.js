@@ -1,9 +1,9 @@
-var lastFocused;
 var VariableModifyForm = {};
 
 // validate the form if the user stopped typing for 250 ms
-VariableModifyForm.validate = _.debounce(function(form) {
+VariableModifyForm.validate = _.debounce(function(event) {
 	"use strict";
+	var form = event.currentTarget.form;
 	var data = "";
 	var validateUrl = $(form).data('validate-url');
 
@@ -63,15 +63,19 @@ VariableModifyForm.validate = _.debounce(function(form) {
 			}
 		}
 	}, 'json');
-	// set focus on last selected element
-	if (lastFocused.search("variableSurvey") >= 0) {
-		$("#" + replaceId(lastFocused)).focus();
-	}
-	getLastFocused();
 }, 250);
 
 $(document).ready(function() {
 	"use strict";
+	// init all datepickers
+	Datepicker.initAll();
+	
+	//if there is any change on the datepickers
+	$(document).on('change', ".datepicker", VariableModifyForm.validate);
+	
+	//if there is any input validate the form
+	$(document).on('input', ".form-control", VariableModifyForm.validate);
+	
 	// scroll to the button which has just created dynamic form fields
 	var focusElementId = $('body').data('focus-element-id');
 
@@ -83,21 +87,9 @@ $(document).ready(function() {
 	// scroll to the last scroll position (0 if the page is loaded for the first
 	// time)
 	$(window).scrollTop($('#windowYPosition').val());
-
-	getLastFocused();
 });
 
 // bind y scroll position to hidden input field
 $(window).scroll(function() {
 	$('#windowYPosition').val($(window).scrollTop());
 });
-// set the mode for datepicker
-function getMode() {
-	return 'modify';
-}
-// get id of last focused element
-function getLastFocused() {
-	$("input").focus(function() {
-		lastFocused = $(this).attr('id');
-	});
-}
