@@ -24,7 +24,7 @@ public class ElasticSearchVariableDocumentMappingTest extends AbstractElasticSea
 
   @Test
   public void testIndices() {
-    this.testAllLanguageIndices("variables");
+    this.testTypeExistsInAllIndices("variables");
   }
 
   @Test

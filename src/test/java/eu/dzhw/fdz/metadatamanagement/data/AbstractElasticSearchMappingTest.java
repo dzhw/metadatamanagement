@@ -40,7 +40,7 @@ public abstract class AbstractElasticSearchMappingTest extends AbstractTest {
   private final String[] ignoreFieldsArray = {"highlightedFields", "$jacocoData"};
 
   @SuppressWarnings("rawtypes")
-  protected void testAllLanguageIndices(String type) {
+  protected void testTypeExistsInAllIndices(String type) {
     // Arrange
 
     // Act
