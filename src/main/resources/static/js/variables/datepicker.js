@@ -29,8 +29,14 @@ Datepicker.initAll = function() {
 		if (!$(this).val()) {
 			$("#" + Datepicker.escapeId($(this).attr('id')) + "_alt").val('');
 		}
-	});
+	});	
 	
+	//the datepicker is under the input line
+	$.extend($.datepicker,{
+		_checkOffset:function(inst,offset,isFixed){
+			return offset;
+		}
+	});
 };
 
 // escape the dot in id attribute
