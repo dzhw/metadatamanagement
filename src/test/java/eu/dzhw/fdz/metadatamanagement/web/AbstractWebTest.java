@@ -9,16 +9,11 @@ import javax.xml.bind.JAXBException;
 
 import org.junit.After;
 import org.junit.Before;
-import org.junit.runner.RunWith;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.SpringApplicationConfiguration;
 import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.test.context.ActiveProfiles;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
@@ -26,19 +21,14 @@ import org.springframework.web.context.WebApplicationContext;
 import com.bitplan.w3ccheck.W3CValidator;
 import com.bitplan.w3ccheck.W3CValidator.Body.ValidationResponse.Errors;
 
-import eu.dzhw.fdz.metadatamanagement.MetaDataManagementApplication;
+import eu.dzhw.fdz.metadatamanagement.AbstractTest;
 import eu.dzhw.fdz.metadatamanagement.config.i18n.I18nConfiguration;
 import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.repositories.VariableDocumentRepository;
 
 /**
- * Base class for all MVC Controller tests. Sets up the application context and initializes the mvc
- * mock and enables the test profile.
+ * Base class for all MVC Controller tests. 
  */
-@RunWith(SpringJUnit4ClassRunner.class)
-@SpringApplicationConfiguration(classes = MetaDataManagementApplication.class)
-@ActiveProfiles("test")
-@WebAppConfiguration
-public abstract class AbstractWebTest {
+public abstract class AbstractWebTest extends AbstractTest {
   @Autowired
   private WebApplicationContext wac;
 
