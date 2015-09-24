@@ -48,6 +48,7 @@ public class ElasticSearchVariableDocumentMappingTest extends AbstractElasticSea
     // AbstractDocument
     allFieldsOfALayer.addAll(this.getAllFieldsFromClass(document.getClass().getSuperclass()));
     allFieldsOfALayer.remove("highlightedFields"); // Remove special highlighting fields
+    allFieldsOfALayer.remove("$jacocoData"); // Remove jacocoData
 
     // VariableDocument
     allFieldsOfALayer.addAll(this.getAllFieldsFromClass(document.getClass()));

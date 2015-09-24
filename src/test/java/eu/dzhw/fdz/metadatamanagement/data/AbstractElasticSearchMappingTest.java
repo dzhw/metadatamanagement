@@ -83,7 +83,7 @@ public abstract class AbstractElasticSearchMappingTest extends AbstractTest{
     LinkedHashMap propertiesMap = (LinkedHashMap) mapping.get("properties");    
     for (String fieldName : allFieldsOfALayer) {
       
-      LOG.info("Check fieldname" + fieldName );
+      LOG.info("Check fieldname: " + fieldName );
       
       if( allFields.containsKey(fieldName) ) {
         Map mappingNested = (LinkedHashMap) propertiesMap.get(fieldName);
