@@ -74,7 +74,7 @@ $(document).ready(function() {
 	$(document).on('change', ".datepicker", VariableModifyForm.validate);
 	
 	//if there is any input validate the form
-	$(document).on('input', ".form-control", VariableModifyForm.validate);
+	$(document).on('input', ".form-control:not(.datepicker)", VariableModifyForm.validate);
 	
 	// scroll to the button which has just created dynamic form fields
 	var focusElementId = $('body').data('focus-element-id');

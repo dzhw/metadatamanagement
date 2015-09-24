@@ -4,20 +4,30 @@
 <head>
 </head>
 <body>
-<!-- fragment holding a bootstrap form-group with input, label and  help-block -->
+	<!-- fragment holding a bootstrap form-group with input, label and  help-block -->
 	<div th:fragment="date(field,label,placeholder,readonly)"
 		class="form-group has-feedback"
 		th:classappend="${#fields.hasErrors('__${field}__')}? has-error : has-success">
-		<label th:text="${label}"></label> 
-		<input th:id="${field}" th:type="text" class="form-control datepicker" th:placeholder="${placeholder}" th:readonly="${readonly}" th:value="*{@customLocalDateFormatter.format(__${field}__,#locale)}"></input>
-		<input  th:id="${field}+'_alt'" th:type="hidden"
-			class="form-control" th:field="*{__${field}__}"/>
-			<span
-			class="glyphicon form-control-feedback"
-			th:classappend="${#fields.hasErrors('__${field}__')}? glyphicon-remove : glyphicon-ok"></span>
-		<span class="help-block">
-			<span th:if="${#fields.hasErrors('__${field}__')}"
-				th:errors="*{__${field}__}"></span>
+		<label th:text="${label}"></label>
+		<div class="input-group">
+			<input th:id="${field}" th:type="text"
+				class="form-control datepicker" th:placeholder="${placeholder}"
+				th:readonly="${readonly}"
+				th:value="*{@customLocalDateFormatter.format(__${field}__,#locale)}"></input>
+			<input th:id="${field}+'_alt'" th:type="hidden"
+				th:field="*{__${field}__}" /> 
+				
+				
+
+			<label th:for="${field}" class="input-group-addon btn"><span
+				class="glyphicon glyphicon-calendar"></span></label>
+		</div>
+		<span
+				class="glyphicon form-control-feedback" style="right: 40px;"
+				th:classappend="${#fields.hasErrors('__${field}__')}? glyphicon-remove : glyphicon-ok"></span>
+		<span class="help-block"> <span
+			th:if="${#fields.hasErrors('__${field}__')}"
+			th:errors="*{__${field}__}"></span>
 		</span>
 	</div>
 </body>
