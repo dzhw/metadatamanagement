@@ -10,13 +10,11 @@ Datepicker.initAll = function() {
 			altField : "#" + Datepicker.escapeId($(this).attr('id')) + "_alt",
 			altFormat : "yy-mm-dd",
 			gotoCurrent : true,
-			onSelect : function(d,i){
-		          if(d !== i.lastVal){
-		              //trigger on change event
-		        	  $(this).change();
-		          }
+			onSelect : function(d,i) {
+				//allways trigger on change event cause
+				//this function is also called when pressing enter
+				$(this).change();					
 		    },
-			showOn : "focus",
 			changeMonth : true,
 			changeYear : true,
 			yearRange : '1970:2040',
@@ -32,9 +30,10 @@ Datepicker.initAll = function() {
 			$("#" + Datepicker.escapeId($(this).attr('id')) + "_alt").val('');
 		}
 	});
+	
 };
 
-// replace the dot in id attribute
+// escape the dot in id attribute
 Datepicker.escapeId = function(id) {
 	"use strict";
 	return id.replace(/\./g, "\\.");

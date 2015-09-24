@@ -3,7 +3,7 @@ var VariableSearchForm = {};
 // this function starts elasticsearch
 VariableSearchForm.search = function(event) {
 	"use strict";
-	
+
 	// prevent the default submit action
 	event.preventDefault();
 	
@@ -18,7 +18,9 @@ VariableSearchForm.search = function(event) {
 VariableSearchForm.throttledSubmit = _.throttle(function(event) {
 	"use strict";
 	$.pjax.submit(event, '#pjax-container');
-},500);
+},250);
+
+VariableSearchForm.lastFocusedElement = '';
 
 $(document).ready(function() {
 	"use strict";
@@ -28,8 +30,18 @@ $(document).ready(function() {
 	// if there is any click, update the search
 	$("#searchVariables").on('click', ".pjax-filter", VariableSearchForm.search);
 	
-	//if there is any change on the datepickers
-	$("#searchVariables").on('change', ".datepicker", VariableSearchForm.search);
+	// if there is any change on the datepickers
+	$("#searchVariables").on('change', ".datepicker", _.debounce(VariableSearchForm.search,250,true));
+	
+	// remember the id of the element which received focus in order to
+	// restore it after partial page request
+	$("#searchVariables").on('focus', '.datepicker', function() {
+		VariableSearchForm.lastFocusedElement = this.id;
+	});
+	
+	$("#searchVariables").on('focus', '.pjax-filter', function() {
+		VariableSearchForm.lastFocusedElement = this.id;
+	});
 	
 	// this method set the correct value to the input field and the value field on
 	// history back
@@ -40,6 +52,8 @@ $(document).ready(function() {
 	$(document).on('pjax:success', function() {
 		// re-init the datepickers after partial page refresh
 		Datepicker.initAll();
+		// reset the focus
+		$('#' + Datepicker.escapeId(VariableSearchForm.lastFocusedElement)).focus();
 	});
 	
 	// first setup of the datepickers
