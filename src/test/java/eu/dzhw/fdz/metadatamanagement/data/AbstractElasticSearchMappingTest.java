@@ -16,6 +16,8 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.elasticsearch.core.ElasticsearchTemplate;
 
@@ -31,6 +33,8 @@ public abstract class AbstractElasticSearchMappingTest extends AbstractTest{
   
   @Autowired
   private ElasticsearchTemplate elasticsearchTemplate;
+  
+  private static final Logger LOG = LoggerFactory.getLogger(AbstractElasticSearchMappingTest.class);
   
   @SuppressWarnings("rawtypes")
   protected void testAllLanguageIndices(String type) {
@@ -78,7 +82,10 @@ public abstract class AbstractElasticSearchMappingTest extends AbstractTest{
     //Assert all properties in with a any nested depth, if there are in the allFields Map
     LinkedHashMap propertiesMap = (LinkedHashMap) mapping.get("properties");    
     for (String fieldName : allFieldsOfALayer) {
-      if( allFields.containsKey(fieldName) ) {        
+      
+      LOG.info("Check fieldname" + fieldName );
+      
+      if( allFields.containsKey(fieldName) ) {
         Map mappingNested = (LinkedHashMap) propertiesMap.get(fieldName);
         this.testAssertLayer(allFields, allFields.get(fieldName), mappingNested);
       }
