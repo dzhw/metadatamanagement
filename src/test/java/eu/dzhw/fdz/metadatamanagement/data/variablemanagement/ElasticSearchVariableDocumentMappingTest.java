@@ -28,43 +28,40 @@ public class ElasticSearchVariableDocumentMappingTest extends AbstractElasticSea
   }
 
   @Test
-  public void testAllFieldsAreInMapping2() {
+  public void testAllFieldsAreInMapping() {
     this.testAllFieldsAreInMapping("variables");
   }
 
   /*
    * (non-Javadoc)
-   * @see eu.dzhw.fdz.metadatamanagement.data.AbstractElasticSearchMappingTest#getAListWithAllFields()
+   * 
+   * @see
+   * eu.dzhw.fdz.metadatamanagement.data.AbstractElasticSearchMappingTest#getAListWithAllFields()
    */
   @Override
   public Map<String, List<String>> getAListWithAllFields() {
     Map<String, List<String>> allFields = new HashMap<>();
-    List<String> allFieldsOfALayer = new ArrayList<>();
+    
     VariableDocument document = new VariableDocumentBuilder()
         .withVariableSurvey(
             new VariableSurveyBuilder().withSurveyPeriod(new DateRangeBuilder().build()).build())
         .build();
 
     // AbstractDocument
-    allFieldsOfALayer.addAll(this.getAllFieldsFromClass(document.getClass().getSuperclass()));
-    allFieldsOfALayer.remove("highlightedFields"); // Remove special highlighting fields
-    allFieldsOfALayer.remove("$jacocoData"); // Remove jacocoData
+    List<String> allFieldsOfVariableDocument = new ArrayList<>();
+    allFieldsOfVariableDocument.addAll(this.getAllFieldsFromClass(document.getClass().getSuperclass()));
 
     // VariableDocument
-    allFieldsOfALayer.addAll(this.getAllFieldsFromClass(document.getClass()));
-    allFields.put(VariableDocument.class.getSimpleName(), allFieldsOfALayer);
-    allFieldsOfALayer = new ArrayList<>();
+    allFieldsOfVariableDocument.addAll(this.getAllFieldsFromClass(document.getClass()));
+    allFields.put(VariableDocument.class.getSimpleName(), allFieldsOfVariableDocument);
 
     // VariableSurvey
-    allFieldsOfALayer.addAll(this.getAllFieldsFromClass(document.getVariableSurvey().getClass()));
-    allFields.put(VariableDocument.VARIABLE_SURVEY_FIELD.getRelativePath(), allFieldsOfALayer);
-    allFieldsOfALayer = new ArrayList<>();
+    allFields.put(VariableDocument.VARIABLE_SURVEY_FIELD.getRelativePath(),
+        this.getAllFieldsFromClass(document.getVariableSurvey().getClass()));
 
     // SurveyPeriod
-    allFieldsOfALayer.addAll(
-        this.getAllFieldsFromClass(document.getVariableSurvey().getSurveyPeriod().getClass()));
     allFields.put(VariableDocument.NESTED_VARIABLE_SURVEY_PERIOD_FIELD.getRelativePath(),
-        allFieldsOfALayer);
+        this.getAllFieldsFromClass(document.getVariableSurvey().getSurveyPeriod().getClass()));
 
     return allFields;
   }
