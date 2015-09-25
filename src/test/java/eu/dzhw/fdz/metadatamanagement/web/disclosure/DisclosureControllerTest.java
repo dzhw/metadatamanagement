@@ -13,14 +13,14 @@ import org.junit.Test;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.web.servlet.ModelAndView;
 
-import eu.dzhw.fdz.metadatamanagement.web.AbstractWebTest;
+import eu.dzhw.fdz.metadatamanagement.AbstractTest;
 
 /**
  * Test which checks if the {@link DisclosureController} answers as expected
  * 
  * @author Amine Limouri
  */
-public class DisclosureControllerTest extends AbstractWebTest {
+public class DisclosureControllerTest extends AbstractTest {
   @Test
   public void testGermanDisclosurePage() throws Exception {
     MvcResult mvcResult = this.mockMvc.perform(get("/de/disclosure")).andExpect(status().isOk())

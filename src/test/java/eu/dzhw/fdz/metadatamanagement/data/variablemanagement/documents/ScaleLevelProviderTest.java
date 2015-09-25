@@ -15,13 +15,13 @@ import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.i18n.LocaleContextHolder;
 
-import eu.dzhw.fdz.metadatamanagement.web.AbstractWebTest;
+import eu.dzhw.fdz.metadatamanagement.AbstractTest;
 
 /**
  * @author Daniel Katzberg
  *
  */
-public class ScaleLevelProviderTest extends AbstractWebTest {
+public class ScaleLevelProviderTest extends AbstractTest {
 
   @Autowired
   private ScaleLevelProvider scaleLevelProvider;

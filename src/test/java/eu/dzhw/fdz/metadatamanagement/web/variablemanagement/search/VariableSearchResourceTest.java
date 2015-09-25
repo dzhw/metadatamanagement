@@ -14,14 +14,14 @@ import org.springframework.hateoas.Link;
 import org.springframework.hateoas.PagedResources;
 import org.springframework.hateoas.mvc.ControllerLinkBuilderFactory;
 
-import eu.dzhw.fdz.metadatamanagement.web.AbstractWebTest;
+import eu.dzhw.fdz.metadatamanagement.AbstractTest;
 import eu.dzhw.fdz.metadatamanagement.web.variablemanagement.details.VariableResource;
 
 /**
  * @author Daniel Katzberg
  *
  */
-public class VariableSearchResourceTest extends AbstractWebTest {
+public class VariableSearchResourceTest extends AbstractTest {
 
   @SuppressWarnings("unchecked")
   @Test

@@ -11,14 +11,14 @@ import org.json.JSONObject;
 import org.junit.Test;
 import org.springframework.test.web.servlet.MvcResult;
 
-import eu.dzhw.fdz.metadatamanagement.web.AbstractWebTest;
+import eu.dzhw.fdz.metadatamanagement.AbstractTest;
 
 /**
  * Check if the health endpoint exists and contains the custom elasticsearch node name.
  * 
  * @author René Reitmann
  */
-public class HealthEndpointTest extends AbstractWebTest {
+public class HealthEndpointTest extends AbstractTest {
 
   @Test
   public void testNodeNameExistsAndStatusIsUp() throws Exception {

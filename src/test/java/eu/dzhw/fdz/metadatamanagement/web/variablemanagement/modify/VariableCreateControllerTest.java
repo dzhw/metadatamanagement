@@ -26,9 +26,9 @@ import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.web.servlet.ModelAndView;
 
+import eu.dzhw.fdz.metadatamanagement.AbstractTest;
 import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.VariableDocument;
 import eu.dzhw.fdz.metadatamanagement.service.variablemanagement.VariableService;
-import eu.dzhw.fdz.metadatamanagement.web.AbstractWebTest;
 import eu.dzhw.fdz.metadatamanagement.web.common.dtos.ValidationResultDto;
 
 /**
@@ -37,7 +37,7 @@ import eu.dzhw.fdz.metadatamanagement.web.common.dtos.ValidationResultDto;
  * @author Amine Limouri
  *
  */
-public class VariableCreateControllerTest extends AbstractWebTest {
+public class VariableCreateControllerTest extends AbstractTest {
 
   @Autowired
   private VariableService variableService;

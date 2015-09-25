@@ -13,15 +13,15 @@ import org.junit.Before;
 import org.junit.Test;
 import org.springframework.hateoas.mvc.ControllerLinkBuilderFactory;
 
+import eu.dzhw.fdz.metadatamanagement.AbstractTest;
 import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.VariableDocument;
-import eu.dzhw.fdz.metadatamanagement.web.AbstractWebTest;
 import eu.dzhw.fdz.metadatamanagement.web.welcome.WelcomeController;
 
 /**
  * @author Daniel Katzberg
  *
  */
-public class DocumentNotFoundResourceTest extends AbstractWebTest {
+public class DocumentNotFoundResourceTest extends AbstractTest {
 
   private ExceptionPageResource documentNotFoundResource;
   private String unknownId;
