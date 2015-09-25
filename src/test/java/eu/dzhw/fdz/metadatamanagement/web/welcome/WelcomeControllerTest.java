@@ -14,14 +14,14 @@ import org.junit.Test;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.web.servlet.ModelAndView;
 
-import eu.dzhw.fdz.metadatamanagement.web.AbstractWebTest;
+import eu.dzhw.fdz.metadatamanagement.AbstractTest;
 
 /**
  * Test which checks if the {@link WelcomeController} answers as expected
  * 
  * @author René Reitmann
  */
-public class WelcomeControllerTest extends AbstractWebTest {
+public class WelcomeControllerTest extends AbstractTest {
 
   @Test
   public void testGermanWelcomePage() throws Exception {

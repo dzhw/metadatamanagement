@@ -11,14 +11,14 @@ import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.i18n.LocaleContextHolder;
 
+import eu.dzhw.fdz.metadatamanagement.AbstractTest;
 import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.DataTypesProvider;
-import eu.dzhw.fdz.metadatamanagement.web.AbstractWebTest;
 
 /**
  * @author Daniel Katzberg
  *
  */
-public class DataTypeProviderTest extends AbstractWebTest{
+public class DataTypeProviderTest extends AbstractTest{
   
   @Autowired
   private DataTypesProvider dataTypesProvider;

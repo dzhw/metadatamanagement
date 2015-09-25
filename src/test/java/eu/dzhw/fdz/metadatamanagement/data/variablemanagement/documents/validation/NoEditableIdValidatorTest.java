@@ -15,6 +15,7 @@ import org.junit.Test;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import eu.dzhw.fdz.metadatamanagement.AbstractTest;
 import eu.dzhw.fdz.metadatamanagement.data.common.documents.DateRange;
 import eu.dzhw.fdz.metadatamanagement.data.common.documents.builders.DateRangeBuilder;
 import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.VariableDocument;
@@ -22,13 +23,12 @@ import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.Variable
 import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.builders.VariableDocumentBuilder;
 import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.builders.VariableSurveyBuilder;
 import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.repositories.VariableDocumentRepository;
-import eu.dzhw.fdz.metadatamanagement.web.AbstractWebTest;
 
 /**
  * @author Daniel Katzberg
  *
  */
-public class NoEditableIdValidatorTest extends AbstractWebTest {
+public class NoEditableIdValidatorTest extends AbstractTest {
 
   private NoEditableIdValidator noEditableIdValidator;
   

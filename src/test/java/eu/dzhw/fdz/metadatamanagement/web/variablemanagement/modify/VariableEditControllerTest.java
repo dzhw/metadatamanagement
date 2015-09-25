@@ -30,6 +30,7 @@ import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.web.servlet.ModelAndView;
 
+import eu.dzhw.fdz.metadatamanagement.AbstractTest;
 import eu.dzhw.fdz.metadatamanagement.data.common.documents.DateRange;
 import eu.dzhw.fdz.metadatamanagement.data.common.documents.builders.DateRangeBuilder;
 import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.VariableDocument;
@@ -37,7 +38,6 @@ import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.Variable
 import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.builders.VariableDocumentBuilder;
 import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.builders.VariableSurveyBuilder;
 import eu.dzhw.fdz.metadatamanagement.service.variablemanagement.VariableService;
-import eu.dzhw.fdz.metadatamanagement.web.AbstractWebTest;
 import eu.dzhw.fdz.metadatamanagement.web.common.dtos.ValidationResultDto;
 import eu.dzhw.fdz.metadatamanagement.web.common.exceptions.DocumentNotFoundException;
 
@@ -45,7 +45,7 @@ import eu.dzhw.fdz.metadatamanagement.web.common.exceptions.DocumentNotFoundExce
  * @author Daniel Katzberg
  *
  */
-public class VariableEditControllerTest extends AbstractWebTest {
+public class VariableEditControllerTest extends AbstractTest {
 
   @Autowired
   private VariableService variableService;

@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.BeanPropertyBindingResult;
 import org.springframework.validation.Errors;
 
+import eu.dzhw.fdz.metadatamanagement.AbstractTest;
 import eu.dzhw.fdz.metadatamanagement.data.common.documents.DateRange;
 import eu.dzhw.fdz.metadatamanagement.data.common.documents.builders.DateRangeBuilder;
 import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.DataTypesProvider;
@@ -23,13 +24,12 @@ import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.builders
 import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.builders.VariableSurveyBuilder;
 import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.validation.validators.VariableDocumentCreateValidator;
 import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.validation.validators.VariableDocumentValidator;
-import eu.dzhw.fdz.metadatamanagement.web.AbstractWebTest;
 
 /**
  * @author Daniel Katzberg
  *
  */
-public class ValidDataTypeTest extends AbstractWebTest {
+public class ValidDataTypeTest extends AbstractTest {
 
   @Autowired
   private VariableDocumentCreateValidator variableDocumentCreateValidator;

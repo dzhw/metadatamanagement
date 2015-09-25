@@ -11,11 +11,11 @@
 	</header>
 	<div class="container">
 		<div class="row">
-			<div class="col-md-3 col-md-offset-3" style="padding-top: 30px;">
+			<div class="col-md-3 col-md-offset-3" style="padding-top: 25px;">
 				<a
 					th:href="'http://www.dzhw.eu/' + ${#locale.language.equals('en')?'en':''}">
 					<img th:src="@{'/images/DZHW_Logo.svg'}" th:title="#{logo.dzhw}"
-					th:alt="#{logo.dzhw}" class="img-responsive center-block" />
+					th:alt="#{logo.dzhw}" class="img-responsive center-block" style="max-height: 110px; max-width: 262px;" />
 				</a>
 			</div>
 			<div class="col-md-3">

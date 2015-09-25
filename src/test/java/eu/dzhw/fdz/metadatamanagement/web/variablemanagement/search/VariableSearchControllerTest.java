@@ -24,6 +24,7 @@ import org.springframework.test.web.ModelAndViewAssert;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.web.servlet.ModelAndView;
 
+import eu.dzhw.fdz.metadatamanagement.AbstractTest;
 import eu.dzhw.fdz.metadatamanagement.config.i18n.I18nConfiguration;
 import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.DataTypesProvider;
 import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.ScaleLevelProvider;
@@ -32,7 +33,6 @@ import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.Variable
 import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.builders.VariableDocumentBuilder;
 import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.builders.VariableSurveyBuilder;
 import eu.dzhw.fdz.metadatamanagement.service.variablemanagement.VariableService;
-import eu.dzhw.fdz.metadatamanagement.web.AbstractWebTest;
 import eu.dzhw.fdz.metadatamanagement.web.variablemanagement.search.dto.VariableSearchFilter;
 
 /**
@@ -41,7 +41,7 @@ import eu.dzhw.fdz.metadatamanagement.web.variablemanagement.search.dto.Variable
  * @author Amine Limouri
  * @author Daniel Katzberg
  */
-public class VariableSearchControllerTest extends AbstractWebTest {
+public class VariableSearchControllerTest extends AbstractTest {
 
   @Autowired
   private VariableService variableService;

@@ -12,14 +12,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.ResourceSupport;
 import org.springframework.hateoas.mvc.ControllerLinkBuilderFactory;
 
+import eu.dzhw.fdz.metadatamanagement.AbstractTest;
 import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.builders.VariableDocumentBuilder;
-import eu.dzhw.fdz.metadatamanagement.web.AbstractWebTest;
 
 /**
  * @author Daniel Katzberg
  *
  */
-public class VariableDetailsResourceTest extends AbstractWebTest {
+public class VariableDetailsResourceTest extends AbstractTest {
 
   @Autowired
   private ControllerLinkBuilderFactory controllerLinkBuilderFactory;
