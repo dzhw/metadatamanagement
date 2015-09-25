@@ -20,6 +20,8 @@ import java.util.Map;
 import java.util.Set;
 
 import org.junit.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.context.annotation.ClassPathScanningCandidateComponentProvider;
@@ -41,6 +43,8 @@ public class ElasticSearchMappingTest extends AbstractTest {
 
   @Autowired
   private ElasticsearchTemplate elasticsearchTemplate;
+  
+  private static final Logger LOG = LoggerFactory.getLogger(ElasticSearchMappingTest.class);
 
   private final String[] ignoreFieldsArray = {"highlightedFields", "$jacocoData"};
 
@@ -174,17 +178,24 @@ public class ElasticSearchMappingTest extends AbstractTest {
 
       // get type from elasticsearch
       Map mappingNested = (LinkedHashMap) propertiesMap.get(fieldName);
-      String type = (String) mappingNested.get("type");
-
-      // nested types has to be checked too
-      if (type.equals("nested")) {
-        // Get Nested Class and the fields
-        Class nestedClass = allFieldsOfALayerAndTypes.get(fieldName);
-        allFields.put(fieldName, this.getAllFieldsFromClass(nestedClass));
-        this.testAssertLayer(allFields, allFields.get(fieldName), mappingNested);
+      if(mappingNested != null) {
+        String type = (String) mappingNested.get("type");
+  
+        // nested types has to be checked too
+        if (type.equals("nested")) {
+          // Get Nested Class and the fields
+          Class nestedClass = allFieldsOfALayerAndTypes.get(fieldName);
+          allFields.put(fieldName, this.getAllFieldsFromClass(nestedClass));
+          this.testAssertLayer(allFields, allFields.get(fieldName), mappingNested);
+        }
       }
 
+      //for easier debug, if there is any field missed in a mapping
+      if (propertiesMap.get(fieldName) == null) {
+        LOG.error("Missed Field in Mapping: " + fieldName);
+      }
       assertThat(propertiesMap.get(fieldName), is(notNullValue()));
+      
     }
   }
 
