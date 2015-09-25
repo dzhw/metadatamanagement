@@ -45,6 +45,10 @@ $(document).ready(function() {
 		VariableSearchForm.lastFocusedElement = this.id;
 	});
 	
+	$("#searchVariables").on('focus', '.pjax-input', function() {
+		VariableSearchForm.lastFocusedElement = this.id;
+	});
+	
 	// this method set the correct value to the input field and the value field on
 	// history back
 	window.addEventListener('popstate', function(e) {
@@ -54,8 +58,10 @@ $(document).ready(function() {
 	$(document).on('pjax:end', function() {
 		// re-init the datepickers after partial page refresh
 		Datepicker.initAll();
-		// reset the focus
-		$('#' + Datepicker.escapeId(VariableSearchForm.lastFocusedElement)).focus();
+		// reset the focus but not for query field since this keeps the focus anyway
+		if (VariableSearchForm.lastFocusedElement !== 'query') {			
+			$('#' + Datepicker.escapeId(VariableSearchForm.lastFocusedElement)).focus();
+		}
 	});
 	
 	// first setup of the datepickers
