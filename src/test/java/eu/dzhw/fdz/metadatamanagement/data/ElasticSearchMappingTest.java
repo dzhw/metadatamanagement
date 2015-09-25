@@ -43,7 +43,7 @@ public class ElasticSearchMappingTest extends AbstractTest {
 
   @Autowired
   private ElasticsearchTemplate elasticsearchTemplate;
-  
+
   private static final Logger LOG = LoggerFactory.getLogger(ElasticSearchMappingTest.class);
 
   private final String[] ignoreFieldsArray = {"highlightedFields", "$jacocoData"};
@@ -73,6 +73,7 @@ public class ElasticSearchMappingTest extends AbstractTest {
     // Arrange
     List<String> types = this.getTypes();
     Map<String, Map<String, Class>> allFields = this.getAListWithAllFields();
+    // TODO remove dependency on VariableDocument this should be done for each document
     Map<String, Class> allFieldsOfALayerAndTypes =
         allFields.get(VariableDocument.class.getSimpleName());
 
@@ -87,7 +88,7 @@ public class ElasticSearchMappingTest extends AbstractTest {
       }
     }
   }
-  
+
   /**
    * BELOW THIS LINE: ONLY HELPER PRIVATE METHODS!
    */
@@ -122,12 +123,12 @@ public class ElasticSearchMappingTest extends AbstractTest {
   }
 
   /**
-   * @return returns a list of all type names which should be in the indices of elasticsearch. 
+   * @return returns a list of all type names which should be in the indices of elasticsearch.
    * @throws ClassNotFoundException
    */
   @SuppressWarnings("rawtypes")
   private List<String> getTypes() throws ClassNotFoundException {
-
+    // TODO this should be done only once per test class
     Set<BeanDefinition> components = this.getBeanDefinitions();
     List<String> types = new ArrayList<>();
 
@@ -145,6 +146,7 @@ public class ElasticSearchMappingTest extends AbstractTest {
    *         within the package path eu/dzhw/fdz/metadatamanagement/data
    */
   private Set<BeanDefinition> getBeanDefinitions() {
+    // TODO this should be done only once per test class
     // prepare scanning
     ClassPathScanningCandidateComponentProvider provider =
         new ClassPathScanningCandidateComponentProvider(false);
@@ -178,9 +180,9 @@ public class ElasticSearchMappingTest extends AbstractTest {
 
       // get type from elasticsearch
       Map mappingNested = (LinkedHashMap) propertiesMap.get(fieldName);
-      if(mappingNested != null) {
+      if (mappingNested != null) {
         String type = (String) mappingNested.get("type");
-  
+
         // nested types has to be checked too
         if (type.equals("nested")) {
           // Get Nested Class and the fields
@@ -190,12 +192,13 @@ public class ElasticSearchMappingTest extends AbstractTest {
         }
       }
 
-      //for easier debug, if there is any field missed in a mapping
+      // for easier debug, if there is any field missed in a mapping
       if (propertiesMap.get(fieldName) == null) {
+        // TODO assert not null instead of logging
         LOG.error("Missed Field in Mapping: " + fieldName);
       }
       assertThat(propertiesMap.get(fieldName), is(notNullValue()));
-      
+
     }
   }
 
@@ -211,6 +214,7 @@ public class ElasticSearchMappingTest extends AbstractTest {
     Map<String, Class> fieldNamesAndTypes = new HashMap<>();
 
     // check all private fields of the class
+    // TODO shouldn't we iterate over bean properties instead of private fields
     for (Field field : clazz.getDeclaredFields()) {
       if (Modifier.isPrivate(field.getModifiers())) {
         fieldNamesAndTypes.put(field.getName(), field.getType());
