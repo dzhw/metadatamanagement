@@ -8,8 +8,7 @@ import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.notNullValue;
 import static org.junit.Assert.assertThat;
 
-import java.lang.reflect.Field;
-import java.lang.reflect.Modifier;
+import java.beans.PropertyDescriptor;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -25,6 +24,7 @@ import javax.annotation.PostConstruct;
 import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.context.annotation.ClassPathScanningCandidateComponentProvider;
@@ -49,7 +49,7 @@ public class ElasticSearchMappingTest extends AbstractTest {
 
   private static final Logger LOG = LoggerFactory.getLogger(ElasticSearchMappingTest.class);
 
-  private final String[] ignoreFieldsArray = {"highlightedFields", "$jacocoData"};
+  private final String[] ignoreFieldsArray = {"highlightedFields"};
   
   private Set<BeanDefinition> components;
   private List<String> types;
@@ -177,11 +177,6 @@ public class ElasticSearchMappingTest extends AbstractTest {
     Set<String> allFieldsOfALayer = allFieldsOfALayerAndTypes.keySet();
     for (String fieldName : allFieldsOfALayer) {
 
-      // ignore field
-      if (this.ignoreFields(fieldName)) {
-        continue;
-      }
-
       // get type from elasticsearch
       Map mappingNested = (LinkedHashMap) propertiesMap.get(fieldName);
       if (mappingNested != null) {
@@ -198,7 +193,6 @@ public class ElasticSearchMappingTest extends AbstractTest {
 
       // for easier debug, if there is any field missed in a mapping
       if (propertiesMap.get(fieldName) == null) {
-        // TODO assert not null instead of logging
         LOG.error("Missed Field in Mapping: " + fieldName);
       }
       assertThat(propertiesMap.get(fieldName), is(notNullValue()));
@@ -212,16 +206,19 @@ public class ElasticSearchMappingTest extends AbstractTest {
    * @param clazz the class of a document or a nested object from the document
    * @return a list with all field names.
    */
-  @SuppressWarnings("rawtypes")
+  @SuppressWarnings({"rawtypes", "unchecked"})
   private Map<String, Class> getAllFieldsFromClass(Class clazz) {
 
     Map<String, Class> fieldNamesAndTypes = new HashMap<>();
-
-    // check all private fields of the class
-    // TODO shouldn't we iterate over bean properties instead of private fields
-    for (Field field : clazz.getDeclaredFields()) {
-      if (Modifier.isPrivate(field.getModifiers())) {
-        fieldNamesAndTypes.put(field.getName(), field.getType());
+    PropertyDescriptor[] properties = BeanUtils.getPropertyDescriptors(clazz);
+    
+    if (clazz.isAssignableFrom(List.class)) {
+      return fieldNamesAndTypes;
+    }
+    
+    for(PropertyDescriptor property : properties) {
+      if(!property.getPropertyType().isAssignableFrom(Class.class) && !this.ignoreFields(property.getName())) {
+        fieldNamesAndTypes.put(property.getName(), property.getPropertyType());
       }
     }
 
