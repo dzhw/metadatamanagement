@@ -62,7 +62,7 @@ public class ElasticSearchMappingTest extends AbstractTest {
 
   @Test
   @SuppressWarnings("rawtypes")
-  public void testTypeExistsInAllIndices() throws ClassNotFoundException {
+  public void testTypesExistInAllIndices() throws ClassNotFoundException {
     // Arrange
 
     // Act
@@ -92,7 +92,7 @@ public class ElasticSearchMappingTest extends AbstractTest {
               this.elasticsearchTemplate.getMapping("metadata_" + locale.getLanguage(), type);
   
           // Assert
-          this.testAssertLayer(allFields, entry.getValue(), mapping);
+          this.assertFieldInMapping(allFields, entry.getValue(), mapping);
         }
       }
     }
@@ -163,13 +163,13 @@ public class ElasticSearchMappingTest extends AbstractTest {
    * @param fieldName
    * @return
    */
-  private boolean ignoreFields(String fieldName) {
+  private boolean ignoreField(String fieldName) {
     return Arrays.asList(this.ignoreFieldsArray).contains(fieldName);
   }
 
   // Assert
   @SuppressWarnings("rawtypes")
-  private void testAssertLayer(Map<String, Map<String, Class>> allFields,
+  private void assertFieldInMapping(Map<String, Map<String, Class>> allFields,
       Map<String, Class> allFieldsOfALayerAndTypes, Map mapping) throws ClassNotFoundException {
 
     // Assert all properties in with a any nested depth, if there are in the allFields Map
@@ -187,7 +187,7 @@ public class ElasticSearchMappingTest extends AbstractTest {
           // Get Nested Class and the fields
           Class nestedClass = allFieldsOfALayerAndTypes.get(fieldName);
           allFields.put(fieldName, this.getAllFieldsFromClass(nestedClass));
-          this.testAssertLayer(allFields, allFields.get(fieldName), mappingNested);
+          this.assertFieldInMapping(allFields, allFields.get(fieldName), mappingNested);
         }
       }
 
@@ -217,7 +217,7 @@ public class ElasticSearchMappingTest extends AbstractTest {
     }
     
     for(PropertyDescriptor property : properties) {
-      if(!property.getPropertyType().isAssignableFrom(Class.class) && !this.ignoreFields(property.getName())) {
+      if(!property.getPropertyType().isAssignableFrom(Class.class) && !this.ignoreField(property.getName())) {
         fieldNamesAndTypes.put(property.getName(), property.getPropertyType());
       }
     }
