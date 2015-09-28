@@ -17,7 +17,10 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Set;
+
+import javax.annotation.PostConstruct;
 
 import org.junit.Test;
 import org.slf4j.Logger;
@@ -47,15 +50,23 @@ public class ElasticSearchMappingTest extends AbstractTest {
   private static final Logger LOG = LoggerFactory.getLogger(ElasticSearchMappingTest.class);
 
   private final String[] ignoreFieldsArray = {"highlightedFields", "$jacocoData"};
+  
+  private Set<BeanDefinition> components;
+  private List<String> types;
+  
+  @PostConstruct
+  public void postConstruct() throws ClassNotFoundException {
+    this.components = this.getBeanDefinitions();
+    this.types = this.getTypes();
+  }
 
   @Test
   @SuppressWarnings("rawtypes")
   public void testTypeExistsInAllIndices() throws ClassNotFoundException {
     // Arrange
-    List<String> types = this.getTypes();
 
     // Act
-    for (String type : types) {
+    for (String type : this.types) {
       for (Locale locale : I18nConfiguration.SUPPORTED_LANGUAGES) {
         Map mapping =
             this.elasticsearchTemplate.getMapping("metadata_" + locale.getLanguage(), type);
@@ -70,21 +81,19 @@ public class ElasticSearchMappingTest extends AbstractTest {
   @Test
   @SuppressWarnings("rawtypes")
   public void testAllFieldsAreInMapping() throws ClassNotFoundException {
-    // Arrange
-    List<String> types = this.getTypes();
+    // Arrange    
     Map<String, Map<String, Class>> allFields = this.getAListWithAllFields();
-    // TODO remove dependency on VariableDocument this should be done for each document
-    Map<String, Class> allFieldsOfALayerAndTypes =
-        allFields.get(VariableDocument.class.getSimpleName());
-
+    
     // Act
-    for (String type : types) {
-      for (Locale locale : I18nConfiguration.SUPPORTED_LANGUAGES) {
-        Map mapping =
-            this.elasticsearchTemplate.getMapping("metadata_" + locale.getLanguage(), type);
-
-        // Assert
-        this.testAssertLayer(allFields, allFieldsOfALayerAndTypes, mapping);
+    for (Entry<String, Map<String, Class>> entry : allFields.entrySet()) {
+      for (String type : this.types) {
+        for (Locale locale : I18nConfiguration.SUPPORTED_LANGUAGES) {
+          Map mapping =
+              this.elasticsearchTemplate.getMapping("metadata_" + locale.getLanguage(), type);
+  
+          // Assert
+          this.testAssertLayer(allFields, entry.getValue(), mapping);
+        }
       }
     }
   }
@@ -101,9 +110,7 @@ public class ElasticSearchMappingTest extends AbstractTest {
    */
   @SuppressWarnings("rawtypes")
   private Map<String, Map<String, Class>> getAListWithAllFields() throws ClassNotFoundException {
-
-    // get Bean definitions
-    Set<BeanDefinition> components = this.getBeanDefinitions();
+   
     Map<String, Map<String, Class>> allFields = new HashMap<>();
 
     // look for different document classes
@@ -128,12 +135,10 @@ public class ElasticSearchMappingTest extends AbstractTest {
    */
   @SuppressWarnings("rawtypes")
   private List<String> getTypes() throws ClassNotFoundException {
-    // TODO this should be done only once per test class
-    Set<BeanDefinition> components = this.getBeanDefinitions();
     List<String> types = new ArrayList<>();
 
     // look for different document classes
-    for (BeanDefinition component : components) {
+    for (BeanDefinition component : this.components) {
       Class documentClass = Class.forName(component.getBeanClassName());
       types.add(AnnotationUtils.getAnnotation(documentClass, Document.class).type());
     }
@@ -146,7 +151,6 @@ public class ElasticSearchMappingTest extends AbstractTest {
    *         within the package path eu/dzhw/fdz/metadatamanagement/data
    */
   private Set<BeanDefinition> getBeanDefinitions() {
-    // TODO this should be done only once per test class
     // prepare scanning
     ClassPathScanningCandidateComponentProvider provider =
         new ClassPathScanningCandidateComponentProvider(false);
