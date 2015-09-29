@@ -1,24 +1,30 @@
 var VariableSearchForm = {};
 
-// this function starts elasticsearch
-VariableSearchForm.search = function(event) {
+// search as the user types but not more then every 500 ms
+VariableSearchForm.search = _.throttle(function(event) {
 	"use strict";
-
-	// prevent the default submit action
-	event.preventDefault();
+	var $form = $('#searchVariables');
 	
-	// clone the event for the pjax api
-	var clonedEvent = {};
-	clonedEvent.currentTarget = event.currentTarget.form;
-	clonedEvent.preventDefault = function() {};
-	
-	VariableSearchForm.throttledSubmit(clonedEvent);
-};
+	var formData = $form.serialize();
+	var searchUrl = $form.attr('action');
 
-VariableSearchForm.throttledSubmit = _.throttle(function(event) {
-	"use strict";
-	$.pjax.submit(event, '#pjax-container');
-},250);
+	// return only a div container of the search results
+	// and replace the searchResults div contrainer
+	$.get(searchUrl, formData, function(response) {
+		$("#searchResults").replaceWith(response);
+
+		var newUrl = searchUrl + '?' + formData;
+		// change the browsers url
+		history.pushState({}, '', newUrl);
+
+		// re-init the datepickers after reload
+		Datepicker.initAll();
+		// reset the focus but not for query field since this keeps the focus anyway
+		if (VariableSearchForm.lastFocusedElement !== 'query') {			
+			$('#' + Datepicker.escapeId(VariableSearchForm.lastFocusedElement)).focus();
+		}
+	});
+}, 500);
 
 VariableSearchForm.lastFocusedElement = '';
 
@@ -31,9 +37,9 @@ $(document).ready(function() {
 	$("#searchVariables").on('click', ".pjax-filter", VariableSearchForm.search);
 	
 	// if there is any change on the datepickers
-	// for some reason pjax fires another change event when enter is clicked on datepicker
-	// therefore we need to debounce and ignore the second call
-	$("#searchVariables").on('change', ".datepicker", _.debounce(VariableSearchForm.search,250,true));
+	// for some reason the datepicker fires another change event when enter is clicked on the datepicker
+	// TODO remove datepicker
+	$("#searchVariables").on('change', ".datepicker", VariableSearchForm.search);
 	
 	// remember the id of the element which received focus in order to
 	// restore it after partial page request
@@ -49,21 +55,19 @@ $(document).ready(function() {
 		VariableSearchForm.lastFocusedElement = this.id;
 	});
 	
-	// this method set the correct value to the input field and the value field on
-	// history back
 	window.addEventListener('popstate', function(e) {
-		$("#query").val(getUrlParameterValue('query'));
-	});
-	
-	$(document).on('pjax:end', function() {
-		// re-init the datepickers after partial page refresh
-		Datepicker.initAll();
-		// reset the focus but not for query field since this keeps the focus anyway
-		if (VariableSearchForm.lastFocusedElement !== 'query') {			
-			$('#' + Datepicker.escapeId(VariableSearchForm.lastFocusedElement)).focus();
+		if (event.state) {
+			// reload if back button has been clicked
+			location.reload();
+			// re-init the datepickers after reload
+			Datepicker.initAll();
+			// reset the focus but not for query field since this keeps the focus anyway
+			if (VariableSearchForm.lastFocusedElement !== 'query') {			
+				$('#' + Datepicker.escapeId(VariableSearchForm.lastFocusedElement)).focus();
+			}
 		}
 	});
-	
+		
 	// first setup of the datepickers
 	Datepicker.initAll();
 });

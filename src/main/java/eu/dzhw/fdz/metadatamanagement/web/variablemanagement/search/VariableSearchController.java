@@ -76,7 +76,7 @@ public class VariableSearchController {
    */
   @RequestMapping(value = "/{language:de|en}/variables/search", method = RequestMethod.GET)
   public Callable<ModelAndView> get(
-      @RequestHeader(name = "X-PJAX", required = false) String ajaxHeader,
+      @RequestHeader(name = "X-Requested-With", required = false) String ajaxHeader,
       @Validated(Search.class) VariableSearchFilter variableSearchFilter,
       BindingResult bindingResult, Pageable pageable, HttpServletResponse httpServletResponse) {
     return () -> {
