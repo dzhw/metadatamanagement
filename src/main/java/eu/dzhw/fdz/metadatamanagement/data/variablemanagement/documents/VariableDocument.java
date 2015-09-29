@@ -269,11 +269,6 @@ public class VariableDocument extends AbstractDocument {
     this.answerOptions = answerOptions;
   }
 
-  /**
-   * The question field supports the highlighting.
-   * 
-   * @return The basic field or the highlighted field.
-   */
   public String getQuestion() {
     return question;
   }

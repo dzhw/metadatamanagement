@@ -480,10 +480,12 @@ public class VariableDocumentTest extends AbstractTest {
     // Act
 
     // Assert
-    assertEquals("VariableDocument [variableSurvey=VariableSurvey{surveyId=null, title=null, "
-        + "surveyPeriod=DateRange{startDate=null, endDate=null}, variableAlias=null}, "
-        + "name=null, dataType=null, label=null, question=null, scaleLevel=null, answerOptions=[],"
-        + " toString()=VariableDocument{id=[null]}]", variableDocument.toString());
+    assertEquals(
+        "VariableDocument [variableSurvey=VariableSurvey{super=VariableSurvey{surveyId=null, "
+            + "title=null, surveyPeriod=DateRange{startDate=null, endDate=null}}, variableAlias=null}, "
+            + "name=null, dataType=null, label=null, question=null, scaleLevel=null, answerOptions=[], "
+            + "toString()=VariableDocument{id=[null]}]",
+        variableDocument.toString());
   }
 
   @Test
@@ -496,10 +498,12 @@ public class VariableDocumentTest extends AbstractTest {
     // Act
 
     // Assert
-    assertEquals("VariableDocument [variableSurvey=VariableSurvey{surveyId=null, title=null,"
-        + " surveyPeriod=DateRange{startDate=null, endDate=null}, variableAlias=null},"
-        + " name=null, dataType=null, label=null, question=null, scaleLevel=null, answerOptions=[],"
-        + " toString()=VariableDocument{id=[null]}]", variableDocument.toString());
+    assertEquals(
+        "VariableDocument [variableSurvey=VariableSurvey{super=VariableSurvey{surveyId=null, "
+        + "title=null, surveyPeriod=DateRange{startDate=null, endDate=null}}, variableAlias=null}, "
+        + "name=null, dataType=null, label=null, question=null, scaleLevel=null, answerOptions=[], "
+        + "toString()=VariableDocument{id=[null]}]",
+        variableDocument.toString());
   }
 
   @Test
@@ -515,10 +519,10 @@ public class VariableDocumentTest extends AbstractTest {
 
     // Assert
     assertEquals(
-        "VariableDocument [variableSurvey=VariableSurvey{surveyId=null, title=null, "
-            + "surveyPeriod=DateRange{startDate=null, endDate=null}, variableAlias=null}, "
-            + "name=null, dataType=null, label=null, question=null, scaleLevel=null, "
-            + "answerOptions=[], toString()=VariableDocument{id=[null]}]",
+        "VariableDocument [variableSurvey=VariableSurvey{super=VariableSurvey{surveyId=null, title=null, "
+        + "surveyPeriod=DateRange{startDate=null, endDate=null}}, variableAlias=null}, name=null, "
+        + "dataType=null, label=null, question=null, scaleLevel=null, answerOptions=[], "
+        + "toString()=VariableDocument{id=[null]}]",
         variableDocument.toString());
   }
 
@@ -537,10 +541,10 @@ public class VariableDocumentTest extends AbstractTest {
 
     // Assert
     assertEquals(
-        "VariableDocument [variableSurvey=VariableSurvey{surveyId=null, title=null, "
-            + "surveyPeriod=DateRange{startDate=2015-01-01, endDate=2015-02-01}, "
-            + "variableAlias=null}, name=null, dataType=null, label=null, question=null, "
-            + "scaleLevel=null, answerOptions=[], toString()=VariableDocument{id=[null]}]",
+        "VariableDocument [variableSurvey=VariableSurvey{super=VariableSurvey{surveyId=null, "
+        + "title=null, surveyPeriod=DateRange{startDate=2015-01-01, endDate=2015-02-01}}, "
+        + "variableAlias=null}, name=null, dataType=null, label=null, question=null, scaleLevel=null, "
+        + "answerOptions=[], toString()=VariableDocument{id=[null]}]",
         variableDocument.toString());
   }
 
@@ -733,18 +737,18 @@ public class VariableDocumentTest extends AbstractTest {
     assertThat(surveyPeriodOfEndDate.getAbsolutePath(), is("variableSurvey.surveyPeriod"));
     assertThat(variableSurveyOfEndDate.getAbsolutePath(), is("variableSurvey"));
   }
-  
+
   @Test
   public void testisHighlighted() {
-    //Arrange
+    // Arrange
     VariableDocument variableDocument = new VariableDocument();
     Map<String, String> map = new HashMap<>();
-    
-    //Act
+
+    // Act
     map.put("Highlight1", "Value1");
     variableDocument.setHighlightedFields(map);
-    
-    //Assert
+
+    // Assert
     assertThat(variableDocument.getHighlightedFields().size(), is(1));
     assertThat(variableDocument.getHighlightedFields().get("Highlight1"), is("Value1"));
     assertThat(variableDocument.getHighlightedFields().get("Highlight2"), is(nullValue()));

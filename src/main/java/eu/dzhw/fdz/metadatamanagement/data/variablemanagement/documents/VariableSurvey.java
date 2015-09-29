@@ -1,7 +1,5 @@
 package eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents;
 
-import javax.validation.Valid;
-import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 import org.hibernate.validator.constraints.NotBlank;
@@ -9,7 +7,7 @@ import org.hibernate.validator.constraints.NotBlank;
 import com.google.common.base.MoreObjects;
 import com.google.common.base.Objects;
 
-import eu.dzhw.fdz.metadatamanagement.data.common.documents.DateRange;
+import eu.dzhw.fdz.metadatamanagement.data.common.documents.AbstractNestedSurvey;
 import eu.dzhw.fdz.metadatamanagement.data.common.documents.validation.groups.ModifyValidationGroup.Create;
 import eu.dzhw.fdz.metadatamanagement.data.common.documents.validation.groups.ModifyValidationGroup.Edit;
 import net.karneim.pojobuilder.GeneratePojoBuilder;
@@ -24,34 +22,10 @@ import net.karneim.pojobuilder.GeneratePojoBuilder;
  */
 @GeneratePojoBuilder(
     intoPackage = "eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.builders")
-public class VariableSurvey {
+public class VariableSurvey extends AbstractNestedSurvey {
 
   // Public constants which are used in queries as fieldnames.
-  public static final String SURVEY_ID_FIELD = "surveyId";
-  public static final String TITLE_FIELD = "title";
-  public static final String SURVEY_PERIOD_FIELD = "surveyPeriod";
   public static final String VARIABLE_ALIAS_FIELD = "variableAlias";
-
-  /**
-   * The surveyID is a primary.
-   */
-  @Size(max = 32, groups = {Create.class, Edit.class})
-  @NotBlank(groups = {Create.class, Edit.class})
-  private String surveyId;
-
-  /**
-   * This holds the title of a survey.
-   */
-  @Size(max = 32, groups = {Create.class, Edit.class})
-  @NotBlank(groups = {Create.class, Edit.class})
-  private String title;
-
-  /**
-   * DateRange is the representation of the range of the survey. This is a nested object.
-   */
-  @Valid
-  @NotNull(groups = {Create.class, Edit.class})
-  private DateRange surveyPeriod;
 
   /**
    * The alias is by default a copy of the {@code VariableDocument.getName()}. It will be used for
@@ -63,20 +37,9 @@ public class VariableSurvey {
   private String variableAlias;
 
   public VariableSurvey() {
-    this.surveyPeriod = new DateRange();
+    super();
   }
-
-  /*
-   * (non-Javadoc)
-   * 
-   * @see java.lang.Object#toString()
-   */
-  @Override
-  public String toString() {
-    return MoreObjects.toStringHelper(this).add("surveyId", surveyId).add("title", title)
-        .add("surveyPeriod", surveyPeriod).add("variableAlias", variableAlias).toString();
-  }
-
+  
   /*
    * (non-Javadoc)
    * 
@@ -84,7 +47,7 @@ public class VariableSurvey {
    */
   @Override
   public int hashCode() {
-    return Objects.hashCode(surveyId, title, surveyPeriod, variableAlias);
+    return Objects.hashCode(super.hashCode(), variableAlias);
   }
 
   /*
@@ -95,44 +58,31 @@ public class VariableSurvey {
   @Override
   public boolean equals(Object object) {
     if (object != null && getClass() == object.getClass()) {
+      if (!super.equals(object)) {
+        return false;
+      }  
       VariableSurvey that = (VariableSurvey) object;
-      return Objects.equal(this.surveyId, that.surveyId) && Objects.equal(this.title, that.title)
-          && Objects.equal(this.surveyPeriod, that.surveyPeriod)
-          && Objects.equal(this.variableAlias, that.variableAlias);
+      return Objects.equal(this.variableAlias, that.variableAlias);
     }
     return false;
   }
 
+  /*
+   * (non-Javadoc)
+   * @see java.lang.Object#toString()
+   */
+  @Override
+  public String toString() {
+    return MoreObjects.toStringHelper(this).add("super", super.toString())
+        .add("variableAlias", variableAlias).toString();
+  }
+
   /* GETTER / SETTER */
-  public String getSurveyId() {
-    return surveyId;
-  }
-
-  public void setSurveyId(String surveyId) {
-    this.surveyId = surveyId;
-  }
-
-  public String getTitle() {
-    return title;
-  }
-
-  public void setTitle(String title) {
-    this.title = title;
-  }
-
   public String getVariableAlias() {
     return variableAlias;
   }
 
   public void setVariableAlias(String alias) {
     this.variableAlias = alias;
-  }
-
-  public DateRange getSurveyPeriod() {
-    return surveyPeriod;
-  }
-
-  public void setSurveyPeriod(DateRange surveyPeriod) {
-    this.surveyPeriod = surveyPeriod;
   }
 }
