@@ -1,0 +1,16 @@
+{
+	"_class": "eu.dzhw.fdz.metadatamanagement.data.questionmanagement.documents.QuestionDocument",
+	"id": "FdZ_ID01Single",
+	"questionSurvey": 
+	{
+		"surveyId": "Ge_ALL_04",
+		"title": "ALLBUS 2014",
+		"surveyPeriod": 
+		{
+			"startDate": "2014-03-01",
+			"endDate": "2014-09-30"
+		}
+	},
+	"name": "V850S",
+	"question": "One Question"
+}

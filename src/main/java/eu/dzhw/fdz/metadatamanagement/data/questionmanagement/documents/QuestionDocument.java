@@ -14,6 +14,8 @@ import com.google.common.base.MoreObjects;
 import com.google.common.base.Objects;
 
 import eu.dzhw.fdz.metadatamanagement.data.common.documents.AbstractDocument;
+import eu.dzhw.fdz.metadatamanagement.data.common.documents.validation.groups.ModifyValidationGroup.Create;
+import eu.dzhw.fdz.metadatamanagement.data.common.documents.validation.groups.ModifyValidationGroup.Edit;
 import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.VariableDocument;
 import net.karneim.pojobuilder.GeneratePojoBuilder;
 
@@ -47,6 +49,13 @@ public class QuestionDocument extends AbstractDocument {
   private String question;
 
   /**
+   * The name of the variable.
+   */
+  @Size(max = 32, groups = {Create.class, Edit.class})
+  @NotBlank(groups = {Create.class, Edit.class})
+  private String name;
+
+  /**
    * A list of all variables which are depending to this question.
    */
   @Valid
@@ -60,18 +69,7 @@ public class QuestionDocument extends AbstractDocument {
     this.questionSurvey = new QuestionSurvey();
     this.variableDocuments = new ArrayList<>();
   }
-  
-  /*
-   * (non-Javadoc)
-   * 
-   * @see eu.dzhw.fdz.metadatamanagement.data.common.documents.AbstractDocument#toString()
-   */
-  @Override
-  public String toString() {
-    return MoreObjects.toStringHelper(this).add("super", super.toString())
-        .add("questionSurvey", questionSurvey).add("question", question)
-        .add("variableDocuments", variableDocuments).toString();
-  }
+
 
   /*
    * (non-Javadoc)
@@ -80,7 +78,7 @@ public class QuestionDocument extends AbstractDocument {
    */
   @Override
   public int hashCode() {
-    return Objects.hashCode(super.hashCode(), questionSurvey, question, variableDocuments);
+    return Objects.hashCode(super.hashCode(), questionSurvey, question, name, variableDocuments);
   }
 
   /*
@@ -94,15 +92,28 @@ public class QuestionDocument extends AbstractDocument {
     if (object != null && getClass() == object.getClass()) {
       if (!super.equals(object)) {
         return false;
-      }  
+      }
       QuestionDocument that = (QuestionDocument) object;
       return Objects.equal(this.questionSurvey, that.questionSurvey)
-          && Objects.equal(this.question, that.question)
+          && Objects.equal(this.question, that.question) && Objects.equal(this.name, that.name)
           && Objects.equal(this.variableDocuments, that.variableDocuments);
     }
     return false;
   }
-  
+
+  /*
+   * (non-Javadoc)
+   * 
+   * @see eu.dzhw.fdz.metadatamanagement.data.common.documents.AbstractDocument#toString()
+   */
+  @Override
+  public String toString() {
+    return MoreObjects.toStringHelper(this).add("super", super.toString())
+        .add("questionSurvey", questionSurvey).add("question", question).add("name", name)
+        .add("variableDocuments", variableDocuments).toString();
+  }
+
+
   /* GETTER / SETTER */
   public QuestionSurvey getQuestionSurvey() {
     return questionSurvey;
@@ -126,5 +137,13 @@ public class QuestionDocument extends AbstractDocument {
 
   public void setQuestion(String question) {
     this.question = question;
+  }
+
+  public String getName() {
+    return name;
+  }
+
+  public void setName(String name) {
+    this.name = name;
   }
 }

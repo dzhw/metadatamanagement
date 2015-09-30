@@ -9,7 +9,6 @@ import static org.hamcrest.Matchers.notNullValue;
 import static org.junit.Assert.assertThat;
 
 import java.beans.PropertyDescriptor;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
@@ -36,7 +35,6 @@ import org.springframework.data.elasticsearch.core.ElasticsearchTemplate;
 import eu.dzhw.fdz.metadatamanagement.AbstractTest;
 import eu.dzhw.fdz.metadatamanagement.config.i18n.I18nConfiguration;
 import eu.dzhw.fdz.metadatamanagement.data.common.documents.AbstractDocument;
-import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.VariableDocument;
 
 /**
  * @author Daniel Katzberg
@@ -52,28 +50,21 @@ public class ElasticSearchMappingTest extends AbstractTest {
   private final String[] ignoreFieldsArray = {"highlightedFields"};
 
   private Set<BeanDefinition> components;
-  private List<String> types;
+  private Map<String, String> types;
 
   @PostConstruct
   public void postConstruct() throws ClassNotFoundException {
     this.components = this.getBeanDefinitions();
     this.types = this.getTypes();
   }
-
-  // TODO DKatzberg remove this empty test after adding Question to Mapping!
+  
   @Test
-  public void testDoNothing() {
-
-  }
-
-  // TODO DKatzberg activate test after adding Question to Mapping!
-  // @Test
   @SuppressWarnings("rawtypes")
   public void testTypesExistInAllIndices() throws ClassNotFoundException {
     // Arrange
 
     // Act
-    for (String type : this.types) {
+    for (String type : this.types.keySet()) {
       for (Locale locale : I18nConfiguration.SUPPORTED_LANGUAGES) {
         Map mapping =
             this.elasticsearchTemplate.getMapping("metadata_" + locale.getLanguage(), type);
@@ -84,24 +75,23 @@ public class ElasticSearchMappingTest extends AbstractTest {
       }
     }
   }
-
-  // TODO DKatzberg activate test after adding Question to Mapping!
-  // @Test
+  
+  @Test
   @SuppressWarnings("rawtypes")
   public void testAllFieldsAreInMapping() throws ClassNotFoundException {
     // Arrange
     Map<String, Map<String, Class>> allFields = this.getAListWithAllFields();
 
     // Act
-    for (Entry<String, Map<String, Class>> entry : allFields.entrySet()) {
-      for (String type : this.types) {
-        for (Locale locale : I18nConfiguration.SUPPORTED_LANGUAGES) {
-          Map mapping =
-              this.elasticsearchTemplate.getMapping("metadata_" + locale.getLanguage(), type);
+    //types: key = the "table name" in the index of elastic search. like variables or questions
+    //types: value = simple name of the document java class
+    for (Entry<String, String> type : this.types.entrySet()) {
+      for (Locale locale : I18nConfiguration.SUPPORTED_LANGUAGES) {
+        Map mapping =
+            this.elasticsearchTemplate.getMapping("metadata_" + locale.getLanguage(), type.getKey());
 
-          // Assert
-          this.assertFieldInMapping(allFields, entry.getValue(), mapping);
-        }
+        // Assert
+        this.assertFieldInMapping(allFields, allFields.get(type.getValue()), mapping);
       }
     }
   }
@@ -131,7 +121,7 @@ public class ElasticSearchMappingTest extends AbstractTest {
 
       // Document
       allFieldsOfVariableDocument.putAll(this.getAllFieldsFromClass(documentClass));
-      allFields.put(VariableDocument.class.getSimpleName(), allFieldsOfVariableDocument);
+      allFields.put(documentClass.getSimpleName(), allFieldsOfVariableDocument);
     }
 
     return allFields;
@@ -142,13 +132,13 @@ public class ElasticSearchMappingTest extends AbstractTest {
    * @throws ClassNotFoundException
    */
   @SuppressWarnings("rawtypes")
-  private List<String> getTypes() throws ClassNotFoundException {
-    List<String> types = new ArrayList<>();
+  private Map<String, String> getTypes() throws ClassNotFoundException {
+    Map<String,String> types = new HashMap<>();
 
     // look for different document classes
     for (BeanDefinition component : this.components) {
       Class documentClass = Class.forName(component.getBeanClassName());
-      types.add(AnnotationUtils.getAnnotation(documentClass, Document.class).type());
+      types.put(AnnotationUtils.getAnnotation(documentClass, Document.class).type(), documentClass.getSimpleName());
     }
 
     return types;
