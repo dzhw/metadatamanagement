@@ -9,6 +9,7 @@ import org.springframework.data.annotation.Id;
 import com.google.common.base.MoreObjects;
 import com.google.common.base.Objects;
 
+import eu.dzhw.fdz.metadatamanagement.data.common.documents.DocumentField;
 import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.VariableDocument;
 import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.validation.NoEditableId;
 import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.validation.ValidDataType;
@@ -24,7 +25,14 @@ import net.karneim.pojobuilder.GeneratePojoBuilder;
 @GeneratePojoBuilder(
     intoPackage = "eu.dzhw.fdz.metadatamanagement.data.questionmanagement.documents.builders")
 public class QuestionVariable {
-  
+
+  // Basic Fields
+  public static final DocumentField ID_FIELD = new DocumentField("id");
+  public static final DocumentField NAME_FIELD = new DocumentField("name");
+  public static final DocumentField DATA_TYPE_FIELD = new DocumentField("dataType");
+  public static final DocumentField LABEL_FIELD = new DocumentField("label");
+  public static final DocumentField SCALE_LEVEL_FIELD = new DocumentField("scaleLevel");
+
   /**
    * A fdzID as primary key for the identification of the variable of a survey.
    */
@@ -34,7 +42,7 @@ public class QuestionVariable {
   @NotBlank
   @Pattern(regexp = "^[0-9a-zA-Z_-]*")
   private String id;
-  
+
   /**
    * The name of the variable.
    */
@@ -54,7 +62,7 @@ public class QuestionVariable {
   @Size(max = 80)
   @NotBlank
   private String label;
-  
+
   /**
    * A optional scale level of the variable, if the variable is e.g. not a String.
    */
@@ -63,6 +71,7 @@ public class QuestionVariable {
 
   /*
    * (non-Javadoc)
+   * 
    * @see java.lang.Object#hashCode()
    */
   @Override
@@ -72,6 +81,7 @@ public class QuestionVariable {
 
   /*
    * (non-Javadoc)
+   * 
    * @see java.lang.Object#equals(java.lang.Object)
    */
   @Override
@@ -87,6 +97,7 @@ public class QuestionVariable {
 
   /*
    * (non-Javadoc)
+   * 
    * @see java.lang.Object#toString()
    */
   @Override

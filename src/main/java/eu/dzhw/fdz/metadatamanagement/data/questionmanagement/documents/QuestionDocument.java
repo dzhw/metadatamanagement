@@ -39,8 +39,8 @@ public class QuestionDocument extends AbstractDocument {
   public static final DocumentField QUESTION_SURVEY_FIELD = new DocumentField("questionSurvey");
   public static final DocumentField QUESTION_FIELD = new DocumentField("question");
   public static final DocumentField NAME_FIELD = new DocumentField("name");
-  public static final DocumentField VARIABLE_DOCUMENTS_FIELD =
-      new DocumentField("variableDocuments");
+  public static final DocumentField QUESTION_VARIABLES_FIELD =
+      new DocumentField("questionVariables");
 
   // Nested Fields: Question Document - Question Survey
   public static final DocumentField NESTED_QUESTION_SURVEY_TITLE_FIELD =
@@ -63,8 +63,28 @@ public class QuestionDocument extends AbstractDocument {
   public static final DocumentField NESTED_QUESTION_SURVEY_NESTED_PERIOD_END_DATE =
       new DocumentField(NESTED_QUESTION_SURVEY_PERIOD_FIELD.getAbsolutePath()
           + DocumentField.PATH_DELIMITER + DateRange.ENDDATE_FIELD);
-  
-  //TODO Question: Nested Document Fields for the variable Document? Same question for mapping?
+
+  // Nested Fields: Question Document - QuestionVariables
+  public static final DocumentField NESTED_QUESTION_VARIABLES_ID_FIELD =
+      new DocumentField(QuestionDocument.QUESTION_VARIABLES_FIELD.getAbsolutePath()
+          + DocumentField.PATH_DELIMITER + QuestionVariable.ID_FIELD);
+
+  public static final DocumentField NESTED_QUESTION_VARIABLES_NAME_FIELD =
+      new DocumentField(QuestionDocument.QUESTION_VARIABLES_FIELD.getAbsolutePath()
+          + DocumentField.PATH_DELIMITER + QuestionVariable.NAME_FIELD);
+
+  public static final DocumentField NESTED_QUESTION_VARIABLES_LABEL_FIELD =
+      new DocumentField(QuestionDocument.QUESTION_VARIABLES_FIELD.getAbsolutePath()
+          + DocumentField.PATH_DELIMITER + QuestionVariable.LABEL_FIELD);
+
+  public static final DocumentField NESTED_QUESTION_VARIABLES_SCALE_LEVEL_FIELD =
+      new DocumentField(QuestionDocument.QUESTION_VARIABLES_FIELD.getAbsolutePath()
+          + DocumentField.PATH_DELIMITER + QuestionVariable.SCALE_LEVEL_FIELD);
+
+  public static final DocumentField NESTED_QUESTION_VARIABLES_DATA_TYPE_FIELD =
+      new DocumentField(QuestionDocument.QUESTION_VARIABLES_FIELD.getAbsolutePath()
+          + DocumentField.PATH_DELIMITER + QuestionVariable.DATA_TYPE_FIELD);
+
 
   /**
    * The question survey. It has some information about the survey which has this question.
