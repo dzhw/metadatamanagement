@@ -1,16 +1,37 @@
 {
-	"_class": "eu.dzhw.fdz.metadatamanagement.data.questionmanagement.documents.QuestionDocument",
-	"id": "FdZ_ID01Single",
-	"questionSurvey": 
-	{
-		"surveyId": "Ge_ALL_04",
-		"title": "ALLBUS 2014",
-		"surveyPeriod": 
-		{
-			"startDate": "2014-03-01",
-			"endDate": "2014-09-30"
-		}
-	},
-	"name": "V850S",
-	"question": "Eine Frage"
+  "_class": "eu.dzhw.fdz.metadatamanagement.data.questionmanagement.documents.QuestionDocument",
+  "id": "FdZ_ID01Single",
+  "questionSurvey": {
+    "surveyId": "Ge_ALL_04",
+    "title": "ALLBUS 2014",
+    "surveyPeriod": {
+      "startDate": "2014-03-01",
+      "endDate": "2014-09-30"
+    }
+  },
+  "name": "V850S",
+  "question": "Eine Frage",
+  "questionVariables": [
+    {
+      "id": "FDZ_ID01",
+      "label": "Eine Variable 01",
+      "name": "Ein Name 01",
+      "scaleLevel": "nominal",
+      "datatype": "numerisch"
+    },
+    {
+      "id": "FDZ_ID02",
+      "label": "Eine Variable 02",
+      "name": "Ein Name 02",
+      "scaleLevel": "metrisch",
+      "datatype": "numerisch"
+    },
+    {
+      "id": "FDZ_ID03",
+      "label": "Eine Variable 03",
+      "name": "Ein Name 03",
+      "scaleLevel": "ordinal",
+      "datatype": "numerisch"
+    }
+  ]
 }
