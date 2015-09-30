@@ -37,6 +37,8 @@ public abstract class AbstractDocument {
    */
   public static final String METADATA_INDEX = "metadata";
   public static final DocumentField ID_FIELD = new DocumentField("id");
+  public static final DocumentField ALL_STRINGS_AS_NGRAMS_FIELD =
+      new DocumentField("allStringsAsNgrams");
 
   /**
    * A fdzID as primary key for the identification of the variable of a survey.

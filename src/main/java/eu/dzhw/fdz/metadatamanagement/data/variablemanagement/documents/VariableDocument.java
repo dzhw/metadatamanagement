@@ -38,8 +38,6 @@ import net.karneim.pojobuilder.GeneratePojoBuilder;
 public class VariableDocument extends AbstractDocument {
 
   // Basic Fields
-  public static final DocumentField ALL_STRINGS_AS_NGRAMS_FIELD =
-      new DocumentField("allStringsAsNgrams");
   public static final DocumentField NAME_FIELD = new DocumentField("name");
   public static final DocumentField DATA_TYPE_FIELD = new DocumentField("dataType");
   public static final DocumentField LABEL_FIELD = new DocumentField("label");

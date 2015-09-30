@@ -14,6 +14,8 @@ import com.google.common.base.MoreObjects;
 import com.google.common.base.Objects;
 
 import eu.dzhw.fdz.metadatamanagement.data.common.documents.AbstractDocument;
+import eu.dzhw.fdz.metadatamanagement.data.common.documents.DateRange;
+import eu.dzhw.fdz.metadatamanagement.data.common.documents.DocumentField;
 import eu.dzhw.fdz.metadatamanagement.data.common.documents.validation.groups.ModifyValidationGroup.Create;
 import eu.dzhw.fdz.metadatamanagement.data.common.documents.validation.groups.ModifyValidationGroup.Edit;
 import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.VariableDocument;
@@ -33,6 +35,37 @@ import net.karneim.pojobuilder.GeneratePojoBuilder;
 @GeneratePojoBuilder(
     intoPackage = "eu.dzhw.fdz.metadatamanagement.data.questionmanagement.documents.builders")
 public class QuestionDocument extends AbstractDocument {
+
+  // Basic Fields
+  public static final DocumentField QUESTION_SURVEY_FIELD = new DocumentField("questionSurvey");
+  public static final DocumentField QUESTION_FIELD = new DocumentField("question");
+  public static final DocumentField NAME_FIELD = new DocumentField("name");
+  public static final DocumentField VARIABLE_DOCUMENTS_FIELD =
+      new DocumentField("variableDocuments");
+
+  // Nested Fields: Question Document - Question Survey
+  public static final DocumentField NESTED_QUESTION_SURVEY_TITLE_FIELD =
+      new DocumentField(QuestionDocument.QUESTION_SURVEY_FIELD.getAbsolutePath()
+          + DocumentField.PATH_DELIMITER + QuestionSurvey.TITLE_FIELD);
+
+  public static final DocumentField NESTED_QUESTION_SURVEY_ID_FIELD =
+      new DocumentField(QuestionDocument.QUESTION_SURVEY_FIELD.getAbsolutePath()
+          + DocumentField.PATH_DELIMITER + QuestionSurvey.SURVEY_ID_FIELD);
+
+  public static final DocumentField NESTED_QUESTION_SURVEY_PERIOD_FIELD =
+      new DocumentField(QuestionDocument.QUESTION_SURVEY_FIELD.getAbsolutePath()
+          + DocumentField.PATH_DELIMITER + QuestionSurvey.SURVEY_PERIOD_FIELD);
+
+  // Nested: Question Document - Question Survey - Survey Period
+  public static final DocumentField NESTED_QUESTION_SURVEY_NESTED_PERIOD_START_DATE =
+      new DocumentField(NESTED_QUESTION_SURVEY_PERIOD_FIELD.getAbsolutePath()
+          + DocumentField.PATH_DELIMITER + DateRange.STARTDATE_FIELD);
+
+  public static final DocumentField NESTED_QUESTION_SURVEY_NESTED_PERIOD_END_DATE =
+      new DocumentField(NESTED_QUESTION_SURVEY_PERIOD_FIELD.getAbsolutePath()
+          + DocumentField.PATH_DELIMITER + DateRange.ENDDATE_FIELD);
+  
+  //TODO Question: Nested Document Fields for the variable Document? Same question for mapping?
 
   /**
    * The question survey. It has some information about the survey which has this question.
