@@ -18,7 +18,7 @@ import eu.dzhw.fdz.metadatamanagement.web.common.dtos.FilterType;
 import net.karneim.pojobuilder.GeneratePojoBuilder;
 
 /**
- * The SearchForm Data transfer object (dto).
+ * The SearchForm Data transfer object (dto) for the variables.
  * 
  * @author Daniel Katzberg
  *

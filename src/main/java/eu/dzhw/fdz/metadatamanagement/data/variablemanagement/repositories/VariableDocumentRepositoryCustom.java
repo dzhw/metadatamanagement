@@ -32,7 +32,6 @@ public interface VariableDocumentRepositoryCustom {
    * matches.
    * 
    * @param abstractSearchFilter the data transfer object of the search
-   * @param scaleLevel A filter for reduce the results of a given scaleLevel
    * @param pageable The page size and number and sort.
    * @return A page holding the first variable documents
    */

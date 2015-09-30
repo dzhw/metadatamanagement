@@ -1,4 +1,4 @@
-package eu.dzhw.fdz.metadatamanagement.web.variablemanagement.search;
+package eu.dzhw.fdz.metadatamanagement.web.common.dtos;
 
 import java.util.HashSet;
 import java.util.Map;
@@ -7,7 +7,6 @@ import java.util.Set;
 
 import eu.dzhw.fdz.metadatamanagement.data.common.aggregations.Bucket;
 import eu.dzhw.fdz.metadatamanagement.data.common.documents.DocumentField;
-import eu.dzhw.fdz.metadatamanagement.web.variablemanagement.search.dto.VariableSearchFilter;
 
 /**
  * This class adds empty buckets to the buckets coming from elasticsearch if the user has filtered
@@ -24,7 +23,7 @@ public class BucketManager {
    * @return The extended bucket map.
    */
   public static Map<DocumentField, Set<Bucket>> addEmptyBucketsIfNecessary(
-      VariableSearchFilter variableSearchFormDto, Map<DocumentField, Set<Bucket>> bucketMap) {
+      AbstractSearchFilter variableSearchFormDto, Map<DocumentField, Set<Bucket>> bucketMap) {
     Map<DocumentField, String> filters = variableSearchFormDto.getAllFilterValues();
 
     for (Entry<DocumentField, String> filter : filters.entrySet()) {

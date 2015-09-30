@@ -27,6 +27,7 @@ import eu.dzhw.fdz.metadatamanagement.data.common.documents.DocumentField;
 import eu.dzhw.fdz.metadatamanagement.data.common.documents.validation.groups.SearchValidationGroup.Search;
 import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.VariableDocument;
 import eu.dzhw.fdz.metadatamanagement.service.variablemanagement.VariableService;
+import eu.dzhw.fdz.metadatamanagement.web.common.dtos.BucketManager;
 import eu.dzhw.fdz.metadatamanagement.web.variablemanagement.details.VariableResource;
 import eu.dzhw.fdz.metadatamanagement.web.variablemanagement.details.VariableResourceAssembler;
 import eu.dzhw.fdz.metadatamanagement.web.variablemanagement.search.dto.VariableSearchFilter;
@@ -80,11 +81,14 @@ public class VariableSearchController {
       @Validated(Search.class) VariableSearchFilter variableSearchFilter,
       BindingResult bindingResult, Pageable pageable, HttpServletResponse httpServletResponse) {
     return () -> {
+      
+      //Create pageableWithBuckets (from search by service)
       ModelAndView modelAndView = new ModelAndView();
       modelAndView.addObject("variableSearchFilter", variableSearchFilter);
       PageWithBuckets<VariableDocument> pageableWithBuckets =
           this.variableService.search(variableSearchFilter, pageable);
 
+      //Add Buckets to Model and view
       Map<DocumentField, Set<Bucket>> bucketMap = BucketManager
           .addEmptyBucketsIfNecessary(variableSearchFilter, pageableWithBuckets.getBucketMap());
       modelAndView.addObject("scaleLevelBuckets", bucketMap.get(VariableDocument.SCALE_LEVEL_FIELD)
@@ -92,6 +96,7 @@ public class VariableSearchController {
       modelAndView.addObject("surveyTitleBuckets",
           bucketMap.get(VariableDocument.NESTED_VARIABLE_SURVEY_TITLE_FIELD).stream().sorted()
               .collect(Collectors.toList()));
+      
       // Create Resource
       PagedResources<VariableResource> pagedVariableResource = this.pagedResourcesAssembler
           .toResource(pageableWithBuckets, this.variableResourceAssembler);

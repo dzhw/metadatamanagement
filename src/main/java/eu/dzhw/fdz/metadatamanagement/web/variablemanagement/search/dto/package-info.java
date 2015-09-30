@@ -1,5 +1,5 @@
 /**
- * Data transfer Object for the search are in this package.
+ * Data transfer Object for the variable search are in this package.
  * 
  * @author Daniel Katzberg
  *
