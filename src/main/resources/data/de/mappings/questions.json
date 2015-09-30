@@ -1,49 +1,94 @@
 {
   "questions": {
-  	"_all" : {	
-  		 "enabled" : true,
-  		 "analyzer": "german"
-  	  },
+    "_all": {
+      "enabled": true,
+      "analyzer": "german"
+    },
     "properties": {
-      "allStringsAsNgrams" : {
-      	"type": "string",
-      	"analyzer": "trigrams"
+      "allStringsAsNgrams": {
+        "type": "string",
+        "analyzer": "trigrams"
       },
       "id": {
         "type": "string",
         "index": "not_analyzed",
         "copy_to": "allStringsAsNgrams"
       },
-      "name": {	
-      	"type" : "multi_field",
-        	"fields" : {
-               	"name" : {
-      				"type": "string",
-        			"index": "not_analyzed",
-        			"copy_to": "allStringsAsNgrams"            	
-                },
-                "highlight" : {
-                 	"type" : "string", 
-                 	"analyzer" : "highlight_trigrams"
-                }
-      	}
+      "name": {
+        "type": "multi_field",
+        "fields": {
+          "name": {
+            "type": "string",
+            "index": "not_analyzed",
+            "copy_to": "allStringsAsNgrams"
+          },
+          "highlight": {
+            "type": "string",
+            "analyzer": "highlight_trigrams"
+          }
+        }
       },
       "question": {
-      	 "type" : "multi_field",
-         "fields" : {
-               "question" : {
-        		"type": "string",
-        		"analyzer": "english",
-        		"copy_to": "allStringsAsNgrams"            	
-                },
-                "highlight" : {
-                 "type" : "string", 
-                 "analyzer" : "highlight_en"
-                }
-         }
+        "type": "multi_field",
+        "fields": {
+          "question": {
+            "type": "string",
+            "analyzer": "german",
+            "copy_to": "allStringsAsNgrams"
+          },
+          "highlight": {
+            "type": "string",
+            "analyzer": "highlight_de"
+          }
+        }
       },
-      "variableDocuments": {
-        "type": "string" 
+      "questionVariables": {
+        "type": "nested",
+        "properties": {
+          "id": {
+            "type": "string",
+            "index": "not_analyzed",
+            "copy_to": "allStringsAsNgrams"
+          },
+          "label": {
+            "type": "multi_field",
+            "fields": {
+              "label": {
+                "type": "string",
+                "analyzer": "german",
+                "copy_to": "allStringsAsNgrams"
+              },
+              "highlight": {
+                "type": "string",
+                "analyzer": "highlight_de"
+              }
+            }
+          },
+          "name": {
+            "type": "multi_field",
+            "fields": {
+              "name": {
+                "type": "string",
+                "index": "not_analyzed",
+                "copy_to": "allStringsAsNgrams"
+              },
+              "highlight": {
+                "type": "string",
+                "analyzer": "highlight_trigrams"
+              }
+            }
+          },
+          "scaleLevel": {
+            "type": "string",
+            "index": "not_analyzed",
+            "copy_to": "allStringsAsNgrams"
+          },
+          "dataType": {
+            "type": "string",
+            "analyzer": "german",
+            "copy_to": "allStringsAsNgrams"
+          }
+        }
       },
       "questionSurvey": {
         "type": "nested",
@@ -66,19 +111,19 @@
               }
             }
           },
-          "title": {	
-          	"type" : "multi_field",
-         	"fields" : {
-               "title" : {
-        		"type": "string",
-        		"index": "not_analyzed",
-        		"copy_to": "allStringsAsNgrams"            	
-                },
-                "highlight" : {
-                 "type" : "string", 
-                 "analyzer" : "highlight_en"
-                }
-         	}
+          "title": {
+            "type": "multi_field",
+            "fields": {
+              "title": {
+                "type": "string",
+                "index": "not_analyzed",
+                "copy_to": "allStringsAsNgrams"
+              },
+              "highlight": {
+                "type": "string",
+                "analyzer": "highlight_de"
+              }
+            }
           }
         }
       }

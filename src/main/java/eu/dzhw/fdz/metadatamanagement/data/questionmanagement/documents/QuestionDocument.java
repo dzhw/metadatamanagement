@@ -18,7 +18,6 @@ import eu.dzhw.fdz.metadatamanagement.data.common.documents.DateRange;
 import eu.dzhw.fdz.metadatamanagement.data.common.documents.DocumentField;
 import eu.dzhw.fdz.metadatamanagement.data.common.documents.validation.groups.ModifyValidationGroup.Create;
 import eu.dzhw.fdz.metadatamanagement.data.common.documents.validation.groups.ModifyValidationGroup.Edit;
-import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.VariableDocument;
 import net.karneim.pojobuilder.GeneratePojoBuilder;
 
 /**
@@ -92,7 +91,7 @@ public class QuestionDocument extends AbstractDocument {
    * A list of all variables which are depending to this question.
    */
   @Valid
-  private List<VariableDocument> variableDocuments;
+  private List<QuestionVariable> questionVariables;
 
   /**
    * Creates a question with empty survey and list of variable documents.
@@ -100,7 +99,7 @@ public class QuestionDocument extends AbstractDocument {
   public QuestionDocument() {
     super();
     this.questionSurvey = new QuestionSurvey();
-    this.variableDocuments = new ArrayList<>();
+    this.questionVariables = new ArrayList<>();
   }
 
 
@@ -111,7 +110,7 @@ public class QuestionDocument extends AbstractDocument {
    */
   @Override
   public int hashCode() {
-    return Objects.hashCode(super.hashCode(), questionSurvey, question, name, variableDocuments);
+    return Objects.hashCode(super.hashCode(), questionSurvey, question, name, questionVariables);
   }
 
   /*
@@ -129,7 +128,7 @@ public class QuestionDocument extends AbstractDocument {
       QuestionDocument that = (QuestionDocument) object;
       return Objects.equal(this.questionSurvey, that.questionSurvey)
           && Objects.equal(this.question, that.question) && Objects.equal(this.name, that.name)
-          && Objects.equal(this.variableDocuments, that.variableDocuments);
+          && Objects.equal(this.questionVariables, that.questionVariables);
     }
     return false;
   }
@@ -143,7 +142,7 @@ public class QuestionDocument extends AbstractDocument {
   public String toString() {
     return MoreObjects.toStringHelper(this).add("super", super.toString())
         .add("questionSurvey", questionSurvey).add("question", question).add("name", name)
-        .add("variableDocuments", variableDocuments).toString();
+        .add("questionVariables", questionVariables).toString();
   }
 
 
@@ -156,12 +155,12 @@ public class QuestionDocument extends AbstractDocument {
     this.questionSurvey = questionSurvey;
   }
 
-  public List<VariableDocument> getVariableDocuments() {
-    return variableDocuments;
+  public List<QuestionVariable> getQuestionVariables() {
+    return questionVariables;
   }
 
-  public void setVariableDocuments(List<VariableDocument> variableDocuments) {
-    this.variableDocuments = variableDocuments;
+  public void setQuestionVariables(List<QuestionVariable> questionVariables) {
+    this.questionVariables = questionVariables;
   }
 
   public String getQuestion() {
