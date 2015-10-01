@@ -9,7 +9,7 @@
 		<div
 			th:include="common/pageHeader::pageHeader(title=#{question.search.title},subtitle='')"></div>
 	</header>
-	<form id="searchQuestions" class="data-pjax" action="#"
+	<form id="searchForm" class="data-pjax" action="#"
 		th:object="${questionSearchFilter}" name="searchQuestions"
 		th:action="${resource.questionSearchLink.href}" autocomplete="off">
 		<div class="container">
@@ -123,6 +123,6 @@
 		</div>
 	</form>
 	<div th:include="common/js_libraries::js"></div>
-	<script src="/js/variables/search.js"></script>
+	<script src="/js/search.js"></script>
 </body>
 </html>

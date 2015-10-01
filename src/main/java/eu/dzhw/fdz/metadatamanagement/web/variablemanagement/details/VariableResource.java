@@ -24,8 +24,7 @@ public class VariableResource extends ResourceSupport {
     this.variableDocument = variableDocument;
   }
 
-  public
-          VariableDocument getVariableDocument() {
+  public VariableDocument getVariableDocument() {
     return variableDocument;
   }
 
@@ -35,8 +34,7 @@ public class VariableResource extends ResourceSupport {
    * @see org.springframework.hateoas.ResourceSupport#hashCode()
    */
   @Override
-  public
-          int hashCode() {
+  public int hashCode() {
     return Objects.hashCode(super.hashCode(), variableDocument);
   }
 
@@ -46,9 +44,7 @@ public class VariableResource extends ResourceSupport {
    * @see org.springframework.hateoas.ResourceSupport#equals(java.lang.Object)
    */
   @Override
-  public
-          boolean equals(
-                  Object object) {
+  public boolean equals(Object object) {
     if (object != null && getClass() == object.getClass()) {
       if (!super.equals(object)) {
         return false;
