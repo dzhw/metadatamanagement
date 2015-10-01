@@ -11,7 +11,7 @@
 	</header>
 	<form id="searchQuestions" class="data-pjax" action="#"
 		th:object="${questionSearchFilter}" name="searchQuestions"
-		th:action="${resource.searchLink.href}" autocomplete="off">
+		th:action="${resource.questionSearchLink.href}" autocomplete="off">
 		<div class="container">
 			<div class="row">
 				<!-- SearchBox -->
@@ -46,6 +46,18 @@
 						<div class="row">
 							<!-- Filter -->
 							<div class="col-md-3">
+							<div class="panel panel-default">
+									<div class="panel-heading custom-panel-heading"
+										data-toggle="collapse" data-target="#collapsePanel">
+										<a class="panel-title panel-toggle"
+											href="#collapseSurveyTitlePanel" data-toggle="collapse"
+											th:text="Filter">Filter</a>
+									</div>
+									<div id="collapsePanel"
+										class="panel-collapse collapse fade in">
+										<p>Coming soon...</p>										
+									</div>
+								</div>
 							</div>
 							<!-- result and page -->
 							<div class="col-md-9">
@@ -71,13 +83,6 @@
 											<p class="list-group-item-text"
 												th:if="${question.questionDocument.isFieldHighlighted('name')} == true"
 												th:utext="#{question.search.name(${question.questionDocument.highlightedFields.get('name')})}"></p>
-
-											<p class="list-group-item-text"
-												th:if="${question.questionDocument.isFieldHighlighted('question')} == false"
-												th:text="#{question.search.question(${question.questionDocument.question})}"></p>
-											<p class="list-group-item-text"
-												th:if="${question.questionDocument.isFieldHighlighted('question')} == true"
-												th:utext="#{question.search.question(${question.questionDocument.highlightedFields.get('question')})}"></p>
 
 											<p class="list-group-item-text"
 												th:if="${question.questionDocument.isFieldHighlighted('questionSurvey.title')} == false"

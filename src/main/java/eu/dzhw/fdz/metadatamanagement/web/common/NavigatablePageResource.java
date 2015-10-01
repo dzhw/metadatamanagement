@@ -10,6 +10,7 @@ import org.springframework.hateoas.Link;
 import org.springframework.hateoas.ResourceSupport;
 
 import eu.dzhw.fdz.metadatamanagement.web.disclosure.DisclosureController;
+import eu.dzhw.fdz.metadatamanagement.web.questionmanagement.search.QuestionSearchController;
 import eu.dzhw.fdz.metadatamanagement.web.variablemanagement.modify.VariableCreateController;
 import eu.dzhw.fdz.metadatamanagement.web.variablemanagement.search.VariableSearchController;
 import eu.dzhw.fdz.metadatamanagement.web.welcome.WelcomeController;
@@ -24,8 +25,9 @@ import eu.dzhw.fdz.metadatamanagement.web.welcome.WelcomeController;
 public abstract class NavigatablePageResource<T> extends ResourceSupport
     implements InternationalizedResource {
 
-  public static final String SEARCH_REL = "search";
-  public static final String CREATE_REL = "create";
+  public static final String VARIABLE_SEARCH_REL = "variable_search";
+  public static final String QUESTION_SEARCH_REL = "question_search";
+  public static final String VARIABLE_CREATE_REL = "variable_create";
   public static final String HOME_REL = "home";
   public static final String DISCLOSURE_REL = "disclosure";
   public static final String SUGGEST_REL = "suggest";
@@ -44,10 +46,13 @@ public abstract class NavigatablePageResource<T> extends ResourceSupport
             .withRel(DISCLOSURE_REL));
     this.add(linkTo(
         methodOn(VariableSearchController.class, LocaleContextHolder.getLocale().getLanguage())
-            .get(null, null, null, null, null)).withRel(SEARCH_REL));
+            .get(null, null, null, null, null)).withRel(VARIABLE_SEARCH_REL));
     this.add(linkTo(
         methodOn(VariableCreateController.class, LocaleContextHolder.getLocale().getLanguage())
-            .create(null, null)).withRel(CREATE_REL));
+            .create(null, null)).withRel(VARIABLE_CREATE_REL));
+    this.add(linkTo(
+        methodOn(QuestionSearchController.class, LocaleContextHolder.getLocale().getLanguage())
+            .get(null, null, null, null, null)).withRel(QUESTION_SEARCH_REL));
   }
 
   public Link getHomeLink() {
@@ -58,12 +63,16 @@ public abstract class NavigatablePageResource<T> extends ResourceSupport
     return this.getLink(DISCLOSURE_REL);
   }
 
-  public Link getSearchLink() {
-    return this.getLink(SEARCH_REL);
+  public Link getVariableSearchLink() {
+    return this.getLink(VARIABLE_SEARCH_REL);
   }
 
-  public Link getCreateLink() {
-    return this.getLink(CREATE_REL);
+  public Link getVariableCreateLink() {
+    return this.getLink(VARIABLE_CREATE_REL);
+  }
+  
+  public Link getQuestionSearchLink() {
+    return this.getLink(QUESTION_SEARCH_REL);
   }
   
   public Link getSuggestLink() {
