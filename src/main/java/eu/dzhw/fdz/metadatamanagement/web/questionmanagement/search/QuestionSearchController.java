@@ -6,6 +6,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.elasticsearch.core.FacetedPage;
 import org.springframework.data.web.PagedResourcesAssembler;
 import org.springframework.hateoas.PagedResources;
 import org.springframework.hateoas.mvc.ControllerLinkBuilderFactory;
@@ -18,7 +19,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
-import eu.dzhw.fdz.metadatamanagement.data.common.aggregations.PageWithBuckets;
 import eu.dzhw.fdz.metadatamanagement.data.common.documents.validation.groups.SearchValidationGroup.Search;
 import eu.dzhw.fdz.metadatamanagement.data.questionmanagement.documents.QuestionDocument;
 import eu.dzhw.fdz.metadatamanagement.service.questionmanagement.QuestionService;
@@ -78,12 +78,12 @@ public class QuestionSearchController {
       // Create pageableWithBuckets (from search by service)
       ModelAndView modelAndView = new ModelAndView();
       modelAndView.addObject("questionSearchFilter", questionSearchFilter);
-      PageWithBuckets<QuestionDocument> pageableWithBuckets =
+      FacetedPage<QuestionDocument> pageableDocument =
           this.questionService.search(questionSearchFilter, pageable);
 
       // Create Resource
       PagedResources<QuestionResource> pagedQuestionResource = this.pagedResourcesAssembler
-          .toResource(pageableWithBuckets, this.questionResourceAssembler);
+          .toResource(pageableDocument, this.questionResourceAssembler);
       QuestionSearchResource resource =
           new QuestionSearchResource(pagedQuestionResource, QuestionSearchController.class,
               this.controllerLinkBuilderFactory, questionSearchFilter, pageable);

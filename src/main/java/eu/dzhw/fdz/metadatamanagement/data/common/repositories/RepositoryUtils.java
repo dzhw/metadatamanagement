@@ -41,11 +41,14 @@ import eu.dzhw.fdz.metadatamanagement.web.common.dtos.FilterType;
 public class RepositoryUtils {
 
   /**
-   * Yeah. TODO
-   * @param searchFilter Yeah.
-   * @param pageable Yeah.
-   * @param minimumShouldMatch Yeah.
-   * @return Yeah.
+   * This method created a {@link SearchQuery} object by a given filter and pageable Object. The
+   * MinimumShouldMatch value is a global elastic search variable for matching ngrams.
+   * 
+   * @param searchFilter A object which has the query and the filter information.
+   * @param pageable A pageable object
+   * @param minimumShouldMatch A global variable from the setting, which definies the minimum match
+   *        at ngrams.
+   * @return A {@link SearchQuery} object for elastic search.
    */
   @SuppressWarnings("rawtypes")
   public static SearchQuery createSearchQuery(AbstractSearchFilter searchFilter, Pageable pageable,
@@ -85,7 +88,7 @@ public class RepositoryUtils {
    * @return a list of aggregations builder for the aggregation information.
    */
   @SuppressWarnings("rawtypes")
-  public static List<AggregationBuilder> createAggregations(
+  private static List<AggregationBuilder> createAggregations(
       Map<DocumentField, AggregationType> aggregationFields) {
     List<AggregationBuilder> aggregationBuilders = new ArrayList<>();
 
@@ -110,7 +113,7 @@ public class RepositoryUtils {
    * @return an nested or not nested aggregations
    */
   @SuppressWarnings("rawtypes")
-  public static AggregationBuilder createNestedAggregationBuilder(DocumentField field,
+  private static AggregationBuilder createNestedAggregationBuilder(DocumentField field,
       AggregationType aggregationType) {
 
     AggregationBuilder aggregationBuilder;
@@ -141,7 +144,7 @@ public class RepositoryUtils {
    * @param query The request parameter value of the query
    * @return Returns a query builder
    */
-  public static QueryBuilder createQueryBuilder(String query, String minimumShouldMatch) {
+  private static QueryBuilder createQueryBuilder(String query, String minimumShouldMatch) {
     QueryBuilder queryBuilder = null;
     if (StringUtils.hasText(query)) {
       queryBuilder = boolQuery()
@@ -169,7 +172,7 @@ public class RepositoryUtils {
    * @see FilterBuilders
    * @see FilterBuilder
    */
-  public static List<FilterBuilder> createFilterBuilders(Map<DocumentField, String> filterValues,
+  private static List<FilterBuilder> createFilterBuilders(Map<DocumentField, String> filterValues,
       Map<DocumentField, FilterType> filterTypes) {
     List<FilterBuilder> filterBuilders = new ArrayList<>();
 
@@ -198,7 +201,7 @@ public class RepositoryUtils {
    * @param filterType The value is the type of the filter
    * @return A nested or not nested FilterBuilder
    */
-  public static FilterBuilder createNestedFilterBuilder(DocumentField field, String value,
+  private static FilterBuilder createNestedFilterBuilder(DocumentField field, String value,
       FilterType filterType) {
 
     FilterBuilder filterBuilder;
@@ -230,7 +233,7 @@ public class RepositoryUtils {
    *        elasticsearch.
    * @return A array with {@link HighlightBuilder.Field} elements for the highlighting.
    */
-  public static Field[] createHighlightFields(List<DocumentField> supportedHighlightingFields) {
+  private static Field[] createHighlightFields(List<DocumentField> supportedHighlightingFields) {
     HighlightBuilder.Field[] fields =
         new HighlightBuilder.Field[supportedHighlightingFields.size()];
 
@@ -249,7 +252,7 @@ public class RepositoryUtils {
    * @param termFilterBuilders all term filters for the query.
    * @return a query builder with filter
    */
-  public static QueryBuilder addFilterToQuery(QueryBuilder queryBuilder,
+  private static QueryBuilder addFilterToQuery(QueryBuilder queryBuilder,
       List<FilterBuilder> termFilterBuilders) {
     if (!termFilterBuilders.isEmpty()) {
 

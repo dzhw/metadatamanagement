@@ -153,10 +153,12 @@ public class ScaleLevelProviderTest extends AbstractTest {
         this.scaleLevelProvider.getScaleLevelOrder(this.scaleLevelProvider.getOrdinalByLocal());
     int metricInt =
         this.scaleLevelProvider.getScaleLevelOrder(this.scaleLevelProvider.getMetricByLocal());
+    int notValidInt = this.scaleLevelProvider.getScaleLevelOrder("not valid");
 
     // Assert
     assertThat(nominalInt, is(1));
     assertThat(ordinalInt, is(2));
     assertThat(metricInt, is(3));
+    assertThat(notValidInt, is(0));
   }
 }

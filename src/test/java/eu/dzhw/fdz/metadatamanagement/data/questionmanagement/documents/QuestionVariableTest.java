@@ -71,6 +71,11 @@ public class QuestionVariableTest {
     // Assert
     assertThat(questionVariable.toString(), is(
         "QuestionVariable{id=id, name=name, dataType=numeric, label=label, scaleLevel=nominal}"));
+    assertThat(questionVariable.getId(), is("id"));
+    assertThat(questionVariable.getLabel(), is("label"));
+    assertThat(questionVariable.getName(), is("name"));
+    assertThat(questionVariable.getScaleLevel(), is("nominal"));
+    assertThat(questionVariable.getDataType(), is("numeric"));
   }
 
   @Test
