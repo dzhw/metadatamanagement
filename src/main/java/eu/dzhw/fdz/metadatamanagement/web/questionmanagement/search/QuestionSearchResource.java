@@ -12,7 +12,7 @@ import com.google.common.base.Objects;
 
 import eu.dzhw.fdz.metadatamanagement.config.i18n.I18nConfiguration;
 import eu.dzhw.fdz.metadatamanagement.web.common.NavigatablePageResource;
-import eu.dzhw.fdz.metadatamanagement.web.questionmanagement.QuestionResource;
+import eu.dzhw.fdz.metadatamanagement.web.questionmanagement.details.QuestionResource;
 import eu.dzhw.fdz.metadatamanagement.web.questionmanagement.search.dto.QuestionSearchFilter;
 
 /**

@@ -1,11 +1,10 @@
-package eu.dzhw.fdz.metadatamanagement.web.questionmanagement;
+package eu.dzhw.fdz.metadatamanagement.web.questionmanagement.details;
 
 import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.hateoas.mvc.ResourceAssemblerSupport;
 import org.springframework.stereotype.Component;
 
 import eu.dzhw.fdz.metadatamanagement.data.questionmanagement.documents.QuestionDocument;
-import eu.dzhw.fdz.metadatamanagement.web.questionmanagement.search.QuestionSearchController;
 
 /**
  * Convert a {@link QuestionDocument} into a {@link QuestionResource}.
@@ -19,7 +18,7 @@ public class QuestionResourceAssembler
 
   public QuestionResourceAssembler() {
     //TODO Change to Details Controller
-    super(QuestionSearchController.class, QuestionResource.class);
+    super(QuestionDetailsController.class, QuestionResource.class);
   }
 
   /*

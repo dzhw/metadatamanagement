@@ -22,8 +22,8 @@ import org.springframework.web.servlet.ModelAndView;
 import eu.dzhw.fdz.metadatamanagement.data.common.documents.validation.groups.SearchValidationGroup.Search;
 import eu.dzhw.fdz.metadatamanagement.data.questionmanagement.documents.QuestionDocument;
 import eu.dzhw.fdz.metadatamanagement.service.questionmanagement.QuestionService;
-import eu.dzhw.fdz.metadatamanagement.web.questionmanagement.QuestionResource;
-import eu.dzhw.fdz.metadatamanagement.web.questionmanagement.QuestionResourceAssembler;
+import eu.dzhw.fdz.metadatamanagement.web.questionmanagement.details.QuestionResource;
+import eu.dzhw.fdz.metadatamanagement.web.questionmanagement.details.QuestionResourceAssembler;
 import eu.dzhw.fdz.metadatamanagement.web.questionmanagement.search.dto.QuestionSearchFilter;
 
 /**

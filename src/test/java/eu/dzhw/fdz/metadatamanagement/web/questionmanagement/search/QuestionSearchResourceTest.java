@@ -15,7 +15,7 @@ import org.springframework.hateoas.PagedResources;
 import org.springframework.hateoas.mvc.ControllerLinkBuilderFactory;
 
 import eu.dzhw.fdz.metadatamanagement.AbstractTest;
-import eu.dzhw.fdz.metadatamanagement.web.questionmanagement.QuestionResource;
+import eu.dzhw.fdz.metadatamanagement.web.questionmanagement.details.QuestionResource;
 
 /**
  * @author Daniel Katzberg

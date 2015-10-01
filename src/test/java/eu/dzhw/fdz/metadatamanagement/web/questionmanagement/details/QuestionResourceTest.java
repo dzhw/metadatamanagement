@@ -1,7 +1,7 @@
 /**
  * 
  */
-package eu.dzhw.fdz.metadatamanagement.web.questionmanagement;
+package eu.dzhw.fdz.metadatamanagement.web.questionmanagement.details;
 
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.not;
@@ -11,6 +11,7 @@ import static org.junit.Assert.assertThat;
 import org.junit.Test;
 
 import eu.dzhw.fdz.metadatamanagement.data.questionmanagement.documents.builders.QuestionDocumentBuilder;
+import eu.dzhw.fdz.metadatamanagement.web.questionmanagement.details.QuestionResource;
 
 /**
  * @author Daniel Katzberg

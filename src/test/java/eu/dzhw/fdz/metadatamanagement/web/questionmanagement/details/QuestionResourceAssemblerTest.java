@@ -1,7 +1,7 @@
 /**
  * 
  */
-package eu.dzhw.fdz.metadatamanagement.web.questionmanagement;
+package eu.dzhw.fdz.metadatamanagement.web.questionmanagement.details;
 
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.not;
@@ -14,6 +14,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import eu.dzhw.fdz.metadatamanagement.AbstractTest;
 import eu.dzhw.fdz.metadatamanagement.data.questionmanagement.documents.QuestionDocument;
 import eu.dzhw.fdz.metadatamanagement.data.questionmanagement.documents.builders.QuestionDocumentBuilder;
+import eu.dzhw.fdz.metadatamanagement.web.questionmanagement.details.QuestionResource;
+import eu.dzhw.fdz.metadatamanagement.web.questionmanagement.details.QuestionResourceAssembler;
 
 /**
  * @author Daniel Katzberg

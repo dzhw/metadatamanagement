@@ -1,4 +1,4 @@
-package eu.dzhw.fdz.metadatamanagement.web.questionmanagement;
+package eu.dzhw.fdz.metadatamanagement.web.questionmanagement.details;
 
 import org.springframework.hateoas.ResourceSupport;
 
