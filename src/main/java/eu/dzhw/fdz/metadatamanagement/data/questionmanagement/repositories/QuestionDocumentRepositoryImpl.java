@@ -7,7 +7,6 @@ import org.springframework.data.elasticsearch.core.ElasticsearchTemplate;
 import org.springframework.data.elasticsearch.core.FacetedPage;
 import org.springframework.data.elasticsearch.core.query.SearchQuery;
 
-import eu.dzhw.fdz.metadatamanagement.data.common.aggregations.PageWithBuckets;
 import eu.dzhw.fdz.metadatamanagement.data.common.repositories.RepositoryUtils;
 import eu.dzhw.fdz.metadatamanagement.data.questionmanagement.documents.QuestionDocument;
 import eu.dzhw.fdz.metadatamanagement.web.common.dtos.AbstractSearchFilter;
@@ -46,7 +45,7 @@ public class QuestionDocumentRepositoryImpl implements QuestionDocumentRepositor
    * AbstractSearchFilter, org.springframework.data.domain.Pageable)
    */
   @Override
-  public PageWithBuckets<QuestionDocument> search(AbstractSearchFilter searchFilter,
+  public FacetedPage<QuestionDocument> search(AbstractSearchFilter searchFilter,
       Pageable pageable) {
 
     // Create search query
@@ -57,7 +56,7 @@ public class QuestionDocumentRepositoryImpl implements QuestionDocumentRepositor
     FacetedPage<QuestionDocument> facetedPage =
         this.elasticsearchTemplate.queryForPage(searchQuery, QuestionDocument.class);
 
-    // return pageable object and the aggregations
-    return (PageWithBuckets<QuestionDocument>) facetedPage;
+    // return pageable object
+    return facetedPage;
   }
 }

@@ -2,9 +2,9 @@ package eu.dzhw.fdz.metadatamanagement.service.questionmanagement;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.elasticsearch.core.FacetedPage;
 import org.springframework.stereotype.Service;
 
-import eu.dzhw.fdz.metadatamanagement.data.common.aggregations.PageWithBuckets;
 import eu.dzhw.fdz.metadatamanagement.data.questionmanagement.documents.QuestionDocument;
 import eu.dzhw.fdz.metadatamanagement.data.questionmanagement.repositories.QuestionDocumentRepository;
 import eu.dzhw.fdz.metadatamanagement.web.common.dtos.AbstractSearchFilter;
@@ -37,7 +37,7 @@ public class QuestionService {
    * 
    * @return Page with the found QuestionDocument
    */
-  public PageWithBuckets<QuestionDocument> search(AbstractSearchFilter searchFilter,
+  public FacetedPage<QuestionDocument> search(AbstractSearchFilter searchFilter,
       Pageable pageable) {
     return this.questionRepository.search(searchFilter, pageable);
 
