@@ -1,7 +1,9 @@
 package eu.dzhw.fdz.metadatamanagement.service.variablemanagement;
 
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.greaterThanOrEqualTo;
+import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.not;
 import static org.hamcrest.Matchers.nullValue;
@@ -281,6 +283,69 @@ public class VariableServiceTest extends AbstractTest {
 
     // Assert
     assertThat(resultNotOkay.getNumberOfElements(), is(0));
+
+    // Delete
+    for (int i = 1; i <= 9; i++) {
+      this.variableService.delete("SearchUnitTest_ID0" + i);
+    }
+  }
+
+  @Test
+  public void testSuggestionsForOneWord() {
+    // Arrange
+    LocaleContextHolder.setLocale(Locale.GERMAN);
+    for (int i = 1; i <= 9; i++) {
+      VariableSurvey variableSurvey = new VariableSurveyBuilder()
+          .withSurveyId("SearchUnitTest_Survey_ID").withTitle("SearchUnitTestTitle 0" + i)
+          .withVariableAlias("SearchUnitTestVariableAlias 0" + i).build();
+
+      VariableDocument variableDocument = new VariableDocumentBuilder()
+          .withId("SearchUnitTest_ID0" + i).withName("SearchUnitTestName 0" + i)
+          .withLabel("SearchUnitTestLabel 0" + i).withQuestion("SearchUnitTestQuestion 0" + i)
+          .withDataType(this.dataTypesProvider.getNumericValueByLocale())
+          .withScaleLevel(this.scaleLevelProvider.getMetricByLocal())
+          .withSuggest(new Completion(new String[] {"test", "hurz"}))
+          .withVariableSurvey(variableSurvey).build();
+      this.variableService.save(variableDocument);
+    }
+
+    // Act
+    List<String> suggestions = this.variableService.suggest("hu");
+
+    // Assert
+    assertThat(suggestions, hasSize(1));
+
+    // Delete
+    for (int i = 1; i <= 9; i++) {
+      this.variableService.delete("SearchUnitTest_ID0" + i);
+    }
+  }
+
+  @Test
+  public void testSuggestionsForTwoWords() {
+    // Arrange
+    LocaleContextHolder.setLocale(Locale.GERMAN);
+    for (int i = 1; i <= 9; i++) {
+      VariableSurvey variableSurvey = new VariableSurveyBuilder()
+          .withSurveyId("SearchUnitTest_Survey_ID").withTitle("SearchUnitTestTitle 0" + i)
+          .withVariableAlias("SearchUnitTestVariableAlias 0" + i).build();
+
+      VariableDocument variableDocument = new VariableDocumentBuilder()
+          .withId("SearchUnitTest_ID0" + i).withName("SearchUnitTestName 0" + i)
+          .withLabel("SearchUnitTestLabel 0" + i).withQuestion("SearchUnitTestQuestion 0" + i)
+          .withDataType(this.dataTypesProvider.getNumericValueByLocale())
+          .withScaleLevel(this.scaleLevelProvider.getMetricByLocal())
+          .withSuggest(new Completion(new String[] {"test", "hurz"}))
+          .withVariableSurvey(variableSurvey).build();
+      this.variableService.save(variableDocument);
+    }
+
+    // Act
+    List<String> suggestions = this.variableService.suggest("hurz te");
+
+    // Assert
+    assertThat(suggestions, hasSize(1));
+    assertThat(suggestions.get(0), equalTo("hurz test"));
 
     // Delete
     for (int i = 1; i <= 9; i++) {

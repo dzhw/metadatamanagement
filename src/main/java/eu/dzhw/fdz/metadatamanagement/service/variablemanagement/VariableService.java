@@ -84,7 +84,6 @@ public class VariableService {
    * @return A list of suggested terms (the first words remain constant)
    */
   public List<String> suggest(String query) {
-    // TODO add unit test
     String[] words = query.split(" ");
     // suggest terms for the last word
     List<String> suggestedTags = this.variableRepository.suggest(words[words.length - 1]);
