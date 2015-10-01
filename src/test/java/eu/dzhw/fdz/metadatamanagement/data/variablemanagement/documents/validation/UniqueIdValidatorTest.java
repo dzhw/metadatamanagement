@@ -11,6 +11,7 @@ import java.time.LocalDate;
 
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.elasticsearch.core.completion.Completion;
 import org.springframework.validation.BeanPropertyBindingResult;
 import org.springframework.validation.Errors;
 
@@ -47,7 +48,8 @@ public class UniqueIdValidatorTest extends AbstractTest {
             .withVariableAlias("VariableAlias 1").withSurveyPeriod(dateRange).build();
     VariableDocument variableDocument1 = new VariableDocumentBuilder().withId("ThisIDisOkay")
         .withName("ThisNameIsOkay.").withLabel("LabelIsOkay").withQuestion("DefaultQuestion?")
-        .withVariableSurvey(variableSurvey).build();
+        .withSuggest(new Completion(new String[] {"test"})).withVariableSurvey(variableSurvey)
+        .build();
     this.repository.save(variableDocument1);
 
     VariableSurvey variableSurvey2 =
@@ -55,7 +57,8 @@ public class UniqueIdValidatorTest extends AbstractTest {
             .withVariableAlias("VariableAlias 2").withSurveyPeriod(dateRange).build();
     VariableDocument variableDocument2 = new VariableDocumentBuilder().withId("ThisIDisStillOkay")
         .withName("ThisNameIsOkay.").withLabel("LabelIsOkay").withQuestion("DefaultQuestion?")
-        .withVariableSurvey(variableSurvey2).build();
+        .withSuggest(new Completion(new String[] {"test"})).withVariableSurvey(variableSurvey2)
+        .build();
 
     // Act
     Errors errors = new BeanPropertyBindingResult(variableDocument2, "variableDocument");
@@ -78,7 +81,8 @@ public class UniqueIdValidatorTest extends AbstractTest {
             .withVariableAlias("VariableAlias 1").withSurveyPeriod(dateRange).build();
     VariableDocument variableDocument1 = new VariableDocumentBuilder().withId("ThisIDisOkay")
         .withName("ThisNameIsOkay.").withLabel("LabelIsOkay").withQuestion("DefaultQuestion?")
-        .withVariableSurvey(variableSurvey).build();
+        .withSuggest(new Completion(new String[] {"test"})).withVariableSurvey(variableSurvey)
+        .build();
     this.repository.save(variableDocument1);
 
     VariableSurvey variableSurvey2 =
@@ -86,7 +90,8 @@ public class UniqueIdValidatorTest extends AbstractTest {
             .withVariableAlias("VariableAlias 2").withSurveyPeriod(dateRange).build();
     VariableDocument variableDocument2 = new VariableDocumentBuilder().withId("ThisIDisOkay")
         .withName("ThisNameIsOkay.").withLabel("LabelIsOkay").withQuestion("DefaultQuestion?")
-        .withVariableSurvey(variableSurvey2).build();
+        .withSuggest(new Completion(new String[] {"test"})).withVariableSurvey(variableSurvey2)
+        .build();
 
     // Act
     Errors errors = new BeanPropertyBindingResult(variableDocument2, "variableDocument");

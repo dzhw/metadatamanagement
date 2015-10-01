@@ -70,4 +70,15 @@ $(document).ready(function() {
 		
 	// first setup of the datepickers
 	Datepicker.initAll();
+	
+	// setup autocomplete for search box
+	$( "#query" ).autocomplete({
+		source: function(request,render) {
+			var suggestUrl = $( "#query" ).data("suggest-url");
+			$.get(suggestUrl, "term=" + request.term, function(response) {
+				render(response.suggestions);
+			});
+		},
+		minLength: 2,
+	});
 });

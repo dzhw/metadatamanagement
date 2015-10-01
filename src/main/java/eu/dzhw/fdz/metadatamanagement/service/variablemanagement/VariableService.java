@@ -1,5 +1,7 @@
 package eu.dzhw.fdz.metadatamanagement.service.variablemanagement;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -37,8 +39,8 @@ public class VariableService {
    * 
    * @return Page with buckets from the filter of the VariableDocuments and Aggregations
    */
-  public PageWithBuckets<VariableDocument> search(
-      VariableSearchFilter variableSearchFormDto, Pageable pageable) {
+  public PageWithBuckets<VariableDocument> search(VariableSearchFilter variableSearchFormDto,
+      Pageable pageable) {
     return variableRepository.search(variableSearchFormDto, pageable);
 
   }
@@ -72,6 +74,16 @@ public class VariableService {
    */
   public void delete(String id) {
     this.variableRepository.delete(id);
+  }
+
+  /**
+   * Suggest search terms for the given (partial) query string.
+   * 
+   * @param query the (partial) query string as given by the user
+   * @return A list of suggested terms
+   */
+  public List<String> suggest(String query) {
+    return this.variableRepository.suggest(query);
   }
 
 }

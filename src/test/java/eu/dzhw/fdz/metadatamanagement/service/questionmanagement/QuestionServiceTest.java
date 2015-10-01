@@ -10,6 +10,7 @@ import static org.hamcrest.Matchers.nullValue;
 
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.elasticsearch.core.completion.Completion;
 
 import eu.dzhw.fdz.metadatamanagement.AbstractTest;
 import eu.dzhw.fdz.metadatamanagement.data.questionmanagement.documents.QuestionDocument;
@@ -28,11 +29,11 @@ public class QuestionServiceTest extends AbstractTest {
   @Test
   public void testSaveAndDelete() {
     // Arrange
-    QuestionDocument questionDocument = new QuestionDocumentBuilder().withId("id").withName("name")
-        .withQuestion("question")
-        .withQuestionSurvey(
-            new QuestionSurveyBuilder().withSurveyId("surveyid").withTitle("surveyTitle").build())
-        .build();
+    QuestionDocument questionDocument =
+        new QuestionDocumentBuilder().withId("id").withName("name").withQuestion("question")
+            .withQuestionSurvey(new QuestionSurveyBuilder().withSurveyId("surveyid")
+                .withTitle("surveyTitle").build())
+        .withSuggest(new Completion(new String[] {"test"})).build();
 
     // Act
     QuestionDocument questionDocumentSaved = this.questionService.save(questionDocument);

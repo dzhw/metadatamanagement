@@ -481,10 +481,7 @@ public class VariableDocumentTest extends AbstractTest {
 
     // Assert
     assertEquals(
-        "VariableDocument [variableSurvey=VariableSurvey{super=VariableSurvey{surveyId=null, "
-            + "title=null, surveyPeriod=DateRange{startDate=null, endDate=null}}, variableAlias=null}, "
-            + "name=null, dataType=null, label=null, question=null, scaleLevel=null, answerOptions=[], "
-            + "toString()=VariableDocument{id=[null]}]",
+        "VariableDocument [variableSurvey=VariableSurvey{super=VariableSurvey{surveyId=null, title=null, surveyPeriod=DateRange{startDate=null, endDate=null}}, variableAlias=null}, id=, name=null, dataType=null, label=null, question=null, scaleLevel=null, answerOptions=[]]",
         variableDocument.toString());
   }
 
@@ -499,10 +496,7 @@ public class VariableDocumentTest extends AbstractTest {
 
     // Assert
     assertEquals(
-        "VariableDocument [variableSurvey=VariableSurvey{super=VariableSurvey{surveyId=null, "
-        + "title=null, surveyPeriod=DateRange{startDate=null, endDate=null}}, variableAlias=null}, "
-        + "name=null, dataType=null, label=null, question=null, scaleLevel=null, answerOptions=[], "
-        + "toString()=VariableDocument{id=[null]}]",
+        "VariableDocument [variableSurvey=VariableSurvey{super=VariableSurvey{surveyId=null, title=null, surveyPeriod=DateRange{startDate=null, endDate=null}}, variableAlias=null}, id=, name=null, dataType=null, label=null, question=null, scaleLevel=null, answerOptions=[]]",
         variableDocument.toString());
   }
 
@@ -519,10 +513,7 @@ public class VariableDocumentTest extends AbstractTest {
 
     // Assert
     assertEquals(
-        "VariableDocument [variableSurvey=VariableSurvey{super=VariableSurvey{surveyId=null, title=null, "
-        + "surveyPeriod=DateRange{startDate=null, endDate=null}}, variableAlias=null}, name=null, "
-        + "dataType=null, label=null, question=null, scaleLevel=null, answerOptions=[], "
-        + "toString()=VariableDocument{id=[null]}]",
+        "VariableDocument [variableSurvey=VariableSurvey{super=VariableSurvey{surveyId=null, title=null, surveyPeriod=DateRange{startDate=null, endDate=null}}, variableAlias=null}, id=, name=null, dataType=null, label=null, question=null, scaleLevel=null, answerOptions=[]]",
         variableDocument.toString());
   }
 
@@ -541,10 +532,7 @@ public class VariableDocumentTest extends AbstractTest {
 
     // Assert
     assertEquals(
-        "VariableDocument [variableSurvey=VariableSurvey{super=VariableSurvey{surveyId=null, "
-        + "title=null, surveyPeriod=DateRange{startDate=2015-01-01, endDate=2015-02-01}}, "
-        + "variableAlias=null}, name=null, dataType=null, label=null, question=null, scaleLevel=null, "
-        + "answerOptions=[], toString()=VariableDocument{id=[null]}]",
+        "VariableDocument [variableSurvey=VariableSurvey{super=VariableSurvey{surveyId=null, title=null, surveyPeriod=DateRange{startDate=2015-01-01, endDate=2015-02-01}}, variableAlias=null}, id=, name=null, dataType=null, label=null, question=null, scaleLevel=null, answerOptions=[]]",
         variableDocument.toString());
   }
 

@@ -41,5 +41,8 @@
 				"code": "6",
 				"label": "More than 50"
 			}
-		]
+		],
+		"suggest" : {
+			"input": [ "test"]
+		}
 	}

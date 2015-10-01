@@ -41,5 +41,8 @@
 				"code": "6",
 				"label": "Mehr als 50"
 			}
-		]
+		],
+		"suggest" : {
+			"input": [ "Arbeitsstunden"]
+		}
 	}

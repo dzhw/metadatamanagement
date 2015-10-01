@@ -19,6 +19,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import eu.dzhw.fdz.metadatamanagement.data.common.aggregations.Bucket;
@@ -30,6 +31,7 @@ import eu.dzhw.fdz.metadatamanagement.service.variablemanagement.VariableService
 import eu.dzhw.fdz.metadatamanagement.web.common.dtos.BucketManager;
 import eu.dzhw.fdz.metadatamanagement.web.variablemanagement.details.VariableResource;
 import eu.dzhw.fdz.metadatamanagement.web.variablemanagement.details.VariableResourceAssembler;
+import eu.dzhw.fdz.metadatamanagement.web.variablemanagement.search.dto.SuggestDto;
 import eu.dzhw.fdz.metadatamanagement.web.variablemanagement.search.dto.VariableSearchFilter;
 
 /**
@@ -120,6 +122,20 @@ public class VariableSearchController {
           "no-cache, max-age=0, must-revalidate, no-store");
 
       return modelAndView;
+    };
+  }
+
+  /**
+   * Return search suggestions for the given input.
+   * 
+   * @param term The query term as given by the user.
+   * @return A List of suggestions.
+   */
+  @RequestMapping(value = "/{language:de|en}/variables/search/suggest", method = RequestMethod.GET)
+  @ResponseBody
+  public Callable<SuggestDto> suggest(String term) {
+    return () -> {
+      return new SuggestDto(variableService.suggest(term));
     };
   }
 }

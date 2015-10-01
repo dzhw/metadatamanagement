@@ -126,6 +126,11 @@
             }
           }
         }
+      },
+      "suggest" : { 
+      	"type" : "completion",
+        "index_analyzer" : "simple",
+        "search_analyzer" : "simple"
       }
     }
   }

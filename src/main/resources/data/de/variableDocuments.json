@@ -41,7 +41,10 @@
 				"code": "6",
 				"label": "nicht erkennbar"
 			}
-		]
+		],
+		"suggest" : {
+			"input": [ "Schicht", "Schichtzugehörigkeit" ]
+		}
 	},
 	{
 		"_class": "eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.VariableDocument",
@@ -69,7 +72,10 @@
 				"code": "2",
 				"label": "Weiblich"
 			}
-		]
+		],
+		"suggest" : {
+			"input": [ "Geschlecht"]
+		}
 	},
 	{
 		"_class": "eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.VariableDocument",
@@ -125,7 +131,10 @@
 				"code": "99",
 				"label": "kA"
 			}
-		]
+		],
+		"suggest" : {
+			"input": [ "Hochschulabschluss"]
+		}
 	},
 	{
 		"_class": "eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.VariableDocument",
@@ -157,7 +166,10 @@
 				"code": "999",
 				"label": "keine Angabe"
 			}
-		]
+		],
+		"suggest" : {
+			"input": [ "Arbeitsstunden"]
+		}
 	},
 	{
 		"_class": "eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.VariableDocument",
@@ -213,7 +225,10 @@
 				"code": "99",
 				"label": "Keine Angabe"
 			}
-		]
+		],
+		"suggest" : {
+			"input": [ "Beaufsichtigte Personen"]
+		}
 	},
 	{
 		"_class": "eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.VariableDocument",
@@ -265,7 +280,10 @@
 				"code": "99",
 				"label": "Keine Angabe"
 			}
-		]
+		],
+		"suggest" : {
+			"input": [ "Stellungsvergleich"]
+		}
 	},
 	{
 		"_class": "eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.VariableDocument",
@@ -377,7 +395,10 @@
 				"code": "23",
 				"label": "Anderes Land, und zwar _________"
 			}
-		]
+		],
+		"suggest" : {
+			"input": [ "Staatsbürgerschaft"]
+		}
 	},
 	{
 		"_class": "eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.VariableDocument",
@@ -441,7 +462,10 @@
 				"code": "99",
 				"label": "Keine Angabe"
 			}
-		]
+		],
+		"suggest" : {
+			"input": [ "Politische Ausrichtung"]
+		}
 	},
 	{
 		"_class": "eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.VariableDocument",
@@ -469,7 +493,10 @@
 				"code": "0",
 				"label": "NA"
 			}
-		]
+		],
+		"suggest" : {
+			"input": [ "ID"]
+		}
 	},
 	{
 		"_class": "eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.VariableDocument",
@@ -513,7 +540,10 @@
 				"code": "5",
 				"label": "sehr schlecht"
 			}
-		]
+		],
+		"suggest" : {
+			"input": [ "Sturdiumsbeurteilung"]
+		}
 	},
 	{
 		"_class": "eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.VariableDocument",
@@ -553,7 +583,10 @@
 				"code": "4",
 				"label": "ausländische Studienberechtigung"
 			}
-		]
+		],
+		"suggest" : {
+			"input": [ "Studiumszulassung"]
+		}
 	},
 	{
 		"_class": "eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.VariableDocument",
@@ -581,7 +614,10 @@
 				"code": "0",
 				"label": "offene Angabe"
 			}
-		]
+		],
+		"suggest" : {
+			"input": [ "Finanzierung Lebensunterhalt"]
+		}
 	},
 	{
 		"_class": "eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.VariableDocument",
@@ -633,7 +669,10 @@
 				"code": "7",
 				"label": "13. + 14. Semester"
 			}
-		]
+		],
+		"suggest" : {
+			"input": [ "Hochschulsemester"]
+		}
 	},
 	{
 		"_class": "eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.VariableDocument",
@@ -669,7 +708,10 @@
 				"code": "1",
 				"label": "genannt"
 			}
-		]
+		],
+		"suggest" : {
+			"input": [ "keine Erwerbstaet. (wg Kind)"]
+		}
 	},
 	{
 		"_class": "eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.VariableDocument",
@@ -705,6 +747,9 @@
 				"code": "3",
 				"label": "dt. u. and. Staatsang."
 			}
-		]
+		],
+		"suggest" : {
+			"input": [ "Staatsangehörigkeit"]
+		}
 	}
 ]

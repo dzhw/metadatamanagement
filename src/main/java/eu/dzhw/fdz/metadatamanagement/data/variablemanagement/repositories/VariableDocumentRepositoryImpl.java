@@ -3,9 +3,15 @@ package eu.dzhw.fdz.metadatamanagement.data.variablemanagement.repositories;
 
 import static org.elasticsearch.index.query.QueryBuilders.matchAllQuery;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import org.elasticsearch.action.suggest.SuggestResponse;
 import org.elasticsearch.index.query.FilterBuilders;
 import org.elasticsearch.index.query.QueryBuilder;
 import org.elasticsearch.index.query.QueryBuilders;
+import org.elasticsearch.search.suggest.SuggestBuilders;
+import org.elasticsearch.search.suggest.completion.CompletionSuggestion;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
@@ -29,6 +35,8 @@ import eu.dzhw.fdz.metadatamanagement.web.common.dtos.AbstractSearchFilter;
  *
  */
 public class VariableDocumentRepositoryImpl implements VariableDocumentRepositoryCustom {
+
+  private static final int MAX_SUGGESTIONS = 5;
 
   /**
    * This String defines a limit by searching within ngrams. The limit is: how many ngrams of a
@@ -101,5 +109,29 @@ public class VariableDocumentRepositoryImpl implements VariableDocumentRepositor
     SearchQuery searchQuery = new NativeSearchQueryBuilder().withQuery(queryBuilder).build();
 
     return this.elasticsearchTemplate.queryForPage(searchQuery, VariableDocument.class);
+  }
+
+  /*
+   * (non-Javadoc)
+   * 
+   * @see eu.dzhw.fdz.metadatamanagement.data.variablemanagement.repositories.
+   * VariableDocumentRepositoryCustom#suggest(java.lang.String)
+   */
+  @Override
+  public List<String> suggest(String query) {
+    SuggestResponse suggestResponse =
+        elasticsearchTemplate.suggest(SuggestBuilders.fuzzyCompletionSuggestion("suggestions")
+            .field("suggest").text(query).size(MAX_SUGGESTIONS), VariableDocument.class);
+    List<String> result = new ArrayList<>(MAX_SUGGESTIONS);
+
+    CompletionSuggestion suggestion = suggestResponse.getSuggest().getSuggestion("suggestions");
+
+    suggestion.forEach(entry -> {
+        entry.getOptions().forEach(option -> {
+            result.add(option.getText().toString());
+          });
+      });
+
+    return result;
   }
 }

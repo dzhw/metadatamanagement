@@ -173,16 +173,12 @@ public class VariableDocument extends AbstractDocument {
     return this.answerOptions.remove(index);
   }
 
-  /*
-   * (non-Javadoc)
-   * 
-   * @see eu.dzhw.fdz.metadatamanagement.data.common.documents.AbstractDocument#toString()
-   */
   @Override
   public String toString() {
-    return "VariableDocument [variableSurvey=" + variableSurvey + ", name=" + name + ", dataType="
-        + dataType + ", label=" + label + ", question=" + question + ", scaleLevel=" + scaleLevel
-        + ", answerOptions=" + answerOptions + ", toString()=" + super.toString() + "]";
+    return "VariableDocument [variableSurvey=" + this.variableSurvey + ", id=" + ", name="
+        + this.name + ", dataType=" + this.dataType + ", label=" + this.label + ", question="
+        + this.question + ", scaleLevel=" + this.scaleLevel + ", answerOptions="
+        + this.answerOptions + "]";
   }
 
   /*

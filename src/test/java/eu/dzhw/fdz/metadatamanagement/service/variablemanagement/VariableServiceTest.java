@@ -16,6 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.elasticsearch.core.completion.Completion;
 
 import eu.dzhw.fdz.metadatamanagement.AbstractTest;
 import eu.dzhw.fdz.metadatamanagement.data.common.aggregations.PageWithBuckets;
@@ -63,7 +64,8 @@ public class VariableServiceTest extends AbstractTest {
           .withLabel("SearchUnitTestLabel 0" + i).withQuestion("SearchUnitTestQuestion 0" + i)
           .withDataType(this.dataTypesProvider.getNumericValueByLocale())
           .withScaleLevel(this.scaleLevelProvider.getMetricByLocal())
-          .withVariableSurvey(variableSurvey).build();
+          .withSuggest(new Completion(new String[] {"test"})).withVariableSurvey(variableSurvey)
+          .build();
       this.variableService.save(variableDocument);
     }
 
@@ -100,7 +102,8 @@ public class VariableServiceTest extends AbstractTest {
               .withQuestion("SearchNullUnitTestQuestion 0" + i)
               .withDataType(this.dataTypesProvider.getNumericValueByLocale())
               .withScaleLevel(this.scaleLevelProvider.getMetricByLocal())
-              .withVariableSurvey(variableSurvey).build();
+              .withSuggest(new Completion(new String[] {"test"})).withVariableSurvey(variableSurvey)
+              .build();
       this.variableService.save(variableDocument);
     }
 
@@ -145,7 +148,8 @@ public class VariableServiceTest extends AbstractTest {
         new VariableDocumentBuilder().withId(idVariableDocument).withName("A name for a Document")
             .withLabel("A label for a Document").withScaleLevel(ScaleLevelProvider.GERMAN_NOMINAL)
             .withDataType(DataTypesProvider.GERMAN_NUMERIC).withAnswerOptions(answerOptions)
-            .withVariableSurvey(variableSurvey).build();
+            .withSuggest(new Completion(new String[] {"test"})).withVariableSurvey(variableSurvey)
+            .build();
 
     VariableSearchFilter variableSearchFormDto =
         new VariableSearchFilterBuilder().withQuery(idVariableDocument).build();
@@ -180,7 +184,8 @@ public class VariableServiceTest extends AbstractTest {
           .withLabel("SearchUnitTestLabel 0" + i).withQuestion("SearchUnitTestQuestion 0" + i)
           .withDataType(this.dataTypesProvider.getNumericValueByLocale())
           .withScaleLevel(this.scaleLevelProvider.getMetricByLocal())
-          .withVariableSurvey(variableSurvey).build();
+          .withSuggest(new Completion(new String[] {"test"})).withVariableSurvey(variableSurvey)
+          .build();
       this.variableService.save(variableDocument);
     }
 
@@ -220,7 +225,8 @@ public class VariableServiceTest extends AbstractTest {
           .withLabel("SearchUnitTestLabel 0" + i).withQuestion("SearchUnitTestQuestion 0" + i)
           .withDataType(this.dataTypesProvider.getNumericValueByLocale())
           .withScaleLevel(this.scaleLevelProvider.getOrdinalByLocal())
-          .withVariableSurvey(variableSurvey).build();
+          .withSuggest(new Completion(new String[] {"test"})).withVariableSurvey(variableSurvey)
+          .build();
       this.variableService.save(variableDocument);
     }
 
@@ -261,7 +267,8 @@ public class VariableServiceTest extends AbstractTest {
           .withLabel("SearchUnitTestLabel 0" + i).withQuestion("SearchUnitTestQuestion 0" + i)
           .withDataType(this.dataTypesProvider.getNumericValueByLocale())
           .withScaleLevel(this.scaleLevelProvider.getMetricByLocal())
-          .withVariableSurvey(variableSurvey).build();
+          .withSuggest(new Completion(new String[] {"test"})).withVariableSurvey(variableSurvey)
+          .build();
       this.variableService.save(variableDocument);
     }
 

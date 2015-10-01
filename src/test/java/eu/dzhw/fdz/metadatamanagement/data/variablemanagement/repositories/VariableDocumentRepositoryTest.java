@@ -5,11 +5,13 @@ package eu.dzhw.fdz.metadatamanagement.data.variablemanagement.repositories;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.containsString;
+import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.not;
 import static org.hamcrest.Matchers.nullValue;
 
 import java.time.LocalDate;
+import java.util.List;
 import java.util.Locale;
 
 import org.junit.After;
@@ -21,6 +23,7 @@ import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.elasticsearch.core.completion.Completion;
 
 import eu.dzhw.fdz.metadatamanagement.AbstractTest;
 import eu.dzhw.fdz.metadatamanagement.data.common.aggregations.PageWithBuckets;
@@ -66,7 +69,8 @@ public class VariableDocumentRepositoryTest extends AbstractTest {
           .withQuestion("SurveyFilterUnitTestQuestion 0" + i)
           .withDataType(this.dataTypesProvider.getNumericValueByLocale())
           .withScaleLevel(this.scaleLevelProvider.getMetricByLocal())
-          .withVariableSurvey(variableSurvey).build();
+          .withVariableSurvey(variableSurvey).withSuggest(new Completion(new String[] {"test" + i}))
+          .build();
       this.variablesRepository.save(variableDocument);
     }
   }
@@ -266,5 +270,12 @@ public class VariableDocumentRepositoryTest extends AbstractTest {
         pageWithBuckets.getContent().get(0).getHighlightedFields()
             .get(VariableDocument.QUESTION_FIELD.getAbsolutePath()),
         containsString("<em>SurveyFilterUnitTestQuestion</em>"));
+  }
+
+  @Test
+  public void testSuggestions() {
+    List<String> suggestions = variablesRepository.suggest("test1");
+    // since suggestions are fuzzy all hits should be returned
+    assertThat(suggestions, hasSize(5));
   }
 }

@@ -65,7 +65,10 @@
 				"code": "25",
 				"label": "Israel"
 			}
-		]
+		],
+		"suggest" : {
+			"input": [ "test"]
+		}
 	},
 	{
 		"_class": "eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.VariableDocument",
@@ -109,7 +112,10 @@
 				"code": "-5",
 				"label": "missing"
 			}
-		]
+		],
+		"suggest" : {
+			"input": [ "test"]
+		}
 	},
 	{
 		"_class": "eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.VariableDocument",
@@ -169,7 +175,10 @@
 				"code": "-5",
 				"label": "missing"
 			}
-		]
+		],
+		"suggest" : {
+			"input": [ "test"]
+		}
 	},
 	{
 		"_class": "eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.VariableDocument",
@@ -221,7 +230,10 @@
 				"code": "-5",
 				"label": "missing"
 			}
-		]
+		],
+		"suggest" : {
+			"input": [ "test"]
+		}
 	},
 	{
 		"_class": "eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.VariableDocument",
@@ -261,7 +273,10 @@
 				"code": "-5",
 				"label": "missing"
 			}
-		]
+		],
+		"suggest" : {
+			"input": [ "test"]
+		}
 	},
 	{
 		"_class": "eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.VariableDocument",
@@ -345,7 +360,10 @@
 				"code": "-5",
 				"label": "missing"
 			}
-		]
+		],
+		"suggest" : {
+			"input": [ "test"]
+		}
 	},
 	{
 		"_class": "eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.VariableDocument",
@@ -381,7 +399,10 @@
 				"code": "-5",
 				"label": "missing"
 			}
-		]
+		],
+		"suggest" : {
+			"input": [ "test"]
+		}
 	},
 	{
 		"_class": "eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.VariableDocument",
@@ -429,7 +450,10 @@
 				"code": "-5",
 				"label": "missing"
 			}
-		]
+		],
+		"suggest" : {
+			"input": [ "test"]
+		}
 	},
 	{
 		"_class": "eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.VariableDocument",
@@ -497,7 +521,10 @@
 				"code": "-5",
 				"label": "missing"
 			}
-		]
+		],
+		"suggest" : {
+			"input": [ "test"]
+		}
 	},
 	{
 		"_class": "eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.VariableDocument",
@@ -661,7 +688,10 @@
 				"code": "-5",
 				"label": "missing"
 			}
-		]
+		],
+		"suggest" : {
+			"input": [ "test"]
+		}
 	},
 	{
 		"_class": "eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.VariableDocument",
@@ -721,7 +751,10 @@
 				"code": "-5",
 				"label": "missing"
 			}
-		]
+		],
+		"suggest" : {
+			"input": [ "test"]
+		}
 	},
 	{
 		"_class": "eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.VariableDocument",
@@ -785,7 +818,10 @@
 				"code": "-5",
 				"label": "missing"
 			}
-		]
+		],
+		"suggest" : {
+			"input": [ "test"]
+		}
 	},
 	{
 		"_class": "eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.VariableDocument",
@@ -825,7 +861,10 @@
 				"code": "-5",
 				"label": "missing"
 			}
-		]
+		],
+		"suggest" : {
+			"input": [ "test"]
+		}
 	},
 	{
 		"_class": "eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.VariableDocument",
@@ -873,7 +912,10 @@
 				"code": "-5",
 				"label": "missing"
 			}
-		]
+		],
+		"suggest" : {
+			"input": [ "test"]
+		}
 	},
 	{
 		"_class": "eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.VariableDocument",
@@ -933,7 +975,10 @@
 				"code": "-5",
 				"label": "missing"
 			}
-		]
+		],
+		"suggest" : {
+			"input": [ "test"]
+		}
 	},
 	{
 		"_class": "eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.VariableDocument",
@@ -977,7 +1022,10 @@
 				"code": "-5",
 				"label": "missing"
 			}
-		]
+		],
+		"suggest" : {
+			"input": [ "test"]
+		}
 	},
 	{
 		"_class": "eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.VariableDocument",
@@ -1021,7 +1069,10 @@
 				"code": "6",
 				"label": "not visible"
 			}
-		]
+		],
+		"suggest" : {
+			"input": [ "test"]
+		}
 	},
 	{
 		"_class": "eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.VariableDocument",
@@ -1049,7 +1100,10 @@
 				"code": "2",
 				"label": "female"
 			}
-		]
+		],
+		"suggest" : {
+			"input": [ "test"]
+		}
 	},
 	{
 		"_class": "eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.VariableDocument",
@@ -1105,7 +1159,10 @@
 				"code": "99",
 				"label": "not specified"
 			}
-		]
+		],
+		"suggest" : {
+			"input": [ "test"]
+		}
 	},
 	{
 		"_class": "eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.VariableDocument",
@@ -1137,7 +1194,10 @@
 				"code": "999",
 				"label": "not specified"
 			}
-		]
+		],
+		"suggest" : {
+			"input": [ "test"]
+		}
 	},
 	{
 		"_class": "eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.VariableDocument",
@@ -1193,7 +1253,10 @@
 				"code": "99",
 				"label": "not specified"
 			}
-		]
+		],
+		"suggest" : {
+			"input": [ "test"]
+		}
 	},
 	{
 		"_class": "eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.VariableDocument",
@@ -1245,7 +1308,10 @@
 				"code": "99",
 				"label": "not specified"
 			}
-		]
+		],
+		"suggest" : {
+			"input": [ "test"]
+		}
 	},
 	{
 		"_class": "eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.VariableDocument",
@@ -1357,7 +1423,10 @@
 				"code": "23",
 				"label": "Other country, in fact _________"
 			}
-		]
+		],
+		"suggest" : {
+			"input": [ "test"]
+		}
 	},
 	{
 		"_class": "eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.VariableDocument",
@@ -1421,7 +1490,10 @@
 				"code": "99",
 				"label": "not specified"
 			}
-		]
+		],
+		"suggest" : {
+			"input": [ "test"]
+		}
 	},
 	{
 		"_class": "eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.VariableDocument",
@@ -1449,7 +1521,10 @@
 				"code": "0",
 				"label": "NA"
 			}
-		]
+		],
+		"suggest" : {
+			"input": [ "test"]
+		}
 	},
 	{
 		"_class": "eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.VariableDocument",
@@ -1493,7 +1568,10 @@
 				"code": "5",
 				"label": "very negative"
 			}
-		]
+		],
+		"suggest" : {
+			"input": [ "test"]
+		}
 	},
 	{
 		"_class": "eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.VariableDocument",
@@ -1533,7 +1611,10 @@
 				"code": "4",
 				"label": "foreign education entrance qualification"
 			}
-		]
+		],
+		"suggest" : {
+			"input": [ "test"]
+		}
 	},
 	{
 		"_class": "eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.VariableDocument",
@@ -1561,7 +1642,10 @@
 				"code": "0",
 				"label": "open specification"
 			}
-		]
+		],
+		"suggest" : {
+			"input": [ "test"]
+		}
 	},
 	{
 		"_class": "eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.VariableDocument",
@@ -1613,7 +1697,10 @@
 				"code": "7",
 				"label": "13. + 14. semester"
 			}
-		]
+		],
+		"suggest" : {
+			"input": [ "test"]
+		}
 	},
 	{
 		"_class": "eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.VariableDocument",
@@ -1649,7 +1736,10 @@
 				"code": "1",
 				"label": "named"
 			}
-		]
+		],
+		"suggest" : {
+			"input": [ "test"]
+		}
 	},
 	{
 		"_class": "eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.VariableDocument",
@@ -1685,6 +1775,9 @@
 				"code": "3",
 				"label": "germand and another citizenship"
 			}
-		]
+		],
+		"suggest" : {
+			"input": [ "test"]
+		}
 	}
 ]

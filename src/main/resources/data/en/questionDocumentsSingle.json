@@ -33,5 +33,8 @@
       "scaleLevel": "ordinal",
       "datatype": "numeric"
     }
-  ]
+  ],
+  "suggest" : {
+		"input": [ "test"]
+	}
 }

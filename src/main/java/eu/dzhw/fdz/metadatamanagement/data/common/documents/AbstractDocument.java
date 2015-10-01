@@ -11,6 +11,7 @@ import org.hibernate.validator.constraints.NotBlank;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.elasticsearch.annotations.Document;
 import org.springframework.data.elasticsearch.annotations.Setting;
+import org.springframework.data.elasticsearch.core.completion.Completion;
 
 import com.google.common.base.MoreObjects;
 
@@ -49,21 +50,23 @@ public abstract class AbstractDocument {
   @NotBlank(groups = {Create.class, Edit.class})
   @Pattern(regexp = "^[0-9a-zA-Z_-]*", groups = {Create.class, Edit.class})
   private String id;
-  
+
   /**
    * This map values are highlighted elements by elastic search. This maps will be set by the
    * Resultmapper ({@link AggregationAndHighlightingResultMapper}.
    */
   private Map<String, String> highlightedFields;
-  
-   
+
+  private Completion suggest;
+
   /**
    * Basic Constructor.
    */
   public AbstractDocument() {
     this.highlightedFields = new HashMap<>();
+    this.suggest = new Completion(new String[] {});
   }
-  
+
   /**
    * @param absolutePath The absolute path of a document field
    * @return if there is a highlight variant of the value of a document field.
@@ -82,13 +85,12 @@ public abstract class AbstractDocument {
   public String toString() {
     return MoreObjects.toStringHelper(this).add("id", Arrays.deepToString(new Object[] {id}))
         .toString();
-  }
+  }/*
+    * (non-Javadoc)
+    * 
+    * @see java.lang.Object#hashCode()
+    */
 
-  /*
-   * (non-Javadoc)
-   * 
-   * @see java.lang.Object#hashCode()
-   */
   @Override
   public int hashCode() {
     return Arrays.deepHashCode(new Object[] {id});
@@ -116,12 +118,20 @@ public abstract class AbstractDocument {
   public void setId(String id) {
     this.id = id;
   }
-  
+
   public Map<String, String> getHighlightedFields() {
     return highlightedFields;
   }
 
   public void setHighlightedFields(Map<String, String> highlightedFields) {
     this.highlightedFields = highlightedFields;
+  }
+
+  public Completion getSuggest() {
+    return this.suggest;
+  }
+
+  public void setSuggest(Completion suggest) {
+    this.suggest = suggest;
   }
 }

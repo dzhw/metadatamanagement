@@ -1,5 +1,7 @@
 package eu.dzhw.fdz.metadatamanagement.data.variablemanagement.repositories;
 
+import java.util.List;
+
 import org.elasticsearch.common.unit.Fuzziness;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -35,6 +37,14 @@ public interface VariableDocumentRepositoryCustom {
    * @param pageable The page size and number and sort.
    * @return A page holding the first variable documents
    */
-  PageWithBuckets<VariableDocument> search(
-      AbstractSearchFilter abstractSearchFilter, Pageable pageable);
+  PageWithBuckets<VariableDocument> search(AbstractSearchFilter abstractSearchFilter,
+      Pageable pageable);
+
+  /**
+   * Suggest search terms for the given (partial) query string.
+   * 
+   * @param query the (partial) query string as given by the user
+   * @return A list of suggested terms
+   */
+  List<String> suggest(String query);
 }

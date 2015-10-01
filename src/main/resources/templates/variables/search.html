@@ -24,7 +24,7 @@
 										<label class="sr-only" for="query"
 											th:text="#{variables.search.searchinput.placeholder}">Search
 											for Variables</label> <input type="text"
-											class="form-control pjax-input" id="query"
+											class="form-control pjax-input" id="query" th:attr="data-suggest-url=${resource.suggestLink.href}"
 											th:field="*{query}"
 											th:placeholder="#{variables.search.searchinput.placeholder}" />
 										<span class="input-group-btn">
