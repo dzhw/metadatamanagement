@@ -1,5 +1,6 @@
 package eu.dzhw.fdz.metadatamanagement.service.variablemanagement;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -77,13 +78,33 @@ public class VariableService {
   }
 
   /**
-   * Suggest search terms for the given (partial) query string.
+   * Suggest search terms for the last word of the query string.
    * 
-   * @param query the (partial) query string as given by the user
-   * @return A list of suggested terms
+   * @param query the query string as given by the user containing multiple words
+   * @return A list of suggested terms (the first words remain constant)
    */
   public List<String> suggest(String query) {
-    return this.variableRepository.suggest(query);
+    // TODO add unit test
+    String[] words = query.split(" ");
+    // suggest terms for the last word
+    List<String> suggestedTags = this.variableRepository.suggest(words[words.length - 1]);
+    if (words.length > 1) {
+      // re-append the first words to the suggestions
+      List<String> suggestedTagsWithPrefix = new ArrayList<>(suggestedTags.size());
+      StringBuilder prefixBuilder = new StringBuilder();
+      for (int i = 0; i < words.length - 1; i++) {
+        prefixBuilder.append(words[i]);
+        prefixBuilder.append(' ');
+      }
+      String prefix = prefixBuilder.toString();
+      for (String suggestion : suggestedTags) {
+        suggestedTagsWithPrefix.add(prefix + suggestion);
+      }
+      return suggestedTagsWithPrefix;
+    } else {
+      // return the suggested terms
+      return suggestedTags;
+    }
   }
 
 }

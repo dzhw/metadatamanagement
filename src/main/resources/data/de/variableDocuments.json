@@ -43,7 +43,7 @@
 			}
 		],
 		"suggest" : {
-			"input": [ "Schicht", "Schichtzugehörigkeit" ]
+			"input": [ "Schichtzugehörigkeit", "Allbus 2014", "Schicht", "Haushalt" ]
 		}
 	},
 	{
@@ -74,7 +74,7 @@
 			}
 		],
 		"suggest" : {
-			"input": [ "Geschlecht"]
+			"input": [ "Geschlecht", "Allbus 2014"]
 		}
 	},
 	{

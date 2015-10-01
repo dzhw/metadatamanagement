@@ -80,5 +80,8 @@ $(document).ready(function() {
 			});
 		},
 		minLength: 2,
+		select: function( event, ui ) {
+			SearchForm.search(event);
+		},
 	});
 });
