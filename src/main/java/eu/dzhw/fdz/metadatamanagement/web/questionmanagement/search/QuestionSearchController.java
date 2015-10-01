@@ -106,5 +106,4 @@ public class QuestionSearchController {
       return modelAndView;
     };
   }
-
 }

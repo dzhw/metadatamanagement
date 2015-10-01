@@ -24,10 +24,11 @@ import eu.dzhw.fdz.metadatamanagement.web.welcome.WelcomeController;
 public abstract class NavigatablePageResource<T> extends ResourceSupport
     implements InternationalizedResource {
 
-  public static final String VARIABLES_SEARCH_REL = "search";
-  public static final String VARIABLES_CREATE_REL = "create";
+  public static final String SEARCH_REL = "search";
+  public static final String CREATE_REL = "create";
   public static final String HOME_REL = "home";
   public static final String DISCLOSURE_REL = "disclosure";
+  public static final String SUGGEST_REL = "suggest";
   public static final String GERMAN_REL = Locale.GERMAN.getLanguage();
   public static final String ENGLISH_REL = Locale.ENGLISH.getLanguage();
 
@@ -43,10 +44,10 @@ public abstract class NavigatablePageResource<T> extends ResourceSupport
             .withRel(DISCLOSURE_REL));
     this.add(linkTo(
         methodOn(VariableSearchController.class, LocaleContextHolder.getLocale().getLanguage())
-            .get(null, null, null, null, null)).withRel(VARIABLES_SEARCH_REL));
+            .get(null, null, null, null, null)).withRel(SEARCH_REL));
     this.add(linkTo(
         methodOn(VariableCreateController.class, LocaleContextHolder.getLocale().getLanguage())
-            .create(null, null)).withRel(VARIABLES_CREATE_REL));
+            .create(null, null)).withRel(CREATE_REL));
   }
 
   public Link getHomeLink() {
@@ -57,12 +58,16 @@ public abstract class NavigatablePageResource<T> extends ResourceSupport
     return this.getLink(DISCLOSURE_REL);
   }
 
-  public Link getVariablesSearchLink() {
-    return this.getLink(VARIABLES_SEARCH_REL);
+  public Link getSearchLink() {
+    return this.getLink(SEARCH_REL);
   }
 
-  public Link getVariablesCreateLink() {
-    return this.getLink(VARIABLES_CREATE_REL);
+  public Link getCreateLink() {
+    return this.getLink(CREATE_REL);
+  }
+  
+  public Link getSuggestLink() {
+    return this.getLink(SUGGEST_REL);
   }
 
   /*

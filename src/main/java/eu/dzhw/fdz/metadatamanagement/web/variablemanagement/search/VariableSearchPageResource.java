@@ -6,7 +6,6 @@ import java.util.Locale;
 
 import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.data.domain.Pageable;
-import org.springframework.hateoas.Link;
 import org.springframework.hateoas.PagedResources;
 import org.springframework.hateoas.mvc.ControllerLinkBuilderFactory;
 
@@ -47,7 +46,7 @@ public class VariableSearchPageResource extends NavigatablePageResource<Variable
     this.add(factory
         .linkTo(
             methodOn(pageController, LocaleContextHolder.getLocale().getLanguage()).suggest(null))
-        .withRel("suggest"));
+        .withRel(SUGGEST_REL));
   }
 
   public PagedResources<VariableResource> getPage() {
@@ -80,9 +79,4 @@ public class VariableSearchPageResource extends NavigatablePageResource<Variable
     }
     return false;
   }
-
-  public Link getSuggestLink() {
-    return this.getLink("suggest");
-  }
-
 }
