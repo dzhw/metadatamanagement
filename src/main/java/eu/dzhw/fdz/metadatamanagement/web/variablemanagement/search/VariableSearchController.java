@@ -13,7 +13,6 @@ import org.springframework.data.web.PagedResourcesAssembler;
 import org.springframework.hateoas.PagedResources;
 import org.springframework.hateoas.mvc.ControllerLinkBuilderFactory;
 import org.springframework.stereotype.Controller;
-import org.springframework.util.StringUtils;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -80,7 +79,9 @@ public class VariableSearchController
 
       // Create pageableWithBuckets (from search by service)
       ModelAndView modelAndView = new ModelAndView();
-      modelAndView.addObject("variableSearchFilter", searchFilter);
+      modelAndView.addObject("searchFilter", searchFilter);
+
+      // Search
       PageWithBuckets<VariableDocument> pageableWithBuckets =
           this.searchService.search(searchFilter, pageable);
 
@@ -93,7 +94,7 @@ public class VariableSearchController
           bucketMap.get(VariableDocument.NESTED_VARIABLE_SURVEY_TITLE_FIELD).stream().sorted()
               .collect(Collectors.toList()));
 
-      // Create Resource
+      // Create Resources and add the search resource to the model
       PagedResources<VariableResource> pagedVariableResource =
           this.pagedResourcesAssembler.toResource(pageableWithBuckets, this.resourceAssembler);
       VariableSearchPageResource resource =
@@ -101,35 +102,29 @@ public class VariableSearchController
               this.controllerLinkBuilderFactory, searchFilter, pageable);
       modelAndView.addObject("resource", resource);
 
-      // Check for X-Requested-With Header
-      // if not in the header, return the complete page
-      String viewName = "variables/search";
-      if (StringUtils.hasText(ajaxHeader)) {
-        // if it is in the headers, return only a div
-        viewName += " :: #searchResults";
-      }
-      modelAndView.setViewName(viewName);
+      // Check for ajax header.
+      modelAndView = this.checkHeader("variables/search", ajaxHeader, modelAndView);
 
-      // disable caching of the search page to prevent displaying partial responses when
-      // clicking the back button
-      httpServletResponse.addHeader("Cache-Control",
-          "no-cache, max-age=0, must-revalidate, no-store");
+      // Disable Cache
+      this.disableCacheAtBrowser(httpServletResponse);
 
       return modelAndView;
     };
   }
 
-  /**
-   * Return search suggestions for the given input.
+  /*
+   * (non-Javadoc)
    * 
-   * @param term The query term as given by the user.
-   * @return A List of suggestions.
+   * @see
+   * eu.dzhw.fdz.metadatamanagement.web.common.search.AbstractSearchController#suggest(java.lang.
+   * String)
    */
   @RequestMapping(value = "/{language:de|en}/variables/search/suggest", method = RequestMethod.GET)
   @ResponseBody
+  @Override
   public Callable<SuggestDto> suggest(String term) {
     return () -> {
-      return new SuggestDto(((VariableService)this.searchService).suggest(term));
+      return new SuggestDto(((VariableService) this.searchService).suggest(term));
     };
   }
 }

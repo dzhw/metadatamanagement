@@ -147,7 +147,7 @@ public class VariableSearchControllerTest extends AbstractTest {
 
     VariableSearchFilter variableSearchFilter =
         (VariableSearchFilter) ((ModelAndView) mvcResult.getAsyncResult()).getModelMap()
-            .get("variableSearchFilter");
+            .get("searchFilter");
 
     // Assert
     ModelAndViewAssert.assertViewName((ModelAndView) mvcResult.getAsyncResult(),
@@ -181,7 +181,7 @@ public class VariableSearchControllerTest extends AbstractTest {
     // Act
     VariableSearchFilter variableSearchFilter =
         (VariableSearchFilter) ((ModelAndView) mvcResult.getAsyncResult()).getModelMap()
-            .get("variableSearchFilter");
+            .get("searchFilter");
 
     VariableSearchPageResource resource =
         (VariableSearchPageResource) ((ModelAndView) mvcResult.getAsyncResult()).getModelMap()
@@ -226,7 +226,7 @@ public class VariableSearchControllerTest extends AbstractTest {
             .get("resource");
     VariableSearchFilter variableSearchFilter =
         (VariableSearchFilter) ((ModelAndView) mvcResult.getAsyncResult()).getModelMap()
-            .get("variableSearchFilter");
+            .get("searchFilter");
 
     // Act
 
@@ -262,7 +262,7 @@ public class VariableSearchControllerTest extends AbstractTest {
 
     VariableSearchFilter variableSearchFilter =
         (VariableSearchFilter) ((ModelAndView) mvcResult.getAsyncResult()).getModelMap()
-            .get("variableSearchFilter");
+            .get("searchFilter");
 
     // Assert
     ModelAndViewAssert.assertViewName((ModelAndView) mvcResult.getAsyncResult(),

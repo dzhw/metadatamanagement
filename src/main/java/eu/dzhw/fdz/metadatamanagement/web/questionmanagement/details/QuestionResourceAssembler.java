@@ -17,7 +17,6 @@ public class QuestionResourceAssembler
     extends ResourceAssemblerSupport<QuestionDocument, QuestionResource> {
 
   public QuestionResourceAssembler() {
-    //TODO Change to Details Controller
     super(QuestionDetailsController.class, QuestionResource.class);
   }
 

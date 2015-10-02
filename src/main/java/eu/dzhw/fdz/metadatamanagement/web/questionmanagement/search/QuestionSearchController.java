@@ -11,11 +11,11 @@ import org.springframework.data.web.PagedResourcesAssembler;
 import org.springframework.hateoas.PagedResources;
 import org.springframework.hateoas.mvc.ControllerLinkBuilderFactory;
 import org.springframework.stereotype.Controller;
-import org.springframework.util.StringUtils;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import eu.dzhw.fdz.metadatamanagement.data.common.documents.validation.groups.SearchValidationGroup.Search;
@@ -25,6 +25,7 @@ import eu.dzhw.fdz.metadatamanagement.web.common.search.AbstractSearchController
 import eu.dzhw.fdz.metadatamanagement.web.questionmanagement.details.QuestionResource;
 import eu.dzhw.fdz.metadatamanagement.web.questionmanagement.details.QuestionResourceAssembler;
 import eu.dzhw.fdz.metadatamanagement.web.questionmanagement.search.dto.QuestionSearchFilter;
+import eu.dzhw.fdz.metadatamanagement.web.variablemanagement.search.dto.SuggestDto;
 
 /**
  * Controller for searching questions.
@@ -72,7 +73,7 @@ public class QuestionSearchController
 
       // Create facedpage (from search by service)
       ModelAndView modelAndView = new ModelAndView();
-      modelAndView.addObject("questionSearchFilter", searchFilter);
+      modelAndView.addObject("searchFilter", searchFilter);
       FacetedPage<QuestionDocument> pageableDocument =
           this.searchService.search(searchFilter, pageable);
 
@@ -84,21 +85,28 @@ public class QuestionSearchController
               this.controllerLinkBuilderFactory, searchFilter, pageable);
       modelAndView.addObject("resource", resource);
 
-      // Check for X-Requested-With Header
-      // if not in the header, return the complete page
-      String viewName = "questions/search";
-      if (StringUtils.hasText(ajaxHeader)) {
-        // if it is in the headers, return only a div
-        viewName += " :: #searchResults";
-      }
-      modelAndView.setViewName(viewName);
+      //Check for ajax header.
+      modelAndView = this.checkHeader("questions/search", ajaxHeader, modelAndView);
 
-      // disable caching of the search page to prevent displaying partial responses when
-      // clicking the back button
-      httpServletResponse.addHeader("Cache-Control",
-          "no-cache, max-age=0, must-revalidate, no-store");
+      //Disable Cache
+      this.disableCacheAtBrowser(httpServletResponse);      
 
       return modelAndView;
     };
+  }
+  
+  /*
+   * (non-Javadoc)
+   * 
+   * @see
+   * eu.dzhw.fdz.metadatamanagement.web.common.search.AbstractSearchController#suggest(java.lang.
+   * String)
+   */
+  @RequestMapping(value = "/{language:de|en}/questions/search/suggest", method = RequestMethod.GET)
+  @ResponseBody
+  @Override
+  public Callable<SuggestDto> suggest(String term) {
+    //TODO implement suggest support for questions
+    return null;
   }
 }

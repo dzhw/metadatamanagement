@@ -140,7 +140,7 @@ public class QuestionSearchControllerTest extends AbstractTest {
 
     QuestionSearchFilter questionSearchFilter =
         (QuestionSearchFilter) ((ModelAndView) mvcResult.getAsyncResult()).getModelMap()
-            .get("questionSearchFilter");
+            .get("searchFilter");
 
     // Assert
     ModelAndViewAssert.assertViewName((ModelAndView) mvcResult.getAsyncResult(),
@@ -173,7 +173,7 @@ public class QuestionSearchControllerTest extends AbstractTest {
     // Act
     QuestionSearchFilter questionSearchFilter =
         (QuestionSearchFilter) ((ModelAndView) mvcResult.getAsyncResult()).getModelMap()
-            .get("questionSearchFilter");
+            .get("searchFilter");
 
     QuestionSearchResource resource =
         (QuestionSearchResource) ((ModelAndView) mvcResult.getAsyncResult()).getModelMap()
