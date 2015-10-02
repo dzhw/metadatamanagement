@@ -12,7 +12,6 @@ import org.springframework.hateoas.PagedResources;
 import org.springframework.hateoas.mvc.ControllerLinkBuilderFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.StringUtils;
-import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -22,6 +21,7 @@ import org.springframework.web.servlet.ModelAndView;
 import eu.dzhw.fdz.metadatamanagement.data.common.documents.validation.groups.SearchValidationGroup.Search;
 import eu.dzhw.fdz.metadatamanagement.data.questionmanagement.documents.QuestionDocument;
 import eu.dzhw.fdz.metadatamanagement.service.questionmanagement.QuestionService;
+import eu.dzhw.fdz.metadatamanagement.web.common.search.AbstractSearchController;
 import eu.dzhw.fdz.metadatamanagement.web.questionmanagement.details.QuestionResource;
 import eu.dzhw.fdz.metadatamanagement.web.questionmanagement.details.QuestionResourceAssembler;
 import eu.dzhw.fdz.metadatamanagement.web.questionmanagement.search.dto.QuestionSearchFilter;
@@ -33,12 +33,8 @@ import eu.dzhw.fdz.metadatamanagement.web.questionmanagement.search.dto.Question
  *
  */
 @Controller
-public class QuestionSearchController {
-
-  private QuestionService questionService;
-  private ControllerLinkBuilderFactory controllerLinkBuilderFactory;
-  private QuestionResourceAssembler questionResourceAssembler;
-  private PagedResourcesAssembler<QuestionDocument> pagedResourcesAssembler;
+public class QuestionSearchController
+    extends AbstractSearchController<QuestionDocument, QuestionResource, QuestionSearchFilter> {
 
   /**
    * Create the controller.
@@ -53,40 +49,39 @@ public class QuestionSearchController {
       ControllerLinkBuilderFactory controllerLinkBuilderFactory,
       QuestionResourceAssembler questionResourceAssembler,
       PagedResourcesAssembler<QuestionDocument> pagedResourcesAssembler) {
-    this.questionService = questionService;
-    this.controllerLinkBuilderFactory = controllerLinkBuilderFactory;
-    this.questionResourceAssembler = questionResourceAssembler;
-    this.pagedResourcesAssembler = pagedResourcesAssembler;
+    super(controllerLinkBuilderFactory, questionResourceAssembler, pagedResourcesAssembler,
+        questionService);
   }
 
-  /**
-   * Show question search page. It includes the parameter for the query..
+  /*
+   * (non-Javadoc)
    * 
-   * @param ajaxHeader An ajaxheader with comes from a partial reload of the page. (search results
-   *        returned by server)
-   * @param pageable A pageable object for the
-   * @return questionSearch.html
+   * @see
+   * eu.dzhw.fdz.metadatamanagement.web.common.search.AbstractSearchController#get(java.lang.String,
+   * eu.dzhw.fdz.metadatamanagement.web.common.dtos.AbstractSearchFilter,
+   * org.springframework.data.domain.Pageable, javax.servlet.http.HttpServletResponse)
    */
+  @Override
   @RequestMapping(value = "/{language:de|en}/questions/search", method = RequestMethod.GET)
   public Callable<ModelAndView> get(
       @RequestHeader(name = "X-Requested-With", required = false) String ajaxHeader,
-      @Validated(Search.class) QuestionSearchFilter questionSearchFilter,
-      BindingResult bindingResult, Pageable pageable, HttpServletResponse httpServletResponse) {
+      @Validated(Search.class) QuestionSearchFilter searchFilter, Pageable pageable,
+      HttpServletResponse httpServletResponse) {
 
     return () -> {
 
-      // Create pageableWithBuckets (from search by service)
+      // Create facedpage (from search by service)
       ModelAndView modelAndView = new ModelAndView();
-      modelAndView.addObject("questionSearchFilter", questionSearchFilter);
+      modelAndView.addObject("questionSearchFilter", searchFilter);
       FacetedPage<QuestionDocument> pageableDocument =
-          this.questionService.search(questionSearchFilter, pageable);
+          this.searchService.search(searchFilter, pageable);
 
       // Create Resource
-      PagedResources<QuestionResource> pagedQuestionResource = this.pagedResourcesAssembler
-          .toResource(pageableDocument, this.questionResourceAssembler);
+      PagedResources<QuestionResource> pagedQuestionResource =
+          this.pagedResourcesAssembler.toResource(pageableDocument, this.resourceAssembler);
       QuestionSearchResource resource =
           new QuestionSearchResource(pagedQuestionResource, QuestionSearchController.class,
-              this.controllerLinkBuilderFactory, questionSearchFilter, pageable);
+              this.controllerLinkBuilderFactory, searchFilter, pageable);
       modelAndView.addObject("resource", resource);
 
       // Check for X-Requested-With Header

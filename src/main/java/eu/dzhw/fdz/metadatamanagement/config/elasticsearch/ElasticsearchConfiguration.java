@@ -5,6 +5,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.elasticsearch.core.ElasticsearchTemplate;
 
+import eu.dzhw.fdz.metadatamanagement.data.questionmanagement.aggregations.QuestionDocumentAggregationResultMapper;
 import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.aggregations.VariableDocumentAggregrationResultMapper;
 import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.ScaleLevelProvider;
 
@@ -50,5 +51,17 @@ public class ElasticsearchConfiguration {
   public VariableDocumentAggregrationResultMapper variableDocumentAggregationResultMapper(
       JacksonDocumentMapper jacksonDocumentMapper, ScaleLevelProvider scaleLevelProvider) {
     return new VariableDocumentAggregrationResultMapper(jacksonDocumentMapper, scaleLevelProvider);
+  }
+
+  /**
+   * Create a custom mapper for deserialization of aggregations.
+   * 
+   * @param jacksonDocumentMapper the {@link JacksonDocumentMapper}
+   * @return a custom mapper which is capable of deserializing aggregations.
+   */
+  @Bean
+  public QuestionDocumentAggregationResultMapper questionDocumentAggregationResultMapper(
+      JacksonDocumentMapper jacksonDocumentMapper) {
+    return new QuestionDocumentAggregationResultMapper(jacksonDocumentMapper);
   }
 }

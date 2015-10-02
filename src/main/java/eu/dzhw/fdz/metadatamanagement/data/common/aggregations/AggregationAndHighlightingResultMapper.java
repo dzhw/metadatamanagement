@@ -78,9 +78,12 @@ public class AggregationAndHighlightingResultMapper extends DefaultResultMapper 
       }
     }
 
-    // extract buckets
+    // extract buckets (if supported)
     Map<DocumentField, Set<Bucket>> map = new HashMap<>();
-    extractStringTermAggregations(map, response.getAggregations());
+    if (response.getAggregations() != null) {
+      extractStringTermAggregations(map, response.getAggregations());
+    }
+    
     return new PageWithBuckets<T>(facetedPage, pageable, map);
   }
 

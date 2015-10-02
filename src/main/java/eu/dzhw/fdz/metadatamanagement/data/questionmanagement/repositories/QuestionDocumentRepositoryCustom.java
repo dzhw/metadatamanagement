@@ -1,8 +1,8 @@
 package eu.dzhw.fdz.metadatamanagement.data.questionmanagement.repositories;
 
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.elasticsearch.core.FacetedPage;
 
+import eu.dzhw.fdz.metadatamanagement.data.common.aggregations.PageWithBuckets;
 import eu.dzhw.fdz.metadatamanagement.data.questionmanagement.documents.QuestionDocument;
 import eu.dzhw.fdz.metadatamanagement.web.common.dtos.AbstractSearchFilter;
 
@@ -22,6 +22,6 @@ public interface QuestionDocumentRepositoryCustom {
    * @param pageable The page size and number and sort.
    * @return A page holding the first question documents
    */
-  FacetedPage<QuestionDocument> search(AbstractSearchFilter searchFilter, Pageable pageable);
+  PageWithBuckets<QuestionDocument> search(AbstractSearchFilter searchFilter, Pageable pageable);
 
 }

@@ -7,7 +7,9 @@ import org.springframework.data.elasticsearch.core.ElasticsearchTemplate;
 import org.springframework.data.elasticsearch.core.FacetedPage;
 import org.springframework.data.elasticsearch.core.query.SearchQuery;
 
+import eu.dzhw.fdz.metadatamanagement.data.common.aggregations.PageWithBuckets;
 import eu.dzhw.fdz.metadatamanagement.data.common.repositories.RepositoryUtils;
+import eu.dzhw.fdz.metadatamanagement.data.questionmanagement.aggregations.QuestionDocumentAggregationResultMapper;
 import eu.dzhw.fdz.metadatamanagement.data.questionmanagement.documents.QuestionDocument;
 import eu.dzhw.fdz.metadatamanagement.web.common.dtos.AbstractSearchFilter;
 
@@ -32,9 +34,17 @@ public class QuestionDocumentRepositoryImpl implements QuestionDocumentRepositor
    */
   private ElasticsearchTemplate elasticsearchTemplate;
 
+  /**
+   * This result mapper support a facedpage with buckets. The default mapper does not support the
+   * opportunity the returning of the buckets of the aggregations.
+   */
+  private QuestionDocumentAggregationResultMapper resultMapper;
+
   @Autowired
-  public QuestionDocumentRepositoryImpl(ElasticsearchTemplate elasticsearchTemplate) {
+  public QuestionDocumentRepositoryImpl(ElasticsearchTemplate elasticsearchTemplate,
+      QuestionDocumentAggregationResultMapper resultMapper) {
     this.elasticsearchTemplate = elasticsearchTemplate;
+    this.resultMapper = resultMapper;
   }
 
   /*
@@ -45,7 +55,7 @@ public class QuestionDocumentRepositoryImpl implements QuestionDocumentRepositor
    * AbstractSearchFilter, org.springframework.data.domain.Pageable)
    */
   @Override
-  public FacetedPage<QuestionDocument> search(AbstractSearchFilter searchFilter,
+  public PageWithBuckets<QuestionDocument> search(AbstractSearchFilter searchFilter,
       Pageable pageable) {
 
     // Create search query
@@ -53,10 +63,10 @@ public class QuestionDocumentRepositoryImpl implements QuestionDocumentRepositor
         RepositoryUtils.createSearchQuery(searchFilter, pageable, this.minimumShouldMatch);
 
     // No Problems with thread safe queries, because every query has an own mapper
-    FacetedPage<QuestionDocument> facetedPage =
-        this.elasticsearchTemplate.queryForPage(searchQuery, QuestionDocument.class);
+    FacetedPage<QuestionDocument> facetedPage = this.elasticsearchTemplate.queryForPage(searchQuery,
+        QuestionDocument.class, this.resultMapper);
 
     // return pageable object
-    return facetedPage;
+    return (PageWithBuckets<QuestionDocument>) facetedPage;
   }
 }

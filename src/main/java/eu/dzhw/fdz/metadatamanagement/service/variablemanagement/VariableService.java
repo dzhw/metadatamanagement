@@ -10,16 +10,17 @@ import org.springframework.stereotype.Service;
 import eu.dzhw.fdz.metadatamanagement.data.common.aggregations.PageWithBuckets;
 import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.VariableDocument;
 import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.repositories.VariableDocumentRepository;
-import eu.dzhw.fdz.metadatamanagement.web.variablemanagement.search.dto.VariableSearchFilter;
+import eu.dzhw.fdz.metadatamanagement.service.common.SearchService;
+import eu.dzhw.fdz.metadatamanagement.web.common.dtos.AbstractSearchFilter;
 
 /**
- * A service for searching variables.
+ * A service for searching variables. The Service annotation is given by the interface.
  * 
  * @author Amine Limouri
  * @author Daniel Katzberg
  */
 @Service
-public class VariableService {
+public class VariableService implements SearchService<VariableDocument> {
 
   private final VariableDocumentRepository variableRepository;
 
@@ -31,19 +32,17 @@ public class VariableService {
     this.variableRepository = variablesRepository;
   }
 
-  /**
-   * Search variables by query. If the query string does not contain text the first n variables are
-   * returned as defined in the pageable.
+  /*
+   * (non-Javadoc)
    * 
-   * @param variableSearchFormDto the data transfer object of the search. has all request parameter
-   * @param pageable a pageable object.
-   * 
-   * @return Page with buckets from the filter of the VariableDocuments and Aggregations
+   * @see eu.dzhw.fdz.metadatamanagement.service.common.SearchServiceInterface#search(eu.dzhw.fdz.
+   * metadatamanagement.web.common.dtos.AbstractSearchFilter,
+   * org.springframework.data.domain.Pageable)
    */
-  public PageWithBuckets<VariableDocument> search(VariableSearchFilter variableSearchFormDto,
+  @Override
+  public PageWithBuckets<VariableDocument> search(AbstractSearchFilter searchFilter,
       Pageable pageable) {
-    return variableRepository.search(variableSearchFormDto, pageable);
-
+    return variableRepository.search(searchFilter, pageable);
   }
 
   /**
