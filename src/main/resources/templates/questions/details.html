@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org" th:lang="${#locale.language}">
+<head th:include="common/head::head">
+</head>
+<body class="body-with-pageheader">
+	<header>
+		<div th:include="common/navbar::navbar"></div>
+		<div
+			th:include="common/pageHeader::pageHeader(title=#{question.details.title},subtitle='('+${resource.questionResource.questionDocument.id}+')')"></div>
+	</header>
+	<div class="container">
+		<div class="row">
+			<div class="col-md-12">
+				<div class="row">
+					<div class="col-md-3">
+						<div class="panel panel-primary">
+							<div class="panel-heading custom-panel-heading"
+								data-toggle="collapse" data-target="#collapsePanel">
+								<a class="panel-title panel-toggle" href="#collapsePanel"
+									data-toggle="collapse" th:text="#{question.details.options}"></a>
+							</div>
+							<div id="collapsePanel" class="panel-collapse collapse fade in">
+								<div class="panel-body">
+									<a href="#"><i class="glyphicon glyphicon-edit"></i><span>
+											Coming soon...</span></a>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="col-md-9">
+
+						<div class="panel panel-primary">
+							<div class="panel-heading custom-panel-heading"
+								data-toggle="collapse" data-target="#variableInfo">
+								<a class="panel-title panel-toggle" href="#variableInfo"
+									data-toggle="collapse" th:text="#{question.questionData}"></a>
+							</div>
+							<div id="variableInfo" class="panel-collapse collapse fade in">
+								<div class="panel-body">
+									<ul class="list-group">
+										<li class="list-group-item">
+											<div class="row">
+												<div
+													th:replace="common/textOutput::output(label=#{variables.common.variable.name},text=${resource.questionResource.questionDocument.name},column=6, columnOffset=0)"></div>
+											</div>
+										</li>
+										<li class="list-group-item">
+
+											<div class="row">
+												<div
+													th:replace="common/textOutput::output(label=#{variables.common.variable.question},text=${resource.questionResource.questionDocument.question},column=9,columnOffset=0)"></div>
+											</div>
+										</li>
+									</ul>
+								</div>
+							</div>
+						</div>
+						<div class="panel panel-primary">
+							<div class="panel-heading custom-panel-heading"
+								data-toggle="collapse" data-target="#questionVariables">
+								<a class="panel-title panel-toggle" href="#questionVariables"
+									data-toggle="collapse" th:text="#{question.variables}"></a>
+							</div>
+							<div id="questionVariables"
+								class="panel-collapse collapse fade in">
+								<div class="panel-body">
+									<div class="panel panel-default"
+										th:each="answerOption, rowStat : *{resource.questionResource.questionDocument.questionVariables}">
+										<div class="panel-heading custom-panel-heading"
+											data-toggle="collapse"
+											th:attr="data-target='#'+${rowStat.index}">
+											<a class="panel-title panel-toggle"
+												th:href="'#'+${rowStat.index}" data-toggle="collapse"
+												th:text="${resource.questionResource.questionDocument.questionVariables[__${rowStat.index}__].id}"></a>
+										</div>
+										<div th:id="${rowStat.index}"
+											class="panel-collapse collapse fade in">
+											<div class="panel-body">
+
+												<ul class="list-group">
+													<li class="list-group-item">
+														<div class="row">
+															<div
+																th:replace="common/textOutput::output(label=#{variables.common.variable.name},text=${resource.questionResource.questionDocument.questionVariables[__${rowStat.index}__].name},column=6, columnOffset=0)"></div>
+														</div>
+													</li>
+													<li class="list-group-item">
+														<div class="row">
+															<div
+																th:replace="common/textOutput::output(label=#{variables.common.variable.label},text=${resource.questionResource.questionDocument.questionVariables[__${rowStat.index}__].label},column=6, columnOffset=0)"></div>
+														</div>
+													</li>
+													<li class="list-group-item">
+
+														<div class="row">
+															<div
+																th:replace="common/textOutput::output(label=#{variables.common.variable.dataType},text=${resource.questionResource.questionDocument.questionVariables[__${rowStat.index}__].dataType},column=6,columnOffset=0)"></div>
+															<div
+																th:replace="common/textOutput::output(label=#{variables.common.variable.scaleLevel},text=${resource.questionResource.questionDocument.questionVariables[__${rowStat.index}__].scaleLevel},column=3,columnOffset=0)"></div>
+														</div>
+													</li>
+													<li class="list-group-item">
+														<div class="row">
+															<div class="col-md-3 col-md-offset-0">
+																<a
+																	th:href="${variableResources[__${rowStat.index}__].getLink('self').href}"><i
+																	class="glyphicon glyphicon-folder-open"></i>&nbsp;&nbsp;<span
+																	th:text="#{variables.common.variableData}"></span></a>
+															</div>
+														</div>
+													</li>
+												</ul>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="panel panel-primary">
+							<div class="panel-heading custom-panel-heading"
+								data-toggle="collapse" data-target="#survey">
+								<a class="panel-title panel-toggle" href="#survey"
+									data-toggle="collapse"
+									th:text="#{variables.common.variable.surveyData}"></a>
+							</div>
+							<div id="survey" class="panel-collapse collapse fade in">
+								<div class="panel-body">
+									<ul class="list-group">
+										<li class="list-group-item">
+											<div class="row">
+												<div
+													th:replace="common/textOutput::output(label=#{variables.common.variable.survey.title},text=${resource.questionResource.questionDocument.questionSurvey.title},column=9,columnOffset=0)"></div>
+											</div>
+										</li>
+										<li class="list-group-item">
+
+											<div class="row">
+												<div
+													th:replace="common/textOutput::output(label=#{question.details.survey.id},text=${resource.questionResource.questionDocument.questionSurvey.surveyId},column=9,columnOffset=0)"></div>
+											</div>
+										</li>
+										<li class="list-group-item">
+											<div class="row">
+												<div
+													th:replace="common/textOutput::output(label=#{variables.common.variable.survey.period.start},text=${@customLocalDateFormatter.format(resource.questionResource.questionDocument.questionSurvey.surveyPeriod.startDate,#locale)},column=6,columnOffset=0)"></div>
+												<div
+													th:replace="common/textOutput::output(label=#{variables.common.variable.survey.period.end},text=${@customLocalDateFormatter.format(resource.questionResource.questionDocument.questionSurvey.surveyPeriod.endDate,#locale)},column=3,columnOffset=0)"></div>
+											</div>
+										</li>
+									</ul>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div th:include="common/js_libraries::js"></div>
+</body>
+</html>
