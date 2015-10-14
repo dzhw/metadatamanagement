@@ -502,7 +502,7 @@
 			<plugin>
 				<groupId>com.spotify</groupId>
 				<artifactId>docker-maven-plugin</artifactId>
-				<version>0.3.3</version>
+				<version>0.3.5</version>
 				<configuration>
 					<imageName>${project.artifactId}:${project.version}</imageName>
 					<dockerDirectory>${project.build.directory}/docker</dockerDirectory>
