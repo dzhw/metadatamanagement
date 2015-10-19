@@ -29,7 +29,6 @@
 						</div>
 					</div>
 					<div class="col-md-9">
-
 						<div class="panel panel-primary">
 							<div class="panel-heading custom-panel-heading"
 								data-toggle="collapse" data-target="#variableInfo">
@@ -100,51 +99,46 @@
 							<div id="questionVariables"
 								class="panel-collapse collapse fade in">
 								<div class="panel-body">
-									<div class="panel panel-info"
-										th:each="answerOption, rowStat : *{resource.questionResource.questionDocument.questionVariables}">
-										<div class="panel-heading custom-panel-heading"
-											data-toggle="collapse"
-											th:attr="data-target='#'+${rowStat.index}">
-											<a class="panel-title panel-toggle"
-												th:href="'#'+${rowStat.index}" data-toggle="collapse"></a> <a
-												th:href="${variableResources[__${rowStat.index}__].getLink('self').href}"><i
-												class="glyphicon glyphicon-folder-open"></i>&nbsp;&nbsp;<span
-												th:text="${resource.questionResource.questionDocument.questionVariables[__${rowStat.index}__].id}"></span></a>
-										</div>
-										<div th:id="${rowStat.index}"
-											class="panel-collapse collapse fade in">
-											<div class="panel-body">
-
-												<ul class="list-group">
-													<li class="list-group-item">
-														<div class="row">
-															<div
-																th:replace="common/textOutput::output(label=#{variables.common.variable.name},text=${resource.questionResource.questionDocument.questionVariables[__${rowStat.index}__].name},column=6, columnOffset=0)"></div>
-														</div>
-													</li>
-													<li class="list-group-item">
-														<div class="row">
-															<div
-																th:replace="common/textOutput::output(label=#{variables.common.variable.label},text=${resource.questionResource.questionDocument.questionVariables[__${rowStat.index}__].label},column=6, columnOffset=0)"></div>
-														</div>
-													</li>
-													<li class="list-group-item">
-
-														<div class="row">
-															<div
-																th:replace="common/textOutput::output(label=#{variables.common.variable.dataType},text=${resource.questionResource.questionDocument.questionVariables[__${rowStat.index}__].dataType},column=6,columnOffset=0)"></div>
-															<div
-																th:replace="common/textOutput::output(label=#{variables.common.variable.scaleLevel},text=${resource.questionResource.questionDocument.questionVariables[__${rowStat.index}__].scaleLevel},column=3,columnOffset=0)"></div>
-														</div>
-													</li>
-												</ul>
-											</div>
-										</div>
+									<div class="table-responsive">
+										<table class="table table-hover">
+											<thead>
+												<tr>
+													<th th:text="#{variables.common.variable.name}">name</th>
+													<th th:text="#{variables.common.variable.label}">label</th>
+													<th th:text="#{variables.common.variable.dataType}">dataType</th>
+													<th th:text="#{variables.common.variable.scaleLevel}">scaleLevel</th>
+													<th th:text="#{variables.common.variable.id}">id</th>
+												</tr>
+											</thead>
+											<tbody>
+												<tr
+													th:each="questionVariable, rowStat : *{resource.questionResource.questionDocument.questionVariables}">
+													<td>
+														<div
+															th:replace="common/tableCellOutputText::cellContent(text=${resource.questionResource.questionDocument.questionVariables[__${rowStat.index}__].name})"></div>
+													</td>
+													<td>
+														<div
+															th:replace="common/tableCellOutputText::cellContent(text=${resource.questionResource.questionDocument.questionVariables[__${rowStat.index}__].label})"></div>
+													</td>
+													<td>
+														<div
+															th:replace="common/tableCellOutputText::cellContent(text=${resource.questionResource.questionDocument.questionVariables[__${rowStat.index}__].dataType})"></div>
+													</td>
+													<td
+														th:text="${resource.questionResource.questionDocument.questionVariables[__${rowStat.index}__].scaleLevel}"></td>
+													<td><a
+														th:href="${variableResources[__${rowStat.index}__].getLink('self').href}"><i
+															class="glyphicon glyphicon-folder-open"></i>&nbsp;&nbsp;<span
+															th:text="${resource.questionResource.questionDocument.questionVariables[__${rowStat.index}__].id}"></span></a>
+													</td>
+												</tr>
+											</tbody>
+										</table>
 									</div>
 								</div>
 							</div>
 						</div>
-
 					</div>
 				</div>
 			</div>
