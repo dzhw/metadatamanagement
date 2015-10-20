@@ -47,9 +47,9 @@ public class VariableDocumentAggregrationResultMapper
     // scale level filter needs a different order by sorting. this is given by scale level buckets
     if (field.equals(VariableDocument.SCALE_LEVEL_FIELD)) {
       aggregation.getBuckets().forEach(bucket -> {
-          buckets.add(
-              new ScaleLevelBucket(bucket.getKey(), bucket.getDocCount(), this.scaleLevelProvider));
-        });
+        buckets.add(
+            new ScaleLevelBucket(bucket.getKey(), bucket.getDocCount(), this.scaleLevelProvider));
+      });
       // default sorting by docCount. normal use of buckets.
     } else {
       return super.getStringTermBuckets(field, aggregation);

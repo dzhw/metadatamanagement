@@ -136,8 +136,8 @@ public class AggregationAndHighlightingResultMapper extends DefaultResultMapper 
     Set<Bucket> buckets = new HashSet<>();
 
     aggregation.getBuckets().forEach(bucket -> {
-        buckets.add(new Bucket(bucket.getKey(), bucket.getDocCount()));
-      });
+      buckets.add(new Bucket(bucket.getKey(), bucket.getDocCount()));
+    });
 
     return buckets;
   }

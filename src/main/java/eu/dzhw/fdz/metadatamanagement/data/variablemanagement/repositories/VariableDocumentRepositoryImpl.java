@@ -127,10 +127,10 @@ public class VariableDocumentRepositoryImpl implements VariableDocumentRepositor
     CompletionSuggestion suggestion = suggestResponse.getSuggest().getSuggestion("suggestions");
 
     suggestion.forEach(entry -> {
-        entry.getOptions().forEach(option -> {
-            result.add(option.getText().toString());
-          });
+      entry.getOptions().forEach(option -> {
+        result.add(option.getText().toString());
       });
+    });
 
     return result;
   }
