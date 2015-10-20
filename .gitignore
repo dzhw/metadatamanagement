@@ -12,3 +12,4 @@
 /src/main/resources/static/bower_components
 /hs_*
 /replay_*
+/elasticsearch/
