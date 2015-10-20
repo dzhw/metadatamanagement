@@ -66,9 +66,9 @@
 												<div
 													th:replace="common/errorAlerts::globalAlerts(field=surveyPeriod)"></div>
 												<div
-													th:replace="common/calendar::date(field=surveyPeriod.startDate,label=#{variables.common.variable.survey.period.start},placeholder=#{variables.common.variable.survey.period.start},readonly=false)"></div>
+													th:replace="common/searchYearPicker::year(field=surveyPeriod.startDate,label=#{variables.common.variable.survey.period.start},placeholder=#{variables.common.variable.survey.period.start},readonly=false)"></div>
 												<div
-													th:replace="common/calendar::date(field=surveyPeriod.endDate,label=#{variables.common.variable.survey.period.end},placeholder=#{variables.common.variable.survey.period.end},readonly=false)"></div>
+													th:replace="common/searchYearPicker::year(field=surveyPeriod.endDate,label=#{variables.common.variable.survey.period.end},placeholder=#{variables.common.variable.survey.period.end},readonly=false)"></div>
 
 											</li>
 										</ul>
@@ -172,6 +172,6 @@
 	</form>
 	<div th:include="common/js_libraries::js"></div>
 	<script src="/js/search.js"></script>
-	<script src="/js/variables/datepicker.js"></script>
+	<script src="/js/variables/searchYearPicker.js"></script>
 </body>
 </html>
