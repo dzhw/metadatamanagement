@@ -18,6 +18,7 @@ import eu.dzhw.fdz.metadatamanagement.data.questionmanagement.documents.Question
 import eu.dzhw.fdz.metadatamanagement.service.questionmanagement.QuestionService;
 import eu.dzhw.fdz.metadatamanagement.web.common.exceptions.DocumentNotFoundException;
 import eu.dzhw.fdz.metadatamanagement.data.questionmanagement.documents.QuestionVariable;
+
 /**
  * The controller for the question detail page.
  * 
@@ -46,8 +47,7 @@ public class QuestionDetailsController {
   public QuestionDetailsController(QuestionService questionService,
       ControllerLinkBuilderFactory controllerLinkBuilderFactory,
       QuestionResourceAssembler questionResourceAssembler,
-      QuestionVariableResourceAssembler questionVariableResourceAssembler
-  ) {
+      QuestionVariableResourceAssembler questionVariableResourceAssembler) {
     this.questionService = questionService;
     this.controllerLinkBuilderFactory = controllerLinkBuilderFactory;
     this.questionResourceAssembler = questionResourceAssembler;
@@ -59,24 +59,19 @@ public class QuestionDetailsController {
    * 
    * @return details.html
    */
- /* @RequestMapping(path = "/{questionId}", method = RequestMethod.GET)
-  @ResponseBody
-  public Callable<QuestionDetailsResource> get(@PathVariable("questionId") String questionId) {
-    return () -> {
-      QuestionDocument questionDocument = this.questionService.get(questionId);
-      if (questionDocument == null) {
-        throw new DocumentNotFoundException(questionId, LocaleContextHolder.getLocale(),
-            QuestionDocument.class);
-      } else {
-        QuestionResource questionResource =
-            this.questionResourceAssembler.toResource(questionDocument);
-        QuestionDetailsResource questionDetailsResource =
-            new QuestionDetailsResource(controllerLinkBuilderFactory, questionResource);
-        return questionDetailsResource;
-      }
-    };
-  }*/
-  
+  /*
+   * @RequestMapping(path = "/{questionId}", method = RequestMethod.GET)
+   * 
+   * @ResponseBody public Callable<QuestionDetailsResource> get(@PathVariable("questionId") String
+   * questionId) { return () -> { QuestionDocument questionDocument =
+   * this.questionService.get(questionId); if (questionDocument == null) { throw new
+   * DocumentNotFoundException(questionId, LocaleContextHolder.getLocale(), QuestionDocument.class);
+   * } else { QuestionResource questionResource =
+   * this.questionResourceAssembler.toResource(questionDocument); QuestionDetailsResource
+   * questionDetailsResource = new QuestionDetailsResource(controllerLinkBuilderFactory,
+   * questionResource); return questionDetailsResource; } }; }
+   */
+
   /**
    * return the details or throw exception.
    * 
@@ -85,16 +80,16 @@ public class QuestionDetailsController {
   @RequestMapping(path = "/{questionId}", method = RequestMethod.GET)
   public Callable<ModelAndView> get(@PathVariable("questionId") String questionId) {
     return () -> {
-      List<QuestionVariableResource> variableResources = new ArrayList<QuestionVariableResource>();
+      List<QuestionVariableResource> questionResources = new ArrayList<QuestionVariableResource>();
       QuestionDocument questionDocument = this.questionService.get(questionId);
       if (questionDocument == null) {
         throw new DocumentNotFoundException(questionId, LocaleContextHolder.getLocale(),
             QuestionDocument.class);
       } else {
-        for ( Iterator<QuestionVariable> i =  questionDocument.getQuestionVariables().iterator(); 
-            i.hasNext(); ) {
-          variableResources.add(questionVariableResourceAssembler.toResource(i.next()));
- 
+        for (Iterator<QuestionVariable> i = questionDocument.getQuestionVariables().iterator(); i
+            .hasNext();) {
+          questionResources.add(questionVariableResourceAssembler.toResource(i.next()));
+
         }
         ModelAndView modelAndView = new ModelAndView();
         QuestionResource questionResource =
@@ -102,7 +97,7 @@ public class QuestionDetailsController {
         QuestionDetailsResource questionDetailsResource =
             new QuestionDetailsResource(controllerLinkBuilderFactory, questionResource);
         modelAndView.addObject("resource", questionDetailsResource);
-        modelAndView.addObject("variableResources", variableResources);
+        modelAndView.addObject("variableResources", questionResources);
         modelAndView.setViewName("questions/details");
         return modelAndView;
       }

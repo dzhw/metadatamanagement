@@ -2,6 +2,7 @@ package eu.dzhw.fdz.metadatamanagement.web.common.exceptions;
 
 import java.util.Locale;
 
+import eu.dzhw.fdz.metadatamanagement.data.questionmanagement.documents.QuestionDocument;
 import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.VariableDocument;
 
 /**
@@ -18,6 +19,7 @@ public class ExceptionLanguageUtils {
 
   //Document Types
   public static final String DOCUMENTTYPE_VARIABLE = "documenttype.variable";
+  public static final String DOCUMENTTYPE_QUESTION = "documenttype.question";
     
   //Languages
   public static final String NAV_LANGUAGE_GERMAN = "nav.language.german";
@@ -50,6 +52,10 @@ public class ExceptionLanguageUtils {
     // English
     if (VariableDocument.class == clazz) {
       return DOCUMENTTYPE_VARIABLE;
+    }
+    
+    if (QuestionDocument.class == clazz) {
+      return DOCUMENTTYPE_QUESTION;
     }
 
     return "";
