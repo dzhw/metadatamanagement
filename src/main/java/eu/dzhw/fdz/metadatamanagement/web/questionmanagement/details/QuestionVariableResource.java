@@ -7,15 +7,19 @@ import com.google.common.base.Objects;
 import eu.dzhw.fdz.metadatamanagement.data.questionmanagement.documents.QuestionVariable;
 
 /**
- *  This {@link QuestionVariableResource} wraps a {@link QuestionVariable}.
- *  
+ * This {@link QuestionVariableResource} wraps a {@link QuestionVariable}.
+ * 
  * @author Amine limouri
  *
  */
-public class QuestionVariableResource extends ResourceSupport{
-  
+public class QuestionVariableResource extends ResourceSupport {
+
+  /**
+   * A reference to a question variable. A question variable is the reference to a variable from a
+   * question.
+   */
   private QuestionVariable questionVariable;
-  
+
   /**
    * @param questionVariable which will be wraped by this QuestionVariableResource.
    * 
@@ -30,6 +34,7 @@ public class QuestionVariableResource extends ResourceSupport{
   public QuestionVariable getQuestionVariable() {
     return questionVariable;
   }
+
   /*
    * (non-Javadoc)
    * 

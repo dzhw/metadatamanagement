@@ -18,11 +18,11 @@ import eu.dzhw.fdz.metadatamanagement.web.common.NavigatablePageResource;
  *
  */
 public class QuestionDetailsResource extends NavigatablePageResource<QuestionDetailsController> {
-  
+
   private QuestionResource questionResource;
-  
+
   /**
-   * Create the details resource for the variable details template with navigation and edit links.
+   * Create the details resource for the question details template with navigation and edit links.
    * 
    * @param controllerLinkBuilderFactory the {@link ControllerLinkBuilderFactory}
    * @param questionResource the document as resource
@@ -32,15 +32,16 @@ public class QuestionDetailsResource extends NavigatablePageResource<QuestionDet
     super();
     this.questionResource = questionResource;
     for (Locale supportedLocale : I18nConfiguration.SUPPORTED_LANGUAGES) {
-      this.add(controllerLinkBuilderFactory.linkTo(
-          methodOn(QuestionDetailsController.class, supportedLocale).get(
-              questionResource.getQuestionDocument().getId())).withRel(
-          supportedLocale.getLanguage()));
+      this.add(controllerLinkBuilderFactory
+          .linkTo(methodOn(QuestionDetailsController.class, supportedLocale)
+              .get(questionResource.getQuestionDocument().getId()))
+          .withRel(supportedLocale.getLanguage()));
     }
   }
 
   /*
    * (non-Javadoc)
+   * 
    * @see org.springframework.hateoas.ResourceSupport#hashCode()
    */
   @Override
@@ -50,6 +51,7 @@ public class QuestionDetailsResource extends NavigatablePageResource<QuestionDet
 
   /*
    * (non-Javadoc)
+   * 
    * @see org.springframework.hateoas.ResourceSupport#equals(java.lang.Object)
    */
   @Override

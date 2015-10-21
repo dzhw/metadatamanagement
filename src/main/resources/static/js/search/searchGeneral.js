@@ -20,29 +20,10 @@ SearchForm.search = _.throttle(function() {
 
 SearchForm.lastFocusedElement = '';
 
-$(document).ready(function() {
+// setup autocomplete for search box
+var autoCompleteSearchBox = function () { 
 	"use strict";
-	//if there is any input, update the search
-	$("#searchForm").on('input', ".pjax-input", SearchForm.search);
-
-	// if there is any click, update the search
-	$("#searchForm").on('click', ".pjax-filter", SearchForm.search);
 	
-	$("#searchForm").on('focus', '.pjax-filter', function() {
-		SearchForm.lastFocusedElement = this.id;
-	});
-	
-	$("#searchForm").on('focus', '.pjax-input', function() {
-		SearchForm.lastFocusedElement = this.id;
-	});
-	window.addEventListener('popstate', function(e) {
-	if (event.state) {
-		// reload if back button has been clicked
-		location.reload();
-	}
-	});
-	
-	// setup autocomplete for search box
 	$( "#query" ).autocomplete({
 		source: _.throttle(function(request,render) {
 			var suggestUrl = $( "#query" ).data("suggest-url");
@@ -56,4 +37,23 @@ $(document).ready(function() {
 			SearchForm.search();
 		},
 	});
-});
+};
+
+var searchFormChanges = function() {
+	"use strict";
+	
+	//if there is any input, update the search
+	$("#searchForm").on('input', ".pjax-input", SearchForm.search);
+
+	// if there is any click, update the search
+	$("#searchForm").on('click', ".pjax-filter", SearchForm.search);
+	
+	$("#searchForm").on('focus', '.pjax-filter', function() {
+		SearchForm.lastFocusedElement = this.id;
+	});
+	
+	$("#searchForm").on('focus', '.pjax-input', function() {
+		SearchForm.lastFocusedElement = this.id;
+	});
+	
+};

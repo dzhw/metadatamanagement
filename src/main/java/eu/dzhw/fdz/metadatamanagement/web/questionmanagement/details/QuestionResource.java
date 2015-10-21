@@ -14,6 +14,9 @@ import eu.dzhw.fdz.metadatamanagement.data.questionmanagement.documents.Question
  */
 public class QuestionResource extends ResourceSupport {
   
+  /**
+   * A reference to a question document.
+   */
   private QuestionDocument questionDocument;
   
   /**

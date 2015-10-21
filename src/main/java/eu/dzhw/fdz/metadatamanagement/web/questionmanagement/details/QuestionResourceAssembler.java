@@ -16,6 +16,9 @@ import eu.dzhw.fdz.metadatamanagement.data.questionmanagement.documents.Question
 public class QuestionResourceAssembler
     extends ResourceAssemblerSupport<QuestionDocument, QuestionResource> {
 
+  /**
+   * A constructor for the question resource assembler.
+   */
   public QuestionResourceAssembler() {
     super(QuestionDetailsController.class, QuestionResource.class);
   }
