@@ -1,7 +1,7 @@
 package eu.dzhw.fdz.metadatamanagement.web.common.dtos;
 
 /**
- * Enum which holds all Filter Types used by {@link AbstractSearchFilter}.
+ * Enum which holds all Filter Types used by {@link SearchFilter}.
  * 
  * @author René Reitmann
  */

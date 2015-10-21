@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 import eu.dzhw.fdz.metadatamanagement.data.common.documents.DocumentField;
-import eu.dzhw.fdz.metadatamanagement.web.common.dtos.AbstractSearchFilter;
+import eu.dzhw.fdz.metadatamanagement.web.common.dtos.SearchFilter;
 import eu.dzhw.fdz.metadatamanagement.web.common.dtos.AggregationType;
 import eu.dzhw.fdz.metadatamanagement.web.common.dtos.FilterType;
 
@@ -16,7 +16,7 @@ import eu.dzhw.fdz.metadatamanagement.web.common.dtos.FilterType;
  * @author Daniel Katzberg
  *
  */
-public class QuestionSearchFilter extends AbstractSearchFilter {
+public class QuestionSearchFilter implements SearchFilter {
 
   /**
    * This is the request parameter of the query. The value is the search query.

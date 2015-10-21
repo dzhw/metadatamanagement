@@ -17,7 +17,7 @@ import org.springframework.web.servlet.ModelAndView;
 import eu.dzhw.fdz.metadatamanagement.data.common.documents.AbstractDocument;
 import eu.dzhw.fdz.metadatamanagement.data.common.documents.validation.groups.SearchValidationGroup.Search;
 import eu.dzhw.fdz.metadatamanagement.service.common.SearchService;
-import eu.dzhw.fdz.metadatamanagement.web.common.dtos.AbstractSearchFilter;
+import eu.dzhw.fdz.metadatamanagement.web.common.dtos.SearchFilter;
 import eu.dzhw.fdz.metadatamanagement.web.variablemanagement.search.dto.SuggestDto;
 
 /**
@@ -32,7 +32,7 @@ import eu.dzhw.fdz.metadatamanagement.web.variablemanagement.search.dto.SuggestD
  *
  */
 public abstract class AbstractSearchController<D extends AbstractDocument, 
-    R extends ResourceSupport, F extends AbstractSearchFilter> {
+    R extends ResourceSupport, F extends SearchFilter> {
 
   protected ControllerLinkBuilderFactory controllerLinkBuilderFactory;
   protected ResourceAssemblerSupport<D, R> resourceAssembler;

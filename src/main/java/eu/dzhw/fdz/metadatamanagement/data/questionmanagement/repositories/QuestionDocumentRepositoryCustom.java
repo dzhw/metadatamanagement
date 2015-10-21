@@ -4,7 +4,7 @@ import org.springframework.data.domain.Pageable;
 
 import eu.dzhw.fdz.metadatamanagement.data.common.aggregations.PageWithBuckets;
 import eu.dzhw.fdz.metadatamanagement.data.questionmanagement.documents.QuestionDocument;
-import eu.dzhw.fdz.metadatamanagement.web.common.dtos.AbstractSearchFilter;
+import eu.dzhw.fdz.metadatamanagement.web.common.dtos.SearchFilter;
 
 /**
  * This is the interface for custom methods of the repository for the question documents.
@@ -22,6 +22,6 @@ public interface QuestionDocumentRepositoryCustom {
    * @param pageable The page size and number and sort.
    * @return A page holding the first question documents
    */
-  PageWithBuckets<QuestionDocument> search(AbstractSearchFilter searchFilter, Pageable pageable);
+  PageWithBuckets<QuestionDocument> search(SearchFilter searchFilter, Pageable pageable);
 
 }

@@ -27,7 +27,7 @@ import org.springframework.util.StringUtils;
 
 import eu.dzhw.fdz.metadatamanagement.data.common.documents.AbstractDocument;
 import eu.dzhw.fdz.metadatamanagement.data.common.documents.DocumentField;
-import eu.dzhw.fdz.metadatamanagement.web.common.dtos.AbstractSearchFilter;
+import eu.dzhw.fdz.metadatamanagement.web.common.dtos.SearchFilter;
 import eu.dzhw.fdz.metadatamanagement.web.common.dtos.AggregationType;
 import eu.dzhw.fdz.metadatamanagement.web.common.dtos.FilterType;
 
@@ -51,7 +51,7 @@ public class RepositoryUtils {
    * @return A {@link SearchQuery} object for elastic search.
    */
   @SuppressWarnings("rawtypes")
-  public static SearchQuery createSearchQuery(AbstractSearchFilter searchFilter, Pageable pageable,
+  public static SearchQuery createSearchQuery(SearchFilter searchFilter, Pageable pageable,
       String minimumShouldMatch) {
 
     // create search query (with filter)

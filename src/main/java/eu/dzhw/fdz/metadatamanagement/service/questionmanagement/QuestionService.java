@@ -8,7 +8,7 @@ import eu.dzhw.fdz.metadatamanagement.data.common.aggregations.PageWithBuckets;
 import eu.dzhw.fdz.metadatamanagement.data.questionmanagement.documents.QuestionDocument;
 import eu.dzhw.fdz.metadatamanagement.data.questionmanagement.repositories.QuestionDocumentRepository;
 import eu.dzhw.fdz.metadatamanagement.service.common.SearchService;
-import eu.dzhw.fdz.metadatamanagement.web.common.dtos.AbstractSearchFilter;
+import eu.dzhw.fdz.metadatamanagement.web.common.dtos.SearchFilter;
 
 /**
  * A service for searching questions.
@@ -37,7 +37,7 @@ public class QuestionService implements SearchService<QuestionDocument> {
    * org.springframework.data.domain.Pageable)
    */
   @Override
-  public PageWithBuckets<QuestionDocument> search(AbstractSearchFilter searchFilter,
+  public PageWithBuckets<QuestionDocument> search(SearchFilter searchFilter,
       Pageable pageable) {
     return this.questionRepository.search(searchFilter, pageable);
   }

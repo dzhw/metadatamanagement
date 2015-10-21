@@ -17,6 +17,7 @@ import org.springframework.web.servlet.ModelAndView;
 import eu.dzhw.fdz.metadatamanagement.data.questionmanagement.documents.QuestionDocument;
 import eu.dzhw.fdz.metadatamanagement.service.questionmanagement.QuestionService;
 import eu.dzhw.fdz.metadatamanagement.web.common.exceptions.DocumentNotFoundException;
+import eu.dzhw.fdz.metadatamanagement.web.common.search.AbstractDetailsController;
 import eu.dzhw.fdz.metadatamanagement.data.questionmanagement.documents.QuestionVariable;
 
 /**
@@ -27,15 +28,17 @@ import eu.dzhw.fdz.metadatamanagement.data.questionmanagement.documents.Question
  */
 @Controller
 @RequestMapping(path = "/{language:de|en}/questions")
-public class QuestionDetailsController {
+public class QuestionDetailsController extends
+    AbstractDetailsController<QuestionDocument, QuestionService, 
+    QuestionResource, QuestionResourceAssembler> {
 
-  private QuestionService questionService;
-  private ControllerLinkBuilderFactory controllerLinkBuilderFactory;
-  private QuestionResourceAssembler questionResourceAssembler;
+  /**
+   * The question variable resource assembler handels the links to the variables from the questions.
+   */
   private QuestionVariableResourceAssembler questionVariableResourceAssembler;
 
   /**
-   * Constructor for the controller of the details page.
+   * Constructor for the controller of the question details page.
    * 
    * @param questionService the service class for sending queries to the repository.
    * @param controllerLinkBuilderFactory factory for building links.
@@ -48,57 +51,53 @@ public class QuestionDetailsController {
       ControllerLinkBuilderFactory controllerLinkBuilderFactory,
       QuestionResourceAssembler questionResourceAssembler,
       QuestionVariableResourceAssembler questionVariableResourceAssembler) {
-    this.questionService = questionService;
-    this.controllerLinkBuilderFactory = controllerLinkBuilderFactory;
-    this.questionResourceAssembler = questionResourceAssembler;
+    super(questionService, controllerLinkBuilderFactory, questionResourceAssembler);
     this.questionVariableResourceAssembler = questionVariableResourceAssembler;
   }
 
-  /**
-   * return the details or throw exception.
-   * 
-   * @return details.html
-   */
   /*
-   * @RequestMapping(path = "/{questionId}", method = RequestMethod.GET)
+   * (non-Javadoc)
    * 
-   * @ResponseBody public Callable<QuestionDetailsResource> get(@PathVariable("questionId") String
-   * questionId) { return () -> { QuestionDocument questionDocument =
-   * this.questionService.get(questionId); if (questionDocument == null) { throw new
-   * DocumentNotFoundException(questionId, LocaleContextHolder.getLocale(), QuestionDocument.class);
-   * } else { QuestionResource questionResource =
-   * this.questionResourceAssembler.toResource(questionDocument); QuestionDetailsResource
-   * questionDetailsResource = new QuestionDetailsResource(controllerLinkBuilderFactory,
-   * questionResource); return questionDetailsResource; } }; }
+   * @see eu.dzhw.fdz.metadatamanagement.web.common.search.AbstractDetailsController#get(java.lang.
+   * String)
    */
-
-  /**
-   * return the details or throw exception.
-   * 
-   * @return details.html
-   */
-  @RequestMapping(path = "/{questionId}", method = RequestMethod.GET)
-  public Callable<ModelAndView> get(@PathVariable("questionId") String questionId) {
+  @Override
+  @RequestMapping(path = "/{id}", method = RequestMethod.GET)
+  public Callable<ModelAndView> get(@PathVariable("id") String id) {
     return () -> {
-      List<QuestionVariableResource> questionResources = new ArrayList<QuestionVariableResource>();
-      QuestionDocument questionDocument = this.questionService.get(questionId);
+      // Empty list for the variable links from the questions details page.
+      List<QuestionVariableResource> questionVariableResources =
+          new ArrayList<QuestionVariableResource>();
+
+      // Search for the question document.
+      QuestionDocument questionDocument = this.service.get(id);
+
+      // check for a valid found result
       if (questionDocument == null) {
-        throw new DocumentNotFoundException(questionId, LocaleContextHolder.getLocale(),
+        throw new DocumentNotFoundException(id, LocaleContextHolder.getLocale(),
             QuestionDocument.class);
+
+        // Standard case: document was found
       } else {
+
+        // create the links from the question to the variable ids
         for (Iterator<QuestionVariable> i = questionDocument.getQuestionVariables().iterator(); i
             .hasNext();) {
-          questionResources.add(questionVariableResourceAssembler.toResource(i.next()));
-
+          questionVariableResources.add(questionVariableResourceAssembler.toResource(i.next()));
         }
-        ModelAndView modelAndView = new ModelAndView();
+        
+        //build resources of the question
         QuestionResource questionResource =
-            this.questionResourceAssembler.toResource(questionDocument);
+            this.resourceAssembler.toResource(questionDocument);
         QuestionDetailsResource questionDetailsResource =
             new QuestionDetailsResource(controllerLinkBuilderFactory, questionResource);
+        
+        //build model and view
+        ModelAndView modelAndView = new ModelAndView();
         modelAndView.addObject("resource", questionDetailsResource);
-        modelAndView.addObject("variableResources", questionResources);
+        modelAndView.addObject("questionVariableResources", questionVariableResources);
         modelAndView.setViewName("questions/details");
+        
         return modelAndView;
       }
     };

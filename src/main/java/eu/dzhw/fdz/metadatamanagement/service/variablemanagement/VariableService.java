@@ -12,7 +12,7 @@ import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.Variable
 import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.repositories.VariableDocumentRepository;
 import eu.dzhw.fdz.metadatamanagement.service.common.SearchService;
 import eu.dzhw.fdz.metadatamanagement.service.common.SuggestService;
-import eu.dzhw.fdz.metadatamanagement.web.common.dtos.AbstractSearchFilter;
+import eu.dzhw.fdz.metadatamanagement.web.common.dtos.SearchFilter;
 
 /**
  * A service for searching variables. The Service annotation is given by the interface.
@@ -42,7 +42,7 @@ public class VariableService
    * org.springframework.data.domain.Pageable)
    */
   @Override
-  public PageWithBuckets<VariableDocument> search(AbstractSearchFilter searchFilter,
+  public PageWithBuckets<VariableDocument> search(SearchFilter searchFilter,
       Pageable pageable) {
     return variableRepository.search(searchFilter, pageable);
   }

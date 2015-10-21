@@ -14,19 +14,19 @@ import org.springframework.web.servlet.ModelAndView;
 import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.VariableDocument;
 import eu.dzhw.fdz.metadatamanagement.service.variablemanagement.VariableService;
 import eu.dzhw.fdz.metadatamanagement.web.common.exceptions.DocumentNotFoundException;
+import eu.dzhw.fdz.metadatamanagement.web.common.search.AbstractDetailsController;
 
 /**
  * A Controller which returns a details page for a variable or error a page.
  * 
  * @author Amine limouri
+ * @author Daniel Katzberg
  */
 @Controller
 @RequestMapping(path = "/{language:de|en}/variables")
-public class VariableDetailsController {
-
-  private VariableService variableService;
-  private ControllerLinkBuilderFactory controllerLinkBuilderFactory;
-  private VariableResourceAssembler variableResourceAssembler;
+public class VariableDetailsController extends
+    AbstractDetailsController<VariableDocument, VariableService, 
+    VariableResource, VariableResourceAssembler> {
 
   /**
    * Create the controller.
@@ -39,30 +39,41 @@ public class VariableDetailsController {
   public VariableDetailsController(VariableService variableService,
       ControllerLinkBuilderFactory controllerLinkBuilderFactory,
       VariableResourceAssembler variableResourceAssembler) {
-    this.variableService = variableService;
-    this.controllerLinkBuilderFactory = controllerLinkBuilderFactory;
-    this.variableResourceAssembler = variableResourceAssembler;
+    super(variableService, controllerLinkBuilderFactory, variableResourceAssembler);
   }
 
-  /**
-   * return the details or throw exception.
+  /*
+   * (non-Javadoc)
    * 
-   * @return details.html
+   * @see eu.dzhw.fdz.metadatamanagement.web.common.search.AbstractDetailsController#get(java.lang.
+   * String)
    */
-  @RequestMapping(path = "/{variableId}", method = RequestMethod.GET)
-  public Callable<ModelAndView> get(@PathVariable("variableId") String variableId) {
+  @Override
+  @RequestMapping(path = "/{id}", method = RequestMethod.GET)
+  public Callable<ModelAndView> get(@PathVariable("id") String id) {
     return () -> {
-      VariableDocument variableDocument = variableService.get(variableId);
+
+      // Get VariableDocument
+      VariableDocument variableDocument = this.service.get(id);
+      
+      //check for valid result
       if (variableDocument == null) {
-        throw new DocumentNotFoundException(variableId, LocaleContextHolder.getLocale(),
+        throw new DocumentNotFoundException(id, LocaleContextHolder.getLocale(),
             VariableDocument.class);
+        
+        //standard case: document was found, prepare model and view
       } else {
-        ModelAndView modelAndView = new ModelAndView();
-        VariableResource variableResource = variableResourceAssembler.toResource(variableDocument);
+        
+        //Create Resources
+        VariableResource variableResource = this.resourceAssembler.toResource(variableDocument);
         VariableDetailsResource resource =
             new VariableDetailsResource(controllerLinkBuilderFactory, variableResource);
+        
+        //Build model and view
+        ModelAndView modelAndView = new ModelAndView();
         modelAndView.addObject("resource", resource);
         modelAndView.setViewName("variables/details");
+        
         return modelAndView;
       }
     };

@@ -12,11 +12,11 @@ import eu.dzhw.fdz.metadatamanagement.web.common.NavigatablePageResource;
 /**
  * Resource holding the links for the details page.
  * 
- * 
  * @author Amine limouri
  *
  */
 public class VariableDetailsResource extends NavigatablePageResource<VariableDetailsController> {
+  
   private VariableResource variableResource;
 
   /**

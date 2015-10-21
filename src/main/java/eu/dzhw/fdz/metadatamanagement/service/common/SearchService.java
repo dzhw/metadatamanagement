@@ -3,7 +3,7 @@ package eu.dzhw.fdz.metadatamanagement.service.common;
 import org.springframework.data.domain.Pageable;
 
 import eu.dzhw.fdz.metadatamanagement.data.common.aggregations.PageWithBuckets;
-import eu.dzhw.fdz.metadatamanagement.web.common.dtos.AbstractSearchFilter;
+import eu.dzhw.fdz.metadatamanagement.web.common.dtos.SearchFilter;
 
 /**
  * A Interface for search services.
@@ -24,6 +24,6 @@ public interface SearchService<D> extends BasicService<D> {
    * 
    * @return Page with the found document of the class D
    */
-  PageWithBuckets<D> search(AbstractSearchFilter searchFilter, Pageable pageable);
+  PageWithBuckets<D> search(SearchFilter searchFilter, Pageable pageable);
 
 }

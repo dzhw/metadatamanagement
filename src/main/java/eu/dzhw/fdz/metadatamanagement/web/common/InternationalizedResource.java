@@ -8,7 +8,14 @@ import org.springframework.hateoas.Link;
  * @author René Reitmann
  */
 public interface InternationalizedResource {
+  
+  /**
+   * @return The url of the german version of a page.
+   */
   Link getGermanLink();
 
+  /**
+   * @return The url of the english version of a page.
+   */
   Link getEnglishLink();
 }

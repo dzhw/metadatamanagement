@@ -25,7 +25,7 @@ import eu.dzhw.fdz.metadatamanagement.data.common.aggregations.PageWithBuckets;
 import eu.dzhw.fdz.metadatamanagement.data.common.repositories.RepositoryUtils;
 import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.aggregations.VariableDocumentAggregrationResultMapper;
 import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.VariableDocument;
-import eu.dzhw.fdz.metadatamanagement.web.common.dtos.AbstractSearchFilter;
+import eu.dzhw.fdz.metadatamanagement.web.common.dtos.SearchFilter;
 
 /**
  * This class implements the interface of the custom variable documents repository. This class will
@@ -71,7 +71,7 @@ public class VariableDocumentRepositoryImpl implements VariableDocumentRepositor
    * AbstractSearchFilter, org.springframework.data.domain.Pageable)
    */
   @Override
-  public PageWithBuckets<VariableDocument> search(AbstractSearchFilter searchFilter,
+  public PageWithBuckets<VariableDocument> search(SearchFilter searchFilter,
       Pageable pageable) {
 
     // Create search query

@@ -23,7 +23,7 @@ public class BucketManager {
    * @return The extended bucket map.
    */
   public static Map<DocumentField, Set<Bucket>> addEmptyBucketsIfNecessary(
-      AbstractSearchFilter variableSearchFormDto, Map<DocumentField, Set<Bucket>> bucketMap) {
+      SearchFilter variableSearchFormDto, Map<DocumentField, Set<Bucket>> bucketMap) {
     Map<DocumentField, String> filters = variableSearchFormDto.getAllFilterValues();
 
     for (Entry<DocumentField, String> filter : filters.entrySet()) {

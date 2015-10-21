@@ -12,7 +12,7 @@ import org.springframework.util.StringUtils;
 import eu.dzhw.fdz.metadatamanagement.data.common.documents.DateRange;
 import eu.dzhw.fdz.metadatamanagement.data.common.documents.DocumentField;
 import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.VariableDocument;
-import eu.dzhw.fdz.metadatamanagement.web.common.dtos.AbstractSearchFilter;
+import eu.dzhw.fdz.metadatamanagement.web.common.dtos.SearchFilter;
 import eu.dzhw.fdz.metadatamanagement.web.common.dtos.AggregationType;
 import eu.dzhw.fdz.metadatamanagement.web.common.dtos.FilterType;
 import net.karneim.pojobuilder.GeneratePojoBuilder;
@@ -25,7 +25,7 @@ import net.karneim.pojobuilder.GeneratePojoBuilder;
  */
 @GeneratePojoBuilder(
     intoPackage = "eu.dzhw.fdz.metadatamanagement.web.variablemanagement.search.dto.builders")
-public class VariableSearchFilter extends AbstractSearchFilter {
+public class VariableSearchFilter implements SearchFilter {
 
   /**
    * This is the request parameter of the query. The value is the search query.
