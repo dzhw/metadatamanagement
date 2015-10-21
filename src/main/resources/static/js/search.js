@@ -58,8 +58,6 @@ $(document).ready(function() {
 		if (event.state) {
 			// reload if back button has been clicked
 			location.reload();
-			// re-init the datepickers after reload
-			//Datepicker.initAll();
 			// reset the focus but not for query field since this keeps the focus anyway
 			if (SearchForm.lastFocusedElement !== 'query') {			
 				$('#' + YearPicker.escapeId(SearchForm.lastFocusedElement)).focus();

@@ -27,18 +27,4 @@ $(document).ready(function(){
 	    	 document.querySelector("#" + YearPicker.escapeId($(this).attr('id')) + "_alt").value = null;
 	    }
     });
-    
- // we need to clear the alt field when the user cleared the visible input
-	$(".yearPicker").change(function(){
-		if (!$(this).val()) {
-			$("#" + YearPicker.escapeId($(this).attr('id')) + "_alt").val('');
-		}
-	});	
-	
-	//the datepicker is under the input line
-	$.extend($.yearPicker,{
-		_checkOffset:function(inst,offset,isFixed){
-			return offset;
-		}
-	});
 });
