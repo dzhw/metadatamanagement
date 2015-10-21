@@ -1,17 +1,4 @@
 var SearchForm = {};
-var FillInputFields = {};
-
-//set values for date input fields
-FillInputFields.fill = function(){
-	
-	var startDateId = "#" + YearPicker.escapeId("surveyPeriod.startDate"),
-	startDateValue = YearPicker.trimm(document.querySelector(startDateId+"_alt").value),
-	endDateId = "#" + YearPicker.escapeId("surveyPeriod.endDate"),
-	endDateValue = YearPicker.trimm(document.querySelector(endDateId+"_alt").value);
-	
-	document.querySelector(startDateId).value=startDateValue;
-	document.querySelector(endDateId).value=endDateValue;
-};
 
 // search as the user types but not more then every 500 ms
 SearchForm.search = _.throttle(function() {
@@ -28,11 +15,6 @@ SearchForm.search = _.throttle(function() {
 		var newUrl = searchUrl + '?' + formData;
 		// change the browsers url
 		history.pushState({}, '', newUrl);
-
-		// reset the focus but not for query field since this keeps the focus anyway
-		if (SearchForm.lastFocusedElement !== 'query') {			
-			$('#' + YearPicker.escapeId(SearchForm.lastFocusedElement)).focus();
-		}
 	});
 }, 500);
 
@@ -53,18 +35,11 @@ $(document).ready(function() {
 	$("#searchForm").on('focus', '.pjax-input', function() {
 		SearchForm.lastFocusedElement = this.id;
 	});
-	FillInputFields.fill();
-		window.addEventListener('popstate', function(e) {
-		if (event.state) {
-			// reload if back button has been clicked
-			location.reload();
-			// re-init the datepickers after reload
-			//Datepicker.initAll();
-			// reset the focus but not for query field since this keeps the focus anyway
-			if (SearchForm.lastFocusedElement !== 'query') {			
-				$('#' + YearPicker.escapeId(SearchForm.lastFocusedElement)).focus();
-			}
-		}
+	window.addEventListener('popstate', function(e) {
+	if (event.state) {
+		// reload if back button has been clicked
+		location.reload();
+	}
 	});
 	
 	// setup autocomplete for search box
