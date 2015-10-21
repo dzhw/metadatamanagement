@@ -11,6 +11,7 @@ import eu.dzhw.fdz.metadatamanagement.data.common.aggregations.PageWithBuckets;
 import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.VariableDocument;
 import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.repositories.VariableDocumentRepository;
 import eu.dzhw.fdz.metadatamanagement.service.common.SearchService;
+import eu.dzhw.fdz.metadatamanagement.service.common.SuggestService;
 import eu.dzhw.fdz.metadatamanagement.web.common.dtos.AbstractSearchFilter;
 
 /**
@@ -20,7 +21,8 @@ import eu.dzhw.fdz.metadatamanagement.web.common.dtos.AbstractSearchFilter;
  * @author Daniel Katzberg
  */
 @Service
-public class VariableService implements SearchService<VariableDocument> {
+public class VariableService
+    implements SearchService<VariableDocument>, SuggestService {
 
   private final VariableDocumentRepository variableRepository;
 
@@ -45,43 +47,43 @@ public class VariableService implements SearchService<VariableDocument> {
     return variableRepository.search(searchFilter, pageable);
   }
 
-  /**
-   * Load variable by id.
+  /*
+   * (non-Javadoc)
    * 
-   * @param id the id for the document.
-   * 
-   * @return VariableDocument
+   * @see eu.dzhw.fdz.metadatamanagement.service.common.BasicService#get(java.lang.String)
    */
+  @Override
   public VariableDocument get(String id) {
     return variableRepository.findOne(id);
   }
 
-  /**
-   * Saves a variable document to the repository.
+  /*
+   * (non-Javadoc)
    * 
-   * @param variableDocument The variableDocument which should be save.
-   * @return The saved VariableDocument
-   * @see VariableDocument
+   * @see eu.dzhw.fdz.metadatamanagement.service.common.BasicService#save(java.lang.Object)
    */
+  @Override
   public VariableDocument save(VariableDocument variableDocument) {
     return this.variableRepository.save(variableDocument);
   }
 
-  /**
-   * Deletes a variable document from the repository by a given id.
+  /*
+   * (non-Javadoc)
    * 
-   * @param id The id of the variable document.
+   * @see eu.dzhw.fdz.metadatamanagement.service.common.BasicService#delete(java.lang.String)
    */
+  @Override
   public void delete(String id) {
     this.variableRepository.delete(id);
   }
 
-  /**
-   * Suggest search terms for the last word of the query string.
+  /*
+   * (non-Javadoc)
    * 
-   * @param query the query string as given by the user containing multiple words
-   * @return A list of suggested terms (the first words remain constant)
+   * @see
+   * eu.dzhw.fdz.metadatamanagement.service.common.SuggestServiceInterface#suggest(java.lang.String)
    */
+  @Override
   public List<String> suggest(String query) {
     String[] words = query.split(" ");
     // suggest terms for the last word

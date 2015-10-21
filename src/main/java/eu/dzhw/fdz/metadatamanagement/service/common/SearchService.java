@@ -13,7 +13,7 @@ import eu.dzhw.fdz.metadatamanagement.web.common.dtos.AbstractSearchFilter;
  * @author Daniel Katzberg
  *
  */
-public interface SearchService<D> {
+public interface SearchService<D> extends BasicService<D> {
 
   /**
    * Search questions by query. If the query string does not contain text the first n questions are
@@ -24,6 +24,6 @@ public interface SearchService<D> {
    * 
    * @return Page with the found document of the class D
    */
-  public abstract PageWithBuckets<D> search( // NOPMD
-      AbstractSearchFilter searchFilter, Pageable pageable); 
+  PageWithBuckets<D> search(AbstractSearchFilter searchFilter, Pageable pageable);
+
 }

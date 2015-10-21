@@ -29,14 +29,12 @@ public class QuestionService implements SearchService<QuestionDocument> {
     this.questionRepository = questionRepository;
   }
 
-  /**
-   * Search questions by query. If the query string does not contain text the first n questions are
-   * returned as defined in the pageable.
+  /*
+   * (non-Javadoc)
    * 
-   * @param searchFilter The searchfilter with all information from the query (filter, query etc)
-   * @param pageable a pageable object.
-   * 
-   * @return Page with the found QuestionDocument
+   * @see eu.dzhw.fdz.metadatamanagement.service.common.SearchService#search(eu.dzhw.fdz.
+   * metadatamanagement.web.common.dtos.AbstractSearchFilter,
+   * org.springframework.data.domain.Pageable)
    */
   @Override
   public PageWithBuckets<QuestionDocument> search(AbstractSearchFilter searchFilter,
@@ -44,33 +42,32 @@ public class QuestionService implements SearchService<QuestionDocument> {
     return this.questionRepository.search(searchFilter, pageable);
   }
 
-  /**
-   * Load question by id.
+  /*
+   * (non-Javadoc)
    * 
-   * @param id the id for the document.
-   * 
-   * @return QuestionDocument
+   * @see eu.dzhw.fdz.metadatamanagement.service.common.BasicService#get(java.lang.String)
    */
+  @Override
   public QuestionDocument get(String id) {
     return this.questionRepository.findOne(id);
   }
 
-  /**
-   * Saves a question document to the repository.
+  /*
+   * (non-Javadoc)
    * 
-   * @param questionDocument The QuestionDocument which should be save.
-   * @return The saved QuestionDocument
-   * @see QuestionDocument
+   * @see eu.dzhw.fdz.metadatamanagement.service.common.BasicService#save(java.lang.Object)
    */
+  @Override
   public QuestionDocument save(QuestionDocument questionDocument) {
     return this.questionRepository.save(questionDocument);
   }
 
-  /**
-   * Deletes a question document from the repository by a given id.
+  /*
+   * (non-Javadoc)
    * 
-   * @param id The id of the variable document.
+   * @see eu.dzhw.fdz.metadatamanagement.service.common.BasicService#delete(java.lang.String)
    */
+  @Override
   public void delete(String id) {
     this.questionRepository.delete(id);
   }
