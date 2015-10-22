@@ -1,7 +1,7 @@
 $(document).ready(function() {
 	"use strict";
-	searchFormChanges();	
-	
+	searchFormChanges();
+
 	window.addEventListener('popstate', function(e) {
 	if (event.state) {
 		// reload if back button has been clicked

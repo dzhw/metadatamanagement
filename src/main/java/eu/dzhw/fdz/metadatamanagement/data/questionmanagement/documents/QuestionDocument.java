@@ -66,23 +66,23 @@ public class QuestionDocument extends AbstractDocument {
           + DocumentField.PATH_DELIMITER + DateRange.ENDDATE_FIELD);
 
   // Nested Fields: Question Document - RelatedVariables
-  public static final DocumentField NESTED_QUESTION_VARIABLES_ID_FIELD =
+  public static final DocumentField NESTED_QUESTION_RELATED_VARIABLES_ID_FIELD =
       new DocumentField(QuestionDocument.RELATED_VARIABLES_FIELD.getAbsolutePath()
           + DocumentField.PATH_DELIMITER + RelatedVariable.ID_FIELD);
 
-  public static final DocumentField NESTED_QUESTION_VARIABLES_NAME_FIELD =
+  public static final DocumentField NESTED_QUESTION_RELATED_VARIABLES_NAME_FIELD =
       new DocumentField(QuestionDocument.RELATED_VARIABLES_FIELD.getAbsolutePath()
           + DocumentField.PATH_DELIMITER + RelatedVariable.NAME_FIELD);
 
-  public static final DocumentField NESTED_QUESTION_VARIABLES_LABEL_FIELD =
+  public static final DocumentField NESTED_QUESTION_RELATED_VARIABLES_LABEL_FIELD =
       new DocumentField(QuestionDocument.RELATED_VARIABLES_FIELD.getAbsolutePath()
           + DocumentField.PATH_DELIMITER + RelatedVariable.LABEL_FIELD);
 
-  public static final DocumentField NESTED_QUESTION_VARIABLES_SCALE_LEVEL_FIELD =
+  public static final DocumentField NESTED_QUESTION_RELATED_VARIABLES_SCALE_LEVEL_FIELD =
       new DocumentField(QuestionDocument.RELATED_VARIABLES_FIELD.getAbsolutePath()
           + DocumentField.PATH_DELIMITER + RelatedVariable.SCALE_LEVEL_FIELD);
 
-  public static final DocumentField NESTED_QUESTION_VARIABLES_DATA_TYPE_FIELD =
+  public static final DocumentField NESTED_QUESTION_RELATED_VARIABLES_DATA_TYPE_FIELD =
       new DocumentField(QuestionDocument.RELATED_VARIABLES_FIELD.getAbsolutePath()
           + DocumentField.PATH_DELIMITER + RelatedVariable.DATA_TYPE_FIELD);
 

@@ -18,6 +18,7 @@ import eu.dzhw.fdz.metadatamanagement.data.common.documents.DocumentField;
 import eu.dzhw.fdz.metadatamanagement.data.common.documents.RelatedVariable;
 import eu.dzhw.fdz.metadatamanagement.data.common.documents.validation.groups.ModifyValidationGroup.Create;
 import eu.dzhw.fdz.metadatamanagement.data.common.documents.validation.groups.ModifyValidationGroup.Edit;
+import eu.dzhw.fdz.metadatamanagement.data.questionmanagement.documents.QuestionDocument;
 import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.validation.UniqueAnswerCode;
 import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.validation.ValidDataType;
 import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.validation.ValidScaleLevel;
@@ -47,6 +48,7 @@ public class VariableDocument extends AbstractDocument {
   public static final DocumentField QUESTION_FIELD = new DocumentField("question");
   public static final DocumentField ANSWER_OPTIONS_FIELD = new DocumentField("answerOptions");
   public static final DocumentField VARIABLE_SURVEY_FIELD = new DocumentField("variableSurvey");
+  public static final DocumentField RELATED_VARIABLES_FIELD = new DocumentField("relatedVariables");
 
   // Nested: Variable Document - Variable Survey
   public static final DocumentField NESTED_VARIABLE_SURVEY_TITLE_FIELD =
@@ -82,6 +84,27 @@ public class VariableDocument extends AbstractDocument {
   public static final DocumentField NESTED_ANSWER_OPTIONS_LABEL_FIELD =
       new DocumentField(ANSWER_OPTIONS_FIELD.getAbsolutePath() + DocumentField.PATH_DELIMITER
           + AnswerOption.LABEL_FIELD);
+
+  // Nested Fields: Variable Document - RelatedVariables
+  public static final DocumentField NESTED_VARIABLE_RELATED_VARIABLES_ID_FIELD =
+      new DocumentField(QuestionDocument.RELATED_VARIABLES_FIELD.getAbsolutePath()
+          + DocumentField.PATH_DELIMITER + RelatedVariable.ID_FIELD);
+
+  public static final DocumentField NESTED_VARIABLE_RELATED_VARIABLES_NAME_FIELD =
+      new DocumentField(QuestionDocument.RELATED_VARIABLES_FIELD.getAbsolutePath()
+          + DocumentField.PATH_DELIMITER + RelatedVariable.NAME_FIELD);
+
+  public static final DocumentField NESTED_VARIABLE_RELATED_VARIABLES_LABEL_FIELD =
+      new DocumentField(QuestionDocument.RELATED_VARIABLES_FIELD.getAbsolutePath()
+          + DocumentField.PATH_DELIMITER + RelatedVariable.LABEL_FIELD);
+
+  public static final DocumentField NESTED_VARIABLE_RELATED_VARIABLES_SCALE_LEVEL_FIELD =
+      new DocumentField(QuestionDocument.RELATED_VARIABLES_FIELD.getAbsolutePath()
+          + DocumentField.PATH_DELIMITER + RelatedVariable.SCALE_LEVEL_FIELD);
+
+  public static final DocumentField NESTED_VARIABLE_RELATED_VARIABLES_DATA_TYPE_FIELD =
+      new DocumentField(QuestionDocument.RELATED_VARIABLES_FIELD.getAbsolutePath()
+          + DocumentField.PATH_DELIMITER + RelatedVariable.DATA_TYPE_FIELD);
 
   /**
    * This is a nested reference to the survey.

@@ -165,6 +165,55 @@
 								</div>
 							</div>
 						</div>
+						<div class="panel panel-primary">
+							<div class="panel-heading custom-panel-heading"
+								data-toggle="collapse" data-target="#relatedVariables">
+								<a class="panel-title panel-toggle" href="#relatedVariables"
+									data-toggle="collapse" th:text="#{question.variables}"></a>
+							</div>
+							<div id="relatedVariables"
+								class="panel-collapse collapse fade in">
+								<div class="panel-body">
+									<div class="table-responsive">
+										<table class="table table-hover">
+											<thead>
+												<tr>
+													<th th:text="#{variables.common.variable.name}">name</th>
+													<th th:text="#{variables.common.variable.label}">label</th>
+													<th th:text="#{variables.common.variable.dataType}">dataType</th>
+													<th th:text="#{variables.common.variable.scaleLevel}">scaleLevel</th>
+													<th th:text="#{variables.common.variable.id}">id</th>
+												</tr>
+											</thead>
+											<tbody>
+												<tr
+													th:each="relatedVariable, rowStat : *{resource.variableResource.variableDocument.relatedVariables}">
+													<td>
+														<div
+															th:replace="common/tableCellOutputText::cellContent(text=${resource.variableResource.variableDocument.relatedVariables[__${rowStat.index}__].name})"></div>
+													</td>
+													<td>
+														<div
+															th:replace="common/tableCellOutputText::cellContent(text=${resource.variableResource.variableDocument.relatedVariables[__${rowStat.index}__].label})"></div>
+													</td>
+													<td>
+														<div
+															th:replace="common/tableCellOutputText::cellContent(text=${resource.variableResource.variableDocument.relatedVariables[__${rowStat.index}__].dataType})"></div>
+													</td>
+													<td
+														th:text="${resource.variableResource.variableDocument.relatedVariables[__${rowStat.index}__].scaleLevel}"></td>
+													<td><a
+														th:href="${relatedVariableResources[__${rowStat.index}__].getLink('self').href}"><i
+															class="glyphicon glyphicon-folder-open"></i>&nbsp;&nbsp;<span
+															th:text="${resource.variableResource.variableDocument.relatedVariables[__${rowStat.index}__].id}"></span></a>
+													</td>
+												</tr>
+											</tbody>
+										</table>
+									</div>
+								</div>
+							</div>
+						</div>
 					</div>
 				</div>
 			</div>
