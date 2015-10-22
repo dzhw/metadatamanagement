@@ -16,6 +16,7 @@ import com.google.common.base.Objects;
 import eu.dzhw.fdz.metadatamanagement.data.common.documents.AbstractDocument;
 import eu.dzhw.fdz.metadatamanagement.data.common.documents.DateRange;
 import eu.dzhw.fdz.metadatamanagement.data.common.documents.DocumentField;
+import eu.dzhw.fdz.metadatamanagement.data.common.documents.RelatedVariable;
 import eu.dzhw.fdz.metadatamanagement.data.common.documents.validation.groups.ModifyValidationGroup.Create;
 import eu.dzhw.fdz.metadatamanagement.data.common.documents.validation.groups.ModifyValidationGroup.Edit;
 import net.karneim.pojobuilder.GeneratePojoBuilder;
@@ -39,8 +40,8 @@ public class QuestionDocument extends AbstractDocument {
   public static final DocumentField QUESTION_SURVEY_FIELD = new DocumentField("questionSurvey");
   public static final DocumentField QUESTION_FIELD = new DocumentField("question");
   public static final DocumentField NAME_FIELD = new DocumentField("name");
-  public static final DocumentField QUESTION_VARIABLES_FIELD =
-      new DocumentField("questionVariables");
+  public static final DocumentField RELATED_VARIABLES_FIELD =
+      new DocumentField("relatedVariables");
 
   // Nested Fields: Question Document - Question Survey
   public static final DocumentField NESTED_QUESTION_SURVEY_TITLE_FIELD =
@@ -64,26 +65,26 @@ public class QuestionDocument extends AbstractDocument {
       new DocumentField(NESTED_QUESTION_SURVEY_PERIOD_FIELD.getAbsolutePath()
           + DocumentField.PATH_DELIMITER + DateRange.ENDDATE_FIELD);
 
-  // Nested Fields: Question Document - QuestionVariables
+  // Nested Fields: Question Document - RelatedVariables
   public static final DocumentField NESTED_QUESTION_VARIABLES_ID_FIELD =
-      new DocumentField(QuestionDocument.QUESTION_VARIABLES_FIELD.getAbsolutePath()
-          + DocumentField.PATH_DELIMITER + QuestionVariable.ID_FIELD);
+      new DocumentField(QuestionDocument.RELATED_VARIABLES_FIELD.getAbsolutePath()
+          + DocumentField.PATH_DELIMITER + RelatedVariable.ID_FIELD);
 
   public static final DocumentField NESTED_QUESTION_VARIABLES_NAME_FIELD =
-      new DocumentField(QuestionDocument.QUESTION_VARIABLES_FIELD.getAbsolutePath()
-          + DocumentField.PATH_DELIMITER + QuestionVariable.NAME_FIELD);
+      new DocumentField(QuestionDocument.RELATED_VARIABLES_FIELD.getAbsolutePath()
+          + DocumentField.PATH_DELIMITER + RelatedVariable.NAME_FIELD);
 
   public static final DocumentField NESTED_QUESTION_VARIABLES_LABEL_FIELD =
-      new DocumentField(QuestionDocument.QUESTION_VARIABLES_FIELD.getAbsolutePath()
-          + DocumentField.PATH_DELIMITER + QuestionVariable.LABEL_FIELD);
+      new DocumentField(QuestionDocument.RELATED_VARIABLES_FIELD.getAbsolutePath()
+          + DocumentField.PATH_DELIMITER + RelatedVariable.LABEL_FIELD);
 
   public static final DocumentField NESTED_QUESTION_VARIABLES_SCALE_LEVEL_FIELD =
-      new DocumentField(QuestionDocument.QUESTION_VARIABLES_FIELD.getAbsolutePath()
-          + DocumentField.PATH_DELIMITER + QuestionVariable.SCALE_LEVEL_FIELD);
+      new DocumentField(QuestionDocument.RELATED_VARIABLES_FIELD.getAbsolutePath()
+          + DocumentField.PATH_DELIMITER + RelatedVariable.SCALE_LEVEL_FIELD);
 
   public static final DocumentField NESTED_QUESTION_VARIABLES_DATA_TYPE_FIELD =
-      new DocumentField(QuestionDocument.QUESTION_VARIABLES_FIELD.getAbsolutePath()
-          + DocumentField.PATH_DELIMITER + QuestionVariable.DATA_TYPE_FIELD);
+      new DocumentField(QuestionDocument.RELATED_VARIABLES_FIELD.getAbsolutePath()
+          + DocumentField.PATH_DELIMITER + RelatedVariable.DATA_TYPE_FIELD);
 
 
   /**
@@ -111,7 +112,7 @@ public class QuestionDocument extends AbstractDocument {
    * A list of all variables which are depending to this question.
    */
   @Valid
-  private List<QuestionVariable> questionVariables;
+  private List<RelatedVariable> relatedVariables;
 
   /**
    * Creates a question with empty survey and list of variable documents.
@@ -119,7 +120,7 @@ public class QuestionDocument extends AbstractDocument {
   public QuestionDocument() {
     super();
     this.questionSurvey = new QuestionSurvey();
-    this.questionVariables = new ArrayList<>();
+    this.relatedVariables = new ArrayList<>();
   }
 
 
@@ -130,7 +131,7 @@ public class QuestionDocument extends AbstractDocument {
    */
   @Override
   public int hashCode() {
-    return Objects.hashCode(super.hashCode(), questionSurvey, question, name, questionVariables);
+    return Objects.hashCode(super.hashCode(), questionSurvey, question, name, relatedVariables);
   }
 
   /*
@@ -148,7 +149,7 @@ public class QuestionDocument extends AbstractDocument {
       QuestionDocument that = (QuestionDocument) object;
       return Objects.equal(this.questionSurvey, that.questionSurvey)
           && Objects.equal(this.question, that.question) && Objects.equal(this.name, that.name)
-          && Objects.equal(this.questionVariables, that.questionVariables);
+          && Objects.equal(this.relatedVariables, that.relatedVariables);
     }
     return false;
   }
@@ -162,7 +163,7 @@ public class QuestionDocument extends AbstractDocument {
   public String toString() {
     return MoreObjects.toStringHelper(this).add("super", super.toString())
         .add("questionSurvey", questionSurvey).add("question", question).add("name", name)
-        .add("questionVariables", questionVariables).toString();
+        .add("relatedVariables", relatedVariables).toString();
   }
 
 
@@ -175,12 +176,12 @@ public class QuestionDocument extends AbstractDocument {
     this.questionSurvey = questionSurvey;
   }
 
-  public List<QuestionVariable> getQuestionVariables() {
-    return questionVariables;
+  public List<RelatedVariable> getRelatedVariables() {
+    return relatedVariables;
   }
 
-  public void setQuestionVariables(List<QuestionVariable> questionVariables) {
-    this.questionVariables = questionVariables;
+  public void setRelatedVariables(List<RelatedVariable> relatedVariables) {
+    this.relatedVariables = relatedVariables;
   }
 
   public String getQuestion() {

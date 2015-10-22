@@ -94,7 +94,6 @@ public abstract class AbstractTest{
     }
 
     // Assert
-    //TODO problems with w3c today (21.10.2015)
-//    assertThat(checkResult.body.response.validity, is(true));
+    assertThat(checkResult.body.response.validity, is(true));
   }
 }

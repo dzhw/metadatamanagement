@@ -14,11 +14,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
+import eu.dzhw.fdz.metadatamanagement.data.common.documents.RelatedVariable;
 import eu.dzhw.fdz.metadatamanagement.data.questionmanagement.documents.QuestionDocument;
 import eu.dzhw.fdz.metadatamanagement.service.questionmanagement.QuestionService;
 import eu.dzhw.fdz.metadatamanagement.web.common.exceptions.DocumentNotFoundException;
 import eu.dzhw.fdz.metadatamanagement.web.common.search.AbstractDetailsController;
-import eu.dzhw.fdz.metadatamanagement.data.questionmanagement.documents.QuestionVariable;
 
 /**
  * The controller for the question detail page.
@@ -35,7 +35,7 @@ public class QuestionDetailsController extends
   /**
    * The question variable resource assembler handels the links to the variables from the questions.
    */
-  private QuestionVariableResourceAssembler questionVariableResourceAssembler;
+  private RelatedVariableResourceAssembler relatedVariableResourceAssembler;
 
   /**
    * Constructor for the controller of the question details page.
@@ -43,16 +43,16 @@ public class QuestionDetailsController extends
    * @param questionService the service class for sending queries to the repository.
    * @param controllerLinkBuilderFactory factory for building links.
    * @param questionResourceAssembler the resource assembler for questions
-   * @param questionVariableResourceAssembler the resource assembler for questionVariables
+   * @param relatedVariableResourceAssembler the resource assembler for relatedVariables
    * 
    */
   @Autowired
   public QuestionDetailsController(QuestionService questionService,
       ControllerLinkBuilderFactory controllerLinkBuilderFactory,
       QuestionResourceAssembler questionResourceAssembler,
-      QuestionVariableResourceAssembler questionVariableResourceAssembler) {
+      RelatedVariableResourceAssembler relatedVariableResourceAssembler) {
     super(questionService, controllerLinkBuilderFactory, questionResourceAssembler);
-    this.questionVariableResourceAssembler = questionVariableResourceAssembler;
+    this.relatedVariableResourceAssembler = relatedVariableResourceAssembler;
   }
 
   /*
@@ -66,8 +66,8 @@ public class QuestionDetailsController extends
   public Callable<ModelAndView> get(@PathVariable("id") String id) {
     return () -> {
       // Empty list for the variable links from the questions details page.
-      List<QuestionVariableResource> questionVariableResources =
-          new ArrayList<QuestionVariableResource>();
+      List<RelatedVariableResource> relatedVariableResources =
+          new ArrayList<RelatedVariableResource>();
 
       // Search for the question document.
       QuestionDocument questionDocument = this.service.get(id);
@@ -81,9 +81,9 @@ public class QuestionDetailsController extends
       } else {
 
         // create the links from the question to the variable ids
-        for (Iterator<QuestionVariable> i = questionDocument.getQuestionVariables().iterator(); i
+        for (Iterator<RelatedVariable> i = questionDocument.getRelatedVariables().iterator(); i
             .hasNext();) {
-          questionVariableResources.add(questionVariableResourceAssembler.toResource(i.next()));
+          relatedVariableResources.add(relatedVariableResourceAssembler.toResource(i.next()));
         }
         
         //build resources of the question
@@ -95,7 +95,7 @@ public class QuestionDetailsController extends
         //build model and view
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.addObject("resource", questionDetailsResource);
-        modelAndView.addObject("questionVariableResources", questionVariableResources);
+        modelAndView.addObject("relatedVariableResources", relatedVariableResources);
         modelAndView.setViewName("questions/details");
         
         return modelAndView;

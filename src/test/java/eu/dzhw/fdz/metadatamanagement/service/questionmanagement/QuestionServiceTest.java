@@ -54,7 +54,7 @@ public class QuestionServiceTest extends AbstractTest {
     assertThat(questionDocumentGet.getQuestion(), is("question"));
     assertThat(questionDocumentGet.getQuestionSurvey().getSurveyId(), is("surveyid"));
     assertThat(questionDocumentGet.getQuestionSurvey().getTitle(), is("surveyTitle"));
-    assertThat(questionDocumentGet.getQuestionVariables().size(), is(0));
+    assertThat(questionDocumentGet.getRelatedVariables().size(), is(0));
     assertThat(questionDocumentGetAfterDelete, is(nullValue()));
   }
 

@@ -1,4 +1,4 @@
-package eu.dzhw.fdz.metadatamanagement.data.questionmanagement.documents;
+package eu.dzhw.fdz.metadatamanagement.data.common.documents;
 
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
@@ -9,7 +9,6 @@ import org.springframework.data.annotation.Id;
 import com.google.common.base.MoreObjects;
 import com.google.common.base.Objects;
 
-import eu.dzhw.fdz.metadatamanagement.data.common.documents.DocumentField;
 import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.VariableDocument;
 import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.validation.NoEditableId;
 import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.validation.ValidDataType;
@@ -23,8 +22,8 @@ import net.karneim.pojobuilder.GeneratePojoBuilder;
  *
  */
 @GeneratePojoBuilder(
-    intoPackage = "eu.dzhw.fdz.metadatamanagement.data.questionmanagement.documents.builders")
-public class QuestionVariable {
+    intoPackage = "eu.dzhw.fdz.metadatamanagement.data.common.documents.builders")
+public class RelatedVariable {
 
   // Basic Fields
   public static final DocumentField ID_FIELD = new DocumentField("id");
@@ -87,7 +86,7 @@ public class QuestionVariable {
   @Override
   public boolean equals(Object object) {
     if (object != null && getClass() == object.getClass()) {
-      QuestionVariable that = (QuestionVariable) object;
+      RelatedVariable that = (RelatedVariable) object;
       return Objects.equal(this.id, that.id) && Objects.equal(this.name, that.name)
           && Objects.equal(this.dataType, that.dataType) && Objects.equal(this.label, that.label)
           && Objects.equal(this.scaleLevel, that.scaleLevel);

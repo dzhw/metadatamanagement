@@ -92,11 +92,11 @@
 						</div>
 						<div class="panel panel-primary">
 							<div class="panel-heading custom-panel-heading"
-								data-toggle="collapse" data-target="#questionVariables">
-								<a class="panel-title panel-toggle" href="#questionVariables"
+								data-toggle="collapse" data-target="#relatedVariables">
+								<a class="panel-title panel-toggle" href="#relatedVariables"
 									data-toggle="collapse" th:text="#{question.variables}"></a>
 							</div>
-							<div id="questionVariables"
+							<div id="relatedVariables"
 								class="panel-collapse collapse fade in">
 								<div class="panel-body">
 									<div class="table-responsive">
@@ -112,25 +112,25 @@
 											</thead>
 											<tbody>
 												<tr
-													th:each="questionVariable, rowStat : *{resource.questionResource.questionDocument.questionVariables}">
+													th:each="relatedVariable, rowStat : *{resource.questionResource.questionDocument.relatedVariables}">
 													<td>
 														<div
-															th:replace="common/tableCellOutputText::cellContent(text=${resource.questionResource.questionDocument.questionVariables[__${rowStat.index}__].name})"></div>
+															th:replace="common/tableCellOutputText::cellContent(text=${resource.questionResource.questionDocument.relatedVariables[__${rowStat.index}__].name})"></div>
 													</td>
 													<td>
 														<div
-															th:replace="common/tableCellOutputText::cellContent(text=${resource.questionResource.questionDocument.questionVariables[__${rowStat.index}__].label})"></div>
+															th:replace="common/tableCellOutputText::cellContent(text=${resource.questionResource.questionDocument.relatedVariables[__${rowStat.index}__].label})"></div>
 													</td>
 													<td>
 														<div
-															th:replace="common/tableCellOutputText::cellContent(text=${resource.questionResource.questionDocument.questionVariables[__${rowStat.index}__].dataType})"></div>
+															th:replace="common/tableCellOutputText::cellContent(text=${resource.questionResource.questionDocument.relatedVariables[__${rowStat.index}__].dataType})"></div>
 													</td>
 													<td
-														th:text="${resource.questionResource.questionDocument.questionVariables[__${rowStat.index}__].scaleLevel}"></td>
+														th:text="${resource.questionResource.questionDocument.relatedVariables[__${rowStat.index}__].scaleLevel}"></td>
 													<td><a
-														th:href="${questionVariableResources[__${rowStat.index}__].getLink('self').href}"><i
+														th:href="${relatedVariableResources[__${rowStat.index}__].getLink('self').href}"><i
 															class="glyphicon glyphicon-folder-open"></i>&nbsp;&nbsp;<span
-															th:text="${resource.questionResource.questionDocument.questionVariables[__${rowStat.index}__].id}"></span></a>
+															th:text="${resource.questionResource.questionDocument.relatedVariables[__${rowStat.index}__].id}"></span></a>
 													</td>
 												</tr>
 											</tbody>

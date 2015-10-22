@@ -41,8 +41,8 @@ public class QuestionDocumentTest extends AbstractTest {
     questionDocument.setQuestion("Question");
     questionDocument2.setQuestion("Question");
     boolean checkDifferentVariableDocumentSameQuestion = questionDocument.equals(questionDocument2);
-    questionDocument.setQuestionVariables(new ArrayList<>());
-    questionDocument2.setQuestionVariables(new ArrayList<>());
+    questionDocument.setRelatedVariables(new ArrayList<>());
+    questionDocument2.setRelatedVariables(new ArrayList<>());
     boolean checkDifferentVariableDocumentSameVariableDocument = questionDocument.equals(questionDocument2);
     
     //Assert
@@ -85,7 +85,7 @@ public class QuestionDocumentTest extends AbstractTest {
     assertThat(questionDocument.toString(),
         is("QuestionDocument{super=QuestionDocument{id=[ThisIDisOkay]}, "
             + "questionSurvey=QuestionSurvey{surveyId=null, title=null, surveyPeriod=DateRange{startDate=null, "
-            + "endDate=null}}, question=Question1, name=ThisNameIsOkay, questionVariables=[]}"));
+            + "endDate=null}}, question=Question1, name=ThisNameIsOkay, relatedVariables=[]}"));
   }
 
 }

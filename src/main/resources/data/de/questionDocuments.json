@@ -12,7 +12,7 @@
   },
   "name": "Strukturietheit",
   "question": "Wie beurteilen Sie die folgenden Aspekte Ihres abgeschlossenen Studiums? ",
-  "questionVariables": [
+  "relatedVariables": [
     {
       "id": "FdZ_128",
       "label": "Strukturiertheit",
@@ -39,7 +39,7 @@
   },
   "name": "Studierbarkeit",
   "question": "Wie beurteilen Sie die folgenden Aspekte Ihres abgeschlossenen Studiums? ",
-  "questionVariables": [
+  "relatedVariables": [
     {
       "id": "FdZ_129",
       "label": "Studierbarkeit (Zeitperspektive)",
@@ -66,7 +66,7 @@
   },
   "name": "Angebotsmangel",
   "question": "Welchen Schwierigkeiten sind Sie bei Ihrer Stellensuche - unabhängig von deren Erfolg - bislang begegnet?",
-  "questionVariables": [
+  "relatedVariables": [
     {
       "id": "FdZ_331",
       "label": "Wenige Stellen f. mein Studienfach",
@@ -93,7 +93,7 @@
   },
   "name": "Keine_Probleme",
   "question": "Welchen Schwierigkeiten sind Sie bei Ihrer Stellensuche - unabhängig von deren Erfolg - bislang begegnet?",
-  "questionVariables": [
+  "relatedVariables": [
     {
       "id": "FdZ_342",
       "label": "Keine Probleme",
@@ -120,7 +120,7 @@
   },
   "name": "Ausland",
   "question": "Es gibt viele Wege, die berufliche Zukunft zu sichern oder zu verbessern. Welche der genannten Möglichkeiten glichkeiten haben Sie bereits genutzt, welche beabsichtigen Sie künftig zu nutzen?",
-  "questionVariables": [
+  "relatedVariables": [
     {
       "id": "FdZ_352",
       "label": "Auslandserfahrung",
@@ -154,7 +154,7 @@
   },
   "name": "Keine",
   "question": "Es gibt viele Wege, die berufliche Zukunft zu sichern oder zu verbessern. Welche der genannten Möglichkeiten haben Sie bereits genutzt, welche beabsichtigen Sie künftig zu nutzen?",
-  "questionVariables": [
+  "relatedVariables": [
     {
       "id": "FdZ_382",
       "label": "ich werde nichts besonderes tun",
@@ -181,7 +181,7 @@
   },
   "name": "Eigenverantwortung",
   "question": "Was spricht aus Ihrer Sicht für, was gegen die Gründung einer selbstständigen beruflichen Existenz? (Dafür)",
-  "questionVariables": [
+  "relatedVariables": [
     {
       "id": "FdZ_385",
       "label": "Möglichkeit, eigenverantwortlich arbeiten zu können",
@@ -208,7 +208,7 @@
   },
   "name": "Stress",
   "question": "Was spricht aus Ihrer Sicht für, was gegen die Gründung einer selbstständigen beruflichen Existenz? (Gegen)",
-  "questionVariables": [
+  "relatedVariables": [
     {
       "id": "FdZ_402",
       "label": "damit verbundener Stress",
@@ -235,7 +235,7 @@
   },
   "name": "Hochschulreife",
   "question": "Wie würden Sie sich hinsichtlich Ihres bisherigen Werdegangs aus heutiger Sicht verhalten?",
-  "questionVariables": [
+  "relatedVariables": [
     {
       "id": "FdZ_426",
       "label": "wieder Hochschulreife",
@@ -262,7 +262,7 @@
   },
   "name": "Studium",
   "question": "Wie würden Sie sich hinsichtlich Ihres bisherigen Werdegangs aus heutiger Sicht verhalten?",
-  "questionVariables": [
+  "relatedVariables": [
     {
       "id": "FdZ_429",
       "label": "Wieder studieren",
@@ -289,7 +289,7 @@
   },
   "name": "Gleicher_Beruf",
   "question": "Wie würden Sie sich hinsichtlich Ihres bisherigen Werdegangs aus heutiger Sicht verhalten?",
-  "questionVariables": [
+  "relatedVariables": [
     {
       "id": "FdZ_435",
       "label": "Gleichen Beruf wählen",
@@ -316,7 +316,7 @@
   },
   "name": "Zeitraum_1",
   "question": "Im folgenden bitten wir Sie um eine Beschreibung der verschiedenen beruflichen Tätigkeiten, die Sie seit Ihrem Studienabschluss ausgeübt haben.",
-  "questionVariables": [
+  "relatedVariables": [
     {
       "id": "FdZ_449",
       "label": "Tätigkeit 1 Arbeitszeit Voll-/Teilzeit",
@@ -343,7 +343,7 @@
   },
   "name": "Zeitraum_2",
   "question": "Im folgenden bitten wir Sie um eine Beschreibung der verschiedenen beruflichen Tätigkeiten, die Sie seit Ihrem Studienabschluss ausgeübt haben.",
-  "questionVariables": [
+  "relatedVariables": [
     {
       "id": "FdZ_470",
       "label": "Tätigkeit 3 Art des Arbeitsverhältnis nach Schlüssel",
@@ -384,7 +384,7 @@
   },
   "name": "Zeitraum_3",
   "question": "Im folgenden bitten wir Sie um eine Beschreibung der verschiedenen beruflichen Tätigkeiten, die Sie seit Ihrem Studienabschluss ausgeübt haben.",
-  "questionVariables": [
+  "relatedVariables": [
     {
       "id": "FdZ_503",
       "label": "Art des Arbeitsverhältnis nach Schlüssel Tätigkeit 6",
@@ -425,7 +425,7 @@
   },
   "name": "Vermittlung",
   "question": "Auf welche Weise haben Sie Ihre erste bzw. heutige Arbeitsstelle gefunden?",
-  "questionVariables": [
+  "relatedVariables": [
     {
       "id": "FdZ_521",
       "label": "Vermittlung HS- Lehrer",
@@ -459,7 +459,7 @@
   },
   "name": "Kontakte",
   "question": "Auf welche Weise haben Sie Ihre erste bzw. heutige Arbeitsstelle gefunden?",
-  "questionVariables": [
+  "relatedVariables": [
     {
       "id": "FdZ_523",
       "label": "Kontakt Messen, K-Börsen",
@@ -493,7 +493,7 @@
   },
   "name": "Innovation",
   "question": "Wie würden Sie Ihren derzeitigen (bzw. letzten) Arbeitsplatz, Ihre Arbeitsbedingungen und Ihre Arbeitsumgebung beschreiben?",
-  "questionVariables": [
+  "relatedVariables": [
     {
       "id": "FdZ_565",
       "label": "innovatives Klima",
@@ -520,7 +520,7 @@
   },
   "name": "Feste_Arbeitszeit",
   "question": "Wie würden Sie Ihren derzeitigen (bzw. letzten) Arbeitsplatz, Ihre Arbeitsbedingungen und Ihre Arbeitsumgebung beschreiben?",
-  "questionVariables": [
+  "relatedVariables": [
     {
       "id": "FdZ_579",
       "label": "Arbeitszeit festgelegt",
@@ -547,7 +547,7 @@
   },
   "name": "Feste_Arbeitszeit",
   "question": "Wie würden Sie Ihren derzeitigen (bzw. letzten) Arbeitsplatz, Ihre Arbeitsbedingungen und Ihre Arbeitsumgebung beschreiben?",
-  "questionVariables": [
+  "relatedVariables": [
     {
       "id": "FdZ_617",
       "label": "Raum für Privatleben",
@@ -574,7 +574,7 @@
   },
   "name": "Privatleben",
   "question": "Wie zufrieden sind Sie mit Ihrer derzeitigen (bzw. zuletzt ausgeübten) Beschäftigung?",
-  "questionVariables": [
+  "relatedVariables": [
     {
       "id": "FdZ_617",
       "label": "Raum für Privatleben",
@@ -601,7 +601,7 @@
   },
   "name": "Familienfreundlichkeit",
   "question": "Wie zufrieden sind Sie mit Ihrer derzeitigen (bzw. zuletzt ausgeübten) Beschäftigung?",
-  "questionVariables": [
+  "relatedVariables": [
     {
       "id": "FdZ_623",
       "label": "Familienfreundlichkeit",

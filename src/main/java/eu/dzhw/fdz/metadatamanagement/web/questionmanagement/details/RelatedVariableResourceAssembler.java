@@ -10,33 +10,33 @@ import org.springframework.hateoas.mvc.ResourceAssemblerSupport;
 import org.springframework.stereotype.Component;
 
 import eu.dzhw.fdz.metadatamanagement.config.i18n.I18nConfiguration;
-import eu.dzhw.fdz.metadatamanagement.data.questionmanagement.documents.QuestionVariable;
+import eu.dzhw.fdz.metadatamanagement.data.common.documents.RelatedVariable;
 import eu.dzhw.fdz.metadatamanagement.web.variablemanagement.details.VariableDetailsController;
 
 /**
- * Convert a {@link QuestionVariable} into a {@link QuestionVariableResource}.
+ * Convert a {@link RelatedVariable} into a {@link RelatedVariableResource}.
  * 
  * @author Amine limouri
  *
  */
 @Component
-public class QuestionVariableResourceAssembler extends
-    ResourceAssemblerSupport<QuestionVariable, QuestionVariableResource> {
+public class RelatedVariableResourceAssembler extends
+    ResourceAssemblerSupport<RelatedVariable, RelatedVariableResource> {
 
 
-  public QuestionVariableResourceAssembler() {
-    super(VariableDetailsController.class, QuestionVariableResource.class);
+  public RelatedVariableResourceAssembler() {
+    super(VariableDetailsController.class, RelatedVariableResource.class);
   }
 
   @Override
-  public QuestionVariableResource toResource(QuestionVariable questionVariable) {
-    QuestionVariableResource resource;
+  public RelatedVariableResource toResource(RelatedVariable relatedVariable) {
+    RelatedVariableResource resource;
     resource =
-        createResourceWithId(questionVariable.getId(), questionVariable, LocaleContextHolder
+        createResourceWithId(relatedVariable.getId(), relatedVariable, LocaleContextHolder
             .getLocale().getLanguage());
     for (Locale supportedLocale : I18nConfiguration.SUPPORTED_LANGUAGES) {
       resource.add(linkTo(
-          methodOn(VariableDetailsController.class, supportedLocale).get(questionVariable.getId()))
+          methodOn(VariableDetailsController.class, supportedLocale).get(relatedVariable.getId()))
           .withRel(supportedLocale.getLanguage()));
     }
     return resource;
@@ -49,7 +49,7 @@ public class QuestionVariableResourceAssembler extends
    * org.springframework.hateoas.mvc.ResourceAssemblerSupport#instantiateResource(java.lang.Object)
    */
   @Override
-  protected QuestionVariableResource instantiateResource(QuestionVariable questionVariable) {
-    return new QuestionVariableResource(questionVariable);
+  protected RelatedVariableResource instantiateResource(RelatedVariable relatedVariable) {
+    return new RelatedVariableResource(relatedVariable);
   }
 }

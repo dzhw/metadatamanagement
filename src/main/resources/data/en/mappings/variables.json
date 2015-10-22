@@ -121,6 +121,54 @@
           }
         }
       },
+      "relatedVariables": {
+        "type": "nested",
+        "properties": {
+          "id": {
+            "type": "string",
+            "index": "not_analyzed",
+            "copy_to": "allStringsAsNgrams"
+          },
+          "label": {
+            "type": "multi_field",
+            "fields": {
+              "label": {
+                "type": "string",
+                "analyzer": "english",
+                "copy_to": "allStringsAsNgrams"
+              },
+              "highlight": {
+                "type": "string",
+                "analyzer": "highlight_en"
+              }
+            }
+          },
+          "name": {
+            "type": "multi_field",
+            "fields": {
+              "name": {
+                "type": "string",
+                "index": "not_analyzed",
+                "copy_to": "allStringsAsNgrams"
+              },
+              "highlight": {
+                "type": "string",
+                "analyzer": "highlight_trigrams"
+              }
+            }
+          },
+          "scaleLevel": {
+            "type": "string",
+            "index": "not_analyzed",
+            "copy_to": "allStringsAsNgrams"
+          },
+          "dataType": {
+            "type": "string",
+            "analyzer": "english",
+            "copy_to": "allStringsAsNgrams"
+          }
+        }
+      },
       "suggest" : { 
       	"type" : "completion",
         "index_analyzer" : "simple",

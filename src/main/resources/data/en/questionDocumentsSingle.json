@@ -11,7 +11,7 @@
   },
   "name": "V850S",
   "question": "One question",
-  "questionVariables": [
+  "relatedVariables": [
     {
       "id": "FDZ_ID01",
       "label": "A variable 01",

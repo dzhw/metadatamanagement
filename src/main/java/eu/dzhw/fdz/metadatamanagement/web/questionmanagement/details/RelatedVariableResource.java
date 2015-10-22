@@ -4,35 +4,35 @@ import org.springframework.hateoas.ResourceSupport;
 
 import com.google.common.base.Objects;
 
-import eu.dzhw.fdz.metadatamanagement.data.questionmanagement.documents.QuestionVariable;
+import eu.dzhw.fdz.metadatamanagement.data.common.documents.RelatedVariable;
 
 /**
- * This {@link QuestionVariableResource} wraps a {@link QuestionVariable}.
+ * This {@link RelatedVariableResource} wraps a {@link RelatedVariable}.
  * 
  * @author Amine limouri
  *
  */
-public class QuestionVariableResource extends ResourceSupport {
+public class RelatedVariableResource extends ResourceSupport {
 
   /**
    * A reference to a question variable. A question variable is the reference to a variable from a
    * question.
    */
-  private QuestionVariable questionVariable;
+  private RelatedVariable relatedVariable;
 
   /**
-   * @param questionVariable which will be wraped by this QuestionVariableResource.
+   * @param relatedVariable which will be wraped by this RelatedVariableResource.
    * 
    */
-  public QuestionVariableResource(QuestionVariable questionVariable) {
-    this.questionVariable = questionVariable;
+  public RelatedVariableResource(RelatedVariable relatedVariable) {
+    this.relatedVariable = relatedVariable;
   }
 
   /*
-   * @return the questionVariable
+   * @return the relatedVariable
    */
-  public QuestionVariable getQuestionVariable() {
-    return questionVariable;
+  public RelatedVariable getRelatedVariable() {
+    return relatedVariable;
   }
 
   /*
@@ -42,7 +42,7 @@ public class QuestionVariableResource extends ResourceSupport {
    */
   @Override
   public int hashCode() {
-    return Objects.hashCode(super.hashCode(), questionVariable);
+    return Objects.hashCode(super.hashCode(), relatedVariable);
   }
 
   /*
@@ -56,8 +56,8 @@ public class QuestionVariableResource extends ResourceSupport {
       if (!super.equals(object)) {
         return false;
       }
-      QuestionVariableResource that = (QuestionVariableResource) object;
-      return Objects.equal(this.questionVariable, that.questionVariable);
+      RelatedVariableResource that = (RelatedVariableResource) object;
+      return Objects.equal(this.relatedVariable, that.relatedVariable);
     }
     return false;
   }

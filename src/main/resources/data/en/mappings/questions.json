@@ -42,7 +42,7 @@
           }
         }
       },
-      "questionVariables": {
+      "relatedVariables": {
         "type": "nested",
         "properties": {
           "id": {

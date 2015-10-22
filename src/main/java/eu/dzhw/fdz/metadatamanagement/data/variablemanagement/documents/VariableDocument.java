@@ -15,12 +15,14 @@ import com.google.common.base.Objects;
 import eu.dzhw.fdz.metadatamanagement.data.common.documents.AbstractDocument;
 import eu.dzhw.fdz.metadatamanagement.data.common.documents.DateRange;
 import eu.dzhw.fdz.metadatamanagement.data.common.documents.DocumentField;
+import eu.dzhw.fdz.metadatamanagement.data.common.documents.RelatedVariable;
 import eu.dzhw.fdz.metadatamanagement.data.common.documents.validation.groups.ModifyValidationGroup.Create;
 import eu.dzhw.fdz.metadatamanagement.data.common.documents.validation.groups.ModifyValidationGroup.Edit;
 import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.validation.UniqueAnswerCode;
 import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.validation.ValidDataType;
 import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.validation.ValidScaleLevel;
 import net.karneim.pojobuilder.GeneratePojoBuilder;
+import com.google.common.base.MoreObjects;
 
 /**
  * This is a representation of a variable. All fields describe the attributes of the variable, for
@@ -133,12 +135,19 @@ public class VariableDocument extends AbstractDocument {
   private List<AnswerOption> answerOptions;
 
   /**
+   * A list of all variables which are depending to this variable.
+   */
+  @Valid
+  private List<RelatedVariable> relatedVariables;
+
+  /**
    * Create a variableDocument with a empty AnswerOption.
    */
   public VariableDocument() {
     super();
     this.answerOptions = new ArrayList<>();
     this.variableSurvey = new VariableSurvey();
+    this.relatedVariables = new ArrayList<>();
   }
 
   /**
@@ -173,12 +182,17 @@ public class VariableDocument extends AbstractDocument {
     return this.answerOptions.remove(index);
   }
 
+  /*
+   * (non-Javadoc)
+   * 
+   * @see eu.dzhw.fdz.metadatamanagement.data.common.documents.AbstractDocument#toString()
+   */
   @Override
   public String toString() {
-    return "VariableDocument [variableSurvey=" + this.variableSurvey + ", id=" + ", name="
-        + this.name + ", dataType=" + this.dataType + ", label=" + this.label + ", question="
-        + this.question + ", scaleLevel=" + this.scaleLevel + ", answerOptions="
-        + this.answerOptions + "]";
+    return MoreObjects.toStringHelper(this).add("super", super.toString())
+        .add("variableSurvey", variableSurvey).add("name", name).add("dataType", dataType)
+        .add("label", label).add("question", question).add("scaleLevel", scaleLevel)
+        .add("answerOptions", answerOptions).add("relatedVariables", relatedVariables).toString();
   }
 
   /*
@@ -189,7 +203,7 @@ public class VariableDocument extends AbstractDocument {
   @Override
   public int hashCode() {
     return Objects.hashCode(super.hashCode(), variableSurvey, name, dataType, label, question,
-        scaleLevel, answerOptions);
+        scaleLevel, answerOptions, relatedVariables);
   }
 
   /*
@@ -209,7 +223,8 @@ public class VariableDocument extends AbstractDocument {
           && Objects.equal(this.name, that.name) && Objects.equal(this.dataType, that.dataType)
           && Objects.equal(this.label, that.label) && Objects.equal(this.question, that.question)
           && Objects.equal(this.scaleLevel, that.scaleLevel)
-          && Objects.equal(this.answerOptions, that.answerOptions);
+          && Objects.equal(this.answerOptions, that.answerOptions)
+          && Objects.equal(this.relatedVariables, that.relatedVariables);
     }
     return false;
   }
@@ -271,4 +286,11 @@ public class VariableDocument extends AbstractDocument {
     this.question = question;
   }
 
+  public List<RelatedVariable> getRelatedVariables() {
+    return relatedVariables;
+  }
+
+  public void setRelatedVariables(List<RelatedVariable> relatedVariables) {
+    this.relatedVariables = relatedVariables;
+  }
 }
