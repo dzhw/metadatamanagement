@@ -17,6 +17,8 @@ import org.springframework.web.servlet.ModelAndView;
 import eu.dzhw.fdz.metadatamanagement.data.common.documents.RelatedVariable;
 import eu.dzhw.fdz.metadatamanagement.data.questionmanagement.documents.QuestionDocument;
 import eu.dzhw.fdz.metadatamanagement.service.questionmanagement.QuestionService;
+import eu.dzhw.fdz.metadatamanagement.web.common.RelatedVariableResource;
+import eu.dzhw.fdz.metadatamanagement.web.common.RelatedVariableResourceAssembler;
 import eu.dzhw.fdz.metadatamanagement.web.common.exceptions.DocumentNotFoundException;
 import eu.dzhw.fdz.metadatamanagement.web.common.search.AbstractDetailsController;
 

@@ -1,4 +1,4 @@
-package eu.dzhw.fdz.metadatamanagement.web.questionmanagement.details;
+package eu.dzhw.fdz.metadatamanagement.web.common;
 
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.not;
@@ -10,6 +10,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import eu.dzhw.fdz.metadatamanagement.AbstractTest;
 import eu.dzhw.fdz.metadatamanagement.data.common.documents.RelatedVariable;
+import eu.dzhw.fdz.metadatamanagement.web.common.RelatedVariableResource;
+import eu.dzhw.fdz.metadatamanagement.web.common.RelatedVariableResourceAssembler;
 
 /**
  * 

@@ -1,4 +1,4 @@
-package eu.dzhw.fdz.metadatamanagement.web.questionmanagement.details;
+package eu.dzhw.fdz.metadatamanagement.web.common;
 
 import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
 import static org.springframework.hateoas.mvc.ControllerLinkBuilder.methodOn;
@@ -20,24 +20,28 @@ import eu.dzhw.fdz.metadatamanagement.web.variablemanagement.details.VariableDet
  *
  */
 @Component
-public class RelatedVariableResourceAssembler extends
-    ResourceAssemblerSupport<RelatedVariable, RelatedVariableResource> {
+public class RelatedVariableResourceAssembler
+    extends ResourceAssemblerSupport<RelatedVariable, RelatedVariableResource> {
 
 
   public RelatedVariableResourceAssembler() {
     super(VariableDetailsController.class, RelatedVariableResource.class);
   }
 
+  /*
+   * (non-Javadoc)
+   * 
+   * @see org.springframework.hateoas.ResourceAssembler#toResource(java.lang.Object)
+   */
   @Override
   public RelatedVariableResource toResource(RelatedVariable relatedVariable) {
     RelatedVariableResource resource;
-    resource =
-        createResourceWithId(relatedVariable.getId(), relatedVariable, LocaleContextHolder
-            .getLocale().getLanguage());
+    resource = createResourceWithId(relatedVariable.getId(), relatedVariable,
+        LocaleContextHolder.getLocale().getLanguage());
     for (Locale supportedLocale : I18nConfiguration.SUPPORTED_LANGUAGES) {
       resource.add(linkTo(
           methodOn(VariableDetailsController.class, supportedLocale).get(relatedVariable.getId()))
-          .withRel(supportedLocale.getLanguage()));
+              .withRel(supportedLocale.getLanguage()));
     }
     return resource;
   }

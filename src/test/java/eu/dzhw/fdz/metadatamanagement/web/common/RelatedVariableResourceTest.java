@@ -1,4 +1,4 @@
-package eu.dzhw.fdz.metadatamanagement.web.questionmanagement.details;
+package eu.dzhw.fdz.metadatamanagement.web.common;
 
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.not;
@@ -8,6 +8,7 @@ import static org.junit.Assert.assertThat;
 import org.junit.Test;
 
 import eu.dzhw.fdz.metadatamanagement.data.common.documents.RelatedVariable;
+import eu.dzhw.fdz.metadatamanagement.web.common.RelatedVariableResource;
 
 /**
  * 
