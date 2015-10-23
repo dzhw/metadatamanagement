@@ -46,7 +46,14 @@
 											<div class="row">
 												<div
 													th:replace="common/textOutput::output(label=#{variables.common.variable.name},text=${resource.variableResource.variableDocument.name},column=6, columnOffset=0)"></div>
+
+												<div th:if="${resource.variableResource.variableDocument.relatedVariables.size() > 0}">
+													<div 
+														th:replace="common/textOutput::output(label=#{variables.common.variable.note},text=#{variables.common.variable.generated},column=3,
+														columnOffset=0)"></div>
+												</div>
 											</div>
+
 										</li>
 										<li class="list-group-item">
 
@@ -165,7 +172,8 @@
 								</div>
 							</div>
 						</div>
-						<div class="panel panel-primary">
+						<div class="panel panel-primary"
+							th:if="*{resource.variableResource.variableDocument.relatedVariables.size() > 0}">
 							<div class="panel-heading custom-panel-heading"
 								data-toggle="collapse" data-target="#relatedVariables">
 								<a class="panel-title panel-toggle" href="#relatedVariables"
