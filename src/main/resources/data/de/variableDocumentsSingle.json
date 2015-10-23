@@ -42,6 +42,29 @@
 				"label": "Mehr als 50"
 			}
 		],
+		"relatedVariables": [
+		    {
+		      "id": "FDZ_ID01",
+		      "label": "Eine Variable 01",
+		      "name": "Ein Name 01",
+		      "scaleLevel": "nominal",
+		      "datatype": "numerisch"
+		    },
+		    {
+		      "id": "FDZ_ID02",
+		      "label": "Eine Variable 02",
+		      "name": "Ein Name 02",
+		      "scaleLevel": "metrisch",
+		      "datatype": "numerisch"
+		    },
+		    {
+		      "id": "FDZ_ID03",
+		      "label": "Eine Variable 03",
+		      "name": "Ein Name 03",
+		      "scaleLevel": "ordinal",
+		      "datatype": "numerisch"
+		    }
+	  	],
 		"suggest" : {
 			"input": [ "Arbeitsstunden"]
 		}
