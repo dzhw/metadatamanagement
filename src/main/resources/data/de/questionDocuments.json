@@ -18,7 +18,7 @@
       "label": "Strukturiertheit",
       "name": "a1sitstruk",
       "scaleLevel": "nominal",
-      "datatype": "numerisch"
+      "dataType": "numerisch"
     }
   ],
   "suggest" : {
@@ -45,7 +45,7 @@
       "label": "Studierbarkeit (Zeitperspektive)",
       "name": "a1sitzeitp",
       "scaleLevel": "nominal",
-      "datatype": "numerisch"
+      "dataType": "numerisch"
     }
   ],
   "suggest" : {
@@ -72,7 +72,7 @@
       "label": "Wenige Stellen f. mein Studienfach",
       "name": "c1swwenig",
       "scaleLevel": "nominal",
-      "datatype": "numerisch"
+      "dataType": "numerisch"
     }
   ],
   "suggest" : {
@@ -99,7 +99,7 @@
       "label": "Keine Probleme",
       "name": "c1swno",
       "scaleLevel": "nominal",
-      "datatype": "numerisch"
+      "dataType": "numerisch"
     }
   ],
   "suggest" : {
@@ -126,14 +126,14 @@
       "label": "Auslandserfahrung",
       "name": "h1gzauser",
       "scaleLevel": "nominal",
-      "datatype": "numerisch"
+      "dataType": "numerisch"
     },
     {
       "id": "FdZ_370",
       "label": "Auslandserfahrung",
       "name": "h1bzauser",
       "scaleLevel": "nominal",
-      "datatype": "numerisch"
+      "dataType": "numerisch"
     }
   ],
   "suggest" : {
@@ -160,7 +160,7 @@
       "label": "ich werde nichts besonderes tun",
       "name": "h1bznichts",
       "scaleLevel": "nominal",
-      "datatype": "numerisch"
+      "dataType": "numerisch"
     }
   ],
   "suggest" : {
@@ -187,7 +187,7 @@
       "label": "Möglichkeit, eigenverantwortlich arbeiten zu können",
       "name": "f1proseigv",
       "scaleLevel": "nominal",
-      "datatype": "numerisch"
+      "dataType": "numerisch"
     }
   ],
   "suggest" : {
@@ -214,7 +214,7 @@
       "label": "damit verbundener Stress",
       "name": "f1gegsstre",
       "scaleLevel": "nominal",
-      "datatype": "numerisch"
+      "dataType": "numerisch"
     }
   ],
   "suggest" : {
@@ -241,7 +241,7 @@
       "label": "wieder Hochschulreife",
       "name": "c1gvwieder",
       "scaleLevel": "nominal",
-      "datatype": "numerisch"
+      "dataType": "numerisch"
     }
   ],
   "suggest" : {
@@ -268,7 +268,7 @@
       "label": "Wieder studieren",
       "name": "c1gvstudi",
       "scaleLevel": "nominal",
-      "datatype": "numerisch"
+      "dataType": "numerisch"
     }
   ],
   "suggest" : {
@@ -295,7 +295,7 @@
       "label": "Gleichen Beruf wählen",
       "name": "c1gvglber",
       "scaleLevel": "nominal",
-      "datatype": "numerisch"
+      "dataType": "numerisch"
     }
   ],
   "suggest" : {
@@ -322,7 +322,7 @@
       "label": "Tätigkeit 1 Arbeitszeit Voll-/Teilzeit",
       "name": "c1job1az",
       "scaleLevel": "nominal",
-      "datatype": "numerisch"
+      "dataType": "numerisch"
     }
   ],
   "suggest" : {
@@ -349,21 +349,21 @@
       "label": "Tätigkeit 3 Art des Arbeitsverhältnis nach Schlüssel",
       "name": "c1job3arve",
       "scaleLevel": "nominal",
-      "datatype": "numerisch"
+      "dataType": "numerisch"
     },
     {
       "id": "FdZ_472",
       "label": "Arbeitszeit, frei, Std.",
       "name": "c1job3std",
       "scaleLevel": "metrisch",
-      "datatype": "numerisch"
+      "dataType": "numerisch"
     },
     {
       "id": "FdZ_473",
       "label": "Tätigkeit 3 berufliche Stellung nach Schlüssel",
       "name": "c1job3best",
       "scaleLevel": "nominal",
-      "datatype": "numerisch"
+      "dataType": "numerisch"
     }
   ],
   "suggest" : {
@@ -390,21 +390,21 @@
       "label": "Art des Arbeitsverhältnis nach Schlüssel Tätigkeit 6",
       "name": "c1job6arve",
       "scaleLevel": "nominal",
-      "datatype": "numerisch"
+      "dataType": "numerisch"
     },
     {
       "id": "FdZ_505",
       "label": "Arbeitszeit, frei, Std.",
       "name": "c1job6std",
       "scaleLevel": "metrisch",
-      "datatype": "numerisch"
+      "dataType": "numerisch"
     },
     {
       "id": "FdZ_506",
       "label": "Tätigkeit 6 berufliche Stellung nach Schlüssel",
       "name": "c1job6best",
       "scaleLevel": "nominal",
-      "datatype": "numerisch"
+      "dataType": "numerisch"
     }
   ],
   "suggest" : {
@@ -431,14 +431,14 @@
       "label": "Vermittlung HS- Lehrer",
       "name": "c1easthsleh",
       "scaleLevel": "nominal",
-      "datatype": "numerisch"
+      "dataType": "numerisch"
     },
     {
       "id": "FdZ_538",
       "label": "Vermittlung HS- Lehrer",
       "name": "c1jasthsleh",
       "scaleLevel": "nominal",
-      "datatype": "numerisch"
+      "dataType": "numerisch"
     }
   ],
   "suggest" : {
@@ -465,14 +465,14 @@
       "label": "Kontakt Messen, K-Börsen",
       "name": "c1eastkont",
       "scaleLevel": "nominal",
-      "datatype": "numerisch"
+      "dataType": "numerisch"
     },
     {
       "id": "FdZ_540",
       "label": "Kontakt Messe, K-Börsen",
       "name": "c1jastkont",
       "scaleLevel": "nominal",
-      "datatype": "numerisch"
+      "dataType": "numerisch"
     }
   ],
   "suggest" : {
@@ -499,7 +499,7 @@
       "label": "innovatives Klima",
       "name": "c1apinnova",
       "scaleLevel": "nominal",
-      "datatype": "numerisch"
+      "dataType": "numerisch"
     }
   ],
   "suggest" : {
@@ -526,7 +526,7 @@
       "label": "Arbeitszeit festgelegt",
       "name": "c1apfestge",
       "scaleLevel": "nominal",
-      "datatype": "numerisch"
+      "dataType": "numerisch"
     }
   ],
   "suggest" : {
@@ -553,7 +553,7 @@
       "label": "Raum für Privatleben",
       "name": "c1zufleb",
       "scaleLevel": "nominal",
-      "datatype": "numerisch"
+      "dataType": "numerisch"
     }
   ],
   "suggest" : {
@@ -580,7 +580,7 @@
       "label": "Raum für Privatleben",
       "name": "c1zufleb",
       "scaleLevel": "nominal",
-      "datatype": "numerisch"
+      "dataType": "numerisch"
     }
   ],
   "suggest" : {
@@ -607,7 +607,7 @@
       "label": "Familienfreundlichkeit",
       "name": "c1zuffam",
       "scaleLevel": "nominal",
-      "datatype": "numerisch"
+      "dataType": "numerisch"
     }
   ],
   "suggest" : {

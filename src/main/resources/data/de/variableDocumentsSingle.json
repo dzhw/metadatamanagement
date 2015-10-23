@@ -48,21 +48,21 @@
 		      "label": "Eine Variable 01",
 		      "name": "Ein Name 01",
 		      "scaleLevel": "nominal",
-		      "datatype": "numerisch"
+		      "dataType": "numerisch"
 		    },
 		    {
 		      "id": "FDZ_ID02",
 		      "label": "Eine Variable 02",
 		      "name": "Ein Name 02",
 		      "scaleLevel": "metrisch",
-		      "datatype": "numerisch"
+		      "dataType": "numerisch"
 		    },
 		    {
 		      "id": "FDZ_ID03",
 		      "label": "Eine Variable 03",
 		      "name": "Ein Name 03",
 		      "scaleLevel": "ordinal",
-		      "datatype": "numerisch"
+		      "dataType": "numerisch"
 		    }
 	  	],
 		"suggest" : {

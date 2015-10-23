@@ -17,21 +17,21 @@
       "label": "A variable 01",
       "name": "A name 01",
       "scaleLevel": "nominal",
-      "datatype": "numeric"
+      "dataType": "numeric"
     },
     {
       "id": "FDZ_ID02",
       "label": "A variable 02",
       "name": "A name 02",
       "scaleLevel": "metric",
-      "datatype": "numeric"
+      "dataType": "numeric"
     },
     {
       "id": "FDZ_ID03",
       "label": "A variable 03",
       "name": "A name 03",
       "scaleLevel": "ordinal",
-      "datatype": "numeric"
+      "dataType": "numeric"
     }
   ],
   "suggest" : {
