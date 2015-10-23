@@ -13,6 +13,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Locale;
 
 import org.hamcrest.Matchers;
@@ -25,6 +27,8 @@ import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.web.servlet.ModelAndView;
 
 import eu.dzhw.fdz.metadatamanagement.AbstractTest;
+import eu.dzhw.fdz.metadatamanagement.data.common.documents.RelatedVariable;
+import eu.dzhw.fdz.metadatamanagement.data.common.documents.builders.RelatedVariableBuilder;
 import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.DataTypesProvider;
 import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.ScaleLevelProvider;
 import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.VariableDocument;
@@ -159,6 +163,11 @@ public class VariableDetailsControllerTest extends AbstractTest {
       String variableLabel, String question, String title, String alias, String surveyId) {
 
     LocaleContextHolder.setLocale(locale);
+
+    List<RelatedVariable> relatedVariables = new ArrayList<>();
+    relatedVariables.add(new RelatedVariableBuilder().withId(variableId + "_RV")
+        .withName(variableName + "_RV").withLabel(variableLabel + "_RV").build());
+
     VariableSurvey variableSurvey = new VariableSurveyBuilder().withSurveyId(surveyId)
         .withTitle(title).withVariableAlias(alias).build();
 

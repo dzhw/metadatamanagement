@@ -9,8 +9,9 @@ import org.springframework.data.annotation.Id;
 import com.google.common.base.MoreObjects;
 import com.google.common.base.Objects;
 
+import eu.dzhw.fdz.metadatamanagement.data.common.documents.validation.groups.ModifyValidationGroup.Create;
+import eu.dzhw.fdz.metadatamanagement.data.common.documents.validation.groups.ModifyValidationGroup.Edit;
 import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.VariableDocument;
-import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.validation.NoEditableId;
 import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.validation.ValidDataType;
 import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.validation.ValidScaleLevel;
 import net.karneim.pojobuilder.GeneratePojoBuilder;
@@ -36,36 +37,35 @@ public class RelatedVariable {
    * A fdzID as primary key for the identification of the variable of a survey.
    */
   @Id
-  @NoEditableId
-  @Size(max = 32)
-  @NotBlank
-  @Pattern(regexp = "^[0-9a-zA-Z_-]*")
+  @Size(max = 32, groups = {Create.class, Edit.class})
+  @NotBlank(groups = {Create.class, Edit.class})
+  @Pattern(regexp = "^[0-9a-zA-Z_-]*", groups = {Create.class, Edit.class})
   private String id;
 
   /**
    * The name of the variable.
    */
-  @Size(max = 32)
-  @NotBlank
+  @Size(max = 32, groups = {Create.class, Edit.class})
+  @NotBlank(groups = {Create.class, Edit.class})
   private String name;
 
   /**
    * The data type of the variable.
    */
-  @ValidDataType
+  @ValidDataType(groups = {Create.class, Edit.class})
   private String dataType;
 
   /**
    * The label of the variable.
    */
-  @Size(max = 80)
-  @NotBlank
+  @Size(max = 80, groups = {Create.class, Edit.class})
+  @NotBlank(groups = {Create.class, Edit.class})
   private String label;
 
   /**
    * A optional scale level of the variable, if the variable is e.g. not a String.
    */
-  @ValidScaleLevel
+  @ValidScaleLevel(groups = {Create.class, Edit.class})
   private String scaleLevel;
 
   /*

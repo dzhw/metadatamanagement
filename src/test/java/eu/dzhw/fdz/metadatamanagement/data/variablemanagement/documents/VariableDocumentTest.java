@@ -28,7 +28,9 @@ import org.springframework.validation.Errors;
 import eu.dzhw.fdz.metadatamanagement.AbstractTest;
 import eu.dzhw.fdz.metadatamanagement.data.common.documents.DateRange;
 import eu.dzhw.fdz.metadatamanagement.data.common.documents.DocumentField;
+import eu.dzhw.fdz.metadatamanagement.data.common.documents.RelatedVariable;
 import eu.dzhw.fdz.metadatamanagement.data.common.documents.builders.DateRangeBuilder;
+import eu.dzhw.fdz.metadatamanagement.data.common.documents.builders.RelatedVariableBuilder;
 import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.builders.AnswerOptionBuilder;
 import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.builders.VariableDocumentBuilder;
 import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.builders.VariableSurveyBuilder;
@@ -306,6 +308,64 @@ public class VariableDocumentTest extends AbstractTest {
   }
 
   @Test
+  public void testValidRelatedVariables() {
+
+    // Arrange
+    List<RelatedVariable> relatedVariables = new ArrayList<>();
+    relatedVariables.add(new RelatedVariableBuilder().withId("VID_RV").withName("VName_RV")
+        .withLabel("VL_RV").withDataType(new DataTypesProvider().getNumericValueByLocale())
+        .withScaleLevel(new ScaleLevelProvider().getOrdinalByLocal()).build());
+
+    DateRange dateRange = new DateRangeBuilder().withStartDate(LocalDate.now())
+        .withEndDate(LocalDate.now().plusDays(2)).build();
+    VariableSurvey variableSurvey =
+        new VariableSurveyBuilder().withSurveyId("Survey_ID").withTitle("Title 1")
+            .withVariableAlias("VariableAlias 1").withSurveyPeriod(dateRange).build();
+    VariableDocument variableDocument = new VariableDocumentBuilder().withId("ThisIDisOkay")
+        .withName("ThisNameIsOkay.").withQuestion("DefaultQuestion?").withLabel("LabelIsOkay")
+        .withRelatedVariables(relatedVariables).withVariableSurvey(variableSurvey).build();
+
+    // Act
+    Errors errors = new BeanPropertyBindingResult(variableDocument, "variableDocument");
+    this.variableDocumentCreateValidator.validate(variableDocument, errors);
+
+    // Assert
+    assertEquals(0, errors.getErrorCount());
+    assertEquals("VL_RV", variableDocument.getRelatedVariables().get(0).getLabel());
+    assertEquals("VName_RV", variableDocument.getRelatedVariables().get(0).getName());
+  }
+
+  @Test
+  public void testInvalidRelatedVariables() {
+
+    // Arrange
+    List<RelatedVariable> relatedVariables = new ArrayList<>();
+    relatedVariables.add(new RelatedVariableBuilder().withId("RV_ID").build());
+
+    DateRange dateRange = new DateRangeBuilder().withStartDate(LocalDate.now())
+        .withEndDate(LocalDate.now().plusDays(2)).build();
+
+    VariableSurvey variableSurvey =
+        new VariableSurveyBuilder().withSurveyId("Survey_ID").withTitle("Title 1")
+            .withVariableAlias("VariableAlias 1").withSurveyPeriod(dateRange).build();
+
+    VariableDocument variableDocument = new VariableDocumentBuilder().withId("ThisIDisOkay")
+        .withName("ThisNameIsOkay.").withQuestion("DefaultQuestion?").withLabel("LabelIsOkay")
+        .withRelatedVariables(relatedVariables).withVariableSurvey(variableSurvey).build();
+
+    // Act
+    Errors errors = new BeanPropertyBindingResult(variableDocument, "variableDocument");
+    this.variableDocumentCreateValidator.validate(variableDocument, errors);
+
+    // Assert
+    assertEquals(2, errors.getErrorCount());
+    assertThat(errors.getFieldError("relatedVariables[0].label").getCode(),
+        is(NotBlank.class.getSimpleName()));
+    assertThat(errors.getFieldError("relatedVariables[0].name").getCode(),
+        is(NotBlank.class.getSimpleName()));
+  }
+
+  @Test
   public void testInvalidAnswerOptionWithANullCode() {
 
     // Arrange
@@ -482,9 +542,9 @@ public class VariableDocumentTest extends AbstractTest {
     // Assert
     assertEquals(
         "VariableDocument{super=VariableDocument{id=[null]}, variableSurvey=VariableSurvey"
-        + "{super=VariableSurvey{surveyId=null, title=null, surveyPeriod=DateRange{startDate=null, "
-        + "endDate=null}}, variableAlias=null}, name=null, dataType=null, label=null, question=null, "
-        + "scaleLevel=null, answerOptions=[], relatedVariables=[]}",
+            + "{super=VariableSurvey{surveyId=null, title=null, surveyPeriod=DateRange{startDate=null, "
+            + "endDate=null}}, variableAlias=null}, name=null, dataType=null, label=null, question=null, "
+            + "scaleLevel=null, answerOptions=[], relatedVariables=[]}",
         variableDocument.toString());
   }
 
@@ -500,8 +560,8 @@ public class VariableDocumentTest extends AbstractTest {
     // Assert
     assertEquals(
         "VariableDocument{super=VariableDocument{id=[null]}, variableSurvey=VariableSurvey{super=VariableSurvey{surveyId=null, "
-        + "title=null, surveyPeriod=DateRange{startDate=null, endDate=null}}, variableAlias=null}, name=null, dataType=null, "
-        + "label=null, question=null, scaleLevel=null, answerOptions=[], relatedVariables=[]}",
+            + "title=null, surveyPeriod=DateRange{startDate=null, endDate=null}}, variableAlias=null}, name=null, dataType=null, "
+            + "label=null, question=null, scaleLevel=null, answerOptions=[], relatedVariables=[]}",
         variableDocument.toString());
   }
 
@@ -519,9 +579,9 @@ public class VariableDocumentTest extends AbstractTest {
     // Assert
     assertEquals(
         "VariableDocument{super=VariableDocument{id=[null]}, variableSurvey=VariableSurvey"
-        + "{super=VariableSurvey{surveyId=null, title=null, surveyPeriod=DateRange{startDate=null, "
-        + "endDate=null}}, variableAlias=null}, name=null, dataType=null, label=null, question=null, "
-        + "scaleLevel=null, answerOptions=[], relatedVariables=[]}",
+            + "{super=VariableSurvey{surveyId=null, title=null, surveyPeriod=DateRange{startDate=null, "
+            + "endDate=null}}, variableAlias=null}, name=null, dataType=null, label=null, question=null, "
+            + "scaleLevel=null, answerOptions=[], relatedVariables=[]}",
         variableDocument.toString());
   }
 
@@ -541,9 +601,9 @@ public class VariableDocumentTest extends AbstractTest {
     // Assert
     assertEquals(
         "VariableDocument{super=VariableDocument{id=[null]}, variableSurvey=VariableSurvey"
-        + "{super=VariableSurvey{surveyId=null, title=null, surveyPeriod=DateRange{startDate=2015-01-01, "
-        + "endDate=2015-02-01}}, variableAlias=null}, name=null, dataType=null, label=null, question=null, "
-        + "scaleLevel=null, answerOptions=[], relatedVariables=[]}",
+            + "{super=VariableSurvey{surveyId=null, title=null, surveyPeriod=DateRange{startDate=2015-01-01, "
+            + "endDate=2015-02-01}}, variableAlias=null}, name=null, dataType=null, label=null, question=null, "
+            + "scaleLevel=null, answerOptions=[], relatedVariables=[]}",
         variableDocument.toString());
   }
 
