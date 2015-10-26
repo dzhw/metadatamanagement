@@ -3,9 +3,9 @@ package eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.validat
 import java.util.List;
 
 import org.springframework.validation.Errors;
-import org.springframework.validation.SmartValidator;
 import org.springframework.validation.Validator;
 
+import eu.dzhw.fdz.metadatamanagement.data.common.documents.validation.validator.AbstractCommonValidator;
 import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.DataTypesProvider;
 import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.documents.VariableDocument;
 import eu.dzhw.fdz.metadatamanagement.data.variablemanagement.repositories.VariableDocumentRepository;
@@ -18,15 +18,13 @@ import eu.dzhw.fdz.metadatamanagement.web.variablemanagement.details.VariableRes
  * @author René Reitmann
  * @author Daniel Katzberg
  */
-public abstract class VariableDocumentValidator implements Validator {
+public abstract class VariableDocumentValidator extends AbstractCommonValidator {
 
   public static final String MANDATORY_SCALE_LEVEL_MESSAGE_CODE =
       "MandatoryScaleLevelOnNumericDataType.variabledocument.scaleLevel";
 
   public static final String MANDATORY_VARIABLE_SURVEY_VARIABLEALIAS_MESSAGE_CODE =
       "UniqueVariableAlias.variabledocument.variablesurvey.variablealias";
-
-  private SmartValidator jsrValidator;
 
   private DataTypesProvider dataTypesProvider;
 
@@ -47,12 +45,7 @@ public abstract class VariableDocumentValidator implements Validator {
   public VariableDocumentValidator(Validator jsrValidator, DataTypesProvider dataTypesProvider,
       VariableDocumentRepository variableRepository,
       VariableResourceAssembler variableResourceAssembler) {
-    if (jsrValidator instanceof SmartValidator) {
-      this.jsrValidator = (SmartValidator) jsrValidator;
-    } else {
-      throw new IllegalStateException(
-          "Cast not successful at validators... (should be a smart validator.)");
-    }
+    super(jsrValidator);
     this.dataTypesProvider = dataTypesProvider;
     this.variableRepository = variableRepository;
     this.variableResourceAssembler = variableResourceAssembler;
@@ -144,11 +137,4 @@ public abstract class VariableDocumentValidator implements Validator {
       return;
     }
   }
-
-  /**
-   * Create the validtion hints used by the JSR validator.
-   * 
-   * @return An array of {@link VariableValidationGroups} classes
-   */
-  protected abstract Object[] getValidationHints();
 }
