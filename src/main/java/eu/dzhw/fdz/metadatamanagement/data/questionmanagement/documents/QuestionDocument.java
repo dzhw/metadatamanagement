@@ -97,8 +97,8 @@ public class QuestionDocument extends AbstractDocument {
   /**
    * The question as a String.
    */
-  @Size(max = 256)
-  @NotBlank
+  @Size(max = 256, groups = {Create.class, Edit.class})
+  @NotBlank(groups = {Create.class, Edit.class})
   private String question;
 
   /**
