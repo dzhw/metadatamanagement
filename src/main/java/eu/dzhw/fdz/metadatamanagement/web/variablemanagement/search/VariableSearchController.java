@@ -13,6 +13,7 @@ import org.springframework.data.web.PagedResourcesAssembler;
 import org.springframework.hateoas.PagedResources;
 import org.springframework.hateoas.mvc.ControllerLinkBuilderFactory;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -42,7 +43,7 @@ import eu.dzhw.fdz.metadatamanagement.web.variablemanagement.search.dto.Variable
 @Controller
 public class VariableSearchController
     extends AbstractSearchController<VariableDocument, VariableResource, VariableSearchFilter> {
-
+  
   /**
    * Create the controller.
    * 
@@ -73,21 +74,21 @@ public class VariableSearchController
   @Override
   public Callable<ModelAndView> get(
       @RequestHeader(name = "X-Requested-With", required = false) String ajaxHeader,
-      @Validated(Search.class) VariableSearchFilter searchFilter, Pageable pageable,
-      HttpServletResponse httpServletResponse) {
+      @Validated(Search.class) VariableSearchFilter variableSearchFilter,
+      BindingResult bindingResult,
+      Pageable pageable, HttpServletResponse httpServletResponse) {
     return () -> {
 
       // Create pageableWithBuckets (from search by service)
       ModelAndView modelAndView = new ModelAndView();
-      modelAndView.addObject("searchFilter", searchFilter);
 
       // Search
       PageWithBuckets<VariableDocument> pageableWithBuckets =
-          this.searchService.search(searchFilter, pageable);
+          this.searchService.search(variableSearchFilter, pageable);
 
       // Add Buckets to Model and view
       Map<DocumentField, Set<Bucket>> bucketMap = BucketManager
-          .addEmptyBucketsIfNecessary(searchFilter, pageableWithBuckets.getBucketMap());
+          .addEmptyBucketsIfNecessary(variableSearchFilter, pageableWithBuckets.getBucketMap());
       modelAndView.addObject("scaleLevelBuckets", bucketMap.get(VariableDocument.SCALE_LEVEL_FIELD)
           .stream().sorted().collect(Collectors.toList()));
       modelAndView.addObject("surveyTitleBuckets",
@@ -99,9 +100,10 @@ public class VariableSearchController
           this.pagedResourcesAssembler.toResource(pageableWithBuckets, this.resourceAssembler);
       VariableSearchPageResource resource =
           new VariableSearchPageResource(pagedVariableResource, VariableSearchController.class,
-              this.controllerLinkBuilderFactory, searchFilter, pageable);
+              this.controllerLinkBuilderFactory, variableSearchFilter, pageable);
       modelAndView.addObject("resource", resource);
-
+      modelAndView.addObject("variableSearchFilter", variableSearchFilter);
+      
       // Check for ajax header.
       modelAndView = this.checkHeader("variables/search", ajaxHeader, modelAndView);
 

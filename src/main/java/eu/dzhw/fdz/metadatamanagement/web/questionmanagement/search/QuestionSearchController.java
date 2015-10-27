@@ -11,6 +11,7 @@ import org.springframework.data.web.PagedResourcesAssembler;
 import org.springframework.hateoas.PagedResources;
 import org.springframework.hateoas.mvc.ControllerLinkBuilderFactory;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -66,8 +67,8 @@ public class QuestionSearchController
   @RequestMapping(value = "/{language:de|en}/questions/search", method = RequestMethod.GET)
   public Callable<ModelAndView> get(
       @RequestHeader(name = "X-Requested-With", required = false) String ajaxHeader,
-      @Validated(Search.class) QuestionSearchFilter searchFilter, Pageable pageable,
-      HttpServletResponse httpServletResponse) {
+      @Validated(Search.class) QuestionSearchFilter searchFilter, BindingResult bindingResult,
+      Pageable pageable, HttpServletResponse httpServletResponse) {
 
     return () -> {
 

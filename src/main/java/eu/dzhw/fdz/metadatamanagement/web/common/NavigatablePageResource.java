@@ -46,13 +46,13 @@ public abstract class NavigatablePageResource<T> extends ResourceSupport
             .withRel(DISCLOSURE_REL));
     this.add(linkTo(
         methodOn(VariableSearchController.class, LocaleContextHolder.getLocale().getLanguage())
-            .get(null, null, null, null)).withRel(VARIABLE_SEARCH_REL));
+            .get(null, null, null, null,null)).withRel(VARIABLE_SEARCH_REL));
     this.add(linkTo(
         methodOn(VariableCreateController.class, LocaleContextHolder.getLocale().getLanguage())
             .create(null, null)).withRel(VARIABLE_CREATE_REL));
     this.add(linkTo(
         methodOn(QuestionSearchController.class, LocaleContextHolder.getLocale().getLanguage())
-            .get(null, null, null, null)).withRel(QUESTION_SEARCH_REL));
+            .get(null, null, null, null,null)).withRel(QUESTION_SEARCH_REL));
   }
 
   public Link getHomeLink() {

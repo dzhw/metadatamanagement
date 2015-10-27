@@ -40,7 +40,7 @@ public class QuestionSearchResource extends NavigatablePageResource<QuestionSear
     this.page = page;
     for (Locale supportedLocale : I18nConfiguration.SUPPORTED_LANGUAGES) {
       this.add(factory.linkTo(methodOn(pageController, supportedLocale).get(null,
-          questionSearchFilter, pageable, null)).withRel(supportedLocale.getLanguage()));
+          questionSearchFilter, null, pageable, null)).withRel(supportedLocale.getLanguage()));
     }
   }
 

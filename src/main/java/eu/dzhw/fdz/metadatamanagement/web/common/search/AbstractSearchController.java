@@ -10,6 +10,7 @@ import org.springframework.hateoas.ResourceSupport;
 import org.springframework.hateoas.mvc.ControllerLinkBuilderFactory;
 import org.springframework.hateoas.mvc.ResourceAssemblerSupport;
 import org.springframework.util.StringUtils;
+import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.servlet.ModelAndView;
@@ -72,8 +73,8 @@ public abstract class AbstractSearchController<D extends AbstractDocument,
    */
   public abstract Callable<ModelAndView> get(
       @RequestHeader(name = "X-Requested-With", required = false) String ajaxHeader,
-      @Validated(Search.class) F searchFilter, Pageable pageable,
-      HttpServletResponse httpServletResponse);
+      @Validated(Search.class) F searchFilter, BindingResult bindingResult,
+      Pageable pageable, HttpServletResponse httpServletResponse);
   
   /**
    * Return search suggestions for the given input.
