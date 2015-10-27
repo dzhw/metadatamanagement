@@ -13,7 +13,7 @@
 
 	<groupId>eu.dzhw.fdz</groupId>
 	<artifactId>metadatamanagement</artifactId>
-	<version>0.0.8-SNAPSHOT</version>
+	<version>0.0.8</version>
 	<packaging>jar</packaging>
 
 	<name>MetaDataManagement</name>
