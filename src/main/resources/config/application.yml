@@ -24,7 +24,7 @@ spring:
             enabled: false
     thymeleaf:
         mode: XHTML
-
+  
 security:
     basic:
         enabled: false
@@ -39,7 +39,7 @@ jhipster:
         maxPoolSize: 50
         queueCapacity: 10000
     mail:
-        from: metadatamanagement@localhost
+        from: metadatamanagement@dzhw.eu
     security:
         authentication:
             oauth:

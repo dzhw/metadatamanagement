@@ -18,6 +18,7 @@ spring:
             enabled: false
         livereload:
             enabled: false
+    # this is overriden by springs cloud connector
     datasource:
         driver-class-name: org.postgresql.ds.PGSimpleDataSource
         url: jdbc:postgresql://localhost:5432/metadatamanagement
@@ -37,10 +38,10 @@ spring:
             cluster-name:
             cluster-nodes: localhost:9300
     mail:
-        host: localhost
+        host: ${vcap.services.email.credentials.hostname}
         port: 25
-        username: 
-        password:
+        username: ${vcap.services.email.credentials.username} 
+        password: ${vcap.services.email.credentials.password}
     thymeleaf:
         cache: true
 
