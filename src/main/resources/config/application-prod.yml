@@ -44,6 +44,11 @@ spring:
     thymeleaf:
         cache: true
 
+server:
+    tomcat:
+        remote_ip_header: x-forwarded-for
+        protocol_header: x-forwarded-proto 
+
 liquibase:
     contexts: prod
 

@@ -1,16 +1,14 @@
 package eu.dzhw.fdz.metadatamanagement.config;
 
-import eu.dzhw.fdz.metadatamanagement.security.AjaxLogoutSuccessHandler;
-import eu.dzhw.fdz.metadatamanagement.security.AuthoritiesConstants;
-import eu.dzhw.fdz.metadatamanagement.security.Http401UnauthorizedEntryPoint;
+import javax.inject.Inject;
+import javax.sql.DataSource;
+
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.context.EnvironmentAware;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.env.Environment;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.oauth2.config.annotation.configurers.ClientDetailsServiceConfigurer;
 import org.springframework.security.oauth2.config.annotation.web.configuration.AuthorizationServerConfigurerAdapter;
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableAuthorizationServer;
@@ -21,101 +19,92 @@ import org.springframework.security.oauth2.provider.token.TokenStore;
 import org.springframework.security.oauth2.provider.token.store.JdbcTokenStore;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
-import javax.inject.Inject;
-import javax.sql.DataSource;
+import eu.dzhw.fdz.metadatamanagement.security.AjaxLogoutSuccessHandler;
+import eu.dzhw.fdz.metadatamanagement.security.AuthoritiesConstants;
+import eu.dzhw.fdz.metadatamanagement.security.Http401UnauthorizedEntryPoint;
 
 @Configuration
 public class OAuth2ServerConfiguration {
 
-    @Configuration
-    @EnableResourceServer
-    protected static class ResourceServerConfiguration extends ResourceServerConfigurerAdapter {
+  @Configuration
+  @EnableResourceServer
+  protected static class ResourceServerConfiguration extends ResourceServerConfigurerAdapter {
 
-        @Inject
-        private Http401UnauthorizedEntryPoint authenticationEntryPoint;
+    @Inject
+    private Http401UnauthorizedEntryPoint authenticationEntryPoint;
 
-        @Inject
-        private AjaxLogoutSuccessHandler ajaxLogoutSuccessHandler;
+    @Inject
+    private AjaxLogoutSuccessHandler ajaxLogoutSuccessHandler;
 
-        @Override
-        public void configure(HttpSecurity http) throws Exception {
-            http
-                .exceptionHandling()
-                .authenticationEntryPoint(authenticationEntryPoint)
-            .and()
-                .logout()
-                .logoutUrl("/api/logout")
-                .logoutSuccessHandler(ajaxLogoutSuccessHandler)
-            .and()
-                .csrf()
-                .requireCsrfProtectionMatcher(new AntPathRequestMatcher("/oauth/authorize"))
-                .disable()
-                .headers()
-                .frameOptions().disable()
-            .and()
-                .authorizeRequests()
-                .antMatchers("/api/authenticate").permitAll()
-                .antMatchers("/api/register").permitAll()
-                .antMatchers("/api/logs/**").hasAnyAuthority(AuthoritiesConstants.ADMIN)
-                .antMatchers("/api/**").authenticated()
-                .antMatchers("/websocket/tracker").hasAuthority(AuthoritiesConstants.ADMIN)
-                .antMatchers("/websocket/**").permitAll()
-                .antMatchers("/metrics/**").hasAuthority(AuthoritiesConstants.ADMIN)
-                .antMatchers("/health/**").hasAuthority(AuthoritiesConstants.ADMIN)
-                .antMatchers("/trace/**").hasAuthority(AuthoritiesConstants.ADMIN)
-                .antMatchers("/dump/**").hasAuthority(AuthoritiesConstants.ADMIN)
-                .antMatchers("/shutdown/**").hasAuthority(AuthoritiesConstants.ADMIN)
-                .antMatchers("/beans/**").hasAuthority(AuthoritiesConstants.ADMIN)
-                .antMatchers("/configprops/**").hasAuthority(AuthoritiesConstants.ADMIN)
-                .antMatchers("/info/**").hasAuthority(AuthoritiesConstants.ADMIN)
-                .antMatchers("/autoconfig/**").hasAuthority(AuthoritiesConstants.ADMIN)
-                .antMatchers("/env/**").hasAuthority(AuthoritiesConstants.ADMIN)
-                .antMatchers("/trace/**").hasAuthority(AuthoritiesConstants.ADMIN)
-                .antMatchers("/liquibase/**").hasAuthority(AuthoritiesConstants.ADMIN)
-                .antMatchers("/api-docs/**").hasAuthority(AuthoritiesConstants.ADMIN)
-                .antMatchers("/protected/**").authenticated();
+    @Inject
+    private Environment env;
 
-        }
+    @Override
+    public void configure(HttpSecurity http) throws Exception {
+      http.exceptionHandling().authenticationEntryPoint(authenticationEntryPoint).and().logout()
+          .logoutUrl("/api/logout").logoutSuccessHandler(ajaxLogoutSuccessHandler).and().csrf()
+          .requireCsrfProtectionMatcher(new AntPathRequestMatcher("/oauth/authorize")).disable()
+          .headers().frameOptions().disable().and().authorizeRequests()
+          .antMatchers("/api/authenticate").permitAll().antMatchers("/api/register").permitAll()
+          .antMatchers("/api/logs/**").hasAnyAuthority(AuthoritiesConstants.ADMIN)
+          .antMatchers("/api/**").authenticated().antMatchers("/websocket/tracker")
+          .hasAuthority(AuthoritiesConstants.ADMIN).antMatchers("/websocket/**").permitAll()
+          .antMatchers("/metrics/**").hasAuthority(AuthoritiesConstants.ADMIN)
+          .antMatchers("/health/**").hasAuthority(AuthoritiesConstants.ADMIN)
+          .antMatchers("/trace/**").hasAuthority(AuthoritiesConstants.ADMIN).antMatchers("/dump/**")
+          .hasAuthority(AuthoritiesConstants.ADMIN).antMatchers("/shutdown/**")
+          .hasAuthority(AuthoritiesConstants.ADMIN).antMatchers("/beans/**")
+          .hasAuthority(AuthoritiesConstants.ADMIN).antMatchers("/configprops/**")
+          .hasAuthority(AuthoritiesConstants.ADMIN).antMatchers("/info/**")
+          .hasAuthority(AuthoritiesConstants.ADMIN).antMatchers("/autoconfig/**")
+          .hasAuthority(AuthoritiesConstants.ADMIN).antMatchers("/env/**")
+          .hasAuthority(AuthoritiesConstants.ADMIN).antMatchers("/trace/**")
+          .hasAuthority(AuthoritiesConstants.ADMIN).antMatchers("/liquibase/**")
+          .hasAuthority(AuthoritiesConstants.ADMIN).antMatchers("/api-docs/**")
+          .hasAuthority(AuthoritiesConstants.ADMIN).antMatchers("/protected/**").authenticated();
+      // Enforce HTTPS except on dev
+      if (env.acceptsProfiles("!dev")) {
+        http.requiresChannel().anyRequest().requiresSecure();
+      }
+    }
+  }
+
+  @Configuration
+  @EnableAuthorizationServer
+  protected static class AuthorizationServerConfiguration
+      extends AuthorizationServerConfigurerAdapter {
+
+    @Inject
+    private DataSource dataSource;
+
+    @Inject
+    private JHipsterProperties jHipsterProperties;
+
+    @Bean
+    public TokenStore tokenStore() {
+      return new JdbcTokenStore(dataSource);
     }
 
-    @Configuration
-    @EnableAuthorizationServer
-    protected static class AuthorizationServerConfiguration extends AuthorizationServerConfigurerAdapter {
+    @Inject
+    @Qualifier("authenticationManagerBean")
+    private AuthenticationManager authenticationManager;
 
-        @Inject
-        private DataSource dataSource;
+    @Override
+    public void configure(AuthorizationServerEndpointsConfigurer endpoints) throws Exception {
 
-        @Inject
-        private JHipsterProperties jHipsterProperties;
-
-        @Bean
-        public TokenStore tokenStore() {
-            return new JdbcTokenStore(dataSource);
-        }
-
-        @Inject
-        @Qualifier("authenticationManagerBean")
-        private AuthenticationManager authenticationManager;
-
-        @Override
-        public void configure(AuthorizationServerEndpointsConfigurer endpoints)
-                throws Exception {
-
-            endpoints
-                    .tokenStore(tokenStore())
-                    .authenticationManager(authenticationManager);
-        }
-
-        @Override
-        public void configure(ClientDetailsServiceConfigurer clients) throws Exception {
-            clients
-                .inMemory()
-                .withClient(jHipsterProperties.getSecurity().getAuthentication().getOauth().getClientid())
-                .scopes("read", "write")
-                .authorities(AuthoritiesConstants.ADMIN, AuthoritiesConstants.USER)
-                .authorizedGrantTypes("password", "refresh_token")
-                .secret(jHipsterProperties.getSecurity().getAuthentication().getOauth().getSecret())
-                .accessTokenValiditySeconds(jHipsterProperties.getSecurity().getAuthentication().getOauth().getTokenValidityInSeconds());
-        }
+      endpoints.tokenStore(tokenStore()).authenticationManager(authenticationManager);
     }
+
+    @Override
+    public void configure(ClientDetailsServiceConfigurer clients) throws Exception {
+      clients.inMemory()
+          .withClient(jHipsterProperties.getSecurity().getAuthentication().getOauth().getClientid())
+          .scopes("read", "write")
+          .authorities(AuthoritiesConstants.ADMIN, AuthoritiesConstants.USER)
+          .authorizedGrantTypes("password", "refresh_token")
+          .secret(jHipsterProperties.getSecurity().getAuthentication().getOauth().getSecret())
+          .accessTokenValiditySeconds(jHipsterProperties.getSecurity().getAuthentication()
+              .getOauth().getTokenValidityInSeconds());
+    }
+  }
 }
