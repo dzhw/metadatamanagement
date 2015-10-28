@@ -37,10 +37,10 @@ spring:
             cluster-name:
             cluster-nodes: localhost:9300
     mail:
-        host: ${vcap.services.sendgrid.credentials.hostname}
+        host: localhost
         port: 25
-        username: ${vcap.services.sendgrid.credentials.username}
-        password: ${vcap.services.sendgrid.credentials.password}
+        username: 
+        password:
     thymeleaf:
         cache: true
 
