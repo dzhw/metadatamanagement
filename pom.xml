@@ -633,6 +633,45 @@
 					</arguments>
 				</configuration>
 			</plugin>
+			<!-- deploy fat jar to cloudfoundry -->
+			<plugin>
+				<groupId>org.cloudfoundry</groupId>
+				<artifactId>cf-maven-plugin</artifactId>
+				<version>1.1.3</version>
+				<configuration>
+					<path>${project.build.directory}/${project.build.finalName}.${project.packaging}</path>
+					<server>cloudfoundry</server>
+					<target>http://api.run.pivotal.io</target>
+					<org>DZHW</org>
+					<space>development</space>
+					<appname>metadatamanagement</appname>
+					<url>metadatamanagement.cfapps.io</url>
+					<buildpack>https://github.com/cloudfoundry/java-buildpack</buildpack>
+					<env>
+						<SPRING_PROFILES_ACTIVE>prod</SPRING_PROFILES_ACTIVE>
+					</env>
+					<services>
+						<service>
+							<name>postgres</name>
+							<label>elephantsql</label>
+							<provider>elephantsql</provider>
+							<version>n/a</version>
+							<plan>turtle</plan>
+						</service>
+						<service>
+							<name>email</name>
+							<label>sendgrid</label>
+							<provider>sendgrid</provider>
+							<version>n/a</version>
+							<plan>free</plan>
+						</service>
+					</services>
+					<memory>1024</memory>
+					<diskQuota>1024</diskQuota>
+					<healthCheckTimeout>60</healthCheckTimeout>
+					<instances>1</instances>
+				</configuration>
+			</plugin>
 		</plugins>
 	</build>
 
@@ -742,9 +781,10 @@
 								<fileset>
 									<directory>.tmp</directory>
 								</fileset>
-								<fileset>
-									<directory>node_modules</directory>
-								</fileset>
+								<!-- Removed to save time -->
+								<!-- <fileset> -->
+								<!-- <directory>node_modules</directory> -->
+								<!-- </fileset> -->
 							</filesets>
 						</configuration>
 					</plugin>

@@ -62,7 +62,7 @@ jhipster:
         cache: # Used by the CachingHttpHeadersFilter
             timeToLiveInDays: 31
     mail: # specific JHipster mail property, for standard properties see MailProperties
-        from: metadatamanagement@localhost
+        from: metadatamanagement@dzhw.eu
     metrics: # DropWizard Metrics configuration, used by MetricsConfiguration
         jmx.enabled: true
         spark:

@@ -13,7 +13,7 @@ install:
   - npm install -g bower
   - npm install -g grunt-cli
 # do not install into local maven repo to avoid polluting the cache
-script: mvn -Pprod --settings ./buildconfig/settings.xml -B -DrepoToken=$COVERALLS_TOKEN package coveralls:report
+script: mvn -Pprod --settings ./buildconfig/settings.xml -B -DrepoToken=$COVERALLS_TOKEN package cf:push-only coveralls:report
 notifications:
   email:
     recipients:
