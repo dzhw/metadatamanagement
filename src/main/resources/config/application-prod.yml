@@ -37,23 +37,21 @@ spring:
             cluster-name:
             cluster-nodes: localhost:9300
     mail:
-        host: localhost
+        host: ${vcap.services.sendgrid.credentials.hostname}
         port: 25
-        username:
-        password:
+        username: ${vcap.services.sendgrid.credentials.username}
+        password: ${vcap.services.sendgrid.credentials.password}
     thymeleaf:
         cache: true
-
-server:
-    tomcat:
-        remote_ip_header: x-forwarded-for
-        protocol_header: x-forwarded-proto 
 
 liquibase:
     contexts: prod
 
 server:
     port: 8080
+    tomcat:
+        remote_ip_header: x-forwarded-for
+        protocol_header: x-forwarded-proto
     compression:
         enabled: true
         mime-types: text/html,text/xml,text/plain,text/css, application/javascript, application/json
