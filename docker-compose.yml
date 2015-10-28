@@ -1,0 +1,11 @@
+jhipster-dev-postgresql:
+  container_name: metadatamanagement-dev-postgresql
+  image: postgres
+  # volumes:
+  # - ~/volumes/jhipster/metadatamanagement/dev-postgresql/:/var/lib/postgresql/
+  environment:
+  - POSTGRES_USER=metadatamanagement
+  - POSTGRES_PASSWORD=
+  ports:
+  - "5432:5432"
+

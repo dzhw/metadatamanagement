@@ -1,4 +1,4 @@
 /**
- * Basic package for the service layer. It has sub packages for different purposes.
+ * Service layer beans.
  */
 package eu.dzhw.fdz.metadatamanagement.service;

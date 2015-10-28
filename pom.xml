@@ -1,144 +1,308 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
 	<parent>
 		<artifactId>spring-boot-starter-parent</artifactId>
 		<groupId>org.springframework.boot</groupId>
 		<version>1.3.0.RC1</version>
-		<relativePath></relativePath>
-		<!-- lookup parent from repository -->
+		<relativePath />
 	</parent>
 
-	<groupId>eu.dzhw.fdz</groupId>
+	<groupId>eu.dzhw.fdz.metadatamanagement</groupId>
 	<artifactId>metadatamanagement</artifactId>
-	<version>0.0.8</version>
-	<packaging>jar</packaging>
+	<version>0.1.8-SNAPSHOT</version>
+	<packaging>war</packaging>
+	<name>metadatamanagement</name>
 
-	<name>MetaDataManagement</name>
-	<description>This platform gathers all metadata of the surveys published by our FDZ.</description>
-	<url>http://dzhw.github.io/metadatamanagement</url>
-
-	<organization>
-		<name>DZHW GmbH</name>
-		<url>http://www.dzhw.eu</url>
-	</organization>
-
-	<developers>
-		<developer>
-			<name>René Reitmann</name>
-			<organization>DZHW GmbH</organization>
-			<roles>
-				<role>Developer</role>
-			</roles>
-		</developer>
-		<developer>
-			<name>Amine Limouri</name>
-			<organization>DZHW GmbH</organization>
-			<roles>
-				<role>Developer</role>
-			</roles>
-		</developer>
-		<developer>
-			<name>Daniel Katzberg</name>
-			<organization>DZHW GmbH</organization>
-			<roles>
-				<role>Developer</role>
-			</roles>
-		</developer>
-	</developers>
-
-	<scm>
-		<connection>scm:https://github.com/dzhw/metadatamanagement.git</connection>
-		<developerConnection>scm:https://github.com/dzhw/metadatamanagement.git</developerConnection>
-		<url>https://github.com/dzhw/metadatamanagement</url>
-	</scm>
-
-	<issueManagement>
-		<system>Github</system>
-		<url>https://github.com/dzhw/metadatamanagement/issues</url>
-	</issueManagement>
-
-	<ciManagement>
-		<system>Travis</system>
-		<url>${travis.url}</url>
-	</ciManagement>
+	<prerequisites>
+		<maven>3.0.0</maven>
+	</prerequisites>
 
 	<properties>
-		<buildtime>${maven.build.timestamp}</buildtime>
-		<cloudfoundry.prototype.url>https://metadatamanagement.cfapps.io</cloudfoundry.prototype.url>
-		<coveralls.url>https://coveralls.io/r/dzhw/metadatamanagement</coveralls.url>
-		<jacoco.version>0.7.5.201505241946</jacoco.version>
+		<assertj-core.version>3.1.0</assertj-core.version>
+		<awaitility.version>1.4.0</awaitility.version>
+		<commons-io.version>2.4</commons-io.version>
+		<commons-lang.version>2.6</commons-lang.version>
+		<gatling-maven-plugin.version>2.1.7</gatling-maven-plugin.version>
+		<gatling.version>2.1.7</gatling.version>
+		<hibernate.version>4.3.11.Final</hibernate.version>
+		<hikaricp.version>2.4.1</hikaricp.version>
+		<jacoco-maven-plugin.version>0.7.5.201505241946</jacoco-maven-plugin.version>
 		<java.version>1.8</java.version>
-		<maven.build.timestamp.format>yyyy-MM-dd HH:mm</maven.build.timestamp.format>
-		<pivotal.console.url>https://console.run.pivotal.io/organizations/0c7fb2aa-17e1-4d57-824c-2a6d3dbc335b#spacesit</pivotal.console.url>
-		<!-- use UTF-8 for everything -->
-		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-		<start-class>eu.dzhw.fdz.metadatamanagement.MetaDataManagementApplication</start-class>
-		<test.system.url>https://metadatamanagement.cfapps.io</test.system.url>
-		<travis.url>https://travis-ci.org/dzhw/metadatamanagement</travis.url>
+		<javax.inject.version>1</javax.inject.version>
+		<liquibase-hibernate4.version>3.5</liquibase-hibernate4.version>
+		<liquibase-slf4j.version>1.2.1</liquibase-slf4j.version>
+		<liquibase.version>3.4.1</liquibase.version>
+		<mapstruct.version>1.0.0.CR1</mapstruct.version>
+		<maven-enforcer-plugin.version>1.3.1</maven-enforcer-plugin.version>
+		<maven-sortpom-plugin.version>2.3.0</maven-sortpom-plugin.version>
+		<maven.build.timestamp.format>yyyyMMddHHmmss</maven.build.timestamp.format>
+		<maven.compiler.source>${java.version}</maven.compiler.source>
+		<maven.compiler.target>${java.version}</maven.compiler.target>
+		<metrics-spark-reporter.version>1.2</metrics-spark-reporter.version>
+		<metrics-spring.version>3.1.2</metrics-spring.version>
+		<postgresql.version>9.4-1203-jdbc42</postgresql.version>
+		<!-- Sonar properties -->
+		<project.testresult.directory>${project.build.directory}/test-results</project.testresult.directory>
+		<run.addResources>false</run.addResources>
+		<sonar-maven-plugin.version>2.6</sonar-maven-plugin.version>
+		<sonar.exclusions>src/main/webapp/assets/**/*.*,
+			src/main/webapp/bower_components/**/*.*, src/main/webapp/dist/**/*.*</sonar.exclusions>
+		<sonar.jacoco.itReportPath>${project.testresult.directory}/coverage/jacoco/jacoco-it.exec</sonar.jacoco.itReportPath>
+		<sonar.jacoco.reportPath>${project.testresult.directory}/coverage/jacoco/jacoco.exec</sonar.jacoco.reportPath>
+		<sonar.java.codeCoveragePlugin>jacoco</sonar.java.codeCoveragePlugin>
+
+		<sonar.javascript.jstestdriver.reportsPath>${project.testresult.directory}/karma</sonar.javascript.jstestdriver.reportsPath>
+		<sonar.javascript.lcov.reportPath>${project.testresult.directory}/coverage/report-lcov/lcov.info</sonar.javascript.lcov.reportPath>
+
+		<sonar.sources>${project.basedir}/src/main/</sonar.sources>
+		<sonar.surefire.reportsPath>${project.testresult.directory}/surefire-reports</sonar.surefire.reportsPath>
+		<sonar.tests>${project.basedir}/src/test/</sonar.tests>
+		<spring-security-oauth2.version>2.0.7.RELEASE</spring-security-oauth2.version>
+		<spring-security.version>4.0.2.RELEASE</spring-security.version>
+		<springfox.version>2.0.3</springfox.version>
 	</properties>
 
 	<dependencies>
-		<!-- json binding for LocalDate etc.. -->
+		<dependency>
+			<groupId>com.fasterxml.jackson.datatype</groupId>
+			<artifactId>jackson-datatype-hibernate4</artifactId>
+			<version>${jackson.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.fasterxml.jackson.datatype</groupId>
+			<artifactId>jackson-datatype-hppc</artifactId>
+			<version>${jackson.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.fasterxml.jackson.datatype</groupId>
+			<artifactId>jackson-datatype-json-org</artifactId>
+			<version>${jackson.version}</version>
+		</dependency>
 		<dependency>
 			<groupId>com.fasterxml.jackson.datatype</groupId>
 			<artifactId>jackson-datatype-jsr310</artifactId>
 		</dependency>
-
-		<!-- For FindBugs Annotation. -->
 		<dependency>
-			<groupId>com.google.code.findbugs</groupId>
-			<artifactId>findbugs</artifactId>
-			<version>3.0.1</version>
+			<groupId>com.h2database</groupId>
+			<artifactId>h2</artifactId>
+			<scope>test</scope>
 		</dependency>
 		<dependency>
-			<groupId>com.google.guava</groupId>
-			<artifactId>guava</artifactId>
-			<version>18.0</version>
+			<groupId>com.jayway.awaitility</groupId>
+			<artifactId>awaitility</artifactId>
+			<version>${awaitility.version}</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>com.jayway.jsonpath</groupId>
+			<artifactId>json-path</artifactId>
+			<scope>test</scope>
+			<!-- parent POM declares this dependency in default (compile) scope -->
+		</dependency>
+		<dependency>
+			<groupId>com.mattbertolini</groupId>
+			<artifactId>liquibase-slf4j</artifactId>
+			<version>${liquibase-slf4j.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.ryantenney.metrics</groupId>
+			<artifactId>metrics-spring</artifactId>
+			<version>${metrics-spring.version}</version>
+			<exclusions>
+				<exclusion>
+					<artifactId>metrics-annotation</artifactId>
+					<groupId>com.codahale.metrics</groupId>
+				</exclusion>
+				<exclusion>
+					<artifactId>metrics-core</artifactId>
+					<groupId>com.codahale.metrics</groupId>
+				</exclusion>
+				<exclusion>
+					<artifactId>metrics-healthchecks</artifactId>
+					<groupId>com.codahale.metrics</groupId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+		<dependency>
+			<groupId>com.zaxxer</groupId>
+			<artifactId>HikariCP</artifactId>
+			<exclusions>
+				<exclusion>
+					<artifactId>tools</artifactId>
+					<groupId>com.sun</groupId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+		<!-- The HikariCP Java Agent is disabled by default, as it is experimental 
+			<dependency> <groupId>com.zaxxer</groupId> <artifactId>HikariCP-agent</artifactId> 
+			<version>${HikariCP.version}</version> </dependency> -->
+		<dependency>
+			<groupId>commons-io</groupId>
+			<artifactId>commons-io</artifactId>
+			<version>${commons-io.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>commons-lang</groupId>
+			<artifactId>commons-lang</artifactId>
+			<version>${commons-lang.version}</version>
+		</dependency>
+		<!-- reporting -->
+		<dependency>
+			<groupId>fr.ippon.spark.metrics</groupId>
+			<artifactId>metrics-spark-reporter</artifactId>
+			<version>${metrics-spark-reporter.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>io.dropwizard.metrics</groupId>
+			<artifactId>metrics-annotation</artifactId>
+			<version>${dropwizard-metrics.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>io.dropwizard.metrics</groupId>
+			<artifactId>metrics-core</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>io.dropwizard.metrics</groupId>
+			<artifactId>metrics-graphite</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>io.dropwizard.metrics</groupId>
+			<artifactId>metrics-healthchecks</artifactId>
+			<version>${dropwizard-metrics.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>io.dropwizard.metrics</groupId>
+			<artifactId>metrics-json</artifactId>
+			<version>${dropwizard-metrics.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>io.dropwizard.metrics</groupId>
+			<artifactId>metrics-jvm</artifactId>
+			<version>${dropwizard-metrics.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>io.dropwizard.metrics</groupId>
+			<artifactId>metrics-servlet</artifactId>
+			<version>${dropwizard-metrics.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>io.dropwizard.metrics</groupId>
+			<artifactId>metrics-servlets</artifactId>
+			<exclusions>
+				<exclusion>
+					<artifactId>metrics-healthchecks</artifactId>
+					<groupId>io.dropwizard.metrics</groupId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+		<dependency>
+			<groupId>io.gatling.highcharts</groupId>
+			<artifactId>gatling-charts-highcharts</artifactId>
+			<version>${gatling.version}</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>io.springfox</groupId>
+			<artifactId>springfox-swagger2</artifactId>
+			<version>${springfox.version}</version>
+			<exclusions>
+				<exclusion>
+					<artifactId>mapstruct</artifactId>
+					<groupId>org.mapstruct</groupId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+		<dependency>
+			<groupId>javax.inject</groupId>
+			<artifactId>javax.inject</artifactId>
+			<version>${javax.inject.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.assertj</groupId>
+			<artifactId>assertj-core</artifactId>
+			<version>${assertj-core.version}</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.hibernate</groupId>
+			<artifactId>hibernate-envers</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.hibernate</groupId>
+			<artifactId>hibernate-validator</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.liquibase</groupId>
+			<artifactId>liquibase-core</artifactId>
+			<exclusions>
+				<exclusion>
+					<artifactId>jetty-servlet</artifactId>
+					<groupId>org.eclipse.jetty</groupId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+		<dependency>
+			<groupId>org.mapstruct</groupId>
+			<artifactId>mapstruct-jdk8</artifactId>
+			<version>${mapstruct.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.postgresql</groupId>
+			<artifactId>postgresql</artifactId>
+			<version>${postgresql.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-context-support</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-actuator</artifactId>
+			<artifactId>spring-boot-actuator</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-autoconfigure</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-configuration-processor</artifactId>
+			<optional>true</optional>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-devtools</artifactId>
+			<optional>true</optional>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-loader-tools</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-aop</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-data-elasticsearch</artifactId>
 		</dependency>
-		<!-- HATEOAS -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-hateoas</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-thymeleaf</artifactId>
+			<artifactId>spring-boot-starter-data-jpa</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-web</artifactId>
-		</dependency>
-
-		<dependency>
-			<groupId>net.karneim</groupId>
-			<artifactId>pojobuilder</artifactId>
-			<version>3.4.0</version>
-			<!-- 'provided' scope because this is only needed during compilation -->
-			<scope>provided</scope>
-		</dependency>
-
-		<dependency>
-			<groupId>com.bitplan</groupId>
-			<artifactId>w3cValidator</artifactId>
-			<version>0.0.2</version>
-			<scope>test</scope>
+			<artifactId>spring-boot-starter-logging</artifactId>
 		</dependency>
 		<dependency>
-			<groupId>org.json</groupId>
-			<artifactId>json</artifactId>
-			<scope>test</scope>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-mail</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-security</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -147,38 +311,82 @@
 		</dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-batch</artifactId>
+			<artifactId>spring-boot-starter-thymeleaf</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-web</artifactId>
+			<exclusions>
+				<exclusion>
+					<artifactId>spring-boot-starter-tomcat</artifactId>
+					<groupId>org.springframework.boot</groupId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-websocket</artifactId>
+		</dependency>
+		<!-- Spring Cloud -->
+		<dependency>
+			<groupId>org.springframework.cloud</groupId>
+			<artifactId>spring-cloud-cloudfoundry-connector</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.cloud</groupId>
+			<artifactId>spring-cloud-localconfig-connector</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.cloud</groupId>
+			<artifactId>spring-cloud-spring-service-connector</artifactId>
+		</dependency>
+		<!-- security -->
+		<dependency>
+			<groupId>org.springframework.security</groupId>
+			<artifactId>spring-security-data</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.security</groupId>
+			<artifactId>spring-security-messaging</artifactId>
+			<version>${spring-security.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.security.oauth</groupId>
+			<artifactId>spring-security-oauth2</artifactId>
+			<version>${spring-security-oauth2.version}</version>
 		</dependency>
 	</dependencies>
 
-	<!-- Add Spring repositories -->
-	<!-- (you don't need this if you are using a .RELEASE version) -->
 	<repositories>
-		<repository>
-			<snapshots>
-				<enabled>true</enabled>
-			</snapshots>
-			<id>spring-snapshots</id>
-			<url>http://repo.spring.io/snapshot</url>
-		</repository>
 		<repository>
 			<id>spring-milestones</id>
 			<url>http://repo.spring.io/milestone</url>
 		</repository>
 	</repositories>
-
 	<pluginRepositories>
-		<pluginRepository>
-			<id>spring-snapshots</id>
-			<url>http://repo.spring.io/snapshot</url>
-		</pluginRepository>
 		<pluginRepository>
 			<id>spring-milestones</id>
 			<url>http://repo.spring.io/milestone</url>
 		</pluginRepository>
 	</pluginRepositories>
-
 	<build>
+		<defaultGoal>spring-boot:run</defaultGoal>
+		<resources>
+			<resource>
+				<filtering>true</filtering>
+				<directory>src/main/resources</directory>
+				<includes>
+					<include>**/*.xml</include>
+				</includes>
+			</resource>
+			<resource>
+				<filtering>false</filtering>
+				<directory>src/main/resources</directory>
+				<excludes>
+					<exclude>**/*.xml</exclude>
+				</excludes>
+			</resource>
+		</resources>
 		<pluginManagement>
 			<plugins>
 				<!--This plugin's configuration is used to store Eclipse m2e settings 
@@ -192,28 +400,15 @@
 							<pluginExecutions>
 								<pluginExecution>
 									<pluginExecutionFilter>
-										<groupId>org.apache.maven.plugins</groupId>
-										<artifactId>maven-pmd-plugin</artifactId>
-										<versionRange>[3.5,)</versionRange>
+										<groupId>com.github.trecloux</groupId>
+										<artifactId>yeoman-maven-plugin</artifactId>
+										<versionRange>[0.4,)</versionRange>
 										<goals>
-											<goal>cpd-check</goal>
+											<goal>build</goal>
 										</goals>
 									</pluginExecutionFilter>
 									<action>
-										<ignore></ignore>
-									</action>
-								</pluginExecution>
-								<pluginExecution>
-									<pluginExecutionFilter>
-										<groupId>org.codehaus.mojo</groupId>
-										<artifactId>build-helper-maven-plugin</artifactId>
-										<versionRange>[1.9.1,)</versionRange>
-										<goals>
-											<goal>reserve-network-port</goal>
-										</goals>
-									</pluginExecutionFilter>
-									<action>
-										<ignore></ignore>
+										<ignore />
 									</action>
 								</pluginExecution>
 							</pluginExecutions>
@@ -223,21 +418,93 @@
 			</plugins>
 		</pluginManagement>
 		<plugins>
-			<!-- fail build on compiler warning -->
 			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-compiler-plugin</artifactId>
+				<groupId>com.google.code.sortpom</groupId>
+				<artifactId>maven-sortpom-plugin</artifactId>
+				<version>${maven-sortpom-plugin.version}</version>
+				<executions>
+					<execution>
+						<phase>verify</phase>
+						<goals>
+							<goal>sort</goal>
+						</goals>
+					</execution>
+				</executions>
 				<configuration>
-					<compilerArgs>
-						<arg>-Xlint</arg>
-						<!-- <arg>-Werror</arg> -->
-						<arg>-proc:none</arg>
-					</compilerArgs>
-					<showDeprecation>true</showDeprecation>
-					<showWarnings>true</showWarnings>
+					<sortProperties>true</sortProperties>
+					<nrOfIndentSpace>4</nrOfIndentSpace>
+					<sortDependencies>groupId,artifactId</sortDependencies>
+					<sortPlugins>groupId,artifactId</sortPlugins>
+					<keepBlankLines>true</keepBlankLines>
+					<expandEmptyElements>false</expandEmptyElements>
 				</configuration>
 			</plugin>
-			<!-- Generate Builder Classes -->
+			<plugin>
+				<groupId>io.gatling</groupId>
+				<artifactId>gatling-maven-plugin</artifactId>
+				<version>${gatling-maven-plugin.version}</version>
+				<configuration>
+					<configFolder>src/test/gatling/conf</configFolder>
+					<dataFolder>src/test/gatling/data</dataFolder>
+					<resultsFolder>target/gatling/results</resultsFolder>
+					<bodiesFolder>src/test/gatling/bodies</bodiesFolder>
+					<simulationsFolder>src/test/gatling/simulations</simulationsFolder>
+					<!-- This will force Gatling to ask which simulation to run This is 
+						useful when you have multiple simulations -->
+					<simulationClass>*</simulationClass>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-eclipse-plugin</artifactId>
+				<configuration>
+					<downloadSources>true</downloadSources>
+					<downloadJavadocs>true</downloadJavadocs>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-enforcer-plugin</artifactId>
+				<version>${maven-enforcer-plugin.version}</version>
+				<executions>
+					<execution>
+						<id>enforce-versions</id>
+						<goals>
+							<goal>enforce</goal>
+						</goals>
+					</execution>
+				</executions>
+				<configuration>
+					<rules>
+						<requireMavenVersion>
+							<message>You are running an older version of Maven. JHipster
+								requires at least Maven 3.0</message>
+							<version>[3.0.0,)</version>
+						</requireMavenVersion>
+						<requireJavaVersion>
+							<message>You are running an older version of Java. JHipster
+								requires at least JDK ${java.version}</message>
+							<version>[${java.version}.0,)</version>
+						</requireJavaVersion>
+					</rules>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-surefire-plugin</artifactId>
+				<configuration>
+					<argLine>-Xmx256m ${surefireArgLine}</argLine>
+					<!-- Force alphabetical order to have a reproducible build -->
+					<runOrder>alphabetical</runOrder>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-war-plugin</artifactId>
+				<configuration>
+					<packagingExcludes>WEB-INF/lib/tomcat-*.jar</packagingExcludes>
+				</configuration>
+			</plugin>
 			<plugin>
 				<groupId>org.bsc.maven</groupId>
 				<artifactId>maven-processor-plugin</artifactId>
@@ -245,394 +512,264 @@
 				<executions>
 					<execution>
 						<id>process</id>
-						<phase>process-sources</phase>
+						<phase>generate-sources</phase>
 						<goals>
 							<goal>process</goal>
 						</goals>
 					</execution>
 				</executions>
-				<configuration>
-					<defaultOutputDirectory>${project.build.directory}/generated-test-sources/</defaultOutputDirectory>
-				</configuration>
-			</plugin>
-			<!-- Checkstyle and fail the build -->
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-checkstyle-plugin</artifactId>
-				<version>2.17</version>
-				<executions>
-					<execution>
-						<id>checkstyle</id>
-						<phase>validate</phase>
-						<goals>
-							<goal>check</goal>
-						</goals>
-						<configuration>
-							<excludes>${project.build.directory}/generated-test-sources/**</excludes>
-							<configLocation>buildconfig/google_checks.xml</configLocation>
-							<encoding>UTF-8</encoding>
-							<consoleOutput>true</consoleOutput>
-							<failsOnError>true</failsOnError>
-							<failOnViolation>true</failOnViolation>
-							<maxAllowedViolations>0</maxAllowedViolations>
-							<linkXRef>false</linkXRef>
-						</configuration>
-					</execution>
-				</executions>
-			</plugin>
-			<!-- Findbugs and fail the build -->
-			<plugin>
-				<groupId>org.codehaus.mojo</groupId>
-				<artifactId>findbugs-maven-plugin</artifactId>
-				<version>3.0.2</version>
-				<executions>
-					<execution>
-						<id>findbugs</id>
-						<phase>compile</phase>
-						<goals>
-							<goal>check</goal>
-						</goals>
-					</execution>
-				</executions>
-				<configuration>
-					<effort>Max</effort>
-					<threshold>Low</threshold>
-					<xmlOutput>true</xmlOutput>
-				</configuration>
-			</plugin>
-			<!-- PMD analysis may fail the build -->
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-pmd-plugin</artifactId>
-				<version>3.5</version>
-				<executions>
-					<execution>
-						<id>pmd check</id>
-						<phase>validate</phase>
-						<goals>
-							<goal>check</goal>
-							<goal>cpd-check</goal>
-						</goals>
-					</execution>
-				</executions>
-			</plugin>
-			<!-- reuse README.md as index on github pages -->
-			<plugin>
-				<artifactId>maven-resources-plugin</artifactId>
-				<executions>
-					<execution>
-						<id>copy-readme</id>
-						<phase>generate-sources</phase>
-						<goals>
-							<goal>copy-resources</goal>
-						</goals>
-						<configuration>
-							<outputDirectory>${basedir}/src/site/markdown</outputDirectory>
-							<resources>
-								<resource>
-									<directory>${basedir}</directory>
-									<includes>
-										<include>README.md</include>
-									</includes>
-								</resource>
-							</resources>
-						</configuration>
-					</execution>
-					<execution>
-						<id>copy-dockerfiles</id>
-						<!-- here the phase you need -->
-						<phase>validate</phase>
-						<goals>
-							<goal>copy-resources</goal>
-						</goals>
-						<configuration>
-							<outputDirectory>${project.build.directory}/docker</outputDirectory>
-							<resources>
-								<resource>
-									<directory>docker</directory>
-									<filtering>true</filtering>
-								</resource>
-							</resources>
-						</configuration>
-					</execution>
-				</executions>
-			</plugin>
-			<!-- fail build on js hint errors -->
-			<plugin>
-				<groupId>com.cj.jshintmojo</groupId>
-				<artifactId>jshint-maven-plugin</artifactId>
-				<version>1.6.0</version>
-				<executions>
-					<execution>
-						<goals>
-							<goal>lint</goal>
-						</goals>
-					</execution>
-				</executions>
-				<configuration>
-					<version>2.4.3</version>
-					<directories>
-						<directory>src/main/resources/static/js</directory>
-					</directories>
-					<failOnError>true</failOnError>
-				</configuration>
-			</plugin>
-			<!-- build a fat jar -->
-			<plugin>
-				<groupId>org.springframework.boot</groupId>
-				<artifactId>spring-boot-maven-plugin</artifactId>
 				<dependencies>
 					<dependency>
-						<groupId>org.springframework</groupId>
-						<artifactId>springloaded</artifactId>
-						<version>1.2.4.RELEASE</version>
+						<groupId>org.mapstruct</groupId>
+						<artifactId>mapstruct-processor</artifactId>
+						<version>${mapstruct.version}</version>
 					</dependency>
 				</dependencies>
 				<configuration>
-					<arguments>
-						<argument>--spring.profiles.active=development</argument>
-					</arguments>
+					<defaultOutputDirectory>${project.build.directory}/generated-sources</defaultOutputDirectory>
+					<processors>
+						<processor>org.mapstruct.ap.MappingProcessor</processor>
+					</processors>
+					<options>
+						<mapstruct.suppressGeneratorTimestamp>true</mapstruct.suppressGeneratorTimestamp>
+						<mapstruct.defaultComponentModel>spring</mapstruct.defaultComponentModel>
+					</options>
 				</configuration>
 			</plugin>
-			<!-- prepare port for integration test -->
 			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
-				<artifactId>build-helper-maven-plugin</artifactId>
-				<executions>
-					<execution>
-						<id>reserve-tomcat-port</id>
-						<phase>process-resources</phase>
-						<goals>
-							<goal>reserve-network-port</goal>
-						</goals>
-						<configuration>
-							<portNames>
-								<portName>tomcat.http.port</portName>
-							</portNames>
-						</configuration>
-					</execution>
-					<execution>
-						<id>add-source</id>
-						<phase>generate-test-sources</phase>
-						<goals>
-							<goal>add-source</goal>
-						</goals>
-						<configuration>
-							<sources>
-								<source>${project.build.directory}/generated-test-sources/</source>
-							</sources>
-						</configuration>
-					</execution>
-				</executions>
+				<artifactId>sonar-maven-plugin</artifactId>
+				<version>${sonar-maven-plugin.version}</version>
 			</plugin>
-			<!-- run the jar for integration test -->
-			<plugin>
-				<groupId>com.bazaarvoice.maven.plugins</groupId>
-				<artifactId>process-exec-maven-plugin</artifactId>
-				<version>0.7</version>
-				<executions>
-					<execution>
-						<id>pre-integration-test</id>
-						<phase>pre-integration-test</phase>
-						<goals>
-							<goal>start</goal>
-						</goals>
-						<configuration>
-							<waitForInterrupt>false</waitForInterrupt>
-							<waitAfterLaunch>60</waitAfterLaunch>
-							<healthcheckUrl>http://localhost:${tomcat.http.port}/</healthcheckUrl>
-							<arguments>
-								<argument>java</argument>
-								<argument>-jar</argument>
-								<argument>${project.build.finalName}.${project.packaging}</argument>
-								<argument>--server.port=${tomcat.http.port}</argument>
-							</arguments>
-						</configuration>
-					</execution>
-					<!--Stop all processes in reverse order -->
-					<execution>
-						<id>post-integration-test</id>
-						<phase>post-integration-test</phase>
-						<goals>
-							<goal>stop-all</goal>
-						</goals>
-					</execution>
-				</executions>
-			</plugin>
-			<!-- enable integration test with reserved port -->
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-failsafe-plugin</artifactId>
-				<executions>
-					<execution>
-						<goals>
-							<goal>integration-test</goal>
-							<goal>verify</goal>
-						</goals>
-					</execution>
-				</executions>
-				<configuration>
-					<systemPropertyVariables>
-						<test.server.port>${tomcat.http.port}</test.server.port>
-					</systemPropertyVariables>
-				</configuration>
-			</plugin>
-			<!-- create git.properties -->
-			<plugin>
-				<groupId>pl.project13.maven</groupId>
-				<artifactId>git-commit-id-plugin</artifactId>
-			</plugin>
-			<!-- deploy fat jar to cloudfoundry -->
-			<plugin>
-				<groupId>org.cloudfoundry</groupId>
-				<artifactId>cf-maven-plugin</artifactId>
-				<version>1.1.3</version>
-				<configuration>
-					<path>${project.build.directory}/${project.build.finalName}.${project.packaging}</path>
-					<server>cloudfoundry</server>
-					<target>http://api.run.pivotal.io</target>
-					<org>DZHW</org>
-					<space>development</space>
-					<appname>metadatamanagement</appname>
-					<url>metadatamanagement.cfapps.io</url>
-					<buildpack>https://github.com/cloudfoundry/java-buildpack</buildpack>
-					<memory>1024</memory>
-					<diskQuota>1024</diskQuota>
-					<healthCheckTimeout>60</healthCheckTimeout>
-					<instances>1</instances>
-				</configuration>
-			</plugin>
-			<!-- wrap the jar into a docker image -->
-			<plugin>
-				<groupId>com.spotify</groupId>
-				<artifactId>docker-maven-plugin</artifactId>
-				<version>0.3.5</version>
-				<configuration>
-					<imageName>${project.artifactId}:${project.version}</imageName>
-					<dockerDirectory>${project.build.directory}/docker</dockerDirectory>
-					<!-- copy the service's jar file from target into the root directory 
-						of the image -->
-					<resources>
-						<resource>
-							<targetPath>/</targetPath>
-							<directory>${project.build.directory}</directory>
-							<include>${project.build.finalName}.${project.packaging}</include>
-						</resource>
-					</resources>
-				</configuration>
-			</plugin>
-			<!-- Measure java code coverage with jacoco -->
 			<plugin>
 				<groupId>org.jacoco</groupId>
 				<artifactId>jacoco-maven-plugin</artifactId>
-				<version>${jacoco.version}</version>
+				<version>${jacoco-maven-plugin.version}</version>
 				<executions>
 					<execution>
-						<id>prepare-agent</id>
+						<id>pre-unit-tests</id>
 						<goals>
 							<goal>prepare-agent</goal>
 						</goals>
+						<configuration>
+							<!-- Sets the path to the file which contains the execution data. -->
+							<destFile>${project.testresult.directory}/coverage/jacoco/jacoco.exec</destFile>
+							<!-- Sets the name of the property containing the settings for JaCoCo 
+								runtime agent. -->
+							<propertyName>surefireArgLine</propertyName>
+						</configuration>
+					</execution>
+					<!-- Ensures that the code coverage report for unit tests is created 
+						after unit tests have been run -->
+					<execution>
+						<id>post-unit-test</id>
+						<phase>test</phase>
+						<goals>
+							<goal>report</goal>
+						</goals>
+						<configuration>
+							<dataFile>${project.testresult.directory}/coverage/jacoco/jacoco.exec</dataFile>
+							<outputDirectory>${project.testresult.directory}/coverage/jacoco</outputDirectory>
+						</configuration>
 					</execution>
 				</executions>
-				<configuration>
-					<excludes>
-						<exclude>**/builders/</exclude>
-					</excludes>
-				</configuration>
 			</plugin>
 			<!-- report code coverage to coveralls -->
 			<plugin>
 				<groupId>org.eluder.coveralls</groupId>
 				<artifactId>coveralls-maven-plugin</artifactId>
 				<version>4.0.0</version>
-			</plugin>
-			<!-- Plugins for the maven site -->
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-site-plugin</artifactId>
-				<dependencies>
-					<!-- enable reflow skin and markdown support -->
-					<dependency>
-						<groupId>lt.velykis.maven.skins</groupId>
-						<artifactId>reflow-velocity-tools</artifactId>
-						<version>1.1.1</version>
-					</dependency>
-					<!-- Reflow skin requires Velocity >= 1.7 -->
-					<dependency>
-						<groupId>org.apache.velocity</groupId>
-						<artifactId>velocity</artifactId>
-						<version>1.7</version>
-					</dependency>
-				</dependencies>
-				<!-- Disable "normal" site deployment -->
 				<configuration>
-					<skipDeploy>true</skipDeploy>
+					<jacocoReports>
+						<jacocoReport>${project.testresult.directory}/coverage/jacoco/jacoco.xml</jacocoReport>
+					</jacocoReports>
 				</configuration>
 			</plugin>
-			<!-- sort the pom.xml -->
 			<plugin>
-				<groupId>com.github.ekryd.sortpom</groupId>
-				<artifactId>sortpom-maven-plugin</artifactId>
-				<version>2.4.0</version>
+				<groupId>org.liquibase</groupId>
+				<artifactId>liquibase-maven-plugin</artifactId>
+				<version>${liquibase.version}</version>
+				<dependencies>
+					<dependency>
+						<groupId>org.javassist</groupId>
+						<artifactId>javassist</artifactId>
+						<version>3.18.2-GA</version>
+					</dependency>
+					<dependency>
+						<groupId>org.liquibase.ext</groupId>
+						<artifactId>liquibase-hibernate4</artifactId>
+						<version>${liquibase-hibernate4.version}</version>
+					</dependency>
+					<dependency>
+						<groupId>org.springframework.boot</groupId>
+						<artifactId>spring-boot-starter-data-jpa</artifactId>
+						<version>${project.parent.version}</version>
+					</dependency>
+				</dependencies>
 				<configuration>
-					<encoding>${project.build.sourceEncoding}</encoding>
-					<createBackupFile>false</createBackupFile>
-					<sortDependencies>scope,groupId,artifactId</sortDependencies>
-					<sortProperties>true</sortProperties>
-					<keepBlankLines>true</keepBlankLines>
+					<changeLogFile>src/main/resources/config/liquibase/master.xml</changeLogFile>
+					<diffChangeLogFile>src/main/resources/config/liquibase/changelog/${maven.build.timestamp}_changelog.xml</diffChangeLogFile>
+					<driver>org.postgresql.Driver</driver>
+					<url>jdbc:postgresql://localhost/metadatamanagement</url>
+					<defaultSchemaName />
+					<username>metadatamanagement</username>
+					<password />
+					<referenceUrl>hibernate:spring:eu.dzhw.fdz.metadatamanagement.domain?dialect=org.hibernate.dialect.PostgreSQL82Dialect</referenceUrl>
+					<verbose>true</verbose>
+					<logging>debug</logging>
+					<diffExcludeObjects>oauth_access_token, oauth_approvals,
+						oauth_client_details, oauth_client_token, oauth_code,
+						oauth_refresh_token</diffExcludeObjects>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-maven-plugin</artifactId>
+				<configuration>
+					<executable>true</executable>
+					<jvmArguments>-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=5005</jvmArguments>
+					<arguments>
+						<argument>--spring.profiles.active=dev</argument>
+					</arguments>
 				</configuration>
 			</plugin>
 		</plugins>
 	</build>
 
-	<reporting>
-		<plugins>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-project-info-reports-plugin</artifactId>
-				<version>2.8.1</version>
-				<reportSets>
-					<reportSet>
-						<reports>
-							<report>project-team</report>
-							<report>issue-tracking</report>
-							<report>dependencies</report>
-							<report>dependency-convergence</report>
-							<report>plugins</report>
-						</reports>
-					</reportSet>
-				</reportSets>
-			</plugin>
-			<plugin>
-				<groupId>org.codehaus.mojo</groupId>
-				<artifactId>versions-maven-plugin</artifactId>
-				<version>2.2</version>
-				<reportSets>
-					<reportSet>
-						<reports>
-							<report>dependency-updates-report</report>
-							<report>plugin-updates-report</report>
-						</reports>
-					</reportSet>
-				</reportSets>
-			</plugin>
-			<plugin>
-				<groupId>org.jacoco</groupId>
-				<artifactId>jacoco-maven-plugin</artifactId>
-				<version>${jacoco.version}</version>
-			</plugin>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-javadoc-plugin</artifactId>
-				<version>2.10.3</version>
-				<reportSets>
-					<reportSet>
-						<reports>
-							<report>javadoc-no-fork</report>
-						</reports>
-					</reportSet>
-				</reportSets>
-			</plugin>
-		</plugins>
-	</reporting>
+	<profiles>
+		<profile>
+			<id>dev</id>
+			<activation>
+				<activeByDefault>true</activeByDefault>
+			</activation>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>com.github.trecloux</groupId>
+						<artifactId>yeoman-maven-plugin</artifactId>
+						<version>0.4</version>
+						<executions>
+							<execution>
+								<id>run-grunt</id>
+								<phase>generate-resources</phase>
+								<goals>
+									<goal>build</goal>
+								</goals>
+								<configuration>
+									<skipTests>true</skipTests>
+									<buildTool>grunt</buildTool>
+									<buildArgs>sass:server --force</buildArgs>
+								</configuration>
+							</execution>
+						</executions>
+						<configuration>
+							<yeomanProjectDirectory>${project.basedir}</yeomanProjectDirectory>
+						</configuration>
+					</plugin>
+				</plugins>
+			</build>
+			<properties>
+				<!-- log configuration -->
+				<logback.loglevel>DEBUG</logback.loglevel>
+			</properties>
+			<dependencies>
+				<dependency>
+					<groupId>org.springframework.boot</groupId>
+					<artifactId>spring-boot-starter-tomcat</artifactId>
+				</dependency>
+			</dependencies>
+		</profile>
+		<profile>
+			<id>fast</id>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>org.springframework.boot</groupId>
+						<artifactId>spring-boot-maven-plugin</artifactId>
+						<configuration>
+							<executable>true</executable>
+							<arguments>
+								<argument>--spring.profiles.active=dev,fast</argument>
+							</arguments>
+						</configuration>
+					</plugin>
+				</plugins>
+			</build>
+			<properties>
+				<!-- log configuration -->
+				<logback.loglevel>DEBUG</logback.loglevel>
+			</properties>
+			<dependencies>
+				<dependency>
+					<groupId>org.springframework.boot</groupId>
+					<artifactId>spring-boot-starter-undertow</artifactId>
+				</dependency>
+			</dependencies>
+		</profile>
+		<profile>
+			<id>prod</id>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>com.github.trecloux</groupId>
+						<artifactId>yeoman-maven-plugin</artifactId>
+						<version>0.4</version>
+						<executions>
+							<execution>
+								<id>run-frontend-build</id>
+								<phase>generate-resources</phase>
+								<goals>
+									<goal>build</goal>
+								</goals>
+								<configuration>
+									<buildTool>grunt</buildTool>
+									<buildArgs>build --force --no-color</buildArgs>
+								</configuration>
+							</execution>
+						</executions>
+						<configuration>
+							<yeomanProjectDirectory>${project.basedir}</yeomanProjectDirectory>
+						</configuration>
+					</plugin>
+					<plugin>
+						<artifactId>maven-clean-plugin</artifactId>
+						<version>2.5</version>
+						<configuration>
+							<filesets>
+								<fileset>
+									<directory>src/main/webapp/dist</directory>
+								</fileset>
+								<fileset>
+									<directory>.tmp</directory>
+								</fileset>
+								<fileset>
+									<directory>node_modules</directory>
+								</fileset>
+							</filesets>
+						</configuration>
+					</plugin>
+					<plugin>
+						<groupId>org.springframework.boot</groupId>
+						<artifactId>spring-boot-maven-plugin</artifactId>
+						<configuration>
+							<executable>true</executable>
+							<arguments>
+								<argument>--spring.profiles.active=prod</argument>
+							</arguments>
+						</configuration>
+					</plugin>
+				</plugins>
+			</build>
+			<properties>
+				<!-- log configuration -->
+				<logback.loglevel>INFO</logback.loglevel>
+			</properties>
+			<dependencies>
+				<dependency>
+					<groupId>org.springframework.boot</groupId>
+					<artifactId>spring-boot-starter-tomcat</artifactId>
+				</dependency>
+			</dependencies>
+		</profile>
+	</profiles>
 </project>

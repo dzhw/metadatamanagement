@@ -1,0 +1,24 @@
+{
+  "generator-jhipster": {
+    "baseName": "metadatamanagement",
+    "packageName": "eu.dzhw.fdz.metadatamanagement",
+    "packageFolder": "eu/dzhw/fdz/metadatamanagement",
+    "authenticationType": "oauth2",
+    "hibernateCache": "no",
+    "clusteredHttpSession": "no",
+    "websocket": "spring-websocket",
+    "databaseType": "sql",
+    "devDatabaseType": "postgresql",
+    "prodDatabaseType": "postgresql",
+    "searchEngine": "elasticsearch",
+    "useSass": true,
+    "buildTool": "maven",
+    "frontendBuilder": "grunt",
+    "enableTranslation": true,
+    "enableSocialSignIn": false,
+    "rememberMeKey": "4c1b393da7137b16ffe4ce78e3f23ff2c75d5c7c",
+    "testFrameworks": [
+      "gatling"
+    ]
+  }
+}

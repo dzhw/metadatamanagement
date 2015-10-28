@@ -1,66 +1,60 @@
-#set the minimum of query ngrams which have to match
-search.minimum-should-match-ngrams: 100%
+# ===================================================================
+# Spring Boot configuration.
+#
+# This configuration will be overriden by the Spring profile you use,
+# for example application-dev.yml if you use the "dev" profile.
+# ===================================================================
 
-info:
-  #set some properties by maven filter
-  app.version: "@project.version@"
-  app.buildtime: "@buildtime@"
-  springboot.version: "@project.parent.version@"
-  elasticsearch.version: "@elasticsearch.version@"
-  git.commit.id: "@git.commit.id@"
-  git.commit.user: "@git.commit.user.name@"
-  git.commit.message: "@git.commit.message.short@"
-  git.commit.time: "@git.commit.time@"
-  
+# ===================================================================
+# Standard Spring Boot properties.
+# Full reference is available at:
+# http://docs.spring.io/spring-boot/docs/current/reference/html/common-application-properties.html
+# ===================================================================
+
 spring:
-  data:
-    elasticsearch:
-      #set the clustername for production
-      cluster-name: metadatamanagement
-      properties:
-        node.local: false
-        node.data: true
-        http.enabled: false
-        discovery.zen.master_election.filter_client: false
-        path.data: elasticsearch/data
-  #set base name for message sources
-  messages:
-    basename: i18n/messages
-  #enable ISO serialization of JSR 310 date time objects
-  jackson:
-    serialization:
-      write-dates-as-timestamps: false
-  mvc:
+    jpa:
+        open-in-view: false
+        hibernate:
+            ddl-auto: none
+            naming-strategy: org.springframework.boot.orm.jpa.hibernate.SpringNamingStrategy
+    messages:
+        basename: classpath:/i18n/messages
+    mvc:
+        favicon:
+            enabled: false
+    thymeleaf:
+        mode: XHTML
+
+security:
+    basic:
+        enabled: false
+
+# ===================================================================
+# JHipster specific properties
+# ===================================================================
+
+jhipster:
     async:
-      #use ten seconds as request timeout
-      request-timeout: 10000
-  git:
-    properties: git.properties
-      
-#enable specific actuator endpoints
-endpoints:
-  enabled: false
-  env:
-    enabled: true
-    sensitive: false
-  health:
-    enabled: true
-    sensitive: false
-  configprops:
-    enabled: true
-    sensitive: false
-  info:
-    enabled: true
-    sensitive: false
-  mappings:
-    enabled: true
-    sensitive: false
-    
-#enable gzip compression
-server:
-  compression:
-    enabled: true
-    
-#redirect endpoints     
-management: 
-     context-path: /admin
+        corePoolSize: 2
+        maxPoolSize: 50
+        queueCapacity: 10000
+    mail:
+        from: metadatamanagement@localhost
+    security:
+        authentication:
+            oauth:
+                clientid: metadatamanagementapp
+                secret: mySecretOAuthSecret
+                # Token is valid 30 minutes
+                tokenValidityInSeconds: 1800
+        rememberme:
+            # security key (this key should be unique for your application, and kept secret)
+            key: 4c1b393da7137b16ffe4ce78e3f23ff2c75d5c7c
+    swagger:
+        title: metadatamanagement API
+        description: metadatamanagement API documentation
+        version: 0.0.1
+        termsOfServiceUrl:
+        contact:
+        license:
+        licenseUrl:
