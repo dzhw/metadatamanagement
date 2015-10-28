@@ -2,12 +2,13 @@
 
 # Developing metadatamanagement
 
-This application was generated using JHipster, you can find documentation and help at [https://jhipster.gitub.io][].
+This application was generated using JHipster, you can find documentation and help at https://jhipster.gitub.io.
 
 Before you can build this project, you must install and configure the following dependencies on your machine:
 
-1. [Node.js][]: We use Node to run a development web server and build the project.
-   Depending on your system, you can install Node either from source or as a pre-packaged bundle.
+1. Java: You need to install java 8 sdk on your system.
+2. Maven: You need to install maven 3 on your system.
+3. [Node.js][]: Node.js and npm (coming with node.js) are required as well. On Ubuntu you should install node using [NVM][] 
 
 After installing Node, you should be able to run the following command to install development tools (like
 [Bower][] and [BrowserSync][]). You will only need to run this command when dependencies change in package.json.
@@ -80,3 +81,4 @@ To setup this project in Jenkins, use the following configuration:
 [Jasmine]: http://jasmine.github.io/2.0/introduction.html
 [Protractor]: https://angular.github.io/protractor/
 [Yoeman]: http://yeoman.io/
+[NVM]: https://github.com/creationix/nvm
