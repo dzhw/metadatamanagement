@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/dzhw/metadatamanagement.svg?branch=master)](https://travis-ci.org/dzhw/metadatamanagement) [![Coverage Status](https://coveralls.io/repos/dzhw/metadatamanagement/badge.svg?branch=master&service=github)](https://coveralls.io/github/dzhw/metadatamanagement?branch=master) [![Dependency Status](https://www.versioneye.com/user/projects/55af5e7a3865620017000077/badge.svg?style=flat)](https://www.versioneye.com/user/projects/55af5e7a3865620017000077)
+
 # Developing metadatamanagement
 
 This application was generated using JHipster, you can find documentation and help at [https://jhipster.gitub.io][].
@@ -15,6 +17,12 @@ After installing Node, you should be able to run the following command to instal
 We use [Grunt][] as our build system. Install the grunt command-line tool globally with:
 
     npm install -g grunt-cli
+
+You should install [Bower][] and [Yoeman][] globally as well:
+
+    npm install -g bower
+    npm install -g yo
+    npm install -g generator-jhipster
 
 Run the following commands in two separate terminals to create a blissful development experience where your browser
 auto-refreshes when files change on your hard drive.
@@ -71,3 +79,4 @@ To setup this project in Jenkins, use the following configuration:
 [Karma]: http://karma-runner.github.io/
 [Jasmine]: http://jasmine.github.io/2.0/introduction.html
 [Protractor]: https://angular.github.io/protractor/
+[Yoeman]: http://yeoman.io/
