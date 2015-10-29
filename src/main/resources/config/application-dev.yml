@@ -50,6 +50,7 @@ spring:
             index.search.slowlog.threshold.query.info: 1ms
     mail:
         host: localhost
+        port: 1025
     messages:
         cache-seconds: 1
     thymeleaf:
