@@ -38,11 +38,12 @@ spring:
         #set the clustername for production
           cluster-name: metadatamanagement
           properties:
-            node.local: false
+            node.local: true
             node.data: true
             http.enabled: false
             discovery.zen.master_election.filter_client: false
             path.data: elasticsearch/data
+            path.logs: elasticsearch/log
     mail:
         host: ${vcap.services.email.credentials.hostname}
         port: 25
