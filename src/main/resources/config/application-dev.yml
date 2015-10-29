@@ -34,12 +34,20 @@ spring:
             hibernate.generate_statistics: true
     data:
         elasticsearch:
-            cluster-name:
-            cluster-nodes:
-            properties:
-                path:
-                  logs: target/elasticsearch/log
-                  data: target/elasticsearch/data
+          #set clustername to user name for dev purposes
+          cluster-name: ${user.name}
+          #set network host to loop address to enable multicast on localhost
+          properties:
+            network.host: 127.0.0.1
+            #enable rest endpoint for development
+            http.enabled: true
+            #enable cors for local usage of kopf plugin and sense
+            http.cors.enabled: true
+            http.cors.allow-origin: /.*/
+            #move elasticsearch data folder to the target folder
+            path.data: target/elasticsearch/data
+            path.logs: target/elasticsearch/log
+            index.search.slowlog.threshold.query.info: 1ms
     mail:
         host: localhost
     messages:
@@ -52,6 +60,11 @@ liquibase:
 
 server:
     port: 8080
+
+#enable logging of elasticsearch queries
+logging:
+  level:
+    org.elasticsearch.index.search.slowlog.query: INFO
 
 # ===================================================================
 # JHipster specific properties

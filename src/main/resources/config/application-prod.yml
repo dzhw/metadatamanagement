@@ -35,8 +35,14 @@ spring:
             hibernate.generate_statistics: false
     data:
         elasticsearch:
-            cluster-name:
-            cluster-nodes: localhost:9300
+        #set the clustername for production
+          cluster-name: metadatamanagement
+          properties:
+            node.local: false
+            node.data: true
+            http.enabled: false
+            discovery.zen.master_election.filter_client: false
+            path.data: elasticsearch/data
     mail:
         host: ${vcap.services.email.credentials.hostname}
         port: 25
