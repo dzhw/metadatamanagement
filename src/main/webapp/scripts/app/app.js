@@ -91,7 +91,7 @@ angular.module('metadatamanagementApp', ['LocalStorageModule', 'tmh.dynamicLocal
             urlTemplate: 'i18n/{lang}/{part}.json'
         });
 
-        $translateProvider.preferredLanguage('en');
+        $translateProvider.preferredLanguage('de');
         $translateProvider.useCookieStorage();
         $translateProvider.useSanitizeValueStrategy('escaped');
         $translateProvider.addInterpolation('$translateMessageFormatInterpolation');
