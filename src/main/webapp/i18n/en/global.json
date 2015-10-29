@@ -29,7 +29,8 @@
                 "apidocs": "API",
                 "database": "Database"
             },
-            "language": "Language"
+            "language": "Language",
+            "disclosure" : "Disclosure"
         },
         "form": {
             "username": "Username",
