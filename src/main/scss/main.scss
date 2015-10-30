@@ -5,7 +5,7 @@ $icon-font-path: "../../bower_components/bootstrap-sass/assets/fonts/bootstrap/"
 // endbower
 
 body {
-    background: #fafafa;
+    
     font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
     color: #333;
 }
@@ -27,36 +27,35 @@ body {
     background-repeat: no-repeat;
 }
 
-.dzhw {
+.dzhw_logo {
 background-image: url("../images/DZHW_Logo.svg");
 }
-.fdz {
+.fdz_logo {
 background-image: url("../images/FDZ_Logo.svg");
 }
-.bmbf_de {
+.bmbf_logo_de {
 background-image: url("../images/BMBF_Logo_L_de.png");
 }
-.bmbf_en {
+.bmbf_logo_en {
 background-image: url("../images/BMBF_Logo_L_en.png");
 }
-.fdz {
+.fdz_logo {
    width: 190px;
    height: 45px;
    padding-right: 190px;
    background-size: 190px 45px;
    background-image: url("../images/FDZ_Logo.svg");
 }
-.fdz, .dzhw, .bmbf_de, .bmbf_en{
-background-color: transparent;
+.fdz_logo, .dzhw_logo, .bmbf_logo_de, .bmbf_logo_en{
+   background-color: transparent;
    background-position: center center;
    background-repeat: no-repeat;
    }
-.dzhw, .bmbf_de, .bmbf_en {
+.dzhw_logo, .bmbf_logo_de, .bmbf_logo_en {
    top:10px;
-   width: 200px;
-   height: 200px;
-   padding-right: 190px;
-   background-size: 200px 200px;
+   width: 221px;
+   height: 157px;
+   background-size: 221px 157px;
 }
 .navbar-version {
     font-size: 10px;
