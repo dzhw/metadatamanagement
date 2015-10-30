@@ -14,6 +14,10 @@ body {
     display: none !important;
 }
 
+.page-header {
+    margin-top:-20px;
+}
+
 .development {
     position: absolute;
     width: 149px;
@@ -28,17 +32,21 @@ body {
 }
 
 .dzhw_logo {
-background-image: url("../images/DZHW_Logo.svg");
+    background-image: url("../images/DZHW_Logo.svg");
 }
+
 .fdz_logo {
-background-image: url("../images/FDZ_Logo.svg");
+    background-image: url("../images/FDZ_Logo.svg");
 }
+
 .bmbf_logo_de {
-background-image: url("../images/BMBF_Logo_L_de.png");
+   background-image: url("../images/BMBF_Logo_L_de.png");
 }
+
 .bmbf_logo_en {
-background-image: url("../images/BMBF_Logo_L_en.png");
+   background-image: url("../images/BMBF_Logo_L_en.png");
 }
+
 .fdz_logo {
    width: 190px;
    height: 45px;
@@ -46,17 +54,20 @@ background-image: url("../images/BMBF_Logo_L_en.png");
    background-size: 190px 45px;
    background-image: url("../images/FDZ_Logo.svg");
 }
+
 .fdz_logo, .dzhw_logo, .bmbf_logo_de, .bmbf_logo_en{
    background-color: transparent;
    background-position: center center;
    background-repeat: no-repeat;
    }
+   
 .dzhw_logo, .bmbf_logo_de, .bmbf_logo_en {
    top:10px;
    width: 221px;
    height: 157px;
    background-size: 221px 157px;
 }
+
 .navbar-version {
     font-size: 10px;
     color: #ccc
