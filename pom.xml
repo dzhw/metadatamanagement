@@ -623,9 +623,9 @@
                     	<coberturaReport>${project.testresult.directory}/coverage/report-cobertura/cobertura.xml</coberturaReport>
                     </coberturaReports>
                     <sourceDirectories>
-                    	<sourceDirectory>src/main/java</sourceDirectory>
-                    	<sourceDirectory>src/main/webapp/scripts</sourceDirectory>
+                    	<sourceDirectory>${project.basedir}</sourceDirectory>
                     </sourceDirectories>
+                    <scanForSources>true</scanForSources>
                 </configuration>
             </plugin>
             <plugin>
