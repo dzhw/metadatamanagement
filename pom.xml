@@ -624,7 +624,7 @@
                     </coberturaReports>
                     <sourceDirectories>
                     	<sourceDirectory>src/main/java</sourceDirectory>
-                    	<sourceDirectory>src/main/web/scripts</sourceDirectory>
+                    	<sourceDirectory>src/main/webapp/scripts</sourceDirectory>
                     </sourceDirectories>
                 </configuration>
             </plugin>
