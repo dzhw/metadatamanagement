@@ -64,7 +64,7 @@ module.exports = function (grunt) {
             test: {
                 src: 'src/test/javascript/karma.conf.js',
                 exclude: [/angular-i18n/, /angular-scenario/],
-                ignorePath: /\.\.\/\.\.\//, // remove ../../ from paths of injected javascripts
+                ignorePath: /\.\.\/\.\.\//, // remove ../ from paths of injected javascripts
                 devDependencies: true,
                 fileTypes: {
                     js: {
@@ -73,7 +73,7 @@ module.exports = function (grunt) {
                             js: /'(.*\.js)'/gi
                         },
                         replace: {
-                            js: '\'{{filePath}}\','
+                            js: '\'src/{{filePath}}\','
                         }
                     }
                 }
