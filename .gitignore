@@ -42,7 +42,9 @@ local.properties
 
 # CDT-specific
 .cproject
-
+.pmd
+.pmdruleset.xml
+.springBeans
 # PDT-specific
 .buildpath
 
@@ -122,3 +124,4 @@ Desktop.ini
 # Gradle Wrapper
 ######################
 !gradle/wrapper/gradle-wrapper.jar
+/.apt_generated/
