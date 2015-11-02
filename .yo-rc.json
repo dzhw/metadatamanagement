@@ -4,7 +4,7 @@
     "packageName": "eu.dzhw.fdz.metadatamanagement",
     "packageFolder": "eu/dzhw/fdz/metadatamanagement",
     "authenticationType": "oauth2",
-    "hibernateCache": "no",
+    "hibernateCache": "hazelcast",
     "clusteredHttpSession": "no",
     "websocket": "spring-websocket",
     "databaseType": "sql",

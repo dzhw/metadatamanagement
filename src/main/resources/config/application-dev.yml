@@ -21,7 +21,7 @@ spring:
     datasource:
         driver-class-name: org.postgresql.ds.PGSimpleDataSource
         url: jdbc:postgresql://localhost:5432/metadatamanagement
-        name: 
+        name:
         username: metadatamanagement
         password: metadatamanagement
     jpa:
@@ -29,9 +29,12 @@ spring:
         database: POSTGRESQL
         show_sql: true
         properties:
-            hibernate.cache.use_second_level_cache: false
+            hibernate.cache.use_second_level_cache: true
             hibernate.cache.use_query_cache: false
             hibernate.generate_statistics: true
+            hibernate.cache.region.factory_class: eu.dzhw.fdz.metadatamanagement.config.hazelcast.HazelcastCacheRegionFactory
+            hibernate.cache.use_minimal_puts: true
+            hibernate.cache.hazelcast.use_lite_member: true
     data:
         elasticsearch:
           #set clustername to user name for dev purposes
@@ -72,6 +75,10 @@ logging:
 # ===================================================================
 
 jhipster:
+    cache: # Hibernate 2nd level cache, used by CacheConfiguration
+        timeToLiveSeconds: 3600
+        hazelcast:
+            backupCount: 1
     mail: # specific JHipster mail property, for standard properties see MailProperties
         from: metadatamanagement@localhost
     metrics: # DropWizard Metrics configuration, used by MetricsConfiguration

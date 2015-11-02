@@ -9,6 +9,7 @@ import com.zaxxer.hikari.HikariDataSource;
 import liquibase.integration.spring.SpringLiquibase;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.cache.CacheManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnExpression;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceProperties;
@@ -44,7 +45,7 @@ public class DatabaseConfiguration {
 
     @Bean(destroyMethod = "close")
     @ConditionalOnExpression("#{!environment.acceptsProfiles('cloud') && !environment.acceptsProfiles('heroku')}")
-    public DataSource dataSource(DataSourceProperties dataSourceProperties, JHipsterProperties jHipsterProperties) {
+    public DataSource dataSource(DataSourceProperties dataSourceProperties, JHipsterProperties jHipsterProperties, CacheManager cacheManager) {
         log.debug("Configuring Datasource");
         if (dataSourceProperties.getUrl() == null) {
             log.error("Your database connection pool configuration is incorrect! The application" +

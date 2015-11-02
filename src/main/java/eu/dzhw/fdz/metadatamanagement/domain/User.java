@@ -1,6 +1,8 @@
 package eu.dzhw.fdz.metadatamanagement.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.hibernate.annotations.Cache;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.hibernate.validator.constraints.Email;
 
 import org.springframework.data.elasticsearch.annotations.Document;
@@ -18,6 +20,7 @@ import java.time.ZonedDateTime;
  */
 @Entity
 @Table(name = "jhi_user")
+@Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
 @Document(indexName = "user")
 public class User extends AbstractAuditingEntity implements Serializable {
 
@@ -75,6 +78,7 @@ public class User extends AbstractAuditingEntity implements Serializable {
         name = "jhi_user_authority",
         joinColumns = {@JoinColumn(name = "user_id", referencedColumnName = "id")},
         inverseJoinColumns = {@JoinColumn(name = "authority_name", referencedColumnName = "name")})
+    @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
     private Set<Authority> authorities = new HashSet<>();
 
     public Long getId() {

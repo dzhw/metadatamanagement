@@ -62,6 +62,7 @@ public class OAuth2ServerConfiguration {
           .hasAuthority(AuthoritiesConstants.ADMIN).antMatchers("/liquibase/**")
           .hasAuthority(AuthoritiesConstants.ADMIN).antMatchers("/api-docs/**")
           .hasAuthority(AuthoritiesConstants.ADMIN).antMatchers("/protected/**").authenticated();
+
       // Enforce HTTPS except on dev
       if (env.acceptsProfiles("!dev")) {
         http.requiresChannel().anyRequest().requiresSecure();
