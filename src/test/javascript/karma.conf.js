@@ -50,7 +50,7 @@ module.exports = function (config) {
         exclude: [],
 
         preprocessors: {
-            './**/*.js': ['coverage']
+            'main/webapp/scripts/**/*.js': ['coverage']
         },
 
         reporters: ['dots', 'jenkins', 'coverage', 'progress'],
@@ -64,7 +64,9 @@ module.exports = function (config) {
             
             dir: '../target/test-results/coverage',
             reporters: [
-                {type: 'lcov', subdir: 'report-lcov'}
+                {type: 'lcov', subdir: 'report-lcov'},
+                {type: 'html', subdir: 'report-html'},
+                {type: 'cobertura', subdir: 'report-cobertura', file: 'cobertura.xml' }
             ]
         },
 
