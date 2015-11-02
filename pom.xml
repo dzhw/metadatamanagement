@@ -622,6 +622,7 @@
                     <coberturaReports>
                     	<coberturaReport>${project.testresult.directory}/coverage/report-cobertura/cobertura.xml</coberturaReport>
                     </coberturaReports>
+                    <scanForSources>true</scanForSources>
                 </configuration>
             </plugin>
             <plugin>
