@@ -10,6 +10,8 @@
             "home": "Home",
             "entities": {
                 "main": "Entities",
+                "survey": "Survey",
+                "variable": "Variable",
                 "additionalEntity": "JHipster will add additional entities here (do not translate!)"
             },
             "account": {
