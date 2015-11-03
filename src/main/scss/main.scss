@@ -55,13 +55,17 @@ body {
 }
 
 .fdz_logo, .dzhw_logo, .bmbf_logo_de, .bmbf_logo_en{
+  top:10px;
    background-color: transparent;
    background-position: center center;
    background-repeat: no-repeat;
    }
-   
-.dzhw_logo, .bmbf_logo_de, .bmbf_logo_en {
-   top:10px;
+ .dzhw_logo {
+   width: 221px;
+   height: 157px;
+   background-size: 215px 90px;
+} 
+.bmbf_logo_de, .bmbf_logo_en {
    width: 221px;
    height: 157px;
    background-size: 221px 157px;
