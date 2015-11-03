@@ -5,17 +5,16 @@ $icon-font-path: "../../bower_components/bootstrap-sass/assets/fonts/bootstrap/"
 // endbower
 
 body {
-    
     font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
     color: #333;
 }
 
-[ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng-cloak {
-    display: none !important;
+.content {
+	margin-top: 70px;
 }
 
-.page-header {
-    margin-top:-20px;
+[ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng-cloak {
+    display: none !important;
 }
 
 .development {
@@ -25,7 +24,7 @@ body {
     top: 0;
     left: 0;
     border: 0;
-    z-index: 1000;
+    z-index: 2000;
     background-image: url("../images/development_ribbon.png");
     background-position: center center;
     background-repeat: no-repeat;
