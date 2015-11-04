@@ -24,10 +24,14 @@ spring:
             enabled: false
     thymeleaf:
         mode: XHTML
-  
+
+# TODO: check if this is ignored and remove
 security:
     basic:
         enabled: false
+        
+management:
+  context-path: /management
 
 # ===================================================================
 # JHipster specific properties

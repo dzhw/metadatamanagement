@@ -40,15 +40,8 @@
                 dom_id: "swagger-ui-container",
                 supportedSubmitMethods: ['get', 'post', 'put', 'delete', 'patch'],
                 onComplete: function(swaggerApi, swaggerUi){
-                    if(typeof initOAuth == "function") {
-                        initOAuth({
-                            clientId: "your-client-id",
-                            clientSecret: "your-client-secret",
-                            realm: "your-realms",
-                            appName: "your-app-name",
-                            scopeSeparator: ","
-                        });
-                    }
+                    $('#input_user').change(updateAuth);
+                    $('#input_pass').change(updateAuth);
 
                     if(window.SwaggerTranslator) {
                         window.SwaggerTranslator.translate();
@@ -65,32 +58,13 @@
                 apisSorter: "alpha",
                 showRequestHeaders: false
             });
-
-            function addApiKeyAuthorization(){
             
-            
-                var authToken = JSON.parse(localStorage.getItem("ls.token")).access_token;
-                var apiKeyAuth = new SwaggerClient.ApiKeyAuthorization("Authorization",
-                        "Bearer " + authToken, "header");
-                window.swaggerUi.api.clientAuthorizations.add("key", apiKeyAuth);
-            
-            
-            }
-
-            function getCSRF() {
-                var name = "CSRF-TOKEN=";
-                var ca = document.cookie.split(';');
-                for(var i=0; i<ca.length; i++) {
-                    var c = ca[i];
-                    while (c.charAt(0)==' ') c = c.substring(1);
-                    if (c.indexOf(name) != -1) return c.substring(name.length,c.length);
-                }
-                return "";
-            }
-
             window.swaggerUi.load();
-
-            addApiKeyAuthorization();
+            
+            var updateAuth = function() {
+                var auth = "Basic " + btoa($('#input_user')[0].value + ":" + $('#input_pass')[0].value);
+                window.swaggerUi.api.clientAuthorizations.add("key", new SwaggerClient.ApiKeyAuthorization("Authorization", auth, "header"));
+            };
 
             function log() {
                 if ('console' in window) {
@@ -105,6 +79,10 @@
 <div id='header'>
     <div class="swagger-ui-wrap">
         <a id="logo" href="http://swagger.io">swagger</a>
+    	<form id='api_selector'>
+      <div class='input'><input placeholder="username" id="input_user" name="user" type="text" size="30"/></div>	
+      <div class='input'><input placeholder="password" id="input_pass" name="pass" type="password" size="30"/></div>
+</form>
     </div>
 </div>
 

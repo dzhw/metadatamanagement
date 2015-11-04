@@ -620,10 +620,10 @@
                         <jacocoReport>${project.testresult.directory}/coverage/jacoco/jacoco.xml</jacocoReport>
                     </jacocoReports>
                     <coberturaReports>
-                    	<coberturaReport>${project.testresult.directory}/coverage/report-cobertura/cobertura.xml</coberturaReport>
+                        <coberturaReport>${project.testresult.directory}/coverage/report-cobertura/cobertura.xml</coberturaReport>
                     </coberturaReports>
                     <sourceDirectories>
-                    	<sourceDirectory>${project.basedir}</sourceDirectory>
+                        <sourceDirectory>${project.basedir}</sourceDirectory>
                     </sourceDirectories>
                     <scanForSources>true</scanForSources>
                 </configuration>

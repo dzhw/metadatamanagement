@@ -10,13 +10,13 @@ angular.module('metadatamanagementApp')
             },
 
             checkHealth: function () {
-                return $http.get('health').then(function (response) {
+                return $http.get('management/health').then(function (response) {
                     return response.data;
                 });
             },
 
             threadDump: function () {
-                return $http.get('dump').then(function (response) {
+                return $http.get('management/dump').then(function (response) {
                     return response.data;
                 });
             }

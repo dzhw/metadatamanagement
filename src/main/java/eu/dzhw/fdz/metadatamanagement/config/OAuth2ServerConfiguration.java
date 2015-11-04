@@ -44,25 +44,20 @@ public class OAuth2ServerConfiguration {
       http.exceptionHandling().authenticationEntryPoint(authenticationEntryPoint).and().logout()
           .logoutUrl("/api/logout").logoutSuccessHandler(ajaxLogoutSuccessHandler).and().csrf()
           .requireCsrfProtectionMatcher(new AntPathRequestMatcher("/oauth/authorize")).disable()
-          .headers().frameOptions().disable().and().authorizeRequests()
-          .antMatchers("/api/authenticate").permitAll().antMatchers("/api/register").permitAll()
-          .antMatchers("/api/logs/**").hasAnyAuthority(AuthoritiesConstants.ADMIN)
-          .antMatchers("/api/**").authenticated().antMatchers("/websocket/tracker")
-          .hasAuthority(AuthoritiesConstants.ADMIN).antMatchers("/websocket/**").permitAll()
-          .antMatchers("/metrics/**").hasAuthority(AuthoritiesConstants.ADMIN)
-          .antMatchers("/health/**").hasAuthority(AuthoritiesConstants.ADMIN)
-          .antMatchers("/trace/**").hasAuthority(AuthoritiesConstants.ADMIN).antMatchers("/dump/**")
-          .hasAuthority(AuthoritiesConstants.ADMIN).antMatchers("/shutdown/**")
-          .hasAuthority(AuthoritiesConstants.ADMIN).antMatchers("/beans/**")
-          .hasAuthority(AuthoritiesConstants.ADMIN).antMatchers("/configprops/**")
-          .hasAuthority(AuthoritiesConstants.ADMIN).antMatchers("/info/**")
-          .hasAuthority(AuthoritiesConstants.ADMIN).antMatchers("/autoconfig/**")
-          .hasAuthority(AuthoritiesConstants.ADMIN).antMatchers("/env/**")
-          .hasAuthority(AuthoritiesConstants.ADMIN).antMatchers("/trace/**")
-          .hasAuthority(AuthoritiesConstants.ADMIN).antMatchers("/liquibase/**")
+          .headers().frameOptions().disable().and().csrf()
+          .ignoringAntMatchers("/api/**", "/management/**", "/api-docs/**").and()
+          .authorizeRequests().antMatchers("/api/authenticate").permitAll()
+          .antMatchers("/api/register").permitAll().antMatchers("/api/logs/**")
+          .hasAnyAuthority(AuthoritiesConstants.ADMIN).antMatchers("/api/**").authenticated()
+          .antMatchers("/websocket/tracker").hasAuthority(AuthoritiesConstants.ADMIN)
+          .antMatchers("/websocket/**").permitAll().antMatchers("/management/**")
           .hasAuthority(AuthoritiesConstants.ADMIN).antMatchers("/api-docs/**")
-          .hasAuthority(AuthoritiesConstants.ADMIN).antMatchers("/protected/**").authenticated();
-
+          .hasAuthority(AuthoritiesConstants.ADMIN).antMatchers("/protected/**").authenticated()
+          // enable basic http for /api and spring endpoints and /api-docs
+          .and().authorizeRequests().antMatchers("/api/**", "/api-docs/**")
+          .hasAnyAuthority(AuthoritiesConstants.ADMIN, AuthoritiesConstants.USER).and().httpBasic()
+          .and().authorizeRequests().antMatchers("/management/**")
+          .hasAuthority(AuthoritiesConstants.ADMIN).and().httpBasic();
       // Enforce HTTPS except on dev
       if (env.acceptsProfiles("!dev")) {
         http.requiresChannel().anyRequest().requiresSecure();
