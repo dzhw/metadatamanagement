@@ -8,6 +8,7 @@ import javax.inject.Inject;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -34,7 +35,7 @@ public class UserDetailsServiceImpl
   @Transactional
   public UserDetails loadUserByUsername(final String login) {
     log.debug("Authenticating {}", login);
-    String lowercaseLogin = login.toLowerCase();
+    String lowercaseLogin = login.toLowerCase(LocaleContextHolder.getLocale());
     Optional<User> userFromDatabase = userRepository.findOneByLogin(lowercaseLogin);
     return userFromDatabase.map(user -> {
       if (!user.getActivated()) {

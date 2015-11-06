@@ -186,7 +186,8 @@ public class UserService {
   @Transactional(readOnly = true)
   public User getUserWithAuthorities(Long id) {
     User user = userRepository.findOne(id);
-    user.getAuthorities().size(); // eagerly load the association
+    int size = user.getAuthorities().size(); // eagerly load the association
+    log.debug("Size of user authorities: " + size);
     return user;
   }
 
@@ -196,7 +197,8 @@ public class UserService {
   @Transactional(readOnly = true)
   public User getUserWithAuthorities() {
     User user = userRepository.findOneByLogin(SecurityUtils.getCurrentUserLogin()).get();
-    user.getAuthorities().size(); // eagerly load the association
+    int size = user.getAuthorities().size(); // eagerly load the association
+    log.debug("Size of user authorities: " + size);
     return user;
   }
 

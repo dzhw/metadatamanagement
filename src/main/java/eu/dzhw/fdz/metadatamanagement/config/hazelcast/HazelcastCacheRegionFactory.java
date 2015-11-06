@@ -37,11 +37,11 @@ public class HazelcastCacheRegionFactory implements RegionFactory {
 
   private static final long serialVersionUID = 1L;
 
-  private Logger log = LoggerFactory.getLogger(HazelcastCacheRegionFactory.class);
+  private transient Logger log = LoggerFactory.getLogger(HazelcastCacheRegionFactory.class);
 
-  private HazelcastInstance hazelcastInstance;
+  private transient HazelcastInstance hazelcastInstance;
 
-  private CleanupService cleanupService;
+  private transient CleanupService cleanupService;
 
   public HazelcastCacheRegionFactory() {
     super();

@@ -79,9 +79,13 @@ public class CacheConfiguration {
     config.getMapConfigs().put("eu.dzhw.fdz.metadatamanagement.domain.*",
         initializeDomainMapConfig(jhipsterProperties));
 
-    hazelcastInstance = HazelcastInstanceFactory.newHazelcastInstance(config);
+    setHazelcastInstance(HazelcastInstanceFactory.newHazelcastInstance(config));
 
     return hazelcastInstance;
+  }
+  
+  private static void setHazelcastInstance(HazelcastInstance hazelcastInstance) {
+    CacheConfiguration.hazelcastInstance = hazelcastInstance;
   }
 
   private MapConfig initializeDefaultMapConfig() {

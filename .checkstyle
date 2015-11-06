@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<fileset-config file-format-version="1.2.0" simple-config="false" sync-formatter="false">
+  <local-check-config name="maven-checkstyle-plugin checkstyle" location="file:/home/dkatzberg/git/metadatamanagement/buildconfig/google_checks.xml" type="remote" description="maven-checkstyle-plugin configuration checkstyle">
+    <property name="checkstyle.cache.file" value="${project_loc}/target/checkstyle-cachefile"/>
+    <property name="checkstyle.header.file" value="/home/dkatzberg/git/metadatamanagement/target/checkstyle-header-checkstyle.txt"/>
+  </local-check-config>
+  <fileset name="java-sources-checkstyle" enabled="true" check-config-name="maven-checkstyle-plugin checkstyle" local="true">
+    <file-match-pattern match-pattern="src/main/java/.*\.java" include-pattern="true"/>
+    <file-match-pattern match-pattern="src/main/java.*/home/dkatzberg/git/metadatamanagement/target/generated-test-sources/.*" include-pattern="false"/>
+    <file-match-pattern match-pattern="src/main/resources/.*\.properties" include-pattern="true"/>
+    <file-match-pattern match-pattern="src/main/resources/.*\.properties" include-pattern="true"/>
+    <file-match-pattern match-pattern="src/test/resources/.*\.properties" include-pattern="true"/>
+  </fileset>
+</fileset-config>

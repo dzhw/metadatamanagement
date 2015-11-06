@@ -15,6 +15,7 @@ import org.thymeleaf.context.Context;
 import org.thymeleaf.spring4.SpringTemplateEngine;
 
 import javax.inject.Inject;
+import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
 import java.util.Locale;
 
@@ -73,8 +74,8 @@ public class MailService {
       message.setText(content, isHtml);
       javaMailSender.send(mimeMessage);
       log.debug("Sent e-mail to User '{}'", to);
-    } catch (Exception e) {
-      log.warn("E-mail could not be sent to user '{}', exception is: {}", to, e.getMessage());
+    } catch (MessagingException ex) {
+      log.warn("E-mail could not be sent to user '{}', exception is: {}", to, ex.getMessage());
     }
   }
 
