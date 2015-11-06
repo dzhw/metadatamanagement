@@ -1,30 +1,29 @@
 package eu.dzhw.fdz.metadatamanagement.repository;
 
-import eu.dzhw.fdz.metadatamanagement.domain.User;
-
 import java.time.ZonedDateTime;
-import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Query;
-
 import java.util.List;
 import java.util.Optional;
+
+import org.springframework.data.jpa.repository.JpaRepository;
+
+import eu.dzhw.fdz.metadatamanagement.domain.User;
 
 /**
  * Spring Data JPA repository for the User entity.
  */
 public interface UserRepository extends JpaRepository<User, Long> {
 
-    Optional<User> findOneByActivationKey(String activationKey);
+  Optional<User> findOneByActivationKey(String activationKey);
 
-    List<User> findAllByActivatedIsFalseAndCreatedDateBefore(ZonedDateTime dateTime);
+  List<User> findAllByActivatedIsFalseAndCreatedDateBefore(ZonedDateTime dateTime);
 
-    Optional<User> findOneByResetKey(String resetKey);
+  Optional<User> findOneByResetKey(String resetKey);
 
-    Optional<User> findOneByEmail(String email);
+  Optional<User> findOneByEmail(String email);
 
-    Optional<User> findOneByLogin(String login);
+  Optional<User> findOneByLogin(String login);
 
-    @Override
-    void delete(User t);
+  @Override
+  void delete(User user);
 
 }

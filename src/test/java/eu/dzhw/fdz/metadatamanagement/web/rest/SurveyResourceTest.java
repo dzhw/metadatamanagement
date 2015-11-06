@@ -4,7 +4,7 @@ import eu.dzhw.fdz.metadatamanagement.Application;
 import eu.dzhw.fdz.metadatamanagement.domain.Survey;
 import eu.dzhw.fdz.metadatamanagement.repository.SurveyRepository;
 import eu.dzhw.fdz.metadatamanagement.repository.search.SurveySearchRepository;
-import eu.dzhw.fdz.metadatamanagement.web.rest.dto.SurveyDTO;
+import eu.dzhw.fdz.metadatamanagement.web.rest.dto.SurveyDto;
 import eu.dzhw.fdz.metadatamanagement.web.rest.mapper.SurveyMapper;
 
 import org.junit.Before;
@@ -100,11 +100,11 @@ public class SurveyResourceTest {
         int databaseSizeBeforeCreate = surveyRepository.findAll().size();
 
         // Create the Survey
-        SurveyDTO surveyDTO = surveyMapper.surveyToSurveyDTO(survey);
+        SurveyDto surveyDto = surveyMapper.surveyToSurveyDto(survey);
 
         restSurveyMockMvc.perform(post("/api/surveys")
                 .contentType(TestUtil.APPLICATION_JSON_UTF8)
-                .content(TestUtil.convertObjectToJsonBytes(surveyDTO)))
+                .content(TestUtil.convertObjectToJsonBytes(surveyDto)))
                 .andExpect(status().isCreated());
 
         // Validate the Survey in the database
@@ -124,11 +124,11 @@ public class SurveyResourceTest {
         survey.setTitle(null);
 
         // Create the Survey, which fails.
-        SurveyDTO surveyDTO = surveyMapper.surveyToSurveyDTO(survey);
+        SurveyDto surveyDto = surveyMapper.surveyToSurveyDto(survey);
 
         restSurveyMockMvc.perform(post("/api/surveys")
                 .contentType(TestUtil.APPLICATION_JSON_UTF8)
-                .content(TestUtil.convertObjectToJsonBytes(surveyDTO)))
+                .content(TestUtil.convertObjectToJsonBytes(surveyDto)))
                 .andExpect(status().isBadRequest());
 
         List<Survey> surveys = surveyRepository.findAll();
@@ -187,11 +187,11 @@ public class SurveyResourceTest {
         survey.setTitle(UPDATED_TITLE);
         survey.setBegin(UPDATED_BEGIN);
         survey.setEndDate(UPDATED_END_DATE);
-        SurveyDTO surveyDTO = surveyMapper.surveyToSurveyDTO(survey);
+        SurveyDto surveyDto = surveyMapper.surveyToSurveyDto(survey);
 
         restSurveyMockMvc.perform(put("/api/surveys")
                 .contentType(TestUtil.APPLICATION_JSON_UTF8)
-                .content(TestUtil.convertObjectToJsonBytes(surveyDTO)))
+                .content(TestUtil.convertObjectToJsonBytes(surveyDto)))
                 .andExpect(status().isOk());
 
         // Validate the Survey in the database

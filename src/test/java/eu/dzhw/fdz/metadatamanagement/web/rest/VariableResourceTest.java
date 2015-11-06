@@ -4,7 +4,7 @@ import eu.dzhw.fdz.metadatamanagement.Application;
 import eu.dzhw.fdz.metadatamanagement.domain.Variable;
 import eu.dzhw.fdz.metadatamanagement.repository.VariableRepository;
 import eu.dzhw.fdz.metadatamanagement.repository.search.VariableSearchRepository;
-import eu.dzhw.fdz.metadatamanagement.web.rest.dto.VariableDTO;
+import eu.dzhw.fdz.metadatamanagement.web.rest.dto.VariableDto;
 import eu.dzhw.fdz.metadatamanagement.web.rest.mapper.VariableMapper;
 
 import org.junit.Before;
@@ -108,11 +108,11 @@ private static final ScaleLevel DEFAULT_SCALE_LEVEL = ScaleLevel.nominal;
         int databaseSizeBeforeCreate = variableRepository.findAll().size();
 
         // Create the Variable
-        VariableDTO variableDTO = variableMapper.variableToVariableDTO(variable);
+        VariableDto variableDto = variableMapper.variableToVariableDto(variable);
 
         restVariableMockMvc.perform(post("/api/variables")
                 .contentType(TestUtil.APPLICATION_JSON_UTF8)
-                .content(TestUtil.convertObjectToJsonBytes(variableDTO)))
+                .content(TestUtil.convertObjectToJsonBytes(variableDto)))
                 .andExpect(status().isCreated());
 
         // Validate the Variable in the database
@@ -134,11 +134,11 @@ private static final ScaleLevel DEFAULT_SCALE_LEVEL = ScaleLevel.nominal;
         variable.setName(null);
 
         // Create the Variable, which fails.
-        VariableDTO variableDTO = variableMapper.variableToVariableDTO(variable);
+        VariableDto variableDto = variableMapper.variableToVariableDto(variable);
 
         restVariableMockMvc.perform(post("/api/variables")
                 .contentType(TestUtil.APPLICATION_JSON_UTF8)
-                .content(TestUtil.convertObjectToJsonBytes(variableDTO)))
+                .content(TestUtil.convertObjectToJsonBytes(variableDto)))
                 .andExpect(status().isBadRequest());
 
         List<Variable> variables = variableRepository.findAll();
@@ -153,11 +153,11 @@ private static final ScaleLevel DEFAULT_SCALE_LEVEL = ScaleLevel.nominal;
         variable.setDataType(null);
 
         // Create the Variable, which fails.
-        VariableDTO variableDTO = variableMapper.variableToVariableDTO(variable);
+        VariableDto variableDto = variableMapper.variableToVariableDto(variable);
 
         restVariableMockMvc.perform(post("/api/variables")
                 .contentType(TestUtil.APPLICATION_JSON_UTF8)
-                .content(TestUtil.convertObjectToJsonBytes(variableDTO)))
+                .content(TestUtil.convertObjectToJsonBytes(variableDto)))
                 .andExpect(status().isBadRequest());
 
         List<Variable> variables = variableRepository.findAll();
@@ -172,11 +172,11 @@ private static final ScaleLevel DEFAULT_SCALE_LEVEL = ScaleLevel.nominal;
         variable.setScaleLevel(null);
 
         // Create the Variable, which fails.
-        VariableDTO variableDTO = variableMapper.variableToVariableDTO(variable);
+        VariableDto variableDto = variableMapper.variableToVariableDto(variable);
 
         restVariableMockMvc.perform(post("/api/variables")
                 .contentType(TestUtil.APPLICATION_JSON_UTF8)
-                .content(TestUtil.convertObjectToJsonBytes(variableDTO)))
+                .content(TestUtil.convertObjectToJsonBytes(variableDto)))
                 .andExpect(status().isBadRequest());
 
         List<Variable> variables = variableRepository.findAll();
@@ -241,11 +241,11 @@ private static final ScaleLevel DEFAULT_SCALE_LEVEL = ScaleLevel.nominal;
         variable.setLabel(UPDATED_LABEL);
         variable.setQuestion(UPDATED_QUESTION);
         variable.setScaleLevel(UPDATED_SCALE_LEVEL);
-        VariableDTO variableDTO = variableMapper.variableToVariableDTO(variable);
+        VariableDto variableDto = variableMapper.variableToVariableDto(variable);
 
         restVariableMockMvc.perform(put("/api/variables")
                 .contentType(TestUtil.APPLICATION_JSON_UTF8)
-                .content(TestUtil.convertObjectToJsonBytes(variableDTO)))
+                .content(TestUtil.convertObjectToJsonBytes(variableDto)))
                 .andExpect(status().isOk());
 
         // Validate the Variable in the database

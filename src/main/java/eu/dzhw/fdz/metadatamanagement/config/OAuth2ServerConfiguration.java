@@ -23,9 +23,17 @@ import eu.dzhw.fdz.metadatamanagement.security.AjaxLogoutSuccessHandler;
 import eu.dzhw.fdz.metadatamanagement.security.AuthoritiesConstants;
 import eu.dzhw.fdz.metadatamanagement.security.Http401UnauthorizedEntryPoint;
 
+/**
+ * The configuration of oauth 2 server.
+ *
+ */
 @Configuration
 public class OAuth2ServerConfiguration {
 
+  /**
+   * A local class for the resource of the server configuration.
+   *
+   */
   @Configuration
   @EnableResourceServer
   protected static class ResourceServerConfiguration extends ResourceServerConfigurerAdapter {
@@ -65,6 +73,10 @@ public class OAuth2ServerConfiguration {
     }
   }
 
+  /**
+   * A local class for the authorization.
+   *
+   */
   @Configuration
   @EnableAuthorizationServer
   protected static class AuthorizationServerConfiguration
@@ -74,7 +86,7 @@ public class OAuth2ServerConfiguration {
     private DataSource dataSource;
 
     @Inject
-    private JHipsterProperties jHipsterProperties;
+    private JHipsterProperties jhipsterProperties;
 
     @Bean
     public TokenStore tokenStore() {
@@ -94,12 +106,12 @@ public class OAuth2ServerConfiguration {
     @Override
     public void configure(ClientDetailsServiceConfigurer clients) throws Exception {
       clients.inMemory()
-          .withClient(jHipsterProperties.getSecurity().getAuthentication().getOauth().getClientid())
+          .withClient(jhipsterProperties.getSecurity().getAuthentication().getOauth().getClientid())
           .scopes("read", "write")
           .authorities(AuthoritiesConstants.ADMIN, AuthoritiesConstants.USER)
           .authorizedGrantTypes("password", "refresh_token")
-          .secret(jHipsterProperties.getSecurity().getAuthentication().getOauth().getSecret())
-          .accessTokenValiditySeconds(jHipsterProperties.getSecurity().getAuthentication()
+          .secret(jhipsterProperties.getSecurity().getAuthentication().getOauth().getSecret())
+          .accessTokenValiditySeconds(jhipsterProperties.getSecurity().getAuthentication()
               .getOauth().getTokenValidityInSeconds());
     }
   }

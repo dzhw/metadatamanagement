@@ -8,7 +8,7 @@ import eu.dzhw.fdz.metadatamanagement.repository.UserRepository;
 import eu.dzhw.fdz.metadatamanagement.security.AuthoritiesConstants;
 import eu.dzhw.fdz.metadatamanagement.service.MailService;
 import eu.dzhw.fdz.metadatamanagement.service.UserService;
-import eu.dzhw.fdz.metadatamanagement.web.rest.dto.UserDTO;
+import eu.dzhw.fdz.metadatamanagement.web.rest.dto.UserDto;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -143,7 +143,7 @@ public class AccountResourceTest {
     @Test
     @Transactional
     public void testRegisterValid() throws Exception {
-        UserDTO u = new UserDTO(
+        UserDto u = new UserDto(
             "joe",                  // login
             "password",             // password
             "Joe",                  // firstName
@@ -167,7 +167,7 @@ public class AccountResourceTest {
     @Test
     @Transactional
     public void testRegisterInvalidLogin() throws Exception {
-        UserDTO u = new UserDTO(
+        UserDto u = new UserDto(
             "funky-log!n",          // login <-- invalid
             "password",             // password
             "Funky",                // firstName
@@ -191,7 +191,7 @@ public class AccountResourceTest {
     @Test
     @Transactional
     public void testRegisterInvalidEmail() throws Exception {
-        UserDTO u = new UserDTO(
+        UserDto u = new UserDto(
             "bob",              // login
             "password",         // password
             "Bob",              // firstName
@@ -216,7 +216,7 @@ public class AccountResourceTest {
     @Transactional
     public void testRegisterDuplicateLogin() throws Exception {
         // Good
-        UserDTO u = new UserDTO(
+        UserDto u = new UserDto(
             "alice",                // login
             "password",             // password
             "Alice",                // firstName
@@ -228,7 +228,7 @@ public class AccountResourceTest {
         );
 
         // Duplicate login, different e-mail
-        UserDTO dup = new UserDTO(u.getLogin(), u.getPassword(), u.getLogin(), u.getLastName(),
+        UserDto dup = new UserDto(u.getLogin(), u.getPassword(), u.getLogin(), u.getLastName(),
             "alicejr@example.com", true, u.getLangKey(), u.getAuthorities());
 
         // Good user
@@ -253,7 +253,7 @@ public class AccountResourceTest {
     @Transactional
     public void testRegisterDuplicateEmail() throws Exception {
         // Good
-        UserDTO u = new UserDTO(
+        UserDto u = new UserDto(
             "john",                 // login
             "password",             // password
             "John",                 // firstName
@@ -265,7 +265,7 @@ public class AccountResourceTest {
         );
 
         // Duplicate e-mail, different login
-        UserDTO dup = new UserDTO("johnjr", u.getPassword(), u.getLogin(), u.getLastName(),
+        UserDto dup = new UserDto("johnjr", u.getPassword(), u.getLogin(), u.getLastName(),
             u.getEmail(), true, u.getLangKey(), u.getAuthorities());
 
         // Good user
@@ -289,7 +289,7 @@ public class AccountResourceTest {
     @Test
     @Transactional
     public void testRegisterAdminIsIgnored() throws Exception {
-        UserDTO u = new UserDTO(
+        UserDto u = new UserDto(
             "badguy",               // login
             "password",             // password
             "Bad",                  // firstName

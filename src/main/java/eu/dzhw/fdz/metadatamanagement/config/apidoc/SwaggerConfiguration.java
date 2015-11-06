@@ -19,7 +19,6 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 /**
  * Springfox Swagger configuration.
- *
  * Warning! When having a lot of REST endpoints, Springfox can become a performance issue. In that
  * case, you can use a specific Spring profile for this class, so that only front-end developers
  * have access to the Swagger view.
@@ -36,16 +35,16 @@ public class SwaggerConfiguration {
    * Swagger Springfox configuration.
    */
   @Bean
-  public Docket swaggerSpringfoxDocket(JHipsterProperties jHipsterProperties) {
+  public Docket swaggerSpringfoxDocket(JHipsterProperties jhipsterProperties) {
     log.debug("Starting Swagger");
     StopWatch watch = new StopWatch();
     watch.start();
-    ApiInfo apiInfo = new ApiInfo(jHipsterProperties.getSwagger().getTitle(),
-        jHipsterProperties.getSwagger().getDescription(),
-        jHipsterProperties.getSwagger().getVersion(),
-        jHipsterProperties.getSwagger().getTermsOfServiceUrl(),
-        jHipsterProperties.getSwagger().getContact(), jHipsterProperties.getSwagger().getLicense(),
-        jHipsterProperties.getSwagger().getLicenseUrl());
+    ApiInfo apiInfo = new ApiInfo(jhipsterProperties.getSwagger().getTitle(),
+        jhipsterProperties.getSwagger().getDescription(),
+        jhipsterProperties.getSwagger().getVersion(),
+        jhipsterProperties.getSwagger().getTermsOfServiceUrl(),
+        jhipsterProperties.getSwagger().getContact(), jhipsterProperties.getSwagger().getLicense(),
+        jhipsterProperties.getSwagger().getLicenseUrl());
 
     Docket docket = new Docket(DocumentationType.SWAGGER_2).apiInfo(apiInfo)
         .genericModelSubstitutes(ResponseEntity.class).forCodeGeneration(true)

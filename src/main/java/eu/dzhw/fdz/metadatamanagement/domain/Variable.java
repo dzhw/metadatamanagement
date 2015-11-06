@@ -1,18 +1,25 @@
 package eu.dzhw.fdz.metadatamanagement.domain;
 
+import java.io.Serializable;
+import java.util.Objects;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.springframework.data.elasticsearch.annotations.Document;
 
-import javax.persistence.*;
-import javax.validation.constraints.*;
-import java.io.Serializable;
-import java.util.HashSet;
-import java.util.Set;
-import java.util.Objects;
-
 import eu.dzhw.fdz.metadatamanagement.domain.enumeration.DataTypes;
-
 import eu.dzhw.fdz.metadatamanagement.domain.enumeration.ScaleLevel;
 
 /**
@@ -24,121 +31,120 @@ import eu.dzhw.fdz.metadatamanagement.domain.enumeration.ScaleLevel;
 @Document(indexName = "variable")
 public class Variable implements Serializable {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
+  private static final long serialVersionUID = 1L;
 
-    @NotNull
-    @Size(max = 256)
-    @Column(name = "name", length = 256, nullable = false)
-    private String name;
+  @Id
+  @GeneratedValue(strategy = GenerationType.AUTO)
+  private Long id;
 
-    @NotNull
-    @Enumerated(EnumType.STRING)
-    @Column(name = "data_type", nullable = false)
-    private DataTypes dataType;
+  @NotNull
+  @Size(max = 256)
+  @Column(name = "name", length = 256, nullable = false)
+  private String name;
 
-    @Column(name = "label")
-    private String label;
+  @NotNull
+  @Enumerated(EnumType.STRING)
+  @Column(name = "data_type", nullable = false)
+  private DataTypes dataType;
 
-    @Size(max = 256)
-    @Column(name = "question", length = 256)
-    private String question;
+  @Column(name = "label")
+  private String label;
 
-    @NotNull
-    @Enumerated(EnumType.STRING)
-    @Column(name = "scale_level", nullable = false)
-    private ScaleLevel scaleLevel;
+  @Size(max = 256)
+  @Column(name = "question", length = 256)
+  private String question;
 
-    @ManyToOne
-    private Survey survey;
+  @NotNull
+  @Enumerated(EnumType.STRING)
+  @Column(name = "scale_level", nullable = false)
+  private ScaleLevel scaleLevel;
 
-    public Long getId() {
-        return id;
+  @ManyToOne
+  private Survey survey;
+
+  public Long getId() {
+    return id;
+  }
+
+  public void setId(Long id) {
+    this.id = id;
+  }
+
+  public String getName() {
+    return name;
+  }
+
+  public void setName(String name) {
+    this.name = name;
+  }
+
+  public DataTypes getDataType() {
+    return dataType;
+  }
+
+  public void setDataType(DataTypes dataType) {
+    this.dataType = dataType;
+  }
+
+  public String getLabel() {
+    return label;
+  }
+
+  public void setLabel(String label) {
+    this.label = label;
+  }
+
+  public String getQuestion() {
+    return question;
+  }
+
+  public void setQuestion(String question) {
+    this.question = question;
+  }
+
+  public ScaleLevel getScaleLevel() {
+    return scaleLevel;
+  }
+
+  public void setScaleLevel(ScaleLevel scaleLevel) {
+    this.scaleLevel = scaleLevel;
+  }
+
+  public Survey getSurvey() {
+    return survey;
+  }
+
+  public void setSurvey(Survey survey) {
+    this.survey = survey;
+  }
+
+  @Override
+  public boolean equals(Object obj) {
+    if (this == obj) {
+      return true;
+    }
+    if (obj == null || getClass() != obj.getClass()) {
+      return false;
     }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
+    Variable variable = (Variable) obj;
 
-    public String getName() {
-        return name;
-    }
+    if (!Objects.equals(id, variable.id)) {
+      return false;
+    }  
 
-    public void setName(String name) {
-        this.name = name;
-    }
+    return true;
+  }
 
-    public DataTypes getDataType() {
-        return dataType;
-    }
+  @Override
+  public int hashCode() {
+    return Objects.hashCode(id);
+  }
 
-    public void setDataType(DataTypes dataType) {
-        this.dataType = dataType;
-    }
-
-    public String getLabel() {
-        return label;
-    }
-
-    public void setLabel(String label) {
-        this.label = label;
-    }
-
-    public String getQuestion() {
-        return question;
-    }
-
-    public void setQuestion(String question) {
-        this.question = question;
-    }
-
-    public ScaleLevel getScaleLevel() {
-        return scaleLevel;
-    }
-
-    public void setScaleLevel(ScaleLevel scaleLevel) {
-        this.scaleLevel = scaleLevel;
-    }
-
-    public Survey getSurvey() {
-        return survey;
-    }
-
-    public void setSurvey(Survey survey) {
-        this.survey = survey;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) {
-            return true;
-        }
-        if (o == null || getClass() != o.getClass()) {
-            return false;
-        }
-
-        Variable variable = (Variable) o;
-
-        if ( ! Objects.equals(id, variable.id)) return false;
-
-        return true;
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hashCode(id);
-    }
-
-    @Override
-    public String toString() {
-        return "Variable{" +
-            "id=" + id +
-            ", name='" + name + "'" +
-            ", dataType='" + dataType + "'" +
-            ", label='" + label + "'" +
-            ", question='" + question + "'" +
-            ", scaleLevel='" + scaleLevel + "'" +
-            '}';
-    }
+  @Override
+  public String toString() {
+    return "Variable{" + "id=" + id + ", name='" + name + "'" + ", dataType='" + dataType + "'"
+        + ", label='" + label + "'" + ", question='" + question + "'" + ", scaleLevel='"
+        + scaleLevel + "'" + '}';
+  }
 }

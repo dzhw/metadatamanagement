@@ -1,7 +1,7 @@
 package eu.dzhw.fdz.metadatamanagement.web.rest;
 
-import eu.dzhw.fdz.metadatamanagement.domain.util.JSR310DateTimeSerializer;
-import eu.dzhw.fdz.metadatamanagement.domain.util.JSR310LocalDateDeserializer;
+import eu.dzhw.fdz.metadatamanagement.domain.util.Jsr310DateTimeSerializer;
+import eu.dzhw.fdz.metadatamanagement.domain.util.Jsr310LocalDateDeserializer;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
@@ -39,11 +39,11 @@ public class TestUtil {
         mapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
 
         JavaTimeModule module = new JavaTimeModule();
-        module.addSerializer(OffsetDateTime.class, JSR310DateTimeSerializer.INSTANCE);
-        module.addSerializer(ZonedDateTime.class, JSR310DateTimeSerializer.INSTANCE);
-        module.addSerializer(LocalDateTime.class, JSR310DateTimeSerializer.INSTANCE);
-        module.addSerializer(Instant.class, JSR310DateTimeSerializer.INSTANCE);
-        module.addDeserializer(LocalDate.class, JSR310LocalDateDeserializer.INSTANCE);
+        module.addSerializer(OffsetDateTime.class, Jsr310DateTimeSerializer.INSTANCE);
+        module.addSerializer(ZonedDateTime.class, Jsr310DateTimeSerializer.INSTANCE);
+        module.addSerializer(LocalDateTime.class, Jsr310DateTimeSerializer.INSTANCE);
+        module.addSerializer(Instant.class, Jsr310DateTimeSerializer.INSTANCE);
+        module.addDeserializer(LocalDate.class, Jsr310LocalDateDeserializer.INSTANCE);
         mapper.registerModule(module);
 
         return mapper.writeValueAsBytes(object);
