@@ -25,6 +25,7 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.PostConstruct;
+import javax.annotation.Resource;
 import javax.inject.Inject;
 import java.time.LocalDate;
 import java.time.ZoneId;
@@ -64,7 +65,8 @@ public class SurveyResourceTest {
     @Inject
     private SurveySearchRepository surveySearchRepository;
 
-    @Inject
+//    @Inject
+    @Resource(name="mappingJackson2HttpMessageConverter")
     private MappingJackson2HttpMessageConverter jacksonMessageConverter;
 
     @Inject

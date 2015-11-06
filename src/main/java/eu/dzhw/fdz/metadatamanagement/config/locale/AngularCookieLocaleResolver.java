@@ -13,6 +13,8 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.servlet.i18n.CookieLocaleResolver;
 import org.springframework.web.util.WebUtils;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+
 /**
  * Angular cookie saved the locale with a double quote (%22en%22). So the default
  * CookieLocaleResolver#StringUtils.parseLocaleString(localePart) is not able to parse the locale.
@@ -27,6 +29,7 @@ public class AngularCookieLocaleResolver extends CookieLocaleResolver {
   }
 
   @Override
+  @SuppressFBWarnings("SIC_INNER_SHOULD_BE_STATIC_ANON")
   public LocaleContext resolveLocaleContext(final HttpServletRequest request) {
     parseLocaleCookieIfNecessary(request);
     return new TimeZoneAwareLocaleContext() {

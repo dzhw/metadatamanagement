@@ -25,6 +25,7 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.PostConstruct;
+import javax.annotation.Resource;
 import javax.inject.Inject;
 import java.util.List;
 
@@ -70,7 +71,8 @@ private static final ScaleLevel DEFAULT_SCALE_LEVEL = ScaleLevel.nominal;
     @Inject
     private VariableSearchRepository variableSearchRepository;
 
-    @Inject
+//    @Inject
+    @Resource(name="mappingJackson2HttpMessageConverter")
     private MappingJackson2HttpMessageConverter jacksonMessageConverter;
 
     @Inject

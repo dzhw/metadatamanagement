@@ -26,6 +26,7 @@ import com.hazelcast.hibernate.region.HazelcastNaturalIdRegion;
 import com.hazelcast.hibernate.region.HazelcastQueryResultsRegion;
 import com.hazelcast.hibernate.region.HazelcastTimestampsRegion;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import eu.dzhw.fdz.metadatamanagement.config.CacheConfiguration;
 
 /**
@@ -37,11 +38,14 @@ public class HazelcastCacheRegionFactory implements RegionFactory {
 
   private static final long serialVersionUID = 1L;
 
-  private transient Logger log = LoggerFactory.getLogger(HazelcastCacheRegionFactory.class);
+  @SuppressFBWarnings("SE_BAD_FIELD")
+  private Logger log = LoggerFactory.getLogger(HazelcastCacheRegionFactory.class);
 
-  private transient HazelcastInstance hazelcastInstance;
+  @SuppressFBWarnings("SE_BAD_FIELD")
+  private HazelcastInstance hazelcastInstance;
 
-  private transient CleanupService cleanupService;
+  @SuppressFBWarnings("SE_BAD_FIELD")
+  private CleanupService cleanupService;
 
   public HazelcastCacheRegionFactory() {
     super();
