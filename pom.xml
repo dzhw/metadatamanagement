@@ -85,6 +85,7 @@
             <groupId>com.fasterxml.jackson.datatype</groupId>
             <artifactId>jackson-datatype-jsr310</artifactId>
         </dependency>
+        <!-- For FindBugs Annotation. -->
         <dependency>
             <groupId>com.google.code.findbugs</groupId>
             <artifactId>findbugs</artifactId>
@@ -314,10 +315,6 @@
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-data-rest</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-logging</artifactId>
         </dependency>
         <dependency>
@@ -424,11 +421,11 @@
                             <pluginExecutions>
                                 <pluginExecution>
                                     <pluginExecutionFilter>
-                                        <groupId>com.github.trecloux</groupId>
-                                        <artifactId>yeoman-maven-plugin</artifactId>
-                                        <versionRange>[0.4,)</versionRange>
+                                        <groupId>org.apache.maven.plugins</groupId>
+                                        <artifactId>maven-pmd-plugin</artifactId>
+                                        <versionRange>[3.5,)</versionRange>
                                         <goals>
-                                            <goal>build</goal>
+                                            <goal>cpd-check</goal>
                                         </goals>
                                     </pluginExecutionFilter>
                                     <action>
@@ -437,11 +434,11 @@
                                 </pluginExecution>
                                 <pluginExecution>
                                     <pluginExecutionFilter>
-                                        <groupId>org.apache.maven.plugins</groupId>
-                                        <artifactId>maven-pmd-plugin</artifactId>
-                                        <versionRange>[3.5,)</versionRange>
+                                        <groupId>com.github.trecloux</groupId>
+                                        <artifactId>yeoman-maven-plugin</artifactId>
+                                        <versionRange>[0.4,)</versionRange>
                                         <goals>
-                                            <goal>cpd-check</goal>
+                                            <goal>build</goal>
                                         </goals>
                                     </pluginExecutionFilter>
                                     <action>
@@ -515,20 +512,6 @@
                         </configuration>
                     </execution>
                 </executions>
-            </plugin>
-            <!-- fail build on compiler warning -->
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-compiler-plugin</artifactId>
-                <configuration>
-                    <compilerArgs>
-                        <arg>-Xlint</arg>
-                        <!-- <arg>-Werror</arg> -->
-                        <arg>-proc:none</arg>
-                    </compilerArgs>
-                    <showDeprecation>true</showDeprecation>
-                    <showWarnings>true</showWarnings>
-                </configuration>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -626,24 +609,6 @@
                         <mapstruct.suppressGeneratorTimestamp>true</mapstruct.suppressGeneratorTimestamp>
                         <mapstruct.defaultComponentModel>spring</mapstruct.defaultComponentModel>
                     </options>
-                </configuration>
-            </plugin>
-            <!-- Generate Builder Classes -->
-            <plugin>
-                <groupId>org.bsc.maven</groupId>
-                <artifactId>maven-processor-plugin</artifactId>
-                <version>2.2.4</version>
-                <executions>
-                    <execution>
-                        <id>process</id>
-                        <phase>process-sources</phase>
-                        <goals>
-                            <goal>process</goal>
-                        </goals>
-                    </execution>
-                </executions>
-                <configuration>
-                    <defaultOutputDirectory>${project.build.directory}/generated-test-sources/</defaultOutputDirectory>
                 </configuration>
             </plugin>
             <!-- deploy fat jar to cloudfoundry -->

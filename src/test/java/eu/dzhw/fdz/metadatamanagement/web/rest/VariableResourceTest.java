@@ -71,8 +71,7 @@ private static final ScaleLevel DEFAULT_SCALE_LEVEL = ScaleLevel.nominal;
     @Inject
     private VariableSearchRepository variableSearchRepository;
 
-//    @Inject
-    @Resource(name="mappingJackson2HttpMessageConverter")
+    @Inject
     private MappingJackson2HttpMessageConverter jacksonMessageConverter;
 
     @Inject

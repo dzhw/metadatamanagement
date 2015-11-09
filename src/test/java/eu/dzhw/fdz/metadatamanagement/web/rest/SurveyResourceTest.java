@@ -65,8 +65,7 @@ public class SurveyResourceTest {
     @Inject
     private SurveySearchRepository surveySearchRepository;
 
-//    @Inject
-    @Resource(name="mappingJackson2HttpMessageConverter")
+    @Inject
     private MappingJackson2HttpMessageConverter jacksonMessageConverter;
 
     @Inject
