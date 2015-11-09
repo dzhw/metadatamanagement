@@ -25,7 +25,7 @@ spring:
         username: metadatamanagement
         password:
     jpa:
-        database-platform: eu.dzhw.fdz.metadatamanagement.domain.util.FixedPostgreSQL82Dialect
+        database-platform: eu.dzhw.fdz.metadatamanagement.domain.util.FixedPostgreSql82Dialect
         database: POSTGRESQL
         show_sql: false
         properties:
