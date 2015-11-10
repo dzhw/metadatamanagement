@@ -71,10 +71,8 @@ public final class SecurityUtils {
     public static CustomUserDetails getCurrentUser() {
         SecurityContext securityContext = SecurityContextHolder.getContext();
         Authentication authentication = securityContext.getAuthentication();
-        if (authentication != null) {
-            if (authentication.getPrincipal() instanceof CustomUserDetails) {
-                return (CustomUserDetails) authentication.getPrincipal();
-            }
+        if (authentication != null && authentication.getPrincipal() instanceof CustomUserDetails) {
+          return (CustomUserDetails) authentication.getPrincipal();
         }
         throw new IllegalStateException("User not found!");
     }
@@ -87,11 +85,9 @@ public final class SecurityUtils {
     public static boolean isUserInRole(String authority) {
         SecurityContext securityContext = SecurityContextHolder.getContext();
         Authentication authentication = securityContext.getAuthentication();
-        if (authentication != null) {
-            if (authentication.getPrincipal() instanceof UserDetails) {
-                UserDetails springSecurityUser = (UserDetails) authentication.getPrincipal();
-                return springSecurityUser.getAuthorities().contains(new SimpleGrantedAuthority(authority));
-            }
+        if (authentication != null && authentication.getPrincipal() instanceof UserDetails) {
+            UserDetails springSecurityUser = (UserDetails) authentication.getPrincipal();
+            return springSecurityUser.getAuthorities().contains(new SimpleGrantedAuthority(authority));
         }
         return false;
     }

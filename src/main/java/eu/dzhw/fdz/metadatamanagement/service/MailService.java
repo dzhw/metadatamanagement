@@ -1,7 +1,9 @@
 package eu.dzhw.fdz.metadatamanagement.service;
 
-import eu.dzhw.fdz.metadatamanagement.config.JHipsterProperties;
-import eu.dzhw.fdz.metadatamanagement.domain.User;
+import java.util.Locale;
+
+import javax.inject.Inject;
+import javax.mail.internet.MimeMessage;
 
 import org.apache.commons.lang.CharEncoding;
 import org.slf4j.Logger;
@@ -14,11 +16,8 @@ import org.springframework.stereotype.Service;
 import org.thymeleaf.context.Context;
 import org.thymeleaf.spring4.SpringTemplateEngine;
 
-
-
-import javax.inject.Inject;
-import javax.mail.internet.MimeMessage;
-import java.util.Locale;
+import eu.dzhw.fdz.metadatamanagement.config.JHipsterProperties;
+import eu.dzhw.fdz.metadatamanagement.domain.User;
 
 /**
  * Service for sending e-mails.
@@ -47,7 +46,7 @@ public class MailService {
     /**
      * System default email address that sends the e-mails.
      */
-    private String from;
+//    private String from;
 
     @Async
     public void sendEmail(String to, String subject, String content, boolean isMultipart, boolean isHtml) {

@@ -1,11 +1,10 @@
 package eu.dzhw.fdz.metadatamanagement.config;
 
-import com.mongodb.Mongo;
-import eu.dzhw.fdz.metadatamanagement.config.oauth2.OAuth2AuthenticationReadConverter;
-import eu.dzhw.fdz.metadatamanagement.domain.util.JSR310DateConverters.*;
+import java.util.ArrayList;
+import java.util.List;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import javax.inject.Inject;
+
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
@@ -17,16 +16,22 @@ import org.springframework.data.mongodb.core.mapping.event.ValidatingMongoEventL
 import org.springframework.data.mongodb.repository.config.EnableMongoRepositories;
 import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 
-import javax.inject.Inject;
-import java.util.ArrayList;
-import java.util.List;
+import com.mongodb.Mongo;
+
+import eu.dzhw.fdz.metadatamanagement.config.oauth2.OAuth2AuthenticationReadConverter;
+import eu.dzhw.fdz.metadatamanagement.domain.util.JSR310DateConverters.DateToLocalDateConverter;
+import eu.dzhw.fdz.metadatamanagement.domain.util.JSR310DateConverters.DateToLocalDateTimeConverter;
+import eu.dzhw.fdz.metadatamanagement.domain.util.JSR310DateConverters.DateToZonedDateTimeConverter;
+import eu.dzhw.fdz.metadatamanagement.domain.util.JSR310DateConverters.LocalDateTimeToDateConverter;
+import eu.dzhw.fdz.metadatamanagement.domain.util.JSR310DateConverters.LocalDateToDateConverter;
+import eu.dzhw.fdz.metadatamanagement.domain.util.JSR310DateConverters.ZonedDateTimeToDateConverter;
 
 @Configuration
 @EnableMongoRepositories("eu.dzhw.fdz.metadatamanagement.repository")
 @Profile(Constants.SPRING_PROFILE_CLOUD)
 public class CloudMongoDbConfiguration extends AbstractMongoConfiguration  {
 
-    private final Logger log = LoggerFactory.getLogger(CloudDatabaseConfiguration.class);
+//    private final Logger log = LoggerFactory.getLogger(CloudDatabaseConfiguration.class);
 
     @Inject
     private MongoDbFactory mongoDbFactory;
@@ -43,7 +48,7 @@ public class CloudMongoDbConfiguration extends AbstractMongoConfiguration  {
 
     @Bean
     public CustomConversions customConversions() {
-        List<Converter<?, ?>> converterList = new ArrayList<>();;
+        List<Converter<?, ?>> converterList = new ArrayList<>();
         converterList.add(new OAuth2AuthenticationReadConverter());
         converterList.add(DateToZonedDateTimeConverter.INSTANCE);
         converterList.add(ZonedDateTimeToDateConverter.INSTANCE);

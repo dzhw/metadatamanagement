@@ -1,14 +1,10 @@
 package eu.dzhw.fdz.metadatamanagement.web.rest;
 
-import com.codahale.metrics.annotation.Timed;
-import eu.dzhw.fdz.metadatamanagement.domain.Authority;
-import eu.dzhw.fdz.metadatamanagement.domain.User;
-import eu.dzhw.fdz.metadatamanagement.repository.UserRepository;
-import eu.dzhw.fdz.metadatamanagement.security.SecurityUtils;
-import eu.dzhw.fdz.metadatamanagement.service.MailService;
-import eu.dzhw.fdz.metadatamanagement.service.UserService;
-import eu.dzhw.fdz.metadatamanagement.web.rest.dto.KeyAndPasswordDTO;
-import eu.dzhw.fdz.metadatamanagement.web.rest.dto.UserDTO;
+import java.util.Optional;
+
+import javax.inject.Inject;
+import javax.servlet.http.HttpServletRequest;
+import javax.validation.Valid;
 
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
@@ -16,14 +12,21 @@ import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
-import javax.inject.Inject;
-import javax.servlet.http.HttpServletRequest;
-import javax.validation.Valid;
-import java.io.UnsupportedEncodingException;
-import java.net.URLDecoder;
-import java.util.*;
+import com.codahale.metrics.annotation.Timed;
+
+import eu.dzhw.fdz.metadatamanagement.domain.User;
+import eu.dzhw.fdz.metadatamanagement.repository.UserRepository;
+import eu.dzhw.fdz.metadatamanagement.security.SecurityUtils;
+import eu.dzhw.fdz.metadatamanagement.service.MailService;
+import eu.dzhw.fdz.metadatamanagement.service.UserService;
+import eu.dzhw.fdz.metadatamanagement.web.rest.dto.KeyAndPasswordDTO;
+import eu.dzhw.fdz.metadatamanagement.web.rest.dto.UserDTO;
 
 /**
  * REST controller for managing the current user's account.
@@ -173,8 +176,8 @@ public class AccountResource {
     }
 
     private boolean checkPasswordLength(String password) {
-        return (!StringUtils.isEmpty(password) &&
+        return !StringUtils.isEmpty(password) &&
             password.length() >= UserDTO.PASSWORD_MIN_LENGTH &&
-            password.length() <= UserDTO.PASSWORD_MAX_LENGTH);
+            password.length() <= UserDTO.PASSWORD_MAX_LENGTH;
     }
 }

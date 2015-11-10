@@ -1,21 +1,25 @@
 package eu.dzhw.fdz.metadatamanagement.service;
 
-import eu.dzhw.fdz.metadatamanagement.domain.Authority;
-import eu.dzhw.fdz.metadatamanagement.domain.User;
-import eu.dzhw.fdz.metadatamanagement.repository.AuthorityRepository;
-import eu.dzhw.fdz.metadatamanagement.repository.UserRepository;
-import eu.dzhw.fdz.metadatamanagement.security.SecurityUtils;
-import eu.dzhw.fdz.metadatamanagement.service.util.RandomUtil;
 import java.time.ZonedDateTime;
-import java.time.LocalDate;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Optional;
+import java.util.Set;
+
+import javax.inject.Inject;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import javax.inject.Inject;
-import java.util.*;
+import eu.dzhw.fdz.metadatamanagement.domain.Authority;
+import eu.dzhw.fdz.metadatamanagement.domain.User;
+import eu.dzhw.fdz.metadatamanagement.repository.AuthorityRepository;
+import eu.dzhw.fdz.metadatamanagement.repository.UserRepository;
+import eu.dzhw.fdz.metadatamanagement.security.SecurityUtils;
+import eu.dzhw.fdz.metadatamanagement.service.util.RandomUtil;
 
 /**
  * Service class for managing users.
