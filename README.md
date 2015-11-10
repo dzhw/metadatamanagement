@@ -9,6 +9,7 @@ Before you can build this project, you must install and configure the following 
 1. Java: You need to install java 8 sdk on your system.
 2. Maven: You need to install maven 3 on your system.
 3. [Node.js][]: Node.js and npm (coming with node.js) are required as well. On Ubuntu you should install node using [NVM][] 
+4. Mongodb: Mongodb must be running on the default port
 
 After installing Node, you should be able to run the following command to install development tools (like
 [Bower][] and [BrowserSync][]). You will only need to run this command when dependencies change in package.json.
