@@ -1,88 +1,70 @@
 package eu.dzhw.fdz.metadatamanagement.domain;
 
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.data.mongodb.core.mapping.Field;
 import java.time.LocalDateTime;
+import javax.validation.constraints.NotNull;
 import java.util.HashMap;
 import java.util.Map;
 
-import javax.persistence.CollectionTable;
-import javax.persistence.Column;
-import javax.persistence.ElementCollection;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.MapKeyColumn;
-import javax.persistence.Table;
-import javax.validation.constraints.NotNull;
-
 /**
- * Persist AuditEvent managed by the Spring Boot actuator.
- * 
+ * Persist AuditEvent managed by the Spring Boot actuator
  * @see org.springframework.boot.actuate.audit.AuditEvent
  */
-@Entity
-@Table(name = "jhi_persistent_audit_event")
+@Document(collection = "jhi_persistent_audit_event")
 public class PersistentAuditEvent {
 
-  @Id
-  @GeneratedValue(strategy = GenerationType.AUTO)
-  @Column(name = "event_id")
-  private Long id;
+    @Id
+    @Field("event_id")
+    private String id;
 
-  @NotNull
-  @Column(nullable = false)
-  private String principal;
+    @NotNull
+    private String principal;
 
-  @Column(name = "event_date")
-  private LocalDateTime auditEventDate;
-  @Column(name = "event_type")
-  private String auditEventType;
+    private LocalDateTime auditEventDate;
+    @Field("event_type")
+    private String auditEventType;
 
-  @ElementCollection
-  @MapKeyColumn(name = "name")
-  @Column(name = "value")
-  @CollectionTable(name = "jhi_persistent_audit_evt_data",
-      joinColumns = @JoinColumn(name = "event_id") )
-  private Map<String, String> data = new HashMap<>();
+    private Map<String, String> data = new HashMap<>();
 
-  public Long getId() {
-    return id;
-  }
+    public String getId() {
+        return id;
+    }
 
-  public void setId(Long id) {
-    this.id = id;
-  }
+    public void setId(String id) {
+        this.id = id;
+    }
 
-  public String getPrincipal() {
-    return principal;
-  }
+    public String getPrincipal() {
+        return principal;
+    }
 
-  public void setPrincipal(String principal) {
-    this.principal = principal;
-  }
+    public void setPrincipal(String principal) {
+        this.principal = principal;
+    }
 
-  public LocalDateTime getAuditEventDate() {
-    return auditEventDate;
-  }
+    public LocalDateTime getAuditEventDate() {
+        return auditEventDate;
+    }
 
-  public void setAuditEventDate(LocalDateTime auditEventDate) {
-    this.auditEventDate = auditEventDate;
-  }
+    public void setAuditEventDate(LocalDateTime auditEventDate) {
+        this.auditEventDate = auditEventDate;
+    }
 
-  public String getAuditEventType() {
-    return auditEventType;
-  }
+    public String getAuditEventType() {
+        return auditEventType;
+    }
 
-  public void setAuditEventType(String auditEventType) {
-    this.auditEventType = auditEventType;
-  }
+    public void setAuditEventType(String auditEventType) {
+        this.auditEventType = auditEventType;
+    }
 
-  public Map<String, String> getData() {
-    return data;
-  }
+    public Map<String, String> getData() {
+        return data;
+    }
 
-  public void setData(Map<String, String> data) {
-    this.data = data;
-  }
+    public void setData(Map<String, String> data) {
+        this.data = data;
+    }
 }

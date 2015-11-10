@@ -1,16 +1,22 @@
 {
     "health": {
-        "title": "Gesundheit ihrer Anwendung",
+        "title": "Verfügbarkeit der Services",
         "refresh.button": "Aktualisieren",
         "stacktrace": "Stacktrace",
+        "details": {
+            "details": "Details",
+            "properties": "Eigenschaften",
+            "name": "Name",
+            "value": "Wert",
+            "error": "Fehler"
+        },
         "indicator": {
-            "diskSpace": "Festplattenspeicher",
+            "diskSpace": "Festplattenplatz",
             "mail": "Email",
-            "elasticsearch": "Elasticsearch",
-            "db": "Datenbank"
+            "mongo": "MongoDB"
         },
         "table": {
-            "service": "Dienst Name",
+            "service": "Servicename",
             "status": "Status"
         },
         "status": {

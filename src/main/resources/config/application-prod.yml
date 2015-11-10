@@ -18,34 +18,11 @@ spring:
             enabled: false
         livereload:
             enabled: false
-    datasource:
-        driver-class-name: org.postgresql.ds.PGSimpleDataSource
-        url: jdbc:postgresql://localhost:5432/metadatamanagement
-        name:
-        username: metadatamanagement
-        password:
-    jpa:
-        database-platform: eu.dzhw.fdz.metadatamanagement.domain.util.FixedPostgreSql82Dialect
-        database: POSTGRESQL
-        show_sql: false
-        properties:
-            hibernate.cache.use_second_level_cache: true
-            hibernate.cache.use_query_cache: false
-            hibernate.generate_statistics: false
-            hibernate.cache.region.factory_class: eu.dzhw.fdz.metadatamanagement.config.hazelcast.HazelcastCacheRegionFactory
-            hibernate.cache.use_minimal_puts: true
-            hibernate.cache.hazelcast.use_lite_member: true
     data:
-        elasticsearch:
-        #set the clustername for production
-          cluster-name: metadatamanagement
-          properties:
-            node.local: true
-            node.data: true
-            http.enabled: false
-            discovery.zen.master_election.filter_client: false
-            path.data: elasticsearch/data
-            path.logs: elasticsearch/log
+        mongodb:
+            host: localhost
+            port: 27017
+            database: metadatamanagement
     mail:
         host: ${vcap.services.email.credentials.hostname}
         port: 25
@@ -74,10 +51,6 @@ jhipster:
     http:
         cache: # Used by the CachingHttpHeadersFilter
             timeToLiveInDays: 31
-    cache: # Hibernate 2nd level cache, used by CacheConfiguration
-        timeToLiveSeconds: 3600
-        hazelcast:
-            backupCount: 1
     mail: # specific JHipster mail property, for standard properties see MailProperties
         from: metadatamanagement@dzhw.eu
     metrics: # DropWizard Metrics configuration, used by MetricsConfiguration

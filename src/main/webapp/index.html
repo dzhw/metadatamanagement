@@ -20,7 +20,7 @@
         <!--[if lt IE 9]>
             <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
         <![endif]-->
-        <div ng-show="{{ENV === 'dev' || ENV === 'prod'}}" class="development" ng-cloak=""></div>
+        <div ng-show="{{ENV === 'dev'}}" class="development" ng-cloak=""></div>
         <div ui-view="navbar" ng-cloak=""></div>
         <div class="container">
             <div ui-view="content" class="content"></div>
@@ -148,18 +148,6 @@
     <script src="scripts/app/admin/tracker/tracker.js"></script>
     <script src="scripts/app/admin/tracker/tracker.controller.js"></script>
     <script src="scripts/components/tracker/tracker.service.js"></script>
-    <script src="scripts/app/entities/survey/survey.js"></script>
-    <script src="scripts/app/entities/survey/survey.controller.js"></script>
-    <script src="scripts/app/entities/survey/survey-dialog.controller.js"></script>
-    <script src="scripts/app/entities/survey/survey-detail.controller.js"></script>
-    <script src="scripts/components/entities/survey/survey.service.js"></script>
-    <script src="scripts/components/entities/survey/survey.search.service.js"></script>
-    <script src="scripts/app/entities/variable/variable.js"></script>
-    <script src="scripts/app/entities/variable/variable.controller.js"></script>
-    <script src="scripts/app/entities/variable/variable-dialog.controller.js"></script>
-    <script src="scripts/app/entities/variable/variable-detail.controller.js"></script>
-    <script src="scripts/components/entities/variable/variable.service.js"></script>
-    <script src="scripts/components/entities/variable/variable.search.service.js"></script>
     <!-- endbuild -->
 </body>
 </html>

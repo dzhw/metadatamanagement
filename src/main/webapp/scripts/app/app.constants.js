@@ -4,6 +4,6 @@ angular.module('metadatamanagementApp')
 
 .constant('ENV', 'dev')
 
-.constant('VERSION', '0.1.8-SNAPSHOT')
+.constant('VERSION', '0.1.9-SNAPSHOT')
 
 ;

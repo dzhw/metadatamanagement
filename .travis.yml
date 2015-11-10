@@ -3,6 +3,7 @@ sudo: false
 language: java
 jdk:
   - oraclejdk8
+services: mongodb
 cache:
   directories:
   - $HOME/.m2

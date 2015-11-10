@@ -1,66 +1,58 @@
 package eu.dzhw.fdz.metadatamanagement.domain;
 
-import java.io.Serializable;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-
-import org.hibernate.annotations.Cache;
-import org.hibernate.annotations.CacheConcurrencyStrategy;
+import java.io.Serializable;
 
 /**
  * An authority (a security role) used by Spring Security.
  */
-@Entity
-@Table(name = "jhi_authority")
-@Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
+@Document(collection = "jhi_authority")
 public class Authority implements Serializable {
 
-  private static final long serialVersionUID = 1L;
-  
-  @NotNull
-  @Size(min = 0, max = 50)
-  @Id
-  @Column(length = 50)
-  private String name;
+    @NotNull
+    @Size(min = 0, max = 50)
+    @Id
+    private String name;
 
-  public String getName() {
-    return name;
-  }
-
-  public void setName(String name) {
-    this.name = name;
-  }
-
-  @Override
-  public boolean equals(Object obj) {
-    if (this == obj) {
-      return true;
-    }
-    if (obj == null || getClass() != obj.getClass()) {
-      return false;
+    public String getName() {
+        return name;
     }
 
-    Authority authority = (Authority) obj;
-
-    if (name != null ? !name.equals(authority.name) : authority.name != null) {
-      return false;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    return true;
-  }
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
 
-  @Override
-  public int hashCode() {
-    return name != null ? name.hashCode() : 0;
-  }
+        Authority authority = (Authority) o;
 
-  @Override
-  public String toString() {
-    return "Authority{" + "name='" + name + '\'' + "}";
-  }
+        if (name != null ? !name.equals(authority.name) : authority.name != null) {
+            return false;
+        }
+
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        return name != null ? name.hashCode() : 0;
+    }
+
+    @Override
+    public String toString() {
+        return "Authority{" +
+            "name='" + name + '\'' +
+            "}";
+    }
 }

@@ -1,19 +1,8 @@
-jhipster-prod-elasticsearch:
-  container_name: metadatamanagement-prod-elasticsearch
-  image: elasticsearch
+jhipster-prod-mongodb:
+  container_name: metadatamanagement-prod-mongodb
+  image: mongo
   # volumes:
-  # - ~/volumes/jhipster/metadatamanagement/prod-elasticsearch/:/usr/share/elasticsearch/data/
+  # - ~/volumes/jhipster/metadatamanagement/prod-mongodb/:/data/db/
   ports:
-  - "9200:9200"
-  - "9300:9300"
-jhipster-prod-postgresql:
-  container_name: metadatamanagement-prod-postgresql
-  image: postgres
-  # volumes:
-  # - ~/volumes/jhipster/metadatamanagement/prod-postgresql/:/var/lib/postgresql/
-  environment:
-  - POSTGRES_USER=metadatamanagement
-  - POSTGRES_PASSWORD=
-  ports:
-  - "5432:5432"
+  - "27017:27017"
 

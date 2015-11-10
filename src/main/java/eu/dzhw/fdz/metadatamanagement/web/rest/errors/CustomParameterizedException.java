@@ -1,12 +1,13 @@
 package eu.dzhw.fdz.metadatamanagement.web.rest.errors;
 
 /**
- * Custom, parameterized exception, which can be translated on the client side. For example:
+ * Custom, parameterized exception, which can be translated on the client side.
+ * For example:
  * 
  * <pre>
- * throw new CustomParameterizedException(&quot;myCustomError&quot;, 
- * &quot;hello&quot;, &quot;world&quot;);
+ * throw new CustomParameterizedException(&quot;myCustomError&quot;, &quot;hello&quot;, &quot;world&quot;);
  * </pre>
+ * 
  * Can be translated with:
  * 
  * <pre>
@@ -15,25 +16,19 @@ package eu.dzhw.fdz.metadatamanagement.web.rest.errors;
  */
 public class CustomParameterizedException extends RuntimeException {
 
-  private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-  private final String message;
-  private final String[] params;
+    private final String message;
+    private final String[] params;
 
-  /**
-   * Constructor for custom parameter exceptions.
-   * 
-   * @param message a given message of the exception.
-   * @param params given parameters of the exception.
-   */
-  public CustomParameterizedException(String message, String... params) {
-    super(message);
-    this.message = message;
-    this.params = params;
-  }
+    public CustomParameterizedException(String message, String... params) {
+        super(message);
+        this.message = message;
+        this.params = params;
+    }
 
-  public ParameterizedErrorDto getErrorDto() {
-    return new ParameterizedErrorDto(message, params);
-  }
+    public ParameterizedErrorDTO getErrorDTO() {
+        return new ParameterizedErrorDTO(message, params);
+    }
 
 }

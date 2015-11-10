@@ -1,11 +1,8 @@
-jhipster-dev-postgresql:
-  container_name: metadatamanagement-dev-postgresql
-  image: postgres
+jhipster-dev-mongodb:
+  container_name: metadatamanagement-dev-mongodb
+  image: mongo
   # volumes:
-  # - ~/volumes/jhipster/metadatamanagement/dev-postgresql/:/var/lib/postgresql/
-  environment:
-  - POSTGRES_USER=metadatamanagement
-  - POSTGRES_PASSWORD=
+  # - ~/volumes/jhipster/metadatamanagement/dev-mongodb/:/data/db/
   ports:
-  - "5432:5432"
+  - "27017:27017"
 

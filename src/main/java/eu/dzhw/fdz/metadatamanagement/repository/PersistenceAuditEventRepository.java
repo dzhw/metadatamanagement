@@ -1,22 +1,20 @@
 package eu.dzhw.fdz.metadatamanagement.repository;
 
-import java.time.LocalDateTime;
-import java.util.List;
-
-import org.springframework.data.jpa.repository.JpaRepository;
-
 import eu.dzhw.fdz.metadatamanagement.domain.PersistentAuditEvent;
 
+import java.time.LocalDateTime;
+import org.springframework.data.mongodb.repository.MongoRepository;
+
+import java.util.List;
+
 /**
- * Spring Data JPA repository for the PersistentAuditEvent entity.
+ * Spring Data MongoDB repository for the PersistentAuditEvent entity.
  */
-public interface PersistenceAuditEventRepository extends JpaRepository<PersistentAuditEvent, Long> {
+public interface PersistenceAuditEventRepository extends MongoRepository<PersistentAuditEvent, String> {
 
-  List<PersistentAuditEvent> findByPrincipal(String principal);
+    List<PersistentAuditEvent> findByPrincipal(String principal);
 
-  List<PersistentAuditEvent> findByPrincipalAndAuditEventDateAfter(String principal,
-      LocalDateTime after);
+    List<PersistentAuditEvent> findByPrincipalAndAuditEventDateAfter(String principal, LocalDateTime after);
 
-  List<PersistentAuditEvent> findAllByAuditEventDateBetween(LocalDateTime fromDate,
-      LocalDateTime toDate);
+    List<PersistentAuditEvent> findAllByAuditEventDateBetween(LocalDateTime fromDate, LocalDateTime toDate);
 }

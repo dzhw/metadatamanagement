@@ -18,39 +18,11 @@ spring:
             enabled: true
         livereload:
             enabled: false # we use Grunt + BrowserSync for livereload
-    datasource:
-        driver-class-name: org.postgresql.ds.PGSimpleDataSource
-        url: jdbc:postgresql://localhost:5432/metadatamanagement
-        name:
-        username: metadatamanagement
-        password: metadatamanagement
-    jpa:
-        database-platform: eu.dzhw.fdz.metadatamanagement.domain.util.FixedPostgreSql82Dialect
-        database: POSTGRESQL
-        show_sql: true
-        properties:
-            hibernate.cache.use_second_level_cache: true
-            hibernate.cache.use_query_cache: false
-            hibernate.generate_statistics: true
-            hibernate.cache.region.factory_class: eu.dzhw.fdz.metadatamanagement.config.hazelcast.HazelcastCacheRegionFactory
-            hibernate.cache.use_minimal_puts: true
-            hibernate.cache.hazelcast.use_lite_member: true
     data:
-        elasticsearch:
-          #set clustername to user name for dev purposes
-          cluster-name: ${user.name}
-          #set network host to loop address to enable multicast on localhost
-          properties:
-            network.host: 127.0.0.1
-            #enable rest endpoint for development
-            http.enabled: true
-            #enable cors for local usage of kopf plugin and sense
-            http.cors.enabled: true
-            http.cors.allow-origin: /.*/
-            #move elasticsearch data folder to the target folder
-            path.data: target/elasticsearch/data
-            path.logs: target/elasticsearch/log
-            index.search.slowlog.threshold.query.info: 1ms
+        mongodb:
+            host: localhost
+            port: 27017
+            database: metadatamanagement
     mail:
         host: localhost
         port: 1025
@@ -65,20 +37,11 @@ liquibase:
 server:
     port: 8080
 
-#enable logging of elasticsearch queries
-logging:
-  level:
-    org.elasticsearch.index.search.slowlog.query: INFO
-
 # ===================================================================
 # JHipster specific properties
 # ===================================================================
 
 jhipster:
-    cache: # Hibernate 2nd level cache, used by CacheConfiguration
-        timeToLiveSeconds: 3600
-        hazelcast:
-            backupCount: 1
     mail: # specific JHipster mail property, for standard properties see MailProperties
         from: metadatamanagement@localhost
     metrics: # DropWizard Metrics configuration, used by MetricsConfiguration

@@ -1,16 +1,7 @@
 package eu.dzhw.fdz.metadatamanagement.web.websocket;
 
-import static eu.dzhw.fdz.metadatamanagement.config.WebsocketConfiguration.IP_ADDRESS;
-
-import java.security.Principal;
-import java.time.Instant;
-import java.time.ZoneOffset;
-import java.time.ZonedDateTime;
-import java.time.format.DateTimeFormatter;
-import java.util.Calendar;
-
-import javax.inject.Inject;
-
+import eu.dzhw.fdz.metadatamanagement.security.SecurityUtils;
+import eu.dzhw.fdz.metadatamanagement.web.websocket.dto.ActivityDTO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.ApplicationListener;
@@ -22,57 +13,45 @@ import org.springframework.messaging.simp.stomp.StompHeaderAccessor;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.socket.messaging.SessionDisconnectEvent;
 
-import eu.dzhw.fdz.metadatamanagement.security.SecurityUtils;
-import eu.dzhw.fdz.metadatamanagement.web.websocket.dto.ActivityDto;
+import java.time.Instant;
+import java.time.LocalDateTime;
+import java.time.ZoneOffset;
+import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
+import javax.inject.Inject;
+import java.security.Principal;
+import java.util.Calendar;
 
-/**
- * A Controller for modification of activities.
- */
+import static eu.dzhw.fdz.metadatamanagement.config.WebsocketConfiguration.IP_ADDRESS;
+
 @Controller
 public class ActivityService implements ApplicationListener<SessionDisconnectEvent> {
 
-  private static final Logger log = LoggerFactory.getLogger(ActivityService.class);
+    private static final Logger log = LoggerFactory.getLogger(ActivityService.class);
 
-  private DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+    private DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 
-  @Inject
-  SimpMessageSendingOperations messagingTemplate;
+    @Inject
+    SimpMessageSendingOperations messagingTemplate;
 
-  /**
-   * This method modify a given activity dto.
-   * @param activityDto A bean for the activity representation.
-   * @param stompHeaderAccessor A stomp header accessor for decoding messages from stomp frame to a
-   *        stomp frame.
-   * @param principal for representing any entity (security)
-   * @return a modified activity dto
-   */
-  @SubscribeMapping("/topic/activity")
-  @SendTo("/topic/tracker")
-  public ActivityDto sendActivity(@Payload ActivityDto activityDto,
-      StompHeaderAccessor stompHeaderAccessor, Principal principal) {
-    activityDto.setUserLogin(SecurityUtils.getCurrentUserLogin());
-    activityDto.setUserLogin(principal.getName());
-    activityDto.setSessionId(stompHeaderAccessor.getSessionId());
-    activityDto.setIpAddress(stompHeaderAccessor.getSessionAttributes().get(IP_ADDRESS).toString());
-    Instant instant = Instant.ofEpochMilli(Calendar.getInstance().getTimeInMillis());
-    activityDto.setTime(
-        dateTimeFormatter.format(ZonedDateTime.ofInstant(instant, ZoneOffset.systemDefault())));
-    log.debug("Sending user tracking data {}", activityDto);
-    return activityDto;
-  }
+    @SubscribeMapping("/topic/activity")
+    @SendTo("/topic/tracker")
+    public ActivityDTO sendActivity(@Payload ActivityDTO activityDTO, StompHeaderAccessor stompHeaderAccessor, Principal principal) {
+        activityDTO.setUserLogin(SecurityUtils.getCurrentUserLogin());
+        activityDTO.setUserLogin(principal.getName());
+        activityDTO.setSessionId(stompHeaderAccessor.getSessionId());
+        activityDTO.setIpAddress(stompHeaderAccessor.getSessionAttributes().get(IP_ADDRESS).toString());
+        Instant instant = Instant.ofEpochMilli(Calendar.getInstance().getTimeInMillis());
+        activityDTO.setTime(dateTimeFormatter.format(ZonedDateTime.ofInstant(instant, ZoneOffset.systemDefault())));
+        log.debug("Sending user tracking data {}", activityDTO);
+        return activityDTO;
+    }
 
-  /*
-   * (non-Javadoc)
-   * 
-   * @see
-   * org.springframework.context.ApplicationListener#onApplicationEvent(org.springframework.context.
-   * ApplicationEvent)
-   */
-  @Override
-  public void onApplicationEvent(SessionDisconnectEvent event) {
-    ActivityDto activityDto = new ActivityDto();
-    activityDto.setSessionId(event.getSessionId());
-    activityDto.setPage("logout");
-    messagingTemplate.convertAndSend("/topic/tracker", activityDto);
-  }
+    @Override
+    public void onApplicationEvent(SessionDisconnectEvent event) {
+        ActivityDTO activityDTO = new ActivityDTO();
+        activityDTO.setSessionId(event.getSessionId());
+        activityDTO.setPage("logout");
+        messagingTemplate.convertAndSend("/topic/tracker", activityDTO);
+    }
 }

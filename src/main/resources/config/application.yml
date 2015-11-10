@@ -53,7 +53,7 @@ jhipster:
                 tokenValidityInSeconds: 1800
         rememberme:
             # security key (this key should be unique for your application, and kept secret)
-            key: 4c1b393da7137b16ffe4ce78e3f23ff2c75d5c7c
+            key: 786cea5f182ffdd133864bbc75f69f8d008b5bc3
     swagger:
         title: metadatamanagement API
         description: metadatamanagement API documentation

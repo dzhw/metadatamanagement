@@ -17,33 +17,11 @@
 # ===================================================================
 
 spring:
-    datasource:
-        driver-class-name: org.h2.jdbcx.JdbcDataSource
-        url: jdbc:h2:mem:metadatamanagement;DB_CLOSE_DELAY=-1
-        name:
-        username:
-        password:
-    jpa:
-        database-platform: eu.dzhw.fdz.metadatamanagement.domain.util.FixedH2Dialect
-        database: H2
-        open-in-view: false
-        show_sql: true
-        hibernate:
-            ddl-auto: none
-            naming-strategy: org.springframework.boot.orm.jpa.hibernate.SpringNamingStrategy
-        properties:
-            hibernate.cache.use_second_level_cache: false
-            hibernate.cache.use_query_cache: false
-            hibernate.generate_statistics: true
-            hibernate.hbm2ddl.auto: validate
     data:
-        elasticsearch:
-            cluster-name:
-            cluster-nodes:
-            properties:
-                path:
-                  logs: target/elasticsearch/log
-                  data: target/elasticsearch/data
+        mongodb:
+            host: localhost
+            port: 27017
+            database: metadatamanagement
     mail:
         host: localhost
     mvc:
@@ -81,7 +59,7 @@ jhipster:
                 tokenValidityInSeconds: 1800
         rememberme:
             # security key (this key should be unique for your application, and kept secret)
-            key: 4c1b393da7137b16ffe4ce78e3f23ff2c75d5c7c
+            key: 786cea5f182ffdd133864bbc75f69f8d008b5bc3
     metrics: # DropWizard Metrics configuration, used by MetricsConfiguration
         jmx.enabled: true
     swagger:
