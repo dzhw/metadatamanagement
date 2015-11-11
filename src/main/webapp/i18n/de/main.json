@@ -1,6 +1,8 @@
 {
     "main": {
         "title": "Willkommen",
-        "subtitle": "Willkommen beim FDZ des DZHW."
+        "subtitle": "Willkommen beim FDZ des DZHW.",
+        "dzhwUrl":"http://www.dzhw.eu/",
+        "bmbfUrl":"http://www.bmbf.de/"
     }
 }

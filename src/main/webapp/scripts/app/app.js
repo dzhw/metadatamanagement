@@ -22,17 +22,6 @@ angular.module('metadatamanagementApp', ['LocalStorageModule', 'tmh.dynamicLocal
             
         });
         
-        $rootScope.changeUrl = function(langKey) {
-        	var currentPath = $location.path();
-        	if(langKey === 'en'){
-        		currentPath=currentPath.replace('/de/','/en/');
-        	}
-        	if(langKey === 'de'){
-        		currentPath=currentPath.replace('/en/','/de/');
-        	}
-        	$location.path(currentPath);
-        }
-       
         $rootScope.$on('$stateChangeSuccess',  function(event, toState, toParams, fromState, fromParams) {
             var titleKey = 'global.title' ;
             // Remember previous state unless we've been redirected to login or we've just
@@ -65,7 +54,7 @@ angular.module('metadatamanagementApp', ['LocalStorageModule', 'tmh.dynamicLocal
             }
         };
     })
-    .config(function ($stateProvider, $urlRouterProvider, $httpProvider, $locationProvider, $translateProvider, tmhDynamicLocaleProvider, httpRequestInterceptorCacheBusterProvider) {
+    .config(function ($windowProvider,$stateProvider, $urlRouterProvider, $httpProvider, $locationProvider, $translateProvider, tmhDynamicLocaleProvider, httpRequestInterceptorCacheBusterProvider) {
 
         //Cache everything except rest api requests
         httpRequestInterceptorCacheBusterProvider.setMatchlist([/.*api.*/, /.*protected.*/], true);
@@ -89,7 +78,8 @@ angular.module('metadatamanagementApp', ['LocalStorageModule', 'tmh.dynamicLocal
                 }]
             }
         });
-        $urlRouterProvider.otherwise('/de/');
+        var browserLang = $windowProvider.$get().navigator.language || $windowProvider.$get().navigator.userLanguage; 
+        $urlRouterProvider.otherwise('/'+browserLang+'/');
         $httpProvider.interceptors.push('errorHandlerInterceptor');
         $httpProvider.interceptors.push('authExpiredInterceptor');
         $httpProvider.interceptors.push('authInterceptor');
@@ -117,6 +107,4 @@ angular.module('metadatamanagementApp', ['LocalStorageModule', 'tmh.dynamicLocal
             is: function(val) { return [true,false,0,1].indexOf(val) >= 0 },
             pattern: /bool|true|0|1/
         });
-    }]).controller('MainCtrl', ['$scope', function($scope){
-
     }]);

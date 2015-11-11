@@ -1,9 +1,9 @@
 'use strict';
 
 angular.module('metadatamanagementApp')
-    .controller('LanguageController', function ($scope, $translate, Language, tmhDynamicLocale) {
+    .controller('LanguageController', function ($scope,$location, $translate,changeUrl, Language, tmhDynamicLocale) {
         $scope.changeLanguage = function (languageKey) {
-        	$scope.changeUrl(languageKey);
+        	changeUrl.changeUrl(languageKey,$location);
             $translate.use(languageKey);
             tmhDynamicLocale.set(languageKey);
         };
