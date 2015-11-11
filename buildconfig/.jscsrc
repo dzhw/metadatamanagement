@@ -1,0 +1,7 @@
+{
+	"preset": "google",
+    "requireSemicolons": true,
+    "maximumLineLength": 155,
+    "excludeFiles": [
+    ]
+}
