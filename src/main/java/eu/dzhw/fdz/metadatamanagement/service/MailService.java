@@ -3,6 +3,7 @@ package eu.dzhw.fdz.metadatamanagement.service;
 import java.util.Locale;
 
 import javax.inject.Inject;
+import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
 
 import org.apache.commons.lang.CharEncoding;
@@ -63,7 +64,7 @@ public class MailService {
             message.setText(content, isHtml);
             javaMailSender.send(mimeMessage);
             log.debug("Sent e-mail to User '{}'", to);
-        } catch (Exception e) {
+        } catch (MessagingException e) {
             log.warn("E-mail could not be sent to user '{}', exception is: {}", to, e.getMessage());
         }
     }

@@ -55,7 +55,7 @@ public class CustomAuditEventRepository {
             @Transactional(propagation = Propagation.REQUIRES_NEW)
             public void add(AuditEvent event) {
                 if (!AUTHORIZATION_FAILURE.equals(event.getType()) &&
-                    !ANONYMOUS_USER.equals(event.getPrincipal().toString())) {
+                    !ANONYMOUS_USER.equals(event.getPrincipal())) {
 
                     PersistentAuditEvent persistentAuditEvent = new PersistentAuditEvent();
                     persistentAuditEvent.setPrincipal(event.getPrincipal());

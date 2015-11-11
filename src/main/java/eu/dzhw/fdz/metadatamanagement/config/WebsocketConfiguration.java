@@ -20,6 +20,7 @@ import org.springframework.web.socket.config.annotation.StompEndpointRegistry;
 import org.springframework.web.socket.server.HandshakeInterceptor;
 import org.springframework.web.socket.server.support.DefaultHandshakeHandler;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import eu.dzhw.fdz.metadatamanagement.security.AuthoritiesConstants;
 
 @Configuration
@@ -36,6 +37,7 @@ public class WebsocketConfiguration extends AbstractWebSocketMessageBrokerConfig
     }
 
     @Override
+    @SuppressFBWarnings("SIC_INNER_SHOULD_BE_STATIC_ANON")
     public void registerStompEndpoints(StompEndpointRegistry registry) {
         registry.addEndpoint("/websocket/tracker")
             .setHandshakeHandler(new DefaultHandshakeHandler() {
@@ -55,6 +57,7 @@ public class WebsocketConfiguration extends AbstractWebSocketMessageBrokerConfig
     }
 
     @Bean
+    @SuppressFBWarnings("SIC_INNER_SHOULD_BE_STATIC_ANON")
     public HandshakeInterceptor httpSessionHandshakeInterceptor() {
         return new HandshakeInterceptor() {
 

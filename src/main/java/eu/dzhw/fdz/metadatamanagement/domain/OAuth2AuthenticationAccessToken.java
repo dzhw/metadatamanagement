@@ -6,17 +6,22 @@ import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.security.oauth2.common.OAuth2AccessToken;
 import org.springframework.security.oauth2.provider.OAuth2Authentication;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+
 import java.io.Serializable;
 import java.util.UUID;
 
 @Document(collection = "OAUTH_AUTHENTICATION_ACCESS_TOKEN")
 public class OAuth2AuthenticationAccessToken implements Serializable {
+  
+    private static final long serialVersionUID = 1L;
 
     @Id
     private String id;
 
     private String tokenId;
 
+    @SuppressFBWarnings("SE_BAD_FIELD") //non transient, no serializable field
     private OAuth2AccessToken oAuth2AccessToken;
 
     private String authenticationId;
@@ -53,6 +58,7 @@ public class OAuth2AuthenticationAccessToken implements Serializable {
         return authenticationId;
     }
 
+    @SuppressFBWarnings("NM_CONFUSING")
     public String getUserName() {
         return userName;
     }

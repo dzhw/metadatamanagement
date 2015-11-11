@@ -21,6 +21,8 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
  */
 @Document(collection = "jhi_user")
 public class User extends AbstractAuditingEntity implements Serializable {
+  
+    private static final long serialVersionUID = 1L;
 
     @Id
     private String id;
@@ -174,9 +176,9 @@ public class User extends AbstractAuditingEntity implements Serializable {
         }
 
         User user = (User) o;
-
-        if (!login.equals(user.login)) {
-            return false;
+        
+        if(login != null && !login.equals(user.login)) {
+              return false;
         }
 
         return true;
@@ -184,6 +186,11 @@ public class User extends AbstractAuditingEntity implements Serializable {
 
     @Override
     public int hashCode() {
+        
+        if(login == null) {
+          return 0;
+        }
+      
         return login.hashCode();
     }
 

@@ -134,13 +134,15 @@ public class UserService {
 
     public User getUserWithAuthorities(String id) {
         User user = userRepository.findOne(id);
-        user.getAuthorities().size(); // eagerly load the association
+        int size = user.getAuthorities().size(); // eagerly load the association
+        this.log.debug("user.getAuthorities().size() = " + size);
         return user;
     }
 
     public User getUserWithAuthorities() {
         User user = userRepository.findOneByLogin(SecurityUtils.getCurrentUserLogin()).get();
-        user.getAuthorities().size(); // eagerly load the association
+        int size = user.getAuthorities().size(); // eagerly load the association
+        this.log.debug("user.getAuthorities().size() = " + size);
         return user;
     }
 

@@ -21,7 +21,7 @@ public class ParameterizedErrorDTO implements Serializable {
     }
 
     public String[] getParams() {
-        return params;
+        return params.clone();
     }
 
 }

@@ -29,8 +29,13 @@ public class StaticResourcesProductionFilter implements Filter {
 
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
+        
+        if(!(request instanceof HttpServletRequest)) {
+          return;
+        }  
+        
         HttpServletRequest httpRequest = (HttpServletRequest) request;
-        String contextPath = ((HttpServletRequest) request).getContextPath();
+        String contextPath = httpRequest.getContextPath();
         String requestURI = httpRequest.getRequestURI();
         requestURI = StringUtils.substringAfter(requestURI, contextPath);
         if (StringUtils.equals("/", requestURI)) {

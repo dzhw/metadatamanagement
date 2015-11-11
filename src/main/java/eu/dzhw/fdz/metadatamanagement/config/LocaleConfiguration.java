@@ -36,7 +36,11 @@ public class LocaleConfiguration extends WebMvcConfigurerAdapter implements Envi
         ReloadableResourceBundleMessageSource messageSource = new ReloadableResourceBundleMessageSource();
         messageSource.setBasename("classpath:/i18n/messages");
         messageSource.setDefaultEncoding("UTF-8");
-        messageSource.setCacheSeconds(propertyResolver.getProperty("cache-seconds", Integer.class, -1));
+        
+        if(propertyResolver != null) {
+          messageSource.setCacheSeconds(propertyResolver.getProperty("cache-seconds", Integer.class, -1));
+        }
+        
         return messageSource;
     }
 

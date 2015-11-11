@@ -90,7 +90,7 @@ public class UserResource {
         }
         User result = userRepository.save(user);
         return ResponseEntity.created(new URI("/api/users/" + result.getId()))
-                .headers(HeaderUtil.createEntityCreationAlert("user", result.getId().toString()))
+                .headers(HeaderUtil.createEntityCreationAlert("user", result.getId()))
                 .body(result);
     }
 

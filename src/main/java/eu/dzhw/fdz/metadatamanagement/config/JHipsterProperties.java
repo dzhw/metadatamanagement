@@ -4,6 +4,8 @@ import javax.validation.constraints.NotNull;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+
 /**
  * Properties specific to JHipster.
  *
@@ -219,6 +221,7 @@ public class JHipsterProperties {
 
                 private int tokenValidityInSeconds = 1800;
 
+                @SuppressFBWarnings("NM_CONFUSING")
                 public String getClientid() {
                     return clientid;
                 }
