@@ -78,8 +78,9 @@ angular.module('metadatamanagementApp', ['LocalStorageModule', 'tmh.dynamicLocal
                 }]
             }
         });
-        var browserLang = $windowProvider.$get().navigator.language || $windowProvider.$get().navigator.userLanguage; 
-        $urlRouterProvider.otherwise('/'+browserLang+'/');
+        /*var browserLang = $windowProvider.$get().navigator.language || $windowProvider.$get().navigator.userLanguage; 
+        $urlRouterProvider.otherwise('/'+browserLang+'/');*/
+        $urlRouterProvider.otherwise('/de/');
         $httpProvider.interceptors.push('errorHandlerInterceptor');
         $httpProvider.interceptors.push('authExpiredInterceptor');
         $httpProvider.interceptors.push('authInterceptor');
