@@ -13,7 +13,8 @@
         "indicator": {
             "diskSpace": "Festplattenplatz",
             "mail": "Email",
-            "mongo": "MongoDB"
+            "mongo": "MongoDB",
+            "elasticsearch": "ElasticSearch"
         },
         "table": {
             "service": "Servicename",

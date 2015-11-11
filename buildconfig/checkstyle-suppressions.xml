@@ -65,7 +65,6 @@
 	<suppress checks=".*" files="SwaggerConfiguration.java" />
 	<suppress checks=".*" files="AuditEventConverter.java" />
 	<suppress checks=".*" files="AngularCookieLocaleResolver.java" />
-	<suppress checks=".*" files="JHipsterHealthIndicatorConfiguration.java" />
 	<suppress checks=".*" files="DatabaseHealthIndicator.java" />
 	<suppress checks=".*" files="OAuth2AuthenticationReadConverter.java" />
 	<suppress checks=".*" files="MongoDBTokenStore.java" />
