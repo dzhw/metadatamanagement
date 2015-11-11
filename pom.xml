@@ -470,6 +470,7 @@
                             <maxAllowedViolations>0</maxAllowedViolations>
                             <linkXRef>false</linkXRef>
                             <suppressionsLocation>buildconfig/checkstyle-suppressions.xml</suppressionsLocation>
+                            <propertiesLocation>${basedir}/buildconfig/checkstyle_maven.properties</propertiesLocation>
                         </configuration>
                     </execution>
                 </executions>
