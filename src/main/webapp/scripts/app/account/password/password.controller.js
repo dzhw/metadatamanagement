@@ -20,7 +20,7 @@ angular.module('metadatamanagementApp').controller('PasswordController',
           }).catch(function() {
             $scope.success = null;
             $scope.error = 'ERROR';
-        });
+          });
         }
       };
     });
