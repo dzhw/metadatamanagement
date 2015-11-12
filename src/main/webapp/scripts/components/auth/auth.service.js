@@ -54,7 +54,8 @@ angular
                         // register pages
                         if (isAuthenticated &&
                             $rootScope.toState.parent === 'account' &&
-                            ($rootScope.toState.name === 'login' || $rootScope.toState.name === 'register')) {
+                            ($rootScope.toState.name === 'login' ||
+                                $rootScope.toState.name === 'register')) {
                           $state.go('home');
                         }
 

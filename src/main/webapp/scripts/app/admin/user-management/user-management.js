@@ -40,7 +40,8 @@ angular
                     },
                     views: {
                       'content@': {
-                        templateUrl: 'scripts/app/admin/user-management/user-management-detail.html',
+                        templateUrl: 'scripts/app/admin/user-management/' +
+                          'user-management-detail.html',
                         controller: 'UserManagementDetailController'
                       }
                     },
