@@ -620,7 +620,7 @@
                             <plan>starter</plan>
                         </service>
                     </services>
-                    <memory>1536</memory>
+                    <memory>1024</memory>
                     <diskQuota>1024</diskQuota>
                     <healthCheckTimeout>60</healthCheckTimeout>
                     <instances>2</instances>
