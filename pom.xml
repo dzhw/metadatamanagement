@@ -469,14 +469,13 @@
                         <configuration>
                             <excludes>${project.build.directory}/generated-test-sources/**</excludes>
                             <configLocation>buildconfig/google_checks.xml</configLocation>
+                            <propertiesLocation>buildconfig/checkstyle_maven.properties</propertiesLocation>
                             <encoding>UTF-8</encoding>
                             <consoleOutput>true</consoleOutput>
                             <failsOnError>true</failsOnError>
                             <failOnViolation>true</failOnViolation>
                             <maxAllowedViolations>0</maxAllowedViolations>
                             <linkXRef>false</linkXRef>
-                            <suppressionsLocation>buildconfig/checkstyle-suppressions.xml</suppressionsLocation>
-                            <propertiesLocation>${basedir}/buildconfig/checkstyle_maven.properties</propertiesLocation>
                         </configuration>
                     </execution>
                 </executions>
