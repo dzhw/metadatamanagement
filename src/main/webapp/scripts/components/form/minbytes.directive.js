@@ -29,7 +29,6 @@ angular.module('metadatamanagementApp').directive(
           if (!ngModel) {
             return;
           }
-           
           ngModel.$validators.minbytes = function(modelValue) {
             return ngModel.$isEmpty(modelValue) ||
                 numberOfBytes(modelValue) >= attrs.minbytes;

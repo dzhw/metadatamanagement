@@ -3,7 +3,7 @@
 angular.module('metadatamanagementApp').controller('UserManagementController',
     function($scope, User, ParseLinks, Language) {
       $scope.users = [];
-      $scope.authorities = ["ROLE_USER", "ROLE_ADMIN"];
+      $scope.authorities = ['ROLE_USER', 'ROLE_ADMIN'];
       Language.getAll().then(function(languages) {
         $scope.languages = languages;
       });
@@ -12,7 +12,9 @@ angular.module('metadatamanagementApp').controller('UserManagementController',
       $scope.loadAll = function() {
         User.query({
           page: $scope.page,
+          //jscs:disable
           per_page: 20
+          //jscs:enable
         }, function(result, headers) {
           $scope.links = ParseLinks.parse(headers('link'));
           $scope.users = result;

@@ -14,20 +14,22 @@ angular.module('metadatamanagementApp').factory(
         error: error,
         info: info,
         warning: warning
-      }, alertId = 0, // unique id for each alert. Starts from 0.
-      alerts = [], timeout = 5000; // default timeout
+      };
+      var alertId = 0; // unique id for each alert. Starts from 0.
+      var alerts = [];
+      var timeout = 5000; // default timeout
 
       function clear() {
         alerts = [];
       }
-      
+
       function get() {
         return alerts;
       }
 
       function success(msg, params) {
         this.add({
-          type: "success",
+          type: 'success',
           msg: msg,
           params: params,
           timeout: timeout
@@ -36,7 +38,7 @@ angular.module('metadatamanagementApp').factory(
 
       function error(msg, params) {
         this.add({
-          type: "danger",
+          type: 'danger',
           msg: msg,
           params: params,
           timeout: timeout
@@ -45,7 +47,7 @@ angular.module('metadatamanagementApp').factory(
 
       function warning(msg, params) {
         this.add({
-          type: "warning",
+          type: 'warning',
           msg: msg,
           params: params,
           timeout: timeout
@@ -54,7 +56,7 @@ angular.module('metadatamanagementApp').factory(
 
       function info(msg, params) {
         this.add({
-          type: "info",
+          type: 'info',
           msg: msg,
           params: params,
           timeout: timeout

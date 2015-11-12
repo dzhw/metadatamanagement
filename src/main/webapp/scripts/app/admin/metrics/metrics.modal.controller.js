@@ -22,9 +22,9 @@ angular.module('metadatamanagementApp').controller(
         }
       });
 
-      $scope.threadDumpAll = $scope.threadDumpRunnable
-          + $scope.threadDumpWaiting + $scope.threadDumpTimedWaiting
-          + $scope.threadDumpBlocked;
+      $scope.threadDumpAll = $scope.threadDumpRunnable +
+          $scope.threadDumpWaiting + $scope.threadDumpTimedWaiting +
+          $scope.threadDumpBlocked;
 
       $scope.cancel = function() {
         $modalInstance.dismiss('cancel');

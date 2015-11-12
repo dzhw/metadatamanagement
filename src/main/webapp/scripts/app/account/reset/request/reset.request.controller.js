@@ -18,14 +18,14 @@ angular.module('metadatamanagementApp').controller('RequestResetController',
 
         Auth.resetPasswordInit($scope.resetAccount.email).then(function() {
           $scope.success = 'OK';
-        }).catch(function (response) {
+        }).catch(function(response) {
           $scope.success = null;
           if (response.status === 400 && response.data === 'e-mail address not registered') {
-              $scope.errorEmailNotExists = 'ERROR';
+            $scope.errorEmailNotExists = 'ERROR';
           } else {
-              $scope.error = 'ERROR';
+            $scope.error = 'ERROR';
           }
         });
-      }
+      };
 
     });

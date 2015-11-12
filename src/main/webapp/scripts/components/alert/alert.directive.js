@@ -7,25 +7,25 @@ angular
         function(AlertService) {
           return {
             restrict: 'E',
-            template: '<div class="alerts" ng-cloak="">'
-                + '<alert ng-cloak="" ng-repeat="alert in alerts" type="{{alert.type}}" close="alert.close()"><pre>{{ alert.msg }}</pre></alert>'
-                + '</div>',
+            template: '<div class="alerts" ng-cloak="">' +
+                '<alert ng-cloak="" ng-repeat="alert in alerts" type="{{alert.type}}" close="alert.close()"><pre>{{ alert.msg }}</pre></alert>' +
+                '</div>',
             controller: ['$scope', function($scope) {
               $scope.alerts = AlertService.get();
               $scope.$on('$destroy', function() {
                 $scope.alerts = [];
               });
             }]
-          }
+          };
         })
     .directive(
         'jhAlertError',
         function(AlertService, $rootScope, $translate) {
           return {
             restrict: 'E',
-            template: '<div class="alerts" ng-cloak="">'
-                + '<alert ng-cloak="" ng-repeat="alert in alerts" type="{{alert.type}}" close="alert.close()"><pre>{{ alert.msg }}</pre></alert>'
-                + '</div>',
+            template: '<div class="alerts" ng-cloak="">' +
+                '<alert ng-cloak="" ng-repeat="alert in alerts" type="{{alert.type}}" close="alert.close()"><pre>{{ alert.msg }}</pre></alert>' +
+                '</div>',
             controller: [
                 '$scope',
                 function($scope) {
@@ -40,32 +40,32 @@ angular
                             switch (httpResponse.status) {
                             // connection refused, server not reachable
                             case 0:
-                              addErrorAlert("Server not reachable",
+                              addErrorAlert('Server not reachable',
                                   'error.serverNotReachable');
                               break;
 
                             case 400:
-                              if (httpResponse.data
-                                  && httpResponse.data.fieldErrors) {
+                              if (httpResponse.data &&
+                                  httpResponse.data.fieldErrors) {
                                 for (i = 0; i < httpResponse.data.fieldErrors.length; i++) {
                                   var fieldError = httpResponse.data.fieldErrors[i];
                                   // convert 'something[14].other[4].id' to
                                   // 'something[].other[].id' so translations
                                   // can be written to it
                                   var convertedField = fieldError.field
-                                      .replace(/\[\d*\]/g, "[]");
+                                      .replace(/\[\d*\]/g, '[]');
                                   var fieldName = $translate
-                                      .instant('metadatamanagementApp.'
-                                          + fieldError.objectName + '.'
-                                          + convertedField);
-                                  addErrorAlert('Field ' + fieldName
-                                      + ' cannot be empty', 'error.'
-                                      + fieldError.message, {
+                                      .instant('metadatamanagementApp.' +
+                                          fieldError.objectName + '.' +
+                                          convertedField);
+                                  addErrorAlert('Field ' + fieldName +
+                                      ' cannot be empty', 'error.' +
+                                      fieldError.message, {
                                     fieldName: fieldName
                                   });
                                 }
-                              } else if (httpResponse.data
-                                  && httpResponse.data.message) {
+                              } else if (httpResponse.data &&
+                                  httpResponse.data.message) {
                                 addErrorAlert(httpResponse.data.message,
                                     httpResponse.data.message,
                                     httpResponse.data);
@@ -75,8 +75,8 @@ angular
                               break;
 
                             default:
-                              if (httpResponse.data
-                                  && httpResponse.data.message) {
+                              if (httpResponse.data &&
+                                  httpResponse.data.message) {
                                 addErrorAlert(httpResponse.data.message);
                               } else {
                                 addErrorAlert(JSON.stringify(httpResponse));
@@ -85,8 +85,8 @@ angular
                           });
 
                   $scope.$on('$destroy', function() {
-                    if (cleanHttpErrorListener !== undefined
-                        && cleanHttpErrorListener !== null) {
+                    if (cleanHttpErrorListener !== undefined &&
+                        cleanHttpErrorListener !== null) {
                       cleanHttpErrorListener();
                     }
                   });
@@ -96,7 +96,7 @@ angular
                     key = key && key != null ? key : message;
                     AlertService.error(key, data);
 
-                  }
+                  };
                 }]
-          }
+          };
         });

@@ -60,8 +60,8 @@ angular
 
           $rootScope.back = function() {
             // If previous state is 'activate' or do not exist go to 'home'
-            if ($rootScope.previousStateName === 'activate'
-                || $state.get($rootScope.previousStateName) === null) {
+            if ($rootScope.previousStateName === 'activate' ||
+                $state.get($rootScope.previousStateName) === null) {
               $state.go('home');
             } else {
               $state.go($rootScope.previousStateName,
@@ -126,7 +126,7 @@ angular
       $urlMatcherFactory.type('boolean', {
         name: 'boolean',
         decode: function(val) {
-          return val == true ? true : val == "true" ? true : false
+          return val == true ? true : val == 'true' ? true : false;
         },
         encode: function(val) {
           return val ? 1 : 0;
@@ -135,7 +135,7 @@ angular
           return this.is(a) && a === b;
         },
         is: function(val) {
-          return [true, false, 0, 1].indexOf(val) >= 0
+          return [true, false, 0, 1].indexOf(val) >= 0;
         },
         pattern: /bool|true|0|1/
       });
