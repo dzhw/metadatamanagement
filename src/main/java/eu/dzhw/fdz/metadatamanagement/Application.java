@@ -1,7 +1,13 @@
 package eu.dzhw.fdz.metadatamanagement;
 
-import eu.dzhw.fdz.metadatamanagement.config.Constants;
-import eu.dzhw.fdz.metadatamanagement.config.JHipsterProperties;
+import java.io.IOException;
+import java.net.InetAddress;
+import java.net.UnknownHostException;
+import java.util.Arrays;
+import java.util.Collection;
+
+import javax.annotation.PostConstruct;
+import javax.inject.Inject;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -15,17 +21,13 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.core.env.Environment;
 import org.springframework.core.env.SimpleCommandLinePropertySource;
 
-import javax.annotation.PostConstruct;
-import javax.inject.Inject;
-import java.io.IOException;
-import java.net.InetAddress;
-import java.net.UnknownHostException;
-import java.util.Arrays;
-import java.util.Collection;
+import eu.dzhw.fdz.metadatamanagement.config.Constants;
+import eu.dzhw.fdz.metadatamanagement.config.JHipsterProperties;
+import eu.dzhw.fdz.metadatamanagement.config.MetadataManagementProperties;
 
 @ComponentScan
 @EnableAutoConfiguration(exclude = { MetricFilterAutoConfiguration.class, MetricRepositoryAutoConfiguration.class })
-@EnableConfigurationProperties({ JHipsterProperties.class, LiquibaseProperties.class })
+@EnableConfigurationProperties({ MetadataManagementProperties.class, JHipsterProperties.class, LiquibaseProperties.class })
 public class Application {
 
     private static final Logger log = LoggerFactory.getLogger(Application.class);

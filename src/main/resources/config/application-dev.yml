@@ -55,3 +55,11 @@ jhipster:
             host: localhost
             port: 2003
             prefix: metadatamanagement
+
+# ===================================================================
+# Properties specific to our application
+# ===================================================================
+
+metadatamanagement:
+  elasticsearch-client:
+    url: http://localhost:9200
