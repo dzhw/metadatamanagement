@@ -20,7 +20,7 @@ angular
                     headers: {
                       'Content-Type': 'application/x-www-form-urlencoded',
                       'Accept': 'application/json',
-                      'Authorization': 'Basic' +
+                      'Authorization': 'Basic ' +
                           Base64.encode('metadatamanagementapp' + ':' +
                           'mySecretOAuthSecret')
                     }
