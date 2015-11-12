@@ -12,7 +12,6 @@ module.exports = function (config) {
         // list of files / patterns to load in the browser
         files: [
             // bower:js
-            'src/main/webapp/bower_components/modernizr/modernizr.js',
             'src/main/webapp/bower_components/jquery/dist/jquery.js',
             'src/main/webapp/bower_components/angular/angular.js',
             'src/main/webapp/bower_components/angular-aria/angular-aria.js',
