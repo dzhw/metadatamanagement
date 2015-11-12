@@ -373,13 +373,12 @@ module.exports = function(grunt) {
   grunt.registerTask('test', ['clean:server',  'ngconstant:dev',
       'sass:server', 'karma', 'jscs']);
 
-  grunt.registerTask('build', ['clean:dist', 'wiredep:app', 'ngconstant:prod',
-      'useminPrepare', 'ngtemplates', 'sass:server', 'imagemin', 'svgmin',
+  grunt.registerTask('build', ['test', 'clean:dist', 'wiredep:app', 'ngconstant:prod',
+      'useminPrepare', 'ngtemplates', 'imagemin', 'svgmin',
       'concat', 'copy:fonts', 'copy:dist', 'ngAnnotate', 'cssmin',
-      'autoprefixer', 'uglify', 'rev', 'usemin', 'htmlmin', 'jscs']);
+      'autoprefixer', 'uglify', 'rev', 'usemin', 'htmlmin']);
 
-  grunt.registerTask('builddev', ['clean:dist', 'wiredep:test', 'ngconstant:dev',
-      'sass:server', 'ngAnnotate', 'karma', 'jscs']);
+  grunt.registerTask('builddev', ['test', 'clean:dist', 'wiredep:test', 'ngAnnotate']);
 
   grunt.registerTask('buildOpenshift', ['test', 'build',
       'copy:generateOpenshiftDirectory']);
