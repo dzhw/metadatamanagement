@@ -2,10 +2,10 @@
 
 angular.module('metadatamanagementApp').controller(
     'LanguageController',
-    function($scope, $location, $translate, changeUrl, Language,
+    function($scope, $location, $translate, BookmarkableUrl, Language,
         tmhDynamicLocale) {
       $scope.changeLanguage = function(languageKey) {
-        changeUrl.changeUrl(languageKey, $location);
+        BookmarkableUrl.changeLocation(languageKey, $location);
         $translate.use(languageKey);
         tmhDynamicLocale.set(languageKey);
       };

@@ -1,8 +1,8 @@
 'use strict';
 
-angular.module('metadatamanagementApp').factory('changeUrl', function() {
+angular.module('metadatamanagementApp').factory('BookmarkableUrl', function() {
   return {
-    changeUrl: function(langKey, location) {
+    changeLocation: function(langKey, location) {
       var currentPath = location.path();
       if (langKey === 'en') {
         currentPath = currentPath.replace('/de/', '/en/');
