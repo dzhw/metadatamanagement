@@ -3,6 +3,5 @@
     "requireSemicolons": true,
     "requireDotNotation": false,
     "maximumLineLength": 100,
-    "excludeFiles": [
-    ]
+    "excludeFiles": ["src/main/webapp/scripts/app/app.constants.js"]
 }

@@ -734,9 +734,9 @@
                                     <goal>build</goal>
                                 </goals>
                                 <configuration>
-                                    <skipTests>true</skipTests>
+                                    <skipTests>false</skipTests>
                                     <buildTool>grunt</buildTool>
-                                    <buildArgs>sass:server --force</buildArgs>
+                                    <buildArgs>builddev</buildArgs>
                                 </configuration>
                             </execution>
                         </executions>
