@@ -6,10 +6,18 @@ angular
     .service(
         'Base64',
         function() {
-          var keyStr = 'ABCDEFGHIJKLMNOP' + 'QRSTUVWXYZabcdef'
-              + 'ghijklmnopqrstuv' + 'wxyz0123456789+/' + '=';
+          var keyStr = 'ABCDEFGHIJKLMNOP' + 'QRSTUVWXYZabcdef' +
+              'ghijklmnopqrstuv' + 'wxyz0123456789+/' + '=';
           this.encode = function(input) {
-            var output = '', chr1, chr2, chr3 = '', enc1, enc2, enc3, enc4 = '', i = 0;
+            var output = '';
+            var chr1;
+            var chr2;
+            var chr3 = '';
+            var enc1;
+            var enc2;
+            var enc3;
+            var enc4 = '';
+            var i = 0;
 
             while (i < input.length) {
               chr1 = input.charCodeAt(i++);
@@ -27,8 +35,8 @@ angular
                 enc4 = 64;
               }
 
-              output = output + keyStr.charAt(enc1) + keyStr.charAt(enc2)
-                  + keyStr.charAt(enc3) + keyStr.charAt(enc4);
+              output = output + keyStr.charAt(enc1) + keyStr.charAt(enc2) +
+                  keyStr.charAt(enc3) + keyStr.charAt(enc4);
               chr1 = chr2 = chr3 = '';
               enc1 = enc2 = enc3 = enc4 = '';
             }
@@ -37,7 +45,15 @@ angular
           };
 
           this.decode = function(input) {
-            var output = '', chr1, chr2, chr3 = '', enc1, enc2, enc3, enc4 = '', i = 0;
+            var output = '';
+            var chr1;
+            var chr2;
+            var chr3 = '';
+            var enc1;
+            var enc2;
+            var enc3;
+            var enc4 = '';
+            var i = 0;
 
             // remove all characters that are not A-Z, a-z, 0-9, +, /, or =
             input = input.replace(/[^A-Za-z0-9\+\/\=]/g, '');

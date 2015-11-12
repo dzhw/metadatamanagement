@@ -7,10 +7,10 @@ angular.module('metadatamanagementApp').controller('NavbarController',
       $scope.$state = $state;
       $scope.inProductionOrDev = ENV === 'prod' || ENV === 'dev';
 
-      if (currentPath.indexOf("/de/") >= 0) {
+      if (currentPath.indexOf('/de/') >= 0) {
         $translate.use('de');
       }
-      if (currentPath.indexOf("/en/") >= 0) {
+      if (currentPath.indexOf('/en/') >= 0) {
         $translate.use('en');
       }
 

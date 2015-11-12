@@ -1,6 +1,7 @@
 {
 	"preset": "google",
     "requireSemicolons": true,
+    "requireDotNotation": false,
     "maximumLineLength": 155,
     "excludeFiles": [
     ]

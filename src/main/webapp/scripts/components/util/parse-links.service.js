@@ -5,7 +5,7 @@ angular.module('metadatamanagementApp').service(
     function() {
       this.parse = function(header) {
         if (header.length == 0) {
-          throw new Error("input must not be of zero length");
+          throw new Error('input must not be of zero length');
         }
 
         // Split parts by comma
@@ -15,11 +15,11 @@ angular.module('metadatamanagementApp').service(
         angular.forEach(parts, function(p) {
           var section = p.split(';');
           if (section.length != 2) {
-            throw new Error("section could not be split on ';'");
+            throw new Error('section could not be split on ";"');
           }
           var url = section[0].replace(/<(.*)>/, '$1').trim();
           var queryString = {};
-          url.replace(new RegExp("([^?=&]+)(=([^&]*))?", "g"), function($0, $1,
+          url.replace(new RegExp('([^?=&]+)(=([^&]*))?', 'g'), function($0, $1,
               $2, $3) {
             queryString[$1] = $3;
           });
@@ -32,5 +32,5 @@ angular.module('metadatamanagementApp').service(
         });
 
         return links;
-      }
+      };
     });

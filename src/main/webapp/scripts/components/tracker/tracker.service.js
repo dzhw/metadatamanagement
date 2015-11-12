@@ -23,13 +23,15 @@ angular
               // deploying with a context path
               var loc = window.location;
               var url = '//' + loc.host + loc.pathname + 'websocket/tracker';
-              var authToken = JSON.parse(localStorage.getItem("ls.token")).access_token;
+              //jscs:disable
+              var authToken = JSON.parse(localStorage.getItem('ls.token')).access_token;
+              //jscs:enable
               url += '?access_token=' + authToken;
               var socket = new SockJS(url);
               stompClient = Stomp.over(socket);
               var headers = {};
               stompClient.connect(headers, function(frame) {
-                connected.resolve("success");
+                connected.resolve('success');
                 sendActivity();
                 if (!alreadyConnectedOnce) {
                   $rootScope.$on('$stateChangeStart', function(event) {
@@ -41,7 +43,7 @@ angular
             },
             subscribe: function() {
               connected.promise.then(function() {
-                subscriber = stompClient.subscribe("/topic/tracker", function(
+                subscriber = stompClient.subscribe('/topic/tracker', function(
                     data) {
                   listener.notify(JSON.parse(data.body));
                 });

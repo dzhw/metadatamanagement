@@ -3,7 +3,7 @@
 angular.module('metadatamanagementApp').factory(
     'Principal',
     function Principal($q, Account, Tracker) {
-      var _identity = false;
+      var _identity;
       var _authenticated = false;
 
       return {
