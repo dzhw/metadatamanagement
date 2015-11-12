@@ -26,12 +26,13 @@ angular.module('metadatamanagementApp').directive(
         restrict: 'A',
         require: '?ngModel',
         link: function(scope, element, attrs, ngModel) {
-          if (!ngModel)
+          if (!ngModel) {
             return;
+          }
 
           ngModel.$validators.maxbytes = function(modelValue) {
-            return ngModel.$isEmpty(modelValue)
-                || numberOfBytes(modelValue) <= attrs.maxbytes;
+            return ngModel.$isEmpty(modelValue) ||
+                numberOfBytes(modelValue) <= attrs.maxbytes;
           };
         }
       };

@@ -25,11 +25,12 @@ angular
                   deferred.resolve(data);
                 });
                 return cb();
-              }).catch(function (err) {
+              }).catch(function(err) {
                 this.logout();
                 deferred.reject(err);
                 return cb(err);
-               }.bind(this));
+              }
+                .bind(this));
 
               return deferred.promise;
             },
@@ -51,15 +52,15 @@ angular
 
                         // an authenticated user can't access to login and
                         // register pages
-                        if (isAuthenticated
-                            && $rootScope.toState.parent === 'account'
-                            && ($rootScope.toState.name === 'login' || $rootScope.toState.name === 'register')) {
+                        if (isAuthenticated &&
+                            $rootScope.toState.parent === 'account' &&
+                            ($rootScope.toState.name === 'login' || $rootScope.toState.name === 'register')) {
                           $state.go('home');
                         }
 
-                        if ($rootScope.toState.data.authorities
-                            && $rootScope.toState.data.authorities.length > 0
-                            && !Principal
+                        if ($rootScope.toState.data.authorities &&
+                            $rootScope.toState.data.authorities.length > 0 &&
+                            !Principal
                                 .hasAnyAuthority($rootScope.toState.data.authorities)) {
                           if (isAuthenticated) {
                             // user is signed in but not authorized for

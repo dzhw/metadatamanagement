@@ -3,7 +3,8 @@
 angular.module('metadatamanagementApp').factory(
     'Principal',
     function Principal($q, Account, Tracker) {
-      var _identity, _authenticated = false;
+      var _identity = false;
+      var _authenticated = false;
 
       return {
         isIdentityResolved: function() {
@@ -19,8 +20,8 @@ angular.module('metadatamanagementApp').factory(
 
           return this.identity().then(
               function(_id) {
-                return _id.authorities
-                    && _id.authorities.indexOf(authority) !== -1;
+                return _id.authorities &&
+                    _id.authorities.indexOf(authority) !== -1;
               }, function(err) {
                 return false;
               });

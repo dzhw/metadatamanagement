@@ -22,8 +22,8 @@ angular
                           $inputs.each(function() {
                             var $input = $(this);
                             scope.$watch(function() {
-                              return $input.hasClass('ng-invalid')
-                                  && $input.hasClass('ng-dirty');
+                              return $input.hasClass('ng-invalid') &&
+                                  $input.hasClass('ng-dirty');
                             }, function(isInvalid) {
                               $formGroup.toggleClass('has-error', isInvalid);
                             });

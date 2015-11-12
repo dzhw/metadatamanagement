@@ -20,7 +20,7 @@ angular.module('metadatamanagementApp').factory(
       function clear() {
         alerts = [];
       }
-s
+      
       function get() {
         return alerts;
       }

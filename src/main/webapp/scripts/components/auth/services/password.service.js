@@ -7,10 +7,10 @@ angular.module('metadatamanagementApp').factory('Password',
 
 angular.module('metadatamanagementApp').factory('PasswordResetInit',
     function($resource) {
-      return $resource('api/account/reset_password/init', {}, {})
+      return $resource('api/account/reset_password/init', {}, {});
     });
 
 angular.module('metadatamanagementApp').factory('PasswordResetFinish',
     function($resource) {
-      return $resource('api/account/reset_password/finish', {}, {})
+      return $resource('api/account/reset_password/finish', {}, {});
     });
