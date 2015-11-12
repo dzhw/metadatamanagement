@@ -4,6 +4,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.inject.Inject;
+
 import org.springframework.cloud.cloudfoundry.com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -21,6 +23,9 @@ import io.searchbox.client.config.HttpClientConfig;
 @Configuration
 public class ElasticsearchClientConfiguration {
 
+  @Inject
+  private MetadataManagementProperties metadataManagementProperties;
+  
   /**
    * Create the client which connects to Elasticsearch. Connects to localhost if we are not running
    * in the cloud.
@@ -31,8 +36,9 @@ public class ElasticsearchClientConfiguration {
    */
   @Bean
   public JestClient jestClient(Environment environment) throws Exception {
-    String connectionUrl = "http://localhost:9200";
+    String connectionUrl = metadataManagementProperties.getElasticsearchClient().getUrl();
 
+    //use cloud connection url if available
     if (environment.acceptsProfiles(Constants.SPRING_PROFILE_CLOUD)) {
       // Using jackson to parse VCAP_SERVICES
       HashMap result = new ObjectMapper().readValue(System.getenv("VCAP_SERVICES"), HashMap.class);
