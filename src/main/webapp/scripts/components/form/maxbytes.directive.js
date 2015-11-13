@@ -1,9 +1,8 @@
-/* globals $ */
 'use strict';
 
 angular.module('metadatamanagementApp').directive(
     'maxbytes',
-    function($q) {
+    function() {
       function endsWith(suffix, str) {
         return str.indexOf(suffix, str.length - suffix.length) !== -1;
       }

@@ -1,3 +1,7 @@
+/*global window: false */
+/*global localStorage: false */
+/*global SockJS: false */
+/*global Stomp: false */
 'use strict';
 
 angular

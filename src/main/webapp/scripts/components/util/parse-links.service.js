@@ -4,7 +4,7 @@ angular.module('metadatamanagementApp').service(
     'ParseLinks',
     function() {
       this.parse = function(header) {
-        if (header.length == 0) {
+        if (header.length === 0) {
           throw new Error('input must not be of zero length');
         }
 
@@ -14,7 +14,7 @@ angular.module('metadatamanagementApp').service(
         // Parse each part into a named link
         angular.forEach(parts, function(p) {
           var section = p.split(';');
-          if (section.length != 2) {
+          if (section.length !== 2) {
             throw new Error('section could not be split on ";"');
           }
           var url = section[0].replace(/<(.*)>/, '$1').trim();
@@ -23,7 +23,7 @@ angular.module('metadatamanagementApp').service(
               $2, $3) {
             queryString[$1] = $3;
           });
-          var page = queryString['page'];
+          var page = queryString.page;
           if (angular.isString(page)) {
             page = parseInt(page);
           }

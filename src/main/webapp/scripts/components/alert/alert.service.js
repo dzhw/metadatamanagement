@@ -1,23 +1,10 @@
+/* global window: false */
 'use strict';
 
 angular.module('metadatamanagementApp').factory(
     'AlertService',
     function($timeout, $sce, $translate) {
-      var exports = {
-        factory: factory,
-        add: addAlert,
-        closeAlert: closeAlert,
-        closeAlertByIndex: closeAlertByIndex,
-        clear: clear,
-        get: get,
-        success: success,
-        error: error,
-        info: info,
-        warning: warning
-      };
-      var alertId = 0; // unique id for each alert. Starts from 0.
-      var alerts = [];
-      var timeout = 5000; // default timeout
+      var exports;
 
       function clear() {
         alerts = [];
@@ -28,7 +15,7 @@ angular.module('metadatamanagementApp').factory(
       }
 
       function success(msg, params) {
-        this.add({
+        window.add({
           type: 'success',
           msg: msg,
           params: params,
@@ -37,7 +24,7 @@ angular.module('metadatamanagementApp').factory(
       }
 
       function error(msg, params) {
-        this.add({
+        window.add({
           type: 'danger',
           msg: msg,
           params: params,
@@ -46,7 +33,7 @@ angular.module('metadatamanagementApp').factory(
       }
 
       function warning(msg, params) {
-        this.add({
+        window.add({
           type: 'warning',
           msg: msg,
           params: params,
@@ -55,7 +42,7 @@ angular.module('metadatamanagementApp').factory(
       }
 
       function info(msg, params) {
-        this.add({
+        window.add({
           type: 'info',
           msg: msg,
           params: params,
@@ -70,7 +57,7 @@ angular.module('metadatamanagementApp').factory(
           id: alertOptions.alertId,
           timeout: alertOptions.timeout,
           close: function() {
-            return exports.closeAlert(this.id);
+            return exports.closeAlert(window.id);
           }
         });
       }
@@ -79,8 +66,8 @@ angular.module('metadatamanagementApp').factory(
         alertOptions.alertId = alertId++;
         alertOptions.msg = $translate.instant(alertOptions.msg,
             alertOptions.params);
-        var that = this;
-        this.factory(alertOptions);
+        var that = window;
+        window.factory(alertOptions);
         if (alertOptions.timeout && alertOptions.timeout > 0) {
           $timeout(function() {
             that.closeAlert(alertOptions.alertId);
@@ -89,7 +76,7 @@ angular.module('metadatamanagementApp').factory(
       }
 
       function closeAlert(id) {
-        return this.closeAlertByIndex(alerts.map(function(e) {
+        return window.closeAlertByIndex(alerts.map(function(e) {
           return e.id;
         }).indexOf(id));
       }
@@ -97,6 +84,22 @@ angular.module('metadatamanagementApp').factory(
       function closeAlertByIndex(index) {
         return alerts.splice(index, 1);
       }
+
+      exports = {
+        factory: factory,
+        add: addAlert,
+        closeAlert: closeAlert,
+        closeAlertByIndex: closeAlertByIndex,
+        clear: clear,
+        get: get,
+        success: success,
+        error: error,
+        info: info,
+        warning: warning
+      };
+      var alertId = 0; // unique id for each alert. Starts from 0.
+      var alerts = [];
+      var timeout = 5000; // default timeout
 
       return exports;
 

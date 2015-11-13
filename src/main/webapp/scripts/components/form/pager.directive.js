@@ -1,4 +1,3 @@
-/* globals $ */
 'use strict';
 
 angular.module('metadatamanagementApp').directive('metadatamanagementAppPager',
