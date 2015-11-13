@@ -1,7 +1,7 @@
 {
 	"preset": "google",
-    "requireSemicolons": true,
-    "requireDotNotation": false,
-    "maximumLineLength": 100,
-    "excludeFiles": ["src/main/webapp/scripts/app/app.constants.js"]
+	"requireSemicolons": true,
+	"requireDotNotation": false,
+	"maximumLineLength": 80,
+	"excludeFiles": ["src/main/webapp/scripts/app/app.constants.js"]
 }

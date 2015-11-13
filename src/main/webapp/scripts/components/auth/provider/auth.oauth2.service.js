@@ -12,7 +12,8 @@ angular
                   '&password=' +
                   encodeURIComponent(credentials.password) +
                   '&grant_type=password&scope=read%20write&' +
-                  'client_secret=mySecretOAuthSecret&client_id=metadatamanagementapp';
+                  'client_secret=mySecretOAuthSecret&' +
+                  'client_id=metadatamanagementapp';
               return $http.post(
                   'oauth/token',
                   data,
@@ -48,8 +49,8 @@ angular
             hasValidToken: function() {
               var token = this.getToken();
               //jscs:disable
-              return token && token.expires_at
-                  && token.expires_at > new Date().getTime();
+              return token && token.expires_at &&
+                  token.expires_at > new Date().getTime();
               //jscs:enable
             }
           };

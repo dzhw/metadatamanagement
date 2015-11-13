@@ -11,7 +11,7 @@ angular
           var connected = $q.defer();
           var alreadyConnectedOnce = false;
           function sendActivity() {
-            if (stompClient != null && stompClient.connected) {
+            if (stompClient !== null && stompClient.connected) {
               stompClient.send('/topic/activity', {}, JSON.stringify({
                 'page': $rootScope.toState.name
               }));
@@ -30,11 +30,11 @@ angular
               var socket = new SockJS(url);
               stompClient = Stomp.over(socket);
               var headers = {};
-              stompClient.connect(headers, function(frame) {
+              stompClient.connect(headers, function() {
                 connected.resolve('success');
                 sendActivity();
                 if (!alreadyConnectedOnce) {
-                  $rootScope.$on('$stateChangeStart', function(event) {
+                  $rootScope.$on('$stateChangeStart', function() {
                     sendActivity();
                   });
                   alreadyConnectedOnce = true;
@@ -50,7 +50,7 @@ angular
               }, null, null);
             },
             unsubscribe: function() {
-              if (subscriber != null) {
+              if (subscriber !== null) {
                 subscriber.unsubscribe();
               }
             },
@@ -58,12 +58,12 @@ angular
               return listener.promise;
             },
             sendActivity: function() {
-              if (stompClient != null) {
+              if (stompClient !== null) {
                 sendActivity();
               }
             },
             disconnect: function() {
-              if (stompClient != null) {
+              if (stompClient !== null) {
                 stompClient.disconnect();
                 stompClient = null;
               }

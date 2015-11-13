@@ -8,7 +8,8 @@ angular
           return {
             restrict: 'E',
             template: '<div class="alerts" ng-cloak="">' +
-                '<alert ng-cloak="" ng-repeat="alert in alerts" type="{{alert.type}}"' +
+                '<alert ng-cloak="" ng-repeat="alert in alerts"' +
+                ' type="{{alert.type}}"' +
                 ' close="alert.close()"><pre>{{ alert.msg }}</pre></alert>' +
                 '</div>',
             controller: ['$scope', function($scope) {
@@ -25,7 +26,8 @@ angular
           return {
             restrict: 'E',
             template: '<div class="alerts" ng-cloak="">' +
-                '<alert ng-cloak="" ng-repeat="alert in alerts" type="{{alert.type}}"' +
+                '<alert ng-cloak="" ng-repeat="alert in alerts"' +
+                 'type="{{alert.type}}"' +
                 ' close="alert.close()"><pre>{{ alert.msg }}</pre></alert>' +
                 '</div>',
             controller: [
@@ -49,8 +51,11 @@ angular
                             case 400:
                               if (httpResponse.data &&
                                   httpResponse.data.fieldErrors) {
-                                for (i = 0; i < httpResponse.data.fieldErrors.length; i++) {
-                                  var fieldError = httpResponse.data.fieldErrors[i];
+                                for (i = 0; i <
+                                   httpResponse.data.
+                                   fieldErrors.length; i++) {
+                                  var fieldError =
+                                   httpResponse.data.fieldErrors[i];
                                   // convert 'something[14].other[4].id' to
                                   // 'something[].other[].id' so translations
                                   // can be written to it
@@ -95,7 +100,7 @@ angular
 
                   var addErrorAlert = function(message, key, data) {
 
-                    key = key && key != null ? key : message;
+                    key = key && key !== null ? key : message;
                     AlertService.error(key, data);
 
                   };

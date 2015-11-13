@@ -65,7 +65,7 @@ angular.module('metadatamanagementApp').controller(
       };
 
       $scope.showHealth = function(health) {
-        var modalInstance = $modal.open({
+        $modal.open({
           templateUrl: 'scripts/app/admin/health/health.modal.html',
           controller: 'HealthModalController',
           size: 'lg',

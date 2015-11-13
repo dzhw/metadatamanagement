@@ -22,7 +22,7 @@ angular.module('metadatamanagementApp').factory(
               function(_id) {
                 return _id.authorities &&
                     _id.authorities.indexOf(authority) !== -1;
-              }, function(err) {
+              }, function() {
                 return false;
               });
         },

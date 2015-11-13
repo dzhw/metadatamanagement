@@ -83,7 +83,8 @@ module.exports = function(grunt) {
             devDependencies: true,
             fileTypes: {
               js: {
-                block: /(([\s\t]*)\/\/\s*bower:*(\S*))(\n|\r|.)*?(\/\/\s*endbower)/gi,
+                block:
+                 /(([\s\t]*)\/\/\s*bower:*(\S*))(\n|\r|.)*?(\/\/\s*endbower)/gi,
                 detect: {
                   js: /'(.*\.js)'/gi
                 },
@@ -102,7 +103,8 @@ module.exports = function(grunt) {
                   'src/main/webapp/**/*.json',
                   'src/main/webapp/assets/styles/**/*.css',
                   'src/main/webapp/scripts/**/*.{js,html}',
-                  'src/main/webapp/assets/images/**/*.{png,jpg,jpeg,gif,webp,svg}',
+                  'src/main/webapp/assets/images/**/*.' +
+                  '{png,jpg,jpeg,gif,webp,svg}',
                   'tmp/**/*.{css,js}']
             }
           },
@@ -135,7 +137,6 @@ module.exports = function(grunt) {
           options: {
             config: 'buildconfig/.jscsrc',
             verbose: true,
-            verbose: true,
             requireCurlyBraces: ['if']
           }
         },
@@ -167,7 +168,8 @@ module.exports = function(grunt) {
               src: [
                   '<%= yeoman.dist %>/scripts/**/*.js',
                   '<%= yeoman.dist %>/assets/styles/**/*.css',
-                  '<%= yeoman.dist %>/assets/images/**/*.{png,jpg,jpeg,gif,webp,svg}',
+                  '<%= yeoman.dist%>' +
+                  '/assets/images/**/*.{png,jpg,jpeg,gif,webp,svg}',
                   '<%= yeoman.dist %>/assets/fonts/*']
             }
           }
@@ -180,7 +182,8 @@ module.exports = function(grunt) {
               html: {
                 steps: {
                   js: ['concat', 'uglifyjs'],
-                  // Let cssmin concat files so it corrects relative paths to fonts and images
+                  // Let cssmin concat files so it corrects
+                  // relative paths to fonts and images
                   css: ['cssmin', useminAutoprefixer]
                 },
                 post: {}
@@ -322,7 +325,8 @@ module.exports = function(grunt) {
             commit: true,
             push: false,
             connectCommits: false,
-            message: 'Built %sourceName% from commit %sourceCommit% on branch %sourceBranch%'
+            message: 'Built %sourceName% from commit' +
+            ' %sourceCommit% on branch %sourceBranch%'
           },
           openshift: {
             options: {
@@ -373,12 +377,14 @@ module.exports = function(grunt) {
   grunt.registerTask('test', ['clean:server',  'ngconstant:dev',
       'sass:server', 'karma', 'jscs']);
 
-  grunt.registerTask('build', ['test', 'clean:dist', 'wiredep:app', 'ngconstant:prod',
+  grunt.registerTask('build', ['test', 'clean:dist', 'wiredep:app',
+   'ngconstant:prod',
       'useminPrepare', 'ngtemplates', 'imagemin', 'svgmin',
       'concat', 'copy:fonts', 'copy:dist', 'ngAnnotate', 'cssmin',
       'autoprefixer', 'uglify', 'rev', 'usemin', 'htmlmin']);
 
-  grunt.registerTask('builddev', ['test', 'clean:dist', 'wiredep:test', 'ngAnnotate']);
+  grunt.registerTask('builddev', ['test', 'clean:dist', 'wiredep:test',
+   'ngAnnotate']);
 
   grunt.registerTask('buildOpenshift', ['test', 'build',
       'copy:generateOpenshiftDirectory']);

@@ -1,5 +1,6 @@
 angular.module('metadatamanagementApp').config(
     function($stateProvider) {
+      'use strict';
       $stateProvider.state('tracker', {
         parent: 'admin',
         url: '/tracker',

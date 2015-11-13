@@ -20,7 +20,8 @@ angular.module('metadatamanagementApp').controller('RequestResetController',
           $scope.success = 'OK';
         }).catch(function(response) {
           $scope.success = null;
-          if (response.status === 400 && response.data === 'e-mail address not registered') {
+          if (response.status === 400 &&
+            response.data === 'e-mail address not registered') {
             $scope.errorEmailNotExists = 'ERROR';
           } else {
             $scope.error = 'ERROR';

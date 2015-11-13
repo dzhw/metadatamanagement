@@ -25,7 +25,8 @@ angular.module('metadatamanagementApp').controller('RegisterController',
             $scope.success = 'OK';
           }).catch(function(response) {
             $scope.success = null;
-            if (response.status === 400 && response.data === 'login already in use') {
+            if (response.status === 400 &&
+              response.data === 'login already in use') {
               $scope.errorUserExists = 'ERROR';
             } else if (response.status === 400 &&
                 response.data === 'e-mail address already in use') {

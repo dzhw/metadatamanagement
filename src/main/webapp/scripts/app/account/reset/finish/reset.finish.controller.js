@@ -20,7 +20,7 @@ angular.module('metadatamanagementApp').controller('ResetFinishController',
             newPassword: $scope.resetAccount.password
           }).then(function() {
             $scope.success = 'OK';
-          }).catch(function(response) {
+          }).catch(function() {
             $scope.success = null;
             $scope.error = 'ERROR';
           });
