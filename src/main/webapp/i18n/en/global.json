@@ -6,6 +6,8 @@
          "fdzAltText":"Research Data Center, German Center for Research on Higher Education and Science Studies",
          "dzhwAltText":"The German Centre for Research on Higher Education and Science Studies",
          "bmbfAltText":"Sponsored by the FMER",
+         "bmbfClass":"navbar-brand bmbf_logo_en",
+         "search":"Search",
         "menu": {
             "home": "Home",
             "entities": {
@@ -48,8 +50,7 @@
         },
         "messages": {
             "info": {
-                "authenticated": "If you want to <a class=\"alert-link\" href=\"#/login\">sign in</a>, you can try the default accounts:<br/>- Administrator (login=\"admin\" and password=\"admin\") <br/>- User (login=\"user\" and password=\"user\").",
-                "register": "You don't have an account yet? <a class=\"alert-link\" href=\"#/register\">Register a new account</a>"
+             "register": "You don't have an account yet? "
             },
             "error": {
                 "dontmatch": "The password and its confirmation do not match!"

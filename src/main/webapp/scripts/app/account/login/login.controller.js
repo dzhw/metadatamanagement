@@ -1,10 +1,11 @@
 'use strict';
 
 angular.module('metadatamanagementApp').controller('LoginController',
-    function($rootScope, $scope, $state, $timeout, Auth) {
+    function($rootScope, $location, $scope, $state, $timeout,
+      BookmarkableUrl, Auth) {
       $scope.user = {};
       $scope.errors = {};
-
+      BookmarkableUrl.setUrlLanguage($location, $rootScope);
       $scope.rememberMe = true;
       $timeout(function() {
         angular.element('[ng-model="username"]').focus();

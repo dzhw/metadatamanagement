@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('metadatamanagementApp').controller('SettingsController',
-    function($scope, $location, BookmarkableUrl, Principal, Auth, Language,
-       $translate) {
+    function($scope, $rootScope, $location, BookmarkableUrl, Principal,
+        Auth, Language, $translate) {
       $scope.success = null;
       $scope.error = null;
       Principal.identity(true).then(function(account) {
@@ -19,7 +19,7 @@ angular.module('metadatamanagementApp').controller('SettingsController',
           Language.getCurrent().then(function(current) {
             if ($scope.settingsAccount.langKey !== current) {
               BookmarkableUrl.changeLocation(
-                $scope.settingsAccount.langKey, $location);
+                $scope.settingsAccount.langKey, $location, $rootScope);
               $translate.use($scope.settingsAccount.langKey);
             }
           });

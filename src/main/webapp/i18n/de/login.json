@@ -14,6 +14,9 @@
         },
         "password" : {
             "forgot": "Sie haben ihr Passwort vergessen?"
+        },
+         "registration" : {
+            "register": "Registrieren Sie sich"
         }
     }
 }
