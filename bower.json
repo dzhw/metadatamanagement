@@ -6,12 +6,12 @@
     "dependencies": {
         "angular": "1.4.7",
         "angular-aria": "1.4.7",
-        "angular-bootstrap": "0.13.3",
+        "angular-bootstrap": "0.14.3",
         "angular-cache-buster": "0.4.3",
         "angular-cookies": "1.4.7",
         "angular-dynamic-locale": "0.1.28",
         "angular-i18n": "1.4.7",
-        "angular-local-storage": "0.2.2",
+        "angular-local-storage": "0.2.3",
         "angular-resource": "1.4.7",
         "angular-sanitize": "1.4.7",
         "angular-translate": "2.8.1",
@@ -24,7 +24,7 @@
         "json3": "3.3.2",
         "modernizr": "3.2.0",
         "ng-file-upload": "10.0.2",
-        "ngInfiniteScroll": "1.2.0",
+        "ngInfiniteScroll": "1.2.1",
         "sockjs-client": "1.0.3",
         "stomp-websocket": "2.3.4",
         "swagger-ui": "2.1.3"
