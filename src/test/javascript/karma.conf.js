@@ -38,7 +38,8 @@ module.exports = function (config) {
             // endbower
             'src/main/webapp/scripts/app/app.js',
             'src/main/webapp/scripts/app/**/*.js',
-            'src/main/webapp/scripts/components/**/*.{js,html}',
+            'src/main/webapp/scripts/components/**/*.js',
+            'src/main/webapp/scripts/components/**/*.html',
             'src/test/javascript/spec/helpers/module.js',
             'src/test/javascript/spec/helpers/httpBackend.js',
             'src/test/javascript/**/!(karma.conf).js'
