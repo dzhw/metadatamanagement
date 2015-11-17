@@ -11,6 +11,7 @@
             "home": "Startseite",
             "entities": {
                 "main": "Entitäten",
+                "variable": "Variable",
                 "additionalEntity": "JHipster will add additional entities here (do not translate!)"
             },
             "account": {

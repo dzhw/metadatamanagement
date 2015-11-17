@@ -1,0 +1,10 @@
+{
+    "metadatamanagementApp": {
+        "ScaleLevel" : {
+            "null": "",
+            "ordinal": "ordinal",
+            "nominal": "nominal",
+            "metric": "metric"
+        }
+    }
+}

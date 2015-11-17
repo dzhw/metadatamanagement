@@ -1,0 +1,21 @@
+{
+    "metadatamanagementApp": {
+        "variable" : {
+            "home": {
+                "title": "Variables",
+                "createLabel": "Create a new Variable",
+                "createOrEditLabel": "Create or edit a Variable"
+            },
+            "delete": {
+                "question": "Are you sure you want to delete Variable {{ id }}?"
+            },
+            "detail": {
+                "title": "Variable"
+            },
+            "name": "Name",
+            "dataType": "DataType",
+            "scaleLevel": "ScaleLevel",
+            "label": "Label"
+        }
+    }
+}

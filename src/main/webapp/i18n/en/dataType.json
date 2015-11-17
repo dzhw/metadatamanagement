@@ -1,0 +1,9 @@
+{
+    "metadatamanagementApp": {
+        "DataType" : {
+            "null": "",
+            "string": "string",
+            "numeric": "numeric"
+        }
+    }
+}
