@@ -70,16 +70,16 @@ jhipster:
 # ===================================================================
 
 metadatamanagement:
-  elasticsearch-client:
+  elasticsearchjess-client:
     url: http://localhost:9200
-  es:
+  elasticsearchangular-client:
     url: https://public:bx6hbibdskm7j1ag4v6pyvvlsdxknfhu@dwalin-us-east-1.searchly.com
-    versionApi: 1.7
-            
+    api: 1.7
+                
 # ===================================================================
 # Properties specific to our ElasticSearch
 # ===================================================================
 esproperties:
   url: https://public:bx6hbibdskm7j1ag4v6pyvvlsdxknfhu@dwalin-us-east-1.searchly.com
-  versionApi: 1.7
-  logLevel: 
+  versionapi: 1.7
+  loglevel: 

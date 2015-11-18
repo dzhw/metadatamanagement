@@ -11,11 +11,10 @@ angular
 
 .run(
     function($rootScope, $location, $window, $http, $state, $translate,
-      Language, Auth, Principal, ENV, VERSION, ESProperties) {
+      Language, Auth, Principal, ENV, VERSION, ElasticSearchProperties) {
       $rootScope.ENV = ENV;
       $rootScope.VERSION = VERSION;
-      $rootScope.RemoteElasticSearch = ESProperties;
-      console.log($rootScope.RemoteElasticSearch.url);
+      $rootScope.elasticSearchProperties = ElasticSearchProperties;
       $rootScope.$on('$stateChangeStart', function(event, toState,
         toStateParams) {
         $rootScope.toState = toState;

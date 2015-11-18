@@ -32,7 +32,7 @@ var useminAutoprefixer = {
 module.exports = function(grunt) {
   require('load-grunt-tasks')(grunt);
   require('time-grunt')(grunt);
-  var getElasticProperties = function() {
+  var getElasticSearchProperties = function() {
     var path = './src/main/resources/config/application-dev.yml';
     return grunt.file.readYAML(path);
   };
@@ -356,7 +356,9 @@ module.exports = function(grunt) {
             constants: {
               ENV: 'dev',
               VERSION: parseVersionFromPomXml(),
-              ESProperties: getElasticProperties().esproperties
+              // jscs: disable
+              ElasticSearchProperties: getElasticSearchProperties().esproperties
+              // jscs: enable
             }
           },
           prod: {
@@ -366,7 +368,9 @@ module.exports = function(grunt) {
             constants: {
               ENV: 'prod',
               VERSION: parseVersionFromPomXml(),
-              ESProperties: getElasticProperties().esproperties
+              // jscs: disable
+              ElasticSearchProperties: getElasticSearchProperties().esproperties
+              // jscs: enable
             }
           }
         }
