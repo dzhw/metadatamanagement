@@ -63,9 +63,11 @@ module.exports = function(grunt) {
             src: ['src/main/webapp/index.html', 'src/main/scss/main.scss'],
             exclude: [/angular-i18n/, // localizations are loaded
             // dynamically
-            'bower_components/bootstrap/' // Exclude Bootstrap
+            'bower_components/bootstrap/', // Exclude Bootstrap
             // LESS as
             // we use bootstrap-sass
+            'bower_components/jquery/' // Exclude jquery
+            // cause we take it from cdn
             ],
             ignorePath: /\.\.\/webapp\/bower_components\//
             // remove
