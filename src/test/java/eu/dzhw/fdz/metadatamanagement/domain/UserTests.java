@@ -9,7 +9,7 @@ import static org.junit.Assert.assertThat;
 
 import org.junit.Test;
 
-import annotations.eu.dzhw.fdz.metadatamanagement.domain.builders.UserBuilder;
+import eu.dzhw.fdz.metadatamanagement.domain.builders.UserBuilder;
 import eu.dzhw.fdz.metadatamanagement.BasicTest;
 
 /**
