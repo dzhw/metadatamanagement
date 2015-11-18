@@ -64,3 +64,22 @@ jhipster:
             host: localhost
             port: 2003
             prefix: metadatamanagement
+
+# ===================================================================
+# Properties specific to our application
+# ===================================================================
+
+metadatamanagement:
+  elasticsearch-client:
+    url: http://localhost:9200
+  es:
+    url: https://public:bx6hbibdskm7j1ag4v6pyvvlsdxknfhu@dwalin-us-east-1.searchly.com
+    versionApi: 1.7
+            
+# ===================================================================
+# Properties specific to our ElasticSearch
+# ===================================================================
+esproperties:
+  url: https://public:bx6hbibdskm7j1ag4v6pyvvlsdxknfhu@dwalin-us-east-1.searchly.com
+  versionApi: 1.7
+  logLevel: 

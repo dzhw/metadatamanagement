@@ -32,7 +32,10 @@ var useminAutoprefixer = {
 module.exports = function(grunt) {
   require('load-grunt-tasks')(grunt);
   require('time-grunt')(grunt);
-
+  var getElasticProperties = function() {
+    var path = './src/main/resources/config/application-dev.yml';
+    return grunt.file.readYAML(path);
+  };
   grunt
       .initConfig({
         yeoman: {
@@ -352,7 +355,8 @@ module.exports = function(grunt) {
             },
             constants: {
               ENV: 'dev',
-              VERSION: parseVersionFromPomXml()
+              VERSION: parseVersionFromPomXml(),
+              ESProperties: getElasticProperties().esproperties
             }
           },
           prod: {
@@ -361,7 +365,8 @@ module.exports = function(grunt) {
             },
             constants: {
               ENV: 'prod',
-              VERSION: parseVersionFromPomXml()
+              VERSION: parseVersionFromPomXml(),
+              ESProperties: getElasticProperties().esproperties
             }
           }
         }

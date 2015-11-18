@@ -6,14 +6,16 @@ angular
       'pascalprecht.translate',
       'ui.bootstrap', // for modal dialogs
       'ngResource', 'ui.router', 'ngCookies', 'ngAria', 'ngCacheBuster',
-      'ngFileUpload', 'infinite-scroll'
+      'ngFileUpload', 'infinite-scroll', 'ngPrettyJson', 'elasticsearch'
     ])
 
 .run(
     function($rootScope, $location, $window, $http, $state, $translate,
-      Language, Auth, Principal, ENV, VERSION) {
+      Language, Auth, Principal, ENV, VERSION, ESProperties) {
       $rootScope.ENV = ENV;
       $rootScope.VERSION = VERSION;
+      $rootScope.RemoteElasticSearch = ESProperties;
+      console.log($rootScope.RemoteElasticSearch.url);
       $rootScope.$on('$stateChangeStart', function(event, toState,
         toStateParams) {
         $rootScope.toState = toState;

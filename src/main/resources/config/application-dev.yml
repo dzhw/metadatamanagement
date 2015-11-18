@@ -35,7 +35,7 @@ liquibase:
     contexts: dev
 
 server:
-    port: 8080
+    port: 8083
 
 # ===================================================================
 # JHipster specific properties
@@ -63,3 +63,11 @@ jhipster:
 metadatamanagement:
   elasticsearch-client:
     url: http://localhost:9200
+
+# ===================================================================
+# Properties specific to our ElasticSearch
+# ===================================================================
+esproperties:
+  url: https://public:bx6hbibdskm7j1ag4v6pyvvlsdxknfhu@dwalin-us-east-1.searchly.com
+  versionApi: 1.7
+  logLevel: trace
