@@ -16,10 +16,13 @@ import org.springframework.data.mongodb.core.mapping.Field;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import net.karneim.pojobuilder.GeneratePojoBuilder;
+
 /**
  * A user.
  */
 @Document(collection = "jhi_user")
+@GeneratePojoBuilder(intoPackage = "annotations.eu.dzhw.fdz.metadatamanagement.domain.builders")
 public class User extends AbstractAuditingEntity implements Serializable {
   
     private static final long serialVersionUID = 1L;

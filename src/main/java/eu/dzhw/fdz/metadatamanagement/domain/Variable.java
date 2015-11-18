@@ -12,11 +12,13 @@ import org.springframework.data.mongodb.core.mapping.Field;
 
 import eu.dzhw.fdz.metadatamanagement.domain.enumeration.DataType;
 import eu.dzhw.fdz.metadatamanagement.domain.enumeration.ScaleLevel;
+import net.karneim.pojobuilder.GeneratePojoBuilder;
 
 /**
  * A Variable.
  */
 @Document(collection = "variable")
+@GeneratePojoBuilder(intoPackage = "annotations.eu.dzhw.fdz.metadatamanagement.domain.builders")
 public class Variable implements Serializable {
   
   private static final long serialVersionUID = 3447432736734388659L;
