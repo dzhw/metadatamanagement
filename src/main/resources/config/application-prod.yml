@@ -24,8 +24,10 @@ spring:
             port: 27017
             database: metadatamanagement
     mail:
-        host: localhost
-        port: 1025
+        host: ${vcap.services.email.credentials.hostname}
+        port: 25
+        username: ${vcap.services.email.credentials.username} 
+        password: ${vcap.services.email.credentials.password}
     thymeleaf:
         cache: true
 
