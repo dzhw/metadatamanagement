@@ -24,10 +24,8 @@ spring:
             port: 27017
             database: metadatamanagement
     mail:
-        host: ${vcap.services.email.credentials.hostname}
-        port: 25
-        username: ${vcap.services.email.credentials.username} 
-        password: ${vcap.services.email.credentials.password}
+        host: localhost
+        port: 1025
     thymeleaf:
         cache: true
 
@@ -70,12 +68,9 @@ jhipster:
 # ===================================================================
 
 metadatamanagement:
-  elasticsearchjess-client:
+  elasticsearch-client:
     url: http://localhost:9200
-  elasticsearchangular-client:
-    url: https://public:bx6hbibdskm7j1ag4v6pyvvlsdxknfhu@dwalin-us-east-1.searchly.com
-    api: 1.7
-                
+                  
 # ===================================================================
 # Properties specific to our ElasticSearch
 # ===================================================================
