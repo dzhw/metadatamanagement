@@ -26,7 +26,7 @@ spring:
     mail:
         host: ${vcap.services.email.credentials.hostname}
         port: 25
-        username: ${vcap.services.email.credentials.username} 
+        username: ${vcap.services.email.credentials.username}
         password: ${vcap.services.email.credentials.password}
     thymeleaf:
         cache: true
@@ -40,7 +40,7 @@ server:
         remote_ip_header: x-forwarded-for
         protocol_header: x-forwarded-proto
     compression:
-        enabled: false
+        enabled: true
         mime-types: text/html,text/xml,text/plain,text/css, application/javascript, application/json
 
 # ===================================================================
