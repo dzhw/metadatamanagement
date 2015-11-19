@@ -1,10 +1,15 @@
 package eu.dzhw.fdz.metadatamanagement.config;
 
-import com.codahale.metrics.MetricRegistry;
-import com.codahale.metrics.servlet.InstrumentedFilter;
-import com.codahale.metrics.servlets.MetricsServlet;
-import eu.dzhw.fdz.metadatamanagement.web.filter.CachingHttpHeadersFilter;
-import eu.dzhw.fdz.metadatamanagement.web.filter.StaticResourcesProductionFilter;
+import java.util.Arrays;
+import java.util.EnumSet;
+
+import javax.inject.Inject;
+import javax.servlet.DispatcherType;
+import javax.servlet.FilterRegistration;
+import javax.servlet.ServletContext;
+import javax.servlet.ServletException;
+import javax.servlet.ServletRegistration;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,9 +21,12 @@ import org.springframework.boot.context.embedded.ServletContextInitializer;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.env.Environment;
 
-import java.util.*;
-import javax.inject.Inject;
-import javax.servlet.*;
+import com.codahale.metrics.MetricRegistry;
+import com.codahale.metrics.servlet.InstrumentedFilter;
+import com.codahale.metrics.servlets.MetricsServlet;
+
+import eu.dzhw.fdz.metadatamanagement.web.filter.CachingHttpHeadersFilter;
+import eu.dzhw.fdz.metadatamanagement.web.filter.StaticResourcesProductionFilter;
 
 /**
  * Configuration of web application with Servlet 3.0 APIs.
@@ -59,6 +67,15 @@ public class WebConfigurer implements ServletContextInitializer, EmbeddedServlet
         mappings.add("html", "text/html;charset=utf-8");
         // CloudFoundry issue, see https://github.com/cloudfoundry/gorouter/issues/64
         mappings.add("json", "text/html;charset=utf-8");
+        
+        mappings.add("svg", "image/svg+xml");
+        mappings.add("ttf", "application/x-font-ttf");
+        mappings.add("otf", "application/x-font-opentype");
+        mappings.add("woff", "application/font-woff");
+        mappings.add("woff2", "application/font-woff2");
+        mappings.add("eot", "application/vnd.ms-fontobject");
+        mappings.add("sfnt", "application/font-sfnt");
+        
         container.setMimeMappings(mappings);
     }
 
