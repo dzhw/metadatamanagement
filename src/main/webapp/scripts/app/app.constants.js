@@ -6,6 +6,6 @@ angular.module('metadatamanagementApp')
 
 .constant('VERSION', '0.1.9-SNAPSHOT')
 
-.constant('ElasticSearchProperties', {url:'https://public:bx6hbibdskm7j1ag4v6pyvvlsdxknfhu@dwalin-us-east-1.searchly.com',versionapi:1.7,loglevel:'trace'})
+.constant('ElasticSearchProperties', {url:'https://public:bx6hbibdskm7j1ag4v6pyvvlsdxknfhu@dwalin-us-east-1.searchly.com',versionApi:1.7,logLevel:'trace'})
 
 ;

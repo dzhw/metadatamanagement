@@ -357,7 +357,7 @@ module.exports = function(grunt) {
               ENV: 'dev',
               VERSION: parseVersionFromPomXml(),
               // jscs: disable
-              ElasticSearchProperties: getElasticSearchProperties().esproperties
+              ElasticSearchProperties: getElasticSearchProperties().metadatamanagement['elasticsearch-angular-client']
               // jscs: enable
             }
           },
@@ -369,7 +369,7 @@ module.exports = function(grunt) {
               ENV: 'prod',
               VERSION: parseVersionFromPomXml(),
               // jscs: disable
-              ElasticSearchProperties: getElasticSearchProperties().esproperties
+              ElasticSearchProperties: getElasticSearchProperties().metadatamanagement['elasticsearch-angular-client']
               // jscs: enable
             }
           }
