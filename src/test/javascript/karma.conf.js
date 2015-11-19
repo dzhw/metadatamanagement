@@ -47,6 +47,8 @@ module.exports = function (config) {
             'src/main/webapp/scripts/components/**/*.html',
             'src/test/javascript/spec/helpers/module.js',
             'src/test/javascript/spec/helpers/httpBackend.js',
+            'src/main/webapp/bower_components/messageformat/locale/en.js',
+            'src/main/webapp/bower_components/messageformat/locale/de.js',
             'src/test/javascript/**/!(karma.conf).js'
         ],
 
@@ -61,12 +63,12 @@ module.exports = function (config) {
         reporters: ['dots', 'jenkins', 'coverage', 'progress'],
 
         jenkinsReporter: {
-            
+
             outputFile: './target/test-results/karma/TESTS-results.xml'
         },
 
         coverageReporter: {
-            
+
             dir: './target/test-results/coverage',
             reporters: [
                 {type: 'lcov', subdir: 'report-lcov'},
