@@ -17,9 +17,16 @@ import io.searchbox.client.JestClient;
 public class MetadataManagementProperties {
 
   private final ElasticsearchClient elasticsearchClient = new ElasticsearchClient();
+  
+  private final ElasticsearchAngularClient elasticsearchAngularClient = 
+      new ElasticsearchAngularClient();
 
   public ElasticsearchClient getElasticsearchClient() {
     return elasticsearchClient;
+  }
+  
+  public ElasticsearchAngularClient getElasticsearchAngularClient() {
+    return elasticsearchAngularClient;
   }
 
   /**
@@ -37,6 +44,43 @@ public class MetadataManagementProperties {
 
     public void setUrl(String url) {
       this.url = url;
+    }
+  }
+  
+  /**
+   * Configuration Properties for the Angular ElasticSearch Client.
+   * 
+   * @author Amine Limouri
+   */
+  public static class ElasticsearchAngularClient {
+    // default connection url
+    private String url = "http://localhost:9200";
+    private String versionApi = "1.7";
+    private String logLevel = "trace";
+        
+
+    public String getUrl() {
+      return this.url;
+    }
+
+    public void setUrl(String url) {
+      this.url = url;
+    }
+
+    public String getVersionApi() {
+      return versionApi;
+    }
+
+    public void setVersionApi(String versionApi) {
+      this.versionApi = versionApi;
+    }
+
+    public String getLogLevel() {
+      return logLevel;
+    }
+
+    public void setLogLevel(String logLevel) {
+      this.logLevel = logLevel;
     }
   }
 }
