@@ -40,7 +40,7 @@ server:
         remote_ip_header: x-forwarded-for
         protocol_header: x-forwarded-proto
     compression:
-        enabled: true
+        enabled: false
         mime-types: text/html,text/xml,text/plain,text/css, application/javascript, application/json
 
 # ===================================================================
