@@ -10,13 +10,12 @@ import static org.junit.Assert.assertThat;
 import org.junit.Test;
 
 import eu.dzhw.fdz.metadatamanagement.domain.builders.UserBuilder;
-import eu.dzhw.fdz.metadatamanagement.BasicTest;
 
 /**
  * @author Daniel Katzberg
  *
  */
-public class UserTests extends BasicTest{
+public class UserTests{
   
   @Test
   public void testEquals() {

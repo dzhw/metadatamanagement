@@ -9,14 +9,13 @@ import static org.junit.Assert.assertThat;
 import org.junit.Test;
 
 import eu.dzhw.fdz.metadatamanagement.domain.builders.VariableBuilder;
-import eu.dzhw.fdz.metadatamanagement.BasicTest;
 
 /**
  * @author Daniel Katzberg
  *
  */
 
-public class VariableTest extends BasicTest{
+public class VariableTest {
   
   @Test
   public void testEquals() {
