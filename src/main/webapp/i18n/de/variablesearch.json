@@ -1,5 +1,7 @@
 {
     "variablesearch": {
-        "title": "Variablensuche"
+        "title": "Variablensuche",
+        "variablelist": "Variablenliste",
+        "inputplaceholder": "Geben Sie Ihre Suchbegriffe ein.."
     }
 }

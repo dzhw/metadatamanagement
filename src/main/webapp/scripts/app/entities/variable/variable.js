@@ -19,6 +19,7 @@ angular.module('metadatamanagementApp')
         resolve: {
           translatePartialLoader: ['$translate', '$translatePartialLoader',
             function($translate, $translatePartialLoader) {
+              $translatePartialLoader.addPart('variablesearch');
               $translatePartialLoader.addPart('variable');
               $translatePartialLoader.addPart('dataType');
               $translatePartialLoader.addPart('scaleLevel');

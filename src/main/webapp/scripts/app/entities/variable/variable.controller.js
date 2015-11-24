@@ -5,7 +5,7 @@ angular.module('metadatamanagementApp')
     .controller('VariableController', function($scope, Variable, ParseLinks,
         $rootScope, $location, BookmarkableUrl, ElasticSearchClient,
         VariableSearchQuerybuilder) {
-
+      $scope.isDisabled = 'true';
       BookmarkableUrl.setUrlLanguage($location, $rootScope);
       $scope.$on('$locationChangeSuccess', function() {
         $scope.query = $location.search().query;
