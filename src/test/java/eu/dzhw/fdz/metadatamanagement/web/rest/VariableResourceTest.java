@@ -42,15 +42,12 @@ import eu.dzhw.fdz.metadatamanagement.domain.enumeration.ScaleLevel;
 @IntegrationTest
 public class VariableResourceTest {
 
+    private static final String DEFAULT_ID = "VARID";
     private static final String DEFAULT_NAME = "AAAAA";
     private static final String UPDATED_NAME = "BBBBB";
-
-
-private static final DataType DEFAULT_DATA_TYPE = DataType.string;
+    private static final DataType DEFAULT_DATA_TYPE = DataType.string;
     private static final DataType UPDATED_DATA_TYPE = DataType.numeric;
-
-
-private static final ScaleLevel DEFAULT_SCALE_LEVEL = ScaleLevel.ordinal;
+    private static final ScaleLevel DEFAULT_SCALE_LEVEL = ScaleLevel.ordinal;
     private static final ScaleLevel UPDATED_SCALE_LEVEL = ScaleLevel.nominal;
     private static final String DEFAULT_LABEL = "AAAAA";
     private static final String UPDATED_LABEL = "BBBBB";
@@ -82,6 +79,7 @@ private static final ScaleLevel DEFAULT_SCALE_LEVEL = ScaleLevel.ordinal;
     public void initTest() {
         variableRepository.deleteAll();
         variable = new Variable();
+        variable.setId(DEFAULT_ID);
         variable.setName(DEFAULT_NAME);
         variable.setDataType(DEFAULT_DATA_TYPE);
         variable.setScaleLevel(DEFAULT_SCALE_LEVEL);

@@ -50,10 +50,13 @@ public class VariableResource {
   public ResponseEntity<Variable> createVariable(@Valid @RequestBody Variable variable)
       throws URISyntaxException {
     log.debug("REST request to save Variable : {}", variable);
-    Variable result = variableRepository.save(variable);
+    if (variableRepository.exists(variable.getId())) {
+      return ResponseEntity.badRequest()
+          .header("Failure", "There is already a variable with ID " + variable.getId()).body(null);
+    }
+    Variable result = variableRepository.insert(variable);
     return ResponseEntity.created(new URI("/api/variables/" + result.getId()))
-        .headers(HeaderUtil.createEntityCreationAlert("variable", result.getId()))
-        .body(result);
+        .headers(HeaderUtil.createEntityCreationAlert("variable", result.getId())).body(result);
   }
 
   /**
@@ -65,13 +68,14 @@ public class VariableResource {
   public ResponseEntity<Variable> updateVariable(@Valid @RequestBody Variable variable)
       throws URISyntaxException {
     log.debug("REST request to update Variable : {}", variable);
-    if (variable.getId() == null) {
-      return createVariable(variable);
+    if (!variableRepository.exists(variable.getId())) {
+      return ResponseEntity.badRequest()
+          .header("Failure", "There is no variable with ID " + variable.getId() + " to update.")
+          .body(null);
     }
     Variable result = variableRepository.save(variable);
     return ResponseEntity.ok()
-        .headers(HeaderUtil.createEntityUpdateAlert("variable", variable.getId()))
-        .body(result);
+        .headers(HeaderUtil.createEntityUpdateAlert("variable", variable.getId())).body(result);
   }
 
   /**
@@ -109,7 +113,7 @@ public class VariableResource {
   public ResponseEntity<Void> deleteVariable(@PathVariable String id) {
     log.debug("REST request to delete Variable : {}", id);
     variableRepository.delete(id);
-    return ResponseEntity.ok()
-        .headers(HeaderUtil.createEntityDeletionAlert("variable", id)).build();
+    return ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert("variable", id))
+        .build();
   }
 }

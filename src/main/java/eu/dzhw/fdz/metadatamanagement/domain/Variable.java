@@ -20,10 +20,11 @@ import net.karneim.pojobuilder.GeneratePojoBuilder;
 @Document(collection = "variable")
 @GeneratePojoBuilder(intoPackage = "eu.dzhw.fdz.metadatamanagement.domain.builders")
 public class Variable implements Serializable {
-  
+
   private static final long serialVersionUID = 3447432736734388659L;
 
   @Id
+  @NotNull
   private String id;
 
   @NotNull
@@ -109,7 +110,8 @@ public class Variable implements Serializable {
 
   @Override
   public String toString() {
-    return "Variable{" + "id=" + id + ", name='" + name + "'" + ", dataType='" + dataType + "'"
-        + ", scaleLevel='" + scaleLevel + "'" + ", label='" + label + "'" + '}';
+    return "Variable{" + "id=" + id + ", name='" + name + "'" + ", "
+        + "dataType='" + dataType + "'" + ", scaleLevel='" + scaleLevel + "'" + ", label='" 
+        + label + "'" + '}';
   }
 }
