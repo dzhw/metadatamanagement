@@ -6,7 +6,7 @@ angular
       'pascalprecht.translate',
       'ui.bootstrap', // for modal dialogs
       'ngResource', 'ui.router', 'ngCookies', 'ngAria', 'ngCacheBuster',
-      'ngFileUpload', 'infinite-scroll', 'elasticsearch'
+      'ngFileUpload', 'infinite-scroll'
     ])
 
 .run(

@@ -36,7 +36,6 @@ module.exports = function (config) {
             'src/main/webapp/bower_components/sockjs-client/dist/sockjs.js',
             'src/main/webapp/bower_components/stomp-websocket/lib/stomp.min.js',
             'src/main/webapp/bower_components/elasticsearch/elasticsearch.js',
-            'src/main/webapp/bower_components/elasticsearch/elasticsearch.angular.js',
             'src/main/webapp/bower_components/angular-mocks/angular-mocks.js',
             // endbower
             'src/main/webapp/scripts/app/app.js',
