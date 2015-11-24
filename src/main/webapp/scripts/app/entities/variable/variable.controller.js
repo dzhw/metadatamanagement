@@ -9,19 +9,37 @@ angular.module('metadatamanagementApp')
       BookmarkableUrl.setUrlLanguage($location, $rootScope);
       $scope.$on('$locationChangeSuccess', function() {
         $scope.query = $location.search().query;
+        $scope.from = $location.search().from;
       });
       $scope.initsearch = function() {
         if ($location.search().query) {
           $scope.query = $location.search().query;
         }
+        $scope.loadPage(0);
+        $scope.search();
+      };
+      $scope.loadPage = function(page) {
+        if (page > 0) {
+          $scope.stateprevious = '';
+          $scope.from = page;
+        }else {
+          $scope.stateprevious = 'disabled';
+          $scope.from = 0;
+        }
         $scope.search();
       };
       $scope.search = function() {
         $location.search('query', $scope.query);
+        $location.search('from', $scope.from);
         ElasticSearchClient.search
-        (VariableSearchQuerybuilder.Query($scope.query))
+        (VariableSearchQuerybuilder.Query($scope.query, $scope.from))
             .then(function(data) {
               $scope.searchResult = data.hits.hits;
+              if ($scope.searchResult.length === 0) {
+                $scope.statenext = 'disabled';
+              }else {
+                $scope.statenext = '';
+              }
               $scope.$apply();
             }, function(error) {
               console.trace(error.message);

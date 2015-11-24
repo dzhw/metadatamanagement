@@ -3,7 +3,7 @@
 angular.module('metadatamanagementApp').service('VariableSearchQuerybuilder',
     function($rootScope) {
   return {
-    Query: function(queryterm) {
+    Query: function(queryterm, from) {
       var query = {
           'index': 'metadata_' + $rootScope.currentLanguage,
           'type': 'variables',
@@ -13,6 +13,8 @@ angular.module('metadatamanagementApp').service('VariableSearchQuerybuilder',
                 'question': queryterm
               }
             },
+            'from': from,
+            'size': 3,
             'aggregations': {
               'variableSurvey': {
                 'nested': {

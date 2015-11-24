@@ -3,14 +3,12 @@
     <jh-alert></jh-alert>
     <div class="container">
         <div class="row">
-            <div class="col-md-4">
+            <div>
                 <button class="btn btn-primary" ui-sref="variable.new">
                     <span class="glyphicon glyphicon-flash"></span> <span translate="metadatamanagementApp.variable.home.createLabel">Create a new Variable</span>
                 </button>
             </div>
         </div>
-    </div>
-
     <div class="modal fade" id="deleteVariableConfirmation">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -53,7 +51,6 @@
 			</form>
 		</div>
 	</div>
-	<!-- if searchResult is available, display it as formatted json -->
 	<div ng-if="searchResult" class="panel panel-primary">
 		<div class="panel-heading">
 			<h3 class="panel-title">{{'variablesearch.variablelist'|translate}}</h3>
@@ -61,7 +58,7 @@
 		<ul class="list-group">
 			<li ng-repeat="result in searchResult" class="list-group-item"><h4
 					class="list-group-item-heading">
-					<a  ui-sref="variable.detail({id:result._source.id})">{{result._source.label}}</a>
+					<a  class ="inactive" ui-sref="variable.detail({id:result._source.id})">{{result._source.label}}</a>
 				</h4>
 				<p class="list-group-item-text">{{result._source.name}}</p>
 				<p class="list-group-item-text">{{result._source.question }}</p>
@@ -85,5 +82,10 @@
 			</li>
 		</ul>
 	</div>
+	<ul class = "pager">
+   <li class = "{{stateprevious}} previous" ng-click="loadPage(from - 1)"><a>&larr; {{'pagination.previous'|translate}}</a></li>
+   <li class = "{{statenext}} next" ng-click="loadPage(from + 1)"><a>{{'pagination.next'|translate}} &rarr;</a></li>
+</ul>
 	</div>
 </div>
+    </div>
