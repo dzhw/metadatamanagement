@@ -500,6 +500,14 @@
                 </executions>
             </plugin>
             <plugin>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <source>${maven.compiler.source}</source>
+                    <target>${maven.compiler.target}</target>
+                    <compilerArgument>-proc:none</compilerArgument>
+                </configuration>
+            </plugin>
+            <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-eclipse-plugin</artifactId>
                 <configuration>
@@ -572,30 +580,16 @@
                 <version>2.2.4</version>
                 <executions>
                     <execution>
-                        <id>process</id>
-                        <phase>generate-sources</phase>
+                        <id>process2</id>
+                        <phase>process-sources</phase>
                         <goals>
                             <goal>process</goal>
                         </goals>
+                        <configuration>
+                            <outputDirectory>${project.build.directory}/generated-test-sources</outputDirectory>
+                        </configuration>
                     </execution>
                 </executions>
-                <dependencies>
-                    <dependency>
-                        <groupId>org.mapstruct</groupId>
-                        <artifactId>mapstruct-processor</artifactId>
-                        <version>${mapstruct.version}</version>
-                    </dependency>
-                </dependencies>
-                <configuration>
-                    <defaultOutputDirectory>${project.build.directory}/generated-sources</defaultOutputDirectory>
-                    <processors>
-                        <processor>org.mapstruct.ap.MappingProcessor</processor>
-                    </processors>
-                    <options>
-                        <mapstruct.suppressGeneratorTimestamp>true</mapstruct.suppressGeneratorTimestamp>
-                        <mapstruct.defaultComponentModel>spring</mapstruct.defaultComponentModel>
-                    </options>
-                </configuration>
             </plugin>
             <!-- deploy fat jar to cloudfoundry -->
             <plugin>
@@ -702,6 +696,9 @@
                             <!-- Sets the name of the property containing the settings for JaCoCo 
 								runtime agent. -->
                             <propertyName>surefireArgLine</propertyName>
+                            <excludes>
+                                <exclude>**/builders/</exclude>
+                            </excludes>
                         </configuration>
                     </execution>
                     <!-- Ensures that the code coverage report for unit tests is created 
@@ -715,6 +712,9 @@
                         <configuration>
                             <dataFile>${project.testresult.directory}/coverage/jacoco/jacoco.exec</dataFile>
                             <outputDirectory>${project.testresult.directory}/coverage/jacoco</outputDirectory>
+                            <excludes>
+                                <exclude>**/builders/</exclude>
+                            </excludes>
                         </configuration>
                     </execution>
                 </executions>
