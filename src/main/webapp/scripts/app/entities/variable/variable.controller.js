@@ -14,8 +14,14 @@ angular.module('metadatamanagementApp')
       $scope.initsearch = function() {
         if ($location.search().query) {
           $scope.query = $location.search().query;
+        }else {
+          $scope.query = '';
         }
-        $scope.loadPage(0);
+        if ($location.search().from) {
+          $scope.from = $location.search().from;
+        }else {
+          $scope.from = 0;
+        }
         $scope.search();
       };
       $scope.loadPage = function(page) {
@@ -39,8 +45,8 @@ angular.module('metadatamanagementApp')
                 $scope.statenext = 'disabled';
               }else {
                 $scope.statenext = '';
+                $scope.$apply();
               }
-              $scope.$apply();
             }, function(error) {
               console.trace(error.message);
             });
