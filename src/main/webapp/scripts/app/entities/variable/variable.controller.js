@@ -2,22 +2,31 @@
 'use strict';
 
 angular.module('metadatamanagementApp')
-    .controller('VariableController', function($scope, Variable, ParseLinks) {
-      $scope.variables = [];
-      $scope.page = 0;
-      $scope.loadAll = function() {
-        Variable.query({page: $scope.page, size: 20},
-        function(result, headers) {
-          $scope.links = ParseLinks.parse(headers('link'));
-          $scope.variables = result;
-        });
-      };
-      $scope.loadPage = function(page) {
-        $scope.page = page;
-        $scope.loadAll();
-      };
-      $scope.loadAll();
+    .controller('VariableController', function($scope, Variable, ParseLinks,
+        $rootScope, $location, BookmarkableUrl, ElasticSearchClient,
+        VariableSearchQuerybuilder) {
 
+      BookmarkableUrl.setUrlLanguage($location, $rootScope);
+      $scope.$on('$locationChangeSuccess', function() {
+        $scope.query = $location.search().query;
+      });
+      $scope.initsearch = function() {
+        if ($location.search().query) {
+          $scope.query = $location.search().query;
+        }
+        $scope.search();
+      };
+      $scope.search = function() {
+        $location.search('query', $scope.query);
+        ElasticSearchClient.search
+        (VariableSearchQuerybuilder.Query($scope.query))
+            .then(function(data) {
+              $scope.searchResult = data.hits.hits;
+              $scope.$apply();
+            }, function(error) {
+              console.trace(error.message);
+            });
+      };
       $scope.delete = function(id) {
         Variable.get({id: id}, function(result) {
           $scope.variable = result;
@@ -28,15 +37,15 @@ angular.module('metadatamanagementApp')
       $scope.confirmDelete = function(id) {
         Variable.delete({id: id},
               function() {
-                  $scope.loadAll();
-                  $('#deleteVariableConfirmation').modal('hide');
-                  $scope.clear();
-                });
+                $scope.search();
+                $('#deleteVariableConfirmation').modal('hide');
+                $scope.clear();
+              });
       };
 
       $scope.refresh = function() {
-        $scope.loadAll();
         $scope.clear();
+        $scope.search();
       };
 
       $scope.clear = function() {

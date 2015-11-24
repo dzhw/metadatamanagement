@@ -1,11 +1,14 @@
 {
   "name": "elasticsearch",
-  "version": "9.0.2",
+  "version": "9.0.0",
   "authors": [
     "Spencer Alger <spencer@spenceralger.com>"
   ],
   "description": "The official low-level Elasticsearch client, for use in the browser.",
-  "main": "elasticsearch.js",
+  "main": [
+            "elasticsearch.js",
+            "elasticsearch.jquery.js"
+             ],
   "keywords": [
     "elasticsearch",
     "client"

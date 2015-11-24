@@ -1,5 +1,5 @@
-<div>
-    <h2 translate="metadatamanagementApp.variable.home.title">Variables</h2>
+<div class="container" ng-init="initsearch()">
+	 <h2 translate="metadatamanagementApp.variable.home.title">Variables</h2>
     <jh-alert></jh-alert>
     <div class="container">
         <div class="row">
@@ -35,58 +35,80 @@
             </div>
         </div>
     </div>
-
-    <div class="table-responsive">
-        <table class="table table-striped">
-            <thead>
-                <tr>
-                    <th translate="global.field.id">ID</th>
-                    <th translate="metadatamanagementApp.variable.name">Name</th>
-                    <th translate="metadatamanagementApp.variable.dataType">DataType</th>
-                    <th translate="metadatamanagementApp.variable.scaleLevel">ScaleLevel</th>
-                    <th translate="metadatamanagementApp.variable.label">Label</th>
-                    <th></th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr ng-repeat="variable in variables track by variable.id">
-                    <td><a ui-sref="variable.detail({id:variable.id})">{{variable.id}}</a></td>
-                    <td>{{variable.name}}</td>
-                    <td translate="{{'metadatamanagementApp.DataType.' + variable.dataType}}">{{variable.dataType}}</td>
-                    <td translate="{{'metadatamanagementApp.ScaleLevel.' + variable.scaleLevel}}">{{variable.scaleLevel}}</td>
-                    <td>{{variable.label}}</td>
-                    <td>
-                        <button type="submit"
-                                ui-sref="variable.detail({id:variable.id})"
+    </br>
+    <div class="row">
+	<div class="panel panel-primary">
+		<div class="panel-body">
+			<form ng-submit="search()" method='get'>
+				<div class="input-group">
+					<label class="sr-only" for="query">Geben Sie Ihre
+						Suchbegriffe ein...</label> <input type="text" ng-model="query"
+						ng-keyup="search()" class="form-control"
+						placeholder="Geben Sie Ihre Suchbegriffe ein..."
+						autocomplete="off"> <span class="input-group-btn"><button
+							class="btn btn-default" type="submit">
+							<span class="glyphicon glyphicon-search" aria-hidden="true"></span>
+						</button></span>
+				</div>
+			</form>
+		</div>
+	</div>
+	<!-- if searchResult is available, display it as formatted json -->
+	<div ng-if="searchResult" class="panel panel-primary">
+		<div class="panel-heading">
+			<h3 class="panel-title">Search Result</h3>
+		</div>
+		<ul class="list-group">
+		<li class="list-group-item"><h4
+					class="list-group-item-heading">
+					<a href="">numeric</a>
+				</h4>
+				<p class="list-group-item-text">t</p>
+				<p class="list-group-item-text">s</p>
+				<p class="list-group-item-text">ordinal</p>
+				</br>
+				
+				<button type="submit"
+                                ui-sref="variable.detail({id:'564dd55ace1a0ed573dbda4e'})"
                                 class="btn btn-info btn-sm">
                             <span class="glyphicon glyphicon-eye-open"></span>&nbsp;<span translate="entity.action.view"> View</span>
                         </button>
                         <button type="submit"
-                                ui-sref="variable.edit({id:variable.id})"
+                                ui-sref="variable.edit({id:'564dd55ace1a0ed573dbda4e'})"
                                 class="btn btn-primary btn-sm">
                             <span class="glyphicon glyphicon-pencil"></span>&nbsp;<span translate="entity.action.edit"> Edit</span>
                         </button>
                         <button type="submit"
-                                ng-click="delete(variable.id)"
+                                ng-click="delete('564dd55ace1a0ed573dbda4e')"
                                 class="btn btn-danger btn-sm">
                             <span class="glyphicon glyphicon-remove-circle"></span>&nbsp;<span translate="entity.action.delete"> Delete</span>
                         </button>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
-        <nav>
-            <ul class="pagination">
-                <li ng-show="links['first'] >= 0" ng-click="loadPage(links['first'])"><a>&lt;&lt;</a></li>
-                <li ng-show="page > 0" ng-click="loadPage(links['prev'] || 0)"><a>&lt;</a></li>
-                <li ng-show="page > 1" ng-click="loadPage(page - 2)"><a>{{page - 1}}</a></li>
-                <li ng-show="page > 0" ng-click="loadPage(page - 1)"><a>{{page}}</a></li>
-                <li class="active"><a>{{page + 1}}</a></li>
-                <li ng-show="page < links['last']" ng-click="loadPage(page + 1)"><a>{{page + 2}}</a></li>
-                <li ng-show="page < links['last'] - 1" ng-click="loadPage(page + 2)"><a>{{page + 3}}</a></li>
-                <li ng-show="links['next']" ng-click="loadPage(links['next'])"><a>&gt;</a></li>
-                <li ng-show="links['last'] > 0" ng-click="loadPage(links['last'])"><a>&gt;&gt;</a></li>
-            </ul>
-        </nav>
-    </div>
+			</li>
+			<li ng-repeat="hit in searchResult" class="list-group-item"><h4
+					class="list-group-item-heading">
+					<a href="">{{ hit._source.label }}</a>
+				</h4>
+				<p class="list-group-item-text">{{ hit._source.name }}</p>
+				<p class="list-group-item-text">{{ hit._source.question }}</p>
+				<p class="list-group-item-text">{{ hit._source.variableSurvey.title }}</p>
+				</br>
+				<button type="submit"
+                                ui-sref="variable.detail({id:variable._source.id})"
+                                class="btn btn-info btn-sm">
+                            <span class="glyphicon glyphicon-eye-open"></span>&nbsp;<span translate="entity.action.view"> View</span>
+                        </button>
+                        <button type="submit"
+                                ui-sref="variable.edit({id:variable._source.id})"
+                                class="btn btn-primary btn-sm">
+                            <span class="glyphicon glyphicon-pencil"></span>&nbsp;<span translate="entity.action.edit"> Edit</span>
+                        </button>
+                        <button type="submit"
+                                ng-click="delete(variable._source.id)"
+                                class="btn btn-danger btn-sm">
+                            <span class="glyphicon glyphicon-remove-circle"></span>&nbsp;<span translate="entity.action.delete"> Delete</span>
+                        </button>
+			</li>
+		</ul>
+	</div>
+	</div>
 </div>

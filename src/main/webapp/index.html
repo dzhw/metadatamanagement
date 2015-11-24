@@ -9,6 +9,7 @@
         <meta name="viewport" content="width=device-width">
         <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
         <!-- build:css assets/styles/vendor.css -->
+        <!-- bower:css -->
         <!-- endbower -->
         <!-- endbuild -->
         <!-- build:css assets/styles/main.css -->
@@ -65,6 +66,7 @@
         <script src="bower_components/sockjs-client/dist/sockjs.js"></script>
         <script src="bower_components/stomp-websocket/lib/stomp.min.js"></script>
         <script src="bower_components/elasticsearch/elasticsearch.js"></script>
+        <script src="bower_components/elasticsearch/elasticsearch.jquery.js"></script>
         <!-- endbower -->
         <!-- endbuild -->
 
@@ -154,10 +156,8 @@
     <script src="scripts/app/entities/variable/variable-dialog.controller.js"></script>
     <script src="scripts/app/entities/variable/variable-detail.controller.js"></script>
     <script src="scripts/components/entities/variable/variable.service.js"></script>
-    <script src="scripts/app/search/variablesearch.js"></script>
-	<script src="scripts/app/search/variabelsearchQuerybuilder.service.js"></script>
-	<script src="scripts/app/search/variablesearch.service.js"></script>
-	<script src="scripts/app/search/variablesearch.controller.js"></script>
+	<script src="scripts/app/entities/variable/variableSearchQuerybuilder.service.js"></script>
+	<script src="scripts/app/entities/variable/elasticSearchClient.service.js"></script>
     <!-- endbuild -->
 </body>
 </html>
