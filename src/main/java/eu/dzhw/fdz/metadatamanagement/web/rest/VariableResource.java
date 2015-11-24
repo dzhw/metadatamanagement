@@ -50,10 +50,6 @@ public class VariableResource {
   public ResponseEntity<Variable> createVariable(@Valid @RequestBody Variable variable)
       throws URISyntaxException {
     log.debug("REST request to save Variable : {}", variable);
-    if (variable.getId() != null) {
-      return ResponseEntity.badRequest()
-          .header("Failure", "A new variable cannot already have an ID").body(null);
-    }
     Variable result = variableRepository.save(variable);
     return ResponseEntity.created(new URI("/api/variables/" + result.getId()))
         .headers(HeaderUtil.createEntityCreationAlert("variable", result.getId()))

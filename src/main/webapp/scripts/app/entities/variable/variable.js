@@ -79,7 +79,8 @@ angular.module('metadatamanagementApp')
                   label: null,
                   id: null
                 };
-              }
+              },
+              isCreateMode: true
             }
           }).result.then(function() {
             $state.go('variable', null, {
@@ -107,7 +108,8 @@ angular.module('metadatamanagementApp')
                 return Variable.get({
                   id: $stateParams.id
                 });
-              }]
+              }],
+              isCreateMode: false
             }
           }).result.then(function() {
             $state.go('variable', null, {

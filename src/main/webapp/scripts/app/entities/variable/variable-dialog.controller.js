@@ -1,10 +1,13 @@
 'use strict';
 
 angular.module('metadatamanagementApp').controller('VariableDialogController',
-    ['$scope', '$stateParams', '$modalInstance', 'entity', 'Variable',
-        function($scope, $stateParams, $modalInstance, entity, Variable) {
+    ['$scope', '$stateParams', '$modalInstance', 'entity', 'isCreateMode',
+     'Variable',
+        function($scope, $stateParams, $modalInstance, entity, isCreateMode,
+          Variable) {
 
           $scope.variable = entity;
+          $scope.isCreateMode = isCreateMode;
           $scope.load = function(id) {
             Variable.get({id: id}, function(result) {
               $scope.variable = result;
@@ -17,10 +20,10 @@ angular.module('metadatamanagementApp').controller('VariableDialogController',
           };
 
           $scope.save = function() {
-            if ($scope.variable.id !== null) {
-              Variable.update($scope.variable, onSaveFinished);
+            if (isCreateMode) {
+              Variable.create($scope.variable, onSaveFinished);
             } else {
-              Variable.save($scope.variable, onSaveFinished);
+              Variable.update($scope.variable, onSaveFinished);
             }
           };
 
