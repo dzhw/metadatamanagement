@@ -18,6 +18,7 @@ import javax.inject.Inject;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.MockitoAnnotations;
+import org.springframework.context.MessageSource;
 import org.springframework.data.web.PageableHandlerMethodArgumentResolver;
 import org.springframework.http.MediaType;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
@@ -30,6 +31,7 @@ import eu.dzhw.fdz.metadatamanagement.domain.Variable;
 import eu.dzhw.fdz.metadatamanagement.domain.enumeration.DataType;
 import eu.dzhw.fdz.metadatamanagement.domain.enumeration.ScaleLevel;
 import eu.dzhw.fdz.metadatamanagement.repository.VariableRepository;
+import eu.dzhw.fdz.metadatamanagement.service.VariableService;
 
 /**
  * Test class for the VariableResource REST controller.
@@ -52,6 +54,12 @@ public class VariableResourceTest extends BasicTest{
 
     @Inject
     private VariableRepository variableRepository;
+    
+    @Inject
+    private VariableService variableService;
+    
+    @Inject
+    private MessageSource messageSource;
 
     @Inject
     private MappingJackson2HttpMessageConverter jacksonMessageConverter;
@@ -67,7 +75,8 @@ public class VariableResourceTest extends BasicTest{
     public void setup() {
         MockitoAnnotations.initMocks(this);
         VariableResource variableResource = new VariableResource();
-        ReflectionTestUtils.setField(variableResource, "variableRepository", variableRepository);
+        ReflectionTestUtils.setField(variableResource, "variableService", variableService);
+        ReflectionTestUtils.setField(variableResource, "messageSource", messageSource);
         this.restVariableMockMvc = MockMvcBuilders.standaloneSetup(variableResource)
             .setCustomArgumentResolvers(pageableArgumentResolver)
             .setMessageConverters(jacksonMessageConverter).build();

@@ -3,6 +3,7 @@ package eu.dzhw.fdz.metadatamanagement.web.rest;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.List;
+import java.util.Locale;
 import java.util.Optional;
 
 import javax.inject.Inject;
@@ -10,6 +11,7 @@ import javax.validation.Valid;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.context.MessageSource;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
@@ -25,7 +27,9 @@ import org.springframework.web.bind.annotation.RestController;
 import com.codahale.metrics.annotation.Timed;
 
 import eu.dzhw.fdz.metadatamanagement.domain.Variable;
-import eu.dzhw.fdz.metadatamanagement.repository.VariableRepository;
+import eu.dzhw.fdz.metadatamanagement.service.VariableService;
+import eu.dzhw.fdz.metadatamanagement.service.exception.EntityExistsException;
+import eu.dzhw.fdz.metadatamanagement.service.exception.EntityNotFoundException;
 import eu.dzhw.fdz.metadatamanagement.web.rest.util.HeaderUtil;
 import eu.dzhw.fdz.metadatamanagement.web.rest.util.PaginationUtil;
 
@@ -39,7 +43,10 @@ public class VariableResource {
   private final Logger log = LoggerFactory.getLogger(VariableResource.class);
 
   @Inject
-  private VariableRepository variableRepository;
+  private VariableService variableService;
+
+  @Inject
+  private MessageSource messageSource;
 
   /**
    * POST /variables -> Create a new variable.
@@ -47,14 +54,20 @@ public class VariableResource {
   @RequestMapping(value = "/variables", method = RequestMethod.POST,
       produces = MediaType.APPLICATION_JSON_VALUE)
   @Timed
-  public ResponseEntity<Variable> createVariable(@Valid @RequestBody Variable variable)
-      throws URISyntaxException {
+  public ResponseEntity<Variable> createVariable(@Valid @RequestBody Variable variable,
+      Locale locale) throws URISyntaxException {
     log.debug("REST request to save Variable : {}", variable);
-    if (variableRepository.exists(variable.getId())) {
+
+    Variable result;
+    try {
+      result = variableService.createVariable(variable);
+    } catch (EntityExistsException e) {
+      log.warn("Unable to create variable.", e);
       return ResponseEntity.badRequest()
-          .header("Failure", "There is already a variable with ID " + variable.getId()).body(null);
+          .header("Failure",
+              messageSource.getMessage("variable.exists", new Object[] {variable.getId()}, locale))
+          .body(null);
     }
-    Variable result = variableRepository.insert(variable);
     return ResponseEntity.created(new URI("/api/variables/" + result.getId()))
         .headers(HeaderUtil.createEntityCreationAlert("variable", result.getId())).body(result);
   }
@@ -65,15 +78,18 @@ public class VariableResource {
   @RequestMapping(value = "/variables", method = RequestMethod.PUT,
       produces = MediaType.APPLICATION_JSON_VALUE)
   @Timed
-  public ResponseEntity<Variable> updateVariable(@Valid @RequestBody Variable variable)
-      throws URISyntaxException {
+  public ResponseEntity<Variable> updateVariable(@Valid @RequestBody Variable variable,
+      Locale locale) throws URISyntaxException {
     log.debug("REST request to update Variable : {}", variable);
-    if (!variableRepository.exists(variable.getId())) {
-      return ResponseEntity.badRequest()
-          .header("Failure", "There is no variable with ID " + variable.getId() + " to update.")
+    Variable result;
+    try {
+      result = variableService.updateVariable(variable);
+    } catch (EntityNotFoundException e) {
+      log.warn("Unable to update variable.", e);
+      return ResponseEntity.badRequest().header("Failure",
+          messageSource.getMessage("variable.notfound", new Object[] {variable.getId()}, locale))
           .body(null);
     }
-    Variable result = variableRepository.save(variable);
     return ResponseEntity.ok()
         .headers(HeaderUtil.createEntityUpdateAlert("variable", variable.getId())).body(result);
   }
@@ -86,7 +102,7 @@ public class VariableResource {
   @Timed
   public ResponseEntity<List<Variable>> getAllVariables(Pageable pageable)
       throws URISyntaxException {
-    Page<Variable> page = variableRepository.findAll(pageable);
+    Page<Variable> page = variableService.getAllVariables(pageable);
     HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/variables");
     return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
   }
@@ -99,7 +115,7 @@ public class VariableResource {
   @Timed
   public ResponseEntity<Variable> getVariable(@PathVariable String id) {
     log.debug("REST request to get Variable : {}", id);
-    return Optional.ofNullable(variableRepository.findOne(id))
+    return Optional.ofNullable(variableService.getVariable(id))
         .map(variable -> new ResponseEntity<>(variable, HttpStatus.OK))
         .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
   }
@@ -112,7 +128,7 @@ public class VariableResource {
   @Timed
   public ResponseEntity<Void> deleteVariable(@PathVariable String id) {
     log.debug("REST request to delete Variable : {}", id);
-    variableRepository.delete(id);
+    variableService.deleteVariable(id);
     return ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert("variable", id))
         .build();
   }

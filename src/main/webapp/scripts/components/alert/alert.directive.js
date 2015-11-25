@@ -76,6 +76,8 @@ angular
                                 addErrorAlert(httpResponse.data.message,
                                     httpResponse.data.message,
                                     httpResponse.data);
+                              } else if (httpResponse.headers('Failure')) {
+                                addErrorAlert(httpResponse.headers('Failure'));
                               } else {
                                 addErrorAlert(httpResponse.data);
                               }

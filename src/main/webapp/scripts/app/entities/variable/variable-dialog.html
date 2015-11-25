@@ -11,7 +11,13 @@
         <div class="form-group">
             <label for="id" translate="global.field.id">ID</label>
             <input type="text" class="form-control" id="id" name="id"
-                    ng-model="variable.id" ng-readonly="!isCreateMode"/>
+                    ng-model="variable.id" ng-readonly="!isCreateMode" required />
+            <div ng-show="editForm.id.$invalid">
+                <p class="help-block"
+                   ng-show="editForm.id.$error.required" translate="entity.validation.required">
+                   This field is required.
+                </p>
+            </div>
         </div>
         <div class="form-group">
             <label translate="metadatamanagementApp.variable.name" for="field_name">Name</label>
@@ -78,7 +84,7 @@
         <button type="button" class="btn btn-default" data-dismiss="modal" ng-click="clear()">
             <span class="glyphicon glyphicon-ban-circle"></span>&nbsp;<span translate="entity.action.cancel">Cancel</span>
         </button>
-        <button type="submit" ng-disabled="editForm.$invalid || editForm.$submitted" class="btn btn-primary">
+        <button type="submit" ng-disabled="editForm.$invalid" class="btn btn-primary">
             <span class="glyphicon glyphicon-save"></span>&nbsp;<span translate="entity.action.save">Save</span>
         </button>
     </div>
