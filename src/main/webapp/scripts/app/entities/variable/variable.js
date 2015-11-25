@@ -5,7 +5,7 @@ angular.module('metadatamanagementApp')
     $stateProvider
       .state('variable', {
         parent: 'entity',
-        url: '/variables?{page=}{query=}',
+        url: '/variables',
         data: {
           authorities: ['ROLE_USER'],
           pageTitle: 'metadatamanagementApp.variable.home.title'
