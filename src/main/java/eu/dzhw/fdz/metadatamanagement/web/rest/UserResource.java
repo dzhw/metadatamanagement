@@ -1,6 +1,5 @@
 package eu.dzhw.fdz.metadatamanagement.web.rest;
 
-import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.List;
 import java.util.Optional;
@@ -74,25 +73,6 @@ public class UserResource {
 
     @Inject
     private UserService userService;
-
-    /**
-     * POST  /users -> Create a new user.
-     */
-    @RequestMapping(value = "/users",
-        method = RequestMethod.POST,
-        produces = MediaType.APPLICATION_JSON_VALUE)
-    @Timed
-    @Secured(AuthoritiesConstants.ADMIN)
-    public ResponseEntity<User> createUser(@RequestBody User user) throws URISyntaxException {
-        log.debug("REST request to save User : {}", user);
-        if (user.getId() != null) {
-            return ResponseEntity.badRequest().header("Failure", "A new user cannot already have an ID").body(null);
-        }
-        User result = userRepository.save(user);
-        return ResponseEntity.created(new URI("/api/users/" + result.getId()))
-                .headers(HeaderUtil.createEntityCreationAlert("user", result.getId()))
-                .body(result);
-    }
 
     /**
      * PUT  /users -> Updates an existing User.

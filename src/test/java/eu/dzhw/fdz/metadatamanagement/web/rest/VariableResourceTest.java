@@ -34,6 +34,8 @@ import eu.dzhw.fdz.metadatamanagement.repository.VariableRepository;
 /**
  * Test class for the VariableResource REST controller.
  *
+ * @author Daniel Katzberg
+ *
  * @see VariableResource
  */
 public class VariableResourceTest extends BasicTest{
@@ -101,6 +103,24 @@ public class VariableResourceTest extends BasicTest{
         assertThat(testVariable.getDataType()).isEqualTo(DEFAULT_DATA_TYPE);
         assertThat(testVariable.getScaleLevel()).isEqualTo(DEFAULT_SCALE_LEVEL);
         assertThat(testVariable.getLabel()).isEqualTo(DEFAULT_LABEL);
+    }
+    
+    @Test
+    public void createVariableWithError() throws Exception {
+        // Arrange
+
+        //Act
+        restVariableMockMvc.perform(post("/api/variables")
+                .contentType(TestUtil.APPLICATION_JSON_UTF8)
+                .content(TestUtil.convertObjectToJsonBytes(this.variable)))
+                .andExpect(status().isCreated());
+        
+        //Assert
+        // Bad Request -> ID exist
+        restVariableMockMvc.perform(post("/api/variables")
+            .contentType(TestUtil.APPLICATION_JSON_UTF8)
+            .content(TestUtil.convertObjectToJsonBytes(this.variable)))
+            .andExpect(status().is4xxClientError()); 
     }
 
     @Test
@@ -236,6 +256,26 @@ public class VariableResourceTest extends BasicTest{
         assertThat(testVariable.getDataType()).isEqualTo(UPDATED_DATA_TYPE);
         assertThat(testVariable.getScaleLevel()).isEqualTo(UPDATED_SCALE_LEVEL);
         assertThat(testVariable.getLabel()).isEqualTo(UPDATED_LABEL);
+    }
+    
+    @Test
+    public void updateVariableWithError() throws Exception {
+
+        // Arrange
+        variableRepository.save(variable);
+        variable.setName(UPDATED_NAME);
+        variable.setDataType(UPDATED_DATA_TYPE);
+        variable.setScaleLevel(UPDATED_SCALE_LEVEL);
+        variable.setLabel(UPDATED_LABEL);
+        variable.setId("WrongID");
+        
+        //Act
+
+        //Assert
+        restVariableMockMvc.perform(put("/api/variables")
+                .contentType(TestUtil.APPLICATION_JSON_UTF8)
+                .content(TestUtil.convertObjectToJsonBytes(variable)))
+                .andExpect(status().is4xxClientError());
     }
 
     @Test

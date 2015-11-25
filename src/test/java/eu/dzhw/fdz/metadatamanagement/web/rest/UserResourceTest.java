@@ -12,7 +12,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import java.io.IOException;
-import java.lang.reflect.Field;
 import java.util.Optional;
 
 import javax.inject.Inject;
@@ -28,15 +27,12 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
 import eu.dzhw.fdz.metadatamanagement.BasicTest;
 import eu.dzhw.fdz.metadatamanagement.domain.User;
 import eu.dzhw.fdz.metadatamanagement.domain.builders.UserBuilder;
 import eu.dzhw.fdz.metadatamanagement.repository.AuthorityRepository;
 import eu.dzhw.fdz.metadatamanagement.repository.UserRepository;
 import eu.dzhw.fdz.metadatamanagement.service.UserService;
-import eu.dzhw.fdz.metadatamanagement.util.UnitTestReflectionUtils;
 import eu.dzhw.fdz.metadatamanagement.web.rest.dto.ManagedUserDTO;
 
 /**
@@ -46,7 +42,7 @@ import eu.dzhw.fdz.metadatamanagement.web.rest.dto.ManagedUserDTO;
  *
  * @see UserResource
  */
-public class UserResourceTest extends BasicTest{
+public class UserResourceTest extends BasicTest {
 
   @Inject
   private UserRepository userRepository;
@@ -109,27 +105,6 @@ public class UserResourceTest extends BasicTest{
     restUserMockMvc.perform(post("/api/users").contentType(TestUtil.APPLICATION_JSON_UTF8)
       .content(TestUtil.convertObjectToJsonBytes(user)))
       .andExpect(status().is4xxClientError());
-  }
-
-  //TODO Disable. It works local, but not in the cloud.
-//  @Test
-  public void testCreateUser() throws Exception {
-    // Arrange
-    String jsonCreateUser =
-        "{\"login\":\"logintest\",\"password\":\"xwqyUOk2LCQ7IsuhhzVvxwqyUOk2LCQ7IsuhhzVvxwqyUOk2LCQ7IsuhhzVv\",\"email\":\"test@test.test\",\"activated\":false,\"langKey\":\"de\"}";
-
-    // Act
-    //With reflection, push the passwort.
-    Field field = User.class.getDeclaredField("password");
-    final JsonIgnore jsonIgnoreAnnotation = field.getAnnotation(JsonIgnore.class);
-    boolean oldValue = (boolean) UnitTestReflectionUtils.changeAnnotationValue(jsonIgnoreAnnotation, "value", false);
-    
-    // Assert
-    restUserMockMvc.perform(post("/api/users").contentType(TestUtil.APPLICATION_JSON_UTF8)
-      .content(jsonCreateUser))
-      .andExpect(status().isCreated());
-    
-    UnitTestReflectionUtils.changeAnnotationValue(jsonIgnoreAnnotation, "value", oldValue);
   }
 
   @Test
