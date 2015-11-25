@@ -3,37 +3,18 @@
 angular.module('metadatamanagementApp').service('VariableSearchQuerybuilder',
     function($rootScope) {
   return {
-    Query: function(queryterm, from) {
+    Query: function(queryterm, page) {
       var query = {
           'index': 'metadata_' + $rootScope.currentLanguage,
           'type': 'variables',
           'body': {
             'query': {
               'match_phrase_prefix': {
-                'question': queryterm
+                'label': queryterm
               }
             },
-            'from': from,
-            'size': 3,
-            'aggregations': {
-              'variableSurvey': {
-                'nested': {
-                  'path': 'variableSurvey'
-                },
-                'aggregations': {
-                  'variableSurvey.title': {
-                    'terms': {
-                      'field': 'variableSurvey.title'
-                    }
-                  }
-                }
-              },
-              'scaleLevel': {
-                'terms': {
-                  'field': 'scaleLevel'
-                }
-              }
-            }
+            'from': page,
+            'size': 3
           }
         };
       if (!queryterm) {

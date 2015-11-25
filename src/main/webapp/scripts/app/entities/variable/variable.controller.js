@@ -7,46 +7,48 @@ angular.module('metadatamanagementApp')
         VariableSearchQuerybuilder) {
       $scope.isDisabled = 'true';
       BookmarkableUrl.setUrlLanguage($location, $rootScope);
-      $scope.$on('$locationChangeSuccess', function() {
+      /*$scope.$on('$locationChangeSuccess', function() {
+        $scope.refresh();
         $scope.query = $location.search().query;
-        $scope.from = $location.search().from;
-      });
+        $scope.page = $location.search().page;
+      });*/
       $scope.initsearch = function() {
+        $scope.page = 0;
         if ($location.search().query) {
           $scope.query = $location.search().query;
-        }else {
-          $scope.query = '';
         }
-        if ($location.search().from) {
-          $scope.from = $location.search().from;
-        }else {
-          $scope.from = 0;
+        if ($location.search().page) {
+          $scope.page = parseInt($location.search().page);
         }
-        $scope.search();
+        $scope.loadPage($scope.page);
       };
-      $scope.loadPage = function(page) {
-        if (page > 0) {
-          $scope.stateprevious = '';
-          $scope.from = page;
+      $scope.loadPage = function(pagenumber) {
+        if (pagenumber > 0) {
+          $scope.IsPreviousStateEnable = '';
+          $scope.page = pagenumber;
+          $scope.IsPreviousClickEnable = true;
         }else {
-          $scope.stateprevious = 'disabled';
-          $scope.from = 0;
+          $scope.IsPreviousStateEnable = 'disabled';
+          $scope.IsPreviousClickEnable = false;
+          $scope.page = 0;
         }
         $scope.search();
       };
       $scope.search = function() {
         $location.search('query', $scope.query);
-        $location.search('from', $scope.from);
+        $location.search('page', $scope.page);
         ElasticSearchClient.search
-        (VariableSearchQuerybuilder.Query($scope.query, $scope.from))
+        (VariableSearchQuerybuilder.Query($scope.query, $scope.page))
             .then(function(data) {
               $scope.searchResult = data.hits.hits;
               if ($scope.searchResult.length === 0) {
-                $scope.statenext = 'disabled';
+                $scope.IsNextStateEnable = 'disabled';
+                $scope.IsNextClickEnable = false;
               }else {
-                $scope.statenext = '';
-                $scope.$apply();
+                $scope.IsNextStateEnable = '';
+                $scope.IsNextClickEnable = true;
               }
+              $scope.$apply();
             }, function(error) {
               console.trace(error.message);
             });
@@ -69,7 +71,7 @@ angular.module('metadatamanagementApp')
 
       $scope.refresh = function() {
         $scope.clear();
-        $scope.search();
+        console.log('-----------------><<<<');
       };
 
       $scope.clear = function() {

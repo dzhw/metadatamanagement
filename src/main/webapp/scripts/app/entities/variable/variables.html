@@ -83,8 +83,8 @@
 		</ul>
 	</div>
 	<ul class = "pager">
-   <li class = "{{stateprevious}} previous" ng-click="loadPage(from - 1)"><a>&larr; {{'pagination.previous'|translate}}</a></li>
-   <li class = "{{statenext}} next" ng-click="loadPage(from + 1)"><a>{{'pagination.next'|translate}} &rarr;</a></li>
+   <li class = "{{IsPreviousStateEnable}} previous" ng-click="!IsPreviousClickEnable || loadPage(page - 1)"><a>&larr; {{'pagination.previous'|translate}}</a></li>
+   <li class = "{{IsNextStateEnable}} next" ng-click="!IsNextClickEnable || loadPage(page + 1)"><a>{{'pagination.next'|translate}} &rarr;</a></li>
 </ul>
 	</div>
 </div>
