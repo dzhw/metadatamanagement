@@ -71,7 +71,6 @@ angular.module('metadatamanagementApp')
 
       $scope.refresh = function() {
         $scope.clear();
-        console.log('-----------------><<<<');
       };
 
       $scope.clear = function() {
