@@ -9,7 +9,7 @@
     "angular-bootstrap": "0.14.3",
     "angular-cache-buster": "0.4.3",
     "angular-cookies": "1.4.8",
-    "angular-dynamic-locale": "0.1.28",
+    "angular-dynamic-locale": "0.1.29",
     "angular-i18n": "1.4.8",
     "angular-local-storage": "0.2.3",
     "angular-resource": "1.4.8",
