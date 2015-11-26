@@ -17,6 +17,7 @@ import java.time.ZonedDateTime;
 
 /**
  * Utility class for testing REST controllers.
+ * This class needs no Application Context!
  */
 public class TestUtil {
 

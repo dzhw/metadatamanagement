@@ -1,0 +1,28 @@
+/**
+ * 
+ */
+package eu.dzhw.fdz.metadatamanagement.web.rest.dto;
+
+import static org.hamcrest.CoreMatchers.is;
+import static org.junit.Assert.assertThat;
+
+import org.junit.Test;
+
+/**
+ * @author Daniel Katzberg
+ *
+ */
+public class LoggerDTOTest {
+
+  @Test
+  public void testToString() {
+    // Arrange
+    LoggerDTO dto = new LoggerDTO();
+
+    // Act
+
+    // Assert
+    assertThat(dto.toString(), is("LoggerDTO{name='null', level='null'}"));
+  }
+
+}
