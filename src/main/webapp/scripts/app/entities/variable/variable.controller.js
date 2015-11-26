@@ -2,23 +2,21 @@
 'use strict';
 
 angular.module('metadatamanagementApp')
-    .controller('VariableController', function($scope, Variable, ParseLinks,
-        $rootScope, $location, BookmarkableUrl, ElasticSearchClient,
+    .controller('VariableController', function($rootScope, $state, $scope,
+        Variable, ParseLinks, $location, BookmarkableUrl, ElasticSearchClient,
         VariableSearchQuerybuilder) {
       $scope.isDisabled = 'true';
       BookmarkableUrl.setUrlLanguage($location, $rootScope);
-      /*$scope.$on('$locationChangeSuccess', function() {
-        $scope.refresh();
-        $scope.query = $location.search().query;
-        $scope.page = $location.search().page;
-      });*/
       $scope.initsearch = function() {
-        $scope.page = 0;
-        if ($location.search().query) {
-          $scope.query = $location.search().query;
+        if (typeof($rootScope.bookmarkableUrlQueryParameter) !== 'undefined') {
+          $scope.query = $rootScope.bookmarkableUrlQueryParameter;
+          $rootScope.bookmarkableUrlQueryParameter = undefined;
         }
-        if ($location.search().page) {
-          $scope.page = parseInt($location.search().page);
+        if (typeof($rootScope.bookmarkableUrlPageParameter) !== 'undefined') {
+          $scope.page = parseInt($rootScope.bookmarkableUrlPageParameter);
+          $rootScope.bookmarkableUrlPageParameter = undefined;
+        }else {
+          $scope.page = 0;
         }
         $scope.loadPage($scope.page);
       };
@@ -30,11 +28,12 @@ angular.module('metadatamanagementApp')
         }else {
           $scope.IsPreviousStateEnable = 'disabled';
           $scope.IsPreviousClickEnable = false;
-          $scope.page = 0;
         }
         $scope.search();
       };
       $scope.search = function() {
+        $state.go('variable', {query: $scope.query, page: $scope.page},
+            {notify: false});
         $location.search('query', $scope.query);
         $location.search('page', $scope.page);
         ElasticSearchClient.search
@@ -53,6 +52,8 @@ angular.module('metadatamanagementApp')
               console.trace(error.message);
             });
       };
+      $state.go('variable', {query: $scope.query, page: $scope.page},
+          {notify: true});
       $scope.delete = function(id) {
         Variable.get({id: id}, function(result) {
           $scope.variable = result;
