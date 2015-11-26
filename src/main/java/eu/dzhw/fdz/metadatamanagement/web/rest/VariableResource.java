@@ -62,7 +62,7 @@ public class VariableResource {
     try {
       result = variableService.createVariable(variable);
     } catch (EntityExistsException e) {
-      log.warn("Unable to create variable.", e);
+      log.warn("Unable to create variable: " + e.getMessage());
       return ResponseEntity.badRequest()
           .header("Failure",
               messageSource.getMessage("variable.exists", new Object[] {variable.getId()}, locale))
@@ -85,7 +85,7 @@ public class VariableResource {
     try {
       result = variableService.updateVariable(variable);
     } catch (EntityNotFoundException e) {
-      log.warn("Unable to update variable.", e);
+      log.warn("Unable to update variable: " + e.getMessage());
       return ResponseEntity.badRequest().header("Failure",
           messageSource.getMessage("variable.notfound", new Object[] {variable.getId()}, locale))
           .body(null);
