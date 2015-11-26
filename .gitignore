@@ -127,4 +127,5 @@ Desktop.ini
 !gradle/wrapper/gradle-wrapper.jar
 /.apt_generated/
 /elasticsearch/
+/data/
 /.checkstyle

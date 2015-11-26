@@ -64,6 +64,6 @@ metadatamanagement:
   elasticsearch-client:
     url: http://localhost:9200
   elasticsearch-angular-client:
-    url: https://public:bx6hbibdskm7j1ag4v6pyvvlsdxknfhu@dwalin-us-east-1.searchly.com
+    url: http://localhost:9200
     versionApi: 1.7
     logLevel: trace

@@ -28,7 +28,7 @@ import eu.dzhw.fdz.metadatamanagement.BasicTest;
  */
 public class ElasticsearchAdminDaoTest extends BasicTest {
 
-  private static final String TEST_INDEX = "hurz";
+  public static final String TEST_INDEX = "hurz";
   private static final String NUMBER_OF_REPLICAS = "number_of_replicas";
   private static final String TEST_TYPE = "variables";
 

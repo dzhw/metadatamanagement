@@ -1,0 +1,39 @@
+{
+  "variables": {
+  	  "_all" : {	
+  		 "enabled" : true,
+  		 "analyzer": "german"
+  	  },
+    "properties": {
+      "allStringsAsNgrams" : {
+      	"type": "string",
+      	"analyzer": "trigrams"
+      },
+      "dataType": {
+        "type": "string",
+        "index": "not_analyzed",
+        "copy_to": "allStringsAsNgrams"
+      },
+      "id": {
+        "type": "string",
+        "index": "not_analyzed",
+        "copy_to": "allStringsAsNgrams"
+      },
+      "label": {
+      	"type": "string",
+        "analyzer": "german",
+        "copy_to": "allStringsAsNgrams"
+      },
+      "name": {	
+      	"type": "string",
+        "index": "not_analyzed",
+        "copy_to": "allStringsAsNgrams"
+      },
+      "scaleLevel": {
+        "type": "string",
+        "index": "not_analyzed",
+        "copy_to": "allStringsAsNgrams"
+      }
+    }
+  }
+}

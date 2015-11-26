@@ -16,6 +16,7 @@ import io.searchbox.client.JestResult;
 import io.searchbox.indices.CreateIndex;
 import io.searchbox.indices.DeleteIndex;
 import io.searchbox.indices.IndicesExists;
+import io.searchbox.indices.Refresh;
 import io.searchbox.indices.mapping.GetMapping;
 import io.searchbox.indices.mapping.PutMapping;
 import io.searchbox.indices.settings.GetSettings;
@@ -101,6 +102,17 @@ public class ElasticsearchAdminDao {
   }
 
   /**
+   * Refresh the given index synchronously.
+   * @param index the index to refresh.
+   */
+  public void refresh(String index) {
+    JestResult result = execute(new Refresh.Builder().addIndex(index).build());
+    if (!result.isSucceeded()) {
+      log.debug("Unable to refresh index " + index + ": " + result.getErrorMessage());
+    }
+  }
+
+  /**
    * Delete the given index and all of its documents.
    * 
    * @param index The name of the index to delete.
@@ -116,7 +128,7 @@ public class ElasticsearchAdminDao {
     try {
       return jestClient.execute(action);
     } catch (IOException e) {
-      throw new RuntimeException();
+      throw new RuntimeException(e);
     }
   }
 }
