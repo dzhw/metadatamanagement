@@ -5,7 +5,6 @@ import eu.dzhw.fdz.metadatamanagement.domain.User;
 import eu.dzhw.fdz.metadatamanagement.repository.UserRepository;
 import java.time.ZonedDateTime;
 import eu.dzhw.fdz.metadatamanagement.service.util.RandomUtil;
-import java.time.LocalDate;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.boot.test.IntegrationTest;
