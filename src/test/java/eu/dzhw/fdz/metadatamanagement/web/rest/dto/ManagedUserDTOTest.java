@@ -10,7 +10,7 @@ import org.junit.Test;
 
 /**
  * @author Daniel Katzberg
- * NO Integration Test. No need for application Context.
+ * No Integration Test. No need for application Context.
  */
 public class ManagedUserDTOTest {
   
