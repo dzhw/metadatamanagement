@@ -33,8 +33,12 @@ module.exports = function(grunt) {
   require('load-grunt-tasks')(grunt);
   require('time-grunt')(grunt);
   var getElasticSearchProperties = function() {
-    var path = './src/main/resources/config/application-dev.yml';
-    return grunt.file.readYAML(path);
+    var DevPath = './src/main/resources/config/application-dev.yml';
+    var ProdPath = './src/main/resources/config/application-prod.yml';
+    return {
+      DevProperties: grunt.file.readYAML(DevPath),
+      ProdProperties: grunt.file.readYAML(ProdPath)
+    };
   };
   grunt
       .initConfig({
@@ -357,7 +361,7 @@ module.exports = function(grunt) {
               ENV: 'dev',
               VERSION: parseVersionFromPomXml(),
               // jscs: disable
-              ElasticSearchProperties: getElasticSearchProperties().metadatamanagement['elasticsearch-angular-client']
+              ElasticSearchProperties: getElasticSearchProperties().DevProperties.metadatamanagement['elasticsearch-angular-client']
               // jscs: enable
             }
           },
@@ -369,7 +373,7 @@ module.exports = function(grunt) {
               ENV: 'prod',
               VERSION: parseVersionFromPomXml(),
               // jscs: disable
-              ElasticSearchProperties: getElasticSearchProperties().metadatamanagement['elasticsearch-angular-client']
+              ElasticSearchProperties: getElasticSearchProperties().ProdProperties.metadatamanagement['elasticsearch-angular-client']
               // jscs: enable
             }
           }
