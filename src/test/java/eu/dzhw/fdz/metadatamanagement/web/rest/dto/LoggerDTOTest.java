@@ -10,7 +10,7 @@ import org.junit.Test;
 
 /**
  * @author Daniel Katzberg
- *
+ * No Integration Test. No need for application Context.
  */
 public class LoggerDTOTest {
 
