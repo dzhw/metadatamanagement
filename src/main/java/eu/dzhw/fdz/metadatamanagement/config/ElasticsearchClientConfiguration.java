@@ -37,6 +37,7 @@ public class ElasticsearchClientConfiguration {
   @Bean
   public JestClient jestClient(Environment environment) throws Exception {
     String connectionUrl = metadataManagementProperties.getElasticsearchClient().getUrl();
+    int readTimeout = metadataManagementProperties.getElasticsearchClient().getReadTimeout();
 
     //use cloud connection url if available
     if (environment.acceptsProfiles(Constants.SPRING_PROFILE_CLOUD)) {
@@ -50,7 +51,7 @@ public class ElasticsearchClientConfiguration {
 
     // Configuration
     HttpClientConfig clientConfig =
-        new HttpClientConfig.Builder(connectionUrl).multiThreaded(true).build();
+        new HttpClientConfig.Builder(connectionUrl).readTimeout(readTimeout).multiThreaded(true).build();
 
     // Construct a new Jest client according to configuration via factory
     JestClientFactory factory = new JestClientFactory();

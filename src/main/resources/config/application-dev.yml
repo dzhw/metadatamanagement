@@ -63,6 +63,7 @@ jhipster:
 metadatamanagement:
   elasticsearch-client:
     url: http://localhost:9200
+    read-timeout: 60000
   elasticsearch-angular-client:
     url: http://localhost:9200
     versionApi: 1.7

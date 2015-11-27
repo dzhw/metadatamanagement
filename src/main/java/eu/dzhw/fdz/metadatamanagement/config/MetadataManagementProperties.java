@@ -37,6 +37,7 @@ public class MetadataManagementProperties {
   public static class ElasticsearchClient {
     // default connection url
     private String url = "http://localhost:9200";
+    private int readTimeout = 60000;
 
     public String getUrl() {
       return this.url;
@@ -44,6 +45,14 @@ public class MetadataManagementProperties {
 
     public void setUrl(String url) {
       this.url = url;
+    }
+
+    public int getReadTimeout() {
+      return readTimeout;
+    }
+
+    public void setReadTimeout(int readTimeout) {
+      this.readTimeout = readTimeout;
     }
   }
   
