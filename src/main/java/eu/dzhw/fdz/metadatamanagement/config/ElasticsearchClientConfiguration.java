@@ -25,33 +25,37 @@ public class ElasticsearchClientConfiguration {
 
   @Inject
   private MetadataManagementProperties metadataManagementProperties;
-  
+
   /**
    * Create the client which connects to Elasticsearch. Connects to localhost if we are not running
    * in the cloud.
    * 
    * @param environment Springs {@link Environment}
-   * @return The configured {@link JestClient} 
+   * @return The configured {@link JestClient}
    * @throws Exception if the connection params cannot be resolved from the environment in the cloud
    */
   @Bean
   public JestClient jestClient(Environment environment) throws Exception {
-    String connectionUrl = metadataManagementProperties.getElasticsearchClient().getUrl();
-    int readTimeout = metadataManagementProperties.getElasticsearchClient().getReadTimeout();
+    String connectionUrl = metadataManagementProperties.getElasticsearchClient()
+      .getUrl();
+    int readTimeout = metadataManagementProperties.getElasticsearchClient()
+      .getReadTimeout();
 
-    //use cloud connection url if available
+    // use cloud connection url if available
     if (environment.acceptsProfiles(Constants.SPRING_PROFILE_CLOUD)) {
       // Using jackson to parse VCAP_SERVICES
       HashMap result = new ObjectMapper().readValue(System.getenv("VCAP_SERVICES"), HashMap.class);
 
       connectionUrl =
           (String) ((Map) ((Map) ((List) result.get("searchly")).get(0)).get("credentials"))
-              .get("uri");
+            .get("uri");
     }
 
     // Configuration
     HttpClientConfig clientConfig =
-        new HttpClientConfig.Builder(connectionUrl).readTimeout(readTimeout).multiThreaded(true).build();
+        new HttpClientConfig.Builder(connectionUrl).readTimeout(readTimeout)
+          .multiThreaded(true)
+          .build();
 
     // Construct a new Jest client according to configuration via factory
     JestClientFactory factory = new JestClientFactory();
