@@ -12,8 +12,6 @@ import java.util.HashSet;
 import java.util.Set;
 
 import org.junit.Test;
-import org.mockito.Mockito;
-import org.springframework.integration.test.matcher.MockitoMessageMatchers;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
