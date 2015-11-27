@@ -37,9 +37,9 @@ public class ElasticsearchClientConfiguration {
   @Bean
   public JestClient jestClient(Environment environment) throws Exception {
     String connectionUrl = metadataManagementProperties.getElasticsearchClient()
-      .getUrl();
+        .getUrl();
     int readTimeout = metadataManagementProperties.getElasticsearchClient()
-      .getReadTimeout();
+        .getReadTimeout();
 
     // use cloud connection url if available
     if (environment.acceptsProfiles(Constants.SPRING_PROFILE_CLOUD)) {
