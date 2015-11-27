@@ -11,6 +11,9 @@ import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
 
+import eu.dzhw.fdz.metadatamanagement.service.exception.EntityExistsException;
+import eu.dzhw.fdz.metadatamanagement.service.exception.EntityNotFoundException;
+
 /**
  * Controller advice to translate the server side exceptions to client-friendly json structures.
  */
@@ -63,5 +66,19 @@ public class ExceptionTranslator {
     @ResponseStatus(HttpStatus.METHOD_NOT_ALLOWED)
     public ErrorDTO processMethodNotSupportedException(HttpRequestMethodNotSupportedException exception) {
         return new ErrorDTO(ErrorConstants.ERR_METHOD_NOT_SUPPORTED, exception.getMessage());
+    }
+    
+    @ExceptionHandler(EntityExistsException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ResponseBody
+    public ParameterizedErrorDTO processEntityExistsError(EntityExistsException ex) {
+        return new ParameterizedErrorDTO(ErrorConstants.ERR_ENTITY_EXISTS, ex.getEntityClass().getSimpleName(), ex.getEntityId());
+    }
+    
+    @ExceptionHandler(EntityNotFoundException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ResponseBody
+    public ParameterizedErrorDTO processEntityExistsError(EntityNotFoundException ex) {
+        return new ParameterizedErrorDTO(ErrorConstants.ERR_ENTITY_NOT_FOUND, ex.getEntityClass().getSimpleName(), ex.getEntityId());
     }
 }

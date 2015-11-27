@@ -1,118 +1,126 @@
 {
-    "global": {
-        "title": "metadatamanagement",
-        "browsehappy": "Sie benutzen einen <strong>veralteten</strong> Browser. Bitte <a href=\"http://browsehappy.com/?locale=de/\">aktualisieren Sie Ihren Browser</a>, um die Benutzerfreundlichkeit zu erhöhen.",
-        "fdzAltText":"Forschungsdatenzentrum, Deutsches Zentrum für Hochschul- und Wissenschaftsforschung",
-        "dzhwAltText":"Deutsches Zentrum für Hochschul- und Wissenschaftsforschung DZHW GmbH",
-        "bmbfAltText":"Gefördert vom BMBF",
-        "bmbfClass":"navbar-brand bmbf_logo_de",
-        "search":"Suche",
-        "menu": {
-            "home": "Startseite",
-            "entities": {
-                "main": "Entitäten",
-                "variable": "Variable",
-                "additionalEntity": "JHipster will add additional entities here (do not translate!)"
-            },
-            "search": {
-            "title": "Suche",
-            "variablesearch": "Variablensuche"
-            },
-            "account": {
-                "main": "Zugang",
-                "settings": "Einstellungen",
-                "password": "Passwort",
-                "sessions": "Sitzungen",
-                "login": "Anmelden",
-                "logout": "Abmelden",
-                "register": "Registrierung"
-            },
-            "admin": {
-                "main": "Administration",
-                "user-management": "Benutzerverwaltung",
-                "tracker": "Benutzer Aktivitäten",
-                "metrics": "Metriken",
-                "health": "Status",
-                "configuration": "Konfiguration",
-                "logs": "Protokoll",
-                "audits": "Audits",
-                "apidocs": "API",
-                "database": "Database"
-            },
-            "language": "Sprache",
-            "disclosure" : "Impressum"
-        },
-        "form": {
-            "username": "Benutzername",
-            "username.placeholder": "Ihr Benutzername",
-            "newpassword": "Neues Passwort",
-            "newpassword.placeholder": "Neues Passwort",
-            "confirmpassword": "Neues Passwort bestätigen",
-            "confirmpassword.placeholder": "Bestätigen Sie ihr neues Passwort",
-            "email": "E-Mail Adresse",
-            "email.placeholder": "Ihre E-Mail Adresse"
-        },
-        "messages": {
-            "info": {
-                "register": "Sie haben noch keinen Zugang? "
-            },
-            "error": {
-                "dontmatch": "Das bestätigte Passwort entspricht nicht dem neuen Passwort!"
-            },
-            "validate": {
-                "newpassword": {
-                    "required": "Ein neues Passwort wird benötigt.",
-                    "minlength": "Das neue Passwort muss mindestens 5 Zeichen lang sein",
-                    "maxlength": "Das neue Passwort darf nicht länger als 50 Zeichen sein",
-                    "strength": "Passwortstärke:"
-                },
-                "confirmpassword": {
-                    "required": "Sie müssen das Passwort bestätigen.",
-                    "minlength": "Das bestätigte Passwort muss mindestens 5 Zeichen lang sein",
-                    "maxlength": "Das bestätigte Passwort darf nicht länger als 50 Zeichen sein"
-                },
-                "email": {
-                    "required": "Ihre E-Mail Adresse wird benötigt.",
-                    "invalid": "Ihre E-Mail Adresse ist ungültig.",
-                    "minlength": "Ihre E-Mail Adresse muss mindestens 5 Zeichen lang sein",
-                    "maxlength": "Ihre E-Mail Adresse darf nicht länger als 50 Zeichen sein"
-                }
-            }
-        },
-        "field": {
-            "id" : "ID"
-        }
+  "global": {
+    "title": "metadatamanagement",
+    "browsehappy": "Sie benutzen einen <strong>veralteten</strong> Browser. Bitte <a href=\"http://browsehappy.com/?locale=de/\">aktualisieren Sie Ihren Browser</a>, um die Benutzerfreundlichkeit zu erhöhen.",
+    "fdzAltText": "Forschungsdatenzentrum, Deutsches Zentrum für Hochschul- und Wissenschaftsforschung",
+    "dzhwAltText": "Deutsches Zentrum für Hochschul- und Wissenschaftsforschung DZHW GmbH",
+    "bmbfAltText": "Gefördert vom BMBF",
+    "bmbfClass": "navbar-brand bmbf_logo_de",
+    "search": "Suche",
+    "menu": {
+      "home": "Startseite",
+      "entities": {
+        "main": "Entitäten",
+        "variable": "Variable",
+        "additionalEntity": "JHipster will add additional entities here (do not translate!)"
+      },
+      "search": {
+        "title": "Suche",
+        "variablesearch": "Variablensuche"
+      },
+      "account": {
+        "main": "Zugang",
+        "settings": "Einstellungen",
+        "password": "Passwort",
+        "sessions": "Sitzungen",
+        "login": "Anmelden",
+        "logout": "Abmelden",
+        "register": "Registrierung"
+      },
+      "admin": {
+        "main": "Administration",
+        "user-management": "Benutzerverwaltung",
+        "tracker": "Benutzer Aktivitäten",
+        "metrics": "Metriken",
+        "health": "Status",
+        "configuration": "Konfiguration",
+        "logs": "Protokoll",
+        "audits": "Audits",
+        "apidocs": "API",
+        "database": "Database"
+      },
+      "language": "Sprache",
+      "disclosure": "Impressum"
     },
-    "entity": {
-        "action": {
-            "addblob": "Add blob",
-            "addimage": "Add image",
-            "back": "Zurück",
-            "cancel": "Abbrechen",
-            "delete": "Löschen",
-            "edit": "Bearbeiten",
-            "save": "Speichern",
-            "view": "Details"
-        },
-        "detail": {
-            "field": "Feld",
-            "value": "Wert"
-        },
-        "delete": {
-            "title": "Löschen bestätigen"
-        },
-        "validation": {
-            "required": "Dieses Feld wird benötigt.",
-            "minlength": "Dieses Feld muss mind. {{min}} Zeichen lang sein.",
-            "maxlength": "Dieses Feld darf max. {{max}} Zeichen lang sein.",
-            "min": "Dieses Feld muss größer als {{min}} sein.",
-            "max": "Dieses Feld muss kleiner als {{max}} sein.",
-            "minbytes": "This field should be more than {{min}} bytes.",
-            "maxbytes": "This field cannot be more than {{max}} bytes.",
-            "pattern": "Dieses Feld muss das Muster {{pattern}} erfüllen.",
-            "number": "Dieses Feld muss eine Zahl sein.",
-            "datetimelocal": "Dieses Feld muss eine Datums- und Zeitangabe enthalten."
-        }
+    "form": {
+      "username": "Benutzername",
+      "username.placeholder": "Ihr Benutzername",
+      "newpassword": "Neues Passwort",
+      "newpassword.placeholder": "Neues Passwort",
+      "confirmpassword": "Neues Passwort bestätigen",
+      "confirmpassword.placeholder": "Bestätigen Sie ihr neues Passwort",
+      "email": "E-Mail Adresse",
+      "email.placeholder": "Ihre E-Mail Adresse"
     },
-    "footer": "Dies ist Ihre Fußzeile"
+    "messages": {
+      "info": {
+        "register": "Sie haben noch keinen Zugang? "
+      },
+      "error": {
+        "dontmatch": "Das bestätigte Passwort entspricht nicht dem neuen Passwort!"
+      },
+      "validate": {
+        "newpassword": {
+          "required": "Ein neues Passwort wird benötigt.",
+          "minlength": "Das neue Passwort muss mindestens 5 Zeichen lang sein",
+          "maxlength": "Das neue Passwort darf nicht länger als 50 Zeichen sein",
+          "strength": "Passwortstärke:"
+        },
+        "confirmpassword": {
+          "required": "Sie müssen das Passwort bestätigen.",
+          "minlength": "Das bestätigte Passwort muss mindestens 5 Zeichen lang sein",
+          "maxlength": "Das bestätigte Passwort darf nicht länger als 50 Zeichen sein"
+        },
+        "email": {
+          "required": "Ihre E-Mail Adresse wird benötigt.",
+          "invalid": "Ihre E-Mail Adresse ist ungültig.",
+          "minlength": "Ihre E-Mail Adresse muss mindestens 5 Zeichen lang sein",
+          "maxlength": "Ihre E-Mail Adresse darf nicht länger als 50 Zeichen sein"
+        }
+      }
+    },
+    "field": {
+      "id": "ID"
+    }
+  },
+  "entity": {
+    "action": {
+      "addblob": "Add blob",
+      "addimage": "Add image",
+      "back": "Zurück",
+      "cancel": "Abbrechen",
+      "delete": "Löschen",
+      "edit": "Bearbeiten",
+      "save": "Speichern",
+      "view": "Details"
+    },
+    "detail": {
+      "field": "Feld",
+      "value": "Wert"
+    },
+    "delete": {
+      "title": "Löschen bestätigen"
+    },
+    "validation": {
+      "required": "Dieses Feld wird benötigt.",
+      "minlength": "Dieses Feld muss mind. {{min}} Zeichen lang sein.",
+      "maxlength": "Dieses Feld darf max. {{max}} Zeichen lang sein.",
+      "min": "Dieses Feld muss größer als {{min}} sein.",
+      "max": "Dieses Feld muss kleiner als {{max}} sein.",
+      "minbytes": "This field should be more than {{min}} bytes.",
+      "maxbytes": "This field cannot be more than {{max}} bytes.",
+      "pattern": "Dieses Feld muss das Muster {{pattern}} erfüllen.",
+      "number": "Dieses Feld muss eine Zahl sein.",
+      "datetimelocal": "Dieses Feld muss eine Datums- und Zeitangabe enthalten."
+    }
+  },
+  "error": {
+    "serverNotReachable": "Der Server ist nicht erreichbar!",
+    "NotNull": "Das Feld {{fieldName}} darf nicht leer sein!",
+    "entity" : {
+    	"exists" : "Ein Datensatz vom Typ \"{{params[0]}}\" mit FDZ ID \"{{params[1]}}\" existiert bereits!",
+    	"notfound" : "Ein Datensatz vom Typ \"{{params[0]}}\" mit FDZ ID \"{{params[1]}}\" wurde nicht gefunden!"
+    }
+  },
+  "footer": "Dies ist Ihre Fußzeile"
 }

@@ -3,7 +3,6 @@ package eu.dzhw.fdz.metadatamanagement.web.rest;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.List;
-import java.util.Locale;
 import java.util.Optional;
 
 import javax.inject.Inject;
@@ -11,7 +10,6 @@ import javax.validation.Valid;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.context.MessageSource;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
@@ -28,8 +26,6 @@ import com.codahale.metrics.annotation.Timed;
 
 import eu.dzhw.fdz.metadatamanagement.domain.Variable;
 import eu.dzhw.fdz.metadatamanagement.service.VariableService;
-import eu.dzhw.fdz.metadatamanagement.service.exception.EntityExistsException;
-import eu.dzhw.fdz.metadatamanagement.service.exception.EntityNotFoundException;
 import eu.dzhw.fdz.metadatamanagement.web.rest.util.HeaderUtil;
 import eu.dzhw.fdz.metadatamanagement.web.rest.util.PaginationUtil;
 
@@ -45,31 +41,21 @@ public class VariableResource {
   @Inject
   private VariableService variableService;
 
-  @Inject
-  private MessageSource messageSource;
-
   /**
    * POST /variables -> Create a new variable.
    */
   @RequestMapping(value = "/variables", method = RequestMethod.POST,
       produces = MediaType.APPLICATION_JSON_VALUE)
   @Timed
-  public ResponseEntity<Variable> createVariable(@Valid @RequestBody Variable variable,
-      Locale locale) throws URISyntaxException {
+  public ResponseEntity<?> createVariable(@Valid @RequestBody Variable variable)
+      throws URISyntaxException {
     log.debug("REST request to save Variable : {}", variable);
 
-    Variable result;
-    try {
-      result = variableService.createVariable(variable);
-    } catch (EntityExistsException e) {
-      log.warn("Unable to create variable: " + e.getMessage());
-      return ResponseEntity.badRequest()
-          .header("Failure",
-              messageSource.getMessage("variable.exists", new Object[] {variable.getId()}, locale))
-          .body(null);
-    }
+    Variable result = variableService.createVariable(variable);
+
     return ResponseEntity.created(new URI("/api/variables/" + result.getId()))
-        .headers(HeaderUtil.createEntityCreationAlert("variable", result.getId())).body(result);
+      .headers(HeaderUtil.createEntityCreationAlert("variable", result.getId()))
+      .body(result);
   }
 
   /**
@@ -78,20 +64,15 @@ public class VariableResource {
   @RequestMapping(value = "/variables", method = RequestMethod.PUT,
       produces = MediaType.APPLICATION_JSON_VALUE)
   @Timed
-  public ResponseEntity<Variable> updateVariable(@Valid @RequestBody Variable variable,
-      Locale locale) throws URISyntaxException {
+  public ResponseEntity<Variable> updateVariable(@Valid @RequestBody Variable variable)
+      throws URISyntaxException {
     log.debug("REST request to update Variable : {}", variable);
-    Variable result;
-    try {
-      result = variableService.updateVariable(variable);
-    } catch (EntityNotFoundException e) {
-      log.warn("Unable to update variable: " + e.getMessage());
-      return ResponseEntity.badRequest().header("Failure",
-          messageSource.getMessage("variable.notfound", new Object[] {variable.getId()}, locale))
-          .body(null);
-    }
+
+    Variable result = variableService.updateVariable(variable);
+
     return ResponseEntity.ok()
-        .headers(HeaderUtil.createEntityUpdateAlert("variable", variable.getId())).body(result);
+      .headers(HeaderUtil.createEntityUpdateAlert("variable", variable.getId()))
+      .body(result);
   }
 
   /**
@@ -116,8 +97,8 @@ public class VariableResource {
   public ResponseEntity<Variable> getVariable(@PathVariable String id) {
     log.debug("REST request to get Variable : {}", id);
     return Optional.ofNullable(variableService.getVariable(id))
-        .map(variable -> new ResponseEntity<>(variable, HttpStatus.OK))
-        .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
+      .map(variable -> new ResponseEntity<>(variable, HttpStatus.OK))
+      .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
   }
 
   /**
@@ -129,7 +110,8 @@ public class VariableResource {
   public ResponseEntity<Void> deleteVariable(@PathVariable String id) {
     log.debug("REST request to delete Variable : {}", id);
     variableService.deleteVariable(id);
-    return ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert("variable", id))
-        .build();
+    return ResponseEntity.ok()
+      .headers(HeaderUtil.createEntityDeletionAlert("variable", id))
+      .build();
   }
 }

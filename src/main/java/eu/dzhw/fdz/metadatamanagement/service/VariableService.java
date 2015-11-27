@@ -42,7 +42,7 @@ public class VariableService {
    * @return The created variable.
    * @throws EntityExistsException if there is already a variable with the given id
    */
-  public Variable createVariable(Variable variable) throws EntityExistsException {
+  public Variable createVariable(Variable variable) {
     try {
       variable = variableRepository.insert(variable);
     } catch (DuplicateKeyException e) {
@@ -66,7 +66,7 @@ public class VariableService {
    * @return The updated variable.
    * @throws EntityNotFoundException if there is no variable with the given id
    */
-  public Variable updateVariable(Variable variable) throws EntityNotFoundException {
+  public Variable updateVariable(Variable variable) {
     if (!variableRepository.exists(variable.getId())) {
       throw new EntityNotFoundException(Variable.class, variable.getId());
     }
