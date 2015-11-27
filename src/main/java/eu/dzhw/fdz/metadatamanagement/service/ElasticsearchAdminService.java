@@ -51,6 +51,7 @@ public class ElasticsearchAdminService {
   private void recreateIndex(String index) {
     if (elasticsearchAdminDao.exists(index)) {
       elasticsearchAdminDao.delete(index);
+      elasticsearchAdminDao.refresh(index);
     }
     elasticsearchAdminDao.createIndex(index, loadSettings(index));
     for (String type : TYPES) {

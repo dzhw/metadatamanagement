@@ -9,12 +9,14 @@ import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.codahale.metrics.annotation.Timed;
 
+import eu.dzhw.fdz.metadatamanagement.security.AuthoritiesConstants;
 import eu.dzhw.fdz.metadatamanagement.service.ElasticsearchAdminService;
 
 /**
@@ -22,6 +24,7 @@ import eu.dzhw.fdz.metadatamanagement.service.ElasticsearchAdminService;
  */
 @RestController
 @RequestMapping("/api/admin")
+@Secured(AuthoritiesConstants.ADMIN)
 public class AdminResource {
   
   private final Logger log = LoggerFactory.getLogger(AdminResource.class);
