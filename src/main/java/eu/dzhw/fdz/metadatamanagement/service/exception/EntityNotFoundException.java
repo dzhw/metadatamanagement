@@ -1,15 +1,16 @@
 package eu.dzhw.fdz.metadatamanagement.service.exception;
 
+import eu.dzhw.fdz.metadatamanagement.web.rest.errors.CustomParameterizedException;
+import eu.dzhw.fdz.metadatamanagement.web.rest.errors.ErrorConstants;
+
 /**
  * This exception is thrown when for instance an entity needs to be updated but is not found.
  * 
  * @author René Reitmann
  */
-public class EntityNotFoundException extends RuntimeException {
+public class EntityNotFoundException extends CustomParameterizedException {
 
   private static final long serialVersionUID = -1608161733326109527L;
-  private Class<?> entityClass;
-  private String entityId;
 
   /**
    * Create the exception with the enities type and its id.
@@ -17,24 +18,6 @@ public class EntityNotFoundException extends RuntimeException {
    * @param entityId The id of the entity which was not found.
    */
   public EntityNotFoundException(Class<?> entityClass, String entityId) {
-    super("Entity of type " + entityClass.getSimpleName() + " with ID=" + entityId + " not found!");
-    this.entityClass = entityClass;
-    this.entityId = entityId;
-  }
-
-  public Class<?> getEntityClass() {
-    return entityClass;
-  }
-
-  public void setEntityClass(Class<?> entityClass) {
-    this.entityClass = entityClass;
-  }
-
-  public String getEntityId() {
-    return entityId;
-  }
-
-  public void setEntityId(String entityId) {
-    this.entityId = entityId;
+    super(ErrorConstants.ERR_ENTITY_NOT_FOUND,entityClass.getSimpleName(),entityId);
   }
 }

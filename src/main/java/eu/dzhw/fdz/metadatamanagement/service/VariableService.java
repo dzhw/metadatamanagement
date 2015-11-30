@@ -46,7 +46,7 @@ public class VariableService {
     try {
       variable = variableRepository.insert(variable);
     } catch (DuplicateKeyException e) {
-      throw new EntityExistsException(Variable.class, variable.getId(), e);
+      throw new EntityExistsException(Variable.class, variable.getId());
     }
     updateSearchIndices(variable);
     return variable;
