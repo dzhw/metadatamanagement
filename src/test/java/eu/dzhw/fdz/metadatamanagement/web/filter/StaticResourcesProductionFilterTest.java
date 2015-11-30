@@ -22,8 +22,9 @@ import org.junit.Test;
 import org.mockito.Mockito;
 
 /**
- * @author Daniel Katzberg 
  * No Integration Test. No need for application Context.
+ * 
+ * @author Daniel Katzberg
  */
 public class StaticResourcesProductionFilterTest {
 

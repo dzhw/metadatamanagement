@@ -19,6 +19,7 @@ import eu.dzhw.fdz.metadatamanagement.domain.Authority;
 import eu.dzhw.fdz.metadatamanagement.domain.User;
 import eu.dzhw.fdz.metadatamanagement.domain.builders.UserBuilder;
 import eu.dzhw.fdz.metadatamanagement.security.AuthoritiesConstants;
+import eu.dzhw.fdz.metadatamanagement.security.CustomUserDetails;
 
 /**
  * This class has helper / utils methods for unit tests.
@@ -68,12 +69,30 @@ public class UnitTestUtils<T> {
   }
 
   /**
-   * This helper methods
+   * This helper methods log a account into the application by username and password
    * 
    * @param login
    * @param password
    */
   public static void login(String login, String password) {
+    //Empty Context (no user is logged)
+    SecurityContext securityContextEmpty = SecurityContextHolder.createEmptyContext();
+    
+    //Login (!)
+    securityContextEmpty
+      .setAuthentication(new UsernamePasswordAuthenticationToken(login, password));
+    
+    //Set Context with logged user.
+    SecurityContextHolder.setContext(securityContextEmpty);
+  }
+  
+  /**
+   * This helper methods log a account into the application by customuserdetails and password
+   * 
+   * @param login
+   * @param password
+   */
+  public static void login(CustomUserDetails login, String password) {
     //Empty Context (no user is logged)
     SecurityContext securityContextEmpty = SecurityContextHolder.createEmptyContext();
     
