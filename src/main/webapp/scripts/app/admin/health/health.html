@@ -1,4 +1,5 @@
 <div>
+    <jh-alert-error></jh-alert-error>
 
     <h2 translate="health.title">Health Checks</h2>
 
@@ -10,15 +11,19 @@
     <table id="healthCheck" class="table table-striped">
         <thead>
             <tr>
-                <th class="col-md-7" translate="health.table.service">Service Name</th>
+                <th class="col-md-6" translate="health.table.service">Service Name</th>
+                <th class="col-md-2 text-center" translate="health.table.action">Action</th>
                 <th class="col-md-2 text-center" translate="health.table.status">Status</th>
                 <th class="col-md-2 text-center" translate="health.details.details">Details</th>
-                
+
             </tr>
         </thead>
         <tbody>
             <tr ng-repeat="health in healthData">
                 <td>{{'health.indicator.' + baseName(health.name) | translate}} {{subSystemName(health.name)}}</td>
+                <td class="text-center">
+                  <button ng-show="health.name==='elasticsearch'" type="button" class="btn btn-danger btn-xs" ng-click="recreateAllElasticsearchIndices()" translate="health.elasticsearch.reindex">Reindex</button>
+                </td>
                 <td class="text-center">
                     <span class="label" ng-class="getLabelClass(health.status)">
                         {{'health.status.' + health.status | translate}}

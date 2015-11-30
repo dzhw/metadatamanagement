@@ -1,28 +1,32 @@
 {
-    "health": {
-        "title": "Verfügbarkeit der Services",
-        "refresh.button": "Aktualisieren",
-        "stacktrace": "Stacktrace",
-        "details": {
-            "details": "Details",
-            "properties": "Eigenschaften",
-            "name": "Name",
-            "value": "Wert",
-            "error": "Fehler"
-        },
-        "indicator": {
-            "diskSpace": "Festplattenplatz",
-            "mail": "Email",
-            "mongo": "MongoDB",
-            "elasticsearch": "ElasticSearch"
-        },
-        "table": {
-            "service": "Servicename",
-            "status": "Status"
-        },
-        "status": {
-            "UP": "UP",
-            "DOWN": "DOWN"
-        }
+  "health": {
+    "title": "Verfügbarkeit der Services",
+    "refresh.button": "Aktualisieren",
+    "stacktrace": "Stacktrace",
+    "details": {
+      "details": "Details",
+      "properties": "Eigenschaften",
+      "name": "Name",
+      "value": "Wert",
+      "error": "Fehler"
+    },
+    "indicator": {
+      "diskSpace": "Festplattenplatz",
+      "mail": "Email",
+      "mongo": "MongoDB",
+      "elasticsearch": "ElasticSearch"
+    },
+    "table": {
+      "service": "Servicename",
+      "status": "Status",
+      "action": "Aktion"
+    },
+    "status": {
+      "UP": "UP",
+      "DOWN": "DOWN"
+    },
+    "elasticsearch": {
+      "reindex": "Reindizieren"
     }
+  }
 }

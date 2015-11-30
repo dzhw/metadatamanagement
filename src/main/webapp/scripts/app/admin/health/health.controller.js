@@ -2,7 +2,7 @@
 
 angular.module('metadatamanagementApp').controller(
     'HealthController',
-    function($scope, MonitoringService, $modal) {
+    function($scope, MonitoringService, $modal, AdminService) {
       $scope.updatingHealth = true;
       $scope.separator = '.';
 
@@ -15,6 +15,10 @@ angular.module('metadatamanagementApp').controller(
           $scope.healthData = $scope.transformHealthData(response.data);
           $scope.updatingHealth = false;
         });
+      };
+
+      $scope.recreateAllElasticsearchIndices = function() {
+        AdminService.recreateAllElasticsearchIndices();
       };
 
       $scope.refresh();
