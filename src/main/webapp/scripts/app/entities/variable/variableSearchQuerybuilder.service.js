@@ -33,7 +33,7 @@ angular.module('metadatamanagementApp').service('VariableSearchQuerybuilder',
                 }
               },
               'from': page,
-              'size': 3
+              'size': 10
             }
           };
           if (!queryterm) {
