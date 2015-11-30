@@ -1,9 +1,7 @@
 'use strict';
 
 angular.module('metadatamanagementApp').controller('ActivationController',
-    function($scope, $stateParams, $location, $rootScope,
-      BookmarkableUrl, Auth) {
-      BookmarkableUrl.setUrlLanguage($location, $rootScope);
+    function($scope, $stateParams, Auth) {
       Auth.activateAccount({
         key: $stateParams.key
       }).then(function() {

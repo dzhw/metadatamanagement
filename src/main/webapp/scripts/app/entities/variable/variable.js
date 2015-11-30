@@ -5,7 +5,7 @@ angular.module('metadatamanagementApp')
     $stateProvider
       .state('variable', {
         parent: 'entity',
-        url: '/variables?{page,query}',
+        url: '/variables?{page, query}',
         data: {
           authorities: ['ROLE_USER'],
           pageTitle: 'metadatamanagementApp.variable.home.title'
@@ -28,7 +28,8 @@ angular.module('metadatamanagementApp')
               return $translate.refresh();
             }
           ]
-        }
+        },
+        reloadOnSearch: false,
       })
       .state('variable.detail', {
         parent: 'entity',

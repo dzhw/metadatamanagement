@@ -19,18 +19,13 @@ angular
         toStateParams) {
         $rootScope.toState = toState;
         $rootScope.toStateParams = toStateParams;
-        if (typeof(toStateParams.query) !== 'undefined') {
-          $rootScope.bookmarkableUrlQueryParameter = toStateParams.query;
-        }
-        if (typeof(toStateParams.page) !== 'undefined') {
-          $rootScope.bookmarkableUrlPageParameter = toStateParams.page;
-        }
         if (Principal.isIdentityResolved()) {
           Auth.authorize();
         }
         // Update the language
         Language.getCurrent().then(function(language) {
           $translate.use(language);
+          $rootScope.currentLanguage = language;
         });
       });
       $rootScope.$on('$stateChangeSuccess', function(event, toState,
@@ -59,7 +54,6 @@ angular
           // Change window title with translated one
           $window.document.title = title;
         });
-
       });
 
       $rootScope.back = function() {

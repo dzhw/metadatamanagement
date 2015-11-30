@@ -40,7 +40,7 @@ angular
               Principal.authenticate(null);
               // Reset state memory
               $rootScope.previousStateName = undefined;
-              $rootScope.previousStateNameParams = undefined;
+              $rootScope.previousStateParams = undefined;
             },
 
             authorize: function(force) {
@@ -72,10 +72,10 @@ angular
                             // they wanted before you
                             // send them to the signin state, so you can
                             // return them when you're done
-                            $rootScope.previousStateName = $rootScope.toState;
-                            $rootScope.previousStateNameParams =
-                             $rootScope.toStateParams;
-
+                            $rootScope.previousStateName =
+                              $rootScope.toState.name;
+                            $rootScope.previousStateParams =
+                              $rootScope.toStateParams;
                             // now, send them to the signin state so they
                             // can log in
                             $state.go('login');

@@ -1,4 +1,4 @@
-<div class="container" ng-init="initsearch()">
+<div class="container" ng-init="initSearch()">
 	 <h2 translate="metadatamanagementApp.variable.home.title">Variables</h2>
     <jh-alert></jh-alert>
     <div class="container">
@@ -37,7 +37,7 @@
     <div class="row">
 	<div class="panel panel-primary">
 		<div class="panel-body">
-			<form ng-submit="search()" method='get'>
+			<form ng-submit="search(0)" method='get'>
 				<div class="input-group">
 					<label class="sr-only" for="query" >{{}}
 						</label><input type="text" ng-model="query"
@@ -66,25 +66,25 @@
 				</br>
 				<button type="submit"
                                 ui-sref="variable.detail({id:result._source.id})"
-                                class="btn btn-info btn-sm" ng-disabled="{{isDisabled}}">
+                                class="btn btn-info btn-sm" ng-disabled="{{allButtonsDisabled}}">
                             <span class="glyphicon glyphicon-eye-open"></span>&nbsp;<span translate="entity.action.view"> View</span>
                         </button>
                         <button type="submit"
                                 ui-sref="variable.edit({id:result._source.id})"
-                                class="btn btn-primary btn-sm" ng-disabled="{{isDisabled}}">
+                                class="btn btn-primary btn-sm" ng-disabled="{{allButtonsDisabled}}">
                             <span class="glyphicon glyphicon-pencil"></span>&nbsp;<span translate="entity.action.edit"> Edit</span>
                         </button>
                         <button type="submit"
                                 ng-click="delete(result._source.id)"
-                                class="btn btn-danger btn-sm"ng-disabled="{{isDisabled}}">
+                                class="btn btn-danger btn-sm" ng-disabled="{{allButtonsDisabled}}">
                             <span class="glyphicon glyphicon-remove-circle"></span>&nbsp;<span translate="entity.action.delete"> Delete</span>
                         </button>
 			</li>
 		</ul>
 	</div>
 	<ul class = "pager">
-   <li class = "{{IsPreviousStateEnable}} previous" ng-click="!IsPreviousClickEnable || loadPage(page - 1)"><a>&larr; {{'pagination.previous'|translate}}</a></li>
-   <li class = "{{IsNextStateEnable}} next" ng-click="!IsNextClickEnable || loadPage(page + 1)"><a>{{'pagination.next'|translate}} &rarr;</a></li>
+   <li class = "{{IsPreviousEnabled?'':'disabled'}} previous" ng-click="!IsPreviousEnabled || search(page - 1)"><a>&larr; {{'pagination.previous'|translate}}</a></li>
+   <li class = "{{IsNextEnabled?'':'disabled'}} next" ng-click="!IsNextEnabled || search(page + 1)"><a>{{'pagination.next'|translate}} &rarr;</a></li>
 </ul>
 	</div>
 </div>

@@ -2,8 +2,9 @@
 
 angular.module('metadatamanagementApp').factory('BookmarkableUrl', function() {
   return {
-    changeLocation: function(langKey, location, rootscope) {
+    changeUrlLanguage: function(langKey, location, rootscope, translate) {
       var currentPath = location.path();
+      translate.use(langKey);
       if (langKey === 'en') {
         currentPath = currentPath.replace('/de/', '/en/');
       }
@@ -12,13 +13,6 @@ angular.module('metadatamanagementApp').factory('BookmarkableUrl', function() {
       }
       location.path(currentPath);
       rootscope.currentLanguage = langKey;
-    },
-    setUrlLanguage: function(location, rootScope) {
-      if (location.path().indexOf('/de/') >= 0) {
-        rootScope.currentLanguage = 'de';
-      } else {
-        rootScope.currentLanguage = 'en';
-      }
     }
   };
 });
