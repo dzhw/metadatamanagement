@@ -5,7 +5,7 @@ angular.module('metadatamanagementApp')
     .controller('VariableController', function($rootScope, $scope, $stateParams,
         Variable, $location, ElasticSearchClient,
         VariableSearchQuerybuilder) {
-      $scope.allButtonsDisabled = true;
+      $scope.allButtonsDisabled = false;
       $scope.initSearch = function() {
         if (typeof($location.search().page) !== 'undefined') {
           $scope.page = parseInt($location.search().page);
