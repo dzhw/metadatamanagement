@@ -10,6 +10,10 @@ import org.springframework.stereotype.Component;
 
 import com.google.gson.JsonObject;
 
+import eu.dzhw.fdz.metadatamanagement.search.exception.ElasticsearchIndexCreateException;
+import eu.dzhw.fdz.metadatamanagement.search.exception.ElasticsearchIndexDeleteException;
+import eu.dzhw.fdz.metadatamanagement.search.exception.ElasticsearchIoException;
+import eu.dzhw.fdz.metadatamanagement.search.exception.ElasticsearchPutMappingException;
 import io.searchbox.action.Action;
 import io.searchbox.client.JestClient;
 import io.searchbox.client.JestResult;
@@ -43,7 +47,7 @@ public class ElasticsearchAdminDao {
   public void createIndex(String index, JsonObject settings) {
     JestResult result = execute(new CreateIndex.Builder(index).settings(settings).build());
     if (!result.isSucceeded()) {
-      log.debug("Unable to create index: " + result.getErrorMessage());
+      throw new ElasticsearchIndexCreateException(index, result.getErrorMessage());
     }
   }
 
@@ -56,7 +60,7 @@ public class ElasticsearchAdminDao {
   public JsonObject getSettings(String index) {
     JestResult result = execute(new GetSettings.Builder().addIndex(index).build());
     if (!result.isSucceeded()) {
-      log.debug("Unable to get setting for index " + index + ": " + result.getErrorMessage());
+      log.warn("Unable to get setting for index " + index + ": " + result.getErrorMessage());
     }
     return result.getJsonObject().getAsJsonObject(index).getAsJsonObject("settings");
   }
@@ -71,7 +75,7 @@ public class ElasticsearchAdminDao {
   public void putMapping(String index, String type, JsonObject mapping) {
     JestResult result = execute(new PutMapping.Builder(index, type, mapping).build());
     if (!result.isSucceeded()) {
-      log.debug("Unable to put mapping: " + result.getErrorMessage());
+      throw new ElasticsearchPutMappingException(index, type, result.getErrorMessage());
     }
   }
 
@@ -85,7 +89,7 @@ public class ElasticsearchAdminDao {
   public JsonObject getMapping(String index, String type) {
     JestResult result = execute(new GetMapping.Builder().addIndex(index).addType(type).build());
     if (!result.isSucceeded()) {
-      log.debug("Unable to get mapping for index " + index + " and type " + type + ": "
+      log.warn("Unable to get mapping for index " + index + " and type " + type + ": "
           + result.getErrorMessage());
     }
     return result.getJsonObject().getAsJsonObject(index).getAsJsonObject("mappings");
@@ -108,7 +112,7 @@ public class ElasticsearchAdminDao {
   public void refresh(String index) {
     JestResult result = execute(new Refresh.Builder().addIndex(index).build());
     if (!result.isSucceeded()) {
-      log.debug("Unable to refresh index " + index + ": " + result.getErrorMessage());
+      log.warn("Unable to refresh index " + index + ": " + result.getErrorMessage());
     }
   }
 
@@ -120,7 +124,7 @@ public class ElasticsearchAdminDao {
   public void delete(String index) {
     JestResult result = execute(new DeleteIndex.Builder(index).build());
     if (!result.isSucceeded()) {
-      log.debug("Unable to delete index " + index + ":" + result.getErrorMessage());
+      throw new ElasticsearchIndexDeleteException(index, result.getErrorMessage());
     }
   }
 
@@ -128,7 +132,7 @@ public class ElasticsearchAdminDao {
     try {
       return jestClient.execute(action);
     } catch (IOException e) {
-      throw new RuntimeException(e);
+      throw new ElasticsearchIoException(e);
     }
   }
 }

@@ -13,6 +13,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 import eu.dzhw.fdz.metadatamanagement.search.document.VariableSearchDocument;
+import eu.dzhw.fdz.metadatamanagement.search.exception.ElasticsearchDocumentDeleteException;
+import eu.dzhw.fdz.metadatamanagement.search.exception.ElasticsearchDocumentSaveException;
+import eu.dzhw.fdz.metadatamanagement.search.exception.ElasticsearchIoException;
 import io.searchbox.action.Action;
 import io.searchbox.client.JestClient;
 import io.searchbox.client.JestResult;
@@ -44,10 +47,12 @@ public class VariableSearchDao {
    * @param index the name of the index
    */
   public void save(VariableSearchDocument variableSearchDocument, String index) {
-    JestResult result =
-        execute(new Index.Builder(variableSearchDocument).index(index).type(TYPE).build());
+    JestResult result = execute(new Index.Builder(variableSearchDocument).index(index)
+        .type(TYPE)
+        .build());
     if (!result.isSucceeded()) {
-      log.debug("Unable to save variable: " + result.getErrorMessage());
+      throw new ElasticsearchDocumentSaveException(index, TYPE, variableSearchDocument.getId(),
+          result.getErrorMessage());
     }
   }
 
@@ -62,14 +67,15 @@ public class VariableSearchDao {
       return;
     }
 
-    Bulk.Builder builder = new Bulk.Builder().defaultIndex(index).defaultType(TYPE);
+    Bulk.Builder builder = new Bulk.Builder().defaultIndex(index)
+        .defaultType(TYPE);
     for (VariableSearchDocument variableSearchDocument : variableSearchDocuments) {
       builder.addAction(new Index.Builder(variableSearchDocument).build());
     }
     Bulk bulk = builder.build();
     JestResult result = execute(bulk);
     if (!result.isSucceeded()) {
-      log.debug("Unable to bulk save variables: " + result.getErrorMessage());
+      throw new ElasticsearchDocumentSaveException(index, TYPE, result.getErrorMessage());
     }
   }
 
@@ -82,11 +88,12 @@ public class VariableSearchDao {
   public List<VariableSearchDocument> findAll(String index) {
     SearchSourceBuilder queryBuilder = new SearchSourceBuilder();
     queryBuilder.query(QueryBuilders.matchAllQuery());
-    Search search =
-        new Search.Builder(queryBuilder.toString()).addIndex(index).addType(TYPE).build();
+    Search search = new Search.Builder(queryBuilder.toString()).addIndex(index)
+        .addType(TYPE)
+        .build();
     SearchResult result = (SearchResult) execute(search);
     if (!result.isSucceeded()) {
-      log.debug("Unable to load variable search documents from index " + index + ": "
+      log.warn("Unable to load variable search documents from index " + index + ": "
           + result.getErrorMessage());
       return new ArrayList<>();
     }
@@ -102,10 +109,11 @@ public class VariableSearchDao {
    * @param id the id of the document to delete
    */
   public void delete(String id, String index) {
-    JestResult result = execute(new Delete.Builder(id).index(index).type(TYPE).build());
+    JestResult result = execute(new Delete.Builder(id).index(index)
+        .type(TYPE)
+        .build());
     if (!result.isSucceeded()) {
-      log.debug("Unable to delete variable with ID " + id + " from index " + index + ": "
-          + result.getErrorMessage());
+      throw new ElasticsearchDocumentDeleteException(index, TYPE, id, result.getErrorMessage());
     }
   }
 
@@ -113,7 +121,7 @@ public class VariableSearchDao {
     try {
       return jestClient.execute(action);
     } catch (IOException e) {
-      throw new RuntimeException(e);
+      throw new ElasticsearchIoException(e);
     }
   }
 }
