@@ -3,17 +3,22 @@
  */
 package eu.dzhw.fdz.metadatamanagement.util;
 
+import java.lang.reflect.Field;
 import java.util.HashSet;
 import java.util.Set;
 
+import javax.inject.Inject;
 import javax.validation.ConstraintViolation;
 import javax.validation.Validator;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import eu.dzhw.fdz.metadatamanagement.domain.Authority;
 import eu.dzhw.fdz.metadatamanagement.domain.User;
@@ -103,5 +108,23 @@ public class UnitTestUtils<T> {
     //Set Context with logged user.
     SecurityContextHolder.setContext(securityContextEmpty);
   }
+  
+  /**
+   * This method clones a object.
+   * @param object
+   * @return
+   */
+  public static Object cloneObject(Object object){
+    try{
+        Object clonedObject = object.getClass().newInstance();
+        for (Field field : object.getClass().getDeclaredFields()) {
+            field.setAccessible(true);
+            field.set(clonedObject, field.get(object));
+        }
+        return clonedObject;
+    }catch(Exception e){
+        return null;
+    }
+}
 
 }

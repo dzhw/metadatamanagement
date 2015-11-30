@@ -3,15 +3,12 @@ package eu.dzhw.fdz.metadatamanagement.search;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.junit.Assert.assertThat;
 
-import java.io.File;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
 
 import javax.inject.Inject;
 
-import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.core.io.ResourceLoader;
