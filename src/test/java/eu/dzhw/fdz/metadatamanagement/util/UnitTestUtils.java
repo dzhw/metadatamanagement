@@ -7,18 +7,14 @@ import java.lang.reflect.Field;
 import java.util.HashSet;
 import java.util.Set;
 
-import javax.inject.Inject;
 import javax.validation.ConstraintViolation;
 import javax.validation.Validator;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 
 import eu.dzhw.fdz.metadatamanagement.domain.Authority;
 import eu.dzhw.fdz.metadatamanagement.domain.User;

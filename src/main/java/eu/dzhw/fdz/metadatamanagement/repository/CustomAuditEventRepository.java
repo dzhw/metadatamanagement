@@ -46,7 +46,7 @@ public class CustomAuditEventRepository {
                     persistentAuditEvents = persistenceAuditEventRepository.findByPrincipal(principal);
                 } else {
                     persistentAuditEvents =
-                        persistenceAuditEventRepository.findByPrincipalAndAuditEventDateAfter(principal, LocalDateTime.from(after.toInstant()));
+                        persistenceAuditEventRepository.findByPrincipalAndAuditEventDateAfter(principal, LocalDateTime.ofInstant(after.toInstant(), ZoneId.systemDefault()));
                 }
                 return auditEventConverter.convertToAuditEvent(persistentAuditEvents);
             }
