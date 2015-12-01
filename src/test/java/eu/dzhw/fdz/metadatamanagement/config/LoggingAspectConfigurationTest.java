@@ -30,6 +30,9 @@ public class LoggingAspectConfigurationTest {
 
 	@Inject
 	private LoggingAspectConfiguration loggingAspectConfiguration;
+	
+	@Inject
+	private LoggingAspect loggingAspect;
 
 	@Test
 	public void testLoggingAspect() {
@@ -41,5 +44,6 @@ public class LoggingAspectConfigurationTest {
 		//Assert
 		assertThat(this.loggingAspectConfiguration, not(nullValue()));
 		assertThat(loggingAspect, not(nullValue()));
+		assertThat(this.loggingAspect, not(nullValue()));
 	}
 }

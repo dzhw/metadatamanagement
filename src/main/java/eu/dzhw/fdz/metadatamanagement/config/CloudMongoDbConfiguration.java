@@ -61,11 +61,11 @@ public class CloudMongoDbConfiguration extends AbstractMongoConfiguration  {
 
     @Override
     protected String getDatabaseName() {
-        return mongoDbFactory.getDb().getName();
+        return this.mongoDbFactory.getDb().getName();
     }
 
     @Override
     public Mongo mongo() throws Exception {
-        return mongoDbFactory().getDb().getMongo();
+        return this.mongoDbFactory.getDb().getMongo();
     }
 }

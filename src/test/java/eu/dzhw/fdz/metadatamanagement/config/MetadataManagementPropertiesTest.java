@@ -28,10 +28,12 @@ public class MetadataManagementPropertiesTest {
 		//Act
 		ElasticsearchClient client = managementProperties.getElasticsearchClient();		
 		client.setUrl("http://localhost:1234");
+		client.setReadTimeout(1000);
 				
 		//Assert
 		assertThat(client, not(nullValue()));
 		assertThat(client.getUrl(), is("http://localhost:1234"));
+		assertThat(client.getReadTimeout(), is(1000));
 	}
 	
 	@Test

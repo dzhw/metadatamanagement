@@ -34,6 +34,7 @@ public class ElasticsearchClientConfiguration {
    * @return The configured {@link JestClient}
    * @throws Exception if the connection params cannot be resolved from the environment in the cloud
    */
+  @SuppressWarnings("rawtypes")
   @Bean
   public JestClient jestClient(Environment environment) throws Exception {
     String connectionUrl = metadataManagementProperties.getElasticsearchClient()
