@@ -29,7 +29,7 @@ angular.module('metadatamanagementApp')
             }
           ]
         },
-        reloadOnSearch: false,
+        reloadOnSearch: false
       })
       .state('variable.detail', {
         parent: 'entity',

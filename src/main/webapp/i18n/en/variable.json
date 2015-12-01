@@ -4,17 +4,19 @@
             "home": {
                 "title": "Variables",
                 "createLabel": "Create a new Variable",
-                "createOrEditLabel": "Create or edit a Variable"
+                "createOrEditLabel": "Create or edit a Variable",
+                "refresh":"Refresh"
             },
             "created": "A new Variable is created with identifier {{ param }}",
             "updated": "A Variable is updated with identifier {{ param }}",
             "deleted": "A Variable is deleted with identifier {{ param }}",
             "delete": {
-                "question": "Are you sure you want to delete Variable {{ id }}?"
+                "question": "Are you sure you want to delete Variable with the FDZ_ID: {{ id }}?"
             },
             "detail": {
                 "title": "Variable"
             },
+            "id": "FDZ_ID",
             "name": "Name",
             "dataType": "DataType",
             "scaleLevel": "ScaleLevel",

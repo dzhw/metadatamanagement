@@ -4,14 +4,16 @@
             "home": {
                 "title": "Variablen",
                 "createLabel": "Neue Variable erstellen",
-                "createOrEditLabel": "Erstelle oder editiere eine Variable"
+                "createOrEditLabel": "Erstelle oder editiere eine Variable",
+                "refresh":"Aktualisieren"
             },
             "delete": {
-                "question": "Sind Sie sicher dass, Sie die Variable {{ id }} löschen möchten?"
+                "question": "Sind Sie sicher dass, Sie die Variable mit FDZ_ID: {{ id }} löschen möchten?"
             },
             "detail": {
                 "title": "Variable"
             },
+            "id": "FDZ_ID",
             "name": "Name",
             "dataType": "Datentyp",
             "scaleLevel": "Skalenniveau",

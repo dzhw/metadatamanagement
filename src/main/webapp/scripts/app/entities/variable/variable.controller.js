@@ -2,8 +2,8 @@
 'use strict';
 
 angular.module('metadatamanagementApp')
-    .controller('VariableController', function($rootScope, $scope, $stateParams,
-        Variable, $location, ElasticSearchClient,
+    .controller('VariableController', function($rootScope, $scope,
+        Variable, $location, $filter, ElasticSearchClient,
         VariableSearchQuerybuilder) {
       $scope.allButtonsDisabled = false;
       $scope.initSearch = function() {
@@ -42,15 +42,17 @@ angular.module('metadatamanagementApp')
       $scope.delete = function(id) {
         Variable.get({id: id}, function(result) {
           $scope.variable = result;
+          var item = $filter('filter')($scope.searchResult, function(variable) {
+            return variable._id === id;})[0];
+          $scope.itemtoBeRemoved = $scope.searchResult.indexOf(item);
           $('#deleteVariableConfirmation').modal('show');
         });
       };
       $scope.confirmDelete = function(id) {
         Variable.delete({id: id},
               function() {
-                $scope.search();
+                $scope.searchResult.splice($scope.itemtoBeRemoved, 1);
                 $('#deleteVariableConfirmation').modal('hide');
-                $scope.clear();
               });
       };
     });
