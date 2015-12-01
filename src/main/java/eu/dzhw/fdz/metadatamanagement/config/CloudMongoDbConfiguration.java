@@ -37,7 +37,7 @@ public class CloudMongoDbConfiguration extends AbstractMongoConfiguration  {
 
     @Inject
     private MongoDbFactory mongoDbFactory;
-
+    
     @Bean
     public ValidatingMongoEventListener validatingMongoEventListener() {
         return new ValidatingMongoEventListener(validator());
@@ -68,6 +68,10 @@ public class CloudMongoDbConfiguration extends AbstractMongoConfiguration  {
 
     @Override
     public Mongo mongo() throws Exception {
-        return this.mongoDbFactory.getDb().getMongo();
+      if(this.mongoDbFactory == null) {
+        return this.mongoDbFactory().getDb().getMongo();
+      }
+      
+      return this.mongoDbFactory.getDb().getMongo();
     }
 }
