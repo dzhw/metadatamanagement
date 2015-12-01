@@ -27,6 +27,11 @@ angular.module('metadatamanagementApp')
         var template = Handlebars.compile(content);
         // put all required json objects in the context
         var context = {variable: $scope.variable};
+        // TODO remove test anwerOptions
+        context.variable.answerOptions = [
+          {code: 0, label: 'testlabel', isMissing: false},
+          {code: 1, label: 'testlabel', isMissing: true}
+        ];
         // fill the template with the context variables
         content = template(context);
         zip.file('content.xml', content);
