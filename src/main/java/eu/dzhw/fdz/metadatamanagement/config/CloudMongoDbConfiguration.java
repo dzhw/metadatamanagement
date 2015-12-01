@@ -7,7 +7,7 @@ import javax.inject.Inject;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.DependsOn;
+import org.springframework.context.annotation.Import;
 import org.springframework.context.annotation.Profile;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.data.mongodb.MongoDbFactory;
@@ -30,7 +30,7 @@ import eu.dzhw.fdz.metadatamanagement.domain.util.JSR310DateConverters.ZonedDate
 @Configuration
 @EnableMongoRepositories("eu.dzhw.fdz.metadatamanagement.repository")
 @Profile(Constants.SPRING_PROFILE_CLOUD)
-@DependsOn("cloudDatabaseConfiguration")
+@Import(CloudDatabaseConfiguration.class)
 public class CloudMongoDbConfiguration extends AbstractMongoConfiguration  {
 
 //    private final Logger log = LoggerFactory.getLogger(CloudDatabaseConfiguration.class);
