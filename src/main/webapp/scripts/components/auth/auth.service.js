@@ -14,11 +14,13 @@ angular
 
               AuthServerProvider.login(credentials).then(function(data) {
                 // retrieve the logged account information
-                Principal.identity(true).then(function(account) {
+                //Principal.identity(true).then(function(account) {
+                Principal.identity(true).then(function() {
                   // After the login the language will be changed to
                   // the language selected by the user during his
                   // registration
-                  $translate.use(account.langKey).then(function() {
+                  //$translate.use(account.langKey).then(function() {
+                  $translate.use($rootScope.currentLanguage).then(function() {
                     $translate.refresh();
                   });
                   Tracker.sendActivity();

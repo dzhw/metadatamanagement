@@ -10,6 +10,7 @@
             "delete": {
                 "question": "Sind Sie sicher dass, Sie die Variable mit FDZ_ID: {{ id }} löschen möchten?"
             },
+            "deleted": "Die Variable mit FDZ_ID: {{ id }} ist gelöscht worden",
             "detail": {
                 "title": "Variable"
             },

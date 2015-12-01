@@ -13,6 +13,7 @@
             "delete": {
                 "question": "Are you sure you want to delete Variable with the FDZ_ID: {{ id }}?"
             },
+            "deleted": "The Variable with the FDZ_ID: {{ id }} is removed",
             "detail": {
                 "title": "Variable"
             },
