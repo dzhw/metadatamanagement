@@ -7,13 +7,12 @@
                 "createOrEditLabel": "Create or edit a Variable",
                 "refresh":"Refresh"
             },
-            "created": "A new Variable is created with identifier {{ param }}",
-            "updated": "A Variable is updated with identifier {{ param }}",
-            "deleted": "A Variable is deleted with identifier {{ param }}",
+            "created": "A new Variable is created with FDZ ID {{ param }}",
+            "updated": "A Variable is updated with FDZ ID {{ param }}",
+            "deleted": "A Variable is deleted with FDZ ID {{ param }}",
             "delete": {
-                "question": "Are you sure you want to delete Variable with the FDZ_ID: {{ id }}?"
+                "question": "Are you sure you want to delete Variable with the FDZ ID {{ id }} ?"
             },
-            "deleted": "The Variable with the FDZ_ID: {{ id }} is removed",
             "detail": {
                 "title": "Variable"
             },
