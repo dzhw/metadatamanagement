@@ -12,43 +12,25 @@ angular.module('metadatamanagementApp').factory(
       // the compiled handlebars template
       var template;
 
-      var getTranslatedScaleLevel = function(scaleLevel) {
-        return $translate.instant(
-          'metadatamanagementApp.ScaleLevel.' + scaleLevel);
-      };
+      // TODO move registerHelper calls to global place
+      Handlebars.registerHelper('translate', function(prefix, value) {
+        return $translate.instant(prefix + '.' + value);
+      });
 
-      var getTranslatedDataType = function(dataType) {
-        return $translate.instant(
-          'metadatamanagementApp.DataType.' + dataType);
-      };
-
-      var getTranslatedIsMissing = function(isMissing) {
+      Handlebars.registerHelper('encodeMissing', function(isMissing) {
         if (isMissing) {
           return 'M';
+        } else {
+          return '';
         }
-        return '';
-      };
+      });
 
       var writeODT = function(variable) {
-        // enhance variable with i18n functions
-        variable.translatedScaleLevel = function() {
-          return getTranslatedScaleLevel(variable.scaleLevel);
-        };
-
-        variable.translatedDataType = function() {
-          return getTranslatedDataType(variable.dataType);
-        };
-
         // TODO remove test anwerOptions
         variable.answerOptions = [
           {code: 0, label: 'testlabel', isMissing: false},
           {code: 1, label: 'testlabel', isMissing: true}
         ];
-        variable.answerOptions.forEach(function(answerOption) {
-          answerOption.translatedIsMissing = function() {
-            return getTranslatedIsMissing(answerOption.isMissing);
-          };
-        });
 
         // put all required json objects in the context
         var context = {variable: variable};
