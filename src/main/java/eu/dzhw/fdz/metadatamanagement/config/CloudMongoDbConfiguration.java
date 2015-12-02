@@ -30,63 +30,73 @@ import eu.dzhw.fdz.metadatamanagement.domain.util.JSR310DateConverters.LocalDate
 import eu.dzhw.fdz.metadatamanagement.domain.util.JSR310DateConverters.LocalDateToDateConverter;
 import eu.dzhw.fdz.metadatamanagement.domain.util.JSR310DateConverters.ZonedDateTimeToDateConverter;
 
+/**
+ * This Configuration handles the cloud and mongodb instances.
+ * 
+ * @author Daniel Katzberg
+ *
+ */
 @Configuration
 @EnableMongoRepositories("eu.dzhw.fdz.metadatamanagement.repository")
 @Profile(Constants.SPRING_PROFILE_CLOUD)
 public class CloudMongoDbConfiguration extends AbstractMongoConfiguration {
 
-    private final Logger log = LoggerFactory.getLogger(CloudMongoDbConfiguration.class);
+  private final Logger log = LoggerFactory.getLogger(CloudMongoDbConfiguration.class);
 
-//    private MongoDbFactory mongoDbFactory;
-    
-    public CloudMongoDbConfiguration() {
-      
-    }
-    
-    @Bean
-    public ValidatingMongoEventListener validatingMongoEventListener() {
-        return new ValidatingMongoEventListener(validator());
-    }
+  private MongoDbFactory mongoDbFactory;
 
-    @Bean
-    public LocalValidatorFactoryBean validator() {
-        return new LocalValidatorFactoryBean();
-    }
-    
-    @Bean
-    public Cloud cloud() {
-      return new CloudFactory().getCloud();
-    }
-    
-    @Bean
-    @Override
-    public MongoDbFactory mongoDbFactory() {
-      
-      MongoDbFactory dbFactory = new CloudServiceConnectionFactory(this.cloud()).mongoDbFactory();
-      this.log.debug("Created MongoDBFactory: " + dbFactory);
-      return dbFactory;
+  @Bean
+  public ValidatingMongoEventListener validatingMongoEventListener() {
+    return new ValidatingMongoEventListener(validator());
+  }
+
+  @Bean
+  public LocalValidatorFactoryBean validator() {
+    return new LocalValidatorFactoryBean();
+  }
+
+  @Bean
+  public Cloud cloud() {
+    return new CloudFactory().getCloud();
+  }
+
+  @Bean
+  @Override
+  public MongoDbFactory mongoDbFactory() {
+
+    // create mongodbfactory only once
+    if (this.mongoDbFactory == null) {
+      this.mongoDbFactory = new CloudServiceConnectionFactory(this.cloud()).mongoDbFactory();
+      this.log.debug("Created MongoDBFactory: " + this.mongoDbFactory);
     }
 
-    @Bean
-    public CustomConversions customConversions() {
-        List<Converter<?, ?>> converterList = new ArrayList<>();
-        converterList.add(new OAuth2AuthenticationReadConverter());
-        converterList.add(DateToZonedDateTimeConverter.INSTANCE);
-        converterList.add(ZonedDateTimeToDateConverter.INSTANCE);
-        converterList.add(DateToLocalDateConverter.INSTANCE);
-        converterList.add(LocalDateToDateConverter.INSTANCE);
-        converterList.add(DateToLocalDateTimeConverter.INSTANCE);
-        converterList.add(LocalDateTimeToDateConverter.INSTANCE);
-        return new CustomConversions(converterList);
-    }
+    return this.mongoDbFactory;
+  }
 
-    @Override
-    protected String getDatabaseName() {
-        return this.mongoDbFactory().getDb().getName();
-    }
+  @Bean
+  public CustomConversions customConversions() {
+    List<Converter<?, ?>> converterList = new ArrayList<>();
+    converterList.add(new OAuth2AuthenticationReadConverter());
+    converterList.add(DateToZonedDateTimeConverter.INSTANCE);
+    converterList.add(ZonedDateTimeToDateConverter.INSTANCE);
+    converterList.add(DateToLocalDateConverter.INSTANCE);
+    converterList.add(LocalDateToDateConverter.INSTANCE);
+    converterList.add(DateToLocalDateTimeConverter.INSTANCE);
+    converterList.add(LocalDateTimeToDateConverter.INSTANCE);
+    return new CustomConversions(converterList);
+  }
 
-    @Override
-    public Mongo mongo() throws DataAccessException, Exception {      
-      return this.mongoDbFactory().getDb().getMongo();
-    }
+  @Override
+  protected String getDatabaseName() {
+    return this.mongoDbFactory()
+      .getDb()
+      .getName();
+  }
+
+  @Override
+  public Mongo mongo() throws DataAccessException, Exception {
+    return this.mongoDbFactory()
+      .getDb()
+      .getMongo();
+  }
 }
