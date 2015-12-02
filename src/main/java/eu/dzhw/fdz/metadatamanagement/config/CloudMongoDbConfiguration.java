@@ -3,13 +3,15 @@ package eu.dzhw.fdz.metadatamanagement.config;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.inject.Inject;
-
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 import org.springframework.context.annotation.Profile;
 import org.springframework.core.convert.converter.Converter;
+import org.springframework.dao.DataAccessException;
 import org.springframework.data.mongodb.MongoDbFactory;
 import org.springframework.data.mongodb.config.AbstractMongoConfiguration;
 import org.springframework.data.mongodb.core.convert.CustomConversions;
@@ -33,9 +35,9 @@ import eu.dzhw.fdz.metadatamanagement.domain.util.JSR310DateConverters.ZonedDate
 @Import(CloudDatabaseConfiguration.class)
 public class CloudMongoDbConfiguration extends AbstractMongoConfiguration  {
 
-//    private final Logger log = LoggerFactory.getLogger(CloudDatabaseConfiguration.class);
+    private final Logger log = LoggerFactory.getLogger(CloudMongoDbConfiguration.class);
 
-    @Inject
+    @Autowired
     private MongoDbFactory mongoDbFactory;
     
     @Bean
@@ -67,11 +69,8 @@ public class CloudMongoDbConfiguration extends AbstractMongoConfiguration  {
     }
 
     @Override
-    public Mongo mongo() throws Exception {
-      if(this.mongoDbFactory == null) {
-        return this.mongoDbFactory().getDb().getMongo();
-      }
-      
+    public Mongo mongo() throws DataAccessException, Exception {
+      this.log.info("CloudMongoDbConfiguration.mongo FINDME: Factory" + this.mongoDbFactory);
       return this.mongoDbFactory.getDb().getMongo();
     }
 }

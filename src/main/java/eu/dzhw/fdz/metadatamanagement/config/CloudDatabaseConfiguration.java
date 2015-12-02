@@ -16,6 +16,10 @@ public class CloudDatabaseConfiguration extends AbstractCloudConfig {
     @Bean
     public MongoDbFactory mongoDbFactory() {
         log.info("Configuring MongoDB datasource from a cloud provider");
-        return connectionFactory().mongoDbFactory();
+        MongoDbFactory dbFactory = connectionFactory().mongoDbFactory();
+        
+        this.log.info("CloudDatabaseConfiguration.mongoDbFactory FINDME: Factory" + dbFactory);
+        
+        return dbFactory;
     }
 }
