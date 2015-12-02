@@ -31,6 +31,7 @@ public class JSR310LocalDateDeserializer extends JsonDeserializer<LocalDate> {
             .toFormatter();
     }
 
+    @SuppressWarnings("incomplete-switch")
     @Override
     public LocalDate deserialize(JsonParser parser, DeserializationContext context) throws IOException {
         switch(parser.getCurrentToken()) {

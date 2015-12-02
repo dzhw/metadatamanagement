@@ -61,6 +61,7 @@ public class ElasticsearchAdminDao {
     JestResult result = execute(new GetSettings.Builder().addIndex(index).build());
     if (!result.isSucceeded()) {
       log.warn("Unable to get setting for index " + index + ": " + result.getErrorMessage());
+      return null;
     }
     return result.getJsonObject().getAsJsonObject(index).getAsJsonObject("settings");
   }
@@ -91,6 +92,7 @@ public class ElasticsearchAdminDao {
     if (!result.isSucceeded()) {
       log.warn("Unable to get mapping for index " + index + " and type " + type + ": "
           + result.getErrorMessage());
+      return null;
     }
     return result.getJsonObject().getAsJsonObject(index).getAsJsonObject("mappings");
   }
