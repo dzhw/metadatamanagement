@@ -3,9 +3,11 @@ package eu.dzhw.fdz.metadatamanagement.config;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.elasticsearch.common.inject.Inject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.cloud.Cloud;
+import org.springframework.cloud.CloudFactory;
+import org.springframework.cloud.config.java.CloudServiceConnectionFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
@@ -31,12 +33,15 @@ import eu.dzhw.fdz.metadatamanagement.domain.util.JSR310DateConverters.ZonedDate
 @Configuration
 @EnableMongoRepositories("eu.dzhw.fdz.metadatamanagement.repository")
 @Profile(Constants.SPRING_PROFILE_CLOUD)
-public class CloudMongoDbConfiguration extends AbstractMongoConfiguration  {
+public class CloudMongoDbConfiguration extends AbstractMongoConfiguration {
 
     private final Logger log = LoggerFactory.getLogger(CloudMongoDbConfiguration.class);
 
-    @Inject
-    private MongoDbFactory mongoDbFactory;
+//    private MongoDbFactory mongoDbFactory;
+    
+    public CloudMongoDbConfiguration() {
+      
+    }
     
     @Bean
     public ValidatingMongoEventListener validatingMongoEventListener() {
@@ -46,6 +51,20 @@ public class CloudMongoDbConfiguration extends AbstractMongoConfiguration  {
     @Bean
     public LocalValidatorFactoryBean validator() {
         return new LocalValidatorFactoryBean();
+    }
+    
+    @Bean
+    public Cloud cloud() {
+      return new CloudFactory().getCloud();
+    }
+    
+    @Bean
+    @Override
+    public MongoDbFactory mongoDbFactory() {
+      
+      MongoDbFactory dbFactory = new CloudServiceConnectionFactory(this.cloud()).mongoDbFactory();
+      this.log.debug("Created MongoDBFactory: " + dbFactory);
+      return dbFactory;
     }
 
     @Bean
@@ -63,21 +82,11 @@ public class CloudMongoDbConfiguration extends AbstractMongoConfiguration  {
 
     @Override
     protected String getDatabaseName() {
-        return this.mongoDbFactory.getDb().getName();
+        return this.mongoDbFactory().getDb().getName();
     }
 
     @Override
-    public Mongo mongo() throws DataAccessException, Exception {
-      this.log.info("CloudMongoDbConfiguration.mongo FINDME: Factory: " + this.mongoDbFactory);
-      
-      if(this.mongoDbFactory == null) {
-        
-        // TODO TEST WORKAROUND
-        CloudDatabaseConfiguration cloudDatabaseConfiguration = new CloudDatabaseConfiguration();
-        this.mongoDbFactory = cloudDatabaseConfiguration.mongoDbFactory();
-        this.log.info("CloudMongoDbConfiguration.mongo FINDME Try to install: Factory: " + this.mongoDbFactory);
-      }
-      
-      return this.mongoDbFactory.getDb().getMongo();
+    public Mongo mongo() throws DataAccessException, Exception {      
+      return this.mongoDbFactory().getDb().getMongo();
     }
 }
