@@ -19,6 +19,7 @@ import java.util.*;
 @ReadingConverter
 public class OAuth2AuthenticationReadConverter implements Converter<DBObject, OAuth2Authentication> {
 
+    @SuppressWarnings({"unchecked", "rawtypes"})
     @Override
     public OAuth2Authentication convert(DBObject source) {
         DBObject storedRequest = (DBObject)source.get("storedRequest");
@@ -34,6 +35,7 @@ public class OAuth2AuthenticationReadConverter implements Converter<DBObject, OA
         return new OAuth2Authentication(oAuth2Request,  userAuthentication );
     }
 
+    @SuppressWarnings("unchecked")
     private Object getPrincipalObject(Object principal) {
         if(principal instanceof DBObject) {
             DBObject principalDBObject = (DBObject)principal;

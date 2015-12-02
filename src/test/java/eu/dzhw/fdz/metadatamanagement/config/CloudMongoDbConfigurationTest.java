@@ -19,11 +19,11 @@ import org.springframework.test.context.support.AnnotationConfigContextLoader;;
  * @author Daniel Katzberg
  *
  */
-//TODO Added new Tests
+// TODO Added new Tests
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = {}, loader = AnnotationConfigContextLoader.class)
 public class CloudMongoDbConfigurationTest {
-  
+
   @Test
   public void testMongoDbConfiguration() {
     // Arrange
@@ -33,7 +33,6 @@ public class CloudMongoDbConfigurationTest {
     ValidatingMongoEventListener eventListener =
         cloudMongoDbConfiguration.validatingMongoEventListener();
     CustomConversions customConversions = cloudMongoDbConfiguration.customConversions();
-
 
     // Assert
     assertThat(eventListener, not(nullValue()));

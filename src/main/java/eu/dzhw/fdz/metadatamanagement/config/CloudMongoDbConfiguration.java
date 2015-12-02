@@ -45,6 +45,8 @@ public class CloudMongoDbConfiguration extends AbstractMongoConfiguration {
 
   private MongoDbFactory mongoDbFactory;
 
+  private Cloud cloud;
+
   @Bean
   public ValidatingMongoEventListener validatingMongoEventListener() {
     return new ValidatingMongoEventListener(validator());
@@ -57,7 +59,13 @@ public class CloudMongoDbConfiguration extends AbstractMongoConfiguration {
 
   @Bean
   public Cloud cloud() {
-    return new CloudFactory().getCloud();
+
+    // install only one cloud connector.
+    if (this.cloud == null) {
+      this.cloud = new CloudFactory().getCloud();
+    }
+
+    return this.cloud;
   }
 
   @Bean
@@ -86,6 +94,11 @@ public class CloudMongoDbConfiguration extends AbstractMongoConfiguration {
     return new CustomConversions(converterList);
   }
 
+  /*
+   * (non-Javadoc)
+   * 
+   * @see org.springframework.data.mongodb.config.AbstractMongoConfiguration#getDatabaseName()
+   */
   @Override
   protected String getDatabaseName() {
     return this.mongoDbFactory()
@@ -93,6 +106,11 @@ public class CloudMongoDbConfiguration extends AbstractMongoConfiguration {
       .getName();
   }
 
+  /*
+   * (non-Javadoc)
+   * 
+   * @see org.springframework.data.mongodb.config.AbstractMongoConfiguration#mongo()
+   */
   @Override
   public Mongo mongo() throws DataAccessException, Exception {
     return this.mongoDbFactory()

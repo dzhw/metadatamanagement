@@ -51,8 +51,13 @@ public class VariableSearchDao {
         .type(TYPE)
         .build());
     if (!result.isSucceeded()) {
-      throw new ElasticsearchDocumentSaveException(index, TYPE, variableSearchDocument.getId(),
-          result.getErrorMessage());
+
+      String id = "null";
+      if (variableSearchDocument != null) {
+        id = variableSearchDocument.getId();
+      }
+
+      throw new ElasticsearchDocumentSaveException(index, TYPE, id, result.getErrorMessage());
     }
   }
 
@@ -85,6 +90,7 @@ public class VariableSearchDao {
    * @param index The index to query
    * @return A List of ALL variables
    */
+  @SuppressWarnings("deprecation")
   public List<VariableSearchDocument> findAll(String index) {
     SearchSourceBuilder queryBuilder = new SearchSourceBuilder();
     queryBuilder.query(QueryBuilders.matchAllQuery());
