@@ -24,6 +24,9 @@ spring:
             enabled: false
     thymeleaf:
         mode: XHTML
+    http:
+      encoding:
+        force: false
 
 # TODO: check if this is ignored and remove
 security:
