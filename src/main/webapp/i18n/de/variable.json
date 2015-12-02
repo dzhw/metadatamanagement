@@ -7,7 +7,7 @@
                 "createOrEditLabel": "Erstelle oder editiere eine Variable",
                 "refresh":"Aktualisieren"
             },
-            "created": "Die Variable mit FDZ ID {{ param }} ist erstellt worden"",
+            "created": "Die Variable mit FDZ ID {{ param }} ist erstellt worden",
             "updated": "Die Variable mit FDZ ID {{ param }} ist aktualisiert worden",
             "deleted": "Die Variable mit FDZ ID {{ param }} ist gelöscht worden",
             "delete": {
