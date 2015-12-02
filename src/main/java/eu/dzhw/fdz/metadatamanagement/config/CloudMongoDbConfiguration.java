@@ -3,12 +3,11 @@ package eu.dzhw.fdz.metadatamanagement.config;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.elasticsearch.common.inject.Inject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Import;
 import org.springframework.context.annotation.Profile;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.dao.DataAccessException;
@@ -32,12 +31,11 @@ import eu.dzhw.fdz.metadatamanagement.domain.util.JSR310DateConverters.ZonedDate
 @Configuration
 @EnableMongoRepositories("eu.dzhw.fdz.metadatamanagement.repository")
 @Profile(Constants.SPRING_PROFILE_CLOUD)
-@Import(CloudDatabaseConfiguration.class)
 public class CloudMongoDbConfiguration extends AbstractMongoConfiguration  {
 
     private final Logger log = LoggerFactory.getLogger(CloudMongoDbConfiguration.class);
 
-    @Autowired
+    @Inject
     private MongoDbFactory mongoDbFactory;
     
     @Bean
@@ -70,7 +68,16 @@ public class CloudMongoDbConfiguration extends AbstractMongoConfiguration  {
 
     @Override
     public Mongo mongo() throws DataAccessException, Exception {
-      this.log.info("CloudMongoDbConfiguration.mongo FINDME: Factory" + this.mongoDbFactory);
+      this.log.info("CloudMongoDbConfiguration.mongo FINDME: Factory: " + this.mongoDbFactory);
+      
+      if(this.mongoDbFactory == null) {
+        
+        // TODO TEST WORKAROUND
+        CloudDatabaseConfiguration cloudDatabaseConfiguration = new CloudDatabaseConfiguration();
+        this.mongoDbFactory = cloudDatabaseConfiguration.mongoDbFactory();
+        this.log.info("CloudMongoDbConfiguration.mongo FINDME Try to install: Factory: " + this.mongoDbFactory);
+      }
+      
       return this.mongoDbFactory.getDb().getMongo();
     }
 }
