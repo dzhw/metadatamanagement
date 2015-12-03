@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.Objects;
 
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
 import org.springframework.data.annotation.Id;
@@ -22,14 +23,18 @@ import net.karneim.pojobuilder.GeneratePojoBuilder;
 public class Variable implements Serializable {
 
   private static final long serialVersionUID = 3447432736734388659L;
+  
+  private static final String ALPHANUMERIC_WITH_UNDERSCORE = "^[_A-Za-z0-9]*$";
 
   @Id
   @NotNull
+  @Pattern(regexp = ALPHANUMERIC_WITH_UNDERSCORE)
   private String id;
 
   @NotNull
   @Size(max = 32)
   @Field("name")
+  @Pattern(regexp = ALPHANUMERIC_WITH_UNDERSCORE)
   private String name;
 
   @NotNull

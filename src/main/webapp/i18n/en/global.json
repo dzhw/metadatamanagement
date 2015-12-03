@@ -112,15 +112,19 @@
       "maxbytes": "This field cannot be more than {{max}} bytes.",
       "pattern": "This field should follow pattern {{pattern}}.",
       "number": "This field should be a number.",
-      "datetimelocal": "This field should be a date and time."
+      "datetimelocal": "This field should be a date and time.",
+      "fdzid": "The FDZ ID must contain only letters, digits and underscore.",
+      "variable": {
+        "name": "The name of a variable must contain only letters, digits and underscore."
+      }
     }
   },
   "error": {
     "serverNotReachable": "Server not reachable",
     "NotNull": "Field {{fieldName}} cannot be empty!",
-    "entity" : {
-    	"exists" : "There is already a {{params[0]}} with FDZ ID \"{{params[1]}}\"!",
-    	"notfound" : "{{params[0]}} with FDZ ID \"{{params[1]}}\" not found!"
+    "entity": {
+      "exists": "There is already a {{params[0]}} with FDZ ID \"{{params[1]}}\"!",
+      "notfound": "{{params[0]}} with FDZ ID \"{{params[1]}}\" not found!"
     }
   },
   "footer": "This is your footer"

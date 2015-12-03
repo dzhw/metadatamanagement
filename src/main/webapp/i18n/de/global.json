@@ -111,15 +111,19 @@
       "maxbytes": "This field cannot be more than {{max}} bytes.",
       "pattern": "Dieses Feld muss das Muster {{pattern}} erfüllen.",
       "number": "Dieses Feld muss eine Zahl sein.",
-      "datetimelocal": "Dieses Feld muss eine Datums- und Zeitangabe enthalten."
+      "datetimelocal": "Dieses Feld muss eine Datums- und Zeitangabe enthalten.",
+      "fdzid": "Die FDZ ID darf nur aus Zahlen, Buchstaben und \"_\" bestehen.",
+      "variable": {
+        "name": "Die Name einer Variablen darf nur aus Zahlen, Buchstaben und \"_\" bestehen."
+      }
     }
   },
   "error": {
     "serverNotReachable": "Der Server ist nicht erreichbar!",
     "NotNull": "Das Feld {{fieldName}} darf nicht leer sein!",
-    "entity" : {
-    	"exists" : "Ein Datensatz vom Typ \"{{params[0]}}\" mit FDZ ID \"{{params[1]}}\" existiert bereits!",
-    	"notfound" : "Ein Datensatz vom Typ \"{{params[0]}}\" mit FDZ ID \"{{params[1]}}\" wurde nicht gefunden!"
+    "entity": {
+      "exists": "Ein Datensatz vom Typ \"{{params[0]}}\" mit FDZ ID \"{{params[1]}}\" existiert bereits!",
+      "notfound": "Ein Datensatz vom Typ \"{{params[0]}}\" mit FDZ ID \"{{params[1]}}\" wurde nicht gefunden!"
     }
   },
   "footer": "Dies ist Ihre Fußzeile"
