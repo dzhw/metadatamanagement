@@ -751,7 +751,7 @@
 									<goal>build</goal>
 								</goals>
 								<configuration>
-									<skipTests>false</skipTests>
+									<skipTests>true</skipTests>
 									<buildTool>grunt</buildTool>
 									<buildArgs>builddev</buildArgs>
 								</configuration>
@@ -822,6 +822,7 @@
 									<goal>build</goal>
 								</goals>
 								<configuration>
+									<skipTests>true</skipTests>
 									<buildTool>grunt</buildTool>
 									<buildArgs>build --force --no-color</buildArgs>
 								</configuration>
