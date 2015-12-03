@@ -73,8 +73,6 @@ module.exports = function(grunt) {
             'bower_components/bootstrap/', // Exclude Bootstrap
             // LESS as
             // we use bootstrap-sass
-            'bower_components/jquery/' // Exclude jquery
-            // cause we take it from cdn
             ],
             ignorePath: /\.\.\/webapp\/bower_components\//
             // remove
