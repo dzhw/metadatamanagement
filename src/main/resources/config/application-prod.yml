@@ -30,6 +30,9 @@ spring:
         password: ${vcap.services.email.credentials.password}
     thymeleaf:
         cache: true
+    # cache static resources for one day
+    resources:
+        cache-period: 86400 
 
 liquibase:
     contexts: prod
