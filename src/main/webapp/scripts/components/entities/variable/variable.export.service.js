@@ -1,29 +1,15 @@
 /* global JSZipUtils */
 /* global JSZip */
 /* global saveAs */
-/* global Handlebars */
 'use strict';
 
 angular.module('metadatamanagementApp').factory(
     'VariableExportService',
-    function($translate) {
+    function($translate, HandlebarsService) {
       // the complete odt
       var zip;
       // the compiled handlebars template
       var template;
-
-      // TODO move registerHelper calls to global place
-      Handlebars.registerHelper('translate', function(prefix, value) {
-        return $translate.instant(prefix + '.' + value);
-      });
-
-      Handlebars.registerHelper('encodeMissing', function(isMissing) {
-        if (isMissing) {
-          return 'M';
-        } else {
-          return '';
-        }
-      });
 
       var writeODT = function(variable) {
         // TODO remove test anwerOptions
@@ -56,7 +42,7 @@ angular.module('metadatamanagementApp').factory(
               zip = new JSZip(data);
               var content = zip.file('content.xml').asText();
               // compile the handlebar template
-              template = Handlebars.compile(content);
+              template = HandlebarsService.compile(content);
 
               writeODT(variable);
             });
