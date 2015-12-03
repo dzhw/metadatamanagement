@@ -29,10 +29,11 @@ angular.module('metadatamanagementApp')
         (VariableSearchQuerybuilder.Query($scope.query, $scope.page))
             .then(function(data) {
               $scope.searchResult = data.hits.hits;
-              if ($scope.searchResult.length === 0) {
-                $scope.IsNextEnabled = false;
-              }else {
+              $scope.totalHits = data.hits.total;
+              if (($scope.totalHits - $scope.page - 10) > 0) {
                 $scope.IsNextEnabled = true;
+              }else {
+                $scope.IsNextEnabled = false;
               }
               $scope.$apply();
             }, function(error) {
