@@ -108,8 +108,11 @@ public class WebConfigurer implements ServletContextInitializer, EmbeddedServlet
             servletContext.addFilter("cachingHttpHeadersFilter",
                 new CachingHttpHeadersFilter(env));
 
-        cachingHttpHeadersFilter.addMappingForUrlPatterns(disps, true, "/assets/*");
-        cachingHttpHeadersFilter.addMappingForUrlPatterns(disps, true, "/scripts/*");
+        cachingHttpHeadersFilter.addMappingForUrlPatterns(disps, true, "/dist/assets/*");
+        cachingHttpHeadersFilter.addMappingForUrlPatterns(disps, true, "/dist/scripts/*");
+        cachingHttpHeadersFilter.addMappingForUrlPatterns(disps, true, "/bower_components/*");
+        cachingHttpHeadersFilter.addMappingForUrlPatterns(disps, true, "/favicon.ico");
+        cachingHttpHeadersFilter.addMappingForUrlPatterns(disps, true, "/i18n/*");
         cachingHttpHeadersFilter.setAsyncSupported(true);
     }
 
