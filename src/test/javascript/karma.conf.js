@@ -36,7 +36,6 @@ module.exports = function (config) {
             'src/main/webapp/bower_components/sockjs-client/dist/sockjs.js',
             'src/main/webapp/bower_components/stomp-websocket/lib/stomp.min.js',
             'src/main/webapp/bower_components/elasticsearch/elasticsearch.js',
-            'src/main/webapp/bower_components/elasticsearch/elasticsearch.jquery.js',
             'src/main/webapp/bower_components/jszip/dist/jszip.js',
             'src/main/webapp/bower_components/file-saver.js/FileSaver.js',
             'src/main/webapp/bower_components/jszip-utils/dist/jszip-utils.js',
