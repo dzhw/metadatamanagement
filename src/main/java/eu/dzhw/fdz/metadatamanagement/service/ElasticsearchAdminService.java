@@ -51,7 +51,15 @@ public class ElasticsearchAdminService {
   private void recreateIndex(String index) {
     if (elasticsearchAdminDao.exists(index)) {
       elasticsearchAdminDao.delete(index);
-      elasticsearchAdminDao.refresh(index);
+      // deleting is asynchronous and thus searchly complains if we create the new index to early
+      while (elasticsearchAdminDao.exists(index)) {
+        try {
+          Thread.sleep(1000);
+        } catch (InterruptedException e) {
+          throw new RuntimeException(e);
+        }
+        elasticsearchAdminDao.refresh(index);
+      }
     }
     elasticsearchAdminDao.createIndex(index, loadSettings(index));
     for (String type : TYPES) {
@@ -61,10 +69,12 @@ public class ElasticsearchAdminService {
 
   private JsonObject loadSettings(String index) {
     try {
-      Reader reader = new InputStreamReader(resourceLoader
-          .getResource("classpath:elasticsearch/" + index + "/settings.json").getInputStream(),
+      Reader reader = new InputStreamReader(
+          resourceLoader.getResource("classpath:elasticsearch/" + index + "/settings.json")
+            .getInputStream(),
           "UTF-8");
-      JsonObject settings = jsonParser.parse(reader).getAsJsonObject();
+      JsonObject settings = jsonParser.parse(reader)
+          .getAsJsonObject();
       return settings;
     } catch (IOException e) {
       throw new RuntimeException("Unable to load settings for index " + index, e);
@@ -76,7 +86,8 @@ public class ElasticsearchAdminService {
       Reader reader = new InputStreamReader(resourceLoader
           .getResource("classpath:elasticsearch/" + index + "/" + type + "/mapping.json")
           .getInputStream(), "UTF-8");
-      JsonObject mapping = jsonParser.parse(reader).getAsJsonObject();
+      JsonObject mapping = jsonParser.parse(reader)
+          .getAsJsonObject();
       return mapping;
     } catch (IOException e) {
       throw new RuntimeException("Unable to load mapping for index " + index + " and type " + type,
