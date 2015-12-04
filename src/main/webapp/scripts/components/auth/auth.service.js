@@ -17,9 +17,7 @@ angular
                 //Principal.identity(true).then(function(account) {
                 Principal.identity(true).then(function() {
                   // After the login the language will be changed to
-                  // the language selected by the user during his
-                  // registration
-                  //$translate.use(account.langKey).then(function() {
+                  // the language from the url
                   $translate.use($rootScope.currentLanguage).then(function() {
                     $translate.refresh();
                   });
@@ -28,7 +26,7 @@ angular
                 });
                 return cb();
               }).catch(function(err) {
-                this.logout();
+                //this.logout();
                 deferred.reject(err);
                 return cb(err);
               }

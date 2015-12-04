@@ -23,6 +23,12 @@ angular
           Auth.authorize();
         }
         // Update the language
+        if ($location.path().indexOf('/de/') > -1) {
+          $translate.storage().set('NG_TRANSLATE_LANG_KEY','de');
+        }else {
+          $translate.storage().set('NG_TRANSLATE_LANG_KEY','en');
+        }
+        $translate.refresh();
         Language.getCurrent().then(function(language) {
           $translate.use(language);
           $rootScope.currentLanguage = language;
@@ -31,6 +37,10 @@ angular
       $rootScope.$on('$stateChangeSuccess', function(event, toState,
         toParams, fromState, fromParams) {
         var titleKey = 'global.title';
+        var currentPath = $location.path();
+        currentPath = currentPath.replace('null', $rootScope.currentLanguage +
+            toState.url);
+        $location.path(currentPath);
         // Remember previous state unless we've been redirected to login or
         // we've just
         // reset the state memory after logout. If we're redirected to
