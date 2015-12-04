@@ -6,7 +6,6 @@ import javax.inject.Inject;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
@@ -18,6 +17,7 @@ import com.codahale.metrics.annotation.Timed;
 
 import eu.dzhw.fdz.metadatamanagement.security.AuthoritiesConstants;
 import eu.dzhw.fdz.metadatamanagement.service.ElasticsearchAdminService;
+import eu.dzhw.fdz.metadatamanagement.web.rest.util.HeaderUtil;
 
 /**
  * REST controller for doing admin tasks.
@@ -26,12 +26,12 @@ import eu.dzhw.fdz.metadatamanagement.service.ElasticsearchAdminService;
 @RequestMapping("/api/admin")
 @Secured(AuthoritiesConstants.ADMIN)
 public class AdminResource {
-  
+
   private final Logger log = LoggerFactory.getLogger(AdminResource.class);
-  
+
   @Inject
   private ElasticsearchAdminService elasticsearchAdminService;
-  
+
   /**
    * POST /api/admin/elasticsearch/recreate -> recreate all elasticsearch indices.
    */
@@ -41,7 +41,8 @@ public class AdminResource {
   public ResponseEntity<?> recreateAllElasticsearchIndices() throws URISyntaxException {
     log.debug("REST request to recreate all elasticsearch indices.");
     elasticsearchAdminService.recreateAllIndices();
-    return new ResponseEntity<>(HttpStatus.OK);
+    return ResponseEntity.ok()
+      .headers(HeaderUtil.createAlert("health.elasticsearch.reindex.success"))
+      .build();
   }
-  
 }

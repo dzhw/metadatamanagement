@@ -26,7 +26,8 @@
       "DOWN": "DOWN"
     },
     "elasticsearch": {
-      "reindex": "Reindex"
+      "reindex": "Reindex",
+      "reindex.success": "Successfully created elasticsearch indices."
     }
   }
 }

@@ -1,6 +1,7 @@
 package eu.dzhw.fdz.metadatamanagement.web.rest.util;
 
 import org.springframework.http.HttpHeaders;
+import org.springframework.util.StringUtils;
 
 /**
  * Utility class for http header creation.
@@ -8,10 +9,16 @@ import org.springframework.http.HttpHeaders;
  */
 public class HeaderUtil {
 
+    public static HttpHeaders createAlert(String message) {
+      return createAlert(message, null);
+    }
+    
     public static HttpHeaders createAlert(String message, String param) {
         HttpHeaders headers = new HttpHeaders();
         headers.add("X-metadatamanagementApp-alert", message);
-        headers.add("X-metadatamanagementApp-params", param);
+        if (StringUtils.hasText(param)) {
+          headers.add("X-metadatamanagementApp-params", param);          
+        }
         return headers;
     }
 
