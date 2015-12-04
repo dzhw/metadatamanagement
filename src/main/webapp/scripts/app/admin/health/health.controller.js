@@ -21,6 +21,10 @@ angular.module('metadatamanagementApp').controller(
       $scope.recreateAllElasticsearchIndices = function() {
         $scope.isRecreatingIndices = true;
         AdminService.recreateAllElasticsearchIndices().then(function() {
+          // success
+          $scope.isRecreatingIndices = false;
+        }, function() {
+          // error
           $scope.isRecreatingIndices = false;
         });
       };
