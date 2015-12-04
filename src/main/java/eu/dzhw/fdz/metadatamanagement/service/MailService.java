@@ -1,6 +1,7 @@
 package eu.dzhw.fdz.metadatamanagement.service;
 
 import java.util.Locale;
+import java.util.concurrent.Future;
 
 import javax.inject.Inject;
 import javax.mail.MessagingException;
@@ -13,6 +14,7 @@ import org.springframework.context.MessageSource;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.scheduling.annotation.Async;
+import org.springframework.scheduling.annotation.AsyncResult;
 import org.springframework.stereotype.Service;
 import org.thymeleaf.context.Context;
 import org.thymeleaf.spring4.SpringTemplateEngine;
@@ -50,7 +52,7 @@ public class MailService {
 //    private String from;
 
     @Async
-    public void sendEmail(String to, String subject, String content, boolean isMultipart, boolean isHtml) {
+    public Future<Void> sendEmail(String to, String subject, String content, boolean isMultipart, boolean isHtml) {
         log.debug("Send e-mail[multipart '{}' and html '{}'] to '{}' with subject '{}' and content={}",
             isMultipart, isHtml, to, subject, content);
 
@@ -63,14 +65,17 @@ public class MailService {
             message.setSubject(subject);
             message.setText(content, isHtml);
             javaMailSender.send(mimeMessage);
+            
             log.debug("Sent e-mail to User '{}'", to);
         } catch (MessagingException e) {
             log.warn("E-mail could not be sent to user '{}', exception is: {}", to, e.getMessage());
         }
+        
+        return new AsyncResult<Void>(null);
     }
 
     @Async
-    public void sendActivationEmail(User user, String baseUrl) {
+    public Future<Void> sendActivationEmail(User user, String baseUrl) {
         log.debug("Sending activation e-mail to '{}'", user.getEmail());
         Locale locale = Locale.forLanguageTag(user.getLangKey());
         Context context = new Context(locale);
@@ -78,11 +83,11 @@ public class MailService {
         context.setVariable("baseUrl", baseUrl);
         String content = templateEngine.process("activationEmail", context);
         String subject = messageSource.getMessage("email.activation.title", null, locale);
-        sendEmail(user.getEmail(), subject, content, false, true);
+        return sendEmail(user.getEmail(), subject, content, false, true);
     }
 
     @Async
-    public void sendPasswordResetMail(User user, String baseUrl) {
+    public Future<Void> sendPasswordResetMail(User user, String baseUrl) {
         log.debug("Sending password reset e-mail to '{}'", user.getEmail());
         Locale locale = Locale.forLanguageTag(user.getLangKey());
         Context context = new Context(locale);
@@ -90,7 +95,7 @@ public class MailService {
         context.setVariable("baseUrl", baseUrl);
         String content = templateEngine.process("passwordResetEmail", context);
         String subject = messageSource.getMessage("email.reset.title", null, locale);
-        sendEmail(user.getEmail(), subject, content, false, true);
+        return sendEmail(user.getEmail(), subject, content, false, true);
     }
     
 }

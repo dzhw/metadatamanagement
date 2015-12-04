@@ -24,6 +24,7 @@ spring:
             database: metadatamanagement
     mail:
         host: localhost
+        port: 3025
     mvc:
         favicon:
             enabled: false

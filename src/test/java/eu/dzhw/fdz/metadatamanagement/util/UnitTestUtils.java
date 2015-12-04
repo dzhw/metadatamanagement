@@ -106,6 +106,17 @@ public class UnitTestUtils<T> {
   }
   
   /**
+   * This helper methods log a account into the application by customuserdetails and password
+   * 
+   * @param login
+   * @param password
+   */
+  public static void logout() {
+    //Logout all user
+    SecurityContextHolder.setContext(SecurityContextHolder.createEmptyContext());
+  }
+  
+  /**
    * This method clones a object.
    * @param object
    * @return

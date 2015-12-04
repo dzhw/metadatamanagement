@@ -5,7 +5,6 @@ import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
 import static org.mockito.Matchers.anyObject;
 import static org.mockito.Matchers.anyString;
-import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -78,8 +77,7 @@ public class AccountResourceTest extends BasicTest {
   @Before
   public void setup() {
     MockitoAnnotations.initMocks(this);
-    doNothing().when(mockMailService)
-      .sendActivationEmail((User) anyObject(), anyString());
+    when(mockMailService.sendActivationEmail((User) anyObject(), anyString())).thenReturn(null);
 
     AccountResource accountResource = new AccountResource();
     ReflectionTestUtils.setField(accountResource, "userRepository", userRepository);
