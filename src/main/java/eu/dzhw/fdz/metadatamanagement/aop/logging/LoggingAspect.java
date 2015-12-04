@@ -1,6 +1,6 @@
 package eu.dzhw.fdz.metadatamanagement.aop.logging;
 
-import eu.dzhw.fdz.metadatamanagement.config.Constants;
+import java.util.Arrays;
 
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.ProceedingJoinPoint;
@@ -10,10 +10,6 @@ import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.core.env.Environment;
-
-import javax.inject.Inject;
-import java.util.Arrays;
 
 /**
  * Aspect for logging execution of service and repository Spring components.
@@ -23,22 +19,16 @@ public class LoggingAspect {
 
     private final Logger log = LoggerFactory.getLogger(this.getClass());
 
-    @Inject
-    private Environment env;
-
     @Pointcut("within(eu.dzhw.fdz.metadatamanagement.repository..*) || within(eu.dzhw.fdz.metadatamanagement.service..*) || within(eu.dzhw.fdz.metadatamanagement.web.rest..*)")
     public void loggingPointcut() {
     }
 
     @AfterThrowing(pointcut = "loggingPointcut()", throwing = "e")
     public void logAfterThrowing(JoinPoint joinPoint, Throwable e) {
-        if (env.acceptsProfiles(Constants.SPRING_PROFILE_DEVELOPMENT)) {
-            log.error("Exception in {}.{}() with cause = {}", joinPoint.getSignature().getDeclaringTypeName(),
-                joinPoint.getSignature().getName(), e.getCause(), e);
-        } else {
-            log.error("Exception in {}.{}() with cause = {}", joinPoint.getSignature().getDeclaringTypeName(),
-                joinPoint.getSignature().getName(), e.getCause());
-        }
+    log.error("Exception in {}.{}() with cause = {}", joinPoint.getSignature()
+      .getDeclaringTypeName(),
+        joinPoint.getSignature().getName(), e.getCause(), e);
+       
     }
 
     @Around("loggingPointcut()")
