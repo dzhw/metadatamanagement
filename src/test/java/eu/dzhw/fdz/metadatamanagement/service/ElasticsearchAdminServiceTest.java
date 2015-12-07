@@ -3,6 +3,9 @@ package eu.dzhw.fdz.metadatamanagement.service;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.junit.Assert.assertThat;
 
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+
 import javax.inject.Inject;
 
 import org.junit.Before;
@@ -16,11 +19,13 @@ import eu.dzhw.fdz.metadatamanagement.domain.enumeration.ScaleLevel;
 import eu.dzhw.fdz.metadatamanagement.repository.VariableRepository;
 import eu.dzhw.fdz.metadatamanagement.search.ElasticsearchAdminDao;
 import eu.dzhw.fdz.metadatamanagement.search.VariableSearchDao;
+import eu.dzhw.fdz.metadatamanagement.util.UnitTestReflectionHelper;
 
 /**
  * Test which ensures that all indices are created successfully.
  * 
  * @author René Reitmann
+ * @author Daniel Katzberg
  */
 public class ElasticsearchAdminServiceTest extends BasicTest {
   @Inject
@@ -58,5 +63,29 @@ public class ElasticsearchAdminServiceTest extends BasicTest {
       elasticsearchAdminDao.refresh(index);
       assertThat(variableSearchDao.findAll(index).size(), equalTo(2));      
     }
+  }
+  
+  @Test(expected=InvocationTargetException.class)
+  public void testLoadSettingsWithError() throws IllegalAccessException, IllegalArgumentException, InvocationTargetException {
+    //Arrange
+    Method method = UnitTestReflectionHelper.getDeclaredMethodForTestInvocation(this.elasticsearchAdminService.getClass(), "loadSettings");
+    
+    //Act
+    method.invoke(this.elasticsearchAdminService, "WrongIndex");
+    
+    //Assert
+    //No Assertion, because of the exception.
+  }
+  
+  @Test(expected=InvocationTargetException.class)
+  public void testLoadMappingWithError() throws IllegalAccessException, IllegalArgumentException, InvocationTargetException {
+    //Arrange
+    Method method = UnitTestReflectionHelper.getDeclaredMethodForTestInvocation(this.elasticsearchAdminService.getClass(), "loadMapping");
+    
+    //Act
+    method.invoke(this.elasticsearchAdminService, "WrongIndex", "WrongType");
+    
+    //Assert
+    //No Assertion, because of the exception.
   }
 }
