@@ -2,7 +2,7 @@
  * AngularJS file upload directives and services. Supoorts: file upload/drop/paste, resume, cancel/abort,
  * progress, resize, thumbnail, preview, validation and CORS
  * @author  Danial  <danial.farid@gmail.com>
- * @version 10.1.5
+ * @version 10.1.8
  */
 
 if (window.XMLHttpRequest && !(window.FileAPI && FileAPI.shouldLoad)) {
@@ -23,13 +23,13 @@ if (window.XMLHttpRequest && !(window.FileAPI && FileAPI.shouldLoad)) {
 
 var ngFileUpload = angular.module('ngFileUpload', []);
 
-ngFileUpload.version = '10.1.5';
+ngFileUpload.version = '10.1.8';
 
 ngFileUpload.service('UploadBase', ['$http', '$q', '$timeout', function ($http, $q, $timeout) {
   var upload = this;
 
   this.isResumeSupported = function () {
-    return window.Blob && (Blob instanceof Function) && new Blob().slice;
+    return window.Blob && (window.Blob instanceof Function) && new window.Blob().slice;
   };
 
   var resumeSupported = this.isResumeSupported();
@@ -183,7 +183,7 @@ ngFileUpload.service('UploadBase', ['$http', '$q', '$timeout', function ($http, 
     if (val != null && !angular.isString(val)) {
       val = JSON.stringify(val);
     }
-    var blob = new Blob([val], {type: 'application/json'});
+    var blob = new window.Blob([val], {type: 'application/json'});
     blob._ngfBlob = true;
     return blob;
   };
@@ -204,7 +204,7 @@ ngFileUpload.service('UploadBase', ['$http', '$q', '$timeout', function ($http, 
 
   this.upload = function (config, internal) {
     function isFile(file) {
-      return file != null && (file instanceof Blob || (file.flashId && file.name && file.size));
+      return file != null && (file instanceof window.Blob || (file.flashId && file.name && file.size));
     }
 
     function toResumeFile(file, formData) {
@@ -279,7 +279,7 @@ ngFileUpload.service('UploadBase', ['$http', '$q', '$timeout', function ($http, 
         (angular.isArray(config.transformRequest) ?
           config.transformRequest : [config.transformRequest]) : [];
       config.transformRequest.push(function (data) {
-        var formData = new FormData(), key;
+        var formData = new window.FormData(), key;
         data = data || config.fields || {};
         if (config.file) {
           data.file = config.file;
@@ -311,7 +311,7 @@ ngFileUpload.service('UploadBase', ['$http', '$q', '$timeout', function ($http, 
   this.http = function (config) {
     config = copy(config);
     config.transformRequest = config.transformRequest || function (data) {
-        if ((window.ArrayBuffer && data instanceof window.ArrayBuffer) || data instanceof Blob) {
+        if ((window.ArrayBuffer && data instanceof window.ArrayBuffer) || data instanceof window.Blob) {
           return data;
         }
         return $http.defaults.transformRequest[0].apply(this, arguments);
@@ -658,13 +658,16 @@ ngFileUpload.directive('ngfSelect', ['$parse', '$timeout', '$compile', 'Upload',
       }
 
       var fileElem = angular.element('<input type="file">');
+
       bindAttrToFileInput(fileElem);
 
-      fileElem.css('visibility', 'hidden').css('position', 'absolute').css('overflow', 'hidden')
+      var label = angular.element('<label>upload</label>');
+      label.css('visibility', 'hidden').css('position', 'absolute').css('overflow', 'hidden')
         .css('width', '0px').css('height', '0px').css('border', 'none')
         .css('margin', '0px').css('padding', '0px').attr('tabindex', '-1');
-      generatedElems.push({el: elem, ref: fileElem});
-      document.body.appendChild(fileElem[0]);
+      generatedElems.push({el: elem, ref: label});
+
+      document.body.appendChild(label.append(fileElem)[0]);
 
       return fileElem;
     }
@@ -682,8 +685,8 @@ ngFileUpload.directive('ngfSelect', ['$parse', '$timeout', '$compile', 'Upload',
       // fix for md when the element is removed from the DOM and added back #460
       try {
         if (!isInputTypeFile() && !document.body.contains(fileElem[0])) {
-          generatedElems.push({el: elem, ref: fileElem});
-          document.body.appendChild(fileElem[0]);
+          generatedElems.push({el: elem, ref: fileElem.parent()});
+          document.body.appendChild(fileElem[0].parent());
           fileElem.bind('change', changeFn);
         }
       } catch(e){/*ignore*/}
@@ -772,7 +775,7 @@ ngFileUpload.directive('ngfSelect', ['$parse', '$timeout', '$compile', 'Upload',
     });
 
     scope.$on('$destroy', function () {
-      if (!isInputTypeFile()) fileElem.remove();
+      if (!isInputTypeFile()) fileElem.parent().remove();
       angular.forEach(unwatches, function (unwatch) {
         unwatch();
       });
@@ -1527,7 +1530,7 @@ ngFileUpload.service('UploadResize', ['UploadValidate', '$q', function (UploadVa
     while (n--) {
       u8arr[n] = bstr.charCodeAt(n);
     }
-    var blob = new Blob([u8arr], {type: mime});
+    var blob = new window.Blob([u8arr], {type: mime});
     blob.name = name;
     return blob;
   };
@@ -1539,7 +1542,7 @@ ngFileUpload.service('UploadResize', ['UploadValidate', '$q', function (UploadVa
 
   if (upload.isResizeSupported()) {
     // add name getter to the blob constructor prototype
-    Object.defineProperty(Blob.prototype, 'name', {
+    Object.defineProperty(window.Blob.prototype, 'name', {
       get: function () {
         return this.$ngfName;
       },
@@ -1690,7 +1693,7 @@ ngFileUpload.service('UploadResize', ['UploadValidate', '$q', function (UploadVa
           $http({url: url, method: 'get', responseType: 'arraybuffer'}).then(function (resp) {
             var arrayBufferView = new Uint8Array(resp.data);
             var type = resp.headers('content-type') || 'image/WebP';
-            var blob = new Blob([arrayBufferView], {type: type});
+            var blob = new window.Blob([arrayBufferView], {type: type});
             //var split = type.split('[/;]');
             //blob.name = url.substring(0, 150).replace(/\W+/g, '') + '.' + (split.length > 1 ? split[1] : 'jpg');
             upload.updateModel(ngModel, attr, scope, attrGetter('ngfChange') || attrGetter('ngfDrop'), [blob], evt);
@@ -1816,7 +1819,10 @@ ngFileUpload.service('UploadResize', ['UploadValidate', '$q', function (UploadVa
         var fileList = evt.dataTransfer.files;
         if (fileList != null) {
           for (var j = 0; j < fileList.length; j++) {
-            files.push(fileList.item(j));
+            var file = fileList.item(j);
+            if (file.type || file.size > 0) {
+              files.push(file);
+            }
             if (!multiple && files.length > 0) {
               break;
             }
