@@ -21,7 +21,7 @@
 
     <properties>
         <assertj-core.version>3.2.0</assertj-core.version>
-        <awaitility.version>1.6.5</awaitility.version>
+        <awaitility.version>1.7.0</awaitility.version>
         <commons-io.version>2.4</commons-io.version>
         <commons-lang.version>2.6</commons-lang.version>
         <dropwizard-metrics.version>3.1.2</dropwizard-metrics.version>
