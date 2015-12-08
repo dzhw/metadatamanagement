@@ -4,7 +4,7 @@ angular
     .module('metadatamanagementApp')
     .factory(
         'Auth',
-        function Auth($rootScope, $state, $q, $translate, Principal,
+        function Auth($rootScope, $state, $q, Principal,
             AuthServerProvider, Account, Register, Activate, Password,
             PasswordResetInit, PasswordResetFinish, Tracker) {
           return {
@@ -16,11 +16,6 @@ angular
                 // retrieve the logged account information
                 //Principal.identity(true).then(function(account) {
                 Principal.identity(true).then(function() {
-                  // After the login the language will be changed to
-                  // the language from the url
-                  $translate.use($rootScope.currentLanguage).then(function() {
-                    $translate.refresh();
-                  });
                   Tracker.sendActivity();
                   deferred.resolve(data);
                 });
@@ -78,7 +73,8 @@ angular
                               $rootScope.toStateParams;
                             // now, send them to the signin state so they
                             // can log in
-                            $state.go('login');
+                            $state.go('login',
+                              {'lang': $rootScope.toStateParams.lang});
                           }
                         }
                       });

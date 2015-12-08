@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('metadatamanagementApp').directive('activeMenu',
-    function($translate, $locale, tmhDynamicLocale) {
+    function($translate) {
       return {
         restrict: 'A',
         link: function(scope, element, attrs) {
@@ -11,7 +11,6 @@ angular.module('metadatamanagementApp').directive('activeMenu',
             return $translate.use();
           }, function(selectedLanguage) {
             if (language === selectedLanguage) {
-              tmhDynamicLocale.set(language);
               element.addClass('active');
             } else {
               element.removeClass('active');

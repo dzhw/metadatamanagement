@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('metadatamanagementApp').controller('RegisterController',
-    function($scope, $translate, $timeout, Auth) {
+    function($scope, Language, $timeout, Auth) {
       $scope.success = null;
       $scope.error = null;
       $scope.doNotMatch = null;
@@ -15,7 +15,7 @@ angular.module('metadatamanagementApp').controller('RegisterController',
         if ($scope.registerAccount.password !== $scope.confirmPassword) {
           $scope.doNotMatch = 'ERROR';
         } else {
-          $scope.registerAccount.langKey = $translate.use();
+          $scope.registerAccount.langKey = Language.getCurrentInstantly();
           $scope.doNotMatch = null;
           $scope.error = null;
           $scope.errorUserExists = null;

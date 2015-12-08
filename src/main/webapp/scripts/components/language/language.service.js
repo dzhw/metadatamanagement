@@ -1,19 +1,43 @@
 'use strict';
 
 angular.module('metadatamanagementApp').factory('Language',
-    function($q, $http, $translate, LANGUAGES) {
+    function($q, $http, $translate, $location, tmhDynamicLocale, LANGUAGES) {
       return {
         getCurrent: function() {
           var deferred = $q.defer();
-          var language = $translate.storage().get('NG_TRANSLATE_LANG_KEY');
-
-          if (angular.isUndefined(language)) {
-            language = 'en';
-          }
-
+          var language = this.getCurrentInstantly();
           deferred.resolve(language);
           return deferred.promise;
         },
+
+        getCurrentInstantly: function() {
+          var language = $translate.storage().get('NG_TRANSLATE_LANG_KEY');
+
+          if (angular.isUndefined(language)) {
+            language = 'de';
+          }
+
+          return language;
+        },
+
+        setCurrent: function(language) {
+          $translate.storage().set('NG_TRANSLATE_LANG_KEY', language);
+          tmhDynamicLocale.set(language).then(function() {
+            $translate.use(language).then(function() {
+              $translate.refresh();
+            });
+            var currentPath = $location.path();
+            if (language === 'en' && !currentPath.startsWith('/en/')) {
+              currentPath = currentPath.replace('/de/', '/en/');
+              $location.path(currentPath);
+            }
+            if (language === 'de' && !currentPath.startsWith('/de/')) {
+              currentPath = currentPath.replace('/en/', '/de/');
+              $location.path(currentPath);
+            }
+          });
+        },
+
         getAll: function() {
           var deferred = $q.defer();
           deferred.resolve(LANGUAGES);

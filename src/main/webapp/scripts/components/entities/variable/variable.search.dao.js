@@ -1,11 +1,11 @@
 'use strict';
 
-angular.module('metadatamanagementApp').service('VariableSearchQuerybuilder',
-    function($rootScope) {
+angular.module('metadatamanagementApp').service('VariableSearchDao',
+    function(Language, ElasticSearchClient) {
       return {
-        Query: function(queryterm, page) {
+        search: function(queryterm, pageNumber) {
           var query = {
-            'index': 'metadata_' + $rootScope.currentLanguage,
+            'index': 'metadata_' + Language.getCurrentInstantly(),
             'type': 'variables',
             'body': {
               'query': {
@@ -32,7 +32,7 @@ angular.module('metadatamanagementApp').service('VariableSearchQuerybuilder',
                   }]
                 }
               },
-              'from': page,
+              'from': pageNumber,
               'size': 10
             }
           };
@@ -41,7 +41,7 @@ angular.module('metadatamanagementApp').service('VariableSearchQuerybuilder',
               'match_all': {}
             };
           }
-          return query;
+          return ElasticSearchClient.search(query);
         }
       };
     });

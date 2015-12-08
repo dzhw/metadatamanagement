@@ -42,7 +42,7 @@ describe('Controllers Tests ', function() {
 
         it('should update success to OK after creating an account', function() {
             // given
-            MockTranslate.use.and.returnValue('en');
+            //MockTranslate.use.and.returnValue('de');
             MockAuth.createAccount.and.returnValue($q.resolve());
             createController();
             $scope.registerAccount.password = $scope.confirmPassword = 'password';
@@ -51,11 +51,10 @@ describe('Controllers Tests ', function() {
             // then
             expect(MockAuth.createAccount).toHaveBeenCalledWith({
                 password: 'password',
-                langKey: 'en'
+                langKey: 'de'
             });
             expect($scope.success).toEqual('OK');
-            expect($scope.registerAccount.langKey).toEqual('en');
-            expect(MockTranslate.use).toHaveBeenCalled();
+            expect($scope.registerAccount.langKey).toEqual('de');
             expect($scope.errorUserExists).toBeNull();
             expect($scope.errorEmailExists).toBeNull();
             expect($scope.error).toBeNull();

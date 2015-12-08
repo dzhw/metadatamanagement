@@ -3,8 +3,7 @@
 
 angular.module('metadatamanagementApp')
     .controller('VariableController', function($rootScope, $scope,
-        Variable, $location, $filter, ElasticSearchClient,
-        VariableSearchQuerybuilder) {
+        Variable, $location, $filter, VariableSearchDao) {
       $scope.allButtonsDisabled = false;
       $scope.initSearch = function() {
         if (typeof($location.search().page) !== 'undefined') {
@@ -25,8 +24,7 @@ angular.module('metadatamanagementApp')
         }
         $location.search('query', $scope.query);
         $location.search('page', $scope.page);
-        ElasticSearchClient.search
-        (VariableSearchQuerybuilder.Query($scope.query, $scope.page))
+        VariableSearchDao.search($scope.query, $scope.page)
             .then(function(data) {
               $scope.searchResult = data.hits.hits;
               $scope.totalHits = data.hits.total;
