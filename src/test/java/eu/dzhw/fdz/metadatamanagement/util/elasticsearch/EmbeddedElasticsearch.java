@@ -9,21 +9,22 @@ import org.elasticsearch.common.settings.ImmutableSettings;
 import org.elasticsearch.node.Node;
 
 /**
- * SINGLETON
+ * Embedded elasticsearch server. It will start only once by the BasicTest.before method. The node
+ * name is 'UnitTestNode'. The node is by default reachable by the url http://localhost:9200.
  * 
  * @author Daniel Katzberg
  *
  */
 public class EmbeddedElasticsearch {
 
-  /** SINGLETON of the embeddedElasticsearch */
+  /** Singleton of the embeddedElasticsearch */
   private static volatile EmbeddedElasticsearch embeddedElasticsearch;
 
-  /** The local node of elasticsearch */
+  /** The node of elasticsearch */
   private Node node;
 
   /**
-   * PRIVATE CONSTRUCTOR.
+   * Private constructor of the singleton embedded server.
    */
   private EmbeddedElasticsearch() {
     // Elasticsearch Settings
@@ -38,7 +39,7 @@ public class EmbeddedElasticsearch {
       .settings(elasticsearchSettings.build())
       .node();
   }
-  
+
   /**
    * Shutdown the singleton elasticsearch node
    */
@@ -48,9 +49,10 @@ public class EmbeddedElasticsearch {
       this.node.close();
     }
   }
-  
+
   /**
-   * @return The embedded elasticsearch server is a singleton
+   * @return The embedded elasticsearch server is a singleton. This method will return the only
+   *         instance of the singleton.
    */
   public static EmbeddedElasticsearch getEmbeddedElasticsearch() {
     if (embeddedElasticsearch == null) {
@@ -60,10 +62,10 @@ public class EmbeddedElasticsearch {
         }
       }
     }
-    
+
     return embeddedElasticsearch;
   }
-  
+
   /* GETTER / SETTER */
   public Node getNode() {
     return node;
