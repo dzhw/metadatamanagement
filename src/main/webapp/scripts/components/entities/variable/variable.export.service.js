@@ -25,7 +25,8 @@ angular.module('metadatamanagementApp').factory(
         var content = template(context);
         zip.file('content.xml', content);
         // save the zip file (odt)
-        var blob = zip.generate({type: 'blob'});
+        var blob = zip.generate({type: 'blob',
+          mimeType: 'application/vnd.oasis.opendocument.text'});
         saveAs(blob, 'variable_' + variable.name + '.odt');
       };
 
