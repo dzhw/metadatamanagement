@@ -27,7 +27,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
-import eu.dzhw.fdz.metadatamanagement.AbstractBasicTest;
+import eu.dzhw.fdz.metadatamanagement.AbstractTest;
 import eu.dzhw.fdz.metadatamanagement.domain.User;
 import eu.dzhw.fdz.metadatamanagement.domain.builders.UserBuilder;
 import eu.dzhw.fdz.metadatamanagement.repository.AuthorityRepository;
@@ -42,7 +42,7 @@ import eu.dzhw.fdz.metadatamanagement.web.rest.dto.ManagedUserDTO;
  *
  * @see UserResource
  */
-public class UserResourceTest extends AbstractBasicTest {
+public class UserResourceTest extends AbstractTest {
 
   @Inject
   private UserRepository userRepository;

@@ -12,7 +12,7 @@ import javax.inject.Inject;
 
 import org.junit.Test;
 
-import eu.dzhw.fdz.metadatamanagement.AbstractBasicTest;
+import eu.dzhw.fdz.metadatamanagement.AbstractTest;
 import eu.dzhw.fdz.metadatamanagement.aop.logging.LoggingAspect;
 
 /**
@@ -20,7 +20,7 @@ import eu.dzhw.fdz.metadatamanagement.aop.logging.LoggingAspect;
  * @author Daniel Katzberg
  *
  */
-public class LoggingAspectConfigurationTest extends AbstractBasicTest {
+public class LoggingAspectConfigurationTest extends AbstractTest {
 
   @Inject
   private LoggingAspectConfiguration loggingAspectConfiguration;

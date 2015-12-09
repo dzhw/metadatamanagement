@@ -21,13 +21,13 @@ import org.junit.Test;
 import org.springframework.core.env.Environment;
 import org.springframework.mock.web.MockServletContext;
 
-import eu.dzhw.fdz.metadatamanagement.AbstractBasicTest;
+import eu.dzhw.fdz.metadatamanagement.AbstractTest;
 
 /**
  * @author Daniel Katzberg
  *
  */
-public class WebConfigurerTest extends AbstractBasicTest {
+public class WebConfigurerTest extends AbstractTest {
 
   @Inject
   private Environment env;

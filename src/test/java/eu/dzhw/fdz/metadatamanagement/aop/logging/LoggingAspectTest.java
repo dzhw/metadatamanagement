@@ -16,13 +16,13 @@ import org.aspectj.lang.Signature;
 import org.junit.Test;
 import org.mockito.Mockito;
 
-import eu.dzhw.fdz.metadatamanagement.AbstractBasicTest;
+import eu.dzhw.fdz.metadatamanagement.AbstractTest;
 
 /**
  * @author Daniel Katzberg
  *
  */
-public class LoggingAspectTest extends AbstractBasicTest {
+public class LoggingAspectTest extends AbstractTest {
 
   @Inject
   private LoggingAspect loggingAspect;

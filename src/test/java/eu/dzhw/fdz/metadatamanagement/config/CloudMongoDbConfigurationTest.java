@@ -21,14 +21,14 @@ import org.springframework.data.mongodb.core.mapping.event.ValidatingMongoEventL
 import com.mongodb.DB;
 import com.mongodb.Mongo;
 
-import eu.dzhw.fdz.metadatamanagement.AbstractBasicTest;
+import eu.dzhw.fdz.metadatamanagement.AbstractTest;
 import eu.dzhw.fdz.metadatamanagement.notest.util.UnitTestReflectionHelper;;
 
 /**
  * @author Daniel Katzberg
  *
  */
-public class CloudMongoDbConfigurationTest extends AbstractBasicTest {
+public class CloudMongoDbConfigurationTest extends AbstractTest {
 
   @Test
   public void testMongoDbConfiguration() {

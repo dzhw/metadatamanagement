@@ -13,13 +13,13 @@ import javax.inject.Inject;
 
 import org.junit.Test;
 
-import eu.dzhw.fdz.metadatamanagement.AbstractBasicTest;
+import eu.dzhw.fdz.metadatamanagement.AbstractTest;
 
 /**
  * @author Daniel Katzberg
  *
  */
-public class MetricsConfigurationTest extends AbstractBasicTest {
+public class MetricsConfigurationTest extends AbstractTest {
 
   @Inject
   private JHipsterProperties jHipsterProperties;

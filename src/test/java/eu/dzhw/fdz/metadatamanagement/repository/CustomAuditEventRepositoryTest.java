@@ -20,13 +20,13 @@ import org.junit.Test;
 import org.springframework.boot.actuate.audit.AuditEvent;
 import org.springframework.boot.actuate.audit.AuditEventRepository;
 
-import eu.dzhw.fdz.metadatamanagement.AbstractBasicTest;
+import eu.dzhw.fdz.metadatamanagement.AbstractTest;
 
 /**
  * @author Daniel Katzberg
  *
  */
-public class CustomAuditEventRepositoryTest extends AbstractBasicTest {
+public class CustomAuditEventRepositoryTest extends AbstractTest {
 
   @Inject
   private AuditEventRepository auditEventRepository;

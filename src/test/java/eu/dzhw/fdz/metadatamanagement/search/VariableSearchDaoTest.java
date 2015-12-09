@@ -16,7 +16,7 @@ import org.junit.Test;
 
 import com.google.gson.JsonObject;
 
-import eu.dzhw.fdz.metadatamanagement.AbstractBasicTest;
+import eu.dzhw.fdz.metadatamanagement.AbstractTest;
 import eu.dzhw.fdz.metadatamanagement.search.document.VariableSearchDocument;
 import eu.dzhw.fdz.metadatamanagement.search.document.builders.VariableSearchDocumentBuilder;
 import eu.dzhw.fdz.metadatamanagement.search.exception.ElasticsearchDocumentDeleteException;
@@ -29,7 +29,7 @@ import io.searchbox.client.JestClient;
  * @author René Reitmann
  * @author Daniel Katzberg
  */
-public class VariableSearchDaoTest extends AbstractBasicTest {
+public class VariableSearchDaoTest extends AbstractTest {
   @Inject
   private VariableSearchDao variableSearchDao;
 

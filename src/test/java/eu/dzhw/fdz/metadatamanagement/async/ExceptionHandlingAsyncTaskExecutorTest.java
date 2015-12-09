@@ -19,7 +19,7 @@ import org.mockito.Mockito;
 import org.springframework.core.task.AsyncTaskExecutor;
 
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
-import eu.dzhw.fdz.metadatamanagement.AbstractBasicTest;
+import eu.dzhw.fdz.metadatamanagement.AbstractTest;
 import eu.dzhw.fdz.metadatamanagement.notest.util.UnitTestUtils;
 
 /**
@@ -28,7 +28,7 @@ import eu.dzhw.fdz.metadatamanagement.notest.util.UnitTestUtils;
  * @author Daniel Katzberg
  *
  */
-public class ExceptionHandlingAsyncTaskExecutorTest extends AbstractBasicTest {
+public class ExceptionHandlingAsyncTaskExecutorTest extends AbstractTest {
 
   private ExceptionHandlingAsyncTaskExecutor asyncTaskExecutor;
 

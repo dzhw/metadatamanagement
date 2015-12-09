@@ -25,7 +25,7 @@ import org.springframework.test.util.ReflectionTestUtils;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
-import eu.dzhw.fdz.metadatamanagement.AbstractBasicTest;
+import eu.dzhw.fdz.metadatamanagement.AbstractTest;
 import eu.dzhw.fdz.metadatamanagement.domain.Variable;
 import eu.dzhw.fdz.metadatamanagement.domain.enumeration.DataType;
 import eu.dzhw.fdz.metadatamanagement.domain.enumeration.ScaleLevel;
@@ -40,7 +40,7 @@ import eu.dzhw.fdz.metadatamanagement.web.rest.errors.ExceptionTranslator;
  *
  * @see VariableResource
  */
-public class VariableResourceTest extends AbstractBasicTest {
+public class VariableResourceTest extends AbstractTest {
 
   private static final String DEFAULT_ID = "VARID";
   private static final String DEFAULT_NAME = "AAAAA";

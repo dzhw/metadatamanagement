@@ -27,7 +27,7 @@ import org.springframework.security.oauth2.common.OAuth2RefreshToken;
 import org.springframework.security.oauth2.provider.OAuth2Authentication;
 import org.springframework.security.oauth2.provider.OAuth2Request;
 
-import eu.dzhw.fdz.metadatamanagement.AbstractBasicTest;
+import eu.dzhw.fdz.metadatamanagement.AbstractTest;
 import eu.dzhw.fdz.metadatamanagement.repository.OAuth2AccessTokenRepository;
 import eu.dzhw.fdz.metadatamanagement.repository.OAuth2RefreshTokenRepository;
 
@@ -35,7 +35,7 @@ import eu.dzhw.fdz.metadatamanagement.repository.OAuth2RefreshTokenRepository;
  * @author Daniel Katzberg
  *
  */
-public class MongoDBTokenStoreTest extends AbstractBasicTest {
+public class MongoDBTokenStoreTest extends AbstractTest {
 
   @Inject
   private OAuth2AccessTokenRepository oAuth2AccessTokenRepository;

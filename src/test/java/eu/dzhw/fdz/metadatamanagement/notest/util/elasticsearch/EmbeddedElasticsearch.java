@@ -9,8 +9,9 @@ import org.elasticsearch.common.settings.ImmutableSettings;
 import org.elasticsearch.node.Node;
 
 /**
- * Embedded elasticsearch server. It will start only once by the BasicTest.before method. The node
- * name is 'UnitTestNode'. The node is by default reachable by the url http://localhost:9200.
+ * Embedded in-memory elasticsearch node. It will start only once by the
+ * {@code UnitTestConfiguration}. The node name is 'UnitTestNode'. The node is by default reachable
+ * by the url http://localhost:9234.
  * 
  * @author Daniel Katzberg
  *
@@ -32,7 +33,7 @@ public class EmbeddedElasticsearch {
       .put("node.name", "UnitTestNode")
       .put("http.port", 9234);
 
-    // Start the elasticsearch node
+    // Start the elasticsearch in-memory node
     this.node = nodeBuilder().local(false)
       .settings(elasticsearchSettings.build())
       .node();

@@ -14,14 +14,14 @@ import org.junit.Test;
 import org.springframework.boot.actuate.health.Health.Builder;
 import org.springframework.boot.actuate.health.Status;
 
-import eu.dzhw.fdz.metadatamanagement.AbstractBasicTest;
+import eu.dzhw.fdz.metadatamanagement.AbstractTest;
 import io.searchbox.client.JestClient;
 
 /**
  * @author Daniel Katzberg
  *
  */
-public class ElasticsearchHealthIndicatorTest extends AbstractBasicTest {
+public class ElasticsearchHealthIndicatorTest extends AbstractTest {
 
   @Inject
   private JestClient jestClient;

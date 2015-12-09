@@ -19,13 +19,13 @@ import org.junit.Test;
 import org.mockito.Mockito;
 import org.springframework.security.core.Authentication;
 
-import eu.dzhw.fdz.metadatamanagement.AbstractBasicTest;
+import eu.dzhw.fdz.metadatamanagement.AbstractTest;
 
 /**
  * @author Daniel Katzberg
  *
  */
-public class AjaxLogoutSuccessHandlerTest extends AbstractBasicTest {
+public class AjaxLogoutSuccessHandlerTest extends AbstractTest {
 
   @Inject
   private AjaxLogoutSuccessHandler ajaxLogoutSuccessHandler;

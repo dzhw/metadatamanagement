@@ -12,13 +12,13 @@ import javax.inject.Inject;
 import org.junit.Test;
 import org.springframework.cache.CacheManager;
 
-import eu.dzhw.fdz.metadatamanagement.AbstractBasicTest;
+import eu.dzhw.fdz.metadatamanagement.AbstractTest;
 
 /**
  * @author Daniel Katzberg
  *
  */
-public class CacheConfigurationTest extends AbstractBasicTest {
+public class CacheConfigurationTest extends AbstractTest {
 
   @Inject
   private CacheConfiguration cacheConfiguration;

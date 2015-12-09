@@ -11,7 +11,7 @@ import javax.inject.Inject;
 import org.junit.Before;
 import org.junit.Test;
 
-import eu.dzhw.fdz.metadatamanagement.AbstractBasicTest;
+import eu.dzhw.fdz.metadatamanagement.AbstractTest;
 import eu.dzhw.fdz.metadatamanagement.domain.Variable;
 import eu.dzhw.fdz.metadatamanagement.domain.builders.VariableBuilder;
 import eu.dzhw.fdz.metadatamanagement.domain.enumeration.DataType;
@@ -27,7 +27,7 @@ import eu.dzhw.fdz.metadatamanagement.search.VariableSearchDao;
  * @author René Reitmann
  * @author Daniel Katzberg
  */
-public class ElasticsearchAdminServiceTest extends AbstractBasicTest {
+public class ElasticsearchAdminServiceTest extends AbstractTest {
 
   @Inject
   private ElasticsearchAdminService elasticsearchAdminService;

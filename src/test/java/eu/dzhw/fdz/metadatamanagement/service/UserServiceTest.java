@@ -14,7 +14,7 @@ import org.junit.After;
 import org.junit.Test;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
-import eu.dzhw.fdz.metadatamanagement.AbstractBasicTest;
+import eu.dzhw.fdz.metadatamanagement.AbstractTest;
 import eu.dzhw.fdz.metadatamanagement.domain.User;
 import eu.dzhw.fdz.metadatamanagement.domain.builders.UserBuilder;
 import eu.dzhw.fdz.metadatamanagement.notest.util.UnitTestUtils;
@@ -28,7 +28,7 @@ import eu.dzhw.fdz.metadatamanagement.service.util.RandomUtil;
  *
  * @see UserService
  */
-public class UserServiceTest extends AbstractBasicTest {
+public class UserServiceTest extends AbstractTest {
 
   @Inject
   private UserRepository userRepository;
