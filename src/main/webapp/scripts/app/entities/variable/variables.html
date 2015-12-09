@@ -1,13 +1,14 @@
-<div class="container" ng-init="initSearch()">
-	 <h2 translate="metadatamanagementApp.variable.home.title">Variables</h2>
-    <jh-alert></jh-alert>
+<div class="container">
+    <!--TODO change to error as soon as variable create/edit is not modal anymore-->
+		<jh-alert></jh-alert>
+	  <h2 translate="metadatamanagementApp.variable.home.title">Variables</h2>
     <div class="container">
         <div class="row">
             <div>
                 <button class="btn btn-primary" ui-sref="variable.new">
                     <span class="glyphicon glyphicon-flash"></span> <span translate="metadatamanagementApp.variable.home.createLabel">Create a new Variable</span>
                 </button>
-                <button class="btn btn-success" ng-click="initSearch()">
+                <button class="btn btn-success" ng-click="refresh()">
                     <span class="glyphicon glyphicon-refresh"></span> <span translate="metadatamanagementApp.variable.home.refresh">refresh</span>
                 </button>
             </div>
@@ -40,11 +41,11 @@
     <div class="row">
 	<div class="panel panel-primary">
 		<div class="panel-body">
-			<form ng-submit="search(0)" method='get'>
+			<form ng-submit="search(1)" method='get'>
 				<div class="input-group">
 					<label class="sr-only" for="query" >{{}}
 						</label><input type="text" ng-model="query"
-						ng-keyup="search()" class="form-control"
+						ng-keyup="search(1)" class="form-control"
 						placeholder="{{'variablesearch.inputplaceholder'|translate}}"
 						autocomplete="off" autofocus="autofocus"> <span class="input-group-btn"><button
 							class="btn btn-default" type="submit">
@@ -54,9 +55,9 @@
 			</form>
 		</div>
 	</div>
-	<div ng-if="searchResult" class="panel panel-primary">
+	<div class="panel panel-primary">
 		<div class="panel-heading">
-			<h3 class="panel-title">{{'variablesearch.variablelist'|translate}}</h3>
+			<h3 class="panel-title" translate="variablesearch.variablelist" translate-values="{'totalHits':{{page.totalHits}},'minHitNumber':{{page.getMinHitNumber()}},'maxHitNumber':{{page.getMaxHitNumber()}}}">Showing hits 1-10</h3>
 		</div>
 		<ul class="list-group">
 			<li ng-repeat="result in searchResult" class="list-group-item"><h4
@@ -67,27 +68,25 @@
 				<p class="list-group-item-text">{{result._source.question }}</p>
 				<p class="list-group-item-text">{{result._source.variableSurvey.title }}</p>
 				</br>
-				<button type="submit"
-                                ui-sref="variable.detail({id:result._source.id})"
-                                class="btn btn-info btn-sm" ng-disabled="{{allButtonsDisabled}}">
-                            <span class="glyphicon glyphicon-eye-open"></span>&nbsp;<span translate="entity.action.view"> View</span>
-                        </button>
-                        <button type="submit"
-                                ui-sref="variable.edit({id:result._source.id})"
-                                class="btn btn-primary btn-sm" ng-disabled="{{allButtonsDisabled}}">
-                            <span class="glyphicon glyphicon-pencil"></span>&nbsp;<span translate="entity.action.edit"> Edit</span>
-                        </button>
-                        <button type="submit"
-                                ng-click="delete(result._source.id)"
-                                class="btn btn-danger btn-sm" ng-disabled="{{allButtonsDisabled}}">
-                            <span class="glyphicon glyphicon-remove-circle"></span>&nbsp;<span translate="entity.action.delete"> Delete</span>
-                        </button>
+				<button type="submit" ui-sref="variable.detail({id:result._source.id})" class="btn btn-info btn-sm">
+          <span class="glyphicon glyphicon-eye-open"></span>&nbsp;<span translate="entity.action.view"> View</span>
+        </button>
+        <button type="submit" ui-sref="variable.edit({id:result._source.id})" class="btn btn-primary btn-sm">
+          <span class="glyphicon glyphicon-pencil"></span>&nbsp;<span translate="entity.action.edit"> Edit</span>
+        </button>
+        <button type="submit"  ng-click="delete(result._source.id)" class="btn btn-danger btn-sm">
+          <span class="glyphicon glyphicon-remove-circle"></span>&nbsp;<span translate="entity.action.delete"> Delete</span>
+        </button>
+			</li>
+			<li ng-if="page.totalHits===0" class="list-group-item">
+				<p class="list-group-item-text" translate="variablesearch.noresults">No results</p>
 			</li>
 		</ul>
 	</div>
-	<ul class = "pager">
-   <li class = "{{IsPreviousEnabled?'':'disabled'}} previous" ng-click="!IsPreviousEnabled || search(page - 10)"><a>&larr; {{'pagination.previous'|translate}}</a></li>
-   <li class = "{{IsNextEnabled?'':'disabled'}} next" ng-click="!IsNextEnabled || search(page + 10)"><a>{{'pagination.next'|translate}} &rarr;</a></li>
+	<ul class = "pager" ng-show="page.totalHits>0">
+   <li class = "previous"><a class = "btn" ng-disabled="!page.hasPreviousPage()" ng-click="previousPage()">&larr; {{'pagination.previous'|translate}}</a></li>
+	 <li class="hidden-xs"><a><span translate="variablesearch.numberofpages" translate-values="{'currentPageNumber':{{page.currentPageNumber}},'totalNumberOfPages':{{page.getTotalNumberOfPages()}}}">Page 1 of 1</span></a</li>
+   <li class = "next"><a class = "btn" ng-disabled="!page.hasNextPage()" ng-click="nextPage()">{{'pagination.next'|translate}} &rarr;</a></li>
 </ul>
 	</div>
 </div>

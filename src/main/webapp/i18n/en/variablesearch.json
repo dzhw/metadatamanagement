@@ -1,7 +1,9 @@
 {
-    "variablesearch": {
-        "title": "Variable search",
-        "variablelist": "List of variables",
-        "inputplaceholder": "Enter your search terms..."
-    }
+  "variablesearch": {
+    "title": "Variable search",
+    "variablelist": "Found {{totalHits}} variables, showing hit {{minHitNumber}} - {{maxHitNumber}}:",
+    "numberofpages": "Page {{currentPageNumber}} of {{totalNumberOfPages}}",
+    "inputplaceholder": "Enter your search terms...",
+    "noresults": "No variables found."
+  }
 }

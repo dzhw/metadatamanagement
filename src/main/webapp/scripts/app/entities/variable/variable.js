@@ -13,7 +13,7 @@ angular.module('metadatamanagementApp')
         views: {
           'content@': {
             templateUrl: 'scripts/app/entities/variable/variables.html',
-            controller: 'VariableController'
+            controller: 'VariablesController'
           }
         },
         resolve: {

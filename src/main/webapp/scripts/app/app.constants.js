@@ -6,6 +6,6 @@ angular.module('metadatamanagementApp')
 
 .constant('VERSION', '0.1.11-SNAPSHOT')
 
-.constant('ElasticSearchProperties', {url:'http://localhost:9200',versionApi:1.7,logLevel:'trace'})
+.constant('ElasticSearchProperties', {url:'http://localhost:9200',versionApi:1.7,logLevel:'trace',pageSize:10})
 
 ;

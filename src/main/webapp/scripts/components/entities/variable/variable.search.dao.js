@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('metadatamanagementApp').service('VariableSearchDao',
-    function(Language, ElasticSearchClient) {
+    function($rootScope, Language, ElasticSearchClient) {
       return {
         search: function(queryterm, pageNumber) {
           var query = {
@@ -32,8 +32,9 @@ angular.module('metadatamanagementApp').service('VariableSearchDao',
                   }]
                 }
               },
-              'from': pageNumber,
-              'size': 10
+              'from': (pageNumber - 1) *
+                $rootScope.elasticSearchProperties.pageSize,
+              'size': $rootScope.elasticSearchProperties.pageSize
             }
           };
           if (!queryterm) {

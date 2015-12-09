@@ -22,8 +22,10 @@ angular.module('metadatamanagementApp').controller('VariableDialogController',
           $scope.save = function() {
             if (isCreateMode) {
               Variable.create($scope.variable, onSaveFinished);
+              $scope.$broadcast('variable.created');
             } else {
               Variable.update($scope.variable, onSaveFinished);
+              $scope.$broadcast('variable.updated');
             }
           };
 

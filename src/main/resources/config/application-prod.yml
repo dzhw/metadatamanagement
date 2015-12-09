@@ -77,3 +77,4 @@ metadatamanagement:
     url: https://public:bx6hbibdskm7j1ag4v6pyvvlsdxknfhu@dwalin-us-east-1.searchly.com
     versionApi: 1.7
     logLevel: trace
+    pageSize: 10

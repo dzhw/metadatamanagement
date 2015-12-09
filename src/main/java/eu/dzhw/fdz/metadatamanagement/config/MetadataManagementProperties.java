@@ -66,8 +66,8 @@ public class MetadataManagementProperties {
     private String url = "http://localhost:9200";
     private String versionApi = "1.7";
     private String logLevel = "trace";
+    private Integer pageSize = 10;
         
-
     public String getUrl() {
       return this.url;
     }
@@ -90,6 +90,14 @@ public class MetadataManagementProperties {
 
     public void setLogLevel(String logLevel) {
       this.logLevel = logLevel;
+    }
+
+    public Integer getPageSize() {
+      return pageSize;
+    }
+
+    public void setPageSize(Integer pageSize) {
+      this.pageSize = pageSize;
     }
   }
 }

@@ -68,3 +68,4 @@ metadatamanagement:
     url: http://localhost:9200
     versionApi: 1.7
     logLevel: trace
+    pageSize: 10
