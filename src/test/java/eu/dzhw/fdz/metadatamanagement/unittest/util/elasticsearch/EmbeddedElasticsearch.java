@@ -1,7 +1,7 @@
 /**
  * 
  */
-package eu.dzhw.fdz.metadatamanagement.notest.util.elasticsearch;
+package eu.dzhw.fdz.metadatamanagement.unittest.util.elasticsearch;
 
 import static org.elasticsearch.node.NodeBuilder.nodeBuilder;
 

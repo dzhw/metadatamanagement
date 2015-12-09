@@ -16,10 +16,10 @@ import eu.dzhw.fdz.metadatamanagement.domain.Variable;
 import eu.dzhw.fdz.metadatamanagement.domain.builders.VariableBuilder;
 import eu.dzhw.fdz.metadatamanagement.domain.enumeration.DataType;
 import eu.dzhw.fdz.metadatamanagement.domain.enumeration.ScaleLevel;
-import eu.dzhw.fdz.metadatamanagement.notest.util.UnitTestReflectionHelper;
 import eu.dzhw.fdz.metadatamanagement.repository.VariableRepository;
 import eu.dzhw.fdz.metadatamanagement.search.ElasticsearchAdminDao;
 import eu.dzhw.fdz.metadatamanagement.search.VariableSearchDao;
+import eu.dzhw.fdz.metadatamanagement.unittest.util.UnitTestReflectionHelper;
 
 /**
  * Test which ensures that all indices are created successfully.

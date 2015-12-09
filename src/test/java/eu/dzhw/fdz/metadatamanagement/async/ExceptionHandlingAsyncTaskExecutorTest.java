@@ -20,7 +20,7 @@ import org.springframework.core.task.AsyncTaskExecutor;
 
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import eu.dzhw.fdz.metadatamanagement.AbstractTest;
-import eu.dzhw.fdz.metadatamanagement.notest.util.UnitTestUtils;
+import eu.dzhw.fdz.metadatamanagement.unittest.util.UnitTestUtils;
 
 /**
  * Test class for the AuditResource REST controller.

@@ -17,9 +17,9 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import eu.dzhw.fdz.metadatamanagement.AbstractTest;
 import eu.dzhw.fdz.metadatamanagement.domain.User;
 import eu.dzhw.fdz.metadatamanagement.domain.builders.UserBuilder;
-import eu.dzhw.fdz.metadatamanagement.notest.util.UnitTestUtils;
 import eu.dzhw.fdz.metadatamanagement.repository.UserRepository;
 import eu.dzhw.fdz.metadatamanagement.service.util.RandomUtil;
+import eu.dzhw.fdz.metadatamanagement.unittest.util.UnitTestUtils;
 
 /**
  * Test class for the UserResource REST controller.

@@ -22,7 +22,7 @@ import com.mongodb.DB;
 import com.mongodb.Mongo;
 
 import eu.dzhw.fdz.metadatamanagement.AbstractTest;
-import eu.dzhw.fdz.metadatamanagement.notest.util.UnitTestReflectionHelper;;
+import eu.dzhw.fdz.metadatamanagement.unittest.util.UnitTestReflectionHelper;;
 
 /**
  * @author Daniel Katzberg

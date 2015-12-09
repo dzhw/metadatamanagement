@@ -1,7 +1,7 @@
 /**
  * 
  */
-package eu.dzhw.fdz.metadatamanagement.notest.util;
+package eu.dzhw.fdz.metadatamanagement.unittest.util;
 
 import java.lang.reflect.Field;
 import java.util.HashSet;

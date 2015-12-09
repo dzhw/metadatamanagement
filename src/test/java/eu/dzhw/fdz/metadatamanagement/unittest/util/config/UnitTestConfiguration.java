@@ -1,12 +1,12 @@
 /**
  * 
  */
-package eu.dzhw.fdz.metadatamanagement.notest.util.config;
+package eu.dzhw.fdz.metadatamanagement.unittest.util.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import eu.dzhw.fdz.metadatamanagement.notest.util.elasticsearch.EmbeddedElasticsearch;
+import eu.dzhw.fdz.metadatamanagement.unittest.util.elasticsearch.EmbeddedElasticsearch;
 
 /**
  * @author Daniel Katzberg
