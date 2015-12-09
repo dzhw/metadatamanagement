@@ -68,7 +68,9 @@ public class UnitTestReflectionHelper {
    */
   public static Field getDeclaredFieldForTestInvocation(Class<?> clazz, String fieldName)
       throws NoSuchFieldException, SecurityException {
-
+    
+    LOGGER.debug("Class: " + clazz.getSimpleName() + " with field " + fieldName);
+    
     // check for found method
     Field field = clazz.getDeclaredField(fieldName);
     assertThat(field, not(nullValue()));

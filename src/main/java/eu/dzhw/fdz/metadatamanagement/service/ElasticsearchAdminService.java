@@ -52,6 +52,7 @@ public class ElasticsearchAdminService {
     if (elasticsearchAdminDao.exists(index)) {
       elasticsearchAdminDao.delete(index);
       // deleting is asynchronous and thus searchly complains if we create the new index to early
+      //TODO Reitmann remove ...?
       while (elasticsearchAdminDao.exists(index)) {
         try {
           Thread.sleep(1000);

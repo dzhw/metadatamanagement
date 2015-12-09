@@ -3,10 +3,13 @@
  */
 package eu.dzhw.fdz.metadatamanagement.config;
 
-import static org.hamcrest.Matchers.is;
+import static org.hamcrest.CoreMatchers.not;
+import static org.hamcrest.CoreMatchers.nullValue;
 import static org.junit.Assert.assertThat;
+import static org.mockito.Mockito.when;
 
-import javax.inject.Inject;
+import java.lang.reflect.Field;
+
 import javax.servlet.Filter;
 import javax.servlet.FilterRegistration;
 import javax.servlet.Servlet;
@@ -18,27 +21,29 @@ import org.apache.catalina.core.ApplicationFilterRegistration;
 import org.apache.catalina.core.StandardContext;
 import org.apache.tomcat.util.descriptor.web.FilterDef;
 import org.junit.Test;
+import org.mockito.Mockito;
 import org.springframework.core.env.Environment;
 import org.springframework.mock.web.MockServletContext;
 
-import eu.dzhw.fdz.metadatamanagement.AbstractTest;
+import eu.dzhw.fdz.metadatamanagement.unittest.util.UnitTestReflectionHelper;
 
 /**
  * @author Daniel Katzberg
  *
  */
-public class WebConfigurerTest extends AbstractTest {
-
-  @Inject
-  private Environment env;
-
-  @Inject
-  private WebConfigurer webConfigurer;
+public class WebConfigurerTest {
 
   @Test
-  public void testWebConfigurationOnStartup() throws ServletException {
-
+  public void testWebConfigurationOnStartup() throws ServletException, NoSuchFieldException,
+      SecurityException, IllegalArgumentException, IllegalAccessException {
+    
     // Arrange
+    WebConfigurer webConfigurer = new WebConfigurer();
+    Environment environment = Mockito.mock(Environment.class);
+    when(environment.acceptsProfiles(Constants.SPRING_PROFILE_PRODUCTION)).thenReturn(true);
+    Field envField = UnitTestReflectionHelper.getDeclaredFieldForTestInvocation(webConfigurer.getClass(), "env");
+    envField.set(webConfigurer, environment);
+    
     // Create mocked Servlet Context, with default override methods for
     // correct run of the web configurer
     MockServletContext context = new MockServletContext("") {
@@ -80,7 +85,7 @@ public class WebConfigurerTest extends AbstractTest {
     webConfigurer.onStartup(context);
 
     // Assert
-    assertThat(env.getActiveProfiles().length, is(0));
+    assertThat(webConfigurer, not(nullValue()));
   }
 
 }
