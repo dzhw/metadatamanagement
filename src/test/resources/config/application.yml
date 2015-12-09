@@ -46,6 +46,11 @@ server:
 # JHipster specific properties
 # ===================================================================
 
+metadatamanagement:
+  elasticsearch-client:
+    url: http://localhost:9234
+    read-timeout: 60000
+
 jhipster:
     async:
         corePoolSize: 2

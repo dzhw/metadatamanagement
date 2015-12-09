@@ -32,7 +32,8 @@ public class EmbeddedElasticsearch {
       .put("http.enabled", "true")
       .put("index.number_of_shards", 1)
       .put("index.number_of_replicas", 1)
-      .put("node.name", "UnitTestNode");
+      .put("node.name", "UnitTestNode")
+      .put("http.port", 9234);
 
     // Start the elasticsearch node
     this.node = nodeBuilder().local(false)
