@@ -40,16 +40,15 @@ public class ExceptionHandlingAsyncTaskExecutorTest extends AbstractBasicTest {
     this.asyncTaskExecutor = new ExceptionHandlingAsyncTaskExecutor(this.taskExecutor);
   }
 
-  @Test(expected=NullPointerException.class)
+  @Test(expected = NullPointerException.class)
   public void testDestroy() throws Exception {
     // Arrange
-    ExceptionHandlingAsyncTaskExecutor executorClone =
-        new ExceptionHandlingAsyncTaskExecutor((AsyncTaskExecutor) 
-            UnitTestUtils.cloneObject(this.taskExecutor));
+    ExceptionHandlingAsyncTaskExecutor executorClone = new ExceptionHandlingAsyncTaskExecutor(
+        (AsyncTaskExecutor) UnitTestUtils.cloneObject(this.taskExecutor));
 
     // Act
     executorClone.destroy();
-    executorClone.submit(Mockito.mock(Runnable.class));//Destoryed Object -> Nullpointer
+    executorClone.submit(Mockito.mock(Runnable.class));// Destoryed Object -> Nullpointer
 
     // Assert
   }
@@ -120,7 +119,7 @@ public class ExceptionHandlingAsyncTaskExecutorTest extends AbstractBasicTest {
     assertThat(this.asyncTaskExecutor, is(not(nullValue())));
     assertThat(future, is(not(nullValue())));
   }
-  
+
   @SuppressWarnings({"unchecked", "rawtypes"})
   @Test
   public void testHandleExceptionCallable() {
@@ -136,7 +135,8 @@ public class ExceptionHandlingAsyncTaskExecutorTest extends AbstractBasicTest {
         String nullValue = null;
         nullValue.length(); // Nullpointer for Handle Method
         return null;
-      }});
+      }
+    });
 
     // Assert
     assertThat(this.asyncTaskExecutor, is(not(nullValue())));

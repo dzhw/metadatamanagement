@@ -20,29 +20,29 @@ import eu.dzhw.fdz.metadatamanagement.aop.logging.LoggingAspect;
  * @author Daniel Katzberg
  *
  */
-public class LoggingAspectConfigurationTest extends AbstractBasicTest{
+public class LoggingAspectConfigurationTest extends AbstractBasicTest {
 
-	@Inject
-	private LoggingAspectConfiguration loggingAspectConfiguration;
-	
-	@Inject
-	private LoggingAspect loggingAspect;
-	
-	@PostConstruct
-	  public void postConstruct() {
-	    this.loggingAspect = new LoggingAspect();
-	  }
+  @Inject
+  private LoggingAspectConfiguration loggingAspectConfiguration;
 
-	@Test
-	public void testLoggingAspect() {
-		//Arrange
-		
-		//Act
-		LoggingAspect loggingAspect = this.loggingAspectConfiguration.loggingAspect();
-		
-		//Assert
-		assertThat(this.loggingAspectConfiguration, not(nullValue()));
-		assertThat(loggingAspect, not(nullValue()));
-		assertThat(this.loggingAspect, not(nullValue()));
-	}
+  @Inject
+  private LoggingAspect loggingAspect;
+
+  @PostConstruct
+  public void postConstruct() {
+    this.loggingAspect = new LoggingAspect();
+  }
+
+  @Test
+  public void testLoggingAspect() {
+    // Arrange
+
+    // Act
+    LoggingAspect loggingAspect = this.loggingAspectConfiguration.loggingAspect();
+
+    // Assert
+    assertThat(this.loggingAspectConfiguration, not(nullValue()));
+    assertThat(loggingAspect, not(nullValue()));
+    assertThat(this.loggingAspect, not(nullValue()));
+  }
 }

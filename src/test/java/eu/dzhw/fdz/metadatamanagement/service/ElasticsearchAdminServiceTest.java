@@ -28,16 +28,16 @@ import eu.dzhw.fdz.metadatamanagement.search.VariableSearchDao;
  * @author Daniel Katzberg
  */
 public class ElasticsearchAdminServiceTest extends AbstractBasicTest {
-  
+
   @Inject
   private ElasticsearchAdminService elasticsearchAdminService;
 
   @Inject
   private VariableRepository variableRepository;
-  
+
   @Inject
   private VariableSearchDao variableSearchDao;
-  
+
   @Inject
   private ElasticsearchAdminDao elasticsearchAdminDao;
 
@@ -50,45 +50,58 @@ public class ElasticsearchAdminServiceTest extends AbstractBasicTest {
 
   @Test
   public void testRecreateAllIndices() {
-    Variable variable1 = new VariableBuilder().withId("1234").withDataType(DataType.numeric)
-        .withScaleLevel(ScaleLevel.metric).withName("name").withLabel("label").build();
+    Variable variable1 = new VariableBuilder().withId("1234")
+      .withDataType(DataType.numeric)
+      .withScaleLevel(ScaleLevel.metric)
+      .withName("name")
+      .withLabel("label")
+      .build();
     variableRepository.save(variable1);
-    
-    Variable variable2 = new VariableBuilder().withId("5678").withDataType(DataType.numeric)
-        .withScaleLevel(ScaleLevel.metric).withName("name").withLabel("label").build();
+
+    Variable variable2 = new VariableBuilder().withId("5678")
+      .withDataType(DataType.numeric)
+      .withScaleLevel(ScaleLevel.metric)
+      .withName("name")
+      .withLabel("label")
+      .build();
     variableRepository.save(variable2);
-    
+
     elasticsearchAdminService.recreateAllIndices();
-    
+
     for (String index : ElasticsearchAdminService.INDICES) {
       elasticsearchAdminDao.refresh(index);
-      assertThat(variableSearchDao.findAll(index).size(), equalTo(2));      
+      assertThat(variableSearchDao.findAll(index)
+        .size(), equalTo(2));
     }
   }
-  
-  //TODO reflection do not found private method
-//  @Test(expected=InvocationTargetException.class)
-  public void testLoadSettingsWithError() throws IllegalAccessException, IllegalArgumentException, InvocationTargetException {
-    //Arrange
-    Method method = UnitTestReflectionHelper.getDeclaredMethodForTestInvocation(this.elasticsearchAdminService.getClass(), "loadSettings");
-    
-    //Act
+
+  // TODO reflection do not found private method
+  // @Test(expected=InvocationTargetException.class)
+  public void testLoadSettingsWithError()
+      throws IllegalAccessException, IllegalArgumentException, InvocationTargetException {
+    // Arrange
+    Method method = UnitTestReflectionHelper.getDeclaredMethodForTestInvocation(
+        this.elasticsearchAdminService.getClass(), "loadSettings");
+
+    // Act
     method.invoke(this.elasticsearchAdminService, "WrongIndex");
-    
-    //Assert
-    //No Assertion, because of the exception.
+
+    // Assert
+    // No Assertion, because of the exception.
   }
-  
-//TODO reflection do not found private method
-//  @Test(expected=InvocationTargetException.class)
-  public void testLoadMappingWithError() throws IllegalAccessException, IllegalArgumentException, InvocationTargetException {
-    //Arrange
-    Method method = UnitTestReflectionHelper.getDeclaredMethodForTestInvocation(this.elasticsearchAdminService.getClass(), "loadMapping");
-    
-    //Act
+
+  // TODO reflection do not found private method
+  // @Test(expected=InvocationTargetException.class)
+  public void testLoadMappingWithError()
+      throws IllegalAccessException, IllegalArgumentException, InvocationTargetException {
+    // Arrange
+    Method method = UnitTestReflectionHelper
+      .getDeclaredMethodForTestInvocation(this.elasticsearchAdminService.getClass(), "loadMapping");
+
+    // Act
     method.invoke(this.elasticsearchAdminService, "WrongIndex", "WrongType");
-    
-    //Assert
-    //No Assertion, because of the exception.
+
+    // Assert
+    // No Assertion, because of the exception.
   }
 }

@@ -53,10 +53,10 @@ public class ExceptionTranslatorTest {
     List<FieldError> fieldErrors = new ArrayList<>();
     fieldErrors.add(new FieldError("objectName", "field", "message"));
     when(bindingResult.getFieldErrors()).thenReturn(fieldErrors);
-    
+
     // Act
-    ErrorDTO dto = exceptionTranslator.processValidationError(new MethodArgumentNotValidException(
-        Mockito.mock(MethodParameter.class), bindingResult));
+    ErrorDTO dto = exceptionTranslator.processValidationError(
+        new MethodArgumentNotValidException(Mockito.mock(MethodParameter.class), bindingResult));
 
     // Assert
     assertThat(exceptionTranslator, not(nullValue()));
@@ -100,8 +100,8 @@ public class ExceptionTranslatorTest {
     ExceptionTranslator exceptionTranslator = new ExceptionTranslator();
 
     // Act
-    ErrorDTO dto = exceptionTranslator
-      .processMethodNotSupportedException(new HttpRequestMethodNotSupportedException("method", "message"));
+    ErrorDTO dto = exceptionTranslator.processMethodNotSupportedException(
+        new HttpRequestMethodNotSupportedException("method", "message"));
 
     // Assert
     assertThat(exceptionTranslator, not(nullValue()));

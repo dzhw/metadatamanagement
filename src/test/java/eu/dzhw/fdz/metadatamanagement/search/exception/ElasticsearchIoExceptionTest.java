@@ -22,10 +22,10 @@ public class ElasticsearchIoExceptionTest {
   public void testElasticsearchIoException() {
     // Arrange
     ElasticsearchIoException ioException = new ElasticsearchIoException(new IOException("Message"));
-    
-    //Act
-    
-    //Assert
+
+    // Act
+
+    // Assert
     assertThat(ioException.getMessage(), is("Unable to connect to elasticsearch."));
   }
 }

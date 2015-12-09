@@ -73,8 +73,8 @@ public class LogsResourceTest extends AbstractBasicTest {
 
     // Assert
     this.restUserMockMvc.perform(put("/api/logs").contentType(TestUtil.APPLICATION_JSON_UTF8)
-        .content(TestUtil.convertObjectToJsonBytes(loggerDTO)))
-        .andExpect(status().is2xxSuccessful());
+      .content(TestUtil.convertObjectToJsonBytes(loggerDTO)))
+      .andExpect(status().is2xxSuccessful());
   }
 
 }

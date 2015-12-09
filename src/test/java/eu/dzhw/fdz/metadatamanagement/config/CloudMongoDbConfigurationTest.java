@@ -28,7 +28,7 @@ import eu.dzhw.fdz.metadatamanagement.notest.util.UnitTestReflectionHelper;;
  * @author Daniel Katzberg
  *
  */
-public class CloudMongoDbConfigurationTest extends AbstractBasicTest{
+public class CloudMongoDbConfigurationTest extends AbstractBasicTest {
 
   @Test
   public void testMongoDbConfiguration() {
@@ -46,10 +46,12 @@ public class CloudMongoDbConfigurationTest extends AbstractBasicTest{
   }
 
   @Test
-  public void testGetDatabaseName() throws NoSuchFieldException, SecurityException, IllegalArgumentException, IllegalAccessException {
+  public void testGetDatabaseName() throws NoSuchFieldException, SecurityException,
+      IllegalArgumentException, IllegalAccessException {
     // Arrange
     CloudMongoDbConfiguration cloudMongoDbConfiguration = new CloudMongoDbConfiguration();
-    Field mongoDbFactory = UnitTestReflectionHelper.getDeclaredFieldForTestInvocation(cloudMongoDbConfiguration.getClass(), "mongoDbFactory");
+    Field mongoDbFactory = UnitTestReflectionHelper
+      .getDeclaredFieldForTestInvocation(cloudMongoDbConfiguration.getClass(), "mongoDbFactory");
     MongoDbFactory dbFactory = Mockito.mock(MongoDbFactory.class);
     DB db = Mockito.mock(DB.class);
     when(db.getName()).thenReturn("MongoName");
@@ -58,16 +60,17 @@ public class CloudMongoDbConfigurationTest extends AbstractBasicTest{
 
     // Act
     String databaseName = cloudMongoDbConfiguration.getDatabaseName();
-    
-    //Assert
+
+    // Assert
     assertThat(databaseName, is("MongoName"));
   }
-  
+
   @Test
   public void testMongo() throws DataAccessException, Exception {
     // Arrange
     CloudMongoDbConfiguration cloudMongoDbConfiguration = new CloudMongoDbConfiguration();
-    Field mongoDbFactory = UnitTestReflectionHelper.getDeclaredFieldForTestInvocation(cloudMongoDbConfiguration.getClass(), "mongoDbFactory");
+    Field mongoDbFactory = UnitTestReflectionHelper
+      .getDeclaredFieldForTestInvocation(cloudMongoDbConfiguration.getClass(), "mongoDbFactory");
     MongoDbFactory dbFactory = Mockito.mock(MongoDbFactory.class);
     DB db = Mockito.mock(DB.class);
     Mongo mongo = Mockito.mock(Mongo.class);
@@ -77,8 +80,8 @@ public class CloudMongoDbConfigurationTest extends AbstractBasicTest{
 
     // Act
     Mongo mongoReceived = cloudMongoDbConfiguration.mongo();
-    
-    //Assert
+
+    // Assert
     assertThat(mongoReceived, is(mongo));
   }
 }

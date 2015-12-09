@@ -174,36 +174,36 @@ public class AccountResourceTest extends AbstractBasicTest {
     this.userRepository.delete(user);
   }
 
-  
+
   @Test
   public void testSaveAccount() throws Exception {
     // Arrange
     Optional<User> userO = this.userRepository.findOneByLogin("admin");
     User user = userO.get();
     UserDTO dto = new UserDTO(user);
-    UnitTestUtils.login(user.getLogin(),user.getPassword());
-    
+    UnitTestUtils.login(user.getLogin(), user.getPassword());
+
     // Act
 
     // Assert
     this.restMvc.perform(post("/api/account").contentType(MediaType.APPLICATION_JSON)
-        .content(TestUtil.convertObjectToJsonBytes(dto)))
-        .andExpect(status().isOk());
+      .content(TestUtil.convertObjectToJsonBytes(dto)))
+      .andExpect(status().isOk());
   }
-  
+
   @Test
   public void testSaveAccountWithNoLogin() throws Exception {
     // Arrange
     Optional<User> userO = this.userRepository.findOneByLogin("admin");
     User user = userO.get();
     UserDTO dto = new UserDTO(user);
-        
+
     // Act
 
     // Assert
     this.restMvc.perform(post("/api/account").contentType(MediaType.APPLICATION_JSON)
-        .content(TestUtil.convertObjectToJsonBytes(dto)))
-        .andExpect(status().is5xxServerError());
+      .content(TestUtil.convertObjectToJsonBytes(dto)))
+      .andExpect(status().is5xxServerError());
   }
 
   @Test
@@ -256,7 +256,7 @@ public class AccountResourceTest extends AbstractBasicTest {
 
     this.userRepository.delete(user);
   }
-  
+
   @Test
   public void testFinishPasswordResetWithError() throws Exception {
 
@@ -272,7 +272,7 @@ public class AccountResourceTest extends AbstractBasicTest {
 
     KeyAndPasswordDTO dto = new KeyAndPasswordDTO();
     dto.setKey(user.getResetKey());
-    dto.setNewPassword("abc");//<- password is too short.
+    dto.setNewPassword("abc");// <- password is too short.
 
     // Act
 

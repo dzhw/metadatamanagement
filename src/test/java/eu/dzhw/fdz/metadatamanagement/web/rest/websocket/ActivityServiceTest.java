@@ -40,12 +40,12 @@ public class ActivityServiceTest extends AbstractBasicTest {
     Map<String, Object> attributes = new HashMap<>();
     attributes.put(WebsocketConfiguration.IP_ADDRESS, "localhost");
     stompHeaderAccessor.setSessionAttributes(attributes);
-    
+
     // Act
-    ActivityDTO activityDTO = this.activityService.sendActivity(new ActivityDTO(), stompHeaderAccessor,
-        Mockito.mock(Principal.class));
-    
-    //Assert 
+    ActivityDTO activityDTO = this.activityService.sendActivity(new ActivityDTO(),
+        stompHeaderAccessor, Mockito.mock(Principal.class));
+
+    // Assert
     assertThat(activityDTO, not(nullValue()));
     assertThat(activityDTO.getIpAddress(), is("localhost"));
     assertThat(activityDTO.hashCode(), not(0));

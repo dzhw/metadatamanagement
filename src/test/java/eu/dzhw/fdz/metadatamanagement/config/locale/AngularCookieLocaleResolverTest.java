@@ -46,30 +46,33 @@ public class AngularCookieLocaleResolverTest {
     // Arrange
     AngularCookieLocaleResolver resolver = new AngularCookieLocaleResolver();
     HttpServletRequest servlet = Mockito.mock(HttpServletRequest.class);
-    when(servlet.getAttribute(CookieLocaleResolver.LOCALE_REQUEST_ATTRIBUTE_NAME)).thenReturn(Locale.GERMAN);
-    when(servlet.getAttribute(CookieLocaleResolver.TIME_ZONE_REQUEST_ATTRIBUTE_NAME)).thenReturn(TimeZone.getTimeZone("GMT"));
-    
+    when(servlet.getAttribute(CookieLocaleResolver.LOCALE_REQUEST_ATTRIBUTE_NAME))
+      .thenReturn(Locale.GERMAN);
+    when(servlet.getAttribute(CookieLocaleResolver.TIME_ZONE_REQUEST_ATTRIBUTE_NAME))
+      .thenReturn(TimeZone.getTimeZone("GMT"));
+
     // Act
-    TimeZoneAwareLocaleContext locale = (TimeZoneAwareLocaleContext) resolver.resolveLocaleContext(servlet);
+    TimeZoneAwareLocaleContext locale =
+        (TimeZoneAwareLocaleContext) resolver.resolveLocaleContext(servlet);
 
     // Assert
     assertThat(locale.getLocale(), is(Locale.GERMAN));
     assertThat(locale.getTimeZone(), is(TimeZone.getTimeZone("GMT")));
   }
-  
+
   @Test
   public void testAddCookie() {
     // Arrange
     AngularCookieLocaleResolver resolver = new AngularCookieLocaleResolver();
     MockHttpServletResponse response = new MockHttpServletResponse();
-        
+
     // Act
     resolver.addCookie(response, "CookieTest");
 
     // Assert
     assertThat(response.getCookies()[0].getValue(), is("%22CookieTest%22"));
   }
-  
+
 
   @Test
   public void testResolveLocaleWithNoLocale() {

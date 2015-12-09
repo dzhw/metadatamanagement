@@ -37,7 +37,7 @@ public class EmbeddedElasticsearch {
       .settings(elasticsearchSettings.build())
       .node();
   }
-  
+
   /* GETTER / SETTER */
   public Node getNode() {
     return node;

@@ -35,8 +35,11 @@ public class ErrorDtoTest {
     assertThat(dto, not(nullValue()));
     assertThat(dto.getMessage(), is("message"));
     assertThat(dtoWithDescription.getDescription(), is("description"));
-    assertThat(dto.getFieldErrors().size(), is(1));
-    assertThat(dto.getFieldErrors().get(0).getMessage(), is("messageAdd"));
+    assertThat(dto.getFieldErrors()
+      .size(), is(1));
+    assertThat(dto.getFieldErrors()
+      .get(0)
+      .getMessage(), is("messageAdd"));
     assertThat(dto, not(nullValue()));
     assertThat(dtoWithDescription, not(nullValue()));
     assertThat(dtoWithDescriptionAndFieldErrors, not(nullValue()));

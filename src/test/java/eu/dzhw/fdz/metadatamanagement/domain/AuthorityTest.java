@@ -46,10 +46,10 @@ public class AuthorityTest {
     // Assert
     assertThat(authorityWithName.toString(), is("Authority{name='Name'}"));
   }
-  
+
   @Test
   public void testEquals() {
- // Arrange
+    // Arrange
     Authority authority1 = new Authority();
     authority1.setName("1");
     Authority authority2 = new Authority();
@@ -60,7 +60,7 @@ public class AuthorityTest {
     boolean checkClass = authority1.equals(new Object());
     boolean checkSame = authority1.equals(authority1);
     boolean checkDifferent = authority1.equals(authority2);
-    
+
 
     // Assert
     assertThat(checkNull, is(false));

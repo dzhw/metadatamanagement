@@ -77,12 +77,12 @@ public class UserTests {
     assertThat(hashCodeWithLogin, not(0));
     assertThat(hashCodeWithoutLogin, is(0));
   }
-  
+
   @Test
   public void testAbstractAuditingEntity() {
     // Arrange
     User userFieldsFromAbstractAuditing = new UserBuilder().build();
-    
+
     // Act
     userFieldsFromAbstractAuditing.setCreatedBy("CreatedBy");
     ZonedDateTime zonedDateTime = ZonedDateTime.now();
@@ -97,7 +97,7 @@ public class UserTests {
     assertThat(userFieldsFromAbstractAuditing.getCreatedDate(), is(zonedDateTime));
     assertThat(userFieldsFromAbstractAuditing.getLastModifiedBy(), is("lastModified"));
     assertThat(userFieldsFromAbstractAuditing.getLastModifiedDate(), is(lastEditDateTime));
-    
+
   }
 
 }

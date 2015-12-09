@@ -28,12 +28,12 @@ public class CustomUserDetailsTest {
     // Arrange
     Set<GrantedAuthority> set = new HashSet<>();
     set.add(new SimpleGrantedAuthority("role"));
-    CustomUserDetails customUserDetails = new CustomUserDetails("id", "username", "password",
-        set, true, true, true, true);
-    
-    //Act
-    
-    //Assert
+    CustomUserDetails customUserDetails =
+        new CustomUserDetails("id", "username", "password", set, true, true, true, true);
+
+    // Act
+
+    // Assert
     assertThat(customUserDetails.getAuthorities(), not(nullValue()));
     assertThat(customUserDetails.getId(), is("id"));
     assertThat(customUserDetails.getUsername(), is("username"));
@@ -45,6 +45,6 @@ public class CustomUserDetailsTest {
     assertThat(customUserDetails.isUserInRole("role"), is(true));
     assertThat(customUserDetails.isUserInRole("otherrole"), is(false));
     assertThat(customUserDetails.toString(), is("CustomUserDetails{id,username,[role]}"));
-    
+
   }
 }

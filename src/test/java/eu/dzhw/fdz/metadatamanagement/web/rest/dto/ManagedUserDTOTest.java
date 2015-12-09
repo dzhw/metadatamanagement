@@ -9,20 +9,19 @@ import static org.junit.Assert.assertThat;
 import org.junit.Test;
 
 /**
- * @author Daniel Katzberg
- * No Integration Test. No need for application Context.
+ * @author Daniel Katzberg No Integration Test. No need for application Context.
  */
 public class ManagedUserDTOTest {
-  
+
   @Test
   public void testManagedDTOLastModified() {
     // Arrange
     ManagedUserDTO dto = new ManagedUserDTO();
-        
-    //Act
+
+    // Act
     dto.setLastModifiedBy("last Modified");
-    
-    //Assert
+
+    // Assert
     assertThat(dto.getLastModifiedBy(), is("last Modified"));
   }
 

@@ -26,7 +26,7 @@ public class LoggingAspectTest extends AbstractBasicTest {
 
   @Inject
   private LoggingAspect loggingAspect;
-  
+
   @PostConstruct
   public void postConstruct() {
     this.loggingAspect = new LoggingAspect();

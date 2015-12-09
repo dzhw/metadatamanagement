@@ -13,15 +13,15 @@ import org.junit.Test;
  *
  */
 public class DataTypeTest {
-  
+
   @Test
   public void testValueOf() {
-    //Arrange
+    // Arrange
     DataType string = DataType.valueOf("string");
-    
-    //Act
-        
-    //Assert
+
+    // Act
+
+    // Assert
     assertThat(string.toString(), is("string"));
   }
 }

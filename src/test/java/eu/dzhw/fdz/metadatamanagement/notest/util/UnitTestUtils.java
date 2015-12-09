@@ -76,17 +76,17 @@ public class UnitTestUtils<T> {
    * @param password
    */
   public static void login(String login, String password) {
-    //Empty Context (no user is logged)
+    // Empty Context (no user is logged)
     SecurityContext securityContextEmpty = SecurityContextHolder.createEmptyContext();
-    
-    //Login (!)
+
+    // Login (!)
     securityContextEmpty
       .setAuthentication(new UsernamePasswordAuthenticationToken(login, password));
-    
-    //Set Context with logged user.
+
+    // Set Context with logged user.
     SecurityContextHolder.setContext(securityContextEmpty);
   }
-  
+
   /**
    * This helper methods log a account into the application by customuserdetails and password
    * 
@@ -94,17 +94,17 @@ public class UnitTestUtils<T> {
    * @param password
    */
   public static void login(CustomUserDetails login, String password) {
-    //Empty Context (no user is logged)
+    // Empty Context (no user is logged)
     SecurityContext securityContextEmpty = SecurityContextHolder.createEmptyContext();
-    
-    //Login (!)
+
+    // Login (!)
     securityContextEmpty
       .setAuthentication(new UsernamePasswordAuthenticationToken(login, password));
-    
-    //Set Context with logged user.
+
+    // Set Context with logged user.
     SecurityContextHolder.setContext(securityContextEmpty);
   }
-  
+
   /**
    * This helper methods log a account into the application by customuserdetails and password
    * 
@@ -112,26 +112,29 @@ public class UnitTestUtils<T> {
    * @param password
    */
   public static void logout() {
-    //Logout all user
+    // Logout all user
     SecurityContextHolder.setContext(SecurityContextHolder.createEmptyContext());
   }
-  
+
   /**
    * This method clones a object.
+   * 
    * @param object
    * @return
    */
-  public static Object cloneObject(Object object){
-    try{
-        Object clonedObject = object.getClass().newInstance();
-        for (Field field : object.getClass().getDeclaredFields()) {
-            field.setAccessible(true);
-            field.set(clonedObject, field.get(object));
-        }
-        return clonedObject;
-    }catch(Exception e){
-        return null;
+  public static Object cloneObject(Object object) {
+    try {
+      Object clonedObject = object.getClass()
+        .newInstance();
+      for (Field field : object.getClass()
+        .getDeclaredFields()) {
+        field.setAccessible(true);
+        field.set(clonedObject, field.get(object));
+      }
+      return clonedObject;
+    } catch (Exception e) {
+      return null;
     }
-}
+  }
 
 }

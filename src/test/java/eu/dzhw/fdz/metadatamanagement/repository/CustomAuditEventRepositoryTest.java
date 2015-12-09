@@ -42,23 +42,25 @@ public class CustomAuditEventRepositoryTest extends AbstractBasicTest {
     // Arrange, see Before Method
 
     // Act
-    List<AuditEvent> eventsByPrincipal =
-        this.auditEventRepository.find("principal", null);
-    List<AuditEvent> eventsByAll =
-        this.auditEventRepository.find(null, null);
-    LocalDateTime dateTimeToConvert = LocalDateTime.now().minusDays(1);
-    Instant instant = dateTimeToConvert.atZone(ZoneId.systemDefault()).toInstant();
+    List<AuditEvent> eventsByPrincipal = this.auditEventRepository.find("principal", null);
+    List<AuditEvent> eventsByAll = this.auditEventRepository.find(null, null);
+    LocalDateTime dateTimeToConvert = LocalDateTime.now()
+      .minusDays(1);
+    Instant instant = dateTimeToConvert.atZone(ZoneId.systemDefault())
+      .toInstant();
     Date date = Date.from(instant);
-    List<AuditEvent> events =
-        this.auditEventRepository.find("principal", date);
-    
+    List<AuditEvent> events = this.auditEventRepository.find("principal", date);
+
     // Assert
     assertThat(eventsByPrincipal.size(), is(1));
-    assertThat(eventsByPrincipal.get(0).getPrincipal(), is("principal"));
+    assertThat(eventsByPrincipal.get(0)
+      .getPrincipal(), is("principal"));
     assertThat(eventsByAll.size(), is(1));
-    assertThat(eventsByAll.get(0).getPrincipal(), is("principal"));
+    assertThat(eventsByAll.get(0)
+      .getPrincipal(), is("principal"));
     assertThat(events.size(), is(1));
-    assertThat(events.get(0).getPrincipal(), is("principal"));
+    assertThat(events.get(0)
+      .getPrincipal(), is("principal"));
   }
 
 

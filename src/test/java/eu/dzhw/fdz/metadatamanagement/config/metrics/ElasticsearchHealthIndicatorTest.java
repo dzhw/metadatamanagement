@@ -31,16 +31,17 @@ public class ElasticsearchHealthIndicatorTest extends AbstractBasicTest {
     // Arrange
     ElasticsearchHealthIndicator healthIndicator = new ElasticsearchHealthIndicator(jestClient);
     Builder builder = new Builder();
-    Field field = builder.getClass().getDeclaredField("status");    
+    Field field = builder.getClass()
+      .getDeclaredField("status");
     field.setAccessible(true);
-    
-    
-    // Act        
+
+
+    // Act
     healthIndicator.doHealthCheck(builder);
     Status status = (Status) field.get(builder);
-    
+
     // Assert
-    assertThat(status.getCode(), is(Status.UP.getCode()));    
+    assertThat(status.getCode(), is(Status.UP.getCode()));
     builder.down();
   }
 

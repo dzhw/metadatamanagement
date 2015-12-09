@@ -14,9 +14,9 @@ import eu.dzhw.fdz.metadatamanagement.notest.util.elasticsearch.EmbeddedElastics
  */
 @Configuration
 public class UnitTestConfiguration {
-      
+
   @Bean
   public EmbeddedElasticsearch embeddedElasticsearch() {
     return new EmbeddedElasticsearch();
-  }  
+  }
 }

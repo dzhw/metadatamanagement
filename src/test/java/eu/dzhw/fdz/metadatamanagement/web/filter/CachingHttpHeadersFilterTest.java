@@ -22,7 +22,8 @@ import org.springframework.core.env.Environment;
 
 /**
  * No Integration Test. No need for application Context.
- * @author Daniel Katzberg 
+ * 
+ * @author Daniel Katzberg
  */
 public class CachingHttpHeadersFilterTest {
   @Test
@@ -56,18 +57,18 @@ public class CachingHttpHeadersFilterTest {
     HttpServletRequest request = Mockito.mock(HttpServletRequest.class);
     HttpServletResponse response = Mockito.mock(HttpServletResponse.class);
     FilterChain chain = Mockito.mock(FilterChain.class);
-    
+
     // Act
     filter.doFilter(request, response, chain);
 
     // Assert
     assertThat(filter, not(nullValue()));
   }
-  
+
   private CachingHttpHeadersFilter createDefaultCachingHttpHeadersFilter() {
     Environment environment = Mockito.mock(Environment.class);
-    when(environment.getProperty("jhipster.http.cache.timeToLiveInDays",
-        Long.class, 31L)).thenReturn(2L);
+    when(environment.getProperty("jhipster.http.cache.timeToLiveInDays", Long.class, 31L))
+      .thenReturn(2L);
     return new CachingHttpHeadersFilter(environment);
   }
 }

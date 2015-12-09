@@ -18,39 +18,39 @@ import eu.dzhw.fdz.metadatamanagement.config.MetadataManagementProperties.Elasti
  *
  */
 public class MetadataManagementPropertiesTest {
-	
-	
-	@Test
-	public void testElasticSearchClient() {
-		//Arrange 
-		MetadataManagementProperties managementProperties = new MetadataManagementProperties();
-		
-		//Act
-		ElasticsearchClient client = managementProperties.getElasticsearchClient();		
-		client.setUrl("http://localhost:1234");
-		client.setReadTimeout(1000);
-				
-		//Assert
-		assertThat(client, not(nullValue()));
-		assertThat(client.getUrl(), is("http://localhost:1234"));
-		assertThat(client.getReadTimeout(), is(1000));
-	}
-	
-	@Test
-	public void testElasticSearchAngularClient() {
-		//Arrange 
-		MetadataManagementProperties managementProperties = new MetadataManagementProperties();
-		
-		//Act
-		ElasticsearchAngularClient angularClient = managementProperties.getElasticsearchAngularClient();		
-		angularClient.setLogLevel("info");
-		angularClient.setUrl("http://localhost:1234");
-		angularClient.setVersionApi("1.7");
-				
-		//Assert
-		assertThat(angularClient, not(nullValue()));
-		assertThat(angularClient.getLogLevel(), is("info"));
-		assertThat(angularClient.getVersionApi(), is("1.7"));
-		assertThat(angularClient.getUrl(), is("http://localhost:1234"));
-	}
+
+
+  @Test
+  public void testElasticSearchClient() {
+    // Arrange
+    MetadataManagementProperties managementProperties = new MetadataManagementProperties();
+
+    // Act
+    ElasticsearchClient client = managementProperties.getElasticsearchClient();
+    client.setUrl("http://localhost:1234");
+    client.setReadTimeout(1000);
+
+    // Assert
+    assertThat(client, not(nullValue()));
+    assertThat(client.getUrl(), is("http://localhost:1234"));
+    assertThat(client.getReadTimeout(), is(1000));
+  }
+
+  @Test
+  public void testElasticSearchAngularClient() {
+    // Arrange
+    MetadataManagementProperties managementProperties = new MetadataManagementProperties();
+
+    // Act
+    ElasticsearchAngularClient angularClient = managementProperties.getElasticsearchAngularClient();
+    angularClient.setLogLevel("info");
+    angularClient.setUrl("http://localhost:1234");
+    angularClient.setVersionApi("1.7");
+
+    // Assert
+    assertThat(angularClient, not(nullValue()));
+    assertThat(angularClient.getLogLevel(), is("info"));
+    assertThat(angularClient.getVersionApi(), is("1.7"));
+    assertThat(angularClient.getUrl(), is("http://localhost:1234"));
+  }
 }

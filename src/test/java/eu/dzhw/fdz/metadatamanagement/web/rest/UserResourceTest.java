@@ -138,7 +138,7 @@ public class UserResourceTest extends AbstractBasicTest {
     ManagedUserDTO dto = new ManagedUserDTO(user);
 
     System.out.println(new String(TestUtil.convertObjectToJsonBytes(dto)));
-    
+
     // Act
     MvcResult mvcResult =
         restUserMockMvc.perform(put("/api/users").contentType(TestUtil.APPLICATION_JSON_UTF8)

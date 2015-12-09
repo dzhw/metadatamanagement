@@ -22,8 +22,7 @@ import org.springframework.http.HttpHeaders;
 import eu.dzhw.fdz.metadatamanagement.domain.User;
 
 /**
- * @author Daniel Katzberg
- *  No integration test. No need for application context.
+ * @author Daniel Katzberg No integration test. No need for application context.
  */
 public class PaginationUtilTest {
 

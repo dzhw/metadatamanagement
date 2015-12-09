@@ -22,7 +22,7 @@ import org.slf4j.LoggerFactory;
 public class UnitTestReflectionHelper {
 
   private static Logger LOGGER = LoggerFactory.getLogger(UnitTestReflectionHelper.class);
-  
+
   /**
    * This method will return by reflection a declared method. The method has an accessible of true.
    * 
@@ -31,15 +31,16 @@ public class UnitTestReflectionHelper {
    * @return the reflection method object.
    */
   public static Method getDeclaredMethodForTestInvocation(Class<?> clazz, String methodName) {
-    
+
     LOGGER.debug("Class: " + clazz.getSimpleName() + " with method " + methodName);
 
     // Look for declaredMethod
     Method method = null;
     for (Method eachMethod : clazz.getDeclaredMethods()) {
-      
-      LOGGER.debug("Class: " + clazz.getSimpleName() + " with check method |" + eachMethod.getName() + "|=|" + methodName + "|");
-      
+
+      LOGGER.debug("Class: " + clazz.getSimpleName() + " with check method |" + eachMethod.getName()
+          + "|=|" + methodName + "|");
+
       if (eachMethod.getName()
         .equals(methodName)) {
         method = eachMethod;
@@ -55,7 +56,7 @@ public class UnitTestReflectionHelper {
 
     return method;
   }
-  
+
   /**
    * This method will return by reflection a declared field. The field has an accessible of true.
    * 
@@ -65,9 +66,10 @@ public class UnitTestReflectionHelper {
    * @throws SecurityException
    * @throws NoSuchFieldException
    */
-  public static Field getDeclaredFieldForTestInvocation(Class<?> clazz, String fieldName) throws NoSuchFieldException, SecurityException {
+  public static Field getDeclaredFieldForTestInvocation(Class<?> clazz, String fieldName)
+      throws NoSuchFieldException, SecurityException {
 
-    //check for found method
+    // check for found method
     Field field = clazz.getDeclaredField(fieldName);
     assertThat(field, not(nullValue()));
 

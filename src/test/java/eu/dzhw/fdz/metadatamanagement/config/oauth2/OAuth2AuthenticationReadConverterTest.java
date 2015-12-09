@@ -94,7 +94,7 @@ public class OAuth2AuthenticationReadConverterTest {
     //create source element
     source.put("storedRequest", storedRequest);
     source.put("userAuthentication", userAuthentication);
-    
+
     return source;
   }
 }

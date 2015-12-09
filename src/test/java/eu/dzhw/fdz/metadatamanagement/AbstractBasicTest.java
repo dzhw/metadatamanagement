@@ -21,16 +21,16 @@ import eu.dzhw.fdz.metadatamanagement.notest.util.elasticsearch.EmbeddedElastics
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringApplicationConfiguration(classes = Application.class)
 @WebAppConfiguration
-@ComponentScan(basePackages={ "eu.dzhw.fdz.metadatamanagement.notest.util.config" })
+@ComponentScan(basePackages = {"eu.dzhw.fdz.metadatamanagement.notest.util.config"})
 public abstract class AbstractBasicTest {
 
   protected Node node;
-  
+
   @Inject
   private EmbeddedElasticsearch embeddedElasticsearch;
 
   @Before
   public void before() {
-      this.node = this.embeddedElasticsearch.getNode();
+    this.node = this.embeddedElasticsearch.getNode();
   }
 }

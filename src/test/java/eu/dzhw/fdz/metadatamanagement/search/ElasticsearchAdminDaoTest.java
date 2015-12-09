@@ -54,36 +54,41 @@ public class ElasticsearchAdminDaoTest extends AbstractBasicTest {
   public void testCreateIndex() throws IOException {
     JsonObject settings = createTestIndex();
 
-    assertThat(
-        elasticsearchAdminDao.getSettings(TEST_INDEX).getAsJsonObject("index")
-            .get(NUMBER_OF_REPLICAS),
-        equalTo(settings.getAsJsonObject("index").get(NUMBER_OF_REPLICAS)));
+    assertThat(elasticsearchAdminDao.getSettings(TEST_INDEX)
+      .getAsJsonObject("index")
+      .get(NUMBER_OF_REPLICAS),
+        equalTo(settings.getAsJsonObject("index")
+          .get(NUMBER_OF_REPLICAS)));
   }
 
   @Test
   public void testPutMapping() throws IOException {
     createTestIndex();
 
-    Reader reader = new InputStreamReader(resourceLoader
-        .getResource("classpath:elasticsearch/testindex/mapping.json").getInputStream());
+    Reader reader = new InputStreamReader(
+        resourceLoader.getResource("classpath:elasticsearch/testindex/mapping.json")
+          .getInputStream());
 
-    JsonObject mapping = jsonParser.parse(reader).getAsJsonObject();
+    JsonObject mapping = jsonParser.parse(reader)
+      .getAsJsonObject();
 
     elasticsearchAdminDao.putMapping(TEST_INDEX, TEST_TYPE, mapping);
 
-    assertThat(
-        elasticsearchAdminDao.getMapping(TEST_INDEX, TEST_TYPE).getAsJsonObject(TEST_TYPE)
-            .getAsJsonObject("properties").getAsJsonObject("allStringsAsNgrams"),
-        equalTo(mapping.getAsJsonObject(TEST_TYPE).getAsJsonObject("properties")
-            .getAsJsonObject("allStringsAsNgrams")));
+    assertThat(elasticsearchAdminDao.getMapping(TEST_INDEX, TEST_TYPE)
+      .getAsJsonObject(TEST_TYPE)
+      .getAsJsonObject("properties")
+      .getAsJsonObject("allStringsAsNgrams"),
+        equalTo(mapping.getAsJsonObject(TEST_TYPE)
+          .getAsJsonObject("properties")
+          .getAsJsonObject("allStringsAsNgrams")));
 
   }
-  
-  @Test(expected=ElasticsearchIndexCreateException.class)
+
+  @Test(expected = ElasticsearchIndexCreateException.class)
   public void testCreateIndexWithError() {
     // Arrange
-    
-    // Act    
+
+    // Act
     this.elasticsearchAdminDao.createIndex("<WrongIndex>", null);
 
     // Assert
@@ -92,62 +97,66 @@ public class ElasticsearchAdminDaoTest extends AbstractBasicTest {
   @Test
   public void testGetSettingsWithError() {
     // Arrange
-    
-    // Act    
+
+    // Act
     JsonObject jsonObject = this.elasticsearchAdminDao.getSettings("UnknownIndex");
-    
+
     // Assert
     assertThat(jsonObject, is(nullValue()));
   }
-  
-  @Test(expected=ElasticsearchPutMappingException.class)
-  public void testPutMappingWithError() throws IOException {
-    
-    //The error is produced by no existing index.
-    
-    // Arrange
-    Reader reader = new InputStreamReader(resourceLoader
-        .getResource("classpath:elasticsearch/testindex/mapping.json").getInputStream());
-    JsonObject mapping = jsonParser.parse(reader).getAsJsonObject();
 
-    // Act    
+  @Test(expected = ElasticsearchPutMappingException.class)
+  public void testPutMappingWithError() throws IOException {
+
+    // The error is produced by no existing index.
+
+    // Arrange
+    Reader reader = new InputStreamReader(
+        resourceLoader.getResource("classpath:elasticsearch/testindex/mapping.json")
+          .getInputStream());
+    JsonObject mapping = jsonParser.parse(reader)
+      .getAsJsonObject();
+
+    // Act
     elasticsearchAdminDao.putMapping(TEST_INDEX, TEST_TYPE, mapping);
-    
+
     // Assert
   }
-  
+
   @Test
   public void testgetMappingWithError() throws IOException {
-    
-    //The error is produced by no existing index.
-    
+
+    // The error is produced by no existing index.
+
     // Arrange
 
-    // Act    
+    // Act
     JsonObject jsonObject = elasticsearchAdminDao.getMapping(TEST_INDEX, TEST_TYPE);
-    
+
     // Assert
     assertThat(jsonObject, is(nullValue()));
   }
-  
-  @Test(expected=ElasticsearchIndexDeleteException.class)
+
+  @Test(expected = ElasticsearchIndexDeleteException.class)
   public void testDeleteWithError() {
-    
-    //The error is produced by no existing index.
-    
+
+    // The error is produced by no existing index.
+
     // Arrange
 
-    // Act    
+    // Act
     this.elasticsearchAdminDao.delete(TEST_INDEX);
-    
+
     // Assert
   }
 
   private JsonObject createTestIndex() throws IOException {
-    Reader reader = new InputStreamReader(resourceLoader
-        .getResource("classpath:elasticsearch/testindex/settings.json").getInputStream());
+    Reader reader = new InputStreamReader(
+        resourceLoader.getResource("classpath:elasticsearch/testindex/settings.json")
+          .getInputStream());
 
-    JsonObject settings = jsonParser.parse(reader).getAsJsonObject();
+    JsonObject settings = jsonParser.parse(reader)
+      .getAsJsonObject();
     elasticsearchAdminDao.createIndex(TEST_INDEX, settings);
 
     return settings;

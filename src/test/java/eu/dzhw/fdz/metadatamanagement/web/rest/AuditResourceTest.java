@@ -35,7 +35,7 @@ import eu.dzhw.fdz.metadatamanagement.service.AuditEventService;
  * @author Daniel Katzberg
  *
  */
-public class AuditResourceTest extends AbstractBasicTest{
+public class AuditResourceTest extends AbstractBasicTest {
 
   private static final String SAMPLE_PRINCIPAL = "SAMPLE_PRINCIPAL";
   private static final String SAMPLE_TYPE = "SAMPLE_TYPE";

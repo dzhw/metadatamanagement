@@ -55,10 +55,10 @@ public class MongoDBTokenStoreTest extends AbstractBasicTest {
 
     OAuth2Request storedRequest = new OAuth2Request(new HashMap<>(), "clientId", new ArrayList<>(),
         true, new HashSet<>(), new HashSet<>(), "/", new HashSet<>(), new HashMap<>());
-    UsernamePasswordAuthenticationToken userAuthentication = new UsernamePasswordAuthenticationToken("principal",
-        new UsernamePasswordCredentials("username", "password"));
-    this.authentication =
-        new OAuth2Authentication(storedRequest, userAuthentication);
+    UsernamePasswordAuthenticationToken userAuthentication =
+        new UsernamePasswordAuthenticationToken("principal",
+            new UsernamePasswordCredentials("username", "password"));
+    this.authentication = new OAuth2Authentication(storedRequest, userAuthentication);
 
     this.refreshToken = new DefaultOAuth2RefreshToken("refreshToken");
     this.accessToken = new DefaultOAuth2AccessToken("accessToken");
@@ -90,41 +90,44 @@ public class MongoDBTokenStoreTest extends AbstractBasicTest {
   @Test
   public void testReadAccessToken() {
     // Arrange
-    
+
     // Act
-    OAuth2AccessToken accessToken = this.mongoDBTokenStore.readAccessToken(this.accessToken.getValue());
+    OAuth2AccessToken accessToken =
+        this.mongoDBTokenStore.readAccessToken(this.accessToken.getValue());
 
     // Assert
     assertThat(accessToken, not(nullValue()));
     assertThat(accessToken, is(this.accessToken));
-    assertThat(accessToken.getRefreshToken(), is(this.refreshToken));    
+    assertThat(accessToken.getRefreshToken(), is(this.refreshToken));
   }
-  
+
   @Test
   public void testReadRefreshToken() {
     // Arrange
 
     // Act
-    OAuth2RefreshToken refreshToken = this.mongoDBTokenStore.readRefreshToken(this.refreshToken.getValue());
+    OAuth2RefreshToken refreshToken =
+        this.mongoDBTokenStore.readRefreshToken(this.refreshToken.getValue());
 
     // Assert
     assertThat(refreshToken, not(nullValue()));
     assertThat(refreshToken, is(this.refreshToken));
   }
-  
+
   @Test
   public void testReadAuthenticationForRefreshToken() {
     // Arrange
 
     // Act
-    OAuth2Authentication auth2Authentication = this.mongoDBTokenStore.readAuthenticationForRefreshToken(this.refreshToken);
+    OAuth2Authentication auth2Authentication =
+        this.mongoDBTokenStore.readAuthenticationForRefreshToken(this.refreshToken);
 
     // Assert
     assertThat(auth2Authentication, not(nullValue()));
     assertThat(auth2Authentication.getName(), is("principal"));
     assertThat(auth2Authentication.getPrincipal(), is("principal"));
   }
-  
+
   @Test
   public void testRemoveAccessTokenUsingRefreshToken() {
     // Arrange
@@ -133,45 +136,48 @@ public class MongoDBTokenStoreTest extends AbstractBasicTest {
     this.mongoDBTokenStore.removeAccessTokenUsingRefreshToken(this.refreshToken);
 
     // Assert
-    assertThat(this.mongoDBTokenStore.readAccessToken(this.accessToken.getValue()), is(nullValue()));
+    assertThat(this.mongoDBTokenStore.readAccessToken(this.accessToken.getValue()),
+        is(nullValue()));
   }
-  
+
   @Test
   public void testGetAccessToken() {
     // Arrange
-    
+
     // Act
     OAuth2AccessToken accessToken = this.mongoDBTokenStore.getAccessToken(this.authentication);
 
     // Assert
     assertThat(accessToken, not(nullValue()));
     assertThat(accessToken, is(this.accessToken));
-    assertThat(accessToken.getRefreshToken(), is(this.refreshToken)); 
+    assertThat(accessToken.getRefreshToken(), is(this.refreshToken));
   }
 
   @Test
   public void testFindTokensByClientId() {
     // Arrange
-    
+
     // Act
-    Collection<OAuth2AccessToken> accessTokens = this.mongoDBTokenStore.findTokensByClientId("clientId");
+    Collection<OAuth2AccessToken> accessTokens =
+        this.mongoDBTokenStore.findTokensByClientId("clientId");
 
     // Assert
     assertThat(accessTokens, not(nullValue()));
     assertThat(accessTokens.size(), is(1));
-    assertThat(accessTokens.contains(this.accessToken), is(true)); 
+    assertThat(accessTokens.contains(this.accessToken), is(true));
   }
-  
+
   @Test
   public void testFindTokensByClientIdAndUserName() {
     // Arrange
-    
+
     // Act
-    Collection<OAuth2AccessToken> accessTokens = this.mongoDBTokenStore.findTokensByClientIdAndUserName("clientId", "principal");
+    Collection<OAuth2AccessToken> accessTokens =
+        this.mongoDBTokenStore.findTokensByClientIdAndUserName("clientId", "principal");
 
     // Assert
     assertThat(accessTokens, not(nullValue()));
     assertThat(accessTokens.size(), is(1));
-    assertThat(accessTokens.contains(this.accessToken), is(true)); 
+    assertThat(accessTokens.contains(this.accessToken), is(true));
   }
 }

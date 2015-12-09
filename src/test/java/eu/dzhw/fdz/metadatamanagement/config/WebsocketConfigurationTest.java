@@ -18,20 +18,22 @@ import org.springframework.web.socket.server.HandshakeInterceptor;
  *
  */
 public class WebsocketConfigurationTest {
-	
-	@Test
-	public void testHttpSessionHandshakeInterceptor() throws Exception {
-		//Arrange
-		WebsocketConfiguration websocketConfiguration = new WebsocketConfiguration();
-		HandshakeInterceptor handshakeInterceptor = websocketConfiguration.httpSessionHandshakeInterceptor();
-		Mockito.mock(ServletServerHttpRequest.class);
-				
-		//Act
-		boolean before = handshakeInterceptor.beforeHandshake(Mockito.mock(ServletServerHttpRequest.class), null, null, new HashMap<>());
-		handshakeInterceptor.afterHandshake(null, null, null, null);
-		
-		//Assert
-		assertThat(before, is(true));
-	}
+
+  @Test
+  public void testHttpSessionHandshakeInterceptor() throws Exception {
+    // Arrange
+    WebsocketConfiguration websocketConfiguration = new WebsocketConfiguration();
+    HandshakeInterceptor handshakeInterceptor =
+        websocketConfiguration.httpSessionHandshakeInterceptor();
+    Mockito.mock(ServletServerHttpRequest.class);
+
+    // Act
+    boolean before = handshakeInterceptor
+      .beforeHandshake(Mockito.mock(ServletServerHttpRequest.class), null, null, new HashMap<>());
+    handshakeInterceptor.afterHandshake(null, null, null, null);
+
+    // Assert
+    assertThat(before, is(true));
+  }
 
 }

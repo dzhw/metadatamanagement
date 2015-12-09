@@ -13,15 +13,15 @@ import org.junit.Test;
  *
  */
 public class ScaleLevelTest {
-  
+
   @Test
   public void testValueOf() {
-    //Arrange
+    // Arrange
     ScaleLevel nominal = ScaleLevel.valueOf("nominal");
-    
-    //Act
-        
-    //Assert
+
+    // Act
+
+    // Assert
     assertThat(nominal.toString(), is("nominal"));
   }
 

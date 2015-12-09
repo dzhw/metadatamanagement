@@ -92,5 +92,5 @@ public class OAuth2AuthenticationRefreshTokenTest {
 
     return token;
   }
-  
+
 }

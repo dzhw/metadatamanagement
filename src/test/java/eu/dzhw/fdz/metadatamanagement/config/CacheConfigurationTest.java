@@ -18,21 +18,21 @@ import eu.dzhw.fdz.metadatamanagement.AbstractBasicTest;
  * @author Daniel Katzberg
  *
  */
-public class CacheConfigurationTest extends AbstractBasicTest{
+public class CacheConfigurationTest extends AbstractBasicTest {
 
-	@Inject
-	private CacheConfiguration cacheConfiguration;
-	
-	@Test
-	public void testDestroy() {
-		//Arrange
-				
-		//Act
-		CacheManager cacheManager = this.cacheConfiguration.cacheManager();
-		this.cacheConfiguration.destroy();
-		
-		//Assert
-		assertThat(cacheManager, not(nullValue()));
-	}
-	
+  @Inject
+  private CacheConfiguration cacheConfiguration;
+
+  @Test
+  public void testDestroy() {
+    // Arrange
+
+    // Act
+    CacheManager cacheManager = this.cacheConfiguration.cacheManager();
+    this.cacheConfiguration.destroy();
+
+    // Assert
+    assertThat(cacheManager, not(nullValue()));
+  }
+
 }

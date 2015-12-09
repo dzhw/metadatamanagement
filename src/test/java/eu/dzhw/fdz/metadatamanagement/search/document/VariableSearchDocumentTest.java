@@ -23,9 +23,9 @@ public class VariableSearchDocumentTest {
     document.setScaleLevel("nominal");
     document.setLabel("Label");
     document.setName("name");
-    
+
     // Act
-    
+
     // Assert
     assertThat(document.getDataType(), is("numeric"));
     assertThat(document.getScaleLevel(), is("nominal"));

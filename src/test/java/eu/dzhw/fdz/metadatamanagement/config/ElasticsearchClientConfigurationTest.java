@@ -27,15 +27,17 @@ public class ElasticsearchClientConfigurationTest {
 
     // Arrange
     ElasticsearchClientConfiguration clientConfiguration = new ElasticsearchClientConfiguration();
-    MetadataManagementProperties metadataManagementProperties = Mockito.mock(MetadataManagementProperties.class);
+    MetadataManagementProperties metadataManagementProperties =
+        Mockito.mock(MetadataManagementProperties.class);
     ElasticsearchClient elasticsearchClient = Mockito.mock(ElasticsearchClient.class);
     when(metadataManagementProperties.getElasticsearchClient()).thenReturn(elasticsearchClient);
     when(elasticsearchClient.getUrl()).thenReturn("localhost");
-    ReflectionTestUtils.setField(clientConfiguration, "metadataManagementProperties", metadataManagementProperties);
-    
+    ReflectionTestUtils.setField(clientConfiguration, "metadataManagementProperties",
+        metadataManagementProperties);
+
     Environment environment = Mockito.mock(Environment.class);
     when(environment.acceptsProfiles(Constants.SPRING_PROFILE_CLOUD)).thenReturn(false);
-    
+
     // Act
     JestClient jestClient = clientConfiguration.jestClient(environment);
 

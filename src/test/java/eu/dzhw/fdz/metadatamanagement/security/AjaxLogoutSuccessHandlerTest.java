@@ -29,7 +29,7 @@ public class AjaxLogoutSuccessHandlerTest extends AbstractBasicTest {
 
   @Inject
   private AjaxLogoutSuccessHandler ajaxLogoutSuccessHandler;
-  
+
   @Test
   public void testOnLogoutSuccess() throws IOException, ServletException {
     // Arrange
@@ -37,7 +37,7 @@ public class AjaxLogoutSuccessHandlerTest extends AbstractBasicTest {
     HttpServletResponse response = Mockito.mock(HttpServletResponse.class);
     Authentication authentication = Mockito.mock(Authentication.class);
     when(request.getHeader("authorization")).thenReturn("Bearer user");
-    
+
     // Act
     this.ajaxLogoutSuccessHandler.onLogoutSuccess(request, response, authentication);
 

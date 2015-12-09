@@ -28,7 +28,7 @@ import eu.dzhw.fdz.metadatamanagement.service.util.RandomUtil;
  *
  * @see UserService
  */
-public class UserServiceTest extends AbstractBasicTest{
+public class UserServiceTest extends AbstractBasicTest {
 
   @Inject
   private UserRepository userRepository;
@@ -38,10 +38,10 @@ public class UserServiceTest extends AbstractBasicTest{
 
   @Inject
   private PasswordEncoder passwordEncoder;
-  
+
   @After
   public void after() {
-    //Log the user out, if any user was login by a test method
+    // Log the user out, if any user was login by a test method
     UnitTestUtils.logout();
   }
 
@@ -144,29 +144,29 @@ public class UserServiceTest extends AbstractBasicTest{
       .withPassword(this.passwordEncoder.encode("User2Password"))
       .withActivated(false)
       .build();
-    
-    //Update User 1
+
+    // Update User 1
     user1 = this.userRepository.save(user1);
     user1.setCreatedDate(now.minusDays(5));
     user1 = this.userRepository.save(user1);
-    
+
     user2 = this.userRepository.save(user2);
     user2.setCreatedDate(now.minusDays(5));
     user2 = this.userRepository.save(user2);
-    
+
     this.userRepository.save(user2);
 
-    // Act    
+    // Act
     List<User> usersBefore =
         userRepository.findAllByActivatedIsFalseAndCreatedDateBefore(now.minusDays(3));
     userService.removeNotActivatedUsers();
     List<User> usersAfter =
         userRepository.findAllByActivatedIsFalseAndCreatedDateBefore(now.minusDays(3));
-    
+
     // Assert
     assertThat(usersBefore.size(), is(2));
     assertThat(usersAfter.size(), is(0));
-    
+
   }
 
   @Test

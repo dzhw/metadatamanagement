@@ -29,60 +29,58 @@ import eu.dzhw.fdz.metadatamanagement.AbstractBasicTest;
  */
 public class WebConfigurerTest extends AbstractBasicTest {
 
-	@Inject
-	private Environment env;
+  @Inject
+  private Environment env;
 
-	@Inject
-	private WebConfigurer webConfigurer;
+  @Inject
+  private WebConfigurer webConfigurer;
 
-	@Test
-	public void testWebConfigurationOnStartup() throws ServletException {
-		
-		// Arrange
-		// Create mocked Servlet Context, with default override methods for
-		// correct run of the web configurer
-		MockServletContext context = new MockServletContext("") {
+  @Test
+  public void testWebConfigurationOnStartup() throws ServletException {
 
-			/*
-			 * (non-Javadoc)
-			 * 
-			 * @see
-			 * org.springframework.mock.web.MockServletContext#addFilter(java.
-			 * lang.String, javax.servlet.Filter)
-			 */
-			@Override
-			public FilterRegistration.Dynamic addFilter(String filterName, Filter filter) {
-				FilterDef def = new FilterDef();
-				def.setFilterName(filterName);
-				StandardContext context = new StandardContext();
-				context.addFilterDef(def);
-				return new ApplicationFilterRegistration(def, context);
-			}
+    // Arrange
+    // Create mocked Servlet Context, with default override methods for
+    // correct run of the web configurer
+    MockServletContext context = new MockServletContext("") {
 
-			/*
-			 * (non-Javadoc)
-			 * 
-			 * @see
-			 * org.springframework.mock.web.MockServletContext#addServlet(java.
-			 * lang.String, javax.servlet.Servlet)
-			 */
-			@Override
-			public ServletRegistration.Dynamic addServlet(String servletName, Servlet servlet) {
-				StandardContext context = new StandardContext();
-				Wrapper wrapper = context.createWrapper();
-				wrapper.setName(servletName);
-				context.addChild(wrapper);
-				wrapper.setServlet(servlet);
-				return context.dynamicServletAdded(wrapper);
-			}
+      /*
+       * (non-Javadoc)
+       * 
+       * @see org.springframework.mock.web.MockServletContext#addFilter(java. lang.String,
+       * javax.servlet.Filter)
+       */
+      @Override
+      public FilterRegistration.Dynamic addFilter(String filterName, Filter filter) {
+        FilterDef def = new FilterDef();
+        def.setFilterName(filterName);
+        StandardContext context = new StandardContext();
+        context.addFilterDef(def);
+        return new ApplicationFilterRegistration(def, context);
+      }
 
-		};
+      /*
+       * (non-Javadoc)
+       * 
+       * @see org.springframework.mock.web.MockServletContext#addServlet(java. lang.String,
+       * javax.servlet.Servlet)
+       */
+      @Override
+      public ServletRegistration.Dynamic addServlet(String servletName, Servlet servlet) {
+        StandardContext context = new StandardContext();
+        Wrapper wrapper = context.createWrapper();
+        wrapper.setName(servletName);
+        context.addChild(wrapper);
+        wrapper.setServlet(servlet);
+        return context.dynamicServletAdded(wrapper);
+      }
 
-		// Act
-		webConfigurer.onStartup(context);
+    };
 
-		// Assert
-		assertThat(env.getActiveProfiles().length, is(0));
-	}
+    // Act
+    webConfigurer.onStartup(context);
+
+    // Assert
+    assertThat(env.getActiveProfiles().length, is(0));
+  }
 
 }
