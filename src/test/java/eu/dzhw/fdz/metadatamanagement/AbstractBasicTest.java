@@ -31,9 +31,6 @@ public abstract class AbstractBasicTest {
 
   @Before
   public void before() {
-    if(node == null) {
-//      this.node = EmbeddedElasticsearch.getEmbeddedElasticsearch().getNode();
       this.node = this.embeddedElasticsearch.getNode();
-    }  
   }
 }
