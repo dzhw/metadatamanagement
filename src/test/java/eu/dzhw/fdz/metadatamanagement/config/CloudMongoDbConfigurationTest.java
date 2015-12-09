@@ -12,29 +12,23 @@ import static org.mockito.Mockito.when;
 import java.lang.reflect.Field;
 
 import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.mockito.Mockito;
 import org.springframework.dao.DataAccessException;
 import org.springframework.data.mongodb.MongoDbFactory;
 import org.springframework.data.mongodb.core.convert.CustomConversions;
 import org.springframework.data.mongodb.core.mapping.event.ValidatingMongoEventListener;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import org.springframework.test.context.support.AnnotationConfigContextLoader;
 
 import com.mongodb.DB;
 import com.mongodb.Mongo;
 
-import eu.dzhw.fdz.metadatamanagement.util.UnitTestReflectionHelper;;
+import eu.dzhw.fdz.metadatamanagement.AbstractBasicTest;
+import eu.dzhw.fdz.metadatamanagement.notest.util.UnitTestReflectionHelper;;
 
 /**
  * @author Daniel Katzberg
  *
  */
-// TODO Added new Tests
-@RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(classes = {}, loader = AnnotationConfigContextLoader.class)
-public class CloudMongoDbConfigurationTest {
+public class CloudMongoDbConfigurationTest extends AbstractBasicTest{
 
   @Test
   public void testMongoDbConfiguration() {

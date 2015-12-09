@@ -14,7 +14,6 @@ import eu.dzhw.fdz.metadatamanagement.domain.builders.VariableBuilder;
  * @author Daniel Katzberg
  *
  */
-
 public class VariableTest {
   
   @Test

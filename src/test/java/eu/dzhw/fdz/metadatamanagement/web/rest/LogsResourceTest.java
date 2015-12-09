@@ -20,14 +20,14 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
-import eu.dzhw.fdz.metadatamanagement.BasicTest;
+import eu.dzhw.fdz.metadatamanagement.AbstractBasicTest;
 import eu.dzhw.fdz.metadatamanagement.web.rest.dto.LoggerDTO;
 
 /**
  * @author Daniel Katzberg
  *
  */
-public class LogsResourceTest extends BasicTest {
+public class LogsResourceTest extends AbstractBasicTest {
 
   private MockMvc restUserMockMvc;
 

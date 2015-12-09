@@ -8,26 +8,29 @@ import static org.hamcrest.CoreMatchers.nullValue;
 import static org.junit.Assert.assertThat;
 import static org.mockito.Mockito.when;
 
+import javax.annotation.PostConstruct;
 import javax.inject.Inject;
 
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.Signature;
 import org.junit.Test;
 import org.mockito.Mockito;
-import org.springframework.test.context.ActiveProfiles;
 
-import eu.dzhw.fdz.metadatamanagement.BasicTest;
-import eu.dzhw.fdz.metadatamanagement.config.Constants;
+import eu.dzhw.fdz.metadatamanagement.AbstractBasicTest;
 
 /**
  * @author Daniel Katzberg
  *
  */
-@ActiveProfiles(profiles = Constants.SPRING_PROFILE_DEVELOPMENT)
-public class LoggingAspectTest extends BasicTest {
+public class LoggingAspectTest extends AbstractBasicTest {
 
   @Inject
   private LoggingAspect loggingAspect;
+  
+  @PostConstruct
+  public void postConstruct() {
+    this.loggingAspect = new LoggingAspect();
+  }
 
   @Test
   public void testLoggingPointcut() {

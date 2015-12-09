@@ -19,8 +19,8 @@ import org.mockito.Mockito;
 import org.springframework.core.task.AsyncTaskExecutor;
 
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
-import eu.dzhw.fdz.metadatamanagement.BasicTest;
-import eu.dzhw.fdz.metadatamanagement.util.UnitTestUtils;
+import eu.dzhw.fdz.metadatamanagement.AbstractBasicTest;
+import eu.dzhw.fdz.metadatamanagement.notest.util.UnitTestUtils;
 
 /**
  * Test class for the AuditResource REST controller.
@@ -28,7 +28,7 @@ import eu.dzhw.fdz.metadatamanagement.util.UnitTestUtils;
  * @author Daniel Katzberg
  *
  */
-public class ExceptionHandlingAsyncTaskExecutorTest extends BasicTest {
+public class ExceptionHandlingAsyncTaskExecutorTest extends AbstractBasicTest {
 
   private ExceptionHandlingAsyncTaskExecutor asyncTaskExecutor;
 

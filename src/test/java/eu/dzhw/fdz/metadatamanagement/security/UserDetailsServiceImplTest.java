@@ -22,16 +22,16 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
-import eu.dzhw.fdz.metadatamanagement.BasicTest;
+import eu.dzhw.fdz.metadatamanagement.AbstractBasicTest;
 import eu.dzhw.fdz.metadatamanagement.domain.User;
+import eu.dzhw.fdz.metadatamanagement.notest.util.UnitTestUtils;
 import eu.dzhw.fdz.metadatamanagement.repository.UserRepository;
-import eu.dzhw.fdz.metadatamanagement.util.UnitTestUtils;
 
 /**
  * @author Daniel Katzberg
  *
  */
-public class UserDetailsServiceImplTest extends BasicTest {
+public class UserDetailsServiceImplTest extends AbstractBasicTest {
 
   @Inject
   private UserRepository userRepository;

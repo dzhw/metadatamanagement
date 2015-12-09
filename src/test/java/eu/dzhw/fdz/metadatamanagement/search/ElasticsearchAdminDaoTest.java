@@ -18,7 +18,7 @@ import org.springframework.core.io.ResourceLoader;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
-import eu.dzhw.fdz.metadatamanagement.BasicTest;
+import eu.dzhw.fdz.metadatamanagement.AbstractBasicTest;
 import eu.dzhw.fdz.metadatamanagement.search.exception.ElasticsearchIndexCreateException;
 import eu.dzhw.fdz.metadatamanagement.search.exception.ElasticsearchIndexDeleteException;
 import eu.dzhw.fdz.metadatamanagement.search.exception.ElasticsearchPutMappingException;
@@ -29,7 +29,7 @@ import eu.dzhw.fdz.metadatamanagement.search.exception.ElasticsearchPutMappingEx
  * @author René Reitmann
  * @author Daniel Katzberg
  */
-public class ElasticsearchAdminDaoTest extends BasicTest {
+public class ElasticsearchAdminDaoTest extends AbstractBasicTest {
 
   public static final String TEST_INDEX = "hurz";
   private static final String NUMBER_OF_REPLICAS = "number_of_replicas";

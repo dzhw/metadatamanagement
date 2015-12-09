@@ -23,7 +23,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
-import eu.dzhw.fdz.metadatamanagement.BasicTest;
+import eu.dzhw.fdz.metadatamanagement.AbstractBasicTest;
 import eu.dzhw.fdz.metadatamanagement.config.audit.AuditEventConverter;
 import eu.dzhw.fdz.metadatamanagement.domain.PersistentAuditEvent;
 import eu.dzhw.fdz.metadatamanagement.repository.PersistenceAuditEventRepository;
@@ -35,7 +35,7 @@ import eu.dzhw.fdz.metadatamanagement.service.AuditEventService;
  * @author Daniel Katzberg
  *
  */
-public class AuditResourceTest extends BasicTest{
+public class AuditResourceTest extends AbstractBasicTest{
 
   private static final String SAMPLE_PRINCIPAL = "SAMPLE_PRINCIPAL";
   private static final String SAMPLE_TYPE = "SAMPLE_TYPE";

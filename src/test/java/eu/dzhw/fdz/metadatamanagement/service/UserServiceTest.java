@@ -12,19 +12,14 @@ import javax.inject.Inject;
 
 import org.junit.After;
 import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.springframework.boot.test.IntegrationTest;
-import org.springframework.boot.test.SpringApplicationConfiguration;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import org.springframework.test.context.web.WebAppConfiguration;
 
-import eu.dzhw.fdz.metadatamanagement.Application;
+import eu.dzhw.fdz.metadatamanagement.AbstractBasicTest;
 import eu.dzhw.fdz.metadatamanagement.domain.User;
 import eu.dzhw.fdz.metadatamanagement.domain.builders.UserBuilder;
+import eu.dzhw.fdz.metadatamanagement.notest.util.UnitTestUtils;
 import eu.dzhw.fdz.metadatamanagement.repository.UserRepository;
 import eu.dzhw.fdz.metadatamanagement.service.util.RandomUtil;
-import eu.dzhw.fdz.metadatamanagement.util.UnitTestUtils;
 
 /**
  * Test class for the UserResource REST controller.
@@ -33,11 +28,7 @@ import eu.dzhw.fdz.metadatamanagement.util.UnitTestUtils;
  *
  * @see UserService
  */
-@RunWith(SpringJUnit4ClassRunner.class)
-@SpringApplicationConfiguration(classes = Application.class)
-@WebAppConfiguration
-@IntegrationTest
-public class UserServiceTest {
+public class UserServiceTest extends AbstractBasicTest{
 
   @Inject
   private UserRepository userRepository;

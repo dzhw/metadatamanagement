@@ -18,22 +18,16 @@ import org.apache.catalina.core.ApplicationFilterRegistration;
 import org.apache.catalina.core.StandardContext;
 import org.apache.tomcat.util.descriptor.web.FilterDef;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.springframework.core.env.Environment;
 import org.springframework.mock.web.MockServletContext;
-import org.springframework.test.context.ActiveProfiles;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import org.springframework.test.context.support.AnnotationConfigContextLoader;
+
+import eu.dzhw.fdz.metadatamanagement.AbstractBasicTest;
 
 /**
  * @author Daniel Katzberg
  *
  */
-@RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(classes = WebConfigurer.class, loader = AnnotationConfigContextLoader.class)
-@ActiveProfiles(Constants.SPRING_PROFILE_PRODUCTION)
-public class WebConfigurerTest {
+public class WebConfigurerTest extends AbstractBasicTest {
 
 	@Inject
 	private Environment env;
@@ -88,7 +82,7 @@ public class WebConfigurerTest {
 		webConfigurer.onStartup(context);
 
 		// Assert
-		assertThat(env.getActiveProfiles().length, is(1));
+		assertThat(env.getActiveProfiles().length, is(0));
 	}
 
 }

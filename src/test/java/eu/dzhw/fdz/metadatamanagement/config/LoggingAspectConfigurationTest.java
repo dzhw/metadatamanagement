@@ -7,15 +7,12 @@ import static org.hamcrest.CoreMatchers.not;
 import static org.hamcrest.CoreMatchers.nullValue;
 import static org.junit.Assert.assertThat;
 
+import javax.annotation.PostConstruct;
 import javax.inject.Inject;
 
 import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.springframework.test.context.ActiveProfiles;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import org.springframework.test.context.support.AnnotationConfigContextLoader;
 
+import eu.dzhw.fdz.metadatamanagement.AbstractBasicTest;
 import eu.dzhw.fdz.metadatamanagement.aop.logging.LoggingAspect;
 
 /**
@@ -23,16 +20,18 @@ import eu.dzhw.fdz.metadatamanagement.aop.logging.LoggingAspect;
  * @author Daniel Katzberg
  *
  */
-@RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(classes = { LoggingAspectConfiguration.class, LoggingAspect.class }, loader = AnnotationConfigContextLoader.class)
-@ActiveProfiles(Constants.SPRING_PROFILE_DEVELOPMENT)
-public class LoggingAspectConfigurationTest {
+public class LoggingAspectConfigurationTest extends AbstractBasicTest{
 
 	@Inject
 	private LoggingAspectConfiguration loggingAspectConfiguration;
 	
 	@Inject
 	private LoggingAspect loggingAspect;
+	
+	@PostConstruct
+	  public void postConstruct() {
+	    this.loggingAspect = new LoggingAspect();
+	  }
 
 	@Test
 	public void testLoggingAspect() {

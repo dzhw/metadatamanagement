@@ -12,19 +12,14 @@ import java.lang.reflect.Method;
 import javax.inject.Inject;
 
 import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import org.springframework.test.context.support.AnnotationConfigContextLoader;
+
+import eu.dzhw.fdz.metadatamanagement.AbstractBasicTest;
 
 /**
  * @author Daniel Katzberg
  *
  */
-@RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(classes = { JHipsterProperties.class,
-		MetricsConfiguration.class }, loader = AnnotationConfigContextLoader.class)
-public class MetricsConfigurationTest {
+public class MetricsConfigurationTest extends AbstractBasicTest{
 
 	@Inject
 	private JHipsterProperties jHipsterProperties;

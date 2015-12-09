@@ -19,7 +19,7 @@ import org.mockito.Mockito;
 import org.springframework.messaging.simp.stomp.StompHeaderAccessor;
 import org.springframework.web.socket.messaging.SessionDisconnectEvent;
 
-import eu.dzhw.fdz.metadatamanagement.BasicTest;
+import eu.dzhw.fdz.metadatamanagement.AbstractBasicTest;
 import eu.dzhw.fdz.metadatamanagement.config.WebsocketConfiguration;
 import eu.dzhw.fdz.metadatamanagement.web.websocket.ActivityService;
 import eu.dzhw.fdz.metadatamanagement.web.websocket.dto.ActivityDTO;
@@ -28,7 +28,7 @@ import eu.dzhw.fdz.metadatamanagement.web.websocket.dto.ActivityDTO;
  * @author Daniel Katzberg
  *
  */
-public class ActivityServiceTest extends BasicTest {
+public class ActivityServiceTest extends AbstractBasicTest {
 
   @Inject
   private ActivityService activityService;

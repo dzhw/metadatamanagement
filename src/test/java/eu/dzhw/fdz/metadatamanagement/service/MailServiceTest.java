@@ -19,7 +19,7 @@ import org.junit.Test;
 import com.icegreen.greenmail.util.GreenMail;
 import com.icegreen.greenmail.util.ServerSetupTest;
 
-import eu.dzhw.fdz.metadatamanagement.BasicTest;
+import eu.dzhw.fdz.metadatamanagement.AbstractBasicTest;
 import eu.dzhw.fdz.metadatamanagement.domain.User;
 import eu.dzhw.fdz.metadatamanagement.domain.builders.UserBuilder;
 
@@ -27,7 +27,7 @@ import eu.dzhw.fdz.metadatamanagement.domain.builders.UserBuilder;
  * @author Daniel Katzberg
  *
  */
-public class MailServiceTest extends BasicTest {
+public class MailServiceTest extends AbstractBasicTest {
 
   @Inject
   private MailService mailService;
