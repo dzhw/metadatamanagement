@@ -73,7 +73,8 @@ angular.module('metadatamanagementApp')
                         cufDoi: null,
                         id: null
                       };
-                    }
+                    },
+                    isCreateMode: true
                   }
                 }).result.then(function() {
                   $state.go('fdzProject', null, {reload: true});
@@ -98,7 +99,8 @@ angular.module('metadatamanagementApp')
                   resolve: {
                     entity: ['FdzProject', function(FdzProject) {
                       return FdzProject.get({name: $stateParams.name});
-                    }]
+                    }],
+                    isCreateMode: false
                   }
                 }).result.then(function() {
                   $state.go('fdzProject', null, {reload: true});

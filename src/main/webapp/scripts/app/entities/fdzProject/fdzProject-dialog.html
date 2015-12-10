@@ -12,14 +12,13 @@
             <label class="control-label" translate="metadatamanagementApp.fdzProject.name" for="field_name">Name</label>
             <input type="text" class="form-control" name="name" id="field_name"
                     ng-model="fdzProject.name"
-                    required />
+                    required ng-readonly="!isCreateMode" />
             <div ng-show="editForm.name.$invalid">
                 <p class="help-block"
                     ng-show="editForm.name.$error.required" translate="entity.validation.required">
                     This field is required.
                 </p>
             </div>
-            <!-- TODO make name behave like id in variables -->
         </div>
         <div class="form-group">
             <label class="control-label" translate="metadatamanagementApp.fdzProject.sufDoi" for="field_sufDoi">SufDoi</label>

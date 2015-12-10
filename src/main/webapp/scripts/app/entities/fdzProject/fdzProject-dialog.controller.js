@@ -1,17 +1,20 @@
 'use strict';
 
 angular.module('metadatamanagementApp').controller('FdzProjectDialogController',
-    ['$scope', '$stateParams', '$uibModalInstance', 'entity', 'FdzProject',
-        function($scope, $stateParams, $uibModalInstance, entity, FdzProject) {
-
+    ['$scope', '$stateParams', '$uibModalInstance', 'entity',
+      'FdzProject', 'isCreateMode',
+        function($scope, $stateParams, $uibModalInstance, entity,
+          FdzProject, isCreateMode) {
           $scope.fdzProject = entity;
+          $scope.isCreateMode = isCreateMode;
+
           $scope.load = function(name) {
             FdzProject.get({name: name}, function(result) {
               $scope.fdzProject = result;
             });
           };
 
-          var onSaveSuccess = function(result) {
+          var onSaveFinished = function(result) {
             $scope.$emit('metadatamanagementApp:fdzProjectUpdate', result);
             $uibModalInstance.close(result);
             $scope.isSaving = false;
@@ -23,11 +26,10 @@ angular.module('metadatamanagementApp').controller('FdzProjectDialogController',
 
           $scope.save = function() {
             $scope.isSaving = true;
-            //TODO change to create and update mode
-            if ($scope.fdzProject.name !== null) {
-              FdzProject.update($scope.fdzProject, onSaveSuccess, onSaveError);
+            if (isCreateMode) {
+              FdzProject.create($scope.fdzProject, onSaveFinished, onSaveError);
             } else {
-              FdzProject.save($scope.fdzProject, onSaveSuccess, onSaveError);
+              FdzProject.update($scope.fdzProject, onSaveFinished, onSaveError);
             }
           };
 
