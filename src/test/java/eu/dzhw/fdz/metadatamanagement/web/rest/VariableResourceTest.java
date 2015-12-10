@@ -27,6 +27,7 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import eu.dzhw.fdz.metadatamanagement.AbstractTest;
 import eu.dzhw.fdz.metadatamanagement.domain.Variable;
+import eu.dzhw.fdz.metadatamanagement.domain.builders.VariableBuilder;
 import eu.dzhw.fdz.metadatamanagement.domain.enumeration.DataType;
 import eu.dzhw.fdz.metadatamanagement.domain.enumeration.ScaleLevel;
 import eu.dzhw.fdz.metadatamanagement.repository.VariableRepository;
@@ -51,6 +52,8 @@ public class VariableResourceTest extends AbstractTest {
   private static final ScaleLevel UPDATED_SCALE_LEVEL = ScaleLevel.nominal;
   private static final String DEFAULT_LABEL = "AAAAA";
   private static final String UPDATED_LABEL = "BBBBB";
+  private static final String DEFAULT_FDZ_PROJECT_NAME = "AAAAA";
+  private static final String UPDATED_FDZ_PROJECT_NAME = "BBBBB";
 
   @Inject
   private VariableRepository variableRepository;
@@ -85,24 +88,27 @@ public class VariableResourceTest extends AbstractTest {
 
   @Before
   public void initTest() {
-    variableRepository.deleteAll();
-    variable = new Variable();
-    variable.setId(DEFAULT_ID);
-    variable.setName(DEFAULT_NAME);
-    variable.setDataType(DEFAULT_DATA_TYPE);
-    variable.setScaleLevel(DEFAULT_SCALE_LEVEL);
-    variable.setLabel(DEFAULT_LABEL);
+    this.variableRepository.deleteAll();
+    this.variable = new VariableBuilder().withId(DEFAULT_ID)
+      .withName(DEFAULT_NAME)
+      .withDataType(DEFAULT_DATA_TYPE)
+      .withScaleLevel(DEFAULT_SCALE_LEVEL)
+      .withLabel(DEFAULT_LABEL)
+      .withFdzProjectName(DEFAULT_FDZ_PROJECT_NAME)
+      .build();
   }
 
   @Test
   public void createVariable() throws Exception {
-    int databaseSizeBeforeCreate = variableRepository.findAll()
+    // Arrange
+
+    // Act
+    int databaseSizeBeforeCreate = this.variableRepository.findAll()
       .size();
 
-    // Create the Variable
-
-    restVariableMockMvc.perform(post("/api/variables").contentType(TestUtil.APPLICATION_JSON_UTF8)
-      .content(TestUtil.convertObjectToJsonBytes(variable)))
+    this.restVariableMockMvc
+      .perform(post("/api/variables").contentType(TestUtil.APPLICATION_JSON_UTF8)
+        .content(TestUtil.convertObjectToJsonBytes(variable)))
       .andExpect(status().isCreated());
 
     // Validate the Variable in the database
@@ -113,6 +119,7 @@ public class VariableResourceTest extends AbstractTest {
     assertThat(testVariable.getDataType()).isEqualTo(DEFAULT_DATA_TYPE);
     assertThat(testVariable.getScaleLevel()).isEqualTo(DEFAULT_SCALE_LEVEL);
     assertThat(testVariable.getLabel()).isEqualTo(DEFAULT_LABEL);
+    assertThat(testVariable.getFdzProjectName()).isEqualTo(DEFAULT_FDZ_PROJECT_NAME);
   }
 
   @Test
@@ -212,7 +219,8 @@ public class VariableResourceTest extends AbstractTest {
       .andExpect(jsonPath("$.[*].name").value(hasItem(DEFAULT_NAME.toString())))
       .andExpect(jsonPath("$.[*].dataType").value(hasItem(DEFAULT_DATA_TYPE.toString())))
       .andExpect(jsonPath("$.[*].scaleLevel").value(hasItem(DEFAULT_SCALE_LEVEL.toString())))
-      .andExpect(jsonPath("$.[*].label").value(hasItem(DEFAULT_LABEL.toString())));
+      .andExpect(jsonPath("$.[*].label").value(hasItem(DEFAULT_LABEL.toString())))
+      .andExpect(jsonPath("$.[*].fdzProjectName").value(hasItem(DEFAULT_FDZ_PROJECT_NAME.toString())));
   }
 
   @Test
@@ -228,7 +236,8 @@ public class VariableResourceTest extends AbstractTest {
       .andExpect(jsonPath("$.name").value(DEFAULT_NAME.toString()))
       .andExpect(jsonPath("$.dataType").value(DEFAULT_DATA_TYPE.toString()))
       .andExpect(jsonPath("$.scaleLevel").value(DEFAULT_SCALE_LEVEL.toString()))
-      .andExpect(jsonPath("$.label").value(DEFAULT_LABEL.toString()));
+      .andExpect(jsonPath("$.label").value(DEFAULT_LABEL.toString()))
+      .andExpect(jsonPath("$.fdzProjectName").value(DEFAULT_FDZ_PROJECT_NAME.toString()));
   }
 
   @Test
@@ -247,10 +256,11 @@ public class VariableResourceTest extends AbstractTest {
       .size();
 
     // Update the variable
-    variable.setName(UPDATED_NAME);
-    variable.setDataType(UPDATED_DATA_TYPE);
-    variable.setScaleLevel(UPDATED_SCALE_LEVEL);
-    variable.setLabel(UPDATED_LABEL);
+    this.variable.setName(UPDATED_NAME);
+    this.variable.setDataType(UPDATED_DATA_TYPE);
+    this.variable.setScaleLevel(UPDATED_SCALE_LEVEL);
+    this.variable.setLabel(UPDATED_LABEL);
+    this.variable.setFdzProjectName(UPDATED_FDZ_PROJECT_NAME);
 
     restVariableMockMvc.perform(put("/api/variables").contentType(TestUtil.APPLICATION_JSON_UTF8)
       .content(TestUtil.convertObjectToJsonBytes(variable)))
@@ -264,18 +274,19 @@ public class VariableResourceTest extends AbstractTest {
     assertThat(testVariable.getDataType()).isEqualTo(UPDATED_DATA_TYPE);
     assertThat(testVariable.getScaleLevel()).isEqualTo(UPDATED_SCALE_LEVEL);
     assertThat(testVariable.getLabel()).isEqualTo(UPDATED_LABEL);
+    assertThat(testVariable.getFdzProjectName()).isEqualTo(UPDATED_FDZ_PROJECT_NAME);
   }
 
   @Test
   public void updateVariableWithError() throws Exception {
 
     // Arrange
-    variableRepository.save(variable);
-    variable.setName(UPDATED_NAME);
-    variable.setDataType(UPDATED_DATA_TYPE);
-    variable.setScaleLevel(UPDATED_SCALE_LEVEL);
-    variable.setLabel(UPDATED_LABEL);
-    variable.setId("WrongID");
+    this.variableRepository.save(variable);
+    this.variable.setName(UPDATED_NAME);
+    this.variable.setDataType(UPDATED_DATA_TYPE);
+    this.variable.setScaleLevel(UPDATED_SCALE_LEVEL);
+    this.variable.setLabel(UPDATED_LABEL);
+    this.variable.setId("WrongID");
 
     // Act
 

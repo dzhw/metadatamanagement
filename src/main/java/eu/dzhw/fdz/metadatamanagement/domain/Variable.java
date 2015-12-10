@@ -50,6 +50,10 @@ public class Variable implements Serializable {
   @Size(max = 128)
   @Field("label")
   private String label;
+  
+  @NotNull
+  @Field("fdz_project_name")
+  private String fdzProjectName;
 
   public String getId() {
     return id;
@@ -91,6 +95,14 @@ public class Variable implements Serializable {
     this.label = label;
   }
 
+  public String getFdzProjectName() {
+    return fdzProjectName;
+  }
+
+  public void setFdzProjectName(String fdzProjectName) {
+    this.fdzProjectName = fdzProjectName;
+  }
+
   @Override
   public boolean equals(Object object) {
     if (this == object) {
@@ -108,7 +120,7 @@ public class Variable implements Serializable {
 
     return true;
   }
-
+  
   @Override
   public int hashCode() {
     return Objects.hashCode(id);
