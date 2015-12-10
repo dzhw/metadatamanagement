@@ -33,6 +33,11 @@
         "type": "string",
         "index": "not_analyzed",
         "copy_to": "allStringsAsNgrams"
+      },
+      "fdzProjectName": {
+        "type": "string",
+        "index": "not_analyzed",
+        "copy_to": "allStringsAsNgrams"
       }
     }
   }
