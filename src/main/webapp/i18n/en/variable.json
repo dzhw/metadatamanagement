@@ -1,26 +1,27 @@
 {
-    "metadatamanagementApp": {
-        "variable" : {
-            "home": {
-                "title": "Variables",
-                "createLabel": "Create a new Variable",
-                "createOrEditLabel": "Create or edit a Variable",
-                "refresh":"Refresh"
-            },
-            "created": "A new Variable is created with FDZ ID {{ param }}",
-            "updated": "A Variable is updated with FDZ ID {{ param }}",
-            "deleted": "A Variable is deleted with FDZ ID {{ param }}",
-            "delete": {
-                "question": "Are you sure you want to delete Variable with the FDZ ID {{ id }} ?"
-            },
-            "detail": {
-                "title": "Variable"
-            },
-            "id": "FDZ ID",
-            "name": "Name",
-            "dataType": "DataType",
-            "scaleLevel": "ScaleLevel",
-            "label": "Label"
-        }
+  "metadatamanagementApp": {
+    "variable": {
+      "home": {
+        "title": "Variables",
+        "createLabel": "Create a new Variable",
+        "createOrEditLabel": "Create or edit a Variable",
+        "refresh": "Refresh"
+      },
+      "created": "A new Variable is created with FDZ ID {{ param }}",
+      "updated": "A Variable is updated with FDZ ID {{ param }}",
+      "deleted": "A Variable is deleted with FDZ ID {{ param }}",
+      "delete": {
+        "question": "Are you sure you want to delete Variable with the FDZ ID {{ id }} ?"
+      },
+      "detail": {
+        "title": "Variable"
+      },
+      "id": "FDZ ID",
+      "name": "Name",
+      "dataType": "DataType",
+      "scaleLevel": "ScaleLevel",
+      "label": "Label",
+      "fdzProjectName": "FDZ Project Name"
     }
+  }
 }
