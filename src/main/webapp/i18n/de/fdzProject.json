@@ -6,11 +6,11 @@
         "createLabel": "Neues FDZ Projekt anlegen",
         "createOrEditLabel": "Erstelle oder editiere ein FDZ Projekt"
       },
-      "created": "FDZ Prokjekt \"{{ param }}\" wurde angelegt.",
+      "created": "FDZ Projekt \"{{ param }}\" wurde angelegt.",
       "updated": "FDZ Projekt \"{{ param }}\" wurde aktualisiert.",
       "deleted": "FDZ Projekt \"{{ param }}\" wurde gelöscht.",
       "delete": {
-        "question": "Are you sure you want to delete FDZ Project \"{{ name }}\"?"
+        "question": "Sind Sie sicher, dass Sie das FDZ Project \"{{ name }}\" löschen möchten?"
       },
       "detail": {
         "title": "FDZ Projekt"

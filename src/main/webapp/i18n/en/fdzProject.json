@@ -10,7 +10,7 @@
       "updated": "A FDZ Project is updated with name {{ param }}",
       "deleted": "A FDZ Project is deleted with name {{ param }}",
       "delete": {
-        "question": "Sind Sie sicher dass, Sie das FDZ Projekt \"{{ name }}\" löschen möchten?"
+        "question": "Are you sure you want to delete FDZ Project \"{{ name }}\"?"
       },
       "detail": {
         "title": "FDZ Project"
