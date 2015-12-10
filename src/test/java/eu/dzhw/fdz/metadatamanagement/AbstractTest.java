@@ -15,7 +15,6 @@ import org.springframework.test.context.web.WebAppConfiguration;
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringApplicationConfiguration(classes = Application.class)
 @WebAppConfiguration
-@ComponentScan(basePackages = {"eu.dzhw.fdz.metadatamanagement.notest.util.config"})
 public abstract class AbstractTest {
 
 }
