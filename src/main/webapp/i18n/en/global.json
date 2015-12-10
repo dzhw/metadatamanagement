@@ -117,6 +117,9 @@
       "fdzid": "The FDZ ID must contain only letters, digits and underscore.",
       "variable": {
         "name": "The name of a variable must contain only letters, digits and underscore."
+      },
+      "fdzProject": {
+        "name": "The name of the project must contain only letters, digits and spaces."
       }
     }
   },

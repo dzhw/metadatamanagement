@@ -115,7 +115,10 @@
       "datetimelocal": "Dieses Feld muss eine Datums- und Zeitangabe enthalten.",
       "fdzid": "Die FDZ ID darf nur aus Zahlen, Buchstaben und \"_\" bestehen.",
       "variable": {
-        "name": "Die Name einer Variablen darf nur aus Zahlen, Buchstaben und \"_\" bestehen."
+        "name": "Der Name einer Variablen darf nur aus Zahlen, Buchstaben und \"_\" bestehen."
+      },
+      "fdzProject": {
+        "name": "Der Name einer Variablen darf nur aus Zahlen, Buchstaben und Leerzeichen bestehen."
       }
     }
   },

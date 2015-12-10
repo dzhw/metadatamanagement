@@ -12,11 +12,15 @@
             <label class="control-label" translate="metadatamanagementApp.fdzProject.name" for="field_name">Name</label>
             <input type="text" class="form-control" name="name" id="field_name"
                     ng-model="fdzProject.name"
-                    required ng-readonly="!isCreateMode" />
+                    required ng-readonly="!isCreateMode" ng-pattern="/^[A-Za-z0-9äöüÄÖÜ][ A-Za-z0-9äöüÄÖÜ]*$/"/>
             <div ng-show="editForm.name.$invalid">
                 <p class="help-block"
                     ng-show="editForm.name.$error.required" translate="entity.validation.required">
                     This field is required.
+                </p>
+                <p class="help-block"
+                   ng-show="editForm.name.$error.pattern" translate="entity.validation.fdzProject.name">
+                   The name can only contain letters, digits and spaces.
                 </p>
             </div>
         </div>

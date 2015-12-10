@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.Objects;
 
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -19,6 +20,7 @@ public class FdzProject implements Serializable {
   @Id
   @NotNull
   @Field("name")
+  @Pattern(regexp = "^[A-Za-z0-9äöüÄÖÜ][ A-Za-z0-9äöüÄÖÜ]*$")
   private String name;
 
   @Field("suf_doi")
