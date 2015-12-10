@@ -9,7 +9,6 @@ import static org.junit.Assert.assertThat;
 import static org.mockito.Mockito.when;
 
 import javax.annotation.PostConstruct;
-import javax.inject.Inject;
 
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.Signature;
@@ -24,7 +23,6 @@ import eu.dzhw.fdz.metadatamanagement.AbstractTest;
  */
 public class LoggingAspectTest extends AbstractTest {
 
-  @Inject
   private LoggingAspect loggingAspect;
 
   @PostConstruct
