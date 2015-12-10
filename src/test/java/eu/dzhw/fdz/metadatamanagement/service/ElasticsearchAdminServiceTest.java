@@ -51,6 +51,7 @@ public class ElasticsearchAdminServiceTest extends AbstractTest {
       .withScaleLevel(ScaleLevel.metric)
       .withName("name")
       .withLabel("label")
+      .withFdzProjectName("ProjectName")
       .build();
     variableRepository.save(variable1);
 
@@ -59,6 +60,7 @@ public class ElasticsearchAdminServiceTest extends AbstractTest {
       .withScaleLevel(ScaleLevel.metric)
       .withName("name")
       .withLabel("label")
+      .withFdzProjectName("ProjectName")
       .build();
     variableRepository.save(variable2);
 
