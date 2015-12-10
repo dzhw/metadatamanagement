@@ -1,0 +1,23 @@
+{
+  "metadatamanagementApp": {
+    "fdzProject": {
+      "home": {
+        "title": "FDZ Projekte",
+        "createLabel": "Neues FDZ Projekt anlegen",
+        "createOrEditLabel": "Erstelle oder editiere ein FDZ Projekt"
+      },
+      "created": "FDZ Prokjekt \"{{ param }}\" wurde angelegt.",
+      "updated": "FDZ Projekt \"{{ param }}\" wurde aktualisiert.",
+      "deleted": "FDZ Projekt \"{{ param }}\" wurde gelöscht.",
+      "delete": {
+        "question": "Are you sure you want to delete FDZ Project \"{{ name }}\"?"
+      },
+      "detail": {
+        "title": "FDZ Projekt"
+      },
+      "name": "Name",
+      "sufDoi": "SUF DOI",
+      "cufDoi": "CUF DOI"
+    }
+  }
+}

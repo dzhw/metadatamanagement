@@ -9,7 +9,7 @@
             </button>
              <a class="navbar-brand fdz_logo" ui-sref="home"></a>
         </div>
-        
+
         <div class="collapse navbar-collapse" id="navbar-collapse" ng-switch="isAuthenticated()">
             <ul class="nav navbar-nav navbar-right">
                 <li ui-sref-active="active">
@@ -31,6 +31,8 @@
                     <ul class="dropdown-menu">
                     <li ui-sref-active="active" ><a ui-sref="variable" data-toggle="collapse" data-target=".navbar-collapse.in"><span class="glyphicon glyphicon-asterisk"></span>
                         &#xA0;<span translate="global.menu.entities.variable">variable</span></a></li>
+                    <li ui-sref-active="active" ><a ui-sref="fdzProject" data-toggle="collapse" data-target=".navbar-collapse.in"><span class="glyphicon glyphicon-asterisk"></span>
+                        &#xA0;<span translate="global.menu.entities.fdzProject">fdzProject</span></a></li>
                     	<!-- JHipster will add entities to the menu here -->
                     </ul>
                 </li>
@@ -88,7 +90,7 @@
                  <span class="glyphicon glyphicon-blackboard"></span>
                             &#xA0;
                  <span translate="global.menu.disclosure">Sign in</span>
-                 </a></li> 
+                 </a></li>
                 <li ui-sref-active="active" class="dropdown pointer" ng-controller="LanguageController">
                     <a class="dropdown-toggle" data-toggle="dropdown" href="">
                         <span>

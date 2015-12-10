@@ -7,6 +7,7 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
+import org.hibernate.validator.constraints.NotBlank;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
@@ -27,11 +28,11 @@ public class Variable implements Serializable {
   private static final String ALPHANUMERIC_WITH_UNDERSCORE = "^[_A-Za-z0-9]*$";
 
   @Id
-  @NotNull
+  @NotBlank
   @Pattern(regexp = ALPHANUMERIC_WITH_UNDERSCORE)
   private String id;
 
-  @NotNull
+  @NotBlank
   @Size(max = 32)
   @Field("name")
   @Pattern(regexp = ALPHANUMERIC_WITH_UNDERSCORE)
@@ -45,7 +46,7 @@ public class Variable implements Serializable {
   @Field("scale_level")
   private ScaleLevel scaleLevel;
 
-  @NotNull
+  @NotBlank
   @Size(max = 128)
   @Field("label")
   private String label;

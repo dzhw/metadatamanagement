@@ -13,6 +13,7 @@
       "entities": {
         "main": "Entities",
         "variable": "Variable",
+        "fdzProject": "FDZ Project",
         "additionalEntity": "JHipster will add additional entities here (do not translate!)"
       },
       "search": {
@@ -123,8 +124,8 @@
     "serverNotReachable": "Server not reachable",
     "NotNull": "Field {{fieldName}} cannot be empty!",
     "entity": {
-      "exists": "There is already a {{params[0]}} with FDZ ID \"{{params[1]}}\"!",
-      "notfound": "{{params[0]}} with FDZ ID \"{{params[1]}}\" not found!"
+      "exists": "There is already a {{params[0]}} with ID \"{{params[1]}}\"!",
+      "notfound": "{{params[0]}} with ID \"{{params[1]}}\" not found!"
     }
   },
   "footer": "This is your footer"
