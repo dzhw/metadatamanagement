@@ -128,6 +128,7 @@
     "NotNull": "Das Feld {{fieldName}} darf nicht leer sein!",
     "entity": {
       "exists": "Ein Datensatz vom Typ \"{{params[0]}}\" mit ID \"{{params[1]}}\" existiert bereits!",
+      "compoundexists": "Ein Datensatz vom Typ \"{{params[0]}}\" und der Felderkombination \"{{params[1]}}\" existiert bereits!",
       "notfound": "Ein Datensatz vom Typ \"{{params[0]}}\" mit ID \"{{params[1]}}\" wurde nicht gefunden!"
     }
   },

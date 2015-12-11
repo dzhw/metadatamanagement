@@ -9,6 +9,7 @@ import javax.validation.constraints.Size;
 
 import org.hibernate.validator.constraints.NotBlank;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.index.CompoundIndex;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
 
@@ -22,6 +23,7 @@ import net.karneim.pojobuilder.GeneratePojoBuilder;
  */
 @Document(collection = "variable")
 @GeneratePojoBuilder(intoPackage = "eu.dzhw.fdz.metadatamanagement.domain.builders")
+@CompoundIndex(def = "{name: 1, fdz_project_name: 1}", unique = true)
 public class Variable implements Serializable {
 
   private static final long serialVersionUID = 3447432736734388659L;
@@ -49,7 +51,7 @@ public class Variable implements Serializable {
   @Size(max = 128)
   @Field("label")
   private String label;
-  
+
   @NotNull
   @Field("fdz_project_name")
   private String fdzProjectName;
@@ -119,7 +121,7 @@ public class Variable implements Serializable {
 
     return true;
   }
-  
+
   @Override
   public int hashCode() {
     return Objects.hashCode(id);
@@ -127,8 +129,7 @@ public class Variable implements Serializable {
 
   @Override
   public String toString() {
-    return "Variable{" + "id=" + id + ", name='" + name + "'" + ", "
-        + "dataType='" + dataType + "'" + ", scaleLevel='" + scaleLevel + "'" + ", label='" 
-        + label + "'" + '}';
+    return "Variable{" + "id=" + id + ", name='" + name + "'" + ", " + "dataType='" + dataType + "'"
+        + ", scaleLevel='" + scaleLevel + "'" + ", label='" + label + "'" + '}';
   }
 }

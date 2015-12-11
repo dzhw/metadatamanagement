@@ -1,5 +1,7 @@
 package eu.dzhw.fdz.metadatamanagement.service.exception;
 
+import java.util.Arrays;
+
 import eu.dzhw.fdz.metadatamanagement.web.rest.errors.CustomParameterizedException;
 import eu.dzhw.fdz.metadatamanagement.web.rest.errors.ErrorConstants;
 
@@ -20,5 +22,9 @@ public class EntityExistsException extends CustomParameterizedException {
    */
   public EntityExistsException(Class<?> entityClass, String entityId) {
     super(ErrorConstants.ERR_ENTITY_EXISTS, entityClass.getSimpleName(), entityId);
+  }
+  
+  public EntityExistsException(Class<?> entityClass, String[] fields) {
+    super(ErrorConstants.ERR_ENTITY_COMPOUND_EXISTS, entityClass.getSimpleName(), Arrays.toString(fields));
   }
 }

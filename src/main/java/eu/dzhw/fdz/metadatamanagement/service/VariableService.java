@@ -46,7 +46,19 @@ public class VariableService {
     try {
       variable = variableRepository.insert(variable);
     } catch (DuplicateKeyException e) {
-      throw new EntityExistsException(Variable.class, variable.getId());
+      String message = e.getMessage();
+      
+      //Double ID
+      if(message.contains("$_id_")) {      
+        throw new EntityExistsException(Variable.class, variable.getId());
+      }  
+      
+      //Double Compound index of name/fdzProjectName
+      if(message.contains("$name_1_fdz_project_name_1")) {
+        String[] fields = {variable.getName(), variable.getFdzProjectName()};
+        throw new EntityExistsException(Variable.class, fields);
+      }
+      
     }
     updateSearchIndices(variable);
     return variable;
