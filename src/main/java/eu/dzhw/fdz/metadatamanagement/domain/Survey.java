@@ -13,12 +13,14 @@ import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
 
 import eu.dzhw.fdz.metadatamanagement.domain.util.Patterns;
+import net.karneim.pojobuilder.GeneratePojoBuilder;
 
 /**
  * A Survey.
  */
 
 @Document(collection = "survey")
+@GeneratePojoBuilder(intoPackage = "eu.dzhw.fdz.metadatamanagement.domain.builders")
 public class Survey implements Serializable {
 
   private static final long serialVersionUID = -9080907927711709470L;
