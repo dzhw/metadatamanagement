@@ -11,11 +11,13 @@ import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
 
 import eu.dzhw.fdz.metadatamanagement.domain.util.Patterns;
+import net.karneim.pojobuilder.GeneratePojoBuilder;
 
 /**
  * A FdzProject.
  */
 @Document(collection = "fdz_project")
+@GeneratePojoBuilder(intoPackage = "eu.dzhw.fdz.metadatamanagement.domain.builders")
 public class FdzProject implements Serializable {
   private static final long serialVersionUID = 2466260798886385927L;
 
