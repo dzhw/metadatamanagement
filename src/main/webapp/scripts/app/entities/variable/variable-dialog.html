@@ -36,7 +36,14 @@
 
     <div class="form-group">
       <label translate="metadatamanagementApp.variable.fdzProjectName" for="field_fdzProjectName">FDZ Project Name</label>
-      <input type="text" class="form-control" name="fdzProjectName" id="field_label" ng-model="variable.fdzProjectName" required="true" />
+
+      <select class="form-control" name="dataType" ng-model="variable.dataType" id="field_dataType" required>
+
+        <option ng-repeat="fdzproject in allFdzProjects" value="{{fdzproject.id}}">{{fdzproject.name}}</option>
+
+      </select>
+
+
       <div ng-show="editForm.fdzProjectName.$invalid">
         <p class="help-block" ng-show="editForm.fdzProjectName.$error.required" translate="entity.validation.required">
           This field is required.

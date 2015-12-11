@@ -50,7 +50,7 @@ public class FdzProjectResource {
   public ResponseEntity<FdzProject> createFdzProject(@Valid @RequestBody FdzProject fdzProject)
       throws URISyntaxException {
     log.debug("REST request to save FdzProject : {}", fdzProject);
-    
+
     FdzProject result = fdzProjectService.createFdzProject(fdzProject);
     return ResponseEntity.created(new URI("/api/fdzProjects/" + result.getName()))
       .headers(HeaderUtil.createEntityCreationAlert("fdzProject", result.getName()))
@@ -66,7 +66,7 @@ public class FdzProjectResource {
   public ResponseEntity<FdzProject> updateFdzProject(@Valid @RequestBody FdzProject fdzProject)
       throws URISyntaxException {
     log.debug("REST request to update FdzProject : {}", fdzProject);
-    
+
     FdzProject result = fdzProjectService.updateFdzProject(fdzProject);
     return ResponseEntity.ok()
       .headers(HeaderUtil.createEntityUpdateAlert("fdzProject", fdzProject.getName()))
@@ -79,12 +79,20 @@ public class FdzProjectResource {
   @RequestMapping(value = "/fdzProjects", method = RequestMethod.GET,
       produces = MediaType.APPLICATION_JSON_VALUE)
   @Timed
-  public ResponseEntity<List<FdzProject>> getAllFdzProjects(Pageable pageable)
-      throws URISyntaxException {
+  public ResponseEntity<List<FdzProject>> getAllFdzProjects(Pageable pageable,
+      Optional<String> getAll) throws URISyntaxException {
     log.debug("REST request to get a page of FdzProjects");
-    Page<FdzProject> page = fdzProjectService.findAll(pageable);
-    HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/fdzProjects");
-    return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
+
+    if (getAll.isPresent()) {
+      List<FdzProject> allFdzProjects = fdzProjectService.findAll();
+      return Optional.ofNullable(allFdzProjects)
+        .map(result -> new ResponseEntity<>(result, HttpStatus.OK))
+        .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
+    } else {
+      Page<FdzProject> page = fdzProjectService.findAll(pageable);
+      HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/fdzProjects");
+      return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
+    }
   }
 
   /**
