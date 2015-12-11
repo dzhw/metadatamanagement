@@ -34,161 +34,184 @@ import eu.dzhw.fdz.metadatamanagement.service.FdzProjectService;
 /**
  * Test class for the FdzProjectResource REST controller.
  *
+ * @author Daniel Katzberg
+ * @author JHipster
+ *
  * @see FdzProjectResource
  */
 public class FdzProjectResourceIntTest extends AbstractTest {
 
-    private static final String DEFAULT_NAME = "AAAAA";
-    private static final String DEFAULT_SUF_DOI = "AAAAA";
-    private static final String UPDATED_SUF_DOI = "BBBBB";
-    private static final String DEFAULT_CUF_DOI = "AAAAA";
-    private static final String UPDATED_CUF_DOI = "BBBBB";
+  private static final String DEFAULT_NAME = "AAAAA";
+  private static final String DEFAULT_SUF_DOI = "AAAAA";
+  private static final String UPDATED_SUF_DOI = "BBBBB";
+  private static final String DEFAULT_CUF_DOI = "AAAAA";
+  private static final String UPDATED_CUF_DOI = "BBBBB";
 
-    @Inject
-    private FdzProjectRepository fdzProjectRepository;
+  @Inject
+  private FdzProjectRepository fdzProjectRepository;
 
-    @Inject
-    private FdzProjectService fdzProjectService;
+  @Inject
+  private FdzProjectService fdzProjectService;
 
-    @Inject
-    private MappingJackson2HttpMessageConverter jacksonMessageConverter;
+  @Inject
+  private MappingJackson2HttpMessageConverter jacksonMessageConverter;
 
-    @Inject
-    private PageableHandlerMethodArgumentResolver pageableArgumentResolver;
+  @Inject
+  private PageableHandlerMethodArgumentResolver pageableArgumentResolver;
 
-    private MockMvc restFdzProjectMockMvc;
+  private MockMvc restFdzProjectMockMvc;
 
-    private FdzProject fdzProject;
+  private FdzProject fdzProject;
 
-    @PostConstruct
-    public void setup() {
-        MockitoAnnotations.initMocks(this);
-        FdzProjectResource fdzProjectResource = new FdzProjectResource();
-        ReflectionTestUtils.setField(fdzProjectResource, "fdzProjectService", fdzProjectService);
-        this.restFdzProjectMockMvc = MockMvcBuilders.standaloneSetup(fdzProjectResource)
-            .setCustomArgumentResolvers(pageableArgumentResolver)
-            .setMessageConverters(jacksonMessageConverter).build();
-    }
+  @PostConstruct
+  public void setup() {
+    MockitoAnnotations.initMocks(this);
+    FdzProjectResource fdzProjectResource = new FdzProjectResource();
+    ReflectionTestUtils.setField(fdzProjectResource, "fdzProjectService", fdzProjectService);
+    this.restFdzProjectMockMvc = MockMvcBuilders.standaloneSetup(fdzProjectResource)
+      .setCustomArgumentResolvers(pageableArgumentResolver)
+      .setMessageConverters(jacksonMessageConverter)
+      .build();
+  }
 
-    @Before
-    public void initTest() {
-        fdzProjectRepository.deleteAll();
-        fdzProject = new FdzProject();
-        fdzProject.setName(DEFAULT_NAME);
-        fdzProject.setSufDoi(DEFAULT_SUF_DOI);
-        fdzProject.setCufDoi(DEFAULT_CUF_DOI);
-    }
+  @Before
+  public void initTest() {
+    fdzProjectRepository.deleteAll();
+    fdzProject = new FdzProject();
+    fdzProject.setName(DEFAULT_NAME);
+    fdzProject.setSufDoi(DEFAULT_SUF_DOI);
+    fdzProject.setCufDoi(DEFAULT_CUF_DOI);
+  }
 
-    @Test
-    public void createFdzProject() throws Exception {
-        int databaseSizeBeforeCreate = fdzProjectRepository.findAll().size();
+  @Test
+  public void createFdzProject() throws Exception {
+    int databaseSizeBeforeCreate = fdzProjectRepository.findAll()
+      .size();
 
-        // Create the FdzProject
+    // Create the FdzProject
 
-        restFdzProjectMockMvc.perform(post("/api/fdzProjects")
-                .contentType(TestUtil.APPLICATION_JSON_UTF8)
-                .content(TestUtil.convertObjectToJsonBytes(fdzProject)))
-                .andExpect(status().isCreated());
+    restFdzProjectMockMvc
+      .perform(post("/api/fdzProjects").contentType(TestUtil.APPLICATION_JSON_UTF8)
+        .content(TestUtil.convertObjectToJsonBytes(fdzProject)))
+      .andExpect(status().isCreated());
 
-        // Validate the FdzProject in the database
-        List<FdzProject> fdzProjects = fdzProjectRepository.findAll();
-        assertThat(fdzProjects).hasSize(databaseSizeBeforeCreate + 1);
-        FdzProject testFdzProject = fdzProjects.get(fdzProjects.size() - 1);
-        assertThat(testFdzProject.getName()).isEqualTo(DEFAULT_NAME);
-        assertThat(testFdzProject.getSufDoi()).isEqualTo(DEFAULT_SUF_DOI);
-        assertThat(testFdzProject.getCufDoi()).isEqualTo(DEFAULT_CUF_DOI);
-    }
+    // Validate the FdzProject in the database
+    List<FdzProject> fdzProjects = fdzProjectRepository.findAll();
+    assertThat(fdzProjects).hasSize(databaseSizeBeforeCreate + 1);
+    FdzProject testFdzProject = fdzProjects.get(fdzProjects.size() - 1);
+    assertThat(testFdzProject.getName()).isEqualTo(DEFAULT_NAME);
+    assertThat(testFdzProject.getSufDoi()).isEqualTo(DEFAULT_SUF_DOI);
+    assertThat(testFdzProject.getCufDoi()).isEqualTo(DEFAULT_CUF_DOI);
+  }
 
-    @Test
-    public void checkNameIsRequired() throws Exception {
-        int databaseSizeBeforeTest = fdzProjectRepository.findAll().size();
-        // set the field null
-        fdzProject.setName(null);
+  @Test
+  public void checkNameIsRequired() throws Exception {
+    int databaseSizeBeforeTest = fdzProjectRepository.findAll()
+      .size();
+    // set the field null
+    fdzProject.setName(null);
 
-        // Create the FdzProject, which fails.
+    // Create the FdzProject, which fails.
 
-        restFdzProjectMockMvc.perform(post("/api/fdzProjects")
-                .contentType(TestUtil.APPLICATION_JSON_UTF8)
-                .content(TestUtil.convertObjectToJsonBytes(fdzProject)))
-                .andExpect(status().isBadRequest());
+    restFdzProjectMockMvc
+      .perform(post("/api/fdzProjects").contentType(TestUtil.APPLICATION_JSON_UTF8)
+        .content(TestUtil.convertObjectToJsonBytes(fdzProject)))
+      .andExpect(status().isBadRequest());
 
-        List<FdzProject> fdzProjects = fdzProjectRepository.findAll();
-        assertThat(fdzProjects).hasSize(databaseSizeBeforeTest);
-    }
+    List<FdzProject> fdzProjects = fdzProjectRepository.findAll();
+    assertThat(fdzProjects).hasSize(databaseSizeBeforeTest);
+  }
 
-    @Test
-    public void getAllFdzProjects() throws Exception {
-        // Initialize the database
-        fdzProjectRepository.save(fdzProject);
+  @Test
+  public void getAllFdzProjects() throws Exception {
+    // Initialize the database
+    fdzProjectRepository.save(fdzProject);
 
-        // Get all the fdzProjects
-        restFdzProjectMockMvc.perform(get("/api/fdzProjects?sort=id,desc"))
-                .andExpect(status().isOk())
-                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-                .andExpect(jsonPath("$.[*].name").value(hasItem(DEFAULT_NAME.toString())))
-                .andExpect(jsonPath("$.[*].sufDoi").value(hasItem(DEFAULT_SUF_DOI.toString())))
-                .andExpect(jsonPath("$.[*].cufDoi").value(hasItem(DEFAULT_CUF_DOI.toString())));
-    }
+    // Get all the fdzProjects
+    restFdzProjectMockMvc.perform(get("/api/fdzProjects?sort=id,desc"))
+      .andExpect(status().isOk())
+      .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+      .andExpect(jsonPath("$.[*].name").value(hasItem(DEFAULT_NAME.toString())))
+      .andExpect(jsonPath("$.[*].sufDoi").value(hasItem(DEFAULT_SUF_DOI.toString())))
+      .andExpect(jsonPath("$.[*].cufDoi").value(hasItem(DEFAULT_CUF_DOI.toString())));
+  }
 
-    @Test
-    public void getFdzProject() throws Exception {
-        // Initialize the database
-        fdzProjectRepository.save(fdzProject);
+  //TODO Daniel Katzberg
+//  @Test
+//  public void getAllFdzProjectsWithoutPageable() throws Exception {
+//    // Initialize the database
+//    fdzProjectRepository.save(fdzProject);
+//
+//    // Get all the fdzProjects
+//    restFdzProjectMockMvc.perform(get("/api/fdzProjects?getAll=true"))
+//      .andExpect(status().isOk())
+//      .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+//      .andExpect(jsonPath("$.[*].name").value(hasItem(DEFAULT_NAME.toString())))
+//      .andExpect(jsonPath("$.[*].sufDoi").value(hasItem(DEFAULT_SUF_DOI.toString())))
+//      .andExpect(jsonPath("$.[*].cufDoi").value(hasItem(DEFAULT_CUF_DOI.toString())));
+//  }
 
-        // Get the fdzProject
-        restFdzProjectMockMvc.perform(get("/api/fdzProjects/{name}", fdzProject.getName()))
-            .andExpect(status().isOk())
-            .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-            .andExpect(jsonPath("$.name").value(DEFAULT_NAME.toString()))
-            .andExpect(jsonPath("$.sufDoi").value(DEFAULT_SUF_DOI.toString()))
-            .andExpect(jsonPath("$.cufDoi").value(DEFAULT_CUF_DOI.toString()));
-    }
+  @Test
+  public void getFdzProject() throws Exception {
+    // Initialize the database
+    fdzProjectRepository.save(fdzProject);
 
-    @Test
-    public void getNonExistingFdzProject() throws Exception {
-        // Get the fdzProject
-        restFdzProjectMockMvc.perform(get("/api/fdzProjects/{name}", Long.MAX_VALUE))
-                .andExpect(status().isNotFound());
-    }
+    // Get the fdzProject
+    restFdzProjectMockMvc.perform(get("/api/fdzProjects/{name}", fdzProject.getName()))
+      .andExpect(status().isOk())
+      .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+      .andExpect(jsonPath("$.name").value(DEFAULT_NAME.toString()))
+      .andExpect(jsonPath("$.sufDoi").value(DEFAULT_SUF_DOI.toString()))
+      .andExpect(jsonPath("$.cufDoi").value(DEFAULT_CUF_DOI.toString()));
+  }
 
-    @Test
-    public void updateFdzProject() throws Exception {
-        // Initialize the database
-        fdzProjectRepository.save(fdzProject);
+  @Test
+  public void getNonExistingFdzProject() throws Exception {
+    // Get the fdzProject
+    restFdzProjectMockMvc.perform(get("/api/fdzProjects/{name}", Long.MAX_VALUE))
+      .andExpect(status().isNotFound());
+  }
 
-		int databaseSizeBeforeUpdate = fdzProjectRepository.findAll().size();
+  @Test
+  public void updateFdzProject() throws Exception {
+    // Initialize the database
+    fdzProjectRepository.save(fdzProject);
 
-        // Update the fdzProject
-        fdzProject.setSufDoi(UPDATED_SUF_DOI);
-        fdzProject.setCufDoi(UPDATED_CUF_DOI);
+    int databaseSizeBeforeUpdate = fdzProjectRepository.findAll()
+      .size();
 
-        restFdzProjectMockMvc.perform(put("/api/fdzProjects")
-                .contentType(TestUtil.APPLICATION_JSON_UTF8)
-                .content(TestUtil.convertObjectToJsonBytes(fdzProject)))
-                .andExpect(status().isOk());
+    // Update the fdzProject
+    fdzProject.setSufDoi(UPDATED_SUF_DOI);
+    fdzProject.setCufDoi(UPDATED_CUF_DOI);
 
-        // Validate the FdzProject in the database
-        List<FdzProject> fdzProjects = fdzProjectRepository.findAll();
-        assertThat(fdzProjects).hasSize(databaseSizeBeforeUpdate);
-        FdzProject testFdzProject = fdzProjects.get(fdzProjects.size() - 1);
-        assertThat(testFdzProject.getSufDoi()).isEqualTo(UPDATED_SUF_DOI);
-        assertThat(testFdzProject.getCufDoi()).isEqualTo(UPDATED_CUF_DOI);
-    }
+    restFdzProjectMockMvc
+      .perform(put("/api/fdzProjects").contentType(TestUtil.APPLICATION_JSON_UTF8)
+        .content(TestUtil.convertObjectToJsonBytes(fdzProject)))
+      .andExpect(status().isOk());
 
-    @Test
-    public void deleteFdzProject() throws Exception {
-        // Initialize the database
-        fdzProjectRepository.save(fdzProject);
+    // Validate the FdzProject in the database
+    List<FdzProject> fdzProjects = fdzProjectRepository.findAll();
+    assertThat(fdzProjects).hasSize(databaseSizeBeforeUpdate);
+    FdzProject testFdzProject = fdzProjects.get(fdzProjects.size() - 1);
+    assertThat(testFdzProject.getSufDoi()).isEqualTo(UPDATED_SUF_DOI);
+    assertThat(testFdzProject.getCufDoi()).isEqualTo(UPDATED_CUF_DOI);
+  }
 
-		int databaseSizeBeforeDelete = fdzProjectRepository.findAll().size();
+  @Test
+  public void deleteFdzProject() throws Exception {
+    // Initialize the database
+    fdzProjectRepository.save(fdzProject);
 
-        // Get the fdzProject
-        restFdzProjectMockMvc.perform(delete("/api/fdzProjects/{name}", fdzProject.getName())
-                .accept(TestUtil.APPLICATION_JSON_UTF8))
-                .andExpect(status().isOk());
+    int databaseSizeBeforeDelete = fdzProjectRepository.findAll()
+      .size();
 
-        // Validate the database is empty
-        List<FdzProject> fdzProjects = fdzProjectRepository.findAll();
-        assertThat(fdzProjects).hasSize(databaseSizeBeforeDelete - 1);
-    }
+    // Get the fdzProject
+    restFdzProjectMockMvc.perform(delete("/api/fdzProjects/{name}", fdzProject.getName())
+      .accept(TestUtil.APPLICATION_JSON_UTF8))
+      .andExpect(status().isOk());
+
+    // Validate the database is empty
+    List<FdzProject> fdzProjects = fdzProjectRepository.findAll();
+    assertThat(fdzProjects).hasSize(databaseSizeBeforeDelete - 1);
+  }
 }

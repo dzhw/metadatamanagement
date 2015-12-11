@@ -58,7 +58,7 @@ public class ElasticsearchAdminServiceTest extends AbstractTest {
     Variable variable2 = new VariableBuilder().withId("5678")
       .withDataType(DataType.numeric)
       .withScaleLevel(ScaleLevel.metric)
-      .withName("name")
+      .withName("name2")
       .withLabel("label")
       .withFdzProjectName("ProjectName")
       .build();

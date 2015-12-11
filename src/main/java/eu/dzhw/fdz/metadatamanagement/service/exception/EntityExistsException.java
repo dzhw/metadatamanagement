@@ -25,6 +25,7 @@ public class EntityExistsException extends CustomParameterizedException {
   }
   
   public EntityExistsException(Class<?> entityClass, String[] fields) {
-    super(ErrorConstants.ERR_ENTITY_COMPOUND_EXISTS, entityClass.getSimpleName(), Arrays.toString(fields));
+    super(ErrorConstants.ERR_ENTITY_COMPOUND_EXISTS, entityClass.getSimpleName(), 
+        Arrays.toString(fields));
   }
 }

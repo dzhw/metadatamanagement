@@ -47,18 +47,18 @@ public class VariableService {
       variable = variableRepository.insert(variable);
     } catch (DuplicateKeyException e) {
       String message = e.getMessage();
-      
-      //Double ID
-      if(message.contains("$_id_")) {      
+
+      // Double ID
+      if (message.contains("$_id_")) {
         throw new EntityExistsException(Variable.class, variable.getId());
-      }  
-      
-      //Double Compound index of name/fdzProjectName
-      if(message.contains("$name_1_fdz_project_name_1")) {
+      }
+
+      // Double Compound index of name/fdzProjectName
+      if (message.contains("$name_1_fdz_project_name_1")) {
         String[] fields = {variable.getName(), variable.getFdzProjectName()};
         throw new EntityExistsException(Variable.class, fields);
       }
-      
+
     }
     updateSearchIndices(variable);
     return variable;
@@ -66,7 +66,7 @@ public class VariableService {
 
   private void updateSearchIndices(Variable variable) {
     for (String index : ElasticsearchAdminService.INDICES) {
-      //TODO create different search documents for different languages
+      // TODO create different search documents for different languages
       variableSearchDao.save(new VariableSearchDocument(variable), index);
     }
   }
@@ -117,10 +117,10 @@ public class VariableService {
     while (variables.hasContent()) {
       List<VariableSearchDocument> searchDocuments = new ArrayList<>(50);
       for (Variable variable : variables) {
-        //TODO create different search documents for different languages
+        // TODO create different search documents for different languages
         searchDocuments.add(new VariableSearchDocument(variable));
       }
-      for (String index : ElasticsearchAdminService.INDICES) {      
+      for (String index : ElasticsearchAdminService.INDICES) {
         variableSearchDao.save(searchDocuments, index);
       }
       variables = variableRepository.findAll(pageable.next());
