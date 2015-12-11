@@ -136,20 +136,19 @@ public class FdzProjectResourceIntTest extends AbstractTest {
       .andExpect(jsonPath("$.[*].cufDoi").value(hasItem(DEFAULT_CUF_DOI.toString())));
   }
 
-  //TODO Daniel Katzberg
-//  @Test
-//  public void getAllFdzProjectsWithoutPageable() throws Exception {
-//    // Initialize the database
-//    fdzProjectRepository.save(fdzProject);
-//
-//    // Get all the fdzProjects
-//    restFdzProjectMockMvc.perform(get("/api/fdzProjects?getAll=true"))
-//      .andExpect(status().isOk())
-//      .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-//      .andExpect(jsonPath("$.[*].name").value(hasItem(DEFAULT_NAME.toString())))
-//      .andExpect(jsonPath("$.[*].sufDoi").value(hasItem(DEFAULT_SUF_DOI.toString())))
-//      .andExpect(jsonPath("$.[*].cufDoi").value(hasItem(DEFAULT_CUF_DOI.toString())));
-//  }
+  @Test
+  public void getAllFdzProjectsWithoutPageable() throws Exception {
+    // Arrange
+    this.fdzProjectRepository.save(fdzProject);
+
+    // Act and Assert
+    this.restFdzProjectMockMvc.perform(get("/api/fdzProjects").param("getAll", "true"))
+      .andExpect(status().isOk())
+      .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+      .andExpect(jsonPath("$.[*].name").value(hasItem(DEFAULT_NAME.toString())))
+      .andExpect(jsonPath("$.[*].sufDoi").value(hasItem(DEFAULT_SUF_DOI.toString())))
+      .andExpect(jsonPath("$.[*].cufDoi").value(hasItem(DEFAULT_CUF_DOI.toString())));
+  }
 
   @Test
   public void getFdzProject() throws Exception {

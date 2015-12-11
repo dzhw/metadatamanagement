@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.codahale.metrics.annotation.Timed;
@@ -80,7 +81,7 @@ public class FdzProjectResource {
       produces = MediaType.APPLICATION_JSON_VALUE)
   @Timed
   public ResponseEntity<List<FdzProject>> getAllFdzProjects(Pageable pageable,
-      Optional<String> getAll) throws URISyntaxException {
+      @RequestParam Optional<String> getAll) throws URISyntaxException {
     log.debug("REST request to get a page of FdzProjects");
 
     if (getAll.isPresent()) {

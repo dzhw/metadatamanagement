@@ -23,6 +23,7 @@ import eu.dzhw.fdz.metadatamanagement.service.exception.EntityNotFoundException;
  * elasticsearch.
  * 
  * @author René Reitmann
+ * @author Daniel Katzberg
  */
 @Service
 public class VariableService {
@@ -46,19 +47,7 @@ public class VariableService {
     try {
       variable = variableRepository.insert(variable);
     } catch (DuplicateKeyException e) {
-      String message = e.getMessage();
-
-      // Double ID
-      if (message.contains("$_id_")) {
-        throw new EntityExistsException(Variable.class, variable.getId());
-      }
-
-      // Double Compound index of name/fdzProjectName
-      if (message.contains("$name_1_fdz_project_name_1")) {
-        String[] fields = {variable.getName(), variable.getFdzProjectName()};
-        throw new EntityExistsException(Variable.class, fields);
-      }
-
+      this.handleDuplicatedKeyExceptions(variable, e.getMessage());
     }
     updateSearchIndices(variable);
     return variable;
@@ -124,6 +113,25 @@ public class VariableService {
         variableSearchDao.save(searchDocuments, index);
       }
       variables = variableRepository.findAll(pageable.next());
+    }
+  }
+
+  /**
+   * Handles and differ different kinds of duplicated key exceptions.
+   * 
+   * @param variable An instance of a variable.
+   * @param message The error message of the duplicated key (e.getMessage())
+   */
+  private void handleDuplicatedKeyExceptions(Variable variable, String message) {
+    // Double ID
+    if (message.contains("$_id_")) {
+      throw new EntityExistsException(Variable.class, variable.getId());
+    }
+
+    // Double Compound index of name/fdzProjectName
+    if (message.contains("$name_1_fdz_project_name_1")) {
+      String[] fields = {variable.getName(), variable.getFdzProjectName()};
+      throw new EntityExistsException(Variable.class, fields);
     }
   }
 }
