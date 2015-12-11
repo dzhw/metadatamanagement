@@ -1,0 +1,23 @@
+{
+  "metadatamanagementApp": {
+    "survey": {
+      "home": {
+        "title": "Erhebungen",
+        "createLabel": "Neue Erhebung erstellen",
+        "createOrEditLabel": "Erstelle oder editiere eine Erhebung"
+      },
+      "created": "Die Erhebung mit FDZ ID {{ param }} ist erstellt worden",
+      "updated": "Die Erhebung mit FDZ ID {{ param }} ist aktualisiert worden",
+      "deleted": "Die Erhebung mit FDZ ID {{ param }} ist gelöscht worden",
+      "delete": {
+        "question": "Sind Sie sicher dass, Sie die Erhebung mit FDZ ID {{ id }} löschen möchten?"
+      },
+      "detail": {
+        "title": "Erhebung"
+      },
+      "title": "Titel",
+      "fieldPeriod": "Feldzeit",
+      "fdzProjectName": "FDZ Projektname"
+    }
+  }
+}

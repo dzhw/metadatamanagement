@@ -11,8 +11,9 @@
       "home": "Startseite",
       "entities": {
         "main": "Entitäten",
-        "variable": "Variable",
-        "fdzProject": "FDZ Projekt",
+        "variable": "Variablen",
+        "fdzProject": "FDZ Projekte",
+        "survey": "Erhebungen",
         "additionalEntity": "JHipster will add additional entities here (do not translate!)"
       },
       "search": {
@@ -81,7 +82,7 @@
       }
     },
     "field": {
-      "id": "ID"
+      "id": "FDZ ID"
     }
   },
   "entity": {

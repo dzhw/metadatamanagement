@@ -10,6 +10,8 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
 
+import eu.dzhw.fdz.metadatamanagement.domain.util.Patterns;
+
 /**
  * A FdzProject.
  */
@@ -20,7 +22,7 @@ public class FdzProject implements Serializable {
   @Id
   @NotNull
   @Field("name")
-  @Pattern(regexp = "^[A-Za-z0-9äöüÄÖÜ][ A-Za-z0-9äöüÄÖÜ]*$")
+  @Pattern(regexp = Patterns.GERMAN_ALPHANUMERIC_WITH_SPACE)
   private String name;
 
   @Field("suf_doi")

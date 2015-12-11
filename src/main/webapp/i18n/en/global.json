@@ -12,8 +12,9 @@
       "home": "Home",
       "entities": {
         "main": "Entities",
-        "variable": "Variable",
-        "fdzProject": "FDZ Project",
+        "variable": "Variables",
+        "fdzProject": "FDZ Projects",
+        "survey": "Surveys",
         "additionalEntity": "JHipster will add additional entities here (do not translate!)"
       },
       "search": {
@@ -82,7 +83,7 @@
       }
     },
     "field": {
-      "id": "ID"
+      "id": "FDZ ID"
     }
   },
   "entity": {

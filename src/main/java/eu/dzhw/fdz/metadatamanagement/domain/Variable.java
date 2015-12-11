@@ -14,6 +14,7 @@ import org.springframework.data.mongodb.core.mapping.Field;
 
 import eu.dzhw.fdz.metadatamanagement.domain.enumeration.DataType;
 import eu.dzhw.fdz.metadatamanagement.domain.enumeration.ScaleLevel;
+import eu.dzhw.fdz.metadatamanagement.domain.util.Patterns;
 import net.karneim.pojobuilder.GeneratePojoBuilder;
 
 /**
@@ -24,18 +25,16 @@ import net.karneim.pojobuilder.GeneratePojoBuilder;
 public class Variable implements Serializable {
 
   private static final long serialVersionUID = 3447432736734388659L;
-  
-  private static final String ALPHANUMERIC_WITH_UNDERSCORE = "^[_A-Za-z0-9]*$";
 
   @Id
   @NotBlank
-  @Pattern(regexp = ALPHANUMERIC_WITH_UNDERSCORE)
+  @Pattern(regexp = Patterns.ALPHANUMERIC_WITH_UNDERSCORE)
   private String id;
 
   @NotBlank
   @Size(max = 32)
   @Field("name")
-  @Pattern(regexp = ALPHANUMERIC_WITH_UNDERSCORE)
+  @Pattern(regexp = Patterns.ALPHANUMERIC_WITH_UNDERSCORE)
   private String name;
 
   @NotNull
