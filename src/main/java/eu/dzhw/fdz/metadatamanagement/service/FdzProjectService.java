@@ -1,5 +1,7 @@
 package eu.dzhw.fdz.metadatamanagement.service;
 
+import java.util.List;
+
 import javax.inject.Inject;
 
 import org.slf4j.Logger;
@@ -16,6 +18,9 @@ import eu.dzhw.fdz.metadatamanagement.service.exception.EntityNotFoundException;
 
 /**
  * Service Implementation for managing FdzProject.
+ * 
+ * @author JHipster
+ * @author Daniel Katzberg
  */
 @Service
 public class FdzProjectService {
@@ -69,6 +74,14 @@ public class FdzProjectService {
     log.debug("Request to get all FdzProjects");
     Page<FdzProject> result = fdzProjectRepository.findAll(pageable);
     return result;
+  }
+  
+  /**
+   * @return All FdZProjects within a list and without a pageable object.
+   */
+  public List<FdzProject> findAll() {
+    log.debug("Request to get all FdzProjects without Pageable.");
+    return this.fdzProjectRepository.findAll();
   }
 
   /**
