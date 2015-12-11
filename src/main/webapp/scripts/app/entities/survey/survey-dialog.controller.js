@@ -5,7 +5,7 @@ angular.module('metadatamanagementApp').controller('SurveyDialogController', [
     'entity', 'isCreateMode', 'Survey',
   function($scope, $stateParams, $uibModalInstance,
     entity, isCreateMode, Survey) {
-
+    $scope.isCreateMode = isCreateMode;
     $scope.survey = entity;
     $scope.load = function(id) {
       Survey.get({
@@ -28,9 +28,9 @@ angular.module('metadatamanagementApp').controller('SurveyDialogController', [
     $scope.save = function() {
       $scope.isSaving = true;
       if (isCreateMode) {
-        Survey.create($scope.fdzProject, onSaveFinished, onSaveError);
+        Survey.create($scope.survey, onSaveFinished, onSaveError);
       } else {
-        Survey.update($scope.fdzProject, onSaveFinished, onSaveError);
+        Survey.update($scope.survey, onSaveFinished, onSaveError);
       }
     };
 
