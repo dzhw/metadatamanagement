@@ -15,6 +15,7 @@ import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.inject.Inject;
 
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.MockitoAnnotations;
@@ -24,12 +25,16 @@ import org.springframework.http.converter.json.MappingJackson2HttpMessageConvert
 import org.springframework.test.util.ReflectionTestUtils;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import org.springframework.validation.Validator;
 
 import eu.dzhw.fdz.metadatamanagement.AbstractTest;
+import eu.dzhw.fdz.metadatamanagement.domain.FdzProject;
 import eu.dzhw.fdz.metadatamanagement.domain.Variable;
+import eu.dzhw.fdz.metadatamanagement.domain.builders.FdzProjectBuilder;
 import eu.dzhw.fdz.metadatamanagement.domain.builders.VariableBuilder;
 import eu.dzhw.fdz.metadatamanagement.domain.enumeration.DataType;
 import eu.dzhw.fdz.metadatamanagement.domain.enumeration.ScaleLevel;
+import eu.dzhw.fdz.metadatamanagement.repository.FdzProjectRepository;
 import eu.dzhw.fdz.metadatamanagement.repository.VariableRepository;
 import eu.dzhw.fdz.metadatamanagement.service.VariableService;
 import eu.dzhw.fdz.metadatamanagement.web.rest.errors.ExceptionTranslator;
@@ -59,6 +64,9 @@ public class VariableResourceTest extends AbstractTest {
   private VariableRepository variableRepository;
 
   @Inject
+  private FdzProjectRepository fdzProjectRepository;
+
+  @Inject
   private VariableService variableService;
 
   @Inject
@@ -70,9 +78,14 @@ public class VariableResourceTest extends AbstractTest {
   @Inject
   private ExceptionTranslator exceptionTranslator;
 
+  @Inject
+  private Validator validator;
+
   private MockMvc restVariableMockMvc;
 
   private Variable variable;
+
+  private FdzProject fdzProject;
 
   @PostConstruct
   public void setup() {
@@ -83,12 +96,23 @@ public class VariableResourceTest extends AbstractTest {
       .setCustomArgumentResolvers(pageableArgumentResolver)
       .setMessageConverters(jacksonMessageConverter)
       .setControllerAdvice(exceptionTranslator)
+      .setValidator(validator)
       .build();
   }
 
   @Before
   public void initTest() {
     this.variableRepository.deleteAll();
+
+    this.fdzProject = new FdzProjectBuilder().withName(DEFAULT_FDZ_PROJECT_NAME)
+      .withCufDoi("CufDoi")
+      .withSufDoi("SufDoi")
+      .build();
+
+    if(!this.fdzProjectRepository.exists(DEFAULT_FDZ_PROJECT_NAME)) {
+      this.fdzProjectRepository.insert(this.fdzProject);
+    }  
+
     this.variable = new VariableBuilder().withId(DEFAULT_ID)
       .withName(DEFAULT_NAME)
       .withDataType(DEFAULT_DATA_TYPE)
@@ -96,6 +120,13 @@ public class VariableResourceTest extends AbstractTest {
       .withLabel(DEFAULT_LABEL)
       .withFdzProjectName(DEFAULT_FDZ_PROJECT_NAME)
       .build();
+  }
+
+  @After
+  public void afterEachTest() {
+    if (this.fdzProjectRepository.exists(DEFAULT_FDZ_PROJECT_NAME)) {
+      this.fdzProjectRepository.delete(fdzProject);
+    }
   }
 
   @Test
@@ -220,7 +251,8 @@ public class VariableResourceTest extends AbstractTest {
       .andExpect(jsonPath("$.[*].dataType").value(hasItem(DEFAULT_DATA_TYPE.toString())))
       .andExpect(jsonPath("$.[*].scaleLevel").value(hasItem(DEFAULT_SCALE_LEVEL.toString())))
       .andExpect(jsonPath("$.[*].label").value(hasItem(DEFAULT_LABEL.toString())))
-      .andExpect(jsonPath("$.[*].fdzProjectName").value(hasItem(DEFAULT_FDZ_PROJECT_NAME.toString())));
+      .andExpect(
+          jsonPath("$.[*].fdzProjectName").value(hasItem(DEFAULT_FDZ_PROJECT_NAME.toString())));
   }
 
   @Test
@@ -260,7 +292,7 @@ public class VariableResourceTest extends AbstractTest {
     this.variable.setDataType(UPDATED_DATA_TYPE);
     this.variable.setScaleLevel(UPDATED_SCALE_LEVEL);
     this.variable.setLabel(UPDATED_LABEL);
-    this.variable.setFdzProjectName(UPDATED_FDZ_PROJECT_NAME);
+    this.variable.setFdzProjectName(DEFAULT_FDZ_PROJECT_NAME);
 
     restVariableMockMvc.perform(put("/api/variables").contentType(TestUtil.APPLICATION_JSON_UTF8)
       .content(TestUtil.convertObjectToJsonBytes(variable)))
@@ -274,7 +306,23 @@ public class VariableResourceTest extends AbstractTest {
     assertThat(testVariable.getDataType()).isEqualTo(UPDATED_DATA_TYPE);
     assertThat(testVariable.getScaleLevel()).isEqualTo(UPDATED_SCALE_LEVEL);
     assertThat(testVariable.getLabel()).isEqualTo(UPDATED_LABEL);
-    assertThat(testVariable.getFdzProjectName()).isEqualTo(UPDATED_FDZ_PROJECT_NAME);
+    assertThat(testVariable.getFdzProjectName()).isEqualTo(DEFAULT_FDZ_PROJECT_NAME);
+  }
+
+  @Test
+  public void updateVariableWrongFdZName() throws Exception {
+    // Arrange
+    variableRepository.save(variable);
+    this.variable.setName(UPDATED_NAME);
+    this.variable.setDataType(UPDATED_DATA_TYPE);
+    this.variable.setScaleLevel(UPDATED_SCALE_LEVEL);
+    this.variable.setLabel(UPDATED_LABEL);
+    this.variable.setFdzProjectName(UPDATED_FDZ_PROJECT_NAME);
+
+    // Act and Assert
+    restVariableMockMvc.perform(put("/api/variables").contentType(TestUtil.APPLICATION_JSON_UTF8)
+      .content(TestUtil.convertObjectToJsonBytes(variable)))
+      .andExpect(status().is4xxClientError());
   }
 
   @Test

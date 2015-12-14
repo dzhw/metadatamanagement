@@ -5,14 +5,18 @@ import static org.junit.Assert.assertThat;
 
 import javax.inject.Inject;
 
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
 import eu.dzhw.fdz.metadatamanagement.AbstractTest;
+import eu.dzhw.fdz.metadatamanagement.domain.FdzProject;
 import eu.dzhw.fdz.metadatamanagement.domain.Variable;
+import eu.dzhw.fdz.metadatamanagement.domain.builders.FdzProjectBuilder;
 import eu.dzhw.fdz.metadatamanagement.domain.builders.VariableBuilder;
 import eu.dzhw.fdz.metadatamanagement.domain.enumeration.DataType;
 import eu.dzhw.fdz.metadatamanagement.domain.enumeration.ScaleLevel;
+import eu.dzhw.fdz.metadatamanagement.repository.FdzProjectRepository;
 import eu.dzhw.fdz.metadatamanagement.repository.VariableRepository;
 import eu.dzhw.fdz.metadatamanagement.search.ElasticsearchAdminDao;
 import eu.dzhw.fdz.metadatamanagement.search.VariableSearchDao;
@@ -30,17 +34,34 @@ public class ElasticsearchAdminServiceTest extends AbstractTest {
 
   @Inject
   private VariableRepository variableRepository;
+  
+  @Inject
+  private FdzProjectRepository fdzProjectRepository;
 
   @Inject
   private VariableSearchDao variableSearchDao;
 
   @Inject
   private ElasticsearchAdminDao elasticsearchAdminDao;
+  
+  private FdzProject fdzProject;
 
   @Before
   public void deleteAllDomainObjects() {
     if (variableRepository.count() > 0) {
       variableRepository.deleteAll();
+    }
+    this.fdzProject = new FdzProjectBuilder().withName("Project")
+        .withCufDoi("CufDoi")
+        .withSufDoi("SufDoi")
+        .build();
+    this.fdzProjectRepository.insert(this.fdzProject);
+  }
+  
+  @After
+  public void afterEachTest() {
+    if (this.fdzProjectRepository.exists(this.fdzProject.getName())) {
+      this.fdzProjectRepository.delete(this.fdzProject.getName());
     }
   }
 
@@ -51,7 +72,7 @@ public class ElasticsearchAdminServiceTest extends AbstractTest {
       .withScaleLevel(ScaleLevel.metric)
       .withName("name")
       .withLabel("label")
-      .withFdzProjectName("ProjectName")
+      .withFdzProjectName(this.fdzProject.getName())
       .build();
     variableRepository.save(variable1);
 
@@ -60,7 +81,7 @@ public class ElasticsearchAdminServiceTest extends AbstractTest {
       .withScaleLevel(ScaleLevel.metric)
       .withName("name2")
       .withLabel("label")
-      .withFdzProjectName("ProjectName")
+      .withFdzProjectName(this.fdzProject.getName())
       .build();
     variableRepository.save(variable2);
 

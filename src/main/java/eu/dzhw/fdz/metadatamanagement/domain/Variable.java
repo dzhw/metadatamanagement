@@ -16,6 +16,7 @@ import org.springframework.data.mongodb.core.mapping.Field;
 import eu.dzhw.fdz.metadatamanagement.domain.enumeration.DataType;
 import eu.dzhw.fdz.metadatamanagement.domain.enumeration.ScaleLevel;
 import eu.dzhw.fdz.metadatamanagement.domain.util.Patterns;
+import eu.dzhw.fdz.metadatamanagement.domain.validation.ProjectExists;
 import net.karneim.pojobuilder.GeneratePojoBuilder;
 
 /**
@@ -52,6 +53,7 @@ public class Variable implements Serializable {
   @Field("label")
   private String label;
 
+  @ProjectExists
   @NotNull
   @Field("fdz_project_name")
   private String fdzProjectName;
