@@ -1,7 +1,6 @@
 package eu.dzhw.fdz.metadatamanagement.domain;
 
 import java.io.Serializable;
-import java.time.LocalDate;
 import java.util.Objects;
 
 import javax.validation.constraints.NotNull;
@@ -36,7 +35,7 @@ public class Survey implements Serializable {
 
   @NotNull
   @Field("field_period")
-  private LocalDate fieldPeriod;
+  private Period fieldPeriod;
 
   @NotBlank
   @Field("fdz_project_name")
@@ -59,11 +58,11 @@ public class Survey implements Serializable {
     this.title = title;
   }
 
-  public LocalDate getFieldPeriod() {
+  public Period getFieldPeriod() {
     return fieldPeriod;
   }
 
-  public void setFieldPeriod(LocalDate fieldPeriod) {
+  public void setFieldPeriod(Period fieldPeriod) {
     this.fieldPeriod = fieldPeriod;
   }
 
