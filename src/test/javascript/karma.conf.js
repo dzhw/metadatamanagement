@@ -40,6 +40,8 @@ module.exports = function (config) {
             'src/main/webapp/bower_components/file-saver.js/FileSaver.js',
             'src/main/webapp/bower_components/jszip-utils/dist/jszip-utils.js',
             'src/main/webapp/bower_components/handlebars/handlebars.js',
+            'src/main/webapp/bower_components/pdfjs-dist/build/pdf.js',
+            'src/main/webapp/bower_components/pdfjs-dist/build/pdf.worker.js',
             'src/main/webapp/bower_components/angular-mocks/angular-mocks.js',
             // endbower
             'src/main/webapp/bower_components/elasticsearch/elasticsearch.jquery.js',
@@ -52,8 +54,6 @@ module.exports = function (config) {
             'src/test/javascript/spec/helpers/httpBackend.js',
             'src/main/webapp/bower_components/messageformat/locale/en.js',
             'src/main/webapp/bower_components/messageformat/locale/de.js',
-            'src/test/javascript/mocks/variables_de.json',
-            'src/test/javascript/mocks/variables_en.json',
             'src/test/javascript/**/!(karma.conf).js'
          // fixtures
           //  {pattern: 'test/javascript/mocks/*.json', watched: true, served: true, included: false}
