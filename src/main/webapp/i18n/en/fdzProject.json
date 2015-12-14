@@ -1,5 +1,8 @@
 {
   "metadatamanagementApp": {
+  	"variable": {
+  	  "fdzProjectName": "FDZ Project Name"
+  	},
     "fdzProject": {
       "home": {
         "title": "FDZ Projects",
