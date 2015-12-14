@@ -6,17 +6,18 @@
         "createLabel": "Neue Erhebung erstellen",
         "createOrEditLabel": "Erstelle oder editiere eine Erhebung"
       },
-      "created": "Die Erhebung mit FDZ ID {{ param }} ist erstellt worden",
-      "updated": "Die Erhebung mit FDZ ID {{ param }} ist aktualisiert worden",
-      "deleted": "Die Erhebung mit FDZ ID {{ param }} ist gelöscht worden",
+      "created": "Die Erhebung mit FDZ ID \"{{ param }}\" ist erstellt worden",
+      "updated": "Die Erhebung mit FDZ ID \"{{ param }}\" ist aktualisiert worden",
+      "deleted": "Die Erhebung mit FDZ ID \"{{ param }}\" ist gelöscht worden",
       "delete": {
-        "question": "Sind Sie sicher dass, Sie die Erhebung mit FDZ ID {{ id }} löschen möchten?"
+        "question": "Sind Sie sicher dass, Sie die Erhebung mit FDZ ID \"{{ id }}\" löschen möchten?"
       },
       "detail": {
         "title": "Erhebung"
       },
       "id": "FDZ ID",
-      "title": "Titel",
+      "title.de": "Titel (DE)",
+      "title.en": "Titel (EN)",
       "fieldPeriod": "Feldzeit",
       "fdzProjectName": "FDZ Projektname"
     }

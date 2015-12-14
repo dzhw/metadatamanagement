@@ -18,13 +18,17 @@
       </div>
     </div>
     <div class="form-group">
-      <label class="control-label" translate="metadatamanagementApp.survey.title" for="field_title">Title</label>
-      <input type="text" class="form-control" name="title" id="field_title" ng-model="survey.title" required />
-      <div ng-show="editForm.title.$invalid">
-        <p class="help-block" ng-show="editForm.title.$error.required" translate="entity.validation.required">
+      <label class="control-label" translate="metadatamanagementApp.survey.title.de" for="field_title_de">Title (DE)</label>
+      <input type="text" class="form-control" name="title_de" id="field_title_de" ng-model="survey.title.de" required />
+      <div ng-show="editForm.title_de.$invalid">
+        <p class="help-block" ng-show="editForm.title_de.$error.required" translate="entity.validation.required">
           This field is required.
         </p>
       </div>
+    </div>
+    <div class="form-group">
+      <label class="control-label" translate="metadatamanagementApp.survey.title.en" for="field_title_en">Title (EN)</label>
+      <input type="text" class="form-control" name="title_en" id="field_title_en" ng-model="survey.title.en"/>
     </div>
     <div class="form-group">
       <label class="control-label" translate="metadatamanagementApp.survey.fieldPeriod" for="field_fieldPeriod">FieldPeriod</label>

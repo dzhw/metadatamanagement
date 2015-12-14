@@ -13,6 +13,7 @@ import org.junit.Test;
 
 import eu.dzhw.fdz.metadatamanagement.AbstractTest;
 import eu.dzhw.fdz.metadatamanagement.domain.Survey;
+import eu.dzhw.fdz.metadatamanagement.domain.builders.I18nStringBuilder;
 import eu.dzhw.fdz.metadatamanagement.domain.builders.SurveyBuilder;
 import eu.dzhw.fdz.metadatamanagement.repository.SurveyRepository;
 import eu.dzhw.fdz.metadatamanagement.service.exception.EntityExistsException;
@@ -34,10 +35,9 @@ public class SurveyServiceTest extends AbstractTest{
   @Before
   public void beforeTest() {
     this.survey = new SurveyBuilder().withFdzProjectName("Project1")
-      .withTitle("Title")
+      .withTitle(new I18nStringBuilder().withDe("titel").withEn("titel").build())
       .withFieldPeriod(LocalDate.now())
       .withId("Id")
-      .withTitle("Title")
       .build();
   }
 

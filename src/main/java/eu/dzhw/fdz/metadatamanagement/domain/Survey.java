@@ -30,9 +30,9 @@ public class Survey implements Serializable {
   @Pattern(regexp = Patterns.ALPHANUMERIC_WITH_UNDERSCORE)
   private String id;
 
-  @NotBlank
+  @NotNull
   @Field("title")
-  private String title;
+  private I18nString title;
 
   @NotNull
   @Field("field_period")
@@ -51,11 +51,11 @@ public class Survey implements Serializable {
     this.id = id;
   }
 
-  public String getTitle() {
+  public I18nString getTitle() {
     return title;
   }
 
-  public void setTitle(String title) {
+  public void setTitle(I18nString title) {
     this.title = title;
   }
 

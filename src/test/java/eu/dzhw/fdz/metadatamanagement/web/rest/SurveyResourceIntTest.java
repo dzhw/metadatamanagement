@@ -28,7 +28,9 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import eu.dzhw.fdz.metadatamanagement.AbstractTest;
+import eu.dzhw.fdz.metadatamanagement.domain.I18nString;
 import eu.dzhw.fdz.metadatamanagement.domain.Survey;
+import eu.dzhw.fdz.metadatamanagement.domain.builders.I18nStringBuilder;
 import eu.dzhw.fdz.metadatamanagement.repository.SurveyRepository;
 import eu.dzhw.fdz.metadatamanagement.service.SurveyService;
 
@@ -80,7 +82,8 @@ public class SurveyResourceIntTest extends AbstractTest {
         surveyRepository.deleteAll();
         survey = new Survey();
         survey.setId(DEFAULT_ID);
-        survey.setTitle(DEFAULT_TITLE);
+        I18nString title = new I18nStringBuilder().withDe(DEFAULT_TITLE).withEn(DEFAULT_TITLE).build();
+        survey.setTitle(title);
         survey.setFieldPeriod(DEFAULT_FIELD_PERIOD);
         survey.setFdzProjectName(DEFAULT_FDZ_PROJECT_NAME);
     }
@@ -201,7 +204,8 @@ public class SurveyResourceIntTest extends AbstractTest {
 		int databaseSizeBeforeUpdate = surveyRepository.findAll().size();
 
         // Update the survey
-        survey.setTitle(UPDATED_TITLE);
+		I18nString updatedTitle = new I18nStringBuilder().withDe(UPDATED_TITLE).withEn(UPDATED_TITLE).build();
+        survey.setTitle(updatedTitle);
         survey.setFieldPeriod(UPDATED_FIELD_PERIOD);
         survey.setFdzProjectName(UPDATED_FDZ_PROJECT_NAME);
 

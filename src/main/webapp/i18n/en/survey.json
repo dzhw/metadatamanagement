@@ -16,7 +16,8 @@
         "title": "Survey"
       },
       "id": "FDZ ID",
-      "title": "Title",
+      "title.de": "Title (DE)",
+      "title.en": "Title (EN)",
       "fieldPeriod": "Field Period",
       "fdzProjectName": "FDZ Project Name"
     }

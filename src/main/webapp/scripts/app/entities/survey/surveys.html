@@ -16,7 +16,7 @@
       <thead>
         <tr jh-sort="predicate" ascending="reverse" callback="loadAll()">
           <th jh-sort-by="id"><span translate="global.field.id">ID</span> <span class="glyphicon glyphicon-sort"></span></th>
-          <th jh-sort-by="title"><span translate="metadatamanagementApp.survey.title">Title</span> <span class="glyphicon glyphicon-sort"></span></th>
+          <th jh-sort-by="title"><span translate="metadatamanagementApp.survey.title.de">Title (DE)</span> <span class="glyphicon glyphicon-sort"></span></th>
           <th jh-sort-by="fieldPeriod"><span translate="metadatamanagementApp.survey.fieldPeriod">FieldPeriod</span> <span class="glyphicon glyphicon-sort"></span></th>
           <th jh-sort-by="fdzProjectName"><span translate="metadatamanagementApp.survey.fdzProjectName">FdzProjectName</span> <span class="glyphicon glyphicon-sort"></span></th>
           <th></th>
@@ -25,7 +25,7 @@
       <tbody>
         <tr ng-repeat="survey in surveys track by survey.id">
           <td><a ui-sref="survey.detail({id:survey.id})">{{survey.id}}</a></td>
-          <td>{{survey.title}}</td>
+          <td>{{survey.title.de}}</td>
           <td>{{survey.fieldPeriod | date:'mediumDate'}}</td>
           <td>{{survey.fdzProjectName}}</td>
           <td>
