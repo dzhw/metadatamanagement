@@ -828,7 +828,7 @@
                                 <configuration>
                                     <skipTests>true</skipTests>
                                     <buildTool>grunt</buildTool>
-                                    <buildArgs>build --force --no-color</buildArgs>
+                                    <buildArgs>build --no-color</buildArgs>
                                 </configuration>
                             </execution>
                         </executions>

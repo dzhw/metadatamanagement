@@ -388,7 +388,7 @@ module.exports = function(grunt) {
   });
 
   grunt.registerTask('test', ['clean:server',  'ngconstant:dev',
-      'sass:server', 'karma', 'jshint', 'jscs']);
+      'sass:server', 'wiredep:test', 'karma', 'jshint', 'jscs']);
 
   grunt.registerTask('build', ['test', 'clean:dist', 'wiredep:app',
    'ngconstant:prod',
