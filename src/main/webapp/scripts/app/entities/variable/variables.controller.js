@@ -98,17 +98,20 @@ angular.module('metadatamanagementApp')
       $scope.delete = function(id) {
         Variable.get({id: id}, function(result) {
           $scope.variable = result;
-          var item = $filter('filter')($scope.searchResult, function(variable) {
-            return variable._id === id;})[0];
-          $scope.itemtoBeRemoved = $scope.searchResult.indexOf(item);
-          $('#deleteVariableConfirmation').modal('show');
         });
+        $scope.item = $filter('filter')($scope.searchResult,
+          function(variable) {
+          return variable._id === id;})[0];
+        $scope.itemtoBeRemoved = $scope.searchResult.indexOf($scope.item);
+        $('#deleteVariableConfirmation').modal('show');
       };
 
       $scope.confirmDelete = function(id) {
+        $scope.page.contentSize = $scope.page.contentSize - 1;
+        $scope.page.totalHits = $scope.page.totalHits - 1;
+        $scope.searchResult.splice($scope.itemtoBeRemoved, 1);
         Variable.delete({id: id},
               function() {
-                $scope.search();
                 $('#deleteVariableConfirmation').modal('hide');
               });
       };

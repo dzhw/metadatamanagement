@@ -42,6 +42,8 @@ module.exports = function (config) {
             'src/main/webapp/bower_components/handlebars/handlebars.js',
             'src/main/webapp/bower_components/angular-mocks/angular-mocks.js',
             // endbower
+            'src/main/webapp/bower_components/elasticsearch/elasticsearch.jquery.js',
+            'https://cdnjs.cloudflare.com/ajax/libs/jquery-mockjax/1.6.2/jquery.mockjax.min.js',
             'src/main/webapp/scripts/app/app.js',
             'src/main/webapp/scripts/app/**/*.js',
             'src/main/webapp/scripts/components/**/*.js',
@@ -50,7 +52,11 @@ module.exports = function (config) {
             'src/test/javascript/spec/helpers/httpBackend.js',
             'src/main/webapp/bower_components/messageformat/locale/en.js',
             'src/main/webapp/bower_components/messageformat/locale/de.js',
+            'src/test/javascript/mocks/variables_de.json',
+            'src/test/javascript/mocks/variables_en.json',
             'src/test/javascript/**/!(karma.conf).js'
+         // fixtures
+          //  {pattern: 'test/javascript/mocks/*.json', watched: true, served: true, included: false}
         ],
 
 
