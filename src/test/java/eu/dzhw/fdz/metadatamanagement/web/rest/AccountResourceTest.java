@@ -23,6 +23,7 @@ import javax.transaction.Transactional;
 import javax.validation.ConstraintViolation;
 import javax.validation.Validator;
 
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
@@ -93,6 +94,11 @@ public class AccountResourceTest extends AbstractTest {
       .build();
     this.restUserMockMvc = MockMvcBuilders.standaloneSetup(accountUserMockResource)
       .build();
+  }
+  
+  @After
+  public void logout() {
+    UnitTestUtils.logout();
   }
 
   @Test

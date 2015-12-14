@@ -34,8 +34,7 @@ import eu.dzhw.fdz.metadatamanagement.domain.builders.FdzProjectBuilder;
 import eu.dzhw.fdz.metadatamanagement.domain.builders.VariableBuilder;
 import eu.dzhw.fdz.metadatamanagement.domain.enumeration.DataType;
 import eu.dzhw.fdz.metadatamanagement.domain.enumeration.ScaleLevel;
-import eu.dzhw.fdz.metadatamanagement.repository.FdzProjectRepository;
-import eu.dzhw.fdz.metadatamanagement.repository.VariableRepository;
+import eu.dzhw.fdz.metadatamanagement.service.FdzProjectService;
 import eu.dzhw.fdz.metadatamanagement.service.VariableService;
 import eu.dzhw.fdz.metadatamanagement.web.rest.errors.ExceptionTranslator;
 
@@ -61,10 +60,7 @@ public class VariableResourceTest extends AbstractTest {
   private static final String UPDATED_FDZ_PROJECT_NAME = "BBBBB";
 
   @Inject
-  private VariableRepository variableRepository;
-
-  @Inject
-  private FdzProjectRepository fdzProjectRepository;
+  private FdzProjectService fdzProjectService;
 
   @Inject
   private VariableService variableService;
@@ -102,16 +98,12 @@ public class VariableResourceTest extends AbstractTest {
 
   @Before
   public void initTest() {
-    this.variableRepository.deleteAll();
-
     this.fdzProject = new FdzProjectBuilder().withName(DEFAULT_FDZ_PROJECT_NAME)
       .withCufDoi("CufDoi")
       .withSufDoi("SufDoi")
       .build();
 
-    if(!this.fdzProjectRepository.exists(DEFAULT_FDZ_PROJECT_NAME)) {
-      this.fdzProjectRepository.insert(this.fdzProject);
-    }  
+    this.fdzProjectService.createFdzProject(this.fdzProject);
 
     this.variable = new VariableBuilder().withId(DEFAULT_ID)
       .withName(DEFAULT_NAME)
@@ -124,9 +116,8 @@ public class VariableResourceTest extends AbstractTest {
 
   @After
   public void afterEachTest() {
-    if (this.fdzProjectRepository.exists(DEFAULT_FDZ_PROJECT_NAME)) {
-      this.fdzProjectRepository.delete(fdzProject);
-    }
+    this.variableService.deleteAll();
+    this.fdzProjectService.deleteAll();
   }
 
   @Test
@@ -134,8 +125,7 @@ public class VariableResourceTest extends AbstractTest {
     // Arrange
 
     // Act
-    int databaseSizeBeforeCreate = this.variableRepository.findAll()
-      .size();
+    int databaseSizeBeforeCreate = 0;
 
     this.restVariableMockMvc
       .perform(post("/api/variables").contentType(TestUtil.APPLICATION_JSON_UTF8)
@@ -143,7 +133,7 @@ public class VariableResourceTest extends AbstractTest {
       .andExpect(status().isCreated());
 
     // Validate the Variable in the database
-    List<Variable> variables = variableRepository.findAll();
+    List<Variable> variables = variableService.findAll();
     assertThat(variables).hasSize(databaseSizeBeforeCreate + 1);
     Variable testVariable = variables.get(variables.size() - 1);
     assertThat(testVariable.getName()).isEqualTo(DEFAULT_NAME);
@@ -171,8 +161,8 @@ public class VariableResourceTest extends AbstractTest {
 
   @Test
   public void checkNameIsRequired() throws Exception {
-    int databaseSizeBeforeTest = variableRepository.findAll()
-      .size();
+    int databaseSizeBeforeTest = 0;
+    
     // set the field null
     variable.setName(null);
 
@@ -182,14 +172,14 @@ public class VariableResourceTest extends AbstractTest {
       .content(TestUtil.convertObjectToJsonBytes(variable)))
       .andExpect(status().isBadRequest());
 
-    List<Variable> variables = variableRepository.findAll();
+    List<Variable> variables = variableService.findAll();
     assertThat(variables).hasSize(databaseSizeBeforeTest);
   }
 
   @Test
   public void checkDataTypeIsRequired() throws Exception {
-    int databaseSizeBeforeTest = variableRepository.findAll()
-      .size();
+    int databaseSizeBeforeTest = 0;
+    
     // set the field null
     variable.setDataType(null);
 
@@ -199,14 +189,14 @@ public class VariableResourceTest extends AbstractTest {
       .content(TestUtil.convertObjectToJsonBytes(variable)))
       .andExpect(status().isBadRequest());
 
-    List<Variable> variables = variableRepository.findAll();
+    List<Variable> variables = variableService.findAll();
     assertThat(variables).hasSize(databaseSizeBeforeTest);
   }
 
   @Test
   public void checkScaleLevelIsRequired() throws Exception {
-    int databaseSizeBeforeTest = variableRepository.findAll()
-      .size();
+    int databaseSizeBeforeTest = 0;
+    
     // set the field null
     variable.setScaleLevel(null);
 
@@ -216,14 +206,14 @@ public class VariableResourceTest extends AbstractTest {
       .content(TestUtil.convertObjectToJsonBytes(variable)))
       .andExpect(status().isBadRequest());
 
-    List<Variable> variables = variableRepository.findAll();
+    List<Variable> variables = variableService.findAll();
     assertThat(variables).hasSize(databaseSizeBeforeTest);
   }
 
   @Test
   public void checkLabelIsRequired() throws Exception {
-    int databaseSizeBeforeTest = variableRepository.findAll()
-      .size();
+    int databaseSizeBeforeTest = 0;
+    
     // set the field null
     variable.setLabel(null);
 
@@ -233,14 +223,14 @@ public class VariableResourceTest extends AbstractTest {
       .content(TestUtil.convertObjectToJsonBytes(variable)))
       .andExpect(status().isBadRequest());
 
-    List<Variable> variables = variableRepository.findAll();
+    List<Variable> variables = variableService.findAll();
     assertThat(variables).hasSize(databaseSizeBeforeTest);
   }
 
   @Test
   public void getAllVariables() throws Exception {
     // Initialize the database
-    variableRepository.save(variable);
+    variableService.createVariable(variable);
 
     // Get all the variables
     restVariableMockMvc.perform(get("/api/variables"))
@@ -258,7 +248,7 @@ public class VariableResourceTest extends AbstractTest {
   @Test
   public void getVariable() throws Exception {
     // Initialize the database
-    variableRepository.save(variable);
+    variableService.createVariable(variable);
 
     // Get the variable
     restVariableMockMvc.perform(get("/api/variables/{id}", variable.getId()))
@@ -282,10 +272,9 @@ public class VariableResourceTest extends AbstractTest {
   @Test
   public void updateVariable() throws Exception {
     // Initialize the database
-    variableRepository.save(variable);
+    variableService.createVariable(variable);
 
-    int databaseSizeBeforeUpdate = variableRepository.findAll()
-      .size();
+    int databaseSizeBeforeUpdate = 1;
 
     // Update the variable
     this.variable.setName(UPDATED_NAME);
@@ -299,7 +288,7 @@ public class VariableResourceTest extends AbstractTest {
       .andExpect(status().isOk());
 
     // Validate the Variable in the database
-    List<Variable> variables = variableRepository.findAll();
+    List<Variable> variables = variableService.findAll();
     assertThat(variables).hasSize(databaseSizeBeforeUpdate);
     Variable testVariable = variables.get(variables.size() - 1);
     assertThat(testVariable.getName()).isEqualTo(UPDATED_NAME);
@@ -312,7 +301,7 @@ public class VariableResourceTest extends AbstractTest {
   @Test
   public void updateVariableWrongFdZName() throws Exception {
     // Arrange
-    variableRepository.save(variable);
+    variableService.createVariable(variable);
     this.variable.setName(UPDATED_NAME);
     this.variable.setDataType(UPDATED_DATA_TYPE);
     this.variable.setScaleLevel(UPDATED_SCALE_LEVEL);
@@ -329,7 +318,7 @@ public class VariableResourceTest extends AbstractTest {
   public void updateVariableWithError() throws Exception {
 
     // Arrange
-    this.variableRepository.save(variable);
+    this.variableService.createVariable(variable);
     this.variable.setName(UPDATED_NAME);
     this.variable.setDataType(UPDATED_DATA_TYPE);
     this.variable.setScaleLevel(UPDATED_SCALE_LEVEL);
@@ -347,10 +336,9 @@ public class VariableResourceTest extends AbstractTest {
   @Test
   public void deleteVariable() throws Exception {
     // Initialize the database
-    variableRepository.save(variable);
+    variableService.createVariable(variable);
 
-    int databaseSizeBeforeDelete = variableRepository.findAll()
-      .size();
+    int databaseSizeBeforeDelete = 1;
 
     // Get the variable
     restVariableMockMvc.perform(
@@ -358,7 +346,7 @@ public class VariableResourceTest extends AbstractTest {
       .andExpect(status().isOk());
 
     // Validate the database is empty
-    List<Variable> variables = variableRepository.findAll();
+    List<Variable> variables = variableService.findAll();
     assertThat(variables).hasSize(databaseSizeBeforeDelete - 1);
   }
 }

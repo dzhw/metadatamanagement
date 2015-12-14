@@ -8,6 +8,8 @@ import static org.junit.Assert.assertThat;
 
 import org.junit.Test;
 
+import eu.dzhw.fdz.metadatamanagement.config.Constants;
+
 /**
  * No Integration Test. No need for application Context.
  * 
@@ -25,7 +27,7 @@ public class SpringSecurityAuditorAwareTest {
     String auditor = aware.getCurrentAuditor();
 
     // Assert
-    assertThat(auditor, is("anonymous"));
+    assertThat(auditor, is(Constants.SYSTEM_ACCOUNT));
   }
 
 }

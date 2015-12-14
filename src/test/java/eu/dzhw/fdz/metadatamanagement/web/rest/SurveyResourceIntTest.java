@@ -17,6 +17,7 @@ import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.inject.Inject;
 
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.MockitoAnnotations;
@@ -26,12 +27,16 @@ import org.springframework.http.converter.json.MappingJackson2HttpMessageConvert
 import org.springframework.test.util.ReflectionTestUtils;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import org.springframework.validation.Validator;
 
 import eu.dzhw.fdz.metadatamanagement.AbstractTest;
+import eu.dzhw.fdz.metadatamanagement.domain.FdzProject;
 import eu.dzhw.fdz.metadatamanagement.domain.I18nString;
 import eu.dzhw.fdz.metadatamanagement.domain.Survey;
+import eu.dzhw.fdz.metadatamanagement.domain.builders.FdzProjectBuilder;
 import eu.dzhw.fdz.metadatamanagement.domain.builders.I18nStringBuilder;
 import eu.dzhw.fdz.metadatamanagement.domain.builders.PeriodBuilder;
+import eu.dzhw.fdz.metadatamanagement.repository.FdzProjectRepository;
 import eu.dzhw.fdz.metadatamanagement.repository.SurveyRepository;
 import eu.dzhw.fdz.metadatamanagement.service.SurveyService;
 
@@ -54,6 +59,9 @@ public class SurveyResourceIntTest extends AbstractTest {
 
     @Inject
     private SurveyRepository surveyRepository;
+    
+    @Inject
+    private FdzProjectRepository fdzProjectRepository;
 
     @Inject
     private SurveyService surveyService;
@@ -63,11 +71,14 @@ public class SurveyResourceIntTest extends AbstractTest {
 
     @Inject
     private PageableHandlerMethodArgumentResolver pageableArgumentResolver;
+    
+    @Inject
+    private Validator validator;
 
     private MockMvc restSurveyMockMvc;
 
     private Survey survey;
-
+    
     @PostConstruct
     public void setup() {
         MockitoAnnotations.initMocks(this);
@@ -75,18 +86,29 @@ public class SurveyResourceIntTest extends AbstractTest {
         ReflectionTestUtils.setField(surveyResource, "surveyService", surveyService);
         this.restSurveyMockMvc = MockMvcBuilders.standaloneSetup(surveyResource)
             .setCustomArgumentResolvers(pageableArgumentResolver)
-            .setMessageConverters(jacksonMessageConverter).build();
+            .setMessageConverters(jacksonMessageConverter)
+            .setValidator(validator).build();
     }
 
     @Before
     public void initTest() {
-        surveyRepository.deleteAll();
         survey = new Survey();
         survey.setId(DEFAULT_ID);
         I18nString title = new I18nStringBuilder().withDe(DEFAULT_TITLE).withEn(DEFAULT_TITLE).build();
         survey.setTitle(title);
         survey.setFieldPeriod(new PeriodBuilder().withStart(DEFAULT_FIELD_PERIOD).withEnd(DEFAULT_FIELD_PERIOD).build());
         survey.setFdzProjectName(DEFAULT_FDZ_PROJECT_NAME);
+        
+        FdzProject fdzProject = new FdzProjectBuilder().withName(DEFAULT_FDZ_PROJECT_NAME).build();
+        fdzProjectRepository.insert(fdzProject);
+        fdzProject = new FdzProjectBuilder().withName(UPDATED_FDZ_PROJECT_NAME).build();
+        fdzProjectRepository.insert(fdzProject);
+    }
+    
+    @After
+    public void cleanUp() {
+      surveyRepository.deleteAll();
+      fdzProjectRepository.deleteAll();
     }
 
     @Test

@@ -3,6 +3,7 @@ package eu.dzhw.fdz.metadatamanagement.domain.validation;
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 
+import org.elasticsearch.common.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import eu.dzhw.fdz.metadatamanagement.repository.FdzProjectRepository;
@@ -36,17 +37,12 @@ public class ProjectExistsValidator implements ConstraintValidator<ProjectExists
   public boolean isValid(String fdzProjectName, ConstraintValidatorContext context) {
     
     // No ProjectName, no validation.
-    if (fdzProjectName == null || fdzProjectName.trim()
-        .length() == 0) {
-      return true;
+    if (StringUtils.isEmpty(fdzProjectName)) {
+      return false;
     }
 
     // Name is set -> validate
-    if (this.fdzProjectRepository.exists(fdzProjectName)) {
-      return true;
-    } else {
-      return false;
-    }
+    return this.fdzProjectRepository.exists(fdzProjectName);
   }
 
 }

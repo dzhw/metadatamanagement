@@ -13,6 +13,7 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 
+import org.junit.After;
 import org.junit.Test;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.GrantedAuthority;
@@ -30,6 +31,11 @@ import eu.dzhw.fdz.metadatamanagement.unittest.util.UnitTestUtils;
  */
 public class SecurityUtilsTest {
 
+  @After
+  public void logout() {
+    UnitTestUtils.logout();
+  }
+  
   @Test
   public void testConstructor()
       throws NoSuchMethodException, SecurityException, InstantiationException,

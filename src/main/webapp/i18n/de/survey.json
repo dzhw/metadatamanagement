@@ -18,7 +18,8 @@
       "id": "FDZ ID",
       "title.de": "Titel (DE)",
       "title.en": "Titel (EN)",
-      "fieldPeriod": "Feldzeit",
+      "fieldPeriod.start": "Feldzeitbeginn",
+      "fieldPeriod.end": "Feldzeitende",
       "fdzProjectName": "FDZ Projektname"
     }
   }

@@ -2,11 +2,16 @@
 
 angular.module('metadatamanagementApp').controller('SurveyDialogController', [
   '$scope', '$stateParams', '$uibModalInstance',
-    'entity', 'isCreateMode', 'Survey',
+    'entity', 'isCreateMode', 'Survey','FdzProject',
   function($scope, $stateParams, $uibModalInstance,
-    entity, isCreateMode, Survey) {
+    entity, isCreateMode, Survey, FdzProject) {
     $scope.isCreateMode = isCreateMode;
     $scope.survey = entity;
+    $scope.allFdzProjects = FdzProject.query({getAll: 'true'},
+      function(result) {
+      return result;
+    });
+
     $scope.load = function(id) {
       Survey.get({
         id: id

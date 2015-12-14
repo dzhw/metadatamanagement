@@ -8,24 +8,30 @@ angular.module('metadatamanagementApp')
           method: 'GET',
           transformResponse: function(data) {
             data = angular.fromJson(data);
-            data.fieldPeriod =
-              DateUtils.convertLocaleDateFromServer(data.fieldPeriod);
+            data.fieldPeriod.start =
+              DateUtils.convertLocaleDateFromServer(data.fieldPeriod.start);
+            data.fieldPeriod.end =
+                DateUtils.convertLocaleDateFromServer(data.fieldPeriod.end);
             return data;
           }
         },
         'update': {
           method: 'PUT',
           transformRequest: function(data) {
-            data.fieldPeriod =
-              DateUtils.convertLocaleDateToServer(data.fieldPeriod);
+            data.fieldPeriod.start =
+              DateUtils.convertLocaleDateToServer(data.fieldPeriod.start);
+            data.fieldPeriod.end =
+                DateUtils.convertLocaleDateToServer(data.fieldPeriod.end);
             return angular.toJson(data);
           }
         },
         'create': {
           method: 'POST',
           transformRequest: function(data) {
-            data.fieldPeriod =
-              DateUtils.convertLocaleDateToServer(data.fieldPeriod);
+            data.fieldPeriod.start =
+              DateUtils.convertLocaleDateToServer(data.fieldPeriod.start);
+            data.fieldPeriod.end =
+                DateUtils.convertLocaleDateToServer(data.fieldPeriod.end);
             return angular.toJson(data);
           }
         }

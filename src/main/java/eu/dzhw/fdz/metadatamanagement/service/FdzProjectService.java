@@ -102,4 +102,8 @@ public class FdzProjectService {
     log.debug("Request to delete FdzProject : {}", name);
     fdzProjectRepository.delete(name);
   }
+  
+  public void deleteAll() {
+    fdzProjectRepository.deleteAll();
+  }
 }

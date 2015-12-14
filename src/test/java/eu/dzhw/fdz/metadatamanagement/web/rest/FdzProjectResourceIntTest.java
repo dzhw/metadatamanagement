@@ -15,6 +15,7 @@ import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.inject.Inject;
 
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.MockitoAnnotations;
@@ -27,7 +28,6 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import eu.dzhw.fdz.metadatamanagement.AbstractTest;
 import eu.dzhw.fdz.metadatamanagement.domain.FdzProject;
-import eu.dzhw.fdz.metadatamanagement.repository.FdzProjectRepository;
 import eu.dzhw.fdz.metadatamanagement.service.FdzProjectService;
 
 
@@ -46,9 +46,6 @@ public class FdzProjectResourceIntTest extends AbstractTest {
   private static final String UPDATED_SUF_DOI = "BBBBB";
   private static final String DEFAULT_CUF_DOI = "AAAAA";
   private static final String UPDATED_CUF_DOI = "BBBBB";
-
-  @Inject
-  private FdzProjectRepository fdzProjectRepository;
 
   @Inject
   private FdzProjectService fdzProjectService;
@@ -76,17 +73,20 @@ public class FdzProjectResourceIntTest extends AbstractTest {
 
   @Before
   public void initTest() {
-    fdzProjectRepository.deleteAll();
     fdzProject = new FdzProject();
     fdzProject.setName(DEFAULT_NAME);
     fdzProject.setSufDoi(DEFAULT_SUF_DOI);
     fdzProject.setCufDoi(DEFAULT_CUF_DOI);
   }
+  
+  @After
+  public void cleanUp() {
+    fdzProjectService.deleteAll();
+  }
 
   @Test
   public void createFdzProject() throws Exception {
-    int databaseSizeBeforeCreate = fdzProjectRepository.findAll()
-      .size();
+    int databaseSizeBeforeCreate = 0;
 
     // Create the FdzProject
 
@@ -96,7 +96,7 @@ public class FdzProjectResourceIntTest extends AbstractTest {
       .andExpect(status().isCreated());
 
     // Validate the FdzProject in the database
-    List<FdzProject> fdzProjects = fdzProjectRepository.findAll();
+    List<FdzProject> fdzProjects = fdzProjectService.findAll();
     assertThat(fdzProjects).hasSize(databaseSizeBeforeCreate + 1);
     FdzProject testFdzProject = fdzProjects.get(fdzProjects.size() - 1);
     assertThat(testFdzProject.getName()).isEqualTo(DEFAULT_NAME);
@@ -106,8 +106,7 @@ public class FdzProjectResourceIntTest extends AbstractTest {
 
   @Test
   public void checkNameIsRequired() throws Exception {
-    int databaseSizeBeforeTest = fdzProjectRepository.findAll()
-      .size();
+    int databaseSizeBeforeTest = 0;
     // set the field null
     fdzProject.setName(null);
 
@@ -118,14 +117,14 @@ public class FdzProjectResourceIntTest extends AbstractTest {
         .content(TestUtil.convertObjectToJsonBytes(fdzProject)))
       .andExpect(status().isBadRequest());
 
-    List<FdzProject> fdzProjects = fdzProjectRepository.findAll();
+    List<FdzProject> fdzProjects = fdzProjectService.findAll();
     assertThat(fdzProjects).hasSize(databaseSizeBeforeTest);
   }
 
   @Test
   public void getAllFdzProjects() throws Exception {
     // Initialize the database
-    fdzProjectRepository.save(fdzProject);
+    fdzProjectService.createFdzProject(fdzProject);
 
     // Get all the fdzProjects
     restFdzProjectMockMvc.perform(get("/api/fdzProjects?sort=id,desc"))
@@ -139,7 +138,7 @@ public class FdzProjectResourceIntTest extends AbstractTest {
   @Test
   public void getAllFdzProjectsWithoutPageable() throws Exception {
     // Arrange
-    this.fdzProjectRepository.save(fdzProject);
+    fdzProjectService.createFdzProject(fdzProject);
 
     // Act and Assert
     this.restFdzProjectMockMvc.perform(get("/api/fdzProjects").param("getAll", "true"))
@@ -153,7 +152,7 @@ public class FdzProjectResourceIntTest extends AbstractTest {
   @Test
   public void getFdzProject() throws Exception {
     // Initialize the database
-    fdzProjectRepository.save(fdzProject);
+    fdzProjectService.createFdzProject(fdzProject);
 
     // Get the fdzProject
     restFdzProjectMockMvc.perform(get("/api/fdzProjects/{name}", fdzProject.getName()))
@@ -174,9 +173,9 @@ public class FdzProjectResourceIntTest extends AbstractTest {
   @Test
   public void updateFdzProject() throws Exception {
     // Initialize the database
-    fdzProjectRepository.save(fdzProject);
+    fdzProjectService.createFdzProject(fdzProject);
 
-    int databaseSizeBeforeUpdate = fdzProjectRepository.findAll()
+    int databaseSizeBeforeUpdate = fdzProjectService.findAll()
       .size();
 
     // Update the fdzProject
@@ -189,7 +188,7 @@ public class FdzProjectResourceIntTest extends AbstractTest {
       .andExpect(status().isOk());
 
     // Validate the FdzProject in the database
-    List<FdzProject> fdzProjects = fdzProjectRepository.findAll();
+    List<FdzProject> fdzProjects = fdzProjectService.findAll();
     assertThat(fdzProjects).hasSize(databaseSizeBeforeUpdate);
     FdzProject testFdzProject = fdzProjects.get(fdzProjects.size() - 1);
     assertThat(testFdzProject.getSufDoi()).isEqualTo(UPDATED_SUF_DOI);
@@ -199,9 +198,9 @@ public class FdzProjectResourceIntTest extends AbstractTest {
   @Test
   public void deleteFdzProject() throws Exception {
     // Initialize the database
-    fdzProjectRepository.save(fdzProject);
+    fdzProjectService.createFdzProject(fdzProject);
 
-    int databaseSizeBeforeDelete = fdzProjectRepository.findAll()
+    int databaseSizeBeforeDelete = fdzProjectService.findAll()
       .size();
 
     // Get the fdzProject
@@ -210,7 +209,7 @@ public class FdzProjectResourceIntTest extends AbstractTest {
       .andExpect(status().isOk());
 
     // Validate the database is empty
-    List<FdzProject> fdzProjects = fdzProjectRepository.findAll();
+    List<FdzProject> fdzProjects = fdzProjectService.findAll();
     assertThat(fdzProjects).hasSize(databaseSizeBeforeDelete - 1);
   }
 }

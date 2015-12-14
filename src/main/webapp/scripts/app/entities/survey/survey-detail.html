@@ -35,10 +35,18 @@
         </tr>
         <tr>
           <td>
-            <span translate="metadatamanagementApp.survey.fieldPeriod">FieldPeriod</span>
+            <span translate="metadatamanagementApp.survey.fieldPeriod.start">FieldPeriod (Start)</span>
           </td>
           <td>
-            <span class="form-control-static">{{survey.fieldPeriod | date:'mediumDate'}}</span>
+            <span class="form-control-static">{{survey.fieldPeriod.start | date:'mediumDate'}}</span>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <span translate="metadatamanagementApp.survey.fieldPeriod.end">FieldPeriod (end)</span>
+          </td>
+          <td>
+            <span class="form-control-static">{{survey.fieldPeriod.end | date:'mediumDate'}}</span>
           </td>
         </tr>
         <tr>

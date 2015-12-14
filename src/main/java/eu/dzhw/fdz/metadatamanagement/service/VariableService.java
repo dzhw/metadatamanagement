@@ -134,4 +134,18 @@ public class VariableService {
       throw new EntityExistsException(Variable.class, fields);
     }
   }
+  
+  /**
+   * Delete all variables from mongo and elasticsearch.
+   */
+  public void deleteAll() {
+    variableRepository.deleteAll();
+    for (String index : ElasticsearchAdminService.INDICES) {
+      variableSearchDao.deleteAll(index);      
+    }
+  }
+
+  public List<Variable> findAll() {
+    return variableRepository.findAll();
+  }
 }

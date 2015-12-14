@@ -21,6 +21,7 @@ import io.searchbox.client.JestClient;
 import io.searchbox.client.JestResult;
 import io.searchbox.core.Bulk;
 import io.searchbox.core.Delete;
+import io.searchbox.core.DeleteByQuery;
 import io.searchbox.core.Index;
 import io.searchbox.core.Search;
 import io.searchbox.core.SearchResult;
@@ -120,6 +121,22 @@ public class VariableSearchDao {
         .build());
     if (!result.isSucceeded()) {
       throw new ElasticsearchDocumentDeleteException(index, TYPE, id, result.getErrorMessage());
+    }
+  }
+
+  /**
+   * Delete all {@link VariableSearchDocument} documents from the given index.
+   * 
+   * @param index the index to delete from.
+   */
+  public void deleteAll(String index) {
+    SearchSourceBuilder queryBuilder = new SearchSourceBuilder();
+    queryBuilder.query(QueryBuilders.matchAllQuery());
+    JestResult result = execute(new DeleteByQuery.Builder(queryBuilder.toString()).addIndex(index)
+        .addType(TYPE)
+        .build());
+    if (!result.isSucceeded()) {
+      throw new ElasticsearchDocumentDeleteException(index, TYPE, result.getErrorMessage());
     }
   }
 

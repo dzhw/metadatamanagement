@@ -31,24 +31,35 @@
       <input type="text" class="form-control" name="title_en" id="field_title_en" ng-model="survey.title.en"/>
     </div>
     <div class="form-group">
-      <label class="control-label" translate="metadatamanagementApp.survey.fieldPeriod" for="field_fieldPeriod">FieldPeriod</label>
-      <input type="date" class="form-control" name="fieldPeriod" id="field_fieldPeriod" ng-model="survey.fieldPeriod" required />
-      <div ng-show="editForm.fieldPeriod.$invalid">
-        <p class="help-block" ng-show="editForm.fieldPeriod.$error.required" translate="entity.validation.required">
+      <label class="control-label" translate="metadatamanagementApp.survey.fieldPeriod.start" for="field_fieldPeriod_start">FieldPeriod (Start)</label>
+      <input type="date" class="form-control" name="fieldPeriod_start" id="field_fieldPeriod_start" ng-model="survey.fieldPeriod.start" required />
+      <div ng-show="editForm.fieldPeriod_start.$invalid">
+        <p class="help-block" ng-show="editForm.fieldPeriod_start.$error.required" translate="entity.validation.required">
           This field is required.
         </p>
       </div>
     </div>
     <div class="form-group">
-      <label class="control-label" translate="metadatamanagementApp.survey.fdzProjectName" for="field_fdzProjectName">FdzProjectName</label>
-      <input type="text" class="form-control" name="fdzProjectName" id="field_fdzProjectName" ng-model="survey.fdzProjectName" required />
+      <label class="control-label" translate="metadatamanagementApp.survey.fieldPeriod.end" for="field_fieldPeriod_end">FieldPeriod (End)</label>
+      <input type="date" class="form-control" name="fieldPeriod_end" id="field_fieldPeriod_end" ng-model="survey.fieldPeriod.end" required />
+      <div ng-show="editForm.fieldPeriod_end.$invalid">
+        <p class="help-block" ng-show="editForm.fieldPeriod_end.$error.required" translate="entity.validation.required">
+          This field is required.
+        </p>
+      </div>
+    </div>
+    <div class="form-group">
+      <label translate="metadatamanagementApp.survey.fdzProjectName" for="field_fdzProjectName">FDZ Project Name</label>
+      <select class="form-control" name="fdzProjectName" ng-model="survey.fdzProjectName" id="field_fdzProjectName" required>
+        <option ng-repeat="fdzproject in allFdzProjects" value="{{fdzproject.name}}">{{fdzproject.name}}</option>
+      </select>
+
       <div ng-show="editForm.fdzProjectName.$invalid">
         <p class="help-block" ng-show="editForm.fdzProjectName.$error.required" translate="entity.validation.required">
           This field is required.
         </p>
       </div>
     </div>
-
   </div>
   <div class="modal-footer">
     <button type="button" class="btn btn-default" data-dismiss="modal" ng-click="clear()">
