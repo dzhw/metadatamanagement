@@ -115,6 +115,7 @@
       "pattern": "This field should follow pattern {{pattern}}.",
       "number": "This field should be a number.",
       "datetimelocal": "This field should be a date and time.",
+      "dateorder": "The time order of start and end of field time is incorrect.",
       "fdzid": "The FDZ ID must contain only letters, digits and underscore.",
       "variable": {
         "name": "The name of a variable must contain only letters, digits and underscore."
