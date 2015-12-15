@@ -1,7 +1,9 @@
 package eu.dzhw.fdz.metadatamanagement.web.rest;
 
+import java.io.UnsupportedEncodingException;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.net.URLEncoder;
 import java.util.List;
 import java.util.Optional;
 
@@ -49,11 +51,12 @@ public class FdzProjectResource {
       produces = MediaType.APPLICATION_JSON_VALUE)
   @Timed
   public ResponseEntity<FdzProject> createFdzProject(@Valid @RequestBody FdzProject fdzProject)
-      throws URISyntaxException {
+      throws URISyntaxException, UnsupportedEncodingException {
     log.debug("REST request to save FdzProject : {}", fdzProject);
 
     FdzProject result = fdzProjectService.createFdzProject(fdzProject);
-    return ResponseEntity.created(new URI("/api/fdzProjects/" + result.getName()))
+    return ResponseEntity.created(
+        new URI("/api/fdzProjects/" + URLEncoder.encode(result.getName(),"UTF-8")))
       .headers(HeaderUtil.createEntityCreationAlert("fdzProject", result.getName()))
       .body(result);
   }
