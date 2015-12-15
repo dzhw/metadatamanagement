@@ -40,8 +40,6 @@ module.exports = function (config) {
             'src/main/webapp/bower_components/file-saver.js/FileSaver.js',
             'src/main/webapp/bower_components/jszip-utils/dist/jszip-utils.js',
             'src/main/webapp/bower_components/handlebars/handlebars.js',
-            'src/main/webapp/bower_components/pdfjs-dist/build/pdf.js',
-            'src/main/webapp/bower_components/pdfjs-dist/build/pdf.worker.js',
             'src/main/webapp/bower_components/angular-mocks/angular-mocks.js',
             // endbower
             'src/main/webapp/bower_components/elasticsearch/elasticsearch.jquery.js',
@@ -61,10 +59,7 @@ module.exports = function (config) {
 
 
         // list of files / patterns to exclude
-        exclude: ['src/main/webapp/bower_components/pdfjs-dist/build/pdf.js',
-                  'src/main/webapp/bower_components/pdfjs-dist/build/pdf.worker.js',
-                  'src/main/webapp/scripts/components/pdfviewer/viewer.js',
-                  'src/main/webapp/scripts/components/angular-pdf-viewer/js/angular-pdf-viewer.js'],
+        exclude: [],
 
         preprocessors: {
             'src/main/webapp/scripts/**/*.js': ['coverage']
