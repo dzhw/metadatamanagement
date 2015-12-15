@@ -114,6 +114,7 @@
       "pattern": "Dieses Feld muss das Muster {{pattern}} erfüllen.",
       "number": "Dieses Feld muss eine Zahl sein.",
       "datetimelocal": "Dieses Feld muss eine Datums- und Zeitangabe enthalten.",
+      "dateorder": "Die zeitliche Reihenfolge von Feldzeitbeginn und -ende ist inkorrekt.",
       "fdzid": "Die FDZ ID darf nur aus Zahlen, Buchstaben und \"_\" bestehen.",
       "variable": {
         "name": "Der Name einer Variablen darf nur aus Zahlen, Buchstaben und \"_\" bestehen."

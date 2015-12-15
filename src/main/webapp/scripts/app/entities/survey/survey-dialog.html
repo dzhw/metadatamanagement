@@ -32,19 +32,25 @@
     </div>
     <div class="form-group">
       <label class="control-label" translate="metadatamanagementApp.survey.fieldPeriod.start" for="field_fieldPeriod_start">FieldPeriod (Start)</label>
-      <input type="date" class="form-control" name="fieldPeriod_start" id="field_fieldPeriod_start" ng-model="survey.fieldPeriod.start" required />
+      <input type="date" class="form-control" name="fieldPeriod_start" id="field_fieldPeriod_start" ng-model="survey.fieldPeriod.start" max="{{ survey.fieldPeriod.end }}" required />
       <div ng-show="editForm.fieldPeriod_start.$invalid">
         <p class="help-block" ng-show="editForm.fieldPeriod_start.$error.required" translate="entity.validation.required">
           This field is required.
+        </p>
+        <p class="help-block" ng-show="editForm.fieldPeriod_start.$error.max" translate="entity.validation.dateorder">
+          This field is after the end date.
         </p>
       </div>
     </div>
     <div class="form-group">
       <label class="control-label" translate="metadatamanagementApp.survey.fieldPeriod.end" for="field_fieldPeriod_end">FieldPeriod (End)</label>
-      <input type="date" class="form-control" name="fieldPeriod_end" id="field_fieldPeriod_end" ng-model="survey.fieldPeriod.end" required />
+      <input type="date" class="form-control" name="fieldPeriod_end" id="field_fieldPeriod_end" ng-model="survey.fieldPeriod.end" min="{{ survey.fieldPeriod.start }}" required />
       <div ng-show="editForm.fieldPeriod_end.$invalid">
         <p class="help-block" ng-show="editForm.fieldPeriod_end.$error.required" translate="entity.validation.required">
           This field is required.
+        </p>
+        <p class="help-block" ng-show="editForm.fieldPeriod_end.$error.min" translate="entity.validation.dateorder">
+          This field is before the start date.
         </p>
       </div>
     </div>
