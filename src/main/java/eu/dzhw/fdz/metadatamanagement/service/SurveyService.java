@@ -1,5 +1,7 @@
 package eu.dzhw.fdz.metadatamanagement.service;
 
+import java.util.List;
+
 import javax.inject.Inject;
 
 import org.slf4j.Logger;
@@ -70,6 +72,17 @@ public class SurveyService {
     Page<Survey> result = surveyRepository.findAll(pageable);
     return result;
   }
+  
+  /**
+   * get all the surveys.
+   * 
+   * @return the list of entities
+   */
+  public List<Survey> findAll() {
+    log.debug("Request to get all Surveys");
+    List<Survey> result = surveyRepository.findAll();
+    return result;
+  }
 
   /**
    * get one survey by id.
@@ -88,5 +101,10 @@ public class SurveyService {
   public void delete(String id) {
     log.debug("Request to delete Survey : {}", id);
     surveyRepository.delete(id);
+  }
+  
+  public void deleteAll() {
+    log.debug("Request to delete all surveys.");
+    surveyRepository.deleteAll();
   }
 }

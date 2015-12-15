@@ -16,7 +16,8 @@ import org.springframework.data.mongodb.core.mapping.Field;
 import eu.dzhw.fdz.metadatamanagement.domain.enumeration.DataType;
 import eu.dzhw.fdz.metadatamanagement.domain.enumeration.ScaleLevel;
 import eu.dzhw.fdz.metadatamanagement.domain.util.Patterns;
-import eu.dzhw.fdz.metadatamanagement.domain.validation.ProjectExists;
+import eu.dzhw.fdz.metadatamanagement.domain.validation.FdzProjectExists;
+import eu.dzhw.fdz.metadatamanagement.domain.validation.SurveyExists;
 import net.karneim.pojobuilder.GeneratePojoBuilder;
 
 /**
@@ -53,10 +54,14 @@ public class Variable implements Serializable {
   @Field("label")
   private String label;
 
-  @ProjectExists
+  @FdzProjectExists
   @NotNull
   @Field("fdz_project_name")
   private String fdzProjectName;
+  
+  @SurveyExists
+  @Field("survey_id")
+  private String surveyId;
 
   public String getId() {
     return id;
@@ -102,6 +107,14 @@ public class Variable implements Serializable {
     return fdzProjectName;
   }
 
+  public String getSurveyId() {
+    return surveyId;
+  }
+
+  public void setSurveyId(String surveyId) {
+    this.surveyId = surveyId;
+  }
+
   public void setFdzProjectName(String fdzProjectName) {
     this.fdzProjectName = fdzProjectName;
   }
@@ -131,7 +144,8 @@ public class Variable implements Serializable {
 
   @Override
   public String toString() {
-    return "Variable{" + "id=" + id + ", name='" + name + "'" + ", " + "dataType='" + dataType + "'"
-        + ", scaleLevel='" + scaleLevel + "'" + ", label='" + label + "'" + '}';
+    return "Variable [id=" + id + ", name=" + name + ", dataType=" + dataType + ", scaleLevel="
+        + scaleLevel + ", label=" + label + ", fdzProjectName=" + fdzProjectName + ", surveyId="
+        + surveyId + "]";
   }
 }

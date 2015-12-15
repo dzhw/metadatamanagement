@@ -10,6 +10,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
@@ -29,12 +30,17 @@ import org.springframework.validation.Validator;
 
 import eu.dzhw.fdz.metadatamanagement.AbstractTest;
 import eu.dzhw.fdz.metadatamanagement.domain.FdzProject;
+import eu.dzhw.fdz.metadatamanagement.domain.Survey;
 import eu.dzhw.fdz.metadatamanagement.domain.Variable;
 import eu.dzhw.fdz.metadatamanagement.domain.builders.FdzProjectBuilder;
+import eu.dzhw.fdz.metadatamanagement.domain.builders.I18nStringBuilder;
+import eu.dzhw.fdz.metadatamanagement.domain.builders.PeriodBuilder;
+import eu.dzhw.fdz.metadatamanagement.domain.builders.SurveyBuilder;
 import eu.dzhw.fdz.metadatamanagement.domain.builders.VariableBuilder;
 import eu.dzhw.fdz.metadatamanagement.domain.enumeration.DataType;
 import eu.dzhw.fdz.metadatamanagement.domain.enumeration.ScaleLevel;
 import eu.dzhw.fdz.metadatamanagement.service.FdzProjectService;
+import eu.dzhw.fdz.metadatamanagement.service.SurveyService;
 import eu.dzhw.fdz.metadatamanagement.service.VariableService;
 import eu.dzhw.fdz.metadatamanagement.web.rest.errors.ExceptionTranslator;
 
@@ -58,12 +64,17 @@ public class VariableResourceTest extends AbstractTest {
   private static final String UPDATED_LABEL = "BBBBB";
   private static final String DEFAULT_FDZ_PROJECT_NAME = "AAAAA";
   private static final String UPDATED_FDZ_PROJECT_NAME = "BBBBB";
+  private static final String DEFAULT_SURVEY_ID = "AAAAA";
+  private static final String INVALID_SURVEY_ID = "BBBBB";
 
   @Inject
   private FdzProjectService fdzProjectService;
 
   @Inject
   private VariableService variableService;
+
+  @Inject
+  private SurveyService surveyService;
 
   @Inject
   private MappingJackson2HttpMessageConverter jacksonMessageConverter;
@@ -82,6 +93,8 @@ public class VariableResourceTest extends AbstractTest {
   private Variable variable;
 
   private FdzProject fdzProject;
+
+  private Survey survey;
 
   @PostConstruct
   public void setup() {
@@ -105,6 +118,17 @@ public class VariableResourceTest extends AbstractTest {
 
     this.fdzProjectService.createFdzProject(this.fdzProject);
 
+    this.survey = new SurveyBuilder().withFdzProjectName(DEFAULT_FDZ_PROJECT_NAME)
+      .withId(DEFAULT_SURVEY_ID)
+      .withTitle(new I18nStringBuilder().withDe("Test")
+        .build())
+      .withFieldPeriod(new PeriodBuilder().withStart(LocalDate.now())
+        .withEnd(LocalDate.now())
+        .build())
+      .build();
+    
+    this.surveyService.createSurvey(survey);
+
     this.variable = new VariableBuilder().withId(DEFAULT_ID)
       .withName(DEFAULT_NAME)
       .withDataType(DEFAULT_DATA_TYPE)
@@ -118,6 +142,7 @@ public class VariableResourceTest extends AbstractTest {
   public void afterEachTest() {
     this.variableService.deleteAll();
     this.fdzProjectService.deleteAll();
+    this.surveyService.deleteAll();
   }
 
   @Test
@@ -162,7 +187,7 @@ public class VariableResourceTest extends AbstractTest {
   @Test
   public void checkNameIsRequired() throws Exception {
     int databaseSizeBeforeTest = 0;
-    
+
     // set the field null
     variable.setName(null);
 
@@ -179,7 +204,7 @@ public class VariableResourceTest extends AbstractTest {
   @Test
   public void checkDataTypeIsRequired() throws Exception {
     int databaseSizeBeforeTest = 0;
-    
+
     // set the field null
     variable.setDataType(null);
 
@@ -196,7 +221,7 @@ public class VariableResourceTest extends AbstractTest {
   @Test
   public void checkScaleLevelIsRequired() throws Exception {
     int databaseSizeBeforeTest = 0;
-    
+
     // set the field null
     variable.setScaleLevel(null);
 
@@ -213,7 +238,7 @@ public class VariableResourceTest extends AbstractTest {
   @Test
   public void checkLabelIsRequired() throws Exception {
     int databaseSizeBeforeTest = 0;
-    
+
     // set the field null
     variable.setLabel(null);
 
@@ -331,6 +356,51 @@ public class VariableResourceTest extends AbstractTest {
     restVariableMockMvc.perform(put("/api/variables").contentType(TestUtil.APPLICATION_JSON_UTF8)
       .content(TestUtil.convertObjectToJsonBytes(variable)))
       .andExpect(status().is4xxClientError());
+  }
+
+  @Test
+  public void updateVariableWithInvalidSurveyId() throws Exception {
+
+    // Arrange
+    this.variableService.createVariable(variable);
+    this.variable.setSurveyId(INVALID_SURVEY_ID);
+
+    // Act
+
+    // Assert
+    restVariableMockMvc.perform(put("/api/variables").contentType(TestUtil.APPLICATION_JSON_UTF8)
+      .content(TestUtil.convertObjectToJsonBytes(variable)))
+      .andExpect(status().isBadRequest());
+  }
+
+  @Test
+  public void updateVariableWithValidSurveyId() throws Exception {
+
+    // Arrange
+    this.variableService.createVariable(variable);
+    this.variable.setSurveyId(DEFAULT_SURVEY_ID);
+
+    // Act
+
+    // Assert
+    restVariableMockMvc.perform(put("/api/variables").contentType(TestUtil.APPLICATION_JSON_UTF8)
+      .content(TestUtil.convertObjectToJsonBytes(variable)))
+      .andExpect(status().isOk());
+  }
+  
+  @Test
+  public void updateVariableWithEmptySurveyId() throws Exception {
+
+    // Arrange
+    this.variableService.createVariable(variable);
+    this.variable.setSurveyId(null);
+
+    // Act
+
+    // Assert
+    restVariableMockMvc.perform(put("/api/variables").contentType(TestUtil.APPLICATION_JSON_UTF8)
+      .content(TestUtil.convertObjectToJsonBytes(variable)))
+      .andExpect(status().isOk());
   }
 
   @Test

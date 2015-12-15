@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.codahale.metrics.annotation.Timed;
@@ -79,11 +80,17 @@ public class SurveyResource {
   @RequestMapping(value = "/surveys", method = RequestMethod.GET,
       produces = MediaType.APPLICATION_JSON_VALUE)
   @Timed
-  public ResponseEntity<List<Survey>> getAllSurveys(Pageable pageable) throws URISyntaxException {
+  public ResponseEntity<List<Survey>> getAllSurveys(Pageable pageable, 
+      @RequestParam Optional<String> getAll) throws URISyntaxException {
     log.debug("REST request to get a page of Surveys");
-    Page<Survey> page = surveyService.findAll(pageable);
-    HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/surveys");
-    return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
+    if (getAll.isPresent()) {
+      List<Survey> allSurveys = surveyService.findAll();
+      return new ResponseEntity<>(allSurveys, HttpStatus.OK);
+    } else {
+      Page<Survey> page = surveyService.findAll(pageable);
+      HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/surveys");
+      return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);      
+    }
   }
 
   /**

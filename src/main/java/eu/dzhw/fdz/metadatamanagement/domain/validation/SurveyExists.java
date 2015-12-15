@@ -10,23 +10,20 @@ import javax.validation.Constraint;
 import javax.validation.Payload;
 
 /**
- * This annotation is a validation annotation for a project name. The validation checks, if a
- * project name is valid and exists in the mongo database.
- * 
- * @author Daniel Katzberg
- *
+ * Validate that a survey with the given id exists.
+ * @author René Reitmann
  */
 @Documented
-@Constraint(validatedBy = {ProjectExistsValidator.class})
+@Constraint(validatedBy = {SurveyExistsValidator.class})
 @Target({ElementType.FIELD})
 @Retention(RetentionPolicy.RUNTIME)
-public @interface ProjectExists {
+public @interface SurveyExists {
   
   /**
    * Defines the default error message.
    */
   public abstract String message() default "{eu.dzhw.fdz.metadatamanagement.domain.validation."
-      + "validateprojectname.message}";
+      + "surveyexists.message}";
   /**
    * This contains groups.
    */

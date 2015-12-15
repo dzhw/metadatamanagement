@@ -14,7 +14,7 @@ import eu.dzhw.fdz.metadatamanagement.repository.FdzProjectRepository;
  * @author Daniel Katzberg
  *
  */
-public class ProjectExistsValidator implements ConstraintValidator<ProjectExists, String> {
+public class FdzProjectExistsValidator implements ConstraintValidator<FdzProjectExists, String> {
 
   @Autowired
   private FdzProjectRepository fdzProjectRepository;
@@ -25,7 +25,7 @@ public class ProjectExistsValidator implements ConstraintValidator<ProjectExists
    * @see javax.validation.ConstraintValidator#initialize(java.lang.annotation.Annotation)
    */
   @Override
-  public void initialize(ProjectExists constraintAnnotation) {}
+  public void initialize(FdzProjectExists constraintAnnotation) {}
 
   /*
    * (non-Javadoc)

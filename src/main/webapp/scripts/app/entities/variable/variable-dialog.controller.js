@@ -2,13 +2,17 @@
 
 angular.module('metadatamanagementApp').controller('VariableDialogController',
     ['$scope', '$stateParams', '$modalInstance', 'entity', 'isCreateMode',
-     'Variable', 'FdzProject',
+     'Variable', 'FdzProject', 'Survey',
         function($scope, $stateParams, $modalInstance, entity, isCreateMode,
-          Variable, FdzProject) {
+          Variable, FdzProject, Survey) {
 
           $scope.variable = entity;
           $scope.isCreateMode = isCreateMode;
           $scope.allFdzProjects = FdzProject.query({getAll: 'true'},
+            function(result) {
+            return result;
+          });
+          $scope.allSurveys = Survey.query({getAll: 'true'},
             function(result) {
             return result;
           });

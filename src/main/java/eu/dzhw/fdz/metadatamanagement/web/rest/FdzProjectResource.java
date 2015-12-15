@@ -86,9 +86,7 @@ public class FdzProjectResource {
 
     if (getAll.isPresent()) {
       List<FdzProject> allFdzProjects = fdzProjectService.findAll();
-      return Optional.ofNullable(allFdzProjects)
-        .map(result -> new ResponseEntity<>(result, HttpStatus.OK))
-        .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
+      return new ResponseEntity<>(allFdzProjects, HttpStatus.OK);
     } else {
       Page<FdzProject> page = fdzProjectService.findAll(pageable);
       HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/fdzProjects");
