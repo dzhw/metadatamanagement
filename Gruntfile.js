@@ -396,7 +396,7 @@ module.exports = function(grunt) {
       'concat', 'copy:fonts', 'copy:dist', 'ngAnnotate', 'cssmin',
       'autoprefixer', 'uglify', 'rev', 'usemin', 'htmlmin']);
 
-  grunt.registerTask('builddev', ['test', 'clean:dist', 'wiredep:test',
+  grunt.registerTask('builddev', ['test', 'clean:dist', 'wiredep:app',
    'ngAnnotate']);
 
   grunt.registerTask('buildOpenshift', ['test', 'build',
