@@ -3,6 +3,7 @@ package eu.dzhw.fdz.metadatamanagement.domain;
 import java.io.Serializable;
 import java.time.LocalDate;
 
+import eu.dzhw.fdz.metadatamanagement.domain.validation.ValidPeriod;
 import net.karneim.pojobuilder.GeneratePojoBuilder;
 
 /**
@@ -11,6 +12,7 @@ import net.karneim.pojobuilder.GeneratePojoBuilder;
  * @author René Reitmann
  */
 @GeneratePojoBuilder(intoPackage = "eu.dzhw.fdz.metadatamanagement.domain.builders")
+@ValidPeriod
 public class Period implements Serializable {
   private static final long serialVersionUID = -4040296722435163942L;
 

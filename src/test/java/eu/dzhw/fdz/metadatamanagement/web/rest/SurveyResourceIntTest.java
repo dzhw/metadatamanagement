@@ -48,233 +48,284 @@ import eu.dzhw.fdz.metadatamanagement.service.SurveyService;
  */
 public class SurveyResourceIntTest extends AbstractTest {
 
-    private static final String DEFAULT_ID = "HURZ";
-    private static final String DEFAULT_TITLE = "AAAAA";
-    private static final String UPDATED_TITLE = "BBBBB";
+  private static final String DEFAULT_ID = "HURZ";
+  private static final String DEFAULT_TITLE = "AAAAA";
+  private static final String UPDATED_TITLE = "BBBBB";
 
-    private static final LocalDate DEFAULT_FIELD_PERIOD = LocalDate.ofEpochDay(0L);
-    private static final LocalDate UPDATED_FIELD_PERIOD = LocalDate.now(ZoneId.systemDefault());
-    private static final String DEFAULT_FDZ_PROJECT_NAME = "AAAAA";
-    private static final String UPDATED_FDZ_PROJECT_NAME = "BBBBB";
+  private static final LocalDate DEFAULT_FIELD_PERIOD = LocalDate.ofEpochDay(0L);
+  private static final LocalDate UPDATED_FIELD_PERIOD = LocalDate.now(ZoneId.systemDefault());
+  private static final String DEFAULT_FDZ_PROJECT_NAME = "AAAAA";
+  private static final String UPDATED_FDZ_PROJECT_NAME = "BBBBB";
 
-    @Inject
-    private SurveyRepository surveyRepository;
-    
-    @Inject
-    private FdzProjectRepository fdzProjectRepository;
+  @Inject
+  private SurveyRepository surveyRepository;
 
-    @Inject
-    private SurveyService surveyService;
+  @Inject
+  private FdzProjectRepository fdzProjectRepository;
 
-    @Inject
-    private MappingJackson2HttpMessageConverter jacksonMessageConverter;
+  @Inject
+  private SurveyService surveyService;
 
-    @Inject
-    private PageableHandlerMethodArgumentResolver pageableArgumentResolver;
-    
-    @Inject
-    private Validator validator;
+  @Inject
+  private MappingJackson2HttpMessageConverter jacksonMessageConverter;
 
-    private MockMvc restSurveyMockMvc;
+  @Inject
+  private PageableHandlerMethodArgumentResolver pageableArgumentResolver;
 
-    private Survey survey;
-    
-    @PostConstruct
-    public void setup() {
-        MockitoAnnotations.initMocks(this);
-        SurveyResource surveyResource = new SurveyResource();
-        ReflectionTestUtils.setField(surveyResource, "surveyService", surveyService);
-        this.restSurveyMockMvc = MockMvcBuilders.standaloneSetup(surveyResource)
-            .setCustomArgumentResolvers(pageableArgumentResolver)
-            .setMessageConverters(jacksonMessageConverter)
-            .setValidator(validator).build();
-    }
+  @Inject
+  private Validator validator;
 
-    @Before
-    public void initTest() {
-        survey = new Survey();
-        survey.setId(DEFAULT_ID);
-        I18nString title = new I18nStringBuilder().withDe(DEFAULT_TITLE).withEn(DEFAULT_TITLE).build();
-        survey.setTitle(title);
-        survey.setFieldPeriod(new PeriodBuilder().withStart(DEFAULT_FIELD_PERIOD).withEnd(DEFAULT_FIELD_PERIOD).build());
-        survey.setFdzProjectName(DEFAULT_FDZ_PROJECT_NAME);
-        
-        FdzProject fdzProject = new FdzProjectBuilder().withName(DEFAULT_FDZ_PROJECT_NAME).build();
-        fdzProjectRepository.insert(fdzProject);
-        fdzProject = new FdzProjectBuilder().withName(UPDATED_FDZ_PROJECT_NAME).build();
-        fdzProjectRepository.insert(fdzProject);
-    }
-    
-    @After
-    public void cleanUp() {
-      surveyRepository.deleteAll();
-      fdzProjectRepository.deleteAll();
-    }
+  private MockMvc restSurveyMockMvc;
 
-    @Test
-    public void createSurvey() throws Exception {
-        int databaseSizeBeforeCreate = surveyRepository.findAll().size();
+  private Survey survey;
 
-        // Create the Survey
+  @PostConstruct
+  public void setup() {
+    MockitoAnnotations.initMocks(this);
+    SurveyResource surveyResource = new SurveyResource();
+    ReflectionTestUtils.setField(surveyResource, "surveyService", surveyService);
+    this.restSurveyMockMvc = MockMvcBuilders.standaloneSetup(surveyResource)
+      .setCustomArgumentResolvers(pageableArgumentResolver)
+      .setMessageConverters(jacksonMessageConverter)
+      .setValidator(validator)
+      .build();
+  }
 
-        restSurveyMockMvc.perform(post("/api/surveys")
-                .contentType(TestUtil.APPLICATION_JSON_UTF8)
-                .content(TestUtil.convertObjectToJsonBytes(survey)))
-                .andExpect(status().isCreated());
+  @Before
+  public void initTest() {
+    survey = new Survey();
+    survey.setId(DEFAULT_ID);
+    I18nString title = new I18nStringBuilder().withDe(DEFAULT_TITLE)
+      .withEn(DEFAULT_TITLE)
+      .build();
+    survey.setTitle(title);
+    survey.setFieldPeriod(new PeriodBuilder().withStart(DEFAULT_FIELD_PERIOD)
+      .withEnd(DEFAULT_FIELD_PERIOD)
+      .build());
+    survey.setFdzProjectName(DEFAULT_FDZ_PROJECT_NAME);
 
-        // Validate the Survey in the database
-        List<Survey> surveys = surveyRepository.findAll();
-        assertThat(surveys).hasSize(databaseSizeBeforeCreate + 1);
-        Survey testSurvey = surveys.get(surveys.size() - 1);
-        assertThat(testSurvey.getTitle().getDe()).isEqualTo(DEFAULT_TITLE);
-        assertThat(testSurvey.getFieldPeriod().getStart()).isEqualTo(DEFAULT_FIELD_PERIOD);
-        assertThat(testSurvey.getFdzProjectName()).isEqualTo(DEFAULT_FDZ_PROJECT_NAME);
-    }
+    FdzProject fdzProject = new FdzProjectBuilder().withName(DEFAULT_FDZ_PROJECT_NAME)
+      .build();
+    fdzProjectRepository.insert(fdzProject);
+    fdzProject = new FdzProjectBuilder().withName(UPDATED_FDZ_PROJECT_NAME)
+      .build();
+    fdzProjectRepository.insert(fdzProject);
+  }
 
-    @Test
-    public void checkTitleIsRequired() throws Exception {
-        int databaseSizeBeforeTest = surveyRepository.findAll().size();
-        // set the field null
-        survey.setTitle(null);
+  @After
+  public void cleanUp() {
+    surveyRepository.deleteAll();
+    fdzProjectRepository.deleteAll();
+  }
 
-        // Create the Survey, which fails.
+  @Test
+  public void createSurvey() throws Exception {
+    int databaseSizeBeforeCreate = 0;
+    // Create the Survey
 
-        restSurveyMockMvc.perform(post("/api/surveys")
-                .contentType(TestUtil.APPLICATION_JSON_UTF8)
-                .content(TestUtil.convertObjectToJsonBytes(survey)))
-                .andExpect(status().isBadRequest());
+    restSurveyMockMvc.perform(post("/api/surveys").contentType(TestUtil.APPLICATION_JSON_UTF8)
+      .content(TestUtil.convertObjectToJsonBytes(survey)))
+      .andExpect(status().isCreated());
 
-        List<Survey> surveys = surveyRepository.findAll();
-        assertThat(surveys).hasSize(databaseSizeBeforeTest);
-    }
+    // Validate the Survey in the database
+    List<Survey> surveys = surveyRepository.findAll();
+    assertThat(surveys).hasSize(databaseSizeBeforeCreate + 1);
+    Survey testSurvey = surveys.get(surveys.size() - 1);
+    assertThat(testSurvey.getTitle()
+      .getDe()).isEqualTo(DEFAULT_TITLE);
+    assertThat(testSurvey.getFieldPeriod()
+      .getStart()).isEqualTo(DEFAULT_FIELD_PERIOD);
+    assertThat(testSurvey.getFdzProjectName()).isEqualTo(DEFAULT_FDZ_PROJECT_NAME);
+  }
 
-    @Test
-    public void checkFieldPeriodIsRequired() throws Exception {
-        int databaseSizeBeforeTest = surveyRepository.findAll().size();
-        // set the field null
-        survey.setFieldPeriod(null);
+  @Test
+  public void checkTitleIsRequired() throws Exception {
+    int databaseSizeBeforeTest = 0;
+    // set the field null
+    survey.setTitle(null);
 
-        // Create the Survey, which fails.
+    // Create the Survey, which fails.
 
-        restSurveyMockMvc.perform(post("/api/surveys")
-                .contentType(TestUtil.APPLICATION_JSON_UTF8)
-                .content(TestUtil.convertObjectToJsonBytes(survey)))
-                .andExpect(status().isBadRequest());
+    restSurveyMockMvc.perform(post("/api/surveys").contentType(TestUtil.APPLICATION_JSON_UTF8)
+      .content(TestUtil.convertObjectToJsonBytes(survey)))
+      .andExpect(status().isBadRequest());
 
-        List<Survey> surveys = surveyRepository.findAll();
-        assertThat(surveys).hasSize(databaseSizeBeforeTest);
-    }
+    List<Survey> surveys = surveyRepository.findAll();
+    assertThat(surveys).hasSize(databaseSizeBeforeTest);
+  }
 
-    @Test
-    public void checkFdzProjectNameIsRequired() throws Exception {
-        int databaseSizeBeforeTest = surveyRepository.findAll().size();
-        // set the field null
-        survey.setFdzProjectName(null);
+  @Test
+  public void checkFieldPeriodIsRequired() throws Exception {
+    int databaseSizeBeforeTest = 0;
+    // set the field null
+    survey.setFieldPeriod(null);
 
-        // Create the Survey, which fails.
+    // Create the Survey, which fails.
 
-        restSurveyMockMvc.perform(post("/api/surveys")
-                .contentType(TestUtil.APPLICATION_JSON_UTF8)
-                .content(TestUtil.convertObjectToJsonBytes(survey)))
-                .andExpect(status().isBadRequest());
+    restSurveyMockMvc.perform(post("/api/surveys").contentType(TestUtil.APPLICATION_JSON_UTF8)
+      .content(TestUtil.convertObjectToJsonBytes(survey)))
+      .andExpect(status().isBadRequest());
 
-        List<Survey> surveys = surveyRepository.findAll();
-        assertThat(surveys).hasSize(databaseSizeBeforeTest);
-    }
+    List<Survey> surveys = surveyRepository.findAll();
+    assertThat(surveys).hasSize(databaseSizeBeforeTest);
+  }
 
-    @Test
-    public void getAllPagedSurveys() throws Exception {
-        // Initialize the database
-        surveyRepository.save(survey);
+  @Test
+  public void checkFieldPeriodIsInvalid() throws Exception {
+    int databaseSizeBeforeTest = 0;
+    // set the field null
+    survey.setFieldPeriod(new PeriodBuilder().withStart(LocalDate.now())
+      .withEnd(LocalDate.now()
+        .minusDays(1))
+      .build());
 
-        // Get all the surveys
-        restSurveyMockMvc.perform(get("/api/surveys?sort=id,desc"))
-                .andExpect(status().isOk())
-                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-                .andExpect(jsonPath("$.[*].id").value(hasItem(survey.getId())))
-                .andExpect(jsonPath("$.[*].title.de").value(hasItem(DEFAULT_TITLE.toString())))
-                .andExpect(jsonPath("$.[*].fieldPeriod.start").value(hasItem(DEFAULT_FIELD_PERIOD.toString())))
-                .andExpect(jsonPath("$.[*].fdzProjectName").value(hasItem(DEFAULT_FDZ_PROJECT_NAME.toString())));
-    }
-    
-    @Test
-    public void getAllSurveys() throws Exception {
-        // Initialize the database
-        surveyRepository.save(survey);
+    // Create the Survey, which fails.
 
-        // Get all the surveys
-        restSurveyMockMvc.perform(get("/api/surveys?getAll=true"))
-                .andExpect(status().isOk())
-                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-                .andExpect(jsonPath("$.[*].id").value(hasItem(survey.getId())))
-                .andExpect(jsonPath("$.[*].title.de").value(hasItem(DEFAULT_TITLE.toString())))
-                .andExpect(jsonPath("$.[*].fieldPeriod.start").value(hasItem(DEFAULT_FIELD_PERIOD.toString())))
-                .andExpect(jsonPath("$.[*].fdzProjectName").value(hasItem(DEFAULT_FDZ_PROJECT_NAME.toString())));
-    }
+    restSurveyMockMvc.perform(post("/api/surveys").contentType(TestUtil.APPLICATION_JSON_UTF8)
+      .content(TestUtil.convertObjectToJsonBytes(survey)))
+      .andExpect(status().isBadRequest());
 
-    @Test
-    public void getSurvey() throws Exception {
-        // Initialize the database
-        surveyRepository.save(survey);
+    List<Survey> surveys = surveyRepository.findAll();
+    assertThat(surveys).hasSize(databaseSizeBeforeTest);
+  }
+  
+  @Test
+  public void checkFieldPeriodIsValid() throws Exception {
+    int databaseSizeBeforeTest = 0;
+    // set the field null
+    LocalDate now = LocalDate.now();
+    survey.setFieldPeriod(new PeriodBuilder().withStart(now)
+      .withEnd(now)
+      .build());
 
-        // Get the survey
-        restSurveyMockMvc.perform(get("/api/surveys/{id}", survey.getId()))
-            .andExpect(status().isOk())
-            .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-            .andExpect(jsonPath("$.id").value(survey.getId()))
-            .andExpect(jsonPath("$.title.de").value(DEFAULT_TITLE.toString()))
-            .andExpect(jsonPath("$.fieldPeriod.start").value(DEFAULT_FIELD_PERIOD.toString()))
-            .andExpect(jsonPath("$.fdzProjectName").value(DEFAULT_FDZ_PROJECT_NAME.toString()));
-    }
+    // Create the Survey, which fails.
 
-    @Test
-    public void getNonExistingSurvey() throws Exception {
-        // Get the survey
-        restSurveyMockMvc.perform(get("/api/surveys/{id}", Long.MAX_VALUE))
-                .andExpect(status().isNotFound());
-    }
+    restSurveyMockMvc.perform(post("/api/surveys").contentType(TestUtil.APPLICATION_JSON_UTF8)
+      .content(TestUtil.convertObjectToJsonBytes(survey)))
+      .andExpect(status().isCreated());
 
-    @Test
-    public void updateSurvey() throws Exception {
-        // Initialize the database
-        surveyRepository.save(survey);
+    List<Survey> surveys = surveyRepository.findAll();
+    assertThat(surveys).hasSize(databaseSizeBeforeTest + 1);
+  }
 
-		int databaseSizeBeforeUpdate = surveyRepository.findAll().size();
+  @Test
+  public void checkFdzProjectNameIsRequired() throws Exception {
+    int databaseSizeBeforeTest = 0;
+    // set the field null
+    survey.setFdzProjectName(null);
 
-        // Update the survey
-		I18nString updatedTitle = new I18nStringBuilder().withDe(UPDATED_TITLE).withEn(UPDATED_TITLE).build();
-        survey.setTitle(updatedTitle);
-        survey.setFieldPeriod(new PeriodBuilder().withStart(UPDATED_FIELD_PERIOD).withEnd(UPDATED_FIELD_PERIOD).build());
-        survey.setFdzProjectName(UPDATED_FDZ_PROJECT_NAME);
+    // Create the Survey, which fails.
 
-        restSurveyMockMvc.perform(put("/api/surveys")
-                .contentType(TestUtil.APPLICATION_JSON_UTF8)
-                .content(TestUtil.convertObjectToJsonBytes(survey)))
-                .andExpect(status().isOk());
+    restSurveyMockMvc.perform(post("/api/surveys").contentType(TestUtil.APPLICATION_JSON_UTF8)
+      .content(TestUtil.convertObjectToJsonBytes(survey)))
+      .andExpect(status().isBadRequest());
 
-        // Validate the Survey in the database
-        List<Survey> surveys = surveyRepository.findAll();
-        assertThat(surveys).hasSize(databaseSizeBeforeUpdate);
-        Survey testSurvey = surveys.get(surveys.size() - 1);
-        assertThat(testSurvey.getTitle().getDe()).isEqualTo(UPDATED_TITLE);
-        assertThat(testSurvey.getFieldPeriod().getStart()).isEqualTo(UPDATED_FIELD_PERIOD);
-        assertThat(testSurvey.getFdzProjectName()).isEqualTo(UPDATED_FDZ_PROJECT_NAME);
-    }
+    List<Survey> surveys = surveyRepository.findAll();
+    assertThat(surveys).hasSize(databaseSizeBeforeTest);
+  }
 
-    @Test
-    public void deleteSurvey() throws Exception {
-        // Initialize the database
-        surveyRepository.save(survey);
+  @Test
+  public void getAllPagedSurveys() throws Exception {
+    // Initialize the database
+    surveyRepository.save(survey);
 
-		int databaseSizeBeforeDelete = surveyRepository.findAll().size();
+    // Get all the surveys
+    restSurveyMockMvc.perform(get("/api/surveys?sort=id,desc"))
+      .andExpect(status().isOk())
+      .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+      .andExpect(jsonPath("$.[*].id").value(hasItem(survey.getId())))
+      .andExpect(jsonPath("$.[*].title.de").value(hasItem(DEFAULT_TITLE.toString())))
+      .andExpect(
+          jsonPath("$.[*].fieldPeriod.start").value(hasItem(DEFAULT_FIELD_PERIOD.toString())))
+      .andExpect(
+          jsonPath("$.[*].fdzProjectName").value(hasItem(DEFAULT_FDZ_PROJECT_NAME.toString())));
+  }
 
-        // Get the survey
-        restSurveyMockMvc.perform(delete("/api/surveys/{id}", survey.getId())
-                .accept(TestUtil.APPLICATION_JSON_UTF8))
-                .andExpect(status().isOk());
+  @Test
+  public void getAllSurveys() throws Exception {
+    // Initialize the database
+    surveyRepository.save(survey);
 
-        // Validate the database is empty
-        List<Survey> surveys = surveyRepository.findAll();
-        assertThat(surveys).hasSize(databaseSizeBeforeDelete - 1);
-    }
+    // Get all the surveys
+    restSurveyMockMvc.perform(get("/api/surveys?getAll=true"))
+      .andExpect(status().isOk())
+      .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+      .andExpect(jsonPath("$.[*].id").value(hasItem(survey.getId())))
+      .andExpect(jsonPath("$.[*].title.de").value(hasItem(DEFAULT_TITLE.toString())))
+      .andExpect(
+          jsonPath("$.[*].fieldPeriod.start").value(hasItem(DEFAULT_FIELD_PERIOD.toString())))
+      .andExpect(
+          jsonPath("$.[*].fdzProjectName").value(hasItem(DEFAULT_FDZ_PROJECT_NAME.toString())));
+  }
+
+  @Test
+  public void getSurvey() throws Exception {
+    // Initialize the database
+    surveyRepository.save(survey);
+
+    // Get the survey
+    restSurveyMockMvc.perform(get("/api/surveys/{id}", survey.getId()))
+      .andExpect(status().isOk())
+      .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+      .andExpect(jsonPath("$.id").value(survey.getId()))
+      .andExpect(jsonPath("$.title.de").value(DEFAULT_TITLE.toString()))
+      .andExpect(jsonPath("$.fieldPeriod.start").value(DEFAULT_FIELD_PERIOD.toString()))
+      .andExpect(jsonPath("$.fdzProjectName").value(DEFAULT_FDZ_PROJECT_NAME.toString()));
+  }
+
+  @Test
+  public void getNonExistingSurvey() throws Exception {
+    // Get the survey
+    restSurveyMockMvc.perform(get("/api/surveys/{id}", Long.MAX_VALUE))
+      .andExpect(status().isNotFound());
+  }
+
+  @Test
+  public void updateSurvey() throws Exception {
+    // Initialize the database
+    surveyRepository.save(survey);
+
+    int databaseSizeBeforeUpdate = 1;
+
+    // Update the survey
+    I18nString updatedTitle = new I18nStringBuilder().withDe(UPDATED_TITLE)
+      .withEn(UPDATED_TITLE)
+      .build();
+    survey.setTitle(updatedTitle);
+    survey.setFieldPeriod(new PeriodBuilder().withStart(UPDATED_FIELD_PERIOD)
+      .withEnd(UPDATED_FIELD_PERIOD)
+      .build());
+    survey.setFdzProjectName(UPDATED_FDZ_PROJECT_NAME);
+
+    restSurveyMockMvc.perform(put("/api/surveys").contentType(TestUtil.APPLICATION_JSON_UTF8)
+      .content(TestUtil.convertObjectToJsonBytes(survey)))
+      .andExpect(status().isOk());
+
+    // Validate the Survey in the database
+    List<Survey> surveys = surveyRepository.findAll();
+    assertThat(surveys).hasSize(databaseSizeBeforeUpdate);
+    Survey testSurvey = surveys.get(surveys.size() - 1);
+    assertThat(testSurvey.getTitle()
+      .getDe()).isEqualTo(UPDATED_TITLE);
+    assertThat(testSurvey.getFieldPeriod()
+      .getStart()).isEqualTo(UPDATED_FIELD_PERIOD);
+    assertThat(testSurvey.getFdzProjectName()).isEqualTo(UPDATED_FDZ_PROJECT_NAME);
+  }
+
+  @Test
+  public void deleteSurvey() throws Exception {
+    // Initialize the database
+    surveyRepository.save(survey);
+
+    int databaseSizeBeforeDelete = 1;
+
+    // Get the survey
+    restSurveyMockMvc
+      .perform(delete("/api/surveys/{id}", survey.getId()).accept(TestUtil.APPLICATION_JSON_UTF8))
+      .andExpect(status().isOk());
+
+    // Validate the database is empty
+    List<Survey> surveys = surveyRepository.findAll();
+    assertThat(surveys).hasSize(databaseSizeBeforeDelete - 1);
+  }
 }

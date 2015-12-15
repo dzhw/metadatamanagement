@@ -3,6 +3,7 @@ package eu.dzhw.fdz.metadatamanagement.domain;
 import java.io.Serializable;
 import java.util.Objects;
 
+import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 
@@ -35,6 +36,7 @@ public class Survey implements Serializable {
   private I18nString title;
 
   @NotNull
+  @Valid
   @Field("field_period")
   private Period fieldPeriod;
 
