@@ -9,12 +9,12 @@ angular.module('metadatamanagementApp')
           transformResponse: function(data) {
             // data might be empty if 404
             if (data) {
-            data = angular.fromJson(data);
-            data.fieldPeriod.start =
-              DateUtils.convertLocaleDateFromServer(data.fieldPeriod.start);
-            data.fieldPeriod.end =
+              data = angular.fromJson(data);
+              data.fieldPeriod.start =
+                DateUtils.convertLocaleDateFromServer(data.fieldPeriod.start);
+              data.fieldPeriod.end =
                 DateUtils.convertLocaleDateFromServer(data.fieldPeriod.end);
-            return data;
+              return data;
             }
           }
         },
@@ -24,7 +24,7 @@ angular.module('metadatamanagementApp')
             data.fieldPeriod.start =
               DateUtils.convertLocaleDateToServer(data.fieldPeriod.start);
             data.fieldPeriod.end =
-                DateUtils.convertLocaleDateToServer(data.fieldPeriod.end);
+              DateUtils.convertLocaleDateToServer(data.fieldPeriod.end);
             return angular.toJson(data);
           }
         },

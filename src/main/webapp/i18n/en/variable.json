@@ -21,7 +21,8 @@
       "dataType": "DataType",
       "scaleLevel": "ScaleLevel",
       "label": "Label",
-      "fdzProjectName": "FDZ Project Name"
+      "fdzProjectName": "FDZ Project Name",
+      "surveyId": "Survey (FDZ ID)"
     }
   }
 }
