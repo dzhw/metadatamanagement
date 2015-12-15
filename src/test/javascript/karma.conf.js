@@ -14,7 +14,6 @@ module.exports = function (config) {
             // bower:js
             'src/main/webapp/bower_components/modernizr/modernizr.js',
             'src/main/webapp/bower_components/jquery/dist/jquery.js',
-            'src/main/webapp/bower_components/bind-polyfill/index.js',
             'src/main/webapp/bower_components/angular/angular.js',
             'src/main/webapp/bower_components/angular-aria/angular-aria.js',
             'src/main/webapp/bower_components/angular-bootstrap/ui-bootstrap-tpls.js',
@@ -64,7 +63,8 @@ module.exports = function (config) {
         // list of files / patterns to exclude
         exclude: ['src/main/webapp/bower_components/pdfjs-dist/build/pdf.js',
                   'src/main/webapp/bower_components/pdfjs-dist/build/pdf.worker.js',
-                  'src/main/webapp/scripts/components/pdfviewer/viewer.js'],
+                  'src/main/webapp/scripts/components/pdfviewer/viewer.js',
+                  'src/main/webapp/scripts/components/angular-pdf-viewer/js/angular-pdf-viewer.js'],
 
         preprocessors: {
             'src/main/webapp/scripts/**/*.js': ['coverage']
