@@ -76,6 +76,7 @@ public class WebConfigurer implements ServletContextInitializer, EmbeddedServlet
         mappings.add("eot", "application/vnd.ms-fontobject");
         mappings.add("sfnt", "application/font-sfnt");
         mappings.add("odt", "application/vnd.oasis.opendocument.text");
+        mappings.add("pdf", "application/pdf");
         
         container.setMimeMappings(mappings);
     }
