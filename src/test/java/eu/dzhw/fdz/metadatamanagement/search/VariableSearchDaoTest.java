@@ -171,4 +171,44 @@ public class VariableSearchDaoTest extends AbstractTest {
 
     // Assert
   }
+  
+  @Test
+  public void testDeleteByFdzProjectName() {
+    String fdzProjectName = "FDZ Project";
+    VariableSearchDocument variableSearchDocument =
+        new VariableSearchDocumentBuilder().withId("1234")
+          .withDataType("string")
+          .withLabel("label")
+          .withName("name")
+          .withScaleLevel("nominal")
+          .withFdzProjectName(fdzProjectName)
+          .build();
+    variableSearchDao.save(variableSearchDocument, ElasticsearchAdminDaoTest.TEST_INDEX);
+    
+    variableSearchDao.deleteByFdzProjectName(fdzProjectName, ElasticsearchAdminDaoTest.TEST_INDEX);
+
+    elasticsearchAdminDao.refresh(ElasticsearchAdminDaoTest.TEST_INDEX);
+    
+    assertThat(variableSearchDao.findAll(ElasticsearchAdminDaoTest.TEST_INDEX).size(),equalTo(0));
+  }
+  
+  @Test
+  public void testDeleteBySurveyId() {
+    String surveyId = "12345678";
+    VariableSearchDocument variableSearchDocument =
+        new VariableSearchDocumentBuilder().withId("1234")
+          .withDataType("string")
+          .withLabel("label")
+          .withName("name")
+          .withScaleLevel("nominal")
+          .withSurveyId(surveyId)
+          .build();
+    variableSearchDao.save(variableSearchDocument, ElasticsearchAdminDaoTest.TEST_INDEX);
+    
+    variableSearchDao.deleteBySurveyId(surveyId, ElasticsearchAdminDaoTest.TEST_INDEX);
+
+    elasticsearchAdminDao.refresh(ElasticsearchAdminDaoTest.TEST_INDEX);
+    
+    assertThat(variableSearchDao.findAll(ElasticsearchAdminDaoTest.TEST_INDEX).size(),equalTo(0));
+  }
 }

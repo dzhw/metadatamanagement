@@ -124,6 +124,26 @@ public class VariableSearchDao {
     }
   }
 
+  private void deleteByField(String fieldName, String value, String index) {
+    SearchSourceBuilder queryBuilder = new SearchSourceBuilder();
+    queryBuilder.query(QueryBuilders.matchQuery(fieldName, value));
+    JestResult result = execute(new DeleteByQuery.Builder(queryBuilder.toString()).addIndex(index)
+        .addType(TYPE)
+        .build());
+    if (!result.isSucceeded()) {
+      throw new ElasticsearchDocumentDeleteException(
+          index, TYPE, fieldName, value, result.getErrorMessage());
+    }
+  }
+  
+  public void deleteByFdzProjectName(String fdzProjectName, String index) {
+    deleteByField("fdzProjectName", fdzProjectName, index);
+  }
+  
+  public void deleteBySurveyId(String surveyId, String index) {
+    deleteByField("surveyId", surveyId, index);
+  }
+
   /**
    * Delete all {@link VariableSearchDocument} documents from the given index.
    * 

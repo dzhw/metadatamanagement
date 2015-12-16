@@ -18,4 +18,10 @@ public class ElasticsearchDocumentDeleteException extends RuntimeException {
     super("Unable to delete all documents of type " + type + " from index " + index
         + ": " + reason);
   }
+
+  public ElasticsearchDocumentDeleteException(String index, String type, String fieldName,
+      String value, String reason) {
+    super("Unable to delete Document (field=" + fieldName + ", value=" + value 
+        + ") of type " + type  + " from index " + index + ": " + reason);
+  }
 }

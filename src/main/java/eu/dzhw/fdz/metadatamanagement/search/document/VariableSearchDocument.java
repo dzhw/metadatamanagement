@@ -22,6 +22,10 @@ public class VariableSearchDocument {
   private String label;
 
   private String name;
+  
+  private String fdzProjectName;
+  
+  private String surveyId;
 
   public VariableSearchDocument() {}
 
@@ -38,6 +42,8 @@ public class VariableSearchDocument {
     this.scaleLevel = variable.getScaleLevel().toString();
     this.label = variable.getLabel();
     this.name = variable.getName();
+    this.surveyId = variable.getSurveyId();
+    this.fdzProjectName = variable.getFdzProjectName();
   }
 
   public String getId() {
@@ -78,5 +84,21 @@ public class VariableSearchDocument {
 
   public void setName(String name) {
     this.name = name;
+  }
+
+  public String getFdzProjectName() {
+    return fdzProjectName;
+  }
+
+  public void setFdzProjectName(String fdzProjectName) {
+    this.fdzProjectName = fdzProjectName;
+  }
+
+  public String getSurveyId() {
+    return surveyId;
+  }
+
+  public void setSurveyId(String surveyId) {
+    this.surveyId = surveyId;
   }
 }

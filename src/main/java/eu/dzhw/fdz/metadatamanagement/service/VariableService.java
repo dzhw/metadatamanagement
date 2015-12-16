@@ -144,7 +144,11 @@ public class VariableService {
    */
   public List<Variable> deleteByFdzProjectName(String fdzProjectName) {
     log.debug("Request to delete fdz project name : {}", fdzProjectName);
-    List<Variable> deletedVariables = this.variableRepository.deleteBySurveyId(fdzProjectName);
+    List<Variable> deletedVariables = 
+        this.variableRepository.deleteByFdzProjectName(fdzProjectName);
+    for (String index : ElasticsearchAdminService.INDICES) {
+      this.variableSearchDao.deleteByFdzProjectName(fdzProjectName, index);      
+    }
     log.debug("Deleted variables[{}] by fdz project name: {}", deletedVariables.size(),
         fdzProjectName);
     return deletedVariables;
@@ -158,6 +162,9 @@ public class VariableService {
   public List<Variable> deleteBySurveyId(String surveyId) {
     log.debug("Request to delete variables by survey id : {}", surveyId);
     List<Variable> deletedVariables = this.variableRepository.deleteBySurveyId(surveyId);
+    for (String index : ElasticsearchAdminService.INDICES) {
+      this.variableSearchDao.deleteBySurveyId(surveyId, index);      
+    }
     log.debug("Deleted variables[{}] by survey id: {}", deletedVariables.size(), surveyId);
     return deletedVariables;
   }
