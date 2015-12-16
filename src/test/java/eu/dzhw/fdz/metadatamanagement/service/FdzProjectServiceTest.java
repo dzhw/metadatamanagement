@@ -11,7 +11,6 @@ import java.time.LocalDate;
 import java.util.List;
 
 import javax.inject.Inject;
-import javax.validation.Validator;
 
 import org.junit.After;
 import org.junit.Before;
@@ -33,7 +32,6 @@ import eu.dzhw.fdz.metadatamanagement.repository.SurveyRepository;
 import eu.dzhw.fdz.metadatamanagement.repository.VariableRepository;
 import eu.dzhw.fdz.metadatamanagement.service.exception.EntityExistsException;
 import eu.dzhw.fdz.metadatamanagement.service.exception.EntityNotFoundException;
-import eu.dzhw.fdz.metadatamanagement.unittest.util.UnitTestUtils;
 
 /**
  * @author Daniel Katzberg
@@ -53,8 +51,6 @@ public class FdzProjectServiceTest extends AbstractTest {
   @Inject
   private FdzProjectService fdzProjectService;
   
-  @Inject
-  private Validator validator;
 
   private FdzProject fdzProject;
 
@@ -128,8 +124,7 @@ public class FdzProjectServiceTest extends AbstractTest {
         .build())
       .withId("Id2")
       .build();
-    UnitTestUtils<Survey> testUtils = new UnitTestUtils<>();
-    testUtils.checkAndPrintValidation(survey, this.validator);
+    
     this.surveyRepository.insert(survey);
     this.surveyRepository.insert(survey2);
 

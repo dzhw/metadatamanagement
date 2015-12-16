@@ -4,6 +4,7 @@
 package eu.dzhw.fdz.metadatamanagement.service;
 
 import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.CoreMatchers.nullValue;
 import static org.junit.Assert.assertThat;
 
 import java.time.LocalDate;
@@ -17,12 +18,17 @@ import org.junit.Test;
 import eu.dzhw.fdz.metadatamanagement.AbstractTest;
 import eu.dzhw.fdz.metadatamanagement.domain.FdzProject;
 import eu.dzhw.fdz.metadatamanagement.domain.Survey;
+import eu.dzhw.fdz.metadatamanagement.domain.Variable;
 import eu.dzhw.fdz.metadatamanagement.domain.builders.FdzProjectBuilder;
 import eu.dzhw.fdz.metadatamanagement.domain.builders.I18nStringBuilder;
 import eu.dzhw.fdz.metadatamanagement.domain.builders.PeriodBuilder;
 import eu.dzhw.fdz.metadatamanagement.domain.builders.SurveyBuilder;
+import eu.dzhw.fdz.metadatamanagement.domain.builders.VariableBuilder;
+import eu.dzhw.fdz.metadatamanagement.domain.enumeration.DataType;
+import eu.dzhw.fdz.metadatamanagement.domain.enumeration.ScaleLevel;
 import eu.dzhw.fdz.metadatamanagement.repository.FdzProjectRepository;
 import eu.dzhw.fdz.metadatamanagement.repository.SurveyRepository;
+import eu.dzhw.fdz.metadatamanagement.repository.VariableRepository;
 import eu.dzhw.fdz.metadatamanagement.service.exception.EntityExistsException;
 import eu.dzhw.fdz.metadatamanagement.service.exception.EntityNotFoundException;
 
@@ -41,6 +47,9 @@ public class SurveyServiceTest extends AbstractTest {
 
   @Inject
   private SurveyService surveyService;
+  
+  @Inject
+  private VariableRepository variableRepository;
 
   private Survey survey;
 
@@ -126,5 +135,51 @@ public class SurveyServiceTest extends AbstractTest {
     assertThat(checkSame, is(true));
     assertThat(checkDifferent, is(false));
     assertThat(checkSameButDifferent, is(true));
+  }
+  
+  @Test
+  public void testDeleteProject() {
+    // Arrange
+    this.surveyRepository.insert(this.survey);
+
+    Variable variable1 = new VariableBuilder().withDataType(DataType.string)
+      .withScaleLevel(ScaleLevel.ordinal)
+      .withId("Id1")
+      .withFdzProjectName(TEST_PROJECT)
+      .withSurveyId("Id")
+      .withName("Name1")
+      .withLabel("Label")
+      .build();
+
+    Variable variable2 = new VariableBuilder().withDataType(DataType.string)
+      .withScaleLevel(ScaleLevel.ordinal)
+      .withId("Id2")
+      .withFdzProjectName(TEST_PROJECT)
+      .withSurveyId("Id")
+      .withName("Name2")
+      .withLabel("Label")
+      .build();
+
+    Variable variable3 = new VariableBuilder().withDataType(DataType.string)
+      .withScaleLevel(ScaleLevel.ordinal)
+      .withId("Id3")
+      .withFdzProjectName(TEST_PROJECT)
+      .withSurveyId("Id")
+      .withName("Name3")
+      .withLabel("Label")
+      .build();
+
+    this.variableRepository.save(variable1);
+    this.variableRepository.save(variable2);
+    this.variableRepository.save(variable3);
+
+    // Act
+    this.surveyService.delete("Id");
+
+    // Assert
+    assertThat(this.surveyRepository.findOne("Id"), is(nullValue()));
+    assertThat(this.variableRepository.findOne("Id1"), is(nullValue()));
+    assertThat(this.variableRepository.findOne("Id2"), is(nullValue()));
+    assertThat(this.variableRepository.findOne("Id3"), is(nullValue()));
   }
 }

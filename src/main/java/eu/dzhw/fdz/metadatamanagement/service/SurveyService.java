@@ -109,6 +109,7 @@ public class SurveyService {
   public void delete(String id) {
     log.debug("Request to delete Survey : {}", id);
     this.surveyRepository.delete(id);
+    this.variableService.deleteBySurveyId(id);
   }
 
 
