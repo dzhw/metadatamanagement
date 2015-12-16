@@ -30,6 +30,12 @@ public class FdzProjectService {
   @Inject
   private FdzProjectRepository fdzProjectRepository;
 
+  @Inject
+  private SurveyService surveyService;
+
+  @Inject
+  private VariableService variableService;
+
   /**
    * Create a fdz project in mongo and elasticsearch.
    * 
@@ -43,11 +49,11 @@ public class FdzProjectService {
     } catch (DuplicateKeyException e) {
       throw new EntityExistsException(FdzProject.class, fdzProject.getName());
     }
-    //TODO create search index for projects
-    //updateSearchIndices(fdzProject);
+    // TODO create search index for projects
+    // updateSearchIndices(fdzProject);
     return fdzProject;
   }
-  
+
   /**
    * Update an existing variable in mongo and elasticsearch.
    * 
@@ -60,8 +66,8 @@ public class FdzProjectService {
       throw new EntityNotFoundException(FdzProject.class, fdzProject.getName());
     }
     fdzProject = fdzProjectRepository.save(fdzProject);
-    //TODO create search index for projects
-    //updateSearchIndices(fdzProject);
+    // TODO create search index for projects
+    // updateSearchIndices(fdzProject);
     return fdzProject;
   }
 
@@ -75,7 +81,7 @@ public class FdzProjectService {
     Page<FdzProject> result = fdzProjectRepository.findAll(pageable);
     return result;
   }
-  
+
   /**
    * @return All FdZProjects within a list and without a pageable object.
    */
@@ -100,9 +106,19 @@ public class FdzProjectService {
    */
   public void delete(String name) {
     log.debug("Request to delete FdzProject : {}", name);
-    fdzProjectRepository.delete(name);
+    //delete project
+    this.fdzProjectRepository.delete(name);
+    
+    //delete surveys
+    this.surveyService.deleteByFdzProjectName(name);
+    
+    //delete variables
+    this.variableService.deleteByFdzProjectName(name);
   }
-  
+
+  /**
+   * Deletes all fdz projects.
+   */
   public void deleteAll() {
     fdzProjectRepository.deleteAll();
   }

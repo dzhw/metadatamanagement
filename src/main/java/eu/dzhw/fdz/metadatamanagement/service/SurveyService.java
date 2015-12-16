@@ -18,6 +18,9 @@ import eu.dzhw.fdz.metadatamanagement.service.exception.EntityNotFoundException;
 
 /**
  * Service Implementation for managing Survey.
+ * 
+ * @author JHipster
+ * @author Daniel Katzberg
  */
 @Service
 public class SurveyService {
@@ -26,6 +29,9 @@ public class SurveyService {
 
   @Inject
   private SurveyRepository surveyRepository;
+
+  @Inject
+  private VariableService variableService;
 
   /**
    * Create a survey in mongo and elasticsearch.
@@ -72,7 +78,7 @@ public class SurveyService {
     Page<Survey> result = surveyRepository.findAll(pageable);
     return result;
   }
-  
+
   /**
    * get all the surveys.
    * 
@@ -96,15 +102,36 @@ public class SurveyService {
   }
 
   /**
-   * delete the survey by id.
+   * Delete the survey by id and all variables with the survey id.
+   * 
+   * @param id The id of a survey.
    */
   public void delete(String id) {
     log.debug("Request to delete Survey : {}", id);
-    surveyRepository.delete(id);
+    this.surveyRepository.delete(id);
   }
-  
+
+
+  /**
+   * Delete the survey by id and all variables with the survey id.
+   * 
+   * @param fdzProjectName The name of a fdz project.
+   */
+  public void deleteByFdzProjectName(String fdzProjectName) {
+    log.debug("Request to delete Survey by fdz project name : {}", fdzProjectName);
+    List<Survey> deletedSurveys = this.surveyRepository.deleteByFdzProjectName(fdzProjectName);
+    log.debug("Delete Surveys[{}] by fdz project name : {}", deletedSurveys.size(), fdzProjectName);
+    for (Survey deletedSurvey : deletedSurveys) {
+      this.variableService.deleteBySurveyId(deletedSurvey.getId());
+    }
+  }
+
+  /**
+   * Deletes all surveys.
+   */
   public void deleteAll() {
     log.debug("Request to delete all surveys.");
     surveyRepository.deleteAll();
+
   }
 }

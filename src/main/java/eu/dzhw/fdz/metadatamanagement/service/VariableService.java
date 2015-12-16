@@ -5,6 +5,8 @@ import java.util.List;
 
 import javax.inject.Inject;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -28,7 +30,7 @@ import eu.dzhw.fdz.metadatamanagement.service.exception.EntityNotFoundException;
 @Service
 public class VariableService {
 
-  // private final Logger log = LoggerFactory.getLogger(VariableService.class);
+  private final Logger log = LoggerFactory.getLogger(VariableService.class);
 
   @Inject
   private VariableRepository variableRepository;
@@ -134,14 +136,39 @@ public class VariableService {
       throw new EntityExistsException(Variable.class, fields);
     }
   }
+
+  /**
+   * Deletes all variables by id by fdzProjectName..
+   * 
+   * @param fdzProjectName The project name of a survey.
+   */
+  public List<Variable> deleteByFdzProjectName(String fdzProjectName) {
+    log.debug("Request to delete fdz project name : {}", fdzProjectName);
+    List<Variable> deletedVariables = this.variableRepository.deleteBySurveyId(fdzProjectName);
+    log.debug("Deleted variables[{}] by fdz project name: {}", deletedVariables.size(),
+        fdzProjectName);
+    return deletedVariables;
+  }
   
+  /**
+   * Deletes all variables by a survey id.
+   * 
+   * @param surveyId The id of a survey.
+   */
+  public List<Variable> deleteBySurveyId(String surveyId) {
+    log.debug("Request to delete variables by survey id : {}", surveyId);
+    List<Variable> deletedVariables = this.variableRepository.deleteBySurveyId(surveyId);
+    log.debug("Deleted variables[{}] by survey id: {}", deletedVariables.size(), surveyId);
+    return deletedVariables;
+  }
+
   /**
    * Delete all variables from mongo and elasticsearch.
    */
   public void deleteAll() {
     variableRepository.deleteAll();
     for (String index : ElasticsearchAdminService.INDICES) {
-      variableSearchDao.deleteAll(index);      
+      variableSearchDao.deleteAll(index);
     }
   }
 
