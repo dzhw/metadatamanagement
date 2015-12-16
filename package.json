@@ -49,7 +49,7 @@
     "phantomjs": "1.9.19",
     "requirejs": "2.1",
     "time-grunt": "1.2.2",
-    "wiredep": "3.0.0-beta",
+    "wiredep": "3.0.0",
     "xml2js": "0.4.15",
     "yo": ">=1.5.0",
     "zeparser": "0.0.7"
