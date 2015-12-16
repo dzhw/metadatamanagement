@@ -115,10 +115,12 @@
       "pattern": "This field should follow pattern {{pattern}}.",
       "number": "This field should be a number.",
       "datetimelocal": "This field should be a date and time.",
-      "dateorder": "The time order of start and end of field time is incorrect.",
       "fdzid": "The FDZ ID must contain only letters, digits and underscore.",
       "variable": {
         "name": "The name of a variable must contain only letters, digits and underscore."
+      },
+      "survey": {
+        "period": "The begin of the field period must be before the end."
       },
       "fdzProject": {
         "name": "The name of the project must contain only letters, digits and spaces."
