@@ -3,6 +3,9 @@
  */
 package eu.dzhw.fdz.metadatamanagement.service;
 
+import static org.hamcrest.CoreMatchers.is;
+import static org.junit.Assert.assertThat;
+
 import java.time.LocalDate;
 
 import javax.inject.Inject;
@@ -27,12 +30,12 @@ import eu.dzhw.fdz.metadatamanagement.service.exception.EntityNotFoundException;
  * @author Daniel Katzberg
  *
  */
-public class SurveyServiceTest extends AbstractTest{
+public class SurveyServiceTest extends AbstractTest {
   private static final String TEST_PROJECT = "Project1";
 
   @Inject
   private SurveyRepository surveyRepository;
-  
+
   @Inject
   private FdzProjectRepository fdzProjectRepository;
 
@@ -40,18 +43,23 @@ public class SurveyServiceTest extends AbstractTest{
   private SurveyService surveyService;
 
   private Survey survey;
-  
+
   private FdzProject fdzProject;
 
   @Before
   public void beforeTest() {
     this.survey = new SurveyBuilder().withFdzProjectName(TEST_PROJECT)
-      .withTitle(new I18nStringBuilder().withDe("titel").withEn("titel").build())
-      .withFieldPeriod(new PeriodBuilder().withStart(LocalDate.now()).withEnd(LocalDate.now()).build())
+      .withTitle(new I18nStringBuilder().withDe("titel")
+        .withEn("titel")
+        .build())
+      .withFieldPeriod(new PeriodBuilder().withStart(LocalDate.now())
+        .withEnd(LocalDate.now())
+        .build())
       .withId("Id")
       .build();
-    
-    this.fdzProject = new FdzProjectBuilder().withName(TEST_PROJECT).build();
+
+    this.fdzProject = new FdzProjectBuilder().withName(TEST_PROJECT)
+      .build();
     this.fdzProjectRepository.insert(fdzProject);
   }
 
@@ -80,5 +88,43 @@ public class SurveyServiceTest extends AbstractTest{
     this.surveyService.updateSurvey(this.survey);
 
     // Assert
+  }
+
+  @Test
+  public void testEquals() {
+    
+    // Arrange
+    Survey survey2 = new SurveyBuilder().withFdzProjectName(TEST_PROJECT)
+      .withTitle(new I18nStringBuilder().withDe("titel")
+        .withEn("titel")
+        .build())
+      .withFieldPeriod(new PeriodBuilder().withStart(LocalDate.now())
+        .withEnd(LocalDate.now())
+        .build())
+      .withId("Id2")
+      .build();
+    Survey survey1_1 = new SurveyBuilder().withFdzProjectName(TEST_PROJECT)
+      .withTitle(new I18nStringBuilder().withDe("titel")
+        .withEn("titel")
+        .build())
+      .withFieldPeriod(new PeriodBuilder().withStart(LocalDate.now())
+        .withEnd(LocalDate.now())
+        .build())
+      .withId("Id")
+      .build();
+
+    // Act
+    boolean checkNull = this.survey.equals(null);
+    boolean checkClass = this.survey.equals(new Object());
+    boolean checkSame = this.survey.equals(this.survey);
+    boolean checkDifferent = this.survey.equals(survey2);
+    boolean checkSameButDifferent = this.survey.equals(survey1_1);
+
+    // Assert
+    assertThat(checkNull, is(false));
+    assertThat(checkClass, is(false));
+    assertThat(checkSame, is(true));
+    assertThat(checkDifferent, is(false));
+    assertThat(checkSameButDifferent, is(true));
   }
 }

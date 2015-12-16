@@ -18,6 +18,7 @@ import eu.dzhw.fdz.metadatamanagement.AbstractTest;
 import eu.dzhw.fdz.metadatamanagement.domain.User;
 import eu.dzhw.fdz.metadatamanagement.domain.builders.UserBuilder;
 import eu.dzhw.fdz.metadatamanagement.repository.UserRepository;
+import eu.dzhw.fdz.metadatamanagement.security.SecurityUtils;
 import eu.dzhw.fdz.metadatamanagement.service.util.RandomUtil;
 import eu.dzhw.fdz.metadatamanagement.unittest.util.UnitTestUtils;
 
@@ -196,5 +197,31 @@ public class UserServiceTest extends AbstractTest {
       .size(), is(2));
     assertThat(user.getEmail(), is("admin@localhost"));
     assertThat(user.getId(), is("user-2"));
+  }
+
+  @Test
+  public void testChangePassword() {
+    // Arrange
+    ZonedDateTime now = ZonedDateTime.now();
+    User user = new UserBuilder().withLogin("user1login")
+      .withPassword(this.passwordEncoder.encode("User1Password"))
+      .withCreatedDate(now.minusDays(4))
+      .withActivated(false)
+      .build();
+    user = this.userRepository.save(user);
+    UnitTestUtils.login("user1login", "User1Password");
+
+    // Act
+    this.userService.changePassword("User2Password");
+    UnitTestUtils.logout();
+    UnitTestUtils.login("user1login", "User2Password");
+
+    // Assert
+    assertThat(this.userRepository.findOneByLogin(SecurityUtils.getCurrentUserLogin())
+      .get()
+      .getId(), is(user.getId()));
+
+    this.userRepository.delete(user.getId());
+    UnitTestUtils.logout();
   }
 }

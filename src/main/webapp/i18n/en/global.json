@@ -128,7 +128,6 @@
   "error": {
     "serverNotReachable": "Server not reachable",
     "NotNull": "Field {{fieldName}} cannot be empty!",
-    "ValidPeriod": "Invalid Period: Begin must be less than or equal to end.",
     "entity": {
       "exists": "There is already a {{params[0]}} with ID \"{{params[1]}}\"!",
       "compoundexists": "There is already a \"{{params[0]}}\" with the field combination \"{{params[1]}}\"!",

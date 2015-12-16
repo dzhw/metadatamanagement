@@ -127,7 +127,6 @@
   "error": {
     "serverNotReachable": "Der Server ist nicht erreichbar!",
     "NotNull": "Das Feld {{fieldName}} darf nicht leer sein!",
-    "ValidPeriod": "Ungültiger Zeitraum: Beginn muss vor oder gleich Ende sein.",
     "entity": {
       "exists": "Ein Datensatz vom Typ \"{{params[0]}}\" mit ID \"{{params[1]}}\" existiert bereits!",
       "compoundexists": "Ein Datensatz vom Typ \"{{params[0]}}\" und der Felderkombination \"{{params[1]}}\" existiert bereits!",
