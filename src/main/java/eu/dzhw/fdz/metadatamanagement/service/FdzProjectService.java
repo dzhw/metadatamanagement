@@ -6,6 +6,7 @@ import javax.inject.Inject;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -13,6 +14,7 @@ import org.springframework.stereotype.Service;
 
 import eu.dzhw.fdz.metadatamanagement.domain.FdzProject;
 import eu.dzhw.fdz.metadatamanagement.repository.FdzProjectRepository;
+import eu.dzhw.fdz.metadatamanagement.service.event.FdzProjectDeleteEvent;
 import eu.dzhw.fdz.metadatamanagement.service.exception.EntityExistsException;
 import eu.dzhw.fdz.metadatamanagement.service.exception.EntityNotFoundException;
 
@@ -31,10 +33,7 @@ public class FdzProjectService {
   private FdzProjectRepository fdzProjectRepository;
 
   @Inject
-  private SurveyService surveyService;
-
-  @Inject
-  private VariableService variableService;
+  private ApplicationEventPublisher applicationEventPublisher;
 
   /**
    * Create a fdz project in mongo and elasticsearch.
@@ -106,14 +105,12 @@ public class FdzProjectService {
    */
   public void delete(String name) {
     log.debug("Request to delete FdzProject : {}", name);
-    //delete project
+    // delete project
     this.fdzProjectRepository.delete(name);
-    
-    //delete surveys
-    this.surveyService.deleteByFdzProjectName(name);
-    
-    //delete variables
-    this.variableService.deleteByFdzProjectName(name);
+
+    // delete surveys and variables
+    this.applicationEventPublisher.publishEvent(new FdzProjectDeleteEvent(name));
+
   }
 
   /**

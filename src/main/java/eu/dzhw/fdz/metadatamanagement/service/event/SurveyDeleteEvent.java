@@ -2,8 +2,12 @@ package eu.dzhw.fdz.metadatamanagement.service.event;
 
 import org.springframework.context.ApplicationEvent;
 
+import eu.dzhw.fdz.metadatamanagement.service.SurveyService;
+
 /**
  * This Event will be fired by the SurveyService, if a survey will be delete.
+ * 
+ * @see SurveyService
  * 
  * @author Daniel Katzberg
  *
