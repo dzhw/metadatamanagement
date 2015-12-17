@@ -2,32 +2,11 @@
 
 describe('Specification for app ', function () {
         var event, toState, toParams, fromState, fromParams,
-        mockTranslate, $scope, $httpBackend,
-        $rootScope, $location, Language, $state, $stateParams, $window, $translate;
+        $scope, $httpBackend, $rootScope, $location, Language,
+        $state, $stateParams, $window, $translate;
         describe('metadatamanagementApp run function',function(){
-    /*      beforeEach(module(function($translateProvider, $provide) {
-     $translateProvider.useLoader("customLoader");
-     $provide.service("customLoader", function($q) {
-         return function() {
-             var deferred = $q.defer();
-             deferred.resolve({
-                 "titleKey": "testTitle"
-             });
-             return deferred.promise;
-         };
-     });
- }));*/
-          /*beforeEach(function(){
-            module(function($provide) {
-            $provide.value('$translate', mockTranslate);
-            return null;
-          });
-          mockTranslate = function(value) {
-            return value;
-          };
-        });*/
           beforeEach(function(){inject(function (_$rootScope_, _$location_,
-            _$httpBackend_,_Language_, _$state_, _$stateParams_, _$window_, _$translate_) {
+            _$httpBackend_,_Language_, _$state_, _$stateParams_) {
             $rootScope = _$rootScope_;
             $scope = _$rootScope_.$new();
             $location = _$location_;
@@ -36,8 +15,6 @@ describe('Specification for app ', function () {
             Language = _Language_;
             $state = _$state_;
             $stateParams = _$stateParams_;
-            $window = _$window_;
-            $translate = _$translate_;
           });
           var globalJson = new RegExp('i18n\/.*\/global.json')
           var mainJson = new RegExp('i18n\/.*\/main.json');
@@ -74,9 +51,8 @@ describe('Specification for app ', function () {
               $rootScope.toParams = toParams;
               $rootScope.fromParams = fromParams;
               event = { currentScope: $rootScope, defaultPrevented: true,
-                name: 'disclosure', data: { authorities: [], pageTitle:'Impressum'} };
+                name: 'disclosure', data: { authorities: [], pageTitle:'global.title'} };
               spyOn($rootScope,'$broadcast').and.callThrough();
-              //spyOn($translate, 'then').and.callThrough();
               $rootScope.$broadcast('$stateChangeSuccess', event, toState, toParams,fromState, fromParams);
               });
               it('should call stateChangeSuccess function', function () {
@@ -85,11 +61,42 @@ describe('Specification for app ', function () {
               it('should set previousStateParams to testState ', function () {
                 expect($rootScope.previousStateParams.name).toBe('disclosure');
               });
-              xit('should set previousStateParams to home ', function () {
-                $translate.use('en');
-              alert($window.document.title);
-              });
             });
           });
         });
-      });
+        describe('translateProvider ',function(){
+          beforeEach(module(function($translateProvider, $provide) {
+            $translateProvider.useLoader('customLoader');
+            $provide.service('customLoader', function($q) {
+              return function() {
+                var deferred = $q.defer();
+                deferred.resolve({
+                  "global.title": "metadatamanagement"
+                });
+                return deferred.promise;
+              };
+            });
+          }));
+            it('should translates page title', inject(function($rootScope, $httpBackend, $window) {
+              var globalJson = new RegExp('i18n\/.*\/global.json')
+              var mainJson = new RegExp('i18n\/.*\/main.json');
+              $httpBackend.whenGET(globalJson).respond({});
+              $httpBackend.whenGET(mainJson).respond({});
+              $httpBackend.expectGET(/api\/account\?cacheBuster=\d+/).respond(200, '');
+                $rootScope.$broadcast('$stateChangeSuccess', event, toState, toParams);
+                $rootScope.$apply();
+                expect(  $window.document.title).toEqual('metadatamanagement');
+              }));
+            });
+            describe('back function',function(){
+              it('should call back function', function () {
+                spyOn($scope,'back').and.callThrough();
+                spyOn($state,'go').and.callThrough();
+                $scope.previousStateName = 'activate';
+                $scope.back();
+                expect($scope.back).toHaveBeenCalled();
+                expect($state.go).toHaveBeenCalled();
+              });
+            })
+
+});
