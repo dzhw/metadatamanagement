@@ -6,6 +6,7 @@ import javax.inject.Inject;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -13,6 +14,7 @@ import org.springframework.stereotype.Service;
 
 import eu.dzhw.fdz.metadatamanagement.domain.Survey;
 import eu.dzhw.fdz.metadatamanagement.repository.SurveyRepository;
+import eu.dzhw.fdz.metadatamanagement.service.event.SurveyDeleteEvent;
 import eu.dzhw.fdz.metadatamanagement.service.exception.EntityExistsException;
 import eu.dzhw.fdz.metadatamanagement.service.exception.EntityNotFoundException;
 
@@ -31,7 +33,7 @@ public class SurveyService {
   private SurveyRepository surveyRepository;
 
   @Inject
-  private VariableService variableService;
+  private ApplicationEventPublisher applicationEventPublisher;
 
   /**
    * Create a survey in mongo and elasticsearch.
@@ -109,7 +111,7 @@ public class SurveyService {
   public void delete(String id) {
     log.debug("Request to delete Survey : {}", id);
     this.surveyRepository.delete(id);
-    this.variableService.deleteBySurveyId(id);
+    this.applicationEventPublisher.publishEvent(new SurveyDeleteEvent(id));
   }
 
 
@@ -122,9 +124,9 @@ public class SurveyService {
     log.debug("Request to delete Survey by fdz project name : {}", fdzProjectName);
     List<Survey> deletedSurveys = this.surveyRepository.deleteByFdzProjectName(fdzProjectName);
     log.debug("Delete Surveys[{}] by fdz project name : {}", deletedSurveys.size(), fdzProjectName);
-    for (Survey deletedSurvey : deletedSurveys) {
-      this.variableService.deleteBySurveyId(deletedSurvey.getId());
-    }
+
+    // Variables with the survey id have the same fdzname id. the variables will be deleted by an
+    // event of the FdzProjectService
   }
 
   /**
