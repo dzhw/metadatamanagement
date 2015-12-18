@@ -97,6 +97,46 @@ describe('Specification for app ', function () {
                 expect($scope.back).toHaveBeenCalled();
                 expect($state.go).toHaveBeenCalled();
               });
+              it('should call back function', function () {
+                fromState   = {};
+                fromParams  = {};
+                toState = {};
+                toParams = {};
+                $rootScope.toState = toState;
+                $rootScope.previousStateName = 'previousStateName';
+                $rootScope.toState = toState;
+                $rootScope.fromState = fromState;
+                $rootScope.toParams = toParams;
+                $rootScope.fromParams = fromParams;
+                spyOn($scope,'back').and.callThrough();
+                spyOn($state,'go').and.callThrough();
+                $scope.previousStateName = 'activate';
+                $scope.back();
+                expect($scope.back).toHaveBeenCalled();
+                expect($state.go).toHaveBeenCalledWith('home');
+              });
             })
-
+            describe('metadatamanagementApp configuration ',function(){
+              var $urlMatcherFactory;
+              beforeEach(function () {
+                module(function(_$urlMatcherFactoryProvider_) {
+                  $urlMatcherFactory = _$urlMatcherFactoryProvider_;
+                  spyOn($urlMatcherFactory, 'type').and.callThrough();
+                });
+                inject();
+              });
+              it('should call back function', function () {
+                expect($urlMatcherFactory.type('boolean').decode('true')).toBe(true);
+                expect($urlMatcherFactory.type('boolean').decode('false')).toBe(false);
+                expect($urlMatcherFactory.type('boolean').decode('test')).toBe(false);
+                expect($urlMatcherFactory.type('boolean').decode(true)).toBe(true);
+                expect($urlMatcherFactory.type('boolean').decode(false)).toBe(false);
+                expect($urlMatcherFactory.type('boolean').encode('test')).toBe(1);
+                expect($urlMatcherFactory.type('boolean').encode('0')).toBe(1);
+                expect($urlMatcherFactory.type('boolean').encode('1')).toBe(1);
+                expect($urlMatcherFactory.type('boolean').encode()).toBe(0);
+                expect($urlMatcherFactory.type('boolean').equals(1,2)).toBe(false);
+                expect($urlMatcherFactory.type('boolean').is(1)).toBe(true);
+              });
+            });
 });
