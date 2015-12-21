@@ -93,6 +93,15 @@ public class SurveyService {
   }
 
   /**
+   * @param fdzProjectName A FDZ project name.
+   * @return Returns all Surveys with a given fdz project name.
+   */
+  public List<Survey> findAllWithFdzProjectName(String fdzProjectName) {
+    log.debug("Request to get all Surveys with a given fdz project name");
+    return surveyRepository.findByFdzProjectName(fdzProjectName);
+  }
+
+  /**
    * get one survey by id.
    * 
    * @return the entity
