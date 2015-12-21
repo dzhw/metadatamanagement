@@ -43,7 +43,6 @@ module.exports = function (config) {
             'src/main/webapp/bower_components/angular-mocks/angular-mocks.js',
             // endbower
             'src/main/webapp/bower_components/elasticsearch/elasticsearch.jquery.js',
-            'https://cdnjs.cloudflare.com/ajax/libs/jquery-mockjax/1.6.2/jquery.mockjax.min.js',
             'src/main/webapp/scripts/app/app.js',
             'src/main/webapp/scripts/app/**/*.js',
             'src/main/webapp/scripts/components/**/*.js',
