@@ -257,6 +257,23 @@ public class SurveyResourceIntTest extends AbstractTest {
       .andExpect(
           jsonPath("$.[*].fdzProjectName").value(hasItem(DEFAULT_FDZ_PROJECT_NAME.toString())));
   }
+  
+  @Test
+  public void getAllSurveysByFdzProjectName() throws Exception {
+    // Initialize the database
+    surveyRepository.save(survey);
+
+    // Get all the surveys
+    restSurveyMockMvc.perform(get("/api/surveys?fdzProjectName=" + DEFAULT_FDZ_PROJECT_NAME))
+      .andExpect(status().isOk())
+      .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+      .andExpect(jsonPath("$.[*].id").value(hasItem(survey.getId())))
+      .andExpect(jsonPath("$.[*].title.de").value(hasItem(DEFAULT_TITLE.toString())))
+      .andExpect(
+          jsonPath("$.[*].fieldPeriod.start").value(hasItem(DEFAULT_FIELD_PERIOD.toString())))
+      .andExpect(
+          jsonPath("$.[*].fdzProjectName").value(hasItem(DEFAULT_FDZ_PROJECT_NAME.toString())));
+  }  
 
   @Test
   public void getSurvey() throws Exception {
