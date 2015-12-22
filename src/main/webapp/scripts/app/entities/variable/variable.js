@@ -80,7 +80,9 @@ angular.module('metadatamanagementApp')
                   dataType: null,
                   scaleLevel: null,
                   label: null,
-                  id: null
+                  id: null,
+                  surveyId: null,
+                  fdzProjectName: null
                 };
               },
               isCreateMode: true

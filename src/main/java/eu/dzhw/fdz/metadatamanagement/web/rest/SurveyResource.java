@@ -51,7 +51,7 @@ public class SurveyResource {
   public ResponseEntity<Survey> createSurvey(@Valid @RequestBody Survey survey)
       throws URISyntaxException {
     log.debug("REST request to save Survey : {}", survey);
-    
+
     Survey result = surveyService.createSurvey(survey);
     return ResponseEntity.created(new URI("/api/surveys/" + result.getId()))
       .headers(HeaderUtil.createEntityCreationAlert("survey", result.getId()))
@@ -67,7 +67,7 @@ public class SurveyResource {
   public ResponseEntity<Survey> updateSurvey(@Valid @RequestBody Survey survey)
       throws URISyntaxException {
     log.debug("REST request to update Survey : {}", survey);
-   
+
     Survey result = surveyService.updateSurvey(survey);
     return ResponseEntity.ok()
       .headers(HeaderUtil.createEntityUpdateAlert("survey", survey.getId()))
@@ -80,16 +80,24 @@ public class SurveyResource {
   @RequestMapping(value = "/surveys", method = RequestMethod.GET,
       produces = MediaType.APPLICATION_JSON_VALUE)
   @Timed
-  public ResponseEntity<List<Survey>> getAllSurveys(Pageable pageable, 
-      @RequestParam Optional<String> getAll) throws URISyntaxException {
+  public ResponseEntity<List<Survey>> getAllSurveys(Pageable pageable,
+      @RequestParam Optional<String> getAll, @RequestParam Optional<String> fdzProjectName)
+          throws URISyntaxException {
     log.debug("REST request to get a page of Surveys");
     if (getAll.isPresent()) {
       List<Survey> allSurveys = surveyService.findAll();
       return new ResponseEntity<>(allSurveys, HttpStatus.OK);
     } else {
-      Page<Survey> page = surveyService.findAll(pageable);
-      HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/surveys");
-      return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);      
+      if (fdzProjectName.isPresent()) {
+        List<Survey> allSurveysByFdzName =
+            surveyService.findAllWithFdzProjectName(fdzProjectName.get());
+        this.log.debug("Found surveys {}", allSurveysByFdzName.size());
+        return new ResponseEntity<>(allSurveysByFdzName, HttpStatus.OK);
+      } else {
+        Page<Survey> page = surveyService.findAll(pageable);
+        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/surveys");
+        return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
+      }
     }
   }
 
@@ -106,6 +114,22 @@ public class SurveyResource {
       .map(result -> new ResponseEntity<>(result, HttpStatus.OK))
       .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
   }
+
+  // TODO del?
+  // /**
+  // * GET /surveys/:fdzProjectName/ -> get survey by a given fdz project name.
+  // */
+  // @RequestMapping(value = "/surveys/{fdzProject}", method = RequestMethod.GET,
+  // produces = MediaType.APPLICATION_JSON_VALUE)
+  // @Timed
+  // public ResponseEntity<List<Survey>> getSurveyByFdzProjectName(
+  // @PathVariable FdzProject fdzProjectName) {
+  // this.log.debug("REST request all Survey by a given FdzProject : {}", fdzProjectName);
+  // List<Survey> allSurveysByFdzName =
+  // surveyService.findAllWithFdzProjectName(fdzProjectName.getName());
+  // this.log.debug("Found surveys {}", allSurveysByFdzName.size());
+  // return new ResponseEntity<>(allSurveysByFdzName, HttpStatus.OK);
+  // }
 
   /**
    * DELETE /surveys/:id -> delete the "id" survey.

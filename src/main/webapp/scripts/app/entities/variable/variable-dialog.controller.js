@@ -12,10 +12,9 @@ angular.module('metadatamanagementApp').controller('VariableDialogController',
             function(result) {
             return result;
           });
-          $scope.allSurveys = Survey.query({getAll: 'true'},
-            function(result) {
-            return result;
-          });
+
+          $scope.allSurveysByFdzProjectName = null;
+
           $scope.load = function(id) {
             Variable.get({id: id}, function(result) {
               $scope.variable = result;
@@ -35,6 +34,14 @@ angular.module('metadatamanagementApp').controller('VariableDialogController',
               Variable.update($scope.variable, onSaveFinished);
               $scope.$broadcast('variable.updated');
             }
+          };
+
+          $scope.changeSurvey = function() {
+            $scope.allSurveysByFdzProjectName =
+            Survey.query({fdzProjectName: $scope.variable.fdzProjectName},
+                  function(result) {
+                    return result;
+                  });
           };
 
           $scope.clear = function() {

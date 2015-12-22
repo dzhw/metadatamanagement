@@ -98,6 +98,7 @@ public class SurveyService {
    */
   public List<Survey> findAllWithFdzProjectName(String fdzProjectName) {
     log.debug("Request to get all Surveys with a given fdz project name");
+    //TODO leere list, wenn null oder nichts gefunden
     return surveyRepository.findByFdzProjectName(fdzProjectName);
   }
 
