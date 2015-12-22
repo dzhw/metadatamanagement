@@ -42,6 +42,7 @@ import eu.dzhw.fdz.metadatamanagement.domain.enumeration.ScaleLevel;
 import eu.dzhw.fdz.metadatamanagement.service.FdzProjectService;
 import eu.dzhw.fdz.metadatamanagement.service.SurveyService;
 import eu.dzhw.fdz.metadatamanagement.service.VariableService;
+import eu.dzhw.fdz.metadatamanagement.unittest.util.UnitTestUtils;
 import eu.dzhw.fdz.metadatamanagement.web.rest.errors.ExceptionTranslator;
 
 /**
@@ -363,7 +364,10 @@ public class VariableResourceTest extends AbstractTest {
 
     // Arrange
     this.variableService.createVariable(variable);
+    UnitTestUtils<Variable> test2 = new UnitTestUtils<>();
+    
     this.variable.setSurveyId(INVALID_SURVEY_ID);
+    test2.checkAndPrintValidation(variable, (javax.validation.Validator) this.validator);
 
     // Act
 

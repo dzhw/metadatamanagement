@@ -18,6 +18,7 @@ import eu.dzhw.fdz.metadatamanagement.domain.enumeration.ScaleLevel;
 import eu.dzhw.fdz.metadatamanagement.domain.util.Patterns;
 import eu.dzhw.fdz.metadatamanagement.domain.validation.FdzProjectExists;
 import eu.dzhw.fdz.metadatamanagement.domain.validation.SurveyExists;
+import eu.dzhw.fdz.metadatamanagement.domain.validation.ValidSurveyFdzProjectRelation;
 import net.karneim.pojobuilder.GeneratePojoBuilder;
 
 /**
@@ -26,6 +27,7 @@ import net.karneim.pojobuilder.GeneratePojoBuilder;
 @Document(collection = "variable")
 @GeneratePojoBuilder(intoPackage = "eu.dzhw.fdz.metadatamanagement.domain.builders")
 @CompoundIndex(def = "{name: 1, fdz_project_name: 1}", unique = true)
+@ValidSurveyFdzProjectRelation
 public class Variable implements Serializable {
 
   private static final long serialVersionUID = 3447432736734388659L;
