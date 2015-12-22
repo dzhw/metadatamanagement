@@ -36,10 +36,28 @@ angular.module('metadatamanagementApp').controller('VariableDialogController',
             }
           };
 
+          $scope.isSurveyEmpty = function() {
+
+            //check for array
+            if (!angular.isArray($scope.allSurveysByFdzProjectName)) {
+              return true;
+            }
+
+            //check for array size
+            if ($scope.allSurveysByFdzProjectName.length === 0) {
+              return true;
+            }
+
+            return false;
+          };
+
           $scope.changeSurvey = function() {
+
+            //query for survey with a given fdz project name
             $scope.allSurveysByFdzProjectName =
             Survey.query({fdzProjectName: $scope.variable.fdzProjectName},
                   function(result) {
+                    //return the array of surveys.
                     return result;
                   });
           };

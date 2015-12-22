@@ -33,23 +33,20 @@
         </p>
       </div>
     </div>
-
     <div class="form-group">
       <label translate="metadatamanagementApp.variable.fdzProjectName" for="field_fdzProjectName">FDZ Project Name</label>
       <select class="form-control" name="fdzProjectName" ng-model="variable.fdzProjectName" id="field_fdzProjectName" ng-change="changeSurvey()" required>
         <option ng-repeat="fdzproject in allFdzProjects" value="{{fdzproject.name}}">{{fdzproject.name}}</option>
       </select>
-
       <div ng-show="editForm.fdzProjectName.$invalid">
         <p class="help-block" ng-show="editForm.fdzProjectName.$error.required" translate="entity.validation.required">
           This field is required.
         </p>
       </div>
     </div>
-
     <div class="form-group">
       <label translate="metadatamanagementApp.variable.surveyId" for="field_surveyId">Survey Id</label>
-      <select class="form-control" name="surveyId" ng-model="variable.surveyId" id="field_surveyId">
+      <select class="form-control" name="surveyId" ng-model="variable.surveyId" id="field_surveyId" ng-disabled="isSurveyEmpty()">
         <option value=""></option>
         <option ng-repeat="survey in allSurveysByFdzProjectName" value="{{survey.id}}">{{survey.id}}</option>
       </select>
