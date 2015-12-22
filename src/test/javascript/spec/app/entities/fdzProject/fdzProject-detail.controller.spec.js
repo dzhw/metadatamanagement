@@ -10,7 +10,7 @@ describe('FdzProject Detail Controller', function() {
         $scope = $rootScope.$new();
         MockEntity = jasmine.createSpy('MockEntity');
         MockFdzProject = jasmine.createSpy('MockFdzProject');
-        
+
 
         var locals = {
             '$scope': $scope,

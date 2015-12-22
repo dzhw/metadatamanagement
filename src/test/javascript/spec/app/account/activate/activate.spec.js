@@ -13,7 +13,7 @@ describe('audits api', function () {
       spyOn($translatePartialLoader,'addPart').and.callThrough();
       var config = $state.get('audits');
       expect(config.url).toEqual('/audits');
-      expect(config.resolve.translatePartialLoader).toBeDefined;
+      expect(config.resolve.translatePartialLoader).toBeDefined();
       config.resolve.translatePartialLoader[2]($translate, $translatePartialLoader);
       expect($translate.refresh).toHaveBeenCalled();
       expect($translatePartialLoader.addPart).toHaveBeenCalled();
