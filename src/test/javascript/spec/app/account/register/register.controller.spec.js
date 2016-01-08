@@ -29,26 +29,31 @@ describe('Controllers Tests ', function() {
             };
         }));
 
+        it('registers a timeout handler set set focus', function() {
+            var MockAngular = jasmine.createSpyObj('MockAngular', ['element']);
+            var MockElement = jasmine.createSpyObj('MockElement', ['focus']);
+            MockAngular.element.and.returnValue(MockElement);
+            MockTimeout.and.callFake(function(callback) {
+                withMockedAngular(MockAngular, callback)();
+            });
+            $scope.$apply(createController);
+            expect(MockTimeout).toHaveBeenCalledWith(jasmine.any(Function));
+            expect(MockAngular.element).toHaveBeenCalledWith('[ng-model="registerAccount.login"]');
+            expect(MockElement.focus).toHaveBeenCalled();
+        });
         it('should ensure the two passwords entered match', function() {
-            // given
             createController();
             $scope.registerAccount.password = 'password';
             $scope.confirmPassword = 'non-matching';
-            // when
             $scope.register();
-            // then
             expect($scope.doNotMatch).toEqual('ERROR');
         });
 
         it('should update success to OK after creating an account', function() {
-            // given
-            //MockTranslate.use.and.returnValue('de');
             MockAuth.createAccount.and.returnValue($q.resolve());
             createController();
             $scope.registerAccount.password = $scope.confirmPassword = 'password';
-            // when
             $scope.$apply($scope.register); // $q promises require an $apply
-            // then
             expect(MockAuth.createAccount).toHaveBeenCalledWith({
                 password: 'password',
                 langKey: 'de'
@@ -61,16 +66,13 @@ describe('Controllers Tests ', function() {
         });
 
         it('should notify of user existence upon 400/login already in use', function() {
-            // given
             MockAuth.createAccount.and.returnValue($q.reject({
                 status: 400,
                 data: 'login already in use'
             }));
             createController();
             $scope.registerAccount.password = $scope.confirmPassword = 'password';
-            // when
             $scope.$apply($scope.register); // $q promises require an $apply
-            // then
             expect($scope.errorUserExists).toEqual('ERROR');
             expect($scope.errorEmailExists).toBeNull();
             expect($scope.error).toBeNull();

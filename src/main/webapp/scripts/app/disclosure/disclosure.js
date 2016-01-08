@@ -6,7 +6,8 @@ angular.module('metadatamanagementApp').config(
         parent: 'site',
         url: '/disclosure',
         data: {
-          authorities: []
+          authorities: [],
+          pageTitle: 'disclosure.title'
         },
         views: {
           'content@': {

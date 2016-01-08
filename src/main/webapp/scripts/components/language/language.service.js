@@ -1,7 +1,8 @@
 'use strict';
 
 angular.module('metadatamanagementApp').factory('Language',
-    function($q, $http, $translate, $location, tmhDynamicLocale, LANGUAGES) {
+    function($q, $http, $translate, $location, $rootScope,
+        tmhDynamicLocale, LANGUAGES) {
       return {
         getCurrent: function() {
           var deferred = $q.defer();
@@ -21,6 +22,7 @@ angular.module('metadatamanagementApp').factory('Language',
         },
 
         setCurrent: function(language) {
+          $rootScope.currentLanguage = language;
           $translate.storage().set('NG_TRANSLATE_LANG_KEY', language);
           tmhDynamicLocale.set(language).then(function() {
             $translate.use(language).then(function() {
