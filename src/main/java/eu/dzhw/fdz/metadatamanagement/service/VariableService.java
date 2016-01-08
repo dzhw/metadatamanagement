@@ -7,6 +7,7 @@ import javax.inject.Inject;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.context.event.EventListener;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -17,6 +18,8 @@ import eu.dzhw.fdz.metadatamanagement.domain.Variable;
 import eu.dzhw.fdz.metadatamanagement.repository.VariableRepository;
 import eu.dzhw.fdz.metadatamanagement.search.VariableSearchDao;
 import eu.dzhw.fdz.metadatamanagement.search.document.VariableSearchDocument;
+import eu.dzhw.fdz.metadatamanagement.service.event.FdzProjectDeletedEvent;
+import eu.dzhw.fdz.metadatamanagement.service.event.SurveyDeletedEvent;
 import eu.dzhw.fdz.metadatamanagement.service.exception.EntityExistsException;
 import eu.dzhw.fdz.metadatamanagement.service.exception.EntityNotFoundException;
 
@@ -142,7 +145,7 @@ public class VariableService {
    * 
    * @param fdzProjectName The project name of a survey.
    */
-  public List<Variable> deleteByFdzProjectName(String fdzProjectName) {
+  private List<Variable> deleteByFdzProjectName(String fdzProjectName) {
     log.debug("Request to delete fdz project name : {}", fdzProjectName);
     List<Variable> deletedVariables = 
         this.variableRepository.deleteByFdzProjectName(fdzProjectName);
@@ -154,12 +157,17 @@ public class VariableService {
     return deletedVariables;
   }
   
+  @EventListener
+  public void onFdzProjectDeleted(FdzProjectDeletedEvent fdzProjectDeletedEvent) {
+    this.deleteByFdzProjectName(fdzProjectDeletedEvent.getFdzProjectName());
+  }
+  
   /**
    * Deletes all variables by a survey id.
    * 
    * @param surveyId The id of a survey.
    */
-  public List<Variable> deleteBySurveyId(String surveyId) {
+  private List<Variable> deleteBySurveyId(String surveyId) {
     log.debug("Request to delete variables by survey id : {}", surveyId);
     List<Variable> deletedVariables = this.variableRepository.deleteBySurveyId(surveyId);
     for (String index : ElasticsearchAdminService.INDICES) {
@@ -167,6 +175,11 @@ public class VariableService {
     }
     log.debug("Deleted variables[{}] by survey id: {}", deletedVariables.size(), surveyId);
     return deletedVariables;
+  }
+  
+  @EventListener
+  public void onSurveyDeleted(SurveyDeletedEvent surveyDeletedEvent) {
+    this.deleteBySurveyId(surveyDeletedEvent.getSurveyId());
   }
 
   /**

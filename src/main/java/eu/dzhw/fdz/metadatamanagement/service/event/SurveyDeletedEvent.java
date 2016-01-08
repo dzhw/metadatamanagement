@@ -5,14 +5,12 @@ import org.springframework.context.ApplicationEvent;
 import eu.dzhw.fdz.metadatamanagement.service.SurveyService;
 
 /**
- * This Event will be fired by the SurveyService, if a survey will be delete.
- * 
- * @see SurveyService
+ * This Event will be fired by the {@link SurveyService}, if a survey has been deleted.
  * 
  * @author Daniel Katzberg
  *
  */
-public class SurveyDeleteEvent extends ApplicationEvent {
+public class SurveyDeletedEvent extends ApplicationEvent {
 
   private static final long serialVersionUID = 1L;
 
@@ -23,7 +21,7 @@ public class SurveyDeleteEvent extends ApplicationEvent {
    * 
    * @param surveyId The id of the survey, which will be delete.
    */
-  public SurveyDeleteEvent(String surveyId) {
+  public SurveyDeletedEvent(String surveyId) {
     super(surveyId);
     this.surveyId = surveyId;
   }

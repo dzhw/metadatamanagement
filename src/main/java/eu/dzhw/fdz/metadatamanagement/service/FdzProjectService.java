@@ -14,7 +14,7 @@ import org.springframework.stereotype.Service;
 
 import eu.dzhw.fdz.metadatamanagement.domain.FdzProject;
 import eu.dzhw.fdz.metadatamanagement.repository.FdzProjectRepository;
-import eu.dzhw.fdz.metadatamanagement.service.event.FdzProjectDeleteEvent;
+import eu.dzhw.fdz.metadatamanagement.service.event.FdzProjectDeletedEvent;
 import eu.dzhw.fdz.metadatamanagement.service.exception.EntityExistsException;
 import eu.dzhw.fdz.metadatamanagement.service.exception.EntityNotFoundException;
 
@@ -109,7 +109,7 @@ public class FdzProjectService {
     this.fdzProjectRepository.delete(name);
 
     // delete surveys and variables
-    this.applicationEventPublisher.publishEvent(new FdzProjectDeleteEvent(name));
+    this.applicationEventPublisher.publishEvent(new FdzProjectDeletedEvent(name));
 
   }
 
