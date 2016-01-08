@@ -5,11 +5,7 @@ angular.module('metadatamanagementApp')
     function($scope, $rootScope, $stateParams, entity, Variable,
       VariableExportService) {
       $scope.variable = entity;
-      $scope.load = function(id) {
-        Variable.get({id: id}, function(result) {
-          $scope.variable = result;
-        });
-      };
+
       $scope.exportToODT = function() {
         VariableExportService.exportToODT($scope.variable);
       };
