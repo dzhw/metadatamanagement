@@ -28,7 +28,7 @@
     "sockjs-client": "1.0.3",
     "stomp-websocket": "2.3.4",
     "swagger-ui": "2.1.4",
-    "elasticsearch": "10.0.1",
+    "elasticsearch": "10.1.2",
     "jszip": "~2.5.0",
     "file-saver.js": "~1.20150507.2",
     "jszip-utils": "~0.0.2",
