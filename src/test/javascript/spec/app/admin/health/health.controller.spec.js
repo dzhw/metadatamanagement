@@ -1,18 +1,43 @@
 'use strict';
 describe('Controllers Tests ', function () {
-
+  beforeEach(mockApiAccountCall);
+  beforeEach(mockI18nCalls);
     describe('HealthController', function () {
-        var $scope; // actual implementations
-        var createController; // local utility functions
+        var $scope, $q, $modal, createController, MonitoringService, AdminService; // local utility functions
 
         beforeEach(inject(function ($injector) {
             $scope = $injector.get('$rootScope').$new();
+            $q = $injector.get('$q');
+            $modal = $injector.get('$modal');
+            MonitoringService = {
+              checkHealth: function() {
+              var deferred = $q.defer();
+              deferred.resolve();
+              deferred.reject({});
+              return deferred.promise;
+            }
+          };
+
+          AdminService = {
+            recreateAllElasticsearchIndices: function() {
+            var deferred = $q.defer();
+            deferred.resolve();
+            deferred.reject({});
+            return deferred.promise;
+          }
+        };
             var locals = {
-                '$scope': $scope
+                '$scope': $scope,
+                'MonitoringService': MonitoringService,
+                'AdminService': AdminService,
+                '$modal': $modal
             };
             createController = function() {
                 $injector.get('$controller')('HealthController', locals);
             };
+            spyOn(MonitoringService, 'checkHealth').and.callThrough();
+            spyOn(AdminService, 'recreateAllElasticsearchIndices').and.callThrough();
+            spyOn($modal, 'open').and.callThrough();
             createController();
         }));
 
@@ -300,6 +325,55 @@ describe('Controllers Tests ', function () {
             it('should show empty string if neither name nor path is defined', function () {
                 expect($scope.getModuleName()).toEqual('');
             });
+        });
+        describe('MonitoringService, AdminService and scope',function(){
+          it('should call get when resolve', function() {
+            MonitoringService.checkHealth.and.returnValue($q.resolve());
+            $scope.$apply(createController);
+            expect(MonitoringService.checkHealth).toHaveBeenCalled();
+          });
+          it('should call get when reject', function() {
+            MonitoringService.checkHealth.and.returnValue($q.reject({}));
+            $scope.$apply(createController);
+            expect(MonitoringService.checkHealth).toHaveBeenCalled();
+          });
+          it('updatingHealth should be false', function() {
+            MonitoringService.checkHealth.and.returnValue($q.resolve());
+            $scope.$apply(createController);
+            expect($scope.updatingHealth).toBe(false);
+          });
+          it('isRecreatingIndices should be false when resolve', function() {
+            AdminService.recreateAllElasticsearchIndices.and.returnValue($q.resolve());
+            $scope.recreateAllElasticsearchIndices();
+            $scope.$apply(createController);
+            expect($scope.isRecreatingIndices).toBe(false);
+          });
+          it('isRecreatingIndices should be false', function() {
+            AdminService.recreateAllElasticsearchIndices.and.returnValue($q.reject({}));
+            $scope.recreateAllElasticsearchIndices();
+            $scope.$apply(createController);
+            expect($scope.isRecreatingIndices).toBe(false);
+          });
+          it('shold set label to success', function() {
+            var label =   $scope.getLabelClass('UP');
+            expect(label).toBe('label-success');
+          });
+          it('shold set label to danger', function() {
+            var label =   $scope.getLabelClass('');
+            expect(label).toBe('label-danger');
+          });
+          it('shold set modal params', function() {
+            $scope.showHealth('');
+            expect($modal.open).toHaveBeenCalled();
+          });
+          it('shold split and return baseName', function() {
+            var name = $scope.baseName('baseName.test');
+            expect(name).toBe('baseName');
+          });
+          it('shold split and return subSystemName', function() {
+            var name = $scope.subSystemName('subSystemName.name');
+            expect(name).toContain('name');
+          });
         });
     });
 });
