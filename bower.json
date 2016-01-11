@@ -23,7 +23,7 @@
     "jquery": "2.2.0",
     "json3": "3.3.2",
     "modernizr": "2.8.3",
-    "ng-file-upload": "11.0.0",
+    "ng-file-upload": "11.0.2",
     "ngInfiniteScroll": "1.2.1",
     "sockjs-client": "1.0.3",
     "stomp-websocket": "2.3.4",
