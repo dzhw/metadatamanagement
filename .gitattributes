@@ -21,3 +21,6 @@
 *.eps binary
 *.swf binary
 *.odt binary
+*.bcmap binary
+*.gif binary
+
