@@ -39,6 +39,8 @@ import eu.dzhw.fdz.metadatamanagement.domain.builders.SurveyBuilder;
 import eu.dzhw.fdz.metadatamanagement.domain.builders.VariableBuilder;
 import eu.dzhw.fdz.metadatamanagement.domain.enumeration.DataType;
 import eu.dzhw.fdz.metadatamanagement.domain.enumeration.ScaleLevel;
+import eu.dzhw.fdz.metadatamanagement.search.VariableSearchDao;
+import eu.dzhw.fdz.metadatamanagement.service.ElasticsearchAdminService;
 import eu.dzhw.fdz.metadatamanagement.service.FdzProjectService;
 import eu.dzhw.fdz.metadatamanagement.service.SurveyService;
 import eu.dzhw.fdz.metadatamanagement.service.VariableService;
@@ -88,6 +90,9 @@ public class VariableResourceTest extends AbstractTest {
 
   @Inject
   private Validator validator;
+  
+  @Inject 
+  private VariableSearchDao variableSearchDao;
 
   private MockMvc restVariableMockMvc;
 
@@ -141,6 +146,9 @@ public class VariableResourceTest extends AbstractTest {
 
   @After
   public void afterEachTest() {
+    for (String index : ElasticsearchAdminService.INDICES) {
+      this.variableSearchDao.refresh(index);
+    }
     this.variableService.deleteAll();
     this.fdzProjectService.deleteAll();
     this.surveyService.deleteAll();

@@ -56,6 +56,9 @@ public class ElasticsearchAdminServiceTest extends AbstractTest {
   @After
   public void cleanUp() {
       this.fdzProjectService.deleteByName(this.fdzProject.getName());
+      for (String index : ElasticsearchAdminService.INDICES) {
+        this.variableSearchDao.refresh(index);
+      }
       this.variableService.deleteAll();
   }
 

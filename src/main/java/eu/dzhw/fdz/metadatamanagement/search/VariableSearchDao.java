@@ -94,21 +94,7 @@ public class VariableSearchDao {
   public List<VariableSearchDocument> findAll(String index) {
     SearchSourceBuilder queryBuilder = new SearchSourceBuilder();
     queryBuilder.query(QueryBuilders.matchAllQuery());
-    
-    //TODO REBUILD AS FILTER
-    Search search = new Search.Builder(queryBuilder.toString()).addIndex(index)
-        .addType(TYPE)
-        .build();
-    JestResult result = execute(search);
-    if (!result.isSucceeded()) {
-      log.warn("Unable to load variable search documents from index " + index + ": "
-          + result.getErrorMessage());
-      return new ArrayList<>();
-    }
-    List<VariableSearchDocument> variables =
-        result.getSourceAsObjectList(VariableSearchDocument.class);
-
-    return variables;
+    return this.findAllByQueryBuilder(queryBuilder, index);
   }
 
   /**
@@ -125,23 +111,47 @@ public class VariableSearchDao {
     }
   }
 
+  /**
+   * This method deletes elements by a given field and the depending values within an index.
+   * @param fieldName the name of a field of the document
+   * @param value the value of the fieldName
+   * @param index the intex, where the document is saved.
+   */
   private void deleteByField(String fieldName, String value, String index) {
+    
+    //Search elements by field
     SearchSourceBuilder queryBuilder = new SearchSourceBuilder();
     queryBuilder.query(QueryBuilders.matchQuery(fieldName, value));
+    List<VariableSearchDocument> variableSearchDocumentList = 
+        this.findAllByQueryBuilder(queryBuilder, index);
     
-    //TODO Katzberg REBUILD FILTER ... ENTKOPPELN SUCHE / FILTER ZU EIGENER METHODE
+    //delete elements
+    for (VariableSearchDocument variableSearchDocument : variableSearchDocumentList) {
+      this.delete(variableSearchDocument.getId(), index);
+    }
+  }
+  
+  /**
+   * 
+   * @param queryBuilder A querybuilder with an defined query.
+   * @param index the name of a index within elasticseach
+   * @return a list of values with matches by the filter.
+   */
+  //TODO change search to filter.
+  private List<VariableSearchDocument> findAllByQueryBuilder(SearchSourceBuilder queryBuilder, 
+      String index) {
     Search search = new Search.Builder(queryBuilder.toString()).addIndex(index)
         .addType(TYPE)
         .build();
     JestResult result = execute(search);
-    List<VariableSearchDocument> variableSearchDocumentList = 
-        result.getSourceAsObjectList(VariableSearchDocument.class);
     
-    //TODO Katzberg ENDE ENTKOPPELN
-    
-    for (VariableSearchDocument variableSearchDocument : variableSearchDocumentList) {
-      this.delete(variableSearchDocument.getId(), index);
+    if (!result.isSucceeded()) {
+      log.warn("Unable to load variable search documents from index " + index + ": "
+          + result.getErrorMessage());
+      return new ArrayList<>();
     }
+    
+    return result.getSourceAsObjectList(VariableSearchDocument.class);
   }
   
   public void deleteByFdzProjectName(String fdzProjectName, String index) {
@@ -168,11 +178,8 @@ public class VariableSearchDao {
    * 
    * @param index the index to delete from.
    */
-  //TODO Katzberg: first workaround!?
   public void deleteAll(String index) {
-    //Refresh index
-    this.refresh(index);
-    
+        
     //get all saved variables
     List<VariableSearchDocument> variables = this.findAll(index);
     

@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import eu.dzhw.fdz.metadatamanagement.search.ElasticsearchAdminDao;
 import eu.dzhw.fdz.metadatamanagement.search.VariableSearchDao;
 
@@ -34,7 +35,8 @@ public class ElasticsearchAdminService {
 
   private JsonParser jsonParser = new JsonParser();
 
-  static final String[] INDICES = {"metadata_de", "metadata_en"};
+  @SuppressFBWarnings //TODO Katzberg should be protected.
+  public static final String[] INDICES = {"metadata_de", "metadata_en"};
 
   private static final String[] TYPES = {VariableSearchDao.TYPE};
 
