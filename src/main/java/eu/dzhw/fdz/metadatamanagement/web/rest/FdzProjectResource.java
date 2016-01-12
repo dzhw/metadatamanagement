@@ -22,7 +22,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.codahale.metrics.annotation.Timed;
@@ -55,8 +54,8 @@ public class FdzProjectResource {
     log.debug("REST request to save FdzProject : {}", fdzProject);
 
     FdzProject result = fdzProjectService.createFdzProject(fdzProject);
-    return ResponseEntity.created(
-        new URI("/api/fdzProjects/" + URLEncoder.encode(result.getName(),"UTF-8")))
+    return ResponseEntity
+      .created(new URI("/api/fdzProjects/" + URLEncoder.encode(result.getName(), "UTF-8")))
       .headers(HeaderUtil.createEntityCreationAlert("fdzProject", result.getName()))
       .body(result);
   }
@@ -83,18 +82,12 @@ public class FdzProjectResource {
   @RequestMapping(value = "/fdzProjects", method = RequestMethod.GET,
       produces = MediaType.APPLICATION_JSON_VALUE)
   @Timed
-  public ResponseEntity<List<FdzProject>> getAllFdzProjects(Pageable pageable,
-      @RequestParam Optional<String> getAll) throws URISyntaxException {
+  public ResponseEntity<List<FdzProject>> getAllFdzProjects(Pageable pageable)
+      throws URISyntaxException {
     log.debug("REST request to get a page of FdzProjects");
-
-    if (getAll.isPresent()) {
-      List<FdzProject> allFdzProjects = fdzProjectService.findAll();
-      return new ResponseEntity<>(allFdzProjects, HttpStatus.OK);
-    } else {
-      Page<FdzProject> page = fdzProjectService.findAll(pageable);
-      HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/fdzProjects");
-      return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
-    }
+    Page<FdzProject> page = fdzProjectService.findAll(pageable);
+    HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/fdzProjects");
+    return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
   }
 
   /**
