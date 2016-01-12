@@ -43,7 +43,7 @@ public class MongoDBTokenStoreTest extends AbstractTest {
   @Inject
   private OAuth2RefreshTokenRepository oAuth2RefreshTokenRepository;
 
-  private MongoDBTokenStore mongoDBTokenStore;
+  private MongoDbTokenStore mongoDBTokenStore;
   private DefaultOAuth2AccessToken accessToken;
   private OAuth2RefreshToken refreshToken;
   private OAuth2Authentication authentication;
@@ -51,7 +51,7 @@ public class MongoDBTokenStoreTest extends AbstractTest {
   @Before
   public void beforeEachTest() {
     this.mongoDBTokenStore =
-        new MongoDBTokenStore(oAuth2AccessTokenRepository, oAuth2RefreshTokenRepository);
+        new MongoDbTokenStore(oAuth2AccessTokenRepository, oAuth2RefreshTokenRepository);
 
     OAuth2Request storedRequest = new OAuth2Request(new HashMap<>(), "clientId", new ArrayList<>(),
         true, new HashSet<>(), new HashSet<>(), "/", new HashSet<>(), new HashMap<>());

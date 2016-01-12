@@ -31,111 +31,113 @@ import eu.dzhw.fdz.metadatamanagement.repository.AuthorityRepository;
 import eu.dzhw.fdz.metadatamanagement.repository.UserRepository;
 import eu.dzhw.fdz.metadatamanagement.security.AuthoritiesConstants;
 import eu.dzhw.fdz.metadatamanagement.service.UserService;
-import eu.dzhw.fdz.metadatamanagement.web.rest.dto.ManagedUserDTO;
+import eu.dzhw.fdz.metadatamanagement.web.rest.dto.ManagedUserDto;
 import eu.dzhw.fdz.metadatamanagement.web.rest.util.HeaderUtil;
 import eu.dzhw.fdz.metadatamanagement.web.rest.util.PaginationUtil;
 
 /**
  * REST controller for managing users.
  *
- * <p>This class accesses the User entity, and needs to fetch its collection of authorities.</p>
  * <p>
- * For a normal use-case, it would be better to have an eager relationship between User and Authority,
- * and send everything to the client side: there would be no DTO, a lot less code, and an outer-join
- * which would be good for performance.
+ * This class accesses the User entity, and needs to fetch its collection of authorities.
+ * </p>
+ * <p>
+ * For a normal use-case, it would be better to have an eager relationship between User and
+ * Authority, and send everything to the client side: there would be no DTO, a lot less code, and an
+ * outer-join which would be good for performance.
  * </p>
  * <p>
  * We use a DTO for 3 reasons:
  * <ul>
  * <li>We want to keep a lazy association between the user and the authorities, because people will
- * quite often do relationships with the user, and we don't want them to get the authorities all
- * the time for nothing (for performance reasons). This is the #1 goal: we should not impact our users'
+ * quite often do relationships with the user, and we don't want them to get the authorities all the
+ * time for nothing (for performance reasons). This is the #1 goal: we should not impact our users'
  * application because of this use-case.</li>
- * <li> Not having an outer join causes n+1 requests to the database. This is not a real issue as
- * we have by default a second-level cache. This means on the first HTTP call we do the n+1 requests,
- * but then all authorities come from the cache, so in fact it's much better than doing an outer join
- * (which will get lots of data from the database, for each HTTP call).</li>
- * <li> As this manages users, for security reasons, we'd rather have a DTO layer.</li>
+ * <li>Not having an outer join causes n+1 requests to the database. This is not a real issue as we
+ * have by default a second-level cache. This means on the first HTTP call we do the n+1 requests,
+ * but then all authorities come from the cache, so in fact it's much better than doing an outer
+ * join (which will get lots of data from the database, for each HTTP call).</li>
+ * <li>As this manages users, for security reasons, we'd rather have a DTO layer.</li>
+ * </ul>
  * </p>
- * <p>Another option would be to have a specific JPA entity graph to handle this case.</p>
+ * <p>
+ * Another option would be to have a specific JPA entity graph to handle this case.
+ * </p>
  */
 @RestController
 @RequestMapping("/api")
 public class UserResource {
 
-    private final Logger log = LoggerFactory.getLogger(UserResource.class);
+  private final Logger log = LoggerFactory.getLogger(UserResource.class);
 
-    @Inject
-    private UserRepository userRepository;
+  @Inject
+  private UserRepository userRepository;
 
-    @Inject
-    private AuthorityRepository authorityRepository;
+  @Inject
+  private AuthorityRepository authorityRepository;
 
-    @Inject
-    private UserService userService;
+  @Inject
+  private UserService userService;
 
-    /**
-     * PUT  /users -> Updates an existing User.
-     */
-    @RequestMapping(value = "/users",
-        method = RequestMethod.PUT,
-        produces = MediaType.APPLICATION_JSON_VALUE)
-    @Timed
-    @Secured(AuthoritiesConstants.ADMIN)
-    public ResponseEntity<ManagedUserDTO> updateUser(@RequestBody ManagedUserDTO managedUserDTO) throws URISyntaxException {
-        log.debug("REST request to update User : {}", managedUserDTO);
-        return Optional.of(userRepository
-            .findOne(managedUserDTO.getId()))
-            .map(user -> {
-                user.setLogin(managedUserDTO.getLogin());
-                user.setFirstName(managedUserDTO.getFirstName());
-                user.setLastName(managedUserDTO.getLastName());
-                user.setEmail(managedUserDTO.getEmail());
-                user.setActivated(managedUserDTO.isActivated());
-                user.setLangKey(managedUserDTO.getLangKey());
-                Set<Authority> authorities = user.getAuthorities();
-                authorities.clear();
-                managedUserDTO.getAuthorities().stream().forEach(
-                    authority -> authorities.add(authorityRepository.findOne(authority))
-                );
-                userRepository.save(user);
-                return ResponseEntity.ok()
-                    .headers(HeaderUtil.createEntityUpdateAlert("user", managedUserDTO.getLogin()))
-                    .body(new ManagedUserDTO(userRepository
-                        .findOne(managedUserDTO.getId())));
-            })
-            .orElseGet(() -> new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR));
-    }
+  /**
+   * PUT /users -> Updates an existing User.
+   */
+  @RequestMapping(value = "/users", method = RequestMethod.PUT,
+      produces = MediaType.APPLICATION_JSON_VALUE)
+  @Timed
+  @Secured(AuthoritiesConstants.ADMIN)
+  public ResponseEntity<ManagedUserDto> updateUser(@RequestBody ManagedUserDto managedUserDto)
+      throws URISyntaxException {
+    log.debug("REST request to update User : {}", managedUserDto);
+    return Optional.of(userRepository.findOne(managedUserDto.getId()))
+      .map(user -> {
+        user.setLogin(managedUserDto.getLogin());
+        user.setFirstName(managedUserDto.getFirstName());
+        user.setLastName(managedUserDto.getLastName());
+        user.setEmail(managedUserDto.getEmail());
+        user.setActivated(managedUserDto.isActivated());
+        user.setLangKey(managedUserDto.getLangKey());
+        Set<Authority> authorities = user.getAuthorities();
+        authorities.clear();
+        managedUserDto.getAuthorities()
+          .stream()
+          .forEach(authority -> authorities.add(authorityRepository.findOne(authority)));
+        userRepository.save(user);
+        return ResponseEntity.ok()
+          .headers(HeaderUtil.createEntityUpdateAlert("user", managedUserDto.getLogin()))
+          .body(new ManagedUserDto(userRepository.findOne(managedUserDto.getId())));
+      })
+      .orElseGet(() -> new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR));
+  }
 
-    /**
-     * GET  /users -> get all users.
-     */
-    @RequestMapping(value = "/users",
-        method = RequestMethod.GET,
-        produces = MediaType.APPLICATION_JSON_VALUE)
-    @Timed
-    public ResponseEntity<List<ManagedUserDTO>> getAllUsers(Pageable pageable)
-        throws URISyntaxException {
-        Page<User> page = userRepository.findAll(pageable);
-        List<ManagedUserDTO> managedUserDTOs = page.getContent().stream()
-            .map(user -> new ManagedUserDTO(user))
-            .collect(Collectors.toList());
-        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/users");
-        return new ResponseEntity<>(managedUserDTOs, headers, HttpStatus.OK);
-    }
+  /**
+   * GET /users -> get all users.
+   */
+  @RequestMapping(value = "/users", method = RequestMethod.GET,
+      produces = MediaType.APPLICATION_JSON_VALUE)
+  @Timed
+  public ResponseEntity<List<ManagedUserDto>> getAllUsers(Pageable pageable)
+      throws URISyntaxException {
+    Page<User> page = userRepository.findAll(pageable);
+    List<ManagedUserDto> managedUserDtos = page.getContent()
+        .stream()
+        .map(user -> new ManagedUserDto(user))
+        .collect(Collectors.toList());
+    HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/users");
+    return new ResponseEntity<>(managedUserDtos, headers, HttpStatus.OK);
+  }
 
-    /**
-     * GET  /users/:login -> get the "login" user.
-     */
-    @RequestMapping(value = "/users/{login}",
-        method = RequestMethod.GET,
-        produces = MediaType.APPLICATION_JSON_VALUE)
-    @Timed
-    public ResponseEntity<ManagedUserDTO> getUser(@PathVariable String login) {
-        log.debug("REST request to get User : {}", login);
-        return userService.getUserWithAuthoritiesByLogin(login)
-                .map(user -> new ManagedUserDTO(user))
-                .map(managedUserDTO -> new ResponseEntity<>(managedUserDTO, HttpStatus.OK))
-                .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
-    }
+  /**
+   * GET /users/:login -> get the "login" user.
+   */
+  @RequestMapping(value = "/users/{login}", method = RequestMethod.GET,
+      produces = MediaType.APPLICATION_JSON_VALUE)
+  @Timed
+  public ResponseEntity<ManagedUserDto> getUser(@PathVariable String login) {
+    log.debug("REST request to get User : {}", login);
+    return userService.getUserWithAuthoritiesByLogin(login)
+      .map(user -> new ManagedUserDto(user))
+      .map(managedUserDTO -> new ResponseEntity<>(managedUserDTO, HttpStatus.OK))
+      .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
+  }
 }

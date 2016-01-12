@@ -41,8 +41,8 @@ import eu.dzhw.fdz.metadatamanagement.security.AuthoritiesConstants;
 import eu.dzhw.fdz.metadatamanagement.service.MailService;
 import eu.dzhw.fdz.metadatamanagement.service.UserService;
 import eu.dzhw.fdz.metadatamanagement.unittest.util.UnitTestUtils;
-import eu.dzhw.fdz.metadatamanagement.web.rest.dto.KeyAndPasswordDTO;
-import eu.dzhw.fdz.metadatamanagement.web.rest.dto.UserDTO;
+import eu.dzhw.fdz.metadatamanagement.web.rest.dto.KeyAndPasswordDto;
+import eu.dzhw.fdz.metadatamanagement.web.rest.dto.UserDto;
 
 /**
  * Test class for the AccountResource REST controller.
@@ -186,7 +186,7 @@ public class AccountResourceTest extends AbstractTest {
     // Arrange
     Optional<User> userO = this.userRepository.findOneByLogin("admin");
     User user = userO.get();
-    UserDTO dto = new UserDTO(user);
+    UserDto dto = new UserDto(user);
     UnitTestUtils.login(user.getLogin(), user.getPassword());
 
     // Act
@@ -202,7 +202,7 @@ public class AccountResourceTest extends AbstractTest {
     // Arrange
     Optional<User> userO = this.userRepository.findOneByLogin("admin");
     User user = userO.get();
-    UserDTO dto = new UserDTO(user);
+    UserDto dto = new UserDto(user);
 
     // Act
 
@@ -248,7 +248,7 @@ public class AccountResourceTest extends AbstractTest {
       .minusHours(1L));
     this.userRepository.save(user);
 
-    KeyAndPasswordDTO dto = new KeyAndPasswordDTO();
+    KeyAndPasswordDto dto = new KeyAndPasswordDto();
     dto.setKey(user.getResetKey());
     dto.setNewPassword("newPassword");
 
@@ -276,7 +276,7 @@ public class AccountResourceTest extends AbstractTest {
       .minusHours(1L));
     this.userRepository.save(user);
 
-    KeyAndPasswordDTO dto = new KeyAndPasswordDTO();
+    KeyAndPasswordDto dto = new KeyAndPasswordDto();
     dto.setKey(user.getResetKey());
     dto.setNewPassword("abc");// <- password is too short.
 
@@ -326,7 +326,7 @@ public class AccountResourceTest extends AbstractTest {
   @Test
   @Transactional
   public void testRegisterValid() throws Exception {
-    UserDTO u = new UserDTO("joe", // login
+    UserDto u = new UserDto("joe", // login
         "password", // password
         "Joe", // firstName
         "Shmoe", // lastName
@@ -346,7 +346,7 @@ public class AccountResourceTest extends AbstractTest {
   @Test
   @Transactional
   public void testRegisterInvalidLogin() throws Exception {
-    UserDTO u = new UserDTO("funky-log!n", // login <-- invalid
+    UserDto u = new UserDto("funky-log!n", // login <-- invalid
         "password", // password
         "Funky", // firstName
         "One", // lastName
@@ -366,7 +366,7 @@ public class AccountResourceTest extends AbstractTest {
   @Test
   @Transactional
   public void testRegisterInvalidEmail() throws Exception {
-    UserDTO u = new UserDTO("bob", // login
+    UserDto u = new UserDto("bob", // login
         "password", // password
         "Bob", // firstName
         "Green", // lastName
@@ -387,7 +387,7 @@ public class AccountResourceTest extends AbstractTest {
   @Transactional
   public void testRegisterDuplicateLogin() throws Exception {
     // Good
-    UserDTO u = new UserDTO("alice", // login
+    UserDto u = new UserDto("alice", // login
         "password", // password
         "Alice", // firstName
         "Something", // lastName
@@ -397,7 +397,7 @@ public class AccountResourceTest extends AbstractTest {
         new HashSet<>(Arrays.asList(AuthoritiesConstants.USER)));
 
     // Duplicate login, different e-mail
-    UserDTO dup = new UserDTO(u.getLogin(), u.getPassword(), u.getLogin(), u.getLastName(),
+    UserDto dup = new UserDto(u.getLogin(), u.getPassword(), u.getLogin(), u.getLastName(),
         "alicejr@example.com", true, u.getLangKey(), u.getAuthorities());
 
     // Good user
@@ -418,7 +418,7 @@ public class AccountResourceTest extends AbstractTest {
   @Transactional
   public void testRegisterDuplicateEmail() throws Exception {
     // Good
-    UserDTO u = new UserDTO("john", // login
+    UserDto u = new UserDto("john", // login
         "password", // password
         "John", // firstName
         "Doe", // lastName
@@ -428,7 +428,7 @@ public class AccountResourceTest extends AbstractTest {
         new HashSet<>(Arrays.asList(AuthoritiesConstants.USER)));
 
     // Duplicate e-mail, different login
-    UserDTO dup = new UserDTO("johnjr", u.getPassword(), u.getLogin(), u.getLastName(),
+    UserDto dup = new UserDto("johnjr", u.getPassword(), u.getLogin(), u.getLastName(),
         u.getEmail(), true, u.getLangKey(), u.getAuthorities());
 
     // Good user
@@ -448,7 +448,7 @@ public class AccountResourceTest extends AbstractTest {
   @Test
   @Transactional
   public void testRegisterAdminIsIgnored() throws Exception {
-    UserDTO u = new UserDTO("badguy", // login
+    UserDto u = new UserDto("badguy", // login
         "password", // password
         "Bad", // firstName
         "Guy", // lastName

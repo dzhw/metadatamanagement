@@ -201,8 +201,5 @@
         </module>
         <module name="SingleLineJavadoc"/>
     </module>
-	<module name="SuppressionFilter">
-    	<property name="file" value="${project_loc}/buildconfig/checkstyle-suppressions.xml"/>
-	</module>
 </module>
 

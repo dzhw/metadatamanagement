@@ -38,27 +38,33 @@ public class UserService {
   @Inject
   private AuthorityRepository authorityRepository;
 
+  /**
+   * Activate the user.
+   */
   public Optional<User> activateRegistration(String key) {
     log.debug("Activating user for activation key {}", key);
     userRepository.findOneByActivationKey(key)
-      .map(user -> {
+        .map(user -> {
         // activate given user for the registration key.
-        user.setActivated(true);
-        user.setActivationKey(null);
-        userRepository.save(user);
-        log.debug("Activated user: {}", user);
-        return user;
-      });
+          user.setActivated(true);
+          user.setActivationKey(null);
+          userRepository.save(user);
+          log.debug("Activated user: {}", user);
+          return user;
+        });
     return Optional.empty();
   }
 
+  /**
+   * Set new password after password reset.
+   */
   public Optional<User> completePasswordReset(String newPassword, String key) {
     log.debug("Reset user password for reset key {}", key);
 
     return userRepository.findOneByResetKey(key)
       .filter(user -> {
         ZonedDateTime oneDayAgo = ZonedDateTime.now()
-          .minusHours(24);
+            .minusHours(24);
         return user.getResetDate()
           .isAfter(oneDayAgo);
       })
@@ -71,6 +77,9 @@ public class UserService {
       });
   }
 
+  /**
+   * User with given email wants to reset his password.
+   */
   public Optional<User> requestPasswordReset(String mail) {
     return userRepository.findOneByEmail(mail)
       .filter(user -> user.getActivated())
@@ -82,12 +91,13 @@ public class UserService {
       });
   }
 
+  /**
+   * Create the user with the given details.
+   */
   public User createUserInformation(String login, String password, String firstName,
       String lastName, String email, String langKey) {
 
     User newUser = new User();
-    Authority authority = authorityRepository.findOne("ROLE_USER");
-    Set<Authority> authorities = new HashSet<>();
     String encryptedPassword = passwordEncoder.encode(password);
     newUser.setLogin(login);
     // new user gets initially a generated password
@@ -100,6 +110,8 @@ public class UserService {
     newUser.setActivated(false);
     // new user gets registration key
     newUser.setActivationKey(RandomUtil.generateActivationKey());
+    Authority authority = authorityRepository.findOne("ROLE_USER");
+    Set<Authority> authorities = new HashSet<>();
     authorities.add(authority);
     newUser.setAuthorities(authorities);
     userRepository.save(newUser);
@@ -107,29 +119,39 @@ public class UserService {
     return newUser;
   }
 
+  /**
+   * Update the user details.
+   */
   public void updateUserInformation(String firstName, String lastName, String email,
       String langKey) {
     userRepository.findOneByLogin(SecurityUtils.getCurrentUserLogin())
-      .ifPresent(u -> {
-        u.setFirstName(firstName);
-        u.setLastName(lastName);
-        u.setEmail(email);
-        u.setLangKey(langKey);
-        userRepository.save(u);
-        log.debug("Changed Information for User: {}", u);
-      });
+        .ifPresent(u -> {
+          u.setFirstName(firstName);
+          u.setLastName(lastName);
+          u.setEmail(email);
+          u.setLangKey(langKey);
+          userRepository.save(u);
+          log.debug("Changed Information for User: {}", u);
+        });
   }
 
+  /**
+   * Change the password of the current user.
+   * @param password the new password.
+   */
   public void changePassword(String password) {
     userRepository.findOneByLogin(SecurityUtils.getCurrentUserLogin())
-      .ifPresent(u -> {
-        String encryptedPassword = passwordEncoder.encode(password);
-        u.setPassword(encryptedPassword);
-        userRepository.save(u);
-        log.debug("Changed password for User: {}", u);
-      });
+        .ifPresent(u -> {
+          String encryptedPassword = passwordEncoder.encode(password);
+          u.setPassword(encryptedPassword);
+          userRepository.save(u);
+          log.debug("Changed password for User: {}", u);
+        });
   }
 
+  /**
+   * Find the user by login.
+   */
   public Optional<User> getUserWithAuthoritiesByLogin(String login) {
     return userRepository.findOneByLogin(login)
       .map(u -> {
@@ -139,19 +161,26 @@ public class UserService {
       });
   }
 
+  /**
+   * Find the user by id.
+   */
   public User getUserWithAuthorities(String id) {
     User user = userRepository.findOne(id);
     int size = user.getAuthorities()
-      .size(); // eagerly load the association
+        .size(); // eagerly load the association
     this.log.debug("user.getAuthorities().size() = " + size);
     return user;
   }
 
+  /**
+   * Get currently logged in user.
+   * @return the currently logged in user.
+   */
   public User getUserWithAuthorities() {
     User user = userRepository.findOneByLogin(SecurityUtils.getCurrentUserLogin())
-      .get();
+        .get();
     int size = user.getAuthorities()
-      .size(); // eagerly load the association
+        .size(); // eagerly load the association
     this.log.debug("user.getAuthorities().size() = " + size);
     return user;
   }

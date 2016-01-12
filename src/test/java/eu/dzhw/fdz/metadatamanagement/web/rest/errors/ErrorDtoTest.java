@@ -23,10 +23,10 @@ public class ErrorDtoTest {
   @Test
   public void testErrorDto() {
     // Arrange
-    ErrorDTO dto = new ErrorDTO("message");
-    ErrorDTO dtoWithDescription = new ErrorDTO("message", "description");
-    ErrorDTO dtoWithDescriptionAndFieldErrors =
-        new ErrorDTO("message", "description", new ArrayList<>());
+    ErrorDto dto = new ErrorDto("message");
+    ErrorDto dtoWithDescription = new ErrorDto("message", "description");
+    ErrorDto dtoWithDescriptionAndFieldErrors =
+        new ErrorDto("message", "description", new ArrayList<>());
 
     // Act
     dto.add("objectName", "field", "messageAdd");

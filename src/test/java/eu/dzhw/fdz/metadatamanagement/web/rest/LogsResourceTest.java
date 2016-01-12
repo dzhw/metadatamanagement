@@ -21,7 +21,7 @@ import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import eu.dzhw.fdz.metadatamanagement.AbstractTest;
-import eu.dzhw.fdz.metadatamanagement.web.rest.dto.LoggerDTO;
+import eu.dzhw.fdz.metadatamanagement.web.rest.dto.LoggerDto;
 
 /**
  * @author Daniel Katzberg
@@ -65,7 +65,7 @@ public class LogsResourceTest extends AbstractTest {
   public void testChangeLevel() throws Exception {
 
     // Arrange
-    LoggerDTO loggerDTO = new LoggerDTO();
+    LoggerDto loggerDTO = new LoggerDto();
     loggerDTO.setLevel("INFO");
     loggerDTO.setName("ROOT");
 

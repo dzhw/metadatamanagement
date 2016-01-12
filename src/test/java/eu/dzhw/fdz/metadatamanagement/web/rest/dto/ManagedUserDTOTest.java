@@ -16,7 +16,7 @@ public class ManagedUserDTOTest {
   @Test
   public void testManagedDTOLastModified() {
     // Arrange
-    ManagedUserDTO dto = new ManagedUserDTO();
+    ManagedUserDto dto = new ManagedUserDto();
 
     // Act
     dto.setLastModifiedBy("last Modified");

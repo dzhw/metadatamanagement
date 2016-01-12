@@ -36,7 +36,7 @@ public class ExceptionTranslatorTest {
     ExceptionTranslator exceptionTranslator = new ExceptionTranslator();
 
     // Act
-    ErrorDTO dto =
+    ErrorDto dto =
         exceptionTranslator.processConcurencyError(new ConcurrencyFailureException("message"));
 
     // Assert
@@ -55,7 +55,7 @@ public class ExceptionTranslatorTest {
     when(bindingResult.getFieldErrors()).thenReturn(fieldErrors);
 
     // Act
-    ErrorDTO dto = exceptionTranslator.processValidationError(
+    ErrorDto dto = exceptionTranslator.processValidationError(
         new MethodArgumentNotValidException(Mockito.mock(MethodParameter.class), bindingResult));
 
     // Assert
@@ -70,7 +70,7 @@ public class ExceptionTranslatorTest {
     ExceptionTranslator exceptionTranslator = new ExceptionTranslator();
 
     // Act
-    ParameterizedErrorDTO dto = exceptionTranslator
+    ParameterizedErrorDto dto = exceptionTranslator
       .processParameterizedValidationError(new CustomParameterizedException("message"));
 
     // Assert
@@ -85,7 +85,7 @@ public class ExceptionTranslatorTest {
     ExceptionTranslator exceptionTranslator = new ExceptionTranslator();
 
     // Act
-    ErrorDTO dto =
+    ErrorDto dto =
         exceptionTranslator.processAccessDeniedExcpetion(new AccessDeniedException("message"));
 
     // Assert
@@ -100,7 +100,7 @@ public class ExceptionTranslatorTest {
     ExceptionTranslator exceptionTranslator = new ExceptionTranslator();
 
     // Act
-    ErrorDTO dto = exceptionTranslator.processMethodNotSupportedException(
+    ErrorDto dto = exceptionTranslator.processMethodNotSupportedException(
         new HttpRequestMethodNotSupportedException("method", "message"));
 
     // Assert

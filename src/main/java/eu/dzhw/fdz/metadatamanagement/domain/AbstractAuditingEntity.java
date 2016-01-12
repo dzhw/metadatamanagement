@@ -11,60 +11,60 @@ import org.springframework.data.mongodb.core.mapping.Field;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 /**
- * Base abstract class for entities which will hold definitions for created, last modified by and created,
- * last modified by date.
+ * Base abstract class for entities which will hold definitions for created, last modified by and
+ * created, last modified by date.
  */
 public abstract class AbstractAuditingEntity {
 
-    @CreatedBy
-    @Field("created_by")
-    @JsonIgnore
-    private String createdBy;
+  @CreatedBy
+  @Field("created_by")
+  @JsonIgnore
+  private String createdBy;
 
-    @CreatedDate
-    @Field("created_date")
-    @JsonIgnore
-    private ZonedDateTime createdDate = ZonedDateTime.now();
+  @CreatedDate
+  @Field("created_date")
+  @JsonIgnore
+  private ZonedDateTime createdDate = ZonedDateTime.now();
 
-    @LastModifiedBy
-    @Field("last_modified_by")
-    @JsonIgnore
-    private String lastModifiedBy;
+  @LastModifiedBy
+  @Field("last_modified_by")
+  @JsonIgnore
+  private String lastModifiedBy;
 
-    @LastModifiedDate
-    @Field("last_modified_date  ")
-    @JsonIgnore
-    private ZonedDateTime lastModifiedDate = ZonedDateTime.now();
+  @LastModifiedDate
+  @Field("last_modified_date  ")
+  @JsonIgnore
+  private ZonedDateTime lastModifiedDate = ZonedDateTime.now();
 
-    public String getCreatedBy() {
-        return createdBy;
-    }
+  public String getCreatedBy() {
+    return createdBy;
+  }
 
-    public void setCreatedBy(String createdBy) {
-        this.createdBy = createdBy;
-    }
+  public void setCreatedBy(String createdBy) {
+    this.createdBy = createdBy;
+  }
 
-    public ZonedDateTime getCreatedDate() {
-        return createdDate;
-    }
+  public ZonedDateTime getCreatedDate() {
+    return createdDate;
+  }
 
-    public void setCreatedDate(ZonedDateTime createdDate) {
-        this.createdDate = createdDate;
-    }
+  public void setCreatedDate(ZonedDateTime createdDate) {
+    this.createdDate = createdDate;
+  }
 
-    public String getLastModifiedBy() {
-        return lastModifiedBy;
-    }
+  public String getLastModifiedBy() {
+    return lastModifiedBy;
+  }
 
-    public void setLastModifiedBy(String lastModifiedBy) {
-        this.lastModifiedBy = lastModifiedBy;
-    }
+  public void setLastModifiedBy(String lastModifiedBy) {
+    this.lastModifiedBy = lastModifiedBy;
+  }
 
-    public ZonedDateTime getLastModifiedDate() {
-        return lastModifiedDate;
-    }
+  public ZonedDateTime getLastModifiedDate() {
+    return lastModifiedDate;
+  }
 
-    public void setLastModifiedDate(ZonedDateTime lastModifiedDate) {
-        this.lastModifiedDate = lastModifiedDate;
-    }
+  public void setLastModifiedDate(ZonedDateTime lastModifiedDate) {
+    this.lastModifiedDate = lastModifiedDate;
+  }
 }

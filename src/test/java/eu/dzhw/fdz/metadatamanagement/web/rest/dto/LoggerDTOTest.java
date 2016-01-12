@@ -16,7 +16,7 @@ public class LoggerDTOTest {
   @Test
   public void testToString() {
     // Arrange
-    LoggerDTO dto = new LoggerDTO();
+    LoggerDto dto = new LoggerDto();
 
     // Act
 

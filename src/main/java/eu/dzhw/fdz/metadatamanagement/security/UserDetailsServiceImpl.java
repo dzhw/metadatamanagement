@@ -26,28 +26,29 @@ import eu.dzhw.fdz.metadatamanagement.repository.UserRepository;
 @Component("userDetailsService")
 public class UserDetailsServiceImpl implements UserDetailsService {
 
-    private final Logger log = LoggerFactory.getLogger(UserDetailsServiceImpl.class);
+  private final Logger log = LoggerFactory.getLogger(UserDetailsServiceImpl.class);
 
-    @Inject
-    private UserRepository userRepository;
+  @Inject
+  private UserRepository userRepository;
 
-    @Override
-    @Transactional
-    public UserDetails loadUserByUsername(final String login) {
-        log.debug("Authenticating {}", login);
-        String lowercaseLogin = login.toLowerCase(LocaleContextHolder.getLocale());
-        Optional<User> userFromDatabase = userRepository.findOneByLogin(lowercaseLogin);
-        return userFromDatabase.map(user -> {
-            if (!user.getActivated()) {
-                throw new UserNotActivatedException("User " + lowercaseLogin + " was not activated");
-            }
-            Set<GrantedAuthority> grantedAuthorities = user.getAuthorities().stream()
-                    .map(authority -> new SimpleGrantedAuthority(authority.getName()))
-                .collect(Collectors.toSet());
-            return new CustomUserDetails(user.getId(), lowercaseLogin,
-                user.getPassword(),
-                grantedAuthorities, true, true, true, true);
-        }).orElseThrow(() -> new UsernameNotFoundException("User " + lowercaseLogin + " was not found in the " +
-        "database"));
-    }
+  @Override
+  @Transactional
+  public UserDetails loadUserByUsername(final String login) {
+    log.debug("Authenticating {}", login);
+    String lowercaseLogin = login.toLowerCase(LocaleContextHolder.getLocale());
+    Optional<User> userFromDatabase = userRepository.findOneByLogin(lowercaseLogin);
+    return userFromDatabase.map(user -> {
+      if (!user.getActivated()) {
+        throw new UserNotActivatedException("User " + lowercaseLogin + " was not activated");
+      }
+      Set<GrantedAuthority> grantedAuthorities = user.getAuthorities()
+          .stream()
+          .map(authority -> new SimpleGrantedAuthority(authority.getName()))
+          .collect(Collectors.toSet());
+      return new CustomUserDetails(user.getId(), lowercaseLogin, user.getPassword(),
+          grantedAuthorities, true, true, true, true);
+    })
+      .orElseThrow(() -> new UsernameNotFoundException(
+          "User " + lowercaseLogin + " was not found in the " + "database"));
+  }
 }

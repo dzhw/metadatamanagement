@@ -22,7 +22,7 @@ public class ParameterizedErrorDTOTest {
   @Test
   public void testParameterizedErrorDTO() {
     // Arrange
-    ParameterizedErrorDTO dto = new ParameterizedErrorDTO("message", "param", "param2");
+    ParameterizedErrorDto dto = new ParameterizedErrorDto("message", "param", "param2");
 
     // Act
 

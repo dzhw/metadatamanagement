@@ -22,10 +22,10 @@ public class JSR310DateConvertersTest {
   @Test
   public void testConvertToDate() {
     // Arrange
-    JSR310DateConverters.LocalDateToDateConverter localDateToDateConverter =
-        JSR310DateConverters.LocalDateToDateConverter.INSTANCE;
-    JSR310DateConverters.DateToLocalDateConverter dateToLocalDateConverter =
-        JSR310DateConverters.DateToLocalDateConverter.INSTANCE;
+    Jsr310DateConverters.LocalDateToDateConverter localDateToDateConverter =
+        Jsr310DateConverters.LocalDateToDateConverter.INSTANCE;
+    Jsr310DateConverters.DateToLocalDateConverter dateToLocalDateConverter =
+        Jsr310DateConverters.DateToLocalDateConverter.INSTANCE;
 
     // Act
     LocalDate localDate = LocalDate.now();

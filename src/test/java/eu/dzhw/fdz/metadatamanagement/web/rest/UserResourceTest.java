@@ -33,7 +33,7 @@ import eu.dzhw.fdz.metadatamanagement.domain.builders.UserBuilder;
 import eu.dzhw.fdz.metadatamanagement.repository.AuthorityRepository;
 import eu.dzhw.fdz.metadatamanagement.repository.UserRepository;
 import eu.dzhw.fdz.metadatamanagement.service.UserService;
-import eu.dzhw.fdz.metadatamanagement.web.rest.dto.ManagedUserDTO;
+import eu.dzhw.fdz.metadatamanagement.web.rest.dto.ManagedUserDto;
 
 /**
  * Test class for the UserResource REST controller.
@@ -135,7 +135,7 @@ public class UserResourceTest extends AbstractTest {
     Optional<User> userO = this.userRepository.findOneByLogin("user");
     User user = userO.get();
     user.setEmail("userMod@localhost");
-    ManagedUserDTO dto = new ManagedUserDTO(user);
+    ManagedUserDto dto = new ManagedUserDto(user);
 
     System.out.println(new String(TestUtil.convertObjectToJsonBytes(dto)));
 

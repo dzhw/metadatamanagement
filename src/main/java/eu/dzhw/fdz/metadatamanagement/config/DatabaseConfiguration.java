@@ -26,14 +26,17 @@ import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 import com.mongodb.Mongo;
 
 import eu.dzhw.fdz.metadatamanagement.config.oauth2.OAuth2AuthenticationReadConverter;
-import eu.dzhw.fdz.metadatamanagement.domain.util.JSR310DateConverters.DateToLocalDateConverter;
-import eu.dzhw.fdz.metadatamanagement.domain.util.JSR310DateConverters.DateToLocalDateTimeConverter;
-import eu.dzhw.fdz.metadatamanagement.domain.util.JSR310DateConverters.DateToZonedDateTimeConverter;
-import eu.dzhw.fdz.metadatamanagement.domain.util.JSR310DateConverters.LocalDateTimeToDateConverter;
-import eu.dzhw.fdz.metadatamanagement.domain.util.JSR310DateConverters.LocalDateToDateConverter;
-import eu.dzhw.fdz.metadatamanagement.domain.util.JSR310DateConverters.ZonedDateTimeToDateConverter;
+import eu.dzhw.fdz.metadatamanagement.domain.util.Jsr310DateConverters.DateToLocalDateConverter;
+import eu.dzhw.fdz.metadatamanagement.domain.util.Jsr310DateConverters.DateToLocalDateTimeConverter;
+import eu.dzhw.fdz.metadatamanagement.domain.util.Jsr310DateConverters.DateToZonedDateTimeConverter;
+import eu.dzhw.fdz.metadatamanagement.domain.util.Jsr310DateConverters.LocalDateTimeToDateConverter;
+import eu.dzhw.fdz.metadatamanagement.domain.util.Jsr310DateConverters.LocalDateToDateConverter;
+import eu.dzhw.fdz.metadatamanagement.domain.util.Jsr310DateConverters.ZonedDateTimeToDateConverter;
 
-
+/**
+ * Configure the mongo db client instance when not running in the cloud.
+ */
+//TODO ensure that the mongo client configuration is the same as CloudMongoDbConfiguration
 @Configuration
 @Profile("!" + Constants.SPRING_PROFILE_CLOUD)
 @EnableMongoRepositories("eu.dzhw.fdz.metadatamanagement.repository")
@@ -41,56 +44,62 @@ import eu.dzhw.fdz.metadatamanagement.domain.util.JSR310DateConverters.ZonedDate
 @EnableMongoAuditing(auditorAwareRef = "springSecurityAuditorAware")
 public class DatabaseConfiguration extends AbstractMongoConfiguration {
 
-    private final Logger log = LoggerFactory.getLogger(DatabaseConfiguration.class);
+  private final Logger log = LoggerFactory.getLogger(DatabaseConfiguration.class);
 
-    @Inject
-    private Mongo mongo;
+  @Inject
+  private Mongo mongo;
 
-    @Inject
-    private MongoProperties mongoProperties;
+  @Inject
+  private MongoProperties mongoProperties;
 
-    @Bean
-    public ValidatingMongoEventListener validatingMongoEventListener() {
-        return new ValidatingMongoEventListener(validator());
-    }
+  @Bean
+  public ValidatingMongoEventListener validatingMongoEventListener() {
+    return new ValidatingMongoEventListener(validator());
+  }
 
-    @Bean
-    public LocalValidatorFactoryBean validator() {
-        return new LocalValidatorFactoryBean();
-    }
+  @Bean
+  public LocalValidatorFactoryBean validator() {
+    return new LocalValidatorFactoryBean();
+  }
 
-    @Override
-    protected String getDatabaseName() {
-        return mongoProperties.getDatabase();
-    }
+  @Override
+  protected String getDatabaseName() {
+    return mongoProperties.getDatabase();
+  }
 
-    @Override
-    public Mongo mongo() throws Exception {
-        return mongo;
-    }
+  @Override
+  public Mongo mongo() throws Exception {
+    return mongo;
+  }
 
-    @Bean
-    public CustomConversions customConversions() {
-        List<Converter<?, ?>> converters = new ArrayList<>();
-        converters.add(new OAuth2AuthenticationReadConverter());
-        converters.add(DateToZonedDateTimeConverter.INSTANCE);
-        converters.add(ZonedDateTimeToDateConverter.INSTANCE);
-        converters.add(DateToLocalDateConverter.INSTANCE);
-        converters.add(LocalDateToDateConverter.INSTANCE);
-        converters.add(DateToLocalDateTimeConverter.INSTANCE);
-        converters.add(LocalDateTimeToDateConverter.INSTANCE);
-        return new CustomConversions(converters);
-    }
+  /**
+   * Register custom converters for mongo access.
+   */
+  @Bean
+  public CustomConversions customConversions() {
+    List<Converter<?, ?>> converters = new ArrayList<>();
+    converters.add(new OAuth2AuthenticationReadConverter());
+    converters.add(DateToZonedDateTimeConverter.INSTANCE);
+    converters.add(ZonedDateTimeToDateConverter.INSTANCE);
+    converters.add(DateToLocalDateConverter.INSTANCE);
+    converters.add(LocalDateToDateConverter.INSTANCE);
+    converters.add(DateToLocalDateTimeConverter.INSTANCE);
+    converters.add(LocalDateTimeToDateConverter.INSTANCE);
+    return new CustomConversions(converters);
+  }
 
-    @Bean
-    @Profile("!" + Constants.SPRING_PROFILE_FAST)
-    public Mongeez mongeez() {
-        log.debug("Configuring Mongeez");
-        Mongeez mongeez = new Mongeez();
-        mongeez.setFile(new ClassPathResource("/config/mongeez/master.xml"));
-        mongeez.setMongo(mongo);
-        mongeez.setDbName(mongoProperties.getDatabase());
-        mongeez.process();
-        return mongeez;
-    }
+  /**
+   * Configure Mongeez for schema management.
+   */
+  @Bean
+  @Profile("!" + Constants.SPRING_PROFILE_FAST)
+  public Mongeez mongeez() {
+    log.debug("Configuring Mongeez");
+    Mongeez mongeez = new Mongeez();
+    mongeez.setFile(new ClassPathResource("/config/mongeez/master.xml"));
+    mongeez.setMongo(mongo);
+    mongeez.setDbName(mongoProperties.getDatabase());
+    mongeez.process();
+    return mongeez;
+  }
 }

@@ -1,15 +1,17 @@
 package eu.dzhw.fdz.metadatamanagement.service;
 
-import eu.dzhw.fdz.metadatamanagement.config.audit.AuditEventConverter;
-import eu.dzhw.fdz.metadatamanagement.domain.PersistentAuditEvent;
-import eu.dzhw.fdz.metadatamanagement.repository.PersistenceAuditEventRepository;
 import java.time.LocalDateTime;
+import java.util.List;
+import java.util.Optional;
+
+import javax.inject.Inject;
+
 import org.springframework.boot.actuate.audit.AuditEvent;
 import org.springframework.stereotype.Service;
 
-import javax.inject.Inject;
-import java.util.List;
-import java.util.Optional;
+import eu.dzhw.fdz.metadatamanagement.config.audit.AuditEventConverter;
+import eu.dzhw.fdz.metadatamanagement.domain.PersistentAuditEvent;
+import eu.dzhw.fdz.metadatamanagement.repository.PersistenceAuditEventRepository;
 
 /**
  * Service for managing audit events.
@@ -21,32 +23,37 @@ import java.util.Optional;
 @Service
 public class AuditEventService {
 
-    private PersistenceAuditEventRepository persistenceAuditEventRepository;
+  private PersistenceAuditEventRepository persistenceAuditEventRepository;
 
-    private AuditEventConverter auditEventConverter;
+  private AuditEventConverter auditEventConverter;
 
-    @Inject
-    public AuditEventService(
-        PersistenceAuditEventRepository persistenceAuditEventRepository,
-        AuditEventConverter auditEventConverter) {
+  /**
+   * Create the audit event service.
+   */
+  @Inject
+  public AuditEventService(PersistenceAuditEventRepository persistenceAuditEventRepository,
+      AuditEventConverter auditEventConverter) {
 
-        this.persistenceAuditEventRepository = persistenceAuditEventRepository;
-        this.auditEventConverter = auditEventConverter;
-    }
+    this.persistenceAuditEventRepository = persistenceAuditEventRepository;
+    this.auditEventConverter = auditEventConverter;
+  }
 
-    public List<AuditEvent> findAll() {
-        return auditEventConverter.convertToAuditEvent(persistenceAuditEventRepository.findAll());
-    }
+  public List<AuditEvent> findAll() {
+    return auditEventConverter.convertToAuditEvent(persistenceAuditEventRepository.findAll());
+  }
 
-    public List<AuditEvent> findByDates(LocalDateTime fromDate, LocalDateTime toDate) {
-        List<PersistentAuditEvent> persistentAuditEvents =
-            persistenceAuditEventRepository.findAllByAuditEventDateBetween(fromDate, toDate);
+  /**
+   * Find all audit events.
+   */
+  public List<AuditEvent> findByDates(LocalDateTime fromDate, LocalDateTime toDate) {
+    List<PersistentAuditEvent> persistentAuditEvents =
+        persistenceAuditEventRepository.findAllByAuditEventDateBetween(fromDate, toDate);
 
-        return auditEventConverter.convertToAuditEvent(persistentAuditEvents);
-    }
+    return auditEventConverter.convertToAuditEvent(persistentAuditEvents);
+  }
 
-    public Optional<AuditEvent> find(String id) {
-        return Optional.ofNullable(persistenceAuditEventRepository.findOne(id)).map
-            (auditEventConverter::convertToAuditEvent);
-    }
+  public Optional<AuditEvent> find(String id) {
+    return Optional.ofNullable(persistenceAuditEventRepository.findOne(id))
+      .map(auditEventConverter::convertToAuditEvent);
+  }
 }

@@ -17,15 +17,14 @@ import com.fasterxml.jackson.databind.JsonDeserializer;
  * @author Daniel Katzberg
  * @author JHipster
  */
-public class JSR310LocalDateDeserializer extends JsonDeserializer<LocalDate> {
+public class Jsr310LocalDateDeserializer extends JsonDeserializer<LocalDate> {
 
-  /** Local static instance */
-  private static volatile JSR310LocalDateDeserializer LOCAL_DATE_DESERIALIZER;
+  private static volatile Jsr310LocalDateDeserializer LOCAL_DATE_DESERIALIZER;
   
   private static final DateTimeFormatter ISO_DATE_OPTIONAL_TIME;
 
   /** Singleton private Constructor. */
-  private JSR310LocalDateDeserializer() {}  
+  private Jsr310LocalDateDeserializer() {}  
 
   static {
     ISO_DATE_OPTIONAL_TIME = new DateTimeFormatterBuilder().append(DateTimeFormatter.ISO_LOCAL_DATE)
@@ -35,7 +34,6 @@ public class JSR310LocalDateDeserializer extends JsonDeserializer<LocalDate> {
       .toFormatter();
   }
 
-  @SuppressWarnings("incomplete-switch")
   @Override
   public LocalDate deserialize(JsonParser parser, DeserializationContext context)
       throws IOException {
@@ -44,7 +42,8 @@ public class JSR310LocalDateDeserializer extends JsonDeserializer<LocalDate> {
         if (parser.nextToken() == JsonToken.END_ARRAY) {
           return null;
         }
-        int year = parser.getIntValue();
+        int year;
+        year = parser.getIntValue();
 
         parser.nextToken();
         int month = parser.getIntValue();
@@ -59,21 +58,26 @@ public class JSR310LocalDateDeserializer extends JsonDeserializer<LocalDate> {
 
       case VALUE_STRING:
         String string = parser.getText()
-          .trim();
+            .trim();
         if (string.length() == 0) {
           return null;
         }
         return LocalDate.parse(string, ISO_DATE_OPTIONAL_TIME);
+      default:
+        break;
     }
     throw context.wrongTokenException(parser, JsonToken.START_ARRAY, "Expected array or string.");
   }
 
-  public static JSR310LocalDateDeserializer getJSR310LocalDateDeserializer() {
+  /**
+   * Get the {@link Jsr310LocalDateDeserializer}.
+   */
+  public static Jsr310LocalDateDeserializer getJsr310LocalDateDeserializer() {
 
     if (LOCAL_DATE_DESERIALIZER == null) {
-      synchronized (JSR310LocalDateDeserializer.class) {
+      synchronized (Jsr310LocalDateDeserializer.class) {
         if (LOCAL_DATE_DESERIALIZER == null) {
-          LOCAL_DATE_DESERIALIZER = new JSR310LocalDateDeserializer();
+          LOCAL_DATE_DESERIALIZER = new Jsr310LocalDateDeserializer();
         }
       }
     }

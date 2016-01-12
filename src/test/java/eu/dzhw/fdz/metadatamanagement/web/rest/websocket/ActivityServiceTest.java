@@ -22,7 +22,7 @@ import org.springframework.web.socket.messaging.SessionDisconnectEvent;
 import eu.dzhw.fdz.metadatamanagement.AbstractTest;
 import eu.dzhw.fdz.metadatamanagement.config.WebsocketConfiguration;
 import eu.dzhw.fdz.metadatamanagement.web.websocket.ActivityService;
-import eu.dzhw.fdz.metadatamanagement.web.websocket.dto.ActivityDTO;
+import eu.dzhw.fdz.metadatamanagement.web.websocket.dto.ActivityDto;
 
 /**
  * @author Daniel Katzberg
@@ -42,7 +42,7 @@ public class ActivityServiceTest extends AbstractTest {
     stompHeaderAccessor.setSessionAttributes(attributes);
 
     // Act
-    ActivityDTO activityDTO = this.activityService.sendActivity(new ActivityDTO(),
+    ActivityDto activityDTO = this.activityService.sendActivity(new ActivityDto(),
         stompHeaderAccessor, Mockito.mock(Principal.class));
 
     // Assert

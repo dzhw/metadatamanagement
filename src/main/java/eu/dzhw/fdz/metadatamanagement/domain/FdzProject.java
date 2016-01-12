@@ -14,7 +14,7 @@ import eu.dzhw.fdz.metadatamanagement.domain.util.Patterns;
 import net.karneim.pojobuilder.GeneratePojoBuilder;
 
 /**
- * A FdzProject.
+ * The FDZ Project collects all data which are going to be published by our FDZ.
  */
 @Document(collection = "fdz_project")
 @GeneratePojoBuilder(intoPackage = "eu.dzhw.fdz.metadatamanagement.domain.builders")

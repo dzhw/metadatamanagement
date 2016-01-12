@@ -21,7 +21,7 @@ public class FieldErrorDTOTest {
   @Test
   public void testFieldErrorDTOTest() {
     // Arrange
-    FieldErrorDTO dto = new FieldErrorDTO("dto", "field", "message");
+    FieldErrorDto dto = new FieldErrorDto("dto", "field", "message");
 
     // Act
 

@@ -31,8 +31,8 @@ public class JSR310LocalDateDeserializerTest {
   public void testDeserializeAccetable() throws IOException {
 
     // Arrange
-    JSR310LocalDateDeserializer deserializer =
-        JSR310LocalDateDeserializer.getJSR310LocalDateDeserializer();
+    Jsr310LocalDateDeserializer deserializer =
+        Jsr310LocalDateDeserializer.getJsr310LocalDateDeserializer();
     JsonParser jsonParser = Mockito.mock(JsonParser.class);
     when(jsonParser.getCurrentToken()).thenReturn(JsonToken.START_ARRAY);
     when(jsonParser.nextToken()).thenReturn(null, JsonToken.END_ARRAY);
@@ -50,8 +50,8 @@ public class JSR310LocalDateDeserializerTest {
   public void testDeserializeReturnNull() throws IOException {
 
     // Arrange
-    JSR310LocalDateDeserializer deserializer =
-        JSR310LocalDateDeserializer.getJSR310LocalDateDeserializer();
+    Jsr310LocalDateDeserializer deserializer =
+        Jsr310LocalDateDeserializer.getJsr310LocalDateDeserializer();
     JsonParser jsonParser = Mockito.mock(JsonParser.class);
     when(jsonParser.getCurrentToken()).thenReturn(JsonToken.START_ARRAY);
     when(jsonParser.nextToken()).thenReturn(JsonToken.END_ARRAY);
@@ -68,8 +68,8 @@ public class JSR310LocalDateDeserializerTest {
   public void testDeserializeWithException() throws IOException {
 
     // Arrange
-    JSR310LocalDateDeserializer deserializer =
-        JSR310LocalDateDeserializer.getJSR310LocalDateDeserializer();
+    Jsr310LocalDateDeserializer deserializer =
+        Jsr310LocalDateDeserializer.getJsr310LocalDateDeserializer();
     JsonParser jsonParser = Mockito.mock(JsonParser.class);
     when(jsonParser.getCurrentToken()).thenReturn(JsonToken.START_ARRAY);
     when(jsonParser.nextToken()).thenReturn(JsonToken.START_ARRAY);
@@ -87,8 +87,8 @@ public class JSR310LocalDateDeserializerTest {
   public void testDeserializeAccetableValueString() throws IOException {
 
     // Arrange
-    JSR310LocalDateDeserializer deserializer =
-        JSR310LocalDateDeserializer.getJSR310LocalDateDeserializer();
+    Jsr310LocalDateDeserializer deserializer =
+        Jsr310LocalDateDeserializer.getJsr310LocalDateDeserializer();
     JsonParser jsonParser = Mockito.mock(JsonParser.class);
     when(jsonParser.getCurrentToken()).thenReturn(JsonToken.VALUE_STRING);
     when(jsonParser.getText()).thenReturn("2015-10-31");
@@ -105,8 +105,8 @@ public class JSR310LocalDateDeserializerTest {
   public void testDeserializeAccetableValueEmptyString() throws IOException {
 
     // Arrange
-    JSR310LocalDateDeserializer deserializer =
-        JSR310LocalDateDeserializer.getJSR310LocalDateDeserializer();
+    Jsr310LocalDateDeserializer deserializer =
+        Jsr310LocalDateDeserializer.getJsr310LocalDateDeserializer();
     JsonParser jsonParser = Mockito.mock(JsonParser.class);
     when(jsonParser.getCurrentToken()).thenReturn(JsonToken.VALUE_STRING);
     when(jsonParser.getText()).thenReturn("");
@@ -123,8 +123,8 @@ public class JSR310LocalDateDeserializerTest {
   public void testDeserializeNoAccetable() throws IOException {
 
     // Arrange
-    JSR310LocalDateDeserializer deserializer =
-        JSR310LocalDateDeserializer.getJSR310LocalDateDeserializer();
+    Jsr310LocalDateDeserializer deserializer =
+        Jsr310LocalDateDeserializer.getJsr310LocalDateDeserializer();
     JsonParser jsonParser = Mockito.mock(JsonParser.class);
     when(jsonParser.getCurrentToken()).thenReturn(JsonToken.END_ARRAY);
     DeserializationContext deserializationContext = Mockito.mock(DeserializationContext.class);

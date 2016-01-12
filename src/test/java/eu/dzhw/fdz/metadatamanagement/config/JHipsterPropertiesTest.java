@@ -11,7 +11,6 @@ import static org.junit.Assert.assertThat;
 import org.junit.Test;
 
 import eu.dzhw.fdz.metadatamanagement.config.JHipsterProperties.Async;
-import eu.dzhw.fdz.metadatamanagement.config.JHipsterProperties.Datasource;
 import eu.dzhw.fdz.metadatamanagement.config.JHipsterProperties.Http;
 import eu.dzhw.fdz.metadatamanagement.config.JHipsterProperties.Http.Cache;
 import eu.dzhw.fdz.metadatamanagement.config.JHipsterProperties.Mail;
@@ -57,26 +56,6 @@ public class JHipsterPropertiesTest {
     assertThat(http, not(nullValue()));
     assertThat(httpCache, not(nullValue()));
     assertThat(httpCache.getTimeToLiveInDays(), is(1));
-  }
-
-  @Test
-  public void testDataSource() {
-    // Arrange
-    JHipsterProperties jHipsterProperties = new JHipsterProperties();
-
-    // Act
-    Datasource datasource = jHipsterProperties.getDatasource();
-    datasource.setCachePrepStmts(false);
-    datasource.setPrepStmtCacheSize(100);
-    datasource.setPrepStmtCacheSqlLimit(100);
-    datasource.setUseServerPrepStmts(false);
-
-    // Assert
-    assertThat(datasource, not(nullValue()));
-    assertThat(datasource.isCachePrepStmts(), is(false));
-    assertThat(datasource.getPrepStmtCacheSize(), is(100));
-    assertThat(datasource.getPrepStmtCacheSqlLimit(), is(100));
-    assertThat(datasource.isUseServerPrepStmts(), is(false));
   }
 
   @Test

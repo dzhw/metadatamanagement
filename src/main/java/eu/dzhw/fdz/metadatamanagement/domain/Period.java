@@ -16,7 +16,6 @@ import net.karneim.pojobuilder.GeneratePojoBuilder;
 public class Period implements Serializable {
   private static final long serialVersionUID = -4040296722435163942L;
 
-  //TODO add validator for checking that start is <= end
   private LocalDate start;
    
   private LocalDate end;

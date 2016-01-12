@@ -23,57 +23,67 @@ import org.springframework.web.socket.server.support.DefaultHandshakeHandler;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import eu.dzhw.fdz.metadatamanagement.security.AuthoritiesConstants;
 
+/**
+ * WebSocket Configuration.
+ */
 @Configuration
 @EnableWebSocketMessageBroker
 public class WebsocketConfiguration extends AbstractWebSocketMessageBrokerConfigurer {
 
-//    private final Logger log = LoggerFactory.getLogger(WebsocketConfiguration.class);
+  // private final Logger log = LoggerFactory.getLogger(WebsocketConfiguration.class);
 
-    public static final String IP_ADDRESS = "IP_ADDRESS";
+  public static final String IP_ADDRESS = "IP_ADDRESS";
 
-    @Override
-    public void configureMessageBroker(MessageBrokerRegistry config) {
-        config.enableSimpleBroker("/topic");
-    }
+  @Override
+  public void configureMessageBroker(MessageBrokerRegistry config) {
+    config.enableSimpleBroker("/topic");
+  }
 
-    @Override
-    @SuppressFBWarnings("SIC_INNER_SHOULD_BE_STATIC_ANON")
-    public void registerStompEndpoints(StompEndpointRegistry registry) {
-        registry.addEndpoint("/websocket/tracker")
-            .setHandshakeHandler(new DefaultHandshakeHandler() {
-                @Override
-                protected Principal determineUser(ServerHttpRequest request, WebSocketHandler wsHandler, Map<String, Object> attributes) {
-                    Principal principal = request.getPrincipal();
-                    if (principal == null) {
-                        Collection<SimpleGrantedAuthority> authorities = new ArrayList<>();
-                        authorities.add(new SimpleGrantedAuthority(AuthoritiesConstants.ANONYMOUS));
-                        principal = new AnonymousAuthenticationToken("WebsocketConfiguration", "anonymous", authorities);
-                    }
-                    return principal;
-                }
-            })
-            .withSockJS()
-            .setInterceptors(httpSessionHandshakeInterceptor());
-    }
+  @Override
+  @SuppressFBWarnings("SIC_INNER_SHOULD_BE_STATIC_ANON")
+  public void registerStompEndpoints(StompEndpointRegistry registry) {
+    registry.addEndpoint("/websocket/tracker")
+      .setHandshakeHandler(new DefaultHandshakeHandler() {
+        @Override
+        protected Principal determineUser(ServerHttpRequest request, WebSocketHandler wsHandler,
+            Map<String, Object> attributes) {
+          Principal principal = request.getPrincipal();
+          if (principal == null) {
+            Collection<SimpleGrantedAuthority> authorities = new ArrayList<>();
+            authorities.add(new SimpleGrantedAuthority(AuthoritiesConstants.ANONYMOUS));
+            principal = new AnonymousAuthenticationToken("WebsocketConfiguration", "anonymous",
+                authorities);
+          }
+          return principal;
+        }
+      })
+      .withSockJS()
+      .setInterceptors(httpSessionHandshakeInterceptor());
+  }
 
-    @Bean
-    @SuppressFBWarnings("SIC_INNER_SHOULD_BE_STATIC_ANON")
-    public HandshakeInterceptor httpSessionHandshakeInterceptor() {
-        return new HandshakeInterceptor() {
+  /**
+   * Create the {@link HandshakeInterceptor}.
+   */
+  @Bean
+  @SuppressFBWarnings("SIC_INNER_SHOULD_BE_STATIC_ANON")
+  public HandshakeInterceptor httpSessionHandshakeInterceptor() {
+    return new HandshakeInterceptor() {
 
-            @Override
-            public boolean beforeHandshake(ServerHttpRequest request, ServerHttpResponse response, WebSocketHandler wsHandler, Map<String, Object> attributes) throws Exception {
-                if (request instanceof ServletServerHttpRequest) {
-                    ServletServerHttpRequest servletRequest = (ServletServerHttpRequest) request;
-                    attributes.put(IP_ADDRESS, servletRequest.getRemoteAddress());
-                }
-                return true;
-            }
+      @Override
+      public boolean beforeHandshake(ServerHttpRequest request, ServerHttpResponse response,
+          WebSocketHandler wsHandler, Map<String, Object> attributes) throws Exception {
+        if (request instanceof ServletServerHttpRequest) {
+          ServletServerHttpRequest servletRequest = (ServletServerHttpRequest) request;
+          attributes.put(IP_ADDRESS, servletRequest.getRemoteAddress());
+        }
+        return true;
+      }
 
-            @Override
-            public void afterHandshake(ServerHttpRequest request, ServerHttpResponse response, WebSocketHandler wsHandler, Exception exception) {
+      @Override
+      public void afterHandshake(ServerHttpRequest request, ServerHttpResponse response,
+          WebSocketHandler wsHandler, Exception exception) {
 
-            }
-        };
-    }
+      }
+    };
+  }
 }
