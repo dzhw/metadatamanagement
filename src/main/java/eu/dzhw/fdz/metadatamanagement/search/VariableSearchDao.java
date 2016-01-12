@@ -21,15 +21,15 @@ import io.searchbox.client.JestClient;
 import io.searchbox.client.JestResult;
 import io.searchbox.core.Bulk;
 import io.searchbox.core.Delete;
-import io.searchbox.core.DeleteByQuery;
 import io.searchbox.core.Index;
 import io.searchbox.core.Search;
-import io.searchbox.core.SearchResult;
+import io.searchbox.indices.Refresh;
 
 /**
  * Data access object for saving variables in elasticsearch.
  * 
  * @author René Reitmann
+ * @author Daniel Katzberg
  */
 @Component
 public class VariableSearchDao {
@@ -91,14 +91,15 @@ public class VariableSearchDao {
    * @param index The index to query
    * @return A List of ALL variables
    */
-  @SuppressWarnings("deprecation")
   public List<VariableSearchDocument> findAll(String index) {
     SearchSourceBuilder queryBuilder = new SearchSourceBuilder();
     queryBuilder.query(QueryBuilders.matchAllQuery());
+    
+    //TODO REBUILD AS FILTER
     Search search = new Search.Builder(queryBuilder.toString()).addIndex(index)
         .addType(TYPE)
         .build();
-    SearchResult result = (SearchResult) execute(search);
+    JestResult result = execute(search);
     if (!result.isSucceeded()) {
       log.warn("Unable to load variable search documents from index " + index + ": "
           + result.getErrorMessage());
@@ -127,12 +128,19 @@ public class VariableSearchDao {
   private void deleteByField(String fieldName, String value, String index) {
     SearchSourceBuilder queryBuilder = new SearchSourceBuilder();
     queryBuilder.query(QueryBuilders.matchQuery(fieldName, value));
-    JestResult result = execute(new DeleteByQuery.Builder(queryBuilder.toString()).addIndex(index)
+    
+    //TODO Katzberg REBUILD FILTER ... ENTKOPPELN SUCHE / FILTER ZU EIGENER METHODE
+    Search search = new Search.Builder(queryBuilder.toString()).addIndex(index)
         .addType(TYPE)
-        .build());
-    if (!result.isSucceeded()) {
-      throw new ElasticsearchDocumentDeleteException(
-          index, TYPE, fieldName, value, result.getErrorMessage());
+        .build();
+    JestResult result = execute(search);
+    List<VariableSearchDocument> variableSearchDocumentList = 
+        result.getSourceAsObjectList(VariableSearchDocument.class);
+    
+    //TODO Katzberg ENDE ENTKOPPELN
+    
+    for (VariableSearchDocument variableSearchDocument : variableSearchDocumentList) {
+      this.delete(variableSearchDocument.getId(), index);
     }
   }
   
@@ -143,20 +151,34 @@ public class VariableSearchDao {
   public void deleteBySurveyId(String surveyId, String index) {
     deleteByField("surveyId", surveyId, index);
   }
+  
+  /**
+   * Refresh the given index synchronously.
+   * @param index the index to refresh.
+   */
+  public void refresh(String index) {
+    JestResult result = execute(new Refresh.Builder().addIndex(index).build());
+    if (!result.isSucceeded()) {
+      log.warn("Unable to refresh index " + index + ": " + result.getErrorMessage());
+    }
+  }
 
   /**
    * Delete all {@link VariableSearchDocument} documents from the given index.
    * 
    * @param index the index to delete from.
    */
+  //TODO Katzberg: first workaround!?
   public void deleteAll(String index) {
-    SearchSourceBuilder queryBuilder = new SearchSourceBuilder();
-    queryBuilder.query(QueryBuilders.matchAllQuery());
-    JestResult result = execute(new DeleteByQuery.Builder(queryBuilder.toString()).addIndex(index)
-        .addType(TYPE)
-        .build());
-    if (!result.isSucceeded()) {
-      throw new ElasticsearchDocumentDeleteException(index, TYPE, result.getErrorMessage());
+    //Refresh index
+    this.refresh(index);
+    
+    //get all saved variables
+    List<VariableSearchDocument> variables = this.findAll(index);
+    
+    //delete all variables
+    for (VariableSearchDocument variable : variables) {
+      this.delete(variable.getId(), index);
     }
   }
 

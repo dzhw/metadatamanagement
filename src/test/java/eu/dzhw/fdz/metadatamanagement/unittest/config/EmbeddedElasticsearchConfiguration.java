@@ -5,7 +5,7 @@ package eu.dzhw.fdz.metadatamanagement.unittest.config;
 
 import static org.elasticsearch.node.NodeBuilder.nodeBuilder;
 
-import org.elasticsearch.common.settings.ImmutableSettings;
+import org.elasticsearch.common.settings.Settings;
 import org.elasticsearch.node.Node;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -23,15 +23,16 @@ public class EmbeddedElasticsearchConfiguration {
   @Bean
   public Node node() {
     // Elasticsearch Settings
-    ImmutableSettings.Builder elasticsearchSettings = ImmutableSettings.settingsBuilder()
+    Settings.Builder elasticsearchSettings = Settings.settingsBuilder()
       .put("http.enabled", "true")
       .put("index.number_of_shards", 1)
       .put("index.number_of_replicas", 1)
       .put("node.name", "UnitTestNode")
       .put("http.port", 9234)
       .put("cluster.name","metadatamanagement-test")
+      .put("path.home","target/elasticsearch")
       .put("path.logs","target/elasticsearch/logs")
-      .put("path.data","target/elasticsearch/data");
+      .put("path.data","target/elasticsearch/data");      
 
     // Start the elasticsearch in-memory node
     return nodeBuilder().local(true)

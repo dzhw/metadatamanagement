@@ -119,7 +119,7 @@ public class FdzProjectResource {
   @Timed
   public ResponseEntity<Void> deleteFdzProject(@PathVariable String name) {
     log.debug("REST request to delete FdzProject : {}", name);
-    fdzProjectService.delete(name);
+    fdzProjectService.deleteByName(name);
     return ResponseEntity.ok()
       .headers(HeaderUtil.createEntityDeletionAlert("fdzProject", name))
       .build();

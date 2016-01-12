@@ -3,8 +3,8 @@ package eu.dzhw.fdz.metadatamanagement.domain.validation;
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 
-import org.elasticsearch.common.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.util.StringUtils;
 
 import eu.dzhw.fdz.metadatamanagement.repository.FdzProjectRepository;
 

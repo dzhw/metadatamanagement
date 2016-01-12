@@ -103,7 +103,7 @@ public class FdzProjectService {
   /**
    * delete the fdzProject by name.
    */
-  public void delete(String name) {
+  public void deleteByName(String name) {
     log.debug("Request to delete FdzProject : {}", name);
     // delete project
     this.fdzProjectRepository.delete(name);

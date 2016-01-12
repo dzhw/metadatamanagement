@@ -184,9 +184,8 @@ public class VariableSearchDaoTest extends AbstractTest {
           .withFdzProjectName(fdzProjectName)
           .build();
     variableSearchDao.save(variableSearchDocument, ElasticsearchAdminDaoTest.TEST_INDEX);
-    
+    elasticsearchAdminDao.refresh(ElasticsearchAdminDaoTest.TEST_INDEX);
     variableSearchDao.deleteByFdzProjectName(fdzProjectName, ElasticsearchAdminDaoTest.TEST_INDEX);
-
     elasticsearchAdminDao.refresh(ElasticsearchAdminDaoTest.TEST_INDEX);
     
     assertThat(variableSearchDao.findAll(ElasticsearchAdminDaoTest.TEST_INDEX).size(),equalTo(0));
@@ -204,10 +203,10 @@ public class VariableSearchDaoTest extends AbstractTest {
           .withSurveyId(surveyId)
           .build();
     variableSearchDao.save(variableSearchDocument, ElasticsearchAdminDaoTest.TEST_INDEX);
-    
-    variableSearchDao.deleteBySurveyId(surveyId, ElasticsearchAdminDaoTest.TEST_INDEX);
-
     elasticsearchAdminDao.refresh(ElasticsearchAdminDaoTest.TEST_INDEX);
+    variableSearchDao.deleteBySurveyId(surveyId, ElasticsearchAdminDaoTest.TEST_INDEX);
+    elasticsearchAdminDao.refresh(ElasticsearchAdminDaoTest.TEST_INDEX);
+    
     
     assertThat(variableSearchDao.findAll(ElasticsearchAdminDaoTest.TEST_INDEX).size(),equalTo(0));
   }

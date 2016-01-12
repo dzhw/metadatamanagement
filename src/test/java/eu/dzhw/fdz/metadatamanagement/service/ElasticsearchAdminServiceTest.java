@@ -55,7 +55,7 @@ public class ElasticsearchAdminServiceTest extends AbstractTest {
   
   @After
   public void cleanUp() {
-      this.fdzProjectService.delete(this.fdzProject.getName());
+      this.fdzProjectService.deleteByName(this.fdzProject.getName());
       this.variableService.deleteAll();
   }
 

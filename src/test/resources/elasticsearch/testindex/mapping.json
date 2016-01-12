@@ -168,11 +168,6 @@
             "copy_to": "allStringsAsNgrams"
           }
         }
-      },
-      "suggest" : { 
-      	"type" : "completion",
-        "index_analyzer" : "simple",
-        "search_analyzer" : "simple"
       }
     }
   }

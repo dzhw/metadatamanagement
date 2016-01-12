@@ -170,7 +170,7 @@ public class FdzProjectServiceTest extends AbstractTest {
     this.variableRepository.save(variable4);
 
     // Act
-    this.fdzProjectService.delete("Name");
+    this.fdzProjectService.deleteByName("Name");
 
     // Assert
     assertThat(this.fdzProjectRepository.findOne("Name"), is(nullValue()));
