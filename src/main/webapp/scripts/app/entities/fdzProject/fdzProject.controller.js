@@ -8,7 +8,7 @@ angular.module('metadatamanagementApp')
       $scope.reverse = true;
       $scope.page = 1;
       $scope.loadAll = function() {
-        FdzProject.query({page: $scope.page - 1, size: 20, sort:
+        FdzProject.query({page: $scope.page - 1, size: 10, sort:
           [$scope.predicate + ',' + ($scope.reverse ? 'asc' : 'desc'), 'name']},
           function(result, headers) {
           $scope.links = ParseLinks.parse(headers('link'));
