@@ -58,7 +58,7 @@
         <sonar.sources>${project.basedir}/src/main/</sonar.sources>
         <sonar.surefire.reportsPath>${project.testresult.directory}/surefire-reports</sonar.surefire.reportsPath>
         <sonar.tests>${project.basedir}/src/test/</sonar.tests>
-        <springfox.version>2.3.0</springfox.version>
+        <springfox.version>2.3.1</springfox.version>
     </properties>
 
     <dependencies>
