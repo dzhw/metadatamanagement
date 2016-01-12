@@ -8,7 +8,8 @@ angular.module('metadatamanagementApp').controller('VariableDialogController',
 
           $scope.variable = entity;
           $scope.isCreateMode = isCreateMode;
-          $scope.allFdzProjects = FdzProject.query({getAll: 'true'},
+          //TODO load all page by page
+          $scope.allFdzProjects = FdzProject.query({page: 0, size: 50},
             function(result) {
             return result;
           });
@@ -54,8 +55,10 @@ angular.module('metadatamanagementApp').controller('VariableDialogController',
           $scope.changeSurvey = function() {
 
             //query for survey with a given fdz project name
-            $scope.allSurveysByFdzProjectName =
-            Survey.query({fdzProjectName: $scope.variable.fdzProjectName},
+            // TODO load all page by page
+            $scope.allSurveysByFdzProjectName = Survey.query(
+              {fdzProjectName: $scope.variable.fdzProjectName,
+                 page: 0, size: 50},
                   function(result) {
                     //return the array of surveys.
                     return result;

@@ -7,8 +7,10 @@ angular.module('metadatamanagementApp').controller('SurveyDialogController', [
     entity, isCreateMode, Survey, FdzProject) {
     $scope.isCreateMode = isCreateMode;
     $scope.survey = entity;
-    $scope.allFdzProjects = FdzProject.query({getAll: 'true'},
-      function(result) {
+    $scope.allFdzProjects = FdzProject.query(
+      //TODO load all page by page
+      {page: 0, size: 50},
+    function(result) {
       return result;
     });
 
