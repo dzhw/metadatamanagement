@@ -14,6 +14,7 @@ import javax.inject.Inject;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.springframework.data.domain.PageRequest;
 
 import eu.dzhw.fdz.metadatamanagement.AbstractTest;
 import eu.dzhw.fdz.metadatamanagement.domain.FdzProject;
@@ -139,10 +140,10 @@ public class SurveyServiceTest extends AbstractTest {
     this.surveyRepository.insert(survey3);
 
     // Act
-    int sizeTestProject = this.surveyService.findAllWithFdzProjectName(TEST_PROJECT)
-      .size();
-    int sizeAnotherName = this.surveyService.findAllWithFdzProjectName("Anothername")
-      .size();
+    int sizeTestProject = this.surveyService.findAllByFdzProjectName(TEST_PROJECT, new PageRequest(0, 10))
+      .getNumberOfElements();
+    int sizeAnotherName = this.surveyService.findAllByFdzProjectName("Anothername", new PageRequest(0, 10))
+      .getNumberOfElements();
 
     // Assert
     assertThat(sizeTestProject, is(2));

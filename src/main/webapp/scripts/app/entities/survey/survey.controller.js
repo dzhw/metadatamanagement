@@ -10,7 +10,7 @@ angular.module('metadatamanagementApp')
     $scope.loadAll = function() {
       Survey.query({
         page: $scope.page - 1,
-        size: 20,
+        size: 10,
         sort: [$scope.predicate + ',' + ($scope.reverse ? 'asc' :
           'desc'), 'id']
       }, function(result, headers) {
