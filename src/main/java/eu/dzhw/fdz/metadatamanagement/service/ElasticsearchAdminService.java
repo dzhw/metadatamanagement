@@ -35,7 +35,7 @@ public class ElasticsearchAdminService {
 
   private JsonParser jsonParser = new JsonParser();
 
-  @SuppressFBWarnings //TODO Katzberg should be protected.
+  @SuppressFBWarnings //TODO Katzberg should be protected. -> build a enum
   public static final String[] INDICES = {"metadata_de", "metadata_en"};
 
   private static final String[] TYPES = {VariableSearchDao.TYPE};

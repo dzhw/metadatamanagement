@@ -113,61 +113,67 @@ public class VariableSearchDao {
 
   /**
    * This method deletes elements by a given field and the depending values within an index.
+   * 
    * @param fieldName the name of a field of the document
    * @param value the value of the fieldName
    * @param index the intex, where the document is saved.
    */
+  // TODO Katzberg writing unit tests for check the boolquery (filter since 2.0.0)
   private void deleteByField(String fieldName, String value, String index) {
-    
-    //Search elements by field
+
+    // Search elements by field
     SearchSourceBuilder queryBuilder = new SearchSourceBuilder();
-    queryBuilder.query(QueryBuilders.matchQuery(fieldName, value));
-    List<VariableSearchDocument> variableSearchDocumentList = 
+    queryBuilder.query(QueryBuilders.boolQuery()
+        .must(QueryBuilders.matchQuery(fieldName, value)));
+    List<VariableSearchDocument> variableSearchDocumentList =
         this.findAllByQueryBuilder(queryBuilder, index);
-    
-    //delete elements
+
+    // delete elements
     for (VariableSearchDocument variableSearchDocument : variableSearchDocumentList) {
       this.delete(variableSearchDocument.getId(), index);
     }
   }
-  
+
   /**
+   * This is a find all method by a queryBuilder. The QueryBuilder can include aggregations, filter
+   * or complex search queries.
    * 
    * @param queryBuilder A querybuilder with an defined query.
    * @param index the name of a index within elasticseach
    * @return a list of values with matches by the filter.
    */
-  //TODO change search to filter.
-  private List<VariableSearchDocument> findAllByQueryBuilder(SearchSourceBuilder queryBuilder, 
+  private List<VariableSearchDocument> findAllByQueryBuilder(SearchSourceBuilder queryBuilder,
       String index) {
     Search search = new Search.Builder(queryBuilder.toString()).addIndex(index)
         .addType(TYPE)
         .build();
     JestResult result = execute(search);
-    
+
     if (!result.isSucceeded()) {
       log.warn("Unable to load variable search documents from index " + index + ": "
           + result.getErrorMessage());
       return new ArrayList<>();
     }
-    
+
     return result.getSourceAsObjectList(VariableSearchDocument.class);
   }
-  
+
   public void deleteByFdzProjectName(String fdzProjectName, String index) {
     deleteByField("fdzProjectName", fdzProjectName, index);
   }
-  
+
   public void deleteBySurveyId(String surveyId, String index) {
     deleteByField("surveyId", surveyId, index);
   }
-  
+
   /**
    * Refresh the given index synchronously.
+   * 
    * @param index the index to refresh.
    */
   public void refresh(String index) {
-    JestResult result = execute(new Refresh.Builder().addIndex(index).build());
+    JestResult result = execute(new Refresh.Builder().addIndex(index)
+        .build());
     if (!result.isSucceeded()) {
       log.warn("Unable to refresh index " + index + ": " + result.getErrorMessage());
     }
@@ -179,11 +185,11 @@ public class VariableSearchDao {
    * @param index the index to delete from.
    */
   public void deleteAll(String index) {
-        
-    //get all saved variables
+
+    // get all saved variables
     List<VariableSearchDocument> variables = this.findAll(index);
-    
-    //delete all variables
+
+    // delete all variables
     for (VariableSearchDocument variable : variables) {
       this.delete(variable.getId(), index);
     }
