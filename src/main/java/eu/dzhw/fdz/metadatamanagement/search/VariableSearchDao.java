@@ -34,10 +34,13 @@ import io.searchbox.indices.Refresh;
 @Component
 public class VariableSearchDao {
 
+  /** The type of saved variables in the elasticsearch indices. */
   public static final String TYPE = "variables";
 
   private final Logger log = LoggerFactory.getLogger(VariableSearchDao.class);
 
+  /** JestClient for the communication with elasticsearch. 
+   * No use of the spring boot elasticsearch client. */
   @Inject
   private JestClient jestClient;
 
@@ -117,8 +120,7 @@ public class VariableSearchDao {
    * @param fieldName the name of a field of the document
    * @param value the value of the fieldName
    * @param index the intex, where the document is saved.
-   */
-  // TODO Katzberg writing unit tests for check the boolquery (filter since 2.0.0)
+   */  
   private void deleteByField(String fieldName, String value, String index) {
 
     // Search elements by field
@@ -158,10 +160,22 @@ public class VariableSearchDao {
     return result.getSourceAsObjectList(VariableSearchDocument.class);
   }
 
+  /**
+   * Sends a delete query by a given fdz project name to elasticsearch.
+   * @param fdzProjectName the name of a fdzproject
+   * @param index the name of the elasticsearch index
+   */
+  //TODO Katzberg writing unit tests for check the boolquery (filter since 2.0.0)
   public void deleteByFdzProjectName(String fdzProjectName, String index) {
     deleteByField("fdzProjectName", fdzProjectName, index);
   }
 
+  /**
+   * Sends a delete query by a given survey id to elasticsearch.
+   * @param surveyId the id of a survey
+   * @param index the name of the elasticsearch index.
+   */
+  //TODO Katzberg writing unit tests for check the boolquery (filter since 2.0.0)
   public void deleteBySurveyId(String surveyId, String index) {
     deleteByField("surveyId", surveyId, index);
   }
@@ -195,6 +209,11 @@ public class VariableSearchDao {
     }
   }
 
+  /**
+   * Execute queries to elasticsearch.
+   * @param action a query for elasticsearch
+   * @return the result from elasticsearch by the jest client.
+   */
   private JestResult execute(Action<?> action) {
     try {
       return jestClient.execute(action);
