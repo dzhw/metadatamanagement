@@ -8,7 +8,6 @@ import static org.hamcrest.CoreMatchers.nullValue;
 import static org.junit.Assert.assertThat;
 
 import java.time.LocalDate;
-import java.util.List;
 
 import javax.inject.Inject;
 
@@ -86,19 +85,6 @@ public class FdzProjectServiceTest extends AbstractTest {
     this.fdzProjectService.updateFdzProject(this.fdzProject);
 
     // Assert
-  }
-
-  @Test
-  public void testFindAll() {
-    // Arrange
-    this.fdzProjectRepository.insert(this.fdzProject);
-
-    // Act
-    List<FdzProject> allFdzProjects = this.fdzProjectService.findAll();
-
-    // Assert
-    assertThat(allFdzProjects.size(), is(1));
-    assertThat(allFdzProjects.get(0), is(this.fdzProject));
   }
 
   @Test

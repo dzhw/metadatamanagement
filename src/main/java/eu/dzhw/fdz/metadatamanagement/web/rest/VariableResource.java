@@ -12,6 +12,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.querydsl.binding.QuerydslPredicate;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -23,6 +24,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.codahale.metrics.annotation.Timed;
+import com.mysema.query.types.Predicate;
 
 import eu.dzhw.fdz.metadatamanagement.domain.Variable;
 import eu.dzhw.fdz.metadatamanagement.service.VariableService;
@@ -81,9 +83,10 @@ public class VariableResource {
   @RequestMapping(value = "/variables", method = RequestMethod.GET,
       produces = MediaType.APPLICATION_JSON_VALUE)
   @Timed
-  public ResponseEntity<List<Variable>> getAllVariables(Pageable pageable)
-      throws URISyntaxException {
-    Page<Variable> page = variableService.getAllVariables(pageable);
+  public ResponseEntity<List<Variable>> getAllVariables(
+      @QuerydslPredicate(root = Variable.class) Predicate predicate, Pageable pageable)
+          throws URISyntaxException {
+    Page<Variable> page = variableService.getAllVariables(predicate, pageable);
     HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/variables");
     return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
   }

@@ -14,7 +14,6 @@ import javax.inject.Inject;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.springframework.data.domain.PageRequest;
 
 import eu.dzhw.fdz.metadatamanagement.AbstractTest;
 import eu.dzhw.fdz.metadatamanagement.domain.FdzProject;
@@ -98,56 +97,6 @@ public class SurveyServiceTest extends AbstractTest {
     this.surveyService.updateSurvey(this.survey);
 
     // Assert
-  }
-
-  @Test
-  public void testFindByFdzProjectName() {
-
-    // Arrange
-    FdzProject fdzProject2 = new FdzProjectBuilder().withName("Anothername")
-      .build();
-    this.fdzProjectRepository.insert(fdzProject2);
-
-    Survey survey2 = new SurveyBuilder().withFdzProjectName(TEST_PROJECT)
-      .withTitle(new I18nStringBuilder().withDe("titel")
-        .withEn("titel")
-        .build())
-      .withFieldPeriod(new PeriodBuilder().withStart(LocalDate.now())
-        .withEnd(LocalDate.now())
-        .build())
-      .withId("Id2")
-      .build();
-    Survey survey1 = new SurveyBuilder().withFdzProjectName(TEST_PROJECT)
-      .withTitle(new I18nStringBuilder().withDe("titel")
-        .withEn("titel")
-        .build())
-      .withFieldPeriod(new PeriodBuilder().withStart(LocalDate.now())
-        .withEnd(LocalDate.now())
-        .build())
-      .withId("Id")
-      .build();
-    Survey survey3 = new SurveyBuilder().withFdzProjectName("Anothername")
-      .withTitle(new I18nStringBuilder().withDe("titel")
-        .withEn("titel")
-        .build())
-      .withFieldPeriod(new PeriodBuilder().withStart(LocalDate.now())
-        .withEnd(LocalDate.now())
-        .build())
-      .withId("Id3")
-      .build();
-    this.surveyRepository.insert(survey1);
-    this.surveyRepository.insert(survey2);
-    this.surveyRepository.insert(survey3);
-
-    // Act
-    int sizeTestProject = this.surveyService.findAllByFdzProjectName(TEST_PROJECT, new PageRequest(0, 10))
-      .getNumberOfElements();
-    int sizeAnotherName = this.surveyService.findAllByFdzProjectName("Anothername", new PageRequest(0, 10))
-      .getNumberOfElements();
-
-    // Assert
-    assertThat(sizeTestProject, is(2));
-    assertThat(sizeAnotherName, is(1));
   }
 
   @Test

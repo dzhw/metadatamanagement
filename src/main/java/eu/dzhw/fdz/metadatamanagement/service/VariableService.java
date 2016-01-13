@@ -14,6 +14,8 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import com.mysema.query.types.Predicate;
+
 import eu.dzhw.fdz.metadatamanagement.domain.Variable;
 import eu.dzhw.fdz.metadatamanagement.repository.VariableRepository;
 import eu.dzhw.fdz.metadatamanagement.search.VariableSearchDao;
@@ -82,8 +84,8 @@ public class VariableService {
     return variable;
   }
 
-  public Page<Variable> getAllVariables(Pageable pageable) {
-    return variableRepository.findAll(pageable);
+  public Page<Variable> getAllVariables(Predicate predicate, Pageable pageable) {
+    return variableRepository.findAll(predicate, pageable);
   }
 
   public Variable getVariable(String id) {

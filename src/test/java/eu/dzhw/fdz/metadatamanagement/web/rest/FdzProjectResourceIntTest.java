@@ -19,7 +19,9 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.MockitoAnnotations;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.web.PageableHandlerMethodArgumentResolver;
+import org.springframework.data.web.querydsl.QuerydslPredicateArgumentResolver;
 import org.springframework.http.MediaType;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.test.util.ReflectionTestUtils;
@@ -55,6 +57,9 @@ public class FdzProjectResourceIntTest extends AbstractTest {
 
   @Inject
   private PageableHandlerMethodArgumentResolver pageableArgumentResolver;
+  
+  @Inject
+  private QuerydslPredicateArgumentResolver querydslPredicateArgumentResolver;
 
   private MockMvc restFdzProjectMockMvc;
 
@@ -66,7 +71,7 @@ public class FdzProjectResourceIntTest extends AbstractTest {
     FdzProjectResource fdzProjectResource = new FdzProjectResource();
     ReflectionTestUtils.setField(fdzProjectResource, "fdzProjectService", fdzProjectService);
     this.restFdzProjectMockMvc = MockMvcBuilders.standaloneSetup(fdzProjectResource)
-      .setCustomArgumentResolvers(pageableArgumentResolver)
+      .setCustomArgumentResolvers(pageableArgumentResolver,querydslPredicateArgumentResolver)
       .setMessageConverters(jacksonMessageConverter)
       .build();
   }
@@ -96,7 +101,7 @@ public class FdzProjectResourceIntTest extends AbstractTest {
       .andExpect(status().isCreated());
 
     // Validate the FdzProject in the database
-    List<FdzProject> fdzProjects = fdzProjectService.findAll();
+    List<FdzProject> fdzProjects = fdzProjectService.findAll(null, new PageRequest(0, 10)).getContent();
     assertThat(fdzProjects).hasSize(databaseSizeBeforeCreate + 1);
     FdzProject testFdzProject = fdzProjects.get(fdzProjects.size() - 1);
     assertThat(testFdzProject.getName()).isEqualTo(DEFAULT_NAME);
@@ -117,7 +122,7 @@ public class FdzProjectResourceIntTest extends AbstractTest {
         .content(TestUtil.convertObjectToJsonBytes(fdzProject)))
       .andExpect(status().isBadRequest());
 
-    List<FdzProject> fdzProjects = fdzProjectService.findAll();
+    List<FdzProject> fdzProjects = fdzProjectService.findAll(null, new PageRequest(0,10)).getContent();
     assertThat(fdzProjects).hasSize(databaseSizeBeforeTest);
   }
 
@@ -175,8 +180,7 @@ public class FdzProjectResourceIntTest extends AbstractTest {
     // Initialize the database
     fdzProjectService.createFdzProject(fdzProject);
 
-    int databaseSizeBeforeUpdate = fdzProjectService.findAll()
-      .size();
+    long databaseSizeBeforeUpdate = fdzProjectService.findAll(null, new PageRequest(0, 10)).getTotalElements();;
 
     // Update the fdzProject
     fdzProject.setSufDoi(UPDATED_SUF_DOI);
@@ -188,8 +192,8 @@ public class FdzProjectResourceIntTest extends AbstractTest {
       .andExpect(status().isOk());
 
     // Validate the FdzProject in the database
-    List<FdzProject> fdzProjects = fdzProjectService.findAll();
-    assertThat(fdzProjects).hasSize(databaseSizeBeforeUpdate);
+    List<FdzProject> fdzProjects = fdzProjectService.findAll(null, new PageRequest(0,10)).getContent();
+    assertThat(fdzProjects).hasSize((int) databaseSizeBeforeUpdate);
     FdzProject testFdzProject = fdzProjects.get(fdzProjects.size() - 1);
     assertThat(testFdzProject.getSufDoi()).isEqualTo(UPDATED_SUF_DOI);
     assertThat(testFdzProject.getCufDoi()).isEqualTo(UPDATED_CUF_DOI);
@@ -200,8 +204,7 @@ public class FdzProjectResourceIntTest extends AbstractTest {
     // Initialize the database
     fdzProjectService.createFdzProject(fdzProject);
 
-    int databaseSizeBeforeDelete = fdzProjectService.findAll()
-      .size();
+    int databaseSizeBeforeDelete = fdzProjectService.findAll(null, new PageRequest(0, 10)).getNumberOfElements();
 
     // Get the fdzProject
     restFdzProjectMockMvc.perform(delete("/api/fdzProjects/{name}", fdzProject.getName())
@@ -209,7 +212,7 @@ public class FdzProjectResourceIntTest extends AbstractTest {
       .andExpect(status().isOk());
 
     // Validate the database is empty
-    List<FdzProject> fdzProjects = fdzProjectService.findAll();
+    List<FdzProject> fdzProjects = fdzProjectService.findAll(null, new PageRequest(0,10)).getContent();
     assertThat(fdzProjects).hasSize(databaseSizeBeforeDelete - 1);
   }
 }

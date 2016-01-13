@@ -3,13 +3,15 @@ package eu.dzhw.fdz.metadatamanagement.repository;
 import java.util.List;
 
 import org.springframework.data.mongodb.repository.MongoRepository;
+import org.springframework.data.querydsl.QueryDslPredicateExecutor;
 
 import eu.dzhw.fdz.metadatamanagement.domain.Variable;
 
 /**
  * Spring Data MongoDB repository for the Variable entity.
  */
-public interface VariableRepository extends MongoRepository<Variable, String> {
+public interface VariableRepository
+    extends MongoRepository<Variable, String>, QueryDslPredicateExecutor<Variable> {
 
   /**
    * @param fdzProjectName A FDZ project name.

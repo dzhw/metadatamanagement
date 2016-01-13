@@ -45,17 +45,18 @@ public class CachingHttpHeadersFilter implements Filter {
   public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
       throws IOException, ServletException {
 
-    HttpServletResponse httpResponse = (HttpServletResponse) response;
-
-    httpResponse.setHeader("Cache-Control", "max-age=" + cacheTimeToLive + ", public");
-    httpResponse.setHeader("Pragma", "cache");
-
-    // Setting Expires header, for proxy caching
-    httpResponse.setDateHeader("Expires", cacheTimeToLive + System.currentTimeMillis());
-
-    // Setting the Last-Modified header, for browser caching
-    httpResponse.setDateHeader("Last-Modified", LAST_MODIFIED);
-
-    chain.doFilter(request, response);
+    if (response instanceof HttpServletResponse) {
+      HttpServletResponse httpResponse = (HttpServletResponse) response;      
+      httpResponse.setHeader("Cache-Control", "max-age=" + cacheTimeToLive + ", public");
+      httpResponse.setHeader("Pragma", "cache");
+      
+      // Setting Expires header, for proxy caching
+      httpResponse.setDateHeader("Expires", cacheTimeToLive + System.currentTimeMillis());
+      
+      // Setting the Last-Modified header, for browser caching
+      httpResponse.setDateHeader("Last-Modified", LAST_MODIFIED);
+      
+      chain.doFilter(request, response);
+    }
   }
 }

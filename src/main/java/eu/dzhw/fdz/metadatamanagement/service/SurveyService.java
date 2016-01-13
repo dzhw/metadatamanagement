@@ -13,6 +13,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import com.mysema.query.types.Predicate;
+
 import eu.dzhw.fdz.metadatamanagement.domain.Survey;
 import eu.dzhw.fdz.metadatamanagement.repository.SurveyRepository;
 import eu.dzhw.fdz.metadatamanagement.service.event.FdzProjectDeletedEvent;
@@ -77,9 +79,9 @@ public class SurveyService {
    * 
    * @return the list of entities
    */
-  public Page<Survey> findAll(Pageable pageable) {
+  public Page<Survey> findAll(Predicate predicate, Pageable pageable) {
     log.debug("Request to get all Surveys");
-    Page<Survey> result = surveyRepository.findAll(pageable);
+    Page<Survey> result = surveyRepository.findAll(predicate, pageable);
     return result;
   }
 
@@ -92,15 +94,6 @@ public class SurveyService {
     log.debug("Request to get all Surveys");
     List<Survey> result = surveyRepository.findAll();
     return result;
-  }
-
-  /**
-   * @param fdzProjectName A FDZ project name.
-   * @return Returns all Surveys with a given fdz project name.
-   */
-  public Page<Survey> findAllByFdzProjectName(String fdzProjectName, Pageable pageable) {
-    log.debug("Request to get all Surveys with a given fdz project name");
-    return surveyRepository.findByFdzProjectName(fdzProjectName, pageable);
   }
 
   /**

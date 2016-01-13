@@ -1,7 +1,5 @@
 package eu.dzhw.fdz.metadatamanagement.service;
 
-import java.util.List;
-
 import javax.inject.Inject;
 
 import org.slf4j.Logger;
@@ -11,6 +9,8 @@ import org.springframework.dao.DuplicateKeyException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+
+import com.mysema.query.types.Predicate;
 
 import eu.dzhw.fdz.metadatamanagement.domain.FdzProject;
 import eu.dzhw.fdz.metadatamanagement.repository.FdzProjectRepository;
@@ -75,18 +75,10 @@ public class FdzProjectService {
    * 
    * @return the list of entities
    */
-  public Page<FdzProject> findAll(Pageable pageable) {
+  public Page<FdzProject> findAll(Predicate predicate, Pageable pageable) {
     log.debug("Request to get all FdzProjects");
-    Page<FdzProject> result = fdzProjectRepository.findAll(pageable);
+    Page<FdzProject> result = fdzProjectRepository.findAll(predicate, pageable);
     return result;
-  }
-
-  /**
-   * @return All FdZProjects within a list and without a pageable object.
-   */
-  public List<FdzProject> findAll() {
-    log.debug("Request to get all FdzProjects without Pageable.");
-    return this.fdzProjectRepository.findAll();
   }
 
   /**

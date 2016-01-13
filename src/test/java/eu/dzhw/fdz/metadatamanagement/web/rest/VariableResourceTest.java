@@ -21,6 +21,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.mockito.MockitoAnnotations;
 import org.springframework.data.web.PageableHandlerMethodArgumentResolver;
+import org.springframework.data.web.querydsl.QuerydslPredicateArgumentResolver;
 import org.springframework.http.MediaType;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.test.util.ReflectionTestUtils;
@@ -84,6 +85,9 @@ public class VariableResourceTest extends AbstractTest {
 
   @Inject
   private PageableHandlerMethodArgumentResolver pageableArgumentResolver;
+  
+  @Inject
+  private QuerydslPredicateArgumentResolver querydslPredicateArgumentResolver;
 
   @Inject
   private ExceptionTranslator exceptionTranslator;
@@ -108,7 +112,7 @@ public class VariableResourceTest extends AbstractTest {
     VariableResource variableResource = new VariableResource();
     ReflectionTestUtils.setField(variableResource, "variableService", variableService);
     this.restVariableMockMvc = MockMvcBuilders.standaloneSetup(variableResource)
-      .setCustomArgumentResolvers(pageableArgumentResolver)
+      .setCustomArgumentResolvers(pageableArgumentResolver, querydslPredicateArgumentResolver)
       .setMessageConverters(jacksonMessageConverter)
       .setControllerAdvice(exceptionTranslator)
       .setValidator(validator)

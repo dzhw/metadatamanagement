@@ -2,9 +2,8 @@ package eu.dzhw.fdz.metadatamanagement.repository;
 
 import java.util.List;
 
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.data.mongodb.repository.MongoRepository;
+import org.springframework.data.querydsl.QueryDslPredicateExecutor;
 
 import eu.dzhw.fdz.metadatamanagement.domain.Survey;
 
@@ -13,18 +12,12 @@ import eu.dzhw.fdz.metadatamanagement.domain.Survey;
  * 
  * @author Daniel Katzberg
  */
-public interface SurveyRepository extends MongoRepository<Survey,String> {
-  
+public interface SurveyRepository
+    extends MongoRepository<Survey, String>, QueryDslPredicateExecutor<Survey> {
+
   /**
    * @param fdzProjectName A FDZ project name.
    * @return A list of deleted surveys by a given fdz project name
    */
   List<Survey> deleteByFdzProjectName(String fdzProjectName);
-
-  /**
-   * @param fdzProjectName A FDZ project name.
-   * @return Returns all Surveys with a given fdz project name.
-   */
-  Page<Survey> findByFdzProjectName(String fdzProjectName, Pageable pageable);
-  
 }
