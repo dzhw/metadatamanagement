@@ -18,6 +18,7 @@ import eu.dzhw.fdz.metadatamanagement.domain.Variable;
 import eu.dzhw.fdz.metadatamanagement.repository.VariableRepository;
 import eu.dzhw.fdz.metadatamanagement.search.VariableSearchDao;
 import eu.dzhw.fdz.metadatamanagement.search.document.VariableSearchDocument;
+import eu.dzhw.fdz.metadatamanagement.service.enums.ElasticsearchIndices;
 import eu.dzhw.fdz.metadatamanagement.service.event.FdzProjectDeletedEvent;
 import eu.dzhw.fdz.metadatamanagement.service.event.SurveyDeletedEvent;
 import eu.dzhw.fdz.metadatamanagement.service.exception.EntityExistsException;
@@ -59,9 +60,9 @@ public class VariableService {
   }
 
   private void updateSearchIndices(Variable variable) {
-    for (String index : ElasticsearchAdminService.INDICES) {
+    for (ElasticsearchIndices index : ElasticsearchIndices.values()) {
       // TODO create different search documents for different languages
-      variableSearchDao.save(new VariableSearchDocument(variable), index);
+      variableSearchDao.save(new VariableSearchDocument(variable), index.getIndexName());
     }
   }
 
@@ -96,8 +97,8 @@ public class VariableService {
    */
   public void deleteVariable(String id) {
     variableRepository.delete(id);
-    for (String index : ElasticsearchAdminService.INDICES) {
-      variableSearchDao.delete(id, index);
+    for (ElasticsearchIndices index : ElasticsearchIndices.values()) {
+      variableSearchDao.delete(id, index.getIndexName());
     }
   }
 
@@ -114,8 +115,8 @@ public class VariableService {
         // TODO create different search documents for different languages
         searchDocuments.add(new VariableSearchDocument(variable));
       }
-      for (String index : ElasticsearchAdminService.INDICES) {
-        variableSearchDao.save(searchDocuments, index);
+      for (ElasticsearchIndices index : ElasticsearchIndices.values()) {
+        variableSearchDao.save(searchDocuments, index.getIndexName());
       }
       variables = variableRepository.findAll(pageable.next());
     }
@@ -149,8 +150,8 @@ public class VariableService {
     log.debug("Request to delete fdz project name : {}", fdzProjectName);
     List<Variable> deletedVariables = 
         this.variableRepository.deleteByFdzProjectName(fdzProjectName);
-    for (String index : ElasticsearchAdminService.INDICES) {
-      this.variableSearchDao.deleteByFdzProjectName(fdzProjectName, index);      
+    for (ElasticsearchIndices index : ElasticsearchIndices.values()) {
+      this.variableSearchDao.deleteByFdzProjectName(fdzProjectName, index.getIndexName());      
     }
     log.debug("Deleted variables[{}] by fdz project name: {}", deletedVariables.size(),
         fdzProjectName);
@@ -170,8 +171,8 @@ public class VariableService {
   private List<Variable> deleteBySurveyId(String surveyId) {
     log.debug("Request to delete variables by survey id : {}", surveyId);
     List<Variable> deletedVariables = this.variableRepository.deleteBySurveyId(surveyId);
-    for (String index : ElasticsearchAdminService.INDICES) {
-      this.variableSearchDao.deleteBySurveyId(surveyId, index);      
+    for (ElasticsearchIndices index : ElasticsearchIndices.values()) {
+      this.variableSearchDao.deleteBySurveyId(surveyId, index.getIndexName());      
     }
     log.debug("Deleted variables[{}] by survey id: {}", deletedVariables.size(), surveyId);
     return deletedVariables;
@@ -187,8 +188,8 @@ public class VariableService {
    */
   public void deleteAll() {
     variableRepository.deleteAll();
-    for (String index : ElasticsearchAdminService.INDICES) {
-      variableSearchDao.deleteAll(index);
+    for (ElasticsearchIndices index : ElasticsearchIndices.values()) {
+      variableSearchDao.deleteAll(index.getIndexName());
     }
   }
 

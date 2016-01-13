@@ -40,10 +40,10 @@ import eu.dzhw.fdz.metadatamanagement.domain.builders.VariableBuilder;
 import eu.dzhw.fdz.metadatamanagement.domain.enumeration.DataType;
 import eu.dzhw.fdz.metadatamanagement.domain.enumeration.ScaleLevel;
 import eu.dzhw.fdz.metadatamanagement.search.VariableSearchDao;
-import eu.dzhw.fdz.metadatamanagement.service.ElasticsearchAdminService;
 import eu.dzhw.fdz.metadatamanagement.service.FdzProjectService;
 import eu.dzhw.fdz.metadatamanagement.service.SurveyService;
 import eu.dzhw.fdz.metadatamanagement.service.VariableService;
+import eu.dzhw.fdz.metadatamanagement.service.enums.ElasticsearchIndices;
 import eu.dzhw.fdz.metadatamanagement.unittest.util.UnitTestUtils;
 import eu.dzhw.fdz.metadatamanagement.web.rest.errors.ExceptionTranslator;
 
@@ -146,8 +146,8 @@ public class VariableResourceTest extends AbstractTest {
 
   @After
   public void afterEachTest() {
-    for (String index : ElasticsearchAdminService.INDICES) {
-      this.variableSearchDao.refresh(index);
+    for (ElasticsearchIndices index : ElasticsearchIndices.values()) {
+      this.variableSearchDao.refresh(index.getIndexName());
     }
     this.variableService.deleteAll();
     this.fdzProjectService.deleteAll();

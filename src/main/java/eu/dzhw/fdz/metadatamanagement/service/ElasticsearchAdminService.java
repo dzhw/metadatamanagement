@@ -12,9 +12,9 @@ import org.springframework.stereotype.Service;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
-import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import eu.dzhw.fdz.metadatamanagement.search.ElasticsearchAdminDao;
 import eu.dzhw.fdz.metadatamanagement.search.VariableSearchDao;
+import eu.dzhw.fdz.metadatamanagement.service.enums.ElasticsearchIndices;
 
 /**
  * Service which sets up all indices.
@@ -35,17 +35,14 @@ public class ElasticsearchAdminService {
 
   private JsonParser jsonParser = new JsonParser();
 
-  @SuppressFBWarnings //TODO Katzberg should be protected. -> build a enum
-  public static final String[] INDICES = {"metadata_de", "metadata_en"};
-
   private static final String[] TYPES = {VariableSearchDao.TYPE};
 
   /**
    * Recreate the indices and all their mappings.
    */
   public void recreateAllIndices() {
-    for (String index : INDICES) {
-      recreateIndex(index);
+    for (ElasticsearchIndices index : ElasticsearchIndices.values()) {
+      recreateIndex(index.getIndexName());
     }
     variableService.reindexAllVariables();
   }

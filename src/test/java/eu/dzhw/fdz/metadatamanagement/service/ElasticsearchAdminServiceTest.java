@@ -18,6 +18,7 @@ import eu.dzhw.fdz.metadatamanagement.domain.enumeration.DataType;
 import eu.dzhw.fdz.metadatamanagement.domain.enumeration.ScaleLevel;
 import eu.dzhw.fdz.metadatamanagement.search.ElasticsearchAdminDao;
 import eu.dzhw.fdz.metadatamanagement.search.VariableSearchDao;
+import eu.dzhw.fdz.metadatamanagement.service.enums.ElasticsearchIndices;
 
 /**
  * Test which ensures that all indices are created successfully.
@@ -56,8 +57,8 @@ public class ElasticsearchAdminServiceTest extends AbstractTest {
   @After
   public void cleanUp() {
       this.fdzProjectService.deleteByName(this.fdzProject.getName());
-      for (String index : ElasticsearchAdminService.INDICES) {
-        this.variableSearchDao.refresh(index);
+      for (ElasticsearchIndices index : ElasticsearchIndices.values()) {
+        this.variableSearchDao.refresh(index.getIndexName());
       }
       this.variableService.deleteAll();
   }
@@ -84,9 +85,9 @@ public class ElasticsearchAdminServiceTest extends AbstractTest {
 
     elasticsearchAdminService.recreateAllIndices();
 
-    for (String index : ElasticsearchAdminService.INDICES) {
-      elasticsearchAdminDao.refresh(index);
-      assertThat(variableSearchDao.findAll(index)
+    for (ElasticsearchIndices index : ElasticsearchIndices.values()) {
+      elasticsearchAdminDao.refresh(index.getIndexName());
+      assertThat(variableSearchDao.findAll(index.getIndexName())
         .size(), equalTo(2));
     }
   }
