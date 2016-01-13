@@ -193,6 +193,8 @@ public class VariableSearchDaoTest extends AbstractTest {
   
   @Test
   public void testDeleteByFdzProjectNameWithTwoSimilarProjects() {
+    
+    //Arrange
     String fdzProjectName = "FDZ Project";
     String fdzProjectNameSimilar = "FDZ Projects";
     VariableSearchDocument variableSearchDocument =
@@ -211,18 +213,21 @@ public class VariableSearchDaoTest extends AbstractTest {
           .withScaleLevel("nominalS")
           .withFdzProjectName(fdzProjectNameSimilar)
           .build();
+    
+    //Act
+    //Save variables
     variableSearchDao.save(variableSearchDocument, ElasticsearchIndices.METADATA_DE.getIndexName());
     variableSearchDao.save(variableSearchDocumentSimilar, ElasticsearchIndices.METADATA_DE.getIndexName());
-    elasticsearchAdminDao.refresh(ElasticsearchIndices.METADATA_DE.getIndexName());
+    elasticsearchAdminDao.refresh(ElasticsearchIndices.METADATA_DE.getIndexName());    
+    List<VariableSearchDocument> documentsBeforeDeletion = variableSearchDao.findAll(ElasticsearchIndices.METADATA_DE.getIndexName());
     
-    List<VariableSearchDocument> documentsBefore = variableSearchDao.findAll(ElasticsearchIndices.METADATA_DE.getIndexName());
-    
+    //Delete one Variable
     variableSearchDao.deleteByFdzProjectName(fdzProjectName, ElasticsearchIndices.METADATA_DE.getIndexName());
-    elasticsearchAdminDao.refresh(ElasticsearchIndices.METADATA_DE.getIndexName());
-    
+    elasticsearchAdminDao.refresh(ElasticsearchIndices.METADATA_DE.getIndexName());    
     List<VariableSearchDocument> documents = variableSearchDao.findAll(ElasticsearchIndices.METADATA_DE.getIndexName());
     
-    assertThat(documentsBefore.size(),equalTo(2));
+    //Assert
+    assertThat(documentsBeforeDeletion.size(),equalTo(2));
     assertThat(documents.size(),equalTo(1));
     assertThat(documents.get(0).getFdzProjectName(),equalTo(fdzProjectNameSimilar));
   }
@@ -245,5 +250,47 @@ public class VariableSearchDaoTest extends AbstractTest {
     
     
     assertThat(variableSearchDao.findAll(ElasticsearchIndices.METADATA_DE.getIndexName()).size(),equalTo(0));
+  }
+  
+  
+  @Test
+  public void testDeleteBySurveyIdWithTwoSimilarSurveyIds() {
+    //Arrange
+    String surveyId = "12345678";
+    String surveyIdSimilar = "123456789";
+    VariableSearchDocument variableSearchDocument =
+        new VariableSearchDocumentBuilder().withId("1234")
+          .withDataType("string")
+          .withLabel("label")
+          .withName("name")
+          .withScaleLevel("nominal")
+          .withSurveyId(surveyId)
+          .build();
+    VariableSearchDocument variableSearchDocumentSimilar =
+        new VariableSearchDocumentBuilder().withId("1234S")
+          .withDataType("string")
+          .withLabel("labelS")
+          .withName("nameS")
+          .withScaleLevel("nominal")
+          .withSurveyId(surveyIdSimilar)
+          .build();
+    
+    //Act
+    //Save Variables
+    variableSearchDao.save(variableSearchDocument, ElasticsearchIndices.METADATA_DE.getIndexName());
+    variableSearchDao.save(variableSearchDocumentSimilar, ElasticsearchIndices.METADATA_DE.getIndexName());
+    elasticsearchAdminDao.refresh(ElasticsearchIndices.METADATA_DE.getIndexName());
+    List<VariableSearchDocument> documentsBeforeDeletion = variableSearchDao.findAll(ElasticsearchIndices.METADATA_DE.getIndexName());
+    
+    //Deletion only one Variable
+    variableSearchDao.deleteBySurveyId(surveyId, ElasticsearchIndices.METADATA_DE.getIndexName());
+    elasticsearchAdminDao.refresh(ElasticsearchIndices.METADATA_DE.getIndexName());
+    List<VariableSearchDocument> documents = variableSearchDao.findAll(ElasticsearchIndices.METADATA_DE.getIndexName());
+    
+    //Assertion
+    assertThat(documentsBeforeDeletion.size(),equalTo(2));
+    assertThat(variableSearchDao.findAll(ElasticsearchIndices.METADATA_DE.getIndexName()).size(),equalTo(1));
+    assertThat(documents.get(0).getSurveyId(),equalTo(surveyIdSimilar));
+    
   }
 }

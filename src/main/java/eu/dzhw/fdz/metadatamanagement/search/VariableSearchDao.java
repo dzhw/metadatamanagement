@@ -174,7 +174,6 @@ public class VariableSearchDao {
    * @param surveyId the id of a survey
    * @param index the name of the elasticsearch index.
    */
-  //TODO Katzberg writing unit tests for check the boolquery (filter since 2.0.0)
   public void deleteBySurveyId(String surveyId, String index) {
     deleteByField("surveyId", surveyId, index);
   }
