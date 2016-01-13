@@ -1,7 +1,7 @@
 'use strict';
 
 describe('FdzProject Detail Controller', function() {
-    var $scope, $rootScope;
+    var $scope, $rootScope, FdzProject;
     var MockEntity, MockFdzProject;
     var createController;
 
@@ -9,18 +9,27 @@ describe('FdzProject Detail Controller', function() {
         $rootScope = $injector.get('$rootScope');
         $scope = $rootScope.$new();
         MockEntity = jasmine.createSpy('MockEntity');
-        MockFdzProject = jasmine.createSpy('MockFdzProject');
-
+        //MockFdzProject = jasmine.createSpy('MockFdzProject');
+        FdzProject = {
+          get: function(){
+            return {
+               then: function(callback){
+                 return callback();
+               }
+            };
+          }
+        };
 
         var locals = {
             '$scope': $scope,
             '$rootScope': $rootScope,
             'entity': MockEntity ,
-            'FdzProject': MockFdzProject
+            'FdzProject': FdzProject
         };
         createController = function() {
             $injector.get('$controller')("FdzProjectDetailController", locals);
         };
+        spyOn(FdzProject, 'get').and.callThrough();
     }));
 
 
@@ -33,6 +42,13 @@ describe('FdzProject Detail Controller', function() {
 
             $scope.$destroy();
             expect($rootScope.$$listenerCount[eventType]).toBeUndefined();
+        });
+    });
+    describe('', function() {
+        it('should call FdzProject.get', function() {
+            createController();
+            $scope.load('r');
+            expect(FdzProject.get).toHaveBeenCalled();
         });
     });
 });

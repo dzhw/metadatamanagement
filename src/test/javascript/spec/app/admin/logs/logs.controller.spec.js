@@ -1,37 +1,50 @@
 'use strict';
 
 describe('Controllers Tests ', function () {
-    var $scope, $q, LogsService, createController;
-        beforeEach(mockApiAccountCall);
-        beforeEach(mockI18nCalls);
-    describe('LogsController', function() {
-        beforeEach(inject(function($injector) {
-            $scope = $injector.get('$rootScope').$new();
-            $q = $injector.get('$q');
-            LogsService = $injector.get('LogsService');
-          var locals = {
-            '$scope': $scope,
-            'LogsService': LogsService
+  var $scope, LogsService, createController;
+
+  beforeEach(mockApiAccountCall);
+  beforeEach(mockI18nCalls);
+  beforeEach(function() {
+    inject(function($controller, _$rootScope_, _LogsService_) {
+      $scope = _$rootScope_.$new();
+      LogsService = {
+        findAll: function(){
+          return {
+             then: function(callback){
+               return callback();
+             }
           };
-          createController = function() {
-            $injector.get('$controller')('LogsController',locals);
+        },
+        changeLevel: function(){
+          return {
+             then: function(callback){
+               return callback();
+             }
           };
-          spyOn(LogsService, 'findAll').and.callThrough();
-          spyOn(LogsService, 'changeLevel').and.callThrough();
-        }));
-        beforeEach(function(){
-          createController();
-        });
-        it('should call LogsService.findAll', function() {
-        $scope.loggers;
-        expect(LogsService.findAll).toHaveBeenCalled();
-        });
-        it('should call LogsService.changeLevel', function() {
-         $scope.changeLevel('test','UP');
-        expect(LogsService.changeLevel).toHaveBeenCalledWith({
-          name: 'test',
-          level: 'UP'
-        }, jasmine.any(Function));
-        });
-      });
+        }
+      };
+      var locals = {
+        '$scope' : $scope,
+        'LogsService' : LogsService
+      };
+      createController = function() {
+        return $controller('LogsController', locals);
+      };
+      spyOn(LogsService, 'findAll').and.callThrough();
+      spyOn(LogsService, 'changeLevel').and.callThrough();
     });
+   });
+   describe('LogsController',function(){
+     beforeEach(function(){
+         createController();
+     });
+     it('should call LogsService.get',function(){
+         expect(LogsService.findAll).toHaveBeenCalled();
+     });
+     it('should call LogsService.changeLevel',function(){
+        $scope.changeLevel('user',1);
+         expect(LogsService.changeLevel).toHaveBeenCalled();
+     });
+   });
+});

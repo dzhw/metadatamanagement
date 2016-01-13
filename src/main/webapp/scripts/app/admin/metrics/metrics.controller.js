@@ -15,7 +15,6 @@ angular.module('metadatamanagementApp').controller('MetricsController',
           $scope.updatingMetrics = false;
         });
       };
-
       $scope.$watch('metrics', function(newValue) {
         $scope.servicesStats = {};
         $scope.cachesStats = {};
@@ -42,7 +41,6 @@ angular.module('metadatamanagementApp').controller('MetricsController',
 
       $scope.refreshThreadDumpData = function() {
         MonitoringService.threadDump().then(function(data) {
-
           $modal.open({
             templateUrl: 'scripts/app/admin/metrics/metrics.modal.html',
             controller: 'MetricsModalController',
