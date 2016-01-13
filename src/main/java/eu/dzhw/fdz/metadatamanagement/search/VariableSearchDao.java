@@ -126,7 +126,7 @@ public class VariableSearchDao {
     // Search elements by field
     SearchSourceBuilder queryBuilder = new SearchSourceBuilder();
     queryBuilder.query(QueryBuilders.boolQuery()
-        .must(QueryBuilders.matchQuery(fieldName, value)));
+        .filter(QueryBuilders.matchQuery(fieldName, value)));
     List<VariableSearchDocument> variableSearchDocumentList =
         this.findAllByQueryBuilder(queryBuilder, index);
 
@@ -165,7 +165,6 @@ public class VariableSearchDao {
    * @param fdzProjectName the name of a fdzproject
    * @param index the name of the elasticsearch index
    */
-  //TODO Katzberg writing unit tests for check the boolquery (filter since 2.0.0)
   public void deleteByFdzProjectName(String fdzProjectName, String index) {
     deleteByField("fdzProjectName", fdzProjectName, index);
   }

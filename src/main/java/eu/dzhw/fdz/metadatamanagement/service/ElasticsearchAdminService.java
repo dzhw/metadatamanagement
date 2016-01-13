@@ -66,7 +66,7 @@ public class ElasticsearchAdminService {
       elasticsearchAdminDao.putMapping(index, type, loadMapping(index, type));
     }
   }
-
+  
   private JsonObject loadSettings(String index) {
     try {
       Reader reader = new InputStreamReader(

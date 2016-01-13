@@ -14,13 +14,13 @@ import javax.inject.Inject;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.google.gson.JsonObject;
-
 import eu.dzhw.fdz.metadatamanagement.AbstractTest;
 import eu.dzhw.fdz.metadatamanagement.search.document.VariableSearchDocument;
 import eu.dzhw.fdz.metadatamanagement.search.document.builders.VariableSearchDocumentBuilder;
 import eu.dzhw.fdz.metadatamanagement.search.exception.ElasticsearchDocumentDeleteException;
 import eu.dzhw.fdz.metadatamanagement.search.exception.ElasticsearchDocumentSaveException;
+import eu.dzhw.fdz.metadatamanagement.service.ElasticsearchAdminService;
+import eu.dzhw.fdz.metadatamanagement.service.enums.ElasticsearchIndices;
 import io.searchbox.client.JestClient;
 
 /**
@@ -32,16 +32,16 @@ import io.searchbox.client.JestClient;
 public class VariableSearchDaoTest extends AbstractTest {
   @Inject
   private VariableSearchDao variableSearchDao;
+  
+  @Inject
+  private ElasticsearchAdminService elasticsearchAdminService;
 
   @Inject
   private ElasticsearchAdminDao elasticsearchAdminDao;
 
   @Before
   public void setupTestIndex() {
-    if (elasticsearchAdminDao.exists(ElasticsearchAdminDaoTest.TEST_INDEX)) {
-      elasticsearchAdminDao.delete(ElasticsearchAdminDaoTest.TEST_INDEX);
-    }
-    elasticsearchAdminDao.createIndex(ElasticsearchAdminDaoTest.TEST_INDEX, new JsonObject());
+    this.elasticsearchAdminService.recreateAllIndices();
   }
 
   @Test
@@ -53,11 +53,11 @@ public class VariableSearchDaoTest extends AbstractTest {
           .withName("name")
           .withScaleLevel("nominal")
           .build();
-    variableSearchDao.save(variableSearchDocument, ElasticsearchAdminDaoTest.TEST_INDEX);
+    variableSearchDao.save(variableSearchDocument, ElasticsearchIndices.METADATA_DE.getIndexName());
 
-    elasticsearchAdminDao.refresh(ElasticsearchAdminDaoTest.TEST_INDEX);
+    elasticsearchAdminDao.refresh(ElasticsearchIndices.METADATA_DE.getIndexName());
 
-    assertThat(variableSearchDao.findAll(ElasticsearchAdminDaoTest.TEST_INDEX)
+    assertThat(variableSearchDao.findAll(ElasticsearchIndices.METADATA_DE.getIndexName())
       .size(), equalTo(1));
   }
 
@@ -83,11 +83,11 @@ public class VariableSearchDaoTest extends AbstractTest {
     documents.add(variableSearchDocument1);
     documents.add(variableSearchDocument2);
 
-    variableSearchDao.save(documents, ElasticsearchAdminDaoTest.TEST_INDEX);
+    variableSearchDao.save(documents, ElasticsearchIndices.METADATA_DE.getIndexName());
 
-    elasticsearchAdminDao.refresh(ElasticsearchAdminDaoTest.TEST_INDEX);
+    elasticsearchAdminDao.refresh(ElasticsearchIndices.METADATA_DE.getIndexName());
 
-    assertThat(variableSearchDao.findAll(ElasticsearchAdminDaoTest.TEST_INDEX)
+    assertThat(variableSearchDao.findAll(ElasticsearchIndices.METADATA_DE.getIndexName())
       .size(), equalTo(2));
   }
 
@@ -100,18 +100,18 @@ public class VariableSearchDaoTest extends AbstractTest {
           .withName("name")
           .withScaleLevel("nominal")
           .build();
-    variableSearchDao.save(variableSearchDocument, ElasticsearchAdminDaoTest.TEST_INDEX);
+    variableSearchDao.save(variableSearchDocument, ElasticsearchIndices.METADATA_DE.getIndexName());
 
-    elasticsearchAdminDao.refresh(ElasticsearchAdminDaoTest.TEST_INDEX);
+    elasticsearchAdminDao.refresh(ElasticsearchIndices.METADATA_DE.getIndexName());
 
-    assertThat(variableSearchDao.findAll(ElasticsearchAdminDaoTest.TEST_INDEX)
+    assertThat(variableSearchDao.findAll(ElasticsearchIndices.METADATA_DE.getIndexName())
       .size(), equalTo(1));
 
-    variableSearchDao.delete(variableSearchDocument.getId(), ElasticsearchAdminDaoTest.TEST_INDEX);
+    variableSearchDao.delete(variableSearchDocument.getId(), ElasticsearchIndices.METADATA_DE.getIndexName());
 
-    elasticsearchAdminDao.refresh(ElasticsearchAdminDaoTest.TEST_INDEX);
+    elasticsearchAdminDao.refresh(ElasticsearchIndices.METADATA_DE.getIndexName());
 
-    assertThat(variableSearchDao.findAll(ElasticsearchAdminDaoTest.TEST_INDEX)
+    assertThat(variableSearchDao.findAll(ElasticsearchIndices.METADATA_DE.getIndexName())
       .size(), equalTo(0));
   }
 
@@ -121,7 +121,7 @@ public class VariableSearchDaoTest extends AbstractTest {
     VariableSearchDocument variableSearchDocument = null;
 
     // Act
-    this.variableSearchDao.save(variableSearchDocument, ElasticsearchAdminDaoTest.TEST_INDEX);
+    this.variableSearchDao.save(variableSearchDocument, ElasticsearchIndices.METADATA_DE.getIndexName());
 
     // Assert
   }
@@ -132,7 +132,7 @@ public class VariableSearchDaoTest extends AbstractTest {
     List<VariableSearchDocument> variableSearchDocumentList = null;
 
     // Act
-    this.variableSearchDao.save(variableSearchDocumentList, ElasticsearchAdminDaoTest.TEST_INDEX);
+    this.variableSearchDao.save(variableSearchDocumentList, ElasticsearchIndices.METADATA_DE.getIndexName());
 
     // Assert
   }
@@ -145,7 +145,7 @@ public class VariableSearchDaoTest extends AbstractTest {
     variableSearchDocumentList.add(null);
 
     // Act
-    this.variableSearchDao.save(variableSearchDocumentList, ElasticsearchAdminDaoTest.TEST_INDEX);
+    this.variableSearchDao.save(variableSearchDocumentList, ElasticsearchIndices.METADATA_DE.getIndexName());
 
     // Assert
   }
@@ -167,7 +167,7 @@ public class VariableSearchDaoTest extends AbstractTest {
     // Arrange
 
     // Act
-    this.variableSearchDao.delete("AnyWrongId", ElasticsearchAdminDaoTest.TEST_INDEX);
+    this.variableSearchDao.delete("AnyWrongId", ElasticsearchIndices.METADATA_DE.getIndexName());
 
     // Assert
   }
@@ -183,12 +183,48 @@ public class VariableSearchDaoTest extends AbstractTest {
           .withScaleLevel("nominal")
           .withFdzProjectName(fdzProjectName)
           .build();
-    variableSearchDao.save(variableSearchDocument, ElasticsearchAdminDaoTest.TEST_INDEX);
-    elasticsearchAdminDao.refresh(ElasticsearchAdminDaoTest.TEST_INDEX);
-    variableSearchDao.deleteByFdzProjectName(fdzProjectName, ElasticsearchAdminDaoTest.TEST_INDEX);
-    elasticsearchAdminDao.refresh(ElasticsearchAdminDaoTest.TEST_INDEX);
+    variableSearchDao.save(variableSearchDocument, ElasticsearchIndices.METADATA_DE.getIndexName());
+    elasticsearchAdminDao.refresh(ElasticsearchIndices.METADATA_DE.getIndexName());
+    variableSearchDao.deleteByFdzProjectName(fdzProjectName, ElasticsearchIndices.METADATA_DE.getIndexName());
+    elasticsearchAdminDao.refresh(ElasticsearchIndices.METADATA_DE.getIndexName());
     
-    assertThat(variableSearchDao.findAll(ElasticsearchAdminDaoTest.TEST_INDEX).size(),equalTo(0));
+    assertThat(variableSearchDao.findAll(ElasticsearchIndices.METADATA_DE.getIndexName()).size(),equalTo(0));
+  }
+  
+  @Test
+  public void testDeleteByFdzProjectNameWithTwoSimilarProjects() {
+    String fdzProjectName = "FDZ Project";
+    String fdzProjectNameSimilar = "FDZ Projects";
+    VariableSearchDocument variableSearchDocument =
+        new VariableSearchDocumentBuilder().withId("1234")
+          .withDataType("string")
+          .withLabel("label")
+          .withName("name")
+          .withScaleLevel("nominal")
+          .withFdzProjectName(fdzProjectName)
+          .build();
+    VariableSearchDocument variableSearchDocumentSimilar =
+        new VariableSearchDocumentBuilder().withId("1234S")
+          .withDataType("string")
+          .withLabel("labelS")
+          .withName("nameS")
+          .withScaleLevel("nominalS")
+          .withFdzProjectName(fdzProjectNameSimilar)
+          .build();
+    variableSearchDao.save(variableSearchDocument, ElasticsearchIndices.METADATA_DE.getIndexName());
+    variableSearchDao.save(variableSearchDocumentSimilar, ElasticsearchIndices.METADATA_DE.getIndexName());
+    elasticsearchAdminDao.refresh(ElasticsearchIndices.METADATA_DE.getIndexName());
+    
+    List<VariableSearchDocument> documentsBefore = variableSearchDao.findAll(ElasticsearchIndices.METADATA_DE.getIndexName());
+    
+    variableSearchDao.deleteByFdzProjectName(fdzProjectName, ElasticsearchIndices.METADATA_DE.getIndexName());
+    elasticsearchAdminDao.refresh(ElasticsearchIndices.METADATA_DE.getIndexName());
+    
+    List<VariableSearchDocument> documents = variableSearchDao.findAll(ElasticsearchIndices.METADATA_DE.getIndexName());
+    
+    assertThat(documentsBefore.size(),equalTo(2));
+    assertThat(documents.size(),equalTo(1));
+    assertThat(documents.get(0).getFdzProjectName(),equalTo(fdzProjectNameSimilar));
   }
   
   @Test
@@ -202,12 +238,12 @@ public class VariableSearchDaoTest extends AbstractTest {
           .withScaleLevel("nominal")
           .withSurveyId(surveyId)
           .build();
-    variableSearchDao.save(variableSearchDocument, ElasticsearchAdminDaoTest.TEST_INDEX);
-    elasticsearchAdminDao.refresh(ElasticsearchAdminDaoTest.TEST_INDEX);
-    variableSearchDao.deleteBySurveyId(surveyId, ElasticsearchAdminDaoTest.TEST_INDEX);
-    elasticsearchAdminDao.refresh(ElasticsearchAdminDaoTest.TEST_INDEX);
+    variableSearchDao.save(variableSearchDocument, ElasticsearchIndices.METADATA_DE.getIndexName());
+    elasticsearchAdminDao.refresh(ElasticsearchIndices.METADATA_DE.getIndexName());
+    variableSearchDao.deleteBySurveyId(surveyId, ElasticsearchIndices.METADATA_DE.getIndexName());
+    elasticsearchAdminDao.refresh(ElasticsearchIndices.METADATA_DE.getIndexName());
     
     
-    assertThat(variableSearchDao.findAll(ElasticsearchAdminDaoTest.TEST_INDEX).size(),equalTo(0));
+    assertThat(variableSearchDao.findAll(ElasticsearchIndices.METADATA_DE.getIndexName()).size(),equalTo(0));
   }
 }
