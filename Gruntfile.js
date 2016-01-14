@@ -656,8 +656,6 @@ module.exports = function(grunt) {
         }
       });
 
-  grunt.loadNpmTasks('grunt-modernizr');
-
   grunt.registerTask('serve', ['clean:server', 'wiredep', 'ngconstant:dev',
       'sass:server', 'browserSync', 'watch']);
 
@@ -667,7 +665,7 @@ module.exports = function(grunt) {
     grunt.task.run([target ? ('serve:' + target) : 'serve']);
   });
 
-  grunt.registerTask('test', ['clean:server', 'modernizr:dist',
+  grunt.registerTask('test', ['clean:server',
       'ngconstant:dev', 'sass:server', 'wiredep:test', 'karma',
       'jshint', 'jscs']);
 
