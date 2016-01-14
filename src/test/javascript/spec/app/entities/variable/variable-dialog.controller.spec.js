@@ -48,6 +48,13 @@ describe('Controllers Tests ', function () {
                      return callback();
                    }
                 };
+              },
+              update: function(){
+                return {
+                   then: function(callback){
+                     return callback();
+                   }
+                };
               }
             };
           var locals = {
@@ -65,7 +72,8 @@ describe('Controllers Tests ', function () {
             spyOn(FdzProject, 'query').and.callThrough();
             spyOn(Survey, 'query').and.callThrough();
             spyOn(Variable, 'get').and.callThrough();
-            //spyOn(Variable, 'create').and.callThrough();
+            spyOn(Variable, 'create').and.callThrough();
+            spyOn(Variable, 'update').and.callThrough();
         }));
         beforeEach(function(){
           createController();
@@ -90,15 +98,15 @@ describe('Controllers Tests ', function () {
           var val = $scope.isSurveyEmpty();
           expect(val).toBe(true);
         });
-        xit('Unregisters root scope listener upon scope destruction', function() {
-            var eventType = 'metadatamanagementApp:variableUpdate';
-
-
+        it('should call Variable.update', function() {
           $scope.save();
-            expect($rootScope.$$listenerCount[eventType]).toEqual(1);
-
-          /*  $scope.$destroy();
-            expect($rootScope.$$listenerCount[eventType]).toBeUndefined();*/
+          expect(Variable.update).toHaveBeenCalled();
+        });
+        it('should call Variable.update', function() {
+          $scope.isCreateMode = 'true';
+          $scope.$apply();
+          $scope.save();
+          expect(Variable.update).toHaveBeenCalled();
         });
       });
     });

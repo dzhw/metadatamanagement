@@ -1,7 +1,7 @@
 'use strict';
 
 describe('Controllers Tests ', function () {
-  var $scope, FdzProject, createController, $uibModalInstance, MockEntity, $stateParams;
+  var $scope, Survey, FdzProject, createController, $uibModalInstance, MockEntity, $stateParams;
 
   beforeEach(mockApiAccountCall);
   beforeEach(mockI18nCalls);
@@ -16,7 +16,7 @@ describe('Controllers Tests ', function () {
         }
       };
       $stateParams = _$stateParams_;
-      FdzProject = {
+      Survey = {
         get: function(){
           return {
              then: function(callback){
@@ -39,39 +39,50 @@ describe('Controllers Tests ', function () {
           };
         }
       };
+      FdzProject = {
+        query: function(){
+          return {
+             then: function(callback){
+               return callback();
+             }
+          };
+        }
+      };
       var locals = {
         '$scope' : $scope,
         'FdzProject' : FdzProject,
+        'Survey' : Survey,
         'entity': MockEntity ,
         '$uibModalInstance': $uibModalInstance,
         '$stateParams': $stateParams,
         'isCreateMode': true
       };
       createController = function() {
-        return $controller('FdzProjectDialogController', locals);
+        return $controller('SurveyDialogController', locals);
       };
-      spyOn(FdzProject, 'get').and.callThrough();
-      spyOn(FdzProject, 'create').and.callThrough();
-      spyOn(FdzProject, 'update').and.callThrough();
+      spyOn(Survey, 'get').and.callThrough();
+      spyOn(Survey, 'create').and.callThrough();
+      spyOn(Survey, 'update').and.callThrough();
+      spyOn(FdzProject, 'query').and.callThrough();
     });
    });
-   describe('FdzProjectDialogController',function(){
+   describe('SurveyDialogController',function(){
      beforeEach(function(){
          createController();
      });
-     it('should call FdzProject.get',function(){
+     it('should call Survey.get',function(){
        $scope.load();
-       expect(FdzProject.get).toHaveBeenCalled();
+       expect(Survey.get).toHaveBeenCalled();
      });
-     it('should call FdzProject.create',function(){
+     it('should call Survey.create',function(){
        $scope.save();
-       expect(FdzProject.create).toHaveBeenCalled();
+       expect(Survey.create).toHaveBeenCalled();
      });
-     it('should call FdzProject.update',function(){
+     it('should call Survey.update',function(){
        $scope.isCreateMode = false;
        $scope.$apply();
        $scope.save();
-       //expect(FdzProject.update).toHaveBeenCalled();
+      // expect(Survey.update).toHaveBeenCalled();
      });
      it('should call $uibModalInstance.dismiss',function(){
        $scope.clear();

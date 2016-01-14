@@ -1,7 +1,7 @@
 'use strict';
 
-xdescribe('FdzProject Detail Controller', function() {
-    var $scope, $rootScope, FdzProject;
+describe('FdzProject delete Controller', function() {
+    var $scope, $rootScope,$uibModalInstance, FdzProject;
     var MockEntity;
     var createController;
 
@@ -9,6 +9,12 @@ xdescribe('FdzProject Detail Controller', function() {
         $rootScope = $injector.get('$rootScope');
         $scope = $rootScope.$new();
         MockEntity = jasmine.createSpy('MockEntity');
+        $uibModalInstance = {
+          dismiss: jasmine.createSpy('$uibModalInstance.cancel'),
+          result: {
+            then: jasmine.createSpy('$uibModalInstance.result.then')
+          }
+        };
         FdzProject = {
           delete: function(){
             return {
@@ -23,10 +29,11 @@ xdescribe('FdzProject Detail Controller', function() {
             '$scope': $scope,
             '$rootScope': $rootScope,
             'entity': MockEntity ,
-            'FdzProject': FdzProject
+            'FdzProject': FdzProject,
+            '$uibModalInstance': $uibModalInstance
         };
         createController = function() {
-            $injector.get('$controller')("FdzProjectDeleteController", locals);
+            $injector.get('$controller')('FdzProjectDeleteController', locals);
         };
         spyOn(FdzProject, 'delete').and.callThrough();
     }));
@@ -35,6 +42,11 @@ xdescribe('FdzProject Detail Controller', function() {
             createController();
            $scope.confirmDelete();
             expect(FdzProject.delete).toHaveBeenCalled();
+        });
+        it('should call $uibModalInstance.dismiss', function() {
+          createController();
+          $scope.clear();
+          expect($uibModalInstance.dismiss).toHaveBeenCalled();
         });
     });
 });
