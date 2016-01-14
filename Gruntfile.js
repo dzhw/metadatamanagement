@@ -12,7 +12,7 @@ var parseVersionFromPomXml = function() {
     version = result.project.version[0];
   });
   return version;
-}; 
+};
 
 // usemin custom step
 var useminAutoprefixer = {
@@ -380,12 +380,12 @@ module.exports = function(grunt) {
           dist: {
             dest: 'src/main/webapp/bower_components/modernizr/modernizr.js',
             crawl: true,
-            "files" : {
-                "src": [
-                    "*[^(g|G)runt(file)?].{css,scss}",
-                    "**[^node_modules]/**/*.{css,scss}",
-                    "!lib/**/*"
-                ]
+            'files': {
+              'src': [
+                  '*[^(g|G)runt(file)?].{css,scss}',
+                  '**[^node_modules]/**/*.{css,scss}',
+                  '!lib/**/*'
+              ]
             },
             tests: [
               'ambientlight',
