@@ -674,7 +674,7 @@ module.exports = function(grunt) {
     grunt.task.run([target ? ('serve:' + target) : 'serve']);
   });
 
-  grunt.registerTask('test', ['clean:server',  'modernizr:dist',
+  grunt.registerTask('test', ['clean:server',
       'ngconstant:dev', 'sass:server', 'wiredep:test', 'karma',
       'jshint', 'jscs']);
 
@@ -682,7 +682,7 @@ module.exports = function(grunt) {
    'ngconstant:prod',
       'useminPrepare', 'ngtemplates', 'imagemin', 'svgmin',
       'concat', 'copy:fonts', 'copy:dist', 'ngAnnotate', 'cssmin',
-      'autoprefixer', 'uglify', 'rev', 'usemin', 'htmlmin']);
+      'autoprefixer', 'uglify', 'rev', 'modernizr:dist', 'usemin', 'htmlmin']);
 
   grunt.registerTask('builddev', ['test', 'clean:dist', 'wiredep:app',
    'ngAnnotate']);
