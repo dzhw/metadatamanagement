@@ -379,7 +379,14 @@ module.exports = function(grunt) {
         modernizr: {
           dist: {
             dest: 'src/main/webapp/bower_components/modernizr/modernizr.js',
-            crawl: false,
+            crawl: true,
+            "files" : {
+                "src": [
+                    "*[^(g|G)runt(file)?].{css,scss}",
+                    "**[^node_modules]/**/*.{css,scss}",
+                    "!lib/**/*"
+                ]
+            },
             tests: [
               'ambientlight',
               'applicationcache',
