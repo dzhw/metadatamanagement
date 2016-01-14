@@ -1,21 +1,21 @@
 'use strict';
 
 describe('Controllers Tests ', function () {
-    var $scope, $modalInstance, createController;
+    var $scope, $uibModalInstance, createController;
         beforeEach(mockApiAccountCall);
         beforeEach(mockI18nCalls);
     describe('HealthModalController', function() {
         beforeEach(inject(function($injector) {
             $scope = $injector.get('$rootScope').$new();
-            $modalInstance = {
-              dismiss: jasmine.createSpy('$modalInstance.cancel'),
+            $uibModalInstance = {
+              dismiss: jasmine.createSpy('$uibModalInstance.cancel'),
               result: {
-                then: jasmine.createSpy('$modalInstance.result.then')
+                then: jasmine.createSpy('$uibModalInstance.result.then')
               }
             };
           var locals = {
             '$scope': $scope,
-            '$modalInstance': $modalInstance,
+            '$uibModalInstance': $uibModalInstance,
             'currentHealth': '/metadatamanagement/',
             'baseName':'testPage',
             'subSystemName':'metadatamanagement'
@@ -27,9 +27,9 @@ describe('Controllers Tests ', function () {
         beforeEach(function(){
           createController();
         });
-        it('should call $modalInstance.dismiss', function() {
+        it('should call $uibModalInstance.dismiss', function() {
           $scope.cancel();
-          expect($modalInstance.dismiss).toHaveBeenCalled();
+          expect($uibModalInstance.dismiss).toHaveBeenCalled();
         });
       });
     });

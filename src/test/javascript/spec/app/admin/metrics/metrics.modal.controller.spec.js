@@ -1,21 +1,21 @@
 'use strict';
 
 describe('Controllers Tests ', function () {
-    var $scope, $modalInstance, value, createController;
+    var $scope, $uibModalInstance, value, createController;
         beforeEach(mockApiAccountCall);
         beforeEach(mockI18nCalls);
     describe('MetricsModalController', function() {
         beforeEach(inject(function($injector) {
             $scope = $injector.get('$rootScope').$new();
-            $modalInstance = {
-              dismiss: jasmine.createSpy('$modalInstance.cancel'),
+            $uibModalInstance = {
+              dismiss: jasmine.createSpy('$uibModalInstance.cancel'),
               result: {
-                then: jasmine.createSpy('$modalInstance.result.then')
+                then: jasmine.createSpy('$uibModalInstance.result.then')
               }
             };
           var locals = {
             '$scope': $scope,
-            '$modalInstance': $modalInstance,
+            '$uibModalInstance': $uibModalInstance,
             'threadDump': [
               {
                 threadState : 'RUNNABLE'
@@ -45,9 +45,9 @@ describe('Controllers Tests ', function () {
           expect($scope.threadDumpTimedWaiting).toBe(1);
           expect($scope.threadDumpBlocked).toBe(1);
         });
-        it('should call $modalInstance.dismiss', function() {
+        it('should call $uibModalInstance.dismiss', function() {
           $scope.cancel();
-          expect($modalInstance.dismiss).toHaveBeenCalled();
+          expect($uibModalInstance.dismiss).toHaveBeenCalled();
         });
         it('shold set label to success', function() {
           var label =   $scope.getLabelClass('RUNNABLE');

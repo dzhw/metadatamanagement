@@ -67,9 +67,9 @@ angular.module('metadatamanagementApp')
         data: {
           authorities: ['ROLE_USER'],
         },
-        onEnter: ['$stateParams', '$state', '$modal', function($stateParams,
-          $state, $modal) {
-          $modal.open({
+        onEnter: ['$stateParams', '$state', '$uibModal', function($stateParams,
+          $state, $uibModal) {
+          $uibModal.open({
             templateUrl: 'scripts/app/entities/variable/variable-dialog.html',
             controller: 'VariableDialogController',
             size: 'lg',
@@ -102,9 +102,9 @@ angular.module('metadatamanagementApp')
         data: {
           authorities: ['ROLE_USER'],
         },
-        onEnter: ['$stateParams', '$state', '$modal', function($stateParams,
-          $state, $modal) {
-          $modal.open({
+        onEnter: ['$stateParams', '$state', '$uibModal', function($stateParams,
+          $state, $uibModal) {
+          $uibModal.open({
             templateUrl: 'scripts/app/entities/variable/variable-dialog.html',
             controller: 'VariableDialogController',
             size: 'lg',

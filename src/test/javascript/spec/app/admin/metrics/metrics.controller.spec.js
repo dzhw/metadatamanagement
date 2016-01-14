@@ -3,17 +3,17 @@
 describe(
     'Controllers Tests ',
     function() {
-      var $scope, $modalInstance, $q, metrics, actualOptions, MonitoringService, newValue, createController;
+      var $scope, $uibModalInstance, $q, metrics, actualOptions, MonitoringService, newValue, createController;
       beforeEach(mockApiAccountCall);
       beforeEach(mockI18nCalls);
       describe('MetricsController', function() {
         beforeEach(inject(function($injector) {
           $scope = $injector.get('$rootScope').$new();
           $q = $injector.get('$q');
-          $modalInstance = {
-            open : jasmine.createSpy('$modalInstance.open'),
+          $uibModalInstance = {
+            open : jasmine.createSpy('$uibModalInstance.open'),
             result : {
-              then : jasmine.createSpy('$modalInstance.result.then')
+              then : jasmine.createSpy('$uibModalInstance.result.then')
             }
           };
           MonitoringService = {
@@ -33,7 +33,7 @@ describe(
           var locals = {
             '$scope' : $scope,
             'MonitoringService' : MonitoringService,
-            '$modal' : $modalInstance,
+            '$uibModal' : $uibModalInstance,
           };
           createController = function() {
             $injector.get('$controller')('MetricsController', locals);
@@ -80,7 +80,7 @@ describe(
           } catch (e) {
 
           }
-          expect($modalInstance.open).toHaveBeenCalled();
+          expect($uibModalInstance.open).toHaveBeenCalled();
         });
       });
     });

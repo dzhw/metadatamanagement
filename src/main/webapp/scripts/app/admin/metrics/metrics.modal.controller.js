@@ -2,7 +2,7 @@
 
 angular.module('metadatamanagementApp').controller(
     'MetricsModalController',
-    function($scope, $modalInstance, threadDump) {
+    function($scope, $uibModalInstance, threadDump) {
 
       $scope.threadDump = threadDump;
       $scope.threadDumpRunnable = 0;
@@ -27,7 +27,7 @@ angular.module('metadatamanagementApp').controller(
           $scope.threadDumpBlocked;
 
       $scope.cancel = function() {
-        $modalInstance.dismiss('cancel');
+        $uibModalInstance.dismiss('cancel');
       };
 
       $scope.getLabelClass = function(threadState) {

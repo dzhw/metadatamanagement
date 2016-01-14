@@ -3,12 +3,12 @@ describe('Controllers Tests ', function () {
   beforeEach(mockApiAccountCall);
   beforeEach(mockI18nCalls);
     describe('HealthController', function () {
-        var $scope, $q, $modal, createController, MonitoringService, AdminService; // local utility functions
+        var $scope, $q, $uibModal, createController, MonitoringService, AdminService; // local utility functions
 
         beforeEach(inject(function ($injector) {
             $scope = $injector.get('$rootScope').$new();
             $q = $injector.get('$q');
-            $modal = $injector.get('$modal');
+            $uibModal = $injector.get('$uibModal');
             MonitoringService = {
               checkHealth: function() {
               var deferred = $q.defer();
@@ -30,14 +30,14 @@ describe('Controllers Tests ', function () {
                 '$scope': $scope,
                 'MonitoringService': MonitoringService,
                 'AdminService': AdminService,
-                '$modal': $modal
+                '$uibModal': $uibModal
             };
             createController = function() {
                 $injector.get('$controller')('HealthController', locals);
             };
             spyOn(MonitoringService, 'checkHealth').and.callThrough();
             spyOn(AdminService, 'recreateAllElasticsearchIndices').and.callThrough();
-            spyOn($modal, 'open').and.callThrough();
+            spyOn($uibModal, 'open').and.callThrough();
             createController();
         }));
 
@@ -364,7 +364,7 @@ describe('Controllers Tests ', function () {
           });
           it('shold set modal params', function() {
             $scope.showHealth('');
-            expect($modal.open).toHaveBeenCalled();
+            expect($uibModal.open).toHaveBeenCalled();
           });
           it('shold split and return baseName', function() {
             var name = $scope.baseName('baseName.test');

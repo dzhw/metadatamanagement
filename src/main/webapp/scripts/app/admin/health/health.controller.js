@@ -2,7 +2,7 @@
 
 angular.module('metadatamanagementApp').controller(
     'HealthController',
-    function($scope, MonitoringService, $modal, AdminService) {
+    function($scope, MonitoringService, $uibModal, AdminService) {
       $scope.isRecreatingIndices = false;
       $scope.updatingHealth = true;
       $scope.separator = '.';
@@ -77,7 +77,7 @@ angular.module('metadatamanagementApp').controller(
       };
 
       $scope.showHealth = function(health) {
-        $modal.open({
+        $uibModal.open({
           templateUrl: 'scripts/app/admin/health/health.modal.html',
           controller: 'HealthModalController',
           size: 'lg',

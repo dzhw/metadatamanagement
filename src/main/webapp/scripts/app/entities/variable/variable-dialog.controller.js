@@ -1,9 +1,9 @@
 'use strict';
 
 angular.module('metadatamanagementApp').controller('VariableDialogController',
-    ['$scope', '$stateParams', '$modalInstance', 'entity', 'isCreateMode',
+    ['$scope', '$stateParams', '$uibModalInstance', 'entity', 'isCreateMode',
      'Variable', 'FdzProject', 'Survey',
-        function($scope, $stateParams, $modalInstance, entity, isCreateMode,
+        function($scope, $stateParams, $uibModalInstance, entity, isCreateMode,
           Variable, FdzProject, Survey) {
 
           $scope.variable = entity;
@@ -24,7 +24,7 @@ angular.module('metadatamanagementApp').controller('VariableDialogController',
 
           var onSaveFinished = function(result) {
             $scope.$emit('metadatamanagementApp:variableUpdate', result);
-            $modalInstance.close(result);
+            $uibModalInstance.close(result);
           };
 
           $scope.save = function() {
@@ -66,7 +66,7 @@ angular.module('metadatamanagementApp').controller('VariableDialogController',
           };
 
           $scope.clear = function() {
-            $modalInstance.dismiss('cancel');
+            $uibModalInstance.dismiss('cancel');
           };
         }
       ]

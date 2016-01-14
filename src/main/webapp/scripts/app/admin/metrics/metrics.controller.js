@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('metadatamanagementApp').controller('MetricsController',
-    function($scope, MonitoringService, $modal) {
+    function($scope, MonitoringService, $uibModal) {
       $scope.metrics = {};
       $scope.updatingMetrics = true;
 
@@ -41,7 +41,7 @@ angular.module('metadatamanagementApp').controller('MetricsController',
 
       $scope.refreshThreadDumpData = function() {
         MonitoringService.threadDump().then(function(data) {
-          $modal.open({
+          $uibModal.open({
             templateUrl: 'scripts/app/admin/metrics/metrics.modal.html',
             controller: 'MetricsModalController',
             size: 'lg',

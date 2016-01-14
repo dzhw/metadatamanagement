@@ -1,7 +1,7 @@
 'use strict';
 
 describe('Controllers Tests ', function () {
-    var $scope, $rootScope, $modalInstance, MockEntity, FdzProject, Survey, Variable, createController;
+    var $scope, $rootScope, $uibModalInstance, MockEntity, FdzProject, Survey, Variable, createController;
         beforeEach(mockApiAccountCall);
         beforeEach(mockI18nCalls);
     describe('VariableDialogController', function() {
@@ -9,11 +9,11 @@ describe('Controllers Tests ', function () {
             $rootScope = $injector.get('$rootScope');
             $scope = $injector.get('$rootScope').$new();
             MockEntity = jasmine.createSpy('MockEntity');
-            $modalInstance = {
-              dismiss: jasmine.createSpy('$modalInstance.cancel'),
-              close: jasmine.createSpy('$modalInstance.close'),
+            $uibModalInstance = {
+              dismiss: jasmine.createSpy('$uibModalInstance.cancel'),
+              close: jasmine.createSpy('$uibModalInstance.close'),
               result: {
-                then: jasmine.createSpy('$modalInstance.result.then')
+                then: jasmine.createSpy('$uibModalInstance.result.then')
               }
             };
             FdzProject = {
@@ -52,7 +52,7 @@ describe('Controllers Tests ', function () {
             };
           var locals = {
             '$scope': $scope,
-            '$modalInstance': $modalInstance,
+            '$uibModalInstance': $uibModalInstance,
             'entity': MockEntity,
             'isCreateMode' : false,
             'FdzProject': FdzProject,
@@ -70,9 +70,9 @@ describe('Controllers Tests ', function () {
         beforeEach(function(){
           createController();
         });
-        it('should call $modalInstance.dismiss', function() {
+        it('should call $uibModalInstance.dismiss', function() {
           $scope.clear();
-          expect($modalInstance.dismiss).toHaveBeenCalled();
+          expect($uibModalInstance.dismiss).toHaveBeenCalled();
         });
         it('should set allFdzProjects', function() {
            expect($scope.allFdzProjects).toBeDefined();
