@@ -1,5 +1,5 @@
 <div>
-  <h2><span translate="metadatamanagementApp.survey.detail.title">Survey</span> {{survey.id}}</h2>
+  <h2><span translate="metadatamanagementApp.survey.detail.title">Survey</span> {{survey.fdzId}}</h2>
   <div class="table-responsive">
     <table class="table table-striped">
       <thead>
@@ -11,10 +11,10 @@
       <tbody>
         <tr>
           <td>
-            <span translate="metadatamanagementApp.survey.id">id</span>
+            <span translate="metadatamanagementApp.survey.fdzId">fdzId</span>
           </td>
           <td>
-            <span class="form-control-static">{{survey.id}}</span>
+            <span class="form-control-static">{{survey.fdzId}}</span>
           </td>
         </tr>
         <tr>
@@ -54,7 +54,7 @@
             <span translate="metadatamanagementApp.survey.fdzProjectName">FdzProjectName</span>
           </td>
           <td>
-            <span class="form-control-static">{{survey.fdzProjectName}}</span>
+            <span class="form-control-static">{{survey.fdzProject.name}}</span>
           </td>
         </tr>
       </tbody>

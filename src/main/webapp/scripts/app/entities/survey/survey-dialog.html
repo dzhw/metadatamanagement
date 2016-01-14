@@ -6,13 +6,13 @@
   <div class="modal-body">
     <jh-alert-error></jh-alert-error>
     <div class="form-group">
-      <label for="id" translate="global.field.id">FDZ ID</label>
-      <input type="text" class="form-control" id="id" name="id" ng-model="survey.id" ng-readonly="!isCreateMode" ng-pattern="/^[_A-Za-z0-9]*$/" required/>
-      <div ng-show="editForm.id.$invalid">
-        <p class="help-block" ng-show="editForm.id.$error.required" translate="entity.validation.required">
+      <label for="fdzId" translate="global.field.fdzId">FDZ ID</label>
+      <input type="text" class="form-control" id="fdzId" name="fdzId" ng-model="survey.fdzId" ng-readonly="!isCreateMode" ng-pattern="/^[_A-Za-z0-9]*$/" required/>
+      <div ng-show="editForm.fdzId.$invalid">
+        <p class="help-block" ng-show="editForm.fdzId.$error.required" translate="entity.validation.required">
           This field is required.
         </p>
-        <p class="help-block" ng-show="editForm.id.$error.pattern" translate="entity.validation.fdzid">
+        <p class="help-block" ng-show="editForm.fdzId.$error.pattern" translate="entity.validation.fdzId">
           The FDZ ID can only contain letters, digits and underscore.
         </p>
       </div>
@@ -56,8 +56,8 @@
     </div>
     <div class="form-group">
       <label translate="metadatamanagementApp.survey.fdzProjectName" for="field_fdzProjectName">FDZ Project Name</label>
-      <select class="form-control" name="fdzProjectName" ng-model="survey.fdzProjectName" id="field_fdzProjectName" required>
-        <option ng-repeat="fdzproject in allFdzProjects" value="{{fdzproject.name}}">{{fdzproject.name}}</option>
+      <select class="form-control" name="fdzProjectName" ng-model="survey.fdzProject" id="field_fdzProjectName" required>
+        <option ng-repeat="fdzproject in allFdzProjects" value="{{fdzproject._links.self.href}}">{{fdzproject.name}}</option>
       </select>
 
       <div ng-show="editForm.fdzProjectName.$invalid">

@@ -83,7 +83,7 @@
       }
     },
     "field": {
-      "id": "FDZ ID"
+      "fdzId": "FDZ ID"
     }
   },
   "entity": {
@@ -115,7 +115,7 @@
       "pattern": "This field should follow pattern {{pattern}}.",
       "number": "This field should be a number.",
       "datetimelocal": "This field should be a date and time.",
-      "fdzid": "The FDZ ID must contain only letters, digits and underscore.",
+      "fdzId": "The FDZ ID must contain only letters, digits and underscore.",
       "variable": {
         "name": "The name of a variable must contain only letters, digits and underscore."
       },

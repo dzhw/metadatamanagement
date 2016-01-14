@@ -5,9 +5,6 @@ import java.util.List;
 
 import javax.inject.Inject;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.context.event.EventListener;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -21,8 +18,6 @@ import eu.dzhw.fdz.metadatamanagement.repository.VariableRepository;
 import eu.dzhw.fdz.metadatamanagement.search.VariableSearchDao;
 import eu.dzhw.fdz.metadatamanagement.search.document.VariableSearchDocument;
 import eu.dzhw.fdz.metadatamanagement.service.enums.ElasticsearchIndices;
-import eu.dzhw.fdz.metadatamanagement.service.event.FdzProjectDeletedEvent;
-import eu.dzhw.fdz.metadatamanagement.service.event.SurveyDeletedEvent;
 import eu.dzhw.fdz.metadatamanagement.service.exception.EntityExistsException;
 import eu.dzhw.fdz.metadatamanagement.service.exception.EntityNotFoundException;
 
@@ -35,8 +30,6 @@ import eu.dzhw.fdz.metadatamanagement.service.exception.EntityNotFoundException;
  */
 @Service
 public class VariableService {
-
-  private final Logger log = LoggerFactory.getLogger(VariableService.class);
 
   @Inject
   private VariableRepository variableRepository;
@@ -138,53 +131,11 @@ public class VariableService {
 
     // Double Compound index of name/fdzProjectName
     if (message.contains("$name_1_fdz_project_name_1")) {
-      String[] fields = {variable.getName(), variable.getFdzProjectName()};
+      String[] fields = {variable.getName(), variable.getFdzProject().getName()};
       throw new EntityExistsException(Variable.class, fields);
     }
   }
-
-  /**
-   * Deletes all variables by id by fdzProjectName..
-   * 
-   * @param fdzProjectName The project name of a survey.
-   */
-  private List<Variable> deleteByFdzProjectName(String fdzProjectName) {
-    log.debug("Request to delete fdz project name : {}", fdzProjectName);
-    List<Variable> deletedVariables = 
-        this.variableRepository.deleteByFdzProjectName(fdzProjectName);
-    for (ElasticsearchIndices index : ElasticsearchIndices.values()) {
-      this.variableSearchDao.deleteByFdzProjectName(fdzProjectName, index.getIndexName());      
-    }
-    log.debug("Deleted variables[{}] by fdz project name: {}", deletedVariables.size(),
-        fdzProjectName);
-    return deletedVariables;
-  }
   
-  @EventListener
-  public void onFdzProjectDeleted(FdzProjectDeletedEvent fdzProjectDeletedEvent) {
-    this.deleteByFdzProjectName(fdzProjectDeletedEvent.getFdzProjectName());
-  }
-  
-  /**
-   * Deletes all variables by a survey id.
-   * 
-   * @param surveyId The id of a survey.
-   */
-  private List<Variable> deleteBySurveyId(String surveyId) {
-    log.debug("Request to delete variables by survey id : {}", surveyId);
-    List<Variable> deletedVariables = this.variableRepository.deleteBySurveyId(surveyId);
-    for (ElasticsearchIndices index : ElasticsearchIndices.values()) {
-      this.variableSearchDao.deleteBySurveyId(surveyId, index.getIndexName());      
-    }
-    log.debug("Deleted variables[{}] by survey id: {}", deletedVariables.size(), surveyId);
-    return deletedVariables;
-  }
-  
-  @EventListener
-  public void onSurveyDeleted(SurveyDeletedEvent surveyDeletedEvent) {
-    this.deleteBySurveyId(surveyDeletedEvent.getSurveyId());
-  }
-
   /**
    * Delete all variables from mongo and elasticsearch.
    */

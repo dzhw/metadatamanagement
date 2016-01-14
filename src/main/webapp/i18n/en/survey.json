@@ -10,12 +10,12 @@
       "updated": "A Survey is updated with FDZ ID \"{{ param }}\"",
       "deleted": "A Survey is deleted with FDZ ID \"{{ param }}\"",
       "delete": {
-        "question": "Are you sure you want to delete Survey with FDZ ID \"{{ id }}\"?"
+        "question": "Are you sure you want to delete Survey with FDZ ID \"{{ fdzId }}\"?"
       },
       "detail": {
         "title": "Survey"
       },
-      "id": "FDZ ID",
+      "fdzId": "FDZ ID",
       "title.de": "Title (DE)",
       "title.en": "Title (EN)",
       "fieldPeriod.start": "Field Period Begin",

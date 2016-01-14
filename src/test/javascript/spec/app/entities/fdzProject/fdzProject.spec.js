@@ -1,6 +1,6 @@
 'use strict';
 
-describe('fdzProject api', function () {
+xdescribe('fdzProject api', function () {
        var $translate, $translatePartialLoader, $state;
        beforeEach(inject(function(_$translate_, _$translatePartialLoader_, _$httpBackend_, _$state_){
          $translate = _$translate_;

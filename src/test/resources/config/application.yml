@@ -68,11 +68,3 @@ jhipster:
             key: 786cea5f182ffdd133864bbc75f69f8d008b5bc3
     metrics: # DropWizard Metrics configuration, used by MetricsConfiguration
         jmx.enabled: true
-    swagger:
-        title: metadatamanagement API
-        description: metadatamanagement API documentation
-        version: 0.0.1
-        termsOfServiceUrl:
-        contact:
-        license:
-        licenseUrl:

@@ -1,41 +1,17 @@
 'use strict';
 
 angular.module('metadatamanagementApp')
-  .controller('SurveyController', function($scope, $state, Survey, ParseLinks) {
+  .controller('SurveyController', function($scope, $state, Survey) {
 
     $scope.surveys = [];
-    $scope.predicate = 'id';
-    $scope.reverse = true;
     $scope.page = 1;
     $scope.loadAll = function() {
-      Survey.query({
-        page: $scope.page - 1,
-        size: 10,
-        sort: [$scope.predicate + ',' + ($scope.reverse ? 'asc' :
-          'desc'), 'id']
-      }, function(result, headers) {
-        $scope.links = ParseLinks.parse(headers('link'));
-        $scope.totalItems = headers('X-Total-Count');
-        $scope.surveys = result;
+      Survey.query({page: $scope.page - 1},
+        function(result) {
+        $scope.totalItems = result.page.totalElements;
+        $scope.surveys = result._embedded.surveys;
       });
     };
-    $scope.loadPage = function(page) {
-      $scope.page = page;
-      $scope.loadAll();
-    };
+
     $scope.loadAll();
-
-    $scope.refresh = function() {
-      $scope.loadAll();
-      $scope.clear();
-    };
-
-    $scope.clear = function() {
-      $scope.survey = {
-        title: null,
-        fieldPeriod: null,
-        fdzProjectName: null,
-        id: null
-      };
-    };
   });

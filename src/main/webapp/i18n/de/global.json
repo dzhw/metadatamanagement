@@ -82,7 +82,7 @@
       }
     },
     "field": {
-      "id": "FDZ ID"
+      "fdzId": "FDZ ID"
     }
   },
   "entity": {
@@ -114,7 +114,7 @@
       "pattern": "Dieses Feld muss das Muster {{pattern}} erfüllen.",
       "number": "Dieses Feld muss eine Zahl sein.",
       "datetimelocal": "Dieses Feld muss eine Datums- und Zeitangabe enthalten.",
-      "fdzid": "Die FDZ ID darf nur aus Zahlen, Buchstaben und \"_\" bestehen.",
+      "fdzId": "Die FDZ ID darf nur aus Zahlen, Buchstaben und \"_\" bestehen.",
       "variable": {
         "name": "Der Name einer Variablen darf nur aus Zahlen, Buchstaben und \"_\" bestehen."
       },

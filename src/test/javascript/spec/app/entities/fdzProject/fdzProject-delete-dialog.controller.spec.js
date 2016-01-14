@@ -1,6 +1,6 @@
 'use strict';
 
-describe('FdzProject delete Controller', function() {
+xdescribe('FdzProject delete Controller', function() {
     var $scope, $rootScope,$uibModalInstance, FdzProject;
     var MockEntity;
     var createController;

@@ -29,7 +29,7 @@ angular.module('metadatamanagementApp')
       })
       .state('survey.detail', {
         parent: 'entity',
-        url: '/survey/{id}',
+        url: '/survey/{fdzId}',
         data: {
           authorities: ['ROLE_USER'],
           pageTitle: 'metadatamanagementApp.survey.detail.title'
@@ -50,8 +50,8 @@ angular.module('metadatamanagementApp')
           ],
           entity: ['$stateParams', 'Survey',
             function($stateParams, Survey) {
-              return Survey.get({
-                id: $stateParams.id
+              return Survey.findOneByFdzId({
+                fdzId: $stateParams.fdzId
               });
             }
           ]
@@ -92,7 +92,7 @@ angular.module('metadatamanagementApp')
       })
       .state('survey.edit', {
         parent: 'survey',
-        url: '/{id}/edit',
+        url: '/{fdzId}/edit',
         data: {
           authorities: ['ROLE_USER'],
         },
@@ -104,8 +104,8 @@ angular.module('metadatamanagementApp')
               size: 'lg',
               resolve: {
                 entity: ['Survey', function(Survey) {
-                  return Survey.get({
-                    id: $stateParams.id
+                  return Survey.findOneByFdzId({
+                    fdzId: $stateParams.fdzId
                   });
                 }],
                 isCreateMode: false
@@ -122,7 +122,7 @@ angular.module('metadatamanagementApp')
       })
       .state('survey.delete', {
         parent: 'survey',
-        url: '/{id}/delete',
+        url: '/{fdzId}/delete',
         data: {
           authorities: ['ROLE_USER'],
         },
@@ -135,8 +135,8 @@ angular.module('metadatamanagementApp')
               size: 'md',
               resolve: {
                 entity: ['Survey', function(Survey) {
-                  return Survey.get({
-                    id: $stateParams.id
+                  return Survey.findOneByFdzId({
+                    fdzId: $stateParams.fdzId
                   });
                 }]
               }

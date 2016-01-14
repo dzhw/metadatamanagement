@@ -1,19 +1,15 @@
 package eu.dzhw.fdz.metadatamanagement.domain;
 
-import java.io.Serializable;
-import java.util.Objects;
-
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Pattern;
 
 import org.hibernate.validator.constraints.NotBlank;
-import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.index.Indexed;
+import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
-import org.springframework.data.mongodb.core.mapping.Field;
 
-import eu.dzhw.fdz.metadatamanagement.domain.util.Patterns;
-import eu.dzhw.fdz.metadatamanagement.domain.validation.FdzProjectExists;
+import com.google.common.base.MoreObjects;
+
 import net.karneim.pojobuilder.GeneratePojoBuilder;
 
 /**
@@ -22,37 +18,22 @@ import net.karneim.pojobuilder.GeneratePojoBuilder;
 
 @Document(collection = "survey")
 @GeneratePojoBuilder(intoPackage = "eu.dzhw.fdz.metadatamanagement.domain.builders")
-public class Survey implements Serializable {
+public class Survey extends AbstractFdzDomainObject {
 
-  private static final long serialVersionUID = -9080907927711709470L;
-
-  @Id
   @NotBlank
-  @Pattern(regexp = Patterns.ALPHANUMERIC_WITH_UNDERSCORE)
-  private String id;
+  @Indexed(unique = true)
+  private String fdzId;
 
   @NotNull
-  @Field("title")
   private I18nString title;
 
   @NotNull
   @Valid
-  @Field("field_period")
   private Period fieldPeriod;
 
-  @FdzProjectExists
-  @NotBlank
-  @Field("fdz_project_name")
-  private String fdzProjectName;
-
-
-  public String getId() {
-    return id;
-  }
-
-  public void setId(String id) {
-    this.id = id;
-  }
+  @DBRef
+  @NotNull
+  private FdzProject fdzProject;
 
   public I18nString getTitle() {
     return title;
@@ -70,34 +51,29 @@ public class Survey implements Serializable {
     this.fieldPeriod = fieldPeriod;
   }
 
-  public String getFdzProjectName() {
-    return fdzProjectName;
+  public FdzProject getFdzProject() {
+    return fdzProject;
   }
 
-  public void setFdzProjectName(String fdzProjectName) {
-    this.fdzProjectName = fdzProjectName;
+  public String getFdzId() {
+    return fdzId;
   }
 
-  @Override
-  public boolean equals(Object object) {
-    if (this == object) {
-      return true;
-    }
-    if (object == null || getClass() != object.getClass()) {
-      return false;
-    }
-    Survey survey = (Survey) object;
-    return Objects.equals(id, survey.id);
+  public void setFdzId(String fdzId) {
+    this.fdzId = fdzId;
   }
 
-  @Override
-  public int hashCode() {
-    return Objects.hashCode(id);
+  public void setFdzProject(FdzProject fdzProject) {
+    this.fdzProject = fdzProject;
   }
 
   @Override
   public String toString() {
-    return "Survey{" + "id=" + id + ", title='" + title + "'" + ", fieldPeriod='" + fieldPeriod
-        + "'" + ", fdzProjectName='" + fdzProjectName + "'" + '}';
+    return MoreObjects.toStringHelper(this)
+      .add("super", super.toString())
+      .add("title", title)
+      .add("fieldPeriod", fieldPeriod)
+      .add("fdzProject", fdzProject)
+      .toString();
   }
 }

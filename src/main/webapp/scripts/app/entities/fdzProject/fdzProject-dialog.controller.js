@@ -5,17 +5,15 @@ angular.module('metadatamanagementApp').controller('FdzProjectDialogController',
       'FdzProject', 'isCreateMode',
         function($scope, $stateParams, $uibModalInstance, entity,
           FdzProject, isCreateMode) {
-          $scope.fdzProject = entity;
           $scope.isCreateMode = isCreateMode;
 
-          $scope.load = function(name) {
-            FdzProject.get({name: name}, function(result) {
-              $scope.fdzProject = result;
-            });
-          };
+          if (isCreateMode) {
+            $scope.fdzProject = new FdzProject();
+          } else {
+            $scope.fdzProject = entity;
+          }
 
           var onSaveFinished = function(result) {
-            $scope.$emit('metadatamanagementApp:fdzProjectUpdate', result);
             $uibModalInstance.close(result);
             $scope.isSaving = false;
           };
@@ -27,9 +25,9 @@ angular.module('metadatamanagementApp').controller('FdzProjectDialogController',
           $scope.save = function() {
             $scope.isSaving = true;
             if (isCreateMode) {
-              FdzProject.create($scope.fdzProject, onSaveFinished, onSaveError);
+              $scope.fdzProject.$create(onSaveFinished, onSaveError);
             } else {
-              FdzProject.update($scope.fdzProject, onSaveFinished, onSaveError);
+              $scope.fdzProject.$update(onSaveFinished, onSaveError);
             }
           };
 

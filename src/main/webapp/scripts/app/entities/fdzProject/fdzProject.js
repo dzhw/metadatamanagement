@@ -48,7 +48,7 @@ angular.module('metadatamanagementApp')
                 }],
                 entity: ['$stateParams', 'FdzProject',
                   function($stateParams, FdzProject) {
-                  return FdzProject.get({name: $stateParams.name});
+                  return FdzProject.findOneByName({name: $stateParams.name});
                 }]
               }
             })
@@ -98,7 +98,8 @@ angular.module('metadatamanagementApp')
                   size: 'lg',
                   resolve: {
                     entity: ['FdzProject', function(FdzProject) {
-                      return FdzProject.get({name: $stateParams.name});
+                      return FdzProject.findOneByName(
+                        {name: $stateParams.name});
                     }],
                     isCreateMode: false
                   }
@@ -125,7 +126,8 @@ angular.module('metadatamanagementApp')
                   size: 'md',
                   resolve: {
                     entity: ['FdzProject', function(FdzProject) {
-                      return FdzProject.get({name: $stateParams.name});
+                      return FdzProject.findOneByName({name:
+                        $stateParams.name});
                     }]
                   }
                 }).result.then(function() {

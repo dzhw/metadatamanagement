@@ -2,10 +2,15 @@
 
 angular.module('metadatamanagementApp')
     .factory('Survey', function($resource, DateUtils) {
-      return $resource('api/surveys/:id', {}, {
-        'query': {method: 'GET', isArray: true},
+      return $resource('api/surveys/:id',
+        {id: '@id'}, {
+        'query': {
+          method: 'GET',
+          params: {projection: 'complete'}
+        },
         'get': {
           method: 'GET',
+          params: {projection: 'complete'},
           transformResponse: function(data) {
             // data might be empty if 404
             if (data) {
@@ -34,8 +39,27 @@ angular.module('metadatamanagementApp')
             data.fieldPeriod.start =
               DateUtils.convertLocaleDateToServer(data.fieldPeriod.start);
             data.fieldPeriod.end =
-                DateUtils.convertLocaleDateToServer(data.fieldPeriod.end);
+              DateUtils.convertLocaleDateToServer(data.fieldPeriod.end);
             return angular.toJson(data);
+          }
+        },
+        'delete': {
+          method: 'DELETE',
+        },
+        'findOneByFdzId': {
+          method: 'GET',
+          params: {projection: 'complete'},
+          url: '/api/surveys/search/findOneByFdzId',
+          transformResponse: function(data) {
+            // data might be empty if 404
+            if (data) {
+              data = angular.fromJson(data);
+              data.fieldPeriod.start =
+                DateUtils.convertLocaleDateFromServer(data.fieldPeriod.start);
+              data.fieldPeriod.end =
+                DateUtils.convertLocaleDateFromServer(data.fieldPeriod.end);
+              return data;
+            }
           }
         }
       });

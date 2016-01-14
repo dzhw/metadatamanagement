@@ -42,8 +42,8 @@ public class VariableSearchDocument {
     this.scaleLevel = variable.getScaleLevel().toString();
     this.label = variable.getLabel();
     this.name = variable.getName();
-    this.surveyId = variable.getSurveyId();
-    this.fdzProjectName = variable.getFdzProjectName();
+    this.surveyId = variable.getSurvey().getId();
+    this.fdzProjectName = variable.getFdzProject().getName();
   }
 
   public String getId() {

@@ -1,14 +1,12 @@
 package eu.dzhw.fdz.metadatamanagement.domain;
 
-import java.io.Serializable;
-import java.util.Objects;
-
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 
-import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
-import org.springframework.data.mongodb.core.mapping.Field;
+
+import com.google.common.base.MoreObjects;
 
 import eu.dzhw.fdz.metadatamanagement.domain.util.Patterns;
 import net.karneim.pojobuilder.GeneratePojoBuilder;
@@ -18,19 +16,14 @@ import net.karneim.pojobuilder.GeneratePojoBuilder;
  */
 @Document(collection = "fdz_project")
 @GeneratePojoBuilder(intoPackage = "eu.dzhw.fdz.metadatamanagement.domain.builders")
-public class FdzProject implements Serializable {
-  private static final long serialVersionUID = 2466260798886385927L;
-
-  @Id
+public class FdzProject extends AbstractFdzDomainObject  {
   @NotNull
-  @Field("name")
   @Pattern(regexp = Patterns.GERMAN_ALPHANUMERIC_WITH_SPACE)
+  @Indexed(unique = true)
   private String name;
 
-  @Field("suf_doi")
   private String sufDoi;
 
-  @Field("cuf_doi")
   private String cufDoi;
 
   public String getName() {
@@ -58,25 +51,12 @@ public class FdzProject implements Serializable {
   }
 
   @Override
-  public boolean equals(Object object) {
-    if (this == object) {
-      return true;
-    }
-    if (object == null || getClass() != object.getClass()) {
-      return false;
-    }
-    FdzProject fdzProject = (FdzProject) object;
-    return Objects.equals(name, fdzProject.name);
-  }
-
-  @Override
-  public int hashCode() {
-    return Objects.hashCode(name);
-  }
-
-  @Override
   public String toString() {
-    return "FdzProject{name='" + name + "'" + ", sufDoi='" + sufDoi + "'"
-        + ", cufDoi='" + cufDoi + "'" + '}';
+    return MoreObjects.toStringHelper(this)
+      .add("super", super.toString())
+      .add("name", name)
+      .add("sufDoi", sufDoi)
+      .add("cufDoi", cufDoi)
+      .toString();
   }
 }

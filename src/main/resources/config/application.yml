@@ -12,11 +12,13 @@
 # ===================================================================
 
 spring:
-    jpa:
-        open-in-view: false
-        hibernate:
-            ddl-auto: none
-            naming-strategy: org.springframework.boot.orm.jpa.hibernate.SpringNamingStrategy
+    data:
+      rest:
+        base-path: /api
+        max-page-size: 50
+        default-page-size: 10
+        return-body-on-create: true
+        return-body-on-update: true
     messages:
         basename: classpath:/i18n/messages
     mvc:
@@ -57,11 +59,3 @@ jhipster:
         rememberme:
             # security key (this key should be unique for your application, and kept secret)
             key: 786cea5f182ffdd133864bbc75f69f8d008b5bc3
-    swagger:
-        title: metadatamanagement API
-        description: metadatamanagement API documentation
-        version: 0.0.1
-        termsOfServiceUrl:
-        contact:
-        license:
-        licenseUrl:

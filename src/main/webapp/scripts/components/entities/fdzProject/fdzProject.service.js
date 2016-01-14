@@ -2,23 +2,29 @@
 
 angular.module('metadatamanagementApp')
     .factory('FdzProject', function($resource) {
-      return $resource('api/fdzProjects/:name', {}, {
-        'query': {method: 'GET', isArray: true},
+      return $resource('/api/fdz_projects/:id',
+        {id: '@id'}, {
+        'query': {
+          method: 'GET',
+          params: {projection: 'complete'}
+        },
         'get': {
           method: 'GET',
-          transformResponse: function(data) {
-            // data might be empty if 404
-            if (data) {
-              data = angular.fromJson(data);
-              return data;
-            }
-          }
+          params: {projection: 'complete'}
         },
         'update': {
           method: 'PUT'
         },
         'create': {
           method: 'POST'
+        },
+        'delete': {
+          method: 'DELETE',
+        },
+        'findOneByName': {
+          method: 'GET',
+          params: {projection: 'complete'},
+          url: '/api/fdz_projects/search/findOneByName'
         }
       });
     });

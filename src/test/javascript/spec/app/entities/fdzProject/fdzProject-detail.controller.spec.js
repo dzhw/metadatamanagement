@@ -1,6 +1,6 @@
 'use strict';
 
-describe('FdzProject Detail Controller', function() {
+xdescribe('FdzProject Detail Controller', function() {
     var $scope, $rootScope, FdzProject;
     var MockEntity, MockFdzProject;
     var createController;

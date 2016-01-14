@@ -15,7 +15,7 @@
     <table class="table table-striped">
       <thead>
         <tr jh-sort="predicate" ascending="reverse" callback="loadAll()">
-          <th jh-sort-by="id"><span translate="global.field.id">ID</span> <span class="glyphicon glyphicon-sort"></span></th>
+          <th jh-sort-by="fdzId"><span translate="global.field.fdzId">ID</span> <span class="glyphicon glyphicon-sort"></span></th>
           <th jh-sort-by="title"><span translate="metadatamanagementApp.survey.title.de">Title (DE)</span> <span class="glyphicon glyphicon-sort"></span></th>
           <th jh-sort-by="fieldPeriod.start"><span translate="metadatamanagementApp.survey.fieldPeriod.start">FieldPeriod (Start)</span> <span class="glyphicon glyphicon-sort"></span></th>
           <th jh-sort-by="fieldPeriod.end"><span translate="metadatamanagementApp.survey.fieldPeriod.end">FieldPeriod (End)</span> <span class="glyphicon glyphicon-sort"></span></th>
@@ -25,19 +25,19 @@
       </thead>
       <tbody>
         <tr ng-repeat="survey in surveys track by survey.id">
-          <td><a ui-sref="survey.detail({id:survey.id})">{{survey.id}}</a></td>
+          <td><a ui-sref="survey.detail({fdzId:survey.fdzId})">{{survey.fdzId}}</a></td>
           <td>{{survey.title.de}}</td>
           <td>{{survey.fieldPeriod.start | date:'mediumDate'}}</td>
           <td>{{survey.fieldPeriod.end | date:'mediumDate'}}</td>
-          <td>{{survey.fdzProjectName}}</td>
+          <td>{{survey.fdzProject.name}}</td>
           <td>
-            <button type="submit" ui-sref="survey.detail({id:survey.id})" class="btn btn-info btn-sm">
+            <button type="submit" ui-sref="survey.detail({fdzId:survey.fdzId})" class="btn btn-info btn-sm">
               <span class="glyphicon glyphicon-eye-open"></span>&nbsp;<span translate="entity.action.view"> View</span>
             </button>
-            <button type="submit" ui-sref="survey.edit({id:survey.id})" class="btn btn-primary btn-sm">
+            <button type="submit" ui-sref="survey.edit({fdzId:survey.fdzId})" class="btn btn-primary btn-sm">
               <span class="glyphicon glyphicon-pencil"></span>&nbsp;<span translate="entity.action.edit"> Edit</span>
             </button>
-            <button type="submit" ui-sref="survey.delete({id:survey.id})" class="btn btn-danger btn-sm">
+            <button type="submit" ui-sref="survey.delete({fdzId:survey.fdzId})" class="btn btn-danger btn-sm">
               <span class="glyphicon glyphicon-remove-circle"></span>&nbsp;<span translate="entity.action.delete"> Delete</span>
             </button>
           </td>

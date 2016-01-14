@@ -2,17 +2,14 @@
 
 angular.module('metadatamanagementApp')
 	.controller('SurveyDeleteController', function($scope, $uibModalInstance,
-		entity, Survey) {
+		entity) {
   $scope.survey = entity;
   $scope.clear = function() {
     $uibModalInstance.dismiss('cancel');
   };
-  $scope.confirmDelete = function(id) {
-    Survey.delete({
-      id: id
-    },
-				function() {
-  $uibModalInstance.close(true);
-				});
+  $scope.confirmDelete = function() {
+    $scope.survey.$delete().then(function() {
+      $uibModalInstance.close(true);
+    });
   };
 	});
