@@ -140,8 +140,8 @@
                 </exclusion>
             </exclusions>
         </dependency>
-        <!-- The HikariCP Java Agent is disabled by default, as it is experimental 
-			<dependency> <groupId>com.zaxxer</groupId> <artifactId>HikariCP-agent</artifactId> 
+        <!-- The HikariCP Java Agent is disabled by default, as it is experimental
+			<dependency> <groupId>com.zaxxer</groupId> <artifactId>HikariCP-agent</artifactId>
 			<version>${HikariCP.version}</version> </dependency> -->
         <dependency>
             <groupId>commons-io</groupId>
@@ -403,7 +403,7 @@
         </resources>
         <pluginManagement>
             <plugins>
-                <!--This plugin's configuration is used to store Eclipse m2e settings 
+                <!--This plugin's configuration is used to store Eclipse m2e settings
 					only. It has no influence on the Maven build itself. -->
                 <plugin>
                     <groupId>org.eclipse.m2e</groupId>
@@ -501,7 +501,7 @@
                     <resultsFolder>target/gatling/results</resultsFolder>
                     <bodiesFolder>src/test/gatling/bodies</bodiesFolder>
                     <simulationsFolder>src/test/gatling/simulations</simulationsFolder>
-                    <!-- This will force Gatling to ask which simulation to run This is 
+                    <!-- This will force Gatling to ask which simulation to run This is
 						useful when you have multiple simulations -->
                     <simulationClass>*</simulationClass>
                 </configuration>
@@ -725,7 +725,7 @@
                         <configuration>
                             <!-- Sets the path to the file which contains the execution data. -->
                             <destFile>${project.testresult.directory}/coverage/jacoco/jacoco.exec</destFile>
-                            <!-- Sets the name of the property containing the settings for JaCoCo 
+                            <!-- Sets the name of the property containing the settings for JaCoCo
 								runtime agent. -->
                             <propertyName>surefireArgLine</propertyName>
                             <excludes>
@@ -733,7 +733,7 @@
                             </excludes>
                         </configuration>
                     </execution>
-                    <!-- Ensures that the code coverage report for unit tests is created 
+                    <!-- Ensures that the code coverage report for unit tests is created
 						after unit tests have been run -->
                     <execution>
                         <id>post-unit-test</id>
@@ -858,7 +858,7 @@
                                 <configuration>
                                     <skipTests>true</skipTests>
                                     <buildTool>grunt</buildTool>
-                                    <buildArgs>build --no-color</buildArgs>
+                                    <buildArgs>build --no-color --debug</buildArgs>
                                 </configuration>
                             </execution>
                         </executions>
