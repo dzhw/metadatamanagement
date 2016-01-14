@@ -858,7 +858,7 @@
                                 <configuration>
                                     <skipTests>true</skipTests>
                                     <buildTool>grunt</buildTool>
-                                    <buildArgs>build --no-color --debug</buildArgs>
+                                    <buildArgs>build --no-color</buildArgs>
                                 </configuration>
                             </execution>
                         </executions>

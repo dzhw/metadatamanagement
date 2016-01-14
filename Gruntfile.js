@@ -665,7 +665,7 @@ module.exports = function(grunt) {
     grunt.task.run([target ? ('serve:' + target) : 'serve']);
   });
 
-  grunt.registerTask('test', ['clean:server',
+  grunt.registerTask('test', ['clean:server', 'modernizr:dist',
       'ngconstant:dev', 'sass:server', 'wiredep:test', 'karma',
       'jshint', 'jscs']);
 
