@@ -12,7 +12,7 @@ var parseVersionFromPomXml = function() {
     version = result.project.version[0];
   });
   return version;
-};
+}; 
 
 // usemin custom step
 var useminAutoprefixer = {
