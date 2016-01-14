@@ -379,14 +379,7 @@ module.exports = function(grunt) {
         modernizr: {
           dist: {
             dest: 'src/main/webapp/bower_components/modernizr/modernizr.js',
-            crawl: true,
-            'files': {
-              'src': [
-                  '*[^(g|G)runt(file)?].{css,scss}',
-                  '**[^node_modules]/**/*.{css,scss}',
-                  '!lib/**/*'
-              ]
-            },
+            crawl: false,
             tests: [
               'ambientlight',
               'applicationcache',
@@ -674,7 +667,7 @@ module.exports = function(grunt) {
     grunt.task.run([target ? ('serve:' + target) : 'serve']);
   });
 
-  grunt.registerTask('test', ['clean:server',
+  grunt.registerTask('test', ['clean:server', 'modernizr:dist',
       'ngconstant:dev', 'sass:server', 'wiredep:test', 'karma',
       'jshint', 'jscs']);
 
@@ -682,7 +675,7 @@ module.exports = function(grunt) {
    'ngconstant:prod',
       'useminPrepare', 'ngtemplates', 'imagemin', 'svgmin',
       'concat', 'copy:fonts', 'copy:dist', 'ngAnnotate', 'cssmin',
-      'autoprefixer', 'uglify', 'rev', 'modernizr:dist', 'usemin', 'htmlmin']);
+      'autoprefixer', 'uglify', 'rev', 'usemin', 'htmlmin']);
 
   grunt.registerTask('builddev', ['test', 'clean:dist', 'wiredep:app',
    'ngAnnotate']);
