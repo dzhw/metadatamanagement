@@ -2,7 +2,7 @@ package eu.dzhw.fdz.metadatamanagement.domain.projections;
 
 import org.springframework.data.rest.core.config.Projection;
 
-import eu.dzhw.fdz.metadatamanagement.domain.FdzProject;
+import eu.dzhw.fdz.metadatamanagement.domain.Survey;
 
 /**
  * Projection used to expose all attributes (including ids and versions).
@@ -10,13 +10,7 @@ import eu.dzhw.fdz.metadatamanagement.domain.FdzProject;
  * 
  * @author René Reitmann
  */
-@Projection(name = "complete", types = FdzProject.class)
-public interface CompleteFdzProjectProjection extends AbstractFdzDomainObjectProjection {
-
-  String getName();
-
-  String getSufDoi();
-
-  String getCufDoi();
+@Projection(name = "complete", types = Survey.class)
+public interface CompleteVariableProjection {
 
 }

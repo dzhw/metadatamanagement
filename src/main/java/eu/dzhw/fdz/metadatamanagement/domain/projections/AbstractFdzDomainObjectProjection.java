@@ -3,8 +3,8 @@ package eu.dzhw.fdz.metadatamanagement.domain.projections;
 import java.time.ZonedDateTime;
 
 /**
- * Interface used in projections to expose all attributes.
- * Id and version are handled differently per default in spring data rest!
+ * Projection used to expose all attributes (including ids and versions).
+ * Spring Data rest does not expose ids and version per default in the json.
  * 
  * @author René Reitmann
  */
@@ -15,6 +15,8 @@ public interface AbstractFdzDomainObjectProjection {
   long getVersion();
 
   String getCreatedBy();
+  
+  ZonedDateTime getCreatedDate();
 
   ZonedDateTime getLastModifiedDate();
 
