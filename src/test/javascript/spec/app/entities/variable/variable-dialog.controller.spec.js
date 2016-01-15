@@ -1,6 +1,6 @@
 'use strict';
 
-describe('Controllers Tests ', function () {
+xdescribe('Controllers Tests ', function () {
     var $scope, $rootScope, $uibModalInstance, MockEntity, FdzProject, Survey, Variable, createController;
         beforeEach(mockApiAccountCall);
         beforeEach(mockI18nCalls);

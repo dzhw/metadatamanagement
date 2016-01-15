@@ -4,7 +4,7 @@
   Lade Daten...
 </div>
 <div ng-if="variable.$resolved">
-  <h2><span translate="metadatamanagementApp.variable.detail.title">Variable</span> {{variable.id}}</h2>
+  <h2><span translate="metadatamanagementApp.variable.detail.title">Variable</span> {{variable.fdzId}}</h2>
   <div class="table-responsive">
     <table class="table table-striped">
       <thead>
@@ -16,10 +16,10 @@
       <tbody>
         <tr>
           <td>
-            <span translate="metadatamanagementApp.variable.id">id</span>
+            <span translate="metadatamanagementApp.variable.fdzId">fdzId</span>
           </td>
           <td>
-            <span class="form-control-static">{{variable.id}}</span>
+            <span class="form-control-static">{{variable.fdzId}}</span>
           </td>
         </tr>
         <tr>
@@ -27,7 +27,7 @@
             <span translate="metadatamanagementApp.variable.fdzProjectName">FdZ Proect Name</span>
           </td>
           <td>
-            <span class="form-control-static">{{variable.fdzProjectName}}</span>
+            <span class="form-control-static">{{variable.fdzProject.name}}</span>
           </td>
         </tr>
         <tr>
@@ -35,7 +35,7 @@
             <span translate="metadatamanagementApp.variable.surveyId">SurveyId</span>
           </td>
           <td>
-            <span class="form-control-static">{{variable.surveyId}}</span>
+            <span class="form-control-static">{{variable.survey.fdzId}}</span>
           </td>
         </tr>
         <tr>

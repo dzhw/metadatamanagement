@@ -1,6 +1,6 @@
 'use strict';
 
-describe('VariableDetailController', function() {
+xdescribe('VariableDetailController', function() {
     var $scope, $rootScope, MockEntity, VariableExportService, createController;
 
     beforeEach(inject(function($injector) {

@@ -33,7 +33,7 @@ angular.module('metadatamanagementApp')
       })
       .state('variable.detail', {
         parent: 'entity',
-        url: '/variable/{id}',
+        url: '/variable/{fdzId}',
         data: {
           authorities: ['ROLE_USER'],
           pageTitle: 'metadatamanagementApp.variable.detail.title'
@@ -55,8 +55,8 @@ angular.module('metadatamanagementApp')
           ],
           entity: ['$stateParams', 'Variable', function($stateParams,
             Variable) {
-            return Variable.get({
-              id: $stateParams.id
+            return Variable.findOneByFdzId({
+              fdzId: $stateParams.fdzId
             });
           }]
         },
@@ -74,17 +74,9 @@ angular.module('metadatamanagementApp')
             controller: 'VariableDialogController',
             size: 'lg',
             resolve: {
-              entity: function() {
-                return {
-                  name: null,
-                  dataType: null,
-                  scaleLevel: null,
-                  label: null,
-                  id: null,
-                  surveyId: null,
-                  fdzProjectName: null
-                };
-              },
+              entity: ['Variable', function(Variable) {
+                return new Variable();
+              }],
               isCreateMode: true
             }
           }).result.then(function() {
@@ -98,7 +90,7 @@ angular.module('metadatamanagementApp')
       })
       .state('variable.edit', {
         parent: 'variable',
-        url: '/{id}/edit',
+        url: '/{fdzId}/edit',
         data: {
           authorities: ['ROLE_USER'],
         },
@@ -110,8 +102,8 @@ angular.module('metadatamanagementApp')
             size: 'lg',
             resolve: {
               entity: ['Variable', function(Variable) {
-                return Variable.get({
-                  id: $stateParams.id
+                return Variable.findOneByFdzId({
+                  fdzId: $stateParams.fdzId
                 });
               }],
               isCreateMode: false

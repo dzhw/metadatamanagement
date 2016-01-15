@@ -6,6 +6,7 @@ import javax.validation.constraints.Size;
 
 import org.hibernate.validator.constraints.NotBlank;
 import org.springframework.data.mongodb.core.index.CompoundIndex;
+import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -23,6 +24,10 @@ import net.karneim.pojobuilder.GeneratePojoBuilder;
 @GeneratePojoBuilder(intoPackage = "eu.dzhw.fdz.metadatamanagement.domain.builders")
 @CompoundIndex(def = "{name: 1, fdz_project: 1}", unique = true)
 public class Variable extends AbstractFdzDomainObject {
+  @NotBlank
+  @Indexed(unique = true)
+  private String fdzId;
+
   @NotBlank
   @Size(max = 32)
   @Pattern(regexp = Patterns.ALPHANUMERIC_WITH_UNDERSCORE)
@@ -91,6 +96,14 @@ public class Variable extends AbstractFdzDomainObject {
 
   public void setFdzProject(FdzProject fdzProject) {
     this.fdzProject = fdzProject;
+  }
+  
+  public String getFdzId() {
+    return fdzId;
+  }
+
+  public void setFdzId(String fdzId) {
+    this.fdzId = fdzId;
   }
 
   @Override

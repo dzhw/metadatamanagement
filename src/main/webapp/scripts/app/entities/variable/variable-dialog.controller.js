@@ -2,16 +2,16 @@
 
 angular.module('metadatamanagementApp').controller('VariableDialogController',
     ['$scope', '$stateParams', '$uibModalInstance', 'entity', 'isCreateMode',
-     'Variable', 'FdzProject', 'Survey',
+     'Variable', 'FdzProjectCollection', 'SurveyCollection',
         function($scope, $stateParams, $uibModalInstance, entity, isCreateMode,
-          Variable, FdzProject, Survey) {
+          Variable, FdzProjectCollection, SurveyCollection) {
 
           $scope.variable = entity;
           $scope.isCreateMode = isCreateMode;
           //TODO load all page by page
-          $scope.allFdzProjects = FdzProject.query({page: 0, size: 50},
-            function(result) {
-            return result;
+          $scope.allFdzProjects = FdzProjectCollection.query(
+            function(response) {
+            $scope.allFdzProjects = response._embedded.fdzProjects;
           });
 
           $scope.allSurveysByFdzProjectName = null;
@@ -56,12 +56,11 @@ angular.module('metadatamanagementApp').controller('VariableDialogController',
 
             //query for survey with a given fdz project name
             // TODO load all page by page
-            $scope.allSurveysByFdzProjectName = Survey.query(
-              {fdzProjectName: $scope.variable.fdzProjectName,
-                 page: 0, size: 50},
+            $scope.allSurveysByFdzProjectName = SurveyCollection.query(
+              {'fdzProject.name': $scope.variable.fdzProject.name},
                   function(result) {
                     //return the array of surveys.
-                    return result;
+                    return result._embedded.surveys;
                   });
           };
 
