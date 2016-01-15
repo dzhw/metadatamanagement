@@ -9,11 +9,12 @@ import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 import eu.dzhw.fdz.metadatamanagement.domain.FdzProject;
 import eu.dzhw.fdz.metadatamanagement.domain.Survey;
 import eu.dzhw.fdz.metadatamanagement.domain.Variable;
+import eu.dzhw.fdz.metadatamanagement.domain.projections.CompleteFdzProjectProjection;
 
 /**
  * Spring Data MongoDB repository for the Variable entity.
  */
-@RepositoryRestResource(path = "/variables")
+@RepositoryRestResource(path = "/variables", excerptProjection = CompleteFdzProjectProjection.class)
 @RepositoryEventHandler
 public interface VariableRepository
     extends MongoRepository<Variable, String>, QueryDslPredicateExecutor<Variable> {

@@ -2,7 +2,6 @@ package eu.dzhw.fdz.metadatamanagement.domain.projections;
 
 import org.springframework.data.rest.core.config.Projection;
 
-import eu.dzhw.fdz.metadatamanagement.domain.FdzProject;
 import eu.dzhw.fdz.metadatamanagement.domain.I18nString;
 import eu.dzhw.fdz.metadatamanagement.domain.Period;
 import eu.dzhw.fdz.metadatamanagement.domain.Survey;
@@ -20,7 +19,7 @@ public interface CompleteSurveyProjection extends AbstractFdzDomainObjectProject
 
   Period getFieldPeriod();
 
-  FdzProject getFdzProject();
+  CompleteFdzProjectProjection getFdzProject();
   
   String getFdzId();
 }

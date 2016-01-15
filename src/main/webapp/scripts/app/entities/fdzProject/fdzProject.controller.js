@@ -2,11 +2,11 @@
 
 angular.module('metadatamanagementApp')
     .controller('FdzProjectController',
-    function($scope, $state, FdzProject) {
+    function($scope, $state, FdzProjectCollection) {
       $scope.fdzProjects = [];
       $scope.page = 1;
       $scope.loadAll = function() {
-        FdzProject.query({page: $scope.page - 1},
+        FdzProjectCollection.query({page: $scope.page - 1},
           function(result) {
           $scope.totalItems = result.page.totalElements;
           $scope.fdzProjects = result._embedded.fdzProjects;
