@@ -10,8 +10,8 @@ angular
             template: '<div class="alerts" ng-cloak="">' +
                 '<uib-alert ng-cloak="" ng-repeat="alert in alerts"' +
                 ' type="{{alert.type}}"' +
-                ' close="alert.close()"><pre>{{ alert.msg }}</pre></uib-alert>' +
-                '</div>',
+                ' close="alert.close()"><pre>{{ alert.msg }}' +
+                '</pre></uib-alert></div>',
             controller: ['$scope', function($scope) {
               $scope.alerts = AlertService.get();
               $scope.$on('$destroy', function() {
@@ -28,13 +28,18 @@ angular
             template: '<div class="alerts" ng-cloak="">' +
                 '<uib-alert ng-cloak="" ng-repeat="alert in alerts"' +
                  'type="{{alert.type}}"' +
-                ' close="alert.close()"><pre>{{ alert.msg }}</pre></uib-alert>' +
-                '</div>',
+                ' close="alert.close()"><pre>{{ alert.msg }}' +
+                 '</pre></uib-alert></div>',
             controller: [
                 '$scope',
                 function($scope) {
                   $scope.alerts = AlertService.get();
+                  var addErrorAlert = function(message, key, data) {
 
+                    key = key && key !== null ? key : message;
+                    AlertService.error(key, data);
+
+                  };
                   var cleanHttpErrorListener = $rootScope
                       .$on(
                           'metadatamanagementApp.httpError',
@@ -99,13 +104,6 @@ angular
                       cleanHttpErrorListener();
                     }
                   });
-
-                  var addErrorAlert = function(message, key, data) {
-
-                    key = key && key !== null ? key : message;
-                    AlertService.error(key, data);
-
-                  };
                 }]
           };
         });
