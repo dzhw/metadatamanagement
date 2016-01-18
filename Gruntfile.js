@@ -106,10 +106,14 @@ module.exports = function(grunt) {
           options: {
             reportpath: 'target/html-angular-validate-report.json',
             reportCheckstylePath:
-             'target/html-angular-validate-report-checkstyle.xml'
+             'target/html-angular-validate-report-checkstyle.xml',
+            tmplext: '.html.tmpl',
+
           },
           files: {
-            src: ['src/main/webapp/index.html']
+            src: ['src/main/webapp/*.html',
+             'src/main/webapp/scripts/components/**/*.html.tmpl',
+             'src/main/webapp/scripts/components/**/*.html']
           }
         },
         browserSync: {

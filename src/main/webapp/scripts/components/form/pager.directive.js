@@ -3,6 +3,6 @@
 angular.module('metadatamanagementApp').directive('metadatamanagementAppPager',
     function() {
       return {
-        templateUrl: 'scripts/components/form/pager.html'
+        templateUrl: 'scripts/components/form/pager.html.tmpl'
       };
     });

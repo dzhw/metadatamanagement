@@ -86,7 +86,7 @@ angular
         url: '/{lang:(?:de|en)}',
         views: {
           'navbar@': {
-            templateUrl: 'scripts/components/navbar/navbar.html',
+            templateUrl: 'scripts/components/navbar/navbar.html.tmpl',
             controller: 'NavbarController'
           }
         },
