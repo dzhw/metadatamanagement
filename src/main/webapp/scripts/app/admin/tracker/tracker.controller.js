@@ -4,9 +4,6 @@ angular.module('metadatamanagementApp').controller('TrackerController',
       // in real-time.
       'use strict';
       $scope.activities = [];
-      Tracker.receive().then(null, null, function(activity) {
-        showActivity(activity);
-      });
 
       function showActivity(activity) {
         var existingActivity = false;
@@ -24,4 +21,8 @@ angular.module('metadatamanagementApp').controller('TrackerController',
           $scope.activities.push(activity);
         }
       }
+
+      Tracker.receive().then(null, null, function(activity) {
+        showActivity(activity);
+      });
     });

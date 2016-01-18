@@ -34,7 +34,12 @@ angular
                 '$scope',
                 function($scope) {
                   $scope.alerts = AlertService.get();
+                  var addErrorAlert = function(message, key, data) {
 
+                    key = key && key !== null ? key : message;
+                    AlertService.error(key, data);
+
+                  };
                   var cleanHttpErrorListener = $rootScope
                       .$on(
                           'metadatamanagementApp.httpError',
@@ -99,13 +104,6 @@ angular
                       cleanHttpErrorListener();
                     }
                   });
-
-                  var addErrorAlert = function(message, key, data) {
-
-                    key = key && key !== null ? key : message;
-                    AlertService.error(key, data);
-
-                  };
                 }]
           };
         });

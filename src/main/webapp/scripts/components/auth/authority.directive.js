@@ -14,6 +14,8 @@ angular.module('metadatamanagementApp').directive(
               var setHidden = function() {
                 element.addClass('hidden');
               };
+              var authorities = attrs.hasAnyAuthority
+                .replace(/\s+/g, '').split(',');
               var defineVisibility = function(reset) {
                 var result;
                 if (reset) {
@@ -27,8 +29,6 @@ angular.module('metadatamanagementApp').directive(
                   setHidden();
                 }
               };
-              var authorities = attrs.hasAnyAuthority.replace(/\s+/g, '').split(
-                  ',');
 
               if (authorities.length > 0) {
                 defineVisibility(true);
@@ -45,6 +45,8 @@ angular.module('metadatamanagementApp').directive(
       var setHidden = function() {
         element.addClass('hidden');
       };
+      var authority = attrs.hasAuthority.replace(/\s+/g, '');
+
       var defineVisibility = function(reset) {
 
         if (reset) {
@@ -59,7 +61,6 @@ angular.module('metadatamanagementApp').directive(
           }
         });
       };
-      var authority = attrs.hasAuthority.replace(/\s+/g, '');
 
       if (authority.length > 0) {
         defineVisibility(true);
