@@ -102,6 +102,16 @@ module.exports = function(grunt) {
             }
           }
         },
+        htmlangular: {
+          options: {
+            reportpath: 'target/html-angular-validate-report.json',
+            reportCheckstylePath:
+             'target/html-angular-validate-report-checkstyle.xml'
+          },
+          files: {
+            src: ['src/main/webapp/index.html']
+          }
+        },
         browserSync: {
           dev: {
             bsFiles: {
@@ -667,7 +677,7 @@ module.exports = function(grunt) {
 
   grunt.registerTask('test', ['clean:server', 'modernizr:dist',
       'ngconstant:dev', 'sass:server', 'wiredep:test', 'karma',
-      'jshint', 'jscs']);
+      'jshint', 'jscs', 'htmlangular']);
 
   grunt.registerTask('build', ['test', 'clean:dist', 'wiredep:app',
    'ngconstant:prod',
