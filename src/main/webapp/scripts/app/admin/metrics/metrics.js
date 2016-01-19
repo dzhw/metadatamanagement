@@ -11,7 +11,7 @@ angular.module('metadatamanagementApp').config(
         },
         views: {
           'content@': {
-            templateUrl: 'scripts/app/admin/metrics/metrics.html',
+            templateUrl: 'scripts/app/admin/metrics/metrics.html.tmpl',
             controller: 'MetricsController'
           }
         },

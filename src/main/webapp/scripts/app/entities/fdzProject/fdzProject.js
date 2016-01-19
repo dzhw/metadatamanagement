@@ -12,7 +12,8 @@ angular.module('metadatamanagementApp')
             },
             views: {
               'content@': {
-                templateUrl: 'scripts/app/entities/fdzProject/fdzProjects.html',
+                templateUrl:
+                 'scripts/app/entities/fdzProject/fdzProjects.html.tmpl',
                 controller: 'FdzProjectController'
               }
             },
@@ -35,7 +36,8 @@ angular.module('metadatamanagementApp')
               views: {
                 'content@': {
                   templateUrl:
-                    'scripts/app/entities/fdzProject/fdzProject-detail.html',
+                    'scripts/app/entities/fdzProject/' +
+                    'fdzProject-detail.html.tmpl',
                   controller: 'FdzProjectDetailController'
                 }
               },
@@ -62,7 +64,8 @@ angular.module('metadatamanagementApp')
                 function($stateParams, $state, $uibModal) {
                 $uibModal.open({
                   templateUrl:
-                    'scripts/app/entities/fdzProject/fdzProject-dialog.html',
+                    'scripts/app/entities/fdzProject/' +
+                    'fdzProject-dialog.html.tmpl',
                   controller: 'FdzProjectDialogController',
                   size: 'lg',
                   resolve: {
@@ -88,7 +91,7 @@ angular.module('metadatamanagementApp')
                 function($stateParams, $state, $uibModal) {
                 $uibModal.open({
                   templateUrl:
-                  'scripts/app/entities/fdzProject/fdzProject-dialog.html',
+                  'scripts/app/entities/fdzProject/fdzProject-dialog.html.tmpl',
                   controller: 'FdzProjectDialogController',
                   size: 'lg',
                   resolve: {
@@ -116,7 +119,7 @@ angular.module('metadatamanagementApp')
                 $uibModal.open({
                   templateUrl:
                   'scripts/app/entities/fdzProject/' +
-                  'fdzProject-delete-dialog.html',
+                  'fdzProject-delete-dialog.html.tmpl',
                   controller: 'FdzProjectDeleteController',
                   size: 'md',
                   resolve: {

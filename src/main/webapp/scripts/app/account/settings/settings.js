@@ -11,7 +11,7 @@ angular.module('metadatamanagementApp').config(
         },
         views: {
           'content@': {
-            templateUrl: 'scripts/app/account/settings/settings.html',
+            templateUrl: 'scripts/app/account/settings/settings.html.tmpl',
             controller: 'SettingsController'
           }
         },

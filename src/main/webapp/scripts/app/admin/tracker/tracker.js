@@ -10,7 +10,7 @@ angular.module('metadatamanagementApp').config(
         },
         views: {
           'content@': {
-            templateUrl: 'scripts/app/admin/tracker/tracker.html',
+            templateUrl: 'scripts/app/admin/tracker/tracker.html.tmpl',
             controller: 'TrackerController'
           }
         },

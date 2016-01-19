@@ -54,7 +54,7 @@ xdescribe('fdzProject api', function () {
          describe('basic test fo fdzProject.detail modal promises', function(){
           it('should open modal', inject(function($stateParams, $state, $uibModal) {
             var modalOptions = {
-              templateUrl: 'fakeUrl/fdzProject-dialog.html'
+              templateUrl: 'fakeUrl/fdzProject-dialog.html.tmpl'
             };
             var fakeModal = {
               result: {

@@ -16,7 +16,7 @@ describe('Directive Tests ', function () {
         $compile(elm)(scope);
 
         $httpBackend.whenGET(/api\/account\?cacheBuster=\d+/).respond({});
-        $httpBackend.whenGET('scripts/app/main/main.html').respond({});
+        $httpBackend.whenGET('scripts/app/main/main.html.tmpl').respond({});
         $httpBackend.whenGET('scripts/components/navbar/navbar.html.tmpl').respond({});
         var globalJson = new RegExp('i18n\/.*\/global.json')
         var mainJson = new RegExp('i18n\/.*\/main.json');

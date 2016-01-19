@@ -11,7 +11,7 @@ angular.module('metadatamanagementApp').config(
         },
         views: {
           'content@': {
-            templateUrl: 'scripts/app/account/register/register.html',
+            templateUrl: 'scripts/app/account/register/register.html.tmpl',
             controller: 'RegisterController'
           }
         },

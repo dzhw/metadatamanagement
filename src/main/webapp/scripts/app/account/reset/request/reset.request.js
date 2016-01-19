@@ -16,7 +16,7 @@ angular
                     views: {
                       'content@': {
                         templateUrl: 'scripts/app/account/reset/' +
-                         'request/reset.request.html',
+                         'request/reset.request.html.tmpl',
                         controller: 'RequestResetController'
                       }
                     },

@@ -18,7 +18,7 @@ angular
                       'content@': {
                         templateUrl:
                          'scripts/app/admin/user-management/' +
-                         'user-management.html',
+                         'user-management.html.tmpl',
                         controller: 'UserManagementController'
                       }
                     },
@@ -43,7 +43,7 @@ angular
                     views: {
                       'content@': {
                         templateUrl: 'scripts/app/admin/user-management/' +
-                          'user-management-detail.html',
+                          'user-management-detail.html.tmpl',
                         controller: 'UserManagementDetailController'
                       }
                     },

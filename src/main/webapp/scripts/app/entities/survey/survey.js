@@ -12,7 +12,7 @@ angular.module('metadatamanagementApp')
         },
         views: {
           'content@': {
-            templateUrl: 'scripts/app/entities/survey/surveys.html',
+            templateUrl: 'scripts/app/entities/survey/surveys.html.tmpl',
             controller: 'SurveyController'
           }
         },
@@ -36,7 +36,7 @@ angular.module('metadatamanagementApp')
         },
         views: {
           'content@': {
-            templateUrl: 'scripts/app/entities/survey/survey-detail.html',
+            templateUrl: 'scripts/app/entities/survey/survey-detail.html.tmpl',
             controller: 'SurveyDetailController'
           }
         },
@@ -66,7 +66,8 @@ angular.module('metadatamanagementApp')
         onEnter: ['$stateParams', '$state', '$uibModal',
           function($stateParams, $state, $uibModal) {
             $uibModal.open({
-              templateUrl: 'scripts/app/entities/survey/survey-dialog.html',
+              templateUrl:
+               'scripts/app/entities/survey/survey-dialog.html.tmpl',
               controller: 'SurveyDialogController',
               size: 'lg',
               resolve: {
@@ -99,7 +100,8 @@ angular.module('metadatamanagementApp')
         onEnter: ['$stateParams', '$state', '$uibModal',
           function($stateParams, $state, $uibModal) {
             $uibModal.open({
-              templateUrl: 'scripts/app/entities/survey/survey-dialog.html',
+              templateUrl:
+               'scripts/app/entities/survey/survey-dialog.html.tmpl',
               controller: 'SurveyDialogController',
               size: 'lg',
               resolve: {
@@ -130,7 +132,7 @@ angular.module('metadatamanagementApp')
           function($stateParams, $state, $uibModal) {
             $uibModal.open({
               templateUrl:
-                'scripts/app/entities/survey/survey-delete-dialog.html',
+                'scripts/app/entities/survey/survey-delete-dialog.html.tmpl',
               controller: 'SurveyDeleteController',
               size: 'md',
               resolve: {

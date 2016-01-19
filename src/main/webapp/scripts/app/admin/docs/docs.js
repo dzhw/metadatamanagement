@@ -10,7 +10,7 @@ angular.module('metadatamanagementApp').config(function($stateProvider) {
     },
     views: {
       'content@': {
-        templateUrl: 'scripts/app/admin/docs/docs.html'
+        templateUrl: 'scripts/app/admin/docs/docs.html.tmpl'
       }
     },
     resolve: {

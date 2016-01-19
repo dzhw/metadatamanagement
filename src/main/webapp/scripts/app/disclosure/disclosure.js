@@ -11,7 +11,7 @@ angular.module('metadatamanagementApp').config(
         },
         views: {
           'content@': {
-            templateUrl: 'scripts/app/disclosure/disclosure.html',
+            templateUrl: 'scripts/app/disclosure/disclosure.html.tmpl',
             controller: 'DisclosureController'
           }
         },
