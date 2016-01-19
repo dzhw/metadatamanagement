@@ -245,7 +245,7 @@ module.exports = function(grunt) {
         svgmin: {
           dist: {
             files: [{
-              expand: true,
+              expand: true, 
               cwd: 'src/main/webapp/assets/images',
               src: '**/*.svg',
               dest: '<%= yeoman.dist %>/assets/images'
@@ -259,7 +259,9 @@ module.exports = function(grunt) {
         ngtemplates: {
           dist: {
             cwd: 'src/main/webapp',
-            src: ['scripts/app/**/*.html', 'scripts/components/**/*.html'],
+            src: ['scripts/app/**/*.html', 'scripts/app/**/*.html.tmpl',
+                'scripts/components/**/*.html',
+                'scripts/components/**/*.html.tmpl'],
             dest: '.tmp/templates/templates.js',
             options: {
               module: 'metadatamanagementApp',
