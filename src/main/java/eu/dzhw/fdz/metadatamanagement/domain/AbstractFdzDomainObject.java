@@ -12,16 +12,14 @@ import org.springframework.data.annotation.Version;
 
 import com.google.common.base.MoreObjects;
 
-import eu.dzhw.fdz.metadatamanagement.domain.projections.AbstractFdzDomainObjectProjection;
-
 /**
- * Base class for all fdz domain onjects.
+ * Base class for all fdz domain objects.
  * 
  * @author René Reitmann
  */
-public abstract class AbstractFdzDomainObject implements AbstractFdzDomainObjectProjection {
+public abstract class AbstractFdzDomainObject {
   @Id
-  private String id;
+  private String id; 
   
   @Version
   private long version;
@@ -37,23 +35,15 @@ public abstract class AbstractFdzDomainObject implements AbstractFdzDomainObject
   
   @LastModifiedBy
   private String lastModifiedBy;
-
-  /* (non-Javadoc)
-   * @see eu.dzhw.fdz.metadatamanagement.domain.AbstractFdzDomainObjectInterface#getId()
-   */
-  @Override
+  
   public String getId() {
     return id;
   }
-
+  
   public void setId(String id) {
     this.id = id;
   }
 
-  /* (non-Javadoc)
-   * @see eu.dzhw.fdz.metadatamanagement.domain.AbstractFdzDomainObjectInterface#getVersion()
-   */
-  @Override
   public long getVersion() {
     return version;
   }
@@ -70,10 +60,6 @@ public abstract class AbstractFdzDomainObject implements AbstractFdzDomainObject
     this.createdDate = createdDate;
   }
 
-  /* (non-Javadoc)
-   * @see eu.dzhw.fdz.metadatamanagement.domain.AbstractFdzDomainObjectInterface#getCreatedBy()
-   */
-  @Override
   public String getCreatedBy() {
     return createdBy;
   }
@@ -82,11 +68,6 @@ public abstract class AbstractFdzDomainObject implements AbstractFdzDomainObject
     this.createdBy = createdBy;
   }
 
-  /* (non-Javadoc)
-   * @see eu.dzhw.fdz.metadatamanagement.domain.
-   * AbstractFdzDomainObjectInterface#getLastModifiedDate()
-   */
-  @Override
   public ZonedDateTime getLastModifiedDate() {
     return lastModifiedDate;
   }
@@ -95,10 +76,6 @@ public abstract class AbstractFdzDomainObject implements AbstractFdzDomainObject
     this.lastModifiedDate = lastModifiedDate;
   }
 
-  /* (non-Javadoc)
-   * @see eu.dzhw.fdz.metadatamanagement.domain.AbstractFdzDomainObjectInterface#getLastModifiedBy()
-   */
-  @Override
   public String getLastModifiedBy() {
     return lastModifiedBy;
   }
@@ -109,7 +86,7 @@ public abstract class AbstractFdzDomainObject implements AbstractFdzDomainObject
 
   @Override
   public int hashCode() {
-    return Objects.hashCode(id);
+    return Objects.hashCode(this.getId());
   }
 
   @Override
@@ -120,14 +97,14 @@ public abstract class AbstractFdzDomainObject implements AbstractFdzDomainObject
     if (object == null || getClass() != object.getClass()) {
       return false;
     }
-    AbstractFdzDomainObjectProjection domainObject = (AbstractFdzDomainObjectProjection) object;
-    return Objects.equals(id, domainObject.getId());
+    AbstractFdzDomainObject domainObject = (AbstractFdzDomainObject) object;
+    return Objects.equals(this.getId(), domainObject.getId());
   }
 
   @Override
   public String toString() {
     return MoreObjects.toStringHelper(this)
-      .add("id", id)
+      .add("id", this.getId())
       .add("version", version)
       .add("createdDate", createdDate)
       .add("createdBy", createdBy)

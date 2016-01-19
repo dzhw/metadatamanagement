@@ -23,7 +23,6 @@ import eu.dzhw.fdz.metadatamanagement.service.enums.ElasticsearchIndices;
  */
 @Service
 public class ElasticsearchAdminService {
-
   @Inject
   private ElasticsearchAdminDao elasticsearchAdminDao;
 
@@ -41,7 +40,7 @@ public class ElasticsearchAdminService {
    * Recreate the indices and all their mappings.
    */
   public void recreateAllIndices() {
-    for (ElasticsearchIndices index : ElasticsearchIndices.values()) {
+    for (ElasticsearchIndices index : ElasticsearchIndices.values()) {      
       recreateIndex(index.getIndexName());
     }
     variableService.reindexAllVariables();
@@ -51,15 +50,7 @@ public class ElasticsearchAdminService {
     if (elasticsearchAdminDao.exists(index)) {
       elasticsearchAdminDao.delete(index);
       // deleting is asynchronous and thus searchly complains if we create the new index to early
-      //TODO Reitmann remove ...?
-      while (elasticsearchAdminDao.exists(index)) {
-        try {
-          Thread.sleep(1000);
-        } catch (InterruptedException e) {
-          throw new RuntimeException(e);
-        }
-        elasticsearchAdminDao.refresh(index);
-      }
+      elasticsearchAdminDao.refresh(index);
     }
     elasticsearchAdminDao.createIndex(index, loadSettings(index));
     for (String type : TYPES) {

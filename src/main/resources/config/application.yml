@@ -17,8 +17,8 @@ spring:
         base-path: /api
         max-page-size: 50
         default-page-size: 10
-        return-body-on-create: true
-        return-body-on-update: true
+        return-body-on-create: false
+        return-body-on-update: false
     messages:
         basename: classpath:/i18n/messages
     mvc:

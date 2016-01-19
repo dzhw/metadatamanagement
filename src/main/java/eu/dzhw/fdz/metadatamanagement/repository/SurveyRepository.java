@@ -10,14 +10,13 @@ import org.springframework.data.rest.core.annotation.RestResource;
 
 import eu.dzhw.fdz.metadatamanagement.domain.FdzProject;
 import eu.dzhw.fdz.metadatamanagement.domain.Survey;
-import eu.dzhw.fdz.metadatamanagement.domain.projections.CompleteSurveyProjection;
 
 /**
  * Spring Data MongoDB repository for the Survey entity.
  * 
  * @author Daniel Katzberg
  */
-@RepositoryRestResource(path = "/surveys", excerptProjection = CompleteSurveyProjection.class)
+@RepositoryRestResource(path = "/surveys")
 @RepositoryEventHandler
 public interface SurveyRepository
     extends MongoRepository<Survey, String>, QueryDslPredicateExecutor<Survey> {
@@ -25,6 +24,6 @@ public interface SurveyRepository
   @HandleAfterDelete
   @RestResource(exported = false)
   Long deleteByFdzProject(FdzProject fdzProject);
-
+  
   Survey findOneByFdzId(@Param("fdzId") String fdzId);
 }

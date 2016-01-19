@@ -5,6 +5,7 @@ import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
 import org.hibernate.validator.constraints.NotBlank;
+import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.data.mongodb.core.index.CompoundIndex;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.DBRef;
@@ -20,15 +21,15 @@ import net.karneim.pojobuilder.GeneratePojoBuilder;
 /**
  * A Variable.
  */
-@Document(collection = "variable")
+@Document(collection = "variables")
 @GeneratePojoBuilder(intoPackage = "eu.dzhw.fdz.metadatamanagement.domain.builders")
 @CompoundIndex(def = "{name: 1, fdz_project: 1}", unique = true)
 public class Variable extends AbstractFdzDomainObject {
-  @NotBlank
+  @NotEmpty
   @Indexed(unique = true)
   private String fdzId;
 
-  @NotBlank
+  @NotEmpty
   @Size(max = 32)
   @Pattern(regexp = Patterns.ALPHANUMERIC_WITH_UNDERSCORE)
   private String name;
@@ -43,11 +44,11 @@ public class Variable extends AbstractFdzDomainObject {
   @Size(max = 128)
   private String label;
 
-  @DBRef
+  @DBRef(lazy = true)
   @NotNull
   private FdzProject fdzProject;
   
-  @DBRef
+  @DBRef(lazy = true)
   private Survey survey;
 
   public String getName() {
@@ -110,6 +111,7 @@ public class Variable extends AbstractFdzDomainObject {
   public String toString() {
     return MoreObjects.toStringHelper(this)
       .add("super", super.toString())
+      .add("fdzId", fdzId)
       .add("name", name)
       .add("dataType", dataType)
       .add("scaleLevel", scaleLevel)

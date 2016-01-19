@@ -7,13 +7,15 @@ import eu.dzhw.fdz.metadatamanagement.domain.enumeration.DataType;
 import eu.dzhw.fdz.metadatamanagement.domain.enumeration.ScaleLevel;
 
 /**
- * Projection used to expose all attributes (including ids and versions).
+ * Projection used to expose all attributes (including ids and versions), including sub resources.
  * Spring Data rest does not expose ids and version per default in the json.
  * 
  * @author René Reitmann
  */
 @Projection(name = "complete", types = Variable.class)
 public interface CompleteVariableProjection extends AbstractFdzDomainObjectProjection {
+  String getFdzId();
+  
   String getName();
 
   DataType getDataType();

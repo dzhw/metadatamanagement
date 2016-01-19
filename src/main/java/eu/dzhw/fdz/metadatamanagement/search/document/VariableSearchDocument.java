@@ -1,49 +1,127 @@
 package eu.dzhw.fdz.metadatamanagement.search.document;
 
 import eu.dzhw.fdz.metadatamanagement.domain.Variable;
+import eu.dzhw.fdz.metadatamanagement.service.enums.ElasticsearchIndices;
 import io.searchbox.annotations.JestId;
-import net.karneim.pojobuilder.GeneratePojoBuilder;
 
 /**
- * Document which is stored in elasticsearch in order to be able to search for variables.
+ * Representation of a variable which is stored in elasticsearch.
  * 
  * @author René Reitmann
  */
-@GeneratePojoBuilder(intoPackage = "eu.dzhw.fdz.metadatamanagement.search.document.builders")
 public class VariableSearchDocument {
-
   @JestId
   private String id;
-
-  private String dataType;
-
-  private String scaleLevel;
-
-  private String label;
-
+  
+  private String fdzId;
+  
   private String name;
   
   private String fdzProjectName;
   
-  private String surveyId;
-
-  public VariableSearchDocument() {}
-
+  private String label;
+  
+  private String dataType;
+  
+  private String scaleLevel;
+  
+  private String surveyTitle;
+  
   /**
-   * Generate a search document from the given entity.
-   * 
-   * @param variable a variable entity from mongo
+   * Create the search document from the domain object depending on the language (index).
    */
-  public VariableSearchDocument(Variable variable) {
+  public VariableSearchDocument(Variable variable, ElasticsearchIndices index) {
     this.id = variable.getId();
-    // TODO map to localized string
-    this.dataType = variable.getDataType().toString();
-    // TODO map to localized string
-    this.scaleLevel = variable.getScaleLevel().toString();
-    this.label = variable.getLabel();
+    this.fdzId = variable.getFdzId();
     this.name = variable.getName();
-    this.surveyId = variable.getSurvey().getId();
     this.fdzProjectName = variable.getFdzProject().getName();
+    this.label = variable.getLabel();
+    createScaleLevel(variable, index);
+    createDataType(variable, index);
+    createSurveyTitle(variable, index);
+  }
+
+  private void createSurveyTitle(Variable variable, ElasticsearchIndices index) {
+    switch (index) {
+      case METADATA_DE:
+        this.surveyTitle = variable.getSurvey().getTitle().getDe();
+        break;
+      case METADATA_EN:
+        this.surveyTitle = variable.getSurvey().getTitle().getEn();
+        break;
+      default:
+        throw new RuntimeException("Unknown index:" + index);
+    }
+  }
+
+  private void createDataType(Variable variable, ElasticsearchIndices index) {
+    switch (index) {
+      case METADATA_DE: {
+        switch (variable.getDataType()) {
+          case numeric: 
+            this.dataType = "numerisch";
+            break;
+          case string: 
+            this.dataType = "string";
+            break;
+          default:
+            throw new RuntimeException("Unknown dataType: " + variable.getDataType());
+        }
+        break;
+      }
+      case METADATA_EN:
+        switch (variable.getDataType()) {
+          case numeric: 
+            this.dataType = "numeric";
+            break;
+          case string: 
+            this.dataType = "string";
+            break;
+          default:
+            throw new RuntimeException("Unknown dataType: " + variable.getDataType());
+        }
+        break;
+      default:
+        throw new RuntimeException("Unknown index:" + index);
+    }
+  }
+
+  private void createScaleLevel(Variable variable, ElasticsearchIndices index) {
+    switch (index) {
+      case METADATA_DE: {
+        switch (variable.getScaleLevel()) {
+          case metric: 
+            this.scaleLevel = "metrisch";
+            break;
+          case nominal: 
+            this.scaleLevel = "nominal";
+            break;
+          case ordinal: 
+            this.scaleLevel = "ordinal";
+            break;
+          default:
+            throw new RuntimeException("Unknown scaleLevel: " + variable.getScaleLevel());
+        }
+        break;
+      }
+      case METADATA_EN:
+        switch (variable.getScaleLevel()) {
+          case metric: 
+            this.scaleLevel = "metric";
+            break;
+          case nominal: 
+            this.scaleLevel = "nominal";
+            break;
+          case ordinal: 
+            this.scaleLevel = "ordinal";
+            break;
+          default:
+            throw new RuntimeException("Unknown scaleLevel: " + variable.getScaleLevel());
+        }
+        break;
+      default:
+        throw new RuntimeException("Unknown index:" + index);
+    }
   }
 
   public String getId() {
@@ -54,28 +132,12 @@ public class VariableSearchDocument {
     this.id = id;
   }
 
-  public String getDataType() {
-    return dataType;
+  public String getFdzId() {
+    return fdzId;
   }
 
-  public void setDataType(String dataType) {
-    this.dataType = dataType;
-  }
-
-  public String getScaleLevel() {
-    return scaleLevel;
-  }
-
-  public void setScaleLevel(String scaleLevel) {
-    this.scaleLevel = scaleLevel;
-  }
-
-  public String getLabel() {
-    return label;
-  }
-
-  public void setLabel(String label) {
-    this.label = label;
+  public void setFdzId(String fdzId) {
+    this.fdzId = fdzId;
   }
 
   public String getName() {
@@ -94,11 +156,35 @@ public class VariableSearchDocument {
     this.fdzProjectName = fdzProjectName;
   }
 
-  public String getSurveyId() {
-    return surveyId;
+  public String getLabel() {
+    return label;
   }
 
-  public void setSurveyId(String surveyId) {
-    this.surveyId = surveyId;
+  public void setLabel(String label) {
+    this.label = label;
+  }
+
+  public String getDataType() {
+    return dataType;
+  }
+
+  public void setDataType(String dataType) {
+    this.dataType = dataType;
+  }
+
+  public String getScaleLevel() {
+    return scaleLevel;
+  }
+
+  public void setScaleLevel(String scaleLevel) {
+    this.scaleLevel = scaleLevel;
+  }
+
+  public String getSurveyTitle() {
+    return surveyTitle;
+  }
+
+  public void setSurveyTitle(String surveyTitle) {
+    this.surveyTitle = surveyTitle;
   }
 }

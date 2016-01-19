@@ -66,14 +66,9 @@ angular.module('metadatamanagementApp')
                   controller: 'FdzProjectDialogController',
                   size: 'lg',
                   resolve: {
-                    entity: function() {
-                      return {
-                        name: null,
-                        sufDoi: null,
-                        cufDoi: null,
-                        id: null
-                      };
-                    },
+                    entity: ['FdzProject', function(FdzProject) {
+                      return new FdzProject();
+                    }],
                     isCreateMode: true
                   }
                 }).result.then(function() {

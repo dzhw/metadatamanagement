@@ -5,6 +5,7 @@ angular.module('metadatamanagementApp')
     return $resource('api/variables/:id', {id: '@id'}, {
       'get': {
         method: 'GET',
+        params:  {projection: 'complete'}
       },
       'update': {
         method: 'PUT',

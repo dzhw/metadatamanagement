@@ -6,22 +6,21 @@ angular.module('metadatamanagementApp')
         {id: '@id'}, {
         'get': {
           method: 'GET',
-        },
-        'update': {
-          method: 'PUT'
+          params:  {projection: 'complete'}
         },
         'create': {
           method: 'POST'
         },
+        'update': {
+          method: 'PUT'
+        },
         'delete': {
-          method: 'DELETE',
+          method: 'DELETE'
         },
         'findOneByName': {
+          url: '/api/fdz_projects/search/findOneByName',
           method: 'GET',
-          params: {
-            projection: 'complete'
-          },
-          url: '/api/fdz_projects/search/findOneByName'
+          params:  {projection: 'complete'}
         }
       });
     });

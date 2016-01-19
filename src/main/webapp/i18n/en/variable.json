@@ -11,12 +11,12 @@
       "updated": "A Variable is updated with FDZ ID \"{{ param }}\"",
       "deleted": "A Variable is deleted with FDZ ID \"{{ param }}\"",
       "delete": {
-        "question": "Are you sure you want to delete Variable with the FDZ ID \"{{ id }}\"?"
+        "question": "Are you sure you want to delete Variable with the FDZ ID \"{{ fdzId }}\"?"
       },
       "detail": {
         "title": "Variable"
       },
-      "id": "FDZ ID",
+      "fdzId": "FDZ ID",
       "name": "Name",
       "dataType": "DataType",
       "scaleLevel": "ScaleLevel",

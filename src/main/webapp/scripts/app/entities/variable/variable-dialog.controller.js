@@ -14,7 +14,7 @@ angular.module('metadatamanagementApp').controller('VariableDialogController',
             $scope.allFdzProjects = response._embedded.fdzProjects;
           });
 
-          $scope.allSurveysByFdzProjectName = null;
+          $scope.allSurveysByFdzProjectId = null;
 
           $scope.load = function(id) {
             Variable.get({id: id}, function(result) {
@@ -40,12 +40,12 @@ angular.module('metadatamanagementApp').controller('VariableDialogController',
           $scope.isSurveyEmpty = function() {
 
             //check for array
-            if (!angular.isArray($scope.allSurveysByFdzProjectName)) {
+            if (!angular.isArray($scope.allSurveysByFdzProjectId)) {
               return true;
             }
 
             //check for array size
-            if ($scope.allSurveysByFdzProjectName.length === 0) {
+            if ($scope.allSurveysByFdzProjectId.length === 0) {
               return true;
             }
 
@@ -56,11 +56,11 @@ angular.module('metadatamanagementApp').controller('VariableDialogController',
 
             //query for survey with a given fdz project name
             // TODO load all page by page
-            $scope.allSurveysByFdzProjectName = SurveyCollection.query(
-              {'fdzProject.name': $scope.variable.fdzProject.name},
+            SurveyCollection.query(
+              {'fdzProject': $scope.variable.fdzProject.id},
                   function(result) {
                     //return the array of surveys.
-                    return result._embedded.surveys;
+                    $scope.allSurveysByFdzProjectId = result._embedded.surveys;
                   });
           };
 

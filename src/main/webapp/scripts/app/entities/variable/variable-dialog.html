@@ -48,7 +48,7 @@
       <label translate="metadatamanagementApp.variable.surveyId" for="field_surveyId">Survey Id</label>
       <select class="form-control" name="surveyId" ng-model="variable.survey.id" id="field_surveyId" ng-disabled="isSurveyEmpty()">
         <option value=""></option>
-        <option ng-repeat="survey in allSurveysByFdzProjectName" value="{{survey.id}}">{{survey.fdzId}}</option>
+        <option ng-repeat="survey in allSurveysByFdzProjectId" value="{{survey.id}}">{{survey.fdzId}}</option>
       </select>
     </div>
 

@@ -1,9 +1,13 @@
 package eu.dzhw.fdz.metadatamanagement.domain;
 
-import javax.validation.constraints.NotNull;
+import java.util.List;
+
 import javax.validation.constraints.Pattern;
 
+import org.hibernate.validator.constraints.NotEmpty;
+import org.springframework.data.annotation.Transient;
 import org.springframework.data.mongodb.core.index.Indexed;
+import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import com.google.common.base.MoreObjects;
@@ -14,17 +18,29 @@ import net.karneim.pojobuilder.GeneratePojoBuilder;
 /**
  * The FDZ Project collects all data which are going to be published by our FDZ.
  */
-@Document(collection = "fdz_project")
+@Document(collection = "fdz_projects")
 @GeneratePojoBuilder(intoPackage = "eu.dzhw.fdz.metadatamanagement.domain.builders")
-public class FdzProject extends AbstractFdzDomainObject  {
-  @NotNull
-  @Pattern(regexp = Patterns.GERMAN_ALPHANUMERIC_WITH_SPACE)
+public class FdzProject extends AbstractFdzDomainObject {
   @Indexed(unique = true)
+  @NotEmpty
+  @Pattern(regexp = Patterns.GERMAN_ALPHANUMERIC_WITH_SPACE)
   private String name;
 
   private String sufDoi;
 
   private String cufDoi;
+  
+  @DBRef(lazy = true)
+  @Transient
+  private List<Variable> variables;
+
+  public List<Variable> getVariables() {
+    return variables;
+  }
+
+  public void setVariables(List<Variable> variables) {
+    this.variables = variables;
+  }
 
   public String getName() {
     return name;

@@ -1,8 +1,8 @@
 package eu.dzhw.fdz.metadatamanagement.search;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.inject.Inject;
 
@@ -10,12 +10,19 @@ import org.elasticsearch.index.query.QueryBuilders;
 import org.elasticsearch.search.builder.SearchSourceBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.data.rest.core.annotation.HandleAfterDelete;
+import org.springframework.data.rest.core.annotation.HandleAfterSave;
+import org.springframework.data.rest.core.annotation.RepositoryEventHandler;
 import org.springframework.stereotype.Component;
 
+import com.google.gson.JsonObject;
+
+import eu.dzhw.fdz.metadatamanagement.domain.Variable;
 import eu.dzhw.fdz.metadatamanagement.search.document.VariableSearchDocument;
 import eu.dzhw.fdz.metadatamanagement.search.exception.ElasticsearchDocumentDeleteException;
 import eu.dzhw.fdz.metadatamanagement.search.exception.ElasticsearchDocumentSaveException;
 import eu.dzhw.fdz.metadatamanagement.search.exception.ElasticsearchIoException;
+import eu.dzhw.fdz.metadatamanagement.service.enums.ElasticsearchIndices;
 import io.searchbox.action.Action;
 import io.searchbox.client.JestClient;
 import io.searchbox.client.JestResult;
@@ -23,7 +30,6 @@ import io.searchbox.core.Bulk;
 import io.searchbox.core.Delete;
 import io.searchbox.core.Index;
 import io.searchbox.core.Search;
-import io.searchbox.indices.Refresh;
 
 /**
  * Data access object for saving variables in elasticsearch.
@@ -32,54 +38,66 @@ import io.searchbox.indices.Refresh;
  * @author Daniel Katzberg
  */
 @Component
+@RepositoryEventHandler
 public class VariableSearchDao {
-
   /** The type of saved variables in the elasticsearch indices. */
   public static final String TYPE = "variables";
 
   private final Logger log = LoggerFactory.getLogger(VariableSearchDao.class);
 
-  /** JestClient for the communication with elasticsearch. 
-   * No use of the spring boot elasticsearch client. */
+  /**
+   * JestClient for the communication with elasticsearch. No use of the spring boot elasticsearch
+   * client.
+   */
   @Inject
   private JestClient jestClient;
 
   /**
-   * Save the given variable to the given index.
-   * 
-   * @param variableSearchDocument the variable to save
-   * @param index the name of the index
+   * Save the given variable to elasticsearch.
    */
-  public void save(VariableSearchDocument variableSearchDocument, String index) {
+  @HandleAfterSave
+  public void index(Variable variable) {
+    for (ElasticsearchIndices index : ElasticsearchIndices.values()) {
+      VariableSearchDocument variableSearchDocument = new VariableSearchDocument(variable, index);
+      index(variableSearchDocument, index.getIndexName());
+    }
+  }
+
+  private void index(VariableSearchDocument variableSearchDocument,
+      String index) {
     JestResult result = execute(new Index.Builder(variableSearchDocument).index(index)
         .type(TYPE)
+        .id(variableSearchDocument.getId())
         .build());
     if (!result.isSucceeded()) {
-
-      String id = "null";
-      if (variableSearchDocument != null) {
-        id = variableSearchDocument.getId();
-      }
-
-      throw new ElasticsearchDocumentSaveException(index, TYPE, id, result.getErrorMessage());
+      throw new ElasticsearchDocumentSaveException(index, TYPE,
+          variableSearchDocument.getId(), result.getErrorMessage());
     }
   }
 
   /**
-   * Bulk save the given variables to the given index.
+   * Bulk save the given variables to elasticsearch.
    * 
-   * @param variableSearchDocuments the variables to save
-   * @param index the name of the index
+   * @param variables the variables to save
    */
-  public void save(List<VariableSearchDocument> variableSearchDocuments, String index) {
-    if (variableSearchDocuments == null || variableSearchDocuments.isEmpty()) {
+  public void index(List<Variable> variables) {
+    if (variables == null || variables.isEmpty()) {
       return;
     }
+    for (ElasticsearchIndices index : ElasticsearchIndices.values()) {
+      index(variables.stream()
+          .map(variable -> new VariableSearchDocument(variable, index))
+          .collect(Collectors.toList()), index.getIndexName());
+    }
+  }
 
+  private void index(List<VariableSearchDocument> variableSearchDocuments, String index) {
     Bulk.Builder builder = new Bulk.Builder().defaultIndex(index)
         .defaultType(TYPE);
     for (VariableSearchDocument variableSearchDocument : variableSearchDocuments) {
-      builder.addAction(new Index.Builder(variableSearchDocument).build());
+      builder
+          .addAction(new Index.Builder(variableSearchDocument).id(variableSearchDocument.getId())
+          .build());
     }
     Bulk bulk = builder.build();
     JestResult result = execute(bulk);
@@ -91,48 +109,32 @@ public class VariableSearchDao {
   /**
    * Return ALL variables stored in the given index.
    * 
-   * @param index The index to query
-   * @return A List of ALL variables
+   * @return A List of ALL variables in elasticsearch.
    */
-  public List<VariableSearchDocument> findAll(String index) {
+  public JsonObject findAll(String index) {
     SearchSourceBuilder queryBuilder = new SearchSourceBuilder();
     queryBuilder.query(QueryBuilders.matchAllQuery());
     return this.findAllByQueryBuilder(queryBuilder, index);
   }
 
   /**
-   * Delete the {@link VariableSearchDocument} with the given id.
-   * 
-   * @param id the id of the document to delete
+   * Delete the variable from the index.
    */
-  public void delete(String id, String index) {
-    JestResult result = execute(new Delete.Builder(id).index(index)
-        .type(TYPE)
-        .build());
-    if (!result.isSucceeded()) {
-      throw new ElasticsearchDocumentDeleteException(index, TYPE, id, result.getErrorMessage());
+  @HandleAfterDelete
+  public void delete(Variable variable) {
+    for (ElasticsearchIndices index : ElasticsearchIndices.values()) {
+      delete(variable, index.getIndexName());
     }
   }
-
-  /**
-   * This method deletes elements by a given field and the depending values within an index.
-   * 
-   * @param fieldName the name of a field of the document
-   * @param value the value of the fieldName
-   * @param index the intex, where the document is saved.
-   */  
-  private void deleteByField(String fieldName, String value, String index) {
-
-    // Search elements by field
-    SearchSourceBuilder queryBuilder = new SearchSourceBuilder();
-    queryBuilder.query(QueryBuilders.boolQuery()
-        .filter(QueryBuilders.matchQuery(fieldName, value)));
-    List<VariableSearchDocument> variableSearchDocumentList =
-        this.findAllByQueryBuilder(queryBuilder, index);
-
-    // delete elements
-    for (VariableSearchDocument variableSearchDocument : variableSearchDocumentList) {
-      this.delete(variableSearchDocument.getId(), index);
+  
+  private void delete(Variable variable, String index) {
+    JestResult result =
+        execute(new Delete.Builder(variable.getId()).index(index)
+          .type(TYPE)
+          .build());
+    if (!result.isSucceeded()) {
+      throw new ElasticsearchDocumentDeleteException(index, TYPE,
+          variable.getId(), result.getErrorMessage());
     }
   }
 
@@ -142,73 +144,27 @@ public class VariableSearchDao {
    * 
    * @param queryBuilder A querybuilder with an defined query.
    * @param index the name of a index within elasticseach
-   * @return a list of values with matches by the filter.
+   * @return the elasticsearch result as json
    */
-  private List<VariableSearchDocument> findAllByQueryBuilder(SearchSourceBuilder queryBuilder,
-      String index) {
-    Search search = new Search.Builder(queryBuilder.toString()).addIndex(index)
-        .addType(TYPE)
-        .build();
+  private JsonObject findAllByQueryBuilder(SearchSourceBuilder queryBuilder, String index) {
+    Search search =
+        new Search.Builder(queryBuilder.toString()).addIndex(index)
+          .addType(TYPE)
+          .build();
     JestResult result = execute(search);
 
     if (!result.isSucceeded()) {
-      log.warn("Unable to load variable search documents from index " + index + ": "
+      log.warn("Unable to load variable from index " + index + ": "
           + result.getErrorMessage());
-      return new ArrayList<>();
+      return null;
     }
 
-    return result.getSourceAsObjectList(VariableSearchDocument.class);
-  }
-
-  /**
-   * Sends a delete query by a given fdz project name to elasticsearch.
-   * @param fdzProjectName the name of a fdzproject
-   * @param index the name of the elasticsearch index
-   */
-  public void deleteByFdzProjectName(String fdzProjectName, String index) {
-    deleteByField("fdzProjectName", fdzProjectName, index);
-  }
-
-  /**
-   * Sends a delete query by a given survey id to elasticsearch.
-   * @param surveyId the id of a survey
-   * @param index the name of the elasticsearch index.
-   */
-  public void deleteBySurveyId(String surveyId, String index) {
-    deleteByField("surveyId", surveyId, index);
-  }
-
-  /**
-   * Refresh the given index synchronously.
-   * 
-   * @param index the index to refresh.
-   */
-  public void refresh(String index) {
-    JestResult result = execute(new Refresh.Builder().addIndex(index)
-        .build());
-    if (!result.isSucceeded()) {
-      log.warn("Unable to refresh index " + index + ": " + result.getErrorMessage());
-    }
-  }
-
-  /**
-   * Delete all {@link VariableSearchDocument} documents from the given index.
-   * 
-   * @param index the index to delete from.
-   */
-  public void deleteAll(String index) {
-
-    // get all saved variables
-    List<VariableSearchDocument> variables = this.findAll(index);
-
-    // delete all variables
-    for (VariableSearchDocument variable : variables) {
-      this.delete(variable.getId(), index);
-    }
+    return result.getJsonObject();
   }
 
   /**
    * Execute queries to elasticsearch.
+   * 
    * @param action a query for elasticsearch
    * @return the result from elasticsearch by the jest client.
    */

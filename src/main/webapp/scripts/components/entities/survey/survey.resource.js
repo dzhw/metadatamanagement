@@ -6,6 +6,7 @@ angular.module('metadatamanagementApp')
         {id: '@id'}, {
         'get': {
           method: 'GET',
+          params: {projection: 'complete'},
           transformResponse: function(data) {
             // data might be empty if 404
             if (data) {
@@ -25,7 +26,6 @@ angular.module('metadatamanagementApp')
               DateUtils.convertLocaleDateToServer(data.fieldPeriod.start);
             data.fieldPeriod.end =
               DateUtils.convertLocaleDateToServer(data.fieldPeriod.end);
-            //convert id to uri as required by spring data rest
             data.fdzProject = '/api/fdz_projects/' + data.fdzProject.id;
             return angular.toJson(data);
           }
@@ -37,7 +37,6 @@ angular.module('metadatamanagementApp')
               DateUtils.convertLocaleDateToServer(data.fieldPeriod.start);
             data.fieldPeriod.end =
               DateUtils.convertLocaleDateToServer(data.fieldPeriod.end);
-            //convert id to uri as required by spring data rest
             data.fdzProject = '/api/fdz_projects/' + data.fdzProject.id;
             return angular.toJson(data);
           }

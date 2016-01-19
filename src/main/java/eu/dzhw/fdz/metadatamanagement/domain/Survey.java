@@ -3,7 +3,7 @@ package eu.dzhw.fdz.metadatamanagement.domain;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 
-import org.hibernate.validator.constraints.NotBlank;
+import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -15,12 +15,10 @@ import net.karneim.pojobuilder.GeneratePojoBuilder;
 /**
  * A Survey.
  */
-
-@Document(collection = "survey")
+@Document(collection = "surveys")
 @GeneratePojoBuilder(intoPackage = "eu.dzhw.fdz.metadatamanagement.domain.builders")
 public class Survey extends AbstractFdzDomainObject {
-
-  @NotBlank
+  @NotEmpty
   @Indexed(unique = true)
   private String fdzId;
 
@@ -31,7 +29,7 @@ public class Survey extends AbstractFdzDomainObject {
   @Valid
   private Period fieldPeriod;
 
-  @DBRef
+  @DBRef(lazy = true)
   @NotNull
   private FdzProject fdzProject;
 
@@ -71,9 +69,12 @@ public class Survey extends AbstractFdzDomainObject {
   public String toString() {
     return MoreObjects.toStringHelper(this)
       .add("super", super.toString())
+      .add("fdzId", fdzId)
       .add("title", title)
       .add("fieldPeriod", fieldPeriod)
       .add("fdzProject", fdzProject)
       .toString();
   }
+
+  
 }

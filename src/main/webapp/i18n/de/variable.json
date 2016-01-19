@@ -11,12 +11,12 @@
       "updated": "Die Variable mit FDZ ID {{ param }} ist aktualisiert worden",
       "deleted": "Die Variable mit FDZ ID {{ param }} ist gelöscht worden",
       "delete": {
-        "question": "Sind Sie sicher dass, Sie die Variable mit FDZ ID {{ id }} löschen möchten?"
+        "question": "Sind Sie sicher dass, Sie die Variable mit FDZ ID \"{{ fdzId }}\" löschen möchten?"
       },
       "detail": {
         "title": "Variable"
       },
-      "id": "FDZ ID",
+      "fdzId": "FDZ ID",
       "name": "Name",
       "dataType": "Datentyp",
       "scaleLevel": "Skalenniveau",
