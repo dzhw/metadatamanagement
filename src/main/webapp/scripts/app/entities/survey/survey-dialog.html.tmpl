@@ -1,67 +1,67 @@
 <form name="editForm" role="form" novalidate ng-submit="save()" show-validation>
   <div class="modal-header">
     <button type="button" class="close" data-dismiss="modal" aria-hidden="true" ng-click="clear()">&times;</button>
-    <h4 class="modal-title" id="mySurveyLabel" translate="metadatamanagementApp.survey.home.createOrEditLabel">Create or edit a Survey</h4>
+    <h4 class="modal-title" id="mySurveyLabel" data-translate="metadatamanagementApp.survey.home.createOrEditLabel">Create or edit a Survey</h4>
   </div>
   <div class="modal-body">
     <jh-alert-error></jh-alert-error>
     <div class="form-group">
-      <label for="fdzId" translate="global.field.fdzId">FDZ ID</label>
+      <label for="fdzId" data-translate="global.field.fdzId">FDZ ID</label>
       <input type="text" class="form-control" id="fdzId" name="fdzId" ng-model="survey.fdzId" ng-readonly="!isCreateMode" ng-pattern="/^[_A-Za-z0-9]*$/" required/>
       <div ng-show="editForm.fdzId.$invalid">
-        <p class="help-block" ng-show="editForm.fdzId.$error.required" translate="entity.validation.required">
+        <p class="help-block" ng-show="editForm.fdzId.$error.required" data-translate="entity.validation.required">
           This field is required.
         </p>
-        <p class="help-block" ng-show="editForm.fdzId.$error.pattern" translate="entity.validation.fdzId">
+        <p class="help-block" ng-show="editForm.fdzId.$error.pattern" data-translate="entity.validation.fdzId">
           The FDZ ID can only contain letters, digits and underscore.
         </p>
       </div>
     </div>
     <div class="form-group">
-      <label class="control-label" translate="metadatamanagementApp.survey.title.de" for="field_title_de">Title (DE)</label>
+      <label class="control-label" data-translate="metadatamanagementApp.survey.title.de" for="field_title_de">Title (DE)</label>
       <input type="text" class="form-control" name="title_de" id="field_title_de" ng-model="survey.title.de" required />
       <div ng-show="editForm.title_de.$invalid">
-        <p class="help-block" ng-show="editForm.title_de.$error.required" translate="entity.validation.required">
+        <p class="help-block" ng-show="editForm.title_de.$error.required" data-translate="entity.validation.required">
           This field is required.
         </p>
       </div>
     </div>
     <div class="form-group">
-      <label class="control-label" translate="metadatamanagementApp.survey.title.en" for="field_title_en">Title (EN)</label>
+      <label class="control-label" data-translate="metadatamanagementApp.survey.title.en" for="field_title_en">Title (EN)</label>
       <input type="text" class="form-control" name="title_en" id="field_title_en" ng-model="survey.title.en"/>
     </div>
     <div class="form-group">
-      <label class="control-label" translate="metadatamanagementApp.survey.fieldPeriod.start" for="field_fieldPeriod_start">FieldPeriod (Start)</label>
+      <label class="control-label" data-translate="metadatamanagementApp.survey.fieldPeriod.start" for="field_fieldPeriod_start">FieldPeriod (Start)</label>
       <input type="date" class="form-control" name="fieldPeriod_start" id="field_fieldPeriod_start" ng-model="survey.fieldPeriod.start" max="{{ survey.fieldPeriod.end }}" required />
       <div ng-show="editForm.fieldPeriod_start.$invalid">
-        <p class="help-block" ng-show="editForm.fieldPeriod_start.$error.required" translate="entity.validation.required">
+        <p class="help-block" ng-show="editForm.fieldPeriod_start.$error.required" data-translate="entity.validation.required">
           This field is required.
         </p>
-        <p class="help-block" ng-show="editForm.fieldPeriod_start.$error.max" translate="entity.validation.survey.period">
+        <p class="help-block" ng-show="editForm.fieldPeriod_start.$error.max" data-translate="entity.validation.survey.period">
           This field is after the end date.
         </p>
       </div>
     </div>
     <div class="form-group">
-      <label class="control-label" translate="metadatamanagementApp.survey.fieldPeriod.end" for="field_fieldPeriod_end">FieldPeriod (End)</label>
+      <label class="control-label" data-translate="metadatamanagementApp.survey.fieldPeriod.end" for="field_fieldPeriod_end">FieldPeriod (End)</label>
       <input type="date" class="form-control" name="fieldPeriod_end" id="field_fieldPeriod_end" ng-model="survey.fieldPeriod.end" min="{{ survey.fieldPeriod.start }}" required />
       <div ng-show="editForm.fieldPeriod_end.$invalid">
-        <p class="help-block" ng-show="editForm.fieldPeriod_end.$error.required" translate="entity.validation.required">
+        <p class="help-block" ng-show="editForm.fieldPeriod_end.$error.required" data-translate="entity.validation.required">
           This field is required.
         </p>
-        <p class="help-block" ng-show="editForm.fieldPeriod_end.$error.min" translate="entity.validation.survey.period">
+        <p class="help-block" ng-show="editForm.fieldPeriod_end.$error.min" data-translate="entity.validation.survey.period">
           This field is before the start date.
         </p>
       </div>
     </div>
     <div class="form-group">
-      <label translate="metadatamanagementApp.survey.fdzProjectName" for="field_fdzProjectName">FDZ Project Name</label>
+      <label data-translate="metadatamanagementApp.survey.fdzProjectName" for="field_fdzProjectName">FDZ Project Name</label>
       <select class="form-control" name="fdzProjectName" ng-model="survey.fdzProject.id" id="field_fdzProjectName" required>
         <option ng-repeat="fdzproject in allFdzProjects" value="{{fdzproject.id}}">{{fdzproject.name}}</option>
       </select>
 
       <div ng-show="editForm.fdzProjectName.$invalid">
-        <p class="help-block" ng-show="editForm.fdzProjectName.$error.required" translate="entity.validation.required">
+        <p class="help-block" ng-show="editForm.fdzProjectName.$error.required" data-translate="entity.validation.required">
           This field is required.
         </p>
       </div>
@@ -69,10 +69,10 @@
   </div>
   <div class="modal-footer">
     <button type="button" class="btn btn-default" data-dismiss="modal" ng-click="clear()">
-      <span class="glyphicon glyphicon-ban-circle"></span>&nbsp;<span translate="entity.action.cancel">Cancel</span>
+      <span class="glyphicon glyphicon-ban-circle"></span>&nbsp;<span data-translate="entity.action.cancel">Cancel</span>
     </button>
     <button type="submit" ng-disabled="editForm.$invalid || isSaving" class="btn btn-primary">
-      <span class="glyphicon glyphicon-save"></span>&nbsp;<span translate="entity.action.save">Save</span>
+      <span class="glyphicon glyphicon-save"></span>&nbsp;<span data-translate="entity.action.save">Save</span>
     </button>
   </div>
 </form>

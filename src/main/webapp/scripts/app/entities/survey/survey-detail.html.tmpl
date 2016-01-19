@@ -1,17 +1,17 @@
 <div>
-  <h2><span translate="metadatamanagementApp.survey.detail.title">Survey</span> {{survey.fdzId}}</h2>
+  <h2><span data-translate="metadatamanagementApp.survey.detail.title">Survey</span> {{survey.fdzId}}</h2>
   <div class="table-responsive">
     <table class="table table-striped">
       <thead>
         <tr>
-          <th translate="entity.detail.field">Field</th>
-          <th translate="entity.detail.value">Value</th>
+          <th data-translate="entity.detail.field">Field</th>
+          <th data-translate="entity.detail.value">Value</th>
         </tr>
       </thead>
       <tbody>
         <tr>
           <td>
-            <span translate="metadatamanagementApp.survey.fdzId">fdzId</span>
+            <span data-translate="metadatamanagementApp.survey.fdzId">fdzId</span>
           </td>
           <td>
             <span class="form-control-static">{{survey.fdzId}}</span>
@@ -19,7 +19,7 @@
         </tr>
         <tr>
           <td>
-            <span translate="metadatamanagementApp.survey.title.de">Title (DE)</span>
+            <span data-translate="metadatamanagementApp.survey.title.de">Title (DE)</span>
           </td>
           <td>
             <span class="form-control-static">{{survey.title.de}}</span>
@@ -27,7 +27,7 @@
         </tr>
         <tr>
           <td>
-            <span translate="metadatamanagementApp.survey.title.en">Title (EN)</span>
+            <span data-translate="metadatamanagementApp.survey.title.en">Title (EN)</span>
           </td>
           <td>
             <span class="form-control-static">{{survey.title.en}}</span>
@@ -35,7 +35,7 @@
         </tr>
         <tr>
           <td>
-            <span translate="metadatamanagementApp.survey.fieldPeriod.start">FieldPeriod (Start)</span>
+            <span data-translate="metadatamanagementApp.survey.fieldPeriod.start">FieldPeriod (Start)</span>
           </td>
           <td>
             <span class="form-control-static">{{survey.fieldPeriod.start | date:'mediumDate'}}</span>
@@ -43,7 +43,7 @@
         </tr>
         <tr>
           <td>
-            <span translate="metadatamanagementApp.survey.fieldPeriod.end">FieldPeriod (end)</span>
+            <span data-translate="metadatamanagementApp.survey.fieldPeriod.end">FieldPeriod (end)</span>
           </td>
           <td>
             <span class="form-control-static">{{survey.fieldPeriod.end | date:'mediumDate'}}</span>
@@ -51,7 +51,7 @@
         </tr>
         <tr>
           <td>
-            <span translate="metadatamanagementApp.survey.fdzProjectName">FdzProjectName</span>
+            <span data-translate="metadatamanagementApp.survey.fdzProjectName">FdzProjectName</span>
           </td>
           <td>
             <span class="form-control-static">{{survey.fdzProject.name}}</span>
@@ -62,6 +62,6 @@
   </div>
 
   <button type="submit" onclick="window.history.back()" class="btn btn-info">
-    <span class="glyphicon glyphicon-arrow-left"></span>&nbsp;<span translate="entity.action.back"> Back</span>
+    <span class="glyphicon glyphicon-arrow-left"></span>&nbsp;<span data-translate="entity.action.back"> Back</span>
   </button>
 </div>

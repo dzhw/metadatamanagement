@@ -1,49 +1,41 @@
+<form name="editForm" novalidate ng-submit="save()" show-validation>
 
-<form name="editForm" role="form" novalidate ng-submit="save()" show-validation>
-
-    <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-hidden="true"
-                ng-click="clear()">&times;</button>
-        <h4 class="modal-title" id="myFdzProjectLabel" translate="metadatamanagementApp.fdzProject.home.createOrEditLabel">Create or edit a FdzProject</h4>
-    </div>
-    <div class="modal-body">
-        <jh-alert-error></jh-alert-error>
-        <div class="form-group">
-            <label class="control-label" translate="metadatamanagementApp.fdzProject.name" for="field_name">Name</label>
-            <input type="text" class="form-control" name="name" id="field_name"
-                    ng-model="fdzProject.name"
-                    required ng-readonly="!isCreateMode" ng-pattern="/^[ A-Za-z0-9äöüÄÖÜ]*$/"/>
-            <div ng-show="editForm.name.$invalid">
-                <p class="help-block"
-                    ng-show="editForm.name.$error.required" translate="entity.validation.required">
-                    This field is required.
-                </p>
-                <p class="help-block"
-                   ng-show="editForm.name.$error.pattern" translate="entity.validation.fdzProject.name">
-                   The name can only contain letters, digits and spaces.
-                </p>
+      <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true" ng-click="clear()">&times;</button>
+            <h4 class="modal-title" id="myFdzProjectLabel" data-translate="metadatamanagementApp.fdzProject.home.createOrEditLabel">Create or edit a FdzProject</h4>
+      </div>
+      <div class="modal-body">
+            <jh-alert-error></jh-alert-error>
+            <div class="form-group">
+                  <label class="control-label" data-translate="metadatamanagementApp.fdzProject.name" for="field_name">Name</label>
+                  <input type="text" class="form-control" name="name" id="field_name" ng-model="fdzProject.name" required ng-readonly="!isCreateMode" ng-pattern="/^[ A-Za-z0-9äöüÄÖÜ]*$/"/>
+                  <div ng-show="editForm.name.$invalid">
+                        <p class="help-block" ng-show="editForm.name.$error.required" data-translate="entity.validation.required">
+                              This field is required.
+                        </p>
+                        <p class="help-block" ng-show="editForm.name.$error.pattern" data-translate="entity.validation.fdzProject.name">
+                              The name can only contain letters, digits and spaces.
+                        </p>
+                  </div>
             </div>
-        </div>
-        <div class="form-group">
-            <label class="control-label" translate="metadatamanagementApp.fdzProject.sufDoi" for="field_sufDoi">SufDoi</label>
-            <input type="text" class="form-control" name="sufDoi" id="field_sufDoi"
-                    ng-model="fdzProject.sufDoi"
-                     />
-        </div>
-        <div class="form-group">
-            <label class="control-label" translate="metadatamanagementApp.fdzProject.cufDoi" for="field_cufDoi">CufDoi</label>
-            <input type="text" class="form-control" name="cufDoi" id="field_cufDoi"
-                    ng-model="fdzProject.cufDoi"
-                     />
-        </div>
+            <div class="form-group">
+                  <label class="control-label" data-translate="metadatamanagementApp.fdzProject.sufDoi" for="field_sufDoi">SufDoi</label>
+                  <input type="text" class="form-control" name="sufDoi" id="field_sufDoi" ng-model="fdzProject.sufDoi"/>
+            </div>
+            <div class="form-group">
+                  <label class="control-label" data-translate="metadatamanagementApp.fdzProject.cufDoi" for="field_cufDoi">CufDoi</label>
+                  <input type="text" class="form-control" name="cufDoi" id="field_cufDoi" ng-model="fdzProject.cufDoi"/>
+            </div>
 
-    </div>
-    <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal" ng-click="clear()">
-            <span class="glyphicon glyphicon-ban-circle"></span>&nbsp;<span translate="entity.action.cancel">Cancel</span>
-        </button>
-        <button type="submit" ng-disabled="editForm.$invalid || isSaving" class="btn btn-primary">
-            <span class="glyphicon glyphicon-save"></span>&nbsp;<span translate="entity.action.save">Save</span>
-        </button>
-    </div>
+      </div>
+      <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal" ng-click="clear()">
+                  <span class="glyphicon glyphicon-ban-circle"></span>&nbsp;
+                  <span data-translate="entity.action.cancel">Cancel</span>
+            </button>
+            <button type="submit" ng-disabled="editForm.$invalid || isSaving" class="btn btn-primary">
+                  <span class="glyphicon glyphicon-save"></span>&nbsp;
+                  <span data-translate="entity.action.save">Save</span>
+            </button>
+      </div>
 </form>

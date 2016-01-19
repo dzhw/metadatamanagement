@@ -112,7 +112,8 @@ module.exports = function(grunt) {
               'jh-*'
             ],
             customattrs: [
-              'show-validation'
+              'show-validation',
+              'jh-*'
             ]
           },
           files: {
