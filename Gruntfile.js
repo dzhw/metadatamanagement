@@ -108,12 +108,17 @@ module.exports = function(grunt) {
             reportCheckstylePath:
              'target/html-angular-validate-report-checkstyle.xml',
             tmplext: '.html.tmpl',
-
+            customtags: [
+              'jh-*'
+            ],
+            customattrs: [
+              'show-validation'
+            ]
           },
           files: {
             src: ['src/main/webapp/*.html',
              'src/main/webapp/scripts/components/**/*.html.tmpl',
-             'src/main/webapp/scripts/components/**/*.html']
+             'src/main/webapp/scripts/**/*.html']
           }
         },
         browserSync: {

@@ -1,105 +1,105 @@
-<form name="editForm" role="form" novalidate ng-submit="save()" show-validation>
+<form name="editForm" novalidate ng-submit="save()" show-validation>
 
-  <div class="modal-header">
-    <button type="button" class="close" data-dismiss="modal" aria-hidden="true" ng-click="clear()">&times;</button>
-    <h4 class="modal-title" id="myVariableLabel" translate="metadatamanagementApp.variable.home.createOrEditLabel">Create or edit a Variable</h4>
-  </div>
-  <div class="modal-body">
-    <jh-alert-error></jh-alert-error>
-    <div class="form-group">
-      <label for="fdzId" translate="global.field.fdzId">FDZ ID</label>
-      <input type="text" class="form-control" id="fdzId" name="fdzId" ng-model="variable.fdzId" ng-readonly="!isCreateMode" ng-pattern="/^[_A-Za-z0-9]*$/" required />
-      <div ng-show="editForm.fdzId.$invalid">
-        <p class="help-block" ng-show="editForm.fdzId.$error.required" translate="entity.validation.required">
-          This field is required.
-        </p>
-        <p class="help-block" ng-show="editForm.fdzId.$error.pattern" translate="entity.validation.fdzId">
-          The FDZ ID can only contain letters, digits and underscore.
-        </p>
+      <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true" ng-click="clear()">&times;</button>
+            <h4 class="modal-title" id="myVariableLabel" data-translate="metadatamanagementApp.variable.home.createOrEditLabel">Create or edit a Variable</h4>
       </div>
-    </div>
-    <div class="form-group">
-      <label translate="metadatamanagementApp.variable.name" for="field_name">Name</label>
-      <input type="text" class="form-control" name="name" id="field_name" ng-model="variable.name" required ng-maxlength="32" ng-pattern="/^[_A-Za-z0-9]*$/" />
-      <div ng-show="editForm.name.$invalid">
-        <p class="help-block" ng-show="editForm.name.$error.required" translate="entity.validation.required">
-          This field is required.
-        </p>
-        <p class="help-block" ng-show="editForm.name.$error.maxlength" translate="entity.validation.maxlength" translate-value-max="32">
-          This field cannot be longer than 32 characters.
-        </p>
-        <p class="help-block" ng-show="editForm.name.$error.pattern" translate="entity.validation.variable.name">
-          The name of the variable can only contain letters, digits and underscore.
-        </p>
-      </div>
-    </div>
-    <div class="form-group">
-      <label translate="metadatamanagementApp.variable.fdzProjectName" for="field_fdzProjectName">FDZ Project Name</label>
-      <select class="form-control" name="fdzProjectName" ng-model="variable.fdzProject.id" id="field_fdzProjectName" ng-change="changeSurvey()" required>
-        <option ng-repeat="fdzproject in allFdzProjects" value="{{fdzproject.id}}">{{fdzproject.name}}</option>
-      </select>
-      <div ng-show="editForm.fdzProjectName.$invalid">
-        <p class="help-block" ng-show="editForm.fdzProjectName.$error.required" translate="entity.validation.required">
-          This field is required.
-        </p>
-      </div>
-    </div>
-    <div class="form-group">
-      <label translate="metadatamanagementApp.variable.surveyId" for="field_surveyId">Survey Id</label>
-      <select class="form-control" name="surveyId" ng-model="variable.survey.id" id="field_surveyId" ng-disabled="isSurveyEmpty()">
-        <option value=""></option>
-        <option ng-repeat="survey in allSurveysByFdzProjectId" value="{{survey.id}}">{{survey.fdzId}}</option>
-      </select>
-    </div>
+      <div class="modal-body">
+            <jh-alert-error></jh-alert-error>
+            <div class="form-group">
+                  <label for="fdzId" data-translate="global.field.fdzId">FDZ ID</label>
+                  <input type="text" class="form-control" id="fdzId" name="fdzId" ng-model="variable.fdzId" ng-readonly="!isCreateMode" ng-pattern="/^[_A-Za-z0-9]*$/" required/>
+                  <div ng-show="editForm.fdzId.$invalid">
+                        <p class="help-block" ng-show="editForm.fdzId.$error.required" data-translate="entity.validation.required">
+                              This field is required.
+                        </p>
+                        <p class="help-block" ng-show="editForm.fdzId.$error.pattern" data-translate="entity.validation.fdzId">
+                              The FDZ ID can only contain letters, digits and underscore.
+                        </p>
+                  </div>
+            </div>
+            <div class="form-group">
+                  <label data-translate="metadatamanagementApp.variable.name" for="field_name">Name</label>
+                  <input type="text" class="form-control" name="name" id="field_name" ng-model="variable.name" required ng-maxlength="32" ng-pattern="/^[_A-Za-z0-9]*$/"/>
+                  <div ng-show="editForm.name.$invalid">
+                        <p class="help-block" ng-show="editForm.name.$error.required" data-translate="entity.validation.required">
+                              This field is required.
+                        </p>
+                        <p class="help-block" ng-show="editForm.name.$error.maxlength" data-translate="entity.validation.maxlength" data-translate-value-max="32">
+                              This field cannot be longer than 32 characters.
+                        </p>
+                        <p class="help-block" ng-show="editForm.name.$error.pattern" data-translate="entity.validation.variable.name">
+                              The name of the variable can only contain letters, digits and underscore.
+                        </p>
+                  </div>
+            </div>
+            <div class="form-group">
+                  <label data-translate="metadatamanagementApp.variable.fdzProjectName" for="field_fdzProjectName">FDZ Project Name</label>
+                  <select class="form-control" name="fdzProjectName" ng-model="variable.fdzProject.id" id="field_fdzProjectName" ng-change="changeSurvey()" required>
+                        <option disabled selected label="&#160;"></option>
+                        <option ng-repeat="fdzproject in allFdzProjects" value="{{fdzproject.id}}">{{fdzproject.name}}</option>
+                  </select>
+                  <div ng-show="editForm.fdzProjectName.$invalid">
+                        <p class="help-block" ng-show="editForm.fdzProjectName.$error.required" data-translate="entity.validation.required">
+                              This field is required.
+                        </p>
+                  </div>
+            </div>
+            <div class="form-group">
+                  <label data-translate="metadatamanagementApp.variable.surveyId" for="field_surveyId">Survey Id</label>
+                  <select class="form-control" name="surveyId" ng-model="variable.survey.id" id="field_surveyId" ng-disabled="isSurveyEmpty()">
+                        <option disabled selected label="&#160;"></option>
+                        <option ng-repeat="survey in allSurveysByFdzProjectId" value="{{survey.id}}">{{survey.fdzId}}</option>
+                  </select>
+            </div>
 
+            <div class="form-group">
+                  <label data-translate="metadatamanagementApp.variable.dataType" for="field_dataType">DataType</label>
+                  <select class="form-control" name="dataType" ng-model="variable.dataType" size="2" id="field_dataType" required>
+                        <option value="string" data-translate="metadatamanagementApp.DataType.string">string</option>
+                        <option value="numeric" data-translate="metadatamanagementApp.DataType.numeric">numeric</option>
+                  </select>
+                  <div ng-show="editForm.dataType.$invalid">
+                        <p class="help-block" ng-show="editForm.dataType.$error.required" data-translate="entity.validation.required">
+                              This field is required.
+                        </p>
+                  </div>
+            </div>
+            <div class="form-group">
+                  <label data-translate="metadatamanagementApp.variable.scaleLevel" for="field_scaleLevel">ScaleLevel</label>
+                  <select class="form-control" name="scaleLevel" ng-model="variable.scaleLevel" size="3" id="field_scaleLevel" required>
+                        <option value="ordinal" data-translate="metadatamanagementApp.ScaleLevel.ordinal">ordinal</option>
+                        <option value="nominal" data-translate="metadatamanagementApp.ScaleLevel.nominal">nominal</option>
+                        <option value="metric" data-translate="metadatamanagementApp.ScaleLevel.metric">metric</option>
+                  </select>
+                  <div ng-show="editForm.scaleLevel.$invalid">
+                        <p class="help-block" ng-show="editForm.scaleLevel.$error.required" data-translate="entity.validation.required">
+                              This field is required.
+                        </p>
+                  </div>
+            </div>
+            <div class="form-group">
+                  <label data-translate="metadatamanagementApp.variable.label" for="field_label">Label</label>
+                  <input type="text" class="form-control" name="label" id="field_label" ng-model="variable.label" required ng-maxlength="128"/>
+                  <div ng-show="editForm.label.$invalid">
+                        <p class="help-block" ng-show="editForm.label.$error.required" data-translate="entity.validation.required">
+                              This field is required.
+                        </p>
+                        <p class="help-block" ng-show="editForm.label.$error.maxlength" data-translate="entity.validation.maxlength" data-translate-value-max="128">
+                              This field cannot be longer than 128 characters.
+                        </p>
+                  </div>
+            </div>
 
-    <div class="form-group">
-      <label translate="metadatamanagementApp.variable.dataType" for="field_dataType">DataType</label>
-      <select class="form-control" name="dataType" ng-model="variable.dataType" id="field_dataType" required>
-        <option value="string" translate="metadatamanagementApp.DataType.string">string</option>
-        <option value="numeric" translate="metadatamanagementApp.DataType.numeric">numeric</option>
-      </select>
-      <div ng-show="editForm.dataType.$invalid">
-        <p class="help-block" ng-show="editForm.dataType.$error.required" translate="entity.validation.required">
-          This field is required.
-        </p>
       </div>
-    </div>
-    <div class="form-group">
-      <label translate="metadatamanagementApp.variable.scaleLevel" for="field_scaleLevel">ScaleLevel</label>
-      <select class="form-control" name="scaleLevel" ng-model="variable.scaleLevel" id="field_scaleLevel" required>
-        <option value="ordinal" translate="metadatamanagementApp.ScaleLevel.ordinal">ordinal</option>
-        <option value="nominal" translate="metadatamanagementApp.ScaleLevel.nominal">nominal</option>
-        <option value="metric" translate="metadatamanagementApp.ScaleLevel.metric">metric</option>
-      </select>
-      <div ng-show="editForm.scaleLevel.$invalid">
-        <p class="help-block" ng-show="editForm.scaleLevel.$error.required" translate="entity.validation.required">
-          This field is required.
-        </p>
+      <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal" ng-click="clear()">
+                  <span class="glyphicon glyphicon-ban-circle"></span>&nbsp;
+                  <span data-translate="entity.action.cancel">Cancel</span>
+            </button>
+            <button type="submit" ng-disabled="editForm.$invalid" class="btn btn-primary">
+                  <span class="glyphicon glyphicon-save"></span>&nbsp;
+                  <span data-translate="entity.action.save">Save</span>
+            </button>
       </div>
-    </div>
-    <div class="form-group">
-      <label translate="metadatamanagementApp.variable.label" for="field_label">Label</label>
-      <input type="text" class="form-control" name="label" id="field_label" ng-model="variable.label" required ng-maxlength="128" />
-      <div ng-show="editForm.label.$invalid">
-        <p class="help-block" ng-show="editForm.label.$error.required" translate="entity.validation.required">
-          This field is required.
-        </p>
-        <p class="help-block" ng-show="editForm.label.$error.maxlength" translate="entity.validation.maxlength" translate-value-max="128">
-          This field cannot be longer than 128 characters.
-        </p>
-      </div>
-    </div>
-
-
-
-  </div>
-  <div class="modal-footer">
-    <button type="button" class="btn btn-default" data-dismiss="modal" ng-click="clear()">
-      <span class="glyphicon glyphicon-ban-circle"></span>&nbsp;<span translate="entity.action.cancel">Cancel</span>
-    </button>
-    <button type="submit" ng-disabled="editForm.$invalid" class="btn btn-primary">
-      <span class="glyphicon glyphicon-save"></span>&nbsp;<span translate="entity.action.save">Save</span>
-    </button>
-  </div>
 </form>
