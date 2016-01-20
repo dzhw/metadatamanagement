@@ -24,7 +24,7 @@
     "json3": "3.3.2",
     "modernizr": "3.3.1",
     "ng-file-upload": "11.1.1",
-    "ngInfiniteScroll": "1.2.1",
+    "ngInfiniteScroll": "1.2.2",
     "sockjs-client": "1.0.3",
     "stomp-websocket": "2.3.4",
     "elasticsearch": "10.1.2",
