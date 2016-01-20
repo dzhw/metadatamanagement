@@ -109,16 +109,24 @@ module.exports = function(grunt) {
              'target/html-angular-validate-report-checkstyle.xml',
             tmplext: '.html.tmpl',
             customtags: [
-              'jh-*'
+              'jh-*',
+              'uib-*',
+              'password-strength-bar'
+            ],
+            relaxerror: [
+              'The “date” input type is not supported in all browsers.' +
+              ' Please be sure to test, and consider using a polyfill.'
             ],
             customattrs: [
               'show-validation',
-              'jh-*'
+              'jh-*',
+              'ascending',
+              'callback'
             ]
           },
           files: {
             src: ['src/main/webapp/*.html',
-             'src/main/webapp/scripts/components/**/*.html.tmpl',
+             'src/main/webapp/scripts/**/*.html.tmpl',
              'src/main/webapp/scripts/**/*.html']
           }
         },
