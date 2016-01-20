@@ -2,6 +2,11 @@
 
 angular.module('metadatamanagementApp')
     .controller('FdzProjectDetailController',
-      function($scope, $rootScope, $stateParams, entity) {
-      $scope.fdzProject = entity;
-    });
+      function($scope, $rootScope, $stateParams,
+        entity, FdzProjectExportService) {
+        $scope.fdzProject = entity;
+
+        $scope.exportToODT = function() {
+        FdzProjectExportService.exportToODT($scope.variable);
+      };
+      });

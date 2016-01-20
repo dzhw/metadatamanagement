@@ -1,46 +1,55 @@
-
 <div>
-    <h2><span data-translate="metadatamanagementApp.fdzProject.detail.title">FdzProject</span> {{fdzProject.name}}</h2>
-    <div class="table-responsive">
-        <table class="table table-striped">
-            <thead>
-            <tr>
-                <th data-translate="entity.detail.field">Field</th>
-                <th data-translate="entity.detail.value">Value</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr>
-                <td>
-                    <span data-translate="metadatamanagementApp.fdzProject.name">Name</span>
-                </td>
-                <td>
-                    <span class="form-control-static">{{fdzProject.name}}</span>
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    <span data-translate="metadatamanagementApp.fdzProject.sufDoi">SufDoi</span>
-                </td>
-                <td>
-                    <span class="form-control-static">{{fdzProject.sufDoi}}</span>
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    <span data-translate="metadatamanagementApp.fdzProject.cufDoi">CufDoi</span>
-                </td>
-                <td>
-                    <span class="form-control-static">{{fdzProject.cufDoi}}</span>
-                </td>
-            </tr>
-            </tbody>
-        </table>
-    </div>
+      <h2>
+            <span data-translate="metadatamanagementApp.fdzProject.detail.title">FdzProject</span>
+            {{fdzProject.name}}</h2>
+      <div class="row">
+            <div class="table-responsive">
+                  <table class="table table-striped">
+                        <thead>
+                              <tr>
+                                    <th data-translate="entity.detail.field">Field</th>
+                                    <th data-translate="entity.detail.value">Value</th>
+                              </tr>
+                        </thead>
+                        <tbody>
+                              <tr>
+                                    <td>
+                                          <span data-translate="metadatamanagementApp.fdzProject.name">Name</span>
+                                    </td>
+                                    <td>
+                                          <span class="form-control-static">{{fdzProject.name}}</span>
+                                    </td>
+                              </tr>
+                              <tr>
+                                    <td>
+                                          <span data-translate="metadatamanagementApp.fdzProject.sufDoi">SufDoi</span>
+                                    </td>
+                                    <td>
+                                          <span class="form-control-static">{{fdzProject.sufDoi}}</span>
+                                    </td>
+                              </tr>
+                              <tr>
+                                    <td>
+                                          <span data-translate="metadatamanagementApp.fdzProject.cufDoi">CufDoi</span>
+                                    </td>
+                                    <td>
+                                          <span class="form-control-static">{{fdzProject.cufDoi}}</span>
+                                    </td>
+                              </tr>
+                        </tbody>
+                  </table>
+            </div>
+      </div>
 
-    <button type="submit"
-            onclick="window.history.back()"
-            class="btn btn-info">
-        <span class="glyphicon glyphicon-arrow-left"></span>&nbsp;<span data-translate="entity.action.back"> Back</span>
-    </button>
+      <div class="row">
+            <button type="submit" onclick="window.history.back()" class="btn btn-info">
+                  <span class="glyphicon glyphicon-arrow-left"></span>&nbsp;
+                  <span data-translate="entity.action.back">
+                        Back</span>
+            </button>
+            <button disabled type="button" class="btn btn-default" ng-click="exportToODT()">
+                  <span class="glyphicon glyphicon-floppy-save"></span>
+                  Download
+            </button>
+      </div>
 </div>
