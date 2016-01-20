@@ -46,7 +46,7 @@
         <project.testresult.directory>${project.build.directory}/test-results</project.testresult.directory>
         <querydsl.version>3.7.0</querydsl.version>
         <run.addResources>false</run.addResources>
-        <sonar-maven-plugin.version>2.7.1</sonar-maven-plugin.version>
+        <sonar-maven-plugin.version>3.0.1</sonar-maven-plugin.version>
         <sonar.exclusions>src/main/webapp/assets/**/*.*,
 			src/main/webapp/bower_components/**/*.*, src/main/webapp/dist/**/*.*</sonar.exclusions>
         <sonar.jacoco.itReportPath>${project.testresult.directory}/coverage/jacoco/jacoco-it.exec</sonar.jacoco.itReportPath>
