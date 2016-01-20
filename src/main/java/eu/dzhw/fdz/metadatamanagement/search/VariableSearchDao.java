@@ -10,6 +10,7 @@ import org.elasticsearch.index.query.QueryBuilders;
 import org.elasticsearch.search.builder.SearchSourceBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.data.rest.core.annotation.HandleAfterCreate;
 import org.springframework.data.rest.core.annotation.HandleAfterDelete;
 import org.springframework.data.rest.core.annotation.HandleAfterSave;
 import org.springframework.data.rest.core.annotation.RepositoryEventHandler;
@@ -56,6 +57,7 @@ public class VariableSearchDao {
    * Save the given variable to elasticsearch.
    */
   @HandleAfterSave
+  @HandleAfterCreate
   public void index(Variable variable) {
     for (ElasticsearchIndices index : ElasticsearchIndices.values()) {
       VariableSearchDocument variableSearchDocument = new VariableSearchDocument(variable, index);

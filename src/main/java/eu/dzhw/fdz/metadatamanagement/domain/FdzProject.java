@@ -1,13 +1,9 @@
 package eu.dzhw.fdz.metadatamanagement.domain;
 
-import java.util.List;
-
 import javax.validation.constraints.Pattern;
 
 import org.hibernate.validator.constraints.NotEmpty;
-import org.springframework.data.annotation.Transient;
 import org.springframework.data.mongodb.core.index.Indexed;
-import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import com.google.common.base.MoreObjects;
@@ -29,18 +25,6 @@ public class FdzProject extends AbstractFdzDomainObject {
   private String sufDoi;
 
   private String cufDoi;
-  
-  @DBRef(lazy = true)
-  @Transient
-  private List<Variable> variables;
-
-  public List<Variable> getVariables() {
-    return variables;
-  }
-
-  public void setVariables(List<Variable> variables) {
-    this.variables = variables;
-  }
 
   public String getName() {
     return name;
