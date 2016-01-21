@@ -7,8 +7,6 @@ angular.module('metadatamanagementApp')
         $scope.fdzProject = entity;
 
         $scope.exportToODT = function() {
-          console.log($scope.variables);
-          console.log($scope.fdzProject.name);
           FdzProjectExportService.exportToODT($scope.fdzProject);
         };
       });
