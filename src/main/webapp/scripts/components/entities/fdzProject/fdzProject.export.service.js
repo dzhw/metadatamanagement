@@ -28,7 +28,8 @@ angular.module('metadatamanagementApp').factory(
         exportToODT: function(variables, fdzProjectName) {
           // download the template if not already downloaded
           if (!zip) {
-            JSZipUtils.getBinaryContent('/officetemplates/variable.odt',
+            JSZipUtils.getBinaryContent(
+              '/officetemplates/fdzProjectTemplate.odt',
             function(err, data) {
               if (err) {
                 throw err; // or handle err
