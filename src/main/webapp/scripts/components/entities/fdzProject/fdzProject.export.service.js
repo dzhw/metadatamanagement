@@ -5,7 +5,8 @@
 
 angular.module('metadatamanagementApp').factory(
     'FdzProjectExportService',
-    function($translate, $translatePartialLoader, HandlebarsService, VariableCollection) {
+    function($translate, $translatePartialLoader,
+      HandlebarsService, VariableCollection) {
       // the complete odt
       var zip;
       // the compiled handlebars templates
