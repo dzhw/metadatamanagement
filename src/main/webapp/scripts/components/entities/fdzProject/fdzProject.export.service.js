@@ -5,7 +5,7 @@
 
 angular.module('metadatamanagementApp').factory(
     'FdzProjectExportService',
-    function($translate, HandlebarsService, VariableCollection) {
+    function($translate, $translatePartialLoader, HandlebarsService, VariableCollection) {
       // the complete odt
       var zip;
       // the compiled handlebars templates
@@ -17,11 +17,15 @@ angular.module('metadatamanagementApp').factory(
       //Write odt with information of the fdz projection
       var writeODT = function(fdzProject) {
 
+        //add dataType.json and scaleLevel.json to the known translation parts
+        $translatePartialLoader.addPart('dataType');
+        $translatePartialLoader.addPart('scaleLevel');
+        $translate.refresh();
+
         //Query to RestAPI. Filter: fdzProject id
         VariableCollection.query({fdzProject: fdzProject.id},
           function(result) {
             variables = result._embedded.variables;
-
             // put all required json objects in the context
             var context = {variables: variables,
               fdzProject: fdzProject};
