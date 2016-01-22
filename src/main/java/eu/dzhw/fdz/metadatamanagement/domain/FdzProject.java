@@ -3,7 +3,7 @@ package eu.dzhw.fdz.metadatamanagement.domain;
 import javax.validation.constraints.Pattern;
 
 import org.hibernate.validator.constraints.NotEmpty;
-import org.springframework.data.mongodb.core.index.Indexed;
+import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import com.google.common.base.MoreObjects;
@@ -17,21 +17,21 @@ import net.karneim.pojobuilder.GeneratePojoBuilder;
 @Document(collection = "fdz_projects")
 @GeneratePojoBuilder(intoPackage = "eu.dzhw.fdz.metadatamanagement.domain.builders")
 public class FdzProject extends AbstractFdzDomainObject {
-  @Indexed(unique = true)
+  @Id
   @NotEmpty
   @Pattern(regexp = Patterns.GERMAN_ALPHANUMERIC_WITH_SPACE)
-  private String name;
+  private String id;
 
   private String sufDoi;
 
   private String cufDoi;
 
-  public String getName() {
-    return name;
+  public String getId() {
+    return id;
   }
 
-  public void setName(String name) {
-    this.name = name;
+  public void setId(String id) {
+    this.id = id;
   }
 
   public String getSufDoi() {
@@ -54,7 +54,6 @@ public class FdzProject extends AbstractFdzDomainObject {
   public String toString() {
     return MoreObjects.toStringHelper(this)
       .add("super", super.toString())
-      .add("name", name)
       .add("sufDoi", sufDoi)
       .add("cufDoi", cufDoi)
       .toString();

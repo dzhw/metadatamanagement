@@ -13,11 +13,9 @@ public class VariableSearchDocument {
   @JestId
   private String id;
   
-  private String fdzId;
-  
   private String name;
   
-  private String fdzProjectName;
+  private String fdzProjectId;
   
   private String label;
   
@@ -32,9 +30,8 @@ public class VariableSearchDocument {
    */
   public VariableSearchDocument(Variable variable, ElasticsearchIndices index) {
     this.id = variable.getId();
-    this.fdzId = variable.getFdzId();
     this.name = variable.getName();
-    this.fdzProjectName = variable.getFdzProject().getName();
+    this.fdzProjectId = variable.getFdzProject().getId();
     this.label = variable.getLabel();
     createScaleLevel(variable, index);
     createDataType(variable, index);
@@ -132,14 +129,6 @@ public class VariableSearchDocument {
     this.id = id;
   }
 
-  public String getFdzId() {
-    return fdzId;
-  }
-
-  public void setFdzId(String fdzId) {
-    this.fdzId = fdzId;
-  }
-
   public String getName() {
     return name;
   }
@@ -148,12 +137,12 @@ public class VariableSearchDocument {
     this.name = name;
   }
 
-  public String getFdzProjectName() {
-    return fdzProjectName;
+  public String getFdzProjectId() {
+    return fdzProjectId;
   }
 
-  public void setFdzProjectName(String fdzProjectName) {
-    this.fdzProjectName = fdzProjectName;
+  public void setFdzProjectId(String fdzProjectId) {
+    this.fdzProjectId = fdzProjectId;
   }
 
   public String getLabel() {

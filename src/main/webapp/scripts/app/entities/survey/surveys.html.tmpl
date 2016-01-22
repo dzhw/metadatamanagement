@@ -25,19 +25,19 @@
       </thead>
       <tbody>
         <tr ng-repeat="survey in surveys track by survey.id">
-          <td><a ui-sref="survey.detail({fdzId:survey.fdzId})">{{survey.fdzId}}</a></td>
+          <td><a ui-sref="survey.detail({id:survey.id})">{{survey.id}}</a></td>
           <td>{{survey.title.de}}</td>
           <td>{{survey.fieldPeriod.start | date:'mediumDate'}}</td>
           <td>{{survey.fieldPeriod.end | date:'mediumDate'}}</td>
-          <td>{{survey.fdzProject.name}}</td>
+          <td>{{survey.fdzProject.id}}</td>
           <td>
-            <button type="submit" ui-sref="survey.detail({fdzId:survey.fdzId})" class="btn btn-info btn-sm">
+            <button type="submit" ui-sref="survey.detail({id:survey.id})" class="btn btn-info btn-sm">
               <span class="glyphicon glyphicon-eye-open"></span>&nbsp;<span data-translate="entity.action.view"> View</span>
             </button>
-            <button type="submit" ui-sref="survey.edit({fdzId:survey.fdzId})" class="btn btn-primary btn-sm">
+            <button type="submit" ui-sref="survey.edit({id:survey.id})" class="btn btn-primary btn-sm">
               <span class="glyphicon glyphicon-pencil"></span>&nbsp;<span data-translate="entity.action.edit"> Edit</span>
             </button>
-            <button type="submit" ui-sref="survey.delete({fdzId:survey.fdzId})" class="btn btn-danger btn-sm">
+            <button type="submit" ui-sref="survey.delete({id:survey.id})" class="btn btn-danger btn-sm">
               <span class="glyphicon glyphicon-remove-circle"></span>&nbsp;<span data-translate="entity.action.delete"> Delete</span>
             </button>
           </td>

@@ -6,8 +6,8 @@ import javax.validation.constraints.Size;
 
 import org.hibernate.validator.constraints.NotBlank;
 import org.hibernate.validator.constraints.NotEmpty;
+import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.CompoundIndex;
-import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -25,9 +25,9 @@ import net.karneim.pojobuilder.GeneratePojoBuilder;
 @GeneratePojoBuilder(intoPackage = "eu.dzhw.fdz.metadatamanagement.domain.builders")
 @CompoundIndex(def = "{name: 1, fdz_project: 1}", unique = true)
 public class Variable extends AbstractFdzDomainObject {
+  @Id
   @NotEmpty
-  @Indexed(unique = true)
-  private String fdzId;
+  private String id;
 
   @NotEmpty
   @Size(max = 32)
@@ -99,19 +99,18 @@ public class Variable extends AbstractFdzDomainObject {
     this.fdzProject = fdzProject;
   }
   
-  public String getFdzId() {
-    return fdzId;
+  public String getId() {
+    return id;
   }
 
-  public void setFdzId(String fdzId) {
-    this.fdzId = fdzId;
+  public void setId(String id) {
+    this.id = id;
   }
 
   @Override
   public String toString() {
     return MoreObjects.toStringHelper(this)
       .add("super", super.toString())
-      .add("fdzId", fdzId)
       .add("name", name)
       .add("dataType", dataType)
       .add("scaleLevel", scaleLevel)

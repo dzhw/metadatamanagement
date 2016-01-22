@@ -2,7 +2,6 @@ package eu.dzhw.fdz.metadatamanagement.repository;
 
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.data.querydsl.QueryDslPredicateExecutor;
-import org.springframework.data.repository.query.Param;
 import org.springframework.data.rest.core.annotation.HandleAfterDelete;
 import org.springframework.data.rest.core.annotation.RepositoryEventHandler;
 import org.springframework.data.rest.core.annotation.RepositoryRestResource;
@@ -24,6 +23,4 @@ public interface SurveyRepository
   @HandleAfterDelete
   @RestResource(exported = false)
   Long deleteByFdzProject(FdzProject fdzProject);
-  
-  Survey findOneByFdzId(@Param("fdzId") String fdzId);
 }

@@ -15,50 +15,24 @@ angular.module('metadatamanagementApp')
                 DateUtils.convertLocaleDateFromServer(data.fieldPeriod.start);
               data.fieldPeriod.end =
                 DateUtils.convertLocaleDateFromServer(data.fieldPeriod.end);
+              data.fdzProject = data.fdzProject.id;
               return data;
             }
           }
         },
-        'update': {
+        'save': {
           method: 'PUT',
           transformRequest: function(data) {
             data.fieldPeriod.start =
               DateUtils.convertLocaleDateToServer(data.fieldPeriod.start);
             data.fieldPeriod.end =
               DateUtils.convertLocaleDateToServer(data.fieldPeriod.end);
-            data.fdzProject = '/api/fdz_projects/' + data.fdzProject.id;
-            return angular.toJson(data);
-          }
-        },
-        'create': {
-          method: 'POST',
-          transformRequest: function(data) {
-            data.fieldPeriod.start =
-              DateUtils.convertLocaleDateToServer(data.fieldPeriod.start);
-            data.fieldPeriod.end =
-              DateUtils.convertLocaleDateToServer(data.fieldPeriod.end);
-            data.fdzProject = '/api/fdz_projects/' + data.fdzProject.id;
+            data.fdzProject = '/api/fdz_projects/' + data.fdzProject;
             return angular.toJson(data);
           }
         },
         'delete': {
-          method: 'DELETE',
-        },
-        'findOneByFdzId': {
-          method: 'GET',
-          params: {projection: 'complete'},
-          url: '/api/surveys/search/findOneByFdzId',
-          transformResponse: function(data) {
-            // data might be empty if 404
-            if (data) {
-              data = angular.fromJson(data);
-              data.fieldPeriod.start =
-                DateUtils.convertLocaleDateFromServer(data.fieldPeriod.start);
-              data.fieldPeriod.end =
-                DateUtils.convertLocaleDateFromServer(data.fieldPeriod.end);
-              return data;
-            }
-          }
+          method: 'DELETE'
         }
       });
     });

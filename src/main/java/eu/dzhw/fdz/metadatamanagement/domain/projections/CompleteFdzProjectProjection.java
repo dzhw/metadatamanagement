@@ -12,11 +12,7 @@ import eu.dzhw.fdz.metadatamanagement.domain.FdzProject;
  */
 @Projection(name = "complete", types = FdzProject.class)
 public interface CompleteFdzProjectProjection extends AbstractFdzDomainObjectProjection {
-
-  String getName();
-
   String getSufDoi();
 
   String getCufDoi();
-
 }

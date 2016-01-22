@@ -12,7 +12,7 @@ public interface AbstractFdzDomainObjectProjection {
 
   String getId();
 
-  long getVersion();
+  Long getVersion();
 
   String getCreatedBy();
   

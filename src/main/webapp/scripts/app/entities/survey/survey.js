@@ -29,7 +29,7 @@ angular.module('metadatamanagementApp')
       })
       .state('survey.detail', {
         parent: 'entity',
-        url: '/survey/{fdzId}',
+        url: '/survey/{id}',
         data: {
           authorities: ['ROLE_USER'],
           pageTitle: 'metadatamanagementApp.survey.detail.title'
@@ -50,8 +50,8 @@ angular.module('metadatamanagementApp')
           ],
           entity: ['$stateParams', 'Survey',
             function($stateParams, Survey) {
-              return Survey.findOneByFdzId({
-                fdzId: $stateParams.fdzId
+              return Survey.get({
+                id: $stateParams.id
               });
             }
           ]
@@ -63,8 +63,8 @@ angular.module('metadatamanagementApp')
         data: {
           authorities: ['ROLE_USER'],
         },
-        onEnter: ['$stateParams', '$state', '$uibModal',
-          function($stateParams, $state, $uibModal) {
+        onEnter: ['$stateParams', '$state', '$uibModal', 'Survey',
+          function($stateParams, $state, $uibModal, Survey) {
             $uibModal.open({
               templateUrl:
                'scripts/app/entities/survey/survey-dialog.html.tmpl',
@@ -72,12 +72,7 @@ angular.module('metadatamanagementApp')
               size: 'lg',
               resolve: {
                 entity: function() {
-                  return {
-                    title: null,
-                    fieldPeriod: null,
-                    fdzProjectName: null,
-                    id: null
-                  };
+                  return new Survey();
                 },
                 isCreateMode: true
               }
@@ -93,7 +88,7 @@ angular.module('metadatamanagementApp')
       })
       .state('survey.edit', {
         parent: 'survey',
-        url: '/{fdzId}/edit',
+        url: '/{id}/edit',
         data: {
           authorities: ['ROLE_USER'],
         },
@@ -106,8 +101,8 @@ angular.module('metadatamanagementApp')
               size: 'lg',
               resolve: {
                 entity: ['Survey', function(Survey) {
-                  return Survey.findOneByFdzId({
-                    fdzId: $stateParams.fdzId
+                  return Survey.get({
+                    id: $stateParams.id
                   });
                 }],
                 isCreateMode: false
@@ -124,7 +119,7 @@ angular.module('metadatamanagementApp')
       })
       .state('survey.delete', {
         parent: 'survey',
-        url: '/{fdzId}/delete',
+        url: '/{id}/delete',
         data: {
           authorities: ['ROLE_USER'],
         },
@@ -137,8 +132,8 @@ angular.module('metadatamanagementApp')
               size: 'md',
               resolve: {
                 entity: ['Survey', function(Survey) {
-                  return Survey.findOneByFdzId({
-                    fdzId: $stateParams.fdzId
+                  return Survey.get({
+                    id: $stateParams.id
                   });
                 }]
               }

@@ -14,12 +14,9 @@ import eu.dzhw.fdz.metadatamanagement.domain.Survey;
  */
 @Projection(name = "complete", types = Survey.class)
 public interface CompleteSurveyProjection extends AbstractFdzDomainObjectProjection {
-
   I18nString getTitle();
 
   Period getFieldPeriod();
 
   CompleteFdzProjectProjection getFdzProject();
-
-  String getFdzId();
 }
