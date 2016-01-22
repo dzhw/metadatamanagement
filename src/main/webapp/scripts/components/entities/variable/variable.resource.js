@@ -19,10 +19,12 @@ angular.module('metadatamanagementApp')
         method: 'PUT',
         transformRequest: function(data) {
           //convert id to uri as required by spring data rest
-          data.fdzProject = '/api/fdz_projects/' + data.fdzProject;
+          data.fdzProject = '/api/fdz_projects/' +
+            encodeURIComponent(data.fdzProject);
           //convert id to uri as required by spring data rest
           if (data.survey) {
-            data.survey = '/api/surveys/' + data.survey;
+            data.survey = '/api/surveys/' +
+              encodeURIComponent(data.survey);
           }
           return angular.toJson(data);
         }
