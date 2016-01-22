@@ -14,8 +14,6 @@ import eu.dzhw.fdz.metadatamanagement.domain.enumeration.ScaleLevel;
  */
 @Projection(name = "complete", types = Variable.class)
 public interface CompleteVariableProjection extends AbstractFdzDomainObjectProjection {
-  String getFdzId();
-  
   String getName();
 
   DataType getDataType();

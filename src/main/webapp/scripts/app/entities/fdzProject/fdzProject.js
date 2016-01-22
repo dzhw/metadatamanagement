@@ -28,7 +28,7 @@ angular.module('metadatamanagementApp')
           })
             .state('fdzProject.detail', {
               parent: 'entity',
-              url: '/fdzProject/{name}',
+              url: '/fdzProject/{id}',
               data: {
                 authorities: ['ROLE_USER'],
                 pageTitle: 'metadatamanagementApp.fdzProject.detail.title'
@@ -50,7 +50,7 @@ angular.module('metadatamanagementApp')
                 }],
                 entity: ['$stateParams', 'FdzProject',
                   function($stateParams, FdzProject) {
-                  return FdzProject.findOneByName({name: $stateParams.name});
+                  return FdzProject.get({id: $stateParams.id});
                 }]
               }
             })
@@ -83,7 +83,7 @@ angular.module('metadatamanagementApp')
             })
             .state('fdzProject.edit', {
               parent: 'fdzProject',
-              url: '/{name}/edit',
+              url: '/{id}/edit',
               data: {
                 authorities: ['ROLE_USER'],
               },
@@ -96,8 +96,8 @@ angular.module('metadatamanagementApp')
                   size: 'lg',
                   resolve: {
                     entity: ['FdzProject', function(FdzProject) {
-                      return FdzProject.findOneByName(
-                        {name: $stateParams.name});
+                      return FdzProject.get(
+                        {id: $stateParams.id});
                     }],
                     isCreateMode: false
                   }
@@ -110,7 +110,7 @@ angular.module('metadatamanagementApp')
             })
             .state('fdzProject.delete', {
               parent: 'fdzProject',
-              url: '/{name}/delete',
+              url: '/{id}/delete',
               data: {
                 authorities: ['ROLE_USER'],
               },
@@ -124,8 +124,8 @@ angular.module('metadatamanagementApp')
                   size: 'md',
                   resolve: {
                     entity: ['FdzProject', function(FdzProject) {
-                      return FdzProject.findOneByName({name:
-                        $stateParams.name});
+                      return FdzProject.get({id:
+                        $stateParams.id});
                     }]
                   }
                 }).result.then(function() {

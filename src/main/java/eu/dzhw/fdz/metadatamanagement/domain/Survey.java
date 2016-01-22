@@ -4,7 +4,7 @@ import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 
 import org.hibernate.validator.constraints.NotEmpty;
-import org.springframework.data.mongodb.core.index.Indexed;
+import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -18,9 +18,9 @@ import net.karneim.pojobuilder.GeneratePojoBuilder;
 @Document(collection = "surveys")
 @GeneratePojoBuilder(intoPackage = "eu.dzhw.fdz.metadatamanagement.domain.builders")
 public class Survey extends AbstractFdzDomainObject {
+  @Id
   @NotEmpty
-  @Indexed(unique = true)
-  private String fdzId;
+  private String id;
 
   @NotNull
   private I18nString title;
@@ -53,12 +53,12 @@ public class Survey extends AbstractFdzDomainObject {
     return fdzProject;
   }
 
-  public String getFdzId() {
-    return fdzId;
+  public String getId() {
+    return id;
   }
 
-  public void setFdzId(String fdzId) {
-    this.fdzId = fdzId;
+  public void setId(String id) {
+    this.id = id;
   }
 
   public void setFdzProject(FdzProject fdzProject) {
@@ -69,12 +69,9 @@ public class Survey extends AbstractFdzDomainObject {
   public String toString() {
     return MoreObjects.toStringHelper(this)
       .add("super", super.toString())
-      .add("fdzId", fdzId)
       .add("title", title)
       .add("fieldPeriod", fieldPeriod)
       .add("fdzProject", fdzProject)
       .toString();
-  }
-
-  
+  }  
 }

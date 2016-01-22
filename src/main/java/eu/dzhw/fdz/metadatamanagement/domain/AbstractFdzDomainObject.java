@@ -5,7 +5,6 @@ import java.util.Objects;
 
 import org.springframework.data.annotation.CreatedBy;
 import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.annotation.Id;
 import org.springframework.data.annotation.LastModifiedBy;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.annotation.Version;
@@ -18,11 +17,8 @@ import com.google.common.base.MoreObjects;
  * @author René Reitmann
  */
 public abstract class AbstractFdzDomainObject {
-  @Id
-  private String id; 
-  
   @Version
-  private long version;
+  private Long version;
   
   @CreatedDate
   private ZonedDateTime createdDate;
@@ -36,19 +32,13 @@ public abstract class AbstractFdzDomainObject {
   @LastModifiedBy
   private String lastModifiedBy;
   
-  public String getId() {
-    return id;
-  }
-  
-  public void setId(String id) {
-    this.id = id;
-  }
+  protected abstract String getId();
 
-  public long getVersion() {
+  public Long getVersion() {
     return version;
   }
 
-  public void setVersion(long version) {
+  public void setVersion(Long version) {
     this.version = version;
   }
 

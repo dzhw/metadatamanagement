@@ -19,11 +19,7 @@ angular.module('metadatamanagementApp').controller('FdzProjectDialogController',
 
           $scope.save = function() {
             $scope.isSaving = true;
-            if ($scope.isCreateMode) {
-              $scope.fdzProject.$create(onSaveFinished, onSaveError);
-            } else {
-              $scope.fdzProject.$update(onSaveFinished, onSaveError);
-            }
+            $scope.fdzProject.$save(onSaveFinished, onSaveError);
           };
 
           $scope.clear = function() {

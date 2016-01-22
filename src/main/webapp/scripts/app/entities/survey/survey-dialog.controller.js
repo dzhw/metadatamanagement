@@ -2,18 +2,14 @@
 
 angular.module('metadatamanagementApp').controller('SurveyDialogController', [
   '$scope', '$stateParams', '$uibModalInstance',
-    'entity', 'isCreateMode', 'Survey','FdzProjectCollection',
+    'entity', 'isCreateMode', 'FdzProjectCollection',
   function($scope, $stateParams, $uibModalInstance,
-    entity, isCreateMode, Survey, FdzProjectCollection) {
+    entity, isCreateMode, FdzProjectCollection) {
+    $scope.survey = entity;
     $scope.isCreateMode = isCreateMode;
     $scope.allFdzProjects = FdzProjectCollection.query(function(response) {
       $scope.allFdzProjects = response._embedded.fdzProjects;
     });
-    if (isCreateMode) {
-      $scope.survey = new Survey();
-    } else {
-      $scope.survey = entity;
-    }
 
     var onSaveFinished = function(result) {
         $uibModalInstance.close(result);
@@ -26,11 +22,7 @@ angular.module('metadatamanagementApp').controller('SurveyDialogController', [
 
     $scope.save = function() {
         $scope.isSaving = true;
-        if (isCreateMode) {
-          $scope.survey.$create(onSaveFinished, onSaveError);
-        } else {
-          $scope.survey.$update(onSaveFinished, onSaveError);
-        }
+        $scope.survey.$save(onSaveFinished, onSaveError);
       };
 
     $scope.clear = function() {

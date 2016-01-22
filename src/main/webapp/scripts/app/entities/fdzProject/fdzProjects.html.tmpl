@@ -22,23 +22,23 @@
                 </tr>
             </thead>
             <tbody>
-                <tr ng-repeat="fdzProject in fdzProjects track by fdzProject.name">
-                    <td><a ui-sref="fdzProject.detail({name:fdzProject.name})">{{fdzProject.name}}</a></td>
+                <tr ng-repeat="fdzProject in fdzProjects track by fdzProject.id">
+                    <td><a ui-sref="fdzProject.detail({id:fdzProject.id})">{{fdzProject.id}}</a></td>
                     <td>{{fdzProject.sufDoi}}</td>
                     <td>{{fdzProject.cufDoi}}</td>
                     <td>
                         <button type="submit"
-                                ui-sref="fdzProject.detail({name:fdzProject.name})"
+                                ui-sref="fdzProject.detail({id:fdzProject.id})"
                                 class="btn btn-info btn-sm">
                             <span class="glyphicon glyphicon-eye-open"></span>&nbsp;<span data-translate="entity.action.view"> View</span>
                         </button>
                         <button type="submit"
-                                ui-sref="fdzProject.edit({name:fdzProject.name})"
+                                ui-sref="fdzProject.edit({id:fdzProject.id})"
                                 class="btn btn-primary btn-sm">
                             <span class="glyphicon glyphicon-pencil"></span>&nbsp;<span data-translate="entity.action.edit"> Edit</span>
                         </button>
                         <button type="submit"
-                                ui-sref="fdzProject.delete({name:fdzProject.name})"
+                                ui-sref="fdzProject.delete({id:fdzProject.id})"
                                 class="btn btn-danger btn-sm">
                             <span class="glyphicon glyphicon-remove-circle"></span>&nbsp;<span data-translate="entity.action.delete"> Delete</span>
                         </button>
