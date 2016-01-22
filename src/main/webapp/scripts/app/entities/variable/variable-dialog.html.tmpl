@@ -8,7 +8,7 @@
             <jh-alert-error></jh-alert-error>
             <div class="form-group">
                   <label for="fdzId" data-translate="global.field.fdzId">FDZ ID</label>
-                  <input type="text" class="form-control" id="fdzId" name="fdzId" ng-model="variable.fdzId" ng-readonly="!isCreateMode" ng-pattern="/^[_A-Za-z0-9]*$/" required/>
+                  <input type="text" class="form-control" id="fdzId" name="fdzId" ng-model="variable.id" ng-readonly="!isCreateMode" ng-pattern="/^[_A-Za-z0-9]*$/" required/>
                   <div ng-show="editForm.fdzId.$invalid">
                         <p class="help-block" ng-show="editForm.fdzId.$error.required" data-translate="entity.validation.required">
                               This field is required.
@@ -35,9 +35,9 @@
             </div>
             <div class="form-group">
                   <label data-translate="metadatamanagementApp.variable.fdzProjectName" for="field_fdzProjectName">FDZ Project Name</label>
-                  <select class="form-control" name="fdzProjectName" ng-model="variable.fdzProject.id" id="field_fdzProjectName" ng-change="changeSurvey()" required>
+                  <select class="form-control" name="fdzProjectName" ng-model="variable.fdzProject" id="field_fdzProjectName" ng-change="changeSurvey()" required>
                         <option disabled selected label="&#160;"></option>
-                        <option ng-repeat="fdzproject in allFdzProjects" value="{{fdzproject.id}}">{{fdzproject.name}}</option>
+                        <option ng-repeat="fdzproject in allFdzProjects" value="{{fdzproject.id}}">{{fdzproject.id}}</option>
                   </select>
                   <div ng-show="editForm.fdzProjectName.$invalid">
                         <p class="help-block" ng-show="editForm.fdzProjectName.$error.required" data-translate="entity.validation.required">
@@ -47,9 +47,9 @@
             </div>
             <div class="form-group">
                   <label data-translate="metadatamanagementApp.variable.surveyId" for="field_surveyId">Survey Id</label>
-                  <select class="form-control" name="surveyId" ng-model="variable.survey.id" id="field_surveyId" ng-disabled="isSurveyEmpty()">
+                  <select class="form-control" name="surveyId" ng-model="variable.survey" id="field_surveyId" ng-disabled="isSurveyEmpty()">
                         <option disabled selected label="&#160;"></option>
-                        <option ng-repeat="survey in allSurveysByFdzProjectId" value="{{survey.id}}">{{survey.fdzId}}</option>
+                        <option ng-repeat="survey in allSurveysByFdzProjectId" value="{{survey.id}}">{{survey.id}}</option>
                   </select>
             </div>
 

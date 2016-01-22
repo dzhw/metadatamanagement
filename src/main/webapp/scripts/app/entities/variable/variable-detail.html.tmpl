@@ -6,7 +6,7 @@
 <div ng-if="variable.$resolved">
       <h2>
             <span data-translate="metadatamanagementApp.variable.detail.title">Variable</span>
-            {{variable.fdzId}}</h2>
+            {{variable.id}}</h2>
       <div class="row">
             <div class="table-responsive">
                   <table class="table table-striped">
@@ -22,7 +22,7 @@
                                           <span data-translate="metadatamanagementApp.variable.fdzId">fdzId</span>
                                     </td>
                                     <td>
-                                          <span class="form-control-static">{{variable.fdzId}}</span>
+                                          <span class="form-control-static">{{variable.id}}</span>
                                     </td>
                               </tr>
                               <tr>
@@ -30,7 +30,7 @@
                                           <span data-translate="metadatamanagementApp.variable.fdzProjectName">FdZ Proect Name</span>
                                     </td>
                                     <td>
-                                          <span class="form-control-static">{{variable.fdzProject.name}}</span>
+                                          <span class="form-control-static">{{variable.fdzProject}}</span>
                                     </td>
                               </tr>
                               <tr>
@@ -38,7 +38,7 @@
                                           <span data-translate="metadatamanagementApp.variable.surveyId">SurveyId</span>
                                     </td>
                                     <td>
-                                          <span class="form-control-static">{{variable.survey.fdzId}}</span>
+                                          <span class="form-control-static">{{variable.survey}}</span>
                                     </td>
                               </tr>
                               <tr>

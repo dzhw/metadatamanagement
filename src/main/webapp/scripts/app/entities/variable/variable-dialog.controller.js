@@ -2,9 +2,9 @@
 
 angular.module('metadatamanagementApp').controller('VariableDialogController',
     ['$scope', '$stateParams', '$uibModalInstance', 'entity', 'isCreateMode',
-     'Variable', 'FdzProjectCollection', 'SurveyCollection',
+      'FdzProjectCollection', 'SurveyCollection',
         function($scope, $stateParams, $uibModalInstance, entity, isCreateMode,
-          Variable, FdzProjectCollection, SurveyCollection) {
+          FdzProjectCollection, SurveyCollection) {
 
           $scope.variable = entity;
           $scope.isCreateMode = isCreateMode;
@@ -16,12 +16,6 @@ angular.module('metadatamanagementApp').controller('VariableDialogController',
 
           $scope.allSurveysByFdzProjectId = null;
 
-          $scope.load = function(id) {
-            Variable.get({id: id}, function(result) {
-              $scope.variable = result;
-            });
-          };
-
           var onSaveFinished = function(result) {
             $scope.$emit('metadatamanagementApp:variableUpdate', result);
             $uibModalInstance.close(result);
@@ -29,10 +23,10 @@ angular.module('metadatamanagementApp').controller('VariableDialogController',
 
           $scope.save = function() {
             if (isCreateMode) {
-              Variable.create($scope.variable, onSaveFinished);
+              $scope.variable.$save($scope.variable, onSaveFinished);
               $scope.$broadcast('variable.created');
             } else {
-              Variable.update($scope.variable, onSaveFinished);
+              $scope.variable.$save($scope.variable, onSaveFinished);
               $scope.$broadcast('variable.updated');
             }
           };
@@ -57,12 +51,16 @@ angular.module('metadatamanagementApp').controller('VariableDialogController',
             //query for survey with a given fdz project name
             // TODO load all page by page
             SurveyCollection.query(
-              {'fdzProject': $scope.variable.fdzProject.id},
+              {'fdzProject': $scope.variable.fdzProject},
                   function(result) {
                     //return the array of surveys.
                     $scope.allSurveysByFdzProjectId = result._embedded.surveys;
                   });
           };
+
+          if (!isCreateMode) {
+            $scope.changeSurvey();
+          }
 
           $scope.clear = function() {
             $uibModalInstance.dismiss('cancel');

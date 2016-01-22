@@ -33,7 +33,7 @@ angular.module('metadatamanagementApp')
       })
       .state('variable.detail', {
         parent: 'entity',
-        url: '/variable/{fdzId}',
+        url: '/variable/{id}',
         data: {
           authorities: ['ROLE_USER'],
           pageTitle: 'metadatamanagementApp.variable.detail.title'
@@ -56,8 +56,8 @@ angular.module('metadatamanagementApp')
           ],
           entity: ['$stateParams', 'Variable', function($stateParams,
             Variable) {
-            return Variable.findOneByFdzId({
-              fdzId: $stateParams.fdzId
+            return Variable.get({
+              id: $stateParams.id
             });
           }]
         },
@@ -92,7 +92,7 @@ angular.module('metadatamanagementApp')
       })
       .state('variable.edit', {
         parent: 'variable',
-        url: '/{fdzId}/edit',
+        url: '/{id}/edit',
         data: {
           authorities: ['ROLE_USER'],
         },
@@ -105,8 +105,8 @@ angular.module('metadatamanagementApp')
             size: 'lg',
             resolve: {
               entity: ['Variable', function(Variable) {
-                return Variable.findOneByFdzId({
-                  fdzId: $stateParams.fdzId
+                return Variable.get({
+                  id: $stateParams.id
                 });
               }],
               isCreateMode: false
