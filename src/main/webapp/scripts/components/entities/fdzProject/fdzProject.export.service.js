@@ -39,7 +39,7 @@ angular.module('metadatamanagementApp').factory(
             // save the zip file (odt)
             var blob = zip.generate({type: 'blob',
               mimeType: 'application/vnd.oasis.opendocument.text'});
-            saveAs(blob, fdzProject.name + '_Report.odt');
+            saveAs(blob, fdzProject.id + '_Report.odt');
           });
       };
 
