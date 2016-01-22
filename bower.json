@@ -4,16 +4,16 @@
   "appPath": "src/main/webapp",
   "testPath": "src/test/javascript/spec",
   "dependencies": {
-    "angular": "1.4.8",
-    "angular-aria": "1.4.8",
+    "angular": "1.4.9",
+    "angular-aria": "1.4.9",
     "angular-bootstrap": "1.1.0",
     "angular-cache-buster": "0.4.3",
-    "angular-cookies": "1.4.8",
+    "angular-cookies": "1.4.9",
     "angular-dynamic-locale": "0.1.29",
-    "angular-i18n": "1.4.8",
+    "angular-i18n": "1.4.9",
     "angular-local-storage": "0.2.3",
-    "angular-resource": "1.4.8",
-    "angular-sanitize": "1.4.8",
+    "angular-resource": "1.4.9",
+    "angular-sanitize": "1.4.9",
     "angular-translate": "2.8.1",
     "angular-translate-interpolation-messageformat": "2.8.1",
     "angular-translate-loader-partial": "2.8.1",
@@ -34,12 +34,12 @@
     "handlebars": "~4.0.5"
   },
   "devDependencies": {
-    "angular-mocks": "1.4.8",
-    "angular-scenario": "1.4.8"
+    "angular-mocks": "1.4.9",
+    "angular-scenario": "1.4.9"
   },
   "resolutions": {
-    "angular": "1.4.8",
-    "angular-cookies": "1.4.8",
+    "angular": "1.4.9",
+    "angular-cookies": "1.4.9",
     "jquery": "2.2.0"
   }
 }
