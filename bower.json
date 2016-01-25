@@ -18,7 +18,7 @@
     "angular-translate-interpolation-messageformat": "2.8.1",
     "angular-translate-loader-partial": "2.8.1",
     "angular-translate-storage-cookie": "2.8.1",
-    "angular-ui-router": "0.2.15",
+    "angular-ui-router": "0.2.16",
     "bootstrap-sass": "3.3.6",
     "jquery": "2.2.0",
     "json3": "3.3.2",
