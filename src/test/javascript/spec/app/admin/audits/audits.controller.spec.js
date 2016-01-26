@@ -1,7 +1,7 @@
 'use strict';
 
 describe('Controllers Tests ', function () {
-    var $scope, $q, AuditsService, createController;
+    var $scope, $q, AuditsService, createController,fromDate;
         beforeEach(mockApiAccountCall);
         beforeEach(mockI18nCalls);
     describe('AuditsController', function() {

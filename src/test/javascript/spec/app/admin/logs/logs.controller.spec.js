@@ -6,33 +6,26 @@ describe('Controllers Tests ', function () {
   beforeEach(mockApiAccountCall);
   beforeEach(mockI18nCalls);
   beforeEach(function() {
-    inject(function($controller, _$rootScope_, _LogsService_) {
+    inject(function($controller, _$rootScope_, _LogsService_, $q) {
       $scope = _$rootScope_.$new();
-      LogsService = {
-        findAll: function(){
-          return {
-             then: function(callback){
-               return callback();
-             }
-          };
-        },
-        changeLevel: function(){
-          return {
-             then: function(callback){
-               return callback();
-             }
-          };
-        }
-      };
+      spyOn(_LogsService_, "changeLevel").and.callFake(function() {
+        var deferred = $q.defer();
+        deferred.resolve('PUT Remote call result');
+        return deferred.promise;
+      });
+      spyOn(_LogsService_, "findAll").and.callFake(function() {
+        var deferred = $q.defer();
+        deferred.resolve(['GET Remote call result']);
+        return deferred.promise;
+      });
+
       var locals = {
         '$scope' : $scope,
-        'LogsService' : LogsService
+        'LogsService' : _LogsService_
       };
       createController = function() {
         return $controller('LogsController', locals);
       };
-      spyOn(LogsService, 'findAll').and.callThrough();
-      spyOn(LogsService, 'changeLevel').and.callThrough();
     });
    });
    describe('LogsController',function(){
@@ -40,11 +33,8 @@ describe('Controllers Tests ', function () {
          createController();
      });
      it('should call LogsService.get',function(){
-         expect(LogsService.findAll).toHaveBeenCalled();
-     });
-     it('should call LogsService.changeLevel',function(){
-        $scope.changeLevel('user',1);
-         expect(LogsService.changeLevel).toHaveBeenCalled();
+         $scope.changeLevel('user',1);
+         expect($scope.loggers.$$state.value).toEqual(['GET Remote call result']);
      });
    });
 });

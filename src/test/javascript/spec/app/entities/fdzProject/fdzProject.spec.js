@@ -1,6 +1,6 @@
 'use strict';
 
-xdescribe('fdzProject api', function () {
+describe('fdzProject api', function () {
        var $translate, $translatePartialLoader, $state;
        beforeEach(inject(function(_$translate_, _$translatePartialLoader_, _$httpBackend_, _$state_){
          $translate = _$translate_;
@@ -30,7 +30,7 @@ xdescribe('fdzProject api', function () {
            var config = $state.get('fdzProject.detail');
            var FdzProject = _FdzProject_;
            spyOn(FdzProject,'get').and.callThrough();
-           expect(config.url).toEqual('/fdzProject/{name}');
+           expect(config.url).toEqual('/fdzProject/{id}');
            expect(config.resolve.translatePartialLoader).toBeDefined();
            expect(config.resolve.entity).toBeDefined();
            config.resolve.translatePartialLoader[2]($translate, $translatePartialLoader);
@@ -77,7 +77,7 @@ xdescribe('fdzProject api', function () {
           it('should call modal', inject(function($stateParams, $state, $uibModal) {
             var config = $state.get('fdzProject.edit');
             spyOn($uibModal,'open').and.callThrough();
-            expect(config.url).toEqual('/{name}/edit');
+            expect(config.url).toEqual('/{id}/edit');
             config.onEnter[3]($stateParams, $state, $uibModal);
             expect(config.onEnter).toBeDefined();
             expect($uibModal.open).toHaveBeenCalled();
@@ -113,7 +113,7 @@ xdescribe('fdzProject api', function () {
          it('should call modal', inject(function($stateParams, $state, $uibModal) {
            var config = $state.get('fdzProject.delete');
            spyOn($uibModal,'open').and.callThrough();
-           expect(config.url).toEqual('/{name}/delete');
+           expect(config.url).toEqual('/{id}/delete');
            config.onEnter[3]($stateParams, $state, $uibModal);
            expect(config.onEnter).toBeDefined();
            expect($uibModal.open).toHaveBeenCalled();

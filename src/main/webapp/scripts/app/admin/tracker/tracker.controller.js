@@ -4,8 +4,7 @@ angular.module('metadatamanagementApp').controller('TrackerController',
       // in real-time.
       'use strict';
       $scope.activities = [];
-
-      function showActivity(activity) {
+      $scope.showActivity = function(activity) {
         var existingActivity = false;
         for (var index = 0; index < $scope.activities.length; index++) {
           if ($scope.activities[index].sessionId === activity.sessionId) {
@@ -20,9 +19,9 @@ angular.module('metadatamanagementApp').controller('TrackerController',
         if (!existingActivity && (activity.page !== 'logout')) {
           $scope.activities.push(activity);
         }
-      }
+      };
 
       Tracker.receive().then(null, null, function(activity) {
-        showActivity(activity);
+        $scope.showActivity(activity);
       });
     });

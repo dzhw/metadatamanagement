@@ -6,7 +6,7 @@ describe('Controllers Tests ', function() {
 
     describe('PasswordController', function() {
 
-        var $scope, $httpBackend, $q;
+        var $scope, $httpBackend, $q, Principal;
         var MockAuth;
         var createController;
 
@@ -16,13 +16,22 @@ describe('Controllers Tests ', function() {
             $httpBackend = $injector.get('$httpBackend');
 
             MockAuth = jasmine.createSpyObj('MockAuth', ['changePassword']);
+          Principal = {
+              identity: function() {
+              var deferred = $q.defer();
+              deferred.resolve();
+              return deferred.promise;
+            }
+          };
             var locals = {
                 '$scope': $scope,
-                'Auth': MockAuth
+                'Auth': MockAuth,
+                'Principal': Principal
             };
             createController = function() {
                 $injector.get('$controller')('PasswordController', locals);
-            }
+            };
+            spyOn(Principal, 'identity').and.callThrough();
         }));
 
         it('should show error if passwords do not match', function() {
@@ -74,6 +83,11 @@ describe('Controllers Tests ', function() {
             //THEN
             expect($scope.success).toBeNull();
             expect($scope.error).toBe('ERROR');
+        });
+        it('should call Principal.identity',function(){
+          Principal.identity.and.returnValue($q.resolve());
+          $scope.$apply(createController);
+          expect(Principal.identity).toHaveBeenCalled();
         });
     });
 });

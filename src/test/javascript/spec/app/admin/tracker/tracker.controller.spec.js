@@ -9,30 +9,51 @@ describe('Controllers Tests ', function () {
             $scope = $injector.get('$rootScope').$new();
             $q = $injector.get('$q');
             AuthServerProvider = $injector.get('AuthServerProvider');
-            Tracker = {
-              receive : function() {
-                var deferred = $q.defer();
-                deferred.resolve();
-                deferred.reject({});
-                return deferred.promise;
-              }
-            };
+            Tracker = $injector.get('Tracker');
           var locals = {
             '$scope': $scope,
             'AuthServerProvider': AuthServerProvider,
             'Tracker': Tracker,
-
           };
           createController = function() {
             $injector.get('$controller')('TrackerController',locals);
           };
-          spyOn(Tracker, 'receive').and.callThrough();
+          var deferred = $q.defer();
+          deferred.resolve('resolveData');
+          spyOn(Tracker, 'receive').and.returnValue(deferred.promise);
         }));
         beforeEach(function(){
           createController();
         });
-        it('should call LogsService.findAll', function() {
-            expect(Tracker.receive).toHaveBeenCalled();
+        it('should call Tracker.receive', function(){
+          expect(Tracker.receive).toHaveBeenCalled();
+        });
+        it('activities.length should be 1', function() {
+          var activity = {
+            page:'Notlogout',
+            sessionId : 1
+          };
+          $scope.activities = [];
+          $scope.showActivity(activity);
+          expect($scope.activities.length).toBe(1);
+        });
+        it('activities.length should be 0', function() {
+          var activity = {
+            page:'logout',
+            sessionId : 1
+          };
+          $scope.activities = [activity];
+          $scope.showActivity(activity);
+          expect($scope.activities.length).toBe(0);
+        });
+        it('activities.length should be 1', function() {
+          var activity = {
+            page:'Nlogout',
+            sessionId : 1
+          };
+          $scope.activities = [activity];
+          $scope.showActivity(activity);
+          expect($scope.activities.length).toBe(1);
         });
       });
     });
