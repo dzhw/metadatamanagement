@@ -23,4 +23,6 @@ notifications:
       - secure: "gx1x+Q+v921191ljKOLaV7DHkwWt5hRBnb8vGAi0EgaXjGrKtozWXGlUXxaZ8Dpbi20BYkiur/YDHUrpY45ec5UzlKA/IFJyRveJb+aVMIcC5NbipuENiwhL9ggplqGlLGVXUuaKzHIMb1332WEbNJq2ZHf1Gi7o3Jmoz2G6eCOOn9oj77xHbRrBWcjPQXlqC1mnE+Zm7qa9WAR2MDyzO2zmS+9NujL4c8Vi7jTa+ZhxkUSybmuY2XFgeLawWL7L9ZluJpUYfUMjYmnItVS+539rw+o7Q0rETqcw6REaLI0yPgk1T0NzqNYxA3sRl9qXl+Q4D1/2I1N3WIcdGn6aUNlN6FJucmzbVWvRTH/c0gwqu8KmVggiuRbUt4e5AnRgjpf+rKJsHvZk+U+vYXeLAu4Auvyb0DS0UhLFRN6GzcUIA5KH1pXld4B/RHA/7ntYP/fjBuN/W4jZ9YHpgvqkl2oIh9dzD0sMjvAoXlmRquHR/pSWhUujtNMFR8ciC28sxqhUVb2bzYrVOBclSYlT5/mEHClmqHJxg6iHM3gTfXWgPyJxpNmyBDj7nhfjabkcyFwaLLb2Dbi67IoA3FT4Dgne8dY/cjc1tzlySWdSiqHyo+I+rS+ZJNXgzF8xFMw46rgUykiE9zYxrQnzAhnOqXbqwZA93Ma2U8ayTR4HqYM="
 after_script:
   - ./node_modules/protractor/bin/webdriver-manager update
+  - unzip ./node_modules/protractor/selenium/chromedriver_2.20.zip
+  - mv chromedriver ./node_modules/protractor/selenium/.
   - ./node_modules/protractor/bin/protractor protractor.conf.js
