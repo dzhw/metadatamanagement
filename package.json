@@ -6,7 +6,6 @@
   "dependencies": {},
   "devDependencies": {
     "browser-sync": "^2.11.1",
-    "chromedriver": "^2.20.0",
     "event-stream": "3.3.2",
     "generator-jhipster": "*",
     "grunt": "0.4.5",
