@@ -9,7 +9,8 @@ describe('Controllers Tests ', function () {
     inject(function($controller, _$rootScope_) {
       $scope = _$rootScope_.$new();
       User = {
-        get: function(){
+        get: function(par,callback){
+          callback('TestUser');
           return {
              then: function(callback){
                return callback();
@@ -33,6 +34,9 @@ describe('Controllers Tests ', function () {
      });
      it('should call User.get',function(){
          expect(User.get).toHaveBeenCalled();
+     });
+     it('should set user',function(){
+         expect($scope.user).toBe('TestUser');
      });
    });
 });

@@ -2,7 +2,10 @@
 
 describe('Controllers Tests ', function () {
   var $scope, User, createController, Language;
-
+  var header = function(par){
+    return 'part1;part11,part2;part22';
+  };
+  var user = 'TestUser';
   beforeEach(mockApiAccountCall);
   beforeEach(mockI18nCalls);
   beforeEach(function() {
@@ -18,21 +21,29 @@ describe('Controllers Tests ', function () {
         }
       };
       User = {
-        query: function() {
+        query: function(par, callback) {
+          callback(user,header);
           return {
              then: function(callback){
                return callback(['de','fr']);
              }
           };
         },
-        update: function(){
+        update: function(user, callback){
+          /*ToDO remove try and catch*/
+          try{
+          callback();
+        }catch(e){
+
+        }
           return {
              then: function(callback){
                return callback();
              }
           };
         },
-        get: function(){
+        get: function(par,callback){
+          callback();
           return {
              then: function(callback){
                return callback();

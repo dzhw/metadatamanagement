@@ -1,51 +1,49 @@
 'use strict';
 
-xdescribe('Controllers Tests ', function () {
-  var $scope, FdzProject, createController;
-
+describe('Controllers Tests ', function () {
+  var $scope, $q,FdzProjectCollection, createController;
+  var result = {
+    'page' : {
+      'totalElements':2
+    },
+    '_embedded' : {
+      'fdzProjects':[]
+    }
+  };
   beforeEach(mockApiAccountCall);
   beforeEach(mockI18nCalls);
   beforeEach(function() {
-    inject(function($controller, _$rootScope_) {
+    inject(function($controller, _$rootScope_, _FdzProjectCollection_, _$q_) {
       $scope = _$rootScope_.$new();
-      FdzProject = {
-        query: function(){
-          return {
-             then: function(callback){
-               return callback();
-             }
-          };
-        }
-      };
+      $q = _$q_;
+       FdzProjectCollection = {
+        query: function(param,callback) {
+        var deferred = $q.defer();
+        callback(result);
+        return deferred.promise;
+      }
+    };
+
       var locals = {
         '$scope' : $scope,
-        'FdzProject' : FdzProject
+        'FdzProjectCollection' : FdzProjectCollection
       };
       createController = function() {
         return $controller('FdzProjectController', locals);
       };
-      spyOn(FdzProject, 'query').and.callThrough();
+
     });
    });
    describe('FdzProjectController',function(){
      beforeEach(function(){
+         spyOn(FdzProjectCollection, 'query').and.callThrough();
          createController();
      });
      it('should call FdzProject.query',function(){
-       $scope.loadAll();
-       expect(FdzProject.query).toHaveBeenCalled();
-     });
-     it('should set page to 10',function(){
-       $scope.loadPage(10);
-       expect($scope.page).toEqual(10);
-     });
-     it('should call $scope.clear',function(){
-       $scope.refresh();
-       expect($scope.fdzProject).toEqual({
-          'name': null,
-          'sufDoi': null,
-          'cufDoi': null
-        });
+      FdzProjectCollection.query.and.returnValue($q.resolve());
+      $scope.loadAll();
+      expect($scope.totalItems).toEqual(2);
+      expect($scope.fdzProjects).toEqual([]);
      });
    });
 });

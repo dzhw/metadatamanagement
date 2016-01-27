@@ -2,20 +2,21 @@
 
 describe('Controllers Tests ', function () {
   var $scope, LogsService, createController;
-
+  var result = 'result';
   beforeEach(mockApiAccountCall);
   beforeEach(mockI18nCalls);
   beforeEach(function() {
     inject(function($controller, _$rootScope_, _LogsService_, $q) {
       $scope = _$rootScope_.$new();
-      spyOn(_LogsService_, "changeLevel").and.callFake(function() {
+      spyOn(_LogsService_, "changeLevel").and.callFake(function(par, callback) {
+        callback();
         var deferred = $q.defer();
-        deferred.resolve('PUT Remote call result');
+        deferred.resolve(result);
         return deferred.promise;
       });
       spyOn(_LogsService_, "findAll").and.callFake(function() {
         var deferred = $q.defer();
-        deferred.resolve(['GET Remote call result']);
+        deferred.resolve(result);
         return deferred.promise;
       });
 
@@ -32,9 +33,9 @@ describe('Controllers Tests ', function () {
      beforeEach(function(){
          createController();
      });
-     it('should call LogsService.get',function(){
+     it('should set $scope.loggers',function(){
          $scope.changeLevel('user',1);
-         expect($scope.loggers.$$state.value).toEqual(['GET Remote call result']);
+         expect($scope.loggers.$$state.value).toEqual(result);
      });
    });
 });
