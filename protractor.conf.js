@@ -7,5 +7,7 @@ exports.config = {
     browserName: 'phantomjs'
   },
   baseUrl: 'https://metadatamanagement.cfapps.io/',
-  specs: ['src/test/protractor/i18n/index.js']
+  specs: ['src/test/protractor/i18n/index.js',
+    'src/test/protractor/login/login.js'
+  ]
 };
