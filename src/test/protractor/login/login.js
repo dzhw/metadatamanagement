@@ -17,9 +17,9 @@ describe('Test login', function() {
       'https://metadatamanagement.cfapps.io/#/de/');
 
     //Click at 'Account'
-    element.all(by.css('.dropdown-toggle')).then(function(items) {
-      expect(items.length).toBe(2); //only two drop downs
-      items[0].click();
+    element.all(by.css('.dropdown-toggle')).then(function(dropdowns) {
+      expect(dropdowns.length).toBe(2); //two drop downs
+      dropdowns[0].click();
     });
 
     //Click at 'Login'
@@ -37,9 +37,9 @@ describe('Test login', function() {
     browser.waitForAngular();
 
     //Click at 'Account'
-    element.all(by.css('.dropdown-toggle')).then(function(items) {
-      expect(items.length).toBe(4); //only two drop downs
-      items[1].click();
+    element.all(by.css('.dropdown-toggle')).then(function(dropdownLinks) {
+      expect(dropdownLinks.length).toBe(4); //four drop downs
+      dropdownLinks[1].click();
     });
 
     //Click at Logout

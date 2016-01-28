@@ -22,4 +22,22 @@ describe('Metadatamanagement Start page with different languages', function() {
     expect(browser.getTitle()).toEqual('metadatamanagement');
     expect(welcomeMainTitle.getText()).toEqual('Welcome');
   });
+
+  it('Check all languages elements for german at the index page', function() {
+    browser.get('#/de/');
+    element.all(by.css('.ng-binding')).then(function(bindings) {
+      for (var i = 0; i < bindings.length; i = i + 1) {
+        expect(bindings[i].getText()).not.toContain('{{');
+      }
+    });
+  });
+
+  it('Check all languages elements for english at the index page', function() {
+    browser.get('#/en/');
+    element.all(by.css('.ng-binding')).then(function(bindings) {
+      for (var i = 0; i < bindings.length; i = i + 1) {
+        expect(bindings[i].getText()).not.toContain('{{');
+      }
+    });
+  });
 });
