@@ -1,38 +1,23 @@
 'use strict';
 
-xdescribe('VariableDetailController', function() {
-  var $scope, $rootScope, MockEntity, VariableExportService, createController;
+describe('Survey Detail Controller', function() {
+    var $scope, $rootScope, MockEntity, createController;
 
-  beforeEach(inject(function($injector) {
-    $rootScope = $injector.get('$rootScope');
-    $scope = $rootScope.$new();
-    MockEntity = jasmine.createSpy('MockEntity');
+    beforeEach(inject(function($injector) {
+        $rootScope = $injector.get('$rootScope');
+        $scope = $rootScope.$new();
+        MockEntity = jasmine.createSpy('Survey');
 
-    VariableExportService = {
-          exportToODT: function() {
-            return {
-              then: function(callback) {
-                 return callback();
-               }
-            };
-          }
+        var locals = {
+            '$scope': $scope,
+            'entity': MockEntity ,
         };
-
-    var locals = {
-      '$scope': $scope,
-      'entity': MockEntity ,
-      'VariableExportService': VariableExportService
-    };
-    createController = function() {
-      $injector.get('$controller')('VariableDetailController', locals);
-    };
-    spyOn(VariableExportService, 'exportToODT').and.callThrough();
-  }));
-  describe('', function() {
-    it('should call Survey.get', function() {
+        createController = function() {
+            $injector.get('$controller')('VariableDetailController', locals);
+        };
+    }));
+    it('should set $scope.survey', function() {
       createController();
-      $scope.exportToODT();
-      expect(VariableExportService.exportToODT).toHaveBeenCalled();
+      expect($scope.variable).toBeDefined();
     });
-  });
 });

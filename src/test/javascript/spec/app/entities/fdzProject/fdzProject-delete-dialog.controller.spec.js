@@ -36,7 +36,7 @@ describe('FdzProject delete Controller', function() {
     };
   }));
   describe('FdzProjectDeleteController', function() {
-    it('should call FdzProject.delete', function() {
+    it('should call $uibModalInstance.close', function() {
       createController();
       $scope.confirmDelete();
       expect($uibModalInstance.close).toHaveBeenCalled();

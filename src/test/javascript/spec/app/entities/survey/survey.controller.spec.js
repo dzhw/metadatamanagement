@@ -1,52 +1,49 @@
 'use strict';
 
-xdescribe('Controllers Tests ', function () {
-  var $scope, Survey, createController;
-
+describe('Controllers Tests ', function () {
+  var $scope, $q, SurveyCollection, createController;
+  var result = {
+    'page' : {
+      'totalElements':2
+    },
+    '_embedded' : {
+      'surveys':[]
+    }
+  };
   beforeEach(mockApiAccountCall);
   beforeEach(mockI18nCalls);
   beforeEach(function() {
-    inject(function($controller, _$rootScope_) {
+    inject(function($controller, _$rootScope_, _$q_) {
       $scope = _$rootScope_.$new();
-      Survey = {
-        query: function(){
-          return {
-             then: function(callback){
-               return callback();
-             }
-          };
-        }
-      };
+      $q = _$q_;
+      SurveyCollection = {
+        query: function(param,callback) {
+        var deferred = $q.defer();
+        callback(result);
+        return deferred.promise;
+      }
+    };
+
       var locals = {
         '$scope' : $scope,
-        'Survey' : Survey
+        'SurveyCollection' : SurveyCollection
       };
       createController = function() {
         return $controller('SurveyController', locals);
       };
-      spyOn(Survey, 'query').and.callThrough();
+
     });
    });
    describe('SurveyController',function(){
      beforeEach(function(){
+         spyOn(SurveyCollection, 'query').and.callThrough();
          createController();
      });
-     it('should call Survey.query',function(){
-       $scope.loadAll();
-       expect(Survey.query).toHaveBeenCalled();
-     });
-     it('should set page to 10',function(){
-       $scope.loadPage(10);
-       expect($scope.page).toEqual(10);
-     });
-     it('should call $scope.clear',function(){
-       $scope.refresh();
-       expect($scope.survey).toEqual({
-         'title': null,
-         'fieldPeriod': null,
-         'fdzProjectName': null,
-         'id': null
-        });
+     it('should call FdzProject.query',function(){
+      SurveyCollection.query.and.returnValue($q.resolve());
+      $scope.loadAll();
+      expect($scope.totalItems).toEqual(2);
+      expect($scope.surveys).toEqual([]);
      });
    });
 });

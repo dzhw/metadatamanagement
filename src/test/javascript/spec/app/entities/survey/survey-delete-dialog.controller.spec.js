@@ -1,53 +1,50 @@
 'use strict';
 
-xdescribe('Controllers Tests ', function () {
-  var $scope, Survey, createController, $uibModalInstance, MockEntity;
+describe('Survey delete Controller', function() {
+  var $scope, $rootScope,$uibModalInstance;
+  var MockEntity;
+  var createController;
 
-  beforeEach(mockApiAccountCall);
-  beforeEach(mockI18nCalls);
-  beforeEach(function() {
-    inject(function($controller, _$rootScope_) {
-      $scope = _$rootScope_.$new();
-      MockEntity = jasmine.createSpy('MockEntity');
-      $uibModalInstance = {
-        dismiss: jasmine.createSpy('$uibModalInstance.cancel'),
-        result: {
-          then: jasmine.createSpy('$uibModalInstance.result.then')
-        }
-      };
-      Survey = {
-        delete: function(){
-          return {
-             then: function(callback){
-               return callback();
-             }
-          };
-        }
-      };
-      var locals = {
-        '$scope' : $scope,
-        'Survey' : Survey,
-        'entity': MockEntity ,
-        '$uibModalInstance': $uibModalInstance
-      };
-      createController = function() {
-        return $controller('SurveyDeleteController', locals);
-      };
-      spyOn(Survey, 'delete').and.callThrough();
+  beforeEach(inject(function($injector) {
+    $rootScope = $injector.get('$rootScope');
+    $scope = $rootScope.$new();
+    $uibModalInstance = {
+          dismiss: jasmine.createSpy('$uibModalInstance.cancel'),
+          close: jasmine.createSpy('$uibModalInstance.close'),
+          result: {
+            then: jasmine.createSpy('$uibModalInstance.result.then')
+          }
+        };
+    MockEntity = {
+          $delete: function() {
+            return {
+              then: function(callback) {
+                 return callback();
+               }
+            };
+          }
+        };
+
+    var locals = {
+      '$scope': $scope,
+      '$rootScope': $rootScope,
+      'entity': MockEntity ,
+      '$uibModalInstance': $uibModalInstance
+    };
+    createController = function() {
+      $injector.get('$controller')('SurveyDeleteController', locals);
+    };
+  }));
+  describe('SurveyDeleteController', function() {
+    it('should call $uibModalInstance.close', function() {
+      createController();
+      $scope.confirmDelete();
+      expect($uibModalInstance.close).toHaveBeenCalled();
     });
-   });
-   describe('SurveyDeleteController',function(){
-     beforeEach(function(){
-         createController();
-     });
-     it('should call $uibModalInstance.dismiss',function(){
-       $scope.clear();
-       expect($uibModalInstance.dismiss).toHaveBeenCalled();
-     });
-     it('should call Survey.delete',function(){
-       $scope.confirmDelete();
-       expect(Survey.delete).toHaveBeenCalled();
-     });
-
-   });
+    it('should call $uibModalInstance.dismiss', function() {
+          createController();
+          $scope.clear();
+          expect($uibModalInstance.dismiss).toHaveBeenCalled();
+        });
+  });
 });

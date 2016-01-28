@@ -1,112 +1,92 @@
 'use strict';
 
-xdescribe('Controllers Tests ', function () {
-    var $scope, $rootScope, $uibModalInstance, MockEntity, FdzProject, Survey, Variable, createController;
-        beforeEach(mockApiAccountCall);
-        beforeEach(mockI18nCalls);
-    describe('VariableDialogController', function() {
-        beforeEach(inject(function($injector) {
-            $rootScope = $injector.get('$rootScope');
-            $scope = $injector.get('$rootScope').$new();
-            MockEntity = jasmine.createSpy('MockEntity');
-            $uibModalInstance = {
-              dismiss: jasmine.createSpy('$uibModalInstance.cancel'),
-              close: jasmine.createSpy('$uibModalInstance.close'),
-              result: {
-                then: jasmine.createSpy('$uibModalInstance.result.then')
-              }
-            };
-            FdzProject = {
-              query: function(){
-                return {
-                   then: function(callback){
-                     return callback();
-                   }
-                };
-              }
-            };
-            Survey = {
-              query: function(){
-                return {
-                   then: function(callback){
-                     return callback();
-                   }
-                };
-              }
-            };
-            Variable = {
-              get: function(){
-                return {
-                   then: function(callback){
-                     return callback();
-                   }
-                };
-              },
-              create: function(){
-                return {
-                   then: function(callback){
-                     return callback();
-                   }
-                };
-              },
-              update: function(){
-                return {
-                   then: function(callback){
-                     return callback();
-                   }
-                };
-              }
-            };
-          var locals = {
-            '$scope': $scope,
-            '$uibModalInstance': $uibModalInstance,
-            'entity': MockEntity,
-            'isCreateMode' : false,
-            'FdzProject': FdzProject,
-            'Survey': Survey,
-            'Variable': Variable
+describe('Controllers Tests ', function () {
+  var $scope, createController, $uibModalInstance, MockEntity, FdzProjectCollection, SurveyCollection, $q;
+  var result = {
+    'page' : {
+      'totalElements':2
+    },
+    '_embedded' : {
+      'fdzProjects':[]
+    }
+  };
+  beforeEach(mockApiAccountCall);
+  beforeEach(mockI18nCalls);
+  beforeEach(function() {
+    inject(function($controller, _$rootScope_, _$q_) {
+      $scope = _$rootScope_.$new();
+      $q = _$q_;
+      MockEntity = {
+        $save: function(success, error){
+          error();
+          return {
+
           };
-          createController = function() {
-            $injector.get('$controller')('VariableDialogController',locals);
-          };
-            spyOn(FdzProject, 'query').and.callThrough();
-            spyOn(Survey, 'query').and.callThrough();
-            spyOn(Variable, 'get').and.callThrough();
-            spyOn(Variable, 'create').and.callThrough();
-            spyOn(Variable, 'update').and.callThrough();
-        }));
-        beforeEach(function(){
-          createController();
-        });
-        it('should call $uibModalInstance.dismiss', function() {
-          $scope.clear();
-          expect($uibModalInstance.dismiss).toHaveBeenCalled();
-        });
-        it('should set allFdzProjects', function() {
-           expect($scope.allFdzProjects).toBeDefined();
-        });
-        it('should call Variable.get', function() {
-          $scope.load();
-          expect(Variable.get).toHaveBeenCalled();
-        });
-        it('should call Survey.query', function() {
-        $scope.changeSurvey();
-          expect(Survey.query).toHaveBeenCalled();
-        });
-        it('should call Survey.query', function() {
-        //  $scope.allSurveysByFdzProjectName = {};
-          var val = $scope.isSurveyEmpty();
-          expect(val).toBe(true);
-        });
-        it('should call Variable.update', function() {
-          $scope.save();
-          expect(Variable.update).toHaveBeenCalled();
-        });
-        it('should call Variable.update', function() {
-          $scope.isCreateMode = 'true';
-          $scope.$apply();
-          $scope.save();
-          expect(Variable.update).toHaveBeenCalled();
-        });
-      });
+        }
+      };
+      //MockEntity = jasmine.createSpy('Variable');
+      FdzProjectCollection = {
+        query: function(callback){
+          var deferred = $q.defer();
+          deferred.resolve(result);
+          callback(result);
+          return deferred.promise;
+        }
+      };
+      SurveyCollection = {
+        query: function(callback){
+          var deferred = $q.defer();
+          deferred.resolve(result);
+          callback(result);
+          return deferred.promise;
+        }
+      };
+      $uibModalInstance = {
+        dismiss: jasmine.createSpy('$uibModalInstance.cancel'),
+        close: jasmine.createSpy('$uibModalInstance.close'),
+        result: {
+          then: jasmine.createSpy('$uibModalInstance.result.then')
+        }
+      };
+      var locals = {
+        '$scope' : $scope,
+        'entity': MockEntity ,
+        '$uibModalInstance': $uibModalInstance,
+        'isCreateMode': true,
+        'FdzProjectCollection' : FdzProjectCollection,
+        'SurveyCollection' : SurveyCollection
+      };
+      createController = function() {
+        return $controller('VariableDialogController', locals);
+      };
+      spyOn(FdzProjectCollection, 'query').and.callThrough();
+      spyOn(SurveyCollection, 'query').and.callThrough();
     });
+   });
+   describe('VariableDialogController',function(){
+     beforeEach(function(){
+         createController();
+     });
+     it('$scope.isSaving should be false',function(){
+       $scope.save();
+       //expect($scope.isSaving).toEqual(false);
+     });
+     it('$scope.isSaving should be false',function(){
+       $scope.isSurveyEmpty();
+       //expect($scope.isSaving).toEqual(false);
+     });
+     xit('$scope.isSaving should be false',function(){
+       $scope.changeSurvey();
+       //expect($scope.isSaving).toEqual(false);
+     });
+     xit('should call $uibModalInstance.dismiss',function(){
+       $scope.clear();
+       expect($uibModalInstance.dismiss).toHaveBeenCalled();
+     });
+     xit('should set $scope.allFdzProjects',function(){
+       FdzProjectCollection.query.and.returnValue($q.resolve());
+       expect($scope.allFdzProjects.$$state.value).toEqual(result);
+     });
+
+   });
+});

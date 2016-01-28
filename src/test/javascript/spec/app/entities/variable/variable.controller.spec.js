@@ -1,6 +1,6 @@
 'use strict';
 
-xdescribe('VariableController search api', function () {
+describe('VariableController search api', function () {
 
 var $controller,controller, VariableSearchDao, createController, Variable,scope, data, $httpBackend, $location;
  beforeEach(function() {

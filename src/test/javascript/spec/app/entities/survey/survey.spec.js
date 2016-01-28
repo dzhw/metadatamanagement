@@ -1,11 +1,12 @@
 'use strict';
 
-xdescribe('survey api', function () {
-       var $translate, $translatePartialLoader, $state;
+describe('survey api', function () {
+       var $translate, $translatePartialLoader, $state, Survey;
        beforeEach(inject(function(_$translate_, _$translatePartialLoader_, _$httpBackend_, _$state_){
          $translate = _$translate_;
          $translatePartialLoader = _$translatePartialLoader_;
          $state = _$state_;
+         Survey = jasmine.createSpy('Survey');
          var globalJson = new RegExp('i18n\/.*\/global.json')
          var mainJson = new RegExp('i18n\/.*\/main.json');
          _$httpBackend_.whenGET(globalJson).respond({});
@@ -42,17 +43,18 @@ xdescribe('survey api', function () {
        });
        describe('Survey.new', function(){
          describe('basic test fo Survey.new modal', function(){
-           it('should call modal', inject(function($stateParams, $state, $uibModal) {
+           it('should call modal', inject(function($stateParams, $state, $uibModal, _Survey_) {
+             var Survey = _Survey_;
              var config = $state.get('survey.new');
              spyOn($uibModal,'open').and.callThrough();
              expect(config.url).toEqual('/new');
-             config.onEnter[3]($stateParams, $state, $uibModal);
+             config.onEnter[4]($stateParams, $state, $uibModal, Survey);
              expect(config.onEnter).toBeDefined();
              expect($uibModal.open).toHaveBeenCalled();
            }));
          });
          describe('basic test fo fdzProject.detail modal promises', function(){
-          it('should open modal', inject(function($stateParams, $state, $uibModal) {
+          it('should open modal', inject(function($stateParams, $state, $uibModal, _Survey_) {
             var modalOptions = {
               templateUrl: 'fakeUrl/survey-dialog.html.tmpl'
             };
@@ -64,10 +66,11 @@ xdescribe('survey api', function () {
                 }
               }
             };
+            var Survey = _Survey_;
             spyOn($uibModal, 'open').and.returnValue(fakeModal);
             spyOn($state,'go').and.callThrough();
             var config = $state.get('survey.new');
-            config.onEnter[3]($stateParams, $state, $uibModal);
+            config.onEnter[4]($stateParams, $state, $uibModal, Survey);
             expect($state.go).toHaveBeenCalled();
           }));
         });
