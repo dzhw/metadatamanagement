@@ -5,16 +5,27 @@
 
 'use strict';
 
+//Protracor API:
+//http://angular.github.io/protractor/
+//#/api?view=ProtractorBy.prototype.addLocator
 (function() {
-  //dataTranslate is the name of the locator
-  //Protracor API:
-  //http://angular.github.io/protractor/
-  //#/api?view=ProtractorBy.prototype.addLocator
-  by.addLocator('dataTranslate', function(translateElement, optParentElement,
+
+  //dataTranslate finds elements with by data-translate=""
+  by.addLocator('dataTranslate', function(elementValue, optParentElement,
     optRootSelector) {
     var documentTree = optParentElement || document.querySelector(
       optRootSelector) || document;
     return documentTree.querySelector('[data-translate=\'' +
-      translateElement + '\']');
+      elementValue + '\']');
   });
+
+  by.addLocator('uiSref', function(elementValue, optParentElement,
+    optRootSelector) {
+
+    var documentTree = optParentElement || document.querySelector(
+      optRootSelector) || document;
+    return documentTree.querySelector('[ui-sref=\'' +
+      elementValue + '\']');
+  });
+
 })();

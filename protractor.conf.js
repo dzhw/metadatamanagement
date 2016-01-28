@@ -6,6 +6,9 @@ exports.config = {
   capabilities: {
     browserName: 'phantomjs'
   },
+  onPrepare: function() {
+    browser.driver.manage().window().maximize();
+  },
   baseUrl: 'https://metadatamanagement.cfapps.io/',
   specs: ['src/test/protractor/i18n/index.js',
     'src/test/protractor/login/login.js'

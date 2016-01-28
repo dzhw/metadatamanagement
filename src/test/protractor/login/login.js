@@ -10,7 +10,22 @@ require('../utils/locators.js');
 describe('Test login', function() {
 
   it('Login in german with admin', function() {
-    browser.get('#/de/login');
+
+    //Welcome Page
+    browser.get('#/de/');
+
+    expect(browser.getCurrentUrl()).toEqual(
+      'https://metadatamanagement.cfapps.io/#/de/');
+
+    //Click at 'Account'
+    element(by.xpath('//*[@id="navbar-collapse"]/ul/li[2]/a')).click();
+
+    //Click at 'Login'
+    element(by.xpath('//*[@id="navbar-collapse"]/ul/li[2]/ul/li[1]/a'))
+      .click();
+
+    expect(browser.getCurrentUrl()).toEqual(
+      'https://metadatamanagement.cfapps.io/#/de/login');
 
     //add account information
     element(by.id('username')).sendKeys('admin');
@@ -19,9 +34,17 @@ describe('Test login', function() {
     //login
     element(by.dataTranslate('login.form.button')).click();
 
-    var welcomeMainTitle = element(by.binding('main.title'));
-    expect(welcomeMainTitle.getText()).toEqual('Willkommen');
+    expect(browser.getCurrentUrl()).toEqual(
+      'https://metadatamanagement.cfapps.io/#/de/');
 
-    element(by.dataTranslate('global.menu.account.logout')).click();
+    //Click at Account
+    element(by.xpath('//*[@id="navbar-collapse"]/ul/li[3]/a')).click();
+
+    //Click at Logout
+    element(by.xpath('//*[@id="navbar-collapse"]/ul/li[3]/ul/li[3]/a'))
+      .click();
+
+    expect(browser.getCurrentUrl()).toEqual(
+      'https://metadatamanagement.cfapps.io/#/de/');
   });
 });
