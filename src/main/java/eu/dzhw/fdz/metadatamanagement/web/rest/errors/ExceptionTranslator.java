@@ -2,6 +2,8 @@ package eu.dzhw.fdz.metadatamanagement.web.rest.errors;
 
 import java.util.List;
 
+import javax.validation.ConstraintViolationException;
+
 import org.springframework.dao.ConcurrencyFailureException;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.AccessDeniedException;
@@ -71,5 +73,14 @@ public class ExceptionTranslator {
   public ErrorDto processMethodNotSupportedException(
       HttpRequestMethodNotSupportedException exception) {
     return new ErrorDto(ErrorConstants.ERR_METHOD_NOT_SUPPORTED, exception.getMessage());
+  }
+  
+  @ExceptionHandler(ConstraintViolationException.class)
+  @ResponseBody
+  @ResponseStatus(HttpStatus.BAD_REQUEST)
+  public ErrorDto processConstraintViolationException(
+      ConstraintViolationException exception) {
+    // TODO we need to add translated strings for each constraint violation
+    return new ErrorDto(ErrorConstants.ERR_VALIDATION, exception.getLocalizedMessage());
   }
 }

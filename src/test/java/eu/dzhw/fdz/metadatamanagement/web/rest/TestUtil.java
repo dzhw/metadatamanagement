@@ -1,19 +1,13 @@
 package eu.dzhw.fdz.metadatamanagement.web.rest;
 
-import eu.dzhw.fdz.metadatamanagement.domain.util.Jsr310DateTimeSerializer;
-import eu.dzhw.fdz.metadatamanagement.domain.util.Jsr310LocalDateDeserializer;
-import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
-import org.springframework.http.MediaType;
-
 import java.io.IOException;
 import java.nio.charset.Charset;
-import java.time.Instant;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.OffsetDateTime;
-import java.time.ZonedDateTime;
+
+import org.springframework.http.MediaType;
+
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
 
 /**
  * Utility class for testing REST controllers. This class needs no Application Context!
@@ -35,15 +29,9 @@ public class TestUtil {
   public static byte[] convertObjectToJsonBytes(Object object) throws IOException {
     ObjectMapper mapper = new ObjectMapper();
     mapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
-
-    JavaTimeModule module = new JavaTimeModule();
-    module.addSerializer(OffsetDateTime.class, Jsr310DateTimeSerializer.getJsr310DateTimeSerializer());
-    module.addSerializer(ZonedDateTime.class, Jsr310DateTimeSerializer.getJsr310DateTimeSerializer());
-    module.addSerializer(LocalDateTime.class, Jsr310DateTimeSerializer.getJsr310DateTimeSerializer());
-    module.addSerializer(Instant.class, Jsr310DateTimeSerializer.getJsr310DateTimeSerializer());
-    module.addDeserializer(LocalDate.class, Jsr310LocalDateDeserializer.getJsr310LocalDateDeserializer());
-    mapper.registerModule(module);
-
+    mapper.findAndRegisterModules();
+    mapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
+    
     return mapper.writeValueAsBytes(object);
   }
 
