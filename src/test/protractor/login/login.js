@@ -13,40 +13,38 @@ describe('Test login', function() {
     //Welcome Page
     browser.get('#/de/');
     browser.waitForAngular();
-
     expect(browser.getCurrentUrl()).toEqual(
       'https://metadatamanagement.cfapps.io/#/de/');
 
     //Click at 'Account'
-    element(by.xpath('//*[@id="navbar-collapse"]/ul/li[2]/a')).click();
+    element.all(by.css('.dropdown-toggle')).then(function(items) {
+      expect(items.length).toBe(2); //only two drop downs
+      items[0].click();
+    });
 
     //Click at 'Login'
-    element(by.xpath('//*[@id="navbar-collapse"]/ul/li[2]/ul/li[1]/a'))
-      .click();
-
+    element(by.uiSref('login')).click();
     expect(browser.getCurrentUrl()).toEqual(
       'https://metadatamanagement.cfapps.io/#/de/login');
     browser.waitForAngular();
 
-    //add account information
+    //add account information and login
     element(by.id('username')).sendKeys('admin');
     element(by.id('password')).sendKeys('admin');
-
-    //login
     element(by.dataTranslate('login.form.button')).click();
-
     expect(browser.getCurrentUrl()).toEqual(
       'https://metadatamanagement.cfapps.io/#/de/');
     browser.waitForAngular();
 
-    //Click at Account
-    element(by.xpath('//*[@id="navbar-collapse"]/ul/li[3]/a')).click();
+    //Click at 'Account'
+    element.all(by.css('.dropdown-toggle')).then(function(items) {
+      expect(items.length).toBe(4); //only two drop downs
+      items[1].click();
+    });
 
     //Click at Logout
-    element(by.xpath('//*[@id="navbar-collapse"]/ul/li[3]/ul/li[3]/a'))
-      .click();
+    element(by.ngClick('logout()')).click();
     browser.waitForAngular();
-
     expect(browser.getCurrentUrl()).toEqual(
       'https://metadatamanagement.cfapps.io/#/de/');
   });

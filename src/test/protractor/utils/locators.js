@@ -28,4 +28,12 @@
       elementValue + '\']');
   });
 
+  by.addLocator('ngClick', function(elementValue, optParentElement,
+    optRootSelector) {
+
+    var documentTree = optParentElement || document.querySelector(
+      optRootSelector) || document;
+    return documentTree.querySelector('[ng-click=\'' +
+      elementValue + '\']');
+  });
 })();
