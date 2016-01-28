@@ -18,10 +18,16 @@
 
 spring:
     data:
-        mongodb:
-            host: localhost
-            port: 0
-            database: metadatamanagement
+       rest:
+          base-path: /api
+          max-page-size: 50
+          default-page-size: 10
+          return-body-on-create: false
+          return-body-on-update: false
+       mongodb:
+          host: localhost
+          port: 0
+          database: metadatamanagement
     mail:
         host: localhost
         port: 3025
