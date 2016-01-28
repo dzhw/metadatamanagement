@@ -727,6 +727,8 @@
                             <propertyName>surefireArgLine</propertyName>
                             <excludes>
                                 <exclude>**/builders/</exclude>
+                                <exclude>**/domain/Q*.*</exclude>
+                                <exclude>**/org/**</exclude>
                             </excludes>
                         </configuration>
                     </execution>
@@ -743,6 +745,8 @@
                             <outputDirectory>${project.testresult.directory}/coverage/jacoco</outputDirectory>
                             <excludes>
                                 <exclude>**/builders/</exclude>
+                                <exclude>**/domain/Q*.*</exclude>
+                                <exclude>**/org/**</exclude>
                             </excludes>
                         </configuration>
                     </execution>
