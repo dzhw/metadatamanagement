@@ -30,6 +30,6 @@ describe('Metadatamanagement Start page with different languages', function() {
     var welcomeMainTitle = element(by.binding('main.title'));
 
     expect(browser.getTitle()).toEqual('metadatamanagement');
-    expect(welcomeMainTitle.getText()).toEqual('Welcome');
+    expect(welcomeMainTitle.getText()).toEqual('Willkommen');
   });
 });
