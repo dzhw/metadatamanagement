@@ -5,7 +5,6 @@
 /* global describe */
 /* global expect */
 'use strict';
-require('../utils/locators.js');
 
 describe('Test login', function() {
 
@@ -13,6 +12,7 @@ describe('Test login', function() {
 
     //Welcome Page
     browser.get('#/de/');
+    browser.waitForAngular();
 
     expect(browser.getCurrentUrl()).toEqual(
       'https://metadatamanagement.cfapps.io/#/de/');
@@ -26,6 +26,7 @@ describe('Test login', function() {
 
     expect(browser.getCurrentUrl()).toEqual(
       'https://metadatamanagement.cfapps.io/#/de/login');
+    browser.waitForAngular();
 
     //add account information
     element(by.id('username')).sendKeys('admin');
@@ -36,6 +37,7 @@ describe('Test login', function() {
 
     expect(browser.getCurrentUrl()).toEqual(
       'https://metadatamanagement.cfapps.io/#/de/');
+    browser.waitForAngular();
 
     //Click at Account
     element(by.xpath('//*[@id="navbar-collapse"]/ul/li[3]/a')).click();
@@ -43,6 +45,7 @@ describe('Test login', function() {
     //Click at Logout
     element(by.xpath('//*[@id="navbar-collapse"]/ul/li[3]/ul/li[3]/a'))
       .click();
+    browser.waitForAngular();
 
     expect(browser.getCurrentUrl()).toEqual(
       'https://metadatamanagement.cfapps.io/#/de/');
