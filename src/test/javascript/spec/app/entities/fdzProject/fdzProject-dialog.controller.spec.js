@@ -1,77 +1,45 @@
 'use strict';
 
-xdescribe('Controllers Tests ', function () {
-  var $scope, FdzProject, createController, $uibModalInstance, MockEntity, $stateParams;
+describe('Controllers Tests ', function () {
+  var $scope, createController, $uibModalInstance, MockEntity;
 
   beforeEach(mockApiAccountCall);
   beforeEach(mockI18nCalls);
   beforeEach(function() {
-    inject(function($controller, _$rootScope_, _$stateParams_) {
+    inject(function($controller, _$rootScope_) {
       $scope = _$rootScope_.$new();
-      MockEntity = jasmine.createSpy('MockEntity');
+      //MockEntity = jasmine.createSpy('MockEntity');
+      MockEntity = {
+        $save: function(success, error){
+          success();
+          error();
+        }
+      };
       $uibModalInstance = {
         dismiss: jasmine.createSpy('$uibModalInstance.cancel'),
+        close: jasmine.createSpy('$uibModalInstance.close'),
         result: {
           then: jasmine.createSpy('$uibModalInstance.result.then')
         }
       };
-      $stateParams = _$stateParams_;
-      FdzProject = {
-        get: function(){
-          return {
-             then: function(callback){
-               return callback();
-             }
-          };
-        },
-        create: function(){
-          return {
-             then: function(callback){
-               return callback();
-             }
-          };
-        },
-        update: function(){
-          return {
-             then: function(callback){
-               return callback();
-             }
-          };
-        }
-      };
       var locals = {
         '$scope' : $scope,
-        'FdzProject' : FdzProject,
         'entity': MockEntity ,
         '$uibModalInstance': $uibModalInstance,
-        '$stateParams': $stateParams,
         'isCreateMode': true
       };
       createController = function() {
         return $controller('FdzProjectDialogController', locals);
       };
-      spyOn(FdzProject, 'get').and.callThrough();
-      spyOn(FdzProject, 'create').and.callThrough();
-      spyOn(FdzProject, 'update').and.callThrough();
     });
    });
    describe('FdzProjectDialogController',function(){
      beforeEach(function(){
          createController();
      });
-     it('should call FdzProject.get',function(){
-       $scope.load();
-       expect(FdzProject.get).toHaveBeenCalled();
-     });
-     it('should call FdzProject.create',function(){
+     it('$scope.isSaving should be false',function(){
        $scope.save();
-       expect(FdzProject.create).toHaveBeenCalled();
-     });
-     it('should call FdzProject.update',function(){
-       $scope.isCreateMode = false;
-       $scope.$apply();
-       $scope.save();
-       //expect(FdzProject.update).toHaveBeenCalled();
+       expect($scope.isSaving).toEqual(false);
      });
      it('should call $uibModalInstance.dismiss',function(){
        $scope.clear();
