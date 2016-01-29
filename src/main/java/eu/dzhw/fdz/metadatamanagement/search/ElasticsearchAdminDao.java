@@ -17,6 +17,8 @@ import eu.dzhw.fdz.metadatamanagement.search.exception.ElasticsearchPutMappingEx
 import io.searchbox.action.Action;
 import io.searchbox.client.JestClient;
 import io.searchbox.client.JestResult;
+import io.searchbox.core.Count;
+import io.searchbox.core.CountResult;
 import io.searchbox.indices.CreateIndex;
 import io.searchbox.indices.DeleteIndex;
 import io.searchbox.indices.IndicesExists;
@@ -128,6 +130,16 @@ public class ElasticsearchAdminDao {
     if (!result.isSucceeded()) {
       throw new ElasticsearchIndexDeleteException(index, result.getErrorMessage());
     }
+  }
+  
+  /**
+   * Count all documents in all indices.
+   * 
+   * @return The number of all documents in all indices.
+   */
+  public Double countAllDocuments() {
+    CountResult result = (CountResult) execute(new Count.Builder().build());
+    return result.getCount();
   }
 
   private JestResult execute(Action<?> action) {

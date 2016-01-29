@@ -85,4 +85,17 @@ public class ElasticsearchAdminService {
           e);
     }
   }
+  
+  /**
+   * Refresh all elasticsearch indices.
+   */
+  public void refreshAllIndices() {
+    for (ElasticsearchIndices index : ElasticsearchIndices.values()) {      
+      elasticsearchAdminDao.refresh(index.getIndexName());
+    }
+  }
+  
+  public Double countAllDocuments() {
+    return elasticsearchAdminDao.countAllDocuments();
+  }
 }

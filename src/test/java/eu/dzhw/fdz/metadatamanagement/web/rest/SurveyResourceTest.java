@@ -1,4 +1,4 @@
-package eu.dzhw.fdz.metadatamanagement.web;
+package eu.dzhw.fdz.metadatamanagement.web.rest;
 
 import static org.hamcrest.Matchers.is;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
@@ -32,7 +32,6 @@ import eu.dzhw.fdz.metadatamanagement.domain.builders.PeriodBuilder;
 import eu.dzhw.fdz.metadatamanagement.domain.builders.SurveyBuilder;
 import eu.dzhw.fdz.metadatamanagement.repository.FdzProjectRepository;
 import eu.dzhw.fdz.metadatamanagement.repository.SurveyRepository;
-import eu.dzhw.fdz.metadatamanagement.web.rest.TestUtil;
 
 /**
  * Test the REST API for {@link Survey}s.
