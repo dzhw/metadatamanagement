@@ -2,6 +2,14 @@
 
 describe('Controllers Tests ', function () {
   var $scope, User, createController, Language;
+  var editForm = {
+    $setPristine: function(){
+
+    },
+    $setUntouched: function(){
+
+    }
+  };
   var header = function(par){
     return 'part1;part11,part2;part22';
   };
@@ -70,6 +78,7 @@ describe('Controllers Tests ', function () {
         'Language' : Language,
         'User' : User
       };
+      $scope.editForm = editForm;
       createController = function() {
         return $controller('UserManagementController', locals);
       };
@@ -100,20 +109,13 @@ describe('Controllers Tests ', function () {
       expect(User.get).toHaveBeenCalled();
      });
      it('should call User.save',function(){
-        try{
-          $scope.save();
-          expect(User.save).toBeDefined();
-        }catch(e){
-
-        }
+       $scope.save();
+       expect(User.save).toBeDefined();
      });
-     it('should call User.refresh',function(){
-       try{
+     it('should call scope.clear',function(){
+       spyOn($scope,'clear').and.callThrough();
        $scope.refresh();
-         expect(User.refresh).toHaveBeenCalled();
-     }catch(e){
-
-     }
+       expect($scope.clear).toHaveBeenCalled();
      });
      it('should set page to 10',function(){
       $scope.loadPage(10);
