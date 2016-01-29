@@ -64,6 +64,9 @@ public class FdzProjectResourceTest extends AbstractTest {
     // read the project under the new url
     mockMvc.perform(get(API_FDZ_PROJECTS_URI + "/" + project.getId()))
       .andExpect(status().isOk());
+    
+    // call toString for test coverage :-)
+    project.toString();
   }
 
   @Test

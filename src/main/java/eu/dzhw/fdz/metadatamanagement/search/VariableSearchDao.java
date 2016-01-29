@@ -16,8 +16,6 @@ import org.springframework.data.rest.core.annotation.HandleAfterSave;
 import org.springframework.data.rest.core.annotation.RepositoryEventHandler;
 import org.springframework.stereotype.Component;
 
-import com.google.gson.JsonObject;
-
 import eu.dzhw.fdz.metadatamanagement.domain.Variable;
 import eu.dzhw.fdz.metadatamanagement.search.document.VariableSearchDocument;
 import eu.dzhw.fdz.metadatamanagement.search.exception.ElasticsearchDocumentDeleteException;
@@ -113,7 +111,7 @@ public class VariableSearchDao {
    * 
    * @return A List of ALL variables in elasticsearch.
    */
-  public JsonObject findAll(String index) {
+  public List<VariableSearchDocument> findAll(String index) {
     SearchSourceBuilder queryBuilder = new SearchSourceBuilder();
     queryBuilder.query(QueryBuilders.matchAllQuery());
     return this.findAllByQueryBuilder(queryBuilder, index);
@@ -146,9 +144,10 @@ public class VariableSearchDao {
    * 
    * @param queryBuilder A querybuilder with an defined query.
    * @param index the name of a index within elasticseach
-   * @return the elasticsearch result as json
+   * @return the elasticsearch result as list
    */
-  private JsonObject findAllByQueryBuilder(SearchSourceBuilder queryBuilder, String index) {
+  private List<VariableSearchDocument> findAllByQueryBuilder(SearchSourceBuilder queryBuilder, 
+      String index) {
     Search search =
         new Search.Builder(queryBuilder.toString()).addIndex(index)
           .addType(TYPE)
@@ -161,7 +160,7 @@ public class VariableSearchDao {
       return null;
     }
 
-    return result.getJsonObject();
+    return result.getSourceAsObjectList(VariableSearchDocument.class);
   }
 
   /**

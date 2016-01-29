@@ -91,6 +91,9 @@ public class SurveyResourceTest extends AbstractTest {
     // read the survey under the new url
     mockMvc.perform(get(API_SURVEYS_URI + "/" + survey.getId()))
       .andExpect(status().isOk());
+    
+    // call toString for test coverage :-)
+    survey.toString();
   }
 
   @Test
