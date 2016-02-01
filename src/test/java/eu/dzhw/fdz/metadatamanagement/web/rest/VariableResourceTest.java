@@ -95,7 +95,7 @@ public class VariableResourceTest extends AbstractTest {
     fdzProjectRepository.save(project);
 
     Survey survey = new SurveyBuilder().withId("testSurvey")
-      .withFdzProject(project)
+      .withFdzProjectId(project.getId())
       .withFieldPeriod(new PeriodBuilder().withStart(LocalDate.now())
         .withEnd(LocalDate.now())
         .build())
@@ -126,6 +126,39 @@ public class VariableResourceTest extends AbstractTest {
     // call toString for test coverage :-)
     variable.toString();
   }
+  
+  //TODO enable this
+  public void testCreateVariableWithUnknownSurvey() throws Exception {
+    FdzProject project = new FdzProjectBuilder().withId("testProject")
+      .withCufDoi("testDoi")
+      .withSufDoi("sufDoi")
+      .build();
+    fdzProjectRepository.save(project);
+
+    Survey survey = new SurveyBuilder().withId("testSurvey")
+      .withFdzProjectId(project.getId())
+      .withFieldPeriod(new PeriodBuilder().withStart(LocalDate.now())
+        .withEnd(LocalDate.now())
+        .build())
+      .withTitle(new I18nStringBuilder().withDe("Titel")
+        .withEn("title")
+        .build())
+      .build();
+
+    Variable variable = new VariableBuilder().withId("testVariable")
+      .withDataType(DataType.numeric)
+      .withScaleLevel(ScaleLevel.metric)
+      .withFdzProject(project)
+      .withSurvey(survey)
+      .withLabel("label")
+      .withName("name")
+      .build();
+
+    // create the variable with the given id but with an unknown survey
+    mockMvc.perform(
+        put(API_VARIABLES_URI + "/" + variable.getId()).content(convertVariableToJson(variable)))
+      .andExpect(status().is4xxClientError());
+  }
 
   @Test
   public void deleteVariable() throws JsonSyntaxException, IOException, Exception {
@@ -136,7 +169,7 @@ public class VariableResourceTest extends AbstractTest {
     fdzProjectRepository.save(project);
 
     Survey survey = new SurveyBuilder().withId("testSurvey")
-      .withFdzProject(project)
+      .withFdzProjectId(project.getId())
       .withFieldPeriod(new PeriodBuilder().withStart(LocalDate.now())
         .withEnd(LocalDate.now())
         .build())
@@ -182,7 +215,7 @@ public class VariableResourceTest extends AbstractTest {
     fdzProjectRepository.save(project);
 
     Survey survey = new SurveyBuilder().withId("testSurvey")
-      .withFdzProject(project)
+      .withFdzProjectId(project.getId())
       .withFieldPeriod(new PeriodBuilder().withStart(LocalDate.now())
         .withEnd(LocalDate.now())
         .build())
@@ -240,7 +273,7 @@ public class VariableResourceTest extends AbstractTest {
     fdzProjectRepository.save(project);
 
     Survey survey = new SurveyBuilder().withId("testSurvey")
-      .withFdzProject(project)
+      .withFdzProjectId(project.getId())
       .withFieldPeriod(new PeriodBuilder().withStart(LocalDate.now())
         .withEnd(LocalDate.now())
         .build())
@@ -285,7 +318,7 @@ public class VariableResourceTest extends AbstractTest {
     fdzProjectRepository.save(project);
 
     Survey survey = new SurveyBuilder().withId("testSurvey")
-      .withFdzProject(project)
+      .withFdzProjectId(project.getId())
       .withFieldPeriod(new PeriodBuilder().withStart(LocalDate.now())
         .withEnd(LocalDate.now())
         .build())

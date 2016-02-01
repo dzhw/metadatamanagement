@@ -5,11 +5,11 @@ import javax.validation.constraints.NotNull;
 
 import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import com.google.common.base.MoreObjects;
 
+import eu.dzhw.fdz.metadatamanagement.domain.validation.FdzProjectExists;
 import net.karneim.pojobuilder.GeneratePojoBuilder;
 
 /**
@@ -29,9 +29,9 @@ public class Survey extends AbstractFdzDomainObject {
   @Valid
   private Period fieldPeriod;
 
-  @DBRef(lazy = true)
-  @NotNull
-  private FdzProject fdzProject;
+  @NotEmpty
+  @FdzProjectExists
+  private String fdzProjectId;
 
   public I18nString getTitle() {
     return title;
@@ -49,8 +49,8 @@ public class Survey extends AbstractFdzDomainObject {
     this.fieldPeriod = fieldPeriod;
   }
 
-  public FdzProject getFdzProject() {
-    return fdzProject;
+  public String getFdzProjectId() {
+    return fdzProjectId;
   }
 
   public String getId() {
@@ -61,8 +61,8 @@ public class Survey extends AbstractFdzDomainObject {
     this.id = id;
   }
 
-  public void setFdzProject(FdzProject fdzProject) {
-    this.fdzProject = fdzProject;
+  public void setFdzProjectId(String fdzProjectId) {
+    this.fdzProjectId = fdzProjectId;
   }
 
   @Override
@@ -71,7 +71,7 @@ public class Survey extends AbstractFdzDomainObject {
       .add("super", super.toString())
       .add("title", title)
       .add("fieldPeriod", fieldPeriod)
-      .add("fdzProject", fdzProject)
+      .add("fdzProjectId", fdzProjectId)
       .toString();
   }  
 }

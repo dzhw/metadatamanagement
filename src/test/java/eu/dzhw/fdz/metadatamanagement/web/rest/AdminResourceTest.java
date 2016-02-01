@@ -98,7 +98,7 @@ public class AdminResourceTest extends AbstractTest {
     fdzProjectRepository.save(project);
 
     Survey survey = new SurveyBuilder().withId("testId")
-      .withFdzProject(project)
+      .withFdzProjectId(project.getId())
       .withTitle(new I18nStringBuilder().withDe("titel")
         .withEn("title")
         .build())

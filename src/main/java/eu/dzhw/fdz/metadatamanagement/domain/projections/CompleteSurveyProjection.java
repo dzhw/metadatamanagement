@@ -18,5 +18,5 @@ public interface CompleteSurveyProjection extends AbstractFdzDomainObjectProject
 
   Period getFieldPeriod();
 
-  CompleteFdzProjectProjection getFdzProject();
+  String getFdzProjectId();
 }

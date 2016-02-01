@@ -15,7 +15,6 @@ angular.module('metadatamanagementApp')
                 DateUtils.convertLocaleDateFromServer(data.fieldPeriod.start);
               data.fieldPeriod.end =
                 DateUtils.convertLocaleDateFromServer(data.fieldPeriod.end);
-              data.fdzProject = data.fdzProject.id;
               return data;
             }
           }
@@ -27,8 +26,6 @@ angular.module('metadatamanagementApp')
               DateUtils.convertLocaleDateToServer(data.fieldPeriod.start);
             data.fieldPeriod.end =
               DateUtils.convertLocaleDateToServer(data.fieldPeriod.end);
-            data.fdzProject = '/api/fdz_projects/' +
-              encodeURIComponent(data.fdzProject);
             return angular.toJson(data);
           }
         },

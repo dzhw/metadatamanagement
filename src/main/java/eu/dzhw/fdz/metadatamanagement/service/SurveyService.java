@@ -29,7 +29,7 @@ public class SurveyService {
   
   @HandleAfterDelete
   public void onFdzProjectDeleted(FdzProject fdzProject) {
-    List<Survey> deletedSurveys = surveyRepository.deleteByFdzProject(fdzProject);
+    List<Survey> deletedSurveys = surveyRepository.deleteByFdzProjectId(fdzProject.getId());
     deletedSurveys.forEach(survey -> eventPublisher.publishEvent(new AfterDeleteEvent(survey)));
   }
 }

@@ -39,15 +39,17 @@ public class VariableSearchDocument {
   }
 
   private void createSurveyTitle(Variable variable, ElasticsearchIndices index) {
-    switch (index) {
-      case METADATA_DE:
-        this.surveyTitle = variable.getSurvey().getTitle().getDe();
-        break;
-      case METADATA_EN:
-        this.surveyTitle = variable.getSurvey().getTitle().getEn();
-        break;
-      default:
-        throw new RuntimeException("Unknown index:" + index);
+    if (variable.getSurvey() != null) {      
+      switch (index) {
+        case METADATA_DE:
+          this.surveyTitle = variable.getSurvey().getTitle().getDe();
+          break;
+        case METADATA_EN:
+          this.surveyTitle = variable.getSurvey().getTitle().getEn();
+          break;
+        default:
+          throw new RuntimeException("Unknown index:" + index);
+      }
     }
   }
 
