@@ -15,11 +15,17 @@ angular.module('metadatamanagementApp').config(
           }
         },
         resolve: {
-          mainTranslatePartialLoader: ['$translate', '$translatePartialLoader',
-              function($translate, $translatePartialLoader) {
-                $translatePartialLoader.addPart('main');
-                return $translate.refresh();
-              }]
+          mainTranslatePartialLoader: ['$translate',
+            '$translatePartialLoader',
+            function($translate, $translatePartialLoader) {
+              $translatePartialLoader.addPart('main');
+              return $translate.refresh();
+            }
+          ]
         }
       });
-    });
+    })
+  //Error Handler for non translated angular js elements.
+  .config(function($translateProvider) {
+    $translateProvider.useMissingTranslationHandler('translationErrorHandler');
+  });

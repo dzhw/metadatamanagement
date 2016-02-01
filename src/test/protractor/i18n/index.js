@@ -1,5 +1,6 @@
 /* global describe */
 /* global it */
+/* global xit */
 /* global expect */
 /* global browser */
 /* global element */
@@ -7,6 +8,7 @@
 'use strict';
 // spec.js
 describe('Metadatamanagement Start page with different languages', function() {
+
   it('should be in german', function() {
     browser.get('#/de/');
     var welcomeMainTitle = element(by.binding('main.title'));
@@ -23,21 +25,21 @@ describe('Metadatamanagement Start page with different languages', function() {
     expect(welcomeMainTitle.getText()).toEqual('Welcome');
   });
 
-  it('Check all languages elements for german at the index page', function() {
+  xit('Check all languages elements for german at the index page', function() {
     browser.get('#/de/');
-    element.all(by.css('.ng-binding')).then(function(bindings) {
-      for (var i = 0; i < bindings.length; i = i + 1) {
-        expect(bindings[i].getText()).not.toContain('{{');
-      }
+    browser.manage().logs().get('browser').then(function(browserLog) {
+      expect(require('util').inspect(browserLog)).not.toContain(
+        'Missing Translation');
     });
   });
 
-  it('Check all languages elements for english at the index page', function() {
-    browser.get('#/en/');
-    element.all(by.css('.ng-binding')).then(function(bindings) {
-      for (var i = 0; i < bindings.length; i = i + 1) {
-        expect(bindings[i].getText()).not.toContain('{{');
-      }
+  xit('Check all languages elements for english at the index page',
+    function() {
+      browser.get('#/en/');
+      browser.manage().logs().get('browser').then(function(browserLog) {
+        expect(require('util').inspect(browserLog)).not.toContain(
+          'Missing Translation');
+      });
     });
-  });
+
 });
