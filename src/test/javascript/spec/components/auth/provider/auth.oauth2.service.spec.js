@@ -26,11 +26,13 @@ describe('Factory Tests ', function () {
           var defer = $q.defer();
           defer.resolve(credentials);
           defer.promise.success = function (fn) {
+            fn({
+              expires_in: new Date()
+            });
             defer.promise.then(null, fn);
             return defer.promise;
           };
           $httpMock.post.and.returnValue(defer.promise);
-          //$httpMock.success.and.returnValue(defer.promise);
           AuthServerProvider.login(credentials);
           $scope.$digest();
           expect($httpMock.post).toHaveBeenCalled();
