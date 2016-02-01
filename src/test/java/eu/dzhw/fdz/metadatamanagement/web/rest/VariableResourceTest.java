@@ -126,6 +126,40 @@ public class VariableResourceTest extends AbstractTest {
   }
   
   @Test
+  public void testCreateVariableWithSurveyButWithoutProject() throws Exception {
+    FdzProject project = new FdzProjectBuilder().withId("testProject")
+      .withCufDoi("testDoi")
+      .withSufDoi("sufDoi")
+      .build();
+    fdzProjectRepository.save(project);
+
+    Survey survey = new SurveyBuilder().withId("testSurvey")
+      .withFdzProjectId(project.getId())
+      .withFieldPeriod(new PeriodBuilder().withStart(LocalDate.now())
+        .withEnd(LocalDate.now())
+        .build())
+      .withTitle(new I18nStringBuilder().withDe("Titel")
+        .withEn("title")
+        .build())
+      .build();
+    surveyRepository.save(survey);
+
+    Variable variable = new VariableBuilder().withId("testVariable")
+      .withDataType(DataType.numeric)
+      .withScaleLevel(ScaleLevel.metric)
+      .withFdzProjectId(null)
+      .withSurveyId(survey.getId())
+      .withLabel("label")
+      .withName("name")
+      .build();
+
+    // create the variable with a survey but without a project
+    mockMvc.perform(
+        put(API_VARIABLES_URI + "/" + variable.getId()).content(TestUtil.convertObjectToJsonBytes(variable)))
+      .andExpect(status().isBadRequest());
+  }
+  
+  @Test
   public void testCreateVariableWithUnknownSurvey() throws Exception {
     FdzProject project = new FdzProjectBuilder().withId("testProject")
       .withCufDoi("testDoi")

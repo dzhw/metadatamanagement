@@ -116,6 +116,31 @@ public class SurveyResourceTest extends AbstractTest {
       .andExpect(status().isBadRequest())
       .andReturn();
   }
+  
+  @Test
+  public void testCreateSurveyWithUnlimitedPeriod() throws Exception {
+    FdzProject project = new FdzProjectBuilder().withId("testId")
+      .withCufDoi("testDoi")
+      .withSufDoi("testDoi")
+      .build();
+    fdzProjectRepository.save(project);
+
+    Survey survey = new SurveyBuilder().withId("testId")
+      .withFdzProjectId(project.getId())
+      .withTitle(new I18nStringBuilder().withDe("titel")
+        .withEn("title")
+        .build())
+      .withFieldPeriod(new PeriodBuilder().withStart(null)
+        .withEnd(null)
+        .build())
+      .build();
+
+    // create the survey with the given id but with an unlimited period
+    MvcResult result = mockMvc
+      .perform(put(API_SURVEYS_URI + "/" + survey.getId()).content(TestUtil.convertObjectToJsonBytes(survey)))
+      .andExpect(status().isCreated())
+      .andReturn();
+  }
 
   @Test
   public void testCreateSurveyWithInvalidProject() throws Exception {
@@ -136,6 +161,25 @@ public class SurveyResourceTest extends AbstractTest {
       .build();
 
     // create the survey with the given id but with an unknown project
+    mockMvc
+      .perform(put(API_SURVEYS_URI + "/" + survey.getId()).content(TestUtil.convertObjectToJsonBytes(survey)))
+      .andExpect(status().isBadRequest());
+  }
+  
+  @Test
+  public void testCreateSurveyEmptyProject() throws Exception {
+    Survey survey = new SurveyBuilder().withId("testId")
+      .withFdzProjectId(null)
+      .withTitle(new I18nStringBuilder().withDe("titel")
+        .withEn("title")
+        .build())
+      .withFieldPeriod(new PeriodBuilder().withStart(LocalDate.now())
+        .withEnd(LocalDate.now()
+          .plusDays(1))
+        .build())
+      .build();
+
+    // create the survey with the given id but without a project
     mockMvc
       .perform(put(API_SURVEYS_URI + "/" + survey.getId()).content(TestUtil.convertObjectToJsonBytes(survey)))
       .andExpect(status().isBadRequest());
