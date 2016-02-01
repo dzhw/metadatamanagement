@@ -1,18 +1,17 @@
 'use strict';
 
 describe('Factory Tests ', function () {
-  var AlertService, $httpMock, $resource, $q, $scope, $timeout;
+  var AlertService, $q, $scope, $timeout;
     describe('AlertService', function() {
     beforeEach(mockApiAccountCall);
     beforeEach(mockI18nCalls);
         beforeEach(inject(function($injector) {
             AlertService = $injector.get('AlertService');
-              $timeout =   $injector.get('$timeout');
+            $timeout =   $injector.get('$timeout');
             $q = $injector.get('$q');
-            $resource = $injector.get('$resource');
             $scope = $injector.get('$rootScope').$new();
         }));
-        it(' should make a GET request', function() {
+        it(' should remove all alerts', function() {
           AlertService.clear();
           expect(AlertService.get()).toEqual([]);
         });
