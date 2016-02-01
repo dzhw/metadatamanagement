@@ -1,5 +1,6 @@
 package eu.dzhw.fdz.metadatamanagement.search.document;
 
+import eu.dzhw.fdz.metadatamanagement.domain.Survey;
 import eu.dzhw.fdz.metadatamanagement.domain.Variable;
 import eu.dzhw.fdz.metadatamanagement.service.enums.ElasticsearchIndices;
 import io.searchbox.annotations.JestId;
@@ -28,18 +29,29 @@ public class VariableSearchDocument {
   /**
    * Create the search document from the domain object depending on the language (index).
    */
-  public VariableSearchDocument(Variable variable, ElasticsearchIndices index) {
+  public VariableSearchDocument(Variable variable, Survey survey, ElasticsearchIndices index) {
     this.id = variable.getId();
     this.name = variable.getName();
     this.fdzProjectId = variable.getFdzProjectId();
     this.label = variable.getLabel();
     createScaleLevel(variable, index);
     createDataType(variable, index);
-    createSurveyTitle();
+    createSurveyTitle(survey, index);
   }
 
-  private void createSurveyTitle() {
-    // TODO create survey title depending on the language
+  private void createSurveyTitle(Survey survey, ElasticsearchIndices index) {
+    if (survey != null) {
+      switch (index) {
+        case METADATA_DE: 
+          surveyTitle = survey.getTitle().getDe();
+          break;
+        case METADATA_EN:
+          surveyTitle = survey.getTitle().getEn();
+          break;
+        default:
+          throw new RuntimeException("Unknown index:" + index);
+      }
+    }
   }
 
   private void createDataType(Variable variable, ElasticsearchIndices index) {

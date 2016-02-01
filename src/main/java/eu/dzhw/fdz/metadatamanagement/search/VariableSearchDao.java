@@ -16,7 +16,9 @@ import org.springframework.data.rest.core.annotation.HandleAfterSave;
 import org.springframework.data.rest.core.annotation.RepositoryEventHandler;
 import org.springframework.stereotype.Component;
 
+import eu.dzhw.fdz.metadatamanagement.domain.Survey;
 import eu.dzhw.fdz.metadatamanagement.domain.Variable;
+import eu.dzhw.fdz.metadatamanagement.repository.SurveyRepository;
 import eu.dzhw.fdz.metadatamanagement.search.document.VariableSearchDocument;
 import eu.dzhw.fdz.metadatamanagement.search.exception.ElasticsearchDocumentDeleteException;
 import eu.dzhw.fdz.metadatamanagement.search.exception.ElasticsearchDocumentSaveException;
@@ -50,6 +52,9 @@ public class VariableSearchDao {
    */
   @Inject
   private JestClient jestClient;
+  
+  @Inject
+  private SurveyRepository surveyRepository;
 
   /**
    * Save the given variable to elasticsearch.
@@ -58,11 +63,12 @@ public class VariableSearchDao {
   @HandleAfterCreate
   public void index(Variable variable) {
     for (ElasticsearchIndices index : ElasticsearchIndices.values()) {
-      VariableSearchDocument variableSearchDocument = new VariableSearchDocument(variable, index);
+      VariableSearchDocument variableSearchDocument = 
+          new VariableSearchDocument(variable, getSurvey(variable), index);
       index(variableSearchDocument, index.getIndexName());
     }
   }
-
+  
   private void index(VariableSearchDocument variableSearchDocument,
       String index) {
     JestResult result = execute(new Index.Builder(variableSearchDocument).index(index)
@@ -86,7 +92,7 @@ public class VariableSearchDao {
     }
     for (ElasticsearchIndices index : ElasticsearchIndices.values()) {
       index(variables.stream()
-          .map(variable -> new VariableSearchDocument(variable, index))
+          .map(variable -> new VariableSearchDocument(variable, getSurvey(variable), index))
           .collect(Collectors.toList()), index.getIndexName());
     }
   }
@@ -104,6 +110,14 @@ public class VariableSearchDao {
     if (!result.isSucceeded()) {
       throw new ElasticsearchDocumentSaveException(index, TYPE, result.getErrorMessage());
     }
+  }
+  
+  private Survey getSurvey(Variable variable) {
+    Survey survey = null;
+    if (variable.getSurveyId() != null) {
+      survey = surveyRepository.findOne(variable.getSurveyId());
+    }
+    return survey;
   }
 
   /**
