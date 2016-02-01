@@ -21,8 +21,6 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
 import com.google.gson.JsonSyntaxException;
 
 import eu.dzhw.fdz.metadatamanagement.AbstractTest;
@@ -108,15 +106,15 @@ public class VariableResourceTest extends AbstractTest {
     Variable variable = new VariableBuilder().withId("testVariable")
       .withDataType(DataType.numeric)
       .withScaleLevel(ScaleLevel.metric)
-      .withFdzProject(project)
-      .withSurvey(survey)
+      .withFdzProjectId(project.getId())
+      .withSurveyId(survey.getId())
       .withLabel("label")
       .withName("name")
       .build();
 
     // create the variable with the given id
     mockMvc.perform(
-        put(API_VARIABLES_URI + "/" + variable.getId()).content(convertVariableToJson(variable)))
+        put(API_VARIABLES_URI + "/" + variable.getId()).content(TestUtil.convertObjectToJsonBytes(variable)))
       .andExpect(status().isCreated());
 
     // check that there are two variable search documents
@@ -127,7 +125,7 @@ public class VariableResourceTest extends AbstractTest {
     variable.toString();
   }
   
-  //TODO enable this
+  @Test
   public void testCreateVariableWithUnknownSurvey() throws Exception {
     FdzProject project = new FdzProjectBuilder().withId("testProject")
       .withCufDoi("testDoi")
@@ -148,15 +146,76 @@ public class VariableResourceTest extends AbstractTest {
     Variable variable = new VariableBuilder().withId("testVariable")
       .withDataType(DataType.numeric)
       .withScaleLevel(ScaleLevel.metric)
-      .withFdzProject(project)
-      .withSurvey(survey)
+      .withFdzProjectId(project.getId())
+      .withSurveyId(survey.getId())
       .withLabel("label")
       .withName("name")
       .build();
 
     // create the variable with the given id but with an unknown survey
     mockMvc.perform(
-        put(API_VARIABLES_URI + "/" + variable.getId()).content(convertVariableToJson(variable)))
+        put(API_VARIABLES_URI + "/" + variable.getId()).content(TestUtil.convertObjectToJsonBytes(variable)))
+      .andExpect(status().is4xxClientError());
+  }
+  
+  @Test
+  public void testCreateVariableWithUnknownProject() throws Exception {
+    FdzProject project = new FdzProjectBuilder().withId("testProject")
+      .withCufDoi("testDoi")
+      .withSufDoi("sufDoi")
+      .build();
+
+    Variable variable = new VariableBuilder().withId("testVariable")
+      .withDataType(DataType.numeric)
+      .withScaleLevel(ScaleLevel.metric)
+      .withFdzProjectId(project.getId())
+      .withLabel("label")
+      .withName("name")
+      .build();
+
+    // create the variable with the given id but with an unknown project
+    mockMvc.perform(
+        put(API_VARIABLES_URI + "/" + variable.getId()).content(TestUtil.convertObjectToJsonBytes(variable)))
+      .andExpect(status().is4xxClientError());
+  }
+  
+  @Test
+  public void testCreateVariableWithSurveyFromDifferentProject() throws Exception {
+    FdzProject project1 = new FdzProjectBuilder().withId("testProject1")
+      .withCufDoi("testDoi")
+      .withSufDoi("sufDoi")
+      .build();
+    fdzProjectRepository.save(project1);
+    
+    FdzProject project2 = new FdzProjectBuilder().withId("testProject2")
+        .withCufDoi("testDoi")
+        .withSufDoi("sufDoi")
+        .build();
+    fdzProjectRepository.save(project2);
+    
+    Survey survey = new SurveyBuilder().withId("testSurvey")
+        .withFdzProjectId(project2.getId())
+        .withFieldPeriod(new PeriodBuilder().withStart(LocalDate.now())
+          .withEnd(LocalDate.now())
+          .build())
+        .withTitle(new I18nStringBuilder().withDe("Titel")
+          .withEn("title")
+          .build())
+        .build();
+    surveyRepository.save(survey);
+    
+    Variable variable = new VariableBuilder().withId("testVariable")
+      .withDataType(DataType.numeric)
+      .withScaleLevel(ScaleLevel.metric)
+      .withFdzProjectId(project1.getId())
+      .withSurveyId(survey.getId())
+      .withLabel("label")
+      .withName("name")
+      .build();
+
+    // create the variable with the given id but with a survey from a different project
+    mockMvc.perform(
+        put(API_VARIABLES_URI + "/" + variable.getId()).content(TestUtil.convertObjectToJsonBytes(variable)))
       .andExpect(status().is4xxClientError());
   }
 
@@ -182,15 +241,15 @@ public class VariableResourceTest extends AbstractTest {
     Variable variable = new VariableBuilder().withId("testVariable")
       .withDataType(DataType.numeric)
       .withScaleLevel(ScaleLevel.metric)
-      .withFdzProject(project)
-      .withSurvey(survey)
+      .withFdzProjectId(project.getId())
+      .withSurveyId(survey.getId())
       .withLabel("label")
       .withName("name")
       .build();
 
     // create the variable with the given id
     mockMvc.perform(
-        put(API_VARIABLES_URI + "/" + variable.getId()).content(convertVariableToJson(variable)))
+        put(API_VARIABLES_URI + "/" + variable.getId()).content(TestUtil.convertObjectToJsonBytes(variable)))
       .andExpect(status().isCreated());
 
     // delete the variable
@@ -228,22 +287,22 @@ public class VariableResourceTest extends AbstractTest {
     Variable variable = new VariableBuilder().withId("testVariable")
       .withDataType(DataType.numeric)
       .withScaleLevel(ScaleLevel.metric)
-      .withFdzProject(project)
-      .withSurvey(survey)
+      .withFdzProjectId(project.getId())
+      .withSurveyId(survey.getId())
       .withLabel("label")
       .withName("name")
       .build();
 
     // create the variable with the given id
     mockMvc.perform(
-        put(API_VARIABLES_URI + "/" + variable.getId()).content(convertVariableToJson(variable)))
+        put(API_VARIABLES_URI + "/" + variable.getId()).content(TestUtil.convertObjectToJsonBytes(variable)))
       .andExpect(status().isCreated());
 
     variable.setLabel("modified");
 
     // update the variable with the given id
     mockMvc.perform(
-        put(API_VARIABLES_URI + "/" + variable.getId()).content(convertVariableToJson(variable)))
+        put(API_VARIABLES_URI + "/" + variable.getId()).content(TestUtil.convertObjectToJsonBytes(variable)))
       .andExpect(status().is2xxSuccessful());
 
     // read the updated variable and check the version
@@ -286,15 +345,15 @@ public class VariableResourceTest extends AbstractTest {
     Variable variable = new VariableBuilder().withId("testVariable")
       .withDataType(DataType.numeric)
       .withScaleLevel(ScaleLevel.metric)
-      .withFdzProject(project)
-      .withSurvey(survey)
+      .withFdzProjectId(project.getId())
+      .withSurveyId(survey.getId())
       .withLabel("label")
       .withName("name")
       .build();
 
     // create the variable with the given id
     mockMvc.perform(
-        put(API_VARIABLES_URI + "/" + variable.getId()).content(convertVariableToJson(variable)))
+        put(API_VARIABLES_URI + "/" + variable.getId()).content(TestUtil.convertObjectToJsonBytes(variable)))
       .andExpect(status().isCreated());
 
     mockMvc.perform(delete("/api/surveys/" + survey.getId()))
@@ -331,15 +390,15 @@ public class VariableResourceTest extends AbstractTest {
     Variable variable = new VariableBuilder().withId("testVariable")
       .withDataType(DataType.numeric)
       .withScaleLevel(ScaleLevel.metric)
-      .withFdzProject(project)
-      .withSurvey(survey)
+      .withFdzProjectId(project.getId())
+      .withSurveyId(survey.getId())
       .withLabel("label")
       .withName("name")
       .build();
 
     // create the variable with the given id
     mockMvc.perform(
-        put(API_VARIABLES_URI + "/" + variable.getId()).content(convertVariableToJson(variable)))
+        put(API_VARIABLES_URI + "/" + variable.getId()).content(TestUtil.convertObjectToJsonBytes(variable)))
       .andExpect(status().isCreated());
 
     mockMvc.perform(delete("/api/fdz_projects/" + project.getId()))
@@ -352,27 +411,5 @@ public class VariableResourceTest extends AbstractTest {
     // check that there are no variable search documents anymore
     elasticsearchAdminService.refreshAllIndices();
     assertThat(elasticsearchAdminService.countAllDocuments(), equalTo(0.0));
-  }
-
-  private String convertVariableToJson(Variable variable) throws JsonSyntaxException, IOException {
-    JsonObject jsonObject =
-        new JsonParser().parse(new String(TestUtil.convertObjectToJsonBytes(variable)))
-          .getAsJsonObject();
-
-    // we need to adjust the referenced project
-    FdzProject project = variable.getFdzProject();
-    if (project != null) {
-      jsonObject.remove("fdzProject");
-      jsonObject.addProperty("fdzProject", "/api/fdz_projects/" + project.getId());
-    }
-
-    // we need to adjust the referenced survey
-    Survey survey = variable.getSurvey();
-    if (survey != null) {
-      jsonObject.remove("survey");
-      jsonObject.addProperty("survey", "/api/surveys/" + survey.getId());
-    }
-
-    return jsonObject.toString();
   }
 }

@@ -59,7 +59,7 @@ public class VariableService {
    */
   @HandleAfterDelete
   public void onSurveyDeleted(Survey survey) {
-    List<Variable> deletedVariables = variableRepository.deleteBySurvey(survey);
+    List<Variable> deletedVariables = variableRepository.deleteBySurveyId(survey.getId());
     deletedVariables.forEach(
         variable -> eventPublisher.publishEvent(new AfterDeleteEvent(variable)));
   }
@@ -71,7 +71,7 @@ public class VariableService {
    */
   @HandleAfterDelete
   public void onFdzProjectDeleted(FdzProject fdzProject) {
-    List<Variable> deletedVariables = variableRepository.deleteByFdzProject(fdzProject);
+    List<Variable> deletedVariables = variableRepository.deleteByFdzProjectId(fdzProject.getId());
     deletedVariables.forEach(
         variable -> eventPublisher.publishEvent(new AfterDeleteEvent(variable)));
   }

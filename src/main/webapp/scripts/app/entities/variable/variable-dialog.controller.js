@@ -51,7 +51,7 @@ angular.module('metadatamanagementApp').controller('VariableDialogController',
             //query for survey with a given fdz project name
             // TODO load all page by page
             SurveyCollection.query(
-              {'fdzProject': $scope.variable.fdzProject},
+              {'fdzProjectId': $scope.variable.fdzProjectId},
                   function(result) {
                     //return the array of surveys.
                     $scope.allSurveysByFdzProjectId = result._embedded.surveys;

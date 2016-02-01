@@ -7,8 +7,6 @@ import org.springframework.data.querydsl.QueryDslPredicateExecutor;
 import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 import org.springframework.data.rest.core.annotation.RestResource;
 
-import eu.dzhw.fdz.metadatamanagement.domain.FdzProject;
-import eu.dzhw.fdz.metadatamanagement.domain.Survey;
 import eu.dzhw.fdz.metadatamanagement.domain.Variable;
 
 /**
@@ -19,8 +17,8 @@ public interface VariableRepository
     extends MongoRepository<Variable, String>, QueryDslPredicateExecutor<Variable> {
   
   @RestResource(exported = false)
-  List<Variable> deleteBySurvey(Survey survey);
+  List<Variable> deleteBySurveyId(String surveyId);
   
   @RestResource(exported = false)
-  List<Variable> deleteByFdzProject(FdzProject fdzProject);
+  List<Variable> deleteByFdzProjectId(String fdzProjectId);
 }

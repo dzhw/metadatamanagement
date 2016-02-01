@@ -8,7 +8,6 @@ import org.hibernate.validator.constraints.NotBlank;
 import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.CompoundIndex;
-import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import com.google.common.base.MoreObjects;
@@ -16,6 +15,9 @@ import com.google.common.base.MoreObjects;
 import eu.dzhw.fdz.metadatamanagement.domain.enumeration.DataType;
 import eu.dzhw.fdz.metadatamanagement.domain.enumeration.ScaleLevel;
 import eu.dzhw.fdz.metadatamanagement.domain.util.Patterns;
+import eu.dzhw.fdz.metadatamanagement.domain.validation.FdzProjectExists;
+import eu.dzhw.fdz.metadatamanagement.domain.validation.SurveyExists;
+import eu.dzhw.fdz.metadatamanagement.domain.validation.SurveyHasSameFdzProject;
 import net.karneim.pojobuilder.GeneratePojoBuilder;
 
 /**
@@ -24,6 +26,7 @@ import net.karneim.pojobuilder.GeneratePojoBuilder;
 @Document(collection = "variables")
 @GeneratePojoBuilder(intoPackage = "eu.dzhw.fdz.metadatamanagement.domain.builders")
 @CompoundIndex(def = "{name: 1, fdz_project: 1}", unique = true)
+@SurveyHasSameFdzProject
 public class Variable extends AbstractFdzDomainObject {
   @Id
   @NotEmpty
@@ -44,12 +47,12 @@ public class Variable extends AbstractFdzDomainObject {
   @Size(max = 128)
   private String label;
 
-  @DBRef(lazy = true)
-  @NotNull
-  private FdzProject fdzProject;
+  @NotEmpty
+  @FdzProjectExists
+  private String fdzProjectId;
   
-  @DBRef(lazy = true)
-  private Survey survey;
+  @SurveyExists
+  private String surveyId;
 
   public String getName() {
     return name;
@@ -83,20 +86,20 @@ public class Variable extends AbstractFdzDomainObject {
     this.label = label;
   }
 
-  public FdzProject getFdzProject() {
-    return fdzProject;
+  public String getFdzProjectId() {
+    return fdzProjectId;
   }
 
-  public Survey getSurvey() {
-    return survey;
+  public String getSurveyId() {
+    return surveyId;
   }
 
-  public void setSurvey(Survey survey) {
-    this.survey = survey;
+  public void setSurveyId(String surveyId) {
+    this.surveyId = surveyId;
   }
 
-  public void setFdzProject(FdzProject fdzProject) {
-    this.fdzProject = fdzProject;
+  public void setFdzProjectId(String fdzProjectId) {
+    this.fdzProjectId = fdzProjectId;
   }
   
   public String getId() {
@@ -115,8 +118,8 @@ public class Variable extends AbstractFdzDomainObject {
       .add("dataType", dataType)
       .add("scaleLevel", scaleLevel)
       .add("label", label)
-      .add("fdzProject", fdzProject)
-      .add("survey", survey)
+      .add("fdzProjectId", fdzProjectId)
+      .add("surveyId", surveyId)
       .toString();
   }
 }

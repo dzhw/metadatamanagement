@@ -108,8 +108,8 @@ public class AdminResourceTest extends AbstractTest {
       .build();
     surveyRepository.save(survey);
 
-    Variable variable = new VariableBuilder().withFdzProject(project)
-      .withSurvey(survey)
+    Variable variable = new VariableBuilder().withFdzProjectId(project.getId())
+      .withSurveyId(survey.getId())
       .withId("testId")
       .withLabel("label")
       .withName("name")

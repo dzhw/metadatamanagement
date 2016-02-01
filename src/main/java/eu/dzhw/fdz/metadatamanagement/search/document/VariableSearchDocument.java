@@ -31,26 +31,15 @@ public class VariableSearchDocument {
   public VariableSearchDocument(Variable variable, ElasticsearchIndices index) {
     this.id = variable.getId();
     this.name = variable.getName();
-    this.fdzProjectId = variable.getFdzProject().getId();
+    this.fdzProjectId = variable.getFdzProjectId();
     this.label = variable.getLabel();
     createScaleLevel(variable, index);
     createDataType(variable, index);
-    createSurveyTitle(variable, index);
+    createSurveyTitle();
   }
 
-  private void createSurveyTitle(Variable variable, ElasticsearchIndices index) {
-    if (variable.getSurvey() != null) {      
-      switch (index) {
-        case METADATA_DE:
-          this.surveyTitle = variable.getSurvey().getTitle().getDe();
-          break;
-        case METADATA_EN:
-          this.surveyTitle = variable.getSurvey().getTitle().getEn();
-          break;
-        default:
-          throw new RuntimeException("Unknown index:" + index);
-      }
-    }
+  private void createSurveyTitle() {
+    // TODO create survey title depending on the language
   }
 
   private void createDataType(Variable variable, ElasticsearchIndices index) {

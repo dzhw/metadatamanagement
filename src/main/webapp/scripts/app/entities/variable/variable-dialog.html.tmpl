@@ -35,7 +35,7 @@
             </div>
             <div class="form-group">
                   <label data-translate="metadatamanagementApp.variable.fdzProjectName" for="field_fdzProjectName">FDZ Project Name</label>
-                  <select class="form-control" name="fdzProjectName" ng-model="variable.fdzProject" id="field_fdzProjectName" ng-change="changeSurvey()" required>
+                  <select class="form-control" name="fdzProjectName" ng-model="variable.fdzProjectId" id="field_fdzProjectName" ng-change="changeSurvey()" required>
                         <option disabled selected label="&#160;"></option>
                         <option ng-repeat="fdzproject in allFdzProjects" value="{{fdzproject.id}}">{{fdzproject.id}}</option>
                   </select>
@@ -47,7 +47,7 @@
             </div>
             <div class="form-group">
                   <label data-translate="metadatamanagementApp.variable.surveyId" for="field_surveyId">Survey Id</label>
-                  <select class="form-control" name="surveyId" ng-model="variable.survey" id="field_surveyId" ng-disabled="isSurveyEmpty()">
+                  <select class="form-control" name="surveyId" ng-model="variable.surveyId" id="field_surveyId" ng-disabled="isSurveyEmpty()">
                         <option disabled selected label="&#160;"></option>
                         <option ng-repeat="survey in allSurveysByFdzProjectId" value="{{survey.id}}">{{survey.id}}</option>
                   </select>

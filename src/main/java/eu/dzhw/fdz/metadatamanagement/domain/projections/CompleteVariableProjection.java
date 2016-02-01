@@ -22,7 +22,7 @@ public interface CompleteVariableProjection extends AbstractFdzDomainObjectProje
 
   String getLabel();
 
-  CompleteFdzProjectProjection getFdzProject();
+  String getFdzProjectId();
 
-  CompleteSurveyProjection getSurvey();
+  String getSurveyId();
 }
