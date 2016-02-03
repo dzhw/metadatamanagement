@@ -135,5 +135,8 @@
       "notfound": "Ein Datensatz vom Typ \"{{params[0]}}\" mit ID \"{{params[1]}}\" wurde nicht gefunden!"
     }
   },
+  "logos": {
+    "fdz": "Forschungsdatenzentrum, Deutsches Zentrum für Hochschul- und Wissenschaftsforschung"
+  },
   "footer": "Dies ist Ihre Fußzeile"
 }

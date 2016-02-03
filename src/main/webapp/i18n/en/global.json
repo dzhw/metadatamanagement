@@ -136,5 +136,8 @@
       "notfound": "{{params[0]}} with ID \"{{params[1]}}\" not found!"
     }
   },
+  "logos": {
+    "fdz": "Research Data Center, German Center for Research on Higher Education and Science Studies"
+  },
   "footer": "This is your footer"
 }

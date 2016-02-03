@@ -8,7 +8,7 @@
 
 describe('Test login', function() {
 
-  it('Login in german with admin', function() {
+  xit('Login in german with admin', function() {
 
     //Welcome Page
     browser.get('#/de/');

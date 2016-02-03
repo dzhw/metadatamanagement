@@ -1,8 +1,12 @@
 {
-    "main": {
-        "title": "Welcome",
-        "subtitle": "Welcome to the FDZ of the DZHW.",
-        "dzhwUrl":"http://www.dzhw.eu/en",
-        "bmbfUrl":"http://www.bmbf.de/en"
+  "main": {
+    "title": "Welcome",
+    "subtitle": "Welcome to the FDZ of the DZHW.",
+    "dzhwUrl": "http://www.dzhw.eu/en",
+    "bmbfUrl": "http://www.bmbf.de/en",
+    "logos": {
+      "bmbf": "Sponsored by the FMER",
+      "dzhw": "The German Centre for Research on Higher Education and Science Studies"
     }
+  }
 }

@@ -1,8 +1,12 @@
 {
-    "main": {
-        "title": "Willkommen",
-        "subtitle": "Willkommen beim FDZ des DZHW.",
-        "dzhwUrl":"http://www.dzhw.eu/",
-        "bmbfUrl":"http://www.bmbf.de/"
+  "main": {
+    "title": "Willkommen",
+    "subtitle": "Willkommen beim FDZ des DZHW.",
+    "dzhwUrl": "http://www.dzhw.eu/",
+    "bmbfUrl": "http://www.bmbf.de/",
+    "logos": {
+      "bmbf": "Gefördert vom BMBF",
+      "dzhw": "Deutsches Zentrum für Hochschul- und Wissenschaftsforschung DZHW GmbH"
     }
+  }
 }
