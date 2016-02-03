@@ -13,6 +13,7 @@ exports.config = {
     browser.driver.manage().window().maximize();
     require('./src/test/protractor/utils/locators.js');
   },
+  //baseUrl: 'https://metadatamanagement.cfapps.io/',
   baseUrl: 'https://metadatamanagement.cfapps.io/',
   specs: ['src/test/protractor/i18n/index.js',
     'src/test/protractor/login/login.js'

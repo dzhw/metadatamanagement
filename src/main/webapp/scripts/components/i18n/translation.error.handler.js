@@ -5,6 +5,6 @@ angular.module('metadatamanagementApp')
 
     // has to return a function which gets a tranlation id
     return function(translationId) {
-      console.log('Missing Translation: ' + translationId);
+      return '{{' + translationId + '}}';
     };
   });
