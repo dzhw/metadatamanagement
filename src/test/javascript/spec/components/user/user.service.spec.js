@@ -1,36 +1,28 @@
-/*global it:false */
-/*global beforeEach:false */
-/*global expect:false */
-/*global spyOn:false */
-/*global jasmine:false */
-/*global inject:false */
-/*global afterEach:false */
-/*global describe:false */
-
-/* @author: Daniel Katzberg */
-'use strict';
-
-describe('Test User Factory', function() {
-  var $httpBackend;
-  var user;
-
-  //Before each Test
-  beforeEach(module('metadatamanagementApp'));
-  beforeEach(inject(function($injector, User) {
+describe('User', function() {
+  var mockUserResource, $httpBackend;
+  var data = {
+    login: 'test',
+    name: 'test'
+  };
+  beforeEach(mockApiAccountCall);
+  beforeEach(mockI18nCalls);
+  beforeEach(inject(function($injector) {
     $httpBackend = $injector.get('$httpBackend');
-    user = User;
+    mockUserResource = $injector.get('User');
   }));
+  describe('getUser', function() {
+    it('should get User', inject(function(Survey) {
+      $httpBackend.expectGET(
+        /api\/users\?cacheBuster=\d+/).respond(
+        data);
 
-  //After each Test
-  afterEach(function() {});
+      var result = mockUserResource.get(1);
+      try {
+        $httpBackend.flush();
+      } catch (e) {
 
-  //TESTS
-  it('getAllUser', function() {
-    $httpBackend.expectGET('/api/users/').respond(200, 'success');
+      }
+      expect(result.name).toEqual('test');
+    }));
   });
-
-  it('getUser', function() {
-    $httpBackend.expectGET('/api/users/admin', {transformRequest: angular.test}).respond(200, 'success');
-  });
-
 });
