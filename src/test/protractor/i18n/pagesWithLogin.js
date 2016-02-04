@@ -8,7 +8,11 @@
 describe('Metadatamanagement Start page with different languages', function() {
   var loginHelper = require('../utils/loginHelper');
   var utilMissingTranslations = require('../utils/findMissingTranslations');
-  utilMissingTranslations.pages = ['/'];
+  utilMissingTranslations.pages = ['/', '/fdzProjects', '/surveys',
+    '/variables?page=1', '/settings', '/password', '/user-management',
+    '/tracker', '/metrics', '/health', '/configuration', '/audits',
+    '/logs', '/disclosure'
+  ];
 
   it('Check german language elements for all pages with a login', function() {
     //Welcome Page
@@ -21,8 +25,7 @@ describe('Metadatamanagement Start page with different languages', function() {
 
     //Test pages
     utilMissingTranslations.testMissingTranslations(
-      utilMissingTranslations.germanLanguage +
-      utilMissingTranslations.pages[0]);
+      utilMissingTranslations.germanLanguage);
 
     //'Logout'
     loginHelper.logout(utilMissingTranslations.germanLanguage +
@@ -41,8 +44,7 @@ describe('Metadatamanagement Start page with different languages', function() {
 
       //Test pages
       utilMissingTranslations.testMissingTranslations(
-        utilMissingTranslations.englishLanguage +
-        utilMissingTranslations.pages[0]);
+        utilMissingTranslations.englishLanguage);
 
       //'Logout'
       loginHelper.logout(utilMissingTranslations.englishLanguage +
