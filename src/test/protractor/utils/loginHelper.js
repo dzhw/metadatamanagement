@@ -2,9 +2,10 @@
 /* global element */
 /* global by */
 /* global expect */
+/* @Author Daniel Katzberg */
 'use strict';
 
-function login() {
+function login(languagePath) {
   //Click at 'Account'
   element.all(by.css('.dropdown-toggle')).then(function(dropdowns) {
     expect(dropdowns.length).toBe(2); //two drop downs
@@ -13,9 +14,8 @@ function login() {
 
   //Click at 'Login'
   element(by.uiSref('login')).click();
-  browser.waitForAngular();
   expect(browser.getCurrentUrl()).toEqual(
-    'https://metadatamanagement.cfapps.io/#/de/login');
+    'https://metadatamanagement.cfapps.io/' + languagePath + 'login');
 
   //add account information and login
   element(by.id('username')).sendKeys('admin');
@@ -23,7 +23,7 @@ function login() {
   element(by.dataTranslate('login.form.button')).click();
 }
 
-function logout() {
+function logout(languagePath) {
   //Click at 'Account'
   element.all(by.css('.dropdown-toggle')).then(function(dropdownLinks) {
     expect(dropdownLinks.length).toBe(4); //four drop downs
@@ -32,9 +32,8 @@ function logout() {
 
   //Click at Logout
   element(by.ngClick('logout()')).click();
-  browser.waitForAngular();
   expect(browser.getCurrentUrl()).toEqual(
-    'https://metadatamanagement.cfapps.io/#/de/');
+    'https://metadatamanagement.cfapps.io/' + languagePath);
 }
 
 module.exports.login = login;
