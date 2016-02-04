@@ -16,6 +16,7 @@ exports.config = {
   },
   baseUrl: 'https://metadatamanagement.cfapps.io/',
   specs: ['src/test/protractor/i18n/publicPages.js',
+    'src/test/protractor/i18n/pagesWithLogin.js',
     'src/test/protractor/login/login.js'
   ]
 };
