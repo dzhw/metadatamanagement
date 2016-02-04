@@ -1,8 +1,16 @@
+/* global expect */
+/* global browser */
+/* global element */
+/* global by */
 /* @Author Daniel Katzberg */
 'use strict';
 
+var germanLanguage = '#/de';
+var englishLanguage = '#/en';
 var actualLanguage;
 var foundMissingTranslationsArray = [];
+var pages = [];
+
 
 //function for finding missing translations
 function findMissingTranslations(html) {
@@ -26,6 +34,31 @@ function findMissingTranslations(html) {
   }
 }
 
-module.exports.findMissingTranslations = findMissingTranslations;
-module.exports.actualLanguage = actualLanguage;
-module.exports.foundMissingTranslationsArray = foundMissingTranslationsArray;
+//function for different test cases depending on a given language
+function testMissingTranslations(language) {
+
+  //reset array of missing elements and language
+  foundMissingTranslationsArray = [];
+  actualLanguage = language;
+
+  //iterate over all pages
+  for (var pageIndex = 0; pageIndex < pages.length; pageIndex++) {
+
+    //load page
+    browser.get(actualLanguage + pages[
+      pageIndex]);
+
+    //check for missing translations
+    element(by.tagName('html')).getInnerHtml().then(
+      findMissingTranslations);
+  }
+
+  //Test for missing translations
+  expect(foundMissingTranslationsArray).toEqual(
+    []);
+}
+
+module.exports.testMissingTranslations = testMissingTranslations;
+module.exports.pages = pages;
+module.exports.germanLanguage = germanLanguage;
+module.exports.englishLanguage = englishLanguage;
