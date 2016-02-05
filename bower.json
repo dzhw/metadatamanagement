@@ -32,7 +32,8 @@
     "file-saver.js": "~1.20150507.2",
     "jszip-utils": "~0.0.2",
     "handlebars": "~4.0.5",
-    "angular-translate-handler-log": "^2.9.0"
+    "angular-translate-handler-log": "^2.9.0",
+    "angular-nvd3": "^1.0.5"
   },
   "devDependencies": {
     "angular-mocks": "1.4.9",
