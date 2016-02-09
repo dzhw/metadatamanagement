@@ -16,7 +16,7 @@ install:
 script:
   - mvn -Pprod --settings ./buildconfig/settings.xml -B -DrepoToken=$COVERALLS_TOKEN package cf:push-only coveralls:report
   - ./node_modules/protractor/bin/webdriver-manager update --standalone
-  - ./node_modules/protractor/bin/protractor protractor.conf.js
+  - ./node_modules/protractor/bin/protractor ./src/test/protractor/protractor.conf.js
 notifications:
   email:
     recipients:

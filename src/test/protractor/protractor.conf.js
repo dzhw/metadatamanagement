@@ -4,7 +4,7 @@
 'use strict';
 
 exports.config = {
-  seleniumServerJar: './node_modules/protractor/selenium/' +
+  seleniumServerJar: './../../../node_modules/protractor/selenium/' +
     'selenium-server-standalone-2.48.2.jar',
   capabilities: {
     browserName: 'phantomjs',
@@ -12,11 +12,11 @@ exports.config = {
   },
   onPrepare: function() {
     browser.driver.manage().window().maximize();
-    require('./src/test/protractor/utils/locators.js');
+    require('./utils/locators.js');
   },
   baseUrl: 'https://metadatamanagement.cfapps.io/',
-  specs: ['src/test/protractor/i18n/publicPages.js',
-    'src/test/protractor/i18n/pagesWithLogin.js',
-    'src/test/protractor/login/login.js'
+  specs: ['i18n/publicPages.js',
+    'i18n/pagesWithLogin.js',
+    'login/login.js'
   ]
 };
