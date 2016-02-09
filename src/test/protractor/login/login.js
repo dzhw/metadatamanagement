@@ -2,12 +2,16 @@
 /* global it */
 /* global describe */
 /* global expect */
+/* global afterAll */
 /* @Author Daniel Katzberg */
 'use strict';
 
 describe('Test login', function() {
 
   var loginHelper = require('../utils/loginHelper');
+  var cacheHelper = require('../utils/cacheHelper');
+
+  afterAll(cacheHelper.clearCache);
 
   it('Login in german with admin', function() {
     var languagePath = '#/de/';

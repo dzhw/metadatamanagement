@@ -6,15 +6,15 @@
 'use strict';
 
 function login(languagePath) {
-  console.log('Language Path Login: ' + languagePath);
 
-  element.all(by.dataTranslate('global.menu.entities.main')).then(function(entities) {
-    expect(entities.length).toBe(0); //four drop downs
-  });
+  //Expect no entities dropdown (only visible with a login)
+  expect(element(by.dataTranslate('global.menu.entities.main')).isPresent()).toBe(false);
+
   //Click at 'Account'
   element(by.dataTranslate('global.menu.account.main')).click();
 
   //Click at 'Login'
+  expect(element(by.uiSref('login')).isPresent()).toBe(true);
   element(by.uiSref('login')).click();
   expect(browser.getCurrentUrl()).toEqual(
     'https://metadatamanagement.cfapps.io/' + languagePath + 'login');
@@ -30,14 +30,10 @@ function login(languagePath) {
 }
 
 function logout(languagePath) {
-
-console.log('Language Path Logout: ' + languagePath);
-
   //expect(element(by.dataTranslate('global.menu.entities.main'))).toBe(true);
 
   //Click at 'Account'
   element(by.dataTranslate('global.menu.account.main')).click();
-
 
   //Click at Logout
   element(by.ngClick('logout()')).click();

@@ -18,5 +18,6 @@ exports.config = {
   specs: ['i18n/publicPages.js',
     'i18n/pagesWithLogin.js',
     'login/login.js'
-  ]
+  ],
+  defaultTimeoutInterval: 100000
 };
