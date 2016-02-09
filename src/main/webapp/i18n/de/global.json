@@ -82,7 +82,8 @@
       }
     },
     "field": {
-      "fdzId": "FDZ ID"
+      "fdzId": "FDZ ID",
+      "id": "ID"
     }
   },
   "entity": {

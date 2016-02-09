@@ -9,7 +9,6 @@ var germanLanguage = '#/de';
 var englishLanguage = '#/en';
 var actualLanguage;
 var foundMissingTranslationsArray = [];
-var pages = [];
 
 
 //function for finding missing translations
@@ -35,7 +34,7 @@ function findMissingTranslations(html) {
 }
 
 //function for different test cases depending on a given language
-function testMissingTranslations(language) {
+function testMissingTranslations(language, pages) {
 
   //reset array of missing elements and language
   foundMissingTranslationsArray = [];
@@ -59,6 +58,5 @@ function testMissingTranslations(language) {
 }
 
 module.exports.testMissingTranslations = testMissingTranslations;
-module.exports.pages = pages;
 module.exports.germanLanguage = germanLanguage;
 module.exports.englishLanguage = englishLanguage;
