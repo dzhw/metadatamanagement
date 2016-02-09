@@ -7,10 +7,7 @@
 
 function login(languagePath) {
   //Click at 'Account'
-  element.all(by.css('.dropdown-toggle')).then(function(dropdowns) {
-    expect(dropdowns.length).toBe(2); //two drop downs
-    dropdowns[0].click();
-  });
+  element(by.dataTranslate('global.menu.account.main')).click();
 
   //Click at 'Login'
   element(by.uiSref('login')).click();
@@ -25,10 +22,7 @@ function login(languagePath) {
 
 function logout(languagePath) {
   //Click at 'Account'
-  element.all(by.css('.dropdown-toggle')).then(function(dropdownLinks) {
-    expect(dropdownLinks.length).toBe(4); //four drop downs
-    dropdownLinks[1].click();
-  });
+  element(by.dataTranslate('global.menu.account.main')).click();
 
   //Click at Logout
   element(by.ngClick('logout()')).click();
