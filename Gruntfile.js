@@ -111,7 +111,8 @@ module.exports = function(grunt) {
             customtags: [
               'jh-*',
               'uib-*',
-              'password-strength-bar'
+              'password-strength-bar',
+              'nvd3'
             ],
             relaxerror: [
               'The “date” input type is not supported in all browsers.' +
