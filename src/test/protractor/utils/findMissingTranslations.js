@@ -45,7 +45,7 @@ function testMissingTranslations(language, pages, done) {
 
     //load page
     browser.get(actualLanguage + pages[
-      pageIndex]).then(done);
+      pageIndex], 30000).then(done);
 
     //check for missing translations
     element(by.tagName('html')).getInnerHtml().then(

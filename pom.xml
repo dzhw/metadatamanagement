@@ -662,8 +662,8 @@
                     </services>
                     <memory>1024</memory>
                     <diskQuota>1024</diskQuota>
-                    <healthCheckTimeout>180</healthCheckTimeout>
-                    <appStartupTimeout>180</appStartupTimeout>
+                    <healthCheckTimeout>300</healthCheckTimeout>
+                    <appStartupTimeout>300</appStartupTimeout>
                     <instances>2</instances>
                 </configuration>
             </plugin>
