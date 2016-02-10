@@ -3,7 +3,7 @@
 angular
   .module(
     'metadatamanagementApp', ['LocalStorageModule', 'tmh.dynamicLocale',
-      'pascalprecht.translate',
+      'pascalprecht.translate', 'nvd3',
       'ui.bootstrap', // for modal dialogs
       'ngResource', 'ui.router', 'ngCookies', 'ngAria', 'ngCacheBuster',
       'ngFileUpload', 'infinite-scroll'

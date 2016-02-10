@@ -1,8 +1,10 @@
+/* global d3 */
 /* @Author Daniel Katzberg */
 'use strict';
-/*
-angular.module('metadatamanagementApp', ['nvd3'])
+
+angular.module('metadatamanagementApp')
     .controller('chartsController', function($scope) {
+
       $scope.options = {
         chart: {
           type: 'discreteBarChart',
@@ -29,7 +31,7 @@ angular.module('metadatamanagementApp', ['nvd3'])
           },
           yAxis: {
             axisLabel: 'Y Axis',
-            axisLabelDistance: 30
+            axisLabelDistance: -10
           }
         }
       };
@@ -61,4 +63,4 @@ angular.module('metadatamanagementApp', ['nvd3'])
           'value': -5.1387322875705
         }]
       }];
-    });*/
+    });

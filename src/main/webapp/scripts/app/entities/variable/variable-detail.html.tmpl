@@ -7,74 +7,82 @@
     <h2>
         <span data-translate="metadatamanagementApp.variable.detail.title">Variable</span>
         {{variable.id}}</h2>
+
     <div class="row">
-        <div class="table-responsive">
-            <table class="table table-striped">
-                <thead>
-                    <tr>
-                        <th data-translate="entity.detail.field">Field</th>
-                        <th data-translate="entity.detail.value">Value</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>
-                            <span data-translate="metadatamanagementApp.variable.fdzId">fdzId</span>
-                        </td>
-                        <td>
-                            <span class="form-control-static">{{variable.id}}</span>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <span data-translate="metadatamanagementApp.variable.fdzProjectName">FdZ Proect Name</span>
-                        </td>
-                        <td>
-                            <span class="form-control-static">{{variable.fdzProjectId}}</span>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <span data-translate="metadatamanagementApp.variable.surveyId">SurveyId</span>
-                        </td>
-                        <td>
-                            <span class="form-control-static">{{variable.surveyId}}</span>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <span data-translate="metadatamanagementApp.variable.name">Name</span>
-                        </td>
-                        <td>
-                            <span class="form-control-static">{{variable.name}}</span>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <span data-translate="metadatamanagementApp.variable.dataType">DataType</span>
-                        </td>
-                        <td>
-                            <span class="form-control-static" data-translate="{{'metadatamanagementApp.DataType.' + variable.dataType}}">{{variable.dataType}}</span>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <span data-translate="metadatamanagementApp.variable.scaleLevel">ScaleLevel</span>
-                        </td>
-                        <td>
-                            <span class="form-control-static" data-translate="{{'metadatamanagementApp.ScaleLevel.' + variable.scaleLevel}}">{{variable.scaleLevel}}</span>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <span data-translate="metadatamanagementApp.variable.label">Label</span>
-                        </td>
-                        <td>
-                            <span class="form-control-static">{{variable.label}}</span>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
+        <div class="col-md-6">
+            <div class="table-responsive">
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th data-translate="entity.detail.field">Field</th>
+                            <th data-translate="entity.detail.value">Value</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>
+                                <span data-translate="metadatamanagementApp.variable.fdzId">fdzId</span>
+                            </td>
+                            <td>
+                                <span class="form-control-static">{{variable.id}}</span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <span data-translate="metadatamanagementApp.variable.fdzProjectName">FdZ Proect Name</span>
+                            </td>
+                            <td>
+                                <span class="form-control-static">{{variable.fdzProjectId}}</span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <span data-translate="metadatamanagementApp.variable.surveyId">SurveyId</span>
+                            </td>
+                            <td>
+                                <span class="form-control-static">{{variable.surveyId}}</span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <span data-translate="metadatamanagementApp.variable.name">Name</span>
+                            </td>
+                            <td>
+                                <span class="form-control-static">{{variable.name}}</span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <span data-translate="metadatamanagementApp.variable.dataType">DataType</span>
+                            </td>
+                            <td>
+                                <span class="form-control-static" data-translate="{{'metadatamanagementApp.DataType.' + variable.dataType}}">{{variable.dataType}}</span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <span data-translate="metadatamanagementApp.variable.scaleLevel">ScaleLevel</span>
+                            </td>
+                            <td>
+                                <span class="form-control-static" data-translate="{{'metadatamanagementApp.ScaleLevel.' + variable.scaleLevel}}">{{variable.scaleLevel}}</span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <span data-translate="metadatamanagementApp.variable.label">Label</span>
+                            </td>
+                            <td>
+                                <span class="form-control-static">{{variable.label}}</span>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div ng-controller='chartsController'>
+                <nvd3 options='options' data='data'></nvd3>
+            </div>
         </div>
     </div>
     <div class="row">
@@ -87,8 +95,4 @@
                 Back</span>
         </button>
     </div>
-    <!-- TODO activate later.
-    <div ng-controller='chartsController'>
-        <nvd3 options='options' data='data'></nvd3>
-    </div> -->
 </div>
