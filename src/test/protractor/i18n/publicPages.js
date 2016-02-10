@@ -1,7 +1,6 @@
 /* global describe */
 /* global it */
 /* global afterAll */
-/* global browser */
 /* @Author Daniel Katzberg */
 
 'use strict';
