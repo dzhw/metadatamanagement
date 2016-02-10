@@ -5,7 +5,7 @@
 
 exports.config = {
   seleniumServerJar: './../../../node_modules/protractor/selenium/' +
-    'selenium-server-standalone-2.48.2.jar',
+    'selenium-server-standalone-2.51.0.jar',
   capabilities: {
     browserName: 'phantomjs',
     'phantomjs.binary.path': './node_modules/phantomjs/bin/phantomjs'
