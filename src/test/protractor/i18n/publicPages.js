@@ -15,13 +15,13 @@ describe('Metadatamanagement Start page with different languages', function() {
 
   afterAll(cacheHelper.clearCache);
 
-  it('Check german language elements for all pages', function() {
+  it('Check german language elements for all pages', function(done) {
     utilMissingTranslations.testMissingTranslations(
-      utilMissingTranslations.germanLanguage, pages);
+      utilMissingTranslations.germanLanguage, pages, done);
   });
 
-  it('Check english language elements for all pages', function() {
+  it('Check english language elements for all pages', function(done) {
     utilMissingTranslations.testMissingTranslations(
-      utilMissingTranslations.englishLanguage, pages);
+      utilMissingTranslations.englishLanguage, pages, done);
   });
 });

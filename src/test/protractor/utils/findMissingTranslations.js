@@ -34,7 +34,7 @@ function findMissingTranslations(html) {
 }
 
 //function for different test cases depending on a given language
-function testMissingTranslations(language, pages) {
+function testMissingTranslations(language, pages, done) {
 
   //reset array of missing elements and language
   foundMissingTranslationsArray = [];
@@ -45,7 +45,7 @@ function testMissingTranslations(language, pages) {
 
     //load page
     browser.get(actualLanguage + pages[
-      pageIndex]);
+      pageIndex]).then(done);
 
     //check for missing translations
     element(by.tagName('html')).getInnerHtml().then(

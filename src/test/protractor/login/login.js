@@ -13,10 +13,10 @@ describe('Test login', function() {
 
   afterAll(cacheHelper.clearCache);
 
-  it('Login in german with admin', function() {
+  it('Login in german with admin', function(done) {
     var languagePath = '#/de/';
     //Welcome Page
-    browser.get(languagePath);
+    browser.get(languagePath).then(done);
     expect(browser.getCurrentUrl()).toEqual(
       'https://metadatamanagement.cfapps.io/#/de/');
 
@@ -27,10 +27,10 @@ describe('Test login', function() {
     loginHelper.logout(languagePath);
   });
 
-  it('Login in english with admin', function() {
+  it('Login in english with admin', function(done) {
     var languagePath = '#/en/';
     //Welcome Page
-    browser.get(languagePath);
+    browser.get(languagePath).then(done);
     expect(browser.getCurrentUrl()).toEqual(
       'https://metadatamanagement.cfapps.io/#/en/');
 
