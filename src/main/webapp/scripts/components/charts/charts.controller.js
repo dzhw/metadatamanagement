@@ -3,7 +3,11 @@
 'use strict';
 
 angular.module('metadatamanagementApp')
-    .controller('chartsController', function($scope) {
+    .controller('chartsController', function($scope, ShareEntity) {
+      //Get the actually entity by a service (injected by variable-details
+      //controller)
+      var entity = ShareEntity.getEntity();
+      console.log(entity);
 
       $scope.options = {
         chart: {
