@@ -1,7 +1,10 @@
 package eu.dzhw.fdz.metadatamanagement.domain.projections;
 
+import java.util.List;
+
 import org.springframework.data.rest.core.config.Projection;
 
+import eu.dzhw.fdz.metadatamanagement.domain.Value;
 import eu.dzhw.fdz.metadatamanagement.domain.Variable;
 import eu.dzhw.fdz.metadatamanagement.domain.enumeration.DataType;
 import eu.dzhw.fdz.metadatamanagement.domain.enumeration.ScaleLevel;
@@ -25,4 +28,6 @@ public interface CompleteVariableProjection extends AbstractFdzDomainObjectProje
   String getFdzProjectId();
 
   String getSurveyId();
+
+  List<Value> getValues();
 }
