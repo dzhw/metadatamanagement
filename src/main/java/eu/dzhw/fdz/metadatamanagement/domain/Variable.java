@@ -1,5 +1,7 @@
 package eu.dzhw.fdz.metadatamanagement.domain;
 
+import java.util.List;
+
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
@@ -22,6 +24,9 @@ import net.karneim.pojobuilder.GeneratePojoBuilder;
 
 /**
  * A Variable.
+ * 
+ * @author René Reitmann
+ * @author Daniel Katzberg
  */
 @Document(collection = "variables")
 @GeneratePojoBuilder(intoPackage = "eu.dzhw.fdz.metadatamanagement.domain.builders")
@@ -50,9 +55,11 @@ public class Variable extends AbstractFdzDomainObject {
   @NotEmpty
   @FdzProjectExists
   private String fdzProjectId;
-  
+
   @SurveyExists
   private String surveyId;
+
+  private List<Value> values;
 
   public String getName() {
     return name;
@@ -101,13 +108,22 @@ public class Variable extends AbstractFdzDomainObject {
   public void setFdzProjectId(String fdzProjectId) {
     this.fdzProjectId = fdzProjectId;
   }
-  
+
+  @Override
   public String getId() {
     return id;
   }
 
   public void setId(String id) {
     this.id = id;
+  }
+
+  public List<Value> getValues() {
+    return values;
+  }
+
+  public void setValues(List<Value> values) {
+    this.values = values;
   }
 
   @Override
