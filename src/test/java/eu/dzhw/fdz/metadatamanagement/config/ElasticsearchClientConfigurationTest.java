@@ -37,9 +37,8 @@ public class ElasticsearchClientConfigurationTest {
 
     Environment environment = Mockito.mock(Environment.class);
     when(environment.acceptsProfiles(Constants.SPRING_PROFILE_CLOUD)).thenReturn(false);
-
     // Act
-    JestClient jestClient = clientConfiguration.jestClient(environment);
+    JestClient jestClient = clientConfiguration.jestClient(clientConfiguration.elasticSearchConnectionUrl(environment));
 
     // Assert
     assertThat(jestClient, not(nullValue()));

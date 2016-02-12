@@ -30,17 +30,33 @@ public class ElasticsearchClientConfiguration {
    * Create the client which connects to Elasticsearch. Connects to localhost if we are not running
    * in the cloud.
    * 
-   * @param environment Springs {@link Environment}
    * @return The configured {@link JestClient}
    * @throws Exception if the connection params cannot be resolved from the environment in the cloud
    */
   @SuppressWarnings("rawtypes")
   @Bean
-  public JestClient jestClient(Environment environment) throws Exception {
-    String connectionUrl = metadataManagementProperties.getElasticsearchClient()
-        .getUrl();
-    int readTimeout = metadataManagementProperties.getElasticsearchClient()
-        .getReadTimeout();
+  public JestClient jestClient(String elasticSearchConnectionUrl) throws Exception {
+    int readTimeout = metadataManagementProperties.getElasticsearchClient().getReadTimeout();
+
+    // Configuration
+    HttpClientConfig clientConfig = new HttpClientConfig.Builder(elasticSearchConnectionUrl)
+        .readTimeout(readTimeout).multiThreaded(true).build();
+
+    // Construct a new Jest client according to configuration via factory
+    JestClientFactory factory = new JestClientFactory();
+    factory.setHttpClientConfig(clientConfig);
+    return factory.getObject();
+  }
+
+  /**
+   * Create the connection url for Elastucsearch client.
+   * 
+   * @return The connection url
+   * @throws Exception if the connection params cannot be resolved from the environment in the cloud
+   */
+  @Bean
+  public String elasticSearchConnectionUrl(Environment environment) throws Exception {
+    String connectionUrl = metadataManagementProperties.getElasticsearchClient().getUrl();
 
     // use cloud connection url if available
     if (environment.acceptsProfiles(Constants.SPRING_PROFILE_CLOUD)) {
@@ -49,18 +65,8 @@ public class ElasticsearchClientConfiguration {
 
       connectionUrl =
           (String) ((Map) ((Map) ((List) result.get("searchly")).get(0)).get("credentials"))
-            .get("uri");
+              .get("uri");
     }
-
-    // Configuration
-    HttpClientConfig clientConfig =
-        new HttpClientConfig.Builder(connectionUrl).readTimeout(readTimeout)
-          .multiThreaded(true)
-          .build();
-
-    // Construct a new Jest client according to configuration via factory
-    JestClientFactory factory = new JestClientFactory();
-    factory.setHttpClientConfig(clientConfig);
-    return factory.getObject();
+    return connectionUrl;
   }
 }

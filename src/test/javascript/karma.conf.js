@@ -46,7 +46,7 @@ module.exports = function (config) {
             'src/main/webapp/bower_components/angular-nvd3/dist/angular-nvd3.js',
             'src/main/webapp/bower_components/angular-mocks/angular-mocks.js',
             // endbower
-            'src/main/webapp/bower_components/elasticsearch/elasticsearch.jquery.js',
+            'src/main/webapp/bower_components/elasticsearch/elasticsearch.angular.js',
             'src/main/webapp/scripts/app/app.js',
             'src/main/webapp/scripts/app/**/*.js',
             'src/main/webapp/scripts/components/**/*.js',

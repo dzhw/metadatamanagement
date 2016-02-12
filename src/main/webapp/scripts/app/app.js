@@ -5,6 +5,7 @@ angular
     'metadatamanagementApp', ['LocalStorageModule', 'tmh.dynamicLocale',
       'pascalprecht.translate', 'nvd3',
       'ui.bootstrap', // for modal dialogs
+      'elasticsearch',
       'ngResource', 'ui.router', 'ngCookies', 'ngAria', 'ngCacheBuster',
       'ngFileUpload', 'infinite-scroll'
     ])

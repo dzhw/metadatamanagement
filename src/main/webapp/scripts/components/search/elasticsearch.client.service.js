@@ -1,9 +1,8 @@
 'use strict';
-/*global jQuery:false */
-angular.module('metadatamanagementApp').service('ElasticSearchClient',
-    function($rootScope) {
-  var client = new jQuery.es.Client({
-    hosts: $rootScope.elasticSearchProperties.url
+angular.module('metadatamanagementApp').service('ElasticSearchClient', function(
+	esFactory, $location) {
+  return esFactory({
+    host: $location.protocol() + '://' + $location.host() + ':' +
+    $location.port() + '/api/search/'
   });
-  return client;
 });

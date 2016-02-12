@@ -60,7 +60,6 @@ angular.module('metadatamanagementApp')
               $scope.searchResult = data.hits.hits;
               $scope.page.contentSize = $scope.searchResult.length;
               $scope.page.totalHits = data.hits.total;
-              $scope.$apply();
             }, function(error) {
               AlertService.error(error.message);
               console.trace(error);
