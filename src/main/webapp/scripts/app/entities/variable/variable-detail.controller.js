@@ -31,33 +31,34 @@ angular.module('metadatamanagementApp')
 
         // title options
         title: {
-        enable: true,
-        text: $scope.variable.name
-    },
+          enable: true,
+          text: $scope.variable.name
+        },
 
-    // subtitle options
-    subtitle: {
-        enable: true,
-        text: 'Absolute Häufigkeit von Werten' ,
-        css: {
+        // subtitle options
+        subtitle: {
+          enable: true,
+          text: 'Absolute Häufigkeit von Werten',
+          css: {
             'text-align': 'center',
             'margin': '10px 13px 0px 7px'
-        }
-    },
+          }
+        },
 
-    // caption options
-    caption: {
-        enable: true,
-        html: 'Figure 1: ' + $scope.variable.name + ', Absolute Häufigkeit von Werten',
-        css: {
+        // caption options
+        caption: {
+          enable: true,
+          html: 'Figure 1: ' + $scope.variable.name +
+            ', Absolute Häufigkeit von Werten',
+          css: {
             'text-align': 'center',
             'margin': '-30px 0px 0px 0px'
+          }
         }
-    }
       };
 
       //The data object is for the display
       $scope.data = [{
-        values:  $scope.variable.values
+        values: $scope.variable.values
       }];
     });
