@@ -3,9 +3,11 @@
 'use strict';
 
 angular.module('metadatamanagementApp')
-  .controller('VariableDetailController',
-    function($scope, entity) {
+  .controller('VariableDetailController', ['$scope', 'entity', '$translate',
+    function($scope, entity, $translate) {
       $scope.variable = entity;
+
+      var usedLanguage = $translate.use();
 
       //options for charts
       $scope.options = {
@@ -22,7 +24,14 @@ angular.module('metadatamanagementApp')
 
           //Point for data extraction to visualisation
           x: function(d) {
-            return d.label.en;
+
+            //if en, return en lables
+            if (usedLanguage === 'en') {
+              return d.label.en;
+            }
+
+            //de is default. return de labels.
+            return d.label.de;
           },
           y: function(d) {
             return d.absoluteFrequency;
@@ -59,6 +68,13 @@ angular.module('metadatamanagementApp')
 
       //The data object is for the display
       $scope.data = [{
-        values: $scope.variable.values
+        values: []
       }];
-    });
+
+      //TODO problem after language change ... no direct set...
+      console.log('Test');
+      console.log($scope);
+      $scope.data[0].values = $scope.variable.values;
+      console.log($scope);
+    }
+  ]);
