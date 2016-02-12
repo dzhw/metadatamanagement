@@ -27,7 +27,33 @@ angular.module('metadatamanagementApp')
           y: function(d) {
             return d.absoluteFrequency;
           }
+        },
+
+        // title options
+        title: {
+        enable: true,
+        text: $scope.variable.name
+    },
+
+    // subtitle options
+    subtitle: {
+        enable: true,
+        text: 'Absolute Häufigkeit von Werten' ,
+        css: {
+            'text-align': 'center',
+            'margin': '10px 13px 0px 7px'
         }
+    },
+
+    // caption options
+    caption: {
+        enable: true,
+        html: 'Figure 1: ' + $scope.variable.name + ', Absolute Häufigkeit von Werten',
+        css: {
+            'text-align': 'center',
+            'margin': '-30px 0px 0px 0px'
+        }
+    }
       };
 
       //The data object is for the display
