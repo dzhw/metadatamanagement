@@ -10,7 +10,6 @@ var englishLanguage = '#/en';
 var actualLanguage;
 var foundMissingTranslationsArray = [];
 
-
 //function for finding missing translations
 function findMissingTranslations(html) {
 

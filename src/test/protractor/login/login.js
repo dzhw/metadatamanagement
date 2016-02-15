@@ -6,15 +6,16 @@
 /* @Author Daniel Katzberg */
 'use strict';
 
-describe('Test login', function() {
+describe('Test login', function () {
 
   var loginHelper = require('../utils/loginHelper');
   var cacheHelper = require('../utils/cacheHelper');
 
   afterAll(cacheHelper.clearCache);
 
-  it('Login in german with admin', function(done) {
+  it('Login in german with admin', function (done) {
     var languagePath = '#/de/';
+
     //Welcome Page
     browser.get(languagePath).then(done);
     expect(browser.getCurrentUrl()).toEqual(
@@ -27,8 +28,9 @@ describe('Test login', function() {
     loginHelper.logout(languagePath);
   });
 
-  it('Login in english with admin', function(done) {
+  it('Login in english with admin', function (done) {
     var languagePath = '#/en/';
+
     //Welcome Page
     browser.get(languagePath).then(done);
     expect(browser.getCurrentUrl()).toEqual(
