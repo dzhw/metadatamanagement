@@ -15,8 +15,7 @@ exports.config = {
     require('./utils/locators.js');
   },
 
-  //baseUrl: 'https://metadatamanagement.cfapps.io/',
-  baseUrl: 'http://localhost:8080/',
+  baseUrl: 'https://metadatamanagement.cfapps.io/',
   specs: ['i18n/publicPages.js',
     'i18n/pagesWithLogin.js',
     'login/login.js',

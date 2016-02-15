@@ -19,7 +19,7 @@ describe('Test login', function () {
     //Welcome Page
     browser.get(languagePath).then(done);
     expect(browser.getCurrentUrl()).toEqual(
-      'https://metadatamanagement.cfapps.io/#/de/');
+      browser.baseUrl + '#/de/');
 
     //'Login'
     loginHelper.login(languagePath);
@@ -34,7 +34,7 @@ describe('Test login', function () {
     //Welcome Page
     browser.get(languagePath).then(done);
     expect(browser.getCurrentUrl()).toEqual(
-      'https://metadatamanagement.cfapps.io/#/en/');
+      browser.baseUrl + '#/en/');
 
     //'Login'
     loginHelper.login(languagePath);

@@ -32,12 +32,25 @@ function findMissingTranslations(html) {
   }
 }
 
+function checkMissingLinks(browser, pages, counter) {
+
+  counter = counter + 1;
+
+  browser.getCurrentUrl().then(function (urlCurrent) {
+    var urlCheck = browser.baseUrl + actualLanguage + pages[counter];
+    expect(urlCurrent).toBe(urlCheck);
+  });
+
+  return counter;
+}
+
 //function for different test cases depending on a given language
 function testMissingTranslations(language, pages, done) {
 
   //reset array of missing elements and language
   foundMissingTranslationsArray = [];
   actualLanguage = language;
+  var counter = -1;
 
   //iterate over all pages
   for (var pageIndex = 0; pageIndex < pages.length; pageIndex++) {
@@ -45,6 +58,8 @@ function testMissingTranslations(language, pages, done) {
     //load page
     browser.get(actualLanguage + pages[
       pageIndex], 30000).then(done);
+
+    counter = checkMissingLinks(browser, pages, counter);
 
     //check for missing translations
     element(by.tagName('html')).getInnerHtml().then(
