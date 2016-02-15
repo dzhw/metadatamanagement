@@ -22,7 +22,12 @@
       "scaleLevel": "Skalenniveau",
       "label": "Label",
       "fdzProjectName": "FDZ Projektname",
-      "surveyId": "Erhebung (FDZ ID)"
+      "surveyId": "Erhebung (FDZ ID)",
+      "chart": {
+        "figure": "Abbildung",
+        "absoluteFrequency": "Absolute Häufigkeit von Werten",
+        "relativeFrequency": "Relative Häufigkeit von Werten",
+      }
     }
   }
 }

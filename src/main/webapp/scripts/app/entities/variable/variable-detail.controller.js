@@ -4,7 +4,9 @@
 
 angular.module('metadatamanagementApp')
   .controller('VariableDetailController', ['$scope', 'entity', 'Language',
-    function($scope, entity, Language) {
+    '$translate',
+
+    function($scope, entity, Language, $translate) {
       $scope.variable = entity;
 
       //The data object is for the display
@@ -24,6 +26,7 @@ angular.module('metadatamanagementApp')
               //.2f means two numbers after a commata
               return d3.format(',.2f')(d);
             },
+
             transitionDuration: 500,
 
             //Point for data extraction to visualisation
@@ -37,42 +40,54 @@ angular.module('metadatamanagementApp')
               //de is default. return de labels.
               return d.label.de;
             },
+
             y: function(d) {
               return d.absoluteFrequency;
-            }
+            },
           },
 
           // title options
           title: {
             enable: true,
-            text: $scope.variable.name
+            text: $scope.variable.name,
           },
 
           // subtitle options
           subtitle: {
             enable: true,
-            text: 'Absolute Häufigkeit von Werten',
+            text: '',
             css: {
               'text-align': 'center',
-              'margin': '10px 13px 0px 7px'
-            }
+              margin: '10px 13px 0px 7px',
+            },
           },
 
           // caption options
           caption: {
             enable: true,
-            html: 'Figure 1: ' + $scope.variable.name +
-              ', Absolute Häufigkeit von Werten',
+            html: '',
             css: {
               'text-align': 'center',
-              'margin': '-30px 0px 0px 0px'
-            }
-          }
+              margin: '-30px 0px 0px 0px',
+            },
+          },
         };
 
+        $translate(
+          'metadatamanagementApp.variable.chart.absoluteFrequency').then(
+          function(translation) {
+            $scope.options.subtitle.text = translation;
+          });
+
+        $translate('metadatamanagementApp.variable.chart.figure').then(
+          function(translation) {
+            $scope.options.caption.html = translation + ': ' + $scope.variable
+              .name + ', ' + $scope.options.subtitle.text;
+          });
+
         $scope.data = [{
-          values: $scope.variable.values
+          values: $scope.variable.values,
         }];
       });
-    }
+    },
   ]);
