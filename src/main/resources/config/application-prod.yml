@@ -73,8 +73,3 @@ metadatamanagement:
   elasticsearch-client:
     url: http://localhost:9200
     read-timeout: 60000
-  elasticsearch-angular-client:
-    url: https://public:efkjhdrajmeqlvasnahelagscun4ktom@dori-us-east-1.searchly.com
-    versionApi: 2.1
-    logLevel: trace
-    pageSize: 10

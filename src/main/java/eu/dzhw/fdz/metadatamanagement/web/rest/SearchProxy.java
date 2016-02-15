@@ -1,14 +1,24 @@
 package eu.dzhw.fdz.metadatamanagement.web.rest;
 
+import java.io.UnsupportedEncodingException;
+import java.net.MalformedURLException;
+import java.net.URISyntaxException;
+import java.net.URL;
+
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.codec.Base64;
+import org.springframework.util.MultiValueMap;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.servlet.HandlerMapping;
 
@@ -22,9 +32,24 @@ public class SearchProxy {
 
   private String connectionUrl;
 
+  private String base64Credentials;
+
+  /**
+   * Create the search proxy with the given elasticsearch host url.
+   * 
+   * @param elasticSearchConnectionUrl the elasticsearch host url
+   */
   @Autowired
-  public SearchProxy(String elasticSearchConnectionUrl) {
+  public SearchProxy(String elasticSearchConnectionUrl)
+      throws UnsupportedEncodingException, MalformedURLException {
     this.connectionUrl = elasticSearchConnectionUrl;
+    URL url = new URL(elasticSearchConnectionUrl);
+    String credentials = url.getUserInfo();
+    if (!StringUtils.isEmpty(credentials)) {
+      byte[] plainCredsBytes = credentials.getBytes("UTF-8");
+      byte[] base64CredsBytes = Base64.encode(plainCredsBytes);
+      base64Credentials = new String(base64CredsBytes, "UTF-8");
+    }
   }
 
   /**
@@ -34,13 +59,25 @@ public class SearchProxy {
    */
   @RequestMapping(value = "/api/search/**")
   public ResponseEntity<String> home(@RequestBody String body, HttpMethod method,
-      HttpServletRequest request) {
+      @RequestHeader MultiValueMap<String, String> headers, HttpServletRequest request)
+          throws RestClientException, URISyntaxException {
+    headers.remove("authorization");
+    headers.remove("cookie");
+    headers.remove("x-forwarded-proto");
+    headers.remove("x-forwarded-port");
+    headers.remove("x-request-start");
+    headers.remove("x-vcap-request-id");
+    headers.remove("x-cf-applicationid");
+    headers.remove("x-cf-instanceid");
+    if (base64Credentials != null) {
+      headers.add("authorization", "Basic " + base64Credentials);
+    }
+    
     String completePath =
         (String) request.getAttribute(HandlerMapping.PATH_WITHIN_HANDLER_MAPPING_ATTRIBUTE);
     String path = completePath.replaceFirst("/api/search", "");
-
     ResponseEntity<String> response = restTemplate.exchange(connectionUrl + path, method,
-        new HttpEntity<String>(body), String.class);
+        new HttpEntity<String>(body, headers), String.class);
     return response;
   }
 }
