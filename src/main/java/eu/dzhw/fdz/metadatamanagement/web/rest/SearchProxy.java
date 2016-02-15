@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
 import org.springframework.security.crypto.codec.Base64;
 import org.springframework.util.MultiValueMap;
 import org.springframework.util.StringUtils;
@@ -28,7 +29,8 @@ import org.springframework.web.servlet.HandlerMapping;
 @RestController
 public class SearchProxy {
 
-  private RestTemplate restTemplate = new RestTemplate();
+  private RestTemplate restTemplate = new RestTemplate(
+      new HttpComponentsClientHttpRequestFactory());
 
   private String connectionUrl;
 
