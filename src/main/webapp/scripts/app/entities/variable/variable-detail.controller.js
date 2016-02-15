@@ -8,6 +8,7 @@ angular.module('metadatamanagementApp')
       $scope.variable = entity;
 
       //The data object is for the display
+      //Wait for promise object
       $scope.variable.$promise.then(function() {
 
         //options for charts
@@ -18,9 +19,10 @@ angular.module('metadatamanagementApp')
             type: 'discreteBarChart',
             height: 350,
             showValues: true,
-            color : ['#0069B4'],
+            color: ['#0069B4'],
             valueFormat: function(d) {
-              return d3.format(',.2f')(d); //.2f means two numbers after a commata
+              //.2f means two numbers after a commata
+              return d3.format(',.2f')(d);
             },
             transitionDuration: 500,
 
