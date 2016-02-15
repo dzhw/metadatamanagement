@@ -43,7 +43,7 @@
     "karma-jasmine": "0.3.7",
     "karma-jenkins-reporter": "0.0.2",
     "karma-phantomjs-launcher": "1.0.0",
-    "karma-requirejs": "0.2.4",
+    "karma-requirejs": "0.2.5",
     "karma-script-launcher": "0.1.0",
     "load-grunt-tasks": "3.4.0",
     "lodash": "4.3.0",
