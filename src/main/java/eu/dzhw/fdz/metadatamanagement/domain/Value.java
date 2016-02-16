@@ -3,8 +3,6 @@ package eu.dzhw.fdz.metadatamanagement.domain;
 
 import java.math.BigDecimal;
 
-import javax.validation.constraints.NotNull;
-
 import org.hibernate.validator.constraints.NotEmpty;
 
 import com.google.common.base.MoreObjects;
@@ -29,8 +27,7 @@ public class Value {
 
   private BigDecimal relativeFrequency;
 
-  @NotNull
-  private boolean missing;
+  private boolean isAMissing = false;
 
   /*
    * (non-Javadoc)
@@ -44,7 +41,7 @@ public class Value {
       .add("label", label)
       .add("absoluteFrequency", absoluteFrequency)
       .add("relativeFrequency", relativeFrequency)
-      .add("missing", missing)
+      .add("isAMissing", isAMissing)
       .toString();
   }
 
@@ -81,11 +78,11 @@ public class Value {
     this.relativeFrequency = relativeFrequency;
   }
 
-  public boolean isMissing() {
-    return missing;
+  public boolean getIsAMissing() {
+    return isAMissing;
   }
 
-  public void setMissing(boolean missing) {
-    this.missing = missing;
+  public void setisAMissing(boolean isAMissing) {
+    this.isAMissing = isAMissing;
   }
 }

@@ -17,7 +17,7 @@
     },
     "absoluteFrequency": "134",
     "relativeFrequency": "36.12",
-    "missing": "false"
+    "isAMissing": "false"
   }, {
     "code": "5451.181",
     "label": {
@@ -26,7 +26,7 @@
     },
     "absoluteFrequency": "89",
     "relativeFrequency": "17.68",
-    "missing": "false"
+    "isAMissing": "false"
   }, {
     "code": "9171.11",
     "label": {
@@ -35,7 +35,7 @@
     },
     "absoluteFrequency": "178",
     "relativeFrequency": "46.20",
-    "missing": "false"
+    "isAMissing": "false"
   }, {
     "code": "8982.43",
     "label": {
@@ -44,7 +44,7 @@
     },
     "absoluteFrequency": "12",
     "relativeFrequency": "98.20",
-    "missing": "false"
+    "isAMissing": "false"
   }, {
     "code": "3287.40",
     "label": {
@@ -53,6 +53,6 @@
     },
     "absoluteFrequency": "12",
     "relativeFrequency": "98.20",
-    "missing": "false"
+    "isAMissing": "false"
   }]
 }
