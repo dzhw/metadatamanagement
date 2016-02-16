@@ -122,7 +122,9 @@ module.exports = function(grunt) {
               'show-validation',
               'jh-*',
               'ascending',
-              'callback'
+              'callback',
+              'accept',
+              'ngf-*'
             ]
           },
           files: {

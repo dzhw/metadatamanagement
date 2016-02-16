@@ -52,3 +52,13 @@
             </button>
       </div>
 </div>
+<div class="panel panel-default">
+   <div ngf-drop ngf-select ng-model="files" class="panel-body"
+       ngf-drag-over-class="'dragover'" ngf-multiple="true" ngf-allow-dir="true"
+       accept=".xlsx"
+       ngf-pattern="'.xlsx'">
+ <p class="text-muted">Drop files here or click to upload</p>
+     </div>
+       {{fileInputContent}}
+   <div ngf-no-file-drop>File Drag/Drop is not supported for this browser</div>
+</div>
