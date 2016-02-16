@@ -9,7 +9,7 @@
         {{variable.id}}</h2>
 
     <div class="row">
-        <div class="col-md-6">
+        <div class="col-md-5">
             <div class="table-responsive">
                 <table class="table table-striped">
                     <thead>
@@ -78,11 +78,17 @@
                     </tbody>
                 </table>
             </div>
+
+
+        </div>        
+        <div class="col-md-5">
+          <nvd3 options='optionsAbsolute' data='data'></nvd3>
+          <nvd3 options='optionsRelative' data='data'></nvd3>
         </div>
-        <div class="col-md-6">
-          <nvd3 options='options' data='data'></nvd3>
+        <div class="col-md-2">
+          <nvd3 options="options" data="data2" class="with-3d-shadow with-transitions"></nvd3>
         </div>
-    </div>
+  </div>
     <div class="row">
         <iframe ng-src="{{'pdfviewer/web/viewer.html?file=/questionnaires/FB_2005.1_Variablenplan.pdf' + '#phrase=false&search=' + variable.name }}" style="padding: 0; width:100%;height:600px; scrolling:auto; target:'_top'"></iframe>
     </div>
