@@ -36,5 +36,23 @@
     "absoluteFrequency": "178",
     "relativeFrequency": "46.20",
     "missing": "false"
+  }, {
+    "code": "8982.43",
+    "label": {
+      "de": "",
+      "en": "Lable D"
+    },
+    "absoluteFrequency": "12",
+    "relativeFrequency": "98.20",
+    "missing": "false"
+  }, {
+    "code": "3287.40",
+    "label": {
+      "de": "Label E",
+      "en": ""
+    },
+    "absoluteFrequency": "12",
+    "relativeFrequency": "98.20",
+    "missing": "false"
   }]
 }

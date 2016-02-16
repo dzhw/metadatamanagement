@@ -34,11 +34,21 @@ angular.module('metadatamanagementApp')
 
               //if en, return en lables
               if (Language.getCurrentInstantly() === 'en') {
-                return d.label.en;
+                if (d.label.en) {
+                  return d.label.en;
+                  //return the code, if label is not set
+                } else {
+                  return d.code;
+                }
               }
 
               //de is default. return de labels.
-              return d.label.de;
+              if (d.label.de) {
+                return d.label.de;
+                //return code, if label is not set
+              } else {
+                return d.code;
+              }
             },
 
             y: function(d) {
