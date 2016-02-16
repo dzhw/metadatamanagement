@@ -13,7 +13,7 @@
     "grunt-autoprefixer": "3.0.3",
     "grunt-browser-sync": "2.2.0",
     "grunt-build-control": "0.6.2",
-    "grunt-contrib-clean": "0.7.0",
+    "grunt-contrib-clean": "1.0.0",
     "grunt-contrib-concat": "0.5.1",
     "grunt-contrib-copy": "0.8.2",
     "grunt-contrib-cssmin": "0.14.0",
