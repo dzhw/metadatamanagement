@@ -79,7 +79,7 @@
                 </table>
             </div>
         </div>
-        <div class="col-md-6">
+        <div ng-if="variable.scaleLevel !== 'metric'" class="col-md-6">
           <nvd3 options='options' data='data'></nvd3>
         </div>
     </div>
