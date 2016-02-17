@@ -57,8 +57,14 @@
        ngf-drag-over-class="'dragover'" ngf-multiple="true" ngf-allow-dir="true"
        accept=".xlsx"
        ngf-pattern="'.xlsx'">
- <p class="text-muted">Drop files here or click to upload</p>
+ <p class="text-muted">Drop file here or click to upload</p>
      </div>
-       {{fileInputContent}}
    <div ngf-no-file-drop>File Drag/Drop is not supported for this browser</div>
 </div>
+<pre>
+  <code>
+    <span ng-repeat="message in messages">
+      {{message}}
+    </span>
+  </code>
+  </pre>
