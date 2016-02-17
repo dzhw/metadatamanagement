@@ -74,7 +74,6 @@ metadatamanagement:
     url: http://localhost:9200
     read-timeout: 60000
   elasticsearch-angular-client:
-    versionApi: _default
+    apiVersion: _default
     logLevel: error
     pageSize: 10
-    

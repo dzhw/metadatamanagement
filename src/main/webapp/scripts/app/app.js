@@ -12,10 +12,9 @@ angular
 
 .run(
     function($rootScope, $location, $window, $http, $state, $translate,
-      Language, Auth, Principal, ENV, VERSION, ElasticSearchProperties) {
+      Language, Auth, Principal, ENV, VERSION) {
       $rootScope.ENV = ENV;
       $rootScope.VERSION = VERSION;
-      $rootScope.elasticSearchProperties = ElasticSearchProperties;
 
       //init the current language
       if ($location.path().indexOf('/en/') > -1) {

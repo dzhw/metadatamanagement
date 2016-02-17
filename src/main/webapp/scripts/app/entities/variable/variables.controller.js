@@ -2,11 +2,12 @@
 'use strict';
 
 angular.module('metadatamanagementApp')
-    .controller('VariablesController', function($rootScope, $scope,
-        Variable, $location, $filter, VariableSearchDao, AlertService) {
+    .controller('VariablesController', function($scope,
+        Variable, $location, $filter, VariableSearchDao, AlertService,
+        ElasticSearchProperties) {
       // TODO create global page class which is returned from search daos
       $scope.page = {
-        size: $rootScope.elasticSearchProperties.pageSize,
+        size: ElasticSearchProperties.pageSize,
         contentSize: 0,
         currentPageNumber: 1,
         totalHits: 0,

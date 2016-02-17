@@ -45,12 +45,12 @@ public class MetadataManagementPropertiesTest {
     ElasticsearchAngularClient angularClient = managementProperties.getElasticsearchAngularClient();
     angularClient.setLogLevel("info");
     angularClient.setUrl("http://localhost:1234");
-    angularClient.setVersionApi("1.7");
+    angularClient.setApiVersion("1.7");
 
     // Assert
     assertThat(angularClient, not(nullValue()));
     assertThat(angularClient.getLogLevel(), is("info"));
-    assertThat(angularClient.getVersionApi(), is("1.7"));
+    assertThat(angularClient.getApiVersion(), is("1.7"));
     assertThat(angularClient.getUrl(), is("http://localhost:1234"));
   }
 }

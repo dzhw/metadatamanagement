@@ -64,7 +64,7 @@ public class MetadataManagementProperties {
   public static class ElasticsearchAngularClient {
     // default connection url
     private String url = "http://localhost:9200";
-    private String versionApi = "2.1";
+    private String apiVersion = "2.1";
     private String logLevel = "trace";
     private Integer pageSize = 10;
         
@@ -76,12 +76,11 @@ public class MetadataManagementProperties {
       this.url = url;
     }
 
-    public String getVersionApi() {
-      return versionApi;
+    public String getApiVersion() {
+      return apiVersion;
     }
 
-    public void setVersionApi(String versionApi) {
-      this.versionApi = versionApi;
+    public void setApiVersion(String apiVersion) {
     }
 
     public String getLogLevel() {
