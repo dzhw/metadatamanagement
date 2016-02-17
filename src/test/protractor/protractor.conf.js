@@ -16,10 +16,10 @@ exports.config = {
   },
 
   baseUrl: 'https://metadatamanagement.cfapps.io/',
-  specs: ['i18n/publicPages.js',
-    'i18n/pagesWithLogin.js',
-    'login/login.js',
+  specs: ['i18n/publicPages.spec.js',
+    'i18n/pagesWithLogin.spec.js',
+    'login/login.spec.js',
   ],
-  defaultTimeoutInterval: 120000,
-  allScriptsTimeout: 120000,
+  jasmineNodeOpts: {defaultTimeoutInterval: 180000},
+  allScriptsTimeout: 120000
 };

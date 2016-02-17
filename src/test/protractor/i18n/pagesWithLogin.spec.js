@@ -20,41 +20,37 @@ describe('Metadatamanagement Start page with different languages', function () {
 
   afterAll(cacheHelper.clearCache);
 
-  it('Check german language elements for all pages with a login', function (done) {
+  it('Check german language elements for all pages with a login', function () {
 
     //Welcome Page
     browser.get(utilMissingTranslations.germanLanguage +
-      pages[0]).then(done);
+      pages[0]);
 
     //'Login'
-    loginHelper.login(utilMissingTranslations.germanLanguage +
-      pages[0], done);
+    loginHelper.login();
 
     //Test pages
     utilMissingTranslations.testMissingTranslations(
-      utilMissingTranslations.germanLanguage, pages, done);
+      utilMissingTranslations.germanLanguage, pages);
 
     //'Logout'
-    loginHelper.logout(utilMissingTranslations.germanLanguage +
-      pages[0], done);
-  }, 120000);
+    loginHelper.logout();
+  });
 
   it('Check english language elements for all pages with a login',
-    function (done) {
+    function () {
       //Welcome Page
       browser.get(utilMissingTranslations.englishLanguage +
-        pages[0]).then(done);
+        pages[0]);
 
       //'Login'
-      loginHelper.login(utilMissingTranslations.englishLanguage +
-        pages[0], done);
+      loginHelper.login();
 
       //Test pages
       utilMissingTranslations.testMissingTranslations(
-        utilMissingTranslations.englishLanguage, pages, done);
+        utilMissingTranslations.englishLanguage, pages);
 
       //'Logout'
-      loginHelper.logout(utilMissingTranslations.englishLanguage +
-        pages[0], done);
-    }, 120000);
+      loginHelper.logout();
+    });
 });

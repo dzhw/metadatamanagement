@@ -45,7 +45,7 @@ function checkMissingLinks(browser, pages, counter) {
 }
 
 //function for different test cases depending on a given language
-function testMissingTranslations(language, pages, done) {
+function testMissingTranslations(language, pages) {
 
   //reset array of missing elements and language
   foundMissingTranslationsArray = [];
@@ -57,7 +57,7 @@ function testMissingTranslations(language, pages, done) {
 
     //load page
     browser.get(actualLanguage + pages[
-      pageIndex], 30000).then(done);
+      pageIndex]);
 
     counter = checkMissingLinks(browser, pages, counter);
 

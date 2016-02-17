@@ -13,33 +13,33 @@ describe('Test login', function () {
 
   afterAll(cacheHelper.clearCache);
 
-  it('Login in german with admin', function (done) {
+  it('Login in german with admin', function () {
     var languagePath = '#/de/';
 
     //Welcome Page
-    browser.get(languagePath).then(done);
+    browser.get(languagePath);
     expect(browser.getCurrentUrl()).toEqual(
       browser.baseUrl + '#/de/');
 
     //'Login'
-    loginHelper.login(languagePath);
+    loginHelper.login();
 
     //'Logout'
-    loginHelper.logout(languagePath);
+    loginHelper.logout();
   });
 
-  it('Login in english with admin', function (done) {
+  it('Login in english with admin', function () {
     var languagePath = '#/en/';
 
     //Welcome Page
-    browser.get(languagePath).then(done);
+    browser.get(languagePath);
     expect(browser.getCurrentUrl()).toEqual(
       browser.baseUrl + '#/en/');
 
     //'Login'
-    loginHelper.login(languagePath);
+    loginHelper.login();
 
     //'Logout'
-    loginHelper.logout(languagePath);
+    loginHelper.logout();
   });
 });
