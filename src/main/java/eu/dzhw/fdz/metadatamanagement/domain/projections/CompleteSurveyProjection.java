@@ -13,7 +13,7 @@ import eu.dzhw.fdz.metadatamanagement.domain.Survey;
  * @author René Reitmann
  */
 @Projection(name = "complete", types = Survey.class)
-public interface CompleteSurveyProjection extends AbstractFdzDomainObjectProjection {
+public interface CompleteSurveyProjection extends AbstractRdcDomainObjectProjection {
   I18nString getTitle();
 
   Period getFieldPeriod();

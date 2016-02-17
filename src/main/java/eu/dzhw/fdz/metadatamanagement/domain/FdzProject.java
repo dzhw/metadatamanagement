@@ -16,7 +16,7 @@ import net.karneim.pojobuilder.GeneratePojoBuilder;
  */
 @Document(collection = "fdz_projects")
 @GeneratePojoBuilder(intoPackage = "eu.dzhw.fdz.metadatamanagement.domain.builders")
-public class FdzProject extends AbstractFdzDomainObject {
+public class FdzProject extends AbstractRdcDomainObject {
   @Id
   @NotEmpty
   @Pattern(regexp = Patterns.GERMAN_ALPHANUMERIC_WITH_SPACE)

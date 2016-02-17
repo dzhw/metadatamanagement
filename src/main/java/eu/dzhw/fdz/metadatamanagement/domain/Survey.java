@@ -17,7 +17,7 @@ import net.karneim.pojobuilder.GeneratePojoBuilder;
  */
 @Document(collection = "surveys")
 @GeneratePojoBuilder(intoPackage = "eu.dzhw.fdz.metadatamanagement.domain.builders")
-public class Survey extends AbstractFdzDomainObject {
+public class Survey extends AbstractRdcDomainObject {
   @Id
   @NotEmpty
   private String id;

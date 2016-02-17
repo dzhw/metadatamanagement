@@ -32,7 +32,7 @@ import net.karneim.pojobuilder.GeneratePojoBuilder;
 @GeneratePojoBuilder(intoPackage = "eu.dzhw.fdz.metadatamanagement.domain.builders")
 @CompoundIndex(def = "{name: 1, fdz_project: 1}", unique = true)
 @SurveyHasSameFdzProject
-public class Variable extends AbstractFdzDomainObject {
+public class Variable extends AbstractRdcDomainObject {
   @Id
   @NotEmpty
   private String id;

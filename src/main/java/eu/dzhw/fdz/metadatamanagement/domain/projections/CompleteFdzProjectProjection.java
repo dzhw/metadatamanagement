@@ -11,7 +11,7 @@ import eu.dzhw.fdz.metadatamanagement.domain.FdzProject;
  * @author René Reitmann
  */
 @Projection(name = "complete", types = FdzProject.class)
-public interface CompleteFdzProjectProjection extends AbstractFdzDomainObjectProjection {
+public interface CompleteFdzProjectProjection extends AbstractRdcDomainObjectProjection {
   String getSufDoi();
 
   String getCufDoi();

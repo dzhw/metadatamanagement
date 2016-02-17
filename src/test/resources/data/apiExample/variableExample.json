@@ -1,7 +1,7 @@
 {
-  "createdDate": "2016-02-11T11:25:18.938+01:00",
+  "createdAt": "2016-02-11T11:25:18.938+01:00",
   "createdBy": "admin",
-  "lastModifiedDate": "2016-02-11T11:25:18.938+01:00",
+  "lastModifiedAt": "2016-02-11T11:25:18.938+01:00",
   "lastModifiedBy": "admin",
   "name": "A_Variable_Test",
   "dataType": "string",

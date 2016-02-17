@@ -16,22 +16,22 @@ import com.google.common.base.MoreObjects;
  * 
  * @author René Reitmann
  */
-public abstract class AbstractFdzDomainObject {
+public abstract class AbstractRdcDomainObject {
   @Version
   private Long version;
-  
+
   @CreatedDate
-  private ZonedDateTime createdDate;
-  
+  private ZonedDateTime createdAt;
+
   @CreatedBy
   private String createdBy;
-  
+
   @LastModifiedDate
-  private ZonedDateTime lastModifiedDate;
-  
+  private ZonedDateTime lastModifiedAt;
+
   @LastModifiedBy
   private String lastModifiedBy;
-  
+
   protected abstract String getId();
 
   public Long getVersion() {
@@ -42,12 +42,12 @@ public abstract class AbstractFdzDomainObject {
     this.version = version;
   }
 
-  public ZonedDateTime getCreatedDate() {
-    return createdDate;
+  public ZonedDateTime getCreatedAt() {
+    return createdAt;
   }
 
-  public void setCreatedDate(ZonedDateTime createdDate) {
-    this.createdDate = createdDate;
+  public void setCreatedAt(ZonedDateTime createdAt) {
+    this.createdAt = createdAt;
   }
 
   public String getCreatedBy() {
@@ -58,12 +58,12 @@ public abstract class AbstractFdzDomainObject {
     this.createdBy = createdBy;
   }
 
-  public ZonedDateTime getLastModifiedDate() {
-    return lastModifiedDate;
+  public ZonedDateTime getLastModifiedAt() {
+    return lastModifiedAt;
   }
 
-  public void setLastModifiedDate(ZonedDateTime lastModifiedDate) {
-    this.lastModifiedDate = lastModifiedDate;
+  public void setLastModifiedAt(ZonedDateTime lastModifiedAt) {
+    this.lastModifiedAt = lastModifiedAt;
   }
 
   public String getLastModifiedBy() {
@@ -87,7 +87,7 @@ public abstract class AbstractFdzDomainObject {
     if (object == null || getClass() != object.getClass()) {
       return false;
     }
-    AbstractFdzDomainObject domainObject = (AbstractFdzDomainObject) object;
+    AbstractRdcDomainObject domainObject = (AbstractRdcDomainObject) object;
     return Objects.equals(this.getId(), domainObject.getId());
   }
 
@@ -96,10 +96,10 @@ public abstract class AbstractFdzDomainObject {
     return MoreObjects.toStringHelper(this)
       .add("id", this.getId())
       .add("version", version)
-      .add("createdDate", createdDate)
+      .add("createdAt", createdAt)
       .add("createdBy", createdBy)
-      .add("lastModifiedDate", lastModifiedDate)
+      .add("lastModifiedAt", lastModifiedAt)
       .add("lastModifiedBy", lastModifiedBy)
       .toString();
-  } 
+  }
 }
