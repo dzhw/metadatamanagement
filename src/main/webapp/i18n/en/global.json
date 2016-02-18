@@ -83,7 +83,7 @@
       }
     },
     "field": {
-      "fdzId": "FDZ ID",
+      "rdcId": "RDC ID",
       "id": "ID"
     }
   },

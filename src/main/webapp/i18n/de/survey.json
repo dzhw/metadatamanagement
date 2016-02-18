@@ -6,21 +6,20 @@
         "createLabel": "Neue Erhebung erstellen",
         "createOrEditLabel": "Erstelle oder editiere eine Erhebung"
       },
-      "created": "Die Erhebung mit Datenerhebungs-ID \"{{ param }}\" ist erstellt worden",
-      "updated": "Die Erhebung mit Datenerhebungs-ID \"{{ param }}\" ist aktualisiert worden",
-      "deleted": "Die Erhebung mit Datenerhebungs-ID \"{{ param }}\" ist gelöscht worden",
+      "created": "Die Erhebung mit FDZ ID \"{{ param }}\" ist erstellt worden",
+      "updated": "Die Erhebung mit FDZ ID \"{{ param }}\" ist aktualisiert worden",
+      "deleted": "Die Erhebung mit FDZ ID \"{{ param }}\" ist gelöscht worden",
       "delete": {
-        "question": "Sind Sie sicher dass, Sie die Erhebung mit Datenerhebungs-ID \"{{ dataAcquisitionId }}\" löschen möchten?"
+        "question": "Sind Sie sicher dass, Sie die Erhebung mit FDZ ID \"{{ id }}\" löschen möchten?"
       },
       "detail": {
         "title": "Erhebung"
       },
-      "dataAcquisitionId": "Datenerhebungs-ID",
       "title.de": "Titel (DE)",
       "title.en": "Titel (EN)",
       "fieldPeriod.start": "Feldzeitbeginn",
       "fieldPeriod.end": "Feldzeitende",
-      "dataAcquisitionProjectName": "Datenerhebungsprojektname"
+      "dataAcquisitionProjectId": "Datenerhebungsprojekt-ID"
     }
   }
 }

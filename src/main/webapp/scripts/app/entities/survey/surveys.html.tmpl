@@ -15,11 +15,11 @@
     <table class="table table-striped">
       <thead>
         <tr jh-sort="predicate" ascending="reverse" callback="loadAll()">
-          <th jh-sort-by="fdzId"><span data-translate="global.field.fdzId">ID</span> <span class="glyphicon glyphicon-sort"></span></th>
+          <th jh-sort-by="id"><span data-translate="global.field.rdcId">ID</span> <span class="glyphicon glyphicon-sort"></span></th>
           <th jh-sort-by="title"><span data-translate="metadatamanagementApp.survey.title.de">Title (DE)</span> <span class="glyphicon glyphicon-sort"></span></th>
           <th jh-sort-by="fieldPeriod.start"><span data-translate="metadatamanagementApp.survey.fieldPeriod.start">FieldPeriod (Start)</span> <span class="glyphicon glyphicon-sort"></span></th>
           <th jh-sort-by="fieldPeriod.end"><span data-translate="metadatamanagementApp.survey.fieldPeriod.end">FieldPeriod (End)</span> <span class="glyphicon glyphicon-sort"></span></th>
-          <th jh-sort-by="fdzProjectName"><span data-translate="metadatamanagementApp.survey.fdzProjectName">FdzProjectName</span> <span class="glyphicon glyphicon-sort"></span></th>
+          <th jh-sort-by="dataAcquisitionProjectId"><span data-translate="metadatamanagementApp.survey.dataAcquisitionProjectId">Data Acquisition Project Name</span> <span class="glyphicon glyphicon-sort"></span></th>
           <th></th>
         </tr>
       </thead>
@@ -29,7 +29,7 @@
           <td>{{survey.title.de}}</td>
           <td>{{survey.fieldPeriod.start | date:'mediumDate'}}</td>
           <td>{{survey.fieldPeriod.end | date:'mediumDate'}}</td>
-          <td>{{survey.fdzProjectId}}</td>
+          <td>{{survey.dataAcquisitionProjectId}}</td>
           <td>
             <button type="submit" ui-sref="survey.detail({id:survey.id})" class="btn btn-info btn-sm">
               <span class="glyphicon glyphicon-eye-open"></span>&nbsp;<span data-translate="entity.action.view"> View</span>
