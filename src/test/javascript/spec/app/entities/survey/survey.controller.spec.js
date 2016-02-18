@@ -1,13 +1,13 @@
 'use strict';
 
-describe('Controllers Tests ', function () {
+describe('Controllers Tests ', function() {
   var $scope, $q, SurveyCollection, createController;
   var result = {
-    'page' : {
-      'totalElements':2
+    'page': {
+      'totalElements': 2
     },
-    '_embedded' : {
-      'surveys':[]
+    '_embedded': {
+      'surveys': []
     }
   };
   beforeEach(mockApiAccountCall);
@@ -17,33 +17,33 @@ describe('Controllers Tests ', function () {
       $scope = _$rootScope_.$new();
       $q = _$q_;
       SurveyCollection = {
-        query: function(param,callback) {
-        var deferred = $q.defer();
-        callback(result);
-        return deferred.promise;
-      }
-    };
+        query: function(param, callback) {
+          var deferred = $q.defer();
+          callback(result);
+          return deferred.promise;
+        }
+      };
 
       var locals = {
-        '$scope' : $scope,
-        'SurveyCollection' : SurveyCollection
+        '$scope': $scope,
+        'SurveyCollection': SurveyCollection
       };
       createController = function() {
         return $controller('SurveyController', locals);
       };
 
     });
-   });
-   describe('SurveyController',function(){
-     beforeEach(function(){
-         spyOn(SurveyCollection, 'query').and.callThrough();
-         createController();
-     });
-     it('should call FdzProject.query',function(){
+  });
+  describe('SurveyController', function() {
+    beforeEach(function() {
+      spyOn(SurveyCollection, 'query').and.callThrough();
+      createController();
+    });
+    it('should call data acquisition Project.query', function() {
       SurveyCollection.query.and.returnValue($q.resolve());
       $scope.loadAll();
       expect($scope.totalItems).toEqual(2);
       expect($scope.surveys).toEqual([]);
-     });
-   });
+    });
+  });
 });

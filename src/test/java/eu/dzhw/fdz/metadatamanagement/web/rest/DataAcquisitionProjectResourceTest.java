@@ -26,7 +26,7 @@ import eu.dzhw.fdz.metadatamanagement.repository.DataAcquisitionProjectRepositor
 
 /**
  * Test the REST API for {@link DataAcquisitionProject}s.
- * 
+ *
  * @author René Reitmann
  * @author Daniel Katzberg
  */
@@ -37,7 +37,7 @@ public class DataAcquisitionProjectResourceTest extends AbstractTest {
   private WebApplicationContext wac;
 
   @Autowired
-  private DataAcquisitionProjectRepository fdzProjectRepository;
+  private DataAcquisitionProjectRepository rdcProjectRepository;
 
   private MockMvc mockMvc;
 
@@ -49,11 +49,11 @@ public class DataAcquisitionProjectResourceTest extends AbstractTest {
 
   @After
   public void cleanUp() {
-    fdzProjectRepository.deleteAll();
+    rdcProjectRepository.deleteAll();
   }
 
   @Test
-  public void testCreateFdzProject() throws IOException, Exception {
+  public void testCreateDataAcquisitionProject() throws IOException, Exception {
     DataAcquisitionProject project = new DataAcquisitionProjectBuilder().withId("testId")
       .withSurveySeries(new I18nStringBuilder().build())
       .withPanelName(new I18nStringBuilder().build())
@@ -72,7 +72,7 @@ public class DataAcquisitionProjectResourceTest extends AbstractTest {
   }
 
   @Test
-  public void testDeleteFdzProject() throws IOException, Exception {
+  public void testDeleteDataAcquisitionProject() throws IOException, Exception {
     DataAcquisitionProject project = new DataAcquisitionProjectBuilder().withId("testId")
       .withSurveySeries(new I18nStringBuilder().build())
       .withPanelName(new I18nStringBuilder().build())

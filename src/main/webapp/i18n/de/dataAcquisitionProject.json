@@ -1,9 +1,9 @@
 {
   "metadatamanagementApp": {
-  	"variable": {
-  	  "fdzProjectName": "FDZ Projektname"
-  	},
-    "fdzProject": {
+    "variable": {
+      "rdcProjectName": "FDZ Projektname"
+    },
+    "dataAcquisitionProject": {
       "home": {
         "title": "FDZ Projekte",
         "createLabel": "Neues FDZ Projekt anlegen",
@@ -18,9 +18,7 @@
       "detail": {
         "title": "FDZ Projekt"
       },
-      "name": "Name",
-      "sufDoi": "SUF DOI",
-      "cufDoi": "CUF DOI"
+      "name": "Name"
     }
   }
 }

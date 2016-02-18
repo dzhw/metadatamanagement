@@ -13,7 +13,7 @@
       "entities": {
         "main": "Entities",
         "variable": "Variables",
-        "fdzProject": "FDZ Projects",
+        "rdcProject": "RDC Projects",
         "survey": "Surveys",
         "additionalEntity": "JHipster will add additional entities here (do not translate!)"
       },
@@ -123,7 +123,7 @@
       "survey": {
         "period": "The begin of the field period must be before the end."
       },
-      "fdzProject": {
+      "rdcProject": {
         "name": "The name of the project must contain only letters, digits and spaces."
       }
     }

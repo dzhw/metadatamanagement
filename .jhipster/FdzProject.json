@@ -1,26 +1,14 @@
 {
-    "relationships": [],
-    "fields": [
-        {
-            "fieldId": 1,
-            "fieldName": "name",
-            "fieldType": "String",
-            "fieldValidateRules": [
-                "required"
-            ]
-        },
-        {
-            "fieldId": 2,
-            "fieldName": "sufDoi",
-            "fieldType": "String"
-        },
-        {
-            "fieldId": 3,
-            "fieldName": "cufDoi",
-            "fieldType": "String"
-        }
-    ],
-    "dto": "no",
-    "service": "serviceClass",
-    "pagination": "pager"
+  "relationships": [],
+  "fields": [{
+    "fieldId": 1,
+    "fieldName": "name",
+    "fieldType": "String",
+    "fieldValidateRules": [
+      "required"
+    ]
+  }],
+  "dto": "no",
+  "service": "serviceClass",
+  "pagination": "pager"
 }

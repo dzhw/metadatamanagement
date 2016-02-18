@@ -56,29 +56,31 @@ describe('survey api', function() {
         expect($uibModal.open).toHaveBeenCalled();
       }));
     });
-    describe('basic test fo fdzProject.detail modal promises', function() {
-      it('should open modal', inject(function($stateParams, $state,
-        $uibModal, _Survey_) {
-        var modalOptions = {
-          templateUrl: 'fakeUrl/survey-dialog.html.tmpl'
-        };
-        var fakeModal = {
-          result: {
-            then: function(confirmCallback, cancelCallback) {
-              confirmCallback();
-              cancelCallback();
+    describe(
+      'basic test fo data acquisition Project.detail modal promises',
+      function() {
+        it('should open modal', inject(function($stateParams, $state,
+          $uibModal, _Survey_) {
+          var modalOptions = {
+            templateUrl: 'fakeUrl/survey-dialog.html.tmpl'
+          };
+          var fakeModal = {
+            result: {
+              then: function(confirmCallback, cancelCallback) {
+                confirmCallback();
+                cancelCallback();
+              }
             }
-          }
-        };
-        var Survey = _Survey_;
-        spyOn($uibModal, 'open').and.returnValue(fakeModal);
-        spyOn($state, 'go').and.callThrough();
-        var config = $state.get('survey.new');
-        config.onEnter[4]($stateParams, $state, $uibModal,
-          Survey);
-        expect($state.go).toHaveBeenCalled();
-      }));
-    });
+          };
+          var Survey = _Survey_;
+          spyOn($uibModal, 'open').and.returnValue(fakeModal);
+          spyOn($state, 'go').and.callThrough();
+          var config = $state.get('survey.new');
+          config.onEnter[4]($stateParams, $state, $uibModal,
+            Survey);
+          expect($state.go).toHaveBeenCalled();
+        }));
+      });
   });
   describe('survey.edit', function() {
     describe('basic test fo survey.edit modal', function() {

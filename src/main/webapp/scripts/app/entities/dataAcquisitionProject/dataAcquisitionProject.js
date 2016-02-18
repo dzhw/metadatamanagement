@@ -69,7 +69,7 @@ angular.module('metadatamanagementApp')
             $uibModal.open({
               templateUrl: 'scripts/app/entities/dataAcquisitionProject/' +
                 'dataAcquisitionProject-dialog.html.tmpl',
-              controller: 'DdataAcquisitionProjectDialogController',
+              controller: 'DataAcquisitionProjectDialogController',
               size: 'lg',
               resolve: {
                 entity: ['DataAcquisitionProject', function(

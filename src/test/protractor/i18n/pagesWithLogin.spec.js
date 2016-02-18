@@ -6,13 +6,13 @@
 
 'use strict';
 
-describe('Metadatamanagement Start page with different languages', function () {
+describe('Metadatamanagement Start page with different languages', function() {
   var loginHelper = require('../utils/loginHelper');
 
   var cacheHelper = require('../utils/cacheHelper');
   var utilMissingTranslations = require('../utils/findMissingTranslations');
 
-  var pages = ['/', '/fdzProjects', '/surveys',
+  var pages = ['/', '/dataAcquisitionProjects', '/surveys',
     '/variables?page=1', '/settings', '/password', '/user-management',
     '/tracker', '/metrics', '/health', '/configuration', '/audits',
     '/logs', '/disclosure',
@@ -20,7 +20,7 @@ describe('Metadatamanagement Start page with different languages', function () {
 
   afterAll(cacheHelper.clearCache);
 
-  it('Check german language elements for all pages with a login', function () {
+  it('Check german language elements for all pages with a login', function() {
 
     //Welcome Page
     browser.get(utilMissingTranslations.germanLanguage +
@@ -38,7 +38,7 @@ describe('Metadatamanagement Start page with different languages', function () {
   });
 
   it('Check english language elements for all pages with a login',
-    function () {
+    function() {
       //Welcome Page
       browser.get(utilMissingTranslations.englishLanguage +
         pages[0]);

@@ -29,7 +29,7 @@ import eu.dzhw.fdz.metadatamanagement.repository.SurveyRepository;
 
 /**
  * Test the REST API for {@link Survey}s.
- * 
+ *
  * @author René Reitmann
  */
 public class SurveyResourceTest extends AbstractTest {
@@ -39,7 +39,7 @@ public class SurveyResourceTest extends AbstractTest {
   private WebApplicationContext wac;
 
   @Autowired
-  private DataAcquisitionProjectRepository fdzProjectRepository;
+  private DataAcquisitionProjectRepository rdcProjectRepository;
 
   @Autowired
   private SurveyRepository surveyRepository;
@@ -54,7 +54,7 @@ public class SurveyResourceTest extends AbstractTest {
 
   @After
   public void cleanUp() {
-    fdzProjectRepository.deleteAll();
+    rdcProjectRepository.deleteAll();
     surveyRepository.deleteAll();
   }
 
@@ -64,7 +64,7 @@ public class SurveyResourceTest extends AbstractTest {
       .withSurveySeries(new I18nStringBuilder().build())
       .withPanelName(new I18nStringBuilder().build())
       .build();
-    fdzProjectRepository.save(project);
+    rdcProjectRepository.save(project);
 
     Survey survey = new SurveyBuilder().withId("testId")
       .withDataAcquisitionProjectId(project.getId())
@@ -96,7 +96,7 @@ public class SurveyResourceTest extends AbstractTest {
       .withSurveySeries(new I18nStringBuilder().build())
       .withPanelName(new I18nStringBuilder().build())
       .build();
-    fdzProjectRepository.save(project);
+    rdcProjectRepository.save(project);
 
     Survey survey = new SurveyBuilder().withId("testId")
       .withDataAcquisitionProjectId(project.getId())
@@ -122,7 +122,7 @@ public class SurveyResourceTest extends AbstractTest {
       .withSurveySeries(new I18nStringBuilder().build())
       .withPanelName(new I18nStringBuilder().build())
       .build();
-    fdzProjectRepository.save(project);
+    rdcProjectRepository.save(project);
 
     Survey survey = new SurveyBuilder().withId("testId")
       .withDataAcquisitionProjectId(project.getId())
@@ -190,7 +190,7 @@ public class SurveyResourceTest extends AbstractTest {
       .withSurveySeries(new I18nStringBuilder().build())
       .withPanelName(new I18nStringBuilder().build())
       .build();
-    fdzProjectRepository.save(project);
+    rdcProjectRepository.save(project);
 
     Survey survey = new SurveyBuilder().withId("testId")
       .withDataAcquisitionProjectId(project.getId())
@@ -223,7 +223,7 @@ public class SurveyResourceTest extends AbstractTest {
       .withSurveySeries(new I18nStringBuilder().build())
       .withPanelName(new I18nStringBuilder().build())
       .build();
-    fdzProjectRepository.save(project);
+    rdcProjectRepository.save(project);
 
     Survey survey = new SurveyBuilder().withId("testId")
       .withDataAcquisitionProjectId(project.getId())
@@ -262,7 +262,7 @@ public class SurveyResourceTest extends AbstractTest {
       .withSurveySeries(new I18nStringBuilder().build())
       .withPanelName(new I18nStringBuilder().build())
       .build();
-    fdzProjectRepository.save(project);
+    rdcProjectRepository.save(project);
 
     Survey survey = new SurveyBuilder().withId("testId")
       .withDataAcquisitionProjectId(project.getId())

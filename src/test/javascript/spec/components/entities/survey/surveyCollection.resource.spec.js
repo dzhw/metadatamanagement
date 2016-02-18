@@ -2,7 +2,7 @@
 
 describe('Factory Tests ', function() {
   var SurveyCollection, $scope;
-  describe('FdzProject', function() {
+  describe('DataAcquisitionProject', function() {
     beforeEach(inject(function($injector) {
       SurveyCollection = $injector.get('SurveyCollection');
       $scope = $injector.get('$rootScope').$new();

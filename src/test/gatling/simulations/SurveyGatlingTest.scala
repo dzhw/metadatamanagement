@@ -80,7 +80,7 @@ class SurveyGatlingTest extends Simulation {
             .exec(http("Create new survey")
             .post("/api/surveys")
             .headers(headers_http_authenticated)
-            .body(StringBody("""{"id":null, "title":"SAMPLE_TEXT", "fieldPeriod":"2020-01-01T00:00:00.000Z", "fdzProjectName":"SAMPLE_TEXT"}""")).asJSON
+            .body(StringBody("""{"id":null, "title":"SAMPLE_TEXT", "fieldPeriod":"2020-01-01T00:00:00.000Z", "rdcProjectName":"SAMPLE_TEXT"}""")).asJSON
             .check(status.is(201))
             .check(headerRegex("Location", "(.*)").saveAs("new_survey_url")))
             .pause(10)
