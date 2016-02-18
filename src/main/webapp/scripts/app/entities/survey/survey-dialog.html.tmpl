@@ -6,7 +6,7 @@
   <div class="modal-body">
     <jh-alert-error></jh-alert-error>
     <div class="form-group">
-      <label for="rdcid" data-translate="global.field.rdcId">RDC ID</label>
+      <label for="rdcId" data-translate="global.field.rdcId">RDC ID</label>
       <input type="text" class="form-control" id="rdcId" name="fdzId" ng-model="survey.id" ng-readonly="!isCreateMode" ng-pattern="/^[_A-Za-z0-9]*$/" required/>
       <div ng-show="editForm.fdzId.$invalid">
         <p class="help-block" ng-show="editForm.fdzId.$error.required" data-translate="entity.validation.required">
