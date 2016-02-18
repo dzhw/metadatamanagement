@@ -49,7 +49,7 @@ angular.module('metadatamanagementApp').controller('VariableDialogController', [
 
     $scope.changeSurvey = function() {
 
-      //query for survey with a given fdz project name
+      //query for survey with a given rdc project name
       // TODO load all page by page
       SurveyCollection.query({
           'dataAcquisitionProjectId': $scope.variable.dataAcquisitionProjectId
