@@ -13,10 +13,12 @@ import java.lang.reflect.Field;
 
 import org.junit.Test;
 import org.mockito.Mockito;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.data.mongodb.MongoDbFactory;
 import org.springframework.data.mongodb.core.convert.CustomConversions;
 import org.springframework.data.mongodb.core.mapping.event.ValidatingMongoEventListener;
+import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 
 import com.mongodb.DB;
 import com.mongodb.Mongo;
@@ -30,6 +32,9 @@ import eu.dzhw.fdz.metadatamanagement.unittest.util.UnitTestReflectionHelper;;
  */
 public class CloudMongoDbConfigurationTest extends AbstractTest {
 
+  @Autowired 
+  private LocalValidatorFactoryBean validator;
+  
   @Test
   public void testMongoDbConfiguration() {
     // Arrange
@@ -37,7 +42,7 @@ public class CloudMongoDbConfigurationTest extends AbstractTest {
 
     // Act
     ValidatingMongoEventListener eventListener =
-        cloudMongoDbConfiguration.validatingMongoEventListener();
+        cloudMongoDbConfiguration.validatingMongoEventListener(validator);
     CustomConversions customConversions = cloudMongoDbConfiguration.customConversions();
 
     // Assert
