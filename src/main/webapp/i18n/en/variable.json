@@ -7,21 +7,20 @@
         "createOrEditLabel": "Create or edit a Variable",
         "refresh": "Refresh"
       },
-      "created": "A new Variable is created with ID \"{{ param }}\"",
-      "updated": "A Variable is updated with ID \"{{ param }}\"",
-      "deleted": "A Variable is deleted with ID \"{{ param }}\"",
+      "created": "A new Variable is created with RDC ID \"{{ param }}\"",
+      "updated": "A Variable is updated with RDC ID \"{{ param }}\"",
+      "deleted": "A Variable is deleted with RDC ID \"{{ param }}\"",
       "delete": {
-        "question": "Are you sure you want to delete Variable with the data acquisition ID \"{{ dataAcquisitionId }}\"?"
+        "question": "Are you sure you want to delete Variable with the RDC ID \"{{ rdcId }}\"?"
       },
       "detail": {
         "title": "Variable"
       },
-      "dataAcquisitionId": "Data Acquisition ID",
       "name": "Name",
       "dataType": "DataType",
       "scaleLevel": "ScaleLevel",
       "label": "Label",
-      "dataAcquisitionProjectName": "Data Acquisition Project Name",
+      "dataAcquisitionProjectId": "Data Acquisition Project ID",
       "surveyId": "Survey (ID)",
       "chart": {
         "figure": "Figure",

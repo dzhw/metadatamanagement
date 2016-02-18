@@ -1,6 +1,6 @@
 'use strict';
 
-describe('FdzProject delete Controller', function() {
+describe('DataAcquisitionProject delete Controller', function() {
   var $scope, $rootScope,$uibModalInstance;
   var MockEntity;
   var createController;
@@ -32,10 +32,10 @@ describe('FdzProject delete Controller', function() {
       '$uibModalInstance': $uibModalInstance
     };
     createController = function() {
-      $injector.get('$controller')('FdzProjectDeleteController', locals);
+      $injector.get('$controller')('DataAcquisitionProjectDeleteController', locals);
     };
   }));
-  describe('FdzProjectDeleteController', function() {
+  describe('DataAcquisitionProjectDeleteController', function() {
     it('should call $uibModalInstance.close', function() {
       createController();
       $scope.confirmDelete();

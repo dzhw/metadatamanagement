@@ -2,31 +2,33 @@
 
 angular.module('metadatamanagementApp').controller('SurveyDialogController', [
   '$scope', '$stateParams', '$uibModalInstance',
-    'entity', 'isCreateMode', 'FdzProjectCollection',
+  'entity', 'isCreateMode', 'DataAcquisitionProjectCollection',
   function($scope, $stateParams, $uibModalInstance,
-    entity, isCreateMode, FdzProjectCollection) {
+    entity, isCreateMode, DataAcquisitionProjectCollection) {
     $scope.survey = entity;
     $scope.isCreateMode = isCreateMode;
-    $scope.allFdzProjects = FdzProjectCollection.query(function(response) {
-      $scope.allFdzProjects = response._embedded.fdzProjects;
-    });
+    $scope.allDataAcquisitionProjects = DataAcquisitionProjectCollection.query(
+      function(response) {
+        $scope.allDataAcquisitionProjects =
+          response._embedded.dataAcquisitionProjects;
+      });
 
     var onSaveFinished = function(result) {
-        $uibModalInstance.close(result);
-        $scope.isSaving = false;
-      };
+      $uibModalInstance.close(result);
+      $scope.isSaving = false;
+    };
 
     var onSaveError = function() {
-        $scope.isSaving = false;
-      };
+      $scope.isSaving = false;
+    };
 
     $scope.save = function() {
-        $scope.isSaving = true;
-        $scope.survey.$save(onSaveFinished, onSaveError);
-      };
+      $scope.isSaving = true;
+      $scope.survey.$save(onSaveFinished, onSaveError);
+    };
 
     $scope.clear = function() {
-        $uibModalInstance.dismiss('cancel');
-      };
+      $uibModalInstance.dismiss('cancel');
+    };
   }
 ]);

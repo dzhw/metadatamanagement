@@ -29,11 +29,11 @@ describe('Controllers Tests ', function () {
         'isCreateMode': true
       };
       createController = function() {
-        return $controller('FdzProjectDialogController', locals);
+        return $controller('DataAcquisitionProjectDialogController', locals);
       };
     });
    });
-   describe('FdzProjectDialogController',function(){
+   describe('DataAcquisitionProjectDialogController',function(){
      beforeEach(function(){
          createController();
      });

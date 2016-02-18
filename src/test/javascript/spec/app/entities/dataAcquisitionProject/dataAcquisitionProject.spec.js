@@ -1,6 +1,6 @@
 'use strict';
 
-describe('fdzProject api', function() {
+describe('dataAcquisitionProject api', function() {
   var $translate, $translatePartialLoader, $state;
   beforeEach(inject(function(_$translate_, _$translatePartialLoader_,
     _$httpBackend_, _$state_) {
@@ -16,36 +16,36 @@ describe('fdzProject api', function() {
     spyOn($translate, 'refresh').and.callThrough();
     spyOn($translatePartialLoader, 'addPart').and.callThrough();
   }));
-  describe('basic test fdzProject api', function() {
+  describe('basic test dataAcquisitionProject api', function() {
     it('should call $translate and $translatePartialLoader', function() {
-      var config = $state.get('fdzProject');
-      expect(config.url).toEqual('/fdzProjects');
+      var config = $state.get('dataAcquisitionProject');
+      expect(config.url).toEqual('/dataAcquisitionProjects');
       expect(config.resolve.translatePartialLoader).toBeDefined();
-      $state.go('fdzProject');
+      $state.go('dataAcquisitionProject');
       expect($translate.refresh).toHaveBeenCalled();
       expect($translatePartialLoader.addPart).toHaveBeenCalled();
     });
   });
-  describe('basic test fo fdzProject.detail', function() {
-    it('should call $translate, $translatePartialLoader and FdzProject',
-      inject(function(_FdzProject_, $stateParams) {
-        var config = $state.get('fdzProject.detail');
-        var FdzProject = _FdzProject_;
-        spyOn(FdzProject, 'get').and.callThrough();
-        expect(config.url).toEqual('/fdzProject/{id}');
+  describe('basic test fo dataAcquisitionProject.detail', function() {
+    it('should call $translate, $translatePartialLoader and DataAcquisitionProject',
+      inject(function(_DataAcquisitionProject_, $stateParams) {
+        var config = $state.get('dataAcquisitionProject.detail');
+        var DataAcquisitionProject = _DataAcquisitionProject_;
+        spyOn(DataAcquisitionProject, 'get').and.callThrough();
+        expect(config.url).toEqual('/dataAcquisitionProject/{id}');
         expect(config.resolve.translatePartialLoader).toBeDefined();
         expect(config.resolve.entity).toBeDefined();
-        $state.go('fdzProject.detail');
+        $state.go('dataAcquisitionProject.detail');
         expect($translate.refresh).toHaveBeenCalled();
         expect($translatePartialLoader.addPart).toHaveBeenCalled();
-        expect(FdzProject.get).toHaveBeenCalled();
+        expect(DataAcquisitionProject.get).toHaveBeenCalled();
       }));
   });
-  describe('fdzProject.new', function() {
-    describe('basic test fo fdzProject.new modal', function() {
+  describe('dataAcquisitionProject.new', function() {
+    describe('basic test fo dataAcquisitionProject.new modal', function() {
       it('should call modal', inject(function($stateParams, $state,
         $uibModal) {
-        var config = $state.get('fdzProject.new');
+        var config = $state.get('dataAcquisitionProject.new');
         spyOn($uibModal, 'open').and.callThrough();
         expect(config.url).toEqual('/new');
         config.onEnter[3]($stateParams, $state, $uibModal);
@@ -53,11 +53,11 @@ describe('fdzProject api', function() {
         expect($uibModal.open).toHaveBeenCalled();
       }));
     });
-    describe('basic test fo fdzProject.detail modal promises', function() {
+    describe('basic test fo dataAcquisitionProject.detail modal promises', function() {
       it('should open modal', inject(function($stateParams, $state,
         $uibModal) {
         var modalOptions = {
-          templateUrl: 'fakeUrl/fdzProject-dialog.html.tmpl'
+          templateUrl: 'fakeUrl/dataAcquisitionProject-dialog.html.tmpl'
         };
         var fakeModal = {
           result: {
@@ -69,17 +69,17 @@ describe('fdzProject api', function() {
         };
         spyOn($uibModal, 'open').and.returnValue(fakeModal);
         spyOn($state, 'go').and.callThrough();
-        var config = $state.get('fdzProject.new');
+        var config = $state.get('dataAcquisitionProject.new');
         config.onEnter[3]($stateParams, $state, $uibModal);
         expect($state.go).toHaveBeenCalled();
       }));
     });
   });
-  describe('fdzProject.edit', function() {
-    describe('basic test fo fdzProject.edit modal', function() {
+  describe('dataAcquisitionProject.edit', function() {
+    describe('basic test fo dataAcquisitionProject.edit modal', function() {
       it('should call modal', inject(function($stateParams, $state,
         $uibModal) {
-        var config = $state.get('fdzProject.edit');
+        var config = $state.get('dataAcquisitionProject.edit');
         spyOn($uibModal, 'open').and.callThrough();
         expect(config.url).toEqual('/{id}/edit');
         config.onEnter[3]($stateParams, $state, $uibModal);
@@ -87,11 +87,11 @@ describe('fdzProject api', function() {
         expect($uibModal.open).toHaveBeenCalled();
       }));
     });
-    describe('basic test fo fdzProject.edit modal promises', function() {
+    describe('basic test fo dataAcquisitionProject.edit modal promises', function() {
       it('should open modal', inject(function($rootScope,
         $stateParams, $state, $uibModal) {
         var modalOptions = {
-          templateUrl: 'fakeUrl/fdzProject-edit.html'
+          templateUrl: 'fakeUrl/dataAcquisitionProject-edit.html'
         };
         var fakeModal = {
           result: {
@@ -103,7 +103,7 @@ describe('fdzProject api', function() {
         };
         spyOn($uibModal, 'open').and.returnValue(fakeModal);
         spyOn($state, 'go').and.callThrough();
-        var config = $state.get('fdzProject.edit');
+        var config = $state.get('dataAcquisitionProject.edit');
         try {
           config.onEnter[3]($stateParams, $state, $uibModal);
         } catch (e) {
@@ -113,11 +113,11 @@ describe('fdzProject api', function() {
       }));
     });
   });
-  describe('fdzProject.delete', function() {
-    describe('basic test fo fdzProject.delete modal', function() {
+  describe('dataAcquisitionProject.delete', function() {
+    describe('basic test fo dataAcquisitionProject.delete modal', function() {
       it('should call modal', inject(function($stateParams, $state,
         $uibModal) {
-        var config = $state.get('fdzProject.delete');
+        var config = $state.get('dataAcquisitionProject.delete');
         spyOn($uibModal, 'open').and.callThrough();
         expect(config.url).toEqual('/{id}/delete');
         config.onEnter[3]($stateParams, $state, $uibModal);
@@ -125,11 +125,11 @@ describe('fdzProject api', function() {
         expect($uibModal.open).toHaveBeenCalled();
       }));
     });
-    describe('basic test fo fdzProject.delete modal promises', function() {
+    describe('basic test fo dataAcquisitionProject.delete modal promises', function() {
       it('should open modal', inject(function($rootScope,
         $stateParams, $state, $uibModal) {
         var modalOptions = {
-          templateUrl: 'fakeUrl/fdzProject-delete.html'
+          templateUrl: 'fakeUrl/dataAcquisitionProject-delete.html'
         };
         var fakeModal = {
           result: {
@@ -141,7 +141,7 @@ describe('fdzProject api', function() {
         };
         spyOn($uibModal, 'open').and.returnValue(fakeModal);
         spyOn($state, 'go').and.callThrough();
-        var config = $state.get('fdzProject.delete');
+        var config = $state.get('dataAcquisitionProject.delete');
         try {
           config.onEnter[3]($stateParams, $state, $uibModal);
         } catch (e) {

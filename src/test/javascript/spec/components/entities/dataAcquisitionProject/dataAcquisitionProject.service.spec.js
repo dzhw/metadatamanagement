@@ -1,15 +1,15 @@
 'use strict';
 
 describe('Factory Tests ', function() {
-  var FdzProject, $httpMock, $resource, $q, $scope;
-  xdescribe('FdzProject', function() {
+  var DataAcquisitionProject, $httpMock, $resource, $q, $scope;
+  xdescribe('DataAcquisitionProject', function() {
     /*beforeEach(module(function ($provide) {
           $httpMock = jasmine.createSpyObj('$http',['get']);
           $provide.value('$http', $httpMock);
     }));*/
 
     beforeEach(inject(function($injector) {
-      FdzProject = $injector.get('FdzProject');
+      DataAcquisitionProject = $injector.get('DataAcquisitionProject');
       $q = $injector.get('$q');
       $resource = $injector.get('$resource');
       $scope = $injector.get('$rootScope').$new();

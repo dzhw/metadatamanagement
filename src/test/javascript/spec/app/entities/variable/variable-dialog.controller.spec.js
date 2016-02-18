@@ -2,13 +2,13 @@
 
 describe('Controllers Tests ', function() {
   var $scope, $controller, createController, $uibModalInstance, MockEntity,
-    FdzProjectCollection, SurveyCollection, $q, isCreateMode;
+    DataAcquisitionProjectCollection, SurveyCollection, $q, isCreateMode;
   var result = {
     'page': {
       'totalElements': 2
     },
     '_embedded': {
-      'fdzProjects': []
+      'dataAcquisitionProjects': []
     }
   };
   beforeEach(mockApiAccountCall);
@@ -24,7 +24,7 @@ describe('Controllers Tests ', function() {
           return {};
         }
       };
-      FdzProjectCollection = {
+      DataAcquisitionProjectCollection = {
         query: function(callback) {
           var deferred = $q.defer();
           deferred.resolve(result);
@@ -47,7 +47,7 @@ describe('Controllers Tests ', function() {
           then: jasmine.createSpy('$uibModalInstance.result.then')
         }
       };
-      spyOn(FdzProjectCollection, 'query').and.callThrough();
+      spyOn(DataAcquisitionProjectCollection, 'query').and.callThrough();
       spyOn(SurveyCollection, 'query').and.callThrough();
       spyOn($scope, '$broadcast');
     });
@@ -60,7 +60,7 @@ describe('Controllers Tests ', function() {
         'entity': MockEntity,
         '$uibModalInstance': $uibModalInstance,
         'isCreateMode': isCreateMode,
-        'FdzProjectCollection': FdzProjectCollection,
+        'DataAcquisitionProjectCollection': DataAcquisitionProjectCollection,
         'SurveyCollection': SurveyCollection
       };
       createController = function() {
@@ -86,7 +86,7 @@ describe('Controllers Tests ', function() {
         'entity': MockEntity,
         '$uibModalInstance': $uibModalInstance,
         'isCreateMode': isCreateMode,
-        'FdzProjectCollection': FdzProjectCollection,
+        'DataAcquisitionProjectCollection': DataAcquisitionProjectCollection,
         'SurveyCollection': SurveyCollection
       };
       createController = function() {
@@ -100,12 +100,12 @@ describe('Controllers Tests ', function() {
         'variable.updated');
     });
     it('$scope.isSurveyEmpty should be true', function() {
-      $scope.allSurveysByFdzProjectId = [];
+      $scope.allSurveysByDataAcquisitionProjectId = [];
       var returnValue = $scope.isSurveyEmpty();
       expect(returnValue).toEqual(true);
     });
     it('$scope.isSurveyEmptyg should be false', function() {
-      $scope.allSurveysByFdzProjectId = [{}];
+      $scope.allSurveysByDataAcquisitionProjectId = [{}];
       var returnValue = $scope.isSurveyEmpty();
       expect(returnValue).toEqual(false);
     });

@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('metadatamanagementApp')
-    .factory('FdzProject', function($resource) {
+    .factory('DataAcquisitionProject', function($resource) {
       return $resource('/api/data_acquisition_projects/:id',
         {id: '@id'}, {
         'get': {

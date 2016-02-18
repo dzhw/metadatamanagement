@@ -1,13 +1,13 @@
 'use strict';
 
 describe('Controllers Tests ', function () {
-  var $scope, createController, $uibModalInstance, MockEntity, FdzProjectCollection, $q;
+  var $scope, createController, $uibModalInstance, MockEntity, DataAcquisitionProjectCollection, $q;
   var result = {
     'page' : {
       'totalElements':2
     },
     '_embedded' : {
-      'fdzProjects':[]
+      'dataAcquisitionProjects':[]
     }
   };
   beforeEach(mockApiAccountCall);
@@ -22,7 +22,7 @@ describe('Controllers Tests ', function () {
           error();
         }
       };
-      FdzProjectCollection = {
+      DataAcquisitionProjectCollection = {
         query: function(callback){
           var deferred = $q.defer();
           deferred.resolve(result);
@@ -42,12 +42,12 @@ describe('Controllers Tests ', function () {
         'entity': MockEntity ,
         '$uibModalInstance': $uibModalInstance,
         'isCreateMode': true,
-        'FdzProjectCollection' : FdzProjectCollection
+        'DataAcquisitionProjectCollection' : DataAcquisitionProjectCollection
       };
       createController = function() {
         return $controller('SurveyDialogController', locals);
       };
-      spyOn(FdzProjectCollection, 'query').and.callThrough();
+      spyOn(DataAcquisitionProjectCollection, 'query').and.callThrough();
     });
    });
    describe('SurveyDialogController',function(){
@@ -62,9 +62,9 @@ describe('Controllers Tests ', function () {
        $scope.clear();
        expect($uibModalInstance.dismiss).toHaveBeenCalled();
      });
-     it('should set $scope.allFdzProjects',function(){
-       FdzProjectCollection.query.and.returnValue($q.resolve());
-       expect($scope.allFdzProjects.$$state.value).toEqual(result);
+     it('should set $scope.allDataAcquisitionProjects',function(){
+       DataAcquisitionProjectCollection.query.and.returnValue($q.resolve());
+       expect($scope.allDataAcquisitionProjects.$$state.value).toEqual(result);
      });
 
    });
