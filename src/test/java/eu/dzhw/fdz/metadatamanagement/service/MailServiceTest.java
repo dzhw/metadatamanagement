@@ -36,7 +36,7 @@ public class MailServiceTest extends AbstractTest {
 
   @Before
   public void before() {
-    this.greenMail = new GreenMail(ServerSetupTest.ALL);
+    this.greenMail = new GreenMail(ServerSetupTest.SMTP);
     this.greenMail.start();
   }
 
