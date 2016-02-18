@@ -116,7 +116,10 @@ module.exports = function(grunt) {
             ],
             relaxerror: [
               'The “date” input type is not supported in all browsers.' +
-              ' Please be sure to test, and consider using a polyfill.'
+              ' Please be sure to test, and consider using a polyfill.',
+              'Bad value “file” for attribute “type” on element “button”.',
+              'Element “dl” not allowed as child of' +
+              ' element “pre” in this context.'
             ],
             customattrs: [
               'show-validation',
