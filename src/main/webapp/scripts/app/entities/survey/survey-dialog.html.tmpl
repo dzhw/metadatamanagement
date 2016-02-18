@@ -7,13 +7,13 @@
     <jh-alert-error></jh-alert-error>
     <div class="form-group">
       <label for="rdcId" data-translate="global.field.rdcId">RDC ID</label>
-      <input type="text" class="form-control" id="rdcId" name="fdzId" ng-model="survey.id" ng-readonly="!isCreateMode" ng-pattern="/^[_A-Za-z0-9]*$/" required/>
-      <div ng-show="editForm.fdzId.$invalid">
-        <p class="help-block" ng-show="editForm.fdzId.$error.required" data-translate="entity.validation.required">
+      <input type="text" class="form-control" id="rdcId" name="rdcId" ng-model="survey.id" ng-readonly="!isCreateMode" ng-pattern="/^[_A-Za-z0-9]*$/" required/>
+      <div ng-show="editForm.id.$invalid">
+        <p class="help-block" ng-show="editForm.id.$error.required" data-translate="entity.validation.required">
           This field is required.
         </p>
-        <p class="help-block" ng-show="editForm.fdzId.$error.pattern" data-translate="entity.validation.fdzId">
-          The FDZ ID can only contain letters, digits and underscore.
+        <p class="help-block" ng-show="editForm.id.$error.pattern" data-translate="entity.validation.rdcId">
+          The RDC ID can only contain letters, digits and underscore.
         </p>
       </div>
     </div>
@@ -55,7 +55,7 @@
       </div>
     </div>
     <div class="form-group">
-      <label data-translate="metadatamanagementApp.survey.dataAcquisitionProjectId" for="field_dataAcquisitionProjectName">FDZ Project Name</label>
+      <label data-translate="metadatamanagementApp.survey.dataAcquisitionProjectId" for="field_dataAcquisitionProjectName">RDC Project Name</label>
       <select class="form-control" name="dataAcquisitionProjectName" ng-model="survey.dataAcquisitionProjectId" id="field_dataAcquisitionProjectName" required>
         <option disabled selected label="&#160;"></option>
         <option ng-repeat="dataacquisitionproject in allDataAcquisitionProjects" value="{{dataacquisitionproject.id}}">{{dataacquisitionproject.id}}</option>
