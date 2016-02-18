@@ -152,6 +152,7 @@ public class DataAcquisitionProjectResourceTest extends AbstractTest {
     // create the project without id
     mockMvc.perform(
         post(API_DATA_ACQUISITION_PROJECTS_URI).content(TestUtil.convertObjectToJsonBytes(project)))
-      .andExpect(status().isBadRequest());
+      .andExpect(status().isBadRequest())
+      .andExpect(jsonPath("$.errors[0].message", is("RDC-Id must not be empty!")));
   }
 }

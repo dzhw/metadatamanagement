@@ -21,7 +21,7 @@ import net.karneim.pojobuilder.GeneratePojoBuilder;
 public class DataAcquisitionProject extends AbstractRdcDomainObject {
 
   @Id
-  @NotEmpty
+  @NotEmpty(message = "{error.dataAcquisitionProject.id.isEmpty}")
   @Pattern(regexp = Patterns.GERMAN_ALPHANUMERIC_WITH_SPACE)
   private String id;
 

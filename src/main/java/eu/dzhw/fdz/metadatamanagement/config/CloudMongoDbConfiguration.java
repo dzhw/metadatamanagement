@@ -8,6 +8,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.cloud.Cloud;
 import org.springframework.cloud.CloudFactory;
 import org.springframework.cloud.config.java.CloudServiceConnectionFactory;
+import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
@@ -47,18 +48,28 @@ public class CloudMongoDbConfiguration extends AbstractMongoConfiguration {
 
   private Cloud cloud;
 
+  /**
+   * JHipster enabled validation on repository layer.
+   */
   @Bean
-  public ValidatingMongoEventListener validatingMongoEventListener() {
-    return new ValidatingMongoEventListener(validator());
+  public ValidatingMongoEventListener validatingMongoEventListener(
+      LocalValidatorFactoryBean validator) {
+    return new ValidatingMongoEventListener(validator);
   }
 
+  /**
+   * We need to set springs standard message source for the JSR-303 validation errors.
+   */
   @Bean
-  public LocalValidatorFactoryBean validator() {
-    return new LocalValidatorFactoryBean();
+  public LocalValidatorFactoryBean validator(MessageSource messageSource) {
+    LocalValidatorFactoryBean validator = new LocalValidatorFactoryBean();
+    validator.setValidationMessageSource(messageSource);
+    return validator;
   }
 
   /**
    * Create a {@link Cloud} instance.
+   * 
    * @return the {@link Cloud} instance.
    */
   @Bean
