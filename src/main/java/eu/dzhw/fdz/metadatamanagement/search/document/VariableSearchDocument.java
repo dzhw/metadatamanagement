@@ -9,30 +9,31 @@ import io.searchbox.annotations.JestId;
  * Representation of a variable which is stored in elasticsearch.
  * 
  * @author René Reitmann
+ * @author Daniel Katzberg
  */
 public class VariableSearchDocument {
   @JestId
   private String id;
-  
+
   private String name;
-  
-  private String fdzProjectId;
-  
+
+  private String dataAcquisitionProjectId;
+
   private String label;
-  
+
   private String dataType;
-  
+
   private String scaleLevel;
-  
+
   private String surveyTitle;
-  
+
   /**
    * Create the search document from the domain object depending on the language (index).
    */
   public VariableSearchDocument(Variable variable, Survey survey, ElasticsearchIndices index) {
     this.id = variable.getId();
     this.name = variable.getName();
-    this.fdzProjectId = variable.getFdzProjectId();
+    this.dataAcquisitionProjectId = variable.getDataAcquisitionProjectId();
     this.label = variable.getLabel();
     createScaleLevel(variable, index);
     createDataType(variable, index);
@@ -42,11 +43,13 @@ public class VariableSearchDocument {
   private void createSurveyTitle(Survey survey, ElasticsearchIndices index) {
     if (survey != null) {
       switch (index) {
-        case METADATA_DE: 
-          surveyTitle = survey.getTitle().getDe();
+        case METADATA_DE:
+          surveyTitle = survey.getTitle()
+            .getDe();
           break;
         case METADATA_EN:
-          surveyTitle = survey.getTitle().getEn();
+          surveyTitle = survey.getTitle()
+            .getEn();
           break;
         default:
           throw new RuntimeException("Unknown index:" + index);
@@ -58,10 +61,10 @@ public class VariableSearchDocument {
     switch (index) {
       case METADATA_DE: {
         switch (variable.getDataType()) {
-          case numeric: 
+          case numeric:
             this.dataType = "numerisch";
             break;
-          case string: 
+          case string:
             this.dataType = "string";
             break;
           default:
@@ -71,10 +74,10 @@ public class VariableSearchDocument {
       }
       case METADATA_EN:
         switch (variable.getDataType()) {
-          case numeric: 
+          case numeric:
             this.dataType = "numeric";
             break;
-          case string: 
+          case string:
             this.dataType = "string";
             break;
           default:
@@ -90,13 +93,13 @@ public class VariableSearchDocument {
     switch (index) {
       case METADATA_DE: {
         switch (variable.getScaleLevel()) {
-          case metric: 
+          case metric:
             this.scaleLevel = "metrisch";
             break;
-          case nominal: 
+          case nominal:
             this.scaleLevel = "nominal";
             break;
-          case ordinal: 
+          case ordinal:
             this.scaleLevel = "ordinal";
             break;
           default:
@@ -106,13 +109,13 @@ public class VariableSearchDocument {
       }
       case METADATA_EN:
         switch (variable.getScaleLevel()) {
-          case metric: 
+          case metric:
             this.scaleLevel = "metric";
             break;
-          case nominal: 
+          case nominal:
             this.scaleLevel = "nominal";
             break;
-          case ordinal: 
+          case ordinal:
             this.scaleLevel = "ordinal";
             break;
           default:
@@ -140,12 +143,12 @@ public class VariableSearchDocument {
     this.name = name;
   }
 
-  public String getFdzProjectId() {
-    return fdzProjectId;
+  public String getDataAcquisitionProjectId() {
+    return dataAcquisitionProjectId;
   }
 
-  public void setFdzProjectId(String fdzProjectId) {
-    this.fdzProjectId = fdzProjectId;
+  public void setDataAcquisitionProjectId(String dataAcquisitionProjectId) {
+    this.dataAcquisitionProjectId = dataAcquisitionProjectId;
   }
 
   public String getLabel() {

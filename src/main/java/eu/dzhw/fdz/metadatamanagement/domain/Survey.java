@@ -9,7 +9,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 
 import com.google.common.base.MoreObjects;
 
-import eu.dzhw.fdz.metadatamanagement.domain.validation.FdzProjectExists;
+import eu.dzhw.fdz.metadatamanagement.domain.validation.DataAcquisitionProjectExists;
 import net.karneim.pojobuilder.GeneratePojoBuilder;
 
 /**
@@ -30,8 +30,8 @@ public class Survey extends AbstractRdcDomainObject {
   private Period fieldPeriod;
 
   @NotEmpty
-  @FdzProjectExists
-  private String fdzProjectId;
+  @DataAcquisitionProjectExists
+  private String dataAcquisitionProjectId;
 
   public I18nString getTitle() {
     return title;
@@ -49,10 +49,7 @@ public class Survey extends AbstractRdcDomainObject {
     this.fieldPeriod = fieldPeriod;
   }
 
-  public String getFdzProjectId() {
-    return fdzProjectId;
-  }
-
+  @Override
   public String getId() {
     return id;
   }
@@ -61,8 +58,12 @@ public class Survey extends AbstractRdcDomainObject {
     this.id = id;
   }
 
-  public void setFdzProjectId(String fdzProjectId) {
-    this.fdzProjectId = fdzProjectId;
+  public String getDataAcquisitionProjectId() {
+    return dataAcquisitionProjectId;
+  }
+
+  public void setDataAcquisitionProjectId(String dataAcquisitionProjectId) {
+    this.dataAcquisitionProjectId = dataAcquisitionProjectId;
   }
 
   @Override
@@ -71,7 +72,7 @@ public class Survey extends AbstractRdcDomainObject {
       .add("super", super.toString())
       .add("title", title)
       .add("fieldPeriod", fieldPeriod)
-      .add("fdzProjectId", fdzProjectId)
+      .add("dataAcquisitionProjectId", dataAcquisitionProjectId)
       .toString();
-  }  
+  }
 }

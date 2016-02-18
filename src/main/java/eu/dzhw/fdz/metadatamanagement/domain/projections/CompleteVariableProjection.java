@@ -14,6 +14,7 @@ import eu.dzhw.fdz.metadatamanagement.domain.enumeration.ScaleLevel;
  * Spring Data rest does not expose ids and version per default in the json.
  * 
  * @author René Reitmann
+ * @author Daniel Katzberg
  */
 @Projection(name = "complete", types = Variable.class)
 public interface CompleteVariableProjection extends AbstractRdcDomainObjectProjection {
@@ -25,7 +26,7 @@ public interface CompleteVariableProjection extends AbstractRdcDomainObjectProje
 
   String getLabel();
 
-  String getFdzProjectId();
+  String getDataAcquisitionProjectId();
 
   String getSurveyId();
 

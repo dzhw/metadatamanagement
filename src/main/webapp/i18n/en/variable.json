@@ -7,22 +7,22 @@
         "createOrEditLabel": "Create or edit a Variable",
         "refresh": "Refresh"
       },
-      "created": "A new Variable is created with FDZ ID \"{{ param }}\"",
-      "updated": "A Variable is updated with FDZ ID \"{{ param }}\"",
-      "deleted": "A Variable is deleted with FDZ ID \"{{ param }}\"",
+      "created": "A new Variable is created with ID \"{{ param }}\"",
+      "updated": "A Variable is updated with ID \"{{ param }}\"",
+      "deleted": "A Variable is deleted with ID \"{{ param }}\"",
       "delete": {
-        "question": "Are you sure you want to delete Variable with the FDZ ID \"{{ fdzId }}\"?"
+        "question": "Are you sure you want to delete Variable with the data acquisition ID \"{{ dataAcquisitionId }}\"?"
       },
       "detail": {
         "title": "Variable"
       },
-      "fdzId": "FDZ ID",
+      "dataAcquisitionId": "Data Acquisition ID",
       "name": "Name",
       "dataType": "DataType",
       "scaleLevel": "ScaleLevel",
       "label": "Label",
-      "fdzProjectName": "FDZ Project Name",
-      "surveyId": "Survey (FDZ ID)",
+      "dataAcquisitionProjectName": "Data Acquisition Project Name",
+      "surveyId": "Survey (ID)",
       "chart": {
         "figure": "Figure",
         "absoluteFrequency": "Absolute frequencies of values",

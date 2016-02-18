@@ -19,5 +19,5 @@ public interface SurveyRepository
     extends MongoRepository<Survey, String>, QueryDslPredicateExecutor<Survey> {
 
   @RestResource(exported = false)
-  List<Survey> deleteByFdzProjectId(String fdzProjectId);
+  List<Survey> deleteByDataAcquisitionProjectId(String dataAcquisitionProjectId);
 }

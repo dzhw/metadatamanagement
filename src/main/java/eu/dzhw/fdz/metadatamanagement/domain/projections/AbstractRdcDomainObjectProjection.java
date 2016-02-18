@@ -7,6 +7,7 @@ import java.time.ZonedDateTime;
  * expose ids and version per default in the json.
  * 
  * @author René Reitmann
+ * @author Daniel Katzberg
  */
 public interface AbstractRdcDomainObjectProjection {
 

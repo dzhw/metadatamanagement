@@ -6,21 +6,21 @@
         "createLabel": "Create a new Survey",
         "createOrEditLabel": "Create or edit a Survey"
       },
-      "created": "A new Survey is created with FDZ ID \"{{ param }}\"",
-      "updated": "A Survey is updated with FDZ ID \"{{ param }}\"",
-      "deleted": "A Survey is deleted with FDZ ID \"{{ param }}\"",
+      "created": "A new Survey is created with ID \"{{ param }}\"",
+      "updated": "A Survey is updated with ID \"{{ param }}\"",
+      "deleted": "A Survey is deleted with ID \"{{ param }}\"",
       "delete": {
-        "question": "Are you sure you want to delete Survey with FDZ ID \"{{ fdzId }}\"?"
+        "question": "Are you sure you want to delete Survey with ID \"{{ dataAcquisitionId }}\"?"
       },
       "detail": {
         "title": "Survey"
       },
-      "fdzId": "FDZ ID",
+      "dataAcquisitionId": "Data Acquisition ID",
       "title.de": "Title (DE)",
       "title.en": "Title (EN)",
       "fieldPeriod.start": "Field Period Begin",
       "fieldPeriod.end": "Field Period End",
-      "fdzProjectName": "FDZ Project Name"
+      "dataAcquisitionName": "Data Acquisition Project Name"
     }
   }
 }

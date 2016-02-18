@@ -19,7 +19,7 @@
         },
         {
             "fieldId": 3,
-            "fieldName": "fdzProjectName",
+            "fieldName": "dataAcquisitionProjectName",
             "fieldType": "String",
             "fieldValidateRules": [
                 "required"

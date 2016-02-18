@@ -17,17 +17,17 @@ import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.util.NestedServletException;
 
 import eu.dzhw.fdz.metadatamanagement.AbstractTest;
-import eu.dzhw.fdz.metadatamanagement.domain.FdzProject;
+import eu.dzhw.fdz.metadatamanagement.domain.DataAcquisitionProject;
 import eu.dzhw.fdz.metadatamanagement.domain.Survey;
 import eu.dzhw.fdz.metadatamanagement.domain.Variable;
-import eu.dzhw.fdz.metadatamanagement.domain.builders.FdzProjectBuilder;
+import eu.dzhw.fdz.metadatamanagement.domain.builders.DataAcquisitionProjectBuilder;
 import eu.dzhw.fdz.metadatamanagement.domain.builders.I18nStringBuilder;
 import eu.dzhw.fdz.metadatamanagement.domain.builders.PeriodBuilder;
 import eu.dzhw.fdz.metadatamanagement.domain.builders.SurveyBuilder;
 import eu.dzhw.fdz.metadatamanagement.domain.builders.VariableBuilder;
 import eu.dzhw.fdz.metadatamanagement.domain.enumeration.DataType;
 import eu.dzhw.fdz.metadatamanagement.domain.enumeration.ScaleLevel;
-import eu.dzhw.fdz.metadatamanagement.repository.FdzProjectRepository;
+import eu.dzhw.fdz.metadatamanagement.repository.DataAcquisitionProjectRepository;
 import eu.dzhw.fdz.metadatamanagement.repository.SurveyRepository;
 import eu.dzhw.fdz.metadatamanagement.repository.VariableRepository;
 import eu.dzhw.fdz.metadatamanagement.service.ElasticsearchAdminService;
@@ -38,7 +38,7 @@ public class AdminResourceTest extends AbstractTest {
   private WebApplicationContext wac;
   
   @Autowired
-  private FdzProjectRepository fdzProjectRepository;
+  private DataAcquisitionProjectRepository dataAcquisitionProjectRepository;
 
   @Autowired
   private SurveyRepository surveyRepository;
@@ -60,7 +60,7 @@ public class AdminResourceTest extends AbstractTest {
   @After
   public void cleanUp() {
     UnitTestUtils.logout();
-    fdzProjectRepository.deleteAll();
+    dataAcquisitionProjectRepository.deleteAll();
     surveyRepository.deleteAll();
     variableRepository.deleteAll();
   }
@@ -91,14 +91,14 @@ public class AdminResourceTest extends AbstractTest {
   @Test
   public void testRecreateIndicesWithExistingVariables() throws Exception {
     UnitTestUtils.login("admin", "admin");
-    FdzProject project = new FdzProjectBuilder().withId("testId")
-      .withSufDoi("testDoi")
-      .withCufDoi("testDoi")
+    DataAcquisitionProject project = new DataAcquisitionProjectBuilder().withId("testId")
+      .withSurveySeries(new I18nStringBuilder().build())
+      .withPanelName(new I18nStringBuilder().build())
       .build();
-    fdzProjectRepository.save(project);
+    dataAcquisitionProjectRepository.save(project);
 
     Survey survey = new SurveyBuilder().withId("testId")
-      .withFdzProjectId(project.getId())
+      .withDataAcquisitionProjectId(project.getId())
       .withTitle(new I18nStringBuilder().withDe("titel")
         .withEn("title")
         .build())
@@ -108,7 +108,7 @@ public class AdminResourceTest extends AbstractTest {
       .build();
     surveyRepository.save(survey);
 
-    Variable variable = new VariableBuilder().withFdzProjectId(project.getId())
+    Variable variable = new VariableBuilder().withDataAcquisitionProjectId(project.getId())
       .withSurveyId(survey.getId())
       .withId("testId")
       .withLabel("label")

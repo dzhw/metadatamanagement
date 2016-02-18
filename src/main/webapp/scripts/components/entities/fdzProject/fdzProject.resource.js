@@ -2,7 +2,7 @@
 
 angular.module('metadatamanagementApp')
     .factory('FdzProject', function($resource) {
-      return $resource('/api/fdz_projects/:id',
+      return $resource('/api/data_acquisition_projects/:id',
         {id: '@id'}, {
         'get': {
           method: 'GET',

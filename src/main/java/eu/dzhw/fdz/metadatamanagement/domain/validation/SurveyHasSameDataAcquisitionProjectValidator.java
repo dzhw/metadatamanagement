@@ -17,8 +17,8 @@ import eu.dzhw.fdz.metadatamanagement.repository.SurveyRepository;
  * @author Daniel Katzberg
  *
  */
-public class SurveyHasSameFdzProjectValidator
-    implements ConstraintValidator<SurveyHasSameFdzProject, Variable> {
+public class SurveyHasSameDataAcquisitionProjectValidator
+    implements ConstraintValidator<SurveyHasSameDataAcquisitionProject, Variable> {
 
   @Inject
   private SurveyRepository surveyRepository;
@@ -29,7 +29,7 @@ public class SurveyHasSameFdzProjectValidator
    * @see javax.validation.ConstraintValidator#initialize(java.lang.annotation.Annotation)
    */
   @Override
-  public void initialize(SurveyHasSameFdzProject constraintAnnotation) {}
+  public void initialize(SurveyHasSameDataAcquisitionProject constraintAnnotation) {}
 
   /*
    * (non-Javadoc)
@@ -46,18 +46,19 @@ public class SurveyHasSameFdzProjectValidator
     }
 
     // survey is set, but no fdz project. this is not allowed -> validation error.
-    if (StringUtils.isEmpty(variable.getFdzProjectId())) {
+    if (StringUtils.isEmpty(variable.getDataAcquisitionProjectId())) {
       return false;
     }
 
     // Check for fdz project name
     Survey survey = this.surveyRepository.findOne(variable.getSurveyId());
-    //Wrong id, means in worst case no survey in the db.
+    // Wrong id, means in worst case no survey in the db.
     if (survey == null) {
       return false;
     }
-    
-    if (survey.getFdzProjectId().equals(variable.getFdzProjectId())) {
+
+    if (survey.getDataAcquisitionProjectId()
+        .equals(variable.getDataAcquisitionProjectId())) {
       return true;
     }
 

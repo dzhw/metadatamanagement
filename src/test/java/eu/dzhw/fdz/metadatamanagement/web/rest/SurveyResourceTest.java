@@ -14,18 +14,17 @@ import org.junit.Before;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
 import eu.dzhw.fdz.metadatamanagement.AbstractTest;
-import eu.dzhw.fdz.metadatamanagement.domain.FdzProject;
+import eu.dzhw.fdz.metadatamanagement.domain.DataAcquisitionProject;
 import eu.dzhw.fdz.metadatamanagement.domain.Survey;
-import eu.dzhw.fdz.metadatamanagement.domain.builders.FdzProjectBuilder;
+import eu.dzhw.fdz.metadatamanagement.domain.builders.DataAcquisitionProjectBuilder;
 import eu.dzhw.fdz.metadatamanagement.domain.builders.I18nStringBuilder;
 import eu.dzhw.fdz.metadatamanagement.domain.builders.PeriodBuilder;
 import eu.dzhw.fdz.metadatamanagement.domain.builders.SurveyBuilder;
-import eu.dzhw.fdz.metadatamanagement.repository.FdzProjectRepository;
+import eu.dzhw.fdz.metadatamanagement.repository.DataAcquisitionProjectRepository;
 import eu.dzhw.fdz.metadatamanagement.repository.SurveyRepository;
 
 /**
@@ -40,7 +39,7 @@ public class SurveyResourceTest extends AbstractTest {
   private WebApplicationContext wac;
 
   @Autowired
-  private FdzProjectRepository fdzProjectRepository;
+  private DataAcquisitionProjectRepository fdzProjectRepository;
 
   @Autowired
   private SurveyRepository surveyRepository;
@@ -61,14 +60,14 @@ public class SurveyResourceTest extends AbstractTest {
 
   @Test
   public void testCreateValidSurvey() throws Exception {
-    FdzProject project = new FdzProjectBuilder().withId("testId")
-      .withCufDoi("testDoi")
-      .withSufDoi("testDoi")
+    DataAcquisitionProject project = new DataAcquisitionProjectBuilder().withId("testId")
+      .withSurveySeries(new I18nStringBuilder().build())
+      .withPanelName(new I18nStringBuilder().build())
       .build();
     fdzProjectRepository.save(project);
 
     Survey survey = new SurveyBuilder().withId("testId")
-      .withFdzProjectId(project.getId())
+      .withDataAcquisitionProjectId(project.getId())
       .withTitle(new I18nStringBuilder().withDe("titel")
         .withEn("title")
         .build())
@@ -79,28 +78,28 @@ public class SurveyResourceTest extends AbstractTest {
       .build();
 
     // create the survey with the given id
-    mockMvc
-      .perform(put(API_SURVEYS_URI + "/" + survey.getId()).content(TestUtil.convertObjectToJsonBytes(survey)))
+    mockMvc.perform(put(API_SURVEYS_URI + "/" + survey.getId())
+      .content(TestUtil.convertObjectToJsonBytes(survey)))
       .andExpect(status().isCreated());
 
     // read the survey under the new url
     mockMvc.perform(get(API_SURVEYS_URI + "/" + survey.getId()))
       .andExpect(status().isOk());
-    
+
     // call toString for test coverage :-)
     survey.toString();
   }
 
   @Test
   public void testCreateSurveyWithInvalidPeriod() throws Exception {
-    FdzProject project = new FdzProjectBuilder().withId("testId")
-      .withCufDoi("testDoi")
-      .withSufDoi("testDoi")
+    DataAcquisitionProject project = new DataAcquisitionProjectBuilder().withId("testId")
+      .withSurveySeries(new I18nStringBuilder().build())
+      .withPanelName(new I18nStringBuilder().build())
       .build();
     fdzProjectRepository.save(project);
 
     Survey survey = new SurveyBuilder().withId("testId")
-      .withFdzProjectId(project.getId())
+      .withDataAcquisitionProjectId(project.getId())
       .withTitle(new I18nStringBuilder().withDe("titel")
         .withEn("title")
         .build())
@@ -111,22 +110,22 @@ public class SurveyResourceTest extends AbstractTest {
       .build();
 
     // create the survey with the given id but with wrong period
-    MvcResult result = mockMvc
-      .perform(put(API_SURVEYS_URI + "/" + survey.getId()).content(TestUtil.convertObjectToJsonBytes(survey)))
+    mockMvc.perform(put(API_SURVEYS_URI + "/" + survey.getId())
+      .content(TestUtil.convertObjectToJsonBytes(survey)))
       .andExpect(status().isBadRequest())
       .andReturn();
   }
-  
+
   @Test
   public void testCreateSurveyWithUnlimitedPeriod() throws Exception {
-    FdzProject project = new FdzProjectBuilder().withId("testId")
-      .withCufDoi("testDoi")
-      .withSufDoi("testDoi")
+    DataAcquisitionProject project = new DataAcquisitionProjectBuilder().withId("testId")
+      .withSurveySeries(new I18nStringBuilder().build())
+      .withPanelName(new I18nStringBuilder().build())
       .build();
     fdzProjectRepository.save(project);
 
     Survey survey = new SurveyBuilder().withId("testId")
-      .withFdzProjectId(project.getId())
+      .withDataAcquisitionProjectId(project.getId())
       .withTitle(new I18nStringBuilder().withDe("titel")
         .withEn("title")
         .build())
@@ -136,21 +135,21 @@ public class SurveyResourceTest extends AbstractTest {
       .build();
 
     // create the survey with the given id but with an unlimited period
-    MvcResult result = mockMvc
-      .perform(put(API_SURVEYS_URI + "/" + survey.getId()).content(TestUtil.convertObjectToJsonBytes(survey)))
+    mockMvc.perform(put(API_SURVEYS_URI + "/" + survey.getId())
+      .content(TestUtil.convertObjectToJsonBytes(survey)))
       .andExpect(status().isCreated())
       .andReturn();
   }
 
   @Test
   public void testCreateSurveyWithInvalidProject() throws Exception {
-    FdzProject project = new FdzProjectBuilder().withId("testId")
-      .withCufDoi("testDoi")
-      .withSufDoi("testDoi")
+    DataAcquisitionProject project = new DataAcquisitionProjectBuilder().withId("testId")
+      .withSurveySeries(new I18nStringBuilder().build())
+      .withPanelName(new I18nStringBuilder().build())
       .build();
 
     Survey survey = new SurveyBuilder().withId("testId")
-      .withFdzProjectId(project.getId())
+      .withDataAcquisitionProjectId(project.getId())
       .withTitle(new I18nStringBuilder().withDe("titel")
         .withEn("title")
         .build())
@@ -161,15 +160,15 @@ public class SurveyResourceTest extends AbstractTest {
       .build();
 
     // create the survey with the given id but with an unknown project
-    mockMvc
-      .perform(put(API_SURVEYS_URI + "/" + survey.getId()).content(TestUtil.convertObjectToJsonBytes(survey)))
+    mockMvc.perform(put(API_SURVEYS_URI + "/" + survey.getId())
+      .content(TestUtil.convertObjectToJsonBytes(survey)))
       .andExpect(status().isBadRequest());
   }
-  
+
   @Test
   public void testCreateSurveyEmptyProject() throws Exception {
     Survey survey = new SurveyBuilder().withId("testId")
-      .withFdzProjectId(null)
+      .withDataAcquisitionProjectId(null)
       .withTitle(new I18nStringBuilder().withDe("titel")
         .withEn("title")
         .build())
@@ -180,21 +179,21 @@ public class SurveyResourceTest extends AbstractTest {
       .build();
 
     // create the survey with the given id but without a project
-    mockMvc
-      .perform(put(API_SURVEYS_URI + "/" + survey.getId()).content(TestUtil.convertObjectToJsonBytes(survey)))
+    mockMvc.perform(put(API_SURVEYS_URI + "/" + survey.getId())
+      .content(TestUtil.convertObjectToJsonBytes(survey)))
       .andExpect(status().isBadRequest());
   }
 
   @Test
   public void testDeleteSurvey() throws Exception {
-    FdzProject project = new FdzProjectBuilder().withId("testId")
-      .withCufDoi("testDoi")
-      .withSufDoi("testDoi")
+    DataAcquisitionProject project = new DataAcquisitionProjectBuilder().withId("testId")
+      .withSurveySeries(new I18nStringBuilder().build())
+      .withPanelName(new I18nStringBuilder().build())
       .build();
     fdzProjectRepository.save(project);
 
     Survey survey = new SurveyBuilder().withId("testId")
-      .withFdzProjectId(project.getId())
+      .withDataAcquisitionProjectId(project.getId())
       .withTitle(new I18nStringBuilder().withDe("titel")
         .withEn("title")
         .build())
@@ -205,8 +204,8 @@ public class SurveyResourceTest extends AbstractTest {
       .build();
 
     // create the survey with the given id
-    mockMvc
-      .perform(put(API_SURVEYS_URI + "/" + survey.getId()).content(TestUtil.convertObjectToJsonBytes(survey)))
+    mockMvc.perform(put(API_SURVEYS_URI + "/" + survey.getId())
+      .content(TestUtil.convertObjectToJsonBytes(survey)))
       .andExpect(status().isCreated());
 
     // delete the survey
@@ -220,14 +219,14 @@ public class SurveyResourceTest extends AbstractTest {
 
   @Test
   public void testUpdateSurvey() throws Exception {
-    FdzProject project = new FdzProjectBuilder().withId("testId")
-      .withCufDoi("testDoi")
-      .withSufDoi("testDoi")
+    DataAcquisitionProject project = new DataAcquisitionProjectBuilder().withId("testId")
+      .withSurveySeries(new I18nStringBuilder().build())
+      .withPanelName(new I18nStringBuilder().build())
       .build();
     fdzProjectRepository.save(project);
 
     Survey survey = new SurveyBuilder().withId("testId")
-      .withFdzProjectId(project.getId())
+      .withDataAcquisitionProjectId(project.getId())
       .withTitle(new I18nStringBuilder().withDe("titel")
         .withEn("title")
         .build())
@@ -238,15 +237,15 @@ public class SurveyResourceTest extends AbstractTest {
       .build();
 
     // create the survey with the given id
-    mockMvc
-      .perform(put(API_SURVEYS_URI + "/" + survey.getId()).content(TestUtil.convertObjectToJsonBytes(survey)))
+    mockMvc.perform(put(API_SURVEYS_URI + "/" + survey.getId())
+      .content(TestUtil.convertObjectToJsonBytes(survey)))
       .andExpect(status().isCreated());
 
     // update the survey
     survey.getTitle()
       .setDe("titel2");
-    mockMvc
-      .perform(put(API_SURVEYS_URI + "/" + survey.getId()).content(TestUtil.convertObjectToJsonBytes(survey)))
+    mockMvc.perform(put(API_SURVEYS_URI + "/" + survey.getId())
+      .content(TestUtil.convertObjectToJsonBytes(survey)))
       .andExpect(status().isNoContent());
 
     // get the survey and check the updated title and version
@@ -256,17 +255,17 @@ public class SurveyResourceTest extends AbstractTest {
       .andExpect(jsonPath("$.version", is(1)))
       .andExpect(jsonPath("$.title.de", is("titel2")));
   }
-  
+
   @Test
   public void testDeletingProjectDeletesSurvey() throws Exception {
-    FdzProject project = new FdzProjectBuilder().withId("testId")
-      .withCufDoi("testDoi")
-      .withSufDoi("testDoi")
+    DataAcquisitionProject project = new DataAcquisitionProjectBuilder().withId("testId")
+      .withSurveySeries(new I18nStringBuilder().build())
+      .withPanelName(new I18nStringBuilder().build())
       .build();
     fdzProjectRepository.save(project);
 
     Survey survey = new SurveyBuilder().withId("testId")
-      .withFdzProjectId(project.getId())
+      .withDataAcquisitionProjectId(project.getId())
       .withTitle(new I18nStringBuilder().withDe("titel")
         .withEn("title")
         .build())
@@ -275,21 +274,22 @@ public class SurveyResourceTest extends AbstractTest {
           .plusDays(1))
         .build())
       .build();
-    
+
     surveyRepository.save(survey);
-    
+
     // check that the survey is present
     mockMvc.perform(get(API_SURVEYS_URI + "/" + survey.getId() + "?projection=complete"))
       .andExpect(status().isOk())
       .andExpect(jsonPath("$.id", is(project.getId())))
       .andExpect(jsonPath("$.version", is(0)));
-    
+
     // delete the project
-    mockMvc.perform(delete("/api/fdz_projects/" + project.getId())).andExpect(status().is2xxSuccessful());
-    
+    mockMvc.perform(delete("/api/data_acquisition_projects/" + project.getId()))
+      .andExpect(status().is2xxSuccessful());
+
     // check that the survey has been deleted as well
     mockMvc.perform(get(API_SURVEYS_URI + "/" + survey.getId() + "?projection=complete"))
       .andExpect(status().isNotFound());
-    
+
   }
 }

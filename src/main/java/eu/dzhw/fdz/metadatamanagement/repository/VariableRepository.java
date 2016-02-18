@@ -20,5 +20,5 @@ public interface VariableRepository
   List<Variable> deleteBySurveyId(String surveyId);
   
   @RestResource(exported = false)
-  List<Variable> deleteByFdzProjectId(String fdzProjectId);
+  List<Variable> deleteByDataAcquisitionProjectId(String dataAcquisitionProjectId);
 }

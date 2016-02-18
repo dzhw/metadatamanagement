@@ -10,27 +10,29 @@ import javax.validation.Constraint;
 import javax.validation.Payload;
 
 /**
- * This annotion is for the validation of the dependency between variable, survey and fdz project.
- * It should be validate, if the a optional survey is part of the same fdz project.
+ * This annotation is a validation annotation for a project name. The validation checks, if a
+ * project name is valid and exists in the mongo database.
  * 
  * @author Daniel Katzberg
  *
  */
 @Documented
-@Constraint(validatedBy = {SurveyHasSameFdzProjectValidator.class})
-@Target({ElementType.TYPE})
+@Constraint(validatedBy = {DataAcquisitionProjectExistsValidator.class})
+@Target({ElementType.FIELD})
 @Retention(RetentionPolicy.RUNTIME)
-public @interface SurveyHasSameFdzProject {
+public @interface DataAcquisitionProjectExists {
 
   /**
    * Defines the default error message.
    */
   public abstract String message() default "{eu.dzhw.fdz.metadatamanagement.domain.validation."
-      + "surveyhassamefdzproject.message}";
+      + "dataacquisitionprojectexists.message}";
+
   /**
    * This contains groups.
    */
   public Class<?>[] groups() default {};
+
   /**
    * This method contains the payload.
    */

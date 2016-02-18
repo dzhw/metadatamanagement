@@ -13,7 +13,7 @@ import org.springframework.data.rest.core.annotation.RepositoryEventHandler;
 import org.springframework.data.rest.core.event.AfterDeleteEvent;
 import org.springframework.stereotype.Service;
 
-import eu.dzhw.fdz.metadatamanagement.domain.FdzProject;
+import eu.dzhw.fdz.metadatamanagement.domain.DataAcquisitionProject;
 import eu.dzhw.fdz.metadatamanagement.domain.Survey;
 import eu.dzhw.fdz.metadatamanagement.domain.Variable;
 import eu.dzhw.fdz.metadatamanagement.repository.VariableRepository;
@@ -35,7 +35,7 @@ public class VariableService {
 
   @Inject
   private VariableSearchDao variableSearchDao;
-  
+
   @Inject
   private ApplicationEventPublisher eventPublisher;
 
@@ -51,7 +51,7 @@ public class VariableService {
       variables = variableRepository.findAll(pageable.next());
     }
   }
-  
+
   /**
    * Delete all variables when the survey was deleted.
    * 
@@ -60,19 +60,20 @@ public class VariableService {
   @HandleAfterDelete
   public void onSurveyDeleted(Survey survey) {
     List<Variable> deletedVariables = variableRepository.deleteBySurveyId(survey.getId());
-    deletedVariables.forEach(
-        variable -> eventPublisher.publishEvent(new AfterDeleteEvent(variable)));
+    deletedVariables
+      .forEach(variable -> eventPublisher.publishEvent(new AfterDeleteEvent(variable)));
   }
-  
+
   /**
-   * Delete all variables when the fdzProject was deleted.
+   * Delete all variables when the dataAcquisitionProject was deleted.
    * 
-   * @param fdzProject the fdzProject which has been deleted.
+   * @param dataAcquisitionProject the dataAcquisitionProject which has been deleted.
    */
   @HandleAfterDelete
-  public void onFdzProjectDeleted(FdzProject fdzProject) {
-    List<Variable> deletedVariables = variableRepository.deleteByFdzProjectId(fdzProject.getId());
-    deletedVariables.forEach(
-        variable -> eventPublisher.publishEvent(new AfterDeleteEvent(variable)));
+  public void onDataAcquisitionProjectDeleted(DataAcquisitionProject dataAcquisitionProject) {
+    List<Variable> deletedVariables =
+        variableRepository.deleteByDataAcquisitionProjectId(dataAcquisitionProject.getId());
+    deletedVariables
+      .forEach(variable -> eventPublisher.publishEvent(new AfterDeleteEvent(variable)));
   }
 }

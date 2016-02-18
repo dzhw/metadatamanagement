@@ -11,6 +11,7 @@ import eu.dzhw.fdz.metadatamanagement.domain.Survey;
  * Spring Data rest does not expose ids and version per default in the json.
  * 
  * @author René Reitmann
+ * @author Daniel Katzberg
  */
 @Projection(name = "complete", types = Survey.class)
 public interface CompleteSurveyProjection extends AbstractRdcDomainObjectProjection {
@@ -18,5 +19,5 @@ public interface CompleteSurveyProjection extends AbstractRdcDomainObjectProject
 
   Period getFieldPeriod();
 
-  String getFdzProjectId();
+  String getDataAcquisitionProjectId();
 }

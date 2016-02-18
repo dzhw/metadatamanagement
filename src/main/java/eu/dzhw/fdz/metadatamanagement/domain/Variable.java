@@ -17,9 +17,9 @@ import com.google.common.base.MoreObjects;
 import eu.dzhw.fdz.metadatamanagement.domain.enumeration.DataType;
 import eu.dzhw.fdz.metadatamanagement.domain.enumeration.ScaleLevel;
 import eu.dzhw.fdz.metadatamanagement.domain.util.Patterns;
-import eu.dzhw.fdz.metadatamanagement.domain.validation.FdzProjectExists;
+import eu.dzhw.fdz.metadatamanagement.domain.validation.DataAcquisitionProjectExists;
 import eu.dzhw.fdz.metadatamanagement.domain.validation.SurveyExists;
-import eu.dzhw.fdz.metadatamanagement.domain.validation.SurveyHasSameFdzProject;
+import eu.dzhw.fdz.metadatamanagement.domain.validation.SurveyHasSameDataAcquisitionProject;
 import net.karneim.pojobuilder.GeneratePojoBuilder;
 
 /**
@@ -31,7 +31,7 @@ import net.karneim.pojobuilder.GeneratePojoBuilder;
 @Document(collection = "variables")
 @GeneratePojoBuilder(intoPackage = "eu.dzhw.fdz.metadatamanagement.domain.builders")
 @CompoundIndex(def = "{name: 1, fdz_project: 1}", unique = true)
-@SurveyHasSameFdzProject
+@SurveyHasSameDataAcquisitionProject
 public class Variable extends AbstractRdcDomainObject {
   @Id
   @NotEmpty
@@ -53,8 +53,8 @@ public class Variable extends AbstractRdcDomainObject {
   private String label;
 
   @NotEmpty
-  @FdzProjectExists
-  private String fdzProjectId;
+  @DataAcquisitionProjectExists
+  private String dataAcquisitionProjectId;
 
   @SurveyExists
   private String surveyId;
@@ -93,10 +93,6 @@ public class Variable extends AbstractRdcDomainObject {
     this.label = label;
   }
 
-  public String getFdzProjectId() {
-    return fdzProjectId;
-  }
-
   public String getSurveyId() {
     return surveyId;
   }
@@ -105,10 +101,19 @@ public class Variable extends AbstractRdcDomainObject {
     this.surveyId = surveyId;
   }
 
-  public void setFdzProjectId(String fdzProjectId) {
-    this.fdzProjectId = fdzProjectId;
+  public String getDataAcquisitionProjectId() {
+    return dataAcquisitionProjectId;
   }
 
+  public void setDataAcquisitionProjectId(String dataAcquisitionProjectId) {
+    this.dataAcquisitionProjectId = dataAcquisitionProjectId;
+  }
+
+  /*
+   * (non-Javadoc)
+   * 
+   * @see eu.dzhw.fdz.metadatamanagement.domain.AbstractRdcDomainObject#getId()
+   */
   @Override
   public String getId() {
     return id;
@@ -134,7 +139,7 @@ public class Variable extends AbstractRdcDomainObject {
       .add("dataType", dataType)
       .add("scaleLevel", scaleLevel)
       .add("label", label)
-      .add("fdzProjectId", fdzProjectId)
+      .add("dataAcquisitionProjectId", dataAcquisitionProjectId)
       .add("surveyId", surveyId)
       .toString();
   }
