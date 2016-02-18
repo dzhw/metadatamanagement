@@ -1,0 +1,14 @@
+{
+  "createdAt": "2016-02-05T11:04:06.612+01:00",
+  "createdBy": "admin",
+  "lastModifiedAt": "2016-02-05T11:04:06.612+01:00",
+  "lastModifiedBy": "admin",
+  "panelName": {
+      "de": "Deutscher Panelname",
+      "en": "English panel name"
+    },
+  "surveySeries": {
+      "de": "Erhebungsreihe Test",
+      "en": "Survey series Test"
+    }
+}

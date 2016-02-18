@@ -28,6 +28,7 @@ import eu.dzhw.fdz.metadatamanagement.repository.DataAcquisitionProjectRepositor
  * Test the REST API for {@link DataAcquisitionProject}s.
  * 
  * @author René Reitmann
+ * @author Daniel Katzberg
  */
 public class DataAcquisitionProjectResourceTest extends AbstractTest {
   private static final String API_DATA_ACQUISITION_PROJECTS_URI = "/api/data_acquisition_projects";

@@ -7,7 +7,7 @@
   "dataType": "string",
   "scaleLevel": "nominal",
   "label": "A label for all cases.",
-  "fdzProjectId": "ATestProject",
+  "dataAcquisitionProjectId": "ATestProject",
   "surveyId": "FDZID001",
   "values": [{
     "code": "1828.172",
