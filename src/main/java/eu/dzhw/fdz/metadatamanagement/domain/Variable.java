@@ -14,7 +14,9 @@ import org.springframework.data.mongodb.core.mapping.Document;
 
 import com.google.common.base.MoreObjects;
 
+import eu.dzhw.fdz.metadatamanagement.domain.enumeration.AccessWay;
 import eu.dzhw.fdz.metadatamanagement.domain.enumeration.DataType;
+import eu.dzhw.fdz.metadatamanagement.domain.enumeration.FilterExpressionLanguage;
 import eu.dzhw.fdz.metadatamanagement.domain.enumeration.ScaleLevel;
 import eu.dzhw.fdz.metadatamanagement.domain.util.Patterns;
 import eu.dzhw.fdz.metadatamanagement.domain.validation.DataAcquisitionProjectExists;
@@ -61,6 +63,55 @@ public class Variable extends AbstractRdcDomainObject {
 
   private List<Value> values;
 
+  private I18nString description;
+
+  private List<AccessWay> accessWays;
+
+  private String filterExpression;
+
+  private I18nString filterDescription;
+
+  private FilterExpressionLanguage filterExpressionLanguage;
+
+  private I18nSvg distributionSvg;
+
+  /*
+   * (non-Javadoc)
+   * 
+   * @see eu.dzhw.fdz.metadatamanagement.domain.AbstractRdcDomainObject#getId()
+   */
+  @Override
+  public String getId() {
+    return id;
+  }
+
+  /*
+   * (non-Javadoc)
+   * 
+   * @see eu.dzhw.fdz.metadatamanagement.domain.AbstractRdcDomainObject#toString()
+   */
+  @Override
+  public String toString() {
+    return MoreObjects.toStringHelper(this)
+      .add("super", super.toString())
+      .add("id", id)
+      .add("name", name)
+      .add("dataType", dataType)
+      .add("scaleLevel", scaleLevel)
+      .add("label", label)
+      .add("dataAcquisitionProjectId", dataAcquisitionProjectId)
+      .add("surveyId", surveyId)
+      .add("values", values)
+      .add("description", description)
+      .add("accessWays", accessWays)
+      .add("filterExpression", filterExpression)
+      .add("filterDescription", filterDescription)
+      .add("filterExpressionLanguage", filterExpressionLanguage)
+      .add("distributionSvg", distributionSvg)
+      .toString();
+  }
+
+  /* GETTER / SETTER */
   public String getName() {
     return name;
   }
@@ -109,14 +160,52 @@ public class Variable extends AbstractRdcDomainObject {
     this.dataAcquisitionProjectId = dataAcquisitionProjectId;
   }
 
-  /*
-   * (non-Javadoc)
-   * 
-   * @see eu.dzhw.fdz.metadatamanagement.domain.AbstractRdcDomainObject#getId()
-   */
-  @Override
-  public String getId() {
-    return id;
+  public I18nString getDescription() {
+    return description;
+  }
+
+  public void setDescription(I18nString description) {
+    this.description = description;
+  }
+
+  public List<AccessWay> getAccessWays() {
+    return accessWays;
+  }
+
+  public void setAccessWays(List<AccessWay> accessWays) {
+    this.accessWays = accessWays;
+  }
+
+  public String getFilterExpression() {
+    return filterExpression;
+  }
+
+  public void setFilterExpression(String filterExpression) {
+    this.filterExpression = filterExpression;
+  }
+
+  public I18nString getFilterDescription() {
+    return filterDescription;
+  }
+
+  public void setFilterDescription(I18nString filterDescription) {
+    this.filterDescription = filterDescription;
+  }
+
+  public FilterExpressionLanguage getFilterExpressionLanguage() {
+    return filterExpressionLanguage;
+  }
+
+  public void setFilterExpressionLanguage(FilterExpressionLanguage filterExpressionLanguage) {
+    this.filterExpressionLanguage = filterExpressionLanguage;
+  }
+
+  public I18nSvg getDistributionSvg() {
+    return distributionSvg;
+  }
+
+  public void setDistributionSvg(I18nSvg distributionSvg) {
+    this.distributionSvg = distributionSvg;
   }
 
   public void setId(String id) {
@@ -129,18 +218,5 @@ public class Variable extends AbstractRdcDomainObject {
 
   public void setValues(List<Value> values) {
     this.values = values;
-  }
-
-  @Override
-  public String toString() {
-    return MoreObjects.toStringHelper(this)
-      .add("super", super.toString())
-      .add("name", name)
-      .add("dataType", dataType)
-      .add("scaleLevel", scaleLevel)
-      .add("label", label)
-      .add("dataAcquisitionProjectId", dataAcquisitionProjectId)
-      .add("surveyId", surveyId)
-      .toString();
   }
 }
