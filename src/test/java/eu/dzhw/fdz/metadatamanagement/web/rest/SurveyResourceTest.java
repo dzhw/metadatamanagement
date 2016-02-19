@@ -32,6 +32,7 @@ import eu.dzhw.fdz.metadatamanagement.repository.SurveyRepository;
  * Test the REST API for {@link Survey}s.
  *
  * @author René Reitmann
+ * @author Daniel Katzberg
  */
 public class SurveyResourceTest extends AbstractTest {
   private static final String API_SURVEYS_URI = "/api/surveys";
@@ -76,6 +77,7 @@ public class SurveyResourceTest extends AbstractTest {
         .withEnd(LocalDate.now()
           .plusDays(1))
         .build())
+      .withQuestionnaireId("QuestionnaireId")
       .build();
 
     // create the survey with the given id
@@ -133,6 +135,7 @@ public class SurveyResourceTest extends AbstractTest {
       .withFieldPeriod(new PeriodBuilder().withStart(null)
         .withEnd(null)
         .build())
+      .withQuestionnaireId("QuestionnaireId")
       .build();
 
     // create the survey with the given id but with an unlimited period
@@ -193,8 +196,7 @@ public class SurveyResourceTest extends AbstractTest {
         + "\"fieldPeriod\":{\"start\":\"2012-12-01\",\"end\":\"2013-04-01d\"}}";
 
     // create the survey with the given id but without a project
-    mockMvc.perform(put(API_SURVEYS_URI + "/6")
-      .content(survey))
+    mockMvc.perform(put(API_SURVEYS_URI + "/6").content(survey))
       .andExpect(status().isBadRequest())
       .andExpect(jsonPath("$.errors[0].message", containsString("2013-04-01d")));
   }
@@ -216,6 +218,7 @@ public class SurveyResourceTest extends AbstractTest {
         .withEnd(LocalDate.now()
           .plusDays(1))
         .build())
+      .withQuestionnaireId("QuestionnaireId")
       .build();
 
     // create the survey with the given id
@@ -249,6 +252,7 @@ public class SurveyResourceTest extends AbstractTest {
         .withEnd(LocalDate.now()
           .plusDays(1))
         .build())
+      .withQuestionnaireId("QuestionnaireId")
       .build();
 
     // create the survey with the given id
@@ -281,6 +285,7 @@ public class SurveyResourceTest extends AbstractTest {
 
     Survey survey = new SurveyBuilder().withId("testId")
       .withDataAcquisitionProjectId(project.getId())
+      .withQuestionnaireId("QuestionnaireId")
       .withTitle(new I18nStringBuilder().withDe("titel")
         .withEn("title")
         .build())

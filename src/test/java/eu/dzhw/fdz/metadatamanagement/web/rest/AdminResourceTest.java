@@ -36,16 +36,16 @@ import eu.dzhw.fdz.metadatamanagement.unittest.util.UnitTestUtils;
 public class AdminResourceTest extends AbstractTest {
   @Autowired
   private WebApplicationContext wac;
-  
+
   @Autowired
   private DataAcquisitionProjectRepository dataAcquisitionProjectRepository;
 
   @Autowired
   private SurveyRepository surveyRepository;
-  
+
   @Autowired
   private VariableRepository variableRepository;
-  
+
   @Autowired
   private ElasticsearchAdminService elasticsearchAdminService;
 
@@ -56,7 +56,7 @@ public class AdminResourceTest extends AbstractTest {
     this.mockMvc = MockMvcBuilders.webAppContextSetup(wac)
       .build();
   }
-  
+
   @After
   public void cleanUp() {
     UnitTestUtils.logout();
@@ -64,30 +64,30 @@ public class AdminResourceTest extends AbstractTest {
     surveyRepository.deleteAll();
     variableRepository.deleteAll();
   }
-  
+
   @Test
   public void testRecreateAllIndices() throws Exception {
     UnitTestUtils.login("admin", "admin");
-    
+
     // test recreation of all elasticsearch indices
     mockMvc.perform(post("/api/admin/elasticsearch/recreate"))
       .andExpect(status().isOk());
-    
+
     // test recreation of all elasticsearch indices (should delete the previously
     // created indices)
     mockMvc.perform(post("/api/admin/elasticsearch/recreate"))
       .andExpect(status().isOk());
   }
-  
-  @Test(expected=NestedServletException.class)
+
+  @Test(expected = NestedServletException.class)
   public void testRecreateAllIndicesWithoutValidCredentials() throws Exception {
     // test recreation of all elasticsearch indices
     mockMvc.perform(post("/api/admin/elasticsearch/recreate"))
       .andExpect(status().isOk());
-    
-    // TODO this should result in a more user friendly error message 
+
+    // TODO this should result in a more user friendly error message
   }
-  
+
   @Test
   public void testRecreateIndicesWithExistingVariables() throws Exception {
     UnitTestUtils.login("admin", "admin");
@@ -105,6 +105,7 @@ public class AdminResourceTest extends AbstractTest {
       .withFieldPeriod(new PeriodBuilder().withStart(LocalDate.now())
         .withEnd(LocalDate.now())
         .build())
+      .withQuestionnaireId("QuestionnaireId")
       .build();
     surveyRepository.save(survey);
 
@@ -117,13 +118,13 @@ public class AdminResourceTest extends AbstractTest {
       .withDataType(DataType.numeric)
       .build();
     variableRepository.save(variable);
-    
-    //test recreation of all elasticsearch indices with previously created variable
+
+    // test recreation of all elasticsearch indices with previously created variable
     mockMvc.perform(post("/api/admin/elasticsearch/recreate"))
       .andExpect(status().isOk());
-    
+
     elasticsearchAdminService.refreshAllIndices();
-    
+
     assertThat(elasticsearchAdminService.countAllDocuments(), equalTo(2.0));
   }
 }

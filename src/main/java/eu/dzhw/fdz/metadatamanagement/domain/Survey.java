@@ -36,6 +36,9 @@ public class Survey extends AbstractRdcDomainObject {
   @DataAcquisitionProjectExists
   private String dataAcquisitionProjectId;
 
+  @NotEmpty
+  private String questionnaireId;
+
   /*
    * (non-Javadoc)
    * 
@@ -88,5 +91,13 @@ public class Survey extends AbstractRdcDomainObject {
 
   public void setDataAcquisitionProjectId(String dataAcquisitionProjectId) {
     this.dataAcquisitionProjectId = dataAcquisitionProjectId;
+  }
+
+  public String getQuestionnaireId() {
+    return questionnaireId;
+  }
+
+  public void setQuestionnaireId(String questionnaireId) {
+    this.questionnaireId = questionnaireId;
   }
 }

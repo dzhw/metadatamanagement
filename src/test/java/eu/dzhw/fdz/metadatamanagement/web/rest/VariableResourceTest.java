@@ -101,6 +101,7 @@ public class VariableResourceTest extends AbstractTest {
       .withTitle(new I18nStringBuilder().withDe("Titel")
         .withEn("title")
         .build())
+      .withQuestionnaireId("QuestionnaireId")
       .build();
     surveyRepository.save(survey);
 
@@ -142,6 +143,7 @@ public class VariableResourceTest extends AbstractTest {
       .withTitle(new I18nStringBuilder().withDe("Titel")
         .withEn("title")
         .build())
+      .withQuestionnaireId("QuestionnaireId")
       .build();
     surveyRepository.save(survey);
 
@@ -236,6 +238,7 @@ public class VariableResourceTest extends AbstractTest {
       .withTitle(new I18nStringBuilder().withDe("Titel")
         .withEn("title")
         .build())
+      .withQuestionnaireId("QuestionnaireId")
       .build();
     surveyRepository.save(survey);
 
@@ -270,6 +273,7 @@ public class VariableResourceTest extends AbstractTest {
       .withTitle(new I18nStringBuilder().withDe("Titel")
         .withEn("title")
         .build())
+      .withQuestionnaireId("QuestionnaireId")
       .build();
     surveyRepository.save(survey);
 
@@ -316,6 +320,7 @@ public class VariableResourceTest extends AbstractTest {
       .withTitle(new I18nStringBuilder().withDe("Titel")
         .withEn("title")
         .build())
+      .withQuestionnaireId("QuestionnaireId")
       .build();
     surveyRepository.save(survey);
 
@@ -374,6 +379,7 @@ public class VariableResourceTest extends AbstractTest {
       .withTitle(new I18nStringBuilder().withDe("Titel")
         .withEn("title")
         .build())
+      .withQuestionnaireId("QuestionnaireId")
       .build();
     surveyRepository.save(survey);
 
@@ -419,6 +425,7 @@ public class VariableResourceTest extends AbstractTest {
       .withTitle(new I18nStringBuilder().withDe("Titel")
         .withEn("title")
         .build())
+      .withQuestionnaireId("QuestionnaireId")
       .build();
     surveyRepository.save(survey);
 
