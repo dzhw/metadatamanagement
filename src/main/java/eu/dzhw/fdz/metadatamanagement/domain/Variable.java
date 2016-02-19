@@ -75,6 +75,8 @@ public class Variable extends AbstractRdcDomainObject {
 
   private I18nSvg distributionSvg;
 
+  private List<Variable> sameVariablesInPanel;
+
   /*
    * (non-Javadoc)
    * 
@@ -84,6 +86,7 @@ public class Variable extends AbstractRdcDomainObject {
   public String getId() {
     return id;
   }
+
 
   /*
    * (non-Javadoc)
@@ -108,6 +111,7 @@ public class Variable extends AbstractRdcDomainObject {
       .add("filterDescription", filterDescription)
       .add("filterExpressionLanguage", filterExpressionLanguage)
       .add("distributionSvg", distributionSvg)
+      .add("sameVariablesInPanel", sameVariablesInPanel)
       .toString();
   }
 
@@ -219,4 +223,13 @@ public class Variable extends AbstractRdcDomainObject {
   public void setValues(List<Value> values) {
     this.values = values;
   }
+
+  public List<Variable> getSameVariablesInPanel() {
+    return sameVariablesInPanel;
+  }
+
+  public void setSameVariablesInPanel(List<Variable> sameVariablesInPanel) {
+    this.sameVariablesInPanel = sameVariablesInPanel;
+  }
+
 }

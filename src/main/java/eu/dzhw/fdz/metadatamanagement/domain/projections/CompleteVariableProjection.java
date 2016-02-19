@@ -48,4 +48,6 @@ public interface CompleteVariableProjection extends AbstractRdcDomainObjectProje
 
   I18nSvg getDistributionSvg();
 
+  List<Variable> getSameVariablesInPanel();
+
 }
