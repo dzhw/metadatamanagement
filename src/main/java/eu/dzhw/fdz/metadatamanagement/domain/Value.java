@@ -1,8 +1,6 @@
 
 package eu.dzhw.fdz.metadatamanagement.domain;
 
-import java.math.BigDecimal;
-
 import org.hibernate.validator.constraints.NotEmpty;
 
 import com.google.common.base.MoreObjects;
@@ -25,7 +23,7 @@ public class Value {
 
   private Integer absoluteFrequency;
 
-  private BigDecimal relativeFrequency;
+  private Double relativeFrequency;
 
   private boolean isAMissing = false;
 
@@ -70,11 +68,11 @@ public class Value {
     this.absoluteFrequency = absoluteFrequency;
   }
 
-  public BigDecimal getRelativeFrequency() {
+  public Double getRelativeFrequency() {
     return relativeFrequency;
   }
 
-  public void setRelativeFrequency(BigDecimal relativeFrequency) {
+  public void setRelativeFrequency(Double relativeFrequency) {
     this.relativeFrequency = relativeFrequency;
   }
 

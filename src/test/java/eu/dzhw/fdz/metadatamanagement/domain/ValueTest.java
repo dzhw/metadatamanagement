@@ -6,8 +6,6 @@ package eu.dzhw.fdz.metadatamanagement.domain;
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertThat;
 
-import java.math.BigDecimal;
-
 import org.junit.Test;
 
 import eu.dzhw.fdz.metadatamanagement.domain.builders.I18nStringBuilder;
@@ -28,7 +26,7 @@ public class ValueTest {
       .withLabel(new I18nStringBuilder().withDe("german")
         .withEn("english")
         .build())
-      .withRelativeFrequency(new BigDecimal("25.15"))
+      .withRelativeFrequency(new Double(25.15))
       .build();
 
     // Act
@@ -41,8 +39,7 @@ public class ValueTest {
       .getDe(), is("german"));
     assertThat(value.getLabel()
       .getEn(), is("english"));
-    assertThat(value.getRelativeFrequency()
-      .toPlainString(), is("25.15"));
+    assertThat(value.getRelativeFrequency(), is(25.15));
   }
 
   @Test
@@ -54,7 +51,7 @@ public class ValueTest {
       .withLabel(new I18nStringBuilder().withDe("german")
         .withEn("english")
         .build())
-      .withRelativeFrequency(new BigDecimal("25.15"))
+      .withRelativeFrequency(new Double(25.15))
       .build();
 
     // Act
