@@ -1,45 +1,40 @@
 {
-    "relationships": [],
-    "fields": [
-        {
-            "fieldId": 1,
-            "fieldName": "name",
-            "fieldType": "String",
-            "fieldValidateRules": [
-                "required",
-                "maxlength"
-            ],
-            "fieldValidateRulesMaxlength": "32"
-        },
-        {
-            "fieldId": 2,
-            "fieldName": "dataType",
-            "fieldType": "DataType",
-            "fieldValues": "string,numeric",
-            "fieldValidateRules": [
-                "required"
-            ]
-        },
-        {
-            "fieldId": 3,
-            "fieldName": "scaleLevel",
-            "fieldType": "ScaleLevel",
-            "fieldValues": "ordinal,nominal,metric",
-            "fieldValidateRules": [
-                "required"
-            ]
-        },
-        {
-            "fieldId": 4,
-            "fieldName": "label",
-            "fieldType": "String",
-            "fieldValidateRules": [
-                "required",
-                "maxlength"
-            ],
-            "fieldValidateRulesMaxlength": "128"
-        }
+  "relationships": [],
+  "fields": [{
+    "fieldId": 1,
+    "fieldName": "name",
+    "fieldType": "String",
+    "fieldValidateRules": [
+      "required",
+      "maxlength"
     ],
-    "dto": "no",
-    "pagination": "pagination"
+    "fieldValidateRulesMaxlength": "32"
+  }, {
+    "fieldId": 2,
+    "fieldName": "dataType",
+    "fieldType": "DataType",
+    "fieldValues": "string,numeric",
+    "fieldValidateRules": [
+      "required"
+    ]
+  }, {
+    "fieldId": 3,
+    "fieldName": "scaleLevel",
+    "fieldType": "ScaleLevel",
+    "fieldValues": "ordinal,nominal,continous",
+    "fieldValidateRules": [
+      "required"
+    ]
+  }, {
+    "fieldId": 4,
+    "fieldName": "label",
+    "fieldType": "String",
+    "fieldValidateRules": [
+      "required",
+      "maxlength"
+    ],
+    "fieldValidateRulesMaxlength": "128"
+  }],
+  "dto": "no",
+  "pagination": "pagination"
 }

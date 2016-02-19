@@ -7,7 +7,7 @@ import io.searchbox.annotations.JestId;
 
 /**
  * Representation of a variable which is stored in elasticsearch.
- * 
+ *
  * @author René Reitmann
  * @author Daniel Katzberg
  */
@@ -93,8 +93,8 @@ public class VariableSearchDocument {
     switch (index) {
       case METADATA_DE: {
         switch (variable.getScaleLevel()) {
-          case metric:
-            this.scaleLevel = "metrisch";
+          case continous:
+            this.scaleLevel = "kontinuierlich";
             break;
           case nominal:
             this.scaleLevel = "nominal";
@@ -109,8 +109,8 @@ public class VariableSearchDocument {
       }
       case METADATA_EN:
         switch (variable.getScaleLevel()) {
-          case metric:
-            this.scaleLevel = "metric";
+          case continous:
+            this.scaleLevel = "continous";
             break;
           case nominal:
             this.scaleLevel = "nominal";

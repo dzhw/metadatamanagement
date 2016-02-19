@@ -106,7 +106,7 @@ public class VariableResourceTest extends AbstractTest {
 
     Variable variable = new VariableBuilder().withId("testVariable")
       .withDataType(DataType.numeric)
-      .withScaleLevel(ScaleLevel.metric)
+      .withScaleLevel(ScaleLevel.continous)
       .withDataAcquisitionProjectId(project.getId())
       .withSurveyId(survey.getId())
       .withLabel("label")
@@ -147,7 +147,7 @@ public class VariableResourceTest extends AbstractTest {
 
     Variable variable = new VariableBuilder().withId("testVariable")
       .withDataType(DataType.numeric)
-      .withScaleLevel(ScaleLevel.metric)
+      .withScaleLevel(ScaleLevel.continous)
       .withDataAcquisitionProjectId(null)
       .withSurveyId(survey.getId())
       .withLabel("label")
@@ -180,7 +180,7 @@ public class VariableResourceTest extends AbstractTest {
 
     Variable variable = new VariableBuilder().withId("testVariable")
       .withDataType(DataType.numeric)
-      .withScaleLevel(ScaleLevel.metric)
+      .withScaleLevel(ScaleLevel.continous)
       .withDataAcquisitionProjectId(project.getId())
       .withSurveyId(survey.getId())
       .withLabel("label")
@@ -202,7 +202,7 @@ public class VariableResourceTest extends AbstractTest {
 
     Variable variable = new VariableBuilder().withId("testVariable")
       .withDataType(DataType.numeric)
-      .withScaleLevel(ScaleLevel.metric)
+      .withScaleLevel(ScaleLevel.continous)
       .withDataAcquisitionProjectId(project.getId())
       .withLabel("label")
       .withName("name")
@@ -241,7 +241,7 @@ public class VariableResourceTest extends AbstractTest {
 
     Variable variable = new VariableBuilder().withId("testVariable")
       .withDataType(DataType.numeric)
-      .withScaleLevel(ScaleLevel.metric)
+      .withScaleLevel(ScaleLevel.continous)
       .withDataAcquisitionProjectId(project1.getId())
       .withSurveyId(survey.getId())
       .withLabel("label")
@@ -275,7 +275,7 @@ public class VariableResourceTest extends AbstractTest {
 
     Variable variable = new VariableBuilder().withId("testVariable")
       .withDataType(DataType.numeric)
-      .withScaleLevel(ScaleLevel.metric)
+      .withScaleLevel(ScaleLevel.continous)
       .withDataAcquisitionProjectId(project.getId())
       .withSurveyId(survey.getId())
       .withLabel("label")
@@ -321,7 +321,7 @@ public class VariableResourceTest extends AbstractTest {
 
     Variable variable = new VariableBuilder().withId("testVariable")
       .withDataType(DataType.numeric)
-      .withScaleLevel(ScaleLevel.metric)
+      .withScaleLevel(ScaleLevel.continous)
       .withDataAcquisitionProjectId(project.getId())
       .withSurveyId(survey.getId())
       .withLabel("label")
@@ -379,7 +379,7 @@ public class VariableResourceTest extends AbstractTest {
 
     Variable variable = new VariableBuilder().withId("testVariable")
       .withDataType(DataType.numeric)
-      .withScaleLevel(ScaleLevel.metric)
+      .withScaleLevel(ScaleLevel.continous)
       .withDataAcquisitionProjectId(project.getId())
       .withSurveyId(survey.getId())
       .withLabel("label")
@@ -424,7 +424,7 @@ public class VariableResourceTest extends AbstractTest {
 
     Variable variable = new VariableBuilder().withId("testVariable")
       .withDataType(DataType.numeric)
-      .withScaleLevel(ScaleLevel.metric)
+      .withScaleLevel(ScaleLevel.continous)
       .withDataAcquisitionProjectId(project.getId())
       .withSurveyId(survey.getId())
       .withLabel("label")
