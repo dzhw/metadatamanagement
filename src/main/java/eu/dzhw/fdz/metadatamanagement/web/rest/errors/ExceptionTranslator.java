@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.dao.ConcurrencyFailureException;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
@@ -71,5 +72,23 @@ public class ExceptionTranslator {
   public ErrorDto processMethodNotSupportedException(
       HttpRequestMethodNotSupportedException exception) {
     return new ErrorDto(ErrorConstants.ERR_METHOD_NOT_SUPPORTED, exception.getMessage());
+  }
+
+  /**
+   * Handler for wrapping exceptions which occur when an unparsable json is send by the client.
+   */
+  @ExceptionHandler(HttpMessageNotReadableException.class)
+  @ResponseBody
+  @ResponseStatus(HttpStatus.BAD_REQUEST)
+  public JsonParsingError processHttpMessageNotReadableException(
+      HttpMessageNotReadableException exception) {
+    String errorMessage;
+    if (exception.getRootCause() != null) {
+      errorMessage = exception.getRootCause()
+        .getLocalizedMessage();
+    } else {
+      errorMessage = exception.getLocalizedMessage();
+    }
+    return new JsonParsingError(errorMessage);
   }
 }
