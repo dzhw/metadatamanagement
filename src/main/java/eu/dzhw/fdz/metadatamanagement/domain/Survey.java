@@ -14,10 +14,13 @@ import net.karneim.pojobuilder.GeneratePojoBuilder;
 
 /**
  * A Survey.
+ * 
+ * @author Daniel Katzberg
  */
 @Document(collection = "surveys")
 @GeneratePojoBuilder(intoPackage = "eu.dzhw.fdz.metadatamanagement.domain.builders")
 public class Survey extends AbstractRdcDomainObject {
+
   @Id
   @NotEmpty
   private String id;
@@ -33,6 +36,32 @@ public class Survey extends AbstractRdcDomainObject {
   @DataAcquisitionProjectExists
   private String dataAcquisitionProjectId;
 
+  /*
+   * (non-Javadoc)
+   * 
+   * @see eu.dzhw.fdz.metadatamanagement.domain.AbstractRdcDomainObject#getId()
+   */
+  @Override
+  public String getId() {
+    return id;
+  }
+
+  /*
+   * (non-Javadoc)
+   * 
+   * @see eu.dzhw.fdz.metadatamanagement.domain.AbstractRdcDomainObject#toString()
+   */
+  @Override
+  public String toString() {
+    return MoreObjects.toStringHelper(this)
+      .add("super", super.toString())
+      .add("title", title)
+      .add("fieldPeriod", fieldPeriod)
+      .add("dataAcquisitionProjectId", dataAcquisitionProjectId)
+      .toString();
+  }
+
+  /* GETTER / SETTER */
   public I18nString getTitle() {
     return title;
   }
@@ -49,11 +78,6 @@ public class Survey extends AbstractRdcDomainObject {
     this.fieldPeriod = fieldPeriod;
   }
 
-  @Override
-  public String getId() {
-    return id;
-  }
-
   public void setId(String id) {
     this.id = id;
   }
@@ -64,15 +88,5 @@ public class Survey extends AbstractRdcDomainObject {
 
   public void setDataAcquisitionProjectId(String dataAcquisitionProjectId) {
     this.dataAcquisitionProjectId = dataAcquisitionProjectId;
-  }
-
-  @Override
-  public String toString() {
-    return MoreObjects.toStringHelper(this)
-      .add("super", super.toString())
-      .add("title", title)
-      .add("fieldPeriod", fieldPeriod)
-      .add("dataAcquisitionProjectId", dataAcquisitionProjectId)
-      .toString();
   }
 }
