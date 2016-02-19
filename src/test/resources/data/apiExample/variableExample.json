@@ -9,6 +9,21 @@
   "label": "A label for all cases.",
   "dataAcquisitionProjectId": "ATestProject",
   "surveyId": "FDZID001",
+  "description": {
+    "de": "Eine deutsche Beschreibung.",
+    "en": "A english description."
+  },
+  "filterExpression": "FilterCode 123",
+  "filterDescription": {
+    "de": "Dies ist ein 123 Filter.",
+    "en": "This is a 123 filter."
+  },
+  "accessWays": [
+    "SUF",
+    "Remote"
+  ],
+  "filterExpressionLanguage": "Stata",
+
   "values": [{
     "code": "1828.172",
     "label": {
