@@ -15,7 +15,7 @@ angular.module('metadatamanagementApp').factory(
     // all variables of a dataAcquisitionProject
     var variables;
 
-    //Write odt with information of the fdz projection
+    //Write odt with information of the rdc projection
     var writeODT = function(dataAcquisitionProject) {
 
       //add dataType.json and scaleLevel.json to the known translation parts

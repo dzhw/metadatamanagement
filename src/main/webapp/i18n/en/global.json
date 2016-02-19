@@ -3,7 +3,7 @@
     "title": "metadatamanagement",
     "browsehappy": "You are using an <strong>outdated</strong> browser. Please <a href=\"http://browsehappy.com/?locale=en\">upgrade your browser</a> to improve your experience.",
     "lang": "en",
-    "fdzAltText": "Research Data Center, German Center for Research on Higher Education and Science Studies",
+    "rdcAltText": "Research Data Center, German Center for Research on Higher Education and Science Studies",
     "dzhwAltText": "The German Centre for Research on Higher Education and Science Studies",
     "bmbfAltText": "Sponsored by the FMER",
     "bmbfClass": "navbar-brand bmbf_logo_en",
@@ -13,7 +13,7 @@
       "entities": {
         "main": "Entities",
         "variable": "Variables",
-        "rdcProject": "RDC Projects",
+        "rdcProject": "Data Acquisition Projects",
         "survey": "Surveys",
         "additionalEntity": "JHipster will add additional entities here (do not translate!)"
       },
@@ -116,7 +116,7 @@
       "pattern": "This field should follow pattern {{pattern}}.",
       "number": "This field should be a number.",
       "datetimelocal": "This field should be a date and time.",
-      "fdzId": "The FDZ ID must contain only letters, digits and underscore.",
+      "rdcId": "The RDC ID must contain only letters, digits and underscore.",
       "variable": {
         "name": "The name of a variable must contain only letters, digits and underscore."
       },
@@ -138,7 +138,7 @@
     }
   },
   "logos": {
-    "fdz": "Research Data Center, German Center for Research on Higher Education and Science Studies"
+    "rdc": "Research Data Center, German Center for Research on Higher Education and Science Studies"
   },
   "footer": "This is your footer"
 }

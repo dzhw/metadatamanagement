@@ -2,7 +2,7 @@
   "global": {
     "title": "metadatamanagement",
     "browsehappy": "Sie benutzen einen <strong>veralteten</strong> Browser. Bitte <a href=\"http://browsehappy.com/?locale=de/\">aktualisieren Sie Ihren Browser</a>, um die Benutzerfreundlichkeit zu erhöhen.",
-    "fdzAltText": "Forschungsdatenzentrum, Deutsches Zentrum für Hochschul- und Wissenschaftsforschung",
+    "rdcAltText": "Forschungsdatenzentrum, Deutsches Zentrum für Hochschul- und Wissenschaftsforschung",
     "dzhwAltText": "Deutsches Zentrum für Hochschul- und Wissenschaftsforschung DZHW GmbH",
     "bmbfAltText": "Gefördert vom BMBF",
     "bmbfClass": "navbar-brand bmbf_logo_de",
@@ -12,7 +12,7 @@
       "entities": {
         "main": "Entitäten",
         "variable": "Variablen",
-        "rdcProject": "FDZ Projekte",
+        "rdcProject": "Datenerhebungsprojekte",
         "survey": "Erhebungen",
         "additionalEntity": "JHipster will add additional entities here (do not translate!)"
       },
@@ -115,14 +115,14 @@
       "pattern": "Dieses Feld muss das Muster {{pattern}} erfüllen.",
       "number": "Dieses Feld muss eine Zahl sein.",
       "datetimelocal": "Dieses Feld muss eine Datums- und Zeitangabe enthalten.",
-      "fdzId": "Die FDZ ID darf nur aus Zahlen, Buchstaben und \"_\" bestehen.",
+      "rdcId": "Die FDZ ID darf nur aus Zahlen, Buchstaben und \"_\" bestehen.",
       "variable": {
         "name": "Der Name einer Variablen darf nur aus Zahlen, Buchstaben und \"_\" bestehen."
       },
       "survey": {
         "period": "Der Feldzeitbeginn muss vor dem Ende liegen."
       },
-      "rdcProject": {
+      "dataAcquisitionProject": {
         "name": "Der Name einer Variablen darf nur aus Zahlen, Buchstaben und Leerzeichen bestehen."
       }
     }

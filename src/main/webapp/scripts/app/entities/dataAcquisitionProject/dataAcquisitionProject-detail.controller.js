@@ -53,6 +53,6 @@ angular.module('metadatamanagementApp')
           }
         };
         $scope.exportToODT = function() {
-          DataAcquisitionProjectExportService.exportToODT($scope.fdzProject);
+          DataAcquisitionProjectExportService.exportToODT($scope.rdcProject);
         };
       });

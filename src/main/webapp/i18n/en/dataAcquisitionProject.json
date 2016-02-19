@@ -1,22 +1,22 @@
 {
   "metadatamanagementApp": {
     "variable": {
-      "rdcProjectName": "RDC Project Name"
+      "rdcProjectName": "Data Acquisition Project Name"
     },
     "dataAcquisitionProject": {
       "home": {
-        "title": "RDC Projects",
-        "createLabel": "Create a new RDC Project",
-        "createOrEditLabel": "Create or edit a RDC Project"
+        "title": "Data Acquisition Projects",
+        "createLabel": "Create a new Data Acquisition Project",
+        "createOrEditLabel": "Create or edit a Data Acquisition Project"
       },
-      "created": "A new RDC Project is created with name {{ param }}",
-      "updated": "A RDC Project is updated with name {{ param }}",
-      "deleted": "A RDC Project is deleted with name {{ param }}",
+      "created": "A new Data Acquisition Project is created with name {{ param }}",
+      "updated": "A Data Acquisition Project is updated with name {{ param }}",
+      "deleted": "A Data Acquisition Project is deleted with name {{ param }}",
       "delete": {
-        "question": "Are you sure you want to delete RDC Project \"{{ name }}\"?"
+        "question": "Are you sure you want to delete Data Acquisition Project \"{{ name }}\"?"
       },
       "detail": {
-        "title": "RDC Project"
+        "title": "Data Acquisition Project"
       },
       "name": "Name"
     }

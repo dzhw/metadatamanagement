@@ -1,22 +1,22 @@
 {
   "metadatamanagementApp": {
     "variable": {
-      "rdcProjectName": "FDZ Projektname"
+      "rdcProjectName": "Datenerhebungsprojektname"
     },
     "dataAcquisitionProject": {
       "home": {
-        "title": "FDZ Projekte",
-        "createLabel": "Neues FDZ Projekt anlegen",
-        "createOrEditLabel": "Erstelle oder editiere ein FDZ Projekt"
+        "title": "Datenerhebungsprojekte",
+        "createLabel": "Neues Datenerhebungsprojekt anlegen",
+        "createOrEditLabel": "Erstelle oder editiere ein Datenerhebungsprojekt Projekt"
       },
-      "created": "FDZ Projekt \"{{ param }}\" wurde angelegt.",
-      "updated": "FDZ Projekt \"{{ param }}\" wurde aktualisiert.",
-      "deleted": "FDZ Projekt \"{{ param }}\" wurde gelöscht.",
+      "created": "Datenerhebungsprojekt \"{{ param }}\" wurde angelegt.",
+      "updated": "Datenerhebungsprojekt \"{{ param }}\" wurde aktualisiert.",
+      "deleted": "Datenerhebungsprojekt \"{{ param }}\" wurde gelöscht.",
       "delete": {
-        "question": "Sind Sie sicher, dass Sie das FDZ Project \"{{ name }}\" löschen möchten?"
+        "question": "Sind Sie sicher, dass Sie das Datenerhebungsprojekt \"{{ name }}\" löschen möchten?"
       },
       "detail": {
-        "title": "FDZ Projekt"
+        "title": "Datenerhebungsprojekt"
       },
       "name": "Name"
     }
