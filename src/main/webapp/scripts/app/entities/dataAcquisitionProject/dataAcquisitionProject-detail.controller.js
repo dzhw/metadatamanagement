@@ -8,15 +8,19 @@ angular.module('metadatamanagementApp')
         $scope.dataAcquisitionProject = entity;
         $scope.show = false;
         $scope.progress = 0;
+        $scope.isOpen = false;
+        $scope.errorMessages = [];
         var saveSurveys = function(surveys) {
           var length = surveys.length;
           $scope.maxProgress = length;
-          $scope.uploadResult = '';
+          $scope.uploadResult = 'success';
           for (var i = 0; i < length; i++) {
             var data = surveys[i];
+            console.log(data.questionnaireId);
             var surveyObj = {
               id: data.id,
               dataAcquisitionProjectId: $scope.dataAcquisitionProject.id,
+              questionnaireId: data.questionnaireId,
               title: {
                 en: data['title.en'],
                 de: data['title.de']
@@ -29,10 +33,10 @@ angular.module('metadatamanagementApp')
             var survey = new Survey(surveyObj);
             survey.$save().then(function() {
               $scope.progress = $scope.progress + 1;
-              $scope.uploadResult = 'success';
               $scope.state = $scope.progress + '/' + $scope.maxProgress;
             }).catch(function(errors) {
               $scope.show = true;
+              $scope.isOpen = true;
               $scope.progress = $scope.progress + 1;
               $scope.uploadResult = 'danger';
               $scope.errorMessages.push(errors);
@@ -44,7 +48,9 @@ angular.module('metadatamanagementApp')
         $scope.onSurveyUpload = function(file) {
           if (file !== null) {
             $scope.show = false;
+            $scope.isOpen = false;
             $scope.progress = 0;
+            $scope.uploadResult = 'success';
             $scope.errorMessages = [];
             ExcelParser.readFileAsync(file)
             .then(function(fileInputContent) {

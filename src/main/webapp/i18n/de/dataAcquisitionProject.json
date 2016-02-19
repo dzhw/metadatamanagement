@@ -16,7 +16,13 @@
         "question": "Sind Sie sicher, dass Sie das Datenerhebungsprojekt \"{{ name }}\" löschen möchten?"
       },
       "detail": {
-        "title": "Datenerhebungsprojekt"
+        "title": "Datenerhebungsprojekt",
+        "progress": "Upload Fortschritt ",
+        "download": "Variablenrepot herunterladen",
+        "upload": "Surveys hochladen",
+        "uploadprotocol": "Upload Protokoll",
+        "dataset": "Datensatz",
+        "errors": "Fehler"
       },
       "name": "Name"
     }

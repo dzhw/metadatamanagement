@@ -16,7 +16,13 @@
         "question": "Are you sure you want to delete Data Acquisition Project \"{{ name }}\"?"
       },
       "detail": {
-        "title": "Data Acquisition Project"
+        "title": "Data Acquisition Project",
+        "progress": "Upload Progress ",
+        "download": "Download Variables Report",
+        "upload": "Upload Surveys",
+        "uploadprotocol": "Upload Protocol",
+        "dataset": "Dataset",
+        "errors": "Errors"
       },
       "name": "Name"
     }

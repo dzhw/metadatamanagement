@@ -1,30 +1,32 @@
 <div>
-      <h2>
-            <span data-translate="metadatamanagementApp.dataAcquisitionProject.detail.title">Data Acquisition Project</span>
-            {{dataAcquisitionProject.name}}</h2>
-      <div class="row">
+    <h2>
+        <span data-translate="metadatamanagementApp.dataAcquisitionProject.detail.title">Data Acquisition Project</span>
+        {{dataAcquisitionProject.name}}</h2>
+    <div class="row">
+        <div class="col-md-12">
             <div class="table-responsive">
-                  <table class="table table-striped">
-                        <thead>
-                              <tr>
-                                    <th data-translate="entity.detail.field">Field</th>
-                                    <th data-translate="entity.detail.value">Value</th>
-                              </tr>
-                        </thead>
-                        <tbody>
-                              <tr>
-                                    <td>
-                                          <span data-translate="metadatamanagementApp.dataAcquisitionProject.name">Name</span>
-                                    </td>
-                                    <td>
-                                          <span class="form-control-static">{{dataAcquisitionProject.id}}</span>
-                                    </td>
-                              </tr>
-                        </tbody>
-                  </table>
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th data-translate="entity.detail.field">Field</th>
+                            <th data-translate="entity.detail.value">Value</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>
+                                <span data-translate="metadatamanagementApp.dataAcquisitionProject.name">Name</span>
+                            </td>
+                            <td>
+                                <span class="form-control-static">{{dataAcquisitionProject.id}}</span>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
             </div>
-      </div>
-     <div class="row">
+        </div>
+    </div>
+    <div class="row">
         <div class="col-md-6">
             <button type="submit" onclick="window.history.back()" class="btn btn-info">
                 <span class="glyphicon glyphicon-arrow-left"></span>&nbsp;
@@ -33,21 +35,42 @@
             </button>
             <button type="button" class="btn btn-default" ng-click="exportToODT()">
                 <span class="glyphicon glyphicon-floppy-save"></span>
-                Download
+                {{'metadatamanagementApp.dataAcquisitionProject.detail.download' | translate}}
             </button>
             <button type="file" class="btn btn-default" ngf-select="onSurveyUpload($file)" accept=".xlsx">
                 <span class="glyphicon glyphicon-cloud-upload"></span>
-                Upload Surveys</button>
+                {{'metadatamanagementApp.dataAcquisitionProject.detail.upload' | translate}}</button>
         </div>
-        <div class="col-md-1">
-            <span>Fortschritt:</span>
+        <div class="col-md-6">
+            <dl class="dl-horizontal">
+                <dt>
+                    <span data-translate="metadatamanagementApp.dataAcquisitionProject.detail.progress">Progress:</span>
+                </dt>
+                <dd>
+                    <uib-progressbar value="progress" max="maxProgress" type="{{uploadResult}}">{{state}}</uib-progressbar>
+                </dd>
+            </dl>
         </div>
-        <div class="col-md-5">
-            <uib-progressbar value="progress" max="maxProgress" type="{{uploadResult}}">{{state}}</uib-progressbar>
-        </div>
-
     </div>
-    <br/>
-    <!-- ToDo Element "dl" not allowed as child of element "pre" in this context. -->
-    <div class="row" ng-show="show==true"><pre><dl  ng-repeat="message in errorMessages track by $index"><dt>Survey {{message.config.data.id}}</dt><dd><p ng-repeat="error in message.data.errors">Message: {{error.message}}, Property: {{error.property}}, Value: {{error.invalidValue}}</p></dd></dl></pre></div>
+    <div class="row">
+        <div class="col-md-12">
+            <uib-accordion>
+                <uib-accordion-group is-open="isOpen">
+                    <uib-accordion-heading>
+                          {{'metadatamanagementApp.dataAcquisitionProject.detail.uploadprotocol' | translate}}
+                          <span>({{'metadatamanagementApp.dataAcquisitionProject.detail.errors' | translate}}
+                          <span class="badge">{{errorMessages.length}}</span>)
+                        </span>
+                            <i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': isOpen, 'glyphicon-chevron-right': !isOpen}"></i>
+                    </uib-accordion-heading>
+                    <div ng-show="show==true">
+                      <!-- class="pre-scrollable" -->
+                      <pre style="background-color: #323232; ">
+                        <span ng-repeat="message in errorMessages track by $index"><p class = "text-danger">{{'metadatamanagementApp.dataAcquisitionProject.detail.dataset' | translate}} (FDZ-id: {{message.config.data.id}})</p><p class = "text-muted" ng-repeat="error in message.data.errors">{{error.message}}, Property: {{error.property}}, Value: {{error.invalidValue}}</p></span>
+                        </pre>
+                    </div>
+                </uib-accordion-group>
+              </uib-accordion>
+            </div>
+        </div>
     </div>
