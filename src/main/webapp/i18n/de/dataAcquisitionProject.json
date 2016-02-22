@@ -17,12 +17,17 @@
       },
       "detail": {
         "title": "Datenerhebungsprojekt",
-        "progress": "Upload Fortschritt ",
-        "download": "Variablenrepot herunterladen",
+        "progress": "Upload Fortschritt:",
+        "download": "Variablenreport herunterladen",
         "upload": "Surveys hochladen",
         "uploadprotocol": "Upload Protokoll",
-        "dataset": "Datensatz",
-        "errors": "Fehler"
+        "success": "Erfolg",
+        "error": "Fehler",
+        "logMessages": {
+          "intro": "Die folgenden Fehler traten beim letzten Upload auf:",
+          "dataSetNotSaved": "Datensatz mit FDZ-ID {{ id }} wurde nicht gespeichert!",
+          "internalServerError": "Es ist ein interner Server Fehler aufgetreten."
+        }
       },
       "name": "Name"
     }

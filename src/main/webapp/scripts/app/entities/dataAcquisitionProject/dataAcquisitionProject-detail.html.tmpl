@@ -42,14 +42,14 @@
                 {{'metadatamanagementApp.dataAcquisitionProject.detail.upload' | translate}}</button>
         </div>
         <div class="col-md-6">
-            <dl class="dl-horizontal">
-                <dt>
-                    <span data-translate="metadatamanagementApp.dataAcquisitionProject.detail.progress">Progress:</span>
-                </dt>
-                <dd>
-                    <uib-progressbar value="progress" max="maxProgress" type="{{uploadResult}}">{{state}}</uib-progressbar>
-                </dd>
-            </dl>
+          <div class="row" style="padding-top: 7px">
+            <div class="col-md-4">
+              <span class="pull-right" data-translate="metadatamanagementApp.dataAcquisitionProject.detail.progress">Progress:</span>
+            </div>
+            <div class="col-md-8">
+              <uib-progressbar value="uploadStatus.getProgress()" max="uploadStatus.itemsToUpload" type="{{uploadStatus.getResult()}}">{{uploadStatus.getProgressState()}}</uib-progressbar>
+            </div>
+          </div>
         </div>
     </div>
     <div class="row">
@@ -57,17 +57,15 @@
             <uib-accordion>
                 <uib-accordion-group is-open="isOpen">
                     <uib-accordion-heading>
-                          {{'metadatamanagementApp.dataAcquisitionProject.detail.uploadprotocol' | translate}}
-                          <span>({{'metadatamanagementApp.dataAcquisitionProject.detail.errors' | translate}}
-                          <span class="badge">{{errorMessages.length}}</span>)
-                        </span>
-                            <i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': isOpen, 'glyphicon-chevron-right': !isOpen}"></i>
+                          <span>{{'metadatamanagementApp.dataAcquisitionProject.detail.uploadprotocol' | translate}} </span>
+                          <span class="pull-right">
+                            <span class="label label-as-badge label-success">{{'metadatamanagementApp.dataAcquisitionProject.detail.success' | translate}}: {{uploadStatus.successes}}</span>
+                            <span class="label label-as-badge label-danger">{{'metadatamanagementApp.dataAcquisitionProject.detail.error' | translate}}: {{uploadStatus.errors}}</span>
+                            <i class="glyphicon" ng-class="{'glyphicon-chevron-down': isOpen, 'glyphicon-chevron-right': !isOpen}"></i>
+                          </span>
                     </uib-accordion-heading>
-                    <div ng-show="show==true">
-                      <!-- class="pre-scrollable" -->
-                      <pre style="background-color: #323232; ">
-                        <span ng-repeat="message in errorMessages track by $index"><p class = "text-danger">{{'metadatamanagementApp.dataAcquisitionProject.detail.dataset' | translate}} (FDZ-id: {{message.config.data.id}})</p><p class = "text-muted" ng-repeat="error in message.data.errors">{{error.message}}, Property: {{error.property}}, Value: {{error.invalidValue}}</p></span>
-                        </pre>
+                    <div>
+                      <pre><span ng-repeat="logMessage in uploadStatus.logMessages track by $index" ng-class="{'text-danger': logMessage.type==='error'}">{{logMessage.message}}</span></pre>
                     </div>
                 </uib-accordion-group>
               </uib-accordion>
