@@ -1,0 +1,17 @@
+{
+ 
+  "dataAcquisitionProjectId": "ATestProject",
+  "surveyId": "FDZID001",
+  "description": {
+    "de": "Eine Beschreibung des Datensets",
+    "en": "A description for the data set."
+  },
+  "variableIds": [
+    "VariableId_001",
+    "VariableId_002",
+    "VariableId_003",
+    "VariableId_004",
+    "VariableId_005"
+    
+  ]
+}
