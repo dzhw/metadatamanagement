@@ -1,8 +1,4 @@
-{
-  "createdAt": "2016-02-11T11:25:18.938+01:00",
-  "createdBy": "admin",
-  "lastModifiedAt": "2016-02-11T11:25:18.938+01:00",
-  "lastModifiedBy": "admin",
+{  
   "name": "A_Variable_Test",
   "dataType": "string",
   "scaleLevel": "nominal",
