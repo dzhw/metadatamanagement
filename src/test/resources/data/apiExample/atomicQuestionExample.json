@@ -1,0 +1,28 @@
+{
+  "dataAcquisitionProjectId": "ATestProject",
+  "variableId": "FDZID_Variable_001",
+  "questionnaireId": "QuestionnaireId001",
+  "type": "open",
+  "name": "M23APGD",
+  "compositeQuestionName": "ACompositeQuestionName",
+  "footnote": {
+    "de": "Eine deutsche Fussnote.",
+    "en": "A english footnote."
+  },
+  "questionText": {
+    "de": "Woher kommen Sie?",
+    "en": "Where you come from?"
+  },
+  "instruction": {
+    "de": "Lesen Sie die Frage aufmerksam.",
+    "en": "Read the question carefully."
+  },
+  "introduction": {
+    "de": "Dies ist ein Testdatensatz für AtomicQuestions.",
+    "en": "This is a test for atomic questions."
+  },
+  "sectionHeader": {
+    "de": "Abschnitt 4",
+    "en": "Section 4"
+  }
+}

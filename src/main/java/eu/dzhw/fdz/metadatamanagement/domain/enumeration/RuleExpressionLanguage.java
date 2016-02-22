@@ -7,5 +7,5 @@ package eu.dzhw.fdz.metadatamanagement.domain.enumeration;
  *
  */
 public enum RuleExpressionLanguage {
-  Stata, R;
+  stata, r;
 }

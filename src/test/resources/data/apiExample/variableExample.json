@@ -1,4 +1,4 @@
-{  
+{
   "name": "A_Variable_Test",
   "dataType": "string",
   "scaleLevel": "nominal",
@@ -15,10 +15,10 @@
     "en": "This is a 123 filter."
   },
   "accessWays": [
-    "SUF",
-    "Remote"
+    "suf",
+    "remote"
   ],
-  "filterExpressionLanguage": "Stata",
+  "filterExpressionLanguage": "stata",
 
   "values": [{
     "code": "1828.172",

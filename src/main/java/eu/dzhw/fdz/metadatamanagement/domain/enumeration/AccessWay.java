@@ -8,5 +8,5 @@ package eu.dzhw.fdz.metadatamanagement.domain.enumeration;
  */
 public enum AccessWay {
 
-  CUF, SUF, Remote;
+  cuf, suf, remote;
 }

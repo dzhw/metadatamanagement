@@ -7,5 +7,5 @@ package eu.dzhw.fdz.metadatamanagement.domain.enumeration;
  *
  */
 public enum FilterExpressionLanguage {
-  Stata, Spel;
+  stata, spel;
 }
