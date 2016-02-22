@@ -18,7 +18,7 @@ import net.karneim.pojobuilder.GeneratePojoBuilder;
  * @author Daniel Katzberg
  *
  */
-@Document(collection = "data_set")
+@Document(collection = "data_sets")
 @GeneratePojoBuilder(intoPackage = "eu.dzhw.fdz.metadatamanagement.domain.builders")
 public class DataSet extends AbstractRdcDomainObject {
 

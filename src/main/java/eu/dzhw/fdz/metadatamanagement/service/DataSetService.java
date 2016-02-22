@@ -41,7 +41,7 @@ public class DataSetService {
   }
 
   /**
-   * Delete all variables when the dataAcquisitionProject was deleted.
+   * Delete all data sets when the dataAcquisitionProject was deleted.
    * 
    * @param dataAcquisitionProject the dataAcquisitionProject which has been deleted.
    */
