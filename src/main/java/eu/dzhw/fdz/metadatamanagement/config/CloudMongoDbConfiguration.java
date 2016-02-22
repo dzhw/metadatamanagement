@@ -16,6 +16,7 @@ import org.springframework.core.convert.converter.Converter;
 import org.springframework.dao.DataAccessException;
 import org.springframework.data.mongodb.MongoDbFactory;
 import org.springframework.data.mongodb.config.AbstractMongoConfiguration;
+import org.springframework.data.mongodb.config.EnableMongoAuditing;
 import org.springframework.data.mongodb.core.convert.CustomConversions;
 import org.springframework.data.mongodb.core.mapping.event.ValidatingMongoEventListener;
 import org.springframework.data.mongodb.repository.config.EnableMongoRepositories;
@@ -39,6 +40,7 @@ import eu.dzhw.fdz.metadatamanagement.domain.util.Jsr310DateConverters.ZonedDate
  */
 @Configuration
 @EnableMongoRepositories("eu.dzhw.fdz.metadatamanagement.repository")
+@EnableMongoAuditing(auditorAwareRef = "springSecurityAuditorAware")
 @Profile(Constants.SPRING_PROFILE_CLOUD)
 public class CloudMongoDbConfiguration extends AbstractMongoConfiguration {
 

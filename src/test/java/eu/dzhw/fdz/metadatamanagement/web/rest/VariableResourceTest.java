@@ -2,6 +2,8 @@ package eu.dzhw.fdz.metadatamanagement.web.rest;
 
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.isEmptyOrNullString;
+import static org.hamcrest.Matchers.not;
 import static org.junit.Assert.assertThat;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -122,6 +124,14 @@ public class VariableResourceTest extends AbstractTest {
     // check that there are two variable search documents
     elasticsearchAdminService.refreshAllIndices();
     assertThat(elasticsearchAdminService.countAllDocuments(), equalTo(2.0));
+
+    // check that auditing attributes have been set
+    mockMvc.perform(get(API_VARIABLES_URI + "/" + variable.getId()))
+      .andExpect(status().isOk())
+      .andExpect(jsonPath("$.createdAt", not(isEmptyOrNullString())))
+      .andExpect(jsonPath("$.lastModifiedAt", not(isEmptyOrNullString())))
+      .andExpect(jsonPath("$.createdBy", is("system")))
+      .andExpect(jsonPath("$.lastModifiedBy", is("system")));
 
     // call toString for test coverage :-)
     variable.toString();
