@@ -108,7 +108,7 @@ public class DataSetResourceTest extends AbstractTest {
 
 
     // Act and Assert
-    // create the variable with a survey but without a project
+    // create the DataSet with a survey but without a project
     mockMvc.perform(put(API_DATASETS_URI + "/" + dataSet.getId())
       .content(TestUtil.convertObjectToJsonBytes(dataSet)))
       .andExpect(status().isBadRequest());
@@ -123,7 +123,7 @@ public class DataSetResourceTest extends AbstractTest {
     DataSet dataSet = UnitTestCreateDomainObjectUtils.buildDataSet(project.getId(), "notExist");
 
     // Act and Assert
-    // create the variable with the given id but with an unknown survey
+    // create the DataSet with the given id but with an unknown survey
     mockMvc.perform(put(API_DATASETS_URI + "/" + dataSet.getId())
       .content(TestUtil.convertObjectToJsonBytes(dataSet)))
       .andExpect(status().is4xxClientError());
@@ -135,7 +135,7 @@ public class DataSetResourceTest extends AbstractTest {
     DataSet dataSet = UnitTestCreateDomainObjectUtils.buildDataSet("notExist", "notExist");
 
     // Act and Assert
-    // create the variable with the given id but with an unknown project
+    // create the DataSet with the given id but with an unknown project
     mockMvc.perform(put(API_DATASETS_URI + "/" + dataSet.getId())
       .content(TestUtil.convertObjectToJsonBytes(dataSet)))
       .andExpect(status().is4xxClientError());
@@ -158,7 +158,7 @@ public class DataSetResourceTest extends AbstractTest {
         UnitTestCreateDomainObjectUtils.buildDataSet(project1.getId(), survey.getId());
 
     // Act and Assert
-    // create the variable with the given id but with a survey from a different project
+    // create the DataSet with the given id but with a survey from a different project
     mockMvc.perform(put(API_DATASETS_URI + "/" + dataSet.getId())
       .content(TestUtil.convertObjectToJsonBytes(dataSet)))
       .andExpect(status().is4xxClientError());
@@ -175,16 +175,16 @@ public class DataSetResourceTest extends AbstractTest {
 
     DataSet dataSet = UnitTestCreateDomainObjectUtils.buildDataSet(project.getId(), survey.getId());
 
-    // create the variable with the given id
+    // create the DataSet with the given id
     mockMvc.perform(put(API_DATASETS_URI + "/" + dataSet.getId())
       .content(TestUtil.convertObjectToJsonBytes(dataSet)))
       .andExpect(status().isCreated());
 
-    // delete the variable
+    // delete the DataSet
     mockMvc.perform(delete(API_DATASETS_URI + "/" + dataSet.getId()))
       .andExpect(status().is2xxSuccessful());
 
-    // check that the variable has been deleted
+    // check that the DataSet has been deleted
     mockMvc.perform(get(API_DATASETS_URI + "/" + dataSet.getId()))
       .andExpect(status().isNotFound());
   }
@@ -201,7 +201,7 @@ public class DataSetResourceTest extends AbstractTest {
     DataSet dataSet = UnitTestCreateDomainObjectUtils.buildDataSet(project.getId(), survey.getId());
 
     // Act and Assert
-    // create the variable with the given id
+    // create the DataSet with the given id
     mockMvc.perform(put(API_DATASETS_URI + "/" + dataSet.getId())
       .content(TestUtil.convertObjectToJsonBytes(dataSet)))
       .andExpect(status().isCreated());
@@ -209,12 +209,12 @@ public class DataSetResourceTest extends AbstractTest {
     dataSet.getDescription()
       .setDe("Angepasst.");
 
-    // update the variable with the given id
+    // update the DataSet with the given id
     mockMvc.perform(put(API_DATASETS_URI + "/" + dataSet.getId())
       .content(TestUtil.convertObjectToJsonBytes(dataSet)))
       .andExpect(status().is2xxSuccessful());
 
-    // read the updated variable and check the version
+    // read the updated DataSet and check the version
     mockMvc.perform(get(API_DATASETS_URI + "/" + dataSet.getId() + "?projection=complete"))
       .andExpect(status().isOk())
       .andExpect(jsonPath("$.id", is(dataSet.getId())))
@@ -233,7 +233,7 @@ public class DataSetResourceTest extends AbstractTest {
 
     DataSet dataSet = UnitTestCreateDomainObjectUtils.buildDataSet(project.getId(), survey.getId());
 
-    // create the variable with the given id
+    // create the DataSet with the given id
     mockMvc.perform(put(API_DATASETS_URI + "/" + dataSet.getId())
       .content(TestUtil.convertObjectToJsonBytes(dataSet)))
       .andExpect(status().isCreated());
@@ -241,13 +241,13 @@ public class DataSetResourceTest extends AbstractTest {
     mockMvc.perform(delete("/api/surveys/" + survey.getId()))
       .andExpect(status().is2xxSuccessful());
 
-    // check that the variable has been deleted
+    // check that the DataSet has been deleted
     mockMvc.perform(get(API_DATASETS_URI + "/" + dataSet.getId()))
       .andExpect(status().isNotFound());
   }
 
   @Test
-  public void testDeletingProjectDeletesVariable() throws Exception {
+  public void testDeletingProjectDeletesDataSet() throws Exception {
     // Arrange
     DataAcquisitionProject project = UnitTestCreateDomainObjectUtils.buildDataAcquisitionProject();
     this.dataAcquisitionProjectRepository.save(project);
@@ -258,7 +258,7 @@ public class DataSetResourceTest extends AbstractTest {
     DataSet dataSet = UnitTestCreateDomainObjectUtils.buildDataSet(project.getId(), survey.getId());
 
     // Act and Assert
-    // create the variable with the given id
+    // create the DataSet with the given id
     mockMvc.perform(put(API_DATASETS_URI + "/" + dataSet.getId())
       .content(TestUtil.convertObjectToJsonBytes(dataSet)))
       .andExpect(status().isCreated());
@@ -266,7 +266,7 @@ public class DataSetResourceTest extends AbstractTest {
     mockMvc.perform(delete("/api/data_acquisition_projects/" + project.getId()))
       .andExpect(status().is2xxSuccessful());
 
-    // check that the variable has been deleted
+    // check that the DataSet has been deleted
     mockMvc.perform(get(API_DATASETS_URI + "/" + dataSet.getId()))
       .andExpect(status().isNotFound());
   }
