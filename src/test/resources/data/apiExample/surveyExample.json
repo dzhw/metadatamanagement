@@ -1,8 +1,4 @@
 {
-  "createdAt": "2016-02-05T11:04:32.788+01:00",
-  "createdBy": "admin",
-  "lastModifiedAt": "2016-02-05T11:04:32.788+01:00",
-  "lastModifiedBy": "admin",
   "title": {
     "de": "Eine Survey",
     "en": "A Survey"
@@ -12,5 +8,5 @@
     "end": "2016-02-21"
   },
   "dataAcquisitionProjectId": "ATestProject",
-  "questionaireId": "QuestionnaireId001"
+  "questionnaireId": "QuestionnaireId001"
 }

@@ -13,7 +13,7 @@ import net.karneim.pojobuilder.GeneratePojoBuilder;
  * @author Daniel Katzberg
  *
  */
-@Document(collection = "surveys")
+@Document(collection = "questionnaires")
 @GeneratePojoBuilder(intoPackage = "eu.dzhw.fdz.metadatamanagement.domain.builders")
 public class Questionnaire extends AbstractRdcDomainObject {
 
