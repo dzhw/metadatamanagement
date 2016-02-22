@@ -6,7 +6,9 @@ import javax.inject.Inject;
 
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.data.rest.core.annotation.HandleAfterDelete;
+import org.springframework.data.rest.core.annotation.RepositoryEventHandler;
 import org.springframework.data.rest.core.event.AfterDeleteEvent;
+import org.springframework.stereotype.Service;
 
 import eu.dzhw.fdz.metadatamanagement.domain.AtomicQuestion;
 import eu.dzhw.fdz.metadatamanagement.domain.DataAcquisitionProject;
@@ -21,6 +23,8 @@ import eu.dzhw.fdz.metadatamanagement.repository.AtomicQuestionRepository;
  * @author Daniel Katzberg
  *
  */
+@Service
+@RepositoryEventHandler
 public class AtomicQuestionService {
 
   @Inject

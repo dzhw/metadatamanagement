@@ -20,7 +20,7 @@ import eu.dzhw.fdz.metadatamanagement.domain.builders.UserBuilder;
 import eu.dzhw.fdz.metadatamanagement.repository.UserRepository;
 import eu.dzhw.fdz.metadatamanagement.security.SecurityUtils;
 import eu.dzhw.fdz.metadatamanagement.service.util.RandomUtil;
-import eu.dzhw.fdz.metadatamanagement.unittest.util.UnitTestUtils;
+import eu.dzhw.fdz.metadatamanagement.unittest.util.UnitTestUserManagementUtils;
 
 /**
  * Test class for the UserResource REST controller.
@@ -43,7 +43,7 @@ public class UserServiceTest extends AbstractTest {
   @After
   public void after() {
     // Log the user out, if any user was login by a test method
-    UnitTestUtils.logout();
+    UnitTestUserManagementUtils.logout();
   }
 
   @Test
@@ -173,7 +173,7 @@ public class UserServiceTest extends AbstractTest {
   @Test
   public void testGetUserWithAuthorities() {
     // Arrange
-    UnitTestUtils.login("admin", "admin");
+    UnitTestUserManagementUtils.login("admin", "admin");
 
     // Act
     User user = this.userService.getUserWithAuthorities();
@@ -209,12 +209,12 @@ public class UserServiceTest extends AbstractTest {
       .withActivated(false)
       .build();
     user = this.userRepository.save(user);
-    UnitTestUtils.login("user1login", "User1Password");
+    UnitTestUserManagementUtils.login("user1login", "User1Password");
 
     // Act
     this.userService.changePassword("User2Password");
-    UnitTestUtils.logout();
-    UnitTestUtils.login("user1login", "User2Password");
+    UnitTestUserManagementUtils.logout();
+    UnitTestUserManagementUtils.login("user1login", "User2Password");
 
     // Assert
     assertThat(this.userRepository.findOneByLogin(SecurityUtils.getCurrentUserLogin())
@@ -222,6 +222,6 @@ public class UserServiceTest extends AbstractTest {
       .getId(), is(user.getId()));
 
     this.userRepository.delete(user.getId());
-    UnitTestUtils.logout();
+    UnitTestUserManagementUtils.logout();
   }
 }

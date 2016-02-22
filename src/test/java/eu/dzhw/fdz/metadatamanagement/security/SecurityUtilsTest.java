@@ -21,7 +21,7 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 
-import eu.dzhw.fdz.metadatamanagement.unittest.util.UnitTestUtils;
+import eu.dzhw.fdz.metadatamanagement.unittest.util.UnitTestUserManagementUtils;
 
 /**
  * Test class for the SecurityUtils utility class.
@@ -33,7 +33,7 @@ public class SecurityUtilsTest {
 
   @After
   public void logout() {
-    UnitTestUtils.logout();
+    UnitTestUserManagementUtils.logout();
   }
   
   @Test
@@ -60,7 +60,7 @@ public class SecurityUtilsTest {
     set.add(new SimpleGrantedAuthority("testAuthority"));
     CustomUserDetails login =
         new CustomUserDetails("id", "username", "user", set, true, true, true, true);
-    UnitTestUtils.login(login, "user");
+    UnitTestUserManagementUtils.login(login, "user");
 
     // Act
 

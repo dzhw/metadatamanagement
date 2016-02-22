@@ -28,9 +28,9 @@ import eu.dzhw.fdz.metadatamanagement.security.CustomUserDetails;
  * @author Daniel Katzberg
  *
  */
-public class UnitTestUtils<T> {
+public class UnitTestUserManagementUtils<T> {
 
-  private final Logger log = LoggerFactory.getLogger(UnitTestUtils.class);
+  private final Logger log = LoggerFactory.getLogger(UnitTestUserManagementUtils.class);
 
   /**
    * @param object The object for validation.

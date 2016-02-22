@@ -20,7 +20,7 @@ import org.springframework.core.task.AsyncTaskExecutor;
 
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import eu.dzhw.fdz.metadatamanagement.AbstractTest;
-import eu.dzhw.fdz.metadatamanagement.unittest.util.UnitTestUtils;
+import eu.dzhw.fdz.metadatamanagement.unittest.util.UnitTestUserManagementUtils;
 
 /**
  * Test class for the AuditResource REST controller.
@@ -44,7 +44,7 @@ public class ExceptionHandlingAsyncTaskExecutorTest extends AbstractTest {
   public void testDestroy() throws Exception {
     // Arrange
     ExceptionHandlingAsyncTaskExecutor executorClone = new ExceptionHandlingAsyncTaskExecutor(
-        (AsyncTaskExecutor) UnitTestUtils.cloneObject(this.taskExecutor));
+        (AsyncTaskExecutor) UnitTestUserManagementUtils.cloneObject(this.taskExecutor));
 
     // Act
     executorClone.destroy();

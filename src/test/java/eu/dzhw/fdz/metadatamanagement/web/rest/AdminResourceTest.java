@@ -31,7 +31,7 @@ import eu.dzhw.fdz.metadatamanagement.repository.DataAcquisitionProjectRepositor
 import eu.dzhw.fdz.metadatamanagement.repository.SurveyRepository;
 import eu.dzhw.fdz.metadatamanagement.repository.VariableRepository;
 import eu.dzhw.fdz.metadatamanagement.service.ElasticsearchAdminService;
-import eu.dzhw.fdz.metadatamanagement.unittest.util.UnitTestUtils;
+import eu.dzhw.fdz.metadatamanagement.unittest.util.UnitTestUserManagementUtils;
 
 public class AdminResourceTest extends AbstractTest {
   @Autowired
@@ -59,7 +59,7 @@ public class AdminResourceTest extends AbstractTest {
 
   @After
   public void cleanUp() {
-    UnitTestUtils.logout();
+    UnitTestUserManagementUtils.logout();
     dataAcquisitionProjectRepository.deleteAll();
     surveyRepository.deleteAll();
     variableRepository.deleteAll();
@@ -67,7 +67,7 @@ public class AdminResourceTest extends AbstractTest {
 
   @Test
   public void testRecreateAllIndices() throws Exception {
-    UnitTestUtils.login("admin", "admin");
+    UnitTestUserManagementUtils.login("admin", "admin");
 
     // test recreation of all elasticsearch indices
     mockMvc.perform(post("/api/admin/elasticsearch/recreate"))
@@ -90,7 +90,7 @@ public class AdminResourceTest extends AbstractTest {
 
   @Test
   public void testRecreateIndicesWithExistingVariables() throws Exception {
-    UnitTestUtils.login("admin", "admin");
+    UnitTestUserManagementUtils.login("admin", "admin");
     DataAcquisitionProject project = new DataAcquisitionProjectBuilder().withId("testId")
       .withSurveySeries(new I18nStringBuilder().build())
       .withPanelName(new I18nStringBuilder().build())

@@ -6,8 +6,8 @@ import javax.validation.ConstraintValidatorContext;
 
 import org.springframework.util.StringUtils;
 
+import eu.dzhw.fdz.metadatamanagement.domain.AbstractRdcDomainObjectWithProjectSurvey;
 import eu.dzhw.fdz.metadatamanagement.domain.Survey;
-import eu.dzhw.fdz.metadatamanagement.domain.Variable;
 import eu.dzhw.fdz.metadatamanagement.repository.SurveyRepository;
 
 /**
@@ -17,8 +17,9 @@ import eu.dzhw.fdz.metadatamanagement.repository.SurveyRepository;
  * @author Daniel Katzberg
  *
  */
-public class SurveyHasSameDataAcquisitionProjectValidator
-    implements ConstraintValidator<SurveyHasSameDataAcquisitionProject, Variable> {
+public class SurveyHasSameDataAcquisitionProjectValidator implements
+    ConstraintValidator<SurveyHasSameDataAcquisitionProject, 
+        AbstractRdcDomainObjectWithProjectSurvey> {
 
   @Inject
   private SurveyRepository surveyRepository;
@@ -38,27 +39,28 @@ public class SurveyHasSameDataAcquisitionProjectValidator
    * javax.validation.ConstraintValidatorContext)
    */
   @Override
-  public boolean isValid(Variable variable, ConstraintValidatorContext context) {
+  public boolean isValid(AbstractRdcDomainObjectWithProjectSurvey rdcObject,
+      ConstraintValidatorContext context) {
 
     // Optional field. No entry, no issue -> return true.
-    if (StringUtils.isEmpty(variable.getSurveyId())) {
+    if (StringUtils.isEmpty(rdcObject.getSurveyId())) {
       return true;
     }
 
     // survey is set, but no fdz project. this is not allowed -> validation error.
-    if (StringUtils.isEmpty(variable.getDataAcquisitionProjectId())) {
+    if (StringUtils.isEmpty(rdcObject.getDataAcquisitionProjectId())) {
       return false;
     }
 
     // Check for fdz project name
-    Survey survey = this.surveyRepository.findOne(variable.getSurveyId());
+    Survey survey = this.surveyRepository.findOne(rdcObject.getSurveyId());
     // Wrong id, means in worst case no survey in the db.
     if (survey == null) {
       return false;
     }
 
     if (survey.getDataAcquisitionProjectId()
-        .equals(variable.getDataAcquisitionProjectId())) {
+        .equals(rdcObject.getDataAcquisitionProjectId())) {
       return true;
     }
 

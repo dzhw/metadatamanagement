@@ -40,7 +40,7 @@ import eu.dzhw.fdz.metadatamanagement.repository.UserRepository;
 import eu.dzhw.fdz.metadatamanagement.security.AuthoritiesConstants;
 import eu.dzhw.fdz.metadatamanagement.service.MailService;
 import eu.dzhw.fdz.metadatamanagement.service.UserService;
-import eu.dzhw.fdz.metadatamanagement.unittest.util.UnitTestUtils;
+import eu.dzhw.fdz.metadatamanagement.unittest.util.UnitTestUserManagementUtils;
 import eu.dzhw.fdz.metadatamanagement.web.rest.dto.KeyAndPasswordDto;
 import eu.dzhw.fdz.metadatamanagement.web.rest.dto.UserDto;
 
@@ -98,7 +98,7 @@ public class AccountResourceTest extends AbstractTest {
   
   @After
   public void logout() {
-    UnitTestUtils.logout();
+    UnitTestUserManagementUtils.logout();
   }
 
   @Test
@@ -122,7 +122,7 @@ public class AccountResourceTest extends AbstractTest {
   @Test
   public void testGetExistingAccount() throws Exception {
 
-    User user = UnitTestUtils.getDefaultUser();
+    User user = UnitTestUserManagementUtils.getDefaultUser();
     when(mockUserService.getUserWithAuthorities()).thenReturn(user);
 
     restUserMockMvc.perform(get("/api/account").accept(MediaType.APPLICATION_JSON))
@@ -139,13 +139,13 @@ public class AccountResourceTest extends AbstractTest {
   public void testActivateAccount() throws Exception {
 
     // Arrange
-    User user = UnitTestUtils.getDefaultUser();
+    User user = UnitTestUserManagementUtils.getDefaultUser();
     user.setPassword("sdkgfsdkkgfsdglkfglsdjkagfjklsdgfhklsdglkfglksdgslkfgsdklj12");
     user.setActivationKey("testActivateTrue");
     user.setActivated(false);
 
     Set<ConstraintViolation<User>> constrains =
-        new UnitTestUtils<User>().checkAndPrintValidation(user, this.validator);
+        new UnitTestUserManagementUtils<User>().checkAndPrintValidation(user, this.validator);
     assertThat(constrains.size(), is(0));
 
     // Act
@@ -164,7 +164,7 @@ public class AccountResourceTest extends AbstractTest {
   @Test
   public void testRequestPasswordReset() throws Exception {
     // Arrange
-    User user = UnitTestUtils.getDefaultUser();
+    User user = UnitTestUserManagementUtils.getDefaultUser();
     user.setPassword("sdkgfsdkkgfsdglkfglsdjkagfjklsdgfhklsdglkfglksdgslkfgsdklj12");
     user.setActivationKey("testActivateTrue");
     user.setActivated(true);
@@ -187,7 +187,7 @@ public class AccountResourceTest extends AbstractTest {
     Optional<User> userO = this.userRepository.findOneByLogin("admin");
     User user = userO.get();
     UserDto dto = new UserDto(user);
-    UnitTestUtils.login(user.getLogin(), user.getPassword());
+    UnitTestUserManagementUtils.login(user.getLogin(), user.getPassword());
 
     // Act
 
@@ -217,7 +217,7 @@ public class AccountResourceTest extends AbstractTest {
     // Arrange
 
 
-    User user = UnitTestUtils.getDefaultUser();
+    User user = UnitTestUserManagementUtils.getDefaultUser();
     user.setPassword("sdkgfsdkkgfsdglkfglsdjkagfjklsdgfhklsdglkfglksdgslkfgsdklj12");
     user.setActivationKey("testActivateTrue");
     user.setLangKey("de");
@@ -239,7 +239,7 @@ public class AccountResourceTest extends AbstractTest {
   public void testFinishPasswordReset() throws Exception {
 
     // Arrange
-    User user = UnitTestUtils.getDefaultUser();
+    User user = UnitTestUserManagementUtils.getDefaultUser();
     user.setPassword("sdkgfsdkkgfsdglkfglsdjkagfjklsdgfhklsdglkfglksdgslkfgsdklj12");
     user.setActivationKey("testActivateTrue");
     user.setActivated(true);
@@ -267,7 +267,7 @@ public class AccountResourceTest extends AbstractTest {
   public void testFinishPasswordResetWithError() throws Exception {
 
     // Arrange
-    User user = UnitTestUtils.getDefaultUser();
+    User user = UnitTestUserManagementUtils.getDefaultUser();
     user.setPassword("sdkgfsdkkgfsdglkfglsdjkagfjklsdgfhklsdglkfglksdgslkfgsdklj12");
     user.setActivationKey("testActivateTrue");
     user.setActivated(true);

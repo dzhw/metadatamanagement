@@ -25,7 +25,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import eu.dzhw.fdz.metadatamanagement.AbstractTest;
 import eu.dzhw.fdz.metadatamanagement.domain.User;
 import eu.dzhw.fdz.metadatamanagement.repository.UserRepository;
-import eu.dzhw.fdz.metadatamanagement.unittest.util.UnitTestUtils;
+import eu.dzhw.fdz.metadatamanagement.unittest.util.UnitTestUserManagementUtils;
 
 /**
  * @author Daniel Katzberg
@@ -44,11 +44,11 @@ public class UserDetailsServiceImplTest extends AbstractTest {
 
   private User user;
 
-  private UnitTestUtils<User> testUtils = new UnitTestUtils<>();
+  private UnitTestUserManagementUtils<User> testUtils = new UnitTestUserManagementUtils<>();
 
   @Before
   public void before() {
-    this.user = UnitTestUtils.getDefaultUser();
+    this.user = UnitTestUserManagementUtils.getDefaultUser();
     this.user.setActivated(true);
     this.user.setPassword("sdkgfsdkkgfsdglkfglsdjkagfjklsdgfhklsdglkfglksdgslkfgsdklj12");
     this.user = this.userRepository.save(this.user);

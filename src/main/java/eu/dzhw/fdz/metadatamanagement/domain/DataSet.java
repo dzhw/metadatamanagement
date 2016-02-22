@@ -8,8 +8,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 
 import com.google.common.base.MoreObjects;
 
-import eu.dzhw.fdz.metadatamanagement.domain.validation.DataAcquisitionProjectExists;
-import eu.dzhw.fdz.metadatamanagement.domain.validation.SurveyExists;
+import eu.dzhw.fdz.metadatamanagement.domain.validation.SurveyHasSameDataAcquisitionProject;
 import net.karneim.pojobuilder.GeneratePojoBuilder;
 
 /**
@@ -20,19 +19,13 @@ import net.karneim.pojobuilder.GeneratePojoBuilder;
  */
 @Document(collection = "data_sets")
 @GeneratePojoBuilder(intoPackage = "eu.dzhw.fdz.metadatamanagement.domain.builders")
-public class DataSet extends AbstractRdcDomainObject {
+@SurveyHasSameDataAcquisitionProject
+public class DataSet extends AbstractRdcDomainObjectWithProjectSurvey {
 
 
   @Id
   @NotEmpty
   private String id;
-
-  @NotEmpty
-  @DataAcquisitionProjectExists
-  private String dataAcquisitionProjectId;
-
-  @SurveyExists
-  private String surveyId;
 
   private I18nString description;
 
@@ -44,7 +37,7 @@ public class DataSet extends AbstractRdcDomainObject {
    * @see eu.dzhw.fdz.metadatamanagement.domain.AbstractRdcDomainObject#getId()
    */
   @Override
-  protected String getId() {
+  public String getId() {
     return this.id;
   }
 
@@ -59,8 +52,6 @@ public class DataSet extends AbstractRdcDomainObject {
     return MoreObjects.toStringHelper(this)
       .add("super", super.toString())
       .add("id", id)
-      .add("dataAcquisitionProjectId", dataAcquisitionProjectId)
-      .add("surveyId", surveyId)
       .add("description", description)
       .add("variableIds", variableIds)
       .toString();
@@ -68,22 +59,6 @@ public class DataSet extends AbstractRdcDomainObject {
 
 
   /* GETTER / SETTER */
-  public String getDataAcquisitionProjectId() {
-    return dataAcquisitionProjectId;
-  }
-
-  public void setDataAcquisitionProjectId(String dataAcquisitionProjectId) {
-    this.dataAcquisitionProjectId = dataAcquisitionProjectId;
-  }
-
-  public String getSurveyId() {
-    return surveyId;
-  }
-
-  public void setSurveyId(String surveyId) {
-    this.surveyId = surveyId;
-  }
-
   public I18nString getDescription() {
     return description;
   }

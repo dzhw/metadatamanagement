@@ -19,8 +19,6 @@ import eu.dzhw.fdz.metadatamanagement.domain.enumeration.DataType;
 import eu.dzhw.fdz.metadatamanagement.domain.enumeration.FilterExpressionLanguage;
 import eu.dzhw.fdz.metadatamanagement.domain.enumeration.ScaleLevel;
 import eu.dzhw.fdz.metadatamanagement.domain.util.Patterns;
-import eu.dzhw.fdz.metadatamanagement.domain.validation.DataAcquisitionProjectExists;
-import eu.dzhw.fdz.metadatamanagement.domain.validation.SurveyExists;
 import eu.dzhw.fdz.metadatamanagement.domain.validation.SurveyHasSameDataAcquisitionProject;
 import net.karneim.pojobuilder.GeneratePojoBuilder;
 
@@ -34,7 +32,7 @@ import net.karneim.pojobuilder.GeneratePojoBuilder;
 @GeneratePojoBuilder(intoPackage = "eu.dzhw.fdz.metadatamanagement.domain.builders")
 @CompoundIndex(def = "{name: 1, fdz_project: 1}", unique = true)
 @SurveyHasSameDataAcquisitionProject
-public class Variable extends AbstractRdcDomainObject {
+public class Variable extends AbstractRdcDomainObjectWithProjectSurvey {
   @Id
   @NotEmpty
   private String id;
@@ -53,13 +51,6 @@ public class Variable extends AbstractRdcDomainObject {
   @NotBlank
   @Size(max = 128)
   private String label;
-
-  @NotEmpty
-  @DataAcquisitionProjectExists
-  private String dataAcquisitionProjectId;
-
-  @SurveyExists
-  private String surveyId;
 
   private List<Value> values;
 
@@ -102,8 +93,6 @@ public class Variable extends AbstractRdcDomainObject {
       .add("dataType", dataType)
       .add("scaleLevel", scaleLevel)
       .add("label", label)
-      .add("dataAcquisitionProjectId", dataAcquisitionProjectId)
-      .add("surveyId", surveyId)
       .add("values", values)
       .add("description", description)
       .add("accessWays", accessWays)
@@ -146,22 +135,6 @@ public class Variable extends AbstractRdcDomainObject {
 
   public void setLabel(String label) {
     this.label = label;
-  }
-
-  public String getSurveyId() {
-    return surveyId;
-  }
-
-  public void setSurveyId(String surveyId) {
-    this.surveyId = surveyId;
-  }
-
-  public String getDataAcquisitionProjectId() {
-    return dataAcquisitionProjectId;
-  }
-
-  public void setDataAcquisitionProjectId(String dataAcquisitionProjectId) {
-    this.dataAcquisitionProjectId = dataAcquisitionProjectId;
   }
 
   public I18nString getDescription() {
