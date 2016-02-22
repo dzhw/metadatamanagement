@@ -15,7 +15,7 @@ import net.karneim.pojobuilder.GeneratePojoBuilder;
  */
 @Document(collection = "surveys")
 @GeneratePojoBuilder(intoPackage = "eu.dzhw.fdz.metadatamanagement.domain.builders")
-public class Questionnaire {
+public class Questionnaire extends AbstractRdcDomainObject {
 
   @Id
   @NotEmpty
@@ -25,11 +25,17 @@ public class Questionnaire {
   @DataAcquisitionProjectExists
   private String dataAcquisitionProjectId;
 
-  /* GETTER / SETTER */
+  /*
+   * (non-Javadoc)
+   * 
+   * @see eu.dzhw.fdz.metadatamanagement.domain.AbstractRdcDomainObject#getId()
+   */
+  @Override
   public String getId() {
     return id;
   }
 
+  /* GETTER / SETTER */
   public void setId(String id) {
     this.id = id;
   }
