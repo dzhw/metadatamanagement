@@ -17,12 +17,12 @@ public class FilterExpressionLanguageTest {
   @Test
   public void testValueOf() {
     // Arrange
-    FilterExpressionLanguage stata = FilterExpressionLanguage.valueOf("Stata");
+    FilterExpressionLanguage stata = FilterExpressionLanguage.valueOf("stata");
 
     // Act
 
     // Assert
-    assertThat(stata.toString(), is("Stata"));
+    assertThat(stata.toString(), is("stata"));
   }
 
 }

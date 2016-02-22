@@ -15,11 +15,11 @@ public class AtomicQuestionTypeTest {
   @Test
   public void testValueOf() {
     // Arrange
-    AtomicQuestionType singleChoice = AtomicQuestionType.valueOf("SingleChoice");
+    AtomicQuestionType singleChoice = AtomicQuestionType.valueOf("singlechoice");
 
     // Act
 
     // Assert
-    assertThat(singleChoice.toString(), is("SingleChoice"));
+    assertThat(singleChoice.toString(), is("singlechoice"));
   }
 }

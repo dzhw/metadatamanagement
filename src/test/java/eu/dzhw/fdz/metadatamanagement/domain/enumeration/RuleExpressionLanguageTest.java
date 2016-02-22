@@ -14,12 +14,12 @@ public class RuleExpressionLanguageTest {
   @Test
   public void testValueOf() {
     // Arrange
-    RuleExpressionLanguage stata = RuleExpressionLanguage.valueOf("Stata");
+    RuleExpressionLanguage stata = RuleExpressionLanguage.valueOf("stata");
 
     // Act
 
     // Assert
-    assertThat(stata.toString(), is("Stata"));
+    assertThat(stata.toString(), is("stata"));
   }
 
 }

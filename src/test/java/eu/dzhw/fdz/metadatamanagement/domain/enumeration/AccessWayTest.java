@@ -17,11 +17,11 @@ public class AccessWayTest {
   @Test
   public void testValueOf() {
     // Arrange
-    AccessWay remote = AccessWay.valueOf("Remote");
+    AccessWay remote = AccessWay.valueOf("remote");
 
     // Act
 
     // Assert
-    assertThat(remote.toString(), is("Remote"));
+    assertThat(remote.toString(), is("remote"));
   }
 }
