@@ -5,6 +5,7 @@
   "label": "A label for all cases.",
   "dataAcquisitionProjectId": "ATestProject",
   "surveyId": "FDZID001",
+  "conceptId": "ConceptId001",
   "description": {
     "de": "Eine deutsche Beschreibung.",
     "en": "A english description."

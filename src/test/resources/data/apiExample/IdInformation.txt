@@ -3,7 +3,8 @@ The Ids are part of the url for saving the examples. The listed order is tested 
 
 dataAcquisitionProject: ATestProject
 survey: FDZID001
-Variable: FDZID_Variable_001
+variable: FDZID_Variable_001
 questionnaire: QuestionnaireId001
 dataSet: DataSet_001
-AtomicQuestion: AtomicQuestion_001
+atomicQuestion: AtomicQuestion_001
+concept: ConceptId001

@@ -150,6 +150,7 @@ public class UnitTestCreateDomainObjectUtils {
       .withFilterExpression("Filter Expression")
       .withSameVariablesInPanel(withSameVariablesInPanel)
       .withValues(withValues)
+      .withConceptId("ConceptId001")
       .build();
   }
 

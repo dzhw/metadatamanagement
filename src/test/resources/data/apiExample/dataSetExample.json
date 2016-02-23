@@ -1,5 +1,4 @@
 {
- 
   "dataAcquisitionProjectId": "ATestProject",
   "surveyId": "FDZID001",
   "description": {
@@ -12,6 +11,6 @@
     "VariableId_003",
     "VariableId_004",
     "VariableId_005"
-    
+
   ]
 }

@@ -1,0 +1,10 @@
+{
+  "name": {
+    "de": "Konzept Name",
+    "en": "Concept Name"
+  },
+  "description": {
+    "de": "Deutsche Beschreibung.",
+    "en": "English description."
+  }
+}
