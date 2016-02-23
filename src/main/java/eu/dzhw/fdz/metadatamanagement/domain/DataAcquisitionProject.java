@@ -1,5 +1,7 @@
 package eu.dzhw.fdz.metadatamanagement.domain;
 
+import java.util.List;
+
 import javax.validation.constraints.Pattern;
 
 import org.hibernate.validator.constraints.NotEmpty;
@@ -29,6 +31,8 @@ public class DataAcquisitionProject extends AbstractRdcDomainObject {
 
   private I18nString panelName;
 
+  private List<Release> releases;
+
   /*
    * (non-Javadoc)
    * 
@@ -38,6 +42,7 @@ public class DataAcquisitionProject extends AbstractRdcDomainObject {
   public String getId() {
     return id;
   }
+
 
   /*
    * (non-Javadoc)
@@ -51,6 +56,7 @@ public class DataAcquisitionProject extends AbstractRdcDomainObject {
       .add("id", id)
       .add("surveySeries", surveySeries)
       .add("panelName", panelName)
+      .add("releases", releases)
       .toString();
   }
 
@@ -73,5 +79,13 @@ public class DataAcquisitionProject extends AbstractRdcDomainObject {
 
   public void setPanelName(I18nString panelName) {
     this.panelName = panelName;
+  }
+
+  public List<Release> getReleases() {
+    return releases;
+  }
+
+  public void setReleases(List<Release> releases) {
+    this.releases = releases;
   }
 }
