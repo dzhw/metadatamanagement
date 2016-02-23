@@ -15,10 +15,13 @@ import eu.dzhw.fdz.metadatamanagement.domain.Variable;
 @RepositoryRestResource(path = "/variables")
 public interface VariableRepository
     extends MongoRepository<Variable, String>, QueryDslPredicateExecutor<Variable> {
-  
+
   @RestResource(exported = false)
   List<Variable> deleteBySurveyId(String surveyId);
-  
+
   @RestResource(exported = false)
   List<Variable> deleteByDataAcquisitionProjectId(String dataAcquisitionProjectId);
+
+  @RestResource(exported = false)
+  List<Variable> deleteByConceptId(String conceptId);
 }

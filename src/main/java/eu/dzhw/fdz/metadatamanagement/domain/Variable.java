@@ -68,6 +68,8 @@ public class Variable extends AbstractRdcDomainObjectWithProjectSurvey {
 
   private List<Variable> sameVariablesInPanel;
 
+  private String conceptId;
+
   /*
    * (non-Javadoc)
    * 
@@ -78,11 +80,10 @@ public class Variable extends AbstractRdcDomainObjectWithProjectSurvey {
     return id;
   }
 
-
   /*
    * (non-Javadoc)
    * 
-   * @see eu.dzhw.fdz.metadatamanagement.domain.AbstractRdcDomainObject#toString()
+   * @see eu.dzhw.fdz.metadatamanagement.domain.AbstractRdcDomainObjectWithProjectSurvey#toString()
    */
   @Override
   public String toString() {
@@ -101,8 +102,11 @@ public class Variable extends AbstractRdcDomainObjectWithProjectSurvey {
       .add("filterExpressionLanguage", filterExpressionLanguage)
       .add("distributionSvg", distributionSvg)
       .add("sameVariablesInPanel", sameVariablesInPanel)
+      .add("conceptId", conceptId)
       .toString();
   }
+
+
 
   /* GETTER / SETTER */
   public String getName() {
@@ -205,4 +209,11 @@ public class Variable extends AbstractRdcDomainObjectWithProjectSurvey {
     this.sameVariablesInPanel = sameVariablesInPanel;
   }
 
+  public String getConceptId() {
+    return conceptId;
+  }
+
+  public void setConceptId(String conceptId) {
+    this.conceptId = conceptId;
+  }
 }
