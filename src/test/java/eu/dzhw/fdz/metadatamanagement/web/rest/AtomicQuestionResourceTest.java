@@ -42,7 +42,7 @@ import eu.dzhw.fdz.metadatamanagement.unittest.util.UnitTestCreateDomainObjectUt
  * @author Daniel Katzberg
  *
  */
-public class AtomicQuestionResource extends AbstractTest {
+public class AtomicQuestionResourceTest extends AbstractTest {
   private static final String API_ATOMICQUESTIONS_URI = "/api/atomic_questions";
 
   @Autowired
