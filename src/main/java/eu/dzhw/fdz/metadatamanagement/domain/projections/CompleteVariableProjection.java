@@ -21,7 +21,8 @@ import eu.dzhw.fdz.metadatamanagement.domain.enumeration.ScaleLevel;
  * @author Daniel Katzberg
  */
 @Projection(name = "complete", types = Variable.class)
-public interface CompleteVariableProjection extends AbstractRdcDomainObjectProjection {
+public interface CompleteVariableProjection
+    extends AbstractRdcDomainObjectWithProjectSurveyProjection {
   String getName();
 
   DataType getDataType();
@@ -29,10 +30,6 @@ public interface CompleteVariableProjection extends AbstractRdcDomainObjectProje
   ScaleLevel getScaleLevel();
 
   String getLabel();
-
-  String getDataAcquisitionProjectId();
-
-  String getSurveyId();
 
   List<Value> getValues();
 

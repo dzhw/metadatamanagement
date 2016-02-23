@@ -3,9 +3,11 @@
  */
 package eu.dzhw.fdz.metadatamanagement.web.rest;
 
+import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.isEmptyOrNullString;
 import static org.hamcrest.Matchers.not;
+import static org.junit.Assert.assertThat;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
@@ -33,6 +35,7 @@ import eu.dzhw.fdz.metadatamanagement.repository.AtomicQuestionRepository;
 import eu.dzhw.fdz.metadatamanagement.repository.DataAcquisitionProjectRepository;
 import eu.dzhw.fdz.metadatamanagement.repository.QuestionnaireRepository;
 import eu.dzhw.fdz.metadatamanagement.repository.VariableRepository;
+import eu.dzhw.fdz.metadatamanagement.service.ElasticsearchAdminService;
 import eu.dzhw.fdz.metadatamanagement.unittest.util.UnitTestCreateDomainObjectUtils;
 
 /**
@@ -59,10 +62,14 @@ public class AtomicQuestionResource extends AbstractTest {
 
   private MockMvc mockMvc;
 
+  @Autowired
+  private ElasticsearchAdminService elasticsearchAdminService;
+
   @Before
   public void setup() {
     this.mockMvc = MockMvcBuilders.webAppContextSetup(wac)
       .build();
+    elasticsearchAdminService.recreateAllIndices();
   }
 
   @After
@@ -191,15 +198,17 @@ public class AtomicQuestionResource extends AbstractTest {
       .andExpect(jsonPath("$.footnote.de", is("Angepasst.")));
   }
 
-  // TODO DKatzberg: Test do not work ...? Why?
-  // @Test
+  @Test
   public void testDeletingProjectDeletesAtomicQuestion() throws Exception {
     // Arrange
     DataAcquisitionProject project = UnitTestCreateDomainObjectUtils.buildDataAcquisitionProject();
     this.dataAcquisitionProjectRepository.save(project);
 
     Variable variable = UnitTestCreateDomainObjectUtils.buildVariable(project.getId(), null);
-    this.variableRepository.save(variable);
+    // create the variable with the given id
+    mockMvc.perform(put("/api/variables/" + variable.getId())
+      .content(TestUtil.convertObjectToJsonBytes(variable)))
+      .andExpect(status().isCreated());
 
     Questionnaire questionnaire =
         UnitTestCreateDomainObjectUtils.buildQuestionnaire(project.getId());
@@ -216,6 +225,80 @@ public class AtomicQuestionResource extends AbstractTest {
 
     mockMvc.perform(delete("/api/data_acquisition_projects/" + project.getId()))
       .andExpect(status().is2xxSuccessful());
+
+    // check that the AtomicQuestion has been deleted
+    mockMvc.perform(get(API_ATOMICQUESTIONS_URI + "/" + atomicQuestion.getId()))
+      .andExpect(status().isNotFound());
+
+    // check that there are no variable search documents anymore
+    elasticsearchAdminService.refreshAllIndices();
+    assertThat(elasticsearchAdminService.countAllDocuments(), equalTo(0.0));
+  }
+
+  @Test
+  public void testDeletingQuestionnaireDeletesAtomicQuestion() throws Exception {
+    // Arrange
+    DataAcquisitionProject project = UnitTestCreateDomainObjectUtils.buildDataAcquisitionProject();
+    this.dataAcquisitionProjectRepository.save(project);
+
+    Variable variable = UnitTestCreateDomainObjectUtils.buildVariable(project.getId(), null);
+    // create the variable with the given id
+    mockMvc.perform(put("/api/variables/" + variable.getId())
+      .content(TestUtil.convertObjectToJsonBytes(variable)))
+      .andExpect(status().isCreated());
+
+    Questionnaire questionnaire =
+        UnitTestCreateDomainObjectUtils.buildQuestionnaire(project.getId());
+    this.questionnaireRepository.save(questionnaire);
+
+    AtomicQuestion atomicQuestion = UnitTestCreateDomainObjectUtils
+      .buildAtomicQuestion(project.getId(), questionnaire.getId(), variable.getId());
+
+    // Act and Assert
+    // create the AtomicQuestion with the given id
+    mockMvc.perform(put(API_ATOMICQUESTIONS_URI + "/" + atomicQuestion.getId())
+      .content(TestUtil.convertObjectToJsonBytes(atomicQuestion)))
+      .andExpect(status().isCreated());
+
+    mockMvc.perform(delete("/api/questionnaires/" + questionnaire.getId()))
+      .andExpect(status().is2xxSuccessful());
+
+    // check that the AtomicQuestion has been deleted
+    mockMvc.perform(get(API_ATOMICQUESTIONS_URI + "/" + atomicQuestion.getId()))
+      .andExpect(status().isNotFound());
+  }
+
+  @Test
+  public void testDeletingVariableDeletesAtomicQuestion() throws Exception {
+    // Arrange
+    DataAcquisitionProject project = UnitTestCreateDomainObjectUtils.buildDataAcquisitionProject();
+    this.dataAcquisitionProjectRepository.save(project);
+
+    Variable variable = UnitTestCreateDomainObjectUtils.buildVariable(project.getId(), null);
+    // create the variable with the given id
+    mockMvc.perform(put("/api/variables/" + variable.getId())
+      .content(TestUtil.convertObjectToJsonBytes(variable)))
+      .andExpect(status().isCreated());
+
+    Questionnaire questionnaire =
+        UnitTestCreateDomainObjectUtils.buildQuestionnaire(project.getId());
+    this.questionnaireRepository.save(questionnaire);
+
+    AtomicQuestion atomicQuestion = UnitTestCreateDomainObjectUtils
+      .buildAtomicQuestion(project.getId(), questionnaire.getId(), variable.getId());
+
+    // Act and Assert
+    // create the AtomicQuestion with the given id
+    mockMvc.perform(put(API_ATOMICQUESTIONS_URI + "/" + atomicQuestion.getId())
+      .content(TestUtil.convertObjectToJsonBytes(atomicQuestion)))
+      .andExpect(status().isCreated());
+
+    mockMvc.perform(delete("/api/variables/" + variable.getId()))
+      .andExpect(status().is2xxSuccessful());
+
+    // check that the AtomicQuestion has been deleted
+    mockMvc.perform(get(API_ATOMICQUESTIONS_URI + "/" + atomicQuestion.getId()))
+      .andExpect(status().isNotFound());
 
     // check that the AtomicQuestion has been deleted
     mockMvc.perform(get(API_ATOMICQUESTIONS_URI + "/" + atomicQuestion.getId()))
