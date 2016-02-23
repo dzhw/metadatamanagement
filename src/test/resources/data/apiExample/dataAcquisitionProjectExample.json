@@ -1,10 +1,19 @@
 {
   "panelName": {
-      "de": "Deutscher Panelname",
-      "en": "English panel name"
-    },
+    "de": "Deutscher Panelname",
+    "en": "English panel name"
+  },
   "surveySeries": {
-      "de": "Erhebungsreihe Test",
-      "en": "Survey series Test"
+    "de": "Erhebungsreihe Test",
+    "en": "Survey series Test"
+  },
+  "releases": [{
+    "version": "1.0",
+    "doi": "ADoi",
+    "date": "2016-02-05T11:04:06.612+01:00",
+    "notes": {
+      "de": "Eine Notiz zur Version 1.0.",
+      "en": "A notice for the version 1.0."
     }
+  }]
 }

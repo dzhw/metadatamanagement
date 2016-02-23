@@ -4,6 +4,7 @@
 package eu.dzhw.fdz.metadatamanagement.unittest.util;
 
 import java.time.LocalDate;
+import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -11,6 +12,7 @@ import eu.dzhw.fdz.metadatamanagement.domain.AtomicQuestion;
 import eu.dzhw.fdz.metadatamanagement.domain.DataAcquisitionProject;
 import eu.dzhw.fdz.metadatamanagement.domain.DataSet;
 import eu.dzhw.fdz.metadatamanagement.domain.Questionnaire;
+import eu.dzhw.fdz.metadatamanagement.domain.Release;
 import eu.dzhw.fdz.metadatamanagement.domain.Survey;
 import eu.dzhw.fdz.metadatamanagement.domain.Value;
 import eu.dzhw.fdz.metadatamanagement.domain.Variable;
@@ -20,6 +22,7 @@ import eu.dzhw.fdz.metadatamanagement.domain.builders.DataSetBuilder;
 import eu.dzhw.fdz.metadatamanagement.domain.builders.I18nStringBuilder;
 import eu.dzhw.fdz.metadatamanagement.domain.builders.PeriodBuilder;
 import eu.dzhw.fdz.metadatamanagement.domain.builders.QuestionnaireBuilder;
+import eu.dzhw.fdz.metadatamanagement.domain.builders.ReleaseBuilder;
 import eu.dzhw.fdz.metadatamanagement.domain.builders.SurveyBuilder;
 import eu.dzhw.fdz.metadatamanagement.domain.builders.ValueBuilder;
 import eu.dzhw.fdz.metadatamanagement.domain.builders.VariableBuilder;
@@ -38,9 +41,20 @@ public class UnitTestCreateDomainObjectUtils {
   private UnitTestCreateDomainObjectUtils() {}
 
   public static DataAcquisitionProject buildDataAcquisitionProject() {
+
+    List<Release> releases = new ArrayList<>();
+    releases.add(new ReleaseBuilder().withDoi("A Test Doi")
+      .withNotes(new I18nStringBuilder().withDe("Eine Notiz für die Version 1.0")
+        .withEn("A notice for the version 1.0.")
+        .build())
+      .withVersion("1.0")
+      .withDate(ZonedDateTime.now())
+      .build());
+
     return new DataAcquisitionProjectBuilder().withId("testProject")
       .withSurveySeries(new I18nStringBuilder().build())
       .withPanelName(new I18nStringBuilder().build())
+      .withReleases(releases)
       .build();
   }
 
