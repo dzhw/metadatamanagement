@@ -48,7 +48,7 @@ public class Concept extends AbstractRdcDomainObject {
    * @see eu.dzhw.fdz.metadatamanagement.domain.AbstractRdcDomainObject#getId()
    */
   @Override
-  protected String getId() {
+  public String getId() {
     return this.id;
   }
 

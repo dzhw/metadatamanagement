@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import eu.dzhw.fdz.metadatamanagement.domain.AtomicQuestion;
+import eu.dzhw.fdz.metadatamanagement.domain.Concept;
 import eu.dzhw.fdz.metadatamanagement.domain.DataAcquisitionProject;
 import eu.dzhw.fdz.metadatamanagement.domain.DataSet;
 import eu.dzhw.fdz.metadatamanagement.domain.Questionnaire;
@@ -17,6 +18,7 @@ import eu.dzhw.fdz.metadatamanagement.domain.Survey;
 import eu.dzhw.fdz.metadatamanagement.domain.Value;
 import eu.dzhw.fdz.metadatamanagement.domain.Variable;
 import eu.dzhw.fdz.metadatamanagement.domain.builders.AtomicQuestionBuilder;
+import eu.dzhw.fdz.metadatamanagement.domain.builders.ConceptBuilder;
 import eu.dzhw.fdz.metadatamanagement.domain.builders.DataAcquisitionProjectBuilder;
 import eu.dzhw.fdz.metadatamanagement.domain.builders.DataSetBuilder;
 import eu.dzhw.fdz.metadatamanagement.domain.builders.I18nStringBuilder;
@@ -151,6 +153,17 @@ public class UnitTestCreateDomainObjectUtils {
       .withSameVariablesInPanel(withSameVariablesInPanel)
       .withValues(withValues)
       .withConceptId("ConceptId001")
+      .build();
+  }
+
+  public static Concept buildConcept() {
+    return new ConceptBuilder().withDescription(new I18nStringBuilder().withDe("De Beschreibung")
+      .withEn("En Description")
+      .build())
+      .withId("ConceptId001")
+      .withName(new I18nStringBuilder().withDe("Deutscher Name")
+        .withEn("English name")
+        .build())
       .build();
   }
 
