@@ -147,8 +147,7 @@ angular.module('metadatamanagementApp')
             y: function(d) {
               return d.values.Q3;
             },
-            maxBoxWidth: 55,
-            yDomain: [statistics.minimum, statistics.maximum]
+            yDomain: [statistics.lowWhisker, statistics.highWhisker]
           }
         };
 
