@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import eu.dzhw.fdz.metadatamanagement.domain.AtomicQuestion;
+import eu.dzhw.fdz.metadatamanagement.domain.BibliographicalReference;
 import eu.dzhw.fdz.metadatamanagement.domain.Concept;
 import eu.dzhw.fdz.metadatamanagement.domain.DataAcquisitionProject;
 import eu.dzhw.fdz.metadatamanagement.domain.DataSet;
@@ -20,6 +21,7 @@ import eu.dzhw.fdz.metadatamanagement.domain.Survey;
 import eu.dzhw.fdz.metadatamanagement.domain.Value;
 import eu.dzhw.fdz.metadatamanagement.domain.Variable;
 import eu.dzhw.fdz.metadatamanagement.domain.builders.AtomicQuestionBuilder;
+import eu.dzhw.fdz.metadatamanagement.domain.builders.BibliographicalReferenceBuilder;
 import eu.dzhw.fdz.metadatamanagement.domain.builders.ConceptBuilder;
 import eu.dzhw.fdz.metadatamanagement.domain.builders.DataAcquisitionProjectBuilder;
 import eu.dzhw.fdz.metadatamanagement.domain.builders.DataSetBuilder;
@@ -210,6 +212,30 @@ public class UnitTestCreateDomainObjectUtils {
         .build())
       .withVersion("1.0")
       .withDate(ZonedDateTime.now())
+      .build();
+  }
+
+  public static BibliographicalReference buildBibliographicalReference() {
+    return new BibliographicalReferenceBuilder().withAuthor("Max Mustermann")
+      .withBookTitle("Ein Testbuch fuer Testzwecke")
+      .withChapter("Kapitel 1 - Der Test")
+      .withEdition("Edition 1")
+      .withEditor("Mara Mustermann")
+      .withHowPublished("Gar nicht.")
+      .withId("Reference001")
+      .withInstitution("Institution Testbeispiel")
+      .withJournal("Testjournal")
+      .withNote("Eine Notiz")
+      .withNumber("12 Number")
+      .withOrganization("Testorganisation")
+      .withPages("123")
+      .withPublicationYear(2016)
+      .withPublisher("Testverlag")
+      .withSchool("Testschule")
+      .withSeries("Eine Testserie")
+      .withTitle("Der Titel vom Testbuch")
+      .withType("Testtype")
+      .withVolume("Volume 1")
       .build();
   }
 
