@@ -79,5 +79,13 @@
     "thirdQuartile": "110.00",
     "lowWhisker": "30.00",
     "highWhisker": "130.00"
+  },
+  "generationDetails": {
+    "description": {
+      "de": "De Beschreibung",
+      "en": "En description"
+    },
+    "rule": "Rule 123 to 234",
+    "ruleExpressionLanguage": "r"
   }
 }
