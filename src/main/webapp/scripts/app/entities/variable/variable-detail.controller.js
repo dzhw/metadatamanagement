@@ -10,7 +10,7 @@ angular.module('metadatamanagementApp')
       $scope.variable = entity;
 
       //options for charts
-      $scope.optionsRelative = {
+      $scope.optionsRelativeFrequencyChart = {
         chart: {
           //CSS information
           type: 'discreteBarChart',
@@ -67,7 +67,7 @@ angular.module('metadatamanagementApp')
         }
       };
 
-      $scope.optionsAbsolute = {
+      $scope.optionsAbsoluteFrequencyChart = {
         chart: {
           //CSS information
           type: 'discreteBarChart',
@@ -130,13 +130,13 @@ angular.module('metadatamanagementApp')
         var statistics = $scope.variable.statistics;
 
         //The data object is for the display
-        $scope.data = [{
+        $scope.dataFrequencyCharts = [{
           values: $scope.variable.values
         }];
 
         // Box Plot Chart
         //----------------------------------------------------------------------
-        $scope.options = {
+        $scope.optionsBoxPlot = {
           chart: {
             type: 'boxPlotChart',
             height: 550,
@@ -151,9 +151,9 @@ angular.module('metadatamanagementApp')
           }
         };
 
-        // Code here will be linted with JSCS.
+        // Code here will not be linted with JSCS.
         // jscs:disable
-        $scope.data2 = [{
+        $scope.dataBoxPlot = [{
           label: $scope.variable.name,
           values: {
             Q1: statistics.firstQuartile,

@@ -65,14 +65,14 @@ describe('Variable Detail Controller', function() {
     d.absoluteFrequency = 345;
 
     //relative
-    expect($scope.optionsRelative.chart.valueFormat(123.456)).toBe(
+    expect($scope.optionsRelativeFrequencyChart.chart.valueFormat(123.456)).toBe(
       '123.46');
-    expect($scope.optionsRelative.chart.y(d)).toBe(86.76);
+    expect($scope.optionsRelativeFrequencyChart.chart.y(d)).toBe(86.76);
 
     //absolute
-    expect($scope.optionsAbsolute.chart.valueFormat(123.456)).toBe(
+    expect($scope.optionsAbsoluteFrequencyChart.chart.valueFormat(123.456)).toBe(
       '123.46');
-    expect($scope.optionsAbsolute.chart.y(d)).toBe(345);
+    expect($scope.optionsAbsoluteFrequencyChart.chart.y(d)).toBe(345);
   });
 
   it('check options for box plot', function() {
@@ -84,8 +84,8 @@ describe('Variable Detail Controller', function() {
     d.values.Q3 = 110;
 
     //Assert
-    expect($scope.options.chart.x(d)).toBe('A Lable');
-    expect($scope.options.chart.y(d)).toBe(110);
+    expect($scope.optionsBoxPlot.chart.x(d)).toBe('A Lable');
+    expect($scope.optionsBoxPlot.chart.y(d)).toBe(110);
   });
 
   it('check options with german', function() {
@@ -97,13 +97,13 @@ describe('Variable Detail Controller', function() {
 
     //check for code
     d.code = 'A Code';
-    expect($scope.optionsRelative.chart.x(d)).toBe('A Code');
-    expect($scope.optionsAbsolute.chart.x(d)).toBe('A Code');
+    expect($scope.optionsRelativeFrequencyChart.chart.x(d)).toBe('A Code');
+    expect($scope.optionsAbsoluteFrequencyChart.chart.x(d)).toBe('A Code');
 
     //check for label
     d.label.de = 'german';
-    expect($scope.optionsRelative.chart.x(d)).toBe('german');
-    expect($scope.optionsAbsolute.chart.x(d)).toBe('german');
+    expect($scope.optionsRelativeFrequencyChart.chart.x(d)).toBe('german');
+    expect($scope.optionsAbsoluteFrequencyChart.chart.x(d)).toBe('german');
 
     Language.setCurrent(currentLanguage);
   });
@@ -117,13 +117,13 @@ describe('Variable Detail Controller', function() {
 
     //check for code
     d.code = 'Another Code';
-    expect($scope.optionsRelative.chart.x(d)).toBe('Another Code');
-    expect($scope.optionsAbsolute.chart.x(d)).toBe('Another Code');
+    expect($scope.optionsRelativeFrequencyChart.chart.x(d)).toBe('Another Code');
+    expect($scope.optionsAbsoluteFrequencyChart.chart.x(d)).toBe('Another Code');
 
     //check for label
     d.label.en = 'english';
-    expect($scope.optionsRelative.chart.x(d)).toBe('english');
-    expect($scope.optionsAbsolute.chart.x(d)).toBe('english');
+    expect($scope.optionsRelativeFrequencyChart.chart.x(d)).toBe('english');
+    expect($scope.optionsAbsoluteFrequencyChart.chart.x(d)).toBe('english');
 
     Language.setCurrent(currentLanguage);
   });
