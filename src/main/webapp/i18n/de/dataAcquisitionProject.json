@@ -26,7 +26,8 @@
         "logMessages": {
           "intro": "Die folgenden Fehler traten beim letzten Upload auf:",
           "dataSetNotSaved": "Datensatz mit FDZ-ID {{ id }} wurde nicht gespeichert!",
-          "internalServerError": "Es ist ein interner Server Fehler aufgetreten."
+          "internalServerError": "Es ist ein interner Server Fehler aufgetreten.",
+          "missingId": "Der {{ index }}. Datensatz enthält keine FDZ-ID und wurde nicht gespeichert!"
         }
       },
       "name": "Name"
