@@ -57,12 +57,16 @@
             <uib-accordion>
                 <uib-accordion-group is-open="isOpen">
                     <uib-accordion-heading>
+                      <div class="row">
+                        <div class="col-md-12">
                           <span>{{'metadatamanagementApp.dataAcquisitionProject.detail.uploadprotocol' | translate}} </span>
                           <span class="pull-right">
                             <span class="label label-as-badge label-success">{{'metadatamanagementApp.dataAcquisitionProject.detail.success' | translate}}: {{uploadStatus.successes}}</span>
                             <span class="label label-as-badge label-danger">{{'metadatamanagementApp.dataAcquisitionProject.detail.error' | translate}}: {{uploadStatus.errors}}</span>
                             <i class="glyphicon" ng-class="{'glyphicon-chevron-down': isOpen, 'glyphicon-chevron-right': !isOpen}"></i>
                           </span>
+                        </div>
+                      </div>
                     </uib-accordion-heading>
                     <div>
                       <pre><span ng-repeat="logMessage in uploadStatus.logMessages track by $index" ng-class="{'text-danger': logMessage.type==='error'}">{{logMessage.message}}</span></pre>
