@@ -12,7 +12,7 @@ import net.karneim.pojobuilder.GeneratePojoBuilder;
  * @author Daniel Katzberg
  *
  */
-@Document(collection = "bibliograhical_references")
+@Document(collection = "bibliographical_references")
 @GeneratePojoBuilder(intoPackage = "eu.dzhw.fdz.metadatamanagement.domain.builders")
 public class BibliographicalReference extends AbstractRdcDomainObject {
 

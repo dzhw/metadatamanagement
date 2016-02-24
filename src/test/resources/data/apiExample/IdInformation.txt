@@ -8,3 +8,4 @@ questionnaire: QuestionnaireId001
 dataSet: DataSet_001
 atomicQuestion: AtomicQuestion_001
 concept: ConceptId001
+bibliographicalReference: Reference001

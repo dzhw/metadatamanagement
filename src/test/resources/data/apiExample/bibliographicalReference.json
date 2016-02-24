@@ -1,0 +1,21 @@
+{
+  "author": "Max Mustermann",
+  "bookTitle": "Ein Testbuch fuer Testzwecke",
+  "chapter": "Kapitel 1 - Der Test",
+  "edition": "Edition 1",
+  "editor": "Mara Mustermann",
+  "institution": "Institution Testbeispiel",
+  "journal": "Testjournal",
+  "publicationYear": "2016",
+  "title": "Der Titel vom Testbuch",
+  "series": "Eine Testserie",
+  "volume": "Volume 1",
+  "type": "Testtype",
+  "pages": "123",
+  "publisher": "Testverlag",
+  "organization": "Testorganisation",
+  "number": "12 Number",
+  "school": "Testschule",
+  "note": "Eine Notiz",
+  "howPublished": "Gar nicht."
+}

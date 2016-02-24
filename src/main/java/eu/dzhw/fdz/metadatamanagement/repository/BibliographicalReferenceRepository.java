@@ -12,7 +12,7 @@ import eu.dzhw.fdz.metadatamanagement.domain.BibliographicalReference;
  * @author Daniel Katzberg
  *
  */
-@RepositoryRestResource(path = "/bibliograhical_references")
+@RepositoryRestResource(path = "/bibliographical_references")
 public interface BibliographicalReferenceRepository
     extends MongoRepository<BibliographicalReference, String>,
     QueryDslPredicateExecutor<BibliographicalReference> {
