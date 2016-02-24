@@ -26,7 +26,8 @@
         "logMessages": {
           "intro": "Following errors occurred during the last upload:",
           "dataSetNotSaved": "Dataset with RDC-ID {{ id }} has not been saved!",
-          "internalServerError": "An internal server error occurred."
+          "internalServerError": "An internal server error occurred.",
+          "missingId": "Dataset {{ index }} does not contain a RDC-ID and has not been saved!"
         }
       },
       "name": "Name"
