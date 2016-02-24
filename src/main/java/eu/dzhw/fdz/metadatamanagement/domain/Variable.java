@@ -33,6 +33,7 @@ import net.karneim.pojobuilder.GeneratePojoBuilder;
 @CompoundIndex(def = "{name: 1, fdz_project: 1}", unique = true)
 @SurveyHasSameDataAcquisitionProject
 public class Variable extends AbstractRdcDomainObjectWithProjectSurvey {
+
   @Id
   @NotEmpty
   private String id;
@@ -70,6 +71,8 @@ public class Variable extends AbstractRdcDomainObjectWithProjectSurvey {
 
   private String conceptId;
 
+  private Statistics statistics;
+
   /*
    * (non-Javadoc)
    * 
@@ -103,6 +106,7 @@ public class Variable extends AbstractRdcDomainObjectWithProjectSurvey {
       .add("distributionSvg", distributionSvg)
       .add("sameVariablesInPanel", sameVariablesInPanel)
       .add("conceptId", conceptId)
+      .add("statistics", statistics)
       .toString();
   }
 
@@ -215,5 +219,13 @@ public class Variable extends AbstractRdcDomainObjectWithProjectSurvey {
 
   public void setConceptId(String conceptId) {
     this.conceptId = conceptId;
+  }
+
+  public Statistics getStatistics() {
+    return statistics;
+  }
+
+  public void setStatistics(Statistics statistics) {
+    this.statistics = statistics;
   }
 }

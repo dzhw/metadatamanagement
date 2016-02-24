@@ -6,6 +6,7 @@ import org.springframework.data.rest.core.config.Projection;
 
 import eu.dzhw.fdz.metadatamanagement.domain.I18nString;
 import eu.dzhw.fdz.metadatamanagement.domain.I18nSvg;
+import eu.dzhw.fdz.metadatamanagement.domain.Statistics;
 import eu.dzhw.fdz.metadatamanagement.domain.Value;
 import eu.dzhw.fdz.metadatamanagement.domain.Variable;
 import eu.dzhw.fdz.metadatamanagement.domain.enumeration.AccessWay;
@@ -46,5 +47,7 @@ public interface CompleteVariableProjection
   I18nSvg getDistributionSvg();
 
   List<Variable> getSameVariablesInPanel();
+
+  Statistics getStatistics();
 
 }
