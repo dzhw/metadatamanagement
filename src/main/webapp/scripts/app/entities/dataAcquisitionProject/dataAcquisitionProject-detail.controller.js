@@ -34,7 +34,7 @@ angular.module('metadatamanagementApp')
             });
 
             // if the error is already a string simply display it
-            if (typeof error === 'string') {
+            if (typeof error === 'string' || error instanceof String) {
               this.logMessages.push({message: error + '\n', type: 'error'});
             }
 
