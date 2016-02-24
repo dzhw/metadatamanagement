@@ -73,6 +73,8 @@ public class Variable extends AbstractRdcDomainObjectWithProjectSurvey {
 
   private Statistics statistics;
 
+  private GenerationDetails generationDetails;
+
   /*
    * (non-Javadoc)
    * 
@@ -107,6 +109,7 @@ public class Variable extends AbstractRdcDomainObjectWithProjectSurvey {
       .add("sameVariablesInPanel", sameVariablesInPanel)
       .add("conceptId", conceptId)
       .add("statistics", statistics)
+      .add("generationDetails", generationDetails)
       .toString();
   }
 
@@ -227,5 +230,13 @@ public class Variable extends AbstractRdcDomainObjectWithProjectSurvey {
 
   public void setStatistics(Statistics statistics) {
     this.statistics = statistics;
+  }
+
+  public GenerationDetails getGenerationDetails() {
+    return generationDetails;
+  }
+
+  public void setGenerationDetails(GenerationDetails generationDetails) {
+    this.generationDetails = generationDetails;
   }
 }

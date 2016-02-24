@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.data.rest.core.config.Projection;
 
+import eu.dzhw.fdz.metadatamanagement.domain.GenerationDetails;
 import eu.dzhw.fdz.metadatamanagement.domain.I18nString;
 import eu.dzhw.fdz.metadatamanagement.domain.I18nSvg;
 import eu.dzhw.fdz.metadatamanagement.domain.Statistics;
@@ -49,5 +50,7 @@ public interface CompleteVariableProjection
   List<Variable> getSameVariablesInPanel();
 
   Statistics getStatistics();
+
+  GenerationDetails getGenerationDetails();
 
 }
