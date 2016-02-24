@@ -14,6 +14,7 @@ import eu.dzhw.fdz.metadatamanagement.domain.DataAcquisitionProject;
 import eu.dzhw.fdz.metadatamanagement.domain.DataSet;
 import eu.dzhw.fdz.metadatamanagement.domain.Questionnaire;
 import eu.dzhw.fdz.metadatamanagement.domain.Release;
+import eu.dzhw.fdz.metadatamanagement.domain.Statistics;
 import eu.dzhw.fdz.metadatamanagement.domain.Survey;
 import eu.dzhw.fdz.metadatamanagement.domain.Value;
 import eu.dzhw.fdz.metadatamanagement.domain.Variable;
@@ -25,6 +26,7 @@ import eu.dzhw.fdz.metadatamanagement.domain.builders.I18nStringBuilder;
 import eu.dzhw.fdz.metadatamanagement.domain.builders.PeriodBuilder;
 import eu.dzhw.fdz.metadatamanagement.domain.builders.QuestionnaireBuilder;
 import eu.dzhw.fdz.metadatamanagement.domain.builders.ReleaseBuilder;
+import eu.dzhw.fdz.metadatamanagement.domain.builders.StatisticsBuilder;
 import eu.dzhw.fdz.metadatamanagement.domain.builders.SurveyBuilder;
 import eu.dzhw.fdz.metadatamanagement.domain.builders.ValueBuilder;
 import eu.dzhw.fdz.metadatamanagement.domain.builders.VariableBuilder;
@@ -153,6 +155,7 @@ public class UnitTestCreateDomainObjectUtils {
       .withSameVariablesInPanel(withSameVariablesInPanel)
       .withValues(withValues)
       .withConceptId("ConceptId001")
+      .withStatistics(buildStatistics())
       .build();
   }
 
@@ -170,6 +173,21 @@ public class UnitTestCreateDomainObjectUtils {
   public static Questionnaire buildQuestionnaire(String projectId) {
     return new QuestionnaireBuilder().withDataAcquisitionProjectId(projectId)
       .withId("testQuestionnaire")
+      .build();
+  }
+
+  public static Statistics buildStatistics() {
+    return new StatisticsBuilder().withFirstQuartile(70.0)
+      .withHighWhisker(130.0)
+      .withKurtosis(234.0)
+      .withLowWhisker(30.0)
+      .withMaximum(140.0)
+      .withMeanValue(87.5)
+      .withMedian(90.0)
+      .withMinimum(0.0)
+      .withSkewness(123.0)
+      .withStandardDeviation(40.0)
+      .withThirdQuartile(110.0)
       .build();
   }
 
