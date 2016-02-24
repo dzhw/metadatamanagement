@@ -12,6 +12,7 @@ import eu.dzhw.fdz.metadatamanagement.domain.AtomicQuestion;
 import eu.dzhw.fdz.metadatamanagement.domain.Concept;
 import eu.dzhw.fdz.metadatamanagement.domain.DataAcquisitionProject;
 import eu.dzhw.fdz.metadatamanagement.domain.DataSet;
+import eu.dzhw.fdz.metadatamanagement.domain.GenerationDetails;
 import eu.dzhw.fdz.metadatamanagement.domain.Questionnaire;
 import eu.dzhw.fdz.metadatamanagement.domain.Release;
 import eu.dzhw.fdz.metadatamanagement.domain.Statistics;
@@ -22,6 +23,7 @@ import eu.dzhw.fdz.metadatamanagement.domain.builders.AtomicQuestionBuilder;
 import eu.dzhw.fdz.metadatamanagement.domain.builders.ConceptBuilder;
 import eu.dzhw.fdz.metadatamanagement.domain.builders.DataAcquisitionProjectBuilder;
 import eu.dzhw.fdz.metadatamanagement.domain.builders.DataSetBuilder;
+import eu.dzhw.fdz.metadatamanagement.domain.builders.GenerationDetailsBuilder;
 import eu.dzhw.fdz.metadatamanagement.domain.builders.I18nStringBuilder;
 import eu.dzhw.fdz.metadatamanagement.domain.builders.PeriodBuilder;
 import eu.dzhw.fdz.metadatamanagement.domain.builders.QuestionnaireBuilder;
@@ -34,6 +36,7 @@ import eu.dzhw.fdz.metadatamanagement.domain.enumeration.AccessWay;
 import eu.dzhw.fdz.metadatamanagement.domain.enumeration.AtomicQuestionType;
 import eu.dzhw.fdz.metadatamanagement.domain.enumeration.DataType;
 import eu.dzhw.fdz.metadatamanagement.domain.enumeration.FilterExpressionLanguage;
+import eu.dzhw.fdz.metadatamanagement.domain.enumeration.RuleExpressionLanguage;
 import eu.dzhw.fdz.metadatamanagement.domain.enumeration.ScaleLevel;
 
 /**
@@ -47,13 +50,7 @@ public class UnitTestCreateDomainObjectUtils {
   public static DataAcquisitionProject buildDataAcquisitionProject() {
 
     List<Release> releases = new ArrayList<>();
-    releases.add(new ReleaseBuilder().withDoi("A Test Doi")
-      .withNotes(new I18nStringBuilder().withDe("Eine Notiz für die Version 1.0")
-        .withEn("A notice for the version 1.0.")
-        .build())
-      .withVersion("1.0")
-      .withDate(ZonedDateTime.now())
-      .build());
+    releases.add(buildRelease());
 
     return new DataAcquisitionProjectBuilder().withId("testProject")
       .withSurveySeries(new I18nStringBuilder().build())
@@ -126,14 +123,7 @@ public class UnitTestCreateDomainObjectUtils {
     accessWays.add(AccessWay.suf);
     List<Variable> withSameVariablesInPanel = new ArrayList<>();
     List<Value> withValues = new ArrayList<>();
-    withValues.add(new ValueBuilder().withAbsoluteFrequency(123)
-      .withCode("Code 123.45")
-      .withIsAMissing(false)
-      .withLabel(new I18nStringBuilder().withDe("De Label")
-        .withEn("En Lable")
-        .build())
-      .withRelativeFrequency(43.78)
-      .build());
+    withValues.add(buildValueBuilder());
 
     // Create Variable
     return new VariableBuilder().withId("testVariable")
@@ -156,6 +146,7 @@ public class UnitTestCreateDomainObjectUtils {
       .withValues(withValues)
       .withConceptId("ConceptId001")
       .withStatistics(buildStatistics())
+      .withGenerationDetails(buildGenerationDetails())
       .build();
   }
 
@@ -188,6 +179,37 @@ public class UnitTestCreateDomainObjectUtils {
       .withSkewness(123.0)
       .withStandardDeviation(40.0)
       .withThirdQuartile(110.0)
+      .build();
+  }
+
+  public static GenerationDetails buildGenerationDetails() {
+    return new GenerationDetailsBuilder()
+      .withDescription(new I18nStringBuilder().withDe("De Beschreibung")
+        .withEn("En Description")
+        .build())
+      .withRule("Rule 123 to 234")
+      .withRuleExpressionLanguage(RuleExpressionLanguage.r)
+      .build();
+  }
+
+  public static Value buildValueBuilder() {
+    return new ValueBuilder().withAbsoluteFrequency(123)
+      .withCode("Code 123.45")
+      .withIsAMissing(false)
+      .withLabel(new I18nStringBuilder().withDe("De Label")
+        .withEn("En Lable")
+        .build())
+      .withRelativeFrequency(43.78)
+      .build();
+  }
+
+  public static Release buildRelease() {
+    return new ReleaseBuilder().withDoi("A Test Doi")
+      .withNotes(new I18nStringBuilder().withDe("Eine Notiz für die Version 1.0")
+        .withEn("A notice for the version 1.0.")
+        .build())
+      .withVersion("1.0")
+      .withDate(ZonedDateTime.now())
       .build();
   }
 

@@ -3,6 +3,7 @@ package eu.dzhw.fdz.metadatamanagement.domain;
 import com.google.common.base.MoreObjects;
 
 import eu.dzhw.fdz.metadatamanagement.domain.enumeration.RuleExpressionLanguage;
+import net.karneim.pojobuilder.GeneratePojoBuilder;
 
 /**
  * Generation Details.
@@ -10,6 +11,7 @@ import eu.dzhw.fdz.metadatamanagement.domain.enumeration.RuleExpressionLanguage;
  * @author Daniel Katzberg
  *
  */
+@GeneratePojoBuilder(intoPackage = "eu.dzhw.fdz.metadatamanagement.domain.builders")
 public class GenerationDetails {
 
   private I18nString description;
