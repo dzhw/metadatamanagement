@@ -127,10 +127,45 @@ angular.module('metadatamanagementApp')
 
       //Wait for promise object
       $scope.variable.$promise.then(function() {
+        var statistics = $scope.variable.statistics;
+
         //The data object is for the display
         $scope.data = [{
           values: $scope.variable.values
         }];
+
+        // Box Plot Chart
+        //----------------------------------------------------------------------
+        $scope.options = {
+          chart: {
+            type: 'boxPlotChart',
+            height: 550,
+            color: ['#0069B4'],
+            x: function(d) {
+              return d.label;
+            },
+            y: function(d) {
+              return d.values.Q3;
+            },
+            maxBoxWidth: 55,
+            yDomain: [statistics.minimum, statistics.maximum]
+          }
+        };
+
+        // Code here will be linted with JSCS.
+        // jscs:disable
+        $scope.data2 = [{
+          label: $scope.variable.name,
+          values: {
+            Q1: statistics.firstQuartile,
+            Q2: statistics.median,
+            Q3: statistics.thirdQuartile,
+            whisker_low: statistics.lowWhisker,
+            whisker_high: statistics.highWhisker
+          }
+        }];
+        // Code here will be linted with JSCS.
+        // jscs:enable
 
         $translate(
           'metadatamanagementApp.variable.chart.absoluteFrequency').then(
@@ -144,40 +179,5 @@ angular.module('metadatamanagementApp')
             $scope.optionsRelative.subtitle.text = translation;
           });
       });
-
-      // Box Plot Chart
-      //----------------------------------------------------------------------
-      $scope.options = {
-        chart: {
-          type: 'boxPlotChart',
-          height: 550,
-          color: ['#0069B4'],
-          x: function(d) {
-            return d.label;
-          },
-          y: function(d) {
-            return d.values.Q3;
-          },
-          maxBoxWidth: 55,
-          yDomain: [0, 150]
-        }
-      };
-
-      // Code here will be linted with JSCS.
-      // jscs:disable
-      $scope.data2 = [{
-        label: 'Sample A',
-        values: {
-          Q1: 70,
-          Q2: 90,
-          Q3: 110,
-          whisker_low: 30,
-          whisker_high: 130,
-          outliers: [5, 15, 140]
-        }
-      }];
-      // Code here will be linted with JSCS.
-      // jscs:enable
-
     }
   ]);

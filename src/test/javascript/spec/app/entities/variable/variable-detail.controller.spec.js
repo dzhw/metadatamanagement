@@ -19,6 +19,19 @@ describe('Variable Detail Controller', function() {
     $translate = $injector.get('$translate');
     $scope = $rootScope.$new();
     MockEntity = {
+      statistics: {
+        meanValue: 50.00,
+        minimum: 0.00,
+        maximum: 140.00,
+        skewness: 123.00,
+        kurtosis: 234.00,
+        median: 90.00,
+        standardDeviation: 40.00,
+        firstQuartile: 70.00,
+        thirdQuartile: 110.00,
+        lowWhisker: 30.00,
+        highWhisker: 130.00
+      },
       $promise: {
         then: function(callback) {
           callback();
