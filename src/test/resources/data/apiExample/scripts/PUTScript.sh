@@ -31,7 +31,6 @@ fi
 #Configurations
 user="-u admin:admin"
 put="-X PUT"
-user="-u admin:admin"
 header="-H '"'Content-Type: application/json"'""
 #Tupels, where the elements are separated by commata and the tupels by line breaks.
 files="dataAcquisitionProjectExample.json,data_acquisition_projects/ATestProject

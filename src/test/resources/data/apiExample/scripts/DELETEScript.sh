@@ -14,12 +14,12 @@ fi
 server=""
 if [ "$1" = "local" ]
   then
-    server="http://localhost:8080/"
+    server="http://localhost:8080/api/"
 fi
 
 if [ "$1" = "dev" ]
   then
-    server="https://metadatamanagement.cfapps.io/"
+    server="https://metadatamanagement.cfapps.io/api/"
 fi
 
 if [ ${#server} -eq 0 ]
@@ -31,9 +31,9 @@ fi
 #Configurations
 user="-u admin:admin"
 delete="-X DELETE"
-files="api/data_acquisition_projects/ATestProject
-api/data_acquisition_projects/bibliographical_references/Reference001
-api/concepts/ConceptId001"
+files="data_acquisition_projects/ATestProject
+data_acquisition_projects/bibliographical_references/Reference001
+concepts/ConceptId001"
 
 
 #delete test data in the api paths:
