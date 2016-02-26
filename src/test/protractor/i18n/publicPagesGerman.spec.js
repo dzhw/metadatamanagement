@@ -10,7 +10,9 @@ var cacheHelper = require('../utils/cacheHelper');
 
 describe('Check GERMAN language elements for ...', function() {
 
-  afterAll(cacheHelper.clearCache);
+  afterAll(function() {
+    cacheHelper.clearCache();
+  });
 
   it('... welcome page', function() {
     var pages = ['/'];
