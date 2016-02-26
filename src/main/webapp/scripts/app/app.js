@@ -3,7 +3,8 @@
 angular
   .module(
     'metadatamanagementApp', ['LocalStorageModule', 'tmh.dynamicLocale',
-      'pascalprecht.translate', 'nvd3',
+      'pascalprecht.translate',
+      'nvd3', //for charts
       'ui.bootstrap', // for modal dialogs
       'elasticsearch',
       'ngResource', 'ui.router', 'ngCookies', 'ngAria', 'ngCacheBuster',
@@ -81,6 +82,7 @@ angular
       httpRequestInterceptorCacheBusterProvider.setMatchlist([/.*api.*/,
         /.*protected.*/
       ], true);
+
       $stateProvider.state('site', {
         'abstract': true,
         url: '/{lang:(?:de|en)}',
@@ -106,7 +108,8 @@ angular
        * $windowProvider.$get().navigator.userLanguage;
        * $urlRouterProvider.otherwise('/'+browserLang+'/');
        */
-      $urlRouterProvider.otherwise('/de/');
+      $urlRouterProvider.when('', '/de/');
+      $urlRouterProvider.otherwise('/de/error');
       $httpProvider.interceptors.push('errorHandlerInterceptor');
       $httpProvider.interceptors.push('authExpiredInterceptor');
       $httpProvider.interceptors.push('authInterceptor');
