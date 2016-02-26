@@ -35,8 +35,18 @@ public class SurveyService {
    */
   @HandleAfterDelete
   public void onDataAcquisitionProjectDeleted(DataAcquisitionProject dataAcquisitionProject) {
+    deleteSurveysByProjectId(dataAcquisitionProject.getId());
+  }
+  
+  /**
+   * A service method for deletion of surveys within a data acquisition project.
+   * @param dataAcquisitionProjectId the id for to the data acquisition project.
+   * @return List of deleted surveys
+   */
+  public List<Survey> deleteSurveysByProjectId(String dataAcquisitionProjectId) {
     List<Survey> deletedSurveys =
-        surveyRepository.deleteByDataAcquisitionProjectId(dataAcquisitionProject.getId());
+        surveyRepository.deleteByDataAcquisitionProjectId(dataAcquisitionProjectId);
     deletedSurveys.forEach(survey -> eventPublisher.publishEvent(new AfterDeleteEvent(survey)));
+    return deletedSurveys;
   }
 }

@@ -4,7 +4,7 @@
 angular.module('metadatamanagementApp')
   .controller('DataAcquisitionProjectDetailController',
     function($scope, $translate, entity, DataAcquisitionProjectExportService,
-      ExcelParser, Survey) {
+      ExcelParser, Survey, SurveyDeleteResource) {
       $scope.dataAcquisitionProject = entity;
       $scope.initUploadStatus = function(itemsToUpload) {
         $scope.uploadStatus = {
@@ -75,6 +75,8 @@ angular.module('metadatamanagementApp')
       $scope.initUploadStatus(0);
 
       var saveSurveys = function(surveys) {
+        SurveyDeleteResource.deleteByDataAcquisitionProjectId(
+          {dataAcquisitionProjectId: $scope.dataAcquisitionProject.id});
         $scope.initUploadStatus(surveys.length);
         for (var i = 0; i < surveys.length; i++) {
           var data = surveys[i];
