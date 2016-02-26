@@ -36,7 +36,7 @@ function checkMissingLinks(browser, pages, counter) {
 
   counter = counter + 1;
 
-  browser.getCurrentUrl().then(function (urlCurrent) {
+  browser.getCurrentUrl().then(function(urlCurrent) {
     var urlCheck = browser.baseUrl + actualLanguage + pages[counter];
     expect(urlCurrent).toBe(urlCheck);
   });

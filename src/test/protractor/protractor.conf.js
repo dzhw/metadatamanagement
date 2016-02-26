@@ -10,13 +10,14 @@ exports.config = {
     browserName: 'phantomjs',
     'phantomjs.binary.path': './node_modules/phantomjs/bin/phantomjs',
   },
-  onPrepare: function () {
+  onPrepare: function() {
     browser.driver.manage().window().maximize();
     require('./utils/locators.js');
   },
 
   baseUrl: 'https://metadatamanagement.cfapps.io/',
-  specs: [//'i18n/publicPages.spec.js',
+  specs: ['i18n/publicPagesGerman.spec.js',
+  'i18n/publicPagesEnglish.spec.js',
     //'i18n/pagesWithLogin.spec.js',
     'login/login.spec.js',
   ],
