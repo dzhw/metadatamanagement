@@ -63,6 +63,9 @@ angular.module('metadatamanagementApp')
                 'internalServerError') + '\n',
                 type: 'error'
               });
+            } else if (error.data && error.data.message) {
+              this.logMessages.push({message: error.data.message +
+                '\n', type: 'error'});
             }
             this.errors++;
           },
@@ -75,37 +78,41 @@ angular.module('metadatamanagementApp')
       $scope.initUploadStatus(0);
 
       var saveSurveys = function(surveys) {
-        SurveyDeleteResource.deleteByDataAcquisitionProjectId(
-          {dataAcquisitionProjectId: $scope.dataAcquisitionProject.id});
         $scope.initUploadStatus(surveys.length);
-        for (var i = 0; i < surveys.length; i++) {
-          var data = surveys[i];
-          if (!data.id || data.id === '') {
-            $scope.uploadStatus.pushError($translate.instant(
-            'metadatamanagementApp.dataAcquisitionProject.detail.logMessages.' +
-            'missingId',{index: i + 1}));
-          } else {
-            var surveyObj = {
-              id: data.id,
-              dataAcquisitionProjectId: $scope.dataAcquisitionProject.id,
-              questionnaireId: data.questionnaireId,
-              title: {
-                en: data['title.en'],
-                de: data['title.de']
-              },
-              fieldPeriod: {
-                start: data['fieldPeriod.start'],
-                end: data['fieldPeriod.end']
+        SurveyDeleteResource.deleteByDataAcquisitionProjectId(
+          {dataAcquisitionProjectId: $scope.dataAcquisitionProject.id},
+          function() {
+            for (var i = 0; i < surveys.length; i++) {
+              var data = surveys[i];
+              if (!data.id || data.id === '') {
+                $scope.uploadStatus.pushError($translate.instant(
+                  'metadatamanagementApp.dataAcquisitionProject.detail.' +
+                  'logMessages.missingId',{index: i + 1}));
+              } else {
+                var surveyObj = {
+                    id: data.id,
+                    dataAcquisitionProjectId: $scope.dataAcquisitionProject.id,
+                    questionnaireId: data.questionnaireId,
+                    title: {
+                      en: data['title.en'],
+                      de: data['title.de']
+                    },
+                    fieldPeriod: {
+                      start: data['fieldPeriod.start'],
+                      end: data['fieldPeriod.end']
+                    }
+                  };
+                var survey = new Survey(surveyObj);
+                survey.$save().then(function() {
+                    $scope.uploadStatus.pushSuccess();
+                  }).catch(function(error) {
+                    $scope.uploadStatus.pushError(error);
+                  });
               }
-            };
-            var survey = new Survey(surveyObj);
-            survey.$save().then(function() {
-              $scope.uploadStatus.pushSuccess();
-            }).catch(function(error) {
-              $scope.uploadStatus.pushError(error);
-            });
-          }
-        }
+            }
+          }, function(error) {
+            $scope.uploadStatus.pushError(error);
+          });
       };
       $scope.onSurveyUpload = function(file) {
         if (file !== null) {
