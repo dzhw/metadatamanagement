@@ -19,7 +19,6 @@ import java.util.Optional;
 import java.util.Set;
 
 import javax.inject.Inject;
-import javax.transaction.Transactional;
 import javax.validation.ConstraintViolation;
 import javax.validation.Validator;
 
@@ -95,7 +94,7 @@ public class AccountResourceTest extends AbstractTest {
     this.restUserMockMvc = MockMvcBuilders.standaloneSetup(accountUserMockResource)
       .build();
   }
-  
+
   @After
   public void logout() {
     UnitTestUserManagementUtils.logout();
@@ -324,7 +323,7 @@ public class AccountResourceTest extends AbstractTest {
   }
 
   @Test
-  @Transactional
+  // @Transactional
   public void testRegisterValid() throws Exception {
     UserDto u = new UserDto("joe", // login
         "password", // password
@@ -344,7 +343,7 @@ public class AccountResourceTest extends AbstractTest {
   }
 
   @Test
-  @Transactional
+  // @Transactional
   public void testRegisterInvalidLogin() throws Exception {
     UserDto u = new UserDto("funky-log!n", // login <-- invalid
         "password", // password
@@ -364,7 +363,7 @@ public class AccountResourceTest extends AbstractTest {
   }
 
   @Test
-  @Transactional
+  // @Transactional
   public void testRegisterInvalidEmail() throws Exception {
     UserDto u = new UserDto("bob", // login
         "password", // password
@@ -384,7 +383,7 @@ public class AccountResourceTest extends AbstractTest {
   }
 
   @Test
-  @Transactional
+  // @Transactional
   public void testRegisterDuplicateLogin() throws Exception {
     // Good
     UserDto u = new UserDto("alice", // login
@@ -415,7 +414,7 @@ public class AccountResourceTest extends AbstractTest {
   }
 
   @Test
-  @Transactional
+  // @Transactional
   public void testRegisterDuplicateEmail() throws Exception {
     // Good
     UserDto u = new UserDto("john", // login
@@ -446,7 +445,7 @@ public class AccountResourceTest extends AbstractTest {
   }
 
   @Test
-  @Transactional
+  // @Transactional
   public void testRegisterAdminIsIgnored() throws Exception {
     UserDto u = new UserDto("badguy", // login
         "password", // password
