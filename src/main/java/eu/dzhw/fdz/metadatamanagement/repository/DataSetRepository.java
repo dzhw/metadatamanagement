@@ -20,8 +20,6 @@ public interface DataSetRepository
     extends MongoRepository<DataSet, String>, QueryDslPredicateExecutor<DataSet> {
 
   @RestResource(exported = false)
-  List<DataSet> deleteBySurveyId(String surveyId);
-
-  @RestResource(exported = false)
   List<DataSet> deleteByDataAcquisitionProjectId(String dataAcquisitionProjectId);
+  
 }

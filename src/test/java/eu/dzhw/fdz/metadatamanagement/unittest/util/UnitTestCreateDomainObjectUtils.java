@@ -79,7 +79,9 @@ public class UnitTestCreateDomainObjectUtils {
     variableIds.add("Id001");
     variableIds.add("Id002");
     variableIds.add("Id003");
-    return new DataSetBuilder().withSurveyId(surveyId)
+    List<String> surveyIds = new ArrayList<>();
+    variableIds.add(surveyId);
+    return new DataSetBuilder().withSurveyIds(surveyIds)
       .withDataAcquisitionProjectId(projectId)
       .withId("DataSet_001")
       .withVariableIds(variableIds)

@@ -16,10 +16,13 @@ import eu.dzhw.fdz.metadatamanagement.domain.I18nString;
  */
 @Projection(name = "complete", types = DataSet.class)
 public interface CompleteDataSetProjection
-    extends AbstractRdcDomainObjectWithProjectSurveyProjection {
+    extends AbstractRdcDomainObjectProjection {
 
   I18nString getDescription();
 
-  List<String> getVariableIds();
+  String getDataAcquisitionProjectId();
 
+  List<String> getVariableIds();
+  
+  List<String> getSurveyIds();
 }

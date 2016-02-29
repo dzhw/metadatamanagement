@@ -12,7 +12,6 @@ import org.springframework.stereotype.Service;
 
 import eu.dzhw.fdz.metadatamanagement.domain.DataAcquisitionProject;
 import eu.dzhw.fdz.metadatamanagement.domain.DataSet;
-import eu.dzhw.fdz.metadatamanagement.domain.Survey;
 import eu.dzhw.fdz.metadatamanagement.repository.DataSetRepository;
 
 /**
@@ -31,18 +30,6 @@ public class DataSetService {
 
   @Inject
   private ApplicationEventPublisher eventPublisher;
-
-
-  /**
-   * Delete all data sets when the survey was deleted.
-   * 
-   * @param survey the survey which has been deleted.
-   */
-  @HandleAfterDelete
-  public void onSurveyDeleted(Survey survey) {
-    List<DataSet> deletedDataSets = this.dataSetRepository.deleteBySurveyId(survey.getId());
-    deletedDataSets.forEach(dataSet -> eventPublisher.publishEvent(new AfterDeleteEvent(dataSet)));
-  }
 
   /**
    * Delete all data sets when the dataAcquisitionProject was deleted.

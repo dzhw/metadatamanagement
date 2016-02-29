@@ -96,12 +96,15 @@ public class DataSetDeleteResourceTest extends AbstractTest {
     List<String> variablesId = new ArrayList<String>();
     variablesId.add("testID");
     
+    List<String> surveyIds = new ArrayList<String>();
+    surveyIds.add(survey.getId());
+    
     // create the dataSet
     DataSet dataSet = new DataSetBuilder().withId("testId")
         .withDataAcquisitionProjectId(project.getId())
         .withVariableIds(variablesId).withDescription(new I18nStringBuilder().withDe("titel")
         .withEn("title")
-        .build()).withSurveyId(survey.getId()).build();
+        .build()).withSurveyIds(surveyIds).build();
     dataSetRepository.save(dataSet);
     
     // check that the survey is present
