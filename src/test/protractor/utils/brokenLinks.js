@@ -8,10 +8,20 @@
 //This function checks links of a page.
 //If the link is broken, this method return a error
 function checkBrokenLinks(links) {
+
+  /*var actualPagePath = '';
+  browser.getCurrentUrl().then(function(urlCurrent) {
+    actualPagePath = urlCurrent;
+  });*/
+
   for (var linksIndex = 0; linksIndex < links.length; linksIndex++) {
 
+    //load basic page page
+    //browser.get(actualPagePath);
+
     //ignore empty hrefs
-    if (links[linksIndex].length === 0) {
+    if (links[linksIndex].length === 0 ||
+      links[linksIndex].indexOf('mailto') !== -1) {
       continue;
     }
 
@@ -27,6 +37,7 @@ function checkBrokenLinks(links) {
 function checkLinks(language, pages) {
 
   for (var pageIndex = 0; pageIndex < pages.length; pageIndex++) {
+
     //load page
     browser.get(language + pages[pageIndex]);
 
