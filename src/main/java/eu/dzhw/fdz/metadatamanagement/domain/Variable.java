@@ -19,7 +19,6 @@ import eu.dzhw.fdz.metadatamanagement.domain.enumeration.DataType;
 import eu.dzhw.fdz.metadatamanagement.domain.enumeration.FilterExpressionLanguage;
 import eu.dzhw.fdz.metadatamanagement.domain.enumeration.ScaleLevel;
 import eu.dzhw.fdz.metadatamanagement.domain.util.Patterns;
-import eu.dzhw.fdz.metadatamanagement.domain.validation.SurveyHasSameDataAcquisitionProject;
 import net.karneim.pojobuilder.GeneratePojoBuilder;
 
 /**
@@ -31,7 +30,6 @@ import net.karneim.pojobuilder.GeneratePojoBuilder;
 @Document(collection = "variables")
 @GeneratePojoBuilder(intoPackage = "eu.dzhw.fdz.metadatamanagement.domain.builders")
 @CompoundIndex(def = "{name: 1, fdz_project: 1}", unique = true)
-@SurveyHasSameDataAcquisitionProject
 public class Variable extends AbstractRdcDomainObjectWithProjectSurvey {
 
   @Id

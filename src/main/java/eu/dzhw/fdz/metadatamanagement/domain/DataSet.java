@@ -8,7 +8,6 @@ import org.springframework.data.mongodb.core.mapping.Document;
 
 import com.google.common.base.MoreObjects;
 
-import eu.dzhw.fdz.metadatamanagement.domain.validation.SurveyHasSameDataAcquisitionProject;
 import net.karneim.pojobuilder.GeneratePojoBuilder;
 
 /**
@@ -19,7 +18,6 @@ import net.karneim.pojobuilder.GeneratePojoBuilder;
  */
 @Document(collection = "data_sets")
 @GeneratePojoBuilder(intoPackage = "eu.dzhw.fdz.metadatamanagement.domain.builders")
-@SurveyHasSameDataAcquisitionProject
 public class DataSet extends AbstractRdcDomainObjectWithProjectSurvey {
 
 

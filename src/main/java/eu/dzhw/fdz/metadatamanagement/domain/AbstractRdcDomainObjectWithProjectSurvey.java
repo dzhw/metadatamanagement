@@ -16,6 +16,7 @@ import eu.dzhw.fdz.metadatamanagement.domain.validation.SurveyHasSameDataAcquisi
  * @author Daniel Katzberg
  *
  */
+@SurveyHasSameDataAcquisitionProject
 public abstract class AbstractRdcDomainObjectWithProjectSurvey extends AbstractRdcDomainObject {
 
   @NotEmpty
