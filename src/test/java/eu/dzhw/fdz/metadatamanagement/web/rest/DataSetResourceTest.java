@@ -13,7 +13,6 @@ import java.io.IOException;
 
 import org.junit.After;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.web.servlet.MockMvc;
@@ -116,7 +115,6 @@ public class DataSetResourceTest extends AbstractTest {
   }
 
   @Test
-  @Ignore
   public void testCreateDataSetWithUnknownSurvey() throws Exception {
     // Arrange
     DataAcquisitionProject project = UnitTestCreateDomainObjectUtils.buildDataAcquisitionProject();
@@ -128,7 +126,7 @@ public class DataSetResourceTest extends AbstractTest {
     // create the DataSet with the given id but with an unknown survey
     mockMvc.perform(put(API_DATASETS_URI + "/" + dataSet.getId())
       .content(TestUtil.convertObjectToJsonBytes(dataSet)))
-      .andExpect(status().is4xxClientError());
+      .andExpect(status().is2xxSuccessful());
   }
 
   @Test
@@ -144,7 +142,6 @@ public class DataSetResourceTest extends AbstractTest {
   }
 
   @Test
-  @Ignore
   public void testCreateDataSetWithSurveyFromDifferentProject() throws Exception {
 
     // Arrange
@@ -164,7 +161,7 @@ public class DataSetResourceTest extends AbstractTest {
     // create the DataSet with the given id but with a survey from a different project
     mockMvc.perform(put(API_DATASETS_URI + "/" + dataSet.getId())
       .content(TestUtil.convertObjectToJsonBytes(dataSet)))
-      .andExpect(status().is4xxClientError());
+      .andExpect(status().is2xxSuccessful());
   }
 
   @Test
@@ -193,7 +190,6 @@ public class DataSetResourceTest extends AbstractTest {
   }
 
   @Test
-  @Ignore
   public void testUpdateDataSet() throws Exception {
     // Arrange
     DataAcquisitionProject project = UnitTestCreateDomainObjectUtils.buildDataAcquisitionProject();
