@@ -39,7 +39,10 @@
             </button>
             <button type="file" class="btn btn-default" ngf-select="onSurveyUpload($file)" accept=".xlsx">
                 <span class="glyphicon glyphicon-cloud-upload"></span>
-                {{'metadatamanagementApp.dataAcquisitionProject.detail.upload' | translate}}</button>
+                {{'metadatamanagementApp.dataAcquisitionProject.detail.upload.surveys' | translate}}</button>
+            <button type="file" class="btn btn-default" ngf-select="onDataSetUpload($file)" accept=".xlsx">
+                    <span class="glyphicon glyphicon-cloud-upload"></span>
+                    {{'metadatamanagementApp.dataAcquisitionProject.detail.upload.datasets' | translate}}</button>
         </div>
         <div class="col-md-6">
           <div class="row" style="padding-top: 7px">

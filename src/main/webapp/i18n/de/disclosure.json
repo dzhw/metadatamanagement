@@ -1,21 +1,21 @@
 {
-    "disclosure": {
-        "title":"Impressum",
-        "phone":"Tel: ",
-        "fax":"Fax: ",
-        "or":"oder",
-        "responsibleUrlsText":"Sämtliche Links werden in regelmäßigen Abständen geprüft. Die Verantwortung für den Inhalt der Links zu Seiten außerhalb dieses Angebots wird ausdrücklich ausgeschlossen.",
-        "Supervisory":"Vorsitzender des Aufsichtsrats: Ministerialdirigent ",
-        "scientificDirectorFemale":"Wissenschaftliche Geschäftsführerin: ",
-        "scientificDirectorMale":"Wissenschaftlicher Geschäftsführer: ",
-        "executiveDirectorFemale":"Administrative Geschäftsführerin: ",
-        "executiveDirectorMale":"Administrativer Geschäftsführer: ",
-        "registerCourt":"Registergericht: Amtsgericht ",
-        "identificationNumber":"Umsatzsteuer-Identifikationsnummer: ",
-        "responsiblePressLaw":"Verantwortlich im Sinn des Presserechts für den redaktionellen Inhalt: ",
-        "copyright":"Copyright: ",
-        "copyrightGeneral":"Für die Internet-Seiten des Deutschen Zentrums für Hochschul- und Wissenschaftsforschung unter <a href='https://metadatamanagement.cfapps.io'>metadatamanagement.cfapps.io</a> liegen Copyright und alle weiteren Rechte beim DZHW - sofern nichts anderes an der entsprechenden Stelle angegeben ist. Die Weiterverbreitung, auch in Auszügen, für pädagogische, wissenschaftliche oder private Zwecke ist unter Angabe der Quelle gestattet. Eine Verwendung im gewerblichen Bereich bedarf der Genehmigung durch das DZHW.",
-        "copyrightEmployees":"Für den Fall, dass auf unserer Website unzutreffende Informationen veröffentlicht oder in Programmen oder Datenbanken Fehler enthalten sein sollten, kommt eine Haftung nur bei grober Fahrlässigkeit der DZHW GmbH oder ihrer Mitarbeiter_innen in Betracht.",
-        "copyrightEditorial":"Die Redaktion übernimmt keine Haftung für unverlangt eingesandte Manuskripte, Fotos und Illustrationen."
-    }
+  "disclosure": {
+    "title": "Impressum",
+    "phone": "Tel: ",
+    "fax": "Fax: ",
+    "or": "oder",
+    "responsibleUrlsText": "Sämtliche Links werden in regelmäßigen Abständen geprüft. Die Verantwortung für den Inhalt der Links zu Seiten außerhalb dieses Angebots wird ausdrücklich ausgeschlossen.",
+    "Supervisory": "Vorsitzender des Aufsichtsrats: Ministerialdirigent ",
+    "scientificDirectorFemale": "Wissenschaftliche Geschäftsführerin: ",
+    "scientificDirectorMale": "Wissenschaftlicher Geschäftsführer: ",
+    "executiveDirectorFemale": "Administrative Geschäftsführerin: ",
+    "executiveDirectorMale": "Administrativer Geschäftsführer: ",
+    "registerCourt": "Registergericht: Amtsgericht ",
+    "identificationNumber": "Umsatzsteuer-Identifikationsnummer: ",
+    "responsiblePressLaw": "Verantwortlich im Sinn des Presserechts für den redaktionellen Inhalt: ",
+    "copyright": "Copyright: ",
+    "copyrightGeneral": "Für die Internet-Seiten des Deutschen Zentrums für Hochschul- und Wissenschaftsforschung unter <a href='https://metadatamanagement.cfapps.io/#/de/'>metadatamanagement.cfapps.io</a> liegen Copyright und alle weiteren Rechte beim DZHW - sofern nichts anderes an der entsprechenden Stelle angegeben ist. Die Weiterverbreitung, auch in Auszügen, für pädagogische, wissenschaftliche oder private Zwecke ist unter Angabe der Quelle gestattet. Eine Verwendung im gewerblichen Bereich bedarf der Genehmigung durch das DZHW.",
+    "copyrightEmployees": "Für den Fall, dass auf unserer Website unzutreffende Informationen veröffentlicht oder in Programmen oder Datenbanken Fehler enthalten sein sollten, kommt eine Haftung nur bei grober Fahrlässigkeit der DZHW GmbH oder ihrer Mitarbeiter_innen in Betracht.",
+    "copyrightEditorial": "Die Redaktion übernimmt keine Haftung für unverlangt eingesandte Manuskripte, Fotos und Illustrationen."
+  }
 }

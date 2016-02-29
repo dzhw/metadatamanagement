@@ -19,7 +19,10 @@
         "title": "Datenerhebungsprojekt",
         "progress": "Upload Fortschritt:",
         "download": "Variablenreport herunterladen",
-        "upload": "Surveys hochladen",
+        "upload": {
+          "surveys": "Erhebungen hochladen",
+          "datasets": "Datensätze hochladen"
+        },
         "uploadprotocol": "Upload Protokoll",
         "success": "Erfolg",
         "error": "Fehler",

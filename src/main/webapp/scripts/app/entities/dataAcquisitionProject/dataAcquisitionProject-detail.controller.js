@@ -4,7 +4,7 @@
 angular.module('metadatamanagementApp')
   .controller('DataAcquisitionProjectDetailController',
     function($scope, $translate, entity, DataAcquisitionProjectExportService,
-      ExcelParser, Survey, SurveyDeleteResource) {
+      ExcelParser, Survey, SurveyDeleteResource, DataSet) {
       $scope.dataAcquisitionProject = entity;
       $scope.initUploadStatus = function(itemsToUpload) {
         $scope.uploadStatus = {
@@ -114,10 +114,45 @@ angular.module('metadatamanagementApp')
             $scope.uploadStatus.pushError(error);
           });
       };
+      var saveDataSets = function(dataSets) {
+        $scope.initUploadStatus(dataSets.length);
+        for (var i = 0; i < dataSets.length; i++) {
+          var data = dataSets[i];
+          console.log(data);
+          if (!data.id || data.id === '') {
+            $scope.uploadStatus.pushError($translate.instant(
+            'metadatamanagementApp.dataAcquisitionProject.detail.logMessages.' +
+            'missingId',{index: i + 1}));
+          } else {
+            var dataSetObj = {
+              id: data.id,
+              dataAcquisitionProjectId: $scope.dataAcquisitionProject.id,
+              questionnaireId: data.questionnaireId,
+              description: {
+                en: data['description.en'],
+                de: data['description.de']
+              },
+              variableIds: data.variableIds.split(',')
+            };
+            var dataSet = new DataSet(dataSetObj);
+            dataSet.$save().then(function() {
+              $scope.uploadStatus.pushSuccess();
+            }).catch(function(error) {
+              $scope.uploadStatus.pushError(error);
+            });
+          }
+        }
+      };
       $scope.onSurveyUpload = function(file) {
         if (file !== null) {
           ExcelParser.readFileAsync(file)
             .then(saveSurveys);
+        }
+      };
+      $scope.onDataSetUpload = function(file) {
+        if (file !== null) {
+          ExcelParser.readFileAsync(file)
+            .then(saveDataSets);
         }
       };
       $scope.exportToODT = function() {

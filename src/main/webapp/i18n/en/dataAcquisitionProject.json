@@ -19,7 +19,10 @@
         "title": "Data Acquisition Project",
         "progress": "Upload Progress:",
         "download": "Download Variable Report",
-        "upload": "Upload Surveys",
+        "upload": {
+          "surveys": "Upload Surveys",
+          "datasets": "Upload Datasets"
+        },
         "uploadprotocol": "Upload Protocol",
         "success": "Success",
         "error": "Error",
