@@ -13,7 +13,8 @@ function logout() {
   //Click at Logout
   element(by.ngClick('logout()')).click();
 
-  element.all(by.dataTranslate('global.menu.entities.main')).then(function (entities) {
+  element.all(by.dataTranslate('global.menu.entities.main')).then(function(
+    entities) {
     expect(entities.length).toBe(0); //four drop downs
   });
 }
@@ -21,7 +22,8 @@ function logout() {
 function login() {
 
   //Expect no entities dropdown (only visible with a login)
-  expect(element(by.dataTranslate('global.menu.entities.main')).isPresent()).toBe(false);
+  expect(element(by.dataTranslate('global.menu.entities.main')).isPresent()).toBe(
+    false);
 
   //Click at 'Account'
   element(by.dataTranslate('global.menu.account.main')).click();
@@ -40,7 +42,8 @@ function login() {
   element(by.id('password')).sendKeys('admin');
   element(by.dataTranslate('login.form.button')).click();
 
-  element.all(by.dataTranslate('global.menu.entities.main')).then(function (entities) {
+  element.all(by.dataTranslate('global.menu.entities.main')).then(function(
+    entities) {
     expect(entities.length).toBe(1); //four drop downs
   });
 }

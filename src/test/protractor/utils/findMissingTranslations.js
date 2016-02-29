@@ -56,19 +56,15 @@ function testMissingTranslations(language, pages) {
   for (var pageIndex = 0; pageIndex < pages.length; pageIndex++) {
 
     //load page
-    browser.get(actualLanguage + pages[
-      pageIndex]);
-
+    browser.get(actualLanguage + pages[pageIndex]);
     counter = checkMissingLinks(browser, pages, counter);
 
     //check for missing translations
-    element(by.tagName('html')).getInnerHtml().then(
-      findMissingTranslations);
+    element(by.tagName('html')).getInnerHtml().then(findMissingTranslations);
   }
 
   //Test for missing translations
-  expect(foundMissingTranslationsArray).toEqual(
-    []);
+  expect(foundMissingTranslationsArray).toEqual([]);
 }
 
 module.exports.testMissingTranslations = testMissingTranslations;

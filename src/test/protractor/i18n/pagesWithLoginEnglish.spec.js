@@ -6,7 +6,7 @@
 
 'use strict';
 
-describe('Check ENGLISH language with a login for ... ', function() {
+describe('Check ENGLISH language with a login for ', function() {
   var loginHelper = require('../utils/loginHelper');
   var cacheHelper = require('../utils/cacheHelper');
   var utilMissingTranslations = require('../utils/findMissingTranslations');

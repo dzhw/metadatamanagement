@@ -8,7 +8,7 @@
 var utilMissingTranslations = require('../utils/findMissingTranslations');
 var cacheHelper = require('../utils/cacheHelper');
 
-describe('Check GERMAN language elements for ...', function() {
+describe('Check GERMAN language elements for ', function() {
 
   afterAll(function() {
     cacheHelper.clearCache();
