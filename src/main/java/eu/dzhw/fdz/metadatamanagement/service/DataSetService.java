@@ -51,9 +51,18 @@ public class DataSetService {
    */
   @HandleAfterDelete
   public void onDataAcquisitionProjectDeleted(DataAcquisitionProject dataAcquisitionProject) {
-    List<DataSet> deletedDataSets =
-        this.dataSetRepository.deleteByDataAcquisitionProjectId(dataAcquisitionProject.getId());
-    deletedDataSets.forEach(dataSet -> eventPublisher.publishEvent(new AfterDeleteEvent(dataSet)));
+    deleteDataSetsByProjectId(dataAcquisitionProject.getId());
   }
-
+  
+  /**
+   * A service method for deletion of dataSets within a data acquisition project.
+   * @param dataAcquisitionProjectId the id for to the data acquisition project.
+   * @return List of deleted dataSets
+   */
+  public List<DataSet> deleteDataSetsByProjectId(String dataAcquisitionProjectId) {
+    List<DataSet> deletedDataSets =
+        this.dataSetRepository.deleteByDataAcquisitionProjectId(dataAcquisitionProjectId);
+    deletedDataSets.forEach(dataSet -> eventPublisher.publishEvent(new AfterDeleteEvent(dataSet)));
+    return deletedDataSets;
+  }
 }

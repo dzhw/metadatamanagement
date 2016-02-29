@@ -4,7 +4,8 @@
 angular.module('metadatamanagementApp')
   .controller('DataAcquisitionProjectDetailController',
     function($scope, $translate, entity, DataAcquisitionProjectExportService,
-      ExcelParser, Survey, SurveyDeleteResource, DataSet) {
+      ExcelParser, Survey, SurveyDeleteResource,
+      DataSet, DataSetDeleteResource) {
       $scope.dataAcquisitionProject = entity;
       $scope.initUploadStatus = function(itemsToUpload) {
         $scope.uploadStatus = {
@@ -114,11 +115,14 @@ angular.module('metadatamanagementApp')
             $scope.uploadStatus.pushError(error);
           });
       };
+
       var saveDataSets = function(dataSets) {
         $scope.initUploadStatus(dataSets.length);
+        DataSetDeleteResource.deleteByDataAcquisitionProjectId(
+          {dataAcquisitionProjectId: $scope.dataAcquisitionProject.id},
+          function() {
         for (var i = 0; i < dataSets.length; i++) {
           var data = dataSets[i];
-          console.log(data);
           if (!data.id || data.id === '') {
             $scope.uploadStatus.pushError($translate.instant(
             'metadatamanagementApp.dataAcquisitionProject.detail.logMessages.' +
@@ -142,6 +146,7 @@ angular.module('metadatamanagementApp')
             });
           }
         }
+      });
       };
       $scope.onSurveyUpload = function(file) {
         if (file !== null) {
