@@ -1,23 +1,23 @@
 {
   "name": "angular-translate-interpolation-messageformat",
   "description": "A plugin for Angular Translate",
-  "version": "2.9.2",
+  "version": "2.10.0",
   "main": "./angular-translate-interpolation-messageformat.js",
   "ignore": [],
   "author": "Pascal Precht",
   "license": "MIT",
   "dependencies": {
-    "angular-translate": "~2.9.2",
+    "angular-translate": "~2.10.0",
     "messageformat": "~0.1.6"
   },
   "homepage": "https://github.com/PascalPrecht/bower-angular-translate-interpolation-messageformat",
-  "_release": "2.9.2",
+  "_release": "2.10.0",
   "_resolution": {
     "type": "version",
-    "tag": "2.9.2",
-    "commit": "bb20fee84221889e81eaa14e928f9202d979b199"
+    "tag": "2.10.0",
+    "commit": "9036f3bd8abe5e07e1b317a15e2c9efdc194f415"
   },
   "_source": "git://github.com/PascalPrecht/bower-angular-translate-interpolation-messageformat.git",
-  "_target": "2.9.2",
+  "_target": "2.10.0",
   "_originalSource": "angular-translate-interpolation-messageformat"
 }
