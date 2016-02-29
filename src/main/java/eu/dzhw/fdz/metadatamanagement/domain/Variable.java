@@ -29,7 +29,7 @@ import net.karneim.pojobuilder.GeneratePojoBuilder;
  */
 @Document(collection = "variables")
 @GeneratePojoBuilder(intoPackage = "eu.dzhw.fdz.metadatamanagement.domain.builders")
-@CompoundIndex(def = "{name: 1, fdz_project: 1}", unique = true)
+@CompoundIndex(def = "{name: 1, dataAcquisitionProjectId: 1}", unique = true)
 public class Variable extends AbstractRdcDomainObjectWithProjectSurvey {
 
   @Id

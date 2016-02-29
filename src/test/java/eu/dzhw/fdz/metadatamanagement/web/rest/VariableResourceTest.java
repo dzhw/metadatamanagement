@@ -171,6 +171,55 @@ public class VariableResourceTest extends AbstractTest {
       .content(TestUtil.convertObjectToJsonBytes(variable)))
       .andExpect(status().isBadRequest());
   }
+  
+  @Test
+  public void testCreateVariableWithDuplicateNameWithinProject() throws Exception {
+    DataAcquisitionProject project = new DataAcquisitionProjectBuilder().withId("testProject")
+      .withSurveySeries(new I18nStringBuilder().build())
+      .withPanelName(new I18nStringBuilder().build())
+      .build();
+    dataAcquisitionProjectRepository.save(project);
+
+    Survey survey = new SurveyBuilder().withId("testSurvey")
+      .withDataAcquisitionProjectId(project.getId())
+      .withFieldPeriod(new PeriodBuilder().withStart(LocalDate.now())
+        .withEnd(LocalDate.now())
+        .build())
+      .withTitle(new I18nStringBuilder().withDe("Titel")
+        .withEn("title")
+        .build())
+      .withQuestionnaireId("QuestionnaireId")
+      .build();
+    surveyRepository.save(survey);
+
+    Variable variable = new VariableBuilder().withId("testVariable")
+      .withDataType(DataType.numeric)
+      .withScaleLevel(ScaleLevel.continous)
+      .withDataAcquisitionProjectId(project.getId())
+      .withSurveyId(survey.getId())
+      .withLabel("label")
+      .withName("name")
+      .build();
+
+    // create the first variable
+    mockMvc.perform(put(API_VARIABLES_URI + "/" + variable.getId())
+      .content(TestUtil.convertObjectToJsonBytes(variable)))
+      .andExpect(status().isCreated());
+    
+    Variable variable2 = new VariableBuilder().withId("testVariable2")
+        .withDataType(DataType.numeric)
+        .withScaleLevel(ScaleLevel.continous)
+        .withDataAcquisitionProjectId(project.getId())
+        .withSurveyId(survey.getId())
+        .withLabel("label2")
+        .withName("name")
+        .build();
+    
+    // create the second variable with the same name
+    mockMvc.perform(put(API_VARIABLES_URI + "/" + variable2.getId())
+      .content(TestUtil.convertObjectToJsonBytes(variable2)))
+      .andExpect(status().is4xxClientError());
+  }
 
   @Test
   public void testCreateVariableWithUnknownSurvey() throws Exception {
