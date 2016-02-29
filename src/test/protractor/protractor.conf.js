@@ -17,12 +17,13 @@ exports.config = {
 
   baseUrl: 'https://metadatamanagement.cfapps.io/',
   specs: [
-    //'login/login.spec.js',
-    //'i18n/publicPagesGerman.spec.js',
-    //'i18n/publicPagesEnglish.spec.js',
-    //'i18n/pagesWithLoginGerman.spec.js',
-    //'i18n/pagesWithLoginEnglish.spec.js',
-    'brokenLinks/publicBrokenLinksGerman.spec.js'
+    'login/login.spec.js',
+    'i18n/publicPagesGerman.spec.js',
+    'i18n/publicPagesEnglish.spec.js',
+    'i18n/pagesWithLoginGerman.spec.js',
+    'i18n/pagesWithLoginEnglish.spec.js',
+    'brokenLinks/publicBrokenLinksGerman.spec.js',
+    'brokenLinks/publicBrokenLinksEnglish.spec.js'
   ],
   jasmineNodeOpts: {
     defaultTimeoutInterval: 180000
