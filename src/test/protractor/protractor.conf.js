@@ -15,17 +15,17 @@ exports.config = {
     require('./utils/locators.js');
   },
 
-  //baseUrl: 'https://metadatamanagement.cfapps.io/',
-  baseUrl: 'http://localhost:8080/',
+  baseUrl: 'https://metadatamanagement.cfapps.io/',
   specs: [
-    //'login/login.spec.js',
-    //'i18n/publicPagesGerman.spec.js',
-    //'i18n/publicPagesEnglish.spec.js',
-    //'i18n/pagesWithLoginGerman.spec.js',
-    //'i18n/pagesWithLoginEnglish.spec.js',
-    //'brokenLinks/publicBrokenLinksGerman.spec.js',
-    //'brokenLinks/publicBrokenLinksEnglish.spec.js',
-    'brokenLinks/withLoginBrokenLinksGerman.spec.js'
+    'login/login.spec.js',
+    'i18n/publicPagesGerman.spec.js',
+    'i18n/publicPagesEnglish.spec.js',
+    'i18n/pagesWithLoginGerman.spec.js',
+    'i18n/pagesWithLoginEnglish.spec.js',
+    'brokenLinks/publicBrokenLinksGerman.spec.js',
+    'brokenLinks/publicBrokenLinksEnglish.spec.js',
+    'brokenLinks/withLoginBrokenLinksGerman.spec.js',
+    //'brokenLinks/withLoginBrokenLinksEnglish.spec.js'
   ],
   jasmineNodeOpts: {
     defaultTimeoutInterval: 10000
