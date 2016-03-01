@@ -703,10 +703,10 @@ module.exports = function(grunt) {
 
   grunt.registerTask('test', ['clean:server', 'modernizr:dist',
       'ngconstant:dev', 'sass:server', 'wiredep:test', 'karma',
-      'jshint', 'jscs', 'htmlangular']);
+      'jshint', 'jscs']);
 
-  grunt.registerTask('build', ['test', 'clean:dist', 'wiredep:app',
-   'ngconstant:prod',
+  grunt.registerTask('build', ['test', 'htmlangular', 'clean:dist',
+      'wiredep:app', 'ngconstant:prod',
       'useminPrepare', 'ngtemplates', 'imagemin', 'svgmin',
       'concat', 'copy:fonts', 'copy:dist', 'ngAnnotate', 'cssmin',
       'autoprefixer', 'uglify', 'rev', 'usemin', 'htmlmin']);

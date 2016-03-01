@@ -5,20 +5,21 @@
 /* @Author Daniel Katzberg */
 'use strict';
 
+function checkCurrentUrl(checkLinkUrl) {
+  browser.getCurrentUrl().then(function(urlCurrent) {
+    expect(checkLinkUrl).toBe(urlCurrent);
+  });
+}
+
+function waitForLinks() {
+  return browser.isElementPresent(by.tagName('a'));
+}
+
 //This function checks links of a page.
 //If the link is broken, this method return a error
 function checkBrokenLinks(links) {
 
-  /*var actualPagePath = '';
-  browser.getCurrentUrl().then(function(urlCurrent) {
-    actualPagePath = urlCurrent;
-  });*/
-
   for (var linksIndex = 0; linksIndex < links.length; linksIndex++) {
-
-    //load basic page page
-    //browser.get(actualPagePath);
-
     //ignore empty hrefs
     if (links[linksIndex].length === 0 ||
       links[linksIndex].indexOf('mailto') !== -1) {
@@ -38,18 +39,13 @@ function checkLinks(language, pages) {
 
   for (var pageIndex = 0; pageIndex < pages.length; pageIndex++) {
 
-    //load page
+    //load page and wait for it
     browser.get(language + pages[pageIndex]);
+    browser.wait(waitForLinks);
 
     //check for broken links
     element.all(by.tagName('a')).getAttribute('href').then(checkBrokenLinks);
   }
-}
-
-function checkCurrentUrl(checkLinkUrl) {
-  browser.getCurrentUrl().then(function(urlCurrent) {
-    expect(checkLinkUrl).toBe(urlCurrent);
-  });
 }
 
 module.exports.checkLinks = checkLinks;

@@ -22,8 +22,8 @@ function logout() {
 function login() {
 
   //Expect no entities dropdown (only visible with a login)
-  expect(element(by.dataTranslate('global.menu.entities.main')).isPresent()).toBe(
-    false);
+  expect(element(by.dataTranslate('global.menu.entities.main')).isPresent())
+    .toBe(false);
 
   //Click at 'Account'
   element(by.dataTranslate('global.menu.account.main')).click();
