@@ -37,7 +37,7 @@ describe('Check GERMAN language with a login for ', function() {
     cacheHelper.clearCache();
   });
 
-  xit('... welcome Page ', function() {
+  it('... welcome Page ', function() {
     var pages = ['/'];
 
     //Check broken links
@@ -45,7 +45,7 @@ describe('Check GERMAN language with a login for ', function() {
       utilMissingTranslations.germanLanguage, pages);
   });
 
-  xit('... dataAcquisitionProjects Page ', function() {
+  it('... dataAcquisitionProjects Page ', function() {
     var pages = ['/dataAcquisitionProjects'];
 
     //Check broken links
@@ -53,7 +53,7 @@ describe('Check GERMAN language with a login for ', function() {
       utilMissingTranslations.germanLanguage, pages);
   });
 
-  xit('... surveys Page ', function() {
+  it('... surveys Page ', function() {
     var pages = ['/surveys'];
 
     //Check broken links
@@ -61,7 +61,7 @@ describe('Check GERMAN language with a login for ', function() {
       utilMissingTranslations.germanLanguage, pages);
   });
 
-  xit('... variables Page ', function() {
+  it('... variables Page ', function() {
     var pages = ['/variables'];
 
     //Check broken links
@@ -69,7 +69,7 @@ describe('Check GERMAN language with a login for ', function() {
       utilMissingTranslations.germanLanguage, pages);
   });
 
-  xit('... settings Page ', function() {
+  it('... settings Page ', function() {
     var pages = ['/settings'];
 
     //Check broken links
@@ -77,7 +77,7 @@ describe('Check GERMAN language with a login for ', function() {
       utilMissingTranslations.germanLanguage, pages);
   });
 
-  xit('... password Page ', function() {
+  it('... password Page ', function() {
     var pages = ['/password'];
 
     //Check broken links
@@ -85,7 +85,7 @@ describe('Check GERMAN language with a login for ', function() {
       utilMissingTranslations.germanLanguage, pages);
   });
 
-  xit('... user-management Page ', function() {
+  it('... user-management Page ', function() {
     var pages = ['/user-management'];
 
     //Check broken links
@@ -93,7 +93,7 @@ describe('Check GERMAN language with a login for ', function() {
       utilMissingTranslations.germanLanguage, pages);
   });
 
-  xit('... tracker Page ', function() {
+  it('... tracker Page ', function() {
     var pages = ['/tracker'];
 
     //Check broken links
@@ -101,7 +101,7 @@ describe('Check GERMAN language with a login for ', function() {
       utilMissingTranslations.germanLanguage, pages);
   });
 
-  xit('... metrics Page ', function() {
+  it('... metrics Page ', function() {
     var pages = ['/metrics'];
 
     //Check broken links
@@ -109,7 +109,7 @@ describe('Check GERMAN language with a login for ', function() {
       utilMissingTranslations.germanLanguage, pages);
   });
 
-  xit('... health Page ', function() {
+  it('... health Page ', function() {
     var pages = ['/health'];
 
     //Check broken links
@@ -117,7 +117,7 @@ describe('Check GERMAN language with a login for ', function() {
       utilMissingTranslations.germanLanguage, pages);
   });
 
-  xit('... configuration Page ', function() {
+  it('... configuration Page ', function() {
     var pages = ['/configuration'];
 
     //Check broken links
@@ -133,7 +133,7 @@ describe('Check GERMAN language with a login for ', function() {
       utilMissingTranslations.germanLanguage, pages);
   });
 
-  xit('... logs Page ', function() {
+  it('... logs Page ', function() {
     var pages = ['/logs'];
 
     //Check broken links
@@ -141,7 +141,7 @@ describe('Check GERMAN language with a login for ', function() {
       utilMissingTranslations.germanLanguage, pages);
   });
 
-  xit('... disclosure Page ', function() {
+  it('... disclosure Page ', function() {
     var pages = ['/disclosure'];
 
     //Check broken links

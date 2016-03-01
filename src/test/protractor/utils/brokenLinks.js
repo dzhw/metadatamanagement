@@ -21,7 +21,7 @@ function checkBrokenLinks(links) {
 
   for (var linksIndex = 0; linksIndex < links.length; linksIndex++) {
     //ignore empty hrefs
-    if (links[linksIndex].length === 0 ||
+    if (!links[linksIndex] ||
       links[linksIndex].indexOf('mailto') !== -1) {
       continue;
     }
