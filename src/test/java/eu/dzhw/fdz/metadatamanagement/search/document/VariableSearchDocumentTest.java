@@ -9,6 +9,7 @@ import static org.junit.Assert.assertThat;
 import org.junit.Test;
 
 import eu.dzhw.fdz.metadatamanagement.domain.Variable;
+import eu.dzhw.fdz.metadatamanagement.domain.builders.I18nStringBuilder;
 import eu.dzhw.fdz.metadatamanagement.domain.builders.VariableBuilder;
 import eu.dzhw.fdz.metadatamanagement.domain.enumeration.DataType;
 import eu.dzhw.fdz.metadatamanagement.domain.enumeration.ScaleLevel;
@@ -27,7 +28,7 @@ public class VariableSearchDocumentTest {
     Variable variable = new VariableBuilder().withId("TestId")
       .withName("WithTestName")
       .withDataAcquisitionProjectId("ProjectIdTest")
-      .withLabel("TestLabel")
+      .withLabel(new I18nStringBuilder().withDe("TestLabel").withEn("TestLabel").build())
       .withScaleLevel(ScaleLevel.ordinal)
       .withDataType(DataType.string)
       .build();
@@ -62,7 +63,7 @@ public class VariableSearchDocumentTest {
     Variable variable = new VariableBuilder().withId("TestId")
       .withName("WithTestName")
       .withDataAcquisitionProjectId("ProjectIdTest")
-      .withLabel("TestLabel")
+      .withLabel(new I18nStringBuilder().withDe("TestLabel").withEn("TestLabel").build())
       .withScaleLevel(ScaleLevel.ordinal)
       .withDataType(DataType.string)
       .build();

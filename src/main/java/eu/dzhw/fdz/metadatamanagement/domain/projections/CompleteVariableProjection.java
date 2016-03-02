@@ -31,7 +31,7 @@ public interface CompleteVariableProjection
 
   ScaleLevel getScaleLevel();
 
-  String getLabel();
+  I18nString getLabel();
 
   List<Value> getValues();
 

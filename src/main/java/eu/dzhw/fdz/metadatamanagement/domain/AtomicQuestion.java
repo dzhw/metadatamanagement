@@ -2,6 +2,7 @@ package eu.dzhw.fdz.metadatamanagement.domain;
 
 import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.index.CompoundIndex;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import com.google.common.base.MoreObjects;
@@ -18,6 +19,7 @@ import net.karneim.pojobuilder.GeneratePojoBuilder;
  */
 @Document(collection = "atomic_questions")
 @GeneratePojoBuilder(intoPackage = "eu.dzhw.fdz.metadatamanagement.domain.builders")
+@CompoundIndex(def = "{name: 1, questionnaireId: 1}", unique = true)
 public class AtomicQuestion extends AbstractRdcDomainObject {
 
   @Id
@@ -44,8 +46,10 @@ public class AtomicQuestion extends AbstractRdcDomainObject {
   @DataAcquisitionProjectExists
   private String dataAcquisitionProjectId;
 
+  @NotEmpty
   private String questionnaireId;
 
+  @NotEmpty
   private String variableId;
 
   /*

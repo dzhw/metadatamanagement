@@ -135,7 +135,7 @@ public class UnitTestCreateDomainObjectUtils {
       .withScaleLevel(ScaleLevel.continous)
       .withDataAcquisitionProjectId(projectId)
       .withSurveyId(surveyId)
-      .withLabel("label")
+      .withLabel(new I18nStringBuilder().withDe("label").withEn("label").build())
       .withName("name")
       .withAccessWays(accessWays)
       .withDescription(new I18nStringBuilder().withDe("De Beschreibung")
@@ -168,6 +168,7 @@ public class UnitTestCreateDomainObjectUtils {
   public static Questionnaire buildQuestionnaire(String projectId) {
     return new QuestionnaireBuilder().withDataAcquisitionProjectId(projectId)
       .withId("testQuestionnaire")
+      .withSurveyId("testSurveyId")
       .build();
   }
 

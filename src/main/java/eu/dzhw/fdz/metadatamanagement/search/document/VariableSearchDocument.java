@@ -34,7 +34,7 @@ public class VariableSearchDocument {
     this.id = variable.getId();
     this.name = variable.getName();
     this.dataAcquisitionProjectId = variable.getDataAcquisitionProjectId();
-    this.label = variable.getLabel();
+    createLabel(variable, index);
     createScaleLevel(variable, index);
     createDataType(variable, index);
     createSurveyTitle(survey, index);
@@ -54,6 +54,21 @@ public class VariableSearchDocument {
         default:
           throw new RuntimeException("Unknown index:" + index);
       }
+    }
+  }
+
+  private void createLabel(Variable variable, ElasticsearchIndices index) {
+    switch (index) {
+      case METADATA_DE:
+        label = variable.getLabel()
+          .getDe();
+        break;
+      case METADATA_EN:
+        label = variable.getLabel()
+          .getEn();
+        break;
+      default:
+        throw new RuntimeException("Unknown index:" + index);
     }
   }
 

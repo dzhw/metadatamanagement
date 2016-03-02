@@ -1,5 +1,7 @@
 package eu.dzhw.fdz.metadatamanagement.domain;
 
+import org.hibernate.validator.constraints.NotEmpty;
+import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import com.google.common.base.MoreObjects;
@@ -16,6 +18,8 @@ import net.karneim.pojobuilder.GeneratePojoBuilder;
 @GeneratePojoBuilder(intoPackage = "eu.dzhw.fdz.metadatamanagement.domain.builders")
 public class BibliographicalReference extends AbstractRdcDomainObject {
 
+  @Id
+  @NotEmpty
   private String id;
 
   private String author;

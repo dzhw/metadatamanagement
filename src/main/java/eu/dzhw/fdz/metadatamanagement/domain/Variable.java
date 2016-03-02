@@ -6,7 +6,6 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
-import org.hibernate.validator.constraints.NotBlank;
 import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.CompoundIndex;
@@ -47,9 +46,8 @@ public class Variable extends AbstractRdcDomainObjectWithProjectSurvey {
   @NotNull
   private ScaleLevel scaleLevel;
 
-  @NotBlank
-  @Size(max = 128)
-  private String label;
+  @NotNull
+  private I18nString label;
 
   private List<Value> values;
 
@@ -138,11 +136,11 @@ public class Variable extends AbstractRdcDomainObjectWithProjectSurvey {
     this.scaleLevel = scaleLevel;
   }
 
-  public String getLabel() {
+  public I18nString getLabel() {
     return label;
   }
 
-  public void setLabel(String label) {
+  public void setLabel(I18nString label) {
     this.label = label;
   }
 

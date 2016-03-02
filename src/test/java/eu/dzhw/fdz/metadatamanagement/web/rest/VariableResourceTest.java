@@ -112,7 +112,7 @@ public class VariableResourceTest extends AbstractTest {
       .withScaleLevel(ScaleLevel.continous)
       .withDataAcquisitionProjectId(project.getId())
       .withSurveyId(survey.getId())
-      .withLabel("label")
+      .withLabel(new I18nStringBuilder().withDe("label").withEn("label").build())
       .withName("name")
       .build();
 
@@ -162,7 +162,7 @@ public class VariableResourceTest extends AbstractTest {
       .withScaleLevel(ScaleLevel.continous)
       .withDataAcquisitionProjectId(null)
       .withSurveyId(survey.getId())
-      .withLabel("label")
+      .withLabel(new I18nStringBuilder().withDe("label").withEn("label").build())
       .withName("name")
       .build();
 
@@ -197,7 +197,7 @@ public class VariableResourceTest extends AbstractTest {
       .withScaleLevel(ScaleLevel.continous)
       .withDataAcquisitionProjectId(project.getId())
       .withSurveyId(survey.getId())
-      .withLabel("label")
+      .withLabel(new I18nStringBuilder().withDe("label").withEn("label").build())
       .withName("name")
       .build();
 
@@ -211,7 +211,7 @@ public class VariableResourceTest extends AbstractTest {
         .withScaleLevel(ScaleLevel.continous)
         .withDataAcquisitionProjectId(project.getId())
         .withSurveyId(survey.getId())
-        .withLabel("label2")
+        .withLabel(new I18nStringBuilder().withDe("label").withEn("label").build())
         .withName("name")
         .build();
     
@@ -244,7 +244,7 @@ public class VariableResourceTest extends AbstractTest {
       .withScaleLevel(ScaleLevel.continous)
       .withDataAcquisitionProjectId(project.getId())
       .withSurveyId(survey.getId())
-      .withLabel("label")
+      .withLabel(new I18nStringBuilder().withDe("label").withEn("label").build())
       .withName("name")
       .build();
 
@@ -265,7 +265,7 @@ public class VariableResourceTest extends AbstractTest {
       .withDataType(DataType.numeric)
       .withScaleLevel(ScaleLevel.continous)
       .withDataAcquisitionProjectId(project.getId())
-      .withLabel("label")
+      .withLabel(new I18nStringBuilder().withDe("label").withEn("label").build())
       .withName("name")
       .build();
 
@@ -306,7 +306,7 @@ public class VariableResourceTest extends AbstractTest {
       .withScaleLevel(ScaleLevel.continous)
       .withDataAcquisitionProjectId(project1.getId())
       .withSurveyId(survey.getId())
-      .withLabel("label")
+      .withLabel(new I18nStringBuilder().withDe("label").withEn("label").build())
       .withName("name")
       .build();
 
@@ -341,7 +341,7 @@ public class VariableResourceTest extends AbstractTest {
       .withScaleLevel(ScaleLevel.continous)
       .withDataAcquisitionProjectId(project.getId())
       .withSurveyId(survey.getId())
-      .withLabel("label")
+      .withLabel(new I18nStringBuilder().withDe("label").withEn("label").build())
       .withName("name")
       .build();
 
@@ -388,7 +388,7 @@ public class VariableResourceTest extends AbstractTest {
       .withScaleLevel(ScaleLevel.continous)
       .withDataAcquisitionProjectId(project.getId())
       .withSurveyId(survey.getId())
-      .withLabel("label")
+      .withLabel(new I18nStringBuilder().withDe("label").withEn("label").build())
       .withName("name")
       .build();
 
@@ -397,7 +397,7 @@ public class VariableResourceTest extends AbstractTest {
       .content(TestUtil.convertObjectToJsonBytes(variable)))
       .andExpect(status().isCreated());
 
-    variable.setLabel("modified");
+    variable.setLabel(new I18nStringBuilder().withDe("modified").withEn("modified").build());
 
     // update the variable with the given id
     mockMvc.perform(put(API_VARIABLES_URI + "/" + variable.getId())
@@ -409,7 +409,7 @@ public class VariableResourceTest extends AbstractTest {
       .andExpect(status().isOk())
       .andExpect(jsonPath("$.id", is(variable.getId())))
       .andExpect(jsonPath("$.version", is(1)))
-      .andExpect(jsonPath("$.label", is("modified")));
+      .andExpect(jsonPath("$.label.de", is("modified")));
 
     // check that the variable search documents have been updated
     elasticsearchAdminService.refreshAllIndices();
@@ -447,7 +447,7 @@ public class VariableResourceTest extends AbstractTest {
       .withScaleLevel(ScaleLevel.continous)
       .withDataAcquisitionProjectId(project.getId())
       .withSurveyId(survey.getId())
-      .withLabel("label")
+      .withLabel(new I18nStringBuilder().withDe("label").withEn("label").build())
       .withName("name")
       .build();
 
@@ -493,7 +493,7 @@ public class VariableResourceTest extends AbstractTest {
       .withScaleLevel(ScaleLevel.continous)
       .withDataAcquisitionProjectId(project.getId())
       .withSurveyId(survey.getId())
-      .withLabel("label")
+      .withLabel(new I18nStringBuilder().withDe("label").withEn("label").build())
       .withName("name")
       .build();
 

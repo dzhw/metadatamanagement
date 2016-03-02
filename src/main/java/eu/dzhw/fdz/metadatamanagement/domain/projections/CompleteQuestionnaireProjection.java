@@ -15,5 +15,6 @@ import eu.dzhw.fdz.metadatamanagement.domain.Questionnaire;
 public interface CompleteQuestionnaireProjection extends AbstractRdcDomainObjectProjection {
 
   String getDataAcquisitionProjectId();
-
+  
+  String getSurveyId();
 }

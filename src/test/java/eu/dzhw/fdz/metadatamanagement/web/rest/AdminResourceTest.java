@@ -112,7 +112,7 @@ public class AdminResourceTest extends AbstractTest {
     Variable variable = new VariableBuilder().withDataAcquisitionProjectId(project.getId())
       .withSurveyId(survey.getId())
       .withId("testId")
-      .withLabel("label")
+      .withLabel(new I18nStringBuilder().withDe("label").withEn("label").build())
       .withName("name")
       .withScaleLevel(ScaleLevel.nominal)
       .withDataType(DataType.numeric)

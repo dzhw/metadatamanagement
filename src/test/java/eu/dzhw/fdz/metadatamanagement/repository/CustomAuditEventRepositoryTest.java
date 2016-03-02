@@ -30,9 +30,13 @@ public class CustomAuditEventRepositoryTest extends AbstractTest {
 
   @Inject
   private AuditEventRepository auditEventRepository;
+  
+  @Inject
+  private PersistenceAuditEventRepository persistenceAuditEventRepository;
 
   @Before
   public void before() {
+    persistenceAuditEventRepository.deleteAll();
     AuditEvent auditEvent = new AuditEvent("principal", "type", new HashMap<>());
     this.auditEventRepository.add(auditEvent);
   }

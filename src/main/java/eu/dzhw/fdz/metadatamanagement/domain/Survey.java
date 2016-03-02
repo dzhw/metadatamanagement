@@ -1,5 +1,7 @@
 package eu.dzhw.fdz.metadatamanagement.domain;
 
+import java.util.List;
+
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 
@@ -38,6 +40,8 @@ public class Survey extends AbstractRdcDomainObject {
 
   @NotEmpty
   private String questionnaireId;
+  
+  private List<String> dataSetIds;
 
   /*
    * (non-Javadoc)
@@ -99,5 +103,13 @@ public class Survey extends AbstractRdcDomainObject {
 
   public void setQuestionnaireId(String questionnaireId) {
     this.questionnaireId = questionnaireId;
+  }
+
+  public List<String> getDataSetIds() {
+    return dataSetIds;
+  }
+
+  public void setDataSetIds(List<String> dataSetIds) {
+    this.dataSetIds = dataSetIds;
   }
 }

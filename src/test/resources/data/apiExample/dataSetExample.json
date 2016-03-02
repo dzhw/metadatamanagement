@@ -1,6 +1,8 @@
 {
   "dataAcquisitionProjectId": "ATestProject",
-  "surveyId": "FDZID001",
+  "surveyIds": [
+  	"FDZID001"
+  ],
   "description": {
     "de": "Eine Beschreibung des Datensets",
     "en": "A description for the data set."
