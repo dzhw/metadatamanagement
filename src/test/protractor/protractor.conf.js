@@ -24,11 +24,11 @@ exports.config = {
     'i18n/pagesWithLoginEnglish.spec.js',
     'brokenLinks/publicBrokenLinksGerman.spec.js',
     'brokenLinks/publicBrokenLinksEnglish.spec.js',
-    //'brokenLinks/withLoginBrokenLinksGerman.spec.js',
-    //'brokenLinks/withLoginBrokenLinksEnglish.spec.js'
+    'brokenLinks/withLoginBrokenLinksGerman.spec.js',
+    'brokenLinks/withLoginBrokenLinksEnglish.spec.js'
   ],
   jasmineNodeOpts: {
-    defaultTimeoutInterval: 10000
+    defaultTimeoutInterval: 120000
   },
   allScriptsTimeout: 120000
 };

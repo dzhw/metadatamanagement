@@ -8,7 +8,7 @@
 
 'use strict';
 
-describe('Check GERMAN language with a login for ', function() {
+describe('Check ENGLISH language with a login for ', function() {
   var brokenLinks = require('../utils/brokenLinks');
   var utilMissingTranslations = require('../utils/findMissingTranslations');
   var cacheHelper = require('../utils/cacheHelper');
@@ -16,7 +16,7 @@ describe('Check GERMAN language with a login for ', function() {
 
   //Login only once
   beforeEach(function() {
-    browser.get(utilMissingTranslations.germanLanguage + '/');
+    browser.get(utilMissingTranslations.englishLanguage + '/');
     loginHelper.login();
     browser.ignoreSynchronization = true;
   });
@@ -24,7 +24,7 @@ describe('Check GERMAN language with a login for ', function() {
   //Logout only once
   afterEach(function() {
     browser.ignoreSynchronization = false;
-    browser.get(utilMissingTranslations.germanLanguage + '/');
+    browser.get(utilMissingTranslations.englishLanguage + '/');
     loginHelper.logout();
     cacheHelper.clearCache();
   });
@@ -34,7 +34,7 @@ describe('Check GERMAN language with a login for ', function() {
 
     //Check broken links
     brokenLinks.checkLinks(
-      utilMissingTranslations.germanLanguage, pages);
+      utilMissingTranslations.englishLanguage, pages);
   });
 
   it('... dataAcquisitionProjects Page ', function() {
@@ -42,7 +42,7 @@ describe('Check GERMAN language with a login for ', function() {
 
     //Check broken links
     brokenLinks.checkLinks(
-      utilMissingTranslations.germanLanguage, pages);
+      utilMissingTranslations.englishLanguage, pages);
   });
 
   it('... surveys Page ', function() {
@@ -50,15 +50,15 @@ describe('Check GERMAN language with a login for ', function() {
 
     //Check broken links
     brokenLinks.checkLinks(
-      utilMissingTranslations.germanLanguage, pages);
+      utilMissingTranslations.englishLanguage, pages);
   });
 
   xit('... variables Page ', function() {
-    var pages = ['/variables?page=1'];
+    var pages = ['/variables'];
 
     //Check broken links
     brokenLinks.checkLinks(
-      utilMissingTranslations.germanLanguage, pages);
+      utilMissingTranslations.englishLanguage, pages);
   });
 
   it('... settings Page ', function() {
@@ -66,7 +66,7 @@ describe('Check GERMAN language with a login for ', function() {
 
     //Check broken links
     brokenLinks.checkLinks(
-      utilMissingTranslations.germanLanguage, pages);
+      utilMissingTranslations.englishLanguage, pages);
   });
 
   it('... password Page ', function() {
@@ -74,7 +74,7 @@ describe('Check GERMAN language with a login for ', function() {
 
     //Check broken links
     brokenLinks.checkLinks(
-      utilMissingTranslations.germanLanguage, pages);
+      utilMissingTranslations.englishLanguage, pages);
   });
 
   it('... user-management Page ', function() {
@@ -82,7 +82,7 @@ describe('Check GERMAN language with a login for ', function() {
 
     //Check broken links
     brokenLinks.checkLinks(
-      utilMissingTranslations.germanLanguage, pages);
+      utilMissingTranslations.englishLanguage, pages);
   });
 
   it('... tracker Page ', function() {
@@ -90,7 +90,7 @@ describe('Check GERMAN language with a login for ', function() {
 
     //Check broken links
     brokenLinks.checkLinks(
-      utilMissingTranslations.germanLanguage, pages);
+      utilMissingTranslations.englishLanguage, pages);
   });
 
   it('... metrics Page ', function() {
@@ -98,7 +98,7 @@ describe('Check GERMAN language with a login for ', function() {
 
     //Check broken links
     brokenLinks.checkLinks(
-      utilMissingTranslations.germanLanguage, pages);
+      utilMissingTranslations.englishLanguage, pages);
   });
 
   it('... health Page ', function() {
@@ -106,7 +106,7 @@ describe('Check GERMAN language with a login for ', function() {
 
     //Check broken links
     brokenLinks.checkLinks(
-      utilMissingTranslations.germanLanguage, pages);
+      utilMissingTranslations.englishLanguage, pages);
   });
 
   it('... configuration Page ', function() {
@@ -114,7 +114,7 @@ describe('Check GERMAN language with a login for ', function() {
 
     //Check broken links
     brokenLinks.checkLinks(
-      utilMissingTranslations.germanLanguage, pages);
+      utilMissingTranslations.englishLanguage, pages);
   });
 
   xit('... audits Page ', function() {
@@ -122,7 +122,7 @@ describe('Check GERMAN language with a login for ', function() {
 
     //Check broken links
     brokenLinks.checkLinks(
-      utilMissingTranslations.germanLanguage, pages);
+      utilMissingTranslations.englishLanguage, pages);
   });
 
   it('... logs Page ', function() {
@@ -130,7 +130,7 @@ describe('Check GERMAN language with a login for ', function() {
 
     //Check broken links
     brokenLinks.checkLinks(
-      utilMissingTranslations.germanLanguage, pages);
+      utilMissingTranslations.englishLanguage, pages);
   });
 
   it('... disclosure Page ', function() {
@@ -138,6 +138,6 @@ describe('Check GERMAN language with a login for ', function() {
 
     //Check broken links
     brokenLinks.checkLinks(
-      utilMissingTranslations.germanLanguage, pages);
+      utilMissingTranslations.englishLanguage, pages);
   });
 });
