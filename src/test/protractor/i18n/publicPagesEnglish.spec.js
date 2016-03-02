@@ -1,6 +1,6 @@
 /* global describe */
 /* global it */
-/* global afterAll */
+/* global afterEach */
 /* @Author Daniel Katzberg */
 
 'use strict';
@@ -10,7 +10,7 @@ var cacheHelper = require('../utils/cacheHelper');
 
 describe('Check ENGLISH language elements for ', function() {
 
-  afterAll(function() {
+  afterEach(function() {
     cacheHelper.clearCache();
   });
 

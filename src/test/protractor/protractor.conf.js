@@ -28,7 +28,7 @@ exports.config = {
     'brokenLinks/withLoginBrokenLinksEnglish.spec.js'
   ],
   jasmineNodeOpts: {
-    defaultTimeoutInterval: 120000
+    defaultTimeoutInterval: 30000
   },
   allScriptsTimeout: 120000
 };

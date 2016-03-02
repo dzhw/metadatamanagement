@@ -1,8 +1,9 @@
 /* global describe */
 /* global it */
 /* global browser */
-/* global afterAll */
-/* global beforeAll */
+/* global afterEach */
+/* global beforeEach */
+/* global xit */
 /* @Author Daniel Katzberg */
 
 'use strict';
@@ -13,13 +14,13 @@ describe('Check GERMAN language with a login for ', function() {
   var utilMissingTranslations = require('../utils/findMissingTranslations');
 
   //Login only once
-  beforeAll(function() {
+  beforeEach(function() {
     browser.get(utilMissingTranslations.germanLanguage + '/');
     loginHelper.login();
   });
 
   //Logout only once
-  afterAll(function() {
+  afterEach(function() {
     loginHelper.logout();
     cacheHelper.clearCache();
   });

@@ -1,7 +1,6 @@
 /* global describe */
 /* global it */
 /* global browser */
-/* global afterAll */
 /* global beforeEach */
 /* global afterEach */
 /* @Author Daniel Katzberg */
@@ -19,9 +18,6 @@ describe('Check broken links in GERMAN language for ', function() {
 
   afterEach(function() {
     browser.ignoreSynchronization = false;
-  });
-
-  afterAll(function() {
     cacheHelper.clearCache();
   });
 

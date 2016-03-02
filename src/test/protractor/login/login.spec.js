@@ -6,14 +6,14 @@
 /* @Author Daniel Katzberg */
 'use strict';
 
-describe('Test login', function () {
+describe('Test login', function() {
 
   var loginHelper = require('../utils/loginHelper');
   var cacheHelper = require('../utils/cacheHelper');
 
   afterAll(cacheHelper.clearCache);
 
-  it('Login in german with admin', function () {
+  it('Login in german with admin', function() {
     var languagePath = '#/de/';
 
     //Welcome Page
@@ -28,7 +28,7 @@ describe('Test login', function () {
     loginHelper.logout();
   });
 
-  it('Login in english with admin', function () {
+  it('Login in english with admin', function() {
     var languagePath = '#/en/';
 
     //Welcome Page
