@@ -5,6 +5,8 @@
 /* @Author Daniel Katzberg */
 'use strict';
 
+//var loginHelper = require('../utils/loginHelper');
+
 function checkCurrentUrl(checkLinkUrl) {
   browser.getCurrentUrl().then(function(urlCurrent) {
     expect(checkLinkUrl).toBe(urlCurrent);
@@ -20,8 +22,11 @@ function waitForLinks() {
 function checkBrokenLinks(links) {
 
   for (var linksIndex = 0; linksIndex < links.length; linksIndex++) {
+
     //ignore empty hrefs
     if (!links[linksIndex] ||
+      links[linksIndex].indexOf('audits') !== -1 ||
+      links[linksIndex].indexOf('tracker') !== -1 ||
       links[linksIndex].indexOf('mailto') !== -1) {
       continue;
     }

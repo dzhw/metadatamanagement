@@ -4,8 +4,18 @@
 /* @Author Daniel Katzberg */
 'use strict';
 
+/* Checks if a test has a valid login in the MDM */
+function isLogin() {
+  element.all(by.dataTranslate('global.menu.entities.main')).then(function(
+    entities) {
+    expect(entities.length).toBe(1); //four drop downs
+  });
+  expect(element(by.uiSref('login')).isPresent()).toBe(false);
+  expect(element(by.ngClick('logout()')).isPresent()).toBe(true);
+}
+
+/* Log out */
 function logout() {
-  //expect(element(by.dataTranslate('global.menu.entities.main'))).toBe(true);
 
   //Click at 'Account'
   element(by.dataTranslate('global.menu.account.main')).click();
@@ -19,7 +29,16 @@ function logout() {
   });
 }
 
+/* Log in */
 function login() {
+
+  //deactivate old login session. a fresh session should be started.
+  //first of all: logout
+  element(by.uiSref('login')).isPresent().then(function(value) {
+    if (value === false) {
+      logout();
+    }
+  });
 
   //Expect no entities dropdown (only visible with a login)
   expect(element(by.dataTranslate('global.menu.entities.main')).isPresent())
@@ -27,11 +46,6 @@ function login() {
 
   //Click at 'Account'
   element(by.dataTranslate('global.menu.account.main')).click();
-
-  //Check for login button
-  if (!(element(by.uiSref('login')).isPresent())) {
-    logout();
-  }
 
   //Click at 'Login'
   expect(element(by.uiSref('login')).isPresent()).toBe(true);
@@ -42,11 +56,10 @@ function login() {
   element(by.id('password')).sendKeys('admin');
   element(by.dataTranslate('login.form.button')).click();
 
-  element.all(by.dataTranslate('global.menu.entities.main')).then(function(
-    entities) {
-    expect(entities.length).toBe(1); //four drop downs
-  });
+  //check if Logged in
+  isLogin();
 }
 
 module.exports.login = login;
 module.exports.logout = logout;
+module.exports.isLogin = isLogin;
