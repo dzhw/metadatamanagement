@@ -10,7 +10,6 @@ import eu.dzhw.fdz.metadatamanagement.domain.I18nSvg;
 import eu.dzhw.fdz.metadatamanagement.domain.Statistics;
 import eu.dzhw.fdz.metadatamanagement.domain.Value;
 import eu.dzhw.fdz.metadatamanagement.domain.Variable;
-import eu.dzhw.fdz.metadatamanagement.domain.enumeration.DataType;
 import eu.dzhw.fdz.metadatamanagement.domain.enumeration.ScaleLevel;
 
 /**
@@ -25,7 +24,7 @@ public interface CompleteVariableProjection
     extends AbstractRdcDomainObjectWithProjectSurveyProjection {
   String getName();
 
-  DataType getDataType();
+  I18nString getDataType();
 
   ScaleLevel getScaleLevel();
 

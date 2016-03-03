@@ -72,37 +72,24 @@ public class VariableSearchDocument {
     }
   }
 
+
+
   private void createDataType(Variable variable, ElasticsearchIndices index) {
     switch (index) {
       case METADATA_DE: {
-        switch (variable.getDataType()) {
-          case numeric:
-            this.dataType = "numerisch";
-            break;
-          case string:
-            this.dataType = "string";
-            break;
-          default:
-            throw new RuntimeException("Unknown dataType: " + variable.getDataType());
-        }
+        this.dataType = variable.getDataType()
+          .getDe();
         break;
       }
       case METADATA_EN:
-        switch (variable.getDataType()) {
-          case numeric:
-            this.dataType = "numeric";
-            break;
-          case string:
-            this.dataType = "string";
-            break;
-          default:
-            throw new RuntimeException("Unknown dataType: " + variable.getDataType());
-        }
+        this.dataType = variable.getDataType()
+          .getEn();
         break;
       default:
         throw new RuntimeException("Unknown index:" + index);
     }
   }
+
 
   private void createScaleLevel(Variable variable, ElasticsearchIndices index) {
     switch (index) {

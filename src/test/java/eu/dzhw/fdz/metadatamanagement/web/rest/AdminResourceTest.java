@@ -18,6 +18,7 @@ import org.springframework.web.util.NestedServletException;
 
 import eu.dzhw.fdz.metadatamanagement.AbstractTest;
 import eu.dzhw.fdz.metadatamanagement.domain.DataAcquisitionProject;
+import eu.dzhw.fdz.metadatamanagement.domain.DataType;
 import eu.dzhw.fdz.metadatamanagement.domain.Survey;
 import eu.dzhw.fdz.metadatamanagement.domain.Variable;
 import eu.dzhw.fdz.metadatamanagement.domain.builders.DataAcquisitionProjectBuilder;
@@ -25,7 +26,6 @@ import eu.dzhw.fdz.metadatamanagement.domain.builders.I18nStringBuilder;
 import eu.dzhw.fdz.metadatamanagement.domain.builders.PeriodBuilder;
 import eu.dzhw.fdz.metadatamanagement.domain.builders.SurveyBuilder;
 import eu.dzhw.fdz.metadatamanagement.domain.builders.VariableBuilder;
-import eu.dzhw.fdz.metadatamanagement.domain.enumeration.DataType;
 import eu.dzhw.fdz.metadatamanagement.domain.enumeration.ScaleLevel;
 import eu.dzhw.fdz.metadatamanagement.repository.DataAcquisitionProjectRepository;
 import eu.dzhw.fdz.metadatamanagement.repository.SurveyRepository;

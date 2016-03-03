@@ -8,6 +8,7 @@ import net.karneim.pojobuilder.GeneratePojoBuilder;
  * Class representing Strings that can be internationalized.
  * 
  * @author René Reitmann
+ * @author Daniel Katzberg
  */
 @GeneratePojoBuilder(intoPackage = "eu.dzhw.fdz.metadatamanagement.domain.builders")
 public class I18nString implements Serializable {
@@ -18,7 +19,24 @@ public class I18nString implements Serializable {
   private String en;
 
   /**
+   * Default Constructor.
+   */
+  public I18nString() {}
+
+  /**
+   * A constructor with the possibility to set the german and english translation.
+   * 
+   * @param de German translation
+   * @param en English translation.
+   */
+  public I18nString(String de, String en) {
+    this.de = de;
+    this.en = en;
+  }
+
+  /**
    * German version of the string.
+   * 
    * @return the german version of the string.
    */
   public String getDe() {
@@ -31,6 +49,7 @@ public class I18nString implements Serializable {
 
   /**
    * English version of the string.
+   * 
    * @return the english version of the string.
    */
   public String getEn() {

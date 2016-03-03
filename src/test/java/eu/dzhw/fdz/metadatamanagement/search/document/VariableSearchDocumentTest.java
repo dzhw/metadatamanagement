@@ -8,10 +8,10 @@ import static org.junit.Assert.assertThat;
 
 import org.junit.Test;
 
+import eu.dzhw.fdz.metadatamanagement.domain.DataType;
 import eu.dzhw.fdz.metadatamanagement.domain.Variable;
 import eu.dzhw.fdz.metadatamanagement.domain.builders.I18nStringBuilder;
 import eu.dzhw.fdz.metadatamanagement.domain.builders.VariableBuilder;
-import eu.dzhw.fdz.metadatamanagement.domain.enumeration.DataType;
 import eu.dzhw.fdz.metadatamanagement.domain.enumeration.ScaleLevel;
 import eu.dzhw.fdz.metadatamanagement.service.enums.ElasticsearchIndices;
 

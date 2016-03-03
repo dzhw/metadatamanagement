@@ -14,6 +14,7 @@ import eu.dzhw.fdz.metadatamanagement.domain.BibliographicalReference;
 import eu.dzhw.fdz.metadatamanagement.domain.Concept;
 import eu.dzhw.fdz.metadatamanagement.domain.DataAcquisitionProject;
 import eu.dzhw.fdz.metadatamanagement.domain.DataSet;
+import eu.dzhw.fdz.metadatamanagement.domain.DataType;
 import eu.dzhw.fdz.metadatamanagement.domain.FilterExpressionLanguage;
 import eu.dzhw.fdz.metadatamanagement.domain.GenerationDetails;
 import eu.dzhw.fdz.metadatamanagement.domain.Questionnaire;
@@ -38,7 +39,6 @@ import eu.dzhw.fdz.metadatamanagement.domain.builders.SurveyBuilder;
 import eu.dzhw.fdz.metadatamanagement.domain.builders.ValueBuilder;
 import eu.dzhw.fdz.metadatamanagement.domain.builders.VariableBuilder;
 import eu.dzhw.fdz.metadatamanagement.domain.enumeration.AtomicQuestionType;
-import eu.dzhw.fdz.metadatamanagement.domain.enumeration.DataType;
 import eu.dzhw.fdz.metadatamanagement.domain.enumeration.ScaleLevel;
 
 /**
