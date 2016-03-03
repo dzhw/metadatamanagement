@@ -44,7 +44,7 @@
         <metrics-spring.version>3.1.3</metrics-spring.version>
         <!-- Sonar properties -->
         <project.testresult.directory>${project.build.directory}/test-results</project.testresult.directory>
-        <querydsl.version>3.7.1</querydsl.version>
+        <querydsl.version>3.7.2</querydsl.version>
         <run.addResources>false</run.addResources>
         <sonar-maven-plugin.version>3.0.1</sonar-maven-plugin.version>
         <sonar.exclusions>src/main/webapp/assets/**/*.*,
