@@ -128,15 +128,6 @@ describe('Check GERMAN language with a login for ', function() {
     browser.get(utilMissingTranslations.germanLanguage + pages[0]);
   });
 
-  xit('... audits Page ', function() {
-    var pages = ['/audits'];
-
-    //Check broken links
-    brokenLinks.checkLinks(
-      utilMissingTranslations.germanLanguage, pages);
-    browser.get(utilMissingTranslations.germanLanguage + pages[0]);
-  });
-
   it('... logs Page ', function() {
     var pages = ['/logs'];
 

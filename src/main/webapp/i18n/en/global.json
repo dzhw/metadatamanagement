@@ -38,7 +38,6 @@
         "health": "Health",
         "configuration": "Configuration",
         "logs": "Logs",
-        "audits": "Audits",
         "apidocs": "API",
         "database": "Database"
       },

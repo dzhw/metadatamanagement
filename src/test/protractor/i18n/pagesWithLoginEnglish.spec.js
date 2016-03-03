@@ -113,14 +113,6 @@ describe('Check ENGLISH language with a login for ', function() {
       utilMissingTranslations.englishLanguage, pages);
   });
 
-  xit('... audits Page ', function() {
-    var pages = ['/audits'];
-
-    //Test pages
-    utilMissingTranslations.testMissingTranslations(
-      utilMissingTranslations.englishLanguage, pages);
-  });
-
   it('... logs Page ', function() {
     var pages = ['/logs'];
 

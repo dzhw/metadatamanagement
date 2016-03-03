@@ -25,7 +25,6 @@ function checkBrokenLinks(links) {
 
     //ignore empty hrefs
     if (!links[linksIndex] ||
-      links[linksIndex].indexOf('audits') !== -1 ||
       links[linksIndex].indexOf('tracker') !== -1 ||
       links[linksIndex].indexOf('mailto') !== -1) {
       continue;

@@ -1,6 +1,6 @@
 'use strict';
 
-describe('audits api', function() {
+describe('logs api', function() {
 
   describe('basic test', function() {
     it('should call $translate and $translatePartialLoader', inject(
