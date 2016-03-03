@@ -1,0 +1,14 @@
+{
+  "metadatamanagementApp": {
+    "dataSet": {
+      "title": "Data Sets",
+      "fdzId": "RDC ID",
+      "description": {
+        "de": "Title (DE)",
+        "en": "Title (EN)"
+      },
+      "variableIds": "Variables",
+      "surveyIds": "Surveys"
+    }
+  }
+}

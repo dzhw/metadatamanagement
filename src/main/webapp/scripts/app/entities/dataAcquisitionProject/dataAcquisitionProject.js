@@ -47,6 +47,8 @@ angular.module('metadatamanagementApp')
             function($translate, $translatePartialLoader) {
               $translatePartialLoader.addPart('dataAcquisitionProject');
               $translatePartialLoader.addPart('pager');
+              $translatePartialLoader.addPart('survey');
+              $translatePartialLoader.addPart('dataSet');
               return $translate.refresh();
             }
           ],

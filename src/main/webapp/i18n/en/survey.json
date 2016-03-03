@@ -15,11 +15,15 @@
       "detail": {
         "title": "Survey"
       },
-      "title.de": "Title (DE)",
-      "title.en": "Title (EN)",
+      "fdzId": "RDC ID",
+      "title": {
+        "de": "Title (DE)",
+        "en": "Title (EN)"
+      },
       "fieldPeriod.start": "Field Period Begin",
       "fieldPeriod.end": "Field Period End",
-      "dataAcquisitionProjectId": "Data Acquisition Project ID"
+      "dataAcquisitionProjectId": "Data Acquisition Project ID",
+      "questionnaireId": "Questionnaire ID "
     }
   }
 }
