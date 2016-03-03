@@ -8,7 +8,6 @@ import static org.junit.Assert.assertThat;
 
 import org.junit.Test;
 
-import eu.dzhw.fdz.metadatamanagement.domain.enumeration.RuleExpressionLanguage;
 import eu.dzhw.fdz.metadatamanagement.unittest.util.UnitTestCreateDomainObjectUtils;
 
 /**
@@ -26,7 +25,7 @@ public class GenerationDetailsTest {
 
     // Assert
     assertThat(generationDetails.getRule(), is("Rule 123 to 234"));
-    assertThat(generationDetails.getRuleExpressionLanguage(), is(RuleExpressionLanguage.r));
+    assertThat(generationDetails.getRuleExpressionLanguage(), is(RuleExpressionLanguage.R));
     assertThat(generationDetails.getDescription()
       .getDe(), is("De Beschreibung"));
     assertThat(generationDetails.getDescription()

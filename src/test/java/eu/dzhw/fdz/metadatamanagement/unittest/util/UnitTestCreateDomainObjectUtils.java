@@ -17,6 +17,7 @@ import eu.dzhw.fdz.metadatamanagement.domain.DataSet;
 import eu.dzhw.fdz.metadatamanagement.domain.GenerationDetails;
 import eu.dzhw.fdz.metadatamanagement.domain.Questionnaire;
 import eu.dzhw.fdz.metadatamanagement.domain.Release;
+import eu.dzhw.fdz.metadatamanagement.domain.RuleExpressionLanguage;
 import eu.dzhw.fdz.metadatamanagement.domain.Statistics;
 import eu.dzhw.fdz.metadatamanagement.domain.Survey;
 import eu.dzhw.fdz.metadatamanagement.domain.Value;
@@ -38,7 +39,6 @@ import eu.dzhw.fdz.metadatamanagement.domain.builders.VariableBuilder;
 import eu.dzhw.fdz.metadatamanagement.domain.enumeration.AtomicQuestionType;
 import eu.dzhw.fdz.metadatamanagement.domain.enumeration.DataType;
 import eu.dzhw.fdz.metadatamanagement.domain.enumeration.FilterExpressionLanguage;
-import eu.dzhw.fdz.metadatamanagement.domain.enumeration.RuleExpressionLanguage;
 import eu.dzhw.fdz.metadatamanagement.domain.enumeration.ScaleLevel;
 
 /**
@@ -195,7 +195,7 @@ public class UnitTestCreateDomainObjectUtils {
         .withEn("En Description")
         .build())
       .withRule("Rule 123 to 234")
-      .withRuleExpressionLanguage(RuleExpressionLanguage.r)
+      .withRuleExpressionLanguage(RuleExpressionLanguage.R)
       .build();
   }
 

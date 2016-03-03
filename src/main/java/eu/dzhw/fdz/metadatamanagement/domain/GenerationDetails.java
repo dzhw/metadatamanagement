@@ -2,7 +2,6 @@ package eu.dzhw.fdz.metadatamanagement.domain;
 
 import com.google.common.base.MoreObjects;
 
-import eu.dzhw.fdz.metadatamanagement.domain.enumeration.RuleExpressionLanguage;
 import net.karneim.pojobuilder.GeneratePojoBuilder;
 
 /**
@@ -18,7 +17,7 @@ public class GenerationDetails {
 
   private String rule;
 
-  private RuleExpressionLanguage ruleExpressionLanguage;
+  private String ruleExpressionLanguage;
 
   /*
    * (non-Javadoc)
@@ -51,11 +50,11 @@ public class GenerationDetails {
     this.rule = rule;
   }
 
-  public RuleExpressionLanguage getRuleExpressionLanguage() {
+  public String getRuleExpressionLanguage() {
     return ruleExpressionLanguage;
   }
 
-  public void setRuleExpressionLanguage(RuleExpressionLanguage ruleExpressionLanguage) {
+  public void setRuleExpressionLanguage(String ruleExpressionLanguage) {
     this.ruleExpressionLanguage = ruleExpressionLanguage;
   }
 }

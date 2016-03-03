@@ -4,7 +4,6 @@ import java.util.List;
 
 import org.springframework.data.rest.core.config.Projection;
 
-import eu.dzhw.fdz.metadatamanagement.domain.AccessWay;
 import eu.dzhw.fdz.metadatamanagement.domain.GenerationDetails;
 import eu.dzhw.fdz.metadatamanagement.domain.I18nString;
 import eu.dzhw.fdz.metadatamanagement.domain.I18nSvg;
@@ -37,7 +36,7 @@ public interface CompleteVariableProjection
 
   I18nString getDescription();
 
-  List<AccessWay> getAccessWays();
+  List<String> getAccessWays();
 
   String getFilterExpression();
 
