@@ -23,7 +23,7 @@
     "grunt-contrib-uglify": "0.11.1",
     "grunt-contrib-watch": "0.6.1",
     "grunt-html-angular-validate": "0.5.7",
-    "grunt-jscs": "2.7.0",
+    "grunt-jscs": "2.8.0",
     "grunt-karma": "0.12.1",
     "grunt-modernizr": "^1.0.2",
     "grunt-ng-annotate": "1.0.1",
