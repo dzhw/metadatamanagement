@@ -13,7 +13,6 @@ import org.springframework.data.mongodb.core.mapping.Document;
 
 import com.google.common.base.MoreObjects;
 
-import eu.dzhw.fdz.metadatamanagement.domain.enumeration.AccessWay;
 import eu.dzhw.fdz.metadatamanagement.domain.enumeration.DataType;
 import eu.dzhw.fdz.metadatamanagement.domain.enumeration.FilterExpressionLanguage;
 import eu.dzhw.fdz.metadatamanagement.domain.enumeration.ScaleLevel;
@@ -53,7 +52,7 @@ public class Variable extends AbstractRdcDomainObjectWithProjectSurvey {
 
   private I18nString description;
 
-  private List<AccessWay> accessWays;
+  private List<String> accessWays;
 
   private String filterExpression;
 
@@ -152,11 +151,11 @@ public class Variable extends AbstractRdcDomainObjectWithProjectSurvey {
     this.description = description;
   }
 
-  public List<AccessWay> getAccessWays() {
+  public List<String> getAccessWays() {
     return accessWays;
   }
 
-  public void setAccessWays(List<AccessWay> accessWays) {
+  public void setAccessWays(List<String> accessWays) {
     this.accessWays = accessWays;
   }
 

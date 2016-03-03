@@ -21,7 +21,7 @@ describe('Check broken links in GERMAN language for ', function() {
     cacheHelper.clearCache();
   });
 
-  it('... welcome page', function() {
+  xit('... welcome page', function() {
     var pages = ['/'];
     brokenLinks.checkLinks(
       utilMissingTranslations.englishLanguage, pages);

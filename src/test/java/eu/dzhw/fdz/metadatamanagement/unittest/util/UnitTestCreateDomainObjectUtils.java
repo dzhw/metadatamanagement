@@ -8,6 +8,7 @@ import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
+import eu.dzhw.fdz.metadatamanagement.domain.AccessWay;
 import eu.dzhw.fdz.metadatamanagement.domain.AtomicQuestion;
 import eu.dzhw.fdz.metadatamanagement.domain.BibliographicalReference;
 import eu.dzhw.fdz.metadatamanagement.domain.Concept;
@@ -34,7 +35,6 @@ import eu.dzhw.fdz.metadatamanagement.domain.builders.StatisticsBuilder;
 import eu.dzhw.fdz.metadatamanagement.domain.builders.SurveyBuilder;
 import eu.dzhw.fdz.metadatamanagement.domain.builders.ValueBuilder;
 import eu.dzhw.fdz.metadatamanagement.domain.builders.VariableBuilder;
-import eu.dzhw.fdz.metadatamanagement.domain.enumeration.AccessWay;
 import eu.dzhw.fdz.metadatamanagement.domain.enumeration.AtomicQuestionType;
 import eu.dzhw.fdz.metadatamanagement.domain.enumeration.DataType;
 import eu.dzhw.fdz.metadatamanagement.domain.enumeration.FilterExpressionLanguage;
@@ -121,10 +121,10 @@ public class UnitTestCreateDomainObjectUtils {
   public static Variable buildVariable(String projectId, String surveyId) {
 
     // Prepare Variable
-    List<AccessWay> accessWays = new ArrayList<>();
-    accessWays.add(AccessWay.cuf);
-    accessWays.add(AccessWay.remote);
-    accessWays.add(AccessWay.suf);
+    List<String> accessWays = new ArrayList<>();
+    accessWays.add(AccessWay.CUF);
+    accessWays.add(AccessWay.REMOTE);
+    accessWays.add(AccessWay.SUF);
     List<Variable> withSameVariablesInPanel = new ArrayList<>();
     List<Value> withValues = new ArrayList<>();
     withValues.add(buildValueBuilder());
@@ -135,7 +135,9 @@ public class UnitTestCreateDomainObjectUtils {
       .withScaleLevel(ScaleLevel.continous)
       .withDataAcquisitionProjectId(projectId)
       .withSurveyId(surveyId)
-      .withLabel(new I18nStringBuilder().withDe("label").withEn("label").build())
+      .withLabel(new I18nStringBuilder().withDe("label")
+        .withEn("label")
+        .build())
       .withName("name")
       .withAccessWays(accessWays)
       .withDescription(new I18nStringBuilder().withDe("De Beschreibung")
