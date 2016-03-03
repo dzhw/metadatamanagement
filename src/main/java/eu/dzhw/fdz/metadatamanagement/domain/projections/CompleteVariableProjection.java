@@ -11,7 +11,6 @@ import eu.dzhw.fdz.metadatamanagement.domain.Statistics;
 import eu.dzhw.fdz.metadatamanagement.domain.Value;
 import eu.dzhw.fdz.metadatamanagement.domain.Variable;
 import eu.dzhw.fdz.metadatamanagement.domain.enumeration.DataType;
-import eu.dzhw.fdz.metadatamanagement.domain.enumeration.FilterExpressionLanguage;
 import eu.dzhw.fdz.metadatamanagement.domain.enumeration.ScaleLevel;
 
 /**
@@ -42,7 +41,7 @@ public interface CompleteVariableProjection
 
   I18nString getFilterDescription();
 
-  FilterExpressionLanguage getFilterExpressionLanguage();
+  String getFilterExpressionLanguage();
 
   I18nSvg getDistributionSvg();
 

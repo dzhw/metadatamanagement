@@ -14,7 +14,6 @@ import org.springframework.data.mongodb.core.mapping.Document;
 import com.google.common.base.MoreObjects;
 
 import eu.dzhw.fdz.metadatamanagement.domain.enumeration.DataType;
-import eu.dzhw.fdz.metadatamanagement.domain.enumeration.FilterExpressionLanguage;
 import eu.dzhw.fdz.metadatamanagement.domain.enumeration.ScaleLevel;
 import eu.dzhw.fdz.metadatamanagement.domain.util.Patterns;
 import net.karneim.pojobuilder.GeneratePojoBuilder;
@@ -58,7 +57,7 @@ public class Variable extends AbstractRdcDomainObjectWithProjectSurvey {
 
   private I18nString filterDescription;
 
-  private FilterExpressionLanguage filterExpressionLanguage;
+  private String filterExpressionLanguage;
 
   private I18nSvg distributionSvg;
 
@@ -175,11 +174,11 @@ public class Variable extends AbstractRdcDomainObjectWithProjectSurvey {
     this.filterDescription = filterDescription;
   }
 
-  public FilterExpressionLanguage getFilterExpressionLanguage() {
+  public String getFilterExpressionLanguage() {
     return filterExpressionLanguage;
   }
 
-  public void setFilterExpressionLanguage(FilterExpressionLanguage filterExpressionLanguage) {
+  public void setFilterExpressionLanguage(String filterExpressionLanguage) {
     this.filterExpressionLanguage = filterExpressionLanguage;
   }
 

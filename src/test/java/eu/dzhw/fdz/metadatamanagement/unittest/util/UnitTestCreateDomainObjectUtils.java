@@ -14,6 +14,7 @@ import eu.dzhw.fdz.metadatamanagement.domain.BibliographicalReference;
 import eu.dzhw.fdz.metadatamanagement.domain.Concept;
 import eu.dzhw.fdz.metadatamanagement.domain.DataAcquisitionProject;
 import eu.dzhw.fdz.metadatamanagement.domain.DataSet;
+import eu.dzhw.fdz.metadatamanagement.domain.FilterExpressionLanguage;
 import eu.dzhw.fdz.metadatamanagement.domain.GenerationDetails;
 import eu.dzhw.fdz.metadatamanagement.domain.Questionnaire;
 import eu.dzhw.fdz.metadatamanagement.domain.Release;
@@ -38,7 +39,6 @@ import eu.dzhw.fdz.metadatamanagement.domain.builders.ValueBuilder;
 import eu.dzhw.fdz.metadatamanagement.domain.builders.VariableBuilder;
 import eu.dzhw.fdz.metadatamanagement.domain.enumeration.AtomicQuestionType;
 import eu.dzhw.fdz.metadatamanagement.domain.enumeration.DataType;
-import eu.dzhw.fdz.metadatamanagement.domain.enumeration.FilterExpressionLanguage;
 import eu.dzhw.fdz.metadatamanagement.domain.enumeration.ScaleLevel;
 
 /**
@@ -146,7 +146,7 @@ public class UnitTestCreateDomainObjectUtils {
       .withFilterDescription(new I18nStringBuilder().withDe("De Filterbeschreibung")
         .withEn("En Filter Description")
         .build())
-      .withFilterExpressionLanguage(FilterExpressionLanguage.stata)
+      .withFilterExpressionLanguage(FilterExpressionLanguage.STATA)
       .withFilterExpression("Filter Expression")
       .withSameVariablesInPanel(withSameVariablesInPanel)
       .withValues(withValues)
