@@ -6,7 +6,6 @@
     "authenticationType": "oauth2",
     "hibernateCache": "no",
     "clusteredHttpSession": "no",
-    "websocket": "spring-websocket",
     "databaseType": "mongodb",
     "devDatabaseType": "mongodb",
     "prodDatabaseType": "mongodb",
