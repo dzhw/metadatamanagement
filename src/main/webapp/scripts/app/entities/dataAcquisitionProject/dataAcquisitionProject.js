@@ -46,6 +46,7 @@ angular.module('metadatamanagementApp')
             '$translatePartialLoader',
             function($translate, $translatePartialLoader) {
               $translatePartialLoader.addPart('dataAcquisitionProject');
+              $translatePartialLoader.addPart('pager');
               return $translate.refresh();
             }
           ],
@@ -56,6 +57,17 @@ angular.module('metadatamanagementApp')
               });
             }
           ]
+        }
+      })
+      .state('surveylist' ,{
+        url: '/dataAcquisitionProject/{id}',
+        parent: 'dataAcquisitionProject.detail',
+        views: {
+          'surveylist': {
+            templateUrl: 'scripts/app/entities/survey/' +
+            'surveys.list.html.tmpl',
+            controller: 'SurveysListController'
+          }
         }
       })
       .state('dataAcquisitionProject.new', {

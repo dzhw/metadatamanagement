@@ -1,0 +1,15 @@
+<div ng-if="pageState.promiseParam">
+<div class="row">
+    <div  class="col-md-12">
+    <table class="table">
+        <tr ng-repeat="survey in pageState.surveys">
+            <td>{{survey.id}}</td>
+            <td>{{survey.title[currentLanguage]}}</td>
+        </tr>
+    </table>
+  </div>
+    <div  class="col-md-12 col-md-offset-4">
+    <uib-pagination total-items="pageState.bigTotalItems" ng-model="pageState.currentPage" ng-change="pageChanged()"  max-size="pageState.maxSize" class="pagination-sm" boundary-links="true" boundary-link-numbers="true" rotate="false" previous-text="{{'pager.previous' | translate}}" next-text="{{'pager.next' | translate}}" first-text="{{'pager.first' | translate}}" last-text="{{'pager.last' | translate}}"></uib-pagination>
+  </div>
+</div>
+</div>

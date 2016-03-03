@@ -3,10 +3,14 @@
 
 angular.module('metadatamanagementApp')
   .controller('DataAcquisitionProjectDetailController',
-    function($scope, $translate, entity, DataAcquisitionProjectExportService,
-      ExcelParser, Survey, SurveyDeleteResource,
+    function($scope, $translate, $stateParams, entity,
+      DataAcquisitionProjectExportService, ExcelParser,
+      Survey, SurveyCollection, SurveyDeleteResource,
       DataSet, DataSetDeleteResource) {
+
       $scope.dataAcquisitionProject = entity;
+      $scope.dataAcquisitionProject.id = $stateParams.id;
+
       $scope.initUploadStatus = function(itemsToUpload) {
         $scope.uploadStatus = {
           itemsToUpload: itemsToUpload,
@@ -136,7 +140,8 @@ angular.module('metadatamanagementApp')
                 en: data['description.en'],
                 de: data['description.de']
               },
-              variableIds: data.variableIds.split(',')
+              variableIds: data.variableIds.replace(/ /g,'').split(','),
+              surveyIds: data.surveyIds.replace(/ /g,'').split(',')
             };
             var dataSet = new DataSet(dataSetObj);
             dataSet.$save().then(function() {

@@ -1,0 +1,8 @@
+{
+  "pager":{
+    "previous": "Vor",
+    "next": "Nach",
+    "first": "Erste",
+    "last": "Letzte"
+  }
+}
