@@ -2,11 +2,23 @@
 <div class="row">
     <div  class="col-md-12">
     <table class="table">
+
+      <thead>
+      <tr>
+        <th data-translate="metadatamanagementApp.dataSet.fdzId">FDZ ID</th>
+        <th data-translate="metadatamanagementApp.dataSet.description.{{currentLanguage}}">title</th>
+        <th data-translate="metadatamanagementApp.dataSet.surveyIds">surveyIds</th>
+        <th data-translate="metadatamanagementApp.dataSet.variableIds">variableIds</th>
+      </tr>
+    </thead>
+    <tbody>
         <tr ng-repeat="dataSet in pageState.dataSets">
             <td>{{dataSet.id}}</td>
-            <td>{{dataSet.description['de']}}</td>
-            <td>{{dataSet.description['en']}}</td>
+            <td>{{dataSet.description[currentLanguage]}}</td>
+            <td>{{dataSet.surveyIds}}</td>
+            <td>{{dataSet.variableIds}}</td>
         </tr>
+      </tbody>
     </table>
   </div>
     <div  class="col-md-12 col-md-offset-4">

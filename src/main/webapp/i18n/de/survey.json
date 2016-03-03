@@ -15,11 +15,15 @@
       "detail": {
         "title": "Erhebung"
       },
-      "title.de": "Titel (DE)",
-      "title.en": "Titel (EN)",
+      "fdzId": "FDZ ID",
+      "title": {
+        "de": "Title (DE)",
+        "en": "Title (EN)"
+      },
       "fieldPeriod.start": "Feldzeitbeginn",
       "fieldPeriod.end": "Feldzeitende",
-      "dataAcquisitionProjectId": "Datenerhebungsprojekt-ID"
+      "dataAcquisitionProjectId": "Datenerhebungsprojekt-ID",
+      "questionnaireId": "Befragungsid"
     }
   }
 }

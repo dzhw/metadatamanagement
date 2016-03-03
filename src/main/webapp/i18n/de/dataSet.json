@@ -1,0 +1,14 @@
+{
+  "metadatamanagementApp": {
+    "dataSet": {
+      "title": "Datensätze",
+      "fdzId": "FDZ ID",
+      "description": {
+        "de": "Title (DE)",
+        "en": "Title (EN)"
+      },
+      "variableIds": "Variablen",
+      "surveyIds": "Erhebungen"
+    }
+  }
+}

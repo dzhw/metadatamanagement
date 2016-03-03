@@ -2,10 +2,24 @@
 <div class="row">
     <div  class="col-md-12">
     <table class="table">
+      <thead>
+      <tr>
+        <th data-translate="metadatamanagementApp.survey.fdzId">FDZ ID</th>
+        <th data-translate="metadatamanagementApp.survey.title.{{currentLanguage}}">title</th>
+        <th data-translate="metadatamanagementApp.survey.fieldPeriod.start">start</th>
+        <th data-translate="metadatamanagementApp.survey.fieldPeriod.end">end</th>
+        <th data-translate="metadatamanagementApp.survey.questionnaireId">title</th>
+      </tr>
+    </thead>
+    <tbody>
         <tr ng-repeat="survey in pageState.surveys">
             <td>{{survey.id}}</td>
             <td>{{survey.title[currentLanguage]}}</td>
+            <td>{{survey.fieldPeriod.start | date:'mediumDate'}}</td>
+            <td>{{survey.fieldPeriod.end | date:'mediumDate'}}</td>
+            <td>{{survey.questionnaireId}}</td>
         </tr>
+         </tbody>
     </table>
   </div>
     <div  class="col-md-12 col-md-offset-4">

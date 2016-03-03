@@ -17,7 +17,7 @@
       },
       "detail": {
         "title": "Datenerhebungsprojekt",
-        "progress": "Upload Fortschritt:",
+        "progress": "Fortschritt:",
         "download": "Variablenreport herunterladen",
         "upload": {
           "surveys": "Erhebungen hochladen",
