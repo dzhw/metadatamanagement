@@ -33,7 +33,6 @@
       "admin": {
         "main": "Administration",
         "user-management": "User management",
-        "tracker": "User tracker",
         "metrics": "Metrics",
         "health": "Health",
         "configuration": "Configuration",

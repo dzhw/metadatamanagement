@@ -92,15 +92,6 @@ describe('Check GERMAN language with a login for ', function() {
     browser.get(utilMissingTranslations.germanLanguage + pages[0]);
   });
 
-  xit('... tracker Page ', function() {
-    var pages = ['/tracker'];
-
-    //Check broken links
-    brokenLinks.checkLinks(
-      utilMissingTranslations.germanLanguage, pages);
-    browser.get(utilMissingTranslations.germanLanguage + pages[0]);
-  });
-
   it('... metrics Page ', function() {
     var pages = ['/metrics'];
 

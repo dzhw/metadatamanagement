@@ -81,14 +81,6 @@ describe('Check GERMAN language with a login for ', function() {
       utilMissingTranslations.germanLanguage, pages);
   });
 
-  it('... tracker Page ', function() {
-    var pages = ['/tracker'];
-
-    //Test pages
-    utilMissingTranslations.testMissingTranslations(
-      utilMissingTranslations.germanLanguage, pages);
-  });
-
   it('... metrics Page ', function() {
     var pages = ['/metrics'];
 

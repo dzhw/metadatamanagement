@@ -2,7 +2,7 @@
 
 describe('Factory Tests ', function() {
   var Auth, $q, $scope, $rootScope, $state, Password, PasswordResetFinish,
-    PasswordResetInit, Activate, deferred, Register, Account, Tracker,
+    PasswordResetInit, Activate, deferred, Register, Account,
     Principal, AuthServerProvider;
   describe('Auth', function() {
     beforeEach(mockApiAccountCall);
@@ -10,10 +10,9 @@ describe('Factory Tests ', function() {
     beforeEach(inject(function($injector) {
       Auth = $injector.get('Auth');
       $q = $injector.get('$q');
-      $rootScope = $injector.get('$rootScope')
+      $rootScope = $injector.get('$rootScope');
       $scope = $rootScope.$new();
       AuthServerProvider = $injector.get('AuthServerProvider');
-      Tracker = $injector.get('Tracker');
       Principal = $injector.get('Principal');
       Register = $injector.get('Register');
       Account = $injector.get('Account');
@@ -33,14 +32,7 @@ describe('Factory Tests ', function() {
             });
           }
         };
-      });
-      spyOn(Tracker, 'sendActivity').and.callFake(function() {
-        return {
-          then: function(callback) {
-            return callback({});
-          }
-        };
-      });
+      });    
       spyOn(Principal, 'identity').and.callFake(function() {
         return {
           then: function(callback) {

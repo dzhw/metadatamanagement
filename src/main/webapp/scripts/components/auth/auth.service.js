@@ -6,7 +6,7 @@ angular
     'Auth',
     function Auth($rootScope, $state, $q, Principal,
       AuthServerProvider, Account, Register, Activate, Password,
-      PasswordResetInit, PasswordResetFinish, Tracker) {
+      PasswordResetInit, PasswordResetFinish) {
       return {
         login: function(credentials, callback) {
           var cb = callback || angular.noop;
@@ -16,7 +16,6 @@ angular
             // retrieve the logged account information
             //Principal.identity(true).then(function(account) {
             Principal.identity(true).then(function() {
-              Tracker.sendActivity();
               deferred.resolve(data);
             });
             return cb();
