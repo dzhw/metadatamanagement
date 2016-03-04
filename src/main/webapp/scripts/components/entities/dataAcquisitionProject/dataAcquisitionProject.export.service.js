@@ -18,9 +18,7 @@ angular.module('metadatamanagementApp').factory(
     //Write odt with information of the rdc projection
     var writeODT = function(dataAcquisitionProject) {
 
-      //add dataType.json and scaleLevel.json to the known translation parts
-      $translatePartialLoader.addPart('dataType');
-      $translatePartialLoader.addPart('scaleLevel');
+      //add no translation parts
       $translate.refresh();
 
       //Query to RestAPI. Filter: dataAcquisitionProject id

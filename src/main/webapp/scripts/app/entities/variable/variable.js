@@ -47,8 +47,6 @@ angular.module('metadatamanagementApp')
           translatePartialLoader: ['$translate', '$translatePartialLoader',
             function($translate, $translatePartialLoader) {
               $translatePartialLoader.addPart('variable');
-              $translatePartialLoader.addPart('dataType');
-              $translatePartialLoader.addPart('scaleLevel');
               return $translate.refresh();
             }
           ],
