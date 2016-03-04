@@ -169,13 +169,15 @@ angular.module('metadatamanagementApp')
         $translate(
           'metadatamanagementApp.variable.chart.absoluteFrequency').then(
           function(translation) {
-            $scope.optionsAbsolute.subtitle.text = translation;
+            $scope.optionsAbsoluteFrequencyChart.subtitle.text =
+              translation;
           });
 
         $translate(
           'metadatamanagementApp.variable.chart.relativeFrequency').then(
           function(translation) {
-            $scope.optionsRelative.subtitle.text = translation;
+            $scope.optionsRelativeFrequencyChart.subtitle.text =
+              translation;
           });
       });
     }
