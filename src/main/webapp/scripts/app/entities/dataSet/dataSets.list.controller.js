@@ -2,7 +2,7 @@
 
 angular.module('metadatamanagementApp')
     .controller('DataSetsListController', function($scope, DataSetsCollection) {
-      var init = function() {
+      $scope.init = function() {
         $scope.pageState = {
           promiseParam: false,
           maxSize: 5,
@@ -22,5 +22,8 @@ angular.module('metadatamanagementApp')
           $scope.pageState.bigTotalItems = result.page.totalElements;
         });
       };
-      init();
+      $scope.$on('refresh', function() {
+        $scope.init();
+      });
+      $scope.init();
     });

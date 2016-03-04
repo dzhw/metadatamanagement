@@ -168,4 +168,9 @@ angular.module('metadatamanagementApp')
       $scope.exportToODT = function() {
         DataAcquisitionProjectExportService.exportToODT($scope.rdcProject);
       };
+      $scope.$watch('uploadStatus.getProgress()', function(newUploadStatus) {
+        if (newUploadStatus === $scope.uploadStatus.itemsToUpload) {
+          $scope.$broadcast('refresh');
+        }
+      });
     });

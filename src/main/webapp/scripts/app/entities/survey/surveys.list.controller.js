@@ -22,5 +22,8 @@ angular.module('metadatamanagementApp')
           $scope.pageState.bigTotalItems = result.page.totalElements;
         });
       };
+      $scope.$on('refresh', function() {
+        init();
+      });
       init();
     });
