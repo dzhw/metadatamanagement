@@ -2,7 +2,10 @@
   "dataAcquisitionProjectId": "ATestProject",
   "variableId": "FDZID_Variable_001",
   "questionnaireId": "QuestionnaireId001",
-  "type": "open",
+  "type": {
+    "de": "offen",
+    "en": "open"
+  },
   "name": "M23APGD",
   "compositeQuestionName": "ACompositeQuestionName",
   "footnote": {

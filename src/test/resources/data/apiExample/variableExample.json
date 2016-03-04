@@ -1,10 +1,16 @@
 {
   "name": "A_Variable_Test",
-  "dataType": "string",
-  "scaleLevel": "nominal",
+  "dataType": {
+    "de": "string",
+    "en": "string"
+  },
+  "scaleLevel": {
+    "de": "nominal",
+    "en": "nominal"
+  },
   "label": {
-  	"de": "Ein label für alle Fälle.",
-  	"en": "A label for all cases."
+    "de": "Ein label für alle Fälle.",
+    "en": "A label for all cases."
   },
   "dataAcquisitionProjectId": "ATestProject",
   "surveyId": "FDZID001",
