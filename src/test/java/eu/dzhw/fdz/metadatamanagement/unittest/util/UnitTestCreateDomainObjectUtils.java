@@ -21,6 +21,7 @@ import eu.dzhw.fdz.metadatamanagement.domain.GenerationDetails;
 import eu.dzhw.fdz.metadatamanagement.domain.Questionnaire;
 import eu.dzhw.fdz.metadatamanagement.domain.Release;
 import eu.dzhw.fdz.metadatamanagement.domain.RuleExpressionLanguage;
+import eu.dzhw.fdz.metadatamanagement.domain.ScaleLevel;
 import eu.dzhw.fdz.metadatamanagement.domain.Statistics;
 import eu.dzhw.fdz.metadatamanagement.domain.Survey;
 import eu.dzhw.fdz.metadatamanagement.domain.Value;
@@ -39,7 +40,6 @@ import eu.dzhw.fdz.metadatamanagement.domain.builders.StatisticsBuilder;
 import eu.dzhw.fdz.metadatamanagement.domain.builders.SurveyBuilder;
 import eu.dzhw.fdz.metadatamanagement.domain.builders.ValueBuilder;
 import eu.dzhw.fdz.metadatamanagement.domain.builders.VariableBuilder;
-import eu.dzhw.fdz.metadatamanagement.domain.enumeration.ScaleLevel;
 
 /**
  * @author Daniel Katzberg

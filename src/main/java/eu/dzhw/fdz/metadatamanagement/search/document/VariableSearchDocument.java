@@ -94,35 +94,13 @@ public class VariableSearchDocument {
   private void createScaleLevel(Variable variable, ElasticsearchIndices index) {
     switch (index) {
       case METADATA_DE: {
-        switch (variable.getScaleLevel()) {
-          case continous:
-            this.scaleLevel = "kontinuierlich";
-            break;
-          case nominal:
-            this.scaleLevel = "nominal";
-            break;
-          case ordinal:
-            this.scaleLevel = "ordinal";
-            break;
-          default:
-            throw new RuntimeException("Unknown scaleLevel: " + variable.getScaleLevel());
-        }
+        this.scaleLevel = variable.getScaleLevel()
+          .getDe();
         break;
       }
       case METADATA_EN:
-        switch (variable.getScaleLevel()) {
-          case continous:
-            this.scaleLevel = "continous";
-            break;
-          case nominal:
-            this.scaleLevel = "nominal";
-            break;
-          case ordinal:
-            this.scaleLevel = "ordinal";
-            break;
-          default:
-            throw new RuntimeException("Unknown scaleLevel: " + variable.getScaleLevel());
-        }
+        this.scaleLevel = variable.getScaleLevel()
+          .getEn();
         break;
       default:
         throw new RuntimeException("Unknown index:" + index);

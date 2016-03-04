@@ -13,7 +13,6 @@ import org.springframework.data.mongodb.core.mapping.Document;
 
 import com.google.common.base.MoreObjects;
 
-import eu.dzhw.fdz.metadatamanagement.domain.enumeration.ScaleLevel;
 import eu.dzhw.fdz.metadatamanagement.domain.util.Patterns;
 import net.karneim.pojobuilder.GeneratePojoBuilder;
 
@@ -41,7 +40,7 @@ public class Variable extends AbstractRdcDomainObjectWithProjectSurvey {
   private I18nString dataType;
 
   @NotNull
-  private ScaleLevel scaleLevel;
+  private I18nString scaleLevel;
 
   @NotNull
   private I18nString label;
@@ -125,11 +124,11 @@ public class Variable extends AbstractRdcDomainObjectWithProjectSurvey {
     this.dataType = dataType;
   }
 
-  public ScaleLevel getScaleLevel() {
+  public I18nString getScaleLevel() {
     return scaleLevel;
   }
 
-  public void setScaleLevel(ScaleLevel scaleLevel) {
+  public void setScaleLevel(I18nString scaleLevel) {
     this.scaleLevel = scaleLevel;
   }
 
