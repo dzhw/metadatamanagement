@@ -7,7 +7,6 @@ import org.springframework.data.mongodb.core.mapping.Document;
 
 import com.google.common.base.MoreObjects;
 
-import eu.dzhw.fdz.metadatamanagement.domain.enumeration.AtomicQuestionType;
 import eu.dzhw.fdz.metadatamanagement.domain.validation.DataAcquisitionProjectExists;
 import net.karneim.pojobuilder.GeneratePojoBuilder;
 
@@ -26,7 +25,7 @@ public class AtomicQuestion extends AbstractRdcDomainObject {
   @NotEmpty
   private String id;
 
-  private AtomicQuestionType type;
+  private I18nString type;
 
   private String name;
 
@@ -87,11 +86,11 @@ public class AtomicQuestion extends AbstractRdcDomainObject {
   }
 
   /* GETTER / SETTER */
-  public AtomicQuestionType getType() {
+  public I18nString getType() {
     return type;
   }
 
-  public void setType(AtomicQuestionType type) {
+  public void setType(I18nString type) {
     this.type = type;
   }
 

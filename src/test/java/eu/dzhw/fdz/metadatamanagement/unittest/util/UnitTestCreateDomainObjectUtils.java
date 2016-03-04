@@ -10,6 +10,7 @@ import java.util.List;
 
 import eu.dzhw.fdz.metadatamanagement.domain.AccessWay;
 import eu.dzhw.fdz.metadatamanagement.domain.AtomicQuestion;
+import eu.dzhw.fdz.metadatamanagement.domain.AtomicQuestionType;
 import eu.dzhw.fdz.metadatamanagement.domain.BibliographicalReference;
 import eu.dzhw.fdz.metadatamanagement.domain.Concept;
 import eu.dzhw.fdz.metadatamanagement.domain.DataAcquisitionProject;
@@ -38,7 +39,6 @@ import eu.dzhw.fdz.metadatamanagement.domain.builders.StatisticsBuilder;
 import eu.dzhw.fdz.metadatamanagement.domain.builders.SurveyBuilder;
 import eu.dzhw.fdz.metadatamanagement.domain.builders.ValueBuilder;
 import eu.dzhw.fdz.metadatamanagement.domain.builders.VariableBuilder;
-import eu.dzhw.fdz.metadatamanagement.domain.enumeration.AtomicQuestionType;
 import eu.dzhw.fdz.metadatamanagement.domain.enumeration.ScaleLevel;
 
 /**
