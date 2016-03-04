@@ -22,8 +22,6 @@ angular.module('metadatamanagementApp')
               $translatePartialLoader.addPart('variablesearch');
               $translatePartialLoader.addPart('pagination');
               $translatePartialLoader.addPart('variable');
-              $translatePartialLoader.addPart('dataType');
-              $translatePartialLoader.addPart('scaleLevel');
               $translatePartialLoader.addPart('global');
               return $translate.refresh();
             }
@@ -40,8 +38,8 @@ angular.module('metadatamanagementApp')
         },
         views: {
           'content@': {
-            templateUrl:
-             'scripts/app/entities/variable/variable-detail.html.tmpl',
+            templateUrl: 'scripts/app/entities/variable/' +
+              'variable-detail.html.tmpl',
             controller: 'VariableDetailController'
           }
         },
@@ -68,11 +66,12 @@ angular.module('metadatamanagementApp')
         data: {
           authorities: ['ROLE_USER'],
         },
-        onEnter: ['$stateParams', '$state', '$uibModal', function($stateParams,
+        onEnter: ['$stateParams', '$state', '$uibModal', function(
+          $stateParams,
           $state, $uibModal) {
           $uibModal.open({
-            templateUrl:
-             'scripts/app/entities/variable/variable-dialog.html.tmpl',
+            templateUrl: 'scripts/app/entities/variable/' +
+              'variable-dialog.html.tmpl',
             controller: 'VariableDialogController',
             size: 'lg',
             resolve: {
@@ -96,11 +95,12 @@ angular.module('metadatamanagementApp')
         data: {
           authorities: ['ROLE_USER'],
         },
-        onEnter: ['$stateParams', '$state', '$uibModal', function($stateParams,
+        onEnter: ['$stateParams', '$state', '$uibModal', function(
+          $stateParams,
           $state, $uibModal) {
           $uibModal.open({
-            templateUrl:
-             'scripts/app/entities/variable/variable-dialog.html.tmpl',
+            templateUrl: 'scripts/app/entities/variable/' +
+              'variable-dialog.html.tmpl',
             controller: 'VariableDialogController',
             size: 'lg',
             resolve: {
