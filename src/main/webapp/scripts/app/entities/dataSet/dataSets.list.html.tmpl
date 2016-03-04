@@ -15,8 +15,8 @@
         <tr ng-repeat="dataSet in pageState.dataSets">
             <td>{{dataSet.id}}</td>
             <td>{{dataSet.description[currentLanguage]}}</td>
-            <td><a ng-repeat="surveyId in dataSet.surveyIds" ui-sref="survey.detail({id:surveyId})">[ {{surveyId}} ] </a></td>
-            <td><a ng-repeat="variableId in dataSet.variableIds" ui-sref="variable.detail({id:variableId})">[ {{variableId}} ] </a></td>
+            <td><a ng-repeat="surveyId in dataSet.surveyIds" ui-sref="survey.detail({id:surveyId})">{{surveyId}}, </a></td>
+            <td><a ng-repeat="variableId in dataSet.variableIds" ui-sref="variable.detail({id:variableId})">{{variableId}}, </a></td>
         </tr>
       </tbody>
     </table>
