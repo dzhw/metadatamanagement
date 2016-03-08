@@ -17,7 +17,7 @@ import eu.dzhw.fdz.metadatamanagement.unittest.util.UnitTestCreateDomainObjectUt
  * @author Daniel Katzberg
  *
  */
-// TODO DKatzberg
+// TODO DKatzberg Prototyping
 public class LatexServiceTest {
 
   // @Test
