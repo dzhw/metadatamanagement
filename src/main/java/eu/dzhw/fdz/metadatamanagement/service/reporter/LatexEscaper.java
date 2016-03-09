@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.Writer;
 import java.util.Map;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import freemarker.template.TemplateTransformModel;
 
 /**
@@ -29,7 +30,9 @@ public class LatexEscaper implements TemplateTransformModel {
    * @see freemarker.template.TemplateTransformModel#getWriter(java.io.Writer, java.util.Map)
    */
   @Override
+  @SuppressFBWarnings
   public Writer getWriter(final Writer writer, @SuppressWarnings("rawtypes") Map args) {
+
     return new Writer() {
 
       /*
