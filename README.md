@@ -1,4 +1,6 @@
 [![Build Status](https://travis-ci.org/dzhw/metadatamanagement.svg?branch=master)](https://travis-ci.org/dzhw/metadatamanagement) [![Coverage Status](https://coveralls.io/repos/dzhw/metadatamanagement/badge.svg?branch=master&service=github)](https://coveralls.io/github/dzhw/metadatamanagement?branch=master) [![Dependency Status](https://www.versioneye.com/user/projects/55af5e7a3865620017000077/badge.svg?style=flat)](https://www.versioneye.com/user/projects/55af5e7a3865620017000077)
+[![Sauce Test Status](https://saucelabs.com/buildstatus/rrreitmann)](https://saucelabs.com/u/rreitmann)
+[![Sauce Test Status](https://saucelabs.com/browser-matrix/rreitmann.svg)](https://saucelabs.com/u/rreitmann)
 
 # Developing metadatamanagement
 
