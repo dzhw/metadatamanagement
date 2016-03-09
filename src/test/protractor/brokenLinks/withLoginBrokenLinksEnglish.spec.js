@@ -8,22 +8,22 @@
 
 'use strict';
 
-describe('Check ENGLISH language with a login for ', function() {
+describe('Check broken links in ENGLISH language with a login for ', function() {
   var brokenLinks = require('../utils/brokenLinks');
   var utilMissingTranslations = require('../utils/findMissingTranslations');
   var cacheHelper = require('../utils/cacheHelper');
   var loginHelper = require('../utils/loginHelper');
 
   //Login only once
-  beforeEach(function() {
+  beforeAll(function() {
     browser.get(utilMissingTranslations.englishLanguage + '/');
     loginHelper.login();
-    browser.ignoreSynchronization = true;
+    loginHelper.isLogin();
   });
 
   //Logout only once
-  afterEach(function() {
-    browser.ignoreSynchronization = false;
+  afterAll(function() {
+    loginHelper.isLogin();
     browser.get(utilMissingTranslations.englishLanguage + '/');
     loginHelper.logout();
     cacheHelper.clearCache();
@@ -34,7 +34,7 @@ describe('Check ENGLISH language with a login for ', function() {
 
     //Check broken links
     brokenLinks.checkLinks(
-      utilMissingTranslations.englishLanguage, pages);
+      utilMissingTranslations.englishLanguage, pages, true);
     browser.get(utilMissingTranslations.germanLanguage + pages[0]);
   });
 
@@ -56,7 +56,7 @@ describe('Check ENGLISH language with a login for ', function() {
     browser.get(utilMissingTranslations.germanLanguage + pages[0]);
   });
 
-  xit('... variables Page ', function() {
+  it('... variables Page ', function() {
     var pages = ['/variables'];
 
     //Check broken links

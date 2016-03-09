@@ -14,13 +14,13 @@ describe('Check GERMAN language with a login for ', function() {
   var utilMissingTranslations = require('../utils/findMissingTranslations');
 
   //Login only once
-  beforeEach(function() {
+  beforeAll(function() {
     browser.get(utilMissingTranslations.germanLanguage + '/');
     loginHelper.login();
   });
 
   //Logout only once
-  afterEach(function() {
+  afterAll(function() {
     loginHelper.logout();
     cacheHelper.clearCache();
   });

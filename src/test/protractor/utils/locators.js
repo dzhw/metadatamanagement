@@ -30,6 +30,16 @@
       elementValue + '\']');
   });
 
+  //find tags with ui-view attribut with a given attribute value
+  by.addLocator('uiView', function(elementValue, optParentElement,
+    optRootSelector) {
+    var documentTree = optParentElement || document.querySelector(
+      optRootSelector) || document;
+
+    return documentTree.querySelector('[ui-view=\'' +
+      elementValue + '\']');
+  });
+
   // find tags with ng-click attribut with a given attribute value
   by.addLocator('ngClick', function(elementValue, optParentElement,
     optRootSelector) {

@@ -13,18 +13,16 @@ var cacheHelper = require('../utils/cacheHelper');
 describe('Check broken links in GERMAN language for ', function() {
 
   beforeEach(function() {
-    browser.ignoreSynchronization = true;
   });
 
   afterEach(function() {
-    browser.ignoreSynchronization = false;
     cacheHelper.clearCache();
   });
 
   it('... welcome page', function() {
     var pages = ['/'];
     brokenLinks.checkLinks(
-      utilMissingTranslations.germanLanguage, pages);
+      utilMissingTranslations.germanLanguage, pages, true);
   });
 
   it('... login page', function() {

@@ -10,7 +10,7 @@ var cacheHelper = require('../utils/cacheHelper');
 
 describe('Check ENGLISH language elements for ', function() {
 
-  afterEach(function() {
+  afterAll(function() {
     cacheHelper.clearCache();
   });
 

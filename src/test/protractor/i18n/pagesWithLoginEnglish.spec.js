@@ -14,13 +14,13 @@ describe('Check ENGLISH language with a login for ', function() {
   var utilMissingTranslations = require('../utils/findMissingTranslations');
 
   //Login only once
-  beforeEach(function() {
+  beforeAll(function() {
     browser.get(utilMissingTranslations.englishLanguage + '/');
     loginHelper.login();
   });
 
   //Logout only once
-  afterEach(function() {
+  afterAll(function() {
     loginHelper.logout();
     cacheHelper.clearCache();
   });
