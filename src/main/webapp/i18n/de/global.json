@@ -80,7 +80,7 @@
       }
     },
     "field": {
-      "rdcId": "FDZ ID",
+      "rdcId": "FDZ-ID",
       "id": "ID"
     }
   },
@@ -113,7 +113,7 @@
       "pattern": "Dieses Feld muss das Muster {{pattern}} erfüllen.",
       "number": "Dieses Feld muss eine Zahl sein.",
       "datetimelocal": "Dieses Feld muss eine Datums- und Zeitangabe enthalten.",
-      "rdcId": "Die FDZ ID darf nur aus Zahlen, Buchstaben und \"_\" bestehen.",
+      "rdcId": "Die FDZ-ID darf nur aus Zahlen, Buchstaben und \"_\" bestehen.",
       "variable": {
         "name": "Der Name einer Variablen darf nur aus Zahlen, Buchstaben und \"_\" bestehen."
       },
@@ -129,9 +129,9 @@
     "serverNotReachable": "Der Server ist nicht erreichbar!",
     "NotNull": "Das Feld {{fieldName}} darf nicht leer sein!",
     "entity": {
-      "exists": "Ein Datensatz vom Typ \"{{params[0]}}\" mit ID \"{{params[1]}}\" existiert bereits!",
+      "exists": "Ein Datensatz vom Typ \"{{params[0]}}\" mit FDZ-ID \"{{params[1]}}\" existiert bereits!",
       "compoundexists": "Ein Datensatz vom Typ \"{{params[0]}}\" und der Felderkombination \"{{params[1]}}\" existiert bereits!",
-      "notfound": "Ein Datensatz vom Typ \"{{params[0]}}\" mit ID \"{{params[1]}}\" wurde nicht gefunden!"
+      "notfound": "Ein Datensatz vom Typ \"{{params[0]}}\" mit FDZ-ID \"{{params[1]}}\" wurde nicht gefunden!"
     }
   },
   "logos": {

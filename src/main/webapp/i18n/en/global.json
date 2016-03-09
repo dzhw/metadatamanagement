@@ -81,7 +81,7 @@
       }
     },
     "field": {
-      "rdcId": "RDC ID",
+      "rdcId": "RDC-ID",
       "id": "ID"
     }
   },
@@ -130,9 +130,9 @@
     "serverNotReachable": "Server not reachable",
     "NotNull": "Field {{fieldName}} cannot be empty!",
     "entity": {
-      "exists": "There is already a {{params[0]}} with ID \"{{params[1]}}\"!",
+      "exists": "There is already a {{params[0]}} with RDC-ID \"{{params[1]}}\"!",
       "compoundexists": "There is already a \"{{params[0]}}\" with the field combination \"{{params[1]}}\"!",
-      "notfound": "{{params[0]}} with ID \"{{params[1]}}\" not found!"
+      "notfound": "{{params[0]}} with RDC-ID \"{{params[1]}}\" not found!"
     }
   },
   "logos": {

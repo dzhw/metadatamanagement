@@ -14,7 +14,6 @@ import org.springframework.data.rest.core.event.AfterDeleteEvent;
 import org.springframework.stereotype.Service;
 
 import eu.dzhw.fdz.metadatamanagement.domain.DataAcquisitionProject;
-import eu.dzhw.fdz.metadatamanagement.domain.Survey;
 import eu.dzhw.fdz.metadatamanagement.domain.Variable;
 import eu.dzhw.fdz.metadatamanagement.repository.VariableRepository;
 import eu.dzhw.fdz.metadatamanagement.search.VariableSearchDao;
@@ -50,18 +49,6 @@ public class VariableService {
       variableSearchDao.index(variables.getContent());
       variables = variableRepository.findAll(pageable.next());
     }
-  }
-
-  /**
-   * Delete all variables when the survey was deleted.
-   * 
-   * @param survey the survey which has been deleted.
-   */
-  @HandleAfterDelete
-  public void onSurveyDeleted(Survey survey) {
-    List<Variable> deletedVariables = variableRepository.deleteBySurveyId(survey.getId());
-    deletedVariables
-      .forEach(variable -> eventPublisher.publishEvent(new AfterDeleteEvent(variable)));
   }
 
   /**

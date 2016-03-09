@@ -7,22 +7,22 @@
         "createOrEditLabel": "Erstelle oder editiere eine Variable",
         "refresh": "Aktualisieren"
       },
-      "created": "Die Variable mit FDZ ID {{ param }} ist erstellt worden",
-      "updated": "Die Variable mit FDZ ID {{ param }} ist aktualisiert worden",
-      "deleted": "Die Variable mit FDZ ID {{ param }} ist gelöscht worden",
+      "created": "Die Variable mit FDZ-ID {{ param }} ist erstellt worden",
+      "updated": "Die Variable mit FDZ-ID {{ param }} ist aktualisiert worden",
+      "deleted": "Die Variable mit FDZ-ID {{ param }} ist gelöscht worden",
       "delete": {
-        "question": "Sind Sie sicher dass, Sie die Variable mit FDZ ID \"{{ rdcId }}\" löschen möchten?"
+        "question": "Sind Sie sicher dass, Sie die Variable mit FDZ-ID \"{{ rdcId }}\" löschen möchten?"
       },
       "detail": {
         "title": "Variable"
       },
       "name": "Name",
-      "fdzId": "FDZ ID",
+      "fdzId": "FDZ-ID",
       "dataType": "Datentyp",
       "scaleLevel": "Skalenniveau",
       "label": "Label",
       "dataAcquisitionProjectId": "Datenerhebungsprojekt-ID",
-      "surveyId": "Erhebung (ID)",
+      "surveyId": "Erhebung-ID",
       "description": {
         "de": "Beschreibung",
         "en": "Description"
