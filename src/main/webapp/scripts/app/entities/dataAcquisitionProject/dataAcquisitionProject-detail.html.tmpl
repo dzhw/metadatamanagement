@@ -61,6 +61,22 @@
                   </div>
               </uib-accordion-group>
               <br/>
+              <uib-accordion-group is-open="variablesListIsOpen">
+                  <uib-accordion-heading>
+                    <div class="row">
+                      <div class="col-md-12">
+                        <span data-translate="metadatamanagementApp.variable.home.title">Variablen</span>
+                        <span class="pull-right">
+                          <i class="glyphicon" ng-class="{'glyphicon-chevron-down': variablesListIsOpen, 'glyphicon-chevron-right': !variablesListIsOpen}"></i>
+                        </span>
+                      </div>
+                    </div>
+                  </uib-accordion-heading>
+                  <div>
+                    <variableslist params="{dataAcquisitionProjectId: dataAcquisitionProject.id}" current-language="currentLanguage" ></variableslist>
+                  </div>
+              </uib-accordion-group>
+              <br/>
               <div class="row">
                   <div class="col-md-12">
                       <button type="submit" onclick="window.history.back()" class="btn btn-info">
@@ -78,6 +94,9 @@
                       <button type="file" class="btn btn-default" ngf-select="onDataSetUpload($file)" accept=".xlsx">
                               <span class="glyphicon glyphicon-cloud-upload"></span>
                               {{'metadatamanagementApp.dataAcquisitionProject.detail.upload.datasets' | translate}}</button>
+                      <button type="file" class="btn btn-default" ngf-select="onVariablesUpload($file)" accept=".zip">
+                              <span class="glyphicon glyphicon-cloud-upload"></span>
+                              {{'metadatamanagementApp.dataAcquisitionProject.detail.upload.variables' | translate}}</button>
                   </div>
               </div>
               <br/>

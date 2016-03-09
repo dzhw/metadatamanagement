@@ -17,11 +17,16 @@
         "title": "Variable"
       },
       "name": "Name",
+      "fdzId": "FDZ ID",
       "dataType": "Datentyp",
       "scaleLevel": "Skalenniveau",
       "label": "Label",
       "dataAcquisitionProjectId": "Datenerhebungsprojekt-ID",
       "surveyId": "Erhebung (ID)",
+      "description": {
+        "de": "Beschreibung",
+        "en": "Description"
+      },
       "chart": {
         "figure": "Abbildung",
         "absoluteFrequency": "Absolute Häufigkeit von Werten",

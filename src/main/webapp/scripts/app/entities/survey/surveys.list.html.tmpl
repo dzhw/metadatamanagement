@@ -1,7 +1,8 @@
 <div ng-if="pageState.promiseParam">
 <div class="row">
     <div  class="col-md-12">
-    <table class="table">
+      <div class="table-responsive">
+        <table class="table table-hover">
       <thead>
       <tr>
         <th data-translate="metadatamanagementApp.survey.fdzId">FDZ ID</th>
@@ -21,6 +22,7 @@
         </tr>
          </tbody>
     </table>
+  </div>
   </div>
     <div  class="col-md-12 col-md-offset-4">
     <uib-pagination total-items="pageState.bigTotalItems" ng-model="pageState.currentPage" ng-change="pageChanged()"  max-size="pageState.maxSize" class="pagination-sm" boundary-links="true" boundary-link-numbers="true" rotate="false" previous-text="{{'pager.previous' | translate}}" next-text="{{'pager.next' | translate}}" first-text="{{'pager.first' | translate}}" last-text="{{'pager.last' | translate}}"></uib-pagination>

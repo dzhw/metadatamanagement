@@ -21,7 +21,8 @@
         "download": "Download Variable Report",
         "upload": {
           "surveys": "Upload Surveys",
-          "datasets": "Upload Datasets"
+          "datasets": "Upload Datasets",
+          "variables": "Upload Variables"
         },
         "uploadprotocol": "Upload Protocol",
         "success": "Success",

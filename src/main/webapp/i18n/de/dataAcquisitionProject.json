@@ -21,7 +21,8 @@
         "download": "Variablenreport herunterladen",
         "upload": {
           "surveys": "Erhebungen hochladen",
-          "datasets": "Datensätze hochladen"
+          "datasets": "Datensätze hochladen",
+          "variables": "Variablen hochladen"
         },
         "uploadprotocol": "Upload Protokoll",
         "success": "Erfolg",

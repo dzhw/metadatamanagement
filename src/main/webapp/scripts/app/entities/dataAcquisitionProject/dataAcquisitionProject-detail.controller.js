@@ -6,8 +6,8 @@ angular.module('metadatamanagementApp')
     function($scope, $translate, $stateParams, entity,
       DataAcquisitionProjectExportService, ExcelParser,
       Survey, SurveyCollection, SurveyDeleteResource,
-      DataSet, DataSetDeleteResource) {
-
+      DataSet, DataSetDeleteResource, ZipParser,
+      ZipFilesParser, Variable, VariableDeleteResource) {
       $scope.dataAcquisitionProject = entity;
       $scope.dataAcquisitionProject.id = $stateParams.id;
 
@@ -85,7 +85,7 @@ angular.module('metadatamanagementApp')
       var saveSurveys = function(surveys) {
         $scope.initUploadStatus(surveys.length);
         SurveyDeleteResource.deleteByDataAcquisitionProjectId(
-          {dataAcquisitionProjectId: $scope.dataAcquisitionProject.id},
+          {dataAcquisitionProjectId: $scope.dataAcquisitionProject.id}, {},
           function() {
             for (var i = 0; i < surveys.length; i++) {
               var data = surveys[i];
@@ -123,7 +123,7 @@ angular.module('metadatamanagementApp')
       var saveDataSets = function(dataSets) {
         $scope.initUploadStatus(dataSets.length);
         DataSetDeleteResource.deleteByDataAcquisitionProjectId(
-          {dataAcquisitionProjectId: $scope.dataAcquisitionProject.id},
+          {dataAcquisitionProjectId: $scope.dataAcquisitionProject.id}, {},
           function() {
         for (var i = 0; i < dataSets.length; i++) {
           var data = dataSets[i];
@@ -153,6 +153,28 @@ angular.module('metadatamanagementApp')
         }
       });
       };
+      var saveVariables = function(variables) {
+        $scope.initUploadStatus(variables.length);
+        VariableDeleteResource.deleteByDataAcquisitionProjectId(
+          {dataAcquisitionProjectId: $scope.dataAcquisitionProject.id}, {},
+          function() {
+        for (var i = 0; i < variables.length; i++) {
+          var variable = variables[i];
+          if (!variable .id || variable .id === '') {
+            $scope.uploadStatus.pushError($translate.instant(
+            'metadatamanagementApp.dataAcquisitionProject.detail.logMessages.' +
+            'missingId',{index: i + 1}));
+          } else {
+            var variableObj  = new Variable(variable);
+            variableObj.$save().then(function() {
+              $scope.uploadStatus.pushSuccess();
+            }).catch(function(error) {
+              $scope.uploadStatus.pushError(error);
+            });
+          }
+        }
+      });
+      };
       $scope.onSurveyUpload = function(file) {
         if (file !== null) {
           ExcelParser.readFileAsync(file)
@@ -161,8 +183,16 @@ angular.module('metadatamanagementApp')
       };
       $scope.onDataSetUpload = function(file) {
         if (file !== null) {
-          ExcelParser.readFileAsync(file)
-            .then(saveDataSets);
+          ExcelParser.readFileAsync(file).then(saveDataSets);
+        }
+      };
+      $scope.onVariablesUpload = function(file) {
+        if (file !== null) {
+          ZipParser.readZipFileAsync(file)
+            .then(function(data) {
+              ZipFilesParser.readAllFileAsync(data,
+                $scope.dataAcquisitionProject.id).then(saveVariables);
+            });
         }
       };
       $scope.exportToODT = function() {

@@ -71,9 +71,19 @@ public class VariableService {
    */
   @HandleAfterDelete
   public void onDataAcquisitionProjectDeleted(DataAcquisitionProject dataAcquisitionProject) {
+    deleteVariablesByProjectId(dataAcquisitionProject.getId());
+  }
+  
+  /**
+   * A service method for deletion of variables within a data acquisition project.
+   * @param dataAcquisitionProjectId the id for to the data acquisition project.
+   * @return List of deleted variables
+   */
+  public List<Variable> deleteVariablesByProjectId(String dataAcquisitionProjectId) {
     List<Variable> deletedVariables =
-        variableRepository.deleteByDataAcquisitionProjectId(dataAcquisitionProject.getId());
+        variableRepository.deleteByDataAcquisitionProjectId(dataAcquisitionProjectId);
     deletedVariables
       .forEach(variable -> eventPublisher.publishEvent(new AfterDeleteEvent(variable)));
+    return deletedVariables;
   }
 }

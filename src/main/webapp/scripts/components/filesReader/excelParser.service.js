@@ -16,7 +16,6 @@ angular.module('metadatamanagementApp').service('ExcelParser', function($q) {
       // jscs:enable
       deferred.resolve(jsonContent);
     };
-
     return deferred.promise;
   };
 });
