@@ -2,7 +2,7 @@
   "metadatamanagementApp": {
     "dataSet": {
       "title": "Data Sets",
-      "fdzId": "RDC ID",
+      "fdzId": "RDC-ID",
       "description": {
         "de": "Title (DE)",
         "en": "Title (EN)"

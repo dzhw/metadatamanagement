@@ -2,7 +2,7 @@
   "metadatamanagementApp": {
     "dataSet": {
       "title": "Datensätze",
-      "fdzId": "FDZ ID",
+      "fdzId": "FDZ-ID",
       "description": {
         "de": "Title (DE)",
         "en": "Title (EN)"

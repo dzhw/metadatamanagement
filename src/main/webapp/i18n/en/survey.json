@@ -6,24 +6,24 @@
         "createLabel": "Create a new Survey",
         "createOrEditLabel": "Create or edit a Survey"
       },
-      "created": "A new Survey is created with RDC ID \"{{ param }}\"",
-      "updated": "A Survey is updated with RDC ID \"{{ param }}\"",
-      "deleted": "A Survey is deleted with RDC ID \"{{ param }}\"",
+      "created": "A new Survey is created with RDC-ID \"{{ param }}\"",
+      "updated": "A Survey is updated with RDC-ID \"{{ param }}\"",
+      "deleted": "A Survey is deleted with RDC-ID \"{{ param }}\"",
       "delete": {
-        "question": "Are you sure you want to delete Survey with RDC ID \"{{ id }}\"?"
+        "question": "Are you sure you want to delete Survey with RDC-ID \"{{ id }}\"?"
       },
       "detail": {
         "title": "Survey"
       },
-      "fdzId": "RDC ID",
+      "fdzId": "RDC-ID",
       "title": {
         "de": "Title (DE)",
         "en": "Title (EN)"
       },
       "fieldPeriod.start": "Field Period Begin",
       "fieldPeriod.end": "Field Period End",
-      "dataAcquisitionProjectId": "Data Acquisition Project ID",
-      "questionnaireId": "Questionnaire ID "
+      "dataAcquisitionProjectId": "Data Acquisition Project-ID",
+      "questionnaireId": "Questionnaire-ID "
     }
   }
 }
