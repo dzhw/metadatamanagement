@@ -15,6 +15,7 @@ import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import org.junit.Test;
 import org.springframework.expression.ExpressionParser;
 import org.springframework.expression.spel.standard.SpelExpressionParser;
 import org.springframework.expression.spel.support.StandardEvaluationContext;
@@ -37,9 +38,16 @@ import freemarker.template.Version;
 // TODO DKatzberg Prototyping
 public class LatexServiceTest {
 
-  // @Test
+  @Test
   public void testReplacementFreemarker() throws TemplateNotFoundException,
       MalformedTemplateNameException, ParseException, IOException, TemplateException {
+
+    Map<String, Object> input = new HashMap<String, Object>();
+    DataAcquisitionProject dataAcquisitionProject =
+        UnitTestCreateDomainObjectUtils.buildDataAcquisitionProject();
+    dataAcquisitionProject.setId("{Another \\ id}");
+    // replace("\\", "\\\\")?replace("{", "\\{")?replace("}", "\\}")>
+    input.put("dataAcquisitionProject", dataAcquisitionProject);
 
     // Configuration
     Configuration cfg = new Configuration(new Version(2, 3, 23));
@@ -56,7 +64,7 @@ public class LatexServiceTest {
     cfg.setSharedVariable("latexEscape", new LatexEscaper());
 
     // Read Template and escape elements
-    Map<String, Object> input = new HashMap<String, Object>();
+
     Template template = cfg.getTemplate("ExampleTexTemplate.tex");
 
     // Write output to console and file
