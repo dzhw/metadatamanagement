@@ -9,7 +9,8 @@ function() {
     controller: 'SurveysListController',
     scope: {
       params: '=',
-      currentLanguage: '='
+      currentLanguage: '=',
+      currentPage: '='
     }
   };
 });

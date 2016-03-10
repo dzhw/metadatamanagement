@@ -9,7 +9,8 @@ function() {
     controller: 'VariablesListController',
     scope: {
       params: '=',
-      currentLanguage: '='
+      currentLanguage: '=',
+      currentPage: '='
     }
   };
 });

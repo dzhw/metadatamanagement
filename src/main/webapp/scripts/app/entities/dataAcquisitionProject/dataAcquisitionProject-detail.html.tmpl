@@ -35,36 +35,33 @@
                       <div class="col-md-12">
                         <span data-translate="metadatamanagementApp.dataSet.title">DataSets</span>
                         <span class="pull-right">
-                          <span class="label label-as-badge label-default">{{elementsCounts.dataSets}}</span>
+                          <span class="label label-as-badge label-default">{{objLists.dataSetList.page.totalElements}}</span>
                           <i class="glyphicon" ng-class="{'glyphicon-chevron-down': dataSetsListIsOpen, 'glyphicon-chevron-right': !dataSetsListIsOpen}"></i>
                         </span>
                       </div>
                     </div>
                   </uib-accordion-heading>
                   <div>
-                    <datasetslist params="{dataAcquisitionProjectId: dataAcquisitionProject.id}" current-language="currentLanguage" ></datasetslist>
+                    <datasetslist params="{dataAcquisitionProjectId: dataAcquisitionProject.id}" current-language="currentLanguage" current-page="objLists.dataSetList"></datasetslist>
                   </div>
               </uib-accordion-group>
               <br/>
-              <uib-accordion-group is-open="surveysListIsOpen" ng-if="elementsCounts.waitState">
+              <uib-accordion-group is-open="surveysListIsOpen">
                   <uib-accordion-heading>
                     <div class="row">
                       <div class="col-md-12">
                         <span data-translate="metadatamanagementApp.survey.home.title">Surveys</span>
                         <span class="pull-right">
-                          <span class="label label-as-badge label-default">{{elementsCounts.surveys}}</span>
+                          <span class="label label-as-badge label-default">{{objLists.surveyList.page.totalElements}}</span>
                           <i class="glyphicon" ng-class="{'glyphicon-chevron-down': surveysListIsOpen, 'glyphicon-chevron-right': !surveysListIsOpen}"></i>
                         </span>
                       </div>
                     </div>
                   </uib-accordion-heading>
                   <div>
-                    <surveyslist params="{dataAcquisitionProjectId: dataAcquisitionProject.id}" current-language="currentLanguage" ></surveyslist>
+                    <surveyslist params="{dataAcquisitionProjectId: dataAcquisitionProject.id}" current-language="currentLanguage" current-page="objLists.surveyList"></surveyslist>
                   </div>
               </uib-accordion-group>
-              <div ng-if="!elementsCounts.waitState">
-                <h1>Waiiiiiiiit....</h1>
-              </div>
               <br/>
               <uib-accordion-group is-open="variablesListIsOpen">
                   <uib-accordion-heading>
@@ -72,14 +69,14 @@
                       <div class="col-md-12">
                         <span data-translate="metadatamanagementApp.variable.home.title">Variablen</span>
                         <span class="pull-right">
-                          <span class="label label-as-badge label-default">{{elementsCounts.variables}}</span>
+                          <span class="label label-as-badge label-default">{{objLists.variableList.page.totalElements}}</span>
                           <i class="glyphicon" ng-class="{'glyphicon-chevron-down': variablesListIsOpen, 'glyphicon-chevron-right': !variablesListIsOpen}"></i>
                         </span>
                       </div>
                     </div>
                   </uib-accordion-heading>
                   <div>
-                    <variableslist params="{dataAcquisitionProjectId: dataAcquisitionProject.id}" current-language="currentLanguage" ></variableslist>
+                    <variableslist params="{dataAcquisitionProjectId: dataAcquisitionProject.id}" current-language="currentLanguage" current-page="objLists.variableList" ></variableslist>
                   </div>
               </uib-accordion-group>
               <br/>

@@ -9,7 +9,8 @@ function() {
     controller: 'DataSetsListController',
     scope: {
       params: '=',
-      currentLanguage: '='
+      currentLanguage: '=',
+      currentPage: '='
     }
   };
 });

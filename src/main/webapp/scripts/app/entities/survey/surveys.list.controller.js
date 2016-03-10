@@ -7,20 +7,17 @@ angular.module('metadatamanagementApp')
           promiseParam: false,
           maxSize: 5,
           currentPage: 1,
-          bigTotalItems: 0,
-          surveys: []
+          totalElements: 0
         };
         $scope.pageChanged();
       };
       $scope.pageChanged = function() {
-        SurveyCollection.query({dataAcquisitionProjectId:
+        $scope.currentPage = SurveyCollection.query({dataAcquisitionProjectId:
           $scope.params.dataAcquisitionProjectId,
           page: ($scope.pageState.currentPage - 1),
-        }, function(result) {
-          $scope.pageState.promiseParam = true;
+        },function(result) {
           $scope.pageState.surveys = result._embedded.surveys;
-          $scope.pageState.bigTotalItems = result.page.totalElements;
-          $scope.$emit('surveysLength', $scope.pageState.bigTotalItems);
+          $scope.pageState.totalElements = result.page.totalElements;
         });
       };
       $scope.$on('refresh', function() {
