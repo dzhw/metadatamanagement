@@ -8,7 +8,9 @@ angular.module('metadatamanagementApp').service('ExcelParser', function($q) {
     fileReader.readAsBinaryString(file);
     fileReader.onload = function(e) {
       var data = e.target.result;
-      var content = XLSX.read(data, {type: 'binary'});
+      var content = XLSX.read(data, {
+        type: 'binary'
+      });
       var sheetList = content.SheetNames;
       var worksheet = content.Sheets[sheetList[0]];
       // jscs:disable

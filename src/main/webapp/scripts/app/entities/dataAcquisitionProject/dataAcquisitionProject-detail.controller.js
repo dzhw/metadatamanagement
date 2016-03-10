@@ -5,8 +5,8 @@ angular.module('metadatamanagementApp')
   .controller('DataAcquisitionProjectDetailController',
     function($scope, $translate, $stateParams, entity,
       DataAcquisitionProjectExportService, ExcelParser,
-      Survey, SurveyCollection, SurveyDeleteResource,
-      DataSet, DataSetDeleteResource, ZipParser, FileStorage,
+      Survey, SurveyCollection, SurveyDeleteResource, DataSet,
+      DataSetDeleteResource, ZipParser, FileStorage, Upload,
       FileStorageCollection, ZipFilesParser, Variable, VariableDeleteResource) {
       $scope.dataAcquisitionProject = entity;
       $scope.dataAcquisitionProject.id = $stateParams.id;
@@ -216,12 +216,6 @@ angular.module('metadatamanagementApp')
           ExcelParser.readFileAsync(file).then(saveDataSets);
         }
       };
-      $scope.onTexTemplateUpload = function(file) {
-        if (file !== null) {
-          //TODO
-          //.then(saveTexTemplate);
-        }
-      };
       $scope.onVariablesUpload = function(file) {
         if (file !== null) {
           ZipParser.readZipFileAsync(file)
@@ -231,6 +225,17 @@ angular.module('metadatamanagementApp')
             });
         }
       };
+
+      $scope.onTexTemplateUpload = function(file) {
+        Upload.http({
+          url: '/api/tmp',
+          headers: {
+            'Content-Type': file.type
+          },
+          data: file
+        });
+      };
+
       $scope.exportToODT = function() {
         DataAcquisitionProjectExportService.exportToODT($scope.rdcProject);
       };
