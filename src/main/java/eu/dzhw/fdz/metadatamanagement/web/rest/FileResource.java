@@ -25,7 +25,7 @@ public class FileResource {
    * @param rcdId Yeah. TODO DKatzberg
    * @throws IOException Yeah. TODO DKatzberg
    */
-  @RequestMapping(value = "/files/upload")
+  @RequestMapping(value = "/files/upload/tex")
   public ResponseEntity<?> uploadFile(@RequestParam("file") MultipartFile file,
       @RequestParam("rdcId") String rcdId) throws IOException {
     byte[] bytes;
