@@ -228,7 +228,7 @@ angular.module('metadatamanagementApp')
 
       $scope.onTexTemplateUpload = function(file) {
         Upload.upload({
-          url: 'api/files',
+          url: 'api/files/upload',
           fields: {
             'rdcId': 'ATestProject' //TODO hardcoded. FIXME
           },
