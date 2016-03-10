@@ -90,9 +90,9 @@
                           <span data-translate="entity.action.back">
                               Back</span>
                       </button>
-                      <button type="button" class="btn btn-default" ng-click="exportToODT()">
-                          <span class="glyphicon glyphicon-floppy-save"></span>
-                          {{'metadatamanagementApp.dataAcquisitionProject.detail.download' | translate}}
+                      <button type="file" class="btn btn-default" ngf-select="onTexTemplateUpload($file)" accept=".tex">
+                          <span class="glyphicon glyphicon-book"></span>
+                          {{'metadatamanagementApp.dataAcquisitionProject.detail.generate' | translate}}
                       </button>
                       <button type="file" class="btn btn-default" ngf-select="onSurveyUpload($file)" accept=".xlsx">
                           <span class="glyphicon glyphicon-cloud-upload"></span>

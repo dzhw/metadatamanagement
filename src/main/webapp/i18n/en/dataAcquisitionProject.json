@@ -18,7 +18,7 @@
       "detail": {
         "title": "Data Acquisition Project",
         "progress": "Progress:",
-        "download": "Download Variable Report",
+        "generate": "Generate Variable Report",
         "upload": {
           "surveys": "Upload Surveys",
           "datasets": "Upload Datasets",
