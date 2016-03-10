@@ -2,7 +2,7 @@
 'use strict';
 
 angular.module('metadatamanagementApp')
-  .factory('FileStorage', function($resource) {
+  .factory('File', function($resource) {
     return $resource('api/files/:id', {
       id: '@id'
     }, {

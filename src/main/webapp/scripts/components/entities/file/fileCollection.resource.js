@@ -2,7 +2,7 @@
 'use strict';
 
 angular.module('metadatamanagementApp')
-  .factory('FileStorageCollection', function($resource) {
+  .factory('FileCollection', function($resource) {
     return $resource('/api/files', {
       projection: 'complete'
     }, {

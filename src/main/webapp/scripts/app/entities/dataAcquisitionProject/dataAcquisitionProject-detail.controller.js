@@ -6,8 +6,8 @@ angular.module('metadatamanagementApp')
     function($scope, $translate, $stateParams, entity,
       DataAcquisitionProjectExportService, ExcelParser,
       Survey, SurveyCollection, SurveyDeleteResource, DataSet,
-      DataSetDeleteResource, ZipParser, FileStorage, Upload,
-      FileStorageCollection, ZipFilesParser, Variable, VariableDeleteResource) {
+      DataSetDeleteResource, ZipParser, File, Upload,
+      FileCollection, ZipFilesParser, Variable, VariableDeleteResource) {
       $scope.dataAcquisitionProject = entity;
       $scope.dataAcquisitionProject.id = $stateParams.id;
       $scope.elementsCounts = {
