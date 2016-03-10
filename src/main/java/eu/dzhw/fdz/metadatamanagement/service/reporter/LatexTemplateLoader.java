@@ -18,12 +18,13 @@ import freemarker.cache.TemplateLoader;
 public class LatexTemplateLoader implements TemplateLoader {
 
   public static final String ESCAPE_PREFIX =
-      "<#escape x as x" + "?replace(\"\\\", \"\\textbackslash{}\")"
-          + "?replace(\"{\", \"\\{\")?replace(\"}\", \"\\}\")"
-          + "?replace(\"#\", \"\\#\")?replace(\"$\", \"\\$\")"
-          + "?replace(\"%\", \"\\%\")?replace(\"&\", \"\\&\")"
-          + "?replace(\"^\", \"\\textasciicircum{}\")?replace(\"_\", \"\\_\")"
-          + "?replace(\"~\", \"\\textasciitilde{}\")>";
+      "<#escape x as x?replace(\"\\\\\", \"\\\\textbackslash\")"
+          + "?replace(\"{\", \"\\\\{\")?replace(\"}\", \"\\\\}\")"
+          + "?replace(\"#\", \"\\\\#\")?replace(\"$\", \"\\\\$\")"
+          + "?replace(\"%\", \"\\\\%\")?replace(\"&\", \"\\\\&\")"
+          + "?replace(\"^\", \"\\\\textasciicircum\")?replace(\"_\", \"\\\\_\")"
+          + "?replace(\"~\", \"\\\\textasciitilde\")>";
+
   public static final String ESCAPE_SUFFIX = "</#escape>";
 
   private final TemplateLoader templateLoader;

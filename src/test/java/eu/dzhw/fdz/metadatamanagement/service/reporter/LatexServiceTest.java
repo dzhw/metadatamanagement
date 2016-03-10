@@ -12,13 +12,6 @@ import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
-import org.junit.Test;
-import org.springframework.expression.ExpressionParser;
-import org.springframework.expression.spel.standard.SpelExpressionParser;
-import org.springframework.expression.spel.support.StandardEvaluationContext;
 
 import eu.dzhw.fdz.metadatamanagement.domain.DataAcquisitionProject;
 import eu.dzhw.fdz.metadatamanagement.unittest.util.UnitTestCreateDomainObjectUtils;
@@ -29,7 +22,6 @@ import freemarker.template.Template;
 import freemarker.template.TemplateException;
 import freemarker.template.TemplateExceptionHandler;
 import freemarker.template.TemplateNotFoundException;
-import freemarker.template.Version;
 
 /**
  * @author Daniel Katzberg
@@ -38,19 +30,18 @@ import freemarker.template.Version;
 // TODO DKatzberg Prototyping
 public class LatexServiceTest {
 
-  @Test
+  // @Test
   public void testReplacementFreemarker() throws TemplateNotFoundException,
       MalformedTemplateNameException, ParseException, IOException, TemplateException {
 
     Map<String, Object> input = new HashMap<String, Object>();
     DataAcquisitionProject dataAcquisitionProject =
         UnitTestCreateDomainObjectUtils.buildDataAcquisitionProject();
-    dataAcquisitionProject.setId("{Another \\ id}");
-    // replace("\\", "\\\\")?replace("{", "\\{")?replace("}", "\\}")>
+    dataAcquisitionProject.setId("{Another \\ _ ~ # $ % ^ & id}");
     input.put("dataAcquisitionProject", dataAcquisitionProject);
 
     // Configuration
-    Configuration cfg = new Configuration(new Version(2, 3, 23));
+    Configuration cfg = new Configuration(Configuration.VERSION_2_3_23);
     Path currentRelativePath = Paths.get("");
     String basicPath = currentRelativePath.toAbsolutePath()
       .toString();
@@ -59,51 +50,14 @@ public class LatexServiceTest {
     cfg.setDefaultEncoding("UTF-8");
     cfg.setLocale(Locale.GERMAN);
     cfg.setTemplateExceptionHandler(TemplateExceptionHandler.RETHROW_HANDLER);
+    cfg.setTemplateLoader(new LatexTemplateLoader(cfg.getTemplateLoader()));
 
-    // Wrap all values: with <@latexEscape> and close them with <@/latexEscape>
-    cfg.setSharedVariable("latexEscape", new LatexEscaper());
 
     // Read Template and escape elements
-
     Template template = cfg.getTemplate("ExampleTexTemplate.tex");
 
     // Write output to console and file
     Writer consoleWriter = new OutputStreamWriter(System.out);
     template.process(input, consoleWriter);
   }
-
-  // TODO DKatzberg Delete? Old Prototype without Freemarker
-  public void testReplacement() {
-
-    // Tex template file
-    String template = "Dies ist die Project Test ID: {{id}}";
-
-    // Get Values from the Texfile
-    Pattern pattern = Pattern.compile("\\{\\{(.*?)\\}\\}");
-    Matcher matcher = pattern.matcher(template);
-    String key = "";
-    if (matcher.find()) {
-      key = matcher.group(1);
-    }
-
-    // Got the key of the brackets. receive the value
-    ExpressionParser parser = new SpelExpressionParser();
-    DataAcquisitionProject acquisitionProject =
-        UnitTestCreateDomainObjectUtils.buildDataAcquisitionProject();
-    StandardEvaluationContext projectContext = new StandardEvaluationContext(acquisitionProject);
-
-    // Two example how to access the data / paths
-    String id = parser.parseExpression(key)
-      .getValue(projectContext, String.class);
-    System.out.println("Id:" + id);
-    String notesDe = parser.parseExpression("releases[0].notes.de")
-      .getValue(projectContext, String.class);
-    System.out.println("DE, Notes: " + notesDe);
-
-    // Replace
-    System.out.println("Original: " + template);
-    String newTemplate = template.replaceAll("\\{\\{" + key + "\\}\\}", id);
-    System.out.println("New: " + newTemplate);
-  }
-
 }
