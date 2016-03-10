@@ -20,6 +20,7 @@ angular.module('metadatamanagementApp')
           $scope.pageState.promiseParam = true;
           $scope.pageState.dataSets = result._embedded.dataSets;
           $scope.pageState.bigTotalItems = result.page.totalElements;
+          $scope.$emit('dataSetsLength', $scope.pageState.bigTotalItems);
         });
       };
       $scope.$on('refresh', function() {

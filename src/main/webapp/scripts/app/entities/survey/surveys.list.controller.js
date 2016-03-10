@@ -20,6 +20,7 @@ angular.module('metadatamanagementApp')
           $scope.pageState.promiseParam = true;
           $scope.pageState.surveys = result._embedded.surveys;
           $scope.pageState.bigTotalItems = result.page.totalElements;
+          $scope.$emit('surveysLength', $scope.pageState.bigTotalItems);
         });
       };
       $scope.$on('refresh', function() {

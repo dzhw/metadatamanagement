@@ -10,8 +10,14 @@ angular.module('metadatamanagementApp')
       ZipFilesParser, Variable, VariableDeleteResource) {
       $scope.dataAcquisitionProject = entity;
       $scope.dataAcquisitionProject.id = $stateParams.id;
-
+      $scope.elementsCounts = {
+          surveys: 0,
+          dataSets: 0,
+          variables: 0,
+          promiseParam: true
+        };
       $scope.initUploadStatus = function(itemsToUpload) {
+        $scope.elementsCounts.waitState = false;
         $scope.uploadStatus = {
           itemsToUpload: itemsToUpload,
           errors: 0,
@@ -202,5 +208,15 @@ angular.module('metadatamanagementApp')
         if (newUploadStatus === $scope.uploadStatus.itemsToUpload) {
           $scope.$broadcast('refresh');
         }
+      });
+      $scope.$on('surveysLength', function(event, data) {
+        $scope.elementsCounts.surveys = data;
+      });
+      $scope.$on('dataSetsLength', function(event, data) {
+        $scope.elementsCounts.dataSets = data;
+        $scope.elementsCounts.waitState = true;
+      });
+      $scope.$on('variablesLength', function(event, data) {
+        $scope.elementsCounts.variables = data;
       });
     });
