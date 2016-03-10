@@ -3,7 +3,7 @@
 
 angular.module('metadatamanagementApp')
   .factory('FileStorage', function($resource) {
-    return $resource('api/tmp/:id', {
+    return $resource('api/files/:id', {
       id: '@id'
     }, {
       'get': {

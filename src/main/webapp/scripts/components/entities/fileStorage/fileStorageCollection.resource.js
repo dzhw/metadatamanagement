@@ -3,7 +3,7 @@
 
 angular.module('metadatamanagementApp')
   .factory('FileStorageCollection', function($resource) {
-    return $resource('/api/tmp', {
+    return $resource('/api/files', {
       projection: 'complete'
     }, {
       'query': {
