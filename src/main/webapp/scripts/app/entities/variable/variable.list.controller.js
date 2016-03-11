@@ -5,8 +5,7 @@ angular.module('metadatamanagementApp')
       VariableCollection) {
       var init = function() {
         $scope.pageState = {
-          maxSize: 5,
-          currentPage: 1,
+          currentPageNumber: 1,
           totalElements: 0
         };
         $scope.pageChanged();
@@ -14,16 +13,11 @@ angular.module('metadatamanagementApp')
       $scope.pageChanged = function() {
         $scope.currentPage = VariableCollection.query({dataAcquisitionProjectId:
           $scope.params.dataAcquisitionProjectId,
-          page: ($scope.pageState.currentPage - 1)
+          page: ($scope.pageState.currentPageNumber - 1)
         });
       };
       $scope.$on('refresh', function() {
         init();
       });
-      $scope.$watch('currentPage', function(currentPage) {
-        if (currentPage.$resolved) {
-          $scope.pageState.totalElements = currentPage.page.totalElements;
-        }
-      }, true);
       init();
     });

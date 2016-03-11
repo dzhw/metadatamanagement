@@ -51,7 +51,10 @@
       </div>
   </div>
     <div  class="col-md-12 col-md-offset-4">
-    <uib-pagination total-items="pageState.totalElements" ng-model="pageState.currentPage" ng-change="pageChanged()"  max-size="pageState.maxSize" class="pagination-sm" boundary-links="true" boundary-link-numbers="true" rotate="false" previous-text="{{'pager.previous' | translate}}" next-text="{{'pager.next' | translate}}" first-text="{{'pager.first' | translate}}" last-text="{{'pager.last' | translate}}"></uib-pagination>
+    <uib-pagination total-items="pageState.totalElements" ng-model="pageState.currentPageNumber" ng-change="pageChanged()"  max-size="5" class="pagination-sm" boundary-links="true" boundary-link-numbers="true" rotate="false" previous-text="{{'pager.previous' | translate}}" next-text="{{'pager.next' | translate}}" first-text="{{'pager.first' | translate}}" last-text="{{'pager.last' | translate}}"></uib-pagination>
   </div>
+</div>
+<div class="row" ng-if="!currentPage.$resolved">
+  <loading></loading>
 </div>
 </div>
