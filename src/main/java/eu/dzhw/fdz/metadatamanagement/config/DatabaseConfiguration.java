@@ -21,6 +21,7 @@ import org.springframework.data.mongodb.config.AbstractMongoConfiguration;
 import org.springframework.data.mongodb.config.EnableMongoAuditing;
 import org.springframework.data.mongodb.core.convert.CustomConversions;
 import org.springframework.data.mongodb.core.mapping.event.ValidatingMongoEventListener;
+import org.springframework.data.mongodb.gridfs.GridFsTemplate;
 import org.springframework.data.mongodb.repository.config.EnableMongoRepositories;
 import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 
@@ -85,6 +86,7 @@ public class DatabaseConfiguration extends AbstractMongoConfiguration {
   /**
    * Register custom converters for mongo access.
    */
+  @Override
   @Bean
   public CustomConversions customConversions() {
     List<Converter<?, ?>> converters = new ArrayList<>();
@@ -111,5 +113,10 @@ public class DatabaseConfiguration extends AbstractMongoConfiguration {
     mongeez.setDbName(mongoProperties.getDatabase());
     mongeez.process();
     return mongeez;
+  }
+
+  @Bean
+  public GridFsTemplate gridFsTemplate() throws Exception {
+    return new GridFsTemplate(mongoDbFactory(), mappingMongoConverter());
   }
 }

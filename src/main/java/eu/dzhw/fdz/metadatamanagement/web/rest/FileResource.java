@@ -45,7 +45,7 @@ public class FileResource {
       byte[] fileAsBytes = file.getBytes();
 
       // fill the data with data and store the template into mongodb / gridfs
-      this.latexDataFillService.fillLatexTemplateWithData(new String(fileAsBytes, "UTF-8"), id);
+      this.latexDataFillService.generateReport(new String(fileAsBytes, "UTF-8"), id);
 
       // Return ok. Status 200.
       return ResponseEntity.ok()
