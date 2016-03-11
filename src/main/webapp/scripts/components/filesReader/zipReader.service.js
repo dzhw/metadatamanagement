@@ -1,7 +1,7 @@
 /* global FileReader, JSZip */
 'use strict';
 
-angular.module('metadatamanagementApp').service('ZipParser', function($q) {
+angular.module('metadatamanagementApp').service('ZipReader', function($q) {
   this.readZipFileAsync = function(file) {
     var deferred = $q.defer();
     var fileReader = new FileReader();

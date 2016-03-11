@@ -7,7 +7,7 @@ angular.module('metadatamanagementApp')
       DataAcquisitionProjectExportService, ExcelParser,
       Survey, SurveyCollection, SurveyDeleteResource,
       DataSet, DataSetDeleteResource, File, Upload,
-      FileCollection, ZipParser, ZipFilesParser, Variable,
+      FileCollection, ZipReader, VariablesInputFilesReader, Variable,
       VariableDeleteResource) {
       $scope.dataAcquisitionProject = entity;
       $scope.objLists = {
@@ -200,10 +200,10 @@ angular.module('metadatamanagementApp')
       };
       $scope.onVariablesUpload = function(file) {
         if (file !== null) {
-          ZipParser.readZipFileAsync(file)
+          ZipReader.readZipFileAsync(file)
             .then(function(data) {
-              ZipFilesParser.readAllFileAsync(data,
-                $scope.dataAcquisitionProject.id).then(saveVariables);
+              saveVariables(VariablesInputFilesReader.readAllFiles(data,
+                $scope.dataAcquisitionProject.id));
             });
         }
       };

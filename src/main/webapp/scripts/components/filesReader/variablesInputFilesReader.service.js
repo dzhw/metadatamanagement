@@ -1,13 +1,12 @@
 /* global XLSX */
 'use strict';
 
-angular.module('metadatamanagementApp').service('ZipFilesParser', function($q) {
-  this.readAllFileAsync = function(data, dataAcquisitionProjectId) {
-    var deferred = $q.defer();
+angular.module('metadatamanagementApp').service('VariablesInputFilesReader',
+function() {
+  this.readAllFiles = function(data, dataAcquisitionProjectId) {
     var jsonContent = {};
     var variablesValues = {};
     var variables = [];
-    console.log(data.files);
     Object.keys(data.files).forEach(function(key) {
       var fileName = data.files[key];
       if (!fileName.dir) {
@@ -82,8 +81,7 @@ angular.module('metadatamanagementApp').service('ZipFilesParser', function($q) {
         }
       }
     });
-    deferred.resolve(variables);
-    return deferred.promise;
+    return variables;
   };
 });
 /*sameVariablesInPanel: jsonContent[i].sameVariablesInPanel.
