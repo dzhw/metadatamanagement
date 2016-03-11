@@ -1,4 +1,5 @@
 <div>
+<div>
     <div  class="col-md-12">
       <div class="table-responsive">
         <table class="table table-hover">
@@ -52,5 +53,8 @@
     <div  class="col-md-12 col-md-offset-4">
     <uib-pagination total-items="pageState.totalElements" ng-model="pageState.currentPageNumber" ng-change="pageChanged()"  max-size="5" class="pagination-sm" boundary-links="true" boundary-link-numbers="true" rotate="false" previous-text="{{'pager.previous' | translate}}" next-text="{{'pager.next' | translate}}" first-text="{{'pager.first' | translate}}" last-text="{{'pager.last' | translate}}"></uib-pagination>
   </div>
-    <loading ng-if="!currentPage.$resolved"></loading>
+</div>
+<div class="row" ng-if="!currentPage.$resolved">
+  <loading></loading>
+</div>
 </div>
