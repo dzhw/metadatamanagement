@@ -10,7 +10,6 @@ angular.module('metadatamanagementApp')
         $scope.pageChanged();
       };
       $scope.pageChanged = function() {
-        $scope.pageState.loadingState = true;
         $scope.currentPage = SurveyCollection.query({dataAcquisitionProjectId:
           $scope.params.dataAcquisitionProjectId,
           page: ($scope.pageState.currentPageNumber - 1)
