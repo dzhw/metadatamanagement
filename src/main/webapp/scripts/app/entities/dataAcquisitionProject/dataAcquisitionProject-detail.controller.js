@@ -212,7 +212,7 @@ angular.module('metadatamanagementApp')
         Upload.upload({
           url: 'api/files/upload/tex',
           fields: {
-            'rdcId': 'ATestProject' //TODO hardcoded. FIXME
+            'id': 'ATestProject' //TODO hardcoded. FIXME DKatzberg
           },
           file: file
         }).progress(function(evt) {
