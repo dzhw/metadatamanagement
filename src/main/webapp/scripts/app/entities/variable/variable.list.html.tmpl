@@ -1,0 +1,57 @@
+<div>
+<div class="row">
+    <div  class="col-md-12">
+      <div class="table-responsive">
+        <table class="table table-hover">
+          <thead>
+            <tr>
+              <th data-translate="metadatamanagementApp.variable.fdzId">id</th>
+              <th data-translate="metadatamanagementApp.variable.name">name</th>
+              <th data-translate="metadatamanagementApp.variable.label">label</th>
+              <th data-translate="metadatamanagementApp.variable.description.{{currentLanguage}}">description</th>
+              <th data-translate="metadatamanagementApp.variable.surveyId">surveyId</th>
+              <!--
+              <th >conceptId</th>
+              <th >scaleLevel</th>
+              <th >dataType</th>
+              <th >filterDescription</th>
+              <th >filterExpression</th>
+              <th >filterExpressionLanguage</th>
+              <th >sameVariablesInPanel</th>
+              <th >accesWays</th>
+              <th >generationDetails.rule</th>
+              <th >generationDetails.ruleExpressionLanguage</th>
+              <th >generationDetails.description</th>
+            -->
+            </tr>
+          </thead>
+          <tbody>
+            <tr ng-repeat="variable in pageState.variables">
+              <td><a ui-sref="variable.detail({id:variable.id})">{{variable.id}}</a></td>
+              <td>{{variable.name}}</td>
+              <td>{{variable.label[currentLanguage]}}</td>
+              <td>{{variable.description[currentLanguage]}}</td>
+              <td><a ui-sref="survey.detail({id:variable.surveyId})">{{variable.surveyId}}</a></td>
+              <!--
+              <td><a ui-sref="concept.detail({id:variable.conceptId})">{{variable.conceptId}}</a></td>
+              <td>{{variable.scaleLevel[currentLanguage]}}</td>
+              <td>{{variable.dataType[currentLanguage]}}</td>
+              <td>{{variable.filterDescription[currentLanguage]}}</td>
+              <td>{{variable.filterExpression}}</td>
+              <td>{{variable.filterExpressionLanguage}}</td>
+              <td><a ng-repeat="variableId in variable.sameVariablesInPanel" ui-sref="variable.detail({id:variableId})">{{variableId}}, </a></td>
+              <td>{{variable.accesWays}}</td>
+              <td>{{variable.generationDetails.rule}}</td>
+              <td>{{variable.generationDetails.ruleExpressionLanguage}}</td>
+              <td>{{variable.generationDetails.description[currentLanguage]}}</td>
+            -->
+            </tr>
+          </tbody>
+        </table>
+      </div>
+  </div>
+    <div  class="col-md-12 col-md-offset-4">
+    <uib-pagination total-items="pageState.totalElements" ng-model="pageState.currentPage" ng-change="pageChanged()"  max-size="pageState.maxSize" class="pagination-sm" boundary-links="true" boundary-link-numbers="true" rotate="false" previous-text="{{'pager.previous' | translate}}" next-text="{{'pager.next' | translate}}" first-text="{{'pager.first' | translate}}" last-text="{{'pager.last' | translate}}"></uib-pagination>
+  </div>
+</div>
+</div>
