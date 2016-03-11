@@ -13,7 +13,7 @@
       </tr>
     </thead>
     <tbody>
-        <tr ng-repeat="survey in pageState.surveys">
+        <tr ng-repeat="survey in currentPage._embedded.surveys">
             <td><a ui-sref="survey.detail({id:survey.id})">{{survey.id}}</a></td>
             <td>{{survey.title[currentLanguage]}}</td>
             <td>{{survey.fieldPeriod.start | date:'mediumDate'}}</td>

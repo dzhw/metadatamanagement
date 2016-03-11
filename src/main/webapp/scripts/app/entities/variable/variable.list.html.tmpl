@@ -26,7 +26,7 @@
             </tr>
           </thead>
           <tbody>
-            <tr ng-repeat="variable in pageState.variables">
+            <tr ng-repeat="variable in currentPage._embedded.variables">
               <td><a ui-sref="variable.detail({id:variable.id})">{{variable.id}}</a></td>
               <td>{{variable.name}}</td>
               <td>{{variable.label[currentLanguage]}}</td>

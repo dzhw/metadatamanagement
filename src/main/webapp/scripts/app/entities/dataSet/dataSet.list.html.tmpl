@@ -12,7 +12,7 @@
       </tr>
     </thead>
     <tbody>
-        <tr ng-repeat="dataSet in pageState.dataSets">
+        <tr ng-repeat="dataSet in currentPage._embedded.dataSets">
             <td>{{dataSet.id}}</td>
             <td>{{dataSet.description[currentLanguage]}}</td>
             <td><a ng-repeat="surveyId in dataSet.surveyIds" ui-sref="survey.detail({id:surveyId})">{{surveyId}}, </a></td>

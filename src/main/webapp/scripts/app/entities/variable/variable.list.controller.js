@@ -14,14 +14,16 @@ angular.module('metadatamanagementApp')
       $scope.pageChanged = function() {
         $scope.currentPage = VariableCollection.query({dataAcquisitionProjectId:
           $scope.params.dataAcquisitionProjectId,
-          page: ($scope.pageState.currentPage - 1),
-        },function(result) {
-          $scope.pageState.variables = result._embedded.variables;
-          $scope.pageState.totalElements = result.page.totalElements;
+          page: ($scope.pageState.currentPage - 1)
         });
       };
       $scope.$on('refresh', function() {
         init();
       });
+      $scope.$watch('currentPage', function(currentPage) {
+        if (currentPage.$resolved) {
+          $scope.pageState.totalElements = currentPage.page.totalElements;
+        }
+      }, true);
       init();
     });

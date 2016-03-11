@@ -4,7 +4,6 @@ angular.module('metadatamanagementApp')
     .controller('SurveyListController', function($scope, SurveyCollection) {
       var init = function() {
         $scope.pageState = {
-          promiseParam: false,
           maxSize: 5,
           currentPage: 1,
           totalElements: 0
@@ -14,14 +13,16 @@ angular.module('metadatamanagementApp')
       $scope.pageChanged = function() {
         $scope.currentPage = SurveyCollection.query({dataAcquisitionProjectId:
           $scope.params.dataAcquisitionProjectId,
-          page: ($scope.pageState.currentPage - 1),
-        },function(result) {
-          $scope.pageState.surveys = result._embedded.surveys;
-          $scope.pageState.totalElements = result.page.totalElements;
+          page: ($scope.pageState.currentPage - 1)
         });
       };
       $scope.$on('refresh', function() {
         init();
       });
+      $scope.$watch('currentPage', function(currentPage) {
+        if (currentPage.$resolved) {
+          $scope.pageState.totalElements = currentPage.page.totalElements;
+        }
+      }, true);
       init();
     });
