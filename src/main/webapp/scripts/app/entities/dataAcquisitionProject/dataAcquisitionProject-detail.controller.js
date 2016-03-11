@@ -9,7 +9,7 @@ angular.module('metadatamanagementApp')
       DataAcquisitionProjectExportService, ExcelParser,
       Survey, SurveyCollection, SurveyDeleteResource,
       DataSet, DataSetDeleteResource, File, Upload,
-      FileCollection, ZipReader, VariablesInputFilesReader, Variable,
+      ZipReader, VariablesInputFilesReader, Variable,
       VariableDeleteResource) {
       $scope.dataAcquisitionProject = entity;
       $scope.objLists = {
@@ -236,15 +236,16 @@ angular.module('metadatamanagementApp')
 
       $scope.onTexTemplateUpload = function(file) {
         Upload.upload({
-          url: 'api/files/upload/tex',
+          url: 'api/variable_report',
           fields: {
             'id': $scope.dataAcquisitionProject.id
           },
           file: file
         }).success(function(data) {
+          //TODO DKatzberg: Synchrone to Asynchrone.
           var binaryData = [];
           binaryData.push(data);
-          var blob = new Blob(data, {
+          var blob = new Blob(binaryData, {
             type: 'application/x-tex'
           });
           saveAs(blob, $scope.dataAcquisitionProject.id + '_Report.tex');
