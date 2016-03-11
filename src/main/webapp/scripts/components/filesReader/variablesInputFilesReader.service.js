@@ -28,7 +28,7 @@ function() {
               dataAcquisitionProjectId: dataAcquisitionProjectId,
               dataType: {
                 en: jsonContent[i]['dataType.en'],
-                de: jsonContent[i]['dataTyp.de']
+                de: jsonContent[i]['dataType.de']
               },
               label: {
                 en: jsonContent[i]['label.en'],
