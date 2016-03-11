@@ -27,11 +27,15 @@ import freemarker.template.TemplateExceptionHandler;
  */
 @Service
 // TODO ATTENTION! EARLY DEVELOPMENT VERSION!! DO NOT USE!! DKatzberg
-public class LatexDataFillService {
+public class LatexTemplateService {
 
   @Inject
   private DataAcquisitionProjectRepository dataAcquisitionProjectRepository;
 
+  /**
+   * The Escape Prefix handles the escaping of special latex signs within data information. This
+   * Prefix will be copied before the template source code.
+   */
   public static final String ESCAPE_PREFIX =
       "<#escape x as x?replace(\"\\\\\", \"\\\\textbackslash\")"
           + "?replace(\"{\", \"\\\\{\")?replace(\"}\", \"\\\\}\")"
@@ -40,6 +44,10 @@ public class LatexDataFillService {
           + "?replace(\"^\", \"\\\\textasciicircum\")?replace(\"_\", \"\\\\_\")"
           + "?replace(\"~\", \"\\\\textasciitilde\")>";
 
+  /**
+   * The Escape Suffix closes the escaping prefix. This Prefix will be copied after the template
+   * source code.
+   */
   public static final String ESCAPE_SUFFIX = "</#escape>";
 
   /**
@@ -55,15 +63,6 @@ public class LatexDataFillService {
   public void fillLatexTemplateWithData(String texTemplateStr, String dataAcquisitionProjectId)
       throws TemplateException, IOException {
 
-    // Get Project by Id
-    DataAcquisitionProject dataAcquisitionProject =
-        this.dataAcquisitionProjectRepository.findOne(dataAcquisitionProjectId);
-
-    // TODO NULL CHECK FOR PROJECT
-
-    Map<String, Object> input = new HashMap<String, Object>();
-    input.put("dataAcquisitionProject", dataAcquisitionProject);
-
     // Configuration, based on Freemarker Version 2.3.23
     Configuration templateConfiguration = new Configuration(Configuration.VERSION_2_3_23);
     templateConfiguration.setDefaultEncoding("UTF-8");
@@ -71,14 +70,46 @@ public class LatexDataFillService {
     templateConfiguration.setTemplateExceptionHandler(TemplateExceptionHandler.RETHROW_HANDLER);
 
     // Read Template and escape elements
-    Template texTemplate = new Template("texTemplate", texTemplateStr, templateConfiguration);
+    Template texTemplate = new Template("texTemplate",
+        (ESCAPE_PREFIX + texTemplateStr + ESCAPE_SUFFIX), templateConfiguration);
 
     // Write output to console and file
     // TODO Use another Writer. This is only for testing.
     Writer consoleWriter = new OutputStreamWriter(System.out, Charset.defaultCharset());
-    texTemplate.process(input, consoleWriter);
+    Map<String, Object> dataForTemplate = this.loadDataForTemplateFilling(dataAcquisitionProjectId);
+    texTemplate.process(dataForTemplate, consoleWriter);
   }
 
-  // TODO New Method Save Template into mongodb /gridfs
+  public void saveCompleteTexTemplate() {
+    // TODO New Method Save Template into mongodb /gridfs
+  }
 
+  public void downloadTexTemplate() {
+    // TODO New Method download Template from mongodb /gridfs
+  }
+
+  /**
+   * This method load all needed objects from the db for filling the tex template.
+   * 
+   * @param dataAcquisitionProjectId An id of the data acquision project id.
+   * @return A HashMap with all data for the template filling. The Key is the name of the Object,
+   *         which is used in the template.
+   */
+  private Map<String, Object> loadDataForTemplateFilling(String dataAcquisitionProjectId) {
+
+    // Get Project by Id
+    DataAcquisitionProject dataAcquisitionProject =
+        this.dataAcquisitionProjectRepository.findOne(dataAcquisitionProjectId);
+
+    // Check for found data acquisition project
+    if (dataAcquisitionProject == null) {
+      throw new IllegalArgumentException(
+          "No Data Acquisition Project found with given id: " + dataAcquisitionProjectId);
+    }
+
+    Map<String, Object> dataForTemplate = new HashMap<String, Object>();
+    dataForTemplate.put("dataAcquisitionProject", dataAcquisitionProject);
+
+    return dataForTemplate;
+  }
 }
