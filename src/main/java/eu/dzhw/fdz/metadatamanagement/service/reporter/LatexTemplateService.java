@@ -17,6 +17,7 @@ import org.springframework.data.mongodb.gridfs.GridFsCriteria;
 import org.springframework.data.mongodb.gridfs.GridFsOperations;
 import org.springframework.stereotype.Service;
 
+import com.mongodb.gridfs.GridFSDBFile;
 import com.mongodb.gridfs.GridFSFile;
 
 import eu.dzhw.fdz.metadatamanagement.domain.DataAcquisitionProject;
@@ -70,7 +71,7 @@ public class LatexTemplateService {
    * @throws TemplateException Handles templates exceptions.
    * @throws IOException Handles IO Exception for the template.
    */
-  public void generateReport(String texTemplateStr, String dataAcquisitionProjectId)
+  public GridFSDBFile generateReport(String texTemplateStr, String dataAcquisitionProjectId)
       throws TemplateException, IOException {
 
     // Configuration, based on Freemarker Version 2.3.23
@@ -93,9 +94,8 @@ public class LatexTemplateService {
     String savedFileName =
         this.saveCompleteTexTemplate(byteArrayOutputStream, dataAcquisitionProjectId);
 
-    // Delete the saved Tex template
-    // TODO delete the delete method, after a cron job is implemented
-    this.deleteTexTemplates(savedFileName);
+    // Return the DB Object of the saved latex template.
+    return this.findTexTemplates(savedFileName);
   }
 
   /**
@@ -161,5 +161,18 @@ public class LatexTemplateService {
     dataForTemplate.put("dataAcquisitionProject", dataAcquisitionProject);
 
     return dataForTemplate;
+  }
+
+  /**
+   * This method find a latex template in the GridFS / MongoDB by a given file name.
+   * 
+   * @param fileName The name of the latex template.
+   * @return The GridFS representation of the latex template in the database.
+   */
+  private GridFSDBFile findTexTemplates(String fileName) {
+
+    Query query = new Query(GridFsCriteria.whereFilename()
+        .is(fileName));
+    return this.operations.findOne(query);
   }
 }
