@@ -243,16 +243,11 @@ angular.module('metadatamanagementApp')
           file: file
         }).success(function(gridFsFileName) {
           console.log(gridFsFileName);
-          File.get({
+          File.download({
             fileName: gridFsFileName
           }, function(data) {
             console.log(data);
-            var binaryData = [];
-            binaryData.push(data);
-            var blob = new Blob(binaryData, {
-              type: 'application/x-tex'
-            });
-            saveAs(blob, $scope.dataAcquisitionProject.id +
+            saveAs(data.response, $scope.dataAcquisitionProject.id +
               '_Report.tex');
           });
         });
