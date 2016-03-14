@@ -39,6 +39,7 @@ public class FileResource {
 
     // Return ok. Status 200. download file
     return ResponseEntity.ok()
+      .header("Content-Disposition", ("inline;filename=" + fileName))
       .contentLength(gridFsFile.getLength())
       .contentType(MediaType.parseMediaType(gridFsFile.getContentType()))
       .body(new InputStreamResource(gridFsFile.getInputStream()));

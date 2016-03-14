@@ -83,6 +83,7 @@ local.properties
 ######################
 # Windows image file caches
 Thumbs.db
+C:*
 
 # Folder config file
 Desktop.ini
