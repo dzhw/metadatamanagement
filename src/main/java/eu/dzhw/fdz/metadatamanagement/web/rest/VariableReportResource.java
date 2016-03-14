@@ -35,7 +35,7 @@ public class VariableReportResource {
    * @throws IOException Handles io exception for the template. (Freemarker Templates)
    * @throws TemplateException Handles template exceptions. (Freemarker Templates)
    */
-  @RequestMapping(value = "/variable_report")
+  @RequestMapping(value = "/files")
   public ResponseEntity<String> uploadFile(@RequestParam("file") MultipartFile file,
       @RequestParam("id") String id) throws IOException, TemplateException {
 

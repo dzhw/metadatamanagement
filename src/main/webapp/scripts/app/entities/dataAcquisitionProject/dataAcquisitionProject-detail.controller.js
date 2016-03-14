@@ -1,5 +1,4 @@
 /* global saveAs */
-/* global Blob */
 /*jshint loopfunc: true */
 'use strict';
 
@@ -236,7 +235,7 @@ angular.module('metadatamanagementApp')
 
       $scope.onTexTemplateUpload = function(file) {
         Upload.upload({
-          url: 'api/variable_report',
+          url: 'api/files',
           fields: {
             'id': $scope.dataAcquisitionProject.id
           },

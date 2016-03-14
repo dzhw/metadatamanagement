@@ -4,7 +4,7 @@
 
 angular.module('metadatamanagementApp')
   .factory('File', function($resource) {
-    return $resource('api/files/:fileName', {
+    return $resource('variable_report/:fileName', {
       fileName: '@fileName'
     }, {
       'download': {
