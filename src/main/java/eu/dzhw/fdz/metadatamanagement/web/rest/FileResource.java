@@ -20,6 +20,7 @@ import eu.dzhw.fdz.metadatamanagement.service.reporter.FileDownloadService;
  *
  */
 @Controller
+@RequestMapping(value = "/public")
 public class FileResource {
 
   @Inject
@@ -30,7 +31,7 @@ public class FileResource {
    * 
    * @param fileName The name of the file in the GridFS / MongoDB.
    */
-  @RequestMapping(value = "/variable_report/{fileName:.+}")
+  @RequestMapping(value = "/files/{fileName:.+}")
   public ResponseEntity<InputStreamResource> downloadFile(@PathVariable String fileName) {
 
     // find file in grid fs / mongo db
