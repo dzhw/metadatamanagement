@@ -3,11 +3,12 @@
 
 angular.module('metadatamanagementApp')
   .factory('File', function($resource) {
-    return $resource('api/files/:id', {
-      id: '@id'
+    return $resource('api/files/:fileName', {
+      fileName: '@fileName',
+      responseType: 'arraybuffer'
     }, {
       'get': {
-        method: 'GET'
+        method: 'GET',
       }
     });
   });

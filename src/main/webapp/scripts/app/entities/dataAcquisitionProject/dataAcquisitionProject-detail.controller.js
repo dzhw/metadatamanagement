@@ -241,15 +241,22 @@ angular.module('metadatamanagementApp')
             'id': $scope.dataAcquisitionProject.id
           },
           file: file
-        }).success(function(data) {
-          //TODO DKatzberg: Synchrone to Asynchrone.
-          var binaryData = [];
-          binaryData.push(data);
-          var blob = new Blob(binaryData, {
-            type: 'application/x-tex'
+        }).success(function(gridFsFileName) {
+          console.log(gridFsFileName);
+          File.get({
+            fileName: gridFsFileName
+          }, function(data) {
+            console.log(data);
+            var binaryData = [];
+            binaryData.push(data);
+            var blob = new Blob(binaryData, {
+              type: 'application/x-tex'
+            });
+            saveAs(blob, $scope.dataAcquisitionProject.id +
+              '_Report.tex');
           });
-          saveAs(blob, $scope.dataAcquisitionProject.id + '_Report.tex');
         });
+
       };
 
       $scope.exportToODT = function() {

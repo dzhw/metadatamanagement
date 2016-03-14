@@ -2,10 +2,14 @@
 
 angular.module('metadatamanagementApp')
   .factory('Variable', function($resource) {
-    return $resource('api/variables/:id', {id: '@id'}, {
+    return $resource('api/variables/:id', {
+      id: '@id'
+    }, {
       'get': {
         method: 'GET',
-        params:  {projection: 'complete'}
+        params: {
+          projection: 'complete'
+        }
       },
       'save': {
         method: 'PUT'
