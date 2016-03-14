@@ -235,7 +235,7 @@ angular.module('metadatamanagementApp')
 
       $scope.onTexTemplateUpload = function(file) {
         Upload.upload({
-          url: 'api/files',
+          url: 'api/dataSets/report',
           fields: {
             'id': $scope.dataAcquisitionProject.id
           },
