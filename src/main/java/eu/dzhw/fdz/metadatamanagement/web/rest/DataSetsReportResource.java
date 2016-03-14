@@ -39,9 +39,6 @@ public class DataSetsReportResource {
   public ResponseEntity<String> uploadFile(@RequestParam("file") MultipartFile file,
       @RequestParam("id") String id) throws IOException, TemplateException {
 
-    System.out.println("Go");
-    System.out.println(file.getName());
-
     // Handles no empty latex templates
     if (!file.isEmpty()) {
 
