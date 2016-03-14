@@ -12,7 +12,11 @@ import java.util.Map;
 
 import javax.inject.Inject;
 
+import org.springframework.data.mongodb.core.query.Criteria;
+import org.springframework.data.mongodb.core.query.Query;
+import org.springframework.data.mongodb.gridfs.GridFsCriteria;
 import org.springframework.data.mongodb.gridfs.GridFsOperations;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import com.mongodb.gridfs.GridFSFile;
@@ -115,16 +119,19 @@ public class LatexTemplateService {
   }
 
   /**
-   * Prototype Version. Only a empty Method.
-   * 
-   * @param fileName The file name of a latex file in the GridFS / MongoDB.
+   * Delete all tex templates from the GridFS / MongoDB. Cron Meaning: Every Day at 3 am.
    */
-  // TODO DKatzberg create CRON Job. Delete all tex templates on a given time.
-  public void deleteTexTemplates(String fileName) {
-    /*
-     * Query query = new Query(GridFsCriteria.whereFilename() .is(fileName));
-     * this.operations.delete(query);
-     */
+  @Scheduled(cron = "0 0 3 * * ?")
+  public void deleteTexTemplates() {
+
+    System.out.println("Started Cron job.");
+
+    // Regular Expression with $in Operator. Checks for all files with ends with .tex
+    Criteria criteria = GridFsCriteria.whereFilename()
+        .in("/.tex/");
+    Query query = new Query(criteria);
+    this.operations.delete(query);
+
   }
 
   /**
