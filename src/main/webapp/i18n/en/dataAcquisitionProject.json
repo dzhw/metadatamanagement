@@ -32,6 +32,11 @@
           "dataSetNotSaved": "Dataset with RDC-ID {{ id }} has not been saved!",
           "internalServerError": "An internal server error occurred.",
           "missingId": "Dataset {{ index }} does not contain a RDC-ID and has not been saved!"
+        },
+        "deleteMessages": {
+          "deleteSurveys": "Are you sure you want to delete all Surveys within DataAcquisitionProject with RDC-ID \"{{ id }}\"?",
+          "deleteDataSets": "Are you sure you want to delete all Datasets within DataAcquisitionProject with RDC-ID \"{{ id }}\"?",
+          "deleteVariables": "Are you sure you want to delete all Variables within DataAcquisitionProject with RDC-ID \"{{ id }}\"?"
         }
       },
       "name": "Name"

@@ -199,7 +199,7 @@ angular.module('metadatamanagementApp')
               if (!variable.id || variable.id === '') {
                 $scope.uploadStatus.pushError($translate.instant(
                   'metadatamanagementApp.dataAcquisitionProject.' +
-                  'detail.logMessages.' +
+                  'detail.logMessages' +
                   'missingId', {
                     index: i + 1
                   }));
@@ -216,7 +216,11 @@ angular.module('metadatamanagementApp')
       };
       $scope.onSurveyUpload = function(file) {
         if (file !== null) {
-          CustomModal.getModal('Delete Surveys?').then(function(returnValue) {
+          CustomModal.getModal($translate.instant(
+            'metadatamanagementApp.dataAcquisitionProject.detail.' +
+            'deleteMessages.deleteSurveys', {
+              id: $scope.dataAcquisitionProject.id
+            })).then(function(returnValue) {
             if (returnValue) {
               ExcelParser.readFileAsync(file)
                 .then(saveSurveys);
@@ -226,7 +230,11 @@ angular.module('metadatamanagementApp')
       };
       $scope.onDataSetUpload = function(file) {
         if (file !== null) {
-          CustomModal.getModal('Delete DataSets?').then(function(returnValue) {
+          CustomModal.getModal($translate.instant(
+            'metadatamanagementApp.dataAcquisitionProject.detail.' +
+            'deleteMessages.deleteDataSets', {
+              id: $scope.dataAcquisitionProject.id
+            })).then(function(returnValue) {
             if (returnValue) {
               ExcelParser.readFileAsync(file).then(saveDataSets);
             }
@@ -235,7 +243,11 @@ angular.module('metadatamanagementApp')
       };
       $scope.onVariablesUpload = function(file) {
         if (file !== null) {
-          CustomModal.getModal('Delete Variables?').then(function(returnValue) {
+          CustomModal.getModal($translate.instant(
+            'metadatamanagementApp.dataAcquisitionProject.detail.' +
+            'deleteMessages.deleteVariables', {
+              id: $scope.dataAcquisitionProject.id
+            })).then(function(returnValue) {
             if (returnValue) {
               ZipReader.readZipFileAsync(file)
                 .then(function(data) {

@@ -50,6 +50,7 @@ angular.module('metadatamanagementApp')
               $translatePartialLoader.addPart('survey');
               $translatePartialLoader.addPart('dataSet');
               $translatePartialLoader.addPart('variable');
+              $translatePartialLoader.addPart('customModal');
               return $translate.refresh();
             }
           ],

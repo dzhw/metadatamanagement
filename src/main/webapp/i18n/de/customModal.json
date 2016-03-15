@@ -1,0 +1,11 @@
+{
+  "metadatamanagementApp": {
+    "customModal": {
+      "cancel": "Abbrechen",
+      "ok": "Daten importieren"
+    },
+    "customHeader":{
+      "confirm": "Bitte bestätigen"
+    }
+}
+}

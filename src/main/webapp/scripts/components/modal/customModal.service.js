@@ -23,7 +23,6 @@ function($uibModal, $q) {
       deferred.resolve(returnValue);
     }, function() {
       returnValue = false;
-      console.log(returnValue);
       deferred.resolve(returnValue);
     });
     return deferred.promise;
