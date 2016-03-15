@@ -12,7 +12,6 @@ import java.util.Map;
 
 import javax.inject.Inject;
 
-import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.gridfs.GridFsCriteria;
 import org.springframework.data.mongodb.gridfs.GridFsOperations;
@@ -111,6 +110,9 @@ public class LatexTemplateService {
         new ByteArrayInputStream(byteArrayOutputStream.toByteArray());
     String fileName = dataAcquisitionProjectId + "_texTemplate.tex";
 
+    // No Update by API, so we have to delete first.
+    this.deleteTexTemplateByName(fileName);
+
     // Save tex file, based on the bytearray*streams
     GridFSFile texGridFsFile = this.operations.store(byteArrayInputStream, fileName, contentType);
     texGridFsFile.validate();
@@ -123,15 +125,20 @@ public class LatexTemplateService {
    */
   @Scheduled(cron = "0 0 3 * * ?")
   public void deleteTexTemplates() {
-
-    System.out.println("Started Cron job.");
-
     // Regular Expression with $in Operator. Checks for all files with ends with .tex
-    Criteria criteria = GridFsCriteria.whereFilename()
-        .in("/.tex/");
-    Query query = new Query(criteria);
+    Query query = new Query(GridFsCriteria.whereContentType()
+        .is("application/x-tex"));
+
     this.operations.delete(query);
 
+  }
+
+  private void deleteTexTemplateByName(String fileName) {
+    // Regular Expression with $in Operator. Checks for all files with ends with .tex
+    Query query = new Query(GridFsCriteria.whereFilename()
+        .is(fileName));
+
+    this.operations.delete(query);
   }
 
   /**
