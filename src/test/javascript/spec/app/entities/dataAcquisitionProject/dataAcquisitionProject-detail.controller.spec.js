@@ -16,6 +16,7 @@ describe('Controllers Tests ', function() {
   var ExcelParser;
   var $q;
   var $httpBackend;
+  var CustomModal;
   var surveys = [{
     id: 'fdzid',
     questionnaireId: 'fdzid',
@@ -69,13 +70,23 @@ describe('Controllers Tests ', function() {
           };
         }
       };
-
+      CustomModal = {
+        getModal: function() {
+          return {
+            then: function(callback) {
+              return callback(true);
+            }
+          };
+        }
+      };
       var locals = {
         '$scope': $scope,
+        'CustomModal': CustomModal,
         'entity': {
           id: 'fdzid'
         },
-        'DataAcquisitionProjectExportService': DataAcquisitionProjectExportService,
+        'DataAcquisitionProjectExportService':
+        DataAcquisitionProjectExportService,
         'ExcelParser': ExcelParser,
         '$translate': $translate
       };
@@ -87,6 +98,7 @@ describe('Controllers Tests ', function() {
       spyOn(DataAcquisitionProjectExportService, 'exportToODT').and
         .callThrough();
       spyOn(ExcelParser, 'readFileAsync').and.callThrough();
+      spyOn(CustomModal, 'getModal').and.callThrough();
     });
   });
 
@@ -124,10 +136,12 @@ describe('Controllers Tests ', function() {
         .toHaveBeenCalled();
     });
 
-    it('should call initUploadStatus with 1, true, surveys-uploaded', function() {
+    it('should call initUploadStatus with 1, true, surveys-uploaded',
+    function() {
       spyOn($scope, 'initUploadStatus');
       $scope.onSurveyUpload(file);
-      expect($scope.initUploadStatus).toHaveBeenCalledWith(1, true, 'surveys-uploaded');
+      expect($scope.initUploadStatus).toHaveBeenCalledWith(1, true,
+        'surveys-uploaded');
     });
 
     it('should call $translate.instant', function() {

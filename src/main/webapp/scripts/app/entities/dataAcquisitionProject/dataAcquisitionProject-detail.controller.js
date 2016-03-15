@@ -9,7 +9,7 @@ angular.module('metadatamanagementApp')
       Survey, SurveyCollection, SurveyDeleteResource,
       DataSet, DataSetDeleteResource, FileResource, Upload,
       ZipReader, VariablesInputFilesReader, Variable,
-      VariableDeleteResource) {
+      VariableDeleteResource, CustomModal) {
       $scope.dataAcquisitionProject = entity;
       $scope.objLists = {
         surveyList: {
@@ -216,25 +216,34 @@ angular.module('metadatamanagementApp')
       };
       $scope.onSurveyUpload = function(file) {
         if (file !== null) {
-          //CustomModal.openModal('Surveys');
-          ExcelParser.readFileAsync(file)
-            .then(saveSurveys);
+          CustomModal.getModal('Delete Surveys?').then(function(returnValue) {
+            if (returnValue) {
+              ExcelParser.readFileAsync(file)
+                .then(saveSurveys);
+            }
+          });
         }
       };
       $scope.onDataSetUpload = function(file) {
         if (file !== null) {
-          //CustomModal.openModal('DataSets');
-          ExcelParser.readFileAsync(file).then(saveDataSets);
+          CustomModal.getModal('Delete DataSets?').then(function(returnValue) {
+            if (returnValue) {
+              ExcelParser.readFileAsync(file).then(saveDataSets);
+            }
+          });
         }
       };
       $scope.onVariablesUpload = function(file) {
         if (file !== null) {
-          //CustomModal.openModal('Variablen');
-          ZipReader.readZipFileAsync(file)
-            .then(function(data) {
-              saveVariables(VariablesInputFilesReader.readAllFiles(data,
-                $scope.dataAcquisitionProject.id));
-            });
+          CustomModal.getModal('Delete Variables?').then(function(returnValue) {
+            if (returnValue) {
+              ZipReader.readZipFileAsync(file)
+                .then(function(data) {
+                  saveVariables(VariablesInputFilesReader.readAllFiles(data,
+                    $scope.dataAcquisitionProject.id));
+                });
+            }
+          });
         }
       };
 
