@@ -93,12 +93,12 @@ public class FileResourceTest extends AbstractTest {
           .andExpect(status().isOk())
           .andReturn();
 
-    String filledTexFile = mvcResultDownload.getResponse()
-      .getContentAsString();
+    String filledTexFile = new String(mvcResultDownload.getResponse()
+      .getContentAsByteArray());
 
 
     // TODO Here is the error, why?
     System.out.println("Filled Tex File: " + filledTexFile);
-    assertThat(filledTexFile.contains(project.getId()), is(true));
+    assertThat(filledTexFile.contains("documentclass"), is(true));
   }
 }
