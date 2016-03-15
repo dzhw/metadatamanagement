@@ -96,9 +96,6 @@ public class FileResourceTest extends AbstractTest {
     String filledTexFile = new String(mvcResultDownload.getResponse()
       .getContentAsByteArray());
 
-
-    // TODO Here is the error, why?
-    System.out.println("Filled Tex File: " + filledTexFile);
     assertThat(filledTexFile.contains("documentclass"), is(true));
   }
 }
