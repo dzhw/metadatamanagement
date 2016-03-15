@@ -8,8 +8,7 @@ describe('Test File Resource: ', function() {
 
   var data = 'Latex Example';
 
-  beforeEach(mockApiAccountCall);
-  beforeEach(mockI18nCalls);
+  beforeEach(mockApis);
   beforeEach(inject(function($injector) {
     $httpBackend = $injector.get('$httpBackend');
     fileResource = $injector.get('FileResource');

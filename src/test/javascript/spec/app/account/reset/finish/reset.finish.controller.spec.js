@@ -2,8 +2,7 @@
 
 describe('Controller Tests', function() {
 
-    beforeEach(mockApiAccountCall);
-    beforeEach(mockI18nCalls);
+    beforeEach(mockApis);
 
     describe('ResetFinishController', function() {
 

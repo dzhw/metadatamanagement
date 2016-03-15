@@ -2,6 +2,7 @@
     <h2>
         <span data-translate="metadatamanagementApp.dataAcquisitionProject.detail.title">Data Acquisition Project</span>
         {{dataAcquisitionProject.name}}</h2>
+      
     <div class="row">
         <div class="col-md-12">
             <div class="table-responsive">
@@ -87,17 +88,17 @@
                           <span data-translate="entity.action.back">
                               Back</span>
                       </button>
-                      <button type="file" class="btn btn-default" ngf-select="onTexTemplateUpload($file)" accept=".tex">
+                      <button type="file" class="btn btn-default" ngf-select="onTexTemplateUpload($file)" accept=".tex" ng-disabled="uploadStatus.disableButton">
                           <span class="glyphicon glyphicon-book"></span>
                           {{'metadatamanagementApp.dataAcquisitionProject.detail.generate' | translate}}
                       </button>
-                      <button type="file" class="btn btn-default" ngf-select="onSurveyUpload($file)" accept=".xlsx">
+                      <button type="file" class="btn btn-default" ngf-select="onSurveyUpload($file)" accept=".xlsx" ng-disabled="uploadStatus.disableButton">
                           <span class="glyphicon glyphicon-cloud-upload"></span>
                           {{'metadatamanagementApp.dataAcquisitionProject.detail.upload.surveys' | translate}}</button>
-                      <button type="file" class="btn btn-default" ngf-select="onDataSetUpload($file)" accept=".xlsx">
+                      <button type="file" class="btn btn-default" ngf-select="onDataSetUpload($file)" accept=".xlsx" ng-disabled="uploadStatus.disableButton">
                               <span class="glyphicon glyphicon-cloud-upload"></span>
                               {{'metadatamanagementApp.dataAcquisitionProject.detail.upload.datasets' | translate}}</button>
-                      <button type="file" class="btn btn-default" ngf-select="onVariablesUpload($file)" accept=".zip">
+                      <button type="file" class="btn btn-default" ngf-select="onVariablesUpload($file)" accept=".zip" ng-disabled="uploadStatus.disableButton">
                               <span class="glyphicon glyphicon-cloud-upload"></span>
                               {{'metadatamanagementApp.dataAcquisitionProject.detail.upload.variables' | translate}}</button>
                   </div>

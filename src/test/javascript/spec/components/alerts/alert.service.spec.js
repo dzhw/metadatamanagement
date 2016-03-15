@@ -3,8 +3,7 @@
 describe('Factory Tests ', function () {
   var AlertService, $q, $scope, $timeout;
     describe('AlertService', function() {
-    beforeEach(mockApiAccountCall);
-    beforeEach(mockI18nCalls);
+    beforeEach(mockApis);
         beforeEach(inject(function($injector) {
             AlertService = $injector.get('AlertService');
             $timeout =   $injector.get('$timeout');

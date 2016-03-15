@@ -1,11 +1,13 @@
-function mockApiAccountCall() {
+'use strict';
+
+function mockApis() {
   inject(function($httpBackend) {
     $httpBackend.whenGET(/api\/account.*/).respond({});
-  });
-}
-
-function mockI18nCalls() {
-  inject(function($httpBackend) {
     $httpBackend.whenGET(/i18n\/de\/.+\.json/).respond({});
+    $httpBackend.whenGET('scripts/components/navbar/navbar.html.tmpl').
+    respond({});
+    $httpBackend.whenGET('scripts/components/navbar/navbar.html.tmpl').
+    respond({});
+    $httpBackend.whenGET('scripts/app/main/main.html.tmpl').respond({});
   });
 }

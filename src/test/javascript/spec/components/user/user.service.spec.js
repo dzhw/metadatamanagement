@@ -4,8 +4,7 @@ describe('User', function() {
     login: 'test',
     name: 'test'
   };
-  beforeEach(mockApiAccountCall);
-  beforeEach(mockI18nCalls);
+  beforeEach(mockApis);
   beforeEach(inject(function($injector) {
     $httpBackend = $injector.get('$httpBackend');
     mockUserResource = $injector.get('User');

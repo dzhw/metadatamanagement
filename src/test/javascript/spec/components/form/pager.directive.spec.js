@@ -4,8 +4,7 @@ describe('Unit testing metadatamanagementAppPage', function() {
     $scope,
     $httpBackend,
     element;
-  beforeEach(mockApiAccountCall);
-  beforeEach(mockI18nCalls);
+  beforeEach(mockApis);
   beforeEach(inject(function(_$compile_, _$rootScope_, _$httpBackend_) {
     $compile = _$compile_;
     $scope = _$rootScope_.$new();

@@ -6,8 +6,7 @@ describe('Unit testing Authority', function() {
     html_Auth,
     element,
     element_Auth;
-  beforeEach(mockApiAccountCall);
-  beforeEach(mockI18nCalls);
+  beforeEach(mockApis);
 
   describe('when Principal dont retun a value', function() {
     beforeEach(inject(function(_$compile_, _$rootScope_, _Principal_) {

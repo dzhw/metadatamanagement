@@ -6,8 +6,7 @@ describe('Unit testing jhAlert', function() {
       element_error,
       controller,
       controller_error;
-  beforeEach(mockApiAccountCall);
-  beforeEach(mockI18nCalls);
+  beforeEach(mockApis);
   beforeEach(inject(function(_$compile_, _$rootScope_, _AlertService_){
     $compile = _$compile_;
     $scope = _$rootScope_.$new();

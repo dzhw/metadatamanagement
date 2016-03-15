@@ -10,8 +10,7 @@ describe('Controllers Tests ', function () {
       'dataAcquisitionProjects':[]
     }
   };
-  beforeEach(mockApiAccountCall);
-  beforeEach(mockI18nCalls);
+  beforeEach(mockApis);
   beforeEach(function() {
     inject(function($controller, _$rootScope_, _$q_) {
       $scope = _$rootScope_.$new();

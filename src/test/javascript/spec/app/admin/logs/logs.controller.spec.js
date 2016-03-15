@@ -3,8 +3,7 @@
 describe('Controllers Tests ', function () {
   var $scope, LogsService, createController;
   var result = 'result';
-  beforeEach(mockApiAccountCall);
-  beforeEach(mockI18nCalls);
+  beforeEach(mockApis);
   beforeEach(function() {
     inject(function($controller, _$rootScope_, _LogsService_, $q) {
       $scope = _$rootScope_.$new();

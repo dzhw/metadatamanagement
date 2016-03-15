@@ -2,8 +2,7 @@
 
 describe('Controllers Tests ', function () {
     var $scope, $uibModalInstance, value, createController;
-        beforeEach(mockApiAccountCall);
-        beforeEach(mockI18nCalls);
+    beforeEach(mockApis);
     describe('MetricsModalController', function() {
         beforeEach(inject(function($injector) {
             $scope = $injector.get('$rootScope').$new();

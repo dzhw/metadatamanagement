@@ -16,7 +16,7 @@ angular.module('metadatamanagementApp')
           page: ($scope.pageState.currentPageNumber - 1)
         });
       };
-      $scope.$on('refresh', function() {
+      $scope.$on('variables-uploaded', function() {
         init();
       });
       init();

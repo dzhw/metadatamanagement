@@ -24,9 +24,11 @@ angular.module('metadatamanagementApp')
         dataSets: 0,
         variables: 0
       };
-      $scope.initUploadStatus = function(itemsToUpload) {
+      $scope.initUploadStatus = function(itemsToUpload, buttonsState, element) {
         $scope.uploadStatus = {
           itemsToUpload: itemsToUpload,
+          uploadedElement: element,
+          disableButton: buttonsState,
           errors: 0,
           successes: 0,
           logMessages: [{
@@ -102,10 +104,10 @@ angular.module('metadatamanagementApp')
         };
       };
 
-      $scope.initUploadStatus(0);
+      $scope.initUploadStatus(0, false, null);
 
       var saveSurveys = function(surveys) {
-        $scope.initUploadStatus(surveys.length);
+        $scope.initUploadStatus(surveys.length, true, 'surveys-uploaded');
         SurveyDeleteResource.deleteByDataAcquisitionProjectId({
             dataAcquisitionProjectId: $scope.dataAcquisitionProject.id
           }, {},
@@ -148,7 +150,7 @@ angular.module('metadatamanagementApp')
       };
 
       var saveDataSets = function(dataSets) {
-        $scope.initUploadStatus(dataSets.length);
+        $scope.initUploadStatus(dataSets.length, true, 'datasets-uploaded');
         DataSetDeleteResource.deleteByDataAcquisitionProjectId({
             dataAcquisitionProjectId: $scope.dataAcquisitionProject.id
           }, {},
@@ -187,7 +189,7 @@ angular.module('metadatamanagementApp')
           });
       };
       var saveVariables = function(variables) {
-        $scope.initUploadStatus(variables.length);
+        $scope.initUploadStatus(variables.length, true, 'variables-uploaded');
         VariableDeleteResource.deleteByDataAcquisitionProjectId({
             dataAcquisitionProjectId: $scope.dataAcquisitionProject.id
           }, {},
@@ -214,17 +216,20 @@ angular.module('metadatamanagementApp')
       };
       $scope.onSurveyUpload = function(file) {
         if (file !== null) {
+          //CustomModal.openModal('Surveys');
           ExcelParser.readFileAsync(file)
             .then(saveSurveys);
         }
       };
       $scope.onDataSetUpload = function(file) {
         if (file !== null) {
+          //CustomModal.openModal('DataSets');
           ExcelParser.readFileAsync(file).then(saveDataSets);
         }
       };
       $scope.onVariablesUpload = function(file) {
         if (file !== null) {
+          //CustomModal.openModal('Variablen');
           ZipReader.readZipFileAsync(file)
             .then(function(data) {
               saveVariables(VariablesInputFilesReader.readAllFiles(data,
@@ -258,8 +263,8 @@ angular.module('metadatamanagementApp')
       };
       $scope.$watch('uploadStatus.getProgress()', function(newUploadStatus) {
         if (newUploadStatus === $scope.uploadStatus.itemsToUpload) {
-          $scope.$broadcast('refresh');
+          $scope.uploadStatus.disableButton = false;
+          $scope.$broadcast($scope.uploadStatus.uploadedElement);
         }
       });
-
     });

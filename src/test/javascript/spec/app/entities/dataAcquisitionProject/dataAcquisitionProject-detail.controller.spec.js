@@ -49,8 +49,7 @@ describe('Controllers Tests ', function() {
     }
   };
 
-  beforeEach(mockApiAccountCall);
-  beforeEach(mockI18nCalls);
+  beforeEach(mockApis);
   beforeEach(function() {
     inject(function($controller, _$rootScope_, _$q_, _$translate_,
       _$httpBackend_) {
@@ -125,10 +124,10 @@ describe('Controllers Tests ', function() {
         .toHaveBeenCalled();
     });
 
-    it('should call initUploadStatus with 1', function() {
+    it('should call initUploadStatus with 1, true, surveys-uploaded', function() {
       spyOn($scope, 'initUploadStatus');
       $scope.onSurveyUpload(file);
-      expect($scope.initUploadStatus).toHaveBeenCalledWith(1);
+      expect($scope.initUploadStatus).toHaveBeenCalledWith(1, true, 'surveys-uploaded');
     });
 
     it('should call $translate.instant', function() {

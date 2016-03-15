@@ -5,8 +5,7 @@ describe('Factory Tests ', function() {
     PasswordResetInit, Activate, deferred, Register, Account,
     Principal, AuthServerProvider;
   describe('Auth', function() {
-    beforeEach(mockApiAccountCall);
-    beforeEach(mockI18nCalls);
+    beforeEach(mockApis);
     beforeEach(inject(function($injector) {
       Auth = $injector.get('Auth');
       $q = $injector.get('$q');
@@ -32,7 +31,7 @@ describe('Factory Tests ', function() {
             });
           }
         };
-      });    
+      });
       spyOn(Principal, 'identity').and.callFake(function() {
         return {
           then: function(callback) {

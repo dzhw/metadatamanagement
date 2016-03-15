@@ -4,8 +4,7 @@ describe('Unit testing activeMenu', function() {
       $translate,
       element,
       element_link;
-  beforeEach(mockApiAccountCall);
-  beforeEach(mockI18nCalls);
+beforeEach(mockApis);
 
   beforeEach(inject(function(_$compile_, _$rootScope_, _$translate_){
     $compile = _$compile_;

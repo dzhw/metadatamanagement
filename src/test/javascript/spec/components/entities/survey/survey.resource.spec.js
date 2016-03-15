@@ -8,8 +8,7 @@ describe('Survey', function() {
       end: '12-12-2012'
     }
   };
-  beforeEach(mockApiAccountCall);
-  beforeEach(mockI18nCalls);
+  beforeEach(mockApis);
   beforeEach(inject(function($injector) {
     $httpBackend = $injector.get('$httpBackend');
     mockSurveyResource = $injector.get('Survey');
@@ -29,16 +28,14 @@ describe('Survey', function() {
       expect(result.surveyname).toEqual('test');
     }));
     it('should put', inject(function(Survey) {
-      $httpBackend.expectPUT(
-        /api\/surveys\?cacheBuster=\d+&projection=complete/).respond(
+      $httpBackend.when('PUT',
+        /api\/surveys\/1\?cacheBuster=\d/).respond(
         data);
 
       var result = mockSurveyResource.save(data);
-      try {
-        $httpBackend.flush();
-      } catch (e) {
 
-      }
+        $httpBackend.flush();
+
       expect(result.surveyname).toEqual('test');
     }));
   });

@@ -2,8 +2,7 @@ describe('Unit testing passwordStrengthBar', function() {
   var $compile,
       $scope,
       element;
-  beforeEach(mockApiAccountCall);
-  beforeEach(mockI18nCalls);
+  beforeEach(mockApis);
   beforeEach(inject(function(_$compile_, _$rootScope_){
     $compile = _$compile_;
     $scope = _$rootScope_.$new();

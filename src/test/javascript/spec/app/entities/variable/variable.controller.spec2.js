@@ -22,8 +22,7 @@ describe('Controllers Tests ', function() {
       }]
     }
   };
-  beforeEach(mockApiAccountCall);
-  beforeEach(mockI18nCalls);
+  beforeEach(mockApis);
   beforeEach(function() {
     inject(function($controller, _$rootScope_, _AlertService_, _$q_,
       _$location_) {

@@ -1,8 +1,8 @@
 'use strict';
 
-describe('Factory Tests ', function() {
+xdescribe('Factory Tests ', function() {
   var DataAcquisitionProject, $httpMock, $resource, $q, $scope;
-  xdescribe('DataAcquisitionProject', function() {
+  describe('DataAcquisitionProject', function() {
     /*beforeEach(module(function ($provide) {
           $httpMock = jasmine.createSpyObj('$http',['get']);
           $provide.value('$http', $httpMock);

@@ -1,15 +1,15 @@
 'use strict';
 
 describe('Factory Tests ', function() {
-  var Principal, Account, $q, $scope;
+  var Principal, Account, $q, $scope, $httpBackend;
   describe('Principal', function() {
-    //beforeEach(mockApiAccountCall);
-    beforeEach(mockI18nCalls);
+
     beforeEach(inject(function($injector) {
       Principal = $injector.get('Principal');
+      $httpBackend = $injector.get('$httpBackend');
       $q = $injector.get('$q');
       $scope = $injector.get('$rootScope').$new();
-      //Account = $injector.get('Account');
+      $httpBackend.whenGET(/i18n\/de\/.+\.json/).respond({});
       Account = {
         get: function() {
           var deferred = $q.defer();

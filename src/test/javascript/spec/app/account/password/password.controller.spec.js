@@ -1,8 +1,7 @@
 'use strict';
 
 describe('Controllers Tests ', function() {
-  beforeEach(mockApiAccountCall);
-  beforeEach(mockI18nCalls);
+  beforeEach(mockApis);
 
   describe('PasswordController', function() {
 

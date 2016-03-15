@@ -2,8 +2,7 @@
 
 describe('Controllers Tests ', function () {
     var $scope, $q, ConfigurationService, createController;
-        beforeEach(mockApiAccountCall);
-        beforeEach(mockI18nCalls);
+    beforeEach(mockApis);
     describe('ConfigurationController', function() {
         beforeEach(inject(function($injector) {
             $scope = $injector.get('$rootScope').$new();
