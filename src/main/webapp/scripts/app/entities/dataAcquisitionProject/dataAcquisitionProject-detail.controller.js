@@ -7,7 +7,7 @@ angular.module('metadatamanagementApp')
     function($scope, $translate, $stateParams, entity,
       DataAcquisitionProjectExportService, ExcelParser,
       Survey, SurveyCollection, SurveyDeleteResource,
-      DataSet, DataSetDeleteResource, File, Upload,
+      DataSet, DataSetDeleteResource, FileResource, Upload,
       ZipReader, VariablesInputFilesReader, Variable,
       VariableDeleteResource) {
       $scope.dataAcquisitionProject = entity;
@@ -242,7 +242,7 @@ angular.module('metadatamanagementApp')
           file: file
         }).success(function(gridFsFileName) {
           console.log(gridFsFileName);
-          File.download({
+          FileResource.download({
             fileName: gridFsFileName
           }, function(data) {
             console.log(data);

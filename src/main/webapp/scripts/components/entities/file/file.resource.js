@@ -3,7 +3,7 @@
 'use strict';
 
 angular.module('metadatamanagementApp')
-  .factory('File', function($resource) {
+  .factory('FileResource', function($resource) {
     return $resource('public/files/:fileName', {
       fileName: '@fileName'
     }, {
