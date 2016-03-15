@@ -96,6 +96,9 @@ public class FileResourceTest extends AbstractTest {
     String filledTexFile = mvcResultDownload.getResponse()
       .getContentAsString();
 
+
+    // TODO Here is the error, why?
+    System.out.println("Filled Tex File: " + filledTexFile);
     assertThat(filledTexFile.contains(project.getId()), is(true));
   }
 }
