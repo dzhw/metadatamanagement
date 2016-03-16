@@ -1,56 +1,19 @@
 <div>
-    <div  class="col-md-12">
-      <div class="table-responsive">
-        <table class="table table-hover">
-          <thead>
-            <tr>
-              <th data-translate="metadatamanagementApp.variable.fdzId">id</th>
-              <th data-translate="metadatamanagementApp.variable.name">name</th>
-              <th data-translate="metadatamanagementApp.variable.label">label</th>
-              <th data-translate="metadatamanagementApp.variable.description.{{currentLanguage}}">description</th>
-              <th data-translate="metadatamanagementApp.variable.surveyId">surveyId</th>
-              <!--
-              <th >conceptId</th>
-              <th >scaleLevel</th>
-              <th >dataType</th>
-              <th >filterDescription</th>
-              <th >filterExpression</th>
-              <th >filterExpressionLanguage</th>
-              <th >sameVariablesInPanel</th>
-              <th >accesWays</th>
-              <th >generationDetails.rule</th>
-              <th >generationDetails.ruleExpressionLanguage</th>
-              <th >generationDetails.description</th>
-            -->
-            </tr>
-          </thead>
-          <tbody>
-            <tr ng-repeat="variable in currentPage._embedded.variables">
-              <td><a ui-sref="variable.detail({id:variable.id})">{{variable.id}}</a></td>
-              <td>{{variable.name}}</td>
-              <td>{{variable.label[currentLanguage]}}</td>
-              <td>{{variable.description[currentLanguage]}}</td>
-              <td><a ui-sref="survey.detail({id:variable.surveyId})">{{variable.surveyId}}</a></td>
-              <!--
-              <td><a ui-sref="concept.detail({id:variable.conceptId})">{{variable.conceptId}}</a></td>
-              <td>{{variable.scaleLevel[currentLanguage]}}</td>
-              <td>{{variable.dataType[currentLanguage]}}</td>
-              <td>{{variable.filterDescription[currentLanguage]}}</td>
-              <td>{{variable.filterExpression}}</td>
-              <td>{{variable.filterExpressionLanguage}}</td>
-              <td><a ng-repeat="variableId in variable.sameVariablesInPanel" ui-sref="variable.detail({id:variableId})">{{variableId}}, </a></td>
-              <td>{{variable.accesWays}}</td>
-              <td>{{variable.generationDetails.rule}}</td>
-              <td>{{variable.generationDetails.ruleExpressionLanguage}}</td>
-              <td>{{variable.generationDetails.description[currentLanguage]}}</td>
-            -->
-            </tr>
-          </tbody>
-        </table>
-      </div>
+    <div>
+      <ul class="list-group">
+            <li ng-repeat="variable in currentPage._embedded.variables" class="list-group-item">
+                  <h4 class="list-group-item-heading">
+                      <a ui-sref="variable.detail({id:variable.id})">{{variable.id}}</a>
+                  </h4>
+                  <p class="list-group-item-text">{{variable.name}}</p>
+                  <p class="list-group-item-text">{{variable.label[currentLanguage]}}</p>
+                  <p class="list-group-item-text">{{variable.description[currentLanguage]}}</p>
+                  <p class="list-group-item-text"><a ui-sref="survey.detail({id:variable.surveyId})">{{variable.surveyId}}</a></p>
+            </li>
+      </ul>
   </div>
     <div  class="col-md-12 col-md-offset-4">
-    <uib-pagination total-items="pageState.totalElements" ng-model="pageState.currentPageNumber" ng-change="pageChanged()"  max-size="5" class="pagination-sm" boundary-links="true" boundary-link-numbers="true" rotate="false" previous-text="{{'pager.previous' | translate}}" next-text="{{'pager.next' | translate}}" first-text="{{'pager.first' | translate}}" last-text="{{'pager.last' | translate}}"></uib-pagination>
+    <uib-pagination total-items="pageState.totalElements" ng-model="pageState.currentPageNumber" ng-change="pageChanged()" max-size="pageState.maxSize" class="pagination-sm" boundary-links="true" boundary-link-numbers="true" rotate="false" previous-text="{{'pager.previous' | translate}}" next-text="{{'pager.next' | translate}}" first-text="{{'pager.first' | translate}}" last-text="{{'pager.last' | translate}}"></uib-pagination>
   </div>
 </div>
 <div ng-if="!currentPage.$resolved">
