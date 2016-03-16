@@ -10,10 +10,13 @@ import java.io.FileInputStream;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
+import javax.inject.Inject;
+
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.mongodb.gridfs.GridFsOperations;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
@@ -46,6 +49,9 @@ public class FileResourceTest extends AbstractTest {
 
   private MockMvc mockMvc;
 
+  @Inject
+  private GridFsOperations operations;
+
   @Before
   public void setup() {
     this.mockMvc = MockMvcBuilders.webAppContextSetup(this.wac)
@@ -56,6 +62,11 @@ public class FileResourceTest extends AbstractTest {
   public void cleanUp() {
     this.dataAcquisitionProjectRepository.deleteAll();
     this.latexTemplateService.deleteTexTemplates();
+  }
+
+  @Test
+  public void test() {
+
   }
 
   @Test
@@ -89,7 +100,7 @@ public class FileResourceTest extends AbstractTest {
 
     // Act and Assert Download
     MvcResult mvcResultDownload =
-        this.mockMvc.perform(get(PUBLIC_FILES_URI + "/" + texTemplateNameInGridFS))
+        this.mockMvc.perform(get(PUBLIC_FILES_URI).param("fileName", texTemplateNameInGridFS))
           .andExpect(status().isOk())
           .andReturn();
 

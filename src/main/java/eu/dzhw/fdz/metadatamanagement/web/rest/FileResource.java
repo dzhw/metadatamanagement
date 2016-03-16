@@ -6,8 +6,8 @@ import org.springframework.core.io.InputStreamResource;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.mongodb.gridfs.GridFSDBFile;
 
@@ -31,8 +31,9 @@ public class FileResource {
    * 
    * @param fileName The name of the file in the GridFS / MongoDB.
    */
-  @RequestMapping(value = "/files/{fileName:.+}")
-  public ResponseEntity<InputStreamResource> downloadFile(@PathVariable String fileName) {
+  @RequestMapping(value = "/files")
+  public ResponseEntity<InputStreamResource> downloadFile(
+      @RequestParam(value = "fileName") String fileName) {
 
     // find file in grid fs / mongo db
     GridFSDBFile gridFsFile = this.fileDownloadService.findTexTemplates(fileName);

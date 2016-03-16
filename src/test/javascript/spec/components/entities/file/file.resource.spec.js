@@ -18,11 +18,12 @@ describe('Test File Resource: ', function() {
     var headers = {
       'content-type': 'application/x-tex'
     };
-    $httpBackend.expectGET('public/files').respond(data, headers);
-    var result = fileResource.download('FileName');
-    try {
-      $httpBackend.flush();
-    } catch (e) {}
+    $httpBackend.expectGET('public/files?fileName=FileName').respond(
+      data, headers);
+    var result = fileResource.download({
+      fileName: 'FileName'
+    });
+    $httpBackend.flush();
     console.log('Yeah');
     console.log(result);
   });

@@ -85,8 +85,7 @@ describe('Controllers Tests ', function() {
         'entity': {
           id: 'fdzid'
         },
-        'DataAcquisitionProjectExportService':
-        DataAcquisitionProjectExportService,
+        'DataAcquisitionProjectExportService': DataAcquisitionProjectExportService,
         'ExcelParser': ExcelParser,
         '$translate': $translate
       };
@@ -137,12 +136,12 @@ describe('Controllers Tests ', function() {
     });
 
     it('should call initUploadStatus with 1, true, surveys-uploaded',
-    function() {
-      spyOn($scope, 'initUploadStatus');
-      $scope.onSurveyUpload(file);
-      expect($scope.initUploadStatus).toHaveBeenCalledWith(1, true,
-        'surveys-uploaded');
-    });
+      function() {
+        spyOn($scope, 'initUploadStatus');
+        $scope.onSurveyUpload(file);
+        expect($scope.initUploadStatus).toHaveBeenCalledWith(1, true,
+          'surveys-uploaded');
+      });
 
     it('should call $translate.instant', function() {
       spyOn($translate, 'instant');

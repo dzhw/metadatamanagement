@@ -4,11 +4,14 @@
 
 angular.module('metadatamanagementApp')
   .factory('FileResource', function($resource) {
-    return $resource('public/files/:fileName', {
-      fileName: '@fileName'
+    return $resource('public/files', {
+
     }, {
       'download': {
         method: 'GET',
+        params: {
+          fileName: '@fileName'
+        },
         responseType: 'arraybuffer',
         transformResponse: function(data, headers) {
           var fileBlob;

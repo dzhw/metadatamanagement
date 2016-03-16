@@ -66,6 +66,8 @@ public class LatexTemplateService {
    */
   public static final String ESCAPE_SUFFIX = "</#escape>";
 
+  public static final String CONTENT_TYPE_LATEX = "application/x-tex";
+
   /**
    * This service method will receive a tex template as a string and an id of a data acquision
    * project. With this id, the service will load the project for receiving all project information,
@@ -111,16 +113,17 @@ public class LatexTemplateService {
       String dataAcquisitionProjectId) {
 
     // prepare additional information for tex file.
-    String contentType = "application/x-tex";
+
     ByteArrayInputStream byteArrayInputStream =
         new ByteArrayInputStream(byteArrayOutputStream.toByteArray());
-    String fileName = dataAcquisitionProjectId + "_texTemplate.tex";
+    String fileName = "/tmp/" + dataAcquisitionProjectId + "_texTemplate.tex";
 
     // No Update by API, so we have to delete first.
     this.deleteTexTemplateByName(fileName);
 
     // Save tex file, based on the bytearray*streams
-    GridFSFile texGridFsFile = this.operations.store(byteArrayInputStream, fileName, contentType);
+    GridFSFile texGridFsFile =
+        this.operations.store(byteArrayInputStream, fileName, CONTENT_TYPE_LATEX);
     texGridFsFile.validate();
 
     return fileName;
@@ -132,8 +135,10 @@ public class LatexTemplateService {
   @Scheduled(cron = "0 0 3 * * ?")
   public void deleteTexTemplates() {
     // Regular Expression with $in Operator. Checks for all files with ends with .tex
-    Query query = new Query(GridFsCriteria.whereContentType()
-        .is("application/x-tex"));
+    Query query = new Query(GridFsCriteria.whereFilename()
+        .regex("^/tmp/")
+        .andOperator(GridFsCriteria.whereContentType()
+        .is(CONTENT_TYPE_LATEX)));
 
     this.operations.delete(query);
 

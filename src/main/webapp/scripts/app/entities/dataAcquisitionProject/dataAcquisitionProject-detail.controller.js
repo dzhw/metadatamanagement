@@ -308,7 +308,8 @@ angular.module('metadatamanagementApp')
             if (returnValue) {
               ZipReader.readZipFileAsync(file)
                 .then(function(data) {
-                  saveVariables(VariablesInputFilesReader.readAllFiles(data,
+                  saveVariables(VariablesInputFilesReader.readAllFiles(
+                    data,
                     $scope.dataAcquisitionProject.id));
                 });
             }
@@ -336,11 +337,9 @@ angular.module('metadatamanagementApp')
           },
           file: file
         }).success(function(gridFsFileName) {
-          console.log(gridFsFileName);
           FileResource.download({
             fileName: gridFsFileName
           }, function(data) {
-            console.log(data);
             saveAs(data.response, $scope.dataAcquisitionProject.id +
               '_Report.tex');
           });
