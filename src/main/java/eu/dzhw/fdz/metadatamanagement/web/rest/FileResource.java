@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.mongodb.gridfs.GridFSDBFile;
 
-import eu.dzhw.fdz.metadatamanagement.service.reporter.FileDownloadService;
+import eu.dzhw.fdz.metadatamanagement.service.reporter.FileService;
 
 /**
  * REST controller for downloading generic files from the GridFS / MongoDB.
@@ -24,7 +24,7 @@ import eu.dzhw.fdz.metadatamanagement.service.reporter.FileDownloadService;
 public class FileResource {
 
   @Inject
-  private FileDownloadService fileDownloadService;
+  private FileService fileDownloadService;
 
   /**
    * Download a file from the GridFS / MongoDB by a given filename.

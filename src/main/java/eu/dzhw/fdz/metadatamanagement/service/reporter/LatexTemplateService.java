@@ -16,7 +16,6 @@ import javax.inject.Inject;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.gridfs.GridFsCriteria;
 import org.springframework.data.mongodb.gridfs.GridFsOperations;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import com.mongodb.gridfs.GridFSFile;
@@ -129,23 +128,8 @@ public class LatexTemplateService {
     return fileName;
   }
 
-  /**
-   * Delete all tex templates from the GridFS / MongoDB. Cron Meaning: Every Day at 3 am.
-   */
-  @Scheduled(cron = "0 0 3 * * ?")
-  public void deleteTexTemplates() {
-    // Regular Expression with $in Operator. Checks for all files with ends with .tex
-    Query query = new Query(GridFsCriteria.whereFilename()
-        .regex("^/tmp/")
-        .andOperator(GridFsCriteria.whereContentType()
-        .is(CONTENT_TYPE_LATEX)));
-
-    this.operations.delete(query);
-
-  }
-
   private void deleteTexTemplateByName(String fileName) {
-    // Regular Expression with $in Operator. Checks for all files with ends with .tex
+    // find
     Query query = new Query(GridFsCriteria.whereFilename()
         .is(fileName));
 
@@ -180,6 +164,4 @@ public class LatexTemplateService {
 
     return dataForTemplate;
   }
-
-
 }

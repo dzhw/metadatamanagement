@@ -20,7 +20,7 @@ import org.springframework.web.context.WebApplicationContext;
 import eu.dzhw.fdz.metadatamanagement.AbstractTest;
 import eu.dzhw.fdz.metadatamanagement.domain.DataAcquisitionProject;
 import eu.dzhw.fdz.metadatamanagement.repository.DataAcquisitionProjectRepository;
-import eu.dzhw.fdz.metadatamanagement.service.reporter.LatexTemplateService;
+import eu.dzhw.fdz.metadatamanagement.service.reporter.FileService;
 import eu.dzhw.fdz.metadatamanagement.unittest.util.UnitTestCreateDomainObjectUtils;
 
 /**
@@ -38,7 +38,7 @@ public class DataSetsReportResourceTest extends AbstractTest {
   private DataAcquisitionProjectRepository dataAcquisitionProjectRepository;
 
   @Autowired
-  private LatexTemplateService latexTemplateService;
+  private FileService fileService;
 
   private MockMvc mockMvc;
 
@@ -51,7 +51,7 @@ public class DataSetsReportResourceTest extends AbstractTest {
   @After
   public void cleanUp() {
     this.dataAcquisitionProjectRepository.deleteAll();
-    this.latexTemplateService.deleteTexTemplates();
+    this.fileService.deleteTempFiles();
   }
 
   @Test

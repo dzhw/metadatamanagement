@@ -10,13 +10,10 @@ import java.io.FileInputStream;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
-import javax.inject.Inject;
-
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.mongodb.gridfs.GridFsOperations;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
@@ -27,7 +24,7 @@ import org.springframework.web.context.WebApplicationContext;
 import eu.dzhw.fdz.metadatamanagement.AbstractTest;
 import eu.dzhw.fdz.metadatamanagement.domain.DataAcquisitionProject;
 import eu.dzhw.fdz.metadatamanagement.repository.DataAcquisitionProjectRepository;
-import eu.dzhw.fdz.metadatamanagement.service.reporter.LatexTemplateService;
+import eu.dzhw.fdz.metadatamanagement.service.reporter.FileService;
 import eu.dzhw.fdz.metadatamanagement.unittest.util.UnitTestCreateDomainObjectUtils;
 
 /**
@@ -45,12 +42,9 @@ public class FileResourceTest extends AbstractTest {
   private DataAcquisitionProjectRepository dataAcquisitionProjectRepository;
 
   @Autowired
-  private LatexTemplateService latexTemplateService;
+  private FileService fileService;
 
   private MockMvc mockMvc;
-
-  @Inject
-  private GridFsOperations operations;
 
   @Before
   public void setup() {
@@ -61,7 +55,7 @@ public class FileResourceTest extends AbstractTest {
   @After
   public void cleanUp() {
     this.dataAcquisitionProjectRepository.deleteAll();
-    this.latexTemplateService.deleteTexTemplates();
+    this.fileService.deleteTempFiles();
   }
 
   @Test
