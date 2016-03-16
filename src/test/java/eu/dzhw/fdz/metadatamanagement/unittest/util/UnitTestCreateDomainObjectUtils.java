@@ -56,7 +56,9 @@ public class UnitTestCreateDomainObjectUtils {
 
     return new DataAcquisitionProjectBuilder().withId("testProject")
       .withSurveySeries(new I18nStringBuilder().build())
-      .withPanelName(new I18nStringBuilder().build())
+      .withPanelName(new I18nStringBuilder().withDe("German PanelName")
+        .withEn("English PanelName")
+        .build())
       .withReleases(releases)
       .build();
   }
