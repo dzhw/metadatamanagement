@@ -35,15 +35,15 @@
 <div>
   <!--
   <input type="text" ng-model="asyncSelected" placeholder="Locations loaded via $http" uib-typeahead="address for address in getLocation($viewValue)" typeahead-loading="loadingLocations" typeahead-no-results="noResults" class="form-control">
-   <i ng-show="loadingLocations" class="glyphicon glyphicon-refresh"></i> -->
+   <i ng-show="loadingLocations" class="glyphicon glyphicon-refresh"></i>
    <div ng-show="noResults">
      <i class="glyphicon glyphicon-remove"></i> No Results Found
-   </div>
+   </div> -->
     <div>
       <ul class="list-group">
             <li ng-repeat="survey in currentPage._embedded.surveys" class="list-group-item">
                   <h4 class="list-group-item-heading">
-                      <a ui-sref="survey.detail({id:survey.id})">{{survey.id}}</a></a>
+                      <a ui-sref="survey.detail({id:survey.id})">{{survey.id}}</a>
                   </h4>
                   <p class="list-group-item-text">{{survey.name}}</p>
                   <p class="list-group-item-text">{{survey.title[currentLanguage]}}</p>
