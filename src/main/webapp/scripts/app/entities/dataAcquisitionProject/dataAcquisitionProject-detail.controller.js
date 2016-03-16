@@ -9,14 +9,16 @@ angular.module('metadatamanagementApp')
       Survey, SurveyCollection, SurveyDeleteResource,
       DataSet, DataSetDeleteResource, FileResource, Upload,
       ZipReader, VariablesInputFilesReader, Variable,
-      VariableDeleteResource, CustomModal) {
+      VariableDeleteResource, CustomModal, AtomicQuestion,
+      AtomicQuestionDeleteResource) {
       $scope.dataAcquisitionProject = entity;
       $scope.objLists = {
         surveyList: {
           $resolved: false
         },
         variableList: {},
-        dataSetList: {}
+        dataSetList: {},
+        atomicQuestionsList: {}
       };
       $scope.dataAcquisitionProject.id = $stateParams.id;
       $scope.elementsCounts = {
@@ -188,6 +190,38 @@ angular.module('metadatamanagementApp')
             }
           });
       };
+      var saveAtomicQuestions = function(atomicQuetions) {
+        $scope.initUploadStatus(atomicQuetions.length, true,
+          'atomicQuetions-uploaded');
+        AtomicQuestionDeleteResource.deleteByDataAcquisitionProjectId({
+            dataAcquisitionProjectId: $scope.dataAcquisitionProject.id
+          }, {},
+          function() {
+            for (var i = 0; i < atomicQuetions.length; i++) {
+              var data = atomicQuetions[i];
+              if (!data.id || data.id === '') {
+                $scope.uploadStatus.pushError($translate.instant(
+                  'metadatamanagementApp.dataAcquisitionProject.' +
+                  'detail.logMessages.' +
+                  'missingId', {
+                    index: i + 1
+                  }));
+              } else {
+                var atomicQuestionObj = {
+                  id: data.id,
+                  dataAcquisitionProjectId: $scope.dataAcquisitionProject
+                    .id
+                };
+                var atomicQuestion = new AtomicQuestion(atomicQuestionObj);
+                atomicQuestion.$save().then(function() {
+                  $scope.uploadStatus.pushSuccess();
+                }).catch(function(error) {
+                  $scope.uploadStatus.pushError(error);
+                });
+              }
+            }
+          });
+      };
       var saveVariables = function(variables) {
         $scope.initUploadStatus(variables.length, true, 'variables-uploaded');
         VariableDeleteResource.deleteByDataAcquisitionProjectId({
@@ -258,7 +292,19 @@ angular.module('metadatamanagementApp')
           });
         }
       };
-
+      $scope.onAtomicQuestionUpload = function(file) {
+        if (file !== null) {
+          CustomModal.getModal($translate.instant(
+            'metadatamanagementApp.dataAcquisitionProject.detail.' +
+            'deleteMessages.deleteAtomicQuestions', {
+              id: $scope.dataAcquisitionProject.id
+            })).then(function(returnValue) {
+            if (returnValue) {
+              ExcelParser.readFileAsync(file).then(saveAtomicQuestions);
+            }
+          });
+        }
+      };
       $scope.onTexTemplateUpload = function(file) {
         Upload.upload({
           url: 'api/data-sets/report',

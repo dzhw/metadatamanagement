@@ -40,10 +40,7 @@ public class AtomicQuestionService {
    */
   @HandleAfterDelete
   public void onDataAcquisitionProjectDeleted(DataAcquisitionProject dataAcquisitionProject) {
-    List<AtomicQuestion> deletedAtomicQuestions = this.atomicQuestionRepository
-        .deleteByDataAcquisitionProjectId(dataAcquisitionProject.getId());
-    deletedAtomicQuestions
-      .forEach(atomicQuestion -> eventPublisher.publishEvent(new AfterDeleteEvent(atomicQuestion)));
+    deleteAtomicQuestionsByProjectId(dataAcquisitionProject.getId());
   }
 
   /**
@@ -71,5 +68,17 @@ public class AtomicQuestionService {
     deletedAtomicQuestions
       .forEach(atomicQuestion -> eventPublisher.publishEvent(new AfterDeleteEvent(atomicQuestion)));
   }
-
+  
+  /**
+   * A service method for deletion of surveys within a data acquisition project.
+   * @param dataAcquisitionProjectId the id for to the data acquisition project.
+   * @return List of deleted AtomicQuestions
+   */
+  public List<AtomicQuestion>  deleteAtomicQuestionsByProjectId(String dataAcquisitionProjectId) {
+    List<AtomicQuestion> deletedAtomicQuestions = this.atomicQuestionRepository
+        .deleteByDataAcquisitionProjectId(dataAcquisitionProjectId);
+    deletedAtomicQuestions
+      .forEach(atomicQuestion -> eventPublisher.publishEvent(new AfterDeleteEvent(atomicQuestion)));
+    return deletedAtomicQuestions;
+  }
 }

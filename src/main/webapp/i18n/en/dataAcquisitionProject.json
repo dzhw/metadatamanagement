@@ -22,7 +22,8 @@
         "upload": {
           "surveys": "Upload Surveys",
           "datasets": "Upload Datasets",
-          "variables": "Upload Variables"
+          "variables": "Upload Variables",
+          "atomicQuestion": "Upload Atomic Questions"
         },
         "uploadprotocol": "Upload Protocol",
         "success": "Success",
@@ -36,7 +37,8 @@
         "deleteMessages": {
           "deleteSurveys": "Are you sure you want to delete all Surveys within DataAcquisitionProject with RDC-ID \"{{ id }}\"?",
           "deleteDataSets": "Are you sure you want to delete all Datasets within DataAcquisitionProject with RDC-ID \"{{ id }}\"?",
-          "deleteVariables": "Are you sure you want to delete all Variables within DataAcquisitionProject with RDC-ID \"{{ id }}\"?"
+          "deleteVariables": "Are you sure you want to delete all Variables within DataAcquisitionProject with RDC-ID \"{{ id }}\"?",
+          "deleteAtomicQuestions": "Are you sure you want to delete all Atomic Questions within DataAcquisitionProject with RDC-ID \"{{ id }}\"?"
         }
       },
       "name": "Name"

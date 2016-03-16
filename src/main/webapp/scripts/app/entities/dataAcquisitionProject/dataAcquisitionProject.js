@@ -51,6 +51,7 @@ angular.module('metadatamanagementApp')
               $translatePartialLoader.addPart('dataSet');
               $translatePartialLoader.addPart('variable');
               $translatePartialLoader.addPart('customModal');
+              $translatePartialLoader.addPart('atomicQuestion');
               return $translate.refresh();
             }
           ],

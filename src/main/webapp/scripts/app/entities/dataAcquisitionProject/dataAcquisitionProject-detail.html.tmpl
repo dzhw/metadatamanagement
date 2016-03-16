@@ -2,7 +2,7 @@
     <h2>
         <span data-translate="metadatamanagementApp.dataAcquisitionProject.detail.title">Data Acquisition Project</span>
         {{dataAcquisitionProject.name}}</h2>
-      
+
     <div class="row">
         <div class="col-md-12">
             <div class="table-responsive">
@@ -81,6 +81,23 @@
                   </div>
               </uib-accordion-group>
               <br/>
+              <uib-accordion-group is-open="atomicQuetionListIsOpen">
+                  <uib-accordion-heading>
+                    <div class="row">
+                      <div class="col-md-12">
+                        <span data-translate="metadatamanagementApp.atomicQuestion.title">AtomicQuestions</span>
+                        <span class="pull-right">
+                          <span class="label label-as-badge label-default">0</span>
+                          <i class="glyphicon" ng-class="{'glyphicon-chevron-down': atomicQuetionListIsOpen, 'glyphicon-chevron-right': !atomicQuetionListIsOpen}"></i>
+                        </span>
+                      </div>
+                    </div>
+                  </uib-accordion-heading>
+                  <div>
+                    <atomicquestionslist params="{dataAcquisitionProjectId: dataAcquisitionProject.id}" current-language="currentLanguage" current-page="objLists.atomicQuestionsList"></atomicquestionslist>
+                  </div>
+              </uib-accordion-group>
+            <br/>
               <div class="row">
                   <div class="col-md-12">
                       <button type="submit" onclick="window.history.back()" class="btn btn-info">
@@ -101,6 +118,9 @@
                       <button type="file" class="btn btn-default" ngf-select="onVariablesUpload($file)" accept=".zip" ng-disabled="uploadStatus.disableButton">
                               <span class="glyphicon glyphicon-cloud-upload"></span>
                               {{'metadatamanagementApp.dataAcquisitionProject.detail.upload.variables' | translate}}</button>
+                      <button type="file" class="btn btn-default" ngf-select="onAtomicQuestionUpload($file)" accept=".xlsx" ng-disabled="uploadStatus.disableButton">
+                              <span class="glyphicon glyphicon-cloud-upload"></span>
+                              {{'metadatamanagementApp.dataAcquisitionProject.detail.upload.atomicQuestion' | translate}}</button>
                   </div>
               </div>
               <br/>

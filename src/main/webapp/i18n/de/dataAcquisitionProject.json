@@ -22,7 +22,8 @@
         "upload": {
           "surveys": "Erhebungen hochladen",
           "datasets": "Datensätze hochladen",
-          "variables": "Variablen hochladen"
+          "variables": "Variablen hochladen",
+          "atomicQuestion": "Atomare Fragen hochladen"
         },
         "uploadprotocol": "Upload Protokoll",
         "success": "Erfolg",
@@ -36,7 +37,8 @@
         "deleteMessages": {
           "deleteSurveys": "Sind Sie sicher dass, Sie alle Erhebungen innerhalb vom Datenerhebungsprojekt mit FDZ-ID \"{{ id }}\" löschen möchten?",
           "deleteDataSets": "Sind Sie sicher dass, Sie alle Datensetze innerhalb vom Datenerhebungsprojekt mit FDZ-ID \"{{ id }}\" löschen möchten?",
-          "deleteVariables": "Sind Sie sicher dass, Sie alle Variablen innerhalb vom Datenerhebungsprojekt mit FDZ-ID \"{{ id }}\" löschen möchten?"
+          "deleteVariables": "Sind Sie sicher dass, Sie alle Variablen innerhalb vom Datenerhebungsprojekt mit FDZ-ID \"{{ id }}\" löschen möchten?",
+          "deleteAtomicQuestions": "Sind Sie sicher dass, Sie alle atomaren Fragen innerhalb vom Datenerhebungsprojekt mit FDZ-ID \"{{ id }}\" löschen möchten?"
         }
       },
       "name": "Name"
