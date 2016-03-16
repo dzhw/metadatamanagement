@@ -13,19 +13,13 @@ angular.module('metadatamanagementApp')
       AtomicQuestionDeleteResource) {
       $scope.dataAcquisitionProject = entity;
       $scope.objLists = {
-        surveyList: {
-          $resolved: false
-        },
+        surveyList: {},
         variableList: {},
         dataSetList: {},
         atomicQuestionsList: {}
       };
       $scope.dataAcquisitionProject.id = $stateParams.id;
-      $scope.elementsCounts = {
-        surveys: 0,
-        dataSets: 0,
-        variables: 0
-      };
+
       $scope.initUploadStatus = function(itemsToUpload, buttonsState, element) {
         $scope.uploadStatus = {
           itemsToUpload: itemsToUpload,
@@ -209,9 +203,38 @@ angular.module('metadatamanagementApp')
               } else {
                 var atomicQuestionObj = {
                   id: data.id,
+                  name: data.name,
                   dataAcquisitionProjectId: $scope.dataAcquisitionProject
-                    .id
+                    .id,
+                  questionnaireId: data.questionnaireId,
+                  variableId: data.variableId,
+                  footnote: {
+                    en: data['footnote.en'],
+                    de: data['footnote.de']
+                  },
+                  compositeQuestionName: data.compositeQuestionName,
+                  instruction: {
+                    en: data['instruction.en'],
+                    de: data['instruction.de']
+                  },
+                  introduction: {
+                    en: data['introduction.en'],
+                    de: data['introduction.de']
+                  },
+                  questionText: {
+                    en: data['questionText.en'],
+                    de: data['questionText.de']
+                  },
+                  sectionHeader: {
+                    en: data['sectionHeader.en'],
+                    de: data['sectionHeader.de']
+                  },
+                  type: {
+                    en: data['type.en'],
+                    de: data['type.de']
+                  }
                 };
+
                 var atomicQuestion = new AtomicQuestion(atomicQuestionObj);
                 atomicQuestion.$save().then(function() {
                   $scope.uploadStatus.pushSuccess();

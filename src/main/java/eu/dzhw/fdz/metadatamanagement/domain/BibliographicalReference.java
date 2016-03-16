@@ -19,7 +19,7 @@ import net.karneim.pojobuilder.GeneratePojoBuilder;
 public class BibliographicalReference extends AbstractRdcDomainObject {
 
   @Id
-  @NotEmpty
+  @NotEmpty(message = "{error.bibliographicalReference.id.isEmpty}")
   private String id;
 
   private String author;

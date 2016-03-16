@@ -28,21 +28,21 @@ import net.karneim.pojobuilder.GeneratePojoBuilder;
 public class Variable extends AbstractRdcDomainObjectWithProjectSurvey {
 
   @Id
-  @NotEmpty
+  @NotEmpty(message = "{error.variable.id.isEmpty}")
   private String id;
 
-  @NotEmpty
+  @NotEmpty(message = "{error.variable.name.isEmpty}")
   @Size(max = 32)
   @Pattern(regexp = Patterns.ALPHANUMERIC_WITH_UNDERSCORE)
   private String name;
 
-  @NotNull
+  @NotNull(message = "{error.variable.name.isEmpty}")
   private I18nString dataType;
 
-  @NotNull
+  @NotNull(message = "{error.variable.scaleLevel.isEmpty}")
   private I18nString scaleLevel;
 
-  @NotNull
+  @NotNull(message = "{error.variable.label.isEmpty}")
   private I18nString label;
 
   private List<Value> values;

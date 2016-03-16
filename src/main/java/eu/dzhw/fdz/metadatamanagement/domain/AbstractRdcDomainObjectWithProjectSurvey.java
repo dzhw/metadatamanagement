@@ -19,7 +19,7 @@ import eu.dzhw.fdz.metadatamanagement.domain.validation.SurveyHasSameDataAcquisi
 @SurveyHasSameDataAcquisitionProject
 public abstract class AbstractRdcDomainObjectWithProjectSurvey extends AbstractRdcDomainObject {
 
-  @NotEmpty
+  @NotEmpty(message = "{error.dataAcquisitionProject.id.isEmpty}")
   @DataAcquisitionProjectExists
   private String dataAcquisitionProjectId;
 

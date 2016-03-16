@@ -17,7 +17,7 @@ public class Authority implements Serializable {
 
   private static final long serialVersionUID = 1L;
 
-  @NotNull
+  @NotNull(message = "{error.authority.name.isEmpty}")
   @Size(min = 0, max = 50)
   @Id
   private String name;

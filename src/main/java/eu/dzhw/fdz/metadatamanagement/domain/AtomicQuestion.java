@@ -22,7 +22,7 @@ import net.karneim.pojobuilder.GeneratePojoBuilder;
 public class AtomicQuestion extends AbstractRdcDomainObject {
 
   @Id
-  @NotEmpty
+  @NotEmpty(message = "{error.atomicQuestion.id.isEmpty}")
   private String id;
 
   private I18nString type;
@@ -41,14 +41,14 @@ public class AtomicQuestion extends AbstractRdcDomainObject {
 
   private I18nString sectionHeader;
 
-  @NotEmpty
+  @NotEmpty(message = "{error.dataAcquisitionProject.id.isEmpty}")
   @DataAcquisitionProjectExists
   private String dataAcquisitionProjectId;
 
-  @NotEmpty
+  @NotEmpty(message = "{error.questionnaire.id.isEmpty}")
   private String questionnaireId;
 
-  @NotEmpty
+  @NotEmpty(message = "{error.variable.id.isEmpty}")
   private String variableId;
 
   /*

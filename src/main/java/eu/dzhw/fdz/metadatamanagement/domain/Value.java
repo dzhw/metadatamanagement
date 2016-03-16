@@ -16,7 +16,7 @@ import net.karneim.pojobuilder.GeneratePojoBuilder;
 @GeneratePojoBuilder(intoPackage = "eu.dzhw.fdz.metadatamanagement.domain.builders")
 public class Value {
 
-  @NotEmpty
+  @NotEmpty(message = "{error.value.code}")
   private String code;
 
   private I18nString label;

@@ -21,14 +21,14 @@ import net.karneim.pojobuilder.GeneratePojoBuilder;
 @GeneratePojoBuilder(intoPackage = "eu.dzhw.fdz.metadatamanagement.domain.builders")
 public class DataSet extends AbstractRdcDomainObject {
   @Id
-  @NotEmpty
+  @NotEmpty(message = "{error.dataSet.id.isEmpty}")
   private String id;
 
   private I18nString description;
 
   private List<String> variableIds;
   
-  @NotEmpty
+  @NotEmpty(message = "{error.dataAcquisitionProject.id.isEmpty}")
   @DataAcquisitionProjectExists
   private String dataAcquisitionProjectId;
 
