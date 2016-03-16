@@ -15,6 +15,36 @@
   
 \begin{document}
 
-Das Project trägt die ${dataAcquisitionProject.id}. 
- 
+\chapter{DEVELOPMENT VERSION - ONLY FUNCTION SHOW CASE}
+\section{Variablen report of the project: }
+\subsection{Project Information}
+
+Notice: English Version (using english translations of values.!)\\
+\\
+Project Id: ${dataAcquisitionProject.id} 
+
+\newpage
+\subsection{Variable Information}
+
+<#list variables as variable>
+	\subsubsection{Variable Id: ${variable.id}}
+	Survey Id: ${variable.surveyId} \\
+	Name: ${variable.name} \\
+	Scale Level: ${variable.scaleLevel.en}\\
+
+	\begin{tabular}{lcr}
+	Code & Lable & Rel.Frequency \\
+  
+	<#list variable.values as value>  
+		${value.code} & ${value.label.en} & ${value.relativeFrequency} \\
+
+	<#else>
+		- & - & -
+	</#list>
+	\end{tabular}
+	
+	\newpage
+<#else>
+  No variables!
+</#list>
 \end{document}

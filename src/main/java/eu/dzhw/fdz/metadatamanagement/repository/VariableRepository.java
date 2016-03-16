@@ -24,4 +24,8 @@ public interface VariableRepository
 
   @RestResource(exported = false)
   List<Variable> deleteByConceptId(String conceptId);
+
+  @RestResource(exported = false)
+  List<Variable> findByDataAcquisitionProjectId(String dataAcquisitionProjectId);
+
 }

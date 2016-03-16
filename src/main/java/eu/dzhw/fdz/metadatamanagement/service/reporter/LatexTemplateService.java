@@ -7,6 +7,7 @@ import java.io.OutputStreamWriter;
 import java.io.Writer;
 import java.nio.charset.Charset;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
@@ -21,7 +22,9 @@ import org.springframework.stereotype.Service;
 import com.mongodb.gridfs.GridFSFile;
 
 import eu.dzhw.fdz.metadatamanagement.domain.DataAcquisitionProject;
+import eu.dzhw.fdz.metadatamanagement.domain.Variable;
 import eu.dzhw.fdz.metadatamanagement.repository.DataAcquisitionProjectRepository;
+import eu.dzhw.fdz.metadatamanagement.repository.VariableRepository;
 import freemarker.template.Configuration;
 import freemarker.template.Template;
 import freemarker.template.TemplateException;
@@ -41,6 +44,9 @@ public class LatexTemplateService {
 
   @Inject
   private DataAcquisitionProjectRepository dataAcquisitionProjectRepository;
+
+  @Inject
+  private VariableRepository variableRepository;
 
   /**
    * The Escape Prefix handles the escaping of special latex signs within data information. This
@@ -154,6 +160,9 @@ public class LatexTemplateService {
     DataAcquisitionProject dataAcquisitionProject =
         this.dataAcquisitionProjectRepository.findOne(dataAcquisitionProjectId);
 
+    List<Variable> variables =
+        this.variableRepository.findByDataAcquisitionProjectId(dataAcquisitionProjectId);
+
     // Check for found data acquisition project
     if (dataAcquisitionProject == null) {
       throw new IllegalArgumentException(
@@ -162,6 +171,7 @@ public class LatexTemplateService {
 
     Map<String, Object> dataForTemplate = new HashMap<String, Object>();
     dataForTemplate.put("dataAcquisitionProject", dataAcquisitionProject);
+    dataForTemplate.put("variables", variables);
 
     return dataForTemplate;
   }
