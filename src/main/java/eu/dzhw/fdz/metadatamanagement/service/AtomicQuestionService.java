@@ -70,7 +70,7 @@ public class AtomicQuestionService {
   }
   
   /**
-   * A service method for deletion of surveys within a data acquisition project.
+   * A service method for deletion of atomicQuestions within a data acquisition project.
    * @param dataAcquisitionProjectId the id for to the data acquisition project.
    * @return List of deleted AtomicQuestions
    */

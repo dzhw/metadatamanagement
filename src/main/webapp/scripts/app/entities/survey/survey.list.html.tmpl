@@ -1,45 +1,5 @@
-<!--
 <div>
-      <div  class="col-md-12">
-      <div class="table-responsive">
-        <table class="table table-hover">
-      <thead>
-      <tr>
-        <th data-translate="metadatamanagementApp.survey.fdzId">FDZ ID</th>
-        <th data-translate="metadatamanagementApp.survey.title.{{currentLanguage}}">title</th>
-        <th data-translate="metadatamanagementApp.survey.fieldPeriod.start">start</th>
-        <th data-translate="metadatamanagementApp.survey.fieldPeriod.end">end</th>
-        <th data-translate="metadatamanagementApp.survey.questionnaireId">title</th>
-      </tr>
-    </thead>
-    <tbody>
-        <tr ng-repeat="survey in currentPage._embedded.surveys">
-            <td><a ui-sref="survey.detail({id:survey.id})">{{survey.id}}</a></td>
-            <td>{{survey.title[currentLanguage]}}</td>
-            <td>{{survey.fieldPeriod.start | date:'mediumDate'}}</td>
-            <td>{{survey.fieldPeriod.end | date:'mediumDate'}}</td>
-            <td>{{survey.questionnaireId}}</td>
-        </tr>
-         </tbody>
-    </table>
-  </div>
-  </div>
-    <div  class="col-md-12 col-md-offset-4">
-    <uib-pagination total-items="pageState.totalElements" ng-model="pageState.currentPageNumber" ng-change="pageChanged()"  max-size="5" class="pagination-sm" boundary-links="true" boundary-link-numbers="true" rotate="false" previous-text="{{'pager.previous' | translate}}" next-text="{{'pager.next' | translate}}" first-text="{{'pager.first' | translate}}" last-text="{{'pager.last' | translate}}"></uib-pagination>
-  </div>
-</div>
-<div ng-if="!currentPage.$resolved">
-  <loading></loading>
-</div>
--->
-<div>
-  <!--
-  <input type="text" ng-model="asyncSelected" placeholder="Locations loaded via $http" uib-typeahead="address for address in getLocation($viewValue)" typeahead-loading="loadingLocations" typeahead-no-results="noResults" class="form-control">
-   <i ng-show="loadingLocations" class="glyphicon glyphicon-refresh"></i>
-   <div ng-show="noResults">
-     <i class="glyphicon glyphicon-remove"></i> No Results Found
-   </div> -->
-    <div>
+   <div>
       <ul class="list-group">
             <li ng-repeat="survey in currentPage._embedded.surveys" class="list-group-item">
                   <h4 class="list-group-item-heading">
