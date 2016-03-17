@@ -20,6 +20,7 @@
         "de": "Title (DE)",
         "en": "Title (EN)"
       },
+      "fieldPeriod": "Zeitraum",
       "fieldPeriod.start": "Feldzeitbeginn",
       "fieldPeriod.end": "Feldzeitende",
       "dataAcquisitionProjectId": "Datenerhebungsprojekt-ID",

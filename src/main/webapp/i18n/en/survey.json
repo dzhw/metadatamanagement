@@ -20,6 +20,7 @@
         "de": "Title (DE)",
         "en": "Title (EN)"
       },
+      "fieldPeriod": "Period",
       "fieldPeriod.start": "Field Period Begin",
       "fieldPeriod.end": "Field Period End",
       "dataAcquisitionProjectId": "Data Acquisition Project-ID",

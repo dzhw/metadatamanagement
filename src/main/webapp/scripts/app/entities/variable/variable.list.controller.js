@@ -14,6 +14,8 @@ angular.module('metadatamanagementApp')
         $scope.currentPage = VariableCollection.query({dataAcquisitionProjectId:
           $scope.params.dataAcquisitionProjectId,
           page: ($scope.pageState.currentPageNumber - 1)
+        }, function(result) {
+          $scope.pageState.totalElements = result.page.totalElements;
         });
       };
       $scope.$on('variables-uploaded', function() {

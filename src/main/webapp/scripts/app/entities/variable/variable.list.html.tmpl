@@ -5,9 +5,10 @@
                   <h4 class="list-group-item-heading">
                       <a ui-sref="variable.detail({id:variable.id})">{{variable.name}}</a>
                   </h4>
-                  <p class="list-group-item-text">{{variable.label[currentLanguage]}}</p>
-                  <p class="list-group-item-text">{{variable.description[currentLanguage]}}</p>
-                  <p class="list-group-item-text"><a ui-sref="survey.detail({id:variable.surveyId})">{{variable.surveyId}}</a></p>
+                  <p class="list-group-item-text">{{'metadatamanagementApp.variable.label' |translate}}: {{variable.label[currentLanguage]}}</p>
+                  <p class="list-group-item-text">{{'metadatamanagementApp.variable.description' |translate}}: {{variable.description[currentLanguage]}}</p>
+                  <p class="list-group-item-text">{{'metadatamanagementApp.variable.dataType' |translate}}: {{variable.dataType[currentLanguage]}}</p>
+                  <p class="list-group-item-text">{{'metadatamanagementApp.survey.detail.title' |translate}}: <a ui-sref="survey.detail({id:variable.surveyId})">{{variable.surveyId}}</a></p>
             </li>
       </ul>
   </div>

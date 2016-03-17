@@ -1,7 +1,11 @@
 {
   "metadatamanagementApp": {
     "atomicQuestion": {
-      "title": "Atomare Fragen"
+      "title": "Atomare Fragen",
+      "questionText": "Fragetext",
+      "introduction": "Einführung",
+      "instruction":  "Anleitung",
+      "type": "Fragetyp"
     }
   }
 }
