@@ -3,9 +3,8 @@
       <ul class="list-group">
             <li ng-repeat="atomicQuestion in currentPage._embedded.atomicQuestions" class="list-group-item">
                   <h4 class="list-group-item-heading">
-                        <a ui-sref="atomicQuestion.detail({id:atomicQuestion.id})">{{atomicQuestion.id}}</a>
+                        <a ui-sref="atomicQuestion.detail({id:atomicQuestion.id})">{{atomicQuestion.name}}</a>
                   </h4>
-                  <p class="list-group-item-text">{{atomicQuestion.name}}</p>
                   <p class="list-group-item-text">{{atomicQuestion.questionText[currentLanguage]}}</p>
                   <p class="list-group-item-text">{{atomicQuestion.introduction[currentLanguage]}}</p>
                   <p class="list-group-item-text">{{atomicQuestion.instruction[currentLanguage]}}</p>
@@ -13,7 +12,7 @@
                   <p class="list-group-item-text">{{atomicQuestion.type[currentLanguage]}}</p>
                   <p class="list-group-item-text">{{atomicQuestion.footnote[currentLanguage]}}</p>
                   <p class="list-group-item-text">{{atomicQuestion.compositeQuestionName}}</p>
-                  <p class="list-group-item-text">  <a ui-sref="variable.detail({id:atomicQuestion.variableId})">{{atomicQuestion.variableId}}</a></p>
+                  <p class="list-group-item-text"><a ui-sref="variable.detail({id:atomicQuestion.variableId})">{{atomicQuestion.variableId}}</a></p>
             </li>
       </ul>
   </div>

@@ -3,9 +3,8 @@
       <ul class="list-group">
             <li ng-repeat="variable in currentPage._embedded.variables" class="list-group-item">
                   <h4 class="list-group-item-heading">
-                      <a ui-sref="variable.detail({id:variable.id})">{{variable.id}}</a>
+                      <a ui-sref="variable.detail({id:variable.id})">{{variable.name}}</a>
                   </h4>
-                  <p class="list-group-item-text">{{variable.name}}</p>
                   <p class="list-group-item-text">{{variable.label[currentLanguage]}}</p>
                   <p class="list-group-item-text">{{variable.description[currentLanguage]}}</p>
                   <p class="list-group-item-text"><a ui-sref="survey.detail({id:variable.surveyId})">{{variable.surveyId}}</a></p>
