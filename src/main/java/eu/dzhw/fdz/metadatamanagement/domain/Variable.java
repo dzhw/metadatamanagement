@@ -67,6 +67,10 @@ public class Variable extends AbstractRdcDomainObjectWithProjectSurvey {
 
   private GenerationDetails generationDetails;
 
+  private String atomicQuestionId;
+
+  private List<String> dataSetIds;
+
   /*
    * (non-Javadoc)
    * 
@@ -102,10 +106,10 @@ public class Variable extends AbstractRdcDomainObjectWithProjectSurvey {
       .add("conceptId", conceptId)
       .add("statistics", statistics)
       .add("generationDetails", generationDetails)
+      .add("atomicQuestionId", atomicQuestionId)
+      .add("dataSetsIds", dataSetsIds)
       .toString();
   }
-
-
 
   /* GETTER / SETTER */
   public String getName() {
@@ -230,5 +234,21 @@ public class Variable extends AbstractRdcDomainObjectWithProjectSurvey {
 
   public void setGenerationDetails(GenerationDetails generationDetails) {
     this.generationDetails = generationDetails;
+  }
+
+  public String getAtomicQuestionId() {
+    return atomicQuestionId;
+  }
+
+  public void setAtomicQuestionId(String atomicQuestionId) {
+    this.atomicQuestionId = atomicQuestionId;
+  }
+
+  public List<String> getDataSetIds() {
+    return dataSetIds;
+  }
+
+  public void setDataSetIds(List<String> dataSetIds) {
+    this.dataSetIds = dataSetIds;
   }
 }

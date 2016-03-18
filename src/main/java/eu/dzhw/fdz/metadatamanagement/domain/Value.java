@@ -27,6 +27,8 @@ public class Value {
 
   private boolean isAMissing = false;
 
+  private String valueClass;
+
   /*
    * (non-Javadoc)
    * 
@@ -40,6 +42,7 @@ public class Value {
       .add("absoluteFrequency", absoluteFrequency)
       .add("relativeFrequency", relativeFrequency)
       .add("isAMissing", isAMissing)
+      .add("valueClass", valueClass)
       .toString();
   }
 
@@ -83,4 +86,18 @@ public class Value {
   public void setisAMissing(boolean isAMissing) {
     this.isAMissing = isAMissing;
   }
+
+  public String getValueClass() {
+    return valueClass;
+  }
+
+  public void setValueClass(String valueClass) {
+    this.valueClass = valueClass;
+  }
+
+  public void setAMissing(boolean isAMissing) {
+    this.isAMissing = isAMissing;
+  }
+
+
 }

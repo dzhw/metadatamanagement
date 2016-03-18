@@ -1,5 +1,6 @@
 {
   "name": "A_Variable_Test",
+  "atomicQuestionId": "AtomicQuestion_001",
   "dataType": {
     "de": "string",
     "en": "string"
@@ -38,7 +39,8 @@
     },
     "absoluteFrequency": "134",
     "relativeFrequency": "36.12",
-    "isAMissing": "false"
+    "isAMissing": "false",
+    "valueClass": "Any Class"
   }, {
     "code": "5451.181",
     "label": {
@@ -47,7 +49,8 @@
     },
     "absoluteFrequency": "89",
     "relativeFrequency": "17.68",
-    "isAMissing": "false"
+    "isAMissing": "false",
+    "valueClass": "Any Class"
   }, {
     "code": "9171.11",
     "label": {
@@ -56,7 +59,8 @@
     },
     "absoluteFrequency": "178",
     "relativeFrequency": "46.20",
-    "isAMissing": "false"
+    "isAMissing": "false",
+    "valueClass": "Any Class"
   }, {
     "code": "8982.43",
     "label": {
@@ -65,7 +69,8 @@
     },
     "absoluteFrequency": "12",
     "relativeFrequency": "98.20",
-    "isAMissing": "false"
+    "isAMissing": "false",
+    "valueClass": "Any Class"
   }, {
     "code": "3287.40",
     "label": {
@@ -74,7 +79,8 @@
     },
     "absoluteFrequency": "12",
     "relativeFrequency": "98.20",
-    "isAMissing": "false"
+    "isAMissing": "false",
+    "valueClass": "Any Class"
   }],
   "statistics": {
     "meanValue": "50.00",
@@ -96,5 +102,8 @@
     },
     "rule": "Rule 123 to 234",
     "ruleExpressionLanguage": "r"
-  }
+  },
+  "dataSetIds": [
+    "DataSet_001"
+  ]
 }
