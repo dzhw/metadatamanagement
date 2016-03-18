@@ -27,4 +27,7 @@ public interface AtomicQuestionRepository
 
   @RestResource(exported = false)
   List<AtomicQuestion> deleteByQuestionnaireId(String questionnaireId);
+
+  @RestResource(exported = false)
+  List<AtomicQuestion> findByDataAcquisitionProjectId(String dataAcquisitionProjectId);
 }

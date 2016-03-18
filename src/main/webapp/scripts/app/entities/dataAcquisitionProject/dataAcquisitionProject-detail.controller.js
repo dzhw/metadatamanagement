@@ -308,7 +308,8 @@ angular.module('metadatamanagementApp')
             if (returnValue) {
               ZipReader.readZipFileAsync(file)
                 .then(function(data) {
-                  saveVariables(VariablesInputFilesReader.readAllFiles(data,
+                  saveVariables(VariablesInputFilesReader.readAllFiles(
+                    data,
                     $scope.dataAcquisitionProject.id));
                 });
             }
@@ -339,13 +340,12 @@ angular.module('metadatamanagementApp')
             'id': $scope.dataAcquisitionProject.id
           },
           file: file
-          //Upload and document could filled with data successfully
+            //Upload and document could filled with data successfully
         }).success(function(gridFsFileName) {
           //Download automaticly data filled tex template
           FileResource.download({
             fileName: gridFsFileName
           }, function(data) {
-            console.log(data);
             saveAs(data.response, $scope.dataAcquisitionProject.id +
               '_Report.tex');
           });

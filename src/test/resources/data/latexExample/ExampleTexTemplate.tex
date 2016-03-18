@@ -48,77 +48,27 @@ Notice: English Version (using english translations of values.!)\\
 			Name & ${variable.name} \\	
 			Scale Level & ${variable.scaleLevel.en}\\			
 			Data Type & ${variable.dataType.en}\\
-			Description & ${variable.description.en}
+			Description & ${variable.description.en} 
 		\end{tabular}	
-	
-		\begin{table}[!h]
-			\centering
-			\begin{tabular}{|l|l|l|}
-				\hline
-				Code & Label & Rel. Frequency \\
-				\hline
-				\hline  
-				<#list variable.values as value>  
-					${value.code} & ${value.label.en} & ${value.relativeFrequency} \\
-				<#else>
-					- & - & - \\
-				</#list>
-				\hline
-			\end{tabular}
-			\caption{Values of ${variable.id}}
-		\end{table}
-		\newpage
-	</#if>
-<#else>
-	No variables!
-</#list>
-
-\subsection{Ordinal Variables}
-<#list variables as variable>
-	<#if variable.scaleLevel.en == "ordinal" >
-		\subsubsection{Variable Id: ${variable.id}}
+				
+		\vspace*{1 cm}
+		\noindent
+		<#assign atomicQuestion = atomicQuestions[variable.atomicQuestionId] >
+		\textbf{Atomic Question:}\\
 		\begin{tabular}{ll}
-			Survey Id & ${variable.surveyId} \\
-			Name & ${variable.name} \\	
-			Scale Level & ${variable.scaleLevel.en}\\			
-			Data Type & ${variable.dataType.en}\\
-			Description & ${variable.description.en}
+			Type & ${atomicQuestion.type.en} \\
+			Name & ${atomicQuestion.name} \\
+			Footnote & ${atomicQuestion.footnote.en} \\
+			QuestionText & ${atomicQuestion.questionText.en} \\
+			Instruction & ${atomicQuestion.instruction.en} \\
+			Composite Question Name & ${atomicQuestion.compositeQuestionName} \\
+			Introduction & ${atomicQuestion.introduction.en} \\
+			Section Header & ${atomicQuestion.sectionHeader.en} \\
 		\end{tabular}	
-	
-		\begin{table}[!h]
-			\centering
-			\begin{tabular}{|l|l|l|}
-				\hline
-				Code & Label & Rel. Frequency \\
-				\hline
-				\hline  
-				<#list variable.values as value>  
-					${value.code} & ${value.label.en} & ${value.relativeFrequency} \\
-				<#else>
-					- & - & - \\
-				</#list>
-				\hline
-			\end{tabular}
-			\caption{Values of ${variable.id}}
-		\end{table}
-		\newpage
-	</#if>
-<#else>
-	No variables!
-</#list>
-
-\subsection{Numeric Variables}
-<#list variables as variable>
-	<#if variable.scaleLevel.en == "numeric" >
-		\subsubsection{Variable Id: ${variable.id}}
-		\begin{tabular}{ll}
-			Survey Id & ${variable.surveyId} \\
-			Name & ${variable.name} \\	
-			Scale Level & ${variable.scaleLevel.en}\\			
-			Data Type & ${variable.dataType.en}\\
-			Description & ${variable.description.en}
-		\end{tabular}	
-	
+		
+		\vspace*{1 cm}
+		\noindent
+		\textbf{Values:}\\
 		\begin{table}[!h]
 			\centering
 			\begin{tabular}{|l|l|l|}

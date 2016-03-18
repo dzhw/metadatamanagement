@@ -20,8 +20,10 @@ import org.springframework.stereotype.Service;
 
 import com.mongodb.gridfs.GridFSFile;
 
+import eu.dzhw.fdz.metadatamanagement.domain.AtomicQuestion;
 import eu.dzhw.fdz.metadatamanagement.domain.DataAcquisitionProject;
 import eu.dzhw.fdz.metadatamanagement.domain.Variable;
+import eu.dzhw.fdz.metadatamanagement.repository.AtomicQuestionRepository;
 import eu.dzhw.fdz.metadatamanagement.repository.DataAcquisitionProjectRepository;
 import eu.dzhw.fdz.metadatamanagement.repository.VariableRepository;
 import freemarker.template.Configuration;
@@ -46,6 +48,9 @@ public class LatexTemplateService {
 
   @Inject
   private VariableRepository variableRepository;
+
+  @Inject
+  private AtomicQuestionRepository atomicQuestionRepository;
 
   /**
    * The Escape Prefix handles the escaping of special latex signs within data information. This
@@ -149,18 +154,28 @@ public class LatexTemplateService {
     DataAcquisitionProject dataAcquisitionProject =
         this.dataAcquisitionProjectRepository.findOne(dataAcquisitionProjectId);
 
-    List<Variable> variables =
-        this.variableRepository.findByDataAcquisitionProjectId(dataAcquisitionProjectId);
-
     // Check for found data acquisition project
     if (dataAcquisitionProject == null) {
       throw new IllegalArgumentException(
           "No Data Acquisition Project found with given id: " + dataAcquisitionProjectId);
     }
 
+    List<AtomicQuestion> atomicQuestions =
+        this.atomicQuestionRepository.findByDataAcquisitionProjectId(dataAcquisitionProjectId);
+
+    // Change AtomicQuestion List to Map for joins in tex template
+    Map<String, AtomicQuestion> atomicQuestionMap = new HashMap<>();
+    for (AtomicQuestion atomicQuestion : atomicQuestions) {
+      atomicQuestionMap.put(atomicQuestion.getId(), atomicQuestion);
+    }
+
+    List<Variable> variables =
+        this.variableRepository.findByDataAcquisitionProjectId(dataAcquisitionProjectId);
+    
     Map<String, Object> dataForTemplate = new HashMap<String, Object>();
     dataForTemplate.put("dataAcquisitionProject", dataAcquisitionProject);
     dataForTemplate.put("variables", variables);
+    dataForTemplate.put("atomicQuestions", atomicQuestionMap);
 
     return dataForTemplate;
   }
