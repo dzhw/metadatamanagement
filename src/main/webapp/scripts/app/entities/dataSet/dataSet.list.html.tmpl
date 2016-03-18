@@ -1,19 +1,11 @@
-<div>
-    <div>
-      <ul class="list-group">
-            <li ng-repeat="dataSet in currentPage._embedded.dataSets" class="list-group-item">
-                  <h4 class="list-group-item-heading">
-                        <a ui-sref="dataSet.detail({id:dataSet.id})">{{dataSet.id}}</a>
-                  </h4>
-                  <p class="list-group-item-text">{{dataSet.description[currentLanguage]}}</p>
-                  <p class="list-group-item-text"><a ng-repeat="surveyId in dataSet.surveyIds" ui-sref="survey.detail({id:surveyId})">{{surveyId}}, </a></p>
-                  <p class="list-group-item-text"><a ng-repeat="variableId in dataSet.variableIds" ui-sref="variable.detail({id:variableId})">{{variableId}}, </a></p>
-            </li>
-      </ul>
+<div class="list-group">
+    <a ng-repeat="dataSet in currentPage._embedded.dataSets"  ui-sref="dataSet.detail({id:dataSet.id})" class="list-group-item">
+    <h4 class="list-group-item-heading">{{dataSet.id}}</h4>
+  <p class="list-group-item-text">{{dataSet.description[currentLanguage]}}</p>
+  </a>
   </div>
     <div  class="col-md-12 col-md-offset-4">
     <uib-pagination total-items="pageState.totalElements" ng-model="pageState.currentPageNumber" ng-change="pageChanged()" max-size="pageState.maxSize" class="pagination-sm" boundary-links="true" boundary-link-numbers="true" rotate="false" previous-text="{{'pager.previous' | translate}}" next-text="{{'pager.next' | translate}}" first-text="{{'pager.first' | translate}}" last-text="{{'pager.last' | translate}}"></uib-pagination>
-  </div>
 </div>
 <div ng-if="!currentPage.$resolved">
   <loading></loading>

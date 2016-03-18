@@ -1,20 +1,12 @@
-<div>
-    <div>
-      <ul class="list-group">
-            <li ng-repeat="variable in currentPage._embedded.variables" class="list-group-item">
-                  <h4 class="list-group-item-heading">
-                      <a ui-sref="variable.detail({id:variable.id})">{{variable.name}}</a>
-                  </h4>
-                  <p class="list-group-item-text">{{'metadatamanagementApp.variable.label' |translate}}: {{variable.label[currentLanguage]}}</p>
-                  <p class="list-group-item-text">{{'metadatamanagementApp.variable.description' |translate}}: {{variable.description[currentLanguage]}}</p>
-                  <p class="list-group-item-text">{{'metadatamanagementApp.variable.dataType' |translate}}: {{variable.dataType[currentLanguage]}}</p>
-                  <p class="list-group-item-text">{{'metadatamanagementApp.survey.detail.title' |translate}}: <a ui-sref="survey.detail({id:variable.surveyId})">{{variable.surveyId}}</a></p>
-            </li>
-      </ul>
+<div class="list-group">
+    <a ng-repeat="variable in currentPage._embedded.variables" ui-sref="variable.detail({id:variable.id})" class="list-group-item">
+    <h4 class="list-group-item-heading">{{variable.name}}</h4>
+    <p class="list-group-item-text">{{'metadatamanagementApp.variable.label' |translate}}: {{variable.label[currentLanguage]}}</p>
+    <p class="list-group-item-text">{{'metadatamanagementApp.variable.description' |translate}}: {{variable.description[currentLanguage]}}</p>
+  </a>
   </div>
     <div  class="col-md-12 col-md-offset-4">
     <uib-pagination total-items="pageState.totalElements" ng-model="pageState.currentPageNumber" ng-change="pageChanged()" max-size="pageState.maxSize" class="pagination-sm" boundary-links="true" boundary-link-numbers="true" rotate="false" previous-text="{{'pager.previous' | translate}}" next-text="{{'pager.next' | translate}}" first-text="{{'pager.first' | translate}}" last-text="{{'pager.last' | translate}}"></uib-pagination>
-  </div>
 </div>
 <div ng-if="!currentPage.$resolved">
   <loading></loading>
