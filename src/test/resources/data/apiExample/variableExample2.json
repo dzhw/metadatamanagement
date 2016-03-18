@@ -1,6 +1,6 @@
 {
-  "name": "A_Variable_Test",
-  "atomicQuestionId": "AtomicQuestion_001",
+  "name": "A_Variable_Test2",
+  "atomicQuestionId": "AtomicQuestion_002",
   "dataType": {
     "de": "string",
     "en": "string"
@@ -10,23 +10,23 @@
     "en": "nominal"
   },
   "label": {
-    "de": "Ein label für alle Fälle.",
-    "en": "A label for all cases."
+    "de": "Ein label für andere Fälle.",
+    "en": "A label for another cases."
   },
   "dataAcquisitionProjectId": "ATestProject",
   "surveyId": "FDZID001",
   "conceptId": "ConceptId001",
   "description": {
-    "de": "Eine deutsche Beschreibung.",
-    "en": "A english description."
+    "de": "Eine weitere deutsche Beschreibung.",
+    "en": "A different english description."
   },
-  "filterExpression": "FilterCode 123",
+  "filterExpression": "FilterCode A3222",
   "filterDescription": {
-    "de": "Dies ist ein 123 Filter.",
-    "en": "This is a 123 filter."
+    "de": "Dies ist ein A3222 Filter.",
+    "en": "This is a A3222 filter."
   },
   "accessWays": [
-    "suf",
+    "cuf",
     "remote"
   ],
   "filterExpressionLanguage": "stata",
@@ -97,16 +97,16 @@
   },
   "generationDetails": {
     "description": {
-      "de": "De Beschreibung",
-      "en": "En description"
+      "de": "Eine kleine Beschreibung zur zweiten Variable.",
+      "en": "A small description for the second variable."
     },
-    "rule": "Rule 123 to 234",
+    "rule": "Rule A3222 to Z231",
     "ruleExpressionLanguage": "r"
   },
   "dataSetIds": [
     "DataSet_001"
   ],
   "sameVariablesInPanel": [
-    "FDZID_Variable_002"
+    "FDZID_Variable_001"
   ]
 }

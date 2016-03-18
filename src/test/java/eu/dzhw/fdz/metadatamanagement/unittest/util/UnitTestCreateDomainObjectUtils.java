@@ -127,7 +127,7 @@ public class UnitTestCreateDomainObjectUtils {
     accessWays.add(AccessWay.CUF);
     accessWays.add(AccessWay.REMOTE);
     accessWays.add(AccessWay.SUF);
-    List<Variable> withSameVariablesInPanel = new ArrayList<>();
+    List<String> withSameVariablesInPanel = new ArrayList<>();
     List<Value> withValues = new ArrayList<>();
     withValues.add(buildValueBuilder());
 

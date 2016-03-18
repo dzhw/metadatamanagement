@@ -1,5 +1,5 @@
 {
-  "name": "A_Variable_Test",
+  "name": "A_Variable_Test3",
   "atomicQuestionId": "AtomicQuestion_001",
   "dataType": {
     "de": "string",
@@ -10,20 +10,20 @@
     "en": "nominal"
   },
   "label": {
-    "de": "Ein label für alle Fälle.",
-    "en": "A label for all cases."
+    "de": "Ein kleiner Label für eine Menge Daten.",
+    "en": "A small label for a lot of data."
   },
   "dataAcquisitionProjectId": "ATestProject",
   "surveyId": "FDZID001",
   "conceptId": "ConceptId001",
   "description": {
-    "de": "Eine deutsche Beschreibung.",
-    "en": "A english description."
+    "de": "Eine nochmalige Beschreibung.",
+    "en": "A repeating description."
   },
-  "filterExpression": "FilterCode 123",
+  "filterExpression": "FilterCode L332",
   "filterDescription": {
-    "de": "Dies ist ein 123 Filter.",
-    "en": "This is a 123 filter."
+    "de": "Dies ist ein L332 Filter.",
+    "en": "This is a L332 filter."
   },
   "accessWays": [
     "suf",
@@ -97,16 +97,13 @@
   },
   "generationDetails": {
     "description": {
-      "de": "De Beschreibung",
-      "en": "En description"
+      "de": "Eine nette Detailbeschreibung, die anders ist.",
+      "en": "A nice detail description, which is other than the other ones."
     },
-    "rule": "Rule 123 to 234",
+    "rule": "Rule Z332 to AA21",
     "ruleExpressionLanguage": "r"
   },
   "dataSetIds": [
     "DataSet_001"
-  ],
-  "sameVariablesInPanel": [
-    "FDZID_Variable_002"
   ]
 }

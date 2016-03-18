@@ -59,7 +59,7 @@ public class Variable extends AbstractRdcDomainObjectWithProjectSurvey {
 
   private I18nSvg distributionSvg;
 
-  private List<Variable> sameVariablesInPanel;
+  private List<String> sameVariablesInPanel;
 
   private String conceptId;
 
@@ -204,11 +204,11 @@ public class Variable extends AbstractRdcDomainObjectWithProjectSurvey {
     this.values = values;
   }
 
-  public List<Variable> getSameVariablesInPanel() {
+  public List<String> getSameVariablesInPanel() {
     return sameVariablesInPanel;
   }
 
-  public void setSameVariablesInPanel(List<Variable> sameVariablesInPanel) {
+  public void setSameVariablesInPanel(List<String> sameVariablesInPanel) {
     this.sameVariablesInPanel = sameVariablesInPanel;
   }
 

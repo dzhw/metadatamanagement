@@ -1,0 +1,31 @@
+{
+  "dataAcquisitionProjectId": "ATestProject",
+  "variableId": "FDZID_Variable_002",
+  "questionnaireId": "QuestionnaireId001",
+  "type": {
+    "de": "offen",
+    "en": "open"
+  },
+  "name": "G25UP21",
+  "compositeQuestionName": "ACompositeQuestionName",
+  "footnote": {
+    "de": "Eine deutsche andere Fussnote.",
+    "en": "Another englise footnote."
+  },
+  "questionText": {
+    "de": "Wohin gehen Sie?",
+    "en": "Where do you go?"
+  },
+  "instruction": {
+    "de": "Lesen Sie die Frage aufmerksam.",
+    "en": "Read the question carefully."
+  },
+  "introduction": {
+    "de": "Dies ist ein zweiter Testdatensatz für AtomicQuestions.",
+    "en": "This is a second test for atomic questions."
+  },
+  "sectionHeader": {
+    "de": "Abschnitt 4",
+    "en": "Section 4"
+  }
+}
