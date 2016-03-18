@@ -107,7 +107,7 @@ public class Variable extends AbstractRdcDomainObjectWithProjectSurvey {
       .add("statistics", statistics)
       .add("generationDetails", generationDetails)
       .add("atomicQuestionId", atomicQuestionId)
-      .add("dataSetsIds", dataSetsIds)
+      .add("dataSetsIds", dataSetIds)
       .toString();
   }
 

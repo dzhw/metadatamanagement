@@ -52,6 +52,7 @@ public class ValueTest {
         .withEn("english")
         .build())
       .withRelativeFrequency(new Double(25.15))
+      .withValueClass("Any Class")
       .build();
 
     // Act
@@ -59,7 +60,7 @@ public class ValueTest {
 
     // Assert
     assertThat(toString, is(
-        "Value{code=A Code, label=I18nString{de='german', en='english'}, absoluteFrequency=123, relativeFrequency=25.15, isAMissing=false}"));
+        "Value{code=A Code, label=I18nString{de='german', en='english'}, absoluteFrequency=123, relativeFrequency=25.15, isAMissing=false, valueClass=Any Class}"));
 
   }
 
