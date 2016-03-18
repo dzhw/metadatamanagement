@@ -3,10 +3,7 @@
     "dataSet": {
       "title": "Data Sets",
       "fdzId": "RDC-ID",
-      "description": {
-        "de": "Title (DE)",
-        "en": "Title (EN)"
-      },
+      "description": "Description",
       "variableIds": "Variables",
       "surveyIds": "Surveys"
     }

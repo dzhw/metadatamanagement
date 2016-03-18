@@ -16,10 +16,7 @@
         "title": "Survey"
       },
       "fdzId": "RDC-ID",
-      "title": {
-        "de": "Title (DE)",
-        "en": "Title (EN)"
-      },
+      "title": "Title",
       "fieldPeriod": "Period",
       "fieldPeriod.start": "Field Period Begin",
       "fieldPeriod.end": "Field Period End",

@@ -1,8 +1,8 @@
 <div class="list-group">
     <a ng-repeat="survey in currentPage._embedded.surveys" ui-sref="survey.detail({id:survey.id})" class="list-group-item">
     <h4 class="list-group-item-heading">{{survey.id}}</h4>
-    <p class="list-group-item-text">{{survey.title[currentLanguage]}}</p>
-    <p class="list-group-item-text">{{'metadatamanagementApp.survey.fieldPeriod' |translate}}: {{survey.fieldPeriod.start | date:'mediumDate'}} - {{survey.fieldPeriod.end | date:'mediumDate'}}</p>
+    <p class="list-group-item-text"><strong>{{'metadatamanagementApp.survey.title' |translate}}:</strong> {{survey.title[currentLanguage]}}</p>
+    <p class="list-group-item-text"><strong>{{'metadatamanagementApp.survey.fieldPeriod' |translate}}:</strong> {{'metadatamanagementApp.survey.fieldPeriod' |translate}}: {{survey.fieldPeriod.start | date:'mediumDate'}} - {{survey.fieldPeriod.end | date:'mediumDate'}}</p>
 
   </a>
   </div>

@@ -35,10 +35,10 @@
           "missingId": "Der {{ index }}. Datensatz enthält keine FDZ-ID und wurde nicht gespeichert!"
         },
         "deleteMessages": {
-          "deleteSurveys": "Sind Sie sicher dass, Sie alle Erhebungen innerhalb vom Datenerhebungsprojekt mit FDZ-ID \"{{ id }}\" löschen möchten?",
-          "deleteDataSets": "Sind Sie sicher dass, Sie alle Datensetze innerhalb vom Datenerhebungsprojekt mit FDZ-ID \"{{ id }}\" löschen möchten?",
-          "deleteVariables": "Sind Sie sicher dass, Sie alle Variablen innerhalb vom Datenerhebungsprojekt mit FDZ-ID \"{{ id }}\" löschen möchten?",
-          "deleteAtomicQuestions": "Sind Sie sicher dass, Sie alle atomaren Fragen innerhalb vom Datenerhebungsprojekt mit FDZ-ID \"{{ id }}\" löschen möchten?"
+          "deleteSurveys": "Sind Sie sicher dass, Sie alle Erhebungen innerhalb des Datenerhebungsprojekts mit FDZ-ID \"{{ id }}\" löschen möchten?",
+          "deleteDataSets": "Sind Sie sicher dass, Sie alle Datensätze innerhalb des Datenerhebungsprojekts mit FDZ-ID \"{{ id }}\" löschen möchten?",
+          "deleteVariables": "Sind Sie sicher dass, Sie alle Variablen innerhalb des Datenerhebungsprojekts mit FDZ-ID \"{{ id }}\" löschen möchten?",
+          "deleteAtomicQuestions": "Sind Sie sicher dass, Sie alle atomaren Fragen innerhalb des Datenerhebungsprojekts mit FDZ-ID \"{{ id }}\" löschen möchten?"
         }
       },
       "name": "Name"
