@@ -43,7 +43,7 @@ public interface CompleteVariableProjection
 
   I18nSvg getDistributionSvg();
 
-  List<Variable> getSameVariablesInPanel();
+  List<String> getSameVariablesInPanel();
 
   Statistics getStatistics();
 
