@@ -24,7 +24,7 @@
     "grunt-contrib-watch": "1.0.0",
     "grunt-html-angular-validate": "0.5.7",
     "grunt-jscs": "2.8.0",
-    "grunt-karma": "0.12.1",
+    "grunt-karma": "0.12.2",
     "grunt-modernizr": "^1.0.2",
     "grunt-ng-annotate": "2.0.1",
     "grunt-ng-constant": "2.0.1",
