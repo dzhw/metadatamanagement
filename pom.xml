@@ -11,7 +11,7 @@
 
     <groupId>eu.dzhw.fdz.metadatamanagement</groupId>
     <artifactId>metadatamanagement</artifactId>
-    <version>0.1.16-SNAPSHOT</version>
+    <version>0.1.16</version>
     <packaging>war</packaging>
     <name>metadatamanagement</name>
 
