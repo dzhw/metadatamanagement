@@ -106,7 +106,7 @@ angular.module('metadatamanagementApp')
         $scope.initUploadStatus(surveys.length, true, 'surveys-uploaded');
         SurveyDeleteResource.deleteByDataAcquisitionProjectId({
             dataAcquisitionProjectId: $scope.dataAcquisitionProject.id
-          }, {},
+          },
           function() {
             for (var i = 0; i < surveys.length; i++) {
               var data = surveys[i];
@@ -149,7 +149,7 @@ angular.module('metadatamanagementApp')
         $scope.initUploadStatus(dataSets.length, true, 'datasets-uploaded');
         DataSetDeleteResource.deleteByDataAcquisitionProjectId({
             dataAcquisitionProjectId: $scope.dataAcquisitionProject.id
-          }, {},
+          },
           function() {
             for (var i = 0; i < dataSets.length; i++) {
               var data = dataSets[i];
@@ -182,17 +182,20 @@ angular.module('metadatamanagementApp')
                 });
               }
             }
+          },
+          function(error) {
+            $scope.uploadStatus.pushError(error);
           });
       };
-      var saveAtomicQuestions = function(atomicQuetions) {
-        $scope.initUploadStatus(atomicQuetions.length, true,
+      var saveAtomicQuestions = function(atomicQuestions) {
+        $scope.initUploadStatus(atomicQuestions.length, true,
           'atomicQuestions-uploaded');
         AtomicQuestionDeleteResource.deleteByDataAcquisitionProjectId({
             dataAcquisitionProjectId: $scope.dataAcquisitionProject.id
-          }, {},
+          },
           function() {
-            for (var i = 0; i < atomicQuetions.length; i++) {
-              var data = atomicQuetions[i];
+            for (var i = 0; i < atomicQuestions.length; i++) {
+              var data = atomicQuestions[i];
               if (!data.id || data.id === '') {
                 $scope.uploadStatus.pushError($translate.instant(
                   'metadatamanagementApp.dataAcquisitionProject.' +
@@ -243,13 +246,16 @@ angular.module('metadatamanagementApp')
                 });
               }
             }
+          },
+          function(error) {
+            $scope.uploadStatus.pushError(error);
           });
       };
       var saveVariables = function(variables) {
         $scope.initUploadStatus(variables.length, true, 'variables-uploaded');
         VariableDeleteResource.deleteByDataAcquisitionProjectId({
             dataAcquisitionProjectId: $scope.dataAcquisitionProject.id
-          }, {},
+          },
           function() {
             for (var i = 0; i < variables.length; i++) {
               var variable = variables[i];
@@ -269,6 +275,9 @@ angular.module('metadatamanagementApp')
                 });
               }
             }
+          },
+          function(error) {
+            $scope.uploadStatus.pushError(error);
           });
       };
       $scope.onSurveyUpload = function(file) {

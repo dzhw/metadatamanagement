@@ -16,10 +16,7 @@
         "title": "Erhebung"
       },
       "fdzId": "FDZ-ID",
-      "title": {
-        "de": "Title (DE)",
-        "en": "Title (EN)"
-      },
+      "title": "Title",
       "fieldPeriod": "Zeitraum",
       "fieldPeriod.start": "Feldzeitbeginn",
       "fieldPeriod.end": "Feldzeitende",
