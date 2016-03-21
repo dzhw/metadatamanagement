@@ -6,7 +6,7 @@
   "dependencies": {
     "angular": "1.5.1",
     "angular-aria": "1.5.1",
-    "angular-bootstrap": "1.2.4",
+    "angular-bootstrap": "1.2.5",
     "angular-cache-buster": "0.4.3",
     "angular-cookies": "1.5.1",
     "angular-dynamic-locale": "0.1.30",
