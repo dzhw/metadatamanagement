@@ -2,8 +2,17 @@ package eu.dzhw.fdz.metadatamanagement.domain;
 
 import java.time.ZonedDateTime;
 
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
+
+import org.hibernate.validator.constraints.NotEmpty;
+
 import com.google.common.base.MoreObjects;
 
+import eu.dzhw.fdz.metadatamanagement.domain.util.Patterns;
+import eu.dzhw.fdz.metadatamanagement.domain.validation.I18nStringSize;
+import eu.dzhw.fdz.metadatamanagement.domain.validation.StringLengths;
 import net.karneim.pojobuilder.GeneratePojoBuilder;
 
 /**
@@ -15,13 +24,19 @@ import net.karneim.pojobuilder.GeneratePojoBuilder;
  */
 @GeneratePojoBuilder(intoPackage = "eu.dzhw.fdz.metadatamanagement.domain.builders")
 public class Release {
-
+  
+  @NotEmpty(message = "{error.release.version.isEmpty}")
+  @Size(max = StringLengths.SMALL)
+  @Pattern(regexp = Patterns.NUMERIC_WITH_DOT)
   private String version;
 
+  @Size(max = StringLengths.MEDIUM)
   private String doi;
 
+  @NotNull(message = "{error.release.date.isEmpty}")
   private ZonedDateTime date;
 
+  @I18nStringSize(max = StringLengths.LARGE)
   private I18nString notes;
 
   /*

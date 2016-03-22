@@ -3,6 +3,7 @@ package eu.dzhw.fdz.metadatamanagement.domain;
 import java.util.List;
 
 import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
 
 import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.data.annotation.Id;
@@ -11,6 +12,8 @@ import org.springframework.data.mongodb.core.mapping.Document;
 import com.google.common.base.MoreObjects;
 
 import eu.dzhw.fdz.metadatamanagement.domain.util.Patterns;
+import eu.dzhw.fdz.metadatamanagement.domain.validation.I18nStringSize;
+import eu.dzhw.fdz.metadatamanagement.domain.validation.StringLengths;
 import net.karneim.pojobuilder.GeneratePojoBuilder;
 
 /**
@@ -26,10 +29,13 @@ public class DataAcquisitionProject extends AbstractRdcDomainObject {
   @Id
   @NotEmpty(message = "{error.dataAcquisitionProject.id.isEmpty}")
   @Pattern(regexp = Patterns.GERMAN_ALPHANUMERIC_WITH_SPACE)
+  @Size(max = StringLengths.SMALL)
   private String id;
 
+  @I18nStringSize(max = StringLengths.MEDIUM)
   private I18nString surveySeries;
 
+  @I18nStringSize(max = StringLengths.MEDIUM)
   private I18nString panelName;
 
   /* Nested Objects */
