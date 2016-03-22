@@ -70,6 +70,34 @@ public class DataAcquisitionProjectResourceTest extends AbstractTest {
     // call toString for test coverage :-)
     project.toString();
   }
+  
+  
+  @Test
+  public void testCreateDataAcquisitionProjectWithTooLongId() throws IOException, Exception {
+    DataAcquisitionProject project = new DataAcquisitionProjectBuilder().withId("ThisIdIsTooLongAndShouldByShortedByAnUser")
+      .withSurveySeries(new I18nStringBuilder().build())
+      .withPanelName(new I18nStringBuilder().build())
+      .build();
+    // create the project with the given id
+    mockMvc.perform(put(API_DATA_ACQUISITION_PROJECTS_URI + "/" + project.getId())
+      .content(TestUtil.convertObjectToJsonBytes(project)))
+      .andExpect(status().is4xxClientError());
+  }
+  
+  @Test
+  public void testCreateDataAcquisitionProjectWithTooSurveySeries() throws IOException, Exception {
+    DataAcquisitionProject project = new DataAcquisitionProjectBuilder().withId("testId")
+      .withSurveySeries(new I18nStringBuilder()
+          .withDe("Zufallsstringhsdfosdhgfodsfvfsdhvdfaghscdqwdpqwubdpiempfuvgnrtgfnoeugfudgsfvoudgsvnauehgvenogfweuigfuzegnfvouiegsnfgaoseiufgvnuzewgfvnouagesfuenpvugfupewgn")
+          .withEn("Randomstringhsdfosdhgfodsfvfsdhvdfaghscdqwdpqwubdpiempfuvgnrtgfnoeugfudgsfvoudgsvnauehgvenogfweuigfuzegnfvouiegsnfgaoseiufgvnuzewgfvnouagesfuenpvugfupewgn")
+          .build())
+      .withPanelName(new I18nStringBuilder().build())
+      .build();
+    // create the project with the given id
+    mockMvc.perform(put(API_DATA_ACQUISITION_PROJECTS_URI + "/" + project.getId())
+      .content(TestUtil.convertObjectToJsonBytes(project)))
+      .andExpect(status().is4xxClientError());
+  }
 
   @Test
   public void testDeleteDataAcquisitionProject() throws IOException, Exception {
