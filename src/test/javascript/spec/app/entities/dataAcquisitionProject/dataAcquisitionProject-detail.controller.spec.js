@@ -8,7 +8,7 @@
 /* global mockI18nCalls */
 'use strict';
 
-describe('Controllers Tests ', function() {
+xdescribe('Controllers Tests ', function() {
   var $scope;
   var createController;
   var $translate;

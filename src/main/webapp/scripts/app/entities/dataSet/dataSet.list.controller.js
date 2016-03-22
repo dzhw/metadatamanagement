@@ -17,7 +17,7 @@ angular.module('metadatamanagementApp')
           $scope.pageState.totalElements = result.page.totalElements;
         });
       };
-      $scope.$on('datasets-uploaded', function() {
+      $scope.$on('dataSets-uploaded', function() {
         $scope.init();
       });
       $scope.init();

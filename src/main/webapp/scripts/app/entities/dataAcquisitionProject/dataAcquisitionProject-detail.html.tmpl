@@ -109,16 +109,16 @@
                           <span class="glyphicon glyphicon-book"></span>
                           {{'metadatamanagementApp.dataAcquisitionProject.detail.generate' | translate}}
                       </button>
-                      <button type="file" class="btn btn-default" ngf-select="onSurveyUpload($file)" accept=".xlsx" ng-disabled="uploadStatus.disableButton">
+                      <button type="file" class="btn btn-default" ngf-select="uploadSurveys($file)" accept=".xlsx" ng-disabled="uploadStatus.disableButton">
                           <span class="glyphicon glyphicon-cloud-upload"></span>
                           {{'metadatamanagementApp.dataAcquisitionProject.detail.upload.surveys' | translate}}</button>
-                      <button type="file" class="btn btn-default" ngf-select="onDataSetUpload($file)" accept=".xlsx" ng-disabled="uploadStatus.disableButton">
+                      <button type="file" class="btn btn-default" ngf-select="uploadDataSets($file)" accept=".xlsx" ng-disabled="uploadStatus.disableButton">
                               <span class="glyphicon glyphicon-cloud-upload"></span>
                               {{'metadatamanagementApp.dataAcquisitionProject.detail.upload.datasets' | translate}}</button>
                       <button type="file" class="btn btn-default" ngf-select="onVariablesUpload($file)" accept=".zip" ng-disabled="uploadStatus.disableButton">
                               <span class="glyphicon glyphicon-cloud-upload"></span>
                               {{'metadatamanagementApp.dataAcquisitionProject.detail.upload.variables' | translate}}</button>
-                      <button type="file" class="btn btn-default" ngf-select="onAtomicQuestionUpload($file)" accept=".xlsx" ng-disabled="uploadStatus.disableButton">
+                      <button type="file" class="btn btn-default" ngf-select="uploadAtomicQuestions($file)" accept=".xlsx" ng-disabled="uploadStatus.disableButton">
                               <span class="glyphicon glyphicon-cloud-upload"></span>
                               {{'metadatamanagementApp.dataAcquisitionProject.detail.upload.atomicQuestion' | translate}}</button>
                   </div>
@@ -134,19 +134,19 @@
                           <span class="pull-right" data-translate="metadatamanagementApp.dataAcquisitionProject.detail.progress">Progress:</span>
                         </div>
                         <div class="col-md-4">
-                          <uib-progressbar value="uploadStatus.getProgress()" max="uploadStatus.itemsToUpload" type="{{uploadStatus.getResult()}}" style="margin-bottom: 0px">{{uploadStatus.getProgressState()}}</uib-progressbar>
+                          <uib-progressbar value="uploadState.progress" max="uploadState.itemsToUpload" type="{{uploadState.getResult()}}" style="margin-bottom: 0px">{{uploadState.getProgressState()}}</uib-progressbar>
                         </div>
                         <div class="col-md-3">
                           <span class="pull-right">
-                            <span class="label label-as-badge label-success">{{'metadatamanagementApp.dataAcquisitionProject.detail.success' | translate}}: {{uploadStatus.successes}}</span>
-                            <span class="label label-as-badge label-danger">{{'metadatamanagementApp.dataAcquisitionProject.detail.error' | translate}}: {{uploadStatus.errors}}</span>
+                            <span class="label label-as-badge label-success">{{'metadatamanagementApp.dataAcquisitionProject.detail.success' | translate}}: {{uploadState.successes}}</span>
+                            <span class="label label-as-badge label-danger">{{'metadatamanagementApp.dataAcquisitionProject.detail.error' | translate}}: {{uploadState.errors}}</span>
                             <i class="glyphicon" ng-class="{'glyphicon-chevron-down': isOpen, 'glyphicon-chevron-right': !isOpen}"></i>
                           </span>
                         </div>
                       </div>
                     </uib-accordion-heading>
                     <div>
-                      <pre><span ng-repeat="logMessage in uploadStatus.logMessages track by $index" ng-class="{'text-danger': logMessage.type==='error'}">{{logMessage.message}}</span></pre>
+                      <pre><span ng-repeat="logMessage in uploadState.logMessages track by $index" ng-class="{'text-danger': logMessage.type==='error'}">{{logMessage.message}}</span></pre>
                     </div>
                 </uib-accordion-group>
               </uib-accordion>
