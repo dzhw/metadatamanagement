@@ -4,4 +4,4 @@
  * @author Daniel Katzberg
  *
  */
-package eu.dzhw.fdz.metadatamanagement.service.reporter;
+package eu.dzhw.fdz.metadatamanagement.service.reporting;

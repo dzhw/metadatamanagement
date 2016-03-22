@@ -341,30 +341,31 @@ angular.module('metadatamanagementApp')
 
       //Generate Variable Report
       $scope.onTexTemplateUpload = function(file) {
-        //Upload Tex-File with freemarker commands
-        $scope.initUploadStatus(1, true, 'generate-variable-report');
-        Upload.upload({
-          url: 'api/data-sets/report',
-          fields: {
-            'id': $scope.dataAcquisitionProject.id
-          },
-          file: file
+        if (file !== null) {
+          //Upload Tex-File with freemarker commands
+          $scope.initUploadStatus(1, true, 'generate-variable-report');
+          Upload.upload({
+            url: 'api/data-sets/report',
+            fields: {
+              'id': $scope.dataAcquisitionProject.id
+            },
+            file: file
             //Upload and document could filled with data successfully
-        }).success(function(gridFsFileName) {
-          //Download automaticly data filled tex template
-          FileResource.download({
-            fileName: gridFsFileName
-          }, function(data) {
-            saveAs(data.response, $scope.dataAcquisitionProject.id +
-              '_Report.tex');
+          }).success(function(gridFsFileName) {
+            //Download automaticly data filled tex template
+            FileResource.download(gridFsFileName).then(function(response) {
+              saveAs(response.data.blob, file.name);
+              $scope.uploadStatus.pushSuccess();
+            }).catch(function(error) {
+              $scope.uploadStatus.pushError(error);
+            });
+            //Server hat issues with the tex file, send error to error output
+          }).error(function(error) {
+            var endErrorIndex = error.message.indexOf('----');
+            var messageShort = error.message.substr(0, endErrorIndex).trim();
+            $scope.uploadStatus.pushError(messageShort);
           });
-          $scope.uploadStatus.pushSuccess();
-          //Server hat issues with the tex file, send error to error output
-        }).error(function(error) {
-          var endErrorIndex = error.message.indexOf('----');
-          var messageShort = error.message.substr(0, endErrorIndex).trim();
-          $scope.uploadStatus.pushError(messageShort);
-        });
+        }
       };
 
       $scope.exportToODT = function() {

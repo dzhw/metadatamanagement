@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
-import eu.dzhw.fdz.metadatamanagement.service.reporter.LatexTemplateService;
+import eu.dzhw.fdz.metadatamanagement.service.reporting.VariableReportService;
 import freemarker.template.TemplateException;
 
 /**
@@ -25,7 +25,7 @@ import freemarker.template.TemplateException;
 public class DataSetsReportResource {
 
   @Inject
-  private LatexTemplateService latexDataFillService;
+  private VariableReportService variableReportService;
 
   /**
    * Accept latex templates under the given request mapping.
@@ -46,8 +46,8 @@ public class DataSetsReportResource {
       byte[] fileAsBytes = file.getBytes();
 
       // fill the data with data and store the template into mongodb / gridfs
-      String fileName =
-          this.latexDataFillService.generateReport(new String(fileAsBytes, "UTF-8"), id);
+      String fileName = this.variableReportService.generateReport(new String(fileAsBytes, "UTF-8"),
+          file.getOriginalFilename(), id);
 
       // Return ok. Status 200.
       return ResponseEntity.ok()

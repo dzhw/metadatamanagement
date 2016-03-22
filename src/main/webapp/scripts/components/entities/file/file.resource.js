@@ -3,16 +3,18 @@
 'use strict';
 
 angular.module('metadatamanagementApp')
-  .factory('FileResource', function($resource) {
-    return $resource('public/files', {
+  .service('FileResource', function($http) {
+    this.download = function(fileName) {
+      var url = '/public/files';
+      if (fileName.lastIndexOf('/', 0) === 0) {
+        url = url + fileName;
+      } else {
+        url = url + '/' + fileName;
+      }
 
-    }, {
-      'download': {
+      return $http({
         method: 'GET',
-        params: {
-          fileName: '@fileName'
-        },
-        responseType: 'arraybuffer',
+        url: url,
         transformResponse: function(data, headers) {
           var fileBlob;
           var contentType = headers('content-type');
@@ -22,9 +24,10 @@ angular.module('metadatamanagementApp')
             });
           }
           return {
-            response: fileBlob
+            blob: fileBlob
           };
-        }
-      }
-    });
+        },
+        responseType: 'arraybuffer'
+      });
+    };
   });
