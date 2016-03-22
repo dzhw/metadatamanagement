@@ -20,19 +20,23 @@ import net.karneim.pojobuilder.GeneratePojoBuilder;
 @Document(collection = "data_sets")
 @GeneratePojoBuilder(intoPackage = "eu.dzhw.fdz.metadatamanagement.domain.builders")
 public class DataSet extends AbstractRdcDomainObject {
+  
+  /* Domain Object Attributes */
   @Id
   @NotEmpty(message = "{error.dataSet.id.isEmpty}")
   private String id;
 
   private I18nString description;
-
-  private List<String> variableIds;
   
+  
+  /* Foreign Keys */
   @NotEmpty(message = "{error.dataAcquisitionProject.id.isEmpty}")
   @DataAcquisitionProjectExists
   private String dataAcquisitionProjectId;
 
   private List<String> surveyIds;
+  
+  private List<String> variableIds;
 
   /*
    * (non-Javadoc)

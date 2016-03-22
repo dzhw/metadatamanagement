@@ -20,7 +20,7 @@ public class ValueTest {
   @Test
   public void testGetter() {
     // Arrange
-    Value value = new ValueBuilder().withCode("A Code")
+    Value value = new ValueBuilder().withCode(1234)
       .withAbsoluteFrequency(123)
       .withIsAMissing(false)
       .withLabel(new I18nStringBuilder().withDe("german")
@@ -32,7 +32,7 @@ public class ValueTest {
     // Act
 
     // Assert
-    assertThat(value.getCode(), is("A Code"));
+    assertThat(value.getCode(), is(1234));
     assertThat(value.getAbsoluteFrequency(), is(123));
     assertThat(value.getIsAMissing(), is(false));
     assertThat(value.getLabel()
@@ -45,7 +45,7 @@ public class ValueTest {
   @Test
   public void testToString() {
     // Arrange
-    Value value = new ValueBuilder().withCode("A Code")
+    Value value = new ValueBuilder().withCode(1234)
       .withAbsoluteFrequency(123)
       .withIsAMissing(false)
       .withLabel(new I18nStringBuilder().withDe("german")
@@ -60,7 +60,7 @@ public class ValueTest {
 
     // Assert
     assertThat(toString, is(
-        "Value{code=A Code, label=I18nString{de='german', en='english'}, absoluteFrequency=123, relativeFrequency=25.15, isAMissing=false, valueClass=Any Class}"));
+        "Value{code=1234, label=I18nString{de='german', en='english'}, absoluteFrequency=123, relativeFrequency=25.15, isAMissing=false, valueClass=Any Class}"));
 
   }
 

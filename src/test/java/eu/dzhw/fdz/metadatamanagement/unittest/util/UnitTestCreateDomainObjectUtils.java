@@ -8,19 +8,19 @@ import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
-import eu.dzhw.fdz.metadatamanagement.domain.AccessWay;
+import eu.dzhw.fdz.metadatamanagement.domain.AccessWays;
 import eu.dzhw.fdz.metadatamanagement.domain.AtomicQuestion;
-import eu.dzhw.fdz.metadatamanagement.domain.AtomicQuestionType;
+import eu.dzhw.fdz.metadatamanagement.domain.AtomicQuestionTypes;
 import eu.dzhw.fdz.metadatamanagement.domain.BibliographicalReference;
 import eu.dzhw.fdz.metadatamanagement.domain.Concept;
 import eu.dzhw.fdz.metadatamanagement.domain.DataAcquisitionProject;
 import eu.dzhw.fdz.metadatamanagement.domain.DataSet;
-import eu.dzhw.fdz.metadatamanagement.domain.DataType;
-import eu.dzhw.fdz.metadatamanagement.domain.FilterExpressionLanguage;
+import eu.dzhw.fdz.metadatamanagement.domain.DataTypes;
+import eu.dzhw.fdz.metadatamanagement.domain.FilterExpressionLanguages;
 import eu.dzhw.fdz.metadatamanagement.domain.GenerationDetails;
 import eu.dzhw.fdz.metadatamanagement.domain.Questionnaire;
 import eu.dzhw.fdz.metadatamanagement.domain.Release;
-import eu.dzhw.fdz.metadatamanagement.domain.RuleExpressionLanguage;
+import eu.dzhw.fdz.metadatamanagement.domain.RuleExpressionLanguages;
 import eu.dzhw.fdz.metadatamanagement.domain.ScaleLevel;
 import eu.dzhw.fdz.metadatamanagement.domain.Statistics;
 import eu.dzhw.fdz.metadatamanagement.domain.Survey;
@@ -31,6 +31,7 @@ import eu.dzhw.fdz.metadatamanagement.domain.builders.BibliographicalReferenceBu
 import eu.dzhw.fdz.metadatamanagement.domain.builders.ConceptBuilder;
 import eu.dzhw.fdz.metadatamanagement.domain.builders.DataAcquisitionProjectBuilder;
 import eu.dzhw.fdz.metadatamanagement.domain.builders.DataSetBuilder;
+import eu.dzhw.fdz.metadatamanagement.domain.builders.FilterDetailsBuilder;
 import eu.dzhw.fdz.metadatamanagement.domain.builders.GenerationDetailsBuilder;
 import eu.dzhw.fdz.metadatamanagement.domain.builders.I18nStringBuilder;
 import eu.dzhw.fdz.metadatamanagement.domain.builders.PeriodBuilder;
@@ -115,7 +116,7 @@ public class UnitTestCreateDomainObjectUtils {
       .withSectionHeader(new I18nStringBuilder().withDe("De Kapitelüberschrift")
         .withEn("En Section header")
         .build())
-      .withType(AtomicQuestionType.open)
+      .withType(AtomicQuestionTypes.open)
       .withVariableId(variableId)
       .build();
   }
@@ -124,16 +125,16 @@ public class UnitTestCreateDomainObjectUtils {
 
     // Prepare Variable
     List<String> accessWays = new ArrayList<>();
-    accessWays.add(AccessWay.CUF);
-    accessWays.add(AccessWay.REMOTE);
-    accessWays.add(AccessWay.SUF);
+    accessWays.add(AccessWays.CUF);
+    accessWays.add(AccessWays.REMOTE);
+    accessWays.add(AccessWays.SUF);
     List<String> withSameVariablesInPanel = new ArrayList<>();
     List<Value> withValues = new ArrayList<>();
     withValues.add(buildValueBuilder());
 
     // Create Variable
     return new VariableBuilder().withId("testVariable")
-      .withDataType(DataType.numeric)
+      .withDataType(DataTypes.numeric)
       .withScaleLevel(ScaleLevel.continous)
       .withDataAcquisitionProjectId(projectId)
       .withSurveyId(surveyId)
@@ -145,11 +146,12 @@ public class UnitTestCreateDomainObjectUtils {
       .withDescription(new I18nStringBuilder().withDe("De Beschreibung")
         .withEn("En Description")
         .build())
-      .withFilterDescription(new I18nStringBuilder().withDe("De Filterbeschreibung")
-        .withEn("En Filter Description")
-        .build())
-      .withFilterExpressionLanguage(FilterExpressionLanguage.STATA)
-      .withFilterExpression("Filter Expression")
+      .withFilterDetails(new FilterDetailsBuilder()
+          .withFilterDescription(new I18nStringBuilder().withDe("De Filterbeschreibung")
+            .withEn("En Filter Description")
+            .build())
+          .withFilterExpressionLanguage(FilterExpressionLanguages.STATA)
+          .withFilterExpression("Filter Expression").build())      
       .withSameVariablesInPanel(withSameVariablesInPanel)
       .withValues(withValues)
       .withConceptId("ConceptId001")
@@ -197,13 +199,13 @@ public class UnitTestCreateDomainObjectUtils {
         .withEn("En Description")
         .build())
       .withRule("Rule 123 to 234")
-      .withRuleExpressionLanguage(RuleExpressionLanguage.R)
+      .withRuleExpressionLanguage(RuleExpressionLanguages.R)
       .build();
   }
 
   public static Value buildValueBuilder() {
     return new ValueBuilder().withAbsoluteFrequency(123)
-      .withCode("Code 123.45")
+      .withCode(1234)
       .withIsAMissing(false)
       .withLabel(new I18nStringBuilder().withDe("De Label")
         .withEn("En Lable")

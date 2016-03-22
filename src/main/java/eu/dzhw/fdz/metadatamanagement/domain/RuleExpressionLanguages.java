@@ -1,12 +1,13 @@
 package eu.dzhw.fdz.metadatamanagement.domain;
 
 /**
- * Filter Expression Languages.
+ * Rule Expression Language.
  * 
  * @author Daniel Katzberg
  *
  */
-public class FilterExpressionLanguage {
+public class RuleExpressionLanguages {
+
   public static final String STATA = "stata";
-  public static final String SPEL = "spel";
+  public static final String R = "r";
 }

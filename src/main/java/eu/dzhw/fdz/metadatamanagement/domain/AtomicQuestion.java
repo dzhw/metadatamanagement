@@ -23,6 +23,8 @@ public class AtomicQuestion extends AbstractRdcDomainObject {
 
   @Id
   @NotEmpty(message = "{error.atomicQuestion.id.isEmpty}")
+  
+  /* Domain model attributes */
   private String id;
 
   private I18nString type;
@@ -41,6 +43,8 @@ public class AtomicQuestion extends AbstractRdcDomainObject {
 
   private I18nString sectionHeader;
 
+  
+  /* Foreign Keys */
   @NotEmpty(message = "{error.dataAcquisitionProject.id.isEmpty}")
   @DataAcquisitionProjectExists
   private String dataAcquisitionProjectId;

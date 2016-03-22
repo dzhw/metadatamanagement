@@ -27,45 +27,46 @@ import net.karneim.pojobuilder.GeneratePojoBuilder;
 @CompoundIndex(def = "{name: 1, dataAcquisitionProjectId: 1}", unique = true)
 public class Variable extends AbstractRdcDomainObjectWithProjectSurvey {
 
+  /* Domain Object listed attributes */
   @Id
   @NotEmpty(message = "{error.variable.id.isEmpty}")
   private String id;
-
-  @NotEmpty(message = "{error.variable.name.isEmpty}")
-  @Size(max = 32)
-  @Pattern(regexp = Patterns.ALPHANUMERIC_WITH_UNDERSCORE)
-  private String name;
 
   @NotNull(message = "{error.variable.name.isEmpty}")
   private I18nString dataType;
 
   @NotNull(message = "{error.variable.scaleLevel.isEmpty}")
   private I18nString scaleLevel;
+  
+  @NotEmpty(message = "{error.variable.name.isEmpty}")
+  @Size(max = 32)
+  @Pattern(regexp = Patterns.ALPHANUMERIC_WITH_UNDERSCORE)
+  private String name;  
 
   @NotNull(message = "{error.variable.label.isEmpty}")
   private I18nString label;
-
-  private List<Value> values;
-
+  
   private I18nString description;
 
   private List<String> accessWays;
+  
 
-  private String filterExpression;
-
-  private I18nString filterDescription;
-
-  private String filterExpressionLanguage;
-
+  /* Nested Objects */
+  private List<Value> values;
+  
   private I18nSvg distributionSvg;
+  
+  private FilterDetails filterDetails;
 
   private List<String> sameVariablesInPanel;
-
-  private String conceptId;
-
+  
   private Statistics statistics;
 
   private GenerationDetails generationDetails;
+  
+
+  /* Foreign Keys */
+  private String conceptId;  
 
   private String atomicQuestionId;
 
@@ -80,10 +81,9 @@ public class Variable extends AbstractRdcDomainObjectWithProjectSurvey {
   public String getId() {
     return id;
   }
-
+ 
   /*
    * (non-Javadoc)
-   * 
    * @see eu.dzhw.fdz.metadatamanagement.domain.AbstractRdcDomainObjectWithProjectSurvey#toString()
    */
   @Override
@@ -98,18 +98,18 @@ public class Variable extends AbstractRdcDomainObjectWithProjectSurvey {
       .add("values", values)
       .add("description", description)
       .add("accessWays", accessWays)
-      .add("filterExpression", filterExpression)
-      .add("filterDescription", filterDescription)
-      .add("filterExpressionLanguage", filterExpressionLanguage)
       .add("distributionSvg", distributionSvg)
+      .add("filterDetails", filterDetails)
       .add("sameVariablesInPanel", sameVariablesInPanel)
       .add("conceptId", conceptId)
       .add("statistics", statistics)
       .add("generationDetails", generationDetails)
       .add("atomicQuestionId", atomicQuestionId)
-      .add("dataSetsIds", dataSetIds)
+      .add("dataSetIds", dataSetIds)
       .toString();
   }
+
+
 
   /* GETTER / SETTER */
   public String getName() {
@@ -158,30 +158,6 @@ public class Variable extends AbstractRdcDomainObjectWithProjectSurvey {
 
   public void setAccessWays(List<String> accessWays) {
     this.accessWays = accessWays;
-  }
-
-  public String getFilterExpression() {
-    return filterExpression;
-  }
-
-  public void setFilterExpression(String filterExpression) {
-    this.filterExpression = filterExpression;
-  }
-
-  public I18nString getFilterDescription() {
-    return filterDescription;
-  }
-
-  public void setFilterDescription(I18nString filterDescription) {
-    this.filterDescription = filterDescription;
-  }
-
-  public String getFilterExpressionLanguage() {
-    return filterExpressionLanguage;
-  }
-
-  public void setFilterExpressionLanguage(String filterExpressionLanguage) {
-    this.filterExpressionLanguage = filterExpressionLanguage;
   }
 
   public I18nSvg getDistributionSvg() {
@@ -250,5 +226,13 @@ public class Variable extends AbstractRdcDomainObjectWithProjectSurvey {
 
   public void setDataSetIds(List<String> dataSetIds) {
     this.dataSetIds = dataSetIds;
+  }
+
+  public FilterDetails getFilterDetails() {
+    return filterDetails;
+  }
+
+  public void setFilterDetails(FilterDetails filterDetails) {
+    this.filterDetails = filterDetails;
   }
 }

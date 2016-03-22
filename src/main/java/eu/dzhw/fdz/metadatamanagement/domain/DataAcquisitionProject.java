@@ -22,6 +22,7 @@ import net.karneim.pojobuilder.GeneratePojoBuilder;
 @GeneratePojoBuilder(intoPackage = "eu.dzhw.fdz.metadatamanagement.domain.builders")
 public class DataAcquisitionProject extends AbstractRdcDomainObject {
 
+  /* Domain Object Attributes */
   @Id
   @NotEmpty(message = "{error.dataAcquisitionProject.id.isEmpty}")
   @Pattern(regexp = Patterns.GERMAN_ALPHANUMERIC_WITH_SPACE)
@@ -31,6 +32,7 @@ public class DataAcquisitionProject extends AbstractRdcDomainObject {
 
   private I18nString panelName;
 
+  /* Nested Objects */
   private List<Release> releases;
 
   /*

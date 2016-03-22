@@ -27,7 +27,7 @@ import com.google.gson.JsonSyntaxException;
 
 import eu.dzhw.fdz.metadatamanagement.AbstractTest;
 import eu.dzhw.fdz.metadatamanagement.domain.DataAcquisitionProject;
-import eu.dzhw.fdz.metadatamanagement.domain.DataType;
+import eu.dzhw.fdz.metadatamanagement.domain.DataTypes;
 import eu.dzhw.fdz.metadatamanagement.domain.ScaleLevel;
 import eu.dzhw.fdz.metadatamanagement.domain.Survey;
 import eu.dzhw.fdz.metadatamanagement.domain.Variable;
@@ -108,7 +108,7 @@ public class VariableResourceTest extends AbstractTest {
     surveyRepository.save(survey);
 
     Variable variable = new VariableBuilder().withId("testVariable")
-      .withDataType(DataType.numeric)
+      .withDataType(DataTypes.numeric)
       .withScaleLevel(ScaleLevel.continous)
       .withDataAcquisitionProjectId(project.getId())
       .withSurveyId(survey.getId())
@@ -160,7 +160,7 @@ public class VariableResourceTest extends AbstractTest {
     surveyRepository.save(survey);
 
     Variable variable = new VariableBuilder().withId("testVariable")
-      .withDataType(DataType.numeric)
+      .withDataType(DataTypes.numeric)
       .withScaleLevel(ScaleLevel.continous)
       .withDataAcquisitionProjectId(null)
       .withSurveyId(survey.getId())
@@ -197,7 +197,7 @@ public class VariableResourceTest extends AbstractTest {
     surveyRepository.save(survey);
 
     Variable variable = new VariableBuilder().withId("testVariable")
-      .withDataType(DataType.numeric)
+      .withDataType(DataTypes.numeric)
       .withScaleLevel(ScaleLevel.continous)
       .withDataAcquisitionProjectId(project.getId())
       .withSurveyId(survey.getId())
@@ -213,7 +213,7 @@ public class VariableResourceTest extends AbstractTest {
       .andExpect(status().isCreated());
 
     Variable variable2 = new VariableBuilder().withId("testVariable2")
-      .withDataType(DataType.numeric)
+      .withDataType(DataTypes.numeric)
       .withScaleLevel(ScaleLevel.continous)
       .withDataAcquisitionProjectId(project.getId())
       .withSurveyId(survey.getId())
@@ -248,7 +248,7 @@ public class VariableResourceTest extends AbstractTest {
       .build();
 
     Variable variable = new VariableBuilder().withId("testVariable")
-      .withDataType(DataType.numeric)
+      .withDataType(DataTypes.numeric)
       .withScaleLevel(ScaleLevel.continous)
       .withDataAcquisitionProjectId(project.getId())
       .withSurveyId(survey.getId())
@@ -272,7 +272,7 @@ public class VariableResourceTest extends AbstractTest {
       .build();
 
     Variable variable = new VariableBuilder().withId("testVariable")
-      .withDataType(DataType.numeric)
+      .withDataType(DataTypes.numeric)
       .withScaleLevel(ScaleLevel.continous)
       .withDataAcquisitionProjectId(project.getId())
       .withLabel(new I18nStringBuilder().withDe("label")
@@ -314,7 +314,7 @@ public class VariableResourceTest extends AbstractTest {
     surveyRepository.save(survey);
 
     Variable variable = new VariableBuilder().withId("testVariable")
-      .withDataType(DataType.numeric)
+      .withDataType(DataTypes.numeric)
       .withScaleLevel(ScaleLevel.continous)
       .withDataAcquisitionProjectId(project1.getId())
       .withSurveyId(survey.getId())
@@ -351,7 +351,7 @@ public class VariableResourceTest extends AbstractTest {
     surveyRepository.save(survey);
 
     Variable variable = new VariableBuilder().withId("testVariable")
-      .withDataType(DataType.numeric)
+      .withDataType(DataTypes.numeric)
       .withScaleLevel(ScaleLevel.continous)
       .withDataAcquisitionProjectId(project.getId())
       .withSurveyId(survey.getId())
@@ -400,7 +400,7 @@ public class VariableResourceTest extends AbstractTest {
     surveyRepository.save(survey);
 
     Variable variable = new VariableBuilder().withId("testVariable")
-      .withDataType(DataType.numeric)
+      .withDataType(DataTypes.numeric)
       .withScaleLevel(ScaleLevel.continous)
       .withDataAcquisitionProjectId(project.getId())
       .withSurveyId(survey.getId())
@@ -464,7 +464,7 @@ public class VariableResourceTest extends AbstractTest {
     surveyRepository.save(survey);
 
     Variable variable = new VariableBuilder().withId("testVariable")
-      .withDataType(DataType.numeric)
+      .withDataType(DataTypes.numeric)
       .withScaleLevel(ScaleLevel.continous)
       .withDataAcquisitionProjectId(project.getId())
       .withSurveyId(survey.getId())
@@ -512,7 +512,7 @@ public class VariableResourceTest extends AbstractTest {
     surveyRepository.save(survey);
 
     Variable variable = new VariableBuilder().withId("testVariable")
-      .withDataType(DataType.numeric)
+      .withDataType(DataTypes.numeric)
       .withScaleLevel(ScaleLevel.continous)
       .withDataAcquisitionProjectId(project.getId())
       .withSurveyId(survey.getId())

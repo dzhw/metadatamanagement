@@ -4,9 +4,9 @@ import java.util.List;
 
 import org.springframework.data.rest.core.config.Projection;
 
+import eu.dzhw.fdz.metadatamanagement.domain.FilterDetails;
 import eu.dzhw.fdz.metadatamanagement.domain.GenerationDetails;
 import eu.dzhw.fdz.metadatamanagement.domain.I18nString;
-import eu.dzhw.fdz.metadatamanagement.domain.I18nSvg;
 import eu.dzhw.fdz.metadatamanagement.domain.Statistics;
 import eu.dzhw.fdz.metadatamanagement.domain.Value;
 import eu.dzhw.fdz.metadatamanagement.domain.Variable;
@@ -21,32 +21,38 @@ import eu.dzhw.fdz.metadatamanagement.domain.Variable;
 @Projection(name = "complete", types = Variable.class)
 public interface CompleteVariableProjection
     extends AbstractRdcDomainObjectWithProjectSurveyProjection {
-  String getName();
-
+  
+  /* Domain Object Attributes */
   I18nString getDataType();
 
   I18nString getScaleLevel();
+  
+  String getName();
 
   I18nString getLabel();
-
-  List<Value> getValues();
-
+  
   I18nString getDescription();
 
   List<String> getAccessWays();
-
-  String getFilterExpression();
-
-  I18nString getFilterDescription();
-
-  String getFilterExpressionLanguage();
-
-  I18nSvg getDistributionSvg();
-
+  
   List<String> getSameVariablesInPanel();
+  
 
-  Statistics getStatistics();
+  /* Nested Objects */
+  FilterDetails getFilterDetails();
 
   GenerationDetails getGenerationDetails();
+  
+  Statistics getStatistics();
+
+  List<Value> getValues();
+  
+  
+  /* Foreign Keys */
+  List<String> getDataSetIds();
+ 
+  String getConceptId();
+  
+  String atomicQuestionId();
 
 }

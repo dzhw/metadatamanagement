@@ -15,6 +15,7 @@ import eu.dzhw.fdz.metadatamanagement.domain.I18nString;
 @Projection(name = "complete", types = AtomicQuestion.class)
 public interface CompleteAtomicQuestionProjection extends AbstractRdcDomainObjectProjection {
 
+  /* Domain Object Attributes */
   I18nString getType();
 
   String getName();
@@ -31,6 +32,7 @@ public interface CompleteAtomicQuestionProjection extends AbstractRdcDomainObjec
 
   I18nString getSectionHeader();
 
+  /* Foreign Keys */
   String getDataAcquisitionProjectId();
 
   String getQuestionnaireId();

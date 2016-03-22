@@ -25,7 +25,7 @@ public class GenerationDetailsTest {
 
     // Assert
     assertThat(generationDetails.getRule(), is("Rule 123 to 234"));
-    assertThat(generationDetails.getRuleExpressionLanguage(), is(RuleExpressionLanguage.R));
+    assertThat(generationDetails.getRuleExpressionLanguage(), is(RuleExpressionLanguages.R));
     assertThat(generationDetails.getDescription()
       .getDe(), is("De Beschreibung"));
     assertThat(generationDetails.getDescription()

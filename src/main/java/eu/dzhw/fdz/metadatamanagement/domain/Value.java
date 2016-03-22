@@ -17,7 +17,7 @@ import net.karneim.pojobuilder.GeneratePojoBuilder;
 public class Value {
 
   @NotEmpty(message = "{error.value.code}")
-  private String code;
+  private Integer code;
 
   private I18nString label;
 
@@ -47,11 +47,11 @@ public class Value {
   }
 
   /* GETTER / SETTER */
-  public String getCode() {
+  public Integer getCode() {
     return code;
   }
 
-  public void setCode(String code) {
+  public void setCode(Integer code) {
     this.code = code;
   }
 

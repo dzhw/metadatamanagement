@@ -6,7 +6,7 @@ package eu.dzhw.fdz.metadatamanagement.domain;
  * @author Daniel Katzberg
  *
  */
-public class AtomicQuestionType {
+public class AtomicQuestionTypes {
   public static final I18nString open = new I18nString("offen", "open");
   public static final I18nString singlechoice = new I18nString("Einzelauswahl", "singlechoise");
 }

@@ -6,7 +6,7 @@ package eu.dzhw.fdz.metadatamanagement.domain;
  * @author Daniel Katzberg
  *
  */
-public class AccessWay {
+public class AccessWays {
 
   public static final String CUF = "cuf";
   public static final String SUF = "suf";

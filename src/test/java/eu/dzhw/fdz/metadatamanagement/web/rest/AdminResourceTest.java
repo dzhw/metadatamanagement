@@ -18,7 +18,7 @@ import org.springframework.web.util.NestedServletException;
 
 import eu.dzhw.fdz.metadatamanagement.AbstractTest;
 import eu.dzhw.fdz.metadatamanagement.domain.DataAcquisitionProject;
-import eu.dzhw.fdz.metadatamanagement.domain.DataType;
+import eu.dzhw.fdz.metadatamanagement.domain.DataTypes;
 import eu.dzhw.fdz.metadatamanagement.domain.ScaleLevel;
 import eu.dzhw.fdz.metadatamanagement.domain.Survey;
 import eu.dzhw.fdz.metadatamanagement.domain.Variable;
@@ -115,7 +115,7 @@ public class AdminResourceTest extends AbstractTest {
       .withLabel(new I18nStringBuilder().withDe("label").withEn("label").build())
       .withName("name")
       .withScaleLevel(ScaleLevel.nominal)
-      .withDataType(DataType.numeric)
+      .withDataType(DataTypes.numeric)
       .build();
     variableRepository.save(variable);
 

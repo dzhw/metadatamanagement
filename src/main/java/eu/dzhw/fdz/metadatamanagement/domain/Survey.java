@@ -23,6 +23,7 @@ import net.karneim.pojobuilder.GeneratePojoBuilder;
 @GeneratePojoBuilder(intoPackage = "eu.dzhw.fdz.metadatamanagement.domain.builders")
 public class Survey extends AbstractRdcDomainObject {
 
+  /* Domain Object Attributes */
   @Id
   @NotEmpty(message = "{error.survey.id.isEmpty}")
   private String id;
@@ -34,6 +35,7 @@ public class Survey extends AbstractRdcDomainObject {
   @Valid
   private Period fieldPeriod;
 
+  /* Foreign Keys */
   @NotEmpty(message = "{error.dataAcquisitionProject.id.isEmpty}")
   @DataAcquisitionProjectExists
   private String dataAcquisitionProjectId;
