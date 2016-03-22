@@ -1,5 +1,8 @@
 package eu.dzhw.fdz.metadatamanagement.domain;
 
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
+
 import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.CompoundIndex;
@@ -7,7 +10,9 @@ import org.springframework.data.mongodb.core.mapping.Document;
 
 import com.google.common.base.MoreObjects;
 
-import eu.dzhw.fdz.metadatamanagement.domain.validation.DataAcquisitionProjectExists;
+import eu.dzhw.fdz.metadatamanagement.domain.util.Patterns;
+import eu.dzhw.fdz.metadatamanagement.domain.validation.I18nStringSize;
+import eu.dzhw.fdz.metadatamanagement.domain.validation.StringLengths;
 import net.karneim.pojobuilder.GeneratePojoBuilder;
 
 /**
@@ -21,32 +26,41 @@ import net.karneim.pojobuilder.GeneratePojoBuilder;
 @CompoundIndex(def = "{name: 1, questionnaireId: 1}", unique = true)
 public class AtomicQuestion extends AbstractRdcDomainObject {
 
+  /* Domain model attributes */
   @Id
   @NotEmpty(message = "{error.atomicQuestion.id.isEmpty}")
-  
-  /* Domain model attributes */
+  @Size(max = StringLengths.MEDIUM)
+  @Pattern(regexp = Patterns.GERMAN_ALPHANUMERIC_WITH_SPACE_AND_MINUS)
   private String id;
 
   private I18nString type;
 
+  @NotEmpty(message = "{error.atomicQuestion.name.isEmpty}")
+  @Size(max = StringLengths.SMALL)
   private String name;
 
+  @NotEmpty(message = "{error.atomicQuestion.compositequestionname.isEmpty}")
+  @Size(max = StringLengths.SMALL)
   private String compositeQuestionName;
 
+  @I18nStringSize(max = StringLengths.LARGE)
   private I18nString footnote;
 
+  @I18nStringSize(max = StringLengths.LARGE)
   private I18nString questionText;
 
+  @I18nStringSize(max = StringLengths.LARGE)
   private I18nString instruction;
 
+  @I18nStringSize(max = StringLengths.LARGE)
   private I18nString introduction;
 
+  @I18nStringSize(max = StringLengths.MEDIUM)
   private I18nString sectionHeader;
 
   
   /* Foreign Keys */
-  @NotEmpty(message = "{error.dataAcquisitionProject.id.isEmpty}")
-  @DataAcquisitionProjectExists
+  @NotEmpty(message = "{error.dataAcquisitionProject.id.isEmpty}")  
   private String dataAcquisitionProjectId;
 
   @NotEmpty(message = "{error.questionnaire.id.isEmpty}")

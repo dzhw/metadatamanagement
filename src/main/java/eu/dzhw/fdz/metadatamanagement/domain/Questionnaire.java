@@ -4,7 +4,6 @@ import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-import eu.dzhw.fdz.metadatamanagement.domain.validation.DataAcquisitionProjectExists;
 import net.karneim.pojobuilder.GeneratePojoBuilder;
 
 /**
@@ -22,7 +21,6 @@ public class Questionnaire extends AbstractRdcDomainObject {
   private String id;
 
   @NotEmpty(message = "{error.dataAcquisitionProject.id.isEmpty}")
-  @DataAcquisitionProjectExists
   private String dataAcquisitionProjectId;
   
   @NotEmpty(message = "{error.survey.id.isEmpty}")

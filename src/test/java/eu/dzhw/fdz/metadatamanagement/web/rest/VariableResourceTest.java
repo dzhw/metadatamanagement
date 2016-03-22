@@ -265,29 +265,6 @@ public class VariableResourceTest extends AbstractTest {
   }
 
   @Test
-  public void testCreateVariableWithUnknownProject() throws Exception {
-    DataAcquisitionProject project = new DataAcquisitionProjectBuilder().withId("testProject")
-      .withSurveySeries(new I18nStringBuilder().build())
-      .withPanelName(new I18nStringBuilder().build())
-      .build();
-
-    Variable variable = new VariableBuilder().withId("testVariable")
-      .withDataType(DataTypes.numeric)
-      .withScaleLevel(ScaleLevel.continous)
-      .withDataAcquisitionProjectId(project.getId())
-      .withLabel(new I18nStringBuilder().withDe("label")
-        .withEn("label")
-        .build())
-      .withName("name")
-      .build();
-
-    // create the variable with the given id but with an unknown project
-    mockMvc.perform(put(API_VARIABLES_URI + "/" + variable.getId())
-      .content(TestUtil.convertObjectToJsonBytes(variable)))
-      .andExpect(status().is4xxClientError());
-  }
-
-  @Test
   public void testCreateVariableWithSurveyFromDifferentProject() throws Exception {
     DataAcquisitionProject project1 = new DataAcquisitionProjectBuilder().withId("testProject1")
       .withSurveySeries(new I18nStringBuilder().build())

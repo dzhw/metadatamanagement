@@ -114,20 +114,7 @@ public class AtomicQuestionResourceTest extends AbstractTest {
     // call toString for test coverage :-)
     atomicQuestion.toString();
   }
-
-  @Test
-  public void testCreateAtomicQuestionWithUnknownProject() throws Exception {
-    // Arrange
-    AtomicQuestion atomicQuestion =
-        UnitTestCreateDomainObjectUtils.buildAtomicQuestion("not Exist", "not Exist", "not Exist");
-
-    // Act and Assert
-    // create the AtomicQuestion with the given id but with an unknown project
-    mockMvc.perform(put(API_ATOMICQUESTIONS_URI + "/" + atomicQuestion.getId())
-      .content(TestUtil.convertObjectToJsonBytes(atomicQuestion)))
-      .andExpect(status().is4xxClientError());
-  }
-
+  
   @Test
   public void deleteDataSet() throws JsonSyntaxException, IOException, Exception {
 

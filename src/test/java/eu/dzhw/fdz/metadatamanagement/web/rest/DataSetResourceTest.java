@@ -130,18 +130,6 @@ public class DataSetResourceTest extends AbstractTest {
   }
 
   @Test
-  public void testCreateDataSetWithUnknownProject() throws Exception {
-    // Arrange
-    DataSet dataSet = UnitTestCreateDomainObjectUtils.buildDataSet("notExist", "notExist");
-
-    // Act and Assert
-    // create the DataSet with the given id but with an unknown project
-    mockMvc.perform(put(API_DATASETS_URI + "/" + dataSet.getId())
-      .content(TestUtil.convertObjectToJsonBytes(dataSet)))
-      .andExpect(status().is4xxClientError());
-  }
-
-  @Test
   public void testCreateDataSetWithSurveyFromDifferentProject() throws Exception {
 
     // Arrange

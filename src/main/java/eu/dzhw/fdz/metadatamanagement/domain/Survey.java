@@ -11,7 +11,6 @@ import org.springframework.data.mongodb.core.mapping.Document;
 
 import com.google.common.base.MoreObjects;
 
-import eu.dzhw.fdz.metadatamanagement.domain.validation.DataAcquisitionProjectExists;
 import net.karneim.pojobuilder.GeneratePojoBuilder;
 
 /**
@@ -37,7 +36,6 @@ public class Survey extends AbstractRdcDomainObject {
 
   /* Foreign Keys */
   @NotEmpty(message = "{error.dataAcquisitionProject.id.isEmpty}")
-  @DataAcquisitionProjectExists
   private String dataAcquisitionProjectId;
 
   @NotEmpty(message = "{error.questionnaire.id.isEmpty}")

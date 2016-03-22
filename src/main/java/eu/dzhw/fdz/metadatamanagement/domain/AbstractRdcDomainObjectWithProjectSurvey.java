@@ -4,7 +4,6 @@ import org.hibernate.validator.constraints.NotEmpty;
 
 import com.google.common.base.MoreObjects;
 
-import eu.dzhw.fdz.metadatamanagement.domain.validation.DataAcquisitionProjectExists;
 import eu.dzhw.fdz.metadatamanagement.domain.validation.SurveyExists;
 import eu.dzhw.fdz.metadatamanagement.domain.validation.SurveyHasSameDataAcquisitionProject;
 
@@ -20,7 +19,6 @@ import eu.dzhw.fdz.metadatamanagement.domain.validation.SurveyHasSameDataAcquisi
 public abstract class AbstractRdcDomainObjectWithProjectSurvey extends AbstractRdcDomainObject {
 
   @NotEmpty(message = "{error.dataAcquisitionProject.id.isEmpty}")
-  @DataAcquisitionProjectExists
   private String dataAcquisitionProjectId;
 
   @SurveyExists
