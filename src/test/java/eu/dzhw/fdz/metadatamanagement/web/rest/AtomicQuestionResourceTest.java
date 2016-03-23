@@ -28,9 +28,11 @@ import com.google.gson.JsonSyntaxException;
 
 import eu.dzhw.fdz.metadatamanagement.AbstractTest;
 import eu.dzhw.fdz.metadatamanagement.domain.AtomicQuestion;
+import eu.dzhw.fdz.metadatamanagement.domain.AtomicQuestionTypes;
 import eu.dzhw.fdz.metadatamanagement.domain.DataAcquisitionProject;
 import eu.dzhw.fdz.metadatamanagement.domain.Questionnaire;
 import eu.dzhw.fdz.metadatamanagement.domain.Variable;
+import eu.dzhw.fdz.metadatamanagement.domain.builders.I18nStringBuilder;
 import eu.dzhw.fdz.metadatamanagement.repository.AtomicQuestionRepository;
 import eu.dzhw.fdz.metadatamanagement.repository.DataAcquisitionProjectRepository;
 import eu.dzhw.fdz.metadatamanagement.repository.QuestionnaireRepository;
@@ -170,6 +172,7 @@ public class AtomicQuestionResourceTest extends AbstractTest {
 
     atomicQuestion.getFootnote()
       .setDe("Angepasst.");
+    atomicQuestion.setType(AtomicQuestionTypes.SINGLE_CHOICE);
 
     // update the AtomicQuestion with the given id
     mockMvc.perform(put(API_ATOMICQUESTIONS_URI + "/" + atomicQuestion.getId())
@@ -182,7 +185,41 @@ public class AtomicQuestionResourceTest extends AbstractTest {
       .andExpect(status().isOk())
       .andExpect(jsonPath("$.id", is(atomicQuestion.getId())))
       .andExpect(jsonPath("$.version", is(1)))
-      .andExpect(jsonPath("$.footnote.de", is("Angepasst.")));
+      .andExpect(jsonPath("$.footnote.de", is("Angepasst.")))
+      .andExpect(jsonPath("$.type.de", is("single-choice")));
+  }
+  
+  @Test
+  public void testUpdateWithWrongTypeAtomicQuestion() throws Exception {
+    // Arrange
+    DataAcquisitionProject project = UnitTestCreateDomainObjectUtils.buildDataAcquisitionProject();
+    this.dataAcquisitionProjectRepository.save(project);
+
+    Variable variable = UnitTestCreateDomainObjectUtils.buildVariable(project.getId(), null);
+    this.variableRepository.save(variable);
+
+    Questionnaire questionnaire =
+        UnitTestCreateDomainObjectUtils.buildQuestionnaire(project.getId());
+    this.questionnaireRepository.save(questionnaire);
+
+    AtomicQuestion atomicQuestion = UnitTestCreateDomainObjectUtils
+      .buildAtomicQuestion(project.getId(), questionnaire.getId(), variable.getId());
+
+    // Act and Assert
+    // create the variable with the given id
+    mockMvc.perform(put(API_ATOMICQUESTIONS_URI + "/" + atomicQuestion.getId())
+      .content(TestUtil.convertObjectToJsonBytes(atomicQuestion)))
+      .andExpect(status().isCreated());
+
+    //set inconsistent type
+    atomicQuestion.setType(new I18nStringBuilder().withDe(AtomicQuestionTypes.OPEN.getDe())
+        .withEn("Bad Value")
+        .build());
+
+    // update the AtomicQuestion with the given id
+    mockMvc.perform(put(API_ATOMICQUESTIONS_URI + "/" + atomicQuestion.getId())
+      .content(TestUtil.convertObjectToJsonBytes(atomicQuestion)))
+      .andExpect(status().is4xxClientError());
   }
 
   @Test

@@ -16,6 +16,7 @@ import eu.dzhw.fdz.metadatamanagement.domain.Concept;
 import eu.dzhw.fdz.metadatamanagement.domain.DataAcquisitionProject;
 import eu.dzhw.fdz.metadatamanagement.domain.DataSet;
 import eu.dzhw.fdz.metadatamanagement.domain.DataTypes;
+import eu.dzhw.fdz.metadatamanagement.domain.FilterDetails;
 import eu.dzhw.fdz.metadatamanagement.domain.FilterExpressionLanguages;
 import eu.dzhw.fdz.metadatamanagement.domain.GenerationDetails;
 import eu.dzhw.fdz.metadatamanagement.domain.Questionnaire;
@@ -116,7 +117,9 @@ public class UnitTestCreateDomainObjectUtils {
       .withSectionHeader(new I18nStringBuilder().withDe("De Kapitelüberschrift")
         .withEn("En Section header")
         .build())
-      .withType(AtomicQuestionTypes.OPEN)
+      .withType(new I18nStringBuilder().withDe(AtomicQuestionTypes.OPEN.getDe())
+          .withEn(AtomicQuestionTypes.OPEN.getEn())
+          .build())
       .withVariableId(variableId).withId(projectId + "-" + variableId)
       .build();
   }
@@ -247,6 +250,17 @@ public class UnitTestCreateDomainObjectUtils {
       .withType("Testtype")
       .withVolume("Volume 1")
       .build();
+  }
+  
+  public static FilterDetails buildFilterDetails() {
+    return new FilterDetailsBuilder()
+        .withFilterDescription(new I18nStringBuilder()
+            .withDe("Eine Filterbeschreibung.")
+            .withEn("A filter description.")
+            .build())
+        .withFilterExpression("A Filter Expression")
+        .withFilterExpressionLanguage(FilterExpressionLanguages.STATA)
+        .build();
   }
 
 }

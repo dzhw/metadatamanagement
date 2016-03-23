@@ -32,21 +32,21 @@ public class AtomicQuestionTypeConsistenceValidator
    * javax.validation.ConstraintValidatorContext)
    */
   @Override
-  public boolean isValid(I18nString value, ConstraintValidatorContext context) {
+  public boolean isValid(I18nString type, ConstraintValidatorContext context) {
             
     //english and german have correct values, but are they consistent?
     //open
-    if (value.getDe().equals(AtomicQuestionTypes.OPEN.getDe()) 
-        && value.getEn().equals(AtomicQuestionTypes.OPEN.getEn())) {
+    if (type.getDe().equals(AtomicQuestionTypes.OPEN.getDe()) 
+        && type.getEn().equals(AtomicQuestionTypes.OPEN.getEn())) {
       return true;
     }
     
     //close
-    if (value.getDe().equals(AtomicQuestionTypes.SINGLE_CHOICE.getDe()) 
-        && value.getEn().equals(AtomicQuestionTypes.SINGLE_CHOICE.getEn())) {
+    if (type.getDe().equals(AtomicQuestionTypes.SINGLE_CHOICE.getDe()) 
+        && type.getEn().equals(AtomicQuestionTypes.SINGLE_CHOICE.getEn())) {
       return true;
     }
-    
+        
     return false;
   }
 }

@@ -26,40 +26,42 @@ import net.karneim.pojobuilder.GeneratePojoBuilder;
 @Document(collection = "atomic_questions")
 @GeneratePojoBuilder(intoPackage = "eu.dzhw.fdz.metadatamanagement.domain.builders")
 @CompoundIndex(def = "{name: 1, questionnaireId: 1}", unique = true)
-@ValidIdName
+@ValidIdName(message = "{error.atomicQuestion.validIdName}")
 public class AtomicQuestion extends AbstractRdcDomainObject {
 
   /* Domain model attributes */
   @Id
   @NotEmpty(message = "{error.atomicQuestion.id.isEmpty}")
-  @Size(max = StringLengths.MEDIUM)
-  @Pattern(regexp = Patterns.GERMAN_ALPHANUMERIC_WITH_SPACE_AND_MINUS)
+  @Size(max = StringLengths.MEDIUM, message = "{error.atomicQuestion.id.size}")
+  @Pattern(regexp = Patterns.GERMAN_ALPHANUMERIC_WITH_SPACE_AND_MINUS, 
+      message = "{error.atomicQuestion.id.pattern}")
   private String id;
 
-  @AtomicQuestionTypeConsistence
+  @AtomicQuestionTypeConsistence(message = 
+      "{error.atomicQuestion.type.atomicQuestionTypeConsistence}")
   private I18nString type;
 
   @NotEmpty(message = "{error.atomicQuestion.name.isEmpty}")
-  @Size(max = StringLengths.SMALL)
+  @Size(max = StringLengths.SMALL, message = "{error.atomicQuestion.name.size}")
   private String name;
 
-  @NotEmpty(message = "{error.atomicQuestion.compositequestionname.isEmpty}")
-  @Size(max = StringLengths.SMALL)
+  @NotEmpty(message = "{error.atomicQuestion.compositeQuestionName.isEmpty}")
+  @Size(max = StringLengths.SMALL, message = "{error.atomicQuestion.compositeQuestionName.size}")
   private String compositeQuestionName;
 
-  @I18nStringSize(max = StringLengths.LARGE)
+  @I18nStringSize(max = StringLengths.LARGE, message = "{error.atomicQuestion.footnote.size}")
   private I18nString footnote;
 
-  @I18nStringSize(max = StringLengths.LARGE)
+  @I18nStringSize(max = StringLengths.LARGE, message = "{error.atomicQuestion.questionText.size}")
   private I18nString questionText;
 
-  @I18nStringSize(max = StringLengths.LARGE)
+  @I18nStringSize(max = StringLengths.LARGE, message = "{error.atomicQuestion.instruction.size}")
   private I18nString instruction;
 
-  @I18nStringSize(max = StringLengths.LARGE)
+  @I18nStringSize(max = StringLengths.LARGE, message = "{error.atomicQuestion.introduction.size}")
   private I18nString introduction;
 
-  @I18nStringSize(max = StringLengths.MEDIUM)
+  @I18nStringSize(max = StringLengths.MEDIUM, message = "{error.atomicQuestion.sectionHeader.size}")
   private I18nString sectionHeader;
 
   
