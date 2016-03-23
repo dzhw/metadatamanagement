@@ -26,17 +26,17 @@ import net.karneim.pojobuilder.GeneratePojoBuilder;
 public class Release {
   
   @NotEmpty(message = "{error.release.version.isEmpty}")
-  @Size(max = StringLengths.SMALL)
-  @Pattern(regexp = Patterns.NUMERIC_WITH_DOT)
+  @Size(max = StringLengths.SMALL, message = "{error.release.version.size}")
+  @Pattern(regexp = Patterns.NUMERIC_WITH_DOT, message = "{error.release.version.pattern}")
   private String version;
 
-  @Size(max = StringLengths.MEDIUM)
+  @Size(max = StringLengths.MEDIUM, message = "{error.release.doi.size}")
   private String doi;
 
   @NotNull(message = "{error.release.date.isEmpty}")
   private ZonedDateTime date;
 
-  @I18nStringSize(max = StringLengths.LARGE)
+  @I18nStringSize(max = StringLengths.LARGE, message = "{error.release.notes.size}")
   private I18nString notes;
 
   /*
