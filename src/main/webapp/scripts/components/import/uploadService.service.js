@@ -1,12 +1,13 @@
 /*jshint loopfunc: true */
+/* global saveAs */
 'use strict';
 angular.module('metadatamanagementApp').service('UploadService',
 function($q, $translate, DataSetsParser, DataSetDeleteResource,
   SurveysParser, SurveyDeleteResource, AtomicQuestionsParser,
-  AtomicQuestionDeleteResource, ExcelReader, CustomModal) {
+  AtomicQuestionDeleteResource, FileResource, ExcelReader,
+  CustomModal, Upload) {
   var objects = [];
-  var uploadState = {
-  };
+  var uploadState = {};
   var initUploadState = function() {
     uploadState.errors = 0;
     uploadState.successes = 0;
@@ -14,6 +15,7 @@ function($q, $translate, DataSetsParser, DataSetDeleteResource,
     uploadState.itemsToUpload = 0;
     uploadState.progress = 0;
     uploadState.uploadedDomainObject = '';
+    uploadState.disableButton = false;
     uploadState.logMessages = [{
             message: $translate.instant('metadatamanagementApp.' +
                 'dataAcquisitionProject.detail.logMessages.intro') +
@@ -92,6 +94,7 @@ function($q, $translate, DataSetsParser, DataSetDeleteResource,
     return defer.promise;
   };
   var uploadObjects = function() {
+    uploadState.disableButton = true;
     for (var i = 0; i < objects.length; i++) {
       if (!objects[i].id || objects[i].id === '') {
         uploadState.pushError($translate.instant(
@@ -113,6 +116,7 @@ function($q, $translate, DataSetsParser, DataSetDeleteResource,
         uploadState.pushError(error);
         if (uploadState.progress >= uploadState.itemsToUpload) {
           uploadState.hasFinished = true;
+          uploadState.disableButton = false;
         }
       });
       }
@@ -131,7 +135,7 @@ function($q, $translate, DataSetsParser, DataSetDeleteResource,
             AtomicQuestionDeleteResource.deleteByDataAcquisitionProjectId({
                 dataAcquisitionProjectId: dataAcquisitionProjectId},
                 uploadObjects, function(error) {
-                  console.log(error);
+                  uploadState.pushError(error);
                 });
           });
         }
@@ -153,7 +157,7 @@ function($q, $translate, DataSetsParser, DataSetDeleteResource,
             SurveyDeleteResource.deleteByDataAcquisitionProjectId({
                 dataAcquisitionProjectId: dataAcquisitionProjectId},
                 uploadObjects, function(error) {
-                  console.log(error);
+                  uploadState.pushError(error);
                 });
           });
         }
@@ -165,7 +169,42 @@ function($q, $translate, DataSetsParser, DataSetDeleteResource,
   var uploadVariables = function() {
 
   };
-  var uploadTexFile = function() {
+  var uploadTexTemplate = function(file, dataAcquisitionProjectId) {
+    if (file !== null) {
+      //Upload Tex-File with freemarker commands
+      initUploadState();
+      uploadState.itemsToUpload = 1;
+      uploadState.disableButton = true;
+      Upload.upload({
+          url: 'api/data-sets/report',
+          fields: {
+            'id': dataAcquisitionProjectId
+          },
+          file: file
+            //Upload and document could filled with data successfully
+        }).success(function(gridFsFileName) {
+          //Download automaticly data filled tex template
+          FileResource.download({
+            fileName: gridFsFileName
+          }, function(data) {
+            saveAs(data.response, dataAcquisitionProjectId +
+              '_Report.tex');
+            uploadState.progress++;
+            uploadState.successes++;
+            uploadState.disableButton = false;
+          });
+          //Server hat issues with the tex file, send error to error output
+        }).error(function(error) {
+          uploadState.progress++;
+          uploadState.errors++;
+          var endErrorIndex = error.message.indexOf('----');
+          var messageShort = error.message.substr(0, endErrorIndex).trim();
+          uploadState.pushError(messageShort);
+          uploadState.disableButton = false;
+        });
+    }else {
+      uploadState.pushError({});
+    }
 
   };
   var uploadDataSets = function(file, dataAcquisitionProjectId) {
@@ -181,7 +220,7 @@ function($q, $translate, DataSetsParser, DataSetDeleteResource,
             DataSetDeleteResource.deleteByDataAcquisitionProjectId({
                 dataAcquisitionProjectId: dataAcquisitionProjectId},
                 uploadObjects, function(error) {
-                  console.log(error);
+                  uploadState.pushError(error);
                 });
           });
         }
@@ -192,7 +231,7 @@ function($q, $translate, DataSetsParser, DataSetDeleteResource,
   };
   initUploadState();
   return {
-    uploadTexFile: uploadTexFile,
+    uploadTexTemplate: uploadTexTemplate,
     uploadVariables: uploadVariables,
     uploadSurveys: uploadSurveys,
     uploadDataSets: uploadDataSets,

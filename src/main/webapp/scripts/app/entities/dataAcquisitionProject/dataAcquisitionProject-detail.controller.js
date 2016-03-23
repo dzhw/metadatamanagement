@@ -15,6 +15,9 @@ angular.module('metadatamanagementApp')
         UploadService.uploadAtomicQuestions(file,
           $scope.dataAcquisitionProject.id);
       };
+      $scope.uploadTexTemplate = function(file) {
+        UploadService.uploadTexTemplate(file,$scope.dataAcquisitionProject.id);
+      };
       $scope.$watch('uploadState.progress', function() {
         if ($scope.uploadState.hasFinished) {
           $scope.$broadcast($scope.uploadState.uploadedDomainObject);
@@ -22,8 +25,7 @@ angular.module('metadatamanagementApp')
       });
       /*ToDO*/
       /*
-      Variables Import,
-      Tex Files Download
+      Variables Import
       */
 
     });

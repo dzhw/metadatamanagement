@@ -105,20 +105,20 @@
                           <span data-translate="entity.action.back">
                               Back</span>
                       </button>
-                      <button type="file" class="btn btn-default" ngf-select="onTexTemplateUpload($file)" accept=".tex" ng-disabled="uploadStatus.disableButton">
+                      <button type="file" class="btn btn-default" ngf-select="uploadTexTemplate($file)" accept=".tex" ng-disabled="uploadState.disableButton">
                           <span class="glyphicon glyphicon-book"></span>
                           {{'metadatamanagementApp.dataAcquisitionProject.detail.generate' | translate}}
                       </button>
-                      <button type="file" class="btn btn-default" ngf-select="uploadSurveys($file)" accept=".xlsx" ng-disabled="uploadStatus.disableButton">
+                      <button type="file" class="btn btn-default" ngf-select="uploadSurveys($file)" accept=".xlsx" ng-disabled="uploadState.disableButton">
                           <span class="glyphicon glyphicon-cloud-upload"></span>
                           {{'metadatamanagementApp.dataAcquisitionProject.detail.upload.surveys' | translate}}</button>
-                      <button type="file" class="btn btn-default" ngf-select="uploadDataSets($file)" accept=".xlsx" ng-disabled="uploadStatus.disableButton">
+                      <button type="file" class="btn btn-default" ngf-select="uploadDataSets($file)" accept=".xlsx" ng-disabled="uploadState.disableButton">
                               <span class="glyphicon glyphicon-cloud-upload"></span>
                               {{'metadatamanagementApp.dataAcquisitionProject.detail.upload.datasets' | translate}}</button>
-                      <button type="file" class="btn btn-default" ngf-select="onVariablesUpload($file)" accept=".zip" ng-disabled="uploadStatus.disableButton">
+                      <button type="file" class="btn btn-default" ngf-select="onVariablesUpload($file)" accept=".zip" ng-disabled="uploadState.disableButton">
                               <span class="glyphicon glyphicon-cloud-upload"></span>
                               {{'metadatamanagementApp.dataAcquisitionProject.detail.upload.variables' | translate}}</button>
-                      <button type="file" class="btn btn-default" ngf-select="uploadAtomicQuestions($file)" accept=".xlsx" ng-disabled="uploadStatus.disableButton">
+                      <button type="file" class="btn btn-default" ngf-select="uploadAtomicQuestions($file)" accept=".xlsx" ng-disabled="uploadState.disableButton">
                               <span class="glyphicon glyphicon-cloud-upload"></span>
                               {{'metadatamanagementApp.dataAcquisitionProject.detail.upload.atomicQuestion' | translate}}</button>
                   </div>
