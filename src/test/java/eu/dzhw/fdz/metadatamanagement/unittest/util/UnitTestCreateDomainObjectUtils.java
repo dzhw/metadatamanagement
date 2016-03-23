@@ -116,7 +116,7 @@ public class UnitTestCreateDomainObjectUtils {
       .withSectionHeader(new I18nStringBuilder().withDe("De Kapitelüberschrift")
         .withEn("En Section header")
         .build())
-      .withType(AtomicQuestionTypes.open)
+      .withType(AtomicQuestionTypes.OPEN)
       .withVariableId(variableId)
       .build();
   }
