@@ -18,6 +18,9 @@ angular.module('metadatamanagementApp')
       $scope.uploadTexTemplate = function(file) {
         UploadService.uploadTexTemplate(file,$scope.dataAcquisitionProject.id);
       };
+      $scope.uploadVariables = function(file) {
+        UploadService.uploadVariables(file,$scope.dataAcquisitionProject.id);
+      };
       $scope.$watch('uploadState.progress', function() {
         if ($scope.uploadState.hasFinished) {
           $scope.$broadcast($scope.uploadState.uploadedDomainObject);

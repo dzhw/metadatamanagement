@@ -4,8 +4,8 @@
 angular.module('metadatamanagementApp').service('UploadService',
 function($q, $translate, DataSetsParser, DataSetDeleteResource,
   SurveysParser, SurveyDeleteResource, AtomicQuestionsParser,
-  AtomicQuestionDeleteResource, FileResource, ExcelReader,
-  CustomModal, Upload) {
+  AtomicQuestionDeleteResource, VariablesParser, VariableDeleteResource,
+  FileResource, ExcelReader, CustomModal, Upload, ZipReader) {
   var objects = [];
   var uploadState = {};
   var initUploadState = function() {
@@ -136,6 +136,7 @@ function($q, $translate, DataSetsParser, DataSetDeleteResource,
                 dataAcquisitionProjectId: dataAcquisitionProjectId},
                 uploadObjects, function(error) {
                   uploadState.pushError(error);
+                  uploadState.disableButton = false;
                 });
           });
         }
@@ -158,6 +159,7 @@ function($q, $translate, DataSetsParser, DataSetDeleteResource,
                 dataAcquisitionProjectId: dataAcquisitionProjectId},
                 uploadObjects, function(error) {
                   uploadState.pushError(error);
+                  uploadState.disableButton = false;
                 });
           });
         }
@@ -166,8 +168,29 @@ function($q, $translate, DataSetsParser, DataSetDeleteResource,
       uploadState.pushError({});
     }
   };
-  var uploadVariables = function() {
-
+  var uploadVariables = function(file, dataAcquisitionProjectId) {
+    if (file !== null) {
+      showModal(dataAcquisitionProjectId, 'Variables').then(
+        function(returnValue) {
+        if (returnValue) {
+          ZipReader.readZipFileAsync(file)
+             .then(function(files) {
+               objects = VariablesParser.getVariables(files,
+                 dataAcquisitionProjectId);
+               uploadState.itemsToUpload = objects.length;
+               uploadState.uploadedDomainObject = 'variables-uploaded';
+               VariableDeleteResource.deleteByDataAcquisitionProjectId({
+                     dataAcquisitionProjectId: dataAcquisitionProjectId},
+                     uploadObjects, function(error) {
+                       uploadState.pushError(error);
+                       uploadState.disableButton = false;
+                     });
+             });
+        }
+      });
+    }else {
+      uploadState.pushError({});
+    }
   };
   var uploadTexTemplate = function(file, dataAcquisitionProjectId) {
     if (file !== null) {
@@ -222,6 +245,7 @@ function($q, $translate, DataSetsParser, DataSetDeleteResource,
                 dataAcquisitionProjectId: dataAcquisitionProjectId},
                 uploadObjects, function(error) {
                   uploadState.pushError(error);
+                  uploadState.disableButton = false;
                 });
           });
         }
