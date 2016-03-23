@@ -6,7 +6,7 @@ function() {
     restrict: 'E',
     templateUrl: 'scripts/app/entities/atomicQuestion/' +
       'atomicQuestion.list.html.tmpl',
-    controller: 'AtomicQuetionListController',
+    controller: 'AtomicQuestionListController',
     scope: {
       params: '=',
       currentLanguage: '=',

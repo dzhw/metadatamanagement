@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('metadatamanagementApp')
-    .controller('AtomicQuetionListController', function($scope,
+    .controller('AtomicQuestionListController', function($scope,
       AtomicQuestionCollection) {
       $scope.init = function() {
         $scope.pageState = {

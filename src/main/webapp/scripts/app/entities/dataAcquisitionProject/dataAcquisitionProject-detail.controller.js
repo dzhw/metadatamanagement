@@ -25,10 +25,4 @@ angular.module('metadatamanagementApp')
         if ($scope.uploadState.hasFinished) {
           $scope.$broadcast($scope.uploadState.uploadedDomainObject);
         }
-      });
-      /*ToDO*/
-      /*
-      Variables Import
-      */
-
-    });
+      });});
