@@ -117,7 +117,7 @@ public class UnitTestCreateDomainObjectUtils {
         .withEn("En Section header")
         .build())
       .withType(AtomicQuestionTypes.OPEN)
-      .withVariableId(variableId)
+      .withVariableId(variableId).withId(projectId + "-" + variableId)
       .build();
   }
 

@@ -16,7 +16,7 @@ import javax.validation.Payload;
  *
  */
 @Documented
-@Constraint(validatedBy = {I18nStringSizeValidator.class})
+@Constraint(validatedBy = {ValidIdNameValidator.class})
 @Target({ElementType.TYPE})
 @Retention(RetentionPolicy.RUNTIME)
 public @interface ValidIdName {
