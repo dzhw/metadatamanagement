@@ -109,6 +109,7 @@ function($q, $translate, DataSetsParser, DataSetDeleteResource,
         uploadState.successes++;
         if (uploadState.progress >= uploadState.itemsToUpload) {
           uploadState.hasFinished = true;
+          uploadState.disableButton = false;
         }
       }).catch(function(error) {
         uploadState.progress++;
@@ -216,6 +217,7 @@ function($q, $translate, DataSetsParser, DataSetDeleteResource,
             uploadState.progress++;
             uploadState.errors++;
             uploadState.pushError(error);
+            uploadState.disableButton = false;
           });
           //Server hat issues with the tex file, send error to error output
         }).error(function(error) {
