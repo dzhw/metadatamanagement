@@ -40,8 +40,8 @@ variableExample2.json,variables/FDZID_Variable_002
 variableExample3.json,variables/FDZID_Variable_003
 questionnaireExample.json,questionnaires/QuestionnaireId001
 dataSetExample.json,data_sets/DataSet_001
-atomicQuestionExample.json,atomic_questions/AtomicQuestion_001
-atomicQuestionExample2.json,atomic_questions/AtomicQuestion_002
+atomicQuestionExample.json,atomic_questions/AtomicQuestion001
+atomicQuestionExample2.json,atomic_questions/AtomicQuestion002
 conceptExample.json,concepts/ConceptId001
 bibliographicalReferenceExample.json,bibliographical_references/Reference001"
 

@@ -184,14 +184,15 @@ function($q, $translate, DataSetsParser, DataSetDeleteResource,
             //Upload and document could filled with data successfully
         }).success(function(gridFsFileName) {
           //Download automaticly data filled tex template
-          FileResource.download({
-            fileName: gridFsFileName
-          }, function(data) {
-            saveAs(data.response, dataAcquisitionProjectId +
-              '_Report.tex');
+          FileResource.download(gridFsFileName).then(function(response) {
+            saveAs(response.data.blob, file.name);
             uploadState.progress++;
             uploadState.successes++;
             uploadState.disableButton = false;
+          }).catch(function(error) {
+            uploadState.progress++;
+            uploadState.errors++;
+            uploadState.pushError(error);
           });
           //Server hat issues with the tex file, send error to error output
         }).error(function(error) {

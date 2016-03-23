@@ -1,4 +1,5 @@
 {
+  "id": "DataSet_001",	
   "dataAcquisitionProjectId": "ATestProject",
   "surveyIds": [
   	"FDZID001"
@@ -13,6 +14,5 @@
     "VariableId_003",
     "VariableId_004",
     "VariableId_005"
-
   ]
 }

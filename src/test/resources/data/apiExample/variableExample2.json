@@ -1,6 +1,7 @@
 {
+  "id": "FDZID_Variable_002",	
   "name": "A_Variable_Test2",
-  "atomicQuestionId": "AtomicQuestion_002",
+  "atomicQuestionId": "AtomicQuestion002",
   "dataType": {
     "de": "string",
     "en": "string"
@@ -20,19 +21,12 @@
     "de": "Eine weitere deutsche Beschreibung.",
     "en": "A different english description."
   },
-  "filterExpression": "FilterCode A3222",
-  "filterDescription": {
-    "de": "Dies ist ein A3222 Filter.",
-    "en": "This is a A3222 filter."
-  },
   "accessWays": [
     "cuf",
     "remote"
   ],
-  "filterExpressionLanguage": "stata",
-
   "values": [{
-    "code": "1828.172",
+    "code": "1828",
     "label": {
       "de": "Label A",
       "en": "Lable A"
@@ -42,7 +36,7 @@
     "isAMissing": "false",
     "valueClass": "Any Class"
   }, {
-    "code": "5451.181",
+    "code": "5451",
     "label": {
       "de": "Label B",
       "en": "Lable B"
@@ -52,7 +46,7 @@
     "isAMissing": "false",
     "valueClass": "Any Class"
   }, {
-    "code": "9171.11",
+    "code": "9171",
     "label": {
       "de": "Label C",
       "en": "Lable C"
@@ -62,7 +56,7 @@
     "isAMissing": "false",
     "valueClass": "Any Class"
   }, {
-    "code": "8982.43",
+    "code": "8982",
     "label": {
       "de": "",
       "en": "Lable D"
@@ -72,7 +66,7 @@
     "isAMissing": "false",
     "valueClass": "Any Class"
   }, {
-    "code": "3287.40",
+    "code": "3287",
     "label": {
       "de": "Label E",
       "en": ""

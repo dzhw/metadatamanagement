@@ -5,7 +5,6 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.io.Writer;
-import java.nio.charset.Charset;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -93,7 +92,7 @@ public class VariableReportService {
 
     // Write output to output stream
     ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-    Writer fileWriter = new OutputStreamWriter(byteArrayOutputStream, Charset.defaultCharset());
+    Writer fileWriter = new OutputStreamWriter(byteArrayOutputStream, "UTF-8");
     Map<String, Object> dataForTemplate = this.loadDataForTemplateFilling(dataAcquisitionProjectId);
     texTemplate.process(dataForTemplate, fileWriter);
 
