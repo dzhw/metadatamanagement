@@ -223,6 +223,30 @@ public class AtomicQuestionResourceTest extends AbstractTest {
   }
 
   @Test
+  public void testCreateAtomicQuestionWithoutType() throws Exception {
+    // Arrange
+    DataAcquisitionProject project = UnitTestCreateDomainObjectUtils.buildDataAcquisitionProject();
+    this.dataAcquisitionProjectRepository.save(project);
+
+    Variable variable = UnitTestCreateDomainObjectUtils.buildVariable(project.getId(), null);
+    this.variableRepository.save(variable);
+
+    Questionnaire questionnaire =
+        UnitTestCreateDomainObjectUtils.buildQuestionnaire(project.getId());
+    this.questionnaireRepository.save(questionnaire);
+
+    AtomicQuestion atomicQuestion = UnitTestCreateDomainObjectUtils
+      .buildAtomicQuestion(project.getId(), questionnaire.getId(), variable.getId());
+    atomicQuestion.setType(null);
+
+    // Act and Assert
+    // create the variable with the given id
+    mockMvc.perform(put(API_ATOMICQUESTIONS_URI + "/" + atomicQuestion.getId())
+      .content(TestUtil.convertObjectToJsonBytes(atomicQuestion)))
+      .andExpect(status().isCreated());
+  }
+
+  @Test
   public void testDeletingProjectDeletesAtomicQuestion() throws Exception {
     // Arrange
     DataAcquisitionProject project = UnitTestCreateDomainObjectUtils.buildDataAcquisitionProject();

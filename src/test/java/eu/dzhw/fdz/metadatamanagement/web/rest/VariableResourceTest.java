@@ -13,6 +13,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import java.io.IOException;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.junit.After;
@@ -159,8 +160,257 @@ public class VariableResourceTest extends AbstractTest {
       .andExpect(status().isBadRequest());
   }
 
+  @Test
+  public void testCreateVariableWithoutScaleLevel() throws Exception {
+    DataAcquisitionProject project = new DataAcquisitionProjectBuilder().withId("testProject")
+      .withSurveySeries(new I18nStringBuilder().build())
+      .withPanelName(new I18nStringBuilder().build())
+      .build();
+    dataAcquisitionProjectRepository.save(project);
+
+    Survey survey = new SurveyBuilder().withId("testSurvey")
+      .withDataAcquisitionProjectId(project.getId())
+      .withFieldPeriod(new PeriodBuilder().withStart(LocalDate.now())
+        .withEnd(LocalDate.now())
+        .build())
+      .withTitle(new I18nStringBuilder().withDe("Titel")
+        .withEn("title")
+        .build())
+      .withQuestionnaireId("QuestionnaireId")
+      .build();
+    surveyRepository.save(survey);
+
+    Variable variable =
+        UnitTestCreateDomainObjectUtils.buildVariable(project.getId(), survey.getId());
+    variable.setScaleLevel(null);
+
+    // create the variable with a survey but without a project
+    mockMvc.perform(put(API_VARIABLES_URI + "/" + variable.getId())
+      .content(TestUtil.convertObjectToJsonBytes(variable)))
+      .andExpect(status().isBadRequest());
+  }
+
+  @Test
+  public void testCreateVariableWithInvalidScaleLevel() throws Exception {
+    DataAcquisitionProject project = new DataAcquisitionProjectBuilder().withId("testProject")
+      .withSurveySeries(new I18nStringBuilder().build())
+      .withPanelName(new I18nStringBuilder().build())
+      .build();
+    dataAcquisitionProjectRepository.save(project);
+
+    Survey survey = new SurveyBuilder().withId("testSurvey")
+      .withDataAcquisitionProjectId(project.getId())
+      .withFieldPeriod(new PeriodBuilder().withStart(LocalDate.now())
+        .withEnd(LocalDate.now())
+        .build())
+      .withTitle(new I18nStringBuilder().withDe("Titel")
+        .withEn("title")
+        .build())
+      .withQuestionnaireId("QuestionnaireId")
+      .build();
+    surveyRepository.save(survey);
+
+    Variable variable =
+        UnitTestCreateDomainObjectUtils.buildVariable(project.getId(), survey.getId());
+    variable.setScaleLevel(new I18nStringBuilder().withDe("InvalidValue")
+      .withEn("InvalidValue")
+      .build());
+
+    // create the variable with a survey but without a project
+    mockMvc.perform(put(API_VARIABLES_URI + "/" + variable.getId())
+      .content(TestUtil.convertObjectToJsonBytes(variable)))
+      .andExpect(status().isBadRequest());
+  }
+
+  @Test
+  public void testCreateVariableWithoutDataType() throws Exception {
+    DataAcquisitionProject project = new DataAcquisitionProjectBuilder().withId("testProject")
+      .withSurveySeries(new I18nStringBuilder().build())
+      .withPanelName(new I18nStringBuilder().build())
+      .build();
+    dataAcquisitionProjectRepository.save(project);
+
+    Survey survey = new SurveyBuilder().withId("testSurvey")
+      .withDataAcquisitionProjectId(project.getId())
+      .withFieldPeriod(new PeriodBuilder().withStart(LocalDate.now())
+        .withEnd(LocalDate.now())
+        .build())
+      .withTitle(new I18nStringBuilder().withDe("Titel")
+        .withEn("title")
+        .build())
+      .withQuestionnaireId("QuestionnaireId")
+      .build();
+    surveyRepository.save(survey);
+
+    Variable variable =
+        UnitTestCreateDomainObjectUtils.buildVariable(project.getId(), survey.getId());
+    variable.setDataType(null);
+
+    // create the variable with a survey but without a project
+    mockMvc.perform(put(API_VARIABLES_URI + "/" + variable.getId())
+      .content(TestUtil.convertObjectToJsonBytes(variable)))
+      .andExpect(status().isBadRequest());
+  }
+
+  @Test
+  public void testCreateVariableWithInvalidDataType() throws Exception {
+    DataAcquisitionProject project = new DataAcquisitionProjectBuilder().withId("testProject")
+      .withSurveySeries(new I18nStringBuilder().build())
+      .withPanelName(new I18nStringBuilder().build())
+      .build();
+    dataAcquisitionProjectRepository.save(project);
+
+    Survey survey = new SurveyBuilder().withId("testSurvey")
+      .withDataAcquisitionProjectId(project.getId())
+      .withFieldPeriod(new PeriodBuilder().withStart(LocalDate.now())
+        .withEnd(LocalDate.now())
+        .build())
+      .withTitle(new I18nStringBuilder().withDe("Titel")
+        .withEn("title")
+        .build())
+      .withQuestionnaireId("QuestionnaireId")
+      .build();
+    surveyRepository.save(survey);
+
+    Variable variable =
+        UnitTestCreateDomainObjectUtils.buildVariable(project.getId(), survey.getId());
+    variable.setDataType(new I18nStringBuilder().withDe("InvalidValue")
+      .withEn("InvalidValue")
+      .build());
+
+    // create the variable with a survey but without a project
+    mockMvc.perform(put(API_VARIABLES_URI + "/" + variable.getId())
+      .content(TestUtil.convertObjectToJsonBytes(variable)))
+      .andExpect(status().isBadRequest());
+  }
+
+  @Test
+  public void testCreateVariableWithoutAccessWays() throws Exception {
+    DataAcquisitionProject project = new DataAcquisitionProjectBuilder().withId("testProject")
+      .withSurveySeries(new I18nStringBuilder().build())
+      .withPanelName(new I18nStringBuilder().build())
+      .build();
+    dataAcquisitionProjectRepository.save(project);
+
+    Survey survey = new SurveyBuilder().withId("testSurvey")
+      .withDataAcquisitionProjectId(project.getId())
+      .withFieldPeriod(new PeriodBuilder().withStart(LocalDate.now())
+        .withEnd(LocalDate.now())
+        .build())
+      .withTitle(new I18nStringBuilder().withDe("Titel")
+        .withEn("title")
+        .build())
+      .withQuestionnaireId("QuestionnaireId")
+      .build();
+    surveyRepository.save(survey);
+
+    Variable variable =
+        UnitTestCreateDomainObjectUtils.buildVariable(project.getId(), survey.getId());
+    variable.setAccessWays(null);
+
+    // create the variable with a survey but without a project
+    mockMvc.perform(put(API_VARIABLES_URI + "/" + variable.getId())
+      .content(TestUtil.convertObjectToJsonBytes(variable)))
+      .andExpect(status().isCreated());
+  }
+
+  @Test
+  public void testCreateVariableWithInvalidAccessWays() throws Exception {
+    DataAcquisitionProject project = new DataAcquisitionProjectBuilder().withId("testProject")
+      .withSurveySeries(new I18nStringBuilder().build())
+      .withPanelName(new I18nStringBuilder().build())
+      .build();
+    dataAcquisitionProjectRepository.save(project);
+
+    Survey survey = new SurveyBuilder().withId("testSurvey")
+      .withDataAcquisitionProjectId(project.getId())
+      .withFieldPeriod(new PeriodBuilder().withStart(LocalDate.now())
+        .withEnd(LocalDate.now())
+        .build())
+      .withTitle(new I18nStringBuilder().withDe("Titel")
+        .withEn("title")
+        .build())
+      .withQuestionnaireId("QuestionnaireId")
+      .build();
+    surveyRepository.save(survey);
+
+    List<String> accessWays = new ArrayList<String>();
+    accessWays.add("WrongAccessWay");
+    Variable variable =
+        UnitTestCreateDomainObjectUtils.buildVariable(project.getId(), survey.getId());
+    variable.setAccessWays(accessWays);
+
+    // create the variable with a survey but without a project
+    mockMvc.perform(put(API_VARIABLES_URI + "/" + variable.getId())
+      .content(TestUtil.convertObjectToJsonBytes(variable)))
+      .andExpect(status().isBadRequest());
+  }
+
+  @Test
+  public void testCreateVariableWithNoMinusInId() throws Exception {
+    DataAcquisitionProject project = new DataAcquisitionProjectBuilder().withId("testProject")
+      .withSurveySeries(new I18nStringBuilder().build())
+      .withPanelName(new I18nStringBuilder().build())
+      .build();
+    dataAcquisitionProjectRepository.save(project);
+
+    Survey survey = new SurveyBuilder().withId("testSurvey")
+      .withDataAcquisitionProjectId(project.getId())
+      .withFieldPeriod(new PeriodBuilder().withStart(LocalDate.now())
+        .withEnd(LocalDate.now())
+        .build())
+      .withTitle(new I18nStringBuilder().withDe("Titel")
+        .withEn("title")
+        .build())
+      .withQuestionnaireId("QuestionnaireId")
+      .build();
+    surveyRepository.save(survey);
+
+    Variable variable =
+        UnitTestCreateDomainObjectUtils.buildVariable(project.getId(), survey.getId());
+    // No Minus!
+    variable.setId(project.getId() + variable.getName());
+
+    // create the variable with a survey but without a project
+    mockMvc.perform(put(API_VARIABLES_URI + "/" + variable.getId())
+      .content(TestUtil.convertObjectToJsonBytes(variable)))
+      .andExpect(status().isBadRequest());
+  }
+
+  @Test
+  public void testCreateVariableWithInvalidId() throws Exception {
+    DataAcquisitionProject project = new DataAcquisitionProjectBuilder().withId("testProject")
+      .withSurveySeries(new I18nStringBuilder().build())
+      .withPanelName(new I18nStringBuilder().build())
+      .build();
+    dataAcquisitionProjectRepository.save(project);
+
+    Survey survey = new SurveyBuilder().withId("testSurvey")
+      .withDataAcquisitionProjectId(project.getId())
+      .withFieldPeriod(new PeriodBuilder().withStart(LocalDate.now())
+        .withEnd(LocalDate.now())
+        .build())
+      .withTitle(new I18nStringBuilder().withDe("Titel")
+        .withEn("title")
+        .build())
+      .withQuestionnaireId("QuestionnaireId")
+      .build();
+    surveyRepository.save(survey);
+
+    Variable variable =
+        UnitTestCreateDomainObjectUtils.buildVariable(project.getId(), survey.getId());
+    // 123 at the end is too much
+    variable.setId(project.getId() + "-" + variable.getName() + "123");
+
+    // create the variable with a survey but without a project
+    mockMvc.perform(put(API_VARIABLES_URI + "/" + variable.getId())
+      .content(TestUtil.convertObjectToJsonBytes(variable)))
+      .andExpect(status().isBadRequest());
+  }
+
+
   //@Test
-  //TODO Activate after written Validation
+  // TODO Activate after written Validation
   public void testCreateVariableWithDuplicateNameWithinProject() throws Exception {
     DataAcquisitionProject project = new DataAcquisitionProjectBuilder().withId("testProject")
       .withSurveySeries(new I18nStringBuilder().build())
@@ -276,6 +526,10 @@ public class VariableResourceTest extends AbstractTest {
     surveyRepository.save(survey);
 
     Variable variable = UnitTestCreateDomainObjectUtils.buildVariable(project.getId(), survey.getId());
+    // change scale level (code coverage)
+    variable.setScaleLevel(new I18nStringBuilder().withDe(ScaleLevels.ORDINAL.getDe())
+      .withEn(ScaleLevels.ORDINAL.getEn())
+      .build());
 
     // create the variable with the given id
     mockMvc.perform(put(API_VARIABLES_URI + "/" + variable.getId())
@@ -324,6 +578,13 @@ public class VariableResourceTest extends AbstractTest {
 
     variable.setLabel(new I18nStringBuilder().withDe("modified")
       .withEn("modified")
+      .build());
+    // with other scale level and data type (code coverage)
+    variable.setScaleLevel(new I18nStringBuilder().withDe(ScaleLevels.NOMINAL.getDe())
+      .withEn(ScaleLevels.NOMINAL.getEn())
+      .build());
+    variable.setDataType(new I18nStringBuilder().withDe(DataTypes.STRING.getDe())
+      .withEn(DataTypes.STRING.getEn())
       .build());
 
     // update the variable with the given id
