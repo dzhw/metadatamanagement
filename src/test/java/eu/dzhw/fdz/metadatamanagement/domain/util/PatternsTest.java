@@ -102,4 +102,32 @@ public class PatternsTest {
     assertThat(validGermanUmlaut, is(true));
   }
 
+  @Test
+  public void testAlphaNumericWithUnderscoreNoNumberAsFirstSign() {
+    // Arrange
+
+    // Act
+    boolean valid =
+        Pattern.matches(Patterns.ALPHANUMERIC_WITH_UNDERSCORE_NO_NUMBER_AS_FIRST_SIGN, "Abc_123");
+    boolean validUnderscoreAtEnd =
+        Pattern.matches(Patterns.ALPHANUMERIC_WITH_UNDERSCORE_NO_NUMBER_AS_FIRST_SIGN, "Abc123_");
+    boolean validUnderscoreAtFront =
+        Pattern.matches(Patterns.ALPHANUMERIC_WITH_UNDERSCORE_NO_NUMBER_AS_FIRST_SIGN, "_Abc123");
+    boolean invalidSpace =
+        Pattern.matches(Patterns.ALPHANUMERIC_WITH_UNDERSCORE_NO_NUMBER_AS_FIRST_SIGN, "Abc 123");
+    boolean invalidGermanUmlaut =
+        Pattern.matches(Patterns.ALPHANUMERIC_WITH_UNDERSCORE_NO_NUMBER_AS_FIRST_SIGN, "Äbc123");
+    boolean invalidNumberAsFirstSign =
+        Pattern.matches(Patterns.ALPHANUMERIC_WITH_UNDERSCORE_NO_NUMBER_AS_FIRST_SIGN, "1Abc_23");
+
+
+    // Assert
+    assertThat(valid, is(true));
+    assertThat(validUnderscoreAtEnd, is(true));
+    assertThat(validUnderscoreAtFront, is(true));
+    assertThat(invalidSpace, is(false));
+    assertThat(invalidGermanUmlaut, is(false));
+    assertThat(invalidNumberAsFirstSign, is(false));
+  }
+
 }

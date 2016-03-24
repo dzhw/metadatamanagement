@@ -16,10 +16,10 @@ import javax.validation.Payload;
  *
  */
 @Documented
-@Constraint(validatedBy = {ValidIdNameValidator.class})
+@Constraint(validatedBy = {ValidAtomicQuestionIdNameValidator.class})
 @Target({ElementType.TYPE})
 @Retention(RetentionPolicy.RUNTIME)
-public @interface ValidIdName {
+public @interface ValidAtomicQuestionIdName {
 
   /**
    * Defines the default error message.

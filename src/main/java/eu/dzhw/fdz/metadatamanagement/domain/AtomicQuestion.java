@@ -11,10 +11,10 @@ import org.springframework.data.mongodb.core.mapping.Document;
 import com.google.common.base.MoreObjects;
 
 import eu.dzhw.fdz.metadatamanagement.domain.util.Patterns;
-import eu.dzhw.fdz.metadatamanagement.domain.validation.ValidAtomicQuestionType;
 import eu.dzhw.fdz.metadatamanagement.domain.validation.I18nStringSize;
 import eu.dzhw.fdz.metadatamanagement.domain.validation.StringLengths;
-import eu.dzhw.fdz.metadatamanagement.domain.validation.ValidIdName;
+import eu.dzhw.fdz.metadatamanagement.domain.validation.ValidAtomicQuestionIdName;
+import eu.dzhw.fdz.metadatamanagement.domain.validation.ValidAtomicQuestionType;
 import net.karneim.pojobuilder.GeneratePojoBuilder;
 
 /**
@@ -26,7 +26,7 @@ import net.karneim.pojobuilder.GeneratePojoBuilder;
 @Document(collection = "atomic_questions")
 @GeneratePojoBuilder(intoPackage = "eu.dzhw.fdz.metadatamanagement.domain.builders")
 @CompoundIndex(def = "{name: 1, questionnaireId: 1}", unique = true)
-@ValidIdName(message = "{error.atomicQuestion.validIdName}")
+@ValidAtomicQuestionIdName(message = "{error.atomicQuestion.validAtomicQuestionIdName}")
 public class AtomicQuestion extends AbstractRdcDomainObject {
 
   /* Domain model attributes */

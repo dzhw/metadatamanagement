@@ -48,7 +48,7 @@ public class Variable extends AbstractRdcDomainObjectWithProjectSurvey {
   
   @NotEmpty(message = "{error.variable.name.isEmpty}")
   @Size(max = StringLengths.SMALL)
-  @Pattern(regexp = Patterns.ALPHANUMERIC_WITH_UNDERSCORE)
+  @Pattern(regexp = Patterns.ALPHANUMERIC_WITH_UNDERSCORE_NO_NUMBER_AS_FIRST_SIGN)
   private String name;  
 
   @NotNull(message = "{error.variable.label.isEmpty}")

@@ -14,14 +14,15 @@ import eu.dzhw.fdz.metadatamanagement.domain.AtomicQuestion;
  * @author Daniel Katzberg
  *
  */
-public class ValidIdNameValidator implements ConstraintValidator<ValidIdName, AtomicQuestion> {
+public class ValidAtomicQuestionIdNameValidator
+    implements ConstraintValidator<ValidAtomicQuestionIdName, AtomicQuestion> {
 
   /*
    * (non-Javadoc)
    * @see javax.validation.ConstraintValidator#initialize(java.lang.annotation.Annotation)
    */
   @Override
-  public void initialize(ValidIdName constraintAnnotation) {}
+  public void initialize(ValidAtomicQuestionIdName constraintAnnotation) {}
 
   /*
    * (non-Javadoc)
