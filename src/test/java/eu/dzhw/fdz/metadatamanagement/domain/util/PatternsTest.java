@@ -32,7 +32,7 @@ public class PatternsTest {
     //Assert
     assertThat(valid, is(true));
     assertThat(validDotAtEnd, is(true));
-    assertThat(validDotAtFront, is(true));
+    assertThat(validDotAtFront, is(false));
     assertThat(invalidSpace, is(false));
     assertThat(invalidSign, is(false));
     assertThat(invalidLetter, is(false));
@@ -65,18 +65,16 @@ public class PatternsTest {
     //Arrange
     
     //Act    
-    boolean valid = Pattern.matches(Patterns.GERMAN_ALPHANUMERIC_WITH_SPACE, "Abc 123");
-    boolean validSpaceAtEnd = Pattern.matches(Patterns.GERMAN_ALPHANUMERIC_WITH_SPACE, "Abc123 ");
-    boolean validSpaceAtFront = Pattern.matches(Patterns.GERMAN_ALPHANUMERIC_WITH_SPACE, " Abc123");
-    boolean invalidUnderscore = Pattern.matches(Patterns.GERMAN_ALPHANUMERIC_WITH_SPACE, "Abc_123");
-    boolean validGermanUmlaut = Pattern.matches(Patterns.GERMAN_ALPHANUMERIC_WITH_SPACE, "Äbc 123");
+    boolean valid = Pattern.matches(Patterns.GERMAN_ALPHANUMERIC, "Abc123");
+    boolean invalidUnderscore = Pattern.matches(Patterns.GERMAN_ALPHANUMERIC, "Abc_123");
+    boolean invalidSpace = Pattern.matches(Patterns.GERMAN_ALPHANUMERIC, "Abc 123");
+    boolean validGermanUmlaut = Pattern.matches(Patterns.GERMAN_ALPHANUMERIC, "Äbc123");
     
     
     //Assert
     assertThat(valid, is(true));
-    assertThat(validSpaceAtEnd, is(true));
-    assertThat(validSpaceAtFront, is(true));
     assertThat(invalidUnderscore, is(false));
+    assertThat(invalidSpace, is(false));
     assertThat(validGermanUmlaut, is(true));
   }
   

@@ -1,5 +1,6 @@
 package eu.dzhw.fdz.metadatamanagement.web.rest;
 
+import static org.hamcrest.CoreMatchers.containsString;
 import static org.hamcrest.Matchers.is;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -22,6 +23,7 @@ import eu.dzhw.fdz.metadatamanagement.AbstractTest;
 import eu.dzhw.fdz.metadatamanagement.domain.DataAcquisitionProject;
 import eu.dzhw.fdz.metadatamanagement.domain.builders.DataAcquisitionProjectBuilder;
 import eu.dzhw.fdz.metadatamanagement.domain.builders.I18nStringBuilder;
+import eu.dzhw.fdz.metadatamanagement.domain.validation.StringLengths;
 import eu.dzhw.fdz.metadatamanagement.repository.DataAcquisitionProjectRepository;
 
 /**
@@ -81,7 +83,7 @@ public class DataAcquisitionProjectResourceTest extends AbstractTest {
     // create the project with the given id
     mockMvc.perform(put(API_DATA_ACQUISITION_PROJECTS_URI + "/" + project.getId())
       .content(TestUtil.convertObjectToJsonBytes(project)))
-      .andExpect(status().is4xxClientError());
+      .andExpect(status().is4xxClientError()).andExpect(jsonPath("$.errors[0].message", containsString(String.valueOf(StringLengths.SMALL))));
   }
   
   @Test
