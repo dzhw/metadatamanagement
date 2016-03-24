@@ -28,4 +28,7 @@ public interface VariableRepository
   @RestResource(exported = false)
   List<Variable> findByDataAcquisitionProjectId(String dataAcquisitionProjectId);
 
+  @RestResource(exported = false)
+  List<Variable> findByDataAcquisitionProjectIdAndName(String dataAcquisitionProjectId,
+      String name);
 }

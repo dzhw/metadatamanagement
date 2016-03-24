@@ -409,8 +409,7 @@ public class VariableResourceTest extends AbstractTest {
   }
 
 
-  //@Test
-  // TODO Activate after written Validation
+  @Test
   public void testCreateVariableWithDuplicateNameWithinProject() throws Exception {
     DataAcquisitionProject project = new DataAcquisitionProjectBuilder().withId("testProject")
       .withSurveySeries(new I18nStringBuilder().build())
@@ -438,9 +437,11 @@ public class VariableResourceTest extends AbstractTest {
       .andExpect(status().isCreated());
 
     Variable variable2 = UnitTestCreateDomainObjectUtils.buildVariable(project.getId(), survey.getId());
+    variable2.setId(project.getId() + "-AnotherName");
+    variable2.setName(variable.getName());
 
     // create the second variable with the same name
-    mockMvc.perform(put(API_VARIABLES_URI + "/" + variable2.getId())
+    mockMvc.perform(put(API_VARIABLES_URI + "/" + variable2.getId())// push to variables 1 field
       .content(TestUtil.convertObjectToJsonBytes(variable2)))
       .andExpect(status().is4xxClientError());
   }

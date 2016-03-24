@@ -16,6 +16,7 @@ import com.google.common.base.MoreObjects;
 import eu.dzhw.fdz.metadatamanagement.domain.util.Patterns;
 import eu.dzhw.fdz.metadatamanagement.domain.validation.I18nStringSize;
 import eu.dzhw.fdz.metadatamanagement.domain.validation.StringLengths;
+import eu.dzhw.fdz.metadatamanagement.domain.validation.UniqueVariableNameInProject;
 import eu.dzhw.fdz.metadatamanagement.domain.validation.ValidAccessWays;
 import eu.dzhw.fdz.metadatamanagement.domain.validation.ValidDataType;
 import eu.dzhw.fdz.metadatamanagement.domain.validation.ValidScaleLevel;
@@ -32,6 +33,7 @@ import net.karneim.pojobuilder.GeneratePojoBuilder;
 @GeneratePojoBuilder(intoPackage = "eu.dzhw.fdz.metadatamanagement.domain.builders")
 @CompoundIndex(def = "{name: 1, dataAcquisitionProjectId: 1}", unique = true)
 @ValidVariableIdName(message = "{error.variable.validVariableName}")
+@UniqueVariableNameInProject(message = "{error.variable.uniqueVariableNameInProject}")
 public class Variable extends AbstractRdcDomainObjectWithProjectSurvey {
 
   /* Domain Object listed attributes */
