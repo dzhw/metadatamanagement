@@ -31,37 +31,39 @@ import net.karneim.pojobuilder.GeneratePojoBuilder;
 @Document(collection = "variables")
 @GeneratePojoBuilder(intoPackage = "eu.dzhw.fdz.metadatamanagement.domain.builders")
 @CompoundIndex(def = "{name: 1, dataAcquisitionProjectId: 1}", unique = true)
-@ValidVariableIdName
+@ValidVariableIdName(message = "{error.variable.validVariableName}")
 public class Variable extends AbstractRdcDomainObjectWithProjectSurvey {
 
   /* Domain Object listed attributes */
   @Id
   @NotEmpty(message = "{error.variable.id.isEmpty}")
-  @Size(max = StringLengths.MEDIUM)
-  @Pattern(regexp = Patterns.GERMAN_ALPHANUMERIC_WITH_UNDERSCORE_AND_MINUS)
+  @Size(max = StringLengths.MEDIUM, message = "{error.variable.id.size}")
+  @Pattern(regexp = Patterns.GERMAN_ALPHANUMERIC_WITH_UNDERSCORE_AND_MINUS,
+      message = "{error.variable.id.pattern}")
   private String id;
 
-  @NotNull(message = "{error.variable.name.isEmpty}")
-  @ValidDataType
+  @NotNull(message = "{error.variable.dataType.isEmpty}")
+  @ValidDataType(message = "{error.variable.dataType.validDataType}")
   private I18nString dataType;
 
   @NotNull(message = "{error.variable.scaleLevel.isEmpty}")
-  @ValidScaleLevel
+  @ValidScaleLevel(message = "{error.variable.scaleLevel.validScaleLevel}")
   private I18nString scaleLevel;
   
   @NotEmpty(message = "{error.variable.name.isEmpty}")
-  @Size(max = StringLengths.SMALL)
-  @Pattern(regexp = Patterns.ALPHANUMERIC_WITH_UNDERSCORE_NO_NUMBER_AS_FIRST_SIGN)
+  @Size(max = StringLengths.SMALL, message = "{error.variable.name.size}")
+  @Pattern(regexp = Patterns.ALPHANUMERIC_WITH_UNDERSCORE_NO_NUMBER_AS_FIRST_SIGN,
+      message = "{error.variable.name.pattern}")
   private String name;  
 
   @NotNull(message = "{error.variable.label.isEmpty}")
-  @I18nStringSize(max = StringLengths.MEDIUM)
+  @I18nStringSize(max = StringLengths.MEDIUM, message = "{error.variable.label.size}")
   private I18nString label;
   
-  @I18nStringSize(max = StringLengths.LARGE)
+  @I18nStringSize(max = StringLengths.LARGE, message = "{error.variable.description.size}")
   private I18nString description;
   
-  @ValidAccessWays
+  @ValidAccessWays(message = "{error.variable.accessWays.validAccessWays}")
   private List<String> accessWays;
   
 
