@@ -15,8 +15,8 @@ import eu.dzhw.fdz.metadatamanagement.domain.I18nString;
  * @author Daniel Katzberg
  *
  */
-public class AtomicQuestionTypeConsistenceValidator  
-    implements ConstraintValidator<AtomicQuestionTypeConsistence, I18nString> { 
+public class ValidAtomicQuestionTypeValidator  
+    implements ConstraintValidator<ValidAtomicQuestionType, I18nString> { 
 
 
   /*
@@ -24,7 +24,7 @@ public class AtomicQuestionTypeConsistenceValidator
    * @see javax.validation.ConstraintValidator#initialize(java.lang.annotation.Annotation)
    */
   @Override
-  public void initialize(AtomicQuestionTypeConsistence constraintAnnotation) {}
+  public void initialize(ValidAtomicQuestionType constraintAnnotation) {}
 
   /*
    * (non-Javadoc)

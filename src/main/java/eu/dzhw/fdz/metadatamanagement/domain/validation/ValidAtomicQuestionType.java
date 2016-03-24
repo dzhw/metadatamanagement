@@ -18,10 +18,10 @@ import javax.validation.Payload;
  *
  */
 @Documented
-@Constraint(validatedBy = {AtomicQuestionTypeConsistenceValidator.class})
+@Constraint(validatedBy = {ValidAtomicQuestionTypeValidator.class})
 @Target({ElementType.FIELD})
 @Retention(RetentionPolicy.RUNTIME)
-public @interface AtomicQuestionTypeConsistence {
+public @interface ValidAtomicQuestionType {
   
   /**
    * Defines the default error message.

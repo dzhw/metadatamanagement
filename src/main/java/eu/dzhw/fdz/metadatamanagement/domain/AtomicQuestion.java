@@ -11,7 +11,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 import com.google.common.base.MoreObjects;
 
 import eu.dzhw.fdz.metadatamanagement.domain.util.Patterns;
-import eu.dzhw.fdz.metadatamanagement.domain.validation.AtomicQuestionTypeConsistence;
+import eu.dzhw.fdz.metadatamanagement.domain.validation.ValidAtomicQuestionType;
 import eu.dzhw.fdz.metadatamanagement.domain.validation.I18nStringSize;
 import eu.dzhw.fdz.metadatamanagement.domain.validation.StringLengths;
 import eu.dzhw.fdz.metadatamanagement.domain.validation.ValidIdName;
@@ -37,7 +37,7 @@ public class AtomicQuestion extends AbstractRdcDomainObject {
       message = "{error.atomicQuestion.id.pattern}")
   private String id;
 
-  @AtomicQuestionTypeConsistence(message = 
+  @ValidAtomicQuestionType(message = 
       "{error.atomicQuestion.type.atomicQuestionTypeConsistence}")
   private I18nString type;
 
