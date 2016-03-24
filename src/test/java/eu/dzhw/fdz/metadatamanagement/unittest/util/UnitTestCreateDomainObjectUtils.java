@@ -134,9 +134,10 @@ public class UnitTestCreateDomainObjectUtils {
     List<String> withSameVariablesInPanel = new ArrayList<>();
     List<Value> withValues = new ArrayList<>();
     withValues.add(buildValueBuilder());
+    String name = "name";
 
     // Create Variable
-    return new VariableBuilder().withId("testVariable")
+    return new VariableBuilder().withId(projectId + "-" + name)
       .withDataType(DataTypes.NUMERIC)
       .withScaleLevel(ScaleLevels.CONTINOUS)
       .withDataAcquisitionProjectId(projectId)
@@ -144,7 +145,7 @@ public class UnitTestCreateDomainObjectUtils {
       .withLabel(new I18nStringBuilder().withDe("label")
         .withEn("label")
         .build())
-      .withName("name")
+      .withName(name)
       .withAccessWays(accessWays)
       .withDescription(new I18nStringBuilder().withDe("De Beschreibung")
         .withEn("En Description")

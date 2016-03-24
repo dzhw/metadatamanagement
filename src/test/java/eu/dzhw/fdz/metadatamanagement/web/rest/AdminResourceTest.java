@@ -18,19 +18,17 @@ import org.springframework.web.util.NestedServletException;
 
 import eu.dzhw.fdz.metadatamanagement.AbstractTest;
 import eu.dzhw.fdz.metadatamanagement.domain.DataAcquisitionProject;
-import eu.dzhw.fdz.metadatamanagement.domain.DataTypes;
-import eu.dzhw.fdz.metadatamanagement.domain.ScaleLevels;
 import eu.dzhw.fdz.metadatamanagement.domain.Survey;
 import eu.dzhw.fdz.metadatamanagement.domain.Variable;
 import eu.dzhw.fdz.metadatamanagement.domain.builders.DataAcquisitionProjectBuilder;
 import eu.dzhw.fdz.metadatamanagement.domain.builders.I18nStringBuilder;
 import eu.dzhw.fdz.metadatamanagement.domain.builders.PeriodBuilder;
 import eu.dzhw.fdz.metadatamanagement.domain.builders.SurveyBuilder;
-import eu.dzhw.fdz.metadatamanagement.domain.builders.VariableBuilder;
 import eu.dzhw.fdz.metadatamanagement.repository.DataAcquisitionProjectRepository;
 import eu.dzhw.fdz.metadatamanagement.repository.SurveyRepository;
 import eu.dzhw.fdz.metadatamanagement.repository.VariableRepository;
 import eu.dzhw.fdz.metadatamanagement.service.ElasticsearchAdminService;
+import eu.dzhw.fdz.metadatamanagement.unittest.util.UnitTestCreateDomainObjectUtils;
 import eu.dzhw.fdz.metadatamanagement.unittest.util.UnitTestUserManagementUtils;
 
 public class AdminResourceTest extends AbstractTest {
@@ -109,14 +107,8 @@ public class AdminResourceTest extends AbstractTest {
       .build();
     surveyRepository.save(survey);
 
-    Variable variable = new VariableBuilder().withDataAcquisitionProjectId(project.getId())
-      .withSurveyId(survey.getId())
-      .withId("testId")
-      .withLabel(new I18nStringBuilder().withDe("label").withEn("label").build())
-      .withName("name")
-      .withScaleLevel(ScaleLevels.NOMINAL)
-      .withDataType(DataTypes.NUMERIC)
-      .build();
+    Variable variable =
+        UnitTestCreateDomainObjectUtils.buildVariable(project.getId(), survey.getId());
     variableRepository.save(variable);
 
     // test recreation of all elasticsearch indices with previously created variable

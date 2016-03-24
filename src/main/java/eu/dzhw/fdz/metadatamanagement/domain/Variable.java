@@ -16,8 +16,10 @@ import com.google.common.base.MoreObjects;
 import eu.dzhw.fdz.metadatamanagement.domain.util.Patterns;
 import eu.dzhw.fdz.metadatamanagement.domain.validation.I18nStringSize;
 import eu.dzhw.fdz.metadatamanagement.domain.validation.StringLengths;
+import eu.dzhw.fdz.metadatamanagement.domain.validation.ValidAccessWays;
 import eu.dzhw.fdz.metadatamanagement.domain.validation.ValidDataType;
 import eu.dzhw.fdz.metadatamanagement.domain.validation.ValidScaleLevel;
+import eu.dzhw.fdz.metadatamanagement.domain.validation.ValidVariableIdName;
 import net.karneim.pojobuilder.GeneratePojoBuilder;
 
 /**
@@ -29,6 +31,7 @@ import net.karneim.pojobuilder.GeneratePojoBuilder;
 @Document(collection = "variables")
 @GeneratePojoBuilder(intoPackage = "eu.dzhw.fdz.metadatamanagement.domain.builders")
 @CompoundIndex(def = "{name: 1, dataAcquisitionProjectId: 1}", unique = true)
+@ValidVariableIdName
 public class Variable extends AbstractRdcDomainObjectWithProjectSurvey {
 
   /* Domain Object listed attributes */
@@ -58,6 +61,7 @@ public class Variable extends AbstractRdcDomainObjectWithProjectSurvey {
   @I18nStringSize(max = StringLengths.LARGE)
   private I18nString description;
   
+  @ValidAccessWays
   private List<String> accessWays;
   
 

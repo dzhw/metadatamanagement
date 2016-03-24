@@ -9,31 +9,34 @@ import java.lang.annotation.Target;
 import javax.validation.Constraint;
 import javax.validation.Payload;
 
+import eu.dzhw.fdz.metadatamanagement.domain.AccessWays;
+
 /**
- * Annotation for the validation of the id. It has to be by the pattern: 
- * DataAcquisitionProjectId-VariableName.
+ * Annotation for the validator for the access ways. Only values are allowes which are defined in
+ * the {@link AccessWays}
+ * 
  * @author Daniel Katzberg
  *
  */
 @Documented
-@Constraint(validatedBy = {ValidAtomicQuestionIdNameValidator.class})
-@Target({ElementType.TYPE})
+@Constraint(validatedBy = {ValidAccessWaysValidator.class})
+@Target({ElementType.FIELD})
 @Retention(RetentionPolicy.RUNTIME)
-public @interface ValidAtomicQuestionIdName {
+public @interface ValidAccessWays {
 
   /**
    * Defines the default error message.
    */
   public abstract String message() default "{eu.dzhw.fdz.metadatamanagement.domain.validation."
-      + "validatomicquestionidname.message}";
-  
+      + "validaccessways.message}";
+
   /**
    * This contains groups.
    */
-  public Class<?>[]groups() default {};
-  
+  public Class<?>[] groups() default {};
+
   /**
    * This method contains the payload.
    */
-  public Class<? extends Payload>[]payload() default {};
+  public Class<? extends Payload>[] payload() default {};
 }
