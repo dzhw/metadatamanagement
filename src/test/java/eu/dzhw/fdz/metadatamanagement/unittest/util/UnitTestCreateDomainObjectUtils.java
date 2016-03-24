@@ -22,7 +22,7 @@ import eu.dzhw.fdz.metadatamanagement.domain.GenerationDetails;
 import eu.dzhw.fdz.metadatamanagement.domain.Questionnaire;
 import eu.dzhw.fdz.metadatamanagement.domain.Release;
 import eu.dzhw.fdz.metadatamanagement.domain.RuleExpressionLanguages;
-import eu.dzhw.fdz.metadatamanagement.domain.ScaleLevel;
+import eu.dzhw.fdz.metadatamanagement.domain.ScaleLevels;
 import eu.dzhw.fdz.metadatamanagement.domain.Statistics;
 import eu.dzhw.fdz.metadatamanagement.domain.Survey;
 import eu.dzhw.fdz.metadatamanagement.domain.Value;
@@ -137,8 +137,8 @@ public class UnitTestCreateDomainObjectUtils {
 
     // Create Variable
     return new VariableBuilder().withId("testVariable")
-      .withDataType(DataTypes.numeric)
-      .withScaleLevel(ScaleLevel.continous)
+      .withDataType(DataTypes.NUMERIC)
+      .withScaleLevel(ScaleLevels.CONTINOUS)
       .withDataAcquisitionProjectId(projectId)
       .withSurveyId(surveyId)
       .withLabel(new I18nStringBuilder().withDe("label")

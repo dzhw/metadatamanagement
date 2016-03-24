@@ -28,7 +28,7 @@ import com.google.gson.JsonSyntaxException;
 import eu.dzhw.fdz.metadatamanagement.AbstractTest;
 import eu.dzhw.fdz.metadatamanagement.domain.DataAcquisitionProject;
 import eu.dzhw.fdz.metadatamanagement.domain.DataTypes;
-import eu.dzhw.fdz.metadatamanagement.domain.ScaleLevel;
+import eu.dzhw.fdz.metadatamanagement.domain.ScaleLevels;
 import eu.dzhw.fdz.metadatamanagement.domain.Survey;
 import eu.dzhw.fdz.metadatamanagement.domain.Variable;
 import eu.dzhw.fdz.metadatamanagement.domain.builders.DataAcquisitionProjectBuilder;
@@ -371,8 +371,8 @@ public class VariableResourceTest extends AbstractTest {
     surveyRepository.save(survey);
 
     Variable variable = new VariableBuilder().withId("testVariable")
-      .withDataType(DataTypes.numeric)
-      .withScaleLevel(ScaleLevel.continous)
+      .withDataType(DataTypes.NUMERIC)
+      .withScaleLevel(ScaleLevels.CONTINOUS)
       .withDataAcquisitionProjectId(project.getId())
       .withSurveyId(survey.getId())
       .withLabel(new I18nStringBuilder().withDe("label")

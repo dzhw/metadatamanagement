@@ -9,7 +9,7 @@ import static org.junit.Assert.assertThat;
 import org.junit.Test;
 
 import eu.dzhw.fdz.metadatamanagement.domain.DataTypes;
-import eu.dzhw.fdz.metadatamanagement.domain.ScaleLevel;
+import eu.dzhw.fdz.metadatamanagement.domain.ScaleLevels;
 import eu.dzhw.fdz.metadatamanagement.domain.Variable;
 import eu.dzhw.fdz.metadatamanagement.domain.builders.I18nStringBuilder;
 import eu.dzhw.fdz.metadatamanagement.domain.builders.VariableBuilder;
@@ -29,8 +29,8 @@ public class VariableSearchDocumentTest {
       .withName("WithTestName")
       .withDataAcquisitionProjectId("ProjectIdTest")
       .withLabel(new I18nStringBuilder().withDe("TestLabel").withEn("TestLabel").build())
-      .withScaleLevel(ScaleLevel.ordinal)
-      .withDataType(DataTypes.string)
+      .withScaleLevel(ScaleLevels.ORDINAL)
+      .withDataType(DataTypes.STRING)
       .build();
     VariableSearchDocument searchDocument =
         new VariableSearchDocument(variable, null, ElasticsearchIndices.METADATA_EN);
@@ -64,8 +64,8 @@ public class VariableSearchDocumentTest {
       .withName("WithTestName")
       .withDataAcquisitionProjectId("ProjectIdTest")
       .withLabel(new I18nStringBuilder().withDe("TestLabel").withEn("TestLabel").build())
-      .withScaleLevel(ScaleLevel.ordinal)
-      .withDataType(DataTypes.string)
+      .withScaleLevel(ScaleLevels.ORDINAL)
+      .withDataType(DataTypes.STRING)
       .build();
     VariableSearchDocument searchDocument =
         new VariableSearchDocument(variable, null, ElasticsearchIndices.METADATA_DE);

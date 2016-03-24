@@ -9,34 +9,33 @@ import java.lang.annotation.Target;
 import javax.validation.Constraint;
 import javax.validation.Payload;
 
+import eu.dzhw.fdz.metadatamanagement.domain.ScaleLevels;
+
 /**
- * Annotation for the validation of the consistence of given types. 
- * Is english 'open' and german 'offen' set at same time? If it is not, 
- * the validation going be wrong.
+ * Annotation for the validator of the scale level. Only values from the class {@link ScaleLevels}
+ * are allowed.
  * 
  * @author Daniel Katzberg
  *
  */
 @Documented
-@Constraint(validatedBy = {ValidAtomicQuestionTypeValidator.class})
+@Constraint(validatedBy = {ValidScaleLevelValidator.class})
 @Target({ElementType.FIELD})
 @Retention(RetentionPolicy.RUNTIME)
-public @interface ValidAtomicQuestionType {
-  
+public @interface ValidScaleLevel {
   /**
    * Defines the default error message.
    */
   public abstract String message() default "{eu.dzhw.fdz.metadatamanagement.domain.validation."
-      + "validatomicquestiontype.message}";
-  
+      + "validscalelevel.message}";
+
   /**
    * This contains groups.
    */
-  public Class<?>[]groups() default {};
-  
+  public Class<?>[] groups() default {};
+
   /**
    * This method contains the payload.
    */
   public Class<? extends Payload>[] payload() default {};
-
 }

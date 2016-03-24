@@ -16,6 +16,8 @@ import com.google.common.base.MoreObjects;
 import eu.dzhw.fdz.metadatamanagement.domain.util.Patterns;
 import eu.dzhw.fdz.metadatamanagement.domain.validation.I18nStringSize;
 import eu.dzhw.fdz.metadatamanagement.domain.validation.StringLengths;
+import eu.dzhw.fdz.metadatamanagement.domain.validation.ValidDataType;
+import eu.dzhw.fdz.metadatamanagement.domain.validation.ValidScaleLevel;
 import net.karneim.pojobuilder.GeneratePojoBuilder;
 
 /**
@@ -37,9 +39,11 @@ public class Variable extends AbstractRdcDomainObjectWithProjectSurvey {
   private String id;
 
   @NotNull(message = "{error.variable.name.isEmpty}")
+  @ValidDataType
   private I18nString dataType;
 
   @NotNull(message = "{error.variable.scaleLevel.isEmpty}")
+  @ValidScaleLevel
   private I18nString scaleLevel;
   
   @NotEmpty(message = "{error.variable.name.isEmpty}")

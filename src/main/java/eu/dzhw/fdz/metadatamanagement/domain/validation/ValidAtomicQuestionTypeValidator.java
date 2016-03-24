@@ -33,7 +33,12 @@ public class ValidAtomicQuestionTypeValidator
    */
   @Override
   public boolean isValid(I18nString type, ConstraintValidatorContext context) {
-            
+
+    // Check for emptyness
+    if (type == null) {
+      return true;
+    }
+
     //english and german have correct values, but are they consistent?
     //open
     if (type.getDe().equals(AtomicQuestionTypes.OPEN.getDe()) 

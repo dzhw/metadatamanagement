@@ -9,34 +9,33 @@ import java.lang.annotation.Target;
 import javax.validation.Constraint;
 import javax.validation.Payload;
 
+import eu.dzhw.fdz.metadatamanagement.domain.DataTypes;
+
 /**
- * Annotation for the validation of the consistence of given types. 
- * Is english 'open' and german 'offen' set at same time? If it is not, 
- * the validation going be wrong.
+ * Annotation for the validator for the data type. 
+ * Only values of the {@link DataTypes} Strings are allowed.
  * 
  * @author Daniel Katzberg
  *
  */
 @Documented
-@Constraint(validatedBy = {ValidAtomicQuestionTypeValidator.class})
+@Constraint(validatedBy = {ValidDataTypeValidator.class})
 @Target({ElementType.FIELD})
 @Retention(RetentionPolicy.RUNTIME)
-public @interface ValidAtomicQuestionType {
-  
+public @interface ValidDataType {
   /**
    * Defines the default error message.
    */
   public abstract String message() default "{eu.dzhw.fdz.metadatamanagement.domain.validation."
-      + "validatomicquestiontype.message}";
-  
+      + "validdatatype.message}";
+
   /**
    * This contains groups.
    */
-  public Class<?>[]groups() default {};
-  
+  public Class<?>[] groups() default {};
+
   /**
    * This method contains the payload.
    */
   public Class<? extends Payload>[] payload() default {};
-
 }
