@@ -311,7 +311,7 @@ public class VariableResourceTest extends AbstractTest {
     // create the variable with a survey but without a project
     mockMvc.perform(put(API_VARIABLES_URI + "/" + variable.getId())
       .content(TestUtil.convertObjectToJsonBytes(variable)))
-      .andExpect(status().isCreated());
+      .andExpect(status().isBadRequest());
   }
 
   @Test

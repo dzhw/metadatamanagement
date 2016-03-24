@@ -1,8 +1,6 @@
 
 package eu.dzhw.fdz.metadatamanagement.domain;
 
-import org.hibernate.validator.constraints.NotEmpty;
-
 import com.google.common.base.MoreObjects;
 
 import net.karneim.pojobuilder.GeneratePojoBuilder;
@@ -16,7 +14,6 @@ import net.karneim.pojobuilder.GeneratePojoBuilder;
 @GeneratePojoBuilder(intoPackage = "eu.dzhw.fdz.metadatamanagement.domain.builders")
 public class Value {
 
-  @NotEmpty(message = "{error.value.code}")
   private Integer code;
 
   private I18nString label;

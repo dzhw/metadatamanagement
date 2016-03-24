@@ -65,6 +65,7 @@ public class Variable extends AbstractRdcDomainObjectWithProjectSurvey {
   @I18nStringSize(max = StringLengths.LARGE, message = "{error.variable.description.size}")
   private I18nString description;
   
+  // checks for min size too.
   @ValidAccessWays(message = "{error.variable.accessWays.validAccessWays}")
   private List<String> accessWays;
   

@@ -36,7 +36,12 @@ public class ValidAccessWaysValidator
 
     // check for empty list
     if (accessWays == null) {
-      return true;
+      return false;
+    }
+
+    // min size = 1!
+    if (accessWays.size() == 0) {
+      return false;
     }
 
     // check all access ways
