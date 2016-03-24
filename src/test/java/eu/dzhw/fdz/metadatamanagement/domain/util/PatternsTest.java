@@ -81,23 +81,23 @@ public class PatternsTest {
   }
   
   @Test
-  public void testGermanAlphaNumericWithSpaceAndMinus() {
+  public void testGermanAlphaNumericWithUnderscoreAndMinus() {
     //Arrange
     
     //Act    
-    boolean valid = Pattern.matches(Patterns.GERMAN_ALPHANUMERIC_WITH_SPACE_AND_MINUS, "Abc 123");
-    boolean validSpaceAtEnd = Pattern.matches(Patterns.GERMAN_ALPHANUMERIC_WITH_SPACE_AND_MINUS, "Abc123 ");
-    boolean validSpaceAtFront = Pattern.matches(Patterns.GERMAN_ALPHANUMERIC_WITH_SPACE_AND_MINUS, " Abc123");
-    boolean invalidUnderscore = Pattern.matches(Patterns.GERMAN_ALPHANUMERIC_WITH_SPACE_AND_MINUS, "Abc_123");
-    boolean validMinus = Pattern.matches(Patterns.GERMAN_ALPHANUMERIC_WITH_SPACE_AND_MINUS, "Abc-123");
-    boolean validGermanUmlaut = Pattern.matches(Patterns.GERMAN_ALPHANUMERIC_WITH_SPACE_AND_MINUS, "Äbc 123");
+    boolean valid = Pattern.matches(Patterns.GERMAN_ALPHANUMERIC_WITH_UNDERSCORE_AND_MINUS, "Abc_123");
+    boolean validUnderscoreAtEnd = Pattern.matches(Patterns.GERMAN_ALPHANUMERIC_WITH_UNDERSCORE_AND_MINUS, "-Abc123_");
+    boolean validUnderscoreAtFront = Pattern.matches(Patterns.GERMAN_ALPHANUMERIC_WITH_UNDERSCORE_AND_MINUS, "_Abc123-");
+    boolean validMinus = Pattern.matches(Patterns.GERMAN_ALPHANUMERIC_WITH_UNDERSCORE_AND_MINUS, "Abc-123");
+    boolean invalidSpace = Pattern.matches(Patterns.GERMAN_ALPHANUMERIC_WITH_UNDERSCORE_AND_MINUS, "Abc 123");
+    boolean validGermanUmlaut = Pattern.matches(Patterns.GERMAN_ALPHANUMERIC_WITH_UNDERSCORE_AND_MINUS, "Äbc123");
     
     
     //Assert
     assertThat(valid, is(true));
-    assertThat(validSpaceAtEnd, is(true));
-    assertThat(validSpaceAtFront, is(true));
-    assertThat(invalidUnderscore, is(false));
+    assertThat(validUnderscoreAtEnd, is(true));
+    assertThat(validUnderscoreAtFront, is(true));
+    assertThat(invalidSpace, is(false));
     assertThat(validMinus, is(true));
     assertThat(validGermanUmlaut, is(true));
   }

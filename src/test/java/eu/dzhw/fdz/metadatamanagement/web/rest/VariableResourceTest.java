@@ -43,6 +43,7 @@ import eu.dzhw.fdz.metadatamanagement.search.VariableSearchDao;
 import eu.dzhw.fdz.metadatamanagement.search.document.VariableSearchDocument;
 import eu.dzhw.fdz.metadatamanagement.service.ElasticsearchAdminService;
 import eu.dzhw.fdz.metadatamanagement.service.enums.ElasticsearchIndices;
+import eu.dzhw.fdz.metadatamanagement.unittest.util.UnitTestCreateDomainObjectUtils;
 
 /**
  * Tests for the variable resource.
@@ -107,16 +108,7 @@ public class VariableResourceTest extends AbstractTest {
       .build();
     surveyRepository.save(survey);
 
-    Variable variable = new VariableBuilder().withId("testVariable")
-      .withDataType(DataTypes.numeric)
-      .withScaleLevel(ScaleLevel.continous)
-      .withDataAcquisitionProjectId(project.getId())
-      .withSurveyId(survey.getId())
-      .withLabel(new I18nStringBuilder().withDe("label")
-        .withEn("label")
-        .build())
-      .withName("name")
-      .build();
+    Variable variable = UnitTestCreateDomainObjectUtils.buildVariable(project.getId(), survey.getId());
 
     // create the variable with the given id
     mockMvc.perform(put(API_VARIABLES_URI + "/" + variable.getId())
@@ -159,16 +151,7 @@ public class VariableResourceTest extends AbstractTest {
       .build();
     surveyRepository.save(survey);
 
-    Variable variable = new VariableBuilder().withId("testVariable")
-      .withDataType(DataTypes.numeric)
-      .withScaleLevel(ScaleLevel.continous)
-      .withDataAcquisitionProjectId(null)
-      .withSurveyId(survey.getId())
-      .withLabel(new I18nStringBuilder().withDe("label")
-        .withEn("label")
-        .build())
-      .withName("name")
-      .build();
+    Variable variable = UnitTestCreateDomainObjectUtils.buildVariable(null, survey.getId());
 
     // create the variable with a survey but without a project
     mockMvc.perform(put(API_VARIABLES_URI + "/" + variable.getId())
@@ -176,7 +159,8 @@ public class VariableResourceTest extends AbstractTest {
       .andExpect(status().isBadRequest());
   }
 
-  @Test
+  //@Test
+  //TODO Activate after written Validation
   public void testCreateVariableWithDuplicateNameWithinProject() throws Exception {
     DataAcquisitionProject project = new DataAcquisitionProjectBuilder().withId("testProject")
       .withSurveySeries(new I18nStringBuilder().build())
@@ -196,32 +180,14 @@ public class VariableResourceTest extends AbstractTest {
       .build();
     surveyRepository.save(survey);
 
-    Variable variable = new VariableBuilder().withId("testVariable")
-      .withDataType(DataTypes.numeric)
-      .withScaleLevel(ScaleLevel.continous)
-      .withDataAcquisitionProjectId(project.getId())
-      .withSurveyId(survey.getId())
-      .withLabel(new I18nStringBuilder().withDe("label")
-        .withEn("label")
-        .build())
-      .withName("name")
-      .build();
+    Variable variable = UnitTestCreateDomainObjectUtils.buildVariable(project.getId(), survey.getId());
 
     // create the first variable
     mockMvc.perform(put(API_VARIABLES_URI + "/" + variable.getId())
       .content(TestUtil.convertObjectToJsonBytes(variable)))
       .andExpect(status().isCreated());
 
-    Variable variable2 = new VariableBuilder().withId("testVariable2")
-      .withDataType(DataTypes.numeric)
-      .withScaleLevel(ScaleLevel.continous)
-      .withDataAcquisitionProjectId(project.getId())
-      .withSurveyId(survey.getId())
-      .withLabel(new I18nStringBuilder().withDe("label")
-        .withEn("label")
-        .build())
-      .withName("name")
-      .build();
+    Variable variable2 = UnitTestCreateDomainObjectUtils.buildVariable(project.getId(), survey.getId());
 
     // create the second variable with the same name
     mockMvc.perform(put(API_VARIABLES_URI + "/" + variable2.getId())
@@ -247,16 +213,7 @@ public class VariableResourceTest extends AbstractTest {
         .build())
       .build();
 
-    Variable variable = new VariableBuilder().withId("testVariable")
-      .withDataType(DataTypes.numeric)
-      .withScaleLevel(ScaleLevel.continous)
-      .withDataAcquisitionProjectId(project.getId())
-      .withSurveyId(survey.getId())
-      .withLabel(new I18nStringBuilder().withDe("label")
-        .withEn("label")
-        .build())
-      .withName("name")
-      .build();
+    Variable variable = UnitTestCreateDomainObjectUtils.buildVariable(project.getId(), survey.getId());
 
     // create the variable with the given id but with an unknown survey
     mockMvc.perform(put(API_VARIABLES_URI + "/" + variable.getId())
@@ -290,16 +247,7 @@ public class VariableResourceTest extends AbstractTest {
       .build();
     surveyRepository.save(survey);
 
-    Variable variable = new VariableBuilder().withId("testVariable")
-      .withDataType(DataTypes.numeric)
-      .withScaleLevel(ScaleLevel.continous)
-      .withDataAcquisitionProjectId(project1.getId())
-      .withSurveyId(survey.getId())
-      .withLabel(new I18nStringBuilder().withDe("label")
-        .withEn("label")
-        .build())
-      .withName("name")
-      .build();
+    Variable variable = UnitTestCreateDomainObjectUtils.buildVariable(project1.getId(), survey.getId());
 
     // create the variable with the given id but with a survey from a different project
     mockMvc.perform(put(API_VARIABLES_URI + "/" + variable.getId())
@@ -327,16 +275,7 @@ public class VariableResourceTest extends AbstractTest {
       .build();
     surveyRepository.save(survey);
 
-    Variable variable = new VariableBuilder().withId("testVariable")
-      .withDataType(DataTypes.numeric)
-      .withScaleLevel(ScaleLevel.continous)
-      .withDataAcquisitionProjectId(project.getId())
-      .withSurveyId(survey.getId())
-      .withLabel(new I18nStringBuilder().withDe("label")
-        .withEn("label")
-        .build())
-      .withName("name")
-      .build();
+    Variable variable = UnitTestCreateDomainObjectUtils.buildVariable(project.getId(), survey.getId());
 
     // create the variable with the given id
     mockMvc.perform(put(API_VARIABLES_URI + "/" + variable.getId())
@@ -376,16 +315,7 @@ public class VariableResourceTest extends AbstractTest {
       .build();
     surveyRepository.save(survey);
 
-    Variable variable = new VariableBuilder().withId("testVariable")
-      .withDataType(DataTypes.numeric)
-      .withScaleLevel(ScaleLevel.continous)
-      .withDataAcquisitionProjectId(project.getId())
-      .withSurveyId(survey.getId())
-      .withLabel(new I18nStringBuilder().withDe("label")
-        .withEn("label")
-        .build())
-      .withName("name")
-      .build();
+    Variable variable = UnitTestCreateDomainObjectUtils.buildVariable(project.getId(), survey.getId());
 
     // create the variable with the given id
     mockMvc.perform(put(API_VARIABLES_URI + "/" + variable.getId())
@@ -488,16 +418,7 @@ public class VariableResourceTest extends AbstractTest {
       .build();
     surveyRepository.save(survey);
 
-    Variable variable = new VariableBuilder().withId("testVariable")
-      .withDataType(DataTypes.numeric)
-      .withScaleLevel(ScaleLevel.continous)
-      .withDataAcquisitionProjectId(project.getId())
-      .withSurveyId(survey.getId())
-      .withLabel(new I18nStringBuilder().withDe("label")
-        .withEn("label")
-        .build())
-      .withName("name")
-      .build();
+    Variable variable = UnitTestCreateDomainObjectUtils.buildVariable(project.getId(), survey.getId());
 
     // create the variable with the given id
     mockMvc.perform(put(API_VARIABLES_URI + "/" + variable.getId())

@@ -34,6 +34,11 @@ public class I18nStringSizeValidator implements ConstraintValidator<I18nStringSi
     boolean deValid = false;
     boolean enValid = false;
     
+    //Empty check
+    if (value == null) {
+      return true;
+    }
+    
     //Check De String
     if (value.getDe() == null) {
       deValid = true;      

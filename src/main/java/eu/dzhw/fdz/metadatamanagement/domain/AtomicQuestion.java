@@ -33,7 +33,7 @@ public class AtomicQuestion extends AbstractRdcDomainObject {
   @Id
   @NotEmpty(message = "{error.atomicQuestion.id.isEmpty}")
   @Size(max = StringLengths.MEDIUM, message = "{error.atomicQuestion.id.size}")
-  @Pattern(regexp = Patterns.GERMAN_ALPHANUMERIC_WITH_SPACE_AND_MINUS, 
+  @Pattern(regexp = Patterns.GERMAN_ALPHANUMERIC_WITH_UNDERSCORE_AND_MINUS, 
       message = "{error.atomicQuestion.id.pattern}")
   private String id;
 

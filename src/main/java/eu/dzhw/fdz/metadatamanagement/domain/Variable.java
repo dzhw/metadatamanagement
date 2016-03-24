@@ -14,6 +14,8 @@ import org.springframework.data.mongodb.core.mapping.Document;
 import com.google.common.base.MoreObjects;
 
 import eu.dzhw.fdz.metadatamanagement.domain.util.Patterns;
+import eu.dzhw.fdz.metadatamanagement.domain.validation.I18nStringSize;
+import eu.dzhw.fdz.metadatamanagement.domain.validation.StringLengths;
 import net.karneim.pojobuilder.GeneratePojoBuilder;
 
 /**
@@ -30,6 +32,8 @@ public class Variable extends AbstractRdcDomainObjectWithProjectSurvey {
   /* Domain Object listed attributes */
   @Id
   @NotEmpty(message = "{error.variable.id.isEmpty}")
+  @Size(max = StringLengths.MEDIUM)
+  @Pattern(regexp = Patterns.GERMAN_ALPHANUMERIC_WITH_UNDERSCORE_AND_MINUS)
   private String id;
 
   @NotNull(message = "{error.variable.name.isEmpty}")
@@ -39,15 +43,17 @@ public class Variable extends AbstractRdcDomainObjectWithProjectSurvey {
   private I18nString scaleLevel;
   
   @NotEmpty(message = "{error.variable.name.isEmpty}")
-  @Size(max = 32)
+  @Size(max = StringLengths.SMALL)
   @Pattern(regexp = Patterns.ALPHANUMERIC_WITH_UNDERSCORE)
   private String name;  
 
   @NotNull(message = "{error.variable.label.isEmpty}")
+  @I18nStringSize(max = StringLengths.MEDIUM)
   private I18nString label;
   
+  @I18nStringSize(max = StringLengths.LARGE)
   private I18nString description;
-
+  
   private List<String> accessWays;
   
 
