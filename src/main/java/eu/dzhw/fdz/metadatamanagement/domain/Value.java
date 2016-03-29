@@ -8,6 +8,7 @@ import com.google.common.base.MoreObjects;
 
 import eu.dzhw.fdz.metadatamanagement.domain.validation.I18nStringSize;
 import eu.dzhw.fdz.metadatamanagement.domain.validation.StringLengths;
+import eu.dzhw.fdz.metadatamanagement.domain.validation.ValidCodeOrValueClass;
 import net.karneim.pojobuilder.GeneratePojoBuilder;
 
 /**
@@ -17,6 +18,7 @@ import net.karneim.pojobuilder.GeneratePojoBuilder;
  * @author Daniel Katzberg
  */
 @GeneratePojoBuilder(intoPackage = "eu.dzhw.fdz.metadatamanagement.domain.builders")
+@ValidCodeOrValueClass(message = "{error.value.absoluteFrequency.validCodeOrValueClass}")
 public class Value {
 
   private Integer code;

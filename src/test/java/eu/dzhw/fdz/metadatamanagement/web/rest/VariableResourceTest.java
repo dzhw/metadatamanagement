@@ -31,6 +31,7 @@ import eu.dzhw.fdz.metadatamanagement.domain.DataAcquisitionProject;
 import eu.dzhw.fdz.metadatamanagement.domain.DataTypes;
 import eu.dzhw.fdz.metadatamanagement.domain.ScaleLevels;
 import eu.dzhw.fdz.metadatamanagement.domain.Survey;
+import eu.dzhw.fdz.metadatamanagement.domain.Value;
 import eu.dzhw.fdz.metadatamanagement.domain.Variable;
 import eu.dzhw.fdz.metadatamanagement.domain.builders.DataAcquisitionProjectBuilder;
 import eu.dzhw.fdz.metadatamanagement.domain.builders.I18nStringBuilder;
@@ -658,6 +659,53 @@ public class VariableResourceTest extends AbstractTest {
     // check that there are no variable search documents anymore
     elasticsearchAdminService.refreshAllIndices();
     assertThat(elasticsearchAdminService.countAllDocuments(), equalTo(0.0));
+  }
+
+  @Test
+  public void testValueClassAndCodeAreFilled() throws Exception {
+    //Arrange
+    DataAcquisitionProject project = UnitTestCreateDomainObjectUtils.buildDataAcquisitionProject();
+      dataAcquisitionProjectRepository.save(project);
+
+    Survey survey = UnitTestCreateDomainObjectUtils.buildSurvey(project.getId());
+      surveyRepository.save(survey);
+    Variable variable = UnitTestCreateDomainObjectUtils.buildVariable(project.getId(), survey.getId());
+    Value value = variable.getValues()
+      .get(0);
+    value.setCode(1234);
+    value.setValueClass("A Value Class");
+    variable.getValues()
+      .set(0, value);
+
+    // Act and Assert
+    // create the variable with the given id
+    mockMvc.perform(put(API_VARIABLES_URI + "/" + variable.getId())
+      .content(TestUtil.convertObjectToJsonBytes(variable)))
+      .andExpect(status().isBadRequest());
+  }
+
+  @Test
+  public void testValueClassAndCodeAreEmpty() throws Exception {
+    // Arrange
+    DataAcquisitionProject project = UnitTestCreateDomainObjectUtils.buildDataAcquisitionProject();
+    dataAcquisitionProjectRepository.save(project);
+
+    Survey survey = UnitTestCreateDomainObjectUtils.buildSurvey(project.getId());
+    surveyRepository.save(survey);
+    Variable variable =
+        UnitTestCreateDomainObjectUtils.buildVariable(project.getId(), survey.getId());
+    Value value = variable.getValues()
+      .get(0);
+    value.setCode(null);
+    value.setValueClass("");
+    variable.getValues()
+      .set(0, value);
+
+    // Act and Assert
+    // create the variable with the given id
+    mockMvc.perform(put(API_VARIABLES_URI + "/" + variable.getId())
+      .content(TestUtil.convertObjectToJsonBytes(variable)))
+      .andExpect(status().isBadRequest());
   }
 
   @Test
