@@ -79,6 +79,7 @@ public class Variable extends AbstractRdcDomainObjectWithProjectSurvey {
   
   private I18nSvg distributionSvg;
   
+  @Valid
   private FilterDetails filterDetails;
 
   private List<String> sameVariablesInPanel;

@@ -1,7 +1,14 @@
 package eu.dzhw.fdz.metadatamanagement.domain;
 
+import javax.validation.constraints.Size;
+
+import org.hibernate.validator.constraints.NotEmpty;
+
 import com.google.common.base.MoreObjects;
 
+import eu.dzhw.fdz.metadatamanagement.domain.validation.I18nStringSize;
+import eu.dzhw.fdz.metadatamanagement.domain.validation.StringLengths;
+import eu.dzhw.fdz.metadatamanagement.domain.validation.ValidFilterExpressionLanguage;
 import net.karneim.pojobuilder.GeneratePojoBuilder;
 
 /**
@@ -13,10 +20,16 @@ import net.karneim.pojobuilder.GeneratePojoBuilder;
 @GeneratePojoBuilder(intoPackage = "eu.dzhw.fdz.metadatamanagement.domain.builders")
 public class FilterDetails {
   
+  @NotEmpty(message = "{error.filterDetails.filterExpression.notEmpty}")
+  @Size(max = StringLengths.MEDIUM, message = "{error.filterDetails.filterExpression.size}")
   private String filterExpression;
 
+  @I18nStringSize(max = StringLengths.LARGE,
+      message = "{error.filterDetails.filterDescription.i18nStringSize}")
   private I18nString filterDescription;
 
+  @NotEmpty(message = "{error.filterDetails.filterExpressionLanguage.notEmpty}")
+  @ValidFilterExpressionLanguage(message = "{error.filterDetails.filterExpressionLanguage.size}")
   private String filterExpressionLanguage;
   
   /*
