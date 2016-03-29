@@ -4,6 +4,8 @@ import java.util.List;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
 
 import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.data.annotation.Id;
@@ -11,6 +13,10 @@ import org.springframework.data.mongodb.core.mapping.Document;
 
 import com.google.common.base.MoreObjects;
 
+import eu.dzhw.fdz.metadatamanagement.domain.util.Patterns;
+import eu.dzhw.fdz.metadatamanagement.domain.validation.I18nStringSize;
+import eu.dzhw.fdz.metadatamanagement.domain.validation.StringLengths;
+import eu.dzhw.fdz.metadatamanagement.domain.validation.ValidSurveyIdName;
 import net.karneim.pojobuilder.GeneratePojoBuilder;
 
 /**
@@ -20,14 +26,18 @@ import net.karneim.pojobuilder.GeneratePojoBuilder;
  */
 @Document(collection = "surveys")
 @GeneratePojoBuilder(intoPackage = "eu.dzhw.fdz.metadatamanagement.domain.builders")
+@ValidSurveyIdName(message = "{error.survey.id.validSurveyIdName}")
 public class Survey extends AbstractRdcDomainObject {
 
   /* Domain Object Attributes */
   @Id
   @NotEmpty(message = "{error.survey.id.notEmpty}")
+  @Size(max = StringLengths.MEDIUM, message = "{error.survey.id.size}")
+  @Pattern(regexp = Patterns.GERMAN_ALPHANUMERIC_WITH_UNDERSCORE_AND_MINUS,
+      message = "{error.survey.id.pattern}")
   private String id;
 
-  @NotNull(message = "{error.survey.title.notNull}")
+  @I18nStringSize(max = StringLengths.MEDIUM, message = "{error.survey.title.i18nStringSize}")
   private I18nString title;
 
   @NotNull(message = "{error.survey.fieldPeriod.notNull}")
@@ -35,10 +45,10 @@ public class Survey extends AbstractRdcDomainObject {
   private Period fieldPeriod;
 
   /* Foreign Keys */
-  @NotEmpty(message = "{error.dataAcquisitionProject.id.notEmpty}")
+  @NotEmpty(message = "{error.survey.dataAcquisitionProject.id.notEmpty}")
   private String dataAcquisitionProjectId;
 
-  @NotEmpty(message = "{error.questionnaire.id.notEmpty}")
+  @NotEmpty(message = "{error.survey.questionnaire.id.notEmpty}")
   private String questionnaireId;
   
   private List<String> dataSetIds;

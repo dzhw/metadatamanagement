@@ -35,7 +35,7 @@ import net.karneim.pojobuilder.GeneratePojoBuilder;
 @CompoundIndex(def = "{name: 1, dataAcquisitionProjectId: 1}", unique = true)
 @ValidVariableIdName(message = "{error.variable.validVariableName}")
 @UniqueVariableNameInProject(message = "{error.variable.uniqueVariableNameInProject}")
-public class Variable extends AbstractRdcDomainObjectWithProjectSurvey {
+public class Variable extends AbstractRdcDomainObject {
 
   /* Domain Object listed attributes */
   @Id
@@ -96,6 +96,10 @@ public class Variable extends AbstractRdcDomainObjectWithProjectSurvey {
   private String atomicQuestionId;
 
   private List<String> dataSetIds;
+
+  private String dataAcquisitionProjectId;
+
+  private String surveyId;
 
   /*
    * (non-Javadoc)
@@ -259,5 +263,21 @@ public class Variable extends AbstractRdcDomainObjectWithProjectSurvey {
 
   public void setFilterDetails(FilterDetails filterDetails) {
     this.filterDetails = filterDetails;
+  }
+
+  public String getDataAcquisitionProjectId() {
+    return dataAcquisitionProjectId;
+  }
+
+  public void setDataAcquisitionProjectId(String dataAcquisitionProjectId) {
+    this.dataAcquisitionProjectId = dataAcquisitionProjectId;
+  }
+
+  public String getSurveyId() {
+    return surveyId;
+  }
+
+  public void setSurveyId(String surveyId) {
+    this.surveyId = surveyId;
   }
 }

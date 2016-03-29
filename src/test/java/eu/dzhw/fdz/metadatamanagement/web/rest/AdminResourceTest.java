@@ -5,8 +5,6 @@ import static org.junit.Assert.assertThat;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-import java.time.LocalDate;
-
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -22,8 +20,6 @@ import eu.dzhw.fdz.metadatamanagement.domain.Survey;
 import eu.dzhw.fdz.metadatamanagement.domain.Variable;
 import eu.dzhw.fdz.metadatamanagement.domain.builders.DataAcquisitionProjectBuilder;
 import eu.dzhw.fdz.metadatamanagement.domain.builders.I18nStringBuilder;
-import eu.dzhw.fdz.metadatamanagement.domain.builders.PeriodBuilder;
-import eu.dzhw.fdz.metadatamanagement.domain.builders.SurveyBuilder;
 import eu.dzhw.fdz.metadatamanagement.repository.DataAcquisitionProjectRepository;
 import eu.dzhw.fdz.metadatamanagement.repository.SurveyRepository;
 import eu.dzhw.fdz.metadatamanagement.repository.VariableRepository;
@@ -95,16 +91,7 @@ public class AdminResourceTest extends AbstractTest {
       .build();
     dataAcquisitionProjectRepository.save(project);
 
-    Survey survey = new SurveyBuilder().withId("testId")
-      .withDataAcquisitionProjectId(project.getId())
-      .withTitle(new I18nStringBuilder().withDe("titel")
-        .withEn("title")
-        .build())
-      .withFieldPeriod(new PeriodBuilder().withStart(LocalDate.now())
-        .withEnd(LocalDate.now())
-        .build())
-      .withQuestionnaireId("QuestionnaireId")
-      .build();
+    Survey survey = UnitTestCreateDomainObjectUtils.buildSurvey(project.getId());
     surveyRepository.save(survey);
 
     Variable variable =

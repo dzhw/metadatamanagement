@@ -66,7 +66,7 @@ public class UnitTestCreateDomainObjectUtils {
   }
 
   public static Survey buildSurvey(String projectId) {
-    return new SurveyBuilder().withId("testSurvey")
+    return new SurveyBuilder().withId(projectId + "-sy1")
       .withDataAcquisitionProjectId(projectId)
       .withFieldPeriod(new PeriodBuilder().withStart(LocalDate.now())
         .withEnd(LocalDate.now())

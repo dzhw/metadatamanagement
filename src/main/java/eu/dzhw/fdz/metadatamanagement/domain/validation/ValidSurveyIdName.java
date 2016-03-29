@@ -10,29 +10,32 @@ import javax.validation.Constraint;
 import javax.validation.Payload;
 
 /**
- * This annotion is for the validation of the dependency between variable, survey and fdz project.
- * It should be validate, if the a optional survey is part of the same data acquisition project.
+ * Annotation for the validation of the id. It has to be by the pattern:
+ * DataAcquisitionProjectId-sy{Number}
  * 
- * @author Daniel Katzberg
+ * @author dkatzberg
  *
  */
 @Documented
-@Constraint(validatedBy = {SurveyHasSameDataAcquisitionProjectValidator.class})
+@Constraint(validatedBy = {ValidSurveyIdNameValidator.class})
 @Target({ElementType.TYPE})
 @Retention(RetentionPolicy.RUNTIME)
-public @interface SurveyHasSameDataAcquisitionProject {
+public @interface ValidSurveyIdName {
 
   /**
    * Defines the default error message.
    */
   public abstract String message() default "{eu.dzhw.fdz.metadatamanagement.domain.validation."
-      + "surveyhassamedataacquisitionproject.message}";
+      + "validsurveyidname.message}";
+
   /**
    * This contains groups.
    */
   public Class<?>[] groups() default {};
+
   /**
    * This method contains the payload.
    */
   public Class<? extends Payload>[] payload() default {};
+
 }

@@ -6,7 +6,6 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -26,11 +25,10 @@ import eu.dzhw.fdz.metadatamanagement.domain.Survey;
 import eu.dzhw.fdz.metadatamanagement.domain.builders.DataAcquisitionProjectBuilder;
 import eu.dzhw.fdz.metadatamanagement.domain.builders.DataSetBuilder;
 import eu.dzhw.fdz.metadatamanagement.domain.builders.I18nStringBuilder;
-import eu.dzhw.fdz.metadatamanagement.domain.builders.PeriodBuilder;
-import eu.dzhw.fdz.metadatamanagement.domain.builders.SurveyBuilder;
 import eu.dzhw.fdz.metadatamanagement.repository.DataAcquisitionProjectRepository;
 import eu.dzhw.fdz.metadatamanagement.repository.DataSetRepository;
 import eu.dzhw.fdz.metadatamanagement.repository.SurveyRepository;
+import eu.dzhw.fdz.metadatamanagement.unittest.util.UnitTestCreateDomainObjectUtils;
 
 /**
  * Test the REST API for {@link DataSetDeleteResource}.
@@ -80,17 +78,7 @@ public class DataSetDeleteResourceTest extends AbstractTest {
     rdcProjectRepository.save(project);
     
     // create the Survey
-    Survey survey = new SurveyBuilder().withId("testId")
-      .withDataAcquisitionProjectId(project.getId())
-      .withQuestionnaireId("QuestionnaireId")
-      .withTitle(new I18nStringBuilder().withDe("titel")
-        .withEn("title")
-        .build())
-      .withFieldPeriod(new PeriodBuilder().withStart(LocalDate.now())
-        .withEnd(LocalDate.now()
-          .plusDays(1))
-        .build())
-      .build();
+    Survey survey = UnitTestCreateDomainObjectUtils.buildSurvey(project.getId());
     surveyRepository.save(survey);
     
     List<String> variablesId = new ArrayList<String>();

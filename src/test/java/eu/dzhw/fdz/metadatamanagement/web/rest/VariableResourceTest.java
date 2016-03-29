@@ -100,16 +100,7 @@ public class VariableResourceTest extends AbstractTest {
       .build();
     dataAcquisitionProjectRepository.save(project);
 
-    Survey survey = new SurveyBuilder().withId("testSurvey")
-      .withDataAcquisitionProjectId(project.getId())
-      .withFieldPeriod(new PeriodBuilder().withStart(LocalDate.now())
-        .withEnd(LocalDate.now())
-        .build())
-      .withTitle(new I18nStringBuilder().withDe("Titel")
-        .withEn("title")
-        .build())
-      .withQuestionnaireId("QuestionnaireId")
-      .build();
+    Survey survey = UnitTestCreateDomainObjectUtils.buildSurvey(project.getId());
     surveyRepository.save(survey);
 
     Variable variable = UnitTestCreateDomainObjectUtils.buildVariable(project.getId(), survey.getId());
@@ -143,16 +134,7 @@ public class VariableResourceTest extends AbstractTest {
       .build();
     dataAcquisitionProjectRepository.save(project);
 
-    Survey survey = new SurveyBuilder().withId("testSurvey")
-      .withDataAcquisitionProjectId(project.getId())
-      .withFieldPeriod(new PeriodBuilder().withStart(LocalDate.now())
-        .withEnd(LocalDate.now())
-        .build())
-      .withTitle(new I18nStringBuilder().withDe("Titel")
-        .withEn("title")
-        .build())
-      .withQuestionnaireId("QuestionnaireId")
-      .build();
+    Survey survey = UnitTestCreateDomainObjectUtils.buildSurvey(project.getId());
     surveyRepository.save(survey);
 
     Variable variable = UnitTestCreateDomainObjectUtils.buildVariable(null, survey.getId());
@@ -171,16 +153,7 @@ public class VariableResourceTest extends AbstractTest {
       .build();
     dataAcquisitionProjectRepository.save(project);
 
-    Survey survey = new SurveyBuilder().withId("testSurvey")
-      .withDataAcquisitionProjectId(project.getId())
-      .withFieldPeriod(new PeriodBuilder().withStart(LocalDate.now())
-        .withEnd(LocalDate.now())
-        .build())
-      .withTitle(new I18nStringBuilder().withDe("Titel")
-        .withEn("title")
-        .build())
-      .withQuestionnaireId("QuestionnaireId")
-      .build();
+    Survey survey = UnitTestCreateDomainObjectUtils.buildSurvey(project.getId());
     surveyRepository.save(survey);
 
     Variable variable =
@@ -201,16 +174,7 @@ public class VariableResourceTest extends AbstractTest {
       .build();
     dataAcquisitionProjectRepository.save(project);
 
-    Survey survey = new SurveyBuilder().withId("testSurvey")
-      .withDataAcquisitionProjectId(project.getId())
-      .withFieldPeriod(new PeriodBuilder().withStart(LocalDate.now())
-        .withEnd(LocalDate.now())
-        .build())
-      .withTitle(new I18nStringBuilder().withDe("Titel")
-        .withEn("title")
-        .build())
-      .withQuestionnaireId("QuestionnaireId")
-      .build();
+    Survey survey = UnitTestCreateDomainObjectUtils.buildSurvey(project.getId());
     surveyRepository.save(survey);
 
     Variable variable =
@@ -233,16 +197,7 @@ public class VariableResourceTest extends AbstractTest {
       .build();
     dataAcquisitionProjectRepository.save(project);
 
-    Survey survey = new SurveyBuilder().withId("testSurvey")
-      .withDataAcquisitionProjectId(project.getId())
-      .withFieldPeriod(new PeriodBuilder().withStart(LocalDate.now())
-        .withEnd(LocalDate.now())
-        .build())
-      .withTitle(new I18nStringBuilder().withDe("Titel")
-        .withEn("title")
-        .build())
-      .withQuestionnaireId("QuestionnaireId")
-      .build();
+    Survey survey = UnitTestCreateDomainObjectUtils.buildSurvey(project.getId());
     surveyRepository.save(survey);
 
     Variable variable =
@@ -263,16 +218,7 @@ public class VariableResourceTest extends AbstractTest {
       .build();
     dataAcquisitionProjectRepository.save(project);
 
-    Survey survey = new SurveyBuilder().withId("testSurvey")
-      .withDataAcquisitionProjectId(project.getId())
-      .withFieldPeriod(new PeriodBuilder().withStart(LocalDate.now())
-        .withEnd(LocalDate.now())
-        .build())
-      .withTitle(new I18nStringBuilder().withDe("Titel")
-        .withEn("title")
-        .build())
-      .withQuestionnaireId("QuestionnaireId")
-      .build();
+    Survey survey = UnitTestCreateDomainObjectUtils.buildSurvey(project.getId());
     surveyRepository.save(survey);
 
     Variable variable =
@@ -295,16 +241,7 @@ public class VariableResourceTest extends AbstractTest {
       .build();
     dataAcquisitionProjectRepository.save(project);
 
-    Survey survey = new SurveyBuilder().withId("testSurvey")
-      .withDataAcquisitionProjectId(project.getId())
-      .withFieldPeriod(new PeriodBuilder().withStart(LocalDate.now())
-        .withEnd(LocalDate.now())
-        .build())
-      .withTitle(new I18nStringBuilder().withDe("Titel")
-        .withEn("title")
-        .build())
-      .withQuestionnaireId("QuestionnaireId")
-      .build();
+    Survey survey = UnitTestCreateDomainObjectUtils.buildSurvey(project.getId());
     surveyRepository.save(survey);
 
     Variable variable =
@@ -325,16 +262,7 @@ public class VariableResourceTest extends AbstractTest {
       .build();
     dataAcquisitionProjectRepository.save(project);
 
-    Survey survey = new SurveyBuilder().withId("testSurvey")
-      .withDataAcquisitionProjectId(project.getId())
-      .withFieldPeriod(new PeriodBuilder().withStart(LocalDate.now())
-        .withEnd(LocalDate.now())
-        .build())
-      .withTitle(new I18nStringBuilder().withDe("Titel")
-        .withEn("title")
-        .build())
-      .withQuestionnaireId("QuestionnaireId")
-      .build();
+    Survey survey = UnitTestCreateDomainObjectUtils.buildSurvey(project.getId());
     surveyRepository.save(survey);
 
     List<String> accessWays = new ArrayList<String>();
@@ -357,16 +285,7 @@ public class VariableResourceTest extends AbstractTest {
       .build();
     dataAcquisitionProjectRepository.save(project);
 
-    Survey survey = new SurveyBuilder().withId("testSurvey")
-      .withDataAcquisitionProjectId(project.getId())
-      .withFieldPeriod(new PeriodBuilder().withStart(LocalDate.now())
-        .withEnd(LocalDate.now())
-        .build())
-      .withTitle(new I18nStringBuilder().withDe("Titel")
-        .withEn("title")
-        .build())
-      .withQuestionnaireId("QuestionnaireId")
-      .build();
+    Survey survey = UnitTestCreateDomainObjectUtils.buildSurvey(project.getId());
     surveyRepository.save(survey);
 
     Variable variable =
@@ -388,16 +307,7 @@ public class VariableResourceTest extends AbstractTest {
       .build();
     dataAcquisitionProjectRepository.save(project);
 
-    Survey survey = new SurveyBuilder().withId("testSurvey")
-      .withDataAcquisitionProjectId(project.getId())
-      .withFieldPeriod(new PeriodBuilder().withStart(LocalDate.now())
-        .withEnd(LocalDate.now())
-        .build())
-      .withTitle(new I18nStringBuilder().withDe("Titel")
-        .withEn("title")
-        .build())
-      .withQuestionnaireId("QuestionnaireId")
-      .build();
+    Survey survey = UnitTestCreateDomainObjectUtils.buildSurvey(project.getId());
     surveyRepository.save(survey);
 
     Variable variable =
@@ -420,16 +330,7 @@ public class VariableResourceTest extends AbstractTest {
       .build();
     dataAcquisitionProjectRepository.save(project);
 
-    Survey survey = new SurveyBuilder().withId("testSurvey")
-      .withDataAcquisitionProjectId(project.getId())
-      .withFieldPeriod(new PeriodBuilder().withStart(LocalDate.now())
-        .withEnd(LocalDate.now())
-        .build())
-      .withTitle(new I18nStringBuilder().withDe("Titel")
-        .withEn("title")
-        .build())
-      .withQuestionnaireId("QuestionnaireId")
-      .build();
+    Survey survey = UnitTestCreateDomainObjectUtils.buildSurvey(project.getId());
     surveyRepository.save(survey);
 
     Variable variable = UnitTestCreateDomainObjectUtils.buildVariable(project.getId(), survey.getId());
@@ -450,66 +351,6 @@ public class VariableResourceTest extends AbstractTest {
   }
 
   @Test
-  public void testCreateVariableWithUnknownSurvey() throws Exception {
-    DataAcquisitionProject project = new DataAcquisitionProjectBuilder().withId("testProject")
-      .withSurveySeries(new I18nStringBuilder().build())
-      .withPanelName(new I18nStringBuilder().build())
-      .build();
-    dataAcquisitionProjectRepository.save(project);
-
-    Survey survey = new SurveyBuilder().withId("testSurvey")
-      .withDataAcquisitionProjectId(project.getId())
-      .withFieldPeriod(new PeriodBuilder().withStart(LocalDate.now())
-        .withEnd(LocalDate.now())
-        .build())
-      .withTitle(new I18nStringBuilder().withDe("Titel")
-        .withEn("title")
-        .build())
-      .build();
-
-    Variable variable = UnitTestCreateDomainObjectUtils.buildVariable(project.getId(), survey.getId());
-
-    // create the variable with the given id but with an unknown survey
-    mockMvc.perform(put(API_VARIABLES_URI + "/" + variable.getId())
-      .content(TestUtil.convertObjectToJsonBytes(variable)))
-      .andExpect(status().is4xxClientError());
-  }
-
-  @Test
-  public void testCreateVariableWithSurveyFromDifferentProject() throws Exception {
-    DataAcquisitionProject project1 = new DataAcquisitionProjectBuilder().withId("testProject1")
-      .withSurveySeries(new I18nStringBuilder().build())
-      .withPanelName(new I18nStringBuilder().build())
-      .build();
-    dataAcquisitionProjectRepository.save(project1);
-
-    DataAcquisitionProject project2 = new DataAcquisitionProjectBuilder().withId("testProject2")
-      .withSurveySeries(new I18nStringBuilder().build())
-      .withPanelName(new I18nStringBuilder().build())
-      .build();
-    dataAcquisitionProjectRepository.save(project2);
-
-    Survey survey = new SurveyBuilder().withId("testSurvey")
-      .withDataAcquisitionProjectId(project2.getId())
-      .withFieldPeriod(new PeriodBuilder().withStart(LocalDate.now())
-        .withEnd(LocalDate.now())
-        .build())
-      .withTitle(new I18nStringBuilder().withDe("Titel")
-        .withEn("title")
-        .build())
-      .withQuestionnaireId("QuestionnaireId")
-      .build();
-    surveyRepository.save(survey);
-
-    Variable variable = UnitTestCreateDomainObjectUtils.buildVariable(project1.getId(), survey.getId());
-
-    // create the variable with the given id but with a survey from a different project
-    mockMvc.perform(put(API_VARIABLES_URI + "/" + variable.getId())
-      .content(TestUtil.convertObjectToJsonBytes(variable)))
-      .andExpect(status().is4xxClientError());
-  }
-
-  @Test
   public void deleteVariable() throws JsonSyntaxException, IOException, Exception {
     DataAcquisitionProject project = new DataAcquisitionProjectBuilder().withId("testProject")
       .withSurveySeries(new I18nStringBuilder().build())
@@ -517,16 +358,7 @@ public class VariableResourceTest extends AbstractTest {
       .build();
     dataAcquisitionProjectRepository.save(project);
 
-    Survey survey = new SurveyBuilder().withId("testSurvey")
-      .withDataAcquisitionProjectId(project.getId())
-      .withFieldPeriod(new PeriodBuilder().withStart(LocalDate.now())
-        .withEnd(LocalDate.now())
-        .build())
-      .withTitle(new I18nStringBuilder().withDe("Titel")
-        .withEn("title")
-        .build())
-      .withQuestionnaireId("QuestionnaireId")
-      .build();
+    Survey survey = UnitTestCreateDomainObjectUtils.buildSurvey(project.getId());
     surveyRepository.save(survey);
 
     Variable variable = UnitTestCreateDomainObjectUtils.buildVariable(project.getId(), survey.getId());
@@ -561,16 +393,7 @@ public class VariableResourceTest extends AbstractTest {
       .build();
     dataAcquisitionProjectRepository.save(project);
 
-    Survey survey = new SurveyBuilder().withId("testSurvey")
-      .withDataAcquisitionProjectId(project.getId())
-      .withFieldPeriod(new PeriodBuilder().withStart(LocalDate.now())
-        .withEnd(LocalDate.now())
-        .build())
-      .withTitle(new I18nStringBuilder().withDe("Titel")
-        .withEn("title")
-        .build())
-      .withQuestionnaireId("QuestionnaireId")
-      .build();
+    Survey survey = UnitTestCreateDomainObjectUtils.buildSurvey(project.getId());
     surveyRepository.save(survey);
 
     Variable variable = UnitTestCreateDomainObjectUtils.buildVariable(project.getId(), survey.getId());
@@ -694,6 +517,7 @@ public class VariableResourceTest extends AbstractTest {
 
     Survey survey = UnitTestCreateDomainObjectUtils.buildSurvey(project.getId());
     surveyRepository.save(survey);
+
     Variable variable =
         UnitTestCreateDomainObjectUtils.buildVariable(project.getId(), survey.getId());
     Value value = variable.getValues()
@@ -838,16 +662,7 @@ public class VariableResourceTest extends AbstractTest {
       .build();
     dataAcquisitionProjectRepository.save(project);
 
-    Survey survey = new SurveyBuilder().withId("testSurvey")
-      .withDataAcquisitionProjectId(project.getId())
-      .withFieldPeriod(new PeriodBuilder().withStart(LocalDate.now())
-        .withEnd(LocalDate.now())
-        .build())
-      .withTitle(new I18nStringBuilder().withDe("Titel")
-        .withEn("title")
-        .build())
-      .withQuestionnaireId("QuestionnaireId")
-      .build();
+    Survey survey = UnitTestCreateDomainObjectUtils.buildSurvey(project.getId());
     surveyRepository.save(survey);
 
     Variable variable = UnitTestCreateDomainObjectUtils.buildVariable(project.getId(), survey.getId());

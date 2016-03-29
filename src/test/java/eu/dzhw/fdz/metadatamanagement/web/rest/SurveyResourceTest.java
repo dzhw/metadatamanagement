@@ -27,6 +27,7 @@ import eu.dzhw.fdz.metadatamanagement.domain.builders.PeriodBuilder;
 import eu.dzhw.fdz.metadatamanagement.domain.builders.SurveyBuilder;
 import eu.dzhw.fdz.metadatamanagement.repository.DataAcquisitionProjectRepository;
 import eu.dzhw.fdz.metadatamanagement.repository.SurveyRepository;
+import eu.dzhw.fdz.metadatamanagement.unittest.util.UnitTestCreateDomainObjectUtils;
 
 /**
  * Test the REST API for {@link Survey}s.
@@ -68,17 +69,7 @@ public class SurveyResourceTest extends AbstractTest {
       .build();
     rdcProjectRepository.save(project);
 
-    Survey survey = new SurveyBuilder().withId("testId")
-      .withDataAcquisitionProjectId(project.getId())
-      .withTitle(new I18nStringBuilder().withDe("titel")
-        .withEn("title")
-        .build())
-      .withFieldPeriod(new PeriodBuilder().withStart(LocalDate.now())
-        .withEnd(LocalDate.now()
-          .plusDays(1))
-        .build())
-      .withQuestionnaireId("QuestionnaireId")
-      .build();
+    Survey survey = UnitTestCreateDomainObjectUtils.buildSurvey(project.getId());
 
     // create the survey with the given id
     mockMvc.perform(put(API_SURVEYS_URI + "/" + survey.getId())
@@ -127,16 +118,10 @@ public class SurveyResourceTest extends AbstractTest {
       .build();
     rdcProjectRepository.save(project);
 
-    Survey survey = new SurveyBuilder().withId("testId")
-      .withDataAcquisitionProjectId(project.getId())
-      .withTitle(new I18nStringBuilder().withDe("titel")
-        .withEn("title")
-        .build())
-      .withFieldPeriod(new PeriodBuilder().withStart(null)
+    Survey survey = UnitTestCreateDomainObjectUtils.buildSurvey(project.getId());
+    survey.setFieldPeriod(new PeriodBuilder().withStart(null)
         .withEnd(null)
-        .build())
-      .withQuestionnaireId("QuestionnaireId")
-      .build();
+      .build());
 
     // create the survey with the given id but with an unlimited period
     mockMvc.perform(put(API_SURVEYS_URI + "/" + survey.getId())
@@ -209,17 +194,7 @@ public class SurveyResourceTest extends AbstractTest {
       .build();
     rdcProjectRepository.save(project);
 
-    Survey survey = new SurveyBuilder().withId("testId")
-      .withDataAcquisitionProjectId(project.getId())
-      .withTitle(new I18nStringBuilder().withDe("titel")
-        .withEn("title")
-        .build())
-      .withFieldPeriod(new PeriodBuilder().withStart(LocalDate.now())
-        .withEnd(LocalDate.now()
-          .plusDays(1))
-        .build())
-      .withQuestionnaireId("QuestionnaireId")
-      .build();
+    Survey survey = UnitTestCreateDomainObjectUtils.buildSurvey(project.getId());
 
     // create the survey with the given id
     mockMvc.perform(put(API_SURVEYS_URI + "/" + survey.getId())
@@ -243,17 +218,7 @@ public class SurveyResourceTest extends AbstractTest {
       .build();
     rdcProjectRepository.save(project);
 
-    Survey survey = new SurveyBuilder().withId("testId")
-      .withDataAcquisitionProjectId(project.getId())
-      .withTitle(new I18nStringBuilder().withDe("titel")
-        .withEn("title")
-        .build())
-      .withFieldPeriod(new PeriodBuilder().withStart(LocalDate.now())
-        .withEnd(LocalDate.now()
-          .plusDays(1))
-        .build())
-      .withQuestionnaireId("QuestionnaireId")
-      .build();
+    Survey survey = UnitTestCreateDomainObjectUtils.buildSurvey(project.getId());
 
     // create the survey with the given id
     mockMvc.perform(put(API_SURVEYS_URI + "/" + survey.getId())
@@ -270,7 +235,7 @@ public class SurveyResourceTest extends AbstractTest {
     // get the survey and check the updated title and version
     mockMvc.perform(get(API_SURVEYS_URI + "/" + survey.getId() + "?projection=complete"))
       .andExpect(status().isOk())
-      .andExpect(jsonPath("$.id", is(project.getId())))
+      .andExpect(jsonPath("$.id", is(survey.getId())))
       .andExpect(jsonPath("$.version", is(1)))
       .andExpect(jsonPath("$.title.de", is("titel2")));
   }
@@ -283,24 +248,13 @@ public class SurveyResourceTest extends AbstractTest {
       .build();
     rdcProjectRepository.save(project);
 
-    Survey survey = new SurveyBuilder().withId("testId")
-      .withDataAcquisitionProjectId(project.getId())
-      .withQuestionnaireId("QuestionnaireId")
-      .withTitle(new I18nStringBuilder().withDe("titel")
-        .withEn("title")
-        .build())
-      .withFieldPeriod(new PeriodBuilder().withStart(LocalDate.now())
-        .withEnd(LocalDate.now()
-          .plusDays(1))
-        .build())
-      .build();
-
+    Survey survey = UnitTestCreateDomainObjectUtils.buildSurvey(project.getId());
     surveyRepository.save(survey);
 
     // check that the survey is present
     mockMvc.perform(get(API_SURVEYS_URI + "/" + survey.getId() + "?projection=complete"))
       .andExpect(status().isOk())
-      .andExpect(jsonPath("$.id", is(project.getId())))
+      .andExpect(jsonPath("$.id", is(survey.getId())))
       .andExpect(jsonPath("$.version", is(0)));
 
     // delete the project
