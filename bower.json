@@ -4,16 +4,16 @@
   "appPath": "src/main/webapp",
   "testPath": "src/test/javascript/spec",
   "dependencies": {
-    "angular": "1.5.2",
-    "angular-aria": "1.5.2",
+    "angular": "1.5.3",
+    "angular-aria": "1.5.3",
     "angular-bootstrap": "1.2.5",
     "angular-cache-buster": "0.4.3",
-    "angular-cookies": "1.5.2",
+    "angular-cookies": "1.5.3",
     "angular-dynamic-locale": "0.1.30",
-    "angular-i18n": "1.5.2",
+    "angular-i18n": "1.5.3",
     "angular-local-storage": "0.2.7",
-    "angular-resource": "1.5.2",
-    "angular-sanitize": "1.5.2",
+    "angular-resource": "1.5.3",
+    "angular-sanitize": "1.5.3",
     "angular-translate": "2.11.0",
     "angular-translate-interpolation-messageformat": "2.11.0",
     "angular-translate-loader-partial": "2.11.0",
@@ -34,11 +34,11 @@
     "js-xlsx": "^0.8.0"
   },
   "devDependencies": {
-    "angular-mocks": "1.5.2",
-    "angular-scenario": "1.5.2"
+    "angular-mocks": "1.5.3",
+    "angular-scenario": "1.5.3"
   },
   "resolutions": {
-    "angular": "1.5.2",
-    "angular-cookies": "1.5.2"
+    "angular": "1.5.3",
+    "angular-cookies": "1.5.3"
   }
 }
