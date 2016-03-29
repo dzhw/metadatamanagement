@@ -96,6 +96,7 @@ function($q, $translate, DataSetsParser, DataSetDeleteResource,
   var uploadObjects = function() {
     uploadState.disableButton = true;
     for (var i = 0; i < objects.length; i++) {
+
       if (!objects[i].id || objects[i].id === '') {
         uploadState.pushError($translate.instant(
           'metadatamanagementApp.dataAcquisitionProject.' +
@@ -134,6 +135,29 @@ function($q, $translate, DataSetsParser, DataSetDeleteResource,
             uploadState.itemsToUpload = objects.length;
             uploadState.uploadedDomainObject = 'atomicQuestions-uploaded';
             AtomicQuestionDeleteResource.deleteByDataAcquisitionProjectId({
+                dataAcquisitionProjectId: dataAcquisitionProjectId},
+                uploadObjects, function(error) {
+                  uploadState.pushError(error);
+                  uploadState.disableButton = false;
+                });
+          });
+        }
+      });
+    }else {
+      uploadState.pushError({});
+    }
+  };
+  var uploadDataSets = function(file, dataAcquisitionProjectId) {
+    if (file !== null) {
+      showModal(dataAcquisitionProjectId, 'DataSets').then(
+        function(returnValue) {
+        if (returnValue) {
+          ExcelReader.readFileAsync(file).then(function(data) {
+            objects  = DataSetsParser.getDatasets(data,
+              dataAcquisitionProjectId);
+            uploadState.itemsToUpload = objects.length;
+            uploadState.uploadedDomainObject = 'dataSets-uploaded';
+            DataSetDeleteResource.deleteByDataAcquisitionProjectId({
                 dataAcquisitionProjectId: dataAcquisitionProjectId},
                 uploadObjects, function(error) {
                   uploadState.pushError(error);
@@ -232,29 +256,6 @@ function($q, $translate, DataSetsParser, DataSetDeleteResource,
       uploadState.pushError({});
     }
 
-  };
-  var uploadDataSets = function(file, dataAcquisitionProjectId) {
-    if (file !== null) {
-      showModal(dataAcquisitionProjectId, 'DataSets').then(
-        function(returnValue) {
-        if (returnValue) {
-          ExcelReader.readFileAsync(file).then(function(data) {
-            objects  = DataSetsParser.getDatasets(data,
-              dataAcquisitionProjectId);
-            uploadState.itemsToUpload = objects.length;
-            uploadState.uploadedDomainObject = 'dataSets-uploaded';
-            DataSetDeleteResource.deleteByDataAcquisitionProjectId({
-                dataAcquisitionProjectId: dataAcquisitionProjectId},
-                uploadObjects, function(error) {
-                  uploadState.pushError(error);
-                  uploadState.disableButton = false;
-                });
-          });
-        }
-      });
-    }else {
-      uploadState.pushError({});
-    }
   };
   initUploadState();
   return {

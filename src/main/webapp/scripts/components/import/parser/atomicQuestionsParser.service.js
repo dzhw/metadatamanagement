@@ -13,7 +13,6 @@ function(AtomicQuestion) {
             'missingId', {
               index: i + 1
             }));*/
-          console.log('sd');
         } else {
           var atomicQuestionObj = {
             id: data.id,

@@ -13,7 +13,6 @@ function(DataSet) {
             'missingId', {
               index: i + 1
             }));*/
-          console.log('sd');
         } else {
           var dataSetObj = {
             id: data.id,

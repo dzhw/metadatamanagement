@@ -13,7 +13,6 @@ function(Survey) {
             'missingId', {
               index: i + 1
             }));*/
-          console.log('sd');
         } else {
           var surveyObj = {
             id: data.id,

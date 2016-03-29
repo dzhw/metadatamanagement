@@ -21,6 +21,7 @@ function(Variable) {
           // jscs:disable
           jsonContent = XLSX.utils.sheet_to_json(worksheet);
           // jscs:enable
+          console.log(jsonContent);
           for (var i = 0; i < jsonContent.length; i++) {
             var variableObj = {
               id: jsonContent[i].id,
