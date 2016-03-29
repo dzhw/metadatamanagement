@@ -2,6 +2,7 @@ package eu.dzhw.fdz.metadatamanagement.domain;
 
 import java.util.List;
 
+import javax.validation.Valid;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
@@ -43,6 +44,7 @@ public class DataAcquisitionProject extends AbstractRdcDomainObject {
   private I18nString panelName;
 
   /* Nested Objects */
+  @Valid
   private List<Release> releases;
 
   /*
