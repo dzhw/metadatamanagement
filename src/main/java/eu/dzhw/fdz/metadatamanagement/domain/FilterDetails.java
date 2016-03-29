@@ -29,7 +29,8 @@ public class FilterDetails {
   private I18nString filterDescription;
 
   @NotEmpty(message = "{error.filterDetails.filterExpressionLanguage.notEmpty}")
-  @ValidFilterExpressionLanguage(message = "{error.filterDetails.filterExpressionLanguage.size}")
+  @ValidFilterExpressionLanguage(
+      message = "{error.filterDetails.filterExpressionLanguage.validFilterExpressionLanguage}")
   private String filterExpressionLanguage;
   
   /*

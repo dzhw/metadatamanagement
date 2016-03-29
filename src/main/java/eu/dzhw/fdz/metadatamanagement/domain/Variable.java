@@ -72,20 +72,21 @@ public class Variable extends AbstractRdcDomainObjectWithProjectSurvey {
   @ValidAccessWays(message = "{error.variable.accessWays.validAccessWays}")
   private List<String> accessWays;
   
+  private I18nSvg distributionSvg;
+
+  private List<String> sameVariablesInPanel;
 
   /* Nested Objects */
   @Valid
   private List<Value> values;
-  
-  private I18nSvg distributionSvg;
-  
+
   @Valid
   private FilterDetails filterDetails;
-
-  private List<String> sameVariablesInPanel;
   
+  // No validation
   private Statistics statistics;
 
+  @Valid
   private GenerationDetails generationDetails;
   
 
