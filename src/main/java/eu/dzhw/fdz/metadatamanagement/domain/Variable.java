@@ -2,6 +2,7 @@ package eu.dzhw.fdz.metadatamanagement.domain;
 
 import java.util.List;
 
+import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
@@ -38,31 +39,33 @@ public class Variable extends AbstractRdcDomainObjectWithProjectSurvey {
 
   /* Domain Object listed attributes */
   @Id
-  @NotEmpty(message = "{error.variable.id.isEmpty}")
+  @NotEmpty(message = "{error.variable.id.notEmpty}")
   @Size(max = StringLengths.MEDIUM, message = "{error.variable.id.size}")
   @Pattern(regexp = Patterns.GERMAN_ALPHANUMERIC_WITH_UNDERSCORE_AND_MINUS,
       message = "{error.variable.id.pattern}")
   private String id;
 
-  @NotNull(message = "{error.variable.dataType.isEmpty}")
+  @NotNull(message = "{error.variable.dataType.notNull}")
   @ValidDataType(message = "{error.variable.dataType.validDataType}")
   private I18nString dataType;
 
-  @NotNull(message = "{error.variable.scaleLevel.isEmpty}")
+  @NotNull(message = "{error.variable.scaleLevel.notNull}")
   @ValidScaleLevel(message = "{error.variable.scaleLevel.validScaleLevel}")
   private I18nString scaleLevel;
   
-  @NotEmpty(message = "{error.variable.name.isEmpty}")
+  @NotEmpty(message = "{error.variable.name.notEmpty}")
   @Size(max = StringLengths.SMALL, message = "{error.variable.name.size}")
   @Pattern(regexp = Patterns.ALPHANUMERIC_WITH_UNDERSCORE_NO_NUMBER_AS_FIRST_SIGN,
       message = "{error.variable.name.pattern}")
   private String name;  
 
-  @NotNull(message = "{error.variable.label.isEmpty}")
-  @I18nStringSize(max = StringLengths.MEDIUM, message = "{error.variable.label.size}")
+  @NotNull(message = "{error.variable.label.notNull}")
+  @I18nStringSize(min = 1, max = StringLengths.MEDIUM,
+      message = "{error.variable.label.i18nStringSize}")
   private I18nString label;
   
-  @I18nStringSize(max = StringLengths.LARGE, message = "{error.variable.description.size}")
+  @I18nStringSize(max = StringLengths.LARGE,
+      message = "{error.variable.description.i18nStringSize}")
   private I18nString description;
   
   // checks for min size too.
@@ -71,6 +74,7 @@ public class Variable extends AbstractRdcDomainObjectWithProjectSurvey {
   
 
   /* Nested Objects */
+  @Valid
   private List<Value> values;
   
   private I18nSvg distributionSvg;

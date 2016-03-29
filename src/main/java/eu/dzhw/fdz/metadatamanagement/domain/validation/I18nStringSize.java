@@ -40,4 +40,9 @@ public @interface I18nStringSize {
    * @return size the element must be equal or lower to.
    */
   int max() default Integer.MAX_VALUE;
+
+  /**
+   * @return size the element must be equal or lower to.
+   */
+  int min() default 0;
 }

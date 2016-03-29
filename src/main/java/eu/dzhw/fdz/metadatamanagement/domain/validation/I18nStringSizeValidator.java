@@ -13,6 +13,7 @@ import eu.dzhw.fdz.metadatamanagement.domain.I18nString;
 public class I18nStringSizeValidator implements ConstraintValidator<I18nStringSize, I18nString> {
 
   private int max;
+  private int min;
   
   /*
    * (non-Javadoc)
@@ -21,6 +22,7 @@ public class I18nStringSizeValidator implements ConstraintValidator<I18nStringSi
   @Override
   public void initialize(I18nStringSize constraintAnnotation) {
     this.max = constraintAnnotation.max();
+    this.min = constraintAnnotation.min();
   }
 
   /*
@@ -42,14 +44,20 @@ public class I18nStringSizeValidator implements ConstraintValidator<I18nStringSi
     //Check De String
     if (value.getDe() == null) {
       deValid = true;      
-    } else if (value.getDe().length() <= this.max) {
+    } else if (value.getDe()
+        .length() >= this.min
+        && value.getDe()
+          .length() <= this.max) {
       deValid = true;
     }
     
     //Check En String
     if (value.getEn() == null) {
       enValid = true;      
-    } else if (value.getEn().length() <= this.max) {
+    } else if (value.getDe()
+        .length() >= this.min
+        && value.getEn()
+          .length() <= this.max) {
       enValid = true;
     }
     

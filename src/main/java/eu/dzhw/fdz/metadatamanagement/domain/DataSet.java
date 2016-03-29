@@ -22,14 +22,14 @@ public class DataSet extends AbstractRdcDomainObject {
   
   /* Domain Object Attributes */
   @Id
-  @NotEmpty(message = "{error.dataSet.id.isEmpty}")
+  @NotEmpty(message = "{error.dataSet.id.notEmpty}")
   private String id;
 
   private I18nString description;
   
   
   /* Foreign Keys */
-  @NotEmpty(message = "{error.dataAcquisitionProject.id.isEmpty}")
+  @NotEmpty(message = "{error.dataAcquisitionProject.id.notEmpty}")
   private String dataAcquisitionProjectId;
 
   private List<String> surveyIds;

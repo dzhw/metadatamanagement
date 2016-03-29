@@ -24,21 +24,21 @@ public class Survey extends AbstractRdcDomainObject {
 
   /* Domain Object Attributes */
   @Id
-  @NotEmpty(message = "{error.survey.id.isEmpty}")
+  @NotEmpty(message = "{error.survey.id.notEmpty}")
   private String id;
 
-  @NotNull(message = "{error.survey.title.isEmpty}")
+  @NotNull(message = "{error.survey.title.notNull}")
   private I18nString title;
 
-  @NotNull(message = "{error.survey.fieldPeriod.isEmpty}")
+  @NotNull(message = "{error.survey.fieldPeriod.notNull}")
   @Valid
   private Period fieldPeriod;
 
   /* Foreign Keys */
-  @NotEmpty(message = "{error.dataAcquisitionProject.id.isEmpty}")
+  @NotEmpty(message = "{error.dataAcquisitionProject.id.notEmpty}")
   private String dataAcquisitionProjectId;
 
-  @NotEmpty(message = "{error.questionnaire.id.isEmpty}")
+  @NotEmpty(message = "{error.questionnaire.id.notEmpty}")
   private String questionnaireId;
   
   private List<String> dataSetIds;

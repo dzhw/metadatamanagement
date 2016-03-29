@@ -41,38 +41,43 @@ public class AtomicQuestion extends AbstractRdcDomainObject {
       "{error.atomicQuestion.type.atomicQuestionTypeConsistence}")
   private I18nString type;
 
-  @NotEmpty(message = "{error.atomicQuestion.name.isEmpty}")
+  @NotEmpty(message = "{error.atomicQuestion.name.notEmpty}")
   @Size(max = StringLengths.SMALL, message = "{error.atomicQuestion.name.size}")
   private String name;
 
-  @NotEmpty(message = "{error.atomicQuestion.compositeQuestionName.isEmpty}")
+  @NotEmpty(message = "{error.atomicQuestion.compositeQuestionName.notEmpty}")
   @Size(max = StringLengths.SMALL, message = "{error.atomicQuestion.compositeQuestionName.size}")
   private String compositeQuestionName;
 
-  @I18nStringSize(max = StringLengths.LARGE, message = "{error.atomicQuestion.footnote.size}")
+  @I18nStringSize(max = StringLengths.LARGE,
+      message = "{error.atomicQuestion.footnote.i18nStringSize}")
   private I18nString footnote;
 
-  @I18nStringSize(max = StringLengths.LARGE, message = "{error.atomicQuestion.questionText.size}")
+  @I18nStringSize(max = StringLengths.LARGE,
+      message = "{error.atomicQuestion.questionText.i18nStringSize}")
   private I18nString questionText;
 
-  @I18nStringSize(max = StringLengths.LARGE, message = "{error.atomicQuestion.instruction.size}")
+  @I18nStringSize(max = StringLengths.LARGE,
+      message = "{error.atomicQuestion.instruction.i18nStringSize}")
   private I18nString instruction;
 
-  @I18nStringSize(max = StringLengths.LARGE, message = "{error.atomicQuestion.introduction.size}")
+  @I18nStringSize(max = StringLengths.LARGE,
+      message = "{error.atomicQuestion.introduction.i18nStringSize}")
   private I18nString introduction;
 
-  @I18nStringSize(max = StringLengths.MEDIUM, message = "{error.atomicQuestion.sectionHeader.size}")
+  @I18nStringSize(max = StringLengths.MEDIUM,
+      message = "{error.atomicQuestion.sectionHeader.i18nStringSize}")
   private I18nString sectionHeader;
 
   
   /* Foreign Keys */
-  @NotEmpty(message = "{error.dataAcquisitionProject.id.isEmpty}")  
+  @NotEmpty(message = "{error.dataAcquisitionProject.id.notEmpty}")
   private String dataAcquisitionProjectId;
 
-  @NotEmpty(message = "{error.questionnaire.id.isEmpty}")
+  @NotEmpty(message = "{error.questionnaire.id.notEmpty}")
   private String questionnaireId;
 
-  @NotEmpty(message = "{error.variable.id.isEmpty}")
+  @NotEmpty(message = "{error.variable.id.notEmpty}")
   private String variableId;
 
   /*

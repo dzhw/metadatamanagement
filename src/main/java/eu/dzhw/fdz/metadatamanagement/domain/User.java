@@ -30,13 +30,13 @@ public class User extends AbstractAuditingEntity implements Serializable {
   @Id
   private String id;
 
-  @NotNull(message = "{error.user.login.isEmpty}")
+  @NotNull(message = "{error.user.login.notNull}")
   @Pattern(regexp = "^[a-z0-9]*$|(anonymousUser)")
   @Size(min = 1, max = 50)
   private String login;
 
   @JsonIgnore
-  @NotNull(message = "{error.user.password.isEmpty}")
+  @NotNull(message = "{error.user.password.notNull}")
   @Size(min = 60, max = 60)
   private String password;
 

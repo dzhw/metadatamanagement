@@ -25,7 +25,7 @@ import net.karneim.pojobuilder.GeneratePojoBuilder;
 @GeneratePojoBuilder(intoPackage = "eu.dzhw.fdz.metadatamanagement.domain.builders")
 public class Release {
   
-  @NotEmpty(message = "{error.release.version.isEmpty}")
+  @NotEmpty(message = "{error.release.version.notEmpty}")
   @Size(max = StringLengths.SMALL, message = "{error.release.version.size}")
   @Pattern(regexp = Patterns.NUMERIC_WITH_DOT, message = "{error.release.version.pattern}")
   private String version;
@@ -33,10 +33,10 @@ public class Release {
   @Size(max = StringLengths.MEDIUM, message = "{error.release.doi.size}")
   private String doi;
 
-  @NotNull(message = "{error.release.date.isEmpty}")
+  @NotNull(message = "{error.release.date.notNull}")
   private ZonedDateTime date;
 
-  @I18nStringSize(max = StringLengths.LARGE, message = "{error.release.notes.size}")
+  @I18nStringSize(max = StringLengths.LARGE, message = "{error.release.notes.i18nStringSize}")
   private I18nString notes;
 
   /*

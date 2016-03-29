@@ -17,13 +17,13 @@ import net.karneim.pojobuilder.GeneratePojoBuilder;
 public class Questionnaire extends AbstractRdcDomainObject {
 
   @Id
-  @NotEmpty(message = "{error.questionnaire.id.isEmpty}")
+  @NotEmpty(message = "{error.questionnaire.id.notEmpty}")
   private String id;
 
-  @NotEmpty(message = "{error.dataAcquisitionProject.id.isEmpty}")
+  @NotEmpty(message = "{error.dataAcquisitionProject.id.notEmpty}")
   private String dataAcquisitionProjectId;
   
-  @NotEmpty(message = "{error.survey.id.isEmpty}")
+  @NotEmpty(message = "{error.survey.id.notEmpty}")
   private String surveyId;
 
   /*

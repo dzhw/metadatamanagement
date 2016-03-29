@@ -1,8 +1,13 @@
 
 package eu.dzhw.fdz.metadatamanagement.domain;
 
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+
 import com.google.common.base.MoreObjects;
 
+import eu.dzhw.fdz.metadatamanagement.domain.validation.I18nStringSize;
+import eu.dzhw.fdz.metadatamanagement.domain.validation.StringLengths;
 import net.karneim.pojobuilder.GeneratePojoBuilder;
 
 /**
@@ -16,14 +21,18 @@ public class Value {
 
   private Integer code;
 
+  @I18nStringSize(max = StringLengths.MEDIUM, message = "{error.value.label.i18nStringSize}")
   private I18nString label;
 
+  @NotNull(message = "{error.value.absoluteFrequency.notNull}")
   private Integer absoluteFrequency;
 
+  @NotNull(message = "{error.value.relativeFrequency.notNull}")
   private Double relativeFrequency;
 
   private boolean isAMissing = false;
 
+  @Size(max = StringLengths.SMALL, message = "{error.value.valueClass.size}")
   private String valueClass;
 
   /*
