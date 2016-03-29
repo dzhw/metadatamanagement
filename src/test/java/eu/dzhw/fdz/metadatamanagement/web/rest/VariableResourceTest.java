@@ -30,6 +30,7 @@ import eu.dzhw.fdz.metadatamanagement.AbstractTest;
 import eu.dzhw.fdz.metadatamanagement.domain.DataAcquisitionProject;
 import eu.dzhw.fdz.metadatamanagement.domain.DataTypes;
 import eu.dzhw.fdz.metadatamanagement.domain.FilterExpressionLanguages;
+import eu.dzhw.fdz.metadatamanagement.domain.RuleExpressionLanguages;
 import eu.dzhw.fdz.metadatamanagement.domain.ScaleLevels;
 import eu.dzhw.fdz.metadatamanagement.domain.Survey;
 import eu.dzhw.fdz.metadatamanagement.domain.Value;
@@ -761,6 +762,66 @@ public class VariableResourceTest extends AbstractTest {
         UnitTestCreateDomainObjectUtils.buildVariable(project.getId(), survey.getId());
     variable.getFilterDetails()
       .setFilterExpressionLanguage(FilterExpressionLanguages.SPEL);
+
+    // Act and Assert
+    // create the variable with the given id
+    mockMvc.perform(put(API_VARIABLES_URI + "/" + variable.getId())
+      .content(TestUtil.convertObjectToJsonBytes(variable)))
+      .andExpect(status().isCreated());
+  }
+
+  @Test
+  public void testRuleExpressionLanguageIsEmpty() throws Exception {
+    // Arrange
+    DataAcquisitionProject project = UnitTestCreateDomainObjectUtils.buildDataAcquisitionProject();
+    dataAcquisitionProjectRepository.save(project);
+
+    Survey survey = UnitTestCreateDomainObjectUtils.buildSurvey(project.getId());
+    surveyRepository.save(survey);
+    Variable variable =
+        UnitTestCreateDomainObjectUtils.buildVariable(project.getId(), survey.getId());
+    variable.getGenerationDetails()
+      .setRuleExpressionLanguage(null);
+
+    // Act and Assert
+    // create the variable with the given id
+    mockMvc.perform(put(API_VARIABLES_URI + "/" + variable.getId())
+      .content(TestUtil.convertObjectToJsonBytes(variable)))
+      .andExpect(status().isBadRequest());
+  }
+
+  @Test
+  public void testRuleExpressionLanguageWithWrongLanguage() throws Exception {
+    // Arrange
+    DataAcquisitionProject project = UnitTestCreateDomainObjectUtils.buildDataAcquisitionProject();
+    dataAcquisitionProjectRepository.save(project);
+
+    Survey survey = UnitTestCreateDomainObjectUtils.buildSurvey(project.getId());
+    surveyRepository.save(survey);
+    Variable variable =
+        UnitTestCreateDomainObjectUtils.buildVariable(project.getId(), survey.getId());
+    variable.getGenerationDetails()
+      .setRuleExpressionLanguage("WrongLanguage");
+
+    // Act and Assert
+    // create the variable with the given id
+    mockMvc.perform(put(API_VARIABLES_URI + "/" + variable.getId())
+      .content(TestUtil.convertObjectToJsonBytes(variable)))
+      .andExpect(status().isBadRequest());
+  }
+
+  @Test
+  public void testRuleExpressionLanguageWithStataLanguage() throws Exception {
+    // Arrange
+    DataAcquisitionProject project = UnitTestCreateDomainObjectUtils.buildDataAcquisitionProject();
+    dataAcquisitionProjectRepository.save(project);
+
+    Survey survey = UnitTestCreateDomainObjectUtils.buildSurvey(project.getId());
+    surveyRepository.save(survey);
+    Variable variable =
+        UnitTestCreateDomainObjectUtils.buildVariable(project.getId(), survey.getId());
+    variable.getGenerationDetails()
+      .setRuleExpressionLanguage(RuleExpressionLanguages.STATA);
 
     // Act and Assert
     // create the variable with the given id
