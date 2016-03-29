@@ -23,7 +23,6 @@ import eu.dzhw.fdz.metadatamanagement.domain.DataAcquisitionProject;
 import eu.dzhw.fdz.metadatamanagement.domain.DataSet;
 import eu.dzhw.fdz.metadatamanagement.domain.Survey;
 import eu.dzhw.fdz.metadatamanagement.domain.builders.DataAcquisitionProjectBuilder;
-import eu.dzhw.fdz.metadatamanagement.domain.builders.DataSetBuilder;
 import eu.dzhw.fdz.metadatamanagement.domain.builders.I18nStringBuilder;
 import eu.dzhw.fdz.metadatamanagement.repository.DataAcquisitionProjectRepository;
 import eu.dzhw.fdz.metadatamanagement.repository.DataSetRepository;
@@ -88,17 +87,14 @@ public class DataSetDeleteResourceTest extends AbstractTest {
     surveyIds.add(survey.getId());
     
     // create the dataSet
-    DataSet dataSet = new DataSetBuilder().withId("testId")
-        .withDataAcquisitionProjectId(project.getId())
-        .withVariableIds(variablesId).withDescription(new I18nStringBuilder().withDe("titel")
-        .withEn("title")
-        .build()).withSurveyIds(surveyIds).build();
+    DataSet dataSet =
+        UnitTestCreateDomainObjectUtils.buildDataSet(project.getId(), survey.getId());
     dataSetRepository.save(dataSet);
     
     // check that the survey is present
     mockMvc.perform(get(API_DATA_SETS_URI + "/" + dataSet.getId() + "?projection=complete"))
       .andExpect(status().isOk())
-      .andExpect(jsonPath("$.id", is(project.getId())))
+      .andExpect(jsonPath("$.id", is(dataSet.getId())))
       .andExpect(jsonPath("$.version", is(0)));
 
     // delete the Survey

@@ -87,7 +87,7 @@ public class UnitTestCreateDomainObjectUtils {
     variableIds.add(surveyId);
     return new DataSetBuilder().withSurveyIds(surveyIds)
       .withDataAcquisitionProjectId(projectId)
-      .withId("DataSet_001")
+      .withId(projectId + "-ds1")
       .withVariableIds(variableIds)
       .withDescription(new I18nStringBuilder().withDe("De Beschreibung")
         .withEn("En Description")
