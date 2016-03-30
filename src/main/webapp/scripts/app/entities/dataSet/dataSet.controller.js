@@ -2,20 +2,22 @@
 
 angular.module('metadatamanagementApp')
   .controller('DataSetController', function($scope, $state, DataSetsCollection,
-     UploadService) {
+    UploadService) {
 
-    $scope.surveys = [];
+    $scope.dataSets = [];
     $scope.page = 1;
     $scope.loadAll = function() {
-      DataSetsCollection.query({page: $scope.page - 1},
+      DataSetsCollection.query({
+          page: $scope.page - 1
+        },
         function(result) {
-        $scope.totalItems = result.page.totalElements;
-        $scope.dataSets = result._embedded.dataSets;
-      });
+          $scope.totalItems = result.page.totalElements;
+          $scope.dataSets = result._embedded.dataSets;
+        });
     };
 
-    $scope.uploadTexTemplate = function(file) {
-      UploadService.uploadTexTemplate(file,$scope.dataAcquisitionProject.id);
+    $scope.uploadTexTemplate = function(file, dataSetId) {
+      UploadService.uploadTexTemplate(file, dataSetId);
     };
 
     $scope.loadAll();

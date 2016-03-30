@@ -8,7 +8,7 @@ angular.module('metadatamanagementApp')
         url: '/dataSets',
         data: {
           authorities: ['ROLE_USER'],
-          pageTitle: 'metadatamanagementApp.dataSet.home.title'
+          pageTitle: 'metadatamanagementApp.dataSet.title'
         },
         views: {
           'content@': {
