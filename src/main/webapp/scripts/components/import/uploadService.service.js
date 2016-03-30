@@ -21,6 +21,12 @@ function($q, $translate, DataSetsParser, DataSetDeleteResource,
                 'dataAcquisitionProject.detail.logMessages.intro') +
               '\n'
           }];
+    uploadState.checkState = function() {
+      if (uploadState.progress >= uploadState.itemsToUpload) {
+        uploadState.hasFinished = true;
+        uploadState.disableButton = false;
+      }
+    };
     uploadState.getResult = function() {
       if (uploadState.errors > 0) {
         return 'danger';
@@ -30,23 +36,27 @@ function($q, $translate, DataSetsParser, DataSetDeleteResource,
     uploadState.getProgressState = function() {
       return uploadState.progress + '/' + uploadState.itemsToUpload;
     };
+    uploadState.pushSuccess = function() {
+      uploadState.progress++;
+      uploadState.successes++;
+    };
     uploadState.pushError = function(error) {
-       //add an empty line
-       uploadState.logMessages.push({
+      uploadState.progress++;
+      uploadState.errors++;
+      //add an empty line
+      uploadState.logMessages.push({
          message: '\n'
        });
-
-       // if the error is already a string simply display it
-       if (typeof error === 'string' || error instanceof String) {
-         uploadState.logMessages.push({
+      // if the error is already a string simply display it
+      if (typeof error === 'string' || error instanceof String) {
+        uploadState.logMessages.push({
            message: error + '\n',
            type: 'error'
          });
-       }
-
-       // log the dataset id
-       if (error.config && error.config.data && error.config.data.id) {
-         uploadState.logMessages.push({
+      }
+      // log the dataset id
+      if (error.config && error.config.data && error.config.data.id) {
+        uploadState.logMessages.push({
            message: $translate.instant('metadatamanagementApp' +
              '.dataAcquisitionProject.detail.' +
              'logMessages.dataSetNotSaved', {
@@ -54,32 +64,30 @@ function($q, $translate, DataSetsParser, DataSetDeleteResource,
              }) + '\n',
            type: 'error'
          });
-       }
-
-       //create additional information for the unsaved dataset
-       if (error.data && error.data.errors) {
-         error.data.errors.forEach(function(error) {
+      }
+      //create additional information for the unsaved dataset
+      if (error.data && error.data.errors) {
+        error.data.errors.forEach(function(error) {
            uploadState.logMessages.push({
              message: error.message + '\n',
              type: 'error'
            });
          });
-       } else if (error.data && error.data.status === 500) {
-         uploadState.logMessages.push({
+      } else if (error.data && error.data.status === 500) {
+        uploadState.logMessages.push({
            message: $translate.instant('metadatamanagementApp' +
              '.dataAcquisitionProject.detail.logMessages.' +
              'internalServerError') + '\n',
            type: 'error'
          });
-       } else if (error.data && error.data.message) {
-         uploadState.logMessages.push({
+      } else if (error.data && error.data.message) {
+        uploadState.logMessages.push({
            message: error.data.message +
              '\n',
            type: 'error'
          });
-       }
-     };
-
+      }
+    };
   };
   var showModal = function(dataAcquisitionProjectId, objName) {
     var defer = $q.defer();
@@ -96,7 +104,6 @@ function($q, $translate, DataSetsParser, DataSetDeleteResource,
   var uploadObjects = function() {
     uploadState.disableButton = true;
     for (var i = 0; i < objects.length; i++) {
-
       if (!objects[i].id || objects[i].id === '') {
         uploadState.pushError($translate.instant(
           'metadatamanagementApp.dataAcquisitionProject.' +
@@ -104,22 +111,14 @@ function($q, $translate, DataSetsParser, DataSetDeleteResource,
           'missingId', {
             index: i + 1
           }));
+        uploadState.checkState();
       } else {
         objects[i].$save().then(function() {
-        uploadState.progress++;
-        uploadState.successes++;
-        if (uploadState.progress >= uploadState.itemsToUpload) {
-          uploadState.hasFinished = true;
-          uploadState.disableButton = false;
-        }
+        uploadState.pushSuccess();
+        uploadState.checkState();
       }).catch(function(error) {
-        uploadState.progress++;
-        uploadState.errors++;
         uploadState.pushError(error);
-        if (uploadState.progress >= uploadState.itemsToUpload) {
-          uploadState.hasFinished = true;
-          uploadState.disableButton = false;
-        }
+        uploadState.checkState();
       });
       }
     }
@@ -234,19 +233,14 @@ function($q, $translate, DataSetsParser, DataSetDeleteResource,
           //Download automaticly data filled tex template
           FileResource.download(gridFsFileName).then(function(response) {
             saveAs(response.data.blob, file.name);
-            uploadState.progress++;
-            uploadState.successes++;
+            uploadState.pushSuccess();
             uploadState.disableButton = false;
           }).catch(function(error) {
-            uploadState.progress++;
-            uploadState.errors++;
             uploadState.pushError(error);
             uploadState.disableButton = false;
           });
           //Server hat issues with the tex file, send error to error output
         }).error(function(error) {
-          uploadState.progress++;
-          uploadState.errors++;
           var endErrorIndex = error.message.indexOf('----');
           var messageShort = error.message.substr(0, endErrorIndex).trim();
           uploadState.pushError(messageShort);
