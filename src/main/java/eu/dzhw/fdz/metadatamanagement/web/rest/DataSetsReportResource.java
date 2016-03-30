@@ -1,6 +1,7 @@
 package eu.dzhw.fdz.metadatamanagement.web.rest;
 
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 
 import javax.inject.Inject;
 
@@ -46,7 +47,8 @@ public class DataSetsReportResource {
       byte[] fileAsBytes = file.getBytes();
 
       // fill the data with data and store the template into mongodb / gridfs
-      String fileName = this.variableReportService.generateReport(new String(fileAsBytes, "UTF-8"),
+      String fileName = this.variableReportService.generateReport(
+          new String(fileAsBytes, StandardCharsets.UTF_8.toString()),
           file.getOriginalFilename(), id);
 
       // Return ok. Status 200.
