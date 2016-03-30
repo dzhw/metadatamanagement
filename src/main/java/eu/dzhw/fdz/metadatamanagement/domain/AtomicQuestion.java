@@ -31,7 +31,7 @@ public class AtomicQuestion extends AbstractRdcDomainObject {
 
   /* Domain model attributes */
   @Id
-  @NotEmpty(message = "{error.atomicQuestion.id.isEmpty}")
+  @NotEmpty(message = "{error.atomicQuestion.id.notEmpty}")
   @Size(max = StringLengths.MEDIUM, message = "{error.atomicQuestion.id.size}")
   @Pattern(regexp = Patterns.GERMAN_ALPHANUMERIC_WITH_UNDERSCORE_AND_MINUS, 
       message = "{error.atomicQuestion.id.pattern}")
@@ -71,13 +71,13 @@ public class AtomicQuestion extends AbstractRdcDomainObject {
 
   
   /* Foreign Keys */
-  @NotEmpty(message = "{error.dataAcquisitionProject.id.notEmpty}")
+  @NotEmpty(message = "{error.atomicQuestion.dataAcquisitionProjectId.notEmpty}")
   private String dataAcquisitionProjectId;
 
-  @NotEmpty(message = "{error.questionnaire.id.notEmpty}")
+  @NotEmpty(message = "{error.atomicQuestion.questionnaire.id.notEmpty}")
   private String questionnaireId;
 
-  @NotEmpty(message = "{error.variable.id.notEmpty}")
+  @NotEmpty(message = "{error.atomicQuestion.variable.id.notEmpty}")
   private String variableId;
 
   /*
