@@ -42,7 +42,7 @@ public class I18nStringSizeValidator implements ConstraintValidator<I18nStringSi
     }
     
     //Check De String
-    if (value.getDe() == null) {
+    if (value.getDe() == null && this.min == 0) {
       deValid = true;      
     } else if (value.getDe()
         .length() >= this.min
@@ -52,9 +52,9 @@ public class I18nStringSizeValidator implements ConstraintValidator<I18nStringSi
     }
     
     //Check En String
-    if (value.getEn() == null) {
+    if (value.getEn() == null && this.min == 0) {
       enValid = true;      
-    } else if (value.getDe()
+    } else if (value.getEn()
         .length() >= this.min
         && value.getEn()
           .length() <= this.max) {

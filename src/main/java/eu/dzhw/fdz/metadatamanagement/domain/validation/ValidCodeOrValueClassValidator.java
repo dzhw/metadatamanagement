@@ -41,7 +41,7 @@ public class ValidCodeOrValueClassValidator
 
     // get empty code status
     boolean emptyCode = false;
-    if (value.getCode() == null || value.getCode() == 0) {
+    if (value.getCode() == null) {
       emptyCode = true;
     }
 

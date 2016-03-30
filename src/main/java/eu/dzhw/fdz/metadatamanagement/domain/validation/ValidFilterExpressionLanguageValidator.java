@@ -32,25 +32,8 @@ public class ValidFilterExpressionLanguageValidator
   @Override
   public boolean isValid(String filterExpressionLanguage, ConstraintValidatorContext context) {
 
-    // mandatory field
-    if (filterExpressionLanguage == null || filterExpressionLanguage.isEmpty()) {
-      return false;
-    }
-
-    // check all expression languages
-    switch (filterExpressionLanguage) {
-      // All allowed values are okay. break switch.
-      case FilterExpressionLanguages.SPEL:
-        break;
-      case FilterExpressionLanguages.STATA:
-        break;
-      // Not valid expression language
-      default:
-        return false;
-    }
-
-    // expression language is okay
-    return true;
+     // expression language is okay
+    return FilterExpressionLanguages.ALL.contains(filterExpressionLanguage);
   }
 
 }

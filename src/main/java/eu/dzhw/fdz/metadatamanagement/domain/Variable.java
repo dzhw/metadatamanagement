@@ -71,8 +71,6 @@ public class Variable extends AbstractRdcDomainObject {
   // checks for min size too.
   @ValidAccessWays(message = "{error.variable.accessWays.validAccessWays}")
   private List<String> accessWays;
-  
-  private I18nSvg distributionSvg;
 
   private List<String> sameVariablesInPanel;
 
@@ -127,7 +125,6 @@ public class Variable extends AbstractRdcDomainObject {
       .add("values", values)
       .add("description", description)
       .add("accessWays", accessWays)
-      .add("distributionSvg", distributionSvg)
       .add("filterDetails", filterDetails)
       .add("sameVariablesInPanel", sameVariablesInPanel)
       .add("conceptId", conceptId)
@@ -187,14 +184,6 @@ public class Variable extends AbstractRdcDomainObject {
 
   public void setAccessWays(List<String> accessWays) {
     this.accessWays = accessWays;
-  }
-
-  public I18nSvg getDistributionSvg() {
-    return distributionSvg;
-  }
-
-  public void setDistributionSvg(I18nSvg distributionSvg) {
-    this.distributionSvg = distributionSvg;
   }
 
   public void setId(String id) {
