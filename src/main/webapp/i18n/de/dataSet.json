@@ -2,10 +2,13 @@
   "metadatamanagementApp": {
     "dataSet": {
       "title": "Datensätze",
-      "fdzId": "FDZ-ID",
-      "description": "Bescreibung",
+      "rdcId": "FDZ-ID",
+      "description": "Beschreibung",
       "variableIds": "Variablen",
-      "surveyIds": "Erhebungen"
+      "surveyIds": "Erhebungen",
+      "detail": {
+        "generate": "Variablesreport generieren"
+      }
     }
   }
 }

@@ -1,11 +1,11 @@
 <div>
-  <h2 data-translate="metadatamanagementApp.dataSets.home.title">DataSets</h2>
+  <h2 data-translate="metadatamanagementApp.dataSet.title">DataSets</h2>
   <jh-alert></jh-alert>
   <div class="table-responsive">
     <table class="table table-striped">
       <thead>
         <tr jh-sort="predicate" ascending="reverse" callback="loadAll()">
-          <th jh-sort-by="id"><span data-translate="global.field.rdcId">ID</span> <span class="glyphicon glyphicon-sort"></span></th>
+          <th jh-sort-by="id"><span data-translate="metadatamanagementApp.dataSet.rdcId">ID</span> <span class="glyphicon glyphicon-sort"></span></th>
           <th></th>
         </tr>
       </thead>
@@ -13,9 +13,9 @@
         <tr ng-repeat="dataSet in dataSets track by dataSet.id">
           <td>{{dataSet.id}}</td>
           <td>
-          <button type="file" class="btn btn-default" ngf-select="uploadTexTemplate($file)" accept=".tex" ng-disabled="uploadState.disableButton">
+          <button type="file" class="btn btn-default" ngf-select="uploadTexTemplate($file, dataSet.id)" accept=".tex" ng-disabled="uploadState.disableButton">
             <span class="glyphicon glyphicon-book"></span>
-                {{'metadatamanagementApp.dataAcquisitionProject.detail.generate' | translate}}
+                {{'metadatamanagementApp.dataSet.detail.generate' | translate}}
           </button>
           </td>
         </tr>
