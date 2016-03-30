@@ -41,8 +41,6 @@ function($q, $translate, DataSetsParser, DataSetDeleteResource,
       uploadState.successes++;
     };
     uploadState.pushError = function(error) {
-      uploadState.progress++;
-      uploadState.errors++;
       //add an empty line
       uploadState.logMessages.push({
          message: '\n'
@@ -111,12 +109,16 @@ function($q, $translate, DataSetsParser, DataSetDeleteResource,
           'missingId', {
             index: i + 1
           }));
+        uploadState.progress++;
+        uploadState.errors++;
         uploadState.checkState();
       } else {
         objects[i].$save().then(function() {
         uploadState.pushSuccess();
         uploadState.checkState();
       }).catch(function(error) {
+        uploadState.progress++;
+        uploadState.errors++;
         uploadState.pushError(error);
         uploadState.checkState();
       });
@@ -216,7 +218,7 @@ function($q, $translate, DataSetsParser, DataSetDeleteResource,
       uploadState.pushError({});
     }
   };
-  var uploadTexTemplate = function(file, dataSetId) {
+  var uploadTexTemplate = function(file, dataAcquisitionProjectId) {
     if (file !== null) {
       //Upload Tex-File with freemarker commands
       initUploadState();
@@ -225,7 +227,7 @@ function($q, $translate, DataSetsParser, DataSetDeleteResource,
       Upload.upload({
           url: 'api/data-sets/report',
           fields: {
-            'id': dataSetId
+            'id': dataAcquisitionProjectId
           },
           file: file
             //Upload and document could filled with data successfully

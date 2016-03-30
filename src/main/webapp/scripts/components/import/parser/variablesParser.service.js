@@ -90,6 +90,7 @@ function(Variable, ArrayParser) {
         }
       }
     });
+    console.log(variablesObjArray);
     return variablesObjArray;
   };
   return {

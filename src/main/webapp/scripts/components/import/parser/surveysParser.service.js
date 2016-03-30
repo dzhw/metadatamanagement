@@ -18,7 +18,7 @@ function(Survey, ArrayParser) {
               start: data['fieldPeriod.start'],
               end: data['fieldPeriod.end']
             },
-            surveyIds: ArrayParser.getParsedArray(data.dataSetIds)
+            dataSetIds: ArrayParser.getParsedArray(data.dataSetIds)
           };
         surveysObjArray[i] = new Survey(surveyObj);
       }
