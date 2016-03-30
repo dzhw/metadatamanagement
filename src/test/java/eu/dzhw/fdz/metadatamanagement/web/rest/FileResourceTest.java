@@ -23,7 +23,9 @@ import org.springframework.web.context.WebApplicationContext;
 
 import eu.dzhw.fdz.metadatamanagement.AbstractTest;
 import eu.dzhw.fdz.metadatamanagement.domain.DataAcquisitionProject;
+import eu.dzhw.fdz.metadatamanagement.domain.DataSet;
 import eu.dzhw.fdz.metadatamanagement.repository.DataAcquisitionProjectRepository;
+import eu.dzhw.fdz.metadatamanagement.repository.DataSetRepository;
 import eu.dzhw.fdz.metadatamanagement.service.FileService;
 import eu.dzhw.fdz.metadatamanagement.unittest.util.UnitTestCreateDomainObjectUtils;
 
@@ -42,6 +44,9 @@ public class FileResourceTest extends AbstractTest {
   private DataAcquisitionProjectRepository dataAcquisitionProjectRepository;
 
   @Autowired
+  private DataSetRepository dataSetRepository;
+
+  @Autowired
   private FileService fileService;
 
   private MockMvc mockMvc;
@@ -55,12 +60,8 @@ public class FileResourceTest extends AbstractTest {
   @After
   public void cleanUp() {
     this.dataAcquisitionProjectRepository.deleteAll();
+    this.dataSetRepository.deleteAll();
     this.fileService.deleteTempFiles();
-  }
-
-  @Test
-  public void test() {
-
   }
 
   @Test
@@ -80,12 +81,15 @@ public class FileResourceTest extends AbstractTest {
     DataAcquisitionProject project = UnitTestCreateDomainObjectUtils.buildDataAcquisitionProject();
     this.dataAcquisitionProjectRepository.save(project);
 
+    DataSet dataSet = UnitTestCreateDomainObjectUtils.buildDataSet(project.getId(), null);
+    this.dataSetRepository.save(dataSet);
+
     // Act and Assert Upload File
     MockMultipartFile multipartFile = new MockMultipartFile("file", texTemplate);
     MvcResult mvcResultUpload =
         this.mockMvc.perform(MockMvcRequestBuilders.fileUpload(API_DATASETS_REPORTS_URI)
           .file(multipartFile)
-          .param("id", project.getId()))
+          .param("id", dataSet.getId()))
           .andExpect(status().isOk())
           .andReturn();
 

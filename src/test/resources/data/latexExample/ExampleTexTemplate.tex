@@ -22,20 +22,14 @@
   
 \begin{document}
 
-\chapter{DEVELOPMENT VERSION - ONLY FUNCTION SHOW CASE}
-\section{Variablen report of ${dataAcquisitionProject.id}}
-\subsection{Project Information}
+\chapter{DEVELOPMENT VERSION - ONLY A FUNCTIONAL SHOW CASE}
+\section{Variablen report of ${dataSet.id}}
+\subsection{Data Set Information}
 Notice: English Version (using english translations of values.!)\\
 
 \begin{tabular}{ll}
-	Project Id & ${dataAcquisitionProject.id} \\
-	PanelName & ${dataAcquisitionProject.panelName.en} \\
-	Releases & 
-	<#list dataAcquisitionProject.releases as release> 
-		${release.version}, 
-	<#else>
-		No Releases!
-	</#list> \\	
+	Data Set Id & ${dataSet.id} \\
+	Description & ${dataSet.description.en} \\
 \end{tabular}	
 
 \newpage

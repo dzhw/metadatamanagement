@@ -19,7 +19,9 @@ import org.springframework.web.context.WebApplicationContext;
 
 import eu.dzhw.fdz.metadatamanagement.AbstractTest;
 import eu.dzhw.fdz.metadatamanagement.domain.DataAcquisitionProject;
+import eu.dzhw.fdz.metadatamanagement.domain.DataSet;
 import eu.dzhw.fdz.metadatamanagement.repository.DataAcquisitionProjectRepository;
+import eu.dzhw.fdz.metadatamanagement.repository.DataSetRepository;
 import eu.dzhw.fdz.metadatamanagement.service.FileService;
 import eu.dzhw.fdz.metadatamanagement.unittest.util.UnitTestCreateDomainObjectUtils;
 
@@ -38,6 +40,9 @@ public class DataSetsReportResourceTest extends AbstractTest {
   private DataAcquisitionProjectRepository dataAcquisitionProjectRepository;
 
   @Autowired
+  private DataSetRepository dataSetRepository;
+
+  @Autowired
   private FileService fileService;
 
   private MockMvc mockMvc;
@@ -51,6 +56,7 @@ public class DataSetsReportResourceTest extends AbstractTest {
   @After
   public void cleanUp() {
     this.dataAcquisitionProjectRepository.deleteAll();
+    this.dataSetRepository.deleteAll();
     this.fileService.deleteTempFiles();
   }
 
@@ -71,11 +77,14 @@ public class DataSetsReportResourceTest extends AbstractTest {
     DataAcquisitionProject project = UnitTestCreateDomainObjectUtils.buildDataAcquisitionProject();
     this.dataAcquisitionProjectRepository.save(project);
 
+    DataSet dataSet = UnitTestCreateDomainObjectUtils.buildDataSet(project.getId(), null);
+    this.dataSetRepository.save(dataSet);
+
     // Act and Assert
     MockMultipartFile multipartFile = new MockMultipartFile("file", texTemplate);
     this.mockMvc.perform(MockMvcRequestBuilders.fileUpload(API_DATASETS_REPORTS_URI)
       .file(multipartFile)
-      .param("id", project.getId()))
+      .param("id", dataSet.getId()))
       .andExpect(status().isOk());
   }
 
@@ -87,11 +96,14 @@ public class DataSetsReportResourceTest extends AbstractTest {
     this.dataAcquisitionProjectRepository.save(project);
     byte[] empty = new byte[0];
 
+    DataSet dataSet = UnitTestCreateDomainObjectUtils.buildDataSet(project.getId(), null);
+    this.dataSetRepository.save(dataSet);
+
     // Act and Assert
     MockMultipartFile multipartFile = new MockMultipartFile("file", empty);
     this.mockMvc.perform(MockMvcRequestBuilders.fileUpload(API_DATASETS_REPORTS_URI)
       .file(multipartFile)
-      .param("id", project.getId()))
+      .param("id", dataSet.getId()))
       .andExpect(status().isBadRequest());
   }
 }

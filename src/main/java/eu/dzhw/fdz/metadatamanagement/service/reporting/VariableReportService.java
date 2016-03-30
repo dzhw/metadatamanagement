@@ -5,6 +5,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.io.Writer;
+import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -14,10 +15,10 @@ import javax.inject.Inject;
 import org.springframework.stereotype.Service;
 
 import eu.dzhw.fdz.metadatamanagement.domain.AtomicQuestion;
-import eu.dzhw.fdz.metadatamanagement.domain.DataAcquisitionProject;
+import eu.dzhw.fdz.metadatamanagement.domain.DataSet;
 import eu.dzhw.fdz.metadatamanagement.domain.Variable;
 import eu.dzhw.fdz.metadatamanagement.repository.AtomicQuestionRepository;
-import eu.dzhw.fdz.metadatamanagement.repository.DataAcquisitionProjectRepository;
+import eu.dzhw.fdz.metadatamanagement.repository.DataSetRepository;
 import eu.dzhw.fdz.metadatamanagement.repository.VariableRepository;
 import eu.dzhw.fdz.metadatamanagement.service.FileService;
 import freemarker.template.Configuration;
@@ -38,7 +39,7 @@ public class VariableReportService {
   private FileService fileService;
 
   @Inject
-  private DataAcquisitionProjectRepository dataAcquisitionProjectRepository;
+  private DataSetRepository dataSetRepository;
 
   @Inject
   private VariableRepository variableRepository;
@@ -67,23 +68,23 @@ public class VariableReportService {
   public static final String CONTENT_TYPE_LATEX = "application/x-tex";
 
   /**
-   * This service method will receive a tex template as a string and an id of a data acquision
-   * project. With this id, the service will load the project for receiving all project information,
-   * which are needed for filling of the tex template with data.
+   * This service method will receive a tex template as a string and an id of a data set. With this
+   * id, the service will load the data set for receiving all depending information, which are
+   * needed for filling of the tex template with data.
    * 
    * @param texTemplateStr An uploaded tex template by the user as a String.
    * @param fileName the name of the uploaded tex template.
-   * @param dataAcquisitionProjectId An id of the data acquision project id.
+   * @param dataSetId An id of the data set.
    * @return The name of the saved tex template in the GridFS / MongoDB.
    * @throws TemplateException Handles templates exceptions.
    * @throws IOException Handles IO Exception for the template.
    */
   public String generateReport(String texTemplateStr, String fileName,
-      String dataAcquisitionProjectId) throws TemplateException, IOException {
+      String dataSetId) throws TemplateException, IOException {
 
     // Configuration, based on Freemarker Version 2.3.23
     Configuration templateConfiguration = new Configuration(Configuration.VERSION_2_3_23);
-    templateConfiguration.setDefaultEncoding("UTF-8");
+    templateConfiguration.setDefaultEncoding(StandardCharsets.UTF_8.toString());
     templateConfiguration.setTemplateExceptionHandler(TemplateExceptionHandler.RETHROW_HANDLER);
 
     // Read Template and escape elements
@@ -93,7 +94,7 @@ public class VariableReportService {
     // Write output to output stream
     ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
     Writer fileWriter = new OutputStreamWriter(byteArrayOutputStream, "UTF-8");
-    Map<String, Object> dataForTemplate = this.loadDataForTemplateFilling(dataAcquisitionProjectId);
+    Map<String, Object> dataForTemplate = this.loadDataForTemplateFilling(dataSetId);
     texTemplate.process(dataForTemplate, fileWriter);
 
     // Save into MongoDB / GridFS
@@ -124,24 +125,23 @@ public class VariableReportService {
   /**
    * This method load all needed objects from the db for filling the tex template.
    * 
-   * @param dataAcquisitionProjectId An id of the data acquision project id.
+   * @param dataSetId An id of the data acquision project id.
    * @return A HashMap with all data for the template filling. The Key is the name of the Object,
    *         which is used in the template.
    */
-  private Map<String, Object> loadDataForTemplateFilling(String dataAcquisitionProjectId) {
+  private Map<String, Object> loadDataForTemplateFilling(String dataSetId) {
 
     // Get Project by Id
-    DataAcquisitionProject dataAcquisitionProject =
-        this.dataAcquisitionProjectRepository.findOne(dataAcquisitionProjectId);
+    DataSet dataSet = this.dataSetRepository.findOne(dataSetId);
 
     // Check for found data acquisition project
-    if (dataAcquisitionProject == null) {
+    if (dataSet == null) {
       throw new IllegalArgumentException(
-          "No Data Acquisition Project found with given id: " + dataAcquisitionProjectId);
+          "No Data Set was found with given id: " + dataSetId);
     }
 
     List<AtomicQuestion> atomicQuestions =
-        this.atomicQuestionRepository.findByDataAcquisitionProjectId(dataAcquisitionProjectId);
+        this.atomicQuestionRepository.findByDataAcquisitionProjectId(dataSetId);
 
     // Change AtomicQuestion List to Map for joins in tex template
     Map<String, AtomicQuestion> atomicQuestionMap = new HashMap<>();
@@ -150,10 +150,10 @@ public class VariableReportService {
     }
 
     List<Variable> variables =
-        this.variableRepository.findByDataAcquisitionProjectId(dataAcquisitionProjectId);
+        this.variableRepository.findByDataAcquisitionProjectId(dataSetId);
 
     Map<String, Object> dataForTemplate = new HashMap<String, Object>();
-    dataForTemplate.put("dataAcquisitionProject", dataAcquisitionProject);
+    dataForTemplate.put("dataSet", dataSet);
     dataForTemplate.put("variables", variables);
     dataForTemplate.put("atomicQuestions", atomicQuestionMap);
 

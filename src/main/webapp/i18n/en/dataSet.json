@@ -2,10 +2,13 @@
   "metadatamanagementApp": {
     "dataSet": {
       "title": "Data Sets",
-      "fdzId": "RDC-ID",
+      "rdcId": "RDC-ID",
       "description": "Description",
       "variableIds": "Variables",
-      "surveyIds": "Surveys"
+      "surveyIds": "Surveys",
+      "details": {
+        "generate": "Generate variable report"
+      }
     }
   }
 }

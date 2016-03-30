@@ -6,7 +6,7 @@
       "description": "Beschreibung",
       "variableIds": "Variablen",
       "surveyIds": "Erhebungen",
-      "detail": {
+      "details": {
         "generate": "Variablesreport generieren"
       }
     }

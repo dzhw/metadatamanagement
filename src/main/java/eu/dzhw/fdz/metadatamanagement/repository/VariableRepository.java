@@ -29,6 +29,9 @@ public interface VariableRepository
   List<Variable> findByDataAcquisitionProjectId(String dataAcquisitionProjectId);
 
   @RestResource(exported = false)
+  List<Variable> findByDataSetIdsContaining(String dataSetId);
+
+  @RestResource(exported = false)
   List<Variable> findByDataAcquisitionProjectIdAndName(String dataAcquisitionProjectId,
       String name);
 }
