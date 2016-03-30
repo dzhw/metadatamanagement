@@ -35,32 +35,7 @@ public class ValidSurveyIdNameValidator implements ConstraintValidator<ValidSurv
       return false;
     }
 
-    String[] splittedId = survey.getId()
-      .split("-sy");
-
-    // The length has to be 2. Before the minus has to be the project id and after the minus has to
-    // be the variable name.
-    if (splittedId.length != 2) {
-      return false;
-    }
-
-
-    // Check for Number
-    try {
-      Integer.valueOf(splittedId[1]);
-    } catch (NumberFormatException e) {
-      // No number!
-      return false;
-    }
-
-    // check for correct project id and variable name
-    if (survey.getDataAcquisitionProjectId()
-        .equals(splittedId[0])) {
-      return true;
-    }
-
-    // the project id or the name is in the id not valid.
-    return false;
+    return survey.getId().matches(survey.getDataAcquisitionProjectId() + "\\-sy" + "[0-9]*");
   }
 
 }

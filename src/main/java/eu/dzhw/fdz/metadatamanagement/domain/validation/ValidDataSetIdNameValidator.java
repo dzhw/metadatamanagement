@@ -35,33 +35,7 @@ public class ValidDataSetIdNameValidator
     if (dataset.getDataAcquisitionProjectId() == null) {
       return false;
     }
-
-    String[] splittedId = dataset.getId()
-      .split("-ds");
-
-    // The length has to be 2. Before the minus has to be the project id and after the minus has to
-    // be the variable name.
-    if (splittedId.length != 2) {
-      return false;
-    }
-
-
-    // Check for Number
-    try {
-      Integer.valueOf(splittedId[1]);
-    } catch (NumberFormatException e) {
-      // No number!
-      return false;
-    }
-
-    // check for correct project id and variable name
-    if (dataset.getDataAcquisitionProjectId()
-        .equals(splittedId[0])) {
-      return true;
-    }
-
-    // the project id or the name is in the id not valid.
-    return false;
+    return dataset.getId().matches(dataset.getDataAcquisitionProjectId() + "\\-ds" + "[0-9]*");
   }
 
 }

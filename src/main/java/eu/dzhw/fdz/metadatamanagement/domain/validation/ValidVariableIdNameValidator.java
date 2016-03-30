@@ -33,29 +33,12 @@ public class ValidVariableIdNameValidator
   public boolean isValid(Variable variable, ConstraintValidatorContext context) {
 
     // check for set project id
-    if (variable.getDataAcquisitionProjectId() == null) {
+    if (variable.getDataAcquisitionProjectId() == null || variable.getName() == null) {
       return false;
     }
 
-    String[] splittedId = variable.getId()
-      .split("-");
-
-    // The length has to be 2. Before the minus has to be the project id and after the minus has to
-    // be the variable name.
-    if (splittedId.length != 2) {
-      return false;
-    }
-
-    // check for correct project id and variable name
-    if (variable.getDataAcquisitionProjectId()
-        .equals(splittedId[0])
-        && variable.getName()
-          .equals(splittedId[1])) {
-      return true;
-    }
-
-    // the project id or the name is in the id not valid.
-    return false;
+    return variable.getId()
+      .equals(variable.getDataAcquisitionProjectId() + "-" + variable.getName());
   }
 
 }
