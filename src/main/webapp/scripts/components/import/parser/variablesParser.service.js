@@ -2,7 +2,7 @@
 'use strict';
 
 angular.module('metadatamanagementApp').service('VariablesParser',
-function(Variable) {
+function(Variable, ArrayParser) {
   var getVariables = function(data, dataAcquisitionProjectId) {
     var jsonContent = {};
     var variablesValues = {};
@@ -21,11 +21,10 @@ function(Variable) {
           // jscs:disable
           jsonContent = XLSX.utils.sheet_to_json(worksheet);
           // jscs:enable
-          console.log(jsonContent);
           for (var i = 0; i < jsonContent.length; i++) {
             var variableObj = {
               id: jsonContent[i].id,
-              accesWays: jsonContent[i].accesWays.replace(/ /g,'').split(','),
+              accessWays: ArrayParser.getParsedArray(jsonContent[i].accessWays),
               dataAcquisitionProjectId: dataAcquisitionProjectId,
               dataType: {
                 en: jsonContent[i]['dataType.en'],
@@ -39,12 +38,18 @@ function(Variable) {
                 en: jsonContent[i]['description.en'],
                 de: jsonContent[i]['description.de']
               },
-              filterDescription: {
-                en: jsonContent[i]['filterDescription.en'],
-                de: jsonContent[i]['filterDescription.de']
+              filterDetaills: {
+                filterExpression:
+                jsonContent[i]['filterDetaills.filterExpression'],
+                filterDescription: {
+                  en: jsonContent[i]['filterDetaills.filterDescription.de'],
+                  de: jsonContent[i]['filterDetaills.filterDescription.en']
+                },
+                filterExpressionLanguage:
+                jsonContent[i]['filterDetaills.filterExpressionLanguage']
               },
-              filterExpression: jsonContent[i].filterExpression,
-              filterExpressionLanguage: jsonContent[i].filterExpressionLanguage,
+              sameVariablesInPanel: ArrayParser.
+              getParsedArray(jsonContent[i].sameVariablesInPanel),
               generationDetails: {
                 rule: jsonContent[i]['generationDetails.rule'],
                 ruleExpressionLanguage: jsonContent[i]
@@ -73,9 +78,12 @@ function(Variable) {
                 ['statistics.standardDeviation'],
                 thirdQuartile: jsonContent[i]['statistics.thirdQuartile']
               },
-              values: variablesValues[jsonContent[i].id].values,
+              values: variablesValues[jsonContent[i].id] ?
+                variablesValues[jsonContent[i].id].values :
+                variablesValues[jsonContent[i].id],
               surveyId: jsonContent[i].surveyId,
-              conceptId: jsonContent[i].conceptId
+              conceptId: jsonContent[i].conceptId,
+              dataSetIds: ArrayParser.getParsedArray(jsonContent[i].dataSetIds),
             };
             variablesObjArray.push(new Variable(variableObj));
           }

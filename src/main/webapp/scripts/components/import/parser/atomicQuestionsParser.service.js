@@ -6,15 +6,7 @@ function(AtomicQuestion) {
       var atomicQuestionsObjArray = [];
       for (var i = 0; i < atomicQuestions.length; i++) {
         var data = atomicQuestions[i];
-        if (!data.id || data.id === '') {
-          /*$scope.uploadStatus.pushError($translate.instant(
-            'metadatamanagementApp.dataAcquisitionProject.' +
-            'detail.logMessages.' +
-            'missingId', {
-              index: i + 1
-            }));*/
-        } else {
-          var atomicQuestionObj = {
+        var atomicQuestionObj = {
             id: data.id,
             name: data.name,
             dataAcquisitionProjectId: projectId,
@@ -46,8 +38,7 @@ function(AtomicQuestion) {
               de: data['type.de']
             }
           };
-          atomicQuestionsObjArray[i] = new AtomicQuestion(atomicQuestionObj);
-        }
+        atomicQuestionsObjArray[i] = new AtomicQuestion(atomicQuestionObj);
       }
       return atomicQuestionsObjArray;
     };
