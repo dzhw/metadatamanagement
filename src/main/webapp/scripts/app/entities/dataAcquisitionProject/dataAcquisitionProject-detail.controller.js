@@ -18,6 +18,12 @@ angular.module('metadatamanagementApp')
       $scope.uploadVariables = function(file) {
         UploadService.uploadVariables(file,$scope.dataAcquisitionProject.id);
       };
+      /*
+      JobLog, UploadDataSet
+      $scope.uploadState =  JobLog.uploadState;
+      $scope.uploadDataSets = function(file) {
+        UploadDataSet.upload(file,$scope.dataAcquisitionProject.id);
+      };*/
       $scope.$watch('uploadState.progress', function() {
         if ($scope.uploadState.hasFinished) {
           $scope.$broadcast($scope.uploadState.uploadedDomainObject);

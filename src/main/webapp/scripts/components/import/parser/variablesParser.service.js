@@ -71,8 +71,8 @@ function(Variable, ArrayParser) {
           ['statistics.standardDeviation'],
           thirdQuartile: jsonContent[i]['statistics.thirdQuartile']
         },
-        values: data.files['values/'+jsonContent[i].id+'.json'] ?
-          data.files['values/'+jsonContent[i].id+'.json'].values :
+        values: data.files['values/' + jsonContent[i].id + '.json'] ?
+          data.files['values/' + jsonContent[i].id + '.json'].values :
           variablesValues[jsonContent[i].id],
         surveyId: jsonContent[i].surveyId,
         conceptId: jsonContent[i].conceptId,
