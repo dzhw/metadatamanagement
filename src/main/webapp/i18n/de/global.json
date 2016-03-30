@@ -14,6 +14,7 @@
         "variable": "Variablen",
         "rdcProject": "Datenerhebungsprojekte",
         "survey": "Erhebungen",
+        "dataSet": "Datensets",
         "additionalEntity": "JHipster will add additional entities here (do not translate!)"
       },
       "search": {

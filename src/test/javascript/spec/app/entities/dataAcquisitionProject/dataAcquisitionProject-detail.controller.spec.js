@@ -3,6 +3,7 @@
 /* global inject */
 /* global spyOn */
 /* global it */
+/* global xit */
 /* global expect */
 /* global mockApis */
 
@@ -89,7 +90,7 @@ describe('Controllers Tests ', function() {
       expect($scope.uploadState.uploadedDomainObject).
       toEqual('surveys-uploaded');
     });
-  it('',function() {
+  xit('should upload a tex template',function() {
       $scope.uploadTexTemplate();
     });
   it('should set uploadedDomainObject to variables-uploaded',function() {
@@ -117,6 +118,7 @@ describe('Controllers Tests ', function() {
     uploadState.progress = 2;
     $scope.uploadState = uploadState;
     $scope.$apply();
-    expect($scope.$broadcast).not.toHaveBeenCalledWith('atomicQuestions-uploaded');
+    expect($scope.$broadcast).not
+      .toHaveBeenCalledWith('atomicQuestions-uploaded');
   });
 });

@@ -217,7 +217,7 @@ function($q, $translate, DataSetsParser, DataSetDeleteResource,
       uploadState.pushError({});
     }
   };
-  var uploadTexTemplate = function(file, dataAcquisitionProjectId) {
+  var uploadTexTemplate = function(file, dataSetId) {
     if (file !== null) {
       //Upload Tex-File with freemarker commands
       initUploadState();
@@ -226,7 +226,7 @@ function($q, $translate, DataSetsParser, DataSetDeleteResource,
       Upload.upload({
           url: 'api/data-sets/report',
           fields: {
-            'id': dataAcquisitionProjectId
+            'id': dataSetId
           },
           file: file
             //Upload and document could filled with data successfully

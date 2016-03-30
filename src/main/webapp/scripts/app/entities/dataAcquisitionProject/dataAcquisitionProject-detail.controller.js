@@ -15,9 +15,6 @@ angular.module('metadatamanagementApp')
         UploadService.uploadAtomicQuestions(file,
           $scope.dataAcquisitionProject.id);
       };
-      $scope.uploadTexTemplate = function(file) {
-        UploadService.uploadTexTemplate(file,$scope.dataAcquisitionProject.id);
-      };
       $scope.uploadVariables = function(file) {
         UploadService.uploadVariables(file,$scope.dataAcquisitionProject.id);
       };

@@ -1,0 +1,26 @@
+<div>
+  <h2 data-translate="metadatamanagementApp.dataSets.home.title">DataSets</h2>
+  <jh-alert></jh-alert>
+  <div class="table-responsive">
+    <table class="table table-striped">
+      <thead>
+        <tr jh-sort="predicate" ascending="reverse" callback="loadAll()">
+          <th jh-sort-by="id"><span data-translate="global.field.rdcId">ID</span> <span class="glyphicon glyphicon-sort"></span></th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr ng-repeat="dataSet in dataSets track by dataSet.id">
+          <td>{{dataSet.id}}</td>
+          <td>
+          <button type="file" class="btn btn-default" ngf-select="uploadTexTemplate($file)" accept=".tex" ng-disabled="uploadState.disableButton">
+            <span class="glyphicon glyphicon-book"></span>
+                {{'metadatamanagementApp.dataAcquisitionProject.detail.generate' | translate}}
+          </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <uib-pager total-items="totalItems" ng-model="page" ng-change="loadAll()"></uib-pager>
+</div>
