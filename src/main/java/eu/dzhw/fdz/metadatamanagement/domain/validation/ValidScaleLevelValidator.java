@@ -31,9 +31,14 @@ public class ValidScaleLevelValidator implements ConstraintValidator<ValidScaleL
   @Override
   public boolean isValid(I18nString scaleLevel, ConstraintValidatorContext context) {
 
- // Check for emptyness
+    // Check for emptyness
     if (scaleLevel == null) {
-      return true;
+      return false;
+    }
+
+    // check for part objects
+    if (scaleLevel.getDe() == null || scaleLevel.getEn() == null) {
+      return false;
     }
 
     //english and german have correct values, but are they consistent?
