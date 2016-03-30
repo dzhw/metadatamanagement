@@ -39,6 +39,11 @@ public class ValidAtomicQuestionTypeValidator
       return true;
     }
 
+    // check for de and en emptyness
+    if (type.getEn() == null || type.getDe() == null) {
+      return true;
+    }
+
     //english and german have correct values, but are they consistent?
     //open
     if (type.getDe().equals(AtomicQuestionTypes.OPEN.getDe()) 

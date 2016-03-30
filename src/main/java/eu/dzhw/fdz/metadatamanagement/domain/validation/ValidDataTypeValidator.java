@@ -34,8 +34,15 @@ public class ValidDataTypeValidator implements ConstraintValidator<ValidDataType
 
     // Check for emptyness
     if (dataType == null) {
-      return true;
+      return false;
     }
+
+    // Check for emptyness
+    if (dataType.getDe() == null || dataType.getEn() == null) {
+      return false;
+    }
+
+    // check de and en
 
     // english and german have correct values, but are they valid?
     // Numeric
