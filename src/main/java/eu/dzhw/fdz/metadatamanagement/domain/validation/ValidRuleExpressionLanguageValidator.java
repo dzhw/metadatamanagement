@@ -32,25 +32,8 @@ public class ValidRuleExpressionLanguageValidator
   @Override
   public boolean isValid(String ruleExpressionLanguage, ConstraintValidatorContext context) {
 
-    // mandatory field
-    if (ruleExpressionLanguage == null || ruleExpressionLanguage.isEmpty()) {
-      return false;
-    }
-
-    // check all expression languages
-    switch (ruleExpressionLanguage) {
-      // All allowed values are okay. break switch.
-      case RuleExpressionLanguages.R:
-        break;
-      case RuleExpressionLanguages.STATA:
-        break;
-      // Not valid expression language
-      default:
-        return false;
-    }
-
-    // expression language is okay
-    return true;
+    // check for rule expression languages
+    return RuleExpressionLanguages.ALL.contains(ruleExpressionLanguage);
   }
 
 }

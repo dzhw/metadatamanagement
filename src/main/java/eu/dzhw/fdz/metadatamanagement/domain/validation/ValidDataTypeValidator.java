@@ -32,36 +32,8 @@ public class ValidDataTypeValidator implements ConstraintValidator<ValidDataType
   @Override
   public boolean isValid(I18nString dataType, ConstraintValidatorContext context) {
 
-    // Check for emptyness
-    if (dataType == null) {
-      return false;
-    }
-
-    // Check for emptyness
-    if (dataType.getDe() == null || dataType.getEn() == null) {
-      return false;
-    }
-
-    // check de and en
-
-    // english and german have correct values, but are they valid?
-    // Numeric
-    if (dataType.getDe()
-        .equals(DataTypes.NUMERIC.getDe())
-        && dataType.getEn()
-          .equals(DataTypes.NUMERIC.getEn())) {
-      return true;
-    }
-
-    // String
-    if (dataType.getDe()
-        .equals(DataTypes.STRING.getDe())
-        && dataType.getEn()
-          .equals(DataTypes.STRING.getEn())) {
-      return true;
-    }
-
-    return false;
+    // check for data types
+    return DataTypes.ALL.contains(dataType);
   }
 
 }

@@ -31,41 +31,7 @@ public class ValidScaleLevelValidator implements ConstraintValidator<ValidScaleL
   @Override
   public boolean isValid(I18nString scaleLevel, ConstraintValidatorContext context) {
 
-    // Check for emptyness
-    if (scaleLevel == null) {
-      return false;
-    }
-
-    // check for part objects
-    if (scaleLevel.getDe() == null || scaleLevel.getEn() == null) {
-      return false;
-    }
-
-    //english and german have correct values, but are they consistent?
-    // nominal
-    if (scaleLevel.getDe()
-        .equals(ScaleLevels.NOMINAL.getDe())
-        && scaleLevel.getEn()
-          .equals(ScaleLevels.NOMINAL.getEn())) {
-      return true;
-    }
-    
-    // ordinal
-    if (scaleLevel.getDe()
-        .equals(ScaleLevels.ORDINAL.getDe())
-        && scaleLevel.getEn()
-          .equals(ScaleLevels.ORDINAL.getEn())) {
-      return true;
-    }
-
-    // continous
-    if (scaleLevel.getDe()
-        .equals(ScaleLevels.CONTINOUS.getDe())
-        && scaleLevel.getEn()
-          .equals(ScaleLevels.CONTINOUS.getEn())) {
-      return true;
-    }
-        
-    return false;
+    // check for scale levels
+    return ScaleLevels.ALL.contains(scaleLevel);
   }
 }

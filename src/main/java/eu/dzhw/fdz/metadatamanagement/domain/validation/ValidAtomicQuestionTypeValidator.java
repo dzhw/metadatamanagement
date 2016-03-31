@@ -34,29 +34,12 @@ public class ValidAtomicQuestionTypeValidator
   @Override
   public boolean isValid(I18nString type, ConstraintValidatorContext context) {
 
-    // Check for emptyness
+    // no mandatory
     if (type == null) {
       return true;
     }
 
-    // check for de and en emptyness
-    if (type.getEn() == null || type.getDe() == null) {
-      return true;
-    }
-
-    //english and german have correct values, but are they consistent?
-    //open
-    if (type.getDe().equals(AtomicQuestionTypes.OPEN.getDe()) 
-        && type.getEn().equals(AtomicQuestionTypes.OPEN.getEn())) {
-      return true;
-    }
-    
-    //close
-    if (type.getDe().equals(AtomicQuestionTypes.SINGLE_CHOICE.getDe()) 
-        && type.getEn().equals(AtomicQuestionTypes.SINGLE_CHOICE.getEn())) {
-      return true;
-    }
-        
-    return false;
+    // check for atomic question types
+    return AtomicQuestionTypes.ALL.contains(type);
   }
 }

@@ -34,33 +34,20 @@ public class ValidAccessWaysValidator
   @Override
   public boolean isValid(List<String> accessWays, ConstraintValidatorContext context) {
 
-    // check for empty list
-    if (accessWays == null) {
+    // min size 1!
+    if (accessWays == null || accessWays.size() == 0) {
       return false;
     }
 
-    // min size = 1!
-    if (accessWays.size() == 0) {
-      return false;
-    }
-
-    // check all access ways
+    // check for access ways
     for (String accessWay : accessWays) {
-      switch (accessWay) {
-        // All allowed values are okay. break switch.
-        case AccessWays.CUF:
-          break;
-        case AccessWays.SUF:
-          break;
-        case AccessWays.REMOTE:
-          break;
-        // Not valid access way
-        default:
-          return false;
+      // check for every access way. if one way is not valid, return false
+      if (!AccessWays.ALL.contains(accessWay)) {
+        return false;
       }
     }
 
-    // all values are okay
+    // all access ways are valid.
     return true;
   }
 
