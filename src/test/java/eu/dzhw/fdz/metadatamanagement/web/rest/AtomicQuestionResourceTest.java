@@ -243,7 +243,7 @@ public class AtomicQuestionResourceTest extends AbstractTest {
     // create the variable with the given id
     mockMvc.perform(put(API_ATOMICQUESTIONS_URI + "/" + atomicQuestion.getId())
       .content(TestUtil.convertObjectToJsonBytes(atomicQuestion)))
-      .andExpect(status().isCreated());
+      .andExpect(status().isBadRequest());
   }
 
   @Test
