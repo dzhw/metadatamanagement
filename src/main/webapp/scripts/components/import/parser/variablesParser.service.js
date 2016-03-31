@@ -5,7 +5,6 @@ angular.module('metadatamanagementApp').service('VariablesParser',
 function(Variable, ArrayParser) {
   var getVariables = function(data, dataAcquisitionProjectId) {
     var jsonContent = {};
-    var variablesValues = {};
     var variablesObjArray = [];
     var excelFile = data.files['variables.xlsx'];
     var content = XLSX.read(excelFile.asBinary(), {type: 'binary'});
@@ -31,15 +30,15 @@ function(Variable, ArrayParser) {
           en: jsonContent[i]['description.en'],
           de: jsonContent[i]['description.de']
         },
-        filterDetaills: {
+        filterDetails: {
           filterExpression:
-          jsonContent[i]['filterDetaills.filterExpression'],
+          jsonContent[i]['filterDetails.filterExpression'],
           filterDescription: {
-            en: jsonContent[i]['filterDetaills.filterDescription.de'],
-            de: jsonContent[i]['filterDetaills.filterDescription.en']
+            en: jsonContent[i]['filterDetails.filterDescription.de'],
+            de: jsonContent[i]['filterDetails.filterDescription.en']
           },
           filterExpressionLanguage:
-          jsonContent[i]['filterDetaills.filterExpressionLanguage']
+          jsonContent[i]['filterDetails.filterExpressionLanguage']
         },
         sameVariablesInPanel: ArrayParser.
         getParsedArray(jsonContent[i].sameVariablesInPanel),
@@ -72,8 +71,9 @@ function(Variable, ArrayParser) {
           thirdQuartile: jsonContent[i]['statistics.thirdQuartile']
         },
         values: data.files['values/' + jsonContent[i].id + '.json'] ?
-          data.files['values/' + jsonContent[i].id + '.json'].values :
-          variablesValues[jsonContent[i].id],
+          JSON.parse(data.files['values/' + jsonContent[i].id + '.json']
+          .asBinary()).values :
+          data.files['values/' + jsonContent[i].id + '.json'],
         surveyId: jsonContent[i].surveyId,
         conceptId: jsonContent[i].conceptId,
         dataSetIds: ArrayParser.getParsedArray(jsonContent[i].dataSetIds),
