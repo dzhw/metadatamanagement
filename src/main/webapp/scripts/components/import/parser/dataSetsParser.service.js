@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('metadatamanagementApp').service('DataSetsParser',
-function(DataSet, ArrayParser) {
+function(DataSet, ParserUtil) {
   var getDataSets = function(dataSets, projectId) {
       var datasetsObjArray = [];
       for (var i = 0; i < dataSets.length; i++) {
@@ -13,8 +13,8 @@ function(DataSet, ArrayParser) {
               en: data['description.en'],
               de: data['description.de']
             },
-            variableIds: ArrayParser.getParsedArray(data.variableIds),
-            surveyIds: ArrayParser.getParsedArray(data.surveyIds)
+            variableIds: ParserUtil.getParsedArray(data.variableIds),
+            surveyIds: ParserUtil.getParsedArray(data.surveyIds)
           };
         datasetsObjArray[i] = new DataSet(dataSetObj);
       }

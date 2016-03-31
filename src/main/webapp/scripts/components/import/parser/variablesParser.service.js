@@ -2,7 +2,7 @@
 'use strict';
 
 angular.module('metadatamanagementApp').service('VariablesParser',
-function(Variable, ArrayParser) {
+function(Variable, ParserUtil) {
   var getVariables = function(data, dataAcquisitionProjectId) {
     var jsonContent = {};
     var variablesObjArray = [];
@@ -16,7 +16,7 @@ function(Variable, ArrayParser) {
     for (var i = 0; i < jsonContent.length; i++) {
       var variableObj = {
         id: jsonContent[i].id,
-        accessWays: ArrayParser.getParsedArray(jsonContent[i].accessWays),
+        accessWays: ParserUtil.getParsedArray(jsonContent[i].accessWays),
         dataAcquisitionProjectId: dataAcquisitionProjectId,
         dataType: {
           en: jsonContent[i]['dataType.en'],
@@ -30,27 +30,8 @@ function(Variable, ArrayParser) {
           en: jsonContent[i]['description.en'],
           de: jsonContent[i]['description.de']
         },
-        filterDetails: {
-          filterExpression:
-          jsonContent[i]['filterDetails.filterExpression'],
-          filterDescription: {
-            en: jsonContent[i]['filterDetails.filterDescription.de'],
-            de: jsonContent[i]['filterDetails.filterDescription.en']
-          },
-          filterExpressionLanguage:
-          jsonContent[i]['filterDetails.filterExpressionLanguage']
-        },
-        sameVariablesInPanel: ArrayParser.
+        sameVariablesInPanel: ParserUtil.
         getParsedArray(jsonContent[i].sameVariablesInPanel),
-        generationDetails: {
-          rule: jsonContent[i]['generationDetails.rule'],
-          ruleExpressionLanguage: jsonContent[i]
-          ['generationDetails.ruleExpressionLanguage'],
-          description: {
-            en: jsonContent[i]['generationDetails.description.en'],
-            de: jsonContent[i]['generationDetails.description.de']
-          }
-        },
         name: jsonContent[i].name,
         scaleLevel: {
           en: jsonContent[i]['scaleLevel.en'],
@@ -58,7 +39,7 @@ function(Variable, ArrayParser) {
         },
         statistics: {
           firstQuartile: jsonContent[i]['statistics.firstQuartile'],
-          highWhisker: jsonContent[i]['statistics.  highWhisker'],
+          highWhisker: jsonContent[i]['statistics.highWhisker'],
           kurtosis: jsonContent[i]['statistics.kurtosis'],
           lowWhisker: jsonContent[i]['statistics.lowWhisker'],
           maximum: jsonContent[i]['statistics.maximum'],
@@ -76,8 +57,45 @@ function(Variable, ArrayParser) {
           data.files['values/' + jsonContent[i].id + '.json'],
         surveyId: jsonContent[i].surveyId,
         conceptId: jsonContent[i].conceptId,
-        dataSetIds: ArrayParser.getParsedArray(jsonContent[i].dataSetIds),
+        dataSetIds: ParserUtil.getParsedArray(jsonContent[i].dataSetIds),
       };
+      var filterDetails = {
+          filterExpression:
+          jsonContent[i]['filterDetails.filterExpression'],
+          filterExpressionLanguage:
+          jsonContent[i]['filterDetails.filterExpressionLanguage']
+        };
+      var filterDescription = {
+          en: jsonContent[i]['filterDetails.filterDescription.de'],
+          de: jsonContent[i]['filterDetails.filterDescription.en']
+        };
+      var generationDetails = {
+          rule: jsonContent[i]['generationDetails.rule'],
+          ruleExpressionLanguage: jsonContent[i]
+          ['generationDetails.ruleExpressionLanguage']
+        };
+      var generationDetailsDescription = {
+           en: jsonContent[i]['generationDetails.description.en'],
+           de: jsonContent[i]['generationDetails.description.de']
+         };
+
+      if (ParserUtil.isJsonObjectwithValues(filterDescription)) {
+        filterDetails.filterDescription = filterDescription;
+        variableObj.filterDetails = filterDetails;
+      } else {
+        if (ParserUtil.isJsonObjectwithValues(filterDetails)) {
+          variableObj.filterDetails = filterDetails;
+        }
+      }
+      if (ParserUtil.isJsonObjectwithValues(generationDetailsDescription)) {
+        generationDetails.description = generationDetailsDescription;
+        variableObj.generationDetails = generationDetails;
+      } else {
+        if (ParserUtil.isJsonObjectwithValues(generationDetails)) {
+          variableObj.generationDetails = generationDetails;
+        }
+      }
+
       variablesObjArray.push(new Variable(variableObj));
     }
     console.log(variablesObjArray);

@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('metadatamanagementApp').service('SurveysParser',
-function(Survey, ArrayParser) {
+function(Survey, ParserUtil) {
   var getSurveys = function(surveys, projectId) {
       var surveysObjArray = [];
       for (var i = 0; i < surveys.length; i++) {
@@ -18,7 +18,7 @@ function(Survey, ArrayParser) {
               start: data['fieldPeriod.start'],
               end: data['fieldPeriod.end']
             },
-            dataSetIds: ArrayParser.getParsedArray(data.dataSetIds)
+            dataSetIds: ParserUtil.getParsedArray(data.dataSetIds)
           };
         surveysObjArray[i] = new Survey(surveyObj);
       }
