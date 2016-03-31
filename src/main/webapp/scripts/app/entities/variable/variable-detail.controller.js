@@ -29,20 +29,28 @@ angular.module('metadatamanagementApp')
 
             //if en, return en lables
             if (Language.getCurrentInstantly() === 'en') {
-              if (d.label.en) {
+              if (d.label && d.label.en) {
                 return d.label.en;
                 //return the code, if label is not set
               } else {
-                return d.code;
+                if (d.code) {
+                  return d.code;
+                } else {
+                  return d.valueClass;
+                }
               }
             }
 
             //de is default. return de labels.
-            if (d.label.de) {
+            if (d.label && d.label.de) {
               return d.label.de;
               //return code, if label is not set
             } else {
-              return d.code;
+              if (d.code) {
+                return d.code;
+              } else {
+                return d.valueClass;
+              }
             }
           },
 
@@ -86,20 +94,28 @@ angular.module('metadatamanagementApp')
 
             //if en, return en lables
             if (Language.getCurrentInstantly() === 'en') {
-              if (d.label.en) {
+              if (d.label && d.label.en) {
                 return d.label.en;
                 //return the code, if label is not set
               } else {
-                return d.code;
+                if (d.code) {
+                  return d.code;
+                } else {
+                  return d.valueClass;
+                }
               }
             }
 
             //de is default. return de labels.
-            if (d.label.de) {
+            if (d.label && d.label.de) {
               return d.label.de;
               //return code, if label is not set
             } else {
-              return d.code;
+              if (d.code) {
+                return d.code;
+              } else {
+                return d.valueClass;
+              }
             }
           },
 
