@@ -33,12 +33,6 @@ public class ValidAtomicQuestionTypeValidator
    */
   @Override
   public boolean isValid(I18nString type, ConstraintValidatorContext context) {
-
-    // no mandatory
-    if (type == null) {
-      return true;
-    }
-
     // check for atomic question types
     return AtomicQuestionTypes.ALL.contains(type);
   }

@@ -1,5 +1,6 @@
 package eu.dzhw.fdz.metadatamanagement.domain;
 
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
@@ -37,6 +38,7 @@ public class AtomicQuestion extends AbstractRdcDomainObject {
       message = "{error.atomicQuestion.id.pattern}")
   private String id;
 
+  @NotNull(message = "{error.atomicQuestion.type.notNull}")
   @ValidAtomicQuestionType(message = 
       "{error.atomicQuestion.type.atomicQuestionTypeConsistence}")
   private I18nString type;
