@@ -17,7 +17,7 @@ function() {
   };
 
   var removeEmptyJsonObjects = function(json) {
-    if (typeof json === 'object') {
+    if (jQuery.isPlainObject(json)) {
       for (var key in json) {
         if (isNullOrEmpty(json[key])) {
           delete json[key];
