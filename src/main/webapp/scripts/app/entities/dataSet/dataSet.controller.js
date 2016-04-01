@@ -5,6 +5,7 @@ angular.module('metadatamanagementApp')
     UploadService) {
 
     $scope.dataSets = [];
+    $scope.uploadState = UploadService.getUploadState;
     $scope.page = 1;
     $scope.loadAll = function() {
       DataSetsCollection.query({

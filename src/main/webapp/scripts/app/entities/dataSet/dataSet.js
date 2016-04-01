@@ -21,6 +21,7 @@ angular.module('metadatamanagementApp')
             '$translatePartialLoader',
             function($translate, $translatePartialLoader) {
               $translatePartialLoader.addPart('dataSet');
+              $translatePartialLoader.addPart('dataAcquisitionProject');
               $translatePartialLoader.addPart('global');
               return $translate.refresh();
             }
