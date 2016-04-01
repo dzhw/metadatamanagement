@@ -124,7 +124,7 @@ cheet('shift h u r z', function() {
         'https://s3-us-west-2.amazonaws.com/demos92/game-in-page/breakout.png',
         'https://s3-us-west-2.amazonaws.com/demos92/game-in-page/' +
         'breakout.json');
-        game.load.spritesheet('page', '/assets/images/egg.JPG',
+        game.load.spritesheet('page', '/assets/images/egg.jpg',
           divisionX, divisionY);
       },
       create: function() {
