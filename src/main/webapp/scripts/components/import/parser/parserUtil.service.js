@@ -10,15 +10,22 @@ function() {
     }
     return parsedArray;
   };
+
+  var isNullOrEmpty = function(object) {
+    return (object === null || object === undefined ||
+      jQuery.isEmptyObject(object));
+  };
+
   var removeEmptyJsonObjects = function(json) {
-    for (var key in json) {
-      if (json[key] === null || json[key] === undefined ||
-        jQuery.isEmptyObject(json[key])) {
-        delete json[key];
-        removeEmptyJsonObjects(json);
-      }else {
-        if (typeof json[key] === 'object') {
+    if (typeof json === 'object') {
+      for (var key in json) {
+        if (isNullOrEmpty(json[key])) {
+          delete json[key];
+        } else {
           removeEmptyJsonObjects(json[key]);
+          if (isNullOrEmpty(json[key])) {
+            delete json[key];
+          }
         }
       }
     }
