@@ -78,6 +78,8 @@ public class DataSetsReportResourceTest extends AbstractTest {
     this.dataAcquisitionProjectRepository.save(project);
 
     DataSet dataSet = UnitTestCreateDomainObjectUtils.buildDataSet(project.getId(), null);
+    dataSet.getVariableIds()
+      .clear();
     this.dataSetRepository.save(dataSet);
 
     // Act and Assert

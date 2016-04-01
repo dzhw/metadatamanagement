@@ -144,19 +144,31 @@ public class VariableReportService {
     List<Variable> variables =
         this.variableRepository.findByDataSetIdsContaining(dataSetId);
     Map<String, Variable> variablesMap =
-        Maps.uniqueIndex(variables, new Function<Variable, String>() {
-          /*
-           * (non-Javadoc)
-           * 
-           * @see com.google.common.base.Function#apply(java.lang.Object)
-           */
-          @Override
-          public String apply(Variable variable) {
-            return variable.getId();
-          }
-        });
+        Maps.uniqueIndex(variables, new VariableFunction());
     dataForTemplate.put("variables", variablesMap);
 
     return dataForTemplate;
+  }
+
+  /**
+   * Inner class for get the variable ids as index for the variables hashmap.
+   * 
+   * @author dkatzberg
+   *
+   */
+  static class VariableFunction implements Function<Variable, String> {
+    /*
+     * (non-Javadoc)
+     * 
+     * @see com.google.common.base.Function#apply(java.lang.Object)
+     */
+    @Override
+    public String apply(Variable variable) {
+      if (variable == null) {
+        return null;
+      }
+
+      return variable.getId();
+    }
   }
 }
