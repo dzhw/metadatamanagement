@@ -1,14 +1,13 @@
 /* global cheet */
 /* global window */
 /* global jQuery */
-/* global html2canvas */
 /* global document */
 /* global Phaser */
 /* global location */
 'use strict';
 
 cheet('shift h u r z', function() {
-  function initGame(screenshot) {
+  function initGame() {
     window.addEventListener('keyup', function(e) {
       if (e.keyCode === 27) {
         location.reload();
@@ -125,7 +124,8 @@ cheet('shift h u r z', function() {
         'https://s3-us-west-2.amazonaws.com/demos92/game-in-page/breakout.png',
         'https://s3-us-west-2.amazonaws.com/demos92/game-in-page/' +
         'breakout.json');
-        game.load.spritesheet('page', screenshot, divisionX, divisionY);
+        game.load.spritesheet('page', '/assets/images/egg.JPG',
+          divisionX, divisionY);
       },
       create: function() {
         game.physics.startSystem(Phaser.Physics.ARCADE);
@@ -224,18 +224,8 @@ cheet('shift h u r z', function() {
     'https://cdnjs.cloudflare.com/ajax/libs/phaser/2.4.4/phaser.min.js',
         dataType: 'script',
         cache: true,
-      success: function() {
-        jQuery.ajax({url: 'https://cdnjs.cloudflare.com/ajax/libs/' +
-          'html2canvas/0.4.1/html2canvas.min.js',
-                    dataType: 'script',
-                    cache: true,
-                      success: function() {
-                        html2canvas(document.body, {
-                            onrendered: function(canvas) {
-                              initGame(canvas.toDataURL());
-                            }
-                          });
-                      }});
-      }
+        success: function() {
+          initGame();
+        }
   });
 });
