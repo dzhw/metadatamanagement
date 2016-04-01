@@ -70,18 +70,15 @@ function(Variable, ParserUtil) {
           ['statistics.standardDeviation'],
           thirdQuartile: jsonContent[i]['statistics.thirdQuartile']
         },
+        values: data.files['values/' + jsonContent[i].id + '.json'] ?
+          JSON.parse(data.files['values/' + jsonContent[i].id + '.json']
+          .asBinary()).values : undefined,
         surveyId: jsonContent[i].surveyId,
         conceptId: jsonContent[i].conceptId,
         dataSetIds: ParserUtil.getParsedArray(jsonContent[i].dataSetIds),
       };
-      var cleanedVariableObject = ParserUtil
-      .removeEmptyJsonObjects(variableObj);
-      var values = data.files['values/' + jsonContent[i].id + '.json'] ?
-        JSON.parse(data.files['values/' + jsonContent[i].id + '.json']
-        .asBinary()).values :
-        data.files['values/' + jsonContent[i].id + '.json'];
-      cleanedVariableObject.values = values;
-      variablesObjArray.push(new Variable(cleanedVariableObject));
+      ParserUtil.removeEmptyJsonObjects(variableObj);
+      variablesObjArray.push(new Variable(variableObj));
     }
     console.log(variablesObjArray);
     return variablesObjArray;

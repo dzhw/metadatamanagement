@@ -13,7 +13,7 @@ function() {
 
   var isNullOrEmpty = function(object) {
     return (object === null || object === undefined ||
-      jQuery.isEmptyObject(object));
+      (jQuery.isPlainObject(object) && jQuery.isEmptyObject(object)));
   };
 
   var removeEmptyJsonObjects = function(json) {
