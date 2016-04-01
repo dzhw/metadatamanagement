@@ -20,5 +20,6 @@ angular.module('metadatamanagementApp')
       $scope.$on('dataSets-uploaded', function() {
         $scope.init();
       });
+
       $scope.init();
     });

@@ -247,6 +247,9 @@ function($q, $translate, DataSetsParser, DataSetDeleteResource,
           var messageShort = error.message.substr(0, endErrorIndex).trim();
           uploadState.pushError(messageShort);
           uploadState.disableButton = false;
+          uploadState.progress++;
+          uploadState.errors++;
+          uploadState.checkState();
         });
     }else {
       uploadState.pushError({});
