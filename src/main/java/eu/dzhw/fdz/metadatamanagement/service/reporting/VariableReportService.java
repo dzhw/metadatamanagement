@@ -14,10 +14,11 @@ import javax.inject.Inject;
 
 import org.springframework.stereotype.Service;
 
-import eu.dzhw.fdz.metadatamanagement.domain.AtomicQuestion;
+import com.google.common.base.Function;
+import com.google.common.collect.Maps;
+
 import eu.dzhw.fdz.metadatamanagement.domain.DataSet;
 import eu.dzhw.fdz.metadatamanagement.domain.Variable;
-import eu.dzhw.fdz.metadatamanagement.repository.AtomicQuestionRepository;
 import eu.dzhw.fdz.metadatamanagement.repository.DataSetRepository;
 import eu.dzhw.fdz.metadatamanagement.repository.VariableRepository;
 import eu.dzhw.fdz.metadatamanagement.service.FileService;
@@ -43,9 +44,6 @@ public class VariableReportService {
 
   @Inject
   private VariableRepository variableRepository;
-
-  @Inject
-  private AtomicQuestionRepository atomicQuestionRepository;
 
   /**
    * The Escape Prefix handles the escaping of special latex signs within data information. This
@@ -131,31 +129,33 @@ public class VariableReportService {
    */
   private Map<String, Object> loadDataForTemplateFilling(String dataSetId) {
 
-    // Get Project by Id
-    DataSet dataSet = this.dataSetRepository.findOne(dataSetId);
+    // Create Map for the template
+    Map<String, Object> dataForTemplate = new HashMap<String, Object>();
 
-    // Check for found data acquisition project
+    // Get DataSet and check the valid result
+    DataSet dataSet = this.dataSetRepository.findOne(dataSetId);
     if (dataSet == null) {
       throw new IllegalArgumentException(
           "No Data Set was found with given id: " + dataSetId);
     }
-
-    List<AtomicQuestion> atomicQuestions =
-        this.atomicQuestionRepository.findByDataAcquisitionProjectId(dataSetId);
-
-    // Change AtomicQuestion List to Map for joins in tex template
-    Map<String, AtomicQuestion> atomicQuestionMap = new HashMap<>();
-    for (AtomicQuestion atomicQuestion : atomicQuestions) {
-      atomicQuestionMap.put(atomicQuestion.getId(), atomicQuestion);
-    }
-
-    List<Variable> variables =
-        this.variableRepository.findByDataAcquisitionProjectId(dataSetId);
-
-    Map<String, Object> dataForTemplate = new HashMap<String, Object>();
     dataForTemplate.put("dataSet", dataSet);
-    dataForTemplate.put("variables", variables);
-    dataForTemplate.put("atomicQuestions", atomicQuestionMap);
+
+    // Create a Map of Variables
+    List<Variable> variables =
+        this.variableRepository.findByDataSetIdsContaining(dataSetId);
+    Map<String, Variable> variablesMap =
+        Maps.uniqueIndex(variables, new Function<Variable, String>() {
+          /*
+           * (non-Javadoc)
+           * 
+           * @see com.google.common.base.Function#apply(java.lang.Object)
+           */
+          @Override
+          public String apply(Variable variable) {
+            return variable.getId();
+          }
+        });
+    dataForTemplate.put("variables", variablesMap);
 
     return dataForTemplate;
   }

@@ -8,6 +8,7 @@
 \usepackage[ngerman]{babel}
 \usepackage{multicol}
 \usepackage{hyperref}
+\usepackage{ulem}
 \setlength{\columnsep}{1cm}
 
 \pagestyle{fancy}
@@ -22,65 +23,91 @@
   
 \begin{document}
 
-\chapter{DEVELOPMENT VERSION - ONLY A FUNCTIONAL SHOW CASE}
-\section{Variablen report of ${dataSet.id}}
-\subsection{Data Set Information}
-Notice: English Version (using english translations of values.!)\\
+\begin{titlepage}
+	\centering
+	{\scshape \LARGE German Centre for Higher Education Research and Science Studies \par}
+	\vspace{2.5cm}
+	{\huge\bfseries Variable Report of Data Set ${dataSet.id}\par}
+	\vspace{2.5cm}
+	{\Large\itshape Version 1.0\par}
+	\vfill	
+	{\large \today\par}
+\end{titlepage}
 
-\begin{tabular}{ll}
+\tableofcontents
+\newpage
+
+\part{Variable report - Data Set '${dataSet.id}'}
+\section{Data Set}
+
+\noindent \\
+\noindent
+\begin{tabular}{@{}ll}
 	Data Set Id & ${dataSet.id} \\
 	Description & ${dataSet.description.en} \\
 \end{tabular}	
 
 \newpage
-\subsection{Nominal Variables}
-<#list variables as variable>
-	<#if variable.scaleLevel.en == "nominal" >
-		\subsubsection{Variable Id: ${variable.id}}
-		\begin{tabular}{ll}
-			Survey Id & ${variable.surveyId} \\
-			Name & ${variable.name} \\	
-			Scale Level & ${variable.scaleLevel.en}\\			
-			Data Type & ${variable.dataType.en}\\
-			Description & ${variable.description.en} 
-		\end{tabular}	
-				
+\section{Variables}
+<#list dataSet.variableIds as variableId>	
+	<#assign variable = variables[variableId]>
+	\subsection{${variable.id}}
+	
+	\noindent\textbf{Variable:}\\
+	\begin{tabular}{ll}
+		Variable Id & ${variable.id} \\
+		Name & ${variable.name} \\
+		Label & ${variable.label.en} \\
+		Data Type & ${variable.dataType.en} \\
+		Scale Level & ${variable.scaleLevel.en}\\					
+		Access Ways & 
+		<#list variable.accessWays as accessWay> 
+			${accessWay}, 
+		<#else>
+			No Access Ways!
+		</#list> \\
+	\end{tabular}	
+
+	<#if variable.scaleLevel.en == "ordinal" >
 		\vspace*{1 cm}
-		\noindent
-		<#assign atomicQuestion = atomicQuestions[variable.atomicQuestionId] >
-		\textbf{Atomic Question:}\\
+		\noindent\textbf{Statistics:}\\	
 		\begin{tabular}{ll}
-			Type & ${atomicQuestion.type.en} \\
-			Name & ${atomicQuestion.name} \\
-			Footnote & ${atomicQuestion.footnote.en} \\
-			QuestionText & ${atomicQuestion.questionText.en} \\
-			Instruction & ${atomicQuestion.instruction.en} \\
-			Composite Question Name & ${atomicQuestion.compositeQuestionName} \\
-			Introduction & ${atomicQuestion.introduction.en} \\
-			Section Header & ${atomicQuestion.sectionHeader.en} \\
-		\end{tabular}	
-		
-		\vspace*{1 cm}
-		\noindent
-		\textbf{Values:}\\
-		\begin{table}[!h]
-			\centering
-			\begin{tabular}{|l|l|l|}
-				\hline
-				Code & Label & Rel. Frequency \\
-				\hline
-				\hline  
-				<#list variable.values as value>  
-					${value.code} & ${value.label.en} & ${value.relativeFrequency} \\
-				<#else>
-					- & - & - \\
-				</#list>
-				\hline
-			\end{tabular}
-			\caption{Values of ${variable.id}}
-		\end{table}
-		\newpage
+			Median & ${variable.statistics.median}
+		\end{tabular}
 	</#if>
+	<#if variable.scaleLevel.en == "continous" >
+		\vspace*{1 cm}
+		\noindent\textbf{Statistics:}\\	
+		\begin{tabular}{ll}
+			Median & ${variable.statistics.median} \\
+			Mean Value & ${variable.statistics.meanValue} \\ 
+			Standard Deviation & ${variable.statistics.standardDeviation} \\ 
+			Minimum & ${variable.statistics.minimum} \\ 
+			Maximum & ${variable.statistics.maximum} \\ 
+			Skewness & ${variable.statistics.skewness} \\ 
+			Kurtosis & ${variable.statistics.kurtosis} \\ 
+		\end{tabular}
+	</#if>
+			
+	\vspace*{1 cm}
+	\noindent\textbf{Values:}\\
+	\begin{table}[!h]
+		\centering
+		\begin{tabular}{|l|l|l|c|c|}
+			\hline
+			Code & Label & Class & Abs. Frequency & Rel. Frequency \\
+			\hline
+			\hline  
+			<#list variable.values as value>  
+				${(value.code)!"-"} & ${(value.label.en)!"-"} & ${(value.valueClass)!"-"} & ${value.absoluteFrequency} & ${value.relativeFrequency} \\
+			<#else>
+				- \\
+			</#list>
+			\hline
+		\end{tabular}
+		\caption{Values of ${variable.id}}
+	\end{table}
+	\newpage
 <#else>
 	No variables!
 </#list>
