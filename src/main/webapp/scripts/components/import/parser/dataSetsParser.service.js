@@ -16,7 +16,9 @@ function(DataSet, ParserUtil) {
             variableIds: ParserUtil.getParsedArray(data.variableIds),
             surveyIds: ParserUtil.getParsedArray(data.surveyIds)
           };
-        datasetsObjArray[i] = new DataSet(dataSetObj);
+        var cleanedDataSetObject = ParserUtil
+            .removeEmptyJsonObjects(dataSetObj);
+        datasetsObjArray[i] = new DataSet(cleanedDataSetObject);
       }
       return datasetsObjArray;
     };

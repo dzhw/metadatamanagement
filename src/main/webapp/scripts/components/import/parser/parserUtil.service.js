@@ -1,3 +1,4 @@
+/* global jQuery */
 'use strict';
 
 angular.module('metadatamanagementApp').service('ParserUtil',
@@ -9,21 +10,22 @@ function() {
     }
     return parsedArray;
   };
-  var isJsonObjectwithValues = function(json) {
-    var returnValue = false;
+  var removeEmptyJsonObjects = function(json) {
     for (var key in json) {
-      /*if (typeof json[key] === 'object' && json[key] !== null) {
-        isJsonObjectwithValues(json[key]);
-      } else {*/
-      if (json[key] !== undefined) {
-        returnValue = true;
+      if (json[key] === null || json[key] === undefined ||
+        jQuery.isEmptyObject(json[key])) {
+        delete json[key];
+        removeEmptyJsonObjects(json);
+      }else {
+        if (typeof json[key] === 'object') {
+          removeEmptyJsonObjects(json[key]);
+        }
       }
-      //}
     }
-    return returnValue;
+    return json;
   };
   return {
       getParsedArray: getParsedArray,
-      isJsonObjectwithValues: isJsonObjectwithValues
+      removeEmptyJsonObjects: removeEmptyJsonObjects
     };
 });

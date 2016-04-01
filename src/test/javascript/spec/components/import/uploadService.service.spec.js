@@ -117,7 +117,7 @@ describe('UploadService', function() {
     spyOn(VariableDeleteResource,'deleteByDataAcquisitionProjectId')
     .and.callThrough();
   }));
-  it('should call SurveyDeleteResource', function() {
+  xit('should call SurveyDeleteResource', function() {
     UploadService.uploadSurveys(file,'RDC');
     $rootScope.$digest();
     $httpBackend.flush();

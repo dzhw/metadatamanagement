@@ -30,6 +30,25 @@ function(Variable, ParserUtil) {
           en: jsonContent[i]['description.en'],
           de: jsonContent[i]['description.de']
         },
+        filterDetails: {
+          filterExpression:
+          jsonContent[i]['filterDetails.filterExpression'],
+          filterDescription: {
+            en: jsonContent[i]['filterDetails.filterDescription.de'],
+            de: jsonContent[i]['filterDetails.filterDescription.en']
+          },
+          filterExpressionLanguage:
+          jsonContent[i]['filterDetails.filterExpressionLanguage']
+        },
+        generationDetails: {
+          rule: jsonContent[i]['generationDetails.rule'],
+          ruleExpressionLanguage: jsonContent[i]
+          ['generationDetails.ruleExpressionLanguage'],
+          description: {
+            en: jsonContent[i]['generationDetails.description.en'],
+            de: jsonContent[i]['generationDetails.description.de']
+          }
+        },
         sameVariablesInPanel: ParserUtil.
         getParsedArray(jsonContent[i].sameVariablesInPanel),
         name: jsonContent[i].name,
@@ -51,52 +70,18 @@ function(Variable, ParserUtil) {
           ['statistics.standardDeviation'],
           thirdQuartile: jsonContent[i]['statistics.thirdQuartile']
         },
-        values: data.files['values/' + jsonContent[i].id + '.json'] ?
-          JSON.parse(data.files['values/' + jsonContent[i].id + '.json']
-          .asBinary()).values :
-          data.files['values/' + jsonContent[i].id + '.json'],
         surveyId: jsonContent[i].surveyId,
         conceptId: jsonContent[i].conceptId,
         dataSetIds: ParserUtil.getParsedArray(jsonContent[i].dataSetIds),
       };
-      var filterDetails = {
-          filterExpression:
-          jsonContent[i]['filterDetails.filterExpression'],
-          filterExpressionLanguage:
-          jsonContent[i]['filterDetails.filterExpressionLanguage']
-        };
-      var filterDescription = {
-          en: jsonContent[i]['filterDetails.filterDescription.de'],
-          de: jsonContent[i]['filterDetails.filterDescription.en']
-        };
-      var generationDetails = {
-          rule: jsonContent[i]['generationDetails.rule'],
-          ruleExpressionLanguage: jsonContent[i]
-          ['generationDetails.ruleExpressionLanguage']
-        };
-      var generationDetailsDescription = {
-           en: jsonContent[i]['generationDetails.description.en'],
-           de: jsonContent[i]['generationDetails.description.de']
-         };
-
-      if (ParserUtil.isJsonObjectwithValues(filterDescription)) {
-        filterDetails.filterDescription = filterDescription;
-        variableObj.filterDetails = filterDetails;
-      } else {
-        if (ParserUtil.isJsonObjectwithValues(filterDetails)) {
-          variableObj.filterDetails = filterDetails;
-        }
-      }
-      if (ParserUtil.isJsonObjectwithValues(generationDetailsDescription)) {
-        generationDetails.description = generationDetailsDescription;
-        variableObj.generationDetails = generationDetails;
-      } else {
-        if (ParserUtil.isJsonObjectwithValues(generationDetails)) {
-          variableObj.generationDetails = generationDetails;
-        }
-      }
-
-      variablesObjArray.push(new Variable(variableObj));
+      var cleanedVariableObject = ParserUtil
+      .removeEmptyJsonObjects(variableObj);
+      var values = data.files['values/' + jsonContent[i].id + '.json'] ?
+        JSON.parse(data.files['values/' + jsonContent[i].id + '.json']
+        .asBinary()).values :
+        data.files['values/' + jsonContent[i].id + '.json'];
+      cleanedVariableObject.values = values;
+      variablesObjArray.push(new Variable(cleanedVariableObject));
     }
     console.log(variablesObjArray);
     return variablesObjArray;

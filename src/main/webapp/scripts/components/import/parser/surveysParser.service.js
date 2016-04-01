@@ -20,7 +20,9 @@ function(Survey, ParserUtil) {
             },
             dataSetIds: ParserUtil.getParsedArray(data.dataSetIds)
           };
-        surveysObjArray[i] = new Survey(surveyObj);
+        var cleanedSurveyObject = ParserUtil
+              .removeEmptyJsonObjects(surveyObj);
+        surveysObjArray[i] = new Survey(cleanedSurveyObject);
       }
       return surveysObjArray;
     };

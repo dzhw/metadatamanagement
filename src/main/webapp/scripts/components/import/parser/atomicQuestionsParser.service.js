@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('metadatamanagementApp').service('AtomicQuestionsParser',
-function(AtomicQuestion) {
+function(AtomicQuestion, ParserUtil) {
   var getAtomicQuestions = function(atomicQuestions, projectId) {
       var atomicQuestionsObjArray = [];
       for (var i = 0; i < atomicQuestions.length; i++) {
@@ -38,7 +38,10 @@ function(AtomicQuestion) {
               de: data['type.de']
             }
           };
-        atomicQuestionsObjArray[i] = new AtomicQuestion(atomicQuestionObj);
+        var cleanedAtomicQuestionObject = ParserUtil
+          .removeEmptyJsonObjects(atomicQuestionObj);
+        atomicQuestionsObjArray[i] = new
+        AtomicQuestion(cleanedAtomicQuestionObject);
       }
       return atomicQuestionsObjArray;
     };
