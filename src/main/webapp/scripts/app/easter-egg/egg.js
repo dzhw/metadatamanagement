@@ -51,7 +51,6 @@ cheet('h u r z', function() {
         ballOnPaddle = false;
         ball.body.velocity.y = -300;
         ball.body.velocity.x = -75;
-        ball.animations.play('spin');
         introText.visible = false;
         introText2.visible = false;
       }
@@ -148,8 +147,8 @@ cheet('h u r z', function() {
             if (Math.round(Math.random() * 100) % 4 !== 0) {
               brick = bricks.create(x * divisionX, y * divisionY, 'page',
                 20 * y + x);
-              brick.scale.setTo(divisionX / pictureDivisionX,
-                divisionY / pictureDivisionY);
+              brick.scale.setTo(0.99 * divisionX / pictureDivisionX,
+                0.99 * divisionY / pictureDivisionY);
               brick.body.bounce.set(1);
               brick.body.immovable = true;
             }
@@ -175,9 +174,6 @@ cheet('h u r z', function() {
 
         ball.body.collideWorldBounds = true;
         ball.body.bounce.set(1);
-
-        ball.animations.add('spin', ['ball_1.png', 'ball_2.png', 'ball_3.png',
-        'ball_4.png', 'ball_5.png'], 50, true, false);
 
         ball.events.onOutOfBounds.add(ballLost, this);
 
