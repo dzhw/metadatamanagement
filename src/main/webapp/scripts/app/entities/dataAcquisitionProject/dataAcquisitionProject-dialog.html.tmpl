@@ -8,7 +8,7 @@
             <jh-alert-error></jh-alert-error>
             <div class="form-group">
                   <label class="control-label" data-translate="metadatamanagementApp.dataAcquisitionProject.name" for="field_name">Name</label>
-                  <input type="text" class="form-control" name="name" id="field_name" ng-model="dataAcquisitionProject.id" required ng-readonly="!isCreateMode" ng-pattern="/^[ A-Za-z0-9äöüÄÖÜ]*$/"/>
+                  <input type="text" class="form-control" name="name" id="field_name" ng-model="dataAcquisitionProject.id" required ng-readonly="!isCreateMode" ng-pattern="/^[A-Za-z0-9äöüÄÖÜß]*$/"/>
                   <div ng-show="editForm.name.$invalid">
                         <p class="help-block" ng-show="editForm.name.$error.required" data-translate="entity.validation.required">
                               This field is required.
