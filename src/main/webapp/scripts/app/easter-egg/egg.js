@@ -43,8 +43,8 @@ cheet('h u r z', function() {
     var divisionX = window.innerWidth / 20;
     var divisionY = window.innerHeight / 20;
 
-    var pictureDivisionX = 1620 / 20;
-    var pictureDivisionY = 1080 / 20;
+    var pictureDivisionX = 1600 / 20;
+    var pictureDivisionY = 1200 / 20;
 
     function releaseBall() {
       if (ballOnPaddle) {
