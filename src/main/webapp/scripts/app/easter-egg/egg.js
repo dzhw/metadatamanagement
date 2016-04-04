@@ -6,7 +6,7 @@
 /* global location */
 'use strict';
 
-cheet('shift h u r z', function() {
+cheet('h u r z', function() {
   function initGame() {
     window.addEventListener('keyup', function(e) {
       if (e.keyCode === 27) {
@@ -42,6 +42,9 @@ cheet('shift h u r z', function() {
 
     var divisionX = window.innerWidth / 20;
     var divisionY = window.innerHeight / 20;
+
+    var pictureDivisionX = 1620 / 20;
+    var pictureDivisionY = 1080 / 20;
 
     function releaseBall() {
       if (ballOnPaddle) {
@@ -124,8 +127,8 @@ cheet('shift h u r z', function() {
         'https://s3-us-west-2.amazonaws.com/demos92/game-in-page/breakout.png',
         'https://s3-us-west-2.amazonaws.com/demos92/game-in-page/' +
         'breakout.json');
-        game.load.spritesheet('page', '/assets/images/egg.jpg',
-          divisionX, divisionY);
+        console.log(game.load.spritesheet('page', '/assets/images/egg.jpg',
+          pictureDivisionX, pictureDivisionY));
       },
       create: function() {
         game.physics.startSystem(Phaser.Physics.ARCADE);
@@ -144,7 +147,9 @@ cheet('shift h u r z', function() {
           for (var x = 2; x < 18; x++) {
             if (Math.round(Math.random() * 100) % 4 !== 0) {
               brick = bricks.create(x * divisionX, y * divisionY, 'page',
-                20 * y + (x - 2) - (y * 4));
+                20 * y + x);
+              brick.scale.setTo(divisionX / pictureDivisionX,
+                divisionY / pictureDivisionY);
               brick.body.bounce.set(1);
               brick.body.immovable = true;
             }
