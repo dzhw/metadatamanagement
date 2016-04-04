@@ -140,11 +140,11 @@ cheet('shift h u r z', function() {
 
         var brick;
 
-        for (var y = 2; y < 13; y++) {
+        for (var y = 1; y < 13; y++) {
           for (var x = 2; x < 18; x++) {
-            if (Math.round(Math.random() * 100) % 2 === 0) {
+            if (Math.round(Math.random() * 100) % 4 !== 0) {
               brick = bricks.create(x * divisionX, y * divisionY, 'page',
-                20 * y + x);
+                20 * y + (x-2) - (y * 4));
               brick.body.bounce.set(1);
               brick.body.immovable = true;
             }
