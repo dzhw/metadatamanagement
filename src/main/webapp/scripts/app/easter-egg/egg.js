@@ -144,7 +144,7 @@ cheet('shift h u r z', function() {
           for (var x = 2; x < 18; x++) {
             if (Math.round(Math.random() * 100) % 4 !== 0) {
               brick = bricks.create(x * divisionX, y * divisionY, 'page',
-                20 * y + (x-2) - (y * 4));
+                20 * y + (x - 2) - (y * 4));
               brick.body.bounce.set(1);
               brick.body.immovable = true;
             }
