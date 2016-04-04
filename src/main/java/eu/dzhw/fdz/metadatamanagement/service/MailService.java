@@ -19,7 +19,7 @@ import org.springframework.stereotype.Service;
 import org.thymeleaf.context.Context;
 import org.thymeleaf.spring4.SpringTemplateEngine;
 
-import eu.dzhw.fdz.metadatamanagement.config.JHipsterProperties;
+import eu.dzhw.fdz.metadatamanagement.common.config.JHipsterProperties;
 import eu.dzhw.fdz.metadatamanagement.domain.User;
 
 /**

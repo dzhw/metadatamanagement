@@ -13,8 +13,9 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
 import eu.dzhw.fdz.metadatamanagement.search.ElasticsearchAdminDao;
-import eu.dzhw.fdz.metadatamanagement.search.VariableSearchDao;
 import eu.dzhw.fdz.metadatamanagement.service.enums.ElasticsearchIndices;
+import eu.dzhw.fdz.metadatamanagement.variablemanagement.search.VariableSearchDao;
+import eu.dzhw.fdz.metadatamanagement.variablemanagement.service.VariableService;
 
 /**
  * Service which sets up all indices.

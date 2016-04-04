@@ -18,10 +18,10 @@ import com.google.common.base.Function;
 import com.google.common.collect.Maps;
 
 import eu.dzhw.fdz.metadatamanagement.domain.DataSet;
-import eu.dzhw.fdz.metadatamanagement.domain.Variable;
 import eu.dzhw.fdz.metadatamanagement.repository.DataSetRepository;
-import eu.dzhw.fdz.metadatamanagement.repository.VariableRepository;
 import eu.dzhw.fdz.metadatamanagement.service.FileService;
+import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.Variable;
+import eu.dzhw.fdz.metadatamanagement.variablemanagement.repository.VariableRepository;
 import freemarker.template.Configuration;
 import freemarker.template.Template;
 import freemarker.template.TemplateException;

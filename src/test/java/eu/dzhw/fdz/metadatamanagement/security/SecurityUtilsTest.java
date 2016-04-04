@@ -21,7 +21,7 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 
-import eu.dzhw.fdz.metadatamanagement.unittest.util.UnitTestUserManagementUtils;
+import eu.dzhw.fdz.metadatamanagement.common.unittesthelper.util.UnitTestUserManagementUtils;
 
 /**
  * Test class for the SecurityUtils utility class.

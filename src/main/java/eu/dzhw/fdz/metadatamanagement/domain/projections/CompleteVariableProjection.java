@@ -4,12 +4,12 @@ import java.util.List;
 
 import org.springframework.data.rest.core.config.Projection;
 
-import eu.dzhw.fdz.metadatamanagement.domain.FilterDetails;
-import eu.dzhw.fdz.metadatamanagement.domain.GenerationDetails;
 import eu.dzhw.fdz.metadatamanagement.domain.I18nString;
-import eu.dzhw.fdz.metadatamanagement.domain.Statistics;
-import eu.dzhw.fdz.metadatamanagement.domain.Value;
-import eu.dzhw.fdz.metadatamanagement.domain.Variable;
+import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.FilterDetails;
+import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.GenerationDetails;
+import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.Statistics;
+import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.Value;
+import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.Variable;
 
 /**
  * Projection used to expose all attributes (including ids and versions), including sub resources.

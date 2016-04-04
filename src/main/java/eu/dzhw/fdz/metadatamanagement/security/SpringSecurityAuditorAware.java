@@ -3,7 +3,7 @@ package eu.dzhw.fdz.metadatamanagement.security;
 import org.springframework.data.domain.AuditorAware;
 import org.springframework.stereotype.Component;
 
-import eu.dzhw.fdz.metadatamanagement.config.Constants;
+import eu.dzhw.fdz.metadatamanagement.common.config.Constants;
 
 /**
  * Implementation of AuditorAware based on Spring Security.

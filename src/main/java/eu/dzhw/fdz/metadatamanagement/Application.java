@@ -21,9 +21,9 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.core.env.Environment;
 import org.springframework.core.env.SimpleCommandLinePropertySource;
 
-import eu.dzhw.fdz.metadatamanagement.config.Constants;
-import eu.dzhw.fdz.metadatamanagement.config.JHipsterProperties;
-import eu.dzhw.fdz.metadatamanagement.config.MetadataManagementProperties;
+import eu.dzhw.fdz.metadatamanagement.common.config.Constants;
+import eu.dzhw.fdz.metadatamanagement.common.config.JHipsterProperties;
+import eu.dzhw.fdz.metadatamanagement.common.config.MetadataManagementProperties;
 
 /**
  * Main class boostrapping the application.

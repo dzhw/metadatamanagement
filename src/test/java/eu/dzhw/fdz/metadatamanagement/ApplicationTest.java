@@ -13,8 +13,8 @@ import org.mockito.Mockito;
 import org.springframework.core.env.Environment;
 
 import eu.dzhw.fdz.metadatamanagement.Application;
-import eu.dzhw.fdz.metadatamanagement.config.Constants;
-import eu.dzhw.fdz.metadatamanagement.unittest.util.UnitTestReflectionHelper;
+import eu.dzhw.fdz.metadatamanagement.common.config.Constants;
+import eu.dzhw.fdz.metadatamanagement.common.unittesthelper.util.UnitTestReflectionHelper;
 
 /**
  * 

@@ -23,9 +23,9 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
 import eu.dzhw.fdz.metadatamanagement.AbstractTest;
+import eu.dzhw.fdz.metadatamanagement.common.unittesthelper.util.UnitTestUserManagementUtils;
 import eu.dzhw.fdz.metadatamanagement.domain.User;
 import eu.dzhw.fdz.metadatamanagement.repository.UserRepository;
-import eu.dzhw.fdz.metadatamanagement.unittest.util.UnitTestUserManagementUtils;
 
 /**
  * @author Daniel Katzberg
