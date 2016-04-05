@@ -1,4 +1,4 @@
-package eu.dzhw.fdz.metadatamanagement.domain;
+package eu.dzhw.fdz.metadatamanagement.surveymanagement.domain;
 
 import java.util.List;
 
@@ -13,10 +13,13 @@ import org.springframework.data.mongodb.core.mapping.Document;
 
 import com.google.common.base.MoreObjects;
 
+import eu.dzhw.fdz.metadatamanagement.domain.AbstractRdcDomainObject;
+import eu.dzhw.fdz.metadatamanagement.domain.I18nString;
+import eu.dzhw.fdz.metadatamanagement.domain.Period;
 import eu.dzhw.fdz.metadatamanagement.domain.util.Patterns;
 import eu.dzhw.fdz.metadatamanagement.domain.validation.I18nStringSize;
 import eu.dzhw.fdz.metadatamanagement.domain.validation.StringLengths;
-import eu.dzhw.fdz.metadatamanagement.domain.validation.ValidSurveyIdName;
+import eu.dzhw.fdz.metadatamanagement.surveymanagement.domain.validation.ValidSurveyIdName;
 import net.karneim.pojobuilder.GeneratePojoBuilder;
 
 /**
@@ -25,7 +28,8 @@ import net.karneim.pojobuilder.GeneratePojoBuilder;
  * @author Daniel Katzberg
  */
 @Document(collection = "surveys")
-@GeneratePojoBuilder(intoPackage = "eu.dzhw.fdz.metadatamanagement.domain.builders")
+@GeneratePojoBuilder(
+    intoPackage = "eu.dzhw.fdz.metadatamanagement.surveymanagement.domain.builders")
 @ValidSurveyIdName(message = "{error.survey.id.validSurveyIdName}")
 public class Survey extends AbstractRdcDomainObject {
 

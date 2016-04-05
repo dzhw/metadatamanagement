@@ -6,7 +6,7 @@ import org.springframework.data.rest.core.config.Projection;
 
 import eu.dzhw.fdz.metadatamanagement.domain.I18nString;
 import eu.dzhw.fdz.metadatamanagement.domain.Period;
-import eu.dzhw.fdz.metadatamanagement.domain.Survey;
+import eu.dzhw.fdz.metadatamanagement.surveymanagement.domain.Survey;
 
 /**
  * Projection used to expose all attributes (including ids and versions), including sub resources.
