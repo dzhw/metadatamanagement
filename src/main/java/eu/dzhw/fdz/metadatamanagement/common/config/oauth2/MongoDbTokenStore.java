@@ -11,10 +11,10 @@ import org.springframework.security.oauth2.provider.token.AuthenticationKeyGener
 import org.springframework.security.oauth2.provider.token.DefaultAuthenticationKeyGenerator;
 import org.springframework.security.oauth2.provider.token.TokenStore;
 
-import eu.dzhw.fdz.metadatamanagement.domain.OAuth2AuthenticationAccessToken;
-import eu.dzhw.fdz.metadatamanagement.domain.OAuth2AuthenticationRefreshToken;
-import eu.dzhw.fdz.metadatamanagement.repository.OAuth2AccessTokenRepository;
-import eu.dzhw.fdz.metadatamanagement.repository.OAuth2RefreshTokenRepository;
+import eu.dzhw.fdz.metadatamanagement.usermanagement.domain.OAuth2AuthenticationAccessToken;
+import eu.dzhw.fdz.metadatamanagement.usermanagement.domain.OAuth2AuthenticationRefreshToken;
+import eu.dzhw.fdz.metadatamanagement.usermanagement.repository.OAuth2AccessTokenRepository;
+import eu.dzhw.fdz.metadatamanagement.usermanagement.repository.OAuth2RefreshTokenRepository;
 
 /**
  * A MongoDB implementation of the TokenStore.

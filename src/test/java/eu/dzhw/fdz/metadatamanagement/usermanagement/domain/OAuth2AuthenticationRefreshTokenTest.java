@@ -1,11 +1,10 @@
 /**
  * 
  */
-package eu.dzhw.fdz.metadatamanagement.domain;
+package eu.dzhw.fdz.metadatamanagement.usermanagement.domain;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.not;
-import static org.hamcrest.CoreMatchers.nullValue;
 import static org.junit.Assert.assertThat;
 import static org.mockito.Mockito.when;
 
@@ -13,30 +12,26 @@ import java.lang.reflect.Field;
 
 import org.junit.Test;
 import org.mockito.Mockito;
-import org.springframework.security.oauth2.common.OAuth2AccessToken;
 import org.springframework.security.oauth2.common.OAuth2RefreshToken;
 import org.springframework.security.oauth2.provider.OAuth2Authentication;
-import org.springframework.security.oauth2.provider.OAuth2Request;
+
+import eu.dzhw.fdz.metadatamanagement.usermanagement.domain.OAuth2AuthenticationRefreshToken;
 
 /**
  * @author Daniel Katzberg
  *
  */
-public class OAuth2AuthenticationAccessTokenTest {
+public class OAuth2AuthenticationRefreshTokenTest {
 
   @Test
   public void testOAuth2AuthenticationAccessToken() {
     // Arrange
-    OAuth2AuthenticationAccessToken token = this.createAccessToken();
+    OAuth2AuthenticationRefreshToken token = this.createRefreshToken();
 
     // Act
 
     // Assert
-    assertThat(token.getAuthenticationId(), is("AuthenticationID"));
-    assertThat(token.getTokenId(), is("Value"));
-    assertThat(token.getUserName(), is("Name"));
-    assertThat(token.getClientId(), is(nullValue()));
-    assertThat(token.getRefreshToken(), is("RefreshTokenValue"));
+    assertThat(token.getTokenId(), is("RefreshTokenValue"));
   }
 
   @Test
@@ -44,8 +39,8 @@ public class OAuth2AuthenticationAccessTokenTest {
       IllegalAccessException {
 
     // Arrange
-    OAuth2AuthenticationAccessToken token1 = this.createAccessToken();
-    OAuth2AuthenticationAccessToken token2 = this.createAccessToken();
+    OAuth2AuthenticationRefreshToken token1 = this.createRefreshToken();
+    OAuth2AuthenticationRefreshToken token2 = this.createRefreshToken();
 
     // Act
     boolean checkNull = token1.equals(null);
@@ -65,8 +60,8 @@ public class OAuth2AuthenticationAccessTokenTest {
       IllegalArgumentException, IllegalAccessException {
 
     // Arrange
-    OAuth2AuthenticationAccessToken token = this.createAccessToken();
-    OAuth2AuthenticationAccessToken tokenWithoutId = this.createAccessToken();
+    OAuth2AuthenticationRefreshToken token = this.createRefreshToken();
+    OAuth2AuthenticationRefreshToken tokenWithoutId = this.createRefreshToken();
 
     Field idField = tokenWithoutId.getClass()
       .getDeclaredField("id");
@@ -82,27 +77,20 @@ public class OAuth2AuthenticationAccessTokenTest {
     assertThat(hashCodeWithoutId, is(0));
   }
 
-  private OAuth2AuthenticationAccessToken createAccessToken() {
+  private OAuth2AuthenticationRefreshToken createRefreshToken() {
 
     // Arrange
-    OAuth2AccessToken accessToken = Mockito.mock(OAuth2AccessToken.class);
-    when(accessToken.getValue()).thenReturn("Value");
     OAuth2RefreshToken refreshToken = Mockito.mock(OAuth2RefreshToken.class);
-    when(accessToken.getRefreshToken()).thenReturn(refreshToken);
     when(refreshToken.getValue()).thenReturn("RefreshTokenValue");
     OAuth2Authentication auth2Authentication = Mockito.mock(OAuth2Authentication.class);
-    when(auth2Authentication.getName()).thenReturn("Name");
-    OAuth2Request oAuth2Request = Mockito.mock(OAuth2Request.class);
-    when(auth2Authentication.getOAuth2Request()).thenReturn(oAuth2Request);
-    String authenticationId = "AuthenticationID";
-    OAuth2AuthenticationAccessToken token =
-        new OAuth2AuthenticationAccessToken(accessToken, auth2Authentication, authenticationId);
+    OAuth2AuthenticationRefreshToken token =
+        new OAuth2AuthenticationRefreshToken(refreshToken, auth2Authentication);
 
     // Act
 
     // Assert
     assertThat(token.getAuthentication(), is(auth2Authentication));
-    assertThat(token.getoAuth2AccessToken(), is(accessToken));
+    assertThat(token.getoAuth2RefreshToken(), is(refreshToken));
 
     return token;
   }

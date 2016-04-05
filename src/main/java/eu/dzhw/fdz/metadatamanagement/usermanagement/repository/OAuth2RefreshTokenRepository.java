@@ -1,8 +1,8 @@
-package eu.dzhw.fdz.metadatamanagement.repository;
+package eu.dzhw.fdz.metadatamanagement.usermanagement.repository;
 
 import org.springframework.data.mongodb.repository.MongoRepository;
 
-import eu.dzhw.fdz.metadatamanagement.domain.OAuth2AuthenticationRefreshToken;
+import eu.dzhw.fdz.metadatamanagement.usermanagement.domain.OAuth2AuthenticationRefreshToken;
 
 /**
  * Spring Data MongoDB repository for the OAuth2AuthenticationRefreshToken entity.

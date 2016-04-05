@@ -29,8 +29,8 @@ import org.springframework.security.oauth2.provider.OAuth2Request;
 
 import eu.dzhw.fdz.metadatamanagement.AbstractTest;
 import eu.dzhw.fdz.metadatamanagement.common.config.oauth2.MongoDbTokenStore;
-import eu.dzhw.fdz.metadatamanagement.repository.OAuth2AccessTokenRepository;
-import eu.dzhw.fdz.metadatamanagement.repository.OAuth2RefreshTokenRepository;
+import eu.dzhw.fdz.metadatamanagement.usermanagement.repository.OAuth2AccessTokenRepository;
+import eu.dzhw.fdz.metadatamanagement.usermanagement.repository.OAuth2RefreshTokenRepository;
 
 /**
  * @author Daniel Katzberg

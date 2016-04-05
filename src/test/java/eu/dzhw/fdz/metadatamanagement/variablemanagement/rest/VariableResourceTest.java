@@ -28,7 +28,6 @@ import com.google.gson.JsonSyntaxException;
 
 import eu.dzhw.fdz.metadatamanagement.AbstractTest;
 import eu.dzhw.fdz.metadatamanagement.common.unittesthelper.util.UnitTestCreateDomainObjectUtils;
-import eu.dzhw.fdz.metadatamanagement.domain.DataAcquisitionProject;
 import eu.dzhw.fdz.metadatamanagement.domain.DataTypes;
 import eu.dzhw.fdz.metadatamanagement.domain.RuleExpressionLanguages;
 import eu.dzhw.fdz.metadatamanagement.domain.ScaleLevels;
@@ -37,7 +36,8 @@ import eu.dzhw.fdz.metadatamanagement.domain.builders.DataAcquisitionProjectBuil
 import eu.dzhw.fdz.metadatamanagement.domain.builders.I18nStringBuilder;
 import eu.dzhw.fdz.metadatamanagement.domain.builders.PeriodBuilder;
 import eu.dzhw.fdz.metadatamanagement.domain.builders.SurveyBuilder;
-import eu.dzhw.fdz.metadatamanagement.repository.DataAcquisitionProjectRepository;
+import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.DataAcquisitionProject;
+import eu.dzhw.fdz.metadatamanagement.projectmanagement.repository.DataAcquisitionProjectRepository;
 import eu.dzhw.fdz.metadatamanagement.repository.SurveyRepository;
 import eu.dzhw.fdz.metadatamanagement.service.ElasticsearchAdminService;
 import eu.dzhw.fdz.metadatamanagement.service.enums.ElasticsearchIndices;

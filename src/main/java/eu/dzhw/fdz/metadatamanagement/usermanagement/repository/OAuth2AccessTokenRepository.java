@@ -1,10 +1,10 @@
-package eu.dzhw.fdz.metadatamanagement.repository;
+package eu.dzhw.fdz.metadatamanagement.usermanagement.repository;
 
 import java.util.List;
 
 import org.springframework.data.mongodb.repository.MongoRepository;
 
-import eu.dzhw.fdz.metadatamanagement.domain.OAuth2AuthenticationAccessToken;
+import eu.dzhw.fdz.metadatamanagement.usermanagement.domain.OAuth2AuthenticationAccessToken;
 
 /**
  * Spring Data MongoDB repository for the OAuth2AuthenticationAccessToken entity.

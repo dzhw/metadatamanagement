@@ -1,12 +1,14 @@
 /**
  * 
  */
-package eu.dzhw.fdz.metadatamanagement.search.exception;
+package eu.dzhw.fdz.metadatamanagement.common.search.exception;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
 
 import org.junit.Test;
+
+import eu.dzhw.fdz.metadatamanagement.common.search.exception.ElasticsearchDocumentDeleteException;
 
 /**
  * @author Daniel Katzberg

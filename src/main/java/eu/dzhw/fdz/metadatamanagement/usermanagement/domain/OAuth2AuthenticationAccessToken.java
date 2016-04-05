@@ -1,4 +1,4 @@
-package eu.dzhw.fdz.metadatamanagement.domain;
+package eu.dzhw.fdz.metadatamanagement.usermanagement.domain;
 
 import java.io.Serializable;
 import java.util.UUID;

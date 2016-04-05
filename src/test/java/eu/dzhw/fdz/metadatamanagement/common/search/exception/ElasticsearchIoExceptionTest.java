@@ -1,7 +1,7 @@
 /**
  * 
  */
-package eu.dzhw.fdz.metadatamanagement.search.exception;
+package eu.dzhw.fdz.metadatamanagement.common.search.exception;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
@@ -9,6 +9,8 @@ import static org.junit.Assert.assertThat;
 import java.io.IOException;
 
 import org.junit.Test;
+
+import eu.dzhw.fdz.metadatamanagement.common.search.exception.ElasticsearchIoException;
 
 /**
  * No need for application context. No integration test.
