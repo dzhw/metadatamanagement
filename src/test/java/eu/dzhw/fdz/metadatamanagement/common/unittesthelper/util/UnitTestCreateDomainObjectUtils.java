@@ -8,16 +8,16 @@ import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
+import eu.dzhw.fdz.metadatamanagement.concept.domain.builders.ConceptBuilder;
+import eu.dzhw.fdz.metadatamanagement.conceptmanagement.domain.Concept;
 import eu.dzhw.fdz.metadatamanagement.datasetmanagement.domain.DataSet;
 import eu.dzhw.fdz.metadatamanagement.datasetmanagement.domain.builders.DataSetBuilder;
 import eu.dzhw.fdz.metadatamanagement.domain.BibliographicalReference;
-import eu.dzhw.fdz.metadatamanagement.domain.Concept;
 import eu.dzhw.fdz.metadatamanagement.domain.DataTypes;
 import eu.dzhw.fdz.metadatamanagement.domain.Release;
 import eu.dzhw.fdz.metadatamanagement.domain.RuleExpressionLanguages;
 import eu.dzhw.fdz.metadatamanagement.domain.ScaleLevels;
 import eu.dzhw.fdz.metadatamanagement.domain.builders.BibliographicalReferenceBuilder;
-import eu.dzhw.fdz.metadatamanagement.domain.builders.ConceptBuilder;
 import eu.dzhw.fdz.metadatamanagement.domain.builders.I18nStringBuilder;
 import eu.dzhw.fdz.metadatamanagement.domain.builders.PeriodBuilder;
 import eu.dzhw.fdz.metadatamanagement.domain.builders.ReleaseBuilder;

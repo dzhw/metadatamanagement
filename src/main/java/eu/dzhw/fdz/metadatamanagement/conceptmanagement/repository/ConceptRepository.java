@@ -1,10 +1,10 @@
-package eu.dzhw.fdz.metadatamanagement.repository;
+package eu.dzhw.fdz.metadatamanagement.conceptmanagement.repository;
 
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.data.querydsl.QueryDslPredicateExecutor;
 import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 
-import eu.dzhw.fdz.metadatamanagement.domain.Concept;
+import eu.dzhw.fdz.metadatamanagement.conceptmanagement.domain.Concept;
 
 /**
  * Spring Data MongoDB repository for the Concept entity.

@@ -2,7 +2,7 @@ package eu.dzhw.fdz.metadatamanagement.domain.projections;
 
 import org.springframework.data.rest.core.config.Projection;
 
-import eu.dzhw.fdz.metadatamanagement.domain.Concept;
+import eu.dzhw.fdz.metadatamanagement.conceptmanagement.domain.Concept;
 import eu.dzhw.fdz.metadatamanagement.domain.I18nString;
 
 /**

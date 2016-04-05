@@ -1,4 +1,4 @@
-package eu.dzhw.fdz.metadatamanagement.domain;
+package eu.dzhw.fdz.metadatamanagement.conceptmanagement.domain;
 
 import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.data.annotation.Id;
@@ -6,6 +6,8 @@ import org.springframework.data.mongodb.core.mapping.Document;
 
 import com.google.common.base.MoreObjects;
 
+import eu.dzhw.fdz.metadatamanagement.domain.AbstractRdcDomainObject;
+import eu.dzhw.fdz.metadatamanagement.domain.I18nString;
 import net.karneim.pojobuilder.GeneratePojoBuilder;
 
 /**
@@ -15,7 +17,7 @@ import net.karneim.pojobuilder.GeneratePojoBuilder;
  *
  */
 @Document(collection = "concepts")
-@GeneratePojoBuilder(intoPackage = "eu.dzhw.fdz.metadatamanagement.domain.builders")
+@GeneratePojoBuilder(intoPackage = "eu.dzhw.fdz.metadatamanagement.concept.domain.builders")
 public class Concept extends AbstractRdcDomainObject {
 
   @Id
