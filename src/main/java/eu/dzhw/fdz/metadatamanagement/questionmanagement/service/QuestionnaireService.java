@@ -1,4 +1,4 @@
-package eu.dzhw.fdz.metadatamanagement.service;
+package eu.dzhw.fdz.metadatamanagement.questionmanagement.service;
 
 import java.util.List;
 
@@ -10,9 +10,9 @@ import org.springframework.data.rest.core.annotation.RepositoryEventHandler;
 import org.springframework.data.rest.core.event.AfterDeleteEvent;
 import org.springframework.stereotype.Service;
 
-import eu.dzhw.fdz.metadatamanagement.domain.Questionnaire;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.DataAcquisitionProject;
-import eu.dzhw.fdz.metadatamanagement.repository.QuestionnaireRepository;
+import eu.dzhw.fdz.metadatamanagement.questionmanagement.domain.Questionnaire;
+import eu.dzhw.fdz.metadatamanagement.questionmanagement.repository.QuestionnaireRepository;
 
 /**
  * The service for the questionnaires. This service handels delete events.

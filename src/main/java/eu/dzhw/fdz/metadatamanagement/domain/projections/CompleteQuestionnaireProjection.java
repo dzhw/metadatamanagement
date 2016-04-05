@@ -2,7 +2,7 @@ package eu.dzhw.fdz.metadatamanagement.domain.projections;
 
 import org.springframework.data.rest.core.config.Projection;
 
-import eu.dzhw.fdz.metadatamanagement.domain.Questionnaire;
+import eu.dzhw.fdz.metadatamanagement.questionmanagement.domain.Questionnaire;
 
 /**
  * Complete Projection Questionnaire. This projection displays all attributes from the

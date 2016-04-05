@@ -1,9 +1,11 @@
-package eu.dzhw.fdz.metadatamanagement.domain;
+package eu.dzhw.fdz.metadatamanagement.questionmanagement.domain;
 
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
+
+import eu.dzhw.fdz.metadatamanagement.domain.I18nString;
 
 /**
  * Atomic Question Types.

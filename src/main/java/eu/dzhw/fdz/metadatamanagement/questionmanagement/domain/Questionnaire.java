@@ -1,9 +1,10 @@
-package eu.dzhw.fdz.metadatamanagement.domain;
+package eu.dzhw.fdz.metadatamanagement.questionmanagement.domain;
 
 import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import eu.dzhw.fdz.metadatamanagement.domain.AbstractRdcDomainObject;
 import net.karneim.pojobuilder.GeneratePojoBuilder;
 
 /**
@@ -13,7 +14,8 @@ import net.karneim.pojobuilder.GeneratePojoBuilder;
  *
  */
 @Document(collection = "questionnaires")
-@GeneratePojoBuilder(intoPackage = "eu.dzhw.fdz.metadatamanagement.domain.builders")
+@GeneratePojoBuilder(
+    intoPackage = "eu.dzhw.fdz.metadatamanagement.questionmanagement.domain.builders")
 public class Questionnaire extends AbstractRdcDomainObject {
 
   @Id

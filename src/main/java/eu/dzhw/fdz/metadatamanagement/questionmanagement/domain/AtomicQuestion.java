@@ -1,4 +1,4 @@
-package eu.dzhw.fdz.metadatamanagement.domain;
+package eu.dzhw.fdz.metadatamanagement.questionmanagement.domain;
 
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
@@ -11,11 +11,13 @@ import org.springframework.data.mongodb.core.mapping.Document;
 
 import com.google.common.base.MoreObjects;
 
+import eu.dzhw.fdz.metadatamanagement.domain.AbstractRdcDomainObject;
+import eu.dzhw.fdz.metadatamanagement.domain.I18nString;
 import eu.dzhw.fdz.metadatamanagement.domain.util.Patterns;
 import eu.dzhw.fdz.metadatamanagement.domain.validation.I18nStringSize;
 import eu.dzhw.fdz.metadatamanagement.domain.validation.StringLengths;
-import eu.dzhw.fdz.metadatamanagement.domain.validation.ValidAtomicQuestionIdName;
-import eu.dzhw.fdz.metadatamanagement.domain.validation.ValidAtomicQuestionType;
+import eu.dzhw.fdz.metadatamanagement.questionmanagement.domain.validation.ValidAtomicQuestionIdName;
+import eu.dzhw.fdz.metadatamanagement.questionmanagement.domain.validation.ValidAtomicQuestionType;
 import net.karneim.pojobuilder.GeneratePojoBuilder;
 
 /**
@@ -25,7 +27,8 @@ import net.karneim.pojobuilder.GeneratePojoBuilder;
  *
  */
 @Document(collection = "atomic_questions")
-@GeneratePojoBuilder(intoPackage = "eu.dzhw.fdz.metadatamanagement.domain.builders")
+@GeneratePojoBuilder(
+    intoPackage = "eu.dzhw.fdz.metadatamanagement.questionmanagement.domain.builders")
 @CompoundIndex(def = "{name: 1, questionnaireId: 1}", unique = true)
 @ValidAtomicQuestionIdName(message = "{error.atomicQuestion.validAtomicQuestionIdName}")
 public class AtomicQuestion extends AbstractRdcDomainObject {
