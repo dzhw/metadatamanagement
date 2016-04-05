@@ -26,7 +26,8 @@ import net.karneim.pojobuilder.GeneratePojoBuilder;
  * @author Daniel Katzberg
  */
 @Document(collection = "data_acquisition_projects")
-@GeneratePojoBuilder(intoPackage = "eu.dzhw.fdz.metadatamanagement.domain.builders")
+@GeneratePojoBuilder(
+    intoPackage = "eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.builders")
 public class DataAcquisitionProject extends AbstractRdcDomainObject {
 
   /* Domain Object Attributes */

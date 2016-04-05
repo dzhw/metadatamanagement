@@ -17,9 +17,9 @@ import org.springframework.stereotype.Service;
 import com.google.common.base.Function;
 import com.google.common.collect.Maps;
 
-import eu.dzhw.fdz.metadatamanagement.domain.DataSet;
+import eu.dzhw.fdz.metadatamanagement.datasetmanagement.domain.DataSet;
+import eu.dzhw.fdz.metadatamanagement.datasetmanagement.repository.DataSetRepository;
 import eu.dzhw.fdz.metadatamanagement.filemanagement.service.FileService;
-import eu.dzhw.fdz.metadatamanagement.repository.DataSetRepository;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.Variable;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.repository.VariableRepository;
 import freemarker.template.Configuration;

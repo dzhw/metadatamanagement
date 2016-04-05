@@ -1,4 +1,4 @@
-package eu.dzhw.fdz.metadatamanagement.domain.validation;
+package eu.dzhw.fdz.metadatamanagement.datasetmanagement.domain.validation;
 
 import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;

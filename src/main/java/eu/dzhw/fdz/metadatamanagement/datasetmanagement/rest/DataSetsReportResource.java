@@ -1,4 +1,4 @@
-package eu.dzhw.fdz.metadatamanagement.web.rest;
+package eu.dzhw.fdz.metadatamanagement.datasetmanagement.rest;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;

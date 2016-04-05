@@ -1,4 +1,4 @@
-package eu.dzhw.fdz.metadatamanagement.repository;
+package eu.dzhw.fdz.metadatamanagement.datasetmanagement.repository;
 
 import java.util.List;
 
@@ -7,7 +7,7 @@ import org.springframework.data.querydsl.QueryDslPredicateExecutor;
 import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 import org.springframework.data.rest.core.annotation.RestResource;
 
-import eu.dzhw.fdz.metadatamanagement.domain.DataSet;
+import eu.dzhw.fdz.metadatamanagement.datasetmanagement.domain.DataSet;
 
 /**
  * The Repository for {@link DataSet} domain object. The data will be insert with a REST API and

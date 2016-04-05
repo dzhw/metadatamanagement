@@ -1,4 +1,4 @@
-package eu.dzhw.fdz.metadatamanagement.service;
+package eu.dzhw.fdz.metadatamanagement.datasetmanagement.service;
 
 import java.util.List;
 
@@ -10,9 +10,9 @@ import org.springframework.data.rest.core.annotation.RepositoryEventHandler;
 import org.springframework.data.rest.core.event.AfterDeleteEvent;
 import org.springframework.stereotype.Service;
 
-import eu.dzhw.fdz.metadatamanagement.domain.DataSet;
+import eu.dzhw.fdz.metadatamanagement.datasetmanagement.domain.DataSet;
+import eu.dzhw.fdz.metadatamanagement.datasetmanagement.repository.DataSetRepository;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.DataAcquisitionProject;
-import eu.dzhw.fdz.metadatamanagement.repository.DataSetRepository;
 
 /**
  * This service for {@link DataSet} will wait for delete events of a survey or a data acquisition

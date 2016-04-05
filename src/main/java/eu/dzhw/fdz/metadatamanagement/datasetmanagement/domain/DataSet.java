@@ -1,4 +1,4 @@
-package eu.dzhw.fdz.metadatamanagement.domain;
+package eu.dzhw.fdz.metadatamanagement.datasetmanagement.domain;
 
 import java.util.List;
 
@@ -11,10 +11,12 @@ import org.springframework.data.mongodb.core.mapping.Document;
 
 import com.google.common.base.MoreObjects;
 
+import eu.dzhw.fdz.metadatamanagement.datasetmanagement.domain.validation.ValidDataSetIdName;
+import eu.dzhw.fdz.metadatamanagement.domain.AbstractRdcDomainObject;
+import eu.dzhw.fdz.metadatamanagement.domain.I18nString;
 import eu.dzhw.fdz.metadatamanagement.domain.util.Patterns;
 import eu.dzhw.fdz.metadatamanagement.domain.validation.I18nStringSize;
 import eu.dzhw.fdz.metadatamanagement.domain.validation.StringLengths;
-import eu.dzhw.fdz.metadatamanagement.domain.validation.ValidDataSetIdName;
 import net.karneim.pojobuilder.GeneratePojoBuilder;
 
 /**
@@ -24,7 +26,8 @@ import net.karneim.pojobuilder.GeneratePojoBuilder;
  *
  */
 @Document(collection = "data_sets")
-@GeneratePojoBuilder(intoPackage = "eu.dzhw.fdz.metadatamanagement.domain.builders")
+@GeneratePojoBuilder(
+    intoPackage = "eu.dzhw.fdz.metadatamanagement.datasetmanagement.domain.builders")
 @ValidDataSetIdName(message = "{error.dataSet.id.validDataSetIdName}")
 public class DataSet extends AbstractRdcDomainObject {
   
