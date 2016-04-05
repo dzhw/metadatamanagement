@@ -706,7 +706,7 @@ module.exports = function(grunt) {
       'ngconstant:dev', 'sass:server', 'wiredep:test', 'karma',
       'jshint', 'jscs']);
 
-  grunt.registerTask('build', ['test', 'htmlangular', 'clean:dist',
+  grunt.registerTask('build', ['test', 'clean:dist',
       'wiredep:app', 'ngconstant:prod',
       'useminPrepare', 'ngtemplates', 'imagemin', 'svgmin',
       'concat', 'copy:fonts', 'copy:dist', 'ngAnnotate', 'cssmin',
