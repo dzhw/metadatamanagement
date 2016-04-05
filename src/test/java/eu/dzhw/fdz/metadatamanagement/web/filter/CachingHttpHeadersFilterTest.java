@@ -69,6 +69,6 @@ public class CachingHttpHeadersFilterTest {
     Environment environment = Mockito.mock(Environment.class);
     when(environment.getProperty("jhipster.http.cache.timeToLiveInDays", Long.class, 31L))
       .thenReturn(2L);
-    return new CachingHttpHeadersFilter(environment);
+    return new CachingHttpHeadersFilter();
   }
 }
