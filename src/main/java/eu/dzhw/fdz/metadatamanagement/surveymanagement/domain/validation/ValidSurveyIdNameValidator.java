@@ -1,9 +1,9 @@
-package eu.dzhw.fdz.metadatamanagement.domain.validation;
+package eu.dzhw.fdz.metadatamanagement.surveymanagement.domain.validation;
 
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 
-import eu.dzhw.fdz.metadatamanagement.domain.Survey;
+import eu.dzhw.fdz.metadatamanagement.surveymanagement.domain.Survey;
 
 /**
  * Validates the name of a id. The pattern is: DataAcquisitionProjectId-sy{Number}. This validator
