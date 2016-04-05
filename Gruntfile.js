@@ -602,6 +602,7 @@ module.exports = function(grunt) {
               'event/oninput',
               'file/api',
               'file/filesystem',
+              'filereader',
               'forms/capture',
               'forms/fileinput',
               'forms/fileinputdirectory',
