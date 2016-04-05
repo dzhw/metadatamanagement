@@ -17,7 +17,7 @@ angular.module('metadatamanagementApp').service('ExcelReader', function($q) {
           for (var i = 0; i < length; i++) {
             binary += String.fromCharCode(bytes[i]);
           }
-          pt.content = binary;
+          pt.result = binary;
           jQuery(pt).trigger('onload');
         };
         reader.readAsArrayBuffer(fileData);
