@@ -1,6 +1,6 @@
 package eu.dzhw.fdz.metadatamanagement.variablemanagement.search.document;
 
-import eu.dzhw.fdz.metadatamanagement.service.enums.ElasticsearchIndices;
+import eu.dzhw.fdz.metadatamanagement.common.service.enums.ElasticsearchIndices;
 import eu.dzhw.fdz.metadatamanagement.surveymanagement.domain.Survey;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.Variable;
 import io.searchbox.annotations.JestId;

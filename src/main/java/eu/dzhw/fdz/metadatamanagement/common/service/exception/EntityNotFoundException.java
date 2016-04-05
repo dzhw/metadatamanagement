@@ -1,4 +1,4 @@
-package eu.dzhw.fdz.metadatamanagement.service.exception;
+package eu.dzhw.fdz.metadatamanagement.common.service.exception;
 
 import eu.dzhw.fdz.metadatamanagement.web.rest.errors.CustomParameterizedException;
 import eu.dzhw.fdz.metadatamanagement.web.rest.errors.ErrorConstants;

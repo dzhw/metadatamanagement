@@ -19,7 +19,7 @@ import org.springframework.stereotype.Component;
 import eu.dzhw.fdz.metadatamanagement.common.search.exception.ElasticsearchDocumentDeleteException;
 import eu.dzhw.fdz.metadatamanagement.common.search.exception.ElasticsearchDocumentSaveException;
 import eu.dzhw.fdz.metadatamanagement.common.search.exception.ElasticsearchIoException;
-import eu.dzhw.fdz.metadatamanagement.service.enums.ElasticsearchIndices;
+import eu.dzhw.fdz.metadatamanagement.common.service.enums.ElasticsearchIndices;
 import eu.dzhw.fdz.metadatamanagement.surveymanagement.domain.Survey;
 import eu.dzhw.fdz.metadatamanagement.surveymanagement.repository.SurveyRepository;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.Variable;

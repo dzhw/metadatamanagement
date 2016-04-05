@@ -27,6 +27,7 @@ import org.springframework.web.context.WebApplicationContext;
 import com.google.gson.JsonSyntaxException;
 
 import eu.dzhw.fdz.metadatamanagement.AbstractTest;
+import eu.dzhw.fdz.metadatamanagement.common.service.ElasticsearchAdminService;
 import eu.dzhw.fdz.metadatamanagement.common.unittesthelper.util.UnitTestCreateDomainObjectUtils;
 import eu.dzhw.fdz.metadatamanagement.domain.builders.I18nStringBuilder;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.DataAcquisitionProject;
@@ -36,7 +37,6 @@ import eu.dzhw.fdz.metadatamanagement.questionmanagement.domain.AtomicQuestionTy
 import eu.dzhw.fdz.metadatamanagement.questionmanagement.domain.Questionnaire;
 import eu.dzhw.fdz.metadatamanagement.questionmanagement.repository.AtomicQuestionRepository;
 import eu.dzhw.fdz.metadatamanagement.questionmanagement.repository.QuestionnaireRepository;
-import eu.dzhw.fdz.metadatamanagement.service.ElasticsearchAdminService;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.Variable;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.repository.VariableRepository;
 import eu.dzhw.fdz.metadatamanagement.web.rest.TestUtil;

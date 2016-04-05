@@ -13,6 +13,8 @@ import java.lang.reflect.InvocationTargetException;
 
 import org.junit.Test;
 
+import eu.dzhw.fdz.metadatamanagement.common.service.util.RandomUtil;
+
 /**
  * @author Daniel Katzberg
  *

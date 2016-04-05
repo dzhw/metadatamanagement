@@ -1,4 +1,4 @@
-package eu.dzhw.fdz.metadatamanagement.service;
+package eu.dzhw.fdz.metadatamanagement.common.service;
 
 import java.util.Locale;
 import java.util.concurrent.Future;

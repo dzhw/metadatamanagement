@@ -1,4 +1,4 @@
-package eu.dzhw.fdz.metadatamanagement.service;
+package eu.dzhw.fdz.metadatamanagement.common.service;
 
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -13,7 +13,7 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
 import eu.dzhw.fdz.metadatamanagement.common.search.ElasticsearchAdminDao;
-import eu.dzhw.fdz.metadatamanagement.service.enums.ElasticsearchIndices;
+import eu.dzhw.fdz.metadatamanagement.common.service.enums.ElasticsearchIndices;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.search.VariableSearchDao;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.service.VariableService;
 

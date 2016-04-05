@@ -3,4 +3,4 @@
  * @author Daniel Katzberg
  *
  */
-package eu.dzhw.fdz.metadatamanagement.service.enums;
+package eu.dzhw.fdz.metadatamanagement.common.service.enums;
