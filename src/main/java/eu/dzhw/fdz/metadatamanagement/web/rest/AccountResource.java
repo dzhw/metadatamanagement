@@ -20,12 +20,12 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.codahale.metrics.annotation.Timed;
 
+import eu.dzhw.fdz.metadatamanagement.common.rest.dto.KeyAndPasswordDto;
 import eu.dzhw.fdz.metadatamanagement.domain.User;
 import eu.dzhw.fdz.metadatamanagement.repository.UserRepository;
 import eu.dzhw.fdz.metadatamanagement.security.SecurityUtils;
 import eu.dzhw.fdz.metadatamanagement.service.MailService;
 import eu.dzhw.fdz.metadatamanagement.service.UserService;
-import eu.dzhw.fdz.metadatamanagement.web.rest.dto.KeyAndPasswordDto;
 import eu.dzhw.fdz.metadatamanagement.web.rest.dto.UserDto;
 
 /**

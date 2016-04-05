@@ -1,4 +1,4 @@
-package eu.dzhw.fdz.metadatamanagement.web.rest.dto;
+package eu.dzhw.fdz.metadatamanagement.common.rest.dto;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 

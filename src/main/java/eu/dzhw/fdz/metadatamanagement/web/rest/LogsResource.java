@@ -16,7 +16,7 @@ import com.codahale.metrics.annotation.Timed;
 
 import ch.qos.logback.classic.Level;
 import ch.qos.logback.classic.LoggerContext;
-import eu.dzhw.fdz.metadatamanagement.web.rest.dto.LoggerDto;
+import eu.dzhw.fdz.metadatamanagement.common.rest.dto.LoggerDto;
 
 /**
  * Controller for view and managing Log Level at runtime.
