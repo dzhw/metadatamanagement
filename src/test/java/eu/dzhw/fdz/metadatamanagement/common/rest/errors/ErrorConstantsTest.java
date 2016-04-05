@@ -1,7 +1,7 @@
 /**
  * 
  */
-package eu.dzhw.fdz.metadatamanagement.web.rest.errors;
+package eu.dzhw.fdz.metadatamanagement.common.rest.errors;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.not;
@@ -12,6 +12,8 @@ import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 
 import org.junit.Test;
+
+import eu.dzhw.fdz.metadatamanagement.common.rest.errors.ErrorConstants;
 
 /**
  * No Integration Test. No need for application Context.

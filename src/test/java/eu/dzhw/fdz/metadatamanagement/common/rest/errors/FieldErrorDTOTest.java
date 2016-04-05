@@ -1,7 +1,7 @@
 /**
  * 
  */
-package eu.dzhw.fdz.metadatamanagement.web.rest.errors;
+package eu.dzhw.fdz.metadatamanagement.common.rest.errors;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.not;
@@ -9,6 +9,8 @@ import static org.hamcrest.CoreMatchers.nullValue;
 import static org.junit.Assert.assertThat;
 
 import org.junit.Test;
+
+import eu.dzhw.fdz.metadatamanagement.common.rest.errors.FieldErrorDto;
 
 /**
  * No Integration Test. No need for application Context.

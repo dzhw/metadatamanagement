@@ -1,4 +1,4 @@
-package eu.dzhw.fdz.metadatamanagement.web.rest.util;
+package eu.dzhw.fdz.metadatamanagement.common.rest.util;
 
 import org.springframework.http.HttpHeaders;
 import org.springframework.util.StringUtils;

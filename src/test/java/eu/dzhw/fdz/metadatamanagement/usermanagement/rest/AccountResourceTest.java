@@ -33,6 +33,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import eu.dzhw.fdz.metadatamanagement.AbstractTest;
+import eu.dzhw.fdz.metadatamanagement.common.rest.TestUtil;
 import eu.dzhw.fdz.metadatamanagement.common.rest.dto.KeyAndPasswordDto;
 import eu.dzhw.fdz.metadatamanagement.common.service.MailService;
 import eu.dzhw.fdz.metadatamanagement.common.unittesthelper.util.UnitTestUserManagementUtils;
@@ -43,7 +44,6 @@ import eu.dzhw.fdz.metadatamanagement.usermanagement.rest.AccountResource;
 import eu.dzhw.fdz.metadatamanagement.usermanagement.rest.dto.UserDto;
 import eu.dzhw.fdz.metadatamanagement.usermanagement.security.AuthoritiesConstants;
 import eu.dzhw.fdz.metadatamanagement.usermanagement.service.UserService;
-import eu.dzhw.fdz.metadatamanagement.web.rest.TestUtil;
 
 /**
  * Test class for the AccountResource REST controller.

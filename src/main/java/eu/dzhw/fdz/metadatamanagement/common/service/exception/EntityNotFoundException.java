@@ -1,7 +1,7 @@
 package eu.dzhw.fdz.metadatamanagement.common.service.exception;
 
-import eu.dzhw.fdz.metadatamanagement.web.rest.errors.CustomParameterizedException;
-import eu.dzhw.fdz.metadatamanagement.web.rest.errors.ErrorConstants;
+import eu.dzhw.fdz.metadatamanagement.common.rest.errors.CustomParameterizedException;
+import eu.dzhw.fdz.metadatamanagement.common.rest.errors.ErrorConstants;
 
 /**
  * This exception is thrown when for instance an entity needs to be updated but is not found.

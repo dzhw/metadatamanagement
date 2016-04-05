@@ -25,6 +25,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.codahale.metrics.annotation.Timed;
 
+import eu.dzhw.fdz.metadatamanagement.common.rest.util.HeaderUtil;
+import eu.dzhw.fdz.metadatamanagement.common.rest.util.PaginationUtil;
 import eu.dzhw.fdz.metadatamanagement.usermanagement.domain.Authority;
 import eu.dzhw.fdz.metadatamanagement.usermanagement.domain.User;
 import eu.dzhw.fdz.metadatamanagement.usermanagement.repository.AuthorityRepository;
@@ -32,8 +34,6 @@ import eu.dzhw.fdz.metadatamanagement.usermanagement.repository.UserRepository;
 import eu.dzhw.fdz.metadatamanagement.usermanagement.rest.dto.ManagedUserDto;
 import eu.dzhw.fdz.metadatamanagement.usermanagement.security.AuthoritiesConstants;
 import eu.dzhw.fdz.metadatamanagement.usermanagement.service.UserService;
-import eu.dzhw.fdz.metadatamanagement.web.rest.util.HeaderUtil;
-import eu.dzhw.fdz.metadatamanagement.web.rest.util.PaginationUtil;
 
 /**
  * REST controller for managing users.

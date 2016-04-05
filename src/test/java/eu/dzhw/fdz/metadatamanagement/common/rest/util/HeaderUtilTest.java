@@ -1,7 +1,7 @@
 /**
  * 
  */
-package eu.dzhw.fdz.metadatamanagement.web.rest.util;
+package eu.dzhw.fdz.metadatamanagement.common.rest.util;
 
 import static org.hamcrest.CoreMatchers.not;
 import static org.hamcrest.CoreMatchers.nullValue;
@@ -10,6 +10,8 @@ import static org.junit.Assert.assertThat;
 import java.net.URISyntaxException;
 
 import org.junit.Test;
+
+import eu.dzhw.fdz.metadatamanagement.common.rest.util.HeaderUtil;
 
 /**
  * @author Daniel Katzberg

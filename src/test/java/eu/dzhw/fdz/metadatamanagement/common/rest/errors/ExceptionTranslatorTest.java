@@ -1,7 +1,7 @@
 /**
  * 
  */
-package eu.dzhw.fdz.metadatamanagement.web.rest.errors;
+package eu.dzhw.fdz.metadatamanagement.common.rest.errors;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.not;
@@ -21,6 +21,11 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
+
+import eu.dzhw.fdz.metadatamanagement.common.rest.errors.CustomParameterizedException;
+import eu.dzhw.fdz.metadatamanagement.common.rest.errors.ErrorDto;
+import eu.dzhw.fdz.metadatamanagement.common.rest.errors.ExceptionTranslator;
+import eu.dzhw.fdz.metadatamanagement.common.rest.errors.ParameterizedErrorDto;
 
 /**
  * No Integration Test. No need for application Context.

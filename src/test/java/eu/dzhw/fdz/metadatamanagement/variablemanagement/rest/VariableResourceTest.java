@@ -27,6 +27,7 @@ import org.springframework.web.context.WebApplicationContext;
 import com.google.gson.JsonSyntaxException;
 
 import eu.dzhw.fdz.metadatamanagement.AbstractTest;
+import eu.dzhw.fdz.metadatamanagement.common.rest.TestUtil;
 import eu.dzhw.fdz.metadatamanagement.common.service.ElasticsearchAdminService;
 import eu.dzhw.fdz.metadatamanagement.common.service.enums.ElasticsearchIndices;
 import eu.dzhw.fdz.metadatamanagement.common.unittesthelper.util.UnitTestCreateDomainObjectUtils;
@@ -48,7 +49,6 @@ import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.builders.Variabl
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.repository.VariableRepository;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.search.VariableSearchDao;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.search.document.VariableSearchDocument;
-import eu.dzhw.fdz.metadatamanagement.web.rest.TestUtil;
 
 /**
  * Tests for the variable resource.

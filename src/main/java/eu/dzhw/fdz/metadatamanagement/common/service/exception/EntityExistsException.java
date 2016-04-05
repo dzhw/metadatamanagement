@@ -2,8 +2,8 @@ package eu.dzhw.fdz.metadatamanagement.common.service.exception;
 
 import java.util.Arrays;
 
-import eu.dzhw.fdz.metadatamanagement.web.rest.errors.CustomParameterizedException;
-import eu.dzhw.fdz.metadatamanagement.web.rest.errors.ErrorConstants;
+import eu.dzhw.fdz.metadatamanagement.common.rest.errors.CustomParameterizedException;
+import eu.dzhw.fdz.metadatamanagement.common.rest.errors.ErrorConstants;
 
 /**
  * This exception is thrown when the user tries to create an entity in mongo which id is already

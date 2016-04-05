@@ -1,4 +1,4 @@
-package eu.dzhw.fdz.metadatamanagement.web.rest.errors;
+package eu.dzhw.fdz.metadatamanagement.common.rest.errors;
 
 /**
  * Message key for angular translation of errors.
