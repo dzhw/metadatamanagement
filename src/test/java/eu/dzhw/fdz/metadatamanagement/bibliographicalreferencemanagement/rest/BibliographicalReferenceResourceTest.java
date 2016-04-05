@@ -1,7 +1,7 @@
 /**
  * 
  */
-package eu.dzhw.fdz.metadatamanagement.web.rest;
+package eu.dzhw.fdz.metadatamanagement.bibliographicalreferencemanagement.rest;
 
 import static org.hamcrest.Matchers.is;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
@@ -21,9 +21,10 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
 import eu.dzhw.fdz.metadatamanagement.AbstractTest;
+import eu.dzhw.fdz.metadatamanagement.bibliographicalreferencemanagement.repository.BibliographicalReferenceRepository;
 import eu.dzhw.fdz.metadatamanagement.common.unittesthelper.util.UnitTestCreateDomainObjectUtils;
 import eu.dzhw.fdz.metadatamanagement.domain.BibliographicalReference;
-import eu.dzhw.fdz.metadatamanagement.repository.BibliographicalReferenceRepository;
+import eu.dzhw.fdz.metadatamanagement.web.rest.TestUtil;
 
 /**
  * @author Daniel Katzberg

@@ -1,4 +1,4 @@
-package eu.dzhw.fdz.metadatamanagement.repository;
+package eu.dzhw.fdz.metadatamanagement.bibliographicalreferencemanagement.repository;
 
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.data.querydsl.QueryDslPredicateExecutor;
