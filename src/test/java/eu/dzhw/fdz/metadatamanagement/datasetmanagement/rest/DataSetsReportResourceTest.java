@@ -1,4 +1,4 @@
-package eu.dzhw.fdz.metadatamanagement.web.rest;
+package eu.dzhw.fdz.metadatamanagement.datasetmanagement.rest;
 
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -20,10 +20,10 @@ import org.springframework.web.context.WebApplicationContext;
 import eu.dzhw.fdz.metadatamanagement.AbstractTest;
 import eu.dzhw.fdz.metadatamanagement.common.unittesthelper.util.UnitTestCreateDomainObjectUtils;
 import eu.dzhw.fdz.metadatamanagement.domain.DataSet;
+import eu.dzhw.fdz.metadatamanagement.filemanagement.service.FileService;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.DataAcquisitionProject;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.repository.DataAcquisitionProjectRepository;
 import eu.dzhw.fdz.metadatamanagement.repository.DataSetRepository;
-import eu.dzhw.fdz.metadatamanagement.service.FileService;
 
 /**
  * @author Daniel Katzberg

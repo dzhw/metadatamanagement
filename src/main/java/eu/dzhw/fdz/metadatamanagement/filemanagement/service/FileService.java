@@ -1,4 +1,4 @@
-package eu.dzhw.fdz.metadatamanagement.service;
+package eu.dzhw.fdz.metadatamanagement.filemanagement.service;
 
 import java.io.InputStream;
 

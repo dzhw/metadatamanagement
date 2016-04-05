@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
-import eu.dzhw.fdz.metadatamanagement.service.reporting.VariableReportService;
+import eu.dzhw.fdz.metadatamanagement.datasetmanagement.service.reporting.VariableReportService;
 import freemarker.template.TemplateException;
 
 /**

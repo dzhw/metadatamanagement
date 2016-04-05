@@ -1,4 +1,4 @@
-package eu.dzhw.fdz.metadatamanagement.service.reporting;
+package eu.dzhw.fdz.metadatamanagement.datasetmanagement.service.reporting;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -18,8 +18,8 @@ import com.google.common.base.Function;
 import com.google.common.collect.Maps;
 
 import eu.dzhw.fdz.metadatamanagement.domain.DataSet;
+import eu.dzhw.fdz.metadatamanagement.filemanagement.service.FileService;
 import eu.dzhw.fdz.metadatamanagement.repository.DataSetRepository;
-import eu.dzhw.fdz.metadatamanagement.service.FileService;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.Variable;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.repository.VariableRepository;
 import freemarker.template.Configuration;

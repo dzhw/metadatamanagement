@@ -1,4 +1,4 @@
-package eu.dzhw.fdz.metadatamanagement.web.rest;
+package eu.dzhw.fdz.metadatamanagement.filemanagement.rest;
 
 import java.util.concurrent.TimeUnit;
 
@@ -15,7 +15,7 @@ import org.springframework.web.servlet.HandlerMapping;
 
 import com.mongodb.gridfs.GridFSDBFile;
 
-import eu.dzhw.fdz.metadatamanagement.service.FileService;
+import eu.dzhw.fdz.metadatamanagement.filemanagement.service.FileService;
 
 /**
  * REST controller for downloading generic files from the GridFS / MongoDB.
