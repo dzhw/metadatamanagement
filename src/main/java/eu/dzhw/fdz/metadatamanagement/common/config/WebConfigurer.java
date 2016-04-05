@@ -80,6 +80,11 @@ public class WebConfigurer
     mappings.add("sfnt", "application/font-sfnt");
     mappings.add("odt", "application/vnd.oasis.opendocument.text");
     mappings.add("pdf", "application/pdf");
+    mappings.add("jpg", "image/jpeg");
+    mappings.add("jpeg", "image/jpeg");
+    mappings.add("jpeg", "image/jpe");
+    mappings.add("png", "image/png");
+    mappings.add("gif", "image/gif");
 
     container.setMimeMappings(mappings);
   }
@@ -108,7 +113,7 @@ public class WebConfigurer
       EnumSet<DispatcherType> disps) {
     log.debug("Registering Caching HTTP Headers Filter");
     FilterRegistration.Dynamic cachingHttpHeadersFilter =
-        servletContext.addFilter("cachingHttpHeadersFilter", new CachingHttpHeadersFilter(env));
+        servletContext.addFilter("cachingHttpHeadersFilter", new CachingHttpHeadersFilter());
 
     cachingHttpHeadersFilter.addMappingForUrlPatterns(disps, true, "/dist/assets/*");
     cachingHttpHeadersFilter.addMappingForUrlPatterns(disps, true, "/dist/scripts/*");
