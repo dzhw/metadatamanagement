@@ -19,7 +19,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpHeaders;
 
-import eu.dzhw.fdz.metadatamanagement.domain.User;
+import eu.dzhw.fdz.metadatamanagement.usermanagement.domain.User;
 
 /**
  * @author Daniel Katzberg No integration test. No need for application context.

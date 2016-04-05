@@ -37,7 +37,6 @@ import eu.dzhw.fdz.metadatamanagement.domain.builders.DataAcquisitionProjectBuil
 import eu.dzhw.fdz.metadatamanagement.domain.builders.I18nStringBuilder;
 import eu.dzhw.fdz.metadatamanagement.domain.builders.PeriodBuilder;
 import eu.dzhw.fdz.metadatamanagement.domain.builders.SurveyBuilder;
-import eu.dzhw.fdz.metadatamanagement.domain.builders.VariableBuilder;
 import eu.dzhw.fdz.metadatamanagement.repository.DataAcquisitionProjectRepository;
 import eu.dzhw.fdz.metadatamanagement.repository.SurveyRepository;
 import eu.dzhw.fdz.metadatamanagement.service.ElasticsearchAdminService;
@@ -45,6 +44,7 @@ import eu.dzhw.fdz.metadatamanagement.service.enums.ElasticsearchIndices;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.FilterExpressionLanguages;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.Value;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.Variable;
+import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.builders.VariableBuilder;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.repository.VariableRepository;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.search.VariableSearchDao;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.search.document.VariableSearchDocument;

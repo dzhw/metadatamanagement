@@ -9,8 +9,7 @@ import static org.junit.Assert.assertThat;
 import org.junit.Test;
 
 import eu.dzhw.fdz.metadatamanagement.domain.builders.I18nStringBuilder;
-import eu.dzhw.fdz.metadatamanagement.domain.builders.ValueBuilder;
-import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.Value;
+import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.builders.ValueBuilder;
 
 /**
  * @author Daniel Katzberg

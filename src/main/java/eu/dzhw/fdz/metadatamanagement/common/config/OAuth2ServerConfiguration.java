@@ -20,9 +20,9 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import eu.dzhw.fdz.metadatamanagement.common.config.oauth2.MongoDbTokenStore;
 import eu.dzhw.fdz.metadatamanagement.repository.OAuth2AccessTokenRepository;
 import eu.dzhw.fdz.metadatamanagement.repository.OAuth2RefreshTokenRepository;
-import eu.dzhw.fdz.metadatamanagement.security.AjaxLogoutSuccessHandler;
-import eu.dzhw.fdz.metadatamanagement.security.AuthoritiesConstants;
-import eu.dzhw.fdz.metadatamanagement.security.Http401UnauthorizedEntryPoint;
+import eu.dzhw.fdz.metadatamanagement.usermanagement.security.AjaxLogoutSuccessHandler;
+import eu.dzhw.fdz.metadatamanagement.usermanagement.security.AuthoritiesConstants;
+import eu.dzhw.fdz.metadatamanagement.usermanagement.security.Http401UnauthorizedEntryPoint;
 
 /**
  * Configure the ResourceServer and the AuthorizationServer.

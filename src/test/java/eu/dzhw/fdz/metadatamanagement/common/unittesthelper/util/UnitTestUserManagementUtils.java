@@ -16,11 +16,11 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 
-import eu.dzhw.fdz.metadatamanagement.domain.Authority;
-import eu.dzhw.fdz.metadatamanagement.domain.User;
-import eu.dzhw.fdz.metadatamanagement.domain.builders.UserBuilder;
-import eu.dzhw.fdz.metadatamanagement.security.AuthoritiesConstants;
-import eu.dzhw.fdz.metadatamanagement.security.CustomUserDetails;
+import eu.dzhw.fdz.metadatamanagement.usermanagement.domain.Authority;
+import eu.dzhw.fdz.metadatamanagement.usermanagement.domain.User;
+import eu.dzhw.fdz.metadatamanagement.usermanagement.domain.builders.UserBuilder;
+import eu.dzhw.fdz.metadatamanagement.usermanagement.security.AuthoritiesConstants;
+import eu.dzhw.fdz.metadatamanagement.usermanagement.security.CustomUserDetails;
 
 /**
  * This class has helper / utils methods for unit tests.

@@ -11,7 +11,8 @@ import net.karneim.pojobuilder.GeneratePojoBuilder;
  * @author Daniel Katzberg
  *
  */
-@GeneratePojoBuilder(intoPackage = "eu.dzhw.fdz.metadatamanagement.domain.builders")
+@GeneratePojoBuilder(
+    intoPackage = "eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.builders")
 public class Statistics {
 
   private Double meanValue;

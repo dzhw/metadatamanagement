@@ -25,16 +25,11 @@ import eu.dzhw.fdz.metadatamanagement.domain.builders.BibliographicalReferenceBu
 import eu.dzhw.fdz.metadatamanagement.domain.builders.ConceptBuilder;
 import eu.dzhw.fdz.metadatamanagement.domain.builders.DataAcquisitionProjectBuilder;
 import eu.dzhw.fdz.metadatamanagement.domain.builders.DataSetBuilder;
-import eu.dzhw.fdz.metadatamanagement.domain.builders.FilterDetailsBuilder;
-import eu.dzhw.fdz.metadatamanagement.domain.builders.GenerationDetailsBuilder;
 import eu.dzhw.fdz.metadatamanagement.domain.builders.I18nStringBuilder;
 import eu.dzhw.fdz.metadatamanagement.domain.builders.PeriodBuilder;
 import eu.dzhw.fdz.metadatamanagement.domain.builders.QuestionnaireBuilder;
 import eu.dzhw.fdz.metadatamanagement.domain.builders.ReleaseBuilder;
-import eu.dzhw.fdz.metadatamanagement.domain.builders.StatisticsBuilder;
 import eu.dzhw.fdz.metadatamanagement.domain.builders.SurveyBuilder;
-import eu.dzhw.fdz.metadatamanagement.domain.builders.ValueBuilder;
-import eu.dzhw.fdz.metadatamanagement.domain.builders.VariableBuilder;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.AccessWays;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.FilterDetails;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.FilterExpressionLanguages;
@@ -42,6 +37,11 @@ import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.GenerationDetail
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.Statistics;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.Value;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.Variable;
+import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.builders.FilterDetailsBuilder;
+import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.builders.GenerationDetailsBuilder;
+import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.builders.StatisticsBuilder;
+import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.builders.ValueBuilder;
+import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.builders.VariableBuilder;
 
 /**
  * @author Daniel Katzberg

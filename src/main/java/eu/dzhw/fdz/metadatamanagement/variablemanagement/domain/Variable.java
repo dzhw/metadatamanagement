@@ -33,7 +33,8 @@ import net.karneim.pojobuilder.GeneratePojoBuilder;
  * @author Daniel Katzberg
  */
 @Document(collection = "variables")
-@GeneratePojoBuilder(intoPackage = "eu.dzhw.fdz.metadatamanagement.domain.builders")
+@GeneratePojoBuilder(
+    intoPackage = "eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.builders")
 @CompoundIndex(def = "{name: 1, dataAcquisitionProjectId: 1}", unique = true)
 @ValidVariableIdName(message = "{error.variable.validVariableName}")
 @UniqueVariableNameInProject(message = "{error.variable.uniqueVariableNameInProject}")

@@ -11,10 +11,9 @@ import org.junit.Test;
 import eu.dzhw.fdz.metadatamanagement.domain.DataTypes;
 import eu.dzhw.fdz.metadatamanagement.domain.ScaleLevels;
 import eu.dzhw.fdz.metadatamanagement.domain.builders.I18nStringBuilder;
-import eu.dzhw.fdz.metadatamanagement.domain.builders.VariableBuilder;
 import eu.dzhw.fdz.metadatamanagement.service.enums.ElasticsearchIndices;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.Variable;
-import eu.dzhw.fdz.metadatamanagement.variablemanagement.search.document.VariableSearchDocument;
+import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.builders.VariableBuilder;
 
 /**
  * @author Daniel Katzberg

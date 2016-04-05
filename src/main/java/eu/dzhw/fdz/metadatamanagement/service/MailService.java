@@ -20,7 +20,7 @@ import org.thymeleaf.context.Context;
 import org.thymeleaf.spring4.SpringTemplateEngine;
 
 import eu.dzhw.fdz.metadatamanagement.common.config.JHipsterProperties;
-import eu.dzhw.fdz.metadatamanagement.domain.User;
+import eu.dzhw.fdz.metadatamanagement.usermanagement.domain.User;
 
 /**
  * Service for sending e-mails.
