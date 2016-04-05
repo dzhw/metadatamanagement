@@ -4,8 +4,7 @@
 angular.module('metadatamanagementApp').service('ExcelReader', function($q) {
   this.readFileAsync = function(file) {
     var deferred = $q.defer();
-    var fileReader = new FileReader();
-    if (FileReader.prototype.readAsBinaryString === undefined) {
+    if (!FileReader.prototype.readAsBinaryString) {
       FileReader.prototype.readAsBinaryString = function(fileData) {
         var binary = '';
         var pt = this;
@@ -24,6 +23,7 @@ angular.module('metadatamanagementApp').service('ExcelReader', function($q) {
         reader.readAsArrayBuffer(fileData);
       };
     }
+    var fileReader = new FileReader();
     fileReader.readAsBinaryString(file);
     fileReader.onload = function(e) {
       var data = e.target.result;
