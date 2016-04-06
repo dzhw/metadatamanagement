@@ -35,9 +35,9 @@ import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.DataAcquisitionPr
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.repository.DataAcquisitionProjectRepository;
 import eu.dzhw.fdz.metadatamanagement.questionmanagement.domain.AtomicQuestion;
 import eu.dzhw.fdz.metadatamanagement.questionmanagement.domain.AtomicQuestionTypes;
-import eu.dzhw.fdz.metadatamanagement.questionmanagement.domain.Questionnaire;
 import eu.dzhw.fdz.metadatamanagement.questionmanagement.repository.AtomicQuestionRepository;
-import eu.dzhw.fdz.metadatamanagement.questionmanagement.repository.QuestionnaireRepository;
+import eu.dzhw.fdz.metadatamanagement.questionnairemanagement.domain.Questionnaire;
+import eu.dzhw.fdz.metadatamanagement.questionnairemanagement.repository.QuestionnaireRepository;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.Variable;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.repository.VariableRepository;
 

@@ -22,9 +22,9 @@ import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.builders.DataAcqu
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.builders.ReleaseBuilder;
 import eu.dzhw.fdz.metadatamanagement.questionmanagement.domain.AtomicQuestion;
 import eu.dzhw.fdz.metadatamanagement.questionmanagement.domain.AtomicQuestionTypes;
-import eu.dzhw.fdz.metadatamanagement.questionmanagement.domain.Questionnaire;
 import eu.dzhw.fdz.metadatamanagement.questionmanagement.domain.builders.AtomicQuestionBuilder;
-import eu.dzhw.fdz.metadatamanagement.questionmanagement.domain.builders.QuestionnaireBuilder;
+import eu.dzhw.fdz.metadatamanagement.questionnairemanagement.domain.Questionnaire;
+import eu.dzhw.fdz.metadatamanagement.questionnairemanagement.domain.builders.QuestionnaireBuilder;
 import eu.dzhw.fdz.metadatamanagement.surveymanagement.domain.Survey;
 import eu.dzhw.fdz.metadatamanagement.surveymanagement.domain.builders.SurveyBuilder;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.AccessWays;
