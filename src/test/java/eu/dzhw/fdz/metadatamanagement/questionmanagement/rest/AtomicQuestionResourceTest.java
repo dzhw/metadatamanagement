@@ -187,7 +187,7 @@ public class AtomicQuestionResourceTest extends AbstractTest {
       .andExpect(jsonPath("$.id", is(atomicQuestion.getId())))
       .andExpect(jsonPath("$.version", is(1)))
       .andExpect(jsonPath("$.footnote.de", is("Angepasst.")))
-      .andExpect(jsonPath("$.type.de", is("single-choice")));
+      .andExpect(jsonPath("$.type.de", is("single choice")));
   }
   
   @Test
