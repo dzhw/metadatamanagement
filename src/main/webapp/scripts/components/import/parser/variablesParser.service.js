@@ -73,7 +73,7 @@ function(Variable, ParserUtil) {
         values: data.files['values/' + jsonContent[i].id + '.json'] ?
           JSON.parse(data.files['values/' + jsonContent[i].id + '.json']
           .asBinary()).values : undefined,
-        surveyIds: ParserUtil.getParsedArray(jsonContent[i].surveyId),
+        surveyIds: ParserUtil.getParsedArray(jsonContent[i].surveyIds),
         conceptId: jsonContent[i].conceptId,
         dataSetIds: ParserUtil.getParsedArray(jsonContent[i].dataSetIds),
       };
