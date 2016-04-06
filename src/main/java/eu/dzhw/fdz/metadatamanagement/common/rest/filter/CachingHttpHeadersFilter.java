@@ -1,4 +1,4 @@
-package eu.dzhw.fdz.metadatamanagement.web.filter;
+package eu.dzhw.fdz.metadatamanagement.common.rest.filter;
 
 import java.io.IOException;
 

@@ -25,8 +25,8 @@ import com.codahale.metrics.MetricRegistry;
 import com.codahale.metrics.servlet.InstrumentedFilter;
 import com.codahale.metrics.servlets.MetricsServlet;
 
-import eu.dzhw.fdz.metadatamanagement.web.filter.CachingHttpHeadersFilter;
-import eu.dzhw.fdz.metadatamanagement.web.filter.StaticResourcesProductionFilter;
+import eu.dzhw.fdz.metadatamanagement.common.rest.filter.CachingHttpHeadersFilter;
+import eu.dzhw.fdz.metadatamanagement.common.rest.filter.StaticResourcesProductionFilter;
 
 /**
  * Configuration of web application with Servlet 3.0 APIs.

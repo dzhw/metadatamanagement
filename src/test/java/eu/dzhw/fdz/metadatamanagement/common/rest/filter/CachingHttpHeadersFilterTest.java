@@ -1,7 +1,7 @@
 /**
  * 
  */
-package eu.dzhw.fdz.metadatamanagement.web.filter;
+package eu.dzhw.fdz.metadatamanagement.common.rest.filter;
 
 import static org.hamcrest.CoreMatchers.not;
 import static org.hamcrest.CoreMatchers.nullValue;
@@ -19,6 +19,8 @@ import javax.servlet.http.HttpServletResponse;
 import org.junit.Test;
 import org.mockito.Mockito;
 import org.springframework.core.env.Environment;
+
+import eu.dzhw.fdz.metadatamanagement.common.rest.filter.CachingHttpHeadersFilter;
 
 /**
  * No Integration Test. No need for application Context.
