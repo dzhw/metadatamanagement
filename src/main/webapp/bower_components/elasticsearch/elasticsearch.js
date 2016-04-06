@@ -1,1562 +1,113 @@
-/*! elasticsearch - v10.1.3 - 2016-01-26
+/*! elasticsearch - v11.0.0 - 2016-04-05
  * http://www.elastic.co/guide/en/elasticsearch/client/javascript-api/current/index.html
  * Copyright (c) 2016 Elasticsearch BV; Licensed Apache-2.0 */
 
 ;(function () {
 /* prevent lodash from detecting external amd loaders */var define; 
-(function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
-(function (global){
-/*!
- * The buffer module from node.js, for the browser.
- *
- * @author   Feross Aboukhadijeh <feross@feross.org> <http://feross.org>
- * @license  MIT
- */
-/* eslint-disable no-proto */
+!function(e){"object"==typeof exports?module.exports=e():"function"==typeof define&&define.amd?define(e):"undefined"!=typeof window?window.elasticsearch=e():"undefined"!=typeof global?global.elasticsearch=e():"undefined"!=typeof self&&(self.elasticsearch=e())}(function(){var define,module,exports;return (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);throw new Error("Cannot find module '"+o+"'")}var f=n[o]={exports:{}};t[o][0].call(f.exports,function(e){var n=t[o][1][e];return s(n?n:e)},f,f.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
+var process=require("__browserify_process");"use strict";
 
-'use strict'
+var domain; // The domain module is executed on demand
+var hasSetImmediate = typeof setImmediate === "function";
 
-var base64 = require('base64-js')
-var ieee754 = require('ieee754')
-var isArray = require('isarray')
-
-exports.Buffer = Buffer
-exports.SlowBuffer = SlowBuffer
-exports.INSPECT_MAX_BYTES = 50
-Buffer.poolSize = 8192 // not used by this implementation
-
-var rootParent = {}
-
-/**
- * If `Buffer.TYPED_ARRAY_SUPPORT`:
- *   === true    Use Uint8Array implementation (fastest)
- *   === false   Use Object implementation (most compatible, even IE6)
- *
- * Browsers that support typed arrays are IE 10+, Firefox 4+, Chrome 7+, Safari 5.1+,
- * Opera 11.6+, iOS 4.2+.
- *
- * Due to various browser bugs, sometimes the Object implementation will be used even
- * when the browser supports typed arrays.
- *
- * Note:
- *
- *   - Firefox 4-29 lacks support for adding new properties to `Uint8Array` instances,
- *     See: https://bugzilla.mozilla.org/show_bug.cgi?id=695438.
- *
- *   - Safari 5-7 lacks support for changing the `Object.prototype.constructor` property
- *     on objects.
- *
- *   - Chrome 9-10 is missing the `TypedArray.prototype.subarray` function.
- *
- *   - IE10 has a broken `TypedArray.prototype.subarray` function which returns arrays of
- *     incorrect length in some situations.
-
- * We detect these buggy browsers and set `Buffer.TYPED_ARRAY_SUPPORT` to `false` so they
- * get the Object implementation, which is slower but behaves correctly.
- */
-Buffer.TYPED_ARRAY_SUPPORT = global.TYPED_ARRAY_SUPPORT !== undefined
-  ? global.TYPED_ARRAY_SUPPORT
-  : typedArraySupport()
-
-function typedArraySupport () {
-  function Bar () {}
-  try {
-    var arr = new Uint8Array(1)
-    arr.foo = function () { return 42 }
-    arr.constructor = Bar
-    return arr.foo() === 42 && // typed array instances can be augmented
-        arr.constructor === Bar && // constructor can be set
-        typeof arr.subarray === 'function' && // chrome 9-10 lack `subarray`
-        arr.subarray(1, 1).byteLength === 0 // ie10 has broken `subarray`
-  } catch (e) {
-    return false
-  }
-}
-
-function kMaxLength () {
-  return Buffer.TYPED_ARRAY_SUPPORT
-    ? 0x7fffffff
-    : 0x3fffffff
-}
-
-/**
- * Class: Buffer
- * =============
- *
- * The Buffer constructor returns instances of `Uint8Array` that are augmented
- * with function properties for all the node `Buffer` API functions. We use
- * `Uint8Array` so that square bracket notation works as expected -- it returns
- * a single octet.
- *
- * By augmenting the instances, we can avoid modifying the `Uint8Array`
- * prototype.
- */
-function Buffer (arg) {
-  if (!(this instanceof Buffer)) {
-    // Avoid going through an ArgumentsAdaptorTrampoline in the common case.
-    if (arguments.length > 1) return new Buffer(arg, arguments[1])
-    return new Buffer(arg)
-  }
-
-  if (!Buffer.TYPED_ARRAY_SUPPORT) {
-    this.length = 0
-    this.parent = undefined
-  }
-
-  // Common case.
-  if (typeof arg === 'number') {
-    return fromNumber(this, arg)
-  }
-
-  // Slightly less common case.
-  if (typeof arg === 'string') {
-    return fromString(this, arg, arguments.length > 1 ? arguments[1] : 'utf8')
-  }
-
-  // Unusual.
-  return fromObject(this, arg)
-}
-
-function fromNumber (that, length) {
-  that = allocate(that, length < 0 ? 0 : checked(length) | 0)
-  if (!Buffer.TYPED_ARRAY_SUPPORT) {
-    for (var i = 0; i < length; i++) {
-      that[i] = 0
+// Use the fastest means possible to execute a task in its own turn, with
+// priority over other events including network IO events in Node.js.
+//
+// An exception thrown by a task will permanently interrupt the processing of
+// subsequent tasks. The higher level `asap` function ensures that if an
+// exception is thrown by a task, that the task queue will continue flushing as
+// soon as possible, but if you use `rawAsap` directly, you are responsible to
+// either ensure that no exceptions are thrown from your task, or to manually
+// call `rawAsap.requestFlush` if an exception is thrown.
+module.exports = rawAsap;
+function rawAsap(task) {
+    if (!queue.length) {
+        requestFlush();
+        flushing = true;
     }
-  }
-  return that
+    // Avoids a function call
+    queue[queue.length] = task;
 }
 
-function fromString (that, string, encoding) {
-  if (typeof encoding !== 'string' || encoding === '') encoding = 'utf8'
-
-  // Assumption: byteLength() return value is always < kMaxLength.
-  var length = byteLength(string, encoding) | 0
-  that = allocate(that, length)
-
-  that.write(string, encoding)
-  return that
-}
-
-function fromObject (that, object) {
-  if (Buffer.isBuffer(object)) return fromBuffer(that, object)
-
-  if (isArray(object)) return fromArray(that, object)
-
-  if (object == null) {
-    throw new TypeError('must start with number, buffer, array or string')
-  }
-
-  if (typeof ArrayBuffer !== 'undefined') {
-    if (object.buffer instanceof ArrayBuffer) {
-      return fromTypedArray(that, object)
-    }
-    if (object instanceof ArrayBuffer) {
-      return fromArrayBuffer(that, object)
-    }
-  }
-
-  if (object.length) return fromArrayLike(that, object)
-
-  return fromJsonObject(that, object)
-}
-
-function fromBuffer (that, buffer) {
-  var length = checked(buffer.length) | 0
-  that = allocate(that, length)
-  buffer.copy(that, 0, 0, length)
-  return that
-}
-
-function fromArray (that, array) {
-  var length = checked(array.length) | 0
-  that = allocate(that, length)
-  for (var i = 0; i < length; i += 1) {
-    that[i] = array[i] & 255
-  }
-  return that
-}
-
-// Duplicate of fromArray() to keep fromArray() monomorphic.
-function fromTypedArray (that, array) {
-  var length = checked(array.length) | 0
-  that = allocate(that, length)
-  // Truncating the elements is probably not what people expect from typed
-  // arrays with BYTES_PER_ELEMENT > 1 but it's compatible with the behavior
-  // of the old Buffer constructor.
-  for (var i = 0; i < length; i += 1) {
-    that[i] = array[i] & 255
-  }
-  return that
-}
-
-function fromArrayBuffer (that, array) {
-  if (Buffer.TYPED_ARRAY_SUPPORT) {
-    // Return an augmented `Uint8Array` instance, for best performance
-    array.byteLength
-    that = Buffer._augment(new Uint8Array(array))
-  } else {
-    // Fallback: Return an object instance of the Buffer class
-    that = fromTypedArray(that, new Uint8Array(array))
-  }
-  return that
-}
-
-function fromArrayLike (that, array) {
-  var length = checked(array.length) | 0
-  that = allocate(that, length)
-  for (var i = 0; i < length; i += 1) {
-    that[i] = array[i] & 255
-  }
-  return that
-}
-
-// Deserialize { type: 'Buffer', data: [1,2,3,...] } into a Buffer object.
-// Returns a zero-length buffer for inputs that don't conform to the spec.
-function fromJsonObject (that, object) {
-  var array
-  var length = 0
-
-  if (object.type === 'Buffer' && isArray(object.data)) {
-    array = object.data
-    length = checked(array.length) | 0
-  }
-  that = allocate(that, length)
-
-  for (var i = 0; i < length; i += 1) {
-    that[i] = array[i] & 255
-  }
-  return that
-}
-
-if (Buffer.TYPED_ARRAY_SUPPORT) {
-  Buffer.prototype.__proto__ = Uint8Array.prototype
-  Buffer.__proto__ = Uint8Array
-} else {
-  // pre-set for values that may exist in the future
-  Buffer.prototype.length = undefined
-  Buffer.prototype.parent = undefined
-}
-
-function allocate (that, length) {
-  if (Buffer.TYPED_ARRAY_SUPPORT) {
-    // Return an augmented `Uint8Array` instance, for best performance
-    that = Buffer._augment(new Uint8Array(length))
-    that.__proto__ = Buffer.prototype
-  } else {
-    // Fallback: Return an object instance of the Buffer class
-    that.length = length
-    that._isBuffer = true
-  }
-
-  var fromPool = length !== 0 && length <= Buffer.poolSize >>> 1
-  if (fromPool) that.parent = rootParent
-
-  return that
-}
-
-function checked (length) {
-  // Note: cannot use `length < kMaxLength` here because that fails when
-  // length is NaN (which is otherwise coerced to zero.)
-  if (length >= kMaxLength()) {
-    throw new RangeError('Attempt to allocate Buffer larger than maximum ' +
-                         'size: 0x' + kMaxLength().toString(16) + ' bytes')
-  }
-  return length | 0
-}
-
-function SlowBuffer (subject, encoding) {
-  if (!(this instanceof SlowBuffer)) return new SlowBuffer(subject, encoding)
-
-  var buf = new Buffer(subject, encoding)
-  delete buf.parent
-  return buf
-}
-
-Buffer.isBuffer = function isBuffer (b) {
-  return !!(b != null && b._isBuffer)
-}
-
-Buffer.compare = function compare (a, b) {
-  if (!Buffer.isBuffer(a) || !Buffer.isBuffer(b)) {
-    throw new TypeError('Arguments must be Buffers')
-  }
-
-  if (a === b) return 0
-
-  var x = a.length
-  var y = b.length
-
-  var i = 0
-  var len = Math.min(x, y)
-  while (i < len) {
-    if (a[i] !== b[i]) break
-
-    ++i
-  }
-
-  if (i !== len) {
-    x = a[i]
-    y = b[i]
-  }
-
-  if (x < y) return -1
-  if (y < x) return 1
-  return 0
-}
-
-Buffer.isEncoding = function isEncoding (encoding) {
-  switch (String(encoding).toLowerCase()) {
-    case 'hex':
-    case 'utf8':
-    case 'utf-8':
-    case 'ascii':
-    case 'binary':
-    case 'base64':
-    case 'raw':
-    case 'ucs2':
-    case 'ucs-2':
-    case 'utf16le':
-    case 'utf-16le':
-      return true
-    default:
-      return false
-  }
-}
-
-Buffer.concat = function concat (list, length) {
-  if (!isArray(list)) throw new TypeError('list argument must be an Array of Buffers.')
-
-  if (list.length === 0) {
-    return new Buffer(0)
-  }
-
-  var i
-  if (length === undefined) {
-    length = 0
-    for (i = 0; i < list.length; i++) {
-      length += list[i].length
-    }
-  }
-
-  var buf = new Buffer(length)
-  var pos = 0
-  for (i = 0; i < list.length; i++) {
-    var item = list[i]
-    item.copy(buf, pos)
-    pos += item.length
-  }
-  return buf
-}
-
-function byteLength (string, encoding) {
-  if (typeof string !== 'string') string = '' + string
-
-  var len = string.length
-  if (len === 0) return 0
-
-  // Use a for loop to avoid recursion
-  var loweredCase = false
-  for (;;) {
-    switch (encoding) {
-      case 'ascii':
-      case 'binary':
-      // Deprecated
-      case 'raw':
-      case 'raws':
-        return len
-      case 'utf8':
-      case 'utf-8':
-        return utf8ToBytes(string).length
-      case 'ucs2':
-      case 'ucs-2':
-      case 'utf16le':
-      case 'utf-16le':
-        return len * 2
-      case 'hex':
-        return len >>> 1
-      case 'base64':
-        return base64ToBytes(string).length
-      default:
-        if (loweredCase) return utf8ToBytes(string).length // assume utf8
-        encoding = ('' + encoding).toLowerCase()
-        loweredCase = true
-    }
-  }
-}
-Buffer.byteLength = byteLength
-
-function slowToString (encoding, start, end) {
-  var loweredCase = false
-
-  start = start | 0
-  end = end === undefined || end === Infinity ? this.length : end | 0
-
-  if (!encoding) encoding = 'utf8'
-  if (start < 0) start = 0
-  if (end > this.length) end = this.length
-  if (end <= start) return ''
-
-  while (true) {
-    switch (encoding) {
-      case 'hex':
-        return hexSlice(this, start, end)
-
-      case 'utf8':
-      case 'utf-8':
-        return utf8Slice(this, start, end)
-
-      case 'ascii':
-        return asciiSlice(this, start, end)
-
-      case 'binary':
-        return binarySlice(this, start, end)
-
-      case 'base64':
-        return base64Slice(this, start, end)
-
-      case 'ucs2':
-      case 'ucs-2':
-      case 'utf16le':
-      case 'utf-16le':
-        return utf16leSlice(this, start, end)
-
-      default:
-        if (loweredCase) throw new TypeError('Unknown encoding: ' + encoding)
-        encoding = (encoding + '').toLowerCase()
-        loweredCase = true
-    }
-  }
-}
-
-Buffer.prototype.toString = function toString () {
-  var length = this.length | 0
-  if (length === 0) return ''
-  if (arguments.length === 0) return utf8Slice(this, 0, length)
-  return slowToString.apply(this, arguments)
-}
-
-Buffer.prototype.equals = function equals (b) {
-  if (!Buffer.isBuffer(b)) throw new TypeError('Argument must be a Buffer')
-  if (this === b) return true
-  return Buffer.compare(this, b) === 0
-}
-
-Buffer.prototype.inspect = function inspect () {
-  var str = ''
-  var max = exports.INSPECT_MAX_BYTES
-  if (this.length > 0) {
-    str = this.toString('hex', 0, max).match(/.{2}/g).join(' ')
-    if (this.length > max) str += ' ... '
-  }
-  return '<Buffer ' + str + '>'
-}
-
-Buffer.prototype.compare = function compare (b) {
-  if (!Buffer.isBuffer(b)) throw new TypeError('Argument must be a Buffer')
-  if (this === b) return 0
-  return Buffer.compare(this, b)
-}
-
-Buffer.prototype.indexOf = function indexOf (val, byteOffset) {
-  if (byteOffset > 0x7fffffff) byteOffset = 0x7fffffff
-  else if (byteOffset < -0x80000000) byteOffset = -0x80000000
-  byteOffset >>= 0
-
-  if (this.length === 0) return -1
-  if (byteOffset >= this.length) return -1
-
-  // Negative offsets start from the end of the buffer
-  if (byteOffset < 0) byteOffset = Math.max(this.length + byteOffset, 0)
-
-  if (typeof val === 'string') {
-    if (val.length === 0) return -1 // special case: looking for empty string always fails
-    return String.prototype.indexOf.call(this, val, byteOffset)
-  }
-  if (Buffer.isBuffer(val)) {
-    return arrayIndexOf(this, val, byteOffset)
-  }
-  if (typeof val === 'number') {
-    if (Buffer.TYPED_ARRAY_SUPPORT && Uint8Array.prototype.indexOf === 'function') {
-      return Uint8Array.prototype.indexOf.call(this, val, byteOffset)
-    }
-    return arrayIndexOf(this, [ val ], byteOffset)
-  }
-
-  function arrayIndexOf (arr, val, byteOffset) {
-    var foundIndex = -1
-    for (var i = 0; byteOffset + i < arr.length; i++) {
-      if (arr[byteOffset + i] === val[foundIndex === -1 ? 0 : i - foundIndex]) {
-        if (foundIndex === -1) foundIndex = i
-        if (i - foundIndex + 1 === val.length) return byteOffset + foundIndex
-      } else {
-        foundIndex = -1
-      }
-    }
-    return -1
-  }
-
-  throw new TypeError('val must be string, number or Buffer')
-}
-
-// `get` is deprecated
-Buffer.prototype.get = function get (offset) {
-  console.log('.get() is deprecated. Access using array indexes instead.')
-  return this.readUInt8(offset)
-}
-
-// `set` is deprecated
-Buffer.prototype.set = function set (v, offset) {
-  console.log('.set() is deprecated. Access using array indexes instead.')
-  return this.writeUInt8(v, offset)
-}
-
-function hexWrite (buf, string, offset, length) {
-  offset = Number(offset) || 0
-  var remaining = buf.length - offset
-  if (!length) {
-    length = remaining
-  } else {
-    length = Number(length)
-    if (length > remaining) {
-      length = remaining
-    }
-  }
-
-  // must be an even number of digits
-  var strLen = string.length
-  if (strLen % 2 !== 0) throw new Error('Invalid hex string')
-
-  if (length > strLen / 2) {
-    length = strLen / 2
-  }
-  for (var i = 0; i < length; i++) {
-    var parsed = parseInt(string.substr(i * 2, 2), 16)
-    if (isNaN(parsed)) throw new Error('Invalid hex string')
-    buf[offset + i] = parsed
-  }
-  return i
-}
-
-function utf8Write (buf, string, offset, length) {
-  return blitBuffer(utf8ToBytes(string, buf.length - offset), buf, offset, length)
-}
-
-function asciiWrite (buf, string, offset, length) {
-  return blitBuffer(asciiToBytes(string), buf, offset, length)
-}
-
-function binaryWrite (buf, string, offset, length) {
-  return asciiWrite(buf, string, offset, length)
-}
-
-function base64Write (buf, string, offset, length) {
-  return blitBuffer(base64ToBytes(string), buf, offset, length)
-}
-
-function ucs2Write (buf, string, offset, length) {
-  return blitBuffer(utf16leToBytes(string, buf.length - offset), buf, offset, length)
-}
-
-Buffer.prototype.write = function write (string, offset, length, encoding) {
-  // Buffer#write(string)
-  if (offset === undefined) {
-    encoding = 'utf8'
-    length = this.length
-    offset = 0
-  // Buffer#write(string, encoding)
-  } else if (length === undefined && typeof offset === 'string') {
-    encoding = offset
-    length = this.length
-    offset = 0
-  // Buffer#write(string, offset[, length][, encoding])
-  } else if (isFinite(offset)) {
-    offset = offset | 0
-    if (isFinite(length)) {
-      length = length | 0
-      if (encoding === undefined) encoding = 'utf8'
-    } else {
-      encoding = length
-      length = undefined
-    }
-  // legacy write(string, encoding, offset, length) - remove in v0.13
-  } else {
-    var swap = encoding
-    encoding = offset
-    offset = length | 0
-    length = swap
-  }
-
-  var remaining = this.length - offset
-  if (length === undefined || length > remaining) length = remaining
-
-  if ((string.length > 0 && (length < 0 || offset < 0)) || offset > this.length) {
-    throw new RangeError('attempt to write outside buffer bounds')
-  }
-
-  if (!encoding) encoding = 'utf8'
-
-  var loweredCase = false
-  for (;;) {
-    switch (encoding) {
-      case 'hex':
-        return hexWrite(this, string, offset, length)
-
-      case 'utf8':
-      case 'utf-8':
-        return utf8Write(this, string, offset, length)
-
-      case 'ascii':
-        return asciiWrite(this, string, offset, length)
-
-      case 'binary':
-        return binaryWrite(this, string, offset, length)
-
-      case 'base64':
-        // Warning: maxLength not taken into account in base64Write
-        return base64Write(this, string, offset, length)
-
-      case 'ucs2':
-      case 'ucs-2':
-      case 'utf16le':
-      case 'utf-16le':
-        return ucs2Write(this, string, offset, length)
-
-      default:
-        if (loweredCase) throw new TypeError('Unknown encoding: ' + encoding)
-        encoding = ('' + encoding).toLowerCase()
-        loweredCase = true
-    }
-  }
-}
-
-Buffer.prototype.toJSON = function toJSON () {
-  return {
-    type: 'Buffer',
-    data: Array.prototype.slice.call(this._arr || this, 0)
-  }
-}
-
-function base64Slice (buf, start, end) {
-  if (start === 0 && end === buf.length) {
-    return base64.fromByteArray(buf)
-  } else {
-    return base64.fromByteArray(buf.slice(start, end))
-  }
-}
-
-function utf8Slice (buf, start, end) {
-  end = Math.min(buf.length, end)
-  var res = []
-
-  var i = start
-  while (i < end) {
-    var firstByte = buf[i]
-    var codePoint = null
-    var bytesPerSequence = (firstByte > 0xEF) ? 4
-      : (firstByte > 0xDF) ? 3
-      : (firstByte > 0xBF) ? 2
-      : 1
-
-    if (i + bytesPerSequence <= end) {
-      var secondByte, thirdByte, fourthByte, tempCodePoint
-
-      switch (bytesPerSequence) {
-        case 1:
-          if (firstByte < 0x80) {
-            codePoint = firstByte
-          }
-          break
-        case 2:
-          secondByte = buf[i + 1]
-          if ((secondByte & 0xC0) === 0x80) {
-            tempCodePoint = (firstByte & 0x1F) << 0x6 | (secondByte & 0x3F)
-            if (tempCodePoint > 0x7F) {
-              codePoint = tempCodePoint
+var queue = [];
+// Once a flush has been requested, no further calls to `requestFlush` are
+// necessary until the next `flush` completes.
+var flushing = false;
+// The position of the next task to execute in the task queue. This is
+// preserved between calls to `flush` so that it can be resumed if
+// a task throws an exception.
+var index = 0;
+// If a task schedules additional tasks recursively, the task queue can grow
+// unbounded. To prevent memory excaustion, the task queue will periodically
+// truncate already-completed tasks.
+var capacity = 1024;
+
+// The flush function processes all tasks that have been scheduled with
+// `rawAsap` unless and until one of those tasks throws an exception.
+// If a task throws an exception, `flush` ensures that its state will remain
+// consistent and will resume where it left off when called again.
+// However, `flush` does not make any arrangements to be called again if an
+// exception is thrown.
+function flush() {
+    while (index < queue.length) {
+        var currentIndex = index;
+        // Advance the index before calling the task. This ensures that we will
+        // begin flushing on the next task the task throws an error.
+        index = index + 1;
+        queue[currentIndex].call();
+        // Prevent leaking memory for long chains of recursive calls to `asap`.
+        // If we call `asap` within tasks scheduled by `asap`, the queue will
+        // grow, but to avoid an O(n) walk for every task we execute, we don't
+        // shift tasks off the queue after they have been executed.
+        // Instead, we periodically shift 1024 tasks off the queue.
+        if (index > capacity) {
+            // Manually shift all values starting at the index back to the
+            // beginning of the queue.
+            for (var scan = 0, newLength = queue.length - index; scan < newLength; scan++) {
+                queue[scan] = queue[scan + index];
             }
-          }
-          break
-        case 3:
-          secondByte = buf[i + 1]
-          thirdByte = buf[i + 2]
-          if ((secondByte & 0xC0) === 0x80 && (thirdByte & 0xC0) === 0x80) {
-            tempCodePoint = (firstByte & 0xF) << 0xC | (secondByte & 0x3F) << 0x6 | (thirdByte & 0x3F)
-            if (tempCodePoint > 0x7FF && (tempCodePoint < 0xD800 || tempCodePoint > 0xDFFF)) {
-              codePoint = tempCodePoint
-            }
-          }
-          break
-        case 4:
-          secondByte = buf[i + 1]
-          thirdByte = buf[i + 2]
-          fourthByte = buf[i + 3]
-          if ((secondByte & 0xC0) === 0x80 && (thirdByte & 0xC0) === 0x80 && (fourthByte & 0xC0) === 0x80) {
-            tempCodePoint = (firstByte & 0xF) << 0x12 | (secondByte & 0x3F) << 0xC | (thirdByte & 0x3F) << 0x6 | (fourthByte & 0x3F)
-            if (tempCodePoint > 0xFFFF && tempCodePoint < 0x110000) {
-              codePoint = tempCodePoint
-            }
-          }
-      }
-    }
-
-    if (codePoint === null) {
-      // we did not generate a valid codePoint so insert a
-      // replacement char (U+FFFD) and advance only 1 byte
-      codePoint = 0xFFFD
-      bytesPerSequence = 1
-    } else if (codePoint > 0xFFFF) {
-      // encode to utf16 (surrogate pair dance)
-      codePoint -= 0x10000
-      res.push(codePoint >>> 10 & 0x3FF | 0xD800)
-      codePoint = 0xDC00 | codePoint & 0x3FF
-    }
-
-    res.push(codePoint)
-    i += bytesPerSequence
-  }
-
-  return decodeCodePointsArray(res)
-}
-
-// Based on http://stackoverflow.com/a/22747272/680742, the browser with
-// the lowest limit is Chrome, with 0x10000 args.
-// We go 1 magnitude less, for safety
-var MAX_ARGUMENTS_LENGTH = 0x1000
-
-function decodeCodePointsArray (codePoints) {
-  var len = codePoints.length
-  if (len <= MAX_ARGUMENTS_LENGTH) {
-    return String.fromCharCode.apply(String, codePoints) // avoid extra slice()
-  }
-
-  // Decode in chunks to avoid "call stack size exceeded".
-  var res = ''
-  var i = 0
-  while (i < len) {
-    res += String.fromCharCode.apply(
-      String,
-      codePoints.slice(i, i += MAX_ARGUMENTS_LENGTH)
-    )
-  }
-  return res
-}
-
-function asciiSlice (buf, start, end) {
-  var ret = ''
-  end = Math.min(buf.length, end)
-
-  for (var i = start; i < end; i++) {
-    ret += String.fromCharCode(buf[i] & 0x7F)
-  }
-  return ret
-}
-
-function binarySlice (buf, start, end) {
-  var ret = ''
-  end = Math.min(buf.length, end)
-
-  for (var i = start; i < end; i++) {
-    ret += String.fromCharCode(buf[i])
-  }
-  return ret
-}
-
-function hexSlice (buf, start, end) {
-  var len = buf.length
-
-  if (!start || start < 0) start = 0
-  if (!end || end < 0 || end > len) end = len
-
-  var out = ''
-  for (var i = start; i < end; i++) {
-    out += toHex(buf[i])
-  }
-  return out
-}
-
-function utf16leSlice (buf, start, end) {
-  var bytes = buf.slice(start, end)
-  var res = ''
-  for (var i = 0; i < bytes.length; i += 2) {
-    res += String.fromCharCode(bytes[i] + bytes[i + 1] * 256)
-  }
-  return res
-}
-
-Buffer.prototype.slice = function slice (start, end) {
-  var len = this.length
-  start = ~~start
-  end = end === undefined ? len : ~~end
-
-  if (start < 0) {
-    start += len
-    if (start < 0) start = 0
-  } else if (start > len) {
-    start = len
-  }
-
-  if (end < 0) {
-    end += len
-    if (end < 0) end = 0
-  } else if (end > len) {
-    end = len
-  }
-
-  if (end < start) end = start
-
-  var newBuf
-  if (Buffer.TYPED_ARRAY_SUPPORT) {
-    newBuf = Buffer._augment(this.subarray(start, end))
-  } else {
-    var sliceLen = end - start
-    newBuf = new Buffer(sliceLen, undefined)
-    for (var i = 0; i < sliceLen; i++) {
-      newBuf[i] = this[i + start]
-    }
-  }
-
-  if (newBuf.length) newBuf.parent = this.parent || this
-
-  return newBuf
-}
-
-/*
- * Need to make sure that buffer isn't trying to write out of bounds.
- */
-function checkOffset (offset, ext, length) {
-  if ((offset % 1) !== 0 || offset < 0) throw new RangeError('offset is not uint')
-  if (offset + ext > length) throw new RangeError('Trying to access beyond buffer length')
-}
-
-Buffer.prototype.readUIntLE = function readUIntLE (offset, byteLength, noAssert) {
-  offset = offset | 0
-  byteLength = byteLength | 0
-  if (!noAssert) checkOffset(offset, byteLength, this.length)
-
-  var val = this[offset]
-  var mul = 1
-  var i = 0
-  while (++i < byteLength && (mul *= 0x100)) {
-    val += this[offset + i] * mul
-  }
-
-  return val
-}
-
-Buffer.prototype.readUIntBE = function readUIntBE (offset, byteLength, noAssert) {
-  offset = offset | 0
-  byteLength = byteLength | 0
-  if (!noAssert) {
-    checkOffset(offset, byteLength, this.length)
-  }
-
-  var val = this[offset + --byteLength]
-  var mul = 1
-  while (byteLength > 0 && (mul *= 0x100)) {
-    val += this[offset + --byteLength] * mul
-  }
-
-  return val
-}
-
-Buffer.prototype.readUInt8 = function readUInt8 (offset, noAssert) {
-  if (!noAssert) checkOffset(offset, 1, this.length)
-  return this[offset]
-}
-
-Buffer.prototype.readUInt16LE = function readUInt16LE (offset, noAssert) {
-  if (!noAssert) checkOffset(offset, 2, this.length)
-  return this[offset] | (this[offset + 1] << 8)
-}
-
-Buffer.prototype.readUInt16BE = function readUInt16BE (offset, noAssert) {
-  if (!noAssert) checkOffset(offset, 2, this.length)
-  return (this[offset] << 8) | this[offset + 1]
-}
-
-Buffer.prototype.readUInt32LE = function readUInt32LE (offset, noAssert) {
-  if (!noAssert) checkOffset(offset, 4, this.length)
-
-  return ((this[offset]) |
-      (this[offset + 1] << 8) |
-      (this[offset + 2] << 16)) +
-      (this[offset + 3] * 0x1000000)
-}
-
-Buffer.prototype.readUInt32BE = function readUInt32BE (offset, noAssert) {
-  if (!noAssert) checkOffset(offset, 4, this.length)
-
-  return (this[offset] * 0x1000000) +
-    ((this[offset + 1] << 16) |
-    (this[offset + 2] << 8) |
-    this[offset + 3])
-}
-
-Buffer.prototype.readIntLE = function readIntLE (offset, byteLength, noAssert) {
-  offset = offset | 0
-  byteLength = byteLength | 0
-  if (!noAssert) checkOffset(offset, byteLength, this.length)
-
-  var val = this[offset]
-  var mul = 1
-  var i = 0
-  while (++i < byteLength && (mul *= 0x100)) {
-    val += this[offset + i] * mul
-  }
-  mul *= 0x80
-
-  if (val >= mul) val -= Math.pow(2, 8 * byteLength)
-
-  return val
-}
-
-Buffer.prototype.readIntBE = function readIntBE (offset, byteLength, noAssert) {
-  offset = offset | 0
-  byteLength = byteLength | 0
-  if (!noAssert) checkOffset(offset, byteLength, this.length)
-
-  var i = byteLength
-  var mul = 1
-  var val = this[offset + --i]
-  while (i > 0 && (mul *= 0x100)) {
-    val += this[offset + --i] * mul
-  }
-  mul *= 0x80
-
-  if (val >= mul) val -= Math.pow(2, 8 * byteLength)
-
-  return val
-}
-
-Buffer.prototype.readInt8 = function readInt8 (offset, noAssert) {
-  if (!noAssert) checkOffset(offset, 1, this.length)
-  if (!(this[offset] & 0x80)) return (this[offset])
-  return ((0xff - this[offset] + 1) * -1)
-}
-
-Buffer.prototype.readInt16LE = function readInt16LE (offset, noAssert) {
-  if (!noAssert) checkOffset(offset, 2, this.length)
-  var val = this[offset] | (this[offset + 1] << 8)
-  return (val & 0x8000) ? val | 0xFFFF0000 : val
-}
-
-Buffer.prototype.readInt16BE = function readInt16BE (offset, noAssert) {
-  if (!noAssert) checkOffset(offset, 2, this.length)
-  var val = this[offset + 1] | (this[offset] << 8)
-  return (val & 0x8000) ? val | 0xFFFF0000 : val
-}
-
-Buffer.prototype.readInt32LE = function readInt32LE (offset, noAssert) {
-  if (!noAssert) checkOffset(offset, 4, this.length)
-
-  return (this[offset]) |
-    (this[offset + 1] << 8) |
-    (this[offset + 2] << 16) |
-    (this[offset + 3] << 24)
-}
-
-Buffer.prototype.readInt32BE = function readInt32BE (offset, noAssert) {
-  if (!noAssert) checkOffset(offset, 4, this.length)
-
-  return (this[offset] << 24) |
-    (this[offset + 1] << 16) |
-    (this[offset + 2] << 8) |
-    (this[offset + 3])
-}
-
-Buffer.prototype.readFloatLE = function readFloatLE (offset, noAssert) {
-  if (!noAssert) checkOffset(offset, 4, this.length)
-  return ieee754.read(this, offset, true, 23, 4)
-}
-
-Buffer.prototype.readFloatBE = function readFloatBE (offset, noAssert) {
-  if (!noAssert) checkOffset(offset, 4, this.length)
-  return ieee754.read(this, offset, false, 23, 4)
-}
-
-Buffer.prototype.readDoubleLE = function readDoubleLE (offset, noAssert) {
-  if (!noAssert) checkOffset(offset, 8, this.length)
-  return ieee754.read(this, offset, true, 52, 8)
-}
-
-Buffer.prototype.readDoubleBE = function readDoubleBE (offset, noAssert) {
-  if (!noAssert) checkOffset(offset, 8, this.length)
-  return ieee754.read(this, offset, false, 52, 8)
-}
-
-function checkInt (buf, value, offset, ext, max, min) {
-  if (!Buffer.isBuffer(buf)) throw new TypeError('buffer must be a Buffer instance')
-  if (value > max || value < min) throw new RangeError('value is out of bounds')
-  if (offset + ext > buf.length) throw new RangeError('index out of range')
-}
-
-Buffer.prototype.writeUIntLE = function writeUIntLE (value, offset, byteLength, noAssert) {
-  value = +value
-  offset = offset | 0
-  byteLength = byteLength | 0
-  if (!noAssert) checkInt(this, value, offset, byteLength, Math.pow(2, 8 * byteLength), 0)
-
-  var mul = 1
-  var i = 0
-  this[offset] = value & 0xFF
-  while (++i < byteLength && (mul *= 0x100)) {
-    this[offset + i] = (value / mul) & 0xFF
-  }
-
-  return offset + byteLength
-}
-
-Buffer.prototype.writeUIntBE = function writeUIntBE (value, offset, byteLength, noAssert) {
-  value = +value
-  offset = offset | 0
-  byteLength = byteLength | 0
-  if (!noAssert) checkInt(this, value, offset, byteLength, Math.pow(2, 8 * byteLength), 0)
-
-  var i = byteLength - 1
-  var mul = 1
-  this[offset + i] = value & 0xFF
-  while (--i >= 0 && (mul *= 0x100)) {
-    this[offset + i] = (value / mul) & 0xFF
-  }
-
-  return offset + byteLength
-}
-
-Buffer.prototype.writeUInt8 = function writeUInt8 (value, offset, noAssert) {
-  value = +value
-  offset = offset | 0
-  if (!noAssert) checkInt(this, value, offset, 1, 0xff, 0)
-  if (!Buffer.TYPED_ARRAY_SUPPORT) value = Math.floor(value)
-  this[offset] = (value & 0xff)
-  return offset + 1
-}
-
-function objectWriteUInt16 (buf, value, offset, littleEndian) {
-  if (value < 0) value = 0xffff + value + 1
-  for (var i = 0, j = Math.min(buf.length - offset, 2); i < j; i++) {
-    buf[offset + i] = (value & (0xff << (8 * (littleEndian ? i : 1 - i)))) >>>
-      (littleEndian ? i : 1 - i) * 8
-  }
-}
-
-Buffer.prototype.writeUInt16LE = function writeUInt16LE (value, offset, noAssert) {
-  value = +value
-  offset = offset | 0
-  if (!noAssert) checkInt(this, value, offset, 2, 0xffff, 0)
-  if (Buffer.TYPED_ARRAY_SUPPORT) {
-    this[offset] = (value & 0xff)
-    this[offset + 1] = (value >>> 8)
-  } else {
-    objectWriteUInt16(this, value, offset, true)
-  }
-  return offset + 2
-}
-
-Buffer.prototype.writeUInt16BE = function writeUInt16BE (value, offset, noAssert) {
-  value = +value
-  offset = offset | 0
-  if (!noAssert) checkInt(this, value, offset, 2, 0xffff, 0)
-  if (Buffer.TYPED_ARRAY_SUPPORT) {
-    this[offset] = (value >>> 8)
-    this[offset + 1] = (value & 0xff)
-  } else {
-    objectWriteUInt16(this, value, offset, false)
-  }
-  return offset + 2
-}
-
-function objectWriteUInt32 (buf, value, offset, littleEndian) {
-  if (value < 0) value = 0xffffffff + value + 1
-  for (var i = 0, j = Math.min(buf.length - offset, 4); i < j; i++) {
-    buf[offset + i] = (value >>> (littleEndian ? i : 3 - i) * 8) & 0xff
-  }
-}
-
-Buffer.prototype.writeUInt32LE = function writeUInt32LE (value, offset, noAssert) {
-  value = +value
-  offset = offset | 0
-  if (!noAssert) checkInt(this, value, offset, 4, 0xffffffff, 0)
-  if (Buffer.TYPED_ARRAY_SUPPORT) {
-    this[offset + 3] = (value >>> 24)
-    this[offset + 2] = (value >>> 16)
-    this[offset + 1] = (value >>> 8)
-    this[offset] = (value & 0xff)
-  } else {
-    objectWriteUInt32(this, value, offset, true)
-  }
-  return offset + 4
-}
-
-Buffer.prototype.writeUInt32BE = function writeUInt32BE (value, offset, noAssert) {
-  value = +value
-  offset = offset | 0
-  if (!noAssert) checkInt(this, value, offset, 4, 0xffffffff, 0)
-  if (Buffer.TYPED_ARRAY_SUPPORT) {
-    this[offset] = (value >>> 24)
-    this[offset + 1] = (value >>> 16)
-    this[offset + 2] = (value >>> 8)
-    this[offset + 3] = (value & 0xff)
-  } else {
-    objectWriteUInt32(this, value, offset, false)
-  }
-  return offset + 4
-}
-
-Buffer.prototype.writeIntLE = function writeIntLE (value, offset, byteLength, noAssert) {
-  value = +value
-  offset = offset | 0
-  if (!noAssert) {
-    var limit = Math.pow(2, 8 * byteLength - 1)
-
-    checkInt(this, value, offset, byteLength, limit - 1, -limit)
-  }
-
-  var i = 0
-  var mul = 1
-  var sub = value < 0 ? 1 : 0
-  this[offset] = value & 0xFF
-  while (++i < byteLength && (mul *= 0x100)) {
-    this[offset + i] = ((value / mul) >> 0) - sub & 0xFF
-  }
-
-  return offset + byteLength
-}
-
-Buffer.prototype.writeIntBE = function writeIntBE (value, offset, byteLength, noAssert) {
-  value = +value
-  offset = offset | 0
-  if (!noAssert) {
-    var limit = Math.pow(2, 8 * byteLength - 1)
-
-    checkInt(this, value, offset, byteLength, limit - 1, -limit)
-  }
-
-  var i = byteLength - 1
-  var mul = 1
-  var sub = value < 0 ? 1 : 0
-  this[offset + i] = value & 0xFF
-  while (--i >= 0 && (mul *= 0x100)) {
-    this[offset + i] = ((value / mul) >> 0) - sub & 0xFF
-  }
-
-  return offset + byteLength
-}
-
-Buffer.prototype.writeInt8 = function writeInt8 (value, offset, noAssert) {
-  value = +value
-  offset = offset | 0
-  if (!noAssert) checkInt(this, value, offset, 1, 0x7f, -0x80)
-  if (!Buffer.TYPED_ARRAY_SUPPORT) value = Math.floor(value)
-  if (value < 0) value = 0xff + value + 1
-  this[offset] = (value & 0xff)
-  return offset + 1
-}
-
-Buffer.prototype.writeInt16LE = function writeInt16LE (value, offset, noAssert) {
-  value = +value
-  offset = offset | 0
-  if (!noAssert) checkInt(this, value, offset, 2, 0x7fff, -0x8000)
-  if (Buffer.TYPED_ARRAY_SUPPORT) {
-    this[offset] = (value & 0xff)
-    this[offset + 1] = (value >>> 8)
-  } else {
-    objectWriteUInt16(this, value, offset, true)
-  }
-  return offset + 2
-}
-
-Buffer.prototype.writeInt16BE = function writeInt16BE (value, offset, noAssert) {
-  value = +value
-  offset = offset | 0
-  if (!noAssert) checkInt(this, value, offset, 2, 0x7fff, -0x8000)
-  if (Buffer.TYPED_ARRAY_SUPPORT) {
-    this[offset] = (value >>> 8)
-    this[offset + 1] = (value & 0xff)
-  } else {
-    objectWriteUInt16(this, value, offset, false)
-  }
-  return offset + 2
-}
-
-Buffer.prototype.writeInt32LE = function writeInt32LE (value, offset, noAssert) {
-  value = +value
-  offset = offset | 0
-  if (!noAssert) checkInt(this, value, offset, 4, 0x7fffffff, -0x80000000)
-  if (Buffer.TYPED_ARRAY_SUPPORT) {
-    this[offset] = (value & 0xff)
-    this[offset + 1] = (value >>> 8)
-    this[offset + 2] = (value >>> 16)
-    this[offset + 3] = (value >>> 24)
-  } else {
-    objectWriteUInt32(this, value, offset, true)
-  }
-  return offset + 4
-}
-
-Buffer.prototype.writeInt32BE = function writeInt32BE (value, offset, noAssert) {
-  value = +value
-  offset = offset | 0
-  if (!noAssert) checkInt(this, value, offset, 4, 0x7fffffff, -0x80000000)
-  if (value < 0) value = 0xffffffff + value + 1
-  if (Buffer.TYPED_ARRAY_SUPPORT) {
-    this[offset] = (value >>> 24)
-    this[offset + 1] = (value >>> 16)
-    this[offset + 2] = (value >>> 8)
-    this[offset + 3] = (value & 0xff)
-  } else {
-    objectWriteUInt32(this, value, offset, false)
-  }
-  return offset + 4
-}
-
-function checkIEEE754 (buf, value, offset, ext, max, min) {
-  if (value > max || value < min) throw new RangeError('value is out of bounds')
-  if (offset + ext > buf.length) throw new RangeError('index out of range')
-  if (offset < 0) throw new RangeError('index out of range')
-}
-
-function writeFloat (buf, value, offset, littleEndian, noAssert) {
-  if (!noAssert) {
-    checkIEEE754(buf, value, offset, 4, 3.4028234663852886e+38, -3.4028234663852886e+38)
-  }
-  ieee754.write(buf, value, offset, littleEndian, 23, 4)
-  return offset + 4
-}
-
-Buffer.prototype.writeFloatLE = function writeFloatLE (value, offset, noAssert) {
-  return writeFloat(this, value, offset, true, noAssert)
-}
-
-Buffer.prototype.writeFloatBE = function writeFloatBE (value, offset, noAssert) {
-  return writeFloat(this, value, offset, false, noAssert)
-}
-
-function writeDouble (buf, value, offset, littleEndian, noAssert) {
-  if (!noAssert) {
-    checkIEEE754(buf, value, offset, 8, 1.7976931348623157E+308, -1.7976931348623157E+308)
-  }
-  ieee754.write(buf, value, offset, littleEndian, 52, 8)
-  return offset + 8
-}
-
-Buffer.prototype.writeDoubleLE = function writeDoubleLE (value, offset, noAssert) {
-  return writeDouble(this, value, offset, true, noAssert)
-}
-
-Buffer.prototype.writeDoubleBE = function writeDoubleBE (value, offset, noAssert) {
-  return writeDouble(this, value, offset, false, noAssert)
-}
-
-// copy(targetBuffer, targetStart=0, sourceStart=0, sourceEnd=buffer.length)
-Buffer.prototype.copy = function copy (target, targetStart, start, end) {
-  if (!start) start = 0
-  if (!end && end !== 0) end = this.length
-  if (targetStart >= target.length) targetStart = target.length
-  if (!targetStart) targetStart = 0
-  if (end > 0 && end < start) end = start
-
-  // Copy 0 bytes; we're done
-  if (end === start) return 0
-  if (target.length === 0 || this.length === 0) return 0
-
-  // Fatal error conditions
-  if (targetStart < 0) {
-    throw new RangeError('targetStart out of bounds')
-  }
-  if (start < 0 || start >= this.length) throw new RangeError('sourceStart out of bounds')
-  if (end < 0) throw new RangeError('sourceEnd out of bounds')
-
-  // Are we oob?
-  if (end > this.length) end = this.length
-  if (target.length - targetStart < end - start) {
-    end = target.length - targetStart + start
-  }
-
-  var len = end - start
-  var i
-
-  if (this === target && start < targetStart && targetStart < end) {
-    // descending copy from end
-    for (i = len - 1; i >= 0; i--) {
-      target[i + targetStart] = this[i + start]
-    }
-  } else if (len < 1000 || !Buffer.TYPED_ARRAY_SUPPORT) {
-    // ascending copy from start
-    for (i = 0; i < len; i++) {
-      target[i + targetStart] = this[i + start]
-    }
-  } else {
-    target._set(this.subarray(start, start + len), targetStart)
-  }
-
-  return len
-}
-
-// fill(value, start=0, end=buffer.length)
-Buffer.prototype.fill = function fill (value, start, end) {
-  if (!value) value = 0
-  if (!start) start = 0
-  if (!end) end = this.length
-
-  if (end < start) throw new RangeError('end < start')
-
-  // Fill 0 bytes; we're done
-  if (end === start) return
-  if (this.length === 0) return
-
-  if (start < 0 || start >= this.length) throw new RangeError('start out of bounds')
-  if (end < 0 || end > this.length) throw new RangeError('end out of bounds')
-
-  var i
-  if (typeof value === 'number') {
-    for (i = start; i < end; i++) {
-      this[i] = value
-    }
-  } else {
-    var bytes = utf8ToBytes(value.toString())
-    var len = bytes.length
-    for (i = start; i < end; i++) {
-      this[i] = bytes[i % len]
-    }
-  }
-
-  return this
-}
-
-/**
- * Creates a new `ArrayBuffer` with the *copied* memory of the buffer instance.
- * Added in Node 0.12. Only available in browsers that support ArrayBuffer.
- */
-Buffer.prototype.toArrayBuffer = function toArrayBuffer () {
-  if (typeof Uint8Array !== 'undefined') {
-    if (Buffer.TYPED_ARRAY_SUPPORT) {
-      return (new Buffer(this)).buffer
-    } else {
-      var buf = new Uint8Array(this.length)
-      for (var i = 0, len = buf.length; i < len; i += 1) {
-        buf[i] = this[i]
-      }
-      return buf.buffer
-    }
-  } else {
-    throw new TypeError('Buffer.toArrayBuffer not supported in this browser')
-  }
-}
-
-// HELPER FUNCTIONS
-// ================
-
-var BP = Buffer.prototype
-
-/**
- * Augment a Uint8Array *instance* (not the Uint8Array class!) with Buffer methods
- */
-Buffer._augment = function _augment (arr) {
-  arr.constructor = Buffer
-  arr._isBuffer = true
-
-  // save reference to original Uint8Array set method before overwriting
-  arr._set = arr.set
-
-  // deprecated
-  arr.get = BP.get
-  arr.set = BP.set
-
-  arr.write = BP.write
-  arr.toString = BP.toString
-  arr.toLocaleString = BP.toString
-  arr.toJSON = BP.toJSON
-  arr.equals = BP.equals
-  arr.compare = BP.compare
-  arr.indexOf = BP.indexOf
-  arr.copy = BP.copy
-  arr.slice = BP.slice
-  arr.readUIntLE = BP.readUIntLE
-  arr.readUIntBE = BP.readUIntBE
-  arr.readUInt8 = BP.readUInt8
-  arr.readUInt16LE = BP.readUInt16LE
-  arr.readUInt16BE = BP.readUInt16BE
-  arr.readUInt32LE = BP.readUInt32LE
-  arr.readUInt32BE = BP.readUInt32BE
-  arr.readIntLE = BP.readIntLE
-  arr.readIntBE = BP.readIntBE
-  arr.readInt8 = BP.readInt8
-  arr.readInt16LE = BP.readInt16LE
-  arr.readInt16BE = BP.readInt16BE
-  arr.readInt32LE = BP.readInt32LE
-  arr.readInt32BE = BP.readInt32BE
-  arr.readFloatLE = BP.readFloatLE
-  arr.readFloatBE = BP.readFloatBE
-  arr.readDoubleLE = BP.readDoubleLE
-  arr.readDoubleBE = BP.readDoubleBE
-  arr.writeUInt8 = BP.writeUInt8
-  arr.writeUIntLE = BP.writeUIntLE
-  arr.writeUIntBE = BP.writeUIntBE
-  arr.writeUInt16LE = BP.writeUInt16LE
-  arr.writeUInt16BE = BP.writeUInt16BE
-  arr.writeUInt32LE = BP.writeUInt32LE
-  arr.writeUInt32BE = BP.writeUInt32BE
-  arr.writeIntLE = BP.writeIntLE
-  arr.writeIntBE = BP.writeIntBE
-  arr.writeInt8 = BP.writeInt8
-  arr.writeInt16LE = BP.writeInt16LE
-  arr.writeInt16BE = BP.writeInt16BE
-  arr.writeInt32LE = BP.writeInt32LE
-  arr.writeInt32BE = BP.writeInt32BE
-  arr.writeFloatLE = BP.writeFloatLE
-  arr.writeFloatBE = BP.writeFloatBE
-  arr.writeDoubleLE = BP.writeDoubleLE
-  arr.writeDoubleBE = BP.writeDoubleBE
-  arr.fill = BP.fill
-  arr.inspect = BP.inspect
-  arr.toArrayBuffer = BP.toArrayBuffer
-
-  return arr
-}
-
-var INVALID_BASE64_RE = /[^+\/0-9A-Za-z-_]/g
-
-function base64clean (str) {
-  // Node strips out invalid characters like \n and \t from the string, base64-js does not
-  str = stringtrim(str).replace(INVALID_BASE64_RE, '')
-  // Node converts strings with length < 2 to ''
-  if (str.length < 2) return ''
-  // Node allows for non-padded base64 strings (missing trailing ===), base64-js does not
-  while (str.length % 4 !== 0) {
-    str = str + '='
-  }
-  return str
-}
-
-function stringtrim (str) {
-  if (str.trim) return str.trim()
-  return str.replace(/^\s+|\s+$/g, '')
-}
-
-function toHex (n) {
-  if (n < 16) return '0' + n.toString(16)
-  return n.toString(16)
-}
-
-function utf8ToBytes (string, units) {
-  units = units || Infinity
-  var codePoint
-  var length = string.length
-  var leadSurrogate = null
-  var bytes = []
-
-  for (var i = 0; i < length; i++) {
-    codePoint = string.charCodeAt(i)
-
-    // is surrogate component
-    if (codePoint > 0xD7FF && codePoint < 0xE000) {
-      // last char was a lead
-      if (!leadSurrogate) {
-        // no lead yet
-        if (codePoint > 0xDBFF) {
-          // unexpected trail
-          if ((units -= 3) > -1) bytes.push(0xEF, 0xBF, 0xBD)
-          continue
-        } else if (i + 1 === length) {
-          // unpaired lead
-          if ((units -= 3) > -1) bytes.push(0xEF, 0xBF, 0xBD)
-          continue
+            queue.length -= index;
+            index = 0;
         }
+    }
+    queue.length = 0;
+    index = 0;
+    flushing = false;
+}
 
-        // valid lead
-        leadSurrogate = codePoint
-
-        continue
-      }
-
-      // 2 leads in a row
-      if (codePoint < 0xDC00) {
-        if ((units -= 3) > -1) bytes.push(0xEF, 0xBF, 0xBD)
-        leadSurrogate = codePoint
-        continue
-      }
-
-      // valid surrogate pair
-      codePoint = (leadSurrogate - 0xD800 << 10 | codePoint - 0xDC00) + 0x10000
-    } else if (leadSurrogate) {
-      // valid bmp char, but last char was a lead
-      if ((units -= 3) > -1) bytes.push(0xEF, 0xBF, 0xBD)
+rawAsap.requestFlush = requestFlush;
+function requestFlush() {
+    // Ensure flushing is not bound to any domain.
+    // It is not sufficient to exit the domain, because domains exist on a stack.
+    // To execute code outside of any domain, the following dance is necessary.
+    var parentDomain = process.domain;
+    if (parentDomain) {
+        if (!domain) {
+            // Lazy execute the domain module.
+            // Only employed if the user elects to use domains.
+            domain = require("domain");
+        }
+        domain.active = process.domain = null;
     }
 
-    leadSurrogate = null
-
-    // encode utf8
-    if (codePoint < 0x80) {
-      if ((units -= 1) < 0) break
-      bytes.push(codePoint)
-    } else if (codePoint < 0x800) {
-      if ((units -= 2) < 0) break
-      bytes.push(
-        codePoint >> 0x6 | 0xC0,
-        codePoint & 0x3F | 0x80
-      )
-    } else if (codePoint < 0x10000) {
-      if ((units -= 3) < 0) break
-      bytes.push(
-        codePoint >> 0xC | 0xE0,
-        codePoint >> 0x6 & 0x3F | 0x80,
-        codePoint & 0x3F | 0x80
-      )
-    } else if (codePoint < 0x110000) {
-      if ((units -= 4) < 0) break
-      bytes.push(
-        codePoint >> 0x12 | 0xF0,
-        codePoint >> 0xC & 0x3F | 0x80,
-        codePoint >> 0x6 & 0x3F | 0x80,
-        codePoint & 0x3F | 0x80
-      )
+    // `setImmediate` is slower that `process.nextTick`, but `process.nextTick`
+    // cannot handle recursion.
+    // `requestFlush` will only be called recursively from `asap.js`, to resume
+    // flushing after an error is thrown into a domain.
+    // Conveniently, `setImmediate` was introduced in the same version
+    // `process.nextTick` started throwing recursion errors.
+    if (flushing && hasSetImmediate) {
+        setImmediate(flush);
     } else {
-      throw new Error('Invalid code point')
+        process.nextTick(flush);
     }
-  }
 
-  return bytes
+    if (parentDomain) {
+        domain.active = process.domain = parentDomain;
+    }
 }
 
-function asciiToBytes (str) {
-  var byteArray = []
-  for (var i = 0; i < str.length; i++) {
-    // Node's code seems to be doing this and not & 0x7F..
-    byteArray.push(str.charCodeAt(i) & 0xFF)
-  }
-  return byteArray
-}
-
-function utf16leToBytes (str, units) {
-  var c, hi, lo
-  var byteArray = []
-  for (var i = 0; i < str.length; i++) {
-    if ((units -= 2) < 0) break
-
-    c = str.charCodeAt(i)
-    hi = c >> 8
-    lo = c % 256
-    byteArray.push(lo)
-    byteArray.push(hi)
-  }
-
-  return byteArray
-}
-
-function base64ToBytes (str) {
-  return base64.toByteArray(base64clean(str))
-}
-
-function blitBuffer (src, dst, offset, length) {
-  for (var i = 0; i < length; i++) {
-    if ((i + offset >= dst.length) || (i >= src.length)) break
-    dst[i + offset] = src[i]
-  }
-  return i
-}
-
-}).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"base64-js":2,"ieee754":3,"isarray":4}],2:[function(require,module,exports){
+},{"__browserify_process":16,"domain":5}],2:[function(require,module,exports){
 var lookup = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/';
 
 ;(function (exports) {
@@ -1683,99 +234,224 @@ var lookup = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/';
 }(typeof exports === 'undefined' ? (this.base64js = {}) : exports))
 
 },{}],3:[function(require,module,exports){
-exports.read = function (buffer, offset, isLE, mLen, nBytes) {
-  var e, m
-  var eLen = nBytes * 8 - mLen - 1
-  var eMax = (1 << eLen) - 1
-  var eBias = eMax >> 1
-  var nBits = -7
-  var i = isLE ? (nBytes - 1) : 0
-  var d = isLE ? -1 : 1
-  var s = buffer[offset + i]
 
-  i += d
 
-  e = s & ((1 << (-nBits)) - 1)
-  s >>= (-nBits)
-  nBits += eLen
-  for (; nBits > 0; e = e * 256 + buffer[offset + i], i += d, nBits -= 8) {}
+//
+// The shims in this file are not fully implemented shims for the ES5
+// features, but do work for the particular usecases there is in
+// the other modules.
+//
 
-  m = e & ((1 << (-nBits)) - 1)
-  e >>= (-nBits)
-  nBits += mLen
-  for (; nBits > 0; m = m * 256 + buffer[offset + i], i += d, nBits -= 8) {}
+var toString = Object.prototype.toString;
+var hasOwnProperty = Object.prototype.hasOwnProperty;
 
-  if (e === 0) {
-    e = 1 - eBias
-  } else if (e === eMax) {
-    return m ? NaN : ((s ? -1 : 1) * Infinity)
-  } else {
-    m = m + Math.pow(2, mLen)
-    e = e - eBias
+// Array.isArray is supported in IE9
+function isArray(xs) {
+  return toString.call(xs) === '[object Array]';
+}
+exports.isArray = typeof Array.isArray === 'function' ? Array.isArray : isArray;
+
+// Array.prototype.indexOf is supported in IE9
+exports.indexOf = function indexOf(xs, x) {
+  if (xs.indexOf) return xs.indexOf(x);
+  for (var i = 0; i < xs.length; i++) {
+    if (x === xs[i]) return i;
   }
-  return (s ? -1 : 1) * m * Math.pow(2, e - mLen)
+  return -1;
+};
+
+// Array.prototype.filter is supported in IE9
+exports.filter = function filter(xs, fn) {
+  if (xs.filter) return xs.filter(fn);
+  var res = [];
+  for (var i = 0; i < xs.length; i++) {
+    if (fn(xs[i], i, xs)) res.push(xs[i]);
+  }
+  return res;
+};
+
+// Array.prototype.forEach is supported in IE9
+exports.forEach = function forEach(xs, fn, self) {
+  if (xs.forEach) return xs.forEach(fn, self);
+  for (var i = 0; i < xs.length; i++) {
+    fn.call(self, xs[i], i, xs);
+  }
+};
+
+// Array.prototype.map is supported in IE9
+exports.map = function map(xs, fn) {
+  if (xs.map) return xs.map(fn);
+  var out = new Array(xs.length);
+  for (var i = 0; i < xs.length; i++) {
+    out[i] = fn(xs[i], i, xs);
+  }
+  return out;
+};
+
+// Array.prototype.reduce is supported in IE9
+exports.reduce = function reduce(array, callback, opt_initialValue) {
+  if (array.reduce) return array.reduce(callback, opt_initialValue);
+  var value, isValueSet = false;
+
+  if (2 < arguments.length) {
+    value = opt_initialValue;
+    isValueSet = true;
+  }
+  for (var i = 0, l = array.length; l > i; ++i) {
+    if (array.hasOwnProperty(i)) {
+      if (isValueSet) {
+        value = callback(value, array[i], i, array);
+      }
+      else {
+        value = array[i];
+        isValueSet = true;
+      }
+    }
+  }
+
+  return value;
+};
+
+// String.prototype.substr - negative index don't work in IE8
+if ('ab'.substr(-1) !== 'b') {
+  exports.substr = function (str, start, length) {
+    // did we get a negative start, calculate how much it is from the beginning of the string
+    if (start < 0) start = str.length + start;
+
+    // call the original function
+    return str.substr(start, length);
+  };
+} else {
+  exports.substr = function (str, start, length) {
+    return str.substr(start, length);
+  };
 }
 
-exports.write = function (buffer, value, offset, isLE, mLen, nBytes) {
-  var e, m, c
-  var eLen = nBytes * 8 - mLen - 1
-  var eMax = (1 << eLen) - 1
-  var eBias = eMax >> 1
-  var rt = (mLen === 23 ? Math.pow(2, -24) - Math.pow(2, -77) : 0)
-  var i = isLE ? 0 : (nBytes - 1)
-  var d = isLE ? 1 : -1
-  var s = value < 0 || (value === 0 && 1 / value < 0) ? 1 : 0
+// String.prototype.trim is supported in IE9
+exports.trim = function (str) {
+  if (str.trim) return str.trim();
+  return str.replace(/^\s+|\s+$/g, '');
+};
 
-  value = Math.abs(value)
+// Function.prototype.bind is supported in IE9
+exports.bind = function () {
+  var args = Array.prototype.slice.call(arguments);
+  var fn = args.shift();
+  if (fn.bind) return fn.bind.apply(fn, args);
+  var self = args.shift();
+  return function () {
+    fn.apply(self, args.concat([Array.prototype.slice.call(arguments)]));
+  };
+};
 
-  if (isNaN(value) || value === Infinity) {
-    m = isNaN(value) ? 1 : 0
-    e = eMax
-  } else {
-    e = Math.floor(Math.log(value) / Math.LN2)
-    if (value * (c = Math.pow(2, -e)) < 1) {
-      e--
-      c *= 2
+// Object.create is supported in IE9
+function create(prototype, properties) {
+  var object;
+  if (prototype === null) {
+    object = { '__proto__' : null };
+  }
+  else {
+    if (typeof prototype !== 'object') {
+      throw new TypeError(
+        'typeof prototype[' + (typeof prototype) + '] != \'object\''
+      );
     }
-    if (e + eBias >= 1) {
-      value += rt / c
-    } else {
-      value += rt * Math.pow(2, 1 - eBias)
-    }
-    if (value * c >= 2) {
-      e++
-      c /= 2
-    }
+    var Type = function () {};
+    Type.prototype = prototype;
+    object = new Type();
+    object.__proto__ = prototype;
+  }
+  if (typeof properties !== 'undefined' && Object.defineProperties) {
+    Object.defineProperties(object, properties);
+  }
+  return object;
+}
+exports.create = typeof Object.create === 'function' ? Object.create : create;
 
-    if (e + eBias >= eMax) {
-      m = 0
-      e = eMax
-    } else if (e + eBias >= 1) {
-      m = (value * c - 1) * Math.pow(2, mLen)
-      e = e + eBias
-    } else {
-      m = value * Math.pow(2, eBias - 1) * Math.pow(2, mLen)
-      e = 0
-    }
+// Object.keys and Object.getOwnPropertyNames is supported in IE9 however
+// they do show a description and number property on Error objects
+function notObject(object) {
+  return ((typeof object != "object" && typeof object != "function") || object === null);
+}
+
+function keysShim(object) {
+  if (notObject(object)) {
+    throw new TypeError("Object.keys called on a non-object");
   }
 
-  for (; mLen >= 8; buffer[offset + i] = m & 0xff, i += d, m /= 256, mLen -= 8) {}
+  var result = [];
+  for (var name in object) {
+    if (hasOwnProperty.call(object, name)) {
+      result.push(name);
+    }
+  }
+  return result;
+}
 
-  e = (e << mLen) | m
-  eLen += mLen
-  for (; eLen > 0; buffer[offset + i] = e & 0xff, i += d, e /= 256, eLen -= 8) {}
+// getOwnPropertyNames is almost the same as Object.keys one key feature
+//  is that it returns hidden properties, since that can't be implemented,
+//  this feature gets reduced so it just shows the length property on arrays
+function propertyShim(object) {
+  if (notObject(object)) {
+    throw new TypeError("Object.getOwnPropertyNames called on a non-object");
+  }
 
-  buffer[offset + i - d] |= s * 128
+  var result = keysShim(object);
+  if (exports.isArray(object) && exports.indexOf(object, 'length') === -1) {
+    result.push('length');
+  }
+  return result;
+}
+
+var keys = typeof Object.keys === 'function' ? Object.keys : keysShim;
+var getOwnPropertyNames = typeof Object.getOwnPropertyNames === 'function' ?
+  Object.getOwnPropertyNames : propertyShim;
+
+if (new Error().hasOwnProperty('description')) {
+  var ERROR_PROPERTY_FILTER = function (obj, array) {
+    if (toString.call(obj) === '[object Error]') {
+      array = exports.filter(array, function (name) {
+        return name !== 'description' && name !== 'number' && name !== 'message';
+      });
+    }
+    return array;
+  };
+
+  exports.keys = function (object) {
+    return ERROR_PROPERTY_FILTER(object, keys(object));
+  };
+  exports.getOwnPropertyNames = function (object) {
+    return ERROR_PROPERTY_FILTER(object, getOwnPropertyNames(object));
+  };
+} else {
+  exports.keys = keys;
+  exports.getOwnPropertyNames = getOwnPropertyNames;
+}
+
+// Object.getOwnPropertyDescriptor - supported in IE8 but only on dom elements
+function valueObject(value, key) {
+  return { value: value[key] };
+}
+
+if (typeof Object.getOwnPropertyDescriptor === 'function') {
+  try {
+    Object.getOwnPropertyDescriptor({'a': 1}, 'a');
+    exports.getOwnPropertyDescriptor = Object.getOwnPropertyDescriptor;
+  } catch (e) {
+    // IE8 dom element issue - use a try catch and default to valueObject
+    exports.getOwnPropertyDescriptor = function (value, key) {
+      try {
+        return Object.getOwnPropertyDescriptor(value, key);
+      } catch (e) {
+        return valueObject(value, key);
+      }
+    };
+  }
+} else {
+  exports.getOwnPropertyDescriptor = valueObject;
 }
 
 },{}],4:[function(require,module,exports){
-var toString = {}.toString;
-
-module.exports = Array.isArray || function (arr) {
-  return toString.call(arr) == '[object Array]';
-};
-
-},{}],5:[function(require,module,exports){
 // Copyright Joyent, Inc. and other Node contributors.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a
@@ -1797,6 +473,331 @@ module.exports = Array.isArray || function (arr) {
 // OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE
 // USE OR OTHER DEALINGS IN THE SOFTWARE.
 
+// UTILITY
+var util = require('util');
+var shims = require('_shims');
+var pSlice = Array.prototype.slice;
+
+// 1. The assert module provides functions that throw
+// AssertionError's when particular conditions are not met. The
+// assert module must conform to the following interface.
+
+var assert = module.exports = ok;
+
+// 2. The AssertionError is defined in assert.
+// new assert.AssertionError({ message: message,
+//                             actual: actual,
+//                             expected: expected })
+
+assert.AssertionError = function AssertionError(options) {
+  this.name = 'AssertionError';
+  this.actual = options.actual;
+  this.expected = options.expected;
+  this.operator = options.operator;
+  this.message = options.message || getMessage(this);
+};
+
+// assert.AssertionError instanceof Error
+util.inherits(assert.AssertionError, Error);
+
+function replacer(key, value) {
+  if (util.isUndefined(value)) {
+    return '' + value;
+  }
+  if (util.isNumber(value) && (isNaN(value) || !isFinite(value))) {
+    return value.toString();
+  }
+  if (util.isFunction(value) || util.isRegExp(value)) {
+    return value.toString();
+  }
+  return value;
+}
+
+function truncate(s, n) {
+  if (util.isString(s)) {
+    return s.length < n ? s : s.slice(0, n);
+  } else {
+    return s;
+  }
+}
+
+function getMessage(self) {
+  return truncate(JSON.stringify(self.actual, replacer), 128) + ' ' +
+         self.operator + ' ' +
+         truncate(JSON.stringify(self.expected, replacer), 128);
+}
+
+// At present only the three keys mentioned above are used and
+// understood by the spec. Implementations or sub modules can pass
+// other keys to the AssertionError's constructor - they will be
+// ignored.
+
+// 3. All of the following functions must throw an AssertionError
+// when a corresponding condition is not met, with a message that
+// may be undefined if not provided.  All assertion methods provide
+// both the actual and expected values to the assertion error for
+// display purposes.
+
+function fail(actual, expected, message, operator, stackStartFunction) {
+  throw new assert.AssertionError({
+    message: message,
+    actual: actual,
+    expected: expected,
+    operator: operator,
+    stackStartFunction: stackStartFunction
+  });
+}
+
+// EXTENSION! allows for well behaved errors defined elsewhere.
+assert.fail = fail;
+
+// 4. Pure assertion tests whether a value is truthy, as determined
+// by !!guard.
+// assert.ok(guard, message_opt);
+// This statement is equivalent to assert.equal(true, !!guard,
+// message_opt);. To test strictly for the value true, use
+// assert.strictEqual(true, guard, message_opt);.
+
+function ok(value, message) {
+  if (!value) fail(value, true, message, '==', assert.ok);
+}
+assert.ok = ok;
+
+// 5. The equality assertion tests shallow, coercive equality with
+// ==.
+// assert.equal(actual, expected, message_opt);
+
+assert.equal = function equal(actual, expected, message) {
+  if (actual != expected) fail(actual, expected, message, '==', assert.equal);
+};
+
+// 6. The non-equality assertion tests for whether two objects are not equal
+// with != assert.notEqual(actual, expected, message_opt);
+
+assert.notEqual = function notEqual(actual, expected, message) {
+  if (actual == expected) {
+    fail(actual, expected, message, '!=', assert.notEqual);
+  }
+};
+
+// 7. The equivalence assertion tests a deep equality relation.
+// assert.deepEqual(actual, expected, message_opt);
+
+assert.deepEqual = function deepEqual(actual, expected, message) {
+  if (!_deepEqual(actual, expected)) {
+    fail(actual, expected, message, 'deepEqual', assert.deepEqual);
+  }
+};
+
+function _deepEqual(actual, expected) {
+  // 7.1. All identical values are equivalent, as determined by ===.
+  if (actual === expected) {
+    return true;
+
+  } else if (util.isBuffer(actual) && util.isBuffer(expected)) {
+    if (actual.length != expected.length) return false;
+
+    for (var i = 0; i < actual.length; i++) {
+      if (actual[i] !== expected[i]) return false;
+    }
+
+    return true;
+
+  // 7.2. If the expected value is a Date object, the actual value is
+  // equivalent if it is also a Date object that refers to the same time.
+  } else if (util.isDate(actual) && util.isDate(expected)) {
+    return actual.getTime() === expected.getTime();
+
+  // 7.3 If the expected value is a RegExp object, the actual value is
+  // equivalent if it is also a RegExp object with the same source and
+  // properties (`global`, `multiline`, `lastIndex`, `ignoreCase`).
+  } else if (util.isRegExp(actual) && util.isRegExp(expected)) {
+    return actual.source === expected.source &&
+           actual.global === expected.global &&
+           actual.multiline === expected.multiline &&
+           actual.lastIndex === expected.lastIndex &&
+           actual.ignoreCase === expected.ignoreCase;
+
+  // 7.4. Other pairs that do not both pass typeof value == 'object',
+  // equivalence is determined by ==.
+  } else if (!util.isObject(actual) && !util.isObject(expected)) {
+    return actual == expected;
+
+  // 7.5 For all other Object pairs, including Array objects, equivalence is
+  // determined by having the same number of owned properties (as verified
+  // with Object.prototype.hasOwnProperty.call), the same set of keys
+  // (although not necessarily the same order), equivalent values for every
+  // corresponding key, and an identical 'prototype' property. Note: this
+  // accounts for both named and indexed properties on Arrays.
+  } else {
+    return objEquiv(actual, expected);
+  }
+}
+
+function isArguments(object) {
+  return Object.prototype.toString.call(object) == '[object Arguments]';
+}
+
+function objEquiv(a, b) {
+  if (util.isNullOrUndefined(a) || util.isNullOrUndefined(b))
+    return false;
+  // an identical 'prototype' property.
+  if (a.prototype !== b.prototype) return false;
+  //~~~I've managed to break Object.keys through screwy arguments passing.
+  //   Converting to array solves the problem.
+  if (isArguments(a)) {
+    if (!isArguments(b)) {
+      return false;
+    }
+    a = pSlice.call(a);
+    b = pSlice.call(b);
+    return _deepEqual(a, b);
+  }
+  try {
+    var ka = shims.keys(a),
+        kb = shims.keys(b),
+        key, i;
+  } catch (e) {//happens when one is a string literal and the other isn't
+    return false;
+  }
+  // having the same number of owned properties (keys incorporates
+  // hasOwnProperty)
+  if (ka.length != kb.length)
+    return false;
+  //the same set of keys (although not necessarily the same order),
+  ka.sort();
+  kb.sort();
+  //~~~cheap key test
+  for (i = ka.length - 1; i >= 0; i--) {
+    if (ka[i] != kb[i])
+      return false;
+  }
+  //equivalent values for every corresponding key, and
+  //~~~possibly expensive deep test
+  for (i = ka.length - 1; i >= 0; i--) {
+    key = ka[i];
+    if (!_deepEqual(a[key], b[key])) return false;
+  }
+  return true;
+}
+
+// 8. The non-equivalence assertion tests for any deep inequality.
+// assert.notDeepEqual(actual, expected, message_opt);
+
+assert.notDeepEqual = function notDeepEqual(actual, expected, message) {
+  if (_deepEqual(actual, expected)) {
+    fail(actual, expected, message, 'notDeepEqual', assert.notDeepEqual);
+  }
+};
+
+// 9. The strict equality assertion tests strict equality, as determined by ===.
+// assert.strictEqual(actual, expected, message_opt);
+
+assert.strictEqual = function strictEqual(actual, expected, message) {
+  if (actual !== expected) {
+    fail(actual, expected, message, '===', assert.strictEqual);
+  }
+};
+
+// 10. The strict non-equality assertion tests for strict inequality, as
+// determined by !==.  assert.notStrictEqual(actual, expected, message_opt);
+
+assert.notStrictEqual = function notStrictEqual(actual, expected, message) {
+  if (actual === expected) {
+    fail(actual, expected, message, '!==', assert.notStrictEqual);
+  }
+};
+
+function expectedException(actual, expected) {
+  if (!actual || !expected) {
+    return false;
+  }
+
+  if (Object.prototype.toString.call(expected) == '[object RegExp]') {
+    return expected.test(actual);
+  } else if (actual instanceof expected) {
+    return true;
+  } else if (expected.call({}, actual) === true) {
+    return true;
+  }
+
+  return false;
+}
+
+function _throws(shouldThrow, block, expected, message) {
+  var actual;
+
+  if (util.isString(expected)) {
+    message = expected;
+    expected = null;
+  }
+
+  try {
+    block();
+  } catch (e) {
+    actual = e;
+  }
+
+  message = (expected && expected.name ? ' (' + expected.name + ').' : '.') +
+            (message ? ' ' + message : '.');
+
+  if (shouldThrow && !actual) {
+    fail(actual, expected, 'Missing expected exception' + message);
+  }
+
+  if (!shouldThrow && expectedException(actual, expected)) {
+    fail(actual, expected, 'Got unwanted exception' + message);
+  }
+
+  if ((shouldThrow && actual && expected &&
+      !expectedException(actual, expected)) || (!shouldThrow && actual)) {
+    throw actual;
+  }
+}
+
+// 11. Expected to throw an error:
+// assert.throws(block, Error_opt, message_opt);
+
+assert.throws = function(block, /*optional*/error, /*optional*/message) {
+  _throws.apply(this, [true].concat(pSlice.call(arguments)));
+};
+
+// EXTENSION! This is annoying to write outside this module.
+assert.doesNotThrow = function(block, /*optional*/message) {
+  _throws.apply(this, [false].concat(pSlice.call(arguments)));
+};
+
+assert.ifError = function(err) { if (err) {throw err;}};
+},{"_shims":3,"util":10}],5:[function(require,module,exports){
+
+// not implemented
+// The reason for having an empty file and not throwing is to allow
+// untraditional implementation of this module.
+
+},{}],6:[function(require,module,exports){
+// Copyright Joyent, Inc. and other Node contributors.
+//
+// Permission is hereby granted, free of charge, to any person obtaining a
+// copy of this software and associated documentation files (the
+// "Software"), to deal in the Software without restriction, including
+// without limitation the rights to use, copy, modify, merge, publish,
+// distribute, sublicense, and/or sell copies of the Software, and to permit
+// persons to whom the Software is furnished to do so, subject to the
+// following conditions:
+//
+// The above copyright notice and this permission notice shall be included
+// in all copies or substantial portions of the Software.
+//
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+// OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+// MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN
+// NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
+// DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
+// OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE
+// USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+var util = require('util');
+
 function EventEmitter() {
   this._events = this._events || {};
   this._maxListeners = this._maxListeners || undefined;
@@ -1816,7 +817,7 @@ EventEmitter.defaultMaxListeners = 10;
 // Obviously not all Emitters should be limited to 10. This function allows
 // that to be increased. Set to zero for unlimited.
 EventEmitter.prototype.setMaxListeners = function(n) {
-  if (!isNumber(n) || n < 0 || isNaN(n))
+  if (!util.isNumber(n) || n < 0)
     throw TypeError('n must be a positive number');
   this._maxListeners = n;
   return this;
@@ -1831,21 +832,23 @@ EventEmitter.prototype.emit = function(type) {
   // If there is no 'error' event listener then throw.
   if (type === 'error') {
     if (!this._events.error ||
-        (isObject(this._events.error) && !this._events.error.length)) {
+        (util.isObject(this._events.error) && !this._events.error.length)) {
       er = arguments[1];
       if (er instanceof Error) {
         throw er; // Unhandled 'error' event
+      } else {
+        throw TypeError('Uncaught, unspecified "error" event.');
       }
-      throw TypeError('Uncaught, unspecified "error" event.');
+      return false;
     }
   }
 
   handler = this._events[type];
 
-  if (isUndefined(handler))
+  if (util.isUndefined(handler))
     return false;
 
-  if (isFunction(handler)) {
+  if (util.isFunction(handler)) {
     switch (arguments.length) {
       // fast cases
       case 1:
@@ -1865,7 +868,7 @@ EventEmitter.prototype.emit = function(type) {
           args[i - 1] = arguments[i];
         handler.apply(this, args);
     }
-  } else if (isObject(handler)) {
+  } else if (util.isObject(handler)) {
     len = arguments.length;
     args = new Array(len - 1);
     for (i = 1; i < len; i++)
@@ -1883,7 +886,7 @@ EventEmitter.prototype.emit = function(type) {
 EventEmitter.prototype.addListener = function(type, listener) {
   var m;
 
-  if (!isFunction(listener))
+  if (!util.isFunction(listener))
     throw TypeError('listener must be a function');
 
   if (!this._events)
@@ -1893,13 +896,13 @@ EventEmitter.prototype.addListener = function(type, listener) {
   // adding it to the listeners, first emit "newListener".
   if (this._events.newListener)
     this.emit('newListener', type,
-              isFunction(listener.listener) ?
+              util.isFunction(listener.listener) ?
               listener.listener : listener);
 
   if (!this._events[type])
     // Optimize the case of one listener. Don't need the extra array object.
     this._events[type] = listener;
-  else if (isObject(this._events[type]))
+  else if (util.isObject(this._events[type]))
     // If we've already got an array, just append.
     this._events[type].push(listener);
   else
@@ -1907,9 +910,9 @@ EventEmitter.prototype.addListener = function(type, listener) {
     this._events[type] = [this._events[type], listener];
 
   // Check for listener leak
-  if (isObject(this._events[type]) && !this._events[type].warned) {
+  if (util.isObject(this._events[type]) && !this._events[type].warned) {
     var m;
-    if (!isUndefined(this._maxListeners)) {
+    if (!util.isUndefined(this._maxListeners)) {
       m = this._maxListeners;
     } else {
       m = EventEmitter.defaultMaxListeners;
@@ -1921,10 +924,7 @@ EventEmitter.prototype.addListener = function(type, listener) {
                     'leak detected. %d listeners added. ' +
                     'Use emitter.setMaxListeners() to increase limit.',
                     this._events[type].length);
-      if (typeof console.trace === 'function') {
-        // not supported in IE 10
-        console.trace();
-      }
+      console.trace();
     }
   }
 
@@ -1934,18 +934,12 @@ EventEmitter.prototype.addListener = function(type, listener) {
 EventEmitter.prototype.on = EventEmitter.prototype.addListener;
 
 EventEmitter.prototype.once = function(type, listener) {
-  if (!isFunction(listener))
+  if (!util.isFunction(listener))
     throw TypeError('listener must be a function');
-
-  var fired = false;
 
   function g() {
     this.removeListener(type, g);
-
-    if (!fired) {
-      fired = true;
-      listener.apply(this, arguments);
-    }
+    listener.apply(this, arguments);
   }
 
   g.listener = listener;
@@ -1958,7 +952,7 @@ EventEmitter.prototype.once = function(type, listener) {
 EventEmitter.prototype.removeListener = function(type, listener) {
   var list, position, length, i;
 
-  if (!isFunction(listener))
+  if (!util.isFunction(listener))
     throw TypeError('listener must be a function');
 
   if (!this._events || !this._events[type])
@@ -1969,12 +963,12 @@ EventEmitter.prototype.removeListener = function(type, listener) {
   position = -1;
 
   if (list === listener ||
-      (isFunction(list.listener) && list.listener === listener)) {
+      (util.isFunction(list.listener) && list.listener === listener)) {
     delete this._events[type];
     if (this._events.removeListener)
       this.emit('removeListener', type, listener);
 
-  } else if (isObject(list)) {
+  } else if (util.isObject(list)) {
     for (i = length; i-- > 0;) {
       if (list[i] === listener ||
           (list[i].listener && list[i].listener === listener)) {
@@ -2028,7 +1022,7 @@ EventEmitter.prototype.removeAllListeners = function(type) {
 
   listeners = this._events[type];
 
-  if (isFunction(listeners)) {
+  if (util.isFunction(listeners)) {
     this.removeListener(type, listeners);
   } else {
     // LIFO order
@@ -2044,7 +1038,7 @@ EventEmitter.prototype.listeners = function(type) {
   var ret;
   if (!this._events || !this._events[type])
     ret = [];
-  else if (isFunction(this._events[type]))
+  else if (util.isFunction(this._events[type]))
     ret = [this._events[type]];
   else
     ret = this._events[type].slice();
@@ -2055,76 +1049,14 @@ EventEmitter.listenerCount = function(emitter, type) {
   var ret;
   if (!emitter._events || !emitter._events[type])
     ret = 0;
-  else if (isFunction(emitter._events[type]))
+  else if (util.isFunction(emitter._events[type]))
     ret = 1;
   else
     ret = emitter._events[type].length;
   return ret;
 };
-
-function isFunction(arg) {
-  return typeof arg === 'function';
-}
-
-function isNumber(arg) {
-  return typeof arg === 'number';
-}
-
-function isObject(arg) {
-  return typeof arg === 'object' && arg !== null;
-}
-
-function isUndefined(arg) {
-  return arg === void 0;
-}
-
-},{}],6:[function(require,module,exports){
-if (typeof Object.create === 'function') {
-  // implementation from standard node.js 'util' module
-  module.exports = function inherits(ctor, superCtor) {
-    ctor.super_ = superCtor
-    ctor.prototype = Object.create(superCtor.prototype, {
-      constructor: {
-        value: ctor,
-        enumerable: false,
-        writable: true,
-        configurable: true
-      }
-    });
-  };
-} else {
-  // old school shim for old browsers
-  module.exports = function inherits(ctor, superCtor) {
-    ctor.super_ = superCtor
-    var TempCtor = function () {}
-    TempCtor.prototype = superCtor.prototype
-    ctor.prototype = new TempCtor()
-    ctor.prototype.constructor = ctor
-  }
-}
-
-},{}],7:[function(require,module,exports){
-/**
- * Determine if an object is Buffer
- *
- * Author:   Feross Aboukhadijeh <feross@feross.org> <http://feross.org>
- * License:  MIT
- *
- * `npm install is-buffer`
- */
-
-module.exports = function (obj) {
-  return !!(obj != null &&
-    (obj._isBuffer || // For Safari 5-7 (missing Object.prototype.constructor)
-      (obj.constructor &&
-      typeof obj.constructor.isBuffer === 'function' &&
-      obj.constructor.isBuffer(obj))
-    ))
-}
-
-},{}],8:[function(require,module,exports){
-(function (process){
-// Copyright Joyent, Inc. and other Node contributors.
+},{"util":10}],7:[function(require,module,exports){
+var process=require("__browserify_process");// Copyright Joyent, Inc. and other Node contributors.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a
 // copy of this software and associated documentation files (the
@@ -2144,6 +1076,9 @@ module.exports = function (obj) {
 // DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
 // OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE
 // USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+var util = require('util');
+var shims = require('_shims');
 
 // resolves . and .. elements in a path array with directory names there
 // must be no slashes, empty elements, or device names (c:\) in the array
@@ -2193,7 +1128,7 @@ exports.resolve = function() {
     var path = (i >= 0) ? arguments[i] : process.cwd();
 
     // Skip empty and invalid entries
-    if (typeof path !== 'string') {
+    if (!util.isString(path)) {
       throw new TypeError('Arguments to path.resolve must be strings');
     } else if (!path) {
       continue;
@@ -2207,7 +1142,7 @@ exports.resolve = function() {
   // handle relative paths to be safe (might happen when process.cwd() fails)
 
   // Normalize the path
-  resolvedPath = normalizeArray(filter(resolvedPath.split('/'), function(p) {
+  resolvedPath = normalizeArray(shims.filter(resolvedPath.split('/'), function(p) {
     return !!p;
   }), !resolvedAbsolute).join('/');
 
@@ -2218,10 +1153,10 @@ exports.resolve = function() {
 // posix version
 exports.normalize = function(path) {
   var isAbsolute = exports.isAbsolute(path),
-      trailingSlash = substr(path, -1) === '/';
+      trailingSlash = shims.substr(path, -1) === '/';
 
   // Normalize the path
-  path = normalizeArray(filter(path.split('/'), function(p) {
+  path = normalizeArray(shims.filter(path.split('/'), function(p) {
     return !!p;
   }), !isAbsolute).join('/');
 
@@ -2243,8 +1178,8 @@ exports.isAbsolute = function(path) {
 // posix version
 exports.join = function() {
   var paths = Array.prototype.slice.call(arguments, 0);
-  return exports.normalize(filter(paths, function(p, index) {
-    if (typeof p !== 'string') {
+  return exports.normalize(shims.filter(paths, function(p, index) {
+    if (!util.isString(p)) {
       throw new TypeError('Arguments to path.join must be strings');
     }
     return p;
@@ -2331,656 +1266,7 @@ exports.extname = function(path) {
   return splitPath(path)[3];
 };
 
-function filter (xs, f) {
-    if (xs.filter) return xs.filter(f);
-    var res = [];
-    for (var i = 0; i < xs.length; i++) {
-        if (f(xs[i], i, xs)) res.push(xs[i]);
-    }
-    return res;
-}
-
-// String.prototype.substr - negative index don't work in IE8
-var substr = 'ab'.substr(-1) === 'b'
-    ? function (str, start, len) { return str.substr(start, len) }
-    : function (str, start, len) {
-        if (start < 0) start = str.length + start;
-        return str.substr(start, len);
-    }
-;
-
-}).call(this,require('_process'))
-},{"_process":9}],9:[function(require,module,exports){
-// shim for using process in browser
-
-var process = module.exports = {};
-var queue = [];
-var draining = false;
-var currentQueue;
-var queueIndex = -1;
-
-function cleanUpNextTick() {
-    draining = false;
-    if (currentQueue.length) {
-        queue = currentQueue.concat(queue);
-    } else {
-        queueIndex = -1;
-    }
-    if (queue.length) {
-        drainQueue();
-    }
-}
-
-function drainQueue() {
-    if (draining) {
-        return;
-    }
-    var timeout = setTimeout(cleanUpNextTick);
-    draining = true;
-
-    var len = queue.length;
-    while(len) {
-        currentQueue = queue;
-        queue = [];
-        while (++queueIndex < len) {
-            if (currentQueue) {
-                currentQueue[queueIndex].run();
-            }
-        }
-        queueIndex = -1;
-        len = queue.length;
-    }
-    currentQueue = null;
-    draining = false;
-    clearTimeout(timeout);
-}
-
-process.nextTick = function (fun) {
-    var args = new Array(arguments.length - 1);
-    if (arguments.length > 1) {
-        for (var i = 1; i < arguments.length; i++) {
-            args[i - 1] = arguments[i];
-        }
-    }
-    queue.push(new Item(fun, args));
-    if (queue.length === 1 && !draining) {
-        setTimeout(drainQueue, 0);
-    }
-};
-
-// v8 likes predictible objects
-function Item(fun, array) {
-    this.fun = fun;
-    this.array = array;
-}
-Item.prototype.run = function () {
-    this.fun.apply(null, this.array);
-};
-process.title = 'browser';
-process.browser = true;
-process.env = {};
-process.argv = [];
-process.version = ''; // empty string to avoid regexp issues
-process.versions = {};
-
-function noop() {}
-
-process.on = noop;
-process.addListener = noop;
-process.once = noop;
-process.off = noop;
-process.removeListener = noop;
-process.removeAllListeners = noop;
-process.emit = noop;
-
-process.binding = function (name) {
-    throw new Error('process.binding is not supported');
-};
-
-process.cwd = function () { return '/' };
-process.chdir = function (dir) {
-    throw new Error('process.chdir is not supported');
-};
-process.umask = function() { return 0; };
-
-},{}],10:[function(require,module,exports){
-(function (global){
-/*! https://mths.be/punycode v1.4.0 by @mathias */
-;(function(root) {
-
-	/** Detect free variables */
-	var freeExports = typeof exports == 'object' && exports &&
-		!exports.nodeType && exports;
-	var freeModule = typeof module == 'object' && module &&
-		!module.nodeType && module;
-	var freeGlobal = typeof global == 'object' && global;
-	if (
-		freeGlobal.global === freeGlobal ||
-		freeGlobal.window === freeGlobal ||
-		freeGlobal.self === freeGlobal
-	) {
-		root = freeGlobal;
-	}
-
-	/**
-	 * The `punycode` object.
-	 * @name punycode
-	 * @type Object
-	 */
-	var punycode,
-
-	/** Highest positive signed 32-bit float value */
-	maxInt = 2147483647, // aka. 0x7FFFFFFF or 2^31-1
-
-	/** Bootstring parameters */
-	base = 36,
-	tMin = 1,
-	tMax = 26,
-	skew = 38,
-	damp = 700,
-	initialBias = 72,
-	initialN = 128, // 0x80
-	delimiter = '-', // '\x2D'
-
-	/** Regular expressions */
-	regexPunycode = /^xn--/,
-	regexNonASCII = /[^\x20-\x7E]/, // unprintable ASCII chars + non-ASCII chars
-	regexSeparators = /[\x2E\u3002\uFF0E\uFF61]/g, // RFC 3490 separators
-
-	/** Error messages */
-	errors = {
-		'overflow': 'Overflow: input needs wider integers to process',
-		'not-basic': 'Illegal input >= 0x80 (not a basic code point)',
-		'invalid-input': 'Invalid input'
-	},
-
-	/** Convenience shortcuts */
-	baseMinusTMin = base - tMin,
-	floor = Math.floor,
-	stringFromCharCode = String.fromCharCode,
-
-	/** Temporary variable */
-	key;
-
-	/*--------------------------------------------------------------------------*/
-
-	/**
-	 * A generic error utility function.
-	 * @private
-	 * @param {String} type The error type.
-	 * @returns {Error} Throws a `RangeError` with the applicable error message.
-	 */
-	function error(type) {
-		throw new RangeError(errors[type]);
-	}
-
-	/**
-	 * A generic `Array#map` utility function.
-	 * @private
-	 * @param {Array} array The array to iterate over.
-	 * @param {Function} callback The function that gets called for every array
-	 * item.
-	 * @returns {Array} A new array of values returned by the callback function.
-	 */
-	function map(array, fn) {
-		var length = array.length;
-		var result = [];
-		while (length--) {
-			result[length] = fn(array[length]);
-		}
-		return result;
-	}
-
-	/**
-	 * A simple `Array#map`-like wrapper to work with domain name strings or email
-	 * addresses.
-	 * @private
-	 * @param {String} domain The domain name or email address.
-	 * @param {Function} callback The function that gets called for every
-	 * character.
-	 * @returns {Array} A new string of characters returned by the callback
-	 * function.
-	 */
-	function mapDomain(string, fn) {
-		var parts = string.split('@');
-		var result = '';
-		if (parts.length > 1) {
-			// In email addresses, only the domain name should be punycoded. Leave
-			// the local part (i.e. everything up to `@`) intact.
-			result = parts[0] + '@';
-			string = parts[1];
-		}
-		// Avoid `split(regex)` for IE8 compatibility. See #17.
-		string = string.replace(regexSeparators, '\x2E');
-		var labels = string.split('.');
-		var encoded = map(labels, fn).join('.');
-		return result + encoded;
-	}
-
-	/**
-	 * Creates an array containing the numeric code points of each Unicode
-	 * character in the string. While JavaScript uses UCS-2 internally,
-	 * this function will convert a pair of surrogate halves (each of which
-	 * UCS-2 exposes as separate characters) into a single code point,
-	 * matching UTF-16.
-	 * @see `punycode.ucs2.encode`
-	 * @see <https://mathiasbynens.be/notes/javascript-encoding>
-	 * @memberOf punycode.ucs2
-	 * @name decode
-	 * @param {String} string The Unicode input string (UCS-2).
-	 * @returns {Array} The new array of code points.
-	 */
-	function ucs2decode(string) {
-		var output = [],
-		    counter = 0,
-		    length = string.length,
-		    value,
-		    extra;
-		while (counter < length) {
-			value = string.charCodeAt(counter++);
-			if (value >= 0xD800 && value <= 0xDBFF && counter < length) {
-				// high surrogate, and there is a next character
-				extra = string.charCodeAt(counter++);
-				if ((extra & 0xFC00) == 0xDC00) { // low surrogate
-					output.push(((value & 0x3FF) << 10) + (extra & 0x3FF) + 0x10000);
-				} else {
-					// unmatched surrogate; only append this code unit, in case the next
-					// code unit is the high surrogate of a surrogate pair
-					output.push(value);
-					counter--;
-				}
-			} else {
-				output.push(value);
-			}
-		}
-		return output;
-	}
-
-	/**
-	 * Creates a string based on an array of numeric code points.
-	 * @see `punycode.ucs2.decode`
-	 * @memberOf punycode.ucs2
-	 * @name encode
-	 * @param {Array} codePoints The array of numeric code points.
-	 * @returns {String} The new Unicode string (UCS-2).
-	 */
-	function ucs2encode(array) {
-		return map(array, function(value) {
-			var output = '';
-			if (value > 0xFFFF) {
-				value -= 0x10000;
-				output += stringFromCharCode(value >>> 10 & 0x3FF | 0xD800);
-				value = 0xDC00 | value & 0x3FF;
-			}
-			output += stringFromCharCode(value);
-			return output;
-		}).join('');
-	}
-
-	/**
-	 * Converts a basic code point into a digit/integer.
-	 * @see `digitToBasic()`
-	 * @private
-	 * @param {Number} codePoint The basic numeric code point value.
-	 * @returns {Number} The numeric value of a basic code point (for use in
-	 * representing integers) in the range `0` to `base - 1`, or `base` if
-	 * the code point does not represent a value.
-	 */
-	function basicToDigit(codePoint) {
-		if (codePoint - 48 < 10) {
-			return codePoint - 22;
-		}
-		if (codePoint - 65 < 26) {
-			return codePoint - 65;
-		}
-		if (codePoint - 97 < 26) {
-			return codePoint - 97;
-		}
-		return base;
-	}
-
-	/**
-	 * Converts a digit/integer into a basic code point.
-	 * @see `basicToDigit()`
-	 * @private
-	 * @param {Number} digit The numeric value of a basic code point.
-	 * @returns {Number} The basic code point whose value (when used for
-	 * representing integers) is `digit`, which needs to be in the range
-	 * `0` to `base - 1`. If `flag` is non-zero, the uppercase form is
-	 * used; else, the lowercase form is used. The behavior is undefined
-	 * if `flag` is non-zero and `digit` has no uppercase form.
-	 */
-	function digitToBasic(digit, flag) {
-		//  0..25 map to ASCII a..z or A..Z
-		// 26..35 map to ASCII 0..9
-		return digit + 22 + 75 * (digit < 26) - ((flag != 0) << 5);
-	}
-
-	/**
-	 * Bias adaptation function as per section 3.4 of RFC 3492.
-	 * https://tools.ietf.org/html/rfc3492#section-3.4
-	 * @private
-	 */
-	function adapt(delta, numPoints, firstTime) {
-		var k = 0;
-		delta = firstTime ? floor(delta / damp) : delta >> 1;
-		delta += floor(delta / numPoints);
-		for (/* no initialization */; delta > baseMinusTMin * tMax >> 1; k += base) {
-			delta = floor(delta / baseMinusTMin);
-		}
-		return floor(k + (baseMinusTMin + 1) * delta / (delta + skew));
-	}
-
-	/**
-	 * Converts a Punycode string of ASCII-only symbols to a string of Unicode
-	 * symbols.
-	 * @memberOf punycode
-	 * @param {String} input The Punycode string of ASCII-only symbols.
-	 * @returns {String} The resulting string of Unicode symbols.
-	 */
-	function decode(input) {
-		// Don't use UCS-2
-		var output = [],
-		    inputLength = input.length,
-		    out,
-		    i = 0,
-		    n = initialN,
-		    bias = initialBias,
-		    basic,
-		    j,
-		    index,
-		    oldi,
-		    w,
-		    k,
-		    digit,
-		    t,
-		    /** Cached calculation results */
-		    baseMinusT;
-
-		// Handle the basic code points: let `basic` be the number of input code
-		// points before the last delimiter, or `0` if there is none, then copy
-		// the first basic code points to the output.
-
-		basic = input.lastIndexOf(delimiter);
-		if (basic < 0) {
-			basic = 0;
-		}
-
-		for (j = 0; j < basic; ++j) {
-			// if it's not a basic code point
-			if (input.charCodeAt(j) >= 0x80) {
-				error('not-basic');
-			}
-			output.push(input.charCodeAt(j));
-		}
-
-		// Main decoding loop: start just after the last delimiter if any basic code
-		// points were copied; start at the beginning otherwise.
-
-		for (index = basic > 0 ? basic + 1 : 0; index < inputLength; /* no final expression */) {
-
-			// `index` is the index of the next character to be consumed.
-			// Decode a generalized variable-length integer into `delta`,
-			// which gets added to `i`. The overflow checking is easier
-			// if we increase `i` as we go, then subtract off its starting
-			// value at the end to obtain `delta`.
-			for (oldi = i, w = 1, k = base; /* no condition */; k += base) {
-
-				if (index >= inputLength) {
-					error('invalid-input');
-				}
-
-				digit = basicToDigit(input.charCodeAt(index++));
-
-				if (digit >= base || digit > floor((maxInt - i) / w)) {
-					error('overflow');
-				}
-
-				i += digit * w;
-				t = k <= bias ? tMin : (k >= bias + tMax ? tMax : k - bias);
-
-				if (digit < t) {
-					break;
-				}
-
-				baseMinusT = base - t;
-				if (w > floor(maxInt / baseMinusT)) {
-					error('overflow');
-				}
-
-				w *= baseMinusT;
-
-			}
-
-			out = output.length + 1;
-			bias = adapt(i - oldi, out, oldi == 0);
-
-			// `i` was supposed to wrap around from `out` to `0`,
-			// incrementing `n` each time, so we'll fix that now:
-			if (floor(i / out) > maxInt - n) {
-				error('overflow');
-			}
-
-			n += floor(i / out);
-			i %= out;
-
-			// Insert `n` at position `i` of the output
-			output.splice(i++, 0, n);
-
-		}
-
-		return ucs2encode(output);
-	}
-
-	/**
-	 * Converts a string of Unicode symbols (e.g. a domain name label) to a
-	 * Punycode string of ASCII-only symbols.
-	 * @memberOf punycode
-	 * @param {String} input The string of Unicode symbols.
-	 * @returns {String} The resulting Punycode string of ASCII-only symbols.
-	 */
-	function encode(input) {
-		var n,
-		    delta,
-		    handledCPCount,
-		    basicLength,
-		    bias,
-		    j,
-		    m,
-		    q,
-		    k,
-		    t,
-		    currentValue,
-		    output = [],
-		    /** `inputLength` will hold the number of code points in `input`. */
-		    inputLength,
-		    /** Cached calculation results */
-		    handledCPCountPlusOne,
-		    baseMinusT,
-		    qMinusT;
-
-		// Convert the input in UCS-2 to Unicode
-		input = ucs2decode(input);
-
-		// Cache the length
-		inputLength = input.length;
-
-		// Initialize the state
-		n = initialN;
-		delta = 0;
-		bias = initialBias;
-
-		// Handle the basic code points
-		for (j = 0; j < inputLength; ++j) {
-			currentValue = input[j];
-			if (currentValue < 0x80) {
-				output.push(stringFromCharCode(currentValue));
-			}
-		}
-
-		handledCPCount = basicLength = output.length;
-
-		// `handledCPCount` is the number of code points that have been handled;
-		// `basicLength` is the number of basic code points.
-
-		// Finish the basic string - if it is not empty - with a delimiter
-		if (basicLength) {
-			output.push(delimiter);
-		}
-
-		// Main encoding loop:
-		while (handledCPCount < inputLength) {
-
-			// All non-basic code points < n have been handled already. Find the next
-			// larger one:
-			for (m = maxInt, j = 0; j < inputLength; ++j) {
-				currentValue = input[j];
-				if (currentValue >= n && currentValue < m) {
-					m = currentValue;
-				}
-			}
-
-			// Increase `delta` enough to advance the decoder's <n,i> state to <m,0>,
-			// but guard against overflow
-			handledCPCountPlusOne = handledCPCount + 1;
-			if (m - n > floor((maxInt - delta) / handledCPCountPlusOne)) {
-				error('overflow');
-			}
-
-			delta += (m - n) * handledCPCountPlusOne;
-			n = m;
-
-			for (j = 0; j < inputLength; ++j) {
-				currentValue = input[j];
-
-				if (currentValue < n && ++delta > maxInt) {
-					error('overflow');
-				}
-
-				if (currentValue == n) {
-					// Represent delta as a generalized variable-length integer
-					for (q = delta, k = base; /* no condition */; k += base) {
-						t = k <= bias ? tMin : (k >= bias + tMax ? tMax : k - bias);
-						if (q < t) {
-							break;
-						}
-						qMinusT = q - t;
-						baseMinusT = base - t;
-						output.push(
-							stringFromCharCode(digitToBasic(t + qMinusT % baseMinusT, 0))
-						);
-						q = floor(qMinusT / baseMinusT);
-					}
-
-					output.push(stringFromCharCode(digitToBasic(q, 0)));
-					bias = adapt(delta, handledCPCountPlusOne, handledCPCount == basicLength);
-					delta = 0;
-					++handledCPCount;
-				}
-			}
-
-			++delta;
-			++n;
-
-		}
-		return output.join('');
-	}
-
-	/**
-	 * Converts a Punycode string representing a domain name or an email address
-	 * to Unicode. Only the Punycoded parts of the input will be converted, i.e.
-	 * it doesn't matter if you call it on a string that has already been
-	 * converted to Unicode.
-	 * @memberOf punycode
-	 * @param {String} input The Punycoded domain name or email address to
-	 * convert to Unicode.
-	 * @returns {String} The Unicode representation of the given Punycode
-	 * string.
-	 */
-	function toUnicode(input) {
-		return mapDomain(input, function(string) {
-			return regexPunycode.test(string)
-				? decode(string.slice(4).toLowerCase())
-				: string;
-		});
-	}
-
-	/**
-	 * Converts a Unicode string representing a domain name or an email address to
-	 * Punycode. Only the non-ASCII parts of the domain name will be converted,
-	 * i.e. it doesn't matter if you call it with a domain that's already in
-	 * ASCII.
-	 * @memberOf punycode
-	 * @param {String} input The domain name or email address to convert, as a
-	 * Unicode string.
-	 * @returns {String} The Punycode representation of the given domain name or
-	 * email address.
-	 */
-	function toASCII(input) {
-		return mapDomain(input, function(string) {
-			return regexNonASCII.test(string)
-				? 'xn--' + encode(string)
-				: string;
-		});
-	}
-
-	/*--------------------------------------------------------------------------*/
-
-	/** Define the public API */
-	punycode = {
-		/**
-		 * A string representing the current Punycode.js version number.
-		 * @memberOf punycode
-		 * @type String
-		 */
-		'version': '1.3.2',
-		/**
-		 * An object of methods to convert from JavaScript's internal character
-		 * representation (UCS-2) to Unicode code points, and back.
-		 * @see <https://mathiasbynens.be/notes/javascript-encoding>
-		 * @memberOf punycode
-		 * @type Object
-		 */
-		'ucs2': {
-			'decode': ucs2decode,
-			'encode': ucs2encode
-		},
-		'decode': decode,
-		'encode': encode,
-		'toASCII': toASCII,
-		'toUnicode': toUnicode
-	};
-
-	/** Expose `punycode` */
-	// Some AMD build optimizers, like r.js, check for specific condition patterns
-	// like the following:
-	if (
-		typeof define == 'function' &&
-		typeof define.amd == 'object' &&
-		define.amd
-	) {
-		define('punycode', function() {
-			return punycode;
-		});
-	} else if (freeExports && freeModule) {
-		if (module.exports == freeExports) {
-			// in Node.js, io.js, or RingoJS v0.8.0+
-			freeModule.exports = punycode;
-		} else {
-			// in Narwhal or RingoJS v0.7.0-
-			for (key in punycode) {
-				punycode.hasOwnProperty(key) && (freeExports[key] = punycode[key]);
-			}
-		}
-	} else {
-		// in Rhino or a web browser
-		root.punycode = punycode;
-	}
-
-}(this));
-
-}).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{}],11:[function(require,module,exports){
+},{"__browserify_process":16,"_shims":3,"util":10}],8:[function(require,module,exports){
 // Copyright Joyent, Inc. and other Node contributors.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a
@@ -3002,7 +1288,12 @@ process.umask = function() { return 0; };
 // OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE
 // USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-'use strict';
+// Query String Utilities
+
+var QueryString = exports;
+var util = require('util');
+var shims = require('_shims');
+var Buffer = require('buffer').Buffer;
 
 // If obj.hasOwnProperty has been overridden, then calling
 // obj.hasOwnProperty(prop) will break.
@@ -3011,12 +1302,132 @@ function hasOwnProperty(obj, prop) {
   return Object.prototype.hasOwnProperty.call(obj, prop);
 }
 
-module.exports = function(qs, sep, eq, options) {
+
+function charCode(c) {
+  return c.charCodeAt(0);
+}
+
+
+// a safe fast alternative to decodeURIComponent
+QueryString.unescapeBuffer = function(s, decodeSpaces) {
+  var out = new Buffer(s.length);
+  var state = 'CHAR'; // states: CHAR, HEX0, HEX1
+  var n, m, hexchar;
+
+  for (var inIndex = 0, outIndex = 0; inIndex <= s.length; inIndex++) {
+    var c = s.charCodeAt(inIndex);
+    switch (state) {
+      case 'CHAR':
+        switch (c) {
+          case charCode('%'):
+            n = 0;
+            m = 0;
+            state = 'HEX0';
+            break;
+          case charCode('+'):
+            if (decodeSpaces) c = charCode(' ');
+            // pass thru
+          default:
+            out[outIndex++] = c;
+            break;
+        }
+        break;
+
+      case 'HEX0':
+        state = 'HEX1';
+        hexchar = c;
+        if (charCode('0') <= c && c <= charCode('9')) {
+          n = c - charCode('0');
+        } else if (charCode('a') <= c && c <= charCode('f')) {
+          n = c - charCode('a') + 10;
+        } else if (charCode('A') <= c && c <= charCode('F')) {
+          n = c - charCode('A') + 10;
+        } else {
+          out[outIndex++] = charCode('%');
+          out[outIndex++] = c;
+          state = 'CHAR';
+          break;
+        }
+        break;
+
+      case 'HEX1':
+        state = 'CHAR';
+        if (charCode('0') <= c && c <= charCode('9')) {
+          m = c - charCode('0');
+        } else if (charCode('a') <= c && c <= charCode('f')) {
+          m = c - charCode('a') + 10;
+        } else if (charCode('A') <= c && c <= charCode('F')) {
+          m = c - charCode('A') + 10;
+        } else {
+          out[outIndex++] = charCode('%');
+          out[outIndex++] = hexchar;
+          out[outIndex++] = c;
+          break;
+        }
+        out[outIndex++] = 16 * n + m;
+        break;
+    }
+  }
+
+  // TODO support returning arbitrary buffers.
+
+  return out.slice(0, outIndex - 1);
+};
+
+
+QueryString.unescape = function(s, decodeSpaces) {
+  return QueryString.unescapeBuffer(s, decodeSpaces).toString();
+};
+
+
+QueryString.escape = function(str) {
+  return encodeURIComponent(str);
+};
+
+var stringifyPrimitive = function(v) {
+  if (util.isString(v))
+    return v;
+  if (util.isBoolean(v))
+    return v ? 'true' : 'false';
+  if (util.isNumber(v))
+    return isFinite(v) ? v : '';
+  return '';
+};
+
+
+QueryString.stringify = QueryString.encode = function(obj, sep, eq, name) {
+  sep = sep || '&';
+  eq = eq || '=';
+  if (util.isNull(obj)) {
+    obj = undefined;
+  }
+
+  if (util.isObject(obj)) {
+    return shims.map(shims.keys(obj), function(k) {
+      var ks = QueryString.escape(stringifyPrimitive(k)) + eq;
+      if (util.isArray(obj[k])) {
+        return shims.map(obj[k], function(v) {
+          return ks + QueryString.escape(stringifyPrimitive(v));
+        }).join(sep);
+      } else {
+        return ks + QueryString.escape(stringifyPrimitive(obj[k]));
+      }
+    }).join(sep);
+
+  }
+
+  if (!name) return '';
+  return QueryString.escape(stringifyPrimitive(name)) + eq +
+         QueryString.escape(stringifyPrimitive(obj));
+};
+
+// Parse a key=val string.
+QueryString.parse = QueryString.decode = function(qs, sep, eq, options) {
   sep = sep || '&';
   eq = eq || '=';
   var obj = {};
 
-  if (typeof qs !== 'string' || qs.length === 0) {
+  if (!util.isString(qs) || qs.length === 0) {
     return obj;
   }
 
@@ -3024,7 +1435,7 @@ module.exports = function(qs, sep, eq, options) {
   qs = qs.split(sep);
 
   var maxKeys = 1000;
-  if (options && typeof options.maxKeys === 'number') {
+  if (options && util.isNumber(options.maxKeys)) {
     maxKeys = options.maxKeys;
   }
 
@@ -3047,12 +1458,17 @@ module.exports = function(qs, sep, eq, options) {
       vstr = '';
     }
 
-    k = decodeURIComponent(kstr);
-    v = decodeURIComponent(vstr);
+    try {
+      k = decodeURIComponent(kstr);
+      v = decodeURIComponent(vstr);
+    } catch (e) {
+      k = QueryString.unescape(kstr, true);
+      v = QueryString.unescape(vstr, true);
+    }
 
     if (!hasOwnProperty(obj, k)) {
       obj[k] = v;
-    } else if (isArray(obj[k])) {
+    } else if (util.isArray(obj[k])) {
       obj[k].push(v);
     } else {
       obj[k] = [obj[k], v];
@@ -3061,12 +1477,7 @@ module.exports = function(qs, sep, eq, options) {
 
   return obj;
 };
-
-var isArray = Array.isArray || function (xs) {
-  return Object.prototype.toString.call(xs) === '[object Array]';
-};
-
-},{}],12:[function(require,module,exports){
+},{"_shims":3,"buffer":13,"util":10}],9:[function(require,module,exports){
 // Copyright Joyent, Inc. and other Node contributors.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a
@@ -3088,100 +1499,9 @@ var isArray = Array.isArray || function (xs) {
 // OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE
 // USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-'use strict';
-
-var stringifyPrimitive = function(v) {
-  switch (typeof v) {
-    case 'string':
-      return v;
-
-    case 'boolean':
-      return v ? 'true' : 'false';
-
-    case 'number':
-      return isFinite(v) ? v : '';
-
-    default:
-      return '';
-  }
-};
-
-module.exports = function(obj, sep, eq, name) {
-  sep = sep || '&';
-  eq = eq || '=';
-  if (obj === null) {
-    obj = undefined;
-  }
-
-  if (typeof obj === 'object') {
-    return map(objectKeys(obj), function(k) {
-      var ks = encodeURIComponent(stringifyPrimitive(k)) + eq;
-      if (isArray(obj[k])) {
-        return map(obj[k], function(v) {
-          return ks + encodeURIComponent(stringifyPrimitive(v));
-        }).join(sep);
-      } else {
-        return ks + encodeURIComponent(stringifyPrimitive(obj[k]));
-      }
-    }).join(sep);
-
-  }
-
-  if (!name) return '';
-  return encodeURIComponent(stringifyPrimitive(name)) + eq +
-         encodeURIComponent(stringifyPrimitive(obj));
-};
-
-var isArray = Array.isArray || function (xs) {
-  return Object.prototype.toString.call(xs) === '[object Array]';
-};
-
-function map (xs, f) {
-  if (xs.map) return xs.map(f);
-  var res = [];
-  for (var i = 0; i < xs.length; i++) {
-    res.push(f(xs[i], i));
-  }
-  return res;
-}
-
-var objectKeys = Object.keys || function (obj) {
-  var res = [];
-  for (var key in obj) {
-    if (Object.prototype.hasOwnProperty.call(obj, key)) res.push(key);
-  }
-  return res;
-};
-
-},{}],13:[function(require,module,exports){
-'use strict';
-
-exports.decode = exports.parse = require('./decode');
-exports.encode = exports.stringify = require('./encode');
-
-},{"./decode":11,"./encode":12}],14:[function(require,module,exports){
-// Copyright Joyent, Inc. and other Node contributors.
-//
-// Permission is hereby granted, free of charge, to any person obtaining a
-// copy of this software and associated documentation files (the
-// "Software"), to deal in the Software without restriction, including
-// without limitation the rights to use, copy, modify, merge, publish,
-// distribute, sublicense, and/or sell copies of the Software, and to permit
-// persons to whom the Software is furnished to do so, subject to the
-// following conditions:
-//
-// The above copyright notice and this permission notice shall be included
-// in all copies or substantial portions of the Software.
-//
-// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
-// OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
-// MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN
-// NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
-// DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
-// OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE
-// USE OR OTHER DEALINGS IN THE SOFTWARE.
-
-var punycode = require('punycode');
+var punycode = { encode : function (s) { return s } };
+var util = require('util');
+var shims = require('_shims');
 
 exports.parse = urlParse;
 exports.resolve = urlResolve;
@@ -3256,7 +1576,7 @@ var protocolPattern = /^([a-z0-9.+-]+:)/i,
     querystring = require('querystring');
 
 function urlParse(url, parseQueryString, slashesDenoteHost) {
-  if (url && isObject(url) && url instanceof Url) return url;
+  if (url && util.isObject(url) && url instanceof Url) return url;
 
   var u = new Url;
   u.parse(url, parseQueryString, slashesDenoteHost);
@@ -3264,7 +1584,7 @@ function urlParse(url, parseQueryString, slashesDenoteHost) {
 }
 
 Url.prototype.parse = function(url, parseQueryString, slashesDenoteHost) {
-  if (!isString(url)) {
+  if (!util.isString(url)) {
     throw new TypeError("Parameter 'url' must be a string, not " + typeof url);
   }
 
@@ -3272,7 +1592,7 @@ Url.prototype.parse = function(url, parseQueryString, slashesDenoteHost) {
 
   // trim before proceeding.
   // This is to support parse stuff like "  http://foo.com  \n"
-  rest = rest.trim();
+  rest = shims.trim(rest);
 
   var proto = protocolPattern.exec(rest);
   if (proto) {
@@ -3502,7 +1822,7 @@ function urlFormat(obj) {
   // If it's an obj, this is a no-op.
   // this way, you can call url_format() on strings
   // to clean up potentially wonky urls.
-  if (isString(obj)) obj = urlParse(obj);
+  if (util.isString(obj)) obj = urlParse(obj);
   if (!(obj instanceof Url)) return Url.prototype.format.call(obj);
   return obj.format();
 }
@@ -3533,14 +1853,14 @@ Url.prototype.format = function() {
   }
 
   if (this.query &&
-      isObject(this.query) &&
-      Object.keys(this.query).length) {
+      util.isObject(this.query) &&
+      shims.keys(this.query).length) {
     query = querystring.stringify(this.query);
   }
 
   var search = this.search || (query && ('?' + query)) || '';
 
-  if (protocol && protocol.substr(-1) !== ':') protocol += ':';
+  if (protocol && shims.substr(protocol, -1) !== ':') protocol += ':';
 
   // only the slashedProtocols get the //.  Not mailto:, xmpp:, etc.
   // unless they had them to begin with.
@@ -3577,14 +1897,14 @@ function urlResolveObject(source, relative) {
 }
 
 Url.prototype.resolveObject = function(relative) {
-  if (isString(relative)) {
+  if (util.isString(relative)) {
     var rel = new Url();
     rel.parse(relative, false, true);
     relative = rel;
   }
 
   var result = new Url();
-  Object.keys(this).forEach(function(k) {
+  shims.forEach(shims.keys(this), function(k) {
     result[k] = this[k];
   }, this);
 
@@ -3601,7 +1921,7 @@ Url.prototype.resolveObject = function(relative) {
   // hrefs like //foo/bar always cut to the protocol.
   if (relative.slashes && !relative.protocol) {
     // take everything except the protocol from relative
-    Object.keys(relative).forEach(function(k) {
+    shims.forEach(shims.keys(relative), function(k) {
       if (k !== 'protocol')
         result[k] = relative[k];
     });
@@ -3626,7 +1946,7 @@ Url.prototype.resolveObject = function(relative) {
     // because that's known to be hostless.
     // anything else is assumed to be absolute.
     if (!slashedProtocol[relative.protocol]) {
-      Object.keys(relative).forEach(function(k) {
+      shims.forEach(shims.keys(relative), function(k) {
         result[k] = relative[k];
       });
       result.href = result.format();
@@ -3717,7 +2037,7 @@ Url.prototype.resolveObject = function(relative) {
     srcPath = srcPath.concat(relPath);
     result.search = relative.search;
     result.query = relative.query;
-  } else if (!isNullOrUndefined(relative.search)) {
+  } else if (!util.isNullOrUndefined(relative.search)) {
     // just pull out the search.
     // like href='?foo'.
     // Put this after the other two cases because it simplifies the booleans
@@ -3736,7 +2056,7 @@ Url.prototype.resolveObject = function(relative) {
     result.search = relative.search;
     result.query = relative.query;
     //to support http.request
-    if (!isNull(result.pathname) || !isNull(result.search)) {
+    if (!util.isNull(result.pathname) || !util.isNull(result.search)) {
       result.path = (result.pathname ? result.pathname : '') +
                     (result.search ? result.search : '');
     }
@@ -3794,7 +2114,7 @@ Url.prototype.resolveObject = function(relative) {
     srcPath.unshift('');
   }
 
-  if (hasTrailingSlash && (srcPath.join('/').substr(-1) !== '/')) {
+  if (hasTrailingSlash && (shims.substr(srcPath.join('/'), -1) !== '/')) {
     srcPath.push('');
   }
 
@@ -3830,7 +2150,7 @@ Url.prototype.resolveObject = function(relative) {
   }
 
   //to support request.http
-  if (!isNull(result.pathname) || !isNull(result.search)) {
+  if (!util.isNull(result.pathname) || !util.isNull(result.search)) {
     result.path = (result.pathname ? result.pathname : '') +
                   (result.search ? result.search : '');
   }
@@ -3852,31 +2172,7 @@ Url.prototype.parseHost = function() {
   }
   if (host) this.hostname = host;
 };
-
-function isString(arg) {
-  return typeof arg === "string";
-}
-
-function isObject(arg) {
-  return typeof arg === 'object' && arg !== null;
-}
-
-function isNull(arg) {
-  return arg === null;
-}
-function isNullOrUndefined(arg) {
-  return  arg == null;
-}
-
-},{"punycode":10,"querystring":13}],15:[function(require,module,exports){
-module.exports = function isBuffer(arg) {
-  return arg && typeof arg === 'object'
-    && typeof arg.copy === 'function'
-    && typeof arg.fill === 'function'
-    && typeof arg.readUInt8 === 'function';
-}
-},{}],16:[function(require,module,exports){
-(function (process,global){
+},{"_shims":3,"querystring":8,"util":10}],10:[function(require,module,exports){
 // Copyright Joyent, Inc. and other Node contributors.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a
@@ -3897,6 +2193,8 @@ module.exports = function isBuffer(arg) {
 // DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
 // OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE
 // USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+var shims = require('_shims');
 
 var formatRegExp = /%[sdj%]/g;
 exports.format = function(f) {
@@ -3936,62 +2234,6 @@ exports.format = function(f) {
   }
   return str;
 };
-
-
-// Mark that a method should not be used.
-// Returns a modified function which warns once by default.
-// If --no-deprecation is set, then it is a no-op.
-exports.deprecate = function(fn, msg) {
-  // Allow for deprecating things in the process of starting up.
-  if (isUndefined(global.process)) {
-    return function() {
-      return exports.deprecate(fn, msg).apply(this, arguments);
-    };
-  }
-
-  if (process.noDeprecation === true) {
-    return fn;
-  }
-
-  var warned = false;
-  function deprecated() {
-    if (!warned) {
-      if (process.throwDeprecation) {
-        throw new Error(msg);
-      } else if (process.traceDeprecation) {
-        console.trace(msg);
-      } else {
-        console.error(msg);
-      }
-      warned = true;
-    }
-    return fn.apply(this, arguments);
-  }
-
-  return deprecated;
-};
-
-
-var debugs = {};
-var debugEnviron;
-exports.debuglog = function(set) {
-  if (isUndefined(debugEnviron))
-    debugEnviron = process.env.NODE_DEBUG || '';
-  set = set.toUpperCase();
-  if (!debugs[set]) {
-    if (new RegExp('\\b' + set + '\\b', 'i').test(debugEnviron)) {
-      var pid = process.pid;
-      debugs[set] = function() {
-        var msg = exports.format.apply(exports, arguments);
-        console.error('%s %d: %s', set, pid, msg);
-      };
-    } else {
-      debugs[set] = function() {};
-    }
-  }
-  return debugs[set];
-};
-
 
 /**
  * Echos the value of a value. Trys to print the value out
@@ -4079,7 +2321,7 @@ function stylizeNoColor(str, styleType) {
 function arrayToHash(array) {
   var hash = {};
 
-  array.forEach(function(val, idx) {
+  shims.forEach(array, function(val, idx) {
     hash[val] = true;
   });
 
@@ -4097,7 +2339,7 @@ function formatValue(ctx, value, recurseTimes) {
       value.inspect !== exports.inspect &&
       // Also filter out any prototype objects using the circular check.
       !(value.constructor && value.constructor.prototype === value)) {
-    var ret = value.inspect(recurseTimes, ctx);
+    var ret = value.inspect(recurseTimes);
     if (!isString(ret)) {
       ret = formatValue(ctx, ret, recurseTimes);
     }
@@ -4111,18 +2353,11 @@ function formatValue(ctx, value, recurseTimes) {
   }
 
   // Look up the keys of the object.
-  var keys = Object.keys(value);
+  var keys = shims.keys(value);
   var visibleKeys = arrayToHash(keys);
 
   if (ctx.showHidden) {
-    keys = Object.getOwnPropertyNames(value);
-  }
-
-  // IE doesn't make error fields non-enumerable
-  // http://msdn.microsoft.com/en-us/library/ie/dww52sbt(v=vs.94).aspx
-  if (isError(value)
-      && (keys.indexOf('message') >= 0 || keys.indexOf('description') >= 0)) {
-    return formatError(value);
+    keys = shims.getOwnPropertyNames(value);
   }
 
   // Some type of object without properties can be shortcutted.
@@ -4234,7 +2469,8 @@ function formatArray(ctx, value, recurseTimes, visibleKeys, keys) {
       output.push('');
     }
   }
-  keys.forEach(function(key) {
+
+  shims.forEach(keys, function(key) {
     if (!key.match(/^\d+$/)) {
       output.push(formatProperty(ctx, value, recurseTimes, visibleKeys,
           key, true));
@@ -4246,7 +2482,7 @@ function formatArray(ctx, value, recurseTimes, visibleKeys, keys) {
 
 function formatProperty(ctx, value, recurseTimes, visibleKeys, key, array) {
   var name, str, desc;
-  desc = Object.getOwnPropertyDescriptor(value, key) || { value: value[key] };
+  desc = shims.getOwnPropertyDescriptor(value, key) || { value: value[key] };
   if (desc.get) {
     if (desc.set) {
       str = ctx.stylize('[Getter/Setter]', 'special');
@@ -4258,11 +2494,12 @@ function formatProperty(ctx, value, recurseTimes, visibleKeys, key, array) {
       str = ctx.stylize('[Setter]', 'special');
     }
   }
+
   if (!hasOwnProperty(visibleKeys, key)) {
     name = '[' + key + ']';
   }
   if (!str) {
-    if (ctx.seen.indexOf(desc.value) < 0) {
+    if (shims.indexOf(ctx.seen, desc.value) < 0) {
       if (isNull(recurseTimes)) {
         str = formatValue(ctx, desc.value, null);
       } else {
@@ -4305,7 +2542,7 @@ function formatProperty(ctx, value, recurseTimes, visibleKeys, key, array) {
 
 function reduceToSingleString(output, base, braces) {
   var numLinesEst = 0;
-  var length = output.reduce(function(prev, cur) {
+  var length = shims.reduce(output, function(prev, cur) {
     numLinesEst++;
     if (cur.indexOf('\n') >= 0) numLinesEst++;
     return prev + cur.replace(/\u001b\[\d\d?m/g, '').length + 1;
@@ -4327,7 +2564,7 @@ function reduceToSingleString(output, base, braces) {
 // NOTE: These type checking functions intentionally don't use `instanceof`
 // because it is fragile and can be easily faked with `Object.create()`.
 function isArray(ar) {
-  return Array.isArray(ar);
+  return shims.isArray(ar);
 }
 exports.isArray = isArray;
 
@@ -4372,7 +2609,7 @@ function isRegExp(re) {
 exports.isRegExp = isRegExp;
 
 function isObject(arg) {
-  return typeof arg === 'object' && arg !== null;
+  return typeof arg === 'object' && arg;
 }
 exports.isObject = isObject;
 
@@ -4382,8 +2619,7 @@ function isDate(d) {
 exports.isDate = isDate;
 
 function isError(e) {
-  return isObject(e) &&
-      (objectToString(e) === '[object Error]' || e instanceof Error);
+  return isObject(e) && objectToString(e) === '[object Error]';
 }
 exports.isError = isError;
 
@@ -4402,7 +2638,14 @@ function isPrimitive(arg) {
 }
 exports.isPrimitive = isPrimitive;
 
-exports.isBuffer = require('./support/isBuffer');
+function isBuffer(arg) {
+  return arg && typeof arg === 'object'
+    && typeof arg.copy === 'function'
+    && typeof arg.fill === 'function'
+    && typeof arg.binarySlice === 'function'
+  ;
+}
+exports.isBuffer = isBuffer;
 
 function objectToString(o) {
   return Object.prototype.toString.call(o);
@@ -4446,13 +2689,23 @@ exports.log = function() {
  *     prototype.
  * @param {function} superCtor Constructor function to inherit prototype from.
  */
-exports.inherits = require('inherits');
+exports.inherits = function(ctor, superCtor) {
+  ctor.super_ = superCtor;
+  ctor.prototype = shims.create(superCtor.prototype, {
+    constructor: {
+      value: ctor,
+      enumerable: false,
+      writable: true,
+      configurable: true
+    }
+  });
+};
 
 exports._extend = function(origin, add) {
   // Don't do anything if add isn't an object
   if (!add || !isObject(add)) return origin;
 
-  var keys = Object.keys(add);
+  var keys = shims.keys(add);
   var i = keys.length;
   while (i--) {
     origin[keys[i]] = add[keys[i]];
@@ -4464,12 +2717,3607 @@ function hasOwnProperty(obj, prop) {
   return Object.prototype.hasOwnProperty.call(obj, prop);
 }
 
-}).call(this,require('_process'),typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"./support/isBuffer":15,"_process":9,"inherits":6}],17:[function(require,module,exports){
-(function (global){
+},{"_shims":3}],11:[function(require,module,exports){
+
+},{}],12:[function(require,module,exports){
+exports.readIEEE754 = function(buffer, offset, isBE, mLen, nBytes) {
+  var e, m,
+      eLen = nBytes * 8 - mLen - 1,
+      eMax = (1 << eLen) - 1,
+      eBias = eMax >> 1,
+      nBits = -7,
+      i = isBE ? 0 : (nBytes - 1),
+      d = isBE ? 1 : -1,
+      s = buffer[offset + i];
+
+  i += d;
+
+  e = s & ((1 << (-nBits)) - 1);
+  s >>= (-nBits);
+  nBits += eLen;
+  for (; nBits > 0; e = e * 256 + buffer[offset + i], i += d, nBits -= 8);
+
+  m = e & ((1 << (-nBits)) - 1);
+  e >>= (-nBits);
+  nBits += mLen;
+  for (; nBits > 0; m = m * 256 + buffer[offset + i], i += d, nBits -= 8);
+
+  if (e === 0) {
+    e = 1 - eBias;
+  } else if (e === eMax) {
+    return m ? NaN : ((s ? -1 : 1) * Infinity);
+  } else {
+    m = m + Math.pow(2, mLen);
+    e = e - eBias;
+  }
+  return (s ? -1 : 1) * m * Math.pow(2, e - mLen);
+};
+
+exports.writeIEEE754 = function(buffer, value, offset, isBE, mLen, nBytes) {
+  var e, m, c,
+      eLen = nBytes * 8 - mLen - 1,
+      eMax = (1 << eLen) - 1,
+      eBias = eMax >> 1,
+      rt = (mLen === 23 ? Math.pow(2, -24) - Math.pow(2, -77) : 0),
+      i = isBE ? (nBytes - 1) : 0,
+      d = isBE ? -1 : 1,
+      s = value < 0 || (value === 0 && 1 / value < 0) ? 1 : 0;
+
+  value = Math.abs(value);
+
+  if (isNaN(value) || value === Infinity) {
+    m = isNaN(value) ? 1 : 0;
+    e = eMax;
+  } else {
+    e = Math.floor(Math.log(value) / Math.LN2);
+    if (value * (c = Math.pow(2, -e)) < 1) {
+      e--;
+      c *= 2;
+    }
+    if (e + eBias >= 1) {
+      value += rt / c;
+    } else {
+      value += rt * Math.pow(2, 1 - eBias);
+    }
+    if (value * c >= 2) {
+      e++;
+      c /= 2;
+    }
+
+    if (e + eBias >= eMax) {
+      m = 0;
+      e = eMax;
+    } else if (e + eBias >= 1) {
+      m = (value * c - 1) * Math.pow(2, mLen);
+      e = e + eBias;
+    } else {
+      m = value * Math.pow(2, eBias - 1) * Math.pow(2, mLen);
+      e = 0;
+    }
+  }
+
+  for (; mLen >= 8; buffer[offset + i] = m & 0xff, i += d, m /= 256, mLen -= 8);
+
+  e = (e << mLen) | m;
+  eLen += mLen;
+  for (; eLen > 0; buffer[offset + i] = e & 0xff, i += d, e /= 256, eLen -= 8);
+
+  buffer[offset + i - d] |= s * 128;
+};
+
+},{}],13:[function(require,module,exports){
+var assert;
+exports.Buffer = Buffer;
+exports.SlowBuffer = Buffer;
+Buffer.poolSize = 8192;
+exports.INSPECT_MAX_BYTES = 50;
+
+function stringtrim(str) {
+  if (str.trim) return str.trim();
+  return str.replace(/^\s+|\s+$/g, '');
+}
+
+function Buffer(subject, encoding, offset) {
+  if(!assert) assert= require('assert');
+  if (!(this instanceof Buffer)) {
+    return new Buffer(subject, encoding, offset);
+  }
+  this.parent = this;
+  this.offset = 0;
+
+  // Work-around: node's base64 implementation
+  // allows for non-padded strings while base64-js
+  // does not..
+  if (encoding == "base64" && typeof subject == "string") {
+    subject = stringtrim(subject);
+    while (subject.length % 4 != 0) {
+      subject = subject + "="; 
+    }
+  }
+
+  var type;
+
+  // Are we slicing?
+  if (typeof offset === 'number') {
+    this.length = coerce(encoding);
+    // slicing works, with limitations (no parent tracking/update)
+    // check https://github.com/toots/buffer-browserify/issues/19
+    for (var i = 0; i < this.length; i++) {
+        this[i] = subject.get(i+offset);
+    }
+  } else {
+    // Find the length
+    switch (type = typeof subject) {
+      case 'number':
+        this.length = coerce(subject);
+        break;
+
+      case 'string':
+        this.length = Buffer.byteLength(subject, encoding);
+        break;
+
+      case 'object': // Assume object is an array
+        this.length = coerce(subject.length);
+        break;
+
+      default:
+        throw new TypeError('First argument needs to be a number, ' +
+                            'array or string.');
+    }
+
+    // Treat array-ish objects as a byte array.
+    if (isArrayIsh(subject)) {
+      for (var i = 0; i < this.length; i++) {
+        if (subject instanceof Buffer) {
+          this[i] = subject.readUInt8(i);
+        }
+        else {
+          // Round-up subject[i] to a UInt8.
+          // e.g.: ((-432 % 256) + 256) % 256 = (-176 + 256) % 256
+          //                                  = 80
+          this[i] = ((subject[i] % 256) + 256) % 256;
+        }
+      }
+    } else if (type == 'string') {
+      // We are a string
+      this.length = this.write(subject, 0, encoding);
+    } else if (type === 'number') {
+      for (var i = 0; i < this.length; i++) {
+        this[i] = 0;
+      }
+    }
+  }
+}
+
+Buffer.prototype.get = function get(i) {
+  if (i < 0 || i >= this.length) throw new Error('oob');
+  return this[i];
+};
+
+Buffer.prototype.set = function set(i, v) {
+  if (i < 0 || i >= this.length) throw new Error('oob');
+  return this[i] = v;
+};
+
+Buffer.byteLength = function (str, encoding) {
+  switch (encoding || "utf8") {
+    case 'hex':
+      return str.length / 2;
+
+    case 'utf8':
+    case 'utf-8':
+      return utf8ToBytes(str).length;
+
+    case 'ascii':
+    case 'binary':
+      return str.length;
+
+    case 'base64':
+      return base64ToBytes(str).length;
+
+    default:
+      throw new Error('Unknown encoding');
+  }
+};
+
+Buffer.prototype.utf8Write = function (string, offset, length) {
+  var bytes, pos;
+  return Buffer._charsWritten =  blitBuffer(utf8ToBytes(string), this, offset, length);
+};
+
+Buffer.prototype.asciiWrite = function (string, offset, length) {
+  var bytes, pos;
+  return Buffer._charsWritten =  blitBuffer(asciiToBytes(string), this, offset, length);
+};
+
+Buffer.prototype.binaryWrite = Buffer.prototype.asciiWrite;
+
+Buffer.prototype.base64Write = function (string, offset, length) {
+  var bytes, pos;
+  return Buffer._charsWritten = blitBuffer(base64ToBytes(string), this, offset, length);
+};
+
+Buffer.prototype.base64Slice = function (start, end) {
+  var bytes = Array.prototype.slice.apply(this, arguments)
+  return require("base64-js").fromByteArray(bytes);
+};
+
+Buffer.prototype.utf8Slice = function () {
+  var bytes = Array.prototype.slice.apply(this, arguments);
+  var res = "";
+  var tmp = "";
+  var i = 0;
+  while (i < bytes.length) {
+    if (bytes[i] <= 0x7F) {
+      res += decodeUtf8Char(tmp) + String.fromCharCode(bytes[i]);
+      tmp = "";
+    } else
+      tmp += "%" + bytes[i].toString(16);
+
+    i++;
+  }
+
+  return res + decodeUtf8Char(tmp);
+}
+
+Buffer.prototype.asciiSlice = function () {
+  var bytes = Array.prototype.slice.apply(this, arguments);
+  var ret = "";
+  for (var i = 0; i < bytes.length; i++)
+    ret += String.fromCharCode(bytes[i]);
+  return ret;
+}
+
+Buffer.prototype.binarySlice = Buffer.prototype.asciiSlice;
+
+Buffer.prototype.inspect = function() {
+  var out = [],
+      len = this.length;
+  for (var i = 0; i < len; i++) {
+    out[i] = toHex(this[i]);
+    if (i == exports.INSPECT_MAX_BYTES) {
+      out[i + 1] = '...';
+      break;
+    }
+  }
+  return '<Buffer ' + out.join(' ') + '>';
+};
+
+
+Buffer.prototype.hexSlice = function(start, end) {
+  var len = this.length;
+
+  if (!start || start < 0) start = 0;
+  if (!end || end < 0 || end > len) end = len;
+
+  var out = '';
+  for (var i = start; i < end; i++) {
+    out += toHex(this[i]);
+  }
+  return out;
+};
+
+
+Buffer.prototype.toString = function(encoding, start, end) {
+  encoding = String(encoding || 'utf8').toLowerCase();
+  start = +start || 0;
+  if (typeof end == 'undefined') end = this.length;
+
+  // Fastpath empty strings
+  if (+end == start) {
+    return '';
+  }
+
+  switch (encoding) {
+    case 'hex':
+      return this.hexSlice(start, end);
+
+    case 'utf8':
+    case 'utf-8':
+      return this.utf8Slice(start, end);
+
+    case 'ascii':
+      return this.asciiSlice(start, end);
+
+    case 'binary':
+      return this.binarySlice(start, end);
+
+    case 'base64':
+      return this.base64Slice(start, end);
+
+    case 'ucs2':
+    case 'ucs-2':
+      return this.ucs2Slice(start, end);
+
+    default:
+      throw new Error('Unknown encoding');
+  }
+};
+
+
+Buffer.prototype.hexWrite = function(string, offset, length) {
+  offset = +offset || 0;
+  var remaining = this.length - offset;
+  if (!length) {
+    length = remaining;
+  } else {
+    length = +length;
+    if (length > remaining) {
+      length = remaining;
+    }
+  }
+
+  // must be an even number of digits
+  var strLen = string.length;
+  if (strLen % 2) {
+    throw new Error('Invalid hex string');
+  }
+  if (length > strLen / 2) {
+    length = strLen / 2;
+  }
+  for (var i = 0; i < length; i++) {
+    var b = parseInt(string.substr(i * 2, 2), 16);
+    if (isNaN(b)) throw new Error('Invalid hex string');
+    this[offset + i] = b;
+  }
+  Buffer._charsWritten = i * 2;
+  return i;
+};
+
+
+Buffer.prototype.write = function(string, offset, length, encoding) {
+  // Support both (string, offset, length, encoding)
+  // and the legacy (string, encoding, offset, length)
+  if (isFinite(offset)) {
+    if (!isFinite(length)) {
+      encoding = length;
+      length = undefined;
+    }
+  } else {  // legacy
+    var swap = encoding;
+    encoding = offset;
+    offset = length;
+    length = swap;
+  }
+
+  offset = +offset || 0;
+  var remaining = this.length - offset;
+  if (!length) {
+    length = remaining;
+  } else {
+    length = +length;
+    if (length > remaining) {
+      length = remaining;
+    }
+  }
+  encoding = String(encoding || 'utf8').toLowerCase();
+
+  switch (encoding) {
+    case 'hex':
+      return this.hexWrite(string, offset, length);
+
+    case 'utf8':
+    case 'utf-8':
+      return this.utf8Write(string, offset, length);
+
+    case 'ascii':
+      return this.asciiWrite(string, offset, length);
+
+    case 'binary':
+      return this.binaryWrite(string, offset, length);
+
+    case 'base64':
+      return this.base64Write(string, offset, length);
+
+    case 'ucs2':
+    case 'ucs-2':
+      return this.ucs2Write(string, offset, length);
+
+    default:
+      throw new Error('Unknown encoding');
+  }
+};
+
+// slice(start, end)
+function clamp(index, len, defaultValue) {
+  if (typeof index !== 'number') return defaultValue;
+  index = ~~index;  // Coerce to integer.
+  if (index >= len) return len;
+  if (index >= 0) return index;
+  index += len;
+  if (index >= 0) return index;
+  return 0;
+}
+
+Buffer.prototype.slice = function(start, end) {
+  var len = this.length;
+  start = clamp(start, len, 0);
+  end = clamp(end, len, len);
+  return new Buffer(this, end - start, +start);
+};
+
+// copy(targetBuffer, targetStart=0, sourceStart=0, sourceEnd=buffer.length)
+Buffer.prototype.copy = function(target, target_start, start, end) {
+  var source = this;
+  start || (start = 0);
+  if (end === undefined || isNaN(end)) {
+    end = this.length;
+  }
+  target_start || (target_start = 0);
+
+  if (end < start) throw new Error('sourceEnd < sourceStart');
+
+  // Copy 0 bytes; we're done
+  if (end === start) return 0;
+  if (target.length == 0 || source.length == 0) return 0;
+
+  if (target_start < 0 || target_start >= target.length) {
+    throw new Error('targetStart out of bounds');
+  }
+
+  if (start < 0 || start >= source.length) {
+    throw new Error('sourceStart out of bounds');
+  }
+
+  if (end < 0 || end > source.length) {
+    throw new Error('sourceEnd out of bounds');
+  }
+
+  // Are we oob?
+  if (end > this.length) {
+    end = this.length;
+  }
+
+  if (target.length - target_start < end - start) {
+    end = target.length - target_start + start;
+  }
+
+  var temp = [];
+  for (var i=start; i<end; i++) {
+    assert.ok(typeof this[i] !== 'undefined', "copying undefined buffer bytes!");
+    temp.push(this[i]);
+  }
+
+  for (var i=target_start; i<target_start+temp.length; i++) {
+    target[i] = temp[i-target_start];
+  }
+};
+
+// fill(value, start=0, end=buffer.length)
+Buffer.prototype.fill = function fill(value, start, end) {
+  value || (value = 0);
+  start || (start = 0);
+  end || (end = this.length);
+
+  if (typeof value === 'string') {
+    value = value.charCodeAt(0);
+  }
+  if (!(typeof value === 'number') || isNaN(value)) {
+    throw new Error('value is not a number');
+  }
+
+  if (end < start) throw new Error('end < start');
+
+  // Fill 0 bytes; we're done
+  if (end === start) return 0;
+  if (this.length == 0) return 0;
+
+  if (start < 0 || start >= this.length) {
+    throw new Error('start out of bounds');
+  }
+
+  if (end < 0 || end > this.length) {
+    throw new Error('end out of bounds');
+  }
+
+  for (var i = start; i < end; i++) {
+    this[i] = value;
+  }
+}
+
+// Static methods
+Buffer.isBuffer = function isBuffer(b) {
+  return b instanceof Buffer;
+};
+
+Buffer.concat = function (list, totalLength) {
+  if (!isArray(list)) {
+    throw new Error("Usage: Buffer.concat(list, [totalLength])\n \
+      list should be an Array.");
+  }
+
+  if (list.length === 0) {
+    return new Buffer(0);
+  } else if (list.length === 1) {
+    return list[0];
+  }
+
+  if (typeof totalLength !== 'number') {
+    totalLength = 0;
+    for (var i = 0; i < list.length; i++) {
+      var buf = list[i];
+      totalLength += buf.length;
+    }
+  }
+
+  var buffer = new Buffer(totalLength);
+  var pos = 0;
+  for (var i = 0; i < list.length; i++) {
+    var buf = list[i];
+    buf.copy(buffer, pos);
+    pos += buf.length;
+  }
+  return buffer;
+};
+
+Buffer.isEncoding = function(encoding) {
+  switch ((encoding + '').toLowerCase()) {
+    case 'hex':
+    case 'utf8':
+    case 'utf-8':
+    case 'ascii':
+    case 'binary':
+    case 'base64':
+    case 'ucs2':
+    case 'ucs-2':
+    case 'utf16le':
+    case 'utf-16le':
+    case 'raw':
+      return true;
+
+    default:
+      return false;
+  }
+};
+
+// helpers
+
+function coerce(length) {
+  // Coerce length to a number (possibly NaN), round up
+  // in case it's fractional (e.g. 123.456) then do a
+  // double negate to coerce a NaN to 0. Easy, right?
+  length = ~~Math.ceil(+length);
+  return length < 0 ? 0 : length;
+}
+
+function isArray(subject) {
+  return (Array.isArray ||
+    function(subject){
+      return {}.toString.apply(subject) == '[object Array]'
+    })
+    (subject)
+}
+
+function isArrayIsh(subject) {
+  return isArray(subject) || Buffer.isBuffer(subject) ||
+         subject && typeof subject === 'object' &&
+         typeof subject.length === 'number';
+}
+
+function toHex(n) {
+  if (n < 16) return '0' + n.toString(16);
+  return n.toString(16);
+}
+
+function utf8ToBytes(str) {
+  var byteArray = [];
+  for (var i = 0; i < str.length; i++)
+    if (str.charCodeAt(i) <= 0x7F)
+      byteArray.push(str.charCodeAt(i));
+    else {
+      var h = encodeURIComponent(str.charAt(i)).substr(1).split('%');
+      for (var j = 0; j < h.length; j++)
+        byteArray.push(parseInt(h[j], 16));
+    }
+
+  return byteArray;
+}
+
+function asciiToBytes(str) {
+  var byteArray = []
+  for (var i = 0; i < str.length; i++ )
+    // Node's code seems to be doing this and not & 0x7F..
+    byteArray.push( str.charCodeAt(i) & 0xFF );
+
+  return byteArray;
+}
+
+function base64ToBytes(str) {
+  return require("base64-js").toByteArray(str);
+}
+
+function blitBuffer(src, dst, offset, length) {
+  var pos, i = 0;
+  while (i < length) {
+    if ((i+offset >= dst.length) || (i >= src.length))
+      break;
+
+    dst[i + offset] = src[i];
+    i++;
+  }
+  return i;
+}
+
+function decodeUtf8Char(str) {
+  try {
+    return decodeURIComponent(str);
+  } catch (err) {
+    return String.fromCharCode(0xFFFD); // UTF 8 invalid char
+  }
+}
+
+// read/write bit-twiddling
+
+Buffer.prototype.readUInt8 = function(offset, noAssert) {
+  var buffer = this;
+
+  if (!noAssert) {
+    assert.ok(offset !== undefined && offset !== null,
+        'missing offset');
+
+    assert.ok(offset < buffer.length,
+        'Trying to read beyond buffer length');
+  }
+
+  if (offset >= buffer.length) return;
+
+  return buffer[offset];
+};
+
+function readUInt16(buffer, offset, isBigEndian, noAssert) {
+  var val = 0;
+
+
+  if (!noAssert) {
+    assert.ok(typeof (isBigEndian) === 'boolean',
+        'missing or invalid endian');
+
+    assert.ok(offset !== undefined && offset !== null,
+        'missing offset');
+
+    assert.ok(offset + 1 < buffer.length,
+        'Trying to read beyond buffer length');
+  }
+
+  if (offset >= buffer.length) return 0;
+
+  if (isBigEndian) {
+    val = buffer[offset] << 8;
+    if (offset + 1 < buffer.length) {
+      val |= buffer[offset + 1];
+    }
+  } else {
+    val = buffer[offset];
+    if (offset + 1 < buffer.length) {
+      val |= buffer[offset + 1] << 8;
+    }
+  }
+
+  return val;
+}
+
+Buffer.prototype.readUInt16LE = function(offset, noAssert) {
+  return readUInt16(this, offset, false, noAssert);
+};
+
+Buffer.prototype.readUInt16BE = function(offset, noAssert) {
+  return readUInt16(this, offset, true, noAssert);
+};
+
+function readUInt32(buffer, offset, isBigEndian, noAssert) {
+  var val = 0;
+
+  if (!noAssert) {
+    assert.ok(typeof (isBigEndian) === 'boolean',
+        'missing or invalid endian');
+
+    assert.ok(offset !== undefined && offset !== null,
+        'missing offset');
+
+    assert.ok(offset + 3 < buffer.length,
+        'Trying to read beyond buffer length');
+  }
+
+  if (offset >= buffer.length) return 0;
+
+  if (isBigEndian) {
+    if (offset + 1 < buffer.length)
+      val = buffer[offset + 1] << 16;
+    if (offset + 2 < buffer.length)
+      val |= buffer[offset + 2] << 8;
+    if (offset + 3 < buffer.length)
+      val |= buffer[offset + 3];
+    val = val + (buffer[offset] << 24 >>> 0);
+  } else {
+    if (offset + 2 < buffer.length)
+      val = buffer[offset + 2] << 16;
+    if (offset + 1 < buffer.length)
+      val |= buffer[offset + 1] << 8;
+    val |= buffer[offset];
+    if (offset + 3 < buffer.length)
+      val = val + (buffer[offset + 3] << 24 >>> 0);
+  }
+
+  return val;
+}
+
+Buffer.prototype.readUInt32LE = function(offset, noAssert) {
+  return readUInt32(this, offset, false, noAssert);
+};
+
+Buffer.prototype.readUInt32BE = function(offset, noAssert) {
+  return readUInt32(this, offset, true, noAssert);
+};
+
+
+/*
+ * Signed integer types, yay team! A reminder on how two's complement actually
+ * works. The first bit is the signed bit, i.e. tells us whether or not the
+ * number should be positive or negative. If the two's complement value is
+ * positive, then we're done, as it's equivalent to the unsigned representation.
+ *
+ * Now if the number is positive, you're pretty much done, you can just leverage
+ * the unsigned translations and return those. Unfortunately, negative numbers
+ * aren't quite that straightforward.
+ *
+ * At first glance, one might be inclined to use the traditional formula to
+ * translate binary numbers between the positive and negative values in two's
+ * complement. (Though it doesn't quite work for the most negative value)
+ * Mainly:
+ *  - invert all the bits
+ *  - add one to the result
+ *
+ * Of course, this doesn't quite work in Javascript. Take for example the value
+ * of -128. This could be represented in 16 bits (big-endian) as 0xff80. But of
+ * course, Javascript will do the following:
+ *
+ * > ~0xff80
+ * -65409
+ *
+ * Whoh there, Javascript, that's not quite right. But wait, according to
+ * Javascript that's perfectly correct. When Javascript ends up seeing the
+ * constant 0xff80, it has no notion that it is actually a signed number. It
+ * assumes that we've input the unsigned value 0xff80. Thus, when it does the
+ * binary negation, it casts it into a signed value, (positive 0xff80). Then
+ * when you perform binary negation on that, it turns it into a negative number.
+ *
+ * Instead, we're going to have to use the following general formula, that works
+ * in a rather Javascript friendly way. I'm glad we don't support this kind of
+ * weird numbering scheme in the kernel.
+ *
+ * (BIT-MAX - (unsigned)val + 1) * -1
+ *
+ * The astute observer, may think that this doesn't make sense for 8-bit numbers
+ * (really it isn't necessary for them). However, when you get 16-bit numbers,
+ * you do. Let's go back to our prior example and see how this will look:
+ *
+ * (0xffff - 0xff80 + 1) * -1
+ * (0x007f + 1) * -1
+ * (0x0080) * -1
+ */
+Buffer.prototype.readInt8 = function(offset, noAssert) {
+  var buffer = this;
+  var neg;
+
+  if (!noAssert) {
+    assert.ok(offset !== undefined && offset !== null,
+        'missing offset');
+
+    assert.ok(offset < buffer.length,
+        'Trying to read beyond buffer length');
+  }
+
+  if (offset >= buffer.length) return;
+
+  neg = buffer[offset] & 0x80;
+  if (!neg) {
+    return (buffer[offset]);
+  }
+
+  return ((0xff - buffer[offset] + 1) * -1);
+};
+
+function readInt16(buffer, offset, isBigEndian, noAssert) {
+  var neg, val;
+
+  if (!noAssert) {
+    assert.ok(typeof (isBigEndian) === 'boolean',
+        'missing or invalid endian');
+
+    assert.ok(offset !== undefined && offset !== null,
+        'missing offset');
+
+    assert.ok(offset + 1 < buffer.length,
+        'Trying to read beyond buffer length');
+  }
+
+  val = readUInt16(buffer, offset, isBigEndian, noAssert);
+  neg = val & 0x8000;
+  if (!neg) {
+    return val;
+  }
+
+  return (0xffff - val + 1) * -1;
+}
+
+Buffer.prototype.readInt16LE = function(offset, noAssert) {
+  return readInt16(this, offset, false, noAssert);
+};
+
+Buffer.prototype.readInt16BE = function(offset, noAssert) {
+  return readInt16(this, offset, true, noAssert);
+};
+
+function readInt32(buffer, offset, isBigEndian, noAssert) {
+  var neg, val;
+
+  if (!noAssert) {
+    assert.ok(typeof (isBigEndian) === 'boolean',
+        'missing or invalid endian');
+
+    assert.ok(offset !== undefined && offset !== null,
+        'missing offset');
+
+    assert.ok(offset + 3 < buffer.length,
+        'Trying to read beyond buffer length');
+  }
+
+  val = readUInt32(buffer, offset, isBigEndian, noAssert);
+  neg = val & 0x80000000;
+  if (!neg) {
+    return (val);
+  }
+
+  return (0xffffffff - val + 1) * -1;
+}
+
+Buffer.prototype.readInt32LE = function(offset, noAssert) {
+  return readInt32(this, offset, false, noAssert);
+};
+
+Buffer.prototype.readInt32BE = function(offset, noAssert) {
+  return readInt32(this, offset, true, noAssert);
+};
+
+function readFloat(buffer, offset, isBigEndian, noAssert) {
+  if (!noAssert) {
+    assert.ok(typeof (isBigEndian) === 'boolean',
+        'missing or invalid endian');
+
+    assert.ok(offset + 3 < buffer.length,
+        'Trying to read beyond buffer length');
+  }
+
+  return require('./buffer_ieee754').readIEEE754(buffer, offset, isBigEndian,
+      23, 4);
+}
+
+Buffer.prototype.readFloatLE = function(offset, noAssert) {
+  return readFloat(this, offset, false, noAssert);
+};
+
+Buffer.prototype.readFloatBE = function(offset, noAssert) {
+  return readFloat(this, offset, true, noAssert);
+};
+
+function readDouble(buffer, offset, isBigEndian, noAssert) {
+  if (!noAssert) {
+    assert.ok(typeof (isBigEndian) === 'boolean',
+        'missing or invalid endian');
+
+    assert.ok(offset + 7 < buffer.length,
+        'Trying to read beyond buffer length');
+  }
+
+  return require('./buffer_ieee754').readIEEE754(buffer, offset, isBigEndian,
+      52, 8);
+}
+
+Buffer.prototype.readDoubleLE = function(offset, noAssert) {
+  return readDouble(this, offset, false, noAssert);
+};
+
+Buffer.prototype.readDoubleBE = function(offset, noAssert) {
+  return readDouble(this, offset, true, noAssert);
+};
+
+
+/*
+ * We have to make sure that the value is a valid integer. This means that it is
+ * non-negative. It has no fractional component and that it does not exceed the
+ * maximum allowed value.
+ *
+ *      value           The number to check for validity
+ *
+ *      max             The maximum value
+ */
+function verifuint(value, max) {
+  assert.ok(typeof (value) == 'number',
+      'cannot write a non-number as a number');
+
+  assert.ok(value >= 0,
+      'specified a negative value for writing an unsigned value');
+
+  assert.ok(value <= max, 'value is larger than maximum value for type');
+
+  assert.ok(Math.floor(value) === value, 'value has a fractional component');
+}
+
+Buffer.prototype.writeUInt8 = function(value, offset, noAssert) {
+  var buffer = this;
+
+  if (!noAssert) {
+    assert.ok(value !== undefined && value !== null,
+        'missing value');
+
+    assert.ok(offset !== undefined && offset !== null,
+        'missing offset');
+
+    assert.ok(offset < buffer.length,
+        'trying to write beyond buffer length');
+
+    verifuint(value, 0xff);
+  }
+
+  if (offset < buffer.length) {
+    buffer[offset] = value;
+  }
+};
+
+function writeUInt16(buffer, value, offset, isBigEndian, noAssert) {
+  if (!noAssert) {
+    assert.ok(value !== undefined && value !== null,
+        'missing value');
+
+    assert.ok(typeof (isBigEndian) === 'boolean',
+        'missing or invalid endian');
+
+    assert.ok(offset !== undefined && offset !== null,
+        'missing offset');
+
+    assert.ok(offset + 1 < buffer.length,
+        'trying to write beyond buffer length');
+
+    verifuint(value, 0xffff);
+  }
+
+  for (var i = 0; i < Math.min(buffer.length - offset, 2); i++) {
+    buffer[offset + i] =
+        (value & (0xff << (8 * (isBigEndian ? 1 - i : i)))) >>>
+            (isBigEndian ? 1 - i : i) * 8;
+  }
+
+}
+
+Buffer.prototype.writeUInt16LE = function(value, offset, noAssert) {
+  writeUInt16(this, value, offset, false, noAssert);
+};
+
+Buffer.prototype.writeUInt16BE = function(value, offset, noAssert) {
+  writeUInt16(this, value, offset, true, noAssert);
+};
+
+function writeUInt32(buffer, value, offset, isBigEndian, noAssert) {
+  if (!noAssert) {
+    assert.ok(value !== undefined && value !== null,
+        'missing value');
+
+    assert.ok(typeof (isBigEndian) === 'boolean',
+        'missing or invalid endian');
+
+    assert.ok(offset !== undefined && offset !== null,
+        'missing offset');
+
+    assert.ok(offset + 3 < buffer.length,
+        'trying to write beyond buffer length');
+
+    verifuint(value, 0xffffffff);
+  }
+
+  for (var i = 0; i < Math.min(buffer.length - offset, 4); i++) {
+    buffer[offset + i] =
+        (value >>> (isBigEndian ? 3 - i : i) * 8) & 0xff;
+  }
+}
+
+Buffer.prototype.writeUInt32LE = function(value, offset, noAssert) {
+  writeUInt32(this, value, offset, false, noAssert);
+};
+
+Buffer.prototype.writeUInt32BE = function(value, offset, noAssert) {
+  writeUInt32(this, value, offset, true, noAssert);
+};
+
+
+/*
+ * We now move onto our friends in the signed number category. Unlike unsigned
+ * numbers, we're going to have to worry a bit more about how we put values into
+ * arrays. Since we are only worrying about signed 32-bit values, we're in
+ * slightly better shape. Unfortunately, we really can't do our favorite binary
+ * & in this system. It really seems to do the wrong thing. For example:
+ *
+ * > -32 & 0xff
+ * 224
+ *
+ * What's happening above is really: 0xe0 & 0xff = 0xe0. However, the results of
+ * this aren't treated as a signed number. Ultimately a bad thing.
+ *
+ * What we're going to want to do is basically create the unsigned equivalent of
+ * our representation and pass that off to the wuint* functions. To do that
+ * we're going to do the following:
+ *
+ *  - if the value is positive
+ *      we can pass it directly off to the equivalent wuint
+ *  - if the value is negative
+ *      we do the following computation:
+ *         mb + val + 1, where
+ *         mb   is the maximum unsigned value in that byte size
+ *         val  is the Javascript negative integer
+ *
+ *
+ * As a concrete value, take -128. In signed 16 bits this would be 0xff80. If
+ * you do out the computations:
+ *
+ * 0xffff - 128 + 1
+ * 0xffff - 127
+ * 0xff80
+ *
+ * You can then encode this value as the signed version. This is really rather
+ * hacky, but it should work and get the job done which is our goal here.
+ */
+
+/*
+ * A series of checks to make sure we actually have a signed 32-bit number
+ */
+function verifsint(value, max, min) {
+  assert.ok(typeof (value) == 'number',
+      'cannot write a non-number as a number');
+
+  assert.ok(value <= max, 'value larger than maximum allowed value');
+
+  assert.ok(value >= min, 'value smaller than minimum allowed value');
+
+  assert.ok(Math.floor(value) === value, 'value has a fractional component');
+}
+
+function verifIEEE754(value, max, min) {
+  assert.ok(typeof (value) == 'number',
+      'cannot write a non-number as a number');
+
+  assert.ok(value <= max, 'value larger than maximum allowed value');
+
+  assert.ok(value >= min, 'value smaller than minimum allowed value');
+}
+
+Buffer.prototype.writeInt8 = function(value, offset, noAssert) {
+  var buffer = this;
+
+  if (!noAssert) {
+    assert.ok(value !== undefined && value !== null,
+        'missing value');
+
+    assert.ok(offset !== undefined && offset !== null,
+        'missing offset');
+
+    assert.ok(offset < buffer.length,
+        'Trying to write beyond buffer length');
+
+    verifsint(value, 0x7f, -0x80);
+  }
+
+  if (value >= 0) {
+    buffer.writeUInt8(value, offset, noAssert);
+  } else {
+    buffer.writeUInt8(0xff + value + 1, offset, noAssert);
+  }
+};
+
+function writeInt16(buffer, value, offset, isBigEndian, noAssert) {
+  if (!noAssert) {
+    assert.ok(value !== undefined && value !== null,
+        'missing value');
+
+    assert.ok(typeof (isBigEndian) === 'boolean',
+        'missing or invalid endian');
+
+    assert.ok(offset !== undefined && offset !== null,
+        'missing offset');
+
+    assert.ok(offset + 1 < buffer.length,
+        'Trying to write beyond buffer length');
+
+    verifsint(value, 0x7fff, -0x8000);
+  }
+
+  if (value >= 0) {
+    writeUInt16(buffer, value, offset, isBigEndian, noAssert);
+  } else {
+    writeUInt16(buffer, 0xffff + value + 1, offset, isBigEndian, noAssert);
+  }
+}
+
+Buffer.prototype.writeInt16LE = function(value, offset, noAssert) {
+  writeInt16(this, value, offset, false, noAssert);
+};
+
+Buffer.prototype.writeInt16BE = function(value, offset, noAssert) {
+  writeInt16(this, value, offset, true, noAssert);
+};
+
+function writeInt32(buffer, value, offset, isBigEndian, noAssert) {
+  if (!noAssert) {
+    assert.ok(value !== undefined && value !== null,
+        'missing value');
+
+    assert.ok(typeof (isBigEndian) === 'boolean',
+        'missing or invalid endian');
+
+    assert.ok(offset !== undefined && offset !== null,
+        'missing offset');
+
+    assert.ok(offset + 3 < buffer.length,
+        'Trying to write beyond buffer length');
+
+    verifsint(value, 0x7fffffff, -0x80000000);
+  }
+
+  if (value >= 0) {
+    writeUInt32(buffer, value, offset, isBigEndian, noAssert);
+  } else {
+    writeUInt32(buffer, 0xffffffff + value + 1, offset, isBigEndian, noAssert);
+  }
+}
+
+Buffer.prototype.writeInt32LE = function(value, offset, noAssert) {
+  writeInt32(this, value, offset, false, noAssert);
+};
+
+Buffer.prototype.writeInt32BE = function(value, offset, noAssert) {
+  writeInt32(this, value, offset, true, noAssert);
+};
+
+function writeFloat(buffer, value, offset, isBigEndian, noAssert) {
+  if (!noAssert) {
+    assert.ok(value !== undefined && value !== null,
+        'missing value');
+
+    assert.ok(typeof (isBigEndian) === 'boolean',
+        'missing or invalid endian');
+
+    assert.ok(offset !== undefined && offset !== null,
+        'missing offset');
+
+    assert.ok(offset + 3 < buffer.length,
+        'Trying to write beyond buffer length');
+
+    verifIEEE754(value, 3.4028234663852886e+38, -3.4028234663852886e+38);
+  }
+
+  require('./buffer_ieee754').writeIEEE754(buffer, value, offset, isBigEndian,
+      23, 4);
+}
+
+Buffer.prototype.writeFloatLE = function(value, offset, noAssert) {
+  writeFloat(this, value, offset, false, noAssert);
+};
+
+Buffer.prototype.writeFloatBE = function(value, offset, noAssert) {
+  writeFloat(this, value, offset, true, noAssert);
+};
+
+function writeDouble(buffer, value, offset, isBigEndian, noAssert) {
+  if (!noAssert) {
+    assert.ok(value !== undefined && value !== null,
+        'missing value');
+
+    assert.ok(typeof (isBigEndian) === 'boolean',
+        'missing or invalid endian');
+
+    assert.ok(offset !== undefined && offset !== null,
+        'missing offset');
+
+    assert.ok(offset + 7 < buffer.length,
+        'Trying to write beyond buffer length');
+
+    verifIEEE754(value, 1.7976931348623157E+308, -1.7976931348623157E+308);
+  }
+
+  require('./buffer_ieee754').writeIEEE754(buffer, value, offset, isBigEndian,
+      52, 8);
+}
+
+Buffer.prototype.writeDoubleLE = function(value, offset, noAssert) {
+  writeDouble(this, value, offset, false, noAssert);
+};
+
+Buffer.prototype.writeDoubleBE = function(value, offset, noAssert) {
+  writeDouble(this, value, offset, true, noAssert);
+};
+
+},{"./buffer_ieee754":12,"assert":4,"base64-js":2}],14:[function(require,module,exports){
+require=(function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);throw new Error("Cannot find module '"+o+"'")}var f=n[o]={exports:{}};t[o][0].call(f.exports,function(e){var n=t[o][1][e];return s(n?n:e)},f,f.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
+exports.readIEEE754 = function(buffer, offset, isBE, mLen, nBytes) {
+  var e, m,
+      eLen = nBytes * 8 - mLen - 1,
+      eMax = (1 << eLen) - 1,
+      eBias = eMax >> 1,
+      nBits = -7,
+      i = isBE ? 0 : (nBytes - 1),
+      d = isBE ? 1 : -1,
+      s = buffer[offset + i];
+
+  i += d;
+
+  e = s & ((1 << (-nBits)) - 1);
+  s >>= (-nBits);
+  nBits += eLen;
+  for (; nBits > 0; e = e * 256 + buffer[offset + i], i += d, nBits -= 8);
+
+  m = e & ((1 << (-nBits)) - 1);
+  e >>= (-nBits);
+  nBits += mLen;
+  for (; nBits > 0; m = m * 256 + buffer[offset + i], i += d, nBits -= 8);
+
+  if (e === 0) {
+    e = 1 - eBias;
+  } else if (e === eMax) {
+    return m ? NaN : ((s ? -1 : 1) * Infinity);
+  } else {
+    m = m + Math.pow(2, mLen);
+    e = e - eBias;
+  }
+  return (s ? -1 : 1) * m * Math.pow(2, e - mLen);
+};
+
+exports.writeIEEE754 = function(buffer, value, offset, isBE, mLen, nBytes) {
+  var e, m, c,
+      eLen = nBytes * 8 - mLen - 1,
+      eMax = (1 << eLen) - 1,
+      eBias = eMax >> 1,
+      rt = (mLen === 23 ? Math.pow(2, -24) - Math.pow(2, -77) : 0),
+      i = isBE ? (nBytes - 1) : 0,
+      d = isBE ? -1 : 1,
+      s = value < 0 || (value === 0 && 1 / value < 0) ? 1 : 0;
+
+  value = Math.abs(value);
+
+  if (isNaN(value) || value === Infinity) {
+    m = isNaN(value) ? 1 : 0;
+    e = eMax;
+  } else {
+    e = Math.floor(Math.log(value) / Math.LN2);
+    if (value * (c = Math.pow(2, -e)) < 1) {
+      e--;
+      c *= 2;
+    }
+    if (e + eBias >= 1) {
+      value += rt / c;
+    } else {
+      value += rt * Math.pow(2, 1 - eBias);
+    }
+    if (value * c >= 2) {
+      e++;
+      c /= 2;
+    }
+
+    if (e + eBias >= eMax) {
+      m = 0;
+      e = eMax;
+    } else if (e + eBias >= 1) {
+      m = (value * c - 1) * Math.pow(2, mLen);
+      e = e + eBias;
+    } else {
+      m = value * Math.pow(2, eBias - 1) * Math.pow(2, mLen);
+      e = 0;
+    }
+  }
+
+  for (; mLen >= 8; buffer[offset + i] = m & 0xff, i += d, m /= 256, mLen -= 8);
+
+  e = (e << mLen) | m;
+  eLen += mLen;
+  for (; eLen > 0; buffer[offset + i] = e & 0xff, i += d, e /= 256, eLen -= 8);
+
+  buffer[offset + i - d] |= s * 128;
+};
+
+},{}],"q9TxCC":[function(require,module,exports){
+var assert;
+exports.Buffer = Buffer;
+exports.SlowBuffer = Buffer;
+Buffer.poolSize = 8192;
+exports.INSPECT_MAX_BYTES = 50;
+
+function stringtrim(str) {
+  if (str.trim) return str.trim();
+  return str.replace(/^\s+|\s+$/g, '');
+}
+
+function Buffer(subject, encoding, offset) {
+  if(!assert) assert= require('assert');
+  if (!(this instanceof Buffer)) {
+    return new Buffer(subject, encoding, offset);
+  }
+  this.parent = this;
+  this.offset = 0;
+
+  // Work-around: node's base64 implementation
+  // allows for non-padded strings while base64-js
+  // does not..
+  if (encoding == "base64" && typeof subject == "string") {
+    subject = stringtrim(subject);
+    while (subject.length % 4 != 0) {
+      subject = subject + "="; 
+    }
+  }
+
+  var type;
+
+  // Are we slicing?
+  if (typeof offset === 'number') {
+    this.length = coerce(encoding);
+    // slicing works, with limitations (no parent tracking/update)
+    // check https://github.com/toots/buffer-browserify/issues/19
+    for (var i = 0; i < this.length; i++) {
+        this[i] = subject.get(i+offset);
+    }
+  } else {
+    // Find the length
+    switch (type = typeof subject) {
+      case 'number':
+        this.length = coerce(subject);
+        break;
+
+      case 'string':
+        this.length = Buffer.byteLength(subject, encoding);
+        break;
+
+      case 'object': // Assume object is an array
+        this.length = coerce(subject.length);
+        break;
+
+      default:
+        throw new Error('First argument needs to be a number, ' +
+                        'array or string.');
+    }
+
+    // Treat array-ish objects as a byte array.
+    if (isArrayIsh(subject)) {
+      for (var i = 0; i < this.length; i++) {
+        if (subject instanceof Buffer) {
+          this[i] = subject.readUInt8(i);
+        }
+        else {
+          this[i] = subject[i];
+        }
+      }
+    } else if (type == 'string') {
+      // We are a string
+      this.length = this.write(subject, 0, encoding);
+    } else if (type === 'number') {
+      for (var i = 0; i < this.length; i++) {
+        this[i] = 0;
+      }
+    }
+  }
+}
+
+Buffer.prototype.get = function get(i) {
+  if (i < 0 || i >= this.length) throw new Error('oob');
+  return this[i];
+};
+
+Buffer.prototype.set = function set(i, v) {
+  if (i < 0 || i >= this.length) throw new Error('oob');
+  return this[i] = v;
+};
+
+Buffer.byteLength = function (str, encoding) {
+  switch (encoding || "utf8") {
+    case 'hex':
+      return str.length / 2;
+
+    case 'utf8':
+    case 'utf-8':
+      return utf8ToBytes(str).length;
+
+    case 'ascii':
+    case 'binary':
+      return str.length;
+
+    case 'base64':
+      return base64ToBytes(str).length;
+
+    default:
+      throw new Error('Unknown encoding');
+  }
+};
+
+Buffer.prototype.utf8Write = function (string, offset, length) {
+  var bytes, pos;
+  return Buffer._charsWritten =  blitBuffer(utf8ToBytes(string), this, offset, length);
+};
+
+Buffer.prototype.asciiWrite = function (string, offset, length) {
+  var bytes, pos;
+  return Buffer._charsWritten =  blitBuffer(asciiToBytes(string), this, offset, length);
+};
+
+Buffer.prototype.binaryWrite = Buffer.prototype.asciiWrite;
+
+Buffer.prototype.base64Write = function (string, offset, length) {
+  var bytes, pos;
+  return Buffer._charsWritten = blitBuffer(base64ToBytes(string), this, offset, length);
+};
+
+Buffer.prototype.base64Slice = function (start, end) {
+  var bytes = Array.prototype.slice.apply(this, arguments)
+  return require("base64-js").fromByteArray(bytes);
+};
+
+Buffer.prototype.utf8Slice = function () {
+  var bytes = Array.prototype.slice.apply(this, arguments);
+  var res = "";
+  var tmp = "";
+  var i = 0;
+  while (i < bytes.length) {
+    if (bytes[i] <= 0x7F) {
+      res += decodeUtf8Char(tmp) + String.fromCharCode(bytes[i]);
+      tmp = "";
+    } else
+      tmp += "%" + bytes[i].toString(16);
+
+    i++;
+  }
+
+  return res + decodeUtf8Char(tmp);
+}
+
+Buffer.prototype.asciiSlice = function () {
+  var bytes = Array.prototype.slice.apply(this, arguments);
+  var ret = "";
+  for (var i = 0; i < bytes.length; i++)
+    ret += String.fromCharCode(bytes[i]);
+  return ret;
+}
+
+Buffer.prototype.binarySlice = Buffer.prototype.asciiSlice;
+
+Buffer.prototype.inspect = function() {
+  var out = [],
+      len = this.length;
+  for (var i = 0; i < len; i++) {
+    out[i] = toHex(this[i]);
+    if (i == exports.INSPECT_MAX_BYTES) {
+      out[i + 1] = '...';
+      break;
+    }
+  }
+  return '<Buffer ' + out.join(' ') + '>';
+};
+
+
+Buffer.prototype.hexSlice = function(start, end) {
+  var len = this.length;
+
+  if (!start || start < 0) start = 0;
+  if (!end || end < 0 || end > len) end = len;
+
+  var out = '';
+  for (var i = start; i < end; i++) {
+    out += toHex(this[i]);
+  }
+  return out;
+};
+
+
+Buffer.prototype.toString = function(encoding, start, end) {
+  encoding = String(encoding || 'utf8').toLowerCase();
+  start = +start || 0;
+  if (typeof end == 'undefined') end = this.length;
+
+  // Fastpath empty strings
+  if (+end == start) {
+    return '';
+  }
+
+  switch (encoding) {
+    case 'hex':
+      return this.hexSlice(start, end);
+
+    case 'utf8':
+    case 'utf-8':
+      return this.utf8Slice(start, end);
+
+    case 'ascii':
+      return this.asciiSlice(start, end);
+
+    case 'binary':
+      return this.binarySlice(start, end);
+
+    case 'base64':
+      return this.base64Slice(start, end);
+
+    case 'ucs2':
+    case 'ucs-2':
+      return this.ucs2Slice(start, end);
+
+    default:
+      throw new Error('Unknown encoding');
+  }
+};
+
+
+Buffer.prototype.hexWrite = function(string, offset, length) {
+  offset = +offset || 0;
+  var remaining = this.length - offset;
+  if (!length) {
+    length = remaining;
+  } else {
+    length = +length;
+    if (length > remaining) {
+      length = remaining;
+    }
+  }
+
+  // must be an even number of digits
+  var strLen = string.length;
+  if (strLen % 2) {
+    throw new Error('Invalid hex string');
+  }
+  if (length > strLen / 2) {
+    length = strLen / 2;
+  }
+  for (var i = 0; i < length; i++) {
+    var byte = parseInt(string.substr(i * 2, 2), 16);
+    if (isNaN(byte)) throw new Error('Invalid hex string');
+    this[offset + i] = byte;
+  }
+  Buffer._charsWritten = i * 2;
+  return i;
+};
+
+
+Buffer.prototype.write = function(string, offset, length, encoding) {
+  // Support both (string, offset, length, encoding)
+  // and the legacy (string, encoding, offset, length)
+  if (isFinite(offset)) {
+    if (!isFinite(length)) {
+      encoding = length;
+      length = undefined;
+    }
+  } else {  // legacy
+    var swap = encoding;
+    encoding = offset;
+    offset = length;
+    length = swap;
+  }
+
+  offset = +offset || 0;
+  var remaining = this.length - offset;
+  if (!length) {
+    length = remaining;
+  } else {
+    length = +length;
+    if (length > remaining) {
+      length = remaining;
+    }
+  }
+  encoding = String(encoding || 'utf8').toLowerCase();
+
+  switch (encoding) {
+    case 'hex':
+      return this.hexWrite(string, offset, length);
+
+    case 'utf8':
+    case 'utf-8':
+      return this.utf8Write(string, offset, length);
+
+    case 'ascii':
+      return this.asciiWrite(string, offset, length);
+
+    case 'binary':
+      return this.binaryWrite(string, offset, length);
+
+    case 'base64':
+      return this.base64Write(string, offset, length);
+
+    case 'ucs2':
+    case 'ucs-2':
+      return this.ucs2Write(string, offset, length);
+
+    default:
+      throw new Error('Unknown encoding');
+  }
+};
+
+// slice(start, end)
+function clamp(index, len, defaultValue) {
+  if (typeof index !== 'number') return defaultValue;
+  index = ~~index;  // Coerce to integer.
+  if (index >= len) return len;
+  if (index >= 0) return index;
+  index += len;
+  if (index >= 0) return index;
+  return 0;
+}
+
+Buffer.prototype.slice = function(start, end) {
+  var len = this.length;
+  start = clamp(start, len, 0);
+  end = clamp(end, len, len);
+  return new Buffer(this, end - start, +start);
+};
+
+// copy(targetBuffer, targetStart=0, sourceStart=0, sourceEnd=buffer.length)
+Buffer.prototype.copy = function(target, target_start, start, end) {
+  var source = this;
+  start || (start = 0);
+  if (end === undefined || isNaN(end)) {
+    end = this.length;
+  }
+  target_start || (target_start = 0);
+
+  if (end < start) throw new Error('sourceEnd < sourceStart');
+
+  // Copy 0 bytes; we're done
+  if (end === start) return 0;
+  if (target.length == 0 || source.length == 0) return 0;
+
+  if (target_start < 0 || target_start >= target.length) {
+    throw new Error('targetStart out of bounds');
+  }
+
+  if (start < 0 || start >= source.length) {
+    throw new Error('sourceStart out of bounds');
+  }
+
+  if (end < 0 || end > source.length) {
+    throw new Error('sourceEnd out of bounds');
+  }
+
+  // Are we oob?
+  if (end > this.length) {
+    end = this.length;
+  }
+
+  if (target.length - target_start < end - start) {
+    end = target.length - target_start + start;
+  }
+
+  var temp = [];
+  for (var i=start; i<end; i++) {
+    assert.ok(typeof this[i] !== 'undefined', "copying undefined buffer bytes!");
+    temp.push(this[i]);
+  }
+
+  for (var i=target_start; i<target_start+temp.length; i++) {
+    target[i] = temp[i-target_start];
+  }
+};
+
+// fill(value, start=0, end=buffer.length)
+Buffer.prototype.fill = function fill(value, start, end) {
+  value || (value = 0);
+  start || (start = 0);
+  end || (end = this.length);
+
+  if (typeof value === 'string') {
+    value = value.charCodeAt(0);
+  }
+  if (!(typeof value === 'number') || isNaN(value)) {
+    throw new Error('value is not a number');
+  }
+
+  if (end < start) throw new Error('end < start');
+
+  // Fill 0 bytes; we're done
+  if (end === start) return 0;
+  if (this.length == 0) return 0;
+
+  if (start < 0 || start >= this.length) {
+    throw new Error('start out of bounds');
+  }
+
+  if (end < 0 || end > this.length) {
+    throw new Error('end out of bounds');
+  }
+
+  for (var i = start; i < end; i++) {
+    this[i] = value;
+  }
+}
+
+// Static methods
+Buffer.isBuffer = function isBuffer(b) {
+  return b instanceof Buffer || b instanceof Buffer;
+};
+
+Buffer.concat = function (list, totalLength) {
+  if (!isArray(list)) {
+    throw new Error("Usage: Buffer.concat(list, [totalLength])\n \
+      list should be an Array.");
+  }
+
+  if (list.length === 0) {
+    return new Buffer(0);
+  } else if (list.length === 1) {
+    return list[0];
+  }
+
+  if (typeof totalLength !== 'number') {
+    totalLength = 0;
+    for (var i = 0; i < list.length; i++) {
+      var buf = list[i];
+      totalLength += buf.length;
+    }
+  }
+
+  var buffer = new Buffer(totalLength);
+  var pos = 0;
+  for (var i = 0; i < list.length; i++) {
+    var buf = list[i];
+    buf.copy(buffer, pos);
+    pos += buf.length;
+  }
+  return buffer;
+};
+
+Buffer.isEncoding = function(encoding) {
+  switch ((encoding + '').toLowerCase()) {
+    case 'hex':
+    case 'utf8':
+    case 'utf-8':
+    case 'ascii':
+    case 'binary':
+    case 'base64':
+    case 'ucs2':
+    case 'ucs-2':
+    case 'utf16le':
+    case 'utf-16le':
+    case 'raw':
+      return true;
+
+    default:
+      return false;
+  }
+};
+
+// helpers
+
+function coerce(length) {
+  // Coerce length to a number (possibly NaN), round up
+  // in case it's fractional (e.g. 123.456) then do a
+  // double negate to coerce a NaN to 0. Easy, right?
+  length = ~~Math.ceil(+length);
+  return length < 0 ? 0 : length;
+}
+
+function isArray(subject) {
+  return (Array.isArray ||
+    function(subject){
+      return {}.toString.apply(subject) == '[object Array]'
+    })
+    (subject)
+}
+
+function isArrayIsh(subject) {
+  return isArray(subject) || Buffer.isBuffer(subject) ||
+         subject && typeof subject === 'object' &&
+         typeof subject.length === 'number';
+}
+
+function toHex(n) {
+  if (n < 16) return '0' + n.toString(16);
+  return n.toString(16);
+}
+
+function utf8ToBytes(str) {
+  var byteArray = [];
+  for (var i = 0; i < str.length; i++)
+    if (str.charCodeAt(i) <= 0x7F)
+      byteArray.push(str.charCodeAt(i));
+    else {
+      var h = encodeURIComponent(str.charAt(i)).substr(1).split('%');
+      for (var j = 0; j < h.length; j++)
+        byteArray.push(parseInt(h[j], 16));
+    }
+
+  return byteArray;
+}
+
+function asciiToBytes(str) {
+  var byteArray = []
+  for (var i = 0; i < str.length; i++ )
+    // Node's code seems to be doing this and not & 0x7F..
+    byteArray.push( str.charCodeAt(i) & 0xFF );
+
+  return byteArray;
+}
+
+function base64ToBytes(str) {
+  return require("base64-js").toByteArray(str);
+}
+
+function blitBuffer(src, dst, offset, length) {
+  var pos, i = 0;
+  while (i < length) {
+    if ((i+offset >= dst.length) || (i >= src.length))
+      break;
+
+    dst[i + offset] = src[i];
+    i++;
+  }
+  return i;
+}
+
+function decodeUtf8Char(str) {
+  try {
+    return decodeURIComponent(str);
+  } catch (err) {
+    return String.fromCharCode(0xFFFD); // UTF 8 invalid char
+  }
+}
+
+// read/write bit-twiddling
+
+Buffer.prototype.readUInt8 = function(offset, noAssert) {
+  var buffer = this;
+
+  if (!noAssert) {
+    assert.ok(offset !== undefined && offset !== null,
+        'missing offset');
+
+    assert.ok(offset < buffer.length,
+        'Trying to read beyond buffer length');
+  }
+
+  if (offset >= buffer.length) return;
+
+  return buffer[offset];
+};
+
+function readUInt16(buffer, offset, isBigEndian, noAssert) {
+  var val = 0;
+
+
+  if (!noAssert) {
+    assert.ok(typeof (isBigEndian) === 'boolean',
+        'missing or invalid endian');
+
+    assert.ok(offset !== undefined && offset !== null,
+        'missing offset');
+
+    assert.ok(offset + 1 < buffer.length,
+        'Trying to read beyond buffer length');
+  }
+
+  if (offset >= buffer.length) return 0;
+
+  if (isBigEndian) {
+    val = buffer[offset] << 8;
+    if (offset + 1 < buffer.length) {
+      val |= buffer[offset + 1];
+    }
+  } else {
+    val = buffer[offset];
+    if (offset + 1 < buffer.length) {
+      val |= buffer[offset + 1] << 8;
+    }
+  }
+
+  return val;
+}
+
+Buffer.prototype.readUInt16LE = function(offset, noAssert) {
+  return readUInt16(this, offset, false, noAssert);
+};
+
+Buffer.prototype.readUInt16BE = function(offset, noAssert) {
+  return readUInt16(this, offset, true, noAssert);
+};
+
+function readUInt32(buffer, offset, isBigEndian, noAssert) {
+  var val = 0;
+
+  if (!noAssert) {
+    assert.ok(typeof (isBigEndian) === 'boolean',
+        'missing or invalid endian');
+
+    assert.ok(offset !== undefined && offset !== null,
+        'missing offset');
+
+    assert.ok(offset + 3 < buffer.length,
+        'Trying to read beyond buffer length');
+  }
+
+  if (offset >= buffer.length) return 0;
+
+  if (isBigEndian) {
+    if (offset + 1 < buffer.length)
+      val = buffer[offset + 1] << 16;
+    if (offset + 2 < buffer.length)
+      val |= buffer[offset + 2] << 8;
+    if (offset + 3 < buffer.length)
+      val |= buffer[offset + 3];
+    val = val + (buffer[offset] << 24 >>> 0);
+  } else {
+    if (offset + 2 < buffer.length)
+      val = buffer[offset + 2] << 16;
+    if (offset + 1 < buffer.length)
+      val |= buffer[offset + 1] << 8;
+    val |= buffer[offset];
+    if (offset + 3 < buffer.length)
+      val = val + (buffer[offset + 3] << 24 >>> 0);
+  }
+
+  return val;
+}
+
+Buffer.prototype.readUInt32LE = function(offset, noAssert) {
+  return readUInt32(this, offset, false, noAssert);
+};
+
+Buffer.prototype.readUInt32BE = function(offset, noAssert) {
+  return readUInt32(this, offset, true, noAssert);
+};
+
+
+/*
+ * Signed integer types, yay team! A reminder on how two's complement actually
+ * works. The first bit is the signed bit, i.e. tells us whether or not the
+ * number should be positive or negative. If the two's complement value is
+ * positive, then we're done, as it's equivalent to the unsigned representation.
+ *
+ * Now if the number is positive, you're pretty much done, you can just leverage
+ * the unsigned translations and return those. Unfortunately, negative numbers
+ * aren't quite that straightforward.
+ *
+ * At first glance, one might be inclined to use the traditional formula to
+ * translate binary numbers between the positive and negative values in two's
+ * complement. (Though it doesn't quite work for the most negative value)
+ * Mainly:
+ *  - invert all the bits
+ *  - add one to the result
+ *
+ * Of course, this doesn't quite work in Javascript. Take for example the value
+ * of -128. This could be represented in 16 bits (big-endian) as 0xff80. But of
+ * course, Javascript will do the following:
+ *
+ * > ~0xff80
+ * -65409
+ *
+ * Whoh there, Javascript, that's not quite right. But wait, according to
+ * Javascript that's perfectly correct. When Javascript ends up seeing the
+ * constant 0xff80, it has no notion that it is actually a signed number. It
+ * assumes that we've input the unsigned value 0xff80. Thus, when it does the
+ * binary negation, it casts it into a signed value, (positive 0xff80). Then
+ * when you perform binary negation on that, it turns it into a negative number.
+ *
+ * Instead, we're going to have to use the following general formula, that works
+ * in a rather Javascript friendly way. I'm glad we don't support this kind of
+ * weird numbering scheme in the kernel.
+ *
+ * (BIT-MAX - (unsigned)val + 1) * -1
+ *
+ * The astute observer, may think that this doesn't make sense for 8-bit numbers
+ * (really it isn't necessary for them). However, when you get 16-bit numbers,
+ * you do. Let's go back to our prior example and see how this will look:
+ *
+ * (0xffff - 0xff80 + 1) * -1
+ * (0x007f + 1) * -1
+ * (0x0080) * -1
+ */
+Buffer.prototype.readInt8 = function(offset, noAssert) {
+  var buffer = this;
+  var neg;
+
+  if (!noAssert) {
+    assert.ok(offset !== undefined && offset !== null,
+        'missing offset');
+
+    assert.ok(offset < buffer.length,
+        'Trying to read beyond buffer length');
+  }
+
+  if (offset >= buffer.length) return;
+
+  neg = buffer[offset] & 0x80;
+  if (!neg) {
+    return (buffer[offset]);
+  }
+
+  return ((0xff - buffer[offset] + 1) * -1);
+};
+
+function readInt16(buffer, offset, isBigEndian, noAssert) {
+  var neg, val;
+
+  if (!noAssert) {
+    assert.ok(typeof (isBigEndian) === 'boolean',
+        'missing or invalid endian');
+
+    assert.ok(offset !== undefined && offset !== null,
+        'missing offset');
+
+    assert.ok(offset + 1 < buffer.length,
+        'Trying to read beyond buffer length');
+  }
+
+  val = readUInt16(buffer, offset, isBigEndian, noAssert);
+  neg = val & 0x8000;
+  if (!neg) {
+    return val;
+  }
+
+  return (0xffff - val + 1) * -1;
+}
+
+Buffer.prototype.readInt16LE = function(offset, noAssert) {
+  return readInt16(this, offset, false, noAssert);
+};
+
+Buffer.prototype.readInt16BE = function(offset, noAssert) {
+  return readInt16(this, offset, true, noAssert);
+};
+
+function readInt32(buffer, offset, isBigEndian, noAssert) {
+  var neg, val;
+
+  if (!noAssert) {
+    assert.ok(typeof (isBigEndian) === 'boolean',
+        'missing or invalid endian');
+
+    assert.ok(offset !== undefined && offset !== null,
+        'missing offset');
+
+    assert.ok(offset + 3 < buffer.length,
+        'Trying to read beyond buffer length');
+  }
+
+  val = readUInt32(buffer, offset, isBigEndian, noAssert);
+  neg = val & 0x80000000;
+  if (!neg) {
+    return (val);
+  }
+
+  return (0xffffffff - val + 1) * -1;
+}
+
+Buffer.prototype.readInt32LE = function(offset, noAssert) {
+  return readInt32(this, offset, false, noAssert);
+};
+
+Buffer.prototype.readInt32BE = function(offset, noAssert) {
+  return readInt32(this, offset, true, noAssert);
+};
+
+function readFloat(buffer, offset, isBigEndian, noAssert) {
+  if (!noAssert) {
+    assert.ok(typeof (isBigEndian) === 'boolean',
+        'missing or invalid endian');
+
+    assert.ok(offset + 3 < buffer.length,
+        'Trying to read beyond buffer length');
+  }
+
+  return require('./buffer_ieee754').readIEEE754(buffer, offset, isBigEndian,
+      23, 4);
+}
+
+Buffer.prototype.readFloatLE = function(offset, noAssert) {
+  return readFloat(this, offset, false, noAssert);
+};
+
+Buffer.prototype.readFloatBE = function(offset, noAssert) {
+  return readFloat(this, offset, true, noAssert);
+};
+
+function readDouble(buffer, offset, isBigEndian, noAssert) {
+  if (!noAssert) {
+    assert.ok(typeof (isBigEndian) === 'boolean',
+        'missing or invalid endian');
+
+    assert.ok(offset + 7 < buffer.length,
+        'Trying to read beyond buffer length');
+  }
+
+  return require('./buffer_ieee754').readIEEE754(buffer, offset, isBigEndian,
+      52, 8);
+}
+
+Buffer.prototype.readDoubleLE = function(offset, noAssert) {
+  return readDouble(this, offset, false, noAssert);
+};
+
+Buffer.prototype.readDoubleBE = function(offset, noAssert) {
+  return readDouble(this, offset, true, noAssert);
+};
+
+
+/*
+ * We have to make sure that the value is a valid integer. This means that it is
+ * non-negative. It has no fractional component and that it does not exceed the
+ * maximum allowed value.
+ *
+ *      value           The number to check for validity
+ *
+ *      max             The maximum value
+ */
+function verifuint(value, max) {
+  assert.ok(typeof (value) == 'number',
+      'cannot write a non-number as a number');
+
+  assert.ok(value >= 0,
+      'specified a negative value for writing an unsigned value');
+
+  assert.ok(value <= max, 'value is larger than maximum value for type');
+
+  assert.ok(Math.floor(value) === value, 'value has a fractional component');
+}
+
+Buffer.prototype.writeUInt8 = function(value, offset, noAssert) {
+  var buffer = this;
+
+  if (!noAssert) {
+    assert.ok(value !== undefined && value !== null,
+        'missing value');
+
+    assert.ok(offset !== undefined && offset !== null,
+        'missing offset');
+
+    assert.ok(offset < buffer.length,
+        'trying to write beyond buffer length');
+
+    verifuint(value, 0xff);
+  }
+
+  if (offset < buffer.length) {
+    buffer[offset] = value;
+  }
+};
+
+function writeUInt16(buffer, value, offset, isBigEndian, noAssert) {
+  if (!noAssert) {
+    assert.ok(value !== undefined && value !== null,
+        'missing value');
+
+    assert.ok(typeof (isBigEndian) === 'boolean',
+        'missing or invalid endian');
+
+    assert.ok(offset !== undefined && offset !== null,
+        'missing offset');
+
+    assert.ok(offset + 1 < buffer.length,
+        'trying to write beyond buffer length');
+
+    verifuint(value, 0xffff);
+  }
+
+  for (var i = 0; i < Math.min(buffer.length - offset, 2); i++) {
+    buffer[offset + i] =
+        (value & (0xff << (8 * (isBigEndian ? 1 - i : i)))) >>>
+            (isBigEndian ? 1 - i : i) * 8;
+  }
+
+}
+
+Buffer.prototype.writeUInt16LE = function(value, offset, noAssert) {
+  writeUInt16(this, value, offset, false, noAssert);
+};
+
+Buffer.prototype.writeUInt16BE = function(value, offset, noAssert) {
+  writeUInt16(this, value, offset, true, noAssert);
+};
+
+function writeUInt32(buffer, value, offset, isBigEndian, noAssert) {
+  if (!noAssert) {
+    assert.ok(value !== undefined && value !== null,
+        'missing value');
+
+    assert.ok(typeof (isBigEndian) === 'boolean',
+        'missing or invalid endian');
+
+    assert.ok(offset !== undefined && offset !== null,
+        'missing offset');
+
+    assert.ok(offset + 3 < buffer.length,
+        'trying to write beyond buffer length');
+
+    verifuint(value, 0xffffffff);
+  }
+
+  for (var i = 0; i < Math.min(buffer.length - offset, 4); i++) {
+    buffer[offset + i] =
+        (value >>> (isBigEndian ? 3 - i : i) * 8) & 0xff;
+  }
+}
+
+Buffer.prototype.writeUInt32LE = function(value, offset, noAssert) {
+  writeUInt32(this, value, offset, false, noAssert);
+};
+
+Buffer.prototype.writeUInt32BE = function(value, offset, noAssert) {
+  writeUInt32(this, value, offset, true, noAssert);
+};
+
+
+/*
+ * We now move onto our friends in the signed number category. Unlike unsigned
+ * numbers, we're going to have to worry a bit more about how we put values into
+ * arrays. Since we are only worrying about signed 32-bit values, we're in
+ * slightly better shape. Unfortunately, we really can't do our favorite binary
+ * & in this system. It really seems to do the wrong thing. For example:
+ *
+ * > -32 & 0xff
+ * 224
+ *
+ * What's happening above is really: 0xe0 & 0xff = 0xe0. However, the results of
+ * this aren't treated as a signed number. Ultimately a bad thing.
+ *
+ * What we're going to want to do is basically create the unsigned equivalent of
+ * our representation and pass that off to the wuint* functions. To do that
+ * we're going to do the following:
+ *
+ *  - if the value is positive
+ *      we can pass it directly off to the equivalent wuint
+ *  - if the value is negative
+ *      we do the following computation:
+ *         mb + val + 1, where
+ *         mb   is the maximum unsigned value in that byte size
+ *         val  is the Javascript negative integer
+ *
+ *
+ * As a concrete value, take -128. In signed 16 bits this would be 0xff80. If
+ * you do out the computations:
+ *
+ * 0xffff - 128 + 1
+ * 0xffff - 127
+ * 0xff80
+ *
+ * You can then encode this value as the signed version. This is really rather
+ * hacky, but it should work and get the job done which is our goal here.
+ */
+
+/*
+ * A series of checks to make sure we actually have a signed 32-bit number
+ */
+function verifsint(value, max, min) {
+  assert.ok(typeof (value) == 'number',
+      'cannot write a non-number as a number');
+
+  assert.ok(value <= max, 'value larger than maximum allowed value');
+
+  assert.ok(value >= min, 'value smaller than minimum allowed value');
+
+  assert.ok(Math.floor(value) === value, 'value has a fractional component');
+}
+
+function verifIEEE754(value, max, min) {
+  assert.ok(typeof (value) == 'number',
+      'cannot write a non-number as a number');
+
+  assert.ok(value <= max, 'value larger than maximum allowed value');
+
+  assert.ok(value >= min, 'value smaller than minimum allowed value');
+}
+
+Buffer.prototype.writeInt8 = function(value, offset, noAssert) {
+  var buffer = this;
+
+  if (!noAssert) {
+    assert.ok(value !== undefined && value !== null,
+        'missing value');
+
+    assert.ok(offset !== undefined && offset !== null,
+        'missing offset');
+
+    assert.ok(offset < buffer.length,
+        'Trying to write beyond buffer length');
+
+    verifsint(value, 0x7f, -0x80);
+  }
+
+  if (value >= 0) {
+    buffer.writeUInt8(value, offset, noAssert);
+  } else {
+    buffer.writeUInt8(0xff + value + 1, offset, noAssert);
+  }
+};
+
+function writeInt16(buffer, value, offset, isBigEndian, noAssert) {
+  if (!noAssert) {
+    assert.ok(value !== undefined && value !== null,
+        'missing value');
+
+    assert.ok(typeof (isBigEndian) === 'boolean',
+        'missing or invalid endian');
+
+    assert.ok(offset !== undefined && offset !== null,
+        'missing offset');
+
+    assert.ok(offset + 1 < buffer.length,
+        'Trying to write beyond buffer length');
+
+    verifsint(value, 0x7fff, -0x8000);
+  }
+
+  if (value >= 0) {
+    writeUInt16(buffer, value, offset, isBigEndian, noAssert);
+  } else {
+    writeUInt16(buffer, 0xffff + value + 1, offset, isBigEndian, noAssert);
+  }
+}
+
+Buffer.prototype.writeInt16LE = function(value, offset, noAssert) {
+  writeInt16(this, value, offset, false, noAssert);
+};
+
+Buffer.prototype.writeInt16BE = function(value, offset, noAssert) {
+  writeInt16(this, value, offset, true, noAssert);
+};
+
+function writeInt32(buffer, value, offset, isBigEndian, noAssert) {
+  if (!noAssert) {
+    assert.ok(value !== undefined && value !== null,
+        'missing value');
+
+    assert.ok(typeof (isBigEndian) === 'boolean',
+        'missing or invalid endian');
+
+    assert.ok(offset !== undefined && offset !== null,
+        'missing offset');
+
+    assert.ok(offset + 3 < buffer.length,
+        'Trying to write beyond buffer length');
+
+    verifsint(value, 0x7fffffff, -0x80000000);
+  }
+
+  if (value >= 0) {
+    writeUInt32(buffer, value, offset, isBigEndian, noAssert);
+  } else {
+    writeUInt32(buffer, 0xffffffff + value + 1, offset, isBigEndian, noAssert);
+  }
+}
+
+Buffer.prototype.writeInt32LE = function(value, offset, noAssert) {
+  writeInt32(this, value, offset, false, noAssert);
+};
+
+Buffer.prototype.writeInt32BE = function(value, offset, noAssert) {
+  writeInt32(this, value, offset, true, noAssert);
+};
+
+function writeFloat(buffer, value, offset, isBigEndian, noAssert) {
+  if (!noAssert) {
+    assert.ok(value !== undefined && value !== null,
+        'missing value');
+
+    assert.ok(typeof (isBigEndian) === 'boolean',
+        'missing or invalid endian');
+
+    assert.ok(offset !== undefined && offset !== null,
+        'missing offset');
+
+    assert.ok(offset + 3 < buffer.length,
+        'Trying to write beyond buffer length');
+
+    verifIEEE754(value, 3.4028234663852886e+38, -3.4028234663852886e+38);
+  }
+
+  require('./buffer_ieee754').writeIEEE754(buffer, value, offset, isBigEndian,
+      23, 4);
+}
+
+Buffer.prototype.writeFloatLE = function(value, offset, noAssert) {
+  writeFloat(this, value, offset, false, noAssert);
+};
+
+Buffer.prototype.writeFloatBE = function(value, offset, noAssert) {
+  writeFloat(this, value, offset, true, noAssert);
+};
+
+function writeDouble(buffer, value, offset, isBigEndian, noAssert) {
+  if (!noAssert) {
+    assert.ok(value !== undefined && value !== null,
+        'missing value');
+
+    assert.ok(typeof (isBigEndian) === 'boolean',
+        'missing or invalid endian');
+
+    assert.ok(offset !== undefined && offset !== null,
+        'missing offset');
+
+    assert.ok(offset + 7 < buffer.length,
+        'Trying to write beyond buffer length');
+
+    verifIEEE754(value, 1.7976931348623157E+308, -1.7976931348623157E+308);
+  }
+
+  require('./buffer_ieee754').writeIEEE754(buffer, value, offset, isBigEndian,
+      52, 8);
+}
+
+Buffer.prototype.writeDoubleLE = function(value, offset, noAssert) {
+  writeDouble(this, value, offset, false, noAssert);
+};
+
+Buffer.prototype.writeDoubleBE = function(value, offset, noAssert) {
+  writeDouble(this, value, offset, true, noAssert);
+};
+
+},{"./buffer_ieee754":1,"assert":6,"base64-js":4}],"buffer-browserify":[function(require,module,exports){
+module.exports=require('q9TxCC');
+},{}],4:[function(require,module,exports){
+(function (exports) {
+	'use strict';
+
+	var lookup = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/';
+
+	function b64ToByteArray(b64) {
+		var i, j, l, tmp, placeHolders, arr;
+	
+		if (b64.length % 4 > 0) {
+			throw 'Invalid string. Length must be a multiple of 4';
+		}
+
+		// the number of equal signs (place holders)
+		// if there are two placeholders, than the two characters before it
+		// represent one byte
+		// if there is only one, then the three characters before it represent 2 bytes
+		// this is just a cheap hack to not do indexOf twice
+		placeHolders = b64.indexOf('=');
+		placeHolders = placeHolders > 0 ? b64.length - placeHolders : 0;
+
+		// base64 is 4/3 + up to two characters of the original data
+		arr = [];//new Uint8Array(b64.length * 3 / 4 - placeHolders);
+
+		// if there are placeholders, only get up to the last complete 4 chars
+		l = placeHolders > 0 ? b64.length - 4 : b64.length;
+
+		for (i = 0, j = 0; i < l; i += 4, j += 3) {
+			tmp = (lookup.indexOf(b64[i]) << 18) | (lookup.indexOf(b64[i + 1]) << 12) | (lookup.indexOf(b64[i + 2]) << 6) | lookup.indexOf(b64[i + 3]);
+			arr.push((tmp & 0xFF0000) >> 16);
+			arr.push((tmp & 0xFF00) >> 8);
+			arr.push(tmp & 0xFF);
+		}
+
+		if (placeHolders === 2) {
+			tmp = (lookup.indexOf(b64[i]) << 2) | (lookup.indexOf(b64[i + 1]) >> 4);
+			arr.push(tmp & 0xFF);
+		} else if (placeHolders === 1) {
+			tmp = (lookup.indexOf(b64[i]) << 10) | (lookup.indexOf(b64[i + 1]) << 4) | (lookup.indexOf(b64[i + 2]) >> 2);
+			arr.push((tmp >> 8) & 0xFF);
+			arr.push(tmp & 0xFF);
+		}
+
+		return arr;
+	}
+
+	function uint8ToBase64(uint8) {
+		var i,
+			extraBytes = uint8.length % 3, // if we have 1 byte left, pad 2 bytes
+			output = "",
+			temp, length;
+
+		function tripletToBase64 (num) {
+			return lookup[num >> 18 & 0x3F] + lookup[num >> 12 & 0x3F] + lookup[num >> 6 & 0x3F] + lookup[num & 0x3F];
+		};
+
+		// go through the array every three bytes, we'll deal with trailing stuff later
+		for (i = 0, length = uint8.length - extraBytes; i < length; i += 3) {
+			temp = (uint8[i] << 16) + (uint8[i + 1] << 8) + (uint8[i + 2]);
+			output += tripletToBase64(temp);
+		}
+
+		// pad the end with zeros, but make sure to not forget the extra bytes
+		switch (extraBytes) {
+			case 1:
+				temp = uint8[uint8.length - 1];
+				output += lookup[temp >> 2];
+				output += lookup[(temp << 4) & 0x3F];
+				output += '==';
+				break;
+			case 2:
+				temp = (uint8[uint8.length - 2] << 8) + (uint8[uint8.length - 1]);
+				output += lookup[temp >> 10];
+				output += lookup[(temp >> 4) & 0x3F];
+				output += lookup[(temp << 2) & 0x3F];
+				output += '=';
+				break;
+		}
+
+		return output;
+	}
+
+	module.exports.toByteArray = b64ToByteArray;
+	module.exports.fromByteArray = uint8ToBase64;
+}());
+
+},{}],5:[function(require,module,exports){
+
+
+//
+// The shims in this file are not fully implemented shims for the ES5
+// features, but do work for the particular usecases there is in
+// the other modules.
+//
+
+var toString = Object.prototype.toString;
+var hasOwnProperty = Object.prototype.hasOwnProperty;
+
+// Array.isArray is supported in IE9
+function isArray(xs) {
+  return toString.call(xs) === '[object Array]';
+}
+exports.isArray = typeof Array.isArray === 'function' ? Array.isArray : isArray;
+
+// Array.prototype.indexOf is supported in IE9
+exports.indexOf = function indexOf(xs, x) {
+  if (xs.indexOf) return xs.indexOf(x);
+  for (var i = 0; i < xs.length; i++) {
+    if (x === xs[i]) return i;
+  }
+  return -1;
+};
+
+// Array.prototype.filter is supported in IE9
+exports.filter = function filter(xs, fn) {
+  if (xs.filter) return xs.filter(fn);
+  var res = [];
+  for (var i = 0; i < xs.length; i++) {
+    if (fn(xs[i], i, xs)) res.push(xs[i]);
+  }
+  return res;
+};
+
+// Array.prototype.forEach is supported in IE9
+exports.forEach = function forEach(xs, fn, self) {
+  if (xs.forEach) return xs.forEach(fn, self);
+  for (var i = 0; i < xs.length; i++) {
+    fn.call(self, xs[i], i, xs);
+  }
+};
+
+// Array.prototype.map is supported in IE9
+exports.map = function map(xs, fn) {
+  if (xs.map) return xs.map(fn);
+  var out = new Array(xs.length);
+  for (var i = 0; i < xs.length; i++) {
+    out[i] = fn(xs[i], i, xs);
+  }
+  return out;
+};
+
+// Array.prototype.reduce is supported in IE9
+exports.reduce = function reduce(array, callback, opt_initialValue) {
+  if (array.reduce) return array.reduce(callback, opt_initialValue);
+  var value, isValueSet = false;
+
+  if (2 < arguments.length) {
+    value = opt_initialValue;
+    isValueSet = true;
+  }
+  for (var i = 0, l = array.length; l > i; ++i) {
+    if (array.hasOwnProperty(i)) {
+      if (isValueSet) {
+        value = callback(value, array[i], i, array);
+      }
+      else {
+        value = array[i];
+        isValueSet = true;
+      }
+    }
+  }
+
+  return value;
+};
+
+// String.prototype.substr - negative index don't work in IE8
+if ('ab'.substr(-1) !== 'b') {
+  exports.substr = function (str, start, length) {
+    // did we get a negative start, calculate how much it is from the beginning of the string
+    if (start < 0) start = str.length + start;
+
+    // call the original function
+    return str.substr(start, length);
+  };
+} else {
+  exports.substr = function (str, start, length) {
+    return str.substr(start, length);
+  };
+}
+
+// String.prototype.trim is supported in IE9
+exports.trim = function (str) {
+  if (str.trim) return str.trim();
+  return str.replace(/^\s+|\s+$/g, '');
+};
+
+// Function.prototype.bind is supported in IE9
+exports.bind = function () {
+  var args = Array.prototype.slice.call(arguments);
+  var fn = args.shift();
+  if (fn.bind) return fn.bind.apply(fn, args);
+  var self = args.shift();
+  return function () {
+    fn.apply(self, args.concat([Array.prototype.slice.call(arguments)]));
+  };
+};
+
+// Object.create is supported in IE9
+function create(prototype, properties) {
+  var object;
+  if (prototype === null) {
+    object = { '__proto__' : null };
+  }
+  else {
+    if (typeof prototype !== 'object') {
+      throw new TypeError(
+        'typeof prototype[' + (typeof prototype) + '] != \'object\''
+      );
+    }
+    var Type = function () {};
+    Type.prototype = prototype;
+    object = new Type();
+    object.__proto__ = prototype;
+  }
+  if (typeof properties !== 'undefined' && Object.defineProperties) {
+    Object.defineProperties(object, properties);
+  }
+  return object;
+}
+exports.create = typeof Object.create === 'function' ? Object.create : create;
+
+// Object.keys and Object.getOwnPropertyNames is supported in IE9 however
+// they do show a description and number property on Error objects
+function notObject(object) {
+  return ((typeof object != "object" && typeof object != "function") || object === null);
+}
+
+function keysShim(object) {
+  if (notObject(object)) {
+    throw new TypeError("Object.keys called on a non-object");
+  }
+
+  var result = [];
+  for (var name in object) {
+    if (hasOwnProperty.call(object, name)) {
+      result.push(name);
+    }
+  }
+  return result;
+}
+
+// getOwnPropertyNames is almost the same as Object.keys one key feature
+//  is that it returns hidden properties, since that can't be implemented,
+//  this feature gets reduced so it just shows the length property on arrays
+function propertyShim(object) {
+  if (notObject(object)) {
+    throw new TypeError("Object.getOwnPropertyNames called on a non-object");
+  }
+
+  var result = keysShim(object);
+  if (exports.isArray(object) && exports.indexOf(object, 'length') === -1) {
+    result.push('length');
+  }
+  return result;
+}
+
+var keys = typeof Object.keys === 'function' ? Object.keys : keysShim;
+var getOwnPropertyNames = typeof Object.getOwnPropertyNames === 'function' ?
+  Object.getOwnPropertyNames : propertyShim;
+
+if (new Error().hasOwnProperty('description')) {
+  var ERROR_PROPERTY_FILTER = function (obj, array) {
+    if (toString.call(obj) === '[object Error]') {
+      array = exports.filter(array, function (name) {
+        return name !== 'description' && name !== 'number' && name !== 'message';
+      });
+    }
+    return array;
+  };
+
+  exports.keys = function (object) {
+    return ERROR_PROPERTY_FILTER(object, keys(object));
+  };
+  exports.getOwnPropertyNames = function (object) {
+    return ERROR_PROPERTY_FILTER(object, getOwnPropertyNames(object));
+  };
+} else {
+  exports.keys = keys;
+  exports.getOwnPropertyNames = getOwnPropertyNames;
+}
+
+// Object.getOwnPropertyDescriptor - supported in IE8 but only on dom elements
+function valueObject(value, key) {
+  return { value: value[key] };
+}
+
+if (typeof Object.getOwnPropertyDescriptor === 'function') {
+  try {
+    Object.getOwnPropertyDescriptor({'a': 1}, 'a');
+    exports.getOwnPropertyDescriptor = Object.getOwnPropertyDescriptor;
+  } catch (e) {
+    // IE8 dom element issue - use a try catch and default to valueObject
+    exports.getOwnPropertyDescriptor = function (value, key) {
+      try {
+        return Object.getOwnPropertyDescriptor(value, key);
+      } catch (e) {
+        return valueObject(value, key);
+      }
+    };
+  }
+} else {
+  exports.getOwnPropertyDescriptor = valueObject;
+}
+
+},{}],6:[function(require,module,exports){
+// Copyright Joyent, Inc. and other Node contributors.
+//
+// Permission is hereby granted, free of charge, to any person obtaining a
+// copy of this software and associated documentation files (the
+// "Software"), to deal in the Software without restriction, including
+// without limitation the rights to use, copy, modify, merge, publish,
+// distribute, sublicense, and/or sell copies of the Software, and to permit
+// persons to whom the Software is furnished to do so, subject to the
+// following conditions:
+//
+// The above copyright notice and this permission notice shall be included
+// in all copies or substantial portions of the Software.
+//
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+// OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+// MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN
+// NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
+// DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
+// OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE
+// USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+// UTILITY
+var util = require('util');
+var shims = require('_shims');
+var pSlice = Array.prototype.slice;
+
+// 1. The assert module provides functions that throw
+// AssertionError's when particular conditions are not met. The
+// assert module must conform to the following interface.
+
+var assert = module.exports = ok;
+
+// 2. The AssertionError is defined in assert.
+// new assert.AssertionError({ message: message,
+//                             actual: actual,
+//                             expected: expected })
+
+assert.AssertionError = function AssertionError(options) {
+  this.name = 'AssertionError';
+  this.actual = options.actual;
+  this.expected = options.expected;
+  this.operator = options.operator;
+  this.message = options.message || getMessage(this);
+};
+
+// assert.AssertionError instanceof Error
+util.inherits(assert.AssertionError, Error);
+
+function replacer(key, value) {
+  if (util.isUndefined(value)) {
+    return '' + value;
+  }
+  if (util.isNumber(value) && (isNaN(value) || !isFinite(value))) {
+    return value.toString();
+  }
+  if (util.isFunction(value) || util.isRegExp(value)) {
+    return value.toString();
+  }
+  return value;
+}
+
+function truncate(s, n) {
+  if (util.isString(s)) {
+    return s.length < n ? s : s.slice(0, n);
+  } else {
+    return s;
+  }
+}
+
+function getMessage(self) {
+  return truncate(JSON.stringify(self.actual, replacer), 128) + ' ' +
+         self.operator + ' ' +
+         truncate(JSON.stringify(self.expected, replacer), 128);
+}
+
+// At present only the three keys mentioned above are used and
+// understood by the spec. Implementations or sub modules can pass
+// other keys to the AssertionError's constructor - they will be
+// ignored.
+
+// 3. All of the following functions must throw an AssertionError
+// when a corresponding condition is not met, with a message that
+// may be undefined if not provided.  All assertion methods provide
+// both the actual and expected values to the assertion error for
+// display purposes.
+
+function fail(actual, expected, message, operator, stackStartFunction) {
+  throw new assert.AssertionError({
+    message: message,
+    actual: actual,
+    expected: expected,
+    operator: operator,
+    stackStartFunction: stackStartFunction
+  });
+}
+
+// EXTENSION! allows for well behaved errors defined elsewhere.
+assert.fail = fail;
+
+// 4. Pure assertion tests whether a value is truthy, as determined
+// by !!guard.
+// assert.ok(guard, message_opt);
+// This statement is equivalent to assert.equal(true, !!guard,
+// message_opt);. To test strictly for the value true, use
+// assert.strictEqual(true, guard, message_opt);.
+
+function ok(value, message) {
+  if (!value) fail(value, true, message, '==', assert.ok);
+}
+assert.ok = ok;
+
+// 5. The equality assertion tests shallow, coercive equality with
+// ==.
+// assert.equal(actual, expected, message_opt);
+
+assert.equal = function equal(actual, expected, message) {
+  if (actual != expected) fail(actual, expected, message, '==', assert.equal);
+};
+
+// 6. The non-equality assertion tests for whether two objects are not equal
+// with != assert.notEqual(actual, expected, message_opt);
+
+assert.notEqual = function notEqual(actual, expected, message) {
+  if (actual == expected) {
+    fail(actual, expected, message, '!=', assert.notEqual);
+  }
+};
+
+// 7. The equivalence assertion tests a deep equality relation.
+// assert.deepEqual(actual, expected, message_opt);
+
+assert.deepEqual = function deepEqual(actual, expected, message) {
+  if (!_deepEqual(actual, expected)) {
+    fail(actual, expected, message, 'deepEqual', assert.deepEqual);
+  }
+};
+
+function _deepEqual(actual, expected) {
+  // 7.1. All identical values are equivalent, as determined by ===.
+  if (actual === expected) {
+    return true;
+
+  } else if (util.isBuffer(actual) && util.isBuffer(expected)) {
+    if (actual.length != expected.length) return false;
+
+    for (var i = 0; i < actual.length; i++) {
+      if (actual[i] !== expected[i]) return false;
+    }
+
+    return true;
+
+  // 7.2. If the expected value is a Date object, the actual value is
+  // equivalent if it is also a Date object that refers to the same time.
+  } else if (util.isDate(actual) && util.isDate(expected)) {
+    return actual.getTime() === expected.getTime();
+
+  // 7.3 If the expected value is a RegExp object, the actual value is
+  // equivalent if it is also a RegExp object with the same source and
+  // properties (`global`, `multiline`, `lastIndex`, `ignoreCase`).
+  } else if (util.isRegExp(actual) && util.isRegExp(expected)) {
+    return actual.source === expected.source &&
+           actual.global === expected.global &&
+           actual.multiline === expected.multiline &&
+           actual.lastIndex === expected.lastIndex &&
+           actual.ignoreCase === expected.ignoreCase;
+
+  // 7.4. Other pairs that do not both pass typeof value == 'object',
+  // equivalence is determined by ==.
+  } else if (!util.isObject(actual) && !util.isObject(expected)) {
+    return actual == expected;
+
+  // 7.5 For all other Object pairs, including Array objects, equivalence is
+  // determined by having the same number of owned properties (as verified
+  // with Object.prototype.hasOwnProperty.call), the same set of keys
+  // (although not necessarily the same order), equivalent values for every
+  // corresponding key, and an identical 'prototype' property. Note: this
+  // accounts for both named and indexed properties on Arrays.
+  } else {
+    return objEquiv(actual, expected);
+  }
+}
+
+function isArguments(object) {
+  return Object.prototype.toString.call(object) == '[object Arguments]';
+}
+
+function objEquiv(a, b) {
+  if (util.isNullOrUndefined(a) || util.isNullOrUndefined(b))
+    return false;
+  // an identical 'prototype' property.
+  if (a.prototype !== b.prototype) return false;
+  //~~~I've managed to break Object.keys through screwy arguments passing.
+  //   Converting to array solves the problem.
+  if (isArguments(a)) {
+    if (!isArguments(b)) {
+      return false;
+    }
+    a = pSlice.call(a);
+    b = pSlice.call(b);
+    return _deepEqual(a, b);
+  }
+  try {
+    var ka = shims.keys(a),
+        kb = shims.keys(b),
+        key, i;
+  } catch (e) {//happens when one is a string literal and the other isn't
+    return false;
+  }
+  // having the same number of owned properties (keys incorporates
+  // hasOwnProperty)
+  if (ka.length != kb.length)
+    return false;
+  //the same set of keys (although not necessarily the same order),
+  ka.sort();
+  kb.sort();
+  //~~~cheap key test
+  for (i = ka.length - 1; i >= 0; i--) {
+    if (ka[i] != kb[i])
+      return false;
+  }
+  //equivalent values for every corresponding key, and
+  //~~~possibly expensive deep test
+  for (i = ka.length - 1; i >= 0; i--) {
+    key = ka[i];
+    if (!_deepEqual(a[key], b[key])) return false;
+  }
+  return true;
+}
+
+// 8. The non-equivalence assertion tests for any deep inequality.
+// assert.notDeepEqual(actual, expected, message_opt);
+
+assert.notDeepEqual = function notDeepEqual(actual, expected, message) {
+  if (_deepEqual(actual, expected)) {
+    fail(actual, expected, message, 'notDeepEqual', assert.notDeepEqual);
+  }
+};
+
+// 9. The strict equality assertion tests strict equality, as determined by ===.
+// assert.strictEqual(actual, expected, message_opt);
+
+assert.strictEqual = function strictEqual(actual, expected, message) {
+  if (actual !== expected) {
+    fail(actual, expected, message, '===', assert.strictEqual);
+  }
+};
+
+// 10. The strict non-equality assertion tests for strict inequality, as
+// determined by !==.  assert.notStrictEqual(actual, expected, message_opt);
+
+assert.notStrictEqual = function notStrictEqual(actual, expected, message) {
+  if (actual === expected) {
+    fail(actual, expected, message, '!==', assert.notStrictEqual);
+  }
+};
+
+function expectedException(actual, expected) {
+  if (!actual || !expected) {
+    return false;
+  }
+
+  if (Object.prototype.toString.call(expected) == '[object RegExp]') {
+    return expected.test(actual);
+  } else if (actual instanceof expected) {
+    return true;
+  } else if (expected.call({}, actual) === true) {
+    return true;
+  }
+
+  return false;
+}
+
+function _throws(shouldThrow, block, expected, message) {
+  var actual;
+
+  if (util.isString(expected)) {
+    message = expected;
+    expected = null;
+  }
+
+  try {
+    block();
+  } catch (e) {
+    actual = e;
+  }
+
+  message = (expected && expected.name ? ' (' + expected.name + ').' : '.') +
+            (message ? ' ' + message : '.');
+
+  if (shouldThrow && !actual) {
+    fail(actual, expected, 'Missing expected exception' + message);
+  }
+
+  if (!shouldThrow && expectedException(actual, expected)) {
+    fail(actual, expected, 'Got unwanted exception' + message);
+  }
+
+  if ((shouldThrow && actual && expected &&
+      !expectedException(actual, expected)) || (!shouldThrow && actual)) {
+    throw actual;
+  }
+}
+
+// 11. Expected to throw an error:
+// assert.throws(block, Error_opt, message_opt);
+
+assert.throws = function(block, /*optional*/error, /*optional*/message) {
+  _throws.apply(this, [true].concat(pSlice.call(arguments)));
+};
+
+// EXTENSION! This is annoying to write outside this module.
+assert.doesNotThrow = function(block, /*optional*/message) {
+  _throws.apply(this, [false].concat(pSlice.call(arguments)));
+};
+
+assert.ifError = function(err) { if (err) {throw err;}};
+},{"_shims":5,"util":7}],7:[function(require,module,exports){
+// Copyright Joyent, Inc. and other Node contributors.
+//
+// Permission is hereby granted, free of charge, to any person obtaining a
+// copy of this software and associated documentation files (the
+// "Software"), to deal in the Software without restriction, including
+// without limitation the rights to use, copy, modify, merge, publish,
+// distribute, sublicense, and/or sell copies of the Software, and to permit
+// persons to whom the Software is furnished to do so, subject to the
+// following conditions:
+//
+// The above copyright notice and this permission notice shall be included
+// in all copies or substantial portions of the Software.
+//
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+// OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+// MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN
+// NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
+// DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
+// OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE
+// USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+var shims = require('_shims');
+
+var formatRegExp = /%[sdj%]/g;
+exports.format = function(f) {
+  if (!isString(f)) {
+    var objects = [];
+    for (var i = 0; i < arguments.length; i++) {
+      objects.push(inspect(arguments[i]));
+    }
+    return objects.join(' ');
+  }
+
+  var i = 1;
+  var args = arguments;
+  var len = args.length;
+  var str = String(f).replace(formatRegExp, function(x) {
+    if (x === '%%') return '%';
+    if (i >= len) return x;
+    switch (x) {
+      case '%s': return String(args[i++]);
+      case '%d': return Number(args[i++]);
+      case '%j':
+        try {
+          return JSON.stringify(args[i++]);
+        } catch (_) {
+          return '[Circular]';
+        }
+      default:
+        return x;
+    }
+  });
+  for (var x = args[i]; i < len; x = args[++i]) {
+    if (isNull(x) || !isObject(x)) {
+      str += ' ' + x;
+    } else {
+      str += ' ' + inspect(x);
+    }
+  }
+  return str;
+};
+
 /**
+ * Echos the value of a value. Trys to print the value out
+ * in the best way possible given the different types.
+ *
+ * @param {Object} obj The object to print out.
+ * @param {Object} opts Optional options object that alters the output.
+ */
+/* legacy: obj, showHidden, depth, colors*/
+function inspect(obj, opts) {
+  // default options
+  var ctx = {
+    seen: [],
+    stylize: stylizeNoColor
+  };
+  // legacy...
+  if (arguments.length >= 3) ctx.depth = arguments[2];
+  if (arguments.length >= 4) ctx.colors = arguments[3];
+  if (isBoolean(opts)) {
+    // legacy...
+    ctx.showHidden = opts;
+  } else if (opts) {
+    // got an "options" object
+    exports._extend(ctx, opts);
+  }
+  // set default options
+  if (isUndefined(ctx.showHidden)) ctx.showHidden = false;
+  if (isUndefined(ctx.depth)) ctx.depth = 2;
+  if (isUndefined(ctx.colors)) ctx.colors = false;
+  if (isUndefined(ctx.customInspect)) ctx.customInspect = true;
+  if (ctx.colors) ctx.stylize = stylizeWithColor;
+  return formatValue(ctx, obj, ctx.depth);
+}
+exports.inspect = inspect;
+
+
+// http://en.wikipedia.org/wiki/ANSI_escape_code#graphics
+inspect.colors = {
+  'bold' : [1, 22],
+  'italic' : [3, 23],
+  'underline' : [4, 24],
+  'inverse' : [7, 27],
+  'white' : [37, 39],
+  'grey' : [90, 39],
+  'black' : [30, 39],
+  'blue' : [34, 39],
+  'cyan' : [36, 39],
+  'green' : [32, 39],
+  'magenta' : [35, 39],
+  'red' : [31, 39],
+  'yellow' : [33, 39]
+};
+
+// Don't use 'blue' not visible on cmd.exe
+inspect.styles = {
+  'special': 'cyan',
+  'number': 'yellow',
+  'boolean': 'yellow',
+  'undefined': 'grey',
+  'null': 'bold',
+  'string': 'green',
+  'date': 'magenta',
+  // "name": intentionally not styling
+  'regexp': 'red'
+};
+
+
+function stylizeWithColor(str, styleType) {
+  var style = inspect.styles[styleType];
+
+  if (style) {
+    return '\u001b[' + inspect.colors[style][0] + 'm' + str +
+           '\u001b[' + inspect.colors[style][1] + 'm';
+  } else {
+    return str;
+  }
+}
+
+
+function stylizeNoColor(str, styleType) {
+  return str;
+}
+
+
+function arrayToHash(array) {
+  var hash = {};
+
+  shims.forEach(array, function(val, idx) {
+    hash[val] = true;
+  });
+
+  return hash;
+}
+
+
+function formatValue(ctx, value, recurseTimes) {
+  // Provide a hook for user-specified inspect functions.
+  // Check that value is an object with an inspect function on it
+  if (ctx.customInspect &&
+      value &&
+      isFunction(value.inspect) &&
+      // Filter out the util module, it's inspect function is special
+      value.inspect !== exports.inspect &&
+      // Also filter out any prototype objects using the circular check.
+      !(value.constructor && value.constructor.prototype === value)) {
+    var ret = value.inspect(recurseTimes);
+    if (!isString(ret)) {
+      ret = formatValue(ctx, ret, recurseTimes);
+    }
+    return ret;
+  }
+
+  // Primitive types cannot have properties
+  var primitive = formatPrimitive(ctx, value);
+  if (primitive) {
+    return primitive;
+  }
+
+  // Look up the keys of the object.
+  var keys = shims.keys(value);
+  var visibleKeys = arrayToHash(keys);
+
+  if (ctx.showHidden) {
+    keys = shims.getOwnPropertyNames(value);
+  }
+
+  // Some type of object without properties can be shortcutted.
+  if (keys.length === 0) {
+    if (isFunction(value)) {
+      var name = value.name ? ': ' + value.name : '';
+      return ctx.stylize('[Function' + name + ']', 'special');
+    }
+    if (isRegExp(value)) {
+      return ctx.stylize(RegExp.prototype.toString.call(value), 'regexp');
+    }
+    if (isDate(value)) {
+      return ctx.stylize(Date.prototype.toString.call(value), 'date');
+    }
+    if (isError(value)) {
+      return formatError(value);
+    }
+  }
+
+  var base = '', array = false, braces = ['{', '}'];
+
+  // Make Array say that they are Array
+  if (isArray(value)) {
+    array = true;
+    braces = ['[', ']'];
+  }
+
+  // Make functions say that they are functions
+  if (isFunction(value)) {
+    var n = value.name ? ': ' + value.name : '';
+    base = ' [Function' + n + ']';
+  }
+
+  // Make RegExps say that they are RegExps
+  if (isRegExp(value)) {
+    base = ' ' + RegExp.prototype.toString.call(value);
+  }
+
+  // Make dates with properties first say the date
+  if (isDate(value)) {
+    base = ' ' + Date.prototype.toUTCString.call(value);
+  }
+
+  // Make error with message first say the error
+  if (isError(value)) {
+    base = ' ' + formatError(value);
+  }
+
+  if (keys.length === 0 && (!array || value.length == 0)) {
+    return braces[0] + base + braces[1];
+  }
+
+  if (recurseTimes < 0) {
+    if (isRegExp(value)) {
+      return ctx.stylize(RegExp.prototype.toString.call(value), 'regexp');
+    } else {
+      return ctx.stylize('[Object]', 'special');
+    }
+  }
+
+  ctx.seen.push(value);
+
+  var output;
+  if (array) {
+    output = formatArray(ctx, value, recurseTimes, visibleKeys, keys);
+  } else {
+    output = keys.map(function(key) {
+      return formatProperty(ctx, value, recurseTimes, visibleKeys, key, array);
+    });
+  }
+
+  ctx.seen.pop();
+
+  return reduceToSingleString(output, base, braces);
+}
+
+
+function formatPrimitive(ctx, value) {
+  if (isUndefined(value))
+    return ctx.stylize('undefined', 'undefined');
+  if (isString(value)) {
+    var simple = '\'' + JSON.stringify(value).replace(/^"|"$/g, '')
+                                             .replace(/'/g, "\\'")
+                                             .replace(/\\"/g, '"') + '\'';
+    return ctx.stylize(simple, 'string');
+  }
+  if (isNumber(value))
+    return ctx.stylize('' + value, 'number');
+  if (isBoolean(value))
+    return ctx.stylize('' + value, 'boolean');
+  // For some reason typeof null is "object", so special case here.
+  if (isNull(value))
+    return ctx.stylize('null', 'null');
+}
+
+
+function formatError(value) {
+  return '[' + Error.prototype.toString.call(value) + ']';
+}
+
+
+function formatArray(ctx, value, recurseTimes, visibleKeys, keys) {
+  var output = [];
+  for (var i = 0, l = value.length; i < l; ++i) {
+    if (hasOwnProperty(value, String(i))) {
+      output.push(formatProperty(ctx, value, recurseTimes, visibleKeys,
+          String(i), true));
+    } else {
+      output.push('');
+    }
+  }
+
+  shims.forEach(keys, function(key) {
+    if (!key.match(/^\d+$/)) {
+      output.push(formatProperty(ctx, value, recurseTimes, visibleKeys,
+          key, true));
+    }
+  });
+  return output;
+}
+
+
+function formatProperty(ctx, value, recurseTimes, visibleKeys, key, array) {
+  var name, str, desc;
+  desc = shims.getOwnPropertyDescriptor(value, key) || { value: value[key] };
+  if (desc.get) {
+    if (desc.set) {
+      str = ctx.stylize('[Getter/Setter]', 'special');
+    } else {
+      str = ctx.stylize('[Getter]', 'special');
+    }
+  } else {
+    if (desc.set) {
+      str = ctx.stylize('[Setter]', 'special');
+    }
+  }
+
+  if (!hasOwnProperty(visibleKeys, key)) {
+    name = '[' + key + ']';
+  }
+  if (!str) {
+    if (shims.indexOf(ctx.seen, desc.value) < 0) {
+      if (isNull(recurseTimes)) {
+        str = formatValue(ctx, desc.value, null);
+      } else {
+        str = formatValue(ctx, desc.value, recurseTimes - 1);
+      }
+      if (str.indexOf('\n') > -1) {
+        if (array) {
+          str = str.split('\n').map(function(line) {
+            return '  ' + line;
+          }).join('\n').substr(2);
+        } else {
+          str = '\n' + str.split('\n').map(function(line) {
+            return '   ' + line;
+          }).join('\n');
+        }
+      }
+    } else {
+      str = ctx.stylize('[Circular]', 'special');
+    }
+  }
+  if (isUndefined(name)) {
+    if (array && key.match(/^\d+$/)) {
+      return str;
+    }
+    name = JSON.stringify('' + key);
+    if (name.match(/^"([a-zA-Z_][a-zA-Z_0-9]*)"$/)) {
+      name = name.substr(1, name.length - 2);
+      name = ctx.stylize(name, 'name');
+    } else {
+      name = name.replace(/'/g, "\\'")
+                 .replace(/\\"/g, '"')
+                 .replace(/(^"|"$)/g, "'");
+      name = ctx.stylize(name, 'string');
+    }
+  }
+
+  return name + ': ' + str;
+}
+
+
+function reduceToSingleString(output, base, braces) {
+  var numLinesEst = 0;
+  var length = shims.reduce(output, function(prev, cur) {
+    numLinesEst++;
+    if (cur.indexOf('\n') >= 0) numLinesEst++;
+    return prev + cur.replace(/\u001b\[\d\d?m/g, '').length + 1;
+  }, 0);
+
+  if (length > 60) {
+    return braces[0] +
+           (base === '' ? '' : base + '\n ') +
+           ' ' +
+           output.join(',\n  ') +
+           ' ' +
+           braces[1];
+  }
+
+  return braces[0] + base + ' ' + output.join(', ') + ' ' + braces[1];
+}
+
+
+// NOTE: These type checking functions intentionally don't use `instanceof`
+// because it is fragile and can be easily faked with `Object.create()`.
+function isArray(ar) {
+  return shims.isArray(ar);
+}
+exports.isArray = isArray;
+
+function isBoolean(arg) {
+  return typeof arg === 'boolean';
+}
+exports.isBoolean = isBoolean;
+
+function isNull(arg) {
+  return arg === null;
+}
+exports.isNull = isNull;
+
+function isNullOrUndefined(arg) {
+  return arg == null;
+}
+exports.isNullOrUndefined = isNullOrUndefined;
+
+function isNumber(arg) {
+  return typeof arg === 'number';
+}
+exports.isNumber = isNumber;
+
+function isString(arg) {
+  return typeof arg === 'string';
+}
+exports.isString = isString;
+
+function isSymbol(arg) {
+  return typeof arg === 'symbol';
+}
+exports.isSymbol = isSymbol;
+
+function isUndefined(arg) {
+  return arg === void 0;
+}
+exports.isUndefined = isUndefined;
+
+function isRegExp(re) {
+  return isObject(re) && objectToString(re) === '[object RegExp]';
+}
+exports.isRegExp = isRegExp;
+
+function isObject(arg) {
+  return typeof arg === 'object' && arg;
+}
+exports.isObject = isObject;
+
+function isDate(d) {
+  return isObject(d) && objectToString(d) === '[object Date]';
+}
+exports.isDate = isDate;
+
+function isError(e) {
+  return isObject(e) && objectToString(e) === '[object Error]';
+}
+exports.isError = isError;
+
+function isFunction(arg) {
+  return typeof arg === 'function';
+}
+exports.isFunction = isFunction;
+
+function isPrimitive(arg) {
+  return arg === null ||
+         typeof arg === 'boolean' ||
+         typeof arg === 'number' ||
+         typeof arg === 'string' ||
+         typeof arg === 'symbol' ||  // ES6 symbol
+         typeof arg === 'undefined';
+}
+exports.isPrimitive = isPrimitive;
+
+function isBuffer(arg) {
+  return arg instanceof Buffer;
+}
+exports.isBuffer = isBuffer;
+
+function objectToString(o) {
+  return Object.prototype.toString.call(o);
+}
+
+
+function pad(n) {
+  return n < 10 ? '0' + n.toString(10) : n.toString(10);
+}
+
+
+var months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep',
+              'Oct', 'Nov', 'Dec'];
+
+// 26 Feb 16:19:34
+function timestamp() {
+  var d = new Date();
+  var time = [pad(d.getHours()),
+              pad(d.getMinutes()),
+              pad(d.getSeconds())].join(':');
+  return [d.getDate(), months[d.getMonth()], time].join(' ');
+}
+
+
+// log is just a thin wrapper to console.log that prepends a timestamp
+exports.log = function() {
+  console.log('%s - %s', timestamp(), exports.format.apply(exports, arguments));
+};
+
+
+/**
+ * Inherit the prototype methods from one constructor into another.
+ *
+ * The Function.prototype.inherits from lang.js rewritten as a standalone
+ * function (not on Function.prototype). NOTE: If this file is to be loaded
+ * during bootstrapping this function needs to be rewritten using some native
+ * functions as prototype setup using normal JavaScript does not work as
+ * expected during bootstrapping (see mirror.js in r114903).
+ *
+ * @param {function} ctor Constructor function which needs to inherit the
+ *     prototype.
+ * @param {function} superCtor Constructor function to inherit prototype from.
+ */
+exports.inherits = function(ctor, superCtor) {
+  ctor.super_ = superCtor;
+  ctor.prototype = shims.create(superCtor.prototype, {
+    constructor: {
+      value: ctor,
+      enumerable: false,
+      writable: true,
+      configurable: true
+    }
+  });
+};
+
+exports._extend = function(origin, add) {
+  // Don't do anything if add isn't an object
+  if (!add || !isObject(add)) return origin;
+
+  var keys = shims.keys(add);
+  var i = keys.length;
+  while (i--) {
+    origin[keys[i]] = add[keys[i]];
+  }
+  return origin;
+};
+
+function hasOwnProperty(obj, prop) {
+  return Object.prototype.hasOwnProperty.call(obj, prop);
+}
+
+},{"_shims":5}]},{},[])
+;;module.exports=require("buffer-browserify")
+
+},{}],15:[function(require,module,exports){
+var global=typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {};/**
  * @license
- * lodash 3.10.1 (Custom Build) <https://lodash.com/>
+ * lodash 3.10.2 (Custom Build) <https://lodash.com/>
  * Build: `lodash compat -d -o ./index.js`
  * Copyright 2012-2015 The Dojo Foundation <http://dojofoundation.org/>
  * Based on Underscore.js 1.8.3 <http://underscorejs.org/LICENSE>
@@ -4482,7 +6330,7 @@ function hasOwnProperty(obj, prop) {
   var undefined;
 
   /** Used as the semantic version number. */
-  var VERSION = '3.10.1';
+  var VERSION = '3.10.2';
 
   /** Used to compose bitmasks for wrapper metadata. */
   var BIND_FLAG = 1,
@@ -17025,781 +18873,386 @@ function hasOwnProperty(obj, prop) {
   }
 }.call(this));
 
-}).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{}],18:[function(require,module,exports){
-(function( global ) {
+},{}],16:[function(require,module,exports){
+// shim for using process in browser
 
-  'use strict';
+var process = module.exports = {};
 
-  var $$iterator, ArrayIteratorPrototype;
+process.nextTick = (function () {
+    var canSetImmediate = typeof window !== 'undefined'
+    && window.setImmediate;
+    var canPost = typeof window !== 'undefined'
+    && window.postMessage && window.addEventListener
+    ;
 
-  // don't trample native promises if they exist
-  if ( 'Promise' in global && typeof global.Promise.all === 'function' ) {
+    if (canSetImmediate) {
+        return function (f) { return window.setImmediate(f) };
+    }
+
+    if (canPost) {
+        var queue = [];
+        window.addEventListener('message', function (ev) {
+            var source = ev.source;
+            if ((source === window || source === null) && ev.data === 'process-tick') {
+                ev.stopPropagation();
+                if (queue.length > 0) {
+                    var fn = queue.shift();
+                    fn();
+                }
+            }
+        }, true);
+
+        return function nextTick(fn) {
+            queue.push(fn);
+            window.postMessage('process-tick', '*');
+        };
+    }
+
+    return function nextTick(fn) {
+        setTimeout(fn, 0);
+    };
+})();
+
+process.title = 'browser';
+process.browser = true;
+process.env = {};
+process.argv = [];
+
+process.binding = function (name) {
+    throw new Error('process.binding is not supported');
+}
+
+// TODO(shtylman)
+process.cwd = function () { return '/' };
+process.chdir = function (dir) {
+    throw new Error('process.chdir is not supported');
+};
+
+},{}],17:[function(require,module,exports){
+'use strict';
+
+var asap = require('asap/raw');
+
+function noop() {}
+
+// States:
+//
+// 0 - pending
+// 1 - fulfilled with _value
+// 2 - rejected with _value
+// 3 - adopted the state of another promise, _value
+//
+// once the state is no longer pending (0) it is immutable
+
+// All `_` prefixed properties will be reduced to `_{random number}`
+// at build time to obfuscate them and discourage their use.
+// We don't use symbols or Object.defineProperty to fully hide them
+// because the performance isn't good enough.
+
+
+// to avoid using try/catch inside critical functions, we
+// extract them to here.
+var LAST_ERROR = null;
+var IS_ERROR = {};
+function getThen(obj) {
+  try {
+    return obj.then;
+  } catch (ex) {
+    LAST_ERROR = ex;
+    return IS_ERROR;
+  }
+}
+
+function tryCallOne(fn, a) {
+  try {
+    return fn(a);
+  } catch (ex) {
+    LAST_ERROR = ex;
+    return IS_ERROR;
+  }
+}
+function tryCallTwo(fn, a, b) {
+  try {
+    fn(a, b);
+  } catch (ex) {
+    LAST_ERROR = ex;
+    return IS_ERROR;
+  }
+}
+
+module.exports = Promise;
+
+function Promise(fn) {
+  if (typeof this !== 'object') {
+    throw new TypeError('Promises must be constructed via new');
+  }
+  if (typeof fn !== 'function') {
+    throw new TypeError('not a function');
+  }
+  this._45 = 0;
+  this._81 = 0;
+  this._65 = null;
+  this._54 = null;
+  if (fn === noop) return;
+  doResolve(fn, this);
+}
+Promise._10 = null;
+Promise._97 = null;
+Promise._61 = noop;
+
+Promise.prototype.then = function(onFulfilled, onRejected) {
+  if (this.constructor !== Promise) {
+    return safeThen(this, onFulfilled, onRejected);
+  }
+  var res = new Promise(noop);
+  handle(this, new Handler(onFulfilled, onRejected, res));
+  return res;
+};
+
+function safeThen(self, onFulfilled, onRejected) {
+  return new self.constructor(function (resolve, reject) {
+    var res = new Promise(noop);
+    res.then(resolve, reject);
+    handle(self, new Handler(onFulfilled, onRejected, res));
+  });
+};
+function handle(self, deferred) {
+  while (self._81 === 3) {
+    self = self._65;
+  }
+  if (Promise._10) {
+    Promise._10(self);
+  }
+  if (self._81 === 0) {
+    if (self._45 === 0) {
+      self._45 = 1;
+      self._54 = deferred;
+      return;
+    }
+    if (self._45 === 1) {
+      self._45 = 2;
+      self._54 = [self._54, deferred];
+      return;
+    }
+    self._54.push(deferred);
     return;
   }
+  handleResolved(self, deferred);
+}
 
-  // set a value as non-configurable and non-enumerable
-  function defineInternal ( obj, key, val ) {
-    Object.defineProperty(obj, key, {
-      configurable: false,
-      enumerable: false,
-      writable: true,
-      value: val
-    });
-  }
-
-  // From the ES6 spec (http://people.mozilla.org/~jorendorff/es6-draft.html)
-
-  // 6 ECMAScript Data Types and Values
-  function Type ( x ) {
-    switch ( typeof x ) {
-      case 'undefined':
-      case 'boolean':
-      case 'string':
-      case 'number':
-        return typeof x;
-      default:
-        if ( x === null ) {
-          return 'null';
-        }
-        if ( typeof Symbol === 'function' && x instanceof Symbol ) {
-          return 'symbol';
-        }
-        return 'object';
-    }
-  }
-
-  // 6.1.5.1 Well-Known Symbols (iterator key)
-  $$iterator = typeof Symbol !== 'undefined' && Symbol.iterator ||
-    '_shim_iterator_';
-
-  // 7.1.4 ToInteger
-  function ToInteger ( argument ) {
-    var number = +argument;
-    if ( number !== number ) {
-      return 0;
-    }
-    if ( number === 0 || number === Infinity || number === -Infinity ) {
-      return number;
-    }
-    return ( number >= 0 ? 1 : -1 ) * Math.floor(Math.abs(number));
-  }
-
-  // 7.1.12 ToString
-  function ToString ( argument ) {
-    return typeof argument === 'string' ? argument : String(argument);
-  }
-
-  // 7.1.13 ToObject
-  function ToObject ( argument ) {
-    if ( argument == null ) {
-      throw TypeError();
-    }
-    switch ( typeof argument ) {
-      case 'boolean':
-      case 'number':
-      case 'string':
-        return Object(argument);
-      default:
-        return argument;
-    }
-  }
-
-  // 7.1.15 ToLength
-  function ToLength ( argument ) {
-    var len = ToInteger(argument);
-    return len <= 0 ? 0 : Math.min(len, Math.pow(2, 53) - 1);
-  }
-
-  // 7.2.2 IsCallable
-  function IsCallable ( argument ) {
-    return typeof argument === 'function';
-  }
-
-  // 7.2.3 SameValue( x, y )
-  function SameValue ( x, y ) {
-    if ( typeof x !== typeof y ) {
-      return false;
-    }
-    if ( Type(x) === 'undefined' ) {
-      return true;
-    }
-    if ( Type(x) === 'number' ) {
-      if ( x !== x && y !== y ) {
-        return true;
+function handleResolved(self, deferred) {
+  asap(function() {
+    var cb = self._81 === 1 ? deferred.onFulfilled : deferred.onRejected;
+    if (cb === null) {
+      if (self._81 === 1) {
+        resolve(deferred.promise, self._65);
+      } else {
+        reject(deferred.promise, self._65);
       }
-      if ( x === 0 ) {
-        return 1 / x === 1 / y;
-      }
+      return;
     }
-    return x === y;
-  }
-
-  // 7.2.5 IsConstructor
-  // this is an ES6 abstract operation, and it's not really
-  // possible in JS, but this should be good enough
-  function IsConstructor ( obj ) {
-    return typeof obj === 'function';
-  }
-
-  // 7.4.1 GetIterator ( obj )
-  // not a real shim, but it works
-  function GetIterator ( obj ) {
-    var iterator = obj[$$iterator]();
-    if ( Type(obj) !== 'object' ) {
-      throw TypeError();
-    }
-    return iterator;
-  }
-
-  // 7.4.2 IteratorNext ( iterator, value )
-  function IteratorNext ( iterator, value ) {
-    var result = iterator.next(value);
-    if ( Type(result) !== 'object' ) {
-      throw TypeError();
-    }
-    return result;
-  }
-
-  // 7.4.3 IteratorComplete ( iterResult )
-  function IteratorComplete ( iterResult ) {
-    if ( Type(iterResult) !== 'object' ) {
-      throw TypeError();
-    }
-    return Boolean(iterResult.done);
-  }
-
-  // 7.4.4 IteratorValue ( iterResult )
-  function IteratorValue ( iterResult ) {
-    if ( Type(iterResult) !== 'object' ) {
-      throw TypeError();
-    }
-    return iterResult.value;
-  }
-
-  // 7.4.5 IteratorStep ( iterator )
-  function IteratorStep ( iterator ) {
-    var result = IteratorNext(iterator);
-    return IteratorComplete(result) === true ? false : result;
-  }
-
-  // 7.4.6 CreateIterResultObject ( value, done )
-  function CreateIterResultObject ( value, done ) {
-    if ( Type(done) !== 'boolean' ) {
-      throw TypeError();
-    }
-    return {value: value, done: done};
-  }
-
-  // 8.4.1 EnqueueTask ( queueName, task, arguments)
-  // not a real shim, but good enough
-  function EnqueueTask ( task, args ) {
-    if ( typeof setImmediate === 'function' ) {
-      setImmediate(function() {
-        task.apply(null, args);
-      });
+    var ret = tryCallOne(cb, self._65);
+    if (ret === IS_ERROR) {
+      reject(deferred.promise, LAST_ERROR);
     } else {
-      setTimeout(function() {
-        task.apply(null, args);
-      }, 0);
+      resolve(deferred.promise, ret);
     }
-  }
-
-  // 22.1.5.1 CreateArrayIterator Abstract Operation
-  function CreateArrayIterator ( array, kind ) {
-    var O = ToObject(array),
-      iterator = Object.create(ArrayIteratorPrototype);
-    defineInternal(iterator, '[[IteratedObject]]', O);
-    defineInternal(iterator, '[[ArrayIteratorNextIndex]]', 0);
-    defineInternal(iterator, '[[ArrayIteratorKind]]', kind);
-    return iterator;
-  }
-
-  // 22.1.3.29 Array.prototype.values ( )
-  defineInternal( Array.prototype, 'values', function () {
-    var O = ToObject(this);
-    return CreateArrayIterator(O, 'value');
   });
-
-  // 22.1.3.30 Array.prototype [ @@iterator ] ( )
-  defineInternal( Array.prototype, $$iterator, Array.prototype.values );
-
-  // 22.1.5.2 The %ArrayIteratorPrototype% Object
-  ArrayIteratorPrototype = {};
-
-  // 22.1.5.2.1 %ArrayIteratorPrototype%. next()
-  ArrayIteratorPrototype.next = function () {
-    var O = this, a, index, itemKind, lenValue, len,
-      elementKey, elementValue, result;
-    if ( Type(O) !== 'object' ) {
-      throw TypeError();
-    }
-    a = O['[[IteratedObject]]'];
-    if ( Type(a) === 'undefined' ) {
-      return CreateIterResultObject(undefined, true);
-    }
-    index = O['[[ArrayIteratorNextIndex]]'];
-    itemKind = O['[[ArrayIteratorKind]]'];
-    lenValue = a.length;
-    len = ToLength(lenValue);
-    if ( index >= len ) {
-      defineInternal(O, '[[IteratedObject]]', undefined);
-      return CreateIterResultObject(undefined, true);
-    }
-    defineInternal(O, '[[ArrayIteratorNextIndex]]', index + 1);
-    if ( itemKind.indexOf('value') !== -1 ) {
-      elementKey = ToString(index);
-      elementValue = a[elementKey];
-    }
-    if ( itemKind.indexOf('key+value') !== -1 ) {
-      result = [index, elementValue];
-      return CreateIterResultObject(result, false);
-    } else if ( itemKind.indexOf('key') !== -1 ) {
-      return CreateIterResultObject(index, false);
-    }
-    if ( itemKind.indexOf('value') === -1 ) {
-      throw TypeError();
-    }
-    return CreateIterResultObject(elementValue, false);
-  };
-
-  // 22.1.5.2.2 %ArrayIteratorPrototype% [ @@iterator ] ( )
-  ArrayIteratorPrototype[$$iterator] = function () {
-    return this;
-  };
-
-  // 25.4.1.1.1 IfAbruptRejectPromise (value, capability)
-  function IfAbruptRejectPromise ( value, capability ) {
-    try {
-      capability['[[Reject]]'].call(undefined, [value]);
-    } catch ( e ) {
-      return e;
-    }
-    return capability;
-  }
-
-  // 25.4.1.3 CreateRejectFunction ( promise )
-  function CreateRejectFunction ( promise ) {
-    var reject = new PromiseReject();
-    defineInternal(reject, '[[Promise]]', promise);
-    return reject;
-  }
-
-  // 25.4.1.3.1 Promise Reject Functions
-  function PromiseReject () {
-    return function F ( reason ) {
-      var promise = F['[[Promise]]'], reactions;
-      if ( Type(promise) !== 'object' ) {
-        throw TypeError();
-      }
-      if ( promise['[[PromiseStatus]]'] !== 'unresolved' ) {
-        return undefined;
-      }
-      reactions = promise['[[PromiseRejectReactions]]'];
-      defineInternal(promise, '[[PromiseResult]]', reason);
-      defineInternal(promise, '[[PromiseResolveReactions]]', undefined);
-      defineInternal(promise, '[[PromiseRejectReactions]]', undefined);
-      defineInternal(promise, '[[PromiseStatus]]', 'has-rejection');
-      return TriggerPromiseReactions(reactions, reason);
-    };
-  }
-
-  // 25.4.1.4 CreateRejectFunction ( promise )
-  function CreateResolveFunction ( promise ) {
-    var resolve = new PromiseResolve();
-    defineInternal(resolve, '[[Promise]]', promise);
-    return resolve;
-  }
-
-  // 25.4.1.4.1 Promise Resolve Functions
-  function PromiseResolve () {
-    return function F ( resolution ) {
-      var promise = F['[[Promise]]'], reactions;
-      if ( Type(promise) !== 'object' ) {
-        throw TypeError();
-      }
-      if ( promise['[[PromiseStatus]]'] !== 'unresolved' ) {
-        return undefined;
-      }
-      reactions = promise['[[PromiseResolveReactions]]'];
-      defineInternal(promise, '[[PromiseResult]]', resolution);
-      defineInternal(promise, '[[PromiseResolveReactions]]', undefined);
-      defineInternal(promise, '[[PromiseRejectReactions]]', undefined);
-      defineInternal(promise, '[[PromiseStatus]]', 'has-resolution');
-      return TriggerPromiseReactions(reactions, resolution);
-    };
-  }
-
-  // 25.4.1.5 NewPromiseCapability ( C )
-  function NewPromiseCapability ( C ) {
-    var promise;
-    if ( !IsConstructor(C) ) {
-      throw TypeError();
-    }
-    try {
-      promise = Object.create(C.prototype);
-    } catch ( e ) {
-      return e;
-    }
-    return CreatePromiseCapabilityRecord(promise, C);
-  }
-
-  // 25.4.1.5.1 CreatePromiseCapabilityRecord( promise, constructor )
-  function CreatePromiseCapabilityRecord ( promise, constructor ) {
-    var promiseCapability = {}, executor, constructorResult;
-    defineInternal(promiseCapability, '[[Promise]]', promise);
-    defineInternal(promiseCapability, '[[Resolve]]', undefined);
-    defineInternal(promiseCapability, '[[Reject]]', undefined);
-    executor = new GetCapabilitiesExecutor();
-    defineInternal(executor, '[[Capability]]', promiseCapability);
-    try {
-      constructorResult = constructor.call(promise, executor);
-    } catch ( e ) {
-      return e;
-    }
-    if ( !IsCallable(promiseCapability['[[Resolve]]']) ) {
-      throw TypeError();
-    }
-    if ( !IsCallable(promiseCapability['[[Reject]]']) ) {
-      throw TypeError();
-    }
-    if ( typeof constructorResult === 'object' &&
-      !SameValue(promise, constructorResult) ) {
-      throw TypeError();
-    }
-    return promiseCapability;
-  }
-
-  // 25.4.1.5.2 GetCapabilitiesExecutor Functions
-  function GetCapabilitiesExecutor () {
-    return function F ( resolve, reject ) {
-      var promiseCapability = F['[[Capability]]'];
-      if ( Type(promiseCapability['[[Resolve]]']) !== 'undefined' ) {
-        throw TypeError();
-      }
-      if ( Type(promiseCapability['[[Reject]]']) !== 'undefined' ) {
-        throw TypeError();
-      }
-      defineInternal(promiseCapability, '[[Resolve]]', resolve);
-      defineInternal(promiseCapability, '[[Reject]]', reject);
-    };
-  }
-
-  // 25.4.1.6 IsPromise ( x )
-  function IsPromise ( x ) {
-    if ( Type(x) !== 'object' ) {
-      return false;
-    }
-    if ( Type(x['[[PromiseStatus]]']) === 'undefined' ) {
-      return false;
-    }
-    return true;
-  }
-
-  // 25.4.1.7 TriggerPromiseReactions ( reactions, argument )
-  function TriggerPromiseReactions ( reactions, argument ) {
-    reactions.forEach(function( reaction ) {
-      EnqueueTask(PromiseReactionTask, [reaction, argument]);
-    });
-  }
-
-  // 25.4.1.8 UpdatePromiseFromPotentialThenable ( x, promiseCapability )
-  function UpdatePromiseFromPotentialThenable ( x, promiseCapability ) {
-    var then, rejectResult, thenCallResult;
-    if ( Type(x) !== 'object' ) {
-      return 'not a thenable';
-    }
-    try {
-      then = x.then;
-    } catch ( e ) {
-      rejectResult = promiseCapability['[[Reject]]'].call(undefined, e);
-      return null;
-    }
-    if ( !IsCallable(then) ) {
-      return 'not a thenable';
-    }
-    try {
-      thenCallResult = then.call(x, promiseCapability['[[Resolve]]'],
-        promiseCapability['[[Reject]]']
-      );
-    } catch ( e ) {
-      rejectResult = promiseCapability['[[Reject]]'].call(undefined, e);
-      return null;
-    }
-    return null;
-  }
-
-  // 25.4.2.1 PromiseReactionTask( reaction, argument )
-  function PromiseReactionTask ( reaction, argument ) {
-    var promiseCapability = reaction['[[Capabilities]]'],
-      handler = reaction['[[Handler]]'],
-      handlerResult, selfResolutionError, updateResult;
-    try {
-      handlerResult = handler.call(undefined, argument);
-    } catch ( e ) {
-      return promiseCapability['[[Reject]]'].call(undefined, e);
-    }
-    if ( SameValue(handlerResult, promiseCapability['[[Promise]]']) ) {
-      selfResolutionError = TypeError();
-      return promiseCapability['[[Reject]]']
-        .call(undefined, selfResolutionError);
-    }
-    updateResult = UpdatePromiseFromPotentialThenable(handlerResult,
-      promiseCapability
+}
+function resolve(self, newValue) {
+  // Promise Resolution Procedure: https://github.com/promises-aplus/promises-spec#the-promise-resolution-procedure
+  if (newValue === self) {
+    return reject(
+      self,
+      new TypeError('A promise cannot be resolved with itself.')
     );
-    if ( updateResult === 'not a thenable' ) {
-      return promiseCapability['[[Resolve]]'].call(undefined, handlerResult);
-    }
-    return undefined;
   }
-
-  // 25.4.3.1 Promise ( executor )
-  function Promise ( executor ) {
-    var promise = this;
-    if ( !IsCallable(executor) ) {
-      throw TypeError('Invalid executor');
+  if (
+    newValue &&
+    (typeof newValue === 'object' || typeof newValue === 'function')
+  ) {
+    var then = getThen(newValue);
+    if (then === IS_ERROR) {
+      return reject(self, LAST_ERROR);
     }
-    if ( Type(promise) !== 'object' ) {
-      throw TypeError('Invalid promise');
+    if (
+      then === self.then &&
+      newValue instanceof Promise
+    ) {
+      self._81 = 3;
+      self._65 = newValue;
+      finale(self);
+      return;
+    } else if (typeof then === 'function') {
+      doResolve(then.bind(newValue), self);
+      return;
     }
-    if ( Type(promise['[[PromiseStatus]]']) !== 'undefined' ) {
-      throw TypeError();
-    }
-    defineInternal(this, '[[PromiseConstructor]]', Promise);
-    return InitializePromise(promise, executor);
   }
+  self._81 = 1;
+  self._65 = newValue;
+  finale(self);
+}
 
-  // 25.4.3.1.1 InitializePromise( promise, executor )
-  function InitializePromise ( promise, executor) {
-    var resolve, reject, completion, status;
-    if ( Type(promise['[[PromiseStatus]]']) !== 'undefined' ) {
-      throw TypeError();
+function reject(self, newValue) {
+  self._81 = 2;
+  self._65 = newValue;
+  if (Promise._97) {
+    Promise._97(self, newValue);
+  }
+  finale(self);
+}
+function finale(self) {
+  if (self._45 === 1) {
+    handle(self, self._54);
+    self._54 = null;
+  }
+  if (self._45 === 2) {
+    for (var i = 0; i < self._54.length; i++) {
+      handle(self, self._54[i]);
     }
-    if ( !IsCallable(executor) ) {
-      throw TypeError();
-    }
-    defineInternal(promise, '[[PromiseStatus]]', 'unresolved');
-    defineInternal(promise, '[[PromiseResolveReactions]]', []);
-    defineInternal(promise, '[[PromiseRejectReactions]]', []);
-    resolve = CreateResolveFunction(promise);
-    reject = CreateRejectFunction(promise);
+    self._54 = null;
+  }
+}
+
+function Handler(onFulfilled, onRejected, promise){
+  this.onFulfilled = typeof onFulfilled === 'function' ? onFulfilled : null;
+  this.onRejected = typeof onRejected === 'function' ? onRejected : null;
+  this.promise = promise;
+}
+
+/**
+ * Take a potentially misbehaving resolver function and make sure
+ * onFulfilled and onRejected are only called once.
+ *
+ * Makes no guarantees about asynchrony.
+ */
+function doResolve(fn, promise) {
+  var done = false;
+  var res = tryCallTwo(fn, function (value) {
+    if (done) return;
+    done = true;
+    resolve(promise, value);
+  }, function (reason) {
+    if (done) return;
+    done = true;
+    reject(promise, reason);
+  })
+  if (!done && res === IS_ERROR) {
+    done = true;
+    reject(promise, LAST_ERROR);
+  }
+}
+
+},{"asap/raw":1}],18:[function(require,module,exports){
+'use strict';
+
+//This file contains the ES6 extensions to the core Promises/A+ API
+
+var Promise = require('./core.js');
+
+module.exports = Promise;
+
+/* Static Functions */
+
+var TRUE = valuePromise(true);
+var FALSE = valuePromise(false);
+var NULL = valuePromise(null);
+var UNDEFINED = valuePromise(undefined);
+var ZERO = valuePromise(0);
+var EMPTYSTRING = valuePromise('');
+
+function valuePromise(value) {
+  var p = new Promise(Promise._61);
+  p._81 = 1;
+  p._65 = value;
+  return p;
+}
+Promise.resolve = function (value) {
+  if (value instanceof Promise) return value;
+
+  if (value === null) return NULL;
+  if (value === undefined) return UNDEFINED;
+  if (value === true) return TRUE;
+  if (value === false) return FALSE;
+  if (value === 0) return ZERO;
+  if (value === '') return EMPTYSTRING;
+
+  if (typeof value === 'object' || typeof value === 'function') {
     try {
-      completion = executor.call(undefined, resolve, reject);
-    } catch ( e ) {
-      try {
-        status = reject.call(undefined, e);
-      } catch ( e ) {
-        return e;
+      var then = value.then;
+      if (typeof then === 'function') {
+        return new Promise(then.bind(value));
       }
+    } catch (ex) {
+      return new Promise(function (resolve, reject) {
+        reject(ex);
+      });
     }
-    return promise;
   }
+  return valuePromise(value);
+};
 
-  // 25.4.4.1 Promise.all ( iterable )
-  Promise.all = function ( iterable ) {
-    var C = this, promiseCapability, iterator, values,
-      remainingElementsCount, index, next, resolveResult,
-      nextValue, nextPromise, resolveElement, result;
-    try {
-      promiseCapability = NewPromiseCapability(C);
-    } catch ( e ) {
-      return e;
-    }
-    try {
-      iterator = GetIterator(iterable);
-    } catch ( e ) {
-      return IfAbruptRejectPromise(e, promiseCapability);
-    }
-    values = [];
-    remainingElementsCount = {'[[value]]': 0};
-    index = 0;
-    while ( true ) {
-      try {
-        next = IteratorStep(iterator);
-      } catch ( e ) {
-        return IfAbruptRejectPromise(e, promiseCapability);
-      }
-      if ( next === false ) {
-        if ( index === 0 ) {
-          try {
-            resolveResult = promiseCapability['[[Resolve]]']
-              .call(undefined, values);
-          } catch ( e ) {
-            return e;
+Promise.all = function (arr) {
+  var args = Array.prototype.slice.call(arr);
+
+  return new Promise(function (resolve, reject) {
+    if (args.length === 0) return resolve([]);
+    var remaining = args.length;
+    function res(i, val) {
+      if (val && (typeof val === 'object' || typeof val === 'function')) {
+        if (val instanceof Promise && val.then === Promise.prototype.then) {
+          while (val._81 === 3) {
+            val = val._65;
+          }
+          if (val._81 === 1) return res(i, val._65);
+          if (val._81 === 2) reject(val._65);
+          val.then(function (val) {
+            res(i, val);
+          }, reject);
+          return;
+        } else {
+          var then = val.then;
+          if (typeof then === 'function') {
+            var p = new Promise(then.bind(val));
+            p.then(function (val) {
+              res(i, val);
+            }, reject);
+            return;
           }
         }
-        return promiseCapability['[[Promise]]'];
       }
-      try {
-        nextValue = IteratorValue(next);
-      } catch ( e ) {
-        return IfAbruptRejectPromise(e, promiseCapability);
+      args[i] = val;
+      if (--remaining === 0) {
+        resolve(args);
       }
-      try {
-        nextPromise = C.cast(nextValue);
-      } catch ( e ) {
-        return IfAbruptRejectPromise(e, promiseCapability);
-      }
-      resolveElement = new PromiseAllResolveElementFunction();
-      defineInternal(resolveElement, '[[Index]]', index);
-      defineInternal(resolveElement, '[[Values]]', values);
-      defineInternal(resolveElement, '[[Capabilities]]', promiseCapability);
-      defineInternal(resolveElement, '[[RemainingElements]]',
-        remainingElementsCount
-      );
-      try {
-        result = nextPromise.then(resolveElement,
-          promiseCapability['[[Reject]]']
-        );
-      } catch ( e ) {
-        return IfAbruptRejectPromise(e, promiseCapability);
-      }
-      index++;
-      remainingElementsCount['[[value]]']++;
     }
-  };
+    for (var i = 0; i < args.length; i++) {
+      res(i, args[i]);
+    }
+  });
+};
 
-  // 25.4.4.1.1 Promise.all Resolve Element Functions
-  function PromiseAllResolveElementFunction () {
-    return function F ( x ) {
-      var index = F['[[Index]]'],
-        values = F['[[Values]]'],
-        promiseCapability = F['[[Capabilities]]'],
-        remainingElementsCount = F['[[RemainingElements]]'];
-      try {
-        values[index] = x;
-      } catch ( e ) {
-        return IfAbruptRejectPromise(e, promiseCapability);
-      }
-      remainingElementsCount['[[value]]']--;
-      if ( remainingElementsCount['[[value]]'] === 0 ) {
-        promiseCapability['[[Resolve]]'].call(undefined, values);
-      }
-      return undefined;
-    };
-  }
+Promise.reject = function (value) {
+  return new Promise(function (resolve, reject) {
+    reject(value);
+  });
+};
 
-  // 25.4.4.2 Promise.cast ( x )
-  Promise.cast = function ( x ) {
-    var C = this,
-      promiseCapability,
-      resolveResult,
-      constructor;
-    if ( IsPromise(x) ) {
-      constructor = x['[[PromiseConstructor]]'];
-      if ( SameValue(constructor, C) ) {
-        return x;
-      }
-    }
-    try {
-      promiseCapability = NewPromiseCapability(C);
-    } catch ( e ) {
-      return e;
-    }
-    try {
-      resolveResult = promiseCapability['[[Resolve]]'].call(undefined, x);
-    } catch ( e ) {
-      return e;
-    }
-    return promiseCapability['[[Promise]]'];
-  };
+Promise.race = function (values) {
+  return new Promise(function (resolve, reject) {
+    values.forEach(function(value){
+      Promise.resolve(value).then(resolve, reject);
+    });
+  });
+};
 
-  // 25.4.4.4 Promise.race ( iterable )
-  Promise.race = function ( iterable ) {
-    var C = this, promiseCapability, iterator, nextValue, nextPromise, next;
-    try {
-      promiseCapability = NewPromiseCapability(C);
-    } catch ( e ) {
-      return e;
-    }
-    try {
-      iterator = GetIterator(iterable);
-    } catch ( e ) {
-      return IfAbruptRejectPromise(e, promiseCapability);
-    }
-    while ( true ) {
-      try {
-        next = IteratorStep(iterator);
-      } catch ( e ) {
-        return IfAbruptRejectPromise(e, promiseCapability);
-      }
-      if ( next === false ) {
-        return promiseCapability['[[Promise]]'];
-      }
-      try {
-        nextValue = IteratorValue(next);
-      } catch ( e ) {
-        return IfAbruptRejectPromise(e, promiseCapability);
-      }
-      try {
-        nextPromise = C.cast(nextValue);
-      } catch ( e ) {
-        return IfAbruptRejectPromise(e, promiseCapability);
-      }
-      try {
-        nextPromise.then(promiseCapability['[[Resolve]]'],
-          promiseCapability['[[Reject]]']
-        );
-      } catch ( e ) {
-        return IfAbruptRejectPromise(e, promiseCapability);
-      }
-    }
-  };
+/* Prototype Methods */
 
-  // 25.4.4.5 Promise.reject ( r )
-  Promise.reject = function ( r ) {
-    var C = this, promiseCapability, rejectResult;
-    try {
-      promiseCapability = NewPromiseCapability(C);
-    } catch ( e ) {
-      return e;
-    }
-    try {
-      rejectResult = promiseCapability['[[Reject]]'].call(undefined, r);
-    } catch ( e ) {
-      return e;
-    }
-    return promiseCapability['[[Promise]]'];
-  };
+Promise.prototype['catch'] = function (onRejected) {
+  return this.then(null, onRejected);
+};
 
-  // 25.4.4.6 Promise.resolve ( x )
-  Promise.resolve = function ( x ) {
-    var C = this, promiseCapability, resolveResult;
-    try {
-      promiseCapability = NewPromiseCapability(C);
-    } catch ( e ) {
-      return e;
-    }
-    try {
-      resolveResult = promiseCapability['[[Resolve]]'].call(undefined, x);
-    } catch ( e ) {
-      return e;
-    }
-    return promiseCapability['[[Promise]]'];
-  };
-
-  // 25.4.5.1 Promise.prototype.catch ( onRejected )
-  Promise.prototype['catch'] = function ( onRejected ) {
-    var promise = this;
-    return promise.then(undefined, onRejected);
-  };
-
-  // 25.4.5.3 Promise.prototype.then ( onFulfilled , onRejected )
-  Promise.prototype.then = function ( onFulfilled , onRejected ) {
-    var promise = this,
-      C, promiseCapability, rejectionHandler, fulfillmentHandler,
-      resolutionHandler, resolveReaction, rejectReaction, resolution;
-    if ( !IsPromise(promise) ) {
-      throw TypeError();
-    }
-    try {
-      C = promise.constructor;
-    } catch ( e ) {
-      return e;
-    }
-    try {
-      promiseCapability = NewPromiseCapability(C);
-    } catch ( e ) {
-      return e;
-    }
-    if ( IsCallable(onRejected) ) {
-      rejectionHandler = onRejected;
-    } else {
-      rejectionHandler = new ThrowerFunction();
-    }
-    if ( IsCallable(onFulfilled) ) {
-      fulfillmentHandler = onFulfilled;
-    } else {
-      fulfillmentHandler = new IdentityFunction();
-    }
-    resolutionHandler = new PromiseResolutionHandlerFunction();
-    defineInternal(resolutionHandler, '[[Promise]]', promise);
-    defineInternal(resolutionHandler, '[[FulfillmentHandler]]',
-      fulfillmentHandler
-    );
-    defineInternal(resolutionHandler, '[[RejectionHandler]]',
-      rejectionHandler
-    );
-    resolveReaction = {
-      '[[Capabilities]]': promiseCapability,
-      '[[Handler]]': resolutionHandler
-    };
-    rejectReaction = {
-      '[[Capabilities]]': promiseCapability,
-      '[[Handler]]': rejectionHandler
-    };
-    if ( promise['[[PromiseStatus]]'] === 'unresolved' ) {
-      promise['[[PromiseResolveReactions]]'].push(resolveReaction);
-      promise['[[PromiseRejectReactions]]'].push(rejectReaction);
-    }
-    if ( promise['[[PromiseStatus]]'] === 'has-resolution' ) {
-      resolution = promise['[[PromiseResult]]'];
-      EnqueueTask(PromiseReactionTask, [resolveReaction, resolution]);
-    }
-    if ( promise['[[PromiseStatus]]'] === 'has-rejection' ) {
-      resolution = promise['[[PromiseResult]]'];
-      EnqueueTask(PromiseReactionTask, [rejectReaction, resolution]);
-    }
-    return promiseCapability['[[Promise]]'];
-  };
-
-  // 25.4.5.3.1 Identity Functions
-  function IdentityFunction () {
-    return function F ( x ) {
-      return x;
-    };
-  }
-
-  // 25.4.5.3.2 PromiseResolutionHandlerFunctions
-  function PromiseResolutionHandlerFunction () {
-    return function F ( x ) {
-      var promise = F['[[Promise]]'],
-        fulfillmentHandler = F['[[FulfillmentHandler]]'],
-        rejectionHandler = F['[[RejectionHandler]]'],
-        selfResolutionError, C, promiseCapability, updateResult;
-      if ( SameValue(x, promise) ) {
-        selfResolutionError = TypeError();
-        return rejectionHandler.call(undefined, selfResolutionError);
-      }
-      C = promise['[[PromiseConstructor]]'];
-      try {
-        promiseCapability = NewPromiseCapability(C);
-      } catch ( e ) {
-        return e;
-      }
-      try {
-        updateResult = UpdatePromiseFromPotentialThenable(x,
-          promiseCapability
-        );
-      } catch ( e ) {
-        return e;
-      }
-      if ( updateResult !== 'not a thenable') {
-        return promiseCapability['[[Promise]]'].then(fulfillmentHandler,
-          rejectionHandler
-        );
-      }
-      return fulfillmentHandler.call(undefined, x);
-    };
-  }
-
-  // 25.4.5.3.3 Thrower Functions
-  function ThrowerFunction () {
-    return function F ( e ) {
-      throw e;
-    };
-  }
-
-  // export the Promise constructor
-  if ( typeof module === 'object' && typeof module.exports === 'object' ) {
-    module.exports = Promise;
-  } else {
-    global.Promise = Promise;
-  }
-
-}(this));
-
-},{}],19:[function(require,module,exports){
+},{"./core.js":17}],19:[function(require,module,exports){
 // In order to help people who were accidentally upgraded to this ES client,
 // throw an error when they try to instanciate the exported function.
 // previous "elasticsearch" module -> https://github.com/ncb000gt/node-es
@@ -17816,6370 +19269,7 @@ es.errors = require('./lib/errors');
 
 module.exports = es;
 
-},{"./lib/client":28,"./lib/connection_pool":31,"./lib/errors":36,"./lib/transport":49}],20:[function(require,module,exports){
-var ca = require('../client_action').makeFactoryWithModifier(function (spec) {
-  return require('../utils').merge(spec, {
-    params: {
-      filterPath: {
-        type: 'list',
-        name: 'filter_path'
-      }
-    }
-  });
-});
-var namespace = require('../client_action').namespaceFactory;
-var api = module.exports = {};
-
-api._namespaces = ['cat', 'cluster', 'indices', 'nodes', 'snapshot'];
-
-/**
- * Perform a [bulk](http://www.elastic.co/guide/en/elasticsearch/reference/1.6/docs-bulk.html) request
- *
- * @param {Object} params - An object with parameters used to carry out this action
- * @param {String} params.consistency - Explicit write consistency setting for the operation
- * @param {Boolean} params.refresh - Refresh the index after performing the operation
- * @param {String} [params.replication=sync] - Explicitely set the replication type
- * @param {String} params.routing - Specific routing value
- * @param {Date, Number} params.timeout - Explicit operation timeout
- * @param {String} params.type - Default document type for items which don't provide one
- * @param {String} params.index - Default index for items which don't provide one
- */
-api.bulk = ca({
-  params: {
-    consistency: {
-      type: 'enum',
-      options: [
-        'one',
-        'quorum',
-        'all'
-      ]
-    },
-    refresh: {
-      type: 'boolean'
-    },
-    replication: {
-      type: 'enum',
-      'default': 'sync',
-      options: [
-        'sync',
-        'async'
-      ]
-    },
-    routing: {
-      type: 'string'
-    },
-    timeout: {
-      type: 'time'
-    },
-    type: {
-      type: 'string'
-    }
-  },
-  urls: [
-    {
-      fmt: '/<%=index%>/<%=type%>/_bulk',
-      req: {
-        index: {
-          type: 'string'
-        },
-        type: {
-          type: 'string'
-        }
-      }
-    },
-    {
-      fmt: '/<%=index%>/_bulk',
-      req: {
-        index: {
-          type: 'string'
-        }
-      }
-    },
-    {
-      fmt: '/_bulk'
-    }
-  ],
-  needBody: true,
-  bulkBody: true,
-  method: 'POST'
-});
-
-api.cat = namespace();
-
-/**
- * Perform a [cat.aliases](http://www.elasticsearch.org/guide/en/elasticsearch/reference/master/cat.html) request
- *
- * @param {Object} params - An object with parameters used to carry out this action
- * @param {Boolean} params.local - Return local information, do not retrieve the state from master node (default: false)
- * @param {Date, Number} params.masterTimeout - Explicit operation timeout for connection to master node
- * @param {String, String[], Boolean} params.h - Comma-separated list of column names to display
- * @param {Boolean} params.help - Return help information
- * @param {Boolean} params.v - Verbose mode. Display column headers
- * @param {String, String[], Boolean} params.name - A comma-separated list of alias names to return
- */
-api.cat.prototype.aliases = ca({
-  params: {
-    local: {
-      type: 'boolean'
-    },
-    masterTimeout: {
-      type: 'time',
-      name: 'master_timeout'
-    },
-    h: {
-      type: 'list'
-    },
-    help: {
-      type: 'boolean',
-      'default': false
-    },
-    v: {
-      type: 'boolean',
-      'default': false
-    }
-  },
-  urls: [
-    {
-      fmt: '/_cat/aliases/<%=name%>',
-      req: {
-        name: {
-          type: 'list'
-        }
-      }
-    },
-    {
-      fmt: '/_cat/aliases'
-    }
-  ]
-});
-
-/**
- * Perform a [cat.allocation](http://www.elastic.co/guide/en/elasticsearch/reference/1.6/cat-allocation.html) request
- *
- * @param {Object} params - An object with parameters used to carry out this action
- * @param {String} params.bytes - The unit in which to display byte values
- * @param {Boolean} params.local - Return local information, do not retrieve the state from master node (default: false)
- * @param {Date, Number} params.masterTimeout - Explicit operation timeout for connection to master node
- * @param {String, String[], Boolean} params.h - Comma-separated list of column names to display
- * @param {Boolean} params.help - Return help information
- * @param {Boolean} params.v - Verbose mode. Display column headers
- * @param {String, String[], Boolean} params.nodeId - A comma-separated list of node IDs or names to limit the returned information
- */
-api.cat.prototype.allocation = ca({
-  params: {
-    bytes: {
-      type: 'enum',
-      options: [
-        'b',
-        'k',
-        'm',
-        'g'
-      ]
-    },
-    local: {
-      type: 'boolean'
-    },
-    masterTimeout: {
-      type: 'time',
-      name: 'master_timeout'
-    },
-    h: {
-      type: 'list'
-    },
-    help: {
-      type: 'boolean',
-      'default': false
-    },
-    v: {
-      type: 'boolean',
-      'default': false
-    }
-  },
-  urls: [
-    {
-      fmt: '/_cat/allocation/<%=nodeId%>',
-      req: {
-        nodeId: {
-          type: 'list'
-        }
-      }
-    },
-    {
-      fmt: '/_cat/allocation'
-    }
-  ]
-});
-
-/**
- * Perform a [cat.count](http://www.elastic.co/guide/en/elasticsearch/reference/1.6/cat-count.html) request
- *
- * @param {Object} params - An object with parameters used to carry out this action
- * @param {Boolean} params.local - Return local information, do not retrieve the state from master node (default: false)
- * @param {Date, Number} params.masterTimeout - Explicit operation timeout for connection to master node
- * @param {String, String[], Boolean} params.h - Comma-separated list of column names to display
- * @param {Boolean} params.help - Return help information
- * @param {Boolean} params.v - Verbose mode. Display column headers
- * @param {String, String[], Boolean} params.index - A comma-separated list of index names to limit the returned information
- */
-api.cat.prototype.count = ca({
-  params: {
-    local: {
-      type: 'boolean'
-    },
-    masterTimeout: {
-      type: 'time',
-      name: 'master_timeout'
-    },
-    h: {
-      type: 'list'
-    },
-    help: {
-      type: 'boolean',
-      'default': false
-    },
-    v: {
-      type: 'boolean',
-      'default': false
-    }
-  },
-  urls: [
-    {
-      fmt: '/_cat/count/<%=index%>',
-      req: {
-        index: {
-          type: 'list'
-        }
-      }
-    },
-    {
-      fmt: '/_cat/count'
-    }
-  ]
-});
-
-/**
- * Perform a [cat.fielddata](http://www.elastic.co/guide/en/elasticsearch/reference/1.6/cat-fielddata.html) request
- *
- * @param {Object} params - An object with parameters used to carry out this action
- * @param {String} params.bytes - The unit in which to display byte values
- * @param {Boolean} params.local - Return local information, do not retrieve the state from master node (default: false)
- * @param {Date, Number} params.masterTimeout - Explicit operation timeout for connection to master node
- * @param {String, String[], Boolean} params.h - Comma-separated list of column names to display
- * @param {Boolean} params.help - Return help information
- * @param {Boolean} params.v - Verbose mode. Display column headers
- * @param {String, String[], Boolean} params.fields - A comma-separated list of fields to return the fielddata size
- */
-api.cat.prototype.fielddata = ca({
-  params: {
-    bytes: {
-      type: 'enum',
-      options: [
-        'b',
-        'k',
-        'm',
-        'g'
-      ]
-    },
-    local: {
-      type: 'boolean'
-    },
-    masterTimeout: {
-      type: 'time',
-      name: 'master_timeout'
-    },
-    h: {
-      type: 'list'
-    },
-    help: {
-      type: 'boolean',
-      'default': false
-    },
-    v: {
-      type: 'boolean',
-      'default': false
-    },
-    fields: {
-      type: 'list'
-    }
-  },
-  urls: [
-    {
-      fmt: '/_cat/fielddata/<%=fields%>',
-      req: {
-        fields: {
-          type: 'list'
-        }
-      }
-    },
-    {
-      fmt: '/_cat/fielddata'
-    }
-  ]
-});
-
-/**
- * Perform a [cat.health](http://www.elastic.co/guide/en/elasticsearch/reference/1.6/cat-health.html) request
- *
- * @param {Object} params - An object with parameters used to carry out this action
- * @param {Boolean} params.local - Return local information, do not retrieve the state from master node (default: false)
- * @param {Date, Number} params.masterTimeout - Explicit operation timeout for connection to master node
- * @param {String, String[], Boolean} params.h - Comma-separated list of column names to display
- * @param {Boolean} params.help - Return help information
- * @param {Boolean} [params.ts=true] - Set to false to disable timestamping
- * @param {Boolean} params.v - Verbose mode. Display column headers
- */
-api.cat.prototype.health = ca({
-  params: {
-    local: {
-      type: 'boolean'
-    },
-    masterTimeout: {
-      type: 'time',
-      name: 'master_timeout'
-    },
-    h: {
-      type: 'list'
-    },
-    help: {
-      type: 'boolean',
-      'default': false
-    },
-    ts: {
-      type: 'boolean',
-      'default': true
-    },
-    v: {
-      type: 'boolean',
-      'default': false
-    }
-  },
-  url: {
-    fmt: '/_cat/health'
-  }
-});
-
-/**
- * Perform a [cat.help](http://www.elastic.co/guide/en/elasticsearch/reference/1.6/cat.html) request
- *
- * @param {Object} params - An object with parameters used to carry out this action
- * @param {Boolean} params.help - Return help information
- */
-api.cat.prototype.help = ca({
-  params: {
-    help: {
-      type: 'boolean',
-      'default': false
-    }
-  },
-  url: {
-    fmt: '/_cat'
-  }
-});
-
-/**
- * Perform a [cat.indices](http://www.elastic.co/guide/en/elasticsearch/reference/1.6/cat-indices.html) request
- *
- * @param {Object} params - An object with parameters used to carry out this action
- * @param {String} params.bytes - The unit in which to display byte values
- * @param {Boolean} params.local - Return local information, do not retrieve the state from master node (default: false)
- * @param {Date, Number} params.masterTimeout - Explicit operation timeout for connection to master node
- * @param {String, String[], Boolean} params.h - Comma-separated list of column names to display
- * @param {Boolean} params.help - Return help information
- * @param {Boolean} params.pri - Set to true to return stats only for primary shards
- * @param {Boolean} params.v - Verbose mode. Display column headers
- * @param {String, String[], Boolean} params.index - A comma-separated list of index names to limit the returned information
- */
-api.cat.prototype.indices = ca({
-  params: {
-    bytes: {
-      type: 'enum',
-      options: [
-        'b',
-        'k',
-        'm',
-        'g'
-      ]
-    },
-    local: {
-      type: 'boolean'
-    },
-    masterTimeout: {
-      type: 'time',
-      name: 'master_timeout'
-    },
-    h: {
-      type: 'list'
-    },
-    help: {
-      type: 'boolean',
-      'default': false
-    },
-    pri: {
-      type: 'boolean',
-      'default': false
-    },
-    v: {
-      type: 'boolean',
-      'default': false
-    }
-  },
-  urls: [
-    {
-      fmt: '/_cat/indices/<%=index%>',
-      req: {
-        index: {
-          type: 'list'
-        }
-      }
-    },
-    {
-      fmt: '/_cat/indices'
-    }
-  ]
-});
-
-/**
- * Perform a [cat.master](http://www.elastic.co/guide/en/elasticsearch/reference/1.6/cat-master.html) request
- *
- * @param {Object} params - An object with parameters used to carry out this action
- * @param {Boolean} params.local - Return local information, do not retrieve the state from master node (default: false)
- * @param {Date, Number} params.masterTimeout - Explicit operation timeout for connection to master node
- * @param {String, String[], Boolean} params.h - Comma-separated list of column names to display
- * @param {Boolean} params.help - Return help information
- * @param {Boolean} params.v - Verbose mode. Display column headers
- */
-api.cat.prototype.master = ca({
-  params: {
-    local: {
-      type: 'boolean'
-    },
-    masterTimeout: {
-      type: 'time',
-      name: 'master_timeout'
-    },
-    h: {
-      type: 'list'
-    },
-    help: {
-      type: 'boolean',
-      'default': false
-    },
-    v: {
-      type: 'boolean',
-      'default': false
-    }
-  },
-  url: {
-    fmt: '/_cat/master'
-  }
-});
-
-/**
- * Perform a [cat.nodes](http://www.elastic.co/guide/en/elasticsearch/reference/1.6/cat-nodes.html) request
- *
- * @param {Object} params - An object with parameters used to carry out this action
- * @param {Boolean} params.local - Return local information, do not retrieve the state from master node (default: false)
- * @param {Date, Number} params.masterTimeout - Explicit operation timeout for connection to master node
- * @param {String, String[], Boolean} params.h - Comma-separated list of column names to display
- * @param {Boolean} params.help - Return help information
- * @param {Boolean} params.v - Verbose mode. Display column headers
- */
-api.cat.prototype.nodes = ca({
-  params: {
-    local: {
-      type: 'boolean'
-    },
-    masterTimeout: {
-      type: 'time',
-      name: 'master_timeout'
-    },
-    h: {
-      type: 'list'
-    },
-    help: {
-      type: 'boolean',
-      'default': false
-    },
-    v: {
-      type: 'boolean',
-      'default': false
-    }
-  },
-  url: {
-    fmt: '/_cat/nodes'
-  }
-});
-
-/**
- * Perform a [cat.pendingTasks](http://www.elastic.co/guide/en/elasticsearch/reference/1.6/cat-pending-tasks.html) request
- *
- * @param {Object} params - An object with parameters used to carry out this action
- * @param {Boolean} params.local - Return local information, do not retrieve the state from master node (default: false)
- * @param {Date, Number} params.masterTimeout - Explicit operation timeout for connection to master node
- * @param {String, String[], Boolean} params.h - Comma-separated list of column names to display
- * @param {Boolean} params.help - Return help information
- * @param {Boolean} params.v - Verbose mode. Display column headers
- */
-api.cat.prototype.pendingTasks = ca({
-  params: {
-    local: {
-      type: 'boolean'
-    },
-    masterTimeout: {
-      type: 'time',
-      name: 'master_timeout'
-    },
-    h: {
-      type: 'list'
-    },
-    help: {
-      type: 'boolean',
-      'default': false
-    },
-    v: {
-      type: 'boolean',
-      'default': false
-    }
-  },
-  url: {
-    fmt: '/_cat/pending_tasks'
-  }
-});
-
-/**
- * Perform a [cat.plugins](http://www.elastic.co/guide/en/elasticsearch/reference/1.6/cat-plugins.html) request
- *
- * @param {Object} params - An object with parameters used to carry out this action
- * @param {Boolean} params.local - Return local information, do not retrieve the state from master node (default: false)
- * @param {Date, Number} params.masterTimeout - Explicit operation timeout for connection to master node
- * @param {String, String[], Boolean} params.h - Comma-separated list of column names to display
- * @param {Boolean} params.help - Return help information
- * @param {Boolean} params.v - Verbose mode. Display column headers
- */
-api.cat.prototype.plugins = ca({
-  params: {
-    local: {
-      type: 'boolean'
-    },
-    masterTimeout: {
-      type: 'time',
-      name: 'master_timeout'
-    },
-    h: {
-      type: 'list'
-    },
-    help: {
-      type: 'boolean',
-      'default': false
-    },
-    v: {
-      type: 'boolean',
-      'default': false
-    }
-  },
-  url: {
-    fmt: '/_cat/plugins'
-  }
-});
-
-/**
- * Perform a [cat.recovery](http://www.elastic.co/guide/en/elasticsearch/reference/1.6/cat-recovery.html) request
- *
- * @param {Object} params - An object with parameters used to carry out this action
- * @param {String} params.bytes - The unit in which to display byte values
- * @param {Date, Number} params.masterTimeout - Explicit operation timeout for connection to master node
- * @param {String, String[], Boolean} params.h - Comma-separated list of column names to display
- * @param {Boolean} params.help - Return help information
- * @param {Boolean} params.v - Verbose mode. Display column headers
- * @param {String, String[], Boolean} params.index - A comma-separated list of index names to limit the returned information
- */
-api.cat.prototype.recovery = ca({
-  params: {
-    bytes: {
-      type: 'enum',
-      options: [
-        'b',
-        'k',
-        'm',
-        'g'
-      ]
-    },
-    masterTimeout: {
-      type: 'time',
-      name: 'master_timeout'
-    },
-    h: {
-      type: 'list'
-    },
-    help: {
-      type: 'boolean',
-      'default': false
-    },
-    v: {
-      type: 'boolean',
-      'default': false
-    }
-  },
-  urls: [
-    {
-      fmt: '/_cat/recovery/<%=index%>',
-      req: {
-        index: {
-          type: 'list'
-        }
-      }
-    },
-    {
-      fmt: '/_cat/recovery'
-    }
-  ]
-});
-
-/**
- * Perform a [cat.segments](http://www.elastic.co/guide/en/elasticsearch/reference/1.6/cat-segments.html) request
- *
- * @param {Object} params - An object with parameters used to carry out this action
- * @param {String, String[], Boolean} params.h - Comma-separated list of column names to display
- * @param {Boolean} params.help - Return help information
- * @param {Boolean} [params.v=true] - Verbose mode. Display column headers
- * @param {String, String[], Boolean} params.index - A comma-separated list of index names to limit the returned information
- */
-api.cat.prototype.segments = ca({
-  params: {
-    h: {
-      type: 'list'
-    },
-    help: {
-      type: 'boolean',
-      'default': false
-    },
-    v: {
-      type: 'boolean',
-      'default': true
-    }
-  },
-  urls: [
-    {
-      fmt: '/_cat/segments/<%=index%>',
-      req: {
-        index: {
-          type: 'list'
-        }
-      }
-    },
-    {
-      fmt: '/_cat/segments'
-    }
-  ]
-});
-
-/**
- * Perform a [cat.shards](http://www.elastic.co/guide/en/elasticsearch/reference/1.6/cat-shards.html) request
- *
- * @param {Object} params - An object with parameters used to carry out this action
- * @param {Boolean} params.local - Return local information, do not retrieve the state from master node (default: false)
- * @param {Date, Number} params.masterTimeout - Explicit operation timeout for connection to master node
- * @param {String, String[], Boolean} params.h - Comma-separated list of column names to display
- * @param {Boolean} params.help - Return help information
- * @param {Boolean} params.v - Verbose mode. Display column headers
- * @param {String, String[], Boolean} params.index - A comma-separated list of index names to limit the returned information
- */
-api.cat.prototype.shards = ca({
-  params: {
-    local: {
-      type: 'boolean'
-    },
-    masterTimeout: {
-      type: 'time',
-      name: 'master_timeout'
-    },
-    h: {
-      type: 'list'
-    },
-    help: {
-      type: 'boolean',
-      'default': false
-    },
-    v: {
-      type: 'boolean',
-      'default': false
-    }
-  },
-  urls: [
-    {
-      fmt: '/_cat/shards/<%=index%>',
-      req: {
-        index: {
-          type: 'list'
-        }
-      }
-    },
-    {
-      fmt: '/_cat/shards'
-    }
-  ]
-});
-
-/**
- * Perform a [cat.threadPool](http://www.elastic.co/guide/en/elasticsearch/reference/1.6/cat-thread-pool.html) request
- *
- * @param {Object} params - An object with parameters used to carry out this action
- * @param {Boolean} params.local - Return local information, do not retrieve the state from master node (default: false)
- * @param {Date, Number} params.masterTimeout - Explicit operation timeout for connection to master node
- * @param {String, String[], Boolean} params.h - Comma-separated list of column names to display
- * @param {Boolean} params.help - Return help information
- * @param {Boolean} params.v - Verbose mode. Display column headers
- * @param {Boolean} params.fullId - Enables displaying the complete node ids
- */
-api.cat.prototype.threadPool = ca({
-  params: {
-    local: {
-      type: 'boolean'
-    },
-    masterTimeout: {
-      type: 'time',
-      name: 'master_timeout'
-    },
-    h: {
-      type: 'list'
-    },
-    help: {
-      type: 'boolean',
-      'default': false
-    },
-    v: {
-      type: 'boolean',
-      'default': false
-    },
-    fullId: {
-      type: 'boolean',
-      'default': false,
-      name: 'full_id'
-    }
-  },
-  url: {
-    fmt: '/_cat/thread_pool'
-  }
-});
-
-/**
- * Perform a [clearScroll](http://www.elastic.co/guide/en/elasticsearch/reference/1.6/search-request-scroll.html) request
- *
- * @param {Object} params - An object with parameters used to carry out this action
- * @param {String, String[], Boolean} params.scrollId - A comma-separated list of scroll IDs to clear
- */
-api.clearScroll = ca({
-  urls: [
-    {
-      fmt: '/_search/scroll/<%=scrollId%>',
-      req: {
-        scrollId: {
-          type: 'list'
-        }
-      }
-    },
-    {
-      fmt: '/_search/scroll'
-    }
-  ],
-  method: 'DELETE'
-});
-
-api.cluster = namespace();
-
-/**
- * Perform a [cluster.getSettings](http://www.elastic.co/guide/en/elasticsearch/reference/1.6/cluster-update-settings.html) request
- *
- * @param {Object} params - An object with parameters used to carry out this action
- * @param {Boolean} params.flatSettings - Return settings in flat format (default: false)
- * @param {Date, Number} params.masterTimeout - Explicit operation timeout for connection to master node
- * @param {Date, Number} params.timeout - Explicit operation timeout
- */
-api.cluster.prototype.getSettings = ca({
-  params: {
-    flatSettings: {
-      type: 'boolean',
-      name: 'flat_settings'
-    },
-    masterTimeout: {
-      type: 'time',
-      name: 'master_timeout'
-    },
-    timeout: {
-      type: 'time'
-    }
-  },
-  url: {
-    fmt: '/_cluster/settings'
-  }
-});
-
-/**
- * Perform a [cluster.health](http://www.elastic.co/guide/en/elasticsearch/reference/1.6/cluster-health.html) request
- *
- * @param {Object} params - An object with parameters used to carry out this action
- * @param {String} [params.level=cluster] - Specify the level of detail for returned information
- * @param {Boolean} params.local - Return local information, do not retrieve the state from master node (default: false)
- * @param {Date, Number} params.masterTimeout - Explicit operation timeout for connection to master node
- * @param {Date, Number} params.timeout - Explicit operation timeout
- * @param {Number} params.waitForActiveShards - Wait until the specified number of shards is active
- * @param {String} params.waitForNodes - Wait until the specified number of nodes is available
- * @param {Number} params.waitForRelocatingShards - Wait until the specified number of relocating shards is finished
- * @param {String} params.waitForStatus - Wait until cluster is in a specific state
- * @param {String} params.index - Limit the information returned to a specific index
- */
-api.cluster.prototype.health = ca({
-  params: {
-    level: {
-      type: 'enum',
-      'default': 'cluster',
-      options: [
-        'cluster',
-        'indices',
-        'shards'
-      ]
-    },
-    local: {
-      type: 'boolean'
-    },
-    masterTimeout: {
-      type: 'time',
-      name: 'master_timeout'
-    },
-    timeout: {
-      type: 'time'
-    },
-    waitForActiveShards: {
-      type: 'number',
-      name: 'wait_for_active_shards'
-    },
-    waitForNodes: {
-      type: 'string',
-      name: 'wait_for_nodes'
-    },
-    waitForRelocatingShards: {
-      type: 'number',
-      name: 'wait_for_relocating_shards'
-    },
-    waitForStatus: {
-      type: 'enum',
-      'default': null,
-      options: [
-        'green',
-        'yellow',
-        'red'
-      ],
-      name: 'wait_for_status'
-    }
-  },
-  urls: [
-    {
-      fmt: '/_cluster/health/<%=index%>',
-      req: {
-        index: {
-          type: 'string'
-        }
-      }
-    },
-    {
-      fmt: '/_cluster/health'
-    }
-  ]
-});
-
-/**
- * Perform a [cluster.pendingTasks](http://www.elastic.co/guide/en/elasticsearch/reference/1.6/cluster-pending.html) request
- *
- * @param {Object} params - An object with parameters used to carry out this action
- * @param {Boolean} params.local - Return local information, do not retrieve the state from master node (default: false)
- * @param {Date, Number} params.masterTimeout - Specify timeout for connection to master
- */
-api.cluster.prototype.pendingTasks = ca({
-  params: {
-    local: {
-      type: 'boolean'
-    },
-    masterTimeout: {
-      type: 'time',
-      name: 'master_timeout'
-    }
-  },
-  url: {
-    fmt: '/_cluster/pending_tasks'
-  }
-});
-
-/**
- * Perform a [cluster.putSettings](http://www.elastic.co/guide/en/elasticsearch/reference/1.6/cluster-update-settings.html) request
- *
- * @param {Object} params - An object with parameters used to carry out this action
- * @param {Boolean} params.flatSettings - Return settings in flat format (default: false)
- * @param {Date, Number} params.masterTimeout - Explicit operation timeout for connection to master node
- * @param {Date, Number} params.timeout - Explicit operation timeout
- */
-api.cluster.prototype.putSettings = ca({
-  params: {
-    flatSettings: {
-      type: 'boolean',
-      name: 'flat_settings'
-    },
-    masterTimeout: {
-      type: 'time',
-      name: 'master_timeout'
-    },
-    timeout: {
-      type: 'time'
-    }
-  },
-  url: {
-    fmt: '/_cluster/settings'
-  },
-  method: 'PUT'
-});
-
-/**
- * Perform a [cluster.reroute](http://www.elastic.co/guide/en/elasticsearch/reference/1.6/cluster-reroute.html) request
- *
- * @param {Object} params - An object with parameters used to carry out this action
- * @param {Boolean} params.dryRun - Simulate the operation only and return the resulting state
- * @param {Boolean} params.explain - Return an explanation of why the commands can or cannot be executed
- * @param {String, String[], Boolean} params.metric - Limit the information returned to the specified metrics. Defaults to all but metadata
- * @param {Date, Number} params.masterTimeout - Explicit operation timeout for connection to master node
- * @param {Date, Number} params.timeout - Explicit operation timeout
- */
-api.cluster.prototype.reroute = ca({
-  params: {
-    dryRun: {
-      type: 'boolean',
-      name: 'dry_run'
-    },
-    explain: {
-      type: 'boolean'
-    },
-    metric: {
-      type: 'list',
-      options: [
-        '_all',
-        'blocks',
-        'metadata',
-        'nodes',
-        'routing_table',
-        'master_node',
-        'version'
-      ]
-    },
-    masterTimeout: {
-      type: 'time',
-      name: 'master_timeout'
-    },
-    timeout: {
-      type: 'time'
-    }
-  },
-  url: {
-    fmt: '/_cluster/reroute'
-  },
-  method: 'POST'
-});
-
-/**
- * Perform a [cluster.state](http://www.elastic.co/guide/en/elasticsearch/reference/1.6/cluster-state.html) request
- *
- * @param {Object} params - An object with parameters used to carry out this action
- * @param {Boolean} params.local - Return local information, do not retrieve the state from master node (default: false)
- * @param {Date, Number} params.masterTimeout - Specify timeout for connection to master
- * @param {Boolean} params.flatSettings - Return settings in flat format (default: false)
- * @param {Boolean} params.ignoreUnavailable - Whether specified concrete indices should be ignored when unavailable (missing or closed)
- * @param {Boolean} params.allowNoIndices - Whether to ignore if a wildcard indices expression resolves into no concrete indices. (This includes `_all` string or when no indices have been specified)
- * @param {String} [params.expandWildcards=open] - Whether to expand wildcard expression to concrete indices that are open, closed or both.
- * @param {String, String[], Boolean} params.index - A comma-separated list of index names; use `_all` or empty string to perform the operation on all indices
- * @param {String, String[], Boolean} params.metric - Limit the information returned to the specified metrics
- */
-api.cluster.prototype.state = ca({
-  params: {
-    local: {
-      type: 'boolean'
-    },
-    masterTimeout: {
-      type: 'time',
-      name: 'master_timeout'
-    },
-    flatSettings: {
-      type: 'boolean',
-      name: 'flat_settings'
-    },
-    ignoreUnavailable: {
-      type: 'boolean',
-      name: 'ignore_unavailable'
-    },
-    allowNoIndices: {
-      type: 'boolean',
-      name: 'allow_no_indices'
-    },
-    expandWildcards: {
-      type: 'enum',
-      'default': 'open',
-      options: [
-        'open',
-        'closed',
-        'none',
-        'all'
-      ],
-      name: 'expand_wildcards'
-    }
-  },
-  urls: [
-    {
-      fmt: '/_cluster/state/<%=metric%>/<%=index%>',
-      req: {
-        metric: {
-          type: 'list',
-          options: [
-            '_all',
-            'blocks',
-            'metadata',
-            'nodes',
-            'routing_table',
-            'routing_nodes',
-            'master_node',
-            'version'
-          ]
-        },
-        index: {
-          type: 'list'
-        }
-      }
-    },
-    {
-      fmt: '/_cluster/state/<%=metric%>',
-      req: {
-        metric: {
-          type: 'list',
-          options: [
-            '_all',
-            'blocks',
-            'metadata',
-            'nodes',
-            'routing_table',
-            'routing_nodes',
-            'master_node',
-            'version'
-          ]
-        }
-      }
-    },
-    {
-      fmt: '/_cluster/state'
-    }
-  ]
-});
-
-/**
- * Perform a [cluster.stats](http://www.elastic.co/guide/en/elasticsearch/reference/1.6/cluster-stats.html) request
- *
- * @param {Object} params - An object with parameters used to carry out this action
- * @param {Boolean} params.flatSettings - Return settings in flat format (default: false)
- * @param {Boolean} params.human - Whether to return time and byte values in human-readable format.
- * @param {String, String[], Boolean} params.nodeId - A comma-separated list of node IDs or names to limit the returned information; use `_local` to return information from the node you're connecting to, leave empty to get information from all nodes
- */
-api.cluster.prototype.stats = ca({
-  params: {
-    flatSettings: {
-      type: 'boolean',
-      name: 'flat_settings'
-    },
-    human: {
-      type: 'boolean',
-      'default': false
-    }
-  },
-  urls: [
-    {
-      fmt: '/_cluster/stats/nodes/<%=nodeId%>',
-      req: {
-        nodeId: {
-          type: 'list'
-        }
-      }
-    },
-    {
-      fmt: '/_cluster/stats'
-    }
-  ]
-});
-
-/**
- * Perform a [count](http://www.elastic.co/guide/en/elasticsearch/reference/1.6/search-count.html) request
- *
- * @param {Object} params - An object with parameters used to carry out this action
- * @param {Boolean} params.ignoreUnavailable - Whether specified concrete indices should be ignored when unavailable (missing or closed)
- * @param {Boolean} params.allowNoIndices - Whether to ignore if a wildcard indices expression resolves into no concrete indices. (This includes `_all` string or when no indices have been specified)
- * @param {String} [params.expandWildcards=open] - Whether to expand wildcard expression to concrete indices that are open, closed or both.
- * @param {Number} params.minScore - Include only documents with a specific `_score` value in the result
- * @param {String} params.preference - Specify the node or shard the operation should be performed on (default: random)
- * @param {String} params.routing - Specific routing value
- * @param {String} params.q - Query in the Lucene query string syntax
- * @param {String} params.analyzer - The analyzer to use for the query string
- * @param {Boolean} params.analyzeWildcard - Specify whether wildcard and prefix queries should be analyzed (default: false)
- * @param {String} [params.defaultOperator=OR] - The default operator for query string query (AND or OR)
- * @param {String} params.df - The field to use as default where no field prefix is given in the query string
- * @param {Boolean} params.lenient - Specify whether format-based query failures (such as providing text to a numeric field) should be ignored
- * @param {Boolean} params.lowercaseExpandedTerms - Specify whether query terms should be lowercased
- * @param {String, String[], Boolean} params.index - A comma-separated list of indices to restrict the results
- * @param {String, String[], Boolean} params.type - A comma-separated list of types to restrict the results
- */
-api.count = ca({
-  params: {
-    ignoreUnavailable: {
-      type: 'boolean',
-      name: 'ignore_unavailable'
-    },
-    allowNoIndices: {
-      type: 'boolean',
-      name: 'allow_no_indices'
-    },
-    expandWildcards: {
-      type: 'enum',
-      'default': 'open',
-      options: [
-        'open',
-        'closed',
-        'none',
-        'all'
-      ],
-      name: 'expand_wildcards'
-    },
-    minScore: {
-      type: 'number',
-      name: 'min_score'
-    },
-    preference: {
-      type: 'string'
-    },
-    routing: {
-      type: 'string'
-    },
-    q: {
-      type: 'string'
-    },
-    analyzer: {
-      type: 'string'
-    },
-    analyzeWildcard: {
-      type: 'boolean',
-      name: 'analyze_wildcard'
-    },
-    defaultOperator: {
-      type: 'enum',
-      'default': 'OR',
-      options: [
-        'AND',
-        'OR'
-      ],
-      name: 'default_operator'
-    },
-    df: {
-      type: 'string'
-    },
-    lenient: {
-      type: 'boolean'
-    },
-    lowercaseExpandedTerms: {
-      type: 'boolean',
-      name: 'lowercase_expanded_terms'
-    }
-  },
-  urls: [
-    {
-      fmt: '/<%=index%>/<%=type%>/_count',
-      req: {
-        index: {
-          type: 'list'
-        },
-        type: {
-          type: 'list'
-        }
-      }
-    },
-    {
-      fmt: '/<%=index%>/_count',
-      req: {
-        index: {
-          type: 'list'
-        }
-      }
-    },
-    {
-      fmt: '/_count'
-    }
-  ],
-  method: 'POST'
-});
-
-/**
- * Perform a [countPercolate](http://www.elastic.co/guide/en/elasticsearch/reference/1.6/search-percolate.html) request
- *
- * @param {Object} params - An object with parameters used to carry out this action
- * @param {String, String[], Boolean} params.routing - A comma-separated list of specific routing values
- * @param {String} params.preference - Specify the node or shard the operation should be performed on (default: random)
- * @param {Boolean} params.ignoreUnavailable - Whether specified concrete indices should be ignored when unavailable (missing or closed)
- * @param {Boolean} params.allowNoIndices - Whether to ignore if a wildcard indices expression resolves into no concrete indices. (This includes `_all` string or when no indices have been specified)
- * @param {String} [params.expandWildcards=open] - Whether to expand wildcard expression to concrete indices that are open, closed or both.
- * @param {String} params.percolateIndex - The index to count percolate the document into. Defaults to index.
- * @param {String} params.percolateType - The type to count percolate document into. Defaults to type.
- * @param {Number} params.version - Explicit version number for concurrency control
- * @param {String} params.versionType - Specific version type
- * @param {String} params.index - The index of the document being count percolated.
- * @param {String} params.type - The type of the document being count percolated.
- * @param {String} params.id - Substitute the document in the request body with a document that is known by the specified id. On top of the id, the index and type parameter will be used to retrieve the document from within the cluster.
- */
-api.countPercolate = ca({
-  params: {
-    routing: {
-      type: 'list'
-    },
-    preference: {
-      type: 'string'
-    },
-    ignoreUnavailable: {
-      type: 'boolean',
-      name: 'ignore_unavailable'
-    },
-    allowNoIndices: {
-      type: 'boolean',
-      name: 'allow_no_indices'
-    },
-    expandWildcards: {
-      type: 'enum',
-      'default': 'open',
-      options: [
-        'open',
-        'closed',
-        'none',
-        'all'
-      ],
-      name: 'expand_wildcards'
-    },
-    percolateIndex: {
-      type: 'string',
-      name: 'percolate_index'
-    },
-    percolateType: {
-      type: 'string',
-      name: 'percolate_type'
-    },
-    version: {
-      type: 'number'
-    },
-    versionType: {
-      type: 'enum',
-      options: [
-        'internal',
-        'external',
-        'external_gte',
-        'force'
-      ],
-      name: 'version_type'
-    }
-  },
-  urls: [
-    {
-      fmt: '/<%=index%>/<%=type%>/<%=id%>/_percolate/count',
-      req: {
-        index: {
-          type: 'string'
-        },
-        type: {
-          type: 'string'
-        },
-        id: {
-          type: 'string'
-        }
-      }
-    },
-    {
-      fmt: '/<%=index%>/<%=type%>/_percolate/count',
-      req: {
-        index: {
-          type: 'string'
-        },
-        type: {
-          type: 'string'
-        }
-      }
-    }
-  ],
-  method: 'POST'
-});
-
-/**
- * Perform a [delete](http://www.elastic.co/guide/en/elasticsearch/reference/1.6/docs-delete.html) request
- *
- * @param {Object} params - An object with parameters used to carry out this action
- * @param {String} params.consistency - Specific write consistency setting for the operation
- * @param {String} params.parent - ID of parent document
- * @param {Boolean} params.refresh - Refresh the index after performing the operation
- * @param {String} [params.replication=sync] - Specific replication type
- * @param {String} params.routing - Specific routing value
- * @param {Date, Number} params.timeout - Explicit operation timeout
- * @param {Number} params.version - Explicit version number for concurrency control
- * @param {String} params.versionType - Specific version type
- * @param {String} params.id - The document ID
- * @param {String} params.index - The name of the index
- * @param {String} params.type - The type of the document
- */
-api['delete'] = ca({
-  params: {
-    consistency: {
-      type: 'enum',
-      options: [
-        'one',
-        'quorum',
-        'all'
-      ]
-    },
-    parent: {
-      type: 'string'
-    },
-    refresh: {
-      type: 'boolean'
-    },
-    replication: {
-      type: 'enum',
-      'default': 'sync',
-      options: [
-        'sync',
-        'async'
-      ]
-    },
-    routing: {
-      type: 'string'
-    },
-    timeout: {
-      type: 'time'
-    },
-    version: {
-      type: 'number'
-    },
-    versionType: {
-      type: 'enum',
-      options: [
-        'internal',
-        'external',
-        'external_gte',
-        'force'
-      ],
-      name: 'version_type'
-    }
-  },
-  url: {
-    fmt: '/<%=index%>/<%=type%>/<%=id%>',
-    req: {
-      index: {
-        type: 'string'
-      },
-      type: {
-        type: 'string'
-      },
-      id: {
-        type: 'string'
-      }
-    }
-  },
-  method: 'DELETE'
-});
-
-/**
- * Perform a [deleteByQuery](http://www.elastic.co/guide/en/elasticsearch/reference/1.6/docs-delete-by-query.html) request
- *
- * @param {Object} params - An object with parameters used to carry out this action
- * @param {String} params.analyzer - The analyzer to use for the query string
- * @param {String} params.consistency - Specific write consistency setting for the operation
- * @param {String} [params.defaultOperator=OR] - The default operator for query string query (AND or OR)
- * @param {String} params.df - The field to use as default where no field prefix is given in the query string
- * @param {Boolean} params.ignoreUnavailable - Whether specified concrete indices should be ignored when unavailable (missing or closed)
- * @param {Boolean} params.allowNoIndices - Whether to ignore if a wildcard indices expression resolves into no concrete indices. (This includes `_all` string or when no indices have been specified)
- * @param {String} [params.expandWildcards=open] - Whether to expand wildcard expression to concrete indices that are open, closed or both.
- * @param {String} [params.replication=sync] - Specific replication type
- * @param {String} params.q - Query in the Lucene query string syntax
- * @param {String} params.routing - Specific routing value
- * @param {Date, Number} params.timeout - Explicit operation timeout
- * @param {String, String[], Boolean} params.index - A comma-separated list of indices to restrict the operation; use `_all` to perform the operation on all indices
- * @param {String, String[], Boolean} params.type - A comma-separated list of types to restrict the operation
- */
-api.deleteByQuery = ca({
-  params: {
-    analyzer: {
-      type: 'string'
-    },
-    consistency: {
-      type: 'enum',
-      options: [
-        'one',
-        'quorum',
-        'all'
-      ]
-    },
-    defaultOperator: {
-      type: 'enum',
-      'default': 'OR',
-      options: [
-        'AND',
-        'OR'
-      ],
-      name: 'default_operator'
-    },
-    df: {
-      type: 'string'
-    },
-    ignoreUnavailable: {
-      type: 'boolean',
-      name: 'ignore_unavailable'
-    },
-    allowNoIndices: {
-      type: 'boolean',
-      name: 'allow_no_indices'
-    },
-    expandWildcards: {
-      type: 'enum',
-      'default': 'open',
-      options: [
-        'open',
-        'closed',
-        'none',
-        'all'
-      ],
-      name: 'expand_wildcards'
-    },
-    replication: {
-      type: 'enum',
-      'default': 'sync',
-      options: [
-        'sync',
-        'async'
-      ]
-    },
-    q: {
-      type: 'string'
-    },
-    routing: {
-      type: 'string'
-    },
-    timeout: {
-      type: 'time'
-    }
-  },
-  urls: [
-    {
-      fmt: '/<%=index%>/<%=type%>/_query',
-      req: {
-        index: {
-          type: 'list'
-        },
-        type: {
-          type: 'list'
-        }
-      }
-    },
-    {
-      fmt: '/<%=index%>/_query',
-      req: {
-        index: {
-          type: 'list'
-        }
-      }
-    }
-  ],
-  method: 'DELETE'
-});
-
-/**
- * Perform a [deleteScript](http://www.elastic.co/guide/en/elasticsearch/reference/1.6/modules-scripting.html) request
- *
- * @param {Object} params - An object with parameters used to carry out this action
- * @param {Number} params.version - Explicit version number for concurrency control
- * @param {String} params.versionType - Specific version type
- * @param {String} params.id - Script ID
- * @param {String} params.lang - Script language
- */
-api.deleteScript = ca({
-  params: {
-    version: {
-      type: 'number'
-    },
-    versionType: {
-      type: 'enum',
-      options: [
-        'internal',
-        'external',
-        'external_gte',
-        'force'
-      ],
-      name: 'version_type'
-    }
-  },
-  url: {
-    fmt: '/_scripts/<%=lang%>/<%=id%>',
-    req: {
-      lang: {
-        type: 'string'
-      },
-      id: {
-        type: 'string'
-      }
-    }
-  },
-  method: 'DELETE'
-});
-
-/**
- * Perform a [deleteTemplate](http://www.elastic.co/guide/en/elasticsearch/reference/1.6/search-template.html) request
- *
- * @param {Object} params - An object with parameters used to carry out this action
- * @param {Number} params.version - Explicit version number for concurrency control
- * @param {String} params.versionType - Specific version type
- * @param {String} params.id - Template ID
- */
-api.deleteTemplate = ca({
-  params: {
-    version: {
-      type: 'number'
-    },
-    versionType: {
-      type: 'enum',
-      options: [
-        'internal',
-        'external',
-        'external_gte',
-        'force'
-      ],
-      name: 'version_type'
-    }
-  },
-  url: {
-    fmt: '/_search/template/<%=id%>',
-    req: {
-      id: {
-        type: 'string'
-      }
-    }
-  },
-  method: 'DELETE'
-});
-
-/**
- * Perform a [exists](http://www.elastic.co/guide/en/elasticsearch/reference/1.6/docs-get.html) request
- *
- * @param {Object} params - An object with parameters used to carry out this action
- * @param {String} params.parent - The ID of the parent document
- * @param {String} params.preference - Specify the node or shard the operation should be performed on (default: random)
- * @param {Boolean} params.realtime - Specify whether to perform the operation in realtime or search mode
- * @param {Boolean} params.refresh - Refresh the shard containing the document before performing the operation
- * @param {String} params.routing - Specific routing value
- * @param {String} params.id - The document ID
- * @param {String} params.index - The name of the index
- * @param {String} params.type - The type of the document (use `_all` to fetch the first document matching the ID across all types)
- */
-api.exists = ca({
-  params: {
-    parent: {
-      type: 'string'
-    },
-    preference: {
-      type: 'string'
-    },
-    realtime: {
-      type: 'boolean'
-    },
-    refresh: {
-      type: 'boolean'
-    },
-    routing: {
-      type: 'string'
-    }
-  },
-  url: {
-    fmt: '/<%=index%>/<%=type%>/<%=id%>',
-    req: {
-      index: {
-        type: 'string'
-      },
-      type: {
-        type: 'string'
-      },
-      id: {
-        type: 'string'
-      }
-    }
-  },
-  method: 'HEAD'
-});
-
-/**
- * Perform a [explain](http://www.elastic.co/guide/en/elasticsearch/reference/1.6/search-explain.html) request
- *
- * @param {Object} params - An object with parameters used to carry out this action
- * @param {Boolean} params.analyzeWildcard - Specify whether wildcards and prefix queries in the query string query should be analyzed (default: false)
- * @param {String} params.analyzer - The analyzer for the query string query
- * @param {String} [params.defaultOperator=OR] - The default operator for query string query (AND or OR)
- * @param {String} params.df - The default field for query string query (default: _all)
- * @param {String, String[], Boolean} params.fields - A comma-separated list of fields to return in the response
- * @param {Boolean} params.lenient - Specify whether format-based query failures (such as providing text to a numeric field) should be ignored
- * @param {Boolean} params.lowercaseExpandedTerms - Specify whether query terms should be lowercased
- * @param {String} params.parent - The ID of the parent document
- * @param {String} params.preference - Specify the node or shard the operation should be performed on (default: random)
- * @param {String} params.q - Query in the Lucene query string syntax
- * @param {String} params.routing - Specific routing value
- * @param {String, String[], Boolean} params._source - True or false to return the _source field or not, or a list of fields to return
- * @param {String, String[], Boolean} params._sourceExclude - A list of fields to exclude from the returned _source field
- * @param {String, String[], Boolean} params._sourceInclude - A list of fields to extract and return from the _source field
- * @param {String} params.id - The document ID
- * @param {String} params.index - The name of the index
- * @param {String} params.type - The type of the document
- */
-api.explain = ca({
-  params: {
-    analyzeWildcard: {
-      type: 'boolean',
-      name: 'analyze_wildcard'
-    },
-    analyzer: {
-      type: 'string'
-    },
-    defaultOperator: {
-      type: 'enum',
-      'default': 'OR',
-      options: [
-        'AND',
-        'OR'
-      ],
-      name: 'default_operator'
-    },
-    df: {
-      type: 'string'
-    },
-    fields: {
-      type: 'list'
-    },
-    lenient: {
-      type: 'boolean'
-    },
-    lowercaseExpandedTerms: {
-      type: 'boolean',
-      name: 'lowercase_expanded_terms'
-    },
-    parent: {
-      type: 'string'
-    },
-    preference: {
-      type: 'string'
-    },
-    q: {
-      type: 'string'
-    },
-    routing: {
-      type: 'string'
-    },
-    _source: {
-      type: 'list'
-    },
-    _sourceExclude: {
-      type: 'list',
-      name: '_source_exclude'
-    },
-    _sourceInclude: {
-      type: 'list',
-      name: '_source_include'
-    }
-  },
-  url: {
-    fmt: '/<%=index%>/<%=type%>/<%=id%>/_explain',
-    req: {
-      index: {
-        type: 'string'
-      },
-      type: {
-        type: 'string'
-      },
-      id: {
-        type: 'string'
-      }
-    }
-  },
-  method: 'POST'
-});
-
-/**
- * Perform a [fieldStats](http://www.elastic.co/guide/en/elasticsearch/reference/1.6/search-field-stats.html) request
- *
- * @param {Object} params - An object with parameters used to carry out this action
- * @param {String, String[], Boolean} params.fields - A comma-separated list of fields for to get field statistics for (min value, max value, and more)
- * @param {String} [params.level=cluster] - Defines if field stats should be returned on a per index level or on a cluster wide level
- * @param {Boolean} params.ignoreUnavailable - Whether specified concrete indices should be ignored when unavailable (missing or closed)
- * @param {Boolean} params.allowNoIndices - Whether to ignore if a wildcard indices expression resolves into no concrete indices. (This includes `_all` string or when no indices have been specified)
- * @param {String} [params.expandWildcards=open] - Whether to expand wildcard expression to concrete indices that are open, closed or both.
- * @param {String, String[], Boolean} params.index - A comma-separated list of index names; use `_all` or empty string to perform the operation on all indices
- */
-api.fieldStats = ca({
-  params: {
-    fields: {
-      type: 'list'
-    },
-    level: {
-      type: 'enum',
-      'default': 'cluster',
-      options: [
-        'indices',
-        'cluster'
-      ]
-    },
-    ignoreUnavailable: {
-      type: 'boolean',
-      name: 'ignore_unavailable'
-    },
-    allowNoIndices: {
-      type: 'boolean',
-      name: 'allow_no_indices'
-    },
-    expandWildcards: {
-      type: 'enum',
-      'default': 'open',
-      options: [
-        'open',
-        'closed',
-        'none',
-        'all'
-      ],
-      name: 'expand_wildcards'
-    }
-  },
-  urls: [
-    {
-      fmt: '/<%=index%>/_field_stats',
-      req: {
-        index: {
-          type: 'list'
-        }
-      }
-    },
-    {
-      fmt: '/_field_stats'
-    }
-  ],
-  method: 'POST'
-});
-
-/**
- * Perform a [get](http://www.elastic.co/guide/en/elasticsearch/reference/1.6/docs-get.html) request
- *
- * @param {Object} params - An object with parameters used to carry out this action
- * @param {String, String[], Boolean} params.fields - A comma-separated list of fields to return in the response
- * @param {String} params.parent - The ID of the parent document
- * @param {String} params.preference - Specify the node or shard the operation should be performed on (default: random)
- * @param {Boolean} params.realtime - Specify whether to perform the operation in realtime or search mode
- * @param {Boolean} params.refresh - Refresh the shard containing the document before performing the operation
- * @param {String} params.routing - Specific routing value
- * @param {String, String[], Boolean} params._source - True or false to return the _source field or not, or a list of fields to return
- * @param {String, String[], Boolean} params._sourceExclude - A list of fields to exclude from the returned _source field
- * @param {String, String[], Boolean} params._sourceInclude - A list of fields to extract and return from the _source field
- * @param {Number} params.version - Explicit version number for concurrency control
- * @param {String} params.versionType - Specific version type
- * @param {String} params.id - The document ID
- * @param {String} params.index - The name of the index
- * @param {String} params.type - The type of the document (use `_all` to fetch the first document matching the ID across all types)
- */
-api.get = ca({
-  params: {
-    fields: {
-      type: 'list'
-    },
-    parent: {
-      type: 'string'
-    },
-    preference: {
-      type: 'string'
-    },
-    realtime: {
-      type: 'boolean'
-    },
-    refresh: {
-      type: 'boolean'
-    },
-    routing: {
-      type: 'string'
-    },
-    _source: {
-      type: 'list'
-    },
-    _sourceExclude: {
-      type: 'list',
-      name: '_source_exclude'
-    },
-    _sourceInclude: {
-      type: 'list',
-      name: '_source_include'
-    },
-    version: {
-      type: 'number'
-    },
-    versionType: {
-      type: 'enum',
-      options: [
-        'internal',
-        'external',
-        'external_gte',
-        'force'
-      ],
-      name: 'version_type'
-    }
-  },
-  url: {
-    fmt: '/<%=index%>/<%=type%>/<%=id%>',
-    req: {
-      index: {
-        type: 'string'
-      },
-      type: {
-        type: 'string'
-      },
-      id: {
-        type: 'string'
-      }
-    }
-  }
-});
-
-/**
- * Perform a [getScript](http://www.elastic.co/guide/en/elasticsearch/reference/1.6/modules-scripting.html) request
- *
- * @param {Object} params - An object with parameters used to carry out this action
- * @param {Number} params.version - Explicit version number for concurrency control
- * @param {String} params.versionType - Specific version type
- * @param {String} params.id - Script ID
- * @param {String} params.lang - Script language
- */
-api.getScript = ca({
-  params: {
-    version: {
-      type: 'number'
-    },
-    versionType: {
-      type: 'enum',
-      options: [
-        'internal',
-        'external',
-        'external_gte',
-        'force'
-      ],
-      name: 'version_type'
-    }
-  },
-  url: {
-    fmt: '/_scripts/<%=lang%>/<%=id%>',
-    req: {
-      lang: {
-        type: 'string'
-      },
-      id: {
-        type: 'string'
-      }
-    }
-  }
-});
-
-/**
- * Perform a [getSource](http://www.elastic.co/guide/en/elasticsearch/reference/1.6/docs-get.html) request
- *
- * @param {Object} params - An object with parameters used to carry out this action
- * @param {String} params.parent - The ID of the parent document
- * @param {String} params.preference - Specify the node or shard the operation should be performed on (default: random)
- * @param {Boolean} params.realtime - Specify whether to perform the operation in realtime or search mode
- * @param {Boolean} params.refresh - Refresh the shard containing the document before performing the operation
- * @param {String} params.routing - Specific routing value
- * @param {String, String[], Boolean} params._source - True or false to return the _source field or not, or a list of fields to return
- * @param {String, String[], Boolean} params._sourceExclude - A list of fields to exclude from the returned _source field
- * @param {String, String[], Boolean} params._sourceInclude - A list of fields to extract and return from the _source field
- * @param {Number} params.version - Explicit version number for concurrency control
- * @param {String} params.versionType - Specific version type
- * @param {String} params.id - The document ID
- * @param {String} params.index - The name of the index
- * @param {String} params.type - The type of the document; use `_all` to fetch the first document matching the ID across all types
- */
-api.getSource = ca({
-  params: {
-    parent: {
-      type: 'string'
-    },
-    preference: {
-      type: 'string'
-    },
-    realtime: {
-      type: 'boolean'
-    },
-    refresh: {
-      type: 'boolean'
-    },
-    routing: {
-      type: 'string'
-    },
-    _source: {
-      type: 'list'
-    },
-    _sourceExclude: {
-      type: 'list',
-      name: '_source_exclude'
-    },
-    _sourceInclude: {
-      type: 'list',
-      name: '_source_include'
-    },
-    version: {
-      type: 'number'
-    },
-    versionType: {
-      type: 'enum',
-      options: [
-        'internal',
-        'external',
-        'external_gte',
-        'force'
-      ],
-      name: 'version_type'
-    }
-  },
-  url: {
-    fmt: '/<%=index%>/<%=type%>/<%=id%>/_source',
-    req: {
-      index: {
-        type: 'string'
-      },
-      type: {
-        type: 'string'
-      },
-      id: {
-        type: 'string'
-      }
-    }
-  }
-});
-
-/**
- * Perform a [getTemplate](http://www.elastic.co/guide/en/elasticsearch/reference/1.6/search-template.html) request
- *
- * @param {Object} params - An object with parameters used to carry out this action
- * @param {Number} params.version - Explicit version number for concurrency control
- * @param {String} params.versionType - Specific version type
- * @param {String} params.id - Template ID
- */
-api.getTemplate = ca({
-  params: {
-    version: {
-      type: 'number'
-    },
-    versionType: {
-      type: 'enum',
-      options: [
-        'internal',
-        'external',
-        'external_gte',
-        'force'
-      ],
-      name: 'version_type'
-    }
-  },
-  url: {
-    fmt: '/_search/template/<%=id%>',
-    req: {
-      id: {
-        type: 'string'
-      }
-    }
-  }
-});
-
-/**
- * Perform a [index](http://www.elastic.co/guide/en/elasticsearch/reference/1.6/docs-index_.html) request
- *
- * @param {Object} params - An object with parameters used to carry out this action
- * @param {String} params.consistency - Explicit write consistency setting for the operation
- * @param {String} params.parent - ID of the parent document
- * @param {Boolean} params.refresh - Refresh the index after performing the operation
- * @param {String} [params.replication=sync] - Specific replication type
- * @param {String} params.routing - Specific routing value
- * @param {Date, Number} params.timeout - Explicit operation timeout
- * @param {Date, Number} params.timestamp - Explicit timestamp for the document
- * @param {Duration} params.ttl - Expiration time for the document
- * @param {Number} params.version - Explicit version number for concurrency control
- * @param {String} params.versionType - Specific version type
- * @param {String} params.id - Document ID
- * @param {String} params.index - The name of the index
- * @param {String} params.type - The type of the document
- */
-api.index = ca({
-  params: {
-    consistency: {
-      type: 'enum',
-      options: [
-        'one',
-        'quorum',
-        'all'
-      ]
-    },
-    opType: {
-      type: 'enum',
-      'default': 'index',
-      options: [
-        'index',
-        'create'
-      ],
-      name: 'op_type'
-    },
-    parent: {
-      type: 'string'
-    },
-    refresh: {
-      type: 'boolean'
-    },
-    replication: {
-      type: 'enum',
-      'default': 'sync',
-      options: [
-        'sync',
-        'async'
-      ]
-    },
-    routing: {
-      type: 'string'
-    },
-    timeout: {
-      type: 'time'
-    },
-    timestamp: {
-      type: 'time'
-    },
-    ttl: {
-      type: 'duration'
-    },
-    version: {
-      type: 'number'
-    },
-    versionType: {
-      type: 'enum',
-      options: [
-        'internal',
-        'external',
-        'external_gte',
-        'force'
-      ],
-      name: 'version_type'
-    }
-  },
-  urls: [
-    {
-      fmt: '/<%=index%>/<%=type%>/<%=id%>',
-      req: {
-        index: {
-          type: 'string'
-        },
-        type: {
-          type: 'string'
-        },
-        id: {
-          type: 'string'
-        }
-      }
-    },
-    {
-      fmt: '/<%=index%>/<%=type%>',
-      req: {
-        index: {
-          type: 'string'
-        },
-        type: {
-          type: 'string'
-        }
-      }
-    }
-  ],
-  needBody: true,
-  method: 'POST'
-});
-
-api.indices = namespace();
-
-/**
- * Perform a [indices.analyze](http://www.elastic.co/guide/en/elasticsearch/reference/1.6/indices-analyze.html) request
- *
- * @param {Object} params - An object with parameters used to carry out this action
- * @param {String} params.analyzer - The name of the analyzer to use
- * @param {String, String[], Boolean} params.charFilters - A comma-separated list of character filters to use for the analysis
- * @param {String} params.field - Use the analyzer configured for this field (instead of passing the analyzer name)
- * @param {String, String[], Boolean} params.filters - A comma-separated list of filters to use for the analysis
- * @param {String} params.index - The name of the index to scope the operation
- * @param {Boolean} params.preferLocal - With `true`, specify that a local shard should be used if available, with `false`, use a random shard (default: true)
- * @param {String} params.text - The text on which the analysis should be performed (when request body is not used)
- * @param {String} params.tokenizer - The name of the tokenizer to use for the analysis
- * @param {String} [params.format=detailed] - Format of the output
- */
-api.indices.prototype.analyze = ca({
-  params: {
-    analyzer: {
-      type: 'string'
-    },
-    charFilters: {
-      type: 'list',
-      name: 'char_filters'
-    },
-    field: {
-      type: 'string'
-    },
-    filters: {
-      type: 'list'
-    },
-    index: {
-      type: 'string'
-    },
-    preferLocal: {
-      type: 'boolean',
-      name: 'prefer_local'
-    },
-    text: {
-      type: 'string'
-    },
-    tokenizer: {
-      type: 'string'
-    },
-    format: {
-      type: 'enum',
-      'default': 'detailed',
-      options: [
-        'detailed',
-        'text'
-      ]
-    }
-  },
-  urls: [
-    {
-      fmt: '/<%=index%>/_analyze',
-      req: {
-        index: {
-          type: 'string'
-        }
-      }
-    },
-    {
-      fmt: '/_analyze'
-    }
-  ],
-  method: 'POST'
-});
-
-/**
- * Perform a [indices.clearCache](http://www.elastic.co/guide/en/elasticsearch/reference/1.6/indices-clearcache.html) request
- *
- * @param {Object} params - An object with parameters used to carry out this action
- * @param {Boolean} params.fieldData - Clear field data
- * @param {Boolean} params.fielddata - Clear field data
- * @param {String, String[], Boolean} params.fields - A comma-separated list of fields to clear when using the `field_data` parameter (default: all)
- * @param {Boolean} params.filter - Clear filter caches
- * @param {Boolean} params.filterCache - Clear filter caches
- * @param {Boolean} params.filterKeys - A comma-separated list of keys to clear when using the `filter_cache` parameter (default: all)
- * @param {Boolean} params.id - Clear ID caches for parent/child
- * @param {Boolean} params.idCache - Clear ID caches for parent/child
- * @param {Boolean} params.ignoreUnavailable - Whether specified concrete indices should be ignored when unavailable (missing or closed)
- * @param {Boolean} params.allowNoIndices - Whether to ignore if a wildcard indices expression resolves into no concrete indices. (This includes `_all` string or when no indices have been specified)
- * @param {String} [params.expandWildcards=open] - Whether to expand wildcard expression to concrete indices that are open, closed or both.
- * @param {String, String[], Boolean} params.index - A comma-separated list of index name to limit the operation
- * @param {Boolean} params.recycler - Clear the recycler cache
- * @param {Boolean} params.queryCache - Clear query cache
- */
-api.indices.prototype.clearCache = ca({
-  params: {
-    fieldData: {
-      type: 'boolean',
-      name: 'field_data'
-    },
-    fielddata: {
-      type: 'boolean'
-    },
-    fields: {
-      type: 'list'
-    },
-    filter: {
-      type: 'boolean'
-    },
-    filterCache: {
-      type: 'boolean',
-      name: 'filter_cache'
-    },
-    filterKeys: {
-      type: 'boolean',
-      name: 'filter_keys'
-    },
-    id: {
-      type: 'boolean'
-    },
-    idCache: {
-      type: 'boolean',
-      name: 'id_cache'
-    },
-    ignoreUnavailable: {
-      type: 'boolean',
-      name: 'ignore_unavailable'
-    },
-    allowNoIndices: {
-      type: 'boolean',
-      name: 'allow_no_indices'
-    },
-    expandWildcards: {
-      type: 'enum',
-      'default': 'open',
-      options: [
-        'open',
-        'closed',
-        'none',
-        'all'
-      ],
-      name: 'expand_wildcards'
-    },
-    index: {
-      type: 'list'
-    },
-    recycler: {
-      type: 'boolean'
-    },
-    queryCache: {
-      type: 'boolean',
-      name: 'query_cache'
-    }
-  },
-  urls: [
-    {
-      fmt: '/<%=index%>/_cache/clear',
-      req: {
-        index: {
-          type: 'list'
-        }
-      }
-    },
-    {
-      fmt: '/_cache/clear'
-    }
-  ],
-  method: 'POST'
-});
-
-/**
- * Perform a [indices.close](http://www.elastic.co/guide/en/elasticsearch/reference/1.6/indices-open-close.html) request
- *
- * @param {Object} params - An object with parameters used to carry out this action
- * @param {Date, Number} params.timeout - Explicit operation timeout
- * @param {Date, Number} params.masterTimeout - Specify timeout for connection to master
- * @param {Boolean} params.ignoreUnavailable - Whether specified concrete indices should be ignored when unavailable (missing or closed)
- * @param {Boolean} params.allowNoIndices - Whether to ignore if a wildcard indices expression resolves into no concrete indices. (This includes `_all` string or when no indices have been specified)
- * @param {String} [params.expandWildcards=open] - Whether to expand wildcard expression to concrete indices that are open, closed or both.
- * @param {String} params.index - The name of the index
- */
-api.indices.prototype.close = ca({
-  params: {
-    timeout: {
-      type: 'time'
-    },
-    masterTimeout: {
-      type: 'time',
-      name: 'master_timeout'
-    },
-    ignoreUnavailable: {
-      type: 'boolean',
-      name: 'ignore_unavailable'
-    },
-    allowNoIndices: {
-      type: 'boolean',
-      name: 'allow_no_indices'
-    },
-    expandWildcards: {
-      type: 'enum',
-      'default': 'open',
-      options: [
-        'open',
-        'closed',
-        'none',
-        'all'
-      ],
-      name: 'expand_wildcards'
-    }
-  },
-  url: {
-    fmt: '/<%=index%>/_close',
-    req: {
-      index: {
-        type: 'string'
-      }
-    }
-  },
-  method: 'POST'
-});
-
-/**
- * Perform a [indices.create](http://www.elastic.co/guide/en/elasticsearch/reference/1.6/indices-create-index.html) request
- *
- * @param {Object} params - An object with parameters used to carry out this action
- * @param {Date, Number} params.timeout - Explicit operation timeout
- * @param {Date, Number} params.masterTimeout - Specify timeout for connection to master
- * @param {String} params.index - The name of the index
- */
-api.indices.prototype.create = ca({
-  params: {
-    timeout: {
-      type: 'time'
-    },
-    masterTimeout: {
-      type: 'time',
-      name: 'master_timeout'
-    }
-  },
-  url: {
-    fmt: '/<%=index%>',
-    req: {
-      index: {
-        type: 'string'
-      }
-    }
-  },
-  method: 'POST'
-});
-
-/**
- * Perform a [indices.delete](http://www.elastic.co/guide/en/elasticsearch/reference/1.6/indices-delete-index.html) request
- *
- * @param {Object} params - An object with parameters used to carry out this action
- * @param {Date, Number} params.timeout - Explicit operation timeout
- * @param {Date, Number} params.masterTimeout - Specify timeout for connection to master
- * @param {String, String[], Boolean} params.index - A comma-separated list of indices to delete; use `_all` or `*` string to delete all indices
- */
-api.indices.prototype['delete'] = ca({
-  params: {
-    timeout: {
-      type: 'time'
-    },
-    masterTimeout: {
-      type: 'time',
-      name: 'master_timeout'
-    }
-  },
-  url: {
-    fmt: '/<%=index%>',
-    req: {
-      index: {
-        type: 'list'
-      }
-    }
-  },
-  method: 'DELETE'
-});
-
-/**
- * Perform a [indices.deleteAlias](http://www.elastic.co/guide/en/elasticsearch/reference/1.6/indices-aliases.html) request
- *
- * @param {Object} params - An object with parameters used to carry out this action
- * @param {Date, Number} params.timeout - Explicit timestamp for the document
- * @param {Date, Number} params.masterTimeout - Specify timeout for connection to master
- * @param {String, String[], Boolean} params.index - A comma-separated list of index names (supports wildcards); use `_all` for all indices
- * @param {String, String[], Boolean} params.name - A comma-separated list of aliases to delete (supports wildcards); use `_all` to delete all aliases for the specified indices.
- */
-api.indices.prototype.deleteAlias = ca({
-  params: {
-    timeout: {
-      type: 'time'
-    },
-    masterTimeout: {
-      type: 'time',
-      name: 'master_timeout'
-    }
-  },
-  url: {
-    fmt: '/<%=index%>/_alias/<%=name%>',
-    req: {
-      index: {
-        type: 'list'
-      },
-      name: {
-        type: 'list'
-      }
-    }
-  },
-  method: 'DELETE'
-});
-
-/**
- * Perform a [indices.deleteMapping](http://www.elastic.co/guide/en/elasticsearch/reference/1.6/indices-delete-mapping.html) request
- *
- * @param {Object} params - An object with parameters used to carry out this action
- * @param {Date, Number} params.masterTimeout - Specify timeout for connection to master
- * @param {String, String[], Boolean} params.index - A comma-separated list of index names (supports wildcards); use `_all` for all indices
- * @param {String, String[], Boolean} params.type - A comma-separated list of document types to delete (supports wildcards); use `_all` to delete all document types in the specified indices.
- */
-api.indices.prototype.deleteMapping = ca({
-  params: {
-    masterTimeout: {
-      type: 'time',
-      name: 'master_timeout'
-    }
-  },
-  url: {
-    fmt: '/<%=index%>/<%=type%>/_mapping',
-    req: {
-      index: {
-        type: 'list'
-      },
-      type: {
-        type: 'list'
-      }
-    }
-  },
-  method: 'DELETE'
-});
-
-/**
- * Perform a [indices.deleteTemplate](http://www.elastic.co/guide/en/elasticsearch/reference/1.6/indices-templates.html) request
- *
- * @param {Object} params - An object with parameters used to carry out this action
- * @param {Date, Number} params.timeout - Explicit operation timeout
- * @param {Date, Number} params.masterTimeout - Specify timeout for connection to master
- * @param {String} params.name - The name of the template
- */
-api.indices.prototype.deleteTemplate = ca({
-  params: {
-    timeout: {
-      type: 'time'
-    },
-    masterTimeout: {
-      type: 'time',
-      name: 'master_timeout'
-    }
-  },
-  url: {
-    fmt: '/_template/<%=name%>',
-    req: {
-      name: {
-        type: 'string'
-      }
-    }
-  },
-  method: 'DELETE'
-});
-
-/**
- * Perform a [indices.deleteWarmer](http://www.elastic.co/guide/en/elasticsearch/reference/1.6/indices-warmers.html) request
- *
- * @param {Object} params - An object with parameters used to carry out this action
- * @param {Date, Number} params.masterTimeout - Specify timeout for connection to master
- * @param {String, String[], Boolean} params.name - A comma-separated list of warmer names to delete (supports wildcards); use `_all` to delete all warmers in the specified indices. You must specify a name either in the uri or in the parameters.
- * @param {String, String[], Boolean} params.index - A comma-separated list of index names to delete warmers from (supports wildcards); use `_all` to perform the operation on all indices.
- */
-api.indices.prototype.deleteWarmer = ca({
-  params: {
-    masterTimeout: {
-      type: 'time',
-      name: 'master_timeout'
-    },
-    name: {
-      type: 'list'
-    }
-  },
-  url: {
-    fmt: '/<%=index%>/_warmer/<%=name%>',
-    req: {
-      index: {
-        type: 'list'
-      },
-      name: {
-        type: 'list'
-      }
-    }
-  },
-  method: 'DELETE'
-});
-
-/**
- * Perform a [indices.exists](http://www.elastic.co/guide/en/elasticsearch/reference/1.6/indices-exists.html) request
- *
- * @param {Object} params - An object with parameters used to carry out this action
- * @param {Boolean} params.ignoreUnavailable - Whether specified concrete indices should be ignored when unavailable (missing or closed)
- * @param {Boolean} params.allowNoIndices - Whether to ignore if a wildcard indices expression resolves into no concrete indices. (This includes `_all` string or when no indices have been specified)
- * @param {String} [params.expandWildcards=open] - Whether to expand wildcard expression to concrete indices that are open, closed or both.
- * @param {Boolean} params.local - Return local information, do not retrieve the state from master node (default: false)
- * @param {String, String[], Boolean} params.index - A comma-separated list of indices to check
- */
-api.indices.prototype.exists = ca({
-  params: {
-    ignoreUnavailable: {
-      type: 'boolean',
-      name: 'ignore_unavailable'
-    },
-    allowNoIndices: {
-      type: 'boolean',
-      name: 'allow_no_indices'
-    },
-    expandWildcards: {
-      type: 'enum',
-      'default': 'open',
-      options: [
-        'open',
-        'closed',
-        'none',
-        'all'
-      ],
-      name: 'expand_wildcards'
-    },
-    local: {
-      type: 'boolean'
-    }
-  },
-  url: {
-    fmt: '/<%=index%>',
-    req: {
-      index: {
-        type: 'list'
-      }
-    }
-  },
-  method: 'HEAD'
-});
-
-/**
- * Perform a [indices.existsAlias](http://www.elastic.co/guide/en/elasticsearch/reference/1.6/indices-aliases.html) request
- *
- * @param {Object} params - An object with parameters used to carry out this action
- * @param {Boolean} params.ignoreUnavailable - Whether specified concrete indices should be ignored when unavailable (missing or closed)
- * @param {Boolean} params.allowNoIndices - Whether to ignore if a wildcard indices expression resolves into no concrete indices. (This includes `_all` string or when no indices have been specified)
- * @param {String} [params.expandWildcards=open,closed] - Whether to expand wildcard expression to concrete indices that are open, closed or both.
- * @param {Boolean} params.local - Return local information, do not retrieve the state from master node (default: false)
- * @param {String, String[], Boolean} params.index - A comma-separated list of index names to filter aliases
- * @param {String, String[], Boolean} params.name - A comma-separated list of alias names to return
- */
-api.indices.prototype.existsAlias = ca({
-  params: {
-    ignoreUnavailable: {
-      type: 'boolean',
-      name: 'ignore_unavailable'
-    },
-    allowNoIndices: {
-      type: 'boolean',
-      name: 'allow_no_indices'
-    },
-    expandWildcards: {
-      type: 'enum',
-      'default': [
-        'open',
-        'closed'
-      ],
-      options: [
-        'open',
-        'closed',
-        'none',
-        'all'
-      ],
-      name: 'expand_wildcards'
-    },
-    local: {
-      type: 'boolean'
-    }
-  },
-  urls: [
-    {
-      fmt: '/<%=index%>/_alias/<%=name%>',
-      req: {
-        index: {
-          type: 'list'
-        },
-        name: {
-          type: 'list'
-        }
-      }
-    },
-    {
-      fmt: '/_alias/<%=name%>',
-      req: {
-        name: {
-          type: 'list'
-        }
-      }
-    },
-    {
-      fmt: '/<%=index%>/_alias',
-      req: {
-        index: {
-          type: 'list'
-        }
-      }
-    }
-  ],
-  method: 'HEAD'
-});
-
-/**
- * Perform a [indices.existsTemplate](http://www.elastic.co/guide/en/elasticsearch/reference/1.6/indices-templates.html) request
- *
- * @param {Object} params - An object with parameters used to carry out this action
- * @param {Date, Number} params.masterTimeout - Explicit operation timeout for connection to master node
- * @param {Boolean} params.local - Return local information, do not retrieve the state from master node (default: false)
- * @param {String} params.name - The name of the template
- */
-api.indices.prototype.existsTemplate = ca({
-  params: {
-    masterTimeout: {
-      type: 'time',
-      name: 'master_timeout'
-    },
-    local: {
-      type: 'boolean'
-    }
-  },
-  url: {
-    fmt: '/_template/<%=name%>',
-    req: {
-      name: {
-        type: 'string'
-      }
-    }
-  },
-  method: 'HEAD'
-});
-
-/**
- * Perform a [indices.existsType](http://www.elastic.co/guide/en/elasticsearch/reference/1.6/indices-types-exists.html) request
- *
- * @param {Object} params - An object with parameters used to carry out this action
- * @param {Boolean} params.ignoreUnavailable - Whether specified concrete indices should be ignored when unavailable (missing or closed)
- * @param {Boolean} params.allowNoIndices - Whether to ignore if a wildcard indices expression resolves into no concrete indices. (This includes `_all` string or when no indices have been specified)
- * @param {String} [params.expandWildcards=open] - Whether to expand wildcard expression to concrete indices that are open, closed or both.
- * @param {Boolean} params.local - Return local information, do not retrieve the state from master node (default: false)
- * @param {String, String[], Boolean} params.index - A comma-separated list of index names; use `_all` to check the types across all indices
- * @param {String, String[], Boolean} params.type - A comma-separated list of document types to check
- */
-api.indices.prototype.existsType = ca({
-  params: {
-    ignoreUnavailable: {
-      type: 'boolean',
-      name: 'ignore_unavailable'
-    },
-    allowNoIndices: {
-      type: 'boolean',
-      name: 'allow_no_indices'
-    },
-    expandWildcards: {
-      type: 'enum',
-      'default': 'open',
-      options: [
-        'open',
-        'closed',
-        'none',
-        'all'
-      ],
-      name: 'expand_wildcards'
-    },
-    local: {
-      type: 'boolean'
-    }
-  },
-  url: {
-    fmt: '/<%=index%>/<%=type%>',
-    req: {
-      index: {
-        type: 'list'
-      },
-      type: {
-        type: 'list'
-      }
-    }
-  },
-  method: 'HEAD'
-});
-
-/**
- * Perform a [indices.flush](http://www.elastic.co/guide/en/elasticsearch/reference/1.6/indices-flush.html) request
- *
- * @param {Object} params - An object with parameters used to carry out this action
- * @param {Boolean} params.force - Whether a flush should be forced even if it is not necessarily needed ie. if no changes will be committed to the index. This is useful if transaction log IDs should be incremented even if no uncommitted changes are present. (This setting can be considered as internal)
- * @param {Boolean} params.waitIfOngoing - If set to true the flush operation will block until the flush can be executed if another flush operation is already executing. The default is false and will cause an exception to be thrown on the shard level if another flush operation is already running.
- * @param {Boolean} params.ignoreUnavailable - Whether specified concrete indices should be ignored when unavailable (missing or closed)
- * @param {Boolean} params.allowNoIndices - Whether to ignore if a wildcard indices expression resolves into no concrete indices. (This includes `_all` string or when no indices have been specified)
- * @param {String} [params.expandWildcards=open] - Whether to expand wildcard expression to concrete indices that are open, closed or both.
- * @param {String, String[], Boolean} params.index - A comma-separated list of index names; use `_all` or empty string for all indices
- */
-api.indices.prototype.flush = ca({
-  params: {
-    force: {
-      type: 'boolean'
-    },
-    waitIfOngoing: {
-      type: 'boolean',
-      name: 'wait_if_ongoing'
-    },
-    ignoreUnavailable: {
-      type: 'boolean',
-      name: 'ignore_unavailable'
-    },
-    allowNoIndices: {
-      type: 'boolean',
-      name: 'allow_no_indices'
-    },
-    expandWildcards: {
-      type: 'enum',
-      'default': 'open',
-      options: [
-        'open',
-        'closed',
-        'none',
-        'all'
-      ],
-      name: 'expand_wildcards'
-    }
-  },
-  urls: [
-    {
-      fmt: '/<%=index%>/_flush',
-      req: {
-        index: {
-          type: 'list'
-        }
-      }
-    },
-    {
-      fmt: '/_flush'
-    }
-  ],
-  method: 'POST'
-});
-
-/**
- * Perform a [indices.flushSynced](http://www.elastic.co/guide/en/elasticsearch/reference/1.6/indices-synced-flush.html) request
- *
- * @param {Object} params - An object with parameters used to carry out this action
- * @param {String, String[], Boolean} params.index - A comma-separated list of index names; use `_all` or empty string for all indices
- * @param {Boolean} params.ignoreUnavailable - Whether specified concrete indices should be ignored when unavailable (missing or closed)
- * @param {Boolean} params.allowNoIndices - Whether to ignore if a wildcard indices expression resolves into no concrete indices. (This includes `_all` string or when no indices have been specified)
- * @param {String} [params.expandWildcards=open] - Whether to expand wildcard expression to concrete indices that are open, closed or both.
- */
-api.indices.prototype.flushSynced = ca({
-  urls: [
-    {
-      fmt: '/<%=index%>/_flush/synced',
-      req: {
-        index: {
-          type: 'list'
-        }
-      }
-    },
-    {
-      fmt: '/_flush/synced'
-    }
-  ],
-  method: 'POST'
-});
-
-/**
- * Perform a [indices.get](http://www.elastic.co/guide/en/elasticsearch/reference/1.6/indices-get-index.html) request
- *
- * @param {Object} params - An object with parameters used to carry out this action
- * @param {Boolean} params.local - Return local information, do not retrieve the state from master node (default: false)
- * @param {Boolean} params.ignoreUnavailable - Ignore unavailable indexes (default: false)
- * @param {Boolean} params.allowNoIndices - Ignore if a wildcard expression resolves to no concrete indices (default: false)
- * @param {String} [params.expandWildcards=open] - Whether wildcard expressions should get expanded to open or closed indices (default: open)
- * @param {String, String[], Boolean} params.index - A comma-separated list of index names
- * @param {String, String[], Boolean} params.feature - A comma-separated list of features
- */
-api.indices.prototype.get = ca({
-  params: {
-    local: {
-      type: 'boolean'
-    },
-    ignoreUnavailable: {
-      type: 'boolean',
-      name: 'ignore_unavailable'
-    },
-    allowNoIndices: {
-      type: 'boolean',
-      name: 'allow_no_indices'
-    },
-    expandWildcards: {
-      type: 'enum',
-      'default': 'open',
-      options: [
-        'open',
-        'closed',
-        'none',
-        'all'
-      ],
-      name: 'expand_wildcards'
-    }
-  },
-  urls: [
-    {
-      fmt: '/<%=index%>/<%=feature%>',
-      req: {
-        index: {
-          type: 'list'
-        },
-        feature: {
-          type: 'list'
-        }
-      }
-    },
-    {
-      fmt: '/<%=index%>',
-      req: {
-        index: {
-          type: 'list'
-        }
-      }
-    }
-  ]
-});
-
-/**
- * Perform a [indices.getAlias](http://www.elastic.co/guide/en/elasticsearch/reference/1.6/indices-aliases.html) request
- *
- * @param {Object} params - An object with parameters used to carry out this action
- * @param {Boolean} params.ignoreUnavailable - Whether specified concrete indices should be ignored when unavailable (missing or closed)
- * @param {Boolean} params.allowNoIndices - Whether to ignore if a wildcard indices expression resolves into no concrete indices. (This includes `_all` string or when no indices have been specified)
- * @param {String} [params.expandWildcards=open] - Whether to expand wildcard expression to concrete indices that are open, closed or both.
- * @param {Boolean} params.local - Return local information, do not retrieve the state from master node (default: false)
- * @param {String, String[], Boolean} params.index - A comma-separated list of index names to filter aliases
- * @param {String, String[], Boolean} params.name - A comma-separated list of alias names to return
- */
-api.indices.prototype.getAlias = ca({
-  params: {
-    ignoreUnavailable: {
-      type: 'boolean',
-      name: 'ignore_unavailable'
-    },
-    allowNoIndices: {
-      type: 'boolean',
-      name: 'allow_no_indices'
-    },
-    expandWildcards: {
-      type: 'enum',
-      'default': 'open',
-      options: [
-        'open',
-        'closed',
-        'none',
-        'all'
-      ],
-      name: 'expand_wildcards'
-    },
-    local: {
-      type: 'boolean'
-    }
-  },
-  urls: [
-    {
-      fmt: '/<%=index%>/_alias/<%=name%>',
-      req: {
-        index: {
-          type: 'list'
-        },
-        name: {
-          type: 'list'
-        }
-      }
-    },
-    {
-      fmt: '/_alias/<%=name%>',
-      req: {
-        name: {
-          type: 'list'
-        }
-      }
-    },
-    {
-      fmt: '/<%=index%>/_alias',
-      req: {
-        index: {
-          type: 'list'
-        }
-      }
-    },
-    {
-      fmt: '/_alias'
-    }
-  ]
-});
-
-/**
- * Perform a [indices.getAliases](http://www.elastic.co/guide/en/elasticsearch/reference/1.6/indices-aliases.html) request
- *
- * @param {Object} params - An object with parameters used to carry out this action
- * @param {Date, Number} params.timeout - Explicit operation timeout
- * @param {Boolean} params.local - Return local information, do not retrieve the state from master node (default: false)
- * @param {String, String[], Boolean} params.index - A comma-separated list of index names to filter aliases
- * @param {String, String[], Boolean} params.name - A comma-separated list of alias names to filter
- */
-api.indices.prototype.getAliases = ca({
-  params: {
-    timeout: {
-      type: 'time'
-    },
-    local: {
-      type: 'boolean'
-    }
-  },
-  urls: [
-    {
-      fmt: '/<%=index%>/_aliases/<%=name%>',
-      req: {
-        index: {
-          type: 'list'
-        },
-        name: {
-          type: 'list'
-        }
-      }
-    },
-    {
-      fmt: '/<%=index%>/_aliases',
-      req: {
-        index: {
-          type: 'list'
-        }
-      }
-    },
-    {
-      fmt: '/_aliases/<%=name%>',
-      req: {
-        name: {
-          type: 'list'
-        }
-      }
-    },
-    {
-      fmt: '/_aliases'
-    }
-  ]
-});
-
-/**
- * Perform a [indices.getFieldMapping](http://www.elastic.co/guide/en/elasticsearch/reference/1.6/indices-get-field-mapping.html) request
- *
- * @param {Object} params - An object with parameters used to carry out this action
- * @param {Boolean} params.includeDefaults - Whether the default mapping values should be returned as well
- * @param {Boolean} params.ignoreUnavailable - Whether specified concrete indices should be ignored when unavailable (missing or closed)
- * @param {Boolean} params.allowNoIndices - Whether to ignore if a wildcard indices expression resolves into no concrete indices. (This includes `_all` string or when no indices have been specified)
- * @param {String} [params.expandWildcards=open] - Whether to expand wildcard expression to concrete indices that are open, closed or both.
- * @param {Boolean} params.local - Return local information, do not retrieve the state from master node (default: false)
- * @param {String, String[], Boolean} params.index - A comma-separated list of index names
- * @param {String, String[], Boolean} params.type - A comma-separated list of document types
- * @param {String, String[], Boolean} params.field - A comma-separated list of fields
- */
-api.indices.prototype.getFieldMapping = ca({
-  params: {
-    includeDefaults: {
-      type: 'boolean',
-      name: 'include_defaults'
-    },
-    ignoreUnavailable: {
-      type: 'boolean',
-      name: 'ignore_unavailable'
-    },
-    allowNoIndices: {
-      type: 'boolean',
-      name: 'allow_no_indices'
-    },
-    expandWildcards: {
-      type: 'enum',
-      'default': 'open',
-      options: [
-        'open',
-        'closed',
-        'none',
-        'all'
-      ],
-      name: 'expand_wildcards'
-    },
-    local: {
-      type: 'boolean'
-    }
-  },
-  urls: [
-    {
-      fmt: '/<%=index%>/_mapping/<%=type%>/field/<%=field%>',
-      req: {
-        index: {
-          type: 'list'
-        },
-        type: {
-          type: 'list'
-        },
-        field: {
-          type: 'list'
-        }
-      }
-    },
-    {
-      fmt: '/<%=index%>/_mapping/field/<%=field%>',
-      req: {
-        index: {
-          type: 'list'
-        },
-        field: {
-          type: 'list'
-        }
-      }
-    },
-    {
-      fmt: '/_mapping/<%=type%>/field/<%=field%>',
-      req: {
-        type: {
-          type: 'list'
-        },
-        field: {
-          type: 'list'
-        }
-      }
-    },
-    {
-      fmt: '/_mapping/field/<%=field%>',
-      req: {
-        field: {
-          type: 'list'
-        }
-      }
-    }
-  ]
-});
-
-/**
- * Perform a [indices.getMapping](http://www.elastic.co/guide/en/elasticsearch/reference/1.6/indices-get-mapping.html) request
- *
- * @param {Object} params - An object with parameters used to carry out this action
- * @param {Boolean} params.ignoreUnavailable - Whether specified concrete indices should be ignored when unavailable (missing or closed)
- * @param {Boolean} params.allowNoIndices - Whether to ignore if a wildcard indices expression resolves into no concrete indices. (This includes `_all` string or when no indices have been specified)
- * @param {String} [params.expandWildcards=open] - Whether to expand wildcard expression to concrete indices that are open, closed or both.
- * @param {Boolean} params.local - Return local information, do not retrieve the state from master node (default: false)
- * @param {String, String[], Boolean} params.index - A comma-separated list of index names
- * @param {String, String[], Boolean} params.type - A comma-separated list of document types
- */
-api.indices.prototype.getMapping = ca({
-  params: {
-    ignoreUnavailable: {
-      type: 'boolean',
-      name: 'ignore_unavailable'
-    },
-    allowNoIndices: {
-      type: 'boolean',
-      name: 'allow_no_indices'
-    },
-    expandWildcards: {
-      type: 'enum',
-      'default': 'open',
-      options: [
-        'open',
-        'closed',
-        'none',
-        'all'
-      ],
-      name: 'expand_wildcards'
-    },
-    local: {
-      type: 'boolean'
-    }
-  },
-  urls: [
-    {
-      fmt: '/<%=index%>/_mapping/<%=type%>',
-      req: {
-        index: {
-          type: 'list'
-        },
-        type: {
-          type: 'list'
-        }
-      }
-    },
-    {
-      fmt: '/<%=index%>/_mapping',
-      req: {
-        index: {
-          type: 'list'
-        }
-      }
-    },
-    {
-      fmt: '/_mapping/<%=type%>',
-      req: {
-        type: {
-          type: 'list'
-        }
-      }
-    },
-    {
-      fmt: '/_mapping'
-    }
-  ]
-});
-
-/**
- * Perform a [indices.getSettings](http://www.elastic.co/guide/en/elasticsearch/reference/1.6/indices-get-settings.html) request
- *
- * @param {Object} params - An object with parameters used to carry out this action
- * @param {Boolean} params.ignoreUnavailable - Whether specified concrete indices should be ignored when unavailable (missing or closed)
- * @param {Boolean} params.allowNoIndices - Whether to ignore if a wildcard indices expression resolves into no concrete indices. (This includes `_all` string or when no indices have been specified)
- * @param {String} [params.expandWildcards=open,closed] - Whether to expand wildcard expression to concrete indices that are open, closed or both.
- * @param {Boolean} params.flatSettings - Return settings in flat format (default: false)
- * @param {Boolean} params.local - Return local information, do not retrieve the state from master node (default: false)
- * @param {String, String[], Boolean} params.index - A comma-separated list of index names; use `_all` or empty string to perform the operation on all indices
- * @param {String, String[], Boolean} params.name - The name of the settings that should be included
- */
-api.indices.prototype.getSettings = ca({
-  params: {
-    ignoreUnavailable: {
-      type: 'boolean',
-      name: 'ignore_unavailable'
-    },
-    allowNoIndices: {
-      type: 'boolean',
-      name: 'allow_no_indices'
-    },
-    expandWildcards: {
-      type: 'enum',
-      'default': [
-        'open',
-        'closed'
-      ],
-      options: [
-        'open',
-        'closed',
-        'none',
-        'all'
-      ],
-      name: 'expand_wildcards'
-    },
-    flatSettings: {
-      type: 'boolean',
-      name: 'flat_settings'
-    },
-    local: {
-      type: 'boolean'
-    }
-  },
-  urls: [
-    {
-      fmt: '/<%=index%>/_settings/<%=name%>',
-      req: {
-        index: {
-          type: 'list'
-        },
-        name: {
-          type: 'list'
-        }
-      }
-    },
-    {
-      fmt: '/<%=index%>/_settings',
-      req: {
-        index: {
-          type: 'list'
-        }
-      }
-    },
-    {
-      fmt: '/_settings/<%=name%>',
-      req: {
-        name: {
-          type: 'list'
-        }
-      }
-    },
-    {
-      fmt: '/_settings'
-    }
-  ]
-});
-
-/**
- * Perform a [indices.getTemplate](http://www.elastic.co/guide/en/elasticsearch/reference/1.6/indices-templates.html) request
- *
- * @param {Object} params - An object with parameters used to carry out this action
- * @param {Boolean} params.flatSettings - Return settings in flat format (default: false)
- * @param {Date, Number} params.masterTimeout - Explicit operation timeout for connection to master node
- * @param {Boolean} params.local - Return local information, do not retrieve the state from master node (default: false)
- * @param {String} params.name - The name of the template
- */
-api.indices.prototype.getTemplate = ca({
-  params: {
-    flatSettings: {
-      type: 'boolean',
-      name: 'flat_settings'
-    },
-    masterTimeout: {
-      type: 'time',
-      name: 'master_timeout'
-    },
-    local: {
-      type: 'boolean'
-    }
-  },
-  urls: [
-    {
-      fmt: '/_template/<%=name%>',
-      req: {
-        name: {
-          type: 'string'
-        }
-      }
-    },
-    {
-      fmt: '/_template'
-    }
-  ]
-});
-
-/**
- * Perform a [indices.getUpgrade](http://www.elastic.co/guide/en/elasticsearch/reference/1.6/indices-upgrade.html) request
- *
- * @param {Object} params - An object with parameters used to carry out this action
- * @param {Boolean} params.ignoreUnavailable - Whether specified concrete indices should be ignored when unavailable (missing or closed)
- * @param {Boolean} params.allowNoIndices - Whether to ignore if a wildcard indices expression resolves into no concrete indices. (This includes `_all` string or when no indices have been specified)
- * @param {String} [params.expandWildcards=open] - Whether to expand wildcard expression to concrete indices that are open, closed or both.
- * @param {Boolean} params.human - Whether to return time and byte values in human-readable format.
- * @param {String, String[], Boolean} params.index - A comma-separated list of index names; use `_all` or empty string to perform the operation on all indices
- */
-api.indices.prototype.getUpgrade = ca({
-  params: {
-    ignoreUnavailable: {
-      type: 'boolean',
-      name: 'ignore_unavailable'
-    },
-    allowNoIndices: {
-      type: 'boolean',
-      name: 'allow_no_indices'
-    },
-    expandWildcards: {
-      type: 'enum',
-      'default': 'open',
-      options: [
-        'open',
-        'closed',
-        'none',
-        'all'
-      ],
-      name: 'expand_wildcards'
-    },
-    human: {
-      type: 'boolean',
-      'default': false
-    }
-  },
-  urls: [
-    {
-      fmt: '/<%=index%>/_upgrade',
-      req: {
-        index: {
-          type: 'list'
-        }
-      }
-    },
-    {
-      fmt: '/_upgrade'
-    }
-  ]
-});
-
-/**
- * Perform a [indices.getWarmer](http://www.elastic.co/guide/en/elasticsearch/reference/1.6/indices-warmers.html) request
- *
- * @param {Object} params - An object with parameters used to carry out this action
- * @param {Boolean} params.ignoreUnavailable - Whether specified concrete indices should be ignored when unavailable (missing or closed)
- * @param {Boolean} params.allowNoIndices - Whether to ignore if a wildcard indices expression resolves into no concrete indices. (This includes `_all` string or when no indices have been specified)
- * @param {String} [params.expandWildcards=open] - Whether to expand wildcard expression to concrete indices that are open, closed or both.
- * @param {Boolean} params.local - Return local information, do not retrieve the state from master node (default: false)
- * @param {String, String[], Boolean} params.index - A comma-separated list of index names to restrict the operation; use `_all` to perform the operation on all indices
- * @param {String, String[], Boolean} params.name - The name of the warmer (supports wildcards); leave empty to get all warmers
- * @param {String, String[], Boolean} params.type - A comma-separated list of document types to restrict the operation; leave empty to perform the operation on all types
- */
-api.indices.prototype.getWarmer = ca({
-  params: {
-    ignoreUnavailable: {
-      type: 'boolean',
-      name: 'ignore_unavailable'
-    },
-    allowNoIndices: {
-      type: 'boolean',
-      name: 'allow_no_indices'
-    },
-    expandWildcards: {
-      type: 'enum',
-      'default': 'open',
-      options: [
-        'open',
-        'closed',
-        'none',
-        'all'
-      ],
-      name: 'expand_wildcards'
-    },
-    local: {
-      type: 'boolean'
-    }
-  },
-  urls: [
-    {
-      fmt: '/<%=index%>/<%=type%>/_warmer/<%=name%>',
-      req: {
-        index: {
-          type: 'list'
-        },
-        type: {
-          type: 'list'
-        },
-        name: {
-          type: 'list'
-        }
-      }
-    },
-    {
-      fmt: '/<%=index%>/_warmer/<%=name%>',
-      req: {
-        index: {
-          type: 'list'
-        },
-        name: {
-          type: 'list'
-        }
-      }
-    },
-    {
-      fmt: '/<%=index%>/_warmer',
-      req: {
-        index: {
-          type: 'list'
-        }
-      }
-    },
-    {
-      fmt: '/_warmer/<%=name%>',
-      req: {
-        name: {
-          type: 'list'
-        }
-      }
-    },
-    {
-      fmt: '/_warmer'
-    }
-  ]
-});
-
-/**
- * Perform a [indices.open](http://www.elastic.co/guide/en/elasticsearch/reference/1.6/indices-open-close.html) request
- *
- * @param {Object} params - An object with parameters used to carry out this action
- * @param {Date, Number} params.timeout - Explicit operation timeout
- * @param {Date, Number} params.masterTimeout - Specify timeout for connection to master
- * @param {Boolean} params.ignoreUnavailable - Whether specified concrete indices should be ignored when unavailable (missing or closed)
- * @param {Boolean} params.allowNoIndices - Whether to ignore if a wildcard indices expression resolves into no concrete indices. (This includes `_all` string or when no indices have been specified)
- * @param {String} [params.expandWildcards=closed] - Whether to expand wildcard expression to concrete indices that are open, closed or both.
- * @param {String} params.index - The name of the index
- */
-api.indices.prototype.open = ca({
-  params: {
-    timeout: {
-      type: 'time'
-    },
-    masterTimeout: {
-      type: 'time',
-      name: 'master_timeout'
-    },
-    ignoreUnavailable: {
-      type: 'boolean',
-      name: 'ignore_unavailable'
-    },
-    allowNoIndices: {
-      type: 'boolean',
-      name: 'allow_no_indices'
-    },
-    expandWildcards: {
-      type: 'enum',
-      'default': 'closed',
-      options: [
-        'open',
-        'closed',
-        'none',
-        'all'
-      ],
-      name: 'expand_wildcards'
-    }
-  },
-  url: {
-    fmt: '/<%=index%>/_open',
-    req: {
-      index: {
-        type: 'string'
-      }
-    }
-  },
-  method: 'POST'
-});
-
-/**
- * Perform a [indices.optimize](http://www.elastic.co/guide/en/elasticsearch/reference/1.6/indices-optimize.html) request
- *
- * @param {Object} params - An object with parameters used to carry out this action
- * @param {Boolean} params.flush - Specify whether the index should be flushed after performing the operation (default: true)
- * @param {Boolean} params.ignoreUnavailable - Whether specified concrete indices should be ignored when unavailable (missing or closed)
- * @param {Boolean} params.allowNoIndices - Whether to ignore if a wildcard indices expression resolves into no concrete indices. (This includes `_all` string or when no indices have been specified)
- * @param {String} [params.expandWildcards=open] - Whether to expand wildcard expression to concrete indices that are open, closed or both.
- * @param {Number} params.maxNumSegments - The number of segments the index should be merged into (default: dynamic)
- * @param {Boolean} params.onlyExpungeDeletes - Specify whether the operation should only expunge deleted documents
- * @param {Anything} params.operationThreading - TODO: ?
- * @param {Boolean} params.waitForMerge - Specify whether the request should block until the merge process is finished (default: true)
- * @param {Boolean} params.force - Force a merge operation to run, even if there is a single segment in the index (default: false)
- * @param {String, String[], Boolean} params.index - A comma-separated list of index names; use `_all` or empty string to perform the operation on all indices
- */
-api.indices.prototype.optimize = ca({
-  params: {
-    flush: {
-      type: 'boolean'
-    },
-    ignoreUnavailable: {
-      type: 'boolean',
-      name: 'ignore_unavailable'
-    },
-    allowNoIndices: {
-      type: 'boolean',
-      name: 'allow_no_indices'
-    },
-    expandWildcards: {
-      type: 'enum',
-      'default': 'open',
-      options: [
-        'open',
-        'closed',
-        'none',
-        'all'
-      ],
-      name: 'expand_wildcards'
-    },
-    maxNumSegments: {
-      type: 'number',
-      name: 'max_num_segments'
-    },
-    onlyExpungeDeletes: {
-      type: 'boolean',
-      name: 'only_expunge_deletes'
-    },
-    operationThreading: {
-      name: 'operation_threading'
-    },
-    waitForMerge: {
-      type: 'boolean',
-      name: 'wait_for_merge'
-    },
-    force: {
-      type: 'boolean'
-    }
-  },
-  urls: [
-    {
-      fmt: '/<%=index%>/_optimize',
-      req: {
-        index: {
-          type: 'list'
-        }
-      }
-    },
-    {
-      fmt: '/_optimize'
-    }
-  ],
-  method: 'POST'
-});
-
-/**
- * Perform a [indices.putAlias](http://www.elastic.co/guide/en/elasticsearch/reference/1.6/indices-aliases.html) request
- *
- * @param {Object} params - An object with parameters used to carry out this action
- * @param {Date, Number} params.timeout - Explicit timestamp for the document
- * @param {Date, Number} params.masterTimeout - Specify timeout for connection to master
- * @param {String, String[], Boolean} params.index - A comma-separated list of index names the alias should point to (supports wildcards); use `_all` to perform the operation on all indices.
- * @param {String} params.name - The name of the alias to be created or updated
- */
-api.indices.prototype.putAlias = ca({
-  params: {
-    timeout: {
-      type: 'time'
-    },
-    masterTimeout: {
-      type: 'time',
-      name: 'master_timeout'
-    }
-  },
-  url: {
-    fmt: '/<%=index%>/_alias/<%=name%>',
-    req: {
-      index: {
-        type: 'list'
-      },
-      name: {
-        type: 'string'
-      }
-    }
-  },
-  method: 'PUT'
-});
-
-/**
- * Perform a [indices.putMapping](http://www.elastic.co/guide/en/elasticsearch/reference/1.6/indices-put-mapping.html) request
- *
- * @param {Object} params - An object with parameters used to carry out this action
- * @param {Boolean} params.ignoreConflicts - Specify whether to ignore conflicts while updating the mapping (default: false)
- * @param {Date, Number} params.timeout - Explicit operation timeout
- * @param {Date, Number} params.masterTimeout - Specify timeout for connection to master
- * @param {Boolean} params.ignoreUnavailable - Whether specified concrete indices should be ignored when unavailable (missing or closed)
- * @param {Boolean} params.allowNoIndices - Whether to ignore if a wildcard indices expression resolves into no concrete indices. (This includes `_all` string or when no indices have been specified)
- * @param {String} [params.expandWildcards=open] - Whether to expand wildcard expression to concrete indices that are open, closed or both.
- * @param {String, String[], Boolean} params.index - A comma-separated list of index names the mapping should be added to (supports wildcards); use `_all` or omit to add the mapping on all indices.
- * @param {String} params.type - The name of the document type
- */
-api.indices.prototype.putMapping = ca({
-  params: {
-    ignoreConflicts: {
-      type: 'boolean',
-      name: 'ignore_conflicts'
-    },
-    timeout: {
-      type: 'time'
-    },
-    masterTimeout: {
-      type: 'time',
-      name: 'master_timeout'
-    },
-    ignoreUnavailable: {
-      type: 'boolean',
-      name: 'ignore_unavailable'
-    },
-    allowNoIndices: {
-      type: 'boolean',
-      name: 'allow_no_indices'
-    },
-    expandWildcards: {
-      type: 'enum',
-      'default': 'open',
-      options: [
-        'open',
-        'closed',
-        'none',
-        'all'
-      ],
-      name: 'expand_wildcards'
-    }
-  },
-  urls: [
-    {
-      fmt: '/<%=index%>/_mapping/<%=type%>',
-      req: {
-        index: {
-          type: 'list'
-        },
-        type: {
-          type: 'string'
-        }
-      }
-    },
-    {
-      fmt: '/_mapping/<%=type%>',
-      req: {
-        type: {
-          type: 'string'
-        }
-      }
-    }
-  ],
-  needBody: true,
-  method: 'PUT'
-});
-
-/**
- * Perform a [indices.putSettings](http://www.elastic.co/guide/en/elasticsearch/reference/1.6/indices-update-settings.html) request
- *
- * @param {Object} params - An object with parameters used to carry out this action
- * @param {Date, Number} params.masterTimeout - Specify timeout for connection to master
- * @param {Boolean} params.ignoreUnavailable - Whether specified concrete indices should be ignored when unavailable (missing or closed)
- * @param {Boolean} params.allowNoIndices - Whether to ignore if a wildcard indices expression resolves into no concrete indices. (This includes `_all` string or when no indices have been specified)
- * @param {String} [params.expandWildcards=open] - Whether to expand wildcard expression to concrete indices that are open, closed or both.
- * @param {Boolean} params.flatSettings - Return settings in flat format (default: false)
- * @param {String, String[], Boolean} params.index - A comma-separated list of index names; use `_all` or empty string to perform the operation on all indices
- */
-api.indices.prototype.putSettings = ca({
-  params: {
-    masterTimeout: {
-      type: 'time',
-      name: 'master_timeout'
-    },
-    ignoreUnavailable: {
-      type: 'boolean',
-      name: 'ignore_unavailable'
-    },
-    allowNoIndices: {
-      type: 'boolean',
-      name: 'allow_no_indices'
-    },
-    expandWildcards: {
-      type: 'enum',
-      'default': 'open',
-      options: [
-        'open',
-        'closed',
-        'none',
-        'all'
-      ],
-      name: 'expand_wildcards'
-    },
-    flatSettings: {
-      type: 'boolean',
-      name: 'flat_settings'
-    }
-  },
-  urls: [
-    {
-      fmt: '/<%=index%>/_settings',
-      req: {
-        index: {
-          type: 'list'
-        }
-      }
-    },
-    {
-      fmt: '/_settings'
-    }
-  ],
-  needBody: true,
-  method: 'PUT'
-});
-
-/**
- * Perform a [indices.putTemplate](http://www.elastic.co/guide/en/elasticsearch/reference/1.6/indices-templates.html) request
- *
- * @param {Object} params - An object with parameters used to carry out this action
- * @param {Number} params.order - The order for this template when merging multiple matching ones (higher numbers are merged later, overriding the lower numbers)
- * @param {Boolean} params.create - Whether the index template should only be added if new or can also replace an existing one
- * @param {Date, Number} params.timeout - Explicit operation timeout
- * @param {Date, Number} params.masterTimeout - Specify timeout for connection to master
- * @param {Boolean} params.flatSettings - Return settings in flat format (default: false)
- * @param {String} params.name - The name of the template
- */
-api.indices.prototype.putTemplate = ca({
-  params: {
-    order: {
-      type: 'number'
-    },
-    create: {
-      type: 'boolean',
-      'default': false
-    },
-    timeout: {
-      type: 'time'
-    },
-    masterTimeout: {
-      type: 'time',
-      name: 'master_timeout'
-    },
-    flatSettings: {
-      type: 'boolean',
-      name: 'flat_settings'
-    }
-  },
-  url: {
-    fmt: '/_template/<%=name%>',
-    req: {
-      name: {
-        type: 'string'
-      }
-    }
-  },
-  needBody: true,
-  method: 'PUT'
-});
-
-/**
- * Perform a [indices.putWarmer](http://www.elastic.co/guide/en/elasticsearch/reference/1.6/indices-warmers.html) request
- *
- * @param {Object} params - An object with parameters used to carry out this action
- * @param {Date, Number} params.masterTimeout - Specify timeout for connection to master
- * @param {Boolean} params.ignoreUnavailable - Whether specified concrete indices should be ignored when unavailable (missing or closed) in the search request to warm
- * @param {Boolean} params.allowNoIndices - Whether to ignore if a wildcard indices expression resolves into no concrete indices in the search request to warm. (This includes `_all` string or when no indices have been specified)
- * @param {String} [params.expandWildcards=open] - Whether to expand wildcard expression to concrete indices that are open, closed or both, in the search request to warm.
- * @param {String, String[], Boolean} params.index - A comma-separated list of index names to register the warmer for; use `_all` or omit to perform the operation on all indices
- * @param {String} params.name - The name of the warmer
- * @param {String, String[], Boolean} params.type - A comma-separated list of document types to register the warmer for; leave empty to perform the operation on all types
- */
-api.indices.prototype.putWarmer = ca({
-  params: {
-    masterTimeout: {
-      type: 'time',
-      name: 'master_timeout'
-    },
-    ignoreUnavailable: {
-      type: 'boolean',
-      name: 'ignore_unavailable'
-    },
-    allowNoIndices: {
-      type: 'boolean',
-      name: 'allow_no_indices'
-    },
-    expandWildcards: {
-      type: 'enum',
-      'default': 'open',
-      options: [
-        'open',
-        'closed',
-        'none',
-        'all'
-      ],
-      name: 'expand_wildcards'
-    }
-  },
-  urls: [
-    {
-      fmt: '/<%=index%>/<%=type%>/_warmer/<%=name%>',
-      req: {
-        index: {
-          type: 'list'
-        },
-        type: {
-          type: 'list'
-        },
-        name: {
-          type: 'string'
-        }
-      }
-    },
-    {
-      fmt: '/<%=index%>/_warmer/<%=name%>',
-      req: {
-        index: {
-          type: 'list'
-        },
-        name: {
-          type: 'string'
-        }
-      }
-    },
-    {
-      fmt: '/_warmer/<%=name%>',
-      req: {
-        name: {
-          type: 'string'
-        }
-      }
-    }
-  ],
-  needBody: true,
-  method: 'PUT'
-});
-
-/**
- * Perform a [indices.recovery](http://www.elastic.co/guide/en/elasticsearch/reference/1.6/indices-recovery.html) request
- *
- * @param {Object} params - An object with parameters used to carry out this action
- * @param {Boolean} params.detailed - Whether to display detailed information about shard recovery
- * @param {Boolean} params.activeOnly - Display only those recoveries that are currently on-going
- * @param {Boolean} params.human - Whether to return time and byte values in human-readable format.
- * @param {String, String[], Boolean} params.index - A comma-separated list of index names; use `_all` or empty string to perform the operation on all indices
- */
-api.indices.prototype.recovery = ca({
-  params: {
-    detailed: {
-      type: 'boolean',
-      'default': false
-    },
-    activeOnly: {
-      type: 'boolean',
-      'default': false,
-      name: 'active_only'
-    },
-    human: {
-      type: 'boolean',
-      'default': false
-    }
-  },
-  urls: [
-    {
-      fmt: '/<%=index%>/_recovery',
-      req: {
-        index: {
-          type: 'list'
-        }
-      }
-    },
-    {
-      fmt: '/_recovery'
-    }
-  ]
-});
-
-/**
- * Perform a [indices.refresh](http://www.elastic.co/guide/en/elasticsearch/reference/1.6/indices-refresh.html) request
- *
- * @param {Object} params - An object with parameters used to carry out this action
- * @param {Boolean} params.ignoreUnavailable - Whether specified concrete indices should be ignored when unavailable (missing or closed)
- * @param {Boolean} params.allowNoIndices - Whether to ignore if a wildcard indices expression resolves into no concrete indices. (This includes `_all` string or when no indices have been specified)
- * @param {String} [params.expandWildcards=open] - Whether to expand wildcard expression to concrete indices that are open, closed or both.
- * @param {Boolean} params.force - Force a refresh even if not required
- * @param {Anything} params.operationThreading - TODO: ?
- * @param {String, String[], Boolean} params.index - A comma-separated list of index names; use `_all` or empty string to perform the operation on all indices
- */
-api.indices.prototype.refresh = ca({
-  params: {
-    ignoreUnavailable: {
-      type: 'boolean',
-      name: 'ignore_unavailable'
-    },
-    allowNoIndices: {
-      type: 'boolean',
-      name: 'allow_no_indices'
-    },
-    expandWildcards: {
-      type: 'enum',
-      'default': 'open',
-      options: [
-        'open',
-        'closed',
-        'none',
-        'all'
-      ],
-      name: 'expand_wildcards'
-    },
-    force: {
-      type: 'boolean',
-      'default': false
-    },
-    operationThreading: {
-      name: 'operation_threading'
-    }
-  },
-  urls: [
-    {
-      fmt: '/<%=index%>/_refresh',
-      req: {
-        index: {
-          type: 'list'
-        }
-      }
-    },
-    {
-      fmt: '/_refresh'
-    }
-  ],
-  method: 'POST'
-});
-
-/**
- * Perform a [indices.segments](http://www.elastic.co/guide/en/elasticsearch/reference/1.6/indices-segments.html) request
- *
- * @param {Object} params - An object with parameters used to carry out this action
- * @param {Boolean} params.ignoreUnavailable - Whether specified concrete indices should be ignored when unavailable (missing or closed)
- * @param {Boolean} params.allowNoIndices - Whether to ignore if a wildcard indices expression resolves into no concrete indices. (This includes `_all` string or when no indices have been specified)
- * @param {String} [params.expandWildcards=open] - Whether to expand wildcard expression to concrete indices that are open, closed or both.
- * @param {Boolean} params.human - Whether to return time and byte values in human-readable format.
- * @param {Anything} params.operationThreading - TODO: ?
- * @param {String, String[], Boolean} params.index - A comma-separated list of index names; use `_all` or empty string to perform the operation on all indices
- */
-api.indices.prototype.segments = ca({
-  params: {
-    ignoreUnavailable: {
-      type: 'boolean',
-      name: 'ignore_unavailable'
-    },
-    allowNoIndices: {
-      type: 'boolean',
-      name: 'allow_no_indices'
-    },
-    expandWildcards: {
-      type: 'enum',
-      'default': 'open',
-      options: [
-        'open',
-        'closed',
-        'none',
-        'all'
-      ],
-      name: 'expand_wildcards'
-    },
-    human: {
-      type: 'boolean',
-      'default': false
-    },
-    operationThreading: {
-      name: 'operation_threading'
-    }
-  },
-  urls: [
-    {
-      fmt: '/<%=index%>/_segments',
-      req: {
-        index: {
-          type: 'list'
-        }
-      }
-    },
-    {
-      fmt: '/_segments'
-    }
-  ]
-});
-
-/**
- * Perform a [indices.stats](http://www.elastic.co/guide/en/elasticsearch/reference/1.6/indices-stats.html) request
- *
- * @param {Object} params - An object with parameters used to carry out this action
- * @param {String, String[], Boolean} params.completionFields - A comma-separated list of fields for `fielddata` and `suggest` index metric (supports wildcards)
- * @param {String, String[], Boolean} params.fielddataFields - A comma-separated list of fields for `fielddata` index metric (supports wildcards)
- * @param {String, String[], Boolean} params.fields - A comma-separated list of fields for `fielddata` and `completion` index metric (supports wildcards)
- * @param {String, String[], Boolean} params.groups - A comma-separated list of search groups for `search` index metric
- * @param {Boolean} params.human - Whether to return time and byte values in human-readable format.
- * @param {String} [params.level=indices] - Return stats aggregated at cluster, index or shard level
- * @param {String, String[], Boolean} params.types - A comma-separated list of document types for the `indexing` index metric
- * @param {String, String[], Boolean} params.index - A comma-separated list of index names; use `_all` or empty string to perform the operation on all indices
- * @param {String, String[], Boolean} params.metric - Limit the information returned the specific metrics.
- */
-api.indices.prototype.stats = ca({
-  params: {
-    completionFields: {
-      type: 'list',
-      name: 'completion_fields'
-    },
-    fielddataFields: {
-      type: 'list',
-      name: 'fielddata_fields'
-    },
-    fields: {
-      type: 'list'
-    },
-    groups: {
-      type: 'list'
-    },
-    human: {
-      type: 'boolean',
-      'default': false
-    },
-    level: {
-      type: 'enum',
-      'default': 'indices',
-      options: [
-        'cluster',
-        'indices',
-        'shards'
-      ]
-    },
-    types: {
-      type: 'list'
-    }
-  },
-  urls: [
-    {
-      fmt: '/<%=index%>/_stats/<%=metric%>',
-      req: {
-        index: {
-          type: 'list'
-        },
-        metric: {
-          type: 'list',
-          options: [
-            '_all',
-            'completion',
-            'docs',
-            'fielddata',
-            'filter_cache',
-            'flush',
-            'get',
-            'id_cache',
-            'indexing',
-            'merge',
-            'percolate',
-            'query_cache',
-            'refresh',
-            'search',
-            'segments',
-            'store',
-            'warmer',
-            'suggest'
-          ]
-        }
-      }
-    },
-    {
-      fmt: '/_stats/<%=metric%>',
-      req: {
-        metric: {
-          type: 'list',
-          options: [
-            '_all',
-            'completion',
-            'docs',
-            'fielddata',
-            'filter_cache',
-            'flush',
-            'get',
-            'id_cache',
-            'indexing',
-            'merge',
-            'percolate',
-            'query_cache',
-            'refresh',
-            'search',
-            'segments',
-            'store',
-            'warmer',
-            'suggest'
-          ]
-        }
-      }
-    },
-    {
-      fmt: '/<%=index%>/_stats',
-      req: {
-        index: {
-          type: 'list'
-        }
-      }
-    },
-    {
-      fmt: '/_stats'
-    }
-  ]
-});
-
-/**
- * Perform a [indices.status](http://www.elastic.co/guide/en/elasticsearch/reference/1.6/indices-status.html) request
- *
- * @param {Object} params - An object with parameters used to carry out this action
- * @param {Boolean} params.ignoreUnavailable - Whether specified concrete indices should be ignored when unavailable (missing or closed)
- * @param {Boolean} params.allowNoIndices - Whether to ignore if a wildcard indices expression resolves into no concrete indices. (This includes `_all` string or when no indices have been specified)
- * @param {String} [params.expandWildcards=open] - Whether to expand wildcard expression to concrete indices that are open, closed or both.
- * @param {Boolean} params.human - Whether to return time and byte values in human-readable format.
- * @param {Anything} params.operationThreading - TODO: ?
- * @param {Boolean} params.recovery - Return information about shard recovery
- * @param {Boolean} params.snapshot - TODO: ?
- * @param {String, String[], Boolean} params.index - A comma-separated list of index names; use `_all` or empty string to perform the operation on all indices
- */
-api.indices.prototype.status = ca({
-  params: {
-    ignoreUnavailable: {
-      type: 'boolean',
-      name: 'ignore_unavailable'
-    },
-    allowNoIndices: {
-      type: 'boolean',
-      name: 'allow_no_indices'
-    },
-    expandWildcards: {
-      type: 'enum',
-      'default': 'open',
-      options: [
-        'open',
-        'closed',
-        'none',
-        'all'
-      ],
-      name: 'expand_wildcards'
-    },
-    human: {
-      type: 'boolean',
-      'default': false
-    },
-    operationThreading: {
-      name: 'operation_threading'
-    },
-    recovery: {
-      type: 'boolean'
-    },
-    snapshot: {
-      type: 'boolean'
-    }
-  },
-  urls: [
-    {
-      fmt: '/<%=index%>/_status',
-      req: {
-        index: {
-          type: 'list'
-        }
-      }
-    },
-    {
-      fmt: '/_status'
-    }
-  ]
-});
-
-/**
- * Perform a [indices.updateAliases](http://www.elastic.co/guide/en/elasticsearch/reference/1.6/indices-aliases.html) request
- *
- * @param {Object} params - An object with parameters used to carry out this action
- * @param {Date, Number} params.timeout - Request timeout
- * @param {Date, Number} params.masterTimeout - Specify timeout for connection to master
- */
-api.indices.prototype.updateAliases = ca({
-  params: {
-    timeout: {
-      type: 'time'
-    },
-    masterTimeout: {
-      type: 'time',
-      name: 'master_timeout'
-    }
-  },
-  url: {
-    fmt: '/_aliases'
-  },
-  needBody: true,
-  method: 'POST'
-});
-
-/**
- * Perform a [indices.upgrade](http://www.elastic.co/guide/en/elasticsearch/reference/1.6/indices-upgrade.html) request
- *
- * @param {Object} params - An object with parameters used to carry out this action
- * @param {Boolean} params.allowNoIndices - Whether to ignore if a wildcard indices expression resolves into no concrete indices. (This includes `_all` string or when no indices have been specified)
- * @param {String} [params.expandWildcards=open] - Whether to expand wildcard expression to concrete indices that are open, closed or both.
- * @param {Boolean} params.ignoreUnavailable - Whether specified concrete indices should be ignored when unavailable (missing or closed)
- * @param {Boolean} params.waitForCompletion - Specify whether the request should block until the all segments are upgraded (default: true)
- * @param {Boolean} params.onlyAncientSegments - If true, only ancient (an older Lucene major release) segments will be upgraded
- * @param {String, String[], Boolean} params.index - A comma-separated list of index names; use `_all` or empty string to perform the operation on all indices
- */
-api.indices.prototype.upgrade = ca({
-  params: {
-    allowNoIndices: {
-      type: 'boolean',
-      name: 'allow_no_indices'
-    },
-    expandWildcards: {
-      type: 'enum',
-      'default': 'open',
-      options: [
-        'open',
-        'closed',
-        'none',
-        'all'
-      ],
-      name: 'expand_wildcards'
-    },
-    ignoreUnavailable: {
-      type: 'boolean',
-      name: 'ignore_unavailable'
-    },
-    waitForCompletion: {
-      type: 'boolean',
-      name: 'wait_for_completion'
-    },
-    onlyAncientSegments: {
-      type: 'boolean',
-      name: 'only_ancient_segments'
-    }
-  },
-  urls: [
-    {
-      fmt: '/<%=index%>/_upgrade',
-      req: {
-        index: {
-          type: 'list'
-        }
-      }
-    },
-    {
-      fmt: '/_upgrade'
-    }
-  ],
-  method: 'POST'
-});
-
-/**
- * Perform a [indices.validateQuery](http://www.elastic.co/guide/en/elasticsearch/reference/1.6/search-validate.html) request
- *
- * @param {Object} params - An object with parameters used to carry out this action
- * @param {Boolean} params.explain - Return detailed information about the error
- * @param {Boolean} params.ignoreUnavailable - Whether specified concrete indices should be ignored when unavailable (missing or closed)
- * @param {Boolean} params.allowNoIndices - Whether to ignore if a wildcard indices expression resolves into no concrete indices. (This includes `_all` string or when no indices have been specified)
- * @param {String} [params.expandWildcards=open] - Whether to expand wildcard expression to concrete indices that are open, closed or both.
- * @param {Anything} params.operationThreading - TODO: ?
- * @param {String} params.q - Query in the Lucene query string syntax
- * @param {String} params.analyzer - The analyzer to use for the query string
- * @param {Boolean} params.analyzeWildcard - Specify whether wildcard and prefix queries should be analyzed (default: false)
- * @param {String} [params.defaultOperator=OR] - The default operator for query string query (AND or OR)
- * @param {String} params.df - The field to use as default where no field prefix is given in the query string
- * @param {Boolean} params.lenient - Specify whether format-based query failures (such as providing text to a numeric field) should be ignored
- * @param {Boolean} params.lowercaseExpandedTerms - Specify whether query terms should be lowercased
- * @param {Boolean} params.rewrite - Provide a more detailed explanation showing the actual Lucene query that will be executed.
- * @param {String, String[], Boolean} params.index - A comma-separated list of index names to restrict the operation; use `_all` or empty string to perform the operation on all indices
- * @param {String, String[], Boolean} params.type - A comma-separated list of document types to restrict the operation; leave empty to perform the operation on all types
- */
-api.indices.prototype.validateQuery = ca({
-  params: {
-    explain: {
-      type: 'boolean'
-    },
-    ignoreUnavailable: {
-      type: 'boolean',
-      name: 'ignore_unavailable'
-    },
-    allowNoIndices: {
-      type: 'boolean',
-      name: 'allow_no_indices'
-    },
-    expandWildcards: {
-      type: 'enum',
-      'default': 'open',
-      options: [
-        'open',
-        'closed',
-        'none',
-        'all'
-      ],
-      name: 'expand_wildcards'
-    },
-    operationThreading: {
-      name: 'operation_threading'
-    },
-    q: {
-      type: 'string'
-    },
-    analyzer: {
-      type: 'string'
-    },
-    analyzeWildcard: {
-      type: 'boolean',
-      name: 'analyze_wildcard'
-    },
-    defaultOperator: {
-      type: 'enum',
-      'default': 'OR',
-      options: [
-        'AND',
-        'OR'
-      ],
-      name: 'default_operator'
-    },
-    df: {
-      type: 'string'
-    },
-    lenient: {
-      type: 'boolean'
-    },
-    lowercaseExpandedTerms: {
-      type: 'boolean',
-      name: 'lowercase_expanded_terms'
-    },
-    rewrite: {
-      type: 'boolean'
-    }
-  },
-  urls: [
-    {
-      fmt: '/<%=index%>/<%=type%>/_validate/query',
-      req: {
-        index: {
-          type: 'list'
-        },
-        type: {
-          type: 'list'
-        }
-      }
-    },
-    {
-      fmt: '/<%=index%>/_validate/query',
-      req: {
-        index: {
-          type: 'list'
-        }
-      }
-    },
-    {
-      fmt: '/_validate/query'
-    }
-  ],
-  method: 'POST'
-});
-
-/**
- * Perform a [info](http://www.elastic.co/guide/) request
- *
- * @param {Object} params - An object with parameters used to carry out this action
- */
-api.info = ca({
-  url: {
-    fmt: '/'
-  }
-});
-
-/**
- * Perform a [mget](http://www.elastic.co/guide/en/elasticsearch/reference/1.6/docs-multi-get.html) request
- *
- * @param {Object} params - An object with parameters used to carry out this action
- * @param {String, String[], Boolean} params.fields - A comma-separated list of fields to return in the response
- * @param {String} params.preference - Specify the node or shard the operation should be performed on (default: random)
- * @param {Boolean} params.realtime - Specify whether to perform the operation in realtime or search mode
- * @param {Boolean} params.refresh - Refresh the shard containing the document before performing the operation
- * @param {String, String[], Boolean} params._source - True or false to return the _source field or not, or a list of fields to return
- * @param {String, String[], Boolean} params._sourceExclude - A list of fields to exclude from the returned _source field
- * @param {String, String[], Boolean} params._sourceInclude - A list of fields to extract and return from the _source field
- * @param {String} params.index - The name of the index
- * @param {String} params.type - The type of the document
- */
-api.mget = ca({
-  params: {
-    fields: {
-      type: 'list'
-    },
-    preference: {
-      type: 'string'
-    },
-    realtime: {
-      type: 'boolean'
-    },
-    refresh: {
-      type: 'boolean'
-    },
-    _source: {
-      type: 'list'
-    },
-    _sourceExclude: {
-      type: 'list',
-      name: '_source_exclude'
-    },
-    _sourceInclude: {
-      type: 'list',
-      name: '_source_include'
-    }
-  },
-  urls: [
-    {
-      fmt: '/<%=index%>/<%=type%>/_mget',
-      req: {
-        index: {
-          type: 'string'
-        },
-        type: {
-          type: 'string'
-        }
-      }
-    },
-    {
-      fmt: '/<%=index%>/_mget',
-      req: {
-        index: {
-          type: 'string'
-        }
-      }
-    },
-    {
-      fmt: '/_mget'
-    }
-  ],
-  needBody: true,
-  method: 'POST'
-});
-
-/**
- * Perform a [mlt](http://www.elastic.co/guide/en/elasticsearch/reference/1.6/search-more-like-this.html) request
- *
- * @param {Object} params - An object with parameters used to carry out this action
- * @param {Number} params.boostTerms - The boost factor
- * @param {Number} params.maxDocFreq - The word occurrence frequency as count: words with higher occurrence in the corpus will be ignored
- * @param {Number} params.maxQueryTerms - The maximum query terms to be included in the generated query
- * @param {Number} params.maxWordLength - The minimum length of the word: longer words will be ignored
- * @param {Number} params.minDocFreq - The word occurrence frequency as count: words with lower occurrence in the corpus will be ignored
- * @param {Number} params.minTermFreq - The term frequency as percent: terms with lower occurence in the source document will be ignored
- * @param {Number} params.minWordLength - The minimum length of the word: shorter words will be ignored
- * @param {String, String[], Boolean} params.mltFields - Specific fields to perform the query against
- * @param {Number} params.percentTermsToMatch - How many terms have to match in order to consider the document a match (default: 0.3)
- * @param {String} params.routing - Specific routing value
- * @param {Number} params.searchFrom - The offset from which to return results
- * @param {String, String[], Boolean} params.searchIndices - A comma-separated list of indices to perform the query against (default: the index containing the document)
- * @param {String} params.searchScroll - A scroll search request definition
- * @param {Number} params.searchSize - The number of documents to return (default: 10)
- * @param {String} params.searchSource - A specific search request definition (instead of using the request body)
- * @param {String} params.searchType - Specific search type (eg. `dfs_then_fetch`, `count`, etc)
- * @param {String, String[], Boolean} params.searchTypes - A comma-separated list of types to perform the query against (default: the same type as the document)
- * @param {String, String[], Boolean} params.stopWords - A list of stop words to be ignored
- * @param {String} params.id - The document ID
- * @param {String} params.index - The name of the index
- * @param {String} params.type - The type of the document (use `_all` to fetch the first document matching the ID across all types)
- */
-api.mlt = ca({
-  params: {
-    boostTerms: {
-      type: 'number',
-      name: 'boost_terms'
-    },
-    maxDocFreq: {
-      type: 'number',
-      name: 'max_doc_freq'
-    },
-    maxQueryTerms: {
-      type: 'number',
-      name: 'max_query_terms'
-    },
-    maxWordLength: {
-      type: 'number',
-      name: 'max_word_length'
-    },
-    minDocFreq: {
-      type: 'number',
-      name: 'min_doc_freq'
-    },
-    minTermFreq: {
-      type: 'number',
-      name: 'min_term_freq'
-    },
-    minWordLength: {
-      type: 'number',
-      name: 'min_word_length'
-    },
-    mltFields: {
-      type: 'list',
-      name: 'mlt_fields'
-    },
-    percentTermsToMatch: {
-      type: 'number',
-      name: 'percent_terms_to_match'
-    },
-    routing: {
-      type: 'string'
-    },
-    searchFrom: {
-      type: 'number',
-      name: 'search_from'
-    },
-    searchIndices: {
-      type: 'list',
-      name: 'search_indices'
-    },
-    searchScroll: {
-      type: 'string',
-      name: 'search_scroll'
-    },
-    searchSize: {
-      type: 'number',
-      name: 'search_size'
-    },
-    searchSource: {
-      type: 'string',
-      name: 'search_source'
-    },
-    searchType: {
-      type: 'string',
-      name: 'search_type'
-    },
-    searchTypes: {
-      type: 'list',
-      name: 'search_types'
-    },
-    stopWords: {
-      type: 'list',
-      name: 'stop_words'
-    }
-  },
-  url: {
-    fmt: '/<%=index%>/<%=type%>/<%=id%>/_mlt',
-    req: {
-      index: {
-        type: 'string'
-      },
-      type: {
-        type: 'string'
-      },
-      id: {
-        type: 'string'
-      }
-    }
-  },
-  method: 'POST'
-});
-
-/**
- * Perform a [mpercolate](http://www.elastic.co/guide/en/elasticsearch/reference/1.6/search-percolate.html) request
- *
- * @param {Object} params - An object with parameters used to carry out this action
- * @param {Boolean} params.ignoreUnavailable - Whether specified concrete indices should be ignored when unavailable (missing or closed)
- * @param {Boolean} params.allowNoIndices - Whether to ignore if a wildcard indices expression resolves into no concrete indices. (This includes `_all` string or when no indices have been specified)
- * @param {String} [params.expandWildcards=open] - Whether to expand wildcard expression to concrete indices that are open, closed or both.
- * @param {String} params.index - The index of the document being count percolated to use as default
- * @param {String} params.type - The type of the document being percolated to use as default.
- */
-api.mpercolate = ca({
-  params: {
-    ignoreUnavailable: {
-      type: 'boolean',
-      name: 'ignore_unavailable'
-    },
-    allowNoIndices: {
-      type: 'boolean',
-      name: 'allow_no_indices'
-    },
-    expandWildcards: {
-      type: 'enum',
-      'default': 'open',
-      options: [
-        'open',
-        'closed',
-        'none',
-        'all'
-      ],
-      name: 'expand_wildcards'
-    }
-  },
-  urls: [
-    {
-      fmt: '/<%=index%>/<%=type%>/_mpercolate',
-      req: {
-        index: {
-          type: 'string'
-        },
-        type: {
-          type: 'string'
-        }
-      }
-    },
-    {
-      fmt: '/<%=index%>/_mpercolate',
-      req: {
-        index: {
-          type: 'string'
-        }
-      }
-    },
-    {
-      fmt: '/_mpercolate'
-    }
-  ],
-  needBody: true,
-  bulkBody: true,
-  method: 'POST'
-});
-
-/**
- * Perform a [msearch](http://www.elastic.co/guide/en/elasticsearch/reference/1.6/search-multi-search.html) request
- *
- * @param {Object} params - An object with parameters used to carry out this action
- * @param {String} params.searchType - Search operation type
- * @param {String, String[], Boolean} params.index - A comma-separated list of index names to use as default
- * @param {String, String[], Boolean} params.type - A comma-separated list of document types to use as default
- */
-api.msearch = ca({
-  params: {
-    searchType: {
-      type: 'enum',
-      options: [
-        'query_then_fetch',
-        'query_and_fetch',
-        'dfs_query_then_fetch',
-        'dfs_query_and_fetch',
-        'count',
-        'scan'
-      ],
-      name: 'search_type'
-    }
-  },
-  urls: [
-    {
-      fmt: '/<%=index%>/<%=type%>/_msearch',
-      req: {
-        index: {
-          type: 'list'
-        },
-        type: {
-          type: 'list'
-        }
-      }
-    },
-    {
-      fmt: '/<%=index%>/_msearch',
-      req: {
-        index: {
-          type: 'list'
-        }
-      }
-    },
-    {
-      fmt: '/_msearch'
-    }
-  ],
-  needBody: true,
-  bulkBody: true,
-  method: 'POST'
-});
-
-/**
- * Perform a [mtermvectors](http://www.elastic.co/guide/en/elasticsearch/reference/1.6/docs-multi-termvectors.html) request
- *
- * @param {Object} params - An object with parameters used to carry out this action
- * @param {String, String[], Boolean} params.ids - A comma-separated list of documents ids. You must define ids as parameter or set "ids" or "docs" in the request body
- * @param {Boolean} params.termStatistics - Specifies if total term frequency and document frequency should be returned. Applies to all returned documents unless otherwise specified in body "params" or "docs".
- * @param {Boolean} [params.fieldStatistics=true] - Specifies if document count, sum of document frequencies and sum of total term frequencies should be returned. Applies to all returned documents unless otherwise specified in body "params" or "docs".
- * @param {String, String[], Boolean} params.fields - A comma-separated list of fields to return. Applies to all returned documents unless otherwise specified in body "params" or "docs".
- * @param {Boolean} [params.offsets=true] - Specifies if term offsets should be returned. Applies to all returned documents unless otherwise specified in body "params" or "docs".
- * @param {Boolean} [params.positions=true] - Specifies if term positions should be returned. Applies to all returned documents unless otherwise specified in body "params" or "docs".
- * @param {Boolean} [params.payloads=true] - Specifies if term payloads should be returned. Applies to all returned documents unless otherwise specified in body "params" or "docs".
- * @param {String} params.preference - Specify the node or shard the operation should be performed on (default: random) .Applies to all returned documents unless otherwise specified in body "params" or "docs".
- * @param {String} params.routing - Specific routing value. Applies to all returned documents unless otherwise specified in body "params" or "docs".
- * @param {String} params.parent - Parent id of documents. Applies to all returned documents unless otherwise specified in body "params" or "docs".
- * @param {Boolean} params.realtime - Specifies if requests are real-time as opposed to near-real-time (default: true).
- * @param {String} params.index - The index in which the document resides.
- * @param {String} params.type - The type of the document.
- * @param {String} params.id - The id of the document.
- */
-api.mtermvectors = ca({
-  params: {
-    ids: {
-      type: 'list',
-      required: false
-    },
-    termStatistics: {
-      type: 'boolean',
-      'default': false,
-      required: false,
-      name: 'term_statistics'
-    },
-    fieldStatistics: {
-      type: 'boolean',
-      'default': true,
-      required: false,
-      name: 'field_statistics'
-    },
-    fields: {
-      type: 'list',
-      required: false
-    },
-    offsets: {
-      type: 'boolean',
-      'default': true,
-      required: false
-    },
-    positions: {
-      type: 'boolean',
-      'default': true,
-      required: false
-    },
-    payloads: {
-      type: 'boolean',
-      'default': true,
-      required: false
-    },
-    preference: {
-      type: 'string',
-      required: false
-    },
-    routing: {
-      type: 'string',
-      required: false
-    },
-    parent: {
-      type: 'string',
-      required: false
-    },
-    realtime: {
-      type: 'boolean',
-      required: false
-    }
-  },
-  urls: [
-    {
-      fmt: '/<%=index%>/<%=type%>/_mtermvectors',
-      req: {
-        index: {
-          type: 'string'
-        },
-        type: {
-          type: 'string'
-        }
-      }
-    },
-    {
-      fmt: '/<%=index%>/_mtermvectors',
-      req: {
-        index: {
-          type: 'string'
-        }
-      }
-    },
-    {
-      fmt: '/_mtermvectors'
-    }
-  ],
-  method: 'POST'
-});
-
-api.nodes = namespace();
-
-/**
- * Perform a [nodes.hotThreads](http://www.elastic.co/guide/en/elasticsearch/reference/1.6/cluster-nodes-hot-threads.html) request
- *
- * @param {Object} params - An object with parameters used to carry out this action
- * @param {Date, Number} params.interval - The interval for the second sampling of threads
- * @param {Number} params.snapshots - Number of samples of thread stacktrace (default: 10)
- * @param {Number} params.threads - Specify the number of threads to provide information for (default: 3)
- * @param {Boolean} params.ignoreIdleThreads - Don't show threads that are in known-idle places, such as waiting on a socket select or pulling from an empty task queue (default: true)
- * @param {String} params.type - The type to sample (default: cpu)
- * @param {String, String[], Boolean} params.nodeId - A comma-separated list of node IDs or names to limit the returned information; use `_local` to return information from the node you're connecting to, leave empty to get information from all nodes
- */
-api.nodes.prototype.hotThreads = ca({
-  params: {
-    interval: {
-      type: 'time'
-    },
-    snapshots: {
-      type: 'number'
-    },
-    threads: {
-      type: 'number'
-    },
-    ignoreIdleThreads: {
-      type: 'boolean',
-      name: 'ignore_idle_threads'
-    },
-    type: {
-      type: 'enum',
-      options: [
-        'cpu',
-        'wait',
-        'block'
-      ]
-    }
-  },
-  urls: [
-    {
-      fmt: '/_nodes/<%=nodeId%>/hotthreads',
-      req: {
-        nodeId: {
-          type: 'list'
-        }
-      }
-    },
-    {
-      fmt: '/_nodes/hotthreads'
-    }
-  ]
-});
-
-/**
- * Perform a [nodes.info](http://www.elastic.co/guide/en/elasticsearch/reference/1.6/cluster-nodes-info.html) request
- *
- * @param {Object} params - An object with parameters used to carry out this action
- * @param {Boolean} params.flatSettings - Return settings in flat format (default: false)
- * @param {Boolean} params.human - Whether to return time and byte values in human-readable format.
- * @param {String, String[], Boolean} params.nodeId - A comma-separated list of node IDs or names to limit the returned information; use `_local` to return information from the node you're connecting to, leave empty to get information from all nodes
- * @param {String, String[], Boolean} params.metric - A comma-separated list of metrics you wish returned. Leave empty to return all.
- */
-api.nodes.prototype.info = ca({
-  params: {
-    flatSettings: {
-      type: 'boolean',
-      name: 'flat_settings'
-    },
-    human: {
-      type: 'boolean',
-      'default': false
-    }
-  },
-  urls: [
-    {
-      fmt: '/_nodes/<%=nodeId%>/<%=metric%>',
-      req: {
-        nodeId: {
-          type: 'list'
-        },
-        metric: {
-          type: 'list',
-          options: [
-            'settings',
-            'os',
-            'process',
-            'jvm',
-            'thread_pool',
-            'network',
-            'transport',
-            'http',
-            'plugins'
-          ]
-        }
-      }
-    },
-    {
-      fmt: '/_nodes/<%=nodeId%>',
-      req: {
-        nodeId: {
-          type: 'list'
-        }
-      }
-    },
-    {
-      fmt: '/_nodes/<%=metric%>',
-      req: {
-        metric: {
-          type: 'list',
-          options: [
-            'settings',
-            'os',
-            'process',
-            'jvm',
-            'thread_pool',
-            'network',
-            'transport',
-            'http',
-            'plugins'
-          ]
-        }
-      }
-    },
-    {
-      fmt: '/_nodes'
-    }
-  ]
-});
-
-/**
- * Perform a [nodes.shutdown](http://www.elastic.co/guide/en/elasticsearch/reference/1.6/cluster-nodes-shutdown.html) request
- *
- * @param {Object} params - An object with parameters used to carry out this action
- * @param {Date, Number} params.delay - Set the delay for the operation (default: 1s)
- * @param {Boolean} params.exit - Exit the JVM as well (default: true)
- * @param {String, String[], Boolean} params.nodeId - A comma-separated list of node IDs or names to perform the operation on; use `_local` to perform the operation on the node you're connected to, leave empty to perform the operation on all nodes
- */
-api.nodes.prototype.shutdown = ca({
-  params: {
-    delay: {
-      type: 'time'
-    },
-    exit: {
-      type: 'boolean'
-    }
-  },
-  urls: [
-    {
-      fmt: '/_cluster/nodes/<%=nodeId%>/_shutdown',
-      req: {
-        nodeId: {
-          type: 'list'
-        }
-      }
-    },
-    {
-      fmt: '/_shutdown'
-    }
-  ],
-  method: 'POST'
-});
-
-/**
- * Perform a [nodes.stats](http://www.elastic.co/guide/en/elasticsearch/reference/1.6/cluster-nodes-stats.html) request
- *
- * @param {Object} params - An object with parameters used to carry out this action
- * @param {String, String[], Boolean} params.completionFields - A comma-separated list of fields for `fielddata` and `suggest` index metric (supports wildcards)
- * @param {String, String[], Boolean} params.fielddataFields - A comma-separated list of fields for `fielddata` index metric (supports wildcards)
- * @param {String, String[], Boolean} params.fields - A comma-separated list of fields for `fielddata` and `completion` index metric (supports wildcards)
- * @param {Boolean} params.groups - A comma-separated list of search groups for `search` index metric
- * @param {Boolean} params.human - Whether to return time and byte values in human-readable format.
- * @param {String} [params.level=node] - Return indices stats aggregated at node, index or shard level
- * @param {String, String[], Boolean} params.types - A comma-separated list of document types for the `indexing` index metric
- * @param {String, String[], Boolean} params.metric - Limit the information returned to the specified metrics
- * @param {String, String[], Boolean} params.indexMetric - Limit the information returned for `indices` metric to the specific index metrics. Isn't used if `indices` (or `all`) metric isn't specified.
- * @param {String, String[], Boolean} params.nodeId - A comma-separated list of node IDs or names to limit the returned information; use `_local` to return information from the node you're connecting to, leave empty to get information from all nodes
- */
-api.nodes.prototype.stats = ca({
-  params: {
-    completionFields: {
-      type: 'list',
-      name: 'completion_fields'
-    },
-    fielddataFields: {
-      type: 'list',
-      name: 'fielddata_fields'
-    },
-    fields: {
-      type: 'list'
-    },
-    groups: {
-      type: 'boolean'
-    },
-    human: {
-      type: 'boolean',
-      'default': false
-    },
-    level: {
-      type: 'enum',
-      'default': 'node',
-      options: [
-        'node',
-        'indices',
-        'shards'
-      ]
-    },
-    types: {
-      type: 'list'
-    }
-  },
-  urls: [
-    {
-      fmt: '/_nodes/<%=nodeId%>/stats/<%=metric%>/<%=indexMetric%>',
-      req: {
-        nodeId: {
-          type: 'list'
-        },
-        metric: {
-          type: 'list',
-          options: [
-            '_all',
-            'breaker',
-            'fs',
-            'http',
-            'indices',
-            'jvm',
-            'network',
-            'os',
-            'process',
-            'thread_pool',
-            'transport'
-          ]
-        },
-        indexMetric: {
-          type: 'list',
-          options: [
-            '_all',
-            'completion',
-            'docs',
-            'fielddata',
-            'filter_cache',
-            'flush',
-            'get',
-            'id_cache',
-            'indexing',
-            'merge',
-            'percolate',
-            'query_cache',
-            'refresh',
-            'search',
-            'segments',
-            'store',
-            'warmer',
-            'suggest'
-          ]
-        }
-      }
-    },
-    {
-      fmt: '/_nodes/<%=nodeId%>/stats/<%=metric%>',
-      req: {
-        nodeId: {
-          type: 'list'
-        },
-        metric: {
-          type: 'list',
-          options: [
-            '_all',
-            'breaker',
-            'fs',
-            'http',
-            'indices',
-            'jvm',
-            'network',
-            'os',
-            'process',
-            'thread_pool',
-            'transport'
-          ]
-        }
-      }
-    },
-    {
-      fmt: '/_nodes/stats/<%=metric%>/<%=indexMetric%>',
-      req: {
-        metric: {
-          type: 'list',
-          options: [
-            '_all',
-            'breaker',
-            'fs',
-            'http',
-            'indices',
-            'jvm',
-            'network',
-            'os',
-            'process',
-            'thread_pool',
-            'transport'
-          ]
-        },
-        indexMetric: {
-          type: 'list',
-          options: [
-            '_all',
-            'completion',
-            'docs',
-            'fielddata',
-            'filter_cache',
-            'flush',
-            'get',
-            'id_cache',
-            'indexing',
-            'merge',
-            'percolate',
-            'query_cache',
-            'refresh',
-            'search',
-            'segments',
-            'store',
-            'warmer',
-            'suggest'
-          ]
-        }
-      }
-    },
-    {
-      fmt: '/_nodes/<%=nodeId%>/stats',
-      req: {
-        nodeId: {
-          type: 'list'
-        }
-      }
-    },
-    {
-      fmt: '/_nodes/stats/<%=metric%>',
-      req: {
-        metric: {
-          type: 'list',
-          options: [
-            '_all',
-            'breaker',
-            'fs',
-            'http',
-            'indices',
-            'jvm',
-            'network',
-            'os',
-            'process',
-            'thread_pool',
-            'transport'
-          ]
-        }
-      }
-    },
-    {
-      fmt: '/_nodes/stats'
-    }
-  ]
-});
-
-/**
- * Perform a [percolate](http://www.elastic.co/guide/en/elasticsearch/reference/1.6/search-percolate.html) request
- *
- * @param {Object} params - An object with parameters used to carry out this action
- * @param {String, String[], Boolean} params.routing - A comma-separated list of specific routing values
- * @param {String} params.preference - Specify the node or shard the operation should be performed on (default: random)
- * @param {Boolean} params.ignoreUnavailable - Whether specified concrete indices should be ignored when unavailable (missing or closed)
- * @param {Boolean} params.allowNoIndices - Whether to ignore if a wildcard indices expression resolves into no concrete indices. (This includes `_all` string or when no indices have been specified)
- * @param {String} [params.expandWildcards=open] - Whether to expand wildcard expression to concrete indices that are open, closed or both.
- * @param {String} params.percolateFormat - Return an array of matching query IDs instead of objects
- * @param {String} params.percolateIndex - The index to percolate the document into. Defaults to index.
- * @param {String} params.percolateType - The type to percolate document into. Defaults to type.
- * @param {String} params.percolateRouting - The routing value to use when percolating the existing document.
- * @param {String} params.percolatePreference - Which shard to prefer when executing the percolate request.
- * @param {Number} params.version - Explicit version number for concurrency control
- * @param {String} params.versionType - Specific version type
- * @param {String} params.index - The index of the document being percolated.
- * @param {String} params.type - The type of the document being percolated.
- * @param {String} params.id - Substitute the document in the request body with a document that is known by the specified id. On top of the id, the index and type parameter will be used to retrieve the document from within the cluster.
- */
-api.percolate = ca({
-  params: {
-    routing: {
-      type: 'list'
-    },
-    preference: {
-      type: 'string'
-    },
-    ignoreUnavailable: {
-      type: 'boolean',
-      name: 'ignore_unavailable'
-    },
-    allowNoIndices: {
-      type: 'boolean',
-      name: 'allow_no_indices'
-    },
-    expandWildcards: {
-      type: 'enum',
-      'default': 'open',
-      options: [
-        'open',
-        'closed',
-        'none',
-        'all'
-      ],
-      name: 'expand_wildcards'
-    },
-    percolateFormat: {
-      type: 'enum',
-      options: [
-        'ids'
-      ],
-      name: 'percolate_format'
-    },
-    percolateIndex: {
-      type: 'string',
-      name: 'percolate_index'
-    },
-    percolateType: {
-      type: 'string',
-      name: 'percolate_type'
-    },
-    percolateRouting: {
-      type: 'string',
-      name: 'percolate_routing'
-    },
-    percolatePreference: {
-      type: 'string',
-      name: 'percolate_preference'
-    },
-    version: {
-      type: 'number'
-    },
-    versionType: {
-      type: 'enum',
-      options: [
-        'internal',
-        'external',
-        'external_gte',
-        'force'
-      ],
-      name: 'version_type'
-    }
-  },
-  urls: [
-    {
-      fmt: '/<%=index%>/<%=type%>/<%=id%>/_percolate',
-      req: {
-        index: {
-          type: 'string'
-        },
-        type: {
-          type: 'string'
-        },
-        id: {
-          type: 'string'
-        }
-      }
-    },
-    {
-      fmt: '/<%=index%>/<%=type%>/_percolate',
-      req: {
-        index: {
-          type: 'string'
-        },
-        type: {
-          type: 'string'
-        }
-      }
-    }
-  ],
-  method: 'POST'
-});
-
-/**
- * Perform a [ping](http://www.elastic.co/guide/) request
- *
- * @param {Object} params - An object with parameters used to carry out this action
- */
-api.ping = ca({
-  url: {
-    fmt: '/'
-  },
-  requestTimeout: 3000,
-  method: 'HEAD'
-});
-
-/**
- * Perform a [putScript](http://www.elastic.co/guide/en/elasticsearch/reference/1.6/modules-scripting.html) request
- *
- * @param {Object} params - An object with parameters used to carry out this action
- * @param {String} [params.opType=index] - Explicit operation type
- * @param {Number} params.version - Explicit version number for concurrency control
- * @param {String} params.versionType - Specific version type
- * @param {String} params.id - Script ID
- * @param {String} params.lang - Script language
- */
-api.putScript = ca({
-  params: {
-    opType: {
-      type: 'enum',
-      'default': 'index',
-      options: [
-        'index',
-        'create'
-      ],
-      name: 'op_type'
-    },
-    version: {
-      type: 'number'
-    },
-    versionType: {
-      type: 'enum',
-      options: [
-        'internal',
-        'external',
-        'external_gte',
-        'force'
-      ],
-      name: 'version_type'
-    }
-  },
-  url: {
-    fmt: '/_scripts/<%=lang%>/<%=id%>',
-    req: {
-      lang: {
-        type: 'string'
-      },
-      id: {
-        type: 'string'
-      }
-    }
-  },
-  needBody: true,
-  method: 'PUT'
-});
-
-/**
- * Perform a [putTemplate](http://www.elastic.co/guide/en/elasticsearch/reference/1.6/search-template.html) request
- *
- * @param {Object} params - An object with parameters used to carry out this action
- * @param {String} [params.opType=index] - Explicit operation type
- * @param {Number} params.version - Explicit version number for concurrency control
- * @param {String} params.versionType - Specific version type
- * @param {String} params.id - Template ID
- */
-api.putTemplate = ca({
-  params: {
-    opType: {
-      type: 'enum',
-      'default': 'index',
-      options: [
-        'index',
-        'create'
-      ],
-      name: 'op_type'
-    },
-    version: {
-      type: 'number'
-    },
-    versionType: {
-      type: 'enum',
-      options: [
-        'internal',
-        'external',
-        'external_gte',
-        'force'
-      ],
-      name: 'version_type'
-    }
-  },
-  url: {
-    fmt: '/_search/template/<%=id%>',
-    req: {
-      id: {
-        type: 'string'
-      }
-    }
-  },
-  needBody: true,
-  method: 'PUT'
-});
-
-/**
- * Perform a [scroll](http://www.elastic.co/guide/en/elasticsearch/reference/1.6/search-request-scroll.html) request
- *
- * @param {Object} params - An object with parameters used to carry out this action
- * @param {Duration} params.scroll - Specify how long a consistent view of the index should be maintained for scrolled search
- * @param {String} params.scrollId - The scroll ID
- */
-api.scroll = ca({
-  params: {
-    scroll: {
-      type: 'duration'
-    },
-    scrollId: {
-      type: 'string',
-      name: 'scroll_id'
-    }
-  },
-  urls: [
-    {
-      fmt: '/_search/scroll/<%=scrollId%>',
-      req: {
-        scrollId: {
-          type: 'string'
-        }
-      }
-    },
-    {
-      fmt: '/_search/scroll'
-    }
-  ],
-  paramAsBody: 'scrollId',
-  method: 'POST'
-});
-
-/**
- * Perform a [search](http://www.elastic.co/guide/en/elasticsearch/reference/1.6/search-search.html) request
- *
- * @param {Object} params - An object with parameters used to carry out this action
- * @param {String} params.analyzer - The analyzer to use for the query string
- * @param {Boolean} params.analyzeWildcard - Specify whether wildcard and prefix queries should be analyzed (default: false)
- * @param {String} [params.defaultOperator=OR] - The default operator for query string query (AND or OR)
- * @param {String} params.df - The field to use as default where no field prefix is given in the query string
- * @param {Boolean} params.explain - Specify whether to return detailed information about score computation as part of a hit
- * @param {String, String[], Boolean} params.fields - A comma-separated list of fields to return as part of a hit
- * @param {String, String[], Boolean} params.fielddataFields - A comma-separated list of fields to return as the field data representation of a field for each hit
- * @param {Number} params.from - Starting offset (default: 0)
- * @param {Boolean} params.ignoreUnavailable - Whether specified concrete indices should be ignored when unavailable (missing or closed)
- * @param {Boolean} params.allowNoIndices - Whether to ignore if a wildcard indices expression resolves into no concrete indices. (This includes `_all` string or when no indices have been specified)
- * @param {String} [params.expandWildcards=open] - Whether to expand wildcard expression to concrete indices that are open, closed or both.
- * @param {Boolean} params.lenient - Specify whether format-based query failures (such as providing text to a numeric field) should be ignored
- * @param {Boolean} params.lowercaseExpandedTerms - Specify whether query terms should be lowercased
- * @param {String} params.preference - Specify the node or shard the operation should be performed on (default: random)
- * @param {String} params.q - Query in the Lucene query string syntax
- * @param {String, String[], Boolean} params.routing - A comma-separated list of specific routing values
- * @param {Duration} params.scroll - Specify how long a consistent view of the index should be maintained for scrolled search
- * @param {String} params.searchType - Search operation type
- * @param {Number} params.size - Number of hits to return (default: 10)
- * @param {String, String[], Boolean} params.sort - A comma-separated list of <field>:<direction> pairs
- * @param {String, String[], Boolean} params._source - True or false to return the _source field or not, or a list of fields to return
- * @param {String, String[], Boolean} params._sourceExclude - A list of fields to exclude from the returned _source field
- * @param {String, String[], Boolean} params._sourceInclude - A list of fields to extract and return from the _source field
- * @param {String, String[], Boolean} params.stats - Specific 'tag' of the request for logging and statistical purposes
- * @param {String} params.suggestField - Specify which field to use for suggestions
- * @param {String} [params.suggestMode=missing] - Specify suggest mode
- * @param {Number} params.suggestSize - How many suggestions to return in response
- * @param {Text} params.suggestText - The source text for which the suggestions should be returned
- * @param {Date, Number} params.timeout - Explicit operation timeout
- * @param {Boolean} params.trackScores - Whether to calculate and return scores even if they are not used for sorting
- * @param {Boolean} params.version - Specify whether to return document version as part of a hit
- * @param {Boolean} params.queryCache - Specify if query cache should be used for this request or not, defaults to index level setting
- * @param {String, String[], Boolean} params.index - A comma-separated list of index names to search; use `_all` or empty string to perform the operation on all indices
- * @param {String, String[], Boolean} params.type - A comma-separated list of document types to search; leave empty to perform the operation on all types
- */
-api.search = ca({
-  params: {
-    analyzer: {
-      type: 'string'
-    },
-    analyzeWildcard: {
-      type: 'boolean',
-      name: 'analyze_wildcard'
-    },
-    defaultOperator: {
-      type: 'enum',
-      'default': 'OR',
-      options: [
-        'AND',
-        'OR'
-      ],
-      name: 'default_operator'
-    },
-    df: {
-      type: 'string'
-    },
-    explain: {
-      type: 'boolean'
-    },
-    fields: {
-      type: 'list'
-    },
-    fielddataFields: {
-      type: 'list',
-      name: 'fielddata_fields'
-    },
-    from: {
-      type: 'number'
-    },
-    ignoreUnavailable: {
-      type: 'boolean',
-      name: 'ignore_unavailable'
-    },
-    allowNoIndices: {
-      type: 'boolean',
-      name: 'allow_no_indices'
-    },
-    expandWildcards: {
-      type: 'enum',
-      'default': 'open',
-      options: [
-        'open',
-        'closed',
-        'none',
-        'all'
-      ],
-      name: 'expand_wildcards'
-    },
-    lenient: {
-      type: 'boolean'
-    },
-    lowercaseExpandedTerms: {
-      type: 'boolean',
-      name: 'lowercase_expanded_terms'
-    },
-    preference: {
-      type: 'string'
-    },
-    q: {
-      type: 'string'
-    },
-    routing: {
-      type: 'list'
-    },
-    scroll: {
-      type: 'duration'
-    },
-    searchType: {
-      type: 'enum',
-      options: [
-        'query_then_fetch',
-        'query_and_fetch',
-        'dfs_query_then_fetch',
-        'dfs_query_and_fetch',
-        'count',
-        'scan'
-      ],
-      name: 'search_type'
-    },
-    size: {
-      type: 'number'
-    },
-    sort: {
-      type: 'list'
-    },
-    _source: {
-      type: 'list'
-    },
-    _sourceExclude: {
-      type: 'list',
-      name: '_source_exclude'
-    },
-    _sourceInclude: {
-      type: 'list',
-      name: '_source_include'
-    },
-    stats: {
-      type: 'list'
-    },
-    suggestField: {
-      type: 'string',
-      name: 'suggest_field'
-    },
-    suggestMode: {
-      type: 'enum',
-      'default': 'missing',
-      options: [
-        'missing',
-        'popular',
-        'always'
-      ],
-      name: 'suggest_mode'
-    },
-    suggestSize: {
-      type: 'number',
-      name: 'suggest_size'
-    },
-    suggestText: {
-      type: 'text',
-      name: 'suggest_text'
-    },
-    timeout: {
-      type: 'time'
-    },
-    trackScores: {
-      type: 'boolean',
-      name: 'track_scores'
-    },
-    version: {
-      type: 'boolean'
-    },
-    queryCache: {
-      type: 'boolean',
-      name: 'query_cache'
-    }
-  },
-  urls: [
-    {
-      fmt: '/<%=index%>/<%=type%>/_search',
-      req: {
-        index: {
-          type: 'list'
-        },
-        type: {
-          type: 'list'
-        }
-      }
-    },
-    {
-      fmt: '/<%=index%>/_search',
-      req: {
-        index: {
-          type: 'list'
-        }
-      }
-    },
-    {
-      fmt: '/_search'
-    }
-  ],
-  method: 'POST'
-});
-
-/**
- * Perform a [searchExists](http://www.elastic.co/guide/en/elasticsearch/reference/1.6/search-exists.html) request
- *
- * @param {Object} params - An object with parameters used to carry out this action
- * @param {Boolean} params.ignoreUnavailable - Whether specified concrete indices should be ignored when unavailable (missing or closed)
- * @param {Boolean} params.allowNoIndices - Whether to ignore if a wildcard indices expression resolves into no concrete indices. (This includes `_all` string or when no indices have been specified)
- * @param {String} [params.expandWildcards=open] - Whether to expand wildcard expression to concrete indices that are open, closed or both.
- * @param {Number} params.minScore - Include only documents with a specific `_score` value in the result
- * @param {String} params.preference - Specify the node or shard the operation should be performed on (default: random)
- * @param {String} params.routing - Specific routing value
- * @param {String} params.q - Query in the Lucene query string syntax
- * @param {String} params.analyzer - The analyzer to use for the query string
- * @param {Boolean} params.analyzeWildcard - Specify whether wildcard and prefix queries should be analyzed (default: false)
- * @param {String} [params.defaultOperator=OR] - The default operator for query string query (AND or OR)
- * @param {String} params.df - The field to use as default where no field prefix is given in the query string
- * @param {Boolean} params.lenient - Specify whether format-based query failures (such as providing text to a numeric field) should be ignored
- * @param {Boolean} params.lowercaseExpandedTerms - Specify whether query terms should be lowercased
- * @param {String, String[], Boolean} params.index - A comma-separated list of indices to restrict the results
- * @param {String, String[], Boolean} params.type - A comma-separated list of types to restrict the results
- */
-api.searchExists = ca({
-  params: {
-    ignoreUnavailable: {
-      type: 'boolean',
-      name: 'ignore_unavailable'
-    },
-    allowNoIndices: {
-      type: 'boolean',
-      name: 'allow_no_indices'
-    },
-    expandWildcards: {
-      type: 'enum',
-      'default': 'open',
-      options: [
-        'open',
-        'closed',
-        'none',
-        'all'
-      ],
-      name: 'expand_wildcards'
-    },
-    minScore: {
-      type: 'number',
-      name: 'min_score'
-    },
-    preference: {
-      type: 'string'
-    },
-    routing: {
-      type: 'string'
-    },
-    q: {
-      type: 'string'
-    },
-    analyzer: {
-      type: 'string'
-    },
-    analyzeWildcard: {
-      type: 'boolean',
-      name: 'analyze_wildcard'
-    },
-    defaultOperator: {
-      type: 'enum',
-      'default': 'OR',
-      options: [
-        'AND',
-        'OR'
-      ],
-      name: 'default_operator'
-    },
-    df: {
-      type: 'string'
-    },
-    lenient: {
-      type: 'boolean'
-    },
-    lowercaseExpandedTerms: {
-      type: 'boolean',
-      name: 'lowercase_expanded_terms'
-    }
-  },
-  urls: [
-    {
-      fmt: '/<%=index%>/<%=type%>/_search/exists',
-      req: {
-        index: {
-          type: 'list'
-        },
-        type: {
-          type: 'list'
-        }
-      }
-    },
-    {
-      fmt: '/<%=index%>/_search/exists',
-      req: {
-        index: {
-          type: 'list'
-        }
-      }
-    },
-    {
-      fmt: '/_search/exists'
-    }
-  ],
-  method: 'POST'
-});
-
-/**
- * Perform a [searchShards](http://www.elastic.co/guide/en/elasticsearch/reference/1.6/search-shards.html) request
- *
- * @param {Object} params - An object with parameters used to carry out this action
- * @param {String} params.preference - Specify the node or shard the operation should be performed on (default: random)
- * @param {String} params.routing - Specific routing value
- * @param {Boolean} params.local - Return local information, do not retrieve the state from master node (default: false)
- * @param {Boolean} params.ignoreUnavailable - Whether specified concrete indices should be ignored when unavailable (missing or closed)
- * @param {Boolean} params.allowNoIndices - Whether to ignore if a wildcard indices expression resolves into no concrete indices. (This includes `_all` string or when no indices have been specified)
- * @param {String} [params.expandWildcards=open] - Whether to expand wildcard expression to concrete indices that are open, closed or both.
- * @param {String} params.index - The name of the index
- * @param {String} params.type - The type of the document
- */
-api.searchShards = ca({
-  params: {
-    preference: {
-      type: 'string'
-    },
-    routing: {
-      type: 'string'
-    },
-    local: {
-      type: 'boolean'
-    },
-    ignoreUnavailable: {
-      type: 'boolean',
-      name: 'ignore_unavailable'
-    },
-    allowNoIndices: {
-      type: 'boolean',
-      name: 'allow_no_indices'
-    },
-    expandWildcards: {
-      type: 'enum',
-      'default': 'open',
-      options: [
-        'open',
-        'closed',
-        'none',
-        'all'
-      ],
-      name: 'expand_wildcards'
-    }
-  },
-  urls: [
-    {
-      fmt: '/<%=index%>/<%=type%>/_search_shards',
-      req: {
-        index: {
-          type: 'string'
-        },
-        type: {
-          type: 'string'
-        }
-      }
-    },
-    {
-      fmt: '/<%=index%>/_search_shards',
-      req: {
-        index: {
-          type: 'string'
-        }
-      }
-    },
-    {
-      fmt: '/_search_shards'
-    }
-  ],
-  method: 'POST'
-});
-
-/**
- * Perform a [searchTemplate](http://www.elastic.co/guide/en/elasticsearch/reference/current/search-template.html) request
- *
- * @param {Object} params - An object with parameters used to carry out this action
- * @param {Boolean} params.ignoreUnavailable - Whether specified concrete indices should be ignored when unavailable (missing or closed)
- * @param {Boolean} params.allowNoIndices - Whether to ignore if a wildcard indices expression resolves into no concrete indices. (This includes `_all` string or when no indices have been specified)
- * @param {String} [params.expandWildcards=open] - Whether to expand wildcard expression to concrete indices that are open, closed or both.
- * @param {String} params.preference - Specify the node or shard the operation should be performed on (default: random)
- * @param {String, String[], Boolean} params.routing - A comma-separated list of specific routing values
- * @param {Duration} params.scroll - Specify how long a consistent view of the index should be maintained for scrolled search
- * @param {String} params.searchType - Search operation type
- * @param {String, String[], Boolean} params.index - A comma-separated list of index names to search; use `_all` or empty string to perform the operation on all indices
- * @param {String, String[], Boolean} params.type - A comma-separated list of document types to search; leave empty to perform the operation on all types
- */
-api.searchTemplate = ca({
-  params: {
-    ignoreUnavailable: {
-      type: 'boolean',
-      name: 'ignore_unavailable'
-    },
-    allowNoIndices: {
-      type: 'boolean',
-      name: 'allow_no_indices'
-    },
-    expandWildcards: {
-      type: 'enum',
-      'default': 'open',
-      options: [
-        'open',
-        'closed',
-        'none',
-        'all'
-      ],
-      name: 'expand_wildcards'
-    },
-    preference: {
-      type: 'string'
-    },
-    routing: {
-      type: 'list'
-    },
-    scroll: {
-      type: 'duration'
-    },
-    searchType: {
-      type: 'enum',
-      options: [
-        'query_then_fetch',
-        'query_and_fetch',
-        'dfs_query_then_fetch',
-        'dfs_query_and_fetch',
-        'count',
-        'scan'
-      ],
-      name: 'search_type'
-    }
-  },
-  urls: [
-    {
-      fmt: '/<%=index%>/<%=type%>/_search/template',
-      req: {
-        index: {
-          type: 'list'
-        },
-        type: {
-          type: 'list'
-        }
-      }
-    },
-    {
-      fmt: '/<%=index%>/_search/template',
-      req: {
-        index: {
-          type: 'list'
-        }
-      }
-    },
-    {
-      fmt: '/_search/template'
-    }
-  ],
-  method: 'POST'
-});
-
-api.snapshot = namespace();
-
-/**
- * Perform a [snapshot.create](http://www.elastic.co/guide/en/elasticsearch/reference/1.6/modules-snapshots.html) request
- *
- * @param {Object} params - An object with parameters used to carry out this action
- * @param {Date, Number} params.masterTimeout - Explicit operation timeout for connection to master node
- * @param {Boolean} params.waitForCompletion - Should this request wait until the operation has completed before returning
- * @param {String} params.repository - A repository name
- * @param {String} params.snapshot - A snapshot name
- */
-api.snapshot.prototype.create = ca({
-  params: {
-    masterTimeout: {
-      type: 'time',
-      name: 'master_timeout'
-    },
-    waitForCompletion: {
-      type: 'boolean',
-      'default': false,
-      name: 'wait_for_completion'
-    }
-  },
-  url: {
-    fmt: '/_snapshot/<%=repository%>/<%=snapshot%>',
-    req: {
-      repository: {
-        type: 'string'
-      },
-      snapshot: {
-        type: 'string'
-      }
-    }
-  },
-  method: 'POST'
-});
-
-/**
- * Perform a [snapshot.createRepository](http://www.elastic.co/guide/en/elasticsearch/reference/1.6/modules-snapshots.html) request
- *
- * @param {Object} params - An object with parameters used to carry out this action
- * @param {Date, Number} params.masterTimeout - Explicit operation timeout for connection to master node
- * @param {Date, Number} params.timeout - Explicit operation timeout
- * @param {Boolean} params.verify - Whether to verify the repository after creation
- * @param {String} params.repository - A repository name
- */
-api.snapshot.prototype.createRepository = ca({
-  params: {
-    masterTimeout: {
-      type: 'time',
-      name: 'master_timeout'
-    },
-    timeout: {
-      type: 'time'
-    },
-    verify: {
-      type: 'boolean'
-    }
-  },
-  url: {
-    fmt: '/_snapshot/<%=repository%>',
-    req: {
-      repository: {
-        type: 'string'
-      }
-    }
-  },
-  needBody: true,
-  method: 'POST'
-});
-
-/**
- * Perform a [snapshot.delete](http://www.elastic.co/guide/en/elasticsearch/reference/1.6/modules-snapshots.html) request
- *
- * @param {Object} params - An object with parameters used to carry out this action
- * @param {Date, Number} params.masterTimeout - Explicit operation timeout for connection to master node
- * @param {String} params.repository - A repository name
- * @param {String} params.snapshot - A snapshot name
- */
-api.snapshot.prototype['delete'] = ca({
-  params: {
-    masterTimeout: {
-      type: 'time',
-      name: 'master_timeout'
-    }
-  },
-  url: {
-    fmt: '/_snapshot/<%=repository%>/<%=snapshot%>',
-    req: {
-      repository: {
-        type: 'string'
-      },
-      snapshot: {
-        type: 'string'
-      }
-    }
-  },
-  method: 'DELETE'
-});
-
-/**
- * Perform a [snapshot.deleteRepository](http://www.elastic.co/guide/en/elasticsearch/reference/1.6/modules-snapshots.html) request
- *
- * @param {Object} params - An object with parameters used to carry out this action
- * @param {Date, Number} params.masterTimeout - Explicit operation timeout for connection to master node
- * @param {Date, Number} params.timeout - Explicit operation timeout
- * @param {String, String[], Boolean} params.repository - A comma-separated list of repository names
- */
-api.snapshot.prototype.deleteRepository = ca({
-  params: {
-    masterTimeout: {
-      type: 'time',
-      name: 'master_timeout'
-    },
-    timeout: {
-      type: 'time'
-    }
-  },
-  url: {
-    fmt: '/_snapshot/<%=repository%>',
-    req: {
-      repository: {
-        type: 'list'
-      }
-    }
-  },
-  method: 'DELETE'
-});
-
-/**
- * Perform a [snapshot.get](http://www.elastic.co/guide/en/elasticsearch/reference/1.6/modules-snapshots.html) request
- *
- * @param {Object} params - An object with parameters used to carry out this action
- * @param {Date, Number} params.masterTimeout - Explicit operation timeout for connection to master node
- * @param {String} params.repository - A repository name
- * @param {String, String[], Boolean} params.snapshot - A comma-separated list of snapshot names
- */
-api.snapshot.prototype.get = ca({
-  params: {
-    masterTimeout: {
-      type: 'time',
-      name: 'master_timeout'
-    }
-  },
-  url: {
-    fmt: '/_snapshot/<%=repository%>/<%=snapshot%>',
-    req: {
-      repository: {
-        type: 'string'
-      },
-      snapshot: {
-        type: 'list'
-      }
-    }
-  }
-});
-
-/**
- * Perform a [snapshot.getRepository](http://www.elastic.co/guide/en/elasticsearch/reference/1.6/modules-snapshots.html) request
- *
- * @param {Object} params - An object with parameters used to carry out this action
- * @param {Date, Number} params.masterTimeout - Explicit operation timeout for connection to master node
- * @param {Boolean} params.local - Return local information, do not retrieve the state from master node (default: false)
- * @param {String, String[], Boolean} params.repository - A comma-separated list of repository names
- */
-api.snapshot.prototype.getRepository = ca({
-  params: {
-    masterTimeout: {
-      type: 'time',
-      name: 'master_timeout'
-    },
-    local: {
-      type: 'boolean'
-    }
-  },
-  urls: [
-    {
-      fmt: '/_snapshot/<%=repository%>',
-      req: {
-        repository: {
-          type: 'list'
-        }
-      }
-    },
-    {
-      fmt: '/_snapshot'
-    }
-  ]
-});
-
-/**
- * Perform a [snapshot.restore](http://www.elastic.co/guide/en/elasticsearch/reference/1.6/modules-snapshots.html) request
- *
- * @param {Object} params - An object with parameters used to carry out this action
- * @param {Date, Number} params.masterTimeout - Explicit operation timeout for connection to master node
- * @param {Boolean} params.waitForCompletion - Should this request wait until the operation has completed before returning
- * @param {String} params.repository - A repository name
- * @param {String} params.snapshot - A snapshot name
- */
-api.snapshot.prototype.restore = ca({
-  params: {
-    masterTimeout: {
-      type: 'time',
-      name: 'master_timeout'
-    },
-    waitForCompletion: {
-      type: 'boolean',
-      'default': false,
-      name: 'wait_for_completion'
-    }
-  },
-  url: {
-    fmt: '/_snapshot/<%=repository%>/<%=snapshot%>/_restore',
-    req: {
-      repository: {
-        type: 'string'
-      },
-      snapshot: {
-        type: 'string'
-      }
-    }
-  },
-  method: 'POST'
-});
-
-/**
- * Perform a [snapshot.status](http://www.elastic.co/guide/en/elasticsearch/reference/1.6/modules-snapshots.html) request
- *
- * @param {Object} params - An object with parameters used to carry out this action
- * @param {Date, Number} params.masterTimeout - Explicit operation timeout for connection to master node
- * @param {String} params.repository - A repository name
- * @param {String, String[], Boolean} params.snapshot - A comma-separated list of snapshot names
- */
-api.snapshot.prototype.status = ca({
-  params: {
-    masterTimeout: {
-      type: 'time',
-      name: 'master_timeout'
-    }
-  },
-  urls: [
-    {
-      fmt: '/_snapshot/<%=repository%>/<%=snapshot%>/_status',
-      req: {
-        repository: {
-          type: 'string'
-        },
-        snapshot: {
-          type: 'list'
-        }
-      }
-    },
-    {
-      fmt: '/_snapshot/<%=repository%>/_status',
-      req: {
-        repository: {
-          type: 'string'
-        }
-      }
-    },
-    {
-      fmt: '/_snapshot/_status'
-    }
-  ]
-});
-
-/**
- * Perform a [snapshot.verifyRepository](http://www.elastic.co/guide/en/elasticsearch/reference/1.6/modules-snapshots.html) request
- *
- * @param {Object} params - An object with parameters used to carry out this action
- * @param {Date, Number} params.masterTimeout - Explicit operation timeout for connection to master node
- * @param {Date, Number} params.timeout - Explicit operation timeout
- * @param {String} params.repository - A repository name
- */
-api.snapshot.prototype.verifyRepository = ca({
-  params: {
-    masterTimeout: {
-      type: 'time',
-      name: 'master_timeout'
-    },
-    timeout: {
-      type: 'time'
-    }
-  },
-  url: {
-    fmt: '/_snapshot/<%=repository%>/_verify',
-    req: {
-      repository: {
-        type: 'string'
-      }
-    }
-  },
-  method: 'POST'
-});
-
-/**
- * Perform a [suggest](http://www.elastic.co/guide/en/elasticsearch/reference/1.6/search-suggesters.html) request
- *
- * @param {Object} params - An object with parameters used to carry out this action
- * @param {Boolean} params.ignoreUnavailable - Whether specified concrete indices should be ignored when unavailable (missing or closed)
- * @param {Boolean} params.allowNoIndices - Whether to ignore if a wildcard indices expression resolves into no concrete indices. (This includes `_all` string or when no indices have been specified)
- * @param {String} [params.expandWildcards=open] - Whether to expand wildcard expression to concrete indices that are open, closed or both.
- * @param {String} params.preference - Specify the node or shard the operation should be performed on (default: random)
- * @param {String} params.routing - Specific routing value
- * @param {String, String[], Boolean} params.index - A comma-separated list of index names to restrict the operation; use `_all` or empty string to perform the operation on all indices
- */
-api.suggest = ca({
-  params: {
-    ignoreUnavailable: {
-      type: 'boolean',
-      name: 'ignore_unavailable'
-    },
-    allowNoIndices: {
-      type: 'boolean',
-      name: 'allow_no_indices'
-    },
-    expandWildcards: {
-      type: 'enum',
-      'default': 'open',
-      options: [
-        'open',
-        'closed',
-        'none',
-        'all'
-      ],
-      name: 'expand_wildcards'
-    },
-    preference: {
-      type: 'string'
-    },
-    routing: {
-      type: 'string'
-    }
-  },
-  urls: [
-    {
-      fmt: '/<%=index%>/_suggest',
-      req: {
-        index: {
-          type: 'list'
-        }
-      }
-    },
-    {
-      fmt: '/_suggest'
-    }
-  ],
-  needBody: true,
-  method: 'POST'
-});
-
-/**
- * Perform a [termvector](http://www.elastic.co/guide/en/elasticsearch/reference/1.6/docs-termvectors.html) request
- *
- * @param {Object} params - An object with parameters used to carry out this action
- * @param {Boolean} params.termStatistics - Specifies if total term frequency and document frequency should be returned.
- * @param {Boolean} [params.fieldStatistics=true] - Specifies if document count, sum of document frequencies and sum of total term frequencies should be returned.
- * @param {String, String[], Boolean} params.fields - A comma-separated list of fields to return.
- * @param {Boolean} [params.offsets=true] - Specifies if term offsets should be returned.
- * @param {Boolean} [params.positions=true] - Specifies if term positions should be returned.
- * @param {Boolean} [params.payloads=true] - Specifies if term payloads should be returned.
- * @param {String} params.preference - Specify the node or shard the operation should be performed on (default: random).
- * @param {String} params.routing - Specific routing value.
- * @param {String} params.parent - Parent id of documents.
- * @param {Boolean} params.realtime - Specifies if request is real-time as opposed to near-real-time (default: true).
- * @param {String} params.index - The index in which the document resides.
- * @param {String} params.type - The type of the document.
- * @param {String} params.id - The id of the document.
- */
-api.termvector = ca({
-  params: {
-    termStatistics: {
-      type: 'boolean',
-      'default': false,
-      required: false,
-      name: 'term_statistics'
-    },
-    fieldStatistics: {
-      type: 'boolean',
-      'default': true,
-      required: false,
-      name: 'field_statistics'
-    },
-    fields: {
-      type: 'list',
-      required: false
-    },
-    offsets: {
-      type: 'boolean',
-      'default': true,
-      required: false
-    },
-    positions: {
-      type: 'boolean',
-      'default': true,
-      required: false
-    },
-    payloads: {
-      type: 'boolean',
-      'default': true,
-      required: false
-    },
-    preference: {
-      type: 'string',
-      required: false
-    },
-    routing: {
-      type: 'string',
-      required: false
-    },
-    parent: {
-      type: 'string',
-      required: false
-    },
-    realtime: {
-      type: 'boolean',
-      required: false
-    }
-  },
-  urls: [
-    {
-      fmt: '/<%=index%>/<%=type%>/<%=id%>/_termvector',
-      req: {
-        index: {
-          type: 'string'
-        },
-        type: {
-          type: 'string'
-        },
-        id: {
-          type: 'string'
-        }
-      }
-    },
-    {
-      fmt: '/<%=index%>/<%=type%>/_termvector',
-      req: {
-        index: {
-          type: 'string'
-        },
-        type: {
-          type: 'string'
-        }
-      }
-    }
-  ],
-  method: 'POST'
-});
-
-/**
- * Perform a [update](http://www.elastic.co/guide/en/elasticsearch/reference/1.6/docs-update.html) request
- *
- * @param {Object} params - An object with parameters used to carry out this action
- * @param {String} params.consistency - Explicit write consistency setting for the operation
- * @param {String, String[], Boolean} params.fields - A comma-separated list of fields to return in the response
- * @param {String} params.lang - The script language (default: groovy)
- * @param {String} params.parent - ID of the parent document. Is is only used for routing and when for the upsert request
- * @param {Boolean} params.refresh - Refresh the index after performing the operation
- * @param {String} [params.replication=sync] - Specific replication type
- * @param {Number} params.retryOnConflict - Specify how many times should the operation be retried when a conflict occurs (default: 0)
- * @param {String} params.routing - Specific routing value
- * @param {Anything} params.script - The URL-encoded script definition (instead of using request body)
- * @param {Anything} params.scriptId - The id of a stored script
- * @param {Boolean} params.scriptedUpsert - True if the script referenced in script or script_id should be called to perform inserts - defaults to false
- * @param {Date, Number} params.timeout - Explicit operation timeout
- * @param {Date, Number} params.timestamp - Explicit timestamp for the document
- * @param {Duration} params.ttl - Expiration time for the document
- * @param {Number} params.version - Explicit version number for concurrency control
- * @param {String} params.versionType - Specific version type
- * @param {String} params.id - Document ID
- * @param {String} params.index - The name of the index
- * @param {String} params.type - The type of the document
- */
-api.update = ca({
-  params: {
-    consistency: {
-      type: 'enum',
-      options: [
-        'one',
-        'quorum',
-        'all'
-      ]
-    },
-    fields: {
-      type: 'list'
-    },
-    lang: {
-      type: 'string'
-    },
-    parent: {
-      type: 'string'
-    },
-    refresh: {
-      type: 'boolean'
-    },
-    replication: {
-      type: 'enum',
-      'default': 'sync',
-      options: [
-        'sync',
-        'async'
-      ]
-    },
-    retryOnConflict: {
-      type: 'number',
-      name: 'retry_on_conflict'
-    },
-    routing: {
-      type: 'string'
-    },
-    script: {},
-    scriptId: {
-      name: 'script_id'
-    },
-    scriptedUpsert: {
-      type: 'boolean',
-      name: 'scripted_upsert'
-    },
-    timeout: {
-      type: 'time'
-    },
-    timestamp: {
-      type: 'time'
-    },
-    ttl: {
-      type: 'duration'
-    },
-    version: {
-      type: 'number'
-    },
-    versionType: {
-      type: 'enum',
-      options: [
-        'internal',
-        'force'
-      ],
-      name: 'version_type'
-    }
-  },
-  url: {
-    fmt: '/<%=index%>/<%=type%>/<%=id%>/_update',
-    req: {
-      index: {
-        type: 'string'
-      },
-      type: {
-        type: 'string'
-      },
-      id: {
-        type: 'string'
-      }
-    }
-  },
-  method: 'POST'
-});
-
-/**
- * Perform a [create](http://www.elastic.co/guide/en/elasticsearch/reference/1.6/docs-index_.html) request
- *
- * @param {Object} params - An object with parameters used to carry out this action
- * @param {String} params.consistency - Explicit write consistency setting for the operation
- * @param {String} params.parent - ID of the parent document
- * @param {Boolean} params.refresh - Refresh the index after performing the operation
- * @param {String} [params.replication=sync] - Specific replication type
- * @param {String} params.routing - Specific routing value
- * @param {Date, Number} params.timeout - Explicit operation timeout
- * @param {Date, Number} params.timestamp - Explicit timestamp for the document
- * @param {Duration} params.ttl - Expiration time for the document
- * @param {Number} params.version - Explicit version number for concurrency control
- * @param {String} params.versionType - Specific version type
- * @param {String} params.id - Document ID
- * @param {String} params.index - The name of the index
- * @param {String} params.type - The type of the document
- */
-api.create = ca.proxy(api.index, {
-  transform: function (params) {
-    params.op_type = 'create';
-  }
-});
-
-},{"../client_action":29,"../utils":52}],21:[function(require,module,exports){
+},{"./lib/client":28,"./lib/connection_pool":31,"./lib/errors":34,"./lib/transport":47}],20:[function(require,module,exports){
 var ca = require('../client_action').makeFactoryWithModifier(function (spec) {
   return require('../utils').merge(spec, {
     params: {
@@ -30558,7 +25648,7 @@ api.create = ca.proxy(api.index, {
   }
 });
 
-},{"../client_action":29,"../utils":52}],22:[function(require,module,exports){
+},{"../client_action":29,"../utils":50}],21:[function(require,module,exports){
 var ca = require('../client_action').makeFactoryWithModifier(function (spec) {
   return require('../utils').merge(spec, {
     params: {
@@ -36636,7 +31726,6 @@ api.termvectors = ca({
  * @param {Duration} params.ttl - Expiration time for the document
  * @param {Number} params.version - Explicit version number for concurrency control
  * @param {String} params.versionType - Specific version type
- * @param {Boolean} params.detectNoop - Specifying as true will cause Elasticsearch to check if there are changes and, if there aren’t, turn the update request into a noop.
  * @param {String} params.id - Document ID
  * @param {String} params.index - The name of the index
  * @param {String} params.type - The type of the document
@@ -36697,10 +31786,6 @@ api.update = ca({
         'force'
       ],
       name: 'version_type'
-    },
-    detectNoop: {
-      type: 'boolean',
-      name: 'detect_noop'
     }
   },
   url: {
@@ -36743,7 +31828,7 @@ api.create = ca.proxy(api.index, {
   }
 });
 
-},{"../client_action":29,"../utils":52}],23:[function(require,module,exports){
+},{"../client_action":29,"../utils":50}],22:[function(require,module,exports){
 var ca = require('../client_action').makeFactoryWithModifier(function (spec) {
   return require('../utils').merge(spec, {
     params: {
@@ -42966,7 +38051,6 @@ api.termvectors = ca({
  * @param {Duration} params.ttl - Expiration time for the document
  * @param {Number} params.version - Explicit version number for concurrency control
  * @param {String} params.versionType - Specific version type
- * @param {Boolean} params.detectNoop - Specifying as true will cause Elasticsearch to check if there are changes and, if there aren’t, turn the update request into a noop.
  * @param {String} params.id - Document ID
  * @param {String} params.index - The name of the index
  * @param {String} params.type - The type of the document
@@ -43027,10 +38111,6 @@ api.update = ca({
         'force'
       ],
       name: 'version_type'
-    },
-    detectNoop: {
-      type: 'boolean',
-      name: 'detect_noop'
     }
   },
   url: {
@@ -43073,7 +38153,7 @@ api.create = ca.proxy(api.index, {
   }
 });
 
-},{"../client_action":29,"../utils":52}],24:[function(require,module,exports){
+},{"../client_action":29,"../utils":50}],23:[function(require,module,exports){
 var ca = require('../client_action').makeFactoryWithModifier(function (spec) {
   return require('../utils').merge(spec, {
     params: {
@@ -49310,7 +44390,6 @@ api.termvectors = ca({
  * @param {Duration} params.ttl - Expiration time for the document
  * @param {Number} params.version - Explicit version number for concurrency control
  * @param {String} params.versionType - Specific version type
- * @param {Boolean} params.detectNoop - Specifying as true will cause Elasticsearch to check if there are changes and, if there aren’t, turn the update request into a noop.
  * @param {String} params.id - Document ID
  * @param {String} params.index - The name of the index
  * @param {String} params.type - The type of the document
@@ -49371,10 +44450,6 @@ api.update = ca({
         'force'
       ],
       name: 'version_type'
-    },
-    detectNoop: {
-      type: 'boolean',
-      name: 'detect_noop'
     }
   },
   url: {
@@ -49417,7 +44492,7 @@ api.create = ca.proxy(api.index, {
   }
 });
 
-},{"../client_action":29,"../utils":52}],25:[function(require,module,exports){
+},{"../client_action":29,"../utils":50}],24:[function(require,module,exports){
 var ca = require('../client_action').makeFactoryWithModifier(function (spec) {
   return require('../utils').merge(spec, {
     params: {
@@ -49431,7 +44506,7 @@ var ca = require('../client_action').makeFactoryWithModifier(function (spec) {
 var namespace = require('../client_action').namespaceFactory;
 var api = module.exports = {};
 
-api._namespaces = ['cat', 'cluster', 'indices', 'nodes', 'snapshot'];
+api._namespaces = ['cat', 'cluster', 'indices', 'nodes', 'snapshot', 'tasks'];
 
 /**
  * Perform a [bulk](http://www.elastic.co/guide/en/elasticsearch/reference/master/docs-bulk.html) request
@@ -51514,8 +46589,8 @@ api.indices = namespace();
  * @param {Boolean} params.preferLocal - With `true`, specify that a local shard should be used if available, with `false`, use a random shard (default: true)
  * @param {String, String[], Boolean} params.text - The text on which the analysis should be performed (when request body is not used)
  * @param {String} params.tokenizer - The name of the tokenizer to use for the analysis
- * @param {Boolean} params.detail - With `true`, outputs more advanced details. (default: false)
- * @param {String, String[], Boolean} params.attributes - A comma-separated list of token attributes to output, this parameter works only with `detail=true`
+ * @param {Boolean} params.explain - With `true`, outputs more advanced details. (default: false)
+ * @param {String, String[], Boolean} params.attributes - A comma-separated list of token attributes to output, this parameter works only with `explain=true`
  * @param {String} [params.format=detailed] - Format of the output
  */
 api.indices.prototype.analyze = ca({
@@ -51546,7 +46621,7 @@ api.indices.prototype.analyze = ca({
     tokenizer: {
       type: 'string'
     },
-    detail: {
+    explain: {
       type: 'boolean'
     },
     attributes: {
@@ -54636,6 +49711,45 @@ api.putTemplate = ca({
 });
 
 /**
+ * Perform a [reindex](https://www.elastic.co/guide/en/elasticsearch/plugins/master/plugins-reindex.html) request
+ *
+ * @param {Object} params - An object with parameters used to carry out this action
+ * @param {Boolean} params.refresh - Should the effected indexes be refreshed?
+ * @param {Date, Number} [params.timeout=1m] - Time each individual bulk request should wait for shards that are unavailable.
+ * @param {String} params.consistency - Explicit write consistency setting for the operation
+ * @param {Boolean} params.waitForCompletion - Should the request should block until the reindex is complete.
+ */
+api.reindex = ca({
+  params: {
+    refresh: {
+      type: 'boolean'
+    },
+    timeout: {
+      type: 'time',
+      'default': '1m'
+    },
+    consistency: {
+      type: 'enum',
+      options: [
+        'one',
+        'quorum',
+        'all'
+      ]
+    },
+    waitForCompletion: {
+      type: 'boolean',
+      'default': false,
+      name: 'wait_for_completion'
+    }
+  },
+  url: {
+    fmt: '/_reindex'
+  },
+  needBody: true,
+  method: 'POST'
+});
+
+/**
  * Perform a [renderSearchTemplate](http://www.elasticsearch.org/guide/en/elasticsearch/reference/master/search-template.html) request
  *
  * @param {Object} params - An object with parameters used to carry out this action
@@ -55516,6 +50630,104 @@ api.suggest = ca({
   method: 'POST'
 });
 
+api.tasks = namespace();
+
+/**
+ * Perform a [tasks.cancel](http://www.elastic.co/guide/en/elasticsearch/reference/master/tasks-cancel.html) request
+ *
+ * @param {Object} params - An object with parameters used to carry out this action
+ * @param {String, String[], Boolean} params.nodeId - A comma-separated list of node IDs or names to limit the returned information; use `_local` to return information from the node you're connecting to, leave empty to get information from all nodes
+ * @param {String, String[], Boolean} params.actions - A comma-separated list of actions that should be cancelled. Leave empty to cancel all.
+ * @param {String} params.parentNode - Cancel tasks with specified parent node.
+ * @param {String} params.parentTask - Cancel tasks with specified parent task id (node_id:task_number). Set to -1 to cancel all.
+ * @param {Number} params.taskId - Cancel the task with specified task id (node_id:task_number)
+ */
+api.tasks.prototype.cancel = ca({
+  params: {
+    nodeId: {
+      type: 'list',
+      name: 'node_id'
+    },
+    actions: {
+      type: 'list'
+    },
+    parentNode: {
+      type: 'string',
+      name: 'parent_node'
+    },
+    parentTask: {
+      type: 'string',
+      name: 'parent_task'
+    }
+  },
+  urls: [
+    {
+      fmt: '/_tasks/<%=taskId%>/_cancel',
+      req: {
+        taskId: {
+          type: 'number'
+        }
+      }
+    },
+    {
+      fmt: '/_tasks/_cancel'
+    }
+  ],
+  method: 'POST'
+});
+
+/**
+ * Perform a [tasks.list](http://www.elastic.co/guide/en/elasticsearch/reference/master/tasks-list.html) request
+ *
+ * @param {Object} params - An object with parameters used to carry out this action
+ * @param {String, String[], Boolean} params.nodeId - A comma-separated list of node IDs or names to limit the returned information; use `_local` to return information from the node you're connecting to, leave empty to get information from all nodes
+ * @param {String, String[], Boolean} params.actions - A comma-separated list of actions that should be returned. Leave empty to return all.
+ * @param {Boolean} params.detailed - Return detailed task information (default: false)
+ * @param {String} params.parentNode - Return tasks with specified parent node.
+ * @param {String} params.parentTask - Return tasks with specified parent task id (node_id:task_number). Set to -1 to return all.
+ * @param {Boolean} params.waitForCompletion - Wait for the matching tasks to complete (default: false)
+ * @param {String} params.taskId - Return the task with specified id (node_id:task_number)
+ */
+api.tasks.prototype.list = ca({
+  params: {
+    nodeId: {
+      type: 'list',
+      name: 'node_id'
+    },
+    actions: {
+      type: 'list'
+    },
+    detailed: {
+      type: 'boolean'
+    },
+    parentNode: {
+      type: 'string',
+      name: 'parent_node'
+    },
+    parentTask: {
+      type: 'string',
+      name: 'parent_task'
+    },
+    waitForCompletion: {
+      type: 'boolean',
+      name: 'wait_for_completion'
+    }
+  },
+  urls: [
+    {
+      fmt: '/_tasks/<%=taskId%>',
+      req: {
+        taskId: {
+          type: 'string'
+        }
+      }
+    },
+    {
+      fmt: '/_tasks'
+    }
+  ]
+});
+
 /**
  * Perform a [termvectors](http://www.elastic.co/guide/en/elasticsearch/reference/master/docs-termvectors.html) request
  *
@@ -55654,7 +50866,6 @@ api.termvectors = ca({
  * @param {Duration} params.ttl - Expiration time for the document
  * @param {Number} params.version - Explicit version number for concurrency control
  * @param {String} params.versionType - Specific version type
- * @param {Boolean} params.detectNoop - Specifying as true will cause Elasticsearch to check if there are changes and, if there aren’t, turn the update request into a noop.
  * @param {String} params.id - Document ID
  * @param {String} params.index - The name of the index
  * @param {String} params.type - The type of the document
@@ -55715,10 +50926,6 @@ api.update = ca({
         'force'
       ],
       name: 'version_type'
-    },
-    detectNoop: {
-      type: 'boolean',
-      name: 'detect_noop'
     }
   },
   url: {
@@ -55735,6 +50942,255 @@ api.update = ca({
       }
     }
   },
+  method: 'POST'
+});
+
+/**
+ * Perform a [updateByQuery](https://www.elastic.co/guide/en/elasticsearch/plugins/master/plugins-reindex.html) request
+ *
+ * @param {Object} params - An object with parameters used to carry out this action
+ * @param {String} params.analyzer - The analyzer to use for the query string
+ * @param {Boolean} params.analyzeWildcard - Specify whether wildcard and prefix queries should be analyzed (default: false)
+ * @param {String} [params.defaultOperator=OR] - The default operator for query string query (AND or OR)
+ * @param {String} params.df - The field to use as default where no field prefix is given in the query string
+ * @param {Boolean} params.explain - Specify whether to return detailed information about score computation as part of a hit
+ * @param {String, String[], Boolean} params.fields - A comma-separated list of fields to return as part of a hit
+ * @param {String, String[], Boolean} params.fielddataFields - A comma-separated list of fields to return as the field data representation of a field for each hit
+ * @param {Number} params.from - Starting offset (default: 0)
+ * @param {Boolean} params.ignoreUnavailable - Whether specified concrete indices should be ignored when unavailable (missing or closed)
+ * @param {Boolean} params.allowNoIndices - Whether to ignore if a wildcard indices expression resolves into no concrete indices. (This includes `_all` string or when no indices have been specified)
+ * @param {String} [params.conflicts=abort] - What to do when the reindex hits version conflicts?
+ * @param {String} [params.expandWildcards=open] - Whether to expand wildcard expression to concrete indices that are open, closed or both.
+ * @param {Boolean} params.lenient - Specify whether format-based query failures (such as providing text to a numeric field) should be ignored
+ * @param {Boolean} params.lowercaseExpandedTerms - Specify whether query terms should be lowercased
+ * @param {String} params.preference - Specify the node or shard the operation should be performed on (default: random)
+ * @param {String} params.q - Query in the Lucene query string syntax
+ * @param {String, String[], Boolean} params.routing - A comma-separated list of specific routing values
+ * @param {Duration} params.scroll - Specify how long a consistent view of the index should be maintained for scrolled search
+ * @param {String} params.searchType - Search operation type
+ * @param {Date, Number} params.searchTimeout - Explicit timeout for each search request. Defaults to no timeout.
+ * @param {Number} params.size - Number of hits to return (default: 10)
+ * @param {String, String[], Boolean} params.sort - A comma-separated list of <field>:<direction> pairs
+ * @param {String, String[], Boolean} params._source - True or false to return the _source field or not, or a list of fields to return
+ * @param {String, String[], Boolean} params._sourceExclude - A list of fields to exclude from the returned _source field
+ * @param {String, String[], Boolean} params._sourceInclude - A list of fields to extract and return from the _source field
+ * @param {Number} params.terminateAfter - The maximum number of documents to collect for each shard, upon reaching which the query execution will terminate early.
+ * @param {String, String[], Boolean} params.stats - Specific 'tag' of the request for logging and statistical purposes
+ * @param {String} params.suggestField - Specify which field to use for suggestions
+ * @param {String} [params.suggestMode=missing] - Specify suggest mode
+ * @param {Number} params.suggestSize - How many suggestions to return in response
+ * @param {Text} params.suggestText - The source text for which the suggestions should be returned
+ * @param {Date, Number} [params.timeout=1m] - Time each individual bulk request should wait for shards that are unavailable.
+ * @param {Boolean} params.trackScores - Whether to calculate and return scores even if they are not used for sorting
+ * @param {Boolean} params.version - Specify whether to return document version as part of a hit
+ * @param {Boolean} params.versionType - Should the document increment the version number (internal) on hit or not (reindex)
+ * @param {Boolean} params.requestCache - Specify if request cache should be used for this request or not, defaults to index level setting
+ * @param {Boolean} params.refresh - Should the effected indexes be refreshed?
+ * @param {String} params.consistency - Explicit write consistency setting for the operation
+ * @param {Integer} params.scrollSize - Size on the scroll request powering the update_by_query
+ * @param {Boolean} params.waitForCompletion - Should the request should block until the reindex is complete.
+ * @param {String, String[], Boolean} params.index - A comma-separated list of index names to search; use `_all` or empty string to perform the operation on all indices
+ * @param {String, String[], Boolean} params.type - A comma-separated list of document types to search; leave empty to perform the operation on all types
+ */
+api.updateByQuery = ca({
+  params: {
+    analyzer: {
+      type: 'string'
+    },
+    analyzeWildcard: {
+      type: 'boolean',
+      name: 'analyze_wildcard'
+    },
+    defaultOperator: {
+      type: 'enum',
+      'default': 'OR',
+      options: [
+        'AND',
+        'OR'
+      ],
+      name: 'default_operator'
+    },
+    df: {
+      type: 'string'
+    },
+    explain: {
+      type: 'boolean'
+    },
+    fields: {
+      type: 'list'
+    },
+    fielddataFields: {
+      type: 'list',
+      name: 'fielddata_fields'
+    },
+    from: {
+      type: 'number'
+    },
+    ignoreUnavailable: {
+      type: 'boolean',
+      name: 'ignore_unavailable'
+    },
+    allowNoIndices: {
+      type: 'boolean',
+      name: 'allow_no_indices'
+    },
+    conflicts: {
+      type: 'enum',
+      'default': 'abort',
+      options: [
+        'abort',
+        'proceed'
+      ]
+    },
+    expandWildcards: {
+      type: 'enum',
+      'default': 'open',
+      options: [
+        'open',
+        'closed',
+        'none',
+        'all'
+      ],
+      name: 'expand_wildcards'
+    },
+    lenient: {
+      type: 'boolean'
+    },
+    lowercaseExpandedTerms: {
+      type: 'boolean',
+      name: 'lowercase_expanded_terms'
+    },
+    preference: {
+      type: 'string'
+    },
+    q: {
+      type: 'string'
+    },
+    routing: {
+      type: 'list'
+    },
+    scroll: {
+      type: 'duration'
+    },
+    searchType: {
+      type: 'enum',
+      options: [
+        'query_then_fetch',
+        'dfs_query_then_fetch'
+      ],
+      name: 'search_type'
+    },
+    searchTimeout: {
+      type: 'time',
+      name: 'search_timeout'
+    },
+    size: {
+      type: 'number'
+    },
+    sort: {
+      type: 'list'
+    },
+    _source: {
+      type: 'list'
+    },
+    _sourceExclude: {
+      type: 'list',
+      name: '_source_exclude'
+    },
+    _sourceInclude: {
+      type: 'list',
+      name: '_source_include'
+    },
+    terminateAfter: {
+      type: 'number',
+      name: 'terminate_after'
+    },
+    stats: {
+      type: 'list'
+    },
+    suggestField: {
+      type: 'string',
+      name: 'suggest_field'
+    },
+    suggestMode: {
+      type: 'enum',
+      'default': 'missing',
+      options: [
+        'missing',
+        'popular',
+        'always'
+      ],
+      name: 'suggest_mode'
+    },
+    suggestSize: {
+      type: 'number',
+      name: 'suggest_size'
+    },
+    suggestText: {
+      type: 'text',
+      name: 'suggest_text'
+    },
+    timeout: {
+      type: 'time',
+      'default': '1m'
+    },
+    trackScores: {
+      type: 'boolean',
+      name: 'track_scores'
+    },
+    version: {
+      type: 'boolean'
+    },
+    versionType: {
+      type: 'boolean',
+      name: 'version_type'
+    },
+    requestCache: {
+      type: 'boolean',
+      name: 'request_cache'
+    },
+    refresh: {
+      type: 'boolean'
+    },
+    consistency: {
+      type: 'enum',
+      options: [
+        'one',
+        'quorum',
+        'all'
+      ]
+    },
+    scrollSize: {
+      type: 'integer',
+      name: 'scroll_size'
+    },
+    waitForCompletion: {
+      type: 'boolean',
+      'default': false,
+      name: 'wait_for_completion'
+    }
+  },
+  urls: [
+    {
+      fmt: '/<%=index%>/<%=type%>/_update_by_query',
+      req: {
+        index: {
+          type: 'list'
+        },
+        type: {
+          type: 'list'
+        }
+      }
+    },
+    {
+      fmt: '/<%=index%>/_update_by_query',
+      req: {
+        index: {
+          type: 'list'
+        }
+      }
+    }
+  ],
   method: 'POST'
 });
 
@@ -55761,19 +51217,21 @@ api.create = ca.proxy(api.index, {
   }
 });
 
-},{"../client_action":29,"../utils":52}],26:[function(require,module,exports){
+},{"../client_action":29,"../utils":50}],25:[function(require,module,exports){
+module.exports=require(24)
+},{"../client_action":29,"../utils":50}],26:[function(require,module,exports){
 module.exports = {
+  '_default': require('./2_3'),
+  '2.3': require('./2_3'),
   '2.2': require('./2_2'),
-  '_default': require('./2_1'),
   '2.1': require('./2_1'),
   '2.0': require('./2_0'),
   '1.7': require('./1_7'),
-  '1.6': require('./1_6'),
   '2.x': require('./2_x'),
   'master': require('./master')
 };
 
-},{"./1_6":20,"./1_7":21,"./2_0":22,"./2_1":23,"./2_2":24,"./2_x":25,"./master":27}],27:[function(require,module,exports){
+},{"./1_7":20,"./2_0":21,"./2_1":22,"./2_2":23,"./2_3":24,"./2_x":25,"./master":27}],27:[function(require,module,exports){
 var ca = require('../client_action').makeFactoryWithModifier(function (spec) {
   return require('../utils').merge(spec, {
     params: {
@@ -55787,7 +51245,7 @@ var ca = require('../client_action').makeFactoryWithModifier(function (spec) {
 var namespace = require('../client_action').namespaceFactory;
 var api = module.exports = {};
 
-api._namespaces = ['cat', 'cluster', 'indices', 'ingest', 'nodes', 'snapshot', 'tasks'];
+api._namespaces = ['cat', 'cluster', 'indices', 'ingest', 'nodes', 'reindex', 'snapshot', 'tasks'];
 
 /**
  * Perform a [bulk](http://www.elastic.co/guide/en/elasticsearch/reference/master/docs-bulk.html) request
@@ -55866,6 +51324,7 @@ api.cat = namespace();
  * Perform a [cat.aliases](http://www.elasticsearch.org/guide/en/elasticsearch/reference/master/cat.html) request
  *
  * @param {Object} params - An object with parameters used to carry out this action
+ * @param {String} params.format - a short version of the Accept header, e.g. json, yaml
  * @param {Boolean} params.local - Return local information, do not retrieve the state from master node (default: false)
  * @param {Date, Number} params.masterTimeout - Explicit operation timeout for connection to master node
  * @param {String, String[], Boolean} params.h - Comma-separated list of column names to display
@@ -55875,6 +51334,9 @@ api.cat = namespace();
  */
 api.cat.prototype.aliases = ca({
   params: {
+    format: {
+      type: 'string'
+    },
     local: {
       type: 'boolean'
     },
@@ -55913,6 +51375,7 @@ api.cat.prototype.aliases = ca({
  * Perform a [cat.allocation](http://www.elastic.co/guide/en/elasticsearch/reference/master/cat-allocation.html) request
  *
  * @param {Object} params - An object with parameters used to carry out this action
+ * @param {String} params.format - a short version of the Accept header, e.g. json, yaml
  * @param {String} params.bytes - The unit in which to display byte values
  * @param {Boolean} params.local - Return local information, do not retrieve the state from master node (default: false)
  * @param {Date, Number} params.masterTimeout - Explicit operation timeout for connection to master node
@@ -55923,6 +51386,9 @@ api.cat.prototype.aliases = ca({
  */
 api.cat.prototype.allocation = ca({
   params: {
+    format: {
+      type: 'string'
+    },
     bytes: {
       type: 'enum',
       options: [
@@ -55970,6 +51436,7 @@ api.cat.prototype.allocation = ca({
  * Perform a [cat.count](http://www.elastic.co/guide/en/elasticsearch/reference/master/cat-count.html) request
  *
  * @param {Object} params - An object with parameters used to carry out this action
+ * @param {String} params.format - a short version of the Accept header, e.g. json, yaml
  * @param {Boolean} params.local - Return local information, do not retrieve the state from master node (default: false)
  * @param {Date, Number} params.masterTimeout - Explicit operation timeout for connection to master node
  * @param {String, String[], Boolean} params.h - Comma-separated list of column names to display
@@ -55979,6 +51446,9 @@ api.cat.prototype.allocation = ca({
  */
 api.cat.prototype.count = ca({
   params: {
+    format: {
+      type: 'string'
+    },
     local: {
       type: 'boolean'
     },
@@ -56017,6 +51487,7 @@ api.cat.prototype.count = ca({
  * Perform a [cat.fielddata](http://www.elastic.co/guide/en/elasticsearch/reference/master/cat-fielddata.html) request
  *
  * @param {Object} params - An object with parameters used to carry out this action
+ * @param {String} params.format - a short version of the Accept header, e.g. json, yaml
  * @param {String} params.bytes - The unit in which to display byte values
  * @param {Boolean} params.local - Return local information, do not retrieve the state from master node (default: false)
  * @param {Date, Number} params.masterTimeout - Explicit operation timeout for connection to master node
@@ -56027,6 +51498,9 @@ api.cat.prototype.count = ca({
  */
 api.cat.prototype.fielddata = ca({
   params: {
+    format: {
+      type: 'string'
+    },
     bytes: {
       type: 'enum',
       options: [
@@ -56077,6 +51551,7 @@ api.cat.prototype.fielddata = ca({
  * Perform a [cat.health](http://www.elastic.co/guide/en/elasticsearch/reference/master/cat-health.html) request
  *
  * @param {Object} params - An object with parameters used to carry out this action
+ * @param {String} params.format - a short version of the Accept header, e.g. json, yaml
  * @param {Boolean} params.local - Return local information, do not retrieve the state from master node (default: false)
  * @param {Date, Number} params.masterTimeout - Explicit operation timeout for connection to master node
  * @param {String, String[], Boolean} params.h - Comma-separated list of column names to display
@@ -56086,6 +51561,9 @@ api.cat.prototype.fielddata = ca({
  */
 api.cat.prototype.health = ca({
   params: {
+    format: {
+      type: 'string'
+    },
     local: {
       type: 'boolean'
     },
@@ -56136,6 +51614,7 @@ api.cat.prototype.help = ca({
  * Perform a [cat.indices](http://www.elastic.co/guide/en/elasticsearch/reference/master/cat-indices.html) request
  *
  * @param {Object} params - An object with parameters used to carry out this action
+ * @param {String} params.format - a short version of the Accept header, e.g. json, yaml
  * @param {String} params.bytes - The unit in which to display byte values
  * @param {Boolean} params.local - Return local information, do not retrieve the state from master node (default: false)
  * @param {Date, Number} params.masterTimeout - Explicit operation timeout for connection to master node
@@ -56147,6 +51626,9 @@ api.cat.prototype.help = ca({
  */
 api.cat.prototype.indices = ca({
   params: {
+    format: {
+      type: 'string'
+    },
     bytes: {
       type: 'enum',
       options: [
@@ -56198,6 +51680,7 @@ api.cat.prototype.indices = ca({
  * Perform a [cat.master](http://www.elastic.co/guide/en/elasticsearch/reference/master/cat-master.html) request
  *
  * @param {Object} params - An object with parameters used to carry out this action
+ * @param {String} params.format - a short version of the Accept header, e.g. json, yaml
  * @param {Boolean} params.local - Return local information, do not retrieve the state from master node (default: false)
  * @param {Date, Number} params.masterTimeout - Explicit operation timeout for connection to master node
  * @param {String, String[], Boolean} params.h - Comma-separated list of column names to display
@@ -56206,6 +51689,9 @@ api.cat.prototype.indices = ca({
  */
 api.cat.prototype.master = ca({
   params: {
+    format: {
+      type: 'string'
+    },
     local: {
       type: 'boolean'
     },
@@ -56234,6 +51720,7 @@ api.cat.prototype.master = ca({
  * Perform a [cat.nodeattrs](http://www.elastic.co/guide/en/elasticsearch/reference/master/cat-nodeattrs.html) request
  *
  * @param {Object} params - An object with parameters used to carry out this action
+ * @param {String} params.format - a short version of the Accept header, e.g. json, yaml
  * @param {Boolean} params.local - Return local information, do not retrieve the state from master node (default: false)
  * @param {Date, Number} params.masterTimeout - Explicit operation timeout for connection to master node
  * @param {String, String[], Boolean} params.h - Comma-separated list of column names to display
@@ -56242,6 +51729,9 @@ api.cat.prototype.master = ca({
  */
 api.cat.prototype.nodeattrs = ca({
   params: {
+    format: {
+      type: 'string'
+    },
     local: {
       type: 'boolean'
     },
@@ -56270,6 +51760,7 @@ api.cat.prototype.nodeattrs = ca({
  * Perform a [cat.nodes](http://www.elastic.co/guide/en/elasticsearch/reference/master/cat-nodes.html) request
  *
  * @param {Object} params - An object with parameters used to carry out this action
+ * @param {String} params.format - a short version of the Accept header, e.g. json, yaml
  * @param {Boolean} params.local - Return local information, do not retrieve the state from master node (default: false)
  * @param {Date, Number} params.masterTimeout - Explicit operation timeout for connection to master node
  * @param {String, String[], Boolean} params.h - Comma-separated list of column names to display
@@ -56278,6 +51769,9 @@ api.cat.prototype.nodeattrs = ca({
  */
 api.cat.prototype.nodes = ca({
   params: {
+    format: {
+      type: 'string'
+    },
     local: {
       type: 'boolean'
     },
@@ -56306,6 +51800,7 @@ api.cat.prototype.nodes = ca({
  * Perform a [cat.pendingTasks](http://www.elastic.co/guide/en/elasticsearch/reference/master/cat-pending-tasks.html) request
  *
  * @param {Object} params - An object with parameters used to carry out this action
+ * @param {String} params.format - a short version of the Accept header, e.g. json, yaml
  * @param {Boolean} params.local - Return local information, do not retrieve the state from master node (default: false)
  * @param {Date, Number} params.masterTimeout - Explicit operation timeout for connection to master node
  * @param {String, String[], Boolean} params.h - Comma-separated list of column names to display
@@ -56314,6 +51809,9 @@ api.cat.prototype.nodes = ca({
  */
 api.cat.prototype.pendingTasks = ca({
   params: {
+    format: {
+      type: 'string'
+    },
     local: {
       type: 'boolean'
     },
@@ -56342,6 +51840,7 @@ api.cat.prototype.pendingTasks = ca({
  * Perform a [cat.plugins](http://www.elastic.co/guide/en/elasticsearch/reference/master/cat-plugins.html) request
  *
  * @param {Object} params - An object with parameters used to carry out this action
+ * @param {String} params.format - a short version of the Accept header, e.g. json, yaml
  * @param {Boolean} params.local - Return local information, do not retrieve the state from master node (default: false)
  * @param {Date, Number} params.masterTimeout - Explicit operation timeout for connection to master node
  * @param {String, String[], Boolean} params.h - Comma-separated list of column names to display
@@ -56350,6 +51849,9 @@ api.cat.prototype.pendingTasks = ca({
  */
 api.cat.prototype.plugins = ca({
   params: {
+    format: {
+      type: 'string'
+    },
     local: {
       type: 'boolean'
     },
@@ -56378,6 +51880,7 @@ api.cat.prototype.plugins = ca({
  * Perform a [cat.recovery](http://www.elastic.co/guide/en/elasticsearch/reference/master/cat-recovery.html) request
  *
  * @param {Object} params - An object with parameters used to carry out this action
+ * @param {String} params.format - a short version of the Accept header, e.g. json, yaml
  * @param {String} params.bytes - The unit in which to display byte values
  * @param {Date, Number} params.masterTimeout - Explicit operation timeout for connection to master node
  * @param {String, String[], Boolean} params.h - Comma-separated list of column names to display
@@ -56387,6 +51890,9 @@ api.cat.prototype.plugins = ca({
  */
 api.cat.prototype.recovery = ca({
   params: {
+    format: {
+      type: 'string'
+    },
     bytes: {
       type: 'enum',
       options: [
@@ -56431,6 +51937,7 @@ api.cat.prototype.recovery = ca({
  * Perform a [cat.repositories](http://www.elastic.co/guide/en/elasticsearch/reference/master/cat-repositories.html) request
  *
  * @param {Object} params - An object with parameters used to carry out this action
+ * @param {String} params.format - a short version of the Accept header, e.g. json, yaml
  * @param {Boolean} params.local - Return local information, do not retrieve the state from master node
  * @param {Date, Number} params.masterTimeout - Explicit operation timeout for connection to master node
  * @param {String, String[], Boolean} params.h - Comma-separated list of column names to display
@@ -56439,6 +51946,9 @@ api.cat.prototype.recovery = ca({
  */
 api.cat.prototype.repositories = ca({
   params: {
+    format: {
+      type: 'string'
+    },
     local: {
       type: 'boolean',
       'default': false
@@ -56468,6 +51978,7 @@ api.cat.prototype.repositories = ca({
  * Perform a [cat.segments](http://www.elastic.co/guide/en/elasticsearch/reference/master/cat-segments.html) request
  *
  * @param {Object} params - An object with parameters used to carry out this action
+ * @param {String} params.format - a short version of the Accept header, e.g. json, yaml
  * @param {String, String[], Boolean} params.h - Comma-separated list of column names to display
  * @param {Boolean} params.help - Return help information
  * @param {Boolean} params.v - Verbose mode. Display column headers
@@ -56475,6 +51986,9 @@ api.cat.prototype.repositories = ca({
  */
 api.cat.prototype.segments = ca({
   params: {
+    format: {
+      type: 'string'
+    },
     h: {
       type: 'list'
     },
@@ -56506,6 +52020,7 @@ api.cat.prototype.segments = ca({
  * Perform a [cat.shards](http://www.elastic.co/guide/en/elasticsearch/reference/master/cat-shards.html) request
  *
  * @param {Object} params - An object with parameters used to carry out this action
+ * @param {String} params.format - a short version of the Accept header, e.g. json, yaml
  * @param {Boolean} params.local - Return local information, do not retrieve the state from master node (default: false)
  * @param {Date, Number} params.masterTimeout - Explicit operation timeout for connection to master node
  * @param {String, String[], Boolean} params.h - Comma-separated list of column names to display
@@ -56515,6 +52030,9 @@ api.cat.prototype.segments = ca({
  */
 api.cat.prototype.shards = ca({
   params: {
+    format: {
+      type: 'string'
+    },
     local: {
       type: 'boolean'
     },
@@ -56553,6 +52071,7 @@ api.cat.prototype.shards = ca({
  * Perform a [cat.snapshots](http://www.elastic.co/guide/en/elasticsearch/reference/master/cat-snapshots.html) request
  *
  * @param {Object} params - An object with parameters used to carry out this action
+ * @param {String} params.format - a short version of the Accept header, e.g. json, yaml
  * @param {Boolean} params.ignoreUnavailable - Set to true to ignore unavailable snapshots
  * @param {Date, Number} params.masterTimeout - Explicit operation timeout for connection to master node
  * @param {String, String[], Boolean} params.h - Comma-separated list of column names to display
@@ -56562,6 +52081,9 @@ api.cat.prototype.shards = ca({
  */
 api.cat.prototype.snapshots = ca({
   params: {
+    format: {
+      type: 'string'
+    },
     ignoreUnavailable: {
       type: 'boolean',
       'default': false,
@@ -56597,6 +52119,7 @@ api.cat.prototype.snapshots = ca({
  * Perform a [cat.threadPool](http://www.elastic.co/guide/en/elasticsearch/reference/master/cat-thread-pool.html) request
  *
  * @param {Object} params - An object with parameters used to carry out this action
+ * @param {String} params.format - a short version of the Accept header, e.g. json, yaml
  * @param {Boolean} params.local - Return local information, do not retrieve the state from master node (default: false)
  * @param {Date, Number} params.masterTimeout - Explicit operation timeout for connection to master node
  * @param {String, String[], Boolean} params.h - Comma-separated list of column names to display
@@ -56606,6 +52129,9 @@ api.cat.prototype.snapshots = ca({
  */
 api.cat.prototype.threadPool = ca({
   params: {
+    format: {
+      type: 'string'
+    },
     local: {
       type: 'boolean'
     },
@@ -56659,6 +52185,25 @@ api.clearScroll = ca({
 });
 
 api.cluster = namespace();
+
+/**
+ * Perform a [cluster.allocationExplain](http://www.elastic.co/guide/en/elasticsearch/reference/master/cluster-allocation-explain.html) request
+ *
+ * @param {Object} params - An object with parameters used to carry out this action
+ * @param {Boolean} params.includeYesDecisions - Return 'YES' decisions in explanation (default: false)
+ */
+api.cluster.prototype.allocationExplain = ca({
+  params: {
+    includeYesDecisions: {
+      type: 'boolean',
+      name: 'include_yes_decisions'
+    }
+  },
+  url: {
+    fmt: '/_cluster/allocation/explain'
+  },
+  method: 'POST'
+});
 
 /**
  * Perform a [cluster.getSettings](http://www.elastic.co/guide/en/elasticsearch/reference/master/cluster-update-settings.html) request
@@ -57884,8 +53429,8 @@ api.indices = namespace();
  * @param {Boolean} params.preferLocal - With `true`, specify that a local shard should be used if available, with `false`, use a random shard (default: true)
  * @param {String, String[], Boolean} params.text - The text on which the analysis should be performed (when request body is not used)
  * @param {String} params.tokenizer - The name of the tokenizer to use for the analysis
- * @param {Boolean} params.detail - With `true`, outputs more advanced details. (default: false)
- * @param {String, String[], Boolean} params.attributes - A comma-separated list of token attributes to output, this parameter works only with `detail=true`
+ * @param {Boolean} params.explain - With `true`, outputs more advanced details. (default: false)
+ * @param {String, String[], Boolean} params.attributes - A comma-separated list of token attributes to output, this parameter works only with `explain=true`
  * @param {String} [params.format=detailed] - Format of the output
  */
 api.indices.prototype.analyze = ca({
@@ -57916,7 +53461,7 @@ api.indices.prototype.analyze = ca({
     tokenizer: {
       type: 'string'
     },
-    detail: {
+    explain: {
       type: 'boolean'
     },
     attributes: {
@@ -58653,7 +54198,7 @@ api.indices.prototype.get = ca({
  * @param {Object} params - An object with parameters used to carry out this action
  * @param {Boolean} params.ignoreUnavailable - Whether specified concrete indices should be ignored when unavailable (missing or closed)
  * @param {Boolean} params.allowNoIndices - Whether to ignore if a wildcard indices expression resolves into no concrete indices. (This includes `_all` string or when no indices have been specified)
- * @param {String} [params.expandWildcards=open] - Whether to expand wildcard expression to concrete indices that are open, closed or both.
+ * @param {String} [params.expandWildcards=all] - Whether to expand wildcard expression to concrete indices that are open, closed or both.
  * @param {Boolean} params.local - Return local information, do not retrieve the state from master node (default: false)
  * @param {String, String[], Boolean} params.index - A comma-separated list of index names to filter aliases
  * @param {String, String[], Boolean} params.name - A comma-separated list of alias names to return
@@ -58670,7 +54215,7 @@ api.indices.prototype.getAlias = ca({
     },
     expandWildcards: {
       type: 'enum',
-      'default': 'open',
+      'default': 'all',
       options: [
         'open',
         'closed',
@@ -58713,58 +54258,6 @@ api.indices.prototype.getAlias = ca({
     },
     {
       fmt: '/_alias'
-    }
-  ]
-});
-
-/**
- * Perform a [indices.getAliases](http://www.elastic.co/guide/en/elasticsearch/reference/master/indices-aliases.html) request
- *
- * @param {Object} params - An object with parameters used to carry out this action
- * @param {Date, Number} params.timeout - Explicit operation timeout
- * @param {Boolean} params.local - Return local information, do not retrieve the state from master node (default: false)
- * @param {String, String[], Boolean} params.index - A comma-separated list of index names to filter aliases
- * @param {String, String[], Boolean} params.name - A comma-separated list of alias names to filter
- */
-api.indices.prototype.getAliases = ca({
-  params: {
-    timeout: {
-      type: 'time'
-    },
-    local: {
-      type: 'boolean'
-    }
-  },
-  urls: [
-    {
-      fmt: '/<%=index%>/_aliases/<%=name%>',
-      req: {
-        index: {
-          type: 'list'
-        },
-        name: {
-          type: 'list'
-        }
-      }
-    },
-    {
-      fmt: '/<%=index%>/_aliases',
-      req: {
-        index: {
-          type: 'list'
-        }
-      }
-    },
-    {
-      fmt: '/_aliases/<%=name%>',
-      req: {
-        name: {
-          type: 'list'
-        }
-      }
-    },
-    {
-      fmt: '/_aliases'
     }
   ]
 });
@@ -59267,6 +54760,7 @@ api.indices.prototype.putMapping = ca({
  *
  * @param {Object} params - An object with parameters used to carry out this action
  * @param {Date, Number} params.masterTimeout - Specify timeout for connection to master
+ * @param {Boolean} params.preserveExisting - Whether to update existing settings. If set to `true` existing settings on an index remain unchanged, the default is `false`
  * @param {Boolean} params.ignoreUnavailable - Whether specified concrete indices should be ignored when unavailable (missing or closed)
  * @param {Boolean} params.allowNoIndices - Whether to ignore if a wildcard indices expression resolves into no concrete indices. (This includes `_all` string or when no indices have been specified)
  * @param {String} [params.expandWildcards=open] - Whether to expand wildcard expression to concrete indices that are open, closed or both.
@@ -59278,6 +54772,10 @@ api.indices.prototype.putSettings = ca({
     masterTimeout: {
       type: 'time',
       name: 'master_timeout'
+    },
+    preserveExisting: {
+      type: 'boolean',
+      name: 'preserve_existing'
     },
     ignoreUnavailable: {
       type: 'boolean',
@@ -60404,7 +55902,8 @@ api.nodes.prototype.info = ca({
             'thread_pool',
             'transport',
             'http',
-            'plugins'
+            'plugins',
+            'ingest'
           ]
         }
       }
@@ -60430,7 +55929,8 @@ api.nodes.prototype.info = ca({
             'thread_pool',
             'transport',
             'http',
-            'plugins'
+            'plugins',
+            'ingest'
           ]
         }
       }
@@ -60863,6 +56363,79 @@ api.putTemplate = ca({
   },
   needBody: true,
   method: 'PUT'
+});
+
+api.reindex = namespace();
+
+/**
+ * Perform a [reindex](https://www.elastic.co/guide/en/elasticsearch/plugins/master/plugins-reindex.html) request
+ *
+ * @param {Object} params - An object with parameters used to carry out this action
+ * @param {Boolean} params.refresh - Should the effected indexes be refreshed?
+ * @param {Date, Number} [params.timeout=1m] - Time each individual bulk request should wait for shards that are unavailable.
+ * @param {String} params.consistency - Explicit write consistency setting for the operation
+ * @param {Boolean} params.waitForCompletion - Should the request should block until the reindex is complete.
+ * @param {Float} params.requestsPerSecond - The throttle for this request in sub-requests per second. 0 means set no throttle.
+ */
+api.reindex = ca({
+  params: {
+    refresh: {
+      type: 'boolean'
+    },
+    timeout: {
+      type: 'time',
+      'default': '1m'
+    },
+    consistency: {
+      type: 'enum',
+      options: [
+        'one',
+        'quorum',
+        'all'
+      ]
+    },
+    waitForCompletion: {
+      type: 'boolean',
+      'default': false,
+      name: 'wait_for_completion'
+    },
+    requestsPerSecond: {
+      type: 'float',
+      'default': 0,
+      name: 'requests_per_second'
+    }
+  },
+  url: {
+    fmt: '/_reindex'
+  },
+  needBody: true,
+  method: 'POST'
+});
+
+/**
+ * Perform a [reindex.rethrottle](https://www.elastic.co/guide/en/elasticsearch/plugins/master/plugins-reindex.html) request
+ *
+ * @param {Object} params - An object with parameters used to carry out this action
+ * @param {Float} params.requestsPerSecond - The throttle to set on this request in sub-requests per second. 0 means set no throttle. As does "unlimited". Otherwise it must be a float.
+ * @param {String} params.taskId - The task id to rethrottle
+ */
+api.reindex.prototype.rethrottle = ca({
+  params: {
+    requestsPerSecond: {
+      type: 'float',
+      'default': 0,
+      name: 'requests_per_second'
+    }
+  },
+  url: {
+    fmt: '/_reindex/<%=taskId%>/_rethrottle',
+    req: {
+      taskId: {
+        type: 'string'
+      }
+    }
+  },
+  method: 'POST'
 });
 
 /**
@@ -61637,17 +57210,71 @@ api.suggest = ca({
 api.tasks = namespace();
 
 /**
+ * Perform a [tasks.cancel](http://www.elastic.co/guide/en/elasticsearch/reference/master/tasks-cancel.html) request
+ *
+ * @param {Object} params - An object with parameters used to carry out this action
+ * @param {String, String[], Boolean} params.nodeId - A comma-separated list of node IDs or names to limit the returned information; use `_local` to return information from the node you're connecting to, leave empty to get information from all nodes
+ * @param {String, String[], Boolean} params.actions - A comma-separated list of actions that should be cancelled. Leave empty to cancel all.
+ * @param {String} params.parentNode - Cancel tasks with specified parent node.
+ * @param {String} params.parentTask - Cancel tasks with specified parent task id (node_id:task_number). Set to -1 to cancel all.
+ * @param {String} params.taskId - Cancel the task with specified task id (node_id:task_number)
+ */
+api.tasks.prototype.cancel = ca({
+  params: {
+    nodeId: {
+      type: 'list',
+      name: 'node_id'
+    },
+    actions: {
+      type: 'list'
+    },
+    parentNode: {
+      type: 'string',
+      name: 'parent_node'
+    },
+    parentTask: {
+      type: 'string',
+      name: 'parent_task'
+    }
+  },
+  urls: [
+    {
+      fmt: '/_tasks/<%=taskId%>/_cancel',
+      req: {
+        taskId: {
+          type: 'string'
+        }
+      }
+    },
+    {
+      fmt: '/_tasks/_cancel'
+    }
+  ],
+  method: 'POST'
+});
+
+/**
  * Perform a [tasks.list](http://www.elastic.co/guide/en/elasticsearch/reference/master/tasks-list.html) request
  *
  * @param {Object} params - An object with parameters used to carry out this action
- * @param {Boolean} params.detailed - Return detailed task information (default: false)
- * @param {String} params.parentNode - Return tasks with specified parent node.
- * @param {Number} params.parentTask - Return tasks with specified parent task id. Set to -1 to return all.
  * @param {String, String[], Boolean} params.nodeId - A comma-separated list of node IDs or names to limit the returned information; use `_local` to return information from the node you're connecting to, leave empty to get information from all nodes
  * @param {String, String[], Boolean} params.actions - A comma-separated list of actions that should be returned. Leave empty to return all.
+ * @param {Boolean} params.detailed - Return detailed task information (default: false)
+ * @param {String} params.parentNode - Return tasks with specified parent node.
+ * @param {String} params.parentTask - Return tasks with specified parent task id (node_id:task_number). Set to -1 to return all.
+ * @param {Boolean} params.waitForCompletion - Wait for the matching tasks to complete (default: false)
+ * @param {String} [params.groupBy=nodes] - Group tasks by nodes or parent/child relationships
+ * @param {String} params.taskId - Return the task with specified id (node_id:task_number)
  */
 api.tasks.prototype.list = ca({
   params: {
+    nodeId: {
+      type: 'list',
+      name: 'node_id'
+    },
+    actions: {
+      type: 'list'
+    },
     detailed: {
       type: 'boolean'
     },
@@ -61656,27 +57283,29 @@ api.tasks.prototype.list = ca({
       name: 'parent_node'
     },
     parentTask: {
-      type: 'number',
+      type: 'string',
       name: 'parent_task'
+    },
+    waitForCompletion: {
+      type: 'boolean',
+      name: 'wait_for_completion'
+    },
+    groupBy: {
+      type: 'enum',
+      'default': 'nodes',
+      options: [
+        'nodes',
+        'parents'
+      ],
+      name: 'group_by'
     }
   },
   urls: [
     {
-      fmt: '/_tasks/<%=nodeId%>/<%=actions%>',
+      fmt: '/_tasks/<%=taskId%>',
       req: {
-        nodeId: {
-          type: 'list'
-        },
-        actions: {
-          type: 'list'
-        }
-      }
-    },
-    {
-      fmt: '/_tasks/<%=nodeId%>',
-      req: {
-        nodeId: {
-          type: 'list'
+        taskId: {
+          type: 'string'
         }
       }
     },
@@ -61692,7 +57321,6 @@ api.tasks.prototype.list = ca({
  * @param {Object} params - An object with parameters used to carry out this action
  * @param {Boolean} params.termStatistics - Specifies if total term frequency and document frequency should be returned.
  * @param {Boolean} [params.fieldStatistics=true] - Specifies if document count, sum of document frequencies and sum of total term frequencies should be returned.
- * @param {Boolean} params.dfs - Specifies if distributed frequencies should be returned instead shard frequencies.
  * @param {String, String[], Boolean} params.fields - A comma-separated list of fields to return.
  * @param {Boolean} [params.offsets=true] - Specifies if term offsets should be returned.
  * @param {Boolean} [params.positions=true] - Specifies if term positions should be returned.
@@ -61720,11 +57348,6 @@ api.termvectors = ca({
       'default': true,
       required: false,
       name: 'field_statistics'
-    },
-    dfs: {
-      type: 'boolean',
-      'default': false,
-      required: false
     },
     fields: {
       type: 'list',
@@ -61824,7 +57447,6 @@ api.termvectors = ca({
  * @param {Duration} params.ttl - Expiration time for the document
  * @param {Number} params.version - Explicit version number for concurrency control
  * @param {String} params.versionType - Specific version type
- * @param {Boolean} params.detectNoop - Specifying as true will cause Elasticsearch to check if there are changes and, if there aren’t, turn the update request into a noop.
  * @param {String} params.id - Document ID
  * @param {String} params.index - The name of the index
  * @param {String} params.type - The type of the document
@@ -61885,10 +57507,6 @@ api.update = ca({
         'force'
       ],
       name: 'version_type'
-    },
-    detectNoop: {
-      type: 'boolean',
-      name: 'detect_noop'
     }
   },
   url: {
@@ -61905,6 +57523,265 @@ api.update = ca({
       }
     }
   },
+  method: 'POST'
+});
+
+/**
+ * Perform a [updateByQuery](https://www.elastic.co/guide/en/elasticsearch/plugins/master/plugins-reindex.html) request
+ *
+ * @param {Object} params - An object with parameters used to carry out this action
+ * @param {String} params.analyzer - The analyzer to use for the query string
+ * @param {Boolean} params.analyzeWildcard - Specify whether wildcard and prefix queries should be analyzed (default: false)
+ * @param {String} [params.defaultOperator=OR] - The default operator for query string query (AND or OR)
+ * @param {String} params.df - The field to use as default where no field prefix is given in the query string
+ * @param {Boolean} params.explain - Specify whether to return detailed information about score computation as part of a hit
+ * @param {String, String[], Boolean} params.fields - A comma-separated list of fields to return as part of a hit
+ * @param {String, String[], Boolean} params.fielddataFields - A comma-separated list of fields to return as the field data representation of a field for each hit
+ * @param {Number} params.from - Starting offset (default: 0)
+ * @param {Boolean} params.ignoreUnavailable - Whether specified concrete indices should be ignored when unavailable (missing or closed)
+ * @param {Boolean} params.allowNoIndices - Whether to ignore if a wildcard indices expression resolves into no concrete indices. (This includes `_all` string or when no indices have been specified)
+ * @param {String} [params.conflicts=abort] - What to do when the reindex hits version conflicts?
+ * @param {String} [params.expandWildcards=open] - Whether to expand wildcard expression to concrete indices that are open, closed or both.
+ * @param {Boolean} params.lenient - Specify whether format-based query failures (such as providing text to a numeric field) should be ignored
+ * @param {Boolean} params.lowercaseExpandedTerms - Specify whether query terms should be lowercased
+ * @param {String} params.pipeline - Ingest pipeline to set on index requests made by this action. (default: none)
+ * @param {String} params.preference - Specify the node or shard the operation should be performed on (default: random)
+ * @param {String} params.q - Query in the Lucene query string syntax
+ * @param {String, String[], Boolean} params.routing - A comma-separated list of specific routing values
+ * @param {Duration} params.scroll - Specify how long a consistent view of the index should be maintained for scrolled search
+ * @param {String} params.searchType - Search operation type
+ * @param {Date, Number} params.searchTimeout - Explicit timeout for each search request. Defaults to no timeout.
+ * @param {Number} params.size - Number of hits to return (default: 10)
+ * @param {String, String[], Boolean} params.sort - A comma-separated list of <field>:<direction> pairs
+ * @param {String, String[], Boolean} params._source - True or false to return the _source field or not, or a list of fields to return
+ * @param {String, String[], Boolean} params._sourceExclude - A list of fields to exclude from the returned _source field
+ * @param {String, String[], Boolean} params._sourceInclude - A list of fields to extract and return from the _source field
+ * @param {Number} params.terminateAfter - The maximum number of documents to collect for each shard, upon reaching which the query execution will terminate early.
+ * @param {String, String[], Boolean} params.stats - Specific 'tag' of the request for logging and statistical purposes
+ * @param {String} params.suggestField - Specify which field to use for suggestions
+ * @param {String} [params.suggestMode=missing] - Specify suggest mode
+ * @param {Number} params.suggestSize - How many suggestions to return in response
+ * @param {Text} params.suggestText - The source text for which the suggestions should be returned
+ * @param {Date, Number} [params.timeout=1m] - Time each individual bulk request should wait for shards that are unavailable.
+ * @param {Boolean} params.trackScores - Whether to calculate and return scores even if they are not used for sorting
+ * @param {Boolean} params.version - Specify whether to return document version as part of a hit
+ * @param {Boolean} params.versionType - Should the document increment the version number (internal) on hit or not (reindex)
+ * @param {Boolean} params.requestCache - Specify if request cache should be used for this request or not, defaults to index level setting
+ * @param {Boolean} params.refresh - Should the effected indexes be refreshed?
+ * @param {String} params.consistency - Explicit write consistency setting for the operation
+ * @param {Integer} params.scrollSize - Size on the scroll request powering the update_by_query
+ * @param {Boolean} params.waitForCompletion - Should the request should block until the reindex is complete.
+ * @param {Float} params.requestsPerSecond - The throttle for this request in sub-requests per second. 0 means set no throttle.
+ * @param {String, String[], Boolean} params.index - A comma-separated list of index names to search; use `_all` or empty string to perform the operation on all indices
+ * @param {String, String[], Boolean} params.type - A comma-separated list of document types to search; leave empty to perform the operation on all types
+ */
+api.updateByQuery = ca({
+  params: {
+    analyzer: {
+      type: 'string'
+    },
+    analyzeWildcard: {
+      type: 'boolean',
+      name: 'analyze_wildcard'
+    },
+    defaultOperator: {
+      type: 'enum',
+      'default': 'OR',
+      options: [
+        'AND',
+        'OR'
+      ],
+      name: 'default_operator'
+    },
+    df: {
+      type: 'string'
+    },
+    explain: {
+      type: 'boolean'
+    },
+    fields: {
+      type: 'list'
+    },
+    fielddataFields: {
+      type: 'list',
+      name: 'fielddata_fields'
+    },
+    from: {
+      type: 'number'
+    },
+    ignoreUnavailable: {
+      type: 'boolean',
+      name: 'ignore_unavailable'
+    },
+    allowNoIndices: {
+      type: 'boolean',
+      name: 'allow_no_indices'
+    },
+    conflicts: {
+      type: 'enum',
+      'default': 'abort',
+      options: [
+        'abort',
+        'proceed'
+      ]
+    },
+    expandWildcards: {
+      type: 'enum',
+      'default': 'open',
+      options: [
+        'open',
+        'closed',
+        'none',
+        'all'
+      ],
+      name: 'expand_wildcards'
+    },
+    lenient: {
+      type: 'boolean'
+    },
+    lowercaseExpandedTerms: {
+      type: 'boolean',
+      name: 'lowercase_expanded_terms'
+    },
+    pipeline: {
+      type: 'string'
+    },
+    preference: {
+      type: 'string'
+    },
+    q: {
+      type: 'string'
+    },
+    routing: {
+      type: 'list'
+    },
+    scroll: {
+      type: 'duration'
+    },
+    searchType: {
+      type: 'enum',
+      options: [
+        'query_then_fetch',
+        'dfs_query_then_fetch'
+      ],
+      name: 'search_type'
+    },
+    searchTimeout: {
+      type: 'time',
+      name: 'search_timeout'
+    },
+    size: {
+      type: 'number'
+    },
+    sort: {
+      type: 'list'
+    },
+    _source: {
+      type: 'list'
+    },
+    _sourceExclude: {
+      type: 'list',
+      name: '_source_exclude'
+    },
+    _sourceInclude: {
+      type: 'list',
+      name: '_source_include'
+    },
+    terminateAfter: {
+      type: 'number',
+      name: 'terminate_after'
+    },
+    stats: {
+      type: 'list'
+    },
+    suggestField: {
+      type: 'string',
+      name: 'suggest_field'
+    },
+    suggestMode: {
+      type: 'enum',
+      'default': 'missing',
+      options: [
+        'missing',
+        'popular',
+        'always'
+      ],
+      name: 'suggest_mode'
+    },
+    suggestSize: {
+      type: 'number',
+      name: 'suggest_size'
+    },
+    suggestText: {
+      type: 'text',
+      name: 'suggest_text'
+    },
+    timeout: {
+      type: 'time',
+      'default': '1m'
+    },
+    trackScores: {
+      type: 'boolean',
+      name: 'track_scores'
+    },
+    version: {
+      type: 'boolean'
+    },
+    versionType: {
+      type: 'boolean',
+      name: 'version_type'
+    },
+    requestCache: {
+      type: 'boolean',
+      name: 'request_cache'
+    },
+    refresh: {
+      type: 'boolean'
+    },
+    consistency: {
+      type: 'enum',
+      options: [
+        'one',
+        'quorum',
+        'all'
+      ]
+    },
+    scrollSize: {
+      type: 'integer',
+      name: 'scroll_size'
+    },
+    waitForCompletion: {
+      type: 'boolean',
+      'default': false,
+      name: 'wait_for_completion'
+    },
+    requestsPerSecond: {
+      type: 'float',
+      'default': 0,
+      name: 'requests_per_second'
+    }
+  },
+  urls: [
+    {
+      fmt: '/<%=index%>/<%=type%>/_update_by_query',
+      req: {
+        index: {
+          type: 'list'
+        },
+        type: {
+          type: 'list'
+        }
+      }
+    },
+    {
+      fmt: '/<%=index%>/_update_by_query',
+      req: {
+        index: {
+          type: 'list'
+        }
+      }
+    }
+  ],
   method: 'POST'
 });
 
@@ -61932,7 +57809,7 @@ api.create = ca.proxy(api.index, {
   }
 });
 
-},{"../client_action":29,"../utils":52}],28:[function(require,module,exports){
+},{"../client_action":29,"../utils":50}],28:[function(require,module,exports){
 /**
  * A client that makes requests to Elasticsearch via a {{#crossLink "Transport"}}Transport{{/crossLink}}
  *
@@ -62038,7 +57915,7 @@ function Client(config) {
 
 Client.apis = require('./apis');
 
-},{"./apis":26,"./client":28,"./client_action":29,"./connection":30,"./connection_pool":31,"./connectors":33,"./errors":36,"./host":37,"./log":38,"./logger":39,"./loggers":40,"./nodes_to_host":42,"./selectors":43,"./serializers":47,"./transport":49,"./utils":52}],29:[function(require,module,exports){
+},{"./apis":26,"./client":28,"./client_action":29,"./connection":30,"./connection_pool":31,"./connectors":32,"./errors":34,"./host":35,"./log":36,"./logger":37,"./loggers":38,"./nodes_to_host":40,"./selectors":41,"./serializers":45,"./transport":47,"./utils":50}],29:[function(require,module,exports){
 
 var _ = require('./utils');
 
@@ -62184,7 +58061,7 @@ var castType = {
       }
       /* falls through */
     default:
-      throw new TypeError('Invalid ' + name + ': expected be a comma seperated list, array, number or string.');
+      throw new TypeError('Invalid ' + name + ': expected be a comma separated list, array, number or string.');
     }
   },
   'boolean': function (param, val) {
@@ -62397,7 +58274,8 @@ function commaSepList(str) {
     return i.trim();
   });
 }
-},{"./utils":52}],30:[function(require,module,exports){
+
+},{"./utils":50}],30:[function(require,module,exports){
 module.exports = ConnectionAbstract;
 
 var _ = require('./utils');
@@ -62497,9 +58375,9 @@ ConnectionAbstract.prototype.setStatus = function (status) {
     this.removeAllListeners();
   }
 };
-},{"./errors":36,"./host":37,"./log":38,"./utils":52,"events":5}],31:[function(require,module,exports){
-(function (process){
-/**
+
+},{"./errors":34,"./host":35,"./log":36,"./utils":50,"events":6}],31:[function(require,module,exports){
+var process=require("__browserify_process");/**
  * Manager of connections to a node(s), capable of ensuring that connections are clear and living
  * before providing them to the application
  *
@@ -62843,60 +58721,7 @@ ConnectionPool.prototype.close = function () {
 };
 ConnectionPool.prototype.empty = ConnectionPool.prototype.close;
 
-}).call(this,require('_process'))
-},{"./connectors":33,"./log":38,"./selectors":43,"./utils":52,"_process":9}],32:[function(require,module,exports){
-/**
- * Connection that registers a module with angular, using angular's $http service
- * to communicate with ES.
- *
- * @class connections.Angular
- */
-module.exports = AngularConnector;
-
-var _ = require('../utils');
-var ConnectionAbstract = require('../connection');
-var ConnectionFault = require('../errors').ConnectionFault;
-
-function AngularConnector(host, config) {
-  ConnectionAbstract.call(this, host, config);
-
-  var self = this;
-  config.$injector.invoke(['$http', '$q', function ($http, $q) {
-    self.$q = $q;
-    self.$http = $http;
-  }]);
-
-}
-_.inherits(AngularConnector, ConnectionAbstract);
-
-AngularConnector.prototype.request = function (params, cb) {
-  var abort = this.$q.defer();
-
-  this.$http({
-    method: params.method,
-    url: this.host.makeUrl(params),
-    data: params.body,
-    cache: false,
-    headers: this.host.getHeaders(params.headers),
-    transformRequest: [],
-    transformResponse: [],
-    // not actually for timing out, that's handled by the transport
-    timeout: abort.promise
-  }).then(function (response) {
-    cb(null, response.data, response.status, response.headers());
-  }, function (err) {
-    if (err.status) {
-      cb(null, err.data, err.status, err.headers());
-    } else {
-      cb(new ConnectionFault(err.message));
-    }
-  });
-
-  return function () {
-    abort.resolve();
-  };
-};
-},{"../connection":30,"../errors":36,"../utils":52}],33:[function(require,module,exports){
+},{"./connectors":32,"./log":36,"./selectors":41,"./utils":50,"__browserify_process":16}],32:[function(require,module,exports){
 var opts = {
   xhr: require('./xhr'),
   jquery: require('./jquery'),
@@ -62922,49 +58747,7 @@ if (opts.xhr) {
 
 module.exports = opts;
 
-},{"../utils":52,"./angular":32,"./jquery":34,"./xhr":35}],34:[function(require,module,exports){
-/**
- * Simple connection class for using the XHR object in browsers
- *
- * @class {XhrConnection}
- */
-module.exports = JqueryConnector;
-
-var _ = require('../utils');
-var ConnectionAbstract = require('../connection');
-var ConnectionFault = require('../errors').ConnectionFault;
-
-function JqueryConnector(host, config) {
-  ConnectionAbstract.call(this, host, config);
-}
-_.inherits(JqueryConnector, ConnectionAbstract);
-
-JqueryConnector.prototype.request = function (params, cb) {
-  var ajax = {
-    url: this.host.makeUrl(params),
-    data: params.body,
-    type: params.method,
-    dataType: 'text',
-    headers: this.host.getHeaders(params.headers),
-    done: cb
-  };
-
-  var jqXHR = jQuery.ajax(ajax)
-    .done(function (data, textStatus, jqXHR) {
-      cb(null, data, jqXHR.statusCode(), {
-        'content-type': jqXHR.getResponseHeader('content-type')
-      });
-    })
-    .fail(function (jqXHR, textStatus, err) {
-      cb(new ConnectionFault(err && err.message));
-    });
-
-  return function () {
-    jqXHR.abort();
-  };
-};
-
-},{"../connection":30,"../errors":36,"../utils":52}],35:[function(require,module,exports){
+},{"../utils":50,"./angular":11,"./jquery":11,"./xhr":33}],33:[function(require,module,exports){
 /**
  * Generic Transport for the browser, using the XmlHttpRequest object
  *
@@ -63053,7 +58836,7 @@ XhrConnector.prototype.request = function (params, cb) {
   };
 };
 
-},{"../connection":30,"../errors":36,"../utils":52}],36:[function(require,module,exports){
+},{"../connection":30,"../errors":34,"../utils":50}],34:[function(require,module,exports){
 var _ = require('./utils');
 var qs = require('querystring');
 var errors = module.exports;
@@ -63251,9 +59034,8 @@ _.each(statusCodes, function createStatusCodeError(tuple) {
   });
 });
 
-},{"./utils":52,"querystring":13}],37:[function(require,module,exports){
-(function (Buffer){
-/**
+},{"./utils":50,"querystring":8}],35:[function(require,module,exports){
+var Buffer=require("__browserify_Buffer").Buffer;/**
  * Class to wrap URLS, formatting them and maintaining their separate details
  * @type {[type]}
  */
@@ -63457,10 +59239,8 @@ Host.prototype.toString = function () {
   return this.makeUrl();
 };
 
-}).call(this,require("buffer").Buffer)
-},{"./utils":52,"buffer":1,"querystring":13,"url":14}],38:[function(require,module,exports){
-(function (process){
-var _ = require('./utils');
+},{"./utils":50,"__browserify_Buffer":14,"querystring":8,"url":9}],36:[function(require,module,exports){
+var process=require("__browserify_process");var _ = require('./utils');
 var url = require('url');
 var EventEmitter = require('events').EventEmitter;
 
@@ -63481,36 +59261,35 @@ var EventEmitter = require('events').EventEmitter;
  */
 function Log(config) {
   config = config || {};
+  if (!config.log) return;
 
   var i;
   var outputs;
 
-  if (config.log) {
-    if (_.isArrayOfStrings(config.log)) {
-      outputs = [{
-        levels: config.log
-      }];
-    } else {
-      outputs = _.createArray(config.log, function (val) {
-        if (_.isPlainObject(val)) {
-          return val;
-        }
-        if (typeof val === 'string') {
-          return {
-            level: val
-          };
-        }
-      });
-    }
+  if (_.isArrayOfStrings(config.log)) {
+    outputs = [{
+      levels: config.log
+    }];
+  } else {
+    outputs = _.createArray(config.log, function (val) {
+      if (_.isPlainObject(val)) {
+        return val;
+      }
+      if (typeof val === 'string') {
+        return {
+          level: val
+        };
+      }
+    });
+  }
 
-    if (!outputs) {
-      throw new TypeError('Invalid logging output config. Expected either a log level, array of log levels, ' +
-        'a logger config object, or an array of logger config objects.');
-    }
+  if (!outputs) {
+    throw new TypeError('Invalid logging output config. Expected either a log level, array of log levels, ' +
+      'a logger config object, or an array of logger config objects.');
+  }
 
-    for (i = 0; i < outputs.length; i++) {
-      this.addOutput(outputs[i]);
-    }
+  for (i = 0; i < outputs.length; i++) {
+    this.addOutput(outputs[i]);
   }
 }
 _.inherits(Log, EventEmitter);
@@ -63520,7 +59299,7 @@ Log.loggers = require('./loggers');
 Log.prototype.close = function () {
   this.emit('closing');
   if (this.listenerCount()) {
-    console.error('Something is still listening for log events, but the logger is closing.');
+    console.error('Something is still listening for log events, but the logger is closing.'); // eslint-disable-line no-console
     this.clearAllListeners();
   }
 };
@@ -63774,8 +59553,7 @@ Log.normalizeTraceArgs = function (method, requestUrl, body, responseBody, respo
 
 module.exports = Log;
 
-}).call(this,require('_process'))
-},{"./loggers":40,"./utils":52,"_process":9,"events":5,"url":14}],39:[function(require,module,exports){
+},{"./loggers":38,"./utils":50,"__browserify_process":16,"events":6,"url":9}],37:[function(require,module,exports){
 var _ = require('./utils');
 
 /**
@@ -63957,12 +59735,12 @@ LoggerAbstract.prototype._prettyJson = function (body) {
 
 module.exports = LoggerAbstract;
 
-},{"./utils":52}],40:[function(require,module,exports){
+},{"./utils":50}],38:[function(require,module,exports){
 module.exports = {
   console: require('./console')
 };
 
-},{"./console":41}],41:[function(require,module,exports){
+},{"./console":39}],39:[function(require,module,exports){
 /**
  * Special version of the Stream logger, which logs errors and warnings to stderr and all other
  * levels to stdout.
@@ -64063,7 +59841,7 @@ Console.prototype.onTrace = _.handler(function (msg) {
   this.write('TRACE', this._formatTraceMessage(msg), 'log');
 });
 
-},{"../logger":39,"../utils":52}],42:[function(require,module,exports){
+},{"../logger":37,"../utils":50}],40:[function(require,module,exports){
 var _ = require('./utils');
 
 var extractHostPartsRE1x = /\[\/*([^:]+):(\d+)\]/;
@@ -64126,13 +59904,13 @@ function makeNodeParser(hostProp) {
 module.exports = makeNodeParser('http_address');
 module.exports.thrift = makeNodeParser('transport_address');
 
-},{"./utils":52}],43:[function(require,module,exports){
+},{"./utils":50}],41:[function(require,module,exports){
 module.exports = {
   random: require('./random'),
   roundRobin: require('./round_robin')
 };
 
-},{"./random":44,"./round_robin":45}],44:[function(require,module,exports){
+},{"./random":42,"./round_robin":43}],42:[function(require,module,exports){
 /**
  * Selects a connection randomly
  *
@@ -64145,7 +59923,7 @@ module.exports = function RandomSelector(connections) {
   return connections[Math.floor(Math.random() * connections.length)];
 };
 
-},{}],45:[function(require,module,exports){
+},{}],43:[function(require,module,exports){
 /**
  * Selects a connection the simplest way possible, Round Robin
  *
@@ -64160,7 +59938,7 @@ module.exports = function (connections) {
   return connection;
 };
 
-},{}],46:[function(require,module,exports){
+},{}],44:[function(require,module,exports){
 /* global angular */
 var _ = require('../utils');
 var JsonSerializer = require('../serializers/json');
@@ -64182,13 +59960,13 @@ AngularSerializer.prototype.encode = function (val) {
 };
 
 module.exports = AngularSerializer;
-},{"../serializers/json":48,"../utils":52}],47:[function(require,module,exports){
+},{"../serializers/json":46,"../utils":50}],45:[function(require,module,exports){
 module.exports = {
   angular: require('./angular'),
   json: require('./json')
 };
 
-},{"./angular":46,"./json":48}],48:[function(require,module,exports){
+},{"./angular":44,"./json":46}],46:[function(require,module,exports){
 /**
  * Simple JSON serializer
  * @type {[type]}
@@ -64253,9 +60031,8 @@ Json.prototype.bulkBody = function (val) {
 
 Json.prototype.bulkBody.contentType = 'application/x-ldjson';
 
-},{"../utils":52}],49:[function(require,module,exports){
-(function (process){
-/**
+},{"../utils":50}],47:[function(require,module,exports){
+var process=require("__browserify_process");/**
  * Class that manages making request, called by all of the API methods.
  * @type {[type]}
  */
@@ -64264,7 +60041,7 @@ module.exports = Transport;
 var _ = require('./utils');
 var errors = require('./errors');
 var Host = require('./host');
-var Promise = require('promise-js');
+var Promise = require('promise/lib/es6-extensions');
 var patchSniffOnConnectionFault = require('./transport/sniff_on_connection_fault');
 var findCommonProtocol = require('./transport/find_common_protocol');
 
@@ -64318,15 +60095,11 @@ function Transport(config) {
         'or an array of host config objects.');
     }
 
-    var hosts = _.map(hostsConfig, function (conf) {
-      return (conf instanceof Host) ? conf : new Host(conf, self._config);
-    });
-
     if (randomizeHosts) {
-      hosts = _.shuffle(hosts);
+      hostsConfig = _.shuffle(hostsConfig);
     }
 
-    self.connectionPool.setHosts(hosts);
+    self.setHosts(hostsConfig);
   }
 
   if (config.hasOwnProperty('sniffedNodesProtocol')) {
@@ -64647,10 +60420,9 @@ Transport.prototype._timeout = function (cb, delay) {
  * @param  {Function} cb - Function to call back once complete
  */
 Transport.prototype.sniff = function (cb) {
-  var connectionPool = this.connectionPool;
+  var self = this;
   var nodesToHostCallback = this.nodesToHostCallback;
   var log = this.log;
-  var globalConfig = this._config;
   var sniffedNodesProtocol = this.sniffedNodesProtocol;
 
   // make cb a function if it isn't
@@ -64671,16 +60443,27 @@ Transport.prototype.sniff = function (cb) {
         return;
       }
 
-      connectionPool.setHosts(_.map(hostsConfigs, function (hostConfig) {
-        if (sniffedNodesProtocol) {
-          hostConfig.protocol = sniffedNodesProtocol;
-        }
+      _.forEach(hostsConfigs, function (hostConfig) {
+        if (sniffedNodesProtocol) hostConfig.protocol = sniffedNodesProtocol;
+      });
 
-        return new Host(hostConfig, globalConfig);
-      }));
+      self.setHosts(hostsConfigs);
     }
     cb(err, resp, status);
   });
+};
+
+/**
+ * Set the host list that the transport should use.
+ *
+ * @param {Array<HostConfig>} hostsConfigs - an array of Hosts, or configuration objects
+ *                                         that will be used to create Host objects.
+ */
+Transport.prototype.setHosts = function (hostsConfigs) {
+  var globalConfig = this._config;
+  this.connectionPool.setHosts(_.map(hostsConfigs, function (conf) {
+    return (conf instanceof Host) ? conf : new Host(conf, globalConfig);
+  }));
 };
 
 /**
@@ -64695,8 +60478,7 @@ Transport.prototype.close = function () {
   this.connectionPool.close();
 };
 
-}).call(this,require('_process'))
-},{"./connection_pool":31,"./errors":36,"./host":37,"./log":38,"./nodes_to_host":42,"./serializers":47,"./transport/find_common_protocol":50,"./transport/sniff_on_connection_fault":51,"./utils":52,"_process":9,"promise-js":18}],50:[function(require,module,exports){
+},{"./connection_pool":31,"./errors":34,"./host":35,"./log":36,"./nodes_to_host":40,"./serializers":45,"./transport/find_common_protocol":48,"./transport/sniff_on_connection_fault":49,"./utils":50,"__browserify_process":16,"promise/lib/es6-extensions":18}],48:[function(require,module,exports){
 var isEmpty = require('lodash').isEmpty;
 
 module.exports = function (hosts) {
@@ -64712,7 +60494,7 @@ module.exports = function (hosts) {
   return commonProtocol;
 }
 
-},{"lodash":17}],51:[function(require,module,exports){
+},{"lodash":15}],49:[function(require,module,exports){
 var _ = require('../utils');
 
 
@@ -64772,9 +60554,8 @@ module.exports = function setupSniffOnConnectionFault(transport) {
     pool._onConnectionDied = originalOnDied;
   };
 };
-},{"../utils":52}],52:[function(require,module,exports){
-(function (Buffer,process){
-var path = require('path');
+},{"../utils":50}],50:[function(require,module,exports){
+var process=require("__browserify_process"),Buffer=require("__browserify_Buffer").Buffer;var path = require('path');
 var _ = require('lodash');
 var nodeUtils = require('util');
 
@@ -65220,7 +61001,8 @@ _.now = function () {
 
 module.exports = utils;
 
-}).call(this,{"isBuffer":require("../../node_modules/grunt-browserify/node_modules/browserify/node_modules/insert-module-globals/node_modules/is-buffer/index.js")},require('_process'))
-},{"../../node_modules/grunt-browserify/node_modules/browserify/node_modules/insert-module-globals/node_modules/is-buffer/index.js":7,"_process":9,"lodash":17,"path":8,"util":16}]},{},[19]);
-
+},{"__browserify_Buffer":14,"__browserify_process":16,"lodash":15,"path":7,"util":10}]},{},[19])
+(19)
+});
+;
 }());
