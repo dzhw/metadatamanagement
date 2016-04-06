@@ -1,9 +1,11 @@
-package eu.dzhw.fdz.metadatamanagement.common.domain;
+package eu.dzhw.fdz.metadatamanagement.variablemanagement.domain;
 
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
+
+import eu.dzhw.fdz.metadatamanagement.common.domain.I18nString;
 
 /**
  * The DataType enumeration.

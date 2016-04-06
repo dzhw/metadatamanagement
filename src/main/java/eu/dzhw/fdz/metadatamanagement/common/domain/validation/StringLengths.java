@@ -1,4 +1,4 @@
-package eu.dzhw.fdz.metadatamanagement.domain.validation;
+package eu.dzhw.fdz.metadatamanagement.common.domain.validation;
 
 /**
  * The string length definition of domain objects attributes for validation.

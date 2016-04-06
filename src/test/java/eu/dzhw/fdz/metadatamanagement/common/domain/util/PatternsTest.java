@@ -1,7 +1,7 @@
 /**
  * 
  */
-package eu.dzhw.fdz.metadatamanagement.domain.util;
+package eu.dzhw.fdz.metadatamanagement.common.domain.util;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
@@ -9,6 +9,8 @@ import static org.junit.Assert.assertThat;
 import java.util.regex.Pattern;
 
 import org.junit.Test;
+
+import eu.dzhw.fdz.metadatamanagement.common.domain.util.Patterns;
 
 /**
  * @author Daniel Katzberg

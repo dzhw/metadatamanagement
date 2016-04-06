@@ -1,7 +1,7 @@
 /**
  * 
  */
-package eu.dzhw.fdz.metadatamanagement.domain.util;
+package eu.dzhw.fdz.metadatamanagement.common.domain.util;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.not;
@@ -12,6 +12,8 @@ import java.time.LocalDate;
 import java.util.Date;
 
 import org.junit.Test;
+
+import eu.dzhw.fdz.metadatamanagement.common.domain.util.Jsr310DateConverters;
 
 /**
  * @author Daniel Katzberg

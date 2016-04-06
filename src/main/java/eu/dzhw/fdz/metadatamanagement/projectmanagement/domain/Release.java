@@ -1,4 +1,4 @@
-package eu.dzhw.fdz.metadatamanagement.common.domain;
+package eu.dzhw.fdz.metadatamanagement.projectmanagement.domain;
 
 import java.time.ZonedDateTime;
 
@@ -10,9 +10,10 @@ import org.hibernate.validator.constraints.NotEmpty;
 
 import com.google.common.base.MoreObjects;
 
-import eu.dzhw.fdz.metadatamanagement.domain.util.Patterns;
-import eu.dzhw.fdz.metadatamanagement.domain.validation.I18nStringSize;
-import eu.dzhw.fdz.metadatamanagement.domain.validation.StringLengths;
+import eu.dzhw.fdz.metadatamanagement.common.domain.I18nString;
+import eu.dzhw.fdz.metadatamanagement.common.domain.util.Patterns;
+import eu.dzhw.fdz.metadatamanagement.common.domain.validation.I18nStringSize;
+import eu.dzhw.fdz.metadatamanagement.common.domain.validation.StringLengths;
 import net.karneim.pojobuilder.GeneratePojoBuilder;
 
 /**
@@ -22,7 +23,8 @@ import net.karneim.pojobuilder.GeneratePojoBuilder;
  * 
  * @author Daniel Katzberg
  */
-@GeneratePojoBuilder(intoPackage = "eu.dzhw.fdz.metadatamanagement.common.domain.builders")
+@GeneratePojoBuilder(
+    intoPackage = "eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.builders")
 public class Release {
   
   @NotEmpty(message = "{error.release.version.notEmpty}")

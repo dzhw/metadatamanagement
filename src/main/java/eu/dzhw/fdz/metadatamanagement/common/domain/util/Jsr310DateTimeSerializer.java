@@ -1,4 +1,4 @@
-package eu.dzhw.fdz.metadatamanagement.domain.util;
+package eu.dzhw.fdz.metadatamanagement.common.domain.util;
 
 import java.io.IOException;
 import java.time.ZoneId;

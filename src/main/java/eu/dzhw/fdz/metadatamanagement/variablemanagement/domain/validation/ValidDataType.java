@@ -9,7 +9,7 @@ import java.lang.annotation.Target;
 import javax.validation.Constraint;
 import javax.validation.Payload;
 
-import eu.dzhw.fdz.metadatamanagement.common.domain.DataTypes;
+import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.DataTypes;
 
 /**
  * Annotation for the validator for the data type. 

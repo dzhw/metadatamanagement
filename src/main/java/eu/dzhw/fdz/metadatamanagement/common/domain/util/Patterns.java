@@ -1,4 +1,4 @@
-package eu.dzhw.fdz.metadatamanagement.domain.util;
+package eu.dzhw.fdz.metadatamanagement.common.domain.util;
 
 /**
  * Interface holding regexp for domain validation.

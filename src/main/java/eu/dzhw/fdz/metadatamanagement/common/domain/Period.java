@@ -3,7 +3,7 @@ package eu.dzhw.fdz.metadatamanagement.common.domain;
 import java.io.Serializable;
 import java.time.LocalDate;
 
-import eu.dzhw.fdz.metadatamanagement.domain.validation.ValidPeriod;
+import eu.dzhw.fdz.metadatamanagement.common.domain.validation.ValidPeriod;
 import net.karneim.pojobuilder.GeneratePojoBuilder;
 
 /**

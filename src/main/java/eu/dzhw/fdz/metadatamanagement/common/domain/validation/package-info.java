@@ -5,4 +5,4 @@
  * @author Daniel Katzberg
  *
  */
-package eu.dzhw.fdz.metadatamanagement.domain.validation;
+package eu.dzhw.fdz.metadatamanagement.common.domain.validation;

@@ -7,8 +7,8 @@ import javax.validation.constraints.Size;
 import com.google.common.base.MoreObjects;
 
 import eu.dzhw.fdz.metadatamanagement.common.domain.I18nString;
-import eu.dzhw.fdz.metadatamanagement.domain.validation.I18nStringSize;
-import eu.dzhw.fdz.metadatamanagement.domain.validation.StringLengths;
+import eu.dzhw.fdz.metadatamanagement.common.domain.validation.I18nStringSize;
+import eu.dzhw.fdz.metadatamanagement.common.domain.validation.StringLengths;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.validation.ValidCodeOrValueClass;
 import net.karneim.pojobuilder.GeneratePojoBuilder;
 

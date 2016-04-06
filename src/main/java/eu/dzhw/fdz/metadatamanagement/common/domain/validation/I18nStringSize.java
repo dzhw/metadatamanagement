@@ -1,4 +1,4 @@
-package eu.dzhw.fdz.metadatamanagement.domain.validation;
+package eu.dzhw.fdz.metadatamanagement.common.domain.validation;
 
 import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;
@@ -10,27 +10,39 @@ import javax.validation.Constraint;
 import javax.validation.Payload;
 
 /**
- * Validate that the begin of a period is <= then the end.
- * @author René Reitmann
+ * Annotation for i18n String (de/en Strings).
+ * @author Daniel Katzberg
+ *
  */
 @Documented
-@Constraint(validatedBy = {ValidPeriodValidator.class})
-@Target({ElementType.TYPE})
+@Constraint(validatedBy = {I18nStringSizeValidator.class})
+@Target({ElementType.FIELD})
 @Retention(RetentionPolicy.RUNTIME)
-public @interface ValidPeriod {
+public @interface I18nStringSize {
   
   /**
    * Defines the default error message.
    */
   public abstract String message() default "{eu.dzhw.fdz.metadatamanagement.domain.validation."
-      + "validperiod.message}";
+      + "i18nstringsize.message}";
+  
   /**
    * This contains groups.
    */
   public Class<?>[]groups() default {};
+  
   /**
    * This method contains the payload.
    */
   public Class<? extends Payload>[]payload() default {};
+  
+  /**
+   * @return size the element must be equal or lower to.
+   */
+  int max() default Integer.MAX_VALUE;
 
+  /**
+   * @return size the element must be equal or lower to.
+   */
+  int min() default 0;
 }

@@ -1,7 +1,7 @@
 /**
  * 
  */
-package eu.dzhw.fdz.metadatamanagement.domain.util;
+package eu.dzhw.fdz.metadatamanagement.common.domain.util;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.nullValue;
@@ -20,6 +20,8 @@ import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonToken;
 import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonMappingException;
+
+import eu.dzhw.fdz.metadatamanagement.common.domain.util.Jsr310LocalDateDeserializer;
 
 /**
  * @author Daniel Katzberg
