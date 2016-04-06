@@ -18,7 +18,7 @@ import eu.dzhw.fdz.metadatamanagement.questionmanagement.service.AtomicQuestionS
  *
  */
 @RestController
-public class AtomicQuestionResource {
+public class AtomicQuestionDeleteResource {
   
   @Inject AtomicQuestionService atomicQuestionService;
   

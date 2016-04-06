@@ -1,4 +1,4 @@
-package eu.dzhw.fdz.metadatamanagement.datasetmanagement.service.reporting;
+package eu.dzhw.fdz.metadatamanagement.datasetmanagement.service;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -34,7 +34,7 @@ import freemarker.template.TemplateExceptionHandler;
  *
  */
 @Service
-public class VariableReportService {
+public class DataSetReportService {
 
   @Inject
   private FileService fileService;

@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
-import eu.dzhw.fdz.metadatamanagement.datasetmanagement.service.reporting.VariableReportService;
+import eu.dzhw.fdz.metadatamanagement.datasetmanagement.service.DataSetReportService;
 import freemarker.template.TemplateException;
 
 /**
@@ -26,7 +26,7 @@ import freemarker.template.TemplateException;
 public class DataSetsReportResource {
 
   @Inject
-  private VariableReportService variableReportService;
+  private DataSetReportService variableReportService;
 
   /**
    * Accept latex templates under the given request mapping.
