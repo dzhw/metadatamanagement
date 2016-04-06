@@ -17,7 +17,7 @@ angular.module('metadatamanagementApp')
           $scope.pageState.totalElements = result.page.totalElements;
         });
       };
-      $scope.$on('surveys-uploaded', function() {
+      $scope.$on('survey-list-uploaded', function() {
         init();
       });
       init();

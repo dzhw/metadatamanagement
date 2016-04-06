@@ -31,6 +31,9 @@
         "logMessages": {
           "intro": "Following errors occurred during the last upload:",
           "dataSetNotSaved": "Dataset with RDC-ID {{ id }} has not been saved!",
+          "surveyNotSaved": "Survey with RDC-ID {{ id }} has not been saved!",
+          "atomicQuestionNotSaved": "Atomic Question with RDC-ID {{ id }} has not been saved!",
+          "variableNotSaved": "Variable with RDC-ID {{ id }} has not been saved!",
           "internalServerError": "An internal server error occurred.",
           "missingId": "Dataset {{ index }} does not contain a RDC-ID and has not been saved!"
         },

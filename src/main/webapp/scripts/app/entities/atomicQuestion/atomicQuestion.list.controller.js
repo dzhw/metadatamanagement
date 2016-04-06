@@ -19,7 +19,7 @@ angular.module('metadatamanagementApp')
           $scope.pageState.totalElements = result.page.totalElements;
         });
       };
-      $scope.$on('atomicQuestions-uploaded', function() {
+      $scope.$on('atomicQuestion-list-uploaded', function() {
         $scope.init();
       });
       $scope.init();

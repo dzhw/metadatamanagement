@@ -20,12 +20,17 @@ angular.module('metadatamanagementApp')
       };
       /*
       JobLog, UploadDataSet
-      $scope.uploadState =  JobLog.uploadState;
+      $scope.color = 'md-primary';
+      $scope.uploadModus = false;
       $scope.uploadDataSets = function(file) {
+        $scope.uploadModus = true;
+        JobLog.start('Test');
         UploadDataSet.upload(file,$scope.dataAcquisitionProject.id);
       };*/
       $scope.$watch('uploadState.progress', function() {
         if ($scope.uploadState.hasFinished) {
-          $scope.$broadcast($scope.uploadState.uploadedDomainObject);
+          $scope.$broadcast($scope.uploadState.typeOfDomainObject +
+            '-list-uploaded');
         }
-      });});
+      });
+    });

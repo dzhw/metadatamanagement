@@ -18,7 +18,7 @@ angular.module('metadatamanagementApp')
           $scope.pageState.totalElements = result.page.totalElements;
         });
       };
-      $scope.$on('variables-uploaded', function() {
+      $scope.$on('variable-list-uploaded', function() {
         init();
       });
       init();
