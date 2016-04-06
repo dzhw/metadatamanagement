@@ -1,9 +1,10 @@
-package eu.dzhw.fdz.metadatamanagement.common.config.metrics;
+package eu.dzhw.fdz.metadatamanagement.searchmanagement.config;
 
 import org.springframework.boot.actuate.health.HealthIndicator;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+import eu.dzhw.fdz.metadatamanagement.searchmanagement.dao.ElasticsearchHealthIndicator;
 import io.searchbox.client.JestClient;
 
 /**
@@ -12,7 +13,7 @@ import io.searchbox.client.JestClient;
  * @author René Reitmann
  */
 @Configuration
-public class JHipsterHealthIndicatorConfiguration {
+public class ElasticsearchHealthIndicatorConfiguration {
   /**
    * Add custom {@link ElasticsearchHealthIndicator} to the application context.
    * @param jestClient The client for pinging elasticsearch

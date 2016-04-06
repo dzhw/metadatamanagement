@@ -27,13 +27,13 @@ import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 
 import com.mongodb.Mongo;
 
-import eu.dzhw.fdz.metadatamanagement.common.config.oauth2.OAuth2AuthenticationReadConverter;
 import eu.dzhw.fdz.metadatamanagement.common.domain.util.Jsr310DateConverters.DateToLocalDateConverter;
 import eu.dzhw.fdz.metadatamanagement.common.domain.util.Jsr310DateConverters.DateToLocalDateTimeConverter;
 import eu.dzhw.fdz.metadatamanagement.common.domain.util.Jsr310DateConverters.DateToZonedDateTimeConverter;
 import eu.dzhw.fdz.metadatamanagement.common.domain.util.Jsr310DateConverters.LocalDateTimeToDateConverter;
 import eu.dzhw.fdz.metadatamanagement.common.domain.util.Jsr310DateConverters.LocalDateToDateConverter;
 import eu.dzhw.fdz.metadatamanagement.common.domain.util.Jsr310DateConverters.ZonedDateTimeToDateConverter;
+import eu.dzhw.fdz.metadatamanagement.usermanagement.repository.OAuth2AuthenticationReadConverter;
 
 /**
  * Configure the mongo db client instance when not running in the cloud.

@@ -1,4 +1,4 @@
-package eu.dzhw.fdz.metadatamanagement.common.config.oauth2;
+package eu.dzhw.fdz.metadatamanagement.usermanagement.repository;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -13,8 +13,6 @@ import org.springframework.security.oauth2.provider.token.TokenStore;
 
 import eu.dzhw.fdz.metadatamanagement.usermanagement.domain.OAuth2AuthenticationAccessToken;
 import eu.dzhw.fdz.metadatamanagement.usermanagement.domain.OAuth2AuthenticationRefreshToken;
-import eu.dzhw.fdz.metadatamanagement.usermanagement.repository.OAuth2AccessTokenRepository;
-import eu.dzhw.fdz.metadatamanagement.usermanagement.repository.OAuth2RefreshTokenRepository;
 
 /**
  * A MongoDB implementation of the TokenStore.

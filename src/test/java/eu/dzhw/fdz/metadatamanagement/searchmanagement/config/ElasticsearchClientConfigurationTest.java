@@ -1,7 +1,7 @@
 /**
  * 
  */
-package eu.dzhw.fdz.metadatamanagement.common.config;
+package eu.dzhw.fdz.metadatamanagement.searchmanagement.config;
 
 import static org.hamcrest.CoreMatchers.not;
 import static org.hamcrest.CoreMatchers.nullValue;
@@ -14,9 +14,9 @@ import org.springframework.core.env.Environment;
 import org.springframework.test.util.ReflectionTestUtils;
 
 import eu.dzhw.fdz.metadatamanagement.common.config.Constants;
-import eu.dzhw.fdz.metadatamanagement.common.config.ElasticsearchClientConfiguration;
 import eu.dzhw.fdz.metadatamanagement.common.config.MetadataManagementProperties;
 import eu.dzhw.fdz.metadatamanagement.common.config.MetadataManagementProperties.ElasticsearchClient;
+import eu.dzhw.fdz.metadatamanagement.searchmanagement.config.ElasticsearchClientConfiguration;
 import io.searchbox.client.JestClient;
 
 /**

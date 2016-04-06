@@ -1,4 +1,4 @@
-package eu.dzhw.fdz.metadatamanagement.common.config.oauth2;
+package eu.dzhw.fdz.metadatamanagement.usermanagement.repository;
 
 import java.util.Collection;
 import java.util.Collections;

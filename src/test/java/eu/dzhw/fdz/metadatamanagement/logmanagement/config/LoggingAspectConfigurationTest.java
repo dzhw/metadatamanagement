@@ -1,7 +1,7 @@
 /**
  * 
  */
-package eu.dzhw.fdz.metadatamanagement.common.config;
+package eu.dzhw.fdz.metadatamanagement.logmanagement.config;
 
 import javax.inject.Inject;
 
@@ -9,7 +9,7 @@ import org.junit.Test;
 import org.springframework.beans.factory.NoSuchBeanDefinitionException;
 
 import eu.dzhw.fdz.metadatamanagement.AbstractTest;
-import eu.dzhw.fdz.metadatamanagement.common.config.LoggingAspectConfiguration;
+import eu.dzhw.fdz.metadatamanagement.logmanagement.config.LoggingAspectConfiguration;
 
 /**
  * 

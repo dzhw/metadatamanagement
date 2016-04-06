@@ -1,4 +1,4 @@
-package eu.dzhw.fdz.metadatamanagement.common.aop.logging;
+package eu.dzhw.fdz.metadatamanagement.logmanagement.aop;
 
 import java.util.Arrays;
 

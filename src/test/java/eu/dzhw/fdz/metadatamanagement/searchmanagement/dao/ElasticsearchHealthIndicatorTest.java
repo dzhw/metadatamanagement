@@ -1,7 +1,7 @@
 /**
  * 
  */
-package eu.dzhw.fdz.metadatamanagement.common.config.metrics;
+package eu.dzhw.fdz.metadatamanagement.searchmanagement.dao;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
@@ -15,7 +15,7 @@ import org.springframework.boot.actuate.health.Health.Builder;
 import org.springframework.boot.actuate.health.Status;
 
 import eu.dzhw.fdz.metadatamanagement.AbstractTest;
-import eu.dzhw.fdz.metadatamanagement.common.config.metrics.ElasticsearchHealthIndicator;
+import eu.dzhw.fdz.metadatamanagement.searchmanagement.dao.ElasticsearchHealthIndicator;
 import io.searchbox.client.JestClient;
 
 /**

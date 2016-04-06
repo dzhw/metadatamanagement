@@ -1,7 +1,7 @@
 /**
  * 
  */
-package eu.dzhw.fdz.metadatamanagement.common.config.oauth2;
+package eu.dzhw.fdz.metadatamanagement.usermanagement.repository;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.not;
@@ -19,7 +19,7 @@ import org.springframework.security.oauth2.provider.OAuth2Authentication;
 import com.mongodb.BasicDBObject;
 import com.mongodb.DBObject;
 
-import eu.dzhw.fdz.metadatamanagement.common.config.oauth2.OAuth2AuthenticationReadConverter;
+import eu.dzhw.fdz.metadatamanagement.usermanagement.repository.OAuth2AuthenticationReadConverter;
 
 /**
  * @author Daniel Katzberg

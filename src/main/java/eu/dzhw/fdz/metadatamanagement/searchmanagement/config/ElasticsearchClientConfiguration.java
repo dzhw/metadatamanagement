@@ -1,4 +1,4 @@
-package eu.dzhw.fdz.metadatamanagement.common.config;
+package eu.dzhw.fdz.metadatamanagement.searchmanagement.config;
 
 import java.util.HashMap;
 import java.util.List;
@@ -11,6 +11,8 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.env.Environment;
 
+import eu.dzhw.fdz.metadatamanagement.common.config.Constants;
+import eu.dzhw.fdz.metadatamanagement.common.config.MetadataManagementProperties;
 import io.searchbox.client.JestClient;
 import io.searchbox.client.JestClientFactory;
 import io.searchbox.client.config.HttpClientConfig;

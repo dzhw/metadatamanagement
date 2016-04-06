@@ -1,4 +1,4 @@
-package eu.dzhw.fdz.metadatamanagement.common.config.metrics;
+package eu.dzhw.fdz.metadatamanagement.searchmanagement.dao;
 
 import org.springframework.boot.actuate.health.AbstractHealthIndicator;
 import org.springframework.boot.actuate.health.Health.Builder;

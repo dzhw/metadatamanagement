@@ -1,7 +1,7 @@
 /**
  * 
  */
-package eu.dzhw.fdz.metadatamanagement.common.aop.logging;
+package eu.dzhw.fdz.metadatamanagement.logmanagement.aop;
 
 import static org.hamcrest.CoreMatchers.not;
 import static org.hamcrest.CoreMatchers.nullValue;
@@ -17,6 +17,7 @@ import org.junit.Test;
 import org.mockito.Mockito;
 
 import eu.dzhw.fdz.metadatamanagement.AbstractTest;
+import eu.dzhw.fdz.metadatamanagement.logmanagement.aop.LoggingAspect;
 
 /**
  * @author Daniel Katzberg

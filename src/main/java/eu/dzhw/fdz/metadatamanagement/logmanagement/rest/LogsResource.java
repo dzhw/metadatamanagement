@@ -1,4 +1,4 @@
-package eu.dzhw.fdz.metadatamanagement.common.rest;
+package eu.dzhw.fdz.metadatamanagement.logmanagement.rest;
 
 import java.util.List;
 import java.util.stream.Collectors;

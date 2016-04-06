@@ -1,4 +1,4 @@
-package eu.dzhw.fdz.metadatamanagement.common.config;
+package eu.dzhw.fdz.metadatamanagement.usermanagement.config;
 
 import javax.inject.Inject;
 
