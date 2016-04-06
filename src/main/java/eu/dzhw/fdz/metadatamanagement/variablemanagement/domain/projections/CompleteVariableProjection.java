@@ -1,10 +1,11 @@
-package eu.dzhw.fdz.metadatamanagement.domain.projections;
+package eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.projections;
 
 import java.util.List;
 
 import org.springframework.data.rest.core.config.Projection;
 
 import eu.dzhw.fdz.metadatamanagement.common.domain.I18nString;
+import eu.dzhw.fdz.metadatamanagement.common.domain.projections.AbstractRdcDomainObjectWithProjectSurveyProjection;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.FilterDetails;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.GenerationDetails;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.Statistics;

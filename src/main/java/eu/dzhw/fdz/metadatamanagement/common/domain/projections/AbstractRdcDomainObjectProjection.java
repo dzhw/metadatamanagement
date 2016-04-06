@@ -1,4 +1,4 @@
-package eu.dzhw.fdz.metadatamanagement.domain.projections;
+package eu.dzhw.fdz.metadatamanagement.common.domain.projections;
 
 import java.time.ZonedDateTime;
 

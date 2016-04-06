@@ -1,4 +1,4 @@
-package eu.dzhw.fdz.metadatamanagement.domain.projections;
+package eu.dzhw.fdz.metadatamanagement.common.domain.projections;
 
 /**
  * The extended version of a abstract rdc domain object with a survey and projection id.

@@ -9,7 +9,6 @@ import static org.junit.Assert.assertThat;
 import org.junit.Test;
 
 import eu.dzhw.fdz.metadatamanagement.common.unittesthelper.util.UnitTestCreateDomainObjectUtils;
-import eu.dzhw.fdz.metadatamanagement.domain.RuleExpressionLanguages;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.GenerationDetails;
 
 /**

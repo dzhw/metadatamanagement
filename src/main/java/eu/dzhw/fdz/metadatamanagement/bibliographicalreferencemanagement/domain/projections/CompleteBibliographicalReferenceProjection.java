@@ -1,8 +1,9 @@
-package eu.dzhw.fdz.metadatamanagement.domain.projections;
+package eu.dzhw.fdz.metadatamanagement.bibliographicalreferencemanagement.domain.projections;
 
 import org.springframework.data.rest.core.config.Projection;
 
-import eu.dzhw.fdz.metadatamanagement.domain.BibliographicalReference;
+import eu.dzhw.fdz.metadatamanagement.bibliographicalreferencemanagement.domain.BibliographicalReference;
+import eu.dzhw.fdz.metadatamanagement.common.domain.projections.AbstractRdcDomainObjectProjection;
 
 /**
  * The 'complete' Projection of a bibliographical reference domain object. 'complete' means all

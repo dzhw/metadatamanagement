@@ -1,4 +1,4 @@
-package eu.dzhw.fdz.metadatamanagement.domain.projections;
+package eu.dzhw.fdz.metadatamanagement.surveymanagement.domain.projections;
 
 import java.util.List;
 
@@ -6,6 +6,7 @@ import org.springframework.data.rest.core.config.Projection;
 
 import eu.dzhw.fdz.metadatamanagement.common.domain.I18nString;
 import eu.dzhw.fdz.metadatamanagement.common.domain.Period;
+import eu.dzhw.fdz.metadatamanagement.common.domain.projections.AbstractRdcDomainObjectProjection;
 import eu.dzhw.fdz.metadatamanagement.surveymanagement.domain.Survey;
 
 /**

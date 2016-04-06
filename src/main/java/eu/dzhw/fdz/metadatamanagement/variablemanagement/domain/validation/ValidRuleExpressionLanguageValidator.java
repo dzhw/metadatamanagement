@@ -3,7 +3,7 @@ package eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.validation;
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 
-import eu.dzhw.fdz.metadatamanagement.domain.RuleExpressionLanguages;
+import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.RuleExpressionLanguages;
 
 /**
  * Validator for the rule expression languages of a variable. Only valued from the

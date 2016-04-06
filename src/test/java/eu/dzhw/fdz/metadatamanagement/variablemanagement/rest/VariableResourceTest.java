@@ -33,7 +33,6 @@ import eu.dzhw.fdz.metadatamanagement.common.rest.TestUtil;
 import eu.dzhw.fdz.metadatamanagement.common.service.ElasticsearchAdminService;
 import eu.dzhw.fdz.metadatamanagement.common.service.enums.ElasticsearchIndices;
 import eu.dzhw.fdz.metadatamanagement.common.unittesthelper.util.UnitTestCreateDomainObjectUtils;
-import eu.dzhw.fdz.metadatamanagement.domain.RuleExpressionLanguages;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.DataAcquisitionProject;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.builders.DataAcquisitionProjectBuilder;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.repository.DataAcquisitionProjectRepository;
@@ -42,6 +41,7 @@ import eu.dzhw.fdz.metadatamanagement.surveymanagement.domain.builders.SurveyBui
 import eu.dzhw.fdz.metadatamanagement.surveymanagement.repository.SurveyRepository;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.DataTypes;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.FilterExpressionLanguages;
+import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.RuleExpressionLanguages;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.ScaleLevels;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.Value;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.Variable;

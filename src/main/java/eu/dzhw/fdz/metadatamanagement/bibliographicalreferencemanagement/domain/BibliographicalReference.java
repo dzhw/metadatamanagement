@@ -1,4 +1,4 @@
-package eu.dzhw.fdz.metadatamanagement.domain;
+package eu.dzhw.fdz.metadatamanagement.bibliographicalreferencemanagement.domain;
 
 import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.data.annotation.Id;
@@ -16,7 +16,8 @@ import net.karneim.pojobuilder.GeneratePojoBuilder;
  *
  */
 @Document(collection = "bibliographical_references")
-@GeneratePojoBuilder(intoPackage = "eu.dzhw.fdz.metadatamanagement.domain.builders")
+@GeneratePojoBuilder(intoPackage = "eu.dzhw.fdz.metadatamanagement"
+    + ".bibliographicalreferencemanagement.domain.builders")
 public class BibliographicalReference extends AbstractRdcDomainObject {
 
   @Id

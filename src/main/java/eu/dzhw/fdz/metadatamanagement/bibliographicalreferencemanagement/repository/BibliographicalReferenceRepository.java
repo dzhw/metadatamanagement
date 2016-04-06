@@ -4,7 +4,7 @@ import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.data.querydsl.QueryDslPredicateExecutor;
 import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 
-import eu.dzhw.fdz.metadatamanagement.domain.BibliographicalReference;
+import eu.dzhw.fdz.metadatamanagement.bibliographicalreferencemanagement.domain.BibliographicalReference;
 
 /**
  * Spring Data MongoDB repository for the bibliographical reference entity.
