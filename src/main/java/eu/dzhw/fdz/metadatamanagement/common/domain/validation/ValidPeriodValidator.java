@@ -27,9 +27,15 @@ public class ValidPeriodValidator implements ConstraintValidator<ValidPeriod, Pe
    */
   @Override
   public boolean isValid(Period period, ConstraintValidatorContext context) {
-    // if one end of the period is not set than it is valid
+
+    // no period, no valid value.
+    if (period == null) {
+      return false;
+    }
+
+    // if one end of the period is not set than it is not valid
     if (period.getStart() == null || period.getEnd() == null) {
-      return true;
+      return false;
     }
     
     return period.getStart().isBefore(period.getEnd()) || period.getStart().equals(period.getEnd());

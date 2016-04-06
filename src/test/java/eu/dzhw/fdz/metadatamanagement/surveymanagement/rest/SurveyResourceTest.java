@@ -127,8 +127,7 @@ public class SurveyResourceTest extends AbstractTest {
     // create the survey with the given id but with an unlimited period
     mockMvc.perform(put(API_SURVEYS_URI + "/" + survey.getId())
       .content(TestUtil.convertObjectToJsonBytes(survey)))
-      .andExpect(status().isCreated())
-      .andReturn();
+      .andExpect(status().isBadRequest());
   }
 
   @Test
