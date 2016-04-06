@@ -1,4 +1,4 @@
-package eu.dzhw.fdz.metadatamanagement.domain;
+package eu.dzhw.fdz.metadatamanagement.common.domain;
 
 import java.time.ZonedDateTime;
 
@@ -22,7 +22,7 @@ import net.karneim.pojobuilder.GeneratePojoBuilder;
  * 
  * @author Daniel Katzberg
  */
-@GeneratePojoBuilder(intoPackage = "eu.dzhw.fdz.metadatamanagement.domain.builders")
+@GeneratePojoBuilder(intoPackage = "eu.dzhw.fdz.metadatamanagement.common.domain.builders")
 public class Release {
   
   @NotEmpty(message = "{error.release.version.notEmpty}")

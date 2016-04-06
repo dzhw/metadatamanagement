@@ -4,8 +4,8 @@ import java.util.List;
 
 import org.springframework.data.rest.core.config.Projection;
 
+import eu.dzhw.fdz.metadatamanagement.common.domain.I18nString;
 import eu.dzhw.fdz.metadatamanagement.datasetmanagement.domain.DataSet;
-import eu.dzhw.fdz.metadatamanagement.domain.I18nString;
 
 /**
  * The 'complete' Projection of a data set domain object. 'complete' means all attributes will be

@@ -16,7 +16,7 @@ import org.springframework.data.mongodb.core.mapping.Field;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
-import eu.dzhw.fdz.metadatamanagement.domain.AbstractAuditingEntity;
+import eu.dzhw.fdz.metadatamanagement.common.domain.AbstractAuditingEntity;
 import net.karneim.pojobuilder.GeneratePojoBuilder;
 
 /**

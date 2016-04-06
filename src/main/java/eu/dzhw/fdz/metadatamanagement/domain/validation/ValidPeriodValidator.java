@@ -3,7 +3,7 @@ package eu.dzhw.fdz.metadatamanagement.domain.validation;
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 
-import eu.dzhw.fdz.metadatamanagement.domain.Period;
+import eu.dzhw.fdz.metadatamanagement.common.domain.Period;
 
 /**
  * Validate that the begin of a period is <= then the end.

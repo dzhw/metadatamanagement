@@ -6,8 +6,8 @@ import org.springframework.data.mongodb.core.mapping.Document;
 
 import com.google.common.base.MoreObjects;
 
-import eu.dzhw.fdz.metadatamanagement.domain.AbstractRdcDomainObject;
-import eu.dzhw.fdz.metadatamanagement.domain.I18nString;
+import eu.dzhw.fdz.metadatamanagement.common.domain.AbstractRdcDomainObject;
+import eu.dzhw.fdz.metadatamanagement.common.domain.I18nString;
 import net.karneim.pojobuilder.GeneratePojoBuilder;
 
 /**

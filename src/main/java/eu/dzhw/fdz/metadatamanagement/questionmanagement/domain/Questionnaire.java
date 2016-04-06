@@ -4,7 +4,7 @@ import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-import eu.dzhw.fdz.metadatamanagement.domain.AbstractRdcDomainObject;
+import eu.dzhw.fdz.metadatamanagement.common.domain.AbstractRdcDomainObject;
 import net.karneim.pojobuilder.GeneratePojoBuilder;
 
 /**

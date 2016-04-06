@@ -4,8 +4,8 @@ import java.util.List;
 
 import org.springframework.data.rest.core.config.Projection;
 
-import eu.dzhw.fdz.metadatamanagement.domain.I18nString;
-import eu.dzhw.fdz.metadatamanagement.domain.Period;
+import eu.dzhw.fdz.metadatamanagement.common.domain.I18nString;
+import eu.dzhw.fdz.metadatamanagement.common.domain.Period;
 import eu.dzhw.fdz.metadatamanagement.surveymanagement.domain.Survey;
 
 /**

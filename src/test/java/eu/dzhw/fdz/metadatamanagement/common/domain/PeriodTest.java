@@ -1,7 +1,7 @@
 /**
  * 
  */
-package eu.dzhw.fdz.metadatamanagement.domain;
+package eu.dzhw.fdz.metadatamanagement.common.domain;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.not;
@@ -11,7 +11,7 @@ import java.time.LocalDate;
 
 import org.junit.Test;
 
-import eu.dzhw.fdz.metadatamanagement.domain.builders.PeriodBuilder;
+import eu.dzhw.fdz.metadatamanagement.common.domain.builders.PeriodBuilder;
 
 /**
  * @author Daniel Katzberg

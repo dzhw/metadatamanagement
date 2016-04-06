@@ -11,8 +11,8 @@ import org.springframework.data.mongodb.core.mapping.Document;
 
 import com.google.common.base.MoreObjects;
 
-import eu.dzhw.fdz.metadatamanagement.domain.AbstractRdcDomainObject;
-import eu.dzhw.fdz.metadatamanagement.domain.I18nString;
+import eu.dzhw.fdz.metadatamanagement.common.domain.AbstractRdcDomainObject;
+import eu.dzhw.fdz.metadatamanagement.common.domain.I18nString;
 import eu.dzhw.fdz.metadatamanagement.domain.util.Patterns;
 import eu.dzhw.fdz.metadatamanagement.domain.validation.I18nStringSize;
 import eu.dzhw.fdz.metadatamanagement.domain.validation.StringLengths;

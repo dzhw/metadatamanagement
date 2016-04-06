@@ -1,7 +1,7 @@
 /**
  * 
  */
-package eu.dzhw.fdz.metadatamanagement.domain;
+package eu.dzhw.fdz.metadatamanagement.common.domain;
 
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertThat;
@@ -10,8 +10,8 @@ import java.time.ZonedDateTime;
 
 import org.junit.Test;
 
-import eu.dzhw.fdz.metadatamanagement.domain.builders.I18nStringBuilder;
-import eu.dzhw.fdz.metadatamanagement.domain.builders.ReleaseBuilder;
+import eu.dzhw.fdz.metadatamanagement.common.domain.builders.I18nStringBuilder;
+import eu.dzhw.fdz.metadatamanagement.common.domain.builders.ReleaseBuilder;
 
 /**
  * @author Daniel Katzberg

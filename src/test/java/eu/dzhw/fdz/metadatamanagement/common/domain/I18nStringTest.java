@@ -1,7 +1,7 @@
 /**
  * 
  */
-package eu.dzhw.fdz.metadatamanagement.domain;
+package eu.dzhw.fdz.metadatamanagement.common.domain;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.not;
@@ -9,7 +9,7 @@ import static org.junit.Assert.assertThat;
 
 import org.junit.Test;
 
-import eu.dzhw.fdz.metadatamanagement.domain.builders.I18nStringBuilder;
+import eu.dzhw.fdz.metadatamanagement.common.domain.builders.I18nStringBuilder;
 
 /**
  * @author Daniel Katzberg

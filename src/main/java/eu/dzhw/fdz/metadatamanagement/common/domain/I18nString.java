@@ -1,4 +1,4 @@
-package eu.dzhw.fdz.metadatamanagement.domain;
+package eu.dzhw.fdz.metadatamanagement.common.domain;
 
 import java.io.Serializable;
 
@@ -10,7 +10,7 @@ import net.karneim.pojobuilder.GeneratePojoBuilder;
  * @author René Reitmann
  * @author Daniel Katzberg
  */
-@GeneratePojoBuilder(intoPackage = "eu.dzhw.fdz.metadatamanagement.domain.builders")
+@GeneratePojoBuilder(intoPackage = "eu.dzhw.fdz.metadatamanagement.common.domain.builders")
 public class I18nString implements Serializable {
   private static final long serialVersionUID = 3035702867033098482L;
 

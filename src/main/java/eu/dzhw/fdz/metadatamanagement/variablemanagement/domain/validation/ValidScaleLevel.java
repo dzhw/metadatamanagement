@@ -9,7 +9,7 @@ import java.lang.annotation.Target;
 import javax.validation.Constraint;
 import javax.validation.Payload;
 
-import eu.dzhw.fdz.metadatamanagement.domain.ScaleLevels;
+import eu.dzhw.fdz.metadatamanagement.common.domain.ScaleLevels;
 
 /**
  * Annotation for the validator of the scale level. Only values from the class {@link ScaleLevels}
