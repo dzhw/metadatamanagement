@@ -1,4 +1,4 @@
-package eu.dzhw.fdz.metadatamanagement.common.config;
+package eu.dzhw.fdz.metadatamanagement.mailmanagement.config;
 
 import org.apache.commons.lang.CharEncoding;
 import org.springframework.context.annotation.Bean;
