@@ -1,4 +1,4 @@
-package eu.dzhw.fdz.metadatamanagement.common.rest.dto;
+package eu.dzhw.fdz.metadatamanagement.usermanagement.rest.dto;
 
 /**
  * DTO for password reset.

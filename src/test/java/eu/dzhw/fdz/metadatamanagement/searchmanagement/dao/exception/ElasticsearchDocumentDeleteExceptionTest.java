@@ -1,14 +1,14 @@
 /**
  * 
  */
-package eu.dzhw.fdz.metadatamanagement.common.search.exception;
+package eu.dzhw.fdz.metadatamanagement.searchmanagement.dao.exception;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
 
 import org.junit.Test;
 
-import eu.dzhw.fdz.metadatamanagement.common.search.exception.ElasticsearchDocumentDeleteException;
+import eu.dzhw.fdz.metadatamanagement.searchmanagement.dao.exception.ElasticsearchDocumentDeleteException;
 
 /**
  * @author Daniel Katzberg

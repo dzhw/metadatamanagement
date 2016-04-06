@@ -1,4 +1,4 @@
-package eu.dzhw.fdz.metadatamanagement.common.search;
+package eu.dzhw.fdz.metadatamanagement.searchmanagement.dao;
 
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.is;
@@ -19,10 +19,10 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
 import eu.dzhw.fdz.metadatamanagement.AbstractTest;
-import eu.dzhw.fdz.metadatamanagement.common.search.ElasticsearchAdminDao;
-import eu.dzhw.fdz.metadatamanagement.common.search.exception.ElasticsearchIndexCreateException;
-import eu.dzhw.fdz.metadatamanagement.common.search.exception.ElasticsearchIndexDeleteException;
-import eu.dzhw.fdz.metadatamanagement.common.search.exception.ElasticsearchPutMappingException;
+import eu.dzhw.fdz.metadatamanagement.searchmanagement.dao.ElasticsearchAdminDao;
+import eu.dzhw.fdz.metadatamanagement.searchmanagement.dao.exception.ElasticsearchIndexCreateException;
+import eu.dzhw.fdz.metadatamanagement.searchmanagement.dao.exception.ElasticsearchIndexDeleteException;
+import eu.dzhw.fdz.metadatamanagement.searchmanagement.dao.exception.ElasticsearchPutMappingException;
 
 /**
  * Test which checks index creation and mapping creation.

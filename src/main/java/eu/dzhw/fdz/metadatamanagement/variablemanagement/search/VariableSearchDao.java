@@ -16,10 +16,10 @@ import org.springframework.data.rest.core.annotation.HandleAfterSave;
 import org.springframework.data.rest.core.annotation.RepositoryEventHandler;
 import org.springframework.stereotype.Component;
 
-import eu.dzhw.fdz.metadatamanagement.common.search.exception.ElasticsearchDocumentDeleteException;
-import eu.dzhw.fdz.metadatamanagement.common.search.exception.ElasticsearchDocumentSaveException;
-import eu.dzhw.fdz.metadatamanagement.common.search.exception.ElasticsearchIoException;
-import eu.dzhw.fdz.metadatamanagement.common.service.enums.ElasticsearchIndices;
+import eu.dzhw.fdz.metadatamanagement.searchmanagement.dao.exception.ElasticsearchDocumentDeleteException;
+import eu.dzhw.fdz.metadatamanagement.searchmanagement.dao.exception.ElasticsearchDocumentSaveException;
+import eu.dzhw.fdz.metadatamanagement.searchmanagement.dao.exception.ElasticsearchIoException;
+import eu.dzhw.fdz.metadatamanagement.searchmanagement.service.ElasticsearchIndices;
 import eu.dzhw.fdz.metadatamanagement.surveymanagement.domain.Survey;
 import eu.dzhw.fdz.metadatamanagement.surveymanagement.repository.SurveyRepository;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.Variable;

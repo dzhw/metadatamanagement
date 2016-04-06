@@ -1,4 +1,4 @@
-package eu.dzhw.fdz.metadatamanagement.common.search.exception;
+package eu.dzhw.fdz.metadatamanagement.searchmanagement.dao.exception;
 
 import java.io.IOException;
 

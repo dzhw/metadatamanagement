@@ -1,4 +1,4 @@
-package eu.dzhw.fdz.metadatamanagement.common.rest;
+package eu.dzhw.fdz.metadatamanagement.searchmanagement.rest;
 
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.junit.Assert.assertThat;
@@ -16,18 +16,18 @@ import org.springframework.web.util.NestedServletException;
 
 import eu.dzhw.fdz.metadatamanagement.AbstractTest;
 import eu.dzhw.fdz.metadatamanagement.common.domain.builders.I18nStringBuilder;
-import eu.dzhw.fdz.metadatamanagement.common.service.ElasticsearchAdminService;
 import eu.dzhw.fdz.metadatamanagement.common.unittesthelper.util.UnitTestCreateDomainObjectUtils;
 import eu.dzhw.fdz.metadatamanagement.common.unittesthelper.util.UnitTestUserManagementUtils;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.DataAcquisitionProject;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.builders.DataAcquisitionProjectBuilder;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.repository.DataAcquisitionProjectRepository;
+import eu.dzhw.fdz.metadatamanagement.searchmanagement.service.ElasticsearchAdminService;
 import eu.dzhw.fdz.metadatamanagement.surveymanagement.domain.Survey;
 import eu.dzhw.fdz.metadatamanagement.surveymanagement.repository.SurveyRepository;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.Variable;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.repository.VariableRepository;
 
-public class AdminResourceTest extends AbstractTest {
+public class SearchResourceTest extends AbstractTest {
   @Autowired
   private WebApplicationContext wac;
 
@@ -64,19 +64,19 @@ public class AdminResourceTest extends AbstractTest {
     UnitTestUserManagementUtils.login("admin", "admin");
 
     // test recreation of all elasticsearch indices
-    mockMvc.perform(post("/api/admin/elasticsearch/recreate"))
+    mockMvc.perform(post("/api/search/recreate"))
       .andExpect(status().isOk());
 
     // test recreation of all elasticsearch indices (should delete the previously
     // created indices)
-    mockMvc.perform(post("/api/admin/elasticsearch/recreate"))
+    mockMvc.perform(post("/api/search/recreate"))
       .andExpect(status().isOk());
   }
 
   @Test(expected = NestedServletException.class)
   public void testRecreateAllIndicesWithoutValidCredentials() throws Exception {
     // test recreation of all elasticsearch indices
-    mockMvc.perform(post("/api/admin/elasticsearch/recreate"))
+    mockMvc.perform(post("/api/search/recreate"))
       .andExpect(status().isOk());
 
     // TODO this should result in a more user friendly error message
@@ -99,7 +99,7 @@ public class AdminResourceTest extends AbstractTest {
     variableRepository.save(variable);
 
     // test recreation of all elasticsearch indices with previously created variable
-    mockMvc.perform(post("/api/admin/elasticsearch/recreate"))
+    mockMvc.perform(post("/api/search/recreate"))
       .andExpect(status().isOk());
 
     elasticsearchAdminService.refreshAllIndices();

@@ -1,4 +1,4 @@
-package eu.dzhw.fdz.metadatamanagement.common.search.exception;
+package eu.dzhw.fdz.metadatamanagement.searchmanagement.dao.exception;
 
 /**
  * Exception which is to be thrown when index deletion fails.

@@ -1,7 +1,7 @@
 /**
  * 
  */
-package eu.dzhw.fdz.metadatamanagement.common.service.util;
+package eu.dzhw.fdz.metadatamanagement.usermanagement.service.util;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.not;
@@ -13,7 +13,7 @@ import java.lang.reflect.InvocationTargetException;
 
 import org.junit.Test;
 
-import eu.dzhw.fdz.metadatamanagement.common.service.util.RandomUtil;
+import eu.dzhw.fdz.metadatamanagement.usermanagement.service.util.RandomUtil;
 
 /**
  * @author Daniel Katzberg

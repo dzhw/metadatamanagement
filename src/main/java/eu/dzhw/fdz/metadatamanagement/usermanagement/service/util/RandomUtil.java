@@ -1,4 +1,4 @@
-package eu.dzhw.fdz.metadatamanagement.common.service.util;
+package eu.dzhw.fdz.metadatamanagement.usermanagement.service.util;
 
 import org.apache.commons.lang.RandomStringUtils;
 

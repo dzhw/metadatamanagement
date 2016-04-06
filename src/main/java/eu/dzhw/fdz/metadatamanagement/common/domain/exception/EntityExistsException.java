@@ -1,4 +1,4 @@
-package eu.dzhw.fdz.metadatamanagement.common.service.exception;
+package eu.dzhw.fdz.metadatamanagement.common.domain.exception;
 
 import java.util.Arrays;
 

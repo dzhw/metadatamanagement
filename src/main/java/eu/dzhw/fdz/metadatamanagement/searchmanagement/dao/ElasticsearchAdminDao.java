@@ -1,4 +1,4 @@
-package eu.dzhw.fdz.metadatamanagement.common.search;
+package eu.dzhw.fdz.metadatamanagement.searchmanagement.dao;
 
 import java.io.IOException;
 
@@ -10,10 +10,10 @@ import org.springframework.stereotype.Component;
 
 import com.google.gson.JsonObject;
 
-import eu.dzhw.fdz.metadatamanagement.common.search.exception.ElasticsearchIndexCreateException;
-import eu.dzhw.fdz.metadatamanagement.common.search.exception.ElasticsearchIndexDeleteException;
-import eu.dzhw.fdz.metadatamanagement.common.search.exception.ElasticsearchIoException;
-import eu.dzhw.fdz.metadatamanagement.common.search.exception.ElasticsearchPutMappingException;
+import eu.dzhw.fdz.metadatamanagement.searchmanagement.dao.exception.ElasticsearchIndexCreateException;
+import eu.dzhw.fdz.metadatamanagement.searchmanagement.dao.exception.ElasticsearchIndexDeleteException;
+import eu.dzhw.fdz.metadatamanagement.searchmanagement.dao.exception.ElasticsearchIoException;
+import eu.dzhw.fdz.metadatamanagement.searchmanagement.dao.exception.ElasticsearchPutMappingException;
 import io.searchbox.action.Action;
 import io.searchbox.client.JestClient;
 import io.searchbox.client.JestResult;

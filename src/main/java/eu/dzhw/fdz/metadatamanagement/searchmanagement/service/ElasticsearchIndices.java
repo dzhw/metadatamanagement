@@ -1,4 +1,4 @@
-package eu.dzhw.fdz.metadatamanagement.common.service.enums;
+package eu.dzhw.fdz.metadatamanagement.searchmanagement.service;
 
 /**
  * This enumerations holds all index names of the metadata management.

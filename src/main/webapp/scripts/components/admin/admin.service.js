@@ -5,7 +5,7 @@ angular.module('metadatamanagementApp').factory(
     function($http) {
       return {
         recreateAllElasticsearchIndices: function() {
-          return $http.post('api/admin/elasticsearch/recreate')
+          return $http.post('/api/search/recreate')
           .then(function(response) {
             return response.data;
           });
