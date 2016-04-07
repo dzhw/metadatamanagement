@@ -38,11 +38,13 @@
                             <div class="col-md-2">
                               <span>{{'metadatamanagementApp.dataAcquisitionProject.detail.uploadprotocol' | translate}} </span>
                             </div>
-                            <div class="pull-right col-md-10">
+                            <div class = "col-md-10">
+                            <div class="pull-right">
                                 <span class="label label-as-badge label-success">{{'metadatamanagementApp.dataAcquisitionProject.detail.success' | translate}}: {{job.successes || 0}}</span>
                                 <span class="label label-as-badge label-danger">{{'metadatamanagementApp.dataAcquisitionProject.detail.error' | translate}}: {{job.errors || 0}}</span>
                                 <i class="glyphicon" ng-class="{'glyphicon-chevron-down': isOpen, 'glyphicon-chevron-right': !isOpen}"></i>
                             </div>
+                          </div>
                           </div>
                         </uib-accordion-heading>
                         <div>
