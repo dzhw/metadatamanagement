@@ -119,29 +119,24 @@
                   </div>
               </div>
               <br/>
+              <div ng-if="job.state === 'running'" layout="row" layout-sm="column" layout-align="space-around">
+                      <md-progress-linear ng-class="job.errors > 0 ? 'md-warn' : 'md-primary'" md-mode="indeterminate"></md-progress-linear>
+              </div>
                 <uib-accordion-group is-open="isOpen">
                     <uib-accordion-heading>
                       <div class="row">
                         <div class="col-md-2">
                           <span>{{'metadatamanagementApp.dataAcquisitionProject.detail.uploadprotocol' | translate}} </span>
                         </div>
-                        <div class="col-md-3">
-                          <span class="pull-right" data-translate="metadatamanagementApp.dataAcquisitionProject.detail.progress">Progress:</span>
-                        </div>
-                        <div class="col-md-4">
-                          <uib-progressbar value="uploadState.progress" max="uploadState.itemsToUpload" type="{{uploadState.getResult()}}" style="margin-bottom: 0px">{{uploadState.getProgressState()}}</uib-progressbar>
-                        </div>
-                        <div class="col-md-3">
-                          <span class="pull-right">
-                            <span class="label label-as-badge label-success">{{'metadatamanagementApp.dataAcquisitionProject.detail.success' | translate}}: {{uploadState.successes}}</span>
-                            <span class="label label-as-badge label-danger">{{'metadatamanagementApp.dataAcquisitionProject.detail.error' | translate}}: {{uploadState.errors}}</span>
+                        <div class="pull-right" class="col-md-10">
+                            <span class="label label-as-badge label-success">{{'metadatamanagementApp.dataAcquisitionProject.detail.success' | translate}}: {{job.successes || 0}}</span>
+                            <span class="label label-as-badge label-danger">{{'metadatamanagementApp.dataAcquisitionProject.detail.error' | translate}}: {{job.errors || 0}}</span>
                             <i class="glyphicon" ng-class="{'glyphicon-chevron-down': isOpen, 'glyphicon-chevron-right': !isOpen}"></i>
-                          </span>
                         </div>
                       </div>
                     </uib-accordion-heading>
                     <div>
-                      <pre><span ng-repeat="logMessage in uploadState.logMessages track by $index" ng-class="{'text-danger': logMessage.type==='error'}">{{logMessage.message}}</span></pre>
+                      <pre><span ng-repeat="logMessage in job.logMessages track by $index" ng-class="{'text-danger': logMessage.type==='error'}">{{logMessage.message}}</span></pre>
                     </div>
                 </uib-accordion-group>
               </uib-accordion>

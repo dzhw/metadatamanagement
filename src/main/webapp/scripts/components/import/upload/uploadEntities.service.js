@@ -2,29 +2,21 @@
 'use strict';
 
 angular.module('metadatamanagementApp').service('UploadEntities',
-function($translate, JobLog) {
+function(JobLog, $translate) {
   var upload = function(objects) {
-    JobLog.uploadState.disableButton = true;
     for (var i = 0; i < objects.length; i++) {
       if (!objects[i].id || objects[i].id === '') {
-        JobLog.uploadState.pushError($translate.instant(
-          'metadatamanagementApp.dataAcquisitionProject.' +
-          'detail.logMessages.' +
-          'missingId', {
-            index: i + 1
-          }));
-        JobLog.uploadState.progress++;
-        JobLog.uploadState.errors++;
-        JobLog.uploadState.checkState();
+        JobLog.error($translate.instant(
+            'metadatamanagementApp.dataAcquisitionProject.' +
+            'detail.logMessages.' +
+            'missingId', {
+              index: i + 1
+            }));
       } else {
         objects[i].$save().then(function() {
-        JobLog.uploadState.pushSuccess();
-        JobLog.uploadState.checkState();
+        JobLog.success('okk');
       }).catch(function(error) {
-        JobLog.uploadState.progress++;
-        JobLog.uploadState.errors++;
-        JobLog.uploadState.pushError(error);
-        JobLog.uploadState.checkState();
+        JobLog.error(error);
       });
       }
     }
