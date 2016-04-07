@@ -1,20 +1,28 @@
 /* global XLSX, FileReader */
 'use strict';
 
-angular.module('metadatamanagementApp').service('ExcelReader', function($q) {
+angular.module('metadatamanagementApp').service('ExcelReader', function($q,
+  JobLoggingService, $translate) {
   this.readFileAsync = function(file) {
     var deferred = $q.defer();
     var readExcel = function(data) {
-      var content = XLSX.read(data, {
+      var jsonContent = {};
+      try {
+        var content = XLSX.read(data, {
         type: 'binary'
       });
-      var sheetList = content.SheetNames;
-      var worksheet = content.Sheets[sheetList[0]];
-      // jscs:disable
-      var jsonContent = XLSX.utils.sheet_to_json(worksheet);
-      // jscs:enable
+        var sheetList = content.SheetNames;
+        var worksheet = content.Sheets[sheetList[0]];
+        // jscs:disable
+        jsonContent = XLSX.utils.sheet_to_json(worksheet);
+        // jscs:enable
+      }catch (e) {
+        console.log(e);
+        JobLoggingService.cancel($translate.instant(
+          'metadatamanagementApp.dataAcquisitionProject.detail.' +
+          'logMessages.unsupportedFile', {}));
+      }
       deferred.resolve(jsonContent);
-      console.log(jsonContent);
     };
     var fileReader = new FileReader();
     if (!FileReader.prototype.readAsBinaryString) {

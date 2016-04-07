@@ -14,7 +14,7 @@ function($q, $translate, DataSetsParser, DataSetDeleteResource,
     uploadState.hasFinished = false;
     uploadState.itemsToUpload = 0;
     uploadState.progress = 0;
-    uploadState.uploadedDomainObject = '';
+    uploadState.typeOfDomainObject = '';
     uploadState.disableButton = false;
     uploadState.logMessages = [{
             message: $translate.instant('metadatamanagementApp.' +
@@ -57,7 +57,7 @@ function($q, $translate, DataSetsParser, DataSetDeleteResource,
         uploadState.logMessages.push({
            message: $translate.instant('metadatamanagementApp' +
              '.dataAcquisitionProject.detail.' +
-             'logMessages.dataSetNotSaved', {
+             'logMessages.' + uploadState.typeOfDomainObject + 'NotSaved', {
                id: error.config.data.id
              }) + '\n',
            type: 'error'
@@ -134,7 +134,7 @@ function($q, $translate, DataSetsParser, DataSetDeleteResource,
             objects  = AtomicQuestionsParser.getAtomicQuestions(data,
               dataAcquisitionProjectId);
             uploadState.itemsToUpload = objects.length;
-            uploadState.uploadedDomainObject = 'atomicQuestions-uploaded';
+            uploadState.typeOfDomainObject = 'atomicQuestion';
             AtomicQuestionDeleteResource.deleteByDataAcquisitionProjectId({
                 dataAcquisitionProjectId: dataAcquisitionProjectId},
                 uploadObjects, function(error) {
@@ -157,7 +157,7 @@ function($q, $translate, DataSetsParser, DataSetDeleteResource,
             objects  = DataSetsParser.getDatasets(data,
               dataAcquisitionProjectId);
             uploadState.itemsToUpload = objects.length;
-            uploadState.uploadedDomainObject = 'dataSets-uploaded';
+            uploadState.typeOfDomainObject = 'dataSet';
             DataSetDeleteResource.deleteByDataAcquisitionProjectId({
                 dataAcquisitionProjectId: dataAcquisitionProjectId},
                 uploadObjects, function(error) {
@@ -180,7 +180,7 @@ function($q, $translate, DataSetsParser, DataSetDeleteResource,
             objects  = SurveysParser.getSurveys(data,
               dataAcquisitionProjectId);
             uploadState.itemsToUpload = objects.length;
-            uploadState.uploadedDomainObject = 'surveys-uploaded';
+            uploadState.typeOfDomainObject = 'survey';
             SurveyDeleteResource.deleteByDataAcquisitionProjectId({
                 dataAcquisitionProjectId: dataAcquisitionProjectId},
                 uploadObjects, function(error) {
@@ -204,7 +204,7 @@ function($q, $translate, DataSetsParser, DataSetDeleteResource,
                objects = VariablesParser.getVariables(files,
                  dataAcquisitionProjectId);
                uploadState.itemsToUpload = objects.length;
-               uploadState.uploadedDomainObject = 'variables-uploaded';
+               uploadState.typeOfDomainObject = 'variable';
                VariableDeleteResource.deleteByDataAcquisitionProjectId({
                      dataAcquisitionProjectId: dataAcquisitionProjectId},
                      uploadObjects, function(error) {

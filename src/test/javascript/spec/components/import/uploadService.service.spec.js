@@ -1,4 +1,4 @@
-/* global describe */
+/* global xdescribe */
 /* global beforeEach */
 /* global it */
 /* global inject */
@@ -8,7 +8,7 @@
 /* global  mockApis*/
 'use strict';
 
-describe('UploadService', function() {
+xdescribe('UploadService', function() {
   var UploadService;
   var CustomModal;
   var file;

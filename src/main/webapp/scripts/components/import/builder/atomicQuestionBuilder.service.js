@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('metadatamanagementApp').service('AtomicQuestionsParser',
+angular.module('metadatamanagementApp').service('AtomicQuestionBuilder',
 function(AtomicQuestion, ParserUtil) {
   var getAtomicQuestions = function(atomicQuestions, projectId) {
       var atomicQuestionsObjArray = [];

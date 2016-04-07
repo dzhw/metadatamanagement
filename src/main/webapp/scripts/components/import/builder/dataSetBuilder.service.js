@@ -1,9 +1,9 @@
 'use strict';
 
-angular.module('metadatamanagementApp').service('DataSetsParser',
+angular.module('metadatamanagementApp').service('DataSetBuilder',
 function(DataSet, ParserUtil) {
   var getDataSets = function(dataSets, projectId) {
-      var datasetsObjArray = [];
+      var dataSetsObjArray = [];
       for (var i = 0; i < dataSets.length; i++) {
         var data = dataSets[i];
         var dataSetObj = {
@@ -18,11 +18,11 @@ function(DataSet, ParserUtil) {
           };
         var cleanedDataSetObject = ParserUtil
             .removeEmptyJsonObjects(dataSetObj);
-        datasetsObjArray[i] = new DataSet(cleanedDataSetObject);
+        dataSetsObjArray[i] = new DataSet(cleanedDataSetObject);
       }
-      return datasetsObjArray;
+      return dataSetsObjArray;
     };
   return {
-      getDatasets: getDataSets
+      getDataSets: getDataSets
     };
 });

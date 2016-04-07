@@ -2,34 +2,33 @@
 
 angular.module('metadatamanagementApp')
   .controller('DataAcquisitionProjectDetailController',
-    function($scope, entity, UploadService) {
+    function($scope, entity, JobLoggingService, DataSetUploadService,
+      VariableUploadService, SurveyUploadService, AtomicQuestionUploadService) {
       $scope.dataAcquisitionProject = entity;
-      $scope.uploadState = UploadService.getUploadState;
-      $scope.uploadDataSets = function(file) {
-        UploadService.uploadDataSets(file,$scope.dataAcquisitionProject.id);
-      };
+      $scope.job = JobLoggingService.init();
       $scope.uploadSurveys = function(file) {
-        UploadService.uploadSurveys(file,$scope.dataAcquisitionProject.id);
+        JobLoggingService.start('survey');
+        SurveyUploadService
+        .uploadSurveys(file, $scope.dataAcquisitionProject.id);
       };
       $scope.uploadAtomicQuestions = function(file) {
-        UploadService.uploadAtomicQuestions(file,
-          $scope.dataAcquisitionProject.id);
+        JobLoggingService.start('atomicQuestion');
+        AtomicQuestionUploadService
+        .uploadAtomicQuestions(file, $scope.dataAcquisitionProject.id);
       };
       $scope.uploadVariables = function(file) {
-        UploadService.uploadVariables(file,$scope.dataAcquisitionProject.id);
+        JobLoggingService.start('variable');
+        VariableUploadService
+        .uploadVariables(file, $scope.dataAcquisitionProject.id);
       };
-      /*
-      JobLog, UploadDataSet
-      $scope.color = 'md-primary';
-      $scope.uploadModus = false;
       $scope.uploadDataSets = function(file) {
-        $scope.uploadModus = true;
-        JobLog.start('Test');
-        UploadDataSet.upload(file,$scope.dataAcquisitionProject.id);
-      };*/
-      $scope.$watch('uploadState.progress', function() {
-        if ($scope.uploadState.hasFinished) {
-          $scope.$broadcast($scope.uploadState.typeOfDomainObject +
+        JobLoggingService.start('dataSet');
+        DataSetUploadService.
+        uploadDataSets(file,$scope.dataAcquisitionProject.id);
+      };
+      $scope.$watch('job.state', function() {
+        if ($scope.job.state === 'finished') {
+          $scope.$broadcast($scope.job.id +
             '-list-uploaded');
         }
       });

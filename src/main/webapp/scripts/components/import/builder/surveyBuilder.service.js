@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('metadatamanagementApp').service('SurveysParser',
+angular.module('metadatamanagementApp').service('SurveyBuilder',
 function(Survey, ParserUtil) {
   var getSurveys = function(surveys, projectId) {
       var surveysObjArray = [];

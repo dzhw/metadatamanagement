@@ -30,12 +30,32 @@
         "error": "Fehler",
         "logMessages": {
           "intro": "Die folgenden Fehler traten beim letzten Upload auf:",
-          "dataSetNotSaved": "Datensatz mit FDZ-ID {{ id }} wurde nicht gespeichert!",
-          "surveyNotSaved": "Erhebung mit FDZ-ID {{ id }} wurde nicht gespeichert!",
-          "atomicQuestionNotSaved": "Atomare Frage mit FDZ-ID {{ id }} wurde nicht gespeichert!",
-          "variableNotSaved": "Variable mit FDZ-ID {{ id }} wurde nicht gespeichert!",
           "internalServerError": "Es ist ein interner Server Fehler aufgetreten.",
-          "missingId": "Der {{ index }}. Datensatz enthält keine FDZ-ID und wurde nicht gespeichert!"
+          "unsupportedFile": "Nicht unterstütztes Dateiformat",
+          "dataSet": {
+            "saved": "Datensatz mit FDZ-ID {{ id }} erfolgreich gespeichert!",
+            "notSaved": "Datensatz mit FDZ-ID {{ id }} wurde nicht gespeichert!",
+            "missingId": "Der {{ index }}. Datensatz enthält keine FDZ-ID und wurde nicht gespeichert!",
+            "uploadTerminated": "Upload von Datensätzen beendet!"
+          },
+          "survey": {
+            "saved": "Erhebung mit FDZ-ID {{ id }} erfolgreich gespeichert!",
+            "notSaved": "Erhebung mit FDZ-ID {{ id }} wurde nicht gespeichert!",
+            "missingId": "Die {{ index }}. Erhebung enthält keine FDZ-ID und wurde nicht gespeichert!",
+            "uploadTerminated": "Upload von Erhebungen beendet!"
+          },
+          "variable": {
+            "saved": "Variable mit FDZ-ID {{ id }} erfolgreich gespeichert!",
+            "notSaved": "Variable mit FDZ-ID {{ id }} wurde nicht gespeichert!",
+            "missingId": "Die {{ index }}. Variable enthält keine FDZ-ID und wurde nicht gespeichert!",
+            "uploadTerminated": "Upload von Variablen beendet!"
+          },
+          "atomicQuestion": {
+            "saved": "Atomare Frage mit FDZ-ID {{ id }} erfolgreich gespeichert!",
+            "notSaved": "Atomare Frage mit FDZ-ID {{ id }} wurde nicht gespeichert!",
+            "missingId": "Die {{ index }}. atomare Frage enthält keine FDZ-ID und wurde nicht gespeichert!",
+            "uploadTerminated": "Upload von atomaren Fragen beendet!"
+          }
         },
         "deleteMessages": {
           "deleteSurveys": "Sind Sie sicher dass, Sie alle Erhebungen innerhalb des Datenerhebungsprojekts mit FDZ-ID \"{{ id }}\" löschen möchten?",

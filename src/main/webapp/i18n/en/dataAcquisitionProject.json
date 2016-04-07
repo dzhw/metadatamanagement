@@ -30,12 +30,33 @@
         "error": "Error",
         "logMessages": {
           "intro": "Following errors occurred during the last upload:",
-          "dataSetNotSaved": "Dataset with RDC-ID {{ id }} has not been saved!",
-          "surveyNotSaved": "Survey with RDC-ID {{ id }} has not been saved!",
-          "atomicQuestionNotSaved": "Atomic Question with RDC-ID {{ id }} has not been saved!",
-          "variableNotSaved": "Variable with RDC-ID {{ id }} has not been saved!",
           "internalServerError": "An internal server error occurred.",
-          "missingId": "Dataset {{ index }} does not contain a RDC-ID and has not been saved!"
+          "unsupportedFile": "Unsupported file format",
+          "missingId": "Dataset {{ index }} does not contain a RDC-ID and has not been saved!",
+          "dataSet": {
+            "saved": "Dataset with RDC-ID {{ id }} was saved successfully!",
+            "notSaved": "Dataset with RDC-ID {{ id }} has not been saved!",
+            "missingId": "Dataset {{ index }} does not contain a RDC-ID and has not been saved!",
+            "uploadTerminated": "Datasets upload terminated!"
+          },
+          "survey": {
+            "saved": "Survey with RDC-ID {{ id }} was saved successfully!",
+            "notSaved": "Survey with RDC-ID {{ id }} has not been saved!",
+            "missingId": "Survey {{ index }} does not contain a RDC-ID and has not been saved!",
+            "uploadTerminated": "Surveys upload terminated!"
+          },
+          "variable": {
+            "saved": "Variable with RDC-ID {{ id }} was saved successfully!",
+            "notSaved": "Variable with RDC-ID {{ id }} has not been saved!",
+            "missingId": "Variable {{ index }} does not contain a RDC-ID and has not been saved!",
+            "uploadTerminated": "Variables upload terminated!"
+          },
+          "atomicQuestion": {
+            "saved": "Atomic Question with RDC-ID {{ id }} was saved successfully!",
+            "notSaved": "Atomic Question with RDC-ID {{ id }} has not been saved!",
+            "missingId": "Atomic Question {{ index }} does not contain a RDC-ID and has not been saved!",
+            "uploadTerminated": "Atomic Questions upload terminated!"
+          }
         },
         "deleteMessages": {
           "deleteSurveys": "Are you sure you want to delete all Surveys within DataAcquisitionProject with RDC-ID \"{{ id }}\"?",
