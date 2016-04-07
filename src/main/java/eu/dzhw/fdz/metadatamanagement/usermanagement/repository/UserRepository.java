@@ -1,6 +1,6 @@
 package eu.dzhw.fdz.metadatamanagement.usermanagement.repository;
 
-import java.time.ZonedDateTime;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -15,7 +15,7 @@ public interface UserRepository extends MongoRepository<User, String> {
 
   Optional<User> findOneByActivationKey(String activationKey);
 
-  List<User> findAllByActivatedIsFalseAndCreatedDateBefore(ZonedDateTime dateTime);
+  List<User> findAllByActivatedIsFalseAndCreatedDateBefore(LocalDateTime dateTime);
 
   Optional<User> findOneByResetKey(String resetKey);
 

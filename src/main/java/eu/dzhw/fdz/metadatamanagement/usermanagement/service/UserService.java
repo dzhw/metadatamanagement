@@ -1,6 +1,6 @@
 package eu.dzhw.fdz.metadatamanagement.usermanagement.service;
 
-import java.time.ZonedDateTime;
+import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
@@ -63,7 +63,7 @@ public class UserService {
 
     return userRepository.findOneByResetKey(key)
       .filter(user -> {
-        ZonedDateTime oneDayAgo = ZonedDateTime.now()
+        LocalDateTime oneDayAgo = LocalDateTime.now()
             .minusHours(24);
         return user.getResetDate()
           .isAfter(oneDayAgo);
@@ -85,7 +85,7 @@ public class UserService {
       .filter(user -> user.getActivated())
       .map(user -> {
         user.setResetKey(RandomUtil.generateResetKey());
-        user.setResetDate(ZonedDateTime.now());
+        user.setResetDate(LocalDateTime.now());
         userRepository.save(user);
         return user;
       });
@@ -194,7 +194,7 @@ public class UserService {
    */
   @Scheduled(cron = "0 0 1 * * ?")
   public void removeNotActivatedUsers() {
-    ZonedDateTime now = ZonedDateTime.now();
+    LocalDateTime now = LocalDateTime.now();
     List<User> users =
         userRepository.findAllByActivatedIsFalseAndCreatedDateBefore(now.minusDays(3));
     for (User user : users) {

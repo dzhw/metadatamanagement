@@ -1,7 +1,7 @@
 package eu.dzhw.fdz.metadatamanagement.usermanagement.domain;
 
 import java.io.Serializable;
-import java.time.ZonedDateTime;
+import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -16,7 +16,7 @@ import org.springframework.data.mongodb.core.mapping.Field;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
-import eu.dzhw.fdz.metadatamanagement.common.domain.AbstractAuditingEntity;
+import eu.dzhw.fdz.metadatamanagement.common.domain.AbstractRdcDomainObject;
 import net.karneim.pojobuilder.GeneratePojoBuilder;
 
 /**
@@ -24,7 +24,7 @@ import net.karneim.pojobuilder.GeneratePojoBuilder;
  */
 @Document(collection = "jhi_user")
 @GeneratePojoBuilder(intoPackage = "eu.dzhw.fdz.metadatamanagement.usermanagement.domain.builders")
-public class User extends AbstractAuditingEntity implements Serializable {
+public class User extends AbstractRdcDomainObject implements Serializable {
 
   private static final long serialVersionUID = 1L;
 
@@ -69,7 +69,7 @@ public class User extends AbstractAuditingEntity implements Serializable {
   private String resetKey;
 
   @Field("reset_date")
-  private ZonedDateTime resetDate = null;
+  private LocalDateTime resetDate = null;
 
   @JsonIgnore
   private Set<Authority> authorities = new HashSet<>();
@@ -146,11 +146,11 @@ public class User extends AbstractAuditingEntity implements Serializable {
     this.resetKey = resetKey;
   }
 
-  public ZonedDateTime getResetDate() {
+  public LocalDateTime getResetDate() {
     return resetDate;
   }
 
-  public void setResetDate(ZonedDateTime resetDate) {
+  public void setResetDate(LocalDateTime resetDate) {
     this.resetDate = resetDate;
   }
 

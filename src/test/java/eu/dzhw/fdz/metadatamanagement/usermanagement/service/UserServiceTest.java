@@ -4,7 +4,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
 
-import java.time.ZonedDateTime;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -20,7 +20,6 @@ import eu.dzhw.fdz.metadatamanagement.usermanagement.domain.User;
 import eu.dzhw.fdz.metadatamanagement.usermanagement.domain.builders.UserBuilder;
 import eu.dzhw.fdz.metadatamanagement.usermanagement.repository.UserRepository;
 import eu.dzhw.fdz.metadatamanagement.usermanagement.security.SecurityUtils;
-import eu.dzhw.fdz.metadatamanagement.usermanagement.service.UserService;
 import eu.dzhw.fdz.metadatamanagement.usermanagement.service.util.RandomUtil;
 
 /**
@@ -77,7 +76,7 @@ public class UserServiceTest extends AbstractTest {
     User user = userService.createUserInformation("johndoe", "johndoe", "John", "Doe",
         "john.doe@localhost", "en-US");
 
-    ZonedDateTime daysAgo = ZonedDateTime.now()
+    LocalDateTime daysAgo = LocalDateTime.now()
       .minusHours(25);
     String resetKey = RandomUtil.generateResetKey();
     user.setActivated(true);
@@ -98,7 +97,7 @@ public class UserServiceTest extends AbstractTest {
     User user = userService.createUserInformation("johndoe", "johndoe", "John", "Doe",
         "john.doe@localhost", "en-US");
 
-    ZonedDateTime daysAgo = ZonedDateTime.now()
+    LocalDateTime daysAgo = LocalDateTime.now()
       .minusHours(25);
     user.setActivated(true);
     user.setResetDate(daysAgo);
@@ -114,7 +113,7 @@ public class UserServiceTest extends AbstractTest {
     User user = userService.createUserInformation("johndoe", "johndoe", "John", "Doe",
         "john.doe@localhost", "en-US");
     String oldPassword = user.getPassword();
-    ZonedDateTime daysAgo = ZonedDateTime.now()
+    LocalDateTime daysAgo = LocalDateTime.now()
       .minusHours(2);
     String resetKey = RandomUtil.generateResetKey();
     user.setActivated(true);
@@ -136,7 +135,7 @@ public class UserServiceTest extends AbstractTest {
   @Test
   public void testFindNotActivatedUsersByCreationDateBefore() {
     // Arrange
-    ZonedDateTime now = ZonedDateTime.now();
+    LocalDateTime now = LocalDateTime.now();
     User user1 = new UserBuilder().withLogin("user1login")
       .withPassword(this.passwordEncoder.encode("User1Password"))
       .withCreatedDate(now.minusDays(4))
@@ -203,7 +202,7 @@ public class UserServiceTest extends AbstractTest {
   @Test
   public void testChangePassword() {
     // Arrange
-    ZonedDateTime now = ZonedDateTime.now();
+    LocalDateTime now = LocalDateTime.now();
     User user = new UserBuilder().withLogin("user1login")
       .withPassword(this.passwordEncoder.encode("User1Password"))
       .withCreatedDate(now.minusDays(4))

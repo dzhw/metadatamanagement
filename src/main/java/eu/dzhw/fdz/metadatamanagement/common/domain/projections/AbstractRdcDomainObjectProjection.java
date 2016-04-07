@@ -1,6 +1,6 @@
 package eu.dzhw.fdz.metadatamanagement.common.domain.projections;
 
-import java.time.ZonedDateTime;
+import java.time.LocalDateTime;
 
 /**
  * Projection used to expose all attributes (including ids and versions). Spring Data rest does not
@@ -17,9 +17,9 @@ public interface AbstractRdcDomainObjectProjection {
 
   String getCreatedBy();
 
-  ZonedDateTime getCreatedAt();
+  LocalDateTime getCreatedDate();
 
-  ZonedDateTime getLastModifiedAt();
+  LocalDateTime getLastModifiedDate();
 
   String getLastModifiedBy();
 }

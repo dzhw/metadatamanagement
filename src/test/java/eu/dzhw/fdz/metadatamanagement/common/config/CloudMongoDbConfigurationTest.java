@@ -17,14 +17,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.data.mongodb.MongoDbFactory;
 import org.springframework.data.mongodb.core.convert.CustomConversions;
-import org.springframework.data.mongodb.core.mapping.event.ValidatingMongoEventListener;
 import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 
 import com.mongodb.DB;
 import com.mongodb.Mongo;
 
 import eu.dzhw.fdz.metadatamanagement.AbstractTest;
-import eu.dzhw.fdz.metadatamanagement.common.config.CloudMongoDbConfiguration;
 import eu.dzhw.fdz.metadatamanagement.common.unittesthelper.util.UnitTestReflectionHelper;;
 
 /**
@@ -42,12 +40,9 @@ public class CloudMongoDbConfigurationTest extends AbstractTest {
     CloudMongoDbConfiguration cloudMongoDbConfiguration = new CloudMongoDbConfiguration();
 
     // Act
-    ValidatingMongoEventListener eventListener =
-        cloudMongoDbConfiguration.validatingMongoEventListener(validator);
     CustomConversions customConversions = cloudMongoDbConfiguration.customConversions();
 
     // Assert
-    assertThat(eventListener, not(nullValue()));
     assertThat(customConversions, not(nullValue()));
   }
 

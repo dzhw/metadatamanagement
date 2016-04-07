@@ -12,7 +12,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-import java.time.ZonedDateTime;
+import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Optional;
@@ -39,7 +39,6 @@ import eu.dzhw.fdz.metadatamanagement.mailmanagement.service.MailService;
 import eu.dzhw.fdz.metadatamanagement.usermanagement.domain.User;
 import eu.dzhw.fdz.metadatamanagement.usermanagement.repository.AuthorityRepository;
 import eu.dzhw.fdz.metadatamanagement.usermanagement.repository.UserRepository;
-import eu.dzhw.fdz.metadatamanagement.usermanagement.rest.AccountResource;
 import eu.dzhw.fdz.metadatamanagement.usermanagement.rest.dto.KeyAndPasswordDto;
 import eu.dzhw.fdz.metadatamanagement.usermanagement.rest.dto.UserDto;
 import eu.dzhw.fdz.metadatamanagement.usermanagement.security.AuthoritiesConstants;
@@ -245,7 +244,7 @@ public class AccountResourceTest extends AbstractTest {
     user.setActivationKey("testActivateTrue");
     user.setActivated(true);
     user.setResetKey("ActivationKey");
-    user.setResetDate(ZonedDateTime.now()
+    user.setResetDate(LocalDateTime.now()
       .minusHours(1L));
     this.userRepository.save(user);
 
@@ -273,7 +272,7 @@ public class AccountResourceTest extends AbstractTest {
     user.setActivationKey("testActivateTrue");
     user.setActivated(true);
     user.setResetKey("ActivationKey");
-    user.setResetDate(ZonedDateTime.now()
+    user.setResetDate(LocalDateTime.now()
       .minusHours(1L));
     this.userRepository.save(user);
 

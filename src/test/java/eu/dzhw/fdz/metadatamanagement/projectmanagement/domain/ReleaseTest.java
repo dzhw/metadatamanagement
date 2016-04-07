@@ -6,7 +6,7 @@ package eu.dzhw.fdz.metadatamanagement.projectmanagement.domain;
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertThat;
 
-import java.time.ZonedDateTime;
+import java.time.LocalDateTime;
 
 import org.junit.Test;
 
@@ -28,7 +28,7 @@ public class ReleaseTest {
         .withEn("A notice for the version 1.0.")
         .build())
       .withVersion("1.0")
-      .withDate(ZonedDateTime.now())
+      .withDate(LocalDateTime.now())
       .build();
 
     // Act

@@ -4,7 +4,7 @@
 package eu.dzhw.fdz.metadatamanagement.common.unittesthelper.util;
 
 import java.time.LocalDate;
-import java.time.ZonedDateTime;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -224,7 +224,7 @@ public class UnitTestCreateDomainObjectUtils {
         .withEn("A notice for the version 1.0.")
         .build())
       .withVersion("1.0")
-      .withDate(ZonedDateTime.now())
+      .withDate(LocalDateTime.now())
       .build();
   }
 

@@ -8,11 +8,10 @@ import static org.hamcrest.CoreMatchers.not;
 import static org.hamcrest.CoreMatchers.nullValue;
 import static org.junit.Assert.assertThat;
 
-import java.time.ZonedDateTime;
+import java.time.LocalDateTime;
 
 import org.junit.Test;
 
-import eu.dzhw.fdz.metadatamanagement.usermanagement.domain.User;
 import eu.dzhw.fdz.metadatamanagement.usermanagement.domain.builders.UserBuilder;
 
 /**
@@ -86,10 +85,10 @@ public class UserTests {
 
     // Act
     userFieldsFromAbstractAuditing.setCreatedBy("CreatedBy");
-    ZonedDateTime zonedDateTime = ZonedDateTime.now();
+    LocalDateTime zonedDateTime = LocalDateTime.now();
     userFieldsFromAbstractAuditing.setCreatedDate(zonedDateTime);
     userFieldsFromAbstractAuditing.setLastModifiedBy("lastModified");
-    ZonedDateTime lastEditDateTime = ZonedDateTime.now();
+    LocalDateTime lastEditDateTime = LocalDateTime.now();
     userFieldsFromAbstractAuditing.setLastModifiedDate(lastEditDateTime);
 
     // Assert

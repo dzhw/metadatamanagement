@@ -118,8 +118,8 @@ public class VariableResourceTest extends AbstractTest {
     // check that auditing attributes have been set
     mockMvc.perform(get(API_VARIABLES_URI + "/" + variable.getId()))
       .andExpect(status().isOk())
-      .andExpect(jsonPath("$.createdAt", not(isEmptyOrNullString())))
-      .andExpect(jsonPath("$.lastModifiedAt", not(isEmptyOrNullString())))
+      .andExpect(jsonPath("$.createdDate", not(isEmptyOrNullString())))
+      .andExpect(jsonPath("$.lastModifiedDate", not(isEmptyOrNullString())))
       .andExpect(jsonPath("$.createdBy", is("system")))
       .andExpect(jsonPath("$.lastModifiedBy", is("system")));
 
@@ -399,6 +399,9 @@ public class VariableResourceTest extends AbstractTest {
 
     Variable variable = UnitTestCreateDomainObjectUtils.buildVariable(project.getId(), survey.getId());
 
+    String variableJson = new String(TestUtil.convertObjectToJsonBytes(variable));
+    System.out.println(variableJson);
+    
     // create the variable with the given id
     mockMvc.perform(put(API_VARIABLES_URI + "/" + variable.getId())
       .content(TestUtil.convertObjectToJsonBytes(variable)))

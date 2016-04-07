@@ -1,6 +1,6 @@
 package eu.dzhw.fdz.metadatamanagement.projectmanagement.domain;
 
-import java.time.ZonedDateTime;
+import java.time.LocalDateTime;
 
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
@@ -36,7 +36,7 @@ public class Release {
   private String doi;
 
   @NotNull(message = "{error.release.date.notNull}")
-  private ZonedDateTime date;
+  private LocalDateTime date;
 
   @I18nStringSize(max = StringLengths.LARGE, message = "{error.release.notes.i18nStringSize}")
   private I18nString notes;
@@ -73,11 +73,11 @@ public class Release {
     this.doi = doi;
   }
 
-  public ZonedDateTime getDate() {
+  public LocalDateTime getDate() {
     return date;
   }
 
-  public void setDate(ZonedDateTime date) {
+  public void setDate(LocalDateTime date) {
     this.date = date;
   }
 

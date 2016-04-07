@@ -1,6 +1,6 @@
 package eu.dzhw.fdz.metadatamanagement.common.domain;
 
-import java.time.ZonedDateTime;
+import java.time.LocalDateTime;
 import java.util.Objects;
 
 import org.springframework.data.annotation.CreatedBy;
@@ -21,13 +21,13 @@ public abstract class AbstractRdcDomainObject {
   private Long version;
 
   @CreatedDate
-  private ZonedDateTime createdAt;
+  private LocalDateTime createdDate;
 
   @CreatedBy
   private String createdBy;
 
   @LastModifiedDate
-  private ZonedDateTime lastModifiedAt;
+  private LocalDateTime lastModifiedDate;
 
   @LastModifiedBy
   private String lastModifiedBy;
@@ -42,12 +42,12 @@ public abstract class AbstractRdcDomainObject {
     this.version = version;
   }
 
-  public ZonedDateTime getCreatedAt() {
-    return createdAt;
+  public LocalDateTime getCreatedDate() {
+    return createdDate;
   }
 
-  public void setCreatedAt(ZonedDateTime createdAt) {
-    this.createdAt = createdAt;
+  public void setCreatedDate(LocalDateTime createdDate) {
+    this.createdDate = createdDate;
   }
 
   public String getCreatedBy() {
@@ -58,12 +58,12 @@ public abstract class AbstractRdcDomainObject {
     this.createdBy = createdBy;
   }
 
-  public ZonedDateTime getLastModifiedAt() {
-    return lastModifiedAt;
+  public LocalDateTime getLastModifiedDate() {
+    return lastModifiedDate;
   }
 
-  public void setLastModifiedAt(ZonedDateTime lastModifiedAt) {
-    this.lastModifiedAt = lastModifiedAt;
+  public void setLastModifiedDate(LocalDateTime lastModifiedDate) {
+    this.lastModifiedDate = lastModifiedDate;
   }
 
   public String getLastModifiedBy() {
@@ -96,9 +96,9 @@ public abstract class AbstractRdcDomainObject {
     return MoreObjects.toStringHelper(this)
       .add("id", this.getId())
       .add("version", version)
-      .add("createdAt", createdAt)
+      .add("createdDate", createdDate)
       .add("createdBy", createdBy)
-      .add("lastModifiedAt", lastModifiedAt)
+      .add("lastModifiedDate", lastModifiedDate)
       .add("lastModifiedBy", lastModifiedBy)
       .toString();
   }

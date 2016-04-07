@@ -109,8 +109,8 @@ public class AtomicQuestionResourceTest extends AbstractTest {
     // check that auditing attributes have been set
     mockMvc.perform(get(API_ATOMICQUESTIONS_URI + "/" + atomicQuestion.getId()))
       .andExpect(status().isOk())
-      .andExpect(jsonPath("$.createdAt", not(isEmptyOrNullString())))
-      .andExpect(jsonPath("$.lastModifiedAt", not(isEmptyOrNullString())))
+      .andExpect(jsonPath("$.createdDate", not(isEmptyOrNullString())))
+      .andExpect(jsonPath("$.lastModifiedDate", not(isEmptyOrNullString())))
       .andExpect(jsonPath("$.createdBy", is("system")))
       .andExpect(jsonPath("$.lastModifiedBy", is("system")));
 
