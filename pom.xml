@@ -84,6 +84,11 @@
             <version>3.0.1</version>
         </dependency>
         <dependency>
+            <groupId>com.google.inject</groupId>
+            <artifactId>guice</artifactId>
+            <version>2.0</version>
+        </dependency>
+        <dependency>
             <groupId>com.h2database</groupId>
             <artifactId>h2</artifactId>
             <scope>test</scope>
@@ -639,8 +644,9 @@
                     <url>metadatamanagement.cfapps.io</url>
                     <buildpack>https://github.com/cloudfoundry/java-buildpack</buildpack>
                     <env>
-                        <SPRING_PROFILES_ACTIVE>prod</SPRING_PROFILES_ACTIVE>
+                        <SPRING_PROFILES_ACTIVE>prod,cloud</SPRING_PROFILES_ACTIVE>
                         <JAVA_OPTS>-Duser.timezone=Europe/Berlin</JAVA_OPTS>
+                        <JBP_CONFIG_SPRING_AUTO_RECONFIGURATION>{enabled: false}</JBP_CONFIG_SPRING_AUTO_RECONFIGURATION>
                     </env>
                     <services>
                         <service>

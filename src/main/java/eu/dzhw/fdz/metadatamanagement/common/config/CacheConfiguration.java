@@ -17,7 +17,7 @@ import org.springframework.context.annotation.Profile;
  */
 @Configuration
 @EnableCaching
-@AutoConfigureAfter(value = {MetricsConfiguration.class, DatabaseConfiguration.class})
+@AutoConfigureAfter(value = {MetricsConfiguration.class, MongoDbConfiguration.class})
 @Profile("!" + Constants.SPRING_PROFILE_FAST)
 public class CacheConfiguration {
 

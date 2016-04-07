@@ -20,9 +20,7 @@ spring:
             enabled: false
     data:
         mongodb:
-            host: localhost
-            port: 27017
-            database: metadatamanagement
+            uri: ${vcap.services.mongodb.credentials.uri}
     mail:
         host: ${vcap.services.email.credentials.hostname}
         port: 587
@@ -30,9 +28,6 @@ spring:
         password: ${vcap.services.email.credentials.password}
     thymeleaf:
         cache: true
-
-liquibase:
-    contexts: prod
 
 server:
     port: 8080
