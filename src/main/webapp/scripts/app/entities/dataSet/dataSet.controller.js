@@ -2,10 +2,10 @@
 
 angular.module('metadatamanagementApp')
   .controller('DataSetController', function($scope, $state, DataSetsCollection,
-    UploadService) {
+    TexUploadService, JobLoggingService) {
 
     $scope.dataSets = [];
-    $scope.uploadState = UploadService.getUploadState;
+    $scope.job = JobLoggingService.init();
     $scope.page = 1;
     $scope.loadAll = function() {
       DataSetsCollection.query({
@@ -18,7 +18,8 @@ angular.module('metadatamanagementApp')
     };
 
     $scope.uploadTexTemplate = function(file, dataSetId) {
-      UploadService.uploadTexTemplate(file, dataSetId);
+      JobLoggingService.start('tex');
+      TexUploadService.uploadTexTemplate(file, dataSetId);
     };
 
     $scope.loadAll();
