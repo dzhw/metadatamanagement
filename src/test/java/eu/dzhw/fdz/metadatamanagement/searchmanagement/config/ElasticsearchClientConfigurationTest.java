@@ -16,7 +16,6 @@ import org.springframework.test.util.ReflectionTestUtils;
 import eu.dzhw.fdz.metadatamanagement.common.config.Constants;
 import eu.dzhw.fdz.metadatamanagement.common.config.MetadataManagementProperties;
 import eu.dzhw.fdz.metadatamanagement.common.config.MetadataManagementProperties.ElasticsearchClient;
-import eu.dzhw.fdz.metadatamanagement.searchmanagement.config.ElasticsearchClientConfiguration;
 import io.searchbox.client.JestClient;
 
 /**
@@ -39,7 +38,7 @@ public class ElasticsearchClientConfigurationTest {
         metadataManagementProperties);
 
     Environment environment = Mockito.mock(Environment.class);
-    when(environment.acceptsProfiles(Constants.SPRING_PROFILE_CLOUD)).thenReturn(false);
+    when(environment.acceptsProfiles(Constants.SPRING_PROFILE_PRODUCTION)).thenReturn(false);
     // Act
     JestClient jestClient = clientConfiguration.jestClient(clientConfiguration.elasticSearchConnectionUrl(environment));
 

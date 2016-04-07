@@ -10,7 +10,6 @@ import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.cache.support.NoOpCacheManager;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Profile;
 
 /**
  * Configuration for a jvm wide cache. Currently not used.
@@ -18,7 +17,6 @@ import org.springframework.context.annotation.Profile;
 @Configuration
 @EnableCaching
 @AutoConfigureAfter(value = {MetricsConfiguration.class, MongoDbConfiguration.class})
-@Profile("!" + Constants.SPRING_PROFILE_FAST)
 public class CacheConfiguration {
 
   private final Logger log = LoggerFactory.getLogger(CacheConfiguration.class);

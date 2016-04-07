@@ -56,7 +56,7 @@ public class MongoDbConfiguration {
    * Switch off cloud service discovery in the cloud, since we use vcap
    * variables in application-prod.yml.
    */
-  @Profile(Constants.SPRING_PROFILE_CLOUD)
+  @Profile(Constants.SPRING_PROFILE_PRODUCTION)
   @Bean
   public Cloud cloud() {
     return new CloudFactory().getCloud();
@@ -86,7 +86,7 @@ public class MongoDbConfiguration {
    * Configure Mongeez for schema management.
    */
   @Bean
-  @Profile("!" + Constants.SPRING_PROFILE_CLOUD)
+  @Profile("!" + Constants.SPRING_PROFILE_PRODUCTION)
   public Mongeez mongeez() {
     log.debug("Configuring Mongeez");
     Mongeez mongeez = new Mongeez();

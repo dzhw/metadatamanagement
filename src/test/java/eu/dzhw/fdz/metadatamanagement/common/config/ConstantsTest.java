@@ -13,8 +13,6 @@ import java.lang.reflect.InvocationTargetException;
 
 import org.junit.Test;
 
-import eu.dzhw.fdz.metadatamanagement.common.config.Constants;
-
 /**
  * @author Daniel Katzberg
  *
@@ -34,10 +32,7 @@ public class ConstantsTest {
 
     // Assert
     assertThat(constants, not(nullValue()));
-    assertThat(Constants.SPRING_PROFILE_CLOUD, is("cloud"));
     assertThat(Constants.SPRING_PROFILE_DEVELOPMENT, is("dev"));
-    assertThat(Constants.SPRING_PROFILE_FAST, is("fast"));
-    assertThat(Constants.SPRING_PROFILE_HEROKU, is("heroku"));
     assertThat(Constants.SPRING_PROFILE_PRODUCTION, is("prod"));
     assertThat(Constants.SYSTEM_ACCOUNT, is("system"));
   }

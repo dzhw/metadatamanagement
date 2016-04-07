@@ -62,7 +62,7 @@ public class ElasticsearchClientConfiguration {
     String connectionUrl = metadataManagementProperties.getElasticsearchClient().getUrl();
 
     // use cloud connection url if available
-    if (environment.acceptsProfiles(Constants.SPRING_PROFILE_CLOUD)) {
+    if (environment.acceptsProfiles(Constants.SPRING_PROFILE_PRODUCTION)) {
       // Using jackson to parse VCAP_SERVICES
       HashMap result = new ObjectMapper().readValue(System.getenv("VCAP_SERVICES"), HashMap.class);
 
