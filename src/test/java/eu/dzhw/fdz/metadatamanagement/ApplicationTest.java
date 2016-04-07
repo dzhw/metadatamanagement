@@ -12,7 +12,6 @@ import org.junit.Test;
 import org.mockito.Mockito;
 import org.springframework.core.env.Environment;
 
-import eu.dzhw.fdz.metadatamanagement.Application;
 import eu.dzhw.fdz.metadatamanagement.common.config.Constants;
 import eu.dzhw.fdz.metadatamanagement.common.unittesthelper.util.UnitTestReflectionHelper;
 
@@ -63,43 +62,4 @@ public class ApplicationTest {
     assertThat(environment, not(nullValue()));
     assertThat(environment.getActiveProfiles().length, is(2));
   }
-  
-  @Test
-  public void testinitApplicationWithFastAndProdProfile() throws NoSuchFieldException,
-      SecurityException, IllegalArgumentException, IllegalAccessException, IOException {
-    // Arrange
-    Application application = new Application();
-    Environment environment = Mockito.mock(Environment.class);
-    String[] activeProfiles = {Constants.SPRING_PROFILE_FAST, Constants.SPRING_PROFILE_PRODUCTION};
-    when(environment.getActiveProfiles()).thenReturn(activeProfiles);
-    Field envField = UnitTestReflectionHelper.getDeclaredFieldForTestInvocation(application.getClass(), "env");
-    envField.set(application, environment);
-
-    // Act
-    application.initApplication();
-
-    // Assert 
-    assertThat(environment, not(nullValue()));
-    assertThat(environment.getActiveProfiles().length, is(2));
-  }
-  
-  @Test
-  public void testinitApplicationWithDevAndCloudProfile() throws NoSuchFieldException,
-      SecurityException, IllegalArgumentException, IllegalAccessException, IOException {
-    // Arrange
-    Application application = new Application();
-    Environment environment = Mockito.mock(Environment.class);
-    String[] activeProfiles = {Constants.SPRING_PROFILE_CLOUD, Constants.SPRING_PROFILE_DEVELOPMENT};
-    when(environment.getActiveProfiles()).thenReturn(activeProfiles);
-    Field envField = UnitTestReflectionHelper.getDeclaredFieldForTestInvocation(application.getClass(), "env");
-    envField.set(application, environment);
-
-    // Act
-    application.initApplication();
-
-    // Assert 
-    assertThat(environment, not(nullValue()));
-    assertThat(environment.getActiveProfiles().length, is(2));
-  }
-
 }
