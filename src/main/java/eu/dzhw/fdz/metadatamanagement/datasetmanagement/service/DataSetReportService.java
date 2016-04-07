@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.io.Writer;
 import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -22,6 +23,7 @@ import eu.dzhw.fdz.metadatamanagement.datasetmanagement.repository.DataSetReposi
 import eu.dzhw.fdz.metadatamanagement.filemanagement.service.FileService;
 import eu.dzhw.fdz.metadatamanagement.questionmanagement.domain.AtomicQuestion;
 import eu.dzhw.fdz.metadatamanagement.questionmanagement.repository.AtomicQuestionRepository;
+import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.Value;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.Variable;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.repository.VariableRepository;
 import freemarker.template.Configuration;
@@ -137,6 +139,24 @@ public class DataSetReportService {
     // Create Map for the template
     Map<String, Object> dataForTemplate = new HashMap<String, Object>();
 
+    // Create Information for the latex template.
+    dataForTemplate = this.createDataSetMap(dataForTemplate, dataSetId);
+    dataForTemplate = this.createVariableDependingMaps(dataForTemplate, dataSetId);
+
+    return dataForTemplate;
+  }
+
+  /**
+   * This is a "fluent" method for the Map with created Objects of the latex template. Added data
+   * set information to the map of objects for the template.
+   * 
+   * @param dataForTemplate The map for the template with all added objects before this method.
+   * @param dataSetId The id of the used data set; Root Element of the report.
+   * @return The map for the template as fluent result. Added some created elements within this
+   *         method.
+   */
+  private Map<String, Object> createDataSetMap(Map<String, Object> dataForTemplate,
+      String dataSetId) {
     // Get DataSet and check the valid result
     DataSet dataSet = this.dataSetRepository.findOne(dataSetId);
     if (dataSet == null) {
@@ -145,6 +165,27 @@ public class DataSetReportService {
     }
     dataForTemplate.put("dataSet", dataSet);
 
+    return dataForTemplate;
+  }
+
+  /**
+   * Fluent Method for creating Map Objects for the latex template. Creates the follow Maps:
+   * questions : Map with all question, which are connected by variables of a given data set (key is
+   * variable.atomicQuestionId) 
+   * isAMissingCounterMap: A map with counter, how many isAMissing Values a variable has 
+   *    (key is variable.id) 
+   * firstTenValues: The first ten isAMissing values for one tex template layout. 
+   *    (key is variable.id) 
+   * lastTenValues: The last ten isAMissing values for one tex template layout.
+   *    (key is variable.id)
+   * @param dataForTemplate The map for the template with all added objects before this method.
+   * @param dataSetId The id of the used data set; Root Element of the report.
+   * @return The map for the template as fluent result. Added some created elements within this
+   *     method.
+   */
+  private Map<String, Object> createVariableDependingMaps(Map<String, Object> dataForTemplate,
+      String dataSetId) {
+
     // Create a Map of Variables
     List<Variable> variables =
         this.variableRepository.findByDataSetIdsContaining(dataSetId);
@@ -152,21 +193,51 @@ public class DataSetReportService {
         Maps.uniqueIndex(variables, new VariableFunction());
     dataForTemplate.put("variables", variablesMap);
 
-    // Create a Map with Atomic Questions
+    // Create different information from the variable
+    Map<String, Integer> isAMissingCounterMap = new HashMap<>();
     Map<String, AtomicQuestion> questionsMap = new HashMap<>();
+    Map<String, List<Value>> firstTenValues = new HashMap<>();
+    Map<String, List<Value>> lastTenValues = new HashMap<>();
     for (Variable variable : variables) {
 
-      if (variable.getAtomicQuestionId() == null) {
-        continue;
+      // Create a Map with Atomic Questions
+      if (variable.getAtomicQuestionId() != null) {
+        AtomicQuestion atomicQuestion =
+            this.atomicQuestionRepository.findOne(variable.getAtomicQuestionId());
+        questionsMap.put(variable.getAtomicQuestionId(), atomicQuestion);
       }
 
-      AtomicQuestion atomicQuestion =
-          this.atomicQuestionRepository.findOne(variable.getAtomicQuestionId());
-      questionsMap.put(variable.getAtomicQuestionId(), atomicQuestion);
+      // count isA Missing for different table layouts (check for more as 20)
+      int counterisAMissing = 0;
+      List<Value> onlyIsAMissingValues = new ArrayList<>();
+      if (variable.getValues() != null && variable.getValues()
+          .size() > 0) {
+        for (Value value : variable.getValues()) {
+          if (value.getIsAMissing()) {
+            counterisAMissing++;
+            onlyIsAMissingValues.add(value);
+          }
+        }
+
+        // Create the first and last ten isAMissing Values to different list, if there are more than
+        // 20.
+        isAMissingCounterMap.put(variable.getId(), counterisAMissing);
+        if (counterisAMissing > 20) {
+          firstTenValues.put(variable.getId(), onlyIsAMissingValues.subList(0, 9));
+          lastTenValues.put(variable.getId(),
+              onlyIsAMissingValues.subList(counterisAMissing - 10, counterisAMissing - 1));
+        }
+      }
+
+
     }
     dataForTemplate.put("questions", questionsMap);
+    dataForTemplate.put("isAMissingCounterMap", isAMissingCounterMap);
+    dataForTemplate.put("firstTenValues", firstTenValues);
+    dataForTemplate.put("lastTenValues", lastTenValues);
 
     return dataForTemplate;
+
   }
 
   /**
