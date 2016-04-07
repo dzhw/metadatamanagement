@@ -9,8 +9,6 @@ import org.mongeez.Mongeez;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.autoconfigure.mongo.MongoProperties;
-import org.springframework.cloud.Cloud;
-import org.springframework.cloud.CloudFactory;
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -50,16 +48,6 @@ public class MongoDbConfiguration {
   public ValidatingMongoEventListener validatingMongoEventListener(
       LocalValidatorFactoryBean validator) {
     return new ValidatingMongoEventListener(validator);
-  }
-  
-  /**
-   * Switch off cloud service discovery in the cloud, since we use vcap
-   * variables in application-prod.yml.
-   */
-  @Profile(Constants.SPRING_PROFILE_PRODUCTION)
-  @Bean
-  public Cloud cloud() {
-    return new CloudFactory().getCloud();
   }
 
   /**
