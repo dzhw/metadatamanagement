@@ -640,6 +640,7 @@
                     <buildpack>https://github.com/cloudfoundry/java-buildpack</buildpack>
                     <env>
                         <SPRING_PROFILES_ACTIVE>prod</SPRING_PROFILES_ACTIVE>
+                        <JAVA_OPTS>-Duser.timezone=Europe/Berlin</JAVA_OPTS>
                     </env>
                     <services>
                         <service>

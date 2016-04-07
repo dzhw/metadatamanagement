@@ -8,6 +8,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.cloud.Cloud;
 import org.springframework.cloud.CloudFactory;
 import org.springframework.cloud.config.java.CloudServiceConnectionFactory;
+import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
@@ -15,7 +16,11 @@ import org.springframework.core.convert.converter.Converter;
 import org.springframework.dao.DataAccessException;
 import org.springframework.data.mongodb.MongoDbFactory;
 import org.springframework.data.mongodb.config.AbstractMongoConfiguration;
+import org.springframework.data.mongodb.config.EnableMongoAuditing;
 import org.springframework.data.mongodb.core.convert.CustomConversions;
+import org.springframework.data.mongodb.core.mapping.event.ValidatingMongoEventListener;
+import org.springframework.data.mongodb.repository.config.EnableMongoRepositories;
+import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 
 import com.mongodb.Mongo;
 
@@ -28,6 +33,8 @@ import eu.dzhw.fdz.metadatamanagement.usermanagement.repository.OAuth2Authentica
  *
  */
 @Configuration
+@EnableMongoRepositories("eu.dzhw.fdz.metadatamanagement.**.repository")
+@EnableMongoAuditing(auditorAwareRef = "springSecurityAuditorAware")
 @Profile(Constants.SPRING_PROFILE_CLOUD)
 public class CloudMongoDbConfiguration extends AbstractMongoConfiguration {
 
@@ -36,6 +43,25 @@ public class CloudMongoDbConfiguration extends AbstractMongoConfiguration {
   private MongoDbFactory mongoDbFactory;
 
   private Cloud cloud;
+
+  /**
+   * JHipster enabled validation on repository layer.
+   */
+  @Bean
+  public ValidatingMongoEventListener validatingMongoEventListener(
+      LocalValidatorFactoryBean validator) {
+    return new ValidatingMongoEventListener(validator);
+  }
+
+  /**
+   * We need to set springs standard message source for the JSR-303 validation errors.
+   */
+  @Bean
+  public LocalValidatorFactoryBean validator(MessageSource messageSource) {
+    LocalValidatorFactoryBean validator = new LocalValidatorFactoryBean();
+    validator.setValidationMessageSource(messageSource);
+    return validator;
+  }
 
   /**
    * Create a {@link Cloud} instance.
