@@ -18,6 +18,7 @@ function(Variable, ParserUtil) {
         id: jsonContent[i].id,
         accessWays: ParserUtil.getParsedArray(jsonContent[i].accessWays),
         dataAcquisitionProjectId: dataAcquisitionProjectId,
+        atomicQuestionId: jsonContent[i].atomicQuestionId,
         dataType: {
           en: jsonContent[i]['dataType.en'],
           de: jsonContent[i]['dataType.de']

@@ -20,6 +20,8 @@ import com.google.common.collect.Maps;
 import eu.dzhw.fdz.metadatamanagement.datasetmanagement.domain.DataSet;
 import eu.dzhw.fdz.metadatamanagement.datasetmanagement.repository.DataSetRepository;
 import eu.dzhw.fdz.metadatamanagement.filemanagement.service.FileService;
+import eu.dzhw.fdz.metadatamanagement.questionmanagement.domain.AtomicQuestion;
+import eu.dzhw.fdz.metadatamanagement.questionmanagement.repository.AtomicQuestionRepository;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.Variable;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.repository.VariableRepository;
 import freemarker.template.Configuration;
@@ -44,6 +46,9 @@ public class DataSetReportService {
 
   @Inject
   private VariableRepository variableRepository;
+
+  @Inject
+  private AtomicQuestionRepository atomicQuestionRepository;
 
   /**
    * The Escape Prefix handles the escaping of special latex signs within data information. This
@@ -146,6 +151,20 @@ public class DataSetReportService {
     Map<String, Variable> variablesMap =
         Maps.uniqueIndex(variables, new VariableFunction());
     dataForTemplate.put("variables", variablesMap);
+
+    // Create a Map with Atomic Questions
+    Map<String, AtomicQuestion> questionsMap = new HashMap<>();
+    for (Variable variable : variables) {
+
+      if (variable.getAtomicQuestionId() == null) {
+        continue;
+      }
+
+      AtomicQuestion atomicQuestion =
+          this.atomicQuestionRepository.findOne(variable.getAtomicQuestionId());
+      questionsMap.put(variable.getAtomicQuestionId(), atomicQuestion);
+    }
+    dataForTemplate.put("questions", questionsMap);
 
     return dataForTemplate;
   }
