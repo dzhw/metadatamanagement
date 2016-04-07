@@ -1,17 +1,11 @@
 package eu.dzhw.fdz.metadatamanagement.searchmanagement.config;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import javax.inject.Inject;
 
-import org.springframework.cloud.cloudfoundry.com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.env.Environment;
 
-import eu.dzhw.fdz.metadatamanagement.common.config.Constants;
 import eu.dzhw.fdz.metadatamanagement.common.config.MetadataManagementProperties;
 import io.searchbox.client.JestClient;
 import io.searchbox.client.JestClientFactory;
@@ -55,21 +49,10 @@ public class ElasticsearchClientConfiguration {
    * @return The connection url
    * @throws Exception if the connection params cannot be resolved from the environment in the cloud
    */
-
-  @SuppressWarnings("rawtypes")
   @Bean
   public String elasticSearchConnectionUrl(Environment environment) throws Exception {
     String connectionUrl = metadataManagementProperties.getElasticsearchClient().getUrl();
 
-    // use cloud connection url if available
-    if (environment.acceptsProfiles(Constants.SPRING_PROFILE_PRODUCTION)) {
-      // Using jackson to parse VCAP_SERVICES
-      HashMap result = new ObjectMapper().readValue(System.getenv("VCAP_SERVICES"), HashMap.class);
-
-      connectionUrl =
-          (String) ((Map) ((Map) ((List) result.get("searchly")).get(0)).get("credentials"))
-              .get("uri");
-    }
     return connectionUrl;
   }
 }

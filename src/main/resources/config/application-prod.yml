@@ -66,7 +66,7 @@ jhipster:
 
 metadatamanagement:
   elasticsearch-client:
-    url: http://localhost:9200
+    url: ${vcap.services.elasticsearch.credentials.sslUri}
     read-timeout: 60000
   elasticsearch-angular-client:
     apiVersion: _default
