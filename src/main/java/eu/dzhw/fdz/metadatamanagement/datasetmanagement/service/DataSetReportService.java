@@ -194,10 +194,10 @@ public class DataSetReportService {
     dataForTemplate.put("variables", variablesMap);
 
     // Create different information from the variable
-    Map<String, Integer> isAMissingCounterMap = new HashMap<>();
+    Map<String, Integer> isNotAMissingCounterMap = new HashMap<>();
     Map<String, AtomicQuestion> questionsMap = new HashMap<>();
-    Map<String, List<Value>> firstTenValues = new HashMap<>();
-    Map<String, List<Value>> lastTenValues = new HashMap<>();
+    Map<String, List<Value>> firstTenIsNotAMissingValues = new HashMap<>();
+    Map<String, List<Value>> lastTenIsNotAMissingValues = new HashMap<>();
     for (Variable variable : variables) {
 
       // Create a Map with Atomic Questions
@@ -208,33 +208,33 @@ public class DataSetReportService {
       }
 
       // count isA Missing for different table layouts (check for more as 20)
-      int counterisAMissing = 0;
-      List<Value> onlyIsAMissingValues = new ArrayList<>();
+      int counterisNotAMissing = 0;
+      List<Value> onlyIsNotAMissingValues = new ArrayList<>();
       if (variable.getValues() != null && variable.getValues()
           .size() > 0) {
         for (Value value : variable.getValues()) {
-          if (value.getIsAMissing()) {
-            counterisAMissing++;
-            onlyIsAMissingValues.add(value);
+          if (!value.getIsAMissing()) {
+            counterisNotAMissing++;
+            onlyIsNotAMissingValues.add(value);
           }
         }
 
         // Create the first and last ten isAMissing Values to different list, if there are more than
         // 20.
-        isAMissingCounterMap.put(variable.getId(), counterisAMissing);
-        if (counterisAMissing > 20) {
-          firstTenValues.put(variable.getId(), onlyIsAMissingValues.subList(0, 9));
-          lastTenValues.put(variable.getId(),
-              onlyIsAMissingValues.subList(counterisAMissing - 10, counterisAMissing - 1));
+        isNotAMissingCounterMap.put(variable.getId(), counterisNotAMissing);
+        if (counterisNotAMissing > 20) {
+          firstTenIsNotAMissingValues.put(variable.getId(), onlyIsNotAMissingValues.subList(0, 9));
+          lastTenIsNotAMissingValues.put(variable.getId(),
+              onlyIsNotAMissingValues.subList(counterisNotAMissing - 10, counterisNotAMissing - 1));
         }
       }
 
 
     }
     dataForTemplate.put("questions", questionsMap);
-    dataForTemplate.put("isAMissingCounterMap", isAMissingCounterMap);
-    dataForTemplate.put("firstTenValues", firstTenValues);
-    dataForTemplate.put("lastTenValues", lastTenValues);
+    dataForTemplate.put("isNotAMissingCounterMap", isNotAMissingCounterMap);
+    dataForTemplate.put("firstTenIsNotAMissingValues", firstTenIsNotAMissingValues);
+    dataForTemplate.put("lastTenIsNotAMissingValues", lastTenIsNotAMissingValues);
 
     return dataForTemplate;
 
