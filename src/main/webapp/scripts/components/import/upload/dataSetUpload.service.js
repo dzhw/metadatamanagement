@@ -64,9 +64,15 @@ function(CustomModal, ExcelReader, DataSetBuilder, DataSetDeleteResource,
                     });
               });
             }else {
-              JobLoggingService.cancel('canceld');
+              JobLoggingService.cancel($translate.instant(
+                'metadatamanagementApp.dataAcquisitionProject.detail.' +
+                'logMessages.dataSet.cancelled', {}));
             }
           });
+    }else {
+      JobLoggingService.cancel($translate.instant(
+        'metadatamanagementApp.dataAcquisitionProject.detail.' +
+        'logMessages.dataSet.cancelled', {}));
     }
   };
   return {

@@ -37,25 +37,34 @@
             "saved": "Dataset with RDC-ID {{ id }} was saved successfully!",
             "notSaved": "Dataset with RDC-ID {{ id }} has not been saved!",
             "missingId": "Dataset {{ index }} does not contain a RDC-ID and has not been saved!",
-            "uploadTerminated": "Datasets upload terminated!"
+            "uploadTerminated": "Datasets upload terminated!",
+            "cancelled": "Datasets upload cancelled!"
           },
           "survey": {
             "saved": "Survey with RDC-ID {{ id }} was saved successfully!",
             "notSaved": "Survey with RDC-ID {{ id }} has not been saved!",
             "missingId": "Survey {{ index }} does not contain a RDC-ID and has not been saved!",
-            "uploadTerminated": "Surveys upload terminated!"
+            "uploadTerminated": "Surveys upload terminated!",
+            "cancelled": "Surveys upload cancelled!"
           },
           "variable": {
             "saved": "Variable with RDC-ID {{ id }} was saved successfully!",
             "notSaved": "Variable with RDC-ID {{ id }} has not been saved!",
             "missingId": "Variable {{ index }} does not contain a RDC-ID and has not been saved!",
-            "uploadTerminated": "Variables upload terminated!"
+            "uploadTerminated": "Variables upload terminated!",
+            "cancelled": "Variables upload cancelled!"
           },
           "atomicQuestion": {
             "saved": "Atomic Question with RDC-ID {{ id }} was saved successfully!",
             "notSaved": "Atomic Question with RDC-ID {{ id }} has not been saved!",
             "missingId": "Atomic Question {{ index }} does not contain a RDC-ID and has not been saved!",
-            "uploadTerminated": "Atomic Questions upload terminated!"
+            "uploadTerminated": "Atomic Questions upload terminated!",
+            "cancelled": "Atomic Questions upload cancelled!"
+          },
+          "tex": {
+            "uploadTerminated": "Tex file upload terminated!",
+            "generated": "Tex file was created successfully!",
+            "cancelled": "Tex file creation cancelled!"
           }
         },
         "deleteMessages": {

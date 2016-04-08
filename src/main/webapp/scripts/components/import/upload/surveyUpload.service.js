@@ -64,9 +64,15 @@ function(CustomModal, ExcelReader, SurveyBuilder, SurveyDeleteResource,
                     });
               });
             }else {
-              JobLoggingService.cancel('canceld');
+              JobLoggingService.cancel($translate.instant(
+                'metadatamanagementApp.dataAcquisitionProject.detail.' +
+                'logMessages.survey.cancelled', {}));
             }
           });
+    }else {
+      JobLoggingService.cancel($translate.instant(
+        'metadatamanagementApp.dataAcquisitionProject.detail.' +
+        'logMessages.survey.cancelled', {}));
     }
   };
   return {

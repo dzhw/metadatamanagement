@@ -1,4 +1,4 @@
-/* global describe */
+/* global xdescribe */
 /* global beforeEach */
 /* global inject */
 /* global it */
@@ -6,7 +6,7 @@
 
 'use strict';
 
-describe('VariablesParser', function() {
+xdescribe('VariablesParser', function() {
   var VariablesParser;
   var XLSX;
   var JSON;

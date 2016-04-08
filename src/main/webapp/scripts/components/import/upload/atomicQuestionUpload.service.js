@@ -64,9 +64,15 @@ function(CustomModal, ExcelReader, AtomicQuestionBuilder,
                     });
               });
             }else {
-              JobLoggingService.cancel('canceld');
+              JobLoggingService.cancel($translate.instant(
+                'metadatamanagementApp.dataAcquisitionProject.detail.' +
+                'logMessages.atomicQuestion.cancelled', {}));
             }
           });
+    }else {
+      JobLoggingService.cancel($translate.instant(
+        'metadatamanagementApp.dataAcquisitionProject.detail.' +
+        'logMessages.atomicQuestion.cancelled', {}));
     }
   };
   return {

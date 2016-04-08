@@ -63,9 +63,15 @@ function(CustomModal, $translate, ZipReader, VariableBuilder,
                           upload(objects), function() {});
                    });
               }else {
-                JobLoggingService.cancel('canceld');
+                JobLoggingService.cancel($translate.instant(
+                  'metadatamanagementApp.dataAcquisitionProject.detail.' +
+                  'logMessages.variable.cancelled', {}));
               }
             });
+    }else {
+      JobLoggingService.cancel($translate.instant(
+        'metadatamanagementApp.dataAcquisitionProject.detail.' +
+        'logMessages.variable.cancelled', {}));
     }
   };
   return {
