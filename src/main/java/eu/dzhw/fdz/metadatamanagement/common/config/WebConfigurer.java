@@ -8,22 +8,15 @@ import javax.servlet.DispatcherType;
 import javax.servlet.FilterRegistration;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
-import javax.servlet.ServletRegistration;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.AutoConfigureAfter;
 import org.springframework.boot.context.embedded.ConfigurableEmbeddedServletContainer;
 import org.springframework.boot.context.embedded.EmbeddedServletContainerCustomizer;
 import org.springframework.boot.context.embedded.MimeMappings;
 import org.springframework.boot.context.embedded.ServletContextInitializer;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.env.Environment;
-
-import com.codahale.metrics.MetricRegistry;
-import com.codahale.metrics.servlet.InstrumentedFilter;
-import com.codahale.metrics.servlets.MetricsServlet;
 
 import eu.dzhw.fdz.metadatamanagement.common.rest.filter.CachingHttpHeadersFilter;
 import eu.dzhw.fdz.metadatamanagement.common.rest.filter.StaticResourcesProductionFilter;
@@ -32,7 +25,6 @@ import eu.dzhw.fdz.metadatamanagement.common.rest.filter.StaticResourcesProducti
  * Configuration of web application with Servlet 3.0 APIs.
  */
 @Configuration
-@AutoConfigureAfter(CacheConfiguration.class)
 public class WebConfigurer
     implements ServletContextInitializer, EmbeddedServletContainerCustomizer {
 
@@ -41,16 +33,12 @@ public class WebConfigurer
   @Inject
   private Environment env;
 
-  @Autowired(required = false)
-  private MetricRegistry metricRegistry;
-
   @Override
   public void onStartup(ServletContext servletContext) throws ServletException {
     log.info("Web application configuration, using profiles: {}",
         Arrays.toString(env.getActiveProfiles()));
     EnumSet<DispatcherType> disps =
         EnumSet.of(DispatcherType.REQUEST, DispatcherType.FORWARD, DispatcherType.ASYNC);
-    initMetrics(servletContext, disps);
     if (env.acceptsProfiles(Constants.SPRING_PROFILE_PRODUCTION)) {
       initCachingHttpHeadersFilter(servletContext, disps);
       initStaticResourcesProductionFilter(servletContext, disps);
@@ -122,29 +110,5 @@ public class WebConfigurer
     cachingHttpHeadersFilter.addMappingForUrlPatterns(disps, true, "/favicon.ico");
     cachingHttpHeadersFilter.addMappingForUrlPatterns(disps, true, "/i18n/*");
     cachingHttpHeadersFilter.setAsyncSupported(true);
-  }
-
-  /**
-   * Initializes Metrics.
-   */
-  private void initMetrics(ServletContext servletContext, EnumSet<DispatcherType> disps) {
-    log.debug("Initializing Metrics registries");
-    servletContext.setAttribute(InstrumentedFilter.REGISTRY_ATTRIBUTE, metricRegistry);
-    servletContext.setAttribute(MetricsServlet.METRICS_REGISTRY, metricRegistry);
-
-    log.debug("Registering Metrics Filter");
-    FilterRegistration.Dynamic metricsFilter =
-        servletContext.addFilter("webappMetricsFilter", new InstrumentedFilter());
-
-    metricsFilter.addMappingForUrlPatterns(disps, true, "/*");
-    metricsFilter.setAsyncSupported(true);
-
-    log.debug("Registering Metrics Servlet");
-    ServletRegistration.Dynamic metricsAdminServlet =
-        servletContext.addServlet("metricsServlet", new MetricsServlet());
-
-    metricsAdminServlet.addMapping("/metrics/metrics/*");
-    metricsAdminServlet.setAsyncSupported(true);
-    metricsAdminServlet.setLoadOnStartup(2);
   }
 }

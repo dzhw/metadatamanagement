@@ -77,7 +77,8 @@ public class SearchResource {
    * @return The search results
    */
   @RequestMapping(value = "/api/search/**/_search")
-  public ResponseEntity<String> home(@RequestBody String body, HttpMethod method,
+  @Timed
+  public ResponseEntity<String> search(@RequestBody String body, HttpMethod method,
       @RequestHeader MultiValueMap<String, String> headers, HttpServletRequest request)
           throws RestClientException, URISyntaxException {
     headers.remove("authorization");

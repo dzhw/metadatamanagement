@@ -17,22 +17,28 @@ angular.module('metadatamanagementApp').controller('MetricsController',
       };
       $scope.$watch('metrics', function(newValue) {
         $scope.servicesStats = {};
-        $scope.cachesStats = {};
-        angular.forEach(newValue.timers, function(value, key) {
-          if (key.indexOf('web.rest') !== -1 || key.indexOf('service') !== -1) {
-            $scope.servicesStats[key] = value;
+        angular.forEach(newValue, function(value, key) {
+          var serviceKey;
+          var valueKey;
+          if (key.indexOf('eu.dzhw.fdz.metadatamanagement.') !== -1 &&
+            key.indexOf('.snapshot.') !== -1) {
+            serviceKey = key.substring(0,key.indexOf('.snapshot.'))
+              .replace('eu.dzhw.fdz.metadatamanagement.','');
+            $scope.servicesStats[serviceKey] =
+              $scope.servicesStats[serviceKey] || {};
+            valueKey = key.substring(key.indexOf('.snapshot.'),key.length)
+              .replace('.snapshot.','');
+            $scope.servicesStats[serviceKey][valueKey] = value;
           }
-          if (key.indexOf('net.sf.ehcache.Cache') !== -1) {
-            // remove gets or puts
-            var index = key.lastIndexOf('.');
-            var newKey = key.substr(0, index);
-
-            // Keep the name of the domain
-            index = newKey.lastIndexOf('.');
-            $scope.cachesStats[newKey] = {
-              'name': newKey.substr(index + 1),
-              'value': value
-            };
+          if (key.indexOf('eu.dzhw.fdz.metadatamanagement.') !== -1 &&
+            key.indexOf('.snapshot.') === -1) {
+            serviceKey = key.substring(0,key.lastIndexOf('.'))
+              .replace('eu.dzhw.fdz.metadatamanagement.','');
+            $scope.servicesStats[serviceKey] =
+              $scope.servicesStats[serviceKey] || {};
+            valueKey = key.substring(key.lastIndexOf('.'),key.length)
+              .replace('.','');
+            $scope.servicesStats[serviceKey][valueKey] = value;
           }
         });
       });
