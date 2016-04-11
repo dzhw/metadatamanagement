@@ -90,6 +90,9 @@ public class Variable extends AbstractRdcDomainObject {
   @Valid
   private GenerationDetails generationDetails;
   
+  @Valid
+  private ValueSummary valueSummary;
+
 
   /* Foreign Keys */
   private String conceptId;  
@@ -116,31 +119,33 @@ public class Variable extends AbstractRdcDomainObject {
  
   /*
    * (non-Javadoc)
-   * @see eu.dzhw.fdz.metadatamanagement.domain.AbstractRdcDomainObjectWithProjectSurvey#toString()
+   * 
+   * @see eu.dzhw.fdz.metadatamanagement.common.domain.AbstractRdcDomainObject#toString()
    */
   @Override
   public String toString() {
     return MoreObjects.toStringHelper(this)
       .add("super", super.toString())
       .add("id", id)
-      .add("name", name)
       .add("dataType", dataType)
       .add("scaleLevel", scaleLevel)
+      .add("name", name)
       .add("label", label)
-      .add("values", values)
       .add("description", description)
       .add("accessWays", accessWays)
-      .add("filterDetails", filterDetails)
       .add("sameVariablesInPanel", sameVariablesInPanel)
-      .add("conceptId", conceptId)
+      .add("values", values)
+      .add("filterDetails", filterDetails)
       .add("statistics", statistics)
       .add("generationDetails", generationDetails)
+      .add("valueSummary", valueSummary)
+      .add("conceptId", conceptId)
       .add("atomicQuestionId", atomicQuestionId)
       .add("dataSetIds", dataSetIds)
+      .add("dataAcquisitionProjectId", dataAcquisitionProjectId)
+      .add("surveyIds", surveyIds)
       .toString();
   }
-
-
 
   /* GETTER / SETTER */
   public String getName() {
@@ -273,5 +278,13 @@ public class Variable extends AbstractRdcDomainObject {
 
   public void setSurveyIds(List<String> surveyIds) {
     this.surveyIds = surveyIds;
+  }
+
+  public ValueSummary getValueSummary() {
+    return valueSummary;
+  }
+
+  public void setValueSummary(ValueSummary valueSummary) {
+    this.valueSummary = valueSummary;
   }
 }
