@@ -62,6 +62,7 @@ public class DataSetReportService {
           + "?replace(\"#\", \"\\\\#\")?replace(\"$\", \"\\\\$\")"
           + "?replace(\"%\", \"\\\\%\")?replace(\"&\", \"\\\\&\")"
           + "?replace(\"^\", \"\\\\textasciicircum\")?replace(\"_\", \"\\\\_\")"
+          + "?replace(\">\", \"\\\\textgreater\")?replace(\"<\", \"\\\\textless\")"
           + "?replace(\"~\", \"\\\\textasciitilde\")>";
 
   /**
