@@ -47,8 +47,10 @@ public class DataSet extends AbstractRdcDomainObject {
   @NotEmpty(message = "{error.dataSet.dataAcquisitionProject.id.notEmpty}")
   private String dataAcquisitionProjectId;
 
+  @NotEmpty(message = "{error.dataSet.survey.ids.notEmpty}")
   private List<String> surveyIds;
   
+  @NotEmpty(message = "{error.dataSet.variable.ids.notEmpty}")
   private List<String> variableIds;
 
   /*

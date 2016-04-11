@@ -96,10 +96,12 @@ public class Variable extends AbstractRdcDomainObject {
 
   private String atomicQuestionId;
 
+  @NotEmpty(message = "{error.variable.dataSet.ids.notEmpty}")
   private List<String> dataSetIds;
 
   private String dataAcquisitionProjectId;
 
+  @NotEmpty(message = "{error.variable.survey.ids.notEmpty}")
   private List<String> surveyIds;
 
   /*

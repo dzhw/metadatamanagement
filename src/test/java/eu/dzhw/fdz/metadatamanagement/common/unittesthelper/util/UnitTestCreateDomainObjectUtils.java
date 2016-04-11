@@ -6,6 +6,7 @@ package eu.dzhw.fdz.metadatamanagement.common.unittesthelper.util;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import eu.dzhw.fdz.metadatamanagement.bibliographicalreferencemanagement.domain.BibliographicalReference;
@@ -75,6 +76,7 @@ public class UnitTestCreateDomainObjectUtils {
         .withEn("title")
         .build())
       .withQuestionnaireId("QuestionnaireId")
+      .withDataSetIds(Arrays.asList(projectId + "-ds1"))
       .build();
   }
 
@@ -84,11 +86,12 @@ public class UnitTestCreateDomainObjectUtils {
     variableIds.add("Id002");
     variableIds.add("Id003");
     List<String> surveyIds = new ArrayList<>();
-    variableIds.add(surveyId);
+    surveyIds.add(surveyId);
     return new DataSetBuilder().withSurveyIds(surveyIds)
       .withDataAcquisitionProjectId(projectId)
       .withId(projectId + "-ds1")
       .withVariableIds(variableIds)
+      .withSurveyIds(surveyIds)
       .withDescription(new I18nStringBuilder().withDe("De Beschreibung")
         .withEn("En Description")
         .build())
@@ -96,7 +99,7 @@ public class UnitTestCreateDomainObjectUtils {
   }
 
   public static AtomicQuestion buildAtomicQuestion(String projectId, String questionnaireId,
-      String variableId) {
+      String variableName) {
     return new AtomicQuestionBuilder().withCompositeQuestionName("CompositeQuestioName")
       .withDataAcquisitionProjectId(projectId)
       .withFootnote(new I18nStringBuilder().withDe("De Fussnote")
@@ -120,7 +123,7 @@ public class UnitTestCreateDomainObjectUtils {
       .withType(new I18nStringBuilder().withDe(AtomicQuestionTypes.OPEN.getDe())
           .withEn(AtomicQuestionTypes.OPEN.getEn())
           .build())
-      .withVariableId(variableId).withId(projectId + "-" + variableId)
+      .withVariableId(projectId + "-" + variableName).withId(projectId + "-" + variableName)
       .build();
   }
 
@@ -144,6 +147,7 @@ public class UnitTestCreateDomainObjectUtils {
       .withScaleLevel(ScaleLevels.CONTINOUS)
       .withDataAcquisitionProjectId(projectId)
       .withSurveyIds(surveyIds)
+      .withDataSetIds(Arrays.asList(projectId + "-ds1"))
       .withLabel(new I18nStringBuilder().withDe("label")
         .withEn("label")
         .build())

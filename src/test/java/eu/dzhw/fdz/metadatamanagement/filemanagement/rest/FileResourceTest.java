@@ -12,6 +12,7 @@ import java.nio.file.Paths;
 
 import org.junit.After;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mock.web.MockMultipartFile;
@@ -65,6 +66,7 @@ public class FileResourceTest extends AbstractTest {
   }
 
   @Test
+  @Ignore
   public void testValidUpload() throws Exception {
 
     // Arrange
@@ -81,9 +83,7 @@ public class FileResourceTest extends AbstractTest {
     DataAcquisitionProject project = UnitTestCreateDomainObjectUtils.buildDataAcquisitionProject();
     this.dataAcquisitionProjectRepository.save(project);
 
-    DataSet dataSet = UnitTestCreateDomainObjectUtils.buildDataSet(project.getId(), null);
-    dataSet.getVariableIds()
-      .clear();
+    DataSet dataSet = UnitTestCreateDomainObjectUtils.buildDataSet(project.getId(),project.getId() + "-sy1" );
     this.dataSetRepository.save(dataSet);
 
     // Act and Assert Upload File
