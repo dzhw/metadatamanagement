@@ -462,11 +462,14 @@ public class VariableResourceTest extends AbstractTest {
       .build();
     surveyRepository.save(survey);
 
+    List<String> surveyIds = new ArrayList<>();
+    surveyIds.add(survey.getId());
+    
     Variable variable = new VariableBuilder().withId("testVariable")
       .withDataType(DataTypes.NUMERIC)
       .withScaleLevel(ScaleLevels.CONTINOUS)
       .withDataAcquisitionProjectId(project.getId())
-      .withSurveyId(survey.getId())
+      .withSurveyIds(surveyIds)
       .withLabel(new I18nStringBuilder().withDe("label")
         .withEn("label")
         .build())

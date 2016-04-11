@@ -64,7 +64,7 @@ public class VariableSearchDao {
   public void index(Variable variable) {
     for (ElasticsearchIndices index : ElasticsearchIndices.values()) {
       VariableSearchDocument variableSearchDocument = 
-          new VariableSearchDocument(variable, getSurvey(variable), index);
+          new VariableSearchDocument(variable, getSurveys(variable), index);
       index(variableSearchDocument, index.getIndexName());
     }
   }
@@ -92,7 +92,7 @@ public class VariableSearchDao {
     }
     for (ElasticsearchIndices index : ElasticsearchIndices.values()) {
       index(variables.stream()
-          .map(variable -> new VariableSearchDocument(variable, getSurvey(variable), index))
+          .map(variable -> new VariableSearchDocument(variable, getSurveys(variable), index))
           .collect(Collectors.toList()), index.getIndexName());
     }
   }
@@ -112,12 +112,12 @@ public class VariableSearchDao {
     }
   }
   
-  private Survey getSurvey(Variable variable) {
-    Survey survey = null;
-    if (variable.getSurveyId() != null) {
-      survey = surveyRepository.findOne(variable.getSurveyId());
+  private Iterable<Survey> getSurveys(Variable variable) {
+    Iterable<Survey> surveys = null;
+    if (variable.getSurveyIds() != null) {
+      surveys = surveyRepository.findAll(variable.getSurveyIds());
     }
-    return survey;
+    return surveys;
   }
 
   /**

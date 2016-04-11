@@ -5,7 +5,7 @@ import java.util.List;
 import org.springframework.data.rest.core.config.Projection;
 
 import eu.dzhw.fdz.metadatamanagement.common.domain.I18nString;
-import eu.dzhw.fdz.metadatamanagement.common.domain.projections.AbstractRdcDomainObjectWithProjectSurveyProjection;
+import eu.dzhw.fdz.metadatamanagement.common.domain.projections.AbstractRdcDomainObjectProjection;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.FilterDetails;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.GenerationDetails;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.Statistics;
@@ -21,7 +21,7 @@ import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.Variable;
  */
 @Projection(name = "complete", types = Variable.class)
 public interface CompleteVariableProjection
-    extends AbstractRdcDomainObjectWithProjectSurveyProjection {
+    extends AbstractRdcDomainObjectProjection {
   
   /* Domain Object Attributes */
   I18nString getDataType();
@@ -55,5 +55,9 @@ public interface CompleteVariableProjection
   String getConceptId();
   
   String atomicQuestionId();
+  
+  String getDataAcquisitionProjectId();
+
+  List<String> getSurveyIds();
 
 }

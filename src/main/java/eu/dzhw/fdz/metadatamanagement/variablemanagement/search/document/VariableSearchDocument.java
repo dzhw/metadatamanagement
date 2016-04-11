@@ -1,5 +1,8 @@
 package eu.dzhw.fdz.metadatamanagement.variablemanagement.search.document;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import eu.dzhw.fdz.metadatamanagement.searchmanagement.service.ElasticsearchIndices;
 import eu.dzhw.fdz.metadatamanagement.surveymanagement.domain.Survey;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.Variable;
@@ -25,34 +28,38 @@ public class VariableSearchDocument {
 
   private String scaleLevel;
 
-  private String surveyTitle;
+  private List<String> surveyTitles;
 
   /**
    * Create the search document from the domain object depending on the language (index).
    */
-  public VariableSearchDocument(Variable variable, Survey survey, ElasticsearchIndices index) {
+  public VariableSearchDocument(Variable variable, Iterable<Survey> surveys,
+      ElasticsearchIndices index) {
     this.id = variable.getId();
     this.name = variable.getName();
     this.dataAcquisitionProjectId = variable.getDataAcquisitionProjectId();
     createLabel(variable, index);
     createScaleLevel(variable, index);
     createDataType(variable, index);
-    createSurveyTitle(survey, index);
+    createSurveyTitles(surveys, index);
   }
 
-  private void createSurveyTitle(Survey survey, ElasticsearchIndices index) {
-    if (survey != null) {
-      switch (index) {
-        case METADATA_DE:
-          surveyTitle = survey.getTitle()
-            .getDe();
-          break;
-        case METADATA_EN:
-          surveyTitle = survey.getTitle()
-            .getEn();
-          break;
-        default:
-          throw new RuntimeException("Unknown index:" + index);
+  private void createSurveyTitles(Iterable<Survey> surveys, ElasticsearchIndices index) {
+    if (surveys != null) {
+      surveyTitles = new ArrayList<String>();
+      for (Survey survey : surveys) {
+        switch (index) {
+          case METADATA_DE:
+            surveyTitles.add(survey.getTitle()
+                .getDe());
+            break;
+          case METADATA_EN:
+            surveyTitles.add(survey.getTitle()
+                .getEn());
+            break;
+          default:
+            throw new RuntimeException("Unknown index:" + index);
+        }
       }
     }
   }
@@ -155,11 +162,11 @@ public class VariableSearchDocument {
     this.scaleLevel = scaleLevel;
   }
 
-  public String getSurveyTitle() {
-    return surveyTitle;
+  public List<String> getSurveyTitles() {
+    return surveyTitles;
   }
 
-  public void setSurveyTitle(String surveyTitle) {
-    this.surveyTitle = surveyTitle;
+  public void setSurveyTitles(List<String> surveyTitles) {
+    this.surveyTitles = surveyTitles;
   }
 }

@@ -137,11 +137,13 @@ public class UnitTestCreateDomainObjectUtils {
     String name = "name";
 
     // Create Variable
+    List<String> surveyIds = new ArrayList<>();
+    surveyIds.add(surveyId);
     return new VariableBuilder().withId(projectId + "-" + name)
       .withDataType(DataTypes.NUMERIC)
       .withScaleLevel(ScaleLevels.CONTINOUS)
       .withDataAcquisitionProjectId(projectId)
-      .withSurveyId(surveyId)
+      .withSurveyIds(surveyIds)
       .withLabel(new I18nStringBuilder().withDe("label")
         .withEn("label")
         .build())

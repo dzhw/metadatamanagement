@@ -3,8 +3,12 @@
  */
 package eu.dzhw.fdz.metadatamanagement.variablemanagement.search.document;
 
+import static org.hamcrest.CoreMatchers.hasItem;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import org.junit.Test;
 
@@ -36,13 +40,16 @@ public class VariableSearchDocumentTest {
         new VariableSearchDocument(variable, null, ElasticsearchIndices.METADATA_EN);
 
     // Act
+    List<String> surveyTitles = new ArrayList<String>();
+    surveyTitles.add("SurveyTitleTest");
+    
     searchDocument.setId("idTest");
     searchDocument.setName("name");
     searchDocument.setDataAcquisitionProjectId("AnotherRDCID");
     searchDocument.setLabel("ALabelTest");
     searchDocument.setDataType("numeric");
     searchDocument.setScaleLevel("norminal");
-    searchDocument.setSurveyTitle("SurveyTitleTest");
+    searchDocument.setSurveyTitles(surveyTitles);
 
 
     // Assert
@@ -52,7 +59,7 @@ public class VariableSearchDocumentTest {
     assertThat(searchDocument.getLabel(), is("ALabelTest"));
     assertThat(searchDocument.getDataType(), is("numeric"));
     assertThat(searchDocument.getScaleLevel(), is("norminal"));
-    assertThat(searchDocument.getSurveyTitle(), is("SurveyTitleTest"));
+    assertThat(searchDocument.getSurveyTitles(), hasItem("SurveyTitleTest"));
 
   }
 
@@ -71,13 +78,16 @@ public class VariableSearchDocumentTest {
         new VariableSearchDocument(variable, null, ElasticsearchIndices.METADATA_DE);
 
     // Act
+    List<String> surveyTitles = new ArrayList<String>();
+    surveyTitles.add("SurveyTitleTest");
+    
     searchDocument.setId("idTest");
     searchDocument.setName("name");
     searchDocument.setDataAcquisitionProjectId("AnotherRDCID");
     searchDocument.setLabel("ALabelTest");
     searchDocument.setDataType("numeric");
     searchDocument.setScaleLevel("nominal");
-    searchDocument.setSurveyTitle("SurveyTitleTest");
+    searchDocument.setSurveyTitles(surveyTitles);
 
 
     // Assert
@@ -87,7 +97,7 @@ public class VariableSearchDocumentTest {
     assertThat(searchDocument.getLabel(), is("ALabelTest"));
     assertThat(searchDocument.getDataType(), is("numeric"));
     assertThat(searchDocument.getScaleLevel(), is("nominal"));
-    assertThat(searchDocument.getSurveyTitle(), is("SurveyTitleTest"));
+    assertThat(searchDocument.getSurveyTitles(), hasItem("SurveyTitleTest"));
 
   }
 

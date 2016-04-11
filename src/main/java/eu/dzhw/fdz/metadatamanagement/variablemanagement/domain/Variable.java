@@ -100,7 +100,7 @@ public class Variable extends AbstractRdcDomainObject {
 
   private String dataAcquisitionProjectId;
 
-  private String surveyId;
+  private List<String> surveyIds;
 
   /*
    * (non-Javadoc)
@@ -265,11 +265,11 @@ public class Variable extends AbstractRdcDomainObject {
     this.dataAcquisitionProjectId = dataAcquisitionProjectId;
   }
 
-  public String getSurveyId() {
-    return surveyId;
+  public List<String> getSurveyIds() {
+    return surveyIds;
   }
 
-  public void setSurveyId(String surveyId) {
-    this.surveyId = surveyId;
+  public void setSurveyIds(List<String> surveyIds) {
+    this.surveyIds = surveyIds;
   }
 }
