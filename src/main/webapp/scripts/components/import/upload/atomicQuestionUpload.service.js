@@ -4,7 +4,8 @@
 angular.module('metadatamanagementApp').service('AtomicQuestionUploadService',
 function(CustomModal, ExcelReader, AtomicQuestionBuilder,
   AtomicQuestionDeleteResource, $translate, JobLoggingService) {
-  var upload = function(objects) {
+  var objects;
+  var upload = function() {
     var itemsToUpload = objects.length;
     var j = 0;
     for (var i = 0; i < objects.length; i++) {
@@ -55,12 +56,12 @@ function(CustomModal, ExcelReader, AtomicQuestionBuilder,
           })).then(function(returnValue) {
             if (returnValue) {
               ExcelReader.readFileAsync(file).then(function(data) {
-                var objects  = AtomicQuestionBuilder.getAtomicQuestions(data,
+                objects  = AtomicQuestionBuilder.getAtomicQuestions(data,
                   dataAcquisitionProjectId);
                 AtomicQuestionDeleteResource.deleteByDataAcquisitionProjectId({
                     dataAcquisitionProjectId: dataAcquisitionProjectId},
-                    upload(objects), function() {
-                      //JobLog.error('Unknown Error');
+                    upload, function(error) {
+                      JobLoggingService.error(error);
                     });
               });
             }else {

@@ -4,7 +4,8 @@
 angular.module('metadatamanagementApp').service('VariableUploadService',
 function(CustomModal, $translate, ZipReader, VariableBuilder,
   VariableDeleteResource, JobLoggingService) {
-  var upload = function(objects) {
+  var objects;
+  var upload = function() {
     var itemsToUpload = objects.length;
     var j = 0;
     for (var i = 0; i < objects.length; i++) {
@@ -56,11 +57,13 @@ function(CustomModal, $translate, ZipReader, VariableBuilder,
               if (returnValue) {
                 ZipReader.readZipFileAsync(file)
                    .then(function(files) {
-                     var objects = VariableBuilder.getVariables(files,
-                       dataAcquisitionProjectId);
+                     objects = VariableBuilder.getVariables(files,
+                     dataAcquisitionProjectId);
                      VariableDeleteResource.deleteByDataAcquisitionProjectId({
                            dataAcquisitionProjectId: dataAcquisitionProjectId},
-                          upload(objects), function() {});
+                          upload, function(error) {
+                            JobLoggingService.error(error);
+                          });
                    });
               }else {
                 JobLoggingService.cancel($translate.instant(
