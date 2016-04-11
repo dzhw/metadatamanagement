@@ -19,6 +19,7 @@ import eu.dzhw.fdz.metadatamanagement.common.domain.I18nString;
 import eu.dzhw.fdz.metadatamanagement.common.domain.util.Patterns;
 import eu.dzhw.fdz.metadatamanagement.common.domain.validation.I18nStringSize;
 import eu.dzhw.fdz.metadatamanagement.common.domain.validation.StringLengths;
+import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.validation.NotNullValueSummaryIfValuesExist;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.validation.UniqueVariableNameInProject;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.validation.ValidAccessWays;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.validation.ValidDataType;
@@ -38,6 +39,7 @@ import net.karneim.pojobuilder.GeneratePojoBuilder;
 @CompoundIndex(def = "{name: 1, dataAcquisitionProjectId: 1}", unique = true)
 @ValidVariableIdName(message = "{error.variable.validVariableName}")
 @UniqueVariableNameInProject(message = "{error.variable.uniqueVariableNameInProject}")
+@NotNullValueSummaryIfValuesExist(message = "{error.variable.notNullValueSummaryIfValuesExist}")
 public class Variable extends AbstractRdcDomainObject {
 
   /* Domain Object listed attributes */

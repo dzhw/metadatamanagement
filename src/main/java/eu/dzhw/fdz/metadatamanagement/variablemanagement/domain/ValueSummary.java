@@ -4,12 +4,16 @@ import javax.validation.constraints.NotNull;
 
 import com.google.common.base.MoreObjects;
 
+import net.karneim.pojobuilder.GeneratePojoBuilder;
+
 /**
  * Domain object of the ValueSummary. Represent sums for all values of the variable.
  * 
- * @author dkatzberg
+ * @author Daniel Katzberg
  *
  */
+@GeneratePojoBuilder(
+    intoPackage = "eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.builders")
 public class ValueSummary {
 
   @NotNull(message = "{error.valueSummary.totalAbsoluteFrequency.notNull}")

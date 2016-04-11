@@ -37,11 +37,13 @@ import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.RuleExpressionLa
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.ScaleLevels;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.Statistics;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.Value;
+import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.ValueSummary;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.Variable;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.builders.FilterDetailsBuilder;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.builders.GenerationDetailsBuilder;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.builders.StatisticsBuilder;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.builders.ValueBuilder;
+import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.builders.ValueSummaryBuilder;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.builders.VariableBuilder;
 
 /**
@@ -167,6 +169,7 @@ public class UnitTestCreateDomainObjectUtils {
       .withConceptId("ConceptId001")
       .withStatistics(buildStatistics())
       .withGenerationDetails(buildGenerationDetails())
+      .withValueSummary(buildValueSummary())
       .build();
   }
 
@@ -268,6 +271,13 @@ public class UnitTestCreateDomainObjectUtils {
         .withFilterExpression("A Filter Expression")
         .withFilterExpressionLanguage(FilterExpressionLanguages.STATA)
         .build();
+  }
+
+  public static ValueSummary buildValueSummary() {
+    return new ValueSummaryBuilder().withTotalAbsoluteFrequency(1234)
+      .withTotalValidAbsoluteFrequency(1100)
+      .withTotalValidRelativeFrequency(75.74)
+      .build();
   }
 
 }
