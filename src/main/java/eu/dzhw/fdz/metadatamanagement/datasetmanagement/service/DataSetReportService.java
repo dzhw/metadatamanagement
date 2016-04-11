@@ -57,13 +57,13 @@ public class DataSetReportService {
    * Prefix will be copied before the template source code.
    */
   public static final String ESCAPE_PREFIX =
-      "<#escape x as x?replace(\"\\\\\", \"\\\\textbackslash\")"
+      "<#escape x as x?replace(\"\\\\\", \"\\\\textbackslash{}\")"
           + "?replace(\"{\", \"\\\\{\")?replace(\"}\", \"\\\\}\")"
           + "?replace(\"#\", \"\\\\#\")?replace(\"$\", \"\\\\$\")"
           + "?replace(\"%\", \"\\\\%\")?replace(\"&\", \"\\\\&\")"
-          + "?replace(\"^\", \"\\\\textasciicircum\")?replace(\"_\", \"\\\\_\")"
-          + "?replace(\">\", \"\\\\textgreater\")?replace(\"<\", \"\\\\textless\")"
-          + "?replace(\"~\", \"\\\\textasciitilde\")>";
+          + "?replace(\"^\", \"\\\\textasciicircum{}\")?replace(\"_\", \"\\\\_\")"
+          + "?replace(\">\", \"\\\\textgreater{}\")?replace(\"<\", \"\\\\textless{}\")"
+          + "?replace(\"~\", \"\\\\textasciitilde{}\")>";
 
   /**
    * The Escape Suffix closes the escaping prefix. This Prefix will be copied after the template
