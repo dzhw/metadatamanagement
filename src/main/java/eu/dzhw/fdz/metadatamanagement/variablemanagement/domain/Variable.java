@@ -19,6 +19,7 @@ import eu.dzhw.fdz.metadatamanagement.common.domain.I18nString;
 import eu.dzhw.fdz.metadatamanagement.common.domain.util.Patterns;
 import eu.dzhw.fdz.metadatamanagement.common.domain.validation.I18nStringSize;
 import eu.dzhw.fdz.metadatamanagement.common.domain.validation.StringLengths;
+import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.validation.MandatoryScaleLevel;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.validation.NotNullValueSummaryIfValuesExist;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.validation.UniqueVariableNameInProject;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.validation.ValidAccessWays;
@@ -40,6 +41,7 @@ import net.karneim.pojobuilder.GeneratePojoBuilder;
 @ValidVariableIdName(message = "{error.variable.validVariableName}")
 @UniqueVariableNameInProject(message = "{error.variable.uniqueVariableNameInProject}")
 @NotNullValueSummaryIfValuesExist(message = "{error.variable.notNullValueSummaryIfValuesExist}")
+@MandatoryScaleLevel(message = "{error.variable.mandatoryScaleLevel}")
 public class Variable extends AbstractRdcDomainObject {
 
   /* Domain Object listed attributes */
@@ -54,7 +56,6 @@ public class Variable extends AbstractRdcDomainObject {
   @ValidDataType(message = "{error.variable.dataType.validDataType}")
   private I18nString dataType;
 
-  @NotNull(message = "{error.variable.scaleLevel.notNull}")
   @ValidScaleLevel(message = "{error.variable.scaleLevel.validScaleLevel}")
   private I18nString scaleLevel;
   
