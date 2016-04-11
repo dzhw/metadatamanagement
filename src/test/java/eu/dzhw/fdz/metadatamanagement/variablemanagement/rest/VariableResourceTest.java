@@ -27,6 +27,7 @@ import org.springframework.web.context.WebApplicationContext;
 import com.google.gson.JsonSyntaxException;
 
 import eu.dzhw.fdz.metadatamanagement.AbstractTest;
+import eu.dzhw.fdz.metadatamanagement.common.domain.I18nString;
 import eu.dzhw.fdz.metadatamanagement.common.domain.builders.I18nStringBuilder;
 import eu.dzhw.fdz.metadatamanagement.common.rest.TestUtil;
 import eu.dzhw.fdz.metadatamanagement.common.unittesthelper.util.UnitTestCreateDomainObjectUtils;
@@ -164,6 +165,35 @@ public class VariableResourceTest extends AbstractTest {
     mockMvc.perform(put(API_VARIABLES_URI + "/" + variable.getId())
       .content(TestUtil.convertObjectToJsonBytes(variable)))
       .andExpect(status().isBadRequest());
+  }
+  
+  @Test
+  public void testCreateVariableWithoutLabel() throws Exception {
+    DataAcquisitionProject project = new DataAcquisitionProjectBuilder().withId("testProject")
+      .withSurveySeries(new I18nStringBuilder().build())
+      .withPanelName(new I18nStringBuilder().build())
+      .build();
+    dataAcquisitionProjectRepository.save(project);
+
+    Survey survey = UnitTestCreateDomainObjectUtils.buildSurvey(project.getId());
+    surveyRepository.save(survey);
+
+    Variable variable =
+        UnitTestCreateDomainObjectUtils.buildVariable(project.getId(), survey.getId());
+    variable.setLabel(null);
+
+    // create the variable with a null label
+    mockMvc.perform(put(API_VARIABLES_URI + "/" + variable.getId())
+      .content(TestUtil.convertObjectToJsonBytes(variable)))
+      .andExpect(status().isBadRequest());
+    
+    variable.setLabel(new I18nString());
+    
+    // create the variable with an empty label
+    mockMvc.perform(put(API_VARIABLES_URI + "/" + variable.getId())
+      .content(TestUtil.convertObjectToJsonBytes(variable)))
+      .andExpect(status().isBadRequest())
+      .andExpect(jsonPath("$.errors[0].message", containsString("At least an english")));
   }
 
   @Test
