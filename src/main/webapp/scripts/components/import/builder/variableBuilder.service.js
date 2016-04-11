@@ -94,6 +94,7 @@ function(Variable, ParserUtil, JobLoggingService) {
       console.log(e);
       JobLoggingService.cancel('' + e, {});
     }
+
     console.log(variablesObjArray);
     return variablesObjArray;
   };
