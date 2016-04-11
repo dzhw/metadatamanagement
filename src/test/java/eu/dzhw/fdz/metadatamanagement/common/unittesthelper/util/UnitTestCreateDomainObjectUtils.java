@@ -217,6 +217,7 @@ public class UnitTestCreateDomainObjectUtils {
         .withEn("En Lable")
         .build())
       .withRelativeFrequency(43.78)
+      .withValidRelativeFrequency(75.45)
       .build();
   }
 

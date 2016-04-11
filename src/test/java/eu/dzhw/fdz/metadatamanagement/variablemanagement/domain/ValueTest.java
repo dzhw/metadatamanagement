@@ -60,7 +60,7 @@ public class ValueTest {
 
     // Assert
     assertThat(toString, is(
-        "Value{code=1234, label=I18nString{de='german', en='english'}, absoluteFrequency=123, relativeFrequency=25.15, isAMissing=false, valueClass=Any Class}"));
+        "Value{code=1234, label=I18nString{de='german', en='english'}, absoluteFrequency=123, relativeFrequency=25.15, isAMissing=false, valueClass=Any Class, validRelativeFrequency=null}"));
 
   }
 

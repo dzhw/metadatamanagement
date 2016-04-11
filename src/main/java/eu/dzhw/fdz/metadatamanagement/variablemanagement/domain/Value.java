@@ -39,6 +39,9 @@ public class Value {
   @Size(max = StringLengths.SMALL, message = "{error.value.valueClass.size}")
   private String valueClass;
 
+  @NotNull(message = "{error.value.validRelativeFrequency.notNull}")
+  private Double validRelativeFrequency;
+
   /*
    * (non-Javadoc)
    * 
@@ -53,6 +56,7 @@ public class Value {
       .add("relativeFrequency", relativeFrequency)
       .add("isAMissing", isAMissing)
       .add("valueClass", valueClass)
+      .add("validRelativeFrequency", validRelativeFrequency)
       .toString();
   }
 
@@ -109,5 +113,11 @@ public class Value {
     this.isAMissing = isAMissing;
   }
 
+  public Double getValidRelativeFrequency() {
+    return validRelativeFrequency;
+  }
 
+  public void setValidRelativeFrequency(Double validRelativeFrequency) {
+    this.validRelativeFrequency = validRelativeFrequency;
+  }
 }
