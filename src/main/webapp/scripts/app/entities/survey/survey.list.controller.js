@@ -5,6 +5,7 @@ angular.module('metadatamanagementApp')
       var init = function() {
         $scope.pageState = {
           currentPageNumber: 1,
+          maxSize: 5,
           totalElements: 0
         };
         $scope.pageChanged();
