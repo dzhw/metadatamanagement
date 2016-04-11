@@ -78,6 +78,14 @@ function(Variable, ParserUtil, JobLoggingService) {
         surveyIds: ParserUtil.getParsedArray(jsonContent[i].surveyIds),
         conceptId: jsonContent[i].conceptId,
         dataSetIds: ParserUtil.getParsedArray(jsonContent[i].dataSetIds),
+        valueSummary: {
+          totalAbsoluteFrequency:
+          jsonContent[i]['valueSummary.totalAbsoluteFrequency'],
+          totalValidAbsoluteFrequency:
+          jsonContent[i]['valueSummary.totalValidAbsoluteFrequency'],
+          totalValidRelativeFrequency:
+          jsonContent[i]['valueSummary.totalValidRelativeFrequency']
+        }
       };
         ParserUtil.removeEmptyJsonObjects(variableObj);
         variablesObjArray.push(new Variable(variableObj));
