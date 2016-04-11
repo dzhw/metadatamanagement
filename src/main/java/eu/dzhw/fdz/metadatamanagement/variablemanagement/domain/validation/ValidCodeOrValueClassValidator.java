@@ -9,7 +9,7 @@ import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.Value;
  * A validation checks, that only a valueClass or code is set by a user. One of the fields must be
  * set, but both are not allowed at the same time.
  * 
- * @author dkatzberg
+ * @author Daniel Katzberg
  *
  */
 public class ValidCodeOrValueClassValidator

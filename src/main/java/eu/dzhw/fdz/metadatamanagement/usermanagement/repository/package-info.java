@@ -1,7 +1,7 @@
 /**
  * Repository for the user management.
  * 
- * @author dkatzberg
+ * @author Daniel Katzberg
  *
  */
 package eu.dzhw.fdz.metadatamanagement.usermanagement.repository;

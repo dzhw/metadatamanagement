@@ -1,7 +1,7 @@
 /**
  * Projections for the bibliographical reference management.
  * 
- * @author dkatzberg
+ * @author Daniel Katzberg
  *
  */
 package eu.dzhw.fdz.metadatamanagement.bibliographicalreferencemanagement.domain.projections;

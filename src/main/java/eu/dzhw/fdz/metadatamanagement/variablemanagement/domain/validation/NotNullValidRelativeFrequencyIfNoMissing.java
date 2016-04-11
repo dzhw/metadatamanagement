@@ -10,23 +10,23 @@ import javax.validation.Constraint;
 import javax.validation.Payload;
 
 /**
- * This is the annotation for the validation that only a valueClass or code is set by a user. One of
- * the fields must be set, but both are not allowed at the same time.
+ * Annotation for the Validation for Value. If the value is no missing, the relative frequency is
+ * mandatory.
  * 
  * @author Daniel Katzberg
  *
  */
 @Documented
-@Constraint(validatedBy = {ValidCodeOrValueClassValidator.class})
+@Constraint(validatedBy = {NotNullValidRelativeFrequencyIfNoMissingValidator.class})
 @Target({ElementType.TYPE})
 @Retention(RetentionPolicy.RUNTIME)
-public @interface ValidCodeOrValueClass {
+public @interface NotNullValidRelativeFrequencyIfNoMissing {
 
   /**
    * Defines the default error message.
    */
-  public abstract String message() default "{eu.dzhw.fdz.metadatamanagement.domain.validation."
-      + "validcodeorvalueclass.message}";
+  public abstract String message() default "{eu.dzhw.fdz.metadatamanagement.variablemanagement"
+      + "domain.validation.mandatoryScaleLevel.message}";
 
   /**
    * This contains groups.

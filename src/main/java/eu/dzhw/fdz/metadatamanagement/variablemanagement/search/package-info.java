@@ -1,7 +1,7 @@
 /**
  * All classes for the search of variables.
  * 
- * @author dkatzberg
+ * @author Daniel Katzberg
  *
  */
 package eu.dzhw.fdz.metadatamanagement.variablemanagement.search;

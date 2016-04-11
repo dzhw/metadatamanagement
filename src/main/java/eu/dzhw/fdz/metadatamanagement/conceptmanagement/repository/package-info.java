@@ -1,7 +1,7 @@
 /**
  * Repository for the concept management.
  * 
- * @author dkatzberg
+ * @author Daniel Katzberg
  *
  */
 package eu.dzhw.fdz.metadatamanagement.conceptmanagement.repository;

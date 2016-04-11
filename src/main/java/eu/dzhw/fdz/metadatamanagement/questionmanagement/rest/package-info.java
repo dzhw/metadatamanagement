@@ -1,7 +1,7 @@
 /**
  * Spring MVC REST Controller for the question management.
  * 
- * @author dkatzberg
+ * @author Daniel Katzberg
  *
  */
 package eu.dzhw.fdz.metadatamanagement.questionmanagement.rest;

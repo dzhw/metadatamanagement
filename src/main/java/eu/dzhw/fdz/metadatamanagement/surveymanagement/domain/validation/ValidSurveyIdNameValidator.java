@@ -9,7 +9,7 @@ import eu.dzhw.fdz.metadatamanagement.surveymanagement.domain.Survey;
  * Validates the name of a id. The pattern is: DataAcquisitionProjectId-sy{Number}. This validator
  * validates the complete name.
  * 
- * @author dkatzberg
+ * @author Daniel Katzberg
  *
  */
 public class ValidSurveyIdNameValidator implements ConstraintValidator<ValidSurveyIdName, Survey> {

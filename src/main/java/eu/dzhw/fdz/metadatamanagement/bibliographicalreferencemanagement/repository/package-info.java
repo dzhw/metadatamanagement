@@ -1,7 +1,7 @@
 /**
  * Repositories for bibliographical reference management.
  * 
- * @author dkatzberg
+ * @author Daniel Katzberg
  *
  */
 package eu.dzhw.fdz.metadatamanagement.bibliographicalreferencemanagement.repository;

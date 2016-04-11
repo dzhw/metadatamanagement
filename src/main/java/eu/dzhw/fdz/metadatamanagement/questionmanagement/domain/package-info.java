@@ -1,7 +1,7 @@
 /**
  * Domain objects for the question management.
  * 
- * @author dkatzberg
+ * @author Daniel Katzberg
  *
  */
 package eu.dzhw.fdz.metadatamanagement.questionmanagement.domain;

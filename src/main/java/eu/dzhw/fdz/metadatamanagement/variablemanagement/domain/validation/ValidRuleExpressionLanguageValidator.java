@@ -9,7 +9,7 @@ import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.RuleExpressionLa
  * Validator for the rule expression languages of a variable. Only valued from the
  * {@link RuleExpressionLanguages} class are allowed.
  * 
- * @author dkatzberg
+ * @author Daniel Katzberg
  *
  */
 public class ValidRuleExpressionLanguageValidator

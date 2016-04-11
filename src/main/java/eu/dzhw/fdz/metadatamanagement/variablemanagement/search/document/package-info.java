@@ -1,7 +1,7 @@
 /**
  * Search document for the variable management.
  * 
- * @author dkatzberg
+ * @author Daniel Katzberg
  *
  */
 package eu.dzhw.fdz.metadatamanagement.variablemanagement.search.document;

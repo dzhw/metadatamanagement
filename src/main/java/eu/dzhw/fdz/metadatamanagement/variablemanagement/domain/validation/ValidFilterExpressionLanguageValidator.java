@@ -9,7 +9,7 @@ import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.FilterExpression
  * Validator for the filter expression languages of a variable. Only valued from the
  * {@link FilterExpressionLanguages} class are allowed.
  * 
- * @author dkatzberg
+ * @author Daniel Katzberg
  *
  */
 public class ValidFilterExpressionLanguageValidator

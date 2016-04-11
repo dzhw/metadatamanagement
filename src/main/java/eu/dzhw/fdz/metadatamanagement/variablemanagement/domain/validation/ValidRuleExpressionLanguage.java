@@ -15,7 +15,7 @@ import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.RuleExpressionLa
  * Annotation for the validator for the rule expression language. Only values are allowes which are
  * defined in the {@link RuleExpressionLanguages}
  * 
- * @author dkatzberg
+ * @author Daniel Katzberg
  *
  */
 @Documented

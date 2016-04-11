@@ -1,7 +1,7 @@
 /**
  * Domain Objects for user management.
  * 
- * @author dkatzberg
+ * @author Daniel Katzberg
  *
  */
 package eu.dzhw.fdz.metadatamanagement.usermanagement.domain;

@@ -9,7 +9,7 @@ import eu.dzhw.fdz.metadatamanagement.datasetmanagement.domain.DataSet;
  * Validates the name of a id. The pattern is: DataAcquisitionProjectId-ds{Number}. This validator
  * validates the complete name.
  * 
- * @author dkatzberg
+ * @author Daniel Katzberg
  *
  */
 public class ValidDataSetIdNameValidator

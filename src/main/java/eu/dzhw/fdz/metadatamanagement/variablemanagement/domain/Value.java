@@ -9,6 +9,7 @@ import com.google.common.base.MoreObjects;
 import eu.dzhw.fdz.metadatamanagement.common.domain.I18nString;
 import eu.dzhw.fdz.metadatamanagement.common.domain.validation.I18nStringSize;
 import eu.dzhw.fdz.metadatamanagement.common.domain.validation.StringLengths;
+import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.validation.NotNullValidRelativeFrequencyIfNoMissing;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.validation.ValidCodeOrValueClass;
 import net.karneim.pojobuilder.GeneratePojoBuilder;
 
@@ -21,6 +22,8 @@ import net.karneim.pojobuilder.GeneratePojoBuilder;
 @GeneratePojoBuilder(
     intoPackage = "eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.builders")
 @ValidCodeOrValueClass(message = "{error.value.absoluteFrequency.validCodeOrValueClass}")
+@NotNullValidRelativeFrequencyIfNoMissing(
+    message = "{error.value.notNullValidRelativeFrequencyIfNoMissing}")
 public class Value {
 
   private Integer code;
@@ -39,7 +42,6 @@ public class Value {
   @Size(max = StringLengths.SMALL, message = "{error.value.valueClass.size}")
   private String valueClass;
 
-  @NotNull(message = "{error.value.validRelativeFrequency.notNull}")
   private Double validRelativeFrequency;
 
   /*

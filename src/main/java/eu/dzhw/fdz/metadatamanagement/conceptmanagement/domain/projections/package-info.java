@@ -1,7 +1,7 @@
 /**
  * Projections for concept management.
  * 
- * @author dkatzberg
+ * @author Daniel Katzberg
  *
  */
 package eu.dzhw.fdz.metadatamanagement.conceptmanagement.domain.projections;

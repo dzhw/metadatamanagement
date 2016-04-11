@@ -1,7 +1,7 @@
 /**
  * Services for the data set report.
  * 
- * @author dkatzberg
+ * @author Daniel Katzberg
  *
  */
 package eu.dzhw.fdz.metadatamanagement.datasetmanagement.service;

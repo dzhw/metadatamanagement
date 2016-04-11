@@ -244,7 +244,7 @@ public class DataSetReportService {
   /**
    * Inner class for get the variable ids as index for the variables hashmap.
    * 
-   * @author dkatzberg
+   * @author Daniel Katzberg
    *
    */
   static class VariableFunction implements Function<Variable, String> {

@@ -15,7 +15,7 @@ import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.FilterExpression
  * Annotation for the validator for the filter expression language. Only values are allowes which
  * are defined in the {@link FilterExpressionLanguages}
  * 
- * @author dkatzberg
+ * @author Daniel Katzberg
  *
  */
 @Documented

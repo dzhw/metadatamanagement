@@ -1,7 +1,7 @@
 /**
  * The data transfer object for the Spring MVC.
  * 
- * @author dkatzberg
+ * @author Daniel Katzberg
  *
  */
 package eu.dzhw.fdz.metadatamanagement.common.rest.dto;

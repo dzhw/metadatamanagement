@@ -1,7 +1,7 @@
 /**
  * Repositories for the questionnaire management.
  * 
- * @author dkatzberg
+ * @author Daniel Katzberg
  *
  */
 package eu.dzhw.fdz.metadatamanagement.questionnairemanagement.repository;

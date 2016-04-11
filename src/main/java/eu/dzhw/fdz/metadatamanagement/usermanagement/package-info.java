@@ -1,7 +1,7 @@
 /**
  * The variable management handles the variable (REST Api, domain object, validation, search.).
  * 
- * @author dkatzberg
+ * @author Daniel Katzberg
  *
  */
 package eu.dzhw.fdz.metadatamanagement.usermanagement;

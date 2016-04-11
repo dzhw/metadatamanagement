@@ -13,7 +13,7 @@ import javax.validation.Payload;
  * Annotation for the validation of the id. It has to be by the pattern:
  * DataAcquisitionProjectId-ds{Number}
  * 
- * @author dkatzberg
+ * @author Daniel Katzberg
  *
  */
 @Documented

@@ -1,7 +1,7 @@
 /**
  * Spring MVC REST Controller for the survey management.
  * 
- * @author dkatzberg
+ * @author Daniel Katzberg
  *
  */
 package eu.dzhw.fdz.metadatamanagement.surveymanagement.rest;
