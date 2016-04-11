@@ -21,6 +21,8 @@ import eu.dzhw.fdz.metadatamanagement.common.domain.validation.I18nStringSize;
 import eu.dzhw.fdz.metadatamanagement.common.domain.validation.StringLengths;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.validation.MandatoryScaleLevel;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.validation.NotNullValueSummaryIfValuesExist;
+import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.validation.UniqueValueClass;
+import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.validation.UniqueValueCode;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.validation.UniqueVariableNameInProject;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.validation.ValidAccessWays;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.validation.ValidDataType;
@@ -82,6 +84,8 @@ public class Variable extends AbstractRdcDomainObject {
 
   /* Nested Objects */
   @Valid
+  @UniqueValueCode(message = "{error.variable.values.uniqueValueCode}")
+  @UniqueValueClass(message = "{error.variable.values.uniqueValueClass}")
   private List<Value> values;
 
   @Valid

@@ -1,5 +1,6 @@
 package eu.dzhw.fdz.metadatamanagement.variablemanagement.rest;
 
+import static org.hamcrest.CoreMatchers.containsString;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.isEmptyOrNullString;
@@ -12,7 +13,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import java.io.IOException;
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -28,7 +28,6 @@ import com.google.gson.JsonSyntaxException;
 
 import eu.dzhw.fdz.metadatamanagement.AbstractTest;
 import eu.dzhw.fdz.metadatamanagement.common.domain.builders.I18nStringBuilder;
-import eu.dzhw.fdz.metadatamanagement.common.domain.builders.PeriodBuilder;
 import eu.dzhw.fdz.metadatamanagement.common.rest.TestUtil;
 import eu.dzhw.fdz.metadatamanagement.common.unittesthelper.util.UnitTestCreateDomainObjectUtils;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.DataAcquisitionProject;
@@ -37,7 +36,6 @@ import eu.dzhw.fdz.metadatamanagement.projectmanagement.repository.DataAcquisiti
 import eu.dzhw.fdz.metadatamanagement.searchmanagement.service.ElasticsearchAdminService;
 import eu.dzhw.fdz.metadatamanagement.searchmanagement.service.ElasticsearchIndices;
 import eu.dzhw.fdz.metadatamanagement.surveymanagement.domain.Survey;
-import eu.dzhw.fdz.metadatamanagement.surveymanagement.domain.builders.SurveyBuilder;
 import eu.dzhw.fdz.metadatamanagement.surveymanagement.repository.SurveyRepository;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.DataTypes;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.FilterExpressionLanguages;
@@ -45,7 +43,7 @@ import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.RuleExpressionLa
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.ScaleLevels;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.Value;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.Variable;
-import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.builders.VariableBuilder;
+import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.builders.ValueBuilder;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.repository.VariableRepository;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.search.VariableSearchDao;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.search.document.VariableSearchDocument;
@@ -104,7 +102,8 @@ public class VariableResourceTest extends AbstractTest {
     Survey survey = UnitTestCreateDomainObjectUtils.buildSurvey(project.getId());
     surveyRepository.save(survey);
 
-    Variable variable = UnitTestCreateDomainObjectUtils.buildVariable(project.getId(), survey.getId());
+    Variable variable =
+        UnitTestCreateDomainObjectUtils.buildVariable(project.getId(), survey.getId());
 
     // create the variable with the given id
     mockMvc.perform(put(API_VARIABLES_URI + "/" + variable.getId())
@@ -165,6 +164,74 @@ public class VariableResourceTest extends AbstractTest {
     mockMvc.perform(put(API_VARIABLES_URI + "/" + variable.getId())
       .content(TestUtil.convertObjectToJsonBytes(variable)))
       .andExpect(status().isBadRequest());
+  }
+
+  @Test
+  public void testCreateVariableWithNonUniqueCode() throws Exception {
+    DataAcquisitionProject project = new DataAcquisitionProjectBuilder().withId("testProject")
+      .withSurveySeries(new I18nStringBuilder().build())
+      .withPanelName(new I18nStringBuilder().build())
+      .build();
+    dataAcquisitionProjectRepository.save(project);
+
+    Survey survey = UnitTestCreateDomainObjectUtils.buildSurvey(project.getId());
+    surveyRepository.save(survey);
+
+    Variable variable =
+        UnitTestCreateDomainObjectUtils.buildVariable(project.getId(), survey.getId());
+    Value value1 = variable.getValues()
+      .get(0);
+
+    Value value2 = new ValueBuilder().withCode(value1.getCode())
+      .withLabel(value1.getLabel())
+      .withAbsoluteFrequency(value1.getAbsoluteFrequency())
+      .withRelativeFrequency(value1.getRelativeFrequency())
+      .withValidRelativeFrequency(value1.getValidRelativeFrequency())
+      .build();
+
+    variable.getValues()
+      .add(value2);
+
+    // create the variable with duplicate value codes
+    mockMvc.perform(put(API_VARIABLES_URI + "/" + variable.getId())
+      .content(TestUtil.convertObjectToJsonBytes(variable)))
+      .andExpect(status().isBadRequest())
+      .andExpect(jsonPath("$.errors[0].message", containsString("value codes must be unique")));
+  }
+  
+  @Test
+  public void testCreateVariableWithNonUniqueValueClass() throws Exception {
+    DataAcquisitionProject project = new DataAcquisitionProjectBuilder().withId("testProject")
+      .withSurveySeries(new I18nStringBuilder().build())
+      .withPanelName(new I18nStringBuilder().build())
+      .build();
+    dataAcquisitionProjectRepository.save(project);
+
+    Survey survey = UnitTestCreateDomainObjectUtils.buildSurvey(project.getId());
+    surveyRepository.save(survey);
+
+    Variable variable =
+        UnitTestCreateDomainObjectUtils.buildVariable(project.getId(), survey.getId());
+    Value value1 = variable.getValues()
+      .get(0);
+    value1.setCode(null);
+    value1.setValueClass("hurz");
+
+    Value value2 = new ValueBuilder().withValueClass(value1.getValueClass())
+      .withLabel(value1.getLabel())
+      .withAbsoluteFrequency(value1.getAbsoluteFrequency())
+      .withRelativeFrequency(value1.getRelativeFrequency())
+      .withValidRelativeFrequency(value1.getValidRelativeFrequency())
+      .build();
+
+    variable.getValues()
+      .add(value2);
+
+    // create the variable with duplicate value classes
+    mockMvc.perform(put(API_VARIABLES_URI + "/" + variable.getId())
+      .content(TestUtil.convertObjectToJsonBytes(variable)))
+      .andExpect(status().isBadRequest())
+      .andExpect(jsonPath("$.errors[0].message", containsString("value classes must be unique")));
   }
 
   @Test
@@ -334,14 +401,16 @@ public class VariableResourceTest extends AbstractTest {
     Survey survey = UnitTestCreateDomainObjectUtils.buildSurvey(project.getId());
     surveyRepository.save(survey);
 
-    Variable variable = UnitTestCreateDomainObjectUtils.buildVariable(project.getId(), survey.getId());
+    Variable variable =
+        UnitTestCreateDomainObjectUtils.buildVariable(project.getId(), survey.getId());
 
     // create the first variable
     mockMvc.perform(put(API_VARIABLES_URI + "/" + variable.getId())
       .content(TestUtil.convertObjectToJsonBytes(variable)))
       .andExpect(status().isCreated());
 
-    Variable variable2 = UnitTestCreateDomainObjectUtils.buildVariable(project.getId(), survey.getId());
+    Variable variable2 =
+        UnitTestCreateDomainObjectUtils.buildVariable(project.getId(), survey.getId());
     variable2.setId(project.getId() + "-AnotherName");
     variable2.setName(variable.getName());
 
@@ -362,7 +431,8 @@ public class VariableResourceTest extends AbstractTest {
     Survey survey = UnitTestCreateDomainObjectUtils.buildSurvey(project.getId());
     surveyRepository.save(survey);
 
-    Variable variable = UnitTestCreateDomainObjectUtils.buildVariable(project.getId(), survey.getId());
+    Variable variable =
+        UnitTestCreateDomainObjectUtils.buildVariable(project.getId(), survey.getId());
     // change scale level (code coverage)
     variable.setScaleLevel(new I18nStringBuilder().withDe(ScaleLevels.ORDINAL.getDe())
       .withEn(ScaleLevels.ORDINAL.getEn())
@@ -397,11 +467,9 @@ public class VariableResourceTest extends AbstractTest {
     Survey survey = UnitTestCreateDomainObjectUtils.buildSurvey(project.getId());
     surveyRepository.save(survey);
 
-    Variable variable = UnitTestCreateDomainObjectUtils.buildVariable(project.getId(), survey.getId());
+    Variable variable =
+        UnitTestCreateDomainObjectUtils.buildVariable(project.getId(), survey.getId());
 
-    String variableJson = new String(TestUtil.convertObjectToJsonBytes(variable));
-    System.out.println(variableJson);
-    
     // create the variable with the given id
     mockMvc.perform(put(API_VARIABLES_URI + "/" + variable.getId())
       .content(TestUtil.convertObjectToJsonBytes(variable)))
@@ -441,67 +509,16 @@ public class VariableResourceTest extends AbstractTest {
     }
   }
 
-  // TODO @Amine L. Fix the Test please. :) D. Katzberg
-  // @Test
-  public void testDeletingSurveyDeletesVariable() throws Exception {
-    DataAcquisitionProject project = new DataAcquisitionProjectBuilder().withId("testProject")
-      .withSurveySeries(new I18nStringBuilder().build())
-      .withPanelName(new I18nStringBuilder().build())
-      .build();
-    dataAcquisitionProjectRepository.save(project);
-
-    Survey survey = new SurveyBuilder().withId("testSurvey")
-      .withDataAcquisitionProjectId(project.getId())
-      .withFieldPeriod(new PeriodBuilder().withStart(LocalDate.now())
-        .withEnd(LocalDate.now())
-        .build())
-      .withTitle(new I18nStringBuilder().withDe("Titel")
-        .withEn("title")
-        .build())
-      .withQuestionnaireId("QuestionnaireId")
-      .build();
-    surveyRepository.save(survey);
-
-    List<String> surveyIds = new ArrayList<>();
-    surveyIds.add(survey.getId());
-    
-    Variable variable = new VariableBuilder().withId("testVariable")
-      .withDataType(DataTypes.NUMERIC)
-      .withScaleLevel(ScaleLevels.CONTINOUS)
-      .withDataAcquisitionProjectId(project.getId())
-      .withSurveyIds(surveyIds)
-      .withLabel(new I18nStringBuilder().withDe("label")
-        .withEn("label")
-        .build())
-      .withName("name")
-      .build();
-
-    // create the variable with the given id
-    mockMvc.perform(put(API_VARIABLES_URI + "/" + variable.getId())
-      .content(TestUtil.convertObjectToJsonBytes(variable)))
-      .andExpect(status().isCreated());
-
-    mockMvc.perform(delete("/api/surveys/" + survey.getId()))
-      .andExpect(status().is2xxSuccessful());
-
-    // check that the variable has been deleted
-    mockMvc.perform(get(API_VARIABLES_URI + "/" + variable.getId()))
-      .andExpect(status().isNotFound());
-
-    // check that there are no variable search documents anymore
-    elasticsearchAdminService.refreshAllIndices();
-    assertThat(elasticsearchAdminService.countAllDocuments(), equalTo(0.0));
-  }
-
   @Test
   public void testValueClassAndCodeAreFilled() throws Exception {
-    //Arrange
+    // Arrange
     DataAcquisitionProject project = UnitTestCreateDomainObjectUtils.buildDataAcquisitionProject();
-      dataAcquisitionProjectRepository.save(project);
+    dataAcquisitionProjectRepository.save(project);
 
     Survey survey = UnitTestCreateDomainObjectUtils.buildSurvey(project.getId());
-      surveyRepository.save(survey);
-    Variable variable = UnitTestCreateDomainObjectUtils.buildVariable(project.getId(), survey.getId());
+    surveyRepository.save(survey);
+    Variable variable =
+        UnitTestCreateDomainObjectUtils.buildVariable(project.getId(), survey.getId());
     Value value = variable.getValues()
       .get(0);
     value.setCode(1234);
@@ -672,7 +689,8 @@ public class VariableResourceTest extends AbstractTest {
     Survey survey = UnitTestCreateDomainObjectUtils.buildSurvey(project.getId());
     surveyRepository.save(survey);
 
-    Variable variable = UnitTestCreateDomainObjectUtils.buildVariable(project.getId(), survey.getId());
+    Variable variable =
+        UnitTestCreateDomainObjectUtils.buildVariable(project.getId(), survey.getId());
 
     // create the variable with the given id
     mockMvc.perform(put(API_VARIABLES_URI + "/" + variable.getId())
