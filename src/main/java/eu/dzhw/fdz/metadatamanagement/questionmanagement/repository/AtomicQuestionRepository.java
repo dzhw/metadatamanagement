@@ -30,4 +30,7 @@ public interface AtomicQuestionRepository
 
   @RestResource(exported = false)
   List<AtomicQuestion> findByDataAcquisitionProjectId(String dataAcquisitionProjectId);
+
+  @RestResource(exported = false)
+  List<AtomicQuestion> findByNameAndQuestionnaireId(String name, String questionnaireId);
 }
