@@ -14,42 +14,23 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
-import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
 import eu.dzhw.fdz.metadatamanagement.AbstractTest;
-import eu.dzhw.fdz.metadatamanagement.common.unittesthelper.util.UnitTestCreateDomainObjectUtils;
-import eu.dzhw.fdz.metadatamanagement.datasetmanagement.domain.DataSet;
-import eu.dzhw.fdz.metadatamanagement.datasetmanagement.repository.DataSetRepository;
 import eu.dzhw.fdz.metadatamanagement.filemanagement.service.FileService;
-import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.DataAcquisitionProject;
-import eu.dzhw.fdz.metadatamanagement.projectmanagement.repository.DataAcquisitionProjectRepository;
-import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.Variable;
-import eu.dzhw.fdz.metadatamanagement.variablemanagement.repository.VariableRepository;
 
 /**
  * @author Daniel Katzberg
  *
  */
 public class FileResourceTest extends AbstractTest {
-  private static final String API_DATASETS_REPORTS_URI = "/api/data-sets/report";
   private static final String PUBLIC_FILES_URI = "/public/files";
 
   @Autowired
   private WebApplicationContext wac;
-
-  @Autowired
-  private DataAcquisitionProjectRepository dataAcquisitionProjectRepository;
-
-  @Autowired
-  private DataSetRepository dataSetRepository;
-
-  @Autowired
-  private VariableRepository variableRepository;
 
   @Autowired
   private FileService fileService;
@@ -64,9 +45,6 @@ public class FileResourceTest extends AbstractTest {
 
   @After
   public void cleanUp() {
-    this.dataAcquisitionProjectRepository.deleteAll();
-    this.dataSetRepository.deleteAll();
-    this.variableRepository.deleteAll();
     this.fileService.deleteTempFiles();
   }
 
@@ -78,42 +56,19 @@ public class FileResourceTest extends AbstractTest {
     String basicPath = currentRelativePath.toAbsolutePath()
       .toString();
     File templatePath = new File(basicPath + "/src/test/resources/data/latexExample/");
-
     FileInputStream fileInputStream = new FileInputStream(templatePath + "/ExampleTexTemplate.tex");
-    byte[] texTemplate = new byte[fileInputStream.available()];
-    fileInputStream.read(texTemplate);
-    fileInputStream.close();
-
-    DataAcquisitionProject project = UnitTestCreateDomainObjectUtils.buildDataAcquisitionProject();
-    this.dataAcquisitionProjectRepository.save(project);
-
-    DataSet dataSet = UnitTestCreateDomainObjectUtils.buildDataSet(project.getId(),project.getId() + "-sy1" );
-    this.dataSetRepository.save(dataSet);
-
-    Variable variable = UnitTestCreateDomainObjectUtils.buildVariable(project.getId(), null);
-    this.variableRepository.save(variable);
-
-    // Act and Assert Upload File
-    MockMultipartFile multipartFile = new MockMultipartFile("file", texTemplate);
-    MvcResult mvcResultUpload =
-        this.mockMvc.perform(MockMvcRequestBuilders.fileUpload(API_DATASETS_REPORTS_URI)
-          .file(multipartFile)
-          .param("id", dataSet.getId()))
-          .andExpect(status().isOk())
-          .andReturn();
-
-    String texTemplateNameInGridFS = mvcResultUpload.getResponse()
-      .getContentAsString();
+    String namePath =
+        this.fileService.saveTempFile(fileInputStream, "TestName", "application/x-tex");
 
     // Act and Assert Download
     MvcResult mvcResultDownload =
-        this.mockMvc.perform(get(PUBLIC_FILES_URI + '/' + texTemplateNameInGridFS))
+        this.mockMvc.perform(get(PUBLIC_FILES_URI + namePath))
           .andExpect(status().isOk())
           .andReturn();
 
-    String filledTexFile = new String(mvcResultDownload.getResponse()
+    String texTemplateDownload = new String(mvcResultDownload.getResponse()
       .getContentAsByteArray());
 
-    assertThat(filledTexFile.contains("documentclass"), is(true));
+    assertThat(texTemplateDownload.contains("documentclass"), is(true));
   }
 }
