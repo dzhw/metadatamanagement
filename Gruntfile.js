@@ -279,9 +279,7 @@ module.exports = function(grunt) {
         ngtemplates: {
           dist: {
             cwd: 'src/main/webapp',
-            src: ['scripts/app/**/*.html', 'scripts/app/**/*.html.tmpl',
-                'scripts/components/**/*.html',
-                'scripts/components/**/*.html.tmpl'],
+            src: ['scripts/**/*.html', 'scripts/**/*.html.tmpl'],
             dest: '.tmp/templates/templates.js',
             options: {
               module: 'metadatamanagementApp',
@@ -707,7 +705,7 @@ module.exports = function(grunt) {
   grunt.registerTask('build', ['test', 'htmlangular', 'clean:dist',
       'wiredep:app', 'ngconstant:prod',
       'useminPrepare', 'ngtemplates', 'imagemin', 'svgmin',
-      'concat', 'copy:fonts', 'copy:dist', 'ngAnnotate', 'cssmin',
+      'copy:fonts', 'copy:dist', 'ngAnnotate', 'concat', 'cssmin',
       'autoprefixer', 'uglify', 'rev', 'usemin', 'htmlmin']);
 
   grunt.registerTask('builddev', ['test', 'clean:dist', 'wiredep:app',

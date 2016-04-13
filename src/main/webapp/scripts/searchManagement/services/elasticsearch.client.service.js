@@ -1,5 +1,5 @@
 'use strict';
-angular.module('metadatamanagementApp').service('ElasticSearchClientService',
+angular.module('metadatamanagementApp').service('ElasticSearchClient',
 function(esFactory, ElasticSearchProperties, $location) {
   return esFactory({
     host: $location.protocol() + '://' + $location.host() + ':' +

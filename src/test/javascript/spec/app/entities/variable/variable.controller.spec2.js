@@ -72,7 +72,7 @@ describe('Controllers Tests ', function() {
       };
       $location.search('page', 1);
       createController = function() {
-        return $controller('VariablesController', locals);
+        return $controller('VariableController', locals);
       };
       spyOn(VariableSearchDao, 'search').and.callThrough();
       spyOn(Variable, 'get').and.callThrough();
@@ -80,7 +80,7 @@ describe('Controllers Tests ', function() {
       spyOn(AlertService, 'error').and.callThrough();
     });
   });
-  describe('VariablesController', function() {
+  describe('VariableController', function() {
     beforeEach(function() {
       createController();
     });

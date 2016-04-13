@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('metadatamanagementApp').service('VariableSearchDao',
-    function(ElasticSearchProperties, Language, ElasticSearchClientService) {
+    function(ElasticSearchProperties, Language, ElasticSearchClient) {
       return {
         search: function(queryterm, pageNumber) {
           var query = {
@@ -42,7 +42,7 @@ angular.module('metadatamanagementApp').service('VariableSearchDao',
               'match_all': {}
             };
           }
-          return ElasticSearchClientService.search(query);
+          return ElasticSearchClient.search(query);
         }
       };
     });

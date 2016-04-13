@@ -84,6 +84,7 @@
 
 
     <!-- build:js({.tmp,src/main/webapp}) scripts/app.js -->
+
     <script src="scripts/app/app.js"></script>
     <script src="scripts/app/easter-egg/egg.js"></script>
     <script src="scripts/app/app.constants.js"></script>
@@ -148,7 +149,6 @@
     <script src="scripts/app/admin/user-management/user-management-detail.controller.js"></script>
     <script src="scripts/app/admin/user-management/user-management.controller.js"></script>
     <script src="scripts/app/admin/user-management/user-management.js"></script>
-    <script src="scripts/app/entities/entity.js"></script>
     <script src="scripts/app/error/error.js"></script>
     <script src="scripts/app/disclosure/disclosure.js"></script>
     <script src="scripts/app/disclosure/disclosure.controller.js"></script>
@@ -158,78 +158,8 @@
     <script src="scripts/components/language/language.controller.js"></script>
     <script src="scripts/components/auth/provider/auth.oauth2.service.js"></script>
 
-    <!--
-    <script src="scripts/app/entities/variable/variable.js"></script>
-    <script src="scripts/app/entities/variable/variables.controller.js"></script>
-    <script src="scripts/app/entities/variable/variable-dialog.controller.js"></script>
-    <script src="scripts/app/entities/variable/variable-detail.controller.js"></script>
-    <script src="scripts/components/entities/variable/variable.resource.js"></script>
-    <script src="scripts/components/entities/variable/variableCollection.resource.js"></script>
-    <script src="scripts/components/entities/variable/variable.search.dao.js"></script>
-    <script src="scripts/components/entities/variable/variableDelete.resource.js"></script>
-    <script src="scripts/app/entities/variable/variable.list.controller.js"></script>
-    <script src="scripts/app/entities/variable/variable.list.directive.js"></script>
-    <script src="scripts/components/import/builder/variableBuilder.service.js"></script>
-    <script src="scripts/components/import/upload/variableUpload.service.js"></script>
 
-    <script src="scripts/app/entities/survey/survey.js"></script>
-    <script src="scripts/app/entities/survey/survey.controller.js"></script>
-    <script src="scripts/app/entities/survey/survey-dialog.controller.js"></script>
-    <script src="scripts/app/entities/survey/survey-delete-dialog.controller.js"></script>
-    <script src="scripts/components/import/upload/surveyUpload.service.js"></script>
-    <script src="scripts/components/entities/survey/surveyDelete.resource.js"></script>
-    <script src="scripts/components/entities/survey/survey.resource.js"></script>
-    <script src="scripts/app/entities/survey/survey-detail.controller.js"></script>
-    <script src="scripts/app/entities/survey/survey.list.controller.js"></script>
-    <script src="scripts/app/entities/survey/survey.list.directive.js"></script>
-    <script src="scripts/components/import/builder/surveyBuilder.service.js"></script>
-    <script src="scripts/components/entities/survey/surveyCollection.resource.js"></script>
-    <script src="scripts/components/entities/dataSet/dataSet.resource.js"></script>
-    <script src="scripts/components/entities/dataSet/dataSetDelete.resource.js"></script>
-    <script src="scripts/app/entities/dataSet/dataSet.controller.js"></script>
-    <script src="scripts/app/entities/dataSet/dataSet.js"></script>
-    <script src="scripts/app/entities/dataSet/dataSet.list.controller.js"></script>
-    <script src="scripts/components/entities/dataSet/dataSetsCollection.resource.js"></script>
-    <script src="scripts/app/entities/dataSet/dataSet.list.directive.js"></script>
-    <script src="scripts/components/import/builder/dataSetBuilder.service.js"></script>
-    <script src="scripts/components/import/upload/dataSetUpload.service.js"></script>
-    <script src="scripts/app/entities/atomicQuestion/atomicQuestion.list.controller.js"></script>
-    <script src="scripts/app/entities/atomicQuestion/atomicQuestion.list.directive.js"></script>
-    <script src="scripts/components/entities/atomicQuestion/atomicQuestion.resource.js"></script>
-    <script src="scripts/components/entities/atomicQuestion/atomicQuestionDelete.resource.js"></script>
-    <script src="scripts/components/entities/atomicQuestion/atomicQuestionCollection.resource.js"></script>
-    <script src="scripts/components/import/builder/atomicQuestionBuilder.service.js"></script>
-    <script src="scripts/components/import/upload/atomicQuestionUpload.service.js"></script>
-
-    <script src="scripts/app/entities/dataAcquisitionProject/dataAcquisitionProject.js"></script>
-    <script src="scripts/app/entities/dataAcquisitionProject/dataAcquisitionProject.controller.js"></script>
-    <script src="scripts/app/entities/dataAcquisitionProject/dataAcquisitionProject-dialog.controller.js"></script>
-    <script src="scripts/app/entities/dataAcquisitionProject/dataAcquisitionProject-delete-dialog.controller.js"></script>
-    <script src="scripts/app/entities/dataAcquisitionProject/dataAcquisitionProject-detail.controller.js"></script>
-    <script src="scripts/components/entities/dataAcquisitionProject/dataAcquisitionProject.resource.js"></script>
-    <script src="scripts/components/entities/dataAcquisitionProject/dataAcquisitionProjectCollection.resource.js"></script>
-
-    <script src="scripts/components/wait/loading.directive.js"></script>
-    <script src="scripts/components/search/elasticsearch.client.service.js"></script>
-
-
-    <script src="scripts/components/entities/file/file.resource.js"></script>
-    <script src="scripts/components/import/upload/texUpload.service.js"></script>
-    <script src="scripts/components/modal/customModal.service.js"></script>
-    <script src="scripts/components/import/reader/excelReader.service.js"></script>
-    <script src="scripts/components/import/reader/zipReader.service.js"></script>
-    <script src="scripts/components/import/log/jobLogging.service.js"></script>
-    <script src="scripts/components/import/log/validationExtractor.service.js"></script>
-    <script src="scripts/components/import/builder/parserUtil.service.js"></script>
-    -->
-
-
-
-
-    <!--   Neue Struktur -->
-    <script src="scripts/searchManagement/services/elasticsearch.client.service.js"></script>
-    <script src="scripts/searchManagement/services/variable.search.dao.js"></script>
-
+    <script src="scripts/common/entity/entity.js"></script>
     <script src="scripts/common/waitSpinner/loading.directive.js"></script>
     <script src="scripts/common/modal/customModal.service.js"></script>
     <script src="scripts/common/reader/zipReader.service.js"></script>
@@ -242,58 +172,60 @@
     <script src="scripts/fileManagement/laTex/services/texUpload.service.js"></script>
 
 
-    <script src="/scripts/variableManagement/configuration/variable.js"></script>
-    <script src="/scripts/variableManagement/directives/variable.list.directive.js"></script>
-    <script src="/scripts/variableManagement/directives/variable.list.controller.js"></script>
-    <script src="/scripts/variableManagement/resources/variable.resource.js"></script>
-    <script src="/scripts/variableManagement/resources/variableCollection.resource.js"></script>
-    <script src="/scripts/variableManagement/resources/variableDelete.resource.js"></script>
-    <script src="/scripts/variableManagement/services/variableBuilder.service.js"></script>
-    <script src="/scripts/variableManagement/services/variableUpload.service.js"></script>
-    <script src="/scripts/variableManagement/views/variable.controller.js"></script>
-    <script src="/scripts/variableManagement/views/variable-detail.controller.js"></script>
-    <script src="/scripts/variableManagement/views/variable-dialog.controller.js"></script>
+    <script src="scripts/variableManagement/configuration/variable.js"></script>
+    <script src="scripts/variableManagement/directives/variable.list.directive.js"></script>
+    <script src="scripts/variableManagement/directives/variable.list.controller.js"></script>
+    <script src="scripts/variableManagement/resources/variable.resource.js"></script>
+    <script src="scripts/variableManagement/resources/variableCollection.resource.js"></script>
+    <script src="scripts/variableManagement/resources/variableDelete.resource.js"></script>
+    <script src="scripts/variableManagement/services/variableBuilder.service.js"></script>
+    <script src="scripts/variableManagement/services/variableUpload.service.js"></script>
+    <script src="scripts/variableManagement/views/variable.controller.js"></script>
+    <script src="scripts/variableManagement/views/variable-detail.controller.js"></script>
+    <script src="scripts/variableManagement/views/variable-dialog.controller.js"></script>
 
-    <script src="/scripts/surveyManagement/configuration/survey.js"></script>
-    <script src="/scripts/surveyManagement/directives/survey.list.directive.js"></script>
-    <script src="/scripts/surveyManagement/directives/survey.list.controller.js"></script>
-    <script src="/scripts/surveyManagement/resources/survey.resource.js"></script>
-    <script src="/scripts/surveyManagement/resources/surveyCollection.resource.js"></script>
-    <script src="/scripts/surveyManagement/resources/surveyDelete.resource.js"></script>
-    <script src="/scripts/surveyManagement/services/surveyBuilder.service.js"></script>
-    <script src="/scripts/surveyManagement/services/surveyUpload.service.js"></script>
-    <script src="/scripts/surveyManagement/views/survey.controller.js"></script>
-    <script src="/scripts/surveyManagement/views/survey-detail.controller.js"></script>
-    <script src="/scripts/surveyManagement/views/survey-dialog.controller.js"></script>
-    <script src="/scripts/surveyManagement/views/survey-delete-dialog.controller.js"></script>
+    <script src="scripts/surveyManagement/configuration/survey.js"></script>
+    <script src="scripts/surveyManagement/directives/survey.list.directive.js"></script>
+    <script src="scripts/surveyManagement/directives/survey.list.controller.js"></script>
+    <script src="scripts/surveyManagement/resources/survey.resource.js"></script>
+    <script src="scripts/surveyManagement/resources/surveyCollection.resource.js"></script>
+    <script src="scripts/surveyManagement/resources/surveyDelete.resource.js"></script>
+    <script src="scripts/surveyManagement/services/surveyBuilder.service.js"></script>
+    <script src="scripts/surveyManagement/services/surveyUpload.service.js"></script>
+    <script src="scripts/surveyManagement/views/survey.controller.js"></script>
+    <script src="scripts/surveyManagement/views/survey-detail.controller.js"></script>
+    <script src="scripts/surveyManagement/views/survey-dialog.controller.js"></script>
+    <script src="scripts/surveyManagement/views/survey-delete-dialog.controller.js"></script>
 
-    <script src="/scripts/dataSetManagement/configuration/dataSet.js"></script>
-    <script src="/scripts/dataSetManagement/directives/dataSet.list.directive.js"></script>
-    <script src="/scripts/dataSetManagement/directives/dataSet.list.controller.js"></script>
-    <script src="/scripts/dataSetManagement/resources/dataSet.resource.js"></script>
-    <script src="/scripts/dataSetManagement/resources/dataSetCollection.resource.js"></script>
-    <script src="/scripts/dataSetManagement/resources/dataSetDelete.resource.js"></script>
-    <script src="/scripts/dataSetManagement/services/dataSetBuilder.service.js"></script>
-    <script src="/scripts/dataSetManagement/services/dataSetUpload.service.js"></script>
-    <script src="/scripts/dataSetManagement/views/dataSet.controller.js"></script>
+    <script src="scripts/dataSetManagement/configuration/dataSet.js"></script>
+    <script src="scripts/dataSetManagement/directives/dataSet.list.directive.js"></script>
+    <script src="scripts/dataSetManagement/directives/dataSet.list.controller.js"></script>
+    <script src="scripts/dataSetManagement/resources/dataSet.resource.js"></script>
+    <script src="scripts/dataSetManagement/resources/dataSetCollection.resource.js"></script>
+    <script src="scripts/dataSetManagement/resources/dataSetDelete.resource.js"></script>
+    <script src="scripts/dataSetManagement/services/dataSetBuilder.service.js"></script>
+    <script src="scripts/dataSetManagement/services/dataSetUpload.service.js"></script>
+    <script src="scripts/dataSetManagement/views/dataSet.controller.js"></script>
 
-    <script src="/scripts/atomicQuestionManagement/directives/atomicQuestion.list.directive.js"></script>
-    <script src="/scripts/atomicQuestionManagement/directives/atomicQuestion.list.controller.js"></script>
-    <script src="/scripts/atomicQuestionManagement/resources/atomicQuestion.resource.js"></script>
-    <script src="/scripts/atomicQuestionManagement/resources/atomicQuestionCollection.resource.js"></script>
-    <script src="/scripts/atomicQuestionManagement/resources/atomicQuestionDelete.resource.js"></script>
-    <script src="/scripts/atomicQuestionManagement/services/atomicQuestionBuilder.service.js"></script>
-    <script src="/scripts/atomicQuestionManagement/services/atomicQuestionUpload.service.js"></script>
+    <script src="scripts/atomicQuestionManagement/directives/atomicQuestion.list.directive.js"></script>
+    <script src="scripts/atomicQuestionManagement/directives/atomicQuestion.list.controller.js"></script>
+    <script src="scripts/atomicQuestionManagement/resources/atomicQuestion.resource.js"></script>
+    <script src="scripts/atomicQuestionManagement/resources/atomicQuestionCollection.resource.js"></script>
+    <script src="scripts/atomicQuestionManagement/resources/atomicQuestionDelete.resource.js"></script>
+    <script src="scripts/atomicQuestionManagement/services/atomicQuestionBuilder.service.js"></script>
+    <script src="scripts/atomicQuestionManagement/services/atomicQuestionUpload.service.js"></script>
 
-    <script src="/scripts/dataAcquisitionProjectManagement/configuration/dataAcquisitionProject.js"></script>
-    <script src="/scripts/dataAcquisitionProjectManagement/resources/dataAcquisitionProject.resource.js"></script>
-    <script src="/scripts/dataAcquisitionProjectManagement/resources/dataAcquisitionProjectCollection.resource.js"></script>
-    <script src="/scripts/dataAcquisitionProjectManagement/views/dataAcquisitionProject-detail.controller.js"></script>
-    <script src="/scripts/dataAcquisitionProjectManagement/views/dataAcquisitionProject-dialog.controller.js"></script>
-    <script src="/scripts/dataAcquisitionProjectManagement/views/dataAcquisitionProject-delete-dialog.controller.js"></script>
-    <script src="/scripts/dataAcquisitionProjectManagement/views/dataAcquisitionProject.controller.js"></script>
+    <script src="scripts/dataAcquisitionProjectManagement/configuration/dataAcquisitionProject.js"></script>
+    <script src="scripts/dataAcquisitionProjectManagement/resources/dataAcquisitionProject.resource.js"></script>
+    <script src="scripts/dataAcquisitionProjectManagement/resources/dataAcquisitionProjectCollection.resource.js"></script>
+    <script src="scripts/dataAcquisitionProjectManagement/views/dataAcquisitionProject-detail.controller.js"></script>
+    <script src="scripts/dataAcquisitionProjectManagement/views/dataAcquisitionProject-dialog.controller.js"></script>
+    <script src="scripts/dataAcquisitionProjectManagement/views/dataAcquisitionProject-delete-dialog.controller.js"></script>
+    <script src="scripts/dataAcquisitionProjectManagement/views/dataAcquisitionProject.controller.js"></script>
 
-
+    <script src="scripts/searchManagement/services/elasticsearch.client.service.js"></script>
+    <script src="scripts/searchManagement/services/variable.search.dao.js"></script>
+    
     <!-- endbuild -->
   </div>
 </body>

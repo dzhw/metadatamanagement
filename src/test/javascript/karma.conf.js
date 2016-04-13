@@ -51,9 +51,8 @@ module.exports = function (config) {
             // endbower
             'src/main/webapp/bower_components/elasticsearch/elasticsearch.angular.js',
             'src/main/webapp/scripts/app/app.js',
-            'src/main/webapp/scripts/app/**/*.js',
-            'src/main/webapp/scripts/components/**/*.js',
-            'src/main/webapp/scripts/components/**/*.html',
+            'src/main/webapp/scripts/**/*.js',
+            'src/main/webapp/scripts/**/*.html',
             'src/test/javascript/spec/helpers/module.js',
             'src/test/javascript/spec/helpers/httpBackend.js',
             'src/main/webapp/bower_components/messageformat/locale/en.js',
