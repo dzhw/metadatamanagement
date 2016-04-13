@@ -16,6 +16,7 @@ import eu.dzhw.fdz.metadatamanagement.common.domain.I18nString;
 import eu.dzhw.fdz.metadatamanagement.common.domain.util.Patterns;
 import eu.dzhw.fdz.metadatamanagement.common.domain.validation.I18nStringSize;
 import eu.dzhw.fdz.metadatamanagement.common.domain.validation.StringLengths;
+import eu.dzhw.fdz.metadatamanagement.questionmanagement.domain.validation.UniqueAtomicQuestionName;
 import eu.dzhw.fdz.metadatamanagement.questionmanagement.domain.validation.ValidAtomicQuestionIdName;
 import eu.dzhw.fdz.metadatamanagement.questionmanagement.domain.validation.ValidAtomicQuestionType;
 import net.karneim.pojobuilder.GeneratePojoBuilder;
@@ -31,6 +32,7 @@ import net.karneim.pojobuilder.GeneratePojoBuilder;
     intoPackage = "eu.dzhw.fdz.metadatamanagement.questionmanagement.domain.builders")
 @CompoundIndex(def = "{name: 1, questionnaireId: 1}", unique = true)
 @ValidAtomicQuestionIdName(message = "{error.atomicQuestion.validAtomicQuestionIdName}")
+@UniqueAtomicQuestionName(message = "{error.atomicQuestion.uniqueAtomicQuestionName}")
 public class AtomicQuestion extends AbstractRdcDomainObject {
 
   /* Domain model attributes */
