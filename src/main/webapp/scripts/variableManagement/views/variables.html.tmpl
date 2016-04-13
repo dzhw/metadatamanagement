@@ -1,0 +1,106 @@
+<div class="container">
+      <!--TODO change to error as soon as variable create/edit is not modal anymore-->
+      <jh-alert></jh-alert>
+      <h2 data-translate="metadatamanagementApp.variable.home.title">Variables</h2>
+      <div class="container">
+            <div class="row">
+                  <div>
+                        <button class="btn btn-primary" ui-sref="variable.new">
+                              <span class="glyphicon glyphicon-flash"></span>
+                              <span data-translate="metadatamanagementApp.variable.home.createLabel">Create a new Variable</span>
+                        </button>
+                        <button class="btn btn-success" ng-click="refresh()">
+                              <span class="glyphicon glyphicon-refresh"></span>
+                              <span data-translate="metadatamanagementApp.variable.home.refresh">refresh</span>
+                        </button>
+                  </div>
+            </div>
+            <div class="modal fade" id="deleteVariableConfirmation">
+                  <div class="modal-dialog">
+                        <div class="modal-content">
+                              <form name="deleteForm" ng-submit="confirmDelete(variable.id)">
+                                    <div class="modal-header">
+                                          <button type="button" class="close" data-dismiss="modal" aria-hidden="true" ng-click="clear()">&times;</button>
+                                          <h4 class="modal-title" data-translate="entity.delete.title">Confirm delete operation</h4>
+                                    </div>
+                                    <div class="modal-body">
+                                          <p data-translate="metadatamanagementApp.variable.delete.question" data-translate-values="{rdcId: variable.id}">Are you sure you want to delete this Variable?</p>
+                                    </div>
+                                    <div class="modal-footer">
+                                          <button type="button" class="btn btn-default" data-dismiss="modal" ng-click="clear()">
+                                                <span class="glyphicon glyphicon-ban-circle"></span>&nbsp;
+                                                <span data-translate="entity.action.cancel">Cancel</span>
+                                          </button>
+                                          <button type="submit" ng-disabled="deleteForm.$invalid" class="btn btn-danger">
+                                                <span class="glyphicon glyphicon-remove-circle"></span>&nbsp;
+                                                <span data-translate="entity.action.delete">Delete</span>
+                                          </button>
+                                    </div>
+                              </form>
+                        </div>
+                  </div>
+            </div>
+            <br/>
+            <div class="row">
+                  <div class="panel panel-primary">
+                        <div class="panel-body">
+                              <form ng-submit="search(1)" method='get'>
+                                    <div class="input-group">
+                                          <label class="sr-only" for="query"></label>
+                                          <input id="query" type="text" ng-model="query" ng-keyup="search(1)" class="form-control" placeholder="{{'variablesearch.inputplaceholder'|translate}}" autocomplete="off" autofocus="autofocus">
+                                          <span class="input-group-btn">
+                                                <button class="btn btn-default" type="submit">
+                                                      <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
+                                                </button>
+                                          </span>
+                                    </div>
+                              </form>
+                        </div>
+                  </div>
+                  <div class="panel panel-primary">
+                        <div class="panel-heading">
+                              <h3 class="panel-title" data-translate="variablesearch.variablelist" data-translate-values="{'totalHits':{{page.totalHits}},'minHitNumber':{{page.getMinHitNumber()}},'maxHitNumber':{{page.getMaxHitNumber()}}}">Showing hits 1-10</h3>
+                        </div>
+                        <ul class="list-group">
+                              <li ng-repeat="result in searchResult" class="list-group-item">
+                                    <h4 class="list-group-item-heading">
+                                          <a ui-sref="variable.detail({id:result._source.id})">{{result._source.label}}</a>
+                                    </h4>
+                                    <p class="list-group-item-text">{{result._source.name}}</p>
+                                    <p class="list-group-item-text">{{result._source.dataAcquisitionProjectId}}</p>
+                                    <p class="list-group-item-text">{{result._source.surveyTitle }}</p>
+                                    <br/>
+                                    <button type="submit" ui-sref="variable.edit({id:result._source.id})" class="btn btn-primary btn-sm">
+                                          <span class="glyphicon glyphicon-pencil"></span>&nbsp;
+                                          <span data-translate="entity.action.edit">
+                                                Edit</span>
+                                    </button>
+                                    <button type="submit" ng-click="delete(result._source.id)" class="btn btn-danger btn-sm">
+                                          <span class="glyphicon glyphicon-remove-circle"></span>&nbsp;
+                                          <span data-translate="entity.action.delete">
+                                                Delete</span>
+                                    </button>
+                              </li>
+                              <li ng-if="page.totalHits===0" class="list-group-item">
+                                    <p class="list-group-item-text" data-translate="variablesearch.noresults">No results</p>
+                              </li>
+                        </ul>
+                  </div>
+                  <ul class="pager" ng-show="page.totalHits>0">
+                        <li class="previous">
+                              <a class="btn" ng-disabled="!page.hasPreviousPage()" ng-click="previousPage()">&larr;
+                                    {{'pagination.previous'|translate}}</a>
+                        </li>
+                        <li class="hidden-xs">
+                              <a>
+                                    <span data-translate="variablesearch.numberofpages" data-translate-values="{'currentPageNumber':{{page.currentPageNumber}},'totalNumberOfPages':{{page.getTotalNumberOfPages()}}}">Page 1 of 1</span>
+                              </a>
+                        </li>
+                        <li class="next">
+                              <a class="btn" ng-disabled="!page.hasNextPage()" ng-click="nextPage()">{{'pagination.next'|translate}}
+                                    &rarr;</a>
+                        </li>
+                  </ul>
+            </div>
+      </div>
+</div>
