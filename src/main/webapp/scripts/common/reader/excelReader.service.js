@@ -1,8 +1,8 @@
 /* global XLSX, FileReader */
 'use strict';
 
-angular.module('metadatamanagementApp').service('ExcelReaderService', function($q,
-  JobLoggingService, $translate) {
+angular.module('metadatamanagementApp').service('ExcelReaderService',
+function($q, JobLoggingService, $translate) {
   this.readFileAsync = function(file) {
     var deferred = $q.defer();
     var readExcel = function(data) {

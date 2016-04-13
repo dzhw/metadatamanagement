@@ -158,17 +158,3 @@ angular.module('metadatamanagementApp')
         ]
       });
   });
-
-/*
- .state('surveylist' ,{
-        url: '/dataAcquisitionProject/{id}',
-        parent: 'dataAcquisitionProject.detail',
-        views: {
-          'surveylist': {
-            templateUrl: 'scripts/app/entities/survey/' +
-            'surveys.list.html.tmpl',
-            controller: 'SurveysListController'
-          }
-        }
-      })
-*/

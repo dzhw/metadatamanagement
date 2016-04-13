@@ -36,7 +36,8 @@ angular.module('metadatamanagementApp')
         },
         views: {
           'content@': {
-            templateUrl: '/scripts/surveyManagement/views/survey-detail.html.tmpl',
+            templateUrl: '/scripts/surveyManagement/views/' +
+            'survey-detail.html.tmpl',
             controller: 'SurveyDetailController'
           }
         },
@@ -127,7 +128,8 @@ angular.module('metadatamanagementApp')
           function($stateParams, $state, $uibModal) {
             $uibModal.open({
               templateUrl:
-                '/scripts/surveyManagement/views/survey-delete-dialog.html.tmpl',
+                '/scripts/surveyManagement/views/' +
+                'survey-delete-dialog.html.tmpl',
               controller: 'SurveyDeleteController',
               size: 'md',
               resolve: {

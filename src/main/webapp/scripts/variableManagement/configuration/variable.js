@@ -12,7 +12,8 @@ angular.module('metadatamanagementApp')
         },
         views: {
           'content@': {
-            templateUrl: '/scripts/variableManagement/views/variables.html.tmpl',
+            templateUrl: '/scripts/variableManagement/' +
+            'views/variables.html.tmpl',
             controller: 'VariableController'
           }
         },

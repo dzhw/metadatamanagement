@@ -169,13 +169,11 @@ module.exports = function(grunt) {
             jshintrc: '.jshintrc'
           },
           all: ['Gruntfile.js', 'src/main/webapp/scripts/app.js',
-              'src/main/webapp/scripts/app/**/*.js',
-              'src/main/webapp/scripts/components/**/*.js']
+              'src/main/webapp/scripts/**/*.js']
         },
         jscs: {
           src: ['Gruntfile.js', 'src/main/webapp/scripts/app.js',
-              'src/main/webapp/scripts/app/**/*.js',
-              'src/main/webapp/scripts/components/**/*.js'],
+              'src/main/webapp/scripts/**/*.js'],
           options: {
             config: 'buildconfig/.jscsrc',
             verbose: true,
