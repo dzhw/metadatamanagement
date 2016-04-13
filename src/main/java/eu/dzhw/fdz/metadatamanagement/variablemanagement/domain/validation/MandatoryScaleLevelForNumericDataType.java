@@ -15,16 +15,16 @@ import javax.validation.Payload;
  *  @author René Reitmann
  */
 @Documented
-@Constraint(validatedBy = {MandatoryScaleLevelValidator.class})
+@Constraint(validatedBy = {MandatoryScaleLevelForNumericDataTypeValidator.class})
 @Target({ElementType.TYPE})
 @Retention(RetentionPolicy.RUNTIME)
-public @interface MandatoryScaleLevel {
+public @interface MandatoryScaleLevelForNumericDataType {
 
   /**
    * Defines the default error message.
    */
   public abstract String message() default "{eu.dzhw.fdz.metadatamanagement.domain.validation."
-      + "mandatoryScaleLevel.message}";
+      + "mandatoryScaleLevelForNumericDataType.message}";
 
   /**
    * This contains groups.

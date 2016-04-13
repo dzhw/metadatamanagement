@@ -20,7 +20,7 @@ import eu.dzhw.fdz.metadatamanagement.common.domain.util.Patterns;
 import eu.dzhw.fdz.metadatamanagement.common.domain.validation.AtLeastOneLanguage;
 import eu.dzhw.fdz.metadatamanagement.common.domain.validation.I18nStringSize;
 import eu.dzhw.fdz.metadatamanagement.common.domain.validation.StringLengths;
-import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.validation.MandatoryScaleLevel;
+import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.validation.MandatoryScaleLevelForNumericDataType;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.validation.NotNullValueSummaryIfValuesExist;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.validation.UniqueValueClass;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.validation.UniqueValueCode;
@@ -44,7 +44,8 @@ import net.karneim.pojobuilder.GeneratePojoBuilder;
 @ValidVariableIdName(message = "{error.variable.validVariableName}")
 @UniqueVariableNameInProject(message = "{error.variable.uniqueVariableNameInProject}")
 @NotNullValueSummaryIfValuesExist(message = "{error.variable.notNullValueSummaryIfValuesExist}")
-@MandatoryScaleLevel(message = "{error.variable.mandatoryScaleLevel}")
+@MandatoryScaleLevelForNumericDataType(
+    message = "{error.variable.mandatoryScaleLevelForNumericDataType}")
 public class Variable extends AbstractRdcDomainObject {
 
   /* Domain Object listed attributes */
