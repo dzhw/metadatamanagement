@@ -12,7 +12,6 @@ import java.nio.file.Paths;
 
 import org.junit.After;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mock.web.MockMultipartFile;
@@ -29,6 +28,8 @@ import eu.dzhw.fdz.metadatamanagement.datasetmanagement.repository.DataSetReposi
 import eu.dzhw.fdz.metadatamanagement.filemanagement.service.FileService;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.DataAcquisitionProject;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.repository.DataAcquisitionProjectRepository;
+import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.Variable;
+import eu.dzhw.fdz.metadatamanagement.variablemanagement.repository.VariableRepository;
 
 /**
  * @author Daniel Katzberg
@@ -48,6 +49,9 @@ public class FileResourceTest extends AbstractTest {
   private DataSetRepository dataSetRepository;
 
   @Autowired
+  private VariableRepository variableRepository;
+
+  @Autowired
   private FileService fileService;
 
   private MockMvc mockMvc;
@@ -62,11 +66,11 @@ public class FileResourceTest extends AbstractTest {
   public void cleanUp() {
     this.dataAcquisitionProjectRepository.deleteAll();
     this.dataSetRepository.deleteAll();
+    this.variableRepository.deleteAll();
     this.fileService.deleteTempFiles();
   }
 
   @Test
-  @Ignore
   public void testValidUpload() throws Exception {
 
     // Arrange
@@ -76,7 +80,7 @@ public class FileResourceTest extends AbstractTest {
     File templatePath = new File(basicPath + "/src/test/resources/data/latexExample/");
 
     FileInputStream fileInputStream = new FileInputStream(templatePath + "/ExampleTexTemplate.tex");
-    byte[] texTemplate = new byte[(int) templatePath.length()];
+    byte[] texTemplate = new byte[fileInputStream.available()];
     fileInputStream.read(texTemplate);
     fileInputStream.close();
 
@@ -85,6 +89,9 @@ public class FileResourceTest extends AbstractTest {
 
     DataSet dataSet = UnitTestCreateDomainObjectUtils.buildDataSet(project.getId(),project.getId() + "-sy1" );
     this.dataSetRepository.save(dataSet);
+
+    Variable variable = UnitTestCreateDomainObjectUtils.buildVariable(project.getId(), null);
+    this.variableRepository.save(variable);
 
     // Act and Assert Upload File
     MockMultipartFile multipartFile = new MockMultipartFile("file", texTemplate);

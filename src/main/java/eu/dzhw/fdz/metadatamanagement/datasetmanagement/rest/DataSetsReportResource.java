@@ -26,7 +26,7 @@ import freemarker.template.TemplateException;
 public class DataSetsReportResource {
 
   @Inject
-  private DataSetReportService variableReportService;
+  private DataSetReportService dataSetReportService;
 
   /**
    * Accept latex templates under the given request mapping.
@@ -47,7 +47,7 @@ public class DataSetsReportResource {
       byte[] fileAsBytes = file.getBytes();
 
       // fill the data with data and store the template into mongodb / gridfs
-      String fileName = this.variableReportService.generateReport(
+      String fileName = this.dataSetReportService.generateReport(
           new String(fileAsBytes, StandardCharsets.UTF_8.toString()),
           file.getOriginalFilename(), id);
 

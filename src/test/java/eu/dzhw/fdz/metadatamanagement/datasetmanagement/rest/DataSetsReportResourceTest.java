@@ -9,7 +9,6 @@ import java.nio.file.Paths;
 
 import org.junit.After;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mock.web.MockMultipartFile;
@@ -62,7 +61,6 @@ public class DataSetsReportResourceTest extends AbstractTest {
   }
 
   @Test
-  @Ignore
   public void testValidUpload() throws Exception {
 
     // Arrange
@@ -72,7 +70,7 @@ public class DataSetsReportResourceTest extends AbstractTest {
     File templatePath = new File(basicPath + "/src/test/resources/data/latexExample/");
 
     FileInputStream fileInputStream = new FileInputStream(templatePath + "/ExampleTexTemplate.tex");
-    byte[] texTemplate = new byte[(int) templatePath.length()];
+    byte[] texTemplate = new byte[fileInputStream.available()];
     fileInputStream.read(texTemplate);
     fileInputStream.close();
 
@@ -80,8 +78,6 @@ public class DataSetsReportResourceTest extends AbstractTest {
     this.dataAcquisitionProjectRepository.save(project);
 
     DataSet dataSet = UnitTestCreateDomainObjectUtils.buildDataSet(project.getId(), null);
-    dataSet.getVariableIds()
-      .clear();
     this.dataSetRepository.save(dataSet);
 
     // Act and Assert

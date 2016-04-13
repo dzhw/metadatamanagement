@@ -9,12 +9,28 @@
 \usepackage{multicol}
 \usepackage{hyperref}
 \usepackage{ulem}
+\usepackage{pgfplots}
+\usepackage{array}
+\usepackage{tocloft}
+
+% Space between subsection number and subsection title for the command \subsection{}
+\setlength{\cftsubsecnumwidth}{4em}
+
+% PGF Plots
+\pgfplotsset{compat=1.8}
+\usepgfplotslibrary{statistics}
 \setlength{\columnsep}{1cm}
 
+% Define Pagestyle
 \pagestyle{fancy}
-
 \geometry{a4paper,left=28mm,right=28mm, top=32mm, bottom=22mm} 
 
+% Table Columns equivalent to l,c,r but with wraping the text
+\newcolumntype{L}[1]{>{\raggedright\let\newline\\\arraybackslash\hspace{0pt}}m{#1}}
+\newcolumntype{C}[1]{>{\centering\let\newline\\\arraybackslash\hspace{0pt}}m{#1}}
+\newcolumntype{R}[1]{>{\raggedleft\let\newline\\\arraybackslash\hspace{0pt}}m{#1}}
+
+%Definition of author und title
 \hypersetup{
 	pdfauthor={fdz.DZHW}
 	pdfkeywords={Variable Report}
@@ -23,92 +39,233 @@
   
 \begin{document}
 
-\begin{titlepage}
-	\centering
-	{\scshape \LARGE German Centre for Higher Education Research and Science Studies \par}
-	\vspace{2.5cm}
-	{\huge\bfseries Variable Report of Data Set ${dataSet.id}\par}
-	\vspace{2.5cm}
-	{\Large\itshape Version 1.0\par}
-	\vfill	
-	{\large \today\par}
-\end{titlepage}
+%INTRODUCTION
+\include{Introduction}
 
-\tableofcontents
+%VARIABLES, EVERY VARIABLE HAS A OWN PAGE
 \newpage
-
-\part{Variable report - Data Set '${dataSet.id}'}
-\section{Data Set}
-
-\noindent \\
-\noindent
-\begin{tabular}{@{}ll}
-	Data Set Id & ${dataSet.id} \\
-	Description & ${dataSet.description.en} \\
-\end{tabular}	
-
-\newpage
-\section{Variables}
+\section{Variablen}
 <#list dataSet.variableIds as variableId>	
-	<#assign variable = variables[variableId]>
-	\subsection{${variable.id}}
-	
-	\noindent\textbf{Variable:}\\
-	\begin{tabular}{ll}
-		Variable Id & ${variable.id} \\
-		Name & ${variable.name} \\
-		Label & ${variable.label.en} \\
-		Data Type & ${variable.dataType.en} \\
-		Scale Level & ${variable.scaleLevel.en}\\					
-		Access Ways & 
-		<#list variable.accessWays as accessWay> 
-			${accessWay}, 
-		<#else>
-			No Access Ways!
-		</#list> \\
-	\end{tabular}	
 
-	<#if variable.scaleLevel.en == "ordinal" >
-		\vspace*{1 cm}
-		\noindent\textbf{Statistics:}\\	
+	<#if variables[variableId]??>
+	<#assign variable = variables[variableId]>
+	\subsection{${variable.name}}	
+	
+	%TABLE FOR THE VARIABLE DETAILS	
+	\noindent\textbf{Variable:}\\
 		\begin{tabular}{ll}
-			Median & ${variable.statistics.median}
+			Name & ${variable.name!"-"} \\
+			Label & <#if variable.label??>${variable.label.de!"-"}<#else>-</#if> \\
+			Beschreibung & <#if variable.description??>${variable.description.de!"-"}<#else>-</#if> \\			
+			Skalenniveau & <#if variable.scaleLevel??>${variable.scaleLevel.de!"-"}<#else>-</#if> \\					
+			Zugangswege & 
+			<#list variable.accessWays as accessWay> 
+				${accessWay}, 
+			<#else>
+				Keine Zugangswege!
+			</#list> \\
+			Panelvariablen & <#if variable.sameVariablesInPanel??>
+			<#list variable.sameVariablesInPanel as variableInPanel> 
+				${variableInPanel}, 
+			<#else>
+				-
+			</#list> 
+			<#else>-
+			</#if> \\	
+			Eingangsfilter & <#if variable.filterDetails??>${variable.filterDetails.filterExpression!"-"}<#else>-</#if> \\	
+			Erzeugungsregel & <#if variable.generationDetails??>${variable.generationDetails.rule!"-"}<#else>-</#if> \\
+		\end{tabular}	
+	
+	<#if variable.atomicQuestionId??>
+		%TABLE FOR QUESTION DETAILS
+		<#assign question = questions[variable.atomicQuestionId]>
+		\vspace*{1 cm}
+		\noindent\textbf{Frage:}\\
+		\begin{tabular}{ll}
+			Name & <#if question.name??>${question.name!"-"}<#else>-</#if> \\
+			Einleitung der Frage & <#if question.introduction??>${question.introduction.de!"-"}<#else>-</#if> \\
+			Fragetext & <#if question.questionText??>${question.questionText.de!"-"}<#else>-</#if> \\
+			Ausfülleinweisung & <#if question.instruction??>${question.instruction.de!"-"}<#else>-</#if> \\
 		\end{tabular}
 	</#if>
-	<#if variable.scaleLevel.en == "continous" >
+
+	
+	<#if variable.scaleLevel.de == "ordinal" && variable.statistics??>
+		%TABLE FOR THE ORDINAL STATISTICS
 		\vspace*{1 cm}
-		\noindent\textbf{Statistics:}\\	
+		\noindent\textbf{Statistische Daten:}\\	
 		\begin{tabular}{ll}
-			Median & ${variable.statistics.median} \\
-			Mean Value & ${variable.statistics.meanValue} \\ 
-			Standard Deviation & ${variable.statistics.standardDeviation} \\ 
-			Minimum & ${variable.statistics.minimum} \\ 
-			Maximum & ${variable.statistics.maximum} \\ 
-			Skewness & ${variable.statistics.skewness} \\ 
-			Kurtosis & ${variable.statistics.kurtosis} \\ 
+			Median & ${variable.statistics.median!"-"}
+		\end{tabular}
+	</#if>
+	
+	
+	<#if variable.scaleLevel.de == "kontinuierlich" && variable.statistics?? >
+		%TABLE FOR THE METRIC STATISTICS
+		\vspace*{1 cm}
+		\noindent\textbf{Statistische Daten:}\\	
+		\begin{tabular}{ll}
+			<#if variable.statistics.median??>
+				Median & ${variable.statistics.median} \\
+			</#if>
+			<#if variable.statistics.meanValue??>
+				Arithmetisches Mittel & ${variable.statistics.meanValue} \\ 
+			</#if>
+			<#if variable.statistics.standardDeviation??>
+				Standardabweichung & ${variable.statistics.standardDeviation} \\ 
+			</#if>
+			<#if variable.statistics.minimum??>
+				Minimum & ${variable.statistics.minimum} \\ 
+			</#if>
+			<#if variable.statistics.maximum??>
+				Maximum & ${variable.statistics.maximum} \\ 
+			</#if>
+			<#if variable.statistics.skewness??>
+				Schiefe & ${variable.statistics.skewness} \\ 
+			</#if>
+			<#if variable.statistics.kurtosis??>
+				Wölbung & ${variable.statistics.kurtosis} \\ 
+			</#if>				
+			<#if variable.statistics.firstQuartile??>
+				Unteres Quartil & ${variable.statistics.firstQuartile} \\ 
+			</#if>
+			<#if variable.statistics.thirdQuartile??>
+				Oberes Quartil & ${variable.statistics.thirdQuartile} \\ 
+			</#if>
 		\end{tabular}
 	</#if>
 			
-	\vspace*{1 cm}
-	\noindent\textbf{Values:}\\
-	\begin{table}[!h]
-		\centering
-		\begin{tabular}{|l|l|l|c|c|}
-			\hline
-			Code & Label & Class & Abs. Frequency & Rel. Frequency \\
-			\hline
-			\hline  
-			<#list variable.values as value>  
-				${(value.code)!"-"} & ${(value.label.en)!"-"} & ${(value.valueClass)!"-"} & ${value.absoluteFrequency} & ${value.relativeFrequency} \\
-			<#else>
-				- \\
-			</#list>
-			\hline
-		\end{tabular}
-		\caption{Values of ${variable.id}}
-	\end{table}
+	<#if variable.values??>
+	<#assign isAMssingCounter = isNotAMissingCounterMap[variable.id]>
+	<#if variable.scaleLevel.de == "ordinal" || variable.scaleLevel.de == "nominal">
+		%TABLE FOR THE NOMINAL / ORDINAL VALUES	
+		\vspace*{1 cm}
+		\noindent\textbf{Werte:}\\
+		\begin{table}[!h]
+			\centering
+			\begin{tabular}{|L{1.7cm}|c|L{4.5cm}|c|c|C{1.5cm}|}
+				\hline
+				& \textbf{Code} & \textbf{Wertelabel} & \textbf{Häufigkeiten} & \textbf{Prozent} & \textbf{gültige Prozent} \\
+				\hline
+				\hline  				
+				\textbf{Gültige Werte} & & & & &\\
+				
+				<#if isAMssingCounter <= 20>
+					<#list variable.values as value>  
+						<#if !value.isAMissing>					
+							& ${value.code!"-"} & ${value.label.de!"-"} & ${value.absoluteFrequency!"-"} & ${value.relativeFrequency!"-"} & ${value.validRelativeFrequency!"-"} \\
+						</#if>
+					<#else>
+						- \\
+					</#list>
+				<#else>
+					<#list firstTenIsNotAMissingValues[variable.id] as value> 
+						& ${value.code!"-"} & ${value.label.de!"-"} & ${value.absoluteFrequency!"-"} & ${value.relativeFrequency!"-"} & ${value.validRelativeFrequency!"-"} \\
+					</#list>
+					& ... & ... & ... & ... & ... \\
+					<#list lastTenIsNotAMissingValues[variable.id] as value>  
+						& ${value.code!"-"} & ${value.label.de!"-"} & ${value.absoluteFrequency!"-"} & ${value.relativeFrequency!"-"} & ${value.validRelativeFrequency!"-"} \\
+					</#list>
+				</#if>				
+				
+				
+				\hline
+				\textbf{Fehlende Werte} & & & & &\\
+				<#list variable.values as value>  
+					<#if value.isAMissing>					
+						& ${value.code!"-"} & ${value.label.de!"-"} & ${value.absoluteFrequency!"-"} & ${value.relativeFrequency!"-"} & - \\
+					</#if>
+				<#else>
+					- \\
+				</#list>
+				\hline
+				\textbf{Summe (gültig)} & & & \textbf{${variable.valueSummary.totalValidAbsoluteFrequency!"-"}} & \textbf{${variable.valueSummary.totalValidRelativeFrequency!"-"}} & \textbf{100}\\
+				\textbf{Summe (gesamt)} & & & \textbf{${variable.valueSummary.totalAbsoluteFrequency!"-"}} & \textbf{100} & \textbf{-}\\				
+				\hline
+			\end{tabular}
+			\caption{Werte der Variable ${variable.name}}
+		\end{table}		
+	</#if>	
+		
+	<#if variable.scaleLevel.de == "kontinuierlich">
+		%TABLE FOR THE CONTINOUS VALUES	
+		\vspace*{1 cm}
+		\noindent\textbf{Werte:}\\
+		\begin{table}[!h]
+			\centering
+			\begin{tabular}{|L{1.7cm}|c|L{4.5cm}|c|c|}
+				\hline
+				& \textbf{Code} & \textbf{Wertelabel} & \textbf{Häufigkeiten} & \textbf{Prozent} \\
+				\hline
+				\hline  				
+				\textbf{Gültige Werte} & & & &\\
+				<#list variable.values as value>  
+					<#if !value.isAMissing && value.code??>					
+						& ${value.code!"-"} & ${value.label.de!"-"} & ${value.absoluteFrequency!"-"} & ${value.relativeFrequency!"-"} \\
+					</#if>
+				<#else>
+					- \\
+				</#list>
+				
+				\hline
+				\textbf{Fehlende Werte} & & & &\\
+				<#list variable.values as value>  
+					<#if value.isAMissing>					
+						& ${value.code!"-"} & ${value.label.de!"-"} & ${value.absoluteFrequency!"-"} & ${value.relativeFrequency!"-"}  \\
+					</#if>
+				<#else>
+					- \\
+				</#list>
+				\hline
+				\textbf{Summe (gesamt)} & & & \textbf{${variable.valueSummary.totalAbsoluteFrequency!"-"}} & \textbf{100} \\				
+				\hline
+			\end{tabular}
+			\caption{Werte der Variable ${variable.name}}
+		\end{table}		
+	</#if>	
+	<#else>
+	Die Variable ${variable.id} hat keine Werte.
+	</#if>
+	
+	<#if variable.statistics.median?? && variable.statistics.firstQuartile?? && variable.statistics.thirdQuartile?? && variable.statistics.highWhisker?? && variable.statistics.lowWhisker??>
+		\begin{figure}[!h]
+		\center			
+		\begin{tikzpicture}
+		\begin{axis}
+    		[
+    			/pgf/number format/.cd,
+	        use comma,
+	        1000 sep={.},
+    			ytick = {${variable.statistics.lowWhisker?c?replace(",",".")},${variable.statistics.firstQuartile?c},${variable.statistics.median?c},${variable.statistics.thirdQuartile?c},${variable.statistics.highWhisker?c}},
+    			boxplot/draw direction=y,
+  			boxplot/every box/.style={fill=gray!50},
+  			boxplot/every median/.style={ultra thick, red},
+    			width=0.2\textwidth,
+	      	height=0.35\textwidth,
+    			hide x axis,
+    			axis y line*=left
+    		]
+    		\addplot+[
+    			boxplot prepared={
+      		median=${variable.statistics.median?c},
+      		upper quartile=${variable.statistics.thirdQuartile?c},
+      		lower quartile=${variable.statistics.firstQuartile?c},
+    	  		upper whisker=${variable.statistics.highWhisker?c},
+    		  	lower whisker=${variable.statistics.lowWhisker?c?replace(",",".")}
+    			},
+    		] coordinates {};
+  		\end{axis}
+		\end{tikzpicture}
+		\caption{Boxplot der Variable ${variable.name}}
+		\end{figure}
+	</#if>
+	
 	\newpage
+	<#else>
+	Die Variable ${variableId} wird im Datensatz aufgeführt, jedoch liegt diese nicht im System vor.
+	</#if>
 <#else>
-	No variables!
+	Keine Variablen!
 </#list>
+
 \end{document}
