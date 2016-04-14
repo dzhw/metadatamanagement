@@ -27,7 +27,7 @@
     "ng-file-upload": "12.0.4",
     "ngInfiniteScroll": "1.2.2",
     "elasticsearch": "11.0.1",
-    "jszip": "~2.6.0",
+    "jszip": "~3.0.0",
     "file-saver.js": "~1.20150507.2",
     "jszip-utils": "~0.0.2",
     "handlebars": "~4.0.5",

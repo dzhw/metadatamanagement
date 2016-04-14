@@ -1,5 +1,5 @@
 ---
-title: "load(data [, options])"
+title: "loadAsync(data [, options])"
 layout: default
 section: api
 ---
@@ -12,7 +12,7 @@ __Arguments__
 
 name               | type   | description
 -------------------|--------|------------
-data               | String/Array of bytes/ArrayBuffer/Uint8Array/Buffer | the zip file
+data               | String/Array of bytes/ArrayBuffer/Uint8Array/Buffer/Blob/Promise | the zip file
 options            | object | the options to load the zip file
 
 Content of `options` :
@@ -21,8 +21,8 @@ name                          | type    | default | description
 ------------------------------|---------|---------|------------
 options.base64                | boolean | false   | set to `true` if the data is base64 encoded, `false` for binary.
 options.checkCRC32            | boolean | false   | set to `true` if the read data should be checked against its CRC32.
-options.optimizedBinaryString | boolean | false   | set to true if (and only if) the input is a string and has already been prepared with a 0xFF mask.
-options.createFolders      | boolean | false   | set to true to create folders in the file path automatically. Leaving it false will result in only virtual folders (i.e. folders that merely represent part of the file path) being created.
+options.optimizedBinaryString | boolean | false   | set to `true` if (and only if) the input is a string and has already been prepared with a 0xFF mask.
+options.createFolders         | boolean | false   | set to `true` to create folders in the file path automatically. Leaving it false will result in only virtual folders (i.e. folders that merely represent part of the file path) being created.
 options.decodeFileName        | function | decode from UTF-8 | the function to decode the file name / comment.
 
 You shouldn't update the data given to this method : it is kept as it so any
@@ -50,9 +50,8 @@ is the default encoding of the operating system.
 The function takes the bytes array (Uint8Array or Array) and returns the
 decoded string.
 
-__Returns__ : The current JSZip object.
-
-__Throws__ : An exception if the loaded data is not valid zip data or if it
+__Returns__ : A [Promise](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise) with the updated zip object.
+The promise can fail if the loaded data is not valid zip data or if it
 uses features (multi volume, password protected, etc).
 
 <!--
@@ -71,14 +70,14 @@ __Example__
 
 ```js
 var zip = new JSZip();
-zip.load(zipDataFromXHR);
+zip.loadAsync(zipDataFromXHR);
 ```
 
 ```js
 require("fs").readFile("hello.zip", function (err, data) {
   if (err) throw err;
   var zip = new JSZip();
-  zip.load(data);
+  zip.loadAsync(data);
 }
 ```
 
@@ -86,7 +85,7 @@ Using sub folders :
 
 ```js
 var zip = new JSZip();
-zip.folder("subfolder").load(data);
+zip.folder("subfolder").loadAsync(data);
 // the content of data will be loaded in subfolder/
 ```
 

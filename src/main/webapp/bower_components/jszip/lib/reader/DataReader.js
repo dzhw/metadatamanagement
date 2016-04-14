@@ -1,9 +1,9 @@
 'use strict';
-var utils = require('./utils');
+var utils = require('../utils');
 
 function DataReader(data) {
-    this.data = null; // type : see implementation
-    this.length = 0;
+    this.data = data; // type : see implementation
+    this.length = data.length;
     this.index = 0;
     this.zero = 0;
 }
@@ -91,18 +91,26 @@ DataReader.prototype = {
         // see implementations
     },
     /**
+     * Read the signature (4 bytes) at the current position and compare it with sig.
+     * @param {string} sig the expected signature
+     * @return {boolean} true if the signature matches, false otherwise.
+     */
+    readAndCheckSignature: function(sig) {
+        // see implementations
+    },
+    /**
      * Get the next date.
      * @return {Date} the date.
      */
     readDate: function() {
         var dostime = this.readInt(4);
-        return new Date(
+        return new Date(Date.UTC(
         ((dostime >> 25) & 0x7f) + 1980, // year
         ((dostime >> 21) & 0x0f) - 1, // month
         (dostime >> 16) & 0x1f, // day
         (dostime >> 11) & 0x1f, // hour
         (dostime >> 5) & 0x3f, // minute
-        (dostime & 0x1f) << 1); // second
+        (dostime & 0x1f) << 1)); // second
     }
 };
 module.exports = DataReader;

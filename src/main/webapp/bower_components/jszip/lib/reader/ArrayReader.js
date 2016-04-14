@@ -1,19 +1,14 @@
 'use strict';
-var DataReader = require('./dataReader');
+var DataReader = require('./DataReader');
+var utils = require('../utils');
 
 function ArrayReader(data) {
-    if (data) {
-        this.data = data;
-        this.length = this.data.length;
-        this.index = 0;
-        this.zero = 0;
-
-        for(var i = 0; i < this.data.length; i++) {
-            data[i] = data[i] & 0xFF;
-        }
-    }
+    DataReader.call(this, data);
+	for(var i = 0; i < this.data.length; i++) {
+		data[i] = data[i] & 0xFF;
+	}
 }
-ArrayReader.prototype = new DataReader();
+utils.inherits(ArrayReader, DataReader);
 /**
  * @see DataReader.byteAt
  */
@@ -35,6 +30,17 @@ ArrayReader.prototype.lastIndexOfSignature = function(sig) {
     }
 
     return -1;
+};
+/**
+ * @see DataReader.readAndCheckSignature
+ */
+ArrayReader.prototype.readAndCheckSignature = function (sig) {
+    var sig0 = sig.charCodeAt(0),
+        sig1 = sig.charCodeAt(1),
+        sig2 = sig.charCodeAt(2),
+        sig3 = sig.charCodeAt(3),
+        data = this.readData(4);
+    return sig0 === data[0] && sig1 === data[1] && sig2 === data[2] && sig3 === data[3];
 };
 /**
  * @see DataReader.readData

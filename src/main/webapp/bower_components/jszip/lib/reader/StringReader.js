@@ -1,17 +1,11 @@
 'use strict';
-var DataReader = require('./dataReader');
-var utils = require('./utils');
+var DataReader = require('./DataReader');
+var utils = require('../utils');
 
-function StringReader(data, optimizedBinaryString) {
-    this.data = data;
-    if (!optimizedBinaryString) {
-        this.data = utils.string2binary(this.data);
-    }
-    this.length = this.data.length;
-    this.index = 0;
-    this.zero = 0;
+function StringReader(data) {
+    DataReader.call(this, data);
 }
-StringReader.prototype = new DataReader();
+utils.inherits(StringReader, DataReader);
 /**
  * @see DataReader.byteAt
  */
@@ -23,6 +17,13 @@ StringReader.prototype.byteAt = function(i) {
  */
 StringReader.prototype.lastIndexOfSignature = function(sig) {
     return this.data.lastIndexOf(sig) - this.zero;
+};
+/**
+ * @see DataReader.readAndCheckSignature
+ */
+StringReader.prototype.readAndCheckSignature = function (sig) {
+    var data = this.readData(4);
+    return sig === data;
 };
 /**
  * @see DataReader.readData

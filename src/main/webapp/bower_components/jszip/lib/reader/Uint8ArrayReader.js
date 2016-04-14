@@ -1,15 +1,11 @@
 'use strict';
-var ArrayReader = require('./arrayReader');
+var ArrayReader = require('./ArrayReader');
+var utils = require('../utils');
 
 function Uint8ArrayReader(data) {
-    if (data) {
-        this.data = data;
-        this.length = this.data.length;
-        this.index = 0;
-        this.zero = 0;
-    }
+    ArrayReader.call(this, data);
 }
-Uint8ArrayReader.prototype = new ArrayReader();
+utils.inherits(Uint8ArrayReader, ArrayReader);
 /**
  * @see DataReader.readData
  */
