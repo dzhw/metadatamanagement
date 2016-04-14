@@ -5,7 +5,7 @@ angular.module('metadatamanagementApp')
     function($mdSidenav, $state, $scope, entity, JobLoggingService,
       DataSetUploadService,
       VariableUploadService, SurveyUploadService, AtomicQuestionUploadService) {
-	  entity.id = $state.params.id;
+      entity.id = $state.params.id;
       $scope.dataAcquisitionProject = entity;
       $scope.objLists = {
         dataSetList: {},
