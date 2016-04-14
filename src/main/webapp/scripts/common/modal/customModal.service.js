@@ -5,7 +5,7 @@ function($uibModal, $q) {
     var deferred = $q.defer();
     var returnValue;
     var modalInstance = $uibModal.open({
-      templateUrl: '/scripts/common/modal/customModal.html.tmpl',
+      templateUrl: 'scripts/common/modal/customModal.html.tmpl',
       animation: true,
       controller: function($uibModalInstance, $scope) {
         $scope.text = text;
