@@ -168,12 +168,10 @@ module.exports = function(grunt) {
           options: {
             jshintrc: '.jshintrc'
           },
-          all: ['Gruntfile.js', 'src/main/webapp/scripts/app.js',
-              'src/main/webapp/scripts/**/*.js']
+          all: ['Gruntfile.js', 'src/main/webapp/scripts/**/*.js']
         },
         jscs: {
-          src: ['Gruntfile.js', 'src/main/webapp/scripts/app.js',
-              'src/main/webapp/scripts/**/*.js'],
+          src: ['Gruntfile.js', 'src/main/webapp/scripts/**/*.js'],
           options: {
             config: 'buildconfig/.jscsrc',
             verbose: true,
@@ -279,7 +277,7 @@ module.exports = function(grunt) {
         ngtemplates: {
           dist: {
             cwd: 'src/main/webapp',
-            src: ['scripts/**/*.html', 'scripts/**/*.html.tmpl'],
+            src: ['scripts/**/*.html.tmpl'],
             dest: '.tmp/templates/templates.js',
             options: {
               module: 'metadatamanagementApp',
@@ -329,7 +327,7 @@ module.exports = function(grunt) {
                   dot: true,
                   cwd: 'src/main/webapp',
                   dest: '<%= yeoman.dist %>',
-                  src: ['*.html', 'scripts/**/*.html',
+                  src: ['*.html',
                       'assets/images/**/*.{png,gif,webp,jpg,jpeg,svg}',
                       'assets/fonts/*']
                 }, {
@@ -598,7 +596,6 @@ module.exports = function(grunt) {
               'event/oninput',
               'file/api',
               'file/filesystem',
-              'filereader',
               'forms/capture',
               'forms/fileinput',
               'forms/fileinputdirectory',
@@ -705,7 +702,7 @@ module.exports = function(grunt) {
   grunt.registerTask('build', ['test', 'htmlangular', 'clean:dist',
       'wiredep:app', 'ngconstant:prod',
       'useminPrepare', 'ngtemplates', 'imagemin', 'svgmin',
-      'copy:fonts', 'copy:dist', 'ngAnnotate', 'concat', 'cssmin',
+      'concat', 'copy:fonts', 'copy:dist', 'ngAnnotate', 'cssmin',
       'autoprefixer', 'uglify', 'rev', 'usemin', 'htmlmin']);
 
   grunt.registerTask('builddev', ['test', 'clean:dist', 'wiredep:app',
