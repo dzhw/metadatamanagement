@@ -128,7 +128,7 @@ public class AccountResource {
   }
 
   /**
-   * POST /change_password -> changes the current user's password.
+   * POST /change-password -> changes the current user's password.
    */
   @RequestMapping(value = "/account/change-password", method = RequestMethod.POST,
       produces = MediaType.APPLICATION_JSON_VALUE)

@@ -46,7 +46,7 @@ import eu.dzhw.fdz.metadatamanagement.usermanagement.service.UserService;
 
 /**
  * Test class for the AccountResource REST controller.
- * 
+ *
  * @author Daniel Katzberg
  *
  * @see UserService
@@ -284,7 +284,7 @@ public class AccountResourceTest extends AbstractTest {
 
     // Assert
     this.restMvc
-      .perform(post("/api/account/reset_password/finish").contentType(MediaType.APPLICATION_JSON)
+      .perform(post("/api/account/reset-password/finish").contentType(MediaType.APPLICATION_JSON)
         .content(TestUtil.convertObjectToJsonBytes(dto)))
       .andExpect(status().is4xxClientError());
 

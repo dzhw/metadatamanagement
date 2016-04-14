@@ -21,10 +21,10 @@ import net.karneim.pojobuilder.GeneratePojoBuilder;
 
 /**
  * The Data Acquisition Project collects all data which are going to be published by our RDC.
- * 
+ *
  * @author Daniel Katzberg
  */
-@Document(collection = "data_acquisition_projects")
+@Document(collection = "data-acquisition-projects")
 @GeneratePojoBuilder(
     intoPackage = "eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.builders")
 public class DataAcquisitionProject extends AbstractRdcDomainObject {
@@ -32,9 +32,9 @@ public class DataAcquisitionProject extends AbstractRdcDomainObject {
   /* Domain Object Attributes */
   @Id
   @NotEmpty(message = "{error.dataAcquisitionProject.id.notEmpty}")
-  @Pattern(regexp = Patterns.GERMAN_ALPHANUMERIC, 
+  @Pattern(regexp = Patterns.GERMAN_ALPHANUMERIC,
       message = "{error.dataAcquisitionProject.id.pattern}")
-  @Size(max = StringLengths.SMALL, 
+  @Size(max = StringLengths.SMALL,
       message = "{error.dataAcquisitionProject.id.size}")
   private String id;
 
@@ -52,7 +52,7 @@ public class DataAcquisitionProject extends AbstractRdcDomainObject {
 
   /*
    * (non-Javadoc)
-   * 
+   *
    * @see eu.dzhw.fdz.metadatamanagement.domain.AbstractRdcDomainObject#getId()
    */
   @Override
@@ -63,7 +63,7 @@ public class DataAcquisitionProject extends AbstractRdcDomainObject {
 
   /*
    * (non-Javadoc)
-   * 
+   *
    * @see eu.dzhw.fdz.metadatamanagement.domain.AbstractRdcDomainObject#toString()
    */
   @Override

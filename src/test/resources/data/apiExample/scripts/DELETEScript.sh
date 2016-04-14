@@ -31,13 +31,13 @@ fi
 #Configurations
 user="-u admin:admin"
 delete="-X DELETE"
-files="data_acquisition_projects/ATestProject
-data_acquisition_projects/bibliographical_references/Reference001
+files="data-acquisition-projects/ATestProject
+data-acquisition-projects/bibliographical-references/Reference001
 concepts/ConceptId001"
 
 
 #delete test data in the api paths:
-#data_acquisition_projects, bibliographical_references and concepts
+#data-acquisition-projects, bibliographical-references and concepts
 for i in $files
 do
   curl $user $delete $server$i
