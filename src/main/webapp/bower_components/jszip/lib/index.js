@@ -1,18 +1,28 @@
 'use strict';
 
+var base64 = require('./base64');
+
+/**
+Usage:
+   zip = new JSZip();
+   zip.file("hello.txt", "Hello, World!").file("tempfile", "nothing");
+   zip.folder("images").file("smile.gif", base64Data, {base64: true});
+   zip.file("Xmas.txt", "Ho ho ho !", {date : new Date("December 25, 2007 00:00:01")});
+   zip.remove("tempfile");
+
+   base64zip = zip.generate();
+
+**/
+
 /**
  * Representation a of zip file in js
  * @constructor
+ * @param {String=|ArrayBuffer=|Uint8Array=} data the data to load, if any (optional).
+ * @param {Object=} options the options for creating this objects (optional).
  */
-function JSZip() {
+function JSZip(data, options) {
     // if this constructor is used without `new`, it adds `new` before itself:
-    if(!(this instanceof JSZip)) {
-        return new JSZip();
-    }
-
-    if(arguments.length) {
-        throw new Error("The constructor with parameters has been removed in JSZip 3.0, please check the upgrade guide.");
-    }
+    if(!(this instanceof JSZip)) return new JSZip(data, options);
 
     // object containing the files :
     // {
@@ -25,6 +35,9 @@ function JSZip() {
 
     // Where we are in the hierarchy
     this.root = "";
+    if (data) {
+        this.load(data, options);
+    }
     this.clone = function() {
         var newObj = new JSZip();
         for (var i in this) {
@@ -36,13 +49,31 @@ function JSZip() {
     };
 }
 JSZip.prototype = require('./object');
-JSZip.prototype.loadAsync = require('./load');
+JSZip.prototype.load = require('./load');
 JSZip.support = require('./support');
 JSZip.defaults = require('./defaults');
 
-JSZip.loadAsync = function (content, options) {
-    return new JSZip().loadAsync(content, options);
-};
+/**
+ * @deprecated
+ * This namespace will be removed in a future version without replacement.
+ */
+JSZip.utils = require('./deprecatedPublicUtils');
 
-JSZip.external = require("./external");
+JSZip.base64 = {
+    /**
+     * @deprecated
+     * This method will be removed in a future version without replacement.
+     */
+    encode : function(input) {
+        return base64.encode(input);
+    },
+    /**
+     * @deprecated
+     * This method will be removed in a future version without replacement.
+     */
+    decode : function(input) {
+        return base64.decode(input);
+    }
+};
+JSZip.compressions = require('./compressions');
 module.exports = JSZip;

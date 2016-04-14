@@ -35,7 +35,7 @@ var zip = new JSZip().folder("dir");
 zip.file("readme.txt", "content");
 zip.filter(function (relativePath, file){
   // relativePath == "readme.txt"
-  // file = {name:"dir/readme.txt",options:{...},async:function}
+  // file = {name:"dir/readme.txt",options:{...},asText:function}
   return true/false;
 });
 ```

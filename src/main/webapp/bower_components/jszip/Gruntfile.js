@@ -1,5 +1,4 @@
 /*jshint node: true */
-'use strict';
 module.exports = function(grunt) {
   var browsers = [{
       browserName: "iphone",
@@ -30,10 +29,6 @@ module.exports = function(grunt) {
   }, {
       browserName: "internet explorer",
       platform: "XP",
-      version: "6"
-  }, {
-      browserName: "internet explorer",
-      platform: "XP",
       version: "7"
   }, {
       browserName: "internet explorer",
@@ -52,9 +47,9 @@ module.exports = function(grunt) {
       platform: "Windows 10",
       version: "11"
   }, {
-      browserName: "MicrosoftEdge",
+      browserName: "microsoftedge",
       platform: "Windows 10",
-      version: "13"
+      version: "13.10586"
   }, {
       browserName: "opera",
       platform: "Windows 2008",
@@ -97,9 +92,9 @@ module.exports = function(grunt) {
           all: {
               options: {
                   urls: ["http://127.0.0.1:9999/test/index.html"],
+                  tunnelTimeout: 5,
                   build: process.env.TRAVIS_JOB_ID,
-                  throttled: 3,
-                  "max-duration" : 600, // seconds, IE6 is slow
+                  concurrency: 3,
                   browsers: browsers,
                   testname: "qunit tests",
                   tags: tags
@@ -107,27 +102,11 @@ module.exports = function(grunt) {
           }
       },
       jshint: {
-          // see https://github.com/gruntjs/grunt-contrib-jshint/issues/198
-          // we can't override the options using the jshintrc path
-          options: grunt.file.readJSON('.jshintrc'),
-          production: ['./lib/**/*.js'],
-          test: ['./test/helpers/**/*.js', './test/asserts/**/*.js'],
-          documentation: {
-              options: {
-                  globals: {
-                      jQuery: false,
-                      JSZip: false,
-                      JSZipUtils: false,
-                      saveAs: false
-                  },
-                  // implied still give false positives in our case
-                  strict: false
-              },
-              files: {
-                  src: ['./documentation/**/*.js']
-              }
-          }
-      },
+            options: {
+                jshintrc: "./.jshintrc"
+            },
+            all: ['./lib/*.js']
+        },
     browserify: {
       all: {
         files: {
@@ -144,16 +123,21 @@ module.exports = function(grunt) {
               }
             }
           },
-          ignore : ["./lib/nodejs/*"],
-          banner : grunt.file.read('lib/license_header.js')
+          postBundleCB: function(err, src, done) {
+            // add the license
+            var license = require('fs').readFileSync('lib/license_header.js');
+            // remove the source mapping of zlib.js, see #75
+            var srcWithoutSourceMapping = src.toString().replace(/\/\/@ sourceMappingURL=raw..flate.min.js.map/g, '');
+            done(err, license + srcWithoutSourceMapping);
+          }
         }
       }
     },
     uglify: {
       options: {
+        report: 'gzip',
         mangle: true,
-        preserveComments: false,
-        banner : grunt.file.read('lib/license_header.js')
+        preserveComments: 'some'
       },
       all: {
         src: 'dist/jszip.js',

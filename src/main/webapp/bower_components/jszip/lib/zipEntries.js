@@ -1,19 +1,26 @@
 'use strict';
-var readerFor = require('./reader/readerFor');
+var StringReader = require('./stringReader');
+var NodeBufferReader = require('./nodeBufferReader');
+var Uint8ArrayReader = require('./uint8ArrayReader');
+var ArrayReader = require('./arrayReader');
 var utils = require('./utils');
 var sig = require('./signature');
 var ZipEntry = require('./zipEntry');
-var utf8 = require('./utf8');
 var support = require('./support');
+var jszipProto = require('./object');
 //  class ZipEntries {{{
 /**
  * All the entries in the zip file.
  * @constructor
+ * @param {String|ArrayBuffer|Uint8Array} data the binary stream to load.
  * @param {Object} loadOptions Options for loading the stream.
  */
-function ZipEntries(loadOptions) {
+function ZipEntries(data, loadOptions) {
     this.files = [];
     this.loadOptions = loadOptions;
+    if (data) {
+        this.load(data);
+    }
 }
 ZipEntries.prototype = {
     /**
@@ -22,9 +29,8 @@ ZipEntries.prototype = {
      * @throws {Error} if it is an other signature.
      */
     checkSignature: function(expectedSignature) {
-        if (!this.reader.readAndCheckSignature(expectedSignature)) {
-            this.reader.index -= 4;
-            var signature = this.reader.readString(4);
+        var signature = this.reader.readString(4);
+        if (signature !== expectedSignature) {
             throw new Error("Corrupted zip or bug : unexpected signature " + "(" + utils.pretty(signature) + ", expected " + utils.pretty(expectedSignature) + ")");
         }
     },
@@ -72,9 +78,8 @@ ZipEntries.prototype = {
      */
     readBlockZip64EndOfCentral: function() {
         this.zip64EndOfCentralSize = this.reader.readInt(8);
-        this.reader.skip(4);
-        // this.versionMadeBy = this.reader.readString(2);
-        // this.versionNeeded = this.reader.readInt(2);
+        this.versionMadeBy = this.reader.readString(2);
+        this.versionNeeded = this.reader.readInt(2);
         this.diskNumber = this.reader.readInt(4);
         this.diskWithCentralDirStart = this.reader.readInt(4);
         this.centralDirRecordsOnThisDisk = this.reader.readInt(8);
@@ -91,7 +96,7 @@ ZipEntries.prototype = {
         while (index < extraDataSize) {
             extraFieldId = this.reader.readInt(2);
             extraFieldLength = this.reader.readInt(4);
-            extraFieldValue = this.reader.readData(extraFieldLength);
+            extraFieldValue = this.reader.readString(extraFieldLength);
             this.zip64ExtensibleData[extraFieldId] = {
                 id: extraFieldId,
                 length: extraFieldLength,
@@ -131,7 +136,7 @@ ZipEntries.prototype = {
         var file;
 
         this.reader.setIndex(this.centralDirOffset);
-        while (this.reader.readAndCheckSignature(sig.CENTRAL_FILE_HEADER)) {
+        while (this.reader.readString(4) === sig.CENTRAL_FILE_HEADER) {
             file = new ZipEntry({
                 zip64: this.zip64
             }, this.loadOptions);
@@ -170,7 +175,6 @@ ZipEntries.prototype = {
             } else {
                 throw new Error("Corrupted zip : can't find end of central directory");
             }
-
         }
         this.reader.setIndex(offset);
         var endOfCentralDirOffset = offset;
@@ -245,7 +249,21 @@ ZipEntries.prototype = {
         }
     },
     prepareReader: function(data) {
-        this.reader = readerFor(data);
+        var type = utils.getTypeOf(data);
+        utils.checkSupport(type);
+        if (type === "string" && !support.uint8array) {
+            this.reader = new StringReader(data, this.loadOptions.optimizedBinaryString);
+        }
+        else if (type === "nodebuffer") {
+            this.reader = new NodeBufferReader(data);
+        }
+        else if (support.uint8array) {
+            this.reader = new Uint8ArrayReader(utils.transformTo("uint8array", data));
+        } else if (support.array) {
+            this.reader = new ArrayReader(utils.transformTo("array", data));
+        } else {
+            throw new Error("Unexpected error: unsupported type '" + type + "'");
+        }
     },
     /**
      * Read a zip file and create ZipEntries.
