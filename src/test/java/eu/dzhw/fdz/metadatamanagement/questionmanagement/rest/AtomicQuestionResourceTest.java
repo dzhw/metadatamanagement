@@ -46,7 +46,7 @@ import eu.dzhw.fdz.metadatamanagement.variablemanagement.repository.VariableRepo
  *
  */
 public class AtomicQuestionResourceTest extends AbstractTest {
-  private static final String API_ATOMICQUESTIONS_URI = "/api/atomic_questions";
+  private static final String API_ATOMICQUESTIONS_URI = "/api/atomic-questions";
 
   @Autowired
   private WebApplicationContext wac;
@@ -272,7 +272,7 @@ public class AtomicQuestionResourceTest extends AbstractTest {
       .content(TestUtil.convertObjectToJsonBytes(atomicQuestion)))
       .andExpect(status().isCreated());
 
-    mockMvc.perform(delete("/api/data_acquisition_projects/" + project.getId()))
+    mockMvc.perform(delete("/api/data-acquisition-projects/" + project.getId()))
       .andExpect(status().is2xxSuccessful());
 
     // check that the AtomicQuestion has been deleted

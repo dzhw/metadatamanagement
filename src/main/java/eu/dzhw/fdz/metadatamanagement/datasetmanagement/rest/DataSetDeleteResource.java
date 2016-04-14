@@ -22,7 +22,7 @@ public class DataSetDeleteResource {
   
   @Inject DataSetService dataSetService;
   
-  @RequestMapping(path = "/api/data_sets/delete", method = RequestMethod.POST,
+  @RequestMapping(path = "/api/data-sets/delete", method = RequestMethod.POST,
       produces = MediaType.APPLICATION_JSON_VALUE)
   @Timed
   public ResponseEntity<?> deleteAllDataSetsByProjectId(

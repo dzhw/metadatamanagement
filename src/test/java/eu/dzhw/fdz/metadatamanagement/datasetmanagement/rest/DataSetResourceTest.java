@@ -36,7 +36,7 @@ import eu.dzhw.fdz.metadatamanagement.surveymanagement.repository.SurveyReposito
  *
  */
 public class DataSetResourceTest extends AbstractTest {
-  private static final String API_DATASETS_URI = "/api/data_sets";
+  private static final String API_DATASETS_URI = "/api/data-sets";
 
   @Autowired
   private WebApplicationContext wac;
@@ -228,7 +228,7 @@ public class DataSetResourceTest extends AbstractTest {
       .content(TestUtil.convertObjectToJsonBytes(dataSet)))
       .andExpect(status().isCreated());
 
-    mockMvc.perform(delete("/api/data_acquisition_projects/" + project.getId()))
+    mockMvc.perform(delete("/api/data-acquisition-projects/" + project.getId()))
       .andExpect(status().is2xxSuccessful());
 
     // check that the DataSet has been deleted

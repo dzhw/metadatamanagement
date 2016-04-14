@@ -15,7 +15,7 @@ import eu.dzhw.fdz.metadatamanagement.questionmanagement.domain.AtomicQuestion;
  * @author Daniel Katzberg
  *
  */
-@RepositoryRestResource(path = "/atomic_questions")
+@RepositoryRestResource(path = "/atomic-questions")
 public interface AtomicQuestionRepository
     extends MongoRepository<AtomicQuestion, String>, QueryDslPredicateExecutor<AtomicQuestion> {
 

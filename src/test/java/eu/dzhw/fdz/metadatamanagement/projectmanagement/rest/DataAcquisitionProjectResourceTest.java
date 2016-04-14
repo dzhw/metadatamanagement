@@ -34,7 +34,7 @@ import eu.dzhw.fdz.metadatamanagement.projectmanagement.repository.DataAcquisiti
  * @author Daniel Katzberg
  */
 public class DataAcquisitionProjectResourceTest extends AbstractTest {
-  private static final String API_DATA_ACQUISITION_PROJECTS_URI = "/api/data_acquisition_projects";
+  private static final String API_DATA_ACQUISITION_PROJECTS_URI = "/api/data-acquisition-projects";
 
   @Autowired
   private WebApplicationContext wac;

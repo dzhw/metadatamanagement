@@ -35,8 +35,8 @@ import eu.dzhw.fdz.metadatamanagement.surveymanagement.repository.SurveyReposito
  */
 public class DataSetDeleteResourceTest extends AbstractTest {
   
-  private static final String API_DATA_SETS_URI = "/api/data_sets";
-  private static final String API_DATA_SETS_DELETE_URI = "/api/data_sets/delete";
+  private static final String API_DATA_SETS_URI = "/api/data-sets";
+  private static final String API_DATA_SETS_DELETE_URI = "/api/data-sets/delete";
 
   @Autowired
   private WebApplicationContext wac;

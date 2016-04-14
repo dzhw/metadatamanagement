@@ -258,7 +258,7 @@ public class SurveyResourceTest extends AbstractTest {
       .andExpect(jsonPath("$.version", is(0)));
 
     // delete the project
-    mockMvc.perform(delete("/api/data_acquisition_projects/" + project.getId()))
+    mockMvc.perform(delete("/api/data-acquisition-projects/" + project.getId()))
       .andExpect(status().is2xxSuccessful());
 
     // check that the survey has been deleted as well

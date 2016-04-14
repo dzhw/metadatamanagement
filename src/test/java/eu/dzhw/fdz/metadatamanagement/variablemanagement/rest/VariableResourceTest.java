@@ -727,7 +727,7 @@ public class VariableResourceTest extends AbstractTest {
       .content(TestUtil.convertObjectToJsonBytes(variable)))
       .andExpect(status().isCreated());
 
-    mockMvc.perform(delete("/api/data_acquisition_projects/" + project.getId()))
+    mockMvc.perform(delete("/api/data-acquisition-projects/" + project.getId()))
       .andExpect(status().is2xxSuccessful());
 
     // check that the variable has been deleted

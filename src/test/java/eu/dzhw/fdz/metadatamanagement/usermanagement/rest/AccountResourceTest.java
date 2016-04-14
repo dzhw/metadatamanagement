@@ -173,7 +173,7 @@ public class AccountResourceTest extends AbstractTest {
     // Act
 
     // Assert
-    this.restMvc.perform(post("/api/account/reset_password/init").accept(MediaType.TEXT_PLAIN)
+    this.restMvc.perform(post("/api/account/reset-password/init").accept(MediaType.TEXT_PLAIN)
       .content(user.getEmail()))
       .andExpect(status().isOk());
 
@@ -228,7 +228,7 @@ public class AccountResourceTest extends AbstractTest {
     // Act
 
     // Assert
-    this.restMvc.perform(post("/api/account/reset_password/init").accept(MediaType.TEXT_PLAIN)
+    this.restMvc.perform(post("/api/account/reset-password/init").accept(MediaType.TEXT_PLAIN)
       .content("john.doe@jhipter.com"))
       .andExpect(status().is4xxClientError());
 
@@ -256,7 +256,7 @@ public class AccountResourceTest extends AbstractTest {
 
     // Assert
     this.restMvc
-      .perform(post("/api/account/reset_password/finish").contentType(MediaType.APPLICATION_JSON)
+      .perform(post("/api/account/reset-password/finish").contentType(MediaType.APPLICATION_JSON)
         .content(TestUtil.convertObjectToJsonBytes(dto)))
       .andExpect(status().isOk());
 
@@ -298,7 +298,7 @@ public class AccountResourceTest extends AbstractTest {
     // Act
 
     // Assert
-    this.restMvc.perform(post("/api/account/change_password").accept(MediaType.APPLICATION_JSON)
+    this.restMvc.perform(post("/api/account/change-password").accept(MediaType.APPLICATION_JSON)
       .content("password"))
       .andExpect(status().isOk());
   }
@@ -310,7 +310,7 @@ public class AccountResourceTest extends AbstractTest {
     // Act
 
     // Assert
-    this.restMvc.perform(post("/api/account/change_password").accept(MediaType.APPLICATION_JSON)
+    this.restMvc.perform(post("/api/account/change-password").accept(MediaType.APPLICATION_JSON)
       .content("no"))
       .andExpect(status().is4xxClientError());
   }

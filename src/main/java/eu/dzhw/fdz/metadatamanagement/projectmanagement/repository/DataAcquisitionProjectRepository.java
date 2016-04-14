@@ -11,7 +11,7 @@ import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.DataAcquisitionPr
  * 
  * @author Daniel Katzberg
  */
-@RepositoryRestResource(path = "/data_acquisition_projects")
+@RepositoryRestResource(path = "/data-acquisition-projects")
 public interface DataAcquisitionProjectRepository
     extends MongoRepository<DataAcquisitionProject, String>,
     QueryDslPredicateExecutor<DataAcquisitionProject> {

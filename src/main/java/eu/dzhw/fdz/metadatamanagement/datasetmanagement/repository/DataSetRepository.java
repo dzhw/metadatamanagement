@@ -15,7 +15,7 @@ import eu.dzhw.fdz.metadatamanagement.datasetmanagement.domain.DataSet;
  * 
  * @author Daniel Katzberg *
  */
-@RepositoryRestResource(path = "/data_sets")
+@RepositoryRestResource(path = "/data-sets")
 public interface DataSetRepository
     extends MongoRepository<DataSet, String>, QueryDslPredicateExecutor<DataSet> {
 

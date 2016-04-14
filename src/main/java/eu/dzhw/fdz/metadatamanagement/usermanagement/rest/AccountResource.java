@@ -130,7 +130,7 @@ public class AccountResource {
   /**
    * POST /change_password -> changes the current user's password.
    */
-  @RequestMapping(value = "/account/change_password", method = RequestMethod.POST,
+  @RequestMapping(value = "/account/change-password", method = RequestMethod.POST,
       produces = MediaType.APPLICATION_JSON_VALUE)
   @Timed
   public ResponseEntity<?> changePassword(@RequestBody String password) {
@@ -144,7 +144,7 @@ public class AccountResource {
   /**
    * User wants to reset his password.
    */
-  @RequestMapping(value = "/account/reset_password/init", method = RequestMethod.POST,
+  @RequestMapping(value = "/account/reset-password/init", method = RequestMethod.POST,
       produces = MediaType.TEXT_PLAIN_VALUE)
   @Timed
   public ResponseEntity<?> requestPasswordReset(@RequestBody String mail,
@@ -162,7 +162,7 @@ public class AccountResource {
   /**
    * User has given a new password after reset.
    */
-  @RequestMapping(value = "/account/reset_password/finish", method = RequestMethod.POST,
+  @RequestMapping(value = "/account/reset-password/finish", method = RequestMethod.POST,
       produces = MediaType.APPLICATION_JSON_VALUE)
   @Timed
   public ResponseEntity<String> finishPasswordReset(@RequestBody KeyAndPasswordDto keyAndPassword) {

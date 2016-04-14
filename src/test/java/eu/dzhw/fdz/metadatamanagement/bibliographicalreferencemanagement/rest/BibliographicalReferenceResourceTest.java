@@ -32,7 +32,7 @@ import eu.dzhw.fdz.metadatamanagement.common.unittesthelper.util.UnitTestCreateD
  */
 public class BibliographicalReferenceResourceTest extends AbstractTest {
   private static final String API_BIBLIOGRAPHICAL_REFERENCES_URI =
-      "/api/bibliographical_references";
+      "/api/bibliographical-references";
 
 
   @Autowired
