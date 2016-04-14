@@ -20,7 +20,7 @@ describe('DataSetsCollection', function() {
     mockDataSetsCollectionResource =
     $injector.get('DataSetsCollection');
     $httpBackend.expectGET(
-      /api\/data_sets\?cacheBuster=\d+&projection=complete/)
+      /api\/data-sets\?cacheBuster=\d+&projection=complete/)
       .respond(data);
   }));
   it('should return DataSetsCollection resource ', function() {

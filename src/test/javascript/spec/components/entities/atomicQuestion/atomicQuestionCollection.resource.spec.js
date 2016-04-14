@@ -20,7 +20,7 @@ describe('AtomicQuestionCollection', function() {
     mockAtomicQuestionCollectionResource =
     $injector.get('AtomicQuestionCollection');
     $httpBackend.expectGET(
-      /api\/atomic_questions\?cacheBuster=\d+&projection=complete/)
+      /api\/atomic-questions\?cacheBuster=\d+&projection=complete/)
       .respond(data);
   }));
   it('should return AtomicQuestionCollection resource ', function() {

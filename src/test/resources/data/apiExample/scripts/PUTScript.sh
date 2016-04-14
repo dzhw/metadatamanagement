@@ -33,17 +33,17 @@ user="-u admin:admin"
 put="-X PUT"
 header="-H '"'Content-Type: application/json"'""
 #Tupels, where the elements are separated by commata and the tupels by line breaks.
-files="dataAcquisitionProjectExample.json,data_acquisition_projects/ATestProject
+files="dataAcquisitionProjectExample.json,data-acquisition-projects/ATestProject
 surveyExample.json,surveys/FDZID001
 variableExample.json,variables/FDZID_Variable_001
 variableExample2.json,variables/FDZID_Variable_002
 variableExample3.json,variables/FDZID_Variable_003
 questionnaireExample.json,questionnaires/QuestionnaireId001
-dataSetExample.json,data_sets/DataSet_001
-atomicQuestionExample.json,atomic_questions/AtomicQuestion001
-atomicQuestionExample2.json,atomic_questions/AtomicQuestion002
+dataSetExample.json,data-sets/DataSet_001
+atomicQuestionExample.json,atomic-questions/AtomicQuestion001
+atomicQuestionExample2.json,atomic-questions/AtomicQuestion002
 conceptExample.json,concepts/ConceptId001
-bibliographicalReferenceExample.json,bibliographical_references/Reference001"
+bibliographicalReferenceExample.json,bibliographical-references/Reference001"
 
 #Simulates line break for IFS at files array.
 OLDIFS=$IFS

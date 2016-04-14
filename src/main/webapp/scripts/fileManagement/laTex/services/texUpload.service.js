@@ -4,7 +4,6 @@
 angular.module('metadatamanagementApp').service('TexUploadService',
 function($translate, Upload, FileResource, JobLoggingService) {
   var uploadTexTemplate = function(file, dataAcquisitionProjectId) {
-    console.log(file);
     if (file !== null) {
       Upload.upload({
           url: 'api/data-sets/report',

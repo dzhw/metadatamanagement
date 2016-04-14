@@ -93,9 +93,9 @@ xdescribe('UploadService', function() {
     respond({});
     $httpBackend.expectGET(/api\/account\?cacheBuster=\d+/).respond(
       200, '');
-    $httpBackend.whenPUT(/api\/atomic_questions\/testId\?cacheBuster=\d+/)
+    $httpBackend.whenPUT(/api\/atomic-questions\/testId\?cacheBuster=\d+/)
     .respond(200,{});
-    $httpBackend.whenPUT(/api\/data_sets\/testId\?cacheBuster=\d+/).respond(
+    $httpBackend.whenPUT(/api\/data-sets\/testId\?cacheBuster=\d+/).respond(
       200,{});
     $httpBackend.whenPUT(/api\/variables\/testId\?cacheBuster=\d+/).respond(
       200,{});

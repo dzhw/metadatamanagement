@@ -22,8 +22,6 @@ describe('Test File Resource: ', function() {
       data, headers);
     var result = fileResource.download('FileName');
     $httpBackend.flush();
-    console.log('Yeah');
-    console.log(result);
   });
 
 });

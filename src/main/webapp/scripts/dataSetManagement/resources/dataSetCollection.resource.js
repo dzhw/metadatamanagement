@@ -2,7 +2,7 @@
 
 angular.module('metadatamanagementApp')
   .factory('DataSetsCollection', function($resource) {
-    return $resource('/api/data_sets', {
+    return $resource('/api/data-sets', {
       projection: 'complete'
     }, {
       'query': {

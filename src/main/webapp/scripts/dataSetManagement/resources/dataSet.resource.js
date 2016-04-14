@@ -2,7 +2,7 @@
 
 angular.module('metadatamanagementApp')
   .factory('DataSet', function($resource) {
-    return $resource('api/data_sets/:id', {id: '@id'}, {
+    return $resource('api/data-sets/:id', {id: '@id'}, {
       'get': {
         method: 'GET',
         params:  {projection: 'complete'}

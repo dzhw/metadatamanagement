@@ -20,7 +20,7 @@ describe('DataSetDeleteResource', function() {
     mockDataSetDeleteResource = $injector.
     get('DataSetDeleteResource');
     $httpBackend.expectPOST(
-      /api\/data_sets\/delete\?cacheBuster=\d/)
+      /api\/data-sets\/delete\?cacheBuster=\d/)
       .respond(data);
   }));
   it('should return deleted DataSet resource ', function() {

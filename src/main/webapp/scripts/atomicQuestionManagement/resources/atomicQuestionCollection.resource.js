@@ -2,7 +2,7 @@
 
 angular.module('metadatamanagementApp')
   .factory('AtomicQuestionCollection', function($resource) {
-    return $resource('/api/atomic_questions', {
+    return $resource('/api/atomic-questions', {
       projection: 'complete'
     }, {
       'query': {

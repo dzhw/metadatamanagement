@@ -12,7 +12,6 @@ angular.module('metadatamanagementApp')
         $scope.pageChanged();
       };
       $scope.pageChanged = function() {
-        console.log('er');
         $scope.currentPage = AtomicQuestionCollection.
         query({dataAcquisitionProjectId:
           $scope.params.dataAcquisitionProjectId,

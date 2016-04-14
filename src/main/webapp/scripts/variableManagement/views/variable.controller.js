@@ -107,7 +107,6 @@ angular.module('metadatamanagementApp')
       };
 
       $scope.confirmDelete = function(id) {
-        console.log(id);
         $scope.page.contentSize = $scope.page.contentSize - 1;
         $scope.page.totalHits = $scope.page.totalHits - 1;
         $scope.searchResult.splice($scope.itemtoBeRemoved, 1);
