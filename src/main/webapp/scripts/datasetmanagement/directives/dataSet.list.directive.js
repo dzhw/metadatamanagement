@@ -4,7 +4,7 @@ angular.module('metadatamanagementApp').directive('datasetlist',
 function() {
   return {
     restrict: 'E',
-    templateUrl: 'scripts/dataSetManagement/directives/' +
+    templateUrl: 'scripts/datasetmanagement/directives/' +
       'dataSet.list.html.tmpl',
     controller: 'DataSetListController',
     scope: {

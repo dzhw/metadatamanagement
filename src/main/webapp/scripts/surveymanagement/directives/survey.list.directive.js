@@ -4,7 +4,7 @@ angular.module('metadatamanagementApp').directive('surveylist',
 function() {
   return {
     restrict: 'E',
-    templateUrl: 'scripts/surveyManagement/directives/' +
+    templateUrl: 'scripts/surveymanagement/directives/' +
       'survey.list.html.tmpl',
     controller: 'SurveyListController',
     scope: {

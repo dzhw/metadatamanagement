@@ -12,7 +12,7 @@ angular.module('metadatamanagementApp')
         },
         views: {
           'content@': {
-            templateUrl: 'scripts/dataSetManagement/views/dataSets.html.tmpl',
+            templateUrl: 'scripts/datasetmanagement/views/dataSets.html.tmpl',
             controller: 'DataSetController'
           }
         },

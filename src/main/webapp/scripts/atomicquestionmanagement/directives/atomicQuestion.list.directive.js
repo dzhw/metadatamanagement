@@ -4,7 +4,7 @@ angular.module('metadatamanagementApp').directive('atomicquestionlist',
 function() {
   return {
     restrict: 'E',
-    templateUrl: 'scripts/atomicQuestionManagement/directives/' +
+    templateUrl: 'scripts/atomicquestionmanagement/directives/' +
       'atomicQuestion.list.html.tmpl',
     controller: 'AtomicQuestionListController',
     scope: {

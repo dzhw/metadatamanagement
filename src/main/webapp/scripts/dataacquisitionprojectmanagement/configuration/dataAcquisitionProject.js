@@ -12,7 +12,7 @@ angular.module('metadatamanagementApp')
         },
         views: {
           'content@': {
-            templateUrl: 'scripts/dataAcquisitionProjectManagement/views/' +
+            templateUrl: 'scripts/dataacquisitionprojectmanagement/views/' +
               'dataAcquisitionProject.html.tmpl',
             controller: 'DataAcquisitionProjectController'
           }
@@ -36,7 +36,7 @@ angular.module('metadatamanagementApp')
         },
         views: {
           'content@': {
-            templateUrl: 'scripts/dataAcquisitionProjectManagement/views/' +
+            templateUrl: 'scripts/dataacquisitionprojectmanagement/views/' +
               'dataAcquisitionProject-detail.html.tmpl',
             controller: 'DataAcquisitionProjectDetailController'
           }
@@ -73,7 +73,7 @@ angular.module('metadatamanagementApp')
         onEnter: ['$stateParams', '$state', '$uibModal',
           function($stateParams, $state, $uibModal) {
             $uibModal.open({
-              templateUrl: 'scripts/dataAcquisitionProjectManagement/views/' +
+              templateUrl: 'scripts/dataacquisitionprojectmanagement/views/' +
                 'dataAcquisitionProject-dialog.html.tmpl',
               controller: 'DataAcquisitionProjectDialogController',
               size: 'lg',
@@ -103,7 +103,7 @@ angular.module('metadatamanagementApp')
         onEnter: ['$stateParams', '$state', '$uibModal',
           function($stateParams, $state, $uibModal) {
             $uibModal.open({
-              templateUrl: 'scripts/dataAcquisitionProjectManagement/views/' +
+              templateUrl: 'scripts/dataacquisitionprojectmanagement/views/' +
                 'dataAcquisitionProject-dialog.html.tmpl',
               controller: 'DataAcquisitionProjectDialogController',
               size: 'lg',
@@ -135,7 +135,7 @@ angular.module('metadatamanagementApp')
         onEnter: ['$stateParams', '$state', '$uibModal',
           function($stateParams, $state, $uibModal) {
             $uibModal.open({
-              templateUrl: 'scripts/dataAcquisitionProjectManagement/views/' +
+              templateUrl: 'scripts/dataacquisitionprojectmanagement/views/' +
                 'dataAcquisitionProject-delete-dialog.html.tmpl',
               controller: 'DataAcquisitionProjectDeleteController',
               size: 'md',
