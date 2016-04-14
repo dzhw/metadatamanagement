@@ -277,7 +277,7 @@ module.exports = function(grunt) {
         ngtemplates: {
           dist: {
             cwd: 'src/main/webapp',
-            src: ['scripts/**/*.html'],
+            src: ['scripts/**/*.html.tmpl', 'scripts/**/*.html'],
             dest: '.tmp/templates/templates.js',
             options: {
               module: 'metadatamanagementApp',
@@ -327,7 +327,7 @@ module.exports = function(grunt) {
                   dot: true,
                   cwd: 'src/main/webapp',
                   dest: '<%= yeoman.dist %>',
-                  src: ['*.html',
+                  src: ['*.html', 'scripts/**/*.html',
                       'assets/images/**/*.{png,gif,webp,jpg,jpeg,svg}',
                       'assets/fonts/*']
                 }, {

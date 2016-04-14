@@ -12,7 +12,7 @@ angular.module('metadatamanagementApp')
         },
         views: {
           'content@': {
-            templateUrl: '/scripts/variableManagement/' +
+            templateUrl: 'scripts/variableManagement/' +
             'views/variables.html.tmpl',
             controller: 'VariableController'
           }
@@ -39,7 +39,7 @@ angular.module('metadatamanagementApp')
         },
         views: {
           'content@': {
-            templateUrl: '/scripts/variableManagement/views/' +
+            templateUrl: 'scripts/variableManagement/views/' +
               'variable-detail.html.tmpl',
             controller: 'VariableDetailController'
           }
@@ -69,7 +69,7 @@ angular.module('metadatamanagementApp')
           $stateParams,
           $state, $uibModal) {
           $uibModal.open({
-            templateUrl: '/scripts/variableManagement/views/' +
+            templateUrl: 'scripts/variableManagement/views/' +
               'variable-dialog.html.tmpl',
             controller: 'VariableDialogController',
             size: 'lg',
@@ -98,7 +98,7 @@ angular.module('metadatamanagementApp')
           $stateParams,
           $state, $uibModal) {
           $uibModal.open({
-            templateUrl: '/scripts/variableManagement/views/' +
+            templateUrl: 'scripts/variableManagement/views/' +
               'variable-dialog.html.tmpl',
             controller: 'VariableDialogController',
             size: 'lg',
