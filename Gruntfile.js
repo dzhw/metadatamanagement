@@ -277,7 +277,7 @@ module.exports = function(grunt) {
         ngtemplates: {
           dist: {
             cwd: 'src/main/webapp',
-            src: ['scripts/**/*.html.tmpl'],
+            src: ['scripts/**/*.html'],
             dest: '.tmp/templates/templates.js',
             options: {
               module: 'metadatamanagementApp',
