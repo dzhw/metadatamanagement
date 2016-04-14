@@ -2,15 +2,16 @@
 
 angular.module('metadatamanagementApp')
   .controller('DataAcquisitionProjectDetailController',
-    function($mdSidenav, $scope, entity, JobLoggingService,
+    function($mdSidenav, $state, $scope, entity, JobLoggingService,
       DataSetUploadService,
       VariableUploadService, SurveyUploadService, AtomicQuestionUploadService) {
+	  entity.id = $state.params.id;
       $scope.dataAcquisitionProject = entity;
       $scope.objLists = {
         dataSetList: {},
         surveyList: {},
         variableList: {},
-        atomicQuestionsList:  {}
+        atomicQuestionList:  {}
       };
       $scope.openLeftMenu = function() {
         $mdSidenav('left').toggle();

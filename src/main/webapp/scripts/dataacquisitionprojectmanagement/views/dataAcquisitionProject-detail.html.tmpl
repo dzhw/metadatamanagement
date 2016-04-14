@@ -86,14 +86,14 @@
                       <div class="col-md-12">
                         <span data-translate="metadatamanagementApp.atomicQuestion.title">AtomicQuestions</span>
                         <span class="pull-right">
-                          <span class="label label-as-badge label-default">{{objLists.atomicQuestionsList.page.totalElements}}</span>
+                          <span class="label label-as-badge label-default">{{objLists.atomicQuestionList.page.totalElements}}</span>
                           <i class="glyphicon" ng-class="{'glyphicon-chevron-down': atomicQuetionListIsOpen, 'glyphicon-chevron-right': !atomicQuetionListIsOpen}"></i>
                         </span>
                       </div>
                     </div>
                   </uib-accordion-heading>
                   <div>
-                    <atomicquestionslist params="{dataAcquisitionProjectId: dataAcquisitionProject.id}" current-language="currentLanguage" current-page="objLists.atomicQuestionsList"></atomicquestionslist>
+                    <atomicquestionlist params="{dataAcquisitionProjectId: dataAcquisitionProject.id}" current-language="currentLanguage" current-page="objLists.atomicQuestionsList"></atomicquestionlist>
                   </div>
               </uib-accordion-group>
             <br/>
