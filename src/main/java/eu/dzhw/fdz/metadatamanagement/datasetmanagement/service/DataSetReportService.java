@@ -10,14 +10,17 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import javax.inject.Inject;
 
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.google.common.base.Function;
 import com.google.common.collect.Maps;
 
+import eu.dzhw.fdz.metadatamanagement.common.rest.util.ZipUtil;
 import eu.dzhw.fdz.metadatamanagement.datasetmanagement.domain.DataSet;
 import eu.dzhw.fdz.metadatamanagement.datasetmanagement.repository.DataSetRepository;
 import eu.dzhw.fdz.metadatamanagement.filemanagement.service.FileService;
@@ -72,39 +75,52 @@ public class DataSetReportService {
   public static final String ESCAPE_SUFFIX = "</#escape>";
 
   public static final String CONTENT_TYPE_LATEX = "application/x-tex";
+  public static final String CONTENT_TYPE_ZIP = "application/zip";
 
   /**
    * This service method will receive a tex template as a string and an id of a data set. With this
    * id, the service will load the data set for receiving all depending information, which are
    * needed for filling of the tex template with data.
    * 
-   * @param texTemplateStr An uploaded tex template by the user as a String.
-   * @param fileName the name of the uploaded tex template.
+   * @param multiPartFile The uploaded zip file
    * @param dataSetId An id of the data set.
    * @return The name of the saved tex template in the GridFS / MongoDB.
    * @throws TemplateException Handles templates exceptions.
    * @throws IOException Handles IO Exception for the template.
    */
-  public String generateReport(String texTemplateStr, String fileName,
+  public String generateReport(MultipartFile multiPartFile,
       String dataSetId) throws TemplateException, IOException {
+
+    // Unzip the zip file
+    Map<String, String> texTemplates = ZipUtil.unzip(multiPartFile);
+    Map<String, byte[]> filledTemplates = new HashMap<>();
 
     // Configuration, based on Freemarker Version 2.3.23
     Configuration templateConfiguration = new Configuration(Configuration.VERSION_2_3_23);
     templateConfiguration.setDefaultEncoding(StandardCharsets.UTF_8.toString());
     templateConfiguration.setTemplateExceptionHandler(TemplateExceptionHandler.RETHROW_HANDLER);
 
-    // Read Template and escape elements
-    Template texTemplate = new Template("texTemplate",
-        (ESCAPE_PREFIX + texTemplateStr + ESCAPE_SUFFIX), templateConfiguration);
+    for (Entry<String, String> mapEntry : texTemplates.entrySet()) {
+      // Read Template and escape elements
+      Template texTemplate = new Template("texTemplate",
+          (ESCAPE_PREFIX + mapEntry.getValue() + ESCAPE_SUFFIX), templateConfiguration);
 
-    // Write output to output stream
-    ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-    Writer fileWriter = new OutputStreamWriter(byteArrayOutputStream, "UTF-8");
-    Map<String, Object> dataForTemplate = this.loadDataForTemplateFilling(dataSetId);
-    texTemplate.process(dataForTemplate, fileWriter);
+      // Write output to output stream
+      ByteArrayOutputStream byteArrayOutputStreamFile = new ByteArrayOutputStream();
+      Writer fileWriter = new OutputStreamWriter(byteArrayOutputStreamFile, "UTF-8");
+      Map<String, Object> dataForTemplate = this.loadDataForTemplateFilling(dataSetId);
+      texTemplate.process(dataForTemplate, fileWriter);
+
+      // Put translated element to tar archive
+      byte[] fileAsByteArray = byteArrayOutputStreamFile.toByteArray();
+      filledTemplates.put(mapEntry.getKey(), fileAsByteArray);
+    }
+
+    // Zip the filled templates.
+    ByteArrayOutputStream byteArrayOutputStreamArchive = ZipUtil.zip(filledTemplates);
 
     // Save into MongoDB / GridFS
-    return this.saveCompleteTexTemplate(byteArrayOutputStream, fileName);
+    return this.saveCompleteTexTemplate(byteArrayOutputStreamArchive, multiPartFile.getName());
   }
 
   /**
@@ -125,7 +141,7 @@ public class DataSetReportService {
     fileService.deleteTempFile(fileName);
 
     // Save tex file, based on the bytearray*streams
-    return fileService.saveTempFile(byteArrayInputStream, fileName, CONTENT_TYPE_LATEX);
+    return fileService.saveTempFile(byteArrayInputStream, fileName, CONTENT_TYPE_ZIP);
   }
 
   /**

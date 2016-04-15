@@ -1,7 +1,6 @@
 package eu.dzhw.fdz.metadatamanagement.datasetmanagement.rest;
 
 import java.io.IOException;
-import java.nio.charset.StandardCharsets;
 
 import javax.inject.Inject;
 
@@ -43,28 +42,8 @@ public class DataSetsReportResource {
     // Handles no empty latex templates
     if (!multiPartFile.isEmpty()) {
 
-      // get File as bytes
-      byte[] fileAsBytes = multiPartFile.getBytes();
-
-      /*
-       * TarArchiveInputStream tarInput = new TarArchiveInputStream(new
-       * GZIPInputStream(multiPartFile.getInputStream()));
-       * 
-       * TarArchiveEntry currentEntry = tarInput.getNextTarEntry();
-       * System.out.println(currentEntry.getName()); System.out.println(currentEntry.getFile());
-       * File file = currentEntry.getFile(); FileInputStream fileInputStream = new
-       * FileInputStream(currentEntry.getFile()); fileAsBytes = new
-       * byte[fileInputStream.available()]; fileInputStream.read(fileAsBytes);
-       * fileInputStream.close(); System.out.println(new String(fileAsBytes,
-       * StandardCharsets.UTF_8.toString()));
-       */
-
-
-
       // fill the data with data and store the template into mongodb / gridfs
-      String fileName = this.dataSetReportService.generateReport(
-          new String(fileAsBytes, StandardCharsets.UTF_8.toString()),
-          multiPartFile.getOriginalFilename(), id);
+      String fileName = this.dataSetReportService.generateReport(multiPartFile, id);
 
       // Return ok. Status 200.
       return ResponseEntity.ok()
@@ -78,12 +57,4 @@ public class DataSetsReportResource {
         .body(null);
     }
   }
-
-  // TODO Docu
-  /*
-   * private File multipartToFile(MultipartFile multipartFile) throws IllegalStateException,
-   * IOException { File file = new File(multipartFile.getOriginalFilename());
-   * multipartFile.transferTo(file); return file; }
-   */
-
 }
