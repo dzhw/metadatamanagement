@@ -18,7 +18,7 @@ angular
                       'content@': {
                         templateUrl:
                          'scripts/administrationmanagement/usermanagement/' +
-                         '/user-management.html.tmpl',
+                         'user-management.html.tmpl',
                         controller: 'UserManagementController'
                       }
                     },
