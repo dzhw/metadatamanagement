@@ -31,25 +31,40 @@ public class DataSetsReportResource {
   /**
    * Accept latex templates under the given request mapping.
    * 
-   * @param file The latex template as multipart file
+   * @param multiPartFile The latex template as multipart file
    * @param id the id of the data acquision project, from where the file was uploaded
    * @throws IOException Handles io exception for the template. (Freemarker Templates)
    * @throws TemplateException Handles template exceptions. (Freemarker Templates)
    */
   @RequestMapping(value = "/data-sets/report")
-  public ResponseEntity<String> uploadFile(@RequestParam("file") MultipartFile file,
+  public ResponseEntity<String> uploadFile(@RequestParam("file") MultipartFile multiPartFile,
       @RequestParam("id") String id) throws IOException, TemplateException {
 
     // Handles no empty latex templates
-    if (!file.isEmpty()) {
+    if (!multiPartFile.isEmpty()) {
 
       // get File as bytes
-      byte[] fileAsBytes = file.getBytes();
+      byte[] fileAsBytes = multiPartFile.getBytes();
+
+      /*
+       * TarArchiveInputStream tarInput = new TarArchiveInputStream(new
+       * GZIPInputStream(multiPartFile.getInputStream()));
+       * 
+       * TarArchiveEntry currentEntry = tarInput.getNextTarEntry();
+       * System.out.println(currentEntry.getName()); System.out.println(currentEntry.getFile());
+       * File file = currentEntry.getFile(); FileInputStream fileInputStream = new
+       * FileInputStream(currentEntry.getFile()); fileAsBytes = new
+       * byte[fileInputStream.available()]; fileInputStream.read(fileAsBytes);
+       * fileInputStream.close(); System.out.println(new String(fileAsBytes,
+       * StandardCharsets.UTF_8.toString()));
+       */
+
+
 
       // fill the data with data and store the template into mongodb / gridfs
       String fileName = this.dataSetReportService.generateReport(
           new String(fileAsBytes, StandardCharsets.UTF_8.toString()),
-          file.getOriginalFilename(), id);
+          multiPartFile.getOriginalFilename(), id);
 
       // Return ok. Status 200.
       return ResponseEntity.ok()
@@ -63,5 +78,12 @@ public class DataSetsReportResource {
         .body(null);
     }
   }
+
+  // TODO Docu
+  /*
+   * private File multipartToFile(MultipartFile multipartFile) throws IllegalStateException,
+   * IOException { File file = new File(multipartFile.getOriginalFilename());
+   * multipartFile.transferTo(file); return file; }
+   */
 
 }
