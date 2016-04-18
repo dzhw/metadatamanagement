@@ -8,16 +8,16 @@ import net.karneim.pojobuilder.GeneratePojoBuilder;
 
 /**
  * Class representing period in time.
- * 
+ *
  * @author René Reitmann
  */
 @GeneratePojoBuilder(intoPackage = "eu.dzhw.fdz.metadatamanagement.common.domain.builders")
-@ValidPeriod
+@ValidPeriod(message = "{error.period.validPeriod}")
 public class Period implements Serializable {
   private static final long serialVersionUID = -4040296722435163942L;
 
   private LocalDate start;
-   
+
   private LocalDate end;
 
   public LocalDate getStart() {
@@ -36,6 +36,11 @@ public class Period implements Serializable {
     this.end = end;
   }
 
+  /*
+   * (non-Javadoc)
+   * 
+   * @see java.lang.Object#hashCode()
+   */
   @Override
   public int hashCode() {
     final int prime = 31;
@@ -45,30 +50,35 @@ public class Period implements Serializable {
     return result;
   }
 
+  /*
+   * (non-Javadoc)
+   * 
+   * @see java.lang.Object#equals(java.lang.Object)
+   */
   @Override
   public boolean equals(Object obj) {
     if (this == obj) {
-      return true;      
+      return true;
     }
-    if (obj == null) {      
+    if (obj == null) {
       return false;
     }
     if (getClass() != obj.getClass()) {
-      return false;      
+      return false;
     }
     Period other = (Period) obj;
     if (end == null) {
       if (other.end != null) {
-        return false;        
+        return false;
       }
     } else if (!end.equals(other.end)) {
-      return false;      
+      return false;
     }
     if (start == null) {
       if (other.start != null) {
-        return false;        
+        return false;
       }
-    } else if (!start.equals(other.start)) {      
+    } else if (!start.equals(other.start)) {
       return false;
     }
     return true;
