@@ -1,7 +1,5 @@
 package eu.dzhw.fdz.metadatamanagement.filemanagement.rest;
 
-import static org.hamcrest.Matchers.is;
-import static org.junit.Assert.assertThat;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -15,7 +13,6 @@ import org.junit.Before;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
@@ -56,19 +53,13 @@ public class FileResourceTest extends AbstractTest {
     String basicPath = currentRelativePath.toAbsolutePath()
       .toString();
     File templatePath = new File(basicPath + "/src/test/resources/data/latexExample/");
-    FileInputStream fileInputStream = new FileInputStream(templatePath + "/ExampleTexTemplate.tex");
+    FileInputStream fileInputStream = new FileInputStream(templatePath + "/TemplateExample.zip");
     String namePath =
-        this.fileService.saveTempFile(fileInputStream, "TestName", "application/x-tex");
+        this.fileService.saveTempFile(fileInputStream, "TestName", "application/zip");
 
     // Act and Assert Download
-    MvcResult mvcResultDownload =
-        this.mockMvc.perform(get(PUBLIC_FILES_URI + namePath))
+    this.mockMvc.perform(get(PUBLIC_FILES_URI + namePath))
           .andExpect(status().isOk())
           .andReturn();
-
-    String texTemplateDownload = new String(mvcResultDownload.getResponse()
-      .getContentAsByteArray());
-
-    assertThat(texTemplateDownload.contains("documentclass"), is(true));
   }
 }
