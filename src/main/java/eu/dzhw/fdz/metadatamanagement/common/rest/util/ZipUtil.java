@@ -24,10 +24,11 @@ public class ZipUtil {
   private ZipUtil() {}
 
   /**
-   * Yeah.
+   * This method unzips a zip file and return a HashMap representation. The key is the name of the
+   * file, including the path within the zip file.
    * 
-   * @return Yeah.
-   * @throws IOException Yeah.
+   * @return Returns a HashMap representation of the zip file.
+   * @throws IOException Catches the potential IO Error by the unzipper
    */
   public static Map<String, String> unzip(MultipartFile multiPartFile) throws IOException {
 
@@ -55,10 +56,12 @@ public class ZipUtil {
   }
 
   /**
-   * Yeah.
+   * This method zips a zip file and return a ByteArrayOutputStream representation. The basic
+   * element for the zip file is a HashMap. The keys for the hashmap are the names with pathes for
+   * the files. The value of the hashmap is the file as byte Array.
    * 
-   * @return Yeah.
-   * @throws IOException Yeah.
+   * @return Returns a HashMap representation of the zip file.
+   * @throws IOException Catches the potential IO Error by the unzipper
    */
   public static ByteArrayOutputStream zip(Map<String, byte[]> filledTemplates) throws IOException {
     

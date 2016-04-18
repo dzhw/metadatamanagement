@@ -10,7 +10,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 
 import javax.inject.Inject;
 
@@ -74,8 +73,19 @@ public class DataSetReportService {
    */
   public static final String ESCAPE_SUFFIX = "</#escape>";
 
+  /**
+   * Latex Mime Content Type.
+   */
   public static final String CONTENT_TYPE_LATEX = "application/x-tex";
+
+  /**
+   * Zip Mime Content Type.
+   */
   public static final String CONTENT_TYPE_ZIP = "application/zip";
+
+  public static final String KEY_INTRODUCTION = "Introduction.tex";
+  public static final String KEY_MAIN = "Main.tex";
+  public static final String KEY_VARIABLE = "variables/Variable.tex";
 
   /**
    * This service method will receive a tex template as a string and an id of a data set. With this
@@ -88,6 +98,7 @@ public class DataSetReportService {
    * @throws TemplateException Handles templates exceptions.
    * @throws IOException Handles IO Exception for the template.
    */
+  @SuppressWarnings("unchecked")
   public String generateReport(MultipartFile multiPartFile,
       String dataSetId) throws TemplateException, IOException {
 
@@ -100,27 +111,58 @@ public class DataSetReportService {
     templateConfiguration.setDefaultEncoding(StandardCharsets.UTF_8.toString());
     templateConfiguration.setTemplateExceptionHandler(TemplateExceptionHandler.RETHROW_HANDLER);
 
-    for (Entry<String, String> mapEntry : texTemplates.entrySet()) {
-      // Read Template and escape elements
-      Template texTemplate = new Template("texTemplate",
-          (ESCAPE_PREFIX + mapEntry.getValue() + ESCAPE_SUFFIX), templateConfiguration);
-
-      // Write output to output stream
-      ByteArrayOutputStream byteArrayOutputStreamFile = new ByteArrayOutputStream();
-      Writer fileWriter = new OutputStreamWriter(byteArrayOutputStreamFile, "UTF-8");
-      Map<String, Object> dataForTemplate = this.loadDataForTemplateFilling(dataSetId);
-      texTemplate.process(dataForTemplate, fileWriter);
-
-      // Put translated element to tar archive
-      byte[] fileAsByteArray = byteArrayOutputStreamFile.toByteArray();
-      filledTemplates.put(mapEntry.getKey(), fileAsByteArray);
-    }
+    // Load data for template only once
+    Map<String, Object> dataForTemplate = this.loadDataForTemplateFilling(dataSetId);
 
     // Zip the filled templates.
-    ByteArrayOutputStream byteArrayOutputStreamArchive = ZipUtil.zip(filledTemplates);
+    filledTemplates.put(KEY_INTRODUCTION,
+        this.fillTemplate(texTemplates.get(KEY_INTRODUCTION), templateConfiguration,
+            dataForTemplate));
+    filledTemplates.put(KEY_MAIN,
+        this.fillTemplate(texTemplates.get(KEY_MAIN), templateConfiguration,
+            dataForTemplate));
 
+    // Create Variables pages
+    List<String> variableIds = ((DataSet) dataForTemplate.get("dataSet")).getVariableIds();
+    Map<String, Variable> variablesMap = (Map<String, Variable>) dataForTemplate.get("variables");
+    for (String variableId : variableIds) {
+      Variable variable = variablesMap.get(variableId);
+      dataForTemplate.put("variableId", variableId);
+      if (variable != null) {
+        filledTemplates.put("variables/" + variable.getName() + ".tex",
+            fillTemplate(texTemplates.get(KEY_VARIABLE), templateConfiguration, dataForTemplate));
+      }
+    }
     // Save into MongoDB / GridFS
+    ByteArrayOutputStream byteArrayOutputStreamArchive = ZipUtil.zip(filledTemplates);
     return this.saveCompleteTexTemplate(byteArrayOutputStreamArchive, multiPartFile.getName());
+  }
+
+  /**
+   * This method filles the tex templates.
+   * 
+   * @param templateContent The content of a tex template.
+   * @param templateConfiguration The configuration for freemarker.
+   * @param dataForTemplateThe data for a tex template. All variables, questions and dataset
+   *        information.
+   * @return The filled tex templates as byte array.
+   * @throws IOException Handles IO Exception.
+   * @throws TemplateException Handles template Exceptions.
+   */
+  private byte[] fillTemplate(String templateContent,
+      Configuration templateConfiguration, Map<String, Object> dataForTemplate)
+      throws IOException, TemplateException {
+    // Read Template and escape elements
+    Template texTemplate = new Template("texTemplate",
+        (ESCAPE_PREFIX + templateContent + ESCAPE_SUFFIX), templateConfiguration);
+
+    // Write output to output stream
+    ByteArrayOutputStream byteArrayOutputStreamFile = new ByteArrayOutputStream();
+    Writer fileWriter = new OutputStreamWriter(byteArrayOutputStreamFile, "UTF-8");
+    texTemplate.process(dataForTemplate, fileWriter);
+
+    // Put translated element to tar archive
+    return byteArrayOutputStreamFile.toByteArray();
   }
 
   /**
