@@ -34,11 +34,11 @@ function(Variable, CleanJSObjectService, JobLoggingService) {
           de: jsonContent[i]['description.de']
         },
         filterDetails: {
-          filterExpression:
-          jsonContent[i]['filterDetails.filterExpression'],
-          filterDescription: {
-            en: jsonContent[i]['filterDetails.filterDescription.de'],
-            de: jsonContent[i]['filterDetails.filterDescription.en']
+          expression:
+          jsonContent[i]['filterDetails.expression'],
+          description: {
+            en: jsonContent[i]['filterDetails.description.de'],
+            de: jsonContent[i]['filterDetails.description.en']
           },
           filterExpressionLanguage:
           jsonContent[i]['filterDetails.filterExpressionLanguage']
