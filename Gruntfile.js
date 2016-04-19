@@ -120,7 +120,10 @@ module.exports = function(grunt) {
               ' Please be sure to test, and consider using a polyfill.',
               'Bad value “file” for attribute “type” on element “button”.',
               'Element “dl” not allowed as child of' +
-              ' element “pre” in this context.'
+              ' element “pre” in this context.',
+              'Element “md-progress-linear” not allowed as child of ' +
+              'element “body” in this context. (Suppressing further ' +
+              'errors from this subtree.)'
             ],
             customattrs: [
               'show-validation',
@@ -699,7 +702,7 @@ module.exports = function(grunt) {
       'ngconstant:dev', 'sass:server', 'wiredep:test', 'karma',
       'jshint', 'jscs']);
 
-  grunt.registerTask('build', ['test', 'clean:dist',
+  grunt.registerTask('build', ['test', 'htmlangular', 'clean:dist',
       'wiredep:app', 'ngconstant:prod',
       'useminPrepare', 'ngtemplates', 'imagemin', 'svgmin',
       'concat', 'copy:fonts', 'copy:dist', 'ngAnnotate', 'cssmin',
