@@ -38,7 +38,6 @@ import eu.dzhw.fdz.metadatamanagement.searchmanagement.service.ElasticsearchAdmi
 import eu.dzhw.fdz.metadatamanagement.searchmanagement.service.ElasticsearchIndices;
 import eu.dzhw.fdz.metadatamanagement.surveymanagement.domain.Survey;
 import eu.dzhw.fdz.metadatamanagement.surveymanagement.repository.SurveyRepository;
-import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.DataTypes;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.FilterExpressionLanguages;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.RuleExpressionLanguages;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.ScaleLevels;
@@ -511,9 +510,6 @@ public class VariableResourceTest extends AbstractTest {
     // with other scale level and data type (code coverage)
     variable.setScaleLevel(new I18nStringBuilder().withDe(ScaleLevels.NOMINAL.getDe())
       .withEn(ScaleLevels.NOMINAL.getEn())
-      .build());
-    variable.setDataType(new I18nStringBuilder().withDe(DataTypes.STRING.getDe())
-      .withEn(DataTypes.STRING.getEn())
       .build());
 
     // update the variable with the given id
