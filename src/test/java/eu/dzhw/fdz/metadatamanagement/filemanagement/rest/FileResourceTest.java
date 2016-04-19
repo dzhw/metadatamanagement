@@ -10,7 +10,6 @@ import java.nio.file.Paths;
 
 import org.junit.After;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.web.servlet.MockMvc;
@@ -47,7 +46,6 @@ public class FileResourceTest extends AbstractTest {
   }
 
   @Test
-  @Ignore
   public void testValidUpload() throws Exception {
 
     // Arrange
