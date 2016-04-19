@@ -595,7 +595,7 @@ public class VariableResourceTest extends AbstractTest {
     Variable variable =
         UnitTestCreateDomainObjectUtils.buildVariable(project.getId(), survey.getId());
     variable.getFilterDetails()
-      .setFilterExpressionLanguage(null);
+      .setExpressionLanguage(null);
 
     // Act and Assert
     // create the variable with the given id
@@ -615,7 +615,7 @@ public class VariableResourceTest extends AbstractTest {
     Variable variable =
         UnitTestCreateDomainObjectUtils.buildVariable(project.getId(), survey.getId());
     variable.getFilterDetails()
-      .setFilterExpressionLanguage("WrongLanguage");
+      .setExpressionLanguage("WrongLanguage");
 
     // Act and Assert
     // create the variable with the given id
@@ -635,7 +635,7 @@ public class VariableResourceTest extends AbstractTest {
     Variable variable =
         UnitTestCreateDomainObjectUtils.buildVariable(project.getId(), survey.getId());
     variable.getFilterDetails()
-      .setFilterExpressionLanguage(FilterExpressionLanguages.SPEL);
+      .setExpressionLanguage(FilterExpressionLanguages.SPEL);
 
     // Act and Assert
     // create the variable with the given id

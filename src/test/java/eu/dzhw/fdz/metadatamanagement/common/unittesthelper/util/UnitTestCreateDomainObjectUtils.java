@@ -159,11 +159,12 @@ public class UnitTestCreateDomainObjectUtils {
         .withEn("En Description")
         .build())
       .withFilterDetails(new FilterDetailsBuilder()
-          .withFilterDescription(new I18nStringBuilder().withDe("De Filterbeschreibung")
+        .withDescription(new I18nStringBuilder().withDe("De Filterbeschreibung")
             .withEn("En Filter Description")
             .build())
-          .withFilterExpressionLanguage(FilterExpressionLanguages.STATA)
-          .withFilterExpression("Filter Expression").build())      
+        .withExpressionLanguage(FilterExpressionLanguages.STATA)
+        .withExpression("Filter Expression")
+        .build())
       .withSameVariablesInPanel(withSameVariablesInPanel)
       .withValues(withValues)
       .withConceptId("ConceptId001")
@@ -264,12 +265,12 @@ public class UnitTestCreateDomainObjectUtils {
   
   public static FilterDetails buildFilterDetails() {
     return new FilterDetailsBuilder()
-        .withFilterDescription(new I18nStringBuilder()
+      .withDescription(new I18nStringBuilder()
             .withDe("Eine Filterbeschreibung.")
             .withEn("A filter description.")
             .build())
-        .withFilterExpression("A Filter Expression")
-        .withFilterExpressionLanguage(FilterExpressionLanguages.STATA)
+      .withExpression("A Filter Expression")
+      .withExpressionLanguage(FilterExpressionLanguages.STATA)
         .build();
   }
 

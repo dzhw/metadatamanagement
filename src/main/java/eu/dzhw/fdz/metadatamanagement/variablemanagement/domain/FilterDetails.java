@@ -22,18 +22,18 @@ import net.karneim.pojobuilder.GeneratePojoBuilder;
     intoPackage = "eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.builders")
 public class FilterDetails {
   
-  @NotEmpty(message = "{error.filterDetails.filterExpression.notEmpty}")
+  @NotEmpty(message = "{error.filterDetails.expression.notEmpty}")
   @Size(max = StringLengths.MEDIUM, message = "{error.filterDetails.filterExpression.size}")
-  private String filterExpression;
+  private String expression;
 
   @I18nStringSize(max = StringLengths.LARGE,
-      message = "{error.filterDetails.filterDescription.i18nStringSize}")
-  private I18nString filterDescription;
+      message = "{error.filterDetails.description.i18nStringSize}")
+  private I18nString description;
 
-  @NotEmpty(message = "{error.filterDetails.filterExpressionLanguage.notEmpty}")
+  @NotEmpty(message = "{error.filterDetails.expressionLanguage.notEmpty}")
   @ValidFilterExpressionLanguage(
-      message = "{error.filterDetails.filterExpressionLanguage.validFilterExpressionLanguage}")
-  private String filterExpressionLanguage;
+      message = "{error.filterDetails.expressionLanguage.validFilterExpressionLanguage}")
+  private String expressionLanguage;
   
   /*
    * (non-Javadoc)
@@ -42,35 +42,34 @@ public class FilterDetails {
   @Override
   public String toString() {
     return MoreObjects.toStringHelper(this)
-      .add("filterExpression", filterExpression)
-      .add("filterDescription", filterDescription)
-      .add("filterExpressionLanguage", filterExpressionLanguage)
+      .add("expression", expression)
+      .add("description", description)
+      .add("expressionLanguage", expressionLanguage)
       .toString();
   }
 
   /* GETTER / SETTER */
-  public String getFilterExpression() {
-    return filterExpression;
+  public String getExpression() {
+    return expression;
   }
 
-  public void setFilterExpression(String filterExpression) {
-    this.filterExpression = filterExpression;
+  public void setExpression(String expression) {
+    this.expression = expression;
   }
 
-  public I18nString getFilterDescription() {
-    return filterDescription;
+  public I18nString getDescription() {
+    return description;
   }
 
-  public void setFilterDescription(I18nString filterDescription) {
-    this.filterDescription = filterDescription;
+  public void setDescription(I18nString description) {
+    this.description = description;
   }
 
-  public String getFilterExpressionLanguage() {
-    return filterExpressionLanguage;
+  public String getExpressionLanguage() {
+    return expressionLanguage;
   }
 
-  public void setFilterExpressionLanguage(String filterExpressionLanguage) {
-    this.filterExpressionLanguage = filterExpressionLanguage;
+  public void setExpressionLanguage(String expressionLanguage) {
+    this.expressionLanguage = expressionLanguage;
   }
-
 }
