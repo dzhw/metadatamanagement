@@ -9,7 +9,6 @@ import java.nio.file.Paths;
 
 import org.junit.After;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mock.web.MockMultipartFile;
@@ -62,7 +61,6 @@ public class DataSetsReportResourceTest extends AbstractTest {
   }
 
   @Test
-  @Ignore
   public void testValidUpload() throws Exception {
 
     // Arrange
@@ -83,7 +81,9 @@ public class DataSetsReportResourceTest extends AbstractTest {
     this.dataSetRepository.save(dataSet);
 
     // Act and Assert
-    MockMultipartFile multipartFile = new MockMultipartFile("file", texTemplate);
+    MockMultipartFile multipartFile =
+        new MockMultipartFile("file", "TemplateExample.zip", "application/zip", texTemplate);
+
     this.mockMvc.perform(MockMvcRequestBuilders.fileUpload(API_DATASETS_REPORTS_URI)
       .file(multipartFile)
       .param("id", dataSet.getId()))
