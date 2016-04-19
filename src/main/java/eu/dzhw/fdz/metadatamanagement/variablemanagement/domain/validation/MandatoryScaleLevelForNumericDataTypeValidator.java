@@ -30,16 +30,28 @@ public class MandatoryScaleLevelForNumericDataTypeValidator
    */
   @Override
   public boolean isValid(Variable variable, ConstraintValidatorContext context) {
-    if (variable.getDataType() == null || !variable.getDataType().equals(DataTypes.NUMERIC)) {
+
+    if (variable == null) {
       return true;
     }
-    
-    // string is set, but a scale level too -> false!
-    if (variable.getDataType()
-        .equals(DataTypes.STRING) && variable.getScaleLevel() != null) {
+
+    // data type is mandatory
+    if (variable.getDataType() == null) {
       return false;
     }
 
-    return variable.getScaleLevel() != null;
+    // string is set, but a scale level too -> false!
+    if (variable.getDataType()
+        .equals(DataTypes.STRING) && variable.getScaleLevel() == null) {
+      return true;
+    }
+
+    // string is set, but a scale level too -> false!
+    if (variable.getDataType()
+        .equals(DataTypes.NUMERIC) && variable.getScaleLevel() != null) {
+      return true;
+    }
+
+    return false;
   }
 }

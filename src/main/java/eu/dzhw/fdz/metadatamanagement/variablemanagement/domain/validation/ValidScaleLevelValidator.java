@@ -31,6 +31,10 @@ public class ValidScaleLevelValidator implements ConstraintValidator<ValidScaleL
   @Override
   public boolean isValid(I18nString scaleLevel, ConstraintValidatorContext context) {
 
+    if (scaleLevel == null) {
+      return true;
+    }
+
     // check for scale levels
     return ScaleLevels.ALL.contains(scaleLevel);
   }
