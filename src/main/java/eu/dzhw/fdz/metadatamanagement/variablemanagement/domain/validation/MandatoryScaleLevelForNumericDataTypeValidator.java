@@ -34,6 +34,12 @@ public class MandatoryScaleLevelForNumericDataTypeValidator
       return true;
     }
     
+    // string is set, but a scale level too -> false!
+    if (variable.getDataType()
+        .equals(DataTypes.STRING) && variable.getScaleLevel() != null) {
+      return false;
+    }
+
     return variable.getScaleLevel() != null;
   }
 }
