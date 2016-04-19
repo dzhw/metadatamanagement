@@ -34,34 +34,34 @@ angular.module('metadatamanagementApp')
           authorities: ['ROLE_USER'],
           pageTitle: 'metadatamanagementApp.dataAcquisitionProject.detail.title'
         },
+        resolve: {
+            translatePartialLoader: ['$translate',
+              '$translatePartialLoader',
+              function($translate, $translatePartialLoader) {
+                $translatePartialLoader.addPart('dataAcquisitionProject');
+                $translatePartialLoader.addPart('pager');
+                $translatePartialLoader.addPart('survey');
+                $translatePartialLoader.addPart('dataSet');
+                $translatePartialLoader.addPart('variable');
+                $translatePartialLoader.addPart('customModal');
+                $translatePartialLoader.addPart('atomicQuestion');
+                return $translate.refresh();
+              }
+            ],
+            entity: ['$stateParams', 'DataAcquisitionProject',
+              function($stateParams, DataAcquisitionProject) {
+                return DataAcquisitionProject.get({
+                  id: $stateParams.id
+                }).$promise;
+              }
+            ]
+          },
         views: {
           'content@': {
             templateUrl: 'scripts/dataacquisitionprojectmanagement/views/' +
               'dataAcquisitionProject-detail.html.tmpl',
             controller: 'DataAcquisitionProjectDetailController'
           }
-        },
-        resolve: {
-          translatePartialLoader: ['$translate',
-            '$translatePartialLoader',
-            function($translate, $translatePartialLoader) {
-              $translatePartialLoader.addPart('dataAcquisitionProject');
-              $translatePartialLoader.addPart('pager');
-              $translatePartialLoader.addPart('survey');
-              $translatePartialLoader.addPart('dataSet');
-              $translatePartialLoader.addPart('variable');
-              $translatePartialLoader.addPart('customModal');
-              $translatePartialLoader.addPart('atomicQuestion');
-              return $translate.refresh();
-            }
-          ],
-          entity: ['$stateParams', 'DataAcquisitionProject',
-            function($stateParams, DataAcquisitionProject) {
-              return DataAcquisitionProject.get({
-                id: $stateParams.id
-              });
-            }
-          ]
         }
       })
       .state('dataAcquisitionProject.new', {

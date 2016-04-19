@@ -2,10 +2,9 @@
 
 angular.module('metadatamanagementApp')
   .controller('DataAcquisitionProjectDetailController',
-    function($mdSidenav, $state, $scope, entity, JobLoggingService,
+    function($mdSidenav, $scope, entity, JobLoggingService,
       DataSetUploadService,
       VariableUploadService, SurveyUploadService, AtomicQuestionUploadService) {
-      entity.id = $state.params.id;
       $scope.dataAcquisitionProject = entity;
       $scope.objLists = {
         dataSetList: {},
@@ -13,7 +12,7 @@ angular.module('metadatamanagementApp')
         variableList: {},
         atomicQuestionList:  {}
       };
-      $scope.openLeftMenu = function() {
+      /*$scope.openLeftMenu = function() {
         $mdSidenav('left').toggle();
       };
       $scope.close = function() {
@@ -21,7 +20,7 @@ angular.module('metadatamanagementApp')
       };
       $scope.isOpen = false;
       $scope.count = 0;
-      $scope.selectedDirection = 'left';
+      $scope.selectedDirection = 'left';*/
       $scope.job = JobLoggingService.init();
       $scope.uploadSurveys = function(file) {
         JobLoggingService.start('survey');

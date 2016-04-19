@@ -13,7 +13,7 @@ angular.module('metadatamanagementApp').config(
             },
             views: {
               'content@': {
-                templateUrl: 'scripts/errornotification/error/' +
+                templateUrl: 'scripts/common/errornotification/error/' +
                 'error.html.tmpl'
               }
             },
@@ -35,7 +35,7 @@ angular.module('metadatamanagementApp').config(
             },
             views: {
               'content@': {
-                templateUrl: 'scripts/errornotification/error/' +
+                templateUrl: 'scripts/common/errornotification/error/' +
                 'accessdenied.html.tmpl'
               }
             },
