@@ -48,11 +48,18 @@ angular.module('metadatamanagementApp')
                 return $translate.refresh();
               }
             ],
-            entity: ['$stateParams', 'DataAcquisitionProject',
-              function($stateParams, DataAcquisitionProject) {
-                return DataAcquisitionProject.get({
+            entity: ['$stateParams','$state','$q', 'DataAcquisitionProject',
+              function($stateParams, $state, $q, DataAcquisitionProject) {
+                var deferred = $q.defer();
+                DataAcquisitionProject.get({
                   id: $stateParams.id
-                }).$promise;
+                }).$promise.
+                then(function(data) {
+                  deferred.resolve(data);
+                },
+                  function() {
+                    $state.go('error');});
+                return deferred.promise;
               }
             ]
           },
