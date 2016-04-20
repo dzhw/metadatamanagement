@@ -9,6 +9,7 @@ import com.google.common.base.MoreObjects;
 import eu.dzhw.fdz.metadatamanagement.common.domain.I18nString;
 import eu.dzhw.fdz.metadatamanagement.common.domain.validation.I18nStringSize;
 import eu.dzhw.fdz.metadatamanagement.common.domain.validation.StringLengths;
+import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.validation.NotEmptyGenerationDetailsDescriptionOrRule;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.validation.ValidRuleExpressionLanguage;
 import net.karneim.pojobuilder.GeneratePojoBuilder;
 
@@ -20,13 +21,14 @@ import net.karneim.pojobuilder.GeneratePojoBuilder;
  */
 @GeneratePojoBuilder(
     intoPackage = "eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.builders")
+@NotEmptyGenerationDetailsDescriptionOrRule(
+    message = "{error.generationDetails.notEmptyGenerationDetailsDescriptionOrRule}")
 public class GenerationDetails {
 
   @I18nStringSize(max = StringLengths.LARGE,
       message = "{error.generationDetails.description.i18nStringSize}")
   private I18nString description;
 
-  @NotEmpty(message = "{error.generationDetails.rule.notEmpty}")
   @Size(max = StringLengths.LARGE, message = "{error.generationDetails.rule.size}")
   private String rule;
 
