@@ -18,7 +18,7 @@ angular.module('metadatamanagementApp')
     };
 
     $scope.uploadTexTemplate = function(file, dataSetId) {
-      JobLoggingService.start('tex');
+      JobLoggingService.start('zip');
       TexUploadService.uploadTexTemplate(file, dataSetId);
     };
 

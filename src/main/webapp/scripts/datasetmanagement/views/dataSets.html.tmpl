@@ -18,7 +18,7 @@
                 <tr ng-repeat="dataSet in dataSets track by dataSet.id">
                     <td>{{dataSet.id}}</td>
                     <td>
-                        <button type="file" class="btn btn-default" ngf-select="uploadTexTemplate($file, dataSet.id)" accept=".tex" ng-disabled="uploadState.disableButton">
+                        <button type="file" class="btn btn-default" ngf-select="uploadTexTemplate($file, dataSet.id)" accept=".zip" ng-disabled="uploadState.disableButton">
                             <span class="glyphicon glyphicon-book"></span>
                             {{'metadatamanagementApp.dataSet.details.generate' | translate}}
                         </button>
