@@ -13,7 +13,7 @@ describe('Unit testing metadatamanagementAppPage', function() {
     var html =
       '<metadatamanagement-app-pager></metadatamanagement-app-pager>';
     $httpBackend.expectGET(
-      'scripts/common/form/pager.html.tmpl').respond(200, {});
+      'scripts/common/form/directives/pager.html.tmpl').respond(200, {});
     element = $compile(html)($scope);
     $scope.$digest();
   }));
