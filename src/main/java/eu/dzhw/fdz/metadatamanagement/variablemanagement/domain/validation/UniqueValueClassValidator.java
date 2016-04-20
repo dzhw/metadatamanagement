@@ -6,7 +6,7 @@ import java.util.List;
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 
-import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.Value;
+import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.ValidResponse;
 
 /**
  * Ensure that value.valueClass is unique within the variable.
@@ -14,7 +14,7 @@ import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.Value;
  * @author René Reitmann
  */
 public class UniqueValueClassValidator
-    implements ConstraintValidator<UniqueValueClass, List<Value>> {
+    implements ConstraintValidator<UniqueValueClass, List<ValidResponse>> {
 
   /*
    * (non-Javadoc)
@@ -31,19 +31,19 @@ public class UniqueValueClassValidator
    * javax.validation.ConstraintValidatorContext)
    */
   @Override
-  public boolean isValid(List<Value> values, ConstraintValidatorContext context) {
-    if (values == null) {
+  public boolean isValid(List<ValidResponse> validResponses, ConstraintValidatorContext context) {
+    if (validResponses == null) {
       return true;
     }
     
     HashSet<String> classes = new HashSet<>();
     
-    for (Value value : values) {
-      if (value.getValueClass() != null) {        
-        if (classes.contains(value.getValueClass())) {
+    for (ValidResponse validResponse : validResponses) {
+      if (validResponse.getValue() != null) {
+        if (classes.contains(validResponse.getValue())) {
           return false;
         }
-        classes.add(value.getValueClass());
+        classes.add(validResponse.getValue());
       }
     }
     

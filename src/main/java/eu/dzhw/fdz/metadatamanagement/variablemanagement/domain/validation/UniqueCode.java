@@ -10,23 +10,20 @@ import javax.validation.Constraint;
 import javax.validation.Payload;
 
 /**
- * This is the annotation for the validation that only a valueClass or code is set by a user. One of
- * the fields must be set, but both are not allowed at the same time.
+ * Ensure that missing.code is unique within the variable.
  * 
- * @author Daniel Katzberg
- *
+ * @author René Reitmann
  */
 @Documented
-@Constraint(validatedBy = {ValidCodeOrValueClassValidator.class})
-@Target({ElementType.TYPE})
+@Constraint(validatedBy = {UniqueCodeValidator.class})
+@Target({ElementType.FIELD})
 @Retention(RetentionPolicy.RUNTIME)
-public @interface ValidCodeOrValueClass {
-
+public @interface UniqueCode {
   /**
    * Defines the default error message.
    */
   public abstract String message() default "{eu.dzhw.fdz.metadatamanagement.domain.validation."
-      + "validcodeorvalueclass.message}";
+      + "uniqueCode.message}";
 
   /**
    * This contains groups.
@@ -37,5 +34,4 @@ public @interface ValidCodeOrValueClass {
    * This method contains the payload.
    */
   public Class<? extends Payload>[] payload() default {};
-
 }

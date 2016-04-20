@@ -9,8 +9,6 @@ import com.google.common.base.MoreObjects;
 import eu.dzhw.fdz.metadatamanagement.common.domain.I18nString;
 import eu.dzhw.fdz.metadatamanagement.common.domain.validation.I18nStringSize;
 import eu.dzhw.fdz.metadatamanagement.common.domain.validation.StringLengths;
-import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.validation.NotNullValidRelativeFrequencyIfNoMissing;
-import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.validation.ValidCodeOrValueClass;
 import net.karneim.pojobuilder.GeneratePojoBuilder;
 
 /**
@@ -21,27 +19,23 @@ import net.karneim.pojobuilder.GeneratePojoBuilder;
  */
 @GeneratePojoBuilder(
     intoPackage = "eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.builders")
-@ValidCodeOrValueClass(message = "{error.value.absoluteFrequency.validCodeOrValueClass}")
-@NotNullValidRelativeFrequencyIfNoMissing(
-    message = "{error.value.notNullValidRelativeFrequencyIfNoMissing}")
-public class Value {
+public class ValidResponse {
 
-  private Integer code;
-
-  @I18nStringSize(max = StringLengths.MEDIUM, message = "{error.value.label.i18nStringSize}")
+  @I18nStringSize(max = StringLengths.MEDIUM,
+      message = "{error.validResponse.label.i18nStringSize}")
   private I18nString label;
 
-  @NotNull(message = "{error.value.absoluteFrequency.notNull}")
+  @NotNull(message = "{error.validResponse.absoluteFrequency.notNull}")
   private Integer absoluteFrequency;
 
-  @NotNull(message = "{error.value.relativeFrequency.notNull}")
+  @NotNull(message = "{error.validResponse.relativeFrequency.notNull}")
   private Double relativeFrequency;
 
-  private boolean isAMissing = false;
+  @Size(max = StringLengths.SMALL, message = "{error.validResponse.valueClass.size}")
+  private String value;
 
-  @Size(max = StringLengths.SMALL, message = "{error.value.valueClass.size}")
-  private String valueClass;
-
+  // TODO DKatzberg Message
+  @NotNull
   private Double validRelativeFrequency;
 
   /*
@@ -52,25 +46,15 @@ public class Value {
   @Override
   public String toString() {
     return MoreObjects.toStringHelper(this)
-      .add("code", code)
       .add("label", label)
       .add("absoluteFrequency", absoluteFrequency)
       .add("relativeFrequency", relativeFrequency)
-      .add("isAMissing", isAMissing)
-      .add("valueClass", valueClass)
+      .add("value", value)
       .add("validRelativeFrequency", validRelativeFrequency)
       .toString();
   }
 
   /* GETTER / SETTER */
-  public Integer getCode() {
-    return code;
-  }
-
-  public void setCode(Integer code) {
-    this.code = code;
-  }
-
   public I18nString getLabel() {
     return label;
   }
@@ -95,24 +79,12 @@ public class Value {
     this.relativeFrequency = relativeFrequency;
   }
 
-  public boolean getIsAMissing() {
-    return isAMissing;
+  public String getValue() {
+    return value;
   }
 
-  public void setisAMissing(boolean isAMissing) {
-    this.isAMissing = isAMissing;
-  }
-
-  public String getValueClass() {
-    return valueClass;
-  }
-
-  public void setValueClass(String valueClass) {
-    this.valueClass = valueClass;
-  }
-
-  public void setAMissing(boolean isAMissing) {
-    this.isAMissing = isAMissing;
+  public void setValue(String value) {
+    this.value = value;
   }
 
   public Double getValidRelativeFrequency() {

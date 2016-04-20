@@ -6,7 +6,6 @@ import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.io.Writer;
 import java.nio.charset.StandardCharsets;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -25,7 +24,6 @@ import eu.dzhw.fdz.metadatamanagement.datasetmanagement.repository.DataSetReposi
 import eu.dzhw.fdz.metadatamanagement.filemanagement.service.FileService;
 import eu.dzhw.fdz.metadatamanagement.questionmanagement.domain.AtomicQuestion;
 import eu.dzhw.fdz.metadatamanagement.questionmanagement.repository.AtomicQuestionRepository;
-import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.Value;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.Variable;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.repository.VariableRepository;
 import freemarker.template.Configuration;
@@ -255,8 +253,8 @@ public class DataSetReportService {
     // Create different information from the variable
     Map<String, Integer> isNotAMissingCounterMap = new HashMap<>();
     Map<String, AtomicQuestion> questionsMap = new HashMap<>();
-    Map<String, List<Value>> firstTenIsNotAMissingValues = new HashMap<>();
-    Map<String, List<Value>> lastTenIsNotAMissingValues = new HashMap<>();
+    // Map<String, List<Missing>> firstTenIsNotAMissingValues = new HashMap<>();
+    // Map<String, List<Missing>> lastTenIsNotAMissingValues = new HashMap<>();
     for (Variable variable : variables) {
 
       // Create a Map with Atomic Questions
@@ -266,34 +264,28 @@ public class DataSetReportService {
         questionsMap.put(variable.getAtomicQuestionId(), atomicQuestion);
       }
 
+      // TODO re- implement DKatzberg
       // count isA Missing for different table layouts (check for more as 20)
-      int counterisNotAMissing = 0;
-      List<Value> onlyIsNotAMissingValues = new ArrayList<>();
-      if (variable.getValues() != null && variable.getValues()
-          .size() > 0) {
-        for (Value value : variable.getValues()) {
-          if (!value.getIsAMissing()) {
-            counterisNotAMissing++;
-            onlyIsNotAMissingValues.add(value);
-          }
-        }
-
-        // Create the first and last ten isAMissing Values to different list, if there are more than
-        // 20.
-        isNotAMissingCounterMap.put(variable.getId(), counterisNotAMissing);
-        if (counterisNotAMissing > 20) {
-          firstTenIsNotAMissingValues.put(variable.getId(), onlyIsNotAMissingValues.subList(0, 9));
-          lastTenIsNotAMissingValues.put(variable.getId(),
-              onlyIsNotAMissingValues.subList(counterisNotAMissing - 10, counterisNotAMissing - 1));
-        }
-      }
+      // int counterisNotAMissing = 0;
+      // List<Missing> onlyIsNotAMissingValues = new ArrayList<>();
+      /*
+       * if (variable.getValues() != null && variable.getValues() .size() > 0) { for (Missing value
+       * : variable.getValues()) { if (!value.getIsAMissing()) { counterisNotAMissing++;
+       * onlyIsNotAMissingValues.add(value); } }
+       * 
+       * // Create the first and last ten isAMissing Values to different list, if there are more
+       * than // 20. isNotAMissingCounterMap.put(variable.getId(), counterisNotAMissing); if
+       * (counterisNotAMissing > 20) { firstTenIsNotAMissingValues.put(variable.getId(),
+       * onlyIsNotAMissingValues.subList(0, 9)); lastTenIsNotAMissingValues.put(variable.getId(),
+       * onlyIsNotAMissingValues.subList(counterisNotAMissing - 10, counterisNotAMissing - 1)); } }
+       */
 
 
     }
     dataForTemplate.put("questions", questionsMap);
     dataForTemplate.put("isNotAMissingCounterMap", isNotAMissingCounterMap);
-    dataForTemplate.put("firstTenIsNotAMissingValues", firstTenIsNotAMissingValues);
-    dataForTemplate.put("lastTenIsNotAMissingValues", lastTenIsNotAMissingValues);
+    // dataForTemplate.put("firstTenIsNotAMissingValues", firstTenIsNotAMissingValues);
+    // dataForTemplate.put("lastTenIsNotAMissingValues", lastTenIsNotAMissingValues);
 
     return dataForTemplate;
 

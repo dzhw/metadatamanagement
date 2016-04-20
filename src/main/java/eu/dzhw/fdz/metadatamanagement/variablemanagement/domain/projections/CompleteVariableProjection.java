@@ -9,7 +9,7 @@ import eu.dzhw.fdz.metadatamanagement.common.domain.projections.AbstractRdcDomai
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.FilterDetails;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.GenerationDetails;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.Statistics;
-import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.Value;
+import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.Missing;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.Variable;
 
 /**
@@ -46,7 +46,7 @@ public interface CompleteVariableProjection
   
   Statistics getStatistics();
 
-  List<Value> getValues();
+  List<Missing> getValues();
   
   
   /* Foreign Keys */

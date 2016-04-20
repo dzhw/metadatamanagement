@@ -30,20 +30,24 @@ import eu.dzhw.fdz.metadatamanagement.surveymanagement.domain.Survey;
 import eu.dzhw.fdz.metadatamanagement.surveymanagement.domain.builders.SurveyBuilder;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.AccessWays;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.DataTypes;
+import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.Distribution;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.FilterDetails;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.FilterExpressionLanguages;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.GenerationDetails;
+import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.Histogram;
+import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.Missing;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.RuleExpressionLanguages;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.ScaleLevels;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.Statistics;
-import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.Value;
-import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.ValueSummary;
+import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.ValidResponse;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.Variable;
+import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.builders.DistributionBuilder;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.builders.FilterDetailsBuilder;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.builders.GenerationDetailsBuilder;
+import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.builders.HistogramBuilder;
+import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.builders.MissingBuilder;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.builders.StatisticsBuilder;
-import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.builders.ValueBuilder;
-import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.builders.ValueSummaryBuilder;
+import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.builders.ValidResponseBuilder;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.builders.VariableBuilder;
 
 /**
@@ -137,8 +141,6 @@ public class UnitTestCreateDomainObjectUtils {
     accessWays.add(AccessWays.REMOTE);
     accessWays.add(AccessWays.SUF);
     List<String> withSameVariablesInPanel = new ArrayList<>();
-    List<Value> withValues = new ArrayList<>();
-    withValues.add(buildValueBuilder());
     String name = "name";
 
     // Create Variable
@@ -166,11 +168,9 @@ public class UnitTestCreateDomainObjectUtils {
         .withExpression("Filter Expression")
         .build())
       .withSameVariablesInPanel(withSameVariablesInPanel)
-      .withValues(withValues)
+      .withDistribution(buildDistribution())
       .withConceptId("ConceptId001")
-      .withStatistics(buildStatistics())
       .withGenerationDetails(buildGenerationDetails())
-      .withValueSummary(buildValueSummary())
       .build();
   }
 
@@ -217,15 +217,46 @@ public class UnitTestCreateDomainObjectUtils {
       .build();
   }
 
-  public static Value buildValueBuilder() {
-    return new ValueBuilder().withAbsoluteFrequency(123)
+  public static Missing buildMissing() {
+    return new MissingBuilder().withAbsoluteFrequency(123)
       .withCode(1234)
-      .withIsAMissing(false)
       .withLabel(new I18nStringBuilder().withDe("De Label")
         .withEn("En Lable")
         .build())
       .withRelativeFrequency(43.78)
+      .build();
+  }
+
+  public static ValidResponse buildValidResponse() {
+    return new ValidResponseBuilder().withAbsoluteFrequency(123)
+      .withLabel(new I18nStringBuilder().withDe("De Label")
+        .withEn("En Lable")
+        .build())
+      .withValue("Value")
+      .withRelativeFrequency(43.78)
       .withValidRelativeFrequency(75.45)
+      .build();
+  }
+
+  public static Histogram buildHistogram() {
+    return new HistogramBuilder().withStart(0.0)
+      .withEnd(10.0)
+      .withNumberOfBins(10)
+      .build();
+  }
+
+  public static Distribution buildDistribution() {
+    List<Missing> missings = new ArrayList<>();
+    missings.add(buildMissing());
+    List<ValidResponse> validResponses = new ArrayList<>();
+    validResponses.add(buildValidResponse());
+    return new DistributionBuilder().withHistogram(buildHistogram())
+      .withMissings(missings)
+      .withValidResponses(validResponses)
+      .withStatistics(buildStatistics())
+      .withTotalAbsoluteFrequency(1234)
+      .withTotalValidAbsoluteFrequency(1000)
+      .withTotalValidRelativeFrequency(81.03)
       .build();
   }
 
@@ -273,12 +304,4 @@ public class UnitTestCreateDomainObjectUtils {
       .withExpressionLanguage(FilterExpressionLanguages.STATA)
         .build();
   }
-
-  public static ValueSummary buildValueSummary() {
-    return new ValueSummaryBuilder().withTotalAbsoluteFrequency(1234)
-      .withTotalValidAbsoluteFrequency(1100)
-      .withTotalValidRelativeFrequency(75.74)
-      .build();
-  }
-
 }

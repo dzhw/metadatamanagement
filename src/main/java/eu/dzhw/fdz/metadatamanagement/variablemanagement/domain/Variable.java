@@ -21,9 +21,6 @@ import eu.dzhw.fdz.metadatamanagement.common.domain.validation.AtLeastOneLanguag
 import eu.dzhw.fdz.metadatamanagement.common.domain.validation.I18nStringSize;
 import eu.dzhw.fdz.metadatamanagement.common.domain.validation.StringLengths;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.validation.MandatoryScaleLevelForNumericDataType;
-import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.validation.NotNullValueSummaryIfValuesExist;
-import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.validation.UniqueValueClass;
-import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.validation.UniqueValueCode;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.validation.UniqueVariableNameInProject;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.validation.ValidAccessWays;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.validation.ValidDataType;
@@ -43,7 +40,6 @@ import net.karneim.pojobuilder.GeneratePojoBuilder;
 @CompoundIndex(def = "{name: 1, dataAcquisitionProjectId: 1}", unique = true)
 @ValidVariableIdName(message = "{error.variable.validVariableName}")
 @UniqueVariableNameInProject(message = "{error.variable.uniqueVariableNameInProject}")
-@NotNullValueSummaryIfValuesExist(message = "{error.variable.notNullValueSummaryIfValuesExist}")
 @MandatoryScaleLevelForNumericDataType(
     message = "{error.variable.mandatoryScaleLevelForNumericDataType}")
 public class Variable extends AbstractRdcDomainObject {
@@ -87,21 +83,15 @@ public class Variable extends AbstractRdcDomainObject {
 
   /* Nested Objects */
   @Valid
-  @UniqueValueCode(message = "{error.variable.values.uniqueValueCode}")
-  @UniqueValueClass(message = "{error.variable.values.uniqueValueClass}")
-  private List<Value> values;
-
-  @Valid
   private FilterDetails filterDetails;
   
-  // No validation
-  private Statistics statistics;
-
   @Valid
   private GenerationDetails generationDetails;
   
+  // TODO DKatzberg Message
+  @NotNull
   @Valid
-  private ValueSummary valueSummary;
+  private Distribution distribution;
 
 
   /* Foreign Keys */
@@ -126,7 +116,7 @@ public class Variable extends AbstractRdcDomainObject {
   public String getId() {
     return id;
   }
- 
+
   /*
    * (non-Javadoc)
    * 
@@ -144,11 +134,9 @@ public class Variable extends AbstractRdcDomainObject {
       .add("description", description)
       .add("accessWays", accessWays)
       .add("sameVariablesInPanel", sameVariablesInPanel)
-      .add("values", values)
       .add("filterDetails", filterDetails)
-      .add("statistics", statistics)
       .add("generationDetails", generationDetails)
-      .add("valueSummary", valueSummary)
+      .add("distribution", distribution)
       .add("conceptId", conceptId)
       .add("atomicQuestionId", atomicQuestionId)
       .add("dataSetIds", dataSetIds)
@@ -210,14 +198,6 @@ public class Variable extends AbstractRdcDomainObject {
     this.id = id;
   }
 
-  public List<Value> getValues() {
-    return values;
-  }
-
-  public void setValues(List<Value> values) {
-    this.values = values;
-  }
-
   public List<String> getSameVariablesInPanel() {
     return sameVariablesInPanel;
   }
@@ -232,14 +212,6 @@ public class Variable extends AbstractRdcDomainObject {
 
   public void setConceptId(String conceptId) {
     this.conceptId = conceptId;
-  }
-
-  public Statistics getStatistics() {
-    return statistics;
-  }
-
-  public void setStatistics(Statistics statistics) {
-    this.statistics = statistics;
   }
 
   public GenerationDetails getGenerationDetails() {
@@ -290,11 +262,11 @@ public class Variable extends AbstractRdcDomainObject {
     this.surveyIds = surveyIds;
   }
 
-  public ValueSummary getValueSummary() {
-    return valueSummary;
+  public Distribution getDistribution() {
+    return distribution;
   }
 
-  public void setValueSummary(ValueSummary valueSummary) {
-    this.valueSummary = valueSummary;
+  public void setDistribution(Distribution distribution) {
+    this.distribution = distribution;
   }
 }
