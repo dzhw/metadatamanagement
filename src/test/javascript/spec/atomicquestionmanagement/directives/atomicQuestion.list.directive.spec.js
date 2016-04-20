@@ -13,7 +13,7 @@ describe('Unit testing atomicquestionslist', function() {
   var element;
   beforeEach(inject(function(_$compile_, _$rootScope_, $httpBackend) {
     $httpBackend.
-    whenGET('scripts/app/entities/atomicQuestion/atomicQuestion.list.html.tmpl')
+    whenGET('scripts/atomicquestionmanagement/directives/atomicQuestion.list.html.tmpl')
     .respond({});
     $compile = _$compile_;
     $rootScope = _$rootScope_;
