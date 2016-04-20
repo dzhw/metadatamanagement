@@ -32,7 +32,7 @@ angular.module('metadatamanagementApp')
       })
       .state('variable.detail', {
         parent: 'entity',
-        url: '/variable/{id}',
+        url: '/variables/{id}',
         data: {
           authorities: ['ROLE_USER'],
           pageTitle: 'metadatamanagementApp.variable.detail.title'

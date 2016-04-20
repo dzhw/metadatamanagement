@@ -19,7 +19,7 @@ describe('dataAcquisitionProject api', function() {
   describe('basic test dataAcquisitionProject api', function() {
     it('should call $translate and $translatePartialLoader', function() {
       var config = $state.get('dataAcquisitionProject');
-      expect(config.url).toEqual('/dataAcquisitionProjects');
+      expect(config.url).toEqual('/data-acquisition-projects');
       expect(config.resolve.translatePartialLoader).toBeDefined();
       $state.go('dataAcquisitionProject');
       expect($translate.refresh).toHaveBeenCalled();
@@ -32,7 +32,7 @@ describe('dataAcquisitionProject api', function() {
         var config = $state.get('dataAcquisitionProject.detail');
         var DataAcquisitionProject = _DataAcquisitionProject_;
         spyOn(DataAcquisitionProject, 'get').and.callThrough();
-        expect(config.url).toEqual('/dataAcquisitionProject/{id}');
+        expect(config.url).toEqual('/data-acquisition-projects/{id}');
         expect(config.resolve.translatePartialLoader).toBeDefined();
         expect(config.resolve.entity).toBeDefined();
         $state.go('dataAcquisitionProject.detail');

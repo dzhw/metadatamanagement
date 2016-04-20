@@ -39,7 +39,7 @@ describe('Check broken links in GERMAN language with a login for ', function() {
   });
 
   it('... dataAcquisitionProjects Page ', function() {
-    var pages = ['/dataAcquisitionProjects'];
+    var pages = ['/data-acquisition-projects'];
 
     //Check broken links
     brokenLinks.checkLinks(

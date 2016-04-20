@@ -29,7 +29,7 @@ angular.module('metadatamanagementApp')
       })
       .state('survey.detail', {
         parent: 'entity',
-        url: '/survey/{id}',
+        url: '/surveys/{id}',
         data: {
           authorities: ['ROLE_USER'],
           pageTitle: 'metadatamanagementApp.survey.detail.title'

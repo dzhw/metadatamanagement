@@ -33,7 +33,7 @@ describe('survey api', function() {
         var config = $state.get('survey.detail');
         var Survey = _Survey_;
         spyOn(Survey, 'get').and.callThrough();
-        expect(config.url).toEqual('/survey/{id}');
+        expect(config.url).toEqual('/surveys/{id}');
         expect(config.resolve.translatePartialLoader).toBeDefined();
         expect(config.resolve.entity).toBeDefined();
         $state.go('survey.detail');

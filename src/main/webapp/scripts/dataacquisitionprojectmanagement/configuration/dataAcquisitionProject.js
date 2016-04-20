@@ -5,7 +5,7 @@ angular.module('metadatamanagementApp')
     $stateProvider
       .state('dataAcquisitionProject', {
         parent: 'entity',
-        url: '/dataAcquisitionProjects',
+        url: '/data-acquisition-projects',
         data: {
           authorities: ['ROLE_USER'],
           pageTitle: 'metadatamanagementApp.dataAcquisitionProject.home.title'
@@ -29,7 +29,7 @@ angular.module('metadatamanagementApp')
       })
       .state('dataAcquisitionProject.detail', {
         parent: 'entity',
-        url: '/dataAcquisitionProject/{id}',
+        url: '/data-acquisition-projects/{id}',
         data: {
           authorities: ['ROLE_USER'],
           pageTitle: 'metadatamanagementApp.dataAcquisitionProject.detail.title'

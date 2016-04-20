@@ -32,7 +32,7 @@ describe('survey api', function() {
         var config = $state.get('variable.detail');
         var Variable = _Variable_;
         spyOn(Variable, 'get').and.callThrough();
-        expect(config.url).toEqual('/variable/{id}');
+        expect(config.url).toEqual('/variables/{id}');
         expect(config.resolve.translatePartialLoader).toBeDefined();
         expect(config.resolve.entity).toBeDefined();
         $state.go('variable.detail');

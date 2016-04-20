@@ -10,7 +10,7 @@ angular.module('metadatamanagementApp').config(
         },
         views: {
           'content@': {
-            templateUrl: 'scripts/app/main/main.html.tmpl',
+            templateUrl: 'scripts/common/main/main.html.tmpl',
             controller: 'MainController'
           }
         },

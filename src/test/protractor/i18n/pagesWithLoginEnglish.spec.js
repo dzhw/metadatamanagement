@@ -34,7 +34,7 @@ describe('Check ENGLISH language with a login for ', function() {
   });
 
   it('... dataAcquisitionProjects Page ', function() {
-    var pages = ['/dataAcquisitionProjects'];
+    var pages = ['/data-acquisition-projects'];
 
     //Test pages
     utilMissingTranslations.testMissingTranslations(
