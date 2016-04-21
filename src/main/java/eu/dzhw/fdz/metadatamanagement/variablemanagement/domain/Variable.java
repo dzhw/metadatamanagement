@@ -76,6 +76,7 @@ public class Variable extends AbstractRdcDomainObject {
   private I18nString description;
   
   // checks for min size too.
+  @NotEmpty(message = "{error.variable.accessWays.notEmpty}")
   @ValidAccessWays(message = "{error.variable.accessWays.validAccessWays}")
   private List<String> accessWays;
 
