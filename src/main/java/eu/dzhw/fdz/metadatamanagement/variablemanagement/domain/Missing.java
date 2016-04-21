@@ -21,8 +21,7 @@ import net.karneim.pojobuilder.GeneratePojoBuilder;
     intoPackage = "eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.builders")
 public class Missing {
 
-  // TODO DKatzberg Message
-  @NotNull
+  @NotNull(message = "{error.missing.code.notNull}")
   private Integer code;
 
   @I18nStringSize(max = StringLengths.MEDIUM, message = "{error.missing.label.i18nStringSize}")

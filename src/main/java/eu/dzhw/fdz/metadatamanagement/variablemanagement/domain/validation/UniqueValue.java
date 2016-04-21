@@ -15,10 +15,10 @@ import javax.validation.Payload;
  * @author René Reitmann
  */
 @Documented
-@Constraint(validatedBy = {UniqueValueClassValidator.class})
+@Constraint(validatedBy = {UniqueValueValidator.class})
 @Target({ElementType.FIELD})
 @Retention(RetentionPolicy.RUNTIME)
-public @interface UniqueValueClass {
+public @interface UniqueValue {
   /**
    * Defines the default error message.
    */

@@ -87,9 +87,7 @@ public class Variable extends AbstractRdcDomainObject {
   
   @Valid
   private GenerationDetails generationDetails;
-  
-  // TODO DKatzberg Message
-  @NotNull
+
   @Valid
   private Distribution distribution;
 

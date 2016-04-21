@@ -13,8 +13,8 @@ import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.ValidResponse;
  * 
  * @author René Reitmann
  */
-public class UniqueValueClassValidator
-    implements ConstraintValidator<UniqueValueClass, List<ValidResponse>> {
+public class UniqueValueValidator
+    implements ConstraintValidator<UniqueValue, List<ValidResponse>> {
 
   /*
    * (non-Javadoc)
@@ -22,7 +22,7 @@ public class UniqueValueClassValidator
    * @see javax.validation.ConstraintValidator#initialize(java.lang.annotation.Annotation)
    */
   @Override
-  public void initialize(UniqueValueClass constraintAnnotation) {}
+  public void initialize(UniqueValue constraintAnnotation) {}
 
   /*
    * (non-Javadoc)

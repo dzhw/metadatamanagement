@@ -31,11 +31,11 @@ public class ValidResponse {
   @NotNull(message = "{error.validResponse.relativeFrequency.notNull}")
   private Double relativeFrequency;
 
-  @Size(max = StringLengths.SMALL, message = "{error.validResponse.valueClass.size}")
+  @NotNull(message = "{error.validResponse.value.notNull}")
+  @Size(max = StringLengths.SMALL, message = "{error.validResponse.value.size}")
   private String value;
 
-  // TODO DKatzberg Message
-  @NotNull
+  @NotNull(message = "{error.validResponse.validRelativeFrequency.notNull}")
   private Double validRelativeFrequency;
 
   /*

@@ -8,7 +8,7 @@ import javax.validation.constraints.NotNull;
 import com.google.common.base.MoreObjects;
 
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.validation.UniqueCode;
-import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.validation.UniqueValueClass;
+import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.validation.UniqueValue;
 import net.karneim.pojobuilder.GeneratePojoBuilder;
 
 /**
@@ -21,13 +21,13 @@ import net.karneim.pojobuilder.GeneratePojoBuilder;
     intoPackage = "eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.builders")
 public class Distribution {
 
-  @NotNull(message = "{error.valueSummary.totalAbsoluteFrequency.notNull}")
+  @NotNull(message = "{error.distribution.totalAbsoluteFrequency.notNull}")
   private Integer totalAbsoluteFrequency;
 
-  @NotNull(message = "{error.valueSummary.totalValidAbsoluteFrequency.notNull}")
+  @NotNull(message = "{error.distribution.totalValidAbsoluteFrequency.notNull}")
   private Integer totalValidAbsoluteFrequency;
 
-  @NotNull(message = "{error.valueSummary.totalValidRelativeFrequency.notNull}")
+  @NotNull(message = "{error.distribution.totalValidRelativeFrequency.notNull}")
   private Double totalValidRelativeFrequency;
 
   /* Nested Objects */
@@ -37,11 +37,11 @@ public class Distribution {
   // No validation
   private Statistics statistics;
 
-  @UniqueCode(message = "{error.variable.values.uniqueValueCode}")
+  @UniqueCode(message = "{error.distribution.missings.uniqueCode}")
   @Valid
   private List<Missing> missings;
 
-  @UniqueValueClass(message = "{error.variable.values.uniqueValueClass}")
+  @UniqueValue(message = "{error.distribution.validResponses.uniqueValue}")
   @Valid
   private List<ValidResponse> validResponses;
 
