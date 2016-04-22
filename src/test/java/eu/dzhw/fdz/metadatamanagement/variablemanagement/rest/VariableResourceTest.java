@@ -40,9 +40,13 @@ import eu.dzhw.fdz.metadatamanagement.searchmanagement.service.ElasticsearchIndi
 import eu.dzhw.fdz.metadatamanagement.surveymanagement.domain.Survey;
 import eu.dzhw.fdz.metadatamanagement.surveymanagement.repository.SurveyRepository;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.FilterExpressionLanguages;
+import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.Missing;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.RuleExpressionLanguages;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.ScaleLevels;
+import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.ValidResponse;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.Variable;
+import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.builders.MissingBuilder;
+import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.builders.ValidResponseBuilder;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.repository.VariableRepository;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.search.VariableSearchDao;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.search.document.VariableSearchDocument;
@@ -194,63 +198,79 @@ public class VariableResourceTest extends AbstractTest {
       .andExpect(jsonPath("$.errors[0].message", containsString("At least an english")));
   }
 
-  // TODO DKatzberg Ignored Test
   @Test
-  @Ignore
   public void testCreateVariableWithNonUniqueCode() throws Exception {
-    /*
-     * DataAcquisitionProject project = new DataAcquisitionProjectBuilder().withId("testProject")
-     * .withSurveySeries(new I18nStringBuilder().build()) .withPanelName(new
-     * I18nStringBuilder().build()) .build(); dataAcquisitionProjectRepository.save(project);
-     * 
-     * Survey survey = UnitTestCreateDomainObjectUtils.buildSurvey(project.getId());
-     * surveyRepository.save(survey);
-     * 
-     * Variable variable = UnitTestCreateDomainObjectUtils.buildVariable(project.getId(),
-     * survey.getId()); Missing value1 = variable.getValues() .get(0);
-     * 
-     * Missing value2 = new ValueBuilder().withCode(value1.getCode()) .withLabel(value1.getLabel())
-     * .withAbsoluteFrequency(value1.getAbsoluteFrequency())
-     * .withRelativeFrequency(value1.getRelativeFrequency())
-     * .withValidRelativeFrequency(value1.getValidRelativeFrequency()) .build();
-     * 
-     * variable.getValues() .add(value2);
-     * 
-     * // create the variable with duplicate value codes mockMvc.perform(put(API_VARIABLES_URI + "/"
-     * + variable.getId()) .content(TestUtil.convertObjectToJsonBytes(variable)))
-     * .andExpect(status().isBadRequest()) .andExpect(jsonPath("$.errors[0].message",
-     * containsString("value codes must be unique")));
-     */
+
+    DataAcquisitionProject project = new DataAcquisitionProjectBuilder().withId("testProject")
+      .withSurveySeries(new I18nStringBuilder().build())
+      .withPanelName(new I18nStringBuilder().build())
+      .build();
+    dataAcquisitionProjectRepository.save(project);
+
+    Survey survey = UnitTestCreateDomainObjectUtils.buildSurvey(project.getId());
+    surveyRepository.save(survey);
+
+    Variable variable =
+        UnitTestCreateDomainObjectUtils.buildVariable(project.getId(), survey.getId());
+    Missing value1 = variable.getDistribution()
+      .getMissings()
+      .get(0);
+
+    Missing value2 = new MissingBuilder().withCode(value1.getCode())
+      .withLabel(value1.getLabel())
+      .withAbsoluteFrequency(value1.getAbsoluteFrequency())
+      .withRelativeFrequency(value1.getRelativeFrequency())
+      .build();
+
+    variable.getDistribution()
+      .getMissings()
+      .add(value2);
+
+    // create the variable with duplicate value codes
+    mockMvc.perform(put(API_VARIABLES_URI + "/" + variable.getId())
+      .content(TestUtil.convertObjectToJsonBytes(variable)))
+      .andExpect(status().isBadRequest())
+      .andExpect(jsonPath("$.errors[0].message", containsString("eindeutig")));
+
   }
   
-  // TODO DKatzberg Ignored Test
   @Test
-  @Ignore
   public void testCreateVariableWithNonUniqueValueClass() throws Exception {
-    /*
-     * DataAcquisitionProject project = new DataAcquisitionProjectBuilder().withId("testProject")
-     * .withSurveySeries(new I18nStringBuilder().build()) .withPanelName(new
-     * I18nStringBuilder().build()) .build(); dataAcquisitionProjectRepository.save(project);
-     * 
-     * Survey survey = UnitTestCreateDomainObjectUtils.buildSurvey(project.getId());
-     * surveyRepository.save(survey);
-     * 
-     * Variable variable = UnitTestCreateDomainObjectUtils.buildVariable(project.getId(),
-     * survey.getId()); Missing value1 = variable.getValues() .get(0); value1.setCode(null);
-     * value1.setValueClass("hurz");
-     * 
-     * Missing value2 = new ValueBuilder().withValueClass(value1.getValueClass())
-     * .withLabel(value1.getLabel()) .withAbsoluteFrequency(value1.getAbsoluteFrequency())
-     * .withRelativeFrequency(value1.getRelativeFrequency())
-     * .withValidRelativeFrequency(value1.getValidRelativeFrequency()) .build();
-     * 
-     * variable.getValues() .add(value2);
-     * 
-     * // create the variable with duplicate value classes mockMvc.perform(put(API_VARIABLES_URI +
-     * "/" + variable.getId()) .content(TestUtil.convertObjectToJsonBytes(variable)))
-     * .andExpect(status().isBadRequest()) .andExpect(jsonPath("$.errors[0].message",
-     * containsString("value classes must be unique")));
-     */
+    
+    // Arrange
+    DataAcquisitionProject project = new DataAcquisitionProjectBuilder().withId("testProject")
+      .withSurveySeries(new I18nStringBuilder().build())
+      .withPanelName(new I18nStringBuilder().build())
+      .build();
+    dataAcquisitionProjectRepository.save(project);
+      
+    Survey survey = UnitTestCreateDomainObjectUtils.buildSurvey(project.getId());
+    surveyRepository.save(survey);
+     
+    Variable variable =
+        UnitTestCreateDomainObjectUtils.buildVariable(project.getId(), survey.getId());
+    ValidResponse validResponse = variable.getDistribution()
+      .getValidResponses()
+      .get(0);
+    validResponse.setValue("hurz");
+
+    ValidResponse value2 = new ValidResponseBuilder().withValue(validResponse.getValue())
+      .withLabel(validResponse.getLabel())
+      .withAbsoluteFrequency(validResponse.getAbsoluteFrequency())
+      .withRelativeFrequency(validResponse.getRelativeFrequency())
+      .withValidRelativeFrequency(validResponse.getValidRelativeFrequency())
+      .build();
+
+    variable.getDistribution()
+      .getValidResponses()
+      .add(value2);
+      
+    // create the variable with duplicate value classes
+    mockMvc.perform(put(API_VARIABLES_URI + "/" + variable.getId())
+      .content(TestUtil.convertObjectToJsonBytes(variable)))
+      .andExpect(status().isBadRequest())
+      .andExpect(jsonPath("$.errors[0].message", containsString("eindeutig")));
+     
   }
 
   @Test
@@ -475,7 +495,7 @@ public class VariableResourceTest extends AbstractTest {
     assertThat(elasticsearchAdminService.countAllDocuments(), equalTo(0.0));
   }
 
-  // TODO DKatzberg Test Ignore
+  // TODO Test
   @Ignore
   @Test
   public void testUpdateVariable() throws Exception {
@@ -525,49 +545,6 @@ public class VariableResourceTest extends AbstractTest {
       assertThat(variableSearchDocuments.get(0)
         .getLabel(), is("modified"));
     }
-  }
-
-  // TODO DKatzberg Ignored Test
-  @Test
-  @Ignore
-  public void testValueClassAndCodeAreFilled() throws Exception {
-    /*
-     * // Arrange DataAcquisitionProject project =
-     * UnitTestCreateDomainObjectUtils.buildDataAcquisitionProject();
-     * dataAcquisitionProjectRepository.save(project);
-     * 
-     * Survey survey = UnitTestCreateDomainObjectUtils.buildSurvey(project.getId());
-     * surveyRepository.save(survey); Variable variable =
-     * UnitTestCreateDomainObjectUtils.buildVariable(project.getId(), survey.getId()); Missing value
-     * = variable.getValues() .get(0); value.setCode(1234); value.setValueClass("A Value Class");
-     * variable.getValues() .set(0, value);
-     * 
-     * // Act and Assert // create the variable with the given id
-     * mockMvc.perform(put(API_VARIABLES_URI + "/" + variable.getId())
-     * .content(TestUtil.convertObjectToJsonBytes(variable))) .andExpect(status().isBadRequest());
-     */
-  }
-
-  // TODO DKatzberg Ignored Test
-  @Test
-  @Ignore
-  public void testValueClassAndCodeAreEmpty() throws Exception {
-    /*
-     * // Arrange DataAcquisitionProject project =
-     * UnitTestCreateDomainObjectUtils.buildDataAcquisitionProject();
-     * dataAcquisitionProjectRepository.save(project);
-     * 
-     * Survey survey = UnitTestCreateDomainObjectUtils.buildSurvey(project.getId());
-     * surveyRepository.save(survey);
-     * 
-     * Variable variable = UnitTestCreateDomainObjectUtils.buildVariable(project.getId(),
-     * survey.getId()); Missing value = variable.getValues() .get(0); value.setCode(null);
-     * value.setValueClass(""); variable.getValues() .set(0, value);
-     * 
-     * // Act and Assert // create the variable with the given id
-     * mockMvc.perform(put(API_VARIABLES_URI + "/" + variable.getId())
-     * .content(TestUtil.convertObjectToJsonBytes(variable))) .andExpect(status().isBadRequest());
-     */
   }
 
   @Test
