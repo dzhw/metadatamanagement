@@ -17,14 +17,15 @@ function(Variable, CleanJSObjectService, JobLoggingService) {
       for (var i = 0; i < jsonContent.length; i++) {
         var variableObj = {
         id: jsonContent[i].id,
-        atomicQuestionId: jsonContent[i].atomicQuestionId,
-        accessWays: CleanJSObjectService.
-        removeWhiteSpace(jsonContent[i].accessWays),
-        dataAcquisitionProjectId: dataAcquisitionProjectId,
         dataType: {
           en: jsonContent[i]['dataType.en'],
           de: jsonContent[i]['dataType.de']
         },
+        scaleLevel: {
+          en: jsonContent[i]['scaleLevel.en'],
+          de: jsonContent[i]['scaleLevel.de']
+        },
+        name: jsonContent[i].name,
         label: {
           en: jsonContent[i]['label.en'],
           de: jsonContent[i]['label.de']
@@ -33,6 +34,9 @@ function(Variable, CleanJSObjectService, JobLoggingService) {
           en: jsonContent[i]['description.en'],
           de: jsonContent[i]['description.de']
         },
+        accessWays: CleanJSObjectService.
+        removeWhiteSpace(jsonContent[i].accessWays),
+
         filterDetails: {
           expression:
           jsonContent[i]['filterDetails.expression'],
@@ -40,9 +44,18 @@ function(Variable, CleanJSObjectService, JobLoggingService) {
             en: jsonContent[i]['filterDetails.description.de'],
             de: jsonContent[i]['filterDetails.description.en']
           },
-          filterExpressionLanguage:
-          jsonContent[i]['filterDetails.filterExpressionLanguage']
+          expressionLanguage:
+          jsonContent[i]['filterDetails.expressionLanguage']
         },
+        sameVariablesInPanel: CleanJSObjectService.
+        removeWhiteSpace(jsonContent[i].sameVariablesInPanel),
+        surveyIds: CleanJSObjectService.
+        removeWhiteSpace(jsonContent[i].surveyIds),
+        conceptId: jsonContent[i].conceptId,
+        dataSetIds: CleanJSObjectService.
+        removeWhiteSpace(jsonContent[i].dataSetIds),
+        atomicQuestionId: jsonContent[i].atomicQuestionId,
+        dataAcquisitionProjectId: dataAcquisitionProjectId,
         generationDetails: {
           rule: jsonContent[i]['generationDetails.rule'],
           ruleExpressionLanguage: jsonContent[i]
@@ -52,47 +65,14 @@ function(Variable, CleanJSObjectService, JobLoggingService) {
             de: jsonContent[i]['generationDetails.description.de']
           }
         },
-        sameVariablesInPanel: CleanJSObjectService.
-        removeWhiteSpace(jsonContent[i].sameVariablesInPanel),
-        name: jsonContent[i].name,
-        scaleLevel: {
-          en: jsonContent[i]['scaleLevel.en'],
-          de: jsonContent[i]['scaleLevel.de']
-        },
-        statistics: {
-          firstQuartile: jsonContent[i]['statistics.firstQuartile'],
-          highWhisker: jsonContent[i]['statistics.highWhisker'],
-          kurtosis: jsonContent[i]['statistics.kurtosis'],
-          lowWhisker: jsonContent[i]['statistics.lowWhisker'],
-          maximum: jsonContent[i]['statistics.maximum'],
-          meanValue: jsonContent[i]['statistics.meanValue'],
-          median: jsonContent[i]['statistics.median'],
-          minimum: jsonContent[i]['statistics.minimum'],
-          skewness: jsonContent[i]['statistics.skewness'],
-          standardDeviation: jsonContent[i]
-          ['statistics.standardDeviation'],
-          thirdQuartile: jsonContent[i]['statistics.thirdQuartile']
-        },
-        values: data.files['values/' + jsonContent[i].id + '.json'] ?
+        distribution: data.files['values/' + jsonContent[i].id + '.json'] ?
           JSON.parse(data.files['values/' + jsonContent[i].id + '.json']
-          .asBinary()).values : undefined,
-        surveyIds: CleanJSObjectService.
-        removeWhiteSpace(jsonContent[i].surveyIds),
-        conceptId: jsonContent[i].conceptId,
-        dataSetIds: CleanJSObjectService.
-        removeWhiteSpace(jsonContent[i].dataSetIds),
-        valueSummary: {
-          totalAbsoluteFrequency:
-          jsonContent[i]['valueSummary.totalAbsoluteFrequency'],
-          totalValidAbsoluteFrequency:
-          jsonContent[i]['valueSummary.totalValidAbsoluteFrequency'],
-          totalValidRelativeFrequency:
-          jsonContent[i]['valueSummary.totalValidRelativeFrequency']
-        }
+          .asBinary()).distribution : undefined,
       };
         CleanJSObjectService.removeEmptyJsonObjects(variableObj);
         variablesObjArray.push(new Variable(variableObj));
       }
+      console.log(variablesObjArray);
     }catch (e) {
       console.log(e);
       JobLoggingService.cancel('' + e, {});
