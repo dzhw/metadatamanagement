@@ -230,7 +230,7 @@ public class VariableResourceTest extends AbstractTest {
     mockMvc.perform(put(API_VARIABLES_URI + "/" + variable.getId())
       .content(TestUtil.convertObjectToJsonBytes(variable)))
       .andExpect(status().isBadRequest())
-      .andExpect(jsonPath("$.errors[0].message", containsString("eindeutig")));
+      .andExpect(jsonPath("$.errors[0].message", containsString("unique")));
 
   }
   
@@ -269,7 +269,7 @@ public class VariableResourceTest extends AbstractTest {
     mockMvc.perform(put(API_VARIABLES_URI + "/" + variable.getId())
       .content(TestUtil.convertObjectToJsonBytes(variable)))
       .andExpect(status().isBadRequest())
-      .andExpect(jsonPath("$.errors[0].message", containsString("eindeutig")));
+      .andExpect(jsonPath("$.errors[0].message", containsString("unique")));
      
   }
 
