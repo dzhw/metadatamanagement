@@ -252,7 +252,7 @@ public class VariableResourceTest extends AbstractTest {
     ValidResponse validResponse = variable.getDistribution()
       .getValidResponses()
       .get(0);
-    validResponse.setValue("hurz");
+    validResponse.setValue("123.456");
 
     ValidResponse value2 = new ValidResponseBuilder().withValue(validResponse.getValue())
       .withLabel(validResponse.getLabel())
@@ -271,6 +271,34 @@ public class VariableResourceTest extends AbstractTest {
       .andExpect(status().isBadRequest())
       .andExpect(jsonPath("$.errors[0].message", containsString("unique")));
      
+  }
+
+  @Test
+  public void testCreateVariableWithNonNumericValueOnContinouosScaleLevel() throws Exception {
+
+    // Arrange
+    DataAcquisitionProject project = new DataAcquisitionProjectBuilder().withId("testProject")
+      .withSurveySeries(new I18nStringBuilder().build())
+      .withPanelName(new I18nStringBuilder().build())
+      .build();
+    dataAcquisitionProjectRepository.save(project);
+
+    Survey survey = UnitTestCreateDomainObjectUtils.buildSurvey(project.getId());
+    surveyRepository.save(survey);
+
+    Variable variable =
+        UnitTestCreateDomainObjectUtils.buildVariable(project.getId(), survey.getId());
+    ValidResponse validResponse = variable.getDistribution()
+      .getValidResponses()
+      .get(0);
+    validResponse.setValue("hurz");
+
+    // create the variable with duplicate value classes
+    mockMvc.perform(put(API_VARIABLES_URI + "/" + variable.getId())
+      .content(TestUtil.convertObjectToJsonBytes(variable)))
+      .andExpect(status().isBadRequest())
+      .andExpect(jsonPath("$.errors[0].message", containsString("have to be numeric")));
+
   }
 
   @Test

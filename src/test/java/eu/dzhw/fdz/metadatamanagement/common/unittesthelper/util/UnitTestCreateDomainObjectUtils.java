@@ -232,7 +232,7 @@ public class UnitTestCreateDomainObjectUtils {
       .withLabel(new I18nStringBuilder().withDe("De Label")
         .withEn("En Lable")
         .build())
-      .withValue("Value")
+      .withValue("12.34")
       .withRelativeFrequency(43.78)
       .withValidRelativeFrequency(75.45)
       .build();
