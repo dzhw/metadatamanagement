@@ -6,10 +6,9 @@ import org.springframework.data.rest.core.config.Projection;
 
 import eu.dzhw.fdz.metadatamanagement.common.domain.I18nString;
 import eu.dzhw.fdz.metadatamanagement.common.domain.projections.AbstractRdcDomainObjectProjection;
+import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.Distribution;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.FilterDetails;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.GenerationDetails;
-import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.Statistics;
-import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.Missing;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.Variable;
 
 /**
@@ -44,9 +43,7 @@ public interface CompleteVariableProjection
 
   GenerationDetails getGenerationDetails();
   
-  Statistics getStatistics();
-
-  List<Missing> getValues();
+  Distribution getDistribution();
   
   
   /* Foreign Keys */
