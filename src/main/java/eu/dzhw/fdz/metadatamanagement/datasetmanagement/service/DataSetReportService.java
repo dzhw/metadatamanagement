@@ -24,6 +24,7 @@ import eu.dzhw.fdz.metadatamanagement.datasetmanagement.repository.DataSetReposi
 import eu.dzhw.fdz.metadatamanagement.filemanagement.service.FileService;
 import eu.dzhw.fdz.metadatamanagement.questionmanagement.domain.AtomicQuestion;
 import eu.dzhw.fdz.metadatamanagement.questionmanagement.repository.AtomicQuestionRepository;
+import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.ValidResponse;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.Variable;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.repository.VariableRepository;
 import freemarker.template.Configuration;
@@ -250,12 +251,21 @@ public class DataSetReportService {
         Maps.uniqueIndex(variables, new VariableFunction());
     dataForTemplate.put("variables", variablesMap);
 
-    // Create different information from the variable
-    Map<String, Integer> isNotAMissingCounterMap = new HashMap<>();
+    // Create different information from the variable   
     Map<String, AtomicQuestion> questionsMap = new HashMap<>();
-    // Map<String, List<Missing>> firstTenIsNotAMissingValues = new HashMap<>();
-    // Map<String, List<Missing>> lastTenIsNotAMissingValues = new HashMap<>();
+    Map<String, List<ValidResponse>> firstTenValidResponses = new HashMap<>();
+    Map<String, List<ValidResponse>> lastTenValidResponses = new HashMap<>();
+    
+    
     for (Variable variable : variables) {
+
+      int sizeValidResponses = 0;
+      if (variable.getDistribution() != null && variable.getDistribution()
+          .getValidResponses() != null) {
+        sizeValidResponses = variable.getDistribution()
+          .getValidResponses()
+          .size();
+      }
 
       // Create a Map with Atomic Questions
       if (variable.getAtomicQuestionId() != null) {
@@ -263,29 +273,22 @@ public class DataSetReportService {
             this.atomicQuestionRepository.findOne(variable.getAtomicQuestionId());
         questionsMap.put(variable.getAtomicQuestionId(), atomicQuestion);
       }
+        
+      // Create the first and last ten isAMissing Values to different list, if there are more
+      // than 20.
 
-      // TODO re- implement DKatzberg
-      // count isA Missing for different table layouts (check for more as 20)
-      // int counterisNotAMissing = 0;
-      // List<Missing> onlyIsNotAMissingValues = new ArrayList<>();
-      /*
-       * if (variable.getValues() != null && variable.getValues() .size() > 0) { for (Missing value
-       * : variable.getValues()) { if (!value.getIsAMissing()) { counterisNotAMissing++;
-       * onlyIsNotAMissingValues.add(value); } }
-       * 
-       * // Create the first and last ten isAMissing Values to different list, if there are more
-       * than // 20. isNotAMissingCounterMap.put(variable.getId(), counterisNotAMissing); if
-       * (counterisNotAMissing > 20) { firstTenIsNotAMissingValues.put(variable.getId(),
-       * onlyIsNotAMissingValues.subList(0, 9)); lastTenIsNotAMissingValues.put(variable.getId(),
-       * onlyIsNotAMissingValues.subList(counterisNotAMissing - 10, counterisNotAMissing - 1)); } }
-       */
-
-
+      if (sizeValidResponses > 20) { 
+        firstTenValidResponses.put(variable.getId(),
+            variable.getDistribution().getValidResponses().subList(0, 9)); 
+        lastTenValidResponses.put(variable.getId(),
+            variable.getDistribution()
+              .getValidResponses()
+              .subList(sizeValidResponses - 10, sizeValidResponses - 1));
+      }
     }
     dataForTemplate.put("questions", questionsMap);
-    dataForTemplate.put("isNotAMissingCounterMap", isNotAMissingCounterMap);
-    // dataForTemplate.put("firstTenIsNotAMissingValues", firstTenIsNotAMissingValues);
-    // dataForTemplate.put("lastTenIsNotAMissingValues", lastTenIsNotAMissingValues);
+    dataForTemplate.put("firstTenValidResponses", firstTenValidResponses);
+    dataForTemplate.put("lastTenValidResponses", lastTenValidResponses);
 
     return dataForTemplate;
 

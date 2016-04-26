@@ -45,10 +45,11 @@ public class DataSetsReportResource {
       // fill the data with data and store the template into mongodb / gridfs
       String fileName = this.dataSetReportService.generateReport(multiPartFile, id);
 
+
       // Return ok. Status 200.
       return ResponseEntity.ok()
         .contentLength(fileName.length())
-        .contentType(MediaType.TEXT_PLAIN)
+        .contentType(MediaType.APPLICATION_OCTET_STREAM)
         .body(fileName);
 
     } else {
