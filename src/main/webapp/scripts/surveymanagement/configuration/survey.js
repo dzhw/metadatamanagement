@@ -27,6 +27,35 @@ angular.module('metadatamanagementApp')
           ]
         }
       })
+      .state('survey.new', {
+        parent: 'survey',
+        url: '/new',
+        data: {
+          authorities: ['ROLE_USER'],
+        },
+        onEnter: ['$stateParams', '$state', '$uibModal', 'Survey',
+        function($stateParams, $state, $uibModal, Survey) {
+          $uibModal.open({
+            templateUrl:
+            'scripts/surveymanagement/views/survey-dialog.html.tmpl',
+            controller: 'SurveyDialogController',
+            size: 'lg',
+            resolve: {
+              entity: function() {
+                return new Survey();
+              },
+              isCreateMode: true
+            }
+          }).result.then(function() {
+            $state.go('survey', null, {
+              reload: true
+            });
+          }, function() {
+            $state.go('survey');
+          });
+        }
+      ]
+      })
       .state('survey.detail', {
         parent: 'entity',
         url: '/surveys/{id}',
@@ -57,35 +86,6 @@ angular.module('metadatamanagementApp')
             }
           ]
         }
-      })
-      .state('survey.new', {
-        parent: 'survey',
-        url: '/new',
-        data: {
-          authorities: ['ROLE_USER'],
-        },
-        onEnter: ['$stateParams', '$state', '$uibModal', 'Survey',
-          function($stateParams, $state, $uibModal, Survey) {
-            $uibModal.open({
-              templateUrl:
-               'scripts/surveymanagement/views/survey-dialog.html.tmpl',
-              controller: 'SurveyDialogController',
-              size: 'lg',
-              resolve: {
-                entity: function() {
-                  return new Survey();
-                },
-                isCreateMode: true
-              }
-            }).result.then(function() {
-              $state.go('survey', null, {
-                reload: true
-              });
-            }, function() {
-              $state.go('survey');
-            });
-          }
-        ]
       })
       .state('survey.edit', {
         parent: 'survey',

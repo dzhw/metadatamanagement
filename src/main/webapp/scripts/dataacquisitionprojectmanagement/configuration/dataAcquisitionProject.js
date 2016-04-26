@@ -27,6 +27,36 @@ angular.module('metadatamanagementApp')
           ]
         }
       })
+      .state('dataAcquisitionProject.new', {
+        parent: 'dataAcquisitionProject',
+        url: '/new',
+        data: {
+          authorities: ['ROLE_USER'],
+        },
+        onEnter: ['$stateParams', '$state', '$uibModal',
+        function($stateParams, $state, $uibModal) {
+          $uibModal.open({
+            templateUrl: 'scripts/dataacquisitionprojectmanagement/views/' +
+            'dataAcquisitionProject-dialog.html.tmpl',
+            controller: 'DataAcquisitionProjectDialogController',
+            size: 'lg',
+            resolve: {
+              entity: ['DataAcquisitionProject', function(
+                DataAcquisitionProject) {
+                return new DataAcquisitionProject();
+              }],
+              isCreateMode: true
+            }
+          }).result.then(function() {
+              $state.go('dataAcquisitionProject', null, {
+                reload: true
+              });
+            }, function() {
+              $state.go('dataAcquisitionProject');
+            });
+        }
+        ]
+      })
       .state('dataAcquisitionProject.detail', {
         parent: 'entity',
         url: '/data-acquisition-projects/{id}',
@@ -70,36 +100,6 @@ angular.module('metadatamanagementApp')
             controller: 'DataAcquisitionProjectDetailController'
           }
         }
-      })
-      .state('dataAcquisitionProject.new', {
-        parent: 'dataAcquisitionProject',
-        url: '/new',
-        data: {
-          authorities: ['ROLE_USER'],
-        },
-        onEnter: ['$stateParams', '$state', '$uibModal',
-          function($stateParams, $state, $uibModal) {
-            $uibModal.open({
-              templateUrl: 'scripts/dataacquisitionprojectmanagement/views/' +
-                'dataAcquisitionProject-dialog.html.tmpl',
-              controller: 'DataAcquisitionProjectDialogController',
-              size: 'lg',
-              resolve: {
-                entity: ['DataAcquisitionProject', function(
-                  DataAcquisitionProject) {
-                  return new DataAcquisitionProject();
-                }],
-                isCreateMode: true
-              }
-            }).result.then(function() {
-              $state.go('dataAcquisitionProject', null, {
-                reload: true
-              });
-            }, function() {
-              $state.go('dataAcquisitionProject');
-            });
-          }
-        ]
       })
       .state('dataAcquisitionProject.edit', {
         parent: 'dataAcquisitionProject',
