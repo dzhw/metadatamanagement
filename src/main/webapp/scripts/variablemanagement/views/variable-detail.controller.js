@@ -143,11 +143,11 @@ angular.module('metadatamanagementApp')
 
       //Wait for promise object
       $scope.variable.$promise.then(function() {
-        var statistics = $scope.variable.statistics;
+        var statistics = $scope.variable.distribution.statistics;
 
         //The data object is for the display
         $scope.dataFrequencyCharts = [{
-          values: $scope.variable.values
+          values: $scope.variable.distribution.validResponses
         }];
 
         // Box Plot Chart
