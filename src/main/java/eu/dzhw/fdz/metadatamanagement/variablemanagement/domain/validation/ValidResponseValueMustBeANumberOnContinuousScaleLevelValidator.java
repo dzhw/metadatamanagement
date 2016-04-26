@@ -47,6 +47,10 @@ public class ValidResponseValueMustBeANumberOnContinuousScaleLevelValidator impl
       return true;
     }
 
+    if (variable.getDistribution().getValidResponses() == null) {
+      return true;
+    }
+
     if (variable.getScaleLevel().equals(ScaleLevels.CONTINOUS)) {
       String regex = "-?\\d+(\\.\\d+)?";
       for (ValidResponse validResponse : variable.getDistribution().getValidResponses()) {
