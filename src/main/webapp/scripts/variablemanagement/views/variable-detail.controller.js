@@ -8,7 +8,6 @@ angular.module('metadatamanagementApp')
 
     function($scope, entity, Language, $translate) {
       $scope.variable = entity;
-
       //options for charts
       $scope.optionsRelativeFrequencyChart = {
         chart: {
@@ -26,18 +25,13 @@ angular.module('metadatamanagementApp')
 
           //Point for data extraction to visualisation
           x: function(d) {
-
             //if en, return en lables
             if (Language.getCurrentInstantly() === 'en') {
               if (d.label && d.label.en) {
                 return d.label.en;
                 //return the code, if label is not set
               } else {
-                if (d.code) {
-                  return d.code;
-                } else {
-                  return d.valueClass;
-                }
+                return d.value;
               }
             }
 
@@ -46,11 +40,7 @@ angular.module('metadatamanagementApp')
               return d.label.de;
               //return code, if label is not set
             } else {
-              if (d.code) {
-                return d.code;
-              } else {
-                return d.valueClass;
-              }
+              return d.value;
             }
           },
 
@@ -91,18 +81,13 @@ angular.module('metadatamanagementApp')
 
           //Point for data extraction to visualisation
           x: function(d) {
-
             //if en, return en lables
             if (Language.getCurrentInstantly() === 'en') {
               if (d.label && d.label.en) {
                 return d.label.en;
                 //return the code, if label is not set
               } else {
-                if (d.code) {
-                  return d.code;
-                } else {
-                  return d.valueClass;
-                }
+                return d.value;
               }
             }
 
@@ -111,11 +96,7 @@ angular.module('metadatamanagementApp')
               return d.label.de;
               //return code, if label is not set
             } else {
-              if (d.code) {
-                return d.code;
-              } else {
-                return d.valueClass;
-              }
+              return d.value;
             }
           },
 
@@ -152,7 +133,10 @@ angular.module('metadatamanagementApp')
 
         // Box Plot Chart
         //----------------------------------------------------------------------
-        $scope.optionsBoxPlot = {
+        if (statistics.firstQuartile && statistics.median &&
+          statistics.thirdQuartile && statistics.lowWhisker &&
+          statistics.highWhisker) {
+          $scope.optionsBoxPlot = {
           chart: {
             type: 'boxPlotChart',
             height: 550,
@@ -166,10 +150,9 @@ angular.module('metadatamanagementApp')
             yDomain: [statistics.lowWhisker, statistics.highWhisker]
           }
         };
-
-        // Code here will not be linted with JSCS.
-        // jscs:disable
-        $scope.dataBoxPlot = [{
+          // Code here will not be linted with JSCS.
+          // jscs:disable
+          $scope.dataBoxPlot = [{
           label: $scope.variable.name,
           values: {
             Q1: statistics.firstQuartile,
@@ -179,9 +162,9 @@ angular.module('metadatamanagementApp')
             whisker_high: statistics.highWhisker
           }
         }];
-        // Code here will be linted with JSCS.
-        // jscs:enable
-
+          // Code here will be linted with JSCS.
+          // jscs:enable
+        }
         $translate(
           'metadatamanagementApp.variable.chart.absoluteFrequency').then(
           function(translation) {

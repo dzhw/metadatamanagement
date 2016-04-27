@@ -98,7 +98,7 @@ describe('Variable Detail Controller', function() {
     d.label = {};
 
     //check for code
-    d.code = 'A Code';
+    d.value = 'A Code';
     expect($scope.optionsRelativeFrequencyChart.chart.x(d)).toBe('A Code');
     expect($scope.optionsAbsoluteFrequencyChart.chart.x(d)).toBe('A Code');
 
@@ -118,7 +118,7 @@ describe('Variable Detail Controller', function() {
     d.label = {};
 
     //check for code
-    d.code = 'Another Code';
+    d.value = 'Another Code';
     expect($scope.optionsRelativeFrequencyChart.chart.x(d)).toBe('Another Code');
     expect($scope.optionsAbsoluteFrequencyChart.chart.x(d)).toBe('Another Code');
 
