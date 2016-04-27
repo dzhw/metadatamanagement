@@ -21,7 +21,7 @@
 
     <properties>
         <assertj-core.version>3.4.1</assertj-core.version>
-        <commons-io.version>2.4</commons-io.version>
+        <commons-io.version>2.5</commons-io.version>
         <commons-lang.version>2.6</commons-lang.version>
         <dropwizard-metrics.version>3.1.2</dropwizard-metrics.version>
         <elasticsearch.version>2.1.1</elasticsearch.version>
