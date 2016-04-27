@@ -23,12 +23,8 @@ function(CustomModalService, ExcelReaderService, DataSetBuilderService,
             'logMessages.dataSet.uploadTerminated', {}));
         }
       } else {
-        objects[i].$save().then(function(data) {
-          JobLoggingService.success($translate.instant(
-            'metadatamanagementApp.dataAcquisitionProject.detail.' +
-            'logMessages.dataSet.saved', {
-              id: data.id
-            }));
+        objects[i].$save().then(function() {
+          JobLoggingService.success();
           j++;
           if (j === itemsToUpload) {
             JobLoggingService.finish($translate.instant(

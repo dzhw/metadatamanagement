@@ -23,12 +23,8 @@ function(CustomModalService, ExcelReaderService, AtomicQuestionBuilderService,
             'logMessages.atomicQuestion.uploadTerminated', {}));
         }
       } else {
-        objects[i].$save().then(function(data) {
-          JobLoggingService.success($translate.instant(
-            'metadatamanagementApp.dataAcquisitionProject.detail.' +
-            'logMessages.AtomicQuestion.saved', {
-              id: data.id
-            }));
+        objects[i].$save().then(function() {
+          JobLoggingService.success();
           j++;
           if (j === itemsToUpload) {
             JobLoggingService.finish($translate.instant(

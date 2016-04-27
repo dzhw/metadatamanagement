@@ -23,12 +23,8 @@ function(CustomModalService, $translate, ZipReaderService,
             'logMessages.variable.uploadTerminated', {}));
         }
       } else {
-        objects[i].$save().then(function(data) {
-          JobLoggingService.success($translate.instant(
-            'metadatamanagementApp.dataAcquisitionProject.detail.' +
-            'logMessages.variable.saved', {
-              id: data.id
-            }));
+        objects[i].$save().then(function() {
+          JobLoggingService.success();
           j++;
           if (j === itemsToUpload) {
             JobLoggingService.finish($translate.instant(

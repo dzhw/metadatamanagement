@@ -12,7 +12,7 @@ function() {
   };
 
   var isNullOrEmpty = function(object) {
-    return (object === null || object === undefined ||
+    return (object === null || object === undefined || object.length === 0 ||
       (jQuery.isPlainObject(object) && jQuery.isEmptyObject(object)));
   };
 

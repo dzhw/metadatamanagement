@@ -23,8 +23,10 @@ function(ValidationExtractorService) {
   };
   var success = function(successMsg) {
     job.successes++;
-    ValidationExtractorService
-    .addValidationMessage(job.id, job.logMessages, successMsg, 'info');
+    if (successMsg) {
+      ValidationExtractorService
+      .addValidationMessage(job.id, job.logMessages, successMsg, 'info');
+    }
   };
   var finish = function(finishMsg) {
     job.state = 'finished';

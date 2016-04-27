@@ -23,12 +23,8 @@ function(CustomModalService, ExcelReaderService, SurveyBuilderService,
             'logMessages.survey.uploadTerminated', {}));
         }
       } else {
-        objects[i].$save().then(function(data) {
-          JobLoggingService.success($translate.instant(
-            'metadatamanagementApp.dataAcquisitionProject.detail.' +
-            'logMessages.survey.saved', {
-              id: data.id
-            }));
+        objects[i].$save().then(function() {
+          JobLoggingService.success();
           j++;
           if (j === itemsToUpload) {
             JobLoggingService.finish($translate.instant(
