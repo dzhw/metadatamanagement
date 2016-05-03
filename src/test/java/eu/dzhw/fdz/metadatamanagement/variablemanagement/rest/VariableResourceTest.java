@@ -217,13 +217,6 @@ public class VariableResourceTest extends AbstractTest {
     // create the variable with a null label
     mockMvc.perform(put(API_VARIABLES_URI + "/" + variable.getId())
       .content(TestUtil.convertObjectToJsonBytes(variable)))
-      .andExpect(status().isBadRequest());
-
-    variable.setLabel(new I18nString());
-
-    // create the variable with an empty label
-    mockMvc.perform(put(API_VARIABLES_URI + "/" + variable.getId())
-      .content(TestUtil.convertObjectToJsonBytes(variable)))
       .andExpect(status().isBadRequest())
       .andExpect(jsonPath("$.errors[0].message", containsString("have to be filled or empty")));
   }
