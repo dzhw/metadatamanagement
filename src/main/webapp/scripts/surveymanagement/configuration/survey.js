@@ -78,11 +78,18 @@ angular.module('metadatamanagementApp')
               return $translate.refresh();
             }
           ],
-          entity: ['$stateParams', 'Survey',
-            function($stateParams, Survey) {
-              return Survey.get({
+          entity: ['$stateParams', 'Survey', '$q', '$state',
+            function($stateParams, Survey, $q, $state) {
+              var deferred = $q.defer();
+              Survey.get({
                 id: $stateParams.id
-              });
+              }).$promise.
+                then(function(data) {
+                  deferred.resolve(data);
+                },
+                  function() {
+                    $state.go('error');});
+              return deferred.promise;
             }
           ]
         }
