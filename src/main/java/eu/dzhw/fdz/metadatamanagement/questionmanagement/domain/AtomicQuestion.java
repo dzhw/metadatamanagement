@@ -23,11 +23,11 @@ import net.karneim.pojobuilder.GeneratePojoBuilder;
 
 /**
  * Atomic Question.
- * 
+ *
  * @author Daniel Katzberg
  *
  */
-@Document(collection = "atomic-questions")
+@Document(collection = "atomic_questions")
 @GeneratePojoBuilder(
     intoPackage = "eu.dzhw.fdz.metadatamanagement.questionmanagement.domain.builders")
 @CompoundIndex(def = "{name: 1, questionnaireId: 1}", unique = true)
@@ -39,12 +39,12 @@ public class AtomicQuestion extends AbstractRdcDomainObject {
   @Id
   @NotEmpty(message = "{error.atomicQuestion.id.notEmpty}")
   @Size(max = StringLengths.MEDIUM, message = "{error.atomicQuestion.id.size}")
-  @Pattern(regexp = Patterns.GERMAN_ALPHANUMERIC_WITH_UNDERSCORE_AND_MINUS, 
+  @Pattern(regexp = Patterns.GERMAN_ALPHANUMERIC_WITH_UNDERSCORE_AND_MINUS,
       message = "{error.atomicQuestion.id.pattern}")
   private String id;
 
   @NotNull(message = "{error.atomicQuestion.type.notNull}")
-  @ValidAtomicQuestionType(message = 
+  @ValidAtomicQuestionType(message =
       "{error.atomicQuestion.type.atomicQuestionTypeConsistence}")
   private I18nString type;
 
@@ -76,7 +76,7 @@ public class AtomicQuestion extends AbstractRdcDomainObject {
       message = "{error.atomicQuestion.sectionHeader.i18nStringSize}")
   private I18nString sectionHeader;
 
-  
+
   /* Foreign Keys */
   @NotEmpty(message = "{error.atomicQuestion.dataAcquisitionProjectId.notEmpty}")
   private String dataAcquisitionProjectId;
@@ -89,7 +89,7 @@ public class AtomicQuestion extends AbstractRdcDomainObject {
 
   /*
    * (non-Javadoc)
-   * 
+   *
    * @see eu.dzhw.fdz.metadatamanagement.domain.AbstractRdcDomainObject#getId()
    */
   @Override
@@ -99,7 +99,7 @@ public class AtomicQuestion extends AbstractRdcDomainObject {
 
   /*
    * (non-Javadoc)
-   * 
+   *
    * @see eu.dzhw.fdz.metadatamanagement.domain.AbstractRdcDomainObject#toString()
    */
   @Override
