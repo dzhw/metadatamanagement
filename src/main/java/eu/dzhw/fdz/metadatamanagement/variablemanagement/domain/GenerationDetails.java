@@ -2,14 +2,13 @@ package eu.dzhw.fdz.metadatamanagement.variablemanagement.domain;
 
 import javax.validation.constraints.Size;
 
-import org.hibernate.validator.constraints.NotEmpty;
-
 import com.google.common.base.MoreObjects;
 
 import eu.dzhw.fdz.metadatamanagement.common.domain.I18nString;
 import eu.dzhw.fdz.metadatamanagement.common.domain.validation.I18nStringSize;
 import eu.dzhw.fdz.metadatamanagement.common.domain.validation.StringLengths;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.validation.NotEmptyGenerationDetailsDescriptionOrRule;
+import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.validation.RuleExpressionLanguageAndRuleFilledOrEmpty;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.validation.ValidRuleExpressionLanguage;
 import net.karneim.pojobuilder.GeneratePojoBuilder;
 
@@ -23,6 +22,8 @@ import net.karneim.pojobuilder.GeneratePojoBuilder;
     intoPackage = "eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.builders")
 @NotEmptyGenerationDetailsDescriptionOrRule(
     message = "{error.generationDetails.notEmptyGenerationDetailsDescriptionOrRule}")
+@RuleExpressionLanguageAndRuleFilledOrEmpty(
+    message = "{error.generationDetails.ruleExpressionLanguageAndRuleFilledOrEmpty}")
 public class GenerationDetails {
 
   @I18nStringSize(max = StringLengths.LARGE,
@@ -32,7 +33,6 @@ public class GenerationDetails {
   @Size(max = StringLengths.LARGE, message = "{error.generationDetails.rule.size}")
   private String rule;
 
-  @NotEmpty(message = "{error.generationDetails.ruleExpressionLanguage.notEmpty}")
   @ValidRuleExpressionLanguage(
       message = "{error.generationDetails.ruleExpressionLanguage.validRuleExpressionLanguage}")
   private String ruleExpressionLanguage;

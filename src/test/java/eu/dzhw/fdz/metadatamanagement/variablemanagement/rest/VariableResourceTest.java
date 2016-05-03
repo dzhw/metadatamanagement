@@ -199,6 +199,36 @@ public class VariableResourceTest extends AbstractTest {
   }
 
   @Test
+  public void testGenerationDetailsWithExpressionLanguageButWithoutRule() throws Exception {
+    DataAcquisitionProject project = new DataAcquisitionProjectBuilder().withId("testProject")
+      .withSurveySeries(new I18nStringBuilder().build())
+      .withPanelName(new I18nStringBuilder().build())
+      .build();
+    dataAcquisitionProjectRepository.save(project);
+
+    Survey survey = UnitTestCreateDomainObjectUtils.buildSurvey(project.getId());
+    surveyRepository.save(survey);
+
+    Variable variable =
+        UnitTestCreateDomainObjectUtils.buildVariable(project.getId(), survey.getId());
+    variable.getGenerationDetails()
+      .setRule(null);
+
+    // create the variable with a null label
+    mockMvc.perform(put(API_VARIABLES_URI + "/" + variable.getId())
+      .content(TestUtil.convertObjectToJsonBytes(variable)))
+      .andExpect(status().isBadRequest());
+
+    variable.setLabel(new I18nString());
+
+    // create the variable with an empty label
+    mockMvc.perform(put(API_VARIABLES_URI + "/" + variable.getId())
+      .content(TestUtil.convertObjectToJsonBytes(variable)))
+      .andExpect(status().isBadRequest())
+      .andExpect(jsonPath("$.errors[0].message", containsString("have to be filled or empty")));
+  }
+
+  @Test
   public void testCreateVariableWithNonUniqueCode() throws Exception {
 
     DataAcquisitionProject project = new DataAcquisitionProjectBuilder().withId("testProject")
