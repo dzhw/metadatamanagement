@@ -82,16 +82,13 @@ angular.module('metadatamanagementApp')
           ],
           entity: ['$stateParams', 'Variable', '$q', '$state',
           function($stateParams, Variable, $q, $state) {
-            var deferred = $q.defer();
-            Variable.get({
+            return Variable.get({
                 id: $stateParams.id
               }).$promise.
-              then(function(data) {
-                deferred.resolve(data);
+              then(function() {
               },
                 function() {
                   $state.go('error');});
-            return deferred.promise;
           }]
         },
       })
