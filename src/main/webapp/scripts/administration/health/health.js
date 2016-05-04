@@ -11,7 +11,7 @@ angular.module('metadatamanagementApp').config(
         },
         views: {
           'content@': {
-            templateUrl: 'scripts/administrationmanagement/' +
+            templateUrl: 'scripts/administration/' +
             'health/health.html.tmpl',
             controller: 'HealthController'
           }

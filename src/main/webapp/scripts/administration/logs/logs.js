@@ -11,7 +11,7 @@ angular.module('metadatamanagementApp').config(
         },
         views: {
           'content@': {
-            templateUrl: 'scripts/administrationmanagement/logs/logs.html.tmpl',
+            templateUrl: 'scripts/administration/logs/logs.html.tmpl',
             controller: 'LogsController'
           }
         },

@@ -2,25 +2,24 @@
 
 angular.module('metadatamanagementApp').config(
     function($stateProvider) {
-      $stateProvider.state('configuration', {
+      $stateProvider.state('metrics', {
         parent: 'admin',
-        url: '/configuration',
+        url: '/metrics',
         data: {
           authorities: ['ROLE_ADMIN'],
-          pageTitle: 'configuration.title'
+          pageTitle: 'metrics.title'
         },
         views: {
           'content@': {
-            templateUrl:
-             'scripts/administrationmanagement/configuration/' +
-             'configuration.html.tmpl',
-            controller: 'ConfigurationController'
+            templateUrl: 'scripts/administration/metrics/' +
+            'metrics.html.tmpl',
+            controller: 'MetricsController'
           }
         },
         resolve: {
           translatePartialLoader: ['$translate', '$translatePartialLoader',
               function($translate, $translatePartialLoader) {
-                $translatePartialLoader.addPart('configuration');
+                $translatePartialLoader.addPart('metrics');
                 return $translate.refresh();
               }]
         }

@@ -50,7 +50,7 @@ module.exports = function (config) {
             'src/main/webapp/bower_components/angular-mocks/angular-mocks.js',
             // endbower
             'src/main/webapp/bower_components/elasticsearch/elasticsearch.angular.js',
-            'src/main/webapp/scripts/app/app.js',
+            'src/main/webapp/scripts/app.js',
             'src/main/webapp/scripts/**/*.js',
             'src/main/webapp/scripts/**/*.html',
             'src/test/javascript/spec/helpers/module.js',
