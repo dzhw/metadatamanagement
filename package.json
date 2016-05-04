@@ -39,7 +39,7 @@
     "karma": "0.13.22",
     "karma-chrome-launcher": "1.0.1",
     "karma-coverage": "1.0.0",
-    "karma-html2js-preprocessor": "0.1.0",
+    "karma-html2js-preprocessor": "1.0.0",
     "karma-jasmine": "0.3.8",
     "karma-jenkins-reporter": "0.0.2",
     "karma-phantomjs-launcher": "1.0.0",
