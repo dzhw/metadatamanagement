@@ -4,7 +4,7 @@ angular.module('metadatamanagementApp')
   .config(function($stateProvider) {
     $stateProvider
       .state('survey', {
-        parent: 'entity',
+        parent: 'site',
         url: '/surveys',
         data: {
           authorities: ['ROLE_USER'],
@@ -57,7 +57,7 @@ angular.module('metadatamanagementApp')
       ]
       })
       .state('survey.detail', {
-        parent: 'entity',
+        parent: 'site',
         url: '/surveys/{id}',
         data: {
           authorities: ['ROLE_USER'],

@@ -4,7 +4,7 @@ angular.module('metadatamanagementApp')
   .config(function($stateProvider) {
     $stateProvider
       .state('dataSet', {
-        parent: 'entity',
+        parent: 'site',
         url: '/data-sets',
         data: {
           authorities: ['ROLE_USER'],
