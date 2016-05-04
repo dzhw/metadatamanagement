@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('metadatamanagementApp')
-  .factory('Variable', function($resource) {
+  .factory('Variable', function($resource, $state) {
     return $resource('api/variables/:id', {
       id: '@id'
     }, {
@@ -9,6 +9,11 @@ angular.module('metadatamanagementApp')
         method: 'GET',
         params: {
           projection: 'complete'
+        },
+        interceptor: {
+          responseError: function() {
+            $state.go('error');
+          }
         }
       },
       'save': {

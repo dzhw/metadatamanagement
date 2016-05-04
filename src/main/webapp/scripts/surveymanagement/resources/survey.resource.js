@@ -1,12 +1,17 @@
 'use strict';
 
 angular.module('metadatamanagementApp')
-    .factory('Survey', function($resource, DateUtils) {
+    .factory('Survey', function($resource, DateUtils, $state) {
       return $resource('/api/surveys/:id',
         {id: '@id'}, {
         'get': {
           method: 'GET',
           params: {projection: 'complete'},
+          interceptor: {
+            responseError: function() {
+              $state.go('error');
+            }
+          },
           transformResponse: function(data) {
             // data might be empty if 404
             if (data) {

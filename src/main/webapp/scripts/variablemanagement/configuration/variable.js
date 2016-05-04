@@ -80,15 +80,11 @@ angular.module('metadatamanagementApp')
               return $translate.refresh();
             }
           ],
-          entity: ['$stateParams', 'Variable', '$q', '$state',
-          function($stateParams, Variable, $q, $state) {
+          entity: ['$stateParams', 'Variable',
+          function($stateParams, Variable) {
             return Variable.get({
                 id: $stateParams.id
-              }).$promise.
-              then(function() {
-              },
-                function() {
-                  $state.go('error');});
+              });
           }]
         },
       })
