@@ -1,6 +1,7 @@
 'use strict';
 
-angular.module('metadatamanagementApp').factory('User', function($resource) {
+angular.module('metadatamanagementApp').factory('UserResource',
+function($resource) {
   return $resource('api/users/:login', {}, {
     'query': {
       method: 'GET',

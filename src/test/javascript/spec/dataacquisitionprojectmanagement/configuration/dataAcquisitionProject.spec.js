@@ -1,13 +1,22 @@
+/* global describe */
+/* global beforeEach */
+/* global it */
+/* global inject */
+/* global expect */
+/* global spyOn */
+
 'use strict';
 
 describe('dataAcquisitionProject api', function() {
-  var $translate, $translatePartialLoader, $state;
+  var $translate;
+  var $translatePartialLoader;
+  var $state;
   beforeEach(inject(function(_$translate_, _$translatePartialLoader_,
     _$httpBackend_, _$state_) {
     $translate = _$translate_;
     $translatePartialLoader = _$translatePartialLoader_;
     $state = _$state_;
-    var globalJson = new RegExp('i18n\/.*\/global.json')
+    var globalJson = new RegExp('i18n\/.*\/global.json');
     var mainJson = new RegExp('i18n\/.*\/main.json');
     _$httpBackend_.whenGET(globalJson).respond({});
     _$httpBackend_.whenGET(mainJson).respond({});
@@ -27,10 +36,11 @@ describe('dataAcquisitionProject api', function() {
     });
   });
   describe('basic test fo dataAcquisitionProject.detail', function() {
-    it('should call $translate, $translatePartialLoader and DataAcquisitionProject',
-      inject(function(_DataAcquisitionProject_, $stateParams) {
+    it('should call $translate, $translatePartialLoader and' +
+    'DataAcquisitionProject',
+      inject(function(_DataAcquisitionProjectResource_) {
         var config = $state.get('dataAcquisitionProject.detail');
-        var DataAcquisitionProject = _DataAcquisitionProject_;
+        var DataAcquisitionProject = _DataAcquisitionProjectResource_;
         spyOn(DataAcquisitionProject, 'get').and.callThrough();
         expect(config.url).toEqual('/data-acquisition-projects/{id}');
         expect(config.resolve.translatePartialLoader).toBeDefined();
@@ -53,7 +63,8 @@ describe('dataAcquisitionProject api', function() {
         expect($uibModal.open).toHaveBeenCalled();
       }));
     });
-    describe('basic test fo dataAcquisitionProject.detail modal promises', function() {
+    describe('basic test fo dataAcquisitionProject.detail modal promises',
+    function() {
       it('should open modal', inject(function($stateParams, $state,
         $uibModal) {
         var modalOptions = {
@@ -87,7 +98,8 @@ describe('dataAcquisitionProject api', function() {
         expect($uibModal.open).toHaveBeenCalled();
       }));
     });
-    describe('basic test fo dataAcquisitionProject.edit modal promises', function() {
+    describe('basic test fo dataAcquisitionProject.edit modal promises',
+    function() {
       it('should open modal', inject(function($rootScope,
         $stateParams, $state, $uibModal) {
         var modalOptions = {

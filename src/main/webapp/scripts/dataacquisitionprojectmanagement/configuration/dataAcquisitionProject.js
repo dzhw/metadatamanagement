@@ -41,9 +41,9 @@ angular.module('metadatamanagementApp')
             controller: 'DataAcquisitionProjectDialogController',
             size: 'lg',
             resolve: {
-              entity: ['DataAcquisitionProject', function(
-                DataAcquisitionProject) {
-                return new DataAcquisitionProject();
+              entity: ['DataAcquisitionProjectResource', function(
+                DataAcquisitionProjectResource) {
+                return new DataAcquisitionProjectResource();
               }],
               isCreateMode: true
             }
@@ -78,9 +78,9 @@ angular.module('metadatamanagementApp')
                 return $translate.refresh();
               }
             ],
-            entity: ['$stateParams', 'DataAcquisitionProject',
-              function($stateParams, DataAcquisitionProject) {
-                return DataAcquisitionProject.get({
+            entity: ['$stateParams', 'DataAcquisitionProjectResource',
+              function($stateParams, DataAcquisitionProjectResource) {
+                return DataAcquisitionProjectResource.get({
                   id: $stateParams.id
                 });
               }
@@ -108,9 +108,9 @@ angular.module('metadatamanagementApp')
               controller: 'DataAcquisitionProjectDialogController',
               size: 'lg',
               resolve: {
-                entity: ['DataAcquisitionProject', function(
-                  DataAcquisitionProject) {
-                  return DataAcquisitionProject.get({
+                entity: ['DataAcquisitionProjectResource', function(
+                  DataAcquisitionProjectResource) {
+                  return DataAcquisitionProjectResource.get({
                     id: $stateParams.id
                   });
                 }],
@@ -140,9 +140,9 @@ angular.module('metadatamanagementApp')
               controller: 'DataAcquisitionProjectDeleteController',
               size: 'md',
               resolve: {
-                entity: ['DataAcquisitionProject', function(
-                  DataAcquisitionProject) {
-                  return DataAcquisitionProject.get({
+                entity: ['DataAcquisitionProjectResource', function(
+                  DataAcquisitionProjectResource) {
+                  return DataAcquisitionProjectResource.get({
                     id: $stateParams.id
                   });
                 }]

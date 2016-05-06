@@ -2,7 +2,7 @@
 'use strict';
 
 angular.module('metadatamanagementApp').controller('UserManagementController',
-    function($scope, User, ParseLinks, Language) {
+    function($scope, UserResource, ParseLinks, Language) {
       $scope.users = [];
       $scope.authorities = ['ROLE_USER', 'ROLE_ADMIN'];
       Language.getAll().then(function(languages) {
@@ -11,7 +11,7 @@ angular.module('metadatamanagementApp').controller('UserManagementController',
 
       $scope.page = 0;
       $scope.loadAll = function() {
-        User.query({
+        UserResource.query({
           page: $scope.page,
           //jscs:disable
           per_page: 20
@@ -30,14 +30,14 @@ angular.module('metadatamanagementApp').controller('UserManagementController',
 
       $scope.setActive = function(user, isActivated) {
         user.activated = isActivated;
-        User.update(user, function() {
+        UserResource.update(user, function() {
           $scope.loadAll();
           $scope.clear();
         });
       };
 
       $scope.showUpdate = function(login) {
-        User.get({
+        UserResource.get({
           login: login
         }, function(result) {
           $scope.user = result;
@@ -46,7 +46,7 @@ angular.module('metadatamanagementApp').controller('UserManagementController',
       };
 
       $scope.save = function() {
-        User.update($scope.user, function() {
+        UserResource.update($scope.user, function() {
           $scope.refresh();
         });
       };

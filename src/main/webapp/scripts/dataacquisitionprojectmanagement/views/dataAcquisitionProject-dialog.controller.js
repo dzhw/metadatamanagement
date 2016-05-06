@@ -2,10 +2,8 @@
 
 angular.module('metadatamanagementApp')
   .controller('DataAcquisitionProjectDialogController', ['$scope',
-    '$stateParams', '$uibModalInstance', 'entity',
-    'DataAcquisitionProject', 'isCreateMode',
-    function($scope, $stateParams, $uibModalInstance, entity,
-      DataAcquisitionProject, isCreateMode) {
+    '$stateParams', '$uibModalInstance', 'entity', 'isCreateMode',
+    function($scope, $stateParams, $uibModalInstance, entity, isCreateMode) {
       $scope.isCreateMode = isCreateMode;
       $scope.dataAcquisitionProject = entity;
 
