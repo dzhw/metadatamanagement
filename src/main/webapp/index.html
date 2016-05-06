@@ -138,24 +138,10 @@
     <script src="scripts/common/navbar/views/navbar.controller.js"></script>
     <script src="scripts/common/main/main.js"></script>
     <script src="scripts/common/main/main.controller.js"></script>
-    <script src="scripts/common/language/services/language.service.js"></script>
-    <script src="scripts/common/language/controllers/language.controller.js"></script>
-    <script src="scripts/common/disclosure/configuration/disclosure.js"></script>
-    <script src="scripts/common/disclosure/views/disclosure.controller.js"></script>
     <script src="scripts/common/waitSpinner/directives/loading.directive.js"></script>
     <script src="scripts/common/modal/customModal.service.js"></script>
-    <script src="scripts/common/reader/zipReader.service.js"></script>
-    <script src="scripts/common/reader/excelReader.service.js"></script>
-    <script src="scripts/common/jobLogging/jobLogging.service.js"></script>
-    <script src="scripts/common/jobLogging/validationExtractor.service.js"></script>
-    <script src="scripts/common/form/directives/form.directive.js"></script>
-    <script src="scripts/common/form/directives/maxbytes.directive.js"></script>
-    <script src="scripts/common/form/directives/minbytes.directive.js"></script>
-    <script src="scripts/common/form/directives/pager.directive.js"></script>
-    <script src="scripts/common/form/directives/pagination.directive.js"></script>
-    <script src="scripts/common/interceptor/auth.interceptor.js"></script>
-    <script src="scripts/common/interceptor/errorhandler.interceptor.js"></script>
-    <script src="scripts/common/interceptor/notification.interceptor.js"></script>
+    <script src="scripts/common/joblogging/jobLogging.service.js"></script>
+    <script src="scripts/common/joblogging/validationExtractor.service.js"></script>
     <script src="scripts/common/util/truncate.filter.js"></script>
     <script src="scripts/common/util/base64.service.js"></script>
     <script src="scripts/common/util/cleanJSObject.service.js"></script>
@@ -163,13 +149,22 @@
     <script src="scripts/common/util/parse-links.service.js"></script>
     <script src="scripts/common/util/dateutil.service.js"></script>
     <script src="scripts/common/util/handlebars.service.js"></script>
-    <script src="scripts/common/errornotification/error/error.js"></script>
-    <script src="scripts/common/errornotification/alert/alert.service.js"></script>
-    <script src="scripts/common/errornotification/alert/alert.directive.js"></script>
-    <script src="scripts/common/errornotification/i18n/translation.error.handler.js"></script>
+    <script src="scripts/common/error/errorhandler.interceptor.js"></script>
+    <script src="scripts/common/error/error.js"></script>
+    <script src="scripts/common/alert/notification.interceptor.js"></script>
+    <script src="scripts/common/alert/auth.interceptor.js"></script>
+    <script src="scripts/common/alert/alert.service.js"></script>
+    <script src="scripts/common/alert/alert.directive.js"></script>
+    <script src="scripts/common/i18n/error/translation.error.handler.js"></script>
+    <script src="scripts/common/i18n/services/language.service.js"></script>
+    <script src="scripts/common/i18n/controllers/language.controller.js"></script>
 
-    <script src="scripts/filemanagement/laTex/resources/file.resource.js"></script>
-    <script src="scripts/filemanagement/laTex/services/texUpload.service.js"></script>
+    <script src="scripts/filemanagement/resources/file.resource.js"></script>
+    <script src="scripts/filemanagement/services/zipReader.service.js"></script>
+    <script src="scripts/filemanagement/services/excelReader.service.js"></script>
+
+    <script src="scripts/disclosure/configuration/disclosure.js"></script>
+    <script src="scripts/disclosure/views/disclosure.controller.js"></script>
 
     <script src="scripts/variablemanagement/configuration/variable.js"></script>
     <script src="scripts/variablemanagement/directives/variable.list.directive.js"></script>
@@ -204,6 +199,7 @@
     <script src="scripts/datasetmanagement/resources/dataSetDelete.resource.js"></script>
     <script src="scripts/datasetmanagement/services/dataSetBuilder.service.js"></script>
     <script src="scripts/datasetmanagement/services/dataSetUpload.service.js"></script>
+    <script src="scripts/datasetmanagement/services/dataSetReport.service.js"></script>
     <script src="scripts/datasetmanagement/views/dataSet.controller.js"></script>
 
     <script src="scripts/atomicquestionmanagement/directives/atomicQuestion.list.directive.js"></script>

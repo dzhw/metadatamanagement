@@ -2,8 +2,8 @@
 
 angular.module('metadatamanagementApp')
   .controller('DataAcquisitionProjectDetailController',
-    function($mdSidenav, $scope, entity, JobLoggingService,
-      DataSetUploadService,
+    function(CustomModalService, $scope, entity, JobLoggingService,
+      DataSetUploadService, $translate,
       VariableUploadService, SurveyUploadService, AtomicQuestionUploadService) {
       $scope.dataAcquisitionProject = entity;
       $scope.objLists = {
@@ -12,35 +12,67 @@ angular.module('metadatamanagementApp')
         variableList: {},
         atomicQuestionList:  {}
       };
-      /*$scope.openLeftMenu = function() {
-        $mdSidenav('left').toggle();
-      };
-      $scope.close = function() {
-        $mdSidenav('left').close();
-      };
-      $scope.isOpen = false;
-      $scope.count = 0;
-      $scope.selectedDirection = 'left';*/
+
       $scope.job = JobLoggingService.init();
       $scope.uploadSurveys = function(file) {
-        JobLoggingService.start('survey');
-        SurveyUploadService
-        .uploadSurveys(file, $scope.dataAcquisitionProject.id);
+        if (file !== null) {
+          CustomModalService.getModal($translate.instant(
+            'metadatamanagementApp.dataAcquisitionProject.detail.' +
+            'deleteMessages.deleteSurveys', {
+              id: $scope.dataAcquisitionProject.id
+            })).then(function(returnValue) {
+              if (returnValue) {
+                JobLoggingService.start('survey');
+                SurveyUploadService
+                .uploadSurveys(file, $scope.dataAcquisitionProject.id);
+              }
+            });
+        }
       };
       $scope.uploadAtomicQuestions = function(file) {
-        JobLoggingService.start('atomicQuestion');
-        AtomicQuestionUploadService
-        .uploadAtomicQuestions(file, $scope.dataAcquisitionProject.id);
+        if (file !== null) {
+          CustomModalService.getModal($translate.instant(
+            'metadatamanagementApp.dataAcquisitionProject.detail.' +
+            'deleteMessages.deleteAtomicQuestions', {
+              id: $scope.dataAcquisitionProject.id
+            })).then(function(returnValue) {
+              if (returnValue) {
+                JobLoggingService.start('atomicQuestion');
+                AtomicQuestionUploadService
+                .uploadAtomicQuestions(file, $scope.dataAcquisitionProject.id);
+              }
+            });
+        }
       };
       $scope.uploadVariables = function(file) {
-        JobLoggingService.start('variable');
-        VariableUploadService
-        .uploadVariables(file, $scope.dataAcquisitionProject.id);
+        if (file !== null) {
+          CustomModalService.getModal($translate.instant(
+            'metadatamanagementApp.dataAcquisitionProject.detail.' +
+            'deleteMessages.deleteVariables', {
+              id: $scope.dataAcquisitionProject.id
+            })).then(function(returnValue) {
+              if (returnValue) {
+                JobLoggingService.start('variable');
+                VariableUploadService
+                .uploadVariables(file, $scope.dataAcquisitionProject.id);
+              }
+            });
+        }
       };
       $scope.uploadDataSets = function(file) {
-        JobLoggingService.start('dataSet');
-        DataSetUploadService.
-        uploadDataSets(file,$scope.dataAcquisitionProject.id);
+        if (file !== null) {
+          CustomModalService.getModal($translate.instant(
+            'metadatamanagementApp.dataAcquisitionProject.detail.' +
+            'deleteMessages.deleteDataSets', {
+              id: $scope.dataAcquisitionProject.id
+            })).then(function(returnValue) {
+              if (returnValue) {
+                JobLoggingService.start('dataSet');
+                DataSetUploadService.
+                uploadDataSets(file,$scope.dataAcquisitionProject.id);
+              }
+            });
+        }
       };
       $scope.$watch('job.state', function() {
         if ($scope.job.state === 'finished') {

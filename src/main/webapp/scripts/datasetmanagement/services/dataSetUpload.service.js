@@ -2,7 +2,7 @@
 'use strict';
 
 angular.module('metadatamanagementApp').service('DataSetUploadService',
-function(CustomModalService, ExcelReaderService, DataSetBuilderService,
+function(ExcelReaderService, DataSetBuilderService,
   DataSetDeleteResource, $translate, JobLoggingService) {
   var objects;
   var upload = function() {
@@ -44,33 +44,15 @@ function(CustomModalService, ExcelReaderService, DataSetBuilderService,
     }
   };
   var uploadDataSets = function(file, dataAcquisitionProjectId) {
-    if (file !== null) {
-      CustomModalService.getModal($translate.instant(
-          'metadatamanagementApp.dataAcquisitionProject.detail.' +
-          'deleteMessages.deleteDataSets', {
-            id: dataAcquisitionProjectId
-          })).then(function(returnValue) {
-            if (returnValue) {
-              ExcelReaderService.readFileAsync(file).then(function(data) {
-                objects  = DataSetBuilderService.getDataSets(data,
-                  dataAcquisitionProjectId);
-                DataSetDeleteResource.deleteByDataAcquisitionProjectId({
-                    dataAcquisitionProjectId: dataAcquisitionProjectId},
-                    upload, function(error) {
-                      JobLoggingService.error(error);
-                    });
-              });
-            }else {
-              JobLoggingService.cancel($translate.instant(
-                'metadatamanagementApp.dataAcquisitionProject.detail.' +
-                'logMessages.dataSet.cancelled', {}));
-            }
+    ExcelReaderService.readFileAsync(file).then(function(data) {
+        objects  = DataSetBuilderService.getDataSets(data,
+          dataAcquisitionProjectId);
+        DataSetDeleteResource.deleteByDataAcquisitionProjectId({
+          dataAcquisitionProjectId: dataAcquisitionProjectId},
+          upload, function(error) {
+            JobLoggingService.error(error);
           });
-    }else {
-      JobLoggingService.cancel($translate.instant(
-        'metadatamanagementApp.dataAcquisitionProject.detail.' +
-        'logMessages.dataSet.cancelled', {}));
-    }
+      });
   };
   return {
       uploadDataSets: uploadDataSets

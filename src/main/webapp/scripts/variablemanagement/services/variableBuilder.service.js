@@ -72,7 +72,6 @@ function(Variable, CleanJSObjectService, JobLoggingService) {
         CleanJSObjectService.removeEmptyJsonObjects(variableObj);
         variablesObjArray.push(new Variable(variableObj));
       }
-      console.log(variablesObjArray);
     }catch (e) {
       console.log(e);
       JobLoggingService.cancel('' + e, {});

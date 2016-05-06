@@ -2,7 +2,7 @@
 'use strict';
 
 angular.module('metadatamanagementApp').service('AtomicQuestionUploadService',
-function(CustomModalService, ExcelReaderService, AtomicQuestionBuilderService,
+function(ExcelReaderService, AtomicQuestionBuilderService,
   AtomicQuestionDeleteResource, $translate, JobLoggingService) {
   var objects;
   var upload = function() {
@@ -44,33 +44,15 @@ function(CustomModalService, ExcelReaderService, AtomicQuestionBuilderService,
     }
   };
   var uploadAtomicQuestions = function(file, dataAcquisitionProjectId) {
-    if (file !== null) {
-      CustomModalService.getModal($translate.instant(
-          'metadatamanagementApp.dataAcquisitionProject.detail.' +
-          'deleteMessages.deleteAtomicQuestions', {
-            id: dataAcquisitionProjectId
-          })).then(function(returnValue) {
-            if (returnValue) {
-              ExcelReaderService.readFileAsync(file).then(function(data) {
-                objects  = AtomicQuestionBuilderService.getAtomicQuestions(data,
-                  dataAcquisitionProjectId);
-                AtomicQuestionDeleteResource.deleteByDataAcquisitionProjectId({
-                    dataAcquisitionProjectId: dataAcquisitionProjectId},
-                    upload, function(error) {
-                      JobLoggingService.error(error);
-                    });
-              });
-            }else {
-              JobLoggingService.cancel($translate.instant(
-                'metadatamanagementApp.dataAcquisitionProject.detail.' +
-                'logMessages.atomicQuestion.cancelled', {}));
-            }
-          });
-    }else {
-      JobLoggingService.cancel($translate.instant(
-        'metadatamanagementApp.dataAcquisitionProject.detail.' +
-        'logMessages.atomicQuestion.cancelled', {}));
-    }
+    ExcelReaderService.readFileAsync(file).then(function(data) {
+        objects  = AtomicQuestionBuilderService.getAtomicQuestions(data,
+          dataAcquisitionProjectId);
+        AtomicQuestionDeleteResource.deleteByDataAcquisitionProjectId({
+            dataAcquisitionProjectId: dataAcquisitionProjectId},
+            upload, function(error) {
+              JobLoggingService.error(error);
+            });
+      });
   };
   return {
       uploadAtomicQuestions: uploadAtomicQuestions

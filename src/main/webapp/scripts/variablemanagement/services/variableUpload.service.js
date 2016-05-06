@@ -2,7 +2,7 @@
 'use strict';
 
 angular.module('metadatamanagementApp').service('VariableUploadService',
-function(CustomModalService, $translate, ZipReaderService,
+function($translate, ZipReaderService,
   VariableBuilderService, VariableDeleteResource, JobLoggingService) {
   var objects;
   var upload = function() {
@@ -44,34 +44,16 @@ function(CustomModalService, $translate, ZipReaderService,
     }
   };
   var uploadVariables = function(file, dataAcquisitionProjectId) {
-    if (file !== null) {
-      CustomModalService.getModal($translate.instant(
-            'metadatamanagementApp.dataAcquisitionProject.detail.' +
-            'deleteMessages.deleteVariables', {
-              id: dataAcquisitionProjectId
-            })).then(function(returnValue) {
-              if (returnValue) {
-                ZipReaderService.readZipFileAsync(file)
-                   .then(function(files) {
-                     objects = VariableBuilderService.getVariables(files,
-                     dataAcquisitionProjectId);
-                     VariableDeleteResource.deleteByDataAcquisitionProjectId({
-                           dataAcquisitionProjectId: dataAcquisitionProjectId},
-                          upload, function(error) {
-                            JobLoggingService.error(error);
-                          });
-                   });
-              }else {
-                JobLoggingService.cancel($translate.instant(
-                  'metadatamanagementApp.dataAcquisitionProject.detail.' +
-                  'logMessages.variable.cancelled', {}));
-              }
-            });
-    }else {
-      JobLoggingService.cancel($translate.instant(
-        'metadatamanagementApp.dataAcquisitionProject.detail.' +
-        'logMessages.variable.cancelled', {}));
-    }
+    ZipReaderService.readZipFileAsync(file)
+      .then(function(files) {
+        objects = VariableBuilderService.getVariables(files,
+          dataAcquisitionProjectId);
+        VariableDeleteResource.deleteByDataAcquisitionProjectId({
+          dataAcquisitionProjectId: dataAcquisitionProjectId},
+          upload, function(error) {
+            JobLoggingService.error(error);
+          });
+      });
   };
   return {
           uploadVariables: uploadVariables

@@ -2,7 +2,7 @@
 'use strict';
 
 angular.module('metadatamanagementApp').service('SurveyUploadService',
-function(CustomModalService, ExcelReaderService, SurveyBuilderService,
+function(ExcelReaderService, SurveyBuilderService,
   SurveyDeleteResource, $translate, JobLoggingService) {
   var objects;
   var upload = function() {
@@ -44,33 +44,15 @@ function(CustomModalService, ExcelReaderService, SurveyBuilderService,
     }
   };
   var uploadSurveys = function(file, dataAcquisitionProjectId) {
-    if (file !== null) {
-      CustomModalService.getModal($translate.instant(
-          'metadatamanagementApp.dataAcquisitionProject.detail.' +
-          'deleteMessages.deleteSurveys', {
-            id: dataAcquisitionProjectId
-          })).then(function(returnValue) {
-            if (returnValue) {
-              ExcelReaderService.readFileAsync(file).then(function(data) {
-                objects  = SurveyBuilderService.getSurveys(data,
-                  dataAcquisitionProjectId);
-                SurveyDeleteResource.deleteByDataAcquisitionProjectId({
-                    dataAcquisitionProjectId: dataAcquisitionProjectId},
-                    upload, function(error) {
-                      JobLoggingService.error(error);
-                    });
-              });
-            }else {
-              JobLoggingService.cancel($translate.instant(
-                'metadatamanagementApp.dataAcquisitionProject.detail.' +
-                'logMessages.survey.cancelled', {}));
-            }
-          });
-    }else {
-      JobLoggingService.cancel($translate.instant(
-        'metadatamanagementApp.dataAcquisitionProject.detail.' +
-        'logMessages.survey.cancelled', {}));
-    }
+    ExcelReaderService.readFileAsync(file).then(function(data) {
+        objects  = SurveyBuilderService.getSurveys(data,
+          dataAcquisitionProjectId);
+        SurveyDeleteResource.deleteByDataAcquisitionProjectId({
+            dataAcquisitionProjectId: dataAcquisitionProjectId},
+            upload, function(error) {
+              JobLoggingService.error(error);
+            });
+      });
   };
   return {
       uploadSurveys: uploadSurveys

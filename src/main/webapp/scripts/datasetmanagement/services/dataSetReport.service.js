@@ -1,7 +1,7 @@
 /* global saveAs */
 'use strict';
 
-angular.module('metadatamanagementApp').service('TexUploadService',
+angular.module('metadatamanagementApp').service('DataSetReportService',
 function($translate, Upload, FileResource, JobLoggingService) {
   var uploadTexTemplate = function(file, dataAcquisitionProjectId) {
     if (file !== null) {
