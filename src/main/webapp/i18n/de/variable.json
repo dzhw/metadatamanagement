@@ -22,7 +22,7 @@
       "scaleLevel": "Skalenniveau",
       "label": "Label",
       "dataAcquisitionProjectId": "Datenerhebungsprojekt-ID",
-      "surveyId": "Erhebung-ID",
+      "surveyIds": "Erhebung-IDs",
       "description": "Beschreibung",
       "chart": {
         "figure": "Abbildung",

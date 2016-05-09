@@ -14,7 +14,7 @@ angular.module('metadatamanagementApp')
         chart: {
           //CSS information
           type: 'discreteBarChart',
-          height: 250,
+          height: 310,
           showValues: true,
           color: ['#0069B4'],
           valueFormat: function(d) {
@@ -86,7 +86,7 @@ angular.module('metadatamanagementApp')
           $scope.optionsBoxPlot = {
             chart: {
               type: 'boxPlotChart',
-              height: 550,
+              height: 350,
               color: ['#0069B4'],
               x: function(d) {
                 return d.label;
