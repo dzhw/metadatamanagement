@@ -22,12 +22,11 @@
       "scaleLevel": "ScaleLevel",
       "label": "Label",
       "dataAcquisitionProjectId": "Data Acquisition Project-ID",
-      "surveyId": "Survey-ID",
+      "surveyIds": "Survey-IDs",
       "description": "Description",
       "chart": {
         "figure": "Figure",
-        "absoluteFrequency": "Absolute frequencies of values",
-        "relativeFrequency": "Relative frequencies of values"
+        "absoluteFrequency": "Absolute frequencies of values"
       }
     }
   }

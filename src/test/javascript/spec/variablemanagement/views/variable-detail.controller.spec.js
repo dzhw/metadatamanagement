@@ -21,18 +21,18 @@ describe('Variable Detail Controller', function() {
     MockEntity = {
       distribution: {
         statistics: {
-        meanValue: 50.00,
-        minimum: 0.00,
-        maximum: 140.00,
-        skewness: 123.00,
-        kurtosis: 234.00,
-        median: 90.00,
-        standardDeviation: 40.00,
-        firstQuartile: 70.00,
-        thirdQuartile: 110.00,
-        lowWhisker: 30.00,
-        highWhisker: 130.00
-      }
+          meanValue: 50.00,
+          minimum: 0.00,
+          maximum: 140.00,
+          skewness: 123.00,
+          kurtosis: 234.00,
+          median: 90.00,
+          standardDeviation: 40.00,
+          firstQuartile: 70.00,
+          thirdQuartile: 110.00,
+          lowWhisker: 30.00,
+          highWhisker: 130.00
+        }
       },
       $promise: {
         then: function(callback) {
@@ -63,16 +63,11 @@ describe('Variable Detail Controller', function() {
     //define variables
     createController();
     var d = {};
-    d.relativeFrequency = 86.76;
     d.absoluteFrequency = 345;
 
-    //relative
-    expect($scope.optionsRelativeFrequencyChart.chart.valueFormat(123.456)).toBe(
-      '123.46');
-    expect($scope.optionsRelativeFrequencyChart.chart.y(d)).toBe(86.76);
-
     //absolute
-    expect($scope.optionsAbsoluteFrequencyChart.chart.valueFormat(123.456)).toBe(
+    expect($scope.optionsAbsoluteFrequencyChart.chart.valueFormat(
+      123.456)).toBe(
       '123.46');
     expect($scope.optionsAbsoluteFrequencyChart.chart.y(d)).toBe(345);
   });
@@ -99,13 +94,13 @@ describe('Variable Detail Controller', function() {
 
     //check for code
     d.value = 'A Code';
-    expect($scope.optionsRelativeFrequencyChart.chart.x(d)).toBe('A Code');
-    expect($scope.optionsAbsoluteFrequencyChart.chart.x(d)).toBe('A Code');
+    expect($scope.optionsAbsoluteFrequencyChart.chart.x(d)).toBe(
+      'A Code');
 
     //check for label
     d.label.de = 'german';
-    expect($scope.optionsRelativeFrequencyChart.chart.x(d)).toBe('german');
-    expect($scope.optionsAbsoluteFrequencyChart.chart.x(d)).toBe('german');
+    expect($scope.optionsAbsoluteFrequencyChart.chart.x(d)).toBe(
+      'german');
 
     Language.setCurrent(currentLanguage);
   });
@@ -119,13 +114,13 @@ describe('Variable Detail Controller', function() {
 
     //check for code
     d.value = 'Another Code';
-    expect($scope.optionsRelativeFrequencyChart.chart.x(d)).toBe('Another Code');
-    expect($scope.optionsAbsoluteFrequencyChart.chart.x(d)).toBe('Another Code');
+    expect($scope.optionsAbsoluteFrequencyChart.chart.x(d)).toBe(
+      'Another Code');
 
     //check for label
     d.label.en = 'english';
-    expect($scope.optionsRelativeFrequencyChart.chart.x(d)).toBe('english');
-    expect($scope.optionsAbsoluteFrequencyChart.chart.x(d)).toBe('english');
+    expect($scope.optionsAbsoluteFrequencyChart.chart.x(d)).toBe(
+      'english');
 
     Language.setCurrent(currentLanguage);
   });
