@@ -8,21 +8,23 @@ angular.module('metadatamanagementApp')
           method: 'GET',
           params: {projection: 'complete'},
           interceptor: {
-            responseError: function() {
-              $state.go('error');
+            responseError: function(response) {
+              if (response.status !== 401) {
+                $state.go('error');
+              }
+            },
+            transformResponse: function(data) {
+              // data might be empty if 404
+              if (data) {
+                data = angular.fromJson(data);
+                data.fieldPeriod.start =
+                DateUtils.convertLocaleDateFromServer(data.fieldPeriod.start);
+                data.fieldPeriod.end =
+                DateUtils.convertLocaleDateFromServer(data.fieldPeriod.end);
+                return data;
+              }
             }
           },
-          transformResponse: function(data) {
-            // data might be empty if 404
-            if (data) {
-              data = angular.fromJson(data);
-              data.fieldPeriod.start =
-                DateUtils.convertLocaleDateFromServer(data.fieldPeriod.start);
-              data.fieldPeriod.end =
-                DateUtils.convertLocaleDateFromServer(data.fieldPeriod.end);
-              return data;
-            }
-          }
         },
         'save': {
           method: 'PUT',

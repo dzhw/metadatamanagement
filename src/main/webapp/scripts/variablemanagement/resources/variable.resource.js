@@ -11,8 +11,10 @@ angular.module('metadatamanagementApp')
           projection: 'complete'
         },
         interceptor: {
-          responseError: function() {
-            $state.go('error');
+          responseError: function(response) {
+            if (response.status !== 401) {
+              $state.go('error');
+            }
           }
         }
       },
