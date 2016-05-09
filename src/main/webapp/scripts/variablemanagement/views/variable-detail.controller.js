@@ -99,14 +99,22 @@ angular.module('metadatamanagementApp')
           };
           // Code here will not be linted with JSCS.
           // jscs:disable
+          var lowWhiskerForZero = statistics.lowWhisker;
+          if (lowWhiskerForZero === 0) {
+            lowWhiskerForZero = lowWhiskerForZero + 1e-10;
+          }
+          var highWhiskerForZero = statistics.highWhisker;
+          if (highWhiskerForZero === 0) {
+            highWhiskerForZero = highWhiskerForZero + 1e-10;
+          }
           $scope.dataBoxPlot = [{
             label: $scope.variable.name,
             values: {
               Q1: statistics.firstQuartile,
               Q2: statistics.median,
               Q3: statistics.thirdQuartile,
-              whisker_low: statistics.lowWhisker,
-              whisker_high: statistics.highWhisker
+              whisker_low: lowWhiskerForZero,
+              whisker_high: highWhiskerForZero
             }
           }];
           // Code here will be linted with JSCS.
