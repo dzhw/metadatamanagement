@@ -2,7 +2,7 @@
 'use strict';
 
 angular.module('metadatamanagementApp').service('ExcelReaderService',
-function($q, JobLoggingService, $translate) {
+function($q) {
   this.readFileAsync = function(file) {
     var deferred = $q.defer();
     var readExcel = function(data) {
@@ -17,12 +17,11 @@ function($q, JobLoggingService, $translate) {
         jsonContent = XLSX.utils.sheet_to_json(worksheet);
         // jscs:enable
       }catch (e) {
-        console.log(e);
-        JobLoggingService.cancel($translate.instant(
-          'metadatamanagementApp.dataAcquisitionProject.detail.' +
-          'logMessages.unsupportedFile', {}));
+        jsonContent = e;
       }
-      deferred.resolve(jsonContent);
+      finally {
+        deferred.resolve(jsonContent);
+      }
     };
     var fileReader = new FileReader();
     if (!FileReader.prototype.readAsBinaryString) {

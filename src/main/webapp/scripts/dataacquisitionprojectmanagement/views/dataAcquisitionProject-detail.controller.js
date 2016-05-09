@@ -22,7 +22,6 @@ angular.module('metadatamanagementApp')
               id: $scope.dataAcquisitionProject.id
             })).then(function(returnValue) {
               if (returnValue) {
-                JobLoggingService.start('survey');
                 SurveyUploadService
                 .uploadSurveys(file, $scope.dataAcquisitionProject.id);
               }
@@ -37,7 +36,6 @@ angular.module('metadatamanagementApp')
               id: $scope.dataAcquisitionProject.id
             })).then(function(returnValue) {
               if (returnValue) {
-                JobLoggingService.start('atomicQuestion');
                 AtomicQuestionUploadService
                 .uploadAtomicQuestions(file, $scope.dataAcquisitionProject.id);
               }
@@ -52,7 +50,6 @@ angular.module('metadatamanagementApp')
               id: $scope.dataAcquisitionProject.id
             })).then(function(returnValue) {
               if (returnValue) {
-                JobLoggingService.start('variable');
                 VariableUploadService
                 .uploadVariables(file, $scope.dataAcquisitionProject.id);
               }
@@ -67,7 +64,6 @@ angular.module('metadatamanagementApp')
               id: $scope.dataAcquisitionProject.id
             })).then(function(returnValue) {
               if (returnValue) {
-                JobLoggingService.start('dataSet');
                 DataSetUploadService.
                 uploadDataSets(file,$scope.dataAcquisitionProject.id);
               }

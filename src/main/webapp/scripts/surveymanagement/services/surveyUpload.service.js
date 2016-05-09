@@ -45,14 +45,19 @@ function(ExcelReaderService, SurveyBuilderService,
   };
   var uploadSurveys = function(file, dataAcquisitionProjectId) {
     ExcelReaderService.readFileAsync(file).then(function(data) {
+      if (data instanceof Error) {
+        console.log(data);
+      } else {
+        JobLoggingService.start('survey');
         objects  = SurveyBuilderService.getSurveys(data,
           dataAcquisitionProjectId);
         SurveyDeleteResource.deleteByDataAcquisitionProjectId({
-            dataAcquisitionProjectId: dataAcquisitionProjectId},
-            upload, function(error) {
-              JobLoggingService.error(error);
-            });
-      });
+          dataAcquisitionProjectId: dataAcquisitionProjectId},
+          upload, function(error) {
+            JobLoggingService.error(error);
+          });
+      }
+    });
   };
   return {
       uploadSurveys: uploadSurveys

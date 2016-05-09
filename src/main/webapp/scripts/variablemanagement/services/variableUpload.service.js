@@ -45,14 +45,22 @@ function($translate, ZipReaderService,
   };
   var uploadVariables = function(file, dataAcquisitionProjectId) {
     ZipReaderService.readZipFileAsync(file)
-      .then(function(files) {
-        objects = VariableBuilderService.getVariables(files,
+      .then(function(data) {
+        if (data instanceof Error) {
+          console.log(data);
+          JobLoggingService.cancel($translate.instant(
+            'metadatamanagementApp.dataAcquisitionProject.detail.' +
+            'logMessages.unsupportedFile', {}));
+        } else {
+          JobLoggingService.start('variable');
+          objects = VariableBuilderService.getVariables(data,
           dataAcquisitionProjectId);
-        VariableDeleteResource.deleteByDataAcquisitionProjectId({
+          VariableDeleteResource.deleteByDataAcquisitionProjectId({
           dataAcquisitionProjectId: dataAcquisitionProjectId},
           upload, function(error) {
             JobLoggingService.error(error);
           });
+        }
       });
   };
   return {

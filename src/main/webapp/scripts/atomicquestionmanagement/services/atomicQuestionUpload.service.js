@@ -45,6 +45,10 @@ function(ExcelReaderService, AtomicQuestionBuilderService,
   };
   var uploadAtomicQuestions = function(file, dataAcquisitionProjectId) {
     ExcelReaderService.readFileAsync(file).then(function(data) {
+      if (data instanceof Error) {
+        console.log(data);
+      } else {
+        JobLoggingService.start('atomicQuestion');
         objects  = AtomicQuestionBuilderService.getAtomicQuestions(data,
           dataAcquisitionProjectId);
         AtomicQuestionDeleteResource.deleteByDataAcquisitionProjectId({
@@ -52,7 +56,8 @@ function(ExcelReaderService, AtomicQuestionBuilderService,
             upload, function(error) {
               JobLoggingService.error(error);
             });
-      });
+      }
+    });
   };
   return {
       uploadAtomicQuestions: uploadAtomicQuestions

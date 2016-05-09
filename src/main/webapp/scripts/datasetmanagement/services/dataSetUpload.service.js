@@ -45,6 +45,10 @@ function(ExcelReaderService, DataSetBuilderService,
   };
   var uploadDataSets = function(file, dataAcquisitionProjectId) {
     ExcelReaderService.readFileAsync(file).then(function(data) {
+      if (data instanceof Error) {
+        console.log(data);
+      } else {
+        JobLoggingService.start('dataSet');
         objects  = DataSetBuilderService.getDataSets(data,
           dataAcquisitionProjectId);
         DataSetDeleteResource.deleteByDataAcquisitionProjectId({
@@ -52,7 +56,8 @@ function(ExcelReaderService, DataSetBuilderService,
           upload, function(error) {
             JobLoggingService.error(error);
           });
-      });
+      }
+    });
   };
   return {
       uploadDataSets: uploadDataSets
