@@ -26,8 +26,7 @@
       "description": "Description",
       "chart": {
         "figure": "Figure",
-        "absoluteFrequency": "Absolute frequencies of values",
-        "relativeFrequency": "Relative frequencies of values"
+        "absoluteFrequency": "Absolute frequencies of values"
       }
     }
   }
