@@ -1,7 +1,7 @@
 {
   "title": "AngularJS-nvD3",
   "name": "angular-nvd3",
-  "version": "1.0.6",
+  "version": "1.0.7",
   "description": "An AngularJS directive for NVD3.js reusable charting library",
   "homepage": "http://krispo.github.io/angular-nvd3",
   "repository": {
@@ -21,7 +21,7 @@
   "bugs": {
     "url": "https://github.com/krispo/angular-nvd3/issues"
   },
-  "license": "MIT License",
+  "license": "MIT",
   "author": {
     "name": "Konstantin Skipor"
   },
@@ -39,8 +39,8 @@
     "grunt-contrib-uglify": "^0.4.0",
     "grunt-contrib-watch": "^0.6.1",
     "jasmine-core": "^2.4.1",
-    "karma": "^0.13.22",
-    "karma-chrome-launcher": "^0.2.3",
+    "karma": "~0.12",
+    "karma-chrome-launcher": "^0.2.2",
     "karma-coverage": "^0.5.5",
     "karma-jasmine": "^0.3.8"
   },
