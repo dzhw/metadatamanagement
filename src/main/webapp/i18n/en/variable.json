@@ -24,6 +24,7 @@
       "dataAcquisitionProjectId": "Data Acquisition Project-ID",
       "surveyIds": "Survey-IDs",
       "description": "Description",
+      "dataPackage": "Data package",
       "chart": {
         "figure": "Figure",
         "absoluteFrequency": "Absolute frequencies of values"

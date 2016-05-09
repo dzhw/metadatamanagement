@@ -24,6 +24,7 @@
       "dataAcquisitionProjectId": "Datenerhebungsprojekt-ID",
       "surveyIds": "Erhebung-IDs",
       "description": "Beschreibung",
+      "dataPackage": "Datenpaket",
       "chart": {
         "figure": "Abbildung",
         "absoluteFrequency": "Absolute Häufigkeit von Werten"
