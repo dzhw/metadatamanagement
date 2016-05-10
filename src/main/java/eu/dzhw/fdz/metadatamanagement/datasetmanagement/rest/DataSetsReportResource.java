@@ -49,7 +49,7 @@ public class DataSetsReportResource {
       // Return ok. Status 200.
       return ResponseEntity.ok()
         .contentLength(fileName.length())
-        .contentType(MediaType.APPLICATION_OCTET_STREAM)
+        .contentType(MediaType.TEXT_PLAIN)
         .body(fileName);
 
     } else {
