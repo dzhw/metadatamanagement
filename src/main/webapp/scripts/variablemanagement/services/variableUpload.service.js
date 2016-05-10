@@ -3,7 +3,8 @@
 
 angular.module('metadatamanagementApp').service('VariableUploadService',
 function($translate, ZipReaderService,
-  VariableBuilderService, VariableDeleteResource, JobLoggingService) {
+  VariableBuilderService, VariableDeleteResource, JobLoggingService,
+  ErrorMessageResolverService) {
   var objects;
   var upload = function() {
     var itemsToUpload = objects.length;
@@ -32,36 +33,38 @@ function($translate, ZipReaderService,
               'logMessages.variable.uploadTerminated', {}));
           }
         }).catch(function(error) {
-        JobLoggingService.error(error);
-        j++;
-        if (j === itemsToUpload) {
-          JobLoggingService.finish($translate.instant(
+          var errorMessage = ErrorMessageResolverService
+          .getErrorMessage(error, 'variable');
+          JobLoggingService.error(errorMessage);
+          j++;
+          if (j === itemsToUpload) {
+            JobLoggingService.finish($translate.instant(
             'metadatamanagementApp.dataAcquisitionProject.detail.' +
             'logMessages.variable.uploadTerminated', {}));
-        }
-      });
+          }
+        });
       }
     }
   };
   var uploadVariables = function(file, dataAcquisitionProjectId) {
+    JobLoggingService.start('variable');
     ZipReaderService.readZipFileAsync(file)
-      .then(function(data) {
-        if (data instanceof Error) {
-          console.log(data);
-          JobLoggingService.cancel($translate.instant(
-            'metadatamanagementApp.dataAcquisitionProject.detail.' +
-            'logMessages.unsupportedFile', {}));
-        } else {
-          JobLoggingService.start('variable');
-          objects = VariableBuilderService.getVariables(data,
+    .then(function(data) {
+      objects = VariableBuilderService.getVariables(data,
           dataAcquisitionProjectId);
-          VariableDeleteResource.deleteByDataAcquisitionProjectId({
+      VariableDeleteResource.deleteByDataAcquisitionProjectId({
           dataAcquisitionProjectId: dataAcquisitionProjectId},
           upload, function(error) {
-            JobLoggingService.error(error);
+            var errorMessage = ErrorMessageResolverService
+            .getErrorMessage(error, 'variable');
+            JobLoggingService.error(errorMessage);
           });
-        }
-      });
+    }, function(error) {
+      console.log(error);
+      JobLoggingService.cancel($translate.instant(
+        'metadatamanagementApp.dataAcquisitionProject.detail.' +
+        'logMessages.unsupportedFile', {}));
+    });
   };
   return {
           uploadVariables: uploadVariables

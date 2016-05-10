@@ -13,7 +13,7 @@ angular.module('metadatamanagementApp')
         atomicQuestionList:  {}
       };
 
-      $scope.job = JobLoggingService.init();
+      $scope.job = JobLoggingService.getCurrentJob();
       $scope.uploadSurveys = function(file) {
         if (file !== null) {
           CustomModalService.getModal($translate.instant(

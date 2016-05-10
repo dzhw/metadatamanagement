@@ -3,7 +3,8 @@
 
 angular.module('metadatamanagementApp').service('DataSetUploadService',
 function(ExcelReaderService, DataSetBuilderService,
-  DataSetDeleteResource, $translate, JobLoggingService) {
+  DataSetDeleteResource, $translate, JobLoggingService,
+  ErrorMessageResolverService) {
   var objects;
   var upload = function() {
     var itemsToUpload = objects.length;
@@ -32,31 +33,36 @@ function(ExcelReaderService, DataSetBuilderService,
               'logMessages.dataSet.uploadTerminated', {}));
           }
         }).catch(function(error) {
-        JobLoggingService.error(error);
-        j++;
-        if (j === itemsToUpload) {
-          JobLoggingService.finish($translate.instant(
+          var errorMessage = ErrorMessageResolverService
+          .getErrorMessage(error, 'dataSet');
+          JobLoggingService.error(errorMessage);
+          j++;
+          if (j === itemsToUpload) {
+            JobLoggingService.finish($translate.instant(
             'metadatamanagementApp.dataAcquisitionProject.detail.' +
             'logMessages.dataSet.uploadTerminated', {}));
-        }
-      });
+          }
+        });
       }
     }
   };
   var uploadDataSets = function(file, dataAcquisitionProjectId) {
+    JobLoggingService.start('dataSet');
     ExcelReaderService.readFileAsync(file).then(function(data) {
-      if (data instanceof Error) {
-        console.log(data);
-      } else {
-        JobLoggingService.start('dataSet');
-        objects  = DataSetBuilderService.getDataSets(data,
+      objects  = DataSetBuilderService.getDataSets(data,
           dataAcquisitionProjectId);
-        DataSetDeleteResource.deleteByDataAcquisitionProjectId({
+      DataSetDeleteResource.deleteByDataAcquisitionProjectId({
           dataAcquisitionProjectId: dataAcquisitionProjectId},
           upload, function(error) {
-            JobLoggingService.error(error);
+            var errorMessage = ErrorMessageResolverService
+            .getErrorMessage(error, 'dataSet');
+            JobLoggingService.error(errorMessage);
           });
-      }
+    }, function(error) {
+      console.log(error);
+      JobLoggingService.cancel($translate.instant(
+        'metadatamanagementApp.dataAcquisitionProject.detail.' +
+        'logMessages.unsupportedFile', {}));
     });
   };
   return {

@@ -11,10 +11,9 @@ angular.module('metadatamanagementApp').service('ZipReaderService', function(
     fileReader.onload = function(e) {
       try {
         files = new JSZip(e.target.result);
-      }catch (e) {
-        files = e;
-      }finally {
         deferred.resolve(files);
+      }catch (e) {
+        deferred.reject(e);
       }
     };
     return deferred.promise;

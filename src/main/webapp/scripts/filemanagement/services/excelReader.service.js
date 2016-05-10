@@ -16,11 +16,9 @@ function($q) {
         // jscs:disable
         jsonContent = XLSX.utils.sheet_to_json(worksheet);
         // jscs:enable
-      }catch (e) {
-        jsonContent = e;
-      }
-      finally {
         deferred.resolve(jsonContent);
+      }catch (e) {
+        deferred.reject(e);
       }
     };
     var fileReader = new FileReader();

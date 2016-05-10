@@ -3,7 +3,8 @@
 
 angular.module('metadatamanagementApp').service('AtomicQuestionUploadService',
 function(ExcelReaderService, AtomicQuestionBuilderService,
-  AtomicQuestionDeleteResource, $translate, JobLoggingService) {
+  AtomicQuestionDeleteResource, $translate, JobLoggingService,
+  ErrorMessageResolverService) {
   var objects;
   var upload = function() {
     var itemsToUpload = objects.length;
@@ -32,7 +33,9 @@ function(ExcelReaderService, AtomicQuestionBuilderService,
               'logMessages.atomicQuestion.uploadTerminated', {}));
           }
         }).catch(function(error) {
-        JobLoggingService.error(error);
+        var errorMessage = ErrorMessageResolverService
+          .getErrorMessage(error, 'atomicQuestion');
+        JobLoggingService.error(errorMessage);
         j++;
         if (j === itemsToUpload) {
           JobLoggingService.finish($translate.instant(
@@ -44,19 +47,22 @@ function(ExcelReaderService, AtomicQuestionBuilderService,
     }
   };
   var uploadAtomicQuestions = function(file, dataAcquisitionProjectId) {
+    JobLoggingService.start('atomicQuestion');
     ExcelReaderService.readFileAsync(file).then(function(data) {
-      if (data instanceof Error) {
-        console.log(data);
-      } else {
-        JobLoggingService.start('atomicQuestion');
-        objects  = AtomicQuestionBuilderService.getAtomicQuestions(data,
+      objects  = AtomicQuestionBuilderService.getAtomicQuestions(data,
           dataAcquisitionProjectId);
-        AtomicQuestionDeleteResource.deleteByDataAcquisitionProjectId({
+      AtomicQuestionDeleteResource.deleteByDataAcquisitionProjectId({
             dataAcquisitionProjectId: dataAcquisitionProjectId},
             upload, function(error) {
-              JobLoggingService.error(error);
+              var errorMessage = ErrorMessageResolverService
+              .getErrorMessage(error, 'atomicQuestion');
+              JobLoggingService.error(errorMessage);
             });
-      }
+    }, function(error) {
+      console.log(error);
+      JobLoggingService.cancel($translate.instant(
+        'metadatamanagementApp.dataAcquisitionProject.detail.' +
+        'logMessages.unsupportedFile', {}));
     });
   };
   return {

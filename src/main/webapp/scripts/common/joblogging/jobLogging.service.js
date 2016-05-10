@@ -1,11 +1,11 @@
 'use strict';
 
 angular.module('metadatamanagementApp').service('JobLoggingService',
-function(ValidationExtractorService) {
+function() {
   var job = {
     state: ''
   };
-  var init = function() {
+  var getCurrentJob = function() {
     return job;
   };
   var start = function(nameOfDomainObj) {
@@ -18,28 +18,36 @@ function(ValidationExtractorService) {
   };
   var error = function(errorMsg) {
     job.errors++;
-    ValidationExtractorService
-    .addValidationMessage(job.id, job.logMessages, errorMsg, 'error');
+    job.logMessages.push({
+        message: '\n' + errorMsg,
+        type: 'error'
+      });
   };
   var success = function(successMsg) {
     job.successes++;
     if (successMsg) {
-      ValidationExtractorService
-      .addValidationMessage(job.id, job.logMessages, successMsg, 'info');
+      job.logMessages.push({
+          message: '\n' + successMsg,
+          type: 'info'
+        });
     }
   };
   var finish = function(finishMsg) {
     job.state = 'finished';
-    ValidationExtractorService
-    .addValidationMessage(job.id, job.logMessages, finishMsg, 'info');
+    job.logMessages.push({
+        message: '\n' + finishMsg,
+        type: 'info'
+      });
   };
   var cancel = function(cancelMsg) {
     job.state = 'cancelled';
-    ValidationExtractorService
-    .addValidationMessage(job.id, job.logMessages, cancelMsg, 'error');
+    job.logMessages.push({
+        message: '\n' + cancelMsg,
+        type: 'error'
+      });
   };
   return {
-    init: init,
+    getCurrentJob: getCurrentJob,
     start: start,
     error: error,
     success: success,
