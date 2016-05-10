@@ -12,7 +12,7 @@ function(ExcelReaderService, SurveyBuilderService,
       if (!objects[i].id || objects[i].id === '') {
         JobLoggingService.error($translate.instant(
             'metadatamanagementApp.dataAcquisitionProject.' +
-            'detail.logMessages.Survey.' +
+            'detail.logMessages.survey.' +
             'missingId', {
               index: i + 1
             }));
