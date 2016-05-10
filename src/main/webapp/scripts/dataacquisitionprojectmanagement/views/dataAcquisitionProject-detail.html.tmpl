@@ -1,4 +1,8 @@
-<div>
+<div ng-if="!dataAcquisitionProject.$resolved">
+    <!-- Todo replace with loading directive -->
+    Lade Daten...
+</div>
+<div ng-if="dataAcquisitionProject.$resolved">
     <h2>
         <span data-translate="metadatamanagementApp.dataAcquisitionProject.detail.title">Data Acquisition Project</span>
         {{dataAcquisitionProject.name}}</h2>
