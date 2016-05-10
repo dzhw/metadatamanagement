@@ -10,7 +10,7 @@
 describe('SurveyListController', function() {
   var $scope;
   var $rootScope;
-  var SurveyCollection;
+  var SurveyCollectionResource;
   var createController;
   var params;
   var result;
@@ -30,29 +30,29 @@ describe('SurveyListController', function() {
     $scope.init = function() {
 
     };
-    SurveyCollection = {
+    SurveyCollectionResource = {
       query: function(param, callback) {
         callback(result);
       }
     };
     var locals = {
       '$scope': $scope,
-      'SurveyCollection': SurveyCollection
+      'SurveyCollectionResource': SurveyCollectionResource
     };
     createController = function() {
       $injector.get('$controller')('SurveyListController',
         locals);
     };
-    spyOn(SurveyCollection, 'query').and.callThrough();
+    spyOn(SurveyCollectionResource, 'query').and.callThrough();
   }));
 
   it('should set $scope.pageState.totalElements', function() {
     createController();
     expect($scope.pageState.totalElements).toEqual(10);
   });
-  it('should SurveyCollection.query after broadcast', function() {
+  it('should SurveyCollectionResource.query after broadcast', function() {
     createController();
     $rootScope.$broadcast('surveys-uploaded');
-    expect(SurveyCollection.query).toHaveBeenCalled();
+    expect(SurveyCollectionResource.query).toHaveBeenCalled();
   });
 });

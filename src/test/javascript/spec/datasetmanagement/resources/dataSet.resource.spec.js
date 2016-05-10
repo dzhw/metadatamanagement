@@ -12,12 +12,12 @@ describe('DataSet', function() {
   var $httpBackend;
   var data = {
     id: 1,
-    name: 'DataSet'
+    name: 'DataSetResource'
   };
   beforeEach(mockApis);
   beforeEach(inject(function($injector) {
     $httpBackend = $injector.get('$httpBackend');
-    mockDataSetResource = $injector.get('DataSet');
+    mockDataSetResource = $injector.get('DataSetResource');
     $httpBackend.expectGET(
       /api\/data-sets\?cacheBuster=\d+&projection=complete/)
       .respond(data);
@@ -25,6 +25,6 @@ describe('DataSet', function() {
   it('should return DataSet resource ', function() {
     var resource =  mockDataSetResource.get(1);
     $httpBackend.flush();
-    expect(resource.name).toEqual('DataSet');
+    expect(resource.name).toEqual('DataSetResource');
   });
 });

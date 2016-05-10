@@ -1,7 +1,16 @@
+/* global describe */
+/* global beforeEach */
+/* global inject */
+/* global it */
+/* global expect */
+/* global jasmine */
+
 'use strict';
 
 describe('DataAcquisitionProject delete Controller', function() {
-  var $scope, $rootScope,$uibModalInstance;
+  var $scope;
+  var $rootScope;
+  var $uibModalInstance;
   var MockEntity;
   var createController;
 
@@ -32,7 +41,8 @@ describe('DataAcquisitionProject delete Controller', function() {
       '$uibModalInstance': $uibModalInstance
     };
     createController = function() {
-      $injector.get('$controller')('DataAcquisitionProjectDeleteController', locals);
+      $injector.get('$controller')('DataAcquisitionProjectDeleteController',
+      locals);
     };
   }));
   describe('DataAcquisitionProjectDeleteController', function() {

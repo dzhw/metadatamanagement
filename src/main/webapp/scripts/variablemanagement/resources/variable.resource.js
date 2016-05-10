@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('metadatamanagementApp')
-  .factory('Variable', function($resource, $state) {
+  .factory('VariableResource', function($resource, $state) {
     return $resource('api/variables/:id', {
       id: '@id'
     }, {
@@ -12,7 +12,7 @@ angular.module('metadatamanagementApp')
         },
         interceptor: {
           responseError: function(response) {
-            if (response.status !== 401) {
+            if (response.status === 404) {
               $state.go('error');
             }
           }

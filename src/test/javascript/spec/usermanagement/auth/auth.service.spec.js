@@ -1,9 +1,26 @@
+/* global describe */
+/* global beforeEach */
+/* global it */
+/* global inject */
+/* global expect */
+/* global mockApis */
+/* global spyOn */
+
 'use strict';
 
 describe('Factory Tests ', function() {
-  var Auth, $q, $scope, $rootScope, $state, Password, PasswordResetFinish,
-    PasswordResetInit, Activate, deferred, Register, Account,
-    Principal, AuthServerProvider;
+  var Auth; var $q;
+  var $scope;
+  var $rootScope;
+  var $state;
+  var PasswordResource;
+  var PasswordResetFinishResource;
+  var PasswordResetInitResource;
+  var ActivateResource;
+  var RegisterResource;
+  var AccountResource;
+  var Principal;
+  var AuthServerProvider;
   describe('Auth', function() {
     beforeEach(mockApis);
     beforeEach(inject(function($injector) {
@@ -13,13 +30,14 @@ describe('Factory Tests ', function() {
       $scope = $rootScope.$new();
       AuthServerProvider = $injector.get('AuthServerProvider');
       Principal = $injector.get('Principal');
-      Register = $injector.get('Register');
-      Account = $injector.get('Account');
+      RegisterResource = $injector.get('RegisterResource');
+      AccountResource = $injector.get('AccountResource');
       $state = $injector.get('$state');
-      Activate = $injector.get('Activate');
-      Password = $injector.get('Password');
-      PasswordResetInit = $injector.get('PasswordResetInit');
-      PasswordResetFinish = $injector.get('PasswordResetFinish');
+      ActivateResource = $injector.get('ActivateResource');
+      PasswordResource = $injector.get('PasswordResource');
+      PasswordResetInitResource = $injector.get('PasswordResetInitResource');
+      PasswordResetFinishResource = $injector
+      .get('PasswordResetFinishResource');
     }));
     beforeEach(function() {
       spyOn($state, 'go').and.callThrough();
@@ -39,7 +57,7 @@ describe('Factory Tests ', function() {
           }
         };
       });
-      spyOn(Register, 'save').and.callFake(function(account,
+      spyOn(RegisterResource, 'save').and.callFake(function(account,
         callback, error) {
         callback();
         error();
@@ -49,7 +67,7 @@ describe('Factory Tests ', function() {
           }
         };
       });
-      spyOn(Account, 'save').and.callFake(function(account,
+      spyOn(AccountResource, 'save').and.callFake(function(account,
         callback, error) {
         callback();
         error();
@@ -59,7 +77,7 @@ describe('Factory Tests ', function() {
           }
         };
       });
-      spyOn(Activate, 'get').and.callFake(function(key, callback,
+      spyOn(ActivateResource, 'get').and.callFake(function(key, callback,
         error) {
         callback();
         error();
@@ -69,7 +87,7 @@ describe('Factory Tests ', function() {
           }
         };
       });
-      spyOn(Password, 'save').and.callFake(function(newPassword,
+      spyOn(PasswordResource, 'save').and.callFake(function(newPassword,
         callback, error) {
         callback();
         error();
@@ -79,7 +97,7 @@ describe('Factory Tests ', function() {
           }
         };
       });
-      spyOn(PasswordResetInit, 'save').and.callFake(function(mail,
+      spyOn(PasswordResetInitResource, 'save').and.callFake(function(mail,
         callback, error) {
         callback();
         error();
@@ -89,7 +107,7 @@ describe('Factory Tests ', function() {
           }
         };
       });
-      spyOn(PasswordResetFinish, 'save').and.callFake(function(
+      spyOn(PasswordResetFinishResource, 'save').and.callFake(function(
         keyAndPassword, callback, error) {
         callback();
         error();
@@ -105,7 +123,7 @@ describe('Factory Tests ', function() {
         Auth.login({}, function() {
           return {};
         });
-      } catch (e) {};
+      } catch (e) {}
       expect(Principal.identity).toHaveBeenCalled();
       /*expect(function(){
           Auth.login();
@@ -167,7 +185,7 @@ describe('Factory Tests ', function() {
       $rootScope.toState = toState;
       $rootScope.toStateParams = {
         lang: 'de'
-      }
+      };
       Auth.authorize();
       expect($state.go).toHaveBeenCalledWith('login', {
         'lang': 'de'
@@ -175,27 +193,27 @@ describe('Factory Tests ', function() {
     });
     it('should call Register.save', function() {
       Auth.createAccount('');
-      expect(Register.save).toHaveBeenCalled();
+      expect(RegisterResource.save).toHaveBeenCalled();
     });
     it('should call Account.save', function() {
       Auth.updateAccount('');
-      expect(Account.save).toHaveBeenCalled();
+      expect(AccountResource.save).toHaveBeenCalled();
     });
     it('should call Activate.get', function() {
       Auth.activateAccount('');
-      expect(Activate.get).toHaveBeenCalled();
+      expect(ActivateResource.get).toHaveBeenCalled();
     });
     it('should call Password.save', function() {
       Auth.changePassword('');
-      expect(Password.save).toHaveBeenCalled();
+      expect(PasswordResource.save).toHaveBeenCalled();
     });
     it('should call PasswordResetInit.save', function() {
       Auth.resetPasswordInit('');
-      expect(PasswordResetInit.save).toHaveBeenCalled();
+      expect(PasswordResetInitResource.save).toHaveBeenCalled();
     });
     it('should call PasswordResetFinish.save', function() {
       Auth.resetPasswordFinish('');
-      expect(PasswordResetFinish.save).toHaveBeenCalled();
+      expect(PasswordResetFinishResource.save).toHaveBeenCalled();
     });
   });
 });

@@ -1,7 +1,18 @@
+/* global describe */
+/* global beforeEach */
+/* global it */
+/* global inject */
+/* global expect */
+/* global mockApis */
+/* global spyOn */
+
 'use strict';
 
 describe('Controllers Tests ', function() {
-  var $scope, $q, DataAcquisitionProjectCollection, createController;
+  var $scope;
+  var $q;
+  var DataAcquisitionProjectCollectionResource;
+  var createController;
   var result = {
     'page': {
       'totalElements': 2
@@ -13,10 +24,10 @@ describe('Controllers Tests ', function() {
   beforeEach(mockApis);
   beforeEach(function() {
     inject(function($controller, _$rootScope_,
-      _DataAcquisitionProjectCollection_, _$q_) {
+      _DataAcquisitionProjectCollectionResource_, _$q_) {
       $scope = _$rootScope_.$new();
       $q = _$q_;
-      DataAcquisitionProjectCollection = {
+      DataAcquisitionProjectCollectionResource = {
         query: function(param, callback) {
           var deferred = $q.defer();
           callback(result);
@@ -26,7 +37,8 @@ describe('Controllers Tests ', function() {
 
       var locals = {
         '$scope': $scope,
-        'DataAcquisitionProjectCollection': DataAcquisitionProjectCollection
+        'DataAcquisitionProjectCollectionResource':
+        DataAcquisitionProjectCollectionResource
       };
       createController = function() {
         return $controller('DataAcquisitionProjectController',
@@ -38,11 +50,13 @@ describe('Controllers Tests ', function() {
 
   describe('DataAcquisitionProjectController', function() {
     beforeEach(function() {
-      spyOn(DataAcquisitionProjectCollection, 'query').and.callThrough();
+      spyOn(DataAcquisitionProjectCollectionResource, 'query')
+      .and.callThrough();
       createController();
     });
     it('should call DataAcquisitionProject.query', function() {
-      DataAcquisitionProjectCollection.query.and.returnValue($q.resolve());
+      DataAcquisitionProjectCollectionResource
+      .query.and.returnValue($q.resolve());
       $scope.loadAll();
       expect($scope.totalItems).toEqual(2);
       expect($scope.dataAcquisitionProjects).toEqual([]);

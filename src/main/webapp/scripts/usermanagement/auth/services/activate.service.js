@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('metadatamanagementApp').factory('Activate',
+angular.module('metadatamanagementApp').factory('ActivateResource',
     function($resource) {
       return $resource('api/activate', {}, {
         'get': {

@@ -2,7 +2,7 @@
 
 angular.module('metadatamanagementApp').factory(
     'Principal',
-    function Principal($q, Account) {
+    function Principal($q, AccountResource) {
       var _identity;
       var _authenticated = false;
 
@@ -61,7 +61,7 @@ angular.module('metadatamanagementApp').factory(
 
           // retrieve the identity data from the server, update the
           // identity object, and then resolve.
-          Account.get().$promise.then(function(account) {
+          AccountResource.get().$promise.then(function(account) {
             _identity = account.data;
             _authenticated = true;
             deferred.resolve(_identity);

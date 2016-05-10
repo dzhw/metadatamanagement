@@ -2,7 +2,7 @@
 
 angular.module('metadatamanagementApp')
     .controller('AtomicQuestionListController', function($scope,
-      AtomicQuestionCollection) {
+      AtomicQuestionCollectionResource) {
       $scope.init = function() {
         $scope.pageState = {
           currentPageNumber: 1,
@@ -12,7 +12,7 @@ angular.module('metadatamanagementApp')
         $scope.pageChanged();
       };
       $scope.pageChanged = function() {
-        $scope.currentPage = AtomicQuestionCollection.
+        $scope.currentPage = AtomicQuestionCollectionResource.
         query({dataAcquisitionProjectId:
           $scope.params.dataAcquisitionProjectId,
           page: ($scope.pageState.currentPageNumber - 1)

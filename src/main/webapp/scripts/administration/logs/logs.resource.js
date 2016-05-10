@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('metadatamanagementApp').factory('LogsService',
+angular.module('metadatamanagementApp').factory('LogsResource',
     function($resource) {
       return $resource('api/logs', {}, {
         'findAll': {

@@ -1,14 +1,21 @@
+/* global describe */
+/* global beforeEach */
+/* global it */
+/* global inject */
+/* global expect */
+
 'use strict';
 
 describe('Factory Tests ', function() {
-  var SurveyCollection, $scope;
+  var SurveyCollectionResource;
+  var $scope;
   describe('DataAcquisitionProject', function() {
     beforeEach(inject(function($injector) {
-      SurveyCollection = $injector.get('SurveyCollection');
+      SurveyCollectionResource = $injector.get('SurveyCollectionResource');
       $scope = $injector.get('$rootScope').$new();
     }));
     it('SurveyCollection should be defined', function() {
-      expect(SurveyCollection).toBeDefined();
+      expect(SurveyCollectionResource).toBeDefined();
     });
   });
 });

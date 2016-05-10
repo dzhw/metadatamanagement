@@ -1,5 +1,15 @@
+/* global describe */
+/* global beforeEach */
+/* global it */
+/* global inject */
+/* global expect */
+/* global mockApis */
+
+'use strict';
+
 describe('Survey', function() {
-  var mockSurveyResource, $httpBackend;
+  var mockSurveyResource;
+  var $httpBackend;
   var data = {
     id: 1,
     surveyname: 'test',
@@ -11,10 +21,10 @@ describe('Survey', function() {
   beforeEach(mockApis);
   beforeEach(inject(function($injector) {
     $httpBackend = $injector.get('$httpBackend');
-    mockSurveyResource = $injector.get('Survey');
+    mockSurveyResource = $injector.get('SurveyResource');
   }));
   describe('getSurvey', function() {
-    it('should call get with id', inject(function(Survey) {
+    it('should call get with id', inject(function() {
       $httpBackend.expectGET(
         /api\/surveys\?cacheBuster=\d+&projection=complete/).respond(
         data);
@@ -27,15 +37,13 @@ describe('Survey', function() {
       }
       expect(result.surveyname).toEqual('test');
     }));
-    it('should put', inject(function(Survey) {
+    it('should put', inject(function() {
       $httpBackend.when('PUT',
         /api\/surveys\/1\?cacheBuster=\d/).respond(
         data);
 
       var result = mockSurveyResource.save(data);
-
-        $httpBackend.flush();
-
+      $httpBackend.flush();
       expect(result.surveyname).toEqual('test');
     }));
   });

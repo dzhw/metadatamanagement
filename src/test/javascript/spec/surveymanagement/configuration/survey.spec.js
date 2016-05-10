@@ -1,14 +1,25 @@
+/* global describe */
+/* global beforeEach */
+/* global it */
+/* global inject */
+/* global expect */
+/* global spyOn */
+/* global jasmine */
+
 'use strict';
 
 describe('survey api', function() {
-  var $translate, $translatePartialLoader, $state, Survey;
+  var $translate;
+  var $translatePartialLoader;
+  var $state;
+  var Survey;
   beforeEach(inject(function(_$translate_, _$translatePartialLoader_,
     _$httpBackend_, _$state_) {
     $translate = _$translate_;
     $translatePartialLoader = _$translatePartialLoader_;
     $state = _$state_;
     Survey = jasmine.createSpy('Survey');
-    var globalJson = new RegExp('i18n\/.*\/global.json')
+    var globalJson = new RegExp('i18n\/.*\/global.json');
     var mainJson = new RegExp('i18n\/.*\/main.json');
     _$httpBackend_.whenGET(globalJson).respond({});
     _$httpBackend_.whenGET(mainJson).respond({});
@@ -29,29 +40,29 @@ describe('survey api', function() {
   });
   describe('basic test fo survey.detail', function() {
     it('should call $translate, $translatePartialLoader and survey',
-      inject(function(_Survey_, $stateParams) {
+      inject(function(_SurveyResource_) {
         var config = $state.get('survey.detail');
-        var Survey = _Survey_;
-        spyOn(Survey, 'get').and.callThrough();
+        var SurveyResource = _SurveyResource_;
+        spyOn(SurveyResource, 'get').and.callThrough();
         expect(config.url).toEqual('/surveys/{id}');
         expect(config.resolve.translatePartialLoader).toBeDefined();
         expect(config.resolve.entity).toBeDefined();
         $state.go('survey.detail');
         expect($translate.refresh).toHaveBeenCalled();
         expect($translatePartialLoader.addPart).toHaveBeenCalled();
-        expect(Survey.get).toHaveBeenCalled();
+        expect(SurveyResource.get).toHaveBeenCalled();
       }));
   });
   describe('Survey.new', function() {
     describe('basic test fo Survey.new modal', function() {
       it('should call modal', inject(function($stateParams, $state,
-        $uibModal, _Survey_) {
-        var Survey = _Survey_;
+        $uibModal, _SurveyResource_) {
+        var SurveyResource = _SurveyResource_;
         var config = $state.get('survey.new');
         spyOn($uibModal, 'open').and.callThrough();
         expect(config.url).toEqual('/new');
         config.onEnter[4]($stateParams, $state, $uibModal,
-          Survey);
+          SurveyResource);
         expect(config.onEnter).toBeDefined();
         expect($uibModal.open).toHaveBeenCalled();
       }));
@@ -60,7 +71,7 @@ describe('survey api', function() {
       'basic test fo data acquisition Project.detail modal promises',
       function() {
         it('should open modal', inject(function($stateParams, $state,
-          $uibModal, _Survey_) {
+          $uibModal, _SurveyResource_) {
           var modalOptions = {
             templateUrl: 'fakeUrl/survey-dialog.html.tmpl'
           };
@@ -72,12 +83,12 @@ describe('survey api', function() {
               }
             }
           };
-          var Survey = _Survey_;
+          var SurveyResource = _SurveyResource_;
           spyOn($uibModal, 'open').and.returnValue(fakeModal);
           spyOn($state, 'go').and.callThrough();
           var config = $state.get('survey.new');
           config.onEnter[4]($stateParams, $state, $uibModal,
-            Survey);
+            SurveyResource);
           expect($state.go).toHaveBeenCalled();
         }));
       });
@@ -158,7 +169,4 @@ describe('survey api', function() {
       }));
     });
   });
-
-
-
 });

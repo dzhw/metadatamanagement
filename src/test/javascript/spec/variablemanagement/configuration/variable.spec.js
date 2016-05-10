@@ -1,7 +1,16 @@
+/* global describe */
+/* global beforeEach */
+/* global it */
+/* global inject */
+/* global expect */
+/* global spyOn */
+
 'use strict';
 
 describe('survey api', function() {
-  var $translate, $translatePartialLoader, $state;
+  var $translate;
+  var $translatePartialLoader;
+  var $state;
   beforeEach(inject(function(_$translate_, _$translatePartialLoader_,
     _$httpBackend_, _$state_) {
     $translate = _$translate_;
@@ -28,17 +37,17 @@ describe('survey api', function() {
   });
   describe('basic test fo variable.detail', function() {
     it('should call $translate, $translatePartialLoader and variable',
-      inject(function(_Variable_, $stateParams) {
+      inject(function(_VariableResource_) {
         var config = $state.get('variable.detail');
-        var Variable = _Variable_;
-        spyOn(Variable, 'get').and.callThrough();
+        var VariableResource = _VariableResource_;
+        spyOn(VariableResource, 'get').and.callThrough();
         expect(config.url).toEqual('/variables/{id}');
         expect(config.resolve.translatePartialLoader).toBeDefined();
         expect(config.resolve.entity).toBeDefined();
         $state.go('variable.detail');
         expect($translate.refresh).toHaveBeenCalled();
         expect($translatePartialLoader.addPart).toHaveBeenCalled();
-        expect(Variable.get).toHaveBeenCalled();
+        expect(VariableResource.get).toHaveBeenCalled();
       }));
   });
   describe('variable.new', function() {

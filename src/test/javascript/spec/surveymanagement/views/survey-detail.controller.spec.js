@@ -6,7 +6,7 @@ describe('Survey Detail Controller', function() {
     beforeEach(inject(function($injector) {
         $rootScope = $injector.get('$rootScope');
         $scope = $rootScope.$new();
-        MockEntity = jasmine.createSpy('Survey');
+        MockEntity = jasmine.createSpy('SurveyResource');
 
         var locals = {
             '$scope': $scope,

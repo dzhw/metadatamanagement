@@ -1,8 +1,21 @@
+/* global describe */
+/* global beforeEach */
+/* global it */
+/* global inject */
+/* global expect */
+/* global mockApis */
+/* global spyOn */
 'use strict';
 
 describe('Controllers Tests ', function() {
-  var $scope, createController, Variable, AlertService, VariableSearchDao,
-    MockEntity, $q, $location;
+  var $scope;
+  var createController;
+  var VariableResource;
+  var AlertService;
+  var VariableSearchDao;
+  var MockEntity;
+  var $q;
+  var $location;
   var data = {
     hits: {
       total: 1,
@@ -36,7 +49,7 @@ describe('Controllers Tests ', function() {
           error();
         }
       };
-      Variable = {
+      VariableResource = {
         get: function(param, callback) {
           var deferred = $q.defer();
           deferred.resolve(data);
@@ -66,7 +79,7 @@ describe('Controllers Tests ', function() {
         '$scope': $scope,
         'entity': MockEntity,
         'AlertService': AlertService,
-        'Variable': Variable,
+        'VariableResource': VariableResource,
         'VariableSearchDao': VariableSearchDao,
         '$location': $location
       };
@@ -75,8 +88,8 @@ describe('Controllers Tests ', function() {
         return $controller('VariableController', locals);
       };
       spyOn(VariableSearchDao, 'search').and.callThrough();
-      spyOn(Variable, 'get').and.callThrough();
-      spyOn(Variable, 'delete').and.callThrough();
+      spyOn(VariableResource, 'get').and.callThrough();
+      spyOn(VariableResource, 'delete').and.callThrough();
       spyOn(AlertService, 'error').and.callThrough();
     });
   });

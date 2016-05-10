@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('metadatamanagementApp')
-    .factory('Survey', function($resource, DateUtils, $state) {
+    .factory('SurveyResource', function($resource, DateUtils, $state) {
       return $resource('/api/surveys/:id',
         {id: '@id'}, {
         'get': {
@@ -9,7 +9,7 @@ angular.module('metadatamanagementApp')
           params: {projection: 'complete'},
           interceptor: {
             responseError: function(response) {
-              if (response.status !== 401) {
+              if (response.status === 404) {
                 $state.go('error');
               }
             },

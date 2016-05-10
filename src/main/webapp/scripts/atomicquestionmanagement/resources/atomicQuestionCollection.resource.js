@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('metadatamanagementApp')
-  .factory('AtomicQuestionCollection', function($resource) {
+  .factory('AtomicQuestionCollectionResource', function($resource) {
     return $resource('/api/atomic-questions', {
       projection: 'complete'
     }, {

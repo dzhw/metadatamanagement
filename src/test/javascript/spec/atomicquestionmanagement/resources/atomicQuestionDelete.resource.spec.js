@@ -12,7 +12,7 @@ describe('AtomicQuestionDeleteResource', function() {
   var $httpBackend;
   var data = {
     id: 1,
-    name: 'DeletedAtomicQuestion'
+    name: 'DeletedAtomicQuestionResource'
   };
   beforeEach(mockApis);
   beforeEach(inject(function($injector) {
@@ -23,10 +23,10 @@ describe('AtomicQuestionDeleteResource', function() {
       /api\/atomic-questions\/delete\?cacheBuster=\d/)
       .respond(data);
   }));
-  it('should return deleted AtomicQuestion resource ', function() {
+  it('should return deleted AtomicQuestionResource ', function() {
     var deletedAtomicQuestion =
     mockAtomicQuestionDeleteResource.deleteByDataAcquisitionProjectId('RDC');
     $httpBackend.flush();
-    expect(deletedAtomicQuestion.name).toEqual('DeletedAtomicQuestion');
+    expect(deletedAtomicQuestion.name).toEqual('DeletedAtomicQuestionResource');
   });
 });

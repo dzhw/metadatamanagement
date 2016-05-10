@@ -1,13 +1,27 @@
+/* global describe */
+/* global beforeEach */
+/* global it */
+/* global inject */
+/* global expect */
+/* global mockApis */
+/* global spyOn */
+/* global jasmine */
+
 'use strict';
 
-describe('Controllers Tests ', function () {
-  var $scope, createController, $uibModalInstance, MockEntity, DataAcquisitionProjectCollection, $q;
+describe('Controllers Tests ', function() {
+  var $scope;
+  var createController;
+  var $uibModalInstance;
+  var MockEntity;
+  var DataAcquisitionProjectCollectionResource;
+  var $q;
   var result = {
-    'page' : {
-      'totalElements':2
+    'page': {
+      'totalElements': 2
     },
-    '_embedded' : {
-      'dataAcquisitionProjects':[]
+    '_embedded': {
+      'dataAcquisitionProjects': []
     }
   };
   beforeEach(mockApis);
@@ -16,13 +30,13 @@ describe('Controllers Tests ', function () {
       $scope = _$rootScope_.$new();
       $q = _$q_;
       MockEntity = {
-        $save: function(success, error){
+        $save: function(success, error) {
           success();
           error();
         }
       };
-      DataAcquisitionProjectCollection = {
-        query: function(callback){
+      DataAcquisitionProjectCollectionResource = {
+        query: function(callback) {
           var deferred = $q.defer();
           deferred.resolve(result);
           callback(result);
@@ -37,32 +51,35 @@ describe('Controllers Tests ', function () {
         }
       };
       var locals = {
-        '$scope' : $scope,
+        '$scope': $scope,
         'entity': MockEntity ,
         '$uibModalInstance': $uibModalInstance,
         'isCreateMode': true,
-        'DataAcquisitionProjectCollection' : DataAcquisitionProjectCollection
+        'DataAcquisitionProjectCollectionResource':
+                             DataAcquisitionProjectCollectionResource
       };
       createController = function() {
         return $controller('SurveyDialogController', locals);
       };
-      spyOn(DataAcquisitionProjectCollection, 'query').and.callThrough();
+      spyOn(DataAcquisitionProjectCollectionResource, 'query').and
+      .callThrough();
     });
-   });
-   describe('SurveyDialogController',function(){
-     beforeEach(function(){
-         createController();
+  });
+  describe('SurveyDialogController',function() {
+     beforeEach(function() {
+       createController();
      });
-     it('$scope.isSaving should be false',function(){
+     it('$scope.isSaving should be false',function() {
        $scope.save();
        expect($scope.isSaving).toEqual(false);
      });
-     it('should call $uibModalInstance.dismiss',function(){
+     it('should call $uibModalInstance.dismiss',function() {
        $scope.clear();
        expect($uibModalInstance.dismiss).toHaveBeenCalled();
      });
-     it('should set $scope.allDataAcquisitionProjects',function(){
-       DataAcquisitionProjectCollection.query.and.returnValue($q.resolve());
+     it('should set $scope.allDataAcquisitionProjects',function() {
+       DataAcquisitionProjectCollectionResource.query.and.
+       returnValue($q.resolve());
        expect($scope.allDataAcquisitionProjects.$$state.value).toEqual(result);
      });
 

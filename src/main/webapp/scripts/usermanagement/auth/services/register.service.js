@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('metadatamanagementApp').factory('Register',
+angular.module('metadatamanagementApp').factory('RegisterResource',
     function($resource) {
       return $resource('api/register', {}, {});
     });

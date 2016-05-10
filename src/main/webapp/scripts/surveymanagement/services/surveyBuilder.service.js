@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('metadatamanagementApp').service('SurveyBuilderService',
-function(Survey, CleanJSObjectService) {
+function(SurveyResource, CleanJSObjectService) {
   var getSurveys = function(surveys, projectId) {
       var surveysObjArray = [];
       for (var i = 0; i < surveys.length; i++) {
@@ -22,7 +22,7 @@ function(Survey, CleanJSObjectService) {
           };
         var cleanedSurveyObject = CleanJSObjectService
               .removeEmptyJsonObjects(surveyObj);
-        surveysObjArray[i] = new Survey(cleanedSurveyObject);
+        surveysObjArray[i] = new SurveyResource(cleanedSurveyObject);
       }
       return surveysObjArray;
     };

@@ -45,8 +45,8 @@ angular.module('metadatamanagementApp')
               controller: 'VariableDialogController',
               size: 'lg',
               resolve: {
-                entity: ['Variable', function(Variable) {
-                  return new Variable();
+                entity: ['VariableResource', function(VariableResource) {
+                  return new VariableResource();
                 }],
                 isCreateMode: true
               }
@@ -80,9 +80,9 @@ angular.module('metadatamanagementApp')
               return $translate.refresh();
             }
           ],
-          entity: ['$stateParams', 'Variable',
-          function($stateParams, Variable) {
-            return Variable.get({
+          entity: ['$stateParams', 'VariableResource',
+          function($stateParams, VariableResource) {
+            return VariableResource.get({
                 id: $stateParams.id
               });
           }]
@@ -103,8 +103,8 @@ angular.module('metadatamanagementApp')
             controller: 'VariableDialogController',
             size: 'lg',
             resolve: {
-              entity: ['Variable', function(Variable) {
-                return Variable.get({
+              entity: ['VariableResource', function(VariableResource) {
+                return VariableResource.get({
                   id: $stateParams.id
                 });
               }],

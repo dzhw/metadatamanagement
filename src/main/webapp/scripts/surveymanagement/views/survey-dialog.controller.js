@@ -2,12 +2,13 @@
 
 angular.module('metadatamanagementApp').controller('SurveyDialogController', [
   '$scope', '$stateParams', '$uibModalInstance',
-  'entity', 'isCreateMode', 'DataAcquisitionProjectCollection',
+  'entity', 'isCreateMode', 'DataAcquisitionProjectCollectionResource',
   function($scope, $stateParams, $uibModalInstance,
-    entity, isCreateMode, DataAcquisitionProjectCollection) {
+    entity, isCreateMode, DataAcquisitionProjectCollectionResource) {
     $scope.survey = entity;
     $scope.isCreateMode = isCreateMode;
-    $scope.allDataAcquisitionProjects = DataAcquisitionProjectCollection.query(
+    $scope.allDataAcquisitionProjects = DataAcquisitionProjectCollectionResource
+    .query(
       function(response) {
         $scope.allDataAcquisitionProjects =
           response._embedded.dataAcquisitionProjects;

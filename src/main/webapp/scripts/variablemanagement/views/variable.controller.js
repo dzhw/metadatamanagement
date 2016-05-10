@@ -3,7 +3,7 @@
 
 angular.module('metadatamanagementApp')
     .controller('VariableController', function($scope,
-        Variable, $location, $filter, VariableSearchDao, AlertService,
+        VariableResource, $location, $filter, VariableSearchDao, AlertService,
         ElasticSearchProperties) {
       // TODO create global page class which is returned from search daos
       $scope.page = {
@@ -96,7 +96,7 @@ angular.module('metadatamanagementApp')
       };
 
       $scope.delete = function(id) {
-        Variable.get({id: id}, function(result) {
+        VariableResource.get({id: id}, function(result) {
           $scope.variable = result;
         });
         $scope.item = $filter('filter')($scope.searchResult,
@@ -110,7 +110,7 @@ angular.module('metadatamanagementApp')
         $scope.page.contentSize = $scope.page.contentSize - 1;
         $scope.page.totalHits = $scope.page.totalHits - 1;
         $scope.searchResult.splice($scope.itemtoBeRemoved, 1);
-        Variable.delete({id: id},
+        VariableResource.delete({id: id},
               function() {
                 $('#deleteVariableConfirmation').modal('hide');
               });

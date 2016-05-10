@@ -2,11 +2,11 @@
 
 angular.module('metadatamanagementApp')
   .controller('DataAcquisitionProjectController',
-    function($scope, $state, DataAcquisitionProjectCollection) {
+    function($scope, $state, DataAcquisitionProjectCollectionResource) {
       $scope.dataAcquisitionProjects = [];
       $scope.page = 1;
       $scope.loadAll = function() {
-        DataAcquisitionProjectCollection.query({
+        DataAcquisitionProjectCollectionResource.query({
             page: $scope.page - 1
           },
           function(result) {

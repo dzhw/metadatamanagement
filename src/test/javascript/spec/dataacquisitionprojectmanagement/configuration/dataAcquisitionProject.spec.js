@@ -137,7 +137,8 @@ describe('dataAcquisitionProject api', function() {
         expect($uibModal.open).toHaveBeenCalled();
       }));
     });
-    describe('basic test fo dataAcquisitionProject.delete modal promises', function() {
+    describe('basic test fo dataAcquisitionProject.delete modal promises',
+    function() {
       it('should open modal', inject(function($rootScope,
         $stateParams, $state, $uibModal) {
         var modalOptions = {
@@ -163,7 +164,4 @@ describe('dataAcquisitionProject api', function() {
       }));
     });
   });
-
-
-
 });

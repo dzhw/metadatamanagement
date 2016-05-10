@@ -1,7 +1,16 @@
+/* global describe */
+/* global beforeEach */
+/* global it */
+/* global inject */
+/* global expect */
+/* global jasmine */
+
 'use strict';
 
 describe('Survey delete Controller', function() {
-  var $scope, $rootScope,$uibModalInstance;
+  var $scope;
+  var $rootScope;
+  var $uibModalInstance;
   var MockEntity;
   var createController;
 

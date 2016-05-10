@@ -1,7 +1,8 @@
 'use strict';
 
 angular.module('metadatamanagementApp')
-    .controller('SurveyListController', function($scope, SurveyCollection) {
+    .controller('SurveyListController', function($scope,
+      SurveyCollectionResource) {
       var init = function() {
         $scope.pageState = {
           currentPageNumber: 1,
@@ -11,7 +12,8 @@ angular.module('metadatamanagementApp')
         $scope.pageChanged();
       };
       $scope.pageChanged = function() {
-        $scope.currentPage = SurveyCollection.query({dataAcquisitionProjectId:
+        $scope.currentPage = SurveyCollectionResource
+        .query({dataAcquisitionProjectId:
           $scope.params.dataAcquisitionProjectId,
           page: ($scope.pageState.currentPageNumber - 1)
         }, function(result) {

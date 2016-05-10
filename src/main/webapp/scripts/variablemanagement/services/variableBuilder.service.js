@@ -2,7 +2,7 @@
 'use strict';
 
 angular.module('metadatamanagementApp').service('VariableBuilderService',
-function(Variable, CleanJSObjectService, JobLoggingService) {
+function(VariableResource, CleanJSObjectService, JobLoggingService) {
   var getVariables = function(data, dataAcquisitionProjectId) {
     var jsonContent = {};
     var variablesObjArray = [];
@@ -70,7 +70,7 @@ function(Variable, CleanJSObjectService, JobLoggingService) {
           .asBinary()).distribution : undefined,
       };
         CleanJSObjectService.removeEmptyJsonObjects(variableObj);
-        variablesObjArray.push(new Variable(variableObj));
+        variablesObjArray.push(new VariableResource(variableObj));
       }
     }catch (e) {
       console.log(e);

@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('metadatamanagementApp')
-  .factory('DataSetsCollection', function($resource) {
+  .factory('DataSetsCollectionResource', function($resource) {
     return $resource('/api/data-sets', {
       projection: 'complete'
     }, {

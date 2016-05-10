@@ -1,15 +1,15 @@
 'use strict';
 
 angular.module('metadatamanagementApp').controller('LogsController',
-    function($scope, LogsService) {
-      $scope.loggers = LogsService.findAll();
+    function($scope, LogsResource) {
+      $scope.loggers = LogsResource.findAll();
 
       $scope.changeLevel = function(name, level) {
-        LogsService.changeLevel({
+        LogsResource.changeLevel({
           name: name,
           level: level
         }, function() {
-          $scope.loggers = LogsService.findAll();
+          $scope.loggers = LogsResource.findAll();
         });
       };
     });

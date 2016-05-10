@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('metadatamanagementApp').service('AtomicQuestionBuilderService',
-function(AtomicQuestion, CleanJSObjectService) {
+function(AtomicQuestionResource, CleanJSObjectService) {
   var getAtomicQuestions = function(atomicQuestions, projectId) {
       var atomicQuestionsObjArray = [];
       for (var i = 0; i < atomicQuestions.length; i++) {
@@ -41,7 +41,7 @@ function(AtomicQuestion, CleanJSObjectService) {
         var cleanedAtomicQuestionObject = CleanJSObjectService
           .removeEmptyJsonObjects(atomicQuestionObj);
         atomicQuestionsObjArray[i] = new
-        AtomicQuestion(cleanedAtomicQuestionObject);
+        AtomicQuestionResource(cleanedAtomicQuestionObject);
       }
       return atomicQuestionsObjArray;
     };

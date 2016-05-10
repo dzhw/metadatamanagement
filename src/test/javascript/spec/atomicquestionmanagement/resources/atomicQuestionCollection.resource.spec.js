@@ -7,25 +7,25 @@
 
 'use strict';
 
-describe('AtomicQuestionCollection', function() {
+describe('AtomicQuestionCollectionResource', function() {
   var mockAtomicQuestionCollectionResource;
   var $httpBackend;
   var data = {
     id: 1,
-    name: 'AtomicQuestionCollection'
+    name: 'AtomicQuestionCollectionResource'
   };
   beforeEach(mockApis);
   beforeEach(inject(function($injector) {
     $httpBackend = $injector.get('$httpBackend');
     mockAtomicQuestionCollectionResource =
-    $injector.get('AtomicQuestionCollection');
+    $injector.get('AtomicQuestionCollectionResource');
     $httpBackend.expectGET(
       /api\/atomic-questions\?cacheBuster=\d+&projection=complete/)
       .respond(data);
   }));
-  it('should return AtomicQuestionCollection resource ', function() {
+  it('should return AtomicQuestionCollectionResource resource ', function() {
     var resource =  mockAtomicQuestionCollectionResource.get(1);
     $httpBackend.flush();
-    expect(resource.name).toEqual('AtomicQuestionCollection');
+    expect(resource.name).toEqual('AtomicQuestionCollectionResource');
   });
 });

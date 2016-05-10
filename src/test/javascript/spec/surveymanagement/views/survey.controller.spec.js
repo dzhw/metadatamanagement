@@ -1,7 +1,18 @@
+/* global describe */
+/* global beforeEach */
+/* global it */
+/* global inject */
+/* global expect */
+/* global mockApis */
+/* global spyOn */
+
 'use strict';
 
 describe('Controllers Tests ', function() {
-  var $scope, $q, SurveyCollection, createController;
+  var $scope;
+  var $q;
+  var SurveyCollectionResource;
+  var createController;
   var result = {
     'page': {
       'totalElements': 2
@@ -15,7 +26,7 @@ describe('Controllers Tests ', function() {
     inject(function($controller, _$rootScope_, _$q_) {
       $scope = _$rootScope_.$new();
       $q = _$q_;
-      SurveyCollection = {
+      SurveyCollectionResource = {
         query: function(param, callback) {
           var deferred = $q.defer();
           callback(result);
@@ -25,7 +36,7 @@ describe('Controllers Tests ', function() {
 
       var locals = {
         '$scope': $scope,
-        'SurveyCollection': SurveyCollection
+        'SurveyCollectionResource': SurveyCollectionResource
       };
       createController = function() {
         return $controller('SurveyController', locals);
@@ -35,11 +46,11 @@ describe('Controllers Tests ', function() {
   });
   describe('SurveyController', function() {
     beforeEach(function() {
-      spyOn(SurveyCollection, 'query').and.callThrough();
+      spyOn(SurveyCollectionResource, 'query').and.callThrough();
       createController();
     });
-    it('should call data acquisition Project.query', function() {
-      SurveyCollection.query.and.returnValue($q.resolve());
+    it('should get all surveys', function() {
+      SurveyCollectionResource.query.and.returnValue($q.resolve());
       $scope.loadAll();
       expect($scope.totalItems).toEqual(2);
       expect($scope.surveys).toEqual([]);

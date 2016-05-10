@@ -10,7 +10,7 @@
 describe('DataSetListController', function() {
   var $scope;
   var $rootScope;
-  var DataSetsCollection;
+  var DataSetsCollectionResource;
   var createController;
   var params;
   var result;
@@ -30,29 +30,29 @@ describe('DataSetListController', function() {
     $scope.init = function() {
 
     };
-    DataSetsCollection = {
+    DataSetsCollectionResource = {
       query: function(param, callback) {
         callback(result);
       }
     };
     var locals = {
       '$scope': $scope,
-      'DataSetsCollection': DataSetsCollection
+      'DataSetsCollectionResource': DataSetsCollectionResource
     };
     createController = function() {
       $injector.get('$controller')('DataSetListController',
         locals);
     };
-    spyOn(DataSetsCollection, 'query').and.callThrough();
+    spyOn(DataSetsCollectionResource, 'query').and.callThrough();
   }));
 
   it('should set $scope.pageState.totalElements', function() {
     createController();
     expect($scope.pageState.totalElements).toEqual(10);
   });
-  it('should DataSetsCollection.query after broadcast', function() {
+  it('should DataSetsCollectionResource.query after broadcast', function() {
     createController();
     $rootScope.$broadcast('dataSets-uploaded');
-    expect(DataSetsCollection.query).toHaveBeenCalled();
+    expect(DataSetsCollectionResource.query).toHaveBeenCalled();
   });
 });

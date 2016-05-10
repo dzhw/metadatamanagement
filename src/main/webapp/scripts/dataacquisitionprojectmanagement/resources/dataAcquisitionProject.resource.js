@@ -9,7 +9,7 @@ angular.module('metadatamanagementApp')
           params:  {projection: 'complete'},
           interceptor: {
             responseError: function(response) {
-              if (response.status !== 401) {
+              if (response.status === 404) {
                 $state.go('error');
               }
             }

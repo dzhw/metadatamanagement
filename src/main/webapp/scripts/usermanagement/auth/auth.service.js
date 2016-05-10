@@ -5,8 +5,9 @@ angular
   .factory(
     'Auth',
     function Auth($rootScope, $state, $q, Principal,
-      AuthServerProvider, Account, Register, Activate, Password,
-      PasswordResetInit, PasswordResetFinish) {
+      AuthServerProvider, AccountResource, RegisterResource, ActivateResource,
+      PasswordResource, PasswordResetInitResource,
+      PasswordResetFinishResource) {
       return {
         login: function(credentials, callback) {
           var cb = callback || angular.noop;
@@ -82,7 +83,7 @@ angular
         createAccount: function(account, callback) {
           var cb = callback || angular.noop;
 
-          return Register.save(account, function() {
+          return RegisterResource.save(account, function() {
             return cb(account);
           }, function(err) {
             this.logout();
@@ -93,7 +94,7 @@ angular
         updateAccount: function(account, callback) {
           var cb = callback || angular.noop;
 
-          return Account.save(account, function() {
+          return AccountResource.save(account, function() {
             return cb(account);
           }, function(err) {
             return cb(err);
@@ -103,7 +104,7 @@ angular
         activateAccount: function(key, callback) {
           var cb = callback || angular.noop;
 
-          return Activate.get(key, function(response) {
+          return ActivateResource.get(key, function(response) {
             return cb(response);
           }, function(err) {
             return cb(err);
@@ -113,7 +114,7 @@ angular
         changePassword: function(newPassword, callback) {
           var cb = callback || angular.noop;
 
-          return Password.save(newPassword, function() {
+          return PasswordResource.save(newPassword, function() {
             return cb();
           }, function(err) {
             return cb(err);
@@ -123,7 +124,7 @@ angular
         resetPasswordInit: function(mail, callback) {
           var cb = callback || angular.noop;
 
-          return PasswordResetInit.save(mail, function() {
+          return PasswordResetInitResource.save(mail, function() {
             return cb();
           }, function(err) {
             return cb(err);
@@ -133,7 +134,7 @@ angular
         resetPasswordFinish: function(keyAndPassword, callback) {
           var cb = callback || angular.noop;
 
-          return PasswordResetFinish.save(keyAndPassword, function() {
+          return PasswordResetFinishResource.save(keyAndPassword, function() {
             return cb();
           }, function(err) {
             return cb(err);

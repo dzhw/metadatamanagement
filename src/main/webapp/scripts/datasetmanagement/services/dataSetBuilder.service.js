@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('metadatamanagementApp').service('DataSetBuilderService',
-function(DataSet, CleanJSObjectService) {
+function(DataSetResource, CleanJSObjectService) {
   var getDataSets = function(dataSets, projectId) {
       var dataSetsObjArray = [];
       for (var i = 0; i < dataSets.length; i++) {
@@ -19,7 +19,7 @@ function(DataSet, CleanJSObjectService) {
           };
         var cleanedDataSetObject = CleanJSObjectService
             .removeEmptyJsonObjects(dataSetObj);
-        dataSetsObjArray[i] = new DataSet(cleanedDataSetObject);
+        dataSetsObjArray[i] = new DataSetResource(cleanedDataSetObject);
       }
       return dataSetsObjArray;
     };

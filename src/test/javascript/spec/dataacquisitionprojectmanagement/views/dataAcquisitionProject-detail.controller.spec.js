@@ -1,4 +1,4 @@
-/* global describe */
+/* global xdescribe */
 /* global beforeEach */
 /* global inject */
 /* global spyOn */

@@ -1,3 +1,8 @@
+/* global describe */
+/* global inject */
+/* global it */
+/* global expect */
+/* global spyOn */
 'use strict';
 
 describe('logs api', function() {
@@ -6,7 +11,7 @@ describe('logs api', function() {
     it('should call $translate and $translatePartialLoader', inject(
       function($translate, $translatePartialLoader, $httpBackend,
         $state) {
-        var globalJson = new RegExp('i18n\/.*\/global.json')
+        var globalJson = new RegExp('i18n\/.*\/global.json');
         var mainJson = new RegExp('i18n\/.*\/main.json');
         $httpBackend.whenGET(globalJson).respond({});
         $httpBackend.whenGET(mainJson).respond({});
@@ -16,7 +21,7 @@ describe('logs api', function() {
         spyOn($translatePartialLoader, 'addPart').and.callThrough();
         var config = $state.get('logs');
         expect(config.url).toEqual('/logs');
-        expect(config.resolve.translatePartialLoader).toBeDefined;
+        expect(config.resolve.translatePartialLoader).toBeDefined();
         $state.go('logs');
         expect($translate.refresh).toHaveBeenCalled();
         expect($translatePartialLoader.addPart).toHaveBeenCalled();

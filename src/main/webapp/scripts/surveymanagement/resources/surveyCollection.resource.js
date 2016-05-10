@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('metadatamanagementApp')
-    .factory('SurveyCollection', function($resource) {
+    .factory('SurveyCollectionResource', function($resource) {
       return $resource('/api/surveys',
         {projection: 'complete'}, {
         'query': {

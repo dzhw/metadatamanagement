@@ -10,7 +10,7 @@
 describe('AtomicQuestionListController', function() {
   var $scope;
   var $rootScope;
-  var AtomicQuestionCollection;
+  var AtomicQuestionCollectionResource;
   var createController;
   var params;
   var result;
@@ -30,29 +30,30 @@ describe('AtomicQuestionListController', function() {
     $scope.init = function() {
 
     };
-    AtomicQuestionCollection = {
+    AtomicQuestionCollectionResource = {
       query: function(param, callback) {
         callback(result);
       }
     };
     var locals = {
       '$scope': $scope,
-      'AtomicQuestionCollection': AtomicQuestionCollection
+      'AtomicQuestionCollectionResource': AtomicQuestionCollectionResource
     };
     createController = function() {
       $injector.get('$controller')('AtomicQuestionListController',
         locals);
     };
-    spyOn(AtomicQuestionCollection, 'query').and.callThrough();
+    spyOn(AtomicQuestionCollectionResource, 'query').and.callThrough();
   }));
 
   it('should set $scope.pageState.totalElements', function() {
     createController();
     expect($scope.pageState.totalElements).toEqual(10);
   });
-  it('should AtomicQuestionCollection.query after broadcast', function() {
+  it('should AtomicQuestionCollectionResource.query after broadcast',
+  function() {
     createController();
     $rootScope.$broadcast('atomicQuestions-uploaded');
-    expect(AtomicQuestionCollection.query).toHaveBeenCalled();
+    expect(AtomicQuestionCollectionResource.query).toHaveBeenCalled();
   });
 });

@@ -2,7 +2,7 @@
 
 angular.module('metadatamanagementApp')
     .controller('VariableListController', function($scope,
-      VariableCollection) {
+      VariableCollectionResource) {
       var init = function() {
         $scope.pageState = {
           currentPageNumber: 1,
@@ -12,7 +12,8 @@ angular.module('metadatamanagementApp')
         $scope.pageChanged();
       };
       $scope.pageChanged = function() {
-        $scope.currentPage = VariableCollection.query({dataAcquisitionProjectId:
+        $scope.currentPage = VariableCollectionResource
+        .query({dataAcquisitionProjectId:
           $scope.params.dataAcquisitionProjectId,
           page: ($scope.pageState.currentPageNumber - 1)
         }, function(result) {

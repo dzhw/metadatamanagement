@@ -33,8 +33,8 @@ angular.module('metadatamanagementApp')
         data: {
           authorities: ['ROLE_USER'],
         },
-        onEnter: ['$stateParams', '$state', '$uibModal', 'Survey',
-        function($stateParams, $state, $uibModal, Survey) {
+        onEnter: ['$stateParams', '$state', '$uibModal', 'SurveyResource',
+        function($stateParams, $state, $uibModal, SurveyResource) {
           $uibModal.open({
             templateUrl:
             'scripts/surveymanagement/views/survey-dialog.html.tmpl',
@@ -42,7 +42,7 @@ angular.module('metadatamanagementApp')
             size: 'lg',
             resolve: {
               entity: function() {
-                return new Survey();
+                return new SurveyResource();
               },
               isCreateMode: true
             }
@@ -78,9 +78,9 @@ angular.module('metadatamanagementApp')
               return $translate.refresh();
             }
           ],
-          entity: ['$stateParams', 'Survey',
-            function($stateParams, Survey) {
-              return Survey.get({
+          entity: ['$stateParams', 'SurveyResource',
+            function($stateParams, SurveyResource) {
+              return SurveyResource.get({
                 id: $stateParams.id
               });
             }
@@ -101,8 +101,8 @@ angular.module('metadatamanagementApp')
               controller: 'SurveyDialogController',
               size: 'lg',
               resolve: {
-                entity: ['Survey', function(Survey) {
-                  return Survey.get({
+                entity: ['SurveyResource', function(SurveyResource) {
+                  return SurveyResource.get({
                     id: $stateParams.id
                   });
                 }],
@@ -132,8 +132,8 @@ angular.module('metadatamanagementApp')
               controller: 'SurveyDeleteController',
               size: 'md',
               resolve: {
-                entity: ['Survey', function(Survey) {
-                  return Survey.get({
+                entity: ['SurveyResource', function(SurveyResource) {
+                  return SurveyResource.get({
                     id: $stateParams.id
                   });
                 }]

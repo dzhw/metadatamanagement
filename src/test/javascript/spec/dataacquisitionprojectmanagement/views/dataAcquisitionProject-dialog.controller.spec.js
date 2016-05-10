@@ -1,15 +1,26 @@
+/* global describe */
+/* global beforeEach */
+/* global it */
+/* global inject */
+/* global expect */
+/* global mockApis */
+/* global jasmine */
+
 'use strict';
 
-describe('Controllers Tests ', function () {
-  var $scope, createController, $uibModalInstance, MockEntity;
+describe('Controllers Tests ', function() {
+  var $scope;
+  var createController;
+  var $uibModalInstance;
+  var MockEntity;
 
   beforeEach(mockApis);
   beforeEach(function() {
     inject(function($controller, _$rootScope_) {
       $scope = _$rootScope_.$new();
-      //MockEntity = jasmine.createSpy('MockEntity');
+      //MockEntity = jasmine.createSpy ('MockEntity');
       MockEntity = {
-        $save: function(success, error){
+        $save: function(success, error) {
           success();
           error();
         }
@@ -22,7 +33,7 @@ describe('Controllers Tests ', function () {
         }
       };
       var locals = {
-        '$scope' : $scope,
+        '$scope': $scope,
         'entity': MockEntity ,
         '$uibModalInstance': $uibModalInstance,
         'isCreateMode': true
@@ -31,19 +42,18 @@ describe('Controllers Tests ', function () {
         return $controller('DataAcquisitionProjectDialogController', locals);
       };
     });
-   });
-   describe('DataAcquisitionProjectDialogController',function(){
-     beforeEach(function(){
-         createController();
+  });
+  describe('DataAcquisitionProjectDialogController',function() {
+     beforeEach(function() {
+       createController();
      });
-     it('$scope.isSaving should be false',function(){
+     it('$scope.isSaving should be false',function() {
        $scope.save();
        expect($scope.isSaving).toEqual(false);
      });
-     it('should call $uibModalInstance.dismiss',function(){
+     it('should call $uibModalInstance.dismiss',function() {
        $scope.clear();
        expect($uibModalInstance.dismiss).toHaveBeenCalled();
      });
-
    });
 });

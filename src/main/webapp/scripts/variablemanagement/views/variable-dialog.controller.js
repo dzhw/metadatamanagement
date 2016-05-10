@@ -2,14 +2,15 @@
 
 angular.module('metadatamanagementApp').controller('VariableDialogController', [
   '$scope', '$stateParams', '$uibModalInstance', 'entity', 'isCreateMode',
-  'DataAcquisitionProjectCollection', 'SurveyCollection',
+  'DataAcquisitionProjectCollectionResource', 'SurveyCollectionResource',
   function($scope, $stateParams, $uibModalInstance, entity, isCreateMode,
-    DataAcquisitionProjectCollection, SurveyCollection) {
+    DataAcquisitionProjectCollectionResource, SurveyCollectionResource) {
 
     $scope.variable = entity;
     $scope.isCreateMode = isCreateMode;
     //TODO load all page by page
-    $scope.allDataAcquisitionProjects = DataAcquisitionProjectCollection.query(
+    $scope.allDataAcquisitionProjects = DataAcquisitionProjectCollectionResource
+    .query(
       function(response) {
         $scope.allDataAcquisitionProjects =
           response._embedded.dataAcquisitionProjects;
@@ -51,7 +52,7 @@ angular.module('metadatamanagementApp').controller('VariableDialogController', [
 
       //query for survey with a given rdc project name
       // TODO load all page by page
-      SurveyCollection.query({
+      SurveyCollectionResource.query({
           'dataAcquisitionProjectId': $scope.variable.dataAcquisitionProjectId
         },
         function(result) {

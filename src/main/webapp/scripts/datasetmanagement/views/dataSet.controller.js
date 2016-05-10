@@ -1,14 +1,15 @@
 'use strict';
 
 angular.module('metadatamanagementApp')
-  .controller('DataSetController', function($scope, $state, DataSetsCollection,
+  .controller('DataSetController', function($scope, $state,
+    DataSetsCollectionResource,
     DataSetReportService, JobLoggingService) {
 
     $scope.dataSets = [];
     $scope.job = JobLoggingService.init();
     $scope.page = 1;
     $scope.loadAll = function() {
-      DataSetsCollection.query({
+      DataSetsCollectionResource.query({
           page: $scope.page - 1
         },
         function(result) {

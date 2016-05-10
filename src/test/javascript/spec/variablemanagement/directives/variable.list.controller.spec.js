@@ -10,7 +10,7 @@
 describe('VariableListController', function() {
   var $scope;
   var $rootScope;
-  var VariableCollection;
+  var VariableCollectionResource;
   var createController;
   var params;
   var result;
@@ -30,20 +30,20 @@ describe('VariableListController', function() {
     $scope.init = function() {
 
     };
-    VariableCollection = {
+    VariableCollectionResource = {
       query: function(param, callback) {
         callback(result);
       }
     };
     var locals = {
       '$scope': $scope,
-      'VariableCollection': VariableCollection
+      'VariableCollectionResource': VariableCollectionResource
     };
     createController = function() {
       $injector.get('$controller')('VariableListController',
         locals);
     };
-    spyOn(VariableCollection, 'query').and.callThrough();
+    spyOn(VariableCollectionResource, 'query').and.callThrough();
   }));
 
   it('should set $scope.pageState.totalElements', function() {
@@ -53,6 +53,6 @@ describe('VariableListController', function() {
   it('should VariableCollection.query after broadcast', function() {
     createController();
     $rootScope.$broadcast('variables-uploaded');
-    expect(VariableCollection.query).toHaveBeenCalled();
+    expect(VariableCollectionResource.query).toHaveBeenCalled();
   });
 });

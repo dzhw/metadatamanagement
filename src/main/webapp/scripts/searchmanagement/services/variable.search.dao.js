@@ -42,8 +42,7 @@ angular.module('metadatamanagementApp').service('VariableSearchDao',
               'match_all': {}
             };
           }
-          var response  = ElasticSearchClient.search(query);
-          return response;
+          return ElasticSearchClient.search(query);
         }
       };
     });
