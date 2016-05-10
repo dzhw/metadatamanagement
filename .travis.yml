@@ -1,6 +1,8 @@
 # send this build to the container based infrastructure anymore
 sudo: false
 language: java
+os:
+  - linux
 jdk:
   - oraclejdk8
 cache:
@@ -11,8 +13,10 @@ env:
   - CXX=g++-4.8
 addons:
   apt:
+    sources:
+    - ubuntu-toolchain-r-test
     packages:
-      - g++-4.8  
+      - g++-4.8
 # turn off travis default mvn install call and install a recent node version instead
 install:
   - rm -rf ~/.nvm && git clone https://github.com/creationix/nvm.git ~/.nvm && (cd ~/.nvm && git checkout `git describe --abbrev=0 --tags`) && source ~/.nvm/nvm.sh && nvm install 6.1.0
