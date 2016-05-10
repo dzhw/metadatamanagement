@@ -2,7 +2,7 @@
 
 angular.module('metadatamanagementApp').controller(
     'HealthController',
-    function($scope, MonitoringService, $uibModal, AdminService) {
+    function($scope, MonitoringService, $uibModal, ElasticSearchAdminService) {
       $scope.isRecreatingIndices = false;
       $scope.updatingHealth = true;
       $scope.separator = '.';
@@ -20,7 +20,8 @@ angular.module('metadatamanagementApp').controller(
 
       $scope.recreateAllElasticsearchIndices = function() {
         $scope.isRecreatingIndices = true;
-        AdminService.recreateAllElasticsearchIndices().then(function() {
+        ElasticSearchAdminService.recreateAllElasticsearchIndices()
+        .then(function() {
           // success
           $scope.isRecreatingIndices = false;
         }, function() {

@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('metadatamanagementApp').factory(
-    'AdminService',
+    'ElasticSearchAdminService',
     function($http) {
       return {
         recreateAllElasticsearchIndices: function() {
