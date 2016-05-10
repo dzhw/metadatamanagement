@@ -2,14 +2,14 @@
 
 angular.module('metadatamanagementApp')
   .controller('DataSetController', function($scope, $state,
-    DataSetsCollectionResource,
+    DataSetCollectionResource,
     DataSetReportService, JobLoggingService) {
 
     $scope.dataSets = [];
     $scope.job = JobLoggingService.init();
     $scope.page = 1;
     $scope.loadAll = function() {
-      DataSetsCollectionResource.query({
+      DataSetCollectionResource.query({
           page: $scope.page - 1
         },
         function(result) {

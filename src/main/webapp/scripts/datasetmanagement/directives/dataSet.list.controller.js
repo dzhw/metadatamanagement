@@ -2,7 +2,7 @@
 
 angular.module('metadatamanagementApp')
     .controller('DataSetListController', function($scope,
-      DataSetsCollectionResource) {
+      DataSetCollectionResource) {
       $scope.init = function() {
         $scope.pageState = {
           currentPageNumber: 1,
@@ -12,7 +12,7 @@ angular.module('metadatamanagementApp')
         $scope.pageChanged();
       };
       $scope.pageChanged = function() {
-        $scope.currentPage = DataSetsCollectionResource
+        $scope.currentPage = DataSetCollectionResource
         .query({dataAcquisitionProjectId:
           $scope.params.dataAcquisitionProjectId,
           page: ($scope.pageState.currentPageNumber - 1)
