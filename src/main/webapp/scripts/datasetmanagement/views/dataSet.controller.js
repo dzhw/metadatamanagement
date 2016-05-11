@@ -6,7 +6,7 @@ angular.module('metadatamanagementApp')
     DataSetReportService, JobLoggingService) {
 
     $scope.dataSets = [];
-    $scope.job = JobLoggingService.init();
+    $scope.job = JobLoggingService.getCurrentJob();
     $scope.page = 1;
     $scope.loadAll = function() {
       DataSetCollectionResource.query({
