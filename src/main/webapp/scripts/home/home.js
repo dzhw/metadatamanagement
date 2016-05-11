@@ -10,15 +10,15 @@ angular.module('metadatamanagementApp').config(
         },
         views: {
           'content@': {
-            templateUrl: 'scripts/common/main/main.html.tmpl',
-            controller: 'MainController'
+            templateUrl: 'scripts/home/home.html.tmpl',
+            controller: 'HomeController'
           }
         },
         resolve: {
           mainTranslatePartialLoader: ['$translate',
             '$translatePartialLoader',
             function($translate, $translatePartialLoader) {
-              $translatePartialLoader.addPart('main');
+              $translatePartialLoader.addPart('home');
               return $translate.refresh();
             }
           ]

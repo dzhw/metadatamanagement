@@ -1,6 +1,6 @@
 'use strict';
 
-describe('MainController', function() {
+describe('HomeController', function() {
     var $scope, $rootScope, Principal, createController;
 
     beforeEach(inject(function($injector) {
@@ -30,7 +30,7 @@ describe('MainController', function() {
             'Principal': Principal
         };
         createController = function() {
-            $injector.get('$controller')('MainController', locals);
+            $injector.get('$controller')('HomeController', locals);
         };
         spyOn(Principal, 'identity').and.callThrough();
     }));
