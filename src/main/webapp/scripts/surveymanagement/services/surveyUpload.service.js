@@ -62,7 +62,7 @@ function(ExcelReaderService, SurveyBuilderService,
       console.log(error);
       JobLoggingService.cancel($translate.instant(
         'metadatamanagementApp.dataAcquisitionProject.detail.' +
-        'logMessages.unsupportedFile', {}));
+        'logMessages.unsupportedExcelFile', {}));
     });
   };
   return {

@@ -31,7 +31,9 @@
         "logMessages": {
           "intro": "Die folgenden Fehler traten beim letzten Upload auf:",
           "internalServerError": "Es ist ein interner Server Fehler aufgetreten.",
-          "unsupportedFile": "Nicht unterstütztes Dateiformat",
+          "unsupportedZipFile": "Zip Datei konnte nicht gelesen werden",
+          "unsupportedExcelFile": "Excel Datei konnte nicht gelesen werden",
+          "unsupportedTexFile": "Tex Datei konnte nicht gelesen werden",
           "dataSet": {
             "saved": "Datensatz mit FDZ-ID {{ id }} erfolgreich gespeichert!",
             "notSaved": "Datensatz mit FDZ-ID {{ id }} wurde nicht gespeichert!",
