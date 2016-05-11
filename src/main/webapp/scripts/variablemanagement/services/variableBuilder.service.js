@@ -67,7 +67,7 @@ function(VariableResource, CleanJSObjectService, JobLoggingService) {
         },
         distribution: data.files['values/' + jsonContent[i].id + '.json'] ?
           JSON.parse(data.files['values/' + jsonContent[i].id + '.json']
-          .asBinary()).distribution : undefined,
+          .asText()).distribution : undefined,
       };
         CleanJSObjectService.removeEmptyJsonObjects(variableObj);
         variablesObjArray.push(new VariableResource(variableObj));
