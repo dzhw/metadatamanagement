@@ -62,7 +62,7 @@ function(ExcelReaderService, DataSetBuilderService,
       console.log(error);
       JobLoggingService.cancel($translate.instant(
         'metadatamanagementApp.dataAcquisitionProject.detail.' +
-        'logMessages.unsupportedFile', {}));
+        'logMessages.unsupportedTexFile', {}));
     });
   };
   return {

@@ -4,7 +4,7 @@
 angular.module('metadatamanagementApp').service('VariableUploadService',
 function($translate, ZipReaderService,
   VariableBuilderService, VariableDeleteResource, JobLoggingService,
-  ErrorMessageResolverService) {
+  ErrorMessageResolverService, ExcelReaderService) {
   var objects;
   var upload = function() {
     var itemsToUpload = objects.length;
@@ -47,11 +47,21 @@ function($translate, ZipReaderService,
     }
   };
   var uploadVariables = function(file, dataAcquisitionProjectId) {
+    var zip;
     JobLoggingService.start('variable');
     ZipReaderService.readZipFileAsync(file)
-    .then(function(data) {
-      objects = VariableBuilderService.getVariables(data,
-          dataAcquisitionProjectId);
+    .then(function(zipFile) {
+      var excelFile = zipFile.files['variables.xlsx'];
+      zip = zipFile;
+      return ExcelReaderService.readFileAsync(excelFile);
+    }, function(error) {
+      console.log(error);
+      JobLoggingService.cancel($translate.instant(
+        'metadatamanagementApp.dataAcquisitionProject.detail.' +
+        'logMessages.unsupportedZipFile', {}));
+    }).then(function(variables) {
+      objects = VariableBuilderService.getVariables(variables, zip,
+        dataAcquisitionProjectId);
       VariableDeleteResource.deleteByDataAcquisitionProjectId({
           dataAcquisitionProjectId: dataAcquisitionProjectId},
           upload, function(error) {
@@ -63,7 +73,7 @@ function($translate, ZipReaderService,
       console.log(error);
       JobLoggingService.cancel($translate.instant(
         'metadatamanagementApp.dataAcquisitionProject.detail.' +
-        'logMessages.unsupportedFile', {}));
+        'logMessages.unsupportedExcelFile', {}));
     });
   };
   return {

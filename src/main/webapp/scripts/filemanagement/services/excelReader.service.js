@@ -21,10 +21,14 @@ function($q) {
         deferred.reject(e);
       }
     };
-    var fileReader = new FileReader();
-    if (!FileReader.prototype.readAsBinaryString) {
-      fileReader.readAsArrayBuffer(file);
-      fileReader.onload = function(e) {
+    // check if file is compressed
+    if (file._data) {
+      readExcel(file.asBinary());
+    } else {
+      var fileReader = new FileReader();
+      if (!FileReader.prototype.readAsBinaryString) {
+        fileReader.readAsArrayBuffer(file);
+        fileReader.onload = function(e) {
         var bytes = new Uint8Array(e.target.result);
         var length = bytes.byteLength;
         var binary = '';
@@ -33,13 +37,13 @@ function($q) {
         }
         readExcel(binary);
       };
-    } else {
-      fileReader.readAsBinaryString(file);
-      fileReader.onload = function(e) {
-      var data = e.target.result;
-      readExcel(data);
-    };
-    }
+      } else {
+        fileReader.readAsBinaryString(file);
+        fileReader.onload = function(e) {
+          var data = e.target.result;
+          readExcel(data);
+        };
+      }}
     return deferred.promise;
   };
 });

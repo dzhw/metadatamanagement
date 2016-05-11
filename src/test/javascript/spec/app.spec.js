@@ -35,7 +35,7 @@ describe('Specification for app ', function() {
             $stateParams = _$stateParams_;
           });
           var globalJson = new RegExp('i18n\/.*\/global.json');
-          var mainJson = new RegExp('i18n\/.*\/main.json');
+          var mainJson = new RegExp('i18n\/.*\/home.json');
           $httpBackend.whenGET(globalJson).respond({});
           $httpBackend.whenGET(mainJson).respond({});
           $httpBackend.expectGET(/api\/account\?cacheBuster=\d+/)
@@ -123,7 +123,7 @@ describe('Specification for app ', function() {
     it('should translates page title', inject(function($rootScope,
       $httpBackend, $window) {
       var globalJson = new RegExp('i18n\/.*\/global.json');
-      var mainJson = new RegExp('i18n\/.*\/main.json');
+      var mainJson = new RegExp('i18n\/.*\/home.json');
       $httpBackend.whenGET(globalJson).respond({});
       $httpBackend.whenGET(mainJson).respond({});
       $httpBackend.expectGET(/api\/account\?cacheBuster=\d+/).respond(200, '');

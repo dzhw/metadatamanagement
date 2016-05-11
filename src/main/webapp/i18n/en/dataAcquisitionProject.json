@@ -31,7 +31,9 @@
         "logMessages": {
           "intro": "Following errors occurred during the last upload:",
           "internalServerError": "An internal server error occurred.",
-          "unsupportedFile": "Unsupported file format",
+          "unsupportedZipFile": "Zip File could not be read",
+          "unsupportedExcelFile": "Excel File could not be read",
+          "unsupportedTexFile": "Tex File could not be read",
           "missingId": "Dataset {{ index }} does not contain a RDC-ID and has not been saved!",
           "dataSet": {
             "saved": "Dataset with RDC-ID {{ id }} was saved successfully!",
