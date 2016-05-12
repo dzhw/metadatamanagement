@@ -2,7 +2,7 @@
  * Angular Material Design
  * https://github.com/angular/material
  * @license MIT
- * v1.1.0-rc4-master-c81f9f1
+ * v1.1.0-rc4
  */
 goog.provide('ng.material.components.tabs');
 goog.require('ng.material.components.icon');
@@ -485,7 +485,7 @@ function MdTabsController ($scope, $element, $window, $mdConstant, $mdTabInkRipp
       case $mdConstant.KEY_CODE.SPACE:
       case $mdConstant.KEY_CODE.ENTER:
         event.preventDefault();
-        if (!locked) select(ctrl.focusIndex);
+        if (!locked) ctrl.selectedIndex = ctrl.focusIndex;
         break;
     }
     ctrl.lastClick = false;

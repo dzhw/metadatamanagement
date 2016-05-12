@@ -47,6 +47,7 @@ module.exports = function(config) {
       'src/main/webapp/bower_components/angular-nvd3/dist/angular-nvd3.js',
       'src/main/webapp/bower_components/js-xlsx/dist/xlsx.js',
       'src/main/webapp/bower_components/cheet.js/cheet.js',
+      'src/main/webapp/bower_components/angular-material-data-table/dist/md-data-table.js',
       'src/main/webapp/bower_components/angular-mocks/angular-mocks.js',
       // endbower
       'src/main/webapp/bower_components/elasticsearch/elasticsearch.angular.js',

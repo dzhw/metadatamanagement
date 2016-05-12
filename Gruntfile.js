@@ -123,7 +123,13 @@ module.exports = function(grunt) {
               ' element “pre” in this context.',
               'Element “md-progress-linear” not allowed as child of ' +
               'element “body” in this context. (Suppressing further ' +
-              'errors from this subtree.)'
+              'errors from this subtree.)',
+              'Element “md-content” not allowed as child of element' +
+              ' “body” in this context. (Suppressing further errors ' +
+              'from this subtree.)',
+              'Element “md-card” not allowed as child of element' +
+              ' “body” in this context. (Suppressing further errors ' +
+              'from this subtree.)'
             ],
             customattrs: [
               'show-validation',

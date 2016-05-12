@@ -1,61 +1,64 @@
-<div>
+<div class="container">
     <h2 data-translate="metadatamanagementApp.dataSet.title">DataSets</h2>
     <jh-alert></jh-alert>
     <div class="row">
         <div class="col-md-12">
-    <div class="table-responsive">
-        <table class="table table-striped">
-            <thead>
-                <tr jh-sort="predicate" ascending="reverse" callback="loadAll()">
-                    <th jh-sort-by="id">
-                        <span data-translate="metadatamanagementApp.dataSet.rdcId">ID</span>
-                        <span class="glyphicon glyphicon-sort"></span>
-                    </th>
-                    <th></th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr ng-repeat="dataSet in dataSets track by dataSet.id">
-                    <td>{{dataSet.id}}</td>
-                    <td>
-                        <button type="file" class="btn btn-default" ngf-select="uploadTexTemplate($file, dataSet.id)" accept=".zip" ng-disabled="uploadState.disableButton">
-                            <span class="glyphicon glyphicon-book"></span>
-                            {{'metadatamanagementApp.dataSet.details.generate' | translate}}
-                        </button>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
-        <div class="row">
-            <div class="col-md-12">
-                <uib-accordion close-others="false">
-                  <div ng-if="job.state === 'running'" layout="row" layout-sm="column" layout-align="space-around">
-                          <md-progress-linear ng-class="job.errors > 0 ? 'md-warn' : 'md-primary'" md-mode="indeterminate"></md-progress-linear>
-                  </div>
-                    <uib-accordion-group is-open="isOpen">
-                        <uib-accordion-heading>
-                          <div class="row">
-                            <div class="col-md-2">
-                              <span>{{'metadatamanagementApp.dataAcquisitionProject.detail.uploadprotocol' | translate}} </span>
+            <div class="table-responsive">
+                <table class="table table-striped">
+                    <thead>
+                        <tr jh-sort="predicate" ascending="reverse" callback="loadAll()">
+                            <th jh-sort-by="id">
+                                <span data-translate="metadatamanagementApp.dataSet.rdcId">ID</span>
+                                <span class="glyphicon glyphicon-sort"></span>
+                            </th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="dataSet in dataSets track by dataSet.id">
+                            <td>{{dataSet.id}}</td>
+                            <td>
+                                <button type="file" class="btn btn-default" ngf-select="uploadTexTemplate($file, dataSet.id)" accept=".zip" ng-disabled="uploadState.disableButton">
+                                    <span class="glyphicon glyphicon-book"></span>
+                                    {{'metadatamanagementApp.dataSet.details.generate' | translate}}
+                                </button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <div class="row">
+                    <div class="col-md-12">
+                        <uib-accordion close-others="false">
+                            <div ng-if="job.state === 'running'" layout="row" layout-sm="column" layout-align="space-around">
+                                <md-progress-linear ng-class="job.errors > 0 ? 'md-warn' : 'md-primary'" md-mode="indeterminate"></md-progress-linear>
                             </div>
-                            <div class = "col-md-10">
-                            <div class="pull-right">
-                                <span class="label label-as-badge label-success">{{'metadatamanagementApp.dataAcquisitionProject.detail.success' | translate}}: {{job.successes || 0}}</span>
-                                <span class="label label-as-badge label-danger">{{'metadatamanagementApp.dataAcquisitionProject.detail.error' | translate}}: {{job.errors || 0}}</span>
-                                <i class="glyphicon" ng-class="{'glyphicon-chevron-down': isOpen, 'glyphicon-chevron-right': !isOpen}"></i>
-                            </div>
-                          </div>
-                          </div>
-                        </uib-accordion-heading>
-                        <div>
-                          <pre><span ng-repeat="logMessage in job.logMessages track by $index" ng-class="{'text-danger': logMessage.type==='error'}">{{logMessage.message}}</span></pre>
-                        </div>
-                    </uib-accordion-group>
-                </uib-accordion>
+                            <uib-accordion-group is-open="isOpen">
+                                <uib-accordion-heading>
+                                    <div class="row">
+                                        <div class="col-md-2">
+                                            <span>{{'metadatamanagementApp.dataAcquisitionProject.detail.uploadprotocol' | translate}}
+                                            </span>
+                                        </div>
+                                        <div class="col-md-10">
+                                            <div class="pull-right">
+                                                <span class="label label-as-badge label-success">{{'metadatamanagementApp.dataAcquisitionProject.detail.success' | translate}}:
+                                                    {{job.successes || 0}}</span>
+                                                <span class="label label-as-badge label-danger">{{'metadatamanagementApp.dataAcquisitionProject.detail.error' | translate}}:
+                                                    {{job.errors || 0}}</span>
+                                                <i class="glyphicon" ng-class="{'glyphicon-chevron-down': isOpen, 'glyphicon-chevron-right': !isOpen}"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </uib-accordion-heading>
+                                <div>
+                                    <pre><span ng-repeat="logMessage in job.logMessages track by $index" ng-class="{'text-danger': logMessage.type==='error'}">{{logMessage.message}}</span></pre>
+                                </div>
+                            </uib-accordion-group>
+                        </uib-accordion>
+                    </div>
+                </div>
             </div>
+            <uib-pager total-items="totalItems" ng-model="page" ng-change="loadAll()"></uib-pager>
         </div>
     </div>
-    <uib-pager total-items="totalItems" ng-model="page" ng-change="loadAll()"></uib-pager>
-</div>
-</div>
 </div>

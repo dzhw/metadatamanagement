@@ -1,106 +1,112 @@
-<jh-alert-error></jh-alert-error>
-<div ng-if="!variable.$resolved">
-    <!-- Todo replace with loading directive -->
-    Lade Daten...
-</div>
-<div ng-if="variable.$resolved">
-    <h2>
-        <span data-translate="metadatamanagementApp.variable.detail.title">Variable</span>
-        {{variable.id}}</h2>
+<div class="container">
+    <jh-alert-error></jh-alert-error>
+    <div ng-if="!variable.$resolved">
+        <!-- Todo replace with loading directive -->
+        Lade Daten...
+    </div>
+    <div ng-if="variable.$resolved">
+        <h2>
+            <span data-translate="metadatamanagementApp.variable.detail.title">Variable</span>
+            {{variable.id}}</h2>
 
-    <div class="row">
-        <div class="col-md-12">
-            <div class="table-responsive">
-                <table class="table table-striped">
-                    <thead>
-                        <tr>
-                            <th data-translate="entity.detail.field">Field</th>
-                            <th data-translate="entity.detail.value">Value</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>
-                                <span data-translate="global.field.rdcId">rdcId</span>
-                            </td>
-                            <td>
-                                <span class="form-control-static">{{variable.id}}</span>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <span data-translate="metadatamanagementApp.variable.dataAcquisitionProjectId">RDC Proect Name</span>
-                            </td>
-                            <td>
-                                <span class="form-control-static">{{variable.dataAcquisitionProjectId}}</span>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <span data-translate="metadatamanagementApp.variable.surveyIds">SurveyIds</span>
-                            </td>
-                            <td>
-                                <span class="form-control-static">{{variable.surveyIds.toString()}}</span>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <span data-translate="metadatamanagementApp.variable.name">Name</span>
-                            </td>
-                            <td>
-                                <span class="form-control-static">{{variable.name}}</span>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <span data-translate="metadatamanagementApp.variable.dataType">DataType</span>
-                            </td>
-                            <td>
-                                <span class="form-control-static">{{variable.dataType[currentLanguage]}}</span>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <span data-translate="metadatamanagementApp.variable.scaleLevel">ScaleLevel</span>
-                            </td>
-                            <td>
-                                <span class="form-control-static">{{variable.scaleLevel[currentLanguage]}}</span>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <span data-translate="metadatamanagementApp.variable.label">Label</span>
-                            </td>
-                            <td>
-                                <span class="form-control-static">{{variable.label[currentLanguage]}}</span>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <span data-translate="metadatamanagementApp.variable.dataPackage">Data Package</span>
-                            </td>
-                            <td>
-                                <span class="form-control-static"><a ui-sref="datapackage-detail({id:variable.dataAcquisitionProjectId})"><span data-translate="metadatamanagementApp.variable.dataPackage">Data Package</span></a></span>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="table-responsive">
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th data-translate="entity.detail.field">Field</th>
+                                <th data-translate="entity.detail.value">Value</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>
+                                    <span data-translate="global.field.rdcId">rdcId</span>
+                                </td>
+                                <td>
+                                    <span class="form-control-static">{{variable.id}}</span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <span data-translate="metadatamanagementApp.variable.dataAcquisitionProjectId">RDC Proect Name</span>
+                                </td>
+                                <td>
+                                    <span class="form-control-static">{{variable.dataAcquisitionProjectId}}</span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <span data-translate="metadatamanagementApp.variable.surveyIds">SurveyIds</span>
+                                </td>
+                                <td>
+                                    <span class="form-control-static">{{variable.surveyIds.toString()}}</span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <span data-translate="metadatamanagementApp.variable.name">Name</span>
+                                </td>
+                                <td>
+                                    <span class="form-control-static">{{variable.name}}</span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <span data-translate="metadatamanagementApp.variable.dataType">DataType</span>
+                                </td>
+                                <td>
+                                    <span class="form-control-static">{{variable.dataType[currentLanguage]}}</span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <span data-translate="metadatamanagementApp.variable.scaleLevel">ScaleLevel</span>
+                                </td>
+                                <td>
+                                    <span class="form-control-static">{{variable.scaleLevel[currentLanguage]}}</span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <span data-translate="metadatamanagementApp.variable.label">Label</span>
+                                </td>
+                                <td>
+                                    <span class="form-control-static">{{variable.label[currentLanguage]}}</span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <span data-translate="metadatamanagementApp.variable.dataPackage">Data Package</span>
+                                </td>
+                                <td>
+                                    <span class="form-control-static">
+                                        <a ui-sref="datapackage-detail({id:variable.dataAcquisitionProjectId})">
+                                            <span data-translate="metadatamanagementApp.variable.dataPackage">Data Package</span>
+                                        </a>
+                                    </span>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
-    </div>
-    <div class="row">
-        <div class="col-md-10">
-          <nvd3 options='optionsAbsoluteFrequencyChart' data='dataFrequencyCharts'></nvd3>
+        <div class="row">
+            <div class="col-md-10">
+                <nvd3 options='optionsAbsoluteFrequencyChart' data='dataFrequencyCharts'></nvd3>
+            </div>
+            <div class="col-md-2">
+                <nvd3 options="optionsBoxPlot" data="dataBoxPlot"></nvd3>
+            </div>
         </div>
-        <div class="col-md-2">
-          <nvd3 options="optionsBoxPlot" data="dataBoxPlot"></nvd3>
+        <div class="row">
+            <button type="submit" onclick="window.history.back()" class="btn btn-info">
+                <span class="glyphicon glyphicon-arrow-left"></span>&nbsp;
+                <span data-translate="entity.action.back">
+                    Back</span>
+            </button>
         </div>
-  </div>
-    <div class="row">
-        <button type="submit" onclick="window.history.back()" class="btn btn-info">
-            <span class="glyphicon glyphicon-arrow-left"></span>&nbsp;
-            <span data-translate="entity.action.back">
-                Back</span>
-        </button>
     </div>
 </div>

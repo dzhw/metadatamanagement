@@ -111,14 +111,6 @@ $swift-linear-duration: 0.08s !default;
 $swift-linear-timing-function: linear !default;
 $swift-linear: all $swift-linear-duration $swift-linear-timing-function !default;
 
-$material-enter-duration: 0.5s;
-$material-enter-timing-function: cubic-bezier(0.0, 0.0, 0.2, 1);
-$material-enter: all $material-enter-duration $material-enter-timing-function;
-
-$material-leave-duration: 0.5s;
-$material-leave-timing-function: cubic-bezier(0.4, 0.0, 1, 1);
-$material-leave: all $material-leave-duration $material-leave-timing-function;
-
 // Fab Buttons (shared between buttons.scss and fab*.scss)
 // -------------------------------------------
 $button-fab-width: rem(5.600) !default;
@@ -1342,7 +1334,7 @@ md-autocomplete {
 }
 
 // !!Important - Theme-based Background-color can be configured in backdrop-theme.scss
-//             - Animate background-color opacity only for `.md-opaque` styles
+//             - Animate background-color opacityy only for `.md-opaque` styles
 
 md-backdrop {
   transition: opacity 450ms;
@@ -1647,9 +1639,6 @@ button.md-button::-moz-focus-inner {
     text-decoration: none;
   }
 
-  // By default $ngAnimate looks for transition durations on the element, when using ng-hide, ng-if, ng-show.
-  // The .md-button has a transition duration applied, which means, that $ngAnimate delays the hide process.
-  // To avoid this, we need to reset the transition, when $ngAnimate looks for the duration.
   &.ng-hide, &.ng-leave {
     transition: none;
   }
@@ -4335,76 +4324,6 @@ md-menu-content._md-menu-bar-menu.md-dense {
   }
 }
 
-.md-panel-outer-wrapper {
-  height: 100%;
-  left: 0;
-  position: absolute;
-  top: 0;
-  width: 100%;
-}
-
-._md-panel-hidden {
-  display: none;
-}
-
-._md-panel-fullscreen {
-  border-radius: 0;
-  left: 0;
-  min-height: 100%;
-  min-width: 100%;
-  position: fixed;
-  top: 0;
-}
-
-// Only used when no animations are present.
-._md-panel-shown .md-panel {
-  opacity: 1;
-  transition: none;
-}
-
-.md-panel {
-  opacity: 0;
-  overflow: auto;
-  position: fixed;
-
-  &._md-panel-shown {
-    // Only used when custom animations are present.
-    // Overridden by the default animations.
-    opacity: 1;
-    transition: none;
-  }
-
-  &._md-panel-animate-enter {
-    opacity: 1;
-    transition: $material-enter;
-  }
-
-  &._md-panel-animate-leave {
-    opacity: 1;
-    transition: $material-leave;
-  }
-
-  &._md-panel-animate-scale-out,
-  &._md-panel-animate-fade-out {
-    opacity: 0;
-  }
-
-  &._md-panel-backdrop {
-    height: 100%;
-    position: absolute;
-    width: 100%;
-  }
-
-  &._md-opaque-enter {
-    opacity: .48;
-    transition: opacity $material-enter-duration $material-enter-timing-function;
-  }
-
-  &._md-opaque-leave {
-    transition: opacity $material-leave-duration $material-leave-timing-function;
-  }
-}
-
 $progress-circular-indeterminate-duration: 2.9s !default;
 
 @keyframes indeterminate-rotate {
@@ -6456,8 +6375,7 @@ md-toolbar {
   min-height: $baseline-grid * 8;
   width: 100%;
 
-  transition-duration: $swift-ease-in-out-duration;
-  transition-timing-function: $swift-ease-in-out-timing-function;
+  transition: $swift-ease-in-out;
   transition-property: background-color, fill, color;
 
   &.md-whiteframe-z1-add, &.md-whiteframe-z1-remove {
@@ -6472,13 +6390,6 @@ md-toolbar {
   *:before,
   *:after {
     box-sizing: border-box;
-  }
-
-  // By default $ngAnimate looks for transition durations on the element, when using ng-hide, ng-if, ng-show.
-  // The toolbar has a transition duration applied, which means, that $ngAnimate delays the hide process.
-  // To avoid this, we need to reset the transition, when $ngAnimate looks for the duration.
-  &.ng-animate {
-    transition: none;
   }
 
   &.md-tall {
@@ -6550,16 +6461,8 @@ md-toolbar {
     margin-bottom: 0;
 
     &, &.md-icon-button md-icon {
-      transition-duration: $swift-ease-in-out-duration;
-      transition-timing-function: $swift-ease-in-out-timing-function;
+      transition: $swift-ease-in-out;
       transition-property: background-color, fill, color;
-
-      // Normally .md-button is already resetting the transition, when $ngAnimate looks for the duration,
-      // but in this case, the selector has a higher specificity than the `reset selector`, which means, that
-      // we need to reset the transition our self.
-      &.ng-animate {
-        transition: none;
-      }
     }
   }
   &> .md-button:first-child {
