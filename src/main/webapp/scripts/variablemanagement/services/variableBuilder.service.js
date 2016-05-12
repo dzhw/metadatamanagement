@@ -13,7 +13,7 @@ function(VariableResource, CleanJSObjectService, $translate) {
             parse(zip.files['values/' + variables[i].id + '.json'].asText())
             .distribution : undefined;
       }catch (e) {
-        parseErrors.push($translate.instant(
+        parseErrors.push('\n' + $translate.instant(
           'metadatamanagementApp.dataAcquisitionProject.detail.' +
           'logMessages.malformedJsonFile', {id: variables[i].id}));
         continue;
