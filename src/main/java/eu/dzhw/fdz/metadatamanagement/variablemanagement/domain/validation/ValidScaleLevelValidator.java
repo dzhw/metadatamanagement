@@ -3,6 +3,8 @@ package eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.validation;
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 
+import com.google.common.base.Strings;
+
 import eu.dzhw.fdz.metadatamanagement.common.domain.I18nString;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.ScaleLevels;
 
@@ -32,6 +34,10 @@ public class ValidScaleLevelValidator implements ConstraintValidator<ValidScaleL
   public boolean isValid(I18nString scaleLevel, ConstraintValidatorContext context) {
 
     if (scaleLevel == null) {
+      return true;
+    }
+
+    if (Strings.isNullOrEmpty(scaleLevel.getDe()) && Strings.isNullOrEmpty(scaleLevel.getEn())) {
       return true;
     }
 
