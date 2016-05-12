@@ -34,7 +34,7 @@
           "unsupportedZipFile": "Zip Datei konnte nicht gelesen werden",
           "unsupportedExcelFile": "Excel Datei konnte nicht gelesen werden",
           "unsupportedTexFile": "Tex Datei konnte nicht gelesen werden",
-          "malformedJsonFile": "JSON Datei für die Variable mit FDZ-ID {{ id }} konnte nicht geparset werden",
+          "malformedJsonFile": "JSON Datei für die Variable mit FDZ-ID {{ id }} konnte nicht geparst werden",
           "dataSet": {
             "saved": "Datensatz mit FDZ-ID {{ id }} erfolgreich gespeichert!",
             "notSaved": "Datensatz mit FDZ-ID {{ id }} wurde nicht gespeichert!",
