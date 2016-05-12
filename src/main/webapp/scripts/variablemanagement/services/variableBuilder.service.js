@@ -1,10 +1,23 @@
 'use strict';
 
 angular.module('metadatamanagementApp').service('VariableBuilderService',
-function(VariableResource, CleanJSObjectService) {
+function(VariableResource, CleanJSObjectService, $translate) {
+  var parseErrors = [];
   var getVariables = function(variables, zip, dataAcquisitionProjectId) {
     var variablesObjArray = [];
     for (var i = 0; i < variables.length; i++) {
+      var distribution = {};
+      try {
+        distribution = zip.files['values/' + variables[i].id + '.json'] ?
+            JSON.
+            parse(zip.files['values/' + variables[i].id + '.json'].asText())
+            .distribution : undefined;
+      }catch (e) {
+        parseErrors.push($translate.instant(
+          'metadatamanagementApp.dataAcquisitionProject.detail.' +
+          'logMessages.malformedJsonFile', {id: variables[i].id}));
+        continue;
+      }
       var variableObj = {
         id: variables[i].id,
         dataType: {
@@ -55,9 +68,7 @@ function(VariableResource, CleanJSObjectService) {
             de: variables[i]['generationDetails.description.de']
           }
         },
-        distribution: zip.files['values/' + variables[i].id + '.json'] ?
-          JSON.parse(zip.files['values/' + variables[i].id + '.json']
-          .asText()).distribution : undefined,
+        distribution: distribution,
       };
       CleanJSObjectService.removeEmptyJsonObjects(variableObj);
       variablesObjArray.push(new VariableResource(variableObj));
@@ -65,6 +76,7 @@ function(VariableResource, CleanJSObjectService) {
     return variablesObjArray;
   };
   return {
-      getVariables: getVariables
+      getVariables: getVariables,
+      getParseErrors: parseErrors
     };
 });

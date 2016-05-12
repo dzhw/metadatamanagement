@@ -62,6 +62,9 @@ function($translate, ZipReaderService,
     }).then(function(variables) {
       objects = VariableBuilderService.getVariables(variables, zip,
         dataAcquisitionProjectId);
+      VariableBuilderService.getParseErrors.forEach(function(message) {
+          JobLoggingService.error(message);
+        });
       VariableDeleteResource.deleteByDataAcquisitionProjectId({
           dataAcquisitionProjectId: dataAcquisitionProjectId},
           upload, function(error) {
