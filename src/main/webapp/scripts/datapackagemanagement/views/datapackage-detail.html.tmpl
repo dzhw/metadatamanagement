@@ -2,135 +2,192 @@
     Datenpaket
     {{dataAcquisitionProject.id}}
 </h1>
-<md-card>
-    <md-card-header md-colors="::{backgroundColor: 'default-primary-700'}">
-        <md-card-header-text>
-            <h2 class="md-title">Allgemeine Informationen</h2>
-        </md-card-header-text>
-    </md-card-header>
-    <md-card-content>
-        <md-list layout-padding>
-            <md-list-item class="md-3-line" ng-repeat="message in [{text:'name'},{text:'name'},{text:'name'}]">
-                <div class="md-list-item-text">
-                    <h3>message.text</h3>
-                    <h4>message.text</h4>
-                    <p>
-                        message.text
-                    </p>
-                </div>
-            </md-list-item>
-        </md-list>
-        <md-button class="md-warn">HURZ</md-button>
-    </md-card-content>
-</md-card>
-<md-card>
-    <md-card-title>
-        <md-card-title-text>
-            <span class="md-headline">Citation</span>
-        </md-card-title-text>
-    </md-card-title>
-    <md-card-content>
-        <md-list layout-padding>
-            <md-list-item class="md-3-line" ng-repeat="message in [{text:'name'},{text:'name'},{text:'name'}]">
-                <div class="md-list-item-text">
-                    <h3>message.text</h3>
-                    <h4>message.text</h4>
-                    <p>
-                        message.text
-                    </p>
-                </div>
-            </md-list-item>
-        </md-list>
-    </md-card-content>
-</md-card>
-<md-card>
-    <md-card-title>
-        <md-card-title-text>
-            <span class="md-headline">Inhaltliche Infos</span>
-        </md-card-title-text>
-    </md-card-title>
-    <md-card-content>
-        <md-list layout-padding>
-            <md-list-item class="md-3-line" ng-repeat="message in [{text:'name'},{text:'name'},{text:'name'}]">
-                <div class="md-list-item-text">
-                    <h3>message.text</h3>
-                    <h4>message.text</h4>
-                    <p>
-                        message.text
-                    </p>
-                </div>
-            </md-list-item>
-        </md-list>
-    </md-card-content>
-</md-card>
-<md-card>
-    <md-card-title>
-        <md-card-title-text>
-            <span class="md-headline">Datensätze</span>
-        </md-card-title-text>
-    </md-card-title>
-    <md-card-content>
-        <md-list layout-padding>
-            <md-list-item class="md-3-line" ng-repeat="message in [{text:'name'},{text:'name'},{text:'name'}]">
-                <div class="md-list-item-text">
-                    <h3>message.text</h3>
-                    <h4>message.text</h4>
-                    <p>
-                        message.text
-                    </p>
-                </div>
-            </md-list-item>
-        </md-list>
-    </md-card-content>
-</md-card>
-<!--
-   <div flex-xs flex-gt-xs="50" layout="column">
-     <md-card>
-       <md-card-title>
-         <md-card-title-text>
-           <span class="md-headline">Icon action buttons</span>
-         </md-card-title-text>
-       </md-card-title>
-       <md-card-content>
-         <p>
-           The titles of Washed Out's breakthrough song and the first single from Paracosm share the
-           two most important words in Ernest Greene's musical language: feel it. It's a simple request, as well...
-         </p>
-       </md-card-content>
-       <md-card-actions layout="row" layout-align="end center">
-         <md-button class="md-icon-button" aria-label="Favorite">
-           <md-icon md-svg-icon="img/icons/favorite.svg"></md-icon>
-         </md-button>
-         <md-button class="md-icon-button" aria-label="Settings">
-           <md-icon md-svg-icon="img/icons/menu.svg"></md-icon>
-         </md-button>
-         <md-button class="md-icon-button" aria-label="Share">
-           <md-icon md-svg-icon="img/icons/share-arrow.svg"></md-icon>
-         </md-button>
-       </md-card-actions>
-     </md-card>
-     <md-card>
-       <md-card-header>
-         <md-card-avatar>
-           <img src="img/logo.svg"/>
-         </md-card-avatar>
-         <md-card-header-text>
-           <span class="md-title">Angular</span>
-           <span class="md-subhead">Material</span>
-         </md-card-header-text>
-       </md-card-header>
-       <img ng-src="{{imagePath}}" class="md-card-image" alt="Washed Out">
-       <md-card-title>
-         <md-card-title-text>
-           <span class="md-headline">Card header</span>
-         </md-card-title-text>
-       </md-card-title>
-       <md-card-content>
-         <p>
-           The titles of Washed Out's breakthrough song and the first single from Paracosm share the
-           two most important words in Ernest Greene's musical language: feel it. It's a simple request, as well...
-         </p>
-       </md-card-content>
-     </md-card>
-   </div>
--->
+<div layout="column" layout-gt-sm="row">
+    <md-card flex-gt-sm="33">
+        <md-card-header md-colors="::{backgroundColor: 'default-primary-700'}">
+            <md-card-header-text>
+                <h2 class="md-title" style="margin-top: 0px; margin-bottom: 0px;">Allgemeine Informationen</h2>
+            </md-card-header-text>
+        </md-card-header>
+        <md-card-content>
+            <md-list>
+              <md-divider></md-divider>
+              <md-list-item>
+                  <div flex="30" style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">ID:</div>
+                  <div flex="70" style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">{{dataAcquisitionProject.id}}</div>
+              </md-list-item>
+              <md-divider></md-divider>
+              <md-list-item>
+                  <div flex="30" style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">Erstellungsdatum:</div>
+                  <div flex="70" style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">13.05.2016</div>
+              </md-list-item>
+              <md-divider></md-divider>
+              <md-list-item>
+                  <div flex="30" style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">Reihe:</div>
+                  <div flex="70" style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">HURZHURZHURZURZH UHURZHURZHURZURZHU HURZHURZHURZURZHU</div>
+              </md-list-item>
+              <md-divider></md-divider>
+              <md-list-item>
+                  <div flex="30" style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">Durchgeführt von:</div>
+                  <div flex="70" style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">HURZ</div>
+              </md-list-item>
+              <md-divider></md-divider>
+              <md-list-item>
+                  <div flex="30" style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">Finanziert von:</div>
+                  <div flex="70" style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">HURZ</div>
+              </md-list-item>
+              <md-divider></md-divider>
+              <md-list-item>
+                  <div flex="30" style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">Zugangswege:</div>
+                  <div flex="70" style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">HURZ</div>
+              </md-list-item>
+              <md-divider></md-divider>
+            </md-list>
+        </md-card-content>
+    </md-card>
+    <md-card flex-gt-sm="33">
+        <md-card-header md-colors="::{backgroundColor: 'default-primary-700'}">
+            <md-card-header-text>
+                <h2 class="md-title" style="margin-top: 0px; margin-bottom: 0px;">Inhaltliche Informationen</h2>
+            </md-card-header-text>
+        </md-card-header>
+        <md-card-content>
+            <md-list>
+                <md-divider></md-divider>
+                <md-list-item>
+                    <div class="md-list-item-text">
+                        <h3 class="md-subhead">Grundgesamtheit:</h3>
+                        <p>HURZ</p>
+                    </div>
+                </md-list-item>
+                <md-divider></md-divider>
+                <md-list-item>
+                    <div class="md-list-item-text">
+                        <h3 class="md-subhead">Stichprobe:</h3>
+                        <p>HURZ</p>
+                    </div>
+                </md-list-item>
+                <md-divider></md-divider>
+                <md-list-item>
+                    <div class="md-list-item-text">
+                        <h3 class="md-subhead">Feldzeiten:</h3>
+                        <p>HURZ</p>
+                    </div>
+                </md-list-item>
+                <md-divider></md-divider>
+                <md-list-item>
+                    <div class="md-list-item-text">
+                        <h3 class="md-subhead">Erhebungsmethode:</h3>
+                        <p>HURZ</p>
+                    </div>
+                </md-list-item>
+                <md-divider></md-divider>
+                <md-list-item>
+                    <div class="md-list-item-text">
+                        <h3 class="md-subhead">Inhalt:</h3>
+                        <p>HURZ</p>
+                    </div>
+                </md-list-item>
+                <md-divider></md-divider>
+            </md-list>
+        </md-card-content>
+    </md-card>
+    <md-card flex-gt-sm="33">
+        <md-card-header md-colors="::{backgroundColor: 'default-primary-700'}">
+            <md-card-header-text>
+                <h2 class="md-title" style="margin-top: 0px; margin-bottom: 0px;">Erhebungen</h2>
+            </md-card-header-text>
+        </md-card-header>
+        <md-card-content>
+            <md-list>
+                <md-divider></md-divider>
+                <md-list-item>
+                    <div class="md-list-item-text">
+                        <h3 class="md-subhead">Fragebogen:</h3>
+                        <p>HURZ</p>
+                    </div>
+                </md-list-item>
+                <md-divider></md-divider>
+                <md-list-item>
+                    <div class="md-list-item-text">
+                        <h3 class="md-subhead">Variablenfragebogen:</h3>
+                        <p>HURZ</p>
+                    </div>
+                </md-list-item>
+                <md-divider></md-divider>
+                <md-list-item>
+                    <div class="md-list-item-text">
+                        <h3 class="md-subhead">Fragenfluss:</h3>
+                        <p>HURZ</p>
+                    </div>
+                </md-list-item>
+                <md-divider></md-divider>
+                <md-list-item>
+                    <div class="md-list-item-text">
+                        <h3 class="md-subhead">Zusätzliche??:</h3>
+                        <p>HURZ</p>
+                    </div>
+                </md-list-item>
+                <md-divider></md-divider>
+            </md-list>
+        </md-card-content>
+    </md-card>
+</div>
+
+<div layout="column" layout-gt-sm="row">
+    <md-card flex-gt-sm="33">
+        <md-card-header md-colors="::{backgroundColor: 'default-primary-700'}">
+            <md-card-header-text>
+                <h2 class="md-title" style="margin-top: 0px; margin-bottom: 0px;">Datensätze</h2>
+            </md-card-header-text>
+        </md-card-header>
+        <md-card-content>
+            Tabelle
+        </md-card-content>
+    </md-card>
+    <md-card flex-gt-sm="33">
+        <md-card-header md-colors="::{backgroundColor: 'default-primary-700'}">
+            <md-card-header-text>
+                <h2 class="md-title" style="margin-top: 0px; margin-bottom: 0px;">Dokumente</h2>
+            </md-card-header-text>
+        </md-card-header>
+        <md-card-content>
+            <md-list>
+                <md-divider></md-divider>
+                <md-list-item>
+                    <div class="md-list-item-text">
+                        <h3 class="md-subhead">Daten und Methodenbericht:</h3>
+                        <p>HURZ</p>
+                    </div>
+                </md-list-item>
+                <md-divider></md-divider>
+            </md-list>
+        </md-card-content>
+    </md-card>
+    <md-card flex-gt-sm="33">
+        <md-card-header md-colors="::{backgroundColor: 'default-primary-700'}">
+            <md-card-header-text>
+                <h2 class="md-title" style="margin-top: 0px; margin-bottom: 0px;">Zitation</h2>
+            </md-card-header-text>
+        </md-card-header>
+        <md-card-content>
+            <md-list>
+                <md-divider></md-divider>
+                <md-list-item>
+                    <div class="md-list-item-text">
+                        <h3 class="md-subhead">DOI:</h3>
+                        <p>HURZ</p>
+                    </div>
+                </md-list-item>
+                <md-divider></md-divider>
+                <md-list-item>
+                    <div class="md-list-item-text">
+                        <h3 class="md-subhead">Zitationsstring:</h3>
+                        <p>HURZ</p>
+                    </div>
+                </md-list-item>
+                <md-divider></md-divider>
+            </md-list>
+        </md-card-content>
+    </md-card>
+</div>

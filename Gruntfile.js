@@ -129,7 +129,11 @@ module.exports = function(grunt) {
               'from this subtree.)',
               'Element “md-card” not allowed as child of element' +
               ' “body” in this context. (Suppressing further errors ' +
-              'from this subtree.)'
+              'from this subtree.)','Attribute “layout” not allowed on' +
+              ' element “div” at this point.', 'Attribute “layout-gt-sm” not' +
+              ' allowed on element “div” at this point.', 'Element “md-card” ' +
+              'not allowed as child of element “div” in this context. ' +
+              '(Suppressing further errors from this subtree.)'
             ],
             customattrs: [
               'show-validation',
