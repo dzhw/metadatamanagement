@@ -3,8 +3,8 @@
     {{dataAcquisitionProject.id}}
 </h1>
 <div layout="column" layout-gt-sm="row">
-    <md-card flex-gt-sm="33">
-        <md-card-header md-colors="::{backgroundColor: 'default-primary-700'}">
+    <md-card flex-gt-sm="25" class="md-whiteframe-8dp">
+        <md-card-header md-colors="::{backgroundColor: 'default-primary-700'}" style="border-radius: 3px 3px 0 0;">
             <md-card-header-text>
                 <h2 class="md-title" style="margin-top: 0px; margin-bottom: 0px;">Allgemeine Informationen</h2>
             </md-card-header-text>
@@ -45,7 +45,7 @@
             </md-list>
         </md-card-content>
     </md-card>
-    <md-card flex-gt-sm="33">
+    <md-card flex-gt-sm="25" class="md-whiteframe-8dp">
         <md-card-header md-colors="::{backgroundColor: 'default-primary-700'}">
             <md-card-header-text>
                 <h2 class="md-title" style="margin-top: 0px; margin-bottom: 0px;">Inhaltliche Informationen</h2>
@@ -92,7 +92,7 @@
             </md-list>
         </md-card-content>
     </md-card>
-    <md-card flex-gt-sm="33">
+    <md-card flex-gt-sm="25" class="md-whiteframe-8dp">
         <md-card-header md-colors="::{backgroundColor: 'default-primary-700'}">
             <md-card-header-text>
                 <h2 class="md-title" style="margin-top: 0px; margin-bottom: 0px;">Erhebungen</h2>
@@ -132,20 +132,61 @@
             </md-list>
         </md-card-content>
     </md-card>
+    <md-card flex-gt-sm="25" class="md-whiteframe-8dp">
+      <md-card-header md-colors="::{backgroundColor: 'default-primary-700'}">
+        <md-card-header-text>
+          <h2 class="md-title" style="margin-top: 0px; margin-bottom: 0px;">Zitation</h2>
+        </md-card-header-text>
+      </md-card-header>
+      <md-card-content>
+        <md-list>
+          <md-divider></md-divider>
+          <md-list-item>
+            <div class="md-list-item-text">
+              <h3 class="md-subhead">DOI:</h3>
+              <p>HURZ</p>
+            </div>
+          </md-list-item>
+          <md-divider></md-divider>
+          <md-list-item>
+            <div class="md-list-item-text">
+              <h3 class="md-subhead">Zitationsstring:</h3>
+              <p>HURZ</p>
+            </div>
+          </md-list-item>
+          <md-divider></md-divider>
+        </md-list>
+      </md-card-content>
+    </md-card>
 </div>
 
 <div layout="column" layout-gt-sm="row">
-    <md-card flex-gt-sm="33">
+    <md-card flex-gt-sm="65" class="md-whiteframe-8dp">
         <md-card-header md-colors="::{backgroundColor: 'default-primary-700'}">
             <md-card-header-text>
                 <h2 class="md-title" style="margin-top: 0px; margin-bottom: 0px;">Datensätze</h2>
             </md-card-header-text>
         </md-card-header>
         <md-card-content>
-            Tabelle
+            <mdt-table paginated-rows="{isEnabled: true, rowsPerPageValues: [5,10,20,100]}">
+              <mdt-header-row>
+                <mdt-column align-rule="left">Name</mdt-column>
+                <mdt-column align-rule="right">Variable</mdt-column>
+                <mdt-column align-rule="right">Fälle</mdt-column>
+                <mdt-column align-rule="right">Format</mdt-column>
+                <mdt-column align-rule="right">Report</mdt-column>
+              </mdt-header-row>
+              <mdt-row ng-repeat="dataset in datasetList">
+                <mdt-cell>{{dataset.name}}</mdt-cell>
+                <mdt-cell>{{dataset.variables}}</mdt-cell>
+                <mdt-cell>{{dataset.cases}}</mdt-cell>
+                <mdt-cell>{{dataset.format}}</mdt-cell>
+                <mdt-cell>{{dataset.report}}</mdt-cell>
+              </mdt-row>
+            </mdt-table>
         </md-card-content>
     </md-card>
-    <md-card flex-gt-sm="33">
+    <md-card flex-gt-sm="40" class="md-whiteframe-8dp">
         <md-card-header md-colors="::{backgroundColor: 'default-primary-700'}">
             <md-card-header-text>
                 <h2 class="md-title" style="margin-top: 0px; margin-bottom: 0px;">Dokumente</h2>
@@ -157,32 +198,6 @@
                 <md-list-item>
                     <div class="md-list-item-text">
                         <h3 class="md-subhead">Daten und Methodenbericht:</h3>
-                        <p>HURZ</p>
-                    </div>
-                </md-list-item>
-                <md-divider></md-divider>
-            </md-list>
-        </md-card-content>
-    </md-card>
-    <md-card flex-gt-sm="33">
-        <md-card-header md-colors="::{backgroundColor: 'default-primary-700'}">
-            <md-card-header-text>
-                <h2 class="md-title" style="margin-top: 0px; margin-bottom: 0px;">Zitation</h2>
-            </md-card-header-text>
-        </md-card-header>
-        <md-card-content>
-            <md-list>
-                <md-divider></md-divider>
-                <md-list-item>
-                    <div class="md-list-item-text">
-                        <h3 class="md-subhead">DOI:</h3>
-                        <p>HURZ</p>
-                    </div>
-                </md-list-item>
-                <md-divider></md-divider>
-                <md-list-item>
-                    <div class="md-list-item-text">
-                        <h3 class="md-subhead">Zitationsstring:</h3>
                         <p>HURZ</p>
                     </div>
                 </md-list-item>
