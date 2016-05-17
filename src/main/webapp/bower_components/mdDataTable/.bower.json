@@ -47,8 +47,7 @@
     "tag": "v1.4.3",
     "commit": "3f8326d2debfb6027e620516c46c402e2e3a3842"
   },
-  "_source": "https://github.com/iamisti/md-data-table.git",
-  "_target": "^1.4.3",
-  "_originalSource": "md-data-table",
-  "_direct": true
+  "_source": "https://github.com/iamisti/mdDataTable.git",
+  "_target": "1.4.3",
+  "_originalSource": "mdDataTable"
 }
