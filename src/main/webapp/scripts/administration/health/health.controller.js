@@ -79,7 +79,7 @@ angular.module('metadatamanagementApp').controller(
 
       $scope.showHealth = function(health) {
         $uibModal.open({
-          templateUrl: 'scripts/administrationmanagement/health/' +
+          templateUrl: 'scripts/administration/health/' +
           'health.modal.html.tmpl',
           controller: 'HealthModalController',
           size: 'lg',
