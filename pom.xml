@@ -503,7 +503,7 @@
                     <server>cloudfoundry</server>
                     <target>http://api.run.pivotal.io</target>
                     <org>DZHW</org>
-                    <space>development</space>
+                    <space>dev</space>
                     <appname>metadatamanagement</appname>
                     <url>metadatamanagement.cfapps.io</url>
                     <buildpack>https://github.com/cloudfoundry/java-buildpack</buildpack>
