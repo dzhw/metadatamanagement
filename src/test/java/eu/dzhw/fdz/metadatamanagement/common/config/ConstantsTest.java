@@ -32,8 +32,8 @@ public class ConstantsTest {
 
     // Assert
     assertThat(constants, not(nullValue()));
+    assertThat(Constants.SPRING_PROFILE_LOCAL, is("local"));
     assertThat(Constants.SPRING_PROFILE_DEVELOPMENT, is("dev"));
-    assertThat(Constants.SPRING_PROFILE_PRODUCTION, is("prod"));
     assertThat(Constants.SYSTEM_ACCOUNT, is("system"));
   }
 }

@@ -505,10 +505,10 @@
                     <org>DZHW</org>
                     <space>dev</space>
                     <appname>metadatamanagement</appname>
-                    <url>metadatamanagement.cfapps.io</url>
+                    <url>metadatamanagement-dev.cfapps.io</url>
                     <buildpack>https://github.com/cloudfoundry/java-buildpack</buildpack>
                     <env>
-                        <SPRING_PROFILES_ACTIVE>prod</SPRING_PROFILES_ACTIVE>
+                        <SPRING_PROFILES_ACTIVE>dev</SPRING_PROFILES_ACTIVE>
                         <JAVA_OPTS>-Duser.timezone=Europe/Berlin</JAVA_OPTS>
                         <JBP_CONFIG_SPRING_AUTO_RECONFIGURATION>{enabled: false}</JBP_CONFIG_SPRING_AUTO_RECONFIGURATION>
                     </env>
@@ -630,7 +630,7 @@
                     <executable>true</executable>
                     <jvmArguments>-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=5005</jvmArguments>
                     <arguments>
-                        <argument>--spring.profiles.active=dev</argument>
+                        <argument>--spring.profiles.active=local</argument>
                     </arguments>
                 </configuration>
             </plugin>
@@ -639,7 +639,7 @@
 
     <profiles>
         <profile>
-            <id>dev</id>
+            <id>local</id>
             <activation>
                 <activeByDefault>true</activeByDefault>
             </activation>
@@ -659,7 +659,7 @@
                                 <configuration>
                                     <skipTests>true</skipTests>
                                     <buildTool>grunt</buildTool>
-                                    <buildArgs>builddev</buildArgs>
+                                    <buildArgs>buildlocal</buildArgs>
                                 </configuration>
                             </execution>
                         </executions>
@@ -686,7 +686,7 @@
             </dependencies>
         </profile>
         <profile>
-            <id>prod</id>
+            <id>dev</id>
             <build>
                 <plugins>
                     <plugin>
@@ -703,7 +703,7 @@
                                 <configuration>
                                     <skipTests>true</skipTests>
                                     <buildTool>grunt</buildTool>
-                                    <buildArgs>build --no-color</buildArgs>
+                                    <buildArgs>builddev --no-color</buildArgs>
                                 </configuration>
                             </execution>
                         </executions>
@@ -735,7 +735,7 @@
                         <configuration>
                             <executable>true</executable>
                             <arguments>
-                                <argument>--spring.profiles.active=prod</argument>
+                                <argument>--spring.profiles.active=dev</argument>
                             </arguments>
                         </configuration>
                     </plugin>

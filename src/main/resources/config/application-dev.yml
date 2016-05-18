@@ -1,5 +1,5 @@
 # ===================================================================
-# Spring Boot configuration for the "dev" profile.
+# Spring Boot configuration for the "prod" profile.
 #
 # This configuration overrides the application.yml file.
 # ===================================================================
@@ -12,35 +12,42 @@
 
 spring:
     profiles:
-        active: dev
+        active: prod
     devtools:
         restart:
-            enabled: true
+            enabled: false
         livereload:
-            enabled: false # we use Grunt + BrowserSync for livereload
+            enabled: false
     data:
         mongodb:
-            host: localhost
-            port: 27017
-            database: metadatamanagement
+            uri: ${vcap.services.mongodb.credentials.uri}
     mail:
-        host: localhost
-        port: 1025
-    messages:
-        cache-seconds: 1
+        host: ${vcap.services.email.credentials.hostname}
+        port: 587
+        username: ${vcap.services.email.credentials.username}
+        password: ${vcap.services.email.credentials.password}
     thymeleaf:
-        cache: false
+        cache: true
 
 server:
     port: 8080
+    tomcat:
+        remote_ip_header: x-forwarded-for
+        protocol_header: x-forwarded-proto
+    compression:
+        enabled: true
+        mime-types: text/html,text/xml,text/plain,text/css, application/javascript, application/json
 
 # ===================================================================
 # JHipster specific properties
 # ===================================================================
 
 jhipster:
+    http:
+        cache: # Used by the CachingHttpHeadersFilter
+            timeToLiveInDays: 31
     mail: # specific JHipster mail property, for standard properties see MailProperties
-        from: metadatamanagement@localhost
+        from: metadatamanagement@dzhw.eu
     metrics: # DropWizard Metrics configuration, used by MetricsConfiguration
         jmx.enabled: true
         spark:
@@ -59,7 +66,7 @@ jhipster:
 
 metadatamanagement:
   elasticsearch-client:
-    url: http://localhost:9200
+    url: ${vcap.services.elasticsearch.credentials.sslUri}
     read-timeout: 60000
   elasticsearch-angular-client:
     apiVersion: _default

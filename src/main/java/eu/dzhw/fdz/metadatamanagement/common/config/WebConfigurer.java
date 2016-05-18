@@ -39,7 +39,7 @@ public class WebConfigurer
         Arrays.toString(env.getActiveProfiles()));
     EnumSet<DispatcherType> disps =
         EnumSet.of(DispatcherType.REQUEST, DispatcherType.FORWARD, DispatcherType.ASYNC);
-    if (env.acceptsProfiles(Constants.SPRING_PROFILE_PRODUCTION)) {
+    if (env.acceptsProfiles(Constants.SPRING_PROFILE_DEVELOPMENT)) {
       initCachingHttpHeadersFilter(servletContext, disps);
       initStaticResourcesProductionFilter(servletContext, disps);
     }

@@ -42,7 +42,7 @@ public class WebConfigurerTest {
     // Arrange
     WebConfigurer webConfigurer = new WebConfigurer();
     Environment environment = Mockito.mock(Environment.class);
-    when(environment.acceptsProfiles(Constants.SPRING_PROFILE_PRODUCTION)).thenReturn(true);
+    when(environment.acceptsProfiles(Constants.SPRING_PROFILE_DEVELOPMENT)).thenReturn(true);
     Field envField = UnitTestReflectionHelper.getDeclaredFieldForTestInvocation(webConfigurer.getClass(), "env");
     envField.set(webConfigurer, environment);
     

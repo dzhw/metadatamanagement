@@ -4,7 +4,7 @@
 //INSTEAD WHICH GENERATES THIS FILE
 angular.module('metadatamanagementApp')
 
-.constant('ENV', 'dev')
+.constant('ENV', 'local')
 
 .constant('VERSION', '0.1.21-SNAPSHOT')
 

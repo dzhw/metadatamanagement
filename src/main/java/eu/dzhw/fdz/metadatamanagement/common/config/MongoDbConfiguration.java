@@ -74,7 +74,7 @@ public class MongoDbConfiguration {
    * Configure Mongeez for schema management.
    */
   @Bean
-  @Profile("!" + Constants.SPRING_PROFILE_PRODUCTION)
+  @Profile("!" + Constants.SPRING_PROFILE_DEVELOPMENT)
   public Mongeez mongeez() {
     log.debug("Configuring Mongeez");
     Mongeez mongeez = new Mongeez();

@@ -17,6 +17,7 @@ import org.springframework.security.oauth2.config.annotation.web.configurers.Aut
 import org.springframework.security.oauth2.provider.token.TokenStore;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
+import eu.dzhw.fdz.metadatamanagement.common.config.Constants;
 import eu.dzhw.fdz.metadatamanagement.common.config.JHipsterProperties;
 import eu.dzhw.fdz.metadatamanagement.usermanagement.repository.MongoDbTokenStore;
 import eu.dzhw.fdz.metadatamanagement.usermanagement.repository.OAuth2AccessTokenRepository;
@@ -118,8 +119,8 @@ public class OAuth2ServerConfiguration {
         .and()
         .httpBasic();
 
-      // Enforce HTTPS except on dev
-      if (environment.acceptsProfiles("!dev")) {
+      // Enforce HTTPS except on local machine
+      if (environment.acceptsProfiles("!" + Constants.SPRING_PROFILE_LOCAL)) {
         http.requiresChannel()
           .anyRequest()
           .requiresSecure();

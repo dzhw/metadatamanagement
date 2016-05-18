@@ -38,7 +38,7 @@ public class ElasticsearchClientConfigurationTest {
         metadataManagementProperties);
 
     Environment environment = Mockito.mock(Environment.class);
-    when(environment.acceptsProfiles(Constants.SPRING_PROFILE_PRODUCTION)).thenReturn(false);
+    when(environment.acceptsProfiles(Constants.SPRING_PROFILE_DEVELOPMENT)).thenReturn(false);
     // Act
     JestClient jestClient = clientConfiguration.jestClient(clientConfiguration.elasticSearchConnectionUrl(environment));
 

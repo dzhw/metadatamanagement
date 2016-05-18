@@ -13,7 +13,7 @@ exports.config = {
   sauceUser: process.env.SAUCE_USERNAME,
   sauceKey: process.env.SAUCE_ACCESS_KEY,
 
-  baseUrl: 'https://metadatamanagement.cfapps.io/',
+  baseUrl: 'https://metadatamanagement-dev.cfapps.io/',
   specs: [
     'login/login.spec.js',
     'i18n/publicPagesGerman.spec.js',

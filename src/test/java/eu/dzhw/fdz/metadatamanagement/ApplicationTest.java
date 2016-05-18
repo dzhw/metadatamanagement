@@ -50,7 +50,7 @@ public class ApplicationTest {
     // Arrange
     Application application = new Application();
     Environment environment = Mockito.mock(Environment.class);
-    String[] activeProfiles = {Constants.SPRING_PROFILE_DEVELOPMENT, Constants.SPRING_PROFILE_PRODUCTION};
+    String[] activeProfiles = {Constants.SPRING_PROFILE_LOCAL, Constants.SPRING_PROFILE_DEVELOPMENT};
     when(environment.getActiveProfiles()).thenReturn(activeProfiles);
     Field envField = UnitTestReflectionHelper.getDeclaredFieldForTestInvocation(application.getClass(), "env");
     envField.set(application, environment);

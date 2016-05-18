@@ -16,10 +16,10 @@ import eu.dzhw.fdz.metadatamanagement.logmanagement.aop.LoggingAspect;
 public class LoggingAspectConfiguration {
 
   /**
-   * Register the {@link LoggingAspect} when running in dev mode.
+   * Register the {@link LoggingAspect} when running in local mode.
    */
   @Bean
-  @Profile(Constants.SPRING_PROFILE_DEVELOPMENT)
+  @Profile(Constants.SPRING_PROFILE_LOCAL)
   public LoggingAspect loggingAspect() {
     return new LoggingAspect();
   }

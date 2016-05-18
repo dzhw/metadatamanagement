@@ -51,10 +51,10 @@ public class Application {
     } else {
       log.info("Running with Spring profile(s) : {}", Arrays.toString(env.getActiveProfiles()));
       Collection<String> activeProfiles = Arrays.asList(env.getActiveProfiles());
-      if (activeProfiles.contains(Constants.SPRING_PROFILE_DEVELOPMENT)
-          && activeProfiles.contains(Constants.SPRING_PROFILE_PRODUCTION)) {
+      if (activeProfiles.contains(Constants.SPRING_PROFILE_LOCAL)
+          && activeProfiles.contains(Constants.SPRING_PROFILE_DEVELOPMENT)) {
         log.error("You have misconfigured your application! "
-            + "It should not run with both the 'dev' and 'prod' profiles at the same time.");
+            + "It should not run with both the 'local' and 'dev' profiles at the same time.");
       }
     }
   }
@@ -79,14 +79,14 @@ public class Application {
   }
 
   /**
-   * If no profile has been configured, set by default the "dev" profile.
+   * If no profile has been configured, set by default the "local" profile.
    */
   private static void addDefaultProfile(SpringApplication app,
       SimpleCommandLinePropertySource source) {
     if (!source.containsProperty("spring.profiles.active") && !System.getenv()
         .containsKey("SPRING_PROFILES_ACTIVE")) {
 
-      app.setAdditionalProfiles(Constants.SPRING_PROFILE_DEVELOPMENT);
+      app.setAdditionalProfiles(Constants.SPRING_PROFILE_LOCAL);
     }
   }
 }
