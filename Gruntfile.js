@@ -135,7 +135,9 @@ module.exports = function(grunt) {
               ' element “div” at this point.', 'Attribute “layout-gt-sm” not' +
               ' allowed on element “div” at this point.', 'Element “md-card” ' +
               'not allowed as child of element “div” in this context. ' +
-              '(Suppressing further errors from this subtree.)'
+              '(Suppressing further errors from this subtree.)',
+              'Section lacks heading. Consider using “h2”-“h6” elements' +
+              ' to add identifying headings to all sections.'
             ],
             customattrs: [
               'show-validation',
