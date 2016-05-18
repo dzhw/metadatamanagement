@@ -35,9 +35,11 @@ module.exports = function(grunt) {
   var getElasticSearchProperties = function() {
     var LocalPath = './src/main/resources/config/application-local.yml';
     var DevPath = './src/main/resources/config/application-dev.yml';
+    var TestPath = './src/main/resources/config/application-test.yml';
     return {
       LocalProperties: grunt.file.readYAML(LocalPath),
-      DevProperties: grunt.file.readYAML(DevPath)
+      DevProperties: grunt.file.readYAML(DevPath),
+      TestProperties: grunt.file.readYAML(TestPath)
     };
   };
   grunt
@@ -419,6 +421,18 @@ module.exports = function(grunt) {
               ElasticSearchProperties: getElasticSearchProperties().DevProperties.metadatamanagement['elasticsearch-angular-client']
               // jscs: enable
             }
+          },
+          test: {
+            options: {
+              dest: '.tmp/scripts/app.constants.js'
+            },
+            constants: {
+              ENV: 'test',
+              VERSION: parseVersionFromPomXml(),
+              // jscs: disable
+              ElasticSearchProperties: getElasticSearchProperties().TestProperties.metadatamanagement['elasticsearch-angular-client']
+              // jscs: enable
+            }
           }
         },
         modernizr: {
@@ -718,14 +732,14 @@ module.exports = function(grunt) {
       'concat', 'copy:fonts', 'copy:dist', 'ngAnnotate', 'cssmin',
       'autoprefixer', 'uglify', 'rev', 'usemin', 'htmlmin']);
 
+  grunt.registerTask('buildtest', ['test','htmlangular', 'clean:dist',
+      'wiredep:app', 'ngconstant:test',
+      'useminPrepare', 'ngtemplates', 'imagemin', 'svgmin',
+      'concat', 'copy:fonts', 'copy:dist', 'ngAnnotate', 'cssmin',
+      'autoprefixer', 'uglify', 'rev', 'usemin', 'htmlmin']);
+
   grunt.registerTask('buildlocal', ['test', 'clean:dist', 'wiredep:app',
      'ngconstant:local', 'ngAnnotate']);
-
-  grunt.registerTask('buildOpenshift', ['test', 'build',
-      'copy:generateOpenshiftDirectory']);
-
-  grunt.registerTask('deployOpenshift', ['test', 'build',
-      'copy:generateOpenshiftDirectory', 'buildcontrol:openshift']);
 
   grunt.registerTask('default', ['serve']);
 };

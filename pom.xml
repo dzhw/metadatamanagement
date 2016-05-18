@@ -782,6 +782,55 @@
                             </filesets>
                         </configuration>
                     </plugin>
+                    <!-- deploy fat jar to cloudfoundry -->
+                    <plugin>
+                        <groupId>org.cloudfoundry</groupId>
+                        <artifactId>cf-maven-plugin</artifactId>
+                        <version>1.1.3</version>
+                        <configuration>
+                            <path>${project.build.directory}/${project.build.finalName}.${project.packaging}</path>
+                            <server>cloudfoundry</server>
+                            <target>http://api.run.pivotal.io</target>
+                            <org>DZHW</org>
+                            <space>test</space>
+                            <appname>metadatamanagement</appname>
+                            <url>metadatamanagement.cfapps.io</url>
+                            <buildpack>https://github.com/cloudfoundry/java-buildpack</buildpack>
+                            <env>
+                                <SPRING_PROFILES_ACTIVE>test</SPRING_PROFILES_ACTIVE>
+                                <JAVA_OPTS>-Duser.timezone=Europe/Berlin</JAVA_OPTS>
+                                <JBP_CONFIG_SPRING_AUTO_RECONFIGURATION>{enabled: false}</JBP_CONFIG_SPRING_AUTO_RECONFIGURATION>
+                            </env>
+                            <services>
+                                <service>
+                                    <name>mongodb</name>
+                                    <label>mongolab</label>
+                                    <provider>mongolab</provider>
+                                    <version>n/a</version>
+                                    <plan>free</plan>
+                                </service>
+                                <service>
+                                    <name>email</name>
+                                    <label>sendgrid</label>
+                                    <provider>sendgrid</provider>
+                                    <version>n/a</version>
+                                    <plan>free</plan>
+                                </service>
+                                <service>
+                                    <name>elasticsearch</name>
+                                    <label>searchly</label>
+                                    <provider>searchly</provider>
+                                    <version>n/a</version>
+                                    <plan>starter</plan>
+                                </service>
+                            </services>
+                            <memory>1024</memory>
+                            <diskQuota>1024</diskQuota>
+                            <healthCheckTimeout>180</healthCheckTimeout>
+                            <appStartupTimeout>180</appStartupTimeout>
+                            <instances>2</instances>
+                        </configuration>
+                    </plugin>
                     <plugin>
                         <groupId>org.springframework.boot</groupId>
                         <artifactId>spring-boot-maven-plugin</artifactId>
