@@ -12,8 +12,8 @@ import java.util.Set;
  *
  */
 public class FilterExpressionLanguages {
-  public static final String STATA = "stata";
-  public static final String SPEL = "spel";
+  public static final String STATA = "Stata";
+  public static final String SPEL = "SpEL";
   public static final Set<String> ALL = Collections.unmodifiableSet(
       new HashSet<String>(Arrays.asList(STATA, SPEL)));
 }

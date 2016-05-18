@@ -26,7 +26,7 @@ public class FilterDetailsTest {
 
     // Assert
     assertThat(toString, is(
-        "FilterDetails{expression=A Filter Expression, description=I18nString{de='Eine Filterbeschreibung.', en='A filter description.'}, expressionLanguage=stata}"));
+        "FilterDetails{expression=A Filter Expression, description=I18nString{de='Eine Filterbeschreibung.', en='A filter description.'}, expressionLanguage=Stata}"));
 
   }
 
