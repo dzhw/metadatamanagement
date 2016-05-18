@@ -51,10 +51,9 @@ public class Application {
     } else {
       log.info("Running with Spring profile(s) : {}", Arrays.toString(env.getActiveProfiles()));
       Collection<String> activeProfiles = Arrays.asList(env.getActiveProfiles());
-      if (activeProfiles.contains(Constants.SPRING_PROFILE_LOCAL)
-          && activeProfiles.contains(Constants.SPRING_PROFILE_DEVELOPMENT)) {
+      if (activeProfiles.size() > 1) {
         log.error("You have misconfigured your application! "
-            + "It should not run with both the 'local' and 'dev' profiles at the same time.");
+            + "It should not run with more than one at the same time.");
       }
     }
   }

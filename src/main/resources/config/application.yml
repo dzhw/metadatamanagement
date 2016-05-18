@@ -30,6 +30,15 @@ spring:
       encoding:
         force: false
 
+server:
+    port: 8080
+    tomcat:
+        remote_ip_header: x-forwarded-for
+        protocol_header: x-forwarded-proto
+    compression:
+        enabled: true
+        mime-types: text/html,text/xml,text/plain,text/css, application/javascript, application/json
+
 # TODO: check if this is ignored and remove
 security:
     basic:
@@ -41,7 +50,7 @@ management:
 # ===================================================================
 # JHipster specific properties
 # ===================================================================
-
+    
 jhipster:
     async:
         corePoolSize: 2
@@ -59,3 +68,17 @@ jhipster:
         rememberme:
             # security key (this key should be unique for your application, and kept secret)
             key: 786cea5f182ffdd133864bbc75f69f8d008b5bc3
+    http:
+        cache: # Used by the CachingHttpHeadersFilter
+            timeToLiveInDays: 31
+    metrics: # DropWizard Metrics configuration, used by MetricsConfiguration
+        jmx.enabled: false
+        spark:
+            enabled: false
+            host: localhost
+            port: 9999
+        graphite:
+            enabled: false
+            host: localhost
+            port: 2003
+            prefix: metadatamanagement

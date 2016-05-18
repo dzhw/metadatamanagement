@@ -12,7 +12,7 @@
 
 spring:
     profiles:
-        active: dev
+        active: local
     devtools:
         restart:
             enabled: true
@@ -31,9 +31,6 @@ spring:
     thymeleaf:
         cache: false
 
-server:
-    port: 8080
-
 # ===================================================================
 # JHipster specific properties
 # ===================================================================
@@ -41,17 +38,6 @@ server:
 jhipster:
     mail: # specific JHipster mail property, for standard properties see MailProperties
         from: metadatamanagement@localhost
-    metrics: # DropWizard Metrics configuration, used by MetricsConfiguration
-        jmx.enabled: true
-        spark:
-            enabled: false
-            host: localhost
-            port: 9999
-        graphite:
-            enabled: false
-            host: localhost
-            port: 2003
-            prefix: metadatamanagement
 
 # ===================================================================
 # Properties specific to our application
