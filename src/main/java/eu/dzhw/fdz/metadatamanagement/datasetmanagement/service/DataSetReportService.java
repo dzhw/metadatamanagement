@@ -101,14 +101,15 @@ public class DataSetReportService {
   public String generateReport(MultipartFile multiPartFile,
       String dataSetId) throws TemplateException, IOException {
 
-    // Unzip the zip file
-    Map<String, String> texTemplates = ZipUtil.unzip(multiPartFile);
-    Map<String, byte[]> filledTemplates = new HashMap<>();
-
     // Configuration, based on Freemarker Version 2.3.23
     Configuration templateConfiguration = new Configuration(Configuration.VERSION_2_3_23);
     templateConfiguration.setDefaultEncoding(StandardCharsets.UTF_8.toString());
     templateConfiguration.setTemplateExceptionHandler(TemplateExceptionHandler.RETHROW_HANDLER);
+    templateConfiguration.setNumberFormat("0.######");
+
+    // Unzip the zip file
+    Map<String, String> texTemplates = ZipUtil.unzip(multiPartFile);
+    Map<String, byte[]> filledTemplates = new HashMap<>();
 
     // Load data for template only once
     Map<String, Object> dataForTemplate = this.loadDataForTemplateFilling(dataSetId);
