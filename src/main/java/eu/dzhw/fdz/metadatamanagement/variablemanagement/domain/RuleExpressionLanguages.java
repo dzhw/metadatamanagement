@@ -13,8 +13,8 @@ import java.util.Set;
  */
 public class RuleExpressionLanguages {
 
-  public static final String STATA = "stata";
-  public static final String R = "r";
+  public static final String STATA = "Stata";
+  public static final String R = "R";
   public static final Set<String> ALL =
       Collections.unmodifiableSet(new HashSet<String>(Arrays.asList(STATA, R)));
 }
