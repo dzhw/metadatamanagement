@@ -21,7 +21,7 @@ import net.karneim.pojobuilder.GeneratePojoBuilder;
     intoPackage = "eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.builders")
 public class ValidResponse {
 
-  @I18nStringSize(max = StringLengths.MEDIUM,
+  @I18nStringSize(max = StringLengths.LARGE,
       message = "{error.validResponse.label.i18nStringSize}")
   private I18nString label;
 
