@@ -17,17 +17,34 @@ body {
     display: none !important;
 }
 
-.development {
-    position: fixed;
-    width: 149px;
-    height: 149px;
-    top: 0;
-    left: 0;
-    border: 0;
-    z-index: 2000;
-    background-image: url("../images/development_ribbon.png");
-    background-position: center center;
-    background-repeat: no-repeat;
+.ribbon {
+  /* positioning */
+  position: fixed;
+  padding: 5px 0px;
+  width: 200px;
+  /* top left of the page */
+  top: 40px;
+  left: -40px;
+  text-align: center;
+  overflow: hidden;
+  -webkit-transform: rotate(315deg);
+  -moz-transform: rotate(315deg);
+  -ms-transform: rotate(315deg);
+  transform: rotate(315deg);
+  /* effects with some shadow */
+  box-shadow: 0 0 0 3px #b20808, 0 0 20px -3px rgba(0, 0, 0, 0.5);
+  text-shadow: 0 0 0 #ffffff, 0 0 5px rgba(0, 0, 0, 0.3);
+  /* looks */
+  background-color: #B20808;
+  color: #ffffff;
+  font-size: 13px;
+  font-weight: bold;
+  text-transform: capitalize;
+  /* ribbon effects */
+  border: 2px dotted #ffffff;
+  /* webkit antialias fix */
+  -webkit-backface-visibility: hidden;
+  z-index: 2000;
 }
 
 .dzhw_logo {

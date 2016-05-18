@@ -24,7 +24,7 @@
         <!--[if lt IE 10]>
             <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
         <![endif]-->
-        <div ng-show="{{ENV === 'local' || ENV === 'dev'}}" class="development" ng-cloak=""></div>
+        <div ng-show="{{ENV === 'local' || ENV === 'dev' || ENV === 'test'}}" class="ribbon" ng-cloak="">{{ENV}}</div>
         <div ui-view="navbar" ng-cloak=""></div>
         <md-content ui-view="content" class="content"></md-content>
 
