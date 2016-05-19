@@ -126,64 +126,18 @@
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            <tr>
-                                                <td>gra2005-01_W1+2_c-1-0-0</td>
-                                                <td>1.223</td>
-                                                <td>11.789</td>
-                                                <td>Personendaten</td>
-                                                <td>Download-CUF</td>
-                                            </tr>
-                                            <tr>
-                                                <td>gra2005-02_W1+2_c-1-0-0</td>
-                                                <td>1.223</td>
-                                                <td>6.459</td>
-                                                <td>Episodendaten</td>
-                                                <td>Download-CUF</td>
-                                            </tr>
-                                            <tr>
-                                                <td>gra2005-01_W1+2_d-1-0-0</td>
-                                                <td>1.223</td>
-                                                <td>11.789</td>
-                                                <td>Personendaten</td>
-                                                <td>Download-SUF</td>
-                                            </tr>
-                                            <tr>
-                                                <td>gra2005-02_W1+2_d-1-0-0</td>
-                                                <td>1.223</td>
-                                                <td>6.459</td>
-                                                <td>Episodendaten</td>
-                                                <td>Download-SUF</td>
-                                            </tr>
-                                            <tr>
-                                                <td>gra2005-01_W1+2_r-1-0-0</td>
-                                                <td>1.223</td>
-                                                <td>11.789</td>
-                                                <td>Personendaten</td>
-                                                <td>Remote Access</td>
-                                            </tr>
-                                            <tr>
-                                                <td>gra2005-02_W1+2_r-1-0-0</td>
-                                                <td>1.223</td>
-                                                <td>6.459</td>
-                                                <td>Episodendaten</td>
-                                                <td>Remote Access</td>
-                                            </tr>
-                                            <tr>
-                                                <td>gra2005-01_W1+2_o-1-0-0</td>
-                                                <td>1.223</td>
-                                                <td>11.789</td>
-                                                <td>Personendaten</td>
-                                                <td>On-Site</td>
-                                            </tr>
-                                            <tr>
-                                                <td>gra2005-02_W1+2_o-1-0-0</td>
-                                                <td>1.223</td>
-                                                <td>6.459</td>
-                                                <td>Episodendaten</td>
-                                                <td>On-Site</td>
-                                            </tr>
+                                          <tr ng-repeat="data in currentPage">
+                                            <td>{{data.name}}</td>
+                                            <td>{{data.variablen}}</td>
+                                            <td>{{data.faelle}}</td>
+                                            <td>{{data.format}}</td>
+                                            <td>{{data.zugangswege}}</td>
+                                          </tr>
                                         </tbody>
                                     </table>
+                                    <uib-pagination total-items="pageState.totalElements" ng-model="pageState.currentPageNumber" ng-change="pageChanged()" max-size="pageState.maxSize"
+                                     class="pagination-sm" boundary-links="true"
+                                    previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;"></uib-pagination>
                                 </div>
                             </md-content>
                         </md-tab>
@@ -210,7 +164,7 @@
                                     <md-divider></md-divider>
                                     <md-list-item class="md-3-line">
                                         <div class="md-list-item-text">
-                                            <p style=" color: black; font-weight: bold;">Englichscprachige Publikationen:</p>
+                                            <p style=" color: black; font-weight: bold;">Englichsprachige Publikationen:</p>
                                             <p style=" color: black;">This scientific work uses data of the graduate panel 2005, conducted by the German Center for Higher Education Research and Science Studies (Deutsches Zentrum für Hochschul- und Wissenschaftsforschung; DZHW). The data were
                                                 published by the research data center of the DZHW, doi:
                                                 <a>12.3456/fdz.DZHW:gds2005:1.0.0</a>.
