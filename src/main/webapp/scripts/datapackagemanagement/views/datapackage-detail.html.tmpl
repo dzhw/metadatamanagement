@@ -7,7 +7,7 @@
             </md-card-header-text>
         </md-card-header>
         <md-card-content>
-            <md-card>
+            <md-card class="md-whiteframe-3dp">
                 <md-card-content>
                     <md-tabs md-dynamic-height md-border-bottom>
                         <md-tab label="Eckdaten">
@@ -41,7 +41,9 @@
                                     <md-divider></md-divider>
                                     <md-list-item>
                                         <p layout="column" flex layout-align="left" style="font-weight: bold;">DOI:</p>
-                                        <p layout="column" flex layout-align="right"> - </p>
+                                        <p layout="column" flex layout-align="right">
+                                            -
+                                        </p>
                                     </md-list-item>
                                     <md-divider></md-divider>
                                 </md-list>
@@ -52,7 +54,7 @@
                                 <md-list>
                                     <md-list-item class="md-3-line">
                                         <div class="md-list-item-text">
-                                            <p style=" color: black; font-weight: bold;" >Grundgesamtheit:</p>
+                                            <p style=" color: black; font-weight: bold;">Grundgesamtheit:</p>
                                             <p style=" color: black;">Hochschulabsolvent(inn)en, die im Wintersemester 2004/05 oder im Sommersemester 2005 ihren ersten berufsqualifizierenden Studienabschluss an einer Hochschule im Gebiet der Bundesrepublik Deutschland erworben haben (mit
                                                 Ausnahme der Absolvent(inn)en der Bundeswehr- und Verwaltungsfachhochschulen).</p>
                                         </div>
@@ -91,14 +93,10 @@
                         </md-tab>
                         <md-tab label="Datensätze">
                             <md-content class="md-padding">
-<!--
-                        </md-content>
-                      </md-card>
-                    -->
-                          <!--
+                            <!--
                             <mdt-table paginated-rows="{isEnabled: true, rowsPerPageValues: [5,10], text: 'we'}">
-                        -->
-
+                          -->
+                                <!--
                                 <mdt-table>
                                     <mdt-header-row>
                                         <mdt-column align-rule="center center">Name</mdt-column>
@@ -115,80 +113,78 @@
                                         <mdt-cell>{{data.zugangswege}}</mdt-cell>
                                     </mdt-row>
                                 </mdt-table>
-
-                              <!--
-                              <div style="overflow: auto;">
-                                <table style="width:100%; white-space: nowrap;" border="1">
-                                  <thead>
-                                    <tr>
-                                      <th style="width:25%;">Name</th>
-                                      <th style="width:25%;">Anzahl variablen</th>
-                                      <th style="width:25%;">Anzahl Fälle</th>
-                                      <th style="width:25%;">Format</th>
-                                      <th style="width:25%;">Zugangswege</th>
-                                    </tr>
-                                  </thead>
-                                  <tbody>
-                                    <tr>
-                                      <td>gra2005-01_W1+2_c-1-0-0</td>
-                                      <td>1.223</td>
-                                      <td>11.789</td>
-                                      <td>Personendaten</td>
-                                      <td>Download-CUF</td>
-                                    </tr>
-                                    <tr>
-                                      <td>gra2005-02_W1+2_c-1-0-0</td>
-                                      <td>1.223</td>
-                                      <td>6.459</td>
-                                      <td>Episodendaten</td>
-                                      <td>Download-CUF</td>
-                                    </tr>
-                                    <tr>
-                                      <td>gra2005-01_W1+2_d-1-0-0</td>
-                                      <td>1.223</td>
-                                      <td>11.789</td>
-                                      <td>Personendaten</td>
-                                      <td>Download-SUF</td>
-                                    </tr>
-                                    <tr>
-                                      <td>gra2005-02_W1+2_d-1-0-0</td>
-                                      <td>1.223</td>
-                                      <td>6.459</td>
-                                      <td>Episodendaten</td>
-                                      <td>Download-SUF</td>
-                                    </tr>
-                                    <tr>
-                                      <td>gra2005-01_W1+2_r-1-0-0</td>
-                                      <td>1.223</td>
-                                      <td>11.789</td>
-                                      <td>Personendaten</td>
-                                      <td>Remote Access</td>
-                                    </tr>
-                                    <tr>
-                                      <td>gra2005-02_W1+2_r-1-0-0</td>
-                                      <td>1.223</td>
-                                      <td>6.459</td>
-                                      <td>Episodendaten</td>
-                                      <td>Remote Access</td>
-                                    </tr>
-                                    <tr>
-                                      <td>gra2005-01_W1+2_o-1-0-0</td>
-                                      <td>1.223</td>
-                                      <td>11.789</td>
-                                      <td>Personendaten</td>
-                                      <td>On-Site</td>
-                                    </tr>
-                                    <tr>
-                                      <td>gra2005-02_W1+2_o-1-0-0</td>
-                                      <td>1.223</td>
-                                      <td>6.459</td>
-                                      <td>Episodendaten</td>
-                                      <td>On-Site</td>
-                                    </tr>
-                                  </tbody>
-                                </table>
-                              </div>
-                            -->
+                              -->
+                                <div style="overflow: auto;">
+                                    <table id="datapackageTable">
+                                        <thead>
+                                            <tr>
+                                                <th>Name</th>
+                                                <th>Anzahl variablen</th>
+                                                <th>Anzahl Fälle</th>
+                                                <th>Format</th>
+                                                <th>Zugangswege</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td>gra2005-01_W1+2_c-1-0-0</td>
+                                                <td>1.223</td>
+                                                <td>11.789</td>
+                                                <td>Personendaten</td>
+                                                <td>Download-CUF</td>
+                                            </tr>
+                                            <tr>
+                                                <td>gra2005-02_W1+2_c-1-0-0</td>
+                                                <td>1.223</td>
+                                                <td>6.459</td>
+                                                <td>Episodendaten</td>
+                                                <td>Download-CUF</td>
+                                            </tr>
+                                            <tr>
+                                                <td>gra2005-01_W1+2_d-1-0-0</td>
+                                                <td>1.223</td>
+                                                <td>11.789</td>
+                                                <td>Personendaten</td>
+                                                <td>Download-SUF</td>
+                                            </tr>
+                                            <tr>
+                                                <td>gra2005-02_W1+2_d-1-0-0</td>
+                                                <td>1.223</td>
+                                                <td>6.459</td>
+                                                <td>Episodendaten</td>
+                                                <td>Download-SUF</td>
+                                            </tr>
+                                            <tr>
+                                                <td>gra2005-01_W1+2_r-1-0-0</td>
+                                                <td>1.223</td>
+                                                <td>11.789</td>
+                                                <td>Personendaten</td>
+                                                <td>Remote Access</td>
+                                            </tr>
+                                            <tr>
+                                                <td>gra2005-02_W1+2_r-1-0-0</td>
+                                                <td>1.223</td>
+                                                <td>6.459</td>
+                                                <td>Episodendaten</td>
+                                                <td>Remote Access</td>
+                                            </tr>
+                                            <tr>
+                                                <td>gra2005-01_W1+2_o-1-0-0</td>
+                                                <td>1.223</td>
+                                                <td>11.789</td>
+                                                <td>Personendaten</td>
+                                                <td>On-Site</td>
+                                            </tr>
+                                            <tr>
+                                                <td>gra2005-02_W1+2_o-1-0-0</td>
+                                                <td>1.223</td>
+                                                <td>6.459</td>
+                                                <td>Episodendaten</td>
+                                                <td>On-Site</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
                             </md-content>
                         </md-tab>
                         <md-tab label="Zitation">
@@ -231,8 +227,8 @@
                                         <div class="md-list-item-text">
                                             <p style=" color: black; font-weight: bold;">Übergreifende Dokumente:</p>
                                             <section layout="row" layout-xs="column" layout-wrap>
-                                                <md-button class="md-primary md-hue-1" href="fakefiles/fake.odt" download>Daten- und Methodenbericht</md-button>
-                                                <md-button class="md-primary md-hue-1" href="fakefiles/Variablenreport-abs2005.pdf" download>Variablenreport (Personendaten)</md-button>
+                                                <md-button class="md-primary md-hue-1" href="fakefiles/fake.odt" style="text-transform: none" download>Daten- und Methodenbericht</md-button>
+                                                <md-button class="md-primary md-hue-1" href="fakefiles/Variablenreport-abs2005.pdf" style="text-transform: none" download>Variablenreport (Personendaten)</md-button>
                                             </section>
                                         </div>
                                     </md-list-item>
@@ -241,11 +237,11 @@
                                         <div class="md-list-item-text">
                                             <p style=" color: black; font-weight: bold;">Welle 1:</p>
                                             <section layout="row" layout-xs="column" layout-wrap>
-                                                <md-button class="md-primary md-hue-1" href="fakefiles/Abs05_W1_Fragebogen.pdf" download>Fragebogen</md-button>
-                                                <md-button class="md-primary md-hue-1" href="fakefiles/Abs05_W1_Variablenfragebogen.pdf" download>Variablenfragebogen</md-button>
-                                                <md-button class="md-primary md-hue-1" href="fakefiles/Abs05_W1_Filtergrafik.pdf" download>Filterführung</md-button>
-                                                <md-button class="md-primary md-hue-1" href="fakefiles/Abs05_W1_Pretest_Fragebogen.pdf" download>Pretestfragebogen</md-button>
-                                                <md-button class="md-primary md-hue-1" href="fakefiles/Abs05_W1_Pretest_Fragenkatalog.pdf" download>Fragenkatalog Pretest</md-button>
+                                                <md-button class="md-primary md-hue-1" href="fakefiles/Abs05_W1_Fragebogen.pdf" style="text-transform: none" download>Fragebogen</md-button>
+                                                <md-button class="md-primary md-hue-1" href="fakefiles/Abs05_W1_Variablenfragebogen.pdf" style="text-transform: none" download>Variablenfragebogen</md-button>
+                                                <md-button class="md-primary md-hue-1" href="fakefiles/Abs05_W1_Filtergrafik.pdf" style="text-transform: none" download>Filterführung</md-button>
+                                                <md-button class="md-primary md-hue-1" href="fakefiles/Abs05_W1_Pretest_Fragebogen.pdf" style="text-transform: none" download>Pretestfragebogen</md-button>
+                                                <md-button class="md-primary md-hue-1" href="fakefiles/Abs05_W1_Pretest_Fragenkatalog.pdf" style="text-transform: none" download>Fragenkatalog Pretest</md-button>
                                             </section>
                                         </div>
                                     </md-list-item>
@@ -254,11 +250,11 @@
                                         <div class="md-list-item-text">
                                             <p style=" color: black; font-weight: bold;">Welle 2:</p>
                                             <section layout="row" layout-xs="column" layout-wrap flex layout-align="left">
-                                                <md-button class="md-primary md-hue-1" href="fakefiles/Abs05_W2_Fragebogen.pdf" download>Fragebogen</md-button>
-                                                <md-button class="md-primary md-hue-1" href="fakefiles/Abs05_W2_Variablenfragebogen.pdf" download>Variablenfragebogen</md-button>
-                                                <md-button class="md-primary md-hue-1" href="fakefiles/Abs05_W2_Filtergrafik.pdf" download>Filterführung</md-button>
-                                                <md-button class="md-primary md-hue-1" href="fakefiles/Abs05_W2_Pretest_Fragebogen.pdf" download>Pretestfragebogen</md-button>
-                                                <md-button class="md-primary md-hue-1" href="fakefiles/Abs05_W2_Pretest_Fragenkatalog.pdf" download>Fragenkatalog Pretest</md-button>
+                                                <md-button class="md-primary md-hue-1" href="fakefiles/Abs05_W2_Fragebogen.pdf" style="text-transform: none" download>Fragebogen</md-button>
+                                                <md-button class="md-primary md-hue-1" href="fakefiles/Abs05_W2_Variablenfragebogen.pdf" style="text-transform: none" download>Variablenfragebogen</md-button>
+                                                <md-button class="md-primary md-hue-1" href="fakefiles/Abs05_W2_Filtergrafik.pdf" style="text-transform: none" download>Filterführung</md-button>
+                                                <md-button class="md-primary md-hue-1" href="fakefiles/Abs05_W2_Pretest_Fragebogen.pdf" style="text-transform: none" download>Pretestfragebogen</md-button>
+                                                <md-button class="md-primary md-hue-1" href="fakefiles/Abs05_W2_Pretest_Fragenkatalog.pdf" style="text-transform: none" download>Fragenkatalog Pretest</md-button>
                                             </section>
                                         </div>
                                     </md-list-item>

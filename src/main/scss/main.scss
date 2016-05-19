@@ -222,3 +222,20 @@ ul#strength {
   border-radius: 1em;
   padding: 0.2em 0.6em 0.2em 0.6em;
 }
+/*
+style for datapackage
+*/
+#datapackageTable td, th {
+    border: 1px solid #ddd;
+    text-align: left;
+    padding: 15px;
+}
+
+#datapackageTable {
+    border-collapse: collapse;
+    white-space: nowrap;
+    width: 100%;
+    border: 1px solid #ddd;
+    text-align: left;
+}
+.md-tab{text-transform: none}
