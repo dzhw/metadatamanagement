@@ -24,7 +24,7 @@ import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.validation.Manda
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.validation.UniqueVariableNameInProject;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.validation.ValidAccessWays;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.validation.ValidDataType;
-import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.validation.ValidResponseValueMustBeANumberOnContinuousScaleLevel;
+import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.validation.ValidResponseValueMustBeANumberOnNumericDataType;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.validation.ValidScaleLevel;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.validation.ValidVariableIdName;
 import net.karneim.pojobuilder.GeneratePojoBuilder;
@@ -43,8 +43,8 @@ import net.karneim.pojobuilder.GeneratePojoBuilder;
 @UniqueVariableNameInProject(message = "{error.variable.uniqueVariableNameInProject}")
 @MandatoryScaleLevelForNumericDataType(
     message = "{error.variable.mandatoryScaleLevelForNumericDataType}")
-@ValidResponseValueMustBeANumberOnContinuousScaleLevel(
-    message = "{error.variable.validResponseValueMustBeANumberOnContinuousScaleLevel}")
+@ValidResponseValueMustBeANumberOnNumericDataType(
+    message = "{error.variable.validResponseValueMustBeANumberOnNumericDataType}")
 public class Variable extends AbstractRdcDomainObject {
 
   /* Domain Object listed attributes */

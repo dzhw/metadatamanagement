@@ -17,15 +17,15 @@ import javax.validation.Payload;
  *
  */
 @Documented
-@Constraint(validatedBy = {ValidResponseValueMustBeANumberOnContinuousScaleLevelValidator.class})
+@Constraint(validatedBy = {ValidResponseValueMustBeANumberNumericDataTypeValidator.class})
 @Target({ElementType.TYPE})
 @Retention(RetentionPolicy.RUNTIME)
-public @interface ValidResponseValueMustBeANumberOnContinuousScaleLevel {
+public @interface ValidResponseValueMustBeANumberOnNumericDataType {
   /**
    * Defines the default error message.
    */
   public abstract String message() default "{eu.dzhw.fdz.metadatamanagement.domain.validation."
-      + "validResponseValueMustBeANumberOnContinuousScaleLevel.message}";
+      + "validResponseValueMustBeANumberOnNumericDataType.message}";
 
   /**
    * This contains groups.

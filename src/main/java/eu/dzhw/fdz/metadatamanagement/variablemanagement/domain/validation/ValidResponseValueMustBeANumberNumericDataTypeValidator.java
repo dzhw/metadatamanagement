@@ -3,7 +3,7 @@ package eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.validation;
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 
-import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.ScaleLevels;
+import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.DataTypes;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.ValidResponse;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.Variable;
 
@@ -14,8 +14,8 @@ import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.Variable;
  * @author dkatzberg
  *
  */
-public class ValidResponseValueMustBeANumberOnContinuousScaleLevelValidator implements
-    ConstraintValidator<ValidResponseValueMustBeANumberOnContinuousScaleLevel, Variable> {
+public class ValidResponseValueMustBeANumberNumericDataTypeValidator implements
+    ConstraintValidator<ValidResponseValueMustBeANumberOnNumericDataType, Variable> {
 
   /*
    * (non-Javadoc)
@@ -24,7 +24,7 @@ public class ValidResponseValueMustBeANumberOnContinuousScaleLevelValidator impl
    */
   @Override
   public void initialize(
-      ValidResponseValueMustBeANumberOnContinuousScaleLevel constraintAnnotation) {}
+      ValidResponseValueMustBeANumberOnNumericDataType constraintAnnotation) {}
 
   /*
    * (non-Javadoc)
@@ -39,7 +39,7 @@ public class ValidResponseValueMustBeANumberOnContinuousScaleLevelValidator impl
       return true;
     }
 
-    if (variable.getScaleLevel() == null) {
+    if (variable.getDataType() == null) {
       return true;
     }
 
@@ -51,7 +51,8 @@ public class ValidResponseValueMustBeANumberOnContinuousScaleLevelValidator impl
       return true;
     }
 
-    if (variable.getScaleLevel().equals(ScaleLevels.CONTINOUS)) {
+    if (variable.getDataType()
+        .equals(DataTypes.NUMERIC)) {
       String regex = "-?\\d+(\\.\\d+)?";
       for (ValidResponse validResponse : variable.getDistribution().getValidResponses()) {
         // if one value is not numeric ... send a false.
