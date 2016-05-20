@@ -51,6 +51,7 @@ module.exports = function(config) {
       'src/main/webapp/bower_components/angular-material-icons/angular-material-icons.min.js',
       'src/main/webapp/bower_components/mdDataTable/dist/md-data-table.js',
       'src/main/webapp/bower_components/mdDataTable/dist/md-data-table-templates.js',
+      'src/main/webapp/bower_components/angular-material-data-table/dist/md-data-table.js',
       'src/main/webapp/bower_components/angular-mocks/angular-mocks.js',
       // endbower
       'src/main/webapp/bower_components/elasticsearch/elasticsearch.angular.js',
