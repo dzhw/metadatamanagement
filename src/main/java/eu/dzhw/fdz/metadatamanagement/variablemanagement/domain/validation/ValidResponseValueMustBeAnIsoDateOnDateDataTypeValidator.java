@@ -1,5 +1,8 @@
 package eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.validation;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeParseException;
+
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 
@@ -9,22 +12,21 @@ import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.Variable;
 
 /**
  * Validates the valid responses of a variable. It checks the values has a numeric string, if the
- * variable has a continuous scale level.
+ * variable has a numeric data type.
  * 
  * @author dkatzberg
  *
  */
-public class ValidResponseValueMustBeANumberNumericDataTypeValidator implements
-    ConstraintValidator<ValidResponseValueMustBeANumberOnNumericDataType, Variable> {
+public class ValidResponseValueMustBeAnIsoDateOnDateDataTypeValidator implements
+    ConstraintValidator<ValidResponseValueMustBeAnIsoDateOnDateDataType, Variable> {
 
   /*
    * (non-Javadoc)
-   * 
    * @see javax.validation.ConstraintValidator#initialize(java.lang.annotation.Annotation)
    */
   @Override
   public void initialize(
-      ValidResponseValueMustBeANumberOnNumericDataType constraintAnnotation) {}
+      ValidResponseValueMustBeAnIsoDateOnDateDataType constraintAnnotation) {}
 
   /*
    * (non-Javadoc)
@@ -52,17 +54,20 @@ public class ValidResponseValueMustBeANumberNumericDataTypeValidator implements
     }
 
     if (variable.getDataType()
-        .equals(DataTypes.NUMERIC)) {
-      String regex = "-?\\d+(\\.\\d+)?";
+        .equals(DataTypes.DATE)) {
       for (ValidResponse validResponse : variable.getDistribution().getValidResponses()) {
-        // if one value is not numeric ... send a false.
-        if (!validResponse.getValue().matches(regex)) {
-          return false;
+        // if one value is not iso standard ... send a false.
+
+        try {
+          LocalDateTime.parse(validResponse.getValue());
+          return true;
+        } catch (DateTimeParseException dtpe) {
+          return false; // not parsable
         }
       }
     }
 
-    // no numeric, everything is okay.
+    // no date, everything is okay.
     return true;
   }
 

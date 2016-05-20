@@ -11,21 +11,21 @@ import javax.validation.Payload;
 
 /**
  * Annotation for the validation of the valid responses of a variable. It checks the values has a
- * numeric string, if the variable has a numeric data type.
+ * iso date string, if the variable has a date data type.
  * 
  * @author dkatzberg
  *
  */
 @Documented
-@Constraint(validatedBy = {ValidResponseValueMustBeANumberOnNumericDataTypeValidator.class})
+@Constraint(validatedBy = {ValidResponseValueMustBeAnIsoDateOnDateDataTypeValidator.class})
 @Target({ElementType.TYPE})
 @Retention(RetentionPolicy.RUNTIME)
-public @interface ValidResponseValueMustBeANumberOnNumericDataType {
+public @interface ValidResponseValueMustBeAnIsoDateOnDateDataType {
   /**
    * Defines the default error message.
    */
   public abstract String message() default "{eu.dzhw.fdz.metadatamanagement.domain.validation."
-      + "validResponseValueMustBeANumberOnNumericDataType.message}";
+      + "validResponseValueMustBeAnIsoDateOnDateDataType.message}";
 
   /**
    * This contains groups.
