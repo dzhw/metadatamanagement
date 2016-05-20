@@ -26,7 +26,7 @@
         <dropwizard-metrics.version>3.1.2</dropwizard-metrics.version>
         <elasticsearch.version>2.1.1</elasticsearch.version>
         <gatling-maven-plugin.version>2.2.0</gatling-maven-plugin.version>
-        <gatling.version>2.2.0</gatling.version>
+        <gatling.version>2.2.1</gatling.version>
         <jacoco-maven-plugin.version>0.7.6.201602180812</jacoco-maven-plugin.version>
         <java.version>1.8</java.version>
         <javax.inject.version>1</javax.inject.version>
@@ -271,7 +271,7 @@
         </resources>
         <pluginManagement>
             <plugins>
-                <!--This plugin's configuration is used to store Eclipse m2e settings 
+                <!--This plugin's configuration is used to store Eclipse m2e settings
 					only. It has no influence on the Maven build itself. -->
                 <plugin>
                     <groupId>org.eclipse.m2e</groupId>
@@ -369,7 +369,7 @@
                     <resultsFolder>target/gatling/results</resultsFolder>
                     <bodiesFolder>src/test/gatling/bodies</bodiesFolder>
                     <simulationsFolder>src/test/gatling/simulations</simulationsFolder>
-                    <!-- This will force Gatling to ask which simulation to run This is 
+                    <!-- This will force Gatling to ask which simulation to run This is
 						useful when you have multiple simulations -->
                     <simulationClass>*</simulationClass>
                 </configuration>
@@ -535,7 +535,7 @@
                         <configuration>
                             <!-- Sets the path to the file which contains the execution data. -->
                             <destFile>${project.testresult.directory}/coverage/jacoco/jacoco.exec</destFile>
-                            <!-- Sets the name of the property containing the settings for JaCoCo 
+                            <!-- Sets the name of the property containing the settings for JaCoCo
 								runtime agent. -->
                             <propertyName>surefireArgLine</propertyName>
                             <excludes>
@@ -545,7 +545,7 @@
                             </excludes>
                         </configuration>
                     </execution>
-                    <!-- Ensures that the code coverage report for unit tests is created 
+                    <!-- Ensures that the code coverage report for unit tests is created
 						after unit tests have been run -->
                     <execution>
                         <id>post-unit-test</id>
