@@ -2,7 +2,7 @@
  * Angular Material Design
  * https://github.com/angular/material
  * @license MIT
- * v1.1.0-rc4
+ * v1.1.0-rc4-master-c26842a
  */
 goog.provide('ng.material.components.switch');
 goog.require('ng.material.components.checkbox');
@@ -20,7 +20,6 @@ angular.module('material.components.switch', [
   .directive('mdSwitch', MdSwitch);
 
 /**
- * @private
  * @ngdoc directive
  * @module material.components.switch
  * @name mdSwitch

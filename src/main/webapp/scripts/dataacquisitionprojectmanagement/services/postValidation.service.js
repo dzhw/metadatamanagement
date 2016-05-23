@@ -7,6 +7,8 @@ angular.module('metadatamanagementApp').service(
     ErrorMessageResolverService) {
 
     var postValidate = function(id) {
+      // To be removed
+      console.log(ErrorMessageResolverService);
       DataAcquisitionProjectPostValidationResource.postValidate({
         id: id
       });

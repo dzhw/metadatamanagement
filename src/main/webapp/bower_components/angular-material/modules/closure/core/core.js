@@ -2,7 +2,7 @@
  * Angular Material Design
  * https://github.com/angular/material
  * @license MIT
- * v1.1.0-rc4
+ * v1.0.9
  */
 goog.provide('ng.material.core');
 
@@ -197,83 +197,10 @@ function postLink(scope, element, attrs) {
 
   // Setup a watcher on the proper attribute to update a class we can check for in $mdUtil
   scope.$watch(attr, function(canAutofocus) {
-    element.toggleClass('_md-autofocus', canAutofocus);
+    element.toggleClass('md-autofocus', canAutofocus);
   });
 }
 
-/**
- * @ngdoc module
- * @name material.core.colorUtil
- * @description
- * Color Util
- */
-angular
-  .module('material.core')
-  .factory('$mdColorUtil', ColorUtilFactory);
-
-function ColorUtilFactory() {
-  /**
-   * Converts hex value to RGBA string
-   * @param color {string}
-   * @returns {string}
-   */
-  function hexToRgba (color) {
-    var hex   = color[ 0 ] === '#' ? color.substr(1) : color,
-      dig   = hex.length / 3,
-      red   = hex.substr(0, dig),
-      green = hex.substr(dig, dig),
-      blue  = hex.substr(dig * 2);
-    if (dig === 1) {
-      red += red;
-      green += green;
-      blue += blue;
-    }
-    return 'rgba(' + parseInt(red, 16) + ',' + parseInt(green, 16) + ',' + parseInt(blue, 16) + ',0.1)';
-  }
-
-  /**
-   * Converts rgba value to hex string
-   * @param color {string}
-   * @returns {string}
-   */
-  function rgbaToHex(color) {
-    color = color.match(/^rgba?[\s+]?\([\s+]?(\d+)[\s+]?,[\s+]?(\d+)[\s+]?,[\s+]?(\d+)[\s+]?/i);
-
-    var hex = (color && color.length === 4) ? "#" +
-    ("0" + parseInt(color[1],10).toString(16)).slice(-2) +
-    ("0" + parseInt(color[2],10).toString(16)).slice(-2) +
-    ("0" + parseInt(color[3],10).toString(16)).slice(-2) : '';
-
-    return hex.toUpperCase();
-  }
-
-  /**
-   * Converts an RGB color to RGBA
-   * @param color {string}
-   * @returns {string}
-   */
-  function rgbToRgba (color) {
-    return color.replace(')', ', 0.1)').replace('(', 'a(');
-  }
-
-  /**
-   * Converts an RGBA color to RGB
-   * @param color {string}
-   * @returns {string}
-   */
-  function rgbaToRgb (color) {
-    return color
-      ? color.replace('rgba', 'rgb').replace(/,[^\),]+\)/, ')')
-      : 'rgb(0,0,0)';
-  }
-
-  return {
-    rgbaToHex: rgbaToHex,
-    hexToRgba: hexToRgba,
-    rgbToRgba: rgbToRgba,
-    rgbaToRgb: rgbaToRgb
-  }
-}
 angular.module('material.core')
 .factory('$mdConstant', MdConstantFactory);
 
@@ -827,35 +754,6 @@ function UtilFactory($document, $timeout, $compile, $rootScope, $$mdAnimate, $in
       return new Date().getTime();
     },
 
-    /**
-     * Bi-directional accessor/mutator used to easily update an element's
-     * property based on the current 'dir'ectional value.
-     */
-    bidi : function(element, property, lValue, rValue) {
-      var ltr = !($document[0].dir == 'rtl' || $document[0].body.dir == 'rtl');
-
-      // If accessor
-      if ( arguments.length == 0 ) return ltr ? 'ltr' : 'rtl';
-
-      // If mutator
-      if ( ltr && angular.isDefined(lValue)) {
-        angular.element(element).css(property, validate(lValue));
-      }
-      else if ( !ltr && angular.isDefined(rValue)) {
-        angular.element(element).css(property, validate(rValue) );
-      }
-
-        // Internal utils
-
-        function validate(value) {
-          return !value       ? '0'   :
-                 hasPx(value) ? value : value + 'px';
-        }
-        function hasPx(value) {
-          return String(value).indexOf('px') > -1;
-        }
-    },
-
     clientRect: function(element, offsetParent, isOffsetRect) {
       var node = getNode(element);
       offsetParent = getNode(offsetParent || node.offsetParent || document.body);
@@ -940,9 +838,9 @@ function UtilFactory($document, $timeout, $compile, $rootScope, $$mdAnimate, $in
           items.length && angular.forEach(items, function(it) {
             it = angular.element(it);
 
-            // Check the element for the _md-autofocus class to ensure any associated expression
+            // Check the element for the md-autofocus class to ensure any associated expression
             // evaluated to true.
-            var isFocusable = it.hasClass('_md-autofocus');
+            var isFocusable = it.hasClass('md-autofocus');
             if (isFocusable) elFound = it;
           });
         }
@@ -950,12 +848,16 @@ function UtilFactory($document, $timeout, $compile, $rootScope, $$mdAnimate, $in
       }
     },
 
-    // Disables scroll around the passed element.
+    /**
+     * Disables scroll around the passed parent element.
+     * @param element Unused
+     * @param {!Element|!angular.JQLite} parent Element to disable scrolling within.
+     *   Defaults to body if none supplied.
+     */
     disableScrollAround: function(element, parent) {
       $mdUtil.disableScrollAround._count = $mdUtil.disableScrollAround._count || 0;
       ++$mdUtil.disableScrollAround._count;
       if ($mdUtil.disableScrollAround._enableScrolling) return $mdUtil.disableScrollAround._enableScrolling;
-      element = angular.element(element);
       var body = $document[0].body,
         restoreBody = disableBodyScroll(),
         restoreElement = disableElementScroll(parent);
@@ -1439,17 +1341,17 @@ function UtilFactory($document, $timeout, $compile, $rootScope, $$mdAnimate, $in
     },
 
     /**
-     * Parses an attribute value, mostly a string.
-     * By default checks for negated values and returns `false´ if present.
-     * Negated values are: (native falsy) and negative strings like:
-     * `false` or `0`.
-     * @param value Attribute value which should be parsed.
-     * @param negatedCheck When set to false, won't check for negated values.
-     * @returns {boolean}
-     */
-    parseAttributeBoolean: function(value, negatedCheck) {
-      return value === '' || !!value && (negatedCheck === false || value !== 'false' && value !== '0');
-    },
+       * Parses an attribute value, mostly a string.
+       * By default checks for negated values and returns `false´ if present.
+       * Negated values are: (native falsy) and negative strings like:
+       * `false` or `0`.
+       * @param value Attribute value which should be parsed.
+       * @param negatedCheck When set to false, won't check for negated values.
+       * @returns {boolean}
+       */
+      parseAttributeBoolean: function(value, negatedCheck) {
+        return value === '' || !!value && (negatedCheck === false || value !== 'false' && value !== '0');
+      },
 
     hasComputedStyle: hasComputedStyle
   };
@@ -1538,7 +1440,7 @@ function AriaService($$rAF, $log, $window, $interpolate) {
 
   function expectWithText(element, attrName) {
     var content = getText(element) || "";
-    var hasBinding = content.indexOf($interpolate.startSymbol()) > -1;
+    var hasBinding = content.indexOf($interpolate.startSymbol())>-1;
 
     if ( hasBinding ) {
       expectAsync(element, attrName, function() {
@@ -1550,26 +1452,7 @@ function AriaService($$rAF, $log, $window, $interpolate) {
   }
 
   function getText(element) {
-    element = element[0] || element;
-    var walker = document.createTreeWalker(element, NodeFilter.SHOW_TEXT, null, false);
-    var text = '';
-
-    var node;
-    while (node = walker.nextNode()) {
-      if (!isAriaHiddenNode(node)) {
-        text += node.textContent;
-      }
-    }
-
-    return text.trim() || '';
-
-    function isAriaHiddenNode(node) {
-      while (node.parentNode && (node = node.parentNode) !== element) {
-        if (node.getAttribute && node.getAttribute('aria-hidden') === 'true') {
-          return true;
-        }
-      }
-    }
+    return (element.text() || "").trim();
   }
 
   function childHasAttribute(node, attrName) {
@@ -1581,18 +1464,17 @@ function AriaService($$rAF, $log, $window, $interpolate) {
       return (style.display === 'none');
     }
 
-    if (hasChildren) {
+    if(hasChildren) {
       var children = node.childNodes;
-      for (var i=0; i < children.length; i++) {
+      for(var i=0; i<children.length; i++){
         var child = children[i];
-        if (child.nodeType === 1 && child.hasAttribute(attrName)) {
-          if (!isHidden(child)) {
+        if(child.nodeType === 1 && child.hasAttribute(attrName)) {
+          if(!isHidden(child)){
             hasAttr = true;
           }
         }
       }
     }
-
     return hasAttr;
   }
 }
@@ -2877,7 +2759,7 @@ function InterimElementProvider() {
                 element = linkElement( compiledData, options );
 
                 showAction = showElement(element, options, compiledData.controller)
-                  .then(resolve, rejectAll );
+                  .then(resolve, rejectAll);
 
               }, rejectAll);
 
@@ -3123,7 +3005,7 @@ function InterimElementProvider() {
               }
 
             } catch(e) {
-              reject(e.message);
+              reject(e);
             }
           });
         }
@@ -3657,8 +3539,8 @@ function InterimElementProvider() {
       /**
        * Used to print an error when an instance for a handle isn't found.
        */
-      notFoundError: function(handle, msgContext) {
-        $log.error( (msgContext || "") + 'No instance found for handle', handle);
+      notFoundError: function(handle) {
+        $log.error('No instance found for handle', handle);
       },
       /**
        * Return all registered instances as an array.
@@ -3714,9 +3596,7 @@ function InterimElementProvider() {
         function resolveWhen() {
           var dfd = pendings[handle];
           if ( dfd ) {
-            dfd.forEach(function (promise) {
-              promise.resolve(instance);
-            });
+            dfd.resolve( instance );
             delete pendings[handle];
           }
         }
@@ -3735,10 +3615,7 @@ function InterimElementProvider() {
           if ( instance )  {
             deferred.resolve( instance );
           } else {
-            if (pendings[handle] === undefined) {
-              pendings[handle] = [];
-            }
-            pendings[handle].push(deferred);
+            pendings[handle] = deferred;
           }
 
           return deferred.promise;
@@ -3754,1075 +3631,6 @@ function InterimElementProvider() {
 
   }
   ComponentRegistry.$inject = ["$log", "$q"];
-
-angular.module('material.core.theming.palette', [])
-.constant('$mdColorPalette', {
-  'red': {
-    '50': '#ffebee',
-    '100': '#ffcdd2',
-    '200': '#ef9a9a',
-    '300': '#e57373',
-    '400': '#ef5350',
-    '500': '#f44336',
-    '600': '#e53935',
-    '700': '#d32f2f',
-    '800': '#c62828',
-    '900': '#b71c1c',
-    'A100': '#ff8a80',
-    'A200': '#ff5252',
-    'A400': '#ff1744',
-    'A700': '#d50000',
-    'contrastDefaultColor': 'light',
-    'contrastDarkColors': '50 100 200 300 A100',
-    'contrastStrongLightColors': '400 500 600 700 A200 A400 A700'
-  },
-  'pink': {
-    '50': '#fce4ec',
-    '100': '#f8bbd0',
-    '200': '#f48fb1',
-    '300': '#f06292',
-    '400': '#ec407a',
-    '500': '#e91e63',
-    '600': '#d81b60',
-    '700': '#c2185b',
-    '800': '#ad1457',
-    '900': '#880e4f',
-    'A100': '#ff80ab',
-    'A200': '#ff4081',
-    'A400': '#f50057',
-    'A700': '#c51162',
-    'contrastDefaultColor': 'light',
-    'contrastDarkColors': '50 100 200 A100',
-    'contrastStrongLightColors': '500 600 A200 A400 A700'
-  },
-  'purple': {
-    '50': '#f3e5f5',
-    '100': '#e1bee7',
-    '200': '#ce93d8',
-    '300': '#ba68c8',
-    '400': '#ab47bc',
-    '500': '#9c27b0',
-    '600': '#8e24aa',
-    '700': '#7b1fa2',
-    '800': '#6a1b9a',
-    '900': '#4a148c',
-    'A100': '#ea80fc',
-    'A200': '#e040fb',
-    'A400': '#d500f9',
-    'A700': '#aa00ff',
-    'contrastDefaultColor': 'light',
-    'contrastDarkColors': '50 100 200 A100',
-    'contrastStrongLightColors': '300 400 A200 A400 A700'
-  },
-  'deep-purple': {
-    '50': '#ede7f6',
-    '100': '#d1c4e9',
-    '200': '#b39ddb',
-    '300': '#9575cd',
-    '400': '#7e57c2',
-    '500': '#673ab7',
-    '600': '#5e35b1',
-    '700': '#512da8',
-    '800': '#4527a0',
-    '900': '#311b92',
-    'A100': '#b388ff',
-    'A200': '#7c4dff',
-    'A400': '#651fff',
-    'A700': '#6200ea',
-    'contrastDefaultColor': 'light',
-    'contrastDarkColors': '50 100 200 A100',
-    'contrastStrongLightColors': '300 400 A200'
-  },
-  'indigo': {
-    '50': '#e8eaf6',
-    '100': '#c5cae9',
-    '200': '#9fa8da',
-    '300': '#7986cb',
-    '400': '#5c6bc0',
-    '500': '#3f51b5',
-    '600': '#3949ab',
-    '700': '#303f9f',
-    '800': '#283593',
-    '900': '#1a237e',
-    'A100': '#8c9eff',
-    'A200': '#536dfe',
-    'A400': '#3d5afe',
-    'A700': '#304ffe',
-    'contrastDefaultColor': 'light',
-    'contrastDarkColors': '50 100 200 A100',
-    'contrastStrongLightColors': '300 400 A200 A400'
-  },
-  'blue': {
-    '50': '#e3f2fd',
-    '100': '#bbdefb',
-    '200': '#90caf9',
-    '300': '#64b5f6',
-    '400': '#42a5f5',
-    '500': '#2196f3',
-    '600': '#1e88e5',
-    '700': '#1976d2',
-    '800': '#1565c0',
-    '900': '#0d47a1',
-    'A100': '#82b1ff',
-    'A200': '#448aff',
-    'A400': '#2979ff',
-    'A700': '#2962ff',
-    'contrastDefaultColor': 'light',
-    'contrastDarkColors': '50 100 200 300 400 A100',
-    'contrastStrongLightColors': '500 600 700 A200 A400 A700'
-  },
-  'light-blue': {
-    '50': '#e1f5fe',
-    '100': '#b3e5fc',
-    '200': '#81d4fa',
-    '300': '#4fc3f7',
-    '400': '#29b6f6',
-    '500': '#03a9f4',
-    '600': '#039be5',
-    '700': '#0288d1',
-    '800': '#0277bd',
-    '900': '#01579b',
-    'A100': '#80d8ff',
-    'A200': '#40c4ff',
-    'A400': '#00b0ff',
-    'A700': '#0091ea',
-    'contrastDefaultColor': 'dark',
-    'contrastLightColors': '600 700 800 900 A700',
-    'contrastStrongLightColors': '600 700 800 A700'
-  },
-  'cyan': {
-    '50': '#e0f7fa',
-    '100': '#b2ebf2',
-    '200': '#80deea',
-    '300': '#4dd0e1',
-    '400': '#26c6da',
-    '500': '#00bcd4',
-    '600': '#00acc1',
-    '700': '#0097a7',
-    '800': '#00838f',
-    '900': '#006064',
-    'A100': '#84ffff',
-    'A200': '#18ffff',
-    'A400': '#00e5ff',
-    'A700': '#00b8d4',
-    'contrastDefaultColor': 'dark',
-    'contrastLightColors': '700 800 900',
-    'contrastStrongLightColors': '700 800 900'
-  },
-  'teal': {
-    '50': '#e0f2f1',
-    '100': '#b2dfdb',
-    '200': '#80cbc4',
-    '300': '#4db6ac',
-    '400': '#26a69a',
-    '500': '#009688',
-    '600': '#00897b',
-    '700': '#00796b',
-    '800': '#00695c',
-    '900': '#004d40',
-    'A100': '#a7ffeb',
-    'A200': '#64ffda',
-    'A400': '#1de9b6',
-    'A700': '#00bfa5',
-    'contrastDefaultColor': 'dark',
-    'contrastLightColors': '500 600 700 800 900',
-    'contrastStrongLightColors': '500 600 700'
-  },
-  'green': {
-    '50': '#e8f5e9',
-    '100': '#c8e6c9',
-    '200': '#a5d6a7',
-    '300': '#81c784',
-    '400': '#66bb6a',
-    '500': '#4caf50',
-    '600': '#43a047',
-    '700': '#388e3c',
-    '800': '#2e7d32',
-    '900': '#1b5e20',
-    'A100': '#b9f6ca',
-    'A200': '#69f0ae',
-    'A400': '#00e676',
-    'A700': '#00c853',
-    'contrastDefaultColor': 'dark',
-    'contrastLightColors': '500 600 700 800 900',
-    'contrastStrongLightColors': '500 600 700'
-  },
-  'light-green': {
-    '50': '#f1f8e9',
-    '100': '#dcedc8',
-    '200': '#c5e1a5',
-    '300': '#aed581',
-    '400': '#9ccc65',
-    '500': '#8bc34a',
-    '600': '#7cb342',
-    '700': '#689f38',
-    '800': '#558b2f',
-    '900': '#33691e',
-    'A100': '#ccff90',
-    'A200': '#b2ff59',
-    'A400': '#76ff03',
-    'A700': '#64dd17',
-    'contrastDefaultColor': 'dark',
-    'contrastLightColors': '700 800 900',
-    'contrastStrongLightColors': '700 800 900'
-  },
-  'lime': {
-    '50': '#f9fbe7',
-    '100': '#f0f4c3',
-    '200': '#e6ee9c',
-    '300': '#dce775',
-    '400': '#d4e157',
-    '500': '#cddc39',
-    '600': '#c0ca33',
-    '700': '#afb42b',
-    '800': '#9e9d24',
-    '900': '#827717',
-    'A100': '#f4ff81',
-    'A200': '#eeff41',
-    'A400': '#c6ff00',
-    'A700': '#aeea00',
-    'contrastDefaultColor': 'dark',
-    'contrastLightColors': '900',
-    'contrastStrongLightColors': '900'
-  },
-  'yellow': {
-    '50': '#fffde7',
-    '100': '#fff9c4',
-    '200': '#fff59d',
-    '300': '#fff176',
-    '400': '#ffee58',
-    '500': '#ffeb3b',
-    '600': '#fdd835',
-    '700': '#fbc02d',
-    '800': '#f9a825',
-    '900': '#f57f17',
-    'A100': '#ffff8d',
-    'A200': '#ffff00',
-    'A400': '#ffea00',
-    'A700': '#ffd600',
-    'contrastDefaultColor': 'dark'
-  },
-  'amber': {
-    '50': '#fff8e1',
-    '100': '#ffecb3',
-    '200': '#ffe082',
-    '300': '#ffd54f',
-    '400': '#ffca28',
-    '500': '#ffc107',
-    '600': '#ffb300',
-    '700': '#ffa000',
-    '800': '#ff8f00',
-    '900': '#ff6f00',
-    'A100': '#ffe57f',
-    'A200': '#ffd740',
-    'A400': '#ffc400',
-    'A700': '#ffab00',
-    'contrastDefaultColor': 'dark'
-  },
-  'orange': {
-    '50': '#fff3e0',
-    '100': '#ffe0b2',
-    '200': '#ffcc80',
-    '300': '#ffb74d',
-    '400': '#ffa726',
-    '500': '#ff9800',
-    '600': '#fb8c00',
-    '700': '#f57c00',
-    '800': '#ef6c00',
-    '900': '#e65100',
-    'A100': '#ffd180',
-    'A200': '#ffab40',
-    'A400': '#ff9100',
-    'A700': '#ff6d00',
-    'contrastDefaultColor': 'dark',
-    'contrastLightColors': '800 900',
-    'contrastStrongLightColors': '800 900'
-  },
-  'deep-orange': {
-    '50': '#fbe9e7',
-    '100': '#ffccbc',
-    '200': '#ffab91',
-    '300': '#ff8a65',
-    '400': '#ff7043',
-    '500': '#ff5722',
-    '600': '#f4511e',
-    '700': '#e64a19',
-    '800': '#d84315',
-    '900': '#bf360c',
-    'A100': '#ff9e80',
-    'A200': '#ff6e40',
-    'A400': '#ff3d00',
-    'A700': '#dd2c00',
-    'contrastDefaultColor': 'light',
-    'contrastDarkColors': '50 100 200 300 400 A100 A200',
-    'contrastStrongLightColors': '500 600 700 800 900 A400 A700'
-  },
-  'brown': {
-    '50': '#efebe9',
-    '100': '#d7ccc8',
-    '200': '#bcaaa4',
-    '300': '#a1887f',
-    '400': '#8d6e63',
-    '500': '#795548',
-    '600': '#6d4c41',
-    '700': '#5d4037',
-    '800': '#4e342e',
-    '900': '#3e2723',
-    'A100': '#d7ccc8',
-    'A200': '#bcaaa4',
-    'A400': '#8d6e63',
-    'A700': '#5d4037',
-    'contrastDefaultColor': 'light',
-    'contrastDarkColors': '50 100 200 A100 A200',
-    'contrastStrongLightColors': '300 400'
-  },
-  'grey': {
-    '50': '#fafafa',
-    '100': '#f5f5f5',
-    '200': '#eeeeee',
-    '300': '#e0e0e0',
-    '400': '#bdbdbd',
-    '500': '#9e9e9e',
-    '600': '#757575',
-    '700': '#616161',
-    '800': '#424242',
-    '900': '#212121',
-    'A100': '#ffffff',
-    'A200': '#000000',
-    'A400': '#303030',
-    'A700': '#616161',
-    'contrastDefaultColor': 'dark',
-    'contrastLightColors': '600 700 800 900 A200 A400 A700'
-  },
-  'blue-grey': {
-    '50': '#eceff1',
-    '100': '#cfd8dc',
-    '200': '#b0bec5',
-    '300': '#90a4ae',
-    '400': '#78909c',
-    '500': '#607d8b',
-    '600': '#546e7a',
-    '700': '#455a64',
-    '800': '#37474f',
-    '900': '#263238',
-    'A100': '#cfd8dc',
-    'A200': '#b0bec5',
-    'A400': '#78909c',
-    'A700': '#455a64',
-    'contrastDefaultColor': 'light',
-    'contrastDarkColors': '50 100 200 300 A100 A200',
-    'contrastStrongLightColors': '400 500 700'
-  }
-});
-
-angular.module('material.core.theming', ['material.core.theming.palette'])
-  .directive('mdTheme', ThemingDirective)
-  .directive('mdThemable', ThemableDirective)
-  .provider('$mdTheming', ThemingProvider)
-  .run(generateAllThemes);
-
-/**
- * @ngdoc service
- * @name $mdThemingProvider
- * @module material.core.theming
- *
- * @description Provider to configure the `$mdTheming` service.
- */
-
-/**
- * @ngdoc method
- * @name $mdThemingProvider#setNonce
- * @param {string} nonceValue The nonce to be added as an attribute to the theme style tags.
- * Setting a value allows the use CSP policy without using the unsafe-inline directive.
- */
-
-/**
- * @ngdoc method
- * @name $mdThemingProvider#setDefaultTheme
- * @param {string} themeName Default theme name to be applied to elements. Default value is `default`.
- */
-
-/**
- * @ngdoc method
- * @name $mdThemingProvider#alwaysWatchTheme
- * @param {boolean} watch Whether or not to always watch themes for changes and re-apply
- * classes when they change. Default is `false`. Enabling can reduce performance.
- */
-
-/* Some Example Valid Theming Expressions
- * =======================================
- *
- * Intention group expansion: (valid for primary, accent, warn, background)
- *
- * {{primary-100}} - grab shade 100 from the primary palette
- * {{primary-100-0.7}} - grab shade 100, apply opacity of 0.7
- * {{primary-100-contrast}} - grab shade 100's contrast color
- * {{primary-hue-1}} - grab the shade assigned to hue-1 from the primary palette
- * {{primary-hue-1-0.7}} - apply 0.7 opacity to primary-hue-1
- * {{primary-color}} - Generates .md-hue-1, .md-hue-2, .md-hue-3 with configured shades set for each hue
- * {{primary-color-0.7}} - Apply 0.7 opacity to each of the above rules
- * {{primary-contrast}} - Generates .md-hue-1, .md-hue-2, .md-hue-3 with configured contrast (ie. text) color shades set for each hue
- * {{primary-contrast-0.7}} - Apply 0.7 opacity to each of the above rules
- *
- * Foreground expansion: Applies rgba to black/white foreground text
- *
- * {{foreground-1}} - used for primary text
- * {{foreground-2}} - used for secondary text/divider
- * {{foreground-3}} - used for disabled text
- * {{foreground-4}} - used for dividers
- *
- */
-
-// In memory generated CSS rules; registered by theme.name
-var GENERATED = { };
-
-// In memory storage of defined themes and color palettes (both loaded by CSS, and user specified)
-var PALETTES;
-
-// Text Colors on light and dark backgrounds
-// @see https://www.google.com/design/spec/style/color.html#color-text-background-colors
-var DARK_FOREGROUND = {
-  name: 'dark',
-  '1': 'rgba(0,0,0,0.87)',
-  '2': 'rgba(0,0,0,0.54)',
-  '3': 'rgba(0,0,0,0.38)',
-  '4': 'rgba(0,0,0,0.12)'
-};
-var LIGHT_FOREGROUND = {
-  name: 'light',
-  '1': 'rgba(255,255,255,1.0)',
-  '2': 'rgba(255,255,255,0.7)',
-  '3': 'rgba(255,255,255,0.5)',
-  '4': 'rgba(255,255,255,0.12)'
-};
-
-var DARK_SHADOW = '1px 1px 0px rgba(0,0,0,0.4), -1px -1px 0px rgba(0,0,0,0.4)';
-var LIGHT_SHADOW = '';
-
-var DARK_CONTRAST_COLOR = colorToRgbaArray('rgba(0,0,0,0.87)');
-var LIGHT_CONTRAST_COLOR = colorToRgbaArray('rgba(255,255,255,0.87)');
-var STRONG_LIGHT_CONTRAST_COLOR = colorToRgbaArray('rgb(255,255,255)');
-
-var THEME_COLOR_TYPES = ['primary', 'accent', 'warn', 'background'];
-var DEFAULT_COLOR_TYPE = 'primary';
-
-// A color in a theme will use these hues by default, if not specified by user.
-var LIGHT_DEFAULT_HUES = {
-  'accent': {
-    'default': 'A200',
-    'hue-1': 'A100',
-    'hue-2': 'A400',
-    'hue-3': 'A700'
-  },
-  'background': {
-    'default': '50',
-    'hue-1': 'A100',
-    'hue-2': '100',
-    'hue-3': '300'
-  }
-};
-
-var DARK_DEFAULT_HUES = {
-  'background': {
-    'default': 'A400',
-    'hue-1': '800',
-    'hue-2': '900',
-    'hue-3': 'A200'
-  }
-};
-THEME_COLOR_TYPES.forEach(function(colorType) {
-  // Color types with unspecified default hues will use these default hue values
-  var defaultDefaultHues = {
-    'default': '500',
-    'hue-1': '300',
-    'hue-2': '800',
-    'hue-3': 'A100'
-  };
-  if (!LIGHT_DEFAULT_HUES[colorType]) LIGHT_DEFAULT_HUES[colorType] = defaultDefaultHues;
-  if (!DARK_DEFAULT_HUES[colorType]) DARK_DEFAULT_HUES[colorType] = defaultDefaultHues;
-});
-
-var VALID_HUE_VALUES = [
-  '50', '100', '200', '300', '400', '500', '600',
-  '700', '800', '900', 'A100', 'A200', 'A400', 'A700'
-];
-
-// Whether or not themes are to be generated on-demand (vs. eagerly).
-var generateOnDemand = false;
-
-// Nonce to be added as an attribute to the generated themes style tags.
-var nonce = null;
-var disableTheming = false;
-
-function ThemingProvider($mdColorPalette) {
-  PALETTES = { };
-  var THEMES = { };
-
-  var themingProvider;
-  var defaultTheme = 'default';
-  var alwaysWatchTheme = false;
-
-  // Load JS Defined Palettes
-  angular.extend(PALETTES, $mdColorPalette);
-
-  // Default theme defined in core.js
-
-  ThemingService.$inject = ["$rootScope", "$log"];
-  return themingProvider = {
-    definePalette: definePalette,
-    extendPalette: extendPalette,
-    theme: registerTheme,
-
-    /**
-     * Easy way to disable theming without having to use
-     * `.constant("$MD_THEME_CSS","");` This disables
-     * all dynamic theme style sheet generations and injections...
-     */
-    disableTheming: function() {
-      disableTheming = true;
-    },
-
-    setNonce: function(nonceValue) {
-      nonce = nonceValue;
-    },
-    setDefaultTheme: function(theme) {
-      defaultTheme = theme;
-    },
-    alwaysWatchTheme: function(alwaysWatch) {
-      alwaysWatchTheme = alwaysWatch;
-    },
-    generateThemesOnDemand: function(onDemand) {
-      generateOnDemand = onDemand;
-    },
-    $get: ThemingService,
-    _LIGHT_DEFAULT_HUES: LIGHT_DEFAULT_HUES,
-    _DARK_DEFAULT_HUES: DARK_DEFAULT_HUES,
-    _PALETTES: PALETTES,
-    _THEMES: THEMES,
-    _parseRules: parseRules,
-    _rgba: rgba
-  };
-
-  // Example: $mdThemingProvider.definePalette('neonRed', { 50: '#f5fafa', ... });
-  function definePalette(name, map) {
-    map = map || {};
-    PALETTES[name] = checkPaletteValid(name, map);
-    return themingProvider;
-  }
-
-  // Returns an new object which is a copy of a given palette `name` with variables from
-  // `map` overwritten
-  // Example: var neonRedMap = $mdThemingProvider.extendPalette('red', { 50: '#f5fafafa' });
-  function extendPalette(name, map) {
-    return checkPaletteValid(name,  angular.extend({}, PALETTES[name] || {}, map) );
-  }
-
-  // Make sure that palette has all required hues
-  function checkPaletteValid(name, map) {
-    var missingColors = VALID_HUE_VALUES.filter(function(field) {
-      return !map[field];
-    });
-    if (missingColors.length) {
-      throw new Error("Missing colors %1 in palette %2!"
-                      .replace('%1', missingColors.join(', '))
-                      .replace('%2', name));
-    }
-
-    return map;
-  }
-
-  // Register a theme (which is a collection of color palettes to use with various states
-  // ie. warn, accent, primary )
-  // Optionally inherit from an existing theme
-  // $mdThemingProvider.theme('custom-theme').primaryPalette('red');
-  function registerTheme(name, inheritFrom) {
-    if (THEMES[name]) return THEMES[name];
-
-    inheritFrom = inheritFrom || 'default';
-
-    var parentTheme = typeof inheritFrom === 'string' ? THEMES[inheritFrom] : inheritFrom;
-    var theme = new Theme(name);
-
-    if (parentTheme) {
-      angular.forEach(parentTheme.colors, function(color, colorType) {
-        theme.colors[colorType] = {
-          name: color.name,
-          // Make sure a COPY of the hues is given to the child color,
-          // not the same reference.
-          hues: angular.extend({}, color.hues)
-        };
-      });
-    }
-    THEMES[name] = theme;
-
-    return theme;
-  }
-
-  function Theme(name) {
-    var self = this;
-    self.name = name;
-    self.colors = {};
-
-    self.dark = setDark;
-    setDark(false);
-
-    function setDark(isDark) {
-      isDark = arguments.length === 0 ? true : !!isDark;
-
-      // If no change, abort
-      if (isDark === self.isDark) return;
-
-      self.isDark = isDark;
-
-      self.foregroundPalette = self.isDark ? LIGHT_FOREGROUND : DARK_FOREGROUND;
-      self.foregroundShadow = self.isDark ? DARK_SHADOW : LIGHT_SHADOW;
-
-      // Light and dark themes have different default hues.
-      // Go through each existing color type for this theme, and for every
-      // hue value that is still the default hue value from the previous light/dark setting,
-      // set it to the default hue value from the new light/dark setting.
-      var newDefaultHues = self.isDark ? DARK_DEFAULT_HUES : LIGHT_DEFAULT_HUES;
-      var oldDefaultHues = self.isDark ? LIGHT_DEFAULT_HUES : DARK_DEFAULT_HUES;
-      angular.forEach(newDefaultHues, function(newDefaults, colorType) {
-        var color = self.colors[colorType];
-        var oldDefaults = oldDefaultHues[colorType];
-        if (color) {
-          for (var hueName in color.hues) {
-            if (color.hues[hueName] === oldDefaults[hueName]) {
-              color.hues[hueName] = newDefaults[hueName];
-            }
-          }
-        }
-      });
-
-      return self;
-    }
-
-    THEME_COLOR_TYPES.forEach(function(colorType) {
-      var defaultHues = (self.isDark ? DARK_DEFAULT_HUES : LIGHT_DEFAULT_HUES)[colorType];
-      self[colorType + 'Palette'] = function setPaletteType(paletteName, hues) {
-        var color = self.colors[colorType] = {
-          name: paletteName,
-          hues: angular.extend({}, defaultHues, hues)
-        };
-
-        Object.keys(color.hues).forEach(function(name) {
-          if (!defaultHues[name]) {
-            throw new Error("Invalid hue name '%1' in theme %2's %3 color %4. Available hue names: %4"
-              .replace('%1', name)
-              .replace('%2', self.name)
-              .replace('%3', paletteName)
-              .replace('%4', Object.keys(defaultHues).join(', '))
-            );
-          }
-        });
-        Object.keys(color.hues).map(function(key) {
-          return color.hues[key];
-        }).forEach(function(hueValue) {
-          if (VALID_HUE_VALUES.indexOf(hueValue) == -1) {
-            throw new Error("Invalid hue value '%1' in theme %2's %3 color %4. Available hue values: %5"
-              .replace('%1', hueValue)
-              .replace('%2', self.name)
-              .replace('%3', colorType)
-              .replace('%4', paletteName)
-              .replace('%5', VALID_HUE_VALUES.join(', '))
-            );
-          }
-        });
-        return self;
-      };
-
-      self[colorType + 'Color'] = function() {
-        var args = Array.prototype.slice.call(arguments);
-        console.warn('$mdThemingProviderTheme.' + colorType + 'Color() has been deprecated. ' +
-                     'Use $mdThemingProviderTheme.' + colorType + 'Palette() instead.');
-        return self[colorType + 'Palette'].apply(self, args);
-      };
-    });
-  }
-
-  /**
-   * @ngdoc service
-   * @name $mdTheming
-   *
-   * @description
-   *
-   * Service that makes an element apply theming related classes to itself.
-   *
-   * ```js
-   * app.directive('myFancyDirective', function($mdTheming) {
-   *   return {
-   *     restrict: 'e',
-   *     link: function(scope, el, attrs) {
-   *       $mdTheming(el);
-   *     }
-   *   };
-   * });
-   * ```
-   * @param {el=} element to apply theming to
-   */
-  /* ngInject */
-  function ThemingService($rootScope, $log) {
-        // Allow us to be invoked via a linking function signature.
-    var applyTheme = function (scope, el) {
-          if (el === undefined) { el = scope; scope = undefined; }
-          if (scope === undefined) { scope = $rootScope; }
-          applyTheme.inherit(el, el);
-        };
-
-    applyTheme.THEMES = angular.extend({}, THEMES);
-    applyTheme.PALETTES = angular.extend({}, PALETTES);
-    applyTheme.inherit = inheritTheme;
-    applyTheme.registered = registered;
-    applyTheme.defaultTheme = function() { return defaultTheme; };
-    applyTheme.generateTheme = function(name) { generateTheme(THEMES[name], name, nonce); };
-
-    return applyTheme;
-
-    /**
-     * Determine is specified theme name is a valid, registered theme
-     */
-    function registered(themeName) {
-      if (themeName === undefined || themeName === '') return true;
-      return applyTheme.THEMES[themeName] !== undefined;
-    }
-
-    /**
-     * Get theme name for the element, then update with Theme CSS class
-     */
-    function inheritTheme (el, parent) {
-      var ctrl = parent.controller('mdTheme');
-      var attrThemeValue = el.attr('md-theme-watch');
-      var watchTheme = (alwaysWatchTheme || angular.isDefined(attrThemeValue)) && attrThemeValue != 'false';
-
-      updateThemeClass(lookupThemeName());
-
-      el.on('$destroy', watchTheme ? $rootScope.$watch(lookupThemeName, updateThemeClass) : angular.noop );
-
-      /**
-       * Find the theme name from the parent controller or element data
-       */
-      function lookupThemeName() {
-        // As a few components (dialog) add their controllers later, we should also watch for a controller init.
-        ctrl = parent.controller('mdTheme') || el.data('$mdThemeController');
-        return ctrl && ctrl.$mdTheme || (defaultTheme == 'default' ? '' : defaultTheme);
-      }
-
-      /**
-       * Remove old theme class and apply a new one
-       * NOTE: if not a valid theme name, then the current name is not changed
-       */
-      function updateThemeClass(theme) {
-        if (!theme) return;
-        if (!registered(theme)) {
-          $log.warn('Attempted to use unregistered theme \'' + theme + '\'. ' +
-                    'Register it with $mdThemingProvider.theme().');
-        }
-
-        var oldTheme = el.data('$mdThemeName');
-        if (oldTheme) el.removeClass('md-' + oldTheme +'-theme');
-        el.addClass('md-' + theme + '-theme');
-        el.data('$mdThemeName', theme);
-        if (ctrl) {
-          el.data('$mdThemeController', ctrl);
-        }
-      }
-    }
-
-  }
-}
-ThemingProvider.$inject = ["$mdColorPalette"];
-
-function ThemingDirective($mdTheming, $interpolate, $log) {
-  return {
-    priority: 100,
-    link: {
-      pre: function(scope, el, attrs) {
-        var ctrl = {
-          $setTheme: function(theme) {
-            if (!$mdTheming.registered(theme)) {
-              $log.warn('attempted to use unregistered theme \'' + theme + '\'');
-            }
-            ctrl.$mdTheme = theme;
-          }
-        };
-        el.data('$mdThemeController', ctrl);
-        ctrl.$setTheme($interpolate(attrs.mdTheme)(scope));
-        attrs.$observe('mdTheme', ctrl.$setTheme);
-      }
-    }
-  };
-}
-ThemingDirective.$inject = ["$mdTheming", "$interpolate", "$log"];
-
-function ThemableDirective($mdTheming) {
-  return $mdTheming;
-}
-ThemableDirective.$inject = ["$mdTheming"];
-
-function parseRules(theme, colorType, rules) {
-  checkValidPalette(theme, colorType);
-
-  rules = rules.replace(/THEME_NAME/g, theme.name);
-  var generatedRules = [];
-  var color = theme.colors[colorType];
-
-  var themeNameRegex = new RegExp('.md-' + theme.name + '-theme', 'g');
-  // Matches '{{ primary-color }}', etc
-  var hueRegex = new RegExp('(\'|")?{{\\s*(' + colorType + ')-(color|contrast)-?(\\d\\.?\\d*)?\\s*}}(\"|\')?','g');
-  var simpleVariableRegex = /'?"?\{\{\s*([a-zA-Z]+)-(A?\d+|hue\-[0-3]|shadow|default)-?(\d\.?\d*)?(contrast)?\s*\}\}'?"?/g;
-  var palette = PALETTES[color.name];
-
-  // find and replace simple variables where we use a specific hue, not an entire palette
-  // eg. "{{primary-100}}"
-  //\(' + THEME_COLOR_TYPES.join('\|') + '\)'
-  rules = rules.replace(simpleVariableRegex, function(match, colorType, hue, opacity, contrast) {
-    if (colorType === 'foreground') {
-      if (hue == 'shadow') {
-        return theme.foregroundShadow;
-      } else {
-        return theme.foregroundPalette[hue] || theme.foregroundPalette['1'];
-      }
-    }
-
-    // `default` is also accepted as a hue-value, because the background palettes are
-    // using it as a name for the default hue.
-    if (hue.indexOf('hue') === 0 || hue === 'default') {
-      hue = theme.colors[colorType].hues[hue];
-    }
-
-    return rgba( (PALETTES[ theme.colors[colorType].name ][hue] || '')[contrast ? 'contrast' : 'value'], opacity );
-  });
-
-  // For each type, generate rules for each hue (ie. default, md-hue-1, md-hue-2, md-hue-3)
-  angular.forEach(color.hues, function(hueValue, hueName) {
-    var newRule = rules
-      .replace(hueRegex, function(match, _, colorType, hueType, opacity) {
-        return rgba(palette[hueValue][hueType === 'color' ? 'value' : 'contrast'], opacity);
-      });
-    if (hueName !== 'default') {
-      newRule = newRule.replace(themeNameRegex, '.md-' + theme.name + '-theme.md-' + hueName);
-    }
-
-    // Don't apply a selector rule to the default theme, making it easier to override
-    // styles of the base-component
-    if (theme.name == 'default') {
-      var themeRuleRegex = /((?:(?:(?: |>|\.|\w|-|:|\(|\)|\[|\]|"|'|=)+) )?)((?:(?:\w|\.|-)+)?)\.md-default-theme((?: |>|\.|\w|-|:|\(|\)|\[|\]|"|'|=)*)/g;
-      newRule = newRule.replace(themeRuleRegex, function(match, prefix, target, suffix) {
-        return match + ', ' + prefix + target + suffix;
-      });
-    }
-    generatedRules.push(newRule);
-  });
-
-  return generatedRules;
-}
-
-var rulesByType = {};
-
-// Generate our themes at run time given the state of THEMES and PALETTES
-function generateAllThemes($injector, $mdTheming ) {
-  var head = document.head;
-  var firstChild = head ? head.firstElementChild : null;
-  var themeCss = !disableTheming && $injector.has('$MD_THEME_CSS') ? $injector.get('$MD_THEME_CSS') : '';
-
-  if ( !firstChild ) return;
-  if (themeCss.length === 0) return; // no rules, so no point in running this expensive task
-
-  // Expose contrast colors for palettes to ensure that text is always readable
-  angular.forEach(PALETTES, sanitizePalette);
-
-  // MD_THEME_CSS is a string generated by the build process that includes all the themable
-  // components as templates
-
-  // Break the CSS into individual rules
-  var rules = themeCss
-                  .split(/\}(?!(\}|'|"|;))/)
-                  .filter(function(rule) { return rule && rule.length; })
-                  .map(function(rule) { return rule.trim() + '}'; });
-
-
-  var ruleMatchRegex = new RegExp('md-(' + THEME_COLOR_TYPES.join('|') + ')', 'g');
-
-  THEME_COLOR_TYPES.forEach(function(type) {
-    rulesByType[type] = '';
-  });
-
-
-  // Sort the rules based on type, allowing us to do color substitution on a per-type basis
-  rules.forEach(function(rule) {
-    var match = rule.match(ruleMatchRegex);
-    // First: test that if the rule has '.md-accent', it goes into the accent set of rules
-    for (var i = 0, type; type = THEME_COLOR_TYPES[i]; i++) {
-      if (rule.indexOf('.md-' + type) > -1) {
-        return rulesByType[type] += rule;
-      }
-    }
-
-    // If no eg 'md-accent' class is found, try to just find 'accent' in the rule and guess from
-    // there
-    for (i = 0; type = THEME_COLOR_TYPES[i]; i++) {
-      if (rule.indexOf(type) > -1) {
-        return rulesByType[type] += rule;
-      }
-    }
-
-    // Default to the primary array
-    return rulesByType[DEFAULT_COLOR_TYPE] += rule;
-  });
-
-  // If themes are being generated on-demand, quit here. The user will later manually
-  // call generateTheme to do this on a theme-by-theme basis.
-  if (generateOnDemand) return;
-
-  angular.forEach($mdTheming.THEMES, function(theme) {
-    if (!GENERATED[theme.name]) {
-      generateTheme(theme, theme.name, nonce);
-    }
-  });
-
-
-  // *************************
-  // Internal functions
-  // *************************
-
-  // The user specifies a 'default' contrast color as either light or dark,
-  // then explicitly lists which hues are the opposite contrast (eg. A100 has dark, A200 has light)
-  function sanitizePalette(palette, name) {
-    var defaultContrast = palette.contrastDefaultColor;
-    var lightColors = palette.contrastLightColors || [];
-    var strongLightColors = palette.contrastStrongLightColors || [];
-    var darkColors = palette.contrastDarkColors || [];
-
-    // These colors are provided as space-separated lists
-    if (typeof lightColors === 'string') lightColors = lightColors.split(' ');
-    if (typeof strongLightColors === 'string') strongLightColors = strongLightColors.split(' ');
-    if (typeof darkColors === 'string') darkColors = darkColors.split(' ');
-
-    // Cleanup after ourselves
-    delete palette.contrastDefaultColor;
-    delete palette.contrastLightColors;
-    delete palette.contrastStrongLightColors;
-    delete palette.contrastDarkColors;
-
-    // Change { 'A100': '#fffeee' } to { 'A100': { value: '#fffeee', contrast:DARK_CONTRAST_COLOR }
-    angular.forEach(palette, function(hueValue, hueName) {
-      if (angular.isObject(hueValue)) return; // Already converted
-      // Map everything to rgb colors
-      var rgbValue = colorToRgbaArray(hueValue);
-      if (!rgbValue) {
-        throw new Error("Color %1, in palette %2's hue %3, is invalid. Hex or rgb(a) color expected."
-                        .replace('%1', hueValue)
-                        .replace('%2', palette.name)
-                        .replace('%3', hueName));
-      }
-
-      palette[hueName] = {
-        value: rgbValue,
-        contrast: getContrastColor()
-      };
-      function getContrastColor() {
-        if (defaultContrast === 'light') {
-          if (darkColors.indexOf(hueName) > -1) {
-            return DARK_CONTRAST_COLOR;
-          } else {
-            return strongLightColors.indexOf(hueName) > -1 ? STRONG_LIGHT_CONTRAST_COLOR
-              : LIGHT_CONTRAST_COLOR;
-          }
-        } else {
-          if (lightColors.indexOf(hueName) > -1) {
-            return strongLightColors.indexOf(hueName) > -1 ? STRONG_LIGHT_CONTRAST_COLOR
-              : LIGHT_CONTRAST_COLOR;
-          } else {
-            return DARK_CONTRAST_COLOR;
-          }
-        }
-      }
-    });
-  }
-}
-generateAllThemes.$inject = ["$injector", "$mdTheming"];
-
-function generateTheme(theme, name, nonce) {
-  var head = document.head;
-  var firstChild = head ? head.firstElementChild : null;
-
-  if (!GENERATED[name]) {
-    // For each theme, use the color palettes specified for
-    // `primary`, `warn` and `accent` to generate CSS rules.
-    THEME_COLOR_TYPES.forEach(function(colorType) {
-      var styleStrings = parseRules(theme, colorType, rulesByType[colorType]);
-      while (styleStrings.length) {
-        var styleContent = styleStrings.shift();
-        if (styleContent) {
-          var style = document.createElement('style');
-          style.setAttribute('md-theme-style', '');
-          if (nonce) {
-            style.setAttribute('nonce', nonce);
-          }
-          style.appendChild(document.createTextNode(styleContent));
-          head.insertBefore(style, firstChild);
-        }
-      }
-    });
-
-
-    if (theme.colors.primary.name == theme.colors.accent.name) {
-      console.warn('$mdThemingProvider: Using the same palette for primary and' +
-                   ' accent. This violates the material design spec.');
-    }
-
-    GENERATED[theme.name] = true;
-  }
-
-}
-
-
-function checkValidPalette(theme, colorType) {
-  // If theme attempts to use a palette that doesnt exist, throw error
-  if (!PALETTES[ (theme.colors[colorType] || {}).name ]) {
-    throw new Error(
-      "You supplied an invalid color palette for theme %1's %2 palette. Available palettes: %3"
-                    .replace('%1', theme.name)
-                    .replace('%2', colorType)
-                    .replace('%3', Object.keys(PALETTES).join(', '))
-    );
-  }
-}
-
-function colorToRgbaArray(clr) {
-  if (angular.isArray(clr) && clr.length == 3) return clr;
-  if (/^rgb/.test(clr)) {
-    return clr.replace(/(^\s*rgba?\(|\)\s*$)/g, '').split(',').map(function(value, i) {
-      return i == 3 ? parseFloat(value, 10) : parseInt(value, 10);
-    });
-  }
-  if (clr.charAt(0) == '#') clr = clr.substring(1);
-  if (!/^([a-fA-F0-9]{3}){1,2}$/g.test(clr)) return;
-
-  var dig = clr.length / 3;
-  var red = clr.substr(0, dig);
-  var grn = clr.substr(dig, dig);
-  var blu = clr.substr(dig * 2);
-  if (dig === 1) {
-    red += red;
-    grn += grn;
-    blu += blu;
-  }
-  return [parseInt(red, 16), parseInt(grn, 16), parseInt(blu, 16)];
-}
-
-function rgba(rgbArray, opacity) {
-  if ( !rgbArray ) return "rgb('0,0,0')";
-
-  if (rgbArray.length == 4) {
-    rgbArray = angular.copy(rgbArray);
-    opacity ? rgbArray.pop() : opacity = rgbArray.pop();
-  }
-  return opacity && (typeof opacity == 'number' || (typeof opacity == 'string' && opacity.length)) ?
-    'rgba(' + rgbArray.join(',') + ',' + opacity + ')' :
-    'rgb(' + rgbArray.join(',') + ')';
-}
 
 (function() {
   'use strict';
@@ -5062,11 +3870,10 @@ InkRippleService.$inject = ["$injector"];
  * Controller used by the ripple service in order to apply ripples
  * ngInject
  */
-function InkRippleCtrl ($scope, $element, rippleOptions, $window, $timeout, $mdUtil, $mdColorUtil) {
+function InkRippleCtrl ($scope, $element, rippleOptions, $window, $timeout, $mdUtil) {
   this.$window    = $window;
   this.$timeout   = $timeout;
   this.$mdUtil    = $mdUtil;
-  this.$mdColorUtil    = $mdColorUtil;
   this.$scope     = $scope;
   this.$element   = $element;
   this.options    = rippleOptions;
@@ -5085,7 +3892,7 @@ function InkRippleCtrl ($scope, $element, rippleOptions, $window, $timeout, $mdU
 
   this.bindEvents();
 }
-InkRippleCtrl.$inject = ["$scope", "$element", "rippleOptions", "$window", "$timeout", "$mdUtil", "$mdColorUtil"];
+InkRippleCtrl.$inject = ["$scope", "$element", "rippleOptions", "$window", "$timeout", "$mdUtil"];
 
 
 /**
@@ -5147,12 +3954,39 @@ InkRippleCtrl.prototype.calculateColor = function () {
 
 InkRippleCtrl.prototype._parseColor = function parseColor (color, multiplier) {
   multiplier = multiplier || 1;
-  var colorUtil = this.$mdColorUtil;
-  
+
   if (!color) return;
   if (color.indexOf('rgba') === 0) return color.replace(/\d?\.?\d*\s*\)\s*$/, (0.1 * multiplier).toString() + ')');
-  if (color.indexOf('rgb') === 0) return colorUtil.rgbToRgba(color);
-  if (color.indexOf('#') === 0) return colorUtil.hexToRgba(color);
+  if (color.indexOf('rgb') === 0) return rgbToRGBA(color);
+  if (color.indexOf('#') === 0) return hexToRGBA(color);
+
+  /**
+   * Converts hex value to RGBA string
+   * @param color {string}
+   * @returns {string}
+   */
+  function hexToRGBA (color) {
+    var hex   = color[ 0 ] === '#' ? color.substr(1) : color,
+      dig   = hex.length / 3,
+      red   = hex.substr(0, dig),
+      green = hex.substr(dig, dig),
+      blue  = hex.substr(dig * 2);
+    if (dig === 1) {
+      red += red;
+      green += green;
+      blue += blue;
+    }
+    return 'rgba(' + parseInt(red, 16) + ',' + parseInt(green, 16) + ',' + parseInt(blue, 16) + ',0.1)';
+  }
+
+  /**
+   * Converts an RGB color to RGBA
+   * @param color {string}
+   * @returns {string}
+   */
+  function rgbToRGBA (color) {
+    return color.replace(')', ', 0.1)').replace('(', 'a(');
+  }
 
 };
 
@@ -5276,7 +4110,6 @@ InkRippleCtrl.prototype.createRipple = function (left, top) {
   if (!this.isRippleAllowed()) return;
 
   var ctrl        = this;
-  var colorUtil   = ctrl.$mdColorUtil;
   var ripple      = angular.element('<div class="md-ripple"></div>');
   var width       = this.$element.prop('clientWidth');
   var height      = this.$element.prop('clientHeight');
@@ -5291,8 +4124,8 @@ InkRippleCtrl.prototype.createRipple = function (left, top) {
     background:      'black',
     width:           size + 'px',
     height:          size + 'px',
-    backgroundColor: colorUtil.rgbaToRgb(color),
-    borderColor:     colorUtil.rgbaToRgb(color)
+    backgroundColor: rgbaToRGB(color),
+    borderColor:     rgbaToRGB(color)
   });
   this.lastRipple = ripple;
 
@@ -5316,6 +4149,12 @@ InkRippleCtrl.prototype.createRipple = function (left, top) {
     }, DURATION, false);
 
   }, false);
+
+  function rgbaToRGB (color) {
+    return color
+        ? color.replace('rgba', 'rgb').replace(/,[^\),]+\)/, ')')
+        : 'rgb(0,0,0)';
+  }
 
   function getSize (fit, x, y) {
     return fit
@@ -5413,6 +4252,1062 @@ function attrNoDirective () {
   MdTabInkRipple.$inject = ["$mdInkRipple"];;
 })();
 
+angular.module('material.core.theming.palette', [])
+.constant('$mdColorPalette', {
+  'red': {
+    '50': '#ffebee',
+    '100': '#ffcdd2',
+    '200': '#ef9a9a',
+    '300': '#e57373',
+    '400': '#ef5350',
+    '500': '#f44336',
+    '600': '#e53935',
+    '700': '#d32f2f',
+    '800': '#c62828',
+    '900': '#b71c1c',
+    'A100': '#ff8a80',
+    'A200': '#ff5252',
+    'A400': '#ff1744',
+    'A700': '#d50000',
+    'contrastDefaultColor': 'light',
+    'contrastDarkColors': '50 100 200 300 A100',
+    'contrastStrongLightColors': '400 500 600 700 A200 A400 A700'
+  },
+  'pink': {
+    '50': '#fce4ec',
+    '100': '#f8bbd0',
+    '200': '#f48fb1',
+    '300': '#f06292',
+    '400': '#ec407a',
+    '500': '#e91e63',
+    '600': '#d81b60',
+    '700': '#c2185b',
+    '800': '#ad1457',
+    '900': '#880e4f',
+    'A100': '#ff80ab',
+    'A200': '#ff4081',
+    'A400': '#f50057',
+    'A700': '#c51162',
+    'contrastDefaultColor': 'light',
+    'contrastDarkColors': '50 100 200 A100',
+    'contrastStrongLightColors': '500 600 A200 A400 A700'
+  },
+  'purple': {
+    '50': '#f3e5f5',
+    '100': '#e1bee7',
+    '200': '#ce93d8',
+    '300': '#ba68c8',
+    '400': '#ab47bc',
+    '500': '#9c27b0',
+    '600': '#8e24aa',
+    '700': '#7b1fa2',
+    '800': '#6a1b9a',
+    '900': '#4a148c',
+    'A100': '#ea80fc',
+    'A200': '#e040fb',
+    'A400': '#d500f9',
+    'A700': '#aa00ff',
+    'contrastDefaultColor': 'light',
+    'contrastDarkColors': '50 100 200 A100',
+    'contrastStrongLightColors': '300 400 A200 A400 A700'
+  },
+  'deep-purple': {
+    '50': '#ede7f6',
+    '100': '#d1c4e9',
+    '200': '#b39ddb',
+    '300': '#9575cd',
+    '400': '#7e57c2',
+    '500': '#673ab7',
+    '600': '#5e35b1',
+    '700': '#512da8',
+    '800': '#4527a0',
+    '900': '#311b92',
+    'A100': '#b388ff',
+    'A200': '#7c4dff',
+    'A400': '#651fff',
+    'A700': '#6200ea',
+    'contrastDefaultColor': 'light',
+    'contrastDarkColors': '50 100 200 A100',
+    'contrastStrongLightColors': '300 400 A200'
+  },
+  'indigo': {
+    '50': '#e8eaf6',
+    '100': '#c5cae9',
+    '200': '#9fa8da',
+    '300': '#7986cb',
+    '400': '#5c6bc0',
+    '500': '#3f51b5',
+    '600': '#3949ab',
+    '700': '#303f9f',
+    '800': '#283593',
+    '900': '#1a237e',
+    'A100': '#8c9eff',
+    'A200': '#536dfe',
+    'A400': '#3d5afe',
+    'A700': '#304ffe',
+    'contrastDefaultColor': 'light',
+    'contrastDarkColors': '50 100 200 A100',
+    'contrastStrongLightColors': '300 400 A200 A400'
+  },
+  'blue': {
+    '50': '#e3f2fd',
+    '100': '#bbdefb',
+    '200': '#90caf9',
+    '300': '#64b5f6',
+    '400': '#42a5f5',
+    '500': '#2196f3',
+    '600': '#1e88e5',
+    '700': '#1976d2',
+    '800': '#1565c0',
+    '900': '#0d47a1',
+    'A100': '#82b1ff',
+    'A200': '#448aff',
+    'A400': '#2979ff',
+    'A700': '#2962ff',
+    'contrastDefaultColor': 'light',
+    'contrastDarkColors': '50 100 200 300 400 A100',
+    'contrastStrongLightColors': '500 600 700 A200 A400 A700'
+  },
+  'light-blue': {
+    '50': '#e1f5fe',
+    '100': '#b3e5fc',
+    '200': '#81d4fa',
+    '300': '#4fc3f7',
+    '400': '#29b6f6',
+    '500': '#03a9f4',
+    '600': '#039be5',
+    '700': '#0288d1',
+    '800': '#0277bd',
+    '900': '#01579b',
+    'A100': '#80d8ff',
+    'A200': '#40c4ff',
+    'A400': '#00b0ff',
+    'A700': '#0091ea',
+    'contrastDefaultColor': 'dark',
+    'contrastLightColors': '600 700 800 900 A700',
+    'contrastStrongLightColors': '600 700 800 A700'
+  },
+  'cyan': {
+    '50': '#e0f7fa',
+    '100': '#b2ebf2',
+    '200': '#80deea',
+    '300': '#4dd0e1',
+    '400': '#26c6da',
+    '500': '#00bcd4',
+    '600': '#00acc1',
+    '700': '#0097a7',
+    '800': '#00838f',
+    '900': '#006064',
+    'A100': '#84ffff',
+    'A200': '#18ffff',
+    'A400': '#00e5ff',
+    'A700': '#00b8d4',
+    'contrastDefaultColor': 'dark',
+    'contrastLightColors': '700 800 900',
+    'contrastStrongLightColors': '700 800 900'
+  },
+  'teal': {
+    '50': '#e0f2f1',
+    '100': '#b2dfdb',
+    '200': '#80cbc4',
+    '300': '#4db6ac',
+    '400': '#26a69a',
+    '500': '#009688',
+    '600': '#00897b',
+    '700': '#00796b',
+    '800': '#00695c',
+    '900': '#004d40',
+    'A100': '#a7ffeb',
+    'A200': '#64ffda',
+    'A400': '#1de9b6',
+    'A700': '#00bfa5',
+    'contrastDefaultColor': 'dark',
+    'contrastLightColors': '500 600 700 800 900',
+    'contrastStrongLightColors': '500 600 700'
+  },
+  'green': {
+    '50': '#e8f5e9',
+    '100': '#c8e6c9',
+    '200': '#a5d6a7',
+    '300': '#81c784',
+    '400': '#66bb6a',
+    '500': '#4caf50',
+    '600': '#43a047',
+    '700': '#388e3c',
+    '800': '#2e7d32',
+    '900': '#1b5e20',
+    'A100': '#b9f6ca',
+    'A200': '#69f0ae',
+    'A400': '#00e676',
+    'A700': '#00c853',
+    'contrastDefaultColor': 'dark',
+    'contrastLightColors': '600 700 800 900',
+    'contrastStrongLightColors': '600 700'
+  },
+  'light-green': {
+    '50': '#f1f8e9',
+    '100': '#dcedc8',
+    '200': '#c5e1a5',
+    '300': '#aed581',
+    '400': '#9ccc65',
+    '500': '#8bc34a',
+    '600': '#7cb342',
+    '700': '#689f38',
+    '800': '#558b2f',
+    '900': '#33691e',
+    'A100': '#ccff90',
+    'A200': '#b2ff59',
+    'A400': '#76ff03',
+    'A700': '#64dd17',
+    'contrastDefaultColor': 'dark',
+    'contrastLightColors': '700 800 900',
+    'contrastStrongLightColors': '700 800 900'
+  },
+  'lime': {
+    '50': '#f9fbe7',
+    '100': '#f0f4c3',
+    '200': '#e6ee9c',
+    '300': '#dce775',
+    '400': '#d4e157',
+    '500': '#cddc39',
+    '600': '#c0ca33',
+    '700': '#afb42b',
+    '800': '#9e9d24',
+    '900': '#827717',
+    'A100': '#f4ff81',
+    'A200': '#eeff41',
+    'A400': '#c6ff00',
+    'A700': '#aeea00',
+    'contrastDefaultColor': 'dark',
+    'contrastLightColors': '900',
+    'contrastStrongLightColors': '900'
+  },
+  'yellow': {
+    '50': '#fffde7',
+    '100': '#fff9c4',
+    '200': '#fff59d',
+    '300': '#fff176',
+    '400': '#ffee58',
+    '500': '#ffeb3b',
+    '600': '#fdd835',
+    '700': '#fbc02d',
+    '800': '#f9a825',
+    '900': '#f57f17',
+    'A100': '#ffff8d',
+    'A200': '#ffff00',
+    'A400': '#ffea00',
+    'A700': '#ffd600',
+    'contrastDefaultColor': 'dark'
+  },
+  'amber': {
+    '50': '#fff8e1',
+    '100': '#ffecb3',
+    '200': '#ffe082',
+    '300': '#ffd54f',
+    '400': '#ffca28',
+    '500': '#ffc107',
+    '600': '#ffb300',
+    '700': '#ffa000',
+    '800': '#ff8f00',
+    '900': '#ff6f00',
+    'A100': '#ffe57f',
+    'A200': '#ffd740',
+    'A400': '#ffc400',
+    'A700': '#ffab00',
+    'contrastDefaultColor': 'dark'
+  },
+  'orange': {
+    '50': '#fff3e0',
+    '100': '#ffe0b2',
+    '200': '#ffcc80',
+    '300': '#ffb74d',
+    '400': '#ffa726',
+    '500': '#ff9800',
+    '600': '#fb8c00',
+    '700': '#f57c00',
+    '800': '#ef6c00',
+    '900': '#e65100',
+    'A100': '#ffd180',
+    'A200': '#ffab40',
+    'A400': '#ff9100',
+    'A700': '#ff6d00',
+    'contrastDefaultColor': 'dark',
+    'contrastLightColors': '800 900',
+    'contrastStrongLightColors': '800 900'
+  },
+  'deep-orange': {
+    '50': '#fbe9e7',
+    '100': '#ffccbc',
+    '200': '#ffab91',
+    '300': '#ff8a65',
+    '400': '#ff7043',
+    '500': '#ff5722',
+    '600': '#f4511e',
+    '700': '#e64a19',
+    '800': '#d84315',
+    '900': '#bf360c',
+    'A100': '#ff9e80',
+    'A200': '#ff6e40',
+    'A400': '#ff3d00',
+    'A700': '#dd2c00',
+    'contrastDefaultColor': 'light',
+    'contrastDarkColors': '50 100 200 300 400 A100 A200',
+    'contrastStrongLightColors': '500 600 700 800 900 A400 A700'
+  },
+  'brown': {
+    '50': '#efebe9',
+    '100': '#d7ccc8',
+    '200': '#bcaaa4',
+    '300': '#a1887f',
+    '400': '#8d6e63',
+    '500': '#795548',
+    '600': '#6d4c41',
+    '700': '#5d4037',
+    '800': '#4e342e',
+    '900': '#3e2723',
+    'A100': '#d7ccc8',
+    'A200': '#bcaaa4',
+    'A400': '#8d6e63',
+    'A700': '#5d4037',
+    'contrastDefaultColor': 'light',
+    'contrastDarkColors': '50 100 200',
+    'contrastStrongLightColors': '300 400'
+  },
+  'grey': {
+    '50': '#fafafa',
+    '100': '#f5f5f5',
+    '200': '#eeeeee',
+    '300': '#e0e0e0',
+    '400': '#bdbdbd',
+    '500': '#9e9e9e',
+    '600': '#757575',
+    '700': '#616161',
+    '800': '#424242',
+    '900': '#212121',
+    '1000': '#000000',
+    'A100': '#ffffff',
+    'A200': '#eeeeee',
+    'A400': '#bdbdbd',
+    'A700': '#616161',
+    'contrastDefaultColor': 'dark',
+    'contrastLightColors': '600 700 800 900'
+  },
+  'blue-grey': {
+    '50': '#eceff1',
+    '100': '#cfd8dc',
+    '200': '#b0bec5',
+    '300': '#90a4ae',
+    '400': '#78909c',
+    '500': '#607d8b',
+    '600': '#546e7a',
+    '700': '#455a64',
+    '800': '#37474f',
+    '900': '#263238',
+    'A100': '#cfd8dc',
+    'A200': '#b0bec5',
+    'A400': '#78909c',
+    'A700': '#455a64',
+    'contrastDefaultColor': 'light',
+    'contrastDarkColors': '50 100 200 300',
+    'contrastStrongLightColors': '400 500'
+  }
+});
+
+angular.module('material.core.theming', ['material.core.theming.palette'])
+  .directive('mdTheme', ThemingDirective)
+  .directive('mdThemable', ThemableDirective)
+  .provider('$mdTheming', ThemingProvider)
+  .run(generateAllThemes);
+
+/**
+ * @ngdoc service
+ * @name $mdThemingProvider
+ * @module material.core.theming
+ *
+ * @description Provider to configure the `$mdTheming` service.
+ */
+
+/**
+ * @ngdoc method
+ * @name $mdThemingProvider#setNonce
+ * @param {string} nonceValue The nonce to be added as an attribute to the theme style tags.
+ * Setting a value allows the use CSP policy without using the unsafe-inline directive.
+ */
+
+/**
+ * @ngdoc method
+ * @name $mdThemingProvider#setDefaultTheme
+ * @param {string} themeName Default theme name to be applied to elements. Default value is `default`.
+ */
+
+/**
+ * @ngdoc method
+ * @name $mdThemingProvider#alwaysWatchTheme
+ * @param {boolean} watch Whether or not to always watch themes for changes and re-apply
+ * classes when they change. Default is `false`. Enabling can reduce performance.
+ */
+
+/* Some Example Valid Theming Expressions
+ * =======================================
+ *
+ * Intention group expansion: (valid for primary, accent, warn, background)
+ *
+ * {{primary-100}} - grab shade 100 from the primary palette
+ * {{primary-100-0.7}} - grab shade 100, apply opacity of 0.7
+ * {{primary-100-contrast}} - grab shade 100's contrast color
+ * {{primary-hue-1}} - grab the shade assigned to hue-1 from the primary palette
+ * {{primary-hue-1-0.7}} - apply 0.7 opacity to primary-hue-1
+ * {{primary-color}} - Generates .md-hue-1, .md-hue-2, .md-hue-3 with configured shades set for each hue
+ * {{primary-color-0.7}} - Apply 0.7 opacity to each of the above rules
+ * {{primary-contrast}} - Generates .md-hue-1, .md-hue-2, .md-hue-3 with configured contrast (ie. text) color shades set for each hue
+ * {{primary-contrast-0.7}} - Apply 0.7 opacity to each of the above rules
+ *
+ * Foreground expansion: Applies rgba to black/white foreground text
+ *
+ * {{foreground-1}} - used for primary text
+ * {{foreground-2}} - used for secondary text/divider
+ * {{foreground-3}} - used for disabled text
+ * {{foreground-4}} - used for dividers
+ *
+ */
+
+// In memory generated CSS rules; registered by theme.name
+var GENERATED = { };
+
+// In memory storage of defined themes and color palettes (both loaded by CSS, and user specified)
+var PALETTES;
+var THEMES;
+
+var DARK_FOREGROUND = {
+  name: 'dark',
+  '1': 'rgba(0,0,0,0.87)',
+  '2': 'rgba(0,0,0,0.54)',
+  '3': 'rgba(0,0,0,0.26)',
+  '4': 'rgba(0,0,0,0.12)'
+};
+var LIGHT_FOREGROUND = {
+  name: 'light',
+  '1': 'rgba(255,255,255,1.0)',
+  '2': 'rgba(255,255,255,0.7)',
+  '3': 'rgba(255,255,255,0.3)',
+  '4': 'rgba(255,255,255,0.12)'
+};
+
+var DARK_SHADOW = '1px 1px 0px rgba(0,0,0,0.4), -1px -1px 0px rgba(0,0,0,0.4)';
+var LIGHT_SHADOW = '';
+
+var DARK_CONTRAST_COLOR = colorToRgbaArray('rgba(0,0,0,0.87)');
+var LIGHT_CONTRAST_COLOR = colorToRgbaArray('rgba(255,255,255,0.87)');
+var STRONG_LIGHT_CONTRAST_COLOR = colorToRgbaArray('rgb(255,255,255)');
+
+var THEME_COLOR_TYPES = ['primary', 'accent', 'warn', 'background'];
+var DEFAULT_COLOR_TYPE = 'primary';
+
+// A color in a theme will use these hues by default, if not specified by user.
+var LIGHT_DEFAULT_HUES = {
+  'accent': {
+    'default': 'A200',
+    'hue-1': 'A100',
+    'hue-2': 'A400',
+    'hue-3': 'A700'
+  },
+  'background': {
+    'default': 'A100',
+    'hue-1': '300',
+    'hue-2': '800',
+    'hue-3': '900'
+  }
+};
+
+var DARK_DEFAULT_HUES = {
+  'background': {
+    'default': '800',
+    'hue-1': '600',
+    'hue-2': '300',
+    'hue-3': '900'
+  }
+};
+THEME_COLOR_TYPES.forEach(function(colorType) {
+  // Color types with unspecified default hues will use these default hue values
+  var defaultDefaultHues = {
+    'default': '500',
+    'hue-1': '300',
+    'hue-2': '800',
+    'hue-3': 'A100'
+  };
+  if (!LIGHT_DEFAULT_HUES[colorType]) LIGHT_DEFAULT_HUES[colorType] = defaultDefaultHues;
+  if (!DARK_DEFAULT_HUES[colorType]) DARK_DEFAULT_HUES[colorType] = defaultDefaultHues;
+});
+
+var VALID_HUE_VALUES = [
+  '50', '100', '200', '300', '400', '500', '600',
+  '700', '800', '900', 'A100', 'A200', 'A400', 'A700'
+];
+
+// Whether or not themes are to be generated on-demand (vs. eagerly).
+var generateOnDemand = false;
+
+// Nonce to be added as an attribute to the generated themes style tags.
+var nonce = null;
+
+function ThemingProvider($mdColorPalette) {
+  PALETTES = { };
+  THEMES = { };
+
+  var themingProvider;
+  var defaultTheme = 'default';
+  var alwaysWatchTheme = false;
+
+  // Load JS Defined Palettes
+  angular.extend(PALETTES, $mdColorPalette);
+
+  // Default theme defined in core.js
+
+  ThemingService.$inject = ["$rootScope", "$log"];
+  return themingProvider = {
+    definePalette: definePalette,
+    extendPalette: extendPalette,
+    theme: registerTheme,
+
+    setNonce: function(nonceValue) {
+      nonce = nonceValue;
+    },
+    setDefaultTheme: function(theme) {
+      defaultTheme = theme;
+    },
+    alwaysWatchTheme: function(alwaysWatch) {
+      alwaysWatchTheme = alwaysWatch;
+    },
+    generateThemesOnDemand: function(onDemand) {
+      generateOnDemand = onDemand;
+    },
+    $get: ThemingService,
+    _LIGHT_DEFAULT_HUES: LIGHT_DEFAULT_HUES,
+    _DARK_DEFAULT_HUES: DARK_DEFAULT_HUES,
+    _PALETTES: PALETTES,
+    _THEMES: THEMES,
+    _parseRules: parseRules,
+    _rgba: rgba
+  };
+
+  // Example: $mdThemingProvider.definePalette('neonRed', { 50: '#f5fafa', ... });
+  function definePalette(name, map) {
+    map = map || {};
+    PALETTES[name] = checkPaletteValid(name, map);
+    return themingProvider;
+  }
+
+  // Returns an new object which is a copy of a given palette `name` with variables from
+  // `map` overwritten
+  // Example: var neonRedMap = $mdThemingProvider.extendPalette('red', { 50: '#f5fafafa' });
+  function extendPalette(name, map) {
+    return checkPaletteValid(name,  angular.extend({}, PALETTES[name] || {}, map) );
+  }
+
+  // Make sure that palette has all required hues
+  function checkPaletteValid(name, map) {
+    var missingColors = VALID_HUE_VALUES.filter(function(field) {
+      return !map[field];
+    });
+    if (missingColors.length) {
+      throw new Error("Missing colors %1 in palette %2!"
+                      .replace('%1', missingColors.join(', '))
+                      .replace('%2', name));
+    }
+
+    return map;
+  }
+
+  // Register a theme (which is a collection of color palettes to use with various states
+  // ie. warn, accent, primary )
+  // Optionally inherit from an existing theme
+  // $mdThemingProvider.theme('custom-theme').primaryPalette('red');
+  function registerTheme(name, inheritFrom) {
+    if (THEMES[name]) return THEMES[name];
+
+    inheritFrom = inheritFrom || 'default';
+
+    var parentTheme = typeof inheritFrom === 'string' ? THEMES[inheritFrom] : inheritFrom;
+    var theme = new Theme(name);
+
+    if (parentTheme) {
+      angular.forEach(parentTheme.colors, function(color, colorType) {
+        theme.colors[colorType] = {
+          name: color.name,
+          // Make sure a COPY of the hues is given to the child color,
+          // not the same reference.
+          hues: angular.extend({}, color.hues)
+        };
+      });
+    }
+    THEMES[name] = theme;
+
+    return theme;
+  }
+
+  function Theme(name) {
+    var self = this;
+    self.name = name;
+    self.colors = {};
+
+    self.dark = setDark;
+    setDark(false);
+
+    function setDark(isDark) {
+      isDark = arguments.length === 0 ? true : !!isDark;
+
+      // If no change, abort
+      if (isDark === self.isDark) return;
+
+      self.isDark = isDark;
+
+      self.foregroundPalette = self.isDark ? LIGHT_FOREGROUND : DARK_FOREGROUND;
+      self.foregroundShadow = self.isDark ? DARK_SHADOW : LIGHT_SHADOW;
+
+      // Light and dark themes have different default hues.
+      // Go through each existing color type for this theme, and for every
+      // hue value that is still the default hue value from the previous light/dark setting,
+      // set it to the default hue value from the new light/dark setting.
+      var newDefaultHues = self.isDark ? DARK_DEFAULT_HUES : LIGHT_DEFAULT_HUES;
+      var oldDefaultHues = self.isDark ? LIGHT_DEFAULT_HUES : DARK_DEFAULT_HUES;
+      angular.forEach(newDefaultHues, function(newDefaults, colorType) {
+        var color = self.colors[colorType];
+        var oldDefaults = oldDefaultHues[colorType];
+        if (color) {
+          for (var hueName in color.hues) {
+            if (color.hues[hueName] === oldDefaults[hueName]) {
+              color.hues[hueName] = newDefaults[hueName];
+            }
+          }
+        }
+      });
+
+      return self;
+    }
+
+    THEME_COLOR_TYPES.forEach(function(colorType) {
+      var defaultHues = (self.isDark ? DARK_DEFAULT_HUES : LIGHT_DEFAULT_HUES)[colorType];
+      self[colorType + 'Palette'] = function setPaletteType(paletteName, hues) {
+        var color = self.colors[colorType] = {
+          name: paletteName,
+          hues: angular.extend({}, defaultHues, hues)
+        };
+
+        Object.keys(color.hues).forEach(function(name) {
+          if (!defaultHues[name]) {
+            throw new Error("Invalid hue name '%1' in theme %2's %3 color %4. Available hue names: %4"
+              .replace('%1', name)
+              .replace('%2', self.name)
+              .replace('%3', paletteName)
+              .replace('%4', Object.keys(defaultHues).join(', '))
+            );
+          }
+        });
+        Object.keys(color.hues).map(function(key) {
+          return color.hues[key];
+        }).forEach(function(hueValue) {
+          if (VALID_HUE_VALUES.indexOf(hueValue) == -1) {
+            throw new Error("Invalid hue value '%1' in theme %2's %3 color %4. Available hue values: %5"
+              .replace('%1', hueValue)
+              .replace('%2', self.name)
+              .replace('%3', colorType)
+              .replace('%4', paletteName)
+              .replace('%5', VALID_HUE_VALUES.join(', '))
+            );
+          }
+        });
+        return self;
+      };
+
+      self[colorType + 'Color'] = function() {
+        var args = Array.prototype.slice.call(arguments);
+        console.warn('$mdThemingProviderTheme.' + colorType + 'Color() has been deprecated. ' +
+                     'Use $mdThemingProviderTheme.' + colorType + 'Palette() instead.');
+        return self[colorType + 'Palette'].apply(self, args);
+      };
+    });
+  }
+
+  /**
+   * @ngdoc service
+   * @name $mdTheming
+   *
+   * @description
+   *
+   * Service that makes an element apply theming related classes to itself.
+   *
+   * ```js
+   * app.directive('myFancyDirective', function($mdTheming) {
+   *   return {
+   *     restrict: 'e',
+   *     link: function(scope, el, attrs) {
+   *       $mdTheming(el);
+   *     }
+   *   };
+   * });
+   * ```
+   * @param {el=} element to apply theming to
+   */
+  /* ngInject */
+  function ThemingService($rootScope, $log) {
+        // Allow us to be invoked via a linking function signature.
+    var applyTheme = function (scope, el) {
+          if (el === undefined) { el = scope; scope = undefined; }
+          if (scope === undefined) { scope = $rootScope; }
+          applyTheme.inherit(el, el);
+        };
+
+    applyTheme.THEMES = angular.extend({}, THEMES);
+    applyTheme.inherit = inheritTheme;
+    applyTheme.registered = registered;
+    applyTheme.defaultTheme = function() { return defaultTheme; };
+    applyTheme.generateTheme = function(name) { generateTheme(name, nonce); };
+
+    return applyTheme;
+
+    /**
+     * Determine is specified theme name is a valid, registered theme
+     */
+    function registered(themeName) {
+      if (themeName === undefined || themeName === '') return true;
+      return applyTheme.THEMES[themeName] !== undefined;
+    }
+
+    /**
+     * Get theme name for the element, then update with Theme CSS class
+     */
+    function inheritTheme (el, parent) {
+      var ctrl = parent.controller('mdTheme');
+      var attrThemeValue = el.attr('md-theme-watch');
+      var watchTheme = (alwaysWatchTheme || angular.isDefined(attrThemeValue)) && attrThemeValue != 'false';
+
+      updateThemeClass(lookupThemeName());
+
+      el.on('$destroy', watchTheme ? $rootScope.$watch(lookupThemeName, updateThemeClass) : angular.noop );
+
+      /**
+       * Find the theme name from the parent controller or element data
+       */
+      function lookupThemeName() {
+        // As a few components (dialog) add their controllers later, we should also watch for a controller init.
+        ctrl = parent.controller('mdTheme') || el.data('$mdThemeController');
+        return ctrl && ctrl.$mdTheme || (defaultTheme == 'default' ? '' : defaultTheme);
+      }
+
+      /**
+       * Remove old theme class and apply a new one
+       * NOTE: if not a valid theme name, then the current name is not changed
+       */
+      function updateThemeClass(theme) {
+        if (!theme) return;
+        if (!registered(theme)) {
+          $log.warn('Attempted to use unregistered theme \'' + theme + '\'. ' +
+                    'Register it with $mdThemingProvider.theme().');
+        }
+
+        var oldTheme = el.data('$mdThemeName');
+        if (oldTheme) el.removeClass('md-' + oldTheme +'-theme');
+        el.addClass('md-' + theme + '-theme');
+        el.data('$mdThemeName', theme);
+        if (ctrl) {
+          el.data('$mdThemeController', ctrl);
+        }
+      }
+    }
+
+  }
+}
+ThemingProvider.$inject = ["$mdColorPalette"];
+
+function ThemingDirective($mdTheming, $interpolate, $log) {
+  return {
+    priority: 100,
+    link: {
+      pre: function(scope, el, attrs) {
+        var ctrl = {
+          $setTheme: function(theme) {
+            if (!$mdTheming.registered(theme)) {
+              $log.warn('attempted to use unregistered theme \'' + theme + '\'');
+            }
+            ctrl.$mdTheme = theme;
+          }
+        };
+        el.data('$mdThemeController', ctrl);
+        ctrl.$setTheme($interpolate(attrs.mdTheme)(scope));
+        attrs.$observe('mdTheme', ctrl.$setTheme);
+      }
+    }
+  };
+}
+ThemingDirective.$inject = ["$mdTheming", "$interpolate", "$log"];
+
+function ThemableDirective($mdTheming) {
+  return $mdTheming;
+}
+ThemableDirective.$inject = ["$mdTheming"];
+
+function parseRules(theme, colorType, rules) {
+  checkValidPalette(theme, colorType);
+
+  rules = rules.replace(/THEME_NAME/g, theme.name);
+  var generatedRules = [];
+  var color = theme.colors[colorType];
+
+  var themeNameRegex = new RegExp('.md-' + theme.name + '-theme', 'g');
+  // Matches '{{ primary-color }}', etc
+  var hueRegex = new RegExp('(\'|")?{{\\s*(' + colorType + ')-(color|contrast)-?(\\d\\.?\\d*)?\\s*}}(\"|\')?','g');
+  var simpleVariableRegex = /'?"?\{\{\s*([a-zA-Z]+)-(A?\d+|hue\-[0-3]|shadow)-?(\d\.?\d*)?(contrast)?\s*\}\}'?"?/g;
+  var palette = PALETTES[color.name];
+
+  // find and replace simple variables where we use a specific hue, not an entire palette
+  // eg. "{{primary-100}}"
+  //\(' + THEME_COLOR_TYPES.join('\|') + '\)'
+  rules = rules.replace(simpleVariableRegex, function(match, colorType, hue, opacity, contrast) {
+    if (colorType === 'foreground') {
+      if (hue == 'shadow') {
+        return theme.foregroundShadow;
+      } else {
+        return theme.foregroundPalette[hue] || theme.foregroundPalette['1'];
+      }
+    }
+    if (hue.indexOf('hue') === 0) {
+      hue = theme.colors[colorType].hues[hue];
+    }
+    return rgba( (PALETTES[ theme.colors[colorType].name ][hue] || '')[contrast ? 'contrast' : 'value'], opacity );
+  });
+
+  // For each type, generate rules for each hue (ie. default, md-hue-1, md-hue-2, md-hue-3)
+  angular.forEach(color.hues, function(hueValue, hueName) {
+    var newRule = rules
+      .replace(hueRegex, function(match, _, colorType, hueType, opacity) {
+        return rgba(palette[hueValue][hueType === 'color' ? 'value' : 'contrast'], opacity);
+      });
+    if (hueName !== 'default') {
+      newRule = newRule.replace(themeNameRegex, '.md-' + theme.name + '-theme.md-' + hueName);
+    }
+
+    // Don't apply a selector rule to the default theme, making it easier to override
+    // styles of the base-component
+    if (theme.name == 'default') {
+      var themeRuleRegex = /((?:(?:(?: |>|\.|\w|-|:|\(|\)|\[|\]|"|'|=)+) )?)((?:(?:\w|\.|-)+)?)\.md-default-theme((?: |>|\.|\w|-|:|\(|\)|\[|\]|"|'|=)*)/g;
+      newRule = newRule.replace(themeRuleRegex, function(match, prefix, target, suffix) {
+        return match + ', ' + prefix + target + suffix;
+      });
+    }
+    generatedRules.push(newRule);
+  });
+
+  return generatedRules;
+}
+
+var rulesByType = {};
+
+// Generate our themes at run time given the state of THEMES and PALETTES
+function generateAllThemes($injector) {
+  var head = document.head;
+  var firstChild = head ? head.firstElementChild : null;
+  var themeCss = $injector.has('$MD_THEME_CSS') ? $injector.get('$MD_THEME_CSS') : '';
+
+  if ( !firstChild ) return;
+  if (themeCss.length === 0) return; // no rules, so no point in running this expensive task
+
+  // Expose contrast colors for palettes to ensure that text is always readable
+  angular.forEach(PALETTES, sanitizePalette);
+
+  // MD_THEME_CSS is a string generated by the build process that includes all the themable
+  // components as templates
+
+  // Break the CSS into individual rules
+  var rules = themeCss
+                  .split(/\}(?!(\}|'|"|;))/)
+                  .filter(function(rule) { return rule && rule.length; })
+                  .map(function(rule) { return rule.trim() + '}'; });
+
+
+  var ruleMatchRegex = new RegExp('md-(' + THEME_COLOR_TYPES.join('|') + ')', 'g');
+
+  THEME_COLOR_TYPES.forEach(function(type) {
+    rulesByType[type] = '';
+  });
+
+
+  // Sort the rules based on type, allowing us to do color substitution on a per-type basis
+  rules.forEach(function(rule) {
+    var match = rule.match(ruleMatchRegex);
+    // First: test that if the rule has '.md-accent', it goes into the accent set of rules
+    for (var i = 0, type; type = THEME_COLOR_TYPES[i]; i++) {
+      if (rule.indexOf('.md-' + type) > -1) {
+        return rulesByType[type] += rule;
+      }
+    }
+
+    // If no eg 'md-accent' class is found, try to just find 'accent' in the rule and guess from
+    // there
+    for (i = 0; type = THEME_COLOR_TYPES[i]; i++) {
+      if (rule.indexOf(type) > -1) {
+        return rulesByType[type] += rule;
+      }
+    }
+
+    // Default to the primary array
+    return rulesByType[DEFAULT_COLOR_TYPE] += rule;
+  });
+
+  // If themes are being generated on-demand, quit here. The user will later manually
+  // call generateTheme to do this on a theme-by-theme basis.
+  if (generateOnDemand) return;
+
+  angular.forEach(THEMES, function(theme) {
+    if (!GENERATED[theme.name]) {
+      generateTheme(theme.name, nonce);
+    }
+  });
+
+
+  // *************************
+  // Internal functions
+  // *************************
+
+  // The user specifies a 'default' contrast color as either light or dark,
+  // then explicitly lists which hues are the opposite contrast (eg. A100 has dark, A200 has light)
+  function sanitizePalette(palette) {
+    var defaultContrast = palette.contrastDefaultColor;
+    var lightColors = palette.contrastLightColors || [];
+    var strongLightColors = palette.contrastStrongLightColors || [];
+    var darkColors = palette.contrastDarkColors || [];
+
+    // These colors are provided as space-separated lists
+    if (typeof lightColors === 'string') lightColors = lightColors.split(' ');
+    if (typeof strongLightColors === 'string') strongLightColors = strongLightColors.split(' ');
+    if (typeof darkColors === 'string') darkColors = darkColors.split(' ');
+
+    // Cleanup after ourselves
+    delete palette.contrastDefaultColor;
+    delete palette.contrastLightColors;
+    delete palette.contrastStrongLightColors;
+    delete palette.contrastDarkColors;
+
+    // Change { 'A100': '#fffeee' } to { 'A100': { value: '#fffeee', contrast:DARK_CONTRAST_COLOR }
+    angular.forEach(palette, function(hueValue, hueName) {
+      if (angular.isObject(hueValue)) return; // Already converted
+      // Map everything to rgb colors
+      var rgbValue = colorToRgbaArray(hueValue);
+      if (!rgbValue) {
+        throw new Error("Color %1, in palette %2's hue %3, is invalid. Hex or rgb(a) color expected."
+                        .replace('%1', hueValue)
+                        .replace('%2', palette.name)
+                        .replace('%3', hueName));
+      }
+
+      palette[hueName] = {
+        value: rgbValue,
+        contrast: getContrastColor()
+      };
+      function getContrastColor() {
+        if (defaultContrast === 'light') {
+          if (darkColors.indexOf(hueName) > -1) {
+            return DARK_CONTRAST_COLOR;
+          } else {
+            return strongLightColors.indexOf(hueName) > -1 ? STRONG_LIGHT_CONTRAST_COLOR
+              : LIGHT_CONTRAST_COLOR;
+          }
+        } else {
+          if (lightColors.indexOf(hueName) > -1) {
+            return strongLightColors.indexOf(hueName) > -1 ? STRONG_LIGHT_CONTRAST_COLOR
+              : LIGHT_CONTRAST_COLOR;
+          } else {
+            return DARK_CONTRAST_COLOR;
+          }
+        }
+      }
+    });
+  }
+}
+generateAllThemes.$inject = ["$injector"];
+
+function generateTheme(name, nonce) {
+  var theme = THEMES[name];
+  var head = document.head;
+  var firstChild = head ? head.firstElementChild : null;
+
+  if (!GENERATED[name]) {
+    // For each theme, use the color palettes specified for
+    // `primary`, `warn` and `accent` to generate CSS rules.
+    THEME_COLOR_TYPES.forEach(function(colorType) {
+      var styleStrings = parseRules(theme, colorType, rulesByType[colorType]);
+      while (styleStrings.length) {
+        var styleContent = styleStrings.shift();
+        if (styleContent) {
+          var style = document.createElement('style');
+          style.setAttribute('md-theme-style', '');
+          if (nonce) {
+            style.setAttribute('nonce', nonce);
+          }
+          style.appendChild(document.createTextNode(styleContent));
+          head.insertBefore(style, firstChild);
+        }
+      }
+    });
+
+
+    if (theme.colors.primary.name == theme.colors.accent.name) {
+      console.warn('$mdThemingProvider: Using the same palette for primary and' +
+                   ' accent. This violates the material design spec.');
+    }
+
+    GENERATED[theme.name] = true;
+  }
+
+}
+
+
+function checkValidPalette(theme, colorType) {
+  // If theme attempts to use a palette that doesnt exist, throw error
+  if (!PALETTES[ (theme.colors[colorType] || {}).name ]) {
+    throw new Error(
+      "You supplied an invalid color palette for theme %1's %2 palette. Available palettes: %3"
+                    .replace('%1', theme.name)
+                    .replace('%2', colorType)
+                    .replace('%3', Object.keys(PALETTES).join(', '))
+    );
+  }
+}
+
+function colorToRgbaArray(clr) {
+  if (angular.isArray(clr) && clr.length == 3) return clr;
+  if (/^rgb/.test(clr)) {
+    return clr.replace(/(^\s*rgba?\(|\)\s*$)/g, '').split(',').map(function(value, i) {
+      return i == 3 ? parseFloat(value, 10) : parseInt(value, 10);
+    });
+  }
+  if (clr.charAt(0) == '#') clr = clr.substring(1);
+  if (!/^([a-fA-F0-9]{3}){1,2}$/g.test(clr)) return;
+
+  var dig = clr.length / 3;
+  var red = clr.substr(0, dig);
+  var grn = clr.substr(dig, dig);
+  var blu = clr.substr(dig * 2);
+  if (dig === 1) {
+    red += red;
+    grn += grn;
+    blu += blu;
+  }
+  return [parseInt(red, 16), parseInt(grn, 16), parseInt(blu, 16)];
+}
+
+function rgba(rgbArray, opacity) {
+  if ( !rgbArray ) return "rgb('0,0,0')";
+
+  if (rgbArray.length == 4) {
+    rgbArray = angular.copy(rgbArray);
+    opacity ? rgbArray.pop() : opacity = rgbArray.pop();
+  }
+  return opacity && (typeof opacity == 'number' || (typeof opacity == 'string' && opacity.length)) ?
+    'rgba(' + rgbArray.join(',') + ',' + opacity + ')' :
+    'rgb(' + rgbArray.join(',') + ')';
+}
+
+
 // Polyfill angular < 1.4 (provide $animateCss)
 angular
   .module('material.core')
@@ -5439,7 +5334,8 @@ function AnimateDomUtils($mdUtil, $q, $timeout, $mdConstant, $animateCss) {
       return $animateCss(target,{
         from:from,
         to:to,
-        addClass:options.transitionInClass
+        addClass:options.transitionInClass,
+        removeClass:options.transitionOutClass
       })
       .start()
       .then(function(){
@@ -5458,55 +5354,42 @@ function AnimateDomUtils($mdUtil, $q, $timeout, $mdConstant, $animateCss) {
         }).start();
 
       }
-  },
+    },
 
     /**
      * Listen for transitionEnd event (with optional timeout)
      * Announce completion or failure via promise handlers
      */
     waitTransitionEnd: function (element, opts) {
-        var TIMEOUT = 3000; // fallback is 3 secs
+      var TIMEOUT = 3000; // fallback is 3 secs
 
-        return $q(function(resolve, reject){
-          opts = opts || { };
+      return $q(function(resolve, reject){
+        opts = opts || { };
 
-          var timer = $timeout(finished, opts.timeout || TIMEOUT);
-          element.on($mdConstant.CSS.TRANSITIONEND, finished);
+        var timer = $timeout(finished, opts.timeout || TIMEOUT);
+        element.on($mdConstant.CSS.TRANSITIONEND, finished);
 
-          /**
-           * Upon timeout or transitionEnd, reject or resolve (respectively) this promise.
-           * NOTE: Make sure this transitionEnd didn't bubble up from a child
-           */
-          function finished(ev) {
-            if ( ev && ev.target !== element[0]) return;
+        /**
+         * Upon timeout or transitionEnd, reject or resolve (respectively) this promise.
+         * NOTE: Make sure this transitionEnd didn't bubble up from a child
+         */
+        function finished(ev) {
+          if ( ev && ev.target !== element[0]) return;
 
-            if ( ev  ) $timeout.cancel(timer);
-            element.off($mdConstant.CSS.TRANSITIONEND, finished);
+          if ( ev  ) $timeout.cancel(timer);
+          element.off($mdConstant.CSS.TRANSITIONEND, finished);
 
-            // Never reject since ngAnimate may cause timeouts due missed transitionEnd events
-            resolve();
+          // Never reject since ngAnimate may cause timeouts due missed transitionEnd events
+          resolve();
 
-          }
+        }
 
-        });
-      },
+      });
+    },
 
-    /**
-     * Calculate the zoom transform from dialog to origin.
-     *
-     * We use this to set the dialog position immediately;
-     * then the md-transition-in actually translates back to
-     * `translate3d(0,0,0) scale(1.0)`...
-     *
-     * NOTE: all values are rounded to the nearest integer
-     */
-    calculateZoomToOrigin: function (element, originator) {
+    calculateTransformValues: function (element, originator) {
       var origin = originator.element;
       var bounds = originator.bounds;
-
-      var zoomTemplate = "translate3d( {centerX}px, {centerY}px, 0 ) scale( {scaleX}, {scaleY} )";
-      var buildZoom = angular.bind(null, $mdUtil.supplant, zoomTemplate);
-      var zoomStyle = buildZoom({centerX: 0, centerY: 0, scaleX: 0.5, scaleY: 0.5});
 
       if (origin || bounds) {
         var originBnds = origin ? self.clientRect(origin) || currentBounds() : self.copyRect(bounds);
@@ -5514,17 +5397,14 @@ function AnimateDomUtils($mdUtil, $q, $timeout, $mdConstant, $animateCss) {
         var dialogCenterPt = self.centerPointFor(dialogRect);
         var originCenterPt = self.centerPointFor(originBnds);
 
-        // Build the transform to zoom from the dialog center to the origin center
-
-        zoomStyle = buildZoom({
+        return {
           centerX: originCenterPt.x - dialogCenterPt.x,
           centerY: originCenterPt.y - dialogCenterPt.y,
-          scaleX: Math.round(100 * Math.min(0.5, originBnds.width / dialogRect.width))/100,
-          scaleY: Math.round(100 * Math.min(0.5, originBnds.height / dialogRect.height))/100
-        });
+          scaleX: Math.round(100 * Math.min(0.5, originBnds.width / dialogRect.width)) / 100,
+          scaleY: Math.round(100 * Math.min(0.5, originBnds.height / dialogRect.height)) / 100
+        };
       }
-
-      return zoomStyle;
+      return {centerX: 0, centerY: 0, scaleX: 0.5, scaleY: 0.5};
 
       /**
        * This is a fallback if the origin information is no longer valid, then the
@@ -5536,6 +5416,33 @@ function AnimateDomUtils($mdUtil, $q, $timeout, $mdConstant, $animateCss) {
 
         return parent ? self.clientRect(parent) : null;
       }
+    },
+
+    /**
+     * Calculate the zoom transform from dialog to origin.
+     *
+     * We use this to set the dialog position immediately;
+     * then the md-transition-in actually translates back to
+     * `translate3d(0,0,0) scale(1.0)`...
+     *
+     * NOTE: all values are rounded to the nearest integer
+     */
+    calculateZoomToOrigin: function (element, originator) {
+      var zoomTemplate = "translate3d( {centerX}px, {centerY}px, 0 ) scale( {scaleX}, {scaleY} )";
+      var buildZoom = angular.bind(null, $mdUtil.supplant, zoomTemplate);
+
+      return buildZoom(self.calculateTransformValues(element, originator));
+    },
+
+    /**
+     * Calculate the slide transform from panel to origin.
+     * NOTE: all values are rounded to the nearest integer
+     */
+    calculateSlideToOrigin: function (element, originator) {
+      var slideTemplate = "translate3d( {centerX}px, {centerY}px, 0 )";
+      var buildSlide = angular.bind(null, $mdUtil.supplant, slideTemplate);
+
+      return buildSlide(self.calculateTransformValues(element, originator));
     },
 
     /**
@@ -5778,36 +5685,44 @@ if (angular.version.minor >= 4) {
     .factory('$$forceReflow', $$ForceReflowFactory)
     .factory('$$AnimateRunner', $$AnimateRunnerFactory)
     .factory('$$rAFMutex', $$rAFMutexFactory)
-    .factory('$animateCss', ['$window', '$$rAF', '$$AnimateRunner', '$$forceReflow', '$$jqLite', '$timeout',
-                     function($window,   $$rAF,   $$AnimateRunner,   $$forceReflow,   $$jqLite,   $timeout) {
+    .factory('$animateCss', ['$window', '$$rAF', '$$AnimateRunner', '$$forceReflow', '$$jqLite', '$timeout', '$animate',
+                     function($window,   $$rAF,   $$AnimateRunner,   $$forceReflow,   $$jqLite,   $timeout, $animate) {
 
       function init(element, options) {
 
         var temporaryStyles = [];
         var node = getDomNode(element);
+        var areAnimationsAllowed = node && $animate.enabled();
 
-        if (options.transitionStyle) {
-          temporaryStyles.push([PREFIX + 'transition', options.transitionStyle]);
+        var hasCompleteStyles = false;
+        var hasCompleteClasses = false;
+
+        if (areAnimationsAllowed) {
+          if (options.transitionStyle) {
+            temporaryStyles.push([PREFIX + 'transition', options.transitionStyle]);
+          }
+
+          if (options.keyframeStyle) {
+            temporaryStyles.push([PREFIX + 'animation', options.keyframeStyle]);
+          }
+
+          if (options.delay) {
+            temporaryStyles.push([PREFIX + 'transition-delay', options.delay + 's']);
+          }
+
+          if (options.duration) {
+            temporaryStyles.push([PREFIX + 'transition-duration', options.duration + 's']);
+          }
+
+          hasCompleteStyles = options.keyframeStyle ||
+              (options.to && (options.duration > 0 || options.transitionStyle));
+          hasCompleteClasses = !!options.addClass || !!options.removeClass;
+
+          blockTransition(element, true);
         }
 
-        if (options.keyframeStyle) {
-          temporaryStyles.push([PREFIX + 'animation', options.keyframeStyle]);
-        }
+        var hasCompleteAnimation = areAnimationsAllowed && (hasCompleteStyles || hasCompleteClasses);
 
-        if (options.delay) {
-          temporaryStyles.push([PREFIX + 'transition-delay', options.delay + 's']);
-        }
-
-        if (options.duration) {
-          temporaryStyles.push([PREFIX + 'transition-duration', options.duration + 's']);
-        }
-
-        var hasCompleteStyles = options.keyframeStyle ||
-                                (options.to && (options.duration > 0 || options.transitionStyle));
-        var hasCompleteClasses = !!options.addClass || !!options.removeClass;
-        var hasCompleteAnimation = hasCompleteStyles || hasCompleteClasses;
-
-        blockTransition(element, true);
         applyAnimationFromStyles(element, options);
 
         var animationClosed = false;
@@ -6040,7 +5955,7 @@ if (angular.version.minor >= 4) {
 }
 
 (function(){ 
-angular.module("material.core").constant("$MD_THEME_CSS", "/*  Only used with Theme processes */html.md-THEME_NAME-theme, body.md-THEME_NAME-theme {  color: '{{foreground-1}}';  background-color: '{{background-color}}'; }md-autocomplete.md-THEME_NAME-theme {  background: '{{background-A100}}'; }  md-autocomplete.md-THEME_NAME-theme[disabled]:not([md-floating-label]) {    background: '{{background-100}}'; }  md-autocomplete.md-THEME_NAME-theme button md-icon path {    fill: '{{background-600}}'; }  md-autocomplete.md-THEME_NAME-theme button:after {    background: '{{background-600-0.3}}'; }.md-autocomplete-suggestions-container.md-THEME_NAME-theme {  background: '{{background-A100}}'; }  .md-autocomplete-suggestions-container.md-THEME_NAME-theme li {    color: '{{background-900}}'; }    .md-autocomplete-suggestions-container.md-THEME_NAME-theme li .highlight {      color: '{{background-600}}'; }    .md-autocomplete-suggestions-container.md-THEME_NAME-theme li:hover, .md-autocomplete-suggestions-container.md-THEME_NAME-theme li.selected {      background: '{{background-200}}'; }md-backdrop {  background-color: '{{background-900-0.0}}'; }  md-backdrop.md-opaque.md-THEME_NAME-theme {    background-color: '{{background-900-1.0}}'; }md-card.md-THEME_NAME-theme {  color: '{{foreground-1}}';  background-color: '{{background-hue-1}}';  border-radius: 2px; }  md-card.md-THEME_NAME-theme .md-card-image {    border-radius: 2px 2px 0 0; }  md-card.md-THEME_NAME-theme md-card-header md-card-avatar md-icon {    color: '{{background-color}}';    background-color: '{{foreground-3}}'; }  md-card.md-THEME_NAME-theme md-card-header md-card-header-text .md-subhead {    color: '{{foreground-2}}'; }  md-card.md-THEME_NAME-theme md-card-title md-card-title-text:not(:only-child) .md-subhead {    color: '{{foreground-2}}'; }.md-button.md-THEME_NAME-theme:not([disabled]):hover {  background-color: '{{background-500-0.2}}'; }.md-button.md-THEME_NAME-theme:not([disabled]).md-focused {  background-color: '{{background-500-0.2}}'; }.md-button.md-THEME_NAME-theme:not([disabled]).md-icon-button:hover {  background-color: transparent; }.md-button.md-THEME_NAME-theme.md-fab {  background-color: '{{accent-color}}';  color: '{{accent-contrast}}'; }  .md-button.md-THEME_NAME-theme.md-fab md-icon {    color: '{{accent-contrast}}'; }  .md-button.md-THEME_NAME-theme.md-fab:not([disabled]):hover {    background-color: '{{accent-A700}}'; }  .md-button.md-THEME_NAME-theme.md-fab:not([disabled]).md-focused {    background-color: '{{accent-A700}}'; }.md-button.md-THEME_NAME-theme.md-primary {  color: '{{primary-color}}'; }  .md-button.md-THEME_NAME-theme.md-primary.md-raised, .md-button.md-THEME_NAME-theme.md-primary.md-fab {    color: '{{primary-contrast}}';    background-color: '{{primary-color}}'; }    .md-button.md-THEME_NAME-theme.md-primary.md-raised:not([disabled]) md-icon, .md-button.md-THEME_NAME-theme.md-primary.md-fab:not([disabled]) md-icon {      color: '{{primary-contrast}}'; }    .md-button.md-THEME_NAME-theme.md-primary.md-raised:not([disabled]):hover, .md-button.md-THEME_NAME-theme.md-primary.md-fab:not([disabled]):hover {      background-color: '{{primary-600}}'; }    .md-button.md-THEME_NAME-theme.md-primary.md-raised:not([disabled]).md-focused, .md-button.md-THEME_NAME-theme.md-primary.md-fab:not([disabled]).md-focused {      background-color: '{{primary-600}}'; }  .md-button.md-THEME_NAME-theme.md-primary:not([disabled]) md-icon {    color: '{{primary-color}}'; }.md-button.md-THEME_NAME-theme.md-fab {  background-color: '{{accent-color}}';  color: '{{accent-contrast}}'; }  .md-button.md-THEME_NAME-theme.md-fab:not([disabled]) .md-icon {    color: '{{accent-contrast}}'; }  .md-button.md-THEME_NAME-theme.md-fab:not([disabled]):hover {    background-color: '{{accent-A700}}'; }  .md-button.md-THEME_NAME-theme.md-fab:not([disabled]).md-focused {    background-color: '{{accent-A700}}'; }.md-button.md-THEME_NAME-theme.md-raised {  color: '{{background-900}}';  background-color: '{{background-50}}'; }  .md-button.md-THEME_NAME-theme.md-raised:not([disabled]) md-icon {    color: '{{background-900}}'; }  .md-button.md-THEME_NAME-theme.md-raised:not([disabled]):hover {    background-color: '{{background-50}}'; }  .md-button.md-THEME_NAME-theme.md-raised:not([disabled]).md-focused {    background-color: '{{background-200}}'; }.md-button.md-THEME_NAME-theme.md-warn {  color: '{{warn-color}}'; }  .md-button.md-THEME_NAME-theme.md-warn.md-raised, .md-button.md-THEME_NAME-theme.md-warn.md-fab {    color: '{{warn-contrast}}';    background-color: '{{warn-color}}'; }    .md-button.md-THEME_NAME-theme.md-warn.md-raised:not([disabled]) md-icon, .md-button.md-THEME_NAME-theme.md-warn.md-fab:not([disabled]) md-icon {      color: '{{warn-contrast}}'; }    .md-button.md-THEME_NAME-theme.md-warn.md-raised:not([disabled]):hover, .md-button.md-THEME_NAME-theme.md-warn.md-fab:not([disabled]):hover {      background-color: '{{warn-600}}'; }    .md-button.md-THEME_NAME-theme.md-warn.md-raised:not([disabled]).md-focused, .md-button.md-THEME_NAME-theme.md-warn.md-fab:not([disabled]).md-focused {      background-color: '{{warn-600}}'; }  .md-button.md-THEME_NAME-theme.md-warn:not([disabled]) md-icon {    color: '{{warn-color}}'; }.md-button.md-THEME_NAME-theme.md-accent {  color: '{{accent-color}}'; }  .md-button.md-THEME_NAME-theme.md-accent.md-raised, .md-button.md-THEME_NAME-theme.md-accent.md-fab {    color: '{{accent-contrast}}';    background-color: '{{accent-color}}'; }    .md-button.md-THEME_NAME-theme.md-accent.md-raised:not([disabled]) md-icon, .md-button.md-THEME_NAME-theme.md-accent.md-fab:not([disabled]) md-icon {      color: '{{accent-contrast}}'; }    .md-button.md-THEME_NAME-theme.md-accent.md-raised:not([disabled]):hover, .md-button.md-THEME_NAME-theme.md-accent.md-fab:not([disabled]):hover {      background-color: '{{accent-A700}}'; }    .md-button.md-THEME_NAME-theme.md-accent.md-raised:not([disabled]).md-focused, .md-button.md-THEME_NAME-theme.md-accent.md-fab:not([disabled]).md-focused {      background-color: '{{accent-A700}}'; }  .md-button.md-THEME_NAME-theme.md-accent:not([disabled]) md-icon {    color: '{{accent-color}}'; }.md-button.md-THEME_NAME-theme[disabled], .md-button.md-THEME_NAME-theme.md-raised[disabled], .md-button.md-THEME_NAME-theme.md-fab[disabled], .md-button.md-THEME_NAME-theme.md-accent[disabled], .md-button.md-THEME_NAME-theme.md-warn[disabled] {  color: '{{foreground-3}}';  cursor: default; }  .md-button.md-THEME_NAME-theme[disabled] md-icon, .md-button.md-THEME_NAME-theme.md-raised[disabled] md-icon, .md-button.md-THEME_NAME-theme.md-fab[disabled] md-icon, .md-button.md-THEME_NAME-theme.md-accent[disabled] md-icon, .md-button.md-THEME_NAME-theme.md-warn[disabled] md-icon {    color: '{{foreground-3}}'; }.md-button.md-THEME_NAME-theme.md-raised[disabled], .md-button.md-THEME_NAME-theme.md-fab[disabled] {  background-color: '{{foreground-4}}'; }.md-button.md-THEME_NAME-theme[disabled] {  background-color: transparent; }._md a.md-THEME_NAME-theme:not(.md-button).md-primary {  color: '{{primary-color}}'; }  ._md a.md-THEME_NAME-theme:not(.md-button).md-primary:hover {    color: '{{primary-700}}'; }._md a.md-THEME_NAME-theme:not(.md-button).md-accent {  color: '{{accent-color}}'; }  ._md a.md-THEME_NAME-theme:not(.md-button).md-accent:hover {    color: '{{accent-700}}'; }._md a.md-THEME_NAME-theme:not(.md-button).md-accent {  color: '{{accent-color}}'; }  ._md a.md-THEME_NAME-theme:not(.md-button).md-accent:hover {    color: '{{accent-A700}}'; }._md a.md-THEME_NAME-theme:not(.md-button).md-warn {  color: '{{warn-color}}'; }  ._md a.md-THEME_NAME-theme:not(.md-button).md-warn:hover {    color: '{{warn-700}}'; }md-bottom-sheet.md-THEME_NAME-theme {  background-color: '{{background-50}}';  border-top-color: '{{background-300}}'; }  md-bottom-sheet.md-THEME_NAME-theme.md-list md-list-item {    color: '{{foreground-1}}'; }  md-bottom-sheet.md-THEME_NAME-theme .md-subheader {    background-color: '{{background-50}}'; }  md-bottom-sheet.md-THEME_NAME-theme .md-subheader {    color: '{{foreground-1}}'; }md-checkbox.md-THEME_NAME-theme .md-ripple {  color: '{{accent-A700}}'; }md-checkbox.md-THEME_NAME-theme.md-checked .md-ripple {  color: '{{background-600}}'; }md-checkbox.md-THEME_NAME-theme.md-checked.md-focused ._md-container:before {  background-color: '{{accent-color-0.26}}'; }md-checkbox.md-THEME_NAME-theme .md-ink-ripple {  color: '{{foreground-2}}'; }md-checkbox.md-THEME_NAME-theme.md-checked .md-ink-ripple {  color: '{{accent-color-0.87}}'; }md-checkbox.md-THEME_NAME-theme ._md-icon {  border-color: '{{foreground-2}}'; }md-checkbox.md-THEME_NAME-theme.md-checked ._md-icon {  background-color: '{{accent-color-0.87}}'; }md-checkbox.md-THEME_NAME-theme.md-checked ._md-icon:after {  border-color: '{{accent-contrast-0.87}}'; }md-checkbox.md-THEME_NAME-theme:not([disabled]).md-primary .md-ripple {  color: '{{primary-600}}'; }md-checkbox.md-THEME_NAME-theme:not([disabled]).md-primary.md-checked .md-ripple {  color: '{{background-600}}'; }md-checkbox.md-THEME_NAME-theme:not([disabled]).md-primary .md-ink-ripple {  color: '{{foreground-2}}'; }md-checkbox.md-THEME_NAME-theme:not([disabled]).md-primary.md-checked .md-ink-ripple {  color: '{{primary-color-0.87}}'; }md-checkbox.md-THEME_NAME-theme:not([disabled]).md-primary ._md-icon {  border-color: '{{foreground-2}}'; }md-checkbox.md-THEME_NAME-theme:not([disabled]).md-primary.md-checked ._md-icon {  background-color: '{{primary-color-0.87}}'; }md-checkbox.md-THEME_NAME-theme:not([disabled]).md-primary.md-checked.md-focused ._md-container:before {  background-color: '{{primary-color-0.26}}'; }md-checkbox.md-THEME_NAME-theme:not([disabled]).md-primary.md-checked ._md-icon:after {  border-color: '{{primary-contrast-0.87}}'; }md-checkbox.md-THEME_NAME-theme:not([disabled]).md-primary .md-indeterminate[disabled] ._md-container {  color: '{{foreground-3}}'; }md-checkbox.md-THEME_NAME-theme:not([disabled]).md-warn .md-ripple {  color: '{{warn-600}}'; }md-checkbox.md-THEME_NAME-theme:not([disabled]).md-warn .md-ink-ripple {  color: '{{foreground-2}}'; }md-checkbox.md-THEME_NAME-theme:not([disabled]).md-warn.md-checked .md-ink-ripple {  color: '{{warn-color-0.87}}'; }md-checkbox.md-THEME_NAME-theme:not([disabled]).md-warn ._md-icon {  border-color: '{{foreground-2}}'; }md-checkbox.md-THEME_NAME-theme:not([disabled]).md-warn.md-checked ._md-icon {  background-color: '{{warn-color-0.87}}'; }md-checkbox.md-THEME_NAME-theme:not([disabled]).md-warn.md-checked.md-focused:not([disabled]) ._md-container:before {  background-color: '{{warn-color-0.26}}'; }md-checkbox.md-THEME_NAME-theme:not([disabled]).md-warn.md-checked ._md-icon:after {  border-color: '{{background-200}}'; }md-checkbox.md-THEME_NAME-theme[disabled] ._md-icon {  border-color: '{{foreground-3}}'; }md-checkbox.md-THEME_NAME-theme[disabled].md-checked ._md-icon {  background-color: '{{foreground-3}}'; }md-checkbox.md-THEME_NAME-theme[disabled].md-checked ._md-icon:after {  border-color: '{{background-200}}'; }md-checkbox.md-THEME_NAME-theme[disabled] ._md-label {  color: '{{foreground-3}}'; }md-chips.md-THEME_NAME-theme .md-chips {  box-shadow: 0 1px '{{foreground-4}}'; }  md-chips.md-THEME_NAME-theme .md-chips.md-focused {    box-shadow: 0 2px '{{primary-color}}'; }  md-chips.md-THEME_NAME-theme .md-chips ._md-chip-input-container input {    color: '{{foreground-1}}'; }    md-chips.md-THEME_NAME-theme .md-chips ._md-chip-input-container input::-webkit-input-placeholder {      color: '{{foreground-3}}'; }    md-chips.md-THEME_NAME-theme .md-chips ._md-chip-input-container input:-moz-placeholder {      color: '{{foreground-3}}'; }    md-chips.md-THEME_NAME-theme .md-chips ._md-chip-input-container input::-moz-placeholder {      color: '{{foreground-3}}'; }    md-chips.md-THEME_NAME-theme .md-chips ._md-chip-input-container input:-ms-input-placeholder {      color: '{{foreground-3}}'; }    md-chips.md-THEME_NAME-theme .md-chips ._md-chip-input-container input::-webkit-input-placeholder {      color: '{{foreground-3}}'; }md-chips.md-THEME_NAME-theme md-chip {  background: '{{background-300}}';  color: '{{background-800}}'; }  md-chips.md-THEME_NAME-theme md-chip md-icon {    color: '{{background-700}}'; }  md-chips.md-THEME_NAME-theme md-chip.md-focused {    background: '{{primary-color}}';    color: '{{primary-contrast}}'; }    md-chips.md-THEME_NAME-theme md-chip.md-focused md-icon {      color: '{{primary-contrast}}'; }  md-chips.md-THEME_NAME-theme md-chip._md-chip-editing {    background: transparent;    color: '{{background-800}}'; }md-chips.md-THEME_NAME-theme md-chip-remove .md-button md-icon path {  fill: '{{background-500}}'; }.md-contact-suggestion span.md-contact-email {  color: '{{background-400}}'; }md-content.md-THEME_NAME-theme {  color: '{{foreground-1}}';  background-color: '{{background-default}}'; }/** Theme styles for mdCalendar. */.md-calendar.md-THEME_NAME-theme {  background: '{{background-A100}}';  color: '{{background-A200-0.87}}'; }  .md-calendar.md-THEME_NAME-theme tr:last-child td {    border-bottom-color: '{{background-200}}'; }.md-THEME_NAME-theme .md-calendar-day-header {  background: '{{background-300}}';  color: '{{background-A200-0.87}}'; }.md-THEME_NAME-theme .md-calendar-date.md-calendar-date-today .md-calendar-date-selection-indicator {  border: 1px solid '{{primary-500}}'; }.md-THEME_NAME-theme .md-calendar-date.md-calendar-date-today.md-calendar-date-disabled {  color: '{{primary-500-0.6}}'; }.md-THEME_NAME-theme .md-calendar-date.md-focus .md-calendar-date-selection-indicator {  background: '{{background-hue-1}}'; }.md-THEME_NAME-theme .md-calendar-date-selection-indicator:hover {  background: '{{background-300}}'; }.md-THEME_NAME-theme .md-calendar-date.md-calendar-selected-date .md-calendar-date-selection-indicator,.md-THEME_NAME-theme .md-calendar-date.md-focus.md-calendar-selected-date .md-calendar-date-selection-indicator {  background: '{{primary-500}}';  color: '{{primary-500-contrast}}';  border-color: transparent; }.md-THEME_NAME-theme .md-calendar-date-disabled,.md-THEME_NAME-theme .md-calendar-month-label-disabled {  color: '{{foreground-3}}'; }/** Theme styles for mdDatepicker. */.md-THEME_NAME-theme .md-datepicker-input {  color: '{{foreground-1}}'; }  .md-THEME_NAME-theme .md-datepicker-input::-webkit-input-placeholder {    color: '{{foreground-3}}'; }  .md-THEME_NAME-theme .md-datepicker-input:-moz-placeholder {    color: '{{foreground-3}}'; }  .md-THEME_NAME-theme .md-datepicker-input::-moz-placeholder {    color: '{{foreground-3}}'; }  .md-THEME_NAME-theme .md-datepicker-input:-ms-input-placeholder {    color: '{{foreground-3}}'; }  .md-THEME_NAME-theme .md-datepicker-input::-webkit-input-placeholder {    color: '{{foreground-3}}'; }.md-THEME_NAME-theme .md-datepicker-input-container {  border-bottom-color: '{{background-300}}'; }  .md-THEME_NAME-theme .md-datepicker-input-container.md-datepicker-focused {    border-bottom-color: '{{primary-500}}'; }  .md-THEME_NAME-theme .md-datepicker-input-container.md-datepicker-invalid {    border-bottom-color: '{{warn-A700}}'; }.md-THEME_NAME-theme .md-datepicker-calendar-pane {  border-color: '{{background-hue-1}}'; }.md-THEME_NAME-theme .md-datepicker-triangle-button .md-datepicker-expand-triangle {  border-top-color: '{{foreground-3}}'; }.md-THEME_NAME-theme .md-datepicker-triangle-button:hover .md-datepicker-expand-triangle {  border-top-color: '{{foreground-2}}'; }.md-THEME_NAME-theme .md-datepicker-open .md-datepicker-calendar-icon {  fill: '{{primary-500}}'; }.md-THEME_NAME-theme .md-datepicker-open .md-datepicker-input-container,.md-THEME_NAME-theme .md-datepicker-input-mask-opaque {  background: '{{background-hue-1}}'; }.md-THEME_NAME-theme .md-datepicker-calendar {  background: '{{background-A100}}'; }md-dialog.md-THEME_NAME-theme {  border-radius: 4px;  background-color: '{{background-hue-1}}'; }  md-dialog.md-THEME_NAME-theme.md-content-overflow .md-actions, md-dialog.md-THEME_NAME-theme.md-content-overflow md-dialog-actions {    border-top-color: '{{foreground-4}}'; }md-divider.md-THEME_NAME-theme {  border-top-color: '{{foreground-4}}'; }.layout-row > md-divider.md-THEME_NAME-theme,.layout-xs-row > md-divider.md-THEME_NAME-theme, .layout-gt-xs-row > md-divider.md-THEME_NAME-theme,.layout-sm-row > md-divider.md-THEME_NAME-theme, .layout-gt-sm-row > md-divider.md-THEME_NAME-theme,.layout-md-row > md-divider.md-THEME_NAME-theme, .layout-gt-md-row > md-divider.md-THEME_NAME-theme,.layout-lg-row > md-divider.md-THEME_NAME-theme, .layout-gt-lg-row > md-divider.md-THEME_NAME-theme,.layout-xl-row > md-divider.md-THEME_NAME-theme {  border-right-color: '{{foreground-4}}'; }md-icon.md-THEME_NAME-theme {  color: '{{foreground-2}}'; }  md-icon.md-THEME_NAME-theme.md-primary {    color: '{{primary-color}}'; }  md-icon.md-THEME_NAME-theme.md-accent {    color: '{{accent-color}}'; }  md-icon.md-THEME_NAME-theme.md-warn {    color: '{{warn-color}}'; }md-input-container.md-THEME_NAME-theme .md-input {  color: '{{foreground-1}}';  border-color: '{{foreground-4}}'; }  md-input-container.md-THEME_NAME-theme .md-input::-webkit-input-placeholder {    color: '{{foreground-3}}'; }  md-input-container.md-THEME_NAME-theme .md-input:-moz-placeholder {    color: '{{foreground-3}}'; }  md-input-container.md-THEME_NAME-theme .md-input::-moz-placeholder {    color: '{{foreground-3}}'; }  md-input-container.md-THEME_NAME-theme .md-input:-ms-input-placeholder {    color: '{{foreground-3}}'; }  md-input-container.md-THEME_NAME-theme .md-input::-webkit-input-placeholder {    color: '{{foreground-3}}'; }md-input-container.md-THEME_NAME-theme > md-icon {  color: '{{foreground-1}}'; }md-input-container.md-THEME_NAME-theme label,md-input-container.md-THEME_NAME-theme ._md-placeholder {  color: '{{foreground-3}}'; }md-input-container.md-THEME_NAME-theme label.md-required:after {  color: '{{warn-A700}}'; }md-input-container.md-THEME_NAME-theme:not(.md-input-focused):not(.md-input-invalid) label.md-required:after {  color: '{{foreground-2}}'; }md-input-container.md-THEME_NAME-theme .md-input-messages-animation, md-input-container.md-THEME_NAME-theme .md-input-message-animation {  color: '{{warn-A700}}'; }  md-input-container.md-THEME_NAME-theme .md-input-messages-animation .md-char-counter, md-input-container.md-THEME_NAME-theme .md-input-message-animation .md-char-counter {    color: '{{foreground-1}}'; }md-input-container.md-THEME_NAME-theme:not(.md-input-invalid).md-input-has-value label {  color: '{{foreground-2}}'; }md-input-container.md-THEME_NAME-theme:not(.md-input-invalid).md-input-focused .md-input {  border-color: '{{primary-color}}'; }md-input-container.md-THEME_NAME-theme:not(.md-input-invalid).md-input-focused label {  color: '{{primary-color}}'; }md-input-container.md-THEME_NAME-theme:not(.md-input-invalid).md-input-focused md-icon {  color: '{{primary-color}}'; }md-input-container.md-THEME_NAME-theme:not(.md-input-invalid).md-input-focused.md-accent .md-input {  border-color: '{{accent-color}}'; }md-input-container.md-THEME_NAME-theme:not(.md-input-invalid).md-input-focused.md-accent label {  color: '{{accent-color}}'; }md-input-container.md-THEME_NAME-theme:not(.md-input-invalid).md-input-focused.md-warn .md-input {  border-color: '{{warn-A700}}'; }md-input-container.md-THEME_NAME-theme:not(.md-input-invalid).md-input-focused.md-warn label {  color: '{{warn-A700}}'; }md-input-container.md-THEME_NAME-theme.md-input-invalid .md-input {  border-color: '{{warn-A700}}'; }md-input-container.md-THEME_NAME-theme.md-input-invalid label {  color: '{{warn-A700}}'; }md-input-container.md-THEME_NAME-theme.md-input-invalid .md-input-message-animation, md-input-container.md-THEME_NAME-theme.md-input-invalid .md-char-counter {  color: '{{warn-A700}}'; }md-input-container.md-THEME_NAME-theme .md-input[disabled],[disabled] md-input-container.md-THEME_NAME-theme .md-input {  border-bottom-color: transparent;  color: '{{foreground-3}}';  background-image: linear-gradient(to right, \"{{foreground-3}}\" 0%, \"{{foreground-3}}\" 33%, transparent 0%);  background-image: -ms-linear-gradient(left, transparent 0%, \"{{foreground-3}}\" 100%); }md-list.md-THEME_NAME-theme md-list-item.md-2-line .md-list-item-text h3, md-list.md-THEME_NAME-theme md-list-item.md-2-line .md-list-item-text h4,md-list.md-THEME_NAME-theme md-list-item.md-3-line .md-list-item-text h3,md-list.md-THEME_NAME-theme md-list-item.md-3-line .md-list-item-text h4 {  color: '{{foreground-1}}'; }md-list.md-THEME_NAME-theme md-list-item.md-2-line .md-list-item-text p,md-list.md-THEME_NAME-theme md-list-item.md-3-line .md-list-item-text p {  color: '{{foreground-2}}'; }md-list.md-THEME_NAME-theme ._md-proxy-focus.md-focused div._md-no-style {  background-color: '{{background-100}}'; }md-list.md-THEME_NAME-theme md-list-item .md-avatar-icon {  background-color: '{{foreground-3}}';  color: '{{background-color}}'; }md-list.md-THEME_NAME-theme md-list-item > md-icon {  color: '{{foreground-2}}'; }  md-list.md-THEME_NAME-theme md-list-item > md-icon.md-highlight {    color: '{{primary-color}}'; }    md-list.md-THEME_NAME-theme md-list-item > md-icon.md-highlight.md-accent {      color: '{{accent-color}}'; }md-menu-content.md-THEME_NAME-theme {  background-color: '{{background-A100}}'; }  md-menu-content.md-THEME_NAME-theme md-menu-item {    color: '{{background-A200-0.87}}'; }    md-menu-content.md-THEME_NAME-theme md-menu-item md-icon {      color: '{{background-A200-0.54}}'; }    md-menu-content.md-THEME_NAME-theme md-menu-item .md-button[disabled] {      color: '{{background-A200-0.25}}'; }      md-menu-content.md-THEME_NAME-theme md-menu-item .md-button[disabled] md-icon {        color: '{{background-A200-0.25}}'; }  md-menu-content.md-THEME_NAME-theme md-menu-divider {    background-color: '{{background-A200-0.11}}'; }md-menu-bar.md-THEME_NAME-theme > button.md-button {  color: '{{foreground-2}}';  border-radius: 2px; }md-menu-bar.md-THEME_NAME-theme md-menu._md-open > button, md-menu-bar.md-THEME_NAME-theme md-menu > button:focus {  outline: none;  background: '{{background-200}}'; }md-menu-bar.md-THEME_NAME-theme._md-open:not(._md-keyboard-mode) md-menu:hover > button {  background-color: '{{ background-500-0.2}}'; }md-menu-bar.md-THEME_NAME-theme:not(._md-keyboard-mode):not(._md-open) md-menu button:hover,md-menu-bar.md-THEME_NAME-theme:not(._md-keyboard-mode):not(._md-open) md-menu button:focus {  background: transparent; }md-menu-content.md-THEME_NAME-theme .md-menu > .md-button:after {  color: '{{background-A200-0.54}}'; }md-menu-content.md-THEME_NAME-theme .md-menu._md-open > .md-button {  background-color: '{{ background-500-0.2}}'; }md-toolbar.md-THEME_NAME-theme.md-menu-toolbar {  background-color: '{{background-A100}}';  color: '{{background-A200}}'; }  md-toolbar.md-THEME_NAME-theme.md-menu-toolbar md-toolbar-filler {    background-color: '{{primary-color}}';    color: '{{background-A100-0.87}}'; }    md-toolbar.md-THEME_NAME-theme.md-menu-toolbar md-toolbar-filler md-icon {      color: '{{background-A100-0.87}}'; }md-progress-circular.md-THEME_NAME-theme path {  stroke: '{{primary-color}}'; }md-progress-circular.md-THEME_NAME-theme.md-warn path {  stroke: '{{warn-color}}'; }md-progress-circular.md-THEME_NAME-theme.md-accent path {  stroke: '{{accent-color}}'; }md-progress-linear.md-THEME_NAME-theme ._md-container {  background-color: '{{primary-100}}'; }md-progress-linear.md-THEME_NAME-theme ._md-bar {  background-color: '{{primary-color}}'; }md-progress-linear.md-THEME_NAME-theme.md-warn ._md-container {  background-color: '{{warn-100}}'; }md-progress-linear.md-THEME_NAME-theme.md-warn ._md-bar {  background-color: '{{warn-color}}'; }md-progress-linear.md-THEME_NAME-theme.md-accent ._md-container {  background-color: '{{accent-A100}}'; }md-progress-linear.md-THEME_NAME-theme.md-accent ._md-bar {  background-color: '{{accent-color}}'; }md-progress-linear.md-THEME_NAME-theme[md-mode=buffer].md-warn ._md-bar1 {  background-color: '{{warn-100}}'; }md-progress-linear.md-THEME_NAME-theme[md-mode=buffer].md-warn ._md-dashed:before {  background: radial-gradient(\"{{warn-100}}\" 0%, \"{{warn-100}}\" 16%, transparent 42%); }md-progress-linear.md-THEME_NAME-theme[md-mode=buffer].md-accent ._md-bar1 {  background-color: '{{accent-A100}}'; }md-progress-linear.md-THEME_NAME-theme[md-mode=buffer].md-accent ._md-dashed:before {  background: radial-gradient(\"{{accent-A100}}\" 0%, \"{{accent-A100}}\" 16%, transparent 42%); }md-radio-button.md-THEME_NAME-theme ._md-off {  border-color: '{{foreground-2}}'; }md-radio-button.md-THEME_NAME-theme ._md-on {  background-color: '{{accent-color-0.87}}'; }md-radio-button.md-THEME_NAME-theme.md-checked ._md-off {  border-color: '{{accent-color-0.87}}'; }md-radio-button.md-THEME_NAME-theme.md-checked .md-ink-ripple {  color: '{{accent-color-0.87}}'; }md-radio-button.md-THEME_NAME-theme ._md-container .md-ripple {  color: '{{accent-A700}}'; }md-radio-group.md-THEME_NAME-theme:not([disabled]) .md-primary ._md-on, md-radio-group.md-THEME_NAME-theme:not([disabled]).md-primary ._md-on,md-radio-button.md-THEME_NAME-theme:not([disabled]) .md-primary ._md-on,md-radio-button.md-THEME_NAME-theme:not([disabled]).md-primary ._md-on {  background-color: '{{primary-color-0.87}}'; }md-radio-group.md-THEME_NAME-theme:not([disabled]) .md-primary .md-checked ._md-off, md-radio-group.md-THEME_NAME-theme:not([disabled]) .md-primary.md-checked ._md-off, md-radio-group.md-THEME_NAME-theme:not([disabled]).md-primary .md-checked ._md-off, md-radio-group.md-THEME_NAME-theme:not([disabled]).md-primary.md-checked ._md-off,md-radio-button.md-THEME_NAME-theme:not([disabled]) .md-primary .md-checked ._md-off,md-radio-button.md-THEME_NAME-theme:not([disabled]) .md-primary.md-checked ._md-off,md-radio-button.md-THEME_NAME-theme:not([disabled]).md-primary .md-checked ._md-off,md-radio-button.md-THEME_NAME-theme:not([disabled]).md-primary.md-checked ._md-off {  border-color: '{{primary-color-0.87}}'; }md-radio-group.md-THEME_NAME-theme:not([disabled]) .md-primary .md-checked .md-ink-ripple, md-radio-group.md-THEME_NAME-theme:not([disabled]) .md-primary.md-checked .md-ink-ripple, md-radio-group.md-THEME_NAME-theme:not([disabled]).md-primary .md-checked .md-ink-ripple, md-radio-group.md-THEME_NAME-theme:not([disabled]).md-primary.md-checked .md-ink-ripple,md-radio-button.md-THEME_NAME-theme:not([disabled]) .md-primary .md-checked .md-ink-ripple,md-radio-button.md-THEME_NAME-theme:not([disabled]) .md-primary.md-checked .md-ink-ripple,md-radio-button.md-THEME_NAME-theme:not([disabled]).md-primary .md-checked .md-ink-ripple,md-radio-button.md-THEME_NAME-theme:not([disabled]).md-primary.md-checked .md-ink-ripple {  color: '{{primary-color-0.87}}'; }md-radio-group.md-THEME_NAME-theme:not([disabled]) .md-primary ._md-container .md-ripple, md-radio-group.md-THEME_NAME-theme:not([disabled]).md-primary ._md-container .md-ripple,md-radio-button.md-THEME_NAME-theme:not([disabled]) .md-primary ._md-container .md-ripple,md-radio-button.md-THEME_NAME-theme:not([disabled]).md-primary ._md-container .md-ripple {  color: '{{primary-600}}'; }md-radio-group.md-THEME_NAME-theme:not([disabled]) .md-warn ._md-on, md-radio-group.md-THEME_NAME-theme:not([disabled]).md-warn ._md-on,md-radio-button.md-THEME_NAME-theme:not([disabled]) .md-warn ._md-on,md-radio-button.md-THEME_NAME-theme:not([disabled]).md-warn ._md-on {  background-color: '{{warn-color-0.87}}'; }md-radio-group.md-THEME_NAME-theme:not([disabled]) .md-warn .md-checked ._md-off, md-radio-group.md-THEME_NAME-theme:not([disabled]) .md-warn.md-checked ._md-off, md-radio-group.md-THEME_NAME-theme:not([disabled]).md-warn .md-checked ._md-off, md-radio-group.md-THEME_NAME-theme:not([disabled]).md-warn.md-checked ._md-off,md-radio-button.md-THEME_NAME-theme:not([disabled]) .md-warn .md-checked ._md-off,md-radio-button.md-THEME_NAME-theme:not([disabled]) .md-warn.md-checked ._md-off,md-radio-button.md-THEME_NAME-theme:not([disabled]).md-warn .md-checked ._md-off,md-radio-button.md-THEME_NAME-theme:not([disabled]).md-warn.md-checked ._md-off {  border-color: '{{warn-color-0.87}}'; }md-radio-group.md-THEME_NAME-theme:not([disabled]) .md-warn .md-checked .md-ink-ripple, md-radio-group.md-THEME_NAME-theme:not([disabled]) .md-warn.md-checked .md-ink-ripple, md-radio-group.md-THEME_NAME-theme:not([disabled]).md-warn .md-checked .md-ink-ripple, md-radio-group.md-THEME_NAME-theme:not([disabled]).md-warn.md-checked .md-ink-ripple,md-radio-button.md-THEME_NAME-theme:not([disabled]) .md-warn .md-checked .md-ink-ripple,md-radio-button.md-THEME_NAME-theme:not([disabled]) .md-warn.md-checked .md-ink-ripple,md-radio-button.md-THEME_NAME-theme:not([disabled]).md-warn .md-checked .md-ink-ripple,md-radio-button.md-THEME_NAME-theme:not([disabled]).md-warn.md-checked .md-ink-ripple {  color: '{{warn-color-0.87}}'; }md-radio-group.md-THEME_NAME-theme:not([disabled]) .md-warn ._md-container .md-ripple, md-radio-group.md-THEME_NAME-theme:not([disabled]).md-warn ._md-container .md-ripple,md-radio-button.md-THEME_NAME-theme:not([disabled]) .md-warn ._md-container .md-ripple,md-radio-button.md-THEME_NAME-theme:not([disabled]).md-warn ._md-container .md-ripple {  color: '{{warn-600}}'; }md-radio-group.md-THEME_NAME-theme[disabled],md-radio-button.md-THEME_NAME-theme[disabled] {  color: '{{foreground-3}}'; }  md-radio-group.md-THEME_NAME-theme[disabled] ._md-container ._md-off,  md-radio-button.md-THEME_NAME-theme[disabled] ._md-container ._md-off {    border-color: '{{foreground-3}}'; }  md-radio-group.md-THEME_NAME-theme[disabled] ._md-container ._md-on,  md-radio-button.md-THEME_NAME-theme[disabled] ._md-container ._md-on {    border-color: '{{foreground-3}}'; }md-radio-group.md-THEME_NAME-theme .md-checked .md-ink-ripple {  color: '{{accent-color-0.26}}'; }md-radio-group.md-THEME_NAME-theme.md-primary .md-checked:not([disabled]) .md-ink-ripple, md-radio-group.md-THEME_NAME-theme .md-checked:not([disabled]).md-primary .md-ink-ripple {  color: '{{primary-color-0.26}}'; }md-radio-group.md-THEME_NAME-theme .md-checked.md-primary .md-ink-ripple {  color: '{{warn-color-0.26}}'; }md-radio-group.md-THEME_NAME-theme.md-focused:not(:empty) .md-checked ._md-container:before {  background-color: '{{accent-color-0.26}}'; }md-radio-group.md-THEME_NAME-theme.md-focused:not(:empty).md-primary .md-checked ._md-container:before,md-radio-group.md-THEME_NAME-theme.md-focused:not(:empty) .md-checked.md-primary ._md-container:before {  background-color: '{{primary-color-0.26}}'; }md-radio-group.md-THEME_NAME-theme.md-focused:not(:empty).md-warn .md-checked ._md-container:before,md-radio-group.md-THEME_NAME-theme.md-focused:not(:empty) .md-checked.md-warn ._md-container:before {  background-color: '{{warn-color-0.26}}'; }md-select.md-THEME_NAME-theme[disabled] ._md-select-value {  border-bottom-color: transparent;  background-image: linear-gradient(to right, \"{{foreground-3}}\" 0%, \"{{foreground-3}}\" 33%, transparent 0%);  background-image: -ms-linear-gradient(left, transparent 0%, \"{{foreground-3}}\" 100%); }md-select.md-THEME_NAME-theme ._md-select-value {  border-bottom-color: '{{foreground-4}}'; }  md-select.md-THEME_NAME-theme ._md-select-value._md-select-placeholder {    color: '{{foreground-3}}'; }md-select.md-THEME_NAME-theme.ng-invalid.ng-dirty ._md-select-value {  color: '{{warn-A700}}' !important;  border-bottom-color: '{{warn-A700}}' !important; }md-select.md-THEME_NAME-theme:not([disabled]):focus ._md-select-value {  border-bottom-color: '{{primary-color}}';  color: '{{ foreground-1 }}'; }  md-select.md-THEME_NAME-theme:not([disabled]):focus ._md-select-value._md-select-placeholder {    color: '{{ foreground-1 }}'; }md-select.md-THEME_NAME-theme:not([disabled]):focus.md-accent ._md-select-value {  border-bottom-color: '{{accent-color}}'; }md-select.md-THEME_NAME-theme:not([disabled]):focus.md-warn ._md-select-value {  border-bottom-color: '{{warn-color}}'; }md-select.md-THEME_NAME-theme[disabled] ._md-select-value {  color: '{{foreground-3}}'; }  md-select.md-THEME_NAME-theme[disabled] ._md-select-value._md-select-placeholder {    color: '{{foreground-3}}'; }md-select-menu.md-THEME_NAME-theme md-content {  background: '{{background-A100}}'; }  md-select-menu.md-THEME_NAME-theme md-content md-optgroup {    color: '{{background-600-0.87}}'; }  md-select-menu.md-THEME_NAME-theme md-content md-option {    color: '{{background-900-0.87}}'; }    md-select-menu.md-THEME_NAME-theme md-content md-option[disabled] ._md-text {      color: '{{background-400-0.87}}'; }    md-select-menu.md-THEME_NAME-theme md-content md-option:not([disabled]):focus, md-select-menu.md-THEME_NAME-theme md-content md-option:not([disabled]):hover {      background: '{{background-200}}'; }    md-select-menu.md-THEME_NAME-theme md-content md-option[selected] {      color: '{{primary-500}}'; }      md-select-menu.md-THEME_NAME-theme md-content md-option[selected]:focus {        color: '{{primary-600}}'; }      md-select-menu.md-THEME_NAME-theme md-content md-option[selected].md-accent {        color: '{{accent-color}}'; }        md-select-menu.md-THEME_NAME-theme md-content md-option[selected].md-accent:focus {          color: '{{accent-A700}}'; }._md-checkbox-enabled.md-THEME_NAME-theme .md-ripple {  color: '{{primary-600}}'; }._md-checkbox-enabled.md-THEME_NAME-theme[selected] .md-ripple {  color: '{{background-600}}'; }._md-checkbox-enabled.md-THEME_NAME-theme .md-ink-ripple {  color: '{{foreground-2}}'; }._md-checkbox-enabled.md-THEME_NAME-theme[selected] .md-ink-ripple {  color: '{{primary-color-0.87}}'; }._md-checkbox-enabled.md-THEME_NAME-theme ._md-icon {  border-color: '{{foreground-2}}'; }._md-checkbox-enabled.md-THEME_NAME-theme[selected] ._md-icon {  background-color: '{{primary-color-0.87}}'; }._md-checkbox-enabled.md-THEME_NAME-theme[selected].md-focused ._md-container:before {  background-color: '{{primary-color-0.26}}'; }._md-checkbox-enabled.md-THEME_NAME-theme[selected] ._md-icon:after {  border-color: '{{primary-contrast-0.87}}'; }._md-checkbox-enabled.md-THEME_NAME-theme .md-indeterminate[disabled] ._md-container {  color: '{{foreground-3}}'; }._md-checkbox-enabled.md-THEME_NAME-theme md-option ._md-text {  color: '{{background-900-0.87}}'; }md-sidenav.md-THEME_NAME-theme, md-sidenav.md-THEME_NAME-theme md-content {  background-color: '{{background-hue-1}}'; }md-slider.md-THEME_NAME-theme ._md-track {  background-color: '{{foreground-3}}'; }md-slider.md-THEME_NAME-theme ._md-track-ticks {  color: '{{background-contrast}}'; }md-slider.md-THEME_NAME-theme ._md-focus-ring {  background-color: '{{accent-A200-0.2}}'; }md-slider.md-THEME_NAME-theme ._md-disabled-thumb {  border-color: '{{background-color}}';  background-color: '{{background-color}}'; }md-slider.md-THEME_NAME-theme._md-min ._md-thumb:after {  background-color: '{{background-color}}';  border-color: '{{foreground-3}}'; }md-slider.md-THEME_NAME-theme._md-min ._md-focus-ring {  background-color: '{{foreground-3-0.38}}'; }md-slider.md-THEME_NAME-theme._md-min[md-discrete] ._md-thumb:after {  background-color: '{{background-contrast}}';  border-color: transparent; }md-slider.md-THEME_NAME-theme._md-min[md-discrete] ._md-sign {  background-color: '{{background-400}}'; }  md-slider.md-THEME_NAME-theme._md-min[md-discrete] ._md-sign:after {    border-top-color: '{{background-400}}'; }md-slider.md-THEME_NAME-theme._md-min[md-discrete][md-vertical] ._md-sign:after {  border-top-color: transparent;  border-left-color: '{{background-400}}'; }md-slider.md-THEME_NAME-theme ._md-track._md-track-fill {  background-color: '{{accent-color}}'; }md-slider.md-THEME_NAME-theme ._md-thumb:after {  border-color: '{{accent-color}}';  background-color: '{{accent-color}}'; }md-slider.md-THEME_NAME-theme ._md-sign {  background-color: '{{accent-color}}'; }  md-slider.md-THEME_NAME-theme ._md-sign:after {    border-top-color: '{{accent-color}}'; }md-slider.md-THEME_NAME-theme[md-vertical] ._md-sign:after {  border-top-color: transparent;  border-left-color: '{{accent-color}}'; }md-slider.md-THEME_NAME-theme ._md-thumb-text {  color: '{{accent-contrast}}'; }md-slider.md-THEME_NAME-theme.md-warn ._md-focus-ring {  background-color: '{{warn-200-0.38}}'; }md-slider.md-THEME_NAME-theme.md-warn ._md-track._md-track-fill {  background-color: '{{warn-color}}'; }md-slider.md-THEME_NAME-theme.md-warn ._md-thumb:after {  border-color: '{{warn-color}}';  background-color: '{{warn-color}}'; }md-slider.md-THEME_NAME-theme.md-warn ._md-sign {  background-color: '{{warn-color}}'; }  md-slider.md-THEME_NAME-theme.md-warn ._md-sign:after {    border-top-color: '{{warn-color}}'; }md-slider.md-THEME_NAME-theme.md-warn[md-vertical] ._md-sign:after {  border-top-color: transparent;  border-left-color: '{{warn-color}}'; }md-slider.md-THEME_NAME-theme.md-warn ._md-thumb-text {  color: '{{warn-contrast}}'; }md-slider.md-THEME_NAME-theme.md-primary ._md-focus-ring {  background-color: '{{primary-200-0.38}}'; }md-slider.md-THEME_NAME-theme.md-primary ._md-track._md-track-fill {  background-color: '{{primary-color}}'; }md-slider.md-THEME_NAME-theme.md-primary ._md-thumb:after {  border-color: '{{primary-color}}';  background-color: '{{primary-color}}'; }md-slider.md-THEME_NAME-theme.md-primary ._md-sign {  background-color: '{{primary-color}}'; }  md-slider.md-THEME_NAME-theme.md-primary ._md-sign:after {    border-top-color: '{{primary-color}}'; }md-slider.md-THEME_NAME-theme.md-primary[md-vertical] ._md-sign:after {  border-top-color: transparent;  border-left-color: '{{primary-color}}'; }md-slider.md-THEME_NAME-theme.md-primary ._md-thumb-text {  color: '{{primary-contrast}}'; }md-slider.md-THEME_NAME-theme[disabled] ._md-thumb:after {  border-color: transparent; }md-slider.md-THEME_NAME-theme[disabled]:not(._md-min) ._md-thumb:after, md-slider.md-THEME_NAME-theme[disabled][md-discrete] ._md-thumb:after {  background-color: '{{foreground-3}}';  border-color: transparent; }md-slider.md-THEME_NAME-theme[disabled][readonly] ._md-sign {  background-color: '{{background-400}}'; }  md-slider.md-THEME_NAME-theme[disabled][readonly] ._md-sign:after {    border-top-color: '{{background-400}}'; }md-slider.md-THEME_NAME-theme[disabled][readonly][md-vertical] ._md-sign:after {  border-top-color: transparent;  border-left-color: '{{background-400}}'; }md-slider.md-THEME_NAME-theme[disabled][readonly] ._md-disabled-thumb {  border-color: transparent;  background-color: transparent; }md-slider-container[disabled] > *:first-child:not(md-slider),md-slider-container[disabled] > *:last-child:not(md-slider) {  color: '{{foreground-3}}'; }.md-subheader.md-THEME_NAME-theme {  color: '{{ foreground-2-0.23 }}';  background-color: '{{background-default}}'; }  .md-subheader.md-THEME_NAME-theme.md-primary {    color: '{{primary-color}}'; }  .md-subheader.md-THEME_NAME-theme.md-accent {    color: '{{accent-color}}'; }  .md-subheader.md-THEME_NAME-theme.md-warn {    color: '{{warn-color}}'; }md-switch.md-THEME_NAME-theme .md-ink-ripple {  color: '{{background-500}}'; }md-switch.md-THEME_NAME-theme ._md-thumb {  background-color: '{{background-50}}'; }md-switch.md-THEME_NAME-theme ._md-bar {  background-color: '{{background-500}}'; }md-switch.md-THEME_NAME-theme.md-checked .md-ink-ripple {  color: '{{accent-color}}'; }md-switch.md-THEME_NAME-theme.md-checked ._md-thumb {  background-color: '{{accent-color}}'; }md-switch.md-THEME_NAME-theme.md-checked ._md-bar {  background-color: '{{accent-color-0.5}}'; }md-switch.md-THEME_NAME-theme.md-checked.md-focused ._md-thumb:before {  background-color: '{{accent-color-0.26}}'; }md-switch.md-THEME_NAME-theme.md-checked.md-primary .md-ink-ripple {  color: '{{primary-color}}'; }md-switch.md-THEME_NAME-theme.md-checked.md-primary ._md-thumb {  background-color: '{{primary-color}}'; }md-switch.md-THEME_NAME-theme.md-checked.md-primary ._md-bar {  background-color: '{{primary-color-0.5}}'; }md-switch.md-THEME_NAME-theme.md-checked.md-primary.md-focused ._md-thumb:before {  background-color: '{{primary-color-0.26}}'; }md-switch.md-THEME_NAME-theme.md-checked.md-warn .md-ink-ripple {  color: '{{warn-color}}'; }md-switch.md-THEME_NAME-theme.md-checked.md-warn ._md-thumb {  background-color: '{{warn-color}}'; }md-switch.md-THEME_NAME-theme.md-checked.md-warn ._md-bar {  background-color: '{{warn-color-0.5}}'; }md-switch.md-THEME_NAME-theme.md-checked.md-warn.md-focused ._md-thumb:before {  background-color: '{{warn-color-0.26}}'; }md-switch.md-THEME_NAME-theme[disabled] ._md-thumb {  background-color: '{{background-400}}'; }md-switch.md-THEME_NAME-theme[disabled] ._md-bar {  background-color: '{{foreground-4}}'; }md-tabs.md-THEME_NAME-theme md-tabs-wrapper {  background-color: transparent;  border-color: '{{foreground-4}}'; }md-tabs.md-THEME_NAME-theme .md-paginator md-icon {  color: '{{primary-color}}'; }md-tabs.md-THEME_NAME-theme md-ink-bar {  color: '{{accent-color}}';  background: '{{accent-color}}'; }md-tabs.md-THEME_NAME-theme .md-tab {  color: '{{foreground-2}}'; }  md-tabs.md-THEME_NAME-theme .md-tab[disabled], md-tabs.md-THEME_NAME-theme .md-tab[disabled] md-icon {    color: '{{foreground-3}}'; }  md-tabs.md-THEME_NAME-theme .md-tab.md-active, md-tabs.md-THEME_NAME-theme .md-tab.md-active md-icon, md-tabs.md-THEME_NAME-theme .md-tab.md-focused, md-tabs.md-THEME_NAME-theme .md-tab.md-focused md-icon {    color: '{{primary-color}}'; }  md-tabs.md-THEME_NAME-theme .md-tab.md-focused {    background: '{{primary-color-0.1}}'; }  md-tabs.md-THEME_NAME-theme .md-tab .md-ripple-container {    color: '{{accent-A100}}'; }md-tabs.md-THEME_NAME-theme.md-accent > md-tabs-wrapper {  background-color: '{{accent-color}}'; }  md-tabs.md-THEME_NAME-theme.md-accent > md-tabs-wrapper > md-tabs-canvas > md-pagination-wrapper > md-tab-item:not([disabled]) {    color: '{{accent-A100}}'; }    md-tabs.md-THEME_NAME-theme.md-accent > md-tabs-wrapper > md-tabs-canvas > md-pagination-wrapper > md-tab-item:not([disabled]).md-active, md-tabs.md-THEME_NAME-theme.md-accent > md-tabs-wrapper > md-tabs-canvas > md-pagination-wrapper > md-tab-item:not([disabled]).md-active md-icon, md-tabs.md-THEME_NAME-theme.md-accent > md-tabs-wrapper > md-tabs-canvas > md-pagination-wrapper > md-tab-item:not([disabled]).md-focused, md-tabs.md-THEME_NAME-theme.md-accent > md-tabs-wrapper > md-tabs-canvas > md-pagination-wrapper > md-tab-item:not([disabled]).md-focused md-icon {      color: '{{accent-contrast}}'; }    md-tabs.md-THEME_NAME-theme.md-accent > md-tabs-wrapper > md-tabs-canvas > md-pagination-wrapper > md-tab-item:not([disabled]).md-focused {      background: '{{accent-contrast-0.1}}'; }  md-tabs.md-THEME_NAME-theme.md-accent > md-tabs-wrapper > md-tabs-canvas > md-pagination-wrapper > md-ink-bar {    color: '{{primary-600-1}}';    background: '{{primary-600-1}}'; }md-tabs.md-THEME_NAME-theme.md-primary > md-tabs-wrapper {  background-color: '{{primary-color}}'; }  md-tabs.md-THEME_NAME-theme.md-primary > md-tabs-wrapper > md-tabs-canvas > md-pagination-wrapper > md-tab-item:not([disabled]) {    color: '{{primary-100}}'; }    md-tabs.md-THEME_NAME-theme.md-primary > md-tabs-wrapper > md-tabs-canvas > md-pagination-wrapper > md-tab-item:not([disabled]).md-active, md-tabs.md-THEME_NAME-theme.md-primary > md-tabs-wrapper > md-tabs-canvas > md-pagination-wrapper > md-tab-item:not([disabled]).md-active md-icon, md-tabs.md-THEME_NAME-theme.md-primary > md-tabs-wrapper > md-tabs-canvas > md-pagination-wrapper > md-tab-item:not([disabled]).md-focused, md-tabs.md-THEME_NAME-theme.md-primary > md-tabs-wrapper > md-tabs-canvas > md-pagination-wrapper > md-tab-item:not([disabled]).md-focused md-icon {      color: '{{primary-contrast}}'; }    md-tabs.md-THEME_NAME-theme.md-primary > md-tabs-wrapper > md-tabs-canvas > md-pagination-wrapper > md-tab-item:not([disabled]).md-focused {      background: '{{primary-contrast-0.1}}'; }md-tabs.md-THEME_NAME-theme.md-warn > md-tabs-wrapper {  background-color: '{{warn-color}}'; }  md-tabs.md-THEME_NAME-theme.md-warn > md-tabs-wrapper > md-tabs-canvas > md-pagination-wrapper > md-tab-item:not([disabled]) {    color: '{{warn-100}}'; }    md-tabs.md-THEME_NAME-theme.md-warn > md-tabs-wrapper > md-tabs-canvas > md-pagination-wrapper > md-tab-item:not([disabled]).md-active, md-tabs.md-THEME_NAME-theme.md-warn > md-tabs-wrapper > md-tabs-canvas > md-pagination-wrapper > md-tab-item:not([disabled]).md-active md-icon, md-tabs.md-THEME_NAME-theme.md-warn > md-tabs-wrapper > md-tabs-canvas > md-pagination-wrapper > md-tab-item:not([disabled]).md-focused, md-tabs.md-THEME_NAME-theme.md-warn > md-tabs-wrapper > md-tabs-canvas > md-pagination-wrapper > md-tab-item:not([disabled]).md-focused md-icon {      color: '{{warn-contrast}}'; }    md-tabs.md-THEME_NAME-theme.md-warn > md-tabs-wrapper > md-tabs-canvas > md-pagination-wrapper > md-tab-item:not([disabled]).md-focused {      background: '{{warn-contrast-0.1}}'; }md-toolbar > md-tabs.md-THEME_NAME-theme > md-tabs-wrapper {  background-color: '{{primary-color}}'; }  md-toolbar > md-tabs.md-THEME_NAME-theme > md-tabs-wrapper > md-tabs-canvas > md-pagination-wrapper > md-tab-item:not([disabled]) {    color: '{{primary-100}}'; }    md-toolbar > md-tabs.md-THEME_NAME-theme > md-tabs-wrapper > md-tabs-canvas > md-pagination-wrapper > md-tab-item:not([disabled]).md-active, md-toolbar > md-tabs.md-THEME_NAME-theme > md-tabs-wrapper > md-tabs-canvas > md-pagination-wrapper > md-tab-item:not([disabled]).md-active md-icon, md-toolbar > md-tabs.md-THEME_NAME-theme > md-tabs-wrapper > md-tabs-canvas > md-pagination-wrapper > md-tab-item:not([disabled]).md-focused, md-toolbar > md-tabs.md-THEME_NAME-theme > md-tabs-wrapper > md-tabs-canvas > md-pagination-wrapper > md-tab-item:not([disabled]).md-focused md-icon {      color: '{{primary-contrast}}'; }    md-toolbar > md-tabs.md-THEME_NAME-theme > md-tabs-wrapper > md-tabs-canvas > md-pagination-wrapper > md-tab-item:not([disabled]).md-focused {      background: '{{primary-contrast-0.1}}'; }md-toolbar.md-accent > md-tabs.md-THEME_NAME-theme > md-tabs-wrapper {  background-color: '{{accent-color}}'; }  md-toolbar.md-accent > md-tabs.md-THEME_NAME-theme > md-tabs-wrapper > md-tabs-canvas > md-pagination-wrapper > md-tab-item:not([disabled]) {    color: '{{accent-A100}}'; }    md-toolbar.md-accent > md-tabs.md-THEME_NAME-theme > md-tabs-wrapper > md-tabs-canvas > md-pagination-wrapper > md-tab-item:not([disabled]).md-active, md-toolbar.md-accent > md-tabs.md-THEME_NAME-theme > md-tabs-wrapper > md-tabs-canvas > md-pagination-wrapper > md-tab-item:not([disabled]).md-active md-icon, md-toolbar.md-accent > md-tabs.md-THEME_NAME-theme > md-tabs-wrapper > md-tabs-canvas > md-pagination-wrapper > md-tab-item:not([disabled]).md-focused, md-toolbar.md-accent > md-tabs.md-THEME_NAME-theme > md-tabs-wrapper > md-tabs-canvas > md-pagination-wrapper > md-tab-item:not([disabled]).md-focused md-icon {      color: '{{accent-contrast}}'; }    md-toolbar.md-accent > md-tabs.md-THEME_NAME-theme > md-tabs-wrapper > md-tabs-canvas > md-pagination-wrapper > md-tab-item:not([disabled]).md-focused {      background: '{{accent-contrast-0.1}}'; }  md-toolbar.md-accent > md-tabs.md-THEME_NAME-theme > md-tabs-wrapper > md-tabs-canvas > md-pagination-wrapper > md-ink-bar {    color: '{{primary-600-1}}';    background: '{{primary-600-1}}'; }md-toolbar.md-warn > md-tabs.md-THEME_NAME-theme > md-tabs-wrapper {  background-color: '{{warn-color}}'; }  md-toolbar.md-warn > md-tabs.md-THEME_NAME-theme > md-tabs-wrapper > md-tabs-canvas > md-pagination-wrapper > md-tab-item:not([disabled]) {    color: '{{warn-100}}'; }    md-toolbar.md-warn > md-tabs.md-THEME_NAME-theme > md-tabs-wrapper > md-tabs-canvas > md-pagination-wrapper > md-tab-item:not([disabled]).md-active, md-toolbar.md-warn > md-tabs.md-THEME_NAME-theme > md-tabs-wrapper > md-tabs-canvas > md-pagination-wrapper > md-tab-item:not([disabled]).md-active md-icon, md-toolbar.md-warn > md-tabs.md-THEME_NAME-theme > md-tabs-wrapper > md-tabs-canvas > md-pagination-wrapper > md-tab-item:not([disabled]).md-focused, md-toolbar.md-warn > md-tabs.md-THEME_NAME-theme > md-tabs-wrapper > md-tabs-canvas > md-pagination-wrapper > md-tab-item:not([disabled]).md-focused md-icon {      color: '{{warn-contrast}}'; }    md-toolbar.md-warn > md-tabs.md-THEME_NAME-theme > md-tabs-wrapper > md-tabs-canvas > md-pagination-wrapper > md-tab-item:not([disabled]).md-focused {      background: '{{warn-contrast-0.1}}'; }md-toast.md-THEME_NAME-theme .md-toast-content {  background-color: #323232;  color: '{{background-50}}'; }  md-toast.md-THEME_NAME-theme .md-toast-content .md-button {    color: '{{background-50}}'; }    md-toast.md-THEME_NAME-theme .md-toast-content .md-button.md-highlight {      color: '{{accent-color}}'; }      md-toast.md-THEME_NAME-theme .md-toast-content .md-button.md-highlight.md-primary {        color: '{{primary-color}}'; }      md-toast.md-THEME_NAME-theme .md-toast-content .md-button.md-highlight.md-warn {        color: '{{warn-color}}'; }md-toolbar.md-THEME_NAME-theme:not(.md-menu-toolbar) {  background-color: '{{primary-color}}';  color: '{{primary-contrast}}'; }  md-toolbar.md-THEME_NAME-theme:not(.md-menu-toolbar) md-icon {    color: '{{primary-contrast}}';    fill: '{{primary-contrast}}'; }  md-toolbar.md-THEME_NAME-theme:not(.md-menu-toolbar) .md-button[disabled] md-icon {    color: '{{primary-contrast-0.26}}';    fill: '{{primary-contrast-0.26}}'; }  md-toolbar.md-THEME_NAME-theme:not(.md-menu-toolbar).md-accent {    background-color: '{{accent-color}}';    color: '{{accent-contrast}}'; }    md-toolbar.md-THEME_NAME-theme:not(.md-menu-toolbar).md-accent .md-ink-ripple {      color: '{{accent-contrast}}'; }    md-toolbar.md-THEME_NAME-theme:not(.md-menu-toolbar).md-accent md-icon {      color: '{{accent-contrast}}';      fill: '{{accent-contrast}}'; }    md-toolbar.md-THEME_NAME-theme:not(.md-menu-toolbar).md-accent .md-button[disabled] md-icon {      color: '{{accent-contrast-0.26}}';      fill: '{{accent-contrast-0.26}}'; }  md-toolbar.md-THEME_NAME-theme:not(.md-menu-toolbar).md-warn {    background-color: '{{warn-color}}';    color: '{{warn-contrast}}'; }md-tooltip.md-THEME_NAME-theme {  color: '{{background-A100}}'; }  md-tooltip.md-THEME_NAME-theme ._md-content {    background-color: '{{foreground-2}}'; }"); 
+angular.module("material.core").constant("$MD_THEME_CSS", "/*  Only used with Theme processes */html.md-THEME_NAME-theme, body.md-THEME_NAME-theme {  color: '{{foreground-1}}';  background-color: '{{background-color}}'; }md-autocomplete.md-THEME_NAME-theme {  background: '{{background-50}}'; }  md-autocomplete.md-THEME_NAME-theme[disabled] {    background: '{{background-100}}'; }  md-autocomplete.md-THEME_NAME-theme button md-icon path {    fill: '{{background-600}}'; }  md-autocomplete.md-THEME_NAME-theme button:after {    background: '{{background-600-0.3}}'; }.md-autocomplete-suggestions-container.md-THEME_NAME-theme {  background: '{{background-50}}'; }  .md-autocomplete-suggestions-container.md-THEME_NAME-theme li {    color: '{{background-900}}'; }    .md-autocomplete-suggestions-container.md-THEME_NAME-theme li .highlight {      color: '{{background-600}}'; }    .md-autocomplete-suggestions-container.md-THEME_NAME-theme li:hover, .md-autocomplete-suggestions-container.md-THEME_NAME-theme li.selected {      background: '{{background-200}}'; }md-backdrop {  background-color: '{{background-900-0.0}}'; }  md-backdrop.md-opaque.md-THEME_NAME-theme {    background-color: '{{background-900-1.0}}'; }md-bottom-sheet.md-THEME_NAME-theme {  background-color: '{{background-50}}';  border-top-color: '{{background-300}}'; }  md-bottom-sheet.md-THEME_NAME-theme.md-list md-list-item {    color: '{{foreground-1}}'; }  md-bottom-sheet.md-THEME_NAME-theme .md-subheader {    background-color: '{{background-50}}'; }  md-bottom-sheet.md-THEME_NAME-theme .md-subheader {    color: '{{foreground-1}}'; }a.md-button.md-THEME_NAME-theme:not([disabled]):hover,.md-button.md-THEME_NAME-theme:not([disabled]):hover {  background-color: '{{background-500-0.2}}'; }a.md-button.md-THEME_NAME-theme:not([disabled]).md-focused,.md-button.md-THEME_NAME-theme:not([disabled]).md-focused {  background-color: '{{background-500-0.2}}'; }a.md-button.md-THEME_NAME-theme:not([disabled]).md-icon-button:hover,.md-button.md-THEME_NAME-theme:not([disabled]).md-icon-button:hover {  background-color: transparent; }a.md-button.md-THEME_NAME-theme.md-fab,.md-button.md-THEME_NAME-theme.md-fab {  background-color: '{{accent-color}}';  color: '{{accent-contrast}}'; }  a.md-button.md-THEME_NAME-theme.md-fab md-icon,  .md-button.md-THEME_NAME-theme.md-fab md-icon {    color: '{{accent-contrast}}'; }  a.md-button.md-THEME_NAME-theme.md-fab:not([disabled]):hover,  .md-button.md-THEME_NAME-theme.md-fab:not([disabled]):hover {    background-color: '{{accent-color}}'; }  a.md-button.md-THEME_NAME-theme.md-fab:not([disabled]).md-focused,  .md-button.md-THEME_NAME-theme.md-fab:not([disabled]).md-focused {    background-color: '{{accent-A700}}'; }a.md-button.md-THEME_NAME-theme.md-primary,.md-button.md-THEME_NAME-theme.md-primary {  color: '{{primary-color}}'; }  a.md-button.md-THEME_NAME-theme.md-primary.md-raised, a.md-button.md-THEME_NAME-theme.md-primary.md-fab,  .md-button.md-THEME_NAME-theme.md-primary.md-raised,  .md-button.md-THEME_NAME-theme.md-primary.md-fab {    color: '{{primary-contrast}}';    background-color: '{{primary-color}}'; }    a.md-button.md-THEME_NAME-theme.md-primary.md-raised:not([disabled]) md-icon, a.md-button.md-THEME_NAME-theme.md-primary.md-fab:not([disabled]) md-icon,    .md-button.md-THEME_NAME-theme.md-primary.md-raised:not([disabled]) md-icon,    .md-button.md-THEME_NAME-theme.md-primary.md-fab:not([disabled]) md-icon {      color: '{{primary-contrast}}'; }    a.md-button.md-THEME_NAME-theme.md-primary.md-raised:not([disabled]):hover, a.md-button.md-THEME_NAME-theme.md-primary.md-fab:not([disabled]):hover,    .md-button.md-THEME_NAME-theme.md-primary.md-raised:not([disabled]):hover,    .md-button.md-THEME_NAME-theme.md-primary.md-fab:not([disabled]):hover {      background-color: '{{primary-color}}'; }    a.md-button.md-THEME_NAME-theme.md-primary.md-raised:not([disabled]).md-focused, a.md-button.md-THEME_NAME-theme.md-primary.md-fab:not([disabled]).md-focused,    .md-button.md-THEME_NAME-theme.md-primary.md-raised:not([disabled]).md-focused,    .md-button.md-THEME_NAME-theme.md-primary.md-fab:not([disabled]).md-focused {      background-color: '{{primary-600}}'; }  a.md-button.md-THEME_NAME-theme.md-primary:not([disabled]) md-icon,  .md-button.md-THEME_NAME-theme.md-primary:not([disabled]) md-icon {    color: '{{primary-color}}'; }a.md-button.md-THEME_NAME-theme.md-fab,.md-button.md-THEME_NAME-theme.md-fab {  background-color: '{{accent-color}}';  color: '{{accent-contrast}}'; }  a.md-button.md-THEME_NAME-theme.md-fab:not([disabled]) .md-icon,  .md-button.md-THEME_NAME-theme.md-fab:not([disabled]) .md-icon {    color: '{{accent-contrast}}'; }  a.md-button.md-THEME_NAME-theme.md-fab:not([disabled]):hover,  .md-button.md-THEME_NAME-theme.md-fab:not([disabled]):hover {    background-color: '{{accent-color}}'; }  a.md-button.md-THEME_NAME-theme.md-fab:not([disabled]).md-focused,  .md-button.md-THEME_NAME-theme.md-fab:not([disabled]).md-focused {    background-color: '{{accent-A700}}'; }a.md-button.md-THEME_NAME-theme.md-raised,.md-button.md-THEME_NAME-theme.md-raised {  color: '{{background-900}}';  background-color: '{{background-50}}'; }  a.md-button.md-THEME_NAME-theme.md-raised:not([disabled]) md-icon,  .md-button.md-THEME_NAME-theme.md-raised:not([disabled]) md-icon {    color: '{{background-900}}'; }  a.md-button.md-THEME_NAME-theme.md-raised:not([disabled]):hover,  .md-button.md-THEME_NAME-theme.md-raised:not([disabled]):hover {    background-color: '{{background-50}}'; }  a.md-button.md-THEME_NAME-theme.md-raised:not([disabled]).md-focused,  .md-button.md-THEME_NAME-theme.md-raised:not([disabled]).md-focused {    background-color: '{{background-200}}'; }a.md-button.md-THEME_NAME-theme.md-warn,.md-button.md-THEME_NAME-theme.md-warn {  color: '{{warn-color}}'; }  a.md-button.md-THEME_NAME-theme.md-warn.md-raised, a.md-button.md-THEME_NAME-theme.md-warn.md-fab,  .md-button.md-THEME_NAME-theme.md-warn.md-raised,  .md-button.md-THEME_NAME-theme.md-warn.md-fab {    color: '{{warn-contrast}}';    background-color: '{{warn-color}}'; }    a.md-button.md-THEME_NAME-theme.md-warn.md-raised:not([disabled]) md-icon, a.md-button.md-THEME_NAME-theme.md-warn.md-fab:not([disabled]) md-icon,    .md-button.md-THEME_NAME-theme.md-warn.md-raised:not([disabled]) md-icon,    .md-button.md-THEME_NAME-theme.md-warn.md-fab:not([disabled]) md-icon {      color: '{{warn-contrast}}'; }    a.md-button.md-THEME_NAME-theme.md-warn.md-raised:not([disabled]):hover, a.md-button.md-THEME_NAME-theme.md-warn.md-fab:not([disabled]):hover,    .md-button.md-THEME_NAME-theme.md-warn.md-raised:not([disabled]):hover,    .md-button.md-THEME_NAME-theme.md-warn.md-fab:not([disabled]):hover {      background-color: '{{warn-color}}'; }    a.md-button.md-THEME_NAME-theme.md-warn.md-raised:not([disabled]).md-focused, a.md-button.md-THEME_NAME-theme.md-warn.md-fab:not([disabled]).md-focused,    .md-button.md-THEME_NAME-theme.md-warn.md-raised:not([disabled]).md-focused,    .md-button.md-THEME_NAME-theme.md-warn.md-fab:not([disabled]).md-focused {      background-color: '{{warn-700}}'; }  a.md-button.md-THEME_NAME-theme.md-warn:not([disabled]) md-icon,  .md-button.md-THEME_NAME-theme.md-warn:not([disabled]) md-icon {    color: '{{warn-color}}'; }a.md-button.md-THEME_NAME-theme.md-accent,.md-button.md-THEME_NAME-theme.md-accent {  color: '{{accent-color}}'; }  a.md-button.md-THEME_NAME-theme.md-accent.md-raised, a.md-button.md-THEME_NAME-theme.md-accent.md-fab,  .md-button.md-THEME_NAME-theme.md-accent.md-raised,  .md-button.md-THEME_NAME-theme.md-accent.md-fab {    color: '{{accent-contrast}}';    background-color: '{{accent-color}}'; }    a.md-button.md-THEME_NAME-theme.md-accent.md-raised:not([disabled]) md-icon, a.md-button.md-THEME_NAME-theme.md-accent.md-fab:not([disabled]) md-icon,    .md-button.md-THEME_NAME-theme.md-accent.md-raised:not([disabled]) md-icon,    .md-button.md-THEME_NAME-theme.md-accent.md-fab:not([disabled]) md-icon {      color: '{{accent-contrast}}'; }    a.md-button.md-THEME_NAME-theme.md-accent.md-raised:not([disabled]):hover, a.md-button.md-THEME_NAME-theme.md-accent.md-fab:not([disabled]):hover,    .md-button.md-THEME_NAME-theme.md-accent.md-raised:not([disabled]):hover,    .md-button.md-THEME_NAME-theme.md-accent.md-fab:not([disabled]):hover {      background-color: '{{accent-color}}'; }    a.md-button.md-THEME_NAME-theme.md-accent.md-raised:not([disabled]).md-focused, a.md-button.md-THEME_NAME-theme.md-accent.md-fab:not([disabled]).md-focused,    .md-button.md-THEME_NAME-theme.md-accent.md-raised:not([disabled]).md-focused,    .md-button.md-THEME_NAME-theme.md-accent.md-fab:not([disabled]).md-focused {      background-color: '{{accent-700}}'; }  a.md-button.md-THEME_NAME-theme.md-accent:not([disabled]) md-icon,  .md-button.md-THEME_NAME-theme.md-accent:not([disabled]) md-icon {    color: '{{accent-color}}'; }a.md-button.md-THEME_NAME-theme[disabled], a.md-button.md-THEME_NAME-theme.md-raised[disabled], a.md-button.md-THEME_NAME-theme.md-fab[disabled], a.md-button.md-THEME_NAME-theme.md-accent[disabled], a.md-button.md-THEME_NAME-theme.md-warn[disabled],.md-button.md-THEME_NAME-theme[disabled],.md-button.md-THEME_NAME-theme.md-raised[disabled],.md-button.md-THEME_NAME-theme.md-fab[disabled],.md-button.md-THEME_NAME-theme.md-accent[disabled],.md-button.md-THEME_NAME-theme.md-warn[disabled] {  color: '{{foreground-3}}' !important;  cursor: default; }  a.md-button.md-THEME_NAME-theme[disabled] md-icon, a.md-button.md-THEME_NAME-theme.md-raised[disabled] md-icon, a.md-button.md-THEME_NAME-theme.md-fab[disabled] md-icon, a.md-button.md-THEME_NAME-theme.md-accent[disabled] md-icon, a.md-button.md-THEME_NAME-theme.md-warn[disabled] md-icon,  .md-button.md-THEME_NAME-theme[disabled] md-icon,  .md-button.md-THEME_NAME-theme.md-raised[disabled] md-icon,  .md-button.md-THEME_NAME-theme.md-fab[disabled] md-icon,  .md-button.md-THEME_NAME-theme.md-accent[disabled] md-icon,  .md-button.md-THEME_NAME-theme.md-warn[disabled] md-icon {    color: '{{foreground-3}}'; }a.md-button.md-THEME_NAME-theme.md-raised[disabled], a.md-button.md-THEME_NAME-theme.md-fab[disabled],.md-button.md-THEME_NAME-theme.md-raised[disabled],.md-button.md-THEME_NAME-theme.md-fab[disabled] {  background-color: '{{foreground-4}}'; }a.md-button.md-THEME_NAME-theme[disabled],.md-button.md-THEME_NAME-theme[disabled] {  background-color: transparent; }md-card.md-THEME_NAME-theme {  background-color: '{{background-color}}';  border-radius: 2px; }  md-card.md-THEME_NAME-theme .md-card-image {    border-radius: 2px 2px 0 0; }  md-card.md-THEME_NAME-theme md-card-header md-card-avatar md-icon {    color: '{{background-color}}';    background-color: '{{foreground-3}}'; }  md-card.md-THEME_NAME-theme md-card-header md-card-header-text .md-subhead {    color: '{{foreground-2}}'; }  md-card.md-THEME_NAME-theme md-card-title md-card-title-text:not(:only-child) .md-subhead {    color: '{{foreground-2}}'; }md-checkbox.md-THEME_NAME-theme .md-ripple {  color: '{{accent-600}}'; }md-checkbox.md-THEME_NAME-theme.md-checked .md-ripple {  color: '{{background-600}}'; }md-checkbox.md-THEME_NAME-theme.md-checked.md-focused .md-container:before {  background-color: '{{accent-color-0.26}}'; }md-checkbox.md-THEME_NAME-theme .md-ink-ripple {  color: '{{foreground-2}}'; }md-checkbox.md-THEME_NAME-theme.md-checked .md-ink-ripple {  color: '{{accent-color-0.87}}'; }md-checkbox.md-THEME_NAME-theme .md-icon {  border-color: '{{foreground-2}}'; }md-checkbox.md-THEME_NAME-theme.md-checked .md-icon {  background-color: '{{accent-color-0.87}}'; }md-checkbox.md-THEME_NAME-theme.md-checked .md-icon:after {  border-color: '{{accent-contrast-0.87}}'; }md-checkbox.md-THEME_NAME-theme:not([disabled]).md-primary .md-ripple {  color: '{{primary-600}}'; }md-checkbox.md-THEME_NAME-theme:not([disabled]).md-primary.md-checked .md-ripple {  color: '{{background-600}}'; }md-checkbox.md-THEME_NAME-theme:not([disabled]).md-primary .md-ink-ripple {  color: '{{foreground-2}}'; }md-checkbox.md-THEME_NAME-theme:not([disabled]).md-primary.md-checked .md-ink-ripple {  color: '{{primary-color-0.87}}'; }md-checkbox.md-THEME_NAME-theme:not([disabled]).md-primary .md-icon {  border-color: '{{foreground-2}}'; }md-checkbox.md-THEME_NAME-theme:not([disabled]).md-primary.md-checked .md-icon {  background-color: '{{primary-color-0.87}}'; }md-checkbox.md-THEME_NAME-theme:not([disabled]).md-primary.md-checked.md-focused .md-container:before {  background-color: '{{primary-color-0.26}}'; }md-checkbox.md-THEME_NAME-theme:not([disabled]).md-primary.md-checked .md-icon:after {  border-color: '{{primary-contrast-0.87}}'; }md-checkbox.md-THEME_NAME-theme:not([disabled]).md-primary .md-indeterminate[disabled] .md-container {  color: '{{foreground-3}}'; }md-checkbox.md-THEME_NAME-theme:not([disabled]).md-warn .md-ripple {  color: '{{warn-600}}'; }md-checkbox.md-THEME_NAME-theme:not([disabled]).md-warn .md-ink-ripple {  color: '{{foreground-2}}'; }md-checkbox.md-THEME_NAME-theme:not([disabled]).md-warn.md-checked .md-ink-ripple {  color: '{{warn-color-0.87}}'; }md-checkbox.md-THEME_NAME-theme:not([disabled]).md-warn .md-icon {  border-color: '{{foreground-2}}'; }md-checkbox.md-THEME_NAME-theme:not([disabled]).md-warn.md-checked .md-icon {  background-color: '{{warn-color-0.87}}'; }md-checkbox.md-THEME_NAME-theme:not([disabled]).md-warn.md-checked.md-focused:not([disabled]) .md-container:before {  background-color: '{{warn-color-0.26}}'; }md-checkbox.md-THEME_NAME-theme:not([disabled]).md-warn.md-checked .md-icon:after {  border-color: '{{background-200}}'; }md-checkbox.md-THEME_NAME-theme[disabled] .md-icon {  border-color: '{{foreground-3}}'; }md-checkbox.md-THEME_NAME-theme[disabled].md-checked .md-icon {  background-color: '{{foreground-3}}'; }md-checkbox.md-THEME_NAME-theme[disabled].md-checked .md-icon:after {  border-color: '{{background-200}}'; }md-checkbox.md-THEME_NAME-theme[disabled] .md-label {  color: '{{foreground-3}}'; }md-chips.md-THEME_NAME-theme .md-chips {  box-shadow: 0 1px '{{background-300}}'; }  md-chips.md-THEME_NAME-theme .md-chips.md-focused {    box-shadow: 0 2px '{{primary-color}}'; }md-chips.md-THEME_NAME-theme .md-chip {  background: '{{background-300}}';  color: '{{background-800}}'; }  md-chips.md-THEME_NAME-theme .md-chip.md-focused {    background: '{{primary-color}}';    color: '{{primary-contrast}}'; }    md-chips.md-THEME_NAME-theme .md-chip.md-focused md-icon {      color: '{{primary-contrast}}'; }md-chips.md-THEME_NAME-theme md-chip-remove .md-button md-icon path {  fill: '{{background-500}}'; }.md-contact-suggestion span.md-contact-email {  color: '{{background-400}}'; }md-content.md-THEME_NAME-theme {  color: '{{foreground-1}}';  background-color: '{{background-color}}'; }/** Theme styles for mdCalendar. */.md-calendar.md-THEME_NAME-theme {  color: '{{foreground-1}}'; }  .md-calendar.md-THEME_NAME-theme tr:last-child td {    border-bottom-color: '{{background-200}}'; }.md-THEME_NAME-theme .md-calendar-day-header {  background: '{{background-hue-1}}';  color: '{{foreground-1}}'; }.md-THEME_NAME-theme .md-calendar-date.md-calendar-date-today .md-calendar-date-selection-indicator {  border: 1px solid '{{primary-500}}'; }.md-THEME_NAME-theme .md-calendar-date.md-calendar-date-today.md-calendar-date-disabled {  color: '{{primary-500-0.6}}'; }.md-THEME_NAME-theme .md-calendar-date.md-focus .md-calendar-date-selection-indicator {  background: '{{background-hue-1}}'; }.md-THEME_NAME-theme .md-calendar-date-selection-indicator:hover {  background: '{{background-hue-1}}'; }.md-THEME_NAME-theme .md-calendar-date.md-calendar-selected-date .md-calendar-date-selection-indicator,.md-THEME_NAME-theme .md-calendar-date.md-focus.md-calendar-selected-date .md-calendar-date-selection-indicator {  background: '{{primary-500}}';  color: '{{primary-500-contrast}}';  border-color: transparent; }.md-THEME_NAME-theme .md-calendar-date-disabled,.md-THEME_NAME-theme .md-calendar-month-label-disabled {  color: '{{foreground-3}}'; }/** Theme styles for mdDatepicker. */md-datepicker.md-THEME_NAME-theme {  background: '{{background-color}}'; }.md-THEME_NAME-theme .md-datepicker-input {  color: '{{background-contrast}}';  background: '{{background-color}}'; }  .md-THEME_NAME-theme .md-datepicker-input::-webkit-input-placeholder, .md-THEME_NAME-theme .md-datepicker-input::-moz-placeholder, .md-THEME_NAME-theme .md-datepicker-input:-moz-placeholder, .md-THEME_NAME-theme .md-datepicker-input:-ms-input-placeholder {    color: \"{{foreground-3}}\"; }.md-THEME_NAME-theme .md-datepicker-input-container {  border-bottom-color: '{{background-300}}'; }  .md-THEME_NAME-theme .md-datepicker-input-container.md-datepicker-focused {    border-bottom-color: '{{primary-500}}'; }  .md-THEME_NAME-theme .md-datepicker-input-container.md-datepicker-invalid {    border-bottom-color: '{{warn-A700}}'; }.md-THEME_NAME-theme .md-datepicker-calendar-pane {  border-color: '{{background-300}}'; }.md-THEME_NAME-theme .md-datepicker-triangle-button .md-datepicker-expand-triangle {  border-top-color: '{{foreground-3}}'; }.md-THEME_NAME-theme .md-datepicker-triangle-button:hover .md-datepicker-expand-triangle {  border-top-color: '{{foreground-2}}'; }.md-THEME_NAME-theme .md-datepicker-open .md-datepicker-calendar-icon {  fill: '{{primary-500}}'; }.md-THEME_NAME-theme .md-datepicker-calendar,.md-THEME_NAME-theme .md-datepicker-input-mask-opaque {  background: '{{background-color}}'; }md-dialog.md-THEME_NAME-theme {  border-radius: 4px;  background-color: '{{background-color}}'; }  md-dialog.md-THEME_NAME-theme.md-content-overflow .md-actions, md-dialog.md-THEME_NAME-theme.md-content-overflow md-dialog-actions {    border-top-color: '{{foreground-4}}'; }md-divider.md-THEME_NAME-theme {  border-top-color: '{{foreground-4}}'; }.layout-row > md-divider.md-THEME_NAME-theme {  border-right-color: '{{foreground-4}}'; }md-icon.md-THEME_NAME-theme {  color: '{{foreground-2}}'; }  md-icon.md-THEME_NAME-theme.md-primary {    color: '{{primary-color}}'; }  md-icon.md-THEME_NAME-theme.md-accent {    color: '{{accent-color}}'; }  md-icon.md-THEME_NAME-theme.md-warn {    color: '{{warn-color}}'; }md-input-container.md-THEME_NAME-theme .md-input {  color: '{{foreground-1}}';  border-color: '{{foreground-4}}';  text-shadow: '{{foreground-shadow}}'; }  md-input-container.md-THEME_NAME-theme .md-input::-webkit-input-placeholder, md-input-container.md-THEME_NAME-theme .md-input::-moz-placeholder, md-input-container.md-THEME_NAME-theme .md-input:-moz-placeholder, md-input-container.md-THEME_NAME-theme .md-input:-ms-input-placeholder {    color: \"{{foreground-3}}\"; }md-input-container.md-THEME_NAME-theme > md-icon {  color: '{{foreground-1}}'; }md-input-container.md-THEME_NAME-theme label,md-input-container.md-THEME_NAME-theme .md-placeholder {  text-shadow: '{{foreground-shadow}}';  color: '{{foreground-3}}'; }md-input-container.md-THEME_NAME-theme ng-messages, md-input-container.md-THEME_NAME-theme [ng-messages],md-input-container.md-THEME_NAME-theme ng-message, md-input-container.md-THEME_NAME-theme data-ng-message, md-input-container.md-THEME_NAME-theme x-ng-message,md-input-container.md-THEME_NAME-theme [ng-message], md-input-container.md-THEME_NAME-theme [data-ng-message], md-input-container.md-THEME_NAME-theme [x-ng-message],md-input-container.md-THEME_NAME-theme [ng-message-exp], md-input-container.md-THEME_NAME-theme [data-ng-message-exp], md-input-container.md-THEME_NAME-theme [x-ng-message-exp] {  color: '{{warn-A700}}'; }  md-input-container.md-THEME_NAME-theme ng-messages .md-char-counter, md-input-container.md-THEME_NAME-theme [ng-messages] .md-char-counter,  md-input-container.md-THEME_NAME-theme ng-message .md-char-counter, md-input-container.md-THEME_NAME-theme data-ng-message .md-char-counter, md-input-container.md-THEME_NAME-theme x-ng-message .md-char-counter,  md-input-container.md-THEME_NAME-theme [ng-message] .md-char-counter, md-input-container.md-THEME_NAME-theme [data-ng-message] .md-char-counter, md-input-container.md-THEME_NAME-theme [x-ng-message] .md-char-counter,  md-input-container.md-THEME_NAME-theme [ng-message-exp] .md-char-counter, md-input-container.md-THEME_NAME-theme [data-ng-message-exp] .md-char-counter, md-input-container.md-THEME_NAME-theme [x-ng-message-exp] .md-char-counter {    color: '{{foreground-1}}'; }md-input-container.md-THEME_NAME-theme:not(.md-input-invalid).md-input-has-value label {  color: '{{foreground-2}}'; }md-input-container.md-THEME_NAME-theme:not(.md-input-invalid).md-input-focused .md-input {  border-color: '{{primary-500}}'; }md-input-container.md-THEME_NAME-theme:not(.md-input-invalid).md-input-focused label {  color: '{{primary-500}}'; }md-input-container.md-THEME_NAME-theme:not(.md-input-invalid).md-input-focused md-icon {  color: '{{primary-500}}'; }md-input-container.md-THEME_NAME-theme:not(.md-input-invalid).md-input-focused.md-accent .md-input {  border-color: '{{accent-500}}'; }md-input-container.md-THEME_NAME-theme:not(.md-input-invalid).md-input-focused.md-accent label {  color: '{{accent-500}}'; }md-input-container.md-THEME_NAME-theme:not(.md-input-invalid).md-input-focused.md-warn .md-input {  border-color: '{{warn-A700}}'; }md-input-container.md-THEME_NAME-theme:not(.md-input-invalid).md-input-focused.md-warn label {  color: '{{warn-A700}}'; }md-input-container.md-THEME_NAME-theme.md-input-invalid .md-input {  border-color: '{{warn-A700}}'; }md-input-container.md-THEME_NAME-theme.md-input-invalid.md-input-focused label {  color: '{{warn-A700}}'; }md-input-container.md-THEME_NAME-theme.md-input-invalid ng-message, md-input-container.md-THEME_NAME-theme.md-input-invalid data-ng-message, md-input-container.md-THEME_NAME-theme.md-input-invalid x-ng-message,md-input-container.md-THEME_NAME-theme.md-input-invalid [ng-message], md-input-container.md-THEME_NAME-theme.md-input-invalid [data-ng-message], md-input-container.md-THEME_NAME-theme.md-input-invalid [x-ng-message],md-input-container.md-THEME_NAME-theme.md-input-invalid [ng-message-exp], md-input-container.md-THEME_NAME-theme.md-input-invalid [data-ng-message-exp], md-input-container.md-THEME_NAME-theme.md-input-invalid [x-ng-message-exp],md-input-container.md-THEME_NAME-theme.md-input-invalid .md-char-counter {  color: '{{warn-A700}}'; }md-input-container.md-THEME_NAME-theme .md-input[disabled],md-input-container.md-THEME_NAME-theme .md-input [disabled] {  border-bottom-color: transparent;  color: '{{foreground-3}}';  background-image: linear-gradient(to right, \"{{foreground-3}}\" 0%, \"{{foreground-3}}\" 33%, transparent 0%);  background-image: -ms-linear-gradient(left, transparent 0%, \"{{foreground-3}}\" 100%); }md-list.md-THEME_NAME-theme md-list-item.md-2-line .md-list-item-text h3, md-list.md-THEME_NAME-theme md-list-item.md-2-line .md-list-item-text h4,md-list.md-THEME_NAME-theme md-list-item.md-3-line .md-list-item-text h3,md-list.md-THEME_NAME-theme md-list-item.md-3-line .md-list-item-text h4 {  color: '{{foreground-1}}'; }md-list.md-THEME_NAME-theme md-list-item.md-2-line .md-list-item-text p,md-list.md-THEME_NAME-theme md-list-item.md-3-line .md-list-item-text p {  color: '{{foreground-2}}'; }md-list.md-THEME_NAME-theme .md-proxy-focus.md-focused div.md-no-style {  background-color: '{{background-100}}'; }md-list.md-THEME_NAME-theme md-list-item > .md-avatar-icon {  background-color: '{{foreground-3}}';  color: '{{background-color}}'; }md-list.md-THEME_NAME-theme md-list-item > md-icon {  color: '{{foreground-2}}'; }  md-list.md-THEME_NAME-theme md-list-item > md-icon.md-highlight {    color: '{{primary-color}}'; }    md-list.md-THEME_NAME-theme md-list-item > md-icon.md-highlight.md-accent {      color: '{{accent-color}}'; }md-menu-content.md-THEME_NAME-theme {  background-color: '{{background-color}}'; }  md-menu-content.md-THEME_NAME-theme md-menu-divider {    background-color: '{{foreground-4}}'; }md-menu-bar.md-THEME_NAME-theme > button.md-button {  color: '{{foreground-2}}';  border-radius: 2px; }md-menu-bar.md-THEME_NAME-theme md-menu.md-open > button, md-menu-bar.md-THEME_NAME-theme md-menu > button:focus {  outline: none;  background: '{{background-200}}'; }md-menu-bar.md-THEME_NAME-theme.md-open:not(.md-keyboard-mode) md-menu:hover > button {  background-color: '{{ background-500-0.2}}'; }md-menu-bar.md-THEME_NAME-theme:not(.md-keyboard-mode):not(.md-open) md-menu button:hover,md-menu-bar.md-THEME_NAME-theme:not(.md-keyboard-mode):not(.md-open) md-menu button:focus {  background: transparent; }md-menu-content.md-THEME_NAME-theme .md-menu > .md-button:after {  color: '{{foreground-2}}'; }md-menu-content.md-THEME_NAME-theme .md-menu.md-open > .md-button {  background-color: '{{ background-500-0.2}}'; }md-toolbar.md-THEME_NAME-theme.md-menu-toolbar {  background-color: '{{background-color}}';  color: '{{foreground-1}}'; }  md-toolbar.md-THEME_NAME-theme.md-menu-toolbar md-toolbar-filler {    background-color: '{{primary-color}}';    color: '{{primary-contrast}}'; }    md-toolbar.md-THEME_NAME-theme.md-menu-toolbar md-toolbar-filler md-icon {      color: '{{primary-contrast}}'; }.md-panel {  background-color: '{{background-900-0.0}}'; }  .md-panel._md-panel-backdrop.md-THEME_NAME-theme {    background-color: '{{background-900-1.0}}'; }md-progress-circular.md-THEME_NAME-theme {  background-color: transparent; }  md-progress-circular.md-THEME_NAME-theme .md-inner .md-gap {    border-top-color: '{{primary-color}}';    border-bottom-color: '{{primary-color}}'; }  md-progress-circular.md-THEME_NAME-theme .md-inner .md-left .md-half-circle, md-progress-circular.md-THEME_NAME-theme .md-inner .md-right .md-half-circle {    border-top-color: '{{primary-color}}'; }  md-progress-circular.md-THEME_NAME-theme .md-inner .md-right .md-half-circle {    border-right-color: '{{primary-color}}'; }  md-progress-circular.md-THEME_NAME-theme .md-inner .md-left .md-half-circle {    border-left-color: '{{primary-color}}'; }  md-progress-circular.md-THEME_NAME-theme.md-warn .md-inner .md-gap {    border-top-color: '{{warn-color}}';    border-bottom-color: '{{warn-color}}'; }  md-progress-circular.md-THEME_NAME-theme.md-warn .md-inner .md-left .md-half-circle, md-progress-circular.md-THEME_NAME-theme.md-warn .md-inner .md-right .md-half-circle {    border-top-color: '{{warn-color}}'; }  md-progress-circular.md-THEME_NAME-theme.md-warn .md-inner .md-right .md-half-circle {    border-right-color: '{{warn-color}}'; }  md-progress-circular.md-THEME_NAME-theme.md-warn .md-inner .md-left .md-half-circle {    border-left-color: '{{warn-color}}'; }  md-progress-circular.md-THEME_NAME-theme.md-accent .md-inner .md-gap {    border-top-color: '{{accent-color}}';    border-bottom-color: '{{accent-color}}'; }  md-progress-circular.md-THEME_NAME-theme.md-accent .md-inner .md-left .md-half-circle, md-progress-circular.md-THEME_NAME-theme.md-accent .md-inner .md-right .md-half-circle {    border-top-color: '{{accent-color}}'; }  md-progress-circular.md-THEME_NAME-theme.md-accent .md-inner .md-right .md-half-circle {    border-right-color: '{{accent-color}}'; }  md-progress-circular.md-THEME_NAME-theme.md-accent .md-inner .md-left .md-half-circle {    border-left-color: '{{accent-color}}'; }md-progress-linear.md-THEME_NAME-theme .md-container {  background-color: '{{primary-100}}'; }md-progress-linear.md-THEME_NAME-theme .md-bar {  background-color: '{{primary-color}}'; }md-progress-linear.md-THEME_NAME-theme.md-warn .md-container {  background-color: '{{warn-100}}'; }md-progress-linear.md-THEME_NAME-theme.md-warn .md-bar {  background-color: '{{warn-color}}'; }md-progress-linear.md-THEME_NAME-theme.md-accent .md-container {  background-color: '{{accent-100}}'; }md-progress-linear.md-THEME_NAME-theme.md-accent .md-bar {  background-color: '{{accent-color}}'; }md-progress-linear.md-THEME_NAME-theme[md-mode=buffer].md-warn .md-bar1 {  background-color: '{{warn-100}}'; }md-progress-linear.md-THEME_NAME-theme[md-mode=buffer].md-warn .md-dashed:before {  background: radial-gradient(\"{{warn-100}}\" 0%, \"{{warn-100}}\" 16%, transparent 42%); }md-progress-linear.md-THEME_NAME-theme[md-mode=buffer].md-accent .md-bar1 {  background-color: '{{accent-100}}'; }md-progress-linear.md-THEME_NAME-theme[md-mode=buffer].md-accent .md-dashed:before {  background: radial-gradient(\"{{accent-100}}\" 0%, \"{{accent-100}}\" 16%, transparent 42%); }md-radio-button.md-THEME_NAME-theme .md-off {  border-color: '{{foreground-2}}'; }md-radio-button.md-THEME_NAME-theme .md-on {  background-color: '{{accent-color-0.87}}'; }md-radio-button.md-THEME_NAME-theme.md-checked .md-off {  border-color: '{{accent-color-0.87}}'; }md-radio-button.md-THEME_NAME-theme.md-checked .md-ink-ripple {  color: '{{accent-color-0.87}}'; }md-radio-button.md-THEME_NAME-theme .md-container .md-ripple {  color: '{{accent-600}}'; }md-radio-group.md-THEME_NAME-theme:not([disabled]) .md-primary .md-on, md-radio-group.md-THEME_NAME-theme:not([disabled]).md-primary .md-on,md-radio-button.md-THEME_NAME-theme:not([disabled]) .md-primary .md-on,md-radio-button.md-THEME_NAME-theme:not([disabled]).md-primary .md-on {  background-color: '{{primary-color-0.87}}'; }md-radio-group.md-THEME_NAME-theme:not([disabled]) .md-primary .md-checked .md-off, md-radio-group.md-THEME_NAME-theme:not([disabled]) .md-primary.md-checked .md-off, md-radio-group.md-THEME_NAME-theme:not([disabled]).md-primary .md-checked .md-off, md-radio-group.md-THEME_NAME-theme:not([disabled]).md-primary.md-checked .md-off,md-radio-button.md-THEME_NAME-theme:not([disabled]) .md-primary .md-checked .md-off,md-radio-button.md-THEME_NAME-theme:not([disabled]) .md-primary.md-checked .md-off,md-radio-button.md-THEME_NAME-theme:not([disabled]).md-primary .md-checked .md-off,md-radio-button.md-THEME_NAME-theme:not([disabled]).md-primary.md-checked .md-off {  border-color: '{{primary-color-0.87}}'; }md-radio-group.md-THEME_NAME-theme:not([disabled]) .md-primary .md-checked .md-ink-ripple, md-radio-group.md-THEME_NAME-theme:not([disabled]) .md-primary.md-checked .md-ink-ripple, md-radio-group.md-THEME_NAME-theme:not([disabled]).md-primary .md-checked .md-ink-ripple, md-radio-group.md-THEME_NAME-theme:not([disabled]).md-primary.md-checked .md-ink-ripple,md-radio-button.md-THEME_NAME-theme:not([disabled]) .md-primary .md-checked .md-ink-ripple,md-radio-button.md-THEME_NAME-theme:not([disabled]) .md-primary.md-checked .md-ink-ripple,md-radio-button.md-THEME_NAME-theme:not([disabled]).md-primary .md-checked .md-ink-ripple,md-radio-button.md-THEME_NAME-theme:not([disabled]).md-primary.md-checked .md-ink-ripple {  color: '{{primary-color-0.87}}'; }md-radio-group.md-THEME_NAME-theme:not([disabled]) .md-primary .md-container .md-ripple, md-radio-group.md-THEME_NAME-theme:not([disabled]).md-primary .md-container .md-ripple,md-radio-button.md-THEME_NAME-theme:not([disabled]) .md-primary .md-container .md-ripple,md-radio-button.md-THEME_NAME-theme:not([disabled]).md-primary .md-container .md-ripple {  color: '{{primary-600}}'; }md-radio-group.md-THEME_NAME-theme:not([disabled]) .md-warn .md-on, md-radio-group.md-THEME_NAME-theme:not([disabled]).md-warn .md-on,md-radio-button.md-THEME_NAME-theme:not([disabled]) .md-warn .md-on,md-radio-button.md-THEME_NAME-theme:not([disabled]).md-warn .md-on {  background-color: '{{warn-color-0.87}}'; }md-radio-group.md-THEME_NAME-theme:not([disabled]) .md-warn .md-checked .md-off, md-radio-group.md-THEME_NAME-theme:not([disabled]) .md-warn.md-checked .md-off, md-radio-group.md-THEME_NAME-theme:not([disabled]).md-warn .md-checked .md-off, md-radio-group.md-THEME_NAME-theme:not([disabled]).md-warn.md-checked .md-off,md-radio-button.md-THEME_NAME-theme:not([disabled]) .md-warn .md-checked .md-off,md-radio-button.md-THEME_NAME-theme:not([disabled]) .md-warn.md-checked .md-off,md-radio-button.md-THEME_NAME-theme:not([disabled]).md-warn .md-checked .md-off,md-radio-button.md-THEME_NAME-theme:not([disabled]).md-warn.md-checked .md-off {  border-color: '{{warn-color-0.87}}'; }md-radio-group.md-THEME_NAME-theme:not([disabled]) .md-warn .md-checked .md-ink-ripple, md-radio-group.md-THEME_NAME-theme:not([disabled]) .md-warn.md-checked .md-ink-ripple, md-radio-group.md-THEME_NAME-theme:not([disabled]).md-warn .md-checked .md-ink-ripple, md-radio-group.md-THEME_NAME-theme:not([disabled]).md-warn.md-checked .md-ink-ripple,md-radio-button.md-THEME_NAME-theme:not([disabled]) .md-warn .md-checked .md-ink-ripple,md-radio-button.md-THEME_NAME-theme:not([disabled]) .md-warn.md-checked .md-ink-ripple,md-radio-button.md-THEME_NAME-theme:not([disabled]).md-warn .md-checked .md-ink-ripple,md-radio-button.md-THEME_NAME-theme:not([disabled]).md-warn.md-checked .md-ink-ripple {  color: '{{warn-color-0.87}}'; }md-radio-group.md-THEME_NAME-theme:not([disabled]) .md-warn .md-container .md-ripple, md-radio-group.md-THEME_NAME-theme:not([disabled]).md-warn .md-container .md-ripple,md-radio-button.md-THEME_NAME-theme:not([disabled]) .md-warn .md-container .md-ripple,md-radio-button.md-THEME_NAME-theme:not([disabled]).md-warn .md-container .md-ripple {  color: '{{warn-600}}'; }md-radio-group.md-THEME_NAME-theme[disabled],md-radio-button.md-THEME_NAME-theme[disabled] {  color: '{{foreground-3}}'; }  md-radio-group.md-THEME_NAME-theme[disabled] .md-container .md-off,  md-radio-button.md-THEME_NAME-theme[disabled] .md-container .md-off {    border-color: '{{foreground-3}}'; }  md-radio-group.md-THEME_NAME-theme[disabled] .md-container .md-on,  md-radio-button.md-THEME_NAME-theme[disabled] .md-container .md-on {    border-color: '{{foreground-3}}'; }md-radio-group.md-THEME_NAME-theme .md-checked .md-ink-ripple {  color: '{{accent-color-0.26}}'; }md-radio-group.md-THEME_NAME-theme.md-primary .md-checked:not([disabled]) .md-ink-ripple, md-radio-group.md-THEME_NAME-theme .md-checked:not([disabled]).md-primary .md-ink-ripple {  color: '{{primary-color-0.26}}'; }md-radio-group.md-THEME_NAME-theme .md-checked.md-primary .md-ink-ripple {  color: '{{warn-color-0.26}}'; }md-radio-group.md-THEME_NAME-theme.md-focused:not(:empty) .md-checked .md-container:before {  background-color: '{{accent-color-0.26}}'; }md-radio-group.md-THEME_NAME-theme.md-focused:not(:empty).md-primary .md-checked .md-container:before,md-radio-group.md-THEME_NAME-theme.md-focused:not(:empty) .md-checked.md-primary .md-container:before {  background-color: '{{primary-color-0.26}}'; }md-radio-group.md-THEME_NAME-theme.md-focused:not(:empty).md-warn .md-checked .md-container:before,md-radio-group.md-THEME_NAME-theme.md-focused:not(:empty) .md-checked.md-warn .md-container:before {  background-color: '{{warn-color-0.26}}'; }md-select.md-THEME_NAME-theme[disabled] .md-select-value {  border-bottom-color: transparent;  background-image: linear-gradient(to right, \"{{foreground-3}}\" 0%, \"{{foreground-3}}\" 33%, transparent 0%);  background-image: -ms-linear-gradient(left, transparent 0%, \"{{foreground-3}}\" 100%); }md-select.md-THEME_NAME-theme .md-select-value {  border-bottom-color: '{{foreground-4}}'; }  md-select.md-THEME_NAME-theme .md-select-value.md-select-placeholder {    color: '{{foreground-3}}'; }md-select.md-THEME_NAME-theme.ng-invalid.ng-dirty .md-select-value {  color: '{{warn-A700}}' !important;  border-bottom-color: '{{warn-A700}}' !important; }md-select.md-THEME_NAME-theme:not([disabled]):focus .md-select-value {  border-bottom-color: '{{primary-color}}';  color: '{{ foreground-1 }}'; }  md-select.md-THEME_NAME-theme:not([disabled]):focus .md-select-value.md-select-placeholder {    color: '{{ foreground-1 }}'; }md-select.md-THEME_NAME-theme:not([disabled]):focus.md-accent .md-select-value {  border-bottom-color: '{{accent-color}}'; }md-select.md-THEME_NAME-theme:not([disabled]):focus.md-warn .md-select-value {  border-bottom-color: '{{warn-color}}'; }md-select.md-THEME_NAME-theme[disabled] .md-select-value {  color: '{{foreground-3}}'; }  md-select.md-THEME_NAME-theme[disabled] .md-select-value.md-select-placeholder {    color: '{{foreground-3}}'; }md-select-menu.md-THEME_NAME-theme md-option[disabled] {  color: '{{foreground-3}}'; }md-select-menu.md-THEME_NAME-theme md-optgroup {  color: '{{foreground-2}}'; }  md-select-menu.md-THEME_NAME-theme md-optgroup md-option {    color: '{{foreground-1}}'; }md-select-menu.md-THEME_NAME-theme md-option[selected] {  color: '{{primary-500}}'; }  md-select-menu.md-THEME_NAME-theme md-option[selected]:focus {    color: '{{primary-600}}'; }  md-select-menu.md-THEME_NAME-theme md-option[selected].md-accent {    color: '{{accent-500}}'; }    md-select-menu.md-THEME_NAME-theme md-option[selected].md-accent:focus {      color: '{{accent-600}}'; }md-select-menu.md-THEME_NAME-theme md-option:focus:not([disabled]):not([selected]) {  background: '{{background-200}}'; }.md-checkbox-enabled.md-THEME_NAME-theme .md-ripple {  color: '{{primary-600}}'; }.md-checkbox-enabled.md-THEME_NAME-theme[selected] .md-ripple {  color: '{{background-600}}'; }.md-checkbox-enabled.md-THEME_NAME-theme .md-ink-ripple {  color: '{{foreground-2}}'; }.md-checkbox-enabled.md-THEME_NAME-theme[selected] .md-ink-ripple {  color: '{{primary-color-0.87}}'; }.md-checkbox-enabled.md-THEME_NAME-theme .md-icon {  border-color: '{{foreground-2}}'; }.md-checkbox-enabled.md-THEME_NAME-theme[selected] .md-icon {  background-color: '{{primary-color-0.87}}'; }.md-checkbox-enabled.md-THEME_NAME-theme[selected].md-focused .md-container:before {  background-color: '{{primary-color-0.26}}'; }.md-checkbox-enabled.md-THEME_NAME-theme[selected] .md-icon:after {  border-color: '{{primary-contrast-0.87}}'; }.md-checkbox-enabled.md-THEME_NAME-theme .md-indeterminate[disabled] .md-container {  color: '{{foreground-3}}'; }.md-checkbox-enabled.md-THEME_NAME-theme md-option .md-text {  color: '{{background-900-0.87}}'; }md-sidenav.md-THEME_NAME-theme {  background-color: '{{background-color}}'; }md-slider.md-THEME_NAME-theme .md-track {  background-color: '{{foreground-3}}'; }md-slider.md-THEME_NAME-theme .md-track-ticks {  background-color: '{{foreground-4}}'; }md-slider.md-THEME_NAME-theme .md-focus-thumb {  background-color: '{{foreground-2}}'; }md-slider.md-THEME_NAME-theme .md-focus-ring {  background-color: '{{accent-color}}'; }md-slider.md-THEME_NAME-theme .md-disabled-thumb {  border-color: '{{background-color}}'; }md-slider.md-THEME_NAME-theme.md-min .md-thumb:after {  background-color: '{{background-color}}'; }md-slider.md-THEME_NAME-theme .md-track.md-track-fill {  background-color: '{{accent-color}}'; }md-slider.md-THEME_NAME-theme .md-thumb:after {  border-color: '{{accent-color}}';  background-color: '{{accent-color}}'; }md-slider.md-THEME_NAME-theme .md-sign {  background-color: '{{accent-color}}'; }  md-slider.md-THEME_NAME-theme .md-sign:after {    border-top-color: '{{accent-color}}'; }md-slider.md-THEME_NAME-theme .md-thumb-text {  color: '{{accent-contrast}}'; }md-slider.md-THEME_NAME-theme.md-warn .md-focus-ring {  background-color: '{{warn-color}}'; }md-slider.md-THEME_NAME-theme.md-warn .md-track.md-track-fill {  background-color: '{{warn-color}}'; }md-slider.md-THEME_NAME-theme.md-warn .md-thumb:after {  border-color: '{{warn-color}}';  background-color: '{{warn-color}}'; }md-slider.md-THEME_NAME-theme.md-warn .md-sign {  background-color: '{{warn-color}}'; }  md-slider.md-THEME_NAME-theme.md-warn .md-sign:after {    border-top-color: '{{warn-color}}'; }md-slider.md-THEME_NAME-theme.md-warn .md-thumb-text {  color: '{{warn-contrast}}'; }md-slider.md-THEME_NAME-theme.md-primary .md-focus-ring {  background-color: '{{primary-color}}'; }md-slider.md-THEME_NAME-theme.md-primary .md-track.md-track-fill {  background-color: '{{primary-color}}'; }md-slider.md-THEME_NAME-theme.md-primary .md-thumb:after {  border-color: '{{primary-color}}';  background-color: '{{primary-color}}'; }md-slider.md-THEME_NAME-theme.md-primary .md-sign {  background-color: '{{primary-color}}'; }  md-slider.md-THEME_NAME-theme.md-primary .md-sign:after {    border-top-color: '{{primary-color}}'; }md-slider.md-THEME_NAME-theme.md-primary .md-thumb-text {  color: '{{primary-contrast}}'; }md-slider.md-THEME_NAME-theme[disabled] .md-thumb:after {  border-color: '{{foreground-3}}'; }md-slider.md-THEME_NAME-theme[disabled]:not(.md-min) .md-thumb:after {  background-color: '{{foreground-3}}'; }.md-subheader.md-THEME_NAME-theme {  color: '{{ foreground-2-0.23 }}';  background-color: '{{background-color}}'; }  .md-subheader.md-THEME_NAME-theme.md-primary {    color: '{{primary-color}}'; }  .md-subheader.md-THEME_NAME-theme.md-accent {    color: '{{accent-color}}'; }  .md-subheader.md-THEME_NAME-theme.md-warn {    color: '{{warn-color}}'; }md-switch.md-THEME_NAME-theme .md-ink-ripple {  color: '{{background-500}}'; }md-switch.md-THEME_NAME-theme .md-thumb {  background-color: '{{background-50}}'; }md-switch.md-THEME_NAME-theme .md-bar {  background-color: '{{background-500}}'; }md-switch.md-THEME_NAME-theme.md-checked .md-ink-ripple {  color: '{{accent-color}}'; }md-switch.md-THEME_NAME-theme.md-checked .md-thumb {  background-color: '{{accent-color}}'; }md-switch.md-THEME_NAME-theme.md-checked .md-bar {  background-color: '{{accent-color-0.5}}'; }md-switch.md-THEME_NAME-theme.md-checked.md-focused .md-thumb:before {  background-color: '{{accent-color-0.26}}'; }md-switch.md-THEME_NAME-theme.md-checked.md-primary .md-ink-ripple {  color: '{{primary-color}}'; }md-switch.md-THEME_NAME-theme.md-checked.md-primary .md-thumb {  background-color: '{{primary-color}}'; }md-switch.md-THEME_NAME-theme.md-checked.md-primary .md-bar {  background-color: '{{primary-color-0.5}}'; }md-switch.md-THEME_NAME-theme.md-checked.md-primary.md-focused .md-thumb:before {  background-color: '{{primary-color-0.26}}'; }md-switch.md-THEME_NAME-theme.md-checked.md-warn .md-ink-ripple {  color: '{{warn-color}}'; }md-switch.md-THEME_NAME-theme.md-checked.md-warn .md-thumb {  background-color: '{{warn-color}}'; }md-switch.md-THEME_NAME-theme.md-checked.md-warn .md-bar {  background-color: '{{warn-color-0.5}}'; }md-switch.md-THEME_NAME-theme.md-checked.md-warn.md-focused .md-thumb:before {  background-color: '{{warn-color-0.26}}'; }md-switch.md-THEME_NAME-theme[disabled] .md-thumb {  background-color: '{{background-400}}'; }md-switch.md-THEME_NAME-theme[disabled] .md-bar {  background-color: '{{foreground-4}}'; }md-tabs.md-THEME_NAME-theme md-tabs-wrapper {  background-color: transparent;  border-color: '{{foreground-4}}'; }md-tabs.md-THEME_NAME-theme .md-paginator md-icon {  color: '{{primary-color}}'; }md-tabs.md-THEME_NAME-theme md-ink-bar {  color: '{{accent-color}}';  background: '{{accent-color}}'; }md-tabs.md-THEME_NAME-theme .md-tab {  color: '{{foreground-2}}'; }  md-tabs.md-THEME_NAME-theme .md-tab[disabled], md-tabs.md-THEME_NAME-theme .md-tab[disabled] md-icon {    color: '{{foreground-3}}'; }  md-tabs.md-THEME_NAME-theme .md-tab.md-active, md-tabs.md-THEME_NAME-theme .md-tab.md-active md-icon, md-tabs.md-THEME_NAME-theme .md-tab.md-focused, md-tabs.md-THEME_NAME-theme .md-tab.md-focused md-icon {    color: '{{primary-color}}'; }  md-tabs.md-THEME_NAME-theme .md-tab.md-focused {    background: '{{primary-color-0.1}}'; }  md-tabs.md-THEME_NAME-theme .md-tab .md-ripple-container {    color: '{{accent-100}}'; }md-tabs.md-THEME_NAME-theme.md-accent > md-tabs-wrapper {  background-color: '{{accent-color}}'; }  md-tabs.md-THEME_NAME-theme.md-accent > md-tabs-wrapper > md-tabs-canvas > md-pagination-wrapper > md-tab-item:not([disabled]) {    color: '{{accent-100}}'; }    md-tabs.md-THEME_NAME-theme.md-accent > md-tabs-wrapper > md-tabs-canvas > md-pagination-wrapper > md-tab-item:not([disabled]).md-active, md-tabs.md-THEME_NAME-theme.md-accent > md-tabs-wrapper > md-tabs-canvas > md-pagination-wrapper > md-tab-item:not([disabled]).md-active md-icon, md-tabs.md-THEME_NAME-theme.md-accent > md-tabs-wrapper > md-tabs-canvas > md-pagination-wrapper > md-tab-item:not([disabled]).md-focused, md-tabs.md-THEME_NAME-theme.md-accent > md-tabs-wrapper > md-tabs-canvas > md-pagination-wrapper > md-tab-item:not([disabled]).md-focused md-icon {      color: '{{accent-contrast}}'; }    md-tabs.md-THEME_NAME-theme.md-accent > md-tabs-wrapper > md-tabs-canvas > md-pagination-wrapper > md-tab-item:not([disabled]).md-focused {      background: '{{accent-contrast-0.1}}'; }  md-tabs.md-THEME_NAME-theme.md-accent > md-tabs-wrapper > md-tabs-canvas > md-pagination-wrapper > md-ink-bar {    color: '{{primary-600-1}}';    background: '{{primary-600-1}}'; }md-tabs.md-THEME_NAME-theme.md-primary > md-tabs-wrapper {  background-color: '{{primary-color}}'; }  md-tabs.md-THEME_NAME-theme.md-primary > md-tabs-wrapper > md-tabs-canvas > md-pagination-wrapper > md-tab-item:not([disabled]) {    color: '{{primary-100}}'; }    md-tabs.md-THEME_NAME-theme.md-primary > md-tabs-wrapper > md-tabs-canvas > md-pagination-wrapper > md-tab-item:not([disabled]).md-active, md-tabs.md-THEME_NAME-theme.md-primary > md-tabs-wrapper > md-tabs-canvas > md-pagination-wrapper > md-tab-item:not([disabled]).md-active md-icon, md-tabs.md-THEME_NAME-theme.md-primary > md-tabs-wrapper > md-tabs-canvas > md-pagination-wrapper > md-tab-item:not([disabled]).md-focused, md-tabs.md-THEME_NAME-theme.md-primary > md-tabs-wrapper > md-tabs-canvas > md-pagination-wrapper > md-tab-item:not([disabled]).md-focused md-icon {      color: '{{primary-contrast}}'; }    md-tabs.md-THEME_NAME-theme.md-primary > md-tabs-wrapper > md-tabs-canvas > md-pagination-wrapper > md-tab-item:not([disabled]).md-focused {      background: '{{primary-contrast-0.1}}'; }md-tabs.md-THEME_NAME-theme.md-warn > md-tabs-wrapper {  background-color: '{{warn-color}}'; }  md-tabs.md-THEME_NAME-theme.md-warn > md-tabs-wrapper > md-tabs-canvas > md-pagination-wrapper > md-tab-item:not([disabled]) {    color: '{{warn-100}}'; }    md-tabs.md-THEME_NAME-theme.md-warn > md-tabs-wrapper > md-tabs-canvas > md-pagination-wrapper > md-tab-item:not([disabled]).md-active, md-tabs.md-THEME_NAME-theme.md-warn > md-tabs-wrapper > md-tabs-canvas > md-pagination-wrapper > md-tab-item:not([disabled]).md-active md-icon, md-tabs.md-THEME_NAME-theme.md-warn > md-tabs-wrapper > md-tabs-canvas > md-pagination-wrapper > md-tab-item:not([disabled]).md-focused, md-tabs.md-THEME_NAME-theme.md-warn > md-tabs-wrapper > md-tabs-canvas > md-pagination-wrapper > md-tab-item:not([disabled]).md-focused md-icon {      color: '{{warn-contrast}}'; }    md-tabs.md-THEME_NAME-theme.md-warn > md-tabs-wrapper > md-tabs-canvas > md-pagination-wrapper > md-tab-item:not([disabled]).md-focused {      background: '{{warn-contrast-0.1}}'; }md-toolbar > md-tabs.md-THEME_NAME-theme > md-tabs-wrapper {  background-color: '{{primary-color}}'; }  md-toolbar > md-tabs.md-THEME_NAME-theme > md-tabs-wrapper > md-tabs-canvas > md-pagination-wrapper > md-tab-item:not([disabled]) {    color: '{{primary-100}}'; }    md-toolbar > md-tabs.md-THEME_NAME-theme > md-tabs-wrapper > md-tabs-canvas > md-pagination-wrapper > md-tab-item:not([disabled]).md-active, md-toolbar > md-tabs.md-THEME_NAME-theme > md-tabs-wrapper > md-tabs-canvas > md-pagination-wrapper > md-tab-item:not([disabled]).md-active md-icon, md-toolbar > md-tabs.md-THEME_NAME-theme > md-tabs-wrapper > md-tabs-canvas > md-pagination-wrapper > md-tab-item:not([disabled]).md-focused, md-toolbar > md-tabs.md-THEME_NAME-theme > md-tabs-wrapper > md-tabs-canvas > md-pagination-wrapper > md-tab-item:not([disabled]).md-focused md-icon {      color: '{{primary-contrast}}'; }    md-toolbar > md-tabs.md-THEME_NAME-theme > md-tabs-wrapper > md-tabs-canvas > md-pagination-wrapper > md-tab-item:not([disabled]).md-focused {      background: '{{primary-contrast-0.1}}'; }md-toolbar.md-accent > md-tabs.md-THEME_NAME-theme > md-tabs-wrapper {  background-color: '{{accent-color}}'; }  md-toolbar.md-accent > md-tabs.md-THEME_NAME-theme > md-tabs-wrapper > md-tabs-canvas > md-pagination-wrapper > md-tab-item:not([disabled]) {    color: '{{accent-100}}'; }    md-toolbar.md-accent > md-tabs.md-THEME_NAME-theme > md-tabs-wrapper > md-tabs-canvas > md-pagination-wrapper > md-tab-item:not([disabled]).md-active, md-toolbar.md-accent > md-tabs.md-THEME_NAME-theme > md-tabs-wrapper > md-tabs-canvas > md-pagination-wrapper > md-tab-item:not([disabled]).md-active md-icon, md-toolbar.md-accent > md-tabs.md-THEME_NAME-theme > md-tabs-wrapper > md-tabs-canvas > md-pagination-wrapper > md-tab-item:not([disabled]).md-focused, md-toolbar.md-accent > md-tabs.md-THEME_NAME-theme > md-tabs-wrapper > md-tabs-canvas > md-pagination-wrapper > md-tab-item:not([disabled]).md-focused md-icon {      color: '{{accent-contrast}}'; }    md-toolbar.md-accent > md-tabs.md-THEME_NAME-theme > md-tabs-wrapper > md-tabs-canvas > md-pagination-wrapper > md-tab-item:not([disabled]).md-focused {      background: '{{accent-contrast-0.1}}'; }  md-toolbar.md-accent > md-tabs.md-THEME_NAME-theme > md-tabs-wrapper > md-tabs-canvas > md-pagination-wrapper > md-ink-bar {    color: '{{primary-600-1}}';    background: '{{primary-600-1}}'; }md-toolbar.md-warn > md-tabs.md-THEME_NAME-theme > md-tabs-wrapper {  background-color: '{{warn-color}}'; }  md-toolbar.md-warn > md-tabs.md-THEME_NAME-theme > md-tabs-wrapper > md-tabs-canvas > md-pagination-wrapper > md-tab-item:not([disabled]) {    color: '{{warn-100}}'; }    md-toolbar.md-warn > md-tabs.md-THEME_NAME-theme > md-tabs-wrapper > md-tabs-canvas > md-pagination-wrapper > md-tab-item:not([disabled]).md-active, md-toolbar.md-warn > md-tabs.md-THEME_NAME-theme > md-tabs-wrapper > md-tabs-canvas > md-pagination-wrapper > md-tab-item:not([disabled]).md-active md-icon, md-toolbar.md-warn > md-tabs.md-THEME_NAME-theme > md-tabs-wrapper > md-tabs-canvas > md-pagination-wrapper > md-tab-item:not([disabled]).md-focused, md-toolbar.md-warn > md-tabs.md-THEME_NAME-theme > md-tabs-wrapper > md-tabs-canvas > md-pagination-wrapper > md-tab-item:not([disabled]).md-focused md-icon {      color: '{{warn-contrast}}'; }    md-toolbar.md-warn > md-tabs.md-THEME_NAME-theme > md-tabs-wrapper > md-tabs-canvas > md-pagination-wrapper > md-tab-item:not([disabled]).md-focused {      background: '{{warn-contrast-0.1}}'; }md-toast.md-THEME_NAME-theme .md-toast-content {  background-color: #323232;  color: '{{background-50}}'; }  md-toast.md-THEME_NAME-theme .md-toast-content .md-button {    color: '{{background-50}}'; }    md-toast.md-THEME_NAME-theme .md-toast-content .md-button.md-highlight {      color: '{{primary-A200}}'; }      md-toast.md-THEME_NAME-theme .md-toast-content .md-button.md-highlight.md-accent {        color: '{{accent-A200}}'; }      md-toast.md-THEME_NAME-theme .md-toast-content .md-button.md-highlight.md-warn {        color: '{{warn-A200}}'; }md-toolbar.md-THEME_NAME-theme:not(.md-menu-toolbar) {  background-color: '{{primary-color}}';  color: '{{primary-contrast}}'; }  md-toolbar.md-THEME_NAME-theme:not(.md-menu-toolbar) md-icon {    color: '{{primary-contrast}}'; }  md-toolbar.md-THEME_NAME-theme:not(.md-menu-toolbar) .md-button:not(.md-raised) {    color: '{{primary-contrast}}'; }  md-toolbar.md-THEME_NAME-theme:not(.md-menu-toolbar).md-accent {    background-color: '{{accent-color}}';    color: '{{accent-contrast}}'; }  md-toolbar.md-THEME_NAME-theme:not(.md-menu-toolbar).md-warn {    background-color: '{{warn-color}}';    color: '{{warn-contrast}}'; }md-tooltip.md-THEME_NAME-theme {  color: '{{background-A100}}'; }  md-tooltip.md-THEME_NAME-theme .md-content {    background-color: '{{foreground-2}}'; }"); 
 })();
 
 

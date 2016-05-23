@@ -8,7 +8,7 @@ angular
       'ui.bootstrap', // for modal dialogs
       'elasticsearch',
       'ngResource', 'ui.router', 'ngCookies', 'ngAria', 'ngCacheBuster',
-      'ngFileUpload', 'infinite-scroll', 'ngMaterial', 'md.data.table'
+      'ngFileUpload', 'infinite-scroll', 'ngMaterial'
     ])
 
 .run(

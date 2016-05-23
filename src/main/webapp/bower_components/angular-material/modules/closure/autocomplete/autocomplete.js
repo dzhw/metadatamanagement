@@ -2,7 +2,7 @@
  * Angular Material Design
  * https://github.com/angular/material
  * @license MIT
- * v1.1.0-rc4
+ * v1.0.9
  */
 goog.provide('ng.material.components.autocomplete');
 goog.require('ng.material.components.icon');
@@ -466,7 +466,7 @@ function MdAutocompleteCtrl ($scope, $element, $mdUtil, $mdConstant, $mdTheming,
       case $mdConstant.KEY_CODE.ESCAPE:
         event.stopPropagation();
         event.preventDefault();
-        if ($scope.searchText) clearValue();
+        clearValue();
 
         // Force the component to blur if they hit escape
         doBlur(true);
@@ -1008,7 +1008,7 @@ function MdAutocomplete () {
           </md-virtual-repeat-container>\
         </md-autocomplete-wrap>\
         <aria-status\
-            class="_md-visually-hidden"\
+            class="md-visually-hidden"\
             role="status"\
             aria-live="assertive">\
           <p ng-repeat="message in $mdAutocompleteCtrl.messages track by $index" ng-if="message">{{message}}</p>\
@@ -1089,7 +1089,7 @@ function MdAutocomplete () {
                 ng-if="$mdAutocompleteCtrl.scope.searchText && !$mdAutocompleteCtrl.isDisabled"\
                 ng-click="$mdAutocompleteCtrl.clear()">\
               <md-icon md-svg-icon="md-close"></md-icon>\
-              <span class="_md-visually-hidden">Clear</span>\
+              <span class="md-visually-hidden">Clear</span>\
             </button>\
                 ';
         }
