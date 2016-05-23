@@ -25,6 +25,7 @@ import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.validation.Uniqu
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.validation.ValidAccessWays;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.validation.ValidDataType;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.validation.ValidResponseValueMustBeANumberOnNumericDataType;
+import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.validation.ValidResponseValueMustBeAnIsoDateOnDateDataType;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.validation.ValidScaleLevel;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.validation.ValidVariableIdName;
 import net.karneim.pojobuilder.GeneratePojoBuilder;
@@ -45,6 +46,8 @@ import net.karneim.pojobuilder.GeneratePojoBuilder;
     message = "{error.variable.mandatoryScaleLevelForNumericDataType}")
 @ValidResponseValueMustBeANumberOnNumericDataType(
     message = "{error.variable.validResponseValueMustBeANumberOnNumericDataType}")
+@ValidResponseValueMustBeAnIsoDateOnDateDataType(
+    message = "{error.variable.validResponseValueMustBeAnIsoDateOnDateDataType}")
 public class Variable extends AbstractRdcDomainObject {
 
   /* Domain Object listed attributes */
