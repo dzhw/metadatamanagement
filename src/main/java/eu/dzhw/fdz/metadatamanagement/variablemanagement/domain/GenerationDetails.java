@@ -30,7 +30,7 @@ public class GenerationDetails {
       message = "{error.generationDetails.description.i18nStringSize}")
   private I18nString description;
 
-  @Size(max = StringLengths.LARGE, message = "{error.generationDetails.rule.size}")
+  @Size(max = StringLengths.X_LARGE, message = "{error.generationDetails.rule.size}")
   private String rule;
 
   @ValidRuleExpressionLanguage(
