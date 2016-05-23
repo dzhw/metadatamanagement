@@ -4,13 +4,15 @@ angular.module('metadatamanagementApp')
   .controller('DataAcquisitionProjectDetailController',
     function(CustomModalService, $scope, entity, JobLoggingService,
       DataSetUploadService, $translate,
-      VariableUploadService, SurveyUploadService, AtomicQuestionUploadService) {
+      DataAcquisitionProjectPostValidationService,
+      VariableUploadService,
+      SurveyUploadService, AtomicQuestionUploadService) {
       $scope.dataAcquisitionProject = entity;
       $scope.objLists = {
         dataSetList: {},
         surveyList: {},
         variableList: {},
-        atomicQuestionList:  {}
+        atomicQuestionList: {}
       };
 
       $scope.job = JobLoggingService.getCurrentJob();
@@ -21,11 +23,11 @@ angular.module('metadatamanagementApp')
             'deleteMessages.deleteSurveys', {
               id: $scope.dataAcquisitionProject.id
             })).then(function(returnValue) {
-              if (returnValue) {
-                SurveyUploadService
+            if (returnValue) {
+              SurveyUploadService
                 .uploadSurveys(file, $scope.dataAcquisitionProject.id);
-              }
-            });
+            }
+          });
         }
       };
       $scope.uploadAtomicQuestions = function(file) {
@@ -35,11 +37,12 @@ angular.module('metadatamanagementApp')
             'deleteMessages.deleteAtomicQuestions', {
               id: $scope.dataAcquisitionProject.id
             })).then(function(returnValue) {
-              if (returnValue) {
-                AtomicQuestionUploadService
-                .uploadAtomicQuestions(file, $scope.dataAcquisitionProject.id);
-              }
-            });
+            if (returnValue) {
+              AtomicQuestionUploadService
+                .uploadAtomicQuestions(file, $scope.dataAcquisitionProject
+                  .id);
+            }
+          });
         }
       };
       $scope.uploadVariables = function(file) {
@@ -49,11 +52,11 @@ angular.module('metadatamanagementApp')
             'deleteMessages.deleteVariables', {
               id: $scope.dataAcquisitionProject.id
             })).then(function(returnValue) {
-              if (returnValue) {
-                VariableUploadService
+            if (returnValue) {
+              VariableUploadService
                 .uploadVariables(file, $scope.dataAcquisitionProject.id);
-              }
-            });
+            }
+          });
         }
       };
       $scope.uploadDataSets = function(file) {
@@ -63,12 +66,16 @@ angular.module('metadatamanagementApp')
             'deleteMessages.deleteDataSets', {
               id: $scope.dataAcquisitionProject.id
             })).then(function(returnValue) {
-              if (returnValue) {
-                DataSetUploadService.
-                uploadDataSets(file,$scope.dataAcquisitionProject.id);
-              }
-            });
+            if (returnValue) {
+              DataSetUploadService.
+              uploadDataSets(file, $scope.dataAcquisitionProject.id);
+            }
+          });
         }
+      };
+      $scope.postValidate = function() {
+        DataAcquisitionProjectPostValidationService
+          .postValidate($scope.dataAcquisitionProject.id);
       };
       $scope.$watch('job.state', function() {
         if ($scope.job.state === 'finished') {

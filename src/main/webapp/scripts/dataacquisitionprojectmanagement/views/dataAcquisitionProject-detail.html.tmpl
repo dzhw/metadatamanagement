@@ -121,7 +121,7 @@
                             <button type="file" class="btn btn-default" ngf-select="uploadAtomicQuestions($file)" accept=".xlsx" ng-disabled="uploadState.disableButton">
                                 <span class="glyphicon glyphicon-cloud-upload"></span>
                                 {{'metadatamanagementApp.dataAcquisitionProject.detail.upload.atomicQuestion' | translate}}</button>
-                            <button class="btn btn-default">
+                            <button class="btn btn-default" ng-click="postValidate()">
                               <span class="glyphicon glyphicon-tasks"></span>
                                 {{'metadatamanagementApp.dataAcquisitionProject.detail.postValidate' | translate}}</button>
                         </div>
