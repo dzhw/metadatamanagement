@@ -36,6 +36,7 @@
           "unsupportedExcelFile": "Excel File could not be read",
           "unsupportedTexFile": "Tex File could not be read",
           "malformedJsonFile": "JSON File for Variable with RDC-ID {{ id }} could not be parsed",
+          "postValidationTerminated": "The Post-Validation terminated.",
           "missingId": "Dataset {{ index }} does not contain a RDC-ID and has not been saved!",
           "dataSet": {
             "saved": "Dataset with RDC-ID {{ id }} was saved successfully!",

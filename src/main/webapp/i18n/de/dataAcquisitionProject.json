@@ -36,6 +36,7 @@
           "unsupportedExcelFile": "Excel Datei konnte nicht gelesen werden",
           "unsupportedTexFile": "Tex Datei konnte nicht gelesen werden",
           "malformedJsonFile": "JSON Datei für die Variable mit FDZ-ID {{ id }} konnte nicht geparst werden",
+          "postValidationTerminated": "Die Post-Validierung wurde beendet.",
           "dataSet": {
             "saved": "Datensatz mit FDZ-ID {{ id }} erfolgreich gespeichert!",
             "notSaved": "Datensatz mit FDZ-ID {{ id }} wurde nicht gespeichert!",
