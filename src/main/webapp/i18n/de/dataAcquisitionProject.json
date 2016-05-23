@@ -25,6 +25,7 @@
           "variables": "Variablen hochladen",
           "atomicQuestion": "Atomare Fragen hochladen"
         },
+        "postValidate": "Post-Validierung",
         "uploadprotocol": "Upload Protokoll",
         "success": "Erfolg",
         "error": "Fehler",
