@@ -128,7 +128,8 @@ public class UnitTestCreateDomainObjectUtils {
       .withType(new I18nStringBuilder().withDe(AtomicQuestionTypes.OPEN.getDe())
           .withEn(AtomicQuestionTypes.OPEN.getEn())
           .build())
-      .withVariableId(projectId + "-" + variableName).withId(projectId + "-" + variableName)
+      .withVariableId(projectId + "-" + variableName)
+      .withId(projectId + "-" + variableName)
       .build();
   }
 

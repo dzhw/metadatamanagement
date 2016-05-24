@@ -4,11 +4,14 @@
 package eu.dzhw.fdz.metadatamanagement.projectmanagement.rest;
 
 import static org.hamcrest.Matchers.hasSize;
+import static org.hamcrest.Matchers.is;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.junit.After;
 import org.junit.Before;
@@ -120,6 +123,149 @@ public class DataAcquisitionProjectPostValidationResourceTest extends AbstractTe
     mockMvc.perform(post(API_DATA_ACQUISITION_PROJECTS_POST_VALIDATION_URI))
       .andExpect(status().isOk())
       .andExpect(jsonPath("$.errors", hasSize(0)));//no errors
+  }
+  
+  @Test
+  public void testSimpleProjectForPostValidationWithWrongInformationForAtomicQuestion() throws IOException, Exception {
+    
+    //Arrange
+    //Project
+    DataAcquisitionProject project = UnitTestCreateDomainObjectUtils.buildDataAcquisitionProject();    
+    this.rdcProjectRepository.save(project);
+    
+    //Survey
+    Survey survey = UnitTestCreateDomainObjectUtils.buildSurvey(project.getId());
+    this.surveyRepository.save(survey);
+    
+    //Variables
+    Variable variable1 = UnitTestCreateDomainObjectUtils.buildVariable(project.getId(), survey.getId());
+    variable1.setId("testProject-name1");
+    variable1.setName("name1");
+    this.variableRepository.save(variable1);    
+    Variable variable2 = UnitTestCreateDomainObjectUtils.buildVariable(project.getId(), survey.getId());
+    variable2.setId("testProject-name2");
+    variable2.setName("name2");
+    this.variableRepository.save(variable2);
+    
+    //DataSet
+    DataSet dataSet = UnitTestCreateDomainObjectUtils.buildDataSet(project.getId(), survey.getId());
+    this.dataSetRepository.save(dataSet);
+    
+    //Questionnaire
+    Questionnaire questionnaire = UnitTestCreateDomainObjectUtils.buildQuestionnaire(project.getId());
+    this.questionnaireRepository.save(questionnaire);
+    
+    //Atomic Question
+    AtomicQuestion atomicQuestion = UnitTestCreateDomainObjectUtils.buildAtomicQuestion(project.getId(), questionnaire.getId(), variable1.getName());
+    atomicQuestion.setVariableId("testProject-Wrongname1");
+    atomicQuestion.setQuestionnaireId("testProject-WrongQuestionname1");
+    atomicQuestion.setId("testProject-Wrongname1");
+    this.atomicQuestionRepository.save(atomicQuestion);
+    
+
+    // Act & Assert
+    mockMvc.perform(post(API_DATA_ACQUISITION_PROJECTS_POST_VALIDATION_URI))
+      .andExpect(status().isOk())
+      .andExpect(jsonPath("$.errors", hasSize(2)))
+      .andExpect(jsonPath("$.errors[0]", is("The variable ID testProject-Wrongname1 of the atomic question with the ID testProject-Wrongname1 could not be found.")))
+      .andExpect(jsonPath("$.errors[1]", is("The questionnaire ID testProject-WrongQuestionname1 of the atomic question with the ID testProject-Wrongname1 could not be found.")));    
+  }
+  
+  @Test
+  public void testSimpleProjectForPostValidationWithWrongInformationForDataSet() throws IOException, Exception {
+    
+    //Arrange
+    //Project
+    DataAcquisitionProject project = UnitTestCreateDomainObjectUtils.buildDataAcquisitionProject();    
+    this.rdcProjectRepository.save(project);
+    
+    //Survey
+    Survey survey = UnitTestCreateDomainObjectUtils.buildSurvey(project.getId());
+    this.surveyRepository.save(survey);
+    
+    //Variables
+    Variable variable1 = UnitTestCreateDomainObjectUtils.buildVariable(project.getId(), survey.getId());
+    variable1.setId("testProject-name1");
+    variable1.setName("name1");
+    this.variableRepository.save(variable1);    
+    Variable variable2 = UnitTestCreateDomainObjectUtils.buildVariable(project.getId(), survey.getId());
+    variable2.setId("testProject-name2");
+    variable2.setName("name2");
+    this.variableRepository.save(variable2);
+    
+    //DataSet
+    DataSet dataSet = UnitTestCreateDomainObjectUtils.buildDataSet(project.getId(), survey.getId());
+    List<String> variableIds = new ArrayList<>();
+    variableIds.add(project.getId() + "-WrongVariableId");
+    List<String> surveyIds = new ArrayList<>();
+    surveyIds.add(project.getId() + "-WrongSurveyId");
+    dataSet.setVariableIds(variableIds);
+    dataSet.setSurveyIds(surveyIds);
+    this.dataSetRepository.save(dataSet);
+    
+    //Questionnaire
+    Questionnaire questionnaire = UnitTestCreateDomainObjectUtils.buildQuestionnaire(project.getId());
+    this.questionnaireRepository.save(questionnaire);
+    
+    //Atomic Question
+    AtomicQuestion atomicQuestion = UnitTestCreateDomainObjectUtils.buildAtomicQuestion(project.getId(), questionnaire.getId(), variable1.getName());    
+    this.atomicQuestionRepository.save(atomicQuestion);
+    
+
+    // Act & Assert
+    mockMvc.perform(post(API_DATA_ACQUISITION_PROJECTS_POST_VALIDATION_URI))
+      .andExpect(status().isOk())
+      .andExpect(jsonPath("$.errors", hasSize(2)))
+      .andExpect(jsonPath("$.errors[0]", is("The survey ID testProject-WrongSurveyId of the data set with the ID testProject-ds1 could not be found.")))
+      .andExpect(jsonPath("$.errors[1]", is("The variable ID testProject-WrongVariableId of the data set with the ID testProject-ds1 could not be found.")));    
+  }
+  
+  
+  @Test
+  public void testSimpleProjectForPostValidationWithWrongInformationForSurvey() throws IOException, Exception {
+    
+    //Arrange
+    //Project
+    DataAcquisitionProject project = UnitTestCreateDomainObjectUtils.buildDataAcquisitionProject();    
+    this.rdcProjectRepository.save(project);
+    
+    //Survey
+    Survey survey = UnitTestCreateDomainObjectUtils.buildSurvey(project.getId());
+    survey.setQuestionnaireId(project.getId() + "-WrongQuestionnaireId");
+    List<String> dataSetIds = new ArrayList<>();
+    dataSetIds.add(project.getId() + "-WrongDataSetId");
+    survey.setDataSetIds(dataSetIds);
+    this.surveyRepository.save(survey);
+    
+    //Variables
+    Variable variable1 = UnitTestCreateDomainObjectUtils.buildVariable(project.getId(), survey.getId());
+    variable1.setId("testProject-name1");
+    variable1.setName("name1");
+    this.variableRepository.save(variable1);    
+    Variable variable2 = UnitTestCreateDomainObjectUtils.buildVariable(project.getId(), survey.getId());
+    variable2.setId("testProject-name2");
+    variable2.setName("name2");
+    this.variableRepository.save(variable2);
+    
+    //DataSet
+    DataSet dataSet = UnitTestCreateDomainObjectUtils.buildDataSet(project.getId(), survey.getId());
+    this.dataSetRepository.save(dataSet);
+    
+    //Questionnaire
+    Questionnaire questionnaire = UnitTestCreateDomainObjectUtils.buildQuestionnaire(project.getId());
+    this.questionnaireRepository.save(questionnaire);
+    
+    //Atomic Question
+    AtomicQuestion atomicQuestion = UnitTestCreateDomainObjectUtils.buildAtomicQuestion(project.getId(), questionnaire.getId(), variable1.getName());    
+    this.atomicQuestionRepository.save(atomicQuestion);
+    
+
+    // Act & Assert
+    mockMvc.perform(post(API_DATA_ACQUISITION_PROJECTS_POST_VALIDATION_URI))
+      .andExpect(status().isOk())
+      .andExpect(jsonPath("$.errors", hasSize(2)))
+      .andExpect(jsonPath("$.errors[0]", is("The questionnaire ID testProject-WrongQuestionnaireId of the survey with the ID testProject-sy1 could not be found.")))
+      .andExpect(jsonPath("$.errors[1]", is("The data set ID testProject-WrongDataSetId of the survey with the ID testProject-sy1 could not be found.")));    
   }
   
 }
