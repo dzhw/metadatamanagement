@@ -81,16 +81,15 @@ public class UnitTestCreateDomainObjectUtils {
       .withTitle(new I18nStringBuilder().withDe("Titel")
         .withEn("title")
         .build())
-      .withQuestionnaireId("QuestionnaireId")
+      .withQuestionnaireId(projectId + "-Questionnaire")
       .withDataSetIds(Arrays.asList(projectId + "-ds1"))
       .build();
   }
 
   public static DataSet buildDataSet(String projectId, String surveyId) {
     List<String> variableIds = new ArrayList<>();
-    variableIds.add("Id001");
-    variableIds.add("Id002");
-    variableIds.add("Id003");
+    variableIds.add("testProject-name1");
+    variableIds.add("testProject-name2");
     List<String> surveyIds = new ArrayList<>();
     surveyIds.add(surveyId);
     return new DataSetBuilder().withSurveyIds(surveyIds)
@@ -141,6 +140,8 @@ public class UnitTestCreateDomainObjectUtils {
     accessWays.add(AccessWays.REMOTE);
     accessWays.add(AccessWays.SUF);
     List<String> withSameVariablesInPanel = new ArrayList<>();
+    withSameVariablesInPanel.add("testProject-name1");
+    withSameVariablesInPanel.add("testProject-name2");
     String name = "name";
 
     // Create Variable
@@ -187,8 +188,8 @@ public class UnitTestCreateDomainObjectUtils {
 
   public static Questionnaire buildQuestionnaire(String projectId) {
     return new QuestionnaireBuilder().withDataAcquisitionProjectId(projectId)
-      .withId("testQuestionnaire")
-      .withSurveyId("testSurveyId")
+      .withId(projectId + "-Questionnaire")
+      .withSurveyId(projectId + "-sy1")
       .build();
   }
 
