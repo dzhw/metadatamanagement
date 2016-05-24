@@ -222,20 +222,67 @@ ul#strength {
   border-radius: 1em;
   padding: 0.2em 0.6em 0.2em 0.6em;
 }
+
 /*
 style for datapackage
 */
-#datapackageTable td, th {
-    border: 1px solid #ddd;
-    text-align: left;
-    padding: 15px;
+
+.md-tab , .md-button {
+  text-transform: none;
 }
 
-#datapackageTable {
-    border-collapse: collapse;
-    white-space: nowrap;
-    width: 100%;
-    border: 1px solid #ddd;
-    text-align: left;
+.verticalTabContent , .horizontalTabContent {
+  margin: 1em;
 }
-.md-tab{text-transform: none}
+
+.verticalTabContent > div > h2 {
+  margin: 0px;
+  font-size: 14px;
+  line-height: 1.428571429;
+  font-weight: bold;
+}
+
+.verticalTabContent > div > p , .horizontalTabContent > div > p {
+  margin: 0px;
+}
+
+.verticalTabContent > div > p > a , .horizontalTabContent > div > p > a {
+  color: grey;
+}
+
+.verticalTabContent > md-divider {
+  margin-top:0.5em;
+  margin-bottom:0.5em;
+}
+
+.horizontalTabContent > div {
+  margin-top: 1em;
+}
+
+.horizontalTabContent > div > h2 {
+  flex-grow:0;
+  flex-shrink:0;
+  width: 15em;
+  margin: 0px;
+  font-size: 14px;
+  line-height: 1.428571429;
+  font-weight: bold;
+}
+
+.tabTableContent {
+  overflow: auto;
+}
+
+.tabTableContent > table {
+  border-collapse: collapse;
+  white-space: nowrap;
+  width: 100%;
+  border: 1px solid #ddd;
+  text-align: left;
+}
+
+.tabTableContent  td, th {
+  border: 1px solid #ddd;
+  text-align: left;
+  padding: 15px;
+}
