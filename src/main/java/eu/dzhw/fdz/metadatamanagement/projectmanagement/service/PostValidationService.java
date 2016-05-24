@@ -2,7 +2,12 @@ package eu.dzhw.fdz.metadatamanagement.projectmanagement.service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
+import javax.inject.Inject;
+
+import org.springframework.context.MessageSource;
+import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.stereotype.Service;
 
 /**
@@ -17,6 +22,9 @@ import org.springframework.stereotype.Service;
 @Service
 public class PostValidationService {
 
+  @Inject
+  private MessageSource messageSource;
+
   /**
    * This method handels the complete post validation of a project.
    * 
@@ -25,11 +33,17 @@ public class PostValidationService {
    */
   public List<String> postValidation(String dataAcquisitionProjectId) {
 
+    // Set locale
+    Locale locale = LocaleContextHolder.getLocale();
+
     List<String> errors = new ArrayList<>();
     errors.addAll(this.postValidationOfAtomicQuestions());
     errors.addAll(this.postValidationOfDataSets());
     errors.addAll(this.postValidationOfSurverys());
     errors.addAll(this.postValidationOfVariables());
+
+    // Test Message
+    errors.add(this.messageSource.getMessage("error.postValidation.test", null, locale));
 
     return errors;
   }
