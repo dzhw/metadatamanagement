@@ -268,4 +268,56 @@ public class DataAcquisitionProjectPostValidationResourceTest extends AbstractTe
       .andExpect(jsonPath("$.errors[1]", is("The data set ID testProject-WrongDataSetId of the survey with the ID testProject-sy1 could not be found.")));    
   }
   
+  @Test
+  public void testSimpleProjectForPostValidationWithWrongInformationForVariable() throws IOException, Exception {
+    
+    //Arrange
+    //Project
+    DataAcquisitionProject project = UnitTestCreateDomainObjectUtils.buildDataAcquisitionProject();    
+    this.rdcProjectRepository.save(project);
+    
+    //Survey
+    Survey survey = UnitTestCreateDomainObjectUtils.buildSurvey(project.getId());
+    this.surveyRepository.save(survey);
+    
+    //Variables
+    Variable variable1 = UnitTestCreateDomainObjectUtils.buildVariable(project.getId(), survey.getId());
+    variable1.setId("testProject-name1");
+    variable1.setName("name1");
+    this.variableRepository.save(variable1);    
+    Variable variable2 = UnitTestCreateDomainObjectUtils.buildVariable(project.getId(), survey.getId());
+    variable2.setId("testProject-name3");
+    variable2.setName("name3");
+    variable2.setAtomicQuestionId(project.getId()+  "-WrongAtomicQuestionId");
+    List<String> dataSetIds = new ArrayList<>();
+    dataSetIds.add(project.getId() + "-WrongDataSetId");
+    List<String> surveyIds = new ArrayList<>();
+    surveyIds.add(project.getId() + "-WrongSurveyId");
+    variable2.setDataSetIds(dataSetIds);
+    variable2.setSurveyIds(surveyIds);
+    this.variableRepository.save(variable2);
+    
+    //DataSet
+    DataSet dataSet = UnitTestCreateDomainObjectUtils.buildDataSet(project.getId(), survey.getId());
+    this.dataSetRepository.save(dataSet);
+    
+    //Questionnaire
+    Questionnaire questionnaire = UnitTestCreateDomainObjectUtils.buildQuestionnaire(project.getId());
+    this.questionnaireRepository.save(questionnaire);
+    
+    //Atomic Question
+    AtomicQuestion atomicQuestion = UnitTestCreateDomainObjectUtils.buildAtomicQuestion(project.getId(), questionnaire.getId(), variable1.getName());    
+    this.atomicQuestionRepository.save(atomicQuestion);
+    
+
+    // Act & Assert
+    mockMvc.perform(post(API_DATA_ACQUISITION_PROJECTS_POST_VALIDATION_URI))
+      .andExpect(status().isOk())
+      .andExpect(jsonPath("$.errors", hasSize(4)))
+      .andExpect(jsonPath("$.errors[0]", is("The variable ID testProject-name2 of the data set with the ID testProject-ds1 could not be found.")))
+      .andExpect(jsonPath("$.errors[1]", is("The survey ID testProject-WrongSurveyId of the variable with the ID testProject-name3 could not be found.")))
+      .andExpect(jsonPath("$.errors[2]", is("The data set ID testProject-WrongDataSetId of the variable with the ID testProject-name3 could not be found.")))
+      .andExpect(jsonPath("$.errors[3]", is("The variable with the ID testProject-name3 is not part of the list of the same variables in panel.")));
+  }
+  
 }
