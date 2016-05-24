@@ -10,6 +10,7 @@ import org.springframework.context.MessageSource;
 import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.stereotype.Service;
 
+import eu.dzhw.fdz.metadatamanagement.datasetmanagement.domain.DataSet;
 import eu.dzhw.fdz.metadatamanagement.datasetmanagement.repository.DataSetRepository;
 import eu.dzhw.fdz.metadatamanagement.questionmanagement.domain.AtomicQuestion;
 import eu.dzhw.fdz.metadatamanagement.questionmanagement.repository.AtomicQuestionRepository;
@@ -70,7 +71,9 @@ public class PostValidationService {
     errors = this.postValidationOfAtomicQuestions(atomicQuestions, errors);
     
     //check data sets
-    errors.addAll(this.postValidationOfDataSets());
+    List<DataSet> dataSets = 
+        this.dataSetRepository.findByDataAcquisitionProjectId(dataAcquisitionProjectId);
+    errors = this.postValidationOfDataSets(dataSets, errors);
     
     //check surveys
     List<Survey> surveys = 
@@ -121,9 +124,30 @@ public class PostValidationService {
    * 
    * @return a list of errors of the post validation of data sets.
    */
-  private List<String> postValidationOfDataSets() {
+  private List<String> postValidationOfDataSets(List<DataSet> dataSets, List<String> errors) {
 
-    return new ArrayList<>();
+    for (DataSet dataSet : dataSets) {    
+      
+      //dataSet.SurveyIds: there must be a survey with that id
+      for (String surveyId : dataSet.getSurveyIds()) {
+        if (this.surveyRepository.findOne(surveyId) == null) {
+          String[] information = {dataSet.getId(), surveyId};
+          errors.add(this.messageSource
+              .getMessage("error.postValidation.dataSetHasInvalidSurveyId", information, locale));
+        }
+      }     
+      
+      //dataSet.VariableIds: there must be a variable with that id
+      for (String variableId : dataSet.getVariableIds()) {
+        if (this.variableRepository.findOne(variableId) == null) {
+          String[] information = {dataSet.getId(), variableId};
+          errors.add(this.messageSource
+              .getMessage("error.postValidation.dataSetHasInvalidVariableId", information, locale));
+        }
+      }    
+    }
+    
+    return errors;
   }
 
 
@@ -154,7 +178,7 @@ public class PostValidationService {
       }
     }
     
-    return new ArrayList<>();
+    return errors;
   }
 
   /**
@@ -204,6 +228,7 @@ public class PostValidationService {
                 information, locale));
       }
     }
+    
     return errors;
   }
   

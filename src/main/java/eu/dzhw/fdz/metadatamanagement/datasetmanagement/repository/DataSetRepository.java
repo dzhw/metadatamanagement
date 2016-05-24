@@ -22,4 +22,7 @@ public interface DataSetRepository
   @RestResource(exported = false)
   List<DataSet> deleteByDataAcquisitionProjectId(String dataAcquisitionProjectId);
   
+  @RestResource(exported = false)
+  List<DataSet> findByDataAcquisitionProjectId(String dataAcquisitionProjectId);
+  
 }
