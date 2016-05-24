@@ -9,8 +9,8 @@
         <md-card-content>
             <md-card class="md-whiteframe-3dp">
                 <md-card-content>
-                    <md-tabs md-dynamic-height md-border-bottom md-swipe-content="true">
-                        <md-tab label="Eckdaten">
+                    <md-tabs md-selected="selectedTab" md-dynamic-height md-border-bottom md-swipe-content="true">
+                        <md-tab label="{{tabs[0]}}">
                                 <div class="horizontalTabContent">
                                     <div layout-gt-xs="row" layout-xs="column" layout-align-xs="start start">
                                         <h2>FDZ-ID:</h2>
@@ -38,7 +38,7 @@
                                     </div>
                                 </div>
                         </md-tab>
-                        <md-tab label="Informationen zur Studie">
+                        <md-tab label="{{tabs[1]}}">
                                 <div class="verticalTabContent">
                                     <div layout="column">
                                         <h2  flex>Grundgesamtheit:</h2>
@@ -70,7 +70,7 @@
                                     </div>
                                 </div>
                         </md-tab>
-                        <md-tab label="Datensätze">
+                        <md-tab label="{{tabs[2]}}">
                                 <div class="md-padding tabTableContent">
                                     <table>
                                         <thead>
@@ -105,7 +105,7 @@
                                         last-text="&raquo;"></uib-pagination>
                                 </div>
                         </md-tab>
-                        <md-tab label="Zitation">
+                        <md-tab label="{{tabs[3]}}">
                                 <div class="verticalTabContent">
                                     <div layout="column">
                                         <h2 flex>DOI:</h2>
@@ -128,7 +128,7 @@
                                     </div>
                                 </div>
                         </md-tab>
-                        <md-tab label="Dokumentationsmaterialien">
+                        <md-tab label="{{tabs[4]}}">
                                 <div class="verticalTabContent">
                                     <div layout="column">
                                         <h2 flex>Übergreifende Dokumente:</h2>

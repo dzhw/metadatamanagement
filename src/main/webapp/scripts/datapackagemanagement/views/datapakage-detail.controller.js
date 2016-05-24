@@ -2,8 +2,20 @@
 
 angular.module('metadatamanagementApp')
     .controller('DatapackageDetailController', function($scope,
-      dataAcquisitionProject) {
+      dataAcquisitionProject, $stateParams, $location) {
       $scope.dataAcquisitionProject = dataAcquisitionProject;
+      $scope.tabs = ['Eckdaten','Informationen zur Studie','Datensätze',
+      'Zitation','Dokumentationsmaterialien'];
+      var tab = $scope.tabs.indexOf($stateParams.tab);
+      if (tab && tab !== -1) {
+        $scope.selectedTab = tab;
+      }else {
+        $location.search('tab',$scope.tabs[0]);
+        $scope.selectedTab = 0;
+      }
+      $scope.$watch('selectedTab', function(newValue) {
+        $location.search('tab', $scope.tabs[newValue]);
+      });
       $scope.dataList = [
         {
           name: 'gra2005-01_W1+2_c-1-0-0',

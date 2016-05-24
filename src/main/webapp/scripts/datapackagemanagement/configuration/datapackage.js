@@ -5,7 +5,8 @@ angular.module('metadatamanagementApp')
     $stateProvider
       .state('datapackage-detail', {
         parent: 'site',
-        url: '/datapackages/{id}',
+        reloadOnSearch: false,
+        url: '/datapackages/{id}?tab',
         data: {
           authorities: ['ROLE_USER'],
           pageTitle: 'metadatamanagementApp.datapackage.home.title'
