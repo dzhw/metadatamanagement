@@ -14,6 +14,7 @@ import eu.dzhw.fdz.metadatamanagement.datasetmanagement.repository.DataSetReposi
 import eu.dzhw.fdz.metadatamanagement.questionmanagement.domain.AtomicQuestion;
 import eu.dzhw.fdz.metadatamanagement.questionmanagement.repository.AtomicQuestionRepository;
 import eu.dzhw.fdz.metadatamanagement.questionnairemanagement.repository.QuestionnaireRepository;
+import eu.dzhw.fdz.metadatamanagement.surveymanagement.domain.Survey;
 import eu.dzhw.fdz.metadatamanagement.surveymanagement.repository.SurveyRepository;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.Variable;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.repository.VariableRepository;
@@ -72,7 +73,9 @@ public class PostValidationService {
     errors.addAll(this.postValidationOfDataSets());
     
     //check surveys
-    errors.addAll(this.postValidationOfSurverys());
+    List<Survey> surveys = 
+        this.surveyRepository.findByDataAcquisitionProjectId(dataAcquisitionProjectId);
+    errors = this.postValidationOfSurverys(surveys, errors);
 
     // check variables
     List<Variable> variables =
@@ -129,12 +132,28 @@ public class PostValidationService {
    * 
    * @return a list of errors of the post validation of surveys.
    */
-  private List<String> postValidationOfSurverys() {
+  private List<String> postValidationOfSurverys(List<Survey> surveys, List<String> errors) {
 
-    // survey.VariableIds: there must be a variable with that id
-    // survey.QuestionnaireId: there must be a questionaire with that id
-    // survey.DataSetId: there must be a dataset with that id
-
+    for (Survey survey : surveys) {
+      
+      // survey.QuestionnaireId: there must be a questionaire with that id
+      if (this.questionnaireRepository.findOne(survey.getQuestionnaireId()) == null) {
+        String[] information = {survey.getId(), survey.getQuestionnaireId()};
+        errors.add(this.messageSource
+            .getMessage("error.postValidation.surveyHasInvalidQuestionnaireId", 
+                information, locale));
+      }   
+      
+      // survey.DataSetId: there must be a dataset with that id
+      for (String dataSetId : survey.getDataSetIds()) {
+        if (this.dataSetRepository.findOne(dataSetId) == null) {
+          String[] information = {survey.getId(), dataSetId};
+          errors.add(this.messageSource
+              .getMessage("error.postValidation.surveyHasInvalidDataSetId", information, locale));
+        }
+      }
+    }
+    
     return new ArrayList<>();
   }
 

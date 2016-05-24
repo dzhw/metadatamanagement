@@ -20,4 +20,7 @@ public interface SurveyRepository
 
   @RestResource(exported = false)
   List<Survey> deleteByDataAcquisitionProjectId(String dataAcquisitionProjectId);
+  
+  @RestResource(exported = false)
+  List<Survey> findByDataAcquisitionProjectId(String dataAcquisitionProjectId);
 }
