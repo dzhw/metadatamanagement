@@ -11,7 +11,7 @@ import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.stereotype.Service;
 
 import eu.dzhw.fdz.metadatamanagement.datasetmanagement.repository.DataSetRepository;
-import eu.dzhw.fdz.metadatamanagement.projectmanagement.repository.DataAcquisitionProjectRepository;
+import eu.dzhw.fdz.metadatamanagement.questionmanagement.domain.AtomicQuestion;
 import eu.dzhw.fdz.metadatamanagement.questionmanagement.repository.AtomicQuestionRepository;
 import eu.dzhw.fdz.metadatamanagement.questionnairemanagement.repository.QuestionnaireRepository;
 import eu.dzhw.fdz.metadatamanagement.surveymanagement.repository.SurveyRepository;
@@ -48,9 +48,6 @@ public class PostValidationService {
   @Inject
   private AtomicQuestionRepository atomicQuestionRepository;
 
-  @Inject
-  private DataAcquisitionProjectRepository dataAcquisitionProjectRepository;
-
   private Locale locale;
 
   /**
@@ -65,8 +62,16 @@ public class PostValidationService {
     this.locale = LocaleContextHolder.getLocale();
 
     List<String> errors = new ArrayList<>();
-    errors.addAll(this.postValidationOfAtomicQuestions());
+    
+    //Check atomic questions
+    List<AtomicQuestion> atomicQuestions = 
+        this.atomicQuestionRepository.findByDataAcquisitionProjectId(dataAcquisitionProjectId);
+    errors = this.postValidationOfAtomicQuestions(atomicQuestions, errors);
+    
+    //check data sets
     errors.addAll(this.postValidationOfDataSets());
+    
+    //check surveys
     errors.addAll(this.postValidationOfSurverys());
 
     // check variables
@@ -83,9 +88,29 @@ public class PostValidationService {
    * 
    * @return a list of errors of the post validation of atomic questions.
    */
-  private List<String> postValidationOfAtomicQuestions() {
-
-    return new ArrayList<>();
+  private List<String> postValidationOfAtomicQuestions(
+      List<AtomicQuestion> atomicQuestions, List<String> errors) {
+    
+    for (AtomicQuestion atomicQuestion : atomicQuestions) {
+      
+      //atomicQuestion.VariableId: there must be a variable with that id
+      if (this.variableRepository.findOne(atomicQuestion.getVariableId()) == null) {
+        String[] information = {atomicQuestion.getId(), atomicQuestion.getVariableId()};
+        errors.add(this.messageSource
+            .getMessage("error.postValidation.atomicQuestionHasInvalidVariableId", 
+                information, locale));
+      }
+    
+      //atomicQuestion.QuestionnaireId: there must be a questionaire with that id
+      if (this.questionnaireRepository.findOne(atomicQuestion.getQuestionnaireId()) == null) {
+        String[] information = {atomicQuestion.getId(), atomicQuestion.getQuestionnaireId()};
+        errors.add(this.messageSource
+            .getMessage("error.postValidation.atomicQuestionHasInvalidQuestionnaireId", 
+                information, locale));
+      }      
+    }  
+    
+    return errors;
   }
 
   /**
