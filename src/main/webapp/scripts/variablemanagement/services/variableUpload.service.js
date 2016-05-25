@@ -4,7 +4,7 @@
 angular.module('metadatamanagementApp').service('VariableUploadService',
 function($translate, ZipReaderService,
   VariableBuilderService, VariableDeleteResource, JobLoggingService,
-  ErrorMessageResolverService, ExcelReaderService) {
+  ErrorMessageResolverService, ExcelReaderService, $q) {
   var objects;
   var uploadCount;
   var upload = function() {
@@ -44,9 +44,16 @@ function($translate, ZipReaderService,
     JobLoggingService.start('variable');
     ZipReaderService.readZipFileAsync(file)
     .then(function(zipFile) {
-      var excelFile = zipFile.files['variables.xlsx'];
-      zip = zipFile;
-      return ExcelReaderService.readFileAsync(excelFile);
+      try {
+        var isFolder = zipFile.files['variables/'].dir;
+        var excelFile = zipFile.files['variables.xlsx'];
+        if (isFolder && excelFile) {
+          zip = zipFile;
+          return ExcelReaderService.readFileAsync(excelFile);
+        }
+      } catch (e) {
+        return $q.reject('unsupportedDirectoryStructur');
+      }
     }, function(error) {
       console.log(error);
       JobLoggingService.cancel($translate.instant(
@@ -66,10 +73,16 @@ function($translate, ZipReaderService,
             JobLoggingService.error(errorMessage);
           });
     }, function(error) {
-      console.log(error);
-      JobLoggingService.cancel($translate.instant(
-        'metadatamanagementApp.dataAcquisitionProject.detail.' +
-        'logMessages.unsupportedExcelFile', {}));
+      if (error === 'unsupportedDirectoryStructur') {
+        JobLoggingService.cancel($translate.instant(
+          'metadatamanagementApp.dataAcquisitionProject.detail.' +
+          'logMessages.unsupportedDirectoryStructur', {}));
+      } else {
+        console.log(error);
+        JobLoggingService.cancel($translate.instant(
+          'metadatamanagementApp.dataAcquisitionProject.detail.' +
+          'logMessages.unsupportedExcelFile', {}));
+      }
     });
   };
   return {

@@ -35,6 +35,7 @@
           "unsupportedZipFile": "Zip Datei konnte nicht gelesen werden",
           "unsupportedExcelFile": "Excel Datei konnte nicht gelesen werden",
           "unsupportedTexFile": "Tex Datei konnte nicht gelesen werden",
+          "unsupportedDirectoryStructur": "Falsche Ordnerstruktur",
           "malformedJsonFile": "JSON Datei für die Variable mit FDZ-ID {{ id }} konnte nicht geparst werden",
           "postValidationTerminated": "Die Post-Validierung wurde beendet.",
           "dataSet": {
