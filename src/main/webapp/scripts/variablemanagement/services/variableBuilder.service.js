@@ -23,10 +23,11 @@ angular.module('metadatamanagementApp').service('VariableBuilderService',
         }
         var variableObj = {
           id: variables[i].id,
-          dataType: generatedVariable.dataType,
-          scaleLevel: generatedVariable.scaleLevel,
-          name: generatedVariable.name,
-          label: generatedVariable.label,
+          dataType: generatedVariable ? generatedVariable.dataType : undefined,
+          scaleLevel: generatedVariable ?
+            generatedVariable.scaleLevel : undefined,
+          name: generatedVariable ? generatedVariable.name : undefined,
+          label: generatedVariable ? generatedVariable.label : undefined,
           description: {
             en: variables[i]['description.en'],
             de: variables[i]['description.de']
@@ -44,11 +45,15 @@ angular.module('metadatamanagementApp').service('VariableBuilderService',
               'filterDetails.expressionLanguage'
             ]
           },
-          sameVariablesInPanel: generatedVariable.sameVariablesInPanel,
-          surveyIds: generatedVariable.surveyIds,
+          sameVariablesInPanel: generatedVariable ?
+            generatedVariable.sameVariablesInPanel : undefined,
+          surveyIds: generatedVariable ?
+            generatedVariable.surveyIds : undefined,
           conceptId: variables[i].conceptId,
-          dataSetIds: generatedVariable.dataSetIds,
-          atomicQuestionId: generatedVariable.atomicQuestionId,
+          dataSetIds: generatedVariable ?
+            generatedVariable.dataSetIds : undefined,
+          atomicQuestionId: generatedVariable ?
+            generatedVariable.atomicQuestionId : undefined,
           dataAcquisitionProjectId: dataAcquisitionProjectId,
           generationDetails: {
             rule: variables[i]['generationDetails.rule'],
@@ -59,7 +64,8 @@ angular.module('metadatamanagementApp').service('VariableBuilderService',
               de: variables[i]['generationDetails.description.de']
             }
           },
-          distribution: generatedVariable.distribution,
+          distribution: generatedVariable ?
+            generatedVariable.distribution : undefined
         };
         CleanJSObjectService.removeEmptyJsonObjects(variableObj);
         variablesObjArray.push(new VariableResource(variableObj));
