@@ -63,8 +63,7 @@ jhipster:
             oauth:
                 clientid: metadatamanagementapp
                 secret: mySecretOAuthSecret
-                # Token is valid 30 minutes
-                tokenValidityInSeconds: 1800
+
         rememberme:
             # security key (this key should be unique for your application, and kept secret)
             key: 786cea5f182ffdd133864bbc75f69f8d008b5bc3
