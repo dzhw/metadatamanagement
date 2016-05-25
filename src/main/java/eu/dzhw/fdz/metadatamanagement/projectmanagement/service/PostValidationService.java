@@ -28,13 +28,16 @@ import eu.dzhw.fdz.metadatamanagement.variablemanagement.repository.VariableRepo
  * @author dkatzberg
  *
  */
-// TODO Dkatzberg ... only prototype code at the moment.
 @Service
 public class PostValidationService {
+  
+  /* Variables for creating the locale depending error messaged */
+  private Locale locale;
 
   @Inject
   private MessageSource messageSource;
 
+  /* Repositories for loading data from the repository */
   @Inject
   private VariableRepository variableRepository;
 
@@ -50,7 +53,6 @@ public class PostValidationService {
   @Inject
   private AtomicQuestionRepository atomicQuestionRepository;
 
-  private Locale locale;
 
   /**
    * This method handels the complete post validation of a project.

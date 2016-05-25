@@ -1,4 +1,9 @@
 'use strict';
+/*
+  Service for the post validation. It send the errors from the backend
+  to the log output console (JobLoggingService) and it uses the resource.
+  @author Daniel Katzberg
+*/
 
 angular.module('metadatamanagementApp').service(
   'DataAcquisitionProjectPostValidationService',
@@ -6,25 +11,27 @@ angular.module('metadatamanagementApp').service(
     DataAcquisitionProjectPostValidationResource) {
 
     var postValidate = function(id) {
-      // To be removed
       JobLoggingService.start('postValidation');
       DataAcquisitionProjectPostValidationResource.postValidate({
         id: id
       }, function(result) {
-        // everything is okay.
+        // got errors by post validation
         if (result.errors.length > 0) {
           for (var i = 0; i < result.errors.length; i++) {
             JobLoggingService.error(result.errors[i]);
           }
+          //no errors by post validation
         } else {
           JobLoggingService.success();
         }
+
+        // After sending errors or success, the process is finished.
         JobLoggingService.finish($translate.instant(
           'metadatamanagementApp.dataAcquisitionProject.detail.' +
           'logMessages.postValidationTerminated', {}));
       });
     };
-
+    //public, global methods definitions.
     return {
       postValidate: postValidate
     };

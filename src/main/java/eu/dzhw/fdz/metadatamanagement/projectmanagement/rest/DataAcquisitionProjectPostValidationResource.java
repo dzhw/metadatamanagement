@@ -37,7 +37,7 @@ public class DataAcquisitionProjectPostValidationResource {
       LoggerFactory.getLogger(DataAcquisitionProjectPostValidationResource.class);
 
   /**
-   * GET /users/:login -> get the "login" user.
+   * POST /data-acquisition-projects/:id/post-validate -> Validate project by id.
    */
   @RequestMapping(value = "/data-acquisition-projects/{id}/post-validate",
       method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)

@@ -73,6 +73,8 @@ angular.module('metadatamanagementApp')
           });
         }
       };
+
+      //handles the post validation button. starts the depending service/process
       $scope.postValidate = function() {
         DataAcquisitionProjectPostValidationService
           .postValidate($scope.dataAcquisitionProject.id);
