@@ -6,47 +6,40 @@ function(ExcelReaderService, SurveyBuilderService,
   SurveyDeleteResource, $translate, JobLoggingService,
   ErrorMessageResolverService) {
   var objects;
+  var uploadCount;
   var upload = function() {
-    var itemsToUpload = objects.length;
-    var j = 0;
-    for (var i = 0; i < objects.length; i++) {
-      if (!objects[i].id || objects[i].id === '') {
+    if (uploadCount === objects.length) {
+      JobLoggingService.finish($translate.instant(
+        'metadatamanagementApp.dataAcquisitionProject.detail.' +
+        'logMessages.survey.uploadTerminated', {}));
+    } else {
+      if (!objects[uploadCount].id || objects[uploadCount].id === '') {
+        var index = uploadCount;
         JobLoggingService.error($translate.instant(
-            'metadatamanagementApp.dataAcquisitionProject.' +
-            'detail.logMessages.survey.' +
-            'missingId', {
-              index: i + 1
-            }));
-        j++;
-        if (j === itemsToUpload) {
-          JobLoggingService.finish($translate.instant(
-            'metadatamanagementApp.dataAcquisitionProject.detail.' +
-            'logMessages.survey.uploadTerminated', {}));
-        }
+          'metadatamanagementApp.dataAcquisitionProject.' +
+          'detail.logMessages.survey.' +
+          'missingId', {
+            index: index + 1
+          }));
+        uploadCount++;
+        return upload();
       } else {
-        objects[i].$save().then(function() {
-          JobLoggingService.success();
-          j++;
-          if (j === itemsToUpload) {
-            JobLoggingService.finish($translate.instant(
-              'metadatamanagementApp.dataAcquisitionProject.detail.' +
-              'logMessages.survey.uploadTerminated', {}));
-          }
-        }).catch(function(error) {
-          var errorMessage = ErrorMessageResolverService
-          .getErrorMessage(error, 'survey');
-          JobLoggingService.error(errorMessage);
-          j++;
-          if (j === itemsToUpload) {
-            JobLoggingService.finish($translate.instant(
-            'metadatamanagementApp.dataAcquisitionProject.detail.' +
-            'logMessages.survey.uploadTerminated', {}));
-          }
-        });
+        objects[uploadCount].$save().then(function() {
+        JobLoggingService.success();
+        uploadCount++;
+        return upload();
+      }).catch(function(error) {
+        var errorMessage = ErrorMessageResolverService
+        .getErrorMessage(error, 'survey');
+        JobLoggingService.error(errorMessage);
+        uploadCount++;
+        return upload();
+      });
       }
     }
   };
   var uploadSurveys = function(file, dataAcquisitionProjectId) {
+    uploadCount = 0;
     JobLoggingService.start('survey');
     ExcelReaderService.readFileAsync(file).then(function(data) {
       objects  = SurveyBuilderService.getSurveys(data,

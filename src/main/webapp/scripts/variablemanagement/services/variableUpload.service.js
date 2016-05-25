@@ -6,48 +6,41 @@ function($translate, ZipReaderService,
   VariableBuilderService, VariableDeleteResource, JobLoggingService,
   ErrorMessageResolverService, ExcelReaderService) {
   var objects;
+  var uploadCount;
   var upload = function() {
-    var itemsToUpload = objects.length;
-    var j = 0;
-    for (var i = 0; i < objects.length; i++) {
-      if (!objects[i].id || objects[i].id === '') {
+    if (uploadCount === objects.length) {
+      JobLoggingService.finish($translate.instant(
+        'metadatamanagementApp.dataAcquisitionProject.detail.' +
+        'logMessages.variable.uploadTerminated', {}));
+    } else {
+      if (!objects[uploadCount].id || objects[uploadCount].id === '') {
+        var index = uploadCount;
         JobLoggingService.error($translate.instant(
             'metadatamanagementApp.dataAcquisitionProject.' +
             'detail.logMessages.variable.' +
             'missingId', {
-              index: i + 1
-            }));
-        j++;
-        if (j === itemsToUpload) {
-          JobLoggingService.finish($translate.instant(
-            'metadatamanagementApp.dataAcquisitionProject.detail.' +
-            'logMessages.variable.uploadTerminated', {}));
-        }
+            index: index + 1
+          }));
+        uploadCount++;
+        return upload();
       } else {
-        objects[i].$save().then(function() {
-          JobLoggingService.success();
-          j++;
-          if (j === itemsToUpload) {
-            JobLoggingService.finish($translate.instant(
-              'metadatamanagementApp.dataAcquisitionProject.detail.' +
-              'logMessages.variable.uploadTerminated', {}));
-          }
-        }).catch(function(error) {
-          var errorMessage = ErrorMessageResolverService
-          .getErrorMessage(error, 'variable');
-          JobLoggingService.error(errorMessage);
-          j++;
-          if (j === itemsToUpload) {
-            JobLoggingService.finish($translate.instant(
-            'metadatamanagementApp.dataAcquisitionProject.detail.' +
-            'logMessages.variable.uploadTerminated', {}));
-          }
-        });
+        objects[uploadCount].$save().then(function() {
+        JobLoggingService.success();
+        uploadCount++;
+        return upload();
+      }).catch(function(error) {
+        var errorMessage = ErrorMessageResolverService
+        .getErrorMessage(error, 'variable');
+        JobLoggingService.error(errorMessage);
+        uploadCount++;
+        return upload();
+      });
       }
     }
   };
   var uploadVariables = function(file, dataAcquisitionProjectId) {
     var zip;
+    uploadCount = 0;
     JobLoggingService.start('variable');
     ZipReaderService.readZipFileAsync(file)
     .then(function(zipFile) {

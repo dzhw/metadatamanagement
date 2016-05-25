@@ -6,47 +6,41 @@ function(ExcelReaderService, AtomicQuestionBuilderService,
   AtomicQuestionDeleteResource, $translate, JobLoggingService,
   ErrorMessageResolverService) {
   var objects;
+  var uploadCount;
   var upload = function() {
-    var itemsToUpload = objects.length;
-    var j = 0;
-    for (var i = 0; i < objects.length; i++) {
-      if (!objects[i].id || objects[i].id === '') {
+    if (uploadCount === objects.length) {
+      JobLoggingService.finish($translate.instant(
+        'metadatamanagementApp.dataAcquisitionProject.detail.' +
+        'logMessages.atomicQuestion.uploadTerminated', {}));
+    } else {
+      if (!objects[uploadCount].id || objects[uploadCount].id === '') {
+        var index = uploadCount;
         JobLoggingService.error($translate.instant(
             'metadatamanagementApp.dataAcquisitionProject.' +
             'detail.logMessages.atomicQuestion.' +
             'missingId', {
-              index: i + 1
-            }));
-        j++;
-        if (j === itemsToUpload) {
-          JobLoggingService.finish($translate.instant(
-            'metadatamanagementApp.dataAcquisitionProject.detail.' +
-            'logMessages.atomicQuestion.uploadTerminated', {}));
-        }
+            index: index + 1
+          }));
+        uploadCount++;
+        return upload();
       } else {
-        objects[i].$save().then(function() {
-          JobLoggingService.success();
-          j++;
-          if (j === itemsToUpload) {
-            JobLoggingService.finish($translate.instant(
-              'metadatamanagementApp.dataAcquisitionProject.detail.' +
-              'logMessages.atomicQuestion.uploadTerminated', {}));
-          }
-        }).catch(function(error) {
+        objects[uploadCount].$save().then(function() {
+        JobLoggingService.success();
+        uploadCount++;
+        return upload();
+      }).catch(function(error) {
+        console.log(objects[uploadCount]);
         var errorMessage = ErrorMessageResolverService
-          .getErrorMessage(error, 'atomicQuestion');
+        .getErrorMessage(error, 'atomicQuestion');
         JobLoggingService.error(errorMessage);
-        j++;
-        if (j === itemsToUpload) {
-          JobLoggingService.finish($translate.instant(
-            'metadatamanagementApp.dataAcquisitionProject.detail.' +
-            'logMessages.atomicQuestion.uploadTerminated', {}));
-        }
+        uploadCount++;
+        return upload();
       });
       }
     }
   };
   var uploadAtomicQuestions = function(file, dataAcquisitionProjectId) {
+    uploadCount = 0;
     JobLoggingService.start('atomicQuestion');
     ExcelReaderService.readFileAsync(file).then(function(data) {
       objects  = AtomicQuestionBuilderService.getAtomicQuestions(data,

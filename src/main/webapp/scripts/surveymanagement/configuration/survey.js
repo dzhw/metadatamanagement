@@ -128,7 +128,7 @@ angular.module('metadatamanagementApp')
           function($stateParams, $state, $uibModal) {
             $uibModal.open({
               templateUrl:
-                'survey-delete-dialog.html.tmpl',
+                'scripts/surveymanagement/views/survey-delete-dialog.html.tmpl',
               controller: 'SurveyDeleteController',
               size: 'md',
               resolve: {
