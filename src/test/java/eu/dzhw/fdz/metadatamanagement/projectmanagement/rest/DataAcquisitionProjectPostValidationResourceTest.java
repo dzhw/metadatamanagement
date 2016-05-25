@@ -313,11 +313,12 @@ public class DataAcquisitionProjectPostValidationResourceTest extends AbstractTe
     // Act & Assert
     mockMvc.perform(post(API_DATA_ACQUISITION_PROJECTS_POST_VALIDATION_URI))
       .andExpect(status().isOk())
-      .andExpect(jsonPath("$.errors", hasSize(4)))
+      .andExpect(jsonPath("$.errors", hasSize(5)))
       .andExpect(jsonPath("$.errors[0]", is("The variable ID testProject-name2 of the data set with the ID testProject-ds1 could not be found.")))
       .andExpect(jsonPath("$.errors[1]", is("The survey ID testProject-WrongSurveyId of the variable with the ID testProject-name3 could not be found.")))
       .andExpect(jsonPath("$.errors[2]", is("The data set ID testProject-WrongDataSetId of the variable with the ID testProject-name3 could not be found.")))
-      .andExpect(jsonPath("$.errors[3]", is("The variable with the ID testProject-name3 is not part of the list of the same variables in panel.")));
+      .andExpect(jsonPath("$.errors[3]", is("The variable with the ID testProject-name3 is not part of the list of the same variables in panel.")))
+      .andExpect(jsonPath("$.errors[4]", is("The atomic question ID testProject-WrongAtomicQuestionId of the variable with the id testProject-name3 could not be found.")));
   }
   
 }

@@ -220,7 +220,7 @@ public class PostValidationService {
 
       // variable.atomicQuestionId: If there is no genereationDetail every variable needs a
       // atomicQuestionId (and vice versa)
-      if (variable.getGenerationDetails() == null && variable.getAtomicQuestionId() != null
+      if (variable.getAtomicQuestionId() != null
           && this.atomicQuestionRepository.findOne(variable.getAtomicQuestionId()) == null) {
         String[] information = {variable.getId(), variable.getAtomicQuestionId()};
         errors.add(this.messageSource
