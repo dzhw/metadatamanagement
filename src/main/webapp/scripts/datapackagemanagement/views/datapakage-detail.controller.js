@@ -83,12 +83,7 @@ angular.module('metadatamanagementApp')
         $scope.pageChanged();
       };
       $scope.pageChanged = function() {
-        /*
-        var temp = $scope.pageState.currentPageNumber - 1;  if (temp === 0) {
-          $scope.currentPage =  $scope.dataList.slice(0,5);
-        }else {*/
         $scope.currentPage =  $scope.dataList;
-        //}
       };
       init();
     });

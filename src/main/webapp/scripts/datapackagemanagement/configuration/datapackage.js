@@ -31,20 +31,6 @@ angular.module('metadatamanagementApp')
             return DataAcquisitionProjectResource.get({
               id: $stateParams.id
             });
-          }],
-          surveyCollection: ['$stateParams',
-          'SurveyCollectionResource',
-          function($stateParams, SurveyCollectionResource) {
-            return SurveyCollectionResource.get({
-              id: $stateParams.id
-            });
-          }],
-          dataSetCollection: ['$stateParams',
-          'DataSetCollectionResource',
-          function($stateParams, DataSetCollectionResource) {
-            return DataSetCollectionResource.get({
-              id: $stateParams.id
-            });
           }]
         }
       });
