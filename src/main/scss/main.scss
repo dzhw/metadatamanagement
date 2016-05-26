@@ -231,49 +231,36 @@ style for datapackage
   text-transform: none;
 }
 
-.verticalTabContent , .horizontalTabContent {
+.fdz-tab-heading {
+  margin: 0px;
+  font-size: 1em;
+  font-weight: normal;
+  line-height: 24px;
+}
+
+.fdz-group {
   margin: 1em;
 }
 
-.verticalTabContent > div > h2 {
-  margin: 0px;
-  font-size: 14px;
-  line-height: 1.428571429;
-  font-weight: bold;
-}
-
-.verticalTabContent > div > p , .horizontalTabContent > div > p {
+.fdz-group-text {
   margin: 0px;
 }
 
-.verticalTabContent > div > p > a , .horizontalTabContent > div > p > a {
-  color: grey;
-}
-
-.verticalTabContent > md-divider {
-  margin-top:0.5em;
-  margin-bottom:0.5em;
-}
-
-.horizontalTabContent > div {
-  margin-top: 1em;
-}
-
-.horizontalTabContent > div > h2 {
+.fdz-group-label {
   flex-grow:0;
   flex-shrink:0;
-  width: 15em;
+  width: 20em;
   margin: 0px;
   font-size: 14px;
   line-height: 1.428571429;
   font-weight: bold;
 }
 
-.tabTableContent {
+.fdz-table {
   overflow: auto;
 }
 
-.tabTableContent > table {
+.fdz-table > table {
   border-collapse: collapse;
   white-space: nowrap;
   width: 100%;
@@ -281,8 +268,8 @@ style for datapackage
   text-align: left;
 }
 
-.tabTableContent  td, th {
+.fdz-table td, .fdz-table th {
   border: 1px solid #ddd;
   text-align: left;
-  padding: 15px;
+  padding: 10px;
 }
