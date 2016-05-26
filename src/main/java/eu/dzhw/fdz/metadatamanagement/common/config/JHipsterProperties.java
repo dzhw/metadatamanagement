@@ -187,8 +187,6 @@ public class JHipsterProperties {
         private String clientid;
 
         private String secret;
-        
-        private int tokenValidityInSeconds = 1800;
 
         @SuppressFBWarnings("NM_CONFUSING")
         public String getClientid() {
@@ -205,14 +203,6 @@ public class JHipsterProperties {
 
         public void setSecret(String secret) {
           this.secret = secret;
-        }
-        
-        public int getTokenValidityInSeconds() {
-          return tokenValidityInSeconds;
-        }
-        
-        public void setTokenValidityInSeconds(int tokenValidityInSeconds) {
-          this.tokenValidityInSeconds = tokenValidityInSeconds;
         }
       }
     }
