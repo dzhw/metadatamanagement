@@ -52,7 +52,7 @@ public class VariableSearchDao {
    */
   @Inject
   private JestClient jestClient;
-  
+
   @Inject
   private SurveyRepository surveyRepository;
 
@@ -63,21 +63,20 @@ public class VariableSearchDao {
   @HandleAfterCreate
   public void index(Variable variable) {
     for (ElasticsearchIndices index : ElasticsearchIndices.values()) {
-      VariableSearchDocument variableSearchDocument = 
+      VariableSearchDocument variableSearchDocument =
           new VariableSearchDocument(variable, getSurveys(variable), index);
       index(variableSearchDocument, index.getIndexName());
     }
   }
-  
-  private void index(VariableSearchDocument variableSearchDocument,
-      String index) {
+
+  private void index(VariableSearchDocument variableSearchDocument, String index) {
     JestResult result = execute(new Index.Builder(variableSearchDocument).index(index)
         .type(TYPE)
         .id(variableSearchDocument.getId())
         .build());
     if (!result.isSucceeded()) {
-      throw new ElasticsearchDocumentSaveException(index, TYPE,
-          variableSearchDocument.getId(), result.getErrorMessage());
+      throw new ElasticsearchDocumentSaveException(index, TYPE, variableSearchDocument.getId(),
+          result.getErrorMessage());
     }
   }
 
@@ -101,8 +100,7 @@ public class VariableSearchDao {
     Bulk.Builder builder = new Bulk.Builder().defaultIndex(index)
         .defaultType(TYPE);
     for (VariableSearchDocument variableSearchDocument : variableSearchDocuments) {
-      builder
-          .addAction(new Index.Builder(variableSearchDocument).id(variableSearchDocument.getId())
+      builder.addAction(new Index.Builder(variableSearchDocument).id(variableSearchDocument.getId())
           .build());
     }
     Bulk bulk = builder.build();
@@ -111,7 +109,7 @@ public class VariableSearchDao {
       throw new ElasticsearchDocumentSaveException(index, TYPE, result.getErrorMessage());
     }
   }
-  
+
   private Iterable<Survey> getSurveys(Variable variable) {
     Iterable<Survey> surveys = null;
     if (variable.getSurveyIds() != null) {
@@ -140,15 +138,38 @@ public class VariableSearchDao {
       delete(variable, index.getIndexName());
     }
   }
-  
+
   private void delete(Variable variable, String index) {
-    JestResult result =
-        execute(new Delete.Builder(variable.getId()).index(index)
-          .type(TYPE)
-          .build());
+    JestResult result = execute(new Delete.Builder(variable.getId()).index(index)
+        .type(TYPE)
+        .build());
     if (!result.isSucceeded()) {
-      throw new ElasticsearchDocumentDeleteException(index, TYPE,
-          variable.getId(), result.getErrorMessage());
+      throw new ElasticsearchDocumentDeleteException(index, TYPE, variable.getId(),
+          result.getErrorMessage());
+    }
+  }
+  
+  /**
+   * Remove the deleted variables from elasticsearch.
+   * 
+   * @param deletedVariables the variables to remove from the index
+   */
+  public void delete(List<Variable> deletedVariables) {
+    if (deletedVariables == null || deletedVariables.isEmpty()) {
+      return;
+    }
+    for (ElasticsearchIndices index : ElasticsearchIndices.values()) {
+      Bulk.Builder builder = new Bulk.Builder().defaultIndex(index.getIndexName())
+          .defaultType(TYPE);
+      for (Variable variable : deletedVariables) {
+        builder.addAction(new Delete.Builder(variable.getId()).build());
+      }
+      Bulk bulk = builder.build();
+      JestResult result = execute(bulk);
+      if (!result.isSucceeded()) {
+        throw new ElasticsearchDocumentDeleteException(index.getIndexName(), TYPE,
+            result.getErrorMessage());
+      }
     }
   }
 
@@ -160,17 +181,15 @@ public class VariableSearchDao {
    * @param index the name of a index within elasticseach
    * @return the elasticsearch result as list
    */
-  private List<VariableSearchDocument> findAllByQueryBuilder(SearchSourceBuilder queryBuilder, 
+  private List<VariableSearchDocument> findAllByQueryBuilder(SearchSourceBuilder queryBuilder,
       String index) {
-    Search search =
-        new Search.Builder(queryBuilder.toString()).addIndex(index)
-          .addType(TYPE)
-          .build();
+    Search search = new Search.Builder(queryBuilder.toString()).addIndex(index)
+        .addType(TYPE)
+        .build();
     JestResult result = execute(search);
 
     if (!result.isSucceeded()) {
-      log.warn("Unable to load variable from index " + index + ": "
-          + result.getErrorMessage());
+      log.warn("Unable to load variable from index " + index + ": " + result.getErrorMessage());
       return null;
     }
 

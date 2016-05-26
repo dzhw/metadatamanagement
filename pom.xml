@@ -706,7 +706,7 @@
                                     <label>searchly</label>
                                     <provider>searchly</provider>
                                     <version>n/a</version>
-                                    <plan>starter</plan>
+                                    <plan>micro</plan>
                                 </service>
                             </services>
                             <memory>1024</memory>
@@ -816,7 +816,7 @@
                                     <label>searchly</label>
                                     <provider>searchly</provider>
                                     <version>n/a</version>
-                                    <plan>starter</plan>
+                                    <plan>micro</plan>
                                 </service>
                             </services>
                             <memory>1024</memory>
