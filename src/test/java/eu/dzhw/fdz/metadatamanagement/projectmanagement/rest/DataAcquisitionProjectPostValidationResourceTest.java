@@ -167,8 +167,8 @@ public class DataAcquisitionProjectPostValidationResourceTest extends AbstractTe
     mockMvc.perform(post(API_DATA_ACQUISITION_PROJECTS_POST_VALIDATION_URI))
       .andExpect(status().isOk())
       .andExpect(jsonPath("$.errors", hasSize(2)))
-      .andExpect(jsonPath("$.errors[0]", is("The variable ID testProject-Wrongname1 of the atomic question with the ID testProject-Wrongname1 could not be found.")))
-      .andExpect(jsonPath("$.errors[1]", is("The questionnaire ID testProject-WrongQuestionname1 of the atomic question with the ID testProject-Wrongname1 could not be found.")));    
+      .andExpect(jsonPath("$.errors[0]", is("The Atomic Question testProject-Wrongname1 references an unknown Variable (testProject-Wrongname1).")))
+      .andExpect(jsonPath("$.errors[1]", is("The Atomic Question testProject-Wrongname1 references an unknown Questionnaire (testProject-WrongQuestionname1).")));    
   }
   
   @Test
@@ -216,8 +216,8 @@ public class DataAcquisitionProjectPostValidationResourceTest extends AbstractTe
     mockMvc.perform(post(API_DATA_ACQUISITION_PROJECTS_POST_VALIDATION_URI))
       .andExpect(status().isOk())
       .andExpect(jsonPath("$.errors", hasSize(2)))
-      .andExpect(jsonPath("$.errors[0]", is("The survey ID testProject-WrongSurveyId of the data set with the ID testProject-ds1 could not be found.")))
-      .andExpect(jsonPath("$.errors[1]", is("The variable ID testProject-WrongVariableId of the data set with the ID testProject-ds1 could not be found.")));    
+      .andExpect(jsonPath("$.errors[0]", is("The Data Set testProject-ds1 references an unknown Survey (testProject-WrongSurveyId).")))
+      .andExpect(jsonPath("$.errors[1]", is("The Data Set testProject-ds1 references an unknown Variable (testProject-WrongVariableId).")));    
   }
   
   
@@ -264,8 +264,8 @@ public class DataAcquisitionProjectPostValidationResourceTest extends AbstractTe
     mockMvc.perform(post(API_DATA_ACQUISITION_PROJECTS_POST_VALIDATION_URI))
       .andExpect(status().isOk())
       .andExpect(jsonPath("$.errors", hasSize(2)))
-      .andExpect(jsonPath("$.errors[0]", is("The questionnaire ID testProject-WrongQuestionnaireId of the survey with the ID testProject-sy1 could not be found.")))
-      .andExpect(jsonPath("$.errors[1]", is("The data set ID testProject-WrongDataSetId of the survey with the ID testProject-sy1 could not be found.")));    
+      .andExpect(jsonPath("$.errors[0]", is("The Survey testProject-sy1 references an unknown Questionnaire (testProject-WrongQuestionnaireId).")))
+      .andExpect(jsonPath("$.errors[1]", is("The Survey testProject-sy1 references an unknown Data Set (testProject-WrongDataSetId).")));    
   }
   
   @Test
@@ -314,11 +314,11 @@ public class DataAcquisitionProjectPostValidationResourceTest extends AbstractTe
     mockMvc.perform(post(API_DATA_ACQUISITION_PROJECTS_POST_VALIDATION_URI))
       .andExpect(status().isOk())
       .andExpect(jsonPath("$.errors", hasSize(5)))
-      .andExpect(jsonPath("$.errors[0]", is("The variable ID testProject-name2 of the data set with the ID testProject-ds1 could not be found.")))
-      .andExpect(jsonPath("$.errors[1]", is("The survey ID testProject-WrongSurveyId of the variable with the ID testProject-name3 could not be found.")))
-      .andExpect(jsonPath("$.errors[2]", is("The data set ID testProject-WrongDataSetId of the variable with the ID testProject-name3 could not be found.")))
-      .andExpect(jsonPath("$.errors[3]", is("The variable with the ID testProject-name3 is not part of the list of the same variables in panel.")))
-      .andExpect(jsonPath("$.errors[4]", is("The atomic question ID testProject-WrongAtomicQuestionId of the variable with the id testProject-name3 could not be found.")));
+      .andExpect(jsonPath("$.errors[0]", is("The Data Set testProject-ds1 references an unknown Variable (testProject-name2).")))
+      .andExpect(jsonPath("$.errors[1]", is("The Variable testProject-name3 references an unknown Survey (testProject-WrongSurveyId).")))
+      .andExpect(jsonPath("$.errors[2]", is("The Variable testProject-name3 references an unknown Data Set (testProject-WrongDataSetId).")))
+      .andExpect(jsonPath("$.errors[3]", is("The Variable testProject-name3 references an unknown Panel Variable ({1}).")))
+      .andExpect(jsonPath("$.errors[4]", is("The Variable testProject-name3 references an unknown Atomic Question (testProject-WrongAtomicQuestionId).")));
   }
   
 }
