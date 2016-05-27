@@ -86,12 +86,6 @@ angular
       $stateProvider.state('site', {
         'abstract': true,
         url: '/{lang:(?:de|en)}',
-        views: {
-          'navbar@': {
-            templateUrl: 'scripts/common/navbar/views/navbar.html.tmpl',
-            controller: 'NavbarController'
-          }
-        },
         resolve: {
           authorize: ['Auth', function(Auth) {
             return Auth.authorize();
