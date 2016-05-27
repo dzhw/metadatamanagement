@@ -30,9 +30,6 @@ import eu.dzhw.fdz.metadatamanagement.variablemanagement.repository.VariableRepo
  */
 @Service
 public class PostValidationService {
-  
-  /* Variables for creating the locale depending error messaged */
-  private Locale locale;
 
   @Inject
   private MessageSource messageSource;
@@ -49,7 +46,7 @@ public class PostValidationService {
 
   @Inject
   private QuestionnaireRepository questionnaireRepository;
-  
+
   @Inject
   private AtomicQuestionRepository atomicQuestionRepository;
 
@@ -63,29 +60,29 @@ public class PostValidationService {
   public List<String> postValidation(String dataAcquisitionProjectId) {
 
     // Set locale
-    this.locale = LocaleContextHolder.getLocale();
+    Locale locale = LocaleContextHolder.getLocale();
 
     List<String> errors = new ArrayList<>();
-    
-    //Check atomic questions
-    List<AtomicQuestion> atomicQuestions = 
+
+    // Check atomic questions
+    List<AtomicQuestion> atomicQuestions =
         this.atomicQuestionRepository.findByDataAcquisitionProjectId(dataAcquisitionProjectId);
-    errors = this.postValidationOfAtomicQuestions(atomicQuestions, errors);
-    
-    //check data sets
-    List<DataSet> dataSets = 
+    errors = this.postValidationOfAtomicQuestions(atomicQuestions, errors, locale);
+
+    // check data sets
+    List<DataSet> dataSets =
         this.dataSetRepository.findByDataAcquisitionProjectId(dataAcquisitionProjectId);
-    errors = this.postValidationOfDataSets(dataSets, errors);
-    
-    //check surveys
-    List<Survey> surveys = 
+    errors = this.postValidationOfDataSets(dataSets, errors, locale);
+
+    // check surveys
+    List<Survey> surveys =
         this.surveyRepository.findByDataAcquisitionProjectId(dataAcquisitionProjectId);
-    errors = this.postValidationOfSurverys(surveys, errors);
+    errors = this.postValidationOfSurverys(surveys, errors, locale);
 
     // check variables
     List<Variable> variables =
         this.variableRepository.findByDataAcquisitionProjectId(dataAcquisitionProjectId);
-    errors = this.postValidationOfVariables(variables, errors);
+    errors = this.postValidationOfVariables(variables, errors, locale);
 
     return errors;
   }
@@ -96,28 +93,26 @@ public class PostValidationService {
    * 
    * @return a list of errors of the post validation of atomic questions.
    */
-  private List<String> postValidationOfAtomicQuestions(
-      List<AtomicQuestion> atomicQuestions, List<String> errors) {
-    
+  private List<String> postValidationOfAtomicQuestions(List<AtomicQuestion> atomicQuestions,
+      List<String> errors, Locale locale) {
+
     for (AtomicQuestion atomicQuestion : atomicQuestions) {
-      
-      //atomicQuestion.VariableId: there must be a variable with that id
+
+      // atomicQuestion.VariableId: there must be a variable with that id
       if (this.variableRepository.findOne(atomicQuestion.getVariableId()) == null) {
         String[] information = {atomicQuestion.getId(), atomicQuestion.getVariableId()};
-        errors.add(this.messageSource
-            .getMessage("error.postValidation.atomicQuestionHasInvalidVariableId", 
-                information, locale));
+        errors.add(this.messageSource.getMessage(
+            "error.postValidation.atomicQuestionHasInvalidVariableId", information, locale));
       }
-    
-      //atomicQuestion.QuestionnaireId: there must be a questionaire with that id
+
+      // atomicQuestion.QuestionnaireId: there must be a questionaire with that id
       if (this.questionnaireRepository.findOne(atomicQuestion.getQuestionnaireId()) == null) {
         String[] information = {atomicQuestion.getId(), atomicQuestion.getQuestionnaireId()};
-        errors.add(this.messageSource
-            .getMessage("error.postValidation.atomicQuestionHasInvalidQuestionnaireId", 
-                information, locale));
-      }      
-    }  
-    
+        errors.add(this.messageSource.getMessage(
+            "error.postValidation.atomicQuestionHasInvalidQuestionnaireId", information, locale));
+      }
+    }
+
     return errors;
   }
 
@@ -126,29 +121,30 @@ public class PostValidationService {
    * 
    * @return a list of errors of the post validation of data sets.
    */
-  private List<String> postValidationOfDataSets(List<DataSet> dataSets, List<String> errors) {
+  private List<String> postValidationOfDataSets(List<DataSet> dataSets, List<String> errors,
+      Locale locale) {
 
-    for (DataSet dataSet : dataSets) {    
-      
-      //dataSet.SurveyIds: there must be a survey with that id
+    for (DataSet dataSet : dataSets) {
+
+      // dataSet.SurveyIds: there must be a survey with that id
       for (String surveyId : dataSet.getSurveyIds()) {
         if (this.surveyRepository.findOne(surveyId) == null) {
           String[] information = {dataSet.getId(), surveyId};
-          errors.add(this.messageSource
-              .getMessage("error.postValidation.dataSetHasInvalidSurveyId", information, locale));
+          errors.add(this.messageSource.getMessage("error.postValidation.dataSetHasInvalidSurveyId",
+              information, locale));
         }
-      }     
-      
-      //dataSet.VariableIds: there must be a variable with that id
+      }
+
+      // dataSet.VariableIds: there must be a variable with that id
       for (String variableId : dataSet.getVariableIds()) {
         if (this.variableRepository.findOne(variableId) == null) {
           String[] information = {dataSet.getId(), variableId};
           errors.add(this.messageSource
               .getMessage("error.postValidation.dataSetHasInvalidVariableId", information, locale));
         }
-      }    
+      }
     }
-    
+
     return errors;
   }
 
@@ -158,28 +154,29 @@ public class PostValidationService {
    * 
    * @return a list of errors of the post validation of surveys.
    */
-  private List<String> postValidationOfSurverys(List<Survey> surveys, List<String> errors) {
+  private List<String> postValidationOfSurverys(List<Survey> surveys, List<String> errors,
+      Locale locale) {
 
     for (Survey survey : surveys) {
-      
+
       // survey.QuestionnaireId: there must be a questionaire with that id
       if (this.questionnaireRepository.findOne(survey.getQuestionnaireId()) == null) {
         String[] information = {survey.getId(), survey.getQuestionnaireId()};
         errors.add(this.messageSource
-            .getMessage("error.postValidation.surveyHasInvalidQuestionnaireId", 
-                information, locale));
-      }   
-      
+            .getMessage("error.postValidation.surveyHasInvalidQuestionnaireId", information,
+                locale));
+      }
+
       // survey.DataSetId: there must be a dataset with that id
       for (String dataSetId : survey.getDataSetIds()) {
         if (this.dataSetRepository.findOne(dataSetId) == null) {
           String[] information = {survey.getId(), dataSetId};
-          errors.add(this.messageSource
-              .getMessage("error.postValidation.surveyHasInvalidDataSetId", information, locale));
+          errors.add(this.messageSource.getMessage("error.postValidation.surveyHasInvalidDataSetId",
+              information, locale));
         }
       }
     }
-    
+
     return errors;
   }
 
@@ -188,10 +185,11 @@ public class PostValidationService {
    * 
    * @return a list of errors of the post validation of variables.
    */
-  private List<String> postValidationOfVariables(List<Variable> variables, List<String> errors) {
+  private List<String> postValidationOfVariables(List<Variable> variables, List<String> errors,
+      Locale locale) {
 
     for (Variable variable : variables) {
-      
+
       // variable.SurveyId: there must be a survey with that id
       for (String surveyId : variable.getSurveyIds()) {
         if (this.surveyRepository.findOne(surveyId) == null) {
@@ -211,27 +209,25 @@ public class PostValidationService {
       }
 
       // variable.SameVariablesInPanel: there must be a variable with that id
-      if (variable.getSameVariablesInPanel() != null 
-          && !variable.getSameVariablesInPanel().contains(variable.getId())) {
+      if (variable.getSameVariablesInPanel() != null && !variable.getSameVariablesInPanel()
+          .contains(variable.getId())) {
         String[] information = {variable.getId()};
-        errors.add(this.messageSource
-            .getMessage("error.postValidation.variableIdIsNotInInvalidVariablesPanel", 
-                information, locale));
+        errors.add(this.messageSource.getMessage(
+            "error.postValidation.variableIdIsNotInInvalidVariablesPanel", information, locale));
       }
-      
+
 
       // variable.atomicQuestionId: If there is no genereationDetail every variable needs a
       // atomicQuestionId (and vice versa)
       if (variable.getAtomicQuestionId() != null
           && this.atomicQuestionRepository.findOne(variable.getAtomicQuestionId()) == null) {
         String[] information = {variable.getId(), variable.getAtomicQuestionId()};
-        errors.add(this.messageSource
-            .getMessage("error.postValidation.variableHasInvalidAtomicQuestionId", 
-                information, locale));
+        errors.add(this.messageSource.getMessage(
+            "error.postValidation.variableHasInvalidAtomicQuestionId", information, locale));
       }
     }
-    
+
     return errors;
   }
-  
+
 }
