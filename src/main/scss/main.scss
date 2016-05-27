@@ -256,7 +256,7 @@ style for datapackage
   font-weight: bold;
 }
 
-.fdz-group-label:after {
+.fdz-group-label::after {
   content: ":";
 }
 
