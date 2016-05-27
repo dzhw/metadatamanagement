@@ -256,6 +256,10 @@ style for datapackage
   font-weight: bold;
 }
 
+.fdz-group-label:after {
+  content: ":";
+}
+
 .fdz-table {
   overflow: auto;
 }
