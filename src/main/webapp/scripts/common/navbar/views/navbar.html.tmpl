@@ -9,10 +9,10 @@
         </header>
         <md-content flex role="navigation">
             <ul class="side-menu">
-                <li class="parent-list-item" ui-sref-active="active">
-                    <a ui-sref="home" data-toggle="collapse" data-target=".navbar-collapse.in">
-                        <span data-translate="global.menu.home">Home</span>
-                    </a>
+                <li ui-sref-active="active">
+                  <md-button class="md-button md-default-theme" ui-sref="home" data-toggle="collapse" data-target=".navbar-collapse.in">
+	                   <span data-translate="global.menu.home">Home</span>
+                  </md-button>
                 </li>
                 <li ui-sref-active="active" ng-switch-when="true" class="parent-list-item dropdown pointer">
                     <a class="dropdown-toggle" data-toggle="dropdown" href="">
@@ -137,11 +137,9 @@
                     </ul>
                 </li>
                 <li ui-sref-active="active">
-                    <a ui-sref="disclosure" data-toggle="collapse" data-target=".navbar-collapse.in">
-                        <span class="glyphicon glyphicon-blackboard"></span>
-                        &#xA0;
-                        <span data-translate="global.menu.disclosure">Sign in</span>
-                    </a>
+                    <md-button class="md-button md-default-theme" ui-sref="disclosure" data-toggle="collapse" data-target=".navbar-collapse.in">
+  	                   <span data-translate="global.menu.disclosure">Home</span>
+                    </md-button>
                 </li>
                 <li ui-sref-active="active" class="dropdown pointer" ng-controller="LanguageController">
                     <a class="dropdown-toggle" data-toggle="dropdown" href="">
