@@ -115,7 +115,9 @@ module.exports = function(grunt) {
               'uib-*',
               'password-strength-bar',
               'nvd3',
-              'loading'
+              'loading',
+              'md-content',
+              'md-sidenav'
             ],
             relaxerror: [
               'The “date” input type is not supported in all browsers.' +

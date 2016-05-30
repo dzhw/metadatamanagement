@@ -39,7 +39,9 @@ angular.module('metadatamanagementApp')
   .filter('authentication', function() {
     return function(section, $scope) {
       var filteredSections = [];
-      var authenticated = $scope.isAuthenticated();
+      var authenticated = $scope.isAuthenticated;
+
+      console.log(authenticated);
 
       for (var i = 0; i < section.length; i++) {
         if (section[i].authentication === authenticated ||

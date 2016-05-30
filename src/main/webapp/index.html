@@ -10,8 +10,8 @@
         <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
         <!-- build:css assets/styles/vendor.css -->
         <!-- bower:css -->
-        <link rel="stylesheet" href="bower_components/nvd3/build/nv.d3.css"/>
-        <link rel="stylesheet" href="bower_components/angular-material/angular-material.css"/>
+        <link rel="stylesheet" href="bower_components/nvd3/build/nv.d3.css" />
+        <link rel="stylesheet" href="bower_components/angular-material/angular-material.css" />
         <!-- endbower -->
         <!-- endbuild -->
         <!-- build:css assets/styles/main.css -->
@@ -33,7 +33,7 @@
                 <md-content>
                     <ul class="side-menu">
                         <li ng-repeat="section in vm.menu.sections | authentication:this" class="parent-list-item">
-                            <h2 class="menu-heading" ng-if="section.type === 'heading'" id="heading_{{ section.name | nospace }}">
+                            <h2 class="menu-heading" ng-if="section.type === 'heading'" id="heading_{{ section.name | nospace }}">
                                 {{section.name}}
                             </h2>
                             <menu-link section="section" ng-if="section.type === 'link'"></menu-link>

@@ -5,7 +5,7 @@ angular.module('metadatamanagementApp')
     $templateCache.put('partials/menu-link.tmpl.html',
       '<md-button class="md-button md-default-theme {{section.icon}}"' +
       ' ui-sref-active="active" \n' +
-      '  ui-sref="{{section.state}}" ng-click="focusSection()">\n' +
+      '  ui-sref="{{section.state}}" ng-click="this[section.method]">\n' +
       '  {{section.name | translate}}\n' +
       '  <span  class="md-visually-hidden ng-if="isSelected()">\n' +
       '    current page\n' +
