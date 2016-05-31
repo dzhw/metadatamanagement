@@ -175,7 +175,7 @@ public class OAuth2ServerConfiguration {
           .secret(jhipsterProperties.getSecurity()
           .getAuthentication()
           .getOauth()
-          .getSecret());
+          .getSecret()).accessTokenValiditySeconds(0);
     }
   }
 }

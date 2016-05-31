@@ -11,12 +11,10 @@ angular
               config.headers = config.headers || {};
               var token = localStorageService.get('token');
               //jscs:disable
-              if (token && token.expires_at &&
-                  token.expires_at > new Date().getTime()) {
+              if (token) {
                 config.headers.Authorization = 'Bearer ' + token.access_token;
               }
               //jscs:enable
-
               return config;
             }
           };

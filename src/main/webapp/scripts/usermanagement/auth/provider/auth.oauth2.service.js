@@ -27,12 +27,6 @@ angular
                     }
                   }).success(
                   function(response) {
-                    var expiredAt = new Date();
-                    //jscs:disable
-                    expiredAt.setSeconds(expiredAt.getSeconds() +
-                        response.expires_in);
-                    response.expires_at = expiredAt.getTime();
-                    //jscs:enable
                     localStorageService.set('token', response);
                     return response;
                   });
@@ -49,8 +43,11 @@ angular
             hasValidToken: function() {
               var token = this.getToken();
               //jscs:disable
-              return token && token.expires_at &&
-                  token.expires_at > new Date().getTime();
+              if(token) {
+                return true;
+              } else {
+                return false;
+              }
               //jscs:enable
             }
           };
