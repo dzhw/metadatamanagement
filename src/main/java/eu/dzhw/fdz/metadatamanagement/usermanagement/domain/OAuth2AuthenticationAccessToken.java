@@ -5,6 +5,7 @@ import java.util.UUID;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.annotation.PersistenceConstructor;
+import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.security.oauth2.common.OAuth2AccessToken;
 import org.springframework.security.oauth2.provider.OAuth2Authentication;
@@ -22,6 +23,7 @@ public class OAuth2AuthenticationAccessToken implements Serializable {
   @Id
   private String id;
 
+  @Indexed(unique = true)
   private String tokenId;
 
   @SuppressFBWarnings("SE_BAD_FIELD") // non transient, no serializable field
