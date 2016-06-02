@@ -30,18 +30,18 @@ exports.config = {
     'name': 'Win8.1/Chrome',
     'platform': 'Windows 8.1',
     'browserName': 'chrome',
-    'build': 1234
+    'build': process.env.TRAVIS_BUILD_NUMBER
   }, {
     'name': 'Win8.1/Firefox',
     'platform': 'Windows 8.1',
     'browserName': 'firefox',
-    'build': 1234
+    'build': process.env.TRAVIS_BUILD_NUMBER
   }, {
     'name': 'Win8.1/IE11',
     'platform': 'Windows 8.1',
     'browserName': 'internet explorer',
     'version': '11.0',
-    'build': 1234
+    'build': process.env.TRAVIS_BUILD_NUMBER
   }],
 
   //enable this for local tests without selenium
