@@ -16,6 +16,7 @@ exports.config = {
 
   baseUrl: 'https://metadatamanagement-dev.cfapps.io/',
   specs: [
+    'home/home.spec.js',
     'disclosure/disclosure.spec.js',
   ],
 
