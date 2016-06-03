@@ -16,15 +16,7 @@ exports.config = {
 
   baseUrl: 'https://metadatamanagement-dev.cfapps.io/',
   specs: [
-    'login/login.spec.js',
-    'i18n/publicPagesGerman.spec.js',
-    'i18n/publicPagesEnglish.spec.js',
-    'i18n/pagesWithLoginGerman.spec.js',
-    'i18n/pagesWithLoginEnglish.spec.js',
-    'brokenLinks/publicBrokenLinksGerman.spec.js',
-    'brokenLinks/publicBrokenLinksEnglish.spec.js',
-    'brokenLinks/withLoginBrokenLinksGerman.spec.js',
-    'brokenLinks/withLoginBrokenLinksEnglish.spec.js'
+    'disclosure/disclosure.spec.js',
   ],
 
   multiCapabilities: [{
