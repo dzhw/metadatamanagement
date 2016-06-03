@@ -17,8 +17,9 @@ describe('Disclosure page', function() {
   });
   describe('translations', function() {
     it('Strings should be translated', function() {
-      var el = element.all(by.css('.container')).get(0);
-      findNotTranslationedStrings.checkHTMLContent(el, '#/de/disclosure')
+      var htmlContent = element.all(by.css('.container')).get(0);
+      findNotTranslationedStrings
+      .checkHTMLContent(htmlContent, '#/de/disclosure')
       .then(function(result) {
         expect(result.length).toBe(0, result.message);
       });
