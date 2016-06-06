@@ -15,39 +15,41 @@
                   </md-button>
                 </li>
                 <li ui-sref-active="active" ng-switch-when="true" class="parent-list-item dropdown pointer">
-                    <a class="dropdown-toggle" data-toggle="dropdown" href="">
-                        <span>
-                            <span class="glyphicon glyphicon-th-list"></span>
-                            <span class="hidden-sm" data-translate="global.menu.entities.main">
-                                Entities
+
+                    <md-button class="md-button-toggle md-button md-ink-ripple" ng-click="toggle($event)"
+                        aria-controls="menu-entities" aria-expanded="{{toggleMenues[0].toggle}}" aria-label="global.menu.entities.main">
+                        <div flex="" layout="row" class="ng-binding ng-scope layout-row flex">
+                            <span data-translate="global.menu.entities.main" class="md-toggle-icon"></span>
+                            <span flex="" class="flex"></span>
+                            <span aria-hidden="true" class="md-toggle-icon" ng-class="{'toggled' : toggleMenues[0].toggle}">
+                              <md-icon md-svg-icon="md-toggle-arrow" aria-hidden="true"></md-icon>
                             </span>
-                            <b class="caret"></b>
-                        </span>
-                    </a>
-                    <ul class="dropdown-menu">
+                          </div>
+                          <span class="md-visually-hidden ng-binding ng-scope">
+                            Toggle expanded
+                          </span>
+
+                    </md-button>
+                    <ul ng-show="true" id="menu-entities" class="menu-toggle-list toggled">
                         <li ui-sref-active="active">
-                            <a ui-sref="dataAcquisitionProject" data-toggle="collapse" data-target=".navbar-collapse.in">
-                                <span class="glyphicon glyphicon-asterisk"></span>
-                                &#xA0;<span data-translate="global.menu.entities.rdcProject">rdcProject</span>
-                            </a>
+                          <md-button class="md-button md-default-theme" ui-sref="dataAcquisitionProject" data-toggle="collapse" data-target=".navbar-collapse.in">
+        	                   <span data-translate="global.menu.entities.rdcProject">Home</span>
+                          </md-button>
                         </li>
                         <li ui-sref-active="active">
-                            <a ui-sref="dataSet" data-toggle="collapse" data-target=".navbar-collapse.in">
-                                <span class="glyphicon glyphicon-asterisk"></span>
-                                &#xA0;<span data-translate="global.menu.entities.dataSet">dataSet</span>
-                            </a>
+                          <md-button class="md-button md-default-theme" ui-sref="dataSet" data-toggle="collapse" data-target=".navbar-collapse.in">
+        	                   <span data-translate="global.menu.entities.dataSet">Home</span>
+                          </md-button>
                         </li>
                         <li ui-sref-active="active">
-                            <a ui-sref="survey" data-toggle="collapse" data-target=".navbar-collapse.in">
-                                <span class="glyphicon glyphicon-asterisk"></span>
-                                &#xA0;<span data-translate="global.menu.entities.survey">survey</span>
-                            </a>
+                          <md-button class="md-button md-default-theme" ui-sref="survey" data-toggle="collapse" data-target=".navbar-collapse.in">
+        	                   <span data-translate="global.menu.entities.survey">Home</span>
+                          </md-button>
                         </li>
                         <li ui-sref-active="active">
-                            <a ui-sref="variable({page: '1'})" data-toggle="collapse" data-target=".navbar-collapse.in">
-                                <span class="glyphicon glyphicon-asterisk"></span>
-                                &#xA0;<span data-translate="global.menu.entities.variable">variable</span>
-                            </a>
+                          <md-button class="md-button md-default-theme" ui-sref="variable({page: '1'})" data-toggle="collapse" data-target=".navbar-collapse.in">
+        	                   <span data-translate="global.menu.entities.variable">Home</span>
+                          </md-button>
                         </li>
                         <!-- JHipster will add entities to the menu here -->
                     </ul>
