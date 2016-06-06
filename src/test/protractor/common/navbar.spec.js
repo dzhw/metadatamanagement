@@ -22,6 +22,7 @@ describe('Navbar', function() {
       var htmlContent;
       beforeEach(function() {
         browser.get(link);
+        browser.driver.manage().window().maximize();
         browser.getCurrentUrl().then(function(url) {
           currentUrl = url;
         });
