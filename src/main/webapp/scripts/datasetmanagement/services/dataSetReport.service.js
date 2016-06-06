@@ -11,7 +11,7 @@ function($translate, Upload, FileResource, JobLoggingService) {
             'id': dataAcquisitionProjectId
           },
           file: file
-            //Upload and document could filled with data successfully
+          //Upload and document could filled with data successfully
         }).success(function(gridFsFileName) {
           //Download automaticly data filled tex template
           FileResource.download(gridFsFileName).then(function(response) {

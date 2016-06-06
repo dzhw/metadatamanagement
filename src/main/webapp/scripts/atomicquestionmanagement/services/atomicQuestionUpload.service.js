@@ -25,17 +25,17 @@ function(ExcelReaderService, AtomicQuestionBuilderService,
         return upload();
       } else {
         objects[uploadCount].$save().then(function() {
-        JobLoggingService.success();
-        uploadCount++;
-        return upload();
-      }).catch(function(error) {
-        console.log(objects[uploadCount]);
-        var errorMessage = ErrorMessageResolverService
-        .getErrorMessage(error, 'atomicQuestion');
-        JobLoggingService.error(errorMessage);
-        uploadCount++;
-        return upload();
-      });
+          JobLoggingService.success();
+          uploadCount++;
+          return upload();
+        }).catch(function(error) {
+          console.log(objects[uploadCount]);
+          var errorMessage = ErrorMessageResolverService
+          .getErrorMessage(error, 'atomicQuestion');
+          JobLoggingService.error(errorMessage);
+          uploadCount++;
+          return upload();
+        });
       }
     }
   };

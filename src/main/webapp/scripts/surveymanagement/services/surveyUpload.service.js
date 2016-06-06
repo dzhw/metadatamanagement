@@ -25,16 +25,16 @@ function(ExcelReaderService, SurveyBuilderService,
         return upload();
       } else {
         objects[uploadCount].$save().then(function() {
-        JobLoggingService.success();
-        uploadCount++;
-        return upload();
-      }).catch(function(error) {
-        var errorMessage = ErrorMessageResolverService
-        .getErrorMessage(error, 'survey');
-        JobLoggingService.error(errorMessage);
-        uploadCount++;
-        return upload();
-      });
+          JobLoggingService.success();
+          uploadCount++;
+          return upload();
+        }).catch(function(error) {
+          var errorMessage = ErrorMessageResolverService
+          .getErrorMessage(error, 'survey');
+          JobLoggingService.error(errorMessage);
+          uploadCount++;
+          return upload();
+        });
       }
     }
   };

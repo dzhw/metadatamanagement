@@ -95,7 +95,7 @@ angular
                               } else {
                                 addErrorAlert(JSON.stringify(httpResponse));
                               }
-                            }
+                          }
                           });
 
                   $scope.$on('$destroy', function() {

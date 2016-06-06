@@ -10,7 +10,7 @@ angular.module('metadatamanagementApp')
       if (tab && tab !== -1) {
         $scope.selectedTab = tab;
       }else {
-        $location.search('tab',$scope.tabs[0]);
+        $location.search('tab', $scope.tabs[0]);
         $scope.selectedTab = 0;
       }
       $scope.$watch('selectedTab', function(newValue) {

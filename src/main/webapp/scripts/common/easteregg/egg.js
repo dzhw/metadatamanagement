@@ -228,5 +228,5 @@ cheet('h u r z', function() {
         success: function() {
           initGame();
         }
-  });
+      });
 });

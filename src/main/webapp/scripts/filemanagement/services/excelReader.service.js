@@ -9,8 +9,8 @@ function($q) {
       var jsonContent = {};
       try {
         var content = XLSX.read(data, {
-        type: 'binary'
-      });
+          type: 'binary'
+        });
         var sheetList = content.SheetNames;
         var worksheet = content.Sheets[sheetList[0]];
         // jscs:disable
@@ -29,14 +29,14 @@ function($q) {
       if (!FileReader.prototype.readAsBinaryString) {
         fileReader.readAsArrayBuffer(file);
         fileReader.onload = function(e) {
-        var bytes = new Uint8Array(e.target.result);
-        var length = bytes.byteLength;
-        var binary = '';
-        for (var i = 0; i < length; i++) {
-          binary += String.fromCharCode(bytes[i]);
-        }
-        readExcel(binary);
-      };
+          var bytes = new Uint8Array(e.target.result);
+          var length = bytes.byteLength;
+          var binary = '';
+          for (var i = 0; i < length; i++) {
+            binary += String.fromCharCode(bytes[i]);
+          }
+          readExcel(binary);
+        };
       } else {
         fileReader.readAsBinaryString(file);
         fileReader.onload = function(e) {

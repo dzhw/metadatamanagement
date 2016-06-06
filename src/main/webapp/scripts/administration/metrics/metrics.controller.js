@@ -22,22 +22,22 @@ angular.module('metadatamanagementApp').controller('MetricsController',
           var valueKey;
           if (key.indexOf('eu.dzhw.fdz.metadatamanagement.') !== -1 &&
             key.indexOf('.snapshot.') !== -1) {
-            serviceKey = key.substring(0,key.indexOf('.snapshot.'))
-              .replace('eu.dzhw.fdz.metadatamanagement.','');
+            serviceKey = key.substring(0, key.indexOf('.snapshot.'))
+              .replace('eu.dzhw.fdz.metadatamanagement.', '');
             $scope.servicesStats[serviceKey] =
               $scope.servicesStats[serviceKey] || {};
-            valueKey = key.substring(key.indexOf('.snapshot.'),key.length)
-              .replace('.snapshot.','');
+            valueKey = key.substring(key.indexOf('.snapshot.'), key.length)
+              .replace('.snapshot.', '');
             $scope.servicesStats[serviceKey][valueKey] = value;
           }
           if (key.indexOf('eu.dzhw.fdz.metadatamanagement.') !== -1 &&
             key.indexOf('.snapshot.') === -1) {
-            serviceKey = key.substring(0,key.lastIndexOf('.'))
-              .replace('eu.dzhw.fdz.metadatamanagement.','');
+            serviceKey = key.substring(0, key.lastIndexOf('.'))
+              .replace('eu.dzhw.fdz.metadatamanagement.', '');
             $scope.servicesStats[serviceKey] =
               $scope.servicesStats[serviceKey] || {};
-            valueKey = key.substring(key.lastIndexOf('.'),key.length)
-              .replace('.','');
+            valueKey = key.substring(key.lastIndexOf('.'), key.length)
+              .replace('.', '');
             $scope.servicesStats[serviceKey][valueKey] = value;
           }
         });
