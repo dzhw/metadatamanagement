@@ -18,12 +18,14 @@ function checkHTMLContent(htmlContent, pageUrl) {
 }
 
 function openAllDropdownMenues(htmlContent) {
-  var expForDrowpDown = /dropdown pointer/g;
-  var expForSideNav = /md-closed/g;
+  var expForDrowpDown = /\s*dropdown pointer\s*/g;
+  var expForSideNav = /\s*md-closed\s*/g;
   var deferred = protractor.promise.defer();
-  htmlContent.getInnerHtml().then(function(content) {
-    content.replace(expForDrowpDown, 'dropdown pointer open');
-    content.replace(expForSideNav, ' ');
+  htmlContent.getOuterHtml().then(function(content) {
+    var openedSideNav = content.replace(expForSideNav, ' ');
+    var openedDropdowns = openedSideNav
+    .replace(expForDrowpDown, 'dropdown pointer open ');
+    content = openedDropdowns;
     deferred.fulfill(htmlContent);
   });
   return deferred.promise;
