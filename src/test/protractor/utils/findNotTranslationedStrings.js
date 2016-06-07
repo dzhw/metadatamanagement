@@ -22,11 +22,11 @@ function openAllDropdownMenues(htmlContent) {
   var expForSideNav = /\s*md-closed\s*/g;
   var deferred = protractor.promise.defer();
   htmlContent.getOuterHtml().then(function(content) {
-    var openedSideNav = content.replace(expForSideNav, ' ');
+    var openedSideNav = content.replace(expForSideNav, ' otheeer ');
     var openedDropdowns = openedSideNav
     .replace(expForDrowpDown, 'dropdown pointer open ');
     content = openedDropdowns;
-    deferred.fulfill(htmlContent);
+    deferred.fulfill(content);
   });
   return deferred.promise;
 }

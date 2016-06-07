@@ -29,7 +29,7 @@ describe('Navbar', function() {
         htmlContent = element(by.tagName('md-sidenav'));
         findNotTranslationedStrings.openAllDropdownMenues(htmlContent)
         .then(function(content) {
-          htmlContent = content;
+          htmlContent.outerHtml = content;
         });
       });
       it('should check translated strings', function() {
