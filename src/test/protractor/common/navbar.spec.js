@@ -58,7 +58,7 @@ describe('Navbar', function() {
         state.getAttribute('href').then(function(href) {
           return href;
         }).then(function(href) {
-          browser.executeScript('arguments[0].click();',
+          browser.driver.executeScript('arguments[0].click();',
           state.getWebElement()).then(function() {
             findBrockenUrls.checkStates(href, currentUrl, 'login')
             .then(function(result) {
@@ -73,7 +73,7 @@ describe('Navbar', function() {
         state.getAttribute('href').then(function(href) {
           return href;
         }).then(function(href) {
-          browser.executeScript('arguments[0].click();',
+          browser.driver.executeScript('arguments[0].click();',
           state.getWebElement()).then(function() {
             findBrockenUrls.checkStates(href, currentUrl, 'regestration')
             .then(function(result) {
