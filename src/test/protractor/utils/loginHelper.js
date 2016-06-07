@@ -57,7 +57,7 @@ function login() {
   element(by.dataTranslate('login.form.button')).click();
 
   //check if Logged in
-  isLogin();
+  //isLogin();
 }
 
 module.exports.login = login;
