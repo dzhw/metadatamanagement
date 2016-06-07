@@ -1,3 +1,4 @@
+/* global browser */
 
 // conf.js
 'use strict';
@@ -5,6 +6,9 @@
 exports.config = {
   onPrepare: function() {
     require('./utils/locators.js');
+    browser.driver.manage().window().maximize(); // tobe remvoved
+    browser.driver.manage().timeouts().pageLoadTimeout(40000);
+    browser.driver.manage().timeouts().implicitlyWait(25000);
   },
 
   //disable these if you want to run tests locally

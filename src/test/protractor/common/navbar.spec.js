@@ -39,7 +39,7 @@ describe('Navbar', function() {
           expect(result.length).toBe(0, result.message);
         });
       });
-      it('should open disclosure page', function(done) {
+      xit('should open disclosure page', function(done) {
         var state =  element(by.uiSref('disclosure'));
         state.getAttribute('href').then(function(href) {
           return href;
@@ -53,7 +53,7 @@ describe('Navbar', function() {
           });
         });
       });
-      it('should open login page', function(done) {
+      xit('should open login page', function(done) {
         var state =  element(by.uiSref('login'));
         state.getAttribute('href').then(function(href) {
           return href;
@@ -68,7 +68,7 @@ describe('Navbar', function() {
           });
         });
       });
-      it('should open regestration page', function(done) {
+      xit('should open regestration page', function(done) {
         var state =  element(by.uiSref('register'));
         state.getAttribute('href').then(function(href) {
           return href;
