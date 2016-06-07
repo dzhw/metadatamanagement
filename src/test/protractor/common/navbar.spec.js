@@ -54,7 +54,7 @@ describe('Navbar', function() {
           });
         });
       });
-      it('should open login page', function(done) {
+      xit('should open login page', function(done) {
         var state =  element(by.css('[ui-sref="login"]'));
         state.getAttribute('href').then(function(href) {
           return href;
@@ -69,7 +69,7 @@ describe('Navbar', function() {
           });
         });
       });
-      it('should open regestration page', function(done) {
+      xit('should open regestration page', function(done) {
         var state =  element(by.css('[ui-sref="register"]'));
         state.getAttribute('href').then(function(href) {
           return href;
