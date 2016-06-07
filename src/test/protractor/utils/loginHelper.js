@@ -52,8 +52,8 @@ function login() {
   element(by.uiSref('login')).click();
 
   //add account information and login
-  element(by.id('username')).sendKeys('admin');
-  element(by.id('password')).sendKeys('admin');
+  element(by.id('username')).sendKeys('protractortestuser');
+  element(by.id('password')).sendKeys('testUser');
   element(by.dataTranslate('login.form.button')).click();
 
   //check if Logged in
