@@ -2,7 +2,7 @@
 
 angular.module('metadatamanagementApp').controller(
   'NavbarController',
-  function($scope, $state, Auth, Principal, ENV, $filter) {
+  function($scope, $state, Auth, Principal, ENV) {
     $scope.isAuthenticated = Principal.isAuthenticated;
     $scope.$state = $state;
     $scope.inProductionOrDev = ENV === 'prod' || ENV === 'dev';

@@ -9,38 +9,31 @@
         </header>
         <md-content flex role="navigation">
             <ul class="side-menu">
-                <li ui-sref-active="active">
-                  <md-button class="md-button md-default-theme" ui-sref="home" data-toggle="collapse" data-target=".navbar-collapse.in">
-	                   <span data-translate="global.menu.home">Home</span>
-                  </md-button>
-                </li>
-                <li ui-sref-active="active" ng-switch-when="true" class="parent-list-item dropdown pointer">
 
-                    <md-button class="md-button md-ink-ripple" aria-controls="menu-entities" aria-label="global.menu.entities.main">
-                        <div flex="" layout="row" class="ng-binding ng-scope layout-row flex">
-                            <span data-translate="global.menu.entities.main"></span>
-                        </div>
+                <li ui-sref-active="active" ng-switch-when="true" class="parent-list-item dropdown pointer">
+                    <md-button class="md-button">
+                        <span data-translate="global.menu.entities.main"></span>
                     </md-button>
-                    <ul class="menu-toggle-list toggled">
+                    <ul class="menu-toggle-list">
                         <li ui-sref-active="active">
-                          <md-button class="md-button md-default-theme" ui-sref="dataAcquisitionProject" data-toggle="collapse" data-target=".navbar-collapse.in">
-        	                   <span data-translate="global.menu.entities.rdcProject">Home</span>
-                          </md-button>
+                            <md-button class="md-button md-default-theme" ui-sref="dataAcquisitionProject" data-toggle="collapse" data-target=".navbar-collapse.in">
+                                <span data-translate="global.menu.entities.rdcProject">Home</span>
+                            </md-button>
                         </li>
                         <li ui-sref-active="active">
-                          <md-button class="md-button md-default-theme" ui-sref="dataSet" data-toggle="collapse" data-target=".navbar-collapse.in">
-        	                   <span data-translate="global.menu.entities.dataSet">Home</span>
-                          </md-button>
+                            <md-button class="md-button md-default-theme" ui-sref="dataSet" data-toggle="collapse" data-target=".navbar-collapse.in">
+                                <span data-translate="global.menu.entities.dataSet">Home</span>
+                            </md-button>
                         </li>
                         <li ui-sref-active="active">
-                          <md-button class="md-button md-default-theme" ui-sref="survey" data-toggle="collapse" data-target=".navbar-collapse.in">
-        	                   <span data-translate="global.menu.entities.survey">Home</span>
-                          </md-button>
+                            <md-button class="md-button md-default-theme" ui-sref="survey" data-toggle="collapse" data-target=".navbar-collapse.in">
+                                <span data-translate="global.menu.entities.survey">Home</span>
+                            </md-button>
                         </li>
                         <li ui-sref-active="active">
-                          <md-button class="md-button md-default-theme" ui-sref="variable({page: '1'})" data-toggle="collapse" data-target=".navbar-collapse.in">
-        	                   <span data-translate="global.menu.entities.variable">Home</span>
-                          </md-button>
+                            <md-button class="md-button md-default-theme" ui-sref="variable({page: '1'})" data-toggle="collapse" data-target=".navbar-collapse.in">
+                                <span data-translate="global.menu.entities.variable">Home</span>
+                            </md-button>
                         </li>
                         <!-- JHipster will add entities to the menu here -->
                     </ul>
@@ -131,7 +124,7 @@
                 </li>
                 <li ui-sref-active="active">
                     <md-button class="md-button md-default-theme" ui-sref="disclosure" data-toggle="collapse" data-target=".navbar-collapse.in">
-  	                   <span data-translate="global.menu.disclosure">Home</span>
+                        <span data-translate="global.menu.disclosure">Home</span>
                     </md-button>
                 </li>
                 <li ui-sref-active="active" class="dropdown pointer" ng-controller="LanguageController">
