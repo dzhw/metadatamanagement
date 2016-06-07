@@ -27,6 +27,10 @@ describe('Navbar', function() {
           currentUrl = url;
         });
         htmlContent = element(by.tagName('md-sidenav'));
+        findNotTranslationedStrings.openAllDropdownMenues(htmlContent)
+        .then(function(content) {
+          htmlContent = content;
+        });
       });
       it('should check translated strings', function() {
         findNotTranslationedStrings
@@ -36,7 +40,7 @@ describe('Navbar', function() {
         });
       });
       it('should open disclosure page', function(done) {
-        var state =  element(by.css('[ui-sref="disclosure"]'));
+        var state =  element(by.uiSref('disclosure'));
         state.getAttribute('href').then(function(href) {
           return href;
         }).then(function(href) {
@@ -49,83 +53,14 @@ describe('Navbar', function() {
           });
         });
       });
-      describe('', function() {
-        it('should open login page', function(done) {
-          var state =  element(by.css('[ui-sref="login"]'));
-          state.getAttribute('href').then(function(href) {
-            return href;
-          }).then(function(href) {
-            browser.executeScript('arguments[0].click();',
-            state.getWebElement()).then(function() {
-              findBrockenUrls.checkStates(href, currentUrl, 'login')
-              .then(function(result) {
-                done();
-                expect(result.isValidUrl).toBe(true, result.message);
-              });
-            });
-          });
-        });
-        it('should open regestration page', function(done) {
-          var state =  element(by.css('[ui-sref="register"]'));
-          state.getAttribute('href').then(function(href) {
-            return href;
-          }).then(function(href) {
-            browser.executeScript('arguments[0].click();',
-            state.getWebElement()).then(function() {
-              findBrockenUrls.checkStates(href, currentUrl, 'regestration')
-              .then(function(result) {
-                done();
-                expect(result.isValidUrl).toBe(true, result.message);
-              });
-            });
-          });
-        });
-      });
-      describe('User is logged in', function() {
-        beforeAll(function() {
-          loginHelper.login();
-        });
-        afterAll(function() {
-          loginHelper.logout();
-        });
-        it('should open Variables page', function(done) {
-          var state =  element(by.css('[ui-sref="variable({page: \'1\'})"]'));
-          state.getAttribute('href').then(function(href) {
-            return href;
-          }).then(function(href) {
-            browser.executeScript('arguments[0].click();',
-            state.getWebElement()).then(function() {
-              findBrockenUrls.checkStates(href, currentUrl, 'variable')
-              .then(function(result) {
-                done();
-                expect(result.isValidUrl).toBe(true, result.message);
-              });
-            });
-          });
-        });
-        it('should open DataSets page', function(done) {
-          var state =  element(by.css('[ui-sref="dataSet"]'));
-          state.getAttribute('href').then(function(href) {
-          return href;
-        }).then(function(href) {
-          browser.executeScript('arguments[0].click();',
-          state.getWebElement()).then(function() {
-            findBrockenUrls.checkStates(href, currentUrl, 'dataSet')
-            .then(function(result) {
-              done();
-              expect(result.isValidUrl).toBe(true, result.message);
-            });
-          });
-        });
-        });
-        it('should open Surveys page', function(done) {
-        var state =  element(by.css('[ui-sref="survey"]'));
+      it('should open login page', function(done) {
+        var state =  element(by.uiSref('login'));
         state.getAttribute('href').then(function(href) {
           return href;
         }).then(function(href) {
-          browser.executeScript('arguments[0].click();',
+          browser.driver.executeScript('arguments[0].click();',
           state.getWebElement()).then(function() {
-            findBrockenUrls.checkStates(href, currentUrl, 'survey')
+            findBrockenUrls.checkStates(href, currentUrl, 'login')
             .then(function(result) {
               done();
               expect(result.isValidUrl).toBe(true, result.message);
@@ -133,137 +68,23 @@ describe('Navbar', function() {
           });
         });
       });
-        it('should open DataAqcuisitionProjects page', function(done) {
-        var state =  element(by.css('[ui-sref="dataAcquisitionProject"]'));
+      it('should open regestration page', function(done) {
+        var state =  element(by.uiSref('register'));
         state.getAttribute('href').then(function(href) {
           return href;
         }).then(function(href) {
-          browser.executeScript('arguments[0].click();',
+          browser.driver.executeScript('arguments[0].click();',
           state.getWebElement()).then(function() {
-            findBrockenUrls.checkStates(href, currentUrl,
-              'dataAcquisitionProject')
+            findBrockenUrls.checkStates(href, currentUrl, 'regestration')
             .then(function(result) {
               done();
               expect(result.isValidUrl).toBe(true, result.message);
             });
           });
         });
-      });
-        it('should open Settings page', function(done) {
-        var state =  element(by.css('[ui-sref="settings"]'));
-        state.getAttribute('href').then(function(href) {
-          return href;
-        }).then(function(href) {
-          browser.executeScript('arguments[0].click();',
-          state.getWebElement()).then(function() {
-            findBrockenUrls.checkStates(href, currentUrl,
-              'settings')
-            .then(function(result) {
-              done();
-              expect(result.isValidUrl).toBe(true, result.message);
-            });
-          });
-        });
-      });
-        it('should open Password page', function(done) {
-        var state =  element(by.css('[ui-sref="password"]'));
-        state.getAttribute('href').then(function(href) {
-          return href;
-        }).then(function(href) {
-          browser.executeScript('arguments[0].click();',
-          state.getWebElement()).then(function() {
-            findBrockenUrls.checkStates(href, currentUrl,
-              'password')
-            .then(function(result) {
-              done();
-              expect(result.isValidUrl).toBe(true, result.message);
-            });
-          });
-        });
-      });
-        it('should open User-management page', function(done) {
-        var state =  element(by.css('[ui-sref="user-management"]'));
-        state.getAttribute('href').then(function(href) {
-          return href;
-        }).then(function(href) {
-          browser.executeScript('arguments[0].click();',
-          state.getWebElement()).then(function() {
-            findBrockenUrls.checkStates(href, currentUrl,
-              'user-management')
-            .then(function(result) {
-              done();
-              expect(result.isValidUrl).toBe(true, result.message);
-            });
-          });
-        });
-      });
-        it('should open Metrics page', function(done) {
-        var state =  element(by.css('[ui-sref="metrics"]'));
-        state.getAttribute('href').then(function(href) {
-          return href;
-        }).then(function(href) {
-          browser.executeScript('arguments[0].click();',
-          state.getWebElement()).then(function() {
-            findBrockenUrls.checkStates(href, currentUrl,
-              'metrics')
-            .then(function(result) {
-              done();
-              expect(result.isValidUrl).toBe(true, result.message);
-            });
-          });
-        });
-      });
-        it('should open Health page', function(done) {
-        var state =  element(by.css('[ui-sref="health"]'));
-        state.getAttribute('href').then(function(href) {
-          return href;
-        }).then(function(href) {
-          browser.executeScript('arguments[0].click();',
-          state.getWebElement()).then(function() {
-            findBrockenUrls.checkStates(href, currentUrl,
-              'health')
-            .then(function(result) {
-              done();
-              expect(result.isValidUrl).toBe(true, result.message);
-            });
-          });
-        });
-      });
-        it('should open Configuration page', function(done) {
-        var state =  element(by.css('[ui-sref="configuration"]'));
-        state.getAttribute('href').then(function(href) {
-          return href;
-        }).then(function(href) {
-          browser.executeScript('arguments[0].click();',
-          state.getWebElement()).then(function() {
-            findBrockenUrls.checkStates(href, currentUrl,
-              'configuration')
-            .then(function(result) {
-              done();
-              expect(result.isValidUrl).toBe(true, result.message);
-            });
-          });
-        });
-      });
-        it('should open Logs page', function(done) {
-        var state =  element(by.css('[ui-sref="logs"]'));
-        state.getAttribute('href').then(function(href) {
-          return href;
-        }).then(function(href) {
-          browser.executeScript('arguments[0].click();',
-          state.getWebElement()).then(function() {
-            findBrockenUrls.checkStates(href, currentUrl,
-              'logs')
-            .then(function(result) {
-              done();
-              expect(result.isValidUrl).toBe(true, result.message);
-            });
-          });
-        });
-      });
       });
     });
   }
   testnavBarwithDeEn('with german language', '#/de/');
-  testnavBarwithDeEn('with english language', '#/en/');
+  //testnavBarwithDeEn('with english language', '#/en/');
 });
