@@ -1,11 +1,9 @@
-/* global browser */
 
 // conf.js
 'use strict';
 
 exports.config = {
   onPrepare: function() {
-    browser.driver.manage().window().maximize();
     require('./utils/locators.js');
   },
 
@@ -23,16 +21,19 @@ exports.config = {
   multiCapabilities: [{
     'name': 'Win8.1/Chrome',
     'platform': 'Windows 8.1',
-    'browserName': 'chrome'
+    'browserName': 'chrome',
+    'screenResolution': '1280x1024'
   }, {
     'name': 'Win8.1/Firefox',
     'platform': 'Windows 8.1',
-    'browserName': 'firefox'
+    'browserName': 'firefox',
+    'screenResolution': '1280x1024'
   }, {
     'name': 'Win8.1/IE11',
     'platform': 'Windows 8.1',
     'browserName': 'internet explorer',
-    'version': '11.0'
+    'version': '11.0',
+    'screenResolution': '1280x1024'
   }],
 
   //enable this for local tests without selenium
