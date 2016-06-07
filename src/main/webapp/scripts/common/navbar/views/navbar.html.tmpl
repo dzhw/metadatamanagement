@@ -10,7 +10,7 @@
         <md-content flex role="navigation">
             <ul class="side-menu">
                 <li ui-sref-active="active" ng-switch-when="true" class="parent-list-item dropdown pointer">
-                    <md-button class="md-button">
+                    <md-button class="md-button" ng-disabled="true">
                         <span data-translate="global.menu.entities.main"></span>
                     </md-button>
                     <ul class="menu-toggle-list">
@@ -38,81 +38,72 @@
                     </ul>
                 </li>
                 <li ng-class="{active: $state.includes('account')}" class="dropdown pointer">
-                    <md-button class="md-button">
+                    <md-button class="md-button" ng-disabled="true">
                         <span data-translate="global.menu.account.main"></span>
                     </md-button>
                     <ul class="menu-toggle-list">
                         <li ui-sref-active="active" ng-switch-when="true">
-                          <md-button class="md-button md-default-theme" ui-sref="settings">
-                              <span data-translate="global.menu.account.settings">Settings</span>
-                          </md-button>
+                            <md-button class="md-button md-default-theme" ui-sref="settings">
+                                <span data-translate="global.menu.account.settings">Settings</span>
+                            </md-button>
                         </li>
                         <li ui-sref-active="active" ng-switch-when="true">
-                          <md-button class="md-button md-default-theme" ui-sref="password">
-                              <span data-translate="global.menu.account.password">Password</span>
-                          </md-button>
+                            <md-button class="md-button md-default-theme" ui-sref="password">
+                                <span data-translate="global.menu.account.password">Password</span>
+                            </md-button>
                         </li>
                         <li ui-sref-active="active" ng-switch-when="true">
-                          <md-button class="md-button md-default-theme" ng-click="logout()">
-                              <span data-translate="global.menu.account.logout">Sign out</span>
-                          </md-button>
+                            <md-button class="md-button md-default-theme" ng-click="logout()">
+                                <span data-translate="global.menu.account.logout">Sign out</span>
+                            </md-button>
                         </li>
                         <li ui-sref-active="active" ng-switch-when="false">
-                          <md-button class="md-button md-default-theme" ui-sref="login">
-                              <span data-translate="global.menu.account.login">Sign in</span>
-                          </md-button>
+                            <md-button class="md-button md-default-theme" ui-sref="login">
+                                <span data-translate="global.menu.account.login">Sign in</span>
+                            </md-button>
                         </li>
                         <li ui-sref-active="active" ng-switch-when="false">
-                          <md-button class="md-button md-default-theme" ui-sref="register">
-                              <span data-translate="global.menu.account.register">Register</span>
-                          </md-button>
+                            <md-button class="md-button md-default-theme" ui-sref="register">
+                                <span data-translate="global.menu.account.register">Register</span>
+                            </md-button>
                         </li>
                     </ul>
                 </li>
-                <li ng-class="{active: $state.includes('admin')}" ng-switch-when="true" data-has-authority="ROLE_ADMIN" class="dropdown pointer">
-                    <a class="dropdown-toggle" data-toggle="dropdown" href="">
-                        <span>
-                            <span class="glyphicon glyphicon-tower"></span>
-                            <span class="hidden-sm" data-translate="global.menu.admin.main">Administration</span>
-                            <b class="caret"></b>
-                        </span>
-                    </a>
-                    <ul class="dropdown-menu">
+                <li ng-class="{active: $state.includes('admin')}" ng-switch-when="true" data-has-authority="ROLE_ADMIN">
+                    <md-button class="md-button" ng-disabled="true">
+                        <span data-translate="global.menu.admin.main"></span>
+                    </md-button>
+                    <ul class="menu-toggle-list">
                         <li ui-sref-active="active">
-                            <a ui-sref="user-management" data-toggle="collapse" data-target=".navbar-collapse.in">
-                                <span class="glyphicon glyphicon-user"></span>
-                                &#xA0;<span data-translate="global.menu.admin.user-management">User management</span>
-                            </a>
+                            <md-button class="md-button md-default-theme" ui-sref="user-management">
+                                <span data-translate="global.menu.admin.user-management">User management</span>
+                            </md-button>
                         </li>
                         <li ui-sref-active="active">
-                            <a ui-sref="metrics" data-toggle="collapse" data-target=".navbar-collapse.in">
-                                <span class="glyphicon glyphicon-dashboard"></span>
-                                &#xA0;<span data-translate="global.menu.admin.metrics">Metrics</span>
-                            </a>
+                            <md-button class="md-button md-default-theme" ui-sref="metrics">
+                                <span data-translate="global.menu.admin.metrics">Metrics</span>
+                            </md-button>
                         </li>
                         <li ui-sref-active="active">
-                            <a ui-sref="health" data-toggle="collapse" data-target=".navbar-collapse.in">
-                                <span class="glyphicon glyphicon-heart"></span>
-                                &#xA0;<span data-translate="global.menu.admin.health">Health</span>
-                            </a>
+                            <md-button class="md-button md-default-theme" ui-sref="health">
+                                <span data-translate="global.menu.admin.health">Health</span>
+                            </md-button>
                         </li>
                         <li ui-sref-active="active">
-                            <a ui-sref="configuration" data-toggle="collapse" data-target=".navbar-collapse.in">
-                                <span class="glyphicon glyphicon-list-alt"></span>
-                                &#xA0;<span data-translate="global.menu.admin.configuration">Configuration</span>
-                            </a>
+                            <md-button class="md-button md-default-theme" ui-sref="configuration">
+                                <span data-translate="global.menu.admin.configuration">Configuration</span>
+                            </md-button>
                         </li>
                         <li ui-sref-active="active">
-                            <a ui-sref="logs" data-toggle="collapse" data-target=".navbar-collapse.in">
-                                <span class="glyphicon glyphicon-tasks"></span>
-                                &#xA0;<span data-translate="global.menu.admin.logs">Logs</span>
-                            </a>
+                            <md-button class="md-button md-default-theme" ui-sref="logs">
+                                <span data-translate="global.menu.admin.logs">Logs</span>
+                            </md-button>
                         </li>
                     </ul>
                 </li>
                 <li ui-sref-active="active">
-                    <md-button class="md-button md-default-theme" ui-sref="disclosure" data-toggle="collapse" data-target=".navbar-collapse.in">
-                        <span data-translate="global.menu.disclosure">Home</span>
+                    <md-button class="md-button md-default-theme" ui-sref="disclosure">
+                        <span data-translate="global.menu.disclosure">Disclosure</span>
                     </md-button>
                 </li>
                 <li ui-sref-active="active" class="dropdown pointer" ng-controller="LanguageController">
