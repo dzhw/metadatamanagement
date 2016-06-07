@@ -23,7 +23,6 @@ describe('Navbar', function() {
       beforeEach(function() {
         browser.get(link);
         browser.driver.manage().window().maximize();
-        browser.waitForAngular();
         browser.getCurrentUrl().then(function(url) {
           currentUrl = url;
         });
@@ -41,7 +40,7 @@ describe('Navbar', function() {
         });
       });
       it('should open disclosure page', function(done) {
-        var state =  element(by.css('[ui-sref="disclosure"]'));
+        var state =  element(by.uiSref('disclosure'));
         state.getAttribute('href').then(function(href) {
           return href;
         }).then(function(href) {
@@ -54,8 +53,8 @@ describe('Navbar', function() {
           });
         });
       });
-      xit('should open login page', function(done) {
-        var state =  element(by.css('[ui-sref="login"]'));
+      it('should open login page', function(done) {
+        var state =  element(by.uiSref('login'));
         state.getAttribute('href').then(function(href) {
           return href;
         }).then(function(href) {
@@ -69,8 +68,8 @@ describe('Navbar', function() {
           });
         });
       });
-      xit('should open regestration page', function(done) {
-        var state =  element(by.css('[ui-sref="register"]'));
+      it('should open regestration page', function(done) {
+        var state =  element(by.uiSref('register'));
         state.getAttribute('href').then(function(href) {
           return href;
         }).then(function(href) {
