@@ -106,17 +106,15 @@
                         <span data-translate="global.menu.disclosure">Disclosure</span>
                     </md-button>
                 </li>
-                <li ui-sref-active="active" class="dropdown pointer" ng-controller="LanguageController">
-                    <a class="dropdown-toggle" data-toggle="dropdown" href="">
-                        <span>
-                            <span class="glyphicon glyphicon-flag"></span>
-                            <span class="hidden-sm" data-translate="global.menu.language">Language</span>
-                            <b class="caret"></b>
-                        </span>
-                    </a>
-                    <ul class="dropdown-menu">
+                <li ui-sref-active="active" ng-controller="LanguageController">
+                    <md-button class="md-button" ng-disabled="true">
+                        <span data-translate="global.menu.language">Language</span>
+                    </md-button>
+                    <ul class="menu-toggle-list">
                         <li data-active-menu="{{language}}" ng-repeat="language in languages">
-                            <a href="" ng-click="changeLanguage(language)" data-toggle="collapse" data-target=".navbar-collapse.in">{{language | findLanguageFromKey}}</a>
+                            <md-button class="md-button md-default-theme" ng-click="changeLanguage(language)">
+                                <span>{{language | findLanguageFromKey}}</span>
+                            </md-button>
                         </li>
                     </ul>
                 </li>
