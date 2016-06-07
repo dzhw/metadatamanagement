@@ -8,8 +8,8 @@
 
 'use strict';
 
-var findNotTranslationedStrings =
-require('../utils/findNotTranslationedStrings');
+var htmlContentHelper =
+require('../utils/htmlContentHelper');
 
 describe('Disclosure page', function() {
   describe('with german language', function() {
@@ -22,8 +22,8 @@ describe('Disclosure page', function() {
     });
     it('should check translated strings', function() {
       var htmlContent = element.all(by.css('.container')).get(0);
-      findNotTranslationedStrings
-      .checkHTMLContent(htmlContent, currentUrl)
+      htmlContentHelper
+      .findNotTranslationedStrings(htmlContent, currentUrl)
       .then(function(result) {
         expect(result.length).toBe(0, result.message);
       });
@@ -39,8 +39,8 @@ describe('Disclosure page', function() {
     });
     it('should check translated strings', function() {
       var htmlContent = element.all(by.css('.container')).get(0);
-      findNotTranslationedStrings
-      .checkHTMLContent(htmlContent, currentUrl)
+      htmlContentHelper
+      .findNotTranslationedStrings(htmlContent, currentUrl)
       .then(function(result) {
         expect(result.length).toBe(0, result.message);
       });
