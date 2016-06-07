@@ -18,10 +18,12 @@ function checkHTMLContent(htmlContent, pageUrl) {
 }
 
 function openAllDropdownMenues(htmlContent) {
-  var exp = /dropdown pointer/g;
+  var expForDrowpDown = /dropdown pointer/g;
+  var expForSideNav = /md-closed/g;
   var deferred = protractor.promise.defer();
   htmlContent.getInnerHtml().then(function(content) {
-    content.replace(exp, 'dropdown pointer open');
+    content.replace(expForDrowpDown, 'dropdown pointer open');
+    content.replace(expForSideNav, ' ');
     deferred.fulfill(htmlContent);
   });
   return deferred.promise;
