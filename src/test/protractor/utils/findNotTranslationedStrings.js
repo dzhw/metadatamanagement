@@ -17,4 +17,15 @@ function checkHTMLContent(htmlContent, pageUrl) {
   return deferred.promise;
 }
 
+function openAllDropdownMenues(htmlContent) {
+  var exp = /dropdown pointer/g;
+  var deferred = protractor.promise.defer();
+  htmlContent.getInnerHtml().then(function(content) {
+    content.replace(exp, 'dropdown pointer open');
+    deferred.fulfill(htmlContent);
+  });
+  return deferred.promise;
+}
+
 module.exports.checkHTMLContent = checkHTMLContent;
+module.exports.openAllDropdownMenues = openAllDropdownMenues;

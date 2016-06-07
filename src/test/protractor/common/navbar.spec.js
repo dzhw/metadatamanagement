@@ -27,6 +27,10 @@ describe('Navbar', function() {
           currentUrl = url;
         });
         htmlContent = element(by.tagName('md-sidenav'));
+        findNotTranslationedStrings.openAllDropdownMenues(htmlContent)
+        .then(function(content) {
+          htmlContent = content;
+        });
       });
       it('should check translated strings', function() {
         findNotTranslationedStrings
