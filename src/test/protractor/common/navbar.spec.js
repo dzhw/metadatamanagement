@@ -7,11 +7,12 @@
 /* global beforeEach */
 /* global beforeAll */
 /* global afterAll */
+/* global xit */
 
 'use strict';
 
-var findNotTranslationedStrings =
-require('../utils/findNotTranslationedStrings');
+var htmlContentHelper =
+require('../utils/htmlContentHelper');
 var findBrockenUrls = require('../utils/findBrockenUrls');
 var loginHelper = require('../utils/loginHelper');
 
@@ -26,20 +27,20 @@ describe('Navbar', function() {
           currentUrl = url;
         });
         htmlContent = element(by.tagName('md-sidenav'));
-        findNotTranslationedStrings.openAllDropdownMenues(htmlContent)
+        htmlContentHelper.showHiddenElements(htmlContent)
         .then(function(content) {
           htmlContent.outerHtml = content;
         });
       });
       it('should check translated strings', function() {
-        findNotTranslationedStrings
-        .checkHTMLContent(htmlContent, currentUrl)
+        htmlContentHelper
+        .findNotTranslationedStrings(htmlContent, currentUrl)
         .then(function(result) {
           expect(result.length).toBe(0, result.message);
         });
       });
       it('should open disclosure page', function(done) {
-        var state =  element(by.uiSref('disclosure'));
+        var state =  element(by.css('[ui-sref="disclosure"]'));
         state.getAttribute('href').then(function(href) {
           return href;
         }).then(function(href) {
@@ -53,7 +54,7 @@ describe('Navbar', function() {
         });
       });
       it('should open login page', function(done) {
-        var state =  element(by.uiSref('login'));
+        var state =  element(by.css('[ui-sref="login"]'));
         state.getAttribute('href').then(function(href) {
           return href;
         }).then(function(href) {
@@ -68,7 +69,7 @@ describe('Navbar', function() {
         });
       });
       it('should open regestration page', function(done) {
-        var state =  element(by.uiSref('register'));
+        var state =  element(by.css('[ui-sref="register"]'));
         state.getAttribute('href').then(function(href) {
           return href;
         }).then(function(href) {
@@ -82,15 +83,15 @@ describe('Navbar', function() {
           });
         });
       });
-      xdescribe('With logged user', function() {
+      describe('With logged user', function() {
         beforeAll(function() {
           loginHelper.login();
         });
         afterAll(function() {
           loginHelper.logout();
         });
-        it('should open Variables page', function(done) {
-          var state =  element(by.uiSref('variable({page: \'1\'})'));
+        xit('should open Variables page', function(done) {
+          var state =  element(by.css('[ui-sref="variable({page: \'1\'}"]'));
           state.getAttribute('href').then(function(href) {
             return href;
           }).then(function(href) {
@@ -105,7 +106,7 @@ describe('Navbar', function() {
           });
         });
         it('should open DataSets page', function(done) {
-          var state =  element(by.uiSref('dataSet'));
+          var state =  element(by.css('[ui-sref="dataSet"]'));
           state.getAttribute('href').then(function(href) {
           return href;
         }).then(function(href) {
@@ -120,7 +121,7 @@ describe('Navbar', function() {
         });
         });
         it('should open Surveys page', function(done) {
-        var state =  element(by.uiSref('survey'));
+        var state =  element(by.css('[ui-sref="survey"]'));
         state.getAttribute('href').then(function(href) {
           return href;
         }).then(function(href) {
@@ -135,7 +136,7 @@ describe('Navbar', function() {
         });
       });
         it('should open DataAqcuisitionProjects page', function(done) {
-        var state =  element(by.uiSref('dataAcquisitionProject'));
+        var state =  element(by.css('[ui-sref="dataAcquisitionProject"]'));
         state.getAttribute('href').then(function(href) {
           return href;
         }).then(function(href) {
@@ -151,7 +152,7 @@ describe('Navbar', function() {
         });
       });
         it('should open Settings page', function(done) {
-        var state =  element(by.uiSref('settings'));
+        var state =  element(by.css('[ui-sref="settings"]'));
         state.getAttribute('href').then(function(href) {
           return href;
         }).then(function(href) {
@@ -167,7 +168,7 @@ describe('Navbar', function() {
         });
       });
         it('should open Password page', function(done) {
-        var state =  element(by.uiSref('password'));
+        var state =  element(by.css('[ui-sref="password"]'));
         state.getAttribute('href').then(function(href) {
           return href;
         }).then(function(href) {
@@ -183,7 +184,7 @@ describe('Navbar', function() {
         });
       });
         it('should open User-management page', function(done) {
-        var state =  element(by.uiSref('user-management'));
+        var state =  element(by.css('[ui-sref="user-management"]'));
         state.getAttribute('href').then(function(href) {
           return href;
         }).then(function(href) {
@@ -199,7 +200,7 @@ describe('Navbar', function() {
         });
       });
         it('should open Metrics page', function(done) {
-        var state =  element(by.uiSref('metrics'));
+        var state =  element(by.css('[ui-sref="metrics"]'));
         state.getAttribute('href').then(function(href) {
           return href;
         }).then(function(href) {
@@ -215,7 +216,7 @@ describe('Navbar', function() {
         });
       });
         it('should open Health page', function(done) {
-        var state =  element(by.uiSref('health'));
+        var state =  element(by.css('[ui-sref="health"]'));
         state.getAttribute('href').then(function(href) {
           return href;
         }).then(function(href) {
@@ -231,7 +232,7 @@ describe('Navbar', function() {
         });
       });
         it('should open Configuration page', function(done) {
-        var state =  element(by.uiSref('configuration'));
+        var state =  element(by.css('[ui-sref="configuration"]'));
         state.getAttribute('href').then(function(href) {
           return href;
         }).then(function(href) {
@@ -247,7 +248,7 @@ describe('Navbar', function() {
         });
       });
         it('should open Logs page', function(done) {
-        var state =  element(by.uiSref('logs'));
+        var state =  element(by.css('[ui-sref="logs"]'));
         state.getAttribute('href').then(function(href) {
           return href;
         }).then(function(href) {

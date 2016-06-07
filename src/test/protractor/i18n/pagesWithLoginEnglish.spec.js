@@ -1,9 +1,8 @@
 /* global describe */
 /* global it */
 /* global browser */
-/* global afterEach */
-/* global beforeEach */
-/* global xit */
+/* global afterAll */
+/* global beforeAll */
 /* @Author Daniel Katzberg */
 
 'use strict';

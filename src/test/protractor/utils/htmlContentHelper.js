@@ -1,7 +1,7 @@
 /* global protractor */
 'use strict';
 
-function checkHTMLContent(htmlContent, pageUrl) {
+function findNotTranslationedStrings(htmlContent, pageUrl) {
   var exp = /\{\{\s*\S*\s*\}\}/g;
   var deferred = protractor.promise.defer();
   htmlContent.getInnerHtml().then(function(content) {
@@ -17,12 +17,12 @@ function checkHTMLContent(htmlContent, pageUrl) {
   return deferred.promise;
 }
 
-function openAllDropdownMenues(htmlContent) {
+function showHiddenElements(htmlContent) {
   var expForDrowpDown = /\s*dropdown pointer\s*/g;
   var expForSideNav = /\s*md-closed\s*/g;
   var deferred = protractor.promise.defer();
   htmlContent.getOuterHtml().then(function(content) {
-    var openedSideNav = content.replace(expForSideNav, ' otheeer ');
+    var openedSideNav = content.replace(expForSideNav, ' ');
     var openedDropdowns = openedSideNav
     .replace(expForDrowpDown, 'dropdown pointer open ');
     content = openedDropdowns;
@@ -31,5 +31,5 @@ function openAllDropdownMenues(htmlContent) {
   return deferred.promise;
 }
 
-module.exports.checkHTMLContent = checkHTMLContent;
-module.exports.openAllDropdownMenues = openAllDropdownMenues;
+module.exports.findNotTranslationedStrings = findNotTranslationedStrings;
+module.exports.showHiddenElements = showHiddenElements;
