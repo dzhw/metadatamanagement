@@ -8,7 +8,6 @@
     "bmbfClass": "navbar-brand bmbf_logo_de",
     "search": "Suche",
     "menu": {
-      "home": "Startseite",
       "entities": {
         "main": "Entitäten",
         "variable": "Variablen",

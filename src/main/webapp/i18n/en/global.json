@@ -9,7 +9,6 @@
     "bmbfClass": "navbar-brand bmbf_logo_en",
     "search": "Search",
     "menu": {
-      "home": "Home",
       "entities": {
         "main": "Entities",
         "variable": "Variables",

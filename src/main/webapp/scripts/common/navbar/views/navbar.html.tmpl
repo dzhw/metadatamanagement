@@ -9,75 +9,63 @@
         </header>
         <md-content flex role="navigation">
             <ul class="side-menu">
-
                 <li ui-sref-active="active" ng-switch-when="true" class="parent-list-item dropdown pointer">
                     <md-button class="md-button">
                         <span data-translate="global.menu.entities.main"></span>
                     </md-button>
                     <ul class="menu-toggle-list">
                         <li ui-sref-active="active">
-                            <md-button class="md-button md-default-theme" ui-sref="dataAcquisitionProject" data-toggle="collapse" data-target=".navbar-collapse.in">
-                                <span data-translate="global.menu.entities.rdcProject">Home</span>
+                            <md-button class="md-button md-default-theme" ui-sref="dataAcquisitionProject">
+                                <span data-translate="global.menu.entities.rdcProject">RDC Projects</span>
                             </md-button>
                         </li>
                         <li ui-sref-active="active">
-                            <md-button class="md-button md-default-theme" ui-sref="dataSet" data-toggle="collapse" data-target=".navbar-collapse.in">
-                                <span data-translate="global.menu.entities.dataSet">Home</span>
+                            <md-button class="md-button md-default-theme" ui-sref="dataSet">
+                                <span data-translate="global.menu.entities.dataSet">DataSets</span>
                             </md-button>
                         </li>
                         <li ui-sref-active="active">
-                            <md-button class="md-button md-default-theme" ui-sref="survey" data-toggle="collapse" data-target=".navbar-collapse.in">
-                                <span data-translate="global.menu.entities.survey">Home</span>
+                            <md-button class="md-button md-default-theme" ui-sref="survey">
+                                <span data-translate="global.menu.entities.survey">Surveys</span>
                             </md-button>
                         </li>
                         <li ui-sref-active="active">
-                            <md-button class="md-button md-default-theme" ui-sref="variable({page: '1'})" data-toggle="collapse" data-target=".navbar-collapse.in">
-                                <span data-translate="global.menu.entities.variable">Home</span>
+                            <md-button class="md-button md-default-theme" ui-sref="variable({page: '1'})">
+                                <span data-translate="global.menu.entities.variable">Variables</span>
                             </md-button>
                         </li>
                         <!-- JHipster will add entities to the menu here -->
                     </ul>
                 </li>
                 <li ng-class="{active: $state.includes('account')}" class="dropdown pointer">
-                    <a class="dropdown-toggle" data-toggle="dropdown" href="">
-                        <span>
-                            <span class="glyphicon glyphicon-user"></span>
-                            <span class="hidden-sm" data-translate="global.menu.account.main">
-                                Account
-                            </span>
-                            <b class="caret"></b>
-                        </span>
-                    </a>
-                    <ul class="dropdown-menu">
+                    <md-button class="md-button">
+                        <span data-translate="global.menu.account.main"></span>
+                    </md-button>
+                    <ul class="menu-toggle-list">
                         <li ui-sref-active="active" ng-switch-when="true">
-                            <a ui-sref="settings" data-toggle="collapse" data-target=".navbar-collapse.in">
-                                <span class="glyphicon glyphicon-wrench"></span>
-                                &#xA0;<span data-translate="global.menu.account.settings">Settings</span>
-                            </a>
+                          <md-button class="md-button md-default-theme" ui-sref="settings">
+                              <span data-translate="global.menu.account.settings">Settings</span>
+                          </md-button>
                         </li>
                         <li ui-sref-active="active" ng-switch-when="true">
-                            <a ui-sref="password" data-toggle="collapse" data-target=".navbar-collapse.in">
-                                <span class="glyphicon glyphicon-lock"></span>
-                                &#xA0;<span data-translate="global.menu.account.password">Password</span>
-                            </a>
+                          <md-button class="md-button md-default-theme" ui-sref="password">
+                              <span data-translate="global.menu.account.password">Password</span>
+                          </md-button>
                         </li>
                         <li ui-sref-active="active" ng-switch-when="true">
-                            <a href="" ng-click="logout()" data-toggle="collapse" data-target=".navbar-collapse.in">
-                                <span class="glyphicon glyphicon-log-out"></span>
-                                &#xA0;<span data-translate="global.menu.account.logout">Sign out</span>
-                            </a>
+                          <md-button class="md-button md-default-theme" ng-click="logout()">
+                              <span data-translate="global.menu.account.logout">Sign out</span>
+                          </md-button>
                         </li>
                         <li ui-sref-active="active" ng-switch-when="false">
-                            <a ui-sref="login" data-toggle="collapse" data-target=".navbar-collapse.in">
-                                <span class="glyphicon glyphicon-log-in"></span>
-                                &#xA0;<span data-translate="global.menu.account.login">Sign in</span>
-                            </a>
+                          <md-button class="md-button md-default-theme" ui-sref="login">
+                              <span data-translate="global.menu.account.login">Sign in</span>
+                          </md-button>
                         </li>
                         <li ui-sref-active="active" ng-switch-when="false">
-                            <a ui-sref="register" data-toggle="collapse" data-target=".navbar-collapse.in">
-                                <span class="glyphicon glyphicon-plus-sign"></span>
-                                &#xA0;<span data-translate="global.menu.account.register">Register</span>
-                            </a>
+                          <md-button class="md-button md-default-theme" ui-sref="register">
+                              <span data-translate="global.menu.account.register">Register</span>
+                          </md-button>
                         </li>
                     </ul>
                 </li>
