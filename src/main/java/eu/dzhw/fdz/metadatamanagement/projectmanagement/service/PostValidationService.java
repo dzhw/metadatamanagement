@@ -57,7 +57,7 @@ public class PostValidationService {
    * @param dataAcquisitionProjectId The id of the data acquisition project id.
    * @return a list of all post validation errors.
    */
-  public List<String> postValidation(String dataAcquisitionProjectId) {
+  public List<String> postValidate(String dataAcquisitionProjectId) {
 
     // Set locale
     Locale locale = LocaleContextHolder.getLocale();
@@ -67,22 +67,22 @@ public class PostValidationService {
     // Check atomic questions
     List<AtomicQuestion> atomicQuestions =
         this.atomicQuestionRepository.findByDataAcquisitionProjectId(dataAcquisitionProjectId);
-    errors = this.postValidationOfAtomicQuestions(atomicQuestions, errors, locale);
+    errors = this.postValidateAtomicQuestions(atomicQuestions, errors, locale);
 
     // check data sets
     List<DataSet> dataSets =
         this.dataSetRepository.findByDataAcquisitionProjectId(dataAcquisitionProjectId);
-    errors = this.postValidationOfDataSets(dataSets, errors, locale);
+    errors = this.postValidateDataSets(dataSets, errors, locale);
 
     // check surveys
     List<Survey> surveys =
         this.surveyRepository.findByDataAcquisitionProjectId(dataAcquisitionProjectId);
-    errors = this.postValidationOfSurverys(surveys, errors, locale);
+    errors = this.postValidateSurverys(surveys, errors, locale);
 
     // check variables
     List<Variable> variables =
         this.variableRepository.findByDataAcquisitionProjectId(dataAcquisitionProjectId);
-    errors = this.postValidationOfVariables(variables, errors, locale);
+    errors = this.postValidateVariables(variables, errors, locale);
 
     return errors;
   }
@@ -93,7 +93,7 @@ public class PostValidationService {
    * 
    * @return a list of errors of the post validation of atomic questions.
    */
-  private List<String> postValidationOfAtomicQuestions(List<AtomicQuestion> atomicQuestions,
+  private List<String> postValidateAtomicQuestions(List<AtomicQuestion> atomicQuestions,
       List<String> errors, Locale locale) {
 
     for (AtomicQuestion atomicQuestion : atomicQuestions) {
@@ -121,7 +121,7 @@ public class PostValidationService {
    * 
    * @return a list of errors of the post validation of data sets.
    */
-  private List<String> postValidationOfDataSets(List<DataSet> dataSets, List<String> errors,
+  private List<String> postValidateDataSets(List<DataSet> dataSets, List<String> errors,
       Locale locale) {
 
     for (DataSet dataSet : dataSets) {
@@ -154,7 +154,7 @@ public class PostValidationService {
    * 
    * @return a list of errors of the post validation of surveys.
    */
-  private List<String> postValidationOfSurverys(List<Survey> surveys, List<String> errors,
+  private List<String> postValidateSurverys(List<Survey> surveys, List<String> errors,
       Locale locale) {
 
     for (Survey survey : surveys) {
@@ -185,7 +185,7 @@ public class PostValidationService {
    * 
    * @return a list of errors of the post validation of variables.
    */
-  private List<String> postValidationOfVariables(List<Variable> variables, List<String> errors,
+  private List<String> postValidateVariables(List<Variable> variables, List<String> errors,
       Locale locale) {
 
     for (Variable variable : variables) {

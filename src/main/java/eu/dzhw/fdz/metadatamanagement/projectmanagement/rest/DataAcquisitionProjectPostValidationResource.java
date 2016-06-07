@@ -46,7 +46,7 @@ public class DataAcquisitionProjectPostValidationResource {
     log.debug("REST request for post validation : {}", id);
     return new ResponseEntity<>(
           new PostValidationErrorsDto(
-            this.postValidationService.postValidation(id)),
+            this.postValidationService.postValidate(id)),
         HttpStatus.OK);
   }
 }
