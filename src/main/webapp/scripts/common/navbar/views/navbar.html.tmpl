@@ -16,21 +16,12 @@
                 </li>
                 <li ui-sref-active="active" ng-switch-when="true" class="parent-list-item dropdown pointer">
 
-                    <md-button class="md-button-toggle md-button md-ink-ripple" ng-click="toggle($event)"
-                        aria-controls="menu-entities" aria-expanded="{{toggleMenues[0].toggle}}" aria-label="global.menu.entities.main">
+                    <md-button class="md-button md-ink-ripple" aria-controls="menu-entities" aria-label="global.menu.entities.main">
                         <div flex="" layout="row" class="ng-binding ng-scope layout-row flex">
-                            <span data-translate="global.menu.entities.main" class="md-toggle-icon"></span>
-                            <span flex="" class="flex"></span>
-                            <span aria-hidden="true" class="md-toggle-icon" ng-class="{'toggled' : toggleMenues[0].toggle}">
-                              <md-icon md-svg-icon="md-toggle-arrow" aria-hidden="true"></md-icon>
-                            </span>
-                          </div>
-                          <span class="md-visually-hidden ng-binding ng-scope">
-                            Toggle expanded
-                          </span>
-
+                            <span data-translate="global.menu.entities.main"></span>
+                        </div>
                     </md-button>
-                    <ul ng-show="true" id="menu-entities" class="menu-toggle-list toggled">
+                    <ul class="menu-toggle-list toggled">
                         <li ui-sref-active="active">
                           <md-button class="md-button md-default-theme" ui-sref="dataAcquisitionProject" data-toggle="collapse" data-target=".navbar-collapse.in">
         	                   <span data-translate="global.menu.entities.rdcProject">Home</span>
