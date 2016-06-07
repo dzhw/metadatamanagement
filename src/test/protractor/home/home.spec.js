@@ -7,8 +7,8 @@
 /* global beforeEach */
 
 'use strict';
-var findNotTranslationedStrings =
-require('../utils/findNotTranslationedStrings');
+var htmlContentHelper =
+require('../utils/htmlContentHelper');
 var findBrockenUrls = require('../utils/findBrockenUrls');
 
 describe('Home page', function() {
@@ -23,8 +23,8 @@ describe('Home page', function() {
       htmlContent = element.all(by.css('.container')).get(0);
     });
     it('should check translated strings', function() {
-      findNotTranslationedStrings
-      .checkHTMLContent(htmlContent, currentUrl)
+      htmlContentHelper
+      .findNotTranslationedStrings(htmlContent, currentUrl)
       .then(function(result) {
         expect(result.length).toBe(0, result.message);
       });
@@ -69,8 +69,8 @@ describe('Home page', function() {
       htmlContent = element.all(by.css('.container')).get(0);
     });
     it('should check translated strings', function() {
-      findNotTranslationedStrings
-      .checkHTMLContent(htmlContent, currentUrl)
+      htmlContentHelper
+      .findNotTranslationedStrings(htmlContent, currentUrl)
       .then(function(result) {
         expect(result.length).toBe(0, result.message);
       });
