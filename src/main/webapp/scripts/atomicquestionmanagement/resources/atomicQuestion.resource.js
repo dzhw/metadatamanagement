@@ -2,10 +2,14 @@
 
 angular.module('metadatamanagementApp')
   .factory('AtomicQuestionResource', function($resource, $state) {
-    return $resource('api/atomic-questions/:id', {id: '@id'}, {
+    return $resource('api/atomic-questions/:id', {
+      id: '@id'
+    }, {
       'get': {
         method: 'GET',
-        params:  {projection: 'complete'},
+        params: {
+          projection: 'complete'
+        },
         interceptor: {
           responseError: function(response) {
             if (response.status === 404) {

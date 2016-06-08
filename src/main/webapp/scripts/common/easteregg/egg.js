@@ -123,10 +123,12 @@ cheet('h u r z', function() {
       preload: function() {
         game.load.crossOrigin = 'Anonymous';
         game.load.atlas('breakout',
-        'https://s3-us-west-2.amazonaws.com/demos92/game-in-page/breakout.png',
-        'https://s3-us-west-2.amazonaws.com/demos92/game-in-page/' +
-        'breakout.json');
-        console.log(game.load.spritesheet('page', '/assets/images/egg.jpg',
+          'https://s3-us-west-2.amazonaws.com/' +
+          'demos92/game-in-page/breakout.png',
+          'https://s3-us-west-2.amazonaws.com/demos92/game-in-page/' +
+          'breakout.json');
+        console.log(game.load.spritesheet('page',
+          '/assets/images/egg.jpg',
           pictureDivisionX, pictureDivisionY));
       },
       create: function() {
@@ -145,7 +147,8 @@ cheet('h u r z', function() {
         for (var y = 1; y < 13; y++) {
           for (var x = 2; x < 18; x++) {
             if (Math.round(Math.random() * 100) % 4 !== 0) {
-              brick = bricks.create(x * divisionX, y * divisionY, 'page',
+              brick = bricks.create(x * divisionX, y * divisionY,
+                'page',
                 20 * y + x);
               brick.scale.setTo(0.99 * divisionX / pictureDivisionX,
                 0.99 * divisionY / pictureDivisionY);
@@ -155,7 +158,8 @@ cheet('h u r z', function() {
           }
         }
 
-        paddle = game.add.sprite(game.world.centerX, window.innerHeight - 100,
+        paddle = game.add.sprite(game.world.centerX, window.innerHeight -
+          100,
           'breakout', 'paddle_big.png');
         paddle.anchor.setTo(0.5, 0.5);
 
@@ -165,7 +169,8 @@ cheet('h u r z', function() {
         paddle.body.bounce.set(1);
         paddle.body.immovable = true;
 
-        ball = game.add.sprite(game.world.centerX, paddle.y - 16, 'breakout',
+        ball = game.add.sprite(game.world.centerX, paddle.y - 16,
+          'breakout',
           'ball_1.png');
         ball.anchor.set(0.5);
         ball.checkWorldBounds = true;
@@ -177,20 +182,37 @@ cheet('h u r z', function() {
 
         ball.events.onOutOfBounds.add(ballLost, this);
 
-        scoreText = game.add.text(game.world.centerX, window.innerHeight - 50,
-          'score: 0', {font: '20px Arial', fill: '#ffffff', align: 'center'});
+        scoreText = game.add.text(game.world.centerX, window.innerHeight -
+          50,
+          'score: 0', {
+            font: '20px Arial',
+            fill: '#ffffff',
+            align: 'center'
+          });
         bricksText = game.add.text(32, window.innerHeight - 50,
-          'bricks left: ' + bricks.countLiving(),
-         {font: '20px Arial', fill: '#ffffff', align: 'left'});
+          'bricks left: ' + bricks.countLiving(), {
+            font: '20px Arial',
+            fill: '#ffffff',
+            align: 'left'
+          });
         livesText = game.add.text(window.innerWidth - 100,
-          window.innerHeight - 50, 'lives: 3',
-          {font: '20px Arial', fill: '#ffffff', align: 'right'});
+          window.innerHeight - 50, 'lives: 3', {
+            font: '20px Arial',
+            fill: '#ffffff',
+            align: 'right'
+          });
         introText = game.add.text(game.world.centerX,
-          window.innerHeight / 1.3, '- click to start -',
-          {font: '40px Arial', fill: '#ffffff', align: 'center'});
+          window.innerHeight / 1.3, '- click to start -', {
+            font: '40px Arial',
+            fill: '#ffffff',
+            align: 'center'
+          });
         introText2 = game.add.text(game.world.centerX,
-          window.innerHeight / 1.3 + 23, '- esc to exit -',
-          {font: '25px Arial', fill: '#ffffff', align: 'center'});
+          window.innerHeight / 1.3 + 23, '- esc to exit -', {
+            font: '25px Arial',
+            fill: '#ffffff',
+            align: 'center'
+          });
 
         introText.anchor.setTo(0.5, 0.5);
         introText2.anchor.setTo(0.5, 0);
@@ -211,8 +233,10 @@ cheet('h u r z', function() {
         if (ballOnPaddle) {
           ball.body.x = paddle.x;
         } else {
-          game.physics.arcade.collide(ball, paddle, ballHitPaddle, null, this);
-          game.physics.arcade.collide(ball, bricks, ballHitBrick, null, this);
+          game.physics.arcade.collide(ball, paddle, ballHitPaddle, null,
+            this);
+          game.physics.arcade.collide(ball, bricks, ballHitBrick, null,
+            this);
         }
       }
     };
@@ -221,12 +245,12 @@ cheet('h u r z', function() {
     game.state.start('main');
   }
 
-  jQuery.ajax({url:
-    'https://cdnjs.cloudflare.com/ajax/libs/phaser/2.4.4/phaser.min.js',
-        dataType: 'script',
-        cache: true,
-        success: function() {
-          initGame();
-        }
-      });
+  jQuery.ajax({
+    url: 'https://cdnjs.cloudflare.com/ajax/libs/phaser/2.4.4/phaser.min.js',
+    dataType: 'script',
+    cache: true,
+    success: function() {
+      initGame();
+    }
+  });
 });

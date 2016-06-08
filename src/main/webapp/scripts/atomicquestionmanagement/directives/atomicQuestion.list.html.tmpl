@@ -1,14 +1,32 @@
 <div class="list-group">
     <a ng-repeat="atomicQuestion in currentPage._embedded.atomicQuestions" ui-sref="atomicQuestion.detail({id:atomicQuestion.id})" class="list-group-item">
-    <h4 class="list-group-item-heading">{{atomicQuestion.name}}</h4>
-    <p class="list-group-item-text"><strong>{{'metadatamanagementApp.atomicQuestion.questionText' |translate}}:</strong> {{atomicQuestion.questionText[currentLanguage]}}</p>
-    <p class="list-group-item-text"><strong>{{'metadatamanagementApp.atomicQuestion.introduction' |translate}}:</strong> {{atomicQuestion.introduction[currentLanguage]}}</p>
-    <p class="list-group-item-text"><strong>{{'metadatamanagementApp.atomicQuestion.instruction' |translate}}:</strong> {{atomicQuestion.instruction[currentLanguage]}}</p>
-  </a>
-  </div>
-    <div  class="col-md-12 col-md-offset-3">
-    <uib-pagination total-items="pageState.totalElements" ng-model="pageState.currentPageNumber" ng-change="pageChanged()" max-size="pageState.maxSize" class="pagination-sm" boundary-links="true" boundary-link-numbers="true" rotate="true" previous-text="{{'pager.previous' | translate}}" next-text="{{'pager.next' | translate}}" first-text="{{'pager.first' | translate}}" last-text="{{'pager.last' | translate}}"></uib-pagination>
+        <h4 class="list-group-item-heading">{{atomicQuestion.name}}</h4>
+        <p class="list-group-item-text">
+            <strong>{{'metadatamanagementApp.atomicQuestion.questionText' |translate}}:</strong>
+            {{atomicQuestion.questionText[currentLanguage]}}</p>
+        <p class="list-group-item-text">
+            <strong>{{'metadatamanagementApp.atomicQuestion.introduction' |translate}}:</strong>
+            {{atomicQuestion.introduction[currentLanguage]}}</p>
+        <p class="list-group-item-text">
+            <strong>{{'metadatamanagementApp.atomicQuestion.instruction' |translate}}:</strong>
+            {{atomicQuestion.instruction[currentLanguage]}}</p>
+    </a>
+</div>
+<div class="col-md-12 col-md-offset-3">
+    <uib-pagination
+        total-items="pageState.totalElements"
+        ng-model="pageState.currentPageNumber"
+        ng-change="pageChanged()"
+        max-size="pageState.maxSize"
+        class="pagination-sm"
+        boundary-links="true"
+        boundary-link-numbers="true"
+        rotate="true"
+        previous-text="{{'pager.previous' | translate}}"
+        next-text="{{'pager.next' | translate}}"
+        first-text="{{'pager.first' | translate}}"
+        last-text="{{'pager.last' | translate}}"></uib-pagination>
 </div>
 <div ng-if="!currentPage.$resolved">
-  <loading></loading>
+    <loading></loading>
 </div>

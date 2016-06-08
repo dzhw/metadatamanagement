@@ -5,7 +5,7 @@ angular.module('metadatamanagementApp').directive('loading', function() {
     restrict: 'E',
     scope: {},
     templateUrl: 'scripts/common/waitSpinner/' +
-    'directives/loading.html.tmpl',
+      'directives/loading.html.tmpl',
     replace: true
   };
 });
