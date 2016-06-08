@@ -9,6 +9,7 @@ import javax.validation.constraints.Size;
 
 import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import com.google.common.base.MoreObjects;
@@ -49,6 +50,7 @@ public class Survey extends AbstractRdcDomainObject {
   private Period fieldPeriod;
 
   /* Foreign Keys */
+  @Indexed
   @NotEmpty(message = "{error.survey.dataAcquisitionProject.id.notEmpty}")
   private String dataAcquisitionProjectId;
 

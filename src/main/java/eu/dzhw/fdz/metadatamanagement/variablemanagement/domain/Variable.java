@@ -10,6 +10,7 @@ import javax.validation.constraints.Size;
 import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.CompoundIndex;
+import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import com.google.common.base.MoreObjects;
@@ -107,6 +108,7 @@ public class Variable extends AbstractRdcDomainObject {
   @NotEmpty(message = "{error.variable.dataSet.ids.notEmpty}")
   private List<String> dataSetIds;
 
+  @Indexed
   private String dataAcquisitionProjectId;
 
   @NotEmpty(message = "{error.variable.survey.ids.notEmpty}")

@@ -7,6 +7,7 @@ import javax.validation.constraints.Size;
 import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.CompoundIndex;
+import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import com.google.common.base.MoreObjects;
@@ -78,6 +79,7 @@ public class AtomicQuestion extends AbstractRdcDomainObject {
 
 
   /* Foreign Keys */
+  @Indexed
   @NotEmpty(message = "{error.atomicQuestion.dataAcquisitionProjectId.notEmpty}")
   private String dataAcquisitionProjectId;
 
