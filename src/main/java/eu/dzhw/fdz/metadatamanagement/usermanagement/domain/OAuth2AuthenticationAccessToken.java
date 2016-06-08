@@ -23,7 +23,7 @@ public class OAuth2AuthenticationAccessToken implements Serializable {
   @Id
   private String id;
 
-  @Indexed(unique = true)
+  @Indexed
   private String tokenId;
 
   @SuppressFBWarnings("SE_BAD_FIELD") // non transient, no serializable field
