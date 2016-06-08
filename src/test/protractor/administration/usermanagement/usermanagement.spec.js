@@ -6,6 +6,8 @@
 /* global expect */
 /* global beforeAll */
 /* global afterAll */
+/* global xit */
+
 'use strict';
 var htmlContentHelper =
 require('../../utils/htmlContentHelper');
@@ -35,7 +37,7 @@ describe('User-management page', function() {
             expect(result.length).toBe(0, result.message);
           });
       });
-      it('should check url for details for first user', function(done) {
+      xit('should check url for details for first user', function(done) {
         var htmlContent = element.all(by.css('.container')).get(0);
         htmlContent.all(by.css('a')).then(function(items) {
            items[0].getAttribute('href').then(function(href) {
