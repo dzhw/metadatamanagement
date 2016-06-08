@@ -9,7 +9,7 @@
         <md-content flex role="navigation">
             <ul class="side-menu">
                 <li ui-sref-active="active" ng-switch-when="true" class="parent-list-item dropdown pointer">
-                    <md-button class="md-button" ng-disabled="true">
+                    <md-button class="md-button" ng-disabled="true" aria-label="global.menu.entities.main">
                         <span data-translate="global.menu.entities.main"></span>
                     </md-button>
                     <ul class="menu-toggle-list">
@@ -37,7 +37,7 @@
                     </ul>
                 </li>
                 <li ng-class="{active: $state.includes('account')}" class="dropdown pointer">
-                    <md-button class="md-button" ng-disabled="true">
+                    <md-button class="md-button" ng-disabled="true" aria-label="global.menu.account.main">
                         <span data-translate="global.menu.account.main"></span>
                     </md-button>
                     <ul class="menu-toggle-list">
@@ -69,7 +69,7 @@
                     </ul>
                 </li>
                 <li ng-class="{active: $state.includes('admin')}" ng-switch-when="true" data-has-authority="ROLE_ADMIN">
-                    <md-button class="md-button" ng-disabled="true">
+                    <md-button class="md-button" ng-disabled="true" aria-label="global.menu.admin.main">
                         <span data-translate="global.menu.admin.main"></span>
                     </md-button>
                     <ul class="menu-toggle-list">
@@ -106,7 +106,7 @@
                     </md-button>
                 </li>
                 <li ui-sref-active="active" ng-controller="LanguageController">
-                    <md-button class="md-button" ng-disabled="true">
+                    <md-button class="md-button" ng-disabled="true" aria-label="global.menu.language">
                         <span data-translate="global.menu.language">Language</span>
                     </md-button>
                     <ul class="menu-toggle-list">
