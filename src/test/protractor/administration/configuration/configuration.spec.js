@@ -5,21 +5,28 @@
 /* global element */
 /* global expect */
 /* global beforeAll */
+/* global afterAll */
 
 'use strict';
 
 var htmlContentHelper =
-require('../utils/htmlContentHelper');
+require('../../utils/htmlContentHelper');
+var loginHelper = require('../../utils/loginHelper');
 
-describe('Disclosure Page', function() {
-  function testDisclosurePage(description, link) {
+describe('Configuration Page', function() {
+  function testConfigurationPage(description, link) {
     describe(description, function() {
       var currentUrl;
       beforeAll(function() {
+          browser.get('#/de/login');
+          loginHelper.login();
           browser.get(link);
           browser.getCurrentUrl().then(function(url) {
            currentUrl = url;
          });
+        });
+      afterAll(function() {
+          loginHelper.logout();
         });
       it('should check translated strings', function() {
           var htmlContent = element.all(by.css('.container')).get(0);
@@ -31,6 +38,6 @@ describe('Disclosure Page', function() {
         });
     });
   }
-  testDisclosurePage('with german language', '#/de/disclosure');
-  testDisclosurePage('with english language', '#/en/disclosure');
+  testConfigurationPage('with german language', '#/de/configuration');
+  testConfigurationPage('with english language', '#/en/configuration');
 });

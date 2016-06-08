@@ -16,8 +16,8 @@ require('../utils/htmlContentHelper');
 var findBrockenUrls = require('../utils/findBrockenUrls');
 var loginHelper = require('../utils/loginHelper');
 
-describe('Navbar', function() {
-  function testnavBarwithDeEn(description, link) {
+describe('Side Bar', function() {
+  function testSideBar(description, link) {
     describe(description, function() {
       var currentUrl;
       var htmlContent;
@@ -266,6 +266,6 @@ describe('Navbar', function() {
       });
     });
   }
-  testnavBarwithDeEn('with german language', '#/de/');
-  testnavBarwithDeEn('with english language', '#/en/');
+  testSideBar('with german language', '#/de/');
+  testSideBar('with english language', '#/en/');
 });

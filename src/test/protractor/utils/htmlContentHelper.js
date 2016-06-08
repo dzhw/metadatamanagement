@@ -17,6 +17,7 @@ function findNotTranslationedStrings(htmlContent, pageUrl) {
   return deferred.promise;
 }
 
+/* should be removed... */
 function showHiddenElements(htmlContent) {
   var expForDrowpDown = /\s*dropdown pointer\s*/g;
   var expForSideNav = /\s*md-closed\s*/g;
