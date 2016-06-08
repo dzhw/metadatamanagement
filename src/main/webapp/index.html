@@ -24,7 +24,7 @@
         <div ng-show="{{ENV === 'local' || ENV === 'dev' || ENV === 'test'}}" class="ribbon" ng-cloak="">{{ENV}}</div>
         <div layout="row">
             <div ui-view="navbar"></div>
-            <div ng-controller="NavbarController" flex class="layout-coloumn flex">
+            <div ng-controller="NavbarController" class="layout-coloumn flex">
                 <md-content flex>
                     <md-toolbar style="background-color:#ffffff;">
                         <div class="md-toolbar-tools">
