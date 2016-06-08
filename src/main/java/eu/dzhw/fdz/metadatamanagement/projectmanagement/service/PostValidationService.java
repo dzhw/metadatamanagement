@@ -211,7 +211,7 @@ public class PostValidationService {
       // variable.SameVariablesInPanel: there must be a variable with that id
       for (String variableId : variable.getSameVariablesInPanel()) {
         if (this.variableRepository.findOne(variableId) == null) {
-          String[] information = {variable.getId()};
+          String[] information = {variable.getId(), variableId};
           errors.add(this.messageSource.getMessage(
               "error.postValidation.variableIdIsNotInInvalidVariablesPanel",
               information, locale));

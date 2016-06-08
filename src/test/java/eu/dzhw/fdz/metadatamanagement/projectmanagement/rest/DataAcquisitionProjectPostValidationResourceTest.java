@@ -316,11 +316,11 @@ public class DataAcquisitionProjectPostValidationResourceTest extends AbstractTe
       .andExpect(status().isOk())
       .andExpect(jsonPath("$.errors", hasSize(7)))
       .andExpect(jsonPath("$.errors[0]", is("The Data Set testProject-ds1 references an unknown Variable (testProject-name2).")))
-      .andExpect(jsonPath("$.errors[1]", is("The Variable testProject-name1 references an unknown Panel Variable ({1}).")))
-      .andExpect(jsonPath("$.errors[2]", is("The Variable testProject-name1 references an unknown Panel Variable ({1}).")))
+      .andExpect(jsonPath("$.errors[1]", is("The Variable testProject-name1 references an unknown Panel Variable (testProject-name2).")))
+      .andExpect(jsonPath("$.errors[2]", is("The Variable testProject-name1 references an unknown Panel Variable (testProject-name123).")))
       .andExpect(jsonPath("$.errors[3]", is("The Variable testProject-name3 references an unknown Survey (testProject-WrongSurveyId).")))
       .andExpect(jsonPath("$.errors[4]", is("The Variable testProject-name3 references an unknown Data Set (testProject-WrongDataSetId).")))
-      .andExpect(jsonPath("$.errors[5]", is("The Variable testProject-name3 references an unknown Panel Variable ({1}).")))
+      .andExpect(jsonPath("$.errors[5]", is("The Variable testProject-name3 references an unknown Panel Variable (testProject-name2).")))
       .andExpect(jsonPath("$.errors[6]", is("The Variable testProject-name3 references an unknown Atomic Question (testProject-WrongAtomicQuestionId).")));
   }
   
