@@ -9,12 +9,13 @@ angular.module('metadatamanagementApp').controller('VariableDialogController', [
     $scope.variable = entity;
     $scope.isCreateMode = isCreateMode;
     //TODO load all page by page
-    $scope.allDataAcquisitionProjects = DataAcquisitionProjectCollectionResource
-    .query(
-      function(response) {
-        $scope.allDataAcquisitionProjects =
-          response._embedded.dataAcquisitionProjects;
-      });
+    $scope.allDataAcquisitionProjects =
+      DataAcquisitionProjectCollectionResource
+      .query(
+        function(response) {
+          $scope.allDataAcquisitionProjects =
+            response._embedded.dataAcquisitionProjects;
+        });
 
     $scope.allSurveysByDataAcquisitionProjectId = null;
 

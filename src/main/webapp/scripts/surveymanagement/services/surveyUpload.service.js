@@ -2,63 +2,65 @@
 'use strict';
 
 angular.module('metadatamanagementApp').service('SurveyUploadService',
-function(ExcelReaderService, SurveyBuilderService,
-  SurveyDeleteResource, $translate, JobLoggingService,
-  ErrorMessageResolverService) {
-  var objects;
-  var uploadCount;
-  var upload = function() {
-    if (uploadCount === objects.length) {
-      JobLoggingService.finish($translate.instant(
-        'metadatamanagementApp.dataAcquisitionProject.detail.' +
-        'logMessages.survey.uploadTerminated', {}));
-    } else {
-      if (!objects[uploadCount].id || objects[uploadCount].id === '') {
-        var index = uploadCount;
-        JobLoggingService.error($translate.instant(
-          'metadatamanagementApp.dataAcquisitionProject.' +
-          'detail.logMessages.survey.' +
-          'missingId', {
-            index: index + 1
-          }));
-        uploadCount++;
-        return upload();
+  function(ExcelReaderService, SurveyBuilderService,
+    SurveyDeleteResource, $translate, JobLoggingService,
+    ErrorMessageResolverService) {
+    var objects;
+    var uploadCount;
+    var upload = function() {
+      if (uploadCount === objects.length) {
+        JobLoggingService.finish($translate.instant(
+          'metadatamanagementApp.dataAcquisitionProject.detail.' +
+          'logMessages.survey.uploadTerminated', {}));
       } else {
-        objects[uploadCount].$save().then(function() {
-          JobLoggingService.success();
+        if (!objects[uploadCount].id || objects[uploadCount].id === '') {
+          var index = uploadCount;
+          JobLoggingService.error($translate.instant(
+            'metadatamanagementApp.dataAcquisitionProject.' +
+            'detail.logMessages.survey.' +
+            'missingId', {
+              index: index + 1
+            }));
           uploadCount++;
           return upload();
-        }).catch(function(error) {
-          var errorMessage = ErrorMessageResolverService
-          .getErrorMessage(error, 'survey');
-          JobLoggingService.error(errorMessage);
-          uploadCount++;
-          return upload();
-        });
-      }
-    }
-  };
-  var uploadSurveys = function(file, dataAcquisitionProjectId) {
-    uploadCount = 0;
-    JobLoggingService.start('survey');
-    ExcelReaderService.readFileAsync(file).then(function(data) {
-      objects  = SurveyBuilderService.getSurveys(data,
-          dataAcquisitionProjectId);
-      SurveyDeleteResource.deleteByDataAcquisitionProjectId({
-          dataAcquisitionProjectId: dataAcquisitionProjectId},
-          upload, function(error) {
+        } else {
+          objects[uploadCount].$save().then(function() {
+            JobLoggingService.success();
+            uploadCount++;
+            return upload();
+          }).catch(function(error) {
             var errorMessage = ErrorMessageResolverService
-            .getErrorMessage(error, 'survey');
+              .getErrorMessage(error, 'survey');
+            JobLoggingService.error(errorMessage);
+            uploadCount++;
+            return upload();
+          });
+        }
+      }
+    };
+    var uploadSurveys = function(file, dataAcquisitionProjectId) {
+      uploadCount = 0;
+      JobLoggingService.start('survey');
+      ExcelReaderService.readFileAsync(file).then(function(data) {
+        objects = SurveyBuilderService.getSurveys(data,
+          dataAcquisitionProjectId);
+        SurveyDeleteResource.deleteByDataAcquisitionProjectId({
+            dataAcquisitionProjectId: dataAcquisitionProjectId
+          },
+          upload,
+          function(error) {
+            var errorMessage = ErrorMessageResolverService
+              .getErrorMessage(error, 'survey');
             JobLoggingService.error(errorMessage);
           });
-    }, function(error) {
-      console.log(error);
-      JobLoggingService.cancel($translate.instant(
-        'metadatamanagementApp.dataAcquisitionProject.detail.' +
-        'logMessages.unsupportedExcelFile', {}));
-    });
-  };
-  return {
+      }, function(error) {
+        console.log(error);
+        JobLoggingService.cancel($translate.instant(
+          'metadatamanagementApp.dataAcquisitionProject.detail.' +
+          'logMessages.unsupportedExcelFile', {}));
+      });
+    };
+    return {
       uploadSurveys: uploadSurveys
     };
-});
+  });

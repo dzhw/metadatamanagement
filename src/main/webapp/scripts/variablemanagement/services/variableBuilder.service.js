@@ -11,7 +11,7 @@ angular.module('metadatamanagementApp').service('VariableBuilderService',
           generatedVariable = zip.files['variables/' + variables[i].id +
               '.json'] ?
             JSON.
-          parse(zip.files['variables/' + variables[i].id + '.json'].asText()) :
+          parse(zip.files['variables/' + variables[i].id + '.json'].asText()):
             undefined;
         } catch (e) {
           parseErrors.push('\n' + $translate.instant(

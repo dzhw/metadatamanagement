@@ -34,27 +34,27 @@ angular.module('metadatamanagementApp')
           authorities: ['ROLE_USER'],
         },
         onEnter: ['$stateParams', '$state', '$uibModal', 'SurveyResource',
-        function($stateParams, $state, $uibModal, SurveyResource) {
-          $uibModal.open({
-            templateUrl:
-            'scripts/surveymanagement/views/survey-dialog.html.tmpl',
-            controller: 'SurveyDialogController',
-            size: 'lg',
-            resolve: {
-              entity: function() {
-                return new SurveyResource();
-              },
-              isCreateMode: true
-            }
-          }).result.then(function() {
-            $state.go('survey', null, {
-              reload: true
+          function($stateParams, $state, $uibModal, SurveyResource) {
+            $uibModal.open({
+              templateUrl: 'scripts/surveymanagement/' +
+                'views/survey-dialog.html.tmpl',
+              controller: 'SurveyDialogController',
+              size: 'lg',
+              resolve: {
+                entity: function() {
+                  return new SurveyResource();
+                },
+                isCreateMode: true
+              }
+            }).result.then(function() {
+              $state.go('survey', null, {
+                reload: true
+              });
+            }, function() {
+              $state.go('survey');
             });
-          }, function() {
-            $state.go('survey');
-          });
-        }
-      ]
+          }
+        ]
       })
       .state('survey.detail', {
         parent: 'site',
@@ -66,7 +66,7 @@ angular.module('metadatamanagementApp')
         views: {
           'content@': {
             templateUrl: 'scripts/surveymanagement/views/' +
-            'survey-detail.html.tmpl',
+              'survey-detail.html.tmpl',
             controller: 'SurveyDetailController'
           }
         },
@@ -96,8 +96,8 @@ angular.module('metadatamanagementApp')
         onEnter: ['$stateParams', '$state', '$uibModal',
           function($stateParams, $state, $uibModal) {
             $uibModal.open({
-              templateUrl:
-               'scripts/surveymanagement/views/survey-dialog.html.tmpl',
+              templateUrl: 'scripts/surveymanagement/' +
+                'views/survey-dialog.html.tmpl',
               controller: 'SurveyDialogController',
               size: 'lg',
               resolve: {
@@ -127,8 +127,8 @@ angular.module('metadatamanagementApp')
         onEnter: ['$stateParams', '$state', '$uibModal',
           function($stateParams, $state, $uibModal) {
             $uibModal.open({
-              templateUrl:
-                'scripts/surveymanagement/views/survey-delete-dialog.html.tmpl',
+              templateUrl: 'scripts/surveymanagement/' +
+                'views/survey-delete-dialog.html.tmpl',
               controller: 'SurveyDeleteController',
               size: 'md',
               resolve: {

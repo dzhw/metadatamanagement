@@ -2,16 +2,16 @@
 'use strict';
 
 angular.module('metadatamanagementApp').service('DataSetReportService',
-function($translate, Upload, FileResource, JobLoggingService) {
-  var uploadTexTemplate = function(file, dataAcquisitionProjectId) {
-    if (file !== null) {
-      Upload.upload({
+  function($translate, Upload, FileResource, JobLoggingService) {
+    var uploadTexTemplate = function(file, dataAcquisitionProjectId) {
+      if (file !== null) {
+        Upload.upload({
           url: 'api/data-sets/report',
           fields: {
             'id': dataAcquisitionProjectId
           },
           file: file
-          //Upload and document could filled with data successfully
+            //Upload and document could filled with data successfully
         }).success(function(gridFsFileName) {
           //Download automaticly data filled tex template
           FileResource.download(gridFsFileName).then(function(response) {
@@ -37,13 +37,13 @@ function($translate, Upload, FileResource, JobLoggingService) {
             'metadatamanagementApp.dataAcquisitionProject.detail.' +
             'logMessages.tex.cancelled', {}));
         });
-    }else {
-      JobLoggingService.cancel($translate.instant(
-        'metadatamanagementApp.dataAcquisitionProject.detail.' +
-        'logMessages.tex.cancelled', {}));
-    }
-  };
-  return {
+      } else {
+        JobLoggingService.cancel($translate.instant(
+          'metadatamanagementApp.dataAcquisitionProject.detail.' +
+          'logMessages.tex.cancelled', {}));
+      }
+    };
+    return {
       uploadTexTemplate: uploadTexTemplate
     };
-});
+  });

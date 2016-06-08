@@ -34,27 +34,27 @@ angular.module('metadatamanagementApp')
           authorities: ['ROLE_USER'],
         },
         onEnter: ['$stateParams', '$state', '$uibModal',
-        function($stateParams, $state, $uibModal) {
-          $uibModal.open({
-            templateUrl: 'scripts/dataacquisitionprojectmanagement/views/' +
-            'dataAcquisitionProject-dialog.html.tmpl',
-            controller: 'DataAcquisitionProjectDialogController',
-            size: 'lg',
-            resolve: {
-              entity: ['DataAcquisitionProjectResource', function(
-                DataAcquisitionProjectResource) {
-                return new DataAcquisitionProjectResource();
-              }],
-              isCreateMode: true
-            }
-          }).result.then(function() {
+          function($stateParams, $state, $uibModal) {
+            $uibModal.open({
+              templateUrl: 'scripts/dataacquisitionprojectmanagement/views/' +
+                'dataAcquisitionProject-dialog.html.tmpl',
+              controller: 'DataAcquisitionProjectDialogController',
+              size: 'lg',
+              resolve: {
+                entity: ['DataAcquisitionProjectResource', function(
+                  DataAcquisitionProjectResource) {
+                  return new DataAcquisitionProjectResource();
+                }],
+                isCreateMode: true
+              }
+            }).result.then(function() {
               $state.go('dataAcquisitionProject', null, {
                 reload: true
               });
             }, function() {
               $state.go('dataAcquisitionProject');
             });
-        }
+          }
         ]
       })
       .state('dataAcquisitionProject.detail', {
@@ -65,27 +65,27 @@ angular.module('metadatamanagementApp')
           pageTitle: 'metadatamanagementApp.dataAcquisitionProject.detail.title'
         },
         resolve: {
-            translatePartialLoader: ['$translate',
-              '$translatePartialLoader',
-              function($translate, $translatePartialLoader) {
-                $translatePartialLoader.addPart('dataAcquisitionProject');
-                $translatePartialLoader.addPart('pager');
-                $translatePartialLoader.addPart('survey');
-                $translatePartialLoader.addPart('dataSet');
-                $translatePartialLoader.addPart('variable');
-                $translatePartialLoader.addPart('customModal');
-                $translatePartialLoader.addPart('atomicQuestion');
-                return $translate.refresh();
-              }
-            ],
-            entity: ['$stateParams', 'DataAcquisitionProjectResource',
-              function($stateParams, DataAcquisitionProjectResource) {
-                return DataAcquisitionProjectResource.get({
-                  id: $stateParams.id
-                });
-              }
-            ]
-          },
+          translatePartialLoader: ['$translate',
+            '$translatePartialLoader',
+            function($translate, $translatePartialLoader) {
+              $translatePartialLoader.addPart('dataAcquisitionProject');
+              $translatePartialLoader.addPart('pager');
+              $translatePartialLoader.addPart('survey');
+              $translatePartialLoader.addPart('dataSet');
+              $translatePartialLoader.addPart('variable');
+              $translatePartialLoader.addPart('customModal');
+              $translatePartialLoader.addPart('atomicQuestion');
+              return $translate.refresh();
+            }
+          ],
+          entity: ['$stateParams', 'DataAcquisitionProjectResource',
+            function($stateParams, DataAcquisitionProjectResource) {
+              return DataAcquisitionProjectResource.get({
+                id: $stateParams.id
+              });
+            }
+          ]
+        },
         views: {
           'content@': {
             templateUrl: 'scripts/dataacquisitionprojectmanagement/views/' +

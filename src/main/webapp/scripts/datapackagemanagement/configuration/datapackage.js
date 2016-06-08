@@ -26,12 +26,13 @@ angular.module('metadatamanagementApp')
             }
           ],
           dataAcquisitionProject: ['$stateParams',
-          'DataAcquisitionProjectResource',
-          function($stateParams, DataAcquisitionProjectResource) {
-            return DataAcquisitionProjectResource.get({
-              id: $stateParams.id
-            });
-          }]
+            'DataAcquisitionProjectResource',
+            function($stateParams, DataAcquisitionProjectResource) {
+              return DataAcquisitionProjectResource.get({
+                id: $stateParams.id
+              });
+            }
+          ]
         }
       });
   });

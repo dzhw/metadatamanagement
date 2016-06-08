@@ -12,7 +12,7 @@ angular.module('metadatamanagementApp').service('ZipReaderService', function(
       try {
         files = new JSZip(e.target.result);
         deferred.resolve(files);
-      }catch (e) {
+      } catch (e) {
         deferred.reject(e);
       }
     };

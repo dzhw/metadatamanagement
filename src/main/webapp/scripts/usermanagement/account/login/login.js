@@ -12,7 +12,7 @@ angular.module('metadatamanagementApp').config(
       views: {
         'content@': {
           templateUrl: 'scripts/usermanagement/account/login/' +
-          'login.html.tmpl',
+            'login.html.tmpl',
           controller: 'LoginController'
         }
       },

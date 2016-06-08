@@ -13,7 +13,7 @@ angular.module('metadatamanagementApp')
         views: {
           'content@': {
             templateUrl: 'scripts/variablemanagement/' +
-            'views/variables.html.tmpl',
+              'views/variables.html.tmpl',
             controller: 'VariableController'
           }
         },
@@ -40,23 +40,24 @@ angular.module('metadatamanagementApp')
           $stateParams,
           $state, $uibModal) {
           $uibModal.open({
-              templateUrl: 'scripts/variablemanagement/views/' +
+            templateUrl: 'scripts/variablemanagement/views/' +
               'variable-dialog.html.tmpl',
-              controller: 'VariableDialogController',
-              size: 'lg',
-              resolve: {
-                entity: ['VariableResource', function(VariableResource) {
-                  return new VariableResource();
-                }],
-                isCreateMode: true
-              }
-            }).result.then(function() {
-              $state.go('variable', null, {
-                reload: true
-              });
-            }, function() {
-              $state.go('variable');
+            controller: 'VariableDialogController',
+            size: 'lg',
+            resolve: {
+              entity: ['VariableResource', function(
+                VariableResource) {
+                return new VariableResource();
+              }],
+              isCreateMode: true
+            }
+          }).result.then(function() {
+            $state.go('variable', null, {
+              reload: true
             });
+          }, function() {
+            $state.go('variable');
+          });
         }]
       })
       .state('variable.detail', {
@@ -81,11 +82,12 @@ angular.module('metadatamanagementApp')
             }
           ],
           entity: ['$stateParams', 'VariableResource',
-          function($stateParams, VariableResource) {
-            return VariableResource.get({
+            function($stateParams, VariableResource) {
+              return VariableResource.get({
                 id: $stateParams.id
               });
-          }]
+            }
+          ]
         },
       })
       .state('variable.edit', {
@@ -103,7 +105,8 @@ angular.module('metadatamanagementApp')
             controller: 'VariableDialogController',
             size: 'lg',
             resolve: {
-              entity: ['VariableResource', function(VariableResource) {
+              entity: ['VariableResource', function(
+                VariableResource) {
                 return VariableResource.get({
                   id: $stateParams.id
                 });
