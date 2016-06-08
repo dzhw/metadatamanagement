@@ -7,11 +7,12 @@
         <meta name="description" content="">
         <meta name="google" content="notranslate">
         <title>metadatamanagement</title>
+        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
         <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
         <!-- build:css assets/styles/vendor.css -->
         <!-- bower:css -->
-        <link rel="stylesheet" href="bower_components/nvd3/build/nv.d3.css" />
-        <link rel="stylesheet" href="bower_components/angular-material/angular-material.css" />
+        <link rel="stylesheet" href="bower_components/nvd3/build/nv.d3.css"/>
+        <link rel="stylesheet" href="bower_components/angular-material/angular-material.css"/>
         <!-- endbower -->
         <!-- endbuild -->
         <!-- build:css assets/styles/main.css -->
@@ -22,12 +23,21 @@
         <!--[if lt IE 10]> <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p> <![endif]-->
         <div ng-show="{{ENV === 'local' || ENV === 'dev' || ENV === 'test'}}" class="ribbon" ng-cloak="">{{ENV}}</div>
         <div layout="row">
-          <div ui-view="navbar" ng-cloak=""></div>
-            <md-content flex>
-                <ui-view name="content"></ui-view>
-            </md-content>
+            <div ui-view="navbar" ng-cloak=""></div>
+            <div ng-controller="NavbarController">
+                <md-content flex>
+                    <md-toolbar style="background-color:#ffffff;">
+                        <div class="md-toolbar-tools">
+                            <md-button ng-click="toggleLeft()" class="md-icon-button md-button md-ink-ripple hide-gt-sm" hide-gt-md>
+                                <md-icon style="color:#000000" md-font-set="material-icons">menu</md-icon>
+                            </md-button>
+                            <span flex></span>
+                        </div>
+                    </md-toolbar>
+                    <ui-view name="content"></ui-view>
+                </md-content>
+            </div>
         </div>
-
 
         <!--    <div class="footer">
                 <p translate="footer">This is your footer</p>
