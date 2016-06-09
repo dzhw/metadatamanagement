@@ -21,29 +21,143 @@
     <!-- endbuild -->
 </head>
 
-<body ng-app="metadatamanagementApp" ng-cloak>
+<body ng-app="metadatamanagementApp" layout="row" ng-cloak>
     <!--[if lt IE 10]> <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p> <![endif]-->
     <div ng-show="{{ENV === 'local' || ENV === 'dev' || ENV === 'test'}}" class="ribbon">{{ENV}}</div>
-    <div layout="row">
-        <div ui-view="navbar"></div>
-        <div flex layout="column" id="content">
-            <md-toolbar ng-controller="NavbarController" md-whiteframe="4">
-                <div class="md-toolbar-tools">
-                    <md-button hide-gt-md ng-click="toggleLeft()" class="md-icon-button">
-                        <md-icon md-font-set="material-icons">menu</md-icon>
+    <md-sidenav md-component-id="SideNavBar" md-is-locked-open="$mdMedia('gt-md')" md-whiteframe="4" tab-index="-1">
+        <md-toolbar style="background-color: white;">
+            <a ui-sref="home" title="{{'global.rdcAltText'|translate}}">
+                <img src="assets/images/FDZ_Logo.svg" style="height: 64px" alt>
+                <span class="sr-only">FDZ</span>
+            </a>
+        </md-toolbar>
+        <md-content flex role="navigation" ng-controller="NavbarController" ng-switch="isAuthenticated()">
+            <md-divider></md-divider>
+            <md-list ng-switch-when="true" data-has-authority="ROLE_USER">
+                <md-list-item class="md-primary">
+                    <span data-translate="global.menu.entities.main"></span>
+                </md-list-item>
+                <md-divider></md-divider>
+                <md-list-item>
+                    <md-button ui-sref="dataAcquisitionProject" class="fdz-navbar-button">
+                        <span data-translate="global.menu.entities.rdcProject">RDC Projects</span>
                     </md-button>
-                    <h1 class="md-headline">{{pageTitle | translate }}</h1>
-                </div>
-            </md-toolbar>
-
-            <ui-view name="content"></ui-view>
-        </div>
-    </div>
-    <!--    <div class="footer">
-                <p translate="footer">This is your footer</p>
+                </md-list-item>
+                <md-list-item>
+                    <md-button ui-sref="dataSet" class="fdz-navbar-button">
+                        <span data-translate="global.menu.entities.dataSet">DataSets</span>
+                    </md-button>
+                </md-list-item>
+                <md-list-item>
+                    <md-button ui-sref="survey" class="fdz-navbar-button">
+                        <span data-translate="global.menu.entities.survey">Surveys</span>
+                    </md-button>
+                </md-list-item>
+                <md-list-item>
+                    <md-button ui-sref="variable({page:1})" class="fdz-navbar-button">
+                        <span data-translate="global.menu.entities.variable">Variables</span>
+                    </md-button>
+                </md-list-item>
+                <md-divider></md-divider>
+            </md-list>
+            <md-list>
+                <md-list-item>
+                    <span data-translate="global.menu.account.main"></span>
+                </md-list-item>
+                <md-divider></md-divider>
+                <md-list-item ng-switch-when="true">
+                    <md-button ui-sref="settings" class="fdz-navbar-button">
+                        <span data-translate="global.menu.account.settings">Settings</span>
+                    </md-button>
+                </md-list-item>
+                <md-list-item ng-switch-when="true">
+                    <md-button ui-sref="password" class="fdz-navbar-button">
+                        <span data-translate="global.menu.account.password">Password</span>
+                    </md-button>
+                </md-list-item>
+                <md-list-item ng-switch-when="true">
+                    <md-button ng-click="logout()" class="fdz-navbar-button">
+                        <span data-translate="global.menu.account.logout">Sign out</span>
+                    </md-button>
+                </md-list-item>
+                <md-list-item ng-switch-when="false">
+                    <md-button ui-sref="login" class="fdz-navbar-button">
+                        <span data-translate="global.menu.account.login">Sign in</span>
+                    </md-button>
+                </md-list-item>
+                <md-list-item ng-switch-when="false">
+                    <md-button ui-sref="register" class="fdz-navbar-button">
+                        <span data-translate="global.menu.account.register">Register</span>
+                    </md-button>
+                </md-list-item>
+                <md-divider></md-divider>
+            </md-list>
+            <md-list ng-switch-when="true" data-has-authority="ROLE_ADMIN">
+                <md-list-item>
+                    <span data-translate="global.menu.admin.main"></span>
+                </md-list-item>
+                <md-divider></md-divider>
+                <md-list-item>
+                    <md-button ui-sref="user-management" class="fdz-navbar-button">
+                        <span data-translate="global.menu.admin.user-management">User management</span>
+                    </md-button>
+                </md-list-item>
+                <md-list-item>
+                    <md-button ui-sref="metrics" class="fdz-navbar-button">
+                        <span data-translate="global.menu.admin.metrics">Metrics</span>
+                    </md-button>
+                </md-list-item>
+                <md-list-item>
+                    <md-button ui-sref="health" class="fdz-navbar-button">
+                        <span data-translate="global.menu.admin.health">Health</span>
+                    </md-button>
+                </md-list-item>
+                <md-list-item>
+                    <md-button ui-sref="configuration" class="fdz-navbar-button">
+                        <span data-translate="global.menu.admin.configuration">Configuration</span>
+                    </md-button>
+                </md-list-item>
+                <md-list-item>
+                    <md-button ui-sref="logs" class="fdz-navbar-button">
+                        <span data-translate="global.menu.admin.logs">Logs</span>
+                    </md-button>
+                </md-list-item>
+                <md-divider></md-divider>
+            </md-list>
+            <md-list>
+                <md-list-item>
+                    <md-button ui-sref="disclosure" class="fdz-navbar-button">
+                        <span data-translate="global.menu.disclosure">Disclosure</span>
+                    </md-button>
+                </md-list-item>
+                <md-divider></md-divider>
+            </md-list>
+            <md-list ng-controller="LanguageController" layout="column">
+                <md-list-item>
+                    <span data-translate="global.menu.language">Language</span>
+                </md-list-item>
+                <md-divider></md-divider>
+                <md-list-item ng-repeat="language in languages">
+                    <md-button ng-click="changeLanguage(language)" class="fdz-navbar-button">
+                        <span>{{language | findLanguageFromKey}}</span>
+                    </md-button>
+                </md-list-item>
+            </md-list>
+        </md-content>
+    </md-sidenav>
+    <div flex layout="column" id="content">
+        <md-toolbar ng-controller="NavbarController" md-whiteframe="4">
+            <div class="md-toolbar-tools">
+                <md-button hide-gt-md ng-click="toggleLeft()" class="md-icon-button">
+                    <md-icon md-font-set="material-icons">menu</md-icon>
+                </md-button>
+                <h1 class="md-headline">{{pageTitle | translate }}</h1>
             </div>
-        </div> -->
-
+        </md-toolbar>
+        <md-content flex>
+            <ui-view name="content"></ui-view>
+        </md-content>
+    </div>
     <!-- Google Analytics: uncomment and change UA-XXXXX-X to be your site's ID.
         <script>
             (function(b,o,i,l,e,r){b.GoogleAnalyticsObject=l;b[l]||(b[l]=

@@ -145,7 +145,8 @@ module.exports = function(grunt) {
             ' to add identifying headings to all sections.',
             'Attribute “flex” not allowed on element “div” at this point.',
             'Element “md-toolbar” not allowed as child of element “div” in ' +
-            'this context. (Suppressing further errors from this subtree.)'
+            'this context. (Suppressing further errors from this subtree.)',
+            'Attribute “layout” not allowed on element “body” at this point.'
           ],
           customattrs: [
             'show-validation',
