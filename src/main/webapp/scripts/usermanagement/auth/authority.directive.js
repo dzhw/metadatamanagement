@@ -67,28 +67,4 @@ angular.module('metadatamanagementApp').directive(
       }
     }
   };
-}]).directive('hideIfNotAuthenticated', ['Principal', function(Principal) {
-  return {
-    restrict: 'A',
-    link: function(scope, element) {
-      if (Principal.isAuthenticated()) {
-        element.removeClass('hidden');
-      } else {
-        element.addClass('hidden');
-
-      }
-    }
-  };
-}]).directive('hideIfAuthenticated', ['Principal', function(Principal) {
-  return {
-    restrict: 'A',
-    link: function(scope, element) {
-      if (!Principal.isAuthenticated()) {
-        element.removeClass('hidden');
-      } else {
-        element.addClass('hidden');
-
-      }
-    }
-  };
 }]);
