@@ -22,6 +22,7 @@ exports.config = {
    'administration/logs/logs.spec.js',
    'administration/metrics/metrics.spec.js',
    'administration/usermanagement/usermanagement.spec.js',
+   'administration/usermanagement/usermanagement-system.spec.js',
    'common/navbar.spec.js',
   ],
 

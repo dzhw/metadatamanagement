@@ -17,6 +17,7 @@ describe('User-management page', function() {
   function testHomePage(description, link) {
     describe(description, function() {
       var currentUrl;
+      var htmlContent;
       beforeAll(function() {
           browser.get('#/de/login');
           loginHelper.login();
@@ -24,12 +25,12 @@ describe('User-management page', function() {
           browser.getCurrentUrl().then(function(url) {
            currentUrl = url;
          });
+          htmlContent = element(by.id('content'));
         });
       afterAll(function() {
           loginHelper.logout();
         });
       it('should check translated strings', function() {
-        var htmlContent = element(by.id('content'));
         htmlContentHelper
           .findNotTranslationedStrings(htmlContent, currentUrl)
           .then(function(result) {
@@ -37,7 +38,6 @@ describe('User-management page', function() {
           });
       });
       it('should open details page for first user (System)', function(done) {
-        var htmlContent = element(by.id('content'));
         htmlContent
         .all(by.uiSref('user-management-detail({login:user.login})'))
         .then(function(items) {
