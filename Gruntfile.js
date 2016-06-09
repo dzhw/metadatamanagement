@@ -77,11 +77,11 @@ module.exports = function(grunt) {
             // we use bootstrap-sass
           ],
           ignorePath: /\.\.\/webapp\/bower_components\//
-            // remove
-            // ../webapp/bower_components/
-            // from paths of
-            // injected sass
-            // files
+          // remove
+          // ../webapp/bower_components/
+          // from paths of
+          // injected sass
+          // files
         },
         test: {
           src: 'src/test/javascript/karma.conf.js',
