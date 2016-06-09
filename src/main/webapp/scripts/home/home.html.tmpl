@@ -8,40 +8,38 @@
                         <md-content class="md-padding">
                             <md-input-container class="md-block" ng-model="query" ng-keyup="search(1)" autocomplete="off" autofocus="autofocus">
                                 <label>{{'global.menu.search.variablesearch'|translate}}</label>
-                                <input ng-model="
-                                user.title">
+                                <input ng-model="user.title">
                                 <md-icon md-font-set="material-icons">search</md-icon>
                             </md-input-container>
 
                             <md-toolbar class="md-hue-3">
                                 <div class="md-toolbar-tools">
-                                    <span>Ergebnisse</span>
+                                    <span class="panel-title" data-translate="variablesearch.variablelist" data-translate-values="{'totalHits':{{page.totalHits}},'minHitNumber':{{page.getMinHitNumber()}},'maxHitNumber':{{page.getMaxHitNumber()}}}">Showing hits 1-10</span>
                                 </div>
                             </md-toolbar>
-                            <md-content flex>
-                                <md-list flex>
-                                    <md-subheader class="md-no-sticky">3 line item (with hover)</md-subheader>
-                                    <md-list-item class="md-3-line" ng-repeat="result in searchResult" ng-click="null" flex>
-                                        <div class="md-list-item-text" layout="column">
-                                            <h3>{{result._source.label}}</h3>
-                                            <h4>{{result._source.name}}</h4>
-                                            <p>{{result._source.dataAcquisitionProjectId}}</p>
-                                        </div>
-                                    </md-list-item>
-                                    <md-divider ></md-divider>
-                                </md-list>
-                            </md-content>
-                        </md-tab>
-                    </md-tabs>
-                </md-content>
+                            <md-list>
+                                <md-list-item class="md-3-line" ng-repeat="result in searchResult" ng-click="null" flex>
+                                    <div class="md-list-item-text" layout="column">
+                                        <h3>{{result._source.label}}</h3>
+                                        <h4>{{result._source.name}}</h4>
+                                        <p>{{result._source.dataAcquisitionProjectId}}</p>
+                                    </div>
+                                </md-list-item>
+                                <md-divider ></md-divider>
+                            </md-list>
+                        </md-content>
+                    </div>
+                </md-tab>
+            </md-tabs>
+        </md-content>
 
-                <div class="row">
-                    <div class="col-md-4 col-md-offset-2" title="{{'global.dzhwAltText'|translate}}">
-                        <a class="navbar-brand dzhw_logo" ng-href="{{'metadatamanagementApp.main.dzhwUrl'|translate}}"></a>
-                    </div>
-                    <div class="col-md-4" title="{{'global.bmbfAltText'|translate}}">
-                        <a class="{{'global.bmbfClass' |translate}}" ng-href="{{'metadatamanagementApp.main.bmbfUrl'|translate}}"></a>
-                    </div>
-                </div>
+        <div class="row">
+            <div class="col-md-4 col-md-offset-2" title="{{'global.dzhwAltText'|translate}}">
+                <a class="navbar-brand dzhw_logo" ng-href="{{'metadatamanagementApp.main.dzhwUrl'|translate}}"></a>
+            </div>
+            <div class="col-md-4" title="{{'global.bmbfAltText'|translate}}">
+                <a class="{{'global.bmbfClass' |translate}}" ng-href="{{'metadatamanagementApp.main.bmbfUrl'|translate}}"></a>
             </div>
         </div>
+    </div>
+</div>
