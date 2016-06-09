@@ -1,41 +1,41 @@
 'use strict';
 
 angular.module('metadatamanagementApp').directive(
-    'hasAnyAuthority',
-    [
-        'Principal',
-        function(Principal) {
-          return {
-            restrict: 'A',
-            link: function(scope, element, attrs) {
-              var setVisible = function() {
-                element.removeClass('hidden');
-              };
-              var setHidden = function() {
-                element.addClass('hidden');
-              };
-              var authorities = attrs.hasAnyAuthority
-                .replace(/\s+/g, '').split(',');
-              var defineVisibility = function(reset) {
-                var result;
-                if (reset) {
-                  setVisible();
-                }
+  'hasAnyAuthority', [
+    'Principal',
+    function(Principal) {
+      return {
+        restrict: 'A',
+        link: function(scope, element, attrs) {
+          var setVisible = function() {
+            element.removeClass('hidden');
+          };
+          var setHidden = function() {
+            element.addClass('hidden');
+          };
+          var authorities = attrs.hasAnyAuthority
+            .replace(/\s+/g, '').split(',');
+          var defineVisibility = function(reset) {
+            var result;
+            if (reset) {
+              setVisible();
+            }
 
-                result = Principal.hasAnyAuthority(authorities);
-                if (result) {
-                  setVisible();
-                } else {
-                  setHidden();
-                }
-              };
-
-              if (authorities.length > 0) {
-                defineVisibility(true);
-              }
+            result = Principal.hasAnyAuthority(authorities);
+            if (result) {
+              setVisible();
+            } else {
+              setHidden();
             }
           };
-        }]).directive('hasAuthority', ['Principal', function(Principal) {
+
+          if (authorities.length > 0) {
+            defineVisibility(true);
+          }
+        }
+      };
+    }
+  ]).directive('hasAuthority', ['Principal', function(Principal) {
   return {
     restrict: 'A',
     link: function(scope, element, attrs) {
@@ -64,6 +64,30 @@ angular.module('metadatamanagementApp').directive(
 
       if (authority.length > 0) {
         defineVisibility(true);
+      }
+    }
+  };
+}]).directive('hideIfNotAuthenticated', ['Principal', function(Principal) {
+  return {
+    restrict: 'A',
+    link: function(scope, element) {
+      if (Principal.isAuthenticated()) {
+        element.removeClass('hidden');
+      } else {
+        element.addClass('hidden');
+
+      }
+    }
+  };
+}]).directive('hideIfAuthenticated', ['Principal', function(Principal) {
+  return {
+    restrict: 'A',
+    link: function(scope, element) {
+      if (!Principal.isAuthenticated()) {
+        element.removeClass('hidden');
+      } else {
+        element.addClass('hidden');
+
       }
     }
   };

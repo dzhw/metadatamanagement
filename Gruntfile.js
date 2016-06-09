@@ -77,11 +77,11 @@ module.exports = function(grunt) {
             // we use bootstrap-sass
           ],
           ignorePath: /\.\.\/webapp\/bower_components\//
-          // remove
-          // ../webapp/bower_components/
-          // from paths of
-          // injected sass
-          // files
+            // remove
+            // ../webapp/bower_components/
+            // from paths of
+            // injected sass
+            // files
         },
         test: {
           src: 'src/test/javascript/karma.conf.js',
@@ -142,7 +142,10 @@ module.exports = function(grunt) {
             'not allowed as child of element “div” in this context. ' +
             '(Suppressing further errors from this subtree.)',
             'Section lacks heading. Consider using “h2”-“h6” elements' +
-            ' to add identifying headings to all sections.'
+            ' to add identifying headings to all sections.',
+            'Attribute “flex” not allowed on element “div” at this point.',
+            'Element “md-toolbar” not allowed as child of element “div” in ' +
+            'this context. (Suppressing further errors from this subtree.)'
           ],
           customattrs: [
             'show-validation',
