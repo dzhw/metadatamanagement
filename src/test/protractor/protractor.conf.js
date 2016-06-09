@@ -16,14 +16,19 @@ exports.config = {
 
   baseUrl: 'https://metadatamanagement-dev.cfapps.io/',
   specs: [
-   'disclosure/disclosure.spec.js',
-   'administration/configuration/configuration.spec.js',
-   'administration/health/health.spec.js',
-   'administration/logs/logs.spec.js',
-   'administration/metrics/metrics.spec.js',
-   'administration/usermanagement/usermanagement.spec.js',
-   'administration/usermanagement/usermanagement-system.spec.js',
-   'common/navbar.spec.js',
+    'disclosure/disclosure.spec.js',
+    'administration/configuration/configuration.spec.js',
+    'administration/health/health.spec.js',
+    'administration/logs/logs.spec.js',
+    'administration/metrics/metrics.spec.js',
+    'administration/usermanagement/usermanagement.spec.js',
+    'usermanagement/account/login/login.spec.js',
+    'usermanagement/account/activate/activate.spec.js',
+    'usermanagement/account/password/password.spec.js',
+    'usermanagement/account/register/register.spec.js',
+    'usermanagement/account/reset/request/reset.spec.js',
+    'usermanagement/account/settings/settings.spec.js',
+    'common/navbar.spec.js',
   ],
 
   multiCapabilities: [{
