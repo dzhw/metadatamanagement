@@ -1,5 +1,5 @@
 <div ng-controller="NavbarController" ng-switch="isAuthenticated()" layout="column">
-    <md-sidenav flex md-component-id="SideNavBar" md-is-locked-open="$mdMedia('gt-md')" md-whiteframe="4" tab-index="-1">
+    <md-sidenav flex md-component-id="SideNavBar" md-is-locked-open="$mdMedia('gt-md')" md-whiteframe="4" tab-index="-1" style="height: 100vh;">
         <md-toolbar style="background-color: white;">
             <a ui-sref="home" title="{{'global.rdcAltText'|translate}}">
                 <img src="assets/images/FDZ_Logo.svg" style="height: 64px" alt>
@@ -9,27 +9,27 @@
         <md-content flex role="navigation">
             <md-divider></md-divider>
             <md-list ng-switch-when="true" data-has-authority="ROLE_USER">
-                <md-list-item>
+                <md-list-item class="md-primary">
                     <span data-translate="global.menu.entities.main"></span>
                 </md-list-item>
                 <md-divider></md-divider>
                 <md-list-item>
-                    <md-button ui-sref="dataAcquisitionProject" class="fdz-menu-button">
+                    <md-button ui-sref="dataAcquisitionProject" class="fdz-navbar-button">
                         <span data-translate="global.menu.entities.rdcProject">RDC Projects</span>
                     </md-button>
                 </md-list-item>
                 <md-list-item>
-                    <md-button ui-sref="dataSet" class="fdz-menu-button">
+                    <md-button ui-sref="dataSet" class="fdz-navbar-button">
                         <span data-translate="global.menu.entities.dataSet">DataSets</span>
                     </md-button>
                 </md-list-item>
                 <md-list-item>
-                    <md-button ui-sref="survey" class="fdz-menu-button">
+                    <md-button ui-sref="survey" class="fdz-navbar-button">
                         <span data-translate="global.menu.entities.survey">Surveys</span>
                     </md-button>
                 </md-list-item>
                 <md-list-item>
-                    <md-button ui-sref="variable({page:1})" class="fdz-menu-button">
+                    <md-button ui-sref="variable({page:1})" class="fdz-navbar-button">
                         <span data-translate="global.menu.entities.variable">Variables</span>
                     </md-button>
                 </md-list-item>
@@ -41,27 +41,27 @@
                 </md-list-item>
                 <md-divider></md-divider>
                 <md-list-item ng-switch-when="true">
-                    <md-button ui-sref="settings" class="fdz-menu-button">
+                    <md-button ui-sref="settings" class="fdz-navbar-button">
                         <span data-translate="global.menu.account.settings">Settings</span>
                     </md-button>
                 </md-list-item>
                 <md-list-item ng-switch-when="true">
-                    <md-button ui-sref="password" class="fdz-menu-button">
+                    <md-button ui-sref="password" class="fdz-navbar-button">
                         <span data-translate="global.menu.account.password">Password</span>
                     </md-button>
                 </md-list-item>
                 <md-list-item ng-switch-when="true">
-                    <md-button ng-click="logout()" class="fdz-menu-button">
+                    <md-button ng-click="logout()" class="fdz-navbar-button">
                         <span data-translate="global.menu.account.logout">Sign out</span>
                     </md-button>
                 </md-list-item>
                 <md-list-item ng-switch-when="false">
-                    <md-button ui-sref="login" class="fdz-menu-button">
+                    <md-button ui-sref="login" class="fdz-navbar-button">
                         <span data-translate="global.menu.account.login">Sign in</span>
                     </md-button>
                 </md-list-item>
                 <md-list-item ng-switch-when="false">
-                    <md-button ui-sref="register" class="fdz-menu-button">
+                    <md-button ui-sref="register" class="fdz-navbar-button">
                         <span data-translate="global.menu.account.register">Register</span>
                     </md-button>
                 </md-list-item>
@@ -73,27 +73,27 @@
                 </md-list-item>
                 <md-divider></md-divider>
                 <md-list-item>
-                    <md-button ui-sref="user-management" class="fdz-menu-button">
+                    <md-button ui-sref="user-management" class="fdz-navbar-button">
                         <span data-translate="global.menu.admin.user-management">User management</span>
                     </md-button>
                 </md-list-item>
                 <md-list-item>
-                    <md-button ui-sref="metrics" class="fdz-menu-button">
+                    <md-button ui-sref="metrics" class="fdz-navbar-button">
                         <span data-translate="global.menu.admin.metrics">Metrics</span>
                     </md-button>
                 </md-list-item>
                 <md-list-item>
-                    <md-button ui-sref="health" class="fdz-menu-button">
+                    <md-button ui-sref="health" class="fdz-navbar-button">
                         <span data-translate="global.menu.admin.health">Health</span>
                     </md-button>
                 </md-list-item>
                 <md-list-item>
-                    <md-button ui-sref="configuration" class="fdz-menu-button">
+                    <md-button ui-sref="configuration" class="fdz-navbar-button">
                         <span data-translate="global.menu.admin.configuration">Configuration</span>
                     </md-button>
                 </md-list-item>
                 <md-list-item>
-                    <md-button ui-sref="logs" class="fdz-menu-button">
+                    <md-button ui-sref="logs" class="fdz-navbar-button">
                         <span data-translate="global.menu.admin.logs">Logs</span>
                     </md-button>
                 </md-list-item>
@@ -101,7 +101,7 @@
             </md-list>
             <md-list>
                 <md-list-item>
-                    <md-button ui-sref="disclosure" class="fdz-menu-button">
+                    <md-button ui-sref="disclosure" class="fdz-navbar-button">
                         <span data-translate="global.menu.disclosure">Disclosure</span>
                     </md-button>
                 </md-list-item>
@@ -113,7 +113,7 @@
                 </md-list-item>
                 <md-divider></md-divider>
                 <md-list-item ng-repeat="language in languages">
-                    <md-button ng-click="changeLanguage(language)" class="fdz-menu-button">
+                    <md-button ng-click="changeLanguage(language)" class="fdz-navbar-button">
                         <span>{{language | findLanguageFromKey}}</span>
                     </md-button>
                 </md-list-item>
