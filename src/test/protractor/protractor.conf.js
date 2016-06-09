@@ -22,8 +22,7 @@ exports.config = {
    'administration/configuration/configuration.spec.js',
    'administration/health/health.spec.js',
    'administration/logs/logs.spec.js',
-   'administration/metrics/metrics.spec.js',
-   'administration/usermanagement/usermanagement.spec.js'
+   'administration/metrics/metrics.spec.js'
   ],
 
   multiCapabilities: [{
