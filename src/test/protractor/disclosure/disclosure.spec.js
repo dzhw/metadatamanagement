@@ -22,13 +22,13 @@ describe('Disclosure Page', function() {
          });
         });
       it('should check translated strings', function() {
-          var htmlContent = element(by.id('content'));
-          htmlContentHelper
-          .findNotTranslationedStrings(htmlContent, currentUrl)
-          .then(function(result) {
-            expect(result.length).toBe(0, result.message);
-          });
+        var htmlContent = element(by.id('content'));
+        htmlContentHelper
+        .findNotTranslationedStrings(htmlContent, currentUrl)
+        .then(function(result) {
+          expect(result.length).toBe(0, result.message);
         });
+      });
     });
   }
   testDisclosurePage('with german language', '#/de/disclosure');

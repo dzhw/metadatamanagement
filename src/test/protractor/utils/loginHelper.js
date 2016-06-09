@@ -14,6 +14,7 @@ function login() {
 }
 function logout() {
   element(by.css('[ng-click="logout()"]')).click();
+  expect(element(by.css('[ng-click="logout()"]')).isPresent()).toBe(false);
 }
 module.exports.login = login;
 module.exports.logout = logout;

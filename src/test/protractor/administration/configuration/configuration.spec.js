@@ -17,18 +17,19 @@ describe('Configuration Page', function() {
   function testConfigurationPage(description, link) {
     describe(description, function() {
       var currentUrl;
+      var htmlContent;
       beforeAll(function() {
           loginHelper.login();
           browser.get(link);
           browser.getCurrentUrl().then(function(url) {
            currentUrl = url;
          });
+          htmlContent = element(by.id('content'));
         });
       afterAll(function() {
           loginHelper.logout();
         });
       it('should check translated strings', function() {
-          var htmlContent = element(by.id('content'));
           htmlContentHelper
           .findNotTranslationedStrings(htmlContent, currentUrl)
           .then(function(result) {
