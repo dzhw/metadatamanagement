@@ -1,50 +1,52 @@
 <!DOCTYPE html>
 <html class="no-js">
-    <head>
-        <meta charset="utf-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
-        <meta name="description" content="">
-        <meta name="google" content="notranslate">
-        <title>metadatamanagement</title>
-        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-        <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
-        <!-- build:css assets/styles/vendor.css -->
-        <!-- bower:css -->
-        <link rel="stylesheet" href="bower_components/nvd3/build/nv.d3.css"/>
-        <link rel="stylesheet" href="bower_components/angular-material/angular-material.css"/>
-        <!-- endbower -->
-        <!-- endbuild -->
-        <!-- build:css assets/styles/main.css -->
-        <link rel="stylesheet" href="assets/styles/main.css">
-        <!-- endbuild -->
-    </head>
-    <body ng-app="metadatamanagementApp">
-        <!--[if lt IE 10]> <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p> <![endif]-->
-        <div ng-show="{{ENV === 'local' || ENV === 'dev' || ENV === 'test'}}" class="ribbon" ng-cloak="">{{ENV}}</div>
-        <div layout="row">
-            <div ui-view="navbar"></div>
-            <div ng-controller="NavbarController" class="layout-coloumn flex">
-                <md-content flex>
-                    <md-toolbar style="background-color:#ffffff;">
-                        <div class="md-toolbar-tools">
-                            <md-button ng-click="toggleLeft()" class="md-icon-button md-button md-ink-ripple hide-gt-sm" hide-gt-md>
-                                <md-icon style="color:#000000" md-font-set="material-icons">menu</md-icon>
-                            </md-button>
-                            <span flex></span>
-                        </div>
-                    </md-toolbar>
-                    <ui-view name="content"></ui-view>
-                </md-content>
-            </div>
-        </div>
 
-        <!--    <div class="footer">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <meta name="description" content="">
+    <meta name="google" content="notranslate">
+    <title>metadatamanagement</title>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
+    <!-- build:css assets/styles/vendor.css -->
+    <!-- bower:css -->
+    <link rel="stylesheet" href="bower_components/nvd3/build/nv.d3.css" />
+    <link rel="stylesheet" href="bower_components/angular-material/angular-material.css" />
+    <!-- endbower -->
+    <!-- endbuild -->
+    <!-- build:css assets/styles/main.css -->
+    <link rel="stylesheet" href="assets/styles/main.css">
+    <!-- endbuild -->
+</head>
+
+<body ng-app="metadatamanagementApp" ng-cloak>
+    <!--[if lt IE 10]> <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p> <![endif]-->
+    <div ng-show="{{ENV === 'local' || ENV === 'dev' || ENV === 'test'}}" class="ribbon">{{ENV}}</div>
+    <div layout="row">
+        <div ui-view="navbar"></div>
+        <div flex layout="column">
+            <md-toolbar ng-controller="NavbarController" md-whiteframe="4">
+                <div class="md-toolbar-tools">
+                    <md-button hide-gt-md ng-click="toggleLeft()" class="md-icon-button">
+                        <md-icon md-font-set="material-icons">menu</md-icon>
+                    </md-button>
+                    <h1 class="md-headline">{{pageTitle | translate }}</h1>
+                </div>
+            </md-toolbar>
+
+            <md-content style="overflow: inherit;">
+                <ui-view name="content"></ui-view>
+            </md-content>
+        </div>
+    </div>
+    <!--    <div class="footer">
                 <p translate="footer">This is your footer</p>
             </div>
         </div> -->
 
-        <!-- Google Analytics: uncomment and change UA-XXXXX-X to be your site's ID.
+    <!-- Google Analytics: uncomment and change UA-XXXXX-X to be your site's ID.
         <script>
             (function(b,o,i,l,e,r){b.GoogleAnalyticsObject=l;b[l]||(b[l]=
             function(){(b[l].q=b[l].q||[]).push(arguments)});b[l].l=+new Date;
@@ -53,191 +55,192 @@
             r.parentNode.insertBefore(e,r)}(window,document,'script','ga'));
             ga('create','UA-XXXXX-X');ga('send','pageview');
         </script> -->
-        <!-- build:js scripts/vendor.js -->
-        <!-- bower:js -->
-        <script src="bower_components/modernizr/modernizr.js"></script>
-        <script src="bower_components/jquery/dist/jquery.js"></script>
-        <script src="bower_components/angular/angular.js"></script>
-        <script src="bower_components/angular-aria/angular-aria.js"></script>
-        <script src="bower_components/angular-bootstrap/ui-bootstrap-tpls.js"></script>
-        <script src="bower_components/angular-cache-buster/angular-cache-buster.js"></script>
-        <script src="bower_components/angular-cookies/angular-cookies.js"></script>
-        <script src="bower_components/angular-dynamic-locale/src/tmhDynamicLocale.js"></script>
-        <script src="bower_components/angular-local-storage/dist/angular-local-storage.js"></script>
-        <script src="bower_components/angular-resource/angular-resource.js"></script>
-        <script src="bower_components/angular-sanitize/angular-sanitize.js"></script>
-        <script src="bower_components/angular-translate/angular-translate.js"></script>
-        <script src="bower_components/messageformat/messageformat.js"></script>
-        <script src="bower_components/angular-translate-interpolation-messageformat/angular-translate-interpolation-messageformat.js"></script>
-        <script src="bower_components/angular-translate-loader-partial/angular-translate-loader-partial.js"></script>
-        <script src="bower_components/angular-translate-storage-cookie/angular-translate-storage-cookie.js"></script>
-        <script src="bower_components/angular-ui-router/release/angular-ui-router.js"></script>
-        <script src="bower_components/bootstrap-sass/assets/javascripts/bootstrap.js"></script>
-        <script src="bower_components/json3/lib/json3.js"></script>
-        <script src="bower_components/ng-file-upload/ng-file-upload.js"></script>
-        <script src="bower_components/ngInfiniteScroll/build/ng-infinite-scroll.js"></script>
-        <script src="bower_components/elasticsearch/elasticsearch.js"></script>
-        <script src="bower_components/jszip/dist/jszip.js"></script>
-        <script src="bower_components/file-saver.js/FileSaver.js"></script>
-        <script src="bower_components/jszip-utils/dist/jszip-utils.js"></script>
-        <script src="bower_components/handlebars/handlebars.js"></script>
-        <script src="bower_components/angular-translate-handler-log/angular-translate-handler-log.js"></script>
-        <script src="bower_components/d3/d3.js"></script>
-        <script src="bower_components/nvd3/build/nv.d3.js"></script>
-        <script src="bower_components/angular-nvd3/dist/angular-nvd3.js"></script>
-        <script src="bower_components/js-xlsx/dist/xlsx.js"></script>
-        <script src="bower_components/cheet.js/cheet.js"></script>
-        <script src="bower_components/angular-animate/angular-animate.js"></script>
-        <script src="bower_components/angular-messages/angular-messages.js"></script>
-        <script src="bower_components/angular-material/angular-material.js"></script>
-        <!-- endbower -->
-        <script src="bower_components/elasticsearch/elasticsearch.angular.js"></script>
-        <!-- endbuild -->
+    <!-- build:js scripts/vendor.js -->
+    <!-- bower:js -->
+    <script src="bower_components/modernizr/modernizr.js"></script>
+    <script src="bower_components/jquery/dist/jquery.js"></script>
+    <script src="bower_components/angular/angular.js"></script>
+    <script src="bower_components/angular-aria/angular-aria.js"></script>
+    <script src="bower_components/angular-bootstrap/ui-bootstrap-tpls.js"></script>
+    <script src="bower_components/angular-cache-buster/angular-cache-buster.js"></script>
+    <script src="bower_components/angular-cookies/angular-cookies.js"></script>
+    <script src="bower_components/angular-dynamic-locale/src/tmhDynamicLocale.js"></script>
+    <script src="bower_components/angular-local-storage/dist/angular-local-storage.js"></script>
+    <script src="bower_components/angular-resource/angular-resource.js"></script>
+    <script src="bower_components/angular-sanitize/angular-sanitize.js"></script>
+    <script src="bower_components/angular-translate/angular-translate.js"></script>
+    <script src="bower_components/messageformat/messageformat.js"></script>
+    <script src="bower_components/angular-translate-interpolation-messageformat/angular-translate-interpolation-messageformat.js"></script>
+    <script src="bower_components/angular-translate-loader-partial/angular-translate-loader-partial.js"></script>
+    <script src="bower_components/angular-translate-storage-cookie/angular-translate-storage-cookie.js"></script>
+    <script src="bower_components/angular-ui-router/release/angular-ui-router.js"></script>
+    <script src="bower_components/bootstrap-sass/assets/javascripts/bootstrap.js"></script>
+    <script src="bower_components/json3/lib/json3.js"></script>
+    <script src="bower_components/ng-file-upload/ng-file-upload.js"></script>
+    <script src="bower_components/ngInfiniteScroll/build/ng-infinite-scroll.js"></script>
+    <script src="bower_components/elasticsearch/elasticsearch.js"></script>
+    <script src="bower_components/jszip/dist/jszip.js"></script>
+    <script src="bower_components/file-saver.js/FileSaver.js"></script>
+    <script src="bower_components/jszip-utils/dist/jszip-utils.js"></script>
+    <script src="bower_components/handlebars/handlebars.js"></script>
+    <script src="bower_components/angular-translate-handler-log/angular-translate-handler-log.js"></script>
+    <script src="bower_components/d3/d3.js"></script>
+    <script src="bower_components/nvd3/build/nv.d3.js"></script>
+    <script src="bower_components/angular-nvd3/dist/angular-nvd3.js"></script>
+    <script src="bower_components/js-xlsx/dist/xlsx.js"></script>
+    <script src="bower_components/cheet.js/cheet.js"></script>
+    <script src="bower_components/angular-animate/angular-animate.js"></script>
+    <script src="bower_components/angular-messages/angular-messages.js"></script>
+    <script src="bower_components/angular-material/angular-material.js"></script>
+    <!-- endbower -->
+    <script src="bower_components/elasticsearch/elasticsearch.angular.js"></script>
+    <!-- endbuild -->
 
-        <!-- build:js({.tmp,src/main/webapp}) scripts/client.js -->
+    <!-- build:js({.tmp,src/main/webapp}) scripts/client.js -->
 
-        <script src="scripts/app.js"></script>
-        <script src="scripts/app.constants.js"></script>
+    <script src="scripts/app.js"></script>
+    <script src="scripts/app.constants.js"></script>
 
-        <script src="scripts/administration/admin.js"></script>
-        <script src="scripts/administration/configuration/configuration.js"></script>
-        <script src="scripts/administration/configuration/configuration.controller.js"></script>
-        <script src="scripts/administration/configuration/configuration.service.js"></script>
-        <script src="scripts/administration/health/health.js"></script>
-        <script src="scripts/administration/health/health.controller.js"></script>
-        <script src="scripts/administration/health/health.modal.controller.js"></script>
-        <script src="scripts/administration/logs/logs.js"></script>
-        <script src="scripts/administration/logs/logs.controller.js"></script>
-        <script src="scripts/administration/logs/logs.resource.js"></script>
-        <script src="scripts/administration/metrics/metrics.js"></script>
-        <script src="scripts/administration/metrics/metrics.controller.js"></script>
-        <script src="scripts/administration/metrics/metrics.modal.controller.js"></script>
-        <script src="scripts/administration/monitoring/monitoring.service.js"></script>
-        <script src="scripts/administration/usermanagement/user-management-detail.controller.js"></script>
-        <script src="scripts/administration/usermanagement/user-management.controller.js"></script>
-        <script src="scripts/administration/usermanagement/user-management.js"></script>
-        <script src="scripts/administration/usermanagement/user.resource.js"></script>
+    <script src="scripts/administration/admin.js"></script>
+    <script src="scripts/administration/configuration/configuration.js"></script>
+    <script src="scripts/administration/configuration/configuration.controller.js"></script>
+    <script src="scripts/administration/configuration/configuration.service.js"></script>
+    <script src="scripts/administration/health/health.js"></script>
+    <script src="scripts/administration/health/health.controller.js"></script>
+    <script src="scripts/administration/health/health.modal.controller.js"></script>
+    <script src="scripts/administration/logs/logs.js"></script>
+    <script src="scripts/administration/logs/logs.controller.js"></script>
+    <script src="scripts/administration/logs/logs.resource.js"></script>
+    <script src="scripts/administration/metrics/metrics.js"></script>
+    <script src="scripts/administration/metrics/metrics.controller.js"></script>
+    <script src="scripts/administration/metrics/metrics.modal.controller.js"></script>
+    <script src="scripts/administration/monitoring/monitoring.service.js"></script>
+    <script src="scripts/administration/usermanagement/user-management-detail.controller.js"></script>
+    <script src="scripts/administration/usermanagement/user-management.controller.js"></script>
+    <script src="scripts/administration/usermanagement/user-management.js"></script>
+    <script src="scripts/administration/usermanagement/user.resource.js"></script>
 
-        <script src="scripts/usermanagement/account/account.js"></script>
-        <script src="scripts/usermanagement/account/activate/activate.js"></script>
-        <script src="scripts/usermanagement/account/activate/activate.controller.js"></script>
-        <script src="scripts/usermanagement/account/login/login.js"></script>
-        <script src="scripts/usermanagement/account/login/login.controller.js"></script>
-        <script src="scripts/usermanagement/account/password/password.js"></script>
-        <script src="scripts/usermanagement/account/password/password.controller.js"></script>
-        <script src="scripts/usermanagement/account/password/password.directive.js"></script>
-        <script src="scripts/usermanagement/account/register/register.js"></script>
-        <script src="scripts/usermanagement/account/register/register.controller.js"></script>
-        <script src="scripts/usermanagement/account/settings/settings.js"></script>
-        <script src="scripts/usermanagement/account/settings/settings.controller.js"></script>
-        <script src="scripts/usermanagement/account/reset/finish/reset.finish.controller.js"></script>
-        <script src="scripts/usermanagement/account/reset/finish/reset.finish.js"></script>
-        <script src="scripts/usermanagement/account/reset/request/reset.request.controller.js"></script>
-        <script src="scripts/usermanagement/account/reset/request/reset.request.js"></script>
-        <script src="scripts/usermanagement/auth/auth.service.js"></script>
-        <script src="scripts/usermanagement/auth/principal.service.js"></script>
-        <script src="scripts/usermanagement/auth/authority.directive.js"></script>
-        <script src="scripts/usermanagement/auth/resources/account.resource.js"></script>
-        <script src="scripts/usermanagement/auth/resources/activate.resource.js"></script>
-        <script src="scripts/usermanagement/auth/resources/password.resource.js"></script>
-        <script src="scripts/usermanagement/auth/resources/register.resource.js"></script>
-        <script src="scripts/usermanagement/auth/provider/auth.oauth2.service.js"></script>
+    <script src="scripts/usermanagement/account/account.js"></script>
+    <script src="scripts/usermanagement/account/activate/activate.js"></script>
+    <script src="scripts/usermanagement/account/activate/activate.controller.js"></script>
+    <script src="scripts/usermanagement/account/login/login.js"></script>
+    <script src="scripts/usermanagement/account/login/login.controller.js"></script>
+    <script src="scripts/usermanagement/account/password/password.js"></script>
+    <script src="scripts/usermanagement/account/password/password.controller.js"></script>
+    <script src="scripts/usermanagement/account/password/password.directive.js"></script>
+    <script src="scripts/usermanagement/account/register/register.js"></script>
+    <script src="scripts/usermanagement/account/register/register.controller.js"></script>
+    <script src="scripts/usermanagement/account/settings/settings.js"></script>
+    <script src="scripts/usermanagement/account/settings/settings.controller.js"></script>
+    <script src="scripts/usermanagement/account/reset/finish/reset.finish.controller.js"></script>
+    <script src="scripts/usermanagement/account/reset/finish/reset.finish.js"></script>
+    <script src="scripts/usermanagement/account/reset/request/reset.request.controller.js"></script>
+    <script src="scripts/usermanagement/account/reset/request/reset.request.js"></script>
+    <script src="scripts/usermanagement/auth/auth.service.js"></script>
+    <script src="scripts/usermanagement/auth/principal.service.js"></script>
+    <script src="scripts/usermanagement/auth/authority.directive.js"></script>
+    <script src="scripts/usermanagement/auth/resources/account.resource.js"></script>
+    <script src="scripts/usermanagement/auth/resources/activate.resource.js"></script>
+    <script src="scripts/usermanagement/auth/resources/password.resource.js"></script>
+    <script src="scripts/usermanagement/auth/resources/register.resource.js"></script>
+    <script src="scripts/usermanagement/auth/provider/auth.oauth2.service.js"></script>
 
-        <script src="scripts/home/home.js"></script>
-        <script src="scripts/home/home.controller.js"></script>
+    <script src="scripts/home/home.js"></script>
+    <script src="scripts/home/home.controller.js"></script>
 
-        <script src="scripts/common/easteregg/egg.js"></script>
-        <script src="scripts/common/navbar/directives/navbar.directive.js"></script>
-        <script src="scripts/common/navbar/views/navbar.controller.js"></script>
-        <script src="scripts/common/waitSpinner/directives/loading.directive.js"></script>
-        <script src="scripts/common/modal/customModal.service.js"></script>
-        <script src="scripts/common/joblogging/jobLogging.service.js"></script>
-        <script src="scripts/common/joblogging/errorMessageResolver.service.js"></script>
-        <script src="scripts/common/util/truncate.filter.js"></script>
-        <script src="scripts/common/util/base64.service.js"></script>
-        <script src="scripts/common/util/cleanJSObject.service.js"></script>
-        <script src="scripts/common/util/capitalize.filter.js"></script>
-        <script src="scripts/common/util/parse-links.service.js"></script>
-        <script src="scripts/common/util/dateutil.service.js"></script>
-        <script src="scripts/common/util/handlebars.service.js"></script>
-        <script src="scripts/common/error/errorhandler.interceptor.js"></script>
-        <script src="scripts/common/error/error.js"></script>
-        <script src="scripts/common/alert/notification.interceptor.js"></script>
-        <script src="scripts/common/alert/auth.interceptor.js"></script>
-        <script src="scripts/common/alert/alert.service.js"></script>
-        <script src="scripts/common/alert/alert.directive.js"></script>
-        <script src="scripts/common/i18n/error/translation.error.handler.js"></script>
-        <script src="scripts/common/i18n/services/language.service.js"></script>
-        <script src="scripts/common/i18n/controllers/language.controller.js"></script>
+    <script src="scripts/common/easteregg/egg.js"></script>
+    <script src="scripts/common/navbar/directives/navbar.directive.js"></script>
+    <script src="scripts/common/navbar/views/navbar.controller.js"></script>
+    <script src="scripts/common/waitSpinner/directives/loading.directive.js"></script>
+    <script src="scripts/common/modal/customModal.service.js"></script>
+    <script src="scripts/common/joblogging/jobLogging.service.js"></script>
+    <script src="scripts/common/joblogging/errorMessageResolver.service.js"></script>
+    <script src="scripts/common/util/truncate.filter.js"></script>
+    <script src="scripts/common/util/base64.service.js"></script>
+    <script src="scripts/common/util/cleanJSObject.service.js"></script>
+    <script src="scripts/common/util/capitalize.filter.js"></script>
+    <script src="scripts/common/util/parse-links.service.js"></script>
+    <script src="scripts/common/util/dateutil.service.js"></script>
+    <script src="scripts/common/util/handlebars.service.js"></script>
+    <script src="scripts/common/error/errorhandler.interceptor.js"></script>
+    <script src="scripts/common/error/error.js"></script>
+    <script src="scripts/common/alert/notification.interceptor.js"></script>
+    <script src="scripts/common/alert/auth.interceptor.js"></script>
+    <script src="scripts/common/alert/alert.service.js"></script>
+    <script src="scripts/common/alert/alert.directive.js"></script>
+    <script src="scripts/common/i18n/error/translation.error.handler.js"></script>
+    <script src="scripts/common/i18n/services/language.service.js"></script>
+    <script src="scripts/common/i18n/controllers/language.controller.js"></script>
 
-        <script src="scripts/filemanagement/resources/file.resource.js"></script>
-        <script src="scripts/filemanagement/services/zipReader.service.js"></script>
-        <script src="scripts/filemanagement/services/excelReader.service.js"></script>
+    <script src="scripts/filemanagement/resources/file.resource.js"></script>
+    <script src="scripts/filemanagement/services/zipReader.service.js"></script>
+    <script src="scripts/filemanagement/services/excelReader.service.js"></script>
 
-        <script src="scripts/disclosure/configuration/disclosure.js"></script>
-        <script src="scripts/disclosure/views/disclosure.controller.js"></script>
+    <script src="scripts/disclosure/configuration/disclosure.js"></script>
+    <script src="scripts/disclosure/views/disclosure.controller.js"></script>
 
-        <script src="scripts/variablemanagement/configuration/variable.js"></script>
-        <script src="scripts/variablemanagement/directives/variable.list.directive.js"></script>
-        <script src="scripts/variablemanagement/directives/variable.list.controller.js"></script>
-        <script src="scripts/variablemanagement/resources/variable.resource.js"></script>
-        <script src="scripts/variablemanagement/resources/variableCollection.resource.js"></script>
-        <script src="scripts/variablemanagement/resources/variableDelete.resource.js"></script>
-        <script src="scripts/variablemanagement/services/variableBuilder.service.js"></script>
-        <script src="scripts/variablemanagement/services/variableUpload.service.js"></script>
-        <script src="scripts/variablemanagement/views/variable.controller.js"></script>
-        <script src="scripts/variablemanagement/views/variable-detail.controller.js"></script>
-        <script src="scripts/variablemanagement/views/variable-dialog.controller.js"></script>
+    <script src="scripts/variablemanagement/configuration/variable.js"></script>
+    <script src="scripts/variablemanagement/directives/variable.list.directive.js"></script>
+    <script src="scripts/variablemanagement/directives/variable.list.controller.js"></script>
+    <script src="scripts/variablemanagement/resources/variable.resource.js"></script>
+    <script src="scripts/variablemanagement/resources/variableCollection.resource.js"></script>
+    <script src="scripts/variablemanagement/resources/variableDelete.resource.js"></script>
+    <script src="scripts/variablemanagement/services/variableBuilder.service.js"></script>
+    <script src="scripts/variablemanagement/services/variableUpload.service.js"></script>
+    <script src="scripts/variablemanagement/views/variable.controller.js"></script>
+    <script src="scripts/variablemanagement/views/variable-detail.controller.js"></script>
+    <script src="scripts/variablemanagement/views/variable-dialog.controller.js"></script>
 
-        <script src="scripts/surveymanagement/configuration/survey.js"></script>
-        <script src="scripts/surveymanagement/directives/survey.list.directive.js"></script>
-        <script src="scripts/surveymanagement/directives/survey.list.controller.js"></script>
-        <script src="scripts/surveymanagement/resources/survey.resource.js"></script>
-        <script src="scripts/surveymanagement/resources/surveyCollection.resource.js"></script>
-        <script src="scripts/surveymanagement/resources/surveyDelete.resource.js"></script>
-        <script src="scripts/surveymanagement/services/surveyBuilder.service.js"></script>
-        <script src="scripts/surveymanagement/services/surveyUpload.service.js"></script>
-        <script src="scripts/surveymanagement/views/survey.controller.js"></script>
-        <script src="scripts/surveymanagement/views/survey-detail.controller.js"></script>
-        <script src="scripts/surveymanagement/views/survey-dialog.controller.js"></script>
-        <script src="scripts/surveymanagement/views/survey-delete-dialog.controller.js"></script>
+    <script src="scripts/surveymanagement/configuration/survey.js"></script>
+    <script src="scripts/surveymanagement/directives/survey.list.directive.js"></script>
+    <script src="scripts/surveymanagement/directives/survey.list.controller.js"></script>
+    <script src="scripts/surveymanagement/resources/survey.resource.js"></script>
+    <script src="scripts/surveymanagement/resources/surveyCollection.resource.js"></script>
+    <script src="scripts/surveymanagement/resources/surveyDelete.resource.js"></script>
+    <script src="scripts/surveymanagement/services/surveyBuilder.service.js"></script>
+    <script src="scripts/surveymanagement/services/surveyUpload.service.js"></script>
+    <script src="scripts/surveymanagement/views/survey.controller.js"></script>
+    <script src="scripts/surveymanagement/views/survey-detail.controller.js"></script>
+    <script src="scripts/surveymanagement/views/survey-dialog.controller.js"></script>
+    <script src="scripts/surveymanagement/views/survey-delete-dialog.controller.js"></script>
 
-        <script src="scripts/datasetmanagement/configuration/dataSet.js"></script>
-        <script src="scripts/datasetmanagement/directives/dataSet.list.directive.js"></script>
-        <script src="scripts/datasetmanagement/directives/dataSet.list.controller.js"></script>
-        <script src="scripts/datasetmanagement/resources/dataSet.resource.js"></script>
-        <script src="scripts/datasetmanagement/resources/dataSetCollection.resource.js"></script>
-        <script src="scripts/datasetmanagement/resources/dataSetDelete.resource.js"></script>
-        <script src="scripts/datasetmanagement/services/dataSetBuilder.service.js"></script>
-        <script src="scripts/datasetmanagement/services/dataSetUpload.service.js"></script>
-        <script src="scripts/datasetmanagement/services/dataSetReport.service.js"></script>
-        <script src="scripts/datasetmanagement/views/dataSet.controller.js"></script>
+    <script src="scripts/datasetmanagement/configuration/dataSet.js"></script>
+    <script src="scripts/datasetmanagement/directives/dataSet.list.directive.js"></script>
+    <script src="scripts/datasetmanagement/directives/dataSet.list.controller.js"></script>
+    <script src="scripts/datasetmanagement/resources/dataSet.resource.js"></script>
+    <script src="scripts/datasetmanagement/resources/dataSetCollection.resource.js"></script>
+    <script src="scripts/datasetmanagement/resources/dataSetDelete.resource.js"></script>
+    <script src="scripts/datasetmanagement/services/dataSetBuilder.service.js"></script>
+    <script src="scripts/datasetmanagement/services/dataSetUpload.service.js"></script>
+    <script src="scripts/datasetmanagement/services/dataSetReport.service.js"></script>
+    <script src="scripts/datasetmanagement/views/dataSet.controller.js"></script>
 
-        <script src="scripts/atomicquestionmanagement/directives/atomicQuestion.list.directive.js"></script>
-        <script src="scripts/atomicquestionmanagement/directives/atomicQuestion.list.controller.js"></script>
-        <script src="scripts/atomicquestionmanagement/resources/atomicQuestion.resource.js"></script>
-        <script src="scripts/atomicquestionmanagement/resources/atomicQuestionCollection.resource.js"></script>
-        <script src="scripts/atomicquestionmanagement/resources/atomicQuestionDelete.resource.js"></script>
-        <script src="scripts/atomicquestionmanagement/services/atomicQuestionBuilder.service.js"></script>
-        <script src="scripts/atomicquestionmanagement/services/atomicQuestionUpload.service.js"></script>
+    <script src="scripts/atomicquestionmanagement/directives/atomicQuestion.list.directive.js"></script>
+    <script src="scripts/atomicquestionmanagement/directives/atomicQuestion.list.controller.js"></script>
+    <script src="scripts/atomicquestionmanagement/resources/atomicQuestion.resource.js"></script>
+    <script src="scripts/atomicquestionmanagement/resources/atomicQuestionCollection.resource.js"></script>
+    <script src="scripts/atomicquestionmanagement/resources/atomicQuestionDelete.resource.js"></script>
+    <script src="scripts/atomicquestionmanagement/services/atomicQuestionBuilder.service.js"></script>
+    <script src="scripts/atomicquestionmanagement/services/atomicQuestionUpload.service.js"></script>
 
-        <script src="scripts/dataacquisitionprojectmanagement/configuration/dataAcquisitionProject.js"></script>
-        <script src="scripts/dataacquisitionprojectmanagement/resources/dataAcquisitionProject.resource.js"></script>
-        <script src="scripts/dataacquisitionprojectmanagement/resources/dataAcquisitionProjectCollection.resource.js"></script>
-        <script src="scripts/dataacquisitionprojectmanagement/resources/dataAcquisitionProjectPostValidation.resource.js"></script>
-        <script src="scripts/dataacquisitionprojectmanagement/services/postValidation.service.js"></script>
-        <script src="scripts/dataacquisitionprojectmanagement/views/dataAcquisitionProject-detail.controller.js"></script>
-        <script src="scripts/dataacquisitionprojectmanagement/views/dataAcquisitionProject-dialog.controller.js"></script>
-        <script src="scripts/dataacquisitionprojectmanagement/views/dataAcquisitionProject-delete-dialog.controller.js"></script>
-        <script src="scripts/dataacquisitionprojectmanagement/views/dataAcquisitionProject.controller.js"></script>
+    <script src="scripts/dataacquisitionprojectmanagement/configuration/dataAcquisitionProject.js"></script>
+    <script src="scripts/dataacquisitionprojectmanagement/resources/dataAcquisitionProject.resource.js"></script>
+    <script src="scripts/dataacquisitionprojectmanagement/resources/dataAcquisitionProjectCollection.resource.js"></script>
+    <script src="scripts/dataacquisitionprojectmanagement/resources/dataAcquisitionProjectPostValidation.resource.js"></script>
+    <script src="scripts/dataacquisitionprojectmanagement/services/postValidation.service.js"></script>
+    <script src="scripts/dataacquisitionprojectmanagement/views/dataAcquisitionProject-detail.controller.js"></script>
+    <script src="scripts/dataacquisitionprojectmanagement/views/dataAcquisitionProject-dialog.controller.js"></script>
+    <script src="scripts/dataacquisitionprojectmanagement/views/dataAcquisitionProject-delete-dialog.controller.js"></script>
+    <script src="scripts/dataacquisitionprojectmanagement/views/dataAcquisitionProject.controller.js"></script>
 
-        <script src="scripts/datapackagemanagement/configuration/datapackage.js"></script>
-        <script src="scripts/datapackagemanagement/views/datapakage-detail.controller.js"></script>
+    <script src="scripts/datapackagemanagement/configuration/datapackage.js"></script>
+    <script src="scripts/datapackagemanagement/views/datapakage-detail.controller.js"></script>
 
-        <script src="scripts/searchmanagement/services/elasticSearch.client.service.js"></script>
-        <script src="scripts/searchmanagement/services/variable.search.dao.js"></script>
-        <script src="scripts/searchmanagement/services/elasticSearchAdmin.service.js"></script>
+    <script src="scripts/searchmanagement/services/elasticSearch.client.service.js"></script>
+    <script src="scripts/searchmanagement/services/variable.search.dao.js"></script>
+    <script src="scripts/searchmanagement/services/elasticSearchAdmin.service.js"></script>
 
-        <!-- endbuild -->
-    </body>
+    <!-- endbuild -->
+</body>
+
 </html>

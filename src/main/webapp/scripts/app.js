@@ -54,6 +54,7 @@ angular
         // default one
         if (toState.data.pageTitle) {
           titleKey = toState.data.pageTitle;
+          $rootScope.pageTitle = toState.data.pageTitle;
         }
 
         $translate(titleKey).then(function(title) {

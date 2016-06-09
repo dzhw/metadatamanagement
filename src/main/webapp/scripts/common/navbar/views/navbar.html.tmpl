@@ -1,117 +1,117 @@
-<div ng-controller="NavbarController" ng-switch="isAuthenticated()">
-    <md-sidenav class="md-sidenav-left _md _md-locked-open" md-component-id="SideNavBar" md-is-locked-open="$mdMedia('gt-md')" md-disable-backdrop style="box-shadow: none;" md-whiteframe="4" tab-index="-1">
-        <header class="nav-header">
+<div ng-controller="NavbarController" ng-switch="isAuthenticated()" layout="column">
+    <md-sidenav flex md-component-id="SideNavBar" md-is-locked-open="$mdMedia('gt-md')" md-whiteframe="4" tab-index="-1">
+        <md-toolbar style="background-color: white;">
             <a ui-sref="home" title="{{'global.rdcAltText'|translate}}">
-                <img src="assets/images/FDZ_Logo.svg" style="width:95%;" alt>
+                <img src="assets/images/FDZ_Logo.svg" style="height: 64px" alt>
                 <span class="sr-only">FDZ</span>
             </a>
-        </header>
-        <md-content flex role="navigation" class="_md flex">
-            <ul class="side-menu">
-                <li ui-sref-active="active" ng-switch-when="true" class="parent-list-item dropdown pointer">
+        </md-toolbar>
+        <md-content flex role="navigation">
+            <ul>
+                <li ui-sref-active="active" data-has-authority="ROLE_USER">
                     <md-button class="md-button" ng-disabled="true" aria-label="global.menu.entities.main">
                         <span data-translate="global.menu.entities.main"></span>
                     </md-button>
-                    <ul class="menu-toggle-list">
+                    <ul>
                         <li ui-sref-active="active">
-                            <md-button class="md-button md-default-theme" ui-sref="dataAcquisitionProject">
+                            <md-button ui-sref="dataAcquisitionProject">
                                 <span data-translate="global.menu.entities.rdcProject">RDC Projects</span>
                             </md-button>
                         </li>
                         <li ui-sref-active="active">
-                            <md-button class="md-button md-default-theme" ui-sref="dataSet">
+                            <md-button ui-sref="dataSet">
                                 <span data-translate="global.menu.entities.dataSet">DataSets</span>
                             </md-button>
                         </li>
                         <li ui-sref-active="active">
-                            <md-button class="md-button md-default-theme" ui-sref="survey">
+                            <md-button ui-sref="survey">
                                 <span data-translate="global.menu.entities.survey">Surveys</span>
                             </md-button>
                         </li>
                         <li ui-sref-active="active">
-                            <md-button class="md-button md-default-theme" ui-sref="variable({page: '1'})">
+                            <md-button ui-sref="variable({page: '1'})">
                                 <span data-translate="global.menu.entities.variable">Variables</span>
                             </md-button>
                         </li>
                         <!-- JHipster will add entities to the menu here -->
                     </ul>
                 </li>
-                <li ng-class="{active: $state.includes('account')}" class="dropdown pointer">
+                <li>
                     <md-button class="md-button" ng-disabled="true" aria-label="global.menu.account.main">
                         <span data-translate="global.menu.account.main"></span>
                     </md-button>
-                    <ul class="menu-toggle-list">
-                        <li ui-sref-active="active" ng-switch-when="true">
-                            <md-button class="md-button md-default-theme" ui-sref="settings">
+                    <ul>
+                        <li ui-sref-active="active">
+                            <md-button ui-sref="settings">
                                 <span data-translate="global.menu.account.settings">Settings</span>
                             </md-button>
                         </li>
-                        <li ui-sref-active="active" ng-switch-when="true">
-                            <md-button class="md-button md-default-theme" ui-sref="password">
+                        <li ui-sref-active="active">
+                            <md-button ui-sref="password">
                                 <span data-translate="global.menu.account.password">Password</span>
                             </md-button>
                         </li>
-                        <li ui-sref-active="active" ng-switch-when="true">
-                            <md-button class="md-button md-default-theme" ng-click="logout()">
+                        <li ui-sref-active="active">
+                            <md-button ng-click="logout()">
                                 <span data-translate="global.menu.account.logout">Sign out</span>
                             </md-button>
                         </li>
-                        <li ui-sref-active="active" ng-switch-when="false">
-                            <md-button class="md-button md-default-theme" ui-sref="login">
+                        <li ui-sref-active="active">
+                            <md-button ui-sref="login">
                                 <span data-translate="global.menu.account.login">Sign in</span>
                             </md-button>
                         </li>
-                        <li ui-sref-active="active" ng-switch-when="false">
-                            <md-button class="md-button md-default-theme" ui-sref="register">
+                        <li ui-sref-active="active">
+                            <md-button ui-sref="register">
                                 <span data-translate="global.menu.account.register">Register</span>
                             </md-button>
                         </li>
                     </ul>
                 </li>
-                <li ng-class="{active: $state.includes('admin')}" ng-switch-when="true" data-has-authority="ROLE_ADMIN">
-                    <md-button class="md-button" ng-disabled="true" aria-label="global.menu.admin.main">
+                <li data-has-authority="ROLE_ADMIN">
+                    <md-button ng-disabled="true" aria-label="global.menu.admin.main">
                         <span data-translate="global.menu.admin.main"></span>
                     </md-button>
-                    <ul class="menu-toggle-list">
+                    <ul>
                         <li ui-sref-active="active">
-                            <md-button class="md-button md-default-theme" ui-sref="user-management">
+                            <md-button ui-sref="user-management">
                                 <span data-translate="global.menu.admin.user-management">User management</span>
                             </md-button>
                         </li>
                         <li ui-sref-active="active">
-                            <md-button class="md-button md-default-theme" ui-sref="metrics">
+                            <md-button ui-sref="metrics">
                                 <span data-translate="global.menu.admin.metrics">Metrics</span>
                             </md-button>
                         </li>
                         <li ui-sref-active="active">
-                            <md-button class="md-button md-default-theme" ui-sref="health">
+                            <md-button ui-sref="health">
                                 <span data-translate="global.menu.admin.health">Health</span>
                             </md-button>
                         </li>
                         <li ui-sref-active="active">
-                            <md-button class="md-button md-default-theme" ui-sref="configuration">
+                            <md-button ui-sref="configuration">
                                 <span data-translate="global.menu.admin.configuration">Configuration</span>
                             </md-button>
                         </li>
                         <li ui-sref-active="active">
-                            <md-button class="md-button md-default-theme" ui-sref="logs">
+                            <md-button ui-sref="logs">
                                 <span data-translate="global.menu.admin.logs">Logs</span>
                             </md-button>
                         </li>
                     </ul>
                 </li>
                 <li ui-sref-active="active">
-                    <md-button class="md-button md-default-theme" ui-sref="disclosure">
+                    <md-button ui-sref="disclosure">
                         <span data-translate="global.menu.disclosure">Disclosure</span>
                     </md-button>
                 </li>
                 <li ui-sref-active="active" ng-controller="LanguageController">
-                    <md-button class="md-button" ng-disabled="true" aria-label="global.menu.language">
+                    <md-button ng-disabled="true" aria-label="global.menu.language">
                         <span data-translate="global.menu.language">Language</span>
                     </md-button>
-                    <ul class="menu-toggle-list">
-                        <li data-active-menu="{{language}}" ng-repeat="language in languages">
-                            <md-button class="md-button md-default-theme" ng-click="changeLanguage(language)">
+                    <ul>
+                        <li ng-repeat="language in languages">
+                            <md-button ng-click="changeLanguage(language)">
                                 <span>{{language | findLanguageFromKey}}</span>
                             </md-button>
                         </li>
