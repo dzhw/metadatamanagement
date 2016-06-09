@@ -26,7 +26,7 @@
     <div ng-show="{{ENV === 'local' || ENV === 'dev' || ENV === 'test'}}" class="ribbon">{{ENV}}</div>
     <div layout="row">
         <div ui-view="navbar"></div>
-        <div flex layout="column">
+        <div flex layout="column" id="content">
             <md-toolbar ng-controller="NavbarController" md-whiteframe="4">
                 <div class="md-toolbar-tools">
                     <md-button hide-gt-md ng-click="toggleLeft()" class="md-icon-button">
