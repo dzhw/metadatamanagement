@@ -29,7 +29,7 @@ describe('User-management page', function() {
           loginHelper.logout();
         });
       it('should check translated strings', function() {
-        var htmlContent = element.all(by.css('.container')).get(0);
+        var htmlContent = element(by.id('content'));
         htmlContentHelper
           .findNotTranslationedStrings(htmlContent, currentUrl)
           .then(function(result) {
@@ -37,7 +37,7 @@ describe('User-management page', function() {
           });
       });
       it('should open details page for first user (System)', function(done) {
-        var htmlContent = element.all(by.css('.container')).get(0);
+        var htmlContent = element(by.id('content'));
         htmlContent
         .all(by.uiSref('user-management-detail({login:user.login})'))
         .then(function(items) {

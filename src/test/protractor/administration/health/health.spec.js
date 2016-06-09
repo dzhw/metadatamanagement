@@ -29,7 +29,7 @@ describe('Health Page', function() {
           loginHelper.logout();
         });
       it('should check translated strings', function() {
-          var htmlContent = element.all(by.css('.container')).get(0);
+          var htmlContent = element(by.id('content'));
           htmlContentHelper
           .findNotTranslationedStrings(htmlContent, currentUrl)
           .then(function(result) {
