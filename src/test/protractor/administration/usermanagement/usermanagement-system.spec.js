@@ -8,16 +8,16 @@
 /* global afterAll */
 
 'use strict';
-
 var htmlContentHelper =
 require('../../utils/htmlContentHelper');
 var loginHelper = require('../../utils/loginHelper');
 
-describe('Configuration Page', function() {
-  function testConfigurationPage(description, link) {
+describe('User details page', function() {
+  function testHomePage(description, link) {
     describe(description, function() {
       var currentUrl;
       beforeAll(function() {
+          browser.get('#/de/login');
           loginHelper.login();
           browser.get(link);
           browser.getCurrentUrl().then(function(url) {
@@ -28,15 +28,15 @@ describe('Configuration Page', function() {
           loginHelper.logout();
         });
       it('should check translated strings', function() {
-          var htmlContent = element.all(by.css('.container')).get(0);
-          htmlContentHelper
+        var htmlContent = element.all(by.css('.container')).get(0);
+        htmlContentHelper
           .findNotTranslationedStrings(htmlContent, currentUrl)
           .then(function(result) {
             expect(result.length).toBe(0, result.message);
           });
-        });
+      });
     });
   }
-  testConfigurationPage('with german language', '#/de/configuration');
-  testConfigurationPage('with english language', '#/en/configuration');
+  testHomePage('with german language', '#/de/user-management/system');
+  testHomePage('with english language', '#/en/user-management/system');
 });

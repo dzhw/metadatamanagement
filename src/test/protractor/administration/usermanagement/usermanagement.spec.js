@@ -6,7 +6,6 @@
 /* global expect */
 /* global beforeAll */
 /* global afterAll */
-/* global xit */
 
 'use strict';
 var htmlContentHelper =
@@ -37,14 +36,17 @@ describe('User-management page', function() {
             expect(result.length).toBe(0, result.message);
           });
       });
-      xit('should check url for details for first user', function(done) {
+      it('should open details page for first user (System)', function(done) {
         var htmlContent = element.all(by.css('.container')).get(0);
-        htmlContent.all(by.css('a')).then(function(items) {
+        htmlContent
+        .all(by.uiSref('user-management-detail({login:user.login})'))
+        .then(function(items) {
            items[0].getAttribute('href').then(function(href) {
              return href;
-           }).then(function(url) {
-             items[0].click().then(function() {
-               findBrockenUrls.checkHREFs(url, currentUrl)
+           }).then(function(href) {
+             browser.driver.executeScript('arguments[0].click();',
+             items[0].getWebElement()).then(function() {
+               findBrockenUrls.checkStates(href, currentUrl, 'regestration')
                .then(function(result) {
                  done();
                  expect(result.isValidUrl).toBe(true, result.message);
