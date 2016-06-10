@@ -1,4 +1,4 @@
-<md-toolbar md-whiteframe="4">
+<md-toolbar id="toolbar" md-whiteframe="4">
     <div class="md-toolbar-tools" layout="row" ng-switch="isAuthenticated()">
         <md-button class="md-primary md-raised md-hue-1 md-icon-button" hide-gt-md ng-click="toggleLeft()">
             <md-icon md-font-set="material-icons">menu</md-icon>
@@ -13,19 +13,19 @@
             <span hide-xs>Deutsch</span>
         </md-button>
         <div ng-switch-when="true">
-            <md-button class="md-primary md-raised md-hue-1" style="min-width: 36px;" ng-click="logout()">
+            <md-button id="logout" class="md-primary md-raised md-hue-1" style="min-width: 36px;" ng-click="logout()">
                 <md-icon md-svg-src="/assets/images/icons/logout.svg"></md-icon>
                 <span hide-xs>{{identity.login}}</span>
             </md-button>
         </div>
         <div ng-switch-when="false">
-            <md-button class="md-primary md-raised md-hue-1" style="min-width: 36px;" ng-click="login()">
+            <md-button id="login" class="md-primary md-raised md-hue-1" style="min-width: 36px;" ng-click="login()">
                 <md-icon md-svg-src="/assets/images/icons/login.svg"></md-icon>
                 <span hide-xs data-translate="global.menu.account.login">Login</span>
             </md-button>
         </div>
         <div ng-switch-when="false">
-            <md-button class="md-primary md-raised md-hue-1" style="min-width: 36px;" ng-click="register()">
+            <md-button id="register" class="md-primary md-raised md-hue-1" style="min-width: 36px;" ng-click="register()">
                 <md-icon md-svg-src="/assets/images/icons/account-plus.svg"></md-icon>
                 <span hide-xs data-translate="global.menu.account.register">Register</span>
             </md-button>

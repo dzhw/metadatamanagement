@@ -28,6 +28,7 @@ exports.config = {
     'usermanagement/account/register/register.spec.js',
     'usermanagement/account/reset/request/reset.spec.js',
     'usermanagement/account/settings/settings.spec.js',
+    'common/toolbar.spec.js',
     'common/navbar.spec.js',
   ],
 

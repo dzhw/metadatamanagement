@@ -2,8 +2,6 @@
   "metadatamanagementApp": {
     "main": {
       "title": "Willkommen beim FDZ des DZHW. Sie suchen ...",
-      "dzhwUrl": "http://www.dzhw.eu/",
-      "bmbfUrl": "http://www.bmbf.de/",
       "logos": {
         "bmbf": "Gefördert vom BMBF",
         "dzhw": "Deutsches Zentrum für Hochschul- und Wissenschaftsforschung DZHW GmbH"

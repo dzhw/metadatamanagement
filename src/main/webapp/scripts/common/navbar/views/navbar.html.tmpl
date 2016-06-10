@@ -88,11 +88,13 @@
         </md-list>
 
         <div class="col-md-4" title="{{'global.bmbfAltText'|translate}}">
-          <a class="{{'global.bmbfClass' |translate}}" ng-href="{{'metadatamanagementApp.main.bmbfUrl'|translate}}"></a>
+          <a class="navbar-brand bmbf_logo_de" ng-href="http://www.bmbf.de/" ng-if="currentLanguage!='en'"></a>
+          <a class="navbar-brand bmbf_logo_en" ng-href="http://www.bmbf.de/en/index.html" ng-if="currentLanguage!='de'"></a>
         </div>
 
         <div title="{{'global.dzhwAltText'|translate}}">
-            <a class="navbar-brand dzhw_logo" ng-href="{{'metadatamanagementApp.main.dzhwUrl'|translate}}"></a>
+            <a class="navbar-brand dzhw_logo" ng-href="http://www.dzhw.eu/" ng-if="currentLanguage!='en'"></a>
+            <a class="navbar-brand dzhw_logo" ng-href="http://www.dzhw.eu/en_note" ng-if="currentLanguage!='de'"></a>
         </div>
     </md-content>
 </md-sidenav>

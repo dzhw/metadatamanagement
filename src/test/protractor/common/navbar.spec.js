@@ -7,7 +7,6 @@
 /* global beforeEach */
 /* global beforeAll */
 /* global afterAll */
-/* global xit */
 
 'use strict';
 
@@ -46,36 +45,6 @@ describe('Side Bar', function() {
         }).then(function(href) {
           state.click().then(function() {
             findBrockenUrls.checkStates(href, currentUrl, 'disclosure')
-            .then(function(result) {
-              done();
-              expect(result.isValidUrl).toBe(true, result.message);
-            });
-          });
-        });
-      });
-      it('should open login page', function(done) {
-        var state =  element(by.uiSref('login'));
-        state.getAttribute('href').then(function(href) {
-          return href;
-        }).then(function(href) {
-          browser.driver.executeScript('arguments[0].click();',
-          state.getWebElement()).then(function() {
-            findBrockenUrls.checkStates(href, currentUrl, 'login')
-            .then(function(result) {
-              done();
-              expect(result.isValidUrl).toBe(true, result.message);
-            });
-          });
-        });
-      });
-      it('should open regestration page', function(done) {
-        var state =  element(by.uiSref('register'));
-        state.getAttribute('href').then(function(href) {
-          return href;
-        }).then(function(href) {
-          browser.driver.executeScript('arguments[0].click();',
-          state.getWebElement()).then(function() {
-            findBrockenUrls.checkStates(href, currentUrl, 'regestration')
             .then(function(result) {
               done();
               expect(result.isValidUrl).toBe(true, result.message);

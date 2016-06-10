@@ -2,11 +2,6 @@
 
 angular.module('metadatamanagementApp').controller(
   'NavbarController',
-  function($scope, Principal, Auth, $state) {
+  function($scope, Principal) {
     $scope.isAuthenticated = Principal.isAuthenticated;
-    //Logout function
-    $scope.logout = function() {
-      Auth.logout();
-      $state.go('home');
-    };
   });
