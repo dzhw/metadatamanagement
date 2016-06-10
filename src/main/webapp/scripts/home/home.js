@@ -22,6 +22,7 @@ angular.module('metadatamanagementApp').config(
               $translatePartialLoader.addPart('home');
               $translatePartialLoader.addPart('global');
               $translatePartialLoader.addPart('variablesearch');
+              $translatePartialLoader.addPart('pagination');
               return $translate.refresh();
             }
           ]

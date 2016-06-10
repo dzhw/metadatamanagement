@@ -27,6 +27,21 @@
                                 </md-list-item>
                                 <md-divider ></md-divider>
                             </md-list>
+                            <ul class="pager" ng-show="page.totalHits>0">
+                                <li class="previous">
+                                    <a class="btn" ng-disabled="!page.hasPreviousPage()" ng-click="previousPage()">&larr;
+                                        {{'pagination.previous'|translate}}</a>
+                                </li>
+                                <li class="hidden-xs">
+                                    <a>
+                                        <span data-translate="variablesearch.numberofpages" data-translate-values="{'currentPageNumber':{{page.currentPageNumber}},'totalNumberOfPages':{{page.getTotalNumberOfPages()}}}">Page 1 of 1</span>
+                                    </a>
+                                </li>
+                                <li class="next">
+                                    <a class="btn" ng-disabled="!page.hasNextPage()" ng-click="nextPage()">{{'pagination.next'|translate}}
+                                        &rarr;</a>
+                                </li>
+                            </ul>
                         </md-content>
                     </div>
                 </md-tab>
