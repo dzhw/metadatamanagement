@@ -118,7 +118,8 @@ module.exports = function(grunt) {
             'nvd3',
             'loading',
             'md-content',
-            'md-sidenav'
+            'md-sidenav',
+            'md-toolbar'
           ],
           relaxerror: [
             'The “date” input type is not supported in all browsers.' +

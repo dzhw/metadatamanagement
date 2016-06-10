@@ -5,7 +5,7 @@
             <span class="sr-only">FDZ</span>
         </a>
     </md-toolbar>
-    <md-content ng-controller="NavbarController" ng-switch="isAuthenticated()" flex role="navigation">
+    <md-content ng-switch="isAuthenticated()" flex role="navigation">
         <md-divider></md-divider>
         <md-list ng-switch-when="true" data-has-authority="ROLE_USER">
             <md-list-item class="md-primary">
@@ -105,17 +105,6 @@
                 </md-button>
             </md-list-item>
             <md-divider></md-divider>
-        </md-list>
-        <md-list ng-controller="LanguageController" layout="column">
-            <md-list-item>
-                <span data-translate="global.menu.language">Language</span>
-            </md-list-item>
-            <md-divider></md-divider>
-            <md-list-item ng-repeat="language in languages">
-                <md-button ng-click="changeLanguage(language)" class="fdz-navbar-button">
-                    <span>{{language | findLanguageFromKey}}</span>
-                </md-button>
-            </md-list-item>
         </md-list>
     </md-content>
 </md-sidenav>

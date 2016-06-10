@@ -1,0 +1,16 @@
+<md-toolbar ng-controller="ToolbarController" md-whiteframe="4">
+    <div class="md-toolbar-tools" layout="row">
+        <md-button hide-gt-md ng-click="toggleLeft()" class="md-icon-button">
+            <md-icon md-font-set="material-icons">menu</md-icon>
+        </md-button>
+        <h1 class="md-headline fdz-truncate-string" flex>{{pageTitle | translate }}</h1>
+        <md-button ng-click="changeLanguage('en')" ng-if="currentLanguage!='en'">
+            <span class="flag-icon flag-icon-us"></span>
+            <span>English</span>
+        </md-button>
+        <md-button ng-click="changeLanguage('de')" ng-if="currentLanguage!='de'">
+            <span class="flag-icon flag-icon-de"></span>
+            <span>Deutsch</span>
+        </md-button>
+    </div>
+</md-toolbar>

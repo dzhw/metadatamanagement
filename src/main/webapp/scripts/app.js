@@ -91,6 +91,10 @@ angular
           'navbar@': {
             templateUrl: 'scripts/common/navbar/views/navbar.html.tmpl',
             controller: 'NavbarController'
+          },
+          'toolbar@': {
+            templateUrl: 'scripts/common/toolbar/views/toolbar.html.tmpl',
+            controller: 'ToolbarController'
           }
         },
         resolve: {

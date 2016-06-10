@@ -285,3 +285,9 @@ style for datapackage
   height: 100%;
   text-align: left;
 }
+
+.fdz-truncate-string {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}

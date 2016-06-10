@@ -6,6 +6,8 @@ function mockApis() {
     $httpBackend.whenGET(/i18n\/de\/.+\.json/).respond({});
     $httpBackend.whenGET('scripts/common/navbar/views/navbar.html.tmpl').
     respond({});
+    $httpBackend.whenGET('scripts/common/toolbar/views/toolbar.html.tmpl').
+    respond({});
     $httpBackend.whenGET('scripts/home/home.html.tmpl').respond({});
   });
 }

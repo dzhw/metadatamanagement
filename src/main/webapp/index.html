@@ -14,6 +14,7 @@
     <!-- bower:css -->
     <link rel="stylesheet" href="bower_components/nvd3/build/nv.d3.css" />
     <link rel="stylesheet" href="bower_components/angular-material/angular-material.css" />
+    <link rel="stylesheet" href="bower_components/flag-icon-css/css/flag-icon.min.css" />
     <!-- endbower -->
     <!-- endbuild -->
     <!-- build:css assets/styles/main.css -->
@@ -26,14 +27,7 @@
     <div ng-show="{{ENV === 'local' || ENV === 'dev' || ENV === 'test'}}" class="ribbon">{{ENV}}</div>
     <div ui-view="navbar" layout="column"></div>
     <div flex layout="column" id="content">
-        <md-toolbar ng-controller="NavbarController" md-whiteframe="4">
-            <div class="md-toolbar-tools">
-                <md-button hide-gt-md ng-click="toggleLeft()" class="md-icon-button">
-                    <md-icon md-font-set="material-icons">menu</md-icon>
-                </md-button>
-                <h1 class="md-headline">{{pageTitle | translate }}</h1>
-            </div>
-        </md-toolbar>
+        <div ui-view="toolbar" layout="column"></div>
         <md-content flex>
             <ui-view name="content"></ui-view>
         </md-content>
@@ -143,6 +137,7 @@
     <script src="scripts/common/easteregg/egg.js"></script>
     <script src="scripts/common/navbar/directives/navbar.directive.js"></script>
     <script src="scripts/common/navbar/views/navbar.controller.js"></script>
+    <script src="scripts/common/toolbar/views/toolbar.controller.js"></script>
     <script src="scripts/common/waitSpinner/directives/loading.directive.js"></script>
     <script src="scripts/common/modal/customModal.service.js"></script>
     <script src="scripts/common/joblogging/jobLogging.service.js"></script>
