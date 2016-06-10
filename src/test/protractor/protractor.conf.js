@@ -41,6 +41,11 @@ exports.config = {
     'platform': 'Windows 8.1',
     'browserName': 'firefox',
     'screenResolution': '1280x1024'
+  }, {
+    'name': 'Win8.1/Firefox',
+    'platform': 'Windows 8.1',
+    'browserName': 'firefox',
+    'screenResolution': '1280x1024'
   }],
 
   //enable this for local tests without selenium
