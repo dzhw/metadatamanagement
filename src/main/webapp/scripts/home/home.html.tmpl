@@ -6,7 +6,7 @@
                 <md-tab label="{{'global.menu.entities.variable'|translate}}">
                     <div ng-controller="VariableController">
                         <md-content class="md-padding">
-                            <md-input-container class="md-block" ng-model="query" ng-keyup="search(1)" autocomplete="off" autofocus="autofocus">
+                            <md-input-container class="md-block">
                                 <label>{{'global.menu.search.variablesearch'|translate}}</label>
                                 <input id="query" type="text" ng-model="query" ng-keyup="search(1)" autocomplete="off" autofocus="autofocus">
                                 <md-icon md-font-set="material-icons">search</md-icon>
@@ -18,7 +18,7 @@
                                 </div>
                             </md-toolbar>
                             <md-list>
-                                <md-list-item class="md-3-line" ng-repeat="result in searchResult" ng-click="null" flex>
+                                <md-list-item ui-sref="variable.detail({id:result._source.id})" class="md-3-line" ng-repeat="result in searchResult" ng-click="null" flex>
                                     <div class="md-list-item-text" layout="column">
                                         <h3>{{result._source.label}}</h3>
                                         <h4>{{result._source.name}}</h4>
