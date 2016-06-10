@@ -8,7 +8,7 @@
                         <md-content class="md-padding">
                             <md-input-container class="md-block" ng-model="query" ng-keyup="search(1)" autocomplete="off" autofocus="autofocus">
                                 <label>{{'global.menu.search.variablesearch'|translate}}</label>
-                                <input ng-model="user.title">
+                                <input id="query" type="text" ng-model="query" ng-keyup="search(1)" autocomplete="off" autofocus="autofocus">
                                 <md-icon md-font-set="material-icons">search</md-icon>
                             </md-input-container>
 
