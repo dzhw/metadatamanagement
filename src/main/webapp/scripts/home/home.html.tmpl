@@ -1,4 +1,5 @@
-<div class="container" ng-cloak>
+<div class="container">
+    <jh-alert></jh-alert>
     <div class="container">
 
         <md-content>
@@ -6,12 +7,16 @@
                 <md-tab label="{{'global.menu.entities.variable'|translate}}">
                     <div ng-controller="VariableController">
                         <md-content class="md-padding">
-                            <md-input-container class="md-block">
-                                <label>{{'global.menu.search.variablesearch'|translate}}</label>
-                                <input id="query" type="text" ng-model="query" ng-keyup="search(1)" autocomplete="off" autofocus="autofocus">
-                                <md-icon md-font-set="material-icons">search</md-icon>
-                            </md-input-container>
-
+                            <div layout="row" flex>
+                                <md-input-container flex class="md-block">
+                                    <label>{{'global.menu.search.variablesearch'|translate}}</label>
+                                    <md-icon md-font-set="material-icons">search</md-icon>
+                                    <input id="query" type="text" ng-model="query" ng-keyup="search(1)" autocomplete="off" autofocus="autofocus">
+                                </md-input-container>
+                                <md-button class="md-fab md-primary md-hue-2" ng-click="refresh()">
+                                    <md-icon md-font-set="material-icons">autorenew</md-icon>
+                                </md-button>
+                            </div>
                             <md-toolbar class="md-hue-3">
                                 <div class="md-toolbar-tools">
                                     <span class="panel-title" data-translate="variablesearch.variablelist" data-translate-values="{'totalHits':{{page.totalHits}},'minHitNumber':{{page.getMinHitNumber()}},'maxHitNumber':{{page.getMaxHitNumber()}}}">Showing hits 1-10</span>
@@ -41,8 +46,8 @@
                                 </li>
                                 <li>
                                     <md-button class="md-raised md-button md-ink-ripple" ng-disabled="!page.hasNextPage()" ng-click="nextPage()">
-                                      {{'pagination.next'|translate}}
-                                      <md-icon md-font-set="material-icons">arrow_forward</md-icon>
+                                        {{'pagination.next'|translate}}
+                                        <md-icon md-font-set="material-icons">arrow_forward</md-icon>
                                     </md-button>
                                 </li>
                             </ul>
@@ -51,14 +56,5 @@
                 </md-tab>
             </md-tabs>
         </md-content>
-
-        <div class="row">
-            <div class="col-md-4 col-md-offset-2" title="{{'global.dzhwAltText'|translate}}">
-                <a class="navbar-brand dzhw_logo" ng-href="{{'metadatamanagementApp.main.dzhwUrl'|translate}}"></a>
-            </div>
-            <div class="col-md-4" title="{{'global.bmbfAltText'|translate}}">
-                <a class="{{'global.bmbfClass' |translate}}" ng-href="{{'metadatamanagementApp.main.bmbfUrl'|translate}}"></a>
-            </div>
-        </div>
     </div>
 </div>
