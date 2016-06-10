@@ -59,7 +59,7 @@ describe('Side Bar', function() {
         afterAll(function() {
           loginHelper.logout();
         });
-        it('should open Variables page', function(done) {
+        xit('should open Variables page', function(done) {
           var state =  element(by.uiSref('variable({page:1})'));
           state.getAttribute('href').then(function(href) {
             return href;
