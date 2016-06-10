@@ -16,8 +16,9 @@ angular
           AuthServerProvider.login(credentials).then(function(data) {
             // retrieve the logged account information
             //Principal.identity(true).then(function(account) {
-            Principal.identity(true).then(function() {
+            Principal.identity(true).then(function(identity) {
               deferred.resolve(data);
+              $rootScope.identity = identity;
             });
             return cb();
           }).catch(function(err) {
@@ -32,6 +33,7 @@ angular
 
         logout: function() {
           AuthServerProvider.logout();
+          $rootScope.identity = {};
           Principal.authenticate(null);
           // Reset state memory
           $rootScope.previousStateName = undefined;
@@ -42,9 +44,12 @@ angular
           return Principal
             .identity(force)
             .then(
-              function() {
+              function(identity) {
                 var isAuthenticated = Principal.isAuthenticated();
 
+                if (isAuthenticated) {
+                  $rootScope.identity = identity;
+                }
                 // an authenticated user can't access to login and
                 // register pages
                 if (isAuthenticated &&

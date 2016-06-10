@@ -15,6 +15,14 @@ angular.module('metadatamanagementApp').controller(
       $state.go('home');
     };
 
+    $scope.login = function() {
+      $state.go('login');
+    };
+
+    $scope.register = function() {
+      $state.go('register');
+    };
+
     //Toggle Function
     $scope.toggleLeft = function() {
       $mdSidenav('SideNavBar').toggle();
