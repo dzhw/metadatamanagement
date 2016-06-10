@@ -26,7 +26,7 @@
     <div ng-show="{{ENV === 'local' || ENV === 'dev' || ENV === 'test'}}" class="ribbon">{{ENV}}</div>
     <div ui-view="navbar" layout="column"></div>
     <div flex layout="column" id="content">
-        <div ui-view="toolbar" layout="column"></div>
+        <div ui-view="toolbar"></div>
         <md-content flex>
             <ui-view name="content"></ui-view>
         </md-content>
