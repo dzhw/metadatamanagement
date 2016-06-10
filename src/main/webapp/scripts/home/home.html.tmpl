@@ -28,18 +28,22 @@
                                 <md-divider ></md-divider>
                             </md-list>
                             <ul class="pager" ng-show="page.totalHits>0">
-                                <li class="previous">
-                                    <a class="btn" ng-disabled="!page.hasPreviousPage()" ng-click="previousPage()">&larr;
-                                        {{'pagination.previous'|translate}}</a>
+                                <li>
+                                    <md-button class="md-raised md-button md-ink-ripple" ng-disabled="!page.hasPreviousPage()" ng-click="previousPage()">
+                                        <md-icon md-font-set="material-icons">arrow_backward</md-icon>
+                                        {{'pagination.previous'|translate}}
+                                    </md-button>
                                 </li>
-                                <li class="hidden-xs">
-                                    <a>
+                                <li class="hide-xs">
+                                    <md-button class="md-raised md-button md-ink-ripple">
                                         <span data-translate="variablesearch.numberofpages" data-translate-values="{'currentPageNumber':{{page.currentPageNumber}},'totalNumberOfPages':{{page.getTotalNumberOfPages()}}}">Page 1 of 1</span>
-                                    </a>
+                                    </md-button>
                                 </li>
-                                <li class="next">
-                                    <a class="btn" ng-disabled="!page.hasNextPage()" ng-click="nextPage()">{{'pagination.next'|translate}}
-                                        &rarr;</a>
+                                <li>
+                                    <md-button class="md-raised md-button md-ink-ripple" ng-disabled="!page.hasNextPage()" ng-click="nextPage()">
+                                      {{'pagination.next'|translate}}
+                                      <md-icon md-font-set="material-icons">arrow_forward</md-icon>
+                                    </md-button>
                                 </li>
                             </ul>
                         </md-content>
