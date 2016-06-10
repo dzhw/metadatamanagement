@@ -29,34 +29,19 @@
             </md-list-item>
             <md-divider></md-divider>
         </md-list>
-        <md-list>
+        <md-list ng-switch-when="true">
             <md-list-item>
                 <span data-translate="global.menu.account.main"></span>
             </md-list-item>
             <md-divider></md-divider>
-            <md-list-item ng-switch-when="true">
+            <md-list-item>
                 <md-button ui-sref="settings" class="fdz-navbar-button">
                     <span data-translate="global.menu.account.settings">Settings</span>
                 </md-button>
             </md-list-item>
-            <md-list-item ng-switch-when="true">
+            <md-list-item>
                 <md-button ui-sref="password" class="fdz-navbar-button">
                     <span data-translate="global.menu.account.password">Password</span>
-                </md-button>
-            </md-list-item>
-            <md-list-item ng-switch-when="true">
-                <md-button ng-click="logout()" class="fdz-navbar-button">
-                    <span data-translate="global.menu.account.logout">Sign out</span>
-                </md-button>
-            </md-list-item>
-            <md-list-item ng-switch-when="false">
-                <md-button ui-sref="login" class="fdz-navbar-button">
-                    <span data-translate="global.menu.account.login">Sign in</span>
-                </md-button>
-            </md-list-item>
-            <md-list-item ng-switch-when="false">
-                <md-button ui-sref="register" class="fdz-navbar-button">
-                    <span data-translate="global.menu.account.register">Register</span>
                 </md-button>
             </md-list-item>
             <md-divider></md-divider>
