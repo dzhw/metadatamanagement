@@ -291,3 +291,29 @@ style for datapackage
   overflow: hidden;
   text-overflow: ellipsis;
 }
+
+.fdz-flag-icon-de {
+    background-image: url(/assets/images/flags/de.svg);
+}
+
+.fdz-flag-icon-gb {
+    background-image: url(/assets/images/flags/gb.svg);
+}
+
+.fdz-flag-icon-us {
+    background-image: url(/assets/images/flags/us.svg);
+}
+
+.fdz-flag-icon {
+  background-size: contain;
+  background-position: 50%;
+  background-repeat: no-repeat;
+  position: relative;
+  display: inline-block;
+  width: 1.33333333em;
+  line-height: 1em;
+}
+
+.fdz-flag-icon:before {
+  content: "\00a0";
+}
