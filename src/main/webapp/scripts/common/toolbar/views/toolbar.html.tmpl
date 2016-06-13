@@ -4,28 +4,28 @@
             <md-icon md-font-set="material-icons">menu</md-icon>
         </md-button>
         <h1 class="md-headline fdz-truncate-string" flex>{{pageTitle | translate }}</h1>
-        <md-button class="md-primary md-raised md-hue-1" style="min-width: 36px;" ng-click="changeLanguage('en')" ng-if="currentLanguage!='en'">
+        <md-button class="md-primary md-raised md-hue-1" ng-class="{'md-icon-button': $mdMedia('xs')}" ng-click="changeLanguage('en')" ng-if="currentLanguage!='en'">
             <span class="fdz-flag-icon fdz-flag-icon-gb"></span>
             <span hide-xs>English</span>
         </md-button>
-        <md-button class="md-primary md-raised md-hue-1" style="min-width: 36px;" ng-click="changeLanguage('de')" ng-if="currentLanguage!='de'">
+        <md-button class="md-primary md-raised md-hue-1" ng-class="{'md-icon-button': $mdMedia('xs')}" ng-click="changeLanguage('de')" ng-if="currentLanguage!='de'">
             <span class="fdz-flag-icon fdz-flag-icon-de"></span>
             <span hide-xs>Deutsch</span>
         </md-button>
         <div ng-switch-when="true">
-            <md-button id="logout" class="md-primary md-raised md-hue-1" style="min-width: 36px;" ng-click="logout()">
+            <md-button id="logout" class="md-primary md-raised md-hue-1" ng-class="{'md-icon-button': $mdMedia('xs')}" ng-click="logout()">
                 <md-icon md-svg-src="/assets/images/icons/logout.svg"></md-icon>
                 <span hide-xs>{{identity.login}}</span>
             </md-button>
         </div>
         <div ng-switch-when="false">
-            <md-button id="login" class="md-primary md-raised md-hue-1" style="min-width: 36px;" ng-click="login()">
+            <md-button id="login" class="md-primary md-raised md-hue-1" ng-class="{'md-icon-button': $mdMedia('xs')}" ng-click="login()">
                 <md-icon md-svg-src="/assets/images/icons/login.svg"></md-icon>
                 <span hide-xs data-translate="global.menu.account.login">Login</span>
             </md-button>
         </div>
         <div ng-switch-when="false">
-            <md-button id="register" class="md-primary md-raised md-hue-1" style="min-width: 36px;" ng-click="register()">
+            <md-button id="register" class="md-primary md-raised md-hue-1" ng-class="{'md-icon-button': $mdMedia('xs')}" ng-click="register()">
                 <md-icon md-svg-src="/assets/images/icons/account-plus.svg"></md-icon>
                 <span hide-xs data-translate="global.menu.account.register">Register</span>
             </md-button>

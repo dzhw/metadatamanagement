@@ -72,7 +72,6 @@ body {
 }
 
 .fdz_logo, .dzhw_logo, .bmbf_logo_de, .bmbf_logo_en{
-  top:10px;
    background-color: transparent;
    background-position: center center;
    background-repeat: no-repeat;
@@ -278,14 +277,6 @@ style for datapackage
   padding: 10px;
 }
 
-.fdz-navbar-button {
-  margin: 0px;
-  padding-left: 1em;
-  width: 100%;
-  height: 100%;
-  text-align: left;
-}
-
 .fdz-truncate-string {
   white-space: nowrap;
   overflow: hidden;
@@ -316,4 +307,26 @@ style for datapackage
 
 .fdz-flag-icon:before {
   content: "\00a0";
+}
+
+.fdz-navbar-menu {
+  padding: 0 0 0 1em;
+  margin: 0px;
+}
+
+.fdz-navbar-menu-toggle {
+  padding: 0 0 0 1em;
+  margin: 0px;
+  width: 100%;
+  height: 100%;
+  text-align: left;
+}
+
+.fdz-navbar-button {
+  display: block;
+  margin: 0px;
+  padding: 0 0 0 1em;
+  width: 100%;
+  height: 100%;
+  text-align: left;
 }

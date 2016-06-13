@@ -1,4 +1,4 @@
-<md-sidenav md-component-id="SideNavBar" md-is-locked-open="$mdMedia('gt-md')" md-whiteframe="4" tab-index="-1" flex>
+<md-sidenav md-component-id="SideNavBar" md-is-locked-open="$mdMedia('gt-md')" md-whiteframe="4" tab-index="-1" flex layout="column">
     <md-toolbar style="background-color: white;">
         <a ui-sref="search" title="{{'global.rdcAltText'|translate}}">
             <img src="assets/images/FDZ_Logo.svg" style="height: 64px" alt>
@@ -6,95 +6,101 @@
         </a>
     </md-toolbar>
     <md-content ng-switch="isAuthenticated()" flex role="navigation">
-        <md-divider></md-divider>
-        <md-list ng-switch-when="true" data-has-authority="ROLE_USER">
-            <md-list-item class="md-primary">
-                <span data-translate="global.menu.entities.main"></span>
-            </md-list-item>
+        <ul style="padding: 0px; margin: 0px;">
             <md-divider></md-divider>
-            <md-list-item>
-                <md-button ui-sref="dataAcquisitionProject" class="fdz-navbar-button">
-                    <span data-translate="global.menu.entities.rdcProject">RDC Projects</span>
+            <li ng-switch-when="true" data-has-authority="ROLE_USER">
+                <md-button class="fdz-navbar-menu-toggle" ng-click="toggleEntityMenu()" layout="row">
+                    <span flex data-translate="global.menu.entities.main"></span>
+                    <md-icon ng-if="!isEntityMenuOpen" md-font-set="material-icons">keyboard_arrow_down</md-icon>
+                    <md-icon ng-if="isEntityMenuOpen" md-font-set="material-icons">keyboard_arrow_up</md-icon>
                 </md-button>
-            </md-list-item>
-            <md-list-item>
-                <md-button ui-sref="dataSet" class="fdz-navbar-button">
-                    <span data-translate="global.menu.entities.dataSet">DataSets</span>
+                <ul class="fdz-navbar-menu" ng-show="isEntityMenuOpen">
+                    <li>
+                        <md-button ui-sref="dataAcquisitionProject" class="fdz-navbar-button">
+                            <span data-translate="global.menu.entities.rdcProject">RDC Projects</span>
+                        </md-button>
+                    </li>
+                    <li>
+                        <md-button ui-sref="dataSet" class="fdz-navbar-button">
+                            <span data-translate="global.menu.entities.dataSet">DataSets</span>
+                        </md-button>
+                    </li>
+                    <li>
+                        <md-button ui-sref="survey" class="fdz-navbar-button">
+                            <span data-translate="global.menu.entities.survey">Surveys</span>
+                        </md-button>
+                    </li>
+                </ul>
+                <md-divider></md-divider>
+            </li>
+            <li ng-switch-when="true">
+                <md-button class="fdz-navbar-menu-toggle" ng-click="toggleAccountMenu()" layout="row">
+                    <span flex data-translate="global.menu.account.main"></span>
+                    <md-icon ng-if="!isAccountMenuOpen" md-font-set="material-icons">keyboard_arrow_down</md-icon>
+                    <md-icon ng-if="isAccountMenuOpen" md-font-set="material-icons">keyboard_arrow_up</md-icon>
                 </md-button>
-            </md-list-item>
-            <md-list-item>
-                <md-button ui-sref="survey" class="fdz-navbar-button">
-                    <span data-translate="global.menu.entities.survey">Surveys</span>
+                <ul class="fdz-navbar-menu" ng-show="isAccountMenuOpen">
+                    <li>
+                        <md-button ui-sref="settings" class="fdz-navbar-button">
+                            <span data-translate="global.menu.account.settings">Settings</span>
+                        </md-button>
+                    </li>
+                    <li>
+                        <md-button ui-sref="password" class="fdz-navbar-button">
+                            <span data-translate="global.menu.account.password">Password</span>
+                        </md-button>
+                    </li>
+                </ul>
+                <md-divider></md-divider>
+            </li>
+            <li ng-switch-when="true" data-has-authority="ROLE_ADMIN">
+                <md-button class="fdz-navbar-menu-toggle" ng-click="toggleAdminMenu()" layout="row">
+                    <span flex data-translate="global.menu.admin.main"></span>
+                    <md-icon ng-if="!isAdminMenuOpen" md-font-set="material-icons">keyboard_arrow_down</md-icon>
+                    <md-icon ng-if="isAdminMenuOpen" md-font-set="material-icons">keyboard_arrow_up</md-icon>
                 </md-button>
-            </md-list-item>
-            <md-divider></md-divider>
-        </md-list>
-        <md-list ng-switch-when="true">
-            <md-list-item>
-                <span data-translate="global.menu.account.main"></span>
-            </md-list-item>
-            <md-divider></md-divider>
-            <md-list-item>
-                <md-button ui-sref="settings" class="fdz-navbar-button">
-                    <span data-translate="global.menu.account.settings">Settings</span>
-                </md-button>
-            </md-list-item>
-            <md-list-item>
-                <md-button ui-sref="password" class="fdz-navbar-button">
-                    <span data-translate="global.menu.account.password">Password</span>
-                </md-button>
-            </md-list-item>
-            <md-divider></md-divider>
-        </md-list>
-        <md-list ng-switch-when="true" data-has-authority="ROLE_ADMIN">
-            <md-list-item>
-                <span data-translate="global.menu.admin.main"></span>
-            </md-list-item>
-            <md-divider></md-divider>
-            <md-list-item>
-                <md-button ui-sref="user-management" class="fdz-navbar-button">
-                    <span data-translate="global.menu.admin.user-management">User management</span>
-                </md-button>
-            </md-list-item>
-            <md-list-item>
-                <md-button ui-sref="metrics" class="fdz-navbar-button">
-                    <span data-translate="global.menu.admin.metrics">Metrics</span>
-                </md-button>
-            </md-list-item>
-            <md-list-item>
-                <md-button ui-sref="health" class="fdz-navbar-button">
-                    <span data-translate="global.menu.admin.health">Health</span>
-                </md-button>
-            </md-list-item>
-            <md-list-item>
-                <md-button ui-sref="configuration" class="fdz-navbar-button">
-                    <span data-translate="global.menu.admin.configuration">Configuration</span>
-                </md-button>
-            </md-list-item>
-            <md-list-item>
-                <md-button ui-sref="logs" class="fdz-navbar-button">
-                    <span data-translate="global.menu.admin.logs">Logs</span>
-                </md-button>
-            </md-list-item>
-            <md-divider></md-divider>
-        </md-list>
-        <md-list>
-            <md-list-item>
+                <ul class="fdz-navbar-menu" ng-show="isAdminMenuOpen">
+                    <li>
+                        <md-button ui-sref="user-management" class="fdz-navbar-button">
+                            <span data-translate="global.menu.admin.user-management">User management</span>
+                        </md-button>
+                    </li>
+                    <li>
+                        <md-button ui-sref="metrics" class="fdz-navbar-button">
+                            <span data-translate="global.menu.admin.metrics">Metrics</span>
+                        </md-button>
+                    </li>
+                    <li>
+                        <md-button ui-sref="health" class="fdz-navbar-button">
+                            <span data-translate="global.menu.admin.health">Health</span>
+                        </md-button>
+                    </li>
+                    <li>
+                        <md-button ui-sref="configuration" class="fdz-navbar-button">
+                            <span data-translate="global.menu.admin.configuration">Configuration</span>
+                        </md-button>
+                    </li>
+                    <li>
+                        <md-button ui-sref="logs" class="fdz-navbar-button">
+                            <span data-translate="global.menu.admin.logs">Logs</span>
+                        </md-button>
+                    </li>
+                </ul>
+                <md-divider></md-divider>
+            </li>
+            <li>
                 <md-button ui-sref="disclosure" class="fdz-navbar-button">
                     <span data-translate="global.menu.disclosure">Disclosure</span>
                 </md-button>
-            </md-list-item>
-            <md-divider></md-divider>
-        </md-list>
+                <md-divider></md-divider>
+            </li>
+        </ul>
+        <div layout="column" layout-align="center center">
+            <a class="bmbf_logo_de" ng-href="http://www.bmbf.de/" ng-if="currentLanguage=='de'" title="{{'global.bmbfAltText'|translate}}"></a>
+            <a class="bmbf_logo_en" ng-href="http://www.bmbf.de/en/index.html" ng-if="currentLanguage=='en'" title="{{'global.bmbfAltText'|translate}}"></a>
 
-        <div class="col-md-4" title="{{'global.bmbfAltText'|translate}}">
-          <a class="navbar-brand bmbf_logo_de" ng-href="http://www.bmbf.de/" ng-if="currentLanguage!='en'"></a>
-          <a class="navbar-brand bmbf_logo_en" ng-href="http://www.bmbf.de/en/index.html" ng-if="currentLanguage!='de'"></a>
-        </div>
-
-        <div title="{{'global.dzhwAltText'|translate}}">
-            <a class="navbar-brand dzhw_logo" ng-href="http://www.dzhw.eu/" ng-if="currentLanguage!='en'"></a>
-            <a class="navbar-brand dzhw_logo" ng-href="http://www.dzhw.eu/en_note" ng-if="currentLanguage!='de'"></a>
+            <a class="dzhw_logo" ng-href="http://www.dzhw.eu/" ng-if="currentLanguage=='de'" title="{{'global.dzhwAltText'|translate}}"></a>
+            <a class="dzhw_logo" ng-href="http://www.dzhw.eu/en_note" ng-if="currentLanguage=='en'" title="{{'global.dzhwAltText'|translate}}"></a>
         </div>
     </md-content>
 </md-sidenav>

@@ -2,12 +2,14 @@
 
 angular.module('metadatamanagementApp').controller(
   'ToolbarController',
-  function($scope, $state, Auth, Principal, $mdSidenav, Language) {
+  function($scope, $state, Auth, Principal, $mdSidenav, Language, $mdMedia) {
     $scope.isAuthenticated = Principal.isAuthenticated;
 
     $scope.changeLanguage = function(languageKey) {
       Language.setCurrent(languageKey);
     };
+
+    $scope.$mdMedia = $mdMedia;
 
     //Logout function
     $scope.logout = function() {
