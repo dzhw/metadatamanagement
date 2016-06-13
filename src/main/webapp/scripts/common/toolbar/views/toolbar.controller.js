@@ -12,7 +12,7 @@ angular.module('metadatamanagementApp').controller(
     //Logout function
     $scope.logout = function() {
       Auth.logout();
-      $state.go('home');
+      $state.go('search');
     };
 
     $scope.login = function() {

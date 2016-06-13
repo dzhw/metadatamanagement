@@ -56,7 +56,7 @@ angular
                   $rootScope.toState.parent === 'account' &&
                   ($rootScope.toState.name === 'login' ||
                     $rootScope.toState.name === 'register')) {
-                  $state.go('home');
+                  $state.go('search');
                 }
 
                 if ($rootScope.toState.data.authorities &&

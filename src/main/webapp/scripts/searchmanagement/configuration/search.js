@@ -2,7 +2,7 @@
 
 angular.module('metadatamanagementApp').config(
     function($stateProvider) {
-      $stateProvider.state('home', {
+      $stateProvider.state('search', {
         parent: 'site',
         url: '/',
         data: {
@@ -11,8 +11,8 @@ angular.module('metadatamanagementApp').config(
         },
         views: {
           'content@': {
-            templateUrl: 'scripts/home/home.html.tmpl',
-            controller: 'HomeController'
+            templateUrl: 'scripts/searchmanagement/views/search.html.tmpl',
+            controller: 'SearchController'
           }
         },
         resolve: {

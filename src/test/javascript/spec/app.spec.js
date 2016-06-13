@@ -77,7 +77,7 @@ describe('Specification for app ', function() {
             name: 'testParams'
           };
           toState = {
-            name: 'home',
+            name: 'search',
             parent: 'site',
             url: '/'
           };
@@ -170,7 +170,7 @@ describe('Specification for app ', function() {
       $scope.previousStateName = 'activate';
       $scope.back();
       expect($scope.back).toHaveBeenCalled();
-      expect($state.go).toHaveBeenCalledWith('home');
+      expect($state.go).toHaveBeenCalledWith('search');
     });
   });
   describe('metadatamanagementApp configuration ', function() {

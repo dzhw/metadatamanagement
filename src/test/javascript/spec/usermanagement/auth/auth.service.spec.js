@@ -9,7 +9,8 @@
 'use strict';
 
 describe('Factory Tests ', function() {
-  var Auth; var $q;
+  var Auth;
+  var $q;
   var $scope;
   var $rootScope;
   var $state;
@@ -35,9 +36,10 @@ describe('Factory Tests ', function() {
       $state = $injector.get('$state');
       ActivateResource = $injector.get('ActivateResource');
       PasswordResource = $injector.get('PasswordResource');
-      PasswordResetInitResource = $injector.get('PasswordResetInitResource');
+      PasswordResetInitResource = $injector.get(
+        'PasswordResetInitResource');
       PasswordResetFinishResource = $injector
-      .get('PasswordResetFinishResource');
+        .get('PasswordResetFinishResource');
     }));
     beforeEach(function() {
       spyOn($state, 'go').and.callThrough();
@@ -77,7 +79,8 @@ describe('Factory Tests ', function() {
           }
         };
       });
-      spyOn(ActivateResource, 'get').and.callFake(function(key, callback,
+      spyOn(ActivateResource, 'get').and.callFake(function(key,
+        callback,
         error) {
         callback();
         error();
@@ -87,7 +90,8 @@ describe('Factory Tests ', function() {
           }
         };
       });
-      spyOn(PasswordResource, 'save').and.callFake(function(newPassword,
+      spyOn(PasswordResource, 'save').and.callFake(function(
+        newPassword,
         callback, error) {
         callback();
         error();
@@ -97,26 +101,28 @@ describe('Factory Tests ', function() {
           }
         };
       });
-      spyOn(PasswordResetInitResource, 'save').and.callFake(function(mail,
-        callback, error) {
-        callback();
-        error();
-        return {
-          then: function() {
-            return callback({});
-          }
-        };
-      });
-      spyOn(PasswordResetFinishResource, 'save').and.callFake(function(
-        keyAndPassword, callback, error) {
-        callback();
-        error();
-        return {
-          then: function() {
-            return callback({});
-          }
-        };
-      });
+      spyOn(PasswordResetInitResource, 'save').and.callFake(
+        function(mail,
+          callback, error) {
+          callback();
+          error();
+          return {
+            then: function() {
+              return callback({});
+            }
+          };
+        });
+      spyOn(PasswordResetFinishResource, 'save').and.callFake(
+        function(
+          keyAndPassword, callback, error) {
+          callback();
+          error();
+          return {
+            then: function() {
+              return callback({});
+            }
+          };
+        });
     });
     it('should call Principal.identity', function() {
       try {
@@ -134,7 +140,7 @@ describe('Factory Tests ', function() {
       Auth.logout();
       expect($rootScope.previousStateParams).toEqual(undefined);
     });
-    it('should redirect to home', function() {
+    it('should redirect to search', function() {
       spyOn(Principal, 'isAuthenticated').and.callFake(function() {
         return true;
       });
@@ -144,9 +150,9 @@ describe('Factory Tests ', function() {
       };
       $rootScope.toState = toState;
       Auth.authorize('');
-      expect($state.go).toHaveBeenCalledWith('home');
+      expect($state.go).toHaveBeenCalledWith('search');
     });
-    it('should redirect to home', function() {
+    it('should redirect to search', function() {
       spyOn(Principal, 'isAuthenticated').and.callFake(function() {
         return true;
       });
@@ -156,7 +162,7 @@ describe('Factory Tests ', function() {
       };
       $rootScope.toState = toState;
       Auth.authorize('');
-      expect($state.go).toHaveBeenCalledWith('home');
+      expect($state.go).toHaveBeenCalledWith('search');
     });
     it('should redirect to accessdenied', function() {
       spyOn(Principal, 'isAuthenticated').and.callFake(function() {
@@ -176,8 +182,8 @@ describe('Factory Tests ', function() {
         return false;
       });
       var toState = {
-        parent: 'home',
-        name: 'home',
+        parent: 'search',
+        name: 'search',
         data: {
           authorities: ['ADMIN']
         }

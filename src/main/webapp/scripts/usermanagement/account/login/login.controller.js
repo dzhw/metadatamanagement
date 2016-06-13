@@ -17,7 +17,7 @@ angular.module('metadatamanagementApp').controller('LoginController',
       }).then(function() {
         $scope.authenticationError = false;
         if ($rootScope.previousStateName === 'register') {
-          $state.go('home');
+          $state.go('search');
         } else {
           $rootScope.back();
         }

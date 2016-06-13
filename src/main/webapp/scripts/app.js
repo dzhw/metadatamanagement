@@ -64,10 +64,10 @@ angular
       });
 
       $rootScope.back = function() {
-        // If previous state is 'activate' or do not exist go to 'home'
+        // If previous state is 'activate' or do not exist go to 'search'
         if ($rootScope.previousStateName === 'activate' ||
           $state.get($rootScope.previousStateName) === null) {
-          $state.go('home');
+          $state.go('search');
         } else {
           $state.go($rootScope.previousStateName,
             $rootScope.previousStateParams);

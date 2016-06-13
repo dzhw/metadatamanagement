@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('metadatamanagementApp').controller('HomeController',
+angular.module('metadatamanagementApp').controller('SearchController',
   function($scope, Principal) {
     Principal.identity().then(function(account) {
       $scope.account = account;
