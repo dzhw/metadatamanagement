@@ -82,7 +82,7 @@ describe('Specification for app ', function() {
             url: '/'
           };
           toParams = {
-            name: 'home'
+            name: 'search'
           };
           $rootScope.toState = toState;
           $rootScope.previousStateName =

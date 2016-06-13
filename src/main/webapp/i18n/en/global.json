@@ -135,7 +135,12 @@
     }
   },
   "logos": {
-    "rdc": "Research Data Center, German Center for Research on Higher Education and Science Studies"
+    "rdc": "Research Data Center, German Center for Research on Higher Education and Science Studies",
+    "bmbf": "Sponsored by the FMER",
+    "dzhw": "The German Centre for Research on Higher Education and Science Studies"
+  },
+  "main": {
+    "title": "Welcome to the RDC of the DZHW. You are looking for ..."
   },
   "footer": "This is your footer"
 }

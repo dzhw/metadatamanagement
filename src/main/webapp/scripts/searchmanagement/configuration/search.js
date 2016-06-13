@@ -7,7 +7,7 @@ angular.module('metadatamanagementApp').config(
         url: '/',
         data: {
           authorities: [],
-          pageTitle: 'metadatamanagementApp.main.title'
+          pageTitle: 'main.title'
         },
         views: {
           'content@': {
@@ -19,7 +19,6 @@ angular.module('metadatamanagementApp').config(
           mainTranslatePartialLoader: ['$translate',
             '$translatePartialLoader',
             function($translate, $translatePartialLoader) {
-              $translatePartialLoader.addPart('home');
               $translatePartialLoader.addPart('global');
               $translatePartialLoader.addPart('variablesearch');
               $translatePartialLoader.addPart('pagination');

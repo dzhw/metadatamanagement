@@ -134,7 +134,12 @@
     }
   },
   "logos": {
-    "fdz": "Forschungsdatenzentrum, Deutsches Zentrum für Hochschul- und Wissenschaftsforschung"
+    "fdz": "Forschungsdatenzentrum, Deutsches Zentrum für Hochschul- und Wissenschaftsforschung",
+    "bmbf": "Gefördert vom BMBF",
+    "dzhw": "Deutsches Zentrum für Hochschul- und Wissenschaftsforschung DZHW GmbH"
+  },
+  "main": {
+    "title": "Willkommen beim FDZ des DZHW. Sie suchen ..."
   },
   "footer": "Dies ist Ihre Fußzeile"
 }
