@@ -16,8 +16,8 @@
             <md-tab label="{{'global.menu.entities.variable'|translate}} ({{page.totalHits}})">
                 <div>
                     <md-list>
-                        <md-list-item ui-sref="variableDetail({id:result._source.id})" class="md-2-line" ng-repeat="result in searchResult" flex>
-                            <md-icon class="md-avatar-icon fdz-list-item-icon" md-svg-src="/assets/images/icons/variableIcon.svg"></md-icon>
+                        <md-list-item role="listitem" ui-sref="variableDetail({id:result._source.id})" class="md-2-line md-with-secondary" ng-repeat="result in searchResult">
+                            <md-icon class="md-avatar-icon fdz-list-item-icon" md-svg-src="/assets/images/icons/variableIcon.svg" flex="none"></md-icon>
                             <div class="md-list-item-text" layout="column">
                                 <h3>{{result._source.label}}</h3>
                                 <h4>{{result._source.name}}</h4>
