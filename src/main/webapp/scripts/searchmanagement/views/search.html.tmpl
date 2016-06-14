@@ -1,41 +1,45 @@
-<div class="container" ng-controller="SearchController">
+<md-content class="md-padding" ng-controller="SearchController">
     <jh-alert></jh-alert>
-
-    <md-content class="md-padding">
-        <div layout="row" flex>
-            <md-input-container flex class="md-block">
-                <label>{{'global.menu.search.variablesearch'|translate}}</label>
-                <md-icon md-font-set="material-icons">search</md-icon>
-                <input id="query" type="text" ng-model="query" ng-keyup="search(1)" autocomplete="off" autofocus="autofocus">
-            </md-input-container>
-            <md-button class="md-fab md-primary md-hue-2" ng-click="refresh()">
-                <md-icon md-font-set="material-icons">autorenew</md-icon>
-            </md-button>
-        </div>
-        <md-tabs md-dynamic-height md-border-bottom>
-            <md-tab label="{{'global.menu.entities.variable'|translate}} ({{page.totalHits}})">
-                <div>
-                    <md-list>
-                        <md-list-item role="listitem" ui-sref="variableDetail({id:result._source.id})" class="md-2-line md-with-secondary" ng-repeat="result in searchResult">
-                            <md-icon class="md-avatar-icon fdz-list-item-icon" md-svg-src="/assets/images/icons/variableIcon.svg" flex="none"></md-icon>
-                            <div class="md-list-item-text" layout="column">
-                                <h3>{{result._source.label}}</h3>
-                                <h4>{{result._source.name}}</h4>
-                                <p>{{result._source.dataAcquisitionProjectId}}</p>
-                            </div>
-                        </md-list-item>
-                        <md-divider ></md-divider>
-                    </md-list>
-                    <uib-pagination
-                      next-text="{{'pagination.next'|translate}}"
-                      previous-text="{{'pagination.previous'|translate}}""
-                      total-items="page.totalHits"
-                      ng-model="page.currentPageNumber"
-                      max-size="page.maxSize"
-                      ng-change="search()"
-                      class="pagination-sm"></uib-pagination>
-                </div>
-            </md-tab>
-        </md-tabs>
-    </md-content>
-</div>
+    <div flex-xs flex-gt-xs="100" layout="column">
+        <md-card>
+            <div layout="row" flex>
+                <md-input-container flex class="md-block">
+                    <label>{{'global.menu.search.variablesearch'|translate}}</label>
+                    <md-icon md-font-set="material-icons">search</md-icon>
+                    <input id="query" type="text" ng-model="query" ng-keyup="search(1)" autocomplete="off" autofocus="autofocus">
+                </md-input-container>
+                <md-button class="md-fab md-primary md-hue-2" ng-click="refresh()">
+                    <md-icon md-font-set="material-icons">autorenew</md-icon>
+                </md-button>
+            </div>
+            <md-tabs md-dynamic-height md-border-bottom>
+                <md-tab label="{{'global.menu.entities.variable'|translate}} ({{page.totalHits}})">
+                    <div>
+                        <md-list>
+                            <md-list-item ui-sref="variableDetail({id:result._source.id})" class="md-2-line md-with-secondary" ng-repeat="result in searchResult">
+                                <div flex-xs flex-gt-xs="100" layout="column">
+                                    <md-card>
+                                        <md-card-title>
+                                            <md-card-title-text>
+                                                <p>{{result._source.label}}</p>
+                                            </md-card-title-text>
+                                            <md-card-title-media>
+                                                <md-icon class="md-avatar-icon fdz-list-item-icon" md-svg-src="/assets/images/icons/variableIcon.svg" flex="none"></md-icon>
+                                            </md-card-title-media>
+                                        </md-card-title>
+                                        <md-card-content>
+                                            <p>{{result._source.name}}</p>
+                                            <p>{{result._source.dataAcquisitionProjectId}}</p>
+                                        </md-card-content>
+                                    </md-card>
+                                </div>
+                            </md-list-item>
+                            <md-divider ></md-divider>
+                        </md-list>
+                        <uib-pagination next-text="{{'pagination.next'|translate}}" previous-text="{{'pagination.previous'|translate}}" total-items="page.totalHits" ng-model="page.currentPageNumber" max-size="page.maxSize" ng-change="search()" class="pagination-sm"></uib-pagination>
+                    </div>
+                </md-tab>
+            </md-tabs>
+        </md-card>
+    </div>
+</md-content>
