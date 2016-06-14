@@ -1,6 +1,6 @@
 {
-"pagination":{
-"next": "Nach",
-"previous": "Vor"
-}
+  "pagination": {
+    "next": "Weiter",
+    "previous": "Zurück"
+  }
 }

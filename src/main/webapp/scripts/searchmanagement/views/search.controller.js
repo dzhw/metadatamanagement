@@ -15,20 +15,11 @@ angular.module('metadatamanagementApp').controller('SearchController',
       contentSize: 0,
       currentPageNumber: 1,
       totalHits: 0,
+      maxSize: 7,
 
       //Total number of pages (Pagination)
       getTotalNumberOfPages: function() {
         return Math.ceil(this.totalHits / this.size);
-      },
-
-      //Actiated Next Page Button?
-      hasNextPage: function() {
-        return this.getTotalNumberOfPages() > this.currentPageNumber;
-      },
-
-      //Activated Previous Page Button?
-      hasPreviousPage: function() {
-        return this.currentPageNumber > 1;
       }
     };
 
@@ -94,22 +85,6 @@ angular.module('metadatamanagementApp').controller('SearchController',
     //Refresh function for the refresh button
     $scope.refresh = function() {
       $scope.search();
-    };
-
-    //Go to the next page of results
-    $scope.nextPage = function() {
-      if ($scope.page.hasNextPage()) {
-        $scope.page.currentPageNumber++;
-        $scope.search();
-      }
-    };
-
-    //Go to the previous page of results
-    $scope.previousPage = function() {
-      if ($scope.page.hasPreviousPage()) {
-        $scope.page.currentPageNumber--;
-        $scope.search();
-      }
     };
 
     //Start the search.
