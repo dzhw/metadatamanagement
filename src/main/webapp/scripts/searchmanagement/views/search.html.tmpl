@@ -1,21 +1,20 @@
-<div class="container">
+<div class="container" ng-controller="SearchController">
     <jh-alert></jh-alert>
-    <div class="container">
 
         <md-content class="md-padding">
+            <div layout="row" flex>
+                <md-input-container flex class="md-block">
+                    <label>{{'global.menu.search.variablesearch'|translate}}</label>
+                    <md-icon md-font-set="material-icons">search</md-icon>
+                    <input id="query" type="text" ng-model="query" ng-keyup="search(1)" autocomplete="off" autofocus="autofocus">
+                </md-input-container>
+                <md-button class="md-fab md-primary md-hue-2" ng-click="refresh()">
+                    <md-icon md-font-set="material-icons">autorenew</md-icon>
+                </md-button>
+            </div>
             <md-tabs md-dynamic-height md-border-bottom>
                 <md-tab label="{{'global.menu.entities.variable'|translate}} ({{page.totalHits}})">
-                    <div ng-controller="SearchController">
-                        <div layout="row" flex>
-                            <md-input-container flex class="md-block">
-                                <label>{{'global.menu.search.variablesearch'|translate}}</label>
-                                <md-icon md-font-set="material-icons">search</md-icon>
-                                <input id="query" type="text" ng-model="query" ng-keyup="search(1)" autocomplete="off" autofocus="autofocus">
-                            </md-input-container>
-                            <md-button class="md-fab md-primary md-hue-2" ng-click="refresh()">
-                                <md-icon md-font-set="material-icons">autorenew</md-icon>
-                            </md-button>
-                        </div>
+                    <div >
                         <md-list>
                             <md-list-item ui-sref="variableDetail({id:result._source.id})" class="md-2-line" ng-repeat="result in searchResult" flex>
                                 <md-icon class="md-avatar-icon fdz-list-item-icon" md-svg-src="/assets/images/icons/variableIcon.svg"></md-icon>
@@ -50,5 +49,4 @@
                 </md-tab>
             </md-tabs>
         </md-content>
-    </div>
 </div>
