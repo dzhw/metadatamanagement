@@ -20,16 +20,16 @@
                                 <div flex-xs flex-gt-xs="100" layout="column">
                                     <md-card>
                                         <md-card-title>
-                                            <md-card-title-text>
-                                                <p>{{result._source.label}}</p>
-                                            </md-card-title-text>
                                             <md-card-title-media>
                                                 <md-icon class="md-avatar-icon fdz-list-item-icon" md-svg-src="/assets/images/icons/variableIcon.svg" flex="none"></md-icon>
                                             </md-card-title-media>
+                                            <md-card-title-text>
+                                                <span class="md-headline">{{result._source.label}}</span>
+                                                <span class="md-subhead">{{result._source.dataAcquisitionProjectId}}</span>
+                                            </md-card-title-text>
                                         </md-card-title>
                                         <md-card-content>
-                                            <p>{{result._source.name}}</p>
-                                            <p>{{result._source.dataAcquisitionProjectId}}</p>
+                                            {{result._source.dataType}}, {{result._source.scaleLevel}}
                                         </md-card-content>
                                     </md-card>
                                 </div>
