@@ -1,60 +1,52 @@
-<div class="container">
+<div class="container" ng-controller="SearchController">
     <jh-alert></jh-alert>
-    <div class="container">
 
-        <md-content>
+        <md-content class="md-padding">
+            <div layout="row" flex>
+                <md-input-container flex class="md-block">
+                    <label>{{'global.menu.search.variablesearch'|translate}}</label>
+                    <md-icon md-font-set="material-icons">search</md-icon>
+                    <input id="query" type="text" ng-model="query" ng-keyup="search(1)" autocomplete="off" autofocus="autofocus">
+                </md-input-container>
+                <md-button class="md-fab md-primary md-hue-2" ng-click="refresh()">
+                    <md-icon md-font-set="material-icons">autorenew</md-icon>
+                </md-button>
+            </div>
             <md-tabs md-dynamic-height md-border-bottom>
-                <md-tab label="{{'global.menu.entities.variable'|translate}}">
-                    <div ng-controller="SearchController">
-                        <md-content class="md-padding">
-                            <div layout="row" flex>
-                                <md-input-container flex class="md-block">
-                                    <label>{{'global.menu.search.variablesearch'|translate}}</label>
-                                    <md-icon md-font-set="material-icons">search</md-icon>
-                                    <input id="query" type="text" ng-model="query" ng-keyup="search(1)" autocomplete="off" autofocus="autofocus">
-                                </md-input-container>
-                                <md-button class="md-fab md-primary md-hue-2" ng-click="refresh()">
-                                    <md-icon md-font-set="material-icons">autorenew</md-icon>
-                                </md-button>
-                            </div>
-                            <md-toolbar class="md-hue-3">
-                                <div class="md-toolbar-tools">
-                                    <span class="panel-title" data-translate="variablesearch.variablelist" data-translate-values="{'totalHits':{{page.totalHits}},'minHitNumber':{{page.getMinHitNumber()}},'maxHitNumber':{{page.getMaxHitNumber()}}}">Showing hits 1-10</span>
+                <md-tab label="{{'global.menu.entities.variable'|translate}} ({{page.totalHits}})">
+                    <div >
+                        <md-list>
+                            <md-list-item ui-sref="variableDetail({id:result._source.id})" class="md-2-line" ng-repeat="result in searchResult" flex>
+                                <md-icon class="md-avatar-icon fdz-list-item-icon" md-svg-src="/assets/images/icons/variableIcon.svg"></md-icon>
+                                <div class="md-list-item-text" layout="column">
+                                    <h3>{{result._source.label}}</h3>
+                                    <h4>{{result._source.name}}</h4>
+                                    <p>{{result._source.dataAcquisitionProjectId}}</p>
                                 </div>
-                            </md-toolbar>
-                            <md-list>
-                                <md-list-item ui-sref="variable.detail({id:result._source.id})" class="md-3-line" ng-repeat="result in searchResult" ng-click="null" flex>
-                                    <div class="md-list-item-text" layout="column">
-                                        <h3>{{result._source.label}}</h3>
-                                        <h4>{{result._source.name}}</h4>
-                                        <p>{{result._source.dataAcquisitionProjectId}}</p>
-                                    </div>
-                                </md-list-item>
-                                <md-divider ></md-divider>
-                            </md-list>
-                            <ul class="pager" ng-show="page.totalHits>0">
-                                <li>
-                                    <md-button class="md-raised md-button md-ink-ripple" ng-disabled="!page.hasPreviousPage()" ng-click="previousPage()">
-                                        <md-icon md-font-set="material-icons">arrow_backward</md-icon>
-                                        {{'pagination.previous'|translate}}
-                                    </md-button>
-                                </li>
-                                <li class="hide-xs">
-                                    <md-button class="md-raised md-button md-ink-ripple">
-                                        <span data-translate="variablesearch.numberofpages" data-translate-values="{'currentPageNumber':{{page.currentPageNumber}},'totalNumberOfPages':{{page.getTotalNumberOfPages()}}}">Page 1 of 1</span>
-                                    </md-button>
-                                </li>
-                                <li>
-                                    <md-button class="md-raised md-button md-ink-ripple" ng-disabled="!page.hasNextPage()" ng-click="nextPage()">
-                                        {{'pagination.next'|translate}}
-                                        <md-icon md-font-set="material-icons">arrow_forward</md-icon>
-                                    </md-button>
-                                </li>
-                            </ul>
-                        </md-content>
+                            </md-list-item>
+                            <md-divider ></md-divider>
+                        </md-list>
+                        <ul class="pager" ng-show="page.totalHits>0">
+                            <li>
+                                <md-button class="md-raised md-button md-ink-ripple" ng-disabled="!page.hasPreviousPage()" ng-click="previousPage()">
+                                    <md-icon md-font-set="material-icons">arrow_backward</md-icon>
+                                    {{'pagination.previous'|translate}}
+                                </md-button>
+                            </li>
+                            <li class="hide-xs">
+                                <md-button class="md-raised md-button md-ink-ripple">
+                                    <span data-translate="variablesearch.numberofpages" data-translate-values="{'currentPageNumber':{{page.currentPageNumber}},'totalNumberOfPages':{{page.getTotalNumberOfPages()}}}">Page 1 of 1</span>
+                                </md-button>
+                            </li>
+                            <li>
+                                <md-button class="md-raised md-button md-ink-ripple" ng-disabled="!page.hasNextPage()" ng-click="nextPage()">
+                                    {{'pagination.next'|translate}}
+                                    <md-icon md-font-set="material-icons">arrow_forward</md-icon>
+                                </md-button>
+                            </li>
+                        </ul>
                     </div>
                 </md-tab>
             </md-tabs>
         </md-content>
-    </div>
 </div>

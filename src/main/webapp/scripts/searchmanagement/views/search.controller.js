@@ -21,27 +21,6 @@ angular.module('metadatamanagementApp').controller('SearchController',
         return Math.ceil(this.totalHits / this.size);
       },
 
-      //Min number of hits (Pagination)
-      getMinHitNumber: function() {
-        if (this.totalHits === 0) {
-          return 0;
-        }
-        return ((this.currentPageNumber - 1) *
-          this.size) + 1;
-      },
-
-      //Max number of hits (Pagination)
-      getMaxHitNumber: function() {
-        if (this.totalHits === 0) {
-          return 0;
-        }
-        if (this.hasNextPage()) {
-          return this.currentPageNumber * this.size;
-        } else {
-          return this.getMinHitNumber() + this.contentSize - 1;
-        }
-      },
-
       //Actiated Next Page Button?
       hasNextPage: function() {
         return this.getTotalNumberOfPages() > this.currentPageNumber;

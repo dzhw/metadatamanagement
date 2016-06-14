@@ -3,7 +3,7 @@
 angular.module('metadatamanagementApp')
   .config(function($stateProvider) {
     $stateProvider
-      .state('variable.detail', {
+      .state('variableDetail', {
         parent: 'site',
         url: '/variables/{id}',
         data: {
