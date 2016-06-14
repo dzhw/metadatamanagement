@@ -14,8 +14,34 @@ body {
 }
 
 [ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng-cloak {
-    display: none !important;
+  display: none !important;
 }
+
+[ng-cloak].fdz-splash {
+  display: table !important;
+}
+
+.fdz-splash {
+  display: none;
+  width: 100%;
+  height: 100%;
+  background-color: #006AB2;
+  color: white;
+}
+
+.fdz-splash div {
+  display: table-cell;
+  vertical-align: middle;
+  text-align: center;
+  font-size: 30px;
+}
+
+.fdz-splash i {
+  font-size: 40px;
+  animation:spin 2s linear infinite;
+}
+
+@keyframes spin { 100% { transform:rotate(360deg); } }
 
 .ribbon {
   /* positioning */
@@ -288,32 +314,6 @@ style for datapackage
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-}
-
-.fdz-flag-icon-de {
-    background-image: url(/assets/images/flags/de.svg);
-}
-
-.fdz-flag-icon-gb {
-    background-image: url(/assets/images/flags/gb.svg);
-}
-
-.fdz-flag-icon-us {
-    background-image: url(/assets/images/flags/us.svg);
-}
-
-.fdz-flag-icon {
-  background-size: contain;
-  background-position: 50%;
-  background-repeat: no-repeat;
-  position: relative;
-  display: inline-block;
-  width: 1.33333333em;
-  line-height: 1em;
-}
-
-.fdz-flag-icon:before {
-  content: "\00a0";
 }
 
 .fdz-navbar-menu {

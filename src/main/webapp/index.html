@@ -21,11 +21,17 @@
     <!-- endbuild -->
 </head>
 
-<body ng-app="metadatamanagementApp" layout="row" ng-cloak>
+<body ng-app="metadatamanagementApp" layout="row">
     <!--[if lt IE 10]> <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p> <![endif]-->
-    <div ng-show="{{ENV === 'local' || ENV === 'dev' || ENV === 'test'}}" class="ribbon">{{ENV}}</div>
-    <div ui-view="navbar" layout="column"></div>
-    <div flex layout="column" id="content">
+    <div class="fdz-splash" ng-cloak>
+      <div>
+        <p>Metadatamanagement...</p>
+        <i class="material-icons">hourglass_empty</i>
+      </div>
+    </div>
+    <div ng-show="{{ENV === 'local' || ENV === 'dev' || ENV === 'test'}}" class="ribbon" ng-cloak>{{ENV}}</div>
+    <div ui-view="navbar" layout="column" ng-cloak></div>
+    <div flex layout="column" id="content" ng-cloak>
         <div ui-view="toolbar"></div>
         <md-content flex>
             <ui-view name="content"></ui-view>
