@@ -11,31 +11,28 @@ angular.module('metadatamanagementApp').controller('SearchController',
 
     $scope.selectedTabIndex = 0;
 
+    //Information for the different tabs
     $scope.tabs = [{
       title: 'global.menu.search.all',
-      elasticSearchType: ''
+      elasticSearchType: '',
+      totalHits: 0,
+      searchResult: []
     }, {
       title: 'global.menu.search.variables',
-      elasticSearchType: 'variables'
+      elasticSearchType: 'variables',
+      totalHits: 0,
+      searchResult: []
     }];
 
+    //Watch the tabs, set index of current active tab
     $scope.$watch('selectedTabs', function(current) {
-      console.log($scope.tabs[current]);
       $scope.selectedTabIndex = current;
     });
 
-    //Information about the search results and the page.
-    $scope.page = {
-      size: ElasticSearchProperties.pageSize,
-      contentSize: 0,
+    //Information for the pager / pagination
+    $scope.pager = {
       currentPageNumber: 1,
-      totalHits: 0,
       maxSize: 7,
-
-      //Total number of pages (Pagination)
-      getTotalNumberOfPages: function() {
-        return Math.ceil(this.totalHits / this.size);
-      }
     };
 
     //Need for interpretation of the query element in the url.
@@ -43,24 +40,24 @@ angular.module('metadatamanagementApp').controller('SearchController',
 
     //Search function
     $scope.search = function(pageNumber) {
-      if (pageNumber) {
-        $scope.page.currentPageNumber = pageNumber;
-      }
-      $location.search('query', $scope.query);
-      $location.search('page', $scope.page.currentPageNumber);
-      //TODO DKatzberg: Actuall the Search for only for the actual Tab...
-      //TODO DKatzberg: Merge the search function with a tab iteration and the
-      //result field have to be added to the Tabs Array.
-      VariableSearchDao.search($scope.query, $scope.page.currentPageNumber,
-          $scope.tabs[$scope.selectedTabIndex].elasticSearchType)
-        .then(function(data) {
-          $scope.searchResult = data.hits.hits;
-          $scope.page.contentSize = $scope.searchResult.length;
-          $scope.page.totalHits = data.hits.total;
-        }, function(error) {
-          AlertService.error(error.message);
-          console.trace(error);
-        });
+      $scope.tabs.forEach(function(tab) {
+
+        if (pageNumber) {
+          $scope.pager.currentPageNumber = pageNumber;
+        }
+
+        $location.search('query', $scope.query);
+        $location.search('page', $scope.pager.currentPageNumber);
+        VariableSearchDao.search($scope.query, $scope.pager.currentPageNumber,
+            tab.elasticSearchType)
+          .then(function(data) {
+            tab.searchResult = data.hits.hits;
+            tab.totalHits = data.hits.total;
+          }, function(error) {
+            AlertService.error(error.message);
+            console.trace(error);
+          });
+      });
     };
 
     // --------------------------------------------------------------
