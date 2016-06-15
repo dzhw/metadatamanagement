@@ -9,38 +9,41 @@
                     <input id="query" type="text" ng-model="query" ng-keyup="search(1)" autocomplete="off" autofocus="autofocus">
                 </md-input-container>
                 <div ng-switch-when="true" has-any-authority="ROLE_ADMIN, ROLE_USER">
-                <md-button class="md-fab md-primary md-hue-2" ng-click="refresh()">
-                    <md-icon md-font-set="material-icons">autorenew</md-icon>
-                </md-button>
-              </div>
+                    <md-button class="md-fab md-primary md-hue-2" ng-click="refresh()">
+                        <md-icon md-font-set="material-icons">autorenew</md-icon>
+                    </md-button>
+                </div>
             </div>
             <md-tabs md-selected="selectedTabs" md-dynamic-height md-border-bottom md-swipe-content="true">
-              <md-tab ng-repeat="tab in tabs" label="{{tab.title|translate}} ({{tab.totalHits}})">
-                  <div>
-                      <md-list>
-                          <md-list-item ui-sref="variableDetail({id:result._source.id})" class="md-2-line md-with-secondary" ng-repeat="result in tab.searchResult">
-                              <div flex-xs flex-gt-xs="100" layout="column">
-                                  <md-card>
-                                      <md-card-title>
-                                          <md-card-title-media>
-                                              <md-icon class="md-avatar-icon fdz-list-item-icon" md-svg-src="/assets/images/icons/variableIcon.svg" flex="none"></md-icon>
-                                          </md-card-title-media>
-                                          <md-card-title-text>
-                                              <span class="md-headline">{{result._source.label}}</span>
-                                              <span class="md-subhead">{{result._source.dataAcquisitionProjectId}}</span>
-                                          </md-card-title-text>
-                                      </md-card-title>
-                                      <md-card-content>
-                                          {{result._source.dataType}}, {{result._source.scaleLevel}}
-                                      </md-card-content>
-                                  </md-card>
-                              </div>
-                          </md-list-item>
-                          <md-divider ></md-divider>
-                      </md-list>
-                      <uib-pagination next-text="{{'pagination.next'|translate}}" previous-text="{{'pagination.previous'|translate}}" total-items="tab.totalHits" ng-model="tab.currentPageNumber" max-size="pagerMaxSize" ng-change="search()" class="pagination-sm"></uib-pagination>
-                  </div>
-              </md-tab>
+                <md-tab ng-repeat="tab in tabs" label="{{tab.title|translate}} ({{tab.totalHits}})">
+                    <div>
+                        <md-list>
+                            <md-list-item ui-sref="variableDetail({id:result._source.id})" class="md-2-line md-with-secondary" ng-repeat="result in tab.searchResult">
+                                <div flex-xs flex-gt-xs="100" layout="column">
+                                    <md-card>
+                                        <md-card-title>
+                                            <md-card-title-media>
+                                                <md-icon class="md-avatar-icon fdz-list-item-icon" md-svg-src="/assets/images/icons/variableIcon.svg" flex="none"></md-icon>
+                                            </md-card-title-media>
+                                            <md-card-title-text>
+                                                <span class="md-headline">{{result._source.label}}</span>
+                                                <span class="md-subhead">{{result._source.dataAcquisitionProjectId}}</span>
+                                            </md-card-title-text>
+                                        </md-card-title>
+                                        <md-card-content>
+                                            {{result._source.dataType}},
+                                            {{result._source.scaleLevel}}
+                                        </md-card-content>
+                                    </md-card>
+                                </div>
+                            </md-list-item>
+                            <md-divider ></md-divider>
+                        </md-list>
+                        <div layout="row" layout-align="center">
+                            <uib-pagination next-text="{{'pagination.next'|translate}}" previous-text="{{'pagination.previous'|translate}}" total-items="tab.totalHits" ng-model="tab.currentPageNumber" max-size="pagerMaxSize" ng-change="search()" class="pagination-sm"></uib-pagination>
+                        </div>
+                    </div>
+                </md-tab>
             </md-tabs>
         </md-card>
     </div>
