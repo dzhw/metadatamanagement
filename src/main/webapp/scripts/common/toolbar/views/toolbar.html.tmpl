@@ -5,11 +5,11 @@
         </md-button>
         <h1 class="md-headline fdz-truncate-string" flex>{{pageTitle | translate }}</h1>
         <md-button class="md-primary md-raised md-hue-1" ng-class="{'md-icon-button': $mdMedia('xs')}" ng-click="changeLanguage('en')" ng-if="currentLanguage!='en'">
-            <span class="fdz-flag-icon fdz-flag-icon-gb"></span>
+            <md-icon md-font-set="material-icons">language</md-icon>
             <span hide-xs>English</span>
         </md-button>
         <md-button class="md-primary md-raised md-hue-1" ng-class="{'md-icon-button': $mdMedia('xs')}" ng-click="changeLanguage('de')" ng-if="currentLanguage!='de'">
-            <span class="fdz-flag-icon fdz-flag-icon-de"></span>
+            <md-icon md-font-set="material-icons">language</md-icon>
             <span hide-xs>Deutsch</span>
         </md-button>
         <div ng-switch-when="true">
