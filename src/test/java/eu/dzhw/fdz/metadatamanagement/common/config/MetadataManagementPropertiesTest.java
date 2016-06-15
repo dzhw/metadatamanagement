@@ -10,7 +10,6 @@ import static org.junit.Assert.assertThat;
 
 import org.junit.Test;
 
-import eu.dzhw.fdz.metadatamanagement.common.config.MetadataManagementProperties;
 import eu.dzhw.fdz.metadatamanagement.common.config.MetadataManagementProperties.ElasticsearchAngularClient;
 import eu.dzhw.fdz.metadatamanagement.common.config.MetadataManagementProperties.ElasticsearchClient;
 
@@ -46,12 +45,12 @@ public class MetadataManagementPropertiesTest {
     ElasticsearchAngularClient angularClient = managementProperties.getElasticsearchAngularClient();
     angularClient.setLogLevel("info");
     angularClient.setUrl("http://localhost:1234");
-    angularClient.setApiVersion("2.1");
+    angularClient.setApiVersion("2.2");
 
     // Assert
     assertThat(angularClient, not(nullValue()));
     assertThat(angularClient.getLogLevel(), is("info"));
-    assertThat(angularClient.getApiVersion(), is("2.1"));
+    assertThat(angularClient.getApiVersion(), is("2.2"));
     assertThat(angularClient.getUrl(), is("http://localhost:1234"));
   }
 }
