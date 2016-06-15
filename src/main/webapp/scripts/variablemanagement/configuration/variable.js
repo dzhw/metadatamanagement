@@ -7,7 +7,7 @@ angular.module('metadatamanagementApp')
         parent: 'site',
         url: '/variables/{id}',
         data: {
-          authorities: ['ROLE_USER'],
+          authorities: [],
           pageTitle: 'metadatamanagementApp.variable.detail.title'
         },
         views: {

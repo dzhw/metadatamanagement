@@ -8,7 +8,7 @@ angular.module('metadatamanagementApp')
         reloadOnSearch: false,
         url: '/datapackages/{id}?tab',
         data: {
-          authorities: ['ROLE_USER'],
+          authorities: [],
           pageTitle: 'metadatamanagementApp.datapackage.home.title'
         },
         views: {
