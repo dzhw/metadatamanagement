@@ -3,10 +3,10 @@
 angular.module('metadatamanagementApp').service('VariableSearchDao',
   function(ElasticSearchProperties, Language, ElasticSearchClient) {
     return {
-      search: function(queryterm, pageNumber) {
+      search: function(queryterm, pageNumber, elasticsearchType) {
         var query = {
           'index': 'metadata_' + Language.getCurrentInstantly(),
-          'type': 'variables',
+          'type': elasticsearchType,
           'body': {
             'query': {
               'bool': {

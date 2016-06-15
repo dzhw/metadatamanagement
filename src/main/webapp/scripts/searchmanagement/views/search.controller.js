@@ -9,6 +9,21 @@ angular.module('metadatamanagementApp').controller('SearchController',
       $scope.isAuthenticated = Principal.isAuthenticated;
     });
 
+    $scope.selectedTabIndex = 0;
+
+    $scope.tabs = [{
+      title: 'global.menu.search.all',
+      elasticSearchType: ''
+    }, {
+      title: 'global.menu.search.variables',
+      elasticSearchType: 'variables'
+    }];
+
+    $scope.$watch('selectedTabs', function(current) {
+      console.log($scope.tabs[current]);
+      $scope.selectedTabIndex = current;
+    });
+
     //Information about the search results and the page.
     $scope.page = {
       size: ElasticSearchProperties.pageSize,
@@ -33,7 +48,11 @@ angular.module('metadatamanagementApp').controller('SearchController',
       }
       $location.search('query', $scope.query);
       $location.search('page', $scope.page.currentPageNumber);
-      VariableSearchDao.search($scope.query, $scope.page.currentPageNumber)
+      //TODO DKatzberg: Actuall the Search for only for the actual Tab...
+      //TODO DKatzberg: Merge the search function with a tab iteration and the
+      //result field have to be added to the Tabs Array.
+      VariableSearchDao.search($scope.query, $scope.page.currentPageNumber,
+          $scope.tabs[$scope.selectedTabIndex].elasticSearchType)
         .then(function(data) {
           $scope.searchResult = data.hits.hits;
           $scope.page.contentSize = $scope.searchResult.length;

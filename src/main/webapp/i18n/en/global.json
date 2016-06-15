@@ -18,7 +18,9 @@
       },
       "search": {
         "title": "Search",
-        "variablesearch": "Variable search"
+        "variablesearch": "Variable search",
+        "variables": "Variables",
+        "all": "All"
       },
       "account": {
         "main": "Account",

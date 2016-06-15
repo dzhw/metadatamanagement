@@ -17,7 +17,9 @@
       },
       "search": {
         "title": "Suche",
-        "variablesearch": "Variablensuche"
+        "variablesearch": "Variablensuche",
+        "variables": "Variablen",
+        "all": "Alle"
       },
       "account": {
         "main": "Zugang",
