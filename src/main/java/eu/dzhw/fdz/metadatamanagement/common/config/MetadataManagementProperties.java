@@ -6,32 +6,32 @@ import io.searchbox.client.JestClient;
 
 /**
  * Configuration Properties which are defined by our application.
- * 
+ *
  * <p>
  * Properties are configured in the application-{profile}.yml file.
  * </p>
- * 
+ *
  * @author René Reitmann
  */
 @ConfigurationProperties(prefix = "metadatamanagement", ignoreUnknownFields = false)
 public class MetadataManagementProperties {
 
   private final ElasticsearchClient elasticsearchClient = new ElasticsearchClient();
-  
-  private final ElasticsearchAngularClient elasticsearchAngularClient = 
+
+  private final ElasticsearchAngularClient elasticsearchAngularClient =
       new ElasticsearchAngularClient();
 
   public ElasticsearchClient getElasticsearchClient() {
     return elasticsearchClient;
   }
-  
+
   public ElasticsearchAngularClient getElasticsearchAngularClient() {
     return elasticsearchAngularClient;
   }
 
   /**
    * Configuration Properties for the {@link JestClient}.
-   * 
+   *
    * @author René Reitmann
    */
   public static class ElasticsearchClient {
@@ -55,19 +55,19 @@ public class MetadataManagementProperties {
       this.readTimeout = readTimeout;
     }
   }
-  
+
   /**
    * Configuration Properties for the Angular ElasticSearch Client.
-   * 
+   *
    * @author Amine Limouri
    */
   public static class ElasticsearchAngularClient {
     // default connection url
     private String url = "http://localhost:9200";
-    private String apiVersion = "2.1";
+    private String apiVersion = "2.2";
     private String logLevel = "trace";
     private Integer pageSize = 10;
-        
+
     public String getUrl() {
       return this.url;
     }
