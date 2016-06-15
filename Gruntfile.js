@@ -147,7 +147,8 @@ module.exports = function(grunt) {
             'Attribute “flex” not allowed on element “div” at this point.',
             'Element “md-toolbar” not allowed as child of element “div” in ' +
             'this context. (Suppressing further errors from this subtree.)',
-            'Attribute “layout” not allowed on element “body” at this point.'
+            'Attribute “layout” not allowed on element “body” at this point.',
+            'Attribute “block-ui” not allowed on element “body” at this point.'
           ],
           customattrs: [
             'show-validation',

@@ -143,5 +143,6 @@ angular
         ' layout-align="center center"><md-progress-circular' +
         ' md-mode="indeterminate" md-diameter="100px"></md-progress-circular>' +
         '</div></div>';
+      blockUIConfig.autoInjectBodyBlock = false;
       blockUIConfig.blockBrowserNavigation = true;
     });
