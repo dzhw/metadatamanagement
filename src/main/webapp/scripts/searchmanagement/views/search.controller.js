@@ -7,6 +7,12 @@ angular.module('metadatamanagementApp').controller('SearchController',
   function($scope, Principal, ElasticSearchProperties, $location,
     AlertService, VariableSearchDao, $timeout) {
 
+    //Check the login status
+    Principal.identity().then(function(account) {
+      $scope.account = account;
+      $scope.isAuthenticated = Principal.isAuthenticated;
+    });
+
     //Max number of button at a pager / pagination
     $scope.pagerMaxSize = 7;
 

@@ -1,4 +1,4 @@
-<md-content class="md-padding" ng-controller="SearchController">
+<md-content class="md-padding" ng-controller="SearchController" ng-switch="isAuthenticated()">
     <jh-alert></jh-alert>
     <div flex-xs flex-gt-xs="100" layout="column">
         <md-card>
@@ -8,9 +8,11 @@
                     <md-icon md-font-set="material-icons">search</md-icon>
                     <input id="query" type="text" ng-model="query" ng-keyup="search(1)" autocomplete="off" autofocus="autofocus">
                 </md-input-container>
+                <div ng-switch-when="true" has-any-authority="ROLE_ADMIN, ROLE_USER">
                 <md-button class="md-fab md-primary md-hue-2" ng-click="refresh()">
                     <md-icon md-font-set="material-icons">autorenew</md-icon>
                 </md-button>
+              </div>
             </div>
             <md-tabs md-selected="selectedTabs" md-dynamic-height md-border-bottom md-swipe-content="true">
               <md-tab ng-repeat="tab in tabs" label="{{tab.title|translate}} ({{tab.totalHits}})">
