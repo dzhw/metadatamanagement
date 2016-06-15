@@ -12,7 +12,7 @@
                     <md-icon md-font-set="material-icons">autorenew</md-icon>
                 </md-button>
             </div>
-            <md-tabs md-selected="selectedTabs" md-dynamic-height md-border-bottom>
+            <md-tabs md-selected="selectedTabs" md-dynamic-height md-border-bottom md-swipe-content="true">
               <md-tab ng-repeat="tab in tabs" label="{{tab.title|translate}} ({{tab.totalHits}})">
                   <div>
                       <md-list>
