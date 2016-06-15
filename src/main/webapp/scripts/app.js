@@ -8,7 +8,8 @@ angular
       'ui.bootstrap', // for modal dialogs
       'elasticsearch',
       'ngResource', 'ui.router', 'ngCookies', 'ngAria', 'ngCacheBuster',
-      'ngFileUpload', 'infinite-scroll', 'ngMaterial'
+      'ngFileUpload', 'infinite-scroll', 'ngMaterial',
+      'blockUI'
     ])
 
 .run(
@@ -77,7 +78,8 @@ angular
   .config(
     function($windowProvider, $stateProvider, $urlRouterProvider,
       $httpProvider, $locationProvider, $translateProvider,
-      tmhDynamicLocaleProvider, httpRequestInterceptorCacheBusterProvider) {
+      tmhDynamicLocaleProvider, httpRequestInterceptorCacheBusterProvider,
+      blockUIConfig) {
 
       // Cache everything except rest api requests
       httpRequestInterceptorCacheBusterProvider.setMatchlist([/.*api.*/,
@@ -135,4 +137,11 @@ angular
           'bower_components/angular-i18n/angular-locale_{{locale}}.js');
       tmhDynamicLocaleProvider.useCookieStorage();
       tmhDynamicLocaleProvider.storageKey('NG_TRANSLATE_LANG_KEY');
+
+      blockUIConfig.template =
+        '<div layout="column" class="block-ui-overlay"><div flex layout="row"' +
+        ' layout-align="center center"><md-progress-circular' +
+        ' md-mode="indeterminate" md-diameter="100px"></md-progress-circular>' +
+        '</div></div>';
+      blockUIConfig.blockBrowserNavigation = true;
     });
