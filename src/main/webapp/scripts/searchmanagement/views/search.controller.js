@@ -40,74 +40,49 @@ angular.module('metadatamanagementApp').controller('SearchController',
     //Watch the tabs, set index of current active tab
     $scope.$watch('selectedTabs', function(current) {
       $scope.selectedTabIndex = current;
+
+      //Reset search, if tab is changed
+      $scope.tabs.forEach(function(tab) {
+        tab.totalHits = 0;
+        tab.searchResult = [];
+        tab.currentPageNumber = 1;
+      });
+
+      //Search
+      $scope.search();
     });
 
     //Search function
     $scope.search = function(pageNumber) {
       //Iterate the tabs. The search results have to be
       //different between the tabs
-      $scope.tabs.forEach(function(tab) {
-        var tabIndex = $scope.tabs.indexOf(tab);
+      var tab = $scope.tabs[$scope.selectedTabIndex];
 
-        //save actual page for every pagination of the tab
-        if (pageNumber && tabIndex === $scope.selectedTabIndex) {
-          tab.currentPageNumber = pageNumber;
-        }
-
-        //Search with different types, binded on every tab
-        $location.search('query', $scope.query);
-        $location.search('page', tab.currentPageNumber);
-        VariableSearchDao.search($scope.query, tab.currentPageNumber,
-            tab.elasticSearchType)
-          .then(function(data) {
-            tab.searchResult = data.hits.hits;
-            tab.totalHits = data.hits.total;
-
-            //If something going wrong: send an alert
-          }, function(error) {
-            AlertService.error(error.message);
-            console.trace(error);
-          });
-      });
-    };
-
-    // --------------------------------------------------------------
-    // In this example, we set up our model using a plain object.
-    // Using a class works too. All that matters is that we implement
-    // getItemAtIndex and getLength.
-    this.infiniteItems = {
-      numLoaded_: 0,
-      toLoad_: 0,
-      // Required.
-      getItemAtIndex: function(index) {
-        if (index > this.numLoaded_) {
-          this.fetchMoreItems_(index);
-          return null;
-        }
-        return index;
-      },
-      // Required.
-      // For infinite scroll behavior, we always return a slightly higher
-      // number than the previously loaded items.
-      getLength: function() {
-        return this.numLoaded_ + 5;
-      },
-      fetchMoreItems_: function(index) {
-        // For demo purposes, we simulate loading more items with a timed
-        // promise. In real code, this function would likely contain an
-        // $http request.
-        if (this.toLoad_ < index) {
-          this.toLoad_ += 20;
-          $timeout(angular.noop, 300).then(angular.bind(this,
-            function() {
-              this.numLoaded_ = this.toLoad_;
-            }));
-        }
+      //check for undefined tab. no valid tab, no valid search.
+      if (!tab) {
+        return;
       }
-    };
 
-    //found elements for the scope
-    $scope.infiniteItems = this.infiniteItems;
+      //save actual page for every pagination of the tab
+      if (pageNumber) {
+        tab.currentPageNumber = pageNumber;
+      }
+
+      //Search with different types, binded on every tab
+      $location.search('query', $scope.query);
+      $location.search('page', tab.currentPageNumber);
+      VariableSearchDao.search($scope.query, tab.currentPageNumber,
+          tab.elasticSearchType)
+        .then(function(data) {
+          tab.searchResult = data.hits.hits;
+          tab.totalHits = data.hits.total;
+
+          //If something going wrong: send an alert
+        }, function(error) {
+          AlertService.error(error.message);
+          console.trace(error);
+        });
+    };
 
     //Refresh function for the refresh button
     $scope.refresh = function() {
