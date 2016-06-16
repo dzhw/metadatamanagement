@@ -5,7 +5,7 @@
 a result of a type like variable or dataSet and so on. */
 angular.module('metadatamanagementApp').controller('SearchController',
   function($scope, Principal, ElasticSearchProperties, $location,
-    AlertService, VariableSearchDao, $timeout) {
+    AlertService, VariableSearchDao) {
 
     //Check the login status
     Principal.identity().then(function(account) {
