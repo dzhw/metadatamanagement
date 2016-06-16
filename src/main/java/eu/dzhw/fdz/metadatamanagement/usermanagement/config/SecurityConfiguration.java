@@ -4,10 +4,10 @@ import javax.inject.Inject;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
-import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
@@ -50,20 +50,15 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
       .antMatchers("/api/account/reset-password/init")
       .antMatchers("/api/account/reset-password/finish")
       .antMatchers("/test/**")
-      .antMatchers("/api/search/**")
-      .antMatchers("/api/variables/**")
-      .antMatchers("/public/files/**");
+      .antMatchers(HttpMethod.GET, "/public/files/**")
+      .antMatchers(HttpMethod.GET, "/api/variables/**")
+      .antMatchers(HttpMethod.GET, "/api/surveys/**")
+      .antMatchers(HttpMethod.GET, "/api/data-sets/**")
+      .antMatchers(HttpMethod.GET, "/api/concepts/**")
+      .antMatchers(HttpMethod.GET, "/api/atomic-questions/**")
+      .antMatchers(HttpMethod.POST, "/api/search/**/_search");
   }
   
-  @Override
-  protected void configure(HttpSecurity http) throws Exception {
-    http.authorizeRequests()
-        .antMatchers("/api/variables/delete").hasRole("ADMIN")
-        .and()
-        .jee()
-        .mappableRoles("ROLE_USER","ROLE_ADMIN");
-  }
-
   @Override
   @Bean
   public AuthenticationManager authenticationManagerBean() throws Exception {
