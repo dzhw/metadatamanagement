@@ -1,12 +1,33 @@
 $icon-font-path: "../../bower_components/bootstrap-sass/assets/fonts/bootstrap/";
 
+$brand-primary:         #006AB2 !default;
+$brand-success:         #B2B109 !default;
+$brand-info:            #028AA4 !default;
+$brand-warning:         #F69F24 !default;
+$brand-danger:          #C91630 !default;
+
+$state-success-text:             #000000 !default;
+$state-success-bg:               #F0EFCE !default;
+$state-success-border:           $brand-success !default;
+
+$state-info-text:                #000000 !default;
+$state-info-bg:                  #CCE8ED !default;
+$state-info-border:              $brand-info !default;
+
+$state-warning-text:             #000000 !default;
+$state-warning-bg:               #FDECD3 !default;
+$state-warning-border:           $brand-warning !default;
+
+$state-danger-text:              #000000 !default;
+$state-danger-bg:                #F5D0D0 !default;
+$state-danger-border:            $brand-danger !default;
+
 // bower:scss
 @import "bootstrap-sass/assets/stylesheets/_bootstrap.scss";
 // endbower
 
 body {
     font-family: "Verdana", Helvetica, Arial, sans-serif;
-    color: #333;
 }
 
 .content {
@@ -67,7 +88,7 @@ body {
   box-shadow: 0 0 0 3px #b20808, 0 0 20px -3px rgba(0, 0, 0, 0.5);
   text-shadow: 0 0 0 #ffffff, 0 0 5px rgba(0, 0, 0, 0.3);
   /* looks */
-  background-color: #B20808;
+  background-color: #C91630;
   color: #ffffff;
   font-size: 13px;
   font-weight: bold;
@@ -103,16 +124,18 @@ body {
    background-image: url("../images/FDZ_Logo.svg");
 }
 
-.fdz_logo, .dzhw_logo, .bmbf_logo_de, .bmbf_logo_en{
+.fdz_logo, .dzhw_logo, .bmbf_logo_de, .bmbf_logo_en {
    background-color: transparent;
    background-position: center center;
    background-repeat: no-repeat;
-   }
- .dzhw_logo {
+}
+
+.dzhw_logo {
    width: 221px;
    height: 157px;
    background-size: 215px 90px;
 }
+
 .bmbf_logo_de, .bmbf_logo_en {
    width: 221px;
    height: 157px;
@@ -123,11 +146,6 @@ body {
   width: 32px;
   height: 32px;
   background-color: lightgrey;
-}
-
-.navbar-version {
-    font-size: 10px;
-    color: #ccc
 }
 
 .browserupgrade {
@@ -156,7 +174,7 @@ body {
 
 .error {
     color: white;
-    background-color: red;
+    background-color: #C91630;
 }
 
 .hipster {
@@ -226,6 +244,7 @@ ul#strength {
 .point:last {
     margin:0 !important;
 }
+
 .point {
     background:#DDD;
     border-radius:2px;
@@ -234,11 +253,13 @@ ul#strength {
     margin-right:1px;
     width:20px;
 }
+
 /* end Password strength bar style */
 /* Custom alerts for notification */
 .alerts .alert{
     text-overflow: ellipsis;
 }
+
 .alert pre{
     background: none;
     border: none;
