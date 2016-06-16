@@ -79,7 +79,7 @@ angular
     function($windowProvider, $stateProvider, $urlRouterProvider,
       $httpProvider, $locationProvider, $translateProvider,
       tmhDynamicLocaleProvider, httpRequestInterceptorCacheBusterProvider,
-      blockUIConfig) {
+      blockUIConfig, $mdThemingProvider) {
 
       // Cache everything except rest api requests
       httpRequestInterceptorCacheBusterProvider.setMatchlist([/.*api.*/,
@@ -145,4 +145,80 @@ angular
         '</div></div>';
       blockUIConfig.autoInjectBodyBlock = false;
       blockUIConfig.blockBrowserNavigation = true;
+
+      $mdThemingProvider.definePalette('dzhwPrimaryPalette', {
+        '50': 'F2F7F8',
+        '100': 'E5F0F7',
+        '200': 'CCE1F0',
+        '300': 'B2D2E8',
+        '400': '99C3E1',
+        '500': '7FB4D8',
+        '600': '66A6D1',
+        '700': '4C96C9',
+        '800': '3388C1',
+        '900': '1979BA',
+        'A100': '006AB2',
+        'A200': '006AB2',
+        'A400': '006AB2',
+        'A700': '006AB2',
+        'contrastDefaultColor': 'light',
+        'contrastDarkColors': ['50', '100', '200', '300']
+      });
+
+      $mdThemingProvider.definePalette('dzhwAccentPalette', {
+        '50': 'FFFAF4',
+        '100': 'FEF5E9',
+        '200': 'FDECD3',
+        '300': 'FCE2BD',
+        '400': 'FBD9A7',
+        '500': 'FACF91',
+        '600': 'FAC57C',
+        '700': 'F9BC65',
+        '800': 'F8B250',
+        '900': 'F7A839',
+        'A100': 'F69F24',
+        'A200': 'F69F24',
+        'A400': 'F69F24',
+        'A700': 'F69F24',
+        'contrastDefaultColor': 'dark'
+      });
+
+      $mdThemingProvider.definePalette('dzhwWarnPalette', {
+        '50': 'FAE7E7',
+        '100': 'FAE7E7',
+        '200': 'F5D0D0',
+        '300': 'F0B9B8',
+        '400': 'EBA2A1',
+        '500': 'E58A89',
+        '600': 'E07372',
+        '700': 'DB5B5A',
+        '800': 'D64543',
+        '900': 'D12D2B',
+        'A100': 'C91630',
+        'A200': 'C91630',
+        'A400': 'C91630',
+        'A700': 'C91630',
+        'contrastDefaultColor': 'light',
+        'contrastDarkColors': ['50', '100', '200', '300']
+      });
+
+      $mdThemingProvider.theme('default')
+        .primaryPalette('dzhwPrimaryPalette', {
+          'default': 'A100',
+          'hue-1': '800',
+          'hue-2': '600',
+          'hue-3': '400'
+        })
+        .accentPalette('dzhwAccentPalette', {
+          'default': 'A100',
+          'hue-1': '800',
+          'hue-2': '600',
+          'hue-3': '400'
+        })
+        .warnPalette('dzhwWarnPalette', {
+          'default': 'A100',
+          'hue-1': '800',
+          'hue-2': '600',
+          'hue-3': '400'
+        });
     });
