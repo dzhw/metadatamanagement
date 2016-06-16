@@ -8,11 +8,7 @@
                     <md-icon md-font-set="material-icons">search</md-icon>
                     <input id="query" type="text" ng-model="query" ng-keyup="search(1)" autocomplete="off" autofocus="autofocus">
                 </md-input-container>
-                <div ng-switch-when="true" has-any-authority="ROLE_ADMIN, ROLE_USER">
-                    <md-button class="md-fab md-primary md-hue-2" ng-click="refresh()">
-                        <md-icon md-font-set="material-icons">refresh</md-icon>
-                    </md-button>
-                </div>
+
             </div>
             <md-tabs md-selected="selectedTabs" md-dynamic-height md-border-bottom md-swipe-content="true">
                 <md-tab ng-repeat="tab in tabs" label="{{tab.title|translate}} ({{tab.totalHits}})">
@@ -46,5 +42,16 @@
                 </md-tab>
             </md-tabs>
         </md-card>
+    </div>
+    <div ng-switch-when="true" has-any-authority="ROLE_ADMIN, ROLE_USER" class="fdz-floating-div" layout="column">
+        <md-button class="md-primary md-raised md-icon-button md-button md-ink-ripple fdz-floating-button" ng-click="refresh()">
+            <md-icon md-font-set="material-icons">refresh</md-icon>
+        </md-button>
+        <md-button class="fdz-floating-button md-primary md-raised md-icon-button md-button md-ink-ripple">
+            <md-icon md-font-set="material-icons">cloud_upload</md-icon>
+        </md-button>
+        <md-button class="fdz-floating-button md-primary md-raised md-icon-button md-button md-ink-ripple">
+            <md-icon md-font-set="material-icons">event_note</md-icon>
+        </md-button>
     </div>
 </md-content>
