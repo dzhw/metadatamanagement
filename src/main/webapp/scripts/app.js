@@ -139,8 +139,8 @@ angular
       tmhDynamicLocaleProvider.storageKey('NG_TRANSLATE_LANG_KEY');
 
       blockUIConfig.template =
-        '<div layout="column" class="block-ui-overlay"><div flex layout="row"' +
-        ' layout-align="center center"><md-progress-circular' +
+        '<div layout="column" class="fdz-block-ui-overlay"><div ' +
+        'flex layout="row" layout-align="center center"><md-progress-circular' +
         ' md-mode="indeterminate" md-diameter="100px"></md-progress-circular>' +
         '</div></div>';
       blockUIConfig.autoInjectBodyBlock = false;
