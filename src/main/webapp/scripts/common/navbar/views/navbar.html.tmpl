@@ -9,7 +9,7 @@
         <ul style="padding: 0px; margin: 0px;">
             <md-divider></md-divider>
             <li ng-switch-when="true" data-has-authority="ROLE_USER">
-                <md-button class="fdz-navbar-menu-toggle" ng-click="toggleEntityMenu()" layout="row">
+                <md-button class="fdz-navbar-menu-toggle" ng-click="toggleEntityMenu()" layout="row" aria-label="entities-toggle">
                     <span flex data-translate="global.menu.entities.main"></span>
                     <md-icon ng-if="!isEntityMenuOpen" md-font-set="material-icons">keyboard_arrow_down</md-icon>
                     <md-icon ng-if="isEntityMenuOpen" md-font-set="material-icons">keyboard_arrow_up</md-icon>
@@ -34,7 +34,7 @@
                 <md-divider></md-divider>
             </li>
             <li ng-switch-when="true">
-                <md-button class="fdz-navbar-menu-toggle" ng-click="toggleAccountMenu()" layout="row">
+                <md-button class="fdz-navbar-menu-toggle" ng-click="toggleAccountMenu()" layout="row" aria-label="account-toggle">
                     <span flex data-translate="global.menu.account.main"></span>
                     <md-icon ng-if="!isAccountMenuOpen" md-font-set="material-icons">keyboard_arrow_down</md-icon>
                     <md-icon ng-if="isAccountMenuOpen" md-font-set="material-icons">keyboard_arrow_up</md-icon>
@@ -54,7 +54,7 @@
                 <md-divider></md-divider>
             </li>
             <li ng-switch-when="true" data-has-authority="ROLE_ADMIN">
-                <md-button class="fdz-navbar-menu-toggle" ng-click="toggleAdminMenu()" layout="row">
+                <md-button class="fdz-navbar-menu-toggle" ng-click="toggleAdminMenu()" layout="row" aria-label="admin-toggle">
                     <span flex data-translate="global.menu.admin.main"></span>
                     <md-icon ng-if="!isAdminMenuOpen" md-font-set="material-icons">keyboard_arrow_down</md-icon>
                     <md-icon ng-if="isAdminMenuOpen" md-font-set="material-icons">keyboard_arrow_up</md-icon>
