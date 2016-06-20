@@ -48,7 +48,7 @@ angular.module('metadatamanagementApp').controller('MetricsController',
     $scope.refreshThreadDumpData = function() {
       MonitoringService.threadDump().then(function(data) {
         $uibModal.open({
-          templateUrl: 'scripts/administrationmanagement/metrics/' +
+          templateUrl: 'scripts/administration/metrics/' +
             'metrics.modal.html.tmpl',
           controller: 'MetricsModalController',
           size: 'lg',

@@ -148,7 +148,7 @@ angular
       // Tell the blockUI service to ignore certain requests
       blockUIConfig.requestFilter = function(config) {
         // If the request contains '/api/search' ...
-        if (config.url.indexOf('/api/search/') !== -1) {
+        if (config.url.indexOf('_search') !== -1) {
           return false; // ... don't block it.
         }
       };
