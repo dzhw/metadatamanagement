@@ -349,11 +349,17 @@ style for datapackage
 }
 
 .fdz-navbar-menu-toggle {
+  display: block;
   padding: 0 0 0 1em;
   margin: 0px;
   width: 100%;
   height: 100%;
   text-align: left;
+}
+
+.fdz-navbar-menu-toggle > span {
+  display: inline-block;
+  width: 90%;
 }
 
 .fdz-navbar-button {
