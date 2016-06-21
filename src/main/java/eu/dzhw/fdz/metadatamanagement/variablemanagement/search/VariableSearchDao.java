@@ -20,6 +20,7 @@ import eu.dzhw.fdz.metadatamanagement.searchmanagement.dao.exception.Elasticsear
 import eu.dzhw.fdz.metadatamanagement.searchmanagement.dao.exception.ElasticsearchDocumentSaveException;
 import eu.dzhw.fdz.metadatamanagement.searchmanagement.dao.exception.ElasticsearchIoException;
 import eu.dzhw.fdz.metadatamanagement.searchmanagement.service.ElasticsearchIndices;
+import eu.dzhw.fdz.metadatamanagement.searchmanagement.service.ElasticsearchType;
 import eu.dzhw.fdz.metadatamanagement.surveymanagement.domain.Survey;
 import eu.dzhw.fdz.metadatamanagement.surveymanagement.repository.SurveyRepository;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.Variable;
@@ -42,7 +43,7 @@ import io.searchbox.core.Search;
 @RepositoryEventHandler
 public class VariableSearchDao {
   /** The type of saved variables in the elasticsearch indices. */
-  public static final String TYPE = "variables";
+  public static final String TYPE = ElasticsearchType.variables.name();
 
   private final Logger log = LoggerFactory.getLogger(VariableSearchDao.class);
 
