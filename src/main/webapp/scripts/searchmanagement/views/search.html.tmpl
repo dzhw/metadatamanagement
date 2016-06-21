@@ -47,7 +47,7 @@
         <md-button class="md-primary md-raised md-icon-button md-button md-ink-ripple fdz-floating-button" ng-click="refresh()">
             <md-icon md-font-set="material-icons">refresh</md-icon>
         </md-button>
-        <md-button class="fdz-floating-button md-primary md-raised md-icon-button md-button md-ink-ripple">
+        <md-button type="file" ngf-select="uploadVariables($file)" class="fdz-floating-button md-primary md-raised md-icon-button md-button md-ink-ripple" accept=".zip" ng-disabled="uploadState.disableButton">
             <md-icon md-font-set="material-icons">cloud_upload</md-icon>
         </md-button>
         <md-button class="fdz-floating-button md-primary md-raised md-icon-button md-button md-ink-ripple">

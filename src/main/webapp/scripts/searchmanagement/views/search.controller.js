@@ -5,7 +5,8 @@
 a result of a type like variable or dataSet and so on. */
 angular.module('metadatamanagementApp').controller('SearchController',
   function($scope, Principal, ElasticSearchProperties, $location,
-    AlertService, VariableSearchDao) {
+    AlertService, VariableSearchDao, $translate, CustomModalService,
+    VariableUploadService) {
 
     //Check the login status
     Principal.identity().then(function(account) {
@@ -82,6 +83,21 @@ angular.module('metadatamanagementApp').controller('SearchController',
           AlertService.error(error.message);
           console.trace(error);
         });
+    };
+
+    $scope.uploadVariables = function(file) {
+      if (file !== null) {
+        CustomModalService.getModal($translate.instant(
+          'metadatamanagementApp.dataAcquisitionProject.detail.' +
+          'deleteMessages.deleteVariables', {
+            id: $scope.dataAcquisitionProject.id
+          })).then(function(returnValue) {
+          if (returnValue) {
+            VariableUploadService
+              .uploadVariables(file, $scope.dataAcquisitionProject.id);
+          }
+        });
+      }
     };
 
     //Refresh function for the refresh button
