@@ -33,6 +33,7 @@ import com.codahale.metrics.annotation.Timed;
 
 import eu.dzhw.fdz.metadatamanagement.common.rest.util.HeaderUtil;
 import eu.dzhw.fdz.metadatamanagement.searchmanagement.service.ElasticsearchAdminService;
+import eu.dzhw.fdz.metadatamanagement.searchmanagement.service.ElasticsearchUpdateQueueService;
 import eu.dzhw.fdz.metadatamanagement.usermanagement.security.AuthoritiesConstants;
 
 /**
@@ -52,6 +53,9 @@ public class SearchResource {
   
   @Inject
   private ElasticsearchAdminService elasticsearchAdminService;
+  
+  @Inject
+  private ElasticsearchUpdateQueueService elasticsearchUpdateQueueService;
 
   /**
    * Create the search proxy with the given elasticsearch host url.
@@ -114,5 +118,17 @@ public class SearchResource {
     return ResponseEntity.ok()
       .headers(HeaderUtil.createAlert("health.elasticsearch.reindex.success"))
       .build();
+  }
+  
+  /**
+   * POST /api/search/process-queue -> trigger processing of elasticsearch updates.
+   */
+  @RequestMapping(value = "/api/search/process-queue", method = RequestMethod.POST,
+      produces = MediaType.APPLICATION_JSON_VALUE)
+  @Timed
+  public ResponseEntity<?> processElasticsearchUpdateQueue() throws URISyntaxException {
+    log.debug("REST request to process update queue.");
+    elasticsearchUpdateQueueService.processQueue();
+    return ResponseEntity.ok().build();
   }
 }

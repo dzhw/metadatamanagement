@@ -4,14 +4,17 @@
 angular.module('metadatamanagementApp').service('VariableUploadService',
   function($translate, ZipReaderService,
     VariableBuilderService, VariableDeleteResource, JobLoggingService,
-    ErrorMessageResolverService, ExcelReaderService, $q) {
+    ErrorMessageResolverService, ExcelReaderService, $q,
+    ElasticSearchAdminService) {
     var objects;
     var uploadCount;
     var upload = function() {
       if (uploadCount === objects.length) {
-        JobLoggingService.finish($translate.instant(
-          'metadatamanagementApp.dataAcquisitionProject.detail.' +
-          'logMessages.variable.uploadTerminated', {}));
+        ElasticSearchAdminService.processUpdateQueue().then(function() {
+          JobLoggingService.finish($translate.instant(
+            'metadatamanagementApp.dataAcquisitionProject.detail.' +
+            'logMessages.variable.uploadTerminated', {}));
+        });
       } else {
         if (!objects[uploadCount].id || objects[uploadCount].id === '') {
           var index = uploadCount;

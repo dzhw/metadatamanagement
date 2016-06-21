@@ -4,14 +4,16 @@
 angular.module('metadatamanagementApp').service('DataSetUploadService',
   function(ExcelReaderService, DataSetBuilderService,
     DataSetDeleteResource, $translate, JobLoggingService,
-    ErrorMessageResolverService) {
+    ErrorMessageResolverService, ElasticSearchAdminService) {
     var objects;
     var uploadCount;
     var upload = function() {
       if (uploadCount === objects.length) {
-        JobLoggingService.finish($translate.instant(
-          'metadatamanagementApp.dataAcquisitionProject.detail.' +
-          'logMessages.dataSet.uploadTerminated', {}));
+        ElasticSearchAdminService.processUpdateQueue().then(function() {
+            JobLoggingService.finish($translate.instant(
+              'metadatamanagementApp.dataAcquisitionProject.detail.' +
+              'logMessages.dataSet.uploadTerminated', {}));
+          });
       } else {
         if (!objects[uploadCount].id || objects[uploadCount].id === '') {
           var index = uploadCount;

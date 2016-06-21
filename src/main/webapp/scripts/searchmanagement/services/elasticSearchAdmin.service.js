@@ -9,6 +9,12 @@ angular.module('metadatamanagementApp').factory(
           .then(function(response) {
             return response.data;
           });
+      },
+      processUpdateQueue: function() {
+        return $http.post('/api/search/process-queue')
+          .then(function(response) {
+            return response.data;
+          });
       }
     };
   }
