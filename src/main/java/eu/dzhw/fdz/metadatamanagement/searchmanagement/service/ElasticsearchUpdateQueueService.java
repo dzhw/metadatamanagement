@@ -6,6 +6,7 @@ import java.util.List;
 
 import javax.inject.Inject;
 
+import org.apache.commons.lang3.NotImplementedException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.dao.DuplicateKeyException;
@@ -13,9 +14,19 @@ import org.springframework.dao.OptimisticLockingFailureException;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
+import eu.dzhw.fdz.metadatamanagement.searchmanagement.dao.ElasticsearchAdminDao;
 import eu.dzhw.fdz.metadatamanagement.searchmanagement.domain.ElasticsearchUpdateQueueAction;
 import eu.dzhw.fdz.metadatamanagement.searchmanagement.domain.ElasticsearchUpdateQueueItem;
 import eu.dzhw.fdz.metadatamanagement.searchmanagement.repository.ElasticsearchUpdateQueueItemRepository;
+import eu.dzhw.fdz.metadatamanagement.surveymanagement.domain.Survey;
+import eu.dzhw.fdz.metadatamanagement.surveymanagement.repository.SurveyRepository;
+import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.Variable;
+import eu.dzhw.fdz.metadatamanagement.variablemanagement.repository.VariableRepository;
+import eu.dzhw.fdz.metadatamanagement.variablemanagement.search.document.VariableSearchDocument;
+import io.searchbox.core.Bulk;
+import io.searchbox.core.Bulk.Builder;
+import io.searchbox.core.Delete;
+import io.searchbox.core.Index;
 
 /**
  * Service which manages asynchronous Elasticsearch updates.
@@ -27,11 +38,20 @@ public class ElasticsearchUpdateQueueService {
 
   private final Logger logger = LoggerFactory.getLogger(ElasticsearchUpdateQueueService.class);
 
-  // id used to synchronize mulitple jvm instances
+  // id used to synchronize multiple jvm instances
   private String jvmId = ManagementFactory.getRuntimeMXBean().getName();
 
   @Inject
   private ElasticsearchUpdateQueueItemRepository queueItemRepository;
+
+  @Inject
+  private VariableRepository variableRepository;
+
+  @Inject
+  private SurveyRepository surveyRepository;
+  
+  @Inject
+  private ElasticsearchAdminDao elasticsearchAdminDao;
 
   /**
    * Attach one item to the queue.
@@ -46,7 +66,7 @@ public class ElasticsearchUpdateQueueService {
       queueItemRepository
         .insert(new ElasticsearchUpdateQueueItem(documentId, documentType, action));
     } catch (DuplicateKeyException ex) {
-      logger.debug("Ignoring attempt to enqueue a duplicate action.", ex);
+      logger.debug("Ignoring attempt to enqueue a duplicate action.");
     }
   }
 
@@ -97,7 +117,7 @@ public class ElasticsearchUpdateQueueService {
         try {
           queueItemRepository.save(item);
         } catch (OptimisticLockingFailureException ex) {
-          logger.debug("Queue item will be processed by a different cluster instance.", ex);
+          logger.debug("Queue item will be processed by a different cluster instance.");
         }
       }
 
@@ -107,7 +127,66 @@ public class ElasticsearchUpdateQueueService {
   }
 
   private void executeQueueItemActions(List<ElasticsearchUpdateQueueItem> lockedItems) {
+    Bulk.Builder bulkBuilder = new Bulk.Builder();
+    for (ElasticsearchUpdateQueueItem lockedItem : lockedItems) {
+      switch (lockedItem.getAction()) {
+        case DELETE:
+          addDeleteActions(lockedItem, bulkBuilder);
+          break;
+        case UPSERT:
+          addUpsertActions(lockedItem, bulkBuilder);
+          break;
+        default:
+          throw new NotImplementedException("Processing queue item with action "
+              + lockedItem.getAction() + " has not been implemented!");
+      }
+    }
+
+    // execute the bulk update/delete
+    elasticsearchAdminDao.executeBulk(bulkBuilder.build());
+    
+    // finally delete the queue items
     queueItemRepository.delete(lockedItems);
   }
 
+  private void addDeleteActions(ElasticsearchUpdateQueueItem lockedItem, Builder bulkBuilder) {
+    for (ElasticsearchIndices index : ElasticsearchIndices.values()) {
+      bulkBuilder.addAction(new Delete.Builder(lockedItem.getDocumentId())
+          .index(index.getIndexName())
+          .type(lockedItem.getDocumentType().name())
+          .build());
+    }
+  }
+
+  private void addUpsertActions(ElasticsearchUpdateQueueItem lockedItem, Builder bulkBuilder) {
+    switch (lockedItem.getDocumentType()) {
+      case variables:
+        addUpsertActionForVariable(lockedItem, bulkBuilder);
+        break;
+      default:
+        throw new NotImplementedException("Processing queue item with type "
+            + lockedItem.getDocumentType() + " has not been implemented!");
+    }
+  }
+
+  private void addUpsertActionForVariable(ElasticsearchUpdateQueueItem lockedItem,
+      Builder bulkBuilder) {
+    Variable variable = variableRepository.findOne(lockedItem.getDocumentId());
+    if (variable != null) {
+      Iterable<Survey> surveys = null;
+      if (variable.getSurveyIds() != null) {
+        surveys = surveyRepository.findAll(variable.getSurveyIds());
+      }
+      for (ElasticsearchIndices index : ElasticsearchIndices.values()) {
+        VariableSearchDocument searchDocument =
+            new VariableSearchDocument(variable, surveys, index);
+
+        bulkBuilder.addAction(new Index.Builder(searchDocument)
+            .index(index.getIndexName())
+            .type(lockedItem.getDocumentType().name())
+            .id(searchDocument.getId())
+            .build());
+      }
+    }
+  }
 }

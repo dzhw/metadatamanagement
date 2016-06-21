@@ -10,6 +10,7 @@ import org.springframework.stereotype.Component;
 
 import com.google.gson.JsonObject;
 
+import eu.dzhw.fdz.metadatamanagement.searchmanagement.dao.exception.ElasticsearchBulkOperationException;
 import eu.dzhw.fdz.metadatamanagement.searchmanagement.dao.exception.ElasticsearchIndexCreateException;
 import eu.dzhw.fdz.metadatamanagement.searchmanagement.dao.exception.ElasticsearchIndexDeleteException;
 import eu.dzhw.fdz.metadatamanagement.searchmanagement.dao.exception.ElasticsearchIoException;
@@ -17,6 +18,7 @@ import eu.dzhw.fdz.metadatamanagement.searchmanagement.dao.exception.Elasticsear
 import io.searchbox.action.Action;
 import io.searchbox.client.JestClient;
 import io.searchbox.client.JestResult;
+import io.searchbox.core.Bulk;
 import io.searchbox.core.Count;
 import io.searchbox.core.CountResult;
 import io.searchbox.indices.CreateIndex;
@@ -140,6 +142,17 @@ public class ElasticsearchAdminDao {
   public Double countAllDocuments() {
     CountResult result = (CountResult) execute(new Count.Builder().build());
     return result.getCount();
+  }
+  
+  /**
+   * Execute a bulk of operations.
+   * @param bulk The bulk to be executed.
+   */
+  public void executeBulk(Bulk bulk) {
+    JestResult result = execute(bulk);
+    if (!result.isSucceeded()) {
+      throw new ElasticsearchBulkOperationException(result.getErrorMessage());
+    }
   }
 
   private JestResult execute(Action<?> action) {

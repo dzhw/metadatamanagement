@@ -25,9 +25,9 @@ public class VariablesDeleteResource {
   @RequestMapping(path = "/api/variables/delete", method = RequestMethod.POST,
       produces = MediaType.APPLICATION_JSON_VALUE)
   @Timed
-  public ResponseEntity<?> deleteAllSurveysByProjectId(
+  public ResponseEntity<?> deleteAllVariablesByProjectId(
       @RequestParam String dataAcquisitionProjectId) {
-    variableService.deleteVariablesByProjectId(dataAcquisitionProjectId);
+    variableService.deleteAllVariablesByProjectId(dataAcquisitionProjectId);
     return ResponseEntity.ok().build();
   }
 }

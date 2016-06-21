@@ -10,13 +10,8 @@ import org.elasticsearch.index.query.QueryBuilders;
 import org.elasticsearch.search.builder.SearchSourceBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.data.rest.core.annotation.HandleAfterCreate;
-import org.springframework.data.rest.core.annotation.HandleAfterDelete;
-import org.springframework.data.rest.core.annotation.HandleAfterSave;
-import org.springframework.data.rest.core.annotation.RepositoryEventHandler;
 import org.springframework.stereotype.Component;
 
-import eu.dzhw.fdz.metadatamanagement.searchmanagement.dao.exception.ElasticsearchDocumentDeleteException;
 import eu.dzhw.fdz.metadatamanagement.searchmanagement.dao.exception.ElasticsearchDocumentSaveException;
 import eu.dzhw.fdz.metadatamanagement.searchmanagement.dao.exception.ElasticsearchIoException;
 import eu.dzhw.fdz.metadatamanagement.searchmanagement.service.ElasticsearchIndices;
@@ -29,7 +24,6 @@ import io.searchbox.action.Action;
 import io.searchbox.client.JestClient;
 import io.searchbox.client.JestResult;
 import io.searchbox.core.Bulk;
-import io.searchbox.core.Delete;
 import io.searchbox.core.Index;
 import io.searchbox.core.Search;
 
@@ -40,7 +34,6 @@ import io.searchbox.core.Search;
  * @author Daniel Katzberg
  */
 @Component
-@RepositoryEventHandler
 public class VariableSearchDao {
   /** The type of saved variables in the elasticsearch indices. */
   public static final String TYPE = ElasticsearchType.variables.name();
@@ -56,30 +49,6 @@ public class VariableSearchDao {
 
   @Inject
   private SurveyRepository surveyRepository;
-
-  /**
-   * Save the given variable to elasticsearch.
-   */
-  @HandleAfterSave
-  @HandleAfterCreate
-  public void index(Variable variable) {
-    for (ElasticsearchIndices index : ElasticsearchIndices.values()) {
-      VariableSearchDocument variableSearchDocument =
-          new VariableSearchDocument(variable, getSurveys(variable), index);
-      index(variableSearchDocument, index.getIndexName());
-    }
-  }
-
-  private void index(VariableSearchDocument variableSearchDocument, String index) {
-    JestResult result = execute(new Index.Builder(variableSearchDocument).index(index)
-        .type(TYPE)
-        .id(variableSearchDocument.getId())
-        .build());
-    if (!result.isSucceeded()) {
-      throw new ElasticsearchDocumentSaveException(index, TYPE, variableSearchDocument.getId(),
-          result.getErrorMessage());
-    }
-  }
 
   /**
    * Bulk save the given variables to elasticsearch.
@@ -128,50 +97,6 @@ public class VariableSearchDao {
     SearchSourceBuilder queryBuilder = new SearchSourceBuilder();
     queryBuilder.query(QueryBuilders.matchAllQuery());
     return this.findAllByQueryBuilder(queryBuilder, index);
-  }
-
-  /**
-   * Delete the variable from the index.
-   */
-  @HandleAfterDelete
-  public void delete(Variable variable) {
-    for (ElasticsearchIndices index : ElasticsearchIndices.values()) {
-      delete(variable, index.getIndexName());
-    }
-  }
-
-  private void delete(Variable variable, String index) {
-    JestResult result = execute(new Delete.Builder(variable.getId()).index(index)
-        .type(TYPE)
-        .build());
-    if (!result.isSucceeded()) {
-      throw new ElasticsearchDocumentDeleteException(index, TYPE, variable.getId(),
-          result.getErrorMessage());
-    }
-  }
-  
-  /**
-   * Remove the deleted variables from elasticsearch.
-   * 
-   * @param deletedVariables the variables to remove from the index
-   */
-  public void delete(List<Variable> deletedVariables) {
-    if (deletedVariables == null || deletedVariables.isEmpty()) {
-      return;
-    }
-    for (ElasticsearchIndices index : ElasticsearchIndices.values()) {
-      Bulk.Builder builder = new Bulk.Builder().defaultIndex(index.getIndexName())
-          .defaultType(TYPE);
-      for (Variable variable : deletedVariables) {
-        builder.addAction(new Delete.Builder(variable.getId()).build());
-      }
-      Bulk bulk = builder.build();
-      JestResult result = execute(bulk);
-      if (!result.isSucceeded()) {
-        throw new ElasticsearchDocumentDeleteException(index.getIndexName(), TYPE,
-            result.getErrorMessage());
-      }
-    }
   }
 
   /**

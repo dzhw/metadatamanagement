@@ -19,7 +19,6 @@ import java.util.List;
 
 import org.junit.After;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.web.servlet.MockMvc;
@@ -38,6 +37,7 @@ import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.builders.DataAcqu
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.repository.DataAcquisitionProjectRepository;
 import eu.dzhw.fdz.metadatamanagement.searchmanagement.service.ElasticsearchAdminService;
 import eu.dzhw.fdz.metadatamanagement.searchmanagement.service.ElasticsearchIndices;
+import eu.dzhw.fdz.metadatamanagement.searchmanagement.service.ElasticsearchUpdateQueueService;
 import eu.dzhw.fdz.metadatamanagement.surveymanagement.domain.Survey;
 import eu.dzhw.fdz.metadatamanagement.surveymanagement.repository.SurveyRepository;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.DataTypes;
@@ -79,6 +79,9 @@ public class VariableResourceTest extends AbstractTest {
 
   @Autowired
   private ElasticsearchAdminService elasticsearchAdminService;
+  
+  @Autowired
+  private ElasticsearchUpdateQueueService queueService;
 
   private MockMvc mockMvc;
 
@@ -115,6 +118,8 @@ public class VariableResourceTest extends AbstractTest {
       .content(TestUtil.convertObjectToJsonBytes(variable)))
       .andExpect(status().isCreated());
 
+    queueService.processQueue();
+    
     // check that there are two variable search documents
     elasticsearchAdminService.refreshAllIndices();
     assertThat(elasticsearchAdminService.countAllDocuments(), equalTo(2.0));
@@ -548,8 +553,6 @@ public class VariableResourceTest extends AbstractTest {
     assertThat(elasticsearchAdminService.countAllDocuments(), equalTo(0.0));
   }
 
-  // TODO Test
-  @Ignore
   @Test
   public void testUpdateVariable() throws Exception {
     DataAcquisitionProject project = new DataAcquisitionProjectBuilder().withId("testProject")
@@ -589,6 +592,8 @@ public class VariableResourceTest extends AbstractTest {
       .andExpect(jsonPath("$.version", is(1)))
       .andExpect(jsonPath("$.label.de", is("modified")));
 
+    queueService.processQueue();
+    
     // check that the variable search documents have been updated
     elasticsearchAdminService.refreshAllIndices();
     for (ElasticsearchIndices index : ElasticsearchIndices.values()) {
