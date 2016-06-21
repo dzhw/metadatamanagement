@@ -14,7 +14,8 @@
         "rdcProject": "Data Acquisition Projects",
         "survey": "Surveys",
         "dataSet": "Data Sets",
-        "additionalEntity": "JHipster will add additional entities here (do not translate!)"
+        "additionalEntity": "JHipster will add additional entities here (do not translate!)",
+        "currentProject": "Current Project"
       },
       "search": {
         "title": "Search",

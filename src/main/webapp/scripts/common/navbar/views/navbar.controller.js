@@ -1,13 +1,24 @@
 'use strict';
 
 angular.module('metadatamanagementApp').controller('NavbarController',
-  function($scope, Principal) {
+  function($scope, Principal, DataAcquisitionProjectCollectionResource) {
     $scope.isAuthenticated = Principal.isAuthenticated;
 
     //For toggle buttons
+    $scope.isProjectMenuOpen = false;
     $scope.isAdminMenuOpen = false;
     $scope.isEntityMenuOpen = false;
     $scope.isAccountMenuOpen = false;
+
+    $scope.currentProject = null;
+    $scope.dataAcquisitionProjects = null;
+    $scope.loadProjects = function() {
+      DataAcquisitionProjectCollectionResource.query({},
+        function(result) {
+          $scope.dataAcquisitionProjects =
+            result._embedded.dataAcquisitionProjects;
+        });
+    };
 
     //Functions for toggling buttons.
     $scope.toggleEntityMenu = function() {
