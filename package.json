@@ -6,7 +6,7 @@
   "dependencies": {},
   "devDependencies": {
     "browser-sync": "^2.13.0",
-    "event-stream": "3.3.2",
+    "event-stream": "3.3.3",
     "grunt": "1.0.1",
     "grunt-angular-templates": "1.0.4",
     "grunt-autoprefixer": "3.0.4",
