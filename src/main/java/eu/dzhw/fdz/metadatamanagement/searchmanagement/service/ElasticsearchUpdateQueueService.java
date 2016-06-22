@@ -14,7 +14,7 @@ import org.springframework.dao.OptimisticLockingFailureException;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
-import eu.dzhw.fdz.metadatamanagement.searchmanagement.dao.ElasticsearchAdminDao;
+import eu.dzhw.fdz.metadatamanagement.searchmanagement.dao.ElasticsearchDao;
 import eu.dzhw.fdz.metadatamanagement.searchmanagement.documents.VariableSearchDocument;
 import eu.dzhw.fdz.metadatamanagement.searchmanagement.domain.ElasticsearchUpdateQueueAction;
 import eu.dzhw.fdz.metadatamanagement.searchmanagement.domain.ElasticsearchUpdateQueueItem;
@@ -29,7 +29,7 @@ import io.searchbox.core.Delete;
 import io.searchbox.core.Index;
 
 /**
- * Service which manages asynchronous Elasticsearch updates.
+ * Service which manages asynchronous Elasticsearch updates as a FIFO queue.
  * 
  * @author René Reitmann
  */
@@ -51,7 +51,7 @@ public class ElasticsearchUpdateQueueService {
   private SurveyRepository surveyRepository;
   
   @Inject
-  private ElasticsearchAdminDao elasticsearchAdminDao;
+  private ElasticsearchDao elasticsearchDao;
 
   /**
    * Attach one item to the queue.
@@ -105,6 +105,10 @@ public class ElasticsearchUpdateQueueService {
     }
     logger.info("Finished processing of ElasticsearchUpdateQueue...");
   }
+  
+  public void clearQueue() {
+    queueItemRepository.deleteAll();
+  }
 
   private void lockUpdateQueueItems(LocalDateTime updateStart) {
     List<ElasticsearchUpdateQueueItem> unlockedItems =
@@ -143,7 +147,7 @@ public class ElasticsearchUpdateQueueService {
     }
 
     // execute the bulk update/delete
-    elasticsearchAdminDao.executeBulk(bulkBuilder.build());
+    elasticsearchDao.executeBulk(bulkBuilder.build());
     
     // finally delete the queue items
     queueItemRepository.delete(lockedItems);

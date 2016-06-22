@@ -30,14 +30,14 @@ import io.searchbox.indices.mapping.PutMapping;
 import io.searchbox.indices.settings.GetSettings;
 
 /**
- * Data Access Object for setting up the elasticsearch indices and mappings.
+ * Data Access Object for accessing and manipulating elasticsearch.
  * 
  * @author René Reitmann
  */
 @Component
-public class ElasticsearchAdminDao {
+public class ElasticsearchDao {
 
-  private final Logger log = LoggerFactory.getLogger(ElasticsearchAdminDao.class);
+  private final Logger log = LoggerFactory.getLogger(ElasticsearchDao.class);
 
   @Inject
   private JestClient jestClient;

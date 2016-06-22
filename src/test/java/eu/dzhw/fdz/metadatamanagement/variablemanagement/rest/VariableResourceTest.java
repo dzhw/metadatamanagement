@@ -35,7 +35,6 @@ import eu.dzhw.fdz.metadatamanagement.common.unittesthelper.util.UnitTestCreateD
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.DataAcquisitionProject;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.builders.DataAcquisitionProjectBuilder;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.repository.DataAcquisitionProjectRepository;
-import eu.dzhw.fdz.metadatamanagement.searchmanagement.repository.ElasticsearchUpdateQueueItemRepository;
 import eu.dzhw.fdz.metadatamanagement.searchmanagement.service.ElasticsearchAdminService;
 import eu.dzhw.fdz.metadatamanagement.searchmanagement.service.ElasticsearchUpdateQueueService;
 import eu.dzhw.fdz.metadatamanagement.surveymanagement.domain.Survey;
@@ -71,9 +70,6 @@ public class VariableResourceTest extends AbstractTest {
 
   @Autowired
   private VariableRepository variableRepository;
-  
-  @Autowired
-  private ElasticsearchUpdateQueueItemRepository queueItemRepository;
 
   @Autowired
   private ElasticsearchAdminService elasticsearchAdminService;
@@ -96,7 +92,7 @@ public class VariableResourceTest extends AbstractTest {
     dataAcquisitionProjectRepository.deleteAll();
     surveyRepository.deleteAll();
     variableRepository.deleteAll();
-    queueItemRepository.deleteAll();
+    queueService.clearQueue();
   }
 
   @Test

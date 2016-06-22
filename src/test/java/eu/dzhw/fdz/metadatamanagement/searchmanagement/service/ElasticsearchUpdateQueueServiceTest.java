@@ -8,7 +8,6 @@ import java.util.Arrays;
 import java.util.List;
 
 import org.junit.After;
-import org.junit.Before;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -21,19 +20,13 @@ import eu.dzhw.fdz.metadatamanagement.searchmanagement.repository.ElasticsearchU
 public class ElasticsearchUpdateQueueServiceTest extends AbstractTest {
   @Autowired
   private ElasticsearchUpdateQueueService elasticsearchUpdateQueueService;
-
+  
   @Autowired
   private ElasticsearchUpdateQueueItemRepository itemRepository;
-
-  @Before
-  public void prepare() {
-    // remove side effects from other tests
-    itemRepository.deleteAll();
-  }
   
   @After
   public void cleanUp() {
-    itemRepository.deleteAll();
+    elasticsearchUpdateQueueService.clearQueue();
   }
 
   @Test

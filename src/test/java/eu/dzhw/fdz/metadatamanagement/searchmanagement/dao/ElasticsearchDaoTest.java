@@ -19,7 +19,6 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
 import eu.dzhw.fdz.metadatamanagement.AbstractTest;
-import eu.dzhw.fdz.metadatamanagement.searchmanagement.dao.ElasticsearchAdminDao;
 import eu.dzhw.fdz.metadatamanagement.searchmanagement.dao.exception.ElasticsearchIndexCreateException;
 import eu.dzhw.fdz.metadatamanagement.searchmanagement.dao.exception.ElasticsearchIndexDeleteException;
 import eu.dzhw.fdz.metadatamanagement.searchmanagement.dao.exception.ElasticsearchPutMappingException;
@@ -30,14 +29,14 @@ import eu.dzhw.fdz.metadatamanagement.searchmanagement.dao.exception.Elasticsear
  * @author René Reitmann
  * @author Daniel Katzberg
  */
-public class ElasticsearchAdminDaoTest extends AbstractTest {
+public class ElasticsearchDaoTest extends AbstractTest {
 
   public static final String TEST_INDEX = "hurz";
   private static final String NUMBER_OF_REPLICAS = "number_of_replicas";
   private static final String TEST_TYPE = "variables";
 
   @Inject
-  private ElasticsearchAdminDao elasticsearchAdminDao;
+  private ElasticsearchDao elasticsearchDao;
 
   @Inject
   private ResourceLoader resourceLoader;
@@ -46,8 +45,8 @@ public class ElasticsearchAdminDaoTest extends AbstractTest {
 
   @Before
   public void deleteTestIndex() {
-    if (elasticsearchAdminDao.exists(TEST_INDEX)) {
-      elasticsearchAdminDao.delete(TEST_INDEX);
+    if (elasticsearchDao.exists(TEST_INDEX)) {
+      elasticsearchDao.delete(TEST_INDEX);
     }
   }
 
@@ -55,7 +54,7 @@ public class ElasticsearchAdminDaoTest extends AbstractTest {
   public void testCreateIndex() throws IOException {
     JsonObject settings = createTestIndex();
 
-    assertThat(elasticsearchAdminDao.getSettings(TEST_INDEX)
+    assertThat(elasticsearchDao.getSettings(TEST_INDEX)
       .getAsJsonObject("index")
       .get(NUMBER_OF_REPLICAS),
         equalTo(settings.getAsJsonObject("index")
@@ -73,9 +72,9 @@ public class ElasticsearchAdminDaoTest extends AbstractTest {
     JsonObject mapping = jsonParser.parse(reader)
       .getAsJsonObject();
 
-    elasticsearchAdminDao.putMapping(TEST_INDEX, TEST_TYPE, mapping);
+    elasticsearchDao.putMapping(TEST_INDEX, TEST_TYPE, mapping);
 
-    assertThat(elasticsearchAdminDao.getMapping(TEST_INDEX, TEST_TYPE)
+    assertThat(elasticsearchDao.getMapping(TEST_INDEX, TEST_TYPE)
       .getAsJsonObject(TEST_TYPE)
       .getAsJsonObject("properties")
       .getAsJsonObject("allStringsAsNgrams"),
@@ -90,7 +89,7 @@ public class ElasticsearchAdminDaoTest extends AbstractTest {
     // Arrange
 
     // Act
-    this.elasticsearchAdminDao.createIndex("<WrongIndex>", null);
+    this.elasticsearchDao.createIndex("<WrongIndex>", null);
 
     // Assert
   }
@@ -100,7 +99,7 @@ public class ElasticsearchAdminDaoTest extends AbstractTest {
     // Arrange
 
     // Act
-    JsonObject jsonObject = this.elasticsearchAdminDao.getSettings("UnknownIndex");
+    JsonObject jsonObject = this.elasticsearchDao.getSettings("UnknownIndex");
 
     // Assert
     assertThat(jsonObject, is(nullValue()));
@@ -119,7 +118,7 @@ public class ElasticsearchAdminDaoTest extends AbstractTest {
       .getAsJsonObject();
 
     // Act
-    elasticsearchAdminDao.putMapping(TEST_INDEX, TEST_TYPE, mapping);
+    elasticsearchDao.putMapping(TEST_INDEX, TEST_TYPE, mapping);
 
     // Assert
   }
@@ -132,7 +131,7 @@ public class ElasticsearchAdminDaoTest extends AbstractTest {
     // Arrange
 
     // Act
-    JsonObject jsonObject = elasticsearchAdminDao.getMapping(TEST_INDEX, TEST_TYPE);
+    JsonObject jsonObject = elasticsearchDao.getMapping(TEST_INDEX, TEST_TYPE);
 
     // Assert
     assertThat(jsonObject, is(nullValue()));
@@ -146,7 +145,7 @@ public class ElasticsearchAdminDaoTest extends AbstractTest {
     // Arrange
 
     // Act
-    this.elasticsearchAdminDao.delete(TEST_INDEX);
+    this.elasticsearchDao.delete(TEST_INDEX);
 
     // Assert
   }
@@ -158,7 +157,7 @@ public class ElasticsearchAdminDaoTest extends AbstractTest {
 
     JsonObject settings = jsonParser.parse(reader)
       .getAsJsonObject();
-    elasticsearchAdminDao.createIndex(TEST_INDEX, settings);
+    elasticsearchDao.createIndex(TEST_INDEX, settings);
 
     return settings;
   }

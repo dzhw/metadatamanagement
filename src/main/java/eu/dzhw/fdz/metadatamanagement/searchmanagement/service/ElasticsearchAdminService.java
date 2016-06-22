@@ -15,7 +15,7 @@ import org.springframework.stereotype.Service;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
-import eu.dzhw.fdz.metadatamanagement.searchmanagement.dao.ElasticsearchAdminDao;
+import eu.dzhw.fdz.metadatamanagement.searchmanagement.dao.ElasticsearchDao;
 import eu.dzhw.fdz.metadatamanagement.searchmanagement.domain.ElasticsearchUpdateQueueAction;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.Variable;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.repository.VariableRepository;
@@ -28,7 +28,7 @@ import eu.dzhw.fdz.metadatamanagement.variablemanagement.repository.VariableRepo
 @Service
 public class ElasticsearchAdminService {
   @Inject
-  private ElasticsearchAdminDao elasticsearchAdminDao;
+  private ElasticsearchDao elasticsearchDao;
 
   @Inject
   private VariableRepository variableRepository;
@@ -72,15 +72,15 @@ public class ElasticsearchAdminService {
   }
 
   private void recreateIndex(String index) {
-    if (elasticsearchAdminDao.exists(index)) {
-      elasticsearchAdminDao.delete(index);
+    if (elasticsearchDao.exists(index)) {
+      elasticsearchDao.delete(index);
       // deleting is asynchronous and thus searchly complains if we create the new index to early
-      elasticsearchAdminDao.refresh(index);
+      elasticsearchDao.refresh(index);
     }
-    elasticsearchAdminDao.createIndex(index, loadSettings(index));
+    elasticsearchDao.createIndex(index, loadSettings(index));
     // TODO add mappings for all types
     //for (ElasticsearchType type : ElasticsearchType.values()) {
-    elasticsearchAdminDao.putMapping(index, ElasticsearchType.variables.name(), 
+    elasticsearchDao.putMapping(index, ElasticsearchType.variables.name(), 
         loadMapping(index, ElasticsearchType.variables.name()));
     //}
   }
@@ -118,11 +118,11 @@ public class ElasticsearchAdminService {
    */
   public void refreshAllIndices() {
     for (ElasticsearchIndices index : ElasticsearchIndices.values()) {      
-      elasticsearchAdminDao.refresh(index.getIndexName());
+      elasticsearchDao.refresh(index.getIndexName());
     }
   }
   
   public Double countAllDocuments() {
-    return elasticsearchAdminDao.countAllDocuments();
+    return elasticsearchDao.countAllDocuments();
   }
 }
