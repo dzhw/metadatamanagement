@@ -12,7 +12,7 @@
             <li ng-switch-when="true" data-has-authority="ROLE_USER">
                 <md-input-container class="md-block" flex-gt-sm>
                     <label data-translate="global.menu.entities.currentProject"></label>
-                    <md-select ng-model="project" md-on-open="loadProjects()" md-on-close="updateCurrentProject(project)" ng-disabled="checkEmptyListProjects()">
+                    <md-select ng-model="project" md-on-open="loadProjects()" md-on-close="updateCurrentProject(project)" ng-change="updateCurrentProject(project)" ng-disabled="checkEmptyListProjects()">
                         <md-option ng-value="project" ng-repeat="project in dataAcquisitionProjects">{{project.id}}</md-option>
                     </md-select>
                 </md-input-container>

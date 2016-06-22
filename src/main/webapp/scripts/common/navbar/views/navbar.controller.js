@@ -1,3 +1,4 @@
+/* Author Daniel Katzberg */
 'use strict';
 
 angular.module('metadatamanagementApp').controller('NavbarController',
@@ -11,11 +12,25 @@ angular.module('metadatamanagementApp').controller('NavbarController',
     $scope.isEntityMenuOpen = false;
     $scope.isAccountMenuOpen = false;
 
+    //helper method
+    function include(array, objectInArray) {
+      return (array.indexOf(objectInArray) !== -1);
+    }
+
     //For Project Handling
     $scope.project = null;
     $scope.dataAcquisitionProjects = null;
     $scope.checkEmptyListProjects = function() {
       if ($scope.dataAcquisitionProjects) {
+
+        //It is possible that a project could be deleted after it is selected.
+        //This method checks it, because it will be called for disabling the
+        //the drop dpwn menu.
+        if (!include($scope.dataAcquisitionProjects, $scope.project)) {
+          $scope.updateCurrentProject(null);
+        }
+
+        //Empty List -> Disable the Drop Down
         return $scope.dataAcquisitionProjects.length === 0;
       }
     };
@@ -33,6 +48,7 @@ angular.module('metadatamanagementApp').controller('NavbarController',
 
     //Update the state for the current project
     $scope.updateCurrentProject = function(project) {
+      $scope.project = project;
       CurrentProjectService.setCurrentProject(project);
     };
 
