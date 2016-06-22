@@ -10,16 +10,14 @@
             <md-divider></md-divider>
 
             <li ng-switch-when="true" data-has-authority="ROLE_USER">
-              <md-input-container class="md-block" flex-gt-sm>
-            <label data-translate="global.menu.entities.currentProject"></label>
-            <md-select ng-model="currentProject" md-on-open="loadProjects()">
-              <md-option ng-value="currentProject" ng-repeat="project in dataAcquisitionProjects">{{project.id}}</md-option>
-            </md-select>
-          </md-input-container>
+                <md-input-container class="md-block" flex-gt-sm>
+                    <label data-translate="global.menu.entities.currentProject"></label>
+                    <md-select ng-model="project" md-on-open="loadProjects()" md-on-close="updateCurrentProject(project)">
+                        <md-option ng-value="project" ng-repeat="project in dataAcquisitionProjects">{{project.id}}</md-option>
+                    </md-select>
+                </md-input-container>
                 <md-divider></md-divider>
             </li>
-
-
             <li ng-switch-when="true" data-has-authority="ROLE_USER">
                 <md-button class="fdz-navbar-menu-toggle" ng-click="toggleEntityMenu()" aria-label="{{'global.menu.entities.main' | translate}}">
                     <span data-translate="global.menu.entities.main"></span>

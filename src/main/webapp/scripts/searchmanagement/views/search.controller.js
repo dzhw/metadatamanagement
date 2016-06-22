@@ -6,7 +6,7 @@ a result of a type like variable or dataSet and so on. */
 angular.module('metadatamanagementApp').controller('SearchController',
   function($scope, Principal, ElasticSearchProperties, $location,
     AlertService, VariableSearchDao, $translate, CustomModalService,
-    VariableUploadService) {
+    VariableUploadService, CurrentProjectService) {
 
     //Check the login status
     Principal.identity().then(function(account) {
@@ -86,15 +86,20 @@ angular.module('metadatamanagementApp').controller('SearchController',
     };
 
     $scope.uploadVariables = function(file) {
-      if (file !== null) {
+      console.log(CurrentProjectService.getCurrentProject());
+      var dataAcquisitionProject = CurrentProjectService.getCurrentProject();
+      if (file !== null &&
+        dataAcquisitionProject &&
+        dataAcquisitionProject !== {}) {
+
         CustomModalService.getModal($translate.instant(
           'metadatamanagementApp.dataAcquisitionProject.detail.' +
           'deleteMessages.deleteVariables', {
-            id: $scope.dataAcquisitionProject.id
+            id: dataAcquisitionProject.id
           })).then(function(returnValue) {
           if (returnValue) {
             VariableUploadService
-              .uploadVariables(file, $scope.dataAcquisitionProject.id);
+              .uploadVariables(file, dataAcquisitionProject.id);
           }
         });
       }
