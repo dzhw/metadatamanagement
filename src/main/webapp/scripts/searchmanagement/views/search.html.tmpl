@@ -44,13 +44,13 @@
         </md-card>
     </div>
     <div ng-switch-when="true" has-any-authority="ROLE_ADMIN, ROLE_USER" class="fdz-floating-div" layout="column">
-        <md-button class="md-primary md-raised md-icon-button md-button md-ink-ripple fdz-floating-button" ng-click="refresh()">
+        <md-button class="md-accent md-raised md-icon-button md-ink-ripple" ng-click="refresh()" style="margin-bottom: 1em;">
             <md-icon md-font-set="material-icons">refresh</md-icon>
         </md-button>
-        <md-button type="file" ngf-select="uploadVariables($file)" class="fdz-floating-button md-primary md-raised md-icon-button md-button md-ink-ripple" accept=".zip" ng-disabled="uploadState.disableButton">
+        <md-button type="file" ngf-select="uploadVariables($file)" class="md-accent md-raised md-icon-button md-ink-ripple" accept=".zip" ng-disabled="uploadState.disableButton" style="margin-bottom: 1em;">
             <md-icon md-font-set="material-icons">cloud_upload</md-icon>
         </md-button>
-        <md-button class="fdz-floating-button md-primary md-raised md-icon-button md-button md-ink-ripple">
+        <md-button class="md-accent md-raised md-icon-button md-ink-ripple" style="margin-bottom: 1em;">
             <md-icon md-font-set="material-icons">event_note</md-icon>
         </md-button>
     </div>
