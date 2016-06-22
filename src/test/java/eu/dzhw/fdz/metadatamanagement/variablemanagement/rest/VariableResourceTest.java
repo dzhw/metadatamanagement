@@ -35,8 +35,8 @@ import eu.dzhw.fdz.metadatamanagement.common.unittesthelper.util.UnitTestCreateD
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.DataAcquisitionProject;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.builders.DataAcquisitionProjectBuilder;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.repository.DataAcquisitionProjectRepository;
+import eu.dzhw.fdz.metadatamanagement.searchmanagement.repository.ElasticsearchUpdateQueueItemRepository;
 import eu.dzhw.fdz.metadatamanagement.searchmanagement.service.ElasticsearchAdminService;
-import eu.dzhw.fdz.metadatamanagement.searchmanagement.service.ElasticsearchIndices;
 import eu.dzhw.fdz.metadatamanagement.searchmanagement.service.ElasticsearchUpdateQueueService;
 import eu.dzhw.fdz.metadatamanagement.surveymanagement.domain.Survey;
 import eu.dzhw.fdz.metadatamanagement.surveymanagement.repository.SurveyRepository;
@@ -50,8 +50,6 @@ import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.Variable;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.builders.MissingBuilder;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.builders.ValidResponseBuilder;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.repository.VariableRepository;
-import eu.dzhw.fdz.metadatamanagement.variablemanagement.search.VariableSearchDao;
-import eu.dzhw.fdz.metadatamanagement.variablemanagement.search.document.VariableSearchDocument;
 
 /**
  * Tests for the variable resource.
@@ -73,15 +71,16 @@ public class VariableResourceTest extends AbstractTest {
 
   @Autowired
   private VariableRepository variableRepository;
-
+  
   @Autowired
-  private VariableSearchDao variableSearchDao;
+  private ElasticsearchUpdateQueueItemRepository queueItemRepository;
 
   @Autowired
   private ElasticsearchAdminService elasticsearchAdminService;
   
   @Autowired
   private ElasticsearchUpdateQueueService queueService;
+  
 
   private MockMvc mockMvc;
 
@@ -97,6 +96,7 @@ public class VariableResourceTest extends AbstractTest {
     dataAcquisitionProjectRepository.deleteAll();
     surveyRepository.deleteAll();
     variableRepository.deleteAll();
+    queueItemRepository.deleteAll();
   }
 
   @Test
@@ -596,13 +596,7 @@ public class VariableResourceTest extends AbstractTest {
     
     // check that the variable search documents have been updated
     elasticsearchAdminService.refreshAllIndices();
-    for (ElasticsearchIndices index : ElasticsearchIndices.values()) {
-      List<VariableSearchDocument> variableSearchDocuments =
-          variableSearchDao.findAll(index.getIndexName());
-      assertThat(variableSearchDocuments.size(), is(1));
-      assertThat(variableSearchDocuments.get(0)
-        .getLabel(), is("modified"));
-    }
+    assertThat(elasticsearchAdminService.countAllDocuments(), is(2.0));    
   }
 
   @Test

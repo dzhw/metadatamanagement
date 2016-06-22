@@ -4,9 +4,6 @@ import java.util.List;
 
 import javax.inject.Inject;
 
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.data.rest.core.annotation.HandleAfterCreate;
 import org.springframework.data.rest.core.annotation.HandleAfterDelete;
 import org.springframework.data.rest.core.annotation.HandleAfterSave;
@@ -20,7 +17,6 @@ import eu.dzhw.fdz.metadatamanagement.searchmanagement.service.ElasticsearchUpda
 import eu.dzhw.fdz.metadatamanagement.surveymanagement.domain.Survey;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.Variable;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.repository.VariableRepository;
-import eu.dzhw.fdz.metadatamanagement.variablemanagement.search.VariableSearchDao;
 
 /**
  * Service for creating and updating variable. Used for updating variables in mongo and
@@ -35,26 +31,9 @@ public class VariableService {
 
   @Inject
   private VariableRepository variableRepository;
-
-  @Inject
-  private VariableSearchDao variableSearchDao;
   
   @Inject
   private ElasticsearchUpdateQueueService elasticsearchUpdateQueueService;
-
-  /**
-   * Load all variables from mongo and update the search indices.
-   */
-  public void reindexAllVariables() {
-    Pageable pageable = new PageRequest(0, 500);
-    Page<Variable> variables = variableRepository.findAll(pageable);
-
-    while (variables.hasContent()) {
-      variableSearchDao.index(variables.getContent());
-      pageable = pageable.next();
-      variables = variableRepository.findAll(pageable);
-    }
-  }
 
   /**
    * Delete all variables when the dataAcquisitionProject was deleted.

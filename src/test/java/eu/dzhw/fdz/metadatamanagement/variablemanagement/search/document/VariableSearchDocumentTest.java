@@ -13,6 +13,7 @@ import java.util.List;
 import org.junit.Test;
 
 import eu.dzhw.fdz.metadatamanagement.common.domain.builders.I18nStringBuilder;
+import eu.dzhw.fdz.metadatamanagement.searchmanagement.documents.VariableSearchDocument;
 import eu.dzhw.fdz.metadatamanagement.searchmanagement.service.ElasticsearchIndices;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.DataTypes;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.ScaleLevels;

@@ -7,14 +7,18 @@ import java.io.Reader;
 import javax.inject.Inject;
 
 import org.springframework.core.io.ResourceLoader;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Slice;
 import org.springframework.stereotype.Service;
 
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
 import eu.dzhw.fdz.metadatamanagement.searchmanagement.dao.ElasticsearchAdminDao;
-import eu.dzhw.fdz.metadatamanagement.variablemanagement.search.VariableSearchDao;
-import eu.dzhw.fdz.metadatamanagement.variablemanagement.service.VariableService;
+import eu.dzhw.fdz.metadatamanagement.searchmanagement.domain.ElasticsearchUpdateQueueAction;
+import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.Variable;
+import eu.dzhw.fdz.metadatamanagement.variablemanagement.repository.VariableRepository;
 
 /**
  * Service which sets up all indices.
@@ -27,14 +31,15 @@ public class ElasticsearchAdminService {
   private ElasticsearchAdminDao elasticsearchAdminDao;
 
   @Inject
-  private VariableService variableService;
+  private VariableRepository variableRepository;
+  
+  @Inject
+  private ElasticsearchUpdateQueueService updateQueueService;
 
   @Inject
   private ResourceLoader resourceLoader;
 
   private JsonParser jsonParser = new JsonParser();
-
-  private static final String[] TYPES = {VariableSearchDao.TYPE};
 
   /**
    * Recreate the indices and all their mappings.
@@ -43,7 +48,27 @@ public class ElasticsearchAdminService {
     for (ElasticsearchIndices index : ElasticsearchIndices.values()) {      
       recreateIndex(index.getIndexName());
     }
-    variableService.reindexAllVariables();
+    this.enqueueAllVariables();
+    updateQueueService.processQueue();
+  }
+  
+  /**
+   * Load all variables from mongo and enqueue them for updating.
+   */
+  private void enqueueAllVariables() {
+    Pageable pageable = new PageRequest(0, 100);
+    Slice<Variable> variables = variableRepository.findBy(pageable);
+
+    while (variables.hasContent()) {
+      variables.forEach(variable -> {
+        updateQueueService.enqueue(
+            variable.getId(), 
+            ElasticsearchType.variables, 
+            ElasticsearchUpdateQueueAction.UPSERT);
+      });
+      pageable = pageable.next();
+      variables = variableRepository.findBy(pageable);
+    }
   }
 
   private void recreateIndex(String index) {
@@ -53,9 +78,11 @@ public class ElasticsearchAdminService {
       elasticsearchAdminDao.refresh(index);
     }
     elasticsearchAdminDao.createIndex(index, loadSettings(index));
-    for (String type : TYPES) {
-      elasticsearchAdminDao.putMapping(index, type, loadMapping(index, type));
-    }
+    // TODO add mappings for all types
+    //for (ElasticsearchType type : ElasticsearchType.values()) {
+    elasticsearchAdminDao.putMapping(index, ElasticsearchType.variables.name(), 
+        loadMapping(index, ElasticsearchType.variables.name()));
+    //}
   }
   
   private JsonObject loadSettings(String index) {

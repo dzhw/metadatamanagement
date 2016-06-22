@@ -1,4 +1,4 @@
-package eu.dzhw.fdz.metadatamanagement.variablemanagement.search.document;
+package eu.dzhw.fdz.metadatamanagement.searchmanagement.documents;
 
 import java.util.ArrayList;
 import java.util.List;

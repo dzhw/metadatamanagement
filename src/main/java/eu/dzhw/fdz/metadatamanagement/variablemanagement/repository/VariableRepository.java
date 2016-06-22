@@ -2,6 +2,8 @@ package eu.dzhw.fdz.metadatamanagement.variablemanagement.repository;
 
 import java.util.List;
 
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Slice;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.data.querydsl.QueryDslPredicateExecutor;
 import org.springframework.data.rest.core.annotation.RepositoryRestResource;
@@ -30,4 +32,7 @@ public interface VariableRepository
   @RestResource(exported = false)
   List<Variable> findByDataAcquisitionProjectIdAndName(String dataAcquisitionProjectId,
       String name);
+  
+  @RestResource(exported = false)
+  Slice<Variable> findBy(Pageable pageable);
 }
