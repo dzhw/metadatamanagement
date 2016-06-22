@@ -11,16 +11,27 @@ angular.module('metadatamanagementApp').controller('NavbarController',
     $scope.isEntityMenuOpen = false;
     $scope.isAccountMenuOpen = false;
 
+    //For Project Handling
     $scope.project = null;
     $scope.dataAcquisitionProjects = null;
+    $scope.checkEmptyListProjects = function() {
+      if ($scope.dataAcquisitionProjects) {
+        return $scope.dataAcquisitionProjects.length === 0;
+      }
+    };
+
+    //Load the projects for the drop menu
     $scope.loadProjects = function() {
       DataAcquisitionProjectCollectionResource.query({},
         function(result) {
           $scope.dataAcquisitionProjects =
             result._embedded.dataAcquisitionProjects;
+          $scope.checkEmptyListProjects();
         });
     };
+    $scope.loadProjects();
 
+    //Update the state for the current project
     $scope.updateCurrentProject = function(project) {
       CurrentProjectService.setCurrentProject(project);
     };
