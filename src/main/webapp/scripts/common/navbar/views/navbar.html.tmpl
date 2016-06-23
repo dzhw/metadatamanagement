@@ -10,13 +10,18 @@
             <md-divider></md-divider>
 
             <li ng-switch-when="true" data-has-authority="ROLE_USER">
-                <md-input-container class="md-block" flex-gt-sm>
-                    <label data-translate="global.menu.entities.currentProject"></label>
-                    <md-select ng-model="project" md-on-open="loadProjects()" md-on-close="updateCurrentProject(project)" ng-change="updateCurrentProject(project)" ng-disabled="checkEmptyListProjects()">
-                        <md-option value=""><span data-translate="global.menu.entities.pleaseSelect"></span></md-option>
-                        <md-option ng-value="project" ng-repeat="project in dataAcquisitionProjects">{{project.id}}</md-option>
-                    </md-select>
-                </md-input-container>
+                <md-autocomplete
+                    md-search-text="searchText"
+                    md-selected-item="project"
+                    md-selected-item-change="updateCurrentProject(project)"
+                    md-items="project in querySearch(searchText)"
+                    md-item-text="project.id"
+                    md-min-length="0"
+                    placeholder="Project wählen"
+                    ng-disabled="checkEmptyListProjects()"
+                    md-select-on-match="true">
+                    <span md-highlight-text="searchText">{{project.id}}</span>
+                </md-autocomplete>
                 <md-divider></md-divider>
             </li>
             <li ng-switch-when="true" data-has-authority="ROLE_USER">

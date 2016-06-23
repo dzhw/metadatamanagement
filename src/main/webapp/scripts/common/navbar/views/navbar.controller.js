@@ -7,6 +7,7 @@ angular.module('metadatamanagementApp').controller('NavbarController',
     $scope.isAuthenticated = Principal.isAuthenticated;
 
     //For toggle buttons
+    $scope.project = null;
     $scope.isProjectMenuOpen = false;
     $scope.isAdminMenuOpen = false;
     $scope.isEntityMenuOpen = false;
@@ -18,7 +19,6 @@ angular.module('metadatamanagementApp').controller('NavbarController',
     }
 
     //For Project Handling
-    $scope.project = null;
     $scope.dataAcquisitionProjects = null;
     $scope.checkEmptyListProjects = function() {
       if ($scope.dataAcquisitionProjects) {
@@ -46,8 +46,24 @@ angular.module('metadatamanagementApp').controller('NavbarController',
     };
     $scope.loadProjects();
 
+    //Helper method for query the project list
+    function createFilterFor(query) {
+      var lowercaseQuery = angular.lowercase(query);
+      return function filterFn(project) {
+        return (project.id.indexOf(lowercaseQuery) === 0);
+      };
+    }
+
+    //Query for searching in project list
+    $scope.querySearch = function(query) {
+      return query ? $scope.dataAcquisitionProjects.filter(createFilterFor(
+          query)) :
+        $scope.dataAcquisitionProjects;
+    };
+
     //Update the state for the current project
     $scope.updateCurrentProject = function(project) {
+      console.log(project);
       $scope.project = project;
       CurrentProjectService.setCurrentProject(project);
     };
