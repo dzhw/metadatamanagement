@@ -59,9 +59,12 @@ angular.module('metadatamanagementApp').controller('NavbarController',
 
     //Query for searching in project list
     $scope.querySearch = function(query) {
-      return query ? $scope.dataAcquisitionProjects.filter(createFilterFor(
-          query)) :
+      var results = query ? $scope.dataAcquisitionProjects.filter(
+          createFilterFor(
+            query)) :
         $scope.dataAcquisitionProjects;
+      console.log(results);
+      return results;
     };
 
     //Update the state for the current project

@@ -13,14 +13,16 @@
                 <md-autocomplete
                     md-search-text="searchText"
                     md-selected-item="selectedProject"
-                    md-selected-item-change="disableAutocomplete"
+                    md-selected-item-change="updateCurrentProject(project)"
                     md-items="project in querySearch(searchText)"
                     md-item-text="project.id"
                     md-min-length="0"
-                    placeholder="Project wählen"
-                    ng-disabled="checkEmptyListProjects()"
+                    placeholder="{{'global.menu.entities.selectProject' | translate}}"
+                    ng-disabled="disableAutocomplete"
                     md-select-on-match="true">
-                    <span md-highlight-text="searchText">{{project.id}}</span>
+                    <md-item-template>
+                        <span md-highlight-text="searchText">{{project.id}}</span>
+                    </md-item-template>
                 </md-autocomplete>
                 <md-divider></md-divider>
             </li>

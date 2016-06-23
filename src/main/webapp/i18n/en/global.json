@@ -16,7 +16,7 @@
         "dataSet": "Data Sets",
         "additionalEntity": "JHipster will add additional entities here (do not translate!)",
         "currentProject": "Current Project",
-        "pleaseSelect": "Please select"
+        "selectProject": "Select Project"
       },
       "search": {
         "title": "Search",
