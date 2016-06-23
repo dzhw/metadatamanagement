@@ -14,7 +14,8 @@
         "survey": "Erhebungen",
         "dataSet": "Datensets",
         "additionalEntity": "JHipster will add additional entities here (do not translate!)",
-        "currentProject": "Aktuelles Projekt"
+        "currentProject": "Aktuelles Projekt",
+        "pleaseSelect": "Bitte Auswählen"
       },
       "search": {
         "title": "Suche",
