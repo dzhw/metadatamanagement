@@ -29,11 +29,11 @@ angular.module('metadatamanagementApp').factory('Language',
             $translate.refresh();
           });
           var currentPath = $location.path();
-          if (language === 'en' && !currentPath.startsWith('/en/')) {
+          if (language === 'en' && currentPath.indexOf('/de/') === 0) {
             currentPath = currentPath.replace('/de/', '/en/');
             $location.path(currentPath);
           }
-          if (language === 'de' && !currentPath.startsWith('/de/')) {
+          if (language === 'de' && currentPath.indexOf('/en/') === 0) {
             currentPath = currentPath.replace('/en/', '/de/');
             $location.path(currentPath);
           }

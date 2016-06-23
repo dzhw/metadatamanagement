@@ -4,7 +4,6 @@
   "appPath": "src/main/webapp",
   "testPath": "src/test/javascript/spec",
   "dependencies": {
-    "modernizr": "3.3.1",
     "jquery": "^2.2.4",
     "angular": "1.5.7",
     "angular-aria": "1.5.7",
