@@ -12,8 +12,8 @@
             <li ng-switch-when="true" data-has-authority="ROLE_USER">
                 <md-autocomplete
                     md-search-text="searchText"
-                    md-selected-item="project"
-                    md-selected-item-change="updateCurrentProject(project)"
+                    md-selected-item="selectedProject"
+                    md-selected-item-change="disableAutocomplete"
                     md-items="project in querySearch(searchText)"
                     md-item-text="project.id"
                     md-min-length="0"

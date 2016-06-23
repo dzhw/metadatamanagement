@@ -7,7 +7,6 @@ angular.module('metadatamanagementApp').controller('NavbarController',
     $scope.isAuthenticated = Principal.isAuthenticated;
 
     //For toggle buttons
-    $scope.project = null;
     $scope.isProjectMenuOpen = false;
     $scope.isAdminMenuOpen = false;
     $scope.isEntityMenuOpen = false;
@@ -20,7 +19,10 @@ angular.module('metadatamanagementApp').controller('NavbarController',
 
     //For Project Handling
     $scope.dataAcquisitionProjects = null;
-    $scope.checkEmptyListProjects = function() {
+    $scope.project = null;
+    $scope.disableAutocomplete = false;
+
+    function checkEmptyListProjects() {
       if ($scope.dataAcquisitionProjects) {
 
         //It is possible that a project could be deleted after it is selected.
@@ -31,9 +33,10 @@ angular.module('metadatamanagementApp').controller('NavbarController',
         }
 
         //Empty List -> Disable the Drop Down
-        return $scope.dataAcquisitionProjects.length === 0;
+        $scope.disableAutocomplete = ($scope.dataAcquisitionProjects.length ===
+          0);
       }
-    };
+    }
 
     //Load the projects for the drop menu
     $scope.loadProjects = function() {
@@ -41,7 +44,7 @@ angular.module('metadatamanagementApp').controller('NavbarController',
         function(result) {
           $scope.dataAcquisitionProjects =
             result._embedded.dataAcquisitionProjects;
-          $scope.checkEmptyListProjects();
+          checkEmptyListProjects();
         });
     };
     $scope.loadProjects();
@@ -63,7 +66,6 @@ angular.module('metadatamanagementApp').controller('NavbarController',
 
     //Update the state for the current project
     $scope.updateCurrentProject = function(project) {
-      console.log(project);
       $scope.project = project;
       CurrentProjectService.setCurrentProject(project);
     };
