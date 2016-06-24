@@ -63,7 +63,6 @@ angular.module('metadatamanagementApp').controller('NavbarController',
           createFilterFor(
             query)) :
         $scope.dataAcquisitionProjects;
-      console.log(results);
       return results;
     };
 

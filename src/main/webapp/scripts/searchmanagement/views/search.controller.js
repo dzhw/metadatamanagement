@@ -101,7 +101,6 @@ angular.module('metadatamanagementApp').controller('SearchController',
     }
 
     $scope.uploadVariables = function(file) {
-      console.log(CurrentProjectService.getCurrentProject());
       var dataAcquisitionProject = CurrentProjectService.getCurrentProject();
       if (file !== null &&
         dataAcquisitionProject &&
