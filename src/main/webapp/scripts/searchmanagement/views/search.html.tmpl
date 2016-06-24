@@ -1,54 +1,40 @@
-<md-content class="md-padding" ng-controller="SearchController" ng-switch="isAuthenticated()">
-    <jh-alert></jh-alert>
-    <div flex-xs flex-gt-xs="100" layout="column">
-        <md-card>
-            <div layout="row" flex>
-                <md-input-container flex class="md-block">
-                    <label>{{'global.menu.search.variablesearch'|translate}}</label>
-                    <md-icon md-font-set="material-icons">search</md-icon>
-                    <input id="query" type="text" ng-model="query" ng-keyup="search(1)" autocomplete="off" autofocus="autofocus">
-                </md-input-container>
-
+<jh-alert></jh-alert>
+<md-card ng-controller="SearchController" ng-switch="isAuthenticated()">
+    <md-input-container class="fdz-search-input">
+        <label>{{'global.menu.search.title'|translate}}</label>
+        <input id="query" type="text" ng-model="query" ng-keyup="search(1)" autocomplete="off" autofocus="autofocus">
+        <md-icon md-font-set="material-icons">search</md-icon>
+    </md-input-container>
+    <md-tabs md-selected="selectedTabs" md-dynamic-height md-swipe-content="true">
+        <md-tab ng-repeat="tab in tabs" label="{{tab.title|translate}} ({{tab.totalHits}})">
+            <div ng-repeat="result in tab.searchResult">
+                <md-card md-ink-ripple="true" class="fdz-search-result md-ink-ripple" ui-sref="variableDetail({id:result._source.id})">
+                    <md-card-header>
+                        <md-card-avatar>
+                            <img class="md-user-avatar fdz-search-result-icon" src="/assets/images/icons/variableIcon.svg/" alt="Variable">
+                        </md-card-avatar>
+                        <md-card-header-text>
+                            <span class="md-title">{{result._source.label}}</span>
+                            <span class="md-subhead">{{result._source.dataAcquisitionProjectId}}</span>
+                        </md-card-header-text>
+                    </md-card-header>
+                    <md-card-content>
+                        {{result._source.dataType}},
+                        {{result._source.scaleLevel}}
+                    </md-card-content>
+                </md-card>
             </div>
-            <md-tabs md-selected="selectedTabs" md-dynamic-height md-border-bottom md-swipe-content="true">
-                <md-tab ng-repeat="tab in tabs" label="{{tab.title|translate}} ({{tab.totalHits}})">
-                    <div>
-                        <md-list>
-                            <md-list-item ui-sref="variableDetail({id:result._source.id})" class="md-2-line md-with-secondary" ng-repeat="result in tab.searchResult">
-                                <div flex-xs flex-gt-xs="100" layout="column">
-                                    <md-card>
-                                        <md-card-title>
-                                            <md-card-title-media>
-                                                <md-icon class="md-avatar-icon fdz-list-item-icon" md-svg-src="/assets/images/icons/variableIcon.svg" flex="none"></md-icon>
-                                            </md-card-title-media>
-                                            <md-card-title-text>
-                                                <span class="md-headline">{{result._source.label}}</span>
-                                                <span class="md-subhead">{{result._source.dataAcquisitionProjectId}}</span>
-                                            </md-card-title-text>
-                                        </md-card-title>
-                                        <md-card-content>
-                                            {{result._source.dataType}},
-                                            {{result._source.scaleLevel}}
-                                        </md-card-content>
-                                    </md-card>
-                                </div>
-                            </md-list-item>
-                            <md-divider ></md-divider>
-                        </md-list>
-                        <div layout="row" layout-align="center">
-                            <uib-pagination next-text="{{'pagination.next'|translate}}" previous-text="{{'pagination.previous'|translate}}" total-items="tab.totalHits" ng-model="tab.currentPageNumber" max-size="pagerMaxSize" ng-change="search()" class="pagination-sm"></uib-pagination>
-                        </div>
-                    </div>
-                </md-tab>
-            </md-tabs>
-        </md-card>
-    </div>
+            <div layout="row" layout-align="center">
+                <uib-pagination next-text="{{'pagination.next'|translate}}" previous-text="{{'pagination.previous'|translate}}" total-items="tab.totalHits" ng-model="tab.currentPageNumber" max-size="pagerMaxSize" ng-change="search()" class="pagination-sm"></uib-pagination>
+            </div>
+        </md-tab>
+    </md-tabs>
     <div ng-switch-when="true" has-any-authority="ROLE_ADMIN, ROLE_USER" class="fdz-floating-div" layout="column">
-        <md-button class="md-primary md-raised md-icon-button md-ink-ripple" ng-click="refresh()" style="margin-bottom: 1em;">
+        <md-button class="md-primary md-fab" ng-click="refresh()" style="margin-bottom: 1em;">
             <md-icon md-font-set="material-icons">refresh</md-icon>
         </md-button>
-        <md-button type="file" ngf-select="uploadVariables($file)" class="md-accent md-raised md-icon-button md-ink-ripple" accept=".zip" ng-disabled="uploadState.disableButton" style="margin-bottom: 1em;">
-            <md-icon md-font-set="material-icons">cloud_upload</md-icon>
-        </md-button>        
+        <md-button type="file" ngf-select="uploadVariables($file)" class="md-accent md-fab" accept=".zip" ng-disabled="uploadState.disableButton">
+            <md-icon md-font-set="material-icons">add</md-icon>
+        </md-button>
     </div>
-</md-content>
+</md-card>

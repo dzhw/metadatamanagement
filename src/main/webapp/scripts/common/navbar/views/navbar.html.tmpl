@@ -8,7 +8,7 @@
     <md-content ng-switch="isAuthenticated()" flex role="navigation">
         <ul style="padding: 0px; margin: 0px;">
             <md-divider></md-divider>
-            <li ng-switch-when="true" data-has-authority="ROLE_USER" style="padding: 5px 1em 1em 1em;">
+            <li class="fdz-navbar-menu-accent" ng-switch-when="true" data-has-authority="ROLE_USER" style="padding: 5px 1em 1em 1em;">
                 <span style="margin-bottom: 5px;">Aktuelles Datenaufbereitungsprojekt:</span>
                 <md-autocomplete
                     md-search-text="searchText"
@@ -27,13 +27,13 @@
                 </md-autocomplete>
             </li>
             <md-divider></md-divider>
-            <li ng-switch-when="true" data-has-authority="ROLE_USER">
+            <li class="fdz-navbar-menu" ng-switch-when="true" data-has-authority="ROLE_USER">
                 <md-button class="fdz-navbar-menu-toggle" ng-click="toggleEntityMenu()" aria-label="{{'global.menu.entities.main' | translate}}">
                     <span data-translate="global.menu.entities.main"></span>
                     <md-icon style="text-align: right;" ng-if="!isEntityMenuOpen" md-font-set="material-icons">keyboard_arrow_down</md-icon>
                     <md-icon style="text-align: right;" ng-if="isEntityMenuOpen" md-font-set="material-icons">keyboard_arrow_up</md-icon>
                 </md-button>
-                <ul class="fdz-navbar-menu" ng-show="isEntityMenuOpen">
+                <ul class="fdz-navbar-menu-items" ng-show="isEntityMenuOpen">
                     <li>
                         <md-button ui-sref="dataAcquisitionProject" ui-sref-active="fdz-navbar-button-active" class="fdz-navbar-button">
                             <span data-translate="global.menu.entities.rdcProject">RDC Projects</span>
@@ -50,15 +50,15 @@
                         </md-button>
                     </li>
                 </ul>
-                <md-divider></md-divider>
             </li>
-            <li ng-switch-when="true">
+            <md-divider></md-divider>
+            <li class="fdz-navbar-menu" ng-switch-when="true">
                 <md-button class="fdz-navbar-menu-toggle" ng-click="toggleAccountMenu()" aria-label="{{'global.menu.account.main' | translate}}">
                     <span data-translate="global.menu.account.main"></span>
                     <md-icon ng-if="!isAccountMenuOpen" md-font-set="material-icons">keyboard_arrow_down</md-icon>
                     <md-icon ng-if="isAccountMenuOpen" md-font-set="material-icons">keyboard_arrow_up</md-icon>
                 </md-button>
-                <ul class="fdz-navbar-menu" ng-show="isAccountMenuOpen">
+                <ul class="fdz-navbar-menu-items" ng-show="isAccountMenuOpen">
                     <li>
                         <md-button ui-sref="settings" ui-sref-active="fdz-navbar-button-active" class="fdz-navbar-button">
                             <span data-translate="global.menu.account.settings">Settings</span>
@@ -70,15 +70,15 @@
                         </md-button>
                     </li>
                 </ul>
-                <md-divider></md-divider>
             </li>
-            <li ng-switch-when="true" data-has-authority="ROLE_ADMIN">
+            <md-divider></md-divider>
+            <li class="fdz-navbar-menu" ng-switch-when="true" data-has-authority="ROLE_ADMIN">
                 <md-button class="fdz-navbar-menu-toggle" ng-click="toggleAdminMenu()" aria-label="{{'global.menu.admin.main' | translate}}">
                     <span data-translate="global.menu.admin.main"></span>
                     <md-icon ng-if="!isAdminMenuOpen" md-font-set="material-icons">keyboard_arrow_down</md-icon>
                     <md-icon ng-if="isAdminMenuOpen" md-font-set="material-icons">keyboard_arrow_up</md-icon>
                 </md-button>
-                <ul class="fdz-navbar-menu" ng-show="isAdminMenuOpen">
+                <ul class="fdz-navbar-menu-items" ng-show="isAdminMenuOpen">
                     <li>
                         <md-button ui-sref="user-management" ui-sref-active="fdz-navbar-button-active" class="fdz-navbar-button">
                             <span data-translate="global.menu.admin.user-management">User management</span>
@@ -105,14 +105,14 @@
                         </md-button>
                     </li>
                 </ul>
-                <md-divider></md-divider>
             </li>
-            <li>
+            <md-divider></md-divider>
+            <li class="fdz-navbar-menu">
                 <md-button ui-sref="disclosure" ui-sref-active="fdz-navbar-button-active" class="fdz-navbar-button">
                     <span data-translate="global.menu.disclosure">Disclosure</span>
                 </md-button>
-                <md-divider></md-divider>
             </li>
+            <md-divider></md-divider>
         </ul>
         <div layout="column" layout-align="center center">
             <a class="bmbf_logo_de" ng-href="http://www.bmbf.de/" ng-if="currentLanguage=='de'" title="{{'global.bmbfAltText'|translate}}"></a>

@@ -19,8 +19,7 @@
         "selectProject": "Select Project"
       },
       "search": {
-        "title": "Search",
-        "variablesearch": "Variable search",
+        "title": "Metadata Search",
         "variables": "Variables",
         "all": "All"
       },

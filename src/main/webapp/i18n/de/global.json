@@ -18,8 +18,7 @@
         "selectProject": "Projekt auswählen"
       },
       "search": {
-        "title": "Suche",
-        "variablesearch": "Variablensuche",
+        "title": "Metadatensuche",
         "variables": "Variablen",
         "all": "Alle"
       },

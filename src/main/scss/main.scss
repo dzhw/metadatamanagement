@@ -142,10 +142,17 @@ body {
    background-size: 221px 157px;
 }
 
-.fdz-list-item-icon {
-  width: 32px;
-  height: 32px;
-  background-color: lightgrey;
+.fdz-search-result-icon {
+  background-color: $brand-warning;
+}
+
+.fdz-search-result {
+  color : currentColor;
+}
+
+.fdz-search-result:not([disabled]):hover {
+  background-color: rgba(158, 158, 158, 0.2);
+  cursor: pointer;
 }
 
 .browserupgrade {
@@ -344,6 +351,14 @@ style for datapackage
 }
 
 .fdz-navbar-menu {
+  border-left: 5px solid $brand-primary;
+}
+
+.fdz-navbar-menu-accent {
+  border-left: 5px solid $brand-warning;
+}
+
+.fdz-navbar-menu-items {
   padding: 0px;
   margin: 0px;
 }
@@ -371,7 +386,7 @@ style for datapackage
   text-align: left;
 }
 
-.fdz-navbar-menu .fdz-navbar-button {
+.fdz-navbar-menu-items .fdz-navbar-button {
   padding: 0 0 0 2em;
 }
 
@@ -381,6 +396,16 @@ style for datapackage
 
 .fdz-floating-div {
   position:fixed;
-  bottom: 30px;
-  right: 20px;
+  bottom: 1em;
+  right: 1em;
+}
+
+.fdz-search-input {
+  margin-bottom: 0px;
+  margin-left: 1em;
+  margin-right: 2em;
+}
+
+.fdz-search-input .md-errors-spacer {
+  display: none;
 }
