@@ -29,4 +29,7 @@ public interface DataSetRepository
 
   @RestResource(exported = false)
   Slice<DataSet> findBy(Pageable pageable);
+
+  @RestResource(exported = false)
+  List<DataSet> findBySurveyIdsContaining(String surveyId);
 }

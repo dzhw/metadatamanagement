@@ -26,6 +26,7 @@ import eu.dzhw.fdz.metadatamanagement.common.unittesthelper.util.UnitTestCreateD
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.DataAcquisitionProject;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.builders.DataAcquisitionProjectBuilder;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.repository.DataAcquisitionProjectRepository;
+import eu.dzhw.fdz.metadatamanagement.searchmanagement.service.ElasticsearchUpdateQueueService;
 import eu.dzhw.fdz.metadatamanagement.surveymanagement.domain.Survey;
 import eu.dzhw.fdz.metadatamanagement.surveymanagement.domain.builders.SurveyBuilder;
 import eu.dzhw.fdz.metadatamanagement.surveymanagement.repository.SurveyRepository;
@@ -47,6 +48,9 @@ public class SurveyResourceTest extends AbstractTest {
 
   @Autowired
   private SurveyRepository surveyRepository;
+  
+  @Autowired
+  private ElasticsearchUpdateQueueService elasticsearchUpdateQueueService;
 
   private MockMvc mockMvc;
 
@@ -60,6 +64,7 @@ public class SurveyResourceTest extends AbstractTest {
   public void cleanUp() {
     rdcProjectRepository.deleteAll();
     surveyRepository.deleteAll();
+    elasticsearchUpdateQueueService.clearQueue();
   }
 
   @Test

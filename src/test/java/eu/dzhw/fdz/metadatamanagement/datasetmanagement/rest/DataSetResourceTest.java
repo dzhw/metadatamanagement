@@ -28,6 +28,7 @@ import eu.dzhw.fdz.metadatamanagement.datasetmanagement.domain.DataSet;
 import eu.dzhw.fdz.metadatamanagement.datasetmanagement.repository.DataSetRepository;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.DataAcquisitionProject;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.repository.DataAcquisitionProjectRepository;
+import eu.dzhw.fdz.metadatamanagement.searchmanagement.service.ElasticsearchUpdateQueueService;
 import eu.dzhw.fdz.metadatamanagement.surveymanagement.domain.Survey;
 import eu.dzhw.fdz.metadatamanagement.surveymanagement.repository.SurveyRepository;
 
@@ -49,6 +50,9 @@ public class DataSetResourceTest extends AbstractTest {
 
   @Autowired
   private DataSetRepository dataSetRepository;
+  
+  @Autowired
+  private ElasticsearchUpdateQueueService elasticsearchUpdateQueueService;
 
   private MockMvc mockMvc;
 
@@ -63,6 +67,7 @@ public class DataSetResourceTest extends AbstractTest {
     this.dataAcquisitionProjectRepository.deleteAll();
     this.surveyRepository.deleteAll();
     this.dataSetRepository.deleteAll();
+    this.elasticsearchUpdateQueueService.clearQueue();
   }
 
 

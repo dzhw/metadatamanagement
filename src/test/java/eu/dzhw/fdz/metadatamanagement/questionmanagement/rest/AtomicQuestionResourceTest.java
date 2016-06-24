@@ -38,6 +38,7 @@ import eu.dzhw.fdz.metadatamanagement.questionmanagement.repository.AtomicQuesti
 import eu.dzhw.fdz.metadatamanagement.questionnairemanagement.domain.Questionnaire;
 import eu.dzhw.fdz.metadatamanagement.questionnairemanagement.repository.QuestionnaireRepository;
 import eu.dzhw.fdz.metadatamanagement.searchmanagement.service.ElasticsearchAdminService;
+import eu.dzhw.fdz.metadatamanagement.searchmanagement.service.ElasticsearchUpdateQueueService;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.Variable;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.repository.VariableRepository;
 
@@ -62,6 +63,9 @@ public class AtomicQuestionResourceTest extends AbstractTest {
 
   @Autowired
   private AtomicQuestionRepository atomicQuestionRepository;
+  
+  @Autowired
+  private ElasticsearchUpdateQueueService elasticsearchUpdateQueueService;
 
   private MockMvc mockMvc;
 
@@ -81,6 +85,7 @@ public class AtomicQuestionResourceTest extends AbstractTest {
     this.variableRepository.deleteAll();
     this.atomicQuestionRepository.deleteAll();
     this.questionnaireRepository.deleteAll();
+    this.elasticsearchUpdateQueueService.clearQueue();
   }
 
   @Test
