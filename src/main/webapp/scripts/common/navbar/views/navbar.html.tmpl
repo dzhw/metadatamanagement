@@ -8,8 +8,8 @@
     <md-content ng-switch="isAuthenticated()" flex role="navigation">
         <ul style="padding: 0px; margin: 0px;">
             <md-divider></md-divider>
-
-            <li ng-switch-when="true" data-has-authority="ROLE_USER">
+            <li ng-switch-when="true" data-has-authority="ROLE_USER" style="padding: 5px 1em 1em 1em;">
+                <span style="margin-bottom: 5px;">Aktuelles Datenaufbereitungsprojekt:</span>
                 <md-autocomplete
                     md-search-text="searchText"
                     md-selected-item="selectedProject"
@@ -19,13 +19,14 @@
                     md-min-length="0"
                     placeholder="{{'global.menu.entities.selectProject' | translate}}"
                     ng-disabled="disableAutocomplete"
-                    md-select-on-match="true">
+                    md-select-on-match="true"
+                    style="margin-top: 5px;">
                     <md-item-template>
                         <span md-highlight-text="searchText">{{project.id}}</span>
                     </md-item-template>
                 </md-autocomplete>
-                <md-divider></md-divider>
             </li>
+            <md-divider></md-divider>
             <li ng-switch-when="true" data-has-authority="ROLE_USER">
                 <md-button class="fdz-navbar-menu-toggle" ng-click="toggleEntityMenu()" aria-label="{{'global.menu.entities.main' | translate}}">
                     <span data-translate="global.menu.entities.main"></span>
