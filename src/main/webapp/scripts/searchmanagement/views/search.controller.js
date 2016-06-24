@@ -6,7 +6,7 @@ a result of a type like variable or dataSet and so on. */
 angular.module('metadatamanagementApp').controller('SearchController',
   function($scope, Principal, ElasticSearchProperties, $location,
     AlertService, VariableSearchDao, $translate, CustomModalService,
-    VariableUploadService, CurrentProjectService, $mdToast) {
+    VariableUploadService, CurrentProjectService, $mdToast, $mdDialog) {
 
     //Check the login status
     Principal.identity().then(function(account) {
@@ -93,8 +93,14 @@ angular.module('metadatamanagementApp').controller('SearchController',
         .action('Show Log');
       $mdToast.show(toast).then(function(response) {
         if (response === 'ok') {
-          console.log(
-            'You clicked the Log Button, but it has to be implemented first.'
+          $mdDialog.show(
+            $mdDialog.alert()
+            .clickOutsideToClose(true)
+            .title('This is an log title')
+            .textContent(
+              'The Log has to be implemented')
+            .ariaLabel('The Log has to be implemented')
+            .ok('Ok... Do it now! ;)')
           );
         }
       });
