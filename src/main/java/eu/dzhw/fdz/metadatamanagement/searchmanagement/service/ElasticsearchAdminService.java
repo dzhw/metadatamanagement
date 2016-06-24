@@ -71,6 +71,10 @@ public class ElasticsearchAdminService {
     }
   }
 
+  /**
+   * Deletes and create an elasticsearch index.
+   * @param index Elasticsearch Index
+   */
   private void recreateIndex(String index) {
     if (elasticsearchDao.exists(index)) {
       elasticsearchDao.delete(index);
@@ -85,6 +89,11 @@ public class ElasticsearchAdminService {
     //}
   }
   
+  /**
+   * Load Elasticsearch Settings.
+   * @param index Index from Elasticsearch
+   * @return A JSON Representation of the Settings.
+   */
   private JsonObject loadSettings(String index) {
     try {
       Reader reader = new InputStreamReader(
@@ -99,6 +108,12 @@ public class ElasticsearchAdminService {
     }
   }
 
+  /**
+   * Load Elasticsearch Mapping of an index.
+   * @param index An elasticsearch index
+   * @param type An elasticsearch type of an index.
+   * @return A Json Representation of a Mapping
+   */
   private JsonObject loadMapping(String index, String type) {
     try {
       Reader reader = new InputStreamReader(resourceLoader
@@ -122,6 +137,10 @@ public class ElasticsearchAdminService {
     }
   }
   
+  /**
+   * 
+   * @return An Double Value with the number of count documents.
+   */
   public Double countAllDocuments() {
     return elasticsearchDao.countAllDocuments();
   }

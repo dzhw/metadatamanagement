@@ -41,15 +41,28 @@ public class ElasticsearchUpdateQueueService {
   // id used to synchronize multiple jvm instances
   private String jvmId = ManagementFactory.getRuntimeMXBean().getName();
 
+  /**
+   * MongoDB Repository with gets all queue elements for the synchronizations 
+   * of the Elasticsearch DB.
+   */
   @Inject
   private ElasticsearchUpdateQueueItemRepository queueItemRepository;
 
+  /**
+   * Repository for the variables for updating them.
+   */
   @Inject
   private VariableRepository variableRepository;
 
+  /**
+   * Repository for the surveys for updating them.
+   */
   @Inject
   private SurveyRepository surveyRepository;
   
+  /**
+   * DAO for Elasticsearch synchronization.
+   */
   @Inject
   private ElasticsearchDao elasticsearchDao;
 
@@ -106,10 +119,17 @@ public class ElasticsearchUpdateQueueService {
     logger.info("Finished processing of ElasticsearchUpdateQueue...");
   }
   
+  /**
+   * Deletes all queue elements in the MongoDB Queue Repository.
+   */
   public void clearQueue() {
     queueItemRepository.deleteAll();
   }
 
+  /**
+   * Looks elements in the MongoDb and update them in the Elasticsearch DB.
+   * @param updateStart Starttime for updates.
+   */
   private void lockUpdateQueueItems(LocalDateTime updateStart) {
     List<ElasticsearchUpdateQueueItem> unlockedItems =
         queueItemRepository.findUnlockedOrExpiredItems();
@@ -130,6 +150,10 @@ public class ElasticsearchUpdateQueueService {
     }
   }
 
+  /**
+   * Execute locked items from the MongoDB Queue Repository.
+   * @param lockedItems A list of locked queues items.
+   */
   private void executeQueueItemActions(List<ElasticsearchUpdateQueueItem> lockedItems) {
     Bulk.Builder bulkBuilder = new Bulk.Builder();
     for (ElasticsearchUpdateQueueItem lockedItem : lockedItems) {
@@ -153,6 +177,11 @@ public class ElasticsearchUpdateQueueService {
     queueItemRepository.delete(lockedItems);
   }
 
+  /**
+   * Adds a Deletes Action to the bulk builder.
+   * @param lockedItem a locked item.
+   * @param bulkBuilder for building an add action.
+   */
   private void addDeleteActions(ElasticsearchUpdateQueueItem lockedItem, Builder bulkBuilder) {
     for (ElasticsearchIndices index : ElasticsearchIndices.values()) {
       bulkBuilder.addAction(new Delete.Builder(lockedItem.getDocumentId())
@@ -162,6 +191,11 @@ public class ElasticsearchUpdateQueueService {
     }
   }
 
+  /**
+   * Add a update / insert action to the bulk builder.
+   * @param lockedItem A locked item.
+   * @param bulkBuilder The bulk builder for building update / insert actions.
+   */
   private void addUpsertActions(ElasticsearchUpdateQueueItem lockedItem, Builder bulkBuilder) {
     switch (lockedItem.getDocumentType()) {
       case variables:
@@ -173,6 +207,11 @@ public class ElasticsearchUpdateQueueService {
     }
   }
 
+  /**
+   * This method creates for the variable repository update / insert actions.
+   * @param lockedItem A locked item.
+   * @param bulkBuilder A bulk builder for building the actions.
+   */
   private void addUpsertActionForVariable(ElasticsearchUpdateQueueItem lockedItem,
       Builder bulkBuilder) {
     Variable variable = variableRepository.findOne(lockedItem.getDocumentId());
