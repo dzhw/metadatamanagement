@@ -2,6 +2,8 @@ package eu.dzhw.fdz.metadatamanagement.questionmanagement.repository;
 
 import java.util.List;
 
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Slice;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.data.querydsl.QueryDslPredicateExecutor;
 import org.springframework.data.rest.core.annotation.RepositoryRestResource;
@@ -33,4 +35,7 @@ public interface AtomicQuestionRepository
 
   @RestResource(exported = false)
   List<AtomicQuestion> findByNameAndQuestionnaireId(String name, String questionnaireId);
+
+  @RestResource(exported = false)
+  Slice<AtomicQuestion> findBy(Pageable pageable);
 }

@@ -2,6 +2,8 @@ package eu.dzhw.fdz.metadatamanagement.datasetmanagement.repository;
 
 import java.util.List;
 
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Slice;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.data.querydsl.QueryDslPredicateExecutor;
 import org.springframework.data.rest.core.annotation.RepositoryRestResource;
@@ -24,5 +26,7 @@ public interface DataSetRepository
   
   @RestResource(exported = false)
   List<DataSet> findByDataAcquisitionProjectId(String dataAcquisitionProjectId);
-  
+
+  @RestResource(exported = false)
+  Slice<DataSet> findBy(Pageable pageable);
 }

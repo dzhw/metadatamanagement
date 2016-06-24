@@ -4,13 +4,16 @@ import java.util.List;
 
 import javax.inject.Inject;
 
-import org.springframework.context.ApplicationEventPublisher;
+import org.springframework.data.rest.core.annotation.HandleAfterCreate;
 import org.springframework.data.rest.core.annotation.HandleAfterDelete;
+import org.springframework.data.rest.core.annotation.HandleAfterSave;
 import org.springframework.data.rest.core.annotation.RepositoryEventHandler;
-import org.springframework.data.rest.core.event.AfterDeleteEvent;
 import org.springframework.stereotype.Service;
 
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.DataAcquisitionProject;
+import eu.dzhw.fdz.metadatamanagement.searchmanagement.domain.ElasticsearchUpdateQueueAction;
+import eu.dzhw.fdz.metadatamanagement.searchmanagement.service.ElasticsearchType;
+import eu.dzhw.fdz.metadatamanagement.searchmanagement.service.ElasticsearchUpdateQueueService;
 import eu.dzhw.fdz.metadatamanagement.surveymanagement.domain.Survey;
 import eu.dzhw.fdz.metadatamanagement.surveymanagement.repository.SurveyRepository;
 
@@ -26,7 +29,7 @@ public class SurveyService {
   @Inject
   private SurveyRepository surveyRepository;
   @Inject
-  private ApplicationEventPublisher eventPublisher;
+  private ElasticsearchUpdateQueueService elasticsearchUpdateQueueService;
 
   /**
    * Listener, which will be activate by a deletion of a data acquisition project.
@@ -35,7 +38,7 @@ public class SurveyService {
    */
   @HandleAfterDelete
   public void onDataAcquisitionProjectDeleted(DataAcquisitionProject dataAcquisitionProject) {
-    deleteSurveysByProjectId(dataAcquisitionProject.getId());
+    deleteAllSurveysByProjectId(dataAcquisitionProject.getId());
   }
   
   /**
@@ -43,10 +46,42 @@ public class SurveyService {
    * @param dataAcquisitionProjectId the id for to the data acquisition project.
    * @return List of deleted surveys
    */
-  public List<Survey> deleteSurveysByProjectId(String dataAcquisitionProjectId) {
+  public List<Survey> deleteAllSurveysByProjectId(String dataAcquisitionProjectId) {
     List<Survey> deletedSurveys =
         surveyRepository.deleteByDataAcquisitionProjectId(dataAcquisitionProjectId);
-    deletedSurveys.forEach(survey -> eventPublisher.publishEvent(new AfterDeleteEvent(survey)));
+    deletedSurveys.forEach(survey -> {
+      elasticsearchUpdateQueueService.enqueue(
+          survey.getId(), 
+          ElasticsearchType.surveys, 
+          ElasticsearchUpdateQueueAction.DELETE);      
+    });
     return deletedSurveys;
+  }
+   
+  /**
+   * Enqueue deletion of survey search document when the survey is deleted.
+   * 
+   * @param survey the deleted survey.
+   */
+  @HandleAfterDelete
+  public void onSurveyDeleted(Survey survey) {
+    elasticsearchUpdateQueueService.enqueue(
+        survey.getId(), 
+        ElasticsearchType.surveys, 
+        ElasticsearchUpdateQueueAction.DELETE);
+  }
+  
+  /**
+   * Enqueue update of survey search document when the survey is updated.
+   * 
+   * @param survey the updated or created survey.
+   */
+  @HandleAfterCreate
+  @HandleAfterSave
+  public void onSurveySaved(Survey survey) {
+    elasticsearchUpdateQueueService.enqueue(
+        survey.getId(), 
+        ElasticsearchType.surveys, 
+        ElasticsearchUpdateQueueAction.UPSERT);
   }
 }

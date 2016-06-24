@@ -1,5 +1,5 @@
 {
-  "variables": {
+  "data_sets": {
   	  "_all" : {	
   		 "enabled" : true,
   		 "analyzer": "german"
@@ -9,32 +9,12 @@
       	"type": "string",
       	"analyzer": "trigrams"
       },
-      "dataType": {
-        "type": "string",
-        "index": "not_analyzed",
-        "copy_to": "allStringsAsNgrams"
-      },
       "id": {
         "type": "string",
         "index": "not_analyzed",
         "copy_to": "allStringsAsNgrams"
       },
-      "label": {
-      	"type": "string",
-        "index": "not_analyzed",
-        "copy_to": "allStringsAsNgrams"
-      },
-      "name": {	
-      	"type": "string",
-        "index": "not_analyzed",
-        "copy_to": "allStringsAsNgrams"
-      },
-      "scaleLevel": {
-        "type": "string",
-        "index": "not_analyzed",
-        "copy_to": "allStringsAsNgrams"
-      },
-      "dataAcquisitionProjectId": {
+      "description": {
         "type": "string",
         "index": "not_analyzed",
         "copy_to": "allStringsAsNgrams"

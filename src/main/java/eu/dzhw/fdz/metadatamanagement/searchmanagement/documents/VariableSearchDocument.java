@@ -38,9 +38,7 @@ public class VariableSearchDocument {
     this.id = variable.getId();
     this.name = variable.getName();
     this.dataAcquisitionProjectId = variable.getDataAcquisitionProjectId();
-    createLabel(variable, index);
-    createScaleLevel(variable, index);
-    createDataType(variable, index);
+    createI18nAttributes(variable, index);
     createSurveyTitles(surveys, index);
   }
 
@@ -64,50 +62,17 @@ public class VariableSearchDocument {
     }
   }
 
-  private void createLabel(Variable variable, ElasticsearchIndices index) {
+  private void createI18nAttributes(Variable variable, ElasticsearchIndices index) {
     switch (index) {
       case METADATA_DE:
-        label = variable.getLabel()
-          .getDe();
+        label = variable.getLabel() != null ? variable.getLabel().getDe() : null;
+        dataType = variable.getDataType() != null ? variable.getDataType().getDe() : null;
+        scaleLevel = variable.getScaleLevel() != null ? variable.getScaleLevel().getDe() : null;
         break;
       case METADATA_EN:
-        label = variable.getLabel()
-          .getEn();
-        break;
-      default:
-        throw new RuntimeException("Unknown index:" + index);
-    }
-  }
-
-
-
-  private void createDataType(Variable variable, ElasticsearchIndices index) {
-    switch (index) {
-      case METADATA_DE: {
-        this.dataType = variable.getDataType()
-          .getDe();
-        break;
-      }
-      case METADATA_EN:
-        this.dataType = variable.getDataType()
-          .getEn();
-        break;
-      default:
-        throw new RuntimeException("Unknown index:" + index);
-    }
-  }
-
-
-  private void createScaleLevel(Variable variable, ElasticsearchIndices index) {
-    switch (index) {
-      case METADATA_DE: {
-        this.scaleLevel = variable.getScaleLevel()
-          .getDe();
-        break;
-      }
-      case METADATA_EN:
-        this.scaleLevel = variable.getScaleLevel()
-          .getEn();
+        label = variable.getLabel() != null ? variable.getLabel().getEn() : null;
+        dataType = variable.getDataType() != null ? variable.getDataType().getEn() : null;
+        scaleLevel = variable.getScaleLevel() != null ? variable.getScaleLevel().getEn() : null;
         break;
       default:
         throw new RuntimeException("Unknown index:" + index);

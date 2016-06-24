@@ -1,45 +1,55 @@
 {
-  "variables": {
-  	  "_all" : {	
+  "atomic_questions": {
+  	"_all" : {	
   		 "enabled" : true,
-  		 "analyzer": "english"
-  	  },
+  		 "analyzer": "german"
+  	},
     "properties": {
       "allStringsAsNgrams" : {
       	"type": "string",
       	"analyzer": "trigrams"
-      },
-      "dataType": {
-        "type": "string",
-        "index": "not_analyzed",
-        "copy_to": "allStringsAsNgrams"
       },
       "id": {
         "type": "string",
         "index": "not_analyzed",
         "copy_to": "allStringsAsNgrams"
       },
-      "label": {
-      	"type": "string",
-        "index": "not_analyzed",
-        "copy_to": "allStringsAsNgrams"
-      },
-      "name": {	
-      	"type": "string",
-        "index": "not_analyzed",
-        "copy_to": "allStringsAsNgrams"
-      },
-      "scaleLevel": {
+      "type": {
         "type": "string",
         "index": "not_analyzed",
         "copy_to": "allStringsAsNgrams"
       },
-      "dataAcquisitionProjectId": {
+      "name": {
         "type": "string",
         "index": "not_analyzed",
         "copy_to": "allStringsAsNgrams"
       },
-      "surveyTitles": {
+      "compositeQuestionName": {
+        "type": "string",
+        "index": "not_analyzed",
+        "copy_to": "allStringsAsNgrams"
+      },
+      "footnote": {
+        "type": "string",
+        "index": "not_analyzed",
+        "copy_to": "allStringsAsNgrams"
+      },
+      "questionText": {
+        "type": "string",
+        "index": "not_analyzed",
+        "copy_to": "allStringsAsNgrams"
+      },
+      "instruction": {
+        "type": "string",
+        "index": "not_analyzed",
+        "copy_to": "allStringsAsNgrams"
+      },
+      "introduction": {
+        "type": "string",
+        "index": "not_analyzed",
+        "copy_to": "allStringsAsNgrams"
+      },
+      "sectionHeader": {
         "type": "string",
         "index": "not_analyzed",
         "copy_to": "allStringsAsNgrams"

@@ -15,8 +15,14 @@ import org.springframework.stereotype.Service;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
+import eu.dzhw.fdz.metadatamanagement.datasetmanagement.domain.DataSet;
+import eu.dzhw.fdz.metadatamanagement.datasetmanagement.repository.DataSetRepository;
+import eu.dzhw.fdz.metadatamanagement.questionmanagement.domain.AtomicQuestion;
+import eu.dzhw.fdz.metadatamanagement.questionmanagement.repository.AtomicQuestionRepository;
 import eu.dzhw.fdz.metadatamanagement.searchmanagement.dao.ElasticsearchDao;
 import eu.dzhw.fdz.metadatamanagement.searchmanagement.domain.ElasticsearchUpdateQueueAction;
+import eu.dzhw.fdz.metadatamanagement.surveymanagement.domain.Survey;
+import eu.dzhw.fdz.metadatamanagement.surveymanagement.repository.SurveyRepository;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.Variable;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.repository.VariableRepository;
 
@@ -34,6 +40,15 @@ public class ElasticsearchAdminService {
   private VariableRepository variableRepository;
   
   @Inject
+  private SurveyRepository surveyRepository;
+  
+  @Inject
+  private DataSetRepository dataSetRepository;
+  
+  @Inject
+  private AtomicQuestionRepository atomicQuestionRepository;
+  
+  @Inject
   private ElasticsearchUpdateQueueService updateQueueService;
 
   @Inject
@@ -49,6 +64,9 @@ public class ElasticsearchAdminService {
       recreateIndex(index.getIndexName());
     }
     this.enqueueAllVariables();
+    this.enqueueAllSurveys();
+    this.enqueueAllDataSets();
+    this.enqueueAllAtomicQuestions();
     updateQueueService.processQueue();
   }
   
@@ -70,6 +88,63 @@ public class ElasticsearchAdminService {
       variables = variableRepository.findBy(pageable);
     }
   }
+  
+  /**
+   * Load all surveys from mongo and enqueue them for updating.
+   */
+  private void enqueueAllSurveys() {
+    Pageable pageable = new PageRequest(0, 100);
+    Slice<Survey> surveys = surveyRepository.findBy(pageable);
+
+    while (surveys.hasContent()) {
+      surveys.forEach(survey -> {
+        updateQueueService.enqueue(
+            survey.getId(), 
+            ElasticsearchType.surveys, 
+            ElasticsearchUpdateQueueAction.UPSERT);
+      });
+      pageable = pageable.next();
+      surveys = surveyRepository.findBy(pageable);
+    }
+  }
+  
+  /**
+   * Load all dataSets from mongo and enqueue them for updating.
+   */
+  private void enqueueAllDataSets() {
+    Pageable pageable = new PageRequest(0, 100);
+    Slice<DataSet> dataSets = dataSetRepository.findBy(pageable);
+
+    while (dataSets.hasContent()) {
+      dataSets.forEach(dataSet -> {
+        updateQueueService.enqueue(
+            dataSet.getId(), 
+            ElasticsearchType.data_sets, 
+            ElasticsearchUpdateQueueAction.UPSERT);
+      });
+      pageable = pageable.next();
+      dataSets = dataSetRepository.findBy(pageable);
+    }
+  }
+  
+  /**
+   * Load all atomicQuestions from mongo and enqueue them for updating.
+   */
+  private void enqueueAllAtomicQuestions() {
+    Pageable pageable = new PageRequest(0, 100);
+    Slice<AtomicQuestion> atomicQuestions = atomicQuestionRepository.findBy(pageable);
+
+    while (atomicQuestions.hasContent()) {
+      atomicQuestions.forEach(atomicQuestion -> {
+        updateQueueService.enqueue(
+            atomicQuestion.getId(), 
+            ElasticsearchType.atomic_questions, 
+            ElasticsearchUpdateQueueAction.UPSERT);
+      });
+      pageable = pageable.next();
+      atomicQuestions = atomicQuestionRepository.findBy(pageable);
+    }
+  }
 
   /**
    * Deletes and create an elasticsearch index.
@@ -82,11 +157,10 @@ public class ElasticsearchAdminService {
       elasticsearchDao.refresh(index);
     }
     elasticsearchDao.createIndex(index, loadSettings(index));
-    // TODO add mappings for all types
-    //for (ElasticsearchType type : ElasticsearchType.values()) {
-    elasticsearchDao.putMapping(index, ElasticsearchType.variables.name(), 
-        loadMapping(index, ElasticsearchType.variables.name()));
-    //}
+    for (ElasticsearchType type : ElasticsearchType.values()) {
+      elasticsearchDao.putMapping(index, type.name(), 
+          loadMapping(index, type.name()));
+    }
   }
   
   /**

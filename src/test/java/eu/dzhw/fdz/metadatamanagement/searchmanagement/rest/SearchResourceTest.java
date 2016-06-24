@@ -83,7 +83,7 @@ public class SearchResourceTest extends AbstractTest {
   }
 
   @Test
-  public void testRecreateIndicesWithExistingVariables() throws Exception {
+  public void testRecreateIndicesWithExistingVariablesAndSurveys() throws Exception {
     UnitTestUserManagementUtils.login("admin", "admin");
     DataAcquisitionProject project = new DataAcquisitionProjectBuilder().withId("testId")
       .withSurveySeries(new I18nStringBuilder().build())
@@ -104,6 +104,6 @@ public class SearchResourceTest extends AbstractTest {
 
     elasticsearchAdminService.refreshAllIndices();
 
-    assertThat(elasticsearchAdminService.countAllDocuments(), equalTo(2.0));
+    assertThat(elasticsearchAdminService.countAllDocuments(), equalTo(4.0));
   }
 }

@@ -14,7 +14,14 @@ import org.springframework.dao.OptimisticLockingFailureException;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
+import eu.dzhw.fdz.metadatamanagement.datasetmanagement.domain.DataSet;
+import eu.dzhw.fdz.metadatamanagement.datasetmanagement.repository.DataSetRepository;
+import eu.dzhw.fdz.metadatamanagement.questionmanagement.domain.AtomicQuestion;
+import eu.dzhw.fdz.metadatamanagement.questionmanagement.repository.AtomicQuestionRepository;
 import eu.dzhw.fdz.metadatamanagement.searchmanagement.dao.ElasticsearchDao;
+import eu.dzhw.fdz.metadatamanagement.searchmanagement.documents.AtomicQuestionSearchDocument;
+import eu.dzhw.fdz.metadatamanagement.searchmanagement.documents.DataSetSearchDocument;
+import eu.dzhw.fdz.metadatamanagement.searchmanagement.documents.SurveySearchDocument;
 import eu.dzhw.fdz.metadatamanagement.searchmanagement.documents.VariableSearchDocument;
 import eu.dzhw.fdz.metadatamanagement.searchmanagement.domain.ElasticsearchUpdateQueueAction;
 import eu.dzhw.fdz.metadatamanagement.searchmanagement.domain.ElasticsearchUpdateQueueItem;
@@ -53,6 +60,9 @@ public class ElasticsearchUpdateQueueService {
    */
   @Inject
   private VariableRepository variableRepository;
+  
+  @Inject
+  private DataSetRepository dataSetRepository;
 
   /**
    * Repository for the surveys for updating them.
@@ -63,6 +73,9 @@ public class ElasticsearchUpdateQueueService {
   /**
    * DAO for Elasticsearch synchronization.
    */
+  @Inject
+  private AtomicQuestionRepository atomicQuestionRepository;
+  
   @Inject
   private ElasticsearchDao elasticsearchDao;
 
@@ -201,9 +214,73 @@ public class ElasticsearchUpdateQueueService {
       case variables:
         addUpsertActionForVariable(lockedItem, bulkBuilder);
         break;
+      case surveys:
+        addUpsertActionForSurvey(lockedItem, bulkBuilder);
+        break;
+      case data_sets:
+        addUpsertActionForDataSet(lockedItem, bulkBuilder);
+        break;
+      case atomic_questions:
+        addUpsertActionForAtomicQuestion(lockedItem, bulkBuilder);
+        break;  
       default:
         throw new NotImplementedException("Processing queue item with type "
             + lockedItem.getDocumentType() + " has not been implemented!");
+    }
+  }
+  
+  private void addUpsertActionForAtomicQuestion(ElasticsearchUpdateQueueItem lockedItem,
+      Builder bulkBuilder) {
+    AtomicQuestion atomicQuestion = atomicQuestionRepository.findOne(lockedItem.getDocumentId());
+    if (atomicQuestion != null) {
+      for (ElasticsearchIndices index : ElasticsearchIndices.values()) {
+        AtomicQuestionSearchDocument searchDocument =
+            new AtomicQuestionSearchDocument(atomicQuestion, index);
+
+        bulkBuilder.addAction(new Index.Builder(searchDocument)
+            .index(index.getIndexName())
+            .type(lockedItem.getDocumentType().name())
+            .id(searchDocument.getId())
+            .build());
+      }
+    }
+  }
+  
+  private void addUpsertActionForDataSet(ElasticsearchUpdateQueueItem lockedItem,
+      Builder bulkBuilder) {
+    DataSet dataSet = dataSetRepository.findOne(lockedItem.getDocumentId());
+    if (dataSet != null) {
+      Iterable<Survey> surveys = null;
+      if (dataSet.getSurveyIds() != null) {
+        surveys = surveyRepository.findAll(dataSet.getSurveyIds());
+      }
+      for (ElasticsearchIndices index : ElasticsearchIndices.values()) {
+        DataSetSearchDocument searchDocument =
+            new DataSetSearchDocument(dataSet, surveys, index);
+
+        bulkBuilder.addAction(new Index.Builder(searchDocument)
+            .index(index.getIndexName())
+            .type(lockedItem.getDocumentType().name())
+            .id(searchDocument.getId())
+            .build());
+      }
+    }
+  }
+
+  private void addUpsertActionForSurvey(ElasticsearchUpdateQueueItem lockedItem,
+      Builder bulkBuilder) {
+    Survey survey = surveyRepository.findOne(lockedItem.getDocumentId());
+    if (survey != null) {
+      for (ElasticsearchIndices index : ElasticsearchIndices.values()) {
+        SurveySearchDocument searchDocument =
+            new SurveySearchDocument(survey, index);
+
+        bulkBuilder.addAction(new Index.Builder(searchDocument)
+            .index(index.getIndexName())
+            .type(lockedItem.getDocumentType().name())
+            .id(searchDocument.getId())
+            .build());
+      }
     }
   }
 

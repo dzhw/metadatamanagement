@@ -27,7 +27,7 @@ public class SurveysDeleteResource {
   @Timed
   public ResponseEntity<?> deleteAllSurveysByProjectId(
       @RequestParam String dataAcquisitionProjectId) {
-    surveyService.deleteSurveysByProjectId(dataAcquisitionProjectId);
+    surveyService.deleteAllSurveysByProjectId(dataAcquisitionProjectId);
     return ResponseEntity.ok().build();
   }
 }
