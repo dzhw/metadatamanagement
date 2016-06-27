@@ -1,4 +1,5 @@
 <md-toolbar id="toolbar" md-whiteframe="4">
+    <div ng-show="{{ENV === 'local' || ENV === 'dev' || ENV === 'test'}}" class="ribbon" ng-cloak>{{ENV}}</div>
     <div class="md-toolbar-tools" layout="row" ng-switch="isAuthenticated()">
         <md-button class="md-primary md-raised md-hue-1 md-icon-button" hide-gt-md ng-click="toggleLeft()">
             <md-icon md-font-set="material-icons">menu</md-icon>
