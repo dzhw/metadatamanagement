@@ -148,7 +148,11 @@ module.exports = function(grunt) {
             'Element “md-toolbar” not allowed as child of element “div” in ' +
             'this context. (Suppressing further errors from this subtree.)',
             'Attribute “layout” not allowed on element “body” at this point.',
-            'Attribute “block-ui” not allowed on element “body” at this point.'
+            'Attribute “block-ui” not allowed on element “body” at this point.',
+            'Attribute “has-any-authority” not allowed on element “div” at' +
+            ' this point.',
+            'Element “md-button” not allowed as child of element “div” in' +
+            ' this context. (Suppressing further errors from this subtree.)'
           ],
           customattrs: [
             'show-validation',
