@@ -33,7 +33,8 @@
         <md-button class="md-primary md-fab" ng-click="refresh()" style="margin-bottom: 1em;">
             <md-icon md-font-set="material-icons">refresh</md-icon>
         </md-button>
-        <md-button type="file" ngf-select="uploadVariables($file)" class="md-accent md-fab" accept=".zip" ng-disabled="uploadState.disableButton">
+        <!-- Index 1 = Variables Tab -->
+        <md-button ng-if="selectedTabIndex===1" type="file" ngf-select="uploadVariables($file)" class="md-accent md-fab" accept=".zip" ng-disabled="uploadState.disableButton">
             <md-icon md-font-set="material-icons">add</md-icon>
         </md-button>
     </div>
