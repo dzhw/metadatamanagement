@@ -6,7 +6,8 @@ a result of a type like variable or dataSet and so on. */
 angular.module('metadatamanagementApp').controller('SearchController',
   function($scope, Principal, ElasticSearchProperties, $location,
     AlertService, VariableSearchDao, $translate, CustomModalService,
-    VariableUploadService, CurrentProjectService, $mdToast, $mdDialog) {
+    VariableUploadService, CurrentProjectService, $mdToast, $mdDialog,
+    CleanJSObjectService) {
 
     //Check the login status
     Principal.identity().then(function(account) {
@@ -85,7 +86,7 @@ angular.module('metadatamanagementApp').controller('SearchController',
         });
     };
 
-    function openToast() {
+    function openLogToast() {
       var toast = $mdToast.simple()
         .textContent('Upload complete.')
         .position('top right')
@@ -106,12 +107,22 @@ angular.module('metadatamanagementApp').controller('SearchController',
       });
     }
 
+    function openNoProjectToast() {
+      $mdToast.show({
+        controller: 'SearchToastController',
+        templateUrl: 'scripts/searchmanagement/' +
+          'views/no-project-toast.html.tmpl',
+        //parent : $document[0].querySelector('#toastBounds'),
+        hideDelay: 6000,
+        position: 'top right'
+      });
+
+    }
+
     $scope.uploadVariables = function(file) {
       var dataAcquisitionProject = CurrentProjectService.getCurrentProject();
       if (file !== null &&
-        dataAcquisitionProject &&
-        dataAcquisitionProject !== {}) {
-
+        !CleanJSObjectService.isNullOrEmpty(dataAcquisitionProject)) {
         CustomModalService.getModal($translate.instant(
           'metadatamanagementApp.dataAcquisitionProject.detail.' +
           'deleteMessages.deleteVariables', {
@@ -122,8 +133,10 @@ angular.module('metadatamanagementApp').controller('SearchController',
               .uploadVariables(file, dataAcquisitionProject.id);
           }
         }).then(function() {
-          openToast();
+          openLogToast();
         });
+      } else {
+        openNoProjectToast();
       }
     };
 
