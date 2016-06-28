@@ -1,8 +1,10 @@
 package eu.dzhw.fdz.metadatamanagement.datasetmanagement.rest;
 
+import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.isEmptyOrNullString;
 import static org.hamcrest.Matchers.not;
+import static org.junit.Assert.assertThat;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
@@ -28,6 +30,7 @@ import eu.dzhw.fdz.metadatamanagement.datasetmanagement.domain.DataSet;
 import eu.dzhw.fdz.metadatamanagement.datasetmanagement.repository.DataSetRepository;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.DataAcquisitionProject;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.repository.DataAcquisitionProjectRepository;
+import eu.dzhw.fdz.metadatamanagement.searchmanagement.service.ElasticsearchAdminService;
 import eu.dzhw.fdz.metadatamanagement.searchmanagement.service.ElasticsearchUpdateQueueService;
 import eu.dzhw.fdz.metadatamanagement.surveymanagement.domain.Survey;
 import eu.dzhw.fdz.metadatamanagement.surveymanagement.repository.SurveyRepository;
@@ -53,6 +56,9 @@ public class DataSetResourceTest extends AbstractTest {
   
   @Autowired
   private ElasticsearchUpdateQueueService elasticsearchUpdateQueueService;
+  
+  @Autowired
+  private ElasticsearchAdminService elasticsearchAdminService;
 
   private MockMvc mockMvc;
 
@@ -79,7 +85,6 @@ public class DataSetResourceTest extends AbstractTest {
     this.dataAcquisitionProjectRepository.save(project);
 
     Survey survey = UnitTestCreateDomainObjectUtils.buildSurvey(project.getId());
-    this.surveyRepository.save(survey);
 
     DataSet dataSet = UnitTestCreateDomainObjectUtils.buildDataSet(project.getId(), survey.getId());
 
@@ -99,6 +104,12 @@ public class DataSetResourceTest extends AbstractTest {
 
     // call toString for test coverage :-)
     dataSet.toString();
+    
+    elasticsearchUpdateQueueService.processQueue();
+
+    // check that there are two data set documents plus two surveys
+    elasticsearchAdminService.refreshAllIndices();
+    assertThat(elasticsearchAdminService.countAllDocuments(), equalTo(2.0));
   }
 
   @Test
@@ -159,13 +170,12 @@ public class DataSetResourceTest extends AbstractTest {
   }
 
   @Test
-  public void deleteDataSet() throws JsonSyntaxException, IOException, Exception {
+  public void testDeleteDataSet() throws JsonSyntaxException, IOException, Exception {
     // Arrange
     DataAcquisitionProject project = UnitTestCreateDomainObjectUtils.buildDataAcquisitionProject();
     this.dataAcquisitionProjectRepository.save(project);
 
     Survey survey = UnitTestCreateDomainObjectUtils.buildSurvey(project.getId());
-    this.surveyRepository.save(survey);
 
     DataSet dataSet = UnitTestCreateDomainObjectUtils.buildDataSet(project.getId(), survey.getId());
 
@@ -181,6 +191,12 @@ public class DataSetResourceTest extends AbstractTest {
     // check that the DataSet has been deleted
     mockMvc.perform(get(API_DATASETS_URI + "/" + dataSet.getId()))
       .andExpect(status().isNotFound());
+    
+    elasticsearchUpdateQueueService.processQueue();
+
+    // check that there are no more data set documents but two surveys
+    elasticsearchAdminService.refreshAllIndices();
+    assertThat(elasticsearchAdminService.countAllDocuments(), equalTo(0.0));
   }
 
   @Test
@@ -190,7 +206,6 @@ public class DataSetResourceTest extends AbstractTest {
     this.dataAcquisitionProjectRepository.save(project);
 
     Survey survey = UnitTestCreateDomainObjectUtils.buildSurvey(project.getId());
-    this.surveyRepository.save(survey);
 
     DataSet dataSet = UnitTestCreateDomainObjectUtils.buildDataSet(project.getId(), survey.getId());
 
@@ -214,6 +229,12 @@ public class DataSetResourceTest extends AbstractTest {
       .andExpect(jsonPath("$.id", is(dataSet.getId())))
       .andExpect(jsonPath("$.version", is(1)))
       .andExpect(jsonPath("$.description.de", is("Angepasst.")));
+    
+    elasticsearchUpdateQueueService.processQueue();
+
+    // check that there are two data set documents
+    elasticsearchAdminService.refreshAllIndices();
+    assertThat(elasticsearchAdminService.countAllDocuments(), equalTo(2.0));
   }
 
   @Test

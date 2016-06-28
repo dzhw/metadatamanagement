@@ -1,7 +1,9 @@
 package eu.dzhw.fdz.metadatamanagement.surveymanagement.rest;
 
+import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.is;
+import static org.junit.Assert.assertThat;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
@@ -26,6 +28,7 @@ import eu.dzhw.fdz.metadatamanagement.common.unittesthelper.util.UnitTestCreateD
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.DataAcquisitionProject;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.builders.DataAcquisitionProjectBuilder;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.repository.DataAcquisitionProjectRepository;
+import eu.dzhw.fdz.metadatamanagement.searchmanagement.service.ElasticsearchAdminService;
 import eu.dzhw.fdz.metadatamanagement.searchmanagement.service.ElasticsearchUpdateQueueService;
 import eu.dzhw.fdz.metadatamanagement.surveymanagement.domain.Survey;
 import eu.dzhw.fdz.metadatamanagement.surveymanagement.domain.builders.SurveyBuilder;
@@ -51,6 +54,9 @@ public class SurveyResourceTest extends AbstractTest {
   
   @Autowired
   private ElasticsearchUpdateQueueService elasticsearchUpdateQueueService;
+  
+  @Autowired
+  private ElasticsearchAdminService elasticsearchAdminService;
 
   private MockMvc mockMvc;
 
@@ -88,6 +94,12 @@ public class SurveyResourceTest extends AbstractTest {
 
     // call toString for test coverage :-)
     survey.toString();
+    
+    elasticsearchUpdateQueueService.processQueue();
+
+    // check that there are two survey documents
+    elasticsearchAdminService.refreshAllIndices();
+    assertThat(elasticsearchAdminService.countAllDocuments(), equalTo(2.0));
   }
 
   @Test
@@ -213,6 +225,12 @@ public class SurveyResourceTest extends AbstractTest {
     // check that the survey is really deleted
     mockMvc.perform(get(API_SURVEYS_URI + "/" + survey.getId()))
       .andExpect(status().isNotFound());
+    
+    elasticsearchUpdateQueueService.processQueue();
+
+    // check that there are no more survey documents
+    elasticsearchAdminService.refreshAllIndices();
+    assertThat(elasticsearchAdminService.countAllDocuments(), equalTo(0.0));
   }
 
   @Test
@@ -243,6 +261,12 @@ public class SurveyResourceTest extends AbstractTest {
       .andExpect(jsonPath("$.id", is(survey.getId())))
       .andExpect(jsonPath("$.version", is(1)))
       .andExpect(jsonPath("$.title.de", is("titel2")));
+    
+    elasticsearchUpdateQueueService.processQueue();
+
+    // check that there are two survey documents
+    elasticsearchAdminService.refreshAllIndices();
+    assertThat(elasticsearchAdminService.countAllDocuments(), equalTo(2.0));
   }
 
   @Test

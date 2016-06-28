@@ -63,7 +63,7 @@ public class AtomicQuestionResourceTest extends AbstractTest {
 
   @Autowired
   private AtomicQuestionRepository atomicQuestionRepository;
-  
+
   @Autowired
   private ElasticsearchUpdateQueueService elasticsearchUpdateQueueService;
 
@@ -111,6 +111,12 @@ public class AtomicQuestionResourceTest extends AbstractTest {
       .content(TestUtil.convertObjectToJsonBytes(atomicQuestion)))
       .andExpect(status().isCreated());
 
+    elasticsearchUpdateQueueService.processQueue();
+
+    // check that there are two atomic question documents
+    elasticsearchAdminService.refreshAllIndices();
+    assertThat(elasticsearchAdminService.countAllDocuments(), equalTo(2.0));
+
     // check that auditing attributes have been set
     mockMvc.perform(get(API_ATOMICQUESTIONS_URI + "/" + atomicQuestion.getId()))
       .andExpect(status().isOk())
@@ -122,7 +128,7 @@ public class AtomicQuestionResourceTest extends AbstractTest {
     // call toString for test coverage :-)
     atomicQuestion.toString();
   }
-  
+
   @Test
   public void deleteDataSet() throws JsonSyntaxException, IOException, Exception {
 
@@ -193,8 +199,14 @@ public class AtomicQuestionResourceTest extends AbstractTest {
       .andExpect(jsonPath("$.version", is(1)))
       .andExpect(jsonPath("$.footnote.de", is("Angepasst.")))
       .andExpect(jsonPath("$.type.de", is("single choice")));
+
+    elasticsearchUpdateQueueService.processQueue();
+
+    // check that there are two atomic question documents
+    elasticsearchAdminService.refreshAllIndices();
+    assertThat(elasticsearchAdminService.countAllDocuments(), equalTo(2.0));
   }
-  
+
   @Test
   public void testUpdateWithWrongTypeAtomicQuestion() throws Exception {
     // Arrange
@@ -217,10 +229,10 @@ public class AtomicQuestionResourceTest extends AbstractTest {
       .content(TestUtil.convertObjectToJsonBytes(atomicQuestion)))
       .andExpect(status().isCreated());
 
-    //set inconsistent type
+    // set inconsistent type
     atomicQuestion.setType(new I18nStringBuilder().withDe(AtomicQuestionTypes.OPEN.getDe())
-        .withEn("Bad Value")
-        .build());
+      .withEn("Bad Value")
+      .build());
 
     // update the AtomicQuestion with the given id
     mockMvc.perform(put(API_ATOMICQUESTIONS_URI + "/" + atomicQuestion.getId())
@@ -284,7 +296,7 @@ public class AtomicQuestionResourceTest extends AbstractTest {
     mockMvc.perform(get(API_ATOMICQUESTIONS_URI + "/" + atomicQuestion.getId()))
       .andExpect(status().isNotFound());
 
-    // check that there are no variable search documents anymore
+    // check that there are no atomic question documents anymore
     elasticsearchAdminService.refreshAllIndices();
     assertThat(elasticsearchAdminService.countAllDocuments(), equalTo(0.0));
   }
