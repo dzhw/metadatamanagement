@@ -76,12 +76,9 @@ module.exports = function(grunt) {
             // LESS as
             // we use bootstrap-sass
           ],
+          // remove ../webapp/bower_components/
+          // from paths of injected sass files
           ignorePath: /\.\.\/webapp\/bower_components\//
-          // remove
-          // ../webapp/bower_components/
-          // from paths of
-          // injected sass
-          // files
         },
         test: {
           src: 'src/test/javascript/karma.conf.js',
@@ -119,7 +116,8 @@ module.exports = function(grunt) {
             'loading',
             'md-content',
             'md-sidenav',
-            'md-toolbar'
+            'md-toolbar',
+            'md-toast'
           ],
           relaxerror: [
             'The “date” input type is not supported in all browsers.' +
