@@ -1,5 +1,5 @@
 <jh-alert></jh-alert>
-<div ng-controller="SearchController" ng-switch="isAuthenticated()">
+<div ng-switch="isAuthenticated()">
     <md-card class="fdz-search-input-container">
         <md-input-container class="fdz-search-input">
             <label>{{'global.menu.search.title'|translate}}</label>
@@ -11,22 +11,15 @@
         <md-tabs md-selected="selectedTabs" md-dynamic-height md-swipe-content="true">
             <md-tab ng-repeat="tab in tabs" label="{{tab.title|translate}} ({{tab.totalHits}})">
                 <md-divider></md-divider>
-                <div ng-repeat="result in tab.searchResult">
-                    <md-card md-ink-ripple="true" class="fdz-search-result md-ink-ripple" ui-sref="variableDetail({id:result._source.id})">
-                        <md-card-header>
-                            <md-card-avatar>
-                                <md-icon md-svg-src="/assets/images/icons/emoticon-poop.svg" class="fdz-search-result-icon"></md-icon>
-                            </md-card-avatar>
-                            <md-card-header-text>
-                                <span class="md-title">{{result._source.label}}</span>
-                                <span class="md-subhead">{{result._source.dataAcquisitionProjectId}}</span>
-                            </md-card-header-text>
-                        </md-card-header>
-                        <md-card-content>
-                            {{result._source.dataType}},
-                            {{result._source.scaleLevel}}
-                        </md-card-content>
-                    </md-card>
+                <div ng-repeat="result in tab.searchResult" ng-switch="result._type">
+                    <variable-search-result ng-switch-when="variables" search-result="result._source">
+                    </variable-search-result>
+                    <survey-search-result ng-switch-when="surveys" search-result="result._source">
+                    </survey-search-result>
+                    <question-search-result ng-switch-when="atomic_questions" search-result="result._source">
+                    </question-search-result>
+                    <dataset-search-result ng-switch-when="data_sets" search-result="result._source">
+                    </dataset-search-result>
                 </div>
                 <div layout="row" layout-align="center">
                     <uib-pagination next-text="{{'pagination.next'|translate}}" previous-text="{{'pagination.previous'|translate}}" total-items="tab.totalHits" ng-model="tab.currentPageNumber" max-size="pagerMaxSize" ng-change="search()" class="pagination-sm"></uib-pagination>
