@@ -107,13 +107,13 @@ angular.module('metadatamanagementApp').controller('SearchController',
       });
     }
 
+    //The Toast for no project is choosen
     function openNoProjectToast() {
       $mdToast.show({
         controller: 'SearchToastController',
         templateUrl: 'scripts/searchmanagement/' +
           'views/no-project-toast.html.tmpl',
-        //parent : $document[0].querySelector('#toastBounds'),
-        hideDelay: 6000,
+        hideDelay: 10000,
         position: 'top right'
       });
 
@@ -121,6 +121,7 @@ angular.module('metadatamanagementApp').controller('SearchController',
 
     $scope.uploadVariables = function(file) {
       var dataAcquisitionProject = CurrentProjectService.getCurrentProject();
+      console.log(dataAcquisitionProject);
       if (file !== null &&
         !CleanJSObjectService.isNullOrEmpty(dataAcquisitionProject)) {
         CustomModalService.getModal($translate.instant(

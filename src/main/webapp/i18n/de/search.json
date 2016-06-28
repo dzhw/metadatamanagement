@@ -5,5 +5,9 @@
     "numberofpages": "Seite {{currentPageNumber}} von {{totalNumberOfPages}}",
     "inputplaceholder": "Geben Sie Ihre Suchbegriffe ein..",
     "noresults": "Keine Variablen gefunden."
+  },
+  "toast": {
+    "no-project-toast-title": "Das Hochladen von Daten ist nicht möglich, da kein Projekt ausgewählt ist.",
+    "close": "Schließen"
   }
 }

@@ -5,5 +5,9 @@
     "numberofpages": "Page {{currentPageNumber}} of {{totalNumberOfPages}}",
     "inputplaceholder": "Enter your search terms...",
     "noresults": "No variables found."
+  },
+  "toast": {
+    "no-project-toast-title": "No upload any files is possible, because no Project is choosen.",
+    "close": "Close"
   }
 }
