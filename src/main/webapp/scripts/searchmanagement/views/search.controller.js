@@ -6,7 +6,7 @@ a result of a type like variable or dataSet and so on. */
 angular.module('metadatamanagementApp').controller('SearchController',
   function($scope, Principal, ElasticSearchProperties, $location,
     AlertService, VariableSearchDao, $translate, CustomModalService,
-    VariableUploadService, CurrentProjectService, $mdToast, $mdDialog,
+    VariableUploadService, CurrentProjectService, $mdToast,
     CleanJSObjectService) {
 
     //Check the login status
@@ -86,24 +86,14 @@ angular.module('metadatamanagementApp').controller('SearchController',
         });
     };
 
+    //The Toast for the upload complete
     function openLogToast() {
-      var toast = $mdToast.simple()
-        .textContent('Upload complete.')
-        .position('top right')
-        .hideDelay(0)
-        .action('Show Log');
-      $mdToast.show(toast).then(function(response) {
-        if (response === 'ok') {
-          $mdDialog.show(
-            $mdDialog.alert()
-            .clickOutsideToClose(true)
-            .title('This is an log title')
-            .textContent(
-              'The Log has to be implemented')
-            .ariaLabel('The Log has to be implemented')
-            .ok('Ok... Do it now! ;)')
-          );
-        }
+      $mdToast.show({
+        controller: 'SearchToastController',
+        templateUrl: 'scripts/searchmanagement/' +
+          'views/upload-complete-toast.html.tmpl',
+        hideDelay: 0,
+        position: 'top right'
       });
     }
 

@@ -8,6 +8,8 @@
   },
   "toast": {
     "no-project-toast-title": "Das Hochladen von Daten ist nicht möglich, da kein Projekt ausgewählt ist.",
-    "close": "Schließen"
+    "close": "Schließen",
+    "upload-complete-toast-title": "Das Hochladen der Daten ist abgeschlossen.",
+    "show-log": "Zeige Hochlade-Protokoll"
   }
 }

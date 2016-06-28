@@ -8,6 +8,8 @@
   },
   "toast": {
     "no-project-toast-title": "No upload any files is possible, because no Project is choosen.",
-    "close": "Close"
+    "close": "Close",
+    "upload-complete-toast-title": "The upload of data is complete.",
+    "show-log": "Show Upload Protocol"
   }
 }
