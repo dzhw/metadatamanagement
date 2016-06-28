@@ -24,6 +24,9 @@
                     <md-item-template>
                         <span md-highlight-text="searchText">{{project.id}}</span>
                     </md-item-template>
+                    <md-not-found>
+                        <span data-translate="global.menu.entities.unknown-project" data-translate-values="{projectId: searchText}"></span>
+                    </md-not-found>
                 </md-autocomplete>
             </li>
             <md-divider ng-switch-when="true"></md-divider>

@@ -121,7 +121,6 @@ angular.module('metadatamanagementApp').controller('SearchController',
 
     $scope.uploadVariables = function(file) {
       var dataAcquisitionProject = CurrentProjectService.getCurrentProject();
-      console.log(dataAcquisitionProject);
       if (file !== null &&
         !CleanJSObjectService.isNullOrEmpty(dataAcquisitionProject)) {
         CustomModalService.getModal($translate.instant(

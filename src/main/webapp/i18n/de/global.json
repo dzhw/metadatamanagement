@@ -15,7 +15,8 @@
         "dataSet": "Datensets",
         "additionalEntity": "JHipster will add additional entities here (do not translate!)",
         "currentProject": "Aktuelles Projekt",
-        "selectProject": "Projekt auswählen"
+        "selectProject": "Projekt auswählen",
+        "unknown-project": "Das Projekt {{projectId}} ist unbekannt."
       },
       "search": {
         "title": "Metadatensuche",

@@ -14,9 +14,10 @@
         "rdcProject": "Data Acquisition Projects",
         "survey": "Surveys",
         "dataSet": "Data Sets",
-        "additionalEntity": "JHipster will add additional entities here (do not translate!)",
-        "currentProject": "Current Project",
-        "selectProject": "Select Project"
+        "additionaiEntity": "JHipster will add additional entities here (do not translate!)",
+        "current-project": "Current Project",
+        "select-project": "Select Project",
+        "unknown-project": "The project {{projectId}} is unknown."
       },
       "search": {
         "title": "Metadata Search",
