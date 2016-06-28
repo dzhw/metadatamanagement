@@ -26,7 +26,7 @@
                     </md-item-template>
                 </md-autocomplete>
             </li>
-            <md-divider></md-divider>
+            <md-divider ng-switch-when="true"></md-divider>
             <li class="fdz-navbar-menu" ng-switch-when="true" data-has-authority="ROLE_USER">
                 <md-button class="fdz-navbar-menu-toggle" ng-click="toggleEntityMenu()" aria-label="{{'global.menu.entities.main' | translate}}">
                     <span data-translate="global.menu.entities.main"></span>
@@ -51,7 +51,7 @@
                     </li>
                 </ul>
             </li>
-            <md-divider></md-divider>
+            <md-divider ng-switch-when="true"></md-divider>
             <li class="fdz-navbar-menu" ng-switch-when="true">
                 <md-button class="fdz-navbar-menu-toggle" ng-click="toggleAccountMenu()" aria-label="{{'global.menu.account.main' | translate}}">
                     <span data-translate="global.menu.account.main"></span>
@@ -71,7 +71,7 @@
                     </li>
                 </ul>
             </li>
-            <md-divider></md-divider>
+            <md-divider ng-switch-when="true"></md-divider>
             <li class="fdz-navbar-menu" ng-switch-when="true" data-has-authority="ROLE_ADMIN">
                 <md-button class="fdz-navbar-menu-toggle" ng-click="toggleAdminMenu()" aria-label="{{'global.menu.admin.main' | translate}}">
                     <span data-translate="global.menu.admin.main"></span>
@@ -106,7 +106,7 @@
                     </li>
                 </ul>
             </li>
-            <md-divider></md-divider>
+            <md-divider ng-switch-when="true"></md-divider>
             <li class="fdz-navbar-menu">
                 <md-button ui-sref="disclosure" ui-sref-active="fdz-navbar-button-active" class="fdz-navbar-button">
                     <span data-translate="global.menu.disclosure">Disclosure</span>
