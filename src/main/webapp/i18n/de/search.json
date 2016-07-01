@@ -1,15 +1,18 @@
 {
-  "variablesearch": {
-    "title": "Variablensuche",
-    "variablelist": "{{totalHits}} Variablen gefunden, zeige Treffer {{minHitNumber}} - {{maxHitNumber}}:",
-    "numberofpages": "Seite {{currentPageNumber}} von {{totalNumberOfPages}}",
-    "inputplaceholder": "Geben Sie Ihre Suchbegriffe ein..",
-    "noresults": "Keine Variablen gefunden."
-  },
-  "toast": {
-    "no-project-toast-title": "Das Hochladen von Daten ist nicht möglich, da kein Projekt ausgewählt ist.",
-    "close": "Schließen",
-    "upload-complete-toast-title": "Das Hochladen der Daten ist abgeschlossen.",
-    "show-log": "Zeige Hochlade-Protokoll"
+  "search": {
+    "toast": {
+      "no-project-toast-title": "Das Hochladen von Daten ist nicht möglich, da kein Projekt ausgewählt ist.",
+      "upload-complete-toast-title": "Das Hochladen der Daten ist abgeschlossen.",
+      "show-log": "Zeige Hochlade-Protokoll"
+    },
+    "deleteMessages": {
+      "deleteVariablesTitle": "Variablen des FDZ-ID \"{{ id }}\" löschen?",
+      "deleteVariables": "Sind Sie sicher dass, Sie alle Variablen innerhalb des Datenerhebungsprojekts mit FDZ-ID \"{{ id }}\" löschen möchten?"
+    },
+    "buttons": {
+      "close": "Schließen",
+      "ok": "OK",
+      "cancel": "Abbrechen"
+    }
   }
 }

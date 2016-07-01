@@ -7,7 +7,7 @@ angular.module('metadatamanagementApp').controller('SearchController',
   function($scope, Principal, ElasticSearchProperties, $location,
     AlertService, VariableSearchDao, $translate, CustomModalService,
     VariableUploadService, CurrentProjectService, $mdToast,
-    CleanJSObjectService) {
+    CleanJSObjectService, $mdDialog) {
 
     //Check the login status
     Principal.identity().then(function(account) {
@@ -138,18 +138,32 @@ angular.module('metadatamanagementApp').controller('SearchController',
       var dataAcquisitionProject = CurrentProjectService.getCurrentProject();
       if (file !== null &&
         !CleanJSObjectService.isNullOrEmpty(dataAcquisitionProject)) {
-        CustomModalService.getModal($translate.instant(
-          'metadatamanagementApp.dataAcquisitionProject.detail.' +
-          'deleteMessages.deleteVariables', {
-            id: dataAcquisitionProject.id
-          })).then(function(returnValue) {
-          if (returnValue) {
-            VariableUploadService
-              .uploadVariables(file, dataAcquisitionProject.id);
-          }
-        }).then(function() {
+        // Appending dialog to document.body to cover sidenav in docs app
+        var confirm = $mdDialog.confirm()
+          .title()
+          .textContent($translate.instant(
+            'search.deleteMessages.deleteVariables', {
+              id: dataAcquisitionProject.id
+            }))
+          .ariaLabel($translate.instant(
+            'search.deleteMessages.deleteVariables', {
+              id: dataAcquisitionProject.id
+            }))
+          .ok($translate.instant(
+            'search.buttons.ok', {
+              id: dataAcquisitionProject.id
+            }))
+          .cancel($translate.instant(
+            'search.buttons.cancel', {
+              id: dataAcquisitionProject.id
+            }));
+        $mdDialog.show(confirm).then(function() {
+          //start upload and open log toast
+          VariableUploadService
+            .uploadVariables(file, dataAcquisitionProject.id);
           openLogToast();
-        });
+          //Cancel. Nothing happens
+        }, function() {});
       } else {
         openNoProjectToast();
       }
