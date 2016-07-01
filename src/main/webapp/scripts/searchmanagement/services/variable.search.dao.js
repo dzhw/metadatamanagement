@@ -5,10 +5,13 @@ angular.module('metadatamanagementApp').service('VariableSearchDao',
     CleanJSObjectService) {
     return {
       search: function(queryterm, pageNumber, elasticsearchType) {
-        var query = {
-          'index': 'metadata_' + Language.getCurrentInstantly(),
-          'type': elasticsearchType,
-          'body': {
+        var query = {};
+        query.index = 'metadata_' + Language.getCurrentInstantly();
+        query.type = elasticsearchType;
+
+        //a query term
+        if (!CleanJSObjectService.isNullOrEmpty(queryterm)) {
+          query.body = {
             'query': {
               'bool': {
                 'should': [{
@@ -41,23 +44,26 @@ angular.module('metadatamanagementApp').service('VariableSearchDao',
             'from': (pageNumber - 1) *
               ElasticSearchProperties.pageSize,
             'size': ElasticSearchProperties.pageSize
-          }
-        };
-        if (!queryterm) {
+          };
+          //no query term
+        } else {
+          query.body = {};
           query.body.query = {
             'match_all': {}
           };
-          if (CleanJSObjectService.isNullOrEmpty(elasticsearchType)) {
-            query.body.aggs = {
-              'countVariables': {
-                'filter': {
-                  'term': {
-                    '_type': 'variables'
-                  }
+        }
+
+        //aggregations if user is on the all tab
+        if (CleanJSObjectService.isNullOrEmpty(elasticsearchType)) {
+          query.body.aggs = {
+            'countVariables': {
+              'filter': {
+                'term': {
+                  '_type': 'variables'
                 }
               }
-            };
-          }
+            }
+          };
         }
         return ElasticSearchClient.search(query);
       }
