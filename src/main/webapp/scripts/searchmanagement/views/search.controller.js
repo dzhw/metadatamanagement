@@ -5,7 +5,7 @@
 a result of a type like variable or dataSet and so on. */
 angular.module('metadatamanagementApp').controller('SearchController',
   function($scope, Principal, ElasticSearchProperties, $location,
-    AlertService, VariableSearchDao, $translate, CustomModalService,
+    AlertService, SearchDao, $translate, CustomModalService,
     VariableUploadService, CurrentProjectService, $mdDialog,
     CleanJSObjectService, SearchToastService) {
 
@@ -84,7 +84,7 @@ angular.module('metadatamanagementApp').controller('SearchController',
       //Search with different types, binded on every tab
       $location.search('query', $scope.query);
       $location.search('page', tab.currentPageNumber);
-      VariableSearchDao.search($scope.query, tab.currentPageNumber,
+      SearchDao.search($scope.query, tab.currentPageNumber,
           tab.elasticSearchType)
         .then(function(data) {
           tab.searchResult = data.hits.hits;
