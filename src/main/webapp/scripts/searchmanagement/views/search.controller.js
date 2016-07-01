@@ -6,8 +6,8 @@ a result of a type like variable or dataSet and so on. */
 angular.module('metadatamanagementApp').controller('SearchController',
   function($scope, Principal, ElasticSearchProperties, $location,
     AlertService, VariableSearchDao, $translate, CustomModalService,
-    VariableUploadService, CurrentProjectService, $mdToast,
-    CleanJSObjectService, $mdDialog) {
+    VariableUploadService, CurrentProjectService, $mdDialog,
+    CleanJSObjectService, SearchToastService) {
 
     //Check the login status
     Principal.identity().then(function(account) {
@@ -111,29 +111,6 @@ angular.module('metadatamanagementApp').controller('SearchController',
         });
     };
 
-    //The Toast for the upload complete
-    function openLogToast() {
-      $mdToast.show({
-        controller: 'SearchToastController',
-        templateUrl: 'scripts/searchmanagement/' +
-          'views/upload-complete-toast.html.tmpl',
-        hideDelay: 0,
-        position: 'top right'
-      });
-    }
-
-    //The Toast for no project is choosen
-    function openNoProjectToast() {
-      $mdToast.show({
-        controller: 'SearchToastController',
-        templateUrl: 'scripts/searchmanagement/' +
-          'views/no-project-toast.html.tmpl',
-        hideDelay: 10000,
-        position: 'top right'
-      });
-
-    }
-
     $scope.uploadVariables = function(file) {
       var dataAcquisitionProject = CurrentProjectService.getCurrentProject();
       if (file !== null &&
@@ -161,11 +138,11 @@ angular.module('metadatamanagementApp').controller('SearchController',
           //start upload and open log toast
           VariableUploadService
             .uploadVariables(file, dataAcquisitionProject.id);
-          openLogToast();
+
           //Cancel. Nothing happens
         }, function() {});
       } else {
-        openNoProjectToast();
+        SearchToastService.openNoProjectToast();
       }
     };
 

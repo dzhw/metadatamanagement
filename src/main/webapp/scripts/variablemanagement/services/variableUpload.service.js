@@ -5,15 +5,17 @@ angular.module('metadatamanagementApp').service('VariableUploadService',
   function($translate, ZipReaderService,
     VariableBuilderService, VariableDeleteResource, JobLoggingService,
     ErrorMessageResolverService, ExcelReaderService, $q,
-    ElasticSearchAdminService) {
+    ElasticSearchAdminService, SearchToastService) {
     var objects;
     var uploadCount;
+
     var upload = function() {
       if (uploadCount === objects.length) {
         ElasticSearchAdminService.processUpdateQueue().then(function() {
           JobLoggingService.finish($translate.instant(
             'metadatamanagementApp.dataAcquisitionProject.detail.' +
             'logMessages.variable.uploadTerminated', {}));
+          SearchToastService.openLogToast();
         });
       } else {
         if (!objects[uploadCount].id || objects[uploadCount].id === '') {
@@ -92,6 +94,7 @@ angular.module('metadatamanagementApp').service('VariableUploadService',
           }
         });
     };
+
     return {
       uploadVariables: uploadVariables
     };

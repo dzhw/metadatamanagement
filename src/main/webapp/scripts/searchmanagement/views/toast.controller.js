@@ -21,4 +21,5 @@ angular.module('metadatamanagementApp').controller('SearchToastController',
         .ok('Ok... Do it now! ;)')
       );
     };
+
   });
