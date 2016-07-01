@@ -54,6 +54,17 @@ angular.module('metadatamanagementApp').controller('SearchController',
       $scope.search();
     });
 
+    /* Helper method for getting an index by the elastic search type */
+    function getTabIndexBySearchType(searchType) {
+      var index;
+      $scope.tabs.forEach(function(tab) {
+        if (tab.elasticSearchType === searchType) {
+          index = $scope.tabs.indexOf(tab);
+        }
+      });
+      return index;
+    }
+
     //Search function
     $scope.search = function(pageNumber) {
       //Iterate the tabs. The search results have to be
@@ -78,6 +89,20 @@ angular.module('metadatamanagementApp').controller('SearchController',
         .then(function(data) {
           tab.searchResult = data.hits.hits;
           tab.totalHits = data.hits.total;
+
+          //Every other tab adds the number of 'all' tabs
+          if (!CleanJSObjectService.isNullOrEmpty(tab.elasticSearchType)) {
+            $scope.tabs[getTabIndexBySearchType('')].totalHits = data.hits
+              .total;
+          }
+
+          //Count information by aggregations
+          if (!CleanJSObjectService.isNullOrEmpty(data.aggregations)) {
+            // jscs:disable
+            $scope.tabs[getTabIndexBySearchType('variables')].totalHits =
+              data.aggregations.countVariables.doc_count;
+            // jscs:enable
+          }
 
           //If something going wrong: send an alert
         }, function(error) {
@@ -134,7 +159,4 @@ angular.module('metadatamanagementApp').controller('SearchController',
     $scope.refresh = function() {
       $scope.search();
     };
-
-    //Start the search.
-    $scope.search();
   });
