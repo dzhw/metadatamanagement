@@ -150,7 +150,8 @@ module.exports = function(grunt) {
             'Attribute “has-any-authority” not allowed on element “div” at' +
             ' this point.',
             'Element “md-button” not allowed as child of element “div” in' +
-            ' this context. (Suppressing further errors from this subtree.)'
+            ' this context. (Suppressing further errors from this subtree.)',
+            'This document appears to be written in'
           ],
           customattrs: [
             'show-validation',
