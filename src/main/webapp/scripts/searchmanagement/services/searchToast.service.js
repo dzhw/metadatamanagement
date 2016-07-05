@@ -21,7 +21,7 @@ angular.module('metadatamanagementApp').service('SearchToastService',
     };
 
     //The Toast for the upload complete
-    function openLogToast(resultMessage) {
+    function openUploadCompleteToast(resultMessage) {
       $mdToast.show({
         controller: 'SearchToastController',
         templateUrl: 'scripts/searchmanagement/' +
@@ -37,7 +37,7 @@ angular.module('metadatamanagementApp').service('SearchToastService',
 
     return {
       openNoProjectToast: openNoProjectToast,
-      openLogToast: openLogToast
+      openUploadCompleteToast: openUploadCompleteToast
     };
 
   });
