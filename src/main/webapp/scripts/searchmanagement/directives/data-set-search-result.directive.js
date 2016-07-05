@@ -8,6 +8,19 @@ angular.module('metadatamanagementApp').directive('datasetSearchResult',
         'data-set-search-result.html.tmpl',
       scope: {
         searchResult: '='
-      }
+      },
+      controller: ['$scope', 'DataSetReportService', 'Principal',
+        function($scope, DataSetReportService, Principal) {
+          //Check the login status
+          Principal.identity().then(function(account) {
+              $scope.account = account;
+              $scope.isAuthenticated = Principal.isAuthenticated;
+            });
+
+          $scope.uploadTexTemplate = function(file, dataSetId) {
+            DataSetReportService.uploadTexTemplate(file, dataSetId);
+          };
+        }
+      ],
     };
   });

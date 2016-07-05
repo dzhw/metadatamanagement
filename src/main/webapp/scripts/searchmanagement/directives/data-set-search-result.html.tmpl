@@ -12,5 +12,9 @@
       <div>Beschreibung: {{searchResult.description}}</div>
       <div>Erhebungen:</div>
       <div ng-repeat="title in searchResult.surveyTitles">{{title}}</div>
+      <button ng-if="isAuthenticated()" type="file" class="btn btn-default" ngf-select="uploadTexTemplate($file, searchResult.id)" accept=".zip">
+          <span class="glyphicon glyphicon-book"></span>
+          {{'metadatamanagementApp.dataSet.details.generate' | translate}}
+      </button>
     </md-card-content>
 </md-card>
