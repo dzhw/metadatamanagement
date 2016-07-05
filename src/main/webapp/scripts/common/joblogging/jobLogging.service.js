@@ -40,7 +40,7 @@ angular.module('metadatamanagementApp').service('JobLoggingService',
         type: 'info'
       });
       blockUI.stop();
-      SearchToastService.openLogToast(finishMsg);
+      SearchToastService.openUploadCompleteToast(finishMsg);
     };
     var cancel = function(cancelMsg) {
       job.state = 'cancelled';
@@ -50,7 +50,7 @@ angular.module('metadatamanagementApp').service('JobLoggingService',
         type: 'error'
       });
       blockUI.stop();
-      SearchToastService.openLogToast(cancelMsg);
+      SearchToastService.openUploadCompleteToast(cancelMsg);
     };
     return {
       getCurrentJob: getCurrentJob,
