@@ -403,13 +403,17 @@ style for datapackage
 }
 
 .fdz-search-input {
-  margin-bottom: 18px;
+  margin-bottom: 0px;
   margin-left: 1em;
   margin-right: 2em;
 }
 
 .fdz-search-input-container {
-  border-left: 5px solid $brand-warning;
+  border-left: 3px solid $brand-warning;
+}
+
+.fdz-search-input-container md-tabs-wrapper {
+  height: 47px;
 }
 
 .fdz-search-input .md-errors-spacer {

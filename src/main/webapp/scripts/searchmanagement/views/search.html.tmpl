@@ -3,30 +3,24 @@
     <md-card class="fdz-search-input-container">
         <md-input-container class="fdz-search-input">
             <label>{{'global.menu.search.title'|translate}}</label>
-            <input id="query" type="text" ng-model="query" ng-keyup="search(1)" autocomplete="off">
+            <input id="query" type="text" ng-model="query" ng-change="search(1)" autocomplete="off">
             <md-icon md-font-set="material-icons">search</md-icon>
         </md-input-container>
-    </md-card>
-    <md-card>
-        <md-tabs md-selected="selectedTabs" md-dynamic-height md-swipe-content="true">
-            <md-tab ng-repeat="tab in tabs" label="{{tab.title|translate}} ({{tab.totalHits}})">
+        <md-tabs md-selected="selectedTabIndex" md-dynamic-height>
+            <md-tab ng-repeat="tab in tabs" label="{{tab.title|translate}} ({{tab.count}})" md-on-select="onTabSelected()">
                 <md-divider></md-divider>
-                <div ng-repeat="result in tab.searchResult" ng-switch="result._type">
-                    <variable-search-result ng-switch-when="variables" search-result="result._source">
-                    </variable-search-result>
-                    <survey-search-result ng-switch-when="surveys" search-result="result._source">
-                    </survey-search-result>
-                    <question-search-result ng-switch-when="atomic_questions" search-result="result._source">
-                    </question-search-result>
-                    <dataset-search-result ng-switch-when="data_sets" search-result="result._source">
-                    </dataset-search-result>
-                </div>
-                <div layout="row" layout-align="center">
-                    <uib-pagination next-text="{{'pagination.next'|translate}}" previous-text="{{'pagination.previous'|translate}}" total-items="tab.totalHits" ng-model="tab.currentPageNumber" max-size="pagerMaxSize" ng-change="search()" class="pagination-sm"></uib-pagination>
-                </div>
             </md-tab>
         </md-tabs>
     </md-card>
+    <div ng-repeat="result in searchResult" ng-switch="result._type">
+        <variable-search-result ng-switch-when="variables" search-result="result._source"></variable-search-result>
+        <survey-search-result ng-switch-when="surveys" search-result="result._source"></survey-search-result>
+        <question-search-result ng-switch-when="atomic_questions" search-result="result._source"></question-search-result>
+        <dataset-search-result ng-switch-when="data_sets" search-result="result._source"></dataset-search-result>
+    </div>
+    <div layout="row" layout-align="center">
+        <uib-pagination next-text="{{'pagination.next'|translate}}" previous-text="{{'pagination.previous'|translate}}" total-items="totalHits" ng-model="currentPageNumber" max-size="5" ng-change="search()" class="pagination-sm"></uib-pagination>
+    </div>
     <div ng-switch-when="true" has-any-authority="ROLE_ADMIN, ROLE_USER" class="fdz-floating-div" layout="column">
         <md-button class="md-primary md-fab" ng-click="refresh()" style="margin-bottom: 1em;">
             <md-icon md-font-set="material-icons">refresh</md-icon>
@@ -36,7 +30,7 @@
             <md-icon md-font-set="material-icons">add</md-icon>
         </md-button>
     </div>
-    <div ng-if="job.state === 'running'" layout="row" layout-sm="column" layout-align="space-around">
+    <div ng-if="job.state === 'running'" layout="row" layout-align="space-around">
         <md-progress-linear ng-class="job.errors > 0 ? 'md-warn' : 'md-primary'" md-mode="indeterminate"></md-progress-linear>
     </div>
 </div>

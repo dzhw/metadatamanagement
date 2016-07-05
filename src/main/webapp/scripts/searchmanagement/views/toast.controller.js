@@ -26,5 +26,4 @@ angular.module('metadatamanagementApp').controller('SearchToastController',
       });
     };
 
-
   });

@@ -117,7 +117,13 @@ module.exports = function(grunt) {
             'md-content',
             'md-sidenav',
             'md-toolbar',
-            'md-toast'
+            'md-toast',
+            'md-dialog',
+            'variable-search-result',
+            'survey-search-result',
+            'question-search-result',
+            'dataset-search-result',
+            'md-progress-linear'
           ],
           relaxerror: [
             'The “date” input type is not supported in all browsers.' +
@@ -151,7 +157,23 @@ module.exports = function(grunt) {
             ' this point.',
             'Element “md-button” not allowed as child of element “div” in' +
             ' this context. (Suppressing further errors from this subtree.)',
-            'This document appears to be written in'
+            'This document appears to be written in',
+            'Element “md-dialog” not allowed as child of element “body” in' +
+            'this context. (Suppressing further errors from this subtree.)',
+            'Element “variable-search-result” not allowed as child of element' +
+            '“div” in this context. (Suppressing further errors from this sub' +
+            'tree.)',
+            'Element “survey-search-result” not allowed as child of element' +
+            '“div” in this context. (Suppressing further errors from this sub' +
+            'tree.)',
+            'Element “question-search-result” not allowed as child of element' +
+            '“div” in this context. (Suppressing further errors from this sub' +
+            'tree.)',
+            'Element “dataset-search-result” not allowed as child of element' +
+            '“div” in this context. (Suppressing further errors from this sub' +
+            'tree.)',
+            'Attribute “layout-align” not allowed on element “div” at this' +
+            ' point.'
           ],
           customattrs: [
             'show-validation',
