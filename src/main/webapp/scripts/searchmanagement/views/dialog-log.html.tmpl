@@ -18,9 +18,9 @@
     </md-toolbar>
     <md-dialog-content>
         <div layout="row">
-            <md-card flex layout="row">
+            <md-card flex>
                 <md-card-content flex>
-                    <pre><span ng-repeat="logMessage in ctrl.parent.job.logMessages track by $index" ng-class="{'text-danger': logMessage.type==='error'}">{{logMessage.message}}</span></pre>
+                    <pre><span ng-repeat="logMessage in ctrl.parent.job.logMessages track by $index" ng-class="{'fdz-log-error-text': logMessage.type==='error'}">{{logMessage.message}}</span></pre>
                 </md-card-content>
             </md-card>
         </div>
