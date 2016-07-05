@@ -21,6 +21,9 @@
       "search": {
         "title": "Metadatensuche",
         "variables": "Variablen",
+        "questions": "Fragen",
+        "surveys": "Erhebungen",
+        "data-sets": "Datensätze",
         "all": "Alle"
       },
       "account": {

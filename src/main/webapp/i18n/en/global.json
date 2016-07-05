@@ -22,6 +22,9 @@
       "search": {
         "title": "Metadata Search",
         "variables": "Variables",
+        "questions": "Questions",
+        "surveys": "Surveys",
+        "data-sets": "Data Sets",
         "all": "All"
       },
       "account": {

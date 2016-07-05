@@ -7,8 +7,11 @@
             <md-icon md-font-set="material-icons">search</md-icon>
         </md-input-container>
         <md-tabs md-selected="selectedTabIndex" md-dynamic-height>
-            <md-tab ng-repeat="tab in tabs" label="{{tab.title|translate}} ({{tab.count}})" md-on-select="onTabSelected()">
-                <md-divider></md-divider>
+            <md-tab ng-repeat="tab in tabs" md-on-select="onTabSelected()">
+              <md-tab-label>
+                <md-icon ng-if="tab.icon" md-svg-icon="{{tab.icon}}"></md-icon>
+                <span>{{tab.title|translate}} {{tab.count != null? '(' + tab.count + ')' : ''}}</span>
+              </md-tab-label>
             </md-tab>
         </md-tabs>
     </md-card>
