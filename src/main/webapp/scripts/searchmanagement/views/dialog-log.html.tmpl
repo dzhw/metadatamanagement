@@ -17,12 +17,12 @@
         </div>
     </md-toolbar>
     <md-dialog-content>
-        <uib-accordion>
-            <uib-accordion-group is-open="true">
-                <div>
+        <div layout="row">
+            <md-card flex layout="row">
+                <md-card-content flex>
                     <pre><span ng-repeat="logMessage in ctrl.parent.job.logMessages track by $index" ng-class="{'text-danger': logMessage.type==='error'}">{{logMessage.message}}</span></pre>
-                </div>
-            </uib-accordion-group>
-        </uib-accordion>
+                </md-card-content>
+            </md-card>
+        </div>
     </md-dialog-content>
 </md-dialog>
