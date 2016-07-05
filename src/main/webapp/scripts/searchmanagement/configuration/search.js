@@ -22,6 +22,7 @@ angular.module('metadatamanagementApp').config(
               $translatePartialLoader.addPart('global');
               $translatePartialLoader.addPart('search');
               $translatePartialLoader.addPart('pagination');
+              $translatePartialLoader.addPart('dataAcquisitionProject');
               return $translate.refresh();
             }
           ]

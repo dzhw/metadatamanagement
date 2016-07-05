@@ -4,6 +4,7 @@
 angular.module('metadatamanagementApp').controller('SearchToastController',
   function($scope, $mdToast, $mdDialog, JobLoggingService) {
 
+    /* Get the current job */
     $scope.job = JobLoggingService.getCurrentJob();
 
     /* Close Function for Toasts. */
@@ -20,12 +21,4 @@ angular.module('metadatamanagementApp').controller('SearchToastController',
         clickOutsideToClose: true
       });
     };
-
-    $scope.$watch('job.state', function() {
-      console.log($scope.job.state);
-      if ($scope.job.state === 'finished') {
-        $scope.$broadcast($scope.job.id +
-          '-list-uploaded');
-      }
-    });
   });

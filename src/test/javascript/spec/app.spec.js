@@ -38,12 +38,14 @@ describe('Specification for app ', function() {
       var globalJson = new RegExp('i18n\/.*\/global.json');
       var mainJson = new RegExp('i18n\/.*\/home.json');
       var paginationJson = new RegExp('i18n\/.*\/pagination.json');
-      var searchJson = new RegExp(
-        'i18n\/.*\/search.json');
+      var searchJson = new RegExp('i18n\/.*\/search.json');
+      var dataAcquisitionProjectJson =
+        new RegExp('i18n\/.*\/dataAcquisitionProject.json');
       $httpBackend.whenGET(globalJson).respond({});
       $httpBackend.whenGET(mainJson).respond({});
       $httpBackend.whenGET(searchJson).respond({});
       $httpBackend.whenGET(paginationJson).respond({});
+      $httpBackend.whenGET(dataAcquisitionProjectJson).respond({});
       $httpBackend.expectGET(/api\/account\?cacheBuster=\d+/)
         .respond(200, '');
     });
