@@ -24,9 +24,6 @@ angular.module('metadatamanagementApp').controller('SearchController',
         //Need for interpretation of the query element in the url.
         $scope.query = $location.search().query;
 
-        //The current index of the active tab
-        $scope.selectedTabIndex = 0;
-
         //Information for the different tabs
         $scope.tabs = [{
             title: 'global.menu.search.all',
@@ -54,6 +51,14 @@ angular.module('metadatamanagementApp').controller('SearchController',
             count: null
           }];
 
+        //The current index of the active tab
+        $scope.selectedTabIndex = 0;
+        for (var i = 0; i < $scope.tabs.length; i++) {
+          if ($scope.tabs[i].elasticSearchType === $location.search().type) {
+            $scope.selectedTabIndex = i;
+          }
+        }
+
         //Search function
         $scope.search = function() {
             var selectedTab = $scope.tabs[$scope.selectedTabIndex];
@@ -64,7 +69,8 @@ angular.module('metadatamanagementApp').controller('SearchController',
 
             //Search with different types, binded on every tab
             $location.search('query', $scope.query);
-            $location.search('page', $scope.currentPageNumber);
+            $location.search('type', selectedTab.elasticSearchType);
+
             SearchDao.search($scope.query, $scope.currentPageNumber,
                     selectedTab.elasticSearchType)
                 .then(function(data) {
