@@ -12,6 +12,10 @@ angular.module('metadatamanagementApp').controller('SearchToastController',
       $mdToast.hide();
     };
 
+    $scope.cancel = function() {
+      $mdDialog.cancel();
+    };
+
     /* Dialog for the Log of Uploading data */
     $scope.showLog = function() {
       $mdDialog.show({
@@ -21,4 +25,6 @@ angular.module('metadatamanagementApp').controller('SearchToastController',
         clickOutsideToClose: true
       });
     };
+
+
   });
