@@ -28,10 +28,22 @@
         <md-button class="md-primary md-fab" ng-click="refresh()" style="margin-bottom: 1em;">
             <md-icon md-font-set="material-icons">refresh</md-icon>
         </md-button>
-        <!-- Index 1 = Variables Tab -->
-        <md-button ng-if="selectedTabIndex===1" type="file" ngf-select="uploadVariables($file)" class="md-accent md-fab" accept=".zip" ng-disabled="uploadState.disableButton">
-            <md-icon md-font-set="material-icons">add</md-icon>
-        </md-button>
+          <!-- Index 1 = Variables Tab -->
+          <md-button ng-if="selectedTabIndex===1" type="file" ngf-select="uploadVariables($file)" class="md-accent md-fab" accept=".zip">
+              <md-icon md-font-set="material-icons">add</md-icon>
+          </md-button>
+          <!-- Index 2 = Questions Tab -->
+          <md-button ng-if="selectedTabIndex===2" type="file" ngf-select="uploadQuestions($file)" class="md-accent md-fab" accept=".xlsx">
+              <md-icon md-font-set="material-icons">add</md-icon>
+          </md-button>
+          <!-- Index 3 = Surveys Tab -->
+          <md-button ng-if="selectedTabIndex===3" type="file" ngf-select="uploadSurveys($file)" class="md-accent md-fab" accept=".xlsx">
+              <md-icon md-font-set="material-icons">add</md-icon>
+          </md-button>
+          <!-- Index 4 = Data Sets Tab -->
+          <md-button ng-if="selectedTabIndex===4" type="file" ngf-select="uploadDataSets($file)" class="md-accent md-fab" accept=".xlsx">
+              <md-icon md-font-set="material-icons">add</md-icon>
+          </md-button>
     </div>
     <div ng-if="job.state === 'running'" layout="row" layout-align="space-around">
         <md-progress-linear ng-class="job.errors > 0 ? 'md-warn' : 'md-primary'" md-mode="indeterminate"></md-progress-linear>

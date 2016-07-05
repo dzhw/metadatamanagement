@@ -33,7 +33,8 @@
         <div ui-view="navbar" layout="column" ng-cloak></div>
         <div flex layout="column" ng-cloak>
             <div ui-view="toolbar"></div>
-            <md-content id="content" flex>
+            <div id="toast-container"></div>
+            <md-content flex id="content">
                 <ui-view name="content"></ui-view>
             </md-content>
         </div>

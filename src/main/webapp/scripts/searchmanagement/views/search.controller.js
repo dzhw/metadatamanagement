@@ -77,13 +77,13 @@ angular.module('metadatamanagementApp').controller('SearchController',
                             tab.count = 0;
                           }
                           data.aggregations.countByType.buckets.forEach(
-                            function(bucket) {
-                              if (bucket.key === tab.elasticSearchType) {
-                                // jscs:disable
-                                  tab.count = bucket.doc_count;
-                                  // jscs:enable
-                              }
-                            });
+                              function(bucket) {
+                                  if (bucket.key === tab.elasticSearchType) {
+                                    // jscs:disable
+                                      tab.count = bucket.doc_count;
+                                      // jscs:enable
+                                  }
+                                });
                         });
                     }
 
@@ -100,11 +100,12 @@ angular.module('metadatamanagementApp').controller('SearchController',
           };
 
         $scope.uploadVariables = function(file) {
+            if (!file) {
+              return;
+            }
             var dataAcquisitionProject = CurrentProjectService
-              .getCurrentProject();
-            if (file !== null &&
-                !CleanJSObjectService.isNullOrEmpty(dataAcquisitionProject)) {
-              // Appending dialog to document.body to cover sidenav in docs app
+                .getCurrentProject();
+            if (!CleanJSObjectService.isNullOrEmpty(dataAcquisitionProject)) {
               var confirm = $mdDialog.confirm()
                   .title()
                   .textContent($translate.instant(
@@ -115,18 +116,102 @@ angular.module('metadatamanagementApp').controller('SearchController',
                       'search.deleteMessages.deleteVariables', {
                           id: dataAcquisitionProject.id
                         }))
-                  .ok($translate.instant(
-                      'search.buttons.ok', {
-                          id: dataAcquisitionProject.id
-                        }))
-                  .cancel($translate.instant(
-                      'search.buttons.cancel', {
-                          id: dataAcquisitionProject.id
-                        }));
+                  .ok($translate.instant('search.buttons.ok'))
+                  .cancel($translate.instant('search.buttons.cancel'));
               $mdDialog.show(confirm).then(function() {
                   //start upload and open log toast
                   VariableUploadService
                       .uploadVariables(file, dataAcquisitionProject.id);
+
+                  //Cancel. Nothing happens
+                }, function() {});
+            } else {
+              SearchToastService.openNoProjectToast();
+            }
+          };
+
+        $scope.uploadQuestions = function(file) {
+            if (!file) {
+              return;
+            }
+            var dataAcquisitionProject = CurrentProjectService
+                .getCurrentProject();
+            if (!CleanJSObjectService.isNullOrEmpty(dataAcquisitionProject)) {
+              var confirm = $mdDialog.confirm()
+                  .title()
+                  .textContent($translate.instant(
+                      'search.deleteMessages.deleteQuestions', {
+                          id: dataAcquisitionProject.id
+                        }))
+                  .ariaLabel($translate.instant(
+                      'search.deleteMessages.deleteQuestions', {
+                          id: dataAcquisitionProject.id
+                        }))
+                  .ok($translate.instant('search.buttons.ok'))
+                  .cancel($translate.instant('search.buttons.cancel'));
+              $mdDialog.show(confirm).then(function() {
+                  //start upload
+                  console.log('TODO: upload questions');
+
+                  //Cancel. Nothing happens
+                }, function() {});
+            } else {
+              SearchToastService.openNoProjectToast();
+            }
+          };
+
+        $scope.uploadSurveys = function(file) {
+            if (!file) {
+              return;
+            }
+            var dataAcquisitionProject = CurrentProjectService
+                .getCurrentProject();
+            if (!CleanJSObjectService.isNullOrEmpty(dataAcquisitionProject)) {
+              var confirm = $mdDialog.confirm()
+                  .title()
+                  .textContent($translate.instant(
+                      'search.deleteMessages.deleteSurveys', {
+                          id: dataAcquisitionProject.id
+                        }))
+                  .ariaLabel($translate.instant(
+                      'search.deleteMessages.deleteSurveys', {
+                          id: dataAcquisitionProject.id
+                        }))
+                  .ok($translate.instant('search.buttons.ok'))
+                  .cancel($translate.instant('search.buttons.cancel'));
+              $mdDialog.show(confirm).then(function() {
+                  //start upload
+                  console.log('TODO: upload surveys');
+
+                  //Cancel. Nothing happens
+                }, function() {});
+            } else {
+              SearchToastService.openNoProjectToast();
+            }
+          };
+
+        $scope.uploadDataSets = function(file) {
+            if (!file) {
+              return;
+            }
+            var dataAcquisitionProject = CurrentProjectService
+                .getCurrentProject();
+            if (!CleanJSObjectService.isNullOrEmpty(dataAcquisitionProject)) {
+              var confirm = $mdDialog.confirm()
+                  .title()
+                  .textContent($translate.instant(
+                      'search.deleteMessages.deleteDataSets', {
+                          id: dataAcquisitionProject.id
+                        }))
+                  .ariaLabel($translate.instant(
+                      'search.deleteMessages.deleteDataSets', {
+                          id: dataAcquisitionProject.id
+                        }))
+                  .ok($translate.instant('search.buttons.ok'))
+                  .cancel($translate.instant('search.buttons.cancel'));
+              $mdDialog.show(confirm).then(function() {
+                  //start upload
+                  console.log('TODO: upload data sets');
 
                   //Cancel. Nothing happens
                 }, function() {});

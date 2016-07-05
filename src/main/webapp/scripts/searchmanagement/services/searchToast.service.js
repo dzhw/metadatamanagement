@@ -3,7 +3,7 @@
 
 angular.module('metadatamanagementApp').service('SearchToastService',
   function($mdToast) {
-    var toastParent = angular.element('#content');
+    var toastParent = angular.element('#toast-container');
 
     //The Toast for no project is choosen
     var openNoProjectToast = function() {
