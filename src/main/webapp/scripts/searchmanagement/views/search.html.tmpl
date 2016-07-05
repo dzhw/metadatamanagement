@@ -36,4 +36,7 @@
             <md-icon md-font-set="material-icons">add</md-icon>
         </md-button>
     </div>
+    <div ng-if="job.state === 'running'" layout="row" layout-sm="column" layout-align="space-around">
+        <md-progress-linear ng-class="job.errors > 0 ? 'md-warn' : 'md-primary'" md-mode="indeterminate"></md-progress-linear>
+    </div>
 </div>

@@ -13,6 +13,13 @@
       "close": "Schließen",
       "ok": "OK",
       "cancel": "Abbrechen"
+    },
+    "dialog": {
+      "upload": {
+        "upload-protocol": "Upload Protokoll",
+        "success": "Erfolg",
+        "error": "Fehler"
+      }
     }
   }
 }

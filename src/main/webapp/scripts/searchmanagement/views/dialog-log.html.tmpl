@@ -1,0 +1,26 @@
+<md-dialog aria-label="protocol for upload">
+    <uib-accordion>
+        <uib-accordion-group is-open="isOpen">
+            <uib-accordion-heading>
+                <div class="row">
+                    <div class="col-md-2">
+                        <span>{{'search.dialog.upload.upload-protocol' | translate}}
+                        </span>
+                    </div>
+                    <div class="col-md-10">
+                        <div class="pull-right">
+                            <span class="label label-as-badge label-success">{{'search.dialog.upload.success' | translate}}:
+                                {{ctrl.parent.job.successes || 0}}</span>
+                            <span class="label label-as-badge label-danger">{{'search.dialog.upload.error' | translate}}:
+                                {{ctrl.parent.job.errors || 0}}</span>
+                            <i class="glyphicon" ng-class="{'glyphicon-chevron-down': isOpen, 'glyphicon-chevron-right': !isOpen}"></i>
+                        </div>
+                    </div>
+                </div>
+            </uib-accordion-heading>
+            <div>
+                <pre><span ng-repeat="logMessage in ctrl.parent.job.logMessages track by $index" ng-class="{'text-danger': logMessage.type==='error'}">{{logMessage.message}}</span></pre>
+            </div>
+        </uib-accordion-group>
+    </uib-accordion>
+</md-dialog>
