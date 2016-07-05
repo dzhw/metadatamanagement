@@ -6,7 +6,9 @@ a result of a type like variable or dataSet and so on. */
 angular.module('metadatamanagementApp').controller('SearchController',
     function($scope, Principal, ElasticSearchProperties, $location,
         AlertService, SearchDao, $translate, CustomModalService,
-        VariableUploadService, CurrentProjectService, $mdDialog,
+        VariableUploadService, AtomicQuestionUploadService,
+        DataSetUploadService, SurveyUploadService,
+        CurrentProjectService, $mdDialog,
         CleanJSObjectService, SearchToastService) {
 
         //Check the login status
@@ -107,7 +109,8 @@ angular.module('metadatamanagementApp').controller('SearchController',
                 .getCurrentProject();
             if (!CleanJSObjectService.isNullOrEmpty(dataAcquisitionProject)) {
               var confirm = $mdDialog.confirm()
-                  .title()
+                  .title($translate.instant(
+                      'search.deleteMessages.deleteVariablesTitle'))
                   .textContent($translate.instant(
                       'search.deleteMessages.deleteVariables', {
                           id: dataAcquisitionProject.id
@@ -138,7 +141,8 @@ angular.module('metadatamanagementApp').controller('SearchController',
                 .getCurrentProject();
             if (!CleanJSObjectService.isNullOrEmpty(dataAcquisitionProject)) {
               var confirm = $mdDialog.confirm()
-                  .title()
+                  .title($translate.instant(
+                      'search.deleteMessages.deleteQuestionsTitle'))
                   .textContent($translate.instant(
                       'search.deleteMessages.deleteQuestions', {
                           id: dataAcquisitionProject.id
@@ -151,8 +155,8 @@ angular.module('metadatamanagementApp').controller('SearchController',
                   .cancel($translate.instant('search.buttons.cancel'));
               $mdDialog.show(confirm).then(function() {
                   //start upload
-                  console.log('TODO: upload questions');
-
+                  AtomicQuestionUploadService
+                      .uploadAtomicQuestions(file, dataAcquisitionProject.id);
                   //Cancel. Nothing happens
                 }, function() {});
             } else {
@@ -168,7 +172,8 @@ angular.module('metadatamanagementApp').controller('SearchController',
                 .getCurrentProject();
             if (!CleanJSObjectService.isNullOrEmpty(dataAcquisitionProject)) {
               var confirm = $mdDialog.confirm()
-                  .title()
+                  .title($translate.instant(
+                      'search.deleteMessages.deleteSurveysTitle'))
                   .textContent($translate.instant(
                       'search.deleteMessages.deleteSurveys', {
                           id: dataAcquisitionProject.id
@@ -181,8 +186,8 @@ angular.module('metadatamanagementApp').controller('SearchController',
                   .cancel($translate.instant('search.buttons.cancel'));
               $mdDialog.show(confirm).then(function() {
                   //start upload
-                  console.log('TODO: upload surveys');
-
+                  SurveyUploadService
+                      .uploadSurveys(file, dataAcquisitionProject.id);
                   //Cancel. Nothing happens
                 }, function() {});
             } else {
@@ -198,7 +203,8 @@ angular.module('metadatamanagementApp').controller('SearchController',
                 .getCurrentProject();
             if (!CleanJSObjectService.isNullOrEmpty(dataAcquisitionProject)) {
               var confirm = $mdDialog.confirm()
-                  .title()
+                  .title($translate.instant(
+                      'search.deleteMessages.deleteDataSetsTitle'))
                   .textContent($translate.instant(
                       'search.deleteMessages.deleteDataSets', {
                           id: dataAcquisitionProject.id
@@ -211,8 +217,8 @@ angular.module('metadatamanagementApp').controller('SearchController',
                   .cancel($translate.instant('search.buttons.cancel'));
               $mdDialog.show(confirm).then(function() {
                   //start upload
-                  console.log('TODO: upload data sets');
-
+                  DataSetUploadService
+                      .uploadDataSets(file, dataAcquisitionProject.id);
                   //Cancel. Nothing happens
                 }, function() {});
             } else {

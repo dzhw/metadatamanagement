@@ -28,8 +28,4 @@ angular.module('metadatamanagementApp').config(
           ]
         }
       });
-    })
-  //Error Handler for non translated angular js elements.
-  .config(function($translateProvider) {
-    $translateProvider.useMissingTranslationHandler('translationErrorHandler');
-  });
+    });

@@ -2,12 +2,17 @@
   "search": {
     "toast": {
       "no-project-toast-title": "Das Hochladen von Daten ist nicht möglich, da kein Projekt ausgewählt ist.",
-      "upload-complete-toast-title": "Das Hochladen der Daten ist abgeschlossen.",
-      "show-log": "Zeige Hochlade-Protokoll"
+      "show-log": "Zeige Protokoll"
     },
     "deleteMessages": {
-      "deleteVariablesTitle": "Variablen des FDZ-ID \"{{ id }}\" löschen?",
-      "deleteVariables": "Sind Sie sicher dass, Sie alle Variablen innerhalb des Datenerhebungsprojekts mit FDZ-ID \"{{ id }}\" löschen möchten?"
+      "deleteVariablesTitle": "Alle Variablen löschen?",
+      "deleteVariables": "Sind Sie sicher dass, Sie alle Variablen innerhalb des Datenerhebungsprojekts mit der FDZ-ID \"{{ id }}\" löschen möchten?",
+      "deleteSurveysTitle": "Alle Erhebungen löschen?",
+      "deleteSurveys": "Sind Sie sicher dass, Sie alle Erhebungen innerhalb des Datenerhebungsprojekts mit der FDZ-ID \"{{ id }}\" löschen möchten?",
+      "deleteQuestionsTitle": "Alle Fragen löschen?",
+      "deleteQuestions": "Sind Sie sicher dass, Sie alle Fragen innerhalb des Datenerhebungsprojekts mit der FDZ-ID \"{{ id }}\" löschen möchten?",
+      "deleteDataSetsTitle": "Alle Datensätze löschen?",
+      "deleteDataSets": "Sind Sie sicher dass, Sie alle Datensätze innerhalb des Datenerhebungsprojekts mit der FDZ-ID \"{{ id }}\" löschen möchten?"
     },
     "buttons": {
       "close": "Schließen",

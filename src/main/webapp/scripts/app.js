@@ -131,6 +131,8 @@ angular
       $translateProvider.useSanitizeValueStrategy('escaped');
       $translateProvider
         .addInterpolation('$translateMessageFormatInterpolation');
+      $translateProvider
+        .useMissingTranslationHandler('translationErrorHandler');
 
       tmhDynamicLocaleProvider
         .localeLocationPattern(

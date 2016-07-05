@@ -5,24 +5,16 @@ angular.module('metadatamanagementApp').service('VariableUploadService',
   function($translate, ZipReaderService,
     VariableBuilderService, VariableDeleteResource, JobLoggingService,
     ErrorMessageResolverService, ExcelReaderService, $q,
-    ElasticSearchAdminService, SearchToastService, blockUI) {
+    ElasticSearchAdminService) {
     var objects;
     var uploadCount;
 
     var upload = function() {
-      //block the ui
-      if (uploadCount === 0) {
-        blockUI.start();
-      }
-
       if (uploadCount === objects.length) {
         ElasticSearchAdminService.processUpdateQueue().then(function() {
           JobLoggingService.finish($translate.instant(
             'metadatamanagementApp.dataAcquisitionProject.detail.' +
             'logMessages.variable.uploadTerminated', {}));
-          SearchToastService.openLogToast();
-          //everything is done. stop blocking
-          blockUI.stop();
         });
       } else {
         if (!objects[uploadCount].id || objects[uploadCount].id === '') {

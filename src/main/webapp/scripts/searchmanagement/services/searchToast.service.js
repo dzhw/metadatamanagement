@@ -13,19 +13,25 @@ angular.module('metadatamanagementApp').service('SearchToastService',
           'views/no-project-toast.html.tmpl',
         hideDelay: 10000,
         position: 'top right',
-        parent: toastParent
+        parent: toastParent,
+        locals: {
+          resultMessage: {}
+        }
       });
     };
 
     //The Toast for the upload complete
-    function openLogToast() {
+    function openLogToast(resultMessage) {
       $mdToast.show({
         controller: 'SearchToastController',
         templateUrl: 'scripts/searchmanagement/' +
           'views/upload-complete-toast.html.tmpl',
         hideDelay: 0,
         position: 'top right',
-        parent: toastParent
+        parent: toastParent,
+        locals: {
+          resultMessage: resultMessage
+        }
       });
     }
 

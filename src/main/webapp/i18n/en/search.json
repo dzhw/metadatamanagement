@@ -2,12 +2,17 @@
   "search": {
     "toast": {
       "no-project-toast-title": "No upload any files is possible, because no Project is choosen.",
-      "upload-complete-toast-title": "The upload of data is complete.",
-      "show-log": "Show Upload Protocol"
+      "show-log": "Show Protocol"
     },
     "deleteMessages": {
-      "deleteVariablesTitle": "Variablen des FDZ-ID \"{{ id }}\" löschen?",
-      "deleteVariables": "Are you sure you want to delete all Variables within DataAcquisitionProject with RDC-ID \"{{ id }}\"?"
+      "deleteVariablesTitle": "Delete all Variables?",
+      "deleteVariables": "Are you sure you want to delete all Variables within the DataAcquisitionProject with RDC-ID \"{{ id }}\"?",
+      "deleteSurveysTitle": "Delete all Surveys?",
+      "deleteSurveys": "Are you sure you want to delete all Surveys within the DataAcquisitionProject with RDC-ID \"{{ id }}\"?",
+      "deleteQuestionsTitle": "Delete all Questions?",
+      "deleteQuestions": "Are you sure you want to delete all Questions within the DataAcquisitionProject with RDC-ID \"{{ id }}\"?",
+      "deleteDataSetsTitle": "Delete all Data Sets?",
+      "deleteDataSets": "Are you sure you want to delete all Data Sets within the DataAcquisitionProject with RDC-ID \"{{ id }}\"?",
     },
     "buttons": {
       "close": "Close",

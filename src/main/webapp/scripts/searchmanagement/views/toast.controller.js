@@ -2,10 +2,11 @@
 'use strict';
 
 angular.module('metadatamanagementApp').controller('SearchToastController',
-  function($scope, $mdToast, $mdDialog, JobLoggingService) {
+  function($scope, $mdToast, $mdDialog, JobLoggingService, resultMessage) {
 
     /* Get the current job */
     $scope.job = JobLoggingService.getCurrentJob();
+    $scope.resultMessage = resultMessage;
 
     /* Close Function for Toasts. */
     $scope.closeToast = function() {
