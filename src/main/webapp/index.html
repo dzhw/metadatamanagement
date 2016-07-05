@@ -31,9 +31,9 @@
             </div>
         </div>
         <div ui-view="navbar" layout="column" ng-cloak></div>
-        <div flex layout="column" id="content" ng-cloak>
+        <div flex layout="column" ng-cloak>
             <div ui-view="toolbar"></div>
-            <md-content flex>
+            <md-content id="content" flex>
                 <ui-view name="content"></ui-view>
             </md-content>
         </div>

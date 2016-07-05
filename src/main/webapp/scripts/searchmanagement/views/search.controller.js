@@ -54,8 +54,6 @@ angular.module('metadatamanagementApp').controller('SearchController',
 
         //Search function
         $scope.search = function() {
-            //Iterate the tabs. The search results have to be
-            //different between the tabs
             var selectedTab = $scope.tabs[$scope.selectedTabIndex];
 
             $scope.tabs.forEach(function(tab) {
