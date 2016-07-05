@@ -13,7 +13,8 @@ angular.module('metadatamanagementApp').controller('SearchToastController',
       $mdToast.hide();
     };
 
-    $scope.cancel = function() {
+    /* Close Function for Dialogs. */
+    $scope.closeDialog = function() {
       $mdDialog.cancel();
     };
 
@@ -21,7 +22,7 @@ angular.module('metadatamanagementApp').controller('SearchToastController',
     $scope.showLog = function() {
       $mdDialog.show({
         controller: function() { this.parent = $scope; },
-        controllerAs: 'ctrl',
+        controllerAs: 'searchToastController',
         templateUrl: 'scripts/searchmanagement/views/dialog-log.html.tmpl',
         clickOutsideToClose: true
       });
