@@ -101,7 +101,7 @@ public class SearchResource {
         (String) request.getAttribute(HandlerMapping.PATH_WITHIN_HANDLER_MAPPING_ATTRIBUTE);
     String path = completePath.replaceFirst("/api/search", "");
     ResponseEntity<String> response = restTemplate.exchange(connectionUrl + path, method,
-        new HttpEntity<String>(body, headers), String.class);
+        new HttpEntity<>(body, headers), String.class);
     return response;
   }
   

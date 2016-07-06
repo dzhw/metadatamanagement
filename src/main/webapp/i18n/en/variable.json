@@ -3,15 +3,7 @@
     "variable": {
       "home": {
         "title": "Variables",
-        "createLabel": "Create a new Variable",
-        "createOrEditLabel": "Create or edit a Variable",
         "refresh": "Refresh"
-      },
-      "created": "A new Variable is created with RDC-ID \"{{ param }}\"",
-      "updated": "A Variable is updated with RDC-ID \"{{ param }}\"",
-      "deleted": "A Variable is deleted with RDC-ID \"{{ param }}\"",
-      "delete": {
-        "question": "Are you sure you want to delete Variable with the RDC-ID \"{{ rdcId }}\"?"
       },
       "detail": {
         "title": "Variable"

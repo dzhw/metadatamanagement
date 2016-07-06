@@ -3,15 +3,7 @@
     "variable": {
       "home": {
         "title": "Variablen",
-        "createLabel": "Neue Variable erstellen",
-        "createOrEditLabel": "Erstelle oder editiere eine Variable",
         "refresh": "Aktualisieren"
-      },
-      "created": "Die Variable mit FDZ-ID {{ param }} ist erstellt worden",
-      "updated": "Die Variable mit FDZ-ID {{ param }} ist aktualisiert worden",
-      "deleted": "Die Variable mit FDZ-ID {{ param }} ist gelöscht worden",
-      "delete": {
-        "question": "Sind Sie sicher dass, Sie die Variable mit FDZ-ID \"{{ rdcId }}\" löschen möchten?"
       },
       "detail": {
         "title": "Variable"
