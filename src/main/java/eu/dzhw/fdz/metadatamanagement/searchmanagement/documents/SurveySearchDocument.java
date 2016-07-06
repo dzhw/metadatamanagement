@@ -13,6 +13,8 @@ import io.searchbox.annotations.JestId;
 public class SurveySearchDocument {
   @JestId
   private String id;
+  
+  private String dataAcquisitionProjectId;
 
   private String title;
 
@@ -23,6 +25,7 @@ public class SurveySearchDocument {
    */
   public SurveySearchDocument(Survey survey, ElasticsearchIndices index) {
     this.id = survey.getId();
+    this.dataAcquisitionProjectId = survey.getDataAcquisitionProjectId();
     createI18nAttributes(survey, index);
     this.fieldPeriod = survey.getFieldPeriod();
   }
@@ -62,5 +65,13 @@ public class SurveySearchDocument {
 
   public void setFieldPeriod(Period fieldPeriod) {
     this.fieldPeriod = fieldPeriod;
+  }
+  
+  public String getDataAcquisitionProjectId() {
+    return dataAcquisitionProjectId;
+  }
+
+  public void setDataAcquisitionProjectId(String dataAcquisitionProjectId) {
+    this.dataAcquisitionProjectId = dataAcquisitionProjectId;
   }
 }

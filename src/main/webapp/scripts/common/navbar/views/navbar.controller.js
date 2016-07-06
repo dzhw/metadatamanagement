@@ -75,7 +75,7 @@ angular.module('metadatamanagementApp').controller('NavbarController',
 
     $scope.deleteProject = function() {
       //TODO confirm delete
-      DataAcquisitionProjectResource.delete({id : $scope.project.id});
+      DataAcquisitionProjectResource.delete({id: $scope.project.id});
       //TODO toast for success and error autocomplete
       //TODO remove from autocomplete
     };

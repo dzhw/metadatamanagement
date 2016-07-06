@@ -16,6 +16,8 @@ import io.searchbox.annotations.JestId;
 public class DataSetSearchDocument {
   @JestId
   private String id;
+  
+  private String dataAcquisitionProjectId;
 
   private String description;
 
@@ -27,6 +29,7 @@ public class DataSetSearchDocument {
   public DataSetSearchDocument(DataSet dataSet, Iterable<Survey> surveys,
       ElasticsearchIndices index) {
     this.id = dataSet.getId();
+    this.dataAcquisitionProjectId = dataSet.getDataAcquisitionProjectId();
     createI18nAttributes(dataSet, index);
     createSurveyTitles(surveys, index);
   }
@@ -86,5 +89,13 @@ public class DataSetSearchDocument {
 
   public void setSurveyTitles(List<String> surveyTitles) {
     this.surveyTitles = surveyTitles;
+  }
+
+  public String getDataAcquisitionProjectId() {
+    return dataAcquisitionProjectId;
+  }
+
+  public void setDataAcquisitionProjectId(String dataAcquisitionProjectId) {
+    this.dataAcquisitionProjectId = dataAcquisitionProjectId;
   }
 }

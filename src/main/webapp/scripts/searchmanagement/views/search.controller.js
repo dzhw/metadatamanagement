@@ -72,7 +72,8 @@ angular.module('metadatamanagementApp').controller('SearchController',
             $location.search('type', selectedTab.elasticSearchType);
 
             SearchDao.search($scope.query, $scope.currentPageNumber,
-                    selectedTab.elasticSearchType)
+              CurrentProjectService.getCurrentProject(),
+              selectedTab.elasticSearchType)
                 .then(function(data) {
                     $scope.searchResult = data.hits.hits;
                     $scope.totalHits = data.hits.total;

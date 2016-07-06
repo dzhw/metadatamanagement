@@ -12,6 +12,8 @@ import io.searchbox.annotations.JestId;
 public class AtomicQuestionSearchDocument {
   @JestId
   private String id;
+  
+  private String dataAcquisitionProjectId;
 
   private String type;
 
@@ -34,6 +36,7 @@ public class AtomicQuestionSearchDocument {
    */
   public AtomicQuestionSearchDocument(AtomicQuestion question, ElasticsearchIndices index) {
     this.id = question.getId();
+    this.dataAcquisitionProjectId = question.getDataAcquisitionProjectId();
     this.name = question.getName();
     this.compositeQuestionName = question.getCompositeQuestionName();
     createI18nAttributes(question, index);
@@ -144,5 +147,13 @@ public class AtomicQuestionSearchDocument {
 
   public void setSectionHeader(String sectionHeader) {
     this.sectionHeader = sectionHeader;
+  }
+  
+  public String getDataAcquisitionProjectId() {
+    return dataAcquisitionProjectId;
+  }
+
+  public void setDataAcquisitionProjectId(String dataAcquisitionProjectId) {
+    this.dataAcquisitionProjectId = dataAcquisitionProjectId;
   }
 }

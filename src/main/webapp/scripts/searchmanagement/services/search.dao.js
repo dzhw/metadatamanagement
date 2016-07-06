@@ -4,7 +4,8 @@ angular.module('metadatamanagementApp').service('SearchDao',
     function(ElasticSearchProperties, Language, ElasticSearchClient,
         CleanJSObjectService) {
         return {
-            search: function(queryterm, pageNumber, elasticsearchType) {
+            search: function(queryterm, pageNumber, currentProject,
+              elasticsearchType) {
                 var query = {};
                 query.index = 'metadata_' + Language.getCurrentInstantly();
                 query.type = elasticsearchType;
@@ -61,6 +62,11 @@ angular.module('metadatamanagementApp').service('SearchDao',
                             }
                         }
                     };
+                }
+
+                //filter by projectId
+                if (!CleanJSObjectService.isNullOrEmpty(currentProject)) {
+                  //TODO
                 }
                 return ElasticSearchClient.search(query);
               }
