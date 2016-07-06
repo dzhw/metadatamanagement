@@ -108,6 +108,10 @@ angular.module('metadatamanagementApp').controller('SearchController',
             $scope.search();
           };
 
+        $scope.$on('current-project-changed', function() {
+          $scope.search();
+        });
+
         $scope.uploadVariables = function(file) {
             if (!file) {
               return;

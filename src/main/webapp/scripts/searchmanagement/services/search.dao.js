@@ -7,6 +7,7 @@ angular.module('metadatamanagementApp').service('SearchDao',
             search: function(queryterm, pageNumber, currentProject,
               elasticsearchType) {
                 var query = {};
+                var projectFilter;
                 query.index = 'metadata_' + Language.getCurrentInstantly();
                 query.type = elasticsearchType;
                 query.body = {};
@@ -41,8 +42,12 @@ angular.module('metadatamanagementApp').service('SearchDao',
                   //no query term
                 } else {
                   query.body.query = {
-                      'match_all': {}
-                    };
+                    'bool': {
+                      'must': [
+                        {'match_all': {}}
+                      ],
+                    }
+                  };
                 }
 
                 //define from
@@ -66,7 +71,13 @@ angular.module('metadatamanagementApp').service('SearchDao',
 
                 //filter by projectId
                 if (!CleanJSObjectService.isNullOrEmpty(currentProject)) {
-                  //TODO
+                  projectFilter = {
+                    'term': {'dataAcquisitionProjectId': currentProject.id}
+                  };
+                  if (!query.body.query.bool.filter) {
+                    query.body.query.bool.filter = [];
+                  }
+                  query.body.query.bool.filter.push(projectFilter);
                 }
                 return ElasticSearchClient.search(query);
               }
