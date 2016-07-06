@@ -16,7 +16,7 @@ angular.module('metadatamanagementApp').service('SearchDao',
                 if (!CleanJSObjectService.isNullOrEmpty(queryterm)) {
                   query.body.query = {
                       'bool': {
-                          'should': [{
+                          'must': [{
                               'match': {
                                   '_all': {
                                       'query': queryterm,
