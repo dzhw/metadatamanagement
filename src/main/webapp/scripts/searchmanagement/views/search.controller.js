@@ -9,7 +9,7 @@ angular.module('metadatamanagementApp').controller('SearchController',
         VariableUploadService, AtomicQuestionUploadService,
         DataSetUploadService, SurveyUploadService,
         CurrentProjectService, $mdDialog,
-        CleanJSObjectService, SearchToastService) {
+        CleanJSObjectService, NoOpenProjectToastService) {
 
         //Check the login status
         Principal.identity().then(function(account) {
@@ -135,7 +135,7 @@ angular.module('metadatamanagementApp').controller('SearchController',
                   //Cancel. Nothing happens
                 }, function() {});
             } else {
-              SearchToastService.openNoProjectToast();
+              NoOpenProjectToastService.openNoProjectToast();
             }
           };
 
@@ -166,7 +166,7 @@ angular.module('metadatamanagementApp').controller('SearchController',
                   //Cancel. Nothing happens
                 }, function() {});
             } else {
-              SearchToastService.openNoProjectToast();
+              NoOpenProjectToastService.openNoProjectToast();
             }
           };
 
@@ -197,7 +197,7 @@ angular.module('metadatamanagementApp').controller('SearchController',
                   //Cancel. Nothing happens
                 }, function() {});
             } else {
-              SearchToastService.openNoProjectToast();
+              NoOpenProjectToastService.openNoProjectToast();
             }
           };
 
@@ -228,7 +228,7 @@ angular.module('metadatamanagementApp').controller('SearchController',
                   //Cancel. Nothing happens
                 }, function() {});
             } else {
-              SearchToastService.openNoProjectToast();
+              NoOpenProjectToastService.openNoProjectToast();
             }
           };
 

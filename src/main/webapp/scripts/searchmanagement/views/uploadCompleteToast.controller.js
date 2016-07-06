@@ -1,7 +1,8 @@
 /* Author: Daniel Katzberg */
 'use strict';
 
-angular.module('metadatamanagementApp').controller('SearchToastController',
+angular.module('metadatamanagementApp')
+  .controller('UploadCompleteToastController',
   function($scope, $mdToast, $mdDialog, JobLoggingService, resultMessage) {
 
     /* Get the current job */
@@ -22,7 +23,7 @@ angular.module('metadatamanagementApp').controller('SearchToastController',
     $scope.showLog = function() {
       $mdDialog.show({
         controller: function() { this.parent = $scope; },
-        controllerAs: 'searchToastController',
+        controllerAs: 'uploadCompleteToastController',
         templateUrl: 'scripts/searchmanagement/views/dialog-log.html.tmpl',
         clickOutsideToClose: true
       });

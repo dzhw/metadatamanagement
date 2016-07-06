@@ -5,7 +5,7 @@ angular.module('metadatamanagementApp').service('VariableUploadService',
   function($translate, ZipReaderService,
     VariableBuilderService, VariableDeleteResource, JobLoggingService,
     ErrorMessageResolverService, ExcelReaderService, $q,
-    ElasticSearchAdminService, SearchToastService, blockUI) {
+    ElasticSearchAdminService, UploadCompleteToastService, blockUI) {
     var objects;
     var uploadCount;
 
@@ -15,7 +15,7 @@ angular.module('metadatamanagementApp').service('VariableUploadService',
           JobLoggingService.finish($translate.instant(
             'metadatamanagementApp.dataAcquisitionProject.detail.' +
             'logMessages.variable.uploadTerminated', {}));
-          SearchToastService.openUploadCompleteToast();
+          UploadCompleteToastService.openUploadCompleteToast();
           //everything is done. stop blocking
           blockUI.stop();
         });

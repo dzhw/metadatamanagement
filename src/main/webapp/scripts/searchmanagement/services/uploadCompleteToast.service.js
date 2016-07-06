@@ -1,29 +1,14 @@
 /* Author: Daniel Katzberg */
 'use strict';
 
-angular.module('metadatamanagementApp').service('SearchToastService',
+angular.module('metadatamanagementApp').service('UploadCompleteToastService',
   function($mdToast) {
     var toastParent = angular.element('#toast-container');
-
-    //The Toast for no project is choosen
-    var openNoProjectToast = function() {
-      $mdToast.show({
-        controller: 'SearchToastController',
-        templateUrl: 'scripts/searchmanagement/' +
-          'views/no-project-toast.html.tmpl',
-        hideDelay: 10000,
-        position: 'top right',
-        parent: toastParent,
-        locals: {
-          resultMessage: {}
-        }
-      });
-    };
 
     //The Toast for the upload complete
     function openUploadCompleteToast(resultMessage) {
       $mdToast.show({
-        controller: 'SearchToastController',
+        controller: 'UploadCompleteToastController',
         templateUrl: 'scripts/searchmanagement/' +
           'views/upload-complete-toast.html.tmpl',
         hideDelay: 0,
@@ -36,7 +21,6 @@ angular.module('metadatamanagementApp').service('SearchToastService',
     }
 
     return {
-      openNoProjectToast: openNoProjectToast,
       openUploadCompleteToast: openUploadCompleteToast
     };
 
