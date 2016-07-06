@@ -209,15 +209,16 @@ public class PostValidationService {
       }
 
       // variable.SameVariablesInPanel: there must be a variable with that id
-      for (String variableId : variable.getSameVariablesInPanel()) {
-        if (this.variableRepository.findOne(variableId) == null) {
-          String[] information = {variable.getId(), variableId};
-          errors.add(this.messageSource.getMessage(
-              "error.postValidation.variableIdIsNotInInvalidVariablesPanel",
-              information, locale));
+      if (variable.getSameVariablesInPanel() != null) {
+        for (String variableId : variable.getSameVariablesInPanel()) {
+          if (this.variableRepository.findOne(variableId) == null) {
+            String[] information = {variable.getId(), variableId};
+            errors.add(this.messageSource.getMessage(
+                "error.postValidation.variableIdIsNotInInvalidVariablesPanel",
+                information, locale));
+          }        
         }        
       }
-
 
       // variable.atomicQuestionId: If there is no genereationDetail every variable needs a
       // atomicQuestionId (and vice versa)

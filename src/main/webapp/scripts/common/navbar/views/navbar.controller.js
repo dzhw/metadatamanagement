@@ -3,7 +3,8 @@
 
 angular.module('metadatamanagementApp').controller('NavbarController',
   function($scope, Principal, DataAcquisitionProjectCollectionResource,
-    CurrentProjectService) {
+    CurrentProjectService, DataAcquisitionProjectPostValidationService,
+    DataAcquisitionProjectResource) {
     $scope.isAuthenticated = Principal.isAuthenticated;
 
     //For toggle buttons
@@ -70,6 +71,22 @@ angular.module('metadatamanagementApp').controller('NavbarController',
     $scope.updateCurrentProject = function(project) {
       $scope.project = project;
       CurrentProjectService.setCurrentProject(project);
+    };
+
+    $scope.deleteProject = function() {
+      //TODO confirm delete
+      DataAcquisitionProjectResource.delete({id : $scope.project.id});
+      //TODO toast for success and error autocomplete
+      //TODO remove from autocomplete
+    };
+
+    $scope.createProject = function() {
+      //TODO implement me
+    };
+
+    $scope.postValidateProject = function() {
+      DataAcquisitionProjectPostValidationService
+        .postValidate($scope.project.id);
     };
 
     //Functions for toggling buttons.

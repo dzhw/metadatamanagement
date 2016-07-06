@@ -29,6 +29,9 @@ angular.module('metadatamanagementApp').service(
         JobLoggingService.finish($translate.instant(
           'metadatamanagementApp.dataAcquisitionProject.detail.' +
           'logMessages.postValidationTerminated', {}));
+      }, function(error) {
+        // something went wrong
+        JobLoggingService.cancel(error.data.error);
       });
     };
     //public, global methods definitions.

@@ -28,6 +28,17 @@
                         <span data-translate="global.menu.entities.unknown-project" data-translate-values="{projectId: searchText}"></span>
                     </md-not-found>
                 </md-autocomplete>
+                <div style="margin-top: 1em;">
+                    <md-button class="md-primary md-raised md-icon-button" ng-click="createProject()" style="margin-right: 0px; margin-left: 0px;">
+                        <md-icon md-font-set="material-icons">add</md-icon>
+                    </md-button>
+                    <md-button class="md-primary md-raised md-icon-button" ng-click="deleteProject()" style="margin-right: 0px;" ng-disabled="!project">
+                        <md-icon md-font-set="material-icons">delete</md-icon>
+                    </md-button>
+                    <md-button class="md-primary md-raised md-icon-button" ng-click="postValidateProject()" style="margin-right: 0px;" ng-disabled="!project">
+                        <md-icon md-font-set="material-icons">playlist_add_check</md-icon>
+                    </md-button>
+                </div>
             </li>
             <md-divider ng-switch-when="true"></md-divider>
             <li class="fdz-navbar-menu" ng-switch-when="true" data-has-authority="ROLE_USER">
