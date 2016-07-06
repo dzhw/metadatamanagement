@@ -22,9 +22,11 @@ angular.module('metadatamanagementApp')
     /* Dialog for the Log of Uploading data */
     $scope.showLog = function() {
       $mdDialog.show({
-        controller: function() { this.parent = $scope; },
+        controller: function() { this.parent = $scope;
+          this.parent.closeToast(); },
         controllerAs: 'uploadCompleteToastController',
-        templateUrl: 'scripts/searchmanagement/views/dialog-log.html.tmpl',
+        templateUrl: 'scripts/searchmanagement/views/' +
+        'complete-upload-protocol-dialog.html.tmpl',
         clickOutsideToClose: true
       });
     };
