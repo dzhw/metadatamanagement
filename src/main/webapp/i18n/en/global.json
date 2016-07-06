@@ -12,7 +12,6 @@
         "main": "Entities",
         "variable": "Variables",
         "rdcProject": "Data Acquisition Projects",
-        "dataSet": "Data Sets",
         "additionaiEntity": "JHipster will add additional entities here (do not translate!)",
         "current-project": "Current Project",
         "select-project": "Select Project",

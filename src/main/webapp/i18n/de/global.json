@@ -11,7 +11,6 @@
         "main": "Entitäten",
         "variable": "Variablen",
         "rdcProject": "Datenerhebungsprojekte",
-        "dataSet": "Datensets",
         "additionalEntity": "JHipster will add additional entities here (do not translate!)",
         "currentProject": "Aktuelles Projekt",
         "selectProject": "Projekt auswählen",

@@ -71,7 +71,6 @@ angular.module('metadatamanagementApp')
               $translatePartialLoader.addPart('dataAcquisitionProject');
               $translatePartialLoader.addPart('pager');
               $translatePartialLoader.addPart('survey');
-              $translatePartialLoader.addPart('dataSet');
               $translatePartialLoader.addPart('variable');
               $translatePartialLoader.addPart('customModal');
               $translatePartialLoader.addPart('atomicQuestion');
