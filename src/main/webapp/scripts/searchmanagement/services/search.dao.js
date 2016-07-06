@@ -18,15 +18,6 @@ angular.module('metadatamanagementApp').service('SearchDao',
                       'bool': {
                           'must': [{
                               'match': {
-                                  '_all': {
-                                      'query': queryterm,
-                                      'type': 'boolean',
-                                      'operator': 'AND',
-                                      'zero_terms_query': 'NONE'
-                                    }
-                                }
-                            }, {
-                              'match': {
                                   'allStringsAsNgrams': {
                                       'query': queryterm,
                                       'type': 'boolean',

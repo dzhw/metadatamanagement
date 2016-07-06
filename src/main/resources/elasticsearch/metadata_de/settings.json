@@ -1,21 +1,6 @@
 {
 	"index" : {
     	"analysis": {
-    		"filter": {
-        		"german_stop": {
-          			"type":       "stop",
-          			"stopwords":  "_german_" 
-        		},
-        		"german_stemmer": {
-          			"type":       "stemmer",
-          			"language":   "light_german"
-        		},
-        		"trigrams_filter": {
-                    "type":     "ngram",
-                    "min_gram": 3,
-                    "max_gram": 5
-                }
-      		},
             "tokenizer": {
                 "trigrams_tokenizer": {
                     "type":     "ngram",
@@ -32,23 +17,6 @@
                     "tokenizer": "trigrams_tokenizer",
                     "filter": [
             			"lowercase"
-          			]
-              	},
-              	"highlight_trigrams" : {
-              		"type":      "custom",
-                    "tokenizer": "standard",
-                    "filter": [
-            			"lowercase",
-            			"trigrams_filter"
-          			]
-              	},
-              	"highlight_de": {
-              		"type":      "custom",
-                    "tokenizer": "standard",
-                    "filter": [
-            			"lowercase",
-            			"german_normalization",
-            			"trigrams_filter"
           			]
               	}
          	}

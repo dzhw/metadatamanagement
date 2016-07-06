@@ -4,6 +4,7 @@ import java.io.UnsupportedEncodingException;
 import java.net.MalformedURLException;
 import java.net.URISyntaxException;
 import java.net.URL;
+import java.nio.charset.Charset;
 
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
@@ -16,6 +17,7 @@ import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
+import org.springframework.http.converter.StringHttpMessageConverter;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.crypto.codec.Base64;
 import org.springframework.util.MultiValueMap;
@@ -43,17 +45,16 @@ import eu.dzhw.fdz.metadatamanagement.usermanagement.security.AuthoritiesConstan
 public class SearchResource {
 
   private final Logger log = LoggerFactory.getLogger(SearchResource.class);
-  
-  private RestTemplate restTemplate = new RestTemplate(
-      new HttpComponentsClientHttpRequestFactory());
+
+  private RestTemplate restTemplate;
 
   private String connectionUrl;
 
   private String base64Credentials;
-  
+
   @Inject
   private ElasticsearchAdminService elasticsearchAdminService;
-  
+
   @Inject
   private ElasticsearchUpdateQueueService elasticsearchUpdateQueueService;
 
@@ -67,6 +68,9 @@ public class SearchResource {
       throws UnsupportedEncodingException, MalformedURLException {
     this.connectionUrl = elasticSearchConnectionUrl;
     URL url = new URL(elasticSearchConnectionUrl);
+    restTemplate = new RestTemplate(new HttpComponentsClientHttpRequestFactory());
+    restTemplate.getMessageConverters()
+      .add(0, new StringHttpMessageConverter(Charset.forName("UTF-8")));
     String credentials = url.getUserInfo();
     if (!StringUtils.isEmpty(credentials)) {
       byte[] plainCredsBytes = credentials.getBytes("UTF-8");
@@ -84,7 +88,7 @@ public class SearchResource {
   @Timed
   public ResponseEntity<String> search(@RequestBody String body, HttpMethod method,
       @RequestHeader MultiValueMap<String, String> headers, HttpServletRequest request)
-          throws RestClientException, URISyntaxException {
+      throws RestClientException, URISyntaxException {
     headers.remove("authorization");
     headers.remove("cookie");
     headers.remove("x-forwarded-proto");
@@ -96,7 +100,7 @@ public class SearchResource {
     if (base64Credentials != null) {
       headers.add("authorization", "Basic " + base64Credentials);
     }
-    
+
     String completePath =
         (String) request.getAttribute(HandlerMapping.PATH_WITHIN_HANDLER_MAPPING_ATTRIBUTE);
     String path = completePath.replaceFirst("/api/search", "");
@@ -104,7 +108,7 @@ public class SearchResource {
         new HttpEntity<>(body, headers), String.class);
     return response;
   }
-  
+
   /**
    * POST /api/search/recreate -> recreate all elasticsearch indices.
    */
@@ -119,7 +123,7 @@ public class SearchResource {
       .headers(HeaderUtil.createAlert("health.elasticsearch.reindex.success"))
       .build();
   }
-  
+
   /**
    * POST /api/search/process-queue -> trigger processing of elasticsearch updates.
    */
@@ -129,6 +133,7 @@ public class SearchResource {
   public ResponseEntity<?> processElasticsearchUpdateQueue() throws URISyntaxException {
     log.debug("REST request to process update queue.");
     elasticsearchUpdateQueueService.processQueue();
-    return ResponseEntity.ok().build();
+    return ResponseEntity.ok()
+      .build();
   }
 }
