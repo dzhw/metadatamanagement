@@ -9,9 +9,7 @@
     "menu": {
       "entities": {
         "main": "Entitäten",
-        "variable": "Variablen",
         "rdcProject": "Datenerhebungsprojekte",
-        "additionalEntity": "JHipster will add additional entities here (do not translate!)",
         "currentProject": "Aktuelles Projekt",
         "selectProject": "Projekt auswählen",
         "unknown-project": "Das Projekt {{projectId}} ist unbekannt."
