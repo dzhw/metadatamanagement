@@ -25,8 +25,8 @@ install:
 # do not install into local maven repo to avoid polluting the cache
 script:
   - mvn -Pdev --settings ./buildconfig/settings.xml -B -DrepoToken=$COVERALLS_TOKEN package cf:push-only
-  - ./node_modules/protractor/bin/webdriver-manager update --standalone
-  - ./node_modules/protractor/bin/protractor ./src/test/protractor/protractor.conf.js
+  # - ./node_modules/protractor/bin/webdriver-manager update --standalone
+  # - ./node_modules/protractor/bin/protractor ./src/test/protractor/protractor.conf.js
 after_script:
  - mvn coveralls:report
 notifications:
