@@ -41,21 +41,6 @@
                 </div>
             </li>
             <md-divider ng-switch-when="true"></md-divider>
-            <li class="fdz-navbar-menu" ng-switch-when="true" data-has-authority="ROLE_USER">
-                <md-button class="fdz-navbar-menu-toggle" ng-click="toggleEntityMenu()" aria-label="{{'global.menu.entities.main' | translate}}">
-                    <span data-translate="global.menu.entities.main"></span>
-                    <md-icon style="text-align: right;" ng-if="!isEntityMenuOpen" md-font-set="material-icons">keyboard_arrow_down</md-icon>
-                    <md-icon style="text-align: right;" ng-if="isEntityMenuOpen" md-font-set="material-icons">keyboard_arrow_up</md-icon>
-                </md-button>
-                <ul class="fdz-navbar-menu-items" ng-show="isEntityMenuOpen">
-                    <li>
-                        <md-button ui-sref="dataAcquisitionProject" ui-sref-active="fdz-navbar-button-active" class="fdz-navbar-button">
-                            <span data-translate="global.menu.entities.rdcProject">RDC Projects</span>
-                        </md-button>
-                    </li>                                   
-                </ul>
-            </li>
-            <md-divider ng-switch-when="true"></md-divider>
             <li class="fdz-navbar-menu" ng-switch-when="true">
                 <md-button class="fdz-navbar-menu-toggle" ng-click="toggleAccountMenu()" aria-label="{{'global.menu.account.main' | translate}}">
                     <span data-translate="global.menu.account.main"></span>
