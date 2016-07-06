@@ -3,7 +3,7 @@
     <md-card class="fdz-search-input-container">
         <md-input-container class="fdz-search-input">
             <label>{{'global.menu.search.title'|translate}}</label>
-            <input id="query" type="text" ng-model="query" ng-change="search(1)" autocomplete="off">
+            <input id="query" type="text" ng-model="query" ng-change="throttledSearch()" autocomplete="off">
             <md-icon md-font-set="material-icons">search</md-icon>
         </md-input-container>
         <md-tabs md-selected="selectedTabIndex" md-dynamic-height>

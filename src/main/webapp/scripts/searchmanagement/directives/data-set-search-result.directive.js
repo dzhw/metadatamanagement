@@ -12,10 +12,7 @@ angular.module('metadatamanagementApp').directive('datasetSearchResult',
       controller: ['$scope', 'DataSetReportService', 'Principal',
         function($scope, DataSetReportService, Principal) {
           //Check the login status
-          Principal.identity().then(function(account) {
-              $scope.account = account;
-              $scope.isAuthenticated = Principal.isAuthenticated;
-            });
+          $scope.isAuthenticated = Principal.isAuthenticated;
 
           $scope.uploadTexTemplate = function(file, dataSetId) {
             DataSetReportService.uploadTexTemplate(file, dataSetId);

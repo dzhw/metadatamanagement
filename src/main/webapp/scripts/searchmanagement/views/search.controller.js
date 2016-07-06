@@ -1,4 +1,5 @@
 /* Author: Daniel Katzberg */
+/* global _ */
 'use strict';
 
 /* The Controller for the search. It differs between tabs and a tab represent
@@ -111,6 +112,8 @@ angular.module('metadatamanagementApp').controller('SearchController',
         $scope.$on('current-project-changed', function() {
           $scope.search();
         });
+
+        $scope.throttledSearch = _.throttle($scope.search, 500);
 
         $scope.uploadVariables = function(file) {
             if (!file) {

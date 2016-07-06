@@ -47,6 +47,7 @@ module.exports = function(config) {
       'src/main/webapp/bower_components/angular-messages/angular-messages.js',
       'src/main/webapp/bower_components/angular-material/angular-material.js',
       'src/main/webapp/bower_components/angular-block-ui/dist/angular-block-ui.js',
+      'src/main/webapp/bower_components/lodash/lodash.js',
       'src/main/webapp/bower_components/angular-mocks/angular-mocks.js',
       // endbower
       'src/main/webapp/bower_components/elasticsearch/elasticsearch.angular.js',
