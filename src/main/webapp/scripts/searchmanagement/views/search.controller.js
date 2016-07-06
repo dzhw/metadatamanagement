@@ -8,8 +8,7 @@ angular.module('metadatamanagementApp').controller('SearchController',
     function($scope, Principal, ElasticSearchProperties, $location,
         AlertService, SearchDao, $translate, CustomModalService,
         VariableUploadService, AtomicQuestionUploadService,
-        DataSetUploadService, SurveyUploadService,
-        CurrentProjectService, $mdDialog,
+        DataSetUploadService, SurveyUploadService, $mdDialog,
         CleanJSObjectService, NoOpenProjectToastService) {
 
         //Check the login status
@@ -18,6 +17,7 @@ angular.module('metadatamanagementApp').controller('SearchController',
             $scope.isAuthenticated = Principal.isAuthenticated;
           });
 
+        $scope.currentProject = null;
         $scope.totalHits = 0;
         $scope.currentPageNumber = 1;
         $scope.searchResult = {};
@@ -73,7 +73,7 @@ angular.module('metadatamanagementApp').controller('SearchController',
             $location.search('type', selectedTab.elasticSearchType);
 
             SearchDao.search($scope.query, $scope.currentPageNumber,
-              CurrentProjectService.getCurrentProject(),
+              $scope.currentProject,
               selectedTab.elasticSearchType)
                 .then(function(data) {
                     $scope.searchResult = data.hits.hits;
@@ -109,7 +109,8 @@ angular.module('metadatamanagementApp').controller('SearchController',
             $scope.search();
           };
 
-        $scope.$on('current-project-changed', function() {
+        $scope.$on('current-project-changed', function(event, currentProject) {
+          $scope.currentProject = currentProject;
           $scope.search();
         });
 
@@ -119,8 +120,7 @@ angular.module('metadatamanagementApp').controller('SearchController',
             if (!file) {
               return;
             }
-            var dataAcquisitionProject = CurrentProjectService
-                .getCurrentProject();
+            var dataAcquisitionProject = $scope.currentProject;
             if (!CleanJSObjectService.isNullOrEmpty(dataAcquisitionProject)) {
               var confirm = $mdDialog.confirm()
                   .title($translate.instant(
@@ -151,8 +151,7 @@ angular.module('metadatamanagementApp').controller('SearchController',
             if (!file) {
               return;
             }
-            var dataAcquisitionProject = CurrentProjectService
-                .getCurrentProject();
+            var dataAcquisitionProject = $scope.currentProject;
             if (!CleanJSObjectService.isNullOrEmpty(dataAcquisitionProject)) {
               var confirm = $mdDialog.confirm()
                   .title($translate.instant(
@@ -182,8 +181,7 @@ angular.module('metadatamanagementApp').controller('SearchController',
             if (!file) {
               return;
             }
-            var dataAcquisitionProject = CurrentProjectService
-                .getCurrentProject();
+            var dataAcquisitionProject = $scope.currentProject;
             if (!CleanJSObjectService.isNullOrEmpty(dataAcquisitionProject)) {
               var confirm = $mdDialog.confirm()
                   .title($translate.instant(
@@ -213,8 +211,7 @@ angular.module('metadatamanagementApp').controller('SearchController',
             if (!file) {
               return;
             }
-            var dataAcquisitionProject = CurrentProjectService
-                .getCurrentProject();
+            var dataAcquisitionProject = $scope.currentProject;
             if (!CleanJSObjectService.isNullOrEmpty(dataAcquisitionProject)) {
               var confirm = $mdDialog.confirm()
                   .title($translate.instant(
