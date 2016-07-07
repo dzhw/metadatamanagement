@@ -6,8 +6,7 @@
     "dataAcquisitionProject": {
       "home": {
         "title": "Datenerhebungsprojekte",
-        "createLabel": "Neues Datenerhebungsprojekt anlegen",
-        "createOrEditLabel": "Erstelle oder editiere ein Datenerhebungsprojekt Projekt"
+        "createLabel": "Neues Datenerhebungsprojekt anlegen"
       },
       "created": "Datenerhebungsprojekt \"{{ param }}\" wurde angelegt.",
       "updated": "Datenerhebungsprojekt \"{{ param }}\" wurde aktualisiert.",

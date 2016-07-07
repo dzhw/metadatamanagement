@@ -95,7 +95,8 @@
       "delete": "Löschen",
       "edit": "Bearbeiten",
       "save": "Speichern",
-      "view": "Details"
+      "view": "Details",
+      "ok": "OK"
     },
     "detail": {
       "field": "Feld",

@@ -1,0 +1,26 @@
+<md-dialog aria-label="protocol for upload">
+    <md-toolbar>
+        <div class="md-toolbar-tools">
+            <h2>
+                <span>{{'metadatamanagementApp.dataAcquisitionProject.home.createLabel' | translate}}</span>
+            </h2>
+            <span flex></span>
+            <md-button class="md-icon-button" ng-click="closeDialog()">
+                <md-icon md-font-set="material-icons">clear</md-icon>
+            </md-button>
+        </div>
+    </md-toolbar>
+    <md-dialog-content>
+        <div layout="row">
+            <md-input-container class="md-block" flex-gt-sm>
+                <label>{{'metadatamanagementApp.dataAcquisitionProject.name' | translate}}</label>
+                <input ng-model="user.firstName">
+            </md-input-container>
+        </div>
+        <div layout="row">
+          <span flex></span>
+          <md-button class="md-raised" ng-click="closeDialog()">{{'entity.action.cancel' | translate}}</md-button>
+          <md-button class="md-raised">{{'entity.action.ok' | translate}}</md-button>
+        </div>
+    </md-dialog-content>
+</md-dialog>

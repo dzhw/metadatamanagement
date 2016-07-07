@@ -4,13 +4,12 @@
 angular.module('metadatamanagementApp').controller('NavbarController',
   function($scope, Principal, DataAcquisitionProjectCollectionResource,
     CurrentProjectService, DataAcquisitionProjectPostValidationService,
-    DataAcquisitionProjectResource) {
+    DataAcquisitionProjectResource, $mdDialog) {
     $scope.isAuthenticated = Principal.isAuthenticated;
 
     //For toggle buttons
     $scope.isProjectMenuOpen = false;
     $scope.isAdminMenuOpen = false;
-    $scope.isEntityMenuOpen = false;
     $scope.isAccountMenuOpen = false;
 
     //helper method
@@ -80,8 +79,21 @@ angular.module('metadatamanagementApp').controller('NavbarController',
       //TODO remove from autocomplete
     };
 
+    /* Function for opening a dialog for creating a new project */
     $scope.createProject = function() {
-      //TODO implement me
+      $mdDialog.show({
+        controller: 'CreateProjectDialogController',
+        templateUrl: 'scripts/dataacquisitionprojectmanagement/' +
+          'views/create-project-dialog.html.tmpl',
+        clickOutsideToClose: true
+      })
+      .then(function(answer) {
+        //TODO Create Project
+        //TODO Toast for project was created
+        console.log(answer);
+      }, function() {
+        //TODO for canceling
+      });
     };
 
     $scope.postValidateProject = function() {
@@ -90,10 +102,6 @@ angular.module('metadatamanagementApp').controller('NavbarController',
     };
 
     //Functions for toggling buttons.
-    $scope.toggleEntityMenu = function() {
-      $scope.isEntityMenuOpen = !$scope.isEntityMenuOpen;
-    };
-
     $scope.toggleAccountMenu = function() {
       $scope.isAccountMenuOpen = !$scope.isAccountMenuOpen;
     };

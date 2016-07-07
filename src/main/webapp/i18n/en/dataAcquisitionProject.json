@@ -6,8 +6,7 @@
     "dataAcquisitionProject": {
       "home": {
         "title": "Data Acquisition Projects",
-        "createLabel": "Create a new Data Acquisition Project",
-        "createOrEditLabel": "Create or edit a Data Acquisition Project"
+        "createLabel": "Create a new Data Acquisition Project"
       },
       "created": "A new Data Acquisition Project is created with name {{ param }}",
       "updated": "A Data Acquisition Project is updated with name {{ param }}",
