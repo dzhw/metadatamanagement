@@ -12,7 +12,7 @@
       "deleteQuestionsTitle": "Delete all Questions?",
       "deleteQuestions": "Are you sure you want to delete all Questions within the DataAcquisitionProject with RDC-ID \"{{ id }}\"?",
       "deleteDataSetsTitle": "Delete all Data Sets?",
-      "deleteDataSets": "Are you sure you want to delete all Data Sets within the DataAcquisitionProject with RDC-ID \"{{ id }}\"?",
+      "deleteDataSets": "Are you sure you want to delete all Data Sets within the DataAcquisitionProject with RDC-ID \"{{ id }}\"?"
     },
     "buttons": {
       "close": "Close",
