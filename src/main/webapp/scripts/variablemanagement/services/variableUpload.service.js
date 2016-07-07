@@ -5,7 +5,7 @@ angular.module('metadatamanagementApp').service('VariableUploadService',
   function($translate, ZipReaderService,
     VariableBuilderService, VariableDeleteResource, JobLoggingService,
     ErrorMessageResolverService, ExcelReaderService, $q,
-    ElasticSearchAdminService, UploadCompleteToastService, blockUI) {
+    ElasticSearchAdminService) {
     var objects;
     var uploadCount;
 
@@ -15,9 +15,6 @@ angular.module('metadatamanagementApp').service('VariableUploadService',
           JobLoggingService.finish($translate.instant(
             'metadatamanagementApp.dataAcquisitionProject.detail.' +
             'logMessages.variable.uploadTerminated', {}));
-          UploadCompleteToastService.openUploadCompleteToast();
-          //everything is done. stop blocking
-          blockUI.stop();
         });
       } else {
         if (!objects[uploadCount].id || objects[uploadCount].id === '') {

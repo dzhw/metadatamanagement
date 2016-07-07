@@ -6,10 +6,10 @@
 a result of a type like variable or dataSet and so on. */
 angular.module('metadatamanagementApp').controller('SearchController',
     function($scope, Principal, ElasticSearchProperties, $location,
-        AlertService, SearchDao, $translate, CustomModalService,
-        VariableUploadService, AtomicQuestionUploadService,
-        DataSetUploadService, SurveyUploadService, $mdDialog,
-        CleanJSObjectService, NoOpenProjectToastService) {
+        AlertService, SearchDao, $translate, VariableUploadService,
+        AtomicQuestionUploadService, DataSetUploadService,
+        SurveyUploadService, $mdDialog, CleanJSObjectService,
+        NoOpenProjectToastService) {
 
         //Check the login status
         Principal.identity().then(function(account) {
@@ -18,9 +18,13 @@ angular.module('metadatamanagementApp').controller('SearchController',
           });
 
         $scope.currentProject = null;
-        $scope.totalHits = 0;
-        $scope.currentPageNumber = 1;
+        $scope.page = {
+          currentPageNumber: $location.search().page || 1,
+          totalHits: 0
+        };
+
         $scope.searchResult = {};
+        $scope.isInitializing = true;
 
         //Need for interpretation of the query element in the url.
         $scope.query = $location.search().query;
@@ -70,14 +74,15 @@ angular.module('metadatamanagementApp').controller('SearchController',
 
             //Search with different types, binded on every tab
             $location.search('query', $scope.query);
+            $location.search('page', $scope.page.currentPageNumber);
             $location.search('type', selectedTab.elasticSearchType);
 
-            SearchDao.search($scope.query, $scope.currentPageNumber,
+            SearchDao.search($scope.query, $scope.page.currentPageNumber,
               $scope.currentProject,
               selectedTab.elasticSearchType)
                 .then(function(data) {
                     $scope.searchResult = data.hits.hits;
-                    $scope.totalHits = data.hits.total;
+                    $scope.page.totalHits = data.hits.total;
                     selectedTab.count = data.hits.total;
 
                     //Count information by aggregations
@@ -105,12 +110,22 @@ angular.module('metadatamanagementApp').controller('SearchController',
           };
 
         $scope.onTabSelected = function() {
-            $scope.currentPageNumber = 1;
+            //this funtion is called even when the dialog is initialized
+            if (!$scope.isInitializing) {
+              $scope.page.currentPageNumber = 1;
+            }
+            $scope.isInitializing = false;
             $scope.search();
           };
 
+        $scope.onQueryChanged = function() {
+          $scope.page.currentPageNumber = 1;
+          $scope.throttledSearch();
+        };
+
         $scope.$on('current-project-changed', function(event, currentProject) {
           $scope.currentProject = currentProject;
+          $scope.page.currentPageNumber = 1;
           $scope.search();
         });
 
