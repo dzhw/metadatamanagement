@@ -15,6 +15,11 @@
       "deleteDataSets": "Are you sure you want to delete all Data Sets within the DataAcquisitionProject with RDC-ID \"{{ id }}\"?"
     },
     "buttons": {
+      "refresh": "Refresh search results",
+      "upload-variables": "Upload Variables for selected Data Acquisition Project",
+      "upload-surveys": "Upload Surveys for selected Data Acquisition Project",
+      "upload-data-sets": "Upload Data Sets for selected Data Acquisition Project",
+      "upload-questions": "Upload Questions for selected Data Acquisition Project",
       "close": "Close",
       "ok": "OK",
       "cancel": "Cancel"

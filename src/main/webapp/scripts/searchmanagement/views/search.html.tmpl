@@ -26,24 +26,47 @@
         <uib-pagination next-text="{{'pagination.next'|translate}}" previous-text="{{'pagination.previous'|translate}}" total-items="page.totalHits" ng-model="page.currentPageNumber" max-size="5" ng-change="throttledSearch()" class="pagination-sm"></uib-pagination>
     </div>
     <div ng-switch-when="true" has-any-authority="ROLE_ADMIN, ROLE_USER" class="fdz-fab-button-container" layout="column">
-        <md-button class="md-primary md-fab" ng-click="refresh()" style="margin-bottom: 1em;">
+        <md-button aria-label="{{'search.buttons.refresh' | translate}}" class="md-primary md-fab" ng-click="refresh()" style="margin-bottom: 1em;">
+            <md-tooltip md-direction="left">
+                {{'search.buttons.refresh' | translate}}
+            </md-tooltip>
             <md-icon md-font-set="material-icons">refresh</md-icon>
         </md-button>
         <!-- Index 1 = Variables Tab -->
-        <md-button ng-if="selectedTabIndex===1" type="file" ngf-select="uploadVariables($file)" class="md-accent md-fab" accept=".zip" ng-disabled="!currentProject">
-            <md-icon md-font-set="material-icons">add</md-icon>
+        <md-button aria-label="{{'search.buttons.upload-variables' | translate}}" ng-if="selectedTabIndex===1" type="file" ngf-select="uploadVariables($file)" class="md-accent md-fab" accept=".zip" ng-disabled="!currentProject">
+            <div>
+                <md-tooltip md-direction="left">
+                    {{'search.buttons.upload-variables' | translate}}
+                </md-tooltip>
+                <md-icon md-font-set="material-icons">add</md-icon>
+            </div>
         </md-button>
         <!-- Index 2 = Questions Tab -->
-        <md-button ng-if="selectedTabIndex===2" type="file" ngf-select="uploadQuestions($file)" class="md-accent md-fab" accept=".xlsx" ng-disabled="!currentProject">
-            <md-icon md-font-set="material-icons">add</md-icon>
+        <md-button aria-label="{{'search.buttons.upload-questions' | translate}}" ng-if="selectedTabIndex===2" type="file" ngf-select="uploadQuestions($file)" class="md-accent md-fab" accept=".xlsx" ng-disabled="!currentProject">
+            <div>
+                <md-tooltip md-direction="left">
+                    {{'search.buttons.upload-questions' | translate}}
+                </md-tooltip>
+                <md-icon md-font-set="material-icons">add</md-icon>
+            </div>
         </md-button>
         <!-- Index 3 = Surveys Tab -->
-        <md-button ng-if="selectedTabIndex===3" type="file" ngf-select="uploadSurveys($file)" class="md-accent md-fab" accept=".xlsx" ng-disabled="!currentProject">
-            <md-icon md-font-set="material-icons">add</md-icon>
+        <md-button aria-label="{{'search.buttons.upload-surveys' | translate}}" ng-if="selectedTabIndex===3" type="file" ngf-select="uploadSurveys($file)" class="md-accent md-fab" accept=".xlsx" ng-disabled="!currentProject">
+            <div>
+                <md-tooltip md-direction="left">
+                    {{'search.buttons.upload-surveys' | translate}}
+                </md-tooltip>
+                <md-icon md-font-set="material-icons">add</md-icon>
+            </div>
         </md-button>
         <!-- Index 4 = Data Sets Tab -->
-        <md-button ng-if="selectedTabIndex===4" type="file" ngf-select="uploadDataSets($file)" class="md-accent md-fab" accept=".xlsx" ng-disabled="!currentProject">
-            <md-icon md-font-set="material-icons">add</md-icon>
+        <md-button aria-label="{{'search.buttons.upload-data-sets' | translate}}" ng-if="selectedTabIndex===4" type="file" ngf-select="uploadDataSets($file)" class="md-accent md-fab" accept=".xlsx" ng-disabled="!currentProject">
+            <div>
+                <md-tooltip md-direction="left">
+                    {{'search.buttons.upload-data-sets' | translate}}
+                </md-tooltip>
+                <md-icon md-font-set="material-icons">add</md-icon>
+            </div>
         </md-button>
     </div>
 </div>

@@ -15,6 +15,11 @@
       "deleteDataSets": "Sind Sie sicher dass, Sie alle Datensätze innerhalb des Datenerhebungsprojekts mit der FDZ-ID \"{{ id }}\" löschen möchten?"
     },
     "buttons": {
+      "refresh": "Suche aktualisieren",
+      "upload-variables": "Variablen für ausgewähltes Datenaufbereitungsprojekt hochladen",
+      "upload-surveys": "Erhebungen für ausgewähltes Datenaufbereitungsprojekt hochladen",
+      "upload-data-sets": "Datensätze für ausgewähltes Datenaufbereitungsprojekt hochladen",
+      "upload-questions": "Fragen für ausgewähltes Datenaufbereitungsprojekt hochladen",
       "close": "Schließen",
       "ok": "OK",
       "cancel": "Abbrechen"
