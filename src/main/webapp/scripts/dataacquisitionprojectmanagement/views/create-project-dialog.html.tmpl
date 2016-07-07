@@ -11,16 +11,22 @@
         </div>
     </md-toolbar>
     <md-dialog-content>
-        <div layout="row">
-            <md-input-container class="md-block" flex-gt-sm>
-                <label>{{'metadatamanagementApp.dataAcquisitionProject.name' | translate}}</label>
-                <input ng-model="project.name">
-            </md-input-container>
-        </div>
-        <div layout="row">
-          <span flex></span>
-          <md-button class="md-raised" ng-click="closeDialog()">{{'entity.action.cancel' | translate}}</md-button>
-          <md-button class="md-raised" ng-click="ok(project)">{{'entity.action.ok' | translate}}</md-button>
-        </div>
+        <form name="createProjectForm">
+            <div layout="row">
+                <md-input-container class="md-block" flex-gt-sm>
+                    <label>{{'metadatamanagementApp.dataAcquisitionProject.name' | translate}}</label>
+                    <input md-maxlength="32" required md-no-asterisk ng-model="project.name" name="name">
+                    <div ng-messages="createProjectForm.name.$error">
+                        <div ng-message="required">{{'entity.validation.required' | translate}}</div>
+                        <div ng-message="md-maxlength">{{'entity.validation.maxlength' | translate:'{ max: "32" }'}}</div>
+                    </div>
+                </md-input-container>
+            </div>
+            <div layout="row">
+                <span flex></span>
+                <md-button class="md-raised" ng-click="closeDialog()">{{'entity.action.cancel' | translate}}</md-button>
+                <md-button class="md-raised" ng-click="ok(project)" ng-disabled="createProjectForm.$invalid">{{'entity.action.ok' | translate}}</md-button>
+            </div>
+        </form>
     </md-dialog-content>
 </md-dialog>

@@ -45,6 +45,10 @@
             "uploadTerminated": "Finished upload of {{ total }} Data Sets with {{ errors }} errors.",
             "cancelled": "Datasets upload cancelled!"
           },
+          "dataAcquisitionProject": {
+            "saved": "Saved successfully the Project with the name: {{ name }}!",
+            "finished": "Saved Project {{ name }}!"
+          },
           "survey": {
             "saved": "Survey with RDC-ID {{ id }} was saved successfully!",
             "notSaved": "Survey with RDC-ID {{ id }} has not been saved!",
