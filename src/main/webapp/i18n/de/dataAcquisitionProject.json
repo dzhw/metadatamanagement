@@ -44,6 +44,10 @@
             "uploadTerminated": "Upload von {{ total }} Datensätzen mit {{ errors }} Fehlern beendet!",
             "cancelled": "Upload von Datensätzen Abgebrochen"
           },
+          "dataAcquisitionProject": {
+            "saved": "Das FDZ Projekt mit dem Namen {{ name }} wurde erfolgreich gespeichert!",
+            "finished": "Projekt {{ name }} gespeichert!"
+          },
           "survey": {
             "saved": "Erhebung mit FDZ-ID {{ id }} erfolgreich gespeichert!",
             "notSaved": "Erhebung mit FDZ-ID {{ id }} wurde nicht gespeichert!",

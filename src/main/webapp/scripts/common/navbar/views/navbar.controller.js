@@ -4,7 +4,8 @@
 angular.module('metadatamanagementApp').controller('NavbarController',
   function($scope, Principal, DataAcquisitionProjectCollectionResource,
     CurrentProjectService, DataAcquisitionProjectPostValidationService,
-    DataAcquisitionProjectResource, $mdDialog) {
+    DataAcquisitionProjectResource, $mdDialog, JobCompleteToastService,
+    JobLoggingService, $translate) {
     $scope.isAuthenticated = Principal.isAuthenticated;
 
     //For toggle buttons
@@ -88,10 +89,28 @@ angular.module('metadatamanagementApp').controller('NavbarController',
         clickOutsideToClose: true
       })
       .then(function(project) {
-        DataAcquisitionProjectResource.save({id: project.name});
-        //TODO Reload Dropdown
-        //TODO Toast for project was created
+        JobLoggingService.start();
+        DataAcquisitionProjectResource.save({id: project.name},
+          //Success
+          function() {
+            JobLoggingService
+              .success($translate.instant(
+            'metadatamanagementApp.dataAcquisitionProject.detail.' +
+            'logMessages.dataAcquisitionProject.saved', {
+              name: project.name
+            }));
+            $scope.loadProjects();
+            JobLoggingService
+              .finish($translate.instant(
+            'metadatamanagementApp.dataAcquisitionProject.detail.' +
+            'logMessages.dataAcquisitionProject.finished', {
+              name: project.name
+            }));
+            JobCompleteToastService.openJobCompleteToast();
+          });
+        //TODO FUNCTION FOR ERROR
       }, function() {
+        console.log('error');
         //TODO Toast for Error
       });
     };
