@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('metadatamanagementApp').service('JobLoggingService',
-  function(UploadCompleteToastService, blockUI) {
+  function(JobCompleteToastService, blockUI) {
     var job = {
       state: ''
     };
@@ -40,7 +40,7 @@ angular.module('metadatamanagementApp').service('JobLoggingService',
         type: 'info'
       });
       blockUI.stop();
-      UploadCompleteToastService.openUploadCompleteToast(finishMsg);
+      JobCompleteToastService.openJobCompleteToast(finishMsg);
     };
     var cancel = function(cancelMsg) {
       job.state = 'cancelled';
@@ -50,7 +50,7 @@ angular.module('metadatamanagementApp').service('JobLoggingService',
         type: 'error'
       });
       blockUI.stop();
-      UploadCompleteToastService.openUploadCompleteToast(cancelMsg);
+      JobCompleteToastService.openJobCompleteToast(cancelMsg);
     };
     return {
       getCurrentJob: getCurrentJob,

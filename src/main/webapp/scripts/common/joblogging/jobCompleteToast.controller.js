@@ -2,7 +2,7 @@
 'use strict';
 
 angular.module('metadatamanagementApp')
-  .controller('UploadCompleteToastController',
+  .controller('JobCompleteToastController',
   function($scope, $mdToast, $mdDialog, JobLoggingService, resultMessage) {
 
     /* Get the current job */
@@ -25,8 +25,7 @@ angular.module('metadatamanagementApp')
         controller: function() { this.parent = $scope;
           this.parent.closeToast(); },
         controllerAs: 'uploadCompleteToastController',
-        templateUrl: 'scripts/searchmanagement/views/' +
-        'complete-upload-protocol-dialog.html.tmpl',
+        templateUrl: 'scripts/common/joblogging/job-protocol-dialog.html.tmpl',
         clickOutsideToClose: true
       });
     };

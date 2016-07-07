@@ -1,16 +1,15 @@
 /* Author: Daniel Katzberg */
 'use strict';
 
-angular.module('metadatamanagementApp').service('UploadCompleteToastService',
+angular.module('metadatamanagementApp').service('JobCompleteToastService',
   function($mdToast) {
     var toastParent = angular.element('#toast-container');
 
     //The Toast for the upload complete
-    function openUploadCompleteToast(resultMessage) {
+    function openJobCompleteToast(resultMessage) {
       $mdToast.show({
-        controller: 'UploadCompleteToastController',
-        templateUrl: 'scripts/searchmanagement/' +
-          'views/upload-complete-toast.html.tmpl',
+        controller: 'JobCompleteToastController',
+        templateUrl: 'scripts/common/joblogging/job-complete-toast.html.tmpl',
         hideDelay: 0,
         position: 'top right',
         parent: toastParent,
@@ -21,7 +20,7 @@ angular.module('metadatamanagementApp').service('UploadCompleteToastService',
     }
 
     return {
-      openUploadCompleteToast: openUploadCompleteToast
+      openJobCompleteToast: openJobCompleteToast
     };
 
   });

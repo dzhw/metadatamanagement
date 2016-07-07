@@ -14,7 +14,9 @@ angular.module('metadatamanagementApp').service('VariableUploadService',
         ElasticSearchAdminService.processUpdateQueue().then(function() {
           JobLoggingService.finish($translate.instant(
             'metadatamanagementApp.dataAcquisitionProject.detail.' +
-            'logMessages.variable.uploadTerminated', {}));
+            'logMessages.variable.uploadTerminated', {
+              total: objects.length,
+              errors: JobLoggingService.getCurrentJob().errors}));
         });
       } else {
         if (!objects[uploadCount].id || objects[uploadCount].id === '') {

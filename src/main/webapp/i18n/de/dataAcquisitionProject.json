@@ -41,28 +41,28 @@
             "saved": "Datensatz mit FDZ-ID {{ id }} erfolgreich gespeichert!",
             "notSaved": "Datensatz mit FDZ-ID {{ id }} wurde nicht gespeichert!",
             "missingId": "Der {{ index }}. Datensatz enthält keine FDZ-ID und wurde nicht gespeichert!",
-            "uploadTerminated": "Upload von Datensätzen beendet!",
+            "uploadTerminated": "Upload von {{ total }} Datensätzen mit {{ errors }} Fehlern beendet!",
             "cancelled": "Upload von Datensätzen Abgebrochen"
           },
           "survey": {
             "saved": "Erhebung mit FDZ-ID {{ id }} erfolgreich gespeichert!",
             "notSaved": "Erhebung mit FDZ-ID {{ id }} wurde nicht gespeichert!",
             "missingId": "Die {{ index }}. Erhebung enthält keine FDZ-ID und wurde nicht gespeichert!",
-            "uploadTerminated": "Upload von Erhebungen beendet!",
+            "uploadTerminated": "Upload von {{ total }} Erhebungen mit {{ errors }} Fehlern beendet!",
             "cancelled": "Upload von Erhebungen Abgebrochen!"
           },
           "variable": {
             "saved": "Variable mit FDZ-ID {{ id }} erfolgreich gespeichert!",
             "notSaved": "Variable mit FDZ-ID {{ id }} wurde nicht gespeichert!",
             "missingId": "Die {{ index }}. Variable enthält keine FDZ-ID und wurde nicht gespeichert!",
-            "uploadTerminated": "Upload von Variablen beendet!",
+            "uploadTerminated": "Upload von {{ total }} Variablen mit {{ errors }} Fehlern beendet!",
             "cancelled": "Upload von Variablen Abgebrochen!"
           },
           "atomicQuestion": {
             "saved": "Atomare Frage mit FDZ-ID {{ id }} erfolgreich gespeichert!",
             "notSaved": "Atomare Frage mit FDZ-ID {{ id }} wurde nicht gespeichert!",
             "missingId": "Die {{ index }}. atomare Frage enthält keine FDZ-ID und wurde nicht gespeichert!",
-            "uploadTerminated": "Upload von atomaren Fragen beendet!",
+            "uploadTerminated": "Upload von {{ total }} atomaren Fragen mit {{ errors }} Fehlern beendet!",
             "cancelled": "Upload von atomaren Fragen Abgebrochen!"
           },
           "tex": {

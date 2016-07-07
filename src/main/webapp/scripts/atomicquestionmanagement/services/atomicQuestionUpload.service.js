@@ -12,7 +12,9 @@ angular.module('metadatamanagementApp').service('AtomicQuestionUploadService',
         ElasticSearchAdminService.processUpdateQueue().then(function() {
           JobLoggingService.finish($translate.instant(
             'metadatamanagementApp.dataAcquisitionProject.detail.' +
-            'logMessages.atomicQuestion.uploadTerminated', {}));
+            'logMessages.atomicQuestion.uploadTerminated', {
+              total: objects.length,
+              errors: JobLoggingService.getCurrentJob().errors}));
         });
       } else {
         if (!objects[uploadCount].id || objects[uploadCount].id === '') {
