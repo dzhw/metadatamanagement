@@ -6,6 +6,14 @@
     "dzhwAltText": "Deutsches Zentrum für Hochschul- und Wissenschaftsforschung DZHW GmbH",
     "bmbfAltText": "Gefördert vom BMBF",
     "search": "Suche",
+    "toolbar": {
+      "buttons": {
+        "logout": "Abmelden",
+        "login": "Anmelden",
+        "change-language": "View english version",
+        "register": "Registrieren"
+      }
+    },
     "menu": {
       "entities": {
         "main": "Entitäten",
@@ -26,10 +34,7 @@
         "main": "Zugang",
         "settings": "Einstellungen",
         "password": "Passwort",
-        "sessions": "Sitzungen",
-        "login": "Anmelden",
-        "logout": "Abmelden",
-        "register": "Registrierung"
+        "sessions": "Sitzungen"
       },
       "admin": {
         "main": "Administration",

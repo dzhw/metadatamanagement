@@ -6,6 +6,14 @@
     "dzhwAltText": "The German Centre for Research on Higher Education and Science Studies",
     "bmbfAltText": "Sponsored by the FMER",
     "search": "Search",
+    "toolbar": {
+      "buttons": {
+        "login": "Sign In",
+        "logout": "Sign Out",
+        "change-language": "Betrachte deutsche Version",
+        "register": "Sign Up"
+      }
+    },
     "menu": {
       "entities": {
         "main": "Entities",
@@ -26,10 +34,7 @@
         "main": "Account",
         "settings": "Settings",
         "password": "Password",
-        "sessions": "Sessions",
-        "login": "Sign in",
-        "logout": "Sign out",
-        "register": "Register"
+        "sessions": "Sessions"
       },
       "admin": {
         "main": "Administration",
