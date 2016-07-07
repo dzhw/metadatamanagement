@@ -107,11 +107,38 @@ angular.module('metadatamanagementApp').controller('NavbarController',
               name: project.name
             }));
             JobCompleteToastService.openJobCompleteToast();
-          });
-        //TODO FUNCTION FOR ERROR
-      }, function() {
-        console.log('error');
-        //TODO Toast for Error
+          },
+          //Server Error
+          function(error) {
+            JobLoggingService
+              .error($translate.instant(
+            'metadatamanagementApp.dataAcquisitionProject.detail.' +
+            'logMessages.dataAcquisitionProject.serverError') + error);
+            $scope.loadProjects();
+            JobLoggingService
+              .finish($translate.instant(
+            'metadatamanagementApp.dataAcquisitionProject.detail.' +
+            'logMessages.dataAcquisitionProject.finished', {
+              name: project.name
+            }));
+            JobCompleteToastService.openJobCompleteToast();
+          }
+        );
+      },
+      //Client Error
+      function(project, error) {
+        JobLoggingService
+          .error($translate.instant(
+        'metadatamanagementApp.dataAcquisitionProject.detail.' +
+        'logMessages.dataAcquisitionProject.clientError') + error);
+        $scope.loadProjects();
+        JobLoggingService
+          .finish($translate.instant(
+        'metadatamanagementApp.dataAcquisitionProject.detail.' +
+        'logMessages.dataAcquisitionProject.finished', {
+          name: project.name
+        }));
+        JobCompleteToastService.openJobCompleteToast();
       });
     };
 

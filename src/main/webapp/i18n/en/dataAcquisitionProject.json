@@ -47,7 +47,9 @@
           },
           "dataAcquisitionProject": {
             "saved": "Saved successfully the Project with the name: {{ name }}!",
-            "finished": "Saved Project {{ name }}!"
+            "finished": "Finished creating Project {{ name }}!",
+            "serverError": "An error on the server happens: ",
+            "clientError": "An error on the client happens: "
           },
           "survey": {
             "saved": "Survey with RDC-ID {{ id }} was saved successfully!",

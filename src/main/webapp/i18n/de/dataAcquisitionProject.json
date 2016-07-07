@@ -46,7 +46,9 @@
           },
           "dataAcquisitionProject": {
             "saved": "Das FDZ Projekt mit dem Namen {{ name }} wurde erfolgreich gespeichert!",
-            "finished": "Projekt {{ name }} gespeichert!"
+            "finished": "Projekterzeugung {{ name }} beendet!",
+            "serverError": "Ein Fehler auf dem Server trat auf: ",
+            "clientError": "Ein Fehler in dem Client trat auf: "
           },
           "survey": {
             "saved": "Erhebung mit FDZ-ID {{ id }} erfolgreich gespeichert!",
