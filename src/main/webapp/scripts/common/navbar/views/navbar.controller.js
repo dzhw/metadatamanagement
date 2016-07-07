@@ -87,12 +87,12 @@ angular.module('metadatamanagementApp').controller('NavbarController',
           'views/create-project-dialog.html.tmpl',
         clickOutsideToClose: true
       })
-      .then(function(answer) {
-        //TODO Create Project
+      .then(function(project) {
+        DataAcquisitionProjectResource.save({id: project.name});
+        //TODO Reload Dropdown
         //TODO Toast for project was created
-        console.log(answer);
       }, function() {
-        //TODO for canceling
+        //TODO Toast for Error
       });
     };
 
