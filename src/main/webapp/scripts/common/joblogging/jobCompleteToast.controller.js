@@ -3,10 +3,7 @@
 
 angular.module('metadatamanagementApp')
   .controller('JobCompleteToastController',
-  function($scope, $mdToast, $mdDialog, JobLoggingService, resultMessage) {
-
-    /* Get the current job */
-    $scope.job = JobLoggingService.getCurrentJob();
+  function($scope, $mdToast, $mdDialog, resultMessage) {
     $scope.resultMessage = resultMessage;
 
     /* Close Function for Toasts. */
@@ -14,20 +11,14 @@ angular.module('metadatamanagementApp')
       $mdToast.hide();
     };
 
-    /* Close Function for Dialogs. */
-    $scope.closeDialog = function() {
-      $mdDialog.cancel();
-    };
-
     /* Dialog for the Log of Uploading data */
     $scope.showLog = function() {
       $mdDialog.show({
-        controller: function() { this.parent = $scope;
-          this.parent.closeToast(); },
-        controllerAs: 'uploadCompleteToastController',
+        controller: 'JobProtocolDialogController',
         templateUrl: 'scripts/common/joblogging/job-protocol-dialog.html.tmpl',
         clickOutsideToClose: true
       });
+      $scope.closeToast();
     };
 
   });
