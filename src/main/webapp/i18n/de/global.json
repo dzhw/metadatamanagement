@@ -22,10 +22,10 @@
     "menu": {
       "entities": {
         "main": "Entitäten",
-        "rdcProject": "Datenaufbereitungsprojekte",
-        "current-project": "Aktuelles Datenaufbereitungsprojekt:",
-        "select-project": "Projekt auswählen",
-        "unknown-project": "Das Projekt {{projectId}} ist unbekannt."
+        "rdcProject": "Datenerhebungsprojekte:",
+        "current-project": "Aktuelles Datenerhebungsprojekt",
+        "select-project": "Datenerhebungsprojekt auswählen",
+        "unknown-project": "Das Datenerhebungsprojekt {{projectId}} ist unbekannt."
       },
       "search": {
         "title": "Metadatensuche",
@@ -52,9 +52,9 @@
         "database": "Database"
       },
       "tooltipps": {
-        "create-project": "Ein neues Projekt erzeugen.",
-        "delete-project": "Das ausgewählte Projekt mit allen verknüpften Daten löschen.",
-        "post-validation": "Das ausgewählte Projekt validieren."
+        "create-project": "Ein neues Datenerhebungsprojekt erzeugen.",
+        "delete-project": "Das ausgewählte Datenerhebungsprojekt mit allen verknüpften Daten löschen.",
+        "post-validation": "Das ausgewählte Datenerhebungsprojekt validieren."
       },
       "language": "Sprache",
       "disclosure": "Impressum"

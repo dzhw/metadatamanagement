@@ -45,10 +45,8 @@
             "cancelled": "Upload von Datensätzen Abgebrochen"
           },
           "dataAcquisitionProject": {
-            "saved": "Das FDZ Projekt mit dem Namen {{ name }} wurde erfolgreich gespeichert!",
-            "finished": "Projekterzeugung {{ name }} beendet!",
-            "serverError": "Ein Fehler auf dem Server trat auf: ",
-            "clientError": "Ein Fehler in dem Client trat auf: "
+            "saved": "Datenaufbereitungsprojekt '{{ name }}' wurde erfolgreich gespeichert!",
+            "serverError": "Ein Fehler auf dem Server trat auf: "
           },
           "survey": {
             "saved": "Erhebung mit FDZ-ID {{ id }} erfolgreich gespeichert!",

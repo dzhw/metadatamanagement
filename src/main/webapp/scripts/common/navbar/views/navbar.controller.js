@@ -5,7 +5,7 @@ angular.module('metadatamanagementApp').controller('NavbarController',
   function($scope, Principal,
     CurrentProjectService, DataAcquisitionProjectPostValidationService,
     DataAcquisitionProjectSearchResource, DataAcquisitionProjectResource,
-    $mdDialog, JobCompleteToastService, JobLoggingService, $translate) {
+    $mdDialog, SimpleMessageToastService, $translate) {
     $scope.isAuthenticated = Principal.isAuthenticated;
 
     //For toggle buttons
@@ -87,40 +87,24 @@ angular.module('metadatamanagementApp').controller('NavbarController',
         clickOutsideToClose: true
       })
       .then(function(project) {
-        JobLoggingService.start();
         DataAcquisitionProjectResource.save({id: project.name},
           //Success
           function() {
-            JobLoggingService
-              .success($translate.instant(
-            'metadatamanagementApp.dataAcquisitionProject.detail.' +
-            'logMessages.dataAcquisitionProject.saved', {
-              name: project.name
-            }));
             $scope.loadProjects();
-            JobLoggingService
-              .finish($translate.instant(
-            'metadatamanagementApp.dataAcquisitionProject.detail.' +
-            'logMessages.dataAcquisitionProject.finished', {
-              name: project.name
-            }));
-            JobCompleteToastService.openJobCompleteToast();
+            SimpleMessageToastService
+              .openSimpleMessageToast('metadatamanagementApp.' +
+              'dataAcquisitionProject.detail.logMessages.' +
+              'dataAcquisitionProject.saved', project.name);
           },
           //Server Error
           function(errorMsg) {
-            JobLoggingService.start();
-            JobLoggingService
-              .error($translate.instant(
-            'metadatamanagementApp.dataAcquisitionProject.detail.' +
-            'logMessages.dataAcquisitionProject.serverError') + errorMsg);
+            SimpleMessageToastService
+              .openSimpleMessageToast(
+                $translate.instant('metadatamanagementApp.' +
+              'dataAcquisitionProject.detail.logMessages.' +
+              'dataAcquisitionProject.serverError') + errorMsg);
             $scope.loadProjects();
-            JobLoggingService
-              .finish($translate.instant(
-            'metadatamanagementApp.dataAcquisitionProject.detail.' +
-            'logMessages.dataAcquisitionProject.finished', {
-              name: project.name
-            }));
-            JobCompleteToastService.openJobCompleteToast();
+            SimpleMessageToastService.openSimpleMessageToast();
           }
         );
       });

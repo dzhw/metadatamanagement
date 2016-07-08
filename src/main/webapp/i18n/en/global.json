@@ -24,8 +24,8 @@
         "main": "Entities",
         "rdcProject": "Data Acquisition Projects",
         "current-project": "Current Data Acquisition Project:",
-        "select-project": "Select Project",
-        "unknown-project": "The project {{projectId}} is unknown."
+        "select-project": "Select Data Acquisition Project",
+        "unknown-project": "The Data Acquisition Project {{projectId}} is unknown."
       },
       "search": {
         "title": "Metadata Search",
@@ -52,9 +52,9 @@
         "database": "Database"
       },
       "tooltipps": {
-        "create-project": "Create a new project.",
-        "delete-project": "Delete the selected project with all related data.",
-        "post-validation": "Validate the selected project."
+        "create-project": "Create a new Data Acquisition Project.",
+        "delete-project": "Delete the selected Data Acquisition Project with all related data.",
+        "post-validation": "Validate a choosen Data Acquisition Project."
       },
       "language": "Language",
       "disclosure": "Disclosure"
