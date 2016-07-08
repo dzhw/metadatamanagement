@@ -2,10 +2,10 @@
 'use strict';
 
 angular.module('metadatamanagementApp').controller('NavbarController',
-  function($scope, Principal, DataAcquisitionProjectCollectionResource,
+  function($scope, Principal,
     CurrentProjectService, DataAcquisitionProjectPostValidationService,
-    DataAcquisitionProjectResource, $mdDialog, JobCompleteToastService,
-    JobLoggingService, $translate) {
+    DataAcquisitionProjectSearchResource, DataAcquisitionProjectResource,
+    $mdDialog, JobCompleteToastService, JobLoggingService, $translate) {
     $scope.isAuthenticated = Principal.isAuthenticated;
 
     //For toggle buttons
@@ -41,7 +41,7 @@ angular.module('metadatamanagementApp').controller('NavbarController',
 
     //Load the projects for the drop menu
     $scope.loadProjects = function() {
-      DataAcquisitionProjectCollectionResource.query({},
+      DataAcquisitionProjectSearchResource.query({},
         function(result) {
           $scope.dataAcquisitionProjects =
             result._embedded.dataAcquisitionProjects;
