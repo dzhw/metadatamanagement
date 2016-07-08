@@ -5,7 +5,7 @@ angular.module('metadatamanagementApp').controller('NavbarController',
   function($scope, Principal,
     CurrentProjectService, DataAcquisitionProjectPostValidationService,
     DataAcquisitionProjectSearchResource, DataAcquisitionProjectResource,
-    $mdDialog, SimpleMessageToastService, $translate) {
+    $mdDialog, SimpleMessageToastService, $translate, CleanJSObjectService) {
     $scope.isAuthenticated = Principal.isAuthenticated;
 
     //For toggle buttons
@@ -21,6 +21,7 @@ angular.module('metadatamanagementApp').controller('NavbarController',
     //For Project Handling
     $scope.dataAcquisitionProjects = null;
     $scope.project = null;
+    $scope.selectedProject = null;
     $scope.disableAutocomplete = false;
 
     function checkEmptyListProjects() {
@@ -30,12 +31,20 @@ angular.module('metadatamanagementApp').controller('NavbarController',
         //This method checks it, because it will be called for disabling the
         //the drop dpwn menu.
         if (!include($scope.dataAcquisitionProjects, $scope.project)) {
-          $scope.updateCurrentProject(null);
+          //$scope.updateCurrentProject(null);
         }
 
         //Empty List -> Disable the Drop Down
         $scope.disableAutocomplete = ($scope.dataAcquisitionProjects.length ===
           0);
+      }
+    }
+
+    function setCurrentProject() {
+      if (!CleanJSObjectService.isNullOrEmpty(
+          CurrentProjectService.getCurrentProject())) {
+        $scope.selectedProject = CurrentProjectService.getCurrentProject();
+        $scope.updateCurrentProject(CurrentProjectService.getCurrentProject());
       }
     }
 
@@ -46,6 +55,7 @@ angular.module('metadatamanagementApp').controller('NavbarController',
           $scope.dataAcquisitionProjects =
             result._embedded.dataAcquisitionProjects;
           checkEmptyListProjects();
+          setCurrentProject();
         });
     };
     $scope.loadProjects();
