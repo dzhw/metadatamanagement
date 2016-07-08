@@ -24,6 +24,13 @@
       "questions": "Suchen Sie Fragen?",
       "surveys": "Suchen Sie Erhebungen?",
       "data-sets": "Suchen Sie Datensätze?"
+    },
+    "tabs": {
+      "variables": "Variablen",
+      "questions": "Fragen",
+      "surveys": "Erhebungen",
+      "data-sets": "Datensätze",
+      "all": "Alle"
     }
   }
 }

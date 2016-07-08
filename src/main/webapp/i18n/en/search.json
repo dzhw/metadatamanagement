@@ -24,6 +24,13 @@
       "questions": "Are you searching for Questions?",
       "surveys": "Are you searching for Surveys?",
       "data-sets": "Are you searching for Data Sets?"
+    },
+    "tabs": {
+      "variables": "Variables",
+      "questions": "Questions",
+      "surveys": "Surveys",
+      "data-sets": "Data Sets",
+      "all": "All"
     }
   }
 }

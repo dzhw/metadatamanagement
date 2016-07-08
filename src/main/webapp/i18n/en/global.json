@@ -28,12 +28,7 @@
         "unknown-project": "The Data Acquisition Project {{projectId}} is unknown."
       },
       "search": {
-        "title": "Metadata Search",
-        "variables": "Variables",
-        "questions": "Questions",
-        "surveys": "Surveys",
-        "data-sets": "Data Sets",
-        "all": "All"
+        "title": "Metadata Search"
       },
       "account": {
         "main": "Account",

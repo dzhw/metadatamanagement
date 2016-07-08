@@ -28,12 +28,7 @@
         "unknown-project": "Das Datenerhebungsprojekt {{projectId}} ist unbekannt."
       },
       "search": {
-        "title": "Metadatensuche",
-        "variables": "Variablen",
-        "questions": "Fragen",
-        "surveys": "Erhebungen",
-        "data-sets": "Datensätze",
-        "all": "Alle"
+        "title": "Metadatensuche"
       },
       "account": {
         "main": "Zugang",
