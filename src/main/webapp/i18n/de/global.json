@@ -18,8 +18,8 @@
       "entities": {
         "main": "Entitäten",
         "rdcProject": "Datenerhebungsprojekte",
-        "currentProject": "Aktuelles Projekt",
-        "selectProject": "Projekt auswählen",
+        "current-project": "Aktuelles Projekt",
+        "select-project": "Projekt auswählen",
         "unknown-project": "Das Projekt {{projectId}} ist unbekannt."
       },
       "search": {
