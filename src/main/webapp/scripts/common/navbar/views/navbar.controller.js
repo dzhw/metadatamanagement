@@ -61,9 +61,7 @@ angular.module('metadatamanagementApp').controller('NavbarController',
     //Query for searching in project list
     $scope.querySearch = function(query) {
       var results = query ? $scope.dataAcquisitionProjects.filter(
-          createFilterFor(
-            query)) :
-        $scope.dataAcquisitionProjects;
+          createFilterFor(query)) : $scope.dataAcquisitionProjects;
       return results;
     };
 
@@ -109,11 +107,12 @@ angular.module('metadatamanagementApp').controller('NavbarController',
             JobCompleteToastService.openJobCompleteToast();
           },
           //Server Error
-          function(error) {
+          function(errorMsg) {
+            JobLoggingService.start();
             JobLoggingService
               .error($translate.instant(
             'metadatamanagementApp.dataAcquisitionProject.detail.' +
-            'logMessages.dataAcquisitionProject.serverError') + error);
+            'logMessages.dataAcquisitionProject.serverError') + errorMsg);
             $scope.loadProjects();
             JobLoggingService
               .finish($translate.instant(
@@ -124,21 +123,6 @@ angular.module('metadatamanagementApp').controller('NavbarController',
             JobCompleteToastService.openJobCompleteToast();
           }
         );
-      },
-      //Client Error
-      function(project, error) {
-        JobLoggingService
-          .error($translate.instant(
-        'metadatamanagementApp.dataAcquisitionProject.detail.' +
-        'logMessages.dataAcquisitionProject.clientError') + error);
-        $scope.loadProjects();
-        JobLoggingService
-          .finish($translate.instant(
-        'metadatamanagementApp.dataAcquisitionProject.detail.' +
-        'logMessages.dataAcquisitionProject.finished', {
-          name: project.name
-        }));
-        JobCompleteToastService.openJobCompleteToast();
       });
     };
 
