@@ -14,11 +14,16 @@
         "register": "Sign Up"
       }
     },
+    "buttons": {
+      "close": "Close",
+      "ok": "OK",
+      "cancel": "Cancel"
+    },
     "menu": {
       "entities": {
         "main": "Entities",
         "rdcProject": "Data Acquisition Projects",
-        "current-project": "Current Project",
+        "current-project": "Current Data Acquisition Project:",
         "select-project": "Select Project",
         "unknown-project": "The project {{projectId}} is unknown."
       },
@@ -48,8 +53,8 @@
       },
       "tooltipps": {
         "create-project": "Create a new project.",
-        "delete-project": "Delete the choosen project with all related data.",
-        "post-validation": "Start a post validation on a choosen project."
+        "delete-project": "Delete the selected project with all related data.",
+        "post-validation": "Validate the selected project."
       },
       "language": "Language",
       "disclosure": "Disclosure"

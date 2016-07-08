@@ -1,0 +1,12 @@
+{
+  "joblogging": {
+    "protocol-dialog": {
+      "title": "Protokoll",
+      "success": "Erfolg",
+      "error": "Fehler"
+    },
+    "job-complete-toast": {
+      "show-log": "Zeige Protokoll"
+    }
+  }
+}

@@ -16,7 +16,7 @@ angular.module('metadatamanagementApp')
       $mdDialog.show({
         controller: 'JobProtocolDialogController',
         templateUrl: 'scripts/common/joblogging/job-protocol-dialog.html.tmpl',
-        clickOutsideToClose: true
+        clickOutsideToClose: false
       });
       $scope.closeToast();
     };

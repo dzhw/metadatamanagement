@@ -1,35 +1,21 @@
 {
   "search": {
-    "toast": {
-      "no-project-toast-title": "No upload any files is possible, because no Project is choosen.",
-      "show-log": "Show Protocol"
-    },
     "deleteMessages": {
       "deleteVariablesTitle": "Delete all Variables?",
-      "deleteVariables": "Are you sure you want to delete all Variables within the DataAcquisitionProject with RDC-ID \"{{ id }}\"?",
+      "deleteVariables": "Are you sure you want to delete all Variables within the Data Acquisition Project with RDC-ID \"{{ id }}\"?",
       "deleteSurveysTitle": "Delete all Surveys?",
-      "deleteSurveys": "Are you sure you want to delete all Surveys within the DataAcquisitionProject with RDC-ID \"{{ id }}\"?",
+      "deleteSurveys": "Are you sure you want to delete all Surveys within the Data Acquisition Project with RDC-ID \"{{ id }}\"?",
       "deleteQuestionsTitle": "Delete all Questions?",
-      "deleteQuestions": "Are you sure you want to delete all Questions within the DataAcquisitionProject with RDC-ID \"{{ id }}\"?",
+      "deleteQuestions": "Are you sure you want to delete all Questions within the Data Acquisition Project with RDC-ID \"{{ id }}\"?",
       "deleteDataSetsTitle": "Delete all Data Sets?",
-      "deleteDataSets": "Are you sure you want to delete all Data Sets within the DataAcquisitionProject with RDC-ID \"{{ id }}\"?"
+      "deleteDataSets": "Are you sure you want to delete all Data Sets within the Data Acquisition Project with RDC-ID \"{{ id }}\"?"
     },
     "buttons": {
       "refresh": "Refresh search results",
       "upload-variables": "Upload Variables for selected Data Acquisition Project",
       "upload-surveys": "Upload Surveys for selected Data Acquisition Project",
       "upload-data-sets": "Upload Data Sets for selected Data Acquisition Project",
-      "upload-questions": "Upload Questions for selected Data Acquisition Project",
-      "close": "Close",
-      "ok": "OK",
-      "cancel": "Cancel"
-    },
-    "dialog": {
-      "upload": {
-        "upload-protocol": "Upload Protocol",
-        "success": "Success",
-        "error": "error"
-      }
+      "upload-questions": "Upload Questions for selected Data Acquisition Project"
     }
   }
 }

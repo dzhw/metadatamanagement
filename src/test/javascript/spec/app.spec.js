@@ -40,6 +40,7 @@ describe('Specification for app ', function() {
       var paginationJson = new RegExp('i18n\/.*\/pagination.json');
       var searchJson = new RegExp('i18n\/.*\/search.json');
       var dataSetJson = new RegExp('i18n\/.*\/dataSet.json');
+      var jobloggingJson = new RegExp('i18n\/.*\/joblogging.json');
       var dataAcquisitionProjectJson =
         new RegExp('i18n\/.*\/dataAcquisitionProject.json');
       $httpBackend.whenGET(globalJson).respond({});
@@ -48,6 +49,7 @@ describe('Specification for app ', function() {
       $httpBackend.whenGET(paginationJson).respond({});
       $httpBackend.whenGET(dataSetJson).respond({});
       $httpBackend.whenGET(dataAcquisitionProjectJson).respond({});
+      $httpBackend.whenGET(jobloggingJson).respond({});
       $httpBackend.expectGET(/api\/account\?cacheBuster=\d+/)
         .respond(200, '');
     });

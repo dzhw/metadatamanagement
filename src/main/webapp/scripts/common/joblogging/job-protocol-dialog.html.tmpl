@@ -1,13 +1,13 @@
-<md-dialog aria-label="protocol for upload">
+<md-dialog aria-label="{{'joblogging.protocol-dialog.title' | translate}}">
     <md-toolbar>
         <div class="md-toolbar-tools">
             <h2>
-                <span>{{'search.dialog.upload.upload-protocol' | translate}}</span>
+                <span>{{'joblogging.protocol-dialog.title' | translate}}</span>
             </h2>
             <span flex></span>
-            <span class="label label-as-badge label-success">{{'search.dialog.upload.success' | translate}}:
+            <span style="margin-right: 1em;" class="label label-as-badge label-success">{{'joblogging.protocol-dialog.success' | translate}}:
                 {{job.successes || 0}}</span>
-            <span class="label label-as-badge label-danger">{{'search.dialog.upload.error' | translate}}:
+            <span class="label label-as-badge label-danger">{{'joblogging.protocol-dialog.error' | translate}}:
                 {{job.errors || 0}}</span>
             <md-button class="md-icon-button" ng-click="closeDialog()">
                 <md-icon md-font-set="material-icons">clear</md-icon>
@@ -15,12 +15,6 @@
         </div>
     </md-toolbar>
     <md-dialog-content>
-        <div layout="row">
-            <md-card flex>
-                <md-card-content>
-                    <pre><span ng-repeat="logMessage in job.logMessages track by $index" ng-class="{'fdz-log-error-text': logMessage.type==='error'}">{{logMessage.message}}</span></pre>
-                </md-card-content>
-            </md-card>
-        </div>
+        <pre style="margin: 1em;"><span ng-repeat="logMessage in job.logMessages track by $index" ng-class="{'fdz-log-error-text': logMessage.type==='error'}">{{logMessage.message}}</span></pre>
     </md-dialog-content>
 </md-dialog>

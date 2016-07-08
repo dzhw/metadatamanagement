@@ -14,11 +14,16 @@
         "register": "Registrieren"
       }
     },
+    "buttons": {
+      "close": "Schließen",
+      "ok": "OK",
+      "cancel": "Abbrechen"
+    },
     "menu": {
       "entities": {
         "main": "Entitäten",
-        "rdcProject": "Datenerhebungsprojekte",
-        "current-project": "Aktuelles Projekt",
+        "rdcProject": "Datenaufbereitungsprojekte",
+        "current-project": "Aktuelles Datenaufbereitungsprojekt:",
         "select-project": "Projekt auswählen",
         "unknown-project": "Das Projekt {{projectId}} ist unbekannt."
       },
@@ -49,7 +54,7 @@
       "tooltipps": {
         "create-project": "Ein neues Projekt erzeugen.",
         "delete-project": "Das ausgewählte Projekt mit allen verknüpften Daten löschen.",
-        "post-validation": "Eine Post-Validierung am ausgewählten Projekt starten."
+        "post-validation": "Das ausgewählte Projekt validieren."
       },
       "language": "Sprache",
       "disclosure": "Impressum"

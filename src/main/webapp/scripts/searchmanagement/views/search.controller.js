@@ -149,8 +149,8 @@ angular.module('metadatamanagementApp').controller('SearchController',
                       'search.deleteMessages.deleteVariables', {
                           id: dataAcquisitionProject.id
                         }))
-                  .ok($translate.instant('search.buttons.ok'))
-                  .cancel($translate.instant('search.buttons.cancel'));
+                  .ok($translate.instant('global.buttons.ok'))
+                  .cancel($translate.instant('global.buttons.cancel'));
               $mdDialog.show(confirm).then(function() {
                   //start upload and open log toast
                   VariableUploadService
@@ -178,8 +178,8 @@ angular.module('metadatamanagementApp').controller('SearchController',
                       'search.deleteMessages.deleteQuestions', {
                           id: dataAcquisitionProject.id
                         }))
-                  .ok($translate.instant('search.buttons.ok'))
-                  .cancel($translate.instant('search.buttons.cancel'));
+                  .ok($translate.instant('global.buttons.ok'))
+                  .cancel($translate.instant('global.buttons.cancel'));
               $mdDialog.show(confirm).then(function() {
                   //start upload
                   AtomicQuestionUploadService
@@ -206,8 +206,8 @@ angular.module('metadatamanagementApp').controller('SearchController',
                       'search.deleteMessages.deleteSurveys', {
                           id: dataAcquisitionProject.id
                         }))
-                  .ok($translate.instant('search.buttons.ok'))
-                  .cancel($translate.instant('search.buttons.cancel'));
+                  .ok($translate.instant('global.buttons.ok'))
+                  .cancel($translate.instant('global.buttons.cancel'));
               $mdDialog.show(confirm).then(function() {
                   //start upload
                   SurveyUploadService
@@ -234,8 +234,8 @@ angular.module('metadatamanagementApp').controller('SearchController',
                       'search.deleteMessages.deleteDataSets', {
                           id: dataAcquisitionProject.id
                         }))
-                  .ok($translate.instant('search.buttons.ok'))
-                  .cancel($translate.instant('search.buttons.cancel'));
+                  .ok($translate.instant('global.buttons.ok'))
+                  .cancel($translate.instant('global.buttons.cancel'));
               $mdDialog.show(confirm).then(function() {
                   //start upload
                   DataSetUploadService

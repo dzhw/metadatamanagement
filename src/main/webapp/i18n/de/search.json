@@ -1,35 +1,21 @@
 {
   "search": {
-    "toast": {
-      "no-project-toast-title": "Das Hochladen von Daten ist nicht möglich, da kein Projekt ausgewählt ist.",
-      "show-log": "Zeige Protokoll"
-    },
     "deleteMessages": {
       "deleteVariablesTitle": "Alle Variablen löschen?",
-      "deleteVariables": "Sind Sie sicher dass, Sie alle Variablen innerhalb des Datenerhebungsprojekts mit der FDZ-ID \"{{ id }}\" löschen möchten?",
+      "deleteVariables": "Sind Sie sicher dass, Sie alle Variablen innerhalb des Datenaufbereitungsprojekts mit der FDZ-ID \"{{ id }}\" löschen möchten?",
       "deleteSurveysTitle": "Alle Erhebungen löschen?",
-      "deleteSurveys": "Sind Sie sicher dass, Sie alle Erhebungen innerhalb des Datenerhebungsprojekts mit der FDZ-ID \"{{ id }}\" löschen möchten?",
+      "deleteSurveys": "Sind Sie sicher dass, Sie alle Erhebungen innerhalb des Datenaufbereitungsprojekts mit der FDZ-ID \"{{ id }}\" löschen möchten?",
       "deleteQuestionsTitle": "Alle Fragen löschen?",
-      "deleteQuestions": "Sind Sie sicher dass, Sie alle Fragen innerhalb des Datenerhebungsprojekts mit der FDZ-ID \"{{ id }}\" löschen möchten?",
+      "deleteQuestions": "Sind Sie sicher dass, Sie alle Fragen innerhalb des Datenaufbereitungsprojekts mit der FDZ-ID \"{{ id }}\" löschen möchten?",
       "deleteDataSetsTitle": "Alle Datensätze löschen?",
-      "deleteDataSets": "Sind Sie sicher dass, Sie alle Datensätze innerhalb des Datenerhebungsprojekts mit der FDZ-ID \"{{ id }}\" löschen möchten?"
+      "deleteDataSets": "Sind Sie sicher dass, Sie alle Datensätze innerhalb des Datenaufbereitungsprojekts mit der FDZ-ID \"{{ id }}\" löschen möchten?"
     },
     "buttons": {
       "refresh": "Suche aktualisieren",
       "upload-variables": "Variablen für ausgewähltes Datenaufbereitungsprojekt hochladen",
       "upload-surveys": "Erhebungen für ausgewähltes Datenaufbereitungsprojekt hochladen",
       "upload-data-sets": "Datensätze für ausgewähltes Datenaufbereitungsprojekt hochladen",
-      "upload-questions": "Fragen für ausgewähltes Datenaufbereitungsprojekt hochladen",
-      "close": "Schließen",
-      "ok": "OK",
-      "cancel": "Abbrechen"
-    },
-    "dialog": {
-      "upload": {
-        "upload-protocol": "Upload Protokoll",
-        "success": "Erfolg",
-        "error": "Fehler"
-      }
+      "upload-questions": "Fragen für ausgewähltes Datenaufbereitungsprojekt hochladen"
     }
   }
 }
