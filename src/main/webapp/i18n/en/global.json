@@ -46,6 +46,11 @@
         "apidocs": "API",
         "database": "Database"
       },
+      "tooltipps": {
+        "create-project": "Create a new project.",
+        "delete-project": "Delete the choosen project with all related data.",
+        "post-validation": "Start a post validation on a choosen project."
+      },
       "language": "Language",
       "disclosure": "Disclosure"
     },
