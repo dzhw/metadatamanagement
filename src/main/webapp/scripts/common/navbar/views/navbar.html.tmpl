@@ -9,7 +9,7 @@
         <ul style="padding: 0px; margin: 0px;">
             <md-divider></md-divider>
             <li class="fdz-navbar-menu-accent" ng-switch-when="true" data-has-authority="ROLE_USER" style="padding: 5px 1em 1em 1em;">
-                <span style="margin-bottom: 5px;">Aktuelles Datenaufbereitungsprojekt:</span>
+                <span style="margin-bottom: 5px;">{{'global.menu.entities.current-project' | translate}}</span>
                 <md-autocomplete
                     md-search-text="searchText"
                     md-selected-item="selectedProject"
@@ -17,7 +17,7 @@
                     md-items="project in querySearch(searchText)"
                     md-item-text="project.id"
                     md-min-length="0"
-                    placeholder="{{'global.menu.entities.selectProject' | translate}}"
+                    placeholder="{{'global.menu.entities.select-project' | translate}}"
                     ng-disabled="disableAutocomplete"
                     md-select-on-match="true"
                     style="margin-top: 5px;">
