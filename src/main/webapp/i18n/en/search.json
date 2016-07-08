@@ -15,7 +15,15 @@
       "upload-variables": "Upload Variables for selected Data Acquisition Project",
       "upload-surveys": "Upload Surveys for selected Data Acquisition Project",
       "upload-data-sets": "Upload Data Sets for selected Data Acquisition Project",
-      "upload-questions": "Upload Questions for selected Data Acquisition Project"
+      "upload-questions": "Upload Questions for selected Data Acquisition Project",
+      "generate-variable-report": "Generate Variable report"
+    },
+    "input-label": {
+      "all": "Are you searching for Variables, Questions, Surveys or Data Sets?",
+      "variables": "Are you searching for Variables?",
+      "questions": "Are you searching for Questions?",
+      "surveys": "Are you searching for Surveys?",
+      "data-sets": "Are you searching for Data Sets?"
     }
   }
 }

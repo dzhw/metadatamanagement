@@ -15,7 +15,15 @@
       "upload-variables": "Variablen für ausgewähltes Datenaufbereitungsprojekt hochladen",
       "upload-surveys": "Erhebungen für ausgewähltes Datenaufbereitungsprojekt hochladen",
       "upload-data-sets": "Datensätze für ausgewähltes Datenaufbereitungsprojekt hochladen",
-      "upload-questions": "Fragen für ausgewähltes Datenaufbereitungsprojekt hochladen"
+      "upload-questions": "Fragen für ausgewähltes Datenaufbereitungsprojekt hochladen",
+      "generate-variable-report": "Erzeuge Variablenreport"
+    },
+    "input-label": {
+      "all": "Suchen Sie Variablen, Fragen, Erhebungen oder Datensätze?",
+      "variables": "Suchen Sie Variablen?",
+      "questions": "Suchen Sie Fragen?",
+      "surveys": "Suchen Sie Erhebungen?",
+      "data-sets": "Suchen Sie Datensätze?"
     }
   }
 }

@@ -31,25 +31,30 @@ angular.module('metadatamanagementApp').controller('SearchController',
         //Information for the different tabs
         $scope.tabs = [{
             title: 'global.menu.search.all',
+            inputLabel: 'search.input-label.all',
             elasticSearchType: '',
             count: null
           }, {
             title: 'global.menu.search.variables',
+            inputLabel: 'search.input-label.variables',
             icon: 'assets/images/icons/variable.svg',
             elasticSearchType: 'variables',
             count: null
           }, {
             title: 'global.menu.search.questions',
+            inputLabel: 'search.input-label.questions',
             icon: 'assets/images/icons/question.svg',
             elasticSearchType: 'atomic_questions',
             count: null
           }, {
             title: 'global.menu.search.surveys',
+            inputLabel: 'search.input-label.surveys',
             icon: 'assets/images/icons/survey.svg',
             elasticSearchType: 'surveys',
             count: null
           }, {
             title: 'global.menu.search.data-sets',
+            inputLabel: 'search.input-label.data-sets',
             icon: 'assets/images/icons/data-set.svg',
             elasticSearchType: 'data_sets',
             count: null
