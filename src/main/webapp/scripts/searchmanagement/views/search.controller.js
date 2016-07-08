@@ -65,6 +65,7 @@ angular.module('metadatamanagementApp').controller('SearchController',
 
         //Search function
         $scope.search = function() {
+            $scope.isSearching = true;
             var selectedTab = $scope.tabs[$scope.selectedTabIndex];
 
             $scope.tabs.forEach(function(tab) {
@@ -100,11 +101,12 @@ angular.module('metadatamanagementApp').controller('SearchController',
                                 });
                         });
                     }
-
+                    $scope.isSearching = false;
                     //If something going wrong: send an alert
                   }, function(error) {
                     AlertService.error(error.message);
                     console.trace(error);
+                    $scope.isSearching = false;
                   });
           };
 

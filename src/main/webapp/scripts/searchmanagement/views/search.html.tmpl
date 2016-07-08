@@ -1,20 +1,23 @@
 <jh-alert></jh-alert>
 <div ng-switch="isAuthenticated()">
-    <md-card class="fdz-search-input-container">
-        <md-input-container class="fdz-search-input">
-            <label>{{'global.menu.search.title'|translate}}</label>
-            <input id="query" type="text" ng-model="query" ng-change="onQueryChanged()" autocomplete="off">
-            <md-icon md-font-set="material-icons">search</md-icon>
-        </md-input-container>
-        <md-tabs md-selected="selectedTabIndex" md-dynamic-height>
-            <md-tab ng-repeat="tab in tabs" md-on-select="onTabSelected()">
-                <md-tab-label>
-                    <md-icon ng-if="tab.icon" md-svg-icon="{{tab.icon}}"></md-icon>
-                    <span>{{tab.title|translate}}
-                        {{tab.count != null? '(' + tab.count + ')' : ''}}</span>
-                </md-tab-label>
-            </md-tab>
-        </md-tabs>
+    <md-card>
+        <div class="fdz-search-input-container">
+            <md-input-container class="fdz-search-input">
+                <label>{{'global.menu.search.title'|translate}}</label>
+                <md-icon md-font-set="material-icons">search</md-icon>
+                <input id="query" type="text" ng-model="query" ng-change="onQueryChanged()" autocomplete="off">
+            </md-input-container>
+            <md-tabs md-selected="selectedTabIndex" md-dynamic-height>
+                <md-tab ng-repeat="tab in tabs" md-on-select="onTabSelected()">
+                    <md-tab-label>
+                        <md-icon ng-if="tab.icon" md-svg-icon="{{tab.icon}}"></md-icon>
+                        <span>{{tab.title|translate}}
+                            {{tab.count != null? '(' + tab.count + ')' : ''}}</span>
+                    </md-tab-label>
+                </md-tab>
+            </md-tabs>
+        </div>
+        <md-progress-linear md-mode="indeterminate" ng-disabled="!isSearching"></md-progress-linear>
     </md-card>
     <div ng-repeat="result in searchResult" ng-switch="result._type">
         <variable-search-result ng-switch-when="variables" search-result="result._source"></variable-search-result>
