@@ -40,6 +40,8 @@ angular.module('metadatamanagementApp').controller('NavbarController',
       }
     }
 
+    //Set the current project again, if e.g. a language change happens and the
+    //navbar will be rendered again
     function setCurrentProject() {
       if (!CleanJSObjectService.isNullOrEmpty(
           CurrentProjectService.getCurrentProject())) {
