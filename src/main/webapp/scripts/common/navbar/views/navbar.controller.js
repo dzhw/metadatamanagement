@@ -83,11 +83,9 @@ angular.module('metadatamanagementApp').controller('NavbarController',
       CurrentProjectService.setCurrentProject(project);
     };
 
+    //Deletes the current project
     $scope.deleteProject = function() {
-      //TODO confirm delete
-      DataAcquisitionProjectResource.delete({id: $scope.project.id});
-      //TODO toast for success and error autocomplete
-      //TODO remove from autocomplete
+      $scope.showDeleteConfirm();
     };
 
     /* Function for opening a dialog for creating a new project */
@@ -119,6 +117,34 @@ angular.module('metadatamanagementApp').controller('NavbarController',
             SimpleMessageToastService.openSimpleMessageToast();
           }
         );
+      });
+    };
+
+    //Conformation Dialog for the deletion of a project
+    $scope.showDeleteConfirm = function() {
+      var confirm = $mdDialog.confirm()
+            .title($translate.instant('metadatamanagementApp.' +
+              'dataAcquisitionProject.detail.logMessages.' +
+              'dataAcquisitionProject.deleteTitle', {name: $scope.project.id}))
+            .textContent($translate.instant('metadatamanagementApp.' +
+              'dataAcquisitionProject.detail.logMessages.' +
+              'dataAcquisitionProject.delete', {name: $scope.project.id}))
+            .ariaLabel($translate.instant('metadatamanagementApp.' +
+              'dataAcquisitionProject.detail.logMessages.' +
+              'dataAcquisitionProject.delete', {name: $scope.project.id}))
+            .ok($translate.instant('global.buttons.ok'))
+            .cancel($translate.instant('global.buttons.cancel'));
+
+      $mdDialog.show(confirm).then(function() {
+        //User clicked okay -> Delete Project, hide dialog, show feedback
+        $mdDialog.hide($scope.project.id);
+        DataAcquisitionProjectResource.delete({id: $scope.project.id});
+        CurrentProjectService.setCurrentProject(null);
+        $scope.loadProjects();
+        //TODO toast for success and error autocomplete
+      }, function() {
+        //User clicked cancel
+        $mdDialog.cancel();
       });
     };
 

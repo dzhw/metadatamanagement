@@ -46,7 +46,9 @@
           },
           "dataAcquisitionProject": {
             "saved": "Datenaufbereitungsprojekt '{{ name }}' wurde erfolgreich gespeichert!",
-            "serverError": "Ein Fehler auf dem Server trat auf: "
+            "serverError": "Ein Fehler auf dem Server trat auf: ",
+            "deleteTitle": "Projekt {{name}} löschen?",
+            "delete": "Das Projekt {{name}} löschen? Das Projekt kann hier nach nicht wieder hergestellt werden."
           },
           "survey": {
             "saved": "Erhebung mit FDZ-ID {{ id }} erfolgreich gespeichert!",
