@@ -17,7 +17,7 @@
                 </md-tab>
             </md-tabs>
         </div>
-        <md-progress-linear md-mode="indeterminate" ng-disabled="!isSearching"></md-progress-linear>
+        <md-progress-linear md-mode="indeterminate" ng-if="isSearching"></md-progress-linear>
     </md-card>
     <div ng-repeat="result in searchResult" ng-switch="result._type">
         <variable-search-result ng-switch-when="variables" search-result="result._source"></variable-search-result>

@@ -2,7 +2,7 @@
  * Angular Material Design
  * https://github.com/angular/material
  * @license MIT
- * v1.1.0-rc.5
+ * v1.0.9
  */
 (function( window, angular, undefined ){
 "use strict";
@@ -33,7 +33,7 @@
    * @usage
    * See the `<md-fab-speed-dial>` or `<md-fab-toolbar>` directives for example usage.
    */
-  function MdFabActionsDirective($mdUtil) {
+  function MdFabActionsDirective() {
     return {
       restrict: 'E',
 
@@ -42,7 +42,11 @@
       compile: function(element, attributes) {
         var children = element.children();
 
-        var hasNgRepeat = $mdUtil.prefixer().hasAttribute(children, 'ng-repeat');
+        var hasNgRepeat = false;
+
+        angular.forEach(['', 'data-', 'x-'], function(prefix) {
+          hasNgRepeat = hasNgRepeat || (children.attr(prefix + 'ng-repeat') ? true : false);
+        });
 
         // Support both ng-repeat and static content
         if (hasNgRepeat) {
@@ -54,7 +58,6 @@
       }
     }
   }
-  MdFabActionsDirective.$inject = ["$mdUtil"];
 
 })();
 

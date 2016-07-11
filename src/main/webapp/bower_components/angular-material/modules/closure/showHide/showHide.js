@@ -2,7 +2,7 @@
  * Angular Material Design
  * https://github.com/angular/material
  * @license MIT
- * v1.1.0-rc.5
+ * v1.1.0-rc4-master-c26842a
  */
 goog.provide('ng.material.components.showHide');
 goog.require('ng.material.core');
@@ -30,19 +30,12 @@ function createDirective(name, targetValue) {
         var unregister = $scope.$on('$md-resize-enable', function() {
           unregister();
 
-          var cachedTransitionStyles = window.getComputedStyle($element[0]);
-
           $scope.$watch($attr[name], function(value) {
             if (!!value === targetValue) {
               $mdUtil.nextTick(function() {
                 $scope.$broadcast('$md-resize');
               });
-
-              var opts = {
-                cachedTransitionStyles: cachedTransitionStyles
-              };
-
-              $mdUtil.dom.animator.waitTransitionEnd($element, opts).then(function() {
+              $mdUtil.dom.animator.waitTransitionEnd($element).then(function() {
                 $scope.$broadcast('$md-resize');
               });
             }

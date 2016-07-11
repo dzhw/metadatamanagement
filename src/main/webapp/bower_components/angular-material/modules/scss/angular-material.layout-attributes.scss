@@ -50,12 +50,10 @@ $whiteframe-shadow-24dp: 0px 11px 15px -7px rgba(0, 0, 0, $shadow-key-umbra-opac
 $z-index-toast: 105 !default;
 $z-index-tooltip: 100 !default;
 $z-index-menu: 100 !default;
-$z-index-calendar-pane: 100 !default;
 $z-index-select: 90 !default;
 $z-index-dialog: 80 !default;
 $z-index-bottom-sheet: 70 !default;
-$z-index-scroll-mask: 50 !default;
-$z-index-scroll-mask-bar: 65 !default;
+$z-index-scroll-mask: 65 !default;
 $z-index-sidenav: 60 !default;
 $z-index-backdrop: 50 !default;
 $z-index-fab: 20 !default;
@@ -246,16 +244,6 @@ $layout-breakpoint-lg:     1920px !default;
   @return $map-str + '}';
 }
 
-// This is a mixin, which fixes IE11's vertical alignment issue, when using `min-height`.
-// See https://connect.microsoft.com/IE/feedback/details/816293/
-@mixin ie11-min-height-flexbug($min-height) {
-  &::before {
-    content: '';
-    min-height: $min-height;
-    visibility: hidden;
-    display: inline-block;
-  }
-}
 
 // mixin definition ; sets LTR and RTL within the same style call
 // @see https://css-tricks.com/almanac/properties/d/direction/
