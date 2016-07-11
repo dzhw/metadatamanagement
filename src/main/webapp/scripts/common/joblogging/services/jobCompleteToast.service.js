@@ -9,7 +9,7 @@ angular.module('metadatamanagementApp').service('JobCompleteToastService',
     function openJobCompleteToast(resultMessage) {
       $mdToast.show({
         controller: 'JobCompleteToastController',
-        templateUrl: 'scripts/common/joblogging/job-complete-toast.html.tmpl',
+        templateUrl: 'scripts/common/joblogging/views/job-complete-toast.html.tmpl',
         hideDelay: 0,
         position: 'top right',
         parent: toastParent,
