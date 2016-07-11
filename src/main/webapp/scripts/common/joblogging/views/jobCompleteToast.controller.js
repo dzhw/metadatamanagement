@@ -15,7 +15,8 @@ angular.module('metadatamanagementApp')
     $scope.showLog = function() {
       $mdDialog.show({
         controller: 'JobProtocolDialogController',
-        templateUrl: 'scripts/common/joblogging/views/job-protocol-dialog.html.tmpl',
+        templateUrl: 'scripts/common/joblogging/' +
+          'views/job-protocol-dialog.html.tmpl',
         clickOutsideToClose: false
       });
       $scope.closeToast();
