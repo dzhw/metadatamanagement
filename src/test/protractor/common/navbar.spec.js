@@ -61,60 +61,6 @@ describe('Side Bar', function() {
         afterAll(function() {
           loginHelper.logout();
         });
-        it('should open DataSets page', function(done) {
-          var state = element(by.uiSref('dataSet'));
-          state.getAttribute('href').then(function(href) {
-            return href;
-          }).then(function(href) {
-            browser.executeScript('arguments[0].click();',
-              state.getWebElement()).then(function() {
-              findBrockenUrls.checkStates(href,
-                  currentUrl, 'dataSet')
-                .then(function(result) {
-                  done();
-                  expect(result.isValidUrl).toBe(true,
-                    result.message);
-                });
-            });
-          });
-        });
-        it('should open Surveys page', function(done) {
-          var state = element(by.uiSref('survey'));
-          state.getAttribute('href').then(function(href) {
-            return href;
-          }).then(function(href) {
-            browser.executeScript('arguments[0].click();',
-              state.getWebElement()).then(function() {
-              findBrockenUrls.checkStates(href,
-                  currentUrl, 'survey')
-                .then(function(result) {
-                  done();
-                  expect(result.isValidUrl).toBe(true,
-                    result.message);
-                });
-            });
-          });
-        });
-        it('should open DataAqcuisitionProjects page', function(
-          done) {
-          var state = element(by.uiSref(
-            'dataAcquisitionProject'));
-          state.getAttribute('href').then(function(href) {
-            return href;
-          }).then(function(href) {
-            browser.executeScript('arguments[0].click();',
-              state.getWebElement()).then(function() {
-              findBrockenUrls.checkStates(href,
-                  currentUrl,
-                  'dataAcquisitionProject')
-                .then(function(result) {
-                  done();
-                  expect(result.isValidUrl).toBe(true,
-                    result.message);
-                });
-            });
-          });
-        });
         it('should open Settings page', function(done) {
           var state = element(by.uiSref('settings'));
           state.getAttribute('href').then(function(href) {

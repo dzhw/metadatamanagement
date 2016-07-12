@@ -9,7 +9,7 @@ function findNotTranslationedStrings(htmlContent, pageUrl) {
     var length = results ? results.length : 0;
     var result = {
       length: length,
-      message: 'On [' + pageUrl + '] are ' + length +
+      message: 'On [' + pageUrl + '] is/are ' + length +
       ' not translated string(s)\n' + results
     };
     deferred.fulfill(result);

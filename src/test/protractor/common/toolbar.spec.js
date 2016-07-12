@@ -13,7 +13,7 @@ var htmlContentHelper =
 var findBrockenUrls = require('../utils/findBrockenUrls');
 
 describe('Tool Bar', function() {
-  function testSideBar(description, link, currentLanguage) {
+  function testToolBar(description, link, currentLanguage) {
     describe(description, function() {
       var currentUrl;
       var htmlContent;
@@ -34,6 +34,17 @@ describe('Tool Bar', function() {
           .then(function(result) {
             expect(result.length).toBe(0, result.message);
           });
+      });
+      it('should change language ', function(done) {
+        var targetLanguage = currentLanguage === 'de' ? '#/en/' : '#/de/';
+        var changeLanguage = element(by.id('changeLanguage'));
+        changeLanguage.click().then(function() {
+          browser.getCurrentUrl().then(function(url) {
+            expect(url.indexOf(targetLanguage) !== -1).toBe(true, 'from ' +
+            currentLanguage + ' to' + targetLanguage);
+          });
+          done();
+        });
       });
       it('should open login page', function(done) {
         var loginButton = element(by.id('login'));
@@ -65,6 +76,6 @@ describe('Tool Bar', function() {
       });
     });
   }
-  testSideBar('with german language', '#/de/disclosure', 'de');
-  testSideBar('with english language', '#/en/disclosure', 'en');
+  testToolBar('with german language', '#/de/', 'de');
+  testToolBar('with english language', '#/en/', 'en');
 });
