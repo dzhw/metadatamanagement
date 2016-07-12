@@ -20,9 +20,11 @@ angular.module('metadatamanagementApp').controller('NavbarController',
 
     //For Project Handling
     $scope.dataAcquisitionProjects = null;
-    $scope.project = null;
-    $scope.selectedProject = null;
+    $scope.autocomplete = {};
+    $scope.autocomplete.searchText = '';
     $scope.disableAutocomplete = false;
+    //The used and selected Project. Do not use $scope.selectedProject!
+    $scope.project = null;
 
     function checkEmptyListProjects() {
       if ($scope.dataAcquisitionProjects) {
@@ -31,7 +33,10 @@ angular.module('metadatamanagementApp').controller('NavbarController',
         //This method checks it, because it will be called for disabling the
         //the drop dpwn menu.
         if (!include($scope.dataAcquisitionProjects, $scope.project)) {
-          //$scope.updateCurrentProject(null);
+          //Special case for deleted projects
+          $scope.project = null;
+          $scope.autocomplete.searchText = '';
+          CurrentProjectService.setCurrentProject(null);
         }
 
         //Empty List -> Disable the Drop Down
@@ -43,9 +48,11 @@ angular.module('metadatamanagementApp').controller('NavbarController',
     //Set the current project again, if e.g. a language change happens and the
     //navbar will be rendered again
     function setCurrentProject() {
+      console.log(CurrentProjectService.getCurrentProject());
       if (!CleanJSObjectService.isNullOrEmpty(
           CurrentProjectService.getCurrentProject())) {
-        $scope.selectedProject = CurrentProjectService.getCurrentProject();
+        $scope.project = CurrentProjectService.getCurrentProject();
+        $scope.autocomplete.searchText = '';
         $scope.updateCurrentProject(CurrentProjectService.getCurrentProject());
       }
     }
@@ -136,14 +143,18 @@ angular.module('metadatamanagementApp').controller('NavbarController',
       $mdDialog.show(confirm).then(function() {
         //User clicked okay -> Delete Project, hide dialog, show feedback
         $mdDialog.hide($scope.project.id);
-        DataAcquisitionProjectResource.delete({id: $scope.project.id});
-        CurrentProjectService.setCurrentProject(null);
-        $scope.loadProjects();
-        SimpleMessageToastService.openSimpleMessageToast(
-            'metadatamanagementApp.' +
-            'dataAcquisitionProject.detail.logMessages.' +
-            'dataAcquisitionProject.deletedSuccessfullyProject',
-            $scope.project.id);
+        DataAcquisitionProjectResource.delete({id: $scope.project.id},
+          function() {
+          SimpleMessageToastService.openSimpleMessageToast(
+              'metadatamanagementApp.' +
+              'dataAcquisitionProject.detail.logMessages.' +
+              'dataAcquisitionProject.deletedSuccessfullyProject',
+              $scope.project.id);
+          $scope.loadProjects();
+        }, function() {
+          //TODO Error handling
+        });
+
       }, function() {
         //User clicked cancel
         $mdDialog.cancel();
