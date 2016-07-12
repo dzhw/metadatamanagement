@@ -109,12 +109,10 @@ angular.module('metadatamanagementApp').controller('NavbarController',
           //Server Error
           function(errorMsg) {
             SimpleMessageToastService
-              .openSimpleMessageToast(
-                $translate.instant('metadatamanagementApp.' +
+              .openSimpleMessageToast('metadatamanagementApp.' +
               'dataAcquisitionProject.detail.logMessages.' +
-              'dataAcquisitionProject.serverError') + errorMsg);
+              'dataAcquisitionProject.serverError' + errorMsg);
             $scope.loadProjects();
-            SimpleMessageToastService.openSimpleMessageToast();
           }
         );
       });
@@ -141,7 +139,11 @@ angular.module('metadatamanagementApp').controller('NavbarController',
         DataAcquisitionProjectResource.delete({id: $scope.project.id});
         CurrentProjectService.setCurrentProject(null);
         $scope.loadProjects();
-        //TODO toast for success and error autocomplete
+        SimpleMessageToastService.openSimpleMessageToast(
+            'metadatamanagementApp.' +
+            'dataAcquisitionProject.detail.logMessages.' +
+            'dataAcquisitionProject.deletedSuccessfullyProject',
+            $scope.project.id);
       }, function() {
         //User clicked cancel
         $mdDialog.cancel();
