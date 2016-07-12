@@ -20,7 +20,8 @@
                     placeholder="{{'global.menu.entities.select-project' | translate}}"
                     ng-disabled="disableAutocomplete"
                     md-select-on-match="true"
-                    style="margin-top: 5px;">
+                    style="margin-top: 5px;"
+                    md-no-cache="true">
                     <md-item-template>
                         <span md-highlight-text="searchText">{{project.id}}</span>
                     </md-item-template>
