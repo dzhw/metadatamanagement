@@ -36,7 +36,6 @@ module.exports = function(config) {
       'src/main/webapp/bower_components/jszip/dist/jszip.js',
       'src/main/webapp/bower_components/file-saver.js/FileSaver.js',
       'src/main/webapp/bower_components/jszip-utils/dist/jszip-utils.js',
-      'src/main/webapp/bower_components/handlebars/handlebars.js',
       'src/main/webapp/bower_components/angular-translate-handler-log/angular-translate-handler-log.js',
       'src/main/webapp/bower_components/d3/d3.js',
       'src/main/webapp/bower_components/nvd3/build/nv.d3.js',
