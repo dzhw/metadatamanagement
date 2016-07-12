@@ -151,12 +151,24 @@ body {
 }
 
 .fdz-search-result {
-  color : currentColor;
+  color : black;
+  text-decoration: none;
 }
 
-.fdz-search-result:not([disabled]):hover {
+.fdz-search-result:hover, .fdz-search-result:focus {
+  color : black;
+  text-decoration: none;
   background-color: rgba(158, 158, 158, 0.2);
-  cursor: pointer;
+}
+
+.fdz-search-result md-card {
+  background-color: inherit;
+}
+
+.fdz-search-result-label {
+  flex-grow: 0;
+  flex-shrink: 0;
+  width: 11em;
 }
 
 .browserupgrade {

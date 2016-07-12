@@ -20,6 +20,11 @@
       "chart": {
         "figure": "Abbildung",
         "absoluteFrequency": "Absolute Häufigkeit von Werten"
+      },
+      "labels": {
+        "part-of-data-set": "Enthalten in Datensatz:",
+        "surveyed-in": "Erhoben in:",
+        "belongs-to-concept": "Gehört zu Konstrukt:"
       }
     }
   }
