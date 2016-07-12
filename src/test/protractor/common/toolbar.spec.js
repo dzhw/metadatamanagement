@@ -25,6 +25,7 @@ describe('Tool Bar', function() {
         htmlContent = element(by.id('toolbar'));
         htmlContentHelper.showHiddenElements(htmlContent)
           .then(function(content) {
+            console.log(content);
             htmlContent.outerHtml = content;
           });
       });
@@ -37,7 +38,12 @@ describe('Tool Bar', function() {
       });
       it('should change language ', function(done) {
         var targetLanguage = currentLanguage === 'de' ? '#/en/' : '#/de/';
-        var changeLanguage = element(by.id('changeLanguage'));
+        var changeLanguage;
+        if (currentLanguage === 'en') {
+          changeLanguage = element(by.id('changeLanguageToDe'));
+        }else {
+          changeLanguage = element(by.id('changeLanguageToEn'));
+        }
         changeLanguage.click().then(function() {
           browser.getCurrentUrl().then(function(url) {
             expect(url.indexOf(targetLanguage) !== -1).toBe(true, 'from ' +

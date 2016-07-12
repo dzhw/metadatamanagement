@@ -5,14 +5,14 @@
             <md-icon md-font-set="material-icons">menu</md-icon>
         </md-button>
         <h1 class="md-headline fdz-truncate-string" flex>{{pageTitle | translate }}</h1>
-        <md-button  id="changeLanguage" aria-label="{{'global.toolbar.buttons.change-language' | translate}}" class="md-primary md-raised md-hue-1" ng-class="{'md-icon-button': $mdMedia('xs')}" ng-click="changeLanguage('en')" ng-if="currentLanguage!='en'">
+        <md-button  id="changeLanguageToEn" aria-label="{{'global.toolbar.buttons.change-language' | translate}}" class="md-primary md-raised md-hue-1" ng-class="{'md-icon-button': $mdMedia('xs')}" ng-click="changeLanguage('en')" ng-if="currentLanguage!='en'">
           <md-tooltip>
               {{'global.toolbar.buttons.change-language' | translate}}
           </md-tooltip>
             <md-icon md-font-set="material-icons">language</md-icon>
             <span hide-xs>English</span>
         </md-button>
-        <md-button id="changeLanguage" aria-label="{{'global.toolbar.buttons.change-language' | translate}}" class="md-primary md-raised md-hue-1" ng-class="{'md-icon-button': $mdMedia('xs')}" ng-click="changeLanguage('de')" ng-if="currentLanguage!='de'">
+        <md-button id="changeLanguageToDe" aria-label="{{'global.toolbar.buttons.change-language' | translate}}" class="md-primary md-raised md-hue-1" ng-class="{'md-icon-button': $mdMedia('xs')}" ng-click="changeLanguage('de')" ng-if="currentLanguage!='de'">
             <md-tooltip>
                 {{'global.toolbar.buttons.change-language' | translate}}
             </md-tooltip>
