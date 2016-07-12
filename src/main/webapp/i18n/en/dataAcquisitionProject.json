@@ -50,7 +50,8 @@
             "serverError": "An error on the server happens: ",
             "deleteTitle": "Delete Project '{{name}}'?",
             "delete": "Delete the Project '{{name}}'? This can't be undone.",
-            "deletedSuccessfullyProject": "Deleted successfully Data Acquisition Project '{{name}}'!"
+            "deletedSuccessfullyProject": "Deleted successfully Data Acquisition Project '{{name}}'!",
+            "deletedNotSuccessfullyProject": "Couldn't delete Data Acquisition Project '{{name}}'!"
           },
           "survey": {
             "saved": "Survey with RDC-ID {{ id }} was saved successfully!",

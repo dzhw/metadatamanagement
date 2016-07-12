@@ -49,7 +49,8 @@
             "serverError": "Ein Fehler auf dem Server trat auf: ",
             "deleteTitle": "Projekt '{{name}}' löschen?",
             "delete": "Das Projekt '{{name}}' löschen? Das Projekt kann hier nach nicht wieder hergestellt werden.",
-            "deletedSuccessfullyProject": "Das Datenaufbereitungsprojekt '{{name}}' wurde erfolgreich gelöscht."
+            "deletedSuccessfullyProject": "Das Datenaufbereitungsprojekt '{{name}}' wurde erfolgreich gelöscht.",
+            "deletedNotSuccessfullyProject": "Das Datenaufbereitungsprojekt'{{name}}' konnte nicht gelöscht werden!"
           },
           "survey": {
             "saved": "Erhebung mit FDZ-ID {{ id }} erfolgreich gespeichert!",

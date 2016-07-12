@@ -48,7 +48,6 @@ angular.module('metadatamanagementApp').controller('NavbarController',
     //Set the current project again, if e.g. a language change happens and the
     //navbar will be rendered again
     function setCurrentProject() {
-      console.log(CurrentProjectService.getCurrentProject());
       if (!CleanJSObjectService.isNullOrEmpty(
           CurrentProjectService.getCurrentProject())) {
         $scope.project = CurrentProjectService.getCurrentProject();
@@ -152,7 +151,11 @@ angular.module('metadatamanagementApp').controller('NavbarController',
               $scope.project.id);
           $scope.loadProjects();
         }, function() {
-          //TODO Error handling
+          SimpleMessageToastService.openSimpleMessageToast(
+              'metadatamanagementApp.' +
+              'dataAcquisitionProject.detail.logMessages.' +
+              'dataAcquisitionProject.deletedNotSuccessfullyProject',
+              $scope.project.id);
         });
 
       }, function() {
