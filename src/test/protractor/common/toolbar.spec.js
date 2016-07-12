@@ -25,7 +25,6 @@ describe('Tool Bar', function() {
         htmlContent = element(by.id('toolbar'));
         htmlContentHelper.showHiddenElements(htmlContent)
           .then(function(content) {
-            console.log(content);
             htmlContent.outerHtml = content;
           });
       });
