@@ -41,7 +41,6 @@ describe('Side Bar', function() {
       it('should check BMBF external URL', function(done) {
          htmlContent.all(by.css('a')).then(function(items) {
            items[2].getAttribute('href').then(function(href) {
-             console.log(href);
              return href;
            }).then(function(url) {
              findBrockenUrls.checkHREFs(url, currentUrl)
@@ -55,7 +54,6 @@ describe('Side Bar', function() {
       it('should check DZHW external URL', function(done) {
         htmlContent.all(by.css('a')).then(function(items) {
           items[3].getAttribute('href').then(function(href) {
-            console.log(href);
             return href;
           }).then(function(url) {
             findBrockenUrls.checkHREFs(url, currentUrl)
