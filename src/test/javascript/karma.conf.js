@@ -31,7 +31,6 @@ module.exports = function(config) {
       'src/main/webapp/bower_components/bootstrap-sass/assets/javascripts/bootstrap.js',
       'src/main/webapp/bower_components/json3/lib/json3.js',
       'src/main/webapp/bower_components/ng-file-upload/ng-file-upload.js',
-      'src/main/webapp/bower_components/ngInfiniteScroll/build/ng-infinite-scroll.js',
       'src/main/webapp/bower_components/elasticsearch/elasticsearch.js',
       'src/main/webapp/bower_components/jszip/dist/jszip.js',
       'src/main/webapp/bower_components/file-saver.js/FileSaver.js',
