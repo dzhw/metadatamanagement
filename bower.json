@@ -28,7 +28,7 @@
     "file-saver.js": "~1.20150507.2",
     "jszip-utils": "~0.0.2",
     "angular-translate-handler-log": "^2.11.0",
-    "angular-nvd3": "^1.0.7",
+    "angular-nvd3": "^1.0.8",
     "js-xlsx": "^0.8.0",
     "cheet.js": "^0.3.3",
     "angular-material": "^1.0.9",

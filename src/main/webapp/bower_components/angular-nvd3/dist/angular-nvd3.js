@@ -1,5 +1,5 @@
 /**************************************************************************
-* AngularJS-nvD3, v1.0.7; MIT
+* AngularJS-nvD3, v1.0.8; MIT
 * http://krispo.github.io/angular-nvd3
 **************************************************************************/
 (function(){
@@ -42,7 +42,7 @@
                     scope.api = {
                         // Fully refresh directive
                         refresh: function(){
-                            scope.api.updateWithOptions(scope.options);
+                            scope.api.updateWithOptions();
                             scope.isReady = true;
                         },
 
@@ -72,6 +72,16 @@
 
                         // Update chart with new options
                         updateWithOptions: function(options){
+                            // set options
+                            if (!arguments.length) {
+                                options = scope.options;
+                            } else {
+                                scope.options = options;
+
+                                // return if options $watch is enabled
+                                if (scope._config.deepWatchOptions && !scope._config.disabled) return;
+                            }
+
                             // Clearing
                             scope.api.clearElement();
 
@@ -175,7 +185,7 @@
                             if (options.chart.type === 'sunburstChart') {
                                 scope.api.updateWithData(angular.copy(scope.data));
                             } else {
-                                scope.api.updateWithData(scope.data);
+                                scope.api.updateWithData();
                             }
 
                             // Configure wrappers
@@ -217,6 +227,16 @@
 
                         // Update chart with new data
                         updateWithData: function (data){
+                            // set data
+                            if (!arguments.length) {
+                                data = scope.data;
+                            } else {
+                                scope.data = data;
+
+                                // return if data $watch is enabled
+                                if (scope._config.deepWatchData && !scope._config.disabled) return;
+                            }
+
                             if (data) {
                                 // remove whole svg element with old data
                                 d3.select(element[0]).select('svg').remove();
@@ -224,7 +244,7 @@
                                 var h, w;
 
                                 // Select the current element to add <svg> element and to render the chart in
-                                scope.svg = d3.select(element[0]).append('svg');
+                                scope.svg = d3.select(element[0]).insert('svg', '.caption');
                                 if (h = scope.options.chart.height) {
                                     if (!isNaN(+h)) h += 'px'; //check if height is number
                                     scope.svg.attr('height', h).style({height: h});
@@ -237,6 +257,9 @@
                                 }
 
                                 scope.svg.datum(data).call(scope.chart);
+
+                                // update zooming if exists
+                                if (scope.chart && scope.chart.zoomRender) scope.chart.zoomRender();
                             }
                         },
 
@@ -552,7 +575,7 @@
                             if (!horizontalOff) xDomain(useFixedDomain ? fixDomain(xScale.domain(), x_boundary) : xScale.domain());
                             if (!verticalOff) yDomain(useFixedDomain ? fixDomain(yScale.domain(), y_boundary) : yScale.domain());
                         }
-                        scope.chart.update();
+                        if (scope.chart) scope.chart.update();
                     };
 
                     // unzoomed event handler
@@ -566,7 +589,7 @@
                             if (!verticalOff) yDomain(y_boundary);
                         }
                         d3zoom.scale(scale).translate(translate);
-                        scope.chart.update();
+                        if (scope.chart) scope.chart.update();
                     };
 
                     // zoomend event handler
@@ -584,11 +607,34 @@
                         .on('zoom', zoomed)
                         .on('zoomend', zoomend);
 
-                    scope.svg.call(d3zoom);
+                    if (scope.svg) {
+                        scope.svg.call(d3zoom);
 
-                    d3zoom.scale(scale).translate(translate).event(scope.svg);
+                        d3zoom.scale(scale).translate(translate).event(scope.svg);
 
-                    if (unzoomEventType !== 'none') scope.svg.on(unzoomEventType, unzoomed);
+                        if (unzoomEventType !== 'none') scope.svg.on(unzoomEventType, unzoomed);
+                    }
+
+                    if (scope.chart)
+                        scope.chart.zoomRender = function(){
+                            // reset zoom scale and translate
+                            d3zoom.scale(scale).translate(translate);
+
+                            // update scale
+                            xScale = scope.chart.xAxis.scale();
+                            yScale = scope.chart.yAxis.scale();
+                            xDomain = scope.chart.xDomain || xScale.domain;
+                            yDomain = scope.chart.yDomain || yScale.domain;
+                            x_boundary = xScale.domain().slice();
+                            y_boundary = yScale.domain().slice();
+
+                            // update zoom scale
+                            d3zoom.x(xScale).y(yScale);
+
+                            scope.svg.call(d3zoom);
+
+                            if (unzoomEventType !== 'none') scope.svg.on(unzoomEventType, unzoomed);
+                        };
                 }
             };
         });
