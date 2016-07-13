@@ -15,15 +15,23 @@
                             {{tab.count != null? '(' + tab.count + ')' : ''}}</span>
                     </md-tab-label>
                 </md-tab>
+                <md-tab md-on-select="onSufTabSelected()">
+                    <md-tab-label>
+                        <span>SUFs (1)</span>
+                    </md-tab-label>
+                </md-tab>
             </md-tabs>
         </div>
         <md-progress-linear md-mode="indeterminate" ng-if="isSearching"></md-progress-linear>
     </md-card>
-    <div ng-repeat="result in searchResult" ng-switch="result._type">
+    <div ng-repeat="result in searchResult" ng-switch="result._type" ng-if="selectedTabIndex < 5">
         <variable-search-result ng-switch-when="variables" search-result="result._source"></variable-search-result>
         <survey-search-result ng-switch-when="surveys" search-result="result._source"></survey-search-result>
         <question-search-result ng-switch-when="atomic_questions" search-result="result._source"></question-search-result>
         <dataset-search-result ng-switch-when="data_sets" search-result="result._source"></dataset-search-result>
+    </div>
+    <div ng-if="selectedTabIndex === 5">
+      <suf-search-result></suf-search-result>
     </div>
     <div ng-if="page.totalHits" layout="row" layout-align="center">
         <uib-pagination next-text="{{'pagination.next'|translate}}" previous-text="{{'pagination.previous'|translate}}" total-items="page.totalHits" ng-model="page.currentPageNumber" max-size="5" ng-change="throttledSearch()" items-per-page="page.size" class="pagination-sm"></uib-pagination>

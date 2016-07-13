@@ -3,18 +3,18 @@
 angular.module('metadatamanagementApp')
   .config(function($stateProvider) {
     $stateProvider
-      .state('atomicQuestionDetail', {
+      .state('questionDetail', {
         parent: 'site',
-        url: '/atomic-questions/{id}',
+        url: '/questions/{id}',
         data: {
           authorities: [],
-          pageTitle: 'metadatamanagementApp.atomicQuestion.detail.title'
+          pageTitle: 'metadatamanagementApp.question.detail.title'
         },
         views: {
           'content@': {
             templateUrl: 'scripts/atomicquestionmanagement/views/' +
-              'atomicQuestion-detail.html.tmpl',
-            controller: 'AtomicQuestionDetailController'
+              'question-detail.html.tmpl',
+            controller: 'QuestionDetailController'
           }
         },
         resolve: {
