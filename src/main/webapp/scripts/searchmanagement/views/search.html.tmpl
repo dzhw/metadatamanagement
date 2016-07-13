@@ -26,7 +26,7 @@
         <dataset-search-result ng-switch-when="data_sets" search-result="result._source"></dataset-search-result>
     </div>
     <div ng-if="page.totalHits" layout="row" layout-align="center">
-        <uib-pagination next-text="{{'pagination.next'|translate}}" previous-text="{{'pagination.previous'|translate}}" total-items="page.totalHits" ng-model="page.currentPageNumber" max-size="5" ng-change="throttledSearch()" class="pagination-sm"></uib-pagination>
+        <uib-pagination next-text="{{'pagination.next'|translate}}" previous-text="{{'pagination.previous'|translate}}" total-items="page.totalHits" ng-model="page.currentPageNumber" max-size="5" ng-change="throttledSearch()" items-per-page="page.size" class="pagination-sm"></uib-pagination>
     </div>
     <div ng-switch-when="true" has-any-authority="ROLE_ADMIN, ROLE_USER" class="fdz-fab-button-container" layout="column">
         <md-button aria-label="{{'search.buttons.refresh' | translate}}" class="md-primary md-fab" ng-click="refresh()" style="margin-bottom: 1em;">

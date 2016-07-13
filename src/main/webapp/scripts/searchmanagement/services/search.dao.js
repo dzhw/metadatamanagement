@@ -5,7 +5,7 @@ angular.module('metadatamanagementApp').service('SearchDao',
         CleanJSObjectService) {
         return {
             search: function(queryterm, pageNumber, currentProject,
-              elasticsearchType) {
+              elasticsearchType, pageSize) {
                 var query = {};
                 var projectFilter;
                 query.index = 'metadata_' + Language.getCurrentInstantly();
@@ -42,11 +42,10 @@ angular.module('metadatamanagementApp').service('SearchDao',
                 }
 
                 //define from
-                query.body.from = (pageNumber - 1) *
-                  ElasticSearchProperties.pageSize;
+                query.body.from = (pageNumber - 1) * pageSize;
 
                 //define size
-                query.body.size = ElasticSearchProperties.pageSize;
+                query.body.size = pageSize;
 
                 //aggregations if user is on the all tab
                 if (CleanJSObjectService.isNullOrEmpty(elasticsearchType)) {

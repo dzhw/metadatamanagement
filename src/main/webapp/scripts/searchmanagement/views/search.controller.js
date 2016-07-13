@@ -19,7 +19,8 @@ angular.module('metadatamanagementApp').controller('SearchController',
         $scope.currentProject = null;
         $scope.page = {
           currentPageNumber: $location.search().page || 1,
-          totalHits: 0
+          totalHits: 0,
+          size: 5
         };
 
         $scope.searchResult = {};
@@ -84,7 +85,7 @@ angular.module('metadatamanagementApp').controller('SearchController',
 
             SearchDao.search($scope.query, $scope.page.currentPageNumber,
               $scope.currentProject,
-              selectedTab.elasticSearchType)
+              selectedTab.elasticSearchType, $scope.page.size)
                 .then(function(data) {
                     $scope.searchResult = data.hits.hits;
                     $scope.page.totalHits = data.hits.total;
