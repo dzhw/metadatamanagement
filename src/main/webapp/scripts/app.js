@@ -140,11 +140,22 @@ angular
       tmhDynamicLocaleProvider.useCookieStorage();
       tmhDynamicLocaleProvider.storageKey('NG_TRANSLATE_LANG_KEY');
 
+      //did not manage to use a templateUrl :-(
       blockUIConfig.template =
-        '<div layout="column" class="fdz-block-ui-overlay"><div ' +
-        'flex layout="row" layout-align="center center"><md-progress-circular' +
-        ' md-mode="indeterminate" md-diameter="75px"></md-progress-circular>' +
-        '</div></div>';
+      '<div ng-controller="BlockUIController" layout="column"' +
+      ' class="fdz-block-ui-overlay">' +
+          '<div flex layout="row" layout-align="center center">' +
+              '<md-progress-circular md-mode="indeterminate"' +
+              ' md-diameter="75px"></md-progress-circular>' +
+              '<span style="font-size: 24px;"' +
+              'ng-if="job.state === \'running\'' +
+              '" data-translate="joblogging.block-ui-message"' +
+              ' data-translate-values="{ errors: job.errors, ' +
+              'total: job.errors + job.successes}">' +
+            '</span>' +
+          '</div>' +
+      '</div>';
+
       blockUIConfig.autoInjectBodyBlock = false;
       blockUIConfig.blockBrowserNavigation = true;
       // Tell the blockUI service to ignore certain requests

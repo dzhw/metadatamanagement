@@ -7,6 +7,7 @@
     },
     "job-complete-toast": {
       "show-log": "Show Protocol"
-    }
+    },
+    "block-ui-message": "{{ errors }} of {{ total }} errors"
   }
 }
