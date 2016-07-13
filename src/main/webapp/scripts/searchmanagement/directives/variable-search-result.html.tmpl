@@ -12,33 +12,33 @@
             </md-card-header-text>
         </md-card-header>
         <md-card-content style="padding-top: 0px;">
-            <div layout="row" layout-xs="column" style="min-height: 24px;">
+            <div layout="row" layout-xs="column">
                 <div class="fdz-search-result-label">
                     {{ 'metadatamanagementApp.variable.labels.part-of-data-set' | translate}}
                 </div>
                 <div flex>
                     <div class="fdz-truncate-string">
-                        <md-icon md-svg-src="/assets/images/icons/data-set.svg"></md-icon>
+                        <md-icon md-svg-src="/assets/images/icons/data-set.svg" class="fdz-inline-icon"></md-icon>
                         TODO lorem ipsum String 1
                     </div>
                     <div class="fdz-truncate-string">
-                        <md-icon md-svg-src="/assets/images/icons/data-set.svg"></md-icon>
+                        <md-icon md-svg-src="/assets/images/icons/data-set.svg" class="fdz-inline-icon"></md-icon>
                         TODO lorem ipsum String 2
                     </div>
                 </div>
             </div>
-            <div layout="row" layout-xs="column" style="min-height: 24px;">
+            <div layout="row" layout-xs="column">
                 <div class="fdz-search-result-label">
                     {{ 'metadatamanagementApp.variable.labels.surveyed-in' | translate}}
                 </div>
                 <div flex>
                     <div class="fdz-truncate-string" ng-repeat="title in searchResult.surveyTitles">
-                        <md-icon md-svg-src="/assets/images/icons/survey.svg"></md-icon>
+                        <md-icon md-svg-src="/assets/images/icons/survey.svg" class="fdz-inline-icon"></md-icon>
                         {{title}}
                     </div>
                 </div>
             </div>
-            <div layout="row" layout-xs="column" style="min-height: 24px;">
+            <div layout="row" layout-xs="column">
                 <div class="fdz-search-result-label">
                     {{ 'metadatamanagementApp.variable.labels.belongs-to-concept' | translate}}
                 </div>
