@@ -1,15 +1,51 @@
-<md-card md-ink-ripple="true" class="fdz-search-result md-ink-ripple" ui-sref="variableDetail({id:searchResult.id})">
-    <md-card-header>
-        <md-card-avatar>
-            <md-icon md-svg-src="/assets/images/icons/variable.svg" class="fdz-search-result-icon"></md-icon>
-        </md-card-avatar>
-        <md-card-header-text>
-            <span class="md-title fdz-truncate-string">{{searchResult.label}}</span>
-            <span class="md-subhead fdz-truncate-string">{{searchResult.id}}</span>
-        </md-card-header-text>
-    </md-card-header>
-    <md-card-content style="padding-top: 0px;">
-        <div>Datentyp: {{searchResult.dataType}}</div>
-        <div>Skalenniveau: {{searchResult.scaleLevel}}</div>
-    </md-card-content>
-</md-card>
+<a ui-sref="variableDetail({id:searchResult.id})" class="fdz-search-result">
+    <md-card md-ink-ripple="true">
+        <md-card-header>
+            <md-card-avatar>
+                <md-icon md-svg-src="/assets/images/icons/variable.svg" class="fdz-search-result-icon"></md-icon>
+            </md-card-avatar>
+            <md-card-header-text>
+                <span class="md-title fdz-truncate-string">{{searchResult.label}}</span>
+                <span class="md-subhead fdz-truncate-string">{{searchResult.name}}
+                    ({{searchResult.dataType}},
+                    {{searchResult.scaleLevel}})</span>
+            </md-card-header-text>
+        </md-card-header>
+        <md-card-content style="padding-top: 0px;">
+            <div layout="row" style="min-height: 24px;">
+                <div class="fdz-search-result-label">
+                    {{ 'metadatamanagementApp.variable.labels.part-of-data-set' | translate}}
+                </div>
+                <div flex>
+                    <span class="fdz-truncate-string">
+                        <md-icon md-svg-src="/assets/images/icons/data-set.svg"></md-icon>
+                        TODO laaaaaaaangeer String 1
+                    </span>
+                    <span class="fdz-truncate-string">
+                        <md-icon md-svg-src="/assets/images/icons/data-set.svg"></md-icon>
+                        TODO 2
+                    </span>
+                </div>
+            </div>
+            <div layout="row" style="min-height: 24px;">
+                <div class="fdz-search-result-label">
+                    {{ 'metadatamanagementApp.variable.labels.surveyed-in' | translate}}
+                </div>
+                <div flex>
+                    <span ng-repeat="title in searchResult.surveyTitles">
+                        <md-icon md-svg-src="/assets/images/icons/survey.svg"></md-icon>
+                        {{title}}
+                    </span>
+                </div>
+            </div>
+            <div layout="row" style="min-height: 24px;">
+                <div class="fdz-search-result-label">
+                    {{ 'metadatamanagementApp.variable.labels.belongs-to-concept' | translate}}
+                </div>
+                <div flex>
+                    TODO
+                </div>
+            </div>
+        </md-card-content>
+    </md-card>
+</a>

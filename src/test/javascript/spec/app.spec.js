@@ -41,6 +41,7 @@ describe('Specification for app ', function() {
       var searchJson = new RegExp('i18n\/.*\/search.json');
       var dataSetJson = new RegExp('i18n\/.*\/dataSet.json');
       var jobloggingJson = new RegExp('i18n\/.*\/joblogging.json');
+      var variableJson = new RegExp('i18n\/.*\/variable.json');
       var dataAcquisitionProjectJson =
         new RegExp('i18n\/.*\/dataAcquisitionProject.json');
       $httpBackend.whenGET(globalJson).respond({});
@@ -50,6 +51,7 @@ describe('Specification for app ', function() {
       $httpBackend.whenGET(dataSetJson).respond({});
       $httpBackend.whenGET(dataAcquisitionProjectJson).respond({});
       $httpBackend.whenGET(jobloggingJson).respond({});
+      $httpBackend.whenGET(variableJson).respond({});
       $httpBackend.expectGET(/api\/account\?cacheBuster=\d+/)
         .respond(200, '');
     });

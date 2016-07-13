@@ -28,7 +28,8 @@ exports.config = {
       'name': 'Win8.1/Firefox',
       'platform': 'Windows 8.1',
       'browserName': 'firefox',
-      'screenResolution': '1280x1024'
+      'screenResolution': '1280x1024',
+      'version': '46.0'
     }, {
       'name': 'Win8.1/IE11',
       'platform': 'Windows 8.1',

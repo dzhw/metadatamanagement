@@ -20,6 +20,11 @@
       "chart": {
         "figure": "Figure",
         "absoluteFrequency": "Absolute frequencies of values"
+      },
+      "labels": {
+        "part-of-data-set": "Part of Data Set:",
+        "surveyed-in": "Surveyed in:",
+        "belongs-to-concept": "Belongs to Concept:"
       }
     }
   }

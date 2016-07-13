@@ -173,7 +173,9 @@ module.exports = function(grunt) {
             '“div” in this context. (Suppressing further errors from this sub' +
             'tree.)',
             'Attribute “layout-align” not allowed on element “div” at this' +
-            ' point.'
+            ' point.',
+            'Element “md-card” not allowed as child of element “a” in this' +
+            ' context. (Suppressing further errors from this subtree.)'
           ],
           customattrs: [
             'show-validation',

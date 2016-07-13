@@ -1,23 +1,25 @@
-<md-card md-ink-ripple="true" class="fdz-search-result md-ink-ripple">
-    <md-card-header>
-        <md-card-avatar>
-            <md-icon md-svg-src="/assets/images/icons/data-set.svg" class="fdz-search-result-icon"></md-icon>
-        </md-card-avatar>
-        <md-card-header-text>
-            <span class="md-title fdz-truncate-string">Data Set</span>
-            <span class="md-subhead fdz-truncate-string">{{searchResult.id}}</span>
-        </md-card-header-text>
-        <md-button class="md-primary md-raised md-icon-button" aria-label="{{'search.buttons.generate-variable-report' | translate}}" ng-if="isAuthenticated()" type="file" ngf-select="uploadTexTemplate($file, searchResult.id)" accept=".zip">
-            <md-tooltip md-direction="left">
-                {{'search.buttons.generate-variable-report' | translate}}
-            </md-tooltip>
-            <md-icon md-font-set="material-icons">note_add</md-icon>
-        </md-button>
-    </md-card-header>
-    <md-card-content style="padding-top: 0px;">
-        <div>Beschreibung:
-            {{searchResult.description}}</div>
-        <div>Erhebungen:</div>
-        <div ng-repeat="title in searchResult.surveyTitles">{{title}}</div>
-    </md-card-content>
-</md-card>
+<a ui-sref="variableDetail({id:searchResult.id})" class="fdz-search-result">
+    <md-card md-ink-ripple="true">
+        <md-card-header>
+            <md-card-avatar>
+                <md-icon md-svg-src="/assets/images/icons/data-set.svg" class="fdz-search-result-icon"></md-icon>
+            </md-card-avatar>
+            <md-card-header-text>
+                <span class="md-title fdz-truncate-string">Data Set</span>
+                <span class="md-subhead fdz-truncate-string">{{searchResult.id}}</span>
+            </md-card-header-text>
+            <md-button class="md-primary md-raised md-icon-button" aria-label="{{'search.buttons.generate-variable-report' | translate}}" ng-if="isAuthenticated()" type="file" ngf-select="uploadTexTemplate($file, searchResult.id)" accept=".zip">
+                <md-tooltip md-direction="left">
+                    {{'search.buttons.generate-variable-report' | translate}}
+                </md-tooltip>
+                <md-icon md-font-set="material-icons">note_add</md-icon>
+            </md-button>
+        </md-card-header>
+        <md-card-content style="padding-top: 0px;">
+            <div>Beschreibung:
+                {{searchResult.description}}</div>
+            <div>Erhebungen:</div>
+            <div ng-repeat="title in searchResult.surveyTitles">{{title}}</div>
+        </md-card-content>
+    </md-card>
+</a>

@@ -38,6 +38,32 @@ describe('Side Bar', function() {
             expect(result.length).toBe(0, result.message);
           });
       });
+      it('should check BMBF external URL', function(done) {
+         htmlContent.all(by.css('a')).then(function(items) {
+           items[2].getAttribute('href').then(function(href) {
+             return href;
+           }).then(function(url) {
+             findBrockenUrls.checkHREFs(url, currentUrl)
+               .then(function(result) {
+                 done();
+                 expect(result.isValidUrl).toBe(true, result.message);
+               });
+           });
+         });
+       });
+      it('should check DZHW external URL', function(done) {
+        htmlContent.all(by.css('a')).then(function(items) {
+          items[3].getAttribute('href').then(function(href) {
+            return href;
+          }).then(function(url) {
+            findBrockenUrls.checkHREFs(url, currentUrl)
+            .then(function(result) {
+                done();
+                expect(result.isValidUrl).toBe(true, result.message);
+              });
+          });
+        });
+      });
       it('should open disclosure page', function(done) {
         var state = element(by.uiSref('disclosure'));
         state.getAttribute('href').then(function(href) {
