@@ -1,6 +1,6 @@
 <a ui-sref="variableDetail({id:searchResult.id})" class="fdz-search-result">
     <md-card md-ink-ripple="true">
-        <md-card-header>
+        <md-card-header class="fdz-card-header-border">
             <md-card-avatar>
                 <md-icon md-svg-src="/assets/images/icons/question.svg" class="fdz-search-result-icon"></md-icon>
             </md-card-avatar>
@@ -9,7 +9,7 @@
                 <span class="md-subhead fdz-truncate-string">{{searchResult.compositeQuestionName}} ({{searchResult.type}})</span>
             </md-card-header-text>
         </md-card-header>
-        <md-card-content style="padding-top: 0px;">
+        <md-card-content>
             <div>{{searchResult.questionText}}</div>
         </md-card-content>
     </md-card>
