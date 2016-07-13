@@ -84,6 +84,7 @@ public class DataSetReportService {
 
   public static final String KEY_INTRODUCTION = "Introduction.tex";
   public static final String KEY_MAIN = "Main.tex";
+  public static final String KEY_REFERENCES = "References.bib";
   public static final String KEY_VARIABLE = "variables/Variable.tex";
 
   /**
@@ -115,6 +116,9 @@ public class DataSetReportService {
     Map<String, Object> dataForTemplate = this.loadDataForTemplateFilling(dataSetId);
 
     // Zip the filled templates.
+    filledTemplates.put(KEY_REFERENCES,
+        this.fillTemplate(texTemplates.get(KEY_REFERENCES), templateConfiguration,
+            dataForTemplate));
     filledTemplates.put(KEY_INTRODUCTION,
         this.fillTemplate(texTemplates.get(KEY_INTRODUCTION), templateConfiguration,
             dataForTemplate));
@@ -196,7 +200,7 @@ public class DataSetReportService {
   private Map<String, Object> loadDataForTemplateFilling(String dataSetId) {
 
     // Create Map for the template
-    Map<String, Object> dataForTemplate = new HashMap<String, Object>();
+    Map<String, Object> dataForTemplate = new HashMap<>();
 
     // Create Information for the latex template.
     dataForTemplate = this.createDataSetMap(dataForTemplate, dataSetId);
