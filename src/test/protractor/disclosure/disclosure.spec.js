@@ -20,6 +20,7 @@ describe('Disclosure Page', function() {
       var currentUrl;
       beforeAll(function() {
           browser.get(link);
+          browser.refresh();
           browser.getCurrentUrl().then(function(url) {
            currentUrl = url;
          });

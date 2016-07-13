@@ -19,6 +19,7 @@ describe('Tool Bar', function() {
       var htmlContent;
       beforeEach(function() {
         browser.get(link);
+        browser.refresh();
         browser.getCurrentUrl().then(function(url) {
           currentUrl = url;
         });
