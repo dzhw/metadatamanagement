@@ -39,8 +39,8 @@ describe('Disclosure Page', function() {
           }).then(function(url) {
             findBrockenUrls.checkHREFs(url, currentUrl)
             .then(function(result) {
-              done();
               expect(result.isValidUrl).toBe(true, result.message);
+              done();
             });
           });
         });

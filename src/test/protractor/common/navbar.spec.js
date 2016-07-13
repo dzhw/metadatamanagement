@@ -45,8 +45,8 @@ describe('Side Bar', function() {
            }).then(function(url) {
              findBrockenUrls.checkHREFs(url, currentUrl)
                .then(function(result) {
-                 done();
                  expect(result.isValidUrl).toBe(true, result.message);
+                 done();
                });
            });
          });
@@ -58,8 +58,8 @@ describe('Side Bar', function() {
           }).then(function(url) {
             findBrockenUrls.checkHREFs(url, currentUrl)
             .then(function(result) {
-                done();
                 expect(result.isValidUrl).toBe(true, result.message);
+                done();
               });
           });
         });
@@ -73,9 +73,9 @@ describe('Side Bar', function() {
             findBrockenUrls.checkStates(href, currentUrl,
                 'disclosure')
               .then(function(result) {
-                done();
                 expect(result.isValidUrl).toBe(true,
                   result.message);
+                done();
               });
           });
         });
@@ -98,9 +98,9 @@ describe('Side Bar', function() {
                   currentUrl,
                   'settings')
                 .then(function(result) {
-                  done();
                   expect(result.isValidUrl).toBe(true,
                     result.message);
+                  done();
                 });
             });
           });
@@ -116,9 +116,9 @@ describe('Side Bar', function() {
                   currentUrl,
                   'password')
                 .then(function(result) {
-                  done();
                   expect(result.isValidUrl).toBe(true,
                     result.message);
+                  done();
                 });
             });
           });
@@ -134,9 +134,9 @@ describe('Side Bar', function() {
                   currentUrl,
                   'user-management')
                 .then(function(result) {
-                  done();
                   expect(result.isValidUrl).toBe(true,
                     result.message);
+                  done();
                 });
             });
           });
@@ -152,9 +152,9 @@ describe('Side Bar', function() {
                   currentUrl,
                   'metrics')
                 .then(function(result) {
-                  done();
                   expect(result.isValidUrl).toBe(true,
                     result.message);
+                  done();
                 });
             });
           });
@@ -170,9 +170,9 @@ describe('Side Bar', function() {
                   currentUrl,
                   'health')
                 .then(function(result) {
-                  done();
                   expect(result.isValidUrl).toBe(true,
                     result.message);
+                  done();
                 });
             });
           });
@@ -188,9 +188,9 @@ describe('Side Bar', function() {
                   currentUrl,
                   'configuration')
                 .then(function(result) {
-                  done();
                   expect(result.isValidUrl).toBe(true,
                     result.message);
+                  done();
                 });
             });
           });
@@ -206,9 +206,9 @@ describe('Side Bar', function() {
                   currentUrl,
                   'logs')
                 .then(function(result) {
-                  done();
                   expect(result.isValidUrl).toBe(true,
                     result.message);
+                  done();
                 });
             });
           });
