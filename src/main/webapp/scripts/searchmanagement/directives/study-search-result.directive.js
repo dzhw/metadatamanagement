@@ -1,16 +1,16 @@
 'use strict';
 
-angular.module('metadatamanagementApp').directive('sufSearchResult',
+angular.module('metadatamanagementApp').directive('studySearchResult',
   function() {
     return {
       restrict: 'E',
       templateUrl: 'scripts/searchmanagement/directives/' +
-        'suf-search-result.html.tmpl',
+        'study-search-result.html.tmpl',
       scope: {
         searchResult: '='
       },
-      controller: ['$scope', 'DataSetReportService', 'Principal',
-        function($scope, DataSetReportService, Principal) {
+      controller: ['$scope', 'Principal',
+        function($scope, Principal) {
           //Check the login status
           $scope.isAuthenticated = Principal.isAuthenticated;
         }
