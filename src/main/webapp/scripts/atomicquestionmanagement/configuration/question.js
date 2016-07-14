@@ -8,7 +8,8 @@ angular.module('metadatamanagementApp')
         url: '/questions/{id}',
         data: {
           authorities: [],
-          pageTitle: 'metadatamanagementApp.question.detail.title'
+          pageTitle: 'Frage'
+          // should be a i18n string
         },
         views: {
           'content@': {

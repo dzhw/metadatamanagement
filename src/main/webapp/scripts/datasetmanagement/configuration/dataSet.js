@@ -8,7 +8,8 @@ angular.module('metadatamanagementApp')
         url: '/data-sets/{id}',
         data: {
           authorities: [],
-          pageTitle: 'metadatamanagementApp.dataset.detail.title'
+          pageTitle: 'Datensatz'
+          // should be a i18n string
         },
         views: {
           'content@': {
