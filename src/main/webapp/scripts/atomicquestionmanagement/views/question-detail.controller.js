@@ -1,3 +1,4 @@
+/* global FileReader */
 'use strict';
 
 angular.module('metadatamanagementApp')
