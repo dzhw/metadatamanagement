@@ -22,13 +22,17 @@ angular.module('metadatamanagementApp').service(
           }
           //no errors by post validation
         } else {
-          JobLoggingService.success();
+          JobLoggingService
+            .success();
         }
 
         // After sending errors or success, the process is finished.
         JobLoggingService.finish($translate.instant(
           'metadatamanagementApp.dataAcquisitionProject.detail.' +
-          'logMessages.postValidationTerminated', {}));
+          'logMessages.postValidationTerminated', {
+            successes: JobLoggingService.getCurrentJob().successes,
+            errors: JobLoggingService.getCurrentJob().errors
+          }));
       }, function(error) {
         // something went wrong
         JobLoggingService.cancel(error.data.error);

@@ -30,22 +30,25 @@ angular.module('metadatamanagementApp')
       //The used and selected Project. Do not use $scope.selectedProject!
       $scope.project = null;
 
+      //This method checks the list, if a project was deleted
+      //It disables the autocomplete,
+      //if there are no more projects after a deletion
       function checkEmptyListProjects() {
         if ($scope.dataAcquisitionProjects) {
-
-          //It is possible that a project could be deleted after it is selected.
-          //This method checks it, because it will be called for disabling the
-          //the drop dpwn menu.
-          if (!include($scope.dataAcquisitionProjects, $scope.project)) {
-            //Special case for deleted projects
-            $scope.project = null;
-            $scope.autocomplete.searchText = '';
-            CurrentProjectService.setCurrentProject(null);
-          }
 
           //Empty List -> Disable the Drop Down
           $scope.disableAutocomplete =
             ($scope.dataAcquisitionProjects.length === 0);
+        }
+      }
+
+      //It is possible that a project could be deleted after it is selected.
+      //This method disable the the drop down menu.
+      function deselectProjectAfterDeletion() {
+        if (!include($scope.dataAcquisitionProjects, $scope.project)) {
+          //Special case for deleted projects
+          $scope.autocomplete.searchText = '';
+          $scope.updateCurrentProject(null);
         }
       }
 
@@ -54,7 +57,6 @@ angular.module('metadatamanagementApp')
       function setCurrentProject() {
         if (!CleanJSObjectService.isNullOrEmpty(
             CurrentProjectService.getCurrentProject())) {
-          $scope.project = CurrentProjectService.getCurrentProject();
           $scope.autocomplete.searchText = '';
           $scope.updateCurrentProject(
             CurrentProjectService.getCurrentProject());
@@ -62,16 +64,16 @@ angular.module('metadatamanagementApp')
       }
 
       //Load the projects for the drop menu
-      $scope.loadProjects = function() {
-        DataAcquisitionProjectSearchResource.query({},
+      function loadProjects() {
+        DataAcquisitionProjectSearchResource.findAll(
           function(result) {
             $scope.dataAcquisitionProjects =
               result._embedded.dataAcquisitionProjects;
             checkEmptyListProjects();
             setCurrentProject();
           });
-      };
-      $scope.loadProjects();
+      }
+      loadProjects();
 
       //Helper method for query the project list
       function createFilterFor(query) {
@@ -113,11 +115,11 @@ angular.module('metadatamanagementApp')
               },
               //Success
               function() {
-                $scope.loadProjects();
                 SimpleMessageToastService
                   .openSimpleMessageToast('metadatamanagementApp.' +
                     'dataAcquisitionProject.detail.logMessages.' +
                     'dataAcquisitionProject.saved', project.name);
+                loadProjects();
               },
               //Server Error
               function(errorMsg) {
@@ -125,7 +127,7 @@ angular.module('metadatamanagementApp')
                   .openSimpleMessageToast('metadatamanagementApp.' +
                     'dataAcquisitionProject.detail.logMessages.' +
                     'dataAcquisitionProject.serverError' + errorMsg);
-                $scope.loadProjects();
+                loadProjects();
               }
             );
           });
@@ -164,7 +166,8 @@ angular.module('metadatamanagementApp')
                 'dataAcquisitionProject.detail.logMessages.' +
                 'dataAcquisitionProject.deletedSuccessfullyProject',
                 $scope.project.id);
-              $scope.loadProjects();
+              deselectProjectAfterDeletion();
+              loadProjects();
             },
             function() {
               SimpleMessageToastService.openSimpleMessageToast(

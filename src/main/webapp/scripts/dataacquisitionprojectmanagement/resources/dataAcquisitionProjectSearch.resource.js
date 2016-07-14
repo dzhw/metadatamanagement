@@ -6,7 +6,7 @@ angular.module('metadatamanagementApp')
     return $resource('/api/data-acquisition-projects/search/findAll', {
       projection: 'complete'
     }, {
-      'query': {
+      'findAll': {
         method: 'GET',
       },
     });
