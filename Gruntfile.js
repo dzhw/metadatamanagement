@@ -178,7 +178,9 @@ module.exports = function(grunt) {
             'Attribute “layout-align” not allowed on element “div” at this' +
             ' point.',
             'Element “md-card” not allowed as child of element “a” in this' +
-            ' context. (Suppressing further errors from this subtree.)'
+            ' context. (Suppressing further errors from this subtree.)',
+            'Element “md-autocomplete” not allowed as child of element “div”' +
+            ' in this context. (Suppressing further errors from this subtree.)'
           ],
           customattrs: [
             'show-validation',
