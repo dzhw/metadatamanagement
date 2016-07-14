@@ -13,10 +13,6 @@ angular.module('metadatamanagementApp').directive('sufSearchResult',
         function($scope, DataSetReportService, Principal) {
           //Check the login status
           $scope.isAuthenticated = Principal.isAuthenticated;
-
-          $scope.uploadTexTemplate = function(file, dataSetId) {
-            DataSetReportService.uploadTexTemplate(file, dataSetId);
-          };
         }
       ],
     };
