@@ -169,7 +169,7 @@ module.exports = function(grunt) {
             'Element “question-search-result” not allowed as child of element' +
             '“div” in this context. (Suppressing further errors from this sub' +
             'tree.)',
-            'Element “suf-search-result” not allowed as child of element ' +
+            'Element “study-search-result” not allowed as child of element ' +
             '“div” in this context. ' +
             '(Suppressing further errors from this subtree.)',
             'Element “dataset-search-result” not allowed as child of element' +
