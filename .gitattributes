@@ -23,4 +23,5 @@
 *.odt binary
 *.bcmap binary
 *.gif binary
-
+*.woff binary
+*.woff2 binary
