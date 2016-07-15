@@ -15,6 +15,7 @@
         </div>
     </md-toolbar>
     <md-dialog-content>
-        <pre style="margin: 1em;"><span ng-repeat="logMessage in job.logMessages track by $index" ng-class="{'fdz-log-error-text': logMessage.type==='error'}">{{logMessage.message | translate:logMessage.translationParams }}</span></pre>
+        <pre style="margin: 1em;">
+          <span ng-repeat="logMessage in job.logMessages track by $index" ng-class="{'fdz-log-error-text': logMessage.type==='error'}"><p>{{logMessage.message | translate:logMessage.translationParams }}</p></span></pre>
     </md-dialog-content>
 </md-dialog>
