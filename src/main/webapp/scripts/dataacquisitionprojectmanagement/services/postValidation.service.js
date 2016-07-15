@@ -7,7 +7,7 @@
 
 angular.module('metadatamanagementApp').service(
   'DataAcquisitionProjectPostValidationService',
-  function($translate, JobLoggingService,
+  function(JobLoggingService,
     DataAcquisitionProjectPostValidationResource) {
 
     var postValidate = function(id) {

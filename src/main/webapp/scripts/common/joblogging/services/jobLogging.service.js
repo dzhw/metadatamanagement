@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('metadatamanagementApp').service('JobLoggingService',
-  function(JobCompleteToastService, blockUI, $translate) {
+  function(JobCompleteToastService, blockUI) {
     var job = {
       state: ''
     };
@@ -17,42 +17,46 @@ angular.module('metadatamanagementApp').service('JobLoggingService',
       blockUI.start();
       return job;
     };
-    var error = function(errorMsg) {
+    var error = function(errorMsg, translationParams) {
       job.errors++;
       job.logMessages.push({
-        message: '\n' + errorMsg,
+        message: errorMsg,
+        translationParams: translationParams,
         type: 'error'
       });
     };
-    var success = function(successMsg) {
+    var success = function(successMsg, translationParams) {
       job.successes++;
       if (successMsg) {
         job.logMessages.push({
-          message: '\n' + successMsg,
+          message: successMsg,
+          translationParams: translationParams,
           type: 'info'
         });
       }
     };
-    var finish = function(finishMsg, translationData) {
+    var finish = function(finishMsg, translationParams) {
       job.state = 'finished';
-      var message = $translate.instant(finishMsg, translationData);
       job.logMessages.push({
-        message: '\n' + message,
+        message: finishMsg,
+        translationParams: translationParams,
         type: 'info'
       });
       blockUI.stop();
       JobCompleteToastService.openJobCompleteToast(finishMsg,
-        translationData);
+        translationParams);
     };
-    var cancel = function(cancelMsg) {
+    var cancel = function(cancelMsg, translationParams) {
       job.state = 'cancelled';
       job.errors++;
       job.logMessages.push({
-        message: '\n' + cancelMsg,
+        message: cancelMsg,
+        translationParams: translationParams,
         type: 'error'
       });
       blockUI.stop();
-      JobCompleteToastService.openJobCompleteToast(cancelMsg);
+      JobCompleteToastService.openJobCompleteToast(cancelMsg,
+        translationParams);
     };
     return {
       getCurrentJob: getCurrentJob,

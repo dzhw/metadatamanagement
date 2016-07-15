@@ -2,7 +2,7 @@
 'use strict';
 
 angular.module('metadatamanagementApp').service('DataSetReportService',
-  function($translate, Upload, FileResource, JobLoggingService) {
+  function(Upload, FileResource, JobLoggingService) {
     var uploadTexTemplate = function(file, dataAcquisitionProjectId) {
       if (file !== null) {
         JobLoggingService.start('dataSetReport');
@@ -16,32 +16,32 @@ angular.module('metadatamanagementApp').service('DataSetReportService',
           //Upload and document could filled with data successfully
           //Download automaticly data filled tex template
           FileResource.download(gridFsFileName).then(function(response) {
-            JobLoggingService.success($translate.instant(
+            JobLoggingService.success(
               'metadatamanagementApp.dataAcquisitionProject.detail.' +
-              'logMessages.tex.uploadTerminated', {}));
+              'logMessages.tex.uploadTerminated', {});
             saveAs(response.data.blob, file.name);
             JobLoggingService.finish(
               'metadatamanagementApp.dataAcquisitionProject.detail.' +
               'logMessages.tex.saved', {});
           }).catch(function(error) {
             JobLoggingService.error(error);
-            JobLoggingService.cancel($translate.instant(
+            JobLoggingService.cancel(
               'metadatamanagementApp.dataAcquisitionProject.detail.' +
-              'logMessages.tex.cancelled', {}));
+              'logMessages.tex.cancelled', {});
           });
           //Server hat issues with the tex file, send error to error output
         }).error(function(error) {
           var endErrorIndex = error.message.indexOf('----');
           var messageShort = error.message.substr(0, endErrorIndex).trim();
           JobLoggingService.error(messageShort);
-          JobLoggingService.cancel($translate.instant(
+          JobLoggingService.cancel(
             'metadatamanagementApp.dataAcquisitionProject.detail.' +
-            'logMessages.tex.cancelled', {}));
+            'logMessages.tex.cancelled', {});
         });
       } else {
-        JobLoggingService.cancel($translate.instant(
+        JobLoggingService.cancel(
           'metadatamanagementApp.dataAcquisitionProject.detail.' +
-          'logMessages.tex.cancelled', {}));
+          'logMessages.tex.cancelled', {});
       }
     };
     return {

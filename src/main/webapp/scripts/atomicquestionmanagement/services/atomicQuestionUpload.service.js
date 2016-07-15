@@ -20,12 +20,12 @@ angular.module('metadatamanagementApp').service('AtomicQuestionUploadService',
       } else {
         if (!objects[uploadCount].id || objects[uploadCount].id === '') {
           var index = uploadCount;
-          JobLoggingService.error($translate.instant(
+          JobLoggingService.error(
             'metadatamanagementApp.dataAcquisitionProject.' +
             'detail.logMessages.atomicQuestion.' +
             'missingId', {
               index: index + 1
-            }));
+            });
           uploadCount++;
           return upload();
         } else {
@@ -61,9 +61,9 @@ angular.module('metadatamanagementApp').service('AtomicQuestionUploadService',
           });
       }, function(error) {
         console.log(error);
-        JobLoggingService.cancel($translate.instant(
+        JobLoggingService.cancel(
           'metadatamanagementApp.dataAcquisitionProject.detail.' +
-          'logMessages.unsupportedExcelFile', {}));
+          'logMessages.unsupportedExcelFile', {});
       });
     };
     return {

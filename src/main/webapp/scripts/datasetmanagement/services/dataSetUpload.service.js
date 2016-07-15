@@ -3,7 +3,7 @@
 
 angular.module('metadatamanagementApp').service('DataSetUploadService',
   function(ExcelReaderService, DataSetBuilderService,
-    DataSetDeleteResource, $translate, JobLoggingService,
+    DataSetDeleteResource, JobLoggingService,
     ErrorMessageResolverService, ElasticSearchAdminService) {
     var objects;
     var uploadCount;
@@ -20,12 +20,12 @@ angular.module('metadatamanagementApp').service('DataSetUploadService',
       } else {
         if (!objects[uploadCount].id || objects[uploadCount].id === '') {
           var index = uploadCount;
-          JobLoggingService.error($translate.instant(
+          JobLoggingService.error(
             'metadatamanagementApp.dataAcquisitionProject.' +
             'detail.logMessages.dataSet.' +
             'missingId', {
               index: index + 1
-            }));
+            });
           uploadCount++;
           return upload();
         } else {
@@ -34,9 +34,11 @@ angular.module('metadatamanagementApp').service('DataSetUploadService',
             uploadCount++;
             return upload();
           }).catch(function(error) {
-            var errorMessage = ErrorMessageResolverService
-              .getErrorMessage(error, 'dataSet');
-            JobLoggingService.error(errorMessage);
+            var errorMessages = ErrorMessageResolverService
+              .getErrorMessages(error, 'dataSet');
+            errorMessages.forEach(function(errorMessage) {
+              JobLoggingService.error(errorMessage);
+            });
             uploadCount++;
             return upload();
           });
@@ -54,15 +56,17 @@ angular.module('metadatamanagementApp').service('DataSetUploadService',
           },
           upload,
           function(error) {
-            var errorMessage = ErrorMessageResolverService
-              .getErrorMessage(error, 'dataSet');
-            JobLoggingService.error(errorMessage);
+            var errorMessages = ErrorMessageResolverService
+              .getErrorMessages(error, 'dataSet');
+            errorMessages.forEach(function(errorMessage) {
+              JobLoggingService.error(errorMessage);
+            });
           });
       }, function(error) {
         console.log(error);
-        JobLoggingService.cancel($translate.instant(
+        JobLoggingService.cancel(
           'metadatamanagementApp.dataAcquisitionProject.detail.' +
-          'logMessages.unsupportedExcelFile', {}));
+          'logMessages.unsupportedExcelFile', {});
       });
     };
     return {

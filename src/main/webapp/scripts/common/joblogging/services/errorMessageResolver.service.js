@@ -1,31 +1,41 @@
 'use strict';
 
 angular.module('metadatamanagementApp').service('ErrorMessageResolverService',
-  function($translate) {
-    var getErrorMessage = function(messageObj, jobId) {
-      var message = '';
+  function() {
+    var getErrorMessages = function(messageObj, jobId) {
+      var messages = [];
       if (messageObj.config &&
         messageObj.config.data && messageObj.config.data.id) {
-        message = $translate.instant('metadatamanagementApp' +
-          '.dataAcquisitionProject.detail.logMessages.' + jobId +
-          '.notSaved', {
+        messages.push({
+          message: 'metadatamanagementApp.dataAcquisitionProject.' +
+            'detail.logMessages.' + jobId + '.notSaved',
+          translationParams: {
             id: messageObj.config.data.id
-          }) + '\n';
+          }
+        });
       }
+
       if (messageObj.data && messageObj.data.errors) {
         messageObj.data.errors.forEach(function(messageObj) {
-          message = message + messageObj.message + '\n';
+          messages.push({
+            message: messageObj.message
+          });
         });
       } else if (messageObj.data && messageObj.data.status === 500) {
-        message = message + $translate.instant('metadatamanagementApp' +
-          '.dataAcquisitionProject.detail.logMessages.' +
-          'internalServerError') + '\n';
+        //TODO DKatzberg Combine the Strings... gives wrong Id for translation!
+        messages.push({
+          message: 'metadatamanagementApp.dataAcquisitionProject.detail' +
+            '.logMessages.internalServerError'
+        });
       } else if (messageObj.data && messageObj.data.message) {
-        message = message + messageObj.data.message + '\n';
+        messages.push({
+          message: messageObj.data.message
+        });
       }
-      return message;
+
+      return messages;
     };
     return {
-      getErrorMessage: getErrorMessage
+      getErrorMessages: getErrorMessages
     };
   });
