@@ -22,7 +22,6 @@ angular.module('metadatamanagementApp').service('ErrorMessageResolverService',
           });
         });
       } else if (messageObj.data && messageObj.data.status === 500) {
-        //TODO DKatzberg Combine the Strings... gives wrong Id for translation!
         messages.push({
           message: 'metadatamanagementApp.dataAcquisitionProject.detail' +
             '.logMessages.internalServerError'

@@ -3,7 +3,7 @@
 
 angular.module('metadatamanagementApp').service('AtomicQuestionUploadService',
   function(ExcelReaderService, AtomicQuestionBuilderService,
-    AtomicQuestionDeleteResource, $translate, JobLoggingService,
+    AtomicQuestionDeleteResource, JobLoggingService,
     ErrorMessageResolverService, ElasticSearchAdminService) {
     var objects;
     var uploadCount;
@@ -34,7 +34,6 @@ angular.module('metadatamanagementApp').service('AtomicQuestionUploadService',
             uploadCount++;
             return upload();
           }).catch(function(error) {
-            console.log(objects[uploadCount]);
             var errorMessages = ErrorMessageResolverService
               .getErrorMessages(error, 'atomicQuestion');
             errorMessages.forEach(function(errorMessage) {

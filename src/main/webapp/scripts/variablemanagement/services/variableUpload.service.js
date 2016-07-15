@@ -36,6 +36,14 @@ angular.module('metadatamanagementApp').service('VariableUploadService',
             uploadCount++;
             return upload();
           }).catch(function(error) {
+            //TODO DKatzberg
+            //Das Problem liegt hier. Error hat schon ein übersetzten Wert...
+            //Der muss noch entfernt werden... Woher kommt error?
+            //Lösung: Backend müssen bei den messages, die geschweiften Klammern
+            //weg. Dann werden die Entsprechen korrekt rüber geschickt.
+            //Und die String sind im Backend in den I18n String notiert. Diese
+            //müssen nun rüber geholt werden in den Frontend I18n
+            //Das gilt für alle Validierungsfehler, zb Distribution.java
             var errorMessages = ErrorMessageResolverService
               .getErrorMessages(error, 'variable');
             errorMessages.forEach(function(errorMessage) {
@@ -66,8 +74,7 @@ angular.module('metadatamanagementApp').service('VariableUploadService',
           } catch (e) {
             return $q.reject('unsupportedDirectoryStructure');
           }
-        }, function(error) {
-          console.log(error);
+        }, function() {
           JobLoggingService.cancel(
             'metadatamanagementApp.dataAcquisitionProject.detail.' +
             'logMessages.unsupportedZipFile', {});
@@ -95,7 +102,6 @@ angular.module('metadatamanagementApp').service('VariableUploadService',
               'metadatamanagementApp.dataAcquisitionProject.detail.' +
               'logMessages.unsupportedDirectoryStructure', {});
           } else {
-            console.log(error);
             JobLoggingService.cancel(
               'metadatamanagementApp.dataAcquisitionProject.detail.' +
               'logMessages.unsupportedExcelFile', {});

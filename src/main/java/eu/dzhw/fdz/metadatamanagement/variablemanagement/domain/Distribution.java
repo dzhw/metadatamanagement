@@ -13,7 +13,7 @@ import net.karneim.pojobuilder.GeneratePojoBuilder;
 
 /**
  * Domain object of the ValueSummary. Represent sums for all values of the variable.
- * 
+ *
  * @author Daniel Katzberg
  *
  */
@@ -41,7 +41,7 @@ public class Distribution {
   @Valid
   private List<Missing> missings;
 
-  @UniqueValue(message = "{error.distribution.validResponses.uniqueValue}")
+  @UniqueValue(message = "error.distribution.validResponses.uniqueValue")
   @Valid
   private List<ValidResponse> validResponses;
 
