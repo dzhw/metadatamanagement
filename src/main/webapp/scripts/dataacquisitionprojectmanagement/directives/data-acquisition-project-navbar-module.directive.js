@@ -12,16 +12,6 @@ angular.module('metadatamanagementApp')
       DataAcquisitionProjectSearchResource, DataAcquisitionProjectResource,
       $mdDialog, SimpleMessageToastService, $translate, CleanJSObjectService) {
 
-      //For toggle buttons
-      $scope.isProjectMenuOpen = false;
-      $scope.isAdminMenuOpen = false;
-      $scope.isAccountMenuOpen = false;
-
-      //helper method
-      function include(array, objectInArray) {
-        return (array.indexOf(objectInArray) !== -1);
-      }
-
       //For Project Handling
       $scope.dataAcquisitionProjects = null;
       $scope.autocomplete = {};
@@ -35,11 +25,15 @@ angular.module('metadatamanagementApp')
       //if there are no more projects after a deletion
       function checkEmptyListProjects() {
         if ($scope.dataAcquisitionProjects) {
-
           //Empty List -> Disable the Drop Down
           $scope.disableAutocomplete =
             ($scope.dataAcquisitionProjects.length === 0);
         }
+      }
+
+      //helper method
+      function include(array, objectInArray) {
+        return (array.indexOf(objectInArray) !== -1);
       }
 
       //It is possible that a project could be deleted after it is selected.

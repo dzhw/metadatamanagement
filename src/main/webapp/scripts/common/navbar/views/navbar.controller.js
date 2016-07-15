@@ -5,6 +5,11 @@ angular.module('metadatamanagementApp').controller('NavbarController',
   function($scope, Principal) {
     $scope.isAuthenticated = Principal.isAuthenticated;
 
+    //For toggle buttons
+    $scope.isProjectMenuOpen = false;
+    $scope.isAdminMenuOpen = false;
+    $scope.isAccountMenuOpen = false;
+
     //Functions for toggling buttons.
     $scope.toggleAccountMenu = function() {
       $scope.isAccountMenuOpen = !$scope.isAccountMenuOpen;
