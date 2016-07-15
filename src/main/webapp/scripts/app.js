@@ -9,7 +9,7 @@ angular
       'elasticsearch',
       'ngResource', 'ui.router', 'ngCookies', 'ngAria', 'ngCacheBuster',
       'ngFileUpload', 'ngMaterial',
-      'blockUI'
+      'blockUI', 'LocalStorageModule'
     ])
 
 .run(
@@ -79,8 +79,11 @@ angular
     function($windowProvider, $stateProvider, $urlRouterProvider,
       $httpProvider, $locationProvider, $translateProvider,
       tmhDynamicLocaleProvider, httpRequestInterceptorCacheBusterProvider,
-      blockUIConfig, $mdThemingProvider) {
-
+      blockUIConfig, $mdThemingProvider, localStorageServiceProvider) {
+      localStorageServiceProvider
+      .setPrefix('metadatamanagementApp')
+      .setStorageType('localStorage')
+      .setNotify(true, true);
       // Cache everything except rest api requests
       httpRequestInterceptorCacheBusterProvider.setMatchlist([/.*api.*/,
         /.*protected.*/

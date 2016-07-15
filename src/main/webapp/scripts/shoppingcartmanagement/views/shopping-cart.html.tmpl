@@ -1,0 +1,16 @@
+<md-card>
+    <md-card-content>
+      <section>
+        <section>
+          <span>{{ todos.length }} SUFs</span>
+          <p>[ <a href="" data-ng-click="archive()">Remove Suf from cart</a> ]</p>
+        </section>
+        <ul class="unstyled">
+          <li data-ng-repeat="todo in todos track by $index">
+            <input type="checkbox" data-ng-model="todo.done">
+            <span>{{ todo.id }} - {{ todo.text }} - {{ todo.date | date:'medium'}}</span>
+          </li>
+        </ul>
+      </section>
+    </md-card-content>
+</md-card>
