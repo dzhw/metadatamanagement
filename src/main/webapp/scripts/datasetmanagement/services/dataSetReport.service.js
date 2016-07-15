@@ -12,17 +12,17 @@ angular.module('metadatamanagementApp').service('DataSetReportService',
             'id': dataAcquisitionProjectId
           },
           file: file
-          //Upload and document could filled with data successfully
         }).success(function(gridFsFileName) {
+          //Upload and document could filled with data successfully
           //Download automaticly data filled tex template
           FileResource.download(gridFsFileName).then(function(response) {
             JobLoggingService.success($translate.instant(
               'metadatamanagementApp.dataAcquisitionProject.detail.' +
               'logMessages.tex.uploadTerminated', {}));
             saveAs(response.data.blob, file.name);
-            JobLoggingService.finish($translate.instant(
+            JobLoggingService.finish(
               'metadatamanagementApp.dataAcquisitionProject.detail.' +
-              'logMessages.tex.saved', {}));
+              'logMessages.tex.saved', {});
           }).catch(function(error) {
             JobLoggingService.error(error);
             JobLoggingService.cancel($translate.instant(

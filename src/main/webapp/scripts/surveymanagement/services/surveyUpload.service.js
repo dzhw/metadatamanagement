@@ -10,11 +10,12 @@ angular.module('metadatamanagementApp').service('SurveyUploadService',
     var upload = function() {
       if (uploadCount === objects.length) {
         ElasticSearchAdminService.processUpdateQueue().then(function() {
-          JobLoggingService.finish($translate.instant(
+          JobLoggingService.finish(
             'metadatamanagementApp.dataAcquisitionProject.detail.' +
             'logMessages.survey.uploadTerminated', {
               total: objects.length,
-              errors: JobLoggingService.getCurrentJob().errors}));
+              errors: JobLoggingService.getCurrentJob().errors
+            });
         });
       } else {
         if (!objects[uploadCount].id || objects[uploadCount].id === '') {
