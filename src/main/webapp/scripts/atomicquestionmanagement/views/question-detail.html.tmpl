@@ -1,4 +1,3 @@
-<jh-alert-error></jh-alert-error>
 <div ng-if="!question.$resolved">
     <!-- Todo replace with loading directive -->
     Lade Daten...
@@ -11,12 +10,6 @@
             </md-card-header-text>
         </md-card-header>
         <md-card-content>
-            <div id="svg-container">
-                <include-svg ng-if="controller.svg" content="controller.svg"></include-svg>
-            </div>
-            <md-button class="md-primary md-raised md-icon-button" type="file" ngf-select="parseSvg($file)" accept=".svg">
-                <md-icon md-font-set="material-icons">note_add</md-icon>
-            </md-button>
             <md-button type="submit" onclick="window.history.back()" class="md-raised">
                 <span class="glyphicon glyphicon-arrow-left"></span>&nbsp;
                 <span data-translate="entity.action.back">Back</span>
