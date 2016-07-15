@@ -2,7 +2,8 @@
 
 angular.module('metadatamanagementApp').controller(
   'ToolbarController',
-  function($scope, $state, Auth, Principal, $mdSidenav, Language, $mdMedia, ShoppingCartService) {
+  function($scope, $state, Auth, Principal, $mdSidenav, Language, $mdMedia,
+    ShoppingCartService) {
     $scope.isAuthenticated = Principal.isAuthenticated;
     ShoppingCartService.getShoppingCart().then(function(basket) {
       $scope.itemsInBasket = basket.length;
