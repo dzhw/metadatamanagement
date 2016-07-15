@@ -35,9 +35,12 @@ angular.module('metadatamanagementApp').service('AtomicQuestionUploadService',
             return upload();
           }).catch(function(error) {
             console.log(objects[uploadCount]);
-            var errorMessage = ErrorMessageResolverService
-              .getErrorMessage(error, 'atomicQuestion');
-            JobLoggingService.error(errorMessage);
+            var errorMessages = ErrorMessageResolverService
+              .getErrorMessages(error, 'atomicQuestion');
+            errorMessages.forEach(function(errorMessage) {
+              JobLoggingService.error(errorMessage.message,
+                errorMessage.translationParams);
+            });
             uploadCount++;
             return upload();
           });
@@ -55,12 +58,14 @@ angular.module('metadatamanagementApp').service('AtomicQuestionUploadService',
           },
           upload,
           function(error) {
-            var errorMessage = ErrorMessageResolverService
-              .getErrorMessage(error, 'atomicQuestion');
-            JobLoggingService.error(errorMessage);
+            var errorMessages = ErrorMessageResolverService
+              .getErrorMessages(error, 'atomicQuestion');
+            errorMessages.forEach(function() {
+              JobLoggingService.error(errorMessages.message,
+                errorMessages.translationParams);
+            });
           });
-      }, function(error) {
-        console.log(error);
+      }, function() {
         JobLoggingService.cancel(
           'metadatamanagementApp.dataAcquisitionProject.detail.' +
           'logMessages.unsupportedExcelFile', {});

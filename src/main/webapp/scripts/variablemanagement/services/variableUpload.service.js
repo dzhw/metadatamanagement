@@ -39,7 +39,8 @@ angular.module('metadatamanagementApp').service('VariableUploadService',
             var errorMessages = ErrorMessageResolverService
               .getErrorMessages(error, 'variable');
             errorMessages.forEach(function(errorMessage) {
-              JobLoggingService.error(errorMessage);
+              JobLoggingService.error(errorMessage.message,
+                errorMessage.translationParams);
             });
             uploadCount++;
             return upload();
@@ -84,7 +85,8 @@ angular.module('metadatamanagementApp').service('VariableUploadService',
               var errorMessages = ErrorMessageResolverService
                 .getErrorMessages(error, 'variable');
               errorMessages.forEach(function(errorMessage) {
-                JobLoggingService.error(errorMessage);
+                JobLoggingService.error(errorMessage.message,
+                  errorMessage.translationParams);
               });
             });
         }, function(error) {

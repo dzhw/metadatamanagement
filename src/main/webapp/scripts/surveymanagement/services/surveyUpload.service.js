@@ -34,9 +34,12 @@ angular.module('metadatamanagementApp').service('SurveyUploadService',
             uploadCount++;
             return upload();
           }).catch(function(error) {
-            var errorMessage = ErrorMessageResolverService
-              .getErrorMessage(error, 'survey');
-            JobLoggingService.error(errorMessage);
+            var errorMessages = ErrorMessageResolverService
+              .getErrorMessages(error, 'survey');
+            errorMessages.forEach(function(errorMessage) {
+              JobLoggingService.error(errorMessage.message,
+                errorMessage.translationParams);
+            });
             uploadCount++;
             return upload();
           });
@@ -54,12 +57,14 @@ angular.module('metadatamanagementApp').service('SurveyUploadService',
           },
           upload,
           function(error) {
-            var errorMessage = ErrorMessageResolverService
-              .getErrorMessage(error, 'survey');
-            JobLoggingService.error(errorMessage);
+            var errorMessages = ErrorMessageResolverService
+              .getErrorMessages(error, 'survey');
+            errorMessages.forEach(function(errorMessage) {
+              JobLoggingService.error(errorMessage.message,
+                errorMessage.translationParams);
+            });
           });
-      }, function(error) {
-        console.log(error);
+      }, function() {
         JobLoggingService.cancel(
           'metadatamanagementApp.dataAcquisitionProject.detail.' +
           'logMessages.unsupportedExcelFile', {});

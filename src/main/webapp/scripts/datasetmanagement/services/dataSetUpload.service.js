@@ -37,7 +37,8 @@ angular.module('metadatamanagementApp').service('DataSetUploadService',
             var errorMessages = ErrorMessageResolverService
               .getErrorMessages(error, 'dataSet');
             errorMessages.forEach(function(errorMessage) {
-              JobLoggingService.error(errorMessage);
+              JobLoggingService.error(errorMessage.message,
+                errorMessage.translationParams);
             });
             uploadCount++;
             return upload();
@@ -59,7 +60,8 @@ angular.module('metadatamanagementApp').service('DataSetUploadService',
             var errorMessages = ErrorMessageResolverService
               .getErrorMessages(error, 'dataSet');
             errorMessages.forEach(function(errorMessage) {
-              JobLoggingService.error(errorMessage);
+              JobLoggingService.error(errorMessage.message,
+                errorMessage.translationParams);
             });
           });
       }, function(error) {
