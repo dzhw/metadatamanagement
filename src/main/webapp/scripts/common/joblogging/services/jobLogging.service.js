@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('metadatamanagementApp').service('JobLoggingService',
-  function(JobCompleteToastService, blockUI) {
+  function(JobCompleteToastService, blockUI, $translate) {
     var job = {
       state: ''
     };
@@ -33,14 +33,16 @@ angular.module('metadatamanagementApp').service('JobLoggingService',
         });
       }
     };
-    var finish = function(finishMsg) {
+    var finish = function(finishMsg, translationData) {
       job.state = 'finished';
+      var message = $translate.instant(finishMsg, translationData);
       job.logMessages.push({
-        message: '\n' + finishMsg,
+        message: '\n' + message,
         type: 'info'
       });
       blockUI.stop();
-      JobCompleteToastService.openJobCompleteToast(finishMsg);
+      JobCompleteToastService.openJobCompleteToast(finishMsg,
+        translationData);
     };
     var cancel = function(cancelMsg) {
       job.state = 'cancelled';

@@ -6,7 +6,7 @@ angular.module('metadatamanagementApp').service('JobCompleteToastService',
     var toastParent = angular.element('#toast-container');
 
     //The Toast for the upload complete
-    function openJobCompleteToast(resultMessage) {
+    function openJobCompleteToast(resultMessage, translationData) {
       $mdToast.show({
         controller: 'JobCompleteToastController',
         templateUrl: 'scripts/common/joblogging/views/' +
@@ -15,7 +15,8 @@ angular.module('metadatamanagementApp').service('JobCompleteToastService',
         position: 'top right',
         parent: toastParent,
         locals: {
-          resultMessage: resultMessage
+          resultMessage: resultMessage,
+          translationData: translationData
         }
       });
     }
