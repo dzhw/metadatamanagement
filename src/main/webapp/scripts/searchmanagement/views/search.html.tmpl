@@ -33,12 +33,6 @@
     </div>
     <!-- this should be removed... -->
     <div ng-if="selectedTabIndex === 5">
-      <script type="text/javascript">
-      function toBeRemovedFunction() {
-        window.location.replace("#/de/?page=1&type=studies");
-      }
-      toBeRemovedFunction();
-      </script>
       <div style="visibility: hidden;height:0px;">{{page.totalHits = 1}}</div>
       <study-search-result></study-search-result>
     </div>
