@@ -8,6 +8,6 @@
     "job-complete-toast": {
       "show-log": "Zeige Protokoll"
     },
-    "block-ui-message": "{{ errors }} von {{ total }} Fehler"
+    "block-ui-message": "{{ errors }} Fehler bei {{ total }} Datensätzen"
   }
 }
