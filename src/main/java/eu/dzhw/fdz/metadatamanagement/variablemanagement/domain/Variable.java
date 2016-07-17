@@ -33,7 +33,7 @@ import net.karneim.pojobuilder.GeneratePojoBuilder;
 
 /**
  * A Variable.
- * 
+ *
  * @author René Reitmann
  * @author Daniel Katzberg
  */
@@ -65,23 +65,23 @@ public class Variable extends AbstractRdcDomainObject {
 
   @ValidScaleLevel(message = "{error.variable.scaleLevel.validScaleLevel}")
   private I18nString scaleLevel;
-  
+
   @NotEmpty(message = "{error.variable.name.notEmpty}")
   @Size(max = StringLengths.SMALL, message = "{error.variable.name.size}")
   @Pattern(regexp = Patterns.ALPHANUMERIC_WITH_UNDERSCORE_NO_NUMBER_AS_FIRST_SIGN,
       message = "{error.variable.name.pattern}")
-  private String name;  
+  private String name;
 
   @NotNull(message = "{error.variable.label.notNull}")
   @I18nStringSize(max = StringLengths.MEDIUM,
       message = "{error.variable.label.i18nStringSize}")
   @AtLeastOneLanguage(message = "{error.variable.label.atLeastOneLanguage}")
   private I18nString label;
-  
+
   @I18nStringSize(max = StringLengths.LARGE,
       message = "{error.variable.description.i18nStringSize}")
   private I18nString description;
-  
+
   // checks for min size too.
   @NotEmpty(message = "{error.variable.accessWays.notEmpty}")
   @ValidAccessWays(message = "{error.variable.accessWays.validAccessWays}")
@@ -92,7 +92,7 @@ public class Variable extends AbstractRdcDomainObject {
   /* Nested Objects */
   @Valid
   private FilterDetails filterDetails;
-  
+
   @Valid
   private GenerationDetails generationDetails;
 
@@ -101,7 +101,7 @@ public class Variable extends AbstractRdcDomainObject {
 
 
   /* Foreign Keys */
-  private String conceptId;  
+  private String conceptId;
 
   private String atomicQuestionId;
 
@@ -116,7 +116,7 @@ public class Variable extends AbstractRdcDomainObject {
 
   /*
    * (non-Javadoc)
-   * 
+   *
    * @see eu.dzhw.fdz.metadatamanagement.domain.AbstractRdcDomainObject#getId()
    */
   @Override
@@ -126,7 +126,7 @@ public class Variable extends AbstractRdcDomainObject {
 
   /*
    * (non-Javadoc)
-   * 
+   *
    * @see eu.dzhw.fdz.metadatamanagement.common.domain.AbstractRdcDomainObject#toString()
    */
   @Override

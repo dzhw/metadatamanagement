@@ -25,6 +25,25 @@
         "part-of-data-set": "Part of Data Set:",
         "surveyed-in": "Surveyed in:",
         "belongs-to-concept": "Belongs to Concept:"
+      },
+      "error": {
+        "distribution": {
+          "validResponses": {
+            "uniqueValue": "The value has to be unique within the valid responses."
+          },
+          "totalAbsoluteFrequency": {
+            "notNull": "The total absolute frequency must not be empty!"
+          },
+          "totalValidAbsoluteFrequency": {
+            "notNull": "The total valid absolute frequency must not be empty!"
+          },
+          "totalValidRelativeFrequency": {
+            "notNull": "The total valid relative frequency must not be empty!"
+          },
+          "missings": {
+            "uniqueCode": "The code has to be unique within the missings."
+          }
+        }
       }
     }
   }

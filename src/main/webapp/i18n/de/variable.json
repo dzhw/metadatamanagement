@@ -25,6 +25,25 @@
         "part-of-data-set": "Enthalten in Datensatz:",
         "surveyed-in": "Erhoben in:",
         "belongs-to-concept": "Gehört zu Konstrukt:"
+      },
+      "error": {
+        "distribution": {
+          "validResponses": {
+            "uniqueValue": "Der Wert muss innerhalb der gültigen Antworten eindeutig sein."
+          },
+          "totalAbsoluteFrequency": {
+            "notNull": "Die totale, absolute Häufigkeit darf nicht leer sein!"
+          },
+          "totalValidAbsoluteFrequency": {
+            "notNull": "Die totale, valide, absolute Häufigkeit darf nicht leer sein!"
+          },
+          "totalValidRelativeFrequency": {
+            "notNull": "Die totale, valide, relative Häufigkeit darf nicht leer sein!"
+          },
+          "missings": {
+            "uniqueCode": "Der Code muss innerhalb der Missings eindeutig sein."
+          }
+        }
       }
     }
   }
