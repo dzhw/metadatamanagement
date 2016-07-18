@@ -221,7 +221,7 @@ public class VariableResourceTest extends AbstractTest {
     mockMvc.perform(put(API_VARIABLES_URI + "/" + variable.getId())
       .content(TestUtil.convertObjectToJsonBytes(variable)))
       .andExpect(status().isBadRequest())
-      .andExpect(jsonPath("$.errors[0].message", containsString("have to be filled or empty")));
+      .andExpect(jsonPath("$.errors[0].message", containsString("variable.error.generationDetails.ruleExpressionLanguageAndRuleFilledOrEmpty")));
   }
 
   @Test
@@ -426,7 +426,7 @@ public class VariableResourceTest extends AbstractTest {
     Survey survey = UnitTestCreateDomainObjectUtils.buildSurvey(project.getId());
     surveyRepository.save(survey);
 
-    List<String> accessWays = new ArrayList<String>();
+    List<String> accessWays = new ArrayList<>();
     accessWays.add("WrongAccessWay");
     Variable variable =
         UnitTestCreateDomainObjectUtils.buildVariable(project.getId(), survey.getId());
