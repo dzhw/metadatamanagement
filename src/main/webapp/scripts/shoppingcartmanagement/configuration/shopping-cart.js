@@ -6,7 +6,7 @@ angular.module('metadatamanagementApp').config(
       parent: 'site',
       url: '/basket',
       data: {
-        authorities: ['ROLE_USER'],
+        authorities: [],
         pageTitle: 'Shopping cart'
       },
       views: {

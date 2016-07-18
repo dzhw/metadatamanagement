@@ -3,10 +3,7 @@
 angular.module('metadatamanagementApp')
   .controller('StudyDetailController',
     function($scope, localStorageService, ShoppingCartService) {
-
-      ShoppingCartService.getShoppingCart().then(function(basket) {
-        $scope.todos = basket;
-      });
+      $scope.todos = ShoppingCartService.getShoppingCart();
 
       $scope.addTodo = function(id) {
         $scope.todos.push({

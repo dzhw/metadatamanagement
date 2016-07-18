@@ -46,15 +46,12 @@
                 <span hide-xs data-translate="global.toolbar.buttons.register">Register</span>
             </md-button>
         </div>
-
-        <div ng-switch-when="true">
             <md-button id="basket" aria-label="Warenkorb" class="md-primary md-raised md-hue-1" ng-class="{'md-icon-button': $mdMedia('xs')}" ng-click="basket()">
                 <md-tooltip>
                   Warenkorb
                 </md-tooltip>
                 <md-icon md-svg-src="/assets/images/icons/basket.svg"></md-icon>
-                <span hide-xs>Warenkorb({{itemsInBasket}})</span>
+                <span hide-xs>Warenkorb({{itemsInBasket || 0}})</span>
             </md-button>
         </div>
-    </div>
 </md-toolbar>

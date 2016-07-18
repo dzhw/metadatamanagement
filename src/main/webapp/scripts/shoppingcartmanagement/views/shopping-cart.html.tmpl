@@ -6,9 +6,9 @@
           <p>[ <a href="" data-ng-click="archive()">Remove Suf from cart</a> ]</p>
         </section>
         <ul class="unstyled">
-          <li data-ng-repeat="todo in todos track by $index">
-            <input type="checkbox" data-ng-model="todo.done">
-            <span>{{ todo.id }} - {{ todo.text }} - {{ todo.date | date:'medium'}}</span>
+          <li data-ng-repeat="item in items track by $index">
+            <input type="checkbox" data-ng-model="item.done">
+            <span>{{ item.id }} - {{ item.text }} - {{ item.date | date:'medium'}}</span>
           </li>
         </ul>
       </section>

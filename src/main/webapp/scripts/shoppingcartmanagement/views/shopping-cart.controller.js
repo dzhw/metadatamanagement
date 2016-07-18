@@ -2,17 +2,14 @@
 
 angular.module('metadatamanagementApp').controller('ShoppingCartController',
 function($scope, localStorageService, ShoppingCartService) {
-
-  ShoppingCartService.getShoppingCart().then(function(basket) {
-    $scope.todos = basket;
-  });
+  $scope.items = ShoppingCartService.getShoppingCart();
   $scope.archive = function() {
-    var oldTodos = $scope.todos;
-    $scope.todos = [];
-    angular.forEach(oldTodos, function(todo) {
-      if (!todo.done) {
-        $scope.todos.push(todo);
+    var oldItems = $scope.items;
+    $scope.items = [];
+    angular.forEach(oldItems, function(item) {
+      if (!item.done) {
+        $scope.items.push(item);
       }
     });
-    ShoppingCartService.addToShoppingCart($scope.todos);
+    ShoppingCartService.addToShoppingCart($scope.items);
   };});

@@ -1,23 +1,17 @@
 'use strict';
 
 angular.module('metadatamanagementApp').service('ShoppingCartService',
-    function($q, $rootScope, localStorageService, Principal) {
-      var shoppingCartName;
+    function($rootScope, localStorageService) {
       var getShoppingCart = function() {
-        var deferred = $q.defer();
-        Principal.identity().then(function(account) {
-          if (localStorageService.get(account.login) === null) {
-            localStorageService.set(account.login, JSON.stringify([]));
-          }
-          shoppingCartName = account.login;
-          var basket = JSON.parse(localStorageService.get(shoppingCartName));
-          deferred.resolve(basket);
-        });
-        return deferred.promise;
+        if (localStorageService.get('shoppingCart') === null) {
+          localStorageService.set('shoppingCart', JSON.stringify([]));
+        }
+        var basket = JSON.parse(localStorageService.get('shoppingCart'));
+        return basket;
       };
 
       var addToShoppingCart = function(items) {
-        localStorageService.set(shoppingCartName, JSON.stringify(items));
+        localStorageService.set('shoppingCart', JSON.stringify(items));
         $rootScope.$broadcast('itemsCount', items.length);
       };
 

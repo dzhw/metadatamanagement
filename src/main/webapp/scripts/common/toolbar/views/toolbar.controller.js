@@ -5,9 +5,7 @@ angular.module('metadatamanagementApp').controller(
   function($scope, $state, Auth, Principal, $mdSidenav, Language, $mdMedia,
     ShoppingCartService) {
     $scope.isAuthenticated = Principal.isAuthenticated;
-    ShoppingCartService.getShoppingCart().then(function(basket) {
-      $scope.itemsInBasket = basket.length;
-    });
+    $scope.itemsInBasket = ShoppingCartService.getShoppingCart().length;
     $scope.$on('itemsCount', function(event, args) {
       $scope.itemsInBasket = args;
     });
