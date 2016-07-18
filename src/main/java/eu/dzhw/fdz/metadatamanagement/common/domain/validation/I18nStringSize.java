@@ -23,8 +23,8 @@ public @interface I18nStringSize {
   /**
    * Defines the default error message.
    */
-  public abstract String message() default "{eu.dzhw.fdz.metadatamanagement.domain.validation."
-      + "i18nstringsize.message}";
+  public abstract String message() default "eu.dzhw.fdz.metadatamanagement.domain.validation."
+      + "i18nstringsize.message";
   
   /**
    * This contains groups.

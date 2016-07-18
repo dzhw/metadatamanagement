@@ -43,6 +43,32 @@
           "missings": {
             "uniqueCode": "The code has to be unique within the missings."
           }
+        },
+        "filterDetails": {
+          "expression": {
+            "notEmpty": "The filter expression must not be empty!",
+            "size": "The max length of the filter expression is {{max}} signs."
+          },
+          "description": {
+            "i18nStringSize": "The max length of the filter description is {{max}} signs."
+          },
+          "expressionLanguage": {
+            "notEmpty": "The filter expression language  must not be empty!",
+            "validFilterExpressionLanguage": "The filter expression language is not valid. Valid is: SpEL and Stata."
+          }
+        },
+        "generationDetails": {
+          "notEmptyGenerationDetailsDescriptionOrRule": "The rule or the description of a generation rule must not be empty! Both can be set, too.",
+          "ruleExpressionLanguageAndRuleFilledOrEmpty": "Both, the rule and the rule expression language, have to be filled or empty.",
+          "description": {
+            "i18nStringSize": "The max length of the generation rule description of the variable is {{max}} signs."
+          },
+          "rule": {
+            "size": "The max length of the rule is {{max}} signs."
+          },
+          "ruleExpressionLanguage": {
+            "validRuleExpressionLanguage": "The rule expression language is not valid. Valid is: R and Stata."
+          }
         }
       }
     }

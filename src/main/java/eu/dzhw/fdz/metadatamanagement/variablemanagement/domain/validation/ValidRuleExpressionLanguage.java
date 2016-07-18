@@ -26,8 +26,8 @@ public @interface ValidRuleExpressionLanguage {
   /**
    * Defines the default error message.
    */
-  public abstract String message() default "{eu.dzhw.fdz.metadatamanagement.domain.validation."
-      + "validruleexpressionlanguage.message}";
+  public abstract String message() default "eu.dzhw.fdz.metadatamanagement.domain.validation."
+      + "validruleexpressionlanguage.message";
 
   /**
    * This contains groups.

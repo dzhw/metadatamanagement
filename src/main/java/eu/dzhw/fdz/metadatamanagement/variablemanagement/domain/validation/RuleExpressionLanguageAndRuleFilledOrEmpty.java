@@ -25,8 +25,8 @@ public @interface RuleExpressionLanguageAndRuleFilledOrEmpty {
   /**
    * Defines the default error message.
    */
-  public abstract String message() default "{eu.dzhw.fdz.metadatamanagement.domain.validation."
-      + "mandatoryExpressionLanguageRuleIfRuleExist.message}";
+  public abstract String message() default "eu.dzhw.fdz.metadatamanagement.domain.validation."
+      + "mandatoryExpressionLanguageRuleIfRuleExist.message";
 
   /**
    * This contains groups.

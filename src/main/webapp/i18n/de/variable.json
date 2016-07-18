@@ -43,6 +43,32 @@
           "missings": {
             "uniqueCode": "Der Code muss innerhalb der Missings eindeutig sein."
           }
+        },
+        "filterDetails": {
+          "expression": {
+            "notEmpty": "Der Filterausdruck darf nicht leer sein!",
+            "size": "Die Maximallänge des Filterausdrucks ist {{max}} Zeichen."
+          },
+          "description": {
+            "i18nStringSize": "Die Maximallänge der Filterbeschreibung ist {{max}} Zeichen."
+          },
+          "expressionLanguage": {
+            "notEmpty": "Die Filterausdruckssprache darf nicht leer sein!",
+            "validFilterExpressionLanguage": "Die angegebene Filterausdruckssprache ist nicht gültig.Es sind nur SpEL und Stata erlaubt."
+          }
+        },
+        "generationDetails": {
+          "notEmptyGenerationDetailsDescriptionOrRule": "Es muss bei der Regelgenerierung mind. die Regel oder die Beschreibung gesetzt sein.",
+          "ruleExpressionLanguageAndRuleFilledOrEmpty": "Die Generierungsregel und die dazugehörige Sprachen müssen beide gefüllt sein oder leer sein.",
+          "description": {
+            "i18nStringSize": "Die Maximallänge der Beschreibung der Regelgenerierung der Variable ist {{max}} Zeichen."
+          },
+          "rule": {
+            "size": "Die Maximallänge der Generierungsregel ist {{max}} Zeichen."
+          },
+          "ruleExpressionLanguage": {
+            "validRuleExpressionLanguage": "Die Sprache der Generierungsregel ist nicht gültig.Nur R und Stata sind erlaubt."
+          }
         }
       }
     }

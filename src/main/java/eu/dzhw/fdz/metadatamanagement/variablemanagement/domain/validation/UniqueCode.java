@@ -22,8 +22,8 @@ public @interface UniqueCode {
   /**
    * Defines the default error message.
    */
-  public abstract String message() default "{eu.dzhw.fdz.metadatamanagement.domain.validation."
-      + "uniqueCode.message}";
+  public abstract String message() default "eu.dzhw.fdz.metadatamanagement.domain.validation."
+      + "uniqueCode.message";
 
   /**
    * This contains groups.

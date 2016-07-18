@@ -22,8 +22,8 @@ public @interface UniqueValue {
   /**
    * Defines the default error message.
    */
-  public abstract String message() default "{eu.dzhw.fdz.metadatamanagement.domain.validation."
-      + "uniquevalueclass.message}";
+  public abstract String message() default "eu.dzhw.fdz.metadatamanagement.domain.validation."
+      + "uniquevalueclass.message";
 
   /**
    * This contains groups.

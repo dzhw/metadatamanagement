@@ -27,8 +27,8 @@ public @interface ValidFilterExpressionLanguage {
   /**
    * Defines the default error message.
    */
-  public abstract String message() default "{eu.dzhw.fdz.metadatamanagement.domain.validation."
-      + "validfilterexpressionlanguage.message}";
+  public abstract String message() default "eu.dzhw.fdz.metadatamanagement.domain.validation."
+      + "validfilterexpressionlanguage.message";
 
   /**
    * This contains groups.
