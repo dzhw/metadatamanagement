@@ -9,7 +9,8 @@ angular
       'elasticsearch',
       'ngResource', 'ui.router', 'ngCookies', 'ngAria', 'ngCacheBuster',
       'ngFileUpload', 'ngMaterial',
-      'blockUI', 'LocalStorageModule'
+      'blockUI', 'LocalStorageModule',
+      'ngMessages'
     ])
 
 .run(

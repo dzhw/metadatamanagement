@@ -1,16 +1,41 @@
-<md-card>
-    <md-card-content>
-      <section>
-        <section>
-          <span>{{ todos.length }} SUFs</span>
-          <p>[ <a href="" data-ng-click="archive()">Remove Suf from cart</a> ]</p>
+<div layout="column">
+    <md-card>
+          <span>There is {{ basket.items.length }} studies in your basket.</span>
+            <md-list-item class="md-2-line" ng-repeat="item in basket.items track by $index">
+          <img ng-src="/assets/images/icons/study.svg" alt="in development" class="md-avatar"/>
+          <div class="md-list-item-text">
+            <a ui-sref="studyDetail({id:'suf-1'})"><h3>{{ item.text }}</h3></a>
+            <p>{{ item.date | date:'medium'}}</p>
+            <md-checkbox class="md-secondary" ng-model="item.done"></md-checkbox>
+          </div>
+        </md-list-item>
+        <section layout="row" layout-align="end end">
+          <md-button ng-disabled="isDisabled()" class="md-raised md-warn" ng-click="removeFromShoppingCart()">Remove</md-button>
         </section>
-        <ul class="unstyled">
-          <li data-ng-repeat="item in items track by $index">
-            <input type="checkbox" data-ng-model="item.done">
-            <span>{{ item.id }} - {{ item.text }} - {{ item.date | date:'medium'}}</span>
-          </li>
-        </ul>
-      </section>
-    </md-card-content>
-</md-card>
+    </md-card>
+    <md-card>
+            <form name="basketForm" ng-submit="basketForm.$valid && submitForm()" novalidate>
+                <md-input-container class="md-block">
+                    <label>Name</label>
+                    <md-icon md-svg-src="/assets/images/icons/person.svg" class="name"></md-icon>
+                    <input type="text" name="name" ng-model="basket.firstname" ng-minlength="5" ng-maxlength="10" ng-required="true">
+                    <div ng-messages="basketForm.name.$error" ng-if="!basketForm.$valid">
+                        <p ng-message="minlength">Your name is too short.</p>
+                        <p ng-message="maxlength">Your name is too long.</p>
+                        <p ng-message="required">Your name is required.</p>
+                    </div>
+                </md-input-container>
+                <md-input-container class="md-block">
+                    <md-icon md-svg-src="/assets/images/icons/email.svg" class="email"></md-icon>
+                    <input ng-model="basket.email" type="email" name="email" placeholder="Email" ng-required="true">
+                    <div ng-messages="basketForm.email.$error" ng-if="!basketForm.$valid">
+                        <p ng-message="required">This field is required</p>
+                        <p ng-message="email">This needs to be a valid email</p>
+                    </div>
+                </md-input-container>
+                <section layout="row" layout-align="end end">
+                    <md-button ng-disabled="isDisabled()" type="submit" class="md-raised md-primary">Send</md-button>
+                </section>
+            </form>
+    </md-card>
+</div>
