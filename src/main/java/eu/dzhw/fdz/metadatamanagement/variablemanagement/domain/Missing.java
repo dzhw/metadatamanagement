@@ -21,16 +21,17 @@ import net.karneim.pojobuilder.GeneratePojoBuilder;
     intoPackage = "eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.builders")
 public class Missing {
 
-  @NotNull(message = "{error.missing.code.notNull}")
+  @NotNull(message = "metadatamanagementApp.variable.error.missing.code.notNull")
   private Integer code;
 
-  @I18nStringSize(max = StringLengths.MEDIUM, message = "{error.missing.label.i18nStringSize}")
+  @I18nStringSize(max = StringLengths.MEDIUM, 
+      message = "metadatamanagementApp.variable.error.missing.label.i18nStringSize")
   private I18nString label;
 
-  @NotNull(message = "{error.missing.absoluteFrequency.notNull}")
+  @NotNull(message = "metadatamanagementApp.variable.error.missing.absoluteFrequency.notNull")
   private Integer absoluteFrequency;
 
-  @NotNull(message = "{error.missing.relativeFrequency.notNull}")
+  @NotNull(message = "metadatamanagementApp.variable.error.missing.relativeFrequency.notNull")
   private Double relativeFrequency;
 
   /*
