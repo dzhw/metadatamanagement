@@ -26,44 +26,6 @@ $state-danger-border:            $brand-danger !default;
 @import "bootstrap-sass/assets/stylesheets/_bootstrap.scss";
 // endbower
 
-/*
-This CSS resource incorporates links to font software which is the valuable copyrighted
-property of Monotype Imaging and/or its suppliers. You may not attempt to copy, install,
-redistribute, convert, modify or reverse engineer this font software. Please contact Monotype
-Imaging with any questions regarding Web Fonts:  http://www.fonts.com
-*/
-@import url("https://fast.fonts.net/t/1.css?apiType=css&projectid=50f55666-6085-42ae-8620-9f4cdb0ff7b3");
-
-@font-face {
-    font-family: "Calibri";
-    src: url("../fonts/d4acc8cd-67f2-4139-80be-d669bb2564d7.eot?#iefix");
-    src: url("../fonts/d4acc8cd-67f2-4139-80be-d669bb2564d7.eot?#iefix") format("eot"),url("../fonts/367341fc-4cc6-4a79-89ad-d6c61561611e.woff2") format("woff2"),url("../fonts/1ff86dd4-d3b2-4325-89bc-c6eb493cedba.woff") format("woff"),url("../fonts/aa6b4b64-5ce0-48fd-887a-bece037cd9c9.ttf") format("truetype"),url("../fonts/59b6060c-d311-413e-b351-d79aaf982f7a.svg#59b6060c-d311-413e-b351-d79aaf982f7a") format("svg");
-}
-
-@font-face {
-    font-family: "Verdana";
-    src: url("../fonts/de87ff33-fd6e-44d6-b508-64fd48f40e18.eot?#iefix");
-    src: url("../fonts/de87ff33-fd6e-44d6-b508-64fd48f40e18.eot?#iefix") format("eot"),url("../fonts/5bfd7bdf-7110-4964-ad2d-776de3899a40.woff2") format("woff2"),url("../fonts/bd147430-0506-4d5d-b20d-fede78e8fc3f.woff") format("woff"),url("../fonts/43b27849-ca62-4f8a-9776-0f8db547fc3b.ttf") format("truetype"),url("../fonts/b01702f8-d48b-4dfb-b41c-63e7c2a75bb2.svg#b01702f8-d48b-4dfb-b41c-63e7c2a75bb2") format("svg");
-}
-
-@font-face {
-    font-family: "Wingdings";
-    src: url("../fonts/284e822a-06b4-4764-96da-c7584f59d979.eot?#iefix");
-    src: url("../fonts/284e822a-06b4-4764-96da-c7584f59d979.eot?#iefix") format("eot"),url("../fonts/ea76d17b-4ff6-488a-8ad0-f1710f04afec.woff2") format("woff2"),url("../fonts/b77da5fe-13ec-4d11-bebe-a36b41479ac2.woff") format("woff"),url("../fonts/ce7fbdee-ca0f-428f-a6e0-ad43b644a367.ttf") format("truetype"),url("../fonts/8c9aadac-4cb6-4229-af21-52303d132d42.svg#8c9aadac-4cb6-4229-af21-52303d132d42") format("svg");
-}
-
-@font-face {
-    font-family: "Wingdings 2";
-    src: url("../fonts/97bb5a96-4840-46c5-bf08-0eed6133f76e.eot?#iefix");
-    src: url("../fonts/97bb5a96-4840-46c5-bf08-0eed6133f76e.eot?#iefix") format("eot"),url("../fonts/7a23d3d5-5536-4134-8754-9f943197d6be.woff2") format("woff2"),url("../fonts/0fe7b176-419c-47b7-a619-85c826c2520d.woff") format("woff"),url("../fonts/f6d581da-7fa1-4ecb-91d2-a27b3b6b613a.ttf") format("truetype"),url("../fonts/69b40d7f-6f71-4585-be3e-1107bf16c6ed.svg#69b40d7f-6f71-4585-be3e-1107bf16c6ed") format("svg");
-}
-
-@font-face {
-    font-family: "Wingdings 3";
-    src: url("../fonts/672c17f6-c09c-4bae-90ff-87228dacb42c.eot?#iefix");
-    src: url("../fonts/672c17f6-c09c-4bae-90ff-87228dacb42c.eot?#iefix") format("eot"),url("../fonts/dad72213-9797-4c95-8145-20df4e28f925.woff2") format("woff2"),url("../fonts/04f2d489-e630-4504-93b2-6030f29acc66.woff") format("woff"),url("../fonts/84a9274e-d221-4564-a33d-9c7c0535fe94.ttf") format("truetype"),url("../fonts/3150aebd-04db-4dde-a00b-cac326e6251d.svg#3150aebd-04db-4dde-a00b-cac326e6251d") format("svg");
-}
-
 body {
     font-family: "Verdana", Helvetica, Arial, sans-serif;
 }

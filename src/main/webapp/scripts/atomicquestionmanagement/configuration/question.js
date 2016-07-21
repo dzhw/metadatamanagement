@@ -5,7 +5,7 @@ angular.module('metadatamanagementApp')
     $stateProvider
       .state('questionDetail', {
         parent: 'site',
-        url: '/questions/{id:^(?!test-svg$)}',
+        url: '/questions/{id}',
         data: {
           authorities: [],
           pageTitle: 'Frage'
@@ -33,21 +33,6 @@ angular.module('metadatamanagementApp')
               });
             }
           ]
-        }
-      }).state('questionTestSvg', {
-        parent: 'site',
-        url: '/questions/test-svg',
-        data: {
-          authorities: [],
-          pageTitle: 'Test SVG'
-          // should be a i18n string
-        },
-        views: {
-          'content@': {
-            templateUrl: 'scripts/atomicquestionmanagement/views/' +
-              'test-svg.html.tmpl',
-            controller: 'TestSvgController'
-          }
         }
       });
   });
