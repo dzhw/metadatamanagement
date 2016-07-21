@@ -180,7 +180,17 @@ module.exports = function(grunt) {
             'Element “md-card” not allowed as child of element “a” in this' +
             ' context. (Suppressing further errors from this subtree.)',
             'Element “md-autocomplete” not allowed as child of element “div”' +
-            ' in this context. (Suppressing further errors from this subtree.)'
+            ' in this context. (Suppressing further errors from this subtree.)',
+            'Attribute “uib-pagination” not allowed on element' +
+            ' “ul” at this point.',
+            'Attribute “next-text” not allowed on element “ul” at this point.',
+            'Attribute “previous-text” not allowed on element' +
+            ' “ul” at this point.',
+            'Attribute “total-items” not allowed on element' +
+            ' “ul” at this point.',
+            'Attribute “max-size” not allowed on element “ul” at this point.',
+            'Attribute “items-per-page” not allowed on element' +
+            ' “ul” at this point.'
           ],
           customattrs: [
             'show-validation',
