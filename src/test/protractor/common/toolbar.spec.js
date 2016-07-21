@@ -22,6 +22,7 @@ describe('Tool Bar', function() {
         browser.getCurrentUrl().then(function(url) {
           currentUrl = url;
         });
+        browser.waitForAngular();
         htmlContent = element(by.id('toolbar'));
         htmlContentHelper.showHiddenElements(htmlContent)
           .then(function(content) {

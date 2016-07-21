@@ -23,6 +23,7 @@ describe('Disclosure Page', function() {
           browser.getCurrentUrl().then(function(url) {
            currentUrl = url;
          });
+          browser.waitForAngular();
           htmlContent = element(by.id('content'));
         });
       it('should check translated strings', function() {

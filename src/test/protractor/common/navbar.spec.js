@@ -25,6 +25,7 @@ describe('Side Bar', function() {
         browser.getCurrentUrl().then(function(url) {
           currentUrl = url;
         });
+        browser.waitForAngular();
         htmlContent = element(by.tagName('md-sidenav'));
         htmlContentHelper.showHiddenElements(htmlContent)
           .then(function(content) {
