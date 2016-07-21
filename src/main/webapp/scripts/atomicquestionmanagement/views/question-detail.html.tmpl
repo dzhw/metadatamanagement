@@ -2,18 +2,53 @@
     <!-- Todo replace with loading directive -->
     Lade Daten...
 </div>
-<div ng-if="question.$resolved">
+<div ng-if="question.$resolved" id="popupContainer">
     <md-card>
         <md-card-header>
             <md-card-header-text>
-                In development
+                <h1>Questionnaire qustion.number </h1>
             </md-card-header-text>
         </md-card-header>
-        <md-card-content>
-            <md-button type="submit" onclick="window.history.back()" class="md-raised">
-                <span class="glyphicon glyphicon-arrow-left"></span>&nbsp;
-                <span data-translate="entity.action.back">Back</span>
-            </md-button>
-        </md-card-content>
+        <md-content class="md-padding" layout="column">
+   <div layout="row" layout-xs="column">
+     <md-card flex="50" flex-xs="100" ng-click="showQuestion($event)">
+       <img src="/assets/images/se19-01.png" class="md-card-image" alt="image caption"/>
+     </md-card>
+     <md-card flex="50" flex-xs="100">
+       <md-card-title>
+         <md-card-title-text>
+           <span class="md-headline">Zugehörige Informationen</span>
+         </md-card-title-text>
+       </md-card-title>
+         <section layout="row" layout-align="start start">
+             <md-button class="md-fab" aria-label="dfdfdddf">
+               <md-icon md-svg-src="/assets/images/icons/study.svg"></md-icon>
+             </md-button>
+             <md-button class="md-primary md-fab" aria-label="Füge Studie zum Warenkorb hinzu">
+                 <md-tooltip md-direction="left">
+                     Füge Studie zum Warenkorb hinzu
+                 </md-tooltip>
+                 <md-icon md-font-set="material-icons">add_shopping_cart</md-icon>
+             </md-button>
+          </section>
+     </md-card>
+   </div>
+   <div layout="row" layout-xs="column">
+     <md-card flex="50" flex-xs="100">
+       <md-card-title>
+         <md-card-title-text>
+           <span class="md-headline">Vorgänge</span>
+         </md-card-title-text>
+       </md-card-title>
+     </md-card>
+     <md-card flex="50" flex-xs="100">
+       <md-card-title>
+         <md-card-title-text>
+           <span class="md-headline">Nachfolge</span>
+         </md-card-title-text>
+       </md-card-title>
+     </md-card>
+   </div>
+ </md-content>
     </md-card>
 </div>

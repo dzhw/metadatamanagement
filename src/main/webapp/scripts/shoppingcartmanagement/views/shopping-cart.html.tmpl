@@ -1,6 +1,6 @@
 <div layout="column">
     <md-card>
-          <span>There is {{ basket.items.length }} studies in your basket.</span>
+          <span>There are {{ basket.items.length }} studies in your basket.</span>
             <md-list-item class="md-2-line" ng-repeat="item in basket.items track by $index">
           <img ng-src="/assets/images/icons/study.svg" alt="in development" class="md-avatar"/>
           <div class="md-list-item-text">
@@ -17,7 +17,7 @@
             <form name="basketForm" ng-submit="basketForm.$valid && submitForm()" novalidate>
                 <md-input-container class="md-block">
                     <label>Name</label>
-                    <md-icon md-svg-src="/assets/images/icons/person.svg" class="name"></md-icon>
+                    <md-icon md-svg-src="/assets/images/icons/person.svg"></md-icon>
                     <input type="text" name="name" ng-model="basket.firstname" ng-minlength="5" ng-maxlength="10" ng-required="true">
                     <div ng-messages="basketForm.name.$error" ng-if="!basketForm.$valid">
                         <p ng-message="minlength">Your name is too short.</p>
@@ -26,7 +26,7 @@
                     </div>
                 </md-input-container>
                 <md-input-container class="md-block">
-                    <md-icon md-svg-src="/assets/images/icons/email.svg" class="email"></md-icon>
+                    <md-icon md-svg-src="/assets/images/icons/email.svg"></md-icon>
                     <input ng-model="basket.email" type="email" name="email" placeholder="Email" ng-required="true">
                     <div ng-messages="basketForm.email.$error" ng-if="!basketForm.$valid">
                         <p ng-message="required">This field is required</p>
