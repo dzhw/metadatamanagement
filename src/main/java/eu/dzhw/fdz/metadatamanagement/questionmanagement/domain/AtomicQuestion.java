@@ -32,61 +32,61 @@ import net.karneim.pojobuilder.GeneratePojoBuilder;
 @GeneratePojoBuilder(
     intoPackage = "eu.dzhw.fdz.metadatamanagement.questionmanagement.domain.builders")
 @CompoundIndex(def = "{name: 1, questionnaireId: 1}", unique = true)
-@ValidAtomicQuestionIdName(message = "{error.atomicQuestion.validAtomicQuestionIdName}")
-@UniqueAtomicQuestionName(message = "{error.atomicQuestion.uniqueAtomicQuestionName}")
+@ValidAtomicQuestionIdName(message = "question.error.question.validAtomicQuestionIdName")
+@UniqueAtomicQuestionName(message = "question.error.question.uniqueAtomicQuestionName")
 public class AtomicQuestion extends AbstractRdcDomainObject {
 
   /* Domain model attributes */
   @Id
-  @NotEmpty(message = "{error.atomicQuestion.id.notEmpty}")
-  @Size(max = StringLengths.MEDIUM, message = "{error.atomicQuestion.id.size}")
+  @NotEmpty(message = "question.error.question.id.notEmpty")
+  @Size(max = StringLengths.MEDIUM, message = "question.error.question.id.size")
   @Pattern(regexp = Patterns.GERMAN_ALPHANUMERIC_WITH_UNDERSCORE_AND_MINUS,
-      message = "{error.atomicQuestion.id.pattern}")
+      message = "question.error.question.id.pattern")
   private String id;
 
-  @NotNull(message = "{error.atomicQuestion.type.notNull}")
+  @NotNull(message = "question.error.question.type.notNull")
   @ValidAtomicQuestionType(message =
-      "{error.atomicQuestion.type.atomicQuestionTypeConsistence}")
+      "question.error.question.type.atomicQuestionTypeConsistence")
   private I18nString type;
 
-  @NotEmpty(message = "{error.atomicQuestion.name.notEmpty}")
-  @Size(max = StringLengths.SMALL, message = "{error.atomicQuestion.name.size}")
+  @NotEmpty(message = "question.error.question.name.notEmpty")
+  @Size(max = StringLengths.SMALL, message = "question.error.question.name.size")
   private String name;
 
-  @NotEmpty(message = "{error.atomicQuestion.compositeQuestionName.notEmpty}")
-  @Size(max = StringLengths.SMALL, message = "{error.atomicQuestion.compositeQuestionName.size}")
+  @NotEmpty(message = "question.error.question.compositeQuestionName.notEmpty")
+  @Size(max = StringLengths.SMALL, message = "question.error.question.compositeQuestionName.size")
   private String compositeQuestionName;
 
   @I18nStringSize(max = StringLengths.LARGE,
-      message = "{error.atomicQuestion.footnote.i18nStringSize}")
+      message = "question.error.question.footnote.i18nStringSize")
   private I18nString footnote;
 
   @I18nStringSize(max = StringLengths.LARGE,
-      message = "{error.atomicQuestion.questionText.i18nStringSize}")
+      message = "question.error.question.questionText.i18nStringSize")
   private I18nString questionText;
 
   @I18nStringSize(max = StringLengths.LARGE,
-      message = "{error.atomicQuestion.instruction.i18nStringSize}")
+      message = "question.error.question.instruction.i18nStringSize")
   private I18nString instruction;
 
   @I18nStringSize(max = StringLengths.LARGE,
-      message = "{error.atomicQuestion.introduction.i18nStringSize}")
+      message = "question.error.question.introduction.i18nStringSize")
   private I18nString introduction;
 
   @I18nStringSize(max = StringLengths.MEDIUM,
-      message = "{error.atomicQuestion.sectionHeader.i18nStringSize}")
+      message = "question.error.question.sectionHeader.i18nStringSize")
   private I18nString sectionHeader;
 
 
   /* Foreign Keys */
   @Indexed
-  @NotEmpty(message = "{error.atomicQuestion.dataAcquisitionProjectId.notEmpty}")
+  @NotEmpty(message = "question.error.question.dataAcquisitionProject.id.notEmpty")
   private String dataAcquisitionProjectId;
 
-  @NotEmpty(message = "{error.atomicQuestion.questionnaire.id.notEmpty}")
+  @NotEmpty(message = "question.error.question.questionnaire.id.notEmpty")
   private String questionnaireId;
 
-  @NotEmpty(message = "{error.atomicQuestion.variable.id.notEmpty}")
+  @NotEmpty(message = "question.error.question.variable.id.notEmpty")
   private String variableId;
 
   /*

@@ -1,0 +1,57 @@
+{
+  "question": {
+    "error": {
+      "question": {
+        "validAtomicQuestionIdName": "Die FDZ - ID muss mit der Projekt ID beginnen(Beispiel: ProjektID - Variablenname) und muss der ID der zugehörigen Variable entsprechen!",
+        "uniqueAtomicQuestionName": "Der Name einer atomaren Frage muss eindeutig innerhalb einer Befragung sein.",
+        "id": {
+          "notEmpty": "Die FDZ - ID der atomaren Frage darf nicht leer sein!",
+          "size": "Die Maximallänge der FDZ - ID ist 128 Zeichen.",
+          "pattern": "Es dürfen nur alphanumerische Zeichen, deutsche Umlaute, ß, Leerzeichen und Minus für die FDZ - ID verwendet werden."
+        },
+        "type": {
+          "notNull": "Der Typ der atomaren Frage darf nicht leer sein.",
+          "atomicQuestionTypeConsistence": "Der Typ der atomaren Frage verwendet entweder nicht die gültigen Werte oder ist zwischen den Sprachen inkonsistent."
+        },
+        "name": {
+          "notEmpty": "Der Name einer atomaren Frage darf nicht leer sein!",
+          "size": "Die Maximallänge des Namens ist 32 Zeichen."
+        },
+        "compositeQuestionName": {
+          "notEmpty": "Der Name der zusammengesetzten Frage darf nicht leer sein!",
+          "size": "Die Maximallänge des Namens einer zusammengesetzten Frage ist 32 Zeichen."
+        },
+        "footnote": {
+          "i18nStringSize": "Die Maximallänge der Fußnote ist 2048 Zeichen."
+        },
+        "questionText": {
+          "i18nStringSize": "Die Maximallänge der Fußnote ist 2048 Zeichen."
+        },
+        "instruction": {
+          "i18nStringSize": "Die Maximallänge der Fußnote ist 2048 Zeichen."
+        },
+        "introduction": {
+          "i18nStringSize": "Die Maximallänge der Fußnote ist 2048 Zeichen."
+        },
+        "sectionHeader": {
+          "i18nStringSize": "Die Maximallänge der Fußnote ist 128 Zeichen."
+        },
+        "dataAcquisitionProject": {
+          "id": {
+            "notEmpty": "Die FDZ - ID des Datenerhebungsprojektes darf nicht leer sein!"
+          }
+        },
+        "questionnaire": {
+          "id": {
+            "notEmpty": "Die FDZ - ID des Fragebogens darf nicht leer sein!"
+          }
+        },
+        "variable": {
+          "id": {
+            "notEmpty": "Die FDZ - ID der Variable darf nicht leer sein!"
+          }
+        }
+      }
+    }
+  }
+}

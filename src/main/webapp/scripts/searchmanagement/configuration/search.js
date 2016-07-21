@@ -25,6 +25,7 @@ angular.module('metadatamanagementApp').config(
               $translatePartialLoader.addPart('dataAcquisitionProject');
               $translatePartialLoader.addPart('variable');
               $translatePartialLoader.addPart('joblogging');
+              $translatePartialLoader.addPart('question');
               return $translate.refresh();
             }
           ]
