@@ -15,20 +15,20 @@
     </md-card>
     <md-card>
             <form name="basketForm" ng-submit="basketForm.$valid && submitForm()" novalidate>
-                <md-input-container class="md-block">
+                <md-input-container class="md-block" md-is-error="!basketForm.firstname.$valid">
                     <label>Name</label>
                     <md-icon md-svg-src="/assets/images/icons/person.svg"></md-icon>
-                    <input type="text" name="name" ng-model="basket.firstname" ng-minlength="5" ng-maxlength="10" ng-required="true">
-                    <div ng-messages="basketForm.name.$error" ng-if="!basketForm.$valid">
+                    <input type="text" name="firstname" ng-model="basket.firstname" minlength="5" md-maxlength="10" ng-required="true">
+                    <div ng-messages="basketForm.firstname.$error" multiple md-auto-hide="false">
                         <p ng-message="minlength">Your name is too short.</p>
-                        <p ng-message="maxlength">Your name is too long.</p>
+                        <p ng-message="md-maxlength">Your name is too long.</p>
                         <p ng-message="required">Your name is required.</p>
                     </div>
                 </md-input-container>
-                <md-input-container class="md-block">
+                <md-input-container class="md-block" md-is-error="!basketForm.email.$valid">
                     <md-icon md-svg-src="/assets/images/icons/email.svg"></md-icon>
                     <input ng-model="basket.email" type="email" name="email" placeholder="Email" ng-required="true">
-                    <div ng-messages="basketForm.email.$error" ng-if="!basketForm.$valid">
+                    <div ng-messages="basketForm.email.$error" ng-if="basketForm.email.$error">
                         <p ng-message="required">This field is required</p>
                         <p ng-message="email">This needs to be a valid email</p>
                     </div>
