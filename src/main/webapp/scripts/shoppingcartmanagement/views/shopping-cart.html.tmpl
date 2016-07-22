@@ -28,7 +28,7 @@
                 <md-input-container class="md-block" md-is-error="!basketForm.email.$valid">
                     <md-icon md-svg-src="/assets/images/icons/email.svg"></md-icon>
                     <input ng-model="basket.email" type="email" name="email" placeholder="Email" ng-required="true">
-                    <div ng-messages="basketForm.email.$error" ng-if="basketForm.email.$error">
+                    <div ng-messages="basketForm.email.$error" multiple md-auto-hide="false">
                         <p ng-message="required">This field is required</p>
                         <p ng-message="email">This needs to be a valid email</p>
                     </div>

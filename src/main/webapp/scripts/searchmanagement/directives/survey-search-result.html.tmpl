@@ -1,19 +1,19 @@
-<a ui-sref="surveyDetail({id:searchResult.id})" class="fdz-search-result">
-    <md-card md-ink-ripple="true">
-        <md-card-header class="fdz-card-header-border">
-            <md-card-avatar>
-                <md-icon md-svg-src="/assets/images/icons/survey.svg" class="fdz-search-result-icon"></md-icon>
-            </md-card-avatar>
-            <md-card-header-text class="fdz-truncate-string">
-                <span class="md-title fdz-truncate-string">{{searchResult.title}}</span>
-                <span class="md-subhead fdz-truncate-string">{{searchResult.id}}</span>
-            </md-card-header-text>
-        </md-card-header>
-        <md-card-content>
-            <div>Feldzeit:</div>
-            <div>{{searchResult.fieldPeriod.start | date}}
-                -
-                {{searchResult.fieldPeriod.end | date}}</div>
-        </md-card-content>
-    </md-card>
-</a>
+<md-card md-ink-ripple="true">
+  <a ui-sref="surveyDetail({id:searchResult.id})" class="fdz-search-result">
+    <md-card-header class="fdz-card-header-border">
+        <md-card-avatar>
+            <md-icon md-svg-src="/assets/images/icons/survey.svg" class="fdz-search-result-icon"></md-icon>
+        </md-card-avatar>
+        <md-card-header-text class="fdz-truncate-string">
+            <span class="md-title fdz-truncate-string">{{searchResult.title}}</span>
+            <span class="md-subhead fdz-truncate-string">{{searchResult.id}}</span>
+        </md-card-header-text>
+    </md-card-header>
+  </a>
+    <md-card-content>
+      <div>Feldzeit:</div>
+      <div>{{searchResult.fieldPeriod.start | date}}
+          -
+          {{searchResult.fieldPeriod.end | date}}</div>
+    </md-card-content>
+</md-card>
