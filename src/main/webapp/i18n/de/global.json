@@ -22,10 +22,10 @@
     "menu": {
       "entities": {
         "main": "Entitäten",
-        "rdcProject": "Datenerhebungsprojekte:",
-        "current-project": "Aktuelles Datenerhebungsprojekt",
-        "select-project": "Datenerhebungsprojekt auswählen",
-        "unknown-project": "Das Datenerhebungsprojekt {{projectId}} ist unbekannt."
+        "rdcProject": "Datenaufbereitungsprojekte:",
+        "current-project": "Aktuelles Datenaufbereitungsprojekt",
+        "select-project": "Datenaufbereitungsprojekt auswählen",
+        "unknown-project": "Das Datenaufbereitungsprojekt {{projectId}} ist unbekannt."
       },
       "search": {
         "title": "Metadatensuche"
@@ -47,9 +47,9 @@
         "database": "Database"
       },
       "tooltipps": {
-        "create-project": "Ein neues Datenerhebungsprojekt erzeugen.",
-        "delete-project": "Das ausgewählte Datenerhebungsprojekt mit allen verknüpften Daten löschen.",
-        "post-validation": "Das ausgewählte Datenerhebungsprojekt validieren."
+        "create-project": "Ein neues Datenaufbereitungsprojekt erzeugen.",
+        "delete-project": "Das ausgewählte Datenaufbereitungsprojekt mit allen verknüpften Daten löschen.",
+        "post-validation": "Das ausgewählte Datenaufbereitungsprojekt validieren."
       },
       "language": "Sprache",
       "disclosure": "Impressum"
@@ -134,7 +134,7 @@
         "period": "Der Feldzeitbeginn muss vor dem Ende liegen."
       },
       "dataAcquisitionProject": {
-        "name": "Der Name einer Variablen darf nur aus Zahlen, Buchstaben und Leerzeichen bestehen."
+        "name": "Der Name eines Projektes darf nur aus Zahlen und Buchstaben bestehen."
       }
     }
   },

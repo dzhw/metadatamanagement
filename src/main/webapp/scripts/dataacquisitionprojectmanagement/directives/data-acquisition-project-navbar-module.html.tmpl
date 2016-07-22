@@ -1,26 +1,26 @@
-<div ng-controller="dataAcquisitionProjectNavbarController">
+<div>
     <span style="margin-bottom: 5px;">{{'global.menu.entities.current-project' | translate}}</span>
     <md-autocomplete
-        md-search-text="autocomplete.searchText"
-        md-selected-item="selectedProject"
-        md-selected-item-change="updateCurrentProject(selectedProject)"
-        md-items="project in querySearch(autocomplete.searchText)"
+        md-search-text="ctrl.searchText"
+        md-selected-item="ctrl.selectedProject"
+        md-selected-item-change="ctrl.updateCurrentProject(ctrl.selectedProject)"
+        md-items="project in ctrl.querySearch(ctrl.searchText)"
         md-item-text="project.id"
         md-min-length="0"
         placeholder="{{'global.menu.entities.select-project' | translate}}"
-        ng-disabled="disableAutocomplete"
+        ng-disabled="ctrl.disableAutocomplete"
         md-select-on-match="true"
         style="margin-top: 5px;"
         md-no-cache="true">
         <md-item-template>
-            <span md-highlight-text="autocomplete.searchText">{{project.id}}</span>
+            <span md-highlight-text="ctrl.searchText">{{project.id}}</span>
         </md-item-template>
         <md-not-found>
-            <span data-translate="global.menu.entities.unknown-project" data-translate-values="{projectId: autocomplete.searchText}"></span>
+            <span data-translate="global.menu.entities.unknown-project" data-translate-values="{projectId: ctrl.searchText}"></span>
         </md-not-found>
     </md-autocomplete>
     <div style="margin-top: 1em;">
-        <md-button class="md-primary md-raised md-icon-button" ng-click="createProject()" style="margin-right: 0px; margin-left: 0px;">
+        <md-button class="md-primary md-raised md-icon-button" ng-click="ctrl.createProject()" style="margin-right: 0px; margin-left: 0px;">
             <div>
                 <md-tooltip md-direction="bottom">
                     {{'global.menu.tooltipps.create-project' | translate}}
@@ -28,7 +28,7 @@
                 <md-icon md-font-set="material-icons">add</md-icon>
             </div>
         </md-button>
-        <md-button class="md-primary md-raised md-icon-button" ng-click="deleteProject()" style="margin-right: 0px;" ng-disabled="!project">
+        <md-button class="md-primary md-raised md-icon-button" ng-click="ctrl.deleteProject()" style="margin-right: 0px;" ng-disabled="!ctrl.project">
             <div>
                 <md-tooltip md-direction="bottom">
                     {{'global.menu.tooltipps.delete-project' | translate}}
@@ -36,7 +36,7 @@
                 <md-icon md-font-set="material-icons">delete</md-icon>
             </div>
         </md-button>
-        <md-button class="md-primary md-raised md-icon-button" ng-click="postValidateProject()" style="margin-right: 0px;" ng-disabled="!project">
+        <md-button class="md-primary md-raised md-icon-button" ng-click="ctrl.postValidateProject()" style="margin-right: 0px;" ng-disabled="!ctrl.project">
             <div>
                 <md-tooltip md-direction="bottom">
                     {{'global.menu.tooltipps.post-validation' | translate}}

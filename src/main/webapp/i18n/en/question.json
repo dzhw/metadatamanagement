@@ -38,7 +38,7 @@
         },
         "dataAcquisitionProject": {
           "id": {
-            "notEmpty": "Die FDZ - ID des Datenerhebungsprojektes darf nicht leer sein!"
+            "notEmpty": "Die FDZ - ID des Datenaufbereitungsprojektes darf nicht leer sein!"
           }
         },
         "questionnaire": {

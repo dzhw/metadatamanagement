@@ -1,21 +1,21 @@
 {
   "metadatamanagementApp": {
     "variable": {
-      "rdcProjectName": "Datenerhebungsprojektname"
+      "rdcProjectName": "Datenaufbereitungsprojektname"
     },
     "dataAcquisitionProject": {
       "home": {
-        "title": "Datenerhebungsprojekte",
-        "createLabel": "Neues Datenerhebungsprojekt anlegen"
+        "title": "Datenaufbereitungsprojekte",
+        "createLabel": "Neues Datenaufbereitungsprojekt anlegen"
       },
-      "created": "Datenerhebungsprojekt \"{{ param }}\" wurde angelegt.",
-      "updated": "Datenerhebungsprojekt \"{{ param }}\" wurde aktualisiert.",
-      "deleted": "Datenerhebungsprojekt \"{{ param }}\" wurde gelöscht.",
+      "created": "Datenaufbereitungsprojekt \"{{ param }}\" wurde angelegt.",
+      "updated": "Datenaufbereitungsprojekt \"{{ param }}\" wurde aktualisiert.",
+      "deleted": "Datenaufbereitungsprojekt \"{{ param }}\" wurde gelöscht.",
       "delete": {
-        "question": "Sind Sie sicher, dass Sie das Datenerhebungsprojekt \"{{ name }}\" löschen möchten?"
+        "question": "Sind Sie sicher, dass Sie das Datenaufbereitungsprojekt \"{{ name }}\" löschen möchten?"
       },
       "detail": {
-        "title": "Datenerhebungsprojekt",
+        "title": "Datenaufbereitungsprojekt",
         "progress": "Fortschritt:",
         "generate": "Variablenreport generieren",
         "upload": {
@@ -80,10 +80,10 @@
           }
         },
         "deleteMessages": {
-          "deleteSurveys": "Sind Sie sicher dass, Sie alle Erhebungen innerhalb des Datenerhebungsprojekts mit FDZ-ID \"{{ id }}\" löschen möchten?",
-          "deleteDataSets": "Sind Sie sicher dass, Sie alle Datensätze innerhalb des Datenerhebungsprojekts mit FDZ-ID \"{{ id }}\" löschen möchten?",
-          "deleteVariables": "Sind Sie sicher dass, Sie alle Variablen innerhalb des Datenerhebungsprojekts mit FDZ-ID \"{{ id }}\" löschen möchten?",
-          "deleteAtomicQuestions": "Sind Sie sicher dass, Sie alle atomaren Fragen innerhalb des Datenerhebungsprojekts mit FDZ-ID \"{{ id }}\" löschen möchten?"
+          "deleteSurveys": "Sind Sie sicher dass, Sie alle Erhebungen innerhalb des Datenaufbereitungsprojekts mit FDZ-ID \"{{ id }}\" löschen möchten?",
+          "deleteDataSets": "Sind Sie sicher dass, Sie alle Datensätze innerhalb des Datenaufbereitungsprojekts mit FDZ-ID \"{{ id }}\" löschen möchten?",
+          "deleteVariables": "Sind Sie sicher dass, Sie alle Variablen innerhalb des Datenaufbereitungsprojekts mit FDZ-ID \"{{ id }}\" löschen möchten?",
+          "deleteAtomicQuestions": "Sind Sie sicher dass, Sie alle atomaren Fragen innerhalb des Datenaufbereitungsprojekts mit FDZ-ID \"{{ id }}\" löschen möchten?"
         }
       },
       "name": "Name"

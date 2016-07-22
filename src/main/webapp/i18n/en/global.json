@@ -133,8 +133,8 @@
       "survey": {
         "period": "The begin of the field period must be before the end."
       },
-      "rdcProject": {
-        "name": "The name of the project must contain only letters, digits and spaces."
+      "dataAcquisitionProject": {
+        "name": "The name of the project must contain only letters and digits."
       }
     }
   },

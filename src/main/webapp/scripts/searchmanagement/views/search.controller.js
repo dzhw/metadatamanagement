@@ -8,7 +8,8 @@ angular.module('metadatamanagementApp').controller('SearchController',
     function($scope, Principal, ElasticSearchProperties, $location,
         AlertService, SearchDao, $translate, VariableUploadService,
         AtomicQuestionUploadService, DataSetUploadService,
-        SurveyUploadService, $mdDialog, CleanJSObjectService) {
+        SurveyUploadService, $mdDialog, CleanJSObjectService,
+        CurrentProjectService) {
 
         //Check the login status
         Principal.identity().then(function(account) {
@@ -16,7 +17,7 @@ angular.module('metadatamanagementApp').controller('SearchController',
             $scope.isAuthenticated = Principal.isAuthenticated;
           });
 
-        $scope.currentProject = null;
+        $scope.currentProject = CurrentProjectService.getCurrentProject();
         $scope.page = {
           currentPageNumber: $location.search().page || 1,
           totalHits: 0,
