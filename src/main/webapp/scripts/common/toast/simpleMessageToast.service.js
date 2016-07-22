@@ -6,7 +6,7 @@ angular.module('metadatamanagementApp').service('SimpleMessageToastService',
     var toastParent = angular.element('#toast-container');
 
     //The Toast for the upload complete
-    function openSimpleMessageToast(messageId, messageParam) {
+    function openSimpleMessageToast(messageId, messageParams) {
       $mdToast.show({
         controller: 'SimpleMessageToastController',
         templateUrl: 'scripts/common/toast/simple-message-toast.html.tmpl',
@@ -15,7 +15,7 @@ angular.module('metadatamanagementApp').service('SimpleMessageToastService',
         parent: toastParent,
         locals: {
           messageId: messageId,
-          messageParam: messageParam
+          messageParams: messageParams
         }
       });
     }

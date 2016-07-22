@@ -46,12 +46,12 @@
             "cancelled": "Datasets upload cancelled!"
           },
           "dataAcquisitionProject": {
-            "saved": "Saved successfully Data Acquisition Project '{{ name }}'!",
-            "serverError": "An error on the server happens: ",
-            "deleteTitle": "Delete Project '{{name}}'?",
-            "delete": "Delete the Project '{{name}}'? This can't be undone.",
-            "deletedSuccessfullyProject": "Deleted successfully Data Acquisition Project '{{name}}'!",
-            "deletedNotSuccessfullyProject": "Couldn't delete Data Acquisition Project '{{name}}'!"
+            "saved": "Successfully saved the Data Acquisition Project '{{ id }}'!",
+            "serverError": "An error on the server has occurred: ",
+            "deleteTitle": "Delete Project '{{ id }}'?",
+            "delete": "Do you really want to delete the Project '{{ id }}'? This can't be undone.",
+            "deletedSuccessfullyProject": "Successfully deleted Data Acquisition Project '{{ id }}'!",
+            "deletedNotSuccessfullyProject": "Couldn't delete Data Acquisition Project '{{ id }}'!"
           },
           "survey": {
             "saved": "Survey with RDC-ID {{ id }} was saved successfully!",

@@ -9,21 +9,21 @@
             </md-button>
         </div>
     </md-toolbar>
-    <form name="createProjectForm">
+    <form name="projectForm">
         <md-dialog-content style="padding: 1.5em 1.5em 0 1.5em;">
-            <md-input-container class="md-block">
+            <md-input-container class="md-block" md-is-error="!projectForm.id.$valid">
                 <label>{{'metadatamanagementApp.dataAcquisitionProject.name' | translate}}</label>
-                <input md-maxlength="32" required md-no-asterisk ng-model="project.name" name="name" ng-pattern="/^[A-Za-z0-9äöüÄÖÜß]*$/">
-                <div ng-messages="createProjectForm.name.$error" multiple md-auto-hide="false">
+                <input md-maxlength="32" required md-no-asterisk ng-model="project.id" name="id" ng-pattern="/^[A-Za-z0-9äöüÄÖÜß]*$/">
+                <div ng-messages="projectForm.id.$error" multiple md-auto-hide="false">
                     <div ng-message="required">{{'entity.validation.required' | translate}}</div>
                     <div ng-message="md-maxlength">{{'entity.validation.maxlength' | translate:'{ max: "32" }'}}</div>
-                    <div ng-message="pattern">{{'entity.validation.dataAcquisitionProject.name' | translate }}</div>
+                    <div ng-message="pattern">{{'entity.validation.dataAcquisitionProject.id' | translate }}</div>
                 </div>
             </md-input-container>
         </md-dialog-content>
         <md-dialog-actions layout="row" style="padding: 0 1.5em 1em 0;">
-            <md-button class="md-raised" type="submit" ng-click="ok(project)" ng-disabled="createProjectForm.$invalid">{{'entity.action.ok' | translate}}</md-button>
             <md-button class="md-raised" ng-click="closeDialog()">{{'entity.action.cancel' | translate}}</md-button>
+            <md-button class="md-raised" type="submit" ng-click="ok(project)" ng-disabled="projectForm.$invalid">{{'entity.action.ok' | translate}}</md-button>
         </md-dialog-actions>
     </form>
 </md-dialog>

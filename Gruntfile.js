@@ -119,6 +119,7 @@ module.exports = function(grunt) {
             'md-toolbar',
             'md-toast',
             'md-dialog',
+            'md-autocomplete',
             'variable-search-result',
             'survey-search-result',
             'question-search-result',
@@ -179,8 +180,6 @@ module.exports = function(grunt) {
             ' point.',
             'Element “md-card” not allowed as child of element “a” in this' +
             ' context. (Suppressing further errors from this subtree.)',
-            'Element “md-autocomplete” not allowed as child of element “div”' +
-            ' in this context. (Suppressing further errors from this subtree.)',
             'Attribute “uib-pagination” not allowed on element' +
             ' “ul” at this point.',
             'Attribute “next-text” not allowed on element “ul” at this point.',

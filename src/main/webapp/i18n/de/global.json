@@ -134,7 +134,7 @@
         "period": "Der Feldzeitbeginn muss vor dem Ende liegen."
       },
       "dataAcquisitionProject": {
-        "name": "Der Name eines Projektes darf nur aus Zahlen und Buchstaben bestehen."
+        "id": "Der Name eines Projektes darf nur aus Zahlen und Buchstaben bestehen."
       }
     }
   },

@@ -45,12 +45,12 @@
             "cancelled": "Upload von Datensätzen Abgebrochen"
           },
           "dataAcquisitionProject": {
-            "saved": "Datenaufbereitungsprojekt '{{ name }}' wurde erfolgreich gespeichert!",
-            "serverError": "Ein Fehler auf dem Server trat auf: ",
-            "deleteTitle": "Projekt '{{name}}' löschen?",
-            "delete": "Das Projekt '{{name}}' löschen? Das Projekt kann hier nach nicht wieder hergestellt werden.",
-            "deletedSuccessfullyProject": "Das Datenaufbereitungsprojekt '{{name}}' wurde erfolgreich gelöscht.",
-            "deletedNotSuccessfullyProject": "Das Datenaufbereitungsprojekt'{{name}}' konnte nicht gelöscht werden!"
+            "saved": "Datenaufbereitungsprojekt '{{ id }}' wurde erfolgreich gespeichert!",
+            "serverError": "Ein Fehler ist auf dem Server aufgetreten: ",
+            "deleteTitle": "Projekt '{{ id }}' löschen?",
+            "delete": "Möchten Sie wirklich das Projekt '{{ id }}' löschen? Das Projekt kann hiernach nicht wieder hergestellt werden.",
+            "deletedSuccessfullyProject": "Das Datenaufbereitungsprojekt '{{ id }}' wurde erfolgreich gelöscht.",
+            "deletedNotSuccessfullyProject": "Das Datenaufbereitungsprojekt'{{ id }}' konnte nicht gelöscht werden!"
           },
           "survey": {
             "saved": "Erhebung mit FDZ-ID {{ id }} erfolgreich gespeichert!",
