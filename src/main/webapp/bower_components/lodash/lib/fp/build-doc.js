@@ -5,7 +5,8 @@ var _ = require('lodash'),
     path = require('path');
 
 var file = require('../common/file'),
-    mapping = require('../common/mapping');
+    mapping = require('../common/mapping'),
+    util = require('../common/util');
 
 var templatePath = path.join(__dirname, 'template/doc'),
     template = file.globTemplate(path.join(templatePath, '*.jst'));
@@ -18,16 +19,29 @@ var templateData = {
   'toFuncList': toFuncList
 };
 
-function toArgOrder(array) {
+/**
+ * Converts arranged argument `indexes` into a named argument string
+ * representation of their order.
+ *
+ * @param {number[]} indexes The arranged argument indexes.
+ * @returns {string} Returns the named argument string.
+ */
+function toArgOrder(indexes) {
   var reordered = [];
-  _.each(array, function(newIndex, index) {
+  _.each(indexes, function(newIndex, index) {
     reordered[newIndex] = argNames[index];
   });
   return '`(' + reordered.join(', ') + ')`';
 }
 
-function toFuncList(array) {
-  var chunks = _.chunk(array.slice().sort(), 5),
+/**
+ * Converts `funcNames` into a chunked list string representation.
+ *
+ * @param {string[]} funcNames The function names.
+ * @returns {string} Returns the function list string.
+ */
+function toFuncList(funcNames) {
+  var chunks = _.chunk(funcNames.slice().sort(), 5),
       lastChunk = _.last(chunks),
       last = lastChunk ? lastChunk.pop() : undefined;
 
@@ -51,15 +65,14 @@ function toFuncList(array) {
 
 /*----------------------------------------------------------------------------*/
 
-function onComplete(error) {
-  if (error) {
-    throw error;
-  }
-}
-
+/**
+ * Creates the FP-Guide wiki at the `target` path.
+ *
+ * @param {string} target The output file path.
+ */
 function build(target) {
   target = path.resolve(target);
-  fs.writeFile(target, template.wiki(templateData), onComplete);
+  fs.writeFile(target, template.wiki(templateData), util.pitch);
 }
 
 build(_.last(process.argv));
