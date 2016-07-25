@@ -2,53 +2,53 @@
   "question": {
     "error": {
       "question": {
-        "validAtomicQuestionIdName": "Die FDZ - ID muss mit der Projekt ID beginnen(Beispiel: ProjektID - Variablenname) und muss der ID der zugehörigen Variable entsprechen!",
-        "uniqueAtomicQuestionName": "Der Name einer atomaren Frage muss eindeutig innerhalb einer Befragung sein.",
+        "validAtomicQuestionIdName": "The RDC-ID must start with the project ID (e.g. projectID-variableName) and must be equal to variable ID!",
+        "uniqueAtomicQuestionName": "The name of an atomic question has to be unique within a questionnaire.",
         "id": {
-          "notEmpty": "Die FDZ - ID der atomaren Frage darf nicht leer sein!",
-          "size": "Die Maximallänge der FDZ - ID ist 128 Zeichen.",
-          "pattern": "Es dürfen nur alphanumerische Zeichen, deutsche Umlaute, ß, Leerzeichen und Minus für die FDZ - ID verwendet werden."
+          "notEmpty": "The RDC-ID of an Atomic Question must not be empty!",
+          "size": "The max length of the RDC-ID is 128 signs.",
+          "pattern": "Use only alphanumeric signs, german umlauts, ß, space, underscore and minus for the RDC-ID."
         },
         "type": {
-          "notNull": "Der Typ der atomaren Frage darf nicht leer sein.",
-          "atomicQuestionTypeConsistence": "Der Typ der atomaren Frage verwendet entweder nicht die gültigen Werte oder ist zwischen den Sprachen inkonsistent."
+          "notNull": "The type of the atomic question must not be empty.",
+          "atomicQuestionTypeConsistence": "The type of the atomic question has an invalid value or is inconsistent between the languages."
         },
         "name": {
-          "notEmpty": "Der Name einer atomaren Frage darf nicht leer sein!",
-          "size": "Die Maximallänge des Namens ist 32 Zeichen."
+          "notEmpty": "The name of an Atomic Question must not be empty!",
+          "size": "The max length of the name is 32 signs."
         },
         "compositeQuestionName": {
-          "notEmpty": "Der Name der zusammengesetzten Frage darf nicht leer sein!",
-          "size": "Die Maximallänge des Namens einer zusammengesetzten Frage ist 32 Zeichen."
+          "notEmpty": "The composite question name of an Atomic Question must not be empty!",
+          "size": "The max length of the composite question name is 32 signs"
         },
         "footnote": {
-          "i18nStringSize": "Die Maximallänge der Fußnote ist 2048 Zeichen."
+          "i18nStringSize": "The max length of the footnote is 2048 signs."
         },
         "questionText": {
-          "i18nStringSize": "Die Maximallänge der Fußnote ist 2048 Zeichen."
+          "i18nStringSize": "The max length of the question text is 2048 signs."
         },
         "instruction": {
-          "i18nStringSize": "Die Maximallänge der Fußnote ist 2048 Zeichen."
+          "i18nStringSize": "The max length of the instruction is 2048 signs."
         },
         "introduction": {
-          "i18nStringSize": "Die Maximallänge der Fußnote ist 2048 Zeichen."
+          "i18nStringSize": "The max length of the introduction is 2048 signs."
         },
         "sectionHeader": {
-          "i18nStringSize": "Die Maximallänge der Fußnote ist 128 Zeichen."
+          "i18nStringSize": "The max length of the section header is 128 signs."
         },
         "dataAcquisitionProject": {
           "id": {
-            "notEmpty": "Die FDZ - ID des Datenaufbereitungsprojektes darf nicht leer sein!"
+            "notEmpty": "The RDC-ID of the Data Acquisition Project must not be empty!"
           }
         },
         "questionnaire": {
           "id": {
-            "notEmpty": "Die FDZ - ID des Fragebogens darf nicht leer sein!"
+            "notEmpty": "The RDC-ID of the Questionnaire must not be empty!"
           }
         },
         "variable": {
           "id": {
-            "notEmpty": "Die FDZ - ID der Variable darf nicht leer sein!"
+            "notEmpty": "The RDC-ID of the Variable must not be empty!"
           }
         }
       }

@@ -22,6 +22,7 @@ angular.module('metadatamanagementApp')
           translatePartialLoader: ['$translate', '$translatePartialLoader',
             function($translate, $translatePartialLoader) {
               $translatePartialLoader.addPart('variable'); // should be changed
+              $translatePartialLoader.addPart('survey'); // should be changed
               return $translate.refresh();
             }
           ],

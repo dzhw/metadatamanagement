@@ -31,33 +31,34 @@ import net.karneim.pojobuilder.GeneratePojoBuilder;
 @Document(collection = "surveys")
 @GeneratePojoBuilder(
     intoPackage = "eu.dzhw.fdz.metadatamanagement.surveymanagement.domain.builders")
-@ValidSurveyIdName(message = "{error.survey.id.validSurveyIdName}")
+@ValidSurveyIdName(message = "survey.error.survey.id.validSurveyIdName")
 public class Survey extends AbstractRdcDomainObject {
 
   /* Domain Object Attributes */
   @Id
-  @NotEmpty(message = "{error.survey.id.notEmpty}")
-  @Size(max = StringLengths.MEDIUM, message = "{error.survey.id.size}")
+  @NotEmpty(message = "survey.error.survey.id.notEmpty")
+  @Size(max = StringLengths.MEDIUM, message = "survey.error.survey.id.size")
   @Pattern(regexp = Patterns.GERMAN_ALPHANUMERIC_WITH_UNDERSCORE_AND_MINUS,
-      message = "{error.survey.id.pattern}")
+      message = "survey.error.survey.id.pattern")
   private String id;
 
-  @I18nStringSize(max = StringLengths.MEDIUM, message = "{error.survey.title.i18nStringSize}")
+  @I18nStringSize(max = StringLengths.MEDIUM, 
+      message = "survey.error.survey.title.i18nStringSize")
   private I18nString title;
 
-  @NotNull(message = "{error.survey.fieldPeriod.notNull}")
+  @NotNull(message = "survey.error.survey.fieldPeriod.notNull")
   @Valid
   private Period fieldPeriod;
 
   /* Foreign Keys */
   @Indexed
-  @NotEmpty(message = "{error.survey.dataAcquisitionProject.id.notEmpty}")
+  @NotEmpty(message = "survey.error.survey.dataAcquisitionProject.id.notEmpty")
   private String dataAcquisitionProjectId;
 
-  @NotEmpty(message = "{error.survey.questionnaire.id.notEmpty}")
+  @NotEmpty(message = "survey.error.survey.questionnaire.id.notEmpty")
   private String questionnaireId;
   
-  @NotEmpty(message = "{error.survey.dataSet.ids.notEmpty}")
+  @NotEmpty(message = "survey.error.survey.dataSet.ids.notEmpty")
   private List<String> dataSetIds;
 
   /*
