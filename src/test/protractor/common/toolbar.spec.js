@@ -82,6 +82,6 @@ describe('Tool Bar', function() {
       });
     });
   }
-  testToolBar('with german language', '#/de/', 'de');
-  testToolBar('with english language', '#/en/', 'en');
+  testToolBar('with german language', '#/de/disclosure', 'de');
+  testToolBar('with english language', '#/en/disclosure', 'en');
 });

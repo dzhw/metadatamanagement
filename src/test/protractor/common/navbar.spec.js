@@ -217,6 +217,6 @@ describe('Side Bar', function() {
       });
     });
   }
-  testSideBar('with german language', '#/de/');
-  testSideBar('with english language', '#/en/');
+  testSideBar('with german language', '#/de/disclosure');
+  testSideBar('with english language', '#/en/disclosure');
 });
