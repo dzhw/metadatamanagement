@@ -1,0 +1,32 @@
+{
+  "dataSet": {
+    "error": {
+      "dataSet": {
+        "id": {
+          "validDataSetIdName": "Die FDZ-ID des Datensatzes entspricht nicht dem Muster: FDZID-ds{Number}.",
+          "notEmpty": "Die FDZ-ID des Datensatzes darf nicht leer sein!",
+          "size": "Die Maximallänge der FDZ-ID ist 128 Zeichen.",
+          "pattern": "Die FDZ-ID darf nur alphanumerische Zeichen, deutsche Umlaute und ß beinhalten."
+        },
+        "description": {
+          "18nStringSize": "Die Maximallänge der Datensatzbeschreibung ist 2048 Zeichen."
+        },
+        "dataAcquisitionProject": {
+          "id": {
+            "notEmpty": "Die FDZ - ID des Projektes darf bei dem Datensatz nicht leer sein!"
+          }
+        },
+        "variable": {
+          "ids": {
+            "notEmpty": "Der Datensatz muss mindestens eine Variable beinhalten!"
+          }
+        },
+        "survey": {
+          "ids": {
+            "notEmpty": "Der Datensatz muss mindestens eine Erhebung beinhalten!"
+          }
+        }
+      }
+    }
+  }
+}

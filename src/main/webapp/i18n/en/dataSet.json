@@ -1,0 +1,32 @@
+{
+  "dataSet": {
+    "error": {
+      "dataSet": {
+        "id": {
+          "validDataSetIdName": "The RDC-ID of the Data Set is not valid for the Pattern: RDCID-ds{Number}",
+          "notEmpty": "The RDC-ID of the Data Set must not be empty!",
+          "size": "The max length of the RDC-ID is 128 signs.",
+          "pattern": "Use only alphanumeric signs, german umlauts, ß and space, underscore and minus for the RDC-ID."
+        },
+        "description": {
+          "18nStringSize": "The max length of the description is 2048 signs."
+        },
+        "dataAcquisitionProject": {
+          "id": {
+            "notEmpty": "The RDC-ID of the Data Acquisition Project for the Data Set must not be empty!"
+          }
+        },
+        "variable": {
+          "ids": {
+            "notEmpty": "The Data Set must contain at least one Variable!"
+          }
+        },
+        "survey": {
+          "ids": {
+            "notEmpty": "The Data Set must contain at least one Survey!"
+          }
+        }
+      }
+    }
+  }
+}

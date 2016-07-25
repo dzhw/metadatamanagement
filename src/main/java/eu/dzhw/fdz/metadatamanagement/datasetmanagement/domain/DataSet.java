@@ -29,30 +29,31 @@ import net.karneim.pojobuilder.GeneratePojoBuilder;
 @Document(collection = "data_sets")
 @GeneratePojoBuilder(
     intoPackage = "eu.dzhw.fdz.metadatamanagement.datasetmanagement.domain.builders")
-@ValidDataSetIdName(message = "{error.dataSet.id.validDataSetIdName}")
+@ValidDataSetIdName(message = "dataSet.error.dataSet.id.validDataSetIdName")
 public class DataSet extends AbstractRdcDomainObject {
   
   /* Domain Object Attributes */
   @Id
-  @NotEmpty(message = "{error.dataSet.id.notEmpty}")
-  @Size(max = StringLengths.MEDIUM, message = "{error.dataSet.id.size}")
+  @NotEmpty(message = "dataSet.error.dataSet.id.notEmpty")
+  @Size(max = StringLengths.MEDIUM, message = "dataSet.error.dataSet.id.size")
   @Pattern(regexp = Patterns.GERMAN_ALPHANUMERIC_WITH_UNDERSCORE_AND_MINUS,
-      message = "{error.dataSet.id.pattern}")
+      message = "dataSet.error.dataSet.id.pattern")
   private String id;
 
-  @I18nStringSize(max = StringLengths.LARGE, message = "{error.dataSet.description.18nStringSize}")
+  @I18nStringSize(max = StringLengths.LARGE, 
+      message = "dataSet.error.dataSet.description.18nStringSize")
   private I18nString description;
   
   
   /* Foreign Keys */
   @Indexed
-  @NotEmpty(message = "{error.dataSet.dataAcquisitionProject.id.notEmpty}")
+  @NotEmpty(message = "dataSet.error.dataSet.dataAcquisitionProject.id.notEmpty")
   private String dataAcquisitionProjectId;
 
-  @NotEmpty(message = "{error.dataSet.survey.ids.notEmpty}")
+  @NotEmpty(message = "dataSet.error.dataSet.survey.ids.notEmpty")
   private List<String> surveyIds;
   
-  @NotEmpty(message = "{error.dataSet.variable.ids.notEmpty}")
+  @NotEmpty(message = "dataSet.error.dataSet.variable.ids.notEmpty")
   private List<String> variableIds;
 
   /*
