@@ -190,7 +190,8 @@ module.exports = function(grunt) {
             'Attribute “max-size” not allowed on element “ul” at this point.',
             'Attribute “items-per-page” not allowed on element' +
             ' “ul” at this point.',
-            'Consider adding a “lang” attribute to the “html” start tag to declare the language of this document.'
+            'Consider adding a “lang” attribute to the “html” start tag to' +
+            ' declare the language of this document.'
           ],
           customattrs: [
             'show-validation',
