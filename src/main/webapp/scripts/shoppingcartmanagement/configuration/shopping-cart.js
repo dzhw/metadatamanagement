@@ -21,7 +21,7 @@ angular.module('metadatamanagementApp').config(
           '$translatePartialLoader',
           function($translate, $translatePartialLoader) {
             $translatePartialLoader.addPart('disclosure');//should be changed..
-            return $translate.refresh();
+            // return $translate.refresh();
           }
         ]
       }

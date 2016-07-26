@@ -23,7 +23,7 @@ angular.module('metadatamanagementApp')
             function($translate, $translatePartialLoader) {
               $translatePartialLoader.addPart('variable'); // should be changed
               $translatePartialLoader.addPart('question');
-              return $translate.refresh();
+              // return $translate.refresh();
             }
           ],
           entity: ['$stateParams', 'AtomicQuestionResource',

@@ -25,7 +25,7 @@ angular
                 '$translatePartialLoader',
                 function($translate, $translatePartialLoader) {
                   $translatePartialLoader.addPart('user.management');
-                  return $translate.refresh();
+                  // return $translate.refresh();
                 }
               ]
             }
@@ -50,7 +50,7 @@ angular
                 '$translatePartialLoader',
                 function($translate, $translatePartialLoader) {
                   $translatePartialLoader.addPart('user.management');
-                  return $translate.refresh();
+                  // return $translate.refresh();
                 }
               ]
             }

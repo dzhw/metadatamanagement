@@ -21,7 +21,7 @@ angular.module('metadatamanagementApp').config(
             '$translatePartialLoader',
             function($translate, $translatePartialLoader) {
               $translatePartialLoader.addPart('error');
-              return $translate.refresh();
+              // return $translate.refresh();
             }
           ]
         }
@@ -43,7 +43,7 @@ angular.module('metadatamanagementApp').config(
             '$translatePartialLoader',
             function($translate, $translatePartialLoader) {
               $translatePartialLoader.addPart('error');
-              return $translate.refresh();
+              // return $translate.refresh();
             }
           ]
         }

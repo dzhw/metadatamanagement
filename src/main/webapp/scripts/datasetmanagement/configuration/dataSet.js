@@ -23,7 +23,7 @@ angular.module('metadatamanagementApp')
             function($translate, $translatePartialLoader) {
               $translatePartialLoader.addPart('variable'); // should be changed
               $translatePartialLoader.addPart('dataSet');
-              return $translate.refresh();
+              // return $translate.refresh();
             }
           ],
           entity: ['$stateParams', 'DataSetResource',

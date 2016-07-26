@@ -20,7 +20,7 @@ angular.module('metadatamanagementApp').config(
         translatePartialLoader: ['$translate', '$translatePartialLoader',
           function($translate, $translatePartialLoader) {
             $translatePartialLoader.addPart('password');
-            return $translate.refresh();
+            // return $translate.refresh();
           }
         ]
       }

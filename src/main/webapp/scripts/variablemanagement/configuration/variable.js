@@ -21,7 +21,7 @@ angular.module('metadatamanagementApp')
           translatePartialLoader: ['$translate', '$translatePartialLoader',
             function($translate, $translatePartialLoader) {
               $translatePartialLoader.addPart('variable');
-              return $translate.refresh();
+              // return $translate.refresh();
             }
           ],
           entity: ['$stateParams', 'VariableResource',

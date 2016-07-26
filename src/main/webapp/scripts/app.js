@@ -110,13 +110,6 @@ angular
           translatePartialLoader: ['$translate', '$translatePartialLoader',
           function($translate, $translatePartialLoader) {
             $translatePartialLoader.addPart('global');
-            $translatePartialLoader.addPart('disclosure');
-            $translatePartialLoader.addPart('search');
-            $translatePartialLoader.addPart('pagination');
-            $translatePartialLoader.addPart('dataAcquisitionProject');
-            $translatePartialLoader.addPart('variable');
-            $translatePartialLoader.addPart('joblogging');
-            $translatePartialLoader.addPart('question');
           }
         ]
         }
@@ -127,11 +120,11 @@ angular
       $httpProvider.interceptors.push('authExpiredInterceptor');
       $httpProvider.interceptors.push('authInterceptor');
       $httpProvider.interceptors.push('notificationInterceptor');
-
       // Initialize angular-translate
       $translateProvider.useLoader('$translatePartialLoader', {
         urlTemplate: 'i18n/{lang}/{part}.json'
       });
+      //$translateProvider.preferredLanguage('de');
 
       $translateProvider.useCookieStorage();
       $translateProvider.useSanitizeValueStrategy('escaped');
