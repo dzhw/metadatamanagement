@@ -121,11 +121,6 @@ angular
         ]
         }
       });
-      /*
-       * var browserLang = $windowProvider.$get().navigator.language ||
-       * $windowProvider.$get().navigator.userLanguage;
-       * $urlRouterProvider.otherwise('/'+browserLang+'/');
-       */
       $urlRouterProvider.when('', '/de/');
       $urlRouterProvider.otherwise('/de/error');
       $httpProvider.interceptors.push('errorHandlerInterceptor');
