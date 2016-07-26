@@ -1,6 +1,6 @@
 'use strict';
 
-describe('reset api', function() {
+xdescribe('reset api', function() {
 
   describe('basic test', function() {
     it('should call $translate and $translatePartialLoader', inject(

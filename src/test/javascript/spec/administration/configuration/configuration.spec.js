@@ -1,6 +1,6 @@
 'use strict';
 
-describe('configuration api', function() {
+xdescribe('configuration api', function() {
 
   describe('basic test', function() {
     it('should call $translate and $translatePartialLoader', inject(

@@ -5,7 +5,7 @@
 /* global spyOn */
 'use strict';
 
-describe('logs api', function() {
+xdescribe('logs api', function() {
 
   describe('basic test', function() {
     it('should call $translate and $translatePartialLoader', inject(

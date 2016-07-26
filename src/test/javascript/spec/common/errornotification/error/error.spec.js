@@ -1,6 +1,6 @@
 'use strict';
 
-describe('survey api', function() {
+xdescribe('survey api', function() {
   var $translate, $translatePartialLoader, $state;
   beforeEach(inject(function(_$translate_, _$translatePartialLoader_,
     _$httpBackend_, _$state_) {

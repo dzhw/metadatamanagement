@@ -1,6 +1,6 @@
 'use strict';
 
-describe('login api', function () {
+xdescribe('login api', function () {
 
   describe('basic test', function() {
     it('should call $translate and $translatePartialLoader', inject(function($translate, $translatePartialLoader, $httpBackend, $state) {
