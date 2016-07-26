@@ -8,6 +8,7 @@
 function login() {
   browser.get('#/de/login');
   browser.waitForAngular();
+  browser.manage().timeouts().implicitlyWait(1000);
   element(by.id('username')).sendKeys('admin');
   element(by.id('password')).sendKeys('admin');
   element(by.css('.form button[type="submit"]')).click();

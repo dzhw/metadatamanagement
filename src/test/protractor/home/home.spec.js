@@ -22,6 +22,7 @@ describe('Home page', function() {
            currentUrl = url;
          });
           browser.waitForAngular();
+          browser.manage().timeouts().implicitlyWait(1000);
           htmlContent = element(by.id('content'));
         });
       it('should check translated strings', function() {
