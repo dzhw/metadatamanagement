@@ -106,7 +106,19 @@ angular
         resolve: {
           authorize: ['Auth', function(Auth) {
             return Auth.authorize();
-          }]
+          }],
+          translatePartialLoader: ['$translate', '$translatePartialLoader',
+          function($translate, $translatePartialLoader) {
+            $translatePartialLoader.addPart('global');
+            $translatePartialLoader.addPart('disclosure');
+            $translatePartialLoader.addPart('search');
+            $translatePartialLoader.addPart('pagination');
+            $translatePartialLoader.addPart('dataAcquisitionProject');
+            $translatePartialLoader.addPart('variable');
+            $translatePartialLoader.addPart('joblogging');
+            $translatePartialLoader.addPart('question');
+          }
+        ]
         }
       });
       /*

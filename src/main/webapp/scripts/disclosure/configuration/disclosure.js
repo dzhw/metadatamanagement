@@ -15,16 +15,6 @@ angular.module('metadatamanagementApp').config(
             'disclosure.html.tmpl',
           controller: 'DisclosureController'
         }
-      },
-      resolve: {
-        mainTranslatePartialLoader: ['$translate',
-          '$translatePartialLoader',
-          function($translate, $translatePartialLoader) {
-            $translatePartialLoader.addPart('global');
-            $translatePartialLoader.addPart('disclosure');
-            return $translate.refresh();
-          }
-        ]
       }
     });
   });
