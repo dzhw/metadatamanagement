@@ -36,6 +36,7 @@
           "unsupportedTexFile": "Tex Datei konnte nicht gelesen werden",
           "unsupportedDirectoryStructure": "Die ZIP Datei muss ein Verzeichnis 'variables' und eine Datei 'variables.xlsx' enthalten.",
           "malformedJsonFile": "JSON Datei für die Variable mit FDZ-ID {{ id }} konnte nicht geparst werden",
+          "notFoundJsonFile": "JSON Datei für die Variable mit FDZ-ID {{ id }} konnte nicht gefunden werden",
           "postValidationTerminated": "Die Post-Validierung wurde mit {{successes}} Erfolgen und {{errors}} Fehlern beendet.",
           "dataSet": {
             "saved": "Datensatz mit FDZ-ID {{ id }} erfolgreich gespeichert!",

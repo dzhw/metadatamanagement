@@ -3,7 +3,6 @@
 
 'use strict';
 var https = require('https');
-var http = require('http');
 
 function checkHREFs(toBeCheckedURL, pageUrl) {
   var deferred = protractor.promise.defer();

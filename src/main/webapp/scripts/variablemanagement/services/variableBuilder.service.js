@@ -13,6 +13,14 @@ angular.module('metadatamanagementApp').service('VariableBuilderService',
             JSON.
           parse(zip.files['variables/' + variables[i].id + '.json']
             .asText()) : undefined;
+          if (generatedVariable === undefined) {
+            parseErrors.push('\n' + $translate.instant(
+              'metadatamanagementApp.dataAcquisitionProject.detail.' +
+              'logMessages.notFoundJsonFile', {
+                id: variables[i].id
+              }));
+            continue;
+          }
         } catch (e) {
           parseErrors.push('\n' + $translate.instant(
             'metadatamanagementApp.dataAcquisitionProject.detail.' +
