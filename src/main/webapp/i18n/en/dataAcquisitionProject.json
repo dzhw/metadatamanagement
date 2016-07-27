@@ -87,6 +87,21 @@
           "deleteAtomicQuestions": "Are you sure you want to delete all Atomic Questions within DataAcquisitionProject with RDC-ID \"{{ id }}\"?"
         }
       },
+      "error": {
+        "dataAcquisitionProject": {
+          "id": {
+            "notEmpty": "The RDC-ID of Data Acquisition Project must not be empty!",
+            "pattern": "The RDC-ID must contain only alphanumeric signs, german umlauts and ß.",
+            "size": "The max length of the RDC-ID is 32 signs."
+          },
+          "surveySeries": {
+            "i18nStringSize": "The max length of the survey series is 128 signs."
+          },
+          "panelName": {
+            "i18nStringSize": "The max length of the panel name is 128 signs."
+          }
+        }
+      },
       "name": "Name"
     }
   }

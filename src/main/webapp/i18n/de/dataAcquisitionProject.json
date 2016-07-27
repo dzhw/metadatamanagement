@@ -86,6 +86,21 @@
           "deleteAtomicQuestions": "Sind Sie sicher dass, Sie alle atomaren Fragen innerhalb des Datenaufbereitungsprojekts mit FDZ-ID \"{{ id }}\" löschen möchten?"
         }
       },
+      "error": {
+        "dataAcquisitionProject": {
+          "id": {
+            "notEmpty": "Die FDZ-ID des Datenaufbereitungsprojekts darf nicht leer sein!",
+            "pattern": "Die FDZ-ID darf nur alphanumerische Zeichen, deutsche Umlaute und ß beinhalten.",
+            "size": "Die Maximallänge der FDZ-ID ist 32 Zeichen."
+          },
+          "surveySeries": {
+            "i18nStringSize": "Die Maximallänge der Erhebungsreihe ist 128 Zeichen."
+          },
+          "panelName": {
+            "i18nStringSize": "Die Maximallänge des Panelnamen ist 128 Zeichen."
+          }
+        }
+      },
       "name": "Name"
     }
   }

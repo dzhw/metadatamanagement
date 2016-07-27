@@ -21,7 +21,6 @@ import org.springframework.web.context.WebApplicationContext;
 
 import eu.dzhw.fdz.metadatamanagement.AbstractTest;
 import eu.dzhw.fdz.metadatamanagement.common.domain.builders.I18nStringBuilder;
-import eu.dzhw.fdz.metadatamanagement.common.domain.validation.StringLengths;
 import eu.dzhw.fdz.metadatamanagement.common.rest.TestUtil;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.DataAcquisitionProject;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.builders.DataAcquisitionProjectBuilder;
@@ -84,7 +83,7 @@ public class DataAcquisitionProjectResourceTest extends AbstractTest {
     // create the project with the given id
     mockMvc.perform(put(API_DATA_ACQUISITION_PROJECTS_URI + "/" + project.getId())
       .content(TestUtil.convertObjectToJsonBytes(project)))
-      .andExpect(status().is4xxClientError()).andExpect(jsonPath("$.errors[0].message", containsString(String.valueOf(StringLengths.SMALL))));
+      .andExpect(status().is4xxClientError()).andExpect(jsonPath("$.errors[0].message", containsString("error.dataAcquisitionProject.id.size")));
   }
   
   @Test
@@ -185,6 +184,6 @@ public class DataAcquisitionProjectResourceTest extends AbstractTest {
         post(API_DATA_ACQUISITION_PROJECTS_URI).content(TestUtil.convertObjectToJsonBytes(project)))
       .andExpect(status().isBadRequest())
       .andExpect(
-          jsonPath("$.errors[0].message", is("The RDC-ID of Data Acquisition Project must not be empty!")));
+          jsonPath("$.errors[0].message", containsString("dataAcquisitionProject.error.dataAcquisitionProject.id.notEmpty")));
   }
 }
