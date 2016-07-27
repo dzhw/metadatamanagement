@@ -145,6 +145,9 @@
       "exists": "There is already a {{params[0]}} with RDC-ID \"{{params[1]}}\"!",
       "compoundexists": "There is already a \"{{params[0]}}\" with the field combination \"{{params[1]}}\"!",
       "notfound": "{{params[0]}} with RDC-ID \"{{params[1]}}\" not found!"
+    },
+    "period": {
+      "validPeriod": "The start and end date have to be set and the dates have to be in the correct order!"
     }
   },
   "logos": {

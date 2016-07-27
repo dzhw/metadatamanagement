@@ -12,7 +12,7 @@ import net.karneim.pojobuilder.GeneratePojoBuilder;
  * @author René Reitmann
  */
 @GeneratePojoBuilder(intoPackage = "eu.dzhw.fdz.metadatamanagement.common.domain.builders")
-@ValidPeriod(message = "{error.period.validPeriod}")
+@ValidPeriod(message = "global.error.period.validPeriod")
 public class Period implements Serializable {
   private static final long serialVersionUID = -4040296722435163942L;
 

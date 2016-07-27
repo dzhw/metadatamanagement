@@ -21,7 +21,7 @@ import net.karneim.pojobuilder.GeneratePojoBuilder;
 public class Concept extends AbstractRdcDomainObject {
 
   @Id
-  @NotEmpty(message = "{error.concept.id.notEmpty}")
+  @NotEmpty(message = "concept.error.concept.id.notEmpty")
   private String id;
 
   private I18nString name;

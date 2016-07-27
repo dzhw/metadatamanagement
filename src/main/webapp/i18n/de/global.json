@@ -145,6 +145,9 @@
       "exists": "Ein Datensatz vom Typ \"{{params[0]}}\" mit FDZ-ID \"{{params[1]}}\" existiert bereits!",
       "compoundexists": "Ein Datensatz vom Typ \"{{params[0]}}\" und der Felderkombination \"{{params[1]}}\" existiert bereits!",
       "notfound": "Ein Datensatz vom Typ \"{{params[0]}}\" mit FDZ-ID \"{{params[1]}}\" wurde nicht gefunden!"
+    },
+    "period": {
+      "validPeriod": "The start and end date have to be set and the dates have to be in the correct order!"
     }
   },
   "logos": {
