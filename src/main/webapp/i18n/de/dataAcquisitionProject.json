@@ -100,6 +100,22 @@
           "panelName": {
             "i18nStringSize": "Die Maximallänge des Panelnamen ist 128 Zeichen."
           }
+        },
+        "release": {
+          "version": {
+            "notEmpty": "Die Version einer Veröffentlichung darf nicht leer sein!",
+            "size": "Die Maximallänge der Version eines Releases ist 32 Zeichen.",
+            "pattern": "Es dürfen nur Zahlen und der Punkt für die Version verwendet werden."
+          },
+          "doi": {
+            "size": "Die Maximallänge einer DOI ist 128 Zeichen."
+          },
+          "date": {
+            "notNull": "Das Datum einer Veröffentlichung darf nicht leer sein!"
+          },
+          "notes": {
+            "size": "Die Maximallänge einer Notiz ist 2048 Zeichen."
+          }
         }
       },
       "name": "Name"

@@ -101,6 +101,22 @@
           "panelName": {
             "i18nStringSize": "The max length of the panel name is 128 signs."
           }
+        },
+        "release": {
+          "version": {
+            "notEmpty": "The version of a release must not be empty!",
+            "size": "The max length of the version is 32 signs.",
+            "pattern": "Use only numbers and the dot for the version."
+          },
+          "doi": {
+            "size": "The max length of the doi is 128 signs."
+          },
+          "date": {
+            "notNull": "The date of a Release must not be empty!"
+          },
+          "notes": {
+            "size": "The max length of the version is 2048 signs."
+          }
         }
       },
       "name": "Name"
