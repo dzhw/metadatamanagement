@@ -31,13 +31,13 @@ public class User extends AbstractRdcDomainObject implements Serializable {
   @Id
   private String id;
 
-  @NotNull(message = "{error.user.login.notNull}")
+  @NotNull(message = "user-management.error.user.login.notNull")
   @Pattern(regexp = "^[a-z0-9]*$|(anonymousUser)")
   @Size(min = 1, max = 50)
   private String login;
 
   @JsonIgnore
-  @NotNull(message = "{error.user.password.notNull}")
+  @NotNull(message = "user-management.error.user.password.notNull")
   @Size(min = 60, max = 60)
   private String password;
 
@@ -74,6 +74,7 @@ public class User extends AbstractRdcDomainObject implements Serializable {
   @JsonIgnore
   private Set<Authority> authorities = new HashSet<>();
 
+  @Override
   public String getId() {
     return id;
   }

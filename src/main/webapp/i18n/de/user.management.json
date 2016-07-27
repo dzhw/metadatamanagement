@@ -22,6 +22,21 @@
     "createdBy": "Erstellt von",
     "createdDate": "Erstellt am",
     "lastModifiedBy": "Bearbeitet von",
-    "lastModifiedDate": "Zuletzt bearbeitet"
+    "lastModifiedDate": "Zuletzt bearbeitet",
+    "error": {
+      "authority": {
+        "name": {
+          "notNull": "Der Name der Authorisierung darf nicht leer sein!"
+        }
+      },
+      "user": {
+        "login": {
+          "notNull": "Das Loginfeld darf nicht leer sein!"
+        },
+        "password": {
+          "notNull": "Der Passwort darf nicht leer sein!"
+        }
+      }
+    }
   }
 }
