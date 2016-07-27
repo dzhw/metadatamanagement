@@ -2,6 +2,7 @@
 /* global browser */
 
 'use strict';
+var https = require('https');
 var http = require('http');
 
 function checkHREFs(toBeCheckedURL, pageUrl) {
@@ -9,7 +10,7 @@ function checkHREFs(toBeCheckedURL, pageUrl) {
   var result = {
     isValidUrl: true
   };
-  http.get(toBeCheckedURL, function() {
+  https.get(toBeCheckedURL, function() {
     deferred.fulfill(result);
   }).on('error', function() {
     result.isValidUrl = false;
