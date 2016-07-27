@@ -1,0 +1,11 @@
+{
+  "bibliographicalReference": {
+    "error": {
+      "bibliographicalReference": {
+        "id": {
+          "notEmpty": "Die FDZ-ID der Literaturangabe darf nicht leer sein!"
+        }
+      }
+    }
+  }
+}

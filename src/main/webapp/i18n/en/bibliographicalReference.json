@@ -1,0 +1,11 @@
+{
+  "bibliographicalReference": {
+    "error": {
+      "bibliographicalReference": {
+        "id": {
+          "notEmpty": "The RDC-ID of Bibliographical Reference must not be empty!"
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,11 @@
+{
+  "concept": {
+    "error": {
+      "concept": {
+        "id": {
+          "notEmpty": "Die FDZ-ID des Konzepts darf nicht leer sein!"
+        }
+      }
+    }
+  }
+}

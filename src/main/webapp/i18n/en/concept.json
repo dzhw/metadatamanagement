@@ -1,0 +1,11 @@
+{
+  "concept": {
+    "error": {
+      "concept": {
+        "id": {
+          "notEmpty": "The RDC-ID of Concept must not be empty!"
+        }
+      }
+    }
+  }
+}
