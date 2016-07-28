@@ -2,16 +2,14 @@ package eu.dzhw.fdz.metadatamanagement.projectmanagement.service;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 
 import javax.inject.Inject;
 
-import org.springframework.context.MessageSource;
-import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.stereotype.Service;
 
 import eu.dzhw.fdz.metadatamanagement.datasetmanagement.domain.DataSet;
 import eu.dzhw.fdz.metadatamanagement.datasetmanagement.repository.DataSetRepository;
+import eu.dzhw.fdz.metadatamanagement.projectmanagement.rest.dto.PostValidationMessageDto;
 import eu.dzhw.fdz.metadatamanagement.questionmanagement.domain.AtomicQuestion;
 import eu.dzhw.fdz.metadatamanagement.questionmanagement.repository.AtomicQuestionRepository;
 import eu.dzhw.fdz.metadatamanagement.questionnairemanagement.repository.QuestionnaireRepository;
@@ -30,9 +28,6 @@ import eu.dzhw.fdz.metadatamanagement.variablemanagement.repository.VariableRepo
  */
 @Service
 public class PostValidationService {
-
-  @Inject
-  private MessageSource messageSource;
 
   /* Repositories for loading data from the repository */
   @Inject
@@ -57,32 +52,29 @@ public class PostValidationService {
    * @param dataAcquisitionProjectId The id of the data acquisition project id.
    * @return a list of all post validation errors.
    */
-  public List<String> postValidate(String dataAcquisitionProjectId) {
+  public List<PostValidationMessageDto> postValidate(String dataAcquisitionProjectId) {
 
-    // Set locale
-    Locale locale = LocaleContextHolder.getLocale();
-
-    List<String> errors = new ArrayList<>();
+    List<PostValidationMessageDto> errors = new ArrayList<>();
 
     // Check atomic questions
     List<AtomicQuestion> atomicQuestions =
         this.atomicQuestionRepository.findByDataAcquisitionProjectId(dataAcquisitionProjectId);
-    errors = this.postValidateAtomicQuestions(atomicQuestions, errors, locale);
+    errors = this.postValidateAtomicQuestions(atomicQuestions, errors);
 
     // check data sets
     List<DataSet> dataSets =
         this.dataSetRepository.findByDataAcquisitionProjectId(dataAcquisitionProjectId);
-    errors = this.postValidateDataSets(dataSets, errors, locale);
+    errors = this.postValidateDataSets(dataSets, errors);
 
     // check surveys
     List<Survey> surveys =
         this.surveyRepository.findByDataAcquisitionProjectId(dataAcquisitionProjectId);
-    errors = this.postValidateSurverys(surveys, errors, locale);
+    errors = this.postValidateSurverys(surveys, errors);
 
     // check variables
     List<Variable> variables =
         this.variableRepository.findByDataAcquisitionProjectId(dataAcquisitionProjectId);
-    errors = this.postValidateVariables(variables, errors, locale);
+    errors = this.postValidateVariables(variables, errors);
 
     return errors;
   }
@@ -93,23 +85,23 @@ public class PostValidationService {
    * 
    * @return a list of errors of the post validation of atomic questions.
    */
-  private List<String> postValidateAtomicQuestions(List<AtomicQuestion> atomicQuestions,
-      List<String> errors, Locale locale) {
+  private List<PostValidationMessageDto> postValidateAtomicQuestions(
+      List<AtomicQuestion> atomicQuestions, List<PostValidationMessageDto> errors) {
 
     for (AtomicQuestion atomicQuestion : atomicQuestions) {
 
       // atomicQuestion.VariableId: there must be a variable with that id
       if (this.variableRepository.findOne(atomicQuestion.getVariableId()) == null) {
         String[] information = {atomicQuestion.getId(), atomicQuestion.getVariableId()};
-        errors.add(this.messageSource.getMessage(
-            "error.postValidation.atomicQuestionHasInvalidVariableId", information, locale));
+        errors.add(new PostValidationMessageDto(
+            "error.postValidation.atomicQuestionHasInvalidVariableId", information));
       }
 
       // atomicQuestion.QuestionnaireId: there must be a questionaire with that id
       if (this.questionnaireRepository.findOne(atomicQuestion.getQuestionnaireId()) == null) {
         String[] information = {atomicQuestion.getId(), atomicQuestion.getQuestionnaireId()};
-        errors.add(this.messageSource.getMessage(
-            "error.postValidation.atomicQuestionHasInvalidQuestionnaireId", information, locale));
+        errors.add(new PostValidationMessageDto(
+            "error.postValidation.atomicQuestionHasInvalidQuestionnaireId", information));
       }
     }
 
@@ -121,8 +113,8 @@ public class PostValidationService {
    * 
    * @return a list of errors of the post validation of data sets.
    */
-  private List<String> postValidateDataSets(List<DataSet> dataSets, List<String> errors,
-      Locale locale) {
+  private List<PostValidationMessageDto> postValidateDataSets(List<DataSet> dataSets, 
+      List<PostValidationMessageDto> errors) {
 
     for (DataSet dataSet : dataSets) {
 
@@ -130,8 +122,8 @@ public class PostValidationService {
       for (String surveyId : dataSet.getSurveyIds()) {
         if (this.surveyRepository.findOne(surveyId) == null) {
           String[] information = {dataSet.getId(), surveyId};
-          errors.add(this.messageSource.getMessage("error.postValidation.dataSetHasInvalidSurveyId",
-              information, locale));
+          errors.add(new PostValidationMessageDto("error.postValidation.dataSetHasInvalidSurveyId",
+              information));
         }
       }
 
@@ -139,8 +131,8 @@ public class PostValidationService {
       for (String variableId : dataSet.getVariableIds()) {
         if (this.variableRepository.findOne(variableId) == null) {
           String[] information = {dataSet.getId(), variableId};
-          errors.add(this.messageSource
-              .getMessage("error.postValidation.dataSetHasInvalidVariableId", information, locale));
+          errors.add(new PostValidationMessageDto(
+              "error.postValidation.dataSetHasInvalidVariableId", information));
         }
       }
     }
@@ -154,25 +146,24 @@ public class PostValidationService {
    * 
    * @return a list of errors of the post validation of surveys.
    */
-  private List<String> postValidateSurverys(List<Survey> surveys, List<String> errors,
-      Locale locale) {
+  private List<PostValidationMessageDto> postValidateSurverys(List<Survey> surveys, 
+      List<PostValidationMessageDto> errors) {
 
     for (Survey survey : surveys) {
 
       // survey.QuestionnaireId: there must be a questionaire with that id
       if (this.questionnaireRepository.findOne(survey.getQuestionnaireId()) == null) {
         String[] information = {survey.getId(), survey.getQuestionnaireId()};
-        errors.add(this.messageSource
-            .getMessage("error.postValidation.surveyHasInvalidQuestionnaireId", information,
-                locale));
+        errors.add(new PostValidationMessageDto(
+            "error.postValidation.surveyHasInvalidQuestionnaireId", information));
       }
 
       // survey.DataSetId: there must be a dataset with that id
       for (String dataSetId : survey.getDataSetIds()) {
         if (this.dataSetRepository.findOne(dataSetId) == null) {
           String[] information = {survey.getId(), dataSetId};
-          errors.add(this.messageSource.getMessage("error.postValidation.surveyHasInvalidDataSetId",
-              information, locale));
+          errors.add(new PostValidationMessageDto("error.postValidation.surveyHasInvalidDataSetId",
+              information));
         }
       }
     }
@@ -185,8 +176,8 @@ public class PostValidationService {
    * 
    * @return a list of errors of the post validation of variables.
    */
-  private List<String> postValidateVariables(List<Variable> variables, List<String> errors,
-      Locale locale) {
+  private List<PostValidationMessageDto> postValidateVariables(List<Variable> variables, 
+      List<PostValidationMessageDto> errors) {
 
     for (Variable variable : variables) {
 
@@ -194,8 +185,8 @@ public class PostValidationService {
       for (String surveyId : variable.getSurveyIds()) {
         if (this.surveyRepository.findOne(surveyId) == null) {
           String[] information = {variable.getId(), surveyId};
-          errors.add(this.messageSource
-              .getMessage("error.postValidation.variableHasInvalidSurveyId", information, locale));
+          errors.add(new PostValidationMessageDto(
+              "error.postValidation.variableHasInvalidSurveyId", information));
         }
       }
 
@@ -203,8 +194,8 @@ public class PostValidationService {
       for (String dataSetId : variable.getDataSetIds()) {
         if (this.dataSetRepository.findOne(dataSetId) == null) {
           String[] information = {variable.getId(), dataSetId};
-          errors.add(this.messageSource
-              .getMessage("error.postValidation.variableHasInvalidDataSetId", information, locale));
+          errors.add(new PostValidationMessageDto(
+              "error.postValidation.variableHasInvalidDataSetId", information));
         }
       }
 
@@ -213,9 +204,9 @@ public class PostValidationService {
         for (String variableId : variable.getSameVariablesInPanel()) {
           if (this.variableRepository.findOne(variableId) == null) {
             String[] information = {variable.getId(), variableId};
-            errors.add(this.messageSource.getMessage(
+            errors.add(new PostValidationMessageDto(
                 "error.postValidation.variableIdIsNotInInvalidVariablesPanel",
-                information, locale));
+                information));
           }        
         }        
       }
@@ -225,8 +216,8 @@ public class PostValidationService {
       if (variable.getAtomicQuestionId() != null
           && this.atomicQuestionRepository.findOne(variable.getAtomicQuestionId()) == null) {
         String[] information = {variable.getId(), variable.getAtomicQuestionId()};
-        errors.add(this.messageSource.getMessage(
-            "error.postValidation.variableHasInvalidAtomicQuestionId", information, locale));
+        errors.add(new PostValidationMessageDto(
+            "error.postValidation.variableHasInvalidAtomicQuestionId", information));
       }
     }
 

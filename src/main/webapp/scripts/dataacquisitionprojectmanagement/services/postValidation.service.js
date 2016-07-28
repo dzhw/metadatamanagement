@@ -18,7 +18,8 @@ angular.module('metadatamanagementApp').service(
         // got errors by post validation
         if (result.errors.length > 0) {
           for (var i = 0; i < result.errors.length; i++) {
-            JobLoggingService.error(result.errors[i]);
+            JobLoggingService.error(result.errors[i].messageId,
+              result.errors[i].messageParameter);
           }
           //no errors by post validation
         } else {

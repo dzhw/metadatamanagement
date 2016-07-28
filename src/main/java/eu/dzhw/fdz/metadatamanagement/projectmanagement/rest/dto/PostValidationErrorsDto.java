@@ -12,14 +12,14 @@ import com.google.common.base.MoreObjects;
  */
 public class PostValidationErrorsDto {
 
-  private List<String> errors;
+  private List<PostValidationMessageDto> errors;
 
   /**
    * Constructor for the PostValidationErrorsDto.
    * 
    * @param errors A list of post validation errors.
    */
-  public PostValidationErrorsDto(List<String> errors) {
+  public PostValidationErrorsDto(List<PostValidationMessageDto> errors) {
     this.errors = errors;
   }
 
@@ -36,11 +36,11 @@ public class PostValidationErrorsDto {
   }
 
   /* GETTER / SETTER */
-  public List<String> getErrors() {
+  public List<PostValidationMessageDto> getErrors() {
     return errors;
   }
 
-  public void setErrors(List<String> errors) {
+  public void setErrors(List<PostValidationMessageDto> errors) {
     this.errors = errors;
   }
 }
