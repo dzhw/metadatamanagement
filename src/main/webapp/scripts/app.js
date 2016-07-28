@@ -124,7 +124,7 @@ angular
       $translateProvider.useLoader('$translatePartialLoader', {
         urlTemplate: 'i18n/{lang}/{part}.json'
       });
-      //$translateProvider.preferredLanguage('de');
+      $translateProvider.preferredLanguage('de');
 
       $translateProvider.useCookieStorage();
       $translateProvider.useSanitizeValueStrategy('escaped');

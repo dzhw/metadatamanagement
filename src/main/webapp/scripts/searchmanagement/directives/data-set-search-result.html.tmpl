@@ -10,12 +10,24 @@
             </md-card-header-text>
         </md-card-header>
       </a>
-        <md-card-content layout="row" layout-align="space-between none">
+        <md-card-content layout="row" layout-xs="column" layout-align="space-between none">
           <div layout="column">
-            <div>Beschreibung:
-                {{searchResult.description}}</div>
-            <div>Erhebungen:</div>
-            <div ng-repeat="title in searchResult.surveyTitles">{{title}}</div>
+            <div layout="row" layout-xs="column" style="margin-bottom: 8px;">
+              <div class="fdz-search-result-label">
+                Beschreibung:
+              </div>
+              <div>
+                {{searchResult.description}}
+              </div>
+            </div>
+            <div layout="row" layout-xs="column">
+              <div class="fdz-search-result-label">
+                Erhebungen:
+              </div>
+              <div layout="column">
+                <div ng-repeat="title in searchResult.surveyTitles" class="fdz-truncate-string">{{title}}</div>
+              </div>
+            </div>
           </div>
           <div>
             <md-button class="md-primary md-raised md-icon-button" aria-label="{{'search.buttons.generate-variable-report' | translate}}" ng-if="isAuthenticated()" type="file" ngf-select="uploadTexTemplate($file, searchResult.id)" accept=".zip">

@@ -11,9 +11,13 @@
     </md-card-header>
   </a>
     <md-card-content>
-      <div>Feldzeit:</div>
-      <div>{{searchResult.fieldPeriod.start | date}}
-          -
-          {{searchResult.fieldPeriod.end | date}}</div>
+          <div layout="row" layout-xs="column" class="fdz-truncate-string">
+            <div class="fdz-search-result-label">
+              Feldzeit:
+            </div>
+            <div class="fdz-truncate-string">
+              {{searchResult.fieldPeriod.start | date}} - {{searchResult.fieldPeriod.end | date}}
+            </div>
+          </div>
     </md-card-content>
 </md-card>
