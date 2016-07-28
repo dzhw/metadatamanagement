@@ -147,7 +147,7 @@
       "notfound": "Ein Datensatz vom Typ \"{{params[0]}}\" mit FDZ-ID \"{{params[1]}}\" wurde nicht gefunden!"
     },
     "period": {
-      "validPeriod": "The start and end date have to be set and the dates have to be in the correct order!"
+      "validPeriod": "Der Start und Endzeitpunkt müssen gesetzt sein und müssen in der richtigen Reihenfolge sein."
     }
   },
   "logos": {
