@@ -3,7 +3,7 @@
           <span>There are {{ basket.items.length }} studies in your basket.</span>
             <md-list-item class="md-2-line" ng-repeat="item in basket.items track by $index">
           <img ng-src="/assets/images/icons/study.svg" alt="in development" class="md-avatar"/>
-          <div class="md-list-item-text">
+          <div class="md-list-item-text" ng-class="item.done ? 'fdz-text-through':''">
             <a ui-sref="studyDetail({id:'suf-1'})"><h3>{{ item.text }}</h3></a>
             <p>{{ item.date | date:'medium'}}</p>
             <md-checkbox class="md-secondary" ng-model="item.done"></md-checkbox>
