@@ -78,7 +78,6 @@ function(Variable, CleanJSObjectService, JobLoggingService) {
           .asBinary()).values : undefined,
         surveyIds: CleanJSObjectService.
         removeWhiteSpace(jsonContent[i].surveyIds),
-        conceptId: jsonContent[i].conceptId,
         dataSetIds: CleanJSObjectService.
         removeWhiteSpace(jsonContent[i].dataSetIds),
         valueSummary: {

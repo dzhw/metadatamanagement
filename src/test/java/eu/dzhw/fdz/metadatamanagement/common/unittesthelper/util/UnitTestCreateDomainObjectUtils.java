@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 package eu.dzhw.fdz.metadatamanagement.common.unittesthelper.util;
 
@@ -13,8 +13,6 @@ import eu.dzhw.fdz.metadatamanagement.bibliographicalreferencemanagement.domain.
 import eu.dzhw.fdz.metadatamanagement.bibliographicalreferencemanagement.domain.builders.BibliographicalReferenceBuilder;
 import eu.dzhw.fdz.metadatamanagement.common.domain.builders.I18nStringBuilder;
 import eu.dzhw.fdz.metadatamanagement.common.domain.builders.PeriodBuilder;
-import eu.dzhw.fdz.metadatamanagement.concept.domain.builders.ConceptBuilder;
-import eu.dzhw.fdz.metadatamanagement.conceptmanagement.domain.Concept;
 import eu.dzhw.fdz.metadatamanagement.datasetmanagement.domain.DataSet;
 import eu.dzhw.fdz.metadatamanagement.datasetmanagement.domain.builders.DataSetBuilder;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.DataAcquisitionProject;
@@ -171,19 +169,7 @@ public class UnitTestCreateDomainObjectUtils {
         .build())
       .withSameVariablesInPanel(withSameVariablesInPanel)
       .withDistribution(buildDistribution())
-      .withConceptId("ConceptId001")
       .withGenerationDetails(buildGenerationDetails())
-      .build();
-  }
-
-  public static Concept buildConcept() {
-    return new ConceptBuilder().withDescription(new I18nStringBuilder().withDe("De Beschreibung")
-      .withEn("En Description")
-      .build())
-      .withId("ConceptId001")
-      .withName(new I18nStringBuilder().withDe("Deutscher Name")
-        .withEn("English name")
-        .build())
       .build();
   }
 
@@ -295,7 +281,7 @@ public class UnitTestCreateDomainObjectUtils {
       .withVolume("Volume 1")
       .build();
   }
-  
+
   public static FilterDetails buildFilterDetails() {
     return new FilterDetailsBuilder()
       .withDescription(new I18nStringBuilder()

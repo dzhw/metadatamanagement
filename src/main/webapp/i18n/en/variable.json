@@ -23,8 +23,7 @@
       },
       "labels": {
         "part-of-data-set": "Part of Data Set:",
-        "surveyed-in": "Surveyed in:",
-        "belongs-to-concept": "Belongs to Concept:"
+        "surveyed-in": "Surveyed in:"
       },
       "error": {
         "distribution": {

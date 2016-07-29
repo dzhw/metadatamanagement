@@ -57,7 +57,6 @@ angular.module('metadatamanagementApp').service('VariableBuilderService',
             generatedVariable.sameVariablesInPanel : undefined,
           surveyIds: generatedVariable ?
             generatedVariable.surveyIds : undefined,
-          conceptId: variables[i].conceptId,
           dataSetIds: generatedVariable ?
             generatedVariable.dataSetIds : undefined,
           atomicQuestionId: generatedVariable ?

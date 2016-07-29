@@ -42,7 +42,6 @@ questionnaireExample.json,questionnaires/QuestionnaireId001
 dataSetExample.json,data-sets/DataSet_001
 atomicQuestionExample.json,atomic-questions/AtomicQuestion001
 atomicQuestionExample2.json,atomic-questions/AtomicQuestion002
-conceptExample.json,concepts/ConceptId001
 bibliographicalReferenceExample.json,bibliographical-references/Reference001"
 
 #Simulates line break for IFS at files array.

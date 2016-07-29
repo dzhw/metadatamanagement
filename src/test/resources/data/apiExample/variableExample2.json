@@ -1,5 +1,5 @@
 {
-  "id": "FDZID_Variable_002",	
+  "id": "FDZID_Variable_002",
   "name": "A_Variable_Test2",
   "atomicQuestionId": "AtomicQuestion002",
   "dataType": {
@@ -16,7 +16,6 @@
   },
   "dataAcquisitionProjectId": "ATestProject",
   "surveyId": "FDZID001",
-  "conceptId": "ConceptId001",
   "description": {
     "de": "Eine weitere deutsche Beschreibung.",
     "en": "A different english description."

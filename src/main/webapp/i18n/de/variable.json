@@ -23,8 +23,7 @@
       },
       "labels": {
         "part-of-data-set": "Enthalten in Datensatz:",
-        "surveyed-in": "Erhoben in:",
-        "belongs-to-concept": "Gehört zu Konstrukt:"
+        "surveyed-in": "Erhoben in:"
       },
       "error": {
         "distribution": {

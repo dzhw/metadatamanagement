@@ -42,22 +42,22 @@ import net.karneim.pojobuilder.GeneratePojoBuilder;
     intoPackage = "eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.builders")
 @CompoundIndex(def = "{name: 1, dataAcquisitionProjectId: 1}", unique = true)
 @ValidVariableIdName(message = "metadatamanagementApp.variable.error.variable.validVariableName")
-@UniqueVariableNameInProject(message = "metadatamanagementApp.variable.error." 
+@UniqueVariableNameInProject(message = "metadatamanagementApp.variable.error."
     + "variable.uniqueVariableNameInProject")
 @MandatoryScaleLevelForNumericDataType(
     message = "metadatamanagementApp.variable.error.variable.mandatoryScaleLevelForNumericDataType")
 @ValidResponseValueMustBeANumberOnNumericDataType(
-    message = "metadatamanagementApp.variable.error.variable." 
+    message = "metadatamanagementApp.variable.error.variable."
         + "validResponseValueMustBeANumberOnNumericDataType")
 @ValidResponseValueMustBeAnIsoDateOnDateDataType(
-    message = "metadatamanagementApp.variable.error.variable." 
+    message = "metadatamanagementApp.variable.error.variable."
         + "validResponseValueMustBeAnIsoDateOnDateDataType")
 public class Variable extends AbstractRdcDomainObject {
 
   /* Domain Object listed attributes */
   @Id
   @NotEmpty(message = "metadatamanagementApp.variable.error.variable.id.notEmpty")
-  @Size(max = StringLengths.MEDIUM, 
+  @Size(max = StringLengths.MEDIUM,
       message = "metadatamanagementApp.variable.error.variable.id.size")
   @Pattern(regexp = Patterns.GERMAN_ALPHANUMERIC_WITH_UNDERSCORE_AND_MINUS,
       message = "metadatamanagementApp.variable.error.variable.id.pattern")
@@ -72,7 +72,7 @@ public class Variable extends AbstractRdcDomainObject {
   private I18nString scaleLevel;
 
   @NotEmpty(message = "metadatamanagementApp.variable.error.variable.name.notEmpty")
-  @Size(max = StringLengths.SMALL, 
+  @Size(max = StringLengths.SMALL,
       message = "metadatamanagementApp.variable.error.variable.name.size")
   @Pattern(regexp = Patterns.ALPHANUMERIC_WITH_UNDERSCORE_NO_NUMBER_AS_FIRST_SIGN,
       message = "metadatamanagementApp.variable.error.variable.name.pattern")
@@ -109,8 +109,6 @@ public class Variable extends AbstractRdcDomainObject {
 
 
   /* Foreign Keys */
-  private String conceptId;
-
   private String atomicQuestionId;
 
   @NotEmpty(message = "metadatamanagementApp.variable.error.variable.dataSet.ids.notEmpty")
@@ -152,7 +150,6 @@ public class Variable extends AbstractRdcDomainObject {
       .add("filterDetails", filterDetails)
       .add("generationDetails", generationDetails)
       .add("distribution", distribution)
-      .add("conceptId", conceptId)
       .add("atomicQuestionId", atomicQuestionId)
       .add("dataSetIds", dataSetIds)
       .add("dataAcquisitionProjectId", dataAcquisitionProjectId)
@@ -219,14 +216,6 @@ public class Variable extends AbstractRdcDomainObject {
 
   public void setSameVariablesInPanel(List<String> sameVariablesInPanel) {
     this.sameVariablesInPanel = sameVariablesInPanel;
-  }
-
-  public String getConceptId() {
-    return conceptId;
-  }
-
-  public void setConceptId(String conceptId) {
-    this.conceptId = conceptId;
   }
 
   public GenerationDetails getGenerationDetails() {
