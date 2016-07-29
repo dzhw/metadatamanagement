@@ -26,6 +26,10 @@
             "notEmpty": "Der Datensatz muss mindestens eine Erhebung beinhalten!"
           }
         }
+      },
+      "postValidation": {
+        "dataSetHasInvalidSurveyId": "Der Datensatz {{0}} referenziert eine unbekannte Erhebung({{1}}).",
+        "dataSetHasInvalidVariableId": "Der Datensatz {{0}} referenziert eine unbekannte Variable({{1}})."
       }
     }
   }

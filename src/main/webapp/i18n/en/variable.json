@@ -147,10 +147,10 @@
           }
         },
         "postValidation": {
-          "variableHasInvalidSurveyId": "The Variable {0} references an unknown Survey ({1}).",
-          "variableHasInvalidDataSetId": "The Variable {0} references an unknown Data Set ({1}).",
-          "variableIdIsNotInInvalidVariablesPanel": "The Variable {0} references an unknown Panel Variable ({1}).",
-          "variableHasInvalidAtomicQuestionId": "The Variable {0} references an unknown Atomic Question ({1})."
+          "variableHasInvalidSurveyId": "The Variable {{0}} references an unknown Survey ({{1}}).",
+          "variableHasInvalidDataSetId": "The Variable {{0}} references an unknown Data Set ({{1}}).",
+          "variableIdIsNotInInvalidVariablesPanel": "The Variable {{0}} references an unknown Panel Variable ({{1}}).",
+          "variableHasInvalidAtomicQuestionId": "The Variable {{0}} references an unknown Atomic Question ({{1}})."
         }
       }
     }

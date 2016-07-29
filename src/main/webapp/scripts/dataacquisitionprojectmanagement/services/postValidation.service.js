@@ -10,6 +10,20 @@ angular.module('metadatamanagementApp').service(
   function(JobLoggingService,
     DataAcquisitionProjectPostValidationResource) {
 
+    // Convert array to object
+    var convertArrayToObject = function(array) {
+        var objectElement = {};
+        if (typeof array === 'object') {
+          for (var i in array) {
+            var elementValue = convertArrayToObject(array[i]);
+            objectElement[i] = elementValue;
+          }
+        } else {
+          objectElement = array;
+        }
+        return objectElement;
+      };
+
     var postValidate = function(id) {
       JobLoggingService.start('postValidation');
       DataAcquisitionProjectPostValidationResource.postValidate({
@@ -18,8 +32,11 @@ angular.module('metadatamanagementApp').service(
         // got errors by post validation
         if (result.errors.length > 0) {
           for (var i = 0; i < result.errors.length; i++) {
+            var messageParameter =
+                JSON.stringify(
+                  convertArrayToObject(result.errors[i].messageParameter));
             JobLoggingService.error(result.errors[i].messageId,
-              result.errors[i].messageParameter);
+              messageParameter);
           }
           //no errors by post validation
         } else {

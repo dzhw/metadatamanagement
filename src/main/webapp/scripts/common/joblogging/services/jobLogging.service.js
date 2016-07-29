@@ -19,6 +19,11 @@ angular.module('metadatamanagementApp').service('JobLoggingService',
     };
     var error = function(errorMsg, translationParams) {
       job.errors++;
+      console.log({
+        message: errorMsg,
+        translationParams: translationParams,
+        type: 'error'
+      });
       job.logMessages.push({
         message: errorMsg,
         translationParams: translationParams,

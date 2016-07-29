@@ -51,6 +51,10 @@
             "notEmpty": "The RDC-ID of the Variable must not be empty!"
           }
         }
+      },
+      "postValidation": {
+        "atomicQuestionHasInvalidVariableId": "The Atomic Question {{0}} references an unknown Variable ({{1}}).",
+        "atomicQuestionHasInvalidQuestionnaireId": "The Atomic Question {{0}} references an unknown Questionnaire ({{1}})."
       }
     }
   }

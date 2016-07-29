@@ -51,6 +51,10 @@
             "notEmpty": "Die FDZ - ID der Variable darf nicht leer sein!"
           }
         }
+      },
+      "postValidation": {
+        "atomicQuestionHasInvalidVariableId": "Die atomare Frage {{0}} referenziert eine unbekannte Variable ({{1}}).",
+        "atomicQuestionHasInvalidQuestionnaireId": "Die atomare Frage {{0}} referenziert einen unbekannten Fragebogen ({{1}})."
       }
     }
   }

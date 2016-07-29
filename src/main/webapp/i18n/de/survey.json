@@ -29,6 +29,10 @@
             "notEmpty": "Die Erhebung muss mindestens einen Datensatz haben!"
           }
         }
+      },
+      "postValidation": {
+        "surveyHasInvalidQuestionnaireId": "Die Erhebung {{0}} referenziert einen unbekannten Fragebogen ({{1}}).",
+        "surveyHasInvalidDataSetId": "Die Erhebung {{0}} referenziert einen unbekannten Datensatz ({{1}})."
       }
     }
   }

@@ -29,6 +29,10 @@
             "notEmpty": "The Survey must have at least one Data Set!"
           }
         }
+      },
+      "postValidation": {
+        "surveyHasInvalidQuestionnaireId": "The Survey {{0}} references an unknown Questionnaire ({{1}}).",
+        "surveyHasInvalidDataSetId": "The Survey {{0}} references an unknown Data Set ({{1}})."
       }
     }
   }
