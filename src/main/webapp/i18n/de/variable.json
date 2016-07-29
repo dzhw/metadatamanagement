@@ -145,6 +145,12 @@
               "notEmpty": "Die Variable muss mindestens einer Erhebung zugewiesen sein!"
             }
           }
+        },
+        "postValidation": {
+          "variableHasInvalidSurveyId": "Die Variable {0} referenziert eine unbekannte Erhebung ({1}).",
+          "variableHasInvalidDataSetId": "Die Variable {0} referenziert einen unbekannten Datensatz ({1}).",
+          "variableIdIsNotInInvalidVariablesPanel": "Die Variable {0} referenziert eine unbekannte Panelvariable ({1}).",
+          "variableHasInvalidAtomicQuestionId": "Die Variable {0} referenziert eine unbekannte atomare Frage ({1})."
         }
       }
     }
