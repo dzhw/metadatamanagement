@@ -16,9 +16,8 @@ angular.module('metadatamanagementApp').config(
           }
         },
         resolve: {
-          mainTranslatePartialLoader: ['$translate',
-            '$translatePartialLoader',
-            function($translate, $translatePartialLoader) {
+          mainTranslatePartialLoader: ['$translatePartialLoader',
+            function($translatePartialLoader) {
               $translatePartialLoader.addPart('search');
               $translatePartialLoader.addPart('pagination');
               $translatePartialLoader.addPart('dataAcquisitionProject');
@@ -27,7 +26,6 @@ angular.module('metadatamanagementApp').config(
               $translatePartialLoader.addPart('question');
               $translatePartialLoader.addPart('dataSet');
               $translatePartialLoader.addPart('survey');
-              // return $translate.refresh();
             }
           ]
         }

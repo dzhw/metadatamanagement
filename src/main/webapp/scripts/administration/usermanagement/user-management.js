@@ -21,11 +21,10 @@ angular
               }
             },
             resolve: {
-              translatePartialLoader: ['$translate',
+              translatePartialLoader: [
                 '$translatePartialLoader',
-                function($translate, $translatePartialLoader) {
+                function($translatePartialLoader) {
                   $translatePartialLoader.addPart('user.management');
-                  // return $translate.refresh();
                 }
               ]
             }
@@ -46,11 +45,10 @@ angular
               }
             },
             resolve: {
-              translatePartialLoader: ['$translate',
+              translatePartialLoader: [
                 '$translatePartialLoader',
-                function($translate, $translatePartialLoader) {
+                function($translatePartialLoader) {
                   $translatePartialLoader.addPart('user.management');
-                  // return $translate.refresh();
                 }
               ]
             }

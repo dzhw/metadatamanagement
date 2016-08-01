@@ -18,10 +18,9 @@ angular.module('metadatamanagementApp')
           }
         },
         resolve: {
-          translatePartialLoader: ['$translate', '$translatePartialLoader',
-            function($translate, $translatePartialLoader) {
+          translatePartialLoader: ['$translatePartialLoader',
+            function($translatePartialLoader) {
               $translatePartialLoader.addPart('variable');
-              // return $translate.refresh();
             }
           ],
           entity: ['$stateParams', 'VariableResource',

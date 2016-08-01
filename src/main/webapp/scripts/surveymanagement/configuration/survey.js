@@ -19,11 +19,10 @@ angular.module('metadatamanagementApp')
           }
         },
         resolve: {
-          translatePartialLoader: ['$translate', '$translatePartialLoader',
-            function($translate, $translatePartialLoader) {
+          translatePartialLoader: ['$translatePartialLoader',
+            function($translatePartialLoader) {
               $translatePartialLoader.addPart('variable'); // should be changed
               $translatePartialLoader.addPart('survey'); // should be changed
-              // return $translate.refresh();
             }
           ],
           entity: ['$stateParams', 'SurveyResource',

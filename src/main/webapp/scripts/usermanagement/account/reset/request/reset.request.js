@@ -21,11 +21,9 @@ angular
                       }
                     },
                     resolve: {
-                      translatePartialLoader: ['$translate',
-                          '$translatePartialLoader',
-                          function($translate, $translatePartialLoader) {
+                      translatePartialLoader: ['$translatePartialLoader',
+                          function($translatePartialLoader) {
                             $translatePartialLoader.addPart('reset');
-                            // return $translate.refresh();
                           }]
                     }
                   });

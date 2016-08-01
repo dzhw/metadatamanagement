@@ -2,7 +2,7 @@
 
 angular.module('metadatamanagementApp').service('VariableBuilderService',
   function(VariableResource, CleanJSObjectService, $translate) {
-    var parseErrors = [];
+    var parseErrors = {};
     var getVariables = function(variables, zip, dataAcquisitionProjectId) {
       var variablesObjArray = [];
       for (var i = 0; i < variables.length; i++) {
@@ -14,11 +14,14 @@ angular.module('metadatamanagementApp').service('VariableBuilderService',
           parse(zip.files['variables/' + variables[i].id + '.json']
             .asText()) : undefined;
           if (generatedVariable === undefined) {
-            parseErrors.push('\n' + $translate.instant(
+            /*parseErrors.push('\n' + $translate.instant(
               'metadatamanagementApp.dataAcquisitionProject.detail.' +
               'logMessages.notFoundJsonFile', {
                 id: variables[i].id
-              }));
+              }));*/
+            parseErrors[variables[i].id] = 'metadatamanagementApp.' +
+            'dataAcquisitionProject.detail.' +
+            'logMessages.notFoundJsonFile';
             continue;
           }
         } catch (e) {

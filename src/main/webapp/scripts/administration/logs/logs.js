@@ -16,10 +16,9 @@ angular.module('metadatamanagementApp').config(
         }
       },
       resolve: {
-        translatePartialLoader: ['$translate', '$translatePartialLoader',
-          function($translate, $translatePartialLoader) {
+        translatePartialLoader: ['$translatePartialLoader',
+          function($translatePartialLoader) {
             $translatePartialLoader.addPart('logs');
-            // return $translate.refresh();
           }
         ]
       }

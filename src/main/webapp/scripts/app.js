@@ -107,8 +107,8 @@ angular
           authorize: ['Auth', function(Auth) {
             return Auth.authorize();
           }],
-          translatePartialLoader: ['$translate', '$translatePartialLoader',
-          function($translate, $translatePartialLoader) {
+          translatePartialLoader: ['$translatePartialLoader',
+          function($translatePartialLoader) {
             $translatePartialLoader.addPart('global');
           }
         ]
