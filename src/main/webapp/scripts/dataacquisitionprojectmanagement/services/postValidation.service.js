@@ -32,11 +32,12 @@ angular.module('metadatamanagementApp').service(
         // got errors by post validation
         if (result.errors.length > 0) {
           for (var i = 0; i < result.errors.length; i++) {
-            var messageParameter =
-                JSON.stringify(
-                  convertArrayToObject(result.errors[i].messageParameter));
+            var messageParameter = {
+              id: result.errors[i].messageParameter[1],
+              toBereferenzedId: result.errors[i].messageParameter[0]
+            };
             JobLoggingService.error(result.errors[i].messageId,
-              messageParameter);
+            messageParameter);
           }
           //no errors by post validation
         } else {

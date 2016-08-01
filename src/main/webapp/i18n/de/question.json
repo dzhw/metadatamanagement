@@ -53,8 +53,8 @@
         }
       },
       "postValidation": {
-        "atomicQuestionHasInvalidVariableId": "Die atomare Frage {{0}} referenziert eine unbekannte Variable ({{1}}).",
-        "atomicQuestionHasInvalidQuestionnaireId": "Die atomare Frage {{0}} referenziert einen unbekannten Fragebogen ({{1}})."
+        "atomicQuestionHasInvalidVariableId": "Die atomare Frage {{id}} referenziert eine unbekannte Variable ({{toBereferenzedId}}).",
+        "atomicQuestionHasInvalidQuestionnaireId": "Die atomare Frage {{id}} referenziert einen unbekannten Fragebogen ({{toBereferenzedId}})."
       }
     }
   }

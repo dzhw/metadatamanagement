@@ -53,8 +53,8 @@
         }
       },
       "postValidation": {
-        "atomicQuestionHasInvalidVariableId": "The Atomic Question {{0}} references an unknown Variable ({{1}}).",
-        "atomicQuestionHasInvalidQuestionnaireId": "The Atomic Question {{0}} references an unknown Questionnaire ({{1}})."
+        "atomicQuestionHasInvalidVariableId": "The Atomic Question {{id}} references an unknown Variable ({{toBereferenzedId}}).",
+        "atomicQuestionHasInvalidQuestionnaireId": "The Atomic Question {{id}} references an unknown Questionnaire ({{toBereferenzedId}})."
       }
     }
   }

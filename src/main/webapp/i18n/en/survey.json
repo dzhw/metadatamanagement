@@ -31,8 +31,8 @@
         }
       },
       "postValidation": {
-        "surveyHasInvalidQuestionnaireId": "The Survey {{0}} references an unknown Questionnaire ({{1}}).",
-        "surveyHasInvalidDataSetId": "The Survey {{0}} references an unknown Data Set ({{1}})."
+        "surveyHasInvalidQuestionnaireId": "The Survey {{id}} references an unknown Questionnaire ({{toBereferenzedId}}).",
+        "surveyHasInvalidDataSetId": "The Survey {{id}} references an unknown Data Set ({{toBereferenzedId}})."
       }
     }
   }
