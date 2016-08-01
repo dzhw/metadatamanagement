@@ -81,9 +81,10 @@ angular.module('metadatamanagementApp').service('VariableUploadService',
         }).then(function(variables) {
           objects = VariableBuilderService.getVariables(variables, zip,
             dataAcquisitionProjectId);
-          VariableBuilderService.getParseErrors.forEach(function(message) {
-            JobLoggingService.error(message);
-          });
+          VariableBuilderService.getParseErrors
+          .forEach(function(errorMessage, translationParams) {
+            JobLoggingService.error(errorMessage, translationParams);
+          },VariableBuilderService.getParseErrors);
           VariableDeleteResource.deleteByDataAcquisitionProjectId({
               dataAcquisitionProjectId: dataAcquisitionProjectId
             },
