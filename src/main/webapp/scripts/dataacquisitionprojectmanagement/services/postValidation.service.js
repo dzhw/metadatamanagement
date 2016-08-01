@@ -33,8 +33,8 @@ angular.module('metadatamanagementApp').service(
         if (result.errors.length > 0) {
           for (var i = 0; i < result.errors.length; i++) {
             var messageParameter = {
-              id: result.errors[i].messageParameter[1],
-              toBereferenzedId: result.errors[i].messageParameter[0]
+              id: result.errors[i].messageParameter[0],
+              toBereferenzedId: result.errors[i].messageParameter[1]
             };
             JobLoggingService.error(result.errors[i].messageId,
             messageParameter);
