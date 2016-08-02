@@ -13,7 +13,7 @@ angular.module('metadatamanagementApp').service('AtomicQuestionUploadService',
           JobLoggingService.finish(
             'metadatamanagementApp.dataAcquisitionProject.detail.' +
             'logMessages.atomicQuestion.uploadTerminated', {
-              total: objects.length,
+              total: JobLoggingService.getCurrentJob().total,
               errors: JobLoggingService.getCurrentJob().errors
             });
         });
@@ -36,10 +36,8 @@ angular.module('metadatamanagementApp').service('AtomicQuestionUploadService',
           }).catch(function(error) {
             var errorMessages = ErrorMessageResolverService
               .getErrorMessages(error, 'atomicQuestion');
-            errorMessages.forEach(function(errorMessage) {
-              JobLoggingService.error(errorMessage.message,
-                errorMessage.translationParams);
-            });
+            JobLoggingService.error(errorMessages.message,
+                errorMessages.translationParams, errorMessages.subMessages);
             uploadCount++;
             return upload();
           });

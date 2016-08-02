@@ -13,7 +13,7 @@ angular.module('metadatamanagementApp').service('SurveyUploadService',
           JobLoggingService.finish(
             'metadatamanagementApp.dataAcquisitionProject.detail.' +
             'logMessages.survey.uploadTerminated', {
-              total: objects.length,
+              total: JobLoggingService.getCurrentJob().total,
               errors: JobLoggingService.getCurrentJob().errors
             });
         });
@@ -36,10 +36,8 @@ angular.module('metadatamanagementApp').service('SurveyUploadService',
           }).catch(function(error) {
             var errorMessages = ErrorMessageResolverService
               .getErrorMessages(error, 'survey');
-            errorMessages.forEach(function(errorMessage) {
-              JobLoggingService.error(errorMessage.message,
-                errorMessage.translationParams);
-            });
+            JobLoggingService.error(errorMessages.message,
+                errorMessages.translationParams, errorMessages.subMessages);
             uploadCount++;
             return upload();
           });

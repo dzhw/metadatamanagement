@@ -35,8 +35,8 @@
           "unsupportedExcelFile": "Excel File could not be read",
           "unsupportedTexFile": "Tex File could not be read",
           "unsupportedDirectoryStructure": "The zip file must contain a folder 'variables' and a file 'variables.xlsx'!",
-          "malformedJsonFile": "JSON File for Variable with RDC-ID {{ id }} could not be parsed",
-          "notFoundJsonFile": "JSON File for Variable with RDC-ID {{ id }} could not be found",
+          "malformedJsonFile": "JSON File for Variable with RDC-ID {{ id }} could not be parsed.",
+          "notFoundJsonFile": "JSON File for Variable with RDC-ID {{ id }} could not be found.",
           "postValidationTerminated": "The Post-Validation terminated with {{successes}} Successes und {{errors}} Errors.",
           "missingId": "Dataset {{ index }} does not contain a RDC-ID and has not been saved!",
           "dataSet": {
@@ -64,7 +64,7 @@
           "variable": {
             "saved": "Variable with RDC-ID {{ id }} was saved successfully!",
             "notSaved": "Variable with RDC-ID {{ id }} has not been saved!",
-            "missingId": "Variable {{ index }} does not contain a RDC-ID and has not been saved!",
+            "missingId": "Variable {{ index }} does not contain a RDC-ID and has not been saved:",
             "uploadTerminated": "Finished upload of {{ total }} Variables with {{ errors }} errors.",
             "cancelled": "Variables upload cancelled!"
           },

@@ -11,22 +11,26 @@ angular.module('metadatamanagementApp').service('JobLoggingService',
     var start = function(nameOfDomainObj) {
       job.id = nameOfDomainObj;
       job.errors = 0;
+      job.total = 0;
       job.successes = 0;
       job.logMessages = [];
       job.state = 'running';
       blockUI.start();
       return job;
     };
-    var error = function(errorMsg, translationParams) {
+    var error = function(errorMsg, translationParams, subMessages) {
       job.errors++;
       job.logMessages.push({
         message: errorMsg,
         translationParams: translationParams,
+        subMessages: subMessages,
         type: 'error'
       });
+      job.total++;
     };
     var success = function(successMsg, translationParams) {
       job.successes++;
+      job.total++;
       if (successMsg) {
         job.logMessages.push({
           message: successMsg,

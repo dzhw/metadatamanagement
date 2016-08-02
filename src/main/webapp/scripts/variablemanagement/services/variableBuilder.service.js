@@ -2,10 +2,10 @@
 
 angular.module('metadatamanagementApp').service('VariableBuilderService',
   function(VariableResource, CleanJSObjectService) {
-    var parseErrors = new Map();
+    var parseErrors = [];
     var getVariables = function(variables, zip, dataAcquisitionProjectId) {
       var variablesObjArray = [];
-      parseErrors.clear();
+      parseErrors.length = 0;
       for (var i = 0; i < variables.length; i++) {
         var generatedVariable = {};
         try {
@@ -14,20 +14,24 @@ angular.module('metadatamanagementApp').service('VariableBuilderService',
             JSON.
           parse(zip.files['variables/' + variables[i].id + '.json']
             .asText()) : undefined;
-          if (generatedVariable === undefined) {
-            parseErrors.set({
-              id: variables[i].id
-            },
-            'metadatamanagementApp.' +
-            'dataAcquisitionProject.detail.logMessages.notFoundJsonFile');
+          if (generatedVariable === undefined && variables[i].id) {
+            parseErrors.push({
+              translationParams: {
+                id: variables[i].id
+              },
+              errorMessage: 'metadatamanagementApp.' +
+              'dataAcquisitionProject.detail.logMessages.notFoundJsonFile'
+            });
             continue;
           }
         } catch (e) {
-          parseErrors.set({
-            id: variables[i].id
-          },
-          'metadatamanagementApp.dataAcquisitionProject.detail.' +
-          'logMessages.malformedJsonFile');
+          parseErrors.push({
+            translationParams: {
+              id: variables[i].id
+            },
+            errorMessage: 'metadatamanagementApp.' +
+            'dataAcquisitionProject.detail.logMessages.malformedJsonFile'
+          });
           continue;
         }
         var variableObj = {

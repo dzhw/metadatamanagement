@@ -15,7 +15,7 @@ angular.module('metadatamanagementApp').service('VariableUploadService',
           JobLoggingService.finish(
             'metadatamanagementApp.dataAcquisitionProject.detail.' +
             'logMessages.variable.uploadTerminated', {
-              total: objects.length,
+              total: JobLoggingService.getCurrentJob().total ,
               errors: JobLoggingService.getCurrentJob().errors
             });
         });
@@ -36,20 +36,10 @@ angular.module('metadatamanagementApp').service('VariableUploadService',
             uploadCount++;
             return upload();
           }).catch(function(error) {
-            //TODO DKatzberg
-            //Das Problem liegt hier. Error hat schon ein übersetzten Wert...
-            //Der muss noch entfernt werden... Woher kommt error?
-            //Lösung: Backend müssen bei den messages, die geschweiften Klammern
-            //weg. Dann werden die Entsprechen korrekt rüber geschickt.
-            //Und die String sind im Backend in den I18n String notiert. Diese
-            //müssen nun rüber geholt werden in den Frontend I18n
-            //Das gilt für alle Validierungsfehler, zb Distribution.java
             var errorMessages = ErrorMessageResolverService
               .getErrorMessages(error, 'variable');
-            errorMessages.forEach(function(errorMessage) {
-              JobLoggingService.error(errorMessage.message,
-                errorMessage.translationParams);
-            });
+            JobLoggingService.error(errorMessages.message,
+              errorMessages.translationParams, errorMessages.subMessages);
             uploadCount++;
             return upload();
           });
@@ -82,9 +72,10 @@ angular.module('metadatamanagementApp').service('VariableUploadService',
           objects = VariableBuilderService.getVariables(variables, zip,
             dataAcquisitionProjectId);
           VariableBuilderService.getParseErrors
-          .forEach(function(errorMessage, translationParams) {
-            JobLoggingService.error(errorMessage, translationParams);
-          }, VariableBuilderService.getParseErrors);
+          .forEach(function(errorMessage) {
+            JobLoggingService.error(errorMessage.errorMessage,
+              errorMessage.translationParams);
+          });
           VariableDeleteResource.deleteByDataAcquisitionProjectId({
               dataAcquisitionProjectId: dataAcquisitionProjectId
             },
