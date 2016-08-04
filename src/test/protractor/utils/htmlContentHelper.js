@@ -17,20 +17,4 @@ function findNotTranslationedStrings(htmlContent, pageUrl) {
   return deferred.promise;
 }
 
-/* should be removed... */
-function showHiddenElements(htmlContent) {
-  var expForDrowpDown = /\s*dropdown pointer\s*/g;
-  var expForSideNav = /\s*md-closed\s*/g;
-  var deferred = protractor.promise.defer();
-  htmlContent.getOuterHtml().then(function(content) {
-    var openedSideNav = content.replace(expForSideNav, ' ');
-    var openedDropdowns = openedSideNav
-    .replace(expForDrowpDown, 'dropdown pointer open ');
-    content = openedDropdowns;
-    deferred.fulfill(content);
-  });
-  return deferred.promise;
-}
-
 module.exports.findNotTranslationedStrings = findNotTranslationedStrings;
-module.exports.showHiddenElements = showHiddenElements;

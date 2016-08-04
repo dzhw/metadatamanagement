@@ -4,7 +4,6 @@
 /* global by */
 /* global element */
 /* global expect */
-/* global beforeEach */
 /* global beforeAll */
 /* global afterAll */
 
@@ -15,19 +14,22 @@ var htmlContentHelper =
 var findBrockenUrls = require('../utils/findBrockenUrls');
 var loginHelper = require('../utils/loginHelper');
 var protractorHelper = require('../utils/protractorWaitHelper');
+var translateHelper = require('../utils/translateHelper');
 
 describe('Navigation Bar', function() {
   var currentUrl;
   var sideNavBar;
-  function testSideBar(description, link) {
+  function testSideBar(description, language) {
     describe(description, function() {
       beforeAll(function() {
-        browser.get(link);
+        var disclosureState = element(by.css('[ui-sref="disclosure"]'));
+        disclosureState.click();
         browser.getCurrentUrl().then(function(url) {
           currentUrl = url;
-        });
-        protractorHelper.protractorWaitHelper('SideNavBar').then(function(el) {
-          sideNavBar = el;
+          translateHelper.changeLanguage('SideNavBar', url, language)
+          .then(function(el) {
+            sideNavBar = el;
+          });
         });
       });
       describe('', function() {
@@ -236,6 +238,6 @@ describe('Navigation Bar', function() {
       });
     });
   }
-  testSideBar('with german language', '#/de/disclosure');
-  testSideBar('with english language', '#/en/disclosure');
+  testSideBar('with german language', 'de');
+  testSideBar('with english language', 'en');
 });

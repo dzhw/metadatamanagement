@@ -1,41 +1,42 @@
 /* global browser */
 /* global it */
 /* global describe */
-/* global by */
-/* global element */
+
 /* global expect */
-/* global beforeEach */
+/* global beforeAll */
 
 'use strict';
 var htmlContentHelper =
 require('../utils/htmlContentHelper');
+var translateHelper = require('../utils/translateHelper');
 
 describe('Home page', function() {
-  function testHomePage(description, link) {
+  function callHomePage() {
+    browser.get('#/de/');
+  }
+  function testHomePage(description, language) {
     describe(description, function() {
       var currentUrl;
-      var htmlContent;
-
-      beforeEach(function() {
-          browser.get(link);
-          browser.getCurrentUrl().then(function(url) {
-           currentUrl = url;
-         });
-          browser.waitForAngular();
-          htmlContent = element(by.id('content'));
+      var content;
+      beforeAll(function() {
+        browser.getCurrentUrl().then(function(url) {
+          currentUrl = url;
+          translateHelper.changeLanguage('content', url, language)
+          .then(function(el) {
+            content = el;
+          });
         });
+      });
       it('should check translated strings', function() {
           htmlContentHelper
-          .findNotTranslationedStrings(htmlContent, currentUrl)
+          .findNotTranslationedStrings(content, currentUrl)
           .then(function(result) {
             expect(result.length).toBe(0, result.message);
           });
         });
-      it('should check states', function() {
-        // comming soon....
-      });
     });
   }
-  testHomePage('with german language', '#/de/');
-  testHomePage('with english language', '#/en/');
+  callHomePage();
+  testHomePage('with german language', 'de');
+  testHomePage('with english language', 'en');
 });

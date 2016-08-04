@@ -4,27 +4,28 @@
 /* global by */
 /* global element */
 /* global expect */
-/* global beforeEach */
+/* global beforeAll */
 
 'use strict';
 
 var htmlContentHelper =
   require('../utils/htmlContentHelper');
 var protractorHelper = require('../utils/protractorWaitHelper');
-
+var translateHelper = require('../utils/translateHelper');
 describe('Tool Bar test', function() {
   var toolbar;
   var currentUrl;
-  function testToolBar(description) {
+  function testToolBar(description, language) {
     describe(description, function() {
-        beforeEach(function() {
+        beforeAll(function() {
           var disclosureState = element(by.css('[ui-sref="disclosure"]'));
           disclosureState.click();
           browser.getCurrentUrl().then(function(url) {
             currentUrl = url;
-          });
-          protractorHelper.protractorWaitHelper('toolbar').then(function(el) {
-            toolbar = el;
+            translateHelper.changeLanguage('toolbar', url, language)
+            .then(function(el) {
+              toolbar = el;
+            });
           });
         });
         it('should check translated strings', function() {
@@ -53,28 +54,28 @@ describe('Tool Bar test', function() {
         });
         it('should change language ', function(done) {
           var changeLanguageButton;
-          var targetLanguage;
-          if (currentUrl.indexOf('#/de') !== -1) {
-            targetLanguage = 'English';
-            changeLanguageButton = element(by.id('changeLanguageToEn'));
-            changeLanguageButton.click();
-            browser.getCurrentUrl().then(function(url) {
-              expect(url).toContain('#/en', 'from German to ' + targetLanguage);
-              done();
-            });
-          }else {
-            targetLanguage = 'German';
-            changeLanguageButton = element(by.id('changeLanguageToDe'));
-            changeLanguageButton.click();
-            browser.getCurrentUrl().then(function(url) {
-              expect(url).toContain('#/de', 'from English to ' +
-              targetLanguage);
-              done();
-            });
-          }
+          browser.getCurrentUrl().then(function(url) {
+            if (url.indexOf('#/de') !== -1) {
+              changeLanguageButton = element(by.id('changeLanguageToEn'));
+              changeLanguageButton.click();
+              protractorHelper.protractorWaitHelper('toolbar').then(function() {
+                expect(element(by.id('changeLanguageToDe')).isPresent())
+                .toBe(true, 'from German to English ');
+                done();
+              });
+            }else {
+              changeLanguageButton = element(by.id('changeLanguageToDe'));
+              changeLanguageButton.click();
+              protractorHelper.protractorWaitHelper('toolbar').then(function() {
+                expect(element(by.id('changeLanguageToEn')).isPresent())
+                .toBe(true, 'from English to German ');
+                done();
+              });
+            }
+          });
         });
       });
   }
-  testToolBar('with german language');
-  testToolBar('with english language');
+  testToolBar('with german language', 'de');
+  testToolBar('with english language', 'en');
 });

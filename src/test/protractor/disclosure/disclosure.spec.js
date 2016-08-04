@@ -2,45 +2,43 @@
 /* global it */
 /* global describe */
 /* global by */
-/* global element */
 /* global expect */
 /* global beforeAll */
-/* global xit */
+/* global element */
 
 'use strict';
 
-var htmlContentHelper =
-require('../utils/htmlContentHelper');
-var findBrockenUrls =
-require('../utils/findBrockenUrls');
-var htmlContent;
+var htmlContentHelper = require('../utils/htmlContentHelper');
+var translateHelper = require('../utils/translateHelper');
+var content;
 describe('Disclosure Page', function() {
-  function testDisclosurePage(description, link) {
+  function testDisclosurePage(description, language) {
     describe(description, function() {
       var currentUrl;
       beforeAll(function() {
-          browser.get(link);
-          browser.getCurrentUrl().then(function(url) {
-           currentUrl = url;
-         });
-          browser.waitForAngular();
-          htmlContent = element(by.id('content'));
+        var disclosureState = element(by.css('[ui-sref="disclosure"]'));
+        disclosureState.click();
+        browser.getCurrentUrl().then(function(url) {
+          currentUrl = url;
+          translateHelper.changeLanguage('content', url, language)
+          .then(function(el) {
+            content = el;
+          });
         });
+      });
       it('should check translated strings', function() {
         htmlContentHelper
-        .findNotTranslationedStrings(htmlContent, currentUrl)
+        .findNotTranslationedStrings(content, currentUrl)
         .then(function(result) {
           expect(result.length).toBe(0, result.message);
         });
       });
-      xit('should check the external URL', function(done) {
-        htmlContent.all(by.css('a')).then(function(items) {
+      it('should check the external URL', function(done) {
+        content.all(by.css('a')).then(function(items) {
           items[1].getAttribute('href').then(function(href) {
-            return href;
-          }).then(function(url) {
-            findBrockenUrls.checkHREFs(url, currentUrl)
-            .then(function(result) {
-              expect(result.isValidUrl).toBe(true, result.message);
+            browser.getCurrentUrl().then(function(url) {
+              expect(url).toEqual(href + 'disclosure', 'Home link ' +
+            url + ' is not correct...');
               done();
             });
           });
@@ -48,6 +46,6 @@ describe('Disclosure Page', function() {
       });
     });
   }
-  testDisclosurePage('with german language', '#/de/disclosure');
-  testDisclosurePage('with english language', '#/en/disclosure');
+  testDisclosurePage('with german language', 'de');
+  testDisclosurePage('with english language', 'en');
 });
