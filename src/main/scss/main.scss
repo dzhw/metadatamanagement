@@ -179,7 +179,9 @@ body {
 
 .fdz-card-header-border {
   border-bottom: 1px rgba(0,0,0,0.12) solid;
-  padding-left: 0px;
+  cursor:pointer;
+  position:relative;
+  padding:1em;
 }
 
 .fdz-svg-container > svg {

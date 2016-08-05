@@ -1,41 +1,39 @@
-    <md-card md-ink-ripple="true">
-      <a ui-sref="dataSetDetail({id:searchResult.id})" class="fdz-search-result">
-        <md-card-header class="fdz-card-header-border">
-            <md-card-avatar>
-                <md-icon md-svg-src="/assets/images/icons/data-set.svg" class="fdz-search-result-icon"></md-icon>
-            </md-card-avatar>
-            <md-card-header-text class="fdz-truncate-string">
-                <span class="md-title fdz-truncate-string">Data Set</span>
-                <span class="md-subhead fdz-truncate-string">{{searchResult.id}}</span>
-            </md-card-header-text>
-        </md-card-header>
-      </a>
-        <md-card-content layout="row" layout-xs="column" layout-align="space-between none">
-          <div layout="column">
+<md-card>
+    <md-card-header md-ink-ripple ui-sref="dataSetDetail({id:searchResult.id})" class="fdz-search-result fdz-card-header-border">
+        <md-card-avatar>
+            <md-icon md-svg-src="/assets/images/icons/data-set.svg" class="fdz-search-result-icon"></md-icon>
+        </md-card-avatar>
+        <md-card-header-text class="fdz-truncate-string">
+            <div class="md-title fdz-truncate-string">Data Set</div>
+            <div class="md-subhead fdz-truncate-string">{{searchResult.id}}</div>
+        </md-card-header-text>
+    </md-card-header>
+    <md-card-content layout="row" layout-xs="column" layout-align="space-between none">
+        <div layout="column">
             <div layout="row" layout-xs="column" style="margin-bottom: 8px;">
-              <div class="fdz-search-result-label">
-                Beschreibung:
-              </div>
-              <div>
-                {{searchResult.description}}
-              </div>
+                <div class="fdz-search-result-label">
+                    Beschreibung:
+                </div>
+                <div>
+                    {{searchResult.description}}
+                </div>
             </div>
             <div layout="row" layout-xs="column">
-              <div class="fdz-search-result-label">
-                Erhebungen:
-              </div>
-              <div layout="column">
-                <div ng-repeat="title in searchResult.surveyTitles" class="fdz-truncate-string">{{title}}</div>
-              </div>
+                <div class="fdz-search-result-label">
+                    Erhebungen:
+                </div>
+                <div layout="column">
+                    <div ng-repeat="title in searchResult.surveyTitles" class="fdz-truncate-string">{{title}}</div>
+                </div>
             </div>
-          </div>
-          <div>
-            <md-button class="md-primary md-raised md-icon-button" aria-label="{{'search.buttons.generate-variable-report' | translate}}" ng-if="isAuthenticated()" type="file" ngf-select="uploadTexTemplate($file, searchResult.id)" accept=".zip">
+        </div>
+        <div>
+            <md-button hide-xs class="md-primary md-raised md-icon-button" aria-label="{{'search.buttons.generate-variable-report' | translate}}" ng-if="isAuthenticated()" type="file" ngf-select="uploadTexTemplate($file, searchResult.id)" accept=".zip">
                 <md-tooltip md-direction="left">
                     {{'search.buttons.generate-variable-report' | translate}}
                 </md-tooltip>
                 <md-icon md-font-set="material-icons">note_add</md-icon>
             </md-button>
-          </div>
-        </md-card-content>
-    </md-card>
+        </div>
+    </md-card-content>
+</md-card>
