@@ -6,17 +6,16 @@ angular.module('metadatamanagementApp')
     'CurrentProjectService', 'DataAcquisitionProjectPostValidationService',
     'DataAcquisitionProjectSearchResource', 'DataAcquisitionProjectResource',
     '$mdDialog', 'SimpleMessageToastService', '$translate',
-    'ElasticSearchAdminService',
+    'ElasticSearchAdminService', '$location', '$filter',
     function(CurrentProjectService,
       DataAcquisitionProjectPostValidationService,
       DataAcquisitionProjectSearchResource, DataAcquisitionProjectResource,
       $mdDialog, SimpleMessageToastService, $translate,
-      ElasticSearchAdminService) {
+      ElasticSearchAdminService, $location, $filter) {
       var ctrl = this;
       //For Project Handling
       ctrl.dataAcquisitionProjects = null;
       ctrl.searchText = '';
-      ctrl.selectedProject = CurrentProjectService.getCurrentProject();
 
       function selectProject(project) {
         if (project) {
@@ -33,6 +32,10 @@ angular.module('metadatamanagementApp')
           function(result) {
             ctrl.dataAcquisitionProjects =
               result._embedded.dataAcquisitionProjects;
+            ctrl.selectedProject = $filter('filter')(
+              ctrl.dataAcquisitionProjects, function(project) {
+                return project.id === $location.search().project;
+              })[0];
           });
       }
       loadProjects();
@@ -55,6 +58,11 @@ angular.module('metadatamanagementApp')
       //Update the state for the current project
       ctrl.onSelectedProjectChanged = function(project) {
         CurrentProjectService.setCurrentProject(project);
+        if (project) {
+          $location.search('project', project.id);
+        }else {
+          $location.search('project', null);
+        }
       };
 
       /* Function for opening a dialog for creating a new project */
