@@ -80,6 +80,11 @@ angular.module('metadatamanagementApp').controller('SearchController',
               });
 
             //Search with different types, binded on every tab
+            if ($scope.currentProject) {
+              $location.search('rdc-project', $scope.currentProject.id);
+            } else {
+              $location.search('rdc-project', '');
+            }
             $location.search('query', $scope.query);
             $location.search('page', $scope.page.currentPageNumber);
             $location.search('type', selectedTab.elasticSearchType);

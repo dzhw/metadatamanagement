@@ -16,7 +16,6 @@ angular.module('metadatamanagementApp')
       //For Project Handling
       ctrl.dataAcquisitionProjects = null;
       ctrl.searchText = '';
-
       function selectProject(project) {
         if (project) {
           ctrl.selectedProject = project;
@@ -28,13 +27,14 @@ angular.module('metadatamanagementApp')
 
       //Load the projects for the drop menu
       function loadProjects() {
+        var rdcId = $location.search()['rdc-project'];
         DataAcquisitionProjectSearchResource.findAll(
           function(result) {
             ctrl.dataAcquisitionProjects =
               result._embedded.dataAcquisitionProjects;
             ctrl.selectedProject = $filter('filter')(
               ctrl.dataAcquisitionProjects, function(project) {
-                return project.id === $location.search().project;
+                return project.id === rdcId;
               })[0];
           });
       }
@@ -50,6 +50,7 @@ angular.module('metadatamanagementApp')
 
       //Query for searching in project list
       ctrl.searchProjects = function(query) {
+        $location.search('rdc-project',query);
         var results = query ? ctrl.dataAcquisitionProjects.filter(
           createFilterFor(query)) : ctrl.dataAcquisitionProjects;
         return results;
@@ -58,11 +59,6 @@ angular.module('metadatamanagementApp')
       //Update the state for the current project
       ctrl.onSelectedProjectChanged = function(project) {
         CurrentProjectService.setCurrentProject(project);
-        if (project) {
-          $location.search('project', project.id);
-        }else {
-          $location.search('project', null);
-        }
       };
 
       /* Function for opening a dialog for creating a new project */
