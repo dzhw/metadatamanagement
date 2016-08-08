@@ -50,7 +50,7 @@ angular.module('metadatamanagementApp')
 
       //Query for searching in project list
       ctrl.searchProjects = function(query) {
-        $location.search('rdc-project',query);
+        $location.search('rdc-project', query);
         var results = query ? ctrl.dataAcquisitionProjects.filter(
           createFilterFor(query)) : ctrl.dataAcquisitionProjects;
         return results;
