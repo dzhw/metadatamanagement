@@ -11,19 +11,11 @@ angular.module('metadatamanagementApp')
       DataAcquisitionProjectPostValidationService,
       DataAcquisitionProjectSearchResource, DataAcquisitionProjectResource,
       $mdDialog, SimpleMessageToastService, $translate,
-      ElasticSearchAdminService, $location, $filter) {
+      ElasticSearchAdminService, $location) {
       var ctrl = this;
       //For Project Handling
       ctrl.dataAcquisitionProjects = null;
       ctrl.searchText = '';
-      function selectProject(project) {
-        if (project) {
-          ctrl.selectedProject = project;
-        } else {
-          ctrl.selectedProject = null;
-          ctrl.searchText = '';
-        }
-      }
 
       //Load the projects for the drop menu
       function loadProjects() {
@@ -32,13 +24,16 @@ angular.module('metadatamanagementApp')
           function(result) {
             ctrl.dataAcquisitionProjects =
               result._embedded.dataAcquisitionProjects;
-            ctrl.selectedProject = $filter('filter')(
-              ctrl.dataAcquisitionProjects, function(project) {
-                return project.id === rdcId;
-              })[0];
+            var projects = ctrl.searchProjects(rdcId);
+            if (projects.length === 1) {
+              ctrl.selectedProject = projects[0];
+              ctrl.searchText = projects[0].id;
+            } else {
+              ctrl.selectedProject = null;
+              ctrl.searchText = '';
+            }
           });
       }
-      loadProjects();
 
       //Helper method for query the project list
       function createFilterFor(query) {
@@ -50,7 +45,6 @@ angular.module('metadatamanagementApp')
 
       //Query for searching in project list
       ctrl.searchProjects = function(query) {
-        $location.search('rdc-project', query);
         var results = query ? ctrl.dataAcquisitionProjects.filter(
           createFilterFor(query)) : ctrl.dataAcquisitionProjects;
         return results;
@@ -77,8 +71,8 @@ angular.module('metadatamanagementApp')
                   .openSimpleMessageToast('metadatamanagementApp.' +
                     'dataAcquisitionProject.detail.logMessages.' +
                     'dataAcquisitionProject.saved', {id: project.id});
+                CurrentProjectService.setCurrentProject(project);
                 loadProjects();
-                selectProject(project);
               },
               //Server Error
               function(errorMsg) {
@@ -127,7 +121,6 @@ angular.module('metadatamanagementApp')
                   'dataAcquisitionProject.deletedSuccessfullyProject',
                   {id: ctrl.selectedProject.id});
                 loadProjects();
-                selectProject(null);
               });
             },
             function() {
@@ -148,5 +141,6 @@ angular.module('metadatamanagementApp')
         DataAcquisitionProjectPostValidationService
           .postValidate(ctrl.selectedProject.id);
       };
+      loadProjects();
     }
   ]);
