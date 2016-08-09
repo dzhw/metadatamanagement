@@ -21,23 +21,23 @@ import net.karneim.pojobuilder.GeneratePojoBuilder;
 @GeneratePojoBuilder(
     intoPackage = "eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.builders")
 @NotEmptyGenerationDetailsDescriptionOrRule(
-    message = "metadatamanagementApp.variable.error.generationDetails." 
+    message = "variable.error.generationDetails." 
         + "notEmptyGenerationDetailsDescriptionOrRule")
 @RuleExpressionLanguageAndRuleFilledOrEmpty(
-    message = "metadatamanagementApp.variable.error.generationDetails." 
+    message = "variable.error.generationDetails." 
         + "ruleExpressionLanguageAndRuleFilledOrEmpty")
 public class GenerationDetails {
 
   @I18nStringSize(max = StringLengths.LARGE,
-      message = "metadatamanagementApp.variable.error.generationDetails.description.i18nStringSize")
+      message = "variable.error.generationDetails.description.i18nStringSize")
   private I18nString description;
 
   @Size(max = StringLengths.X_LARGE, 
-      message = "metadatamanagementApp.variable.error.generationDetails.rule.size")
+      message = "variable.error.generationDetails.rule.size")
   private String rule;
 
   @ValidRuleExpressionLanguage(
-      message = "metadatamanagementApp.variable.error.generationDetails." 
+      message = "variable.error.generationDetails." 
           + "ruleExpressionLanguage.validRuleExpressionLanguage")
   private String ruleExpressionLanguage;
 

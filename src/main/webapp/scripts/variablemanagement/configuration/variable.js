@@ -8,7 +8,7 @@ angular.module('metadatamanagementApp')
         url: '/variables/{id}',
         data: {
           authorities: [],
-          pageTitle: 'metadatamanagementApp.variable.detail.title'
+          pageTitle: 'variable-management.detail.title'
         },
         views: {
           'content@': {

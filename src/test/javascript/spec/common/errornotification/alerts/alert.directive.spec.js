@@ -34,7 +34,7 @@ describe('Unit testing jhAlert', function() {
       });
       xit("Should display jhAlert", function() {
         var event = jasmine.createSpyObj('event', ['preventDefault', 'stopPropagation']);
-          $rootScope.$broadcast('metadatamanagementApp.httpError');
+          $rootScope.$broadcast('httpError');
           //expect($scope.alerts).toEqual([]);
           //$scope.addErrorAlert();
         //  alert(controller_error);

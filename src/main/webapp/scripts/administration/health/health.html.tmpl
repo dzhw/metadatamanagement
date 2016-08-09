@@ -23,7 +23,7 @@
                 <td>{{'health.indicator.' + baseName(health.name) | translate}}
                     {{subSystemName(health.name)}}</td>
                 <td class="text-center">
-                    <button ng-show="health.name==='elasticsearch'" ng-disabled="isRecreatingIndices" type="button" class="btn btn-danger btn-xs" ng-click="recreateAllElasticsearchIndices()" data-translate="health.elasticsearch.reindex">Reindex</button>
+                    <button ng-show="health.name==='elasticsearch'" ng-disabled="isRecreatingIndices" type="button" class="btn btn-danger btn-xs" ng-click="recreateAllElasticsearchIndices()" data-translate="health.elasticsearch-management.reindex">Reindex</button>
                 </td>
                 <td class="text-center">
                     <span class="label" ng-class="getLabelClass(health.status)">

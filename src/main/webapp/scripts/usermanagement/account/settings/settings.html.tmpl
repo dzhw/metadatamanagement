@@ -1,11 +1,11 @@
 <div class="container">
     <div class="row">
         <div class="col-md-8 col-md-offset-2">
-            <h2 data-translate="settings.title" data-translate-values="{username: '{{settingsAccount.login}}'}">User settings for [
+            <h2 data-translate="user-management.settings.title" data-translate-values="{username: '{{settingsAccount.login}}'}">User settings for [
                 <b>{{settingsAccount.login}}</b>
                 ]</h2>
 
-            <div class="alert alert-success" ng-show="success" data-translate="settings.messages.success">
+            <div class="alert alert-success" ng-show="success" data-translate="user-management.settings.messages.success">
                 <strong>Settings saved!</strong>
             </div>
 
@@ -14,7 +14,7 @@
                 Please choose another one.
             </div>
 
-            <div class="alert alert-danger" ng-show="error" data-translate="settings.messages.error.fail">
+            <div class="alert alert-danger" ng-show="error" data-translate="user-management.settings.messages.error.fail">
                 <strong>An error has occurred!</strong>
                 Settings could not be saved.
             </div>
@@ -22,31 +22,31 @@
             <form name="form" novalidate ng-submit="save()" show-validation>
 
                 <div class="form-group">
-                    <label for="firstName" data-translate="settings.form.firstname">First Name</label>
-                    <input type="text" class="form-control" id="firstName" name="firstName" placeholder="{{'settings.form.firstname.placeholder' | translate}}" ng-model="settingsAccount.firstName" ng-minlength=1 ng-maxlength=50 required maxlength="50">
+                    <label for="firstName" data-translate="user-management.settings.form.firstname">First Name</label>
+                    <input type="text" class="form-control" id="firstName" name="firstName" placeholder="{{'user-management.settings.form.firstname.placeholder' | translate}}" ng-model="settingsAccount.firstName" ng-minlength=1 ng-maxlength=50 required maxlength="50">
                     <div ng-show="form.firstName.$dirty && form.firstName.$invalid">
-                        <p class="help-block" ng-show="form.firstName.$error.required" data-translate="settings.messages.validate.firstname.required">
+                        <p class="help-block" ng-show="form.firstName.$error.required" data-translate="user-management.settings.messages.validate.firstname.required">
                             Your first name is required.
                         </p>
-                        <p class="help-block" ng-show="form.firstName.$error.minlength" data-translate="settings.messages.validate.firstname.minlength">
+                        <p class="help-block" ng-show="form.firstName.$error.minlength" data-translate="user-management.settings.messages.validate.firstname.minlength">
                             Your first name is required to be at least 1 character.
                         </p>
-                        <p class="help-block" ng-show="form.firstName.$error.maxlength" data-translate="settings.messages.validate.firstname.maxlength">
+                        <p class="help-block" ng-show="form.firstName.$error.maxlength" data-translate="user-management.settings.messages.validate.firstname.maxlength">
                             Your first name cannot be longer than 50 characters.
                         </p>
                     </div>
                 </div>
                 <div class="form-group">
-                    <label for="lastName" data-translate="settings.form.lastname">Last Name</label>
-                    <input type="text" class="form-control" id="lastName" name="lastName" placeholder="{{'settings.form.lastname.placeholder' | translate}}" ng-model="settingsAccount.lastName" ng-minlength=1 ng-maxlength=50 required maxlength="50">
+                    <label for="lastName" data-translate="user-management.settings.form.lastname">Last Name</label>
+                    <input type="text" class="form-control" id="lastName" name="lastName" placeholder="{{'user-management.settings.form.lastname.placeholder' | translate}}" ng-model="settingsAccount.lastName" ng-minlength=1 ng-maxlength=50 required maxlength="50">
                     <div ng-show="form.lastName.$dirty && form.lastName.$invalid">
-                        <p class="help-block" ng-show="form.lastName.$error.required" data-translate="settings.messages.validate.lastname.required">
+                        <p class="help-block" ng-show="form.lastName.$error.required" data-translate="user-management.settings.messages.validate.lastname.required">
                             Your last name is required.
                         </p>
-                        <p class="help-block" ng-show="form.lastName.$error.minlength" data-translate="settings.messages.validate.lastname.minlength">
+                        <p class="help-block" ng-show="form.lastName.$error.minlength" data-translate="user-management.settings.messages.validate.lastname.minlength">
                             Your last name is required to be at least 1 character.
                         </p>
-                        <p class="help-block" ng-show="form.lastName.$error.maxlength" data-translate="settings.messages.validate.lastname.maxlength">
+                        <p class="help-block" ng-show="form.lastName.$error.maxlength" data-translate="user-management.settings.messages.validate.lastname.maxlength">
                             Your last name cannot be longer than 50 characters.
                         </p>
                     </div>
@@ -70,11 +70,11 @@
                     </div>
                 </div>
                 <div class="form-group">
-                    <label for="langKey" data-translate="settings.form.language">Language</label>
+                    <label for="langKey" data-translate="user-management.settings.form.language">Language</label>
                     <select id="langKey" name="langKey" class="form-control" ng-model="settingsAccount.langKey" ng-controller="LanguageController" ng-options="code as (code | findLanguageFromKey) for code in languages"></select>
                 </div>
 
-                <button type="submit" ng-disabled="form.$invalid" class="btn btn-primary" data-translate="settings.form.button">Save</button>
+                <button type="submit" ng-disabled="form.$invalid" class="btn btn-primary" data-translate="user-management.settings.form.button">Save</button>
             </form>
         </div>
     </div>

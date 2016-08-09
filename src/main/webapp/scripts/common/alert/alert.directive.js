@@ -42,7 +42,7 @@ angular
             };
             var cleanHttpErrorListener = $rootScope
               .$on(
-                'metadatamanagementApp.httpError',
+                'httpError',
                 function(event, httpResponse) {
                   var i;
                   event.stopPropagation();
@@ -66,7 +66,7 @@ angular
                           var convertedField = fieldError.field
                             .replace(/\[\d*\]/g, '[]');
                           var fieldName = $translate
-                            .instant('metadatamanagementApp.' +
+                            .instant(
                               fieldError.objectName + '.' +
                               convertedField);
                           addErrorAlert('Field ' + fieldName +

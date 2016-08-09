@@ -26,14 +26,14 @@ public class HeaderUtil {
   }
 
   public static HttpHeaders createEntityCreationAlert(String entityName, String param) {
-    return createAlert("metadatamanagementApp." + entityName + ".created", param);
+    return createAlert(entityName + ".created", param);
   }
 
   public static HttpHeaders createEntityUpdateAlert(String entityName, String param) {
-    return createAlert("metadatamanagementApp." + entityName + ".updated", param);
+    return createAlert(entityName + ".updated", param);
   }
 
   public static HttpHeaders createEntityDeletionAlert(String entityName, String param) {
-    return createAlert("metadatamanagementApp." + entityName + ".deleted", param);
+    return createAlert(entityName + ".deleted", param);
   }
 }

@@ -41,58 +41,58 @@ import net.karneim.pojobuilder.GeneratePojoBuilder;
 @GeneratePojoBuilder(
     intoPackage = "eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.builders")
 @CompoundIndex(def = "{name: 1, dataAcquisitionProjectId: 1}", unique = true)
-@ValidVariableIdName(message = "metadatamanagementApp.variable.error.variable.validVariableName")
-@UniqueVariableNameInProject(message = "metadatamanagementApp.variable.error."
+@ValidVariableIdName(message = "variable.error.variable.validVariableName")
+@UniqueVariableNameInProject(message = "variable.error."
     + "variable.uniqueVariableNameInProject")
 @MandatoryScaleLevelForNumericDataType(
-    message = "metadatamanagementApp.variable.error.variable.mandatoryScaleLevelForNumericDataType")
+    message = "variable.error.variable.mandatoryScaleLevelForNumericDataType")
 @ValidResponseValueMustBeANumberOnNumericDataType(
-    message = "metadatamanagementApp.variable.error.variable."
+    message = "variable.error.variable."
         + "validResponseValueMustBeANumberOnNumericDataType")
 @ValidResponseValueMustBeAnIsoDateOnDateDataType(
-    message = "metadatamanagementApp.variable.error.variable."
+    message = "variable.error.variable."
         + "validResponseValueMustBeAnIsoDateOnDateDataType")
 public class Variable extends AbstractRdcDomainObject {
 
   /* Domain Object listed attributes */
   @Id
-  @NotEmpty(message = "metadatamanagementApp.variable.error.variable.id.notEmpty")
+  @NotEmpty(message = "variable.error.variable.id.notEmpty")
   @Size(max = StringLengths.MEDIUM,
-      message = "metadatamanagementApp.variable.error.variable.id.size")
+      message = "variable.error.variable.id.size")
   @Pattern(regexp = Patterns.GERMAN_ALPHANUMERIC_WITH_UNDERSCORE_AND_MINUS,
-      message = "metadatamanagementApp.variable.error.variable.id.pattern")
+      message = "variable.error.variable.id.pattern")
   private String id;
 
-  @NotNull(message = "metadatamanagementApp.variable.error.variable.dataType.notNull")
-  @ValidDataType(message = "metadatamanagementApp.variable.error.variable.dataType.validDataType")
+  @NotNull(message = "variable.error.variable.dataType.notNull")
+  @ValidDataType(message = "variable.error.variable.dataType.validDataType")
   private I18nString dataType;
 
   @ValidScaleLevel(
-      message = "metadatamanagementApp.variable.error.variable.scaleLevel.validScaleLevel")
+      message = "variable.error.variable.scaleLevel.validScaleLevel")
   private I18nString scaleLevel;
 
-  @NotEmpty(message = "metadatamanagementApp.variable.error.variable.name.notEmpty")
+  @NotEmpty(message = "variable.error.variable.name.notEmpty")
   @Size(max = StringLengths.SMALL,
-      message = "metadatamanagementApp.variable.error.variable.name.size")
+      message = "variable.error.variable.name.size")
   @Pattern(regexp = Patterns.ALPHANUMERIC_WITH_UNDERSCORE_NO_NUMBER_AS_FIRST_SIGN,
-      message = "metadatamanagementApp.variable.error.variable.name.pattern")
+      message = "variable.error.variable.name.pattern")
   private String name;
 
-  @NotNull(message = "metadatamanagementApp.variable.error.variable.label.notNull")
+  @NotNull(message = "variable.error.variable.label.notNull")
   @I18nStringSize(max = StringLengths.MEDIUM,
-      message = "metadatamanagementApp.variable.error.variable.label.i18nStringSize")
+      message = "variable.error.variable.label.i18nStringSize")
   @AtLeastOneLanguage(
-      message = "metadatamanagementApp.variable.error.variable.label.atLeastOneLanguage")
+      message = "variable.error.variable.label.atLeastOneLanguage")
   private I18nString label;
 
   @I18nStringSize(max = StringLengths.LARGE,
-      message = "metadatamanagementApp.variable.error.variable.description.i18nStringSize")
+      message = "variable.error.variable.description.i18nStringSize")
   private I18nString description;
 
   // checks for min size too.
-  @NotEmpty(message = "metadatamanagementApp.variable.error.variable.accessWays.notEmpty")
+  @NotEmpty(message = "variable.error.variable.accessWays.notEmpty")
   @ValidAccessWays(
-      message = "metadatamanagementApp.variable.error.variable.accessWays.validAccessWays")
+      message = "variable.error.variable.accessWays.validAccessWays")
   private List<String> accessWays;
 
   private List<String> sameVariablesInPanel;
@@ -111,13 +111,13 @@ public class Variable extends AbstractRdcDomainObject {
   /* Foreign Keys */
   private String atomicQuestionId;
 
-  @NotEmpty(message = "metadatamanagementApp.variable.error.variable.dataSet.ids.notEmpty")
+  @NotEmpty(message = "variable.error.variable.dataSet.ids.notEmpty")
   private List<String> dataSetIds;
 
   @Indexed
   private String dataAcquisitionProjectId;
 
-  @NotEmpty(message = "metadatamanagementApp.variable.error.variable.survey.ids.notEmpty")
+  @NotEmpty(message = "variable.error.variable.survey.ids.notEmpty")
   private List<String> surveyIds;
 
   /*

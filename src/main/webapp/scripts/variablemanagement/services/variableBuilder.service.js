@@ -19,7 +19,7 @@ angular.module('metadatamanagementApp').service('VariableBuilderService',
               translationParams: {
                 id: variables[i].id
               },
-              errorMessage: 'metadatamanagementApp.' +
+              errorMessage: 
               'dataAcquisitionProject.detail.logMessages.notFoundJsonFile'
             });
             continue;
@@ -29,7 +29,7 @@ angular.module('metadatamanagementApp').service('VariableBuilderService',
             translationParams: {
               id: variables[i].id
             },
-            errorMessage: 'metadatamanagementApp.' +
+            errorMessage: 
             'dataAcquisitionProject.detail.logMessages.malformedJsonFile'
           });
           continue;

@@ -68,7 +68,7 @@ angular.module('metadatamanagementApp')
               //Success
               function() {
                 SimpleMessageToastService
-                  .openSimpleMessageToast('metadatamanagementApp.' +
+                  .openSimpleMessageToast(
                     'dataAcquisitionProject.detail.logMessages.' +
                     'dataAcquisitionProject.saved', {id: project.id});
                 CurrentProjectService.setCurrentProject(project);
@@ -77,7 +77,7 @@ angular.module('metadatamanagementApp')
               //Server Error
               function(errorMsg) {
                 SimpleMessageToastService
-                  .openSimpleMessageToast('metadatamanagementApp.' +
+                  .openSimpleMessageToast(
                     'dataAcquisitionProject.detail.logMessages.' +
                     'dataAcquisitionProject.serverError' + errorMsg);
                 loadProjects();
@@ -89,17 +89,17 @@ angular.module('metadatamanagementApp')
       //Conformation Dialog for the deletion of a project
       ctrl.deleteProject = function() {
         var confirm = $mdDialog.confirm()
-          .title($translate.instant('metadatamanagementApp.' +
+          .title($translate.instant(
             'dataAcquisitionProject.detail.logMessages.' +
             'dataAcquisitionProject.deleteTitle', {
               id: ctrl.selectedProject.id
             }))
-          .textContent($translate.instant('metadatamanagementApp.' +
+          .textContent($translate.instant(
             'dataAcquisitionProject.detail.logMessages.' +
             'dataAcquisitionProject.delete', {
               id: ctrl.selectedProject.id
             }))
-          .ariaLabel($translate.instant('metadatamanagementApp.' +
+          .ariaLabel($translate.instant(
             'dataAcquisitionProject.detail.logMessages.' +
             'dataAcquisitionProject.delete', {
               id: ctrl.selectedProject.id
@@ -116,7 +116,7 @@ angular.module('metadatamanagementApp')
             function() {
               ElasticSearchAdminService.processUpdateQueue().then(function() {
                 SimpleMessageToastService.openSimpleMessageToast(
-                  'metadatamanagementApp.' +
+                  
                   'dataAcquisitionProject.detail.logMessages.' +
                   'dataAcquisitionProject.deletedSuccessfullyProject',
                   {id: ctrl.selectedProject.id});
@@ -125,7 +125,7 @@ angular.module('metadatamanagementApp')
             },
             function() {
               SimpleMessageToastService.openSimpleMessageToast(
-                'metadatamanagementApp.' +
+
                 'dataAcquisitionProject.detail.logMessages.' +
                 'dataAcquisitionProject.deletedNotSuccessfullyProject',
                 {id: ctrl.selectedProject.id});

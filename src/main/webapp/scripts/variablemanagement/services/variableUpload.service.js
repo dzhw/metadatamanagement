@@ -13,7 +13,7 @@ angular.module('metadatamanagementApp').service('VariableUploadService',
       if (uploadCount === objects.length) {
         ElasticSearchAdminService.processUpdateQueue().then(function() {
           JobLoggingService.finish(
-            'metadatamanagementApp.dataAcquisitionProject.detail.' +
+            'dataAcquisitionProject.detail.' +
             'logMessages.variable.uploadTerminated', {
               total: JobLoggingService.getCurrentJob().total ,
               errors: JobLoggingService.getCurrentJob().errors
@@ -23,7 +23,7 @@ angular.module('metadatamanagementApp').service('VariableUploadService',
         if (!objects[uploadCount].id || objects[uploadCount].id === '') {
           var index = uploadCount;
           JobLoggingService.error(
-            'metadatamanagementApp.dataAcquisitionProject.' +
+            'dataAcquisitionProject.' +
             'detail.logMessages.variable.' +
             'missingId', {
               index: index + 1
@@ -66,7 +66,7 @@ angular.module('metadatamanagementApp').service('VariableUploadService',
           }
         }, function() {
           JobLoggingService.cancel(
-            'metadatamanagementApp.dataAcquisitionProject.detail.' +
+            'dataAcquisitionProject.detail.' +
             'logMessages.unsupportedZipFile', {});
         }).then(function(variables) {
           objects = VariableBuilderService.getVariables(variables, zip,
@@ -91,11 +91,11 @@ angular.module('metadatamanagementApp').service('VariableUploadService',
         }, function(error) {
           if (error === 'unsupportedDirectoryStructure') {
             JobLoggingService.cancel(
-              'metadatamanagementApp.dataAcquisitionProject.detail.' +
+              'dataAcquisitionProject.detail.' +
               'logMessages.unsupportedDirectoryStructure', {});
           } else {
             JobLoggingService.cancel(
-              'metadatamanagementApp.dataAcquisitionProject.detail.' +
+              'dataAcquisitionProject.detail.' +
               'logMessages.unsupportedExcelFile', {});
           }
         });

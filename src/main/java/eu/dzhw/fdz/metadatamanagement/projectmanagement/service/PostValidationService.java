@@ -185,7 +185,7 @@ public class PostValidationService {
       for (String surveyId : variable.getSurveyIds()) {
         if (this.surveyRepository.findOne(surveyId) == null) {
           String[] information = {variable.getId(), surveyId};
-          errors.add(new PostValidationMessageDto("metadatamanagementApp.variable.error." 
+          errors.add(new PostValidationMessageDto("variable.error." 
               + "postValidation.variableHasInvalidSurveyId", information));
         }
       }
@@ -194,7 +194,7 @@ public class PostValidationService {
       for (String dataSetId : variable.getDataSetIds()) {
         if (this.dataSetRepository.findOne(dataSetId) == null) {
           String[] information = {variable.getId(), dataSetId};
-          errors.add(new PostValidationMessageDto("metadatamanagementApp.variable.error." 
+          errors.add(new PostValidationMessageDto("variable.error." 
               + "postValidation.variableHasInvalidDataSetId", information));
         }
       }
@@ -204,7 +204,7 @@ public class PostValidationService {
         for (String variableId : variable.getSameVariablesInPanel()) {
           if (this.variableRepository.findOne(variableId) == null) {
             String[] information = {variable.getId(), variableId};
-            errors.add(new PostValidationMessageDto("metadatamanagementApp.variable.error." 
+            errors.add(new PostValidationMessageDto("variable.error." 
                 + "postValidation.variableIdIsNotInInvalidVariablesPanel", information));
           }        
         }        
@@ -215,7 +215,7 @@ public class PostValidationService {
       if (variable.getAtomicQuestionId() != null
           && this.atomicQuestionRepository.findOne(variable.getAtomicQuestionId()) == null) {
         String[] information = {variable.getId(), variable.getAtomicQuestionId()};
-        errors.add(new PostValidationMessageDto("metadatamanagementApp.variable.error." 
+        errors.add(new PostValidationMessageDto("variable.error." 
             + "postValidation.variableHasInvalidAtomicQuestionId", information));
       }
     }
