@@ -19,7 +19,7 @@ angular.module('metadatamanagementApp').config(
       resolve: {
         translatePartialLoader: ['$translatePartialLoader',
           function($translatePartialLoader) {
-            $translatePartialLoader.addPart('password');
+            $translatePartialLoader.addPart('user.management');
           }
         ]
       }

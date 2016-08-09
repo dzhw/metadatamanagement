@@ -70,7 +70,9 @@ angular.module('metadatamanagementApp')
                 SimpleMessageToastService
                   .openSimpleMessageToast(
                     'dataAcquisitionProject.detail.logMessages.' +
-                    'dataAcquisitionProject.saved', {id: project.id});
+                    'dataAcquisitionProject.saved', {
+                      id: project.id
+                    });
                 CurrentProjectService.setCurrentProject(project);
                 loadProjects();
               },
@@ -114,21 +116,23 @@ angular.module('metadatamanagementApp')
               id: ctrl.selectedProject.id
             },
             function() {
-              ElasticSearchAdminService.processUpdateQueue().then(function() {
-                SimpleMessageToastService.openSimpleMessageToast(
-                  
-                  'dataAcquisitionProject.detail.logMessages.' +
-                  'dataAcquisitionProject.deletedSuccessfullyProject',
-                  {id: ctrl.selectedProject.id});
-                loadProjects();
-              });
+              ElasticSearchAdminService.processUpdateQueue().then(
+                function() {
+                  SimpleMessageToastService.openSimpleMessageToast(
+                    'dataAcquisitionProject.detail.logMessages.' +
+                    'dataAcquisitionProject.deletedSuccessfullyProject', {
+                      id: ctrl.selectedProject.id
+                    });
+                  loadProjects();
+                });
             },
             function() {
               SimpleMessageToastService.openSimpleMessageToast(
 
                 'dataAcquisitionProject.detail.logMessages.' +
-                'dataAcquisitionProject.deletedNotSuccessfullyProject',
-                {id: ctrl.selectedProject.id});
+                'dataAcquisitionProject.deletedNotSuccessfullyProject', {
+                  id: ctrl.selectedProject.id
+                });
             });
 
         }, function() {

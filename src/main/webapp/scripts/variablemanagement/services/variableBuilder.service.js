@@ -12,15 +12,15 @@ angular.module('metadatamanagementApp').service('VariableBuilderService',
           generatedVariable = zip.files['variables/' + variables[i].id +
               '.json'] ?
             JSON.
-          parse(zip.files['variables/' + variables[i].id + '.json']
-            .asText()) : undefined;
+          parse(zip.files['variables/' + variables[i].id + '.json'].asText()) :
+            undefined;
           if (generatedVariable === undefined && variables[i].id) {
             parseErrors.push({
               translationParams: {
                 id: variables[i].id
               },
-              errorMessage: 
-              'dataAcquisitionProject.detail.logMessages.notFoundJsonFile'
+              errorMessage: 'dataAcquisitionProject.detail.' +
+                'logMessages.notFoundJsonFile'
             });
             continue;
           }
@@ -29,8 +29,8 @@ angular.module('metadatamanagementApp').service('VariableBuilderService',
             translationParams: {
               id: variables[i].id
             },
-            errorMessage: 
-            'dataAcquisitionProject.detail.logMessages.malformedJsonFile'
+            errorMessage: 'dataAcquisitionProject.detail.' +
+              'logMessages.malformedJsonFile'
           });
           continue;
         }

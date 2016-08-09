@@ -3,18 +3,18 @@
         <span aria-hidden="true">&times;</span>
     </button>
     <h4 class="modal-title" id="showHealthLabel">
-        {{'health.indicator.' + baseName(currentHealth.name) | translate}}
+        {{'administration.health.indicator.' + baseName(currentHealth.name) | translate}}
         {{subSystemName(currentHealth.name)}}
     </h4>
 </div>
 <div class="modal-body pad">
     <div ng-show="currentHealth.details">
-        <h4 data-translate="health.details.properties">Properties</h4>
+        <h4 data-translate="administration.health.details.properties">Properties</h4>
         <table class="table table-striped">
             <thead>
                 <tr>
-                    <th class="col-md-6 text-left" data-translate="health.details.name">Name</th>
-                    <th class="col-md-6 text-left" data-translate="health.details.value">Value</th>
+                    <th class="col-md-6 text-left" data-translate="administration.health.details.name">Name</th>
+                    <th class="col-md-6 text-left" data-translate="administration.health.details.value">Value</th>
                 </tr>
             </thead>
             <tbody>
@@ -26,7 +26,7 @@
         </table>
     </div>
     <div ng-show="currentHealth.error">
-        <h4 data-translate="health.details.error">Error</h4>
+        <h4 data-translate="administration.health.details.error">Error</h4>
         <pre>{{currentHealth.error}}</pre>
     </div>
 </div>

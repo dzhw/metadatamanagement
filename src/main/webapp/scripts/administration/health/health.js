@@ -7,7 +7,7 @@ angular.module('metadatamanagementApp').config(
       url: '/health',
       data: {
         authorities: ['ROLE_ADMIN'],
-        pageTitle: 'health.title'
+        pageTitle: 'administration.health.title'
       },
       views: {
         'content@': {
