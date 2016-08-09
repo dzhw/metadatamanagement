@@ -108,7 +108,7 @@ angular.module('metadatamanagementApp').controller('SearchController',
                                   if (bucket.key === tab.elasticSearchType) {
                                     // jscs:disable
                                       tab.count = bucket.doc_count;
-                                      // jscs:enable
+                                    // jscs:enable
                                   }
                                 });
                         });
@@ -138,7 +138,7 @@ angular.module('metadatamanagementApp').controller('SearchController',
 
         $scope.$on('current-project-changed', function(event, currentProject) {
           $scope.currentProject = currentProject;
-          $scope.page.currentPageNumber = 1;
+          $scope.page.currentPageNumber = $location.search().page || 1;
           $scope.search();
         });
 
