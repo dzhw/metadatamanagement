@@ -18,7 +18,7 @@ angular.module('metadatamanagementApp').config(
       resolve: {
         translatePartialLoader: ['$translatePartialLoader',
           function($translatePartialLoader) {
-            $translatePartialLoader.addPart('logs');
+            $translatePartialLoader.addPart('administration');
           }
         ]
       }

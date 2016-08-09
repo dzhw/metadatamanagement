@@ -1,5 +1,5 @@
 {
-  "question": {
+  "question-management": {
     "error": {
       "question": {
         "validAtomicQuestionIdName": "The RDC-ID must start with the project ID (e.g. projectID-variableName) and must be equal to variable ID!",

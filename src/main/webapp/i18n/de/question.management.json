@@ -1,5 +1,5 @@
 {
-  "question": {
+  "question-management": {
     "error": {
       "question": {
         "validAtomicQuestionIdName": "Die FDZ - ID muss mit der Projekt ID beginnen(Beispiel: ProjektID - Variablenname) und muss der ID der zugehörigen Variable entsprechen!",

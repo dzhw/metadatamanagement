@@ -8,8 +8,8 @@ angular.module('metadatamanagementApp')
         url: '/questions/{id}',
         data: {
           authorities: [],
+          //TODO should be a i18n string
           pageTitle: 'Frage'
-          // should be a i18n string
         },
         views: {
           'content@': {
@@ -21,8 +21,9 @@ angular.module('metadatamanagementApp')
         resolve: {
           translatePartialLoader: ['$translatePartialLoader',
             function($translatePartialLoader) {
-              $translatePartialLoader.addPart('variable'); // should be changed
-              $translatePartialLoader.addPart('question');
+              //should be changed
+              $translatePartialLoader.addPart('variable.management');
+              $translatePartialLoader.addPart('question.management');
             }
           ],
           entity: ['$stateParams', 'AtomicQuestionResource',

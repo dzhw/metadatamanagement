@@ -8,8 +8,8 @@ angular.module('metadatamanagementApp')
         url: '/studies/{id}',
         data: {
           authorities: [],
+          //TODO should be a i18n string
           pageTitle: 'Studie'
-          // should be a i18n string
         },
         views: {
           'content@': {
@@ -21,7 +21,8 @@ angular.module('metadatamanagementApp')
         resolve: {
           translatePartialLoader: ['$translatePartialLoader',
             function($translatePartialLoader) {
-              $translatePartialLoader.addPart('variable'); // should be changed
+              // should be changed
+              $translatePartialLoader.addPart('variable.management');
             }
           ]
         },

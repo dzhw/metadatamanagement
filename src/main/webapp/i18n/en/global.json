@@ -158,5 +158,23 @@
   "main": {
     "title": "Welcome to the RDC of the DZHW. You are looking for ..."
   },
-  "footer": "This is your footer"
+  "error": {
+    "title": "Error page!",
+    "403": "You are not authorized to access the page."
+  },
+  "pagination": {
+    "next": "Next",
+    "previous": "Previous"
+  },
+  "joblogging": {
+    "protocol-dialog": {
+      "title": "Protocol",
+      "success": "Success",
+      "error": "Error"
+    },
+    "job-complete-toast": {
+      "show-log": "Show Protocol"
+    },
+    "block-ui-message": "{{ errors }} Errors on {{ total }} Data"
+  }
 }

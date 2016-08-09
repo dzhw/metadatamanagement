@@ -20,7 +20,7 @@ angular.module('metadatamanagementApp')
         resolve: {
           translatePartialLoader: ['$translatePartialLoader',
             function($translatePartialLoader) {
-              $translatePartialLoader.addPart('variable');
+              $translatePartialLoader.addPart('variable.management');
             }
           ],
           entity: ['$stateParams', 'VariableResource',

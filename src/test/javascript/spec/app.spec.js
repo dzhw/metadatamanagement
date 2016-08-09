@@ -36,22 +36,21 @@ describe('Specification for app ', function() {
         $stateParams = _$stateParams_;
       });
       var globalJson = new RegExp('i18n\/.*\/global.json');
-      var mainJson = new RegExp('i18n\/.*\/home.json');
-      var paginationJson = new RegExp('i18n\/.*\/pagination.json');
-      var searchJson = new RegExp('i18n\/.*\/search.json');
-      var dataSetJson = new RegExp('i18n\/.*\/dataSet.json');
-      var jobloggingJson = new RegExp('i18n\/.*\/joblogging.json');
-      var variableJson = new RegExp('i18n\/.*\/variable.json');
-      var questionJson = new RegExp('i18n\/.*\/question.json');
+      var searchJson = new RegExp(
+        'i18n\/.*\/search.management.json');
+      var dataSetJson = new RegExp(
+        'i18n\/.*\/dataSet.management.json');
+      var variableJson = new RegExp(
+        'i18n\/.*\/variable.management.json');
+      var questionJson = new RegExp(
+        'i18n\/.*\/question.management.json');
       var dataAcquisitionProjectJson =
-        new RegExp('i18n\/.*\/dataAcquisitionProject.json');
+        new RegExp(
+          'i18n\/.*\/dataAcquisitionProject.management.json');
       $httpBackend.whenGET(globalJson).respond({});
-      $httpBackend.whenGET(mainJson).respond({});
       $httpBackend.whenGET(searchJson).respond({});
-      $httpBackend.whenGET(paginationJson).respond({});
       $httpBackend.whenGET(dataSetJson).respond({});
       $httpBackend.whenGET(dataAcquisitionProjectJson).respond({});
-      $httpBackend.whenGET(jobloggingJson).respond({});
       $httpBackend.whenGET(variableJson).respond({});
       $httpBackend.whenGET(questionJson).respond({});
       $httpBackend.expectGET(/api\/account\?cacheBuster=\d+/)

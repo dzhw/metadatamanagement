@@ -8,8 +8,8 @@ angular.module('metadatamanagementApp')
         url: '/data-sets/{id}',
         data: {
           authorities: [],
+          //TODO should be a i18n string
           pageTitle: 'Datensatz'
-          // should be a i18n string
         },
         views: {
           'content@': {
@@ -21,8 +21,9 @@ angular.module('metadatamanagementApp')
         resolve: {
           translatePartialLoader: ['$translatePartialLoader',
             function($translatePartialLoader) {
-              $translatePartialLoader.addPart('variable'); // should be changed
-              $translatePartialLoader.addPart('dataSet');
+              // should be changed
+              $translatePartialLoader.addPart('variable.management');
+              $translatePartialLoader.addPart('dataSet.management');
             }
           ],
           entity: ['$stateParams', 'DataSetResource',
