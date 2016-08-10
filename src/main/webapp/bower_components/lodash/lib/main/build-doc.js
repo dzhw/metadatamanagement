@@ -16,28 +16,47 @@ var pkg = require('../../package.json'),
 
 var config = {
   'base': {
-    'entryLinks': [
-      '<% if (name == "templateSettings" || !/^(?:methods|properties|seq)$/i.test(category)) {' +
-      'print("[npm package](https://www.npmjs.com/package/lodash." + name.toLowerCase() + ")")' +
-      '} %>'
-    ],
     'path': path.join(basePath, 'lodash.js'),
-    'sourceLink': '[source](${sourceHref})',
     'title': '<a href="https://lodash.com/">lodash</a> <span>v' + version + '</span>',
     'toc': 'categories',
     'url': 'https://github.com/lodash/lodash/blob/' + version + '/lodash.js'
   },
   'github': {
-    'hash': 'github'
+    'style': 'github',
+    'sublinks': [npmLink('&#x24C3;', 'See the npm package')]
   },
   'site': {
-    'tocHref': '#docs'
+    'entryLink': '<a href="${entryHref}" class="fa fa-link"></a>',
+    'sourceLink': '[source](${sourceHref})',
+    'tocHref': '',
+    'tocLink': '',
+    'sublinks': [npmLink('npm package')]
   }
 };
 
 /**
+ * Composes a npm link from `text` and optional `title`.
+ *
+ * @private
+ * @param {string} text The link text.
+ * @param {string} [title] The link title.
+ * @returns {string} Returns the composed npm link.
+ */
+function npmLink(text, title) {
+  return (
+    '<% if (name == "templateSettings" || !/^(?:methods|properties|seq)$/i.test(category)) {' +
+      'print(' +
+        '"[' + text + '](https://www.npmjs.com/package/lodash." + name.toLowerCase() + ' +
+        '"' + (title == null ? '' : ' \\"' + title + '\\"') + ')"' +
+      ');' +
+    '} %>'
+  );
+}
+
+/**
  * Post-process `markdown` to make adjustments.
  *
+ * @private
  * @param {string} markdown The markdown to process.
  * @returns {string} Returns the processed markdown.
  */
@@ -51,6 +70,7 @@ function postprocess(markdown) {
 /**
  * Creates the documentation markdown formatted for 'github' or 'site'.
  *
+ * @private
  * @param {string} type The format type.
  */
 function build(type) {

@@ -332,7 +332,7 @@
   }());
 
   /** Used to detect instrumented istanbul code coverage runs. */
-  var coverage = root.__coverage__ || root[lodashStable.findKey(root, function(value, key) {
+  var coverage = root.__coverage__ || root[lodashStable.find(lodashStable.keys(root), function(key) {
     return /^(?:\$\$cov_\d+\$\$)$/.test(key);
   })];
 
@@ -2671,7 +2671,7 @@
     var objects = {
       '`arguments` objects': arguments,
       'arrays': ['a', ''],
-      'array-like objects': { '0': 'a', '1': '', 'length': 3 },
+      'array-like objects': { '0': 'a', 'length': 1 },
       'booleans': false,
       'boolean objects': Object(false),
       'date objects': new Date,
@@ -5785,26 +5785,6 @@
 
       assert.deepEqual(_.filter(array, isEven), [2]);
     });
-
-    QUnit.test('should iterate over an object with numeric keys (test in Mobile Safari 8)', function(assert) {
-      assert.expect(1);
-
-      // Trigger a mobile Safari 8 JIT bug.
-      // See https://github.com/lodash/lodash/issues/799.
-      var counter = 0,
-          object = { '1': 'foo', '8': 'bar', '50': 'baz' };
-
-      lodashStable.times(1000, function(assert) {
-        _.filter([], stubTrue);
-      });
-
-      _.filter(object, function() {
-        counter++;
-        return true;
-      });
-
-      assert.strictEqual(counter, 3);
-    });
   }());
 
   /*--------------------------------------------------------------------------*/
@@ -6587,7 +6567,7 @@
       assert.expect(3);
 
       var expected = [],
-          nonArray = { 'a': 1 };
+          nonArray = { '0': 'a' };
 
       assert.deepEqual(_.flatten(nonArray), expected);
       assert.deepEqual(_.flattenDeep(nonArray), expected);
@@ -7805,19 +7785,6 @@
       }
     });
 
-    QUnit.test('`_.' + methodName + '` should work for objects with a `[[Prototype]]` of `null`', function(assert) {
-      assert.expect(1);
-
-      if (create)  {
-        var object = create(null);
-        object[1] = 'a';
-        assert.strictEqual(func(object, 1), true);
-      }
-      else {
-        skipAssert(assert);
-      }
-    });
-
     QUnit.test('`_.' + methodName + '` should check for a key over a path', function(assert) {
       assert.expect(2);
 
@@ -8290,10 +8257,15 @@
     QUnit.test('should coerce arguments to finite numbers', function(assert) {
       assert.expect(1);
 
-      var actual = [_.inRange(0, '0', 1), _.inRange(0, '1'), _.inRange(0, 0, '1'), _.inRange(0, NaN, 1), _.inRange(-1, -1, NaN)],
-          expected = lodashStable.map(actual, stubTrue);
+      var actual = [
+        _.inRange(0, '1'),
+        _.inRange(0, '0', 1),
+        _.inRange(0, 0, '1'),
+        _.inRange(0, NaN, 1),
+        _.inRange(-1, -1, NaN)
+      ];
 
-      assert.deepEqual(actual, expected);
+      assert.deepEqual(actual, lodashStable.map(actual, stubTrue));
     });
   }());
 
@@ -8974,7 +8946,7 @@
     QUnit.test('should return `true` for array-like values', function(assert) {
       assert.expect(1);
 
-      var values = [args, [1, 2, 3], { '0': 1, 'length': 1 }, 'a'],
+      var values = [args, [1, 2, 3], { '0': 'a', 'length': 1 }, 'a'],
           expected = lodashStable.map(values, stubTrue),
           actual = lodashStable.map(values, _.isArrayLike);
 
@@ -10965,7 +10937,7 @@
     QUnit.test('should detect methods masquerading as native', function(assert) {
       assert.expect(2);
 
-      if (_._baseEach) {
+      if (!amd && _._baseEach) {
         var path = require('path'),
             basePath = path.dirname(filePath),
             uid = 'e0gvgyrad1jor',
@@ -11232,22 +11204,6 @@
       else {
         skipAssert(assert, 7);
       }
-    });
-
-    QUnit.test('should avoid V8 bug #2291 (test in Chrome 19-20)', function(assert) {
-      assert.expect(1);
-
-      // Trigger a V8 JIT bug.
-      // See https://code.google.com/p/v8/issues/detail?id=2291.
-      var object = {};
-
-      // First, have a comparison statement.
-      object == object;
-
-      // Then perform the check with `object`.
-      _.isObject(object);
-
-      assert.strictEqual(_.isObject('a'), false);
     });
   }(1, 2, 3));
 
@@ -12836,22 +12792,6 @@
       assert.deepEqual(actual, expected);
     });
 
-    QUnit.test('`_.' + methodName + '` should coerce primitives to objects (test in IE 9)', function(assert) {
-      assert.expect(2);
-
-      var expected = lodashStable.map(primitives, function(value) {
-        return typeof value == 'string' ? ['0'] : [];
-      });
-
-      var actual = lodashStable.map(primitives, func);
-      assert.deepEqual(actual, expected);
-
-      // IE 9 doesn't box numbers in for-in loops.
-      numberProto.a = 1;
-      assert.deepEqual(func(0), isKeys ? [] : ['a']);
-      delete numberProto.a;
-    });
-
     QUnit.test('`_.' + methodName + '` should treat sparse arrays as dense', function(assert) {
       assert.expect(1);
 
@@ -12861,16 +12801,6 @@
       var actual = func(array).sort();
 
       assert.deepEqual(actual, ['0', '1', '2']);
-    });
-
-    QUnit.test('`_.' + methodName + '` should not coerce nullish values to objects', function(assert) {
-      assert.expect(2);
-
-      objectProto.a = 1;
-      lodashStable.each([null, undefined], function(value) {
-        assert.deepEqual(func(value), []);
-      });
-      delete objectProto.a;
     });
 
     QUnit.test('`_.' + methodName + '` should return keys for custom properties on arrays', function(assert) {
@@ -12974,6 +12904,31 @@
       delete stringProto.a;
     });
 
+    QUnit.test('`_.' + methodName + '` should work with array-like objects', function(assert) {
+      assert.expect(1);
+
+      var object = { '0': 'a', 'length': 1 },
+          actual = func(object).sort();
+
+      assert.deepEqual(actual, ['0', 'length']);
+    });
+
+    QUnit.test('`_.' + methodName + '` should coerce primitives to objects (test in IE 9)', function(assert) {
+      assert.expect(2);
+
+      var expected = lodashStable.map(primitives, function(value) {
+        return typeof value == 'string' ? ['0'] : [];
+      });
+
+      var actual = lodashStable.map(primitives, func);
+      assert.deepEqual(actual, expected);
+
+      // IE 9 doesn't box numbers in for-in loops.
+      numberProto.a = 1;
+      assert.deepEqual(func(0), isKeys ? [] : ['a']);
+      delete numberProto.a;
+    });
+
     QUnit.test('`_.' + methodName + '` skips the `constructor` property on prototype objects', function(assert) {
       assert.expect(3);
 
@@ -12989,6 +12944,20 @@
       var Fake = { 'prototype': {} };
       Fake.prototype.constructor = Fake;
       assert.deepEqual(func(Fake.prototype), ['constructor']);
+    });
+
+    QUnit.test('`_.' + methodName + '` should return an empty array when `object` is nullish', function(assert) {
+      var values = [, null, undefined],
+          expected = lodashStable.map(values, stubArray);
+
+      var actual = lodashStable.map(values, function(value, index) {
+        objectProto.a = 1;
+        var result = index ? func(value) : func();
+        delete objectProto.a;
+        return result;
+      });
+
+      assert.deepEqual(actual, expected);
     });
   });
 
@@ -14067,14 +14036,22 @@
       });
     });
 
-    QUnit.test('should return `false` if parts of `path` are missing', function(assert) {
-      assert.expect(4);
+    QUnit.test('should return `false` when `object` is nullish', function(assert) {
+      assert.expect(2);
 
-      var object = {};
+      var values = [, null, undefined],
+          expected = lodashStable.map(values, stubFalse);
 
-      lodashStable.each(['a', 'a[1].b.c', ['a'], ['a', '1', 'b', 'c']], function(path) {
+      lodashStable.each(['constructor', ['constructor']], function(path) {
         var matches = _.matchesProperty(path, 1);
-        assert.strictEqual(matches(object), false);
+
+        var actual = lodashStable.map(values, function(value, index) {
+          try {
+            return index ? matches(value) : matches();
+          } catch (e) {}
+        });
+
+        assert.deepEqual(actual, expected);
       });
     });
 
@@ -14094,6 +14071,17 @@
         });
 
         assert.deepEqual(actual, expected);
+      });
+    });
+
+    QUnit.test('should return `false` if parts of `path` are missing', function(assert) {
+      assert.expect(4);
+
+      var object = {};
+
+      lodashStable.each(['a', 'a[1].b.c', ['a'], ['a', '1', 'b', 'c']], function(path) {
+        var matches = _.matchesProperty(path, 1);
+        assert.strictEqual(matches(object), false);
       });
     });
 
@@ -14333,25 +14321,6 @@
       }
       delete numberProto.a;
       delete numberProto.b;
-    });
-
-    QUnit.test('should return `false` when `object` is nullish', function(assert) {
-      assert.expect(2);
-
-      var values = [, null, undefined],
-          expected = lodashStable.map(values, stubFalse);
-
-      lodashStable.each(['constructor', ['constructor']], function(path) {
-        var matches = _.matchesProperty(path, 1);
-
-        var actual = lodashStable.map(values, function(value, index) {
-          try {
-            return index ? matches(value) : matches();
-          } catch (e) {}
-        });
-
-        assert.deepEqual(actual, expected);
-      });
     });
 
     QUnit.test('should return `true` when comparing a `srcValue` of empty arrays and objects', function(assert) {
@@ -16247,11 +16216,12 @@
     QUnit.test('should return an empty object when `object` is nullish', function(assert) {
       assert.expect(2);
 
-      objectProto.a = 1;
       lodashStable.each([null, undefined], function(value) {
-        assert.deepEqual(_.omit(value, 'valueOf'), {});
+        objectProto.a = 1;
+        var actual = _.omit(value, 'valueOf');
+        delete objectProto.a;
+        assert.deepEqual(actual, {});
       });
-      delete objectProto.a;
     });
 
     QUnit.test('should work with `arguments` objects as secondary arguments', function(assert) {
@@ -18211,10 +18181,15 @@
     });
 
     QUnit.test('should coerce arguments to finite numbers', function(assert) {
-      assert.expect(2);
+      assert.expect(1);
 
-      assert.strictEqual(_.random('1', '1'), 1);
-      assert.strictEqual(_.random(NaN, NaN), 0);
+      var actual = [
+        _.random(NaN, NaN),
+        _.random('1', '1'),
+        _.random(Infinity, Infinity)
+      ];
+
+      assert.deepEqual(actual, [0, 1, MAX_INTEGER]);
     });
 
     QUnit.test('should support floats', function(assert) {
@@ -18332,7 +18307,14 @@
     QUnit.test('`_.' + methodName + '` should coerce arguments to finite numbers', function(assert) {
       assert.expect(1);
 
-      var actual = [func('0', 1), func('1'), func(0, 1, '1'), func(NaN), func(NaN, NaN)];
+      var actual = [
+        func('1'),
+        func('0', 1),
+        func(0, 1, '1'),
+        func(NaN),
+        func(NaN, NaN)
+      ];
+
       assert.deepEqual(actual, [[0], [0], [0], [], []]);
     });
 
@@ -18731,14 +18713,14 @@
 
       if (!isNpm) {
         var array = lodashStable.range(LARGE_ARRAY_SIZE + 1),
-            predicate = function(value) { return isFilter ? isEven(value) : !isEven(value); },
-            actual = _(array).slice(1).map(square)[methodName](predicate).value();
-
-        assert.deepEqual(actual, _[methodName](lodashStable.map(array.slice(1), square), predicate));
+            predicate = function(value) { return isFilter ? isEven(value) : !isEven(value); };
 
         var object = lodashStable.zipObject(lodashStable.times(LARGE_ARRAY_SIZE, function(index) {
           return ['key' + index, index];
         }));
+
+        var actual = _(array).slice(1).map(square)[methodName](predicate).value();
+        assert.deepEqual(actual, _[methodName](lodashStable.map(array.slice(1), square), predicate));
 
         actual = _(object).mapValues(square)[methodName](predicate).value();
         assert.deepEqual(actual, _[methodName](lodashStable.mapValues(object, square), predicate));
@@ -19839,41 +19821,15 @@
       assert.deepEqual(actual, expected);
     });
 
-    QUnit.test('`_.' + methodName + '` should follow `path` over non-plain objects', function(assert) {
-      assert.expect(4);
-
-      var object = { 'a': '' },
-          paths = ['constructor.prototype.a', ['constructor', 'prototype', 'a']];
-
-      lodashStable.each(paths, function(path) {
-        func(0, path, updater);
-        assert.strictEqual(0..a, value);
-        delete numberProto.a;
-      });
-
-      lodashStable.each(['a.replace.b', ['a', 'replace', 'b']], function(path) {
-        func(object, path, updater);
-        assert.strictEqual(stringProto.replace.b, value);
-        delete stringProto.replace.b;
-      });
-    });
-
-    QUnit.test('`_.' + methodName + '` should not error on paths over primitives in strict mode', function(assert) {
-      'use strict';
-
+    QUnit.test('`_.' + methodName + '` should overwrite primitives in the path', function(assert) {
       assert.expect(2);
 
-      lodashStable.each(['a', 'a.a.a'], function(path) {
-        numberProto.a = oldValue;
-        try {
-          func(0, path, updater);
-          assert.strictEqual(0..a, oldValue);
-        } catch (e) {
-          assert.ok(false, e.message);
-        }
-      });
+      lodashStable.each(['a.b', ['a', 'b']], function(path) {
+        var object = { 'a': '' };
 
-      delete numberProto.a;
+        func(object, path, updater);
+        assert.deepEqual(object, { 'a': { 'b': 2 } });
+      });;
     });
 
     QUnit.test('`_.' + methodName + '` should not create an array for missing non-index property names that start with numbers', function(assert) {
@@ -21483,8 +21439,13 @@
 
       if (!isNpm) {
         var args,
-            array = lodashStable.range(LARGE_ARRAY_SIZE + 1),
-            expected = [square(LARGE_ARRAY_SIZE), LARGE_ARRAY_SIZE - 1, lodashStable.map(array.slice(1), square)];
+            array = lodashStable.range(LARGE_ARRAY_SIZE + 1);
+
+        var expected = [
+          square(LARGE_ARRAY_SIZE),
+          LARGE_ARRAY_SIZE - 1,
+          lodashStable.map(array.slice(1), square)
+        ];
 
         _(array).slice(1).takeRightWhile(function(value, index, array) {
           args = slice.call(arguments);
@@ -22962,14 +22923,14 @@
       assert.expect(2);
 
       if (!isNpm) {
-        var array = lodashStable.range(LARGE_ARRAY_SIZE + 1),
-            actual = _(array).slice(1).map(String).toArray().value();
-
-        assert.deepEqual(actual, lodashStable.map(array.slice(1), String));
+        var array = lodashStable.range(LARGE_ARRAY_SIZE + 1);
 
         var object = lodashStable.zipObject(lodashStable.times(LARGE_ARRAY_SIZE, function(index) {
           return ['key' + index, index];
         }));
+
+        var actual = _(array).slice(1).map(String).toArray().value();
+        assert.deepEqual(actual, lodashStable.map(array.slice(1), String));
 
         actual = _(object).toArray().slice(1).map(String).value();
         assert.deepEqual(actual, _.map(_.toArray(object).slice(1), String));
@@ -23033,8 +22994,8 @@
     QUnit.test('`_.' + methodName + '` should treat array-like objects like arrays', function(assert) {
       assert.expect(2);
 
-      var object = { '0': 'a', '1': 'b', '2': 'c', 'length': 3 };
-      assert.deepEqual(func(object), ['a', 'b', 'c']);
+      var object = { '0': 'a', 'length': 1 };
+      assert.deepEqual(func(object), ['a']);
       assert.deepEqual(func(args), array);
     });
 
@@ -23531,16 +23492,32 @@
       assert.deepEqual(actual, ['a', '-1.23', '["b"]', 'c', "['d']", '\ne\n', 'f', 'g']);
     });
 
-    QUnit.test('should not ignore consecutive brackets and dots', function(assert) {
-      assert.expect(4);
+    QUnit.test('should handle consecutive empty brackets and dots', function(assert) {
+      assert.expect(12);
 
-      var expected = ['a', ''];
-      assert.deepEqual(_.toPath('a.'), expected);
-      assert.deepEqual(_.toPath('a[]'), expected);
+      var expected = ['', 'a'];
+      assert.deepEqual(_.toPath('.a'), expected);
+      assert.deepEqual(_.toPath('[].a'), expected);
+
+      expected = ['', '', 'a'];
+      assert.deepEqual(_.toPath('..a'), expected);
+      assert.deepEqual(_.toPath('[][].a'), expected);
 
       expected = ['a', '', 'b'];
       assert.deepEqual(_.toPath('a..b'), expected);
-      assert.deepEqual(_.toPath('a[][]b'), expected);
+      assert.deepEqual(_.toPath('a[].b'), expected);
+
+      expected = ['a', '', '', 'b'];
+      assert.deepEqual(_.toPath('a...b'), expected);
+      assert.deepEqual(_.toPath('a[][].b'), expected);
+
+      expected = ['a', ''];
+      assert.deepEqual(_.toPath('a.'), expected);
+      assert.deepEqual(_.toPath('a[]'), expected);
+
+      expected = ['a', '', ''];
+      assert.deepEqual(_.toPath('a..'), expected);
+      assert.deepEqual(_.toPath('a[][]'), expected);
     });
   }());
 
