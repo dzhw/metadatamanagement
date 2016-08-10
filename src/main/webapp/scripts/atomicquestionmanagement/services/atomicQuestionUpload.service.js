@@ -11,7 +11,7 @@ angular.module('metadatamanagementApp').service('AtomicQuestionUploadService',
       if (uploadCount === objects.length) {
         ElasticSearchAdminService.processUpdateQueue().then(function() {
           JobLoggingService.finish(
-            'dataAcquisitionProject.detail.' +
+            'dataAcquisitionProject-management.detail.' +
             'logMessages.atomicQuestion.uploadTerminated', {
               total: JobLoggingService.getCurrentJob().total,
               errors: JobLoggingService.getCurrentJob().errors
@@ -64,7 +64,7 @@ angular.module('metadatamanagementApp').service('AtomicQuestionUploadService',
           });
       }, function() {
         JobLoggingService.cancel(
-          'dataAcquisitionProject.detail.' +
+          'dataAcquisitionProject-management.detail.' +
           'logMessages.unsupportedExcelFile', {});
       });
     };

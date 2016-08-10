@@ -41,58 +41,58 @@ import net.karneim.pojobuilder.GeneratePojoBuilder;
 @GeneratePojoBuilder(
     intoPackage = "eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.builders")
 @CompoundIndex(def = "{name: 1, dataAcquisitionProjectId: 1}", unique = true)
-@ValidVariableIdName(message = "variable.error.variable.validVariableName")
-@UniqueVariableNameInProject(message = "variable.error."
+@ValidVariableIdName(message = "variable-management.error.variable.validVariableName")
+@UniqueVariableNameInProject(message = "variable-management.error."
     + "variable.uniqueVariableNameInProject")
 @MandatoryScaleLevelForNumericDataType(
-    message = "variable.error.variable.mandatoryScaleLevelForNumericDataType")
+    message = "variable-management.error.variable.mandatoryScaleLevelForNumericDataType")
 @ValidResponseValueMustBeANumberOnNumericDataType(
-    message = "variable.error.variable."
+    message = "variable-management.error.variable."
         + "validResponseValueMustBeANumberOnNumericDataType")
 @ValidResponseValueMustBeAnIsoDateOnDateDataType(
-    message = "variable.error.variable."
+    message = "variable-management.error.variable."
         + "validResponseValueMustBeAnIsoDateOnDateDataType")
 public class Variable extends AbstractRdcDomainObject {
 
   /* Domain Object listed attributes */
   @Id
-  @NotEmpty(message = "variable.error.variable.id.notEmpty")
+  @NotEmpty(message = "variable-management.error.variable.id.notEmpty")
   @Size(max = StringLengths.MEDIUM,
-      message = "variable.error.variable.id.size")
+      message = "variable-management.error.variable.id.size")
   @Pattern(regexp = Patterns.GERMAN_ALPHANUMERIC_WITH_UNDERSCORE_AND_MINUS,
-      message = "variable.error.variable.id.pattern")
+      message = "variable-management.error.variable.id.pattern")
   private String id;
 
-  @NotNull(message = "variable.error.variable.dataType.notNull")
-  @ValidDataType(message = "variable.error.variable.dataType.validDataType")
+  @NotNull(message = "variable-management.error.variable.dataType.notNull")
+  @ValidDataType(message = "variable-management.error.variable.dataType.validDataType")
   private I18nString dataType;
 
   @ValidScaleLevel(
-      message = "variable.error.variable.scaleLevel.validScaleLevel")
+      message = "variable-management.error.variable.scaleLevel.validScaleLevel")
   private I18nString scaleLevel;
 
-  @NotEmpty(message = "variable.error.variable.name.notEmpty")
+  @NotEmpty(message = "variable-management.error.variable.name.notEmpty")
   @Size(max = StringLengths.SMALL,
-      message = "variable.error.variable.name.size")
+      message = "variable-management.error.variable.name.size")
   @Pattern(regexp = Patterns.ALPHANUMERIC_WITH_UNDERSCORE_NO_NUMBER_AS_FIRST_SIGN,
-      message = "variable.error.variable.name.pattern")
+      message = "variable-management.error.variable.name.pattern")
   private String name;
 
-  @NotNull(message = "variable.error.variable.label.notNull")
+  @NotNull(message = "variable-management.error.variable.label.notNull")
   @I18nStringSize(max = StringLengths.MEDIUM,
-      message = "variable.error.variable.label.i18nStringSize")
+      message = "variable-management.error.variable.label.i18nStringSize")
   @AtLeastOneLanguage(
-      message = "variable.error.variable.label.atLeastOneLanguage")
+      message = "variable-management.error.variable.label.atLeastOneLanguage")
   private I18nString label;
 
   @I18nStringSize(max = StringLengths.LARGE,
-      message = "variable.error.variable.description.i18nStringSize")
+      message = "variable-management.error.variable.description.i18nStringSize")
   private I18nString description;
 
   // checks for min size too.
-  @NotEmpty(message = "variable.error.variable.accessWays.notEmpty")
+  @NotEmpty(message = "variable-management.error.variable.accessWays.notEmpty")
   @ValidAccessWays(
-      message = "variable.error.variable.accessWays.validAccessWays")
+      message = "variable-management.error.variable.accessWays.validAccessWays")
   private List<String> accessWays;
 
   private List<String> sameVariablesInPanel;
@@ -111,13 +111,13 @@ public class Variable extends AbstractRdcDomainObject {
   /* Foreign Keys */
   private String atomicQuestionId;
 
-  @NotEmpty(message = "variable.error.variable.dataSet.ids.notEmpty")
+  @NotEmpty(message = "variable-management.error.variable.dataSet.ids.notEmpty")
   private List<String> dataSetIds;
 
   @Indexed
   private String dataAcquisitionProjectId;
 
-  @NotEmpty(message = "variable.error.variable.survey.ids.notEmpty")
+  @NotEmpty(message = "variable-management.error.variable.survey.ids.notEmpty")
   private List<String> surveyIds;
 
   /*

@@ -198,7 +198,7 @@ public class VariableResourceTest extends AbstractTest {
     mockMvc.perform(put(API_VARIABLES_URI + "/" + variable.getId())
       .content(TestUtil.convertObjectToJsonBytes(variable)))
       .andExpect(status().isBadRequest())
-      .andExpect(jsonPath("$.errors[0].message", containsString("variable.error.variable.label.atLeastOneLanguage")));
+      .andExpect(jsonPath("$.errors[0].message", containsString("variable-management.error.variable.label.atLeastOneLanguage")));
   }
 
   @Test
@@ -221,7 +221,7 @@ public class VariableResourceTest extends AbstractTest {
     mockMvc.perform(put(API_VARIABLES_URI + "/" + variable.getId())
       .content(TestUtil.convertObjectToJsonBytes(variable)))
       .andExpect(status().isBadRequest())
-      .andExpect(jsonPath("$.errors[0].message", containsString("variable.error.generationDetails.ruleExpressionLanguageAndRuleFilledOrEmpty")));
+      .andExpect(jsonPath("$.errors[0].message", containsString("variable-management.error.generationDetails.ruleExpressionLanguageAndRuleFilledOrEmpty")));
   }
 
   @Test
@@ -323,7 +323,7 @@ public class VariableResourceTest extends AbstractTest {
     mockMvc.perform(put(API_VARIABLES_URI + "/" + variable.getId())
       .content(TestUtil.convertObjectToJsonBytes(variable)))
       .andExpect(status().isBadRequest())
-      .andExpect(jsonPath("$.errors[0].message", containsString("variable.error.variable.validResponseValueMustBeANumberOnNumericDataType")));
+      .andExpect(jsonPath("$.errors[0].message", containsString("variable-management.error.variable.validResponseValueMustBeANumberOnNumericDataType")));
 
   }
 

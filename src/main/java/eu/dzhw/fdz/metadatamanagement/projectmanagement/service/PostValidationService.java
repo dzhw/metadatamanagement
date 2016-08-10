@@ -93,14 +93,14 @@ public class PostValidationService {
       // atomicQuestion.VariableId: there must be a variable with that id
       if (this.variableRepository.findOne(atomicQuestion.getVariableId()) == null) {
         String[] information = {atomicQuestion.getId(), atomicQuestion.getVariableId()};
-        errors.add(new PostValidationMessageDto("question.error." 
+        errors.add(new PostValidationMessageDto("question-management.error." 
             + "postValidation.atomicQuestionHasInvalidVariableId", information));
       }
 
       // atomicQuestion.QuestionnaireId: there must be a questionaire with that id
       if (this.questionnaireRepository.findOne(atomicQuestion.getQuestionnaireId()) == null) {
         String[] information = {atomicQuestion.getId(), atomicQuestion.getQuestionnaireId()};
-        errors.add(new PostValidationMessageDto("question.error." 
+        errors.add(new PostValidationMessageDto("question-management.error." 
             + "postValidation.atomicQuestionHasInvalidQuestionnaireId", information));
       }
     }
@@ -122,7 +122,7 @@ public class PostValidationService {
       for (String surveyId : dataSet.getSurveyIds()) {
         if (this.surveyRepository.findOne(surveyId) == null) {
           String[] information = {dataSet.getId(), surveyId};
-          errors.add(new PostValidationMessageDto("dataSet.error." 
+          errors.add(new PostValidationMessageDto("dataSet-management.error." 
               + "postValidation.dataSetHasInvalidSurveyId", information));
         }
       }
@@ -131,7 +131,7 @@ public class PostValidationService {
       for (String variableId : dataSet.getVariableIds()) {
         if (this.variableRepository.findOne(variableId) == null) {
           String[] information = {dataSet.getId(), variableId};
-          errors.add(new PostValidationMessageDto("dataSet.error." 
+          errors.add(new PostValidationMessageDto("dataSet-management.error." 
               + "postValidation.dataSetHasInvalidVariableId", information));
         }
       }
@@ -154,7 +154,7 @@ public class PostValidationService {
       // survey.QuestionnaireId: there must be a questionaire with that id
       if (this.questionnaireRepository.findOne(survey.getQuestionnaireId()) == null) {
         String[] information = {survey.getId(), survey.getQuestionnaireId()};
-        errors.add(new PostValidationMessageDto("survey.error." 
+        errors.add(new PostValidationMessageDto("survey-management.error." 
             + "postValidation.surveyHasInvalidQuestionnaireId", information));
       }
 
@@ -162,7 +162,7 @@ public class PostValidationService {
       for (String dataSetId : survey.getDataSetIds()) {
         if (this.dataSetRepository.findOne(dataSetId) == null) {
           String[] information = {survey.getId(), dataSetId};
-          errors.add(new PostValidationMessageDto("survey.error." 
+          errors.add(new PostValidationMessageDto("survey-management.error." 
               + "postValidation.surveyHasInvalidDataSetId", information));
         }
       }
@@ -185,7 +185,7 @@ public class PostValidationService {
       for (String surveyId : variable.getSurveyIds()) {
         if (this.surveyRepository.findOne(surveyId) == null) {
           String[] information = {variable.getId(), surveyId};
-          errors.add(new PostValidationMessageDto("variable.error." 
+          errors.add(new PostValidationMessageDto("variable-management.error." 
               + "postValidation.variableHasInvalidSurveyId", information));
         }
       }
@@ -194,7 +194,7 @@ public class PostValidationService {
       for (String dataSetId : variable.getDataSetIds()) {
         if (this.dataSetRepository.findOne(dataSetId) == null) {
           String[] information = {variable.getId(), dataSetId};
-          errors.add(new PostValidationMessageDto("variable.error." 
+          errors.add(new PostValidationMessageDto("variable-management.error." 
               + "postValidation.variableHasInvalidDataSetId", information));
         }
       }
@@ -204,7 +204,7 @@ public class PostValidationService {
         for (String variableId : variable.getSameVariablesInPanel()) {
           if (this.variableRepository.findOne(variableId) == null) {
             String[] information = {variable.getId(), variableId};
-            errors.add(new PostValidationMessageDto("variable.error." 
+            errors.add(new PostValidationMessageDto("variable-management.error." 
                 + "postValidation.variableIdIsNotInInvalidVariablesPanel", information));
           }        
         }        
@@ -215,7 +215,7 @@ public class PostValidationService {
       if (variable.getAtomicQuestionId() != null
           && this.atomicQuestionRepository.findOne(variable.getAtomicQuestionId()) == null) {
         String[] information = {variable.getId(), variable.getAtomicQuestionId()};
-        errors.add(new PostValidationMessageDto("variable.error." 
+        errors.add(new PostValidationMessageDto("variable-management.error." 
             + "postValidation.variableHasInvalidAtomicQuestionId", information));
       }
     }

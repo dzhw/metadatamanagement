@@ -32,61 +32,62 @@ import net.karneim.pojobuilder.GeneratePojoBuilder;
 @GeneratePojoBuilder(
     intoPackage = "eu.dzhw.fdz.metadatamanagement.questionmanagement.domain.builders")
 @CompoundIndex(def = "{name: 1, questionnaireId: 1}", unique = true)
-@ValidAtomicQuestionIdName(message = "question.error.question.validAtomicQuestionIdName")
-@UniqueAtomicQuestionName(message = "question.error.question.uniqueAtomicQuestionName")
+@ValidAtomicQuestionIdName(message = "question-management.error.question.validAtomicQuestionIdName")
+@UniqueAtomicQuestionName(message = "question-management.error.question.uniqueAtomicQuestionName")
 public class AtomicQuestion extends AbstractRdcDomainObject {
 
   /* Domain model attributes */
   @Id
-  @NotEmpty(message = "question.error.question.id.notEmpty")
-  @Size(max = StringLengths.MEDIUM, message = "question.error.question.id.size")
+  @NotEmpty(message = "question-management.error.question.id.notEmpty")
+  @Size(max = StringLengths.MEDIUM, message = "question-management.error.question.id.size")
   @Pattern(regexp = Patterns.GERMAN_ALPHANUMERIC_WITH_UNDERSCORE_AND_MINUS,
-      message = "question.error.question.id.pattern")
+      message = "question-management.error.question.id.pattern")
   private String id;
 
-  @NotNull(message = "question.error.question.type.notNull")
+  @NotNull(message = "question-management.error.question.type.notNull")
   @ValidAtomicQuestionType(message =
-      "question.error.question.type.atomicQuestionTypeConsistence")
+      "question-management.error.question.type.atomicQuestionTypeConsistence")
   private I18nString type;
 
-  @NotEmpty(message = "question.error.question.name.notEmpty")
-  @Size(max = StringLengths.SMALL, message = "question.error.question.name.size")
+  @NotEmpty(message = "question-management.error.question.name.notEmpty")
+  @Size(max = StringLengths.SMALL, message = "question-management.error.question.name.size")
   private String name;
 
-  @NotEmpty(message = "question.error.question.compositeQuestionName.notEmpty")
-  @Size(max = StringLengths.SMALL, message = "question.error.question.compositeQuestionName.size")
+  @NotEmpty(message = "question-management.error.question.compositeQuestionName.notEmpty")
+  @Size(max = StringLengths.SMALL,
+      message = "question-management.error.question.compositeQuestionName.size")
   private String compositeQuestionName;
 
   @I18nStringSize(max = StringLengths.LARGE,
-      message = "question.error.question.footnote.i18nStringSize")
+      message = "question-management.error.question.footnote.i18nStringSize")
   private I18nString footnote;
 
   @I18nStringSize(max = StringLengths.LARGE,
-      message = "question.error.question.questionText.i18nStringSize")
+      message = "question-management.error.question.questionText.i18nStringSize")
   private I18nString questionText;
 
   @I18nStringSize(max = StringLengths.LARGE,
-      message = "question.error.question.instruction.i18nStringSize")
+      message = "question-management.error.question.instruction.i18nStringSize")
   private I18nString instruction;
 
   @I18nStringSize(max = StringLengths.LARGE,
-      message = "question.error.question.introduction.i18nStringSize")
+      message = "question-management.error.question.introduction.i18nStringSize")
   private I18nString introduction;
 
   @I18nStringSize(max = StringLengths.MEDIUM,
-      message = "question.error.question.sectionHeader.i18nStringSize")
+      message = "question-management.error.question.sectionHeader.i18nStringSize")
   private I18nString sectionHeader;
 
 
   /* Foreign Keys */
   @Indexed
-  @NotEmpty(message = "question.error.question.dataAcquisitionProject.id.notEmpty")
+  @NotEmpty(message = "question-management.error.question.dataAcquisitionProject.id.notEmpty")
   private String dataAcquisitionProjectId;
 
-  @NotEmpty(message = "question.error.question.questionnaire.id.notEmpty")
+  @NotEmpty(message = "question-management.error.question.questionnaire.id.notEmpty")
   private String questionnaireId;
 
-  @NotEmpty(message = "question.error.question.variable.id.notEmpty")
+  @NotEmpty(message = "question-management.error.question.variable.id.notEmpty")
   private String variableId;
 
   /*

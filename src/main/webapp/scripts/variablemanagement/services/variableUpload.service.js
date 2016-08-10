@@ -13,7 +13,7 @@ angular.module('metadatamanagementApp').service('VariableUploadService',
       if (uploadCount === objects.length) {
         ElasticSearchAdminService.processUpdateQueue().then(function() {
           JobLoggingService.finish(
-            'dataAcquisitionProject.detail.' +
+            'dataAcquisitionProject-management.detail.' +
             'logMessages.variable.uploadTerminated', {
               total: JobLoggingService.getCurrentJob().total ,
               errors: JobLoggingService.getCurrentJob().errors
@@ -66,7 +66,7 @@ angular.module('metadatamanagementApp').service('VariableUploadService',
           }
         }, function() {
           JobLoggingService.cancel(
-            'dataAcquisitionProject.detail.' +
+            'dataAcquisitionProject-management.detail.' +
             'logMessages.unsupportedZipFile', {});
         }).then(function(variables) {
           objects = VariableBuilderService.getVariables(variables, zip,
@@ -91,11 +91,11 @@ angular.module('metadatamanagementApp').service('VariableUploadService',
         }, function(error) {
           if (error === 'unsupportedDirectoryStructure') {
             JobLoggingService.cancel(
-              'dataAcquisitionProject.detail.' +
+              'dataAcquisitionProject-management.detail.' +
               'logMessages.unsupportedDirectoryStructure', {});
           } else {
             JobLoggingService.cancel(
-              'dataAcquisitionProject.detail.' +
+              'dataAcquisitionProject-management.detail.' +
               'logMessages.unsupportedExcelFile', {});
           }
         });

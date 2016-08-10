@@ -11,7 +11,7 @@ angular.module('metadatamanagementApp').service('DataSetUploadService',
       if (uploadCount === objects.length) {
         ElasticSearchAdminService.processUpdateQueue().then(function() {
           JobLoggingService.finish(
-            'dataAcquisitionProject.detail.' +
+            'dataAcquisitionProject-management.detail.' +
             'logMessages.dataSet.uploadTerminated', {
               total: JobLoggingService.getCurrentJob().total,
               errors: JobLoggingService.getCurrentJob().errors
@@ -65,7 +65,7 @@ angular.module('metadatamanagementApp').service('DataSetUploadService',
       }, function(error) {
         console.log(error);
         JobLoggingService.cancel(
-          'dataAcquisitionProject.detail.' +
+          'dataAcquisitionProject-management.detail.' +
           'logMessages.unsupportedExcelFile', {});
       });
     };

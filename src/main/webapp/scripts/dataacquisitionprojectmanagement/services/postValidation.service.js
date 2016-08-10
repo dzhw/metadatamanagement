@@ -47,7 +47,7 @@ angular.module('metadatamanagementApp').service(
 
         // After sending errors or success, the process is finished.
         JobLoggingService.finish(
-          'dataAcquisitionProject.detail.' +
+          'dataAcquisitionProject-management.detail.' +
           'logMessages.postValidationTerminated', {
             successes: JobLoggingService.getCurrentJob().successes,
             errors: JobLoggingService.getCurrentJob().errors
