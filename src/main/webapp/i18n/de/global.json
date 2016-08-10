@@ -94,87 +94,87 @@
     "field": {
       "rdcId": "FDZ-ID",
       "id": "ID"
-    }
-  },
-  "entity": {
-    "action": {
-      "addblob": "Add blob",
-      "addimage": "Add image",
-      "back": "Zurück",
-      "cancel": "Abbrechen",
-      "delete": "Löschen",
-      "edit": "Bearbeiten",
-      "save": "Speichern",
-      "view": "Details",
-      "ok": "OK"
     },
-    "detail": {
-      "field": "Feld",
-      "value": "Wert"
-    },
-    "delete": {
-      "title": "Löschen bestätigen"
-    },
-    "validation": {
-      "required": "Dieses Feld wird benötigt.",
-      "minlength": "Dieses Feld muss mind. {{min}} Zeichen lang sein.",
-      "maxlength": "Dieses Feld darf max. {{max}} Zeichen lang sein.",
-      "min": "Dieses Feld muss größer als {{min}} sein.",
-      "max": "Dieses Feld muss kleiner als {{max}} sein.",
-      "minbytes": "This field should be more than {{min}} bytes.",
-      "maxbytes": "This field cannot be more than {{max}} bytes.",
-      "pattern": "Dieses Feld muss das Muster {{pattern}} erfüllen.",
-      "number": "Dieses Feld muss eine Zahl sein.",
-      "datetimelocal": "Dieses Feld muss eine Datums- und Zeitangabe enthalten.",
-      "rdcId": "Die FDZ-ID darf nur aus Zahlen, Buchstaben und \"_\" bestehen.",
-      "variable": {
-        "name": "Der Name einer Variablen darf nur aus Zahlen, Buchstaben und \"_\" bestehen."
-      },
-      "survey": {
-        "period": "Der Feldzeitbeginn muss vor dem Ende liegen."
-      },
-      "dataAcquisitionProject": {
-        "id": "Der Name eines Projektes darf nur aus Zahlen und Buchstaben bestehen."
-      }
-    }
-  },
-  "error": {
-    "serverNotReachable": "Der Server ist nicht erreichbar!",
-    "NotNull": "Das Feld {{fieldName}} darf nicht leer sein!",
     "entity": {
-      "exists": "Ein Datensatz vom Typ \"{{params[0]}}\" mit FDZ-ID \"{{params[1]}}\" existiert bereits!",
-      "compoundexists": "Ein Datensatz vom Typ \"{{params[0]}}\" und der Felderkombination \"{{params[1]}}\" existiert bereits!",
-      "notfound": "Ein Datensatz vom Typ \"{{params[0]}}\" mit FDZ-ID \"{{params[1]}}\" wurde nicht gefunden!"
+      "action": {
+        "addblob": "Add blob",
+        "addimage": "Add image",
+        "back": "Zurück",
+        "cancel": "Abbrechen",
+        "delete": "Löschen",
+        "edit": "Bearbeiten",
+        "save": "Speichern",
+        "view": "Details",
+        "ok": "OK"
+      },
+      "detail": {
+        "field": "Feld",
+        "value": "Wert"
+      },
+      "delete": {
+        "title": "Löschen bestätigen"
+      },
+      "validation": {
+        "required": "Dieses Feld wird benötigt.",
+        "minlength": "Dieses Feld muss mind. {{min}} Zeichen lang sein.",
+        "maxlength": "Dieses Feld darf max. {{max}} Zeichen lang sein.",
+        "min": "Dieses Feld muss größer als {{min}} sein.",
+        "max": "Dieses Feld muss kleiner als {{max}} sein.",
+        "minbytes": "This field should be more than {{min}} bytes.",
+        "maxbytes": "This field cannot be more than {{max}} bytes.",
+        "pattern": "Dieses Feld muss das Muster {{pattern}} erfüllen.",
+        "number": "Dieses Feld muss eine Zahl sein.",
+        "datetimelocal": "Dieses Feld muss eine Datums- und Zeitangabe enthalten.",
+        "rdcId": "Die FDZ-ID darf nur aus Zahlen, Buchstaben und \"_\" bestehen.",
+        "variable": {
+          "name": "Der Name einer Variablen darf nur aus Zahlen, Buchstaben und \"_\" bestehen."
+        },
+        "survey": {
+          "period": "Der Feldzeitbeginn muss vor dem Ende liegen."
+        },
+        "dataAcquisitionProject": {
+          "id": "Der Name eines Projektes darf nur aus Zahlen und Buchstaben bestehen."
+        }
+      }
     },
-    "period": {
-      "validPeriod": "Der Start und Endzeitpunkt müssen gesetzt sein und müssen in der richtigen Reihenfolge sein."
+    "error": {
+      "serverNotReachable": "Der Server ist nicht erreichbar!",
+      "NotNull": "Das Feld {{fieldName}} darf nicht leer sein!",
+      "entity": {
+        "exists": "Ein Datensatz vom Typ \"{{params[0]}}\" mit FDZ-ID \"{{params[1]}}\" existiert bereits!",
+        "compoundexists": "Ein Datensatz vom Typ \"{{params[0]}}\" und der Felderkombination \"{{params[1]}}\" existiert bereits!",
+        "notfound": "Ein Datensatz vom Typ \"{{params[0]}}\" mit FDZ-ID \"{{params[1]}}\" wurde nicht gefunden!"
+      },
+      "period": {
+        "validPeriod": "Der Start und Endzeitpunkt müssen gesetzt sein und müssen in der richtigen Reihenfolge sein."
+      }
+    },
+    "logos": {
+      "fdz": "Forschungsdatenzentrum, Deutsches Zentrum für Hochschul- und Wissenschaftsforschung",
+      "bmbf": "Gefördert vom BMBF",
+      "dzhw": "Deutsches Zentrum für Hochschul- und Wissenschaftsforschung DZHW GmbH"
+    },
+    "main": {
+      "title": "Willkommen beim FDZ des DZHW. Sie suchen ..."
+    },
+    "error": {
+      "title": "Fehlerseite!",
+      "403": "Sie haben nicht die nötigen Berechtigungen diese Seite anzuzeigen."
+    },
+    "pagination": {
+      "next": "Weiter",
+      "previous": "Zurück"
+    },
+    "joblogging": {
+      "protocol-dialog": {
+        "title": "Protokoll",
+        "success": "Erfolg",
+        "error": "Fehler"
+      },
+      "job-complete-toast": {
+        "show-log": "Zeige Protokoll"
+      },
+      "block-ui-message": "{{ errors }} Fehler bei {{ total }} Datensätzen"
     }
-  },
-  "logos": {
-    "fdz": "Forschungsdatenzentrum, Deutsches Zentrum für Hochschul- und Wissenschaftsforschung",
-    "bmbf": "Gefördert vom BMBF",
-    "dzhw": "Deutsches Zentrum für Hochschul- und Wissenschaftsforschung DZHW GmbH"
-  },
-  "main": {
-    "title": "Willkommen beim FDZ des DZHW. Sie suchen ..."
-  },
-  "error": {
-    "title": "Fehlerseite!",
-    "403": "Sie haben nicht die nötigen Berechtigungen diese Seite anzuzeigen."
-  },
-  "pagination": {
-    "next": "Weiter",
-    "previous": "Zurück"
-  },
-  "joblogging": {
-    "protocol-dialog": {
-      "title": "Protokoll",
-      "success": "Erfolg",
-      "error": "Fehler"
-    },
-    "job-complete-toast": {
-      "show-log": "Zeige Protokoll"
-    },
-    "block-ui-message": "{{ errors }} Fehler bei {{ total }} Datensätzen"
   }
 }

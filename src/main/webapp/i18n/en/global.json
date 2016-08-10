@@ -94,87 +94,87 @@
     "field": {
       "rdcId": "RDC-ID",
       "id": "ID"
-    }
-  },
-  "entity": {
-    "action": {
-      "addblob": "Add blob",
-      "addimage": "Add image",
-      "back": "Back",
-      "cancel": "Cancel",
-      "delete": "Delete",
-      "edit": "Edit",
-      "save": "Save",
-      "view": "View",
-      "ok": "OK"
     },
-    "detail": {
-      "field": "Field",
-      "value": "Value"
-    },
-    "delete": {
-      "title": "Confirm delete operation"
-    },
-    "validation": {
-      "required": "This field is required.",
-      "minlength": "This field is required to be at least {{min}} characters.",
-      "maxlength": "This field cannot be longer than {{max}} characters.",
-      "min": "This field should be more than {{min}}.",
-      "max": "This field cannot be more than {{max}}.",
-      "minbytes": "This field should be more than {{min}} bytes.",
-      "maxbytes": "This field cannot be more than {{max}} bytes.",
-      "pattern": "This field should follow pattern {{pattern}}.",
-      "number": "This field should be a number.",
-      "datetimelocal": "This field should be a date and time.",
-      "rdcId": "The RDC ID must contain only letters, digits and underscore.",
-      "variable": {
-        "name": "The name of a variable must contain only letters, digits and underscore."
-      },
-      "survey": {
-        "period": "The begin of the field period must be before the end."
-      },
-      "dataAcquisitionProject": {
-        "id": "The name of the project must contain only letters and digits."
-      }
-    }
-  },
-  "error": {
-    "serverNotReachable": "Server not reachable",
-    "NotNull": "Field {{fieldName}} cannot be empty!",
     "entity": {
-      "exists": "There is already a {{params[0]}} with RDC-ID \"{{params[1]}}\"!",
-      "compoundexists": "There is already a \"{{params[0]}}\" with the field combination \"{{params[1]}}\"!",
-      "notfound": "{{params[0]}} with RDC-ID \"{{params[1]}}\" not found!"
+      "action": {
+        "addblob": "Add blob",
+        "addimage": "Add image",
+        "back": "Back",
+        "cancel": "Cancel",
+        "delete": "Delete",
+        "edit": "Edit",
+        "save": "Save",
+        "view": "View",
+        "ok": "OK"
+      },
+      "detail": {
+        "field": "Field",
+        "value": "Value"
+      },
+      "delete": {
+        "title": "Confirm delete operation"
+      },
+      "validation": {
+        "required": "This field is required.",
+        "minlength": "This field is required to be at least {{min}} characters.",
+        "maxlength": "This field cannot be longer than {{max}} characters.",
+        "min": "This field should be more than {{min}}.",
+        "max": "This field cannot be more than {{max}}.",
+        "minbytes": "This field should be more than {{min}} bytes.",
+        "maxbytes": "This field cannot be more than {{max}} bytes.",
+        "pattern": "This field should follow pattern {{pattern}}.",
+        "number": "This field should be a number.",
+        "datetimelocal": "This field should be a date and time.",
+        "rdcId": "The RDC ID must contain only letters, digits and underscore.",
+        "variable": {
+          "name": "The name of a variable must contain only letters, digits and underscore."
+        },
+        "survey": {
+          "period": "The begin of the field period must be before the end."
+        },
+        "dataAcquisitionProject": {
+          "id": "The name of the project must contain only letters and digits."
+        }
+      }
     },
-    "period": {
-      "validPeriod": "The start and end date have to be set and the dates have to be in the correct order!"
+    "error": {
+      "serverNotReachable": "Server not reachable",
+      "NotNull": "Field {{fieldName}} cannot be empty!",
+      "entity": {
+        "exists": "There is already a {{params[0]}} with RDC-ID \"{{params[1]}}\"!",
+        "compoundexists": "There is already a \"{{params[0]}}\" with the field combination \"{{params[1]}}\"!",
+        "notfound": "{{params[0]}} with RDC-ID \"{{params[1]}}\" not found!"
+      },
+      "period": {
+        "validPeriod": "The start and end date have to be set and the dates have to be in the correct order!"
+      }
+    },
+    "logos": {
+      "rdc": "Research Data Center, German Center for Research on Higher Education and Science Studies",
+      "bmbf": "Sponsored by the FMER",
+      "dzhw": "The German Centre for Research on Higher Education and Science Studies"
+    },
+    "main": {
+      "title": "Welcome to the RDC of the DZHW. You are looking for ..."
+    },
+    "error": {
+      "title": "Error page!",
+      "403": "You are not authorized to access the page."
+    },
+    "pagination": {
+      "next": "Next",
+      "previous": "Previous"
+    },
+    "joblogging": {
+      "protocol-dialog": {
+        "title": "Protocol",
+        "success": "Success",
+        "error": "Error"
+      },
+      "job-complete-toast": {
+        "show-log": "Show Protocol"
+      },
+      "block-ui-message": "{{ errors }} Errors on {{ total }} Data"
     }
-  },
-  "logos": {
-    "rdc": "Research Data Center, German Center for Research on Higher Education and Science Studies",
-    "bmbf": "Sponsored by the FMER",
-    "dzhw": "The German Centre for Research on Higher Education and Science Studies"
-  },
-  "main": {
-    "title": "Welcome to the RDC of the DZHW. You are looking for ..."
-  },
-  "error": {
-    "title": "Error page!",
-    "403": "You are not authorized to access the page."
-  },
-  "pagination": {
-    "next": "Next",
-    "previous": "Previous"
-  },
-  "joblogging": {
-    "protocol-dialog": {
-      "title": "Protocol",
-      "success": "Success",
-      "error": "Error"
-    },
-    "job-complete-toast": {
-      "show-log": "Show Protocol"
-    },
-    "block-ui-message": "{{ errors }} Errors on {{ total }} Data"
   }
 }
