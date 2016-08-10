@@ -11,7 +11,6 @@
     "detail": {
       "title": "User"
     },
-    "login": "Login",
     "firstName": "First name",
     "lastName": "Last name",
     "email": "Email",
@@ -46,6 +45,7 @@
       }
     },
     "login": {
+      "login": "Login",
       "title": "Sign in",
       "form": {
         "password": "Password",
