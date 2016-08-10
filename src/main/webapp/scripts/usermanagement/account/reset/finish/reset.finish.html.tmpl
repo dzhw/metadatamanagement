@@ -1,22 +1,22 @@
 <div class="container">
     <div class="row">
         <div class="col-md-4 col-md-offset-4">
-            <h1 data-translate="reset.finish.title">Reset password</h1>
+            <h1 data-translate="user-management.reset.finish.title">Reset password</h1>
 
-            <div class="alert alert-danger" data-translate="reset.finish.messages.keymissing" ng-show="keyMissing">
+            <div class="alert alert-danger" data-translate="user-management.reset.finish.messages.keymissing" ng-show="keyMissing">
                 <strong>The password reset key is missing.</strong>
             </div>
 
             <div class="alert alert-warning" ng-hide="success || keyMissing">
-                <p data-translate="reset.finish.messages.info">Choose a new password</p>
+                <p data-translate="user-management.reset.finish.messages.info">Choose a new password</p>
             </div>
 
             <div class="alert alert-danger" ng-show="error">
-                <p data-translate="reset.finish.messages.error">Your password couldn't be reset. Remember a password request is only valid for 24 hours.</p>
+                <p data-translate="user-management.reset.finish.messages.error">Your password couldn't be reset. Remember a password request is only valid for 24 hours.</p>
             </div>
 
             <div class="alert alert-success" ng-show="success">
-                <span data-translate="reset.finish.messages.success">
+                <span data-translate="user-management.reset.finish.messages.success">
                     <strong>Your password has been reset.</strong>
                     Please</span>
                 <a class="alert-link" ng-href="#{{currentLanguage}}/login">sign in</a>
@@ -60,7 +60,7 @@
                             </p>
                         </div>
                     </div>
-                    <button type="submit" ng-disabled="form.$invalid" class="btn btn-primary" data-translate="reset.finish.form.button">Reset Password</button>
+                    <button type="submit" ng-disabled="form.$invalid" class="btn btn-primary" data-translate="user-management.reset.finish.form.button">Reset Password</button>
                 </form>
             </div>
 

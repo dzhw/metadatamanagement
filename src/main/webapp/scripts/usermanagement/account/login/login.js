@@ -7,7 +7,7 @@ angular.module('metadatamanagementApp').config(
       url: '/login',
       data: {
         authorities: [],
-        pageTitle: 'login.title'
+        pageTitle: 'user-management.login.title'
       },
       views: {
         'content@': {
@@ -19,7 +19,7 @@ angular.module('metadatamanagementApp').config(
       resolve: {
         translatePartialLoader: ['$translatePartialLoader',
           function($translatePartialLoader) {
-            $translatePartialLoader.addPart('login');
+            $translatePartialLoader.addPart('user.management');
           }
         ]
       }

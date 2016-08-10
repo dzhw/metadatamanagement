@@ -7,7 +7,7 @@ angular.module('metadatamanagementApp').config(
       url: '/activate?key',
       data: {
         authorities: [],
-        pageTitle: 'activate.title'
+        pageTitle: 'user-management.activate.title'
       },
       views: {
         'content@': {
@@ -19,7 +19,7 @@ angular.module('metadatamanagementApp').config(
       resolve: {
         translatePartialLoader: ['$translatePartialLoader',
           function($translatePartialLoader) {
-            $translatePartialLoader.addPart('activate');
+            $translatePartialLoader.addPart('user.management');
           }
         ]
       }

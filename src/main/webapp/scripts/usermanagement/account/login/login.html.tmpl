@@ -1,9 +1,9 @@
 <div class="container">
     <div class="row">
         <div class="col-md-4 col-md-offset-4">
-            <h1 data-translate="login.title">Sign in</h1>
+            <h1 data-translate="user-management.login.title">Sign in</h1>
 
-            <div class="alert alert-danger" ng-show="authenticationError" data-translate="login.messages.error.authentication">
+            <div class="alert alert-danger" ng-show="authenticationError" data-translate="user-management.login.messages.error.authentication">
                 <strong>Failed to sign in!</strong>
                 Please check your credentials and try again.
             </div>
@@ -15,19 +15,19 @@
                     <input type="text" class="form-control" id="username" placeholder="{{'global.form.username.placeholder' | translate}}" ng-model="username">
                 </div>
                 <div class="form-group">
-                    <label for="password" data-translate="login.form.password">Password</label>
-                    <input type="password" class="form-control" id="password" placeholder="{{'login.form.password.placeholder' | translate}}" ng-model="password">
+                    <label for="password" data-translate="user-management.login.form.password">Password</label>
+                    <input type="password" class="form-control" id="password" placeholder="{{'user-management.login.form.password.placeholder' | translate}}" ng-model="password">
                 </div>
-                <button type="submit" class="btn btn-primary" data-translate="login.form.button">Sign in</button>
+                <button type="submit" class="btn btn-primary" data-translate="user-management.login.form.button">Sign in</button>
             </form>
             <p></p>
             <div class="alert alert-warning">
-                <a class="alert-link" ng-href="#/{{currentLanguage}}/reset/request" data-translate="login.password.forgot">Did you forget your password?</a>
+                <a class="alert-link" ng-href="#/{{currentLanguage}}/reset/request" data-translate="user-management.login.password.forgot">Did you forget your password?</a>
             </div>
             <div class="alert alert-warning">
                 <span data-translate="global.messages.info.register">
                     You don't have an account yet?</span>
-                <a class="alert-link" ng-href="#/{{currentLanguage}}/register" data-translate="login.registration.register">Register a new account</a>
+                <a class="alert-link" ng-href="#/{{currentLanguage}}/register" data-translate="user-management.login.registration.register">Register a new account</a>
             </div>
         </div>
     </div>
