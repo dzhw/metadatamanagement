@@ -148,7 +148,7 @@ angular
         ' md-diameter="75px"></md-progress-circular>' +
         '<span style="font-size: 24px;"' +
         'ng-if="job.state === \'running\' && job.id !== \'postValidation\'' +
-        '" data-translate="joblogging.block-ui-message"' +
+        '" data-translate="global.joblogging.block-ui-message"' +
         ' data-translate-values="{ errors: job.errors, ' +
         'total: job.errors + job.successes}">' +
         '</span>' +

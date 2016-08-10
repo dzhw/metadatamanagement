@@ -21,7 +21,7 @@ angular.module('metadatamanagementApp').service('SurveyUploadService',
         if (!objects[uploadCount].id || objects[uploadCount].id === '') {
           var index = uploadCount;
           JobLoggingService.error(
-            'dataAcquisitionProject.' +
+            'dataAcquisitionProject-management.' +
             'detail.logMessages.survey.' +
             'missingId', {
               index: index + 1

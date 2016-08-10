@@ -23,7 +23,7 @@ angular.module('metadatamanagementApp').service('VariableUploadService',
         if (!objects[uploadCount].id || objects[uploadCount].id === '') {
           var index = uploadCount;
           JobLoggingService.error(
-            'dataAcquisitionProject.' +
+            'dataAcquisitionProject-management.' +
             'detail.logMessages.variable.' +
             'missingId', {
               index: index + 1

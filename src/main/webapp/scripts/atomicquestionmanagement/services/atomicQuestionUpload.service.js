@@ -21,7 +21,7 @@ angular.module('metadatamanagementApp').service('AtomicQuestionUploadService',
         if (!objects[uploadCount].id || objects[uploadCount].id === '') {
           var index = uploadCount;
           JobLoggingService.error(
-            'dataAcquisitionProject.' +
+            'dataAcquisitionProject-management.' +
             'detail.logMessages.atomicQuestion.' +
             'missingId', {
               index: index + 1

@@ -1,13 +1,13 @@
-<md-dialog aria-label="{{'joblogging.protocol-dialog.title' | translate}}">
+<md-dialog aria-label="{{'global.joblogging.protocol-dialog.title' | translate}}">
     <md-toolbar>
         <div class="md-toolbar-tools">
             <h2>
-                <span>{{'joblogging.protocol-dialog.title' | translate}}</span>
+                <span>{{'global.joblogging.protocol-dialog.title' | translate}}</span>
             </h2>
             <span flex></span>
-            <span style="margin-right: 1em;" class="label label-as-badge label-success">{{'joblogging.protocol-dialog.success' | translate}}:
+            <span style="margin-right: 1em;" class="label label-as-badge label-success">{{'global.joblogging.protocol-dialog.success' | translate}}:
                 {{job.successes || 0}}</span>
-            <span class="label label-as-badge label-danger">{{'joblogging.protocol-dialog.error' | translate}}:
+            <span class="label label-as-badge label-danger">{{'global.joblogging.protocol-dialog.error' | translate}}:
                 {{job.errors || 0}}</span>
             <md-button class="md-icon-button" ng-click="closeDialog()">
                 <md-icon md-font-set="material-icons">clear</md-icon>

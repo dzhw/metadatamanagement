@@ -152,13 +152,13 @@ angular.module('metadatamanagementApp').controller('SearchController',
             if (!CleanJSObjectService.isNullOrEmpty(dataAcquisitionProject)) {
               var confirm = $mdDialog.confirm()
                   .title($translate.instant(
-                      'search.deleteMessages.deleteVariablesTitle'))
+                      'search-management.deleteMessages.deleteVariablesTitle'))
                   .textContent($translate.instant(
-                      'search.deleteMessages.deleteVariables', {
+                      'search-management.deleteMessages.deleteVariables', {
                           id: dataAcquisitionProject.id
                         }))
                   .ariaLabel($translate.instant(
-                      'search.deleteMessages.deleteVariables', {
+                      'search-management.deleteMessages.deleteVariables', {
                           id: dataAcquisitionProject.id
                         }))
                   .ok($translate.instant('global.buttons.ok'))
@@ -181,13 +181,13 @@ angular.module('metadatamanagementApp').controller('SearchController',
             if (!CleanJSObjectService.isNullOrEmpty(dataAcquisitionProject)) {
               var confirm = $mdDialog.confirm()
                   .title($translate.instant(
-                      'search.deleteMessages.deleteQuestionsTitle'))
+                      'search-management.deleteMessages.deleteQuestionsTitle'))
                   .textContent($translate.instant(
-                      'search.deleteMessages.deleteQuestions', {
+                      'search-management.deleteMessages.deleteQuestions', {
                           id: dataAcquisitionProject.id
                         }))
                   .ariaLabel($translate.instant(
-                      'search.deleteMessages.deleteQuestions', {
+                      'search-management.deleteMessages.deleteQuestions', {
                           id: dataAcquisitionProject.id
                         }))
                   .ok($translate.instant('global.buttons.ok'))
@@ -209,13 +209,13 @@ angular.module('metadatamanagementApp').controller('SearchController',
             if (!CleanJSObjectService.isNullOrEmpty(dataAcquisitionProject)) {
               var confirm = $mdDialog.confirm()
                   .title($translate.instant(
-                      'search.deleteMessages.deleteSurveysTitle'))
+                      'search-management.deleteMessages.deleteSurveysTitle'))
                   .textContent($translate.instant(
-                      'search.deleteMessages.deleteSurveys', {
+                      'search-management.deleteMessages.deleteSurveys', {
                           id: dataAcquisitionProject.id
                         }))
                   .ariaLabel($translate.instant(
-                      'search.deleteMessages.deleteSurveys', {
+                      'search-management.deleteMessages.deleteSurveys', {
                           id: dataAcquisitionProject.id
                         }))
                   .ok($translate.instant('global.buttons.ok'))
@@ -237,13 +237,13 @@ angular.module('metadatamanagementApp').controller('SearchController',
             if (!CleanJSObjectService.isNullOrEmpty(dataAcquisitionProject)) {
               var confirm = $mdDialog.confirm()
                   .title($translate.instant(
-                      'search.deleteMessages.deleteDataSetsTitle'))
+                      'search-management.deleteMessages.deleteDataSetsTitle'))
                   .textContent($translate.instant(
-                      'search.deleteMessages.deleteDataSets', {
+                      'search-management.deleteMessages.deleteDataSets', {
                           id: dataAcquisitionProject.id
                         }))
                   .ariaLabel($translate.instant(
-                      'search.deleteMessages.deleteDataSets', {
+                      'search-management.deleteMessages.deleteDataSets', {
                           id: dataAcquisitionProject.id
                         }))
                   .ok($translate.instant('global.buttons.ok'))
