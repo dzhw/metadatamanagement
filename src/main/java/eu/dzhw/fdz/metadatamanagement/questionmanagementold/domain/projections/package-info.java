@@ -4,4 +4,4 @@
  * @author Daniel Katzberg
  *
  */
-package eu.dzhw.fdz.metadatamanagement.questionmanagement.domain.projections;
+package eu.dzhw.fdz.metadatamanagement.questionmanagementold.domain.projections;

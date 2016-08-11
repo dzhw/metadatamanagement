@@ -1,4 +1,4 @@
-package eu.dzhw.fdz.metadatamanagement.questionmanagement.domain.validation;
+package eu.dzhw.fdz.metadatamanagement.questionmanagementold.domain.validation;
 
 import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;
@@ -10,24 +10,22 @@ import javax.validation.Constraint;
 import javax.validation.Payload;
 
 /**
- * Annotation for the validation of the consistence of given types. 
- * Is english 'open' and german 'offen' set at same time? If it is not, 
- * the validation going be wrong.
- * 
+ * Annotation for the validation of the id. It has to be by the pattern: 
+ * DataAcquisitionProjectId-VariableName.
  * @author Daniel Katzberg
  *
  */
 @Documented
-@Constraint(validatedBy = {ValidAtomicQuestionTypeValidator.class})
-@Target({ElementType.FIELD})
+@Constraint(validatedBy = {ValidAtomicQuestionIdNameValidator.class})
+@Target({ElementType.TYPE})
 @Retention(RetentionPolicy.RUNTIME)
-public @interface ValidAtomicQuestionType {
-  
+public @interface ValidAtomicQuestionIdName {
+
   /**
    * Defines the default error message.
    */
   public abstract String message() default "{eu.dzhw.fdz.metadatamanagement.domain.validation."
-      + "validatomicquestiontype.message}";
+      + "validatomicquestionidname.message}";
   
   /**
    * This contains groups.
@@ -37,6 +35,5 @@ public @interface ValidAtomicQuestionType {
   /**
    * This method contains the payload.
    */
-  public Class<? extends Payload>[] payload() default {};
-
+  public Class<? extends Payload>[]payload() default {};
 }

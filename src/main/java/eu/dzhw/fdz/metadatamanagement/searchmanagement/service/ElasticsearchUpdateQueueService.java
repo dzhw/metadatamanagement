@@ -16,11 +16,14 @@ import org.springframework.stereotype.Service;
 
 import eu.dzhw.fdz.metadatamanagement.datasetmanagement.domain.DataSet;
 import eu.dzhw.fdz.metadatamanagement.datasetmanagement.repository.DataSetRepository;
-import eu.dzhw.fdz.metadatamanagement.questionmanagement.domain.AtomicQuestion;
-import eu.dzhw.fdz.metadatamanagement.questionmanagement.repository.AtomicQuestionRepository;
+import eu.dzhw.fdz.metadatamanagement.questionmanagement.domain.Question;
+import eu.dzhw.fdz.metadatamanagement.questionmanagement.repository.QuestionRepository;
+import eu.dzhw.fdz.metadatamanagement.questionmanagementold.domain.AtomicQuestion;
+import eu.dzhw.fdz.metadatamanagement.questionmanagementold.repository.AtomicQuestionRepository;
 import eu.dzhw.fdz.metadatamanagement.searchmanagement.dao.ElasticsearchDao;
 import eu.dzhw.fdz.metadatamanagement.searchmanagement.documents.AtomicQuestionSearchDocument;
 import eu.dzhw.fdz.metadatamanagement.searchmanagement.documents.DataSetSearchDocument;
+import eu.dzhw.fdz.metadatamanagement.searchmanagement.documents.QuestionSearchDocument;
 import eu.dzhw.fdz.metadatamanagement.searchmanagement.documents.SurveySearchDocument;
 import eu.dzhw.fdz.metadatamanagement.searchmanagement.documents.VariableSearchDocument;
 import eu.dzhw.fdz.metadatamanagement.searchmanagement.domain.ElasticsearchUpdateQueueAction;
@@ -75,6 +78,9 @@ public class ElasticsearchUpdateQueueService {
    */
   @Inject
   private AtomicQuestionRepository atomicQuestionRepository;
+  
+  @Inject
+  private QuestionRepository questionRepository;
   
   @Inject
   private ElasticsearchDao elasticsearchDao;
@@ -222,7 +228,10 @@ public class ElasticsearchUpdateQueueService {
         break;
       case atomic_questions:
         addUpsertActionForAtomicQuestion(lockedItem, bulkBuilder);
-        break;  
+        break; 
+      case questions:
+        addUpsertActionForQuestion(lockedItem, bulkBuilder);
+        break; 
       default:
         throw new NotImplementedException("Processing queue item with type "
             + lockedItem.getDocumentType() + " has not been implemented!");
@@ -300,6 +309,28 @@ public class ElasticsearchUpdateQueueService {
       for (ElasticsearchIndices index : ElasticsearchIndices.values()) {
         VariableSearchDocument searchDocument =
             new VariableSearchDocument(variable, surveys, index);
+
+        bulkBuilder.addAction(new Index.Builder(searchDocument)
+            .index(index.getIndexName())
+            .type(lockedItem.getDocumentType().name())
+            .id(searchDocument.getId())
+            .build());
+      }
+    }
+  }
+  
+  /**
+   * This method creates for the question repository update / insert actions.
+   * @param lockedItem A locked item.
+   * @param bulkBuilder A bulk builder for building the actions.
+   */
+  private void addUpsertActionForQuestion(ElasticsearchUpdateQueueItem lockedItem,
+      Builder bulkBuilder) {
+    Question question = questionRepository.findOne(lockedItem.getDocumentId());
+    if (question != null) {
+      for (ElasticsearchIndices index : ElasticsearchIndices.values()) {
+        QuestionSearchDocument searchDocument =
+            new QuestionSearchDocument(question, index);
 
         bulkBuilder.addAction(new Index.Builder(searchDocument)
             .index(index.getIndexName())

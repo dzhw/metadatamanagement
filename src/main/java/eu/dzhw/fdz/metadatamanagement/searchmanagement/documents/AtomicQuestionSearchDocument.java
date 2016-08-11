@@ -1,6 +1,6 @@
 package eu.dzhw.fdz.metadatamanagement.searchmanagement.documents;
 
-import eu.dzhw.fdz.metadatamanagement.questionmanagement.domain.AtomicQuestion;
+import eu.dzhw.fdz.metadatamanagement.questionmanagementold.domain.AtomicQuestion;
 import eu.dzhw.fdz.metadatamanagement.searchmanagement.service.ElasticsearchIndices;
 import io.searchbox.annotations.JestId;
 

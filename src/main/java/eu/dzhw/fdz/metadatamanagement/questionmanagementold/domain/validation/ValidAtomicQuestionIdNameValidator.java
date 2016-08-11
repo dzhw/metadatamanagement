@@ -1,9 +1,9 @@
-package eu.dzhw.fdz.metadatamanagement.questionmanagement.domain.validation;
+package eu.dzhw.fdz.metadatamanagement.questionmanagementold.domain.validation;
 
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 
-import eu.dzhw.fdz.metadatamanagement.questionmanagement.domain.AtomicQuestion;
+import eu.dzhw.fdz.metadatamanagement.questionmanagementold.domain.AtomicQuestion;
 
 /**
  * Validates the name of a id. The pattern is: DataAcquisitionProjectId-VariableName. This validator

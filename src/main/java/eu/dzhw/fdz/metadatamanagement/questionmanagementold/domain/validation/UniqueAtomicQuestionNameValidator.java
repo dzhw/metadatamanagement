@@ -1,11 +1,11 @@
-package eu.dzhw.fdz.metadatamanagement.questionmanagement.domain.validation;
+package eu.dzhw.fdz.metadatamanagement.questionmanagementold.domain.validation;
 
 import javax.inject.Inject;
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 
-import eu.dzhw.fdz.metadatamanagement.questionmanagement.domain.AtomicQuestion;
-import eu.dzhw.fdz.metadatamanagement.questionmanagement.repository.AtomicQuestionRepository;
+import eu.dzhw.fdz.metadatamanagement.questionmanagementold.domain.AtomicQuestion;
+import eu.dzhw.fdz.metadatamanagement.questionmanagementold.repository.AtomicQuestionRepository;
 
 /**
  * Validates the name of a atomicquestion. The name have to be unique within a questionnaire.

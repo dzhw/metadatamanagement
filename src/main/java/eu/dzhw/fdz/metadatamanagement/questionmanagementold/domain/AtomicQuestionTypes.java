@@ -1,4 +1,4 @@
-package eu.dzhw.fdz.metadatamanagement.questionmanagement.domain;
+package eu.dzhw.fdz.metadatamanagement.questionmanagementold.domain;
 
 import java.util.Arrays;
 import java.util.Collections;

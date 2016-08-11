@@ -1,10 +1,10 @@
-package eu.dzhw.fdz.metadatamanagement.questionmanagement.domain.validation;
+package eu.dzhw.fdz.metadatamanagement.questionmanagementold.domain.validation;
 
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 
 import eu.dzhw.fdz.metadatamanagement.common.domain.I18nString;
-import eu.dzhw.fdz.metadatamanagement.questionmanagement.domain.AtomicQuestionTypes;
+import eu.dzhw.fdz.metadatamanagement.questionmanagementold.domain.AtomicQuestionTypes;
 
 /**
  * Validation of the consistence of given types. 

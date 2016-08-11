@@ -4,4 +4,4 @@
  * @author Daniel Katzberg
  *
  */
-package eu.dzhw.fdz.metadatamanagement.questionmanagement.domain;
+package eu.dzhw.fdz.metadatamanagement.questionmanagementold.domain;

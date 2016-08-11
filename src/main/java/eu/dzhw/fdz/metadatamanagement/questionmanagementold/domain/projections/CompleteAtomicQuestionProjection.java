@@ -1,10 +1,10 @@
-package eu.dzhw.fdz.metadatamanagement.questionmanagement.domain.projections;
+package eu.dzhw.fdz.metadatamanagement.questionmanagementold.domain.projections;
 
 import org.springframework.data.rest.core.config.Projection;
 
 import eu.dzhw.fdz.metadatamanagement.common.domain.I18nString;
 import eu.dzhw.fdz.metadatamanagement.common.domain.projections.AbstractRdcDomainObjectProjection;
-import eu.dzhw.fdz.metadatamanagement.questionmanagement.domain.AtomicQuestion;
+import eu.dzhw.fdz.metadatamanagement.questionmanagementold.domain.AtomicQuestion;
 
 /**
  * The 'complete' Projection of a atomic question domain object. 'complete' means all attributes

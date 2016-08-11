@@ -1,4 +1,4 @@
-package eu.dzhw.fdz.metadatamanagement.questionmanagement.domain.validation;
+package eu.dzhw.fdz.metadatamanagement.questionmanagementold.domain.validation;
 
 import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;
@@ -10,31 +10,33 @@ import javax.validation.Constraint;
 import javax.validation.Payload;
 
 /**
- * Annotation for the validation, which Validates the name of a atomicquestion. The name have to be
- * unique within a questionnaire.
+ * Annotation for the validation of the consistence of given types. 
+ * Is english 'open' and german 'offen' set at same time? If it is not, 
+ * the validation going be wrong.
  * 
- * @author dkatzberg
+ * @author Daniel Katzberg
  *
  */
 @Documented
-@Constraint(validatedBy = {UniqueAtomicQuestionNameValidator.class})
-@Target({ElementType.TYPE})
+@Constraint(validatedBy = {ValidAtomicQuestionTypeValidator.class})
+@Target({ElementType.FIELD})
 @Retention(RetentionPolicy.RUNTIME)
-public @interface UniqueAtomicQuestionName {
-
+public @interface ValidAtomicQuestionType {
+  
   /**
    * Defines the default error message.
    */
   public abstract String message() default "{eu.dzhw.fdz.metadatamanagement.domain.validation."
-      + "uniqueAtomicQuestionName.message}";
-
+      + "validatomicquestiontype.message}";
+  
   /**
    * This contains groups.
    */
-  public Class<?>[] groups() default {};
-
+  public Class<?>[]groups() default {};
+  
   /**
    * This method contains the payload.
    */
   public Class<? extends Payload>[] payload() default {};
+
 }

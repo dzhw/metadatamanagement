@@ -1,4 +1,4 @@
-package eu.dzhw.fdz.metadatamanagement.questionmanagement.domain;
+package eu.dzhw.fdz.metadatamanagement.questionmanagementold.domain;
 
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
@@ -17,9 +17,9 @@ import eu.dzhw.fdz.metadatamanagement.common.domain.I18nString;
 import eu.dzhw.fdz.metadatamanagement.common.domain.util.Patterns;
 import eu.dzhw.fdz.metadatamanagement.common.domain.validation.I18nStringSize;
 import eu.dzhw.fdz.metadatamanagement.common.domain.validation.StringLengths;
-import eu.dzhw.fdz.metadatamanagement.questionmanagement.domain.validation.UniqueAtomicQuestionName;
-import eu.dzhw.fdz.metadatamanagement.questionmanagement.domain.validation.ValidAtomicQuestionIdName;
-import eu.dzhw.fdz.metadatamanagement.questionmanagement.domain.validation.ValidAtomicQuestionType;
+import eu.dzhw.fdz.metadatamanagement.questionmanagementold.domain.validation.UniqueAtomicQuestionName;
+import eu.dzhw.fdz.metadatamanagement.questionmanagementold.domain.validation.ValidAtomicQuestionIdName;
+import eu.dzhw.fdz.metadatamanagement.questionmanagementold.domain.validation.ValidAtomicQuestionType;
 import net.karneim.pojobuilder.GeneratePojoBuilder;
 
 /**

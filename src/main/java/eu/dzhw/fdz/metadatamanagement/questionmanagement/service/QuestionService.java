@@ -11,28 +11,30 @@ import org.springframework.data.rest.core.annotation.RepositoryEventHandler;
 import org.springframework.stereotype.Service;
 
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.DataAcquisitionProject;
-import eu.dzhw.fdz.metadatamanagement.questionmanagement.domain.AtomicQuestion;
-import eu.dzhw.fdz.metadatamanagement.questionmanagement.repository.AtomicQuestionRepository;
+import eu.dzhw.fdz.metadatamanagement.questionmanagement.domain.Question;
+import eu.dzhw.fdz.metadatamanagement.questionmanagement.repository.QuestionRepository;
 import eu.dzhw.fdz.metadatamanagement.searchmanagement.domain.ElasticsearchUpdateQueueAction;
 import eu.dzhw.fdz.metadatamanagement.searchmanagement.service.ElasticsearchType;
 import eu.dzhw.fdz.metadatamanagement.searchmanagement.service.ElasticsearchUpdateQueueService;
 
 /**
- * Service for creating and updating atomic questions. Used for updating atomic questions in mongo
+ * Service for creating and updating questions. Used for updating questions in mongo
  * and elasticsearch.
- * 
- * @author Daniel Katzberg
- *
  */
 @Service
 @RepositoryEventHandler
-public class AtomicQuestionService {
+public class QuestionService {
 
   @Inject
-  private AtomicQuestionRepository atomicQuestionRepository;
+  private QuestionRepository questionRepository;
 
   @Inject
   private ElasticsearchUpdateQueueService elasticsearchUpdateQueueService;
+  
+  @Inject
+  private ImageService imageService;
+  
+  public static final String CONTENT_TYPE_IMAGE = "image/png";
 
   /**
    * Delete all atomic questions when the dataAcquisitionProject was deleted.
@@ -41,50 +43,51 @@ public class AtomicQuestionService {
    */
   @HandleAfterDelete
   public void onDataAcquisitionProjectDeleted(DataAcquisitionProject dataAcquisitionProject) {
-    deleteAtomicQuestionsByProjectId(dataAcquisitionProject.getId());
+    deleteQuestionsByProjectId(dataAcquisitionProject.getId());
   }
   
   /**
-   * A service method for deletion of atomicQuestions within a data acquisition project.
+   * A service method for deletion of questions within a data acquisition project.
    * @param dataAcquisitionProjectId the id for to the data acquisition project.
-   * @return List of deleted AtomicQuestions
+   * @return List of deleted Questions
    */
-  public List<AtomicQuestion> deleteAtomicQuestionsByProjectId(String dataAcquisitionProjectId) {
-    List<AtomicQuestion> deletedAtomicQuestions = this.atomicQuestionRepository
+  public List<Question> deleteQuestionsByProjectId(String dataAcquisitionProjectId) {
+    List<Question> deletedQuestions = this.questionRepository
         .deleteByDataAcquisitionProjectId(dataAcquisitionProjectId);
-    deletedAtomicQuestions.forEach(atomicQuestion -> {
+    deletedQuestions.forEach(question -> {
+      imageService.deleteQuestionImage(question.getId());
       elasticsearchUpdateQueueService.enqueue(
-          atomicQuestion.getId(), 
-          ElasticsearchType.atomic_questions, 
+          question.getId(), 
+          ElasticsearchType.questions, 
           ElasticsearchUpdateQueueAction.DELETE);      
     });
-    return deletedAtomicQuestions;
+    return deletedQuestions;
   }
   
   /**
-   * Enqueue deletion of atomicQuestion search document when the atomicQuestion is deleted.
+   * Enqueue deletion of question search document when the question is deleted.
    * 
-   * @param atomicQuestion the deleted atomicQuestion.
+   * @param question the deleted question.
    */
   @HandleAfterDelete
-  public void onAtomicQuestionDeleted(AtomicQuestion atomicQuestion) {
+  public void onQuestionDeleted(Question question) {
     elasticsearchUpdateQueueService.enqueue(
-        atomicQuestion.getId(), 
-        ElasticsearchType.atomic_questions, 
+        question.getId(), 
+        ElasticsearchType.questions, 
         ElasticsearchUpdateQueueAction.DELETE);
   }
   
   /**
-   * Enqueue update of question search document when the atomicQuestion is updated.
+   * Enqueue update of question search document when the question is updated.
    * 
-   * @param atomicQuestion the updated or created question.
+   * @param question the updated or created question.
    */
   @HandleAfterCreate
   @HandleAfterSave
-  public void onAtomicQuestionSaved(AtomicQuestion atomicQuestion) {
+  public void onQuestionSaved(Question question) {
     elasticsearchUpdateQueueService.enqueue(
-        atomicQuestion.getId(), 
-        ElasticsearchType.atomic_questions, 
+        question.getId(), 
+        ElasticsearchType.questions, 
         ElasticsearchUpdateQueueAction.UPSERT);
-  }
+  }  
 }

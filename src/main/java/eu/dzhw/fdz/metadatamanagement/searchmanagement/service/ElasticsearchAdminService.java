@@ -17,8 +17,10 @@ import com.google.gson.JsonParser;
 
 import eu.dzhw.fdz.metadatamanagement.datasetmanagement.domain.DataSet;
 import eu.dzhw.fdz.metadatamanagement.datasetmanagement.repository.DataSetRepository;
-import eu.dzhw.fdz.metadatamanagement.questionmanagement.domain.AtomicQuestion;
-import eu.dzhw.fdz.metadatamanagement.questionmanagement.repository.AtomicQuestionRepository;
+import eu.dzhw.fdz.metadatamanagement.questionmanagement.domain.Question;
+import eu.dzhw.fdz.metadatamanagement.questionmanagement.repository.QuestionRepository;
+import eu.dzhw.fdz.metadatamanagement.questionmanagementold.domain.AtomicQuestion;
+import eu.dzhw.fdz.metadatamanagement.questionmanagementold.repository.AtomicQuestionRepository;
 import eu.dzhw.fdz.metadatamanagement.searchmanagement.dao.ElasticsearchDao;
 import eu.dzhw.fdz.metadatamanagement.searchmanagement.domain.ElasticsearchUpdateQueueAction;
 import eu.dzhw.fdz.metadatamanagement.surveymanagement.domain.Survey;
@@ -49,6 +51,9 @@ public class ElasticsearchAdminService {
   private AtomicQuestionRepository atomicQuestionRepository;
   
   @Inject
+  private QuestionRepository questionRepository;
+  
+  @Inject
   private ElasticsearchUpdateQueueService updateQueueService;
 
   @Inject
@@ -67,6 +72,7 @@ public class ElasticsearchAdminService {
     this.enqueueAllSurveys();
     this.enqueueAllDataSets();
     this.enqueueAllAtomicQuestions();
+    this.enqueueAllQuestions();
     updateQueueService.processQueue();
   }
   
@@ -143,6 +149,25 @@ public class ElasticsearchAdminService {
       });
       pageable = pageable.next();
       atomicQuestions = atomicQuestionRepository.findBy(pageable);
+    }
+  }
+  
+  /**
+   * Load all questions from mongo and enqueue them for updating.
+   */
+  private void enqueueAllQuestions() {
+    Pageable pageable = new PageRequest(0, 100);
+    Slice<Question> questions = questionRepository.findBy(pageable);
+
+    while (questions.hasContent()) {
+      questions.forEach(question -> {
+        updateQueueService.enqueue(
+            question.getId(), 
+            ElasticsearchType.questions, 
+            ElasticsearchUpdateQueueAction.UPSERT);
+      });
+      pageable = pageable.next();
+      questions = questionRepository.findBy(pageable);
     }
   }
 

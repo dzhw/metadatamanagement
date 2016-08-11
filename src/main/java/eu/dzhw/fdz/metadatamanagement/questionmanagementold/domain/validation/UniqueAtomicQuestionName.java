@@ -1,4 +1,4 @@
-package eu.dzhw.fdz.metadatamanagement.questionmanagement.domain.validation;
+package eu.dzhw.fdz.metadatamanagement.questionmanagementold.domain.validation;
 
 import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;
@@ -10,30 +10,31 @@ import javax.validation.Constraint;
 import javax.validation.Payload;
 
 /**
- * Annotation for the validation of the id. It has to be by the pattern: 
- * DataAcquisitionProjectId-VariableName.
- * @author Daniel Katzberg
+ * Annotation for the validation, which Validates the name of a atomicquestion. The name have to be
+ * unique within a questionnaire.
+ * 
+ * @author dkatzberg
  *
  */
 @Documented
-@Constraint(validatedBy = {ValidAtomicQuestionIdNameValidator.class})
+@Constraint(validatedBy = {UniqueAtomicQuestionNameValidator.class})
 @Target({ElementType.TYPE})
 @Retention(RetentionPolicy.RUNTIME)
-public @interface ValidAtomicQuestionIdName {
+public @interface UniqueAtomicQuestionName {
 
   /**
    * Defines the default error message.
    */
   public abstract String message() default "{eu.dzhw.fdz.metadatamanagement.domain.validation."
-      + "validatomicquestionidname.message}";
-  
+      + "uniqueAtomicQuestionName.message}";
+
   /**
    * This contains groups.
    */
-  public Class<?>[]groups() default {};
-  
+  public Class<?>[] groups() default {};
+
   /**
    * This method contains the payload.
    */
-  public Class<? extends Payload>[]payload() default {};
+  public Class<? extends Payload>[] payload() default {};
 }

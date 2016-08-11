@@ -1,4 +1,4 @@
-package eu.dzhw.fdz.metadatamanagement.questionmanagement.rest;
+package eu.dzhw.fdz.metadatamanagement.questionmanagementold.rest;
 
 import javax.inject.Inject;
 
@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.codahale.metrics.annotation.Timed;
 
-import eu.dzhw.fdz.metadatamanagement.questionmanagement.service.AtomicQuestionService;
+import eu.dzhw.fdz.metadatamanagement.questionmanagementold.service.AtomicQuestionService;
 
 /**
  * REST controller for deleting a list of AtomicQuestions within a data acquisition project.
