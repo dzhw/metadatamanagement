@@ -8,7 +8,7 @@ angular.module('metadatamanagementApp').config(
         url: '/error',
         data: {
           authorities: [],
-          pageTitle: 'error.title'
+          pageTitle: 'global.error.title'
         },
         views: {
           'content@': {
@@ -19,7 +19,7 @@ angular.module('metadatamanagementApp').config(
         resolve: {
           mainTranslatePartialLoader: ['$translatePartialLoader',
             function($translatePartialLoader) {
-              $translatePartialLoader.addPart('error');
+              $translatePartialLoader.addPart('global');
             }
           ]
         }
@@ -39,7 +39,7 @@ angular.module('metadatamanagementApp').config(
         resolve: {
           mainTranslatePartialLoader: ['$translatePartialLoader',
             function($translatePartialLoader) {
-              $translatePartialLoader.addPart('error');
+              $translatePartialLoader.addPart('global');
             }
           ]
         }
