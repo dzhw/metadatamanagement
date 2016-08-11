@@ -7,6 +7,7 @@ angular.module('metadatamanagementApp').config(
       url: '/basket',
       data: {
         authorities: [],
+        //TODO SHould be an i18n String
         pageTitle: 'Shopping cart'
       },
       views: {
@@ -19,7 +20,8 @@ angular.module('metadatamanagementApp').config(
       resolve: {
         mainTranslatePartialLoader: ['$translatePartialLoader',
           function($translatePartialLoader) {
-            $translatePartialLoader.addPart('disclosure');//should be changed..
+            //TODO should be changed...
+            $translatePartialLoader.addPart('disclosure');
           }
         ]
       }
