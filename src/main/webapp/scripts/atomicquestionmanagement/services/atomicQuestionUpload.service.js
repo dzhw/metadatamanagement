@@ -11,8 +11,7 @@ angular.module('metadatamanagementApp').service('AtomicQuestionUploadService',
       if (uploadCount === objects.length) {
         ElasticSearchAdminService.processUpdateQueue().then(function() {
           JobLoggingService.finish(
-            'dataAcquisitionProject-management.detail.' +
-            'logMessages.atomicQuestion.uploadTerminated', {
+            'question-management.logMessages.question.uploadTerminated', {
               total: JobLoggingService.getCurrentJob().total,
               errors: JobLoggingService.getCurrentJob().errors
             });
@@ -21,9 +20,7 @@ angular.module('metadatamanagementApp').service('AtomicQuestionUploadService',
         if (!objects[uploadCount].id || objects[uploadCount].id === '') {
           var index = uploadCount;
           JobLoggingService.error(
-            'dataAcquisitionProject-management.' +
-            'detail.logMessages.atomicQuestion.' +
-            'missingId', {
+            'question-management.logMessages.question.missingId', {
               index: index + 1
             });
           uploadCount++;
@@ -37,7 +34,8 @@ angular.module('metadatamanagementApp').service('AtomicQuestionUploadService',
             var errorMessages = ErrorMessageResolverService
               .getErrorMessages(error, 'atomicQuestion');
             JobLoggingService.error(errorMessages.message,
-                errorMessages.translationParams, errorMessages.subMessages);
+              errorMessages.translationParams, errorMessages.subMessages
+            );
             uploadCount++;
             return upload();
           });
@@ -64,8 +62,7 @@ angular.module('metadatamanagementApp').service('AtomicQuestionUploadService',
           });
       }, function() {
         JobLoggingService.cancel(
-          'dataAcquisitionProject-management.detail.' +
-          'logMessages.unsupportedExcelFile', {});
+          'global.logMessages.unsupportedExcelFile', {});
       });
     };
     return {

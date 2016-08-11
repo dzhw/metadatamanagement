@@ -1,5 +1,19 @@
 {
   "dataSet-management": {
+    "logMessages": {
+      "dataSet": {
+        "saved": "Dataset with RDC-ID {{ id }} was saved successfully!",
+        "notSaved": "Dataset with RDC-ID {{ id }} has not been saved!",
+        "missingId": "Dataset {{ index }} does not contain a RDC-ID and has not been saved!",
+        "uploadTerminated": "Finished upload of {{ total }} Data Sets with {{ errors }} errors.",
+        "cancelled": "Datasets upload cancelled!"
+      },
+      "tex": {
+        "uploadTerminated": "Tex file upload terminated!",
+        "generated": "Tex file was created successfully!",
+        "cancelled": "Tex file creation cancelled!"
+      }
+    },
     "error": {
       "dataSet": {
         "id": {

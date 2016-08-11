@@ -11,8 +11,7 @@ angular.module('metadatamanagementApp').service('SurveyUploadService',
       if (uploadCount === objects.length) {
         ElasticSearchAdminService.processUpdateQueue().then(function() {
           JobLoggingService.finish(
-            'dataAcquisitionProject-management.detail.' +
-            'logMessages.survey.uploadTerminated', {
+            'survey-management.logMessages.survey.uploadTerminated', {
               total: JobLoggingService.getCurrentJob().total,
               errors: JobLoggingService.getCurrentJob().errors
             });
@@ -21,9 +20,7 @@ angular.module('metadatamanagementApp').service('SurveyUploadService',
         if (!objects[uploadCount].id || objects[uploadCount].id === '') {
           var index = uploadCount;
           JobLoggingService.error(
-            'dataAcquisitionProject-management.' +
-            'detail.logMessages.survey.' +
-            'missingId', {
+            'survey-management.logMessages.survey.missingId', {
               index: index + 1
             });
           uploadCount++;
@@ -37,7 +34,8 @@ angular.module('metadatamanagementApp').service('SurveyUploadService',
             var errorMessages = ErrorMessageResolverService
               .getErrorMessages(error, 'survey');
             JobLoggingService.error(errorMessages.message,
-                errorMessages.translationParams, errorMessages.subMessages);
+              errorMessages.translationParams, errorMessages.subMessages
+            );
             uploadCount++;
             return upload();
           });
@@ -64,8 +62,7 @@ angular.module('metadatamanagementApp').service('SurveyUploadService',
           });
       }, function() {
         JobLoggingService.cancel(
-          'dataAcquisitionProject-management.detail.' +
-          'logMessages.unsupportedExcelFile', {});
+          'global.logMessages.unsupportedExcelFile', {});
       });
     };
     return {

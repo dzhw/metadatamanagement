@@ -1,5 +1,14 @@
 {
   "question-management": {
+    "logMessages": {
+      "question": {
+        "saved": "Atomare Frage mit FDZ-ID {{ id }} erfolgreich gespeichert!",
+        "notSaved": "Atomare Frage mit FDZ-ID {{ id }} wurde nicht gespeichert!",
+        "missingId": "Die {{ index }}. atomare Frage enthält keine FDZ-ID und wurde nicht gespeichert!",
+        "uploadTerminated": "Upload von {{ total }} atomaren Fragen mit {{ errors }} Fehlern beendet!",
+        "cancelled": "Upload von atomaren Fragen Abgebrochen!"
+      }
+    },
     "error": {
       "question": {
         "validAtomicQuestionIdName": "Die FDZ - ID muss mit der Projekt ID beginnen(Beispiel: ProjektID - Variablenname) und muss der ID der zugehörigen Variable entsprechen!",

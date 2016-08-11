@@ -13,9 +13,8 @@ angular.module('metadatamanagementApp').service('VariableUploadService',
       if (uploadCount === objects.length) {
         ElasticSearchAdminService.processUpdateQueue().then(function() {
           JobLoggingService.finish(
-            'dataAcquisitionProject-management.detail.' +
-            'logMessages.variable.uploadTerminated', {
-              total: JobLoggingService.getCurrentJob().total ,
+            'variable-management.logMessages.variable.uploadTerminated', {
+              total: JobLoggingService.getCurrentJob().total,
               errors: JobLoggingService.getCurrentJob().errors
             });
         });
@@ -23,9 +22,7 @@ angular.module('metadatamanagementApp').service('VariableUploadService',
         if (!objects[uploadCount].id || objects[uploadCount].id === '') {
           var index = uploadCount;
           JobLoggingService.error(
-            'dataAcquisitionProject-management.' +
-            'detail.logMessages.variable.' +
-            'missingId', {
+            'variable-management.logMessages.variable.missingId', {
               index: index + 1
             });
           uploadCount++;
@@ -39,7 +36,8 @@ angular.module('metadatamanagementApp').service('VariableUploadService',
             var errorMessages = ErrorMessageResolverService
               .getErrorMessages(error, 'variable');
             JobLoggingService.error(errorMessages.message,
-              errorMessages.translationParams, errorMessages.subMessages);
+              errorMessages.translationParams, errorMessages.subMessages
+            );
             uploadCount++;
             return upload();
           });
@@ -66,16 +64,15 @@ angular.module('metadatamanagementApp').service('VariableUploadService',
           }
         }, function() {
           JobLoggingService.cancel(
-            'dataAcquisitionProject-management.detail.' +
-            'logMessages.unsupportedZipFile', {});
+            'global.logMessages.unsupportedZipFile', {});
         }).then(function(variables) {
           objects = VariableBuilderService.getVariables(variables, zip,
             dataAcquisitionProjectId);
           VariableBuilderService.getParseErrors
-          .forEach(function(errorMessage) {
-            JobLoggingService.error(errorMessage.errorMessage,
-              errorMessage.translationParams);
-          });
+            .forEach(function(errorMessage) {
+              JobLoggingService.error(errorMessage.errorMessage,
+                errorMessage.translationParams);
+            });
           VariableDeleteResource.deleteByDataAcquisitionProjectId({
               dataAcquisitionProjectId: dataAcquisitionProjectId
             },
@@ -91,12 +88,10 @@ angular.module('metadatamanagementApp').service('VariableUploadService',
         }, function(error) {
           if (error === 'unsupportedDirectoryStructure') {
             JobLoggingService.cancel(
-              'dataAcquisitionProject-management.detail.' +
-              'logMessages.unsupportedDirectoryStructure', {});
+              'global.logMessages.unsupportedDirectoryStructure', {});
           } else {
             JobLoggingService.cancel(
-              'dataAcquisitionProject-management.detail.' +
-              'logMessages.unsupportedExcelFile', {});
+              'global.logMessages.unsupportedExcelFile', {});
           }
         });
     };

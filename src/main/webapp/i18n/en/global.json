@@ -91,6 +91,17 @@
         }
       }
     },
+    "logMessages": {
+      "intro": "Following errors occurred during the last upload:",
+      "internalServerError": "An internal server error occurred.",
+      "unsupportedZipFile": "Zip File could not be read",
+      "unsupportedExcelFile": "Excel File could not be read",
+      "unsupportedTexFile": "Tex File could not be read",
+      "unsupportedDirectoryStructure": "The zip file must contain a folder 'variables' and a file 'variables.xlsx'!",
+      "malformedJsonFile": "JSON File for Variable with RDC-ID {{ id }} could not be parsed.",
+      "notFoundJsonFile": "JSON File for Variable with RDC-ID {{ id }} could not be found.",
+      "postValidationTerminated": "The Post-Validation terminated with {{successes}} Successes und {{errors}} Errors."
+    },
     "field": {
       "rdcId": "RDC-ID",
       "id": "ID"

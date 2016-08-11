@@ -91,6 +91,17 @@
         }
       }
     },
+    "logMessages": {
+      "intro": "Die folgenden Fehler traten beim letzten Upload auf:",
+      "internalServerError": "Es ist ein interner Server Fehler aufgetreten.",
+      "unsupportedZipFile": "Zip Datei konnte nicht gelesen werden",
+      "unsupportedExcelFile": "Excel Datei konnte nicht gelesen werden",
+      "unsupportedTexFile": "Tex Datei konnte nicht gelesen werden",
+      "unsupportedDirectoryStructure": "Die ZIP Datei muss ein Verzeichnis 'variables' und eine Datei 'variables.xlsx' enthalten.",
+      "malformedJsonFile": "JSON Datei für die Variable mit FDZ-ID {{ id }} konnte nicht geparst werden.",
+      "notFoundJsonFile": "JSON Datei für die Variable mit FDZ-ID {{ id }} konnte nicht gefunden werden.",
+      "postValidationTerminated": "Die Post-Validierung wurde mit {{successes}} Erfolgen und {{errors}} Fehlern beendet."
+    },
     "field": {
       "rdcId": "FDZ-ID",
       "id": "ID"

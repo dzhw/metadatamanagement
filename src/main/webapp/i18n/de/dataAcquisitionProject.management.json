@@ -25,22 +25,6 @@
       "success": "Erfolg",
       "error": "Fehler",
       "logMessages": {
-        "intro": "Die folgenden Fehler traten beim letzten Upload auf:",
-        "internalServerError": "Es ist ein interner Server Fehler aufgetreten.",
-        "unsupportedZipFile": "Zip Datei konnte nicht gelesen werden",
-        "unsupportedExcelFile": "Excel Datei konnte nicht gelesen werden",
-        "unsupportedTexFile": "Tex Datei konnte nicht gelesen werden",
-        "unsupportedDirectoryStructure": "Die ZIP Datei muss ein Verzeichnis 'variables' und eine Datei 'variables.xlsx' enthalten.",
-        "malformedJsonFile": "JSON Datei für die Variable mit FDZ-ID {{ id }} konnte nicht geparst werden.",
-        "notFoundJsonFile": "JSON Datei für die Variable mit FDZ-ID {{ id }} konnte nicht gefunden werden.",
-        "postValidationTerminated": "Die Post-Validierung wurde mit {{successes}} Erfolgen und {{errors}} Fehlern beendet.",
-        "dataSet": {
-          "saved": "Datensatz mit FDZ-ID {{ id }} erfolgreich gespeichert!",
-          "notSaved": "Datensatz mit FDZ-ID {{ id }} wurde nicht gespeichert!",
-          "missingId": "Der {{ index }}. Datensatz enthält keine FDZ-ID und wurde nicht gespeichert!",
-          "uploadTerminated": "Upload von {{ total }} Datensätzen mit {{ errors }} Fehlern beendet!",
-          "cancelled": "Upload von Datensätzen Abgebrochen"
-        },
         "dataAcquisitionProject": {
           "saved": "Datenaufbereitungsprojekt '{{ id }}' wurde erfolgreich gespeichert!",
           "serverError": "Ein Fehler ist auf dem Server aufgetreten: ",
@@ -48,33 +32,7 @@
           "delete": "Möchten Sie wirklich das Projekt '{{ id }}' löschen? Das Projekt kann hiernach nicht wieder hergestellt werden.",
           "deletedSuccessfullyProject": "Das Datenaufbereitungsprojekt '{{ id }}' wurde erfolgreich gelöscht.",
           "deletedNotSuccessfullyProject": "Das Datenaufbereitungsprojekt'{{ id }}' konnte nicht gelöscht werden!"
-        },
-        "survey": {
-          "saved": "Erhebung mit FDZ-ID {{ id }} erfolgreich gespeichert!",
-          "notSaved": "Erhebung mit FDZ-ID {{ id }} wurde nicht gespeichert!",
-          "missingId": "Die {{ index }}. Erhebung enthält keine FDZ-ID und wurde nicht gespeichert!",
-          "uploadTerminated": "Upload von {{ total }} Erhebungen mit {{ errors }} Fehlern beendet!",
-          "cancelled": "Upload von Erhebungen Abgebrochen!"
-        },
-        "variable": {
-          "saved": "Variable mit FDZ-ID {{ id }} erfolgreich gespeichert!",
-          "notSaved": "Variable mit FDZ-ID {{ id }} wurde nicht gespeichert:",
-          "missingId": "Die {{ index }}. Variable enthält keine FDZ-ID und wurde nicht gespeichert!",
-          "uploadTerminated": "Upload von {{ total }} Variablen mit {{ errors }} Fehlern beendet!",
-          "cancelled": "Upload von Variablen Abgebrochen!"
-        },
-        "atomicQuestion": {
-          "saved": "Atomare Frage mit FDZ-ID {{ id }} erfolgreich gespeichert!",
-          "notSaved": "Atomare Frage mit FDZ-ID {{ id }} wurde nicht gespeichert!",
-          "missingId": "Die {{ index }}. atomare Frage enthält keine FDZ-ID und wurde nicht gespeichert!",
-          "uploadTerminated": "Upload von {{ total }} atomaren Fragen mit {{ errors }} Fehlern beendet!",
-          "cancelled": "Upload von atomaren Fragen Abgebrochen!"
-        },
-        "tex": {
-          "uploadTerminated": "Upload von Tex Template beendet!",
-          "saved": "Tex Dokument erfolgreich erzeugt!",
-          "cancelled": "Erzeugen von Tex Dokument Abgebrochen!"
-        }
+        }      
       },
       "deleteMessages": {
         "deleteSurveys": "Sind Sie sicher dass, Sie alle Erhebungen innerhalb des Datenaufbereitungsprojekts mit FDZ-ID \"{{ id }}\" löschen möchten?",

@@ -1,5 +1,14 @@
 {
   "variable-management": {
+    "logMessages": {
+      "variable": {
+        "saved": "Variable mit FDZ-ID {{ id }} erfolgreich gespeichert!",
+        "notSaved": "Variable mit FDZ-ID {{ id }} wurde nicht gespeichert:",
+        "missingId": "Die {{ index }}. Variable enthält keine FDZ-ID und wurde nicht gespeichert!",
+        "uploadTerminated": "Upload von {{ total }} Variablen mit {{ errors }} Fehlern beendet!",
+        "cancelled": "Upload von Variablen Abgebrochen!"
+      }
+    },
     "home": {
       "title": "Variablen",
       "refresh": "Aktualisieren"

@@ -1,5 +1,14 @@
 {
   "survey-management": {
+    "logMessages": {
+      "survey": {
+        "saved": "Erhebung mit FDZ-ID {{ id }} erfolgreich gespeichert!",
+        "notSaved": "Erhebung mit FDZ-ID {{ id }} wurde nicht gespeichert!",
+        "missingId": "Die {{ index }}. Erhebung enthält keine FDZ-ID und wurde nicht gespeichert!",
+        "uploadTerminated": "Upload von {{ total }} Erhebungen mit {{ errors }} Fehlern beendet!",
+        "cancelled": "Upload von Erhebungen Abgebrochen!"
+      }
+    },
     "error": {
       "survey": {
         "id": {
