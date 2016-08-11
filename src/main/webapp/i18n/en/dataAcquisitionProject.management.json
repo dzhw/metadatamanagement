@@ -4,41 +4,17 @@
       "title": "Data Acquisition Projects",
       "createLabel": "Create a new Data Acquisition Project"
     },
-    "created": "A new Data Acquisition Project is created with name {{ param }}",
-    "updated": "A Data Acquisition Project is updated with name {{ param }}",
-    "deleted": "A Data Acquisition Project is deleted with name {{ param }}",
     "delete": {
       "question": "Are you sure you want to delete Data Acquisition Project \"{{ name }}\"?"
     },
-    "detail": {
-      "title": "Data Acquisition Project",
-      "progress": "Progress:",
-      "generate": "Generate Variable Report",
-      "upload": {
-        "surveys": "Upload Surveys",
-        "datasets": "Upload Datasets",
-        "variables": "Upload Variables",
-        "atomicQuestion": "Upload Atomic Questions"
-      },
-      "postValidate": "Post-Validation",
-      "uploadprotocol": "Upload Protocol",
-      "success": "Success",
-      "error": "Error",
-      "logMessages": {
-        "dataAcquisitionProject": {
-          "saved": "Successfully saved the Data Acquisition Project '{{ id }}'!",
-          "serverError": "An error on the server has occurred: ",
-          "deleteTitle": "Delete Project '{{ id }}'?",
-          "delete": "Do you really want to delete the Project '{{ id }}'? This can't be undone.",
-          "deletedSuccessfullyProject": "Successfully deleted Data Acquisition Project '{{ id }}'!",
-          "deletedNotSuccessfullyProject": "Couldn't delete Data Acquisition Project '{{ id }}'!"
-        }
-      },
-      "deleteMessages": {
-        "deleteSurveys": "Are you sure you want to delete all Surveys within DataAcquisitionProject with RDC-ID \"{{ id }}\"?",
-        "deleteDataSets": "Are you sure you want to delete all Datasets within DataAcquisitionProject with RDC-ID \"{{ id }}\"?",
-        "deleteVariables": "Are you sure you want to delete all Variables within DataAcquisitionProject with RDC-ID \"{{ id }}\"?",
-        "deleteAtomicQuestions": "Are you sure you want to delete all Atomic Questions within DataAcquisitionProject with RDC-ID \"{{ id }}\"?"
+    "logMessages": {
+      "dataAcquisitionProject": {
+        "saved": "Successfully saved the Data Acquisition Project '{{ id }}'!",
+        "serverError": "An error on the server has occurred: ",
+        "deleteTitle": "Delete Project '{{ id }}'?",
+        "delete": "Do you really want to delete the Project '{{ id }}'? This can't be undone.",
+        "deletedSuccessfullyProject": "Successfully deleted Data Acquisition Project '{{ id }}'!",
+        "deletedNotSuccessfullyProject": "Couldn't delete Data Acquisition Project '{{ id }}'!"
       }
     },
     "error": {
@@ -71,7 +47,6 @@
           "size": "The max length of the version is 2048 signs."
         }
       }
-    },
-    "name": "Name"
+    }
   }
 }

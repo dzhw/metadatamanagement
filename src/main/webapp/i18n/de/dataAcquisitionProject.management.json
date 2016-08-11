@@ -4,41 +4,17 @@
       "title": "Datenaufbereitungsprojekte",
       "createLabel": "Neues Datenaufbereitungsprojekt anlegen"
     },
-    "created": "Datenaufbereitungsprojekt \"{{ param }}\" wurde angelegt.",
-    "updated": "Datenaufbereitungsprojekt \"{{ param }}\" wurde aktualisiert.",
-    "deleted": "Datenaufbereitungsprojekt \"{{ param }}\" wurde gelöscht.",
     "delete": {
       "question": "Sind Sie sicher, dass Sie das Datenaufbereitungsprojekt \"{{ name }}\" löschen möchten?"
     },
-    "detail": {
-      "title": "Datenaufbereitungsprojekt",
-      "progress": "Fortschritt:",
-      "generate": "Variablenreport generieren",
-      "upload": {
-        "surveys": "Erhebungen hochladen",
-        "datasets": "Datensätze hochladen",
-        "variables": "Variablen hochladen",
-        "atomicQuestion": "Atomare Fragen hochladen"
-      },
-      "postValidate": "Post-Validierung",
-      "uploadprotocol": "Upload Protokoll",
-      "success": "Erfolg",
-      "error": "Fehler",
-      "logMessages": {
-        "dataAcquisitionProject": {
-          "saved": "Datenaufbereitungsprojekt '{{ id }}' wurde erfolgreich gespeichert!",
-          "serverError": "Ein Fehler ist auf dem Server aufgetreten: ",
-          "deleteTitle": "Projekt '{{ id }}' löschen?",
-          "delete": "Möchten Sie wirklich das Projekt '{{ id }}' löschen? Das Projekt kann hiernach nicht wieder hergestellt werden.",
-          "deletedSuccessfullyProject": "Das Datenaufbereitungsprojekt '{{ id }}' wurde erfolgreich gelöscht.",
-          "deletedNotSuccessfullyProject": "Das Datenaufbereitungsprojekt'{{ id }}' konnte nicht gelöscht werden!"
-        }      
-      },
-      "deleteMessages": {
-        "deleteSurveys": "Sind Sie sicher dass, Sie alle Erhebungen innerhalb des Datenaufbereitungsprojekts mit FDZ-ID \"{{ id }}\" löschen möchten?",
-        "deleteDataSets": "Sind Sie sicher dass, Sie alle Datensätze innerhalb des Datenaufbereitungsprojekts mit FDZ-ID \"{{ id }}\" löschen möchten?",
-        "deleteVariables": "Sind Sie sicher dass, Sie alle Variablen innerhalb des Datenaufbereitungsprojekts mit FDZ-ID \"{{ id }}\" löschen möchten?",
-        "deleteAtomicQuestions": "Sind Sie sicher dass, Sie alle atomaren Fragen innerhalb des Datenaufbereitungsprojekts mit FDZ-ID \"{{ id }}\" löschen möchten?"
+    "logMessages": {
+      "dataAcquisitionProject": {
+        "saved": "Datenaufbereitungsprojekt '{{ id }}' wurde erfolgreich gespeichert!",
+        "serverError": "Ein Fehler ist auf dem Server aufgetreten: ",
+        "deleteTitle": "Projekt '{{ id }}' löschen?",
+        "delete": "Möchten Sie wirklich das Projekt '{{ id }}' löschen? Das Projekt kann hiernach nicht wieder hergestellt werden.",
+        "deletedSuccessfullyProject": "Das Datenaufbereitungsprojekt '{{ id }}' wurde erfolgreich gelöscht.",
+        "deletedNotSuccessfullyProject": "Das Datenaufbereitungsprojekt'{{ id }}' konnte nicht gelöscht werden!"
       }
     },
     "error": {
@@ -71,7 +47,6 @@
           "size": "Die Maximallänge einer Notiz ist 2048 Zeichen."
         }
       }
-    },
-    "name": "Name"
+    }
   }
 }

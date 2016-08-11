@@ -12,17 +12,17 @@ angular.module('metadatamanagementApp').service(
 
     // Convert array to object
     var convertArrayToObject = function(array) {
-        var objectElement = {};
-        if (typeof array === 'object') {
-          for (var i in array) {
-            var elementValue = convertArrayToObject(array[i]);
-            objectElement[i] = elementValue;
-          }
-        } else {
-          objectElement = array;
+      var objectElement = {};
+      if (typeof array === 'object') {
+        for (var i in array) {
+          var elementValue = convertArrayToObject(array[i]);
+          objectElement[i] = elementValue;
         }
-        return objectElement;
-      };
+      } else {
+        objectElement = array;
+      }
+      return objectElement;
+    };
 
     var postValidate = function(id) {
       JobLoggingService.start('postValidation');
@@ -37,7 +37,7 @@ angular.module('metadatamanagementApp').service(
               toBereferenzedId: result.errors[i].messageParameter[1]
             };
             JobLoggingService.error(result.errors[i].messageId,
-            messageParameter);
+              messageParameter);
           }
           //no errors by post validation
         } else {
@@ -47,8 +47,7 @@ angular.module('metadatamanagementApp').service(
 
         // After sending errors or success, the process is finished.
         JobLoggingService.finish(
-          'dataAcquisitionProject-management.detail.' +
-          'logMessages.postValidationTerminated', {
+          'global.logMessages.postValidationTerminated', {
             successes: JobLoggingService.getCurrentJob().successes,
             errors: JobLoggingService.getCurrentJob().errors
           });

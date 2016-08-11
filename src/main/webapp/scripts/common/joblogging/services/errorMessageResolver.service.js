@@ -8,10 +8,10 @@ angular.module('metadatamanagementApp').service('ErrorMessageResolverService',
       if (messageObj.config &&
         messageObj.config.data && messageObj.config.data.id) {
         errorMessages.message =
-          'dataAcquisitionProject-management.' +
-            'detail.logMessages.' + jobId + '.notSaved';
-        errorMessages.translationParams =
-        {id: messageObj.config.data.id};
+          jobId + '-management.logMessages.' + jobId + '.notSaved';
+        errorMessages.translationParams = {
+          id: messageObj.config.data.id
+        };
       }
       if (messageObj.data && messageObj.data.errors) {
         messageObj.data.errors.forEach(function(messageObj) {
@@ -21,8 +21,7 @@ angular.module('metadatamanagementApp').service('ErrorMessageResolverService',
         });
       } else if (messageObj.data && messageObj.data.status === 500) {
         subMessages.push({
-          message: 'dataAcquisitionProject.detail' +
-            '.logMessages.internalServerError'
+          message: 'global.logMessages.internalServerError'
         });
       } else if (messageObj.data && messageObj.data.message) {
         subMessages.push({
