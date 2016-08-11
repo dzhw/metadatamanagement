@@ -18,29 +18,29 @@ exports.config = {
     'disclosure/disclosure.spec.js',
     'common/navbar.spec.js',
     'common/toolbar.spec.js',
-    ],
+  ],
   multiCapabilities: [{
-     'name': 'Win8.1/Chrome',
-     'platform': 'Windows 8.1',
-     'browserName': 'chrome',
-     'screenResolution': '1280x1024'
-   }, {
-      'name': 'Win8.1/Firefox',
-      'platform': 'Windows 8.1',
-      'browserName': 'firefox',
-      'screenResolution': '1280x1024',
-      'version': '46.0'
-    }, {
-      'name': 'Win8.1/IE11',
-      'platform': 'Windows 8.1',
-      'browserName': 'internet explorer',
-      'version': '11.0',
-      'screenResolution': '1280x1024'
-    }],
+    'name': 'Win8.1/Chrome',
+    'platform': 'Windows 8.1',
+    'browserName': 'chrome',
+    'screenResolution': '1280x1024'
+  }, {
+    'name': 'Win8.1/Firefox',
+    'platform': 'Windows 8.1',
+    'browserName': 'firefox',
+    'screenResolution': '1280x1024',
+    'version': '46.0'
+  }, {
+    'name': 'Win8.1/IE11',
+    'platform': 'Windows 8.1',
+    'browserName': 'internet explorer',
+    'version': '11.0',
+    'screenResolution': '1280x1024'
+  }],
   //enable this for local tests without selenium
   //directConnect: true,
   jasmineNodeOpts: {
-      defaultTimeoutInterval: 120000
-    },
+    defaultTimeoutInterval: 120000
+  },
   allScriptsTimeout: 120000
 };

@@ -14,25 +14,26 @@ function checkHREFs(toBeCheckedURL, pageUrl) {
   }).on('error', function() {
     result.isValidUrl = false;
     result.message = 'On page [' + pageUrl +
-    '], the following URL is incorrect: [' + toBeCheckedURL + ']';
+      '], the following URL is incorrect: [' + toBeCheckedURL + ']';
     deferred.fulfill(result);
   });
   return deferred.promise;
 }
+
 function checkStates(toBeCheckedURL, pageUrl, stateName) {
   var deferred = protractor.promise.defer();
   var result = {
     isValidUrl: true
   };
   browser.getCurrentUrl().then(function(currentUrlurl) {
-   if (currentUrlurl !== toBeCheckedURL) {
-     result.isValidUrl = false;
-     result.message = 'On page [' + pageUrl +
-     '], the following State is incorrect: [' + stateName + ' : ' +
-     toBeCheckedURL + ']';
-   }
-   deferred.fulfill(result);
- });
+    if (currentUrlurl !== toBeCheckedURL) {
+      result.isValidUrl = false;
+      result.message = 'On page [' + pageUrl +
+        '], the following State is incorrect: [' + stateName + ' : ' +
+        toBeCheckedURL + ']';
+    }
+    deferred.fulfill(result);
+  });
   return deferred.promise;
 }
 
