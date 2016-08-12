@@ -279,6 +279,8 @@ public class UnitTestCreateDomainObjectUtils {
       .withTitle("Der Titel vom Testbuch")
       .withType("Testtype")
       .withVolume("Volume 1")
+      .withCitationString("Citation String")
+      .withSourceReference("Source Reference")
       .build();
   }
 

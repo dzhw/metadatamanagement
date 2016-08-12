@@ -61,6 +61,10 @@ public class Citation extends AbstractRdcDomainObject {
   private String note;
 
   private String howPublished;
+  
+  private String citationString;
+  
+  private String sourceReference;
 
   /*
    * (non-Javadoc)
@@ -101,6 +105,8 @@ public class Citation extends AbstractRdcDomainObject {
       .add("school", school)
       .add("note", note)
       .add("howPublished", howPublished)
+      .add("citationString", citationString)
+      .add("sourceReference", sourceReference)
       .toString();
   }
 
@@ -259,5 +265,21 @@ public class Citation extends AbstractRdcDomainObject {
 
   public void setId(String id) {
     this.id = id;
+  }
+
+  public String getCitationString() {
+    return citationString;
+  }
+
+  public void setCitationString(String citationString) {
+    this.citationString = citationString;
+  }
+
+  public String getSourceReference() {
+    return sourceReference;
+  }
+
+  public void setSourceReference(String sourceReference) {
+    this.sourceReference = sourceReference;
   }
 }
