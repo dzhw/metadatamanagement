@@ -1,0 +1,75 @@
+{
+  "citation-management": {
+    "error": {
+      "citation": {
+        "id": {
+          "notEmpty": "The RDC-ID of a citation must not be empty!",
+          "pattern": "The RDC-ID must contain only alphanumeric signs, german umlauts and ß.",
+          "size": "The max length of the RDC-ID is 128 signs."
+        },
+        "author": {
+          "size": "The max length of the author is 128 signs."
+        },
+        "booktitle": {
+          "size": "The max length of the booktitle is 2048 signs."
+        },
+        "chapter": {
+          "size": "The max length of the chapter is 128 signs."
+        },
+        "edition": {
+          "size": "The max length of the edition is 128 signs."
+        },
+        "editor": {
+          "size": "The max length of the editor is 128 signs."
+        },
+        "institution": {
+          "size": "The max length of the institution is 128 signs."
+        },
+        "journal": {
+          "size": "The max length of the journal is 128 signs."
+        },
+        "title": {
+          "size": "The max length of the title is 2048 signs."
+        },
+        "series": {
+          "size": "The max length of the series is 128 signs."
+        },
+        "volume": {
+          "size": "The max length of the volumes is 32 signs."
+        },
+        "type": {
+          "size": "The max length of the type is 128 signs."
+        },
+        "pages": {
+          "size": "The max length of the pages is 32 signs."
+        },
+        "publisher": {
+          "size": "The max length of the publisher is 128 signs."
+        },
+        "organization": {
+          "size": "The max length of the organization is 128 signs."
+        },
+        "number": {
+          "size": "The max length of the number is 32 signs."
+        },
+        "school": {
+          "size": "The max length of the school is 128 signs."
+        },
+        "note": {
+          "size": "The max length of the note is 2048 signs."
+        },
+        "howPublished": {
+          "size": "The max length of the how published is 128 signs."
+        },
+        "citationString": {
+          "notEmpty": "The citation string of a citation must not be empty!",
+          "size": "The max length of the citation string is 128 signs."
+        },
+        "sourceReference": {
+          "notEmpty": "The source reference of a citation must not be empty!",
+          "size": "The max length of the source reference is 2048 signs."
+        }
+      }
+    }
+  }
+}
