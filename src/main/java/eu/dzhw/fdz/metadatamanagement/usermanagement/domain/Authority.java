@@ -17,7 +17,7 @@ public class Authority implements Serializable {
 
   private static final long serialVersionUID = 1L;
 
-  @NotNull(message = "user-management.error.authority.name.notNull")
+  @NotNull(message = "user-management.error.authority.name.not-null")
   @Size(min = 0, max = 50)
   @Id
   private String name;

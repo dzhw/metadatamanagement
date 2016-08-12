@@ -26,7 +26,7 @@ import net.karneim.pojobuilder.GeneratePojoBuilder;
 public class Citation extends AbstractRdcDomainObject {
 
   @Id
-  @NotEmpty(message = "{citation-management.error.citation.id.notEmpty}")
+  @NotEmpty(message = "{citation-management.error.citation.id.not-empty}")
   @Pattern(regexp = Patterns.GERMAN_ALPHANUMERIC_WITH_UNDERSCORE_AND_MINUS,
       message = "citation-management.error.citation.id.pattern")
   @Size(max = StringLengths.MEDIUM, message = "citation-management.error.citation.id.size")
@@ -91,12 +91,12 @@ public class Citation extends AbstractRdcDomainObject {
       message = "citation-management.error.citation.howPublished.size")
   private String howPublished;
   
-  @NotEmpty(message = "{citation-management.error.citation.citationString.notEmpty}")
+  @NotEmpty(message = "{citation-management.error.citation.citationString.not-empty}")
   @Size(max = StringLengths.MEDIUM, 
       message = "citation-management.error.citation.citationString.size")
   private String citationString;
   
-  @NotEmpty(message = "{citation-management.error.citation.sourceReference.notEmpty}")
+  @NotEmpty(message = "{citation-management.error.citation.sourceReference.not-empty}")
   @Size(max = StringLengths.LARGE, 
       message = "citation-management.error.citation.sourceReference.size")
   private String sourceReference;

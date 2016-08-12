@@ -11,7 +11,7 @@ angular.module('metadatamanagementApp').service('AtomicQuestionUploadService',
       if (uploadCount === objects.length) {
         ElasticSearchAdminService.processUpdateQueue().then(function() {
           JobLoggingService.finish(
-            'question-management.logMessages.question.uploadTerminated', {
+            'question-management.log-messages.question.uploadTerminated', {
               total: JobLoggingService.getCurrentJob().total,
               errors: JobLoggingService.getCurrentJob().errors
             });
@@ -20,7 +20,7 @@ angular.module('metadatamanagementApp').service('AtomicQuestionUploadService',
         if (!objects[uploadCount].id || objects[uploadCount].id === '') {
           var index = uploadCount;
           JobLoggingService.error(
-            'question-management.logMessages.question.missingId', {
+            'question-management.log-messages.question.missingId', {
               index: index + 1
             });
           uploadCount++;
@@ -62,7 +62,7 @@ angular.module('metadatamanagementApp').service('AtomicQuestionUploadService',
           });
       }, function() {
         JobLoggingService.cancel(
-          'global.logMessages.unsupportedExcelFile', {});
+          'global.log-messages.unsupportedExcelFile', {});
       });
     };
     return {

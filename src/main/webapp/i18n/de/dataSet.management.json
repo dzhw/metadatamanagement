@@ -1,6 +1,6 @@
 {
   "dataSet-management": {
-    "logMessages": {
+    "log-messages": {
       "dataSet": {
         "saved": "Datensatz mit FDZ-ID {{ id }} erfolgreich gespeichert!",
         "notSaved": "Datensatz mit FDZ-ID {{ id }} wurde nicht gespeichert!",
@@ -18,7 +18,7 @@
       "dataSet": {
         "id": {
           "validDataSetIdName": "Die FDZ-ID des Datensatzes entspricht nicht dem Muster: FDZID-ds{Number}.",
-          "notEmpty": "Die FDZ-ID des Datensatzes darf nicht leer sein!",
+          "not-empty": "Die FDZ-ID des Datensatzes darf nicht leer sein!",
           "size": "Die Maximallänge der FDZ-ID ist 128 Zeichen.",
           "pattern": "Die FDZ-ID darf nur alphanumerische Zeichen, deutsche Umlaute und ß beinhalten."
         },
@@ -27,17 +27,17 @@
         },
         "dataAcquisitionProject": {
           "id": {
-            "notEmpty": "Die FDZ - ID des Projektes darf bei dem Datensatz nicht leer sein!"
+            "not-empty": "Die FDZ - ID des Projektes darf bei dem Datensatz nicht leer sein!"
           }
         },
         "variable": {
           "ids": {
-            "notEmpty": "Der Datensatz muss mindestens eine Variable beinhalten!"
+            "not-empty": "Der Datensatz muss mindestens eine Variable beinhalten!"
           }
         },
         "survey": {
           "ids": {
-            "notEmpty": "Der Datensatz muss mindestens eine Erhebung beinhalten!"
+            "not-empty": "Der Datensatz muss mindestens eine Erhebung beinhalten!"
           }
         }
       },

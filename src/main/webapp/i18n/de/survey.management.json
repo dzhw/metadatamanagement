@@ -1,6 +1,6 @@
 {
   "survey-management": {
-    "logMessages": {
+    "log-messages": {
       "survey": {
         "saved": "Erhebung mit FDZ-ID {{ id }} erfolgreich gespeichert!",
         "notSaved": "Erhebung mit FDZ-ID {{ id }} wurde nicht gespeichert!",
@@ -13,7 +13,7 @@
       "survey": {
         "id": {
           "validSurveyIdName": "Die FDZ-ID der Erhebung entspricht nicht dem Muster: FDZID-sy{Number}.",
-          "notEmpty": "Die FDZ-ID der Erhebung darf nicht leer sein!",
+          "not-empty": "Die FDZ-ID der Erhebung darf nicht leer sein!",
           "size": "Die Maximallänge der FDZ-ID der Erhebung ist 128 Zeichen.",
           "pattern": "Es dürfen für die FDZ-ID nur alphanumerische Zeichen, deutsche Umlaute, ß, Minus und der Unterstrich verwendet werden."
         },
@@ -21,21 +21,21 @@
           "i18nStringSize": "Die Maximallänge des Titels der Erhebung ist 128 Zeichen."
         },
         "fieldPeriod": {
-          "notNull": "Der Zeitraum der Erhebung darf nicht leer sein!"
+          "not-null": "Der Zeitraum der Erhebung darf nicht leer sein!"
         },
         "dataAcquisitionProject": {
           "id": {
-            "notEmpty": "Die FDZ - ID des Projektes darf bei der Erhebung nicht leer sein!"
+            "not-empty": "Die FDZ - ID des Projektes darf bei der Erhebung nicht leer sein!"
           }
         },
         "questionnaire": {
           "id": {
-            "notEmpty": "Die FDZ - ID des Fragebogens darf bei der Erhebung nicht leer sein!"
+            "not-empty": "Die FDZ - ID des Fragebogens darf bei der Erhebung nicht leer sein!"
           }
         },
         "dataSet": {
           "ids": {
-            "notEmpty": "Die Erhebung muss mindestens einen Datensatz haben!"
+            "not-empty": "Die Erhebung muss mindestens einen Datensatz haben!"
           }
         }
       },

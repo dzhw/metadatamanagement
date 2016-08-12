@@ -10,7 +10,7 @@
     },
     "health": {
       "title": "Health checks",
-      "refresh.button": "Refresh",
+      "refresh-button": "Refresh",
       "stacktrace": "Stacktrace",
       "details": {
         "details": "Details",
@@ -36,7 +36,7 @@
       },
       "elasticsearch": {
         "reindex": "Reindex",
-        "reindex.success": "Successfully created elasticsearch indices."
+        "reindex-success": "Successfully created elasticsearch indices."
       }
     },
     "logs": {
@@ -50,7 +50,7 @@
     },
     "metrics": {
       "title": "Application Metrics",
-      "refresh.button": "Refresh",
+      "refresh-button": "Refresh",
       "updating": "Updating...",
       "jvm": {
         "title": "JVM Metrics",

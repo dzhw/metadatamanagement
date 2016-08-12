@@ -25,15 +25,15 @@
     "error": {
       "authority": {
         "name": {
-          "notNull": "Der Name der Authorisierung darf nicht leer sein!"
+          "not-null": "Der Name der Authorisierung darf nicht leer sein!"
         }
       },
       "user": {
         "login": {
-          "notNull": "Das Loginfeld darf nicht leer sein!"
+          "not-null": "Das Loginfeld darf nicht leer sein!"
         },
         "password": {
-          "notNull": "Der Passwort darf nicht leer sein!"
+          "not-null": "Der Passwort darf nicht leer sein!"
         }
       }
     },

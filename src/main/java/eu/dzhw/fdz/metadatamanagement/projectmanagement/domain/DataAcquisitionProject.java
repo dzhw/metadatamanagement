@@ -32,7 +32,7 @@ public class DataAcquisitionProject extends AbstractRdcDomainObject {
   /* Domain Object Attributes */
   @Id
   @NotEmpty(message = "dataAcquisitionProject." 
-      + "error.dataAcquisitionProject.id.notEmpty")
+      + "error.dataAcquisitionProject.id.not-empty")
   @Pattern(regexp = Patterns.GERMAN_ALPHANUMERIC,
       message = "dataAcquisitionProject." 
       + "error.dataAcquisitionProject.id.pattern")

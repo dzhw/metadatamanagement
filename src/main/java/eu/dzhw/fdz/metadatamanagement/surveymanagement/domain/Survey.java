@@ -36,7 +36,7 @@ public class Survey extends AbstractRdcDomainObject {
 
   /* Domain Object Attributes */
   @Id
-  @NotEmpty(message = "survey-management.error.survey.id.notEmpty")
+  @NotEmpty(message = "survey-management.error.survey.id.not-empty")
   @Size(max = StringLengths.MEDIUM, message = "survey-management.error.survey.id.size")
   @Pattern(regexp = Patterns.GERMAN_ALPHANUMERIC_WITH_UNDERSCORE_AND_MINUS,
       message = "survey-management.error.survey.id.pattern")
@@ -46,19 +46,19 @@ public class Survey extends AbstractRdcDomainObject {
       message = "survey-management.error.survey.title.i18nStringSize")
   private I18nString title;
 
-  @NotNull(message = "survey-management.error.survey.fieldPeriod.notNull")
+  @NotNull(message = "survey-management.error.survey.fieldPeriod.not-null")
   @Valid
   private Period fieldPeriod;
 
   /* Foreign Keys */
   @Indexed
-  @NotEmpty(message = "survey-management.error.survey.dataAcquisitionProject.id.notEmpty")
+  @NotEmpty(message = "survey-management.error.survey.dataAcquisitionProject.id.not-empty")
   private String dataAcquisitionProjectId;
 
-  @NotEmpty(message = "survey-management.error.survey.questionnaire.id.notEmpty")
+  @NotEmpty(message = "survey-management.error.survey.questionnaire.id.not-empty")
   private String questionnaireId;
   
-  @NotEmpty(message = "survey-management.error.survey.dataSet.ids.notEmpty")
+  @NotEmpty(message = "survey-management.error.survey.dataSet.ids.not-empty")
   private List<String> dataSetIds;
 
   /*

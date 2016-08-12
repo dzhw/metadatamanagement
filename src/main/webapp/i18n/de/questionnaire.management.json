@@ -3,16 +3,16 @@
     "error": {
       "questionnaire": {
         "id": {
-          "notEmpty": "Die FDZ-ID des Fragebogens darf nicht leer sein!"
+          "not-empty": "Die FDZ-ID des Fragebogens darf nicht leer sein!"
         },
         "survey": {
           "id": {
-            "notEmpty": "Die FDZ-ID der zugehörigen Erhebung darf nicht leer sein!"
+            "not-empty": "Die FDZ-ID der zugehörigen Erhebung darf nicht leer sein!"
           }
         },
         "dataAcquisitionProject": {
           "id": {
-            "notEmpty": "Die FDZ-ID des Datenaufbereitungsprojektes darf nicht leer sein!"
+            "not-empty": "Die FDZ-ID des Datenaufbereitungsprojektes darf nicht leer sein!"
           }
         }
       }

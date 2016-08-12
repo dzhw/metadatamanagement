@@ -26,20 +26,20 @@ public class ValidResponse {
   private I18nString label;
 
   @NotNull(
-      message = "variable-management.error.validResponse.absoluteFrequency.notNull")
+      message = "variable-management.error.validResponse.absoluteFrequency.not-null")
   private Integer absoluteFrequency;
 
   @NotNull(
-      message = "variable-management.error.validResponse.relativeFrequency.notNull")
+      message = "variable-management.error.validResponse.relativeFrequency.not-null")
   private Double relativeFrequency;
 
-  @NotNull(message = "variable-management.error.validResponse.value.notNull")
+  @NotNull(message = "variable-management.error.validResponse.value.not-null")
   @Size(max = StringLengths.SMALL, 
       message = "variable-management.error.validResponse.value.size")
   private String value;
 
   @NotNull(
-      message = "variable-management.error.validResponse.validRelativeFrequency.notNull")
+      message = "variable-management.error.validResponse.validRelativeFrequency.not-null")
   private Double validRelativeFrequency;
 
   /*

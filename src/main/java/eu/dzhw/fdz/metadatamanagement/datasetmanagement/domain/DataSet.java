@@ -34,7 +34,7 @@ public class DataSet extends AbstractRdcDomainObject {
   
   /* Domain Object Attributes */
   @Id
-  @NotEmpty(message = "dataSet-management.error.dataSet.id.notEmpty")
+  @NotEmpty(message = "dataSet-management.error.dataSet.id.not-empty")
   @Size(max = StringLengths.MEDIUM, message = "dataSet-management.error.dataSet.id.size")
   @Pattern(regexp = Patterns.GERMAN_ALPHANUMERIC_WITH_UNDERSCORE_AND_MINUS,
       message = "dataSet-management.error.dataSet.id.pattern")
@@ -47,13 +47,13 @@ public class DataSet extends AbstractRdcDomainObject {
   
   /* Foreign Keys */
   @Indexed
-  @NotEmpty(message = "dataSet-management.error.dataSet.dataAcquisitionProject.id.notEmpty")
+  @NotEmpty(message = "dataSet-management.error.dataSet.dataAcquisitionProject.id.not-empty")
   private String dataAcquisitionProjectId;
 
-  @NotEmpty(message = "dataSet-management.error.dataSet.survey.ids.notEmpty")
+  @NotEmpty(message = "dataSet-management.error.dataSet.survey.ids.not-empty")
   private List<String> surveyIds;
   
-  @NotEmpty(message = "dataSet-management.error.dataSet.variable.ids.notEmpty")
+  @NotEmpty(message = "dataSet-management.error.dataSet.variable.ids.not-empty")
   private List<String> variableIds;
 
   /*

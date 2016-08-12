@@ -3,16 +3,16 @@
     "error": {
       "questionnaire": {
         "id": {
-          "notEmpty": "The RDC-ID of Questionnaire must not be empty!"
+          "not-empty": "The RDC-ID of Questionnaire must not be empty!"
         },
         "survey": {
           "id": {
-            "notEmpty": "The RDC-ID of the Survey must not be empty!"
+            "not-empty": "The RDC-ID of the Survey must not be empty!"
           }
         },
         "dataAcquisitionProject": {
           "id": {
-            "notEmpty": "The RDC-ID of the Data Acquisition Project must not be empty!"
+            "not-empty": "The RDC-ID of the Data Acquisition Project must not be empty!"
           }
         }
       }

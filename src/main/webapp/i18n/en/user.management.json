@@ -25,15 +25,15 @@
     "error": {
       "authority": {
         "name": {
-          "notNull": "The Name of Authority must not be empty!"
+          "not-null": "The Name of Authority must not be empty!"
         }
       },
       "user": {
         "login": {
-          "notNull": "The Login must not be empty!"
+          "not-null": "The Login must not be empty!"
         },
         "password": {
-          "notNull": "The Password must not be empty!"
+          "not-null": "The Password must not be empty!"
         }
       }
     },

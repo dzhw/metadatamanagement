@@ -91,7 +91,7 @@
         }
       }
     },
-    "logMessages": {
+    "log-messages": {
       "intro": "Following errors occurred during the last upload:",
       "internalServerError": "An internal server error occurred.",
       "unsupportedZipFile": "Zip File could not be read",

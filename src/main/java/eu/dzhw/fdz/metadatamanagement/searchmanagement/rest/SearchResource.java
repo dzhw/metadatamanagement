@@ -60,7 +60,7 @@ public class SearchResource {
 
   /**
    * Create the search proxy with the given elasticsearch host url.
-   * 
+   *
    * @param elasticSearchConnectionUrl the elasticsearch host url
    */
   @Autowired
@@ -81,7 +81,7 @@ public class SearchResource {
 
   /**
    * Redirect the search requests to Elasticsearch.
-   * 
+   *
    * @return The search results
    */
   @RequestMapping(value = "/api/search/**/_search")
@@ -120,7 +120,7 @@ public class SearchResource {
     log.debug("REST request to recreate all elasticsearch indices.");
     elasticsearchAdminService.recreateAllIndices();
     return ResponseEntity.ok()
-      .headers(HeaderUtil.createAlert("health.elasticsearch.reindex.success"))
+      .headers(HeaderUtil.createAlert("health.elasticsearch.reindex-success"))
       .build();
   }
 

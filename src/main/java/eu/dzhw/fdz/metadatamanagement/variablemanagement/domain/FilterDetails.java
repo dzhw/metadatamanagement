@@ -22,7 +22,7 @@ import net.karneim.pojobuilder.GeneratePojoBuilder;
     intoPackage = "eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.builders")
 public class FilterDetails {
   
-  @NotEmpty(message = "variable-management.error.filterDetails.expression.notEmpty")
+  @NotEmpty(message = "variable-management.error.filterDetails.expression.not-empty")
   @Size(max = StringLengths.MEDIUM, message = "error.filterDetails.filterExpression.size")
   private String expression;
 
@@ -31,7 +31,7 @@ public class FilterDetails {
   private I18nString description;
 
   @NotEmpty(message = "variable-management.error.filterDetails." 
-      + "expressionLanguage.notEmpty")
+      + "expressionLanguage.not-empty")
   @ValidFilterExpressionLanguage(
       message = "variable-management.error.filterDetails." 
           + "expressionLanguage.validFilterExpressionLanguage")

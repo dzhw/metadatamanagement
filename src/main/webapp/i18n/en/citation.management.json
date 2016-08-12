@@ -3,7 +3,7 @@
     "error": {
       "citation": {
         "id": {
-          "notEmpty": "The RDC-ID of a citation must not be empty!",
+          "not-empty": "The RDC-ID of a citation must not be empty!",
           "pattern": "The RDC-ID must contain only alphanumeric signs, german umlauts and ß.",
           "size": "The max length of the RDC-ID is 128 signs."
         },
@@ -62,11 +62,11 @@
           "size": "The max length of the how published is 128 signs."
         },
         "citationString": {
-          "notEmpty": "The citation string of a citation must not be empty!",
+          "not-empty": "The citation string of a citation must not be empty!",
           "size": "The max length of the citation string is 128 signs."
         },
         "sourceReference": {
-          "notEmpty": "The source reference of a citation must not be empty!",
+          "not-empty": "The source reference of a citation must not be empty!",
           "size": "The max length of the source reference is 2048 signs."
         }
       }

@@ -10,7 +10,7 @@
     },
     "health": {
       "title": "Verfügbarkeit der Services",
-      "refresh.button": "Aktualisieren",
+      "refresh-button": "Aktualisieren",
       "stacktrace": "Stacktrace",
       "details": {
         "details": "Details",
@@ -36,7 +36,7 @@
       },
       "elasticsearch": {
         "reindex": "Reindizieren",
-        "reindex.success": "Elasticsearch Indices erfolgreich erstellt."
+        "reindex-success": "Elasticsearch Indices erfolgreich erstellt."
       }
     },
     "logs": {
@@ -50,7 +50,7 @@
     },
     "metrics": {
       "title": "Anwendungs-Metriken",
-      "refresh.button": "Aktualisieren",
+      "refresh-button": "Aktualisieren",
       "updating": "Aktualisierung...",
       "jvm": {
         "title": "JVM Metriken",

@@ -11,7 +11,7 @@ angular.module('metadatamanagementApp').service('SurveyUploadService',
       if (uploadCount === objects.length) {
         ElasticSearchAdminService.processUpdateQueue().then(function() {
           JobLoggingService.finish(
-            'survey-management.logMessages.survey.uploadTerminated', {
+            'survey-management.log-messages.survey.uploadTerminated', {
               total: JobLoggingService.getCurrentJob().total,
               errors: JobLoggingService.getCurrentJob().errors
             });
@@ -20,7 +20,7 @@ angular.module('metadatamanagementApp').service('SurveyUploadService',
         if (!objects[uploadCount].id || objects[uploadCount].id === '') {
           var index = uploadCount;
           JobLoggingService.error(
-            'survey-management.logMessages.survey.missingId', {
+            'survey-management.log-messages.survey.missingId', {
               index: index + 1
             });
           uploadCount++;
@@ -62,7 +62,7 @@ angular.module('metadatamanagementApp').service('SurveyUploadService',
           });
       }, function() {
         JobLoggingService.cancel(
-          'global.logMessages.unsupportedExcelFile', {});
+          'global.log-messages.unsupportedExcelFile', {});
       });
     };
     return {

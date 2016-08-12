@@ -7,7 +7,7 @@
     "delete": {
       "question": "Sind Sie sicher, dass Sie das Datenaufbereitungsprojekt \"{{ name }}\" löschen möchten?"
     },
-    "logMessages": {
+    "log-messages": {
       "dataAcquisitionProject": {
         "saved": "Datenaufbereitungsprojekt '{{ id }}' wurde erfolgreich gespeichert!",
         "serverError": "Ein Fehler ist auf dem Server aufgetreten: ",
@@ -20,7 +20,7 @@
     "error": {
       "dataAcquisitionProject": {
         "id": {
-          "notEmpty": "Die FDZ-ID des Datenaufbereitungsprojekts darf nicht leer sein!",
+          "not-empty": "Die FDZ-ID des Datenaufbereitungsprojekts darf nicht leer sein!",
           "pattern": "Die FDZ-ID darf nur alphanumerische Zeichen, deutsche Umlaute und ß beinhalten.",
           "size": "Die Maximallänge der FDZ-ID ist 32 Zeichen."
         },
@@ -33,7 +33,7 @@
       },
       "release": {
         "version": {
-          "notEmpty": "Die Version einer Veröffentlichung darf nicht leer sein!",
+          "not-empty": "Die Version einer Veröffentlichung darf nicht leer sein!",
           "size": "Die Maximallänge der Version eines Releases ist 32 Zeichen.",
           "pattern": "Es dürfen nur Zahlen und der Punkt für die Version verwendet werden."
         },
@@ -41,7 +41,7 @@
           "size": "Die Maximallänge einer DOI ist 128 Zeichen."
         },
         "date": {
-          "notNull": "Das Datum einer Veröffentlichung darf nicht leer sein!"
+          "not-null": "Das Datum einer Veröffentlichung darf nicht leer sein!"
         },
         "notes": {
           "size": "Die Maximallänge einer Notiz ist 2048 Zeichen."

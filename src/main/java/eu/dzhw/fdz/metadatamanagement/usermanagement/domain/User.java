@@ -31,13 +31,13 @@ public class User extends AbstractRdcDomainObject implements Serializable {
   @Id
   private String id;
 
-  @NotNull(message = "user-management.error.user.login.notNull")
+  @NotNull(message = "user-management.error.user.login.not-null")
   @Pattern(regexp = "^[a-z0-9]*$|(anonymousUser)")
   @Size(min = 1, max = 50)
   private String login;
 
   @JsonIgnore
-  @NotNull(message = "user-management.error.user.password.notNull")
+  @NotNull(message = "user-management.error.user.password.not-null")
   @Size(min = 60, max = 60)
   private String password;
 

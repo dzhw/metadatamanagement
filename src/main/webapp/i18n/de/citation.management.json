@@ -3,7 +3,7 @@
     "error": {
       "citation": {
         "id": {
-          "notEmpty": "Die FDZ-ID der Zitation darf nicht leer sein!",
+          "not-empty": "Die FDZ-ID der Zitation darf nicht leer sein!",
           "pattern": "Die FDZ-ID darf nur alphanumerische Zeichen, deutsche Umlaute und ß beinhalten.",
           "size": "Die Maximallänge der FDZ-ID ist 128 Zeichen."
         },
@@ -62,11 +62,11 @@
           "size": "Die Maximallänge des 'Wie veröffentlicht' ist 128 Zeichen."
         },
         "citationString": {
-          "notEmpty": "Der Zitationsstring der Zitation darf nicht leer sein!",
+          "not-empty": "Der Zitationsstring der Zitation darf nicht leer sein!",
           "size": "Die Maximallänge des Zitationsstrings ist 128 Zeichen."
         },
         "sourceReference": {
-          "notEmpty": "Die Source-Referenz der Zitation darf nicht leer sein!",
+          "not-empty": "Die Source-Referenz der Zitation darf nicht leer sein!",
           "size": "Die Maximallänge der Source-Referenz ist 2048 Zeichen."
         }
       }

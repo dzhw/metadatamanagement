@@ -11,7 +11,7 @@ angular.module('metadatamanagementApp').service('DataSetUploadService',
       if (uploadCount === objects.length) {
         ElasticSearchAdminService.processUpdateQueue().then(function() {
           JobLoggingService.finish(
-            'dataSet-management.logMessages.dataSet.uploadTerminated', {
+            'dataSet-management.log-messages.dataSet.uploadTerminated', {
               total: JobLoggingService.getCurrentJob().total,
               errors: JobLoggingService.getCurrentJob().errors
             });
@@ -20,7 +20,7 @@ angular.module('metadatamanagementApp').service('DataSetUploadService',
         if (!objects[uploadCount].id || objects[uploadCount].id === '') {
           var index = uploadCount;
           JobLoggingService.error(
-            'dataSet-management.logMessages.dataSet.missingId', {
+            'dataSet-management.log-messages.dataSet.missingId', {
               index: index + 1
             });
           uploadCount++;
@@ -63,7 +63,7 @@ angular.module('metadatamanagementApp').service('DataSetUploadService',
       }, function(error) {
         console.log(error);
         JobLoggingService.cancel(
-          'global.logMessages.unsupportedExcelFile', {});
+          'global.log-messages.unsupportedExcelFile', {});
       });
     };
     return {

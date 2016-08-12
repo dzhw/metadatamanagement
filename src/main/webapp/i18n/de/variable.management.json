@@ -1,6 +1,6 @@
 {
   "variable-management": {
-    "logMessages": {
+    "log-messages": {
       "variable": {
         "saved": "Variable mit FDZ-ID {{ id }} erfolgreich gespeichert!",
         "notSaved": "Variable mit FDZ-ID {{ id }} wurde nicht gespeichert:",
@@ -39,13 +39,13 @@
           "uniqueValue": "Der Wert muss innerhalb der gültigen Antworten eindeutig sein."
         },
         "totalAbsoluteFrequency": {
-          "notNull": "Die totale, absolute Häufigkeit darf nicht leer sein!"
+          "not-null": "Die totale, absolute Häufigkeit darf nicht leer sein!"
         },
         "totalValidAbsoluteFrequency": {
-          "notNull": "Die totale, valide, absolute Häufigkeit darf nicht leer sein!"
+          "not-null": "Die totale, valide, absolute Häufigkeit darf nicht leer sein!"
         },
         "totalValidRelativeFrequency": {
-          "notNull": "Die totale, valide, relative Häufigkeit darf nicht leer sein!"
+          "not-null": "Die totale, valide, relative Häufigkeit darf nicht leer sein!"
         },
         "missings": {
           "uniqueCode": "Der Code muss innerhalb der Missings eindeutig sein."
@@ -53,14 +53,14 @@
       },
       "filterDetails": {
         "expression": {
-          "notEmpty": "Der Filterausdruck darf nicht leer sein!",
+          "not-empty": "Der Filterausdruck darf nicht leer sein!",
           "size": "Die Maximallänge des Filterausdrucks ist 128 Zeichen."
         },
         "description": {
           "i18nStringSize": "Die Maximallänge der Filterbeschreibung ist 2048 Zeichen."
         },
         "expressionLanguage": {
-          "notEmpty": "Die Filterausdruckssprache darf nicht leer sein!",
+          "not-empty": "Die Filterausdruckssprache darf nicht leer sein!",
           "validFilterExpressionLanguage": "Die angegebene Filterausdruckssprache ist nicht gültig.Es sind nur SpEL und Stata erlaubt."
         }
       },
@@ -79,16 +79,16 @@
       },
       "missing": {
         "code": {
-          "notNull": "Der Code eines Missings darf nicht leer sein!"
+          "not-null": "Der Code eines Missings darf nicht leer sein!"
         },
         "label": {
           "i18nStringSize": "Die Maximallänge des Labels eines Missings ist 128 Zeichen."
         },
         "absoluteFrequency": {
-          "notNull": "Die absolute Häufigkeit eines Missings darf nicht leer sein."
+          "not-null": "Die absolute Häufigkeit eines Missings darf nicht leer sein."
         },
         "relativeFrequency": {
-          "notNull": "Die relative Häufigkeit eines Missings darf nicht leer sein."
+          "not-null": "Die relative Häufigkeit eines Missings darf nicht leer sein."
         }
       },
       "validResponse": {
@@ -96,17 +96,17 @@
           "i18nStringSize": "Die Maximallänge des Labels eines gültigen Wertes ist 2048 Zeichen."
         },
         "absoluteFrequency": {
-          "notNull": "Die absolute Häufigkeit eines gültigen Wertes darf nicht leer sein."
+          "not-null": "Die absolute Häufigkeit eines gültigen Wertes darf nicht leer sein."
         },
         "relativeFrequency": {
-          "notNull": "Die relative Häufigkeit eines gültigen Wertes darf nicht leer sein."
+          "not-null": "Die relative Häufigkeit eines gültigen Wertes darf nicht leer sein."
         },
         "value": {
           "size": "Die Maximallänge der Werteklasse ist 32 Zeichen.",
-          "notNull": "Der Wert eines gültigen Wertes darf nicht leer sein!"
+          "not-null": "Der Wert eines gültigen Wertes darf nicht leer sein!"
         },
         "validRelativeFrequency": {
-          "notNull": "Die gültige, relative Häufigkeit eines gültigen Wertes darf nicht leer sein."
+          "not-null": "Die gültige, relative Häufigkeit eines gültigen Wertes darf nicht leer sein."
         }
       },
       "variable": {
@@ -116,22 +116,22 @@
         "validResponseValueMustBeANumberOnNumericDataType": "Wenn der Datentyp einer Variable numerisch ist, müssen die Werte von gültigen Antworten numerisch sein.",
         "validResponseValueMustBeAnIsoDateOnDateDataType": "Wenn der Datentyp einer Variable ein Datum ist, müssen die Werte von gültigen Antworten dem ISO Standard 8601 entsprechen.",
         "id": {
-          "notEmpty": "Die FDZ - ID der Variable darf nicht leer sein!",
+          "not-empty": "Die FDZ - ID der Variable darf nicht leer sein!",
           "size": "Die Maximallänge der FDZ - ID ist 128 Zeichen.",
           "pattern": "Es dürfen für die FDZ - ID nur alphanumerische Zeichen, deutsche Umlaute, ß, Minus und der Unterstrich verwendet werden."
         },
         "dataType": {
-          "notNull": "Der Datentyp der Variable darf nicht leer sein!",
+          "not-null": "Der Datentyp der Variable darf nicht leer sein!",
           "validDataType": "Die Werte für Datentyp sind nicht gültig. Erlaubt in deutsch: string, numerisch. Erlaubt in englisch: string, numeric.",
           "validScaleLevel": "Die Werte für das Skalenniveau sind nicht gültig. Erlaubt in deutsch: nominal, ordinal, kontinuierlich.Erlaubt in englisch: nominal, ordinal, continous."
         },
         "name": {
-          "notEmpty": "Der Name der Variable darf nicht leer sein!",
+          "not-empty": "Der Name der Variable darf nicht leer sein!",
           "size": "Die Maximallänge des Namens ist 32 Zeichen.",
           "pattern": "Für den Namen dürfen nur alphanumerische Zeichen und das Minus verwendet werden."
         },
         "label": {
-          "notNull": "Das Label der Variable darf nicht leer sein!",
+          "not-null": "Das Label der Variable darf nicht leer sein!",
           "i18nStringSize": "Die die Maximallänge für die Label ist 128 Zeichen.",
           "atLeastOneLanguage": "Mindestens ein deutsches oder ein englisches Label muss angegeben werden!"
         },
@@ -139,17 +139,17 @@
           "i18nStringSize": "Die Maximallänge der Beschreibung ist 2048 Zeichen."
         },
         "accessWays": {
-          "notEmpty": "Die Liste der Zugangswege einer Variable benötigt mindest ein Element und darf nicht leer sein!",
+          "not-empty": "Die Liste der Zugangswege einer Variable benötigt mindest ein Element und darf nicht leer sein!",
           "validAccessWays": "Die Liste der Zugangswege enthält ungültige Werte. Erlaubt sind nur: suf, cuf und remote."
         },
         "dataSet": {
           "ids": {
-            "notEmpty": "Die Variable muss mindestens einem Datensatz zugewiesen sein!"
+            "not-empty": "Die Variable muss mindestens einem Datensatz zugewiesen sein!"
           }
         },
         "survey": {
           "ids": {
-            "notEmpty": "Die Variable muss mindestens einer Erhebung zugewiesen sein!"
+            "not-empty": "Die Variable muss mindestens einer Erhebung zugewiesen sein!"
           }
         }
       },

@@ -1,6 +1,6 @@
 {
   "variable-management": {
-    "logMessages": {
+    "log-messages": {
       "variable": {
         "saved": "Variable with RDC-ID {{ id }} was saved successfully!",
         "notSaved": "Variable with RDC-ID {{ id }} has not been saved!",
@@ -39,13 +39,13 @@
           "uniqueValue": "The value has to be unique within the valid responses."
         },
         "totalAbsoluteFrequency": {
-          "notNull": "The total absolute frequency must not be empty!"
+          "not-null": "The total absolute frequency must not be empty!"
         },
         "totalValidAbsoluteFrequency": {
-          "notNull": "The total valid absolute frequency must not be empty!"
+          "not-null": "The total valid absolute frequency must not be empty!"
         },
         "totalValidRelativeFrequency": {
-          "notNull": "The total valid relative frequency must not be empty!"
+          "not-null": "The total valid relative frequency must not be empty!"
         },
         "missings": {
           "uniqueCode": "The code has to be unique within the missings."
@@ -53,14 +53,14 @@
       },
       "filterDetails": {
         "expression": {
-          "notEmpty": "The filter expression must not be empty!",
+          "not-empty": "The filter expression must not be empty!",
           "size": "The max length of the filter expression is 128 signs."
         },
         "description": {
           "i18nStringSize": "The max length of the filter description is 2048 signs."
         },
         "expressionLanguage": {
-          "notEmpty": "The filter expression language  must not be empty!",
+          "not-empty": "The filter expression language  must not be empty!",
           "validFilterExpressionLanguage": "The filter expression language is not valid. Valid is: SpEL and Stata."
         }
       },
@@ -79,16 +79,16 @@
       },
       "missing": {
         "code": {
-          "notNull": "The code of a missing must be not empty!"
+          "not-null": "The code of a missing must be not empty!"
         },
         "label": {
           "i18nStringSize": "The max length of the label of a missing is 128 signs."
         },
         "absoluteFrequency": {
-          "notNull": "The absolute frequency of a missing must not be empty!"
+          "not-null": "The absolute frequency of a missing must not be empty!"
         },
         "relativeFrequency": {
-          "notNull": "The relative frequency of a missing must not be empty!"
+          "not-null": "The relative frequency of a missing must not be empty!"
         }
       },
       "validResponse": {
@@ -96,17 +96,17 @@
           "i18nStringSize": "The max length of the label of a valid response is 2048 signs."
         },
         "absoluteFrequency": {
-          "notNull": "The absolute frequency of a valid response must not be empty!"
+          "not-null": "The absolute frequency of a valid response must not be empty!"
         },
         "relativeFrequency": {
-          "notNull": "The relative frequency of a valid response must not be empty!"
+          "not-null": "The relative frequency of a valid response must not be empty!"
         },
         "value": {
           "size": "The max length of the value of a valid response is 32 signs.",
-          "notNull": "The value of a valid response must not be empty!"
+          "not-null": "The value of a valid response must not be empty!"
         },
         "validRelativeFrequency": {
-          "notNull": "The valid relative frequency of a valid response must not be empty!"
+          "not-null": "The valid relative frequency of a valid response must not be empty!"
         }
       },
       "variable": {
@@ -116,22 +116,22 @@
         "validResponseValueMustBeANumberOnNumericDataType": "If the variable has a numeric data type, the values of valid responses have to be numeric!",
         "validResponseValueMustBeAnIsoDateOnDateDataType": "If the variable has a date data type, the values of valid responses have to be matchable by the ISO Standard 8601.",
         "id": {
-          "notEmpty": "The RDC-ID of the Variable must not be empty!",
+          "not-empty": "The RDC-ID of the Variable must not be empty!",
           "size": "The max length of the RDC-ID is 128 signs.",
           "pattern": "Use only alphanumeric signs, german umlauts, ß and space, underscore and minus for the RDC-ID."
         },
         "dataType": {
-          "notNull": "The data type of the Variable must not be empty!",
+          "not-null": "The data type of the Variable must not be empty!",
           "validDataType": "The value for data type is not valid. Allowed values in english: string, numerisch. Allowed values in english: string, numeric.",
           "validScaleLevel": "The values for Scale Level are not valid. Allowed values in german: ordinal, nominal, kontinuierlich. Allowed values in english: ordinal, nominal, continous."
         },
         "name": {
-          "notEmpty": "The Name of the Variable must not be empty!",
+          "not-empty": "The Name of the Variable must not be empty!",
           "size": "The max length of the name is 32 signs.",
           "pattern": "Use only alphanumeric signs and underscore for the name."
         },
         "label": {
-          "notNull": "The label of the Variable must not be empty!",
+          "not-null": "The label of the Variable must not be empty!",
           "i18nStringSize": "The max length of the label is 128 signs.",
           "atLeastOneLanguage": "At least an english or a german label must be given!"
         },
@@ -139,17 +139,17 @@
           "i18nStringSize": "The max length of the description is 2048 signs."
         },
         "accessWays": {
-          "notEmpty": "The list of access ways of a variable needs min. one element and must not be empty!",
+          "not-empty": "The list of access ways of a variable needs min. one element and must not be empty!",
           "validAccessWays": "The values of access ways are invalid. Valid values are: suf, cuf and remote."
         },
         "dataSet": {
           "ids": {
-            "notEmpty": "The Variable must be assigned to at least one Data Set!"
+            "not-empty": "The Variable must be assigned to at least one Data Set!"
           }
         },
         "survey": {
           "ids": {
-            "notEmpty": "The Variable must be assigned to at least one Survey!"
+            "not-empty": "The Variable must be assigned to at least one Survey!"
           }
         }
       },

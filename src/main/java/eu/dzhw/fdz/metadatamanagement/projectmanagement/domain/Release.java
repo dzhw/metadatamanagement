@@ -28,7 +28,7 @@ import net.karneim.pojobuilder.GeneratePojoBuilder;
 public class Release {
   
   @NotEmpty(message = "dataAcquisitionProject." 
-      + "error.release.version.notEmpty")
+      + "error.release.version.not-empty")
   @Size(max = StringLengths.SMALL, 
       message = "dataAcquisitionProject.error.release.version.size")
   @Pattern(regexp = Patterns.NUMERIC_WITH_DOT, 
@@ -39,7 +39,7 @@ public class Release {
       message = "dataAcquisitionProject.error.release.doi.size")
   private String doi;
 
-  @NotNull(message = "dataAcquisitionProject.error.release.date.notNull")
+  @NotNull(message = "dataAcquisitionProject.error.release.date.not-null")
   private LocalDateTime date;
 
   @I18nStringSize(max = StringLengths.LARGE, 

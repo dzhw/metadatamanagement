@@ -1,6 +1,6 @@
 {
   "question-management": {
-    "logMessages": {
+    "log-messages": {
       "question": {
         "saved": "Atomic Question with RDC-ID {{ id }} was saved successfully!",
         "notSaved": "Atomic Question with RDC-ID {{ id }} has not been saved!",
@@ -14,20 +14,20 @@
         "validAtomicQuestionIdName": "The RDC-ID must start with the project ID (e.g. projectID-variableName) and must be equal to variable ID!",
         "uniqueAtomicQuestionName": "The name of an atomic question has to be unique within a questionnaire.",
         "id": {
-          "notEmpty": "The RDC-ID of an Atomic Question must not be empty!",
+          "not-empty": "The RDC-ID of an Atomic Question must not be empty!",
           "size": "The max length of the RDC-ID is 128 signs.",
           "pattern": "Use only alphanumeric signs, german umlauts, ß, space, underscore and minus for the RDC-ID."
         },
         "type": {
-          "notNull": "The type of the atomic question must not be empty.",
+          "not-null": "The type of the atomic question must not be empty.",
           "atomicQuestionTypeConsistence": "The type of the atomic question has an invalid value or is inconsistent between the languages."
         },
         "name": {
-          "notEmpty": "The name of an Atomic Question must not be empty!",
+          "not-empty": "The name of an Atomic Question must not be empty!",
           "size": "The max length of the name is 32 signs."
         },
         "compositeQuestionName": {
-          "notEmpty": "The composite question name of an Atomic Question must not be empty!",
+          "not-empty": "The composite question name of an Atomic Question must not be empty!",
           "size": "The max length of the composite question name is 32 signs"
         },
         "footnote": {
@@ -47,17 +47,17 @@
         },
         "dataAcquisitionProject": {
           "id": {
-            "notEmpty": "The RDC-ID of the Data Acquisition Project must not be empty!"
+            "not-empty": "The RDC-ID of the Data Acquisition Project must not be empty!"
           }
         },
         "questionnaire": {
           "id": {
-            "notEmpty": "The RDC-ID of the Questionnaire must not be empty!"
+            "not-empty": "The RDC-ID of the Questionnaire must not be empty!"
           }
         },
         "variable": {
           "id": {
-            "notEmpty": "The RDC-ID of the Variable must not be empty!"
+            "not-empty": "The RDC-ID of the Variable must not be empty!"
           }
         }
       },

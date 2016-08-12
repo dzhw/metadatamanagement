@@ -56,14 +56,14 @@ public class Variable extends AbstractRdcDomainObject {
 
   /* Domain Object listed attributes */
   @Id
-  @NotEmpty(message = "variable-management.error.variable.id.notEmpty")
+  @NotEmpty(message = "variable-management.error.variable.id.not-empty")
   @Size(max = StringLengths.MEDIUM,
       message = "variable-management.error.variable.id.size")
   @Pattern(regexp = Patterns.GERMAN_ALPHANUMERIC_WITH_UNDERSCORE_AND_MINUS,
       message = "variable-management.error.variable.id.pattern")
   private String id;
 
-  @NotNull(message = "variable-management.error.variable.dataType.notNull")
+  @NotNull(message = "variable-management.error.variable.dataType.not-null")
   @ValidDataType(message = "variable-management.error.variable.dataType.validDataType")
   private I18nString dataType;
 
@@ -71,14 +71,14 @@ public class Variable extends AbstractRdcDomainObject {
       message = "variable-management.error.variable.scaleLevel.validScaleLevel")
   private I18nString scaleLevel;
 
-  @NotEmpty(message = "variable-management.error.variable.name.notEmpty")
+  @NotEmpty(message = "variable-management.error.variable.name.not-empty")
   @Size(max = StringLengths.SMALL,
       message = "variable-management.error.variable.name.size")
   @Pattern(regexp = Patterns.ALPHANUMERIC_WITH_UNDERSCORE_NO_NUMBER_AS_FIRST_SIGN,
       message = "variable-management.error.variable.name.pattern")
   private String name;
 
-  @NotNull(message = "variable-management.error.variable.label.notNull")
+  @NotNull(message = "variable-management.error.variable.label.not-null")
   @I18nStringSize(max = StringLengths.MEDIUM,
       message = "variable-management.error.variable.label.i18nStringSize")
   @AtLeastOneLanguage(
@@ -90,7 +90,7 @@ public class Variable extends AbstractRdcDomainObject {
   private I18nString description;
 
   // checks for min size too.
-  @NotEmpty(message = "variable-management.error.variable.accessWays.notEmpty")
+  @NotEmpty(message = "variable-management.error.variable.accessWays.not-empty")
   @ValidAccessWays(
       message = "variable-management.error.variable.accessWays.validAccessWays")
   private List<String> accessWays;
@@ -111,13 +111,13 @@ public class Variable extends AbstractRdcDomainObject {
   /* Foreign Keys */
   private String atomicQuestionId;
 
-  @NotEmpty(message = "variable-management.error.variable.dataSet.ids.notEmpty")
+  @NotEmpty(message = "variable-management.error.variable.dataSet.ids.not-empty")
   private List<String> dataSetIds;
 
   @Indexed
   private String dataAcquisitionProjectId;
 
-  @NotEmpty(message = "variable-management.error.variable.survey.ids.notEmpty")
+  @NotEmpty(message = "variable-management.error.variable.survey.ids.not-empty")
   private List<String> surveyIds;
 
   /*

@@ -7,7 +7,7 @@
     "delete": {
       "question": "Are you sure you want to delete Data Acquisition Project \"{{ name }}\"?"
     },
-    "logMessages": {
+    "log-messages": {
       "dataAcquisitionProject": {
         "saved": "Successfully saved the Data Acquisition Project '{{ id }}'!",
         "serverError": "An error on the server has occurred: ",
@@ -20,7 +20,7 @@
     "error": {
       "dataAcquisitionProject": {
         "id": {
-          "notEmpty": "The RDC-ID of Data Acquisition Project must not be empty!",
+          "not-empty": "The RDC-ID of Data Acquisition Project must not be empty!",
           "pattern": "The RDC-ID must contain only alphanumeric signs, german umlauts and ß.",
           "size": "The max length of the RDC-ID is 32 signs."
         },
@@ -33,7 +33,7 @@
       },
       "release": {
         "version": {
-          "notEmpty": "The version of a release must not be empty!",
+          "not-empty": "The version of a release must not be empty!",
           "size": "The max length of the version is 32 signs.",
           "pattern": "Use only numbers and the dot for the version."
         },
@@ -41,7 +41,7 @@
           "size": "The max length of the doi is 128 signs."
         },
         "date": {
-          "notNull": "The date of a Release must not be empty!"
+          "not-null": "The date of a Release must not be empty!"
         },
         "notes": {
           "size": "The max length of the version is 2048 signs."

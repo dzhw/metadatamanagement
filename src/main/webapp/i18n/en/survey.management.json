@@ -1,6 +1,6 @@
 {
   "survey-management": {
-    "logMessages": {
+    "log-messages": {
       "survey": {
         "saved": "Survey with RDC-ID {{ id }} was saved successfully!",
         "notSaved": "Survey with RDC-ID {{ id }} has not been saved!",
@@ -13,7 +13,7 @@
       "survey": {
         "id": {
           "validSurveyIdName": "The RDC-ID of the Survey is not valid for the Pattern: RDCID-sy{Number}.",
-          "notEmpty": "The RDC-ID of the Survey must not be empty!",
+          "not-empty": "The RDC-ID of the Survey must not be empty!",
           "size": "The max length of the RDC-ID is 128 signs.",
           "pattern": "Use only alphanumeric signs, german umlauts, ß and space, underscore and minus for the RDC-ID."
         },
@@ -21,21 +21,21 @@
           "i18nStringSize": "The max length of the title is 128 signs."
         },
         "fieldPeriod": {
-          "notNull": "The Field Period of a Survey must not be empty!"
+          "not-null": "The Field Period of a Survey must not be empty!"
         },
         "dataAcquisitionProject": {
           "id": {
-            "notEmpty": "The RDC-ID of the Data Acquisition Project for the Survey must not be empty!"
+            "not-empty": "The RDC-ID of the Data Acquisition Project for the Survey must not be empty!"
           }
         },
         "questionnaire": {
           "id": {
-            "notEmpty": "The RDC-ID of the Questionnaire for the Survey must not be empty!"
+            "not-empty": "The RDC-ID of the Questionnaire for the Survey must not be empty!"
           }
         },
         "dataSet": {
           "ids": {
-            "notEmpty": "The Survey must have at least one Data Set!"
+            "not-empty": "The Survey must have at least one Data Set!"
           }
         }
       },
