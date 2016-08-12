@@ -22,7 +22,7 @@ import net.karneim.pojobuilder.GeneratePojoBuilder;
 public class ValidResponse {
 
   @I18nStringSize(max = StringLengths.LARGE,
-      message = "variable-management.error.validResponse.label.i18nStringSize")
+      message = "variable-management.error.validResponse.label.i18n-string-size")
   private I18nString label;
 
   @NotNull(

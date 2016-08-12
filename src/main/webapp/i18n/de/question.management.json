@@ -3,9 +3,9 @@
     "log-messages": {
       "question": {
         "saved": "Atomare Frage mit FDZ-ID {{ id }} erfolgreich gespeichert!",
-        "notSaved": "Atomare Frage mit FDZ-ID {{ id }} wurde nicht gespeichert!",
-        "missingId": "Die {{ index }}. atomare Frage enthält keine FDZ-ID und wurde nicht gespeichert!",
-        "uploadTerminated": "Upload von {{ total }} atomaren Fragen mit {{ errors }} Fehlern beendet!",
+        "not-saved": "Atomare Frage mit FDZ-ID {{ id }} wurde nicht gespeichert!",
+        "missing-id": "Die {{ index }}. atomare Frage enthält keine FDZ-ID und wurde nicht gespeichert!",
+        "upload-terminated": "Upload von {{ total }} atomaren Fragen mit {{ errors }} Fehlern beendet!",
         "cancelled": "Upload von atomaren Fragen Abgebrochen!"
       }
     },
@@ -31,19 +31,19 @@
           "size": "Die Maximallänge des Namens einer zusammengesetzten Frage ist 32 Zeichen."
         },
         "footnote": {
-          "i18nStringSize": "Die Maximallänge der Fußnote ist 2048 Zeichen."
+          "i18n-string-size": "Die Maximallänge der Fußnote ist 2048 Zeichen."
         },
         "questionText": {
-          "i18nStringSize": "Die Maximallänge der Fußnote ist 2048 Zeichen."
+          "i18n-string-size": "Die Maximallänge der Fußnote ist 2048 Zeichen."
         },
         "instruction": {
-          "i18nStringSize": "Die Maximallänge der Fußnote ist 2048 Zeichen."
+          "i18n-string-size": "Die Maximallänge der Fußnote ist 2048 Zeichen."
         },
         "introduction": {
-          "i18nStringSize": "Die Maximallänge der Fußnote ist 2048 Zeichen."
+          "i18n-string-size": "Die Maximallänge der Fußnote ist 2048 Zeichen."
         },
         "sectionHeader": {
-          "i18nStringSize": "Die Maximallänge der Fußnote ist 128 Zeichen."
+          "i18n-string-size": "Die Maximallänge der Fußnote ist 128 Zeichen."
         },
         "dataAcquisitionProject": {
           "id": {

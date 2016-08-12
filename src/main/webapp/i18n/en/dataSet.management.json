@@ -3,13 +3,13 @@
     "log-messages": {
       "dataSet": {
         "saved": "Dataset with RDC-ID {{ id }} was saved successfully!",
-        "notSaved": "Dataset with RDC-ID {{ id }} has not been saved!",
-        "missingId": "Dataset {{ index }} does not contain a RDC-ID and has not been saved!",
-        "uploadTerminated": "Finished upload of {{ total }} Data Sets with {{ errors }} errors.",
+        "not-saved": "Dataset with RDC-ID {{ id }} has not been saved!",
+        "missing-id": "Dataset {{ index }} does not contain a RDC-ID and has not been saved!",
+        "upload-terminated": "Finished upload of {{ total }} Data Sets with {{ errors }} errors.",
         "cancelled": "Datasets upload cancelled!"
       },
       "tex": {
-        "uploadTerminated": "Tex file upload terminated!",
+        "upload-terminated": "Tex file upload terminated!",
         "generated": "Tex file was created successfully!",
         "cancelled": "Tex file creation cancelled!"
       }
@@ -17,7 +17,7 @@
     "error": {
       "dataSet": {
         "id": {
-          "validDataSetIdName": "The RDC-ID of the Data Set is not valid for the Pattern: RDCID-ds{Number}",
+          "valid-data-set-id-name": "The RDC-ID of the Data Set is not valid for the Pattern: RDCID-ds{Number}",
           "not-empty": "The RDC-ID of the Data Set must not be empty!",
           "size": "The max length of the RDC-ID is 128 signs.",
           "pattern": "Use only alphanumeric signs, german umlauts, ß and space, underscore and minus for the RDC-ID."

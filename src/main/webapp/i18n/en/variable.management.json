@@ -3,9 +3,9 @@
     "log-messages": {
       "variable": {
         "saved": "Variable with RDC-ID {{ id }} was saved successfully!",
-        "notSaved": "Variable with RDC-ID {{ id }} has not been saved!",
-        "missingId": "Variable {{ index }} does not contain a RDC-ID and has not been saved:",
-        "uploadTerminated": "Finished upload of {{ total }} Variables with {{ errors }} errors.",
+        "not-saved": "Variable with RDC-ID {{ id }} has not been saved!",
+        "missing-id": "Variable {{ index }} does not contain a RDC-ID and has not been saved:",
+        "upload-terminated": "Finished upload of {{ total }} Variables with {{ errors }} errors.",
         "cancelled": "Variables upload cancelled!"
       }
     },
@@ -57,7 +57,7 @@
           "size": "The max length of the filter expression is 128 signs."
         },
         "description": {
-          "i18nStringSize": "The max length of the filter description is 2048 signs."
+          "i18n-string-size": "The max length of the filter description is 2048 signs."
         },
         "expressionLanguage": {
           "not-empty": "The filter expression language  must not be empty!",
@@ -68,7 +68,7 @@
         "notEmptyGenerationDetailsDescriptionOrRule": "The rule or the description of a generation rule must not be empty! Both can be set, too.",
         "ruleExpressionLanguageAndRuleFilledOrEmpty": "Both, the rule and the rule expression language, have to be filled or empty.",
         "description": {
-          "i18nStringSize": "The max length of the generation rule description of the variable is 2048 signs."
+          "i18n-string-size": "The max length of the generation rule description of the variable is 2048 signs."
         },
         "rule": {
           "size": "The max length of the rule is 1048576 signs."
@@ -82,7 +82,7 @@
           "not-null": "The code of a missing must be not empty!"
         },
         "label": {
-          "i18nStringSize": "The max length of the label of a missing is 128 signs."
+          "i18n-string-size": "The max length of the label of a missing is 128 signs."
         },
         "absoluteFrequency": {
           "not-null": "The absolute frequency of a missing must not be empty!"
@@ -93,7 +93,7 @@
       },
       "validResponse": {
         "label": {
-          "i18nStringSize": "The max length of the label of a valid response is 2048 signs."
+          "i18n-string-size": "The max length of the label of a valid response is 2048 signs."
         },
         "absoluteFrequency": {
           "not-null": "The absolute frequency of a valid response must not be empty!"
@@ -132,11 +132,11 @@
         },
         "label": {
           "not-null": "The label of the Variable must not be empty!",
-          "i18nStringSize": "The max length of the label is 128 signs.",
+          "i18n-string-size": "The max length of the label is 128 signs.",
           "atLeastOneLanguage": "At least an english or a german label must be given!"
         },
         "description": {
-          "i18nStringSize": "The max length of the description is 2048 signs."
+          "i18n-string-size": "The max length of the description is 2048 signs."
         },
         "accessWays": {
           "not-empty": "The list of access ways of a variable needs min. one element and must not be empty!",

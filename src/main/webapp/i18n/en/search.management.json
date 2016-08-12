@@ -1,6 +1,6 @@
 {
   "search-management": {
-    "deleteMessages": {
+    "delete-messages": {
       "deleteVariablesTitle": "Delete all Variables?",
       "deleteVariables": "Are you sure you want to delete all Variables within the Data Acquisition Project with RDC-ID \"{{ id }}\"?",
       "deleteSurveysTitle": "Delete all Surveys?",

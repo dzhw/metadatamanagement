@@ -80,13 +80,13 @@ public class Variable extends AbstractRdcDomainObject {
 
   @NotNull(message = "variable-management.error.variable.label.not-null")
   @I18nStringSize(max = StringLengths.MEDIUM,
-      message = "variable-management.error.variable.label.i18nStringSize")
+      message = "variable-management.error.variable.label.i18n-string-size")
   @AtLeastOneLanguage(
       message = "variable-management.error.variable.label.atLeastOneLanguage")
   private I18nString label;
 
   @I18nStringSize(max = StringLengths.LARGE,
-      message = "variable-management.error.variable.description.i18nStringSize")
+      message = "variable-management.error.variable.description.i18n-string-size")
   private I18nString description;
 
   // checks for min size too.

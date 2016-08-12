@@ -8,7 +8,7 @@ angular.module('metadatamanagementApp').service('ErrorMessageResolverService',
       if (messageObj.config &&
         messageObj.config.data && messageObj.config.data.id) {
         errorMessages.message =
-          jobId + '-management.log-messages.' + jobId + '.notSaved';
+          jobId + '-management.log-messages.' + jobId + '.not-saved';
         errorMessages.translationParams = {
           id: messageObj.config.data.id
         };

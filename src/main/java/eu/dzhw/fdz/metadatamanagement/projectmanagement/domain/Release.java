@@ -43,7 +43,7 @@ public class Release {
   private LocalDateTime date;
 
   @I18nStringSize(max = StringLengths.LARGE, 
-      message = "dataAcquisitionProject.error.release.notes.i18nStringSize")
+      message = "dataAcquisitionProject.error.release.notes.i18n-string-size")
   private I18nString notes;
 
   /*

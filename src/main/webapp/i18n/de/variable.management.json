@@ -3,9 +3,9 @@
     "log-messages": {
       "variable": {
         "saved": "Variable mit FDZ-ID {{ id }} erfolgreich gespeichert!",
-        "notSaved": "Variable mit FDZ-ID {{ id }} wurde nicht gespeichert:",
-        "missingId": "Die {{ index }}. Variable enthält keine FDZ-ID und wurde nicht gespeichert!",
-        "uploadTerminated": "Upload von {{ total }} Variablen mit {{ errors }} Fehlern beendet!",
+        "not-saved": "Variable mit FDZ-ID {{ id }} wurde nicht gespeichert:",
+        "missing-id": "Die {{ index }}. Variable enthält keine FDZ-ID und wurde nicht gespeichert!",
+        "upload-terminated": "Upload von {{ total }} Variablen mit {{ errors }} Fehlern beendet!",
         "cancelled": "Upload von Variablen Abgebrochen!"
       }
     },
@@ -57,7 +57,7 @@
           "size": "Die Maximallänge des Filterausdrucks ist 128 Zeichen."
         },
         "description": {
-          "i18nStringSize": "Die Maximallänge der Filterbeschreibung ist 2048 Zeichen."
+          "i18n-string-size": "Die Maximallänge der Filterbeschreibung ist 2048 Zeichen."
         },
         "expressionLanguage": {
           "not-empty": "Die Filterausdruckssprache darf nicht leer sein!",
@@ -68,7 +68,7 @@
         "notEmptyGenerationDetailsDescriptionOrRule": "Es muss bei der Regelgenerierung mind. die Regel oder die Beschreibung gesetzt sein.",
         "ruleExpressionLanguageAndRuleFilledOrEmpty": "Die Generierungsregel und die dazugehörige Sprachen müssen beide gefüllt sein oder leer sein.",
         "description": {
-          "i18nStringSize": "Die Maximallänge der Beschreibung der Regelgenerierung der Variable ist 2048 Zeichen."
+          "i18n-string-size": "Die Maximallänge der Beschreibung der Regelgenerierung der Variable ist 2048 Zeichen."
         },
         "rule": {
           "size": "Die Maximallänge der Generierungsregel ist 1048576 Zeichen."
@@ -82,7 +82,7 @@
           "not-null": "Der Code eines Missings darf nicht leer sein!"
         },
         "label": {
-          "i18nStringSize": "Die Maximallänge des Labels eines Missings ist 128 Zeichen."
+          "i18n-string-size": "Die Maximallänge des Labels eines Missings ist 128 Zeichen."
         },
         "absoluteFrequency": {
           "not-null": "Die absolute Häufigkeit eines Missings darf nicht leer sein."
@@ -93,7 +93,7 @@
       },
       "validResponse": {
         "label": {
-          "i18nStringSize": "Die Maximallänge des Labels eines gültigen Wertes ist 2048 Zeichen."
+          "i18n-string-size": "Die Maximallänge des Labels eines gültigen Wertes ist 2048 Zeichen."
         },
         "absoluteFrequency": {
           "not-null": "Die absolute Häufigkeit eines gültigen Wertes darf nicht leer sein."
@@ -132,11 +132,11 @@
         },
         "label": {
           "not-null": "Das Label der Variable darf nicht leer sein!",
-          "i18nStringSize": "Die die Maximallänge für die Label ist 128 Zeichen.",
+          "i18n-string-size": "Die die Maximallänge für die Label ist 128 Zeichen.",
           "atLeastOneLanguage": "Mindestens ein deutsches oder ein englisches Label muss angegeben werden!"
         },
         "description": {
-          "i18nStringSize": "Die Maximallänge der Beschreibung ist 2048 Zeichen."
+          "i18n-string-size": "Die Maximallänge der Beschreibung ist 2048 Zeichen."
         },
         "accessWays": {
           "not-empty": "Die Liste der Zugangswege einer Variable benötigt mindest ein Element und darf nicht leer sein!",

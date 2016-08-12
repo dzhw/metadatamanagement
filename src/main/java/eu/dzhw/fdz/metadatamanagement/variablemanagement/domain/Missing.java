@@ -25,7 +25,7 @@ public class Missing {
   private Integer code;
 
   @I18nStringSize(max = StringLengths.MEDIUM, 
-      message = "variable-management.error.missing.label.i18nStringSize")
+      message = "variable-management.error.missing.label.i18n-string-size")
   private I18nString label;
 
   @NotNull(message = "variable-management.error.missing.absoluteFrequency.not-null")

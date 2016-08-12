@@ -11,7 +11,7 @@ angular.module('metadatamanagementApp').service('SurveyUploadService',
       if (uploadCount === objects.length) {
         ElasticSearchAdminService.processUpdateQueue().then(function() {
           JobLoggingService.finish(
-            'survey-management.log-messages.survey.uploadTerminated', {
+            'survey-management.log-messages.survey.upload-terminated', {
               total: JobLoggingService.getCurrentJob().total,
               errors: JobLoggingService.getCurrentJob().errors
             });
@@ -20,7 +20,7 @@ angular.module('metadatamanagementApp').service('SurveyUploadService',
         if (!objects[uploadCount].id || objects[uploadCount].id === '') {
           var index = uploadCount;
           JobLoggingService.error(
-            'survey-management.log-messages.survey.missingId', {
+            'survey-management.log-messages.survey.missing-id', {
               index: index + 1
             });
           uploadCount++;

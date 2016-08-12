@@ -17,7 +17,7 @@ angular.module('metadatamanagementApp').service('DataSetReportService',
           //Download automaticly data filled tex template
           FileResource.download(gridFsFileName).then(function(response) {
             JobLoggingService.success(
-              'dataSet-management.log-messages.tex.uploadTerminated', {}
+              'dataSet-management.log-messages.tex.upload-terminated', {}
             );
             saveAs(response.data.blob, file.name);
             JobLoggingService.finish(

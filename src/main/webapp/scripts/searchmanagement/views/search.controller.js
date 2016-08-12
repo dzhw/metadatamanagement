@@ -152,13 +152,13 @@ angular.module('metadatamanagementApp').controller('SearchController',
             if (!CleanJSObjectService.isNullOrEmpty(dataAcquisitionProject)) {
               var confirm = $mdDialog.confirm()
                   .title($translate.instant(
-                      'search-management.deleteMessages.deleteVariablesTitle'))
+                      'search-management.delete-messages.deleteVariablesTitle'))
                   .textContent($translate.instant(
-                      'search-management.deleteMessages.deleteVariables', {
+                      'search-management.delete-messages.deleteVariables', {
                           id: dataAcquisitionProject.id
                         }))
                   .ariaLabel($translate.instant(
-                      'search-management.deleteMessages.deleteVariables', {
+                      'search-management.delete-messages.deleteVariables', {
                           id: dataAcquisitionProject.id
                         }))
                   .ok($translate.instant('global.buttons.ok'))
@@ -181,13 +181,13 @@ angular.module('metadatamanagementApp').controller('SearchController',
             if (!CleanJSObjectService.isNullOrEmpty(dataAcquisitionProject)) {
               var confirm = $mdDialog.confirm()
                   .title($translate.instant(
-                      'search-management.deleteMessages.deleteQuestionsTitle'))
+                      'search-management.delete-messages.deleteQuestionsTitle'))
                   .textContent($translate.instant(
-                      'search-management.deleteMessages.deleteQuestions', {
+                      'search-management.delete-messages.deleteQuestions', {
                           id: dataAcquisitionProject.id
                         }))
                   .ariaLabel($translate.instant(
-                      'search-management.deleteMessages.deleteQuestions', {
+                      'search-management.delete-messages.deleteQuestions', {
                           id: dataAcquisitionProject.id
                         }))
                   .ok($translate.instant('global.buttons.ok'))
@@ -209,13 +209,13 @@ angular.module('metadatamanagementApp').controller('SearchController',
             if (!CleanJSObjectService.isNullOrEmpty(dataAcquisitionProject)) {
               var confirm = $mdDialog.confirm()
                   .title($translate.instant(
-                      'search-management.deleteMessages.deleteSurveysTitle'))
+                      'search-management.delete-messages.deleteSurveysTitle'))
                   .textContent($translate.instant(
-                      'search-management.deleteMessages.deleteSurveys', {
+                      'search-management.delete-messages.deleteSurveys', {
                           id: dataAcquisitionProject.id
                         }))
                   .ariaLabel($translate.instant(
-                      'search-management.deleteMessages.deleteSurveys', {
+                      'search-management.delete-messages.deleteSurveys', {
                           id: dataAcquisitionProject.id
                         }))
                   .ok($translate.instant('global.buttons.ok'))
@@ -237,13 +237,13 @@ angular.module('metadatamanagementApp').controller('SearchController',
             if (!CleanJSObjectService.isNullOrEmpty(dataAcquisitionProject)) {
               var confirm = $mdDialog.confirm()
                   .title($translate.instant(
-                      'search-management.deleteMessages.deleteDataSetsTitle'))
+                      'search-management.delete-messages.deleteDataSetsTitle'))
                   .textContent($translate.instant(
-                      'search-management.deleteMessages.deleteDataSets', {
+                      'search-management.delete-messages.deleteDataSets', {
                           id: dataAcquisitionProject.id
                         }))
                   .ariaLabel($translate.instant(
-                      'search-management.deleteMessages.deleteDataSets', {
+                      'search-management.delete-messages.deleteDataSets', {
                           id: dataAcquisitionProject.id
                         }))
                   .ok($translate.instant('global.buttons.ok'))

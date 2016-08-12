@@ -27,7 +27,7 @@ public class FilterDetails {
   private String expression;
 
   @I18nStringSize(max = StringLengths.LARGE,
-      message = "variable-management.error.filterDetails.description.i18nStringSize")
+      message = "variable-management.error.filterDetails.description.i18n-string-size")
   private I18nString description;
 
   @NotEmpty(message = "variable-management.error.filterDetails." 

@@ -42,12 +42,12 @@ public class DataAcquisitionProject extends AbstractRdcDomainObject {
 
   @I18nStringSize(max = StringLengths.MEDIUM,
       message = "dataAcquisitionProject." 
-          + "error.dataAcquisitionProject.surveySeries.i18nStringSize")
+          + "error.dataAcquisitionProject.surveySeries.i18n-string-size")
   private I18nString surveySeries;
 
   @I18nStringSize(max = StringLengths.MEDIUM,
       message = "dataAcquisitionProject." 
-          + "error.dataAcquisitionProject.panelName.i18nStringSize")
+          + "error.dataAcquisitionProject.panelName.i18n-string-size")
   private I18nString panelName;
 
   /* Nested Objects */

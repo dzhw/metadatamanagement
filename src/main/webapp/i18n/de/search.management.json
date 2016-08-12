@@ -1,6 +1,6 @@
 {
   "search-management": {
-    "deleteMessages": {
+    "delete-messages": {
       "deleteVariablesTitle": "Alle Variablen löschen?",
       "deleteVariables": "Sind Sie sicher dass, Sie alle Variablen innerhalb des Datenaufbereitungsprojekts mit der FDZ-ID \"{{ id }}\" löschen möchten?",
       "deleteSurveysTitle": "Alle Erhebungen löschen?",

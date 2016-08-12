@@ -3,9 +3,9 @@
     "log-messages": {
       "survey": {
         "saved": "Erhebung mit FDZ-ID {{ id }} erfolgreich gespeichert!",
-        "notSaved": "Erhebung mit FDZ-ID {{ id }} wurde nicht gespeichert!",
-        "missingId": "Die {{ index }}. Erhebung enthält keine FDZ-ID und wurde nicht gespeichert!",
-        "uploadTerminated": "Upload von {{ total }} Erhebungen mit {{ errors }} Fehlern beendet!",
+        "not-saved": "Erhebung mit FDZ-ID {{ id }} wurde nicht gespeichert!",
+        "missing-id": "Die {{ index }}. Erhebung enthält keine FDZ-ID und wurde nicht gespeichert!",
+        "upload-terminated": "Upload von {{ total }} Erhebungen mit {{ errors }} Fehlern beendet!",
         "cancelled": "Upload von Erhebungen Abgebrochen!"
       }
     },
@@ -18,7 +18,7 @@
           "pattern": "Es dürfen für die FDZ-ID nur alphanumerische Zeichen, deutsche Umlaute, ß, Minus und der Unterstrich verwendet werden."
         },
         "title": {
-          "i18nStringSize": "Die Maximallänge des Titels der Erhebung ist 128 Zeichen."
+          "i18n-string-size": "Die Maximallänge des Titels der Erhebung ist 128 Zeichen."
         },
         "fieldPeriod": {
           "not-null": "Der Zeitraum der Erhebung darf nicht leer sein!"

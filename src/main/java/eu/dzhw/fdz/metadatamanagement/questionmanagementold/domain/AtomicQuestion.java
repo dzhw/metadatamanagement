@@ -59,23 +59,23 @@ public class AtomicQuestion extends AbstractRdcDomainObject {
   private String compositeQuestionName;
 
   @I18nStringSize(max = StringLengths.LARGE,
-      message = "question-management.error.question.footnote.i18nStringSize")
+      message = "question-management.error.question.footnote.i18n-string-size")
   private I18nString footnote;
 
   @I18nStringSize(max = StringLengths.LARGE,
-      message = "question-management.error.question.questionText.i18nStringSize")
+      message = "question-management.error.question.questionText.i18n-string-size")
   private I18nString questionText;
 
   @I18nStringSize(max = StringLengths.LARGE,
-      message = "question-management.error.question.instruction.i18nStringSize")
+      message = "question-management.error.question.instruction.i18n-string-size")
   private I18nString instruction;
 
   @I18nStringSize(max = StringLengths.LARGE,
-      message = "question-management.error.question.introduction.i18nStringSize")
+      message = "question-management.error.question.introduction.i18n-string-size")
   private I18nString introduction;
 
   @I18nStringSize(max = StringLengths.MEDIUM,
-      message = "question-management.error.question.sectionHeader.i18nStringSize")
+      message = "question-management.error.question.sectionHeader.i18n-string-size")
   private I18nString sectionHeader;
 
 

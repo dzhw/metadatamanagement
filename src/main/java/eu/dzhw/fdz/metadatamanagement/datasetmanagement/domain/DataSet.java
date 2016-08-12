@@ -29,7 +29,7 @@ import net.karneim.pojobuilder.GeneratePojoBuilder;
 @Document(collection = "data_sets")
 @GeneratePojoBuilder(
     intoPackage = "eu.dzhw.fdz.metadatamanagement.datasetmanagement.domain.builders")
-@ValidDataSetIdName(message = "dataSet-management.error.dataSet.id.validDataSetIdName")
+@ValidDataSetIdName(message = "dataSet-management.error.dataSet.id.valid-data-set-id-name")
 public class DataSet extends AbstractRdcDomainObject {
   
   /* Domain Object Attributes */

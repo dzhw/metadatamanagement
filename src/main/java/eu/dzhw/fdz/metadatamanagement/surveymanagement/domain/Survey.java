@@ -43,7 +43,7 @@ public class Survey extends AbstractRdcDomainObject {
   private String id;
 
   @I18nStringSize(max = StringLengths.MEDIUM, 
-      message = "survey-management.error.survey.title.i18nStringSize")
+      message = "survey-management.error.survey.title.i18n-string-size")
   private I18nString title;
 
   @NotNull(message = "survey-management.error.survey.fieldPeriod.not-null")

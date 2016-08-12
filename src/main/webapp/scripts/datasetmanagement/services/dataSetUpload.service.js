@@ -11,7 +11,7 @@ angular.module('metadatamanagementApp').service('DataSetUploadService',
       if (uploadCount === objects.length) {
         ElasticSearchAdminService.processUpdateQueue().then(function() {
           JobLoggingService.finish(
-            'dataSet-management.log-messages.dataSet.uploadTerminated', {
+            'dataSet-management.log-messages.dataSet.upload-terminated', {
               total: JobLoggingService.getCurrentJob().total,
               errors: JobLoggingService.getCurrentJob().errors
             });
@@ -20,7 +20,7 @@ angular.module('metadatamanagementApp').service('DataSetUploadService',
         if (!objects[uploadCount].id || objects[uploadCount].id === '') {
           var index = uploadCount;
           JobLoggingService.error(
-            'dataSet-management.log-messages.dataSet.missingId', {
+            'dataSet-management.log-messages.dataSet.missing-id', {
               index: index + 1
             });
           uploadCount++;

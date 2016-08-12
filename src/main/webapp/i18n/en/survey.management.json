@@ -3,9 +3,9 @@
     "log-messages": {
       "survey": {
         "saved": "Survey with RDC-ID {{ id }} was saved successfully!",
-        "notSaved": "Survey with RDC-ID {{ id }} has not been saved!",
-        "missingId": "Survey {{ index }} does not contain a RDC-ID and has not been saved!",
-        "uploadTerminated": "Finished upload of {{ total }} Surveys with {{ errors }} errors.",
+        "not-saved": "Survey with RDC-ID {{ id }} has not been saved!",
+        "missing-id": "Survey {{ index }} does not contain a RDC-ID and has not been saved!",
+        "upload-terminated": "Finished upload of {{ total }} Surveys with {{ errors }} errors.",
         "cancelled": "Surveys upload cancelled!"
       }
     },
@@ -18,7 +18,7 @@
           "pattern": "Use only alphanumeric signs, german umlauts, ß and space, underscore and minus for the RDC-ID."
         },
         "title": {
-          "i18nStringSize": "The max length of the title is 128 signs."
+          "i18n-string-size": "The max length of the title is 128 signs."
         },
         "fieldPeriod": {
           "not-null": "The Field Period of a Survey must not be empty!"

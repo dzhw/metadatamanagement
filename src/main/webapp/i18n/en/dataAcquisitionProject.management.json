@@ -25,10 +25,10 @@
           "size": "The max length of the RDC-ID is 32 signs."
         },
         "surveySeries": {
-          "i18nStringSize": "The max length of the survey series is 128 signs."
+          "i18n-string-size": "The max length of the survey series is 128 signs."
         },
         "panelName": {
-          "i18nStringSize": "The max length of the panel name is 128 signs."
+          "i18n-string-size": "The max length of the panel name is 128 signs."
         }
       },
       "release": {

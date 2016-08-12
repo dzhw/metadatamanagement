@@ -25,10 +25,10 @@
           "size": "Die Maximallänge der FDZ-ID ist 32 Zeichen."
         },
         "surveySeries": {
-          "i18nStringSize": "Die Maximallänge der Erhebungsreihe ist 128 Zeichen."
+          "i18n-string-size": "Die Maximallänge der Erhebungsreihe ist 128 Zeichen."
         },
         "panelName": {
-          "i18nStringSize": "Die Maximallänge des Panelnamen ist 128 Zeichen."
+          "i18n-string-size": "Die Maximallänge des Panelnamen ist 128 Zeichen."
         }
       },
       "release": {

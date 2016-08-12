@@ -11,7 +11,7 @@ angular.module('metadatamanagementApp').service('AtomicQuestionUploadService',
       if (uploadCount === objects.length) {
         ElasticSearchAdminService.processUpdateQueue().then(function() {
           JobLoggingService.finish(
-            'question-management.log-messages.question.uploadTerminated', {
+            'question-management.log-messages.question.upload-terminated', {
               total: JobLoggingService.getCurrentJob().total,
               errors: JobLoggingService.getCurrentJob().errors
             });
@@ -20,7 +20,7 @@ angular.module('metadatamanagementApp').service('AtomicQuestionUploadService',
         if (!objects[uploadCount].id || objects[uploadCount].id === '') {
           var index = uploadCount;
           JobLoggingService.error(
-            'question-management.log-messages.question.missingId', {
+            'question-management.log-messages.question.missing-id', {
               index: index + 1
             });
           uploadCount++;

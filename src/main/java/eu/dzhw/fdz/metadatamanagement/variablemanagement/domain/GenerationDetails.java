@@ -29,7 +29,7 @@ import net.karneim.pojobuilder.GeneratePojoBuilder;
 public class GenerationDetails {
 
   @I18nStringSize(max = StringLengths.LARGE,
-      message = "variable-management.error.generationDetails.description.i18nStringSize")
+      message = "variable-management.error.generationDetails.description.i18n-string-size")
   private I18nString description;
 
   @Size(max = StringLengths.X_LARGE, 
