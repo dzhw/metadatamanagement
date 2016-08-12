@@ -49,7 +49,7 @@
       "title": "Sign in",
       "form": {
         "password": "Password",
-        "password.placeholder": "Your password",
+        "password-placeholder": "Your password",
         "rememberme": "Remember me",
         "button": "Sign in"
       },

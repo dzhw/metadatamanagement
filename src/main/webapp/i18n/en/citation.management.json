@@ -61,11 +61,11 @@
         "howPublished": {
           "size": "The max length of the how published is 128 signs."
         },
-        "citationString": {
+        "citation-string": {
           "not-empty": "The citation string of a citation must not be empty!",
           "size": "The max length of the citation string is 128 signs."
         },
-        "sourceReference": {
+        "source-reference": {
           "not-empty": "The source reference of a citation must not be empty!",
           "size": "The max length of the source reference is 2048 signs."
         }

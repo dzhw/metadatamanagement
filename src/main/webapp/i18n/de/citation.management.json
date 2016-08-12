@@ -61,11 +61,11 @@
         "howPublished": {
           "size": "Die Maximallänge des 'Wie veröffentlicht' ist 128 Zeichen."
         },
-        "citationString": {
+        "citation-string": {
           "not-empty": "Der Zitationsstring der Zitation darf nicht leer sein!",
           "size": "Die Maximallänge des Zitationsstrings ist 128 Zeichen."
         },
-        "sourceReference": {
+        "source-reference": {
           "not-empty": "Die Source-Referenz der Zitation darf nicht leer sein!",
           "size": "Die Maximallänge der Source-Referenz ist 2048 Zeichen."
         }

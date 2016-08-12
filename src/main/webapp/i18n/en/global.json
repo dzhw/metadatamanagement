@@ -56,13 +56,13 @@
     },
     "form": {
       "username": "Username",
-      "username.placeholder": "Your username",
+      "username-placeholder": "Your username",
       "newpassword": "New password",
-      "newpassword.placeholder": "New password",
+      "newpassword-placeholder": "New password",
       "confirmpassword": "New password confirmation",
-      "confirmpassword.placeholder": "Confirm the new password",
+      "confirmpassword-placeholder": "Confirm the new password",
       "email": "E-mail",
-      "email.placeholder": "Your e-mail"
+      "email-placeholder": "Your e-mail"
     },
     "messages": {
       "info": {

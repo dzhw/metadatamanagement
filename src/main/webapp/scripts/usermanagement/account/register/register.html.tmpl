@@ -32,7 +32,7 @@
 
                 <div class="form-group">
                     <label for="login" data-translate="global.form.username">Username</label>
-                    <input type="text" class="form-control" id="login" name="login" placeholder="{{'global.form.username.placeholder' | translate}}" ng-model="registerAccount.login" ng-minlength=1 ng-maxlength=50 ng-pattern="/^[a-z0-9]*$/" required>
+                    <input type="text" class="form-control" id="login" name="login" placeholder="{{'global.form.username-placeholder' | translate}}" ng-model="registerAccount.login" ng-minlength=1 ng-maxlength=50 ng-pattern="/^[a-z0-9]*$/" required>
                     <div ng-show="form.login.$dirty && form.login.$invalid">
                         <p class="help-block" ng-show="form.login.$error.required" data-translate="user-management.register.messages.validate.login.required">
                             Your username is required.
@@ -50,7 +50,7 @@
                 </div>
                 <div class="form-group">
                     <label for="email" data-translate="global.form.email">E-mail</label>
-                    <input type="email" class="form-control" id="email" name="email" placeholder="{{'global.form.email.placeholder' | translate}}" ng-model="registerAccount.email" ng-minlength=5 ng-maxlength=100 required>
+                    <input type="email" class="form-control" id="email" name="email" placeholder="{{'global.form.email-placeholder' | translate}}" ng-model="registerAccount.email" ng-minlength=5 ng-maxlength=100 required>
                     <div ng-show="form.email.$dirty && form.email.$invalid">
                         <p class="help-block" ng-show="form.email.$error.required" data-translate="global.messages.validate.email.required">
                             Your e-mail is required.
@@ -68,7 +68,7 @@
                 </div>
                 <div class="form-group">
                     <label for="password" data-translate="global.form.newpassword">New password</label>
-                    <input type="password" class="form-control" id="password" name="password" placeholder="{{'global.form.newpassword.placeholder' | translate}}" ng-model="registerAccount.password" ng-minlength=5 ng-maxlength=50 required>
+                    <input type="password" class="form-control" id="password" name="password" placeholder="{{'global.form.newpassword-placeholder' | translate}}" ng-model="registerAccount.password" ng-minlength=5 ng-maxlength=50 required>
                     <div ng-show="form.password.$dirty && form.password.$invalid">
                         <p class="help-block" ng-show="form.password.$error.required" data-translate="global.messages.validate.newpassword.required">
                             Your password is required.
@@ -84,7 +84,7 @@
                 </div>
                 <div class="form-group">
                     <label for="confirmPassword" data-translate="global.form.confirmpassword">New password confirmation</label>
-                    <input type="password" class="form-control" id="confirmPassword" name="confirmPassword" placeholder="{{'global.form.confirmpassword.placeholder' | translate}}" ng-model="confirmPassword" ng-minlength=5 ng-maxlength=50 required>
+                    <input type="password" class="form-control" id="confirmPassword" name="confirmPassword" placeholder="{{'global.form.confirmpassword-placeholder' | translate}}" ng-model="confirmPassword" ng-minlength=5 ng-maxlength=50 required>
                     <div ng-show="form.confirmPassword.$dirty && form.confirmPassword.$invalid">
                         <p class="help-block" ng-show="form.confirmPassword.$error.required" data-translate="global.messages.validate.confirmpassword.required">
                             Your confirmation password is required.

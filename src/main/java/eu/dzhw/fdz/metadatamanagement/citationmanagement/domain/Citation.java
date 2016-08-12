@@ -91,14 +91,14 @@ public class Citation extends AbstractRdcDomainObject {
       message = "citation-management.error.citation.howPublished.size")
   private String howPublished;
   
-  @NotEmpty(message = "{citation-management.error.citation.citationString.not-empty}")
+  @NotEmpty(message = "{citation-management.error.citation.citation-string.not-empty}")
   @Size(max = StringLengths.MEDIUM, 
-      message = "citation-management.error.citation.citationString.size")
+      message = "citation-management.error.citation.citation-string.size")
   private String citationString;
   
-  @NotEmpty(message = "{citation-management.error.citation.sourceReference.not-empty}")
+  @NotEmpty(message = "{citation-management.error.citation.source-reference.not-empty}")
   @Size(max = StringLengths.LARGE, 
-      message = "citation-management.error.citation.sourceReference.size")
+      message = "citation-management.error.citation.source-reference.size")
   private String sourceReference;
 
   /*

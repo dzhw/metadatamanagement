@@ -49,7 +49,7 @@
       "title": "Anmeldung",
       "form": {
         "password": "Passwort",
-        "password.placeholder": "Ihr Passwort",
+        "password-placeholder": "Ihr Passwort",
         "rememberme": "Automatische Anmeldung",
         "button": "Anmelden"
       },
