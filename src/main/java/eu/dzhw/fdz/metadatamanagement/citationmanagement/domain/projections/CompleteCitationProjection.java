@@ -1,8 +1,8 @@
-package eu.dzhw.fdz.metadatamanagement.bibliographicalreferencemanagement.domain.projections;
+package eu.dzhw.fdz.metadatamanagement.citationmanagement.domain.projections;
 
 import org.springframework.data.rest.core.config.Projection;
 
-import eu.dzhw.fdz.metadatamanagement.bibliographicalreferencemanagement.domain.BibliographicalReference;
+import eu.dzhw.fdz.metadatamanagement.citationmanagement.domain.Citation;
 import eu.dzhw.fdz.metadatamanagement.common.domain.projections.AbstractRdcDomainObjectProjection;
 
 /**
@@ -12,8 +12,8 @@ import eu.dzhw.fdz.metadatamanagement.common.domain.projections.AbstractRdcDomai
  * @author Daniel Katzberg
  *
  */
-@Projection(name = "complete", types = BibliographicalReference.class)
-public interface CompleteBibliographicalReferenceProjection
+@Projection(name = "complete", types = Citation.class)
+public interface CompleteCitationProjection
     extends AbstractRdcDomainObjectProjection {
 
   String getAuthor();

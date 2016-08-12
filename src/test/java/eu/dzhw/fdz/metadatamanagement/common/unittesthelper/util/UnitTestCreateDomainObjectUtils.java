@@ -9,8 +9,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import eu.dzhw.fdz.metadatamanagement.bibliographicalreferencemanagement.domain.BibliographicalReference;
-import eu.dzhw.fdz.metadatamanagement.bibliographicalreferencemanagement.domain.builders.BibliographicalReferenceBuilder;
+import eu.dzhw.fdz.metadatamanagement.citationmanagement.domain.Citation;
+import eu.dzhw.fdz.metadatamanagement.citationmanagement.domain.builders.CitationBuilder;
 import eu.dzhw.fdz.metadatamanagement.common.domain.builders.I18nStringBuilder;
 import eu.dzhw.fdz.metadatamanagement.common.domain.builders.PeriodBuilder;
 import eu.dzhw.fdz.metadatamanagement.datasetmanagement.domain.DataSet;
@@ -258,8 +258,8 @@ public class UnitTestCreateDomainObjectUtils {
       .build();
   }
 
-  public static BibliographicalReference buildBibliographicalReference() {
-    return new BibliographicalReferenceBuilder().withAuthor("Max Mustermann")
+  public static Citation buildCitation() {
+    return new CitationBuilder().withAuthor("Max Mustermann")
       .withBookTitle("Ein Testbuch fuer Testzwecke")
       .withChapter("Kapitel 1 - Der Test")
       .withEdition("Edition 1")

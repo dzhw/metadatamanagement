@@ -1,4 +1,4 @@
-package eu.dzhw.fdz.metadatamanagement.bibliographicalreferencemanagement.domain;
+package eu.dzhw.fdz.metadatamanagement.citationmanagement.domain;
 
 import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.data.annotation.Id;
@@ -17,11 +17,11 @@ import net.karneim.pojobuilder.GeneratePojoBuilder;
  */
 @Document(collection = "bibliographical-references")
 @GeneratePojoBuilder(intoPackage = "eu.dzhw.fdz.metadatamanagement"
-    + ".bibliographicalreferencemanagement.domain.builders")
-public class BibliographicalReference extends AbstractRdcDomainObject {
+    + ".citationmanagement.domain.builders")
+public class Citation extends AbstractRdcDomainObject {
 
   @Id
-  @NotEmpty(message = "{error.bibliographicalReference.id.notEmpty}")
+  @NotEmpty(message = "{error.citation.id.notEmpty}")
   private String id;
 
   private String author;
