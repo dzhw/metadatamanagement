@@ -1,9 +1,19 @@
-<md-toast>
-    <span data-translate="{{resultMessage}}" translate-values="{{translationParams}}"></span>
-    <md-button class="md-raised md-accent" ng-click="showLog()" aria-label="{{'global.joblogging.job-complete-toast.show-log'| translate}}">
-        <span data-translate="global.joblogging.job-complete-toast.show-log"></span>
-    </md-button>
-    <md-button class="md-raised md-primary" ng-click="closeToast()" aria-label="{{'global.buttons.close' | translate}}">
-        <span data-translate="global.buttons.close"></span>
-    </md-button>
+<md-toast flex>
+    <span class="fdz-truncate-string" data-translate="{{resultMessage}}" translate-values="{{translationParams}}"></span>
+      <md-button aria-label="{{'global.joblogging.job-complete-toast.show-log'| translate}}"  class="md-accent md-raised md-hue-1" ng-click="showLog()"
+      ng-class="{'md-icon-button': $mdMedia('xs')}" >
+          <md-tooltip>
+              {{'global.joblogging.job-complete-toast.show-log' | translate}}
+          </md-tooltip>
+          <md-icon md-svg-src="/assets/images/icons/show.svg"></md-icon>
+          <span hide-xs data-translate="global.joblogging.job-complete-toast.show-log">Show log</span>
+      </md-button>
+      <md-button aria-label="{{'global.buttons.close' | translate}}"  class="md-primary md-raised md-hue-1" ng-click="closeToast()"
+      ng-class="{'md-icon-button': $mdMedia('xs')}" >
+          <md-tooltip>
+              {{'global.buttons.close' | translate}}
+          </md-tooltip>
+          <md-icon md-svg-src="/assets/images/icons/close.svg"></md-icon>
+          <span hide-xs data-translate="global.buttons.close">Close</span>
+      </md-button>
 </md-toast>
