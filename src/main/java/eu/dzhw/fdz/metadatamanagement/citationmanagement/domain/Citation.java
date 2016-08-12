@@ -1,5 +1,8 @@
 package eu.dzhw.fdz.metadatamanagement.citationmanagement.domain;
 
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
+
 import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -7,6 +10,8 @@ import org.springframework.data.mongodb.core.mapping.Document;
 import com.google.common.base.MoreObjects;
 
 import eu.dzhw.fdz.metadatamanagement.common.domain.AbstractRdcDomainObject;
+import eu.dzhw.fdz.metadatamanagement.common.domain.util.Patterns;
+import eu.dzhw.fdz.metadatamanagement.common.domain.validation.StringLengths;
 import net.karneim.pojobuilder.GeneratePojoBuilder;
 
 /**
@@ -21,49 +26,79 @@ import net.karneim.pojobuilder.GeneratePojoBuilder;
 public class Citation extends AbstractRdcDomainObject {
 
   @Id
-  @NotEmpty(message = "{error.citation.id.notEmpty}")
+  @NotEmpty(message = "{citation-management.error.citation.id.notEmpty}")
+  @Pattern(regexp = Patterns.GERMAN_ALPHANUMERIC_WITH_UNDERSCORE_AND_MINUS,
+      message = "citation-management.error.citation.id.pattern")
+  @Size(max = StringLengths.MEDIUM, message = "citation-management.error.citation.id.size")
   private String id;
 
+  @Size(max = StringLengths.MEDIUM, message = "citation-management.error.citation.author.size")
   private String author;
 
+  @Size(max = StringLengths.LARGE, message = "citation-management.error.citation.book-title.size")
   private String bookTitle;
 
+  @Size(max = StringLengths.MEDIUM, message = "citation-management.error.citation.chapter.size")
   private String chapter;
 
+  @Size(max = StringLengths.MEDIUM, message = "citation-management.error.citation.edition.size")
   private String edition;
 
+  @Size(max = StringLengths.MEDIUM, message = "citation-management.error.citation.editor.size")
   private String editor;
 
+  @Size(max = StringLengths.MEDIUM, 
+      message = "citation-management.error.citation.institution.size")
   private String institution;
 
+  @Size(max = StringLengths.MEDIUM, message = "citation-management.error.citation.journal.size")
   private String journal;
 
   private Integer publicationYear;
 
+  @Size(max = StringLengths.LARGE, message = "citation-management.error.citation.title.size")
   private String title;
 
+  @Size(max = StringLengths.LARGE, message = "citation-management.error.citation.series.size")
   private String series;
 
+  @Size(max = StringLengths.SMALL, message = "citation-management.error.citation.volume.size")
   private String volume;
 
+  @Size(max = StringLengths.MEDIUM, message = "citation-management.error.citation.type.size")
   private String type;
 
+  @Size(max = StringLengths.SMALL, message = "citation-management.error.citation.pages.size")
   private String pages;
 
+  @Size(max = StringLengths.MEDIUM, message = "citation-management.error.citation.publisher.size")
   private String publisher;
 
+  @Size(max = StringLengths.MEDIUM, 
+      message = "citation-management.error.citation.organization.size")
   private String organization;
 
+  @Size(max = StringLengths.SMALL, message = "citation-management.error.citation.number.size")
   private String number;
 
+  @Size(max = StringLengths.MEDIUM, message = "citation-management.error.citation.school.size")
   private String school;
 
+  @Size(max = StringLengths.LARGE, message = "citation-management.error.citation.note.size")
   private String note;
 
+  @Size(max = StringLengths.MEDIUM, 
+      message = "citation-management.error.citation.howPublished.size")
   private String howPublished;
   
+  @NotEmpty(message = "{citation-management.error.citation.citationString.notEmpty}")
+  @Size(max = StringLengths.MEDIUM, 
+      message = "citation-management.error.citation.citationString.size")
   private String citationString;
   
+  @NotEmpty(message = "{citation-management.error.citation.sourceReference.notEmpty}")
+  @Size(max = StringLengths.LARGE, 
+      message = "citation-management.error.citation.sourceReference.size")
   private String sourceReference;
 
   /*
