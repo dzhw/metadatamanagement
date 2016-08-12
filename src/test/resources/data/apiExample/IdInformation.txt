@@ -7,4 +7,4 @@ variable: FDZID_Variable_001
 questionnaire: QuestionnaireId001
 dataSet: DataSet_001
 atomicQuestion: AtomicQuestion_001
-bibliographicalReference: Reference001
+citation: Reference001

@@ -7,8 +7,8 @@ import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 import eu.dzhw.fdz.metadatamanagement.citationmanagement.domain.Citation;
 
 /**
- * Spring Data MongoDB repository for the bibliographical reference entity.
- * 
+ * Spring Data MongoDB repository for the citations entity.
+ *
  * @author Daniel Katzberg
  *
  */

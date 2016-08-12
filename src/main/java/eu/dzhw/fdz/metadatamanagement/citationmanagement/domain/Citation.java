@@ -10,12 +10,12 @@ import eu.dzhw.fdz.metadatamanagement.common.domain.AbstractRdcDomainObject;
 import net.karneim.pojobuilder.GeneratePojoBuilder;
 
 /**
- * Bibliographical Reference. (For Variable Documentation, Latex. Imported from CITAVI)
- * 
+ * Citation. (For Variable Documentation, Latex. Imported from CITAVI)
+ *
  * @author Daniel Katzberg
  *
  */
-@Document(collection = "bibliographical-references")
+@Document(collection = "citations")
 @GeneratePojoBuilder(intoPackage = "eu.dzhw.fdz.metadatamanagement"
     + ".citationmanagement.domain.builders")
 public class Citation extends AbstractRdcDomainObject {
@@ -64,7 +64,7 @@ public class Citation extends AbstractRdcDomainObject {
 
   /*
    * (non-Javadoc)
-   * 
+   *
    * @see eu.dzhw.fdz.metadatamanagement.domain.AbstractRdcDomainObject#getId()
    */
   @Override
@@ -74,7 +74,7 @@ public class Citation extends AbstractRdcDomainObject {
 
   /*
    * (non-Javadoc)
-   * 
+   *
    * @see eu.dzhw.fdz.metadatamanagement.domain.AbstractRdcDomainObject#toString()
    */
   @Override

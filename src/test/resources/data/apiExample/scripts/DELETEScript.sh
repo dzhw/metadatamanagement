@@ -32,11 +32,11 @@ fi
 user="-u admin:admin"
 delete="-X DELETE"
 files="data-acquisition-projects/ATestProject
-data-acquisition-projects/bibliographical-references/Reference001
+data-acquisition-projects/citations/Reference001
 
 
 #delete test data in the api paths:
-#data-acquisition-projects and bibliographical-references
+#data-acquisition-projects and citations
 for i in $files
 do
   curl $user $delete $server$i
