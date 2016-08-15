@@ -33,7 +33,7 @@
     "grunt-usemin": "3.1.1",
     "grunt-wiredep": "3.0.1",
     "jasmine-core": "2.4.1",
-    "jshint-stylish": "2.2.0",
+    "jshint-stylish": "2.2.1",
     "karma": "1.2.0",
     "karma-chrome-launcher": "1.0.1",
     "karma-coverage": "1.1.1",
