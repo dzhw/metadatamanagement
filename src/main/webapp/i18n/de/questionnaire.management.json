@@ -10,7 +10,7 @@
             "not-empty": "Die FDZ-ID der zugehörigen Erhebung darf nicht leer sein!"
           }
         },
-        "dataAcquisitionProject": {
+        "data-acquisition-project": {
           "id": {
             "not-empty": "Die FDZ-ID des Datenaufbereitungsprojektes darf nicht leer sein!"
           }

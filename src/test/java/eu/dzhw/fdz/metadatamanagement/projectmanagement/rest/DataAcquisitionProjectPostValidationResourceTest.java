@@ -167,8 +167,8 @@ public class DataAcquisitionProjectPostValidationResourceTest extends AbstractTe
     mockMvc.perform(post(API_DATA_ACQUISITION_PROJECTS_POST_VALIDATION_URI))
       .andExpect(status().isOk())
       .andExpect(jsonPath("$.errors", hasSize(2)))
-      .andExpect(jsonPath("$.errors[0].messageId", containsString("error.post-validation.atomicQuestionHasInvalidVariableId")))
-      .andExpect(jsonPath("$.errors[1].messageId", containsString("error.post-validation.atomicQuestionHasInvalidQuestionnaireId")));    
+      .andExpect(jsonPath("$.errors[0].messageId", containsString("error.post-validation.question-has-invalid-variable-id")))
+      .andExpect(jsonPath("$.errors[1].messageId", containsString("error.post-validation.question-has-invalid-questionnaire-id")));    
   }
   
   @Test

@@ -8,7 +8,7 @@
       "question": "Are you sure you want to delete Data Acquisition Project \"{{ name }}\"?"
     },
     "log-messages": {
-      "dataAcquisitionProject": {
+      "data-acquisition-project": {
         "saved": "Successfully saved the Data Acquisition Project '{{ id }}'!",
         "serverError": "An error on the server has occurred: ",
         "deleteTitle": "Delete Project '{{ id }}'?",
@@ -18,7 +18,7 @@
       }
     },
     "error": {
-      "dataAcquisitionProject": {
+      "data-acquisition-project": {
         "id": {
           "not-empty": "The RDC-ID of Data Acquisition Project must not be empty!",
           "pattern": "The RDC-ID must contain only alphanumeric signs, german umlauts and ß.",

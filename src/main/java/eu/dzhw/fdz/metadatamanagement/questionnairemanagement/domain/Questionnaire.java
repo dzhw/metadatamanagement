@@ -22,7 +22,7 @@ public class Questionnaire extends AbstractRdcDomainObject {
   @NotEmpty(message = "{error.questionnaire.id.not-empty}")
   private String id;
 
-  @NotEmpty(message = "{error.questionnaire.dataAcquisitionProject.id.not-empty}")
+  @NotEmpty(message = "{error.questionnaire.data-acquisition-project.id.not-empty}")
   private String dataAcquisitionProjectId;
   
   @NotEmpty(message = "{error.questionnaire.survey.id.not-empty}")

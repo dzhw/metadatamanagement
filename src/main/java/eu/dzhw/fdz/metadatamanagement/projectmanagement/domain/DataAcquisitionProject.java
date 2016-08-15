@@ -31,23 +31,23 @@ public class DataAcquisitionProject extends AbstractRdcDomainObject {
 
   /* Domain Object Attributes */
   @Id
-  @NotEmpty(message = "dataAcquisitionProject." 
-      + "error.dataAcquisitionProject.id.not-empty")
+  @NotEmpty(message = "data-acquisition-project." 
+      + "error.data-acquisition-project.id.not-empty")
   @Pattern(regexp = Patterns.GERMAN_ALPHANUMERIC,
-      message = "dataAcquisitionProject." 
-      + "error.dataAcquisitionProject.id.pattern")
+      message = "data-acquisition-project." 
+      + "error.data-acquisition-project.id.pattern")
   @Size(max = StringLengths.SMALL,
-      message = "dataAcquisitionProject.error.dataAcquisitionProject.id.size")
+      message = "data-acquisition-project.error.data-acquisition-project.id.size")
   private String id;
 
   @I18nStringSize(max = StringLengths.MEDIUM,
-      message = "dataAcquisitionProject." 
-          + "error.dataAcquisitionProject.surveySeries.i18n-string-size")
+      message = "data-acquisition-project." 
+          + "error.data-acquisition-project.surveySeries.i18n-string-size")
   private I18nString surveySeries;
 
   @I18nStringSize(max = StringLengths.MEDIUM,
-      message = "dataAcquisitionProject." 
-          + "error.dataAcquisitionProject.panelName.i18n-string-size")
+      message = "data-acquisition-project." 
+          + "error.data-acquisition-project.panelName.i18n-string-size")
   private I18nString panelName;
 
   /* Nested Objects */

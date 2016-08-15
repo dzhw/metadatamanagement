@@ -23,7 +23,7 @@
         "fieldPeriod": {
           "not-null": "Der Zeitraum der Erhebung darf nicht leer sein!"
         },
-        "dataAcquisitionProject": {
+        "data-acquisition-project": {
           "id": {
             "not-empty": "Die FDZ - ID des Projektes darf bei der Erhebung nicht leer sein!"
           }

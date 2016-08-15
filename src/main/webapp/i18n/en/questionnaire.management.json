@@ -10,7 +10,7 @@
             "not-empty": "The RDC-ID of the Survey must not be empty!"
           }
         },
-        "dataAcquisitionProject": {
+        "data-acquisition-project": {
           "id": {
             "not-empty": "The RDC-ID of the Data Acquisition Project must not be empty!"
           }

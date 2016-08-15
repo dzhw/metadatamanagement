@@ -25,7 +25,7 @@
         "description": {
           "18nStringSize": "The max length of the description is 2048 signs."
         },
-        "dataAcquisitionProject": {
+        "data-acquisition-project": {
           "id": {
             "not-empty": "The RDC-ID of the Data Acquisition Project for the Data Set must not be empty!"
           }

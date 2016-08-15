@@ -82,7 +82,7 @@ public class AtomicQuestion extends AbstractRdcDomainObject {
 
   /* Foreign Keys */
   @Indexed
-  @NotEmpty(message = "question-management.error.question.dataAcquisitionProject.id.not-empty")
+  @NotEmpty(message = "question-management.error.question.data-acquisition-project.id.not-empty")
   private String dataAcquisitionProjectId;
 
   @NotEmpty(message = "question-management.error.question.questionnaire.id.not-empty")

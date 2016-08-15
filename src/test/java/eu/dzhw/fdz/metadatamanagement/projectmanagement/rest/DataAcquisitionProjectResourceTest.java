@@ -83,7 +83,7 @@ public class DataAcquisitionProjectResourceTest extends AbstractTest {
     // create the project with the given id
     mockMvc.perform(put(API_DATA_ACQUISITION_PROJECTS_URI + "/" + project.getId())
       .content(TestUtil.convertObjectToJsonBytes(project)))
-      .andExpect(status().is4xxClientError()).andExpect(jsonPath("$.errors[0].message", containsString("error.dataAcquisitionProject.id.size")));
+      .andExpect(status().is4xxClientError()).andExpect(jsonPath("$.errors[0].message", containsString("error.data-acquisition-project.id.size")));
   }
   
   @Test
@@ -184,6 +184,6 @@ public class DataAcquisitionProjectResourceTest extends AbstractTest {
         post(API_DATA_ACQUISITION_PROJECTS_URI).content(TestUtil.convertObjectToJsonBytes(project)))
       .andExpect(status().isBadRequest())
       .andExpect(
-          jsonPath("$.errors[0].message", containsString("dataAcquisitionProject.error.dataAcquisitionProject.id.not-empty")));
+          jsonPath("$.errors[0].message", containsString("data-acquisition-project.error.data-acquisition-project.id.not-empty")));
   }
 }

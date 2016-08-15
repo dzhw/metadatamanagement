@@ -47,7 +47,7 @@ public class DataSet extends AbstractRdcDomainObject {
   
   /* Foreign Keys */
   @Indexed
-  @NotEmpty(message = "dataSet-management.error.dataSet.dataAcquisitionProject.id.not-empty")
+  @NotEmpty(message = "dataSet-management.error.dataSet.data-acquisition-project.id.not-empty")
   private String dataAcquisitionProjectId;
 
   @NotEmpty(message = "dataSet-management.error.dataSet.survey.ids.not-empty")

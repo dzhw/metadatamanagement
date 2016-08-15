@@ -52,7 +52,7 @@ public class Survey extends AbstractRdcDomainObject {
 
   /* Foreign Keys */
   @Indexed
-  @NotEmpty(message = "survey-management.error.survey.dataAcquisitionProject.id.not-empty")
+  @NotEmpty(message = "survey-management.error.survey.data-acquisition-project.id.not-empty")
   private String dataAcquisitionProjectId;
 
   @NotEmpty(message = "survey-management.error.survey.questionnaire.id.not-empty")

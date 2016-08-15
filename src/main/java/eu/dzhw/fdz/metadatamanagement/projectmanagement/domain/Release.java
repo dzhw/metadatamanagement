@@ -27,23 +27,23 @@ import net.karneim.pojobuilder.GeneratePojoBuilder;
     intoPackage = "eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.builders")
 public class Release {
   
-  @NotEmpty(message = "dataAcquisitionProject." 
+  @NotEmpty(message = "data-acquisition-project." 
       + "error.release.version.not-empty")
   @Size(max = StringLengths.SMALL, 
-      message = "dataAcquisitionProject.error.release.version.size")
+      message = "data-acquisition-project.error.release.version.size")
   @Pattern(regexp = Patterns.NUMERIC_WITH_DOT, 
-      message = "dataAcquisitionProject.error.release.version.pattern")
+      message = "data-acquisition-project.error.release.version.pattern")
   private String version;
 
   @Size(max = StringLengths.MEDIUM, 
-      message = "dataAcquisitionProject.error.release.doi.size")
+      message = "data-acquisition-project.error.release.doi.size")
   private String doi;
 
-  @NotNull(message = "dataAcquisitionProject.error.release.date.not-null")
+  @NotNull(message = "data-acquisition-project.error.release.date.not-null")
   private LocalDateTime date;
 
   @I18nStringSize(max = StringLengths.LARGE, 
-      message = "dataAcquisitionProject.error.release.notes.i18n-string-size")
+      message = "data-acquisition-project.error.release.notes.i18n-string-size")
   private I18nString notes;
 
   /*

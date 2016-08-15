@@ -45,7 +45,7 @@
         "section-header": {
           "i18n-string-size": "Die Maximallänge der Fußnote ist 128 Zeichen."
         },
-        "dataAcquisitionProject": {
+        "data-acquisition-project": {
           "id": {
             "not-empty": "Die FDZ - ID des Datenaufbereitungsprojektes darf nicht leer sein!"
           }
@@ -62,8 +62,8 @@
         }
       },
       "post-validation": {
-        "atomicQuestionHasInvalidVariableId": "Die atomare Frage {{id}} referenziert eine unbekannte Variable ({{toBereferenzedId}}).",
-        "atomicQuestionHasInvalidQuestionnaireId": "Die atomare Frage {{id}} referenziert einen unbekannten Fragebogen ({{toBereferenzedId}})."
+        "question-has-invalid-variable-id": "Die Frage {{id}} referenziert eine unbekannte Variable ({{toBereferenzedId}}).",
+        "question-has-invalid-questionnaire-id": "Die Frage {{id}} referenziert einen unbekannten Fragebogen ({{toBereferenzedId}})."
       }
     }
   }

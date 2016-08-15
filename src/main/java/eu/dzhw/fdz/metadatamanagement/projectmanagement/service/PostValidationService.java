@@ -94,14 +94,14 @@ public class PostValidationService {
       if (this.variableRepository.findOne(atomicQuestion.getVariableId()) == null) {
         String[] information = {atomicQuestion.getId(), atomicQuestion.getVariableId()};
         errors.add(new PostValidationMessageDto("question-management.error." 
-            + "post-validation.atomicQuestionHasInvalidVariableId", information));
+            + "post-validation.question-has-invalid-variable-id", information));
       }
 
       // atomicQuestion.QuestionnaireId: there must be a questionaire with that id
       if (this.questionnaireRepository.findOne(atomicQuestion.getQuestionnaireId()) == null) {
         String[] information = {atomicQuestion.getId(), atomicQuestion.getQuestionnaireId()};
         errors.add(new PostValidationMessageDto("question-management.error." 
-            + "post-validation.atomicQuestionHasInvalidQuestionnaireId", information));
+            + "post-validation.question-has-invalid-questionnaire-id", information));
       }
     }
 

@@ -23,7 +23,7 @@
         "fieldPeriod": {
           "not-null": "The Field Period of a Survey must not be empty!"
         },
-        "dataAcquisitionProject": {
+        "data-acquisition-project": {
           "id": {
             "not-empty": "The RDC-ID of the Data Acquisition Project for the Survey must not be empty!"
           }

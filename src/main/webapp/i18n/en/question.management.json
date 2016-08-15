@@ -45,7 +45,7 @@
         "section-header": {
           "i18n-string-size": "The max length of the section header is 128 signs."
         },
-        "dataAcquisitionProject": {
+        "data-acquisition-project": {
           "id": {
             "not-empty": "The RDC-ID of the Data Acquisition Project must not be empty!"
           }
@@ -62,8 +62,8 @@
         }
       },
       "post-validation": {
-        "atomicQuestionHasInvalidVariableId": "The Atomic Question {{id}} references an unknown Variable ({{toBereferenzedId}}).",
-        "atomicQuestionHasInvalidQuestionnaireId": "The Atomic Question {{id}} references an unknown Questionnaire ({{toBereferenzedId}})."
+        "question-has-invalid-variable-id": "The Question {{id}} references an unknown Variable ({{toBereferenzedId}}).",
+        "question-has-invalid-questionnaire-id": "The Question {{id}} references an unknown Questionnaire ({{toBereferenzedId}})."
       }
     }
   }

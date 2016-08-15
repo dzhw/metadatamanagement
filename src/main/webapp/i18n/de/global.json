@@ -143,7 +143,7 @@
         "survey": {
           "period": "Der Feldzeitbeginn muss vor dem Ende liegen."
         },
-        "dataAcquisitionProject": {
+        "data-acquisition-project": {
           "id": "Der Name eines Projektes darf nur aus Zahlen und Buchstaben bestehen."
         }
       }

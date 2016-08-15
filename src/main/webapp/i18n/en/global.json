@@ -143,7 +143,7 @@
         "survey": {
           "period": "The begin of the field period must be before the end."
         },
-        "dataAcquisitionProject": {
+        "data-acquisition-project": {
           "id": "The name of the project must contain only letters and digits."
         }
       }
