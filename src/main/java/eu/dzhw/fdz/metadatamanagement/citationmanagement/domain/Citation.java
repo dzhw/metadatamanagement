@@ -47,7 +47,7 @@ public class Citation extends AbstractRdcDomainObject {
   @Size(max = StringLengths.MEDIUM, message = "citation-management.error.citation.editor.size")
   private String editor;
 
-  @Size(max = StringLengths.MEDIUM, 
+  @Size(max = StringLengths.MEDIUM,
       message = "citation-management.error.citation.institution.size")
   private String institution;
 
@@ -74,7 +74,7 @@ public class Citation extends AbstractRdcDomainObject {
   @Size(max = StringLengths.MEDIUM, message = "citation-management.error.citation.publisher.size")
   private String publisher;
 
-  @Size(max = StringLengths.MEDIUM, 
+  @Size(max = StringLengths.MEDIUM,
       message = "citation-management.error.citation.organization.size")
   private String organization;
 
@@ -87,17 +87,17 @@ public class Citation extends AbstractRdcDomainObject {
   @Size(max = StringLengths.LARGE, message = "citation-management.error.citation.note.size")
   private String note;
 
-  @Size(max = StringLengths.MEDIUM, 
-      message = "citation-management.error.citation.howPublished.size")
+  @Size(max = StringLengths.MEDIUM,
+      message = "citation-management.error.citation.how-published.size")
   private String howPublished;
-  
+
   @NotEmpty(message = "{citation-management.error.citation.citation-string.not-empty}")
-  @Size(max = StringLengths.MEDIUM, 
+  @Size(max = StringLengths.MEDIUM,
       message = "citation-management.error.citation.citation-string.size")
   private String citationString;
-  
+
   @NotEmpty(message = "{citation-management.error.citation.source-reference.not-empty}")
-  @Size(max = StringLengths.LARGE, 
+  @Size(max = StringLengths.LARGE,
       message = "citation-management.error.citation.source-reference.size")
   private String sourceReference;
 

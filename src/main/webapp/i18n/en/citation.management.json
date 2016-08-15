@@ -58,7 +58,7 @@
         "note": {
           "size": "The max length of the note is 2048 signs."
         },
-        "howPublished": {
+        "how-published": {
           "size": "The max length of the how published is 128 signs."
         },
         "citation-string": {

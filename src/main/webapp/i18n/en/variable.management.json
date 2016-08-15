@@ -19,15 +19,14 @@
     "name": "Name",
     "fdzId": "RDC-ID",
     "dataType": "DataType",
-    "scaleLevel": "ScaleLevel",
+    "scale-level": "ScaleLevel",
     "label": "Label",
-    "dataAcquisitionProjectId": "Data Acquisition Project-ID",
+    "data-acquisition-project-id": "Data Acquisition Project-ID",
     "surveyIds": "Survey-IDs",
     "description": "Description",
-    "dataPackage": "Data package",
     "chart": {
       "figure": "Figure",
-      "absoluteFrequency": "Absolute frequencies of values"
+      "absolute-frequency": "Absolute frequencies of values"
     },
     "labels": {
       "part-of-data-set": "Part of Data Set:",

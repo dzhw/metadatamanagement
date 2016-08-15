@@ -1,14 +1,14 @@
 {
   "search-management": {
     "delete-messages": {
-      "deleteVariablesTitle": "Delete all Variables?",
-      "deleteVariables": "Are you sure you want to delete all Variables within the Data Acquisition Project with RDC-ID \"{{ id }}\"?",
-      "deleteSurveysTitle": "Delete all Surveys?",
-      "deleteSurveys": "Are you sure you want to delete all Surveys within the Data Acquisition Project with RDC-ID \"{{ id }}\"?",
-      "deleteQuestionsTitle": "Delete all Questions?",
-      "deleteQuestions": "Are you sure you want to delete all Questions within the Data Acquisition Project with RDC-ID \"{{ id }}\"?",
-      "deleteDataSetsTitle": "Delete all Data Sets?",
-      "deleteDataSets": "Are you sure you want to delete all Data Sets within the Data Acquisition Project with RDC-ID \"{{ id }}\"?"
+      "deletevariables-title": "Delete all Variables?",
+      "delete-variables": "Are you sure you want to delete all Variables within the Data Acquisition Project with RDC-ID \"{{ id }}\"?",
+      "delete-surveys-title": "Delete all Surveys?",
+      "delete-surveys": "Are you sure you want to delete all Surveys within the Data Acquisition Project with RDC-ID \"{{ id }}\"?",
+      "delete-questions-title": "Delete all Questions?",
+      "delete-questions": "Are you sure you want to delete all Questions within the Data Acquisition Project with RDC-ID \"{{ id }}\"?",
+      "delete-data-sets-title": "Delete all Data Sets?",
+      "delete-data-sets": "Are you sure you want to delete all Data Sets within the Data Acquisition Project with RDC-ID \"{{ id }}\"?"
     },
     "buttons": {
       "refresh": "Refresh search results",

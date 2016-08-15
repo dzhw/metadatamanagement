@@ -12,7 +12,7 @@
     "error": {
       "survey": {
         "id": {
-          "validSurveyIdName": "Die FDZ-ID der Erhebung entspricht nicht dem Muster: FDZID-sy{Number}.",
+          "valid-survey-id-name": "Die FDZ-ID der Erhebung entspricht nicht dem Muster: FDZID-sy{Number}.",
           "not-empty": "Die FDZ-ID der Erhebung darf nicht leer sein!",
           "size": "Die Maximallänge der FDZ-ID der Erhebung ist 128 Zeichen.",
           "pattern": "Es dürfen für die FDZ-ID nur alphanumerische Zeichen, deutsche Umlaute, ß, Minus und der Unterstrich verwendet werden."

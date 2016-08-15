@@ -19,15 +19,14 @@
     "name": "Name",
     "fdzId": "FDZ-ID",
     "dataType": "Datentyp",
-    "scaleLevel": "Skalenniveau",
+    "scale-level": "Skalenniveau",
     "label": "Label",
-    "dataAcquisitionProjectId": "Datenaufbereitungsprojekt-ID",
+    "data-acquisition-project-id": "Datenaufbereitungsprojekt-ID",
     "surveyIds": "Erhebung-IDs",
     "description": "Beschreibung",
-    "dataPackage": "Datenpaket",
     "chart": {
       "figure": "Abbildung",
-      "absoluteFrequency": "Absolute Häufigkeit von Werten"
+      "absolute-frequency": "Absolute Häufigkeit von Werten"
     },
     "labels": {
       "part-of-data-set": "Enthalten in Datensatz:",

@@ -14,7 +14,7 @@ import net.karneim.pojobuilder.GeneratePojoBuilder;
  * The missing includes a code, a label and frequencies. There are no calculations of the
  * frequencies. This represent a missing and not a valid response. Use {@code ValidResponse} for the
  * representation of valid responses.
- * 
+ *
  * @author Daniel Katzberg
  */
 @GeneratePojoBuilder(
@@ -24,11 +24,11 @@ public class Missing {
   @NotNull(message = "variable-management.error.missing.code.not-null")
   private Integer code;
 
-  @I18nStringSize(max = StringLengths.MEDIUM, 
+  @I18nStringSize(max = StringLengths.MEDIUM,
       message = "variable-management.error.missing.label.i18n-string-size")
   private I18nString label;
 
-  @NotNull(message = "variable-management.error.missing.absoluteFrequency.not-null")
+  @NotNull(message = "variable-management.error.missing.absolute-frequency.not-null")
   private Integer absoluteFrequency;
 
   @NotNull(message = "variable-management.error.missing.relativeFrequency.not-null")
@@ -36,7 +36,7 @@ public class Missing {
 
   /*
    * (non-Javadoc)
-   * 
+   *
    * @see java.lang.Object#toString()
    */
   @Override

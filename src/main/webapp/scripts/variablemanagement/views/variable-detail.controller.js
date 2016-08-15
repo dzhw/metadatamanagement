@@ -121,7 +121,7 @@ angular.module('metadatamanagementApp')
           // jscs:enable
         }
         $translate(
-          'variable-management.chart.absoluteFrequency').then(
+          'variable-management.chart.absolute-frequency').then(
           function(translation) {
             $scope.optionsAbsoluteFrequencyChart.subtitle.text =
               translation;

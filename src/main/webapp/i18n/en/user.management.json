@@ -11,8 +11,8 @@
     "detail": {
       "title": "User"
     },
-    "firstName": "First name",
-    "lastName": "Last name",
+    "first-name": "First name",
+    "last-name": "Last name",
     "email": "Email",
     "activated": "Activated",
     "deactivated": "Deactivated",

@@ -58,7 +58,7 @@
         "note": {
           "size": "Die Maximallänge der Notiz ist 2048 Zeichen."
         },
-        "howPublished": {
+        "how-published": {
           "size": "Die Maximallänge des 'Wie veröffentlicht' ist 128 Zeichen."
         },
         "citation-string": {

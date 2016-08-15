@@ -31,7 +31,7 @@ import net.karneim.pojobuilder.GeneratePojoBuilder;
 @Document(collection = "surveys")
 @GeneratePojoBuilder(
     intoPackage = "eu.dzhw.fdz.metadatamanagement.surveymanagement.domain.builders")
-@ValidSurveyIdName(message = "survey-management.error.survey.id.validSurveyIdName")
+@ValidSurveyIdName(message = "survey-management.error.survey.id.valid-survey-id-name")
 public class Survey extends AbstractRdcDomainObject {
 
   /* Domain Object Attributes */
