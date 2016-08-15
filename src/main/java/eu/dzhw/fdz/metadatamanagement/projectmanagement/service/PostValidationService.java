@@ -123,7 +123,7 @@ public class PostValidationService {
         if (this.surveyRepository.findOne(surveyId) == null) {
           String[] information = {dataSet.getId(), surveyId};
           errors.add(new PostValidationMessageDto("dataSet-management.error." 
-              + "post-validation.dataSetHasInvalidSurveyId", information));
+              + "post-validation.data-set-has-invalid-survey-id", information));
         }
       }
 
@@ -132,7 +132,7 @@ public class PostValidationService {
         if (this.variableRepository.findOne(variableId) == null) {
           String[] information = {dataSet.getId(), variableId};
           errors.add(new PostValidationMessageDto("dataSet-management.error." 
-              + "post-validation.dataSetHasInvalidVariableId", information));
+              + "post-validation.data-set-has-invalid-variable-id", information));
         }
       }
     }
@@ -155,7 +155,7 @@ public class PostValidationService {
       if (this.questionnaireRepository.findOne(survey.getQuestionnaireId()) == null) {
         String[] information = {survey.getId(), survey.getQuestionnaireId()};
         errors.add(new PostValidationMessageDto("survey-management.error." 
-            + "post-validation.surveyHasInvalidQuestionnaireId", information));
+            + "post-validation.survey-has-invalid-questionnaire-id", information));
       }
 
       // survey.DataSetId: there must be a dataset with that id
@@ -163,7 +163,7 @@ public class PostValidationService {
         if (this.dataSetRepository.findOne(dataSetId) == null) {
           String[] information = {survey.getId(), dataSetId};
           errors.add(new PostValidationMessageDto("survey-management.error." 
-              + "post-validation.surveyHasInvalidDataSetId", information));
+              + "post-validation.survey-has-invalid-data-set-id", information));
         }
       }
     }

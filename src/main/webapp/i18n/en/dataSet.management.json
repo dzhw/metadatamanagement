@@ -1,7 +1,7 @@
 {
   "dataSet-management": {
     "log-messages": {
-      "dataSet": {
+      "data-set": {
         "saved": "Dataset with RDC-ID {{ id }} was saved successfully!",
         "not-saved": "Dataset with RDC-ID {{ id }} has not been saved!",
         "missing-id": "Dataset {{ index }} does not contain a RDC-ID and has not been saved!",
@@ -15,7 +15,7 @@
       }
     },
     "error": {
-      "dataSet": {
+      "data-set": {
         "id": {
           "valid-data-set-id-name": "The RDC-ID of the Data Set is not valid for the Pattern: RDCID-ds{Number}",
           "not-empty": "The RDC-ID of the Data Set must not be empty!",
@@ -23,7 +23,7 @@
           "pattern": "Use only alphanumeric signs, german umlauts, ß and space, underscore and minus for the RDC-ID."
         },
         "description": {
-          "18nStringSize": "The max length of the description is 2048 signs."
+          "i18n-string-size": "The max length of the description is 2048 signs."
         },
         "data-acquisition-project": {
           "id": {
@@ -42,8 +42,8 @@
         }
       },
       "post-validation": {
-        "dataSetHasInvalidSurveyId": "The Data Set {{id}} references an unknown Survey ({{toBereferenzedId}}).",
-        "dataSetHasInvalidVariableId": "The Data Set {{id}} references an unknown Variable ({{toBereferenzedId}})."
+        "data-set-has-invalid-survey-id": "The Data Set {{id}} references an unknown Survey ({{toBereferenzedId}}).",
+        "data-set-has-invalid-variable-id": "The Data Set {{id}} references an unknown Variable ({{toBereferenzedId}})."
       }
     }
   }

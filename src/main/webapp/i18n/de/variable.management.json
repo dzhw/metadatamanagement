@@ -141,7 +141,7 @@
           "not-empty": "Die Liste der Zugangswege einer Variable benötigt mindest ein Element und darf nicht leer sein!",
           "validAccessWays": "Die Liste der Zugangswege enthält ungültige Werte. Erlaubt sind nur: suf, cuf und remote."
         },
-        "dataSet": {
+        "data-set": {
           "ids": {
             "not-empty": "Die Variable muss mindestens einem Datensatz zugewiesen sein!"
           }

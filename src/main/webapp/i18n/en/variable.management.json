@@ -141,7 +141,7 @@
           "not-empty": "The list of access ways of a variable needs min. one element and must not be empty!",
           "validAccessWays": "The values of access ways are invalid. Valid values are: suf, cuf and remote."
         },
-        "dataSet": {
+        "data-set": {
           "ids": {
             "not-empty": "The Variable must be assigned to at least one Data Set!"
           }

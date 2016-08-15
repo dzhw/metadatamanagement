@@ -33,15 +33,15 @@
             "not-empty": "The RDC-ID of the Questionnaire for the Survey must not be empty!"
           }
         },
-        "dataSet": {
+        "data-set": {
           "ids": {
             "not-empty": "The Survey must have at least one Data Set!"
           }
         }
       },
       "post-validation": {
-        "surveyHasInvalidQuestionnaireId": "The Survey {{id}} references an unknown Questionnaire ({{toBereferenzedId}}).",
-        "surveyHasInvalidDataSetId": "The Survey {{id}} references an unknown Data Set ({{toBereferenzedId}})."
+        "survey-has-invalid-questionnaire-id": "The Survey {{id}} references an unknown Questionnaire ({{toBereferenzedId}}).",
+        "survey-has-invalid-data-set-id": "The Survey {{id}} references an unknown Data Set ({{toBereferenzedId}})."
       }
     }
   }

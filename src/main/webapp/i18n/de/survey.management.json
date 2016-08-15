@@ -33,14 +33,14 @@
             "not-empty": "Die FDZ - ID des Fragebogens darf bei der Erhebung nicht leer sein!"
           }
         },
-        "dataSet": {
+        "data-set": {
           "ids": {
             "not-empty": "Die Erhebung muss mindestens einen Datensatz haben!"
           }
         }
       },
       "post-validation": {
-        "surveyHasInvalidQuestionnaireId": "Die Erhebung {{id}} referenziert einen unbekannten Fragebogen ({{toBereferenzedId}}).",
+        "survey-has-invalid-questionnaire-id": "Die Erhebung {{id}} referenziert einen unbekannten Fragebogen ({{toBereferenzedId}}).",
         "surveyHasInvalidDataSetId": "Die Erhebung {{id}} referenziert einen unbekannten Datensatz ({{toBereferenzedId}})."
       }
     }

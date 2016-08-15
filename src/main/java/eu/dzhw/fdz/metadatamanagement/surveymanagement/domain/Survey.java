@@ -58,7 +58,7 @@ public class Survey extends AbstractRdcDomainObject {
   @NotEmpty(message = "survey-management.error.survey.questionnaire.id.not-empty")
   private String questionnaireId;
   
-  @NotEmpty(message = "survey-management.error.survey.dataSet.ids.not-empty")
+  @NotEmpty(message = "survey-management.error.survey.data-set.ids.not-empty")
   private List<String> dataSetIds;
 
   /*

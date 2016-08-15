@@ -111,7 +111,7 @@ public class Variable extends AbstractRdcDomainObject {
   /* Foreign Keys */
   private String atomicQuestionId;
 
-  @NotEmpty(message = "variable-management.error.variable.dataSet.ids.not-empty")
+  @NotEmpty(message = "variable-management.error.variable.data-set.ids.not-empty")
   private List<String> dataSetIds;
 
   @Indexed
