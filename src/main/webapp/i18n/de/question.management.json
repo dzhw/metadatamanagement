@@ -11,8 +11,8 @@
     },
     "error": {
       "question": {
-        "validAtomicQuestionIdName": "Die FDZ - ID muss mit der Projekt ID beginnen(Beispiel: ProjektID - Variablenname) und muss der ID der zugehörigen Variable entsprechen!",
-        "uniqueAtomicQuestionName": "Der Name einer atomaren Frage muss eindeutig innerhalb einer Befragung sein.",
+        "valid-atomic-question-id-name": "Die FDZ - ID muss mit der Projekt ID beginnen(Beispiel: ProjektID - Variablenname) und muss der ID der zugehörigen Variable entsprechen!",
+        "unique-question-name": "Der Name einer atomaren Frage muss eindeutig innerhalb einer Befragung sein.",
         "id": {
           "not-empty": "Die FDZ - ID der atomaren Frage darf nicht leer sein!",
           "size": "Die Maximallänge der FDZ - ID ist 128 Zeichen.",
@@ -20,20 +20,20 @@
         },
         "type": {
           "not-null": "Der Typ der atomaren Frage darf nicht leer sein.",
-          "atomicQuestionTypeConsistence": "Der Typ der atomaren Frage verwendet entweder nicht die gültigen Werte oder ist zwischen den Sprachen inkonsistent."
+          "question-type-consistence": "Der Typ der atomaren Frage verwendet entweder nicht die gültigen Werte oder ist zwischen den Sprachen inkonsistent."
         },
         "name": {
           "not-empty": "Der Name einer atomaren Frage darf nicht leer sein!",
           "size": "Die Maximallänge des Namens ist 32 Zeichen."
         },
-        "compositeQuestionName": {
+        "composite-question-name": {
           "not-empty": "Der Name der zusammengesetzten Frage darf nicht leer sein!",
           "size": "Die Maximallänge des Namens einer zusammengesetzten Frage ist 32 Zeichen."
         },
         "footnote": {
           "i18n-string-size": "Die Maximallänge der Fußnote ist 2048 Zeichen."
         },
-        "questionText": {
+        "question-text": {
           "i18n-string-size": "Die Maximallänge der Fußnote ist 2048 Zeichen."
         },
         "instruction": {
@@ -42,7 +42,7 @@
         "introduction": {
           "i18n-string-size": "Die Maximallänge der Fußnote ist 2048 Zeichen."
         },
-        "sectionHeader": {
+        "section-header": {
           "i18n-string-size": "Die Maximallänge der Fußnote ist 128 Zeichen."
         },
         "dataAcquisitionProject": {
@@ -61,7 +61,7 @@
           }
         }
       },
-      "postValidation": {
+      "post-validation": {
         "atomicQuestionHasInvalidVariableId": "Die atomare Frage {{id}} referenziert eine unbekannte Variable ({{toBereferenzedId}}).",
         "atomicQuestionHasInvalidQuestionnaireId": "Die atomare Frage {{id}} referenziert einen unbekannten Fragebogen ({{toBereferenzedId}})."
       }

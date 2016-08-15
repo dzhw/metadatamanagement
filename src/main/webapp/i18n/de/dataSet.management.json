@@ -41,7 +41,7 @@
           }
         }
       },
-      "postValidation": {
+      "post-validation": {
         "dataSetHasInvalidSurveyId": "Der Datensatz {{id}} referenziert eine unbekannte Erhebung({{toBereferenzedId}}).",
         "dataSetHasInvalidVariableId": "Der Datensatz {{id}} referenziert eine unbekannte Variable({{toBereferenzedId}})."
       }

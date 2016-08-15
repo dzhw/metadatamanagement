@@ -26,7 +26,7 @@ public @interface UniqueAtomicQuestionName {
    * Defines the default error message.
    */
   public abstract String message() default "{eu.dzhw.fdz.metadatamanagement.domain.validation."
-      + "uniqueAtomicQuestionName.message}";
+      + "unique-question-name.message}";
 
   /**
    * This contains groups.

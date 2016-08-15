@@ -152,7 +152,7 @@
           }
         }
       },
-      "postValidation": {
+      "post-validation": {
         "variableHasInvalidSurveyId": "Die Variable {{id}} referenziert eine unbekannte Erhebung ({{toBereferenzedId}}).",
         "variableHasInvalidDataSetId": "Die Variable {{id}} referenziert einen unbekannten Datensatz ({{toBereferenzedId}}).",
         "variableIdIsNotInInvalidVariablesPanel": "Die Variable {{id}} referenziert eine unbekannte Panelvariable ({{toBereferenzedId}}).",

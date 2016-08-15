@@ -32,8 +32,9 @@ import net.karneim.pojobuilder.GeneratePojoBuilder;
 @GeneratePojoBuilder(
     intoPackage = "eu.dzhw.fdz.metadatamanagement.questionmanagement.domain.builders")
 @CompoundIndex(def = "{name: 1, questionnaireId: 1}", unique = true)
-@ValidAtomicQuestionIdName(message = "question-management.error.question.validAtomicQuestionIdName")
-@UniqueAtomicQuestionName(message = "question-management.error.question.uniqueAtomicQuestionName")
+@ValidAtomicQuestionIdName(
+    message = "question-management.error.question.valid-atomic-question-id-name")
+@UniqueAtomicQuestionName(message = "question-management.error.question.unique-question-name")
 public class AtomicQuestion extends AbstractRdcDomainObject {
 
   /* Domain model attributes */
@@ -46,16 +47,16 @@ public class AtomicQuestion extends AbstractRdcDomainObject {
 
   @NotNull(message = "question-management.error.question.type.not-null")
   @ValidAtomicQuestionType(message =
-      "question-management.error.question.type.atomicQuestionTypeConsistence")
+      "question-management.error.question.type.question-type-consistence")
   private I18nString type;
 
   @NotEmpty(message = "question-management.error.question.name.not-empty")
   @Size(max = StringLengths.SMALL, message = "question-management.error.question.name.size")
   private String name;
 
-  @NotEmpty(message = "question-management.error.question.compositeQuestionName.not-empty")
+  @NotEmpty(message = "question-management.error.questioncomposite-question-namenot-empty")
   @Size(max = StringLengths.SMALL,
-      message = "question-management.error.question.compositeQuestionName.size")
+      message = "question-management.error.questioncomposite-question-namesize")
   private String compositeQuestionName;
 
   @I18nStringSize(max = StringLengths.LARGE,
@@ -63,7 +64,7 @@ public class AtomicQuestion extends AbstractRdcDomainObject {
   private I18nString footnote;
 
   @I18nStringSize(max = StringLengths.LARGE,
-      message = "question-management.error.question.questionText.i18n-string-size")
+      message = "question-management.error.question.question-text.i18n-string-size")
   private I18nString questionText;
 
   @I18nStringSize(max = StringLengths.LARGE,
@@ -75,7 +76,7 @@ public class AtomicQuestion extends AbstractRdcDomainObject {
   private I18nString introduction;
 
   @I18nStringSize(max = StringLengths.MEDIUM,
-      message = "question-management.error.question.sectionHeader.i18n-string-size")
+      message = "question-management.error.question.section-header.i18n-string-size")
   private I18nString sectionHeader;
 
 

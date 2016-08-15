@@ -39,7 +39,7 @@
           }
         }
       },
-      "postValidation": {
+      "post-validation": {
         "surveyHasInvalidQuestionnaireId": "Die Erhebung {{id}} referenziert einen unbekannten Fragebogen ({{toBereferenzedId}}).",
         "surveyHasInvalidDataSetId": "Die Erhebung {{id}} referenziert einen unbekannten Datensatz ({{toBereferenzedId}})."
       }

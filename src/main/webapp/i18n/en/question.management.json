@@ -11,8 +11,8 @@
     },
     "error": {
       "question": {
-        "validAtomicQuestionIdName": "The RDC-ID must start with the project ID (e.g. projectID-variableName) and must be equal to variable ID!",
-        "uniqueAtomicQuestionName": "The name of an atomic question has to be unique within a questionnaire.",
+        "valid-atomic-question-id-name": "The RDC-ID must start with the project ID (e.g. projectID-variableName) and must be equal to variable ID!",
+        "unique-question-name": "The name of an atomic question has to be unique within a questionnaire.",
         "id": {
           "not-empty": "The RDC-ID of an Atomic Question must not be empty!",
           "size": "The max length of the RDC-ID is 128 signs.",
@@ -20,20 +20,20 @@
         },
         "type": {
           "not-null": "The type of the atomic question must not be empty.",
-          "atomicQuestionTypeConsistence": "The type of the atomic question has an invalid value or is inconsistent between the languages."
+          "question-type-consistence": "The type of the atomic question has an invalid value or is inconsistent between the languages."
         },
         "name": {
           "not-empty": "The name of an Atomic Question must not be empty!",
           "size": "The max length of the name is 32 signs."
         },
-        "compositeQuestionName": {
+        "composite-question-name": {
           "not-empty": "The composite question name of an Atomic Question must not be empty!",
           "size": "The max length of the composite question name is 32 signs"
         },
         "footnote": {
           "i18n-string-size": "The max length of the footnote is 2048 signs."
         },
-        "questionText": {
+        "question-text": {
           "i18n-string-size": "The max length of the question text is 2048 signs."
         },
         "instruction": {
@@ -42,7 +42,7 @@
         "introduction": {
           "i18n-string-size": "The max length of the introduction is 2048 signs."
         },
-        "sectionHeader": {
+        "section-header": {
           "i18n-string-size": "The max length of the section header is 128 signs."
         },
         "dataAcquisitionProject": {
@@ -61,7 +61,7 @@
           }
         }
       },
-      "postValidation": {
+      "post-validation": {
         "atomicQuestionHasInvalidVariableId": "The Atomic Question {{id}} references an unknown Variable ({{toBereferenzedId}}).",
         "atomicQuestionHasInvalidQuestionnaireId": "The Atomic Question {{id}} references an unknown Questionnaire ({{toBereferenzedId}})."
       }
