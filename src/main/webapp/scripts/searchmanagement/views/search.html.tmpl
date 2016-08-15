@@ -28,7 +28,7 @@
     <div ng-repeat="result in searchResult" ng-switch="result._type" ng-if="selectedTabIndex < 5">
         <variable-search-result ng-switch-when="variables" search-result="result._source"></variable-search-result>
         <survey-search-result ng-switch-when="surveys" search-result="result._source"></survey-search-result>
-        <question-search-result ng-switch-when="atomic_questions" search-result="result._source"></question-search-result>
+        <question-search-result ng-switch-when="questions" search-result="result._source"></question-search-result>
         <dataset-search-result ng-switch-when="data_sets" search-result="result._source"></dataset-search-result>
     </div>
     <!-- this should be removed... -->
@@ -56,7 +56,7 @@
             </div>
         </md-button>
         <!-- Index 2 = Questions Tab -->
-        <md-button aria-label="{{'search-management.buttons.upload-questions' | translate}}" ng-if="selectedTabIndex===2" type="file" ngf-select="uploadQuestions($file)" class="md-accent md-fab" accept=".xlsx" ng-disabled="!currentProject">
+        <md-button aria-label="{{'search-management.buttons.upload-questions' | translate}}" ng-if="selectedTabIndex===2" type="file" ngf-select="uploadQuestions($file)" class="md-accent md-fab" accept=".zip" ng-disabled="!currentProject">
             <div>
                 <md-tooltip md-direction="left">
                     {{'search-management.buttons.upload-questions' | translate}}

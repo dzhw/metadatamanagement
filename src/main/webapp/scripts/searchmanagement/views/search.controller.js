@@ -7,7 +7,8 @@ a result of a type like variable or dataSet and so on. */
 angular.module('metadatamanagementApp').controller('SearchController',
     function($scope, Principal, ElasticSearchProperties, $location,
         AlertService, SearchDao, $translate, VariableUploadService,
-        AtomicQuestionUploadService, DataSetUploadService,
+        QuestionUploadService,
+        DataSetUploadService,
         SurveyUploadService, $mdDialog, CleanJSObjectService,
         CurrentProjectService) {
 
@@ -46,7 +47,7 @@ angular.module('metadatamanagementApp').controller('SearchController',
             title: 'search-management.tabs.questions',
             inputLabel: 'search-management.input-label.questions',
             icon: 'assets/images/icons/question.svg',
-            elasticSearchType: 'atomic_questions',
+            elasticSearchType: 'questions',
             count: null
           }, {
             title: 'search-management.tabs.surveys',
@@ -167,7 +168,6 @@ angular.module('metadatamanagementApp').controller('SearchController',
                   //start upload and open log toast
                   VariableUploadService
                       .uploadVariables(file, dataAcquisitionProject.id);
-
                   //Cancel. Nothing happens
                 }, function() {});
             }
@@ -194,8 +194,8 @@ angular.module('metadatamanagementApp').controller('SearchController',
                   .cancel($translate.instant('global.buttons.cancel'));
               $mdDialog.show(confirm).then(function() {
                   //start upload
-                  AtomicQuestionUploadService
-                      .uploadAtomicQuestions(file, dataAcquisitionProject.id);
+                  QuestionUploadService
+                      .uploadQuestions(file, dataAcquisitionProject.id);
                   //Cancel. Nothing happens
                 }, function() {});
             }

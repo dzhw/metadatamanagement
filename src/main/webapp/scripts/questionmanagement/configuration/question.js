@@ -3,35 +3,33 @@
 angular.module('metadatamanagementApp')
   .config(function($stateProvider) {
     $stateProvider
-      .state('toberemovedDetail', {
+      .state('questionDetail', {
         parent: 'site',
-        url: '/toberemoved/{id}',
+        url: '/questions/{id}',
         data: {
           authorities: [],
-          //TODO should be a i18n string
-          pageTitle: 'Frage'
+          pageTitle: 'question-management.detail.title'
         },
         views: {
           'content@': {
-            templateUrl: 'scripts/toberemovedmanagement/views/' +
-              'questsdion-detail.html.tmpl',
-            controller: 'toberemovedDetailController'
+            templateUrl: 'scripts/questionmanagement/views/' +
+              'question-detail.html.tmpl',
+            controller: 'QuestionDetailController'
           }
         },
         resolve: {
           translatePartialLoader: ['$translatePartialLoader',
             function($translatePartialLoader) {
-              //should be changed
               $translatePartialLoader.addPart('question.management');
             }
           ],
-          entity: ['$stateParams', 'AtomicQuedestionResource',
-            function($stateParams, AtomicQuestionResource) {
-              return AtomicQuestionResource.get({
+          entity: ['$stateParams', 'QuestionResource',
+            function($stateParams, QuestionResource) {
+              return QuestionResource.get({
                 id: $stateParams.id
               });
             }
           ]
-        }
+        },
       });
   });
