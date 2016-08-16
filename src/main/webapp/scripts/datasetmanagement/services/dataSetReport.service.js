@@ -17,15 +17,15 @@ angular.module('metadatamanagementApp').service('DataSetReportService',
           //Download automaticly data filled tex template
           FileResource.download(gridFsFileName).then(function(response) {
             JobLoggingService.success(
-              'dataSet-management.log-messages.tex.upload-terminated', {}
+              'data-set-management.log-messages.tex.upload-terminated', {}
             );
             saveAs(response.data.blob, file.name);
             JobLoggingService.finish(
-              'dataSet-management.log-messages.tex.saved', {});
+              'data-set-management.log-messages.tex.saved', {});
           }).catch(function(error) {
             JobLoggingService.error(error);
             JobLoggingService.cancel(
-              'dataSet-management.log-messages.tex.cancelled', {});
+              'data-set-management.log-messages.tex.cancelled', {});
           });
           //Server hat issues with the tex file, send error to error output
         }).error(function(error) {
@@ -33,11 +33,11 @@ angular.module('metadatamanagementApp').service('DataSetReportService',
           var messageShort = error.message.substr(0, endErrorIndex).trim();
           JobLoggingService.error(messageShort);
           JobLoggingService.cancel(
-            'dataSet-management.log-messages.tex.cancelled', {});
+            'data-set-management.log-messages.tex.cancelled', {});
         });
       } else {
         JobLoggingService.cancel(
-          'dataSet-management.log-messages.tex.cancelled', {});
+          'data-set-management.log-messages.tex.cancelled', {});
       }
     };
     return {

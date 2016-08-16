@@ -33,7 +33,7 @@ angular.module('metadatamanagementApp').service('QuestionUploadService',
             var messageShort = error.message.substr(0, endErrorIndex).trim();
             JobLoggingService.error(messageShort);
             JobLoggingService.cancel(
-              'dataSet-management.logMessages.tex.cancelled', {});
+              'data-set-management.logMessages.tex.cancelled', {});
             uploadImageCount++;
             uploadImages();
           });

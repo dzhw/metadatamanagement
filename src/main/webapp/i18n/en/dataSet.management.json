@@ -1,5 +1,5 @@
 {
-  "dataSet-management": {
+  "data-set-management": {
     "log-messages": {
       "data-set": {
         "saved": "Dataset with RDC-ID {{ id }} was saved successfully!",

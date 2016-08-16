@@ -1,5 +1,5 @@
 {
-  "dataSet-management": {
+  "data-set-management": {
     "log-messages": {
       "data-set": {
         "saved": "Datensatz mit FDZ-ID {{ id }} erfolgreich gespeichert!",

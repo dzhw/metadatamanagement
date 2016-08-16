@@ -122,7 +122,7 @@ public class PostValidationService {
       for (String surveyId : dataSet.getSurveyIds()) {
         if (this.surveyRepository.findOne(surveyId) == null) {
           String[] information = {dataSet.getId(), surveyId};
-          errors.add(new PostValidationMessageDto("dataSet-management.error." 
+          errors.add(new PostValidationMessageDto("data-set-management.error." 
               + "post-validation.data-set-has-invalid-survey-id", information));
         }
       }
@@ -131,7 +131,7 @@ public class PostValidationService {
       for (String variableId : dataSet.getVariableIds()) {
         if (this.variableRepository.findOne(variableId) == null) {
           String[] information = {dataSet.getId(), variableId};
-          errors.add(new PostValidationMessageDto("dataSet-management.error." 
+          errors.add(new PostValidationMessageDto("data-set-management.error." 
               + "post-validation.data-set-has-invalid-variable-id", information));
         }
       }
