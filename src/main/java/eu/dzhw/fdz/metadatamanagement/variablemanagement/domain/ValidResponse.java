@@ -22,24 +22,24 @@ import net.karneim.pojobuilder.GeneratePojoBuilder;
 public class ValidResponse {
 
   @I18nStringSize(max = StringLengths.LARGE,
-      message = "variable-management.error.validResponse.label.i18n-string-size")
+      message = "variable-management.error.valid-response.label.i18n-string-size")
   private I18nString label;
 
   @NotNull(
-      message = "variable-management.error.validResponse.absoluteFrequency.not-null")
+      message = "variable-management.error.valid-response.absolute-frequency.not-null")
   private Integer absoluteFrequency;
 
   @NotNull(
-      message = "variable-management.error.validResponse.relativeFrequency.not-null")
+      message = "variable-management.error.valid-response.relative-frequency.not-null")
   private Double relativeFrequency;
 
-  @NotNull(message = "variable-management.error.validResponse.value.not-null")
+  @NotNull(message = "variable-management.error.valid-response.value.not-null")
   @Size(max = StringLengths.SMALL, 
-      message = "variable-management.error.validResponse.value.size")
+      message = "variable-management.error.valid-response.value.size")
   private String value;
 
   @NotNull(
-      message = "variable-management.error.validResponse.validRelativeFrequency.not-null")
+      message = "variable-management.error.valid-response.validRelativeFrequency.not-null")
   private Double validRelativeFrequency;
 
   /*

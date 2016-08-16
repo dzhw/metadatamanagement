@@ -70,7 +70,7 @@ angular.module('metadatamanagementApp').service('VariableBuilderService',
           generationDetails: {
             rule: variables[i]['generationDetails.rule'],
             ruleExpressionLanguage: variables[i]
-              ['generationDetails.ruleExpressionLanguage'],
+              ['generationDetails.rule-expression-language'],
             description: {
               en: variables[i]['generationDetails.description.en'],
               de: variables[i]['generationDetails.description.de']

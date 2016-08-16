@@ -22,15 +22,15 @@ import net.karneim.pojobuilder.GeneratePojoBuilder;
 public class Distribution {
 
   @NotNull(message =
-      "variable-management.error.distribution.totalAbsoluteFrequency.not-null")
+      "variable-management.error.distribution.total-absolute-frequency.not-null")
   private Integer totalAbsoluteFrequency;
 
   @NotNull(message =
-      "variable-management.error.distribution.totalValidAbsoluteFrequency.not-null")
+      "variable-management.error.distribution.total-valid-absolute-frequency.not-null")
   private Integer totalValidAbsoluteFrequency;
 
   @NotNull(message =
-      "variable-management.error.distribution.totalValidRelativeFrequency.not-null")
+      "variable-management.error.distribution.total-valid-relative-frequency.not-null")
   private Double totalValidRelativeFrequency;
 
   /* Nested Objects */
@@ -46,7 +46,7 @@ public class Distribution {
   private List<Missing> missings;
 
   @UniqueValue(message =
-      "variable-management.error.distribution.validResponses.uniqueValue")
+      "variable-management.error.distribution.valid-responses.unique-value")
   @Valid
   private List<ValidResponse> validResponses;
 

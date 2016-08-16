@@ -25,7 +25,7 @@ public @interface ValidResponseValueMustBeANumberOnNumericDataType {
    * Defines the default error message.
    */
   public abstract String message() default "{eu.dzhw.fdz.metadatamanagement.domain.validation."
-      + "validResponseValueMustBeANumberOnNumericDataType.message}";
+      + "valid-response-value-must-be-a-number-on-numeric-data-type.message}";
 
   /**
    * This contains groups.

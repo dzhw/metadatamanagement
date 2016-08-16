@@ -24,7 +24,7 @@ public @interface MandatoryScaleLevelForNumericDataType {
    * Defines the default error message.
    */
   public abstract String message() default "{eu.dzhw.fdz.metadatamanagement.domain.validation."
-      + "mandatoryScaleLevelForNumericDataType.message}";
+      + "mandatory-scale-level-for-numeric-data-type.message}";
 
   /**
    * This contains groups.

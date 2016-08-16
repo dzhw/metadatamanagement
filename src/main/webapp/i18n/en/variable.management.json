@@ -17,12 +17,11 @@
       "title": "Variable"
     },
     "name": "Name",
-    "fdzId": "RDC-ID",
-    "dataType": "DataType",
+    "data-type": "DataType",
     "scale-level": "ScaleLevel",
     "label": "Label",
     "data-acquisition-project-id": "Data Acquisition Project-ID",
-    "surveyIds": "Survey-IDs",
+    "survey-ids": "Survey-IDs",
     "description": "Description",
     "chart": {
       "figure": "Figure",
@@ -34,23 +33,23 @@
     },
     "error": {
       "distribution": {
-        "validResponses": {
-          "uniqueValue": "The value has to be unique within the valid responses."
+        "valid-responses": {
+          "unique-value": "The value has to be unique within the valid responses."
         },
-        "totalAbsoluteFrequency": {
+        "total-absolute-frequency": {
           "not-null": "The total absolute frequency must not be empty!"
         },
-        "totalValidAbsoluteFrequency": {
+        "total-valid-absolute-frequency": {
           "not-null": "The total valid absolute frequency must not be empty!"
         },
-        "totalValidRelativeFrequency": {
+        "total-valid-relative-frequency": {
           "not-null": "The total valid relative frequency must not be empty!"
         },
         "missings": {
           "uniqueCode": "The code has to be unique within the missings."
         }
       },
-      "filterDetails": {
+      "filter-details": {
         "expression": {
           "not-empty": "The filter expression must not be empty!",
           "size": "The max length of the filter expression is 128 signs."
@@ -58,22 +57,22 @@
         "description": {
           "i18n-string-size": "The max length of the filter description is 2048 signs."
         },
-        "expressionLanguage": {
+        "expression-language": {
           "not-empty": "The filter expression language  must not be empty!",
-          "validFilterExpressionLanguage": "The filter expression language is not valid. Valid is: SpEL and Stata."
+          "valid-filter-expression-language": "The filter expression language is not valid. Valid is: SpEL and Stata."
         }
       },
-      "generationDetails": {
-        "notEmptyGenerationDetailsDescriptionOrRule": "The rule or the description of a generation rule must not be empty! Both can be set, too.",
-        "ruleExpressionLanguageAndRuleFilledOrEmpty": "Both, the rule and the rule expression language, have to be filled or empty.",
+      "generation-details": {
+        "not-empty-generation-details-description-or-rule": "The rule or the description of a generation rule must not be empty! Both can be set, too.",
+        "rule-expression-language-and-rule-filled-or-empty": "Both, the rule and the rule expression language, have to be filled or empty.",
         "description": {
           "i18n-string-size": "The max length of the generation rule description of the variable is 2048 signs."
         },
         "rule": {
           "size": "The max length of the rule is 1048576 signs."
         },
-        "ruleExpressionLanguage": {
-          "validRuleExpressionLanguage": "The rule expression language is not valid. Valid is: R and Stata."
+        "rule-expression-language": {
+          "valid-rule-expression-language": "The rule expression language is not valid. Valid is: R and Stata."
         }
       },
       "missing": {
@@ -83,46 +82,46 @@
         "label": {
           "i18n-string-size": "The max length of the label of a missing is 128 signs."
         },
-        "absoluteFrequency": {
+        "absolute-frequency": {
           "not-null": "The absolute frequency of a missing must not be empty!"
         },
-        "relativeFrequency": {
+        "relative-frequency": {
           "not-null": "The relative frequency of a missing must not be empty!"
         }
       },
-      "validResponse": {
+      "valid-response": {
         "label": {
           "i18n-string-size": "The max length of the label of a valid response is 2048 signs."
         },
-        "absoluteFrequency": {
+        "absolute-frequency": {
           "not-null": "The absolute frequency of a valid response must not be empty!"
         },
-        "relativeFrequency": {
+        "relative-frequency": {
           "not-null": "The relative frequency of a valid response must not be empty!"
         },
         "value": {
           "size": "The max length of the value of a valid response is 32 signs.",
           "not-null": "The value of a valid response must not be empty!"
         },
-        "validRelativeFrequency": {
+        "valid-relative-frequency": {
           "not-null": "The valid relative frequency of a valid response must not be empty!"
         }
       },
       "variable": {
-        "validVariableName": "The RDC-ID of the Variable is not valid for the Pattern: RDCID-VariableName.",
-        "uniqueVariableNameInProject": "The name of the Variable is already used within this Project.",
-        "mandatoryScaleLevelForNumericDataType": "The Scale Level of a numeric Variable must not be empty or is must be empty on a string data type!",
-        "validResponseValueMustBeANumberOnNumericDataType": "If the variable has a numeric data type, the values of valid responses have to be numeric!",
-        "validResponseValueMustBeAnIsoDateOnDateDataType": "If the variable has a date data type, the values of valid responses have to be matchable by the ISO Standard 8601.",
+        "valid-variable-name": "The RDC-ID of the Variable is not valid for the Pattern: RDCID-VariableName.",
+        "unique-variable-name-in-project": "The name of the Variable is already used within this Project.",
+        "mandatory-scale-level-for-numeric-data-type": "The Scale Level of a numeric Variable must not be empty or is must be empty on a string data type!",
+        "valid-response-value-must-be-a-number-on-numeric-data-type": "If the variable has a numeric data type, the values of valid responses have to be numeric!",
+        "valid-response-value-must-be-an-iso-date-on-date-data-type": "If the variable has a date data type, the values of valid responses have to be matchable by the ISO Standard 8601.",
         "id": {
           "not-empty": "The RDC-ID of the Variable must not be empty!",
           "size": "The max length of the RDC-ID is 128 signs.",
           "pattern": "Use only alphanumeric signs, german umlauts, ß and space, underscore and minus for the RDC-ID."
         },
-        "dataType": {
+        "data-type": {
           "not-null": "The data type of the Variable must not be empty!",
-          "validDataType": "The value for data type is not valid. Allowed values in english: string, numerisch. Allowed values in english: string, numeric.",
-          "validScaleLevel": "The values for Scale Level are not valid. Allowed values in german: ordinal, nominal, kontinuierlich. Allowed values in english: ordinal, nominal, continous."
+          "valid-data-type": "The value for data type is not valid. Allowed values in english: string, numerisch. Allowed values in english: string, numeric.",
+          "valid-scale-level": "The values for Scale Level are not valid. Allowed values in german: ordinal, nominal, kontinuierlich. Allowed values in english: ordinal, nominal, continous."
         },
         "name": {
           "not-empty": "The Name of the Variable must not be empty!",
@@ -132,12 +131,12 @@
         "label": {
           "not-null": "The label of the Variable must not be empty!",
           "i18n-string-size": "The max length of the label is 128 signs.",
-          "atLeastOneLanguage": "At least an english or a german label must be given!"
+          "at-least-one-language": "At least an english or a german label must be given!"
         },
         "description": {
           "i18n-string-size": "The max length of the description is 2048 signs."
         },
-        "accessWays": {
+        "access-ways": {
           "not-empty": "The list of access ways of a variable needs min. one element and must not be empty!",
           "validAccessWays": "The values of access ways are invalid. Valid values are: suf, cuf and remote."
         },
@@ -153,10 +152,10 @@
         }
       },
       "post-validation": {
-        "variableHasInvalidSurveyId": "The Variable {{id}} references an unknown Survey ({{toBereferenzedId}}).",
-        "variableHasInvalidDataSetId": "The Variable {{id}} references an unknown Data Set ({{toBereferenzedId}}).",
-        "variableIdIsNotInInvalidVariablesPanel": "The Variable {{id}} references an unknown Panel Variable ({{toBereferenzedId}}).",
-        "variableHasInvalidAtomicQuestionId": "The Variable {{id}} references an unknown Atomic Question ({{toBereferenzedId}})."
+        "variable-has-invalid-survey-id": "The Variable {{id}} references an unknown Survey ({{toBereferenzedId}}).",
+        "variable-has-invalid-data-set-id": "The Variable {{id}} references an unknown Data Set ({{toBereferenzedId}}).",
+        "variable-id-is-not-in-invalid-variables-panel": "The Variable {{id}} references an unknown Panel Variable ({{toBereferenzedId}}).",
+        "variable-has-invalid-question-id": "The Variable {{id}} references an unknown Atomic Question ({{toBereferenzedId}})."
       }
     }
   }

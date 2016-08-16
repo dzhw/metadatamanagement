@@ -31,7 +31,7 @@ public class Missing {
   @NotNull(message = "variable-management.error.missing.absolute-frequency.not-null")
   private Integer absoluteFrequency;
 
-  @NotNull(message = "variable-management.error.missing.relativeFrequency.not-null")
+  @NotNull(message = "variable-management.error.missing.relative-frequency.not-null")
   private Double relativeFrequency;
 
   /*

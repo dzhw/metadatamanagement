@@ -46,7 +46,7 @@ function(Variable, CleanJSObjectService, JobLoggingService) {
         generationDetails: {
           rule: jsonContent[i]['generationDetails.rule'],
           ruleExpressionLanguage: jsonContent[i]
-          ['generationDetails.ruleExpressionLanguage'],
+          ['generationDetails.rule-expression-language'],
           description: {
             en: jsonContent[i]['generationDetails.description.en'],
             de: jsonContent[i]['generationDetails.description.de']

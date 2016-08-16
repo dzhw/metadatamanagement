@@ -316,12 +316,12 @@ public class DataAcquisitionProjectPostValidationResourceTest extends AbstractTe
       .andExpect(status().isOk())
       .andExpect(jsonPath("$.errors", hasSize(7)))
       .andExpect(jsonPath("$.errors[0].messageId", containsString("error.post-validation.data-set-has-invalid-variable-id")))
-      .andExpect(jsonPath("$.errors[1].messageId", containsString("error.post-validation.variableIdIsNotInInvalidVariablesPanel")))
-      .andExpect(jsonPath("$.errors[2].messageId", containsString("error.post-validation.variableIdIsNotInInvalidVariablesPanel")))
-      .andExpect(jsonPath("$.errors[3].messageId", containsString("error.post-validation.variableHasInvalidSurveyId")))
-      .andExpect(jsonPath("$.errors[4].messageId", containsString("error.post-validation.variableHasInvalidDataSetId")))
-      .andExpect(jsonPath("$.errors[5].messageId", containsString("error.post-validation.variableIdIsNotInInvalidVariablesPanel")))
-      .andExpect(jsonPath("$.errors[6].messageId", containsString("error.post-validation.variableHasInvalidAtomicQuestionId")));
+      .andExpect(jsonPath("$.errors[1].messageId", containsString("error.post-validation.variable-id-is-not-in-invalid-variables-panel")))
+      .andExpect(jsonPath("$.errors[2].messageId", containsString("error.post-validation.variable-id-is-not-in-invalid-variables-panel")))
+      .andExpect(jsonPath("$.errors[3].messageId", containsString("error.post-validation.variable-has-invalid-survey-id")))
+      .andExpect(jsonPath("$.errors[4].messageId", containsString("error.post-validation.variable-has-invalid-data-set-id")))
+      .andExpect(jsonPath("$.errors[5].messageId", containsString("error.post-validation.variable-id-is-not-in-invalid-variables-panel")))
+      .andExpect(jsonPath("$.errors[6].messageId", containsString("error.post-validation.variable-has-invalid-question-id")));
   }
   
 }

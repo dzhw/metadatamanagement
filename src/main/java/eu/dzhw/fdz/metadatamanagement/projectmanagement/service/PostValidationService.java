@@ -186,7 +186,7 @@ public class PostValidationService {
         if (this.surveyRepository.findOne(surveyId) == null) {
           String[] information = {variable.getId(), surveyId};
           errors.add(new PostValidationMessageDto("variable-management.error." 
-              + "post-validation.variableHasInvalidSurveyId", information));
+              + "post-validation.variable-has-invalid-survey-id", information));
         }
       }
 
@@ -195,7 +195,7 @@ public class PostValidationService {
         if (this.dataSetRepository.findOne(dataSetId) == null) {
           String[] information = {variable.getId(), dataSetId};
           errors.add(new PostValidationMessageDto("variable-management.error." 
-              + "post-validation.variableHasInvalidDataSetId", information));
+              + "post-validation.variable-has-invalid-data-set-id", information));
         }
       }
 
@@ -205,7 +205,7 @@ public class PostValidationService {
           if (this.variableRepository.findOne(variableId) == null) {
             String[] information = {variable.getId(), variableId};
             errors.add(new PostValidationMessageDto("variable-management.error." 
-                + "post-validation.variableIdIsNotInInvalidVariablesPanel", information));
+                + "post-validation.variable-id-is-not-in-invalid-variables-panel", information));
           }        
         }        
       }
@@ -216,7 +216,7 @@ public class PostValidationService {
           && this.atomicQuestionRepository.findOne(variable.getAtomicQuestionId()) == null) {
         String[] information = {variable.getId(), variable.getAtomicQuestionId()};
         errors.add(new PostValidationMessageDto("variable-management.error." 
-            + "post-validation.variableHasInvalidAtomicQuestionId", information));
+            + "post-validation.variable-has-invalid-question-id", information));
       }
     }
 

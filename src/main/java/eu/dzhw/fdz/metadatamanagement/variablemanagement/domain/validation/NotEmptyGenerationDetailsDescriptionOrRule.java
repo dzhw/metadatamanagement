@@ -25,7 +25,7 @@ public @interface NotEmptyGenerationDetailsDescriptionOrRule {
    * Defines the default error message.
    */
   public abstract String message() default "eu.dzhw.fdz.metadatamanagement.domain.validation."
-      + "notEmptyGenerationDetailsDescriptionOrRule.message";
+      + "not-empty-generation-details-description-or-rule.message";
 
   /**
    * This contains groups.

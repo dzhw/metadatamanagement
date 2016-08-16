@@ -41,17 +41,17 @@ import net.karneim.pojobuilder.GeneratePojoBuilder;
 @GeneratePojoBuilder(
     intoPackage = "eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.builders")
 @CompoundIndex(def = "{name: 1, dataAcquisitionProjectId: 1}", unique = true)
-@ValidVariableIdName(message = "variable-management.error.variable.validVariableName")
+@ValidVariableIdName(message = "variable-management.error.variable.valid-variable-name")
 @UniqueVariableNameInProject(message = "variable-management.error."
-    + "variable.uniqueVariableNameInProject")
+    + "variable.unique-variable-name-in-project")
 @MandatoryScaleLevelForNumericDataType(
-    message = "variable-management.error.variable.mandatoryScaleLevelForNumericDataType")
+    message = "variable-management.error.variable.mandatory-scale-level-for-numeric-data-type")
 @ValidResponseValueMustBeANumberOnNumericDataType(
     message = "variable-management.error.variable."
-        + "validResponseValueMustBeANumberOnNumericDataType")
+        + "valid-response-value-must-be-a-number-on-numeric-data-type")
 @ValidResponseValueMustBeAnIsoDateOnDateDataType(
     message = "variable-management.error.variable."
-        + "validResponseValueMustBeAnIsoDateOnDateDataType")
+        + "valid-response-value-must-be-an-iso-date-on-date-data-type")
 public class Variable extends AbstractRdcDomainObject {
 
   /* Domain Object listed attributes */
@@ -63,12 +63,12 @@ public class Variable extends AbstractRdcDomainObject {
       message = "variable-management.error.variable.id.pattern")
   private String id;
 
-  @NotNull(message = "variable-management.error.variable.dataType.not-null")
-  @ValidDataType(message = "variable-management.error.variable.dataType.validDataType")
+  @NotNull(message = "variable-management.error.variable.data-type.not-null")
+  @ValidDataType(message = "variable-management.error.variable.data-type.valid-data-type")
   private I18nString dataType;
 
   @ValidScaleLevel(
-      message = "variable-management.error.variable.scaleLevel.validScaleLevel")
+      message = "variable-management.error.variable.scaleLevel.valid-scale-level")
   private I18nString scaleLevel;
 
   @NotEmpty(message = "variable-management.error.variable.name.not-empty")
@@ -82,7 +82,7 @@ public class Variable extends AbstractRdcDomainObject {
   @I18nStringSize(max = StringLengths.MEDIUM,
       message = "variable-management.error.variable.label.i18n-string-size")
   @AtLeastOneLanguage(
-      message = "variable-management.error.variable.label.atLeastOneLanguage")
+      message = "variable-management.error.variable.label.at-least-one-language")
   private I18nString label;
 
   @I18nStringSize(max = StringLengths.LARGE,
@@ -90,9 +90,9 @@ public class Variable extends AbstractRdcDomainObject {
   private I18nString description;
 
   // checks for min size too.
-  @NotEmpty(message = "variable-management.error.variable.accessWays.not-empty")
+  @NotEmpty(message = "variable-management.error.variable.access-ways.not-empty")
   @ValidAccessWays(
-      message = "variable-management.error.variable.accessWays.validAccessWays")
+      message = "variable-management.error.variable.access-ways.validAccessWays")
   private List<String> accessWays;
 
   private List<String> sameVariablesInPanel;

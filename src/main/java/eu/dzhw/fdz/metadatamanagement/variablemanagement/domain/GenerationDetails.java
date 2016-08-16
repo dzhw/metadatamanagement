@@ -14,36 +14,36 @@ import net.karneim.pojobuilder.GeneratePojoBuilder;
 
 /**
  * Generation Details.
- * 
+ *
  * @author Daniel Katzberg
  *
  */
 @GeneratePojoBuilder(
     intoPackage = "eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.builders")
 @NotEmptyGenerationDetailsDescriptionOrRule(
-    message = "variable-management.error.generationDetails." 
-        + "notEmptyGenerationDetailsDescriptionOrRule")
+    message = "variable-management.error.generation-details."
+        + "not-empty-generation-details-description-or-rule")
 @RuleExpressionLanguageAndRuleFilledOrEmpty(
-    message = "variable-management.error.generationDetails." 
-        + "ruleExpressionLanguageAndRuleFilledOrEmpty")
+    message = "variable-management.error.generation-details."
+        + "rule-expression-language-and-rule-filled-or-empty")
 public class GenerationDetails {
 
   @I18nStringSize(max = StringLengths.LARGE,
-      message = "variable-management.error.generationDetails.description.i18n-string-size")
+      message = "variable-management.error.generation-details.description.i18n-string-size")
   private I18nString description;
 
-  @Size(max = StringLengths.X_LARGE, 
-      message = "variable-management.error.generationDetails.rule.size")
+  @Size(max = StringLengths.X_LARGE,
+      message = "variable-management.error.generation-details.rule.size")
   private String rule;
 
   @ValidRuleExpressionLanguage(
-      message = "variable-management.error.generationDetails." 
-          + "ruleExpressionLanguage.validRuleExpressionLanguage")
+      message = "variable-management.error.generation-details."
+          + "ruleExpressionLanguage.valid-rule-expression-language")
   private String ruleExpressionLanguage;
 
   /*
    * (non-Javadoc)
-   * 
+   *
    * @see java.lang.Object#toString()
    */
   @Override
