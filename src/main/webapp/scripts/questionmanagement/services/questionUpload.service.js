@@ -15,7 +15,7 @@ angular.module('metadatamanagementApp').service('QuestionUploadService',
     var uploadImages = function() {
       if (uploadImageCount === successfullyUploadedQuestions.length) {
         JobLoggingService.finish(
-          'question-management.logMessages.question.uploadTerminated', {
+          'question-management.log-messages.question.upload-terminated', {
             total: JobLoggingService.getCurrentJob().total,
             errors: JobLoggingService.getCurrentJob().errors
           });
@@ -33,7 +33,7 @@ angular.module('metadatamanagementApp').service('QuestionUploadService',
             var messageShort = error.message.substr(0, endErrorIndex).trim();
             JobLoggingService.error(messageShort);
             JobLoggingService.cancel(
-              'data-set-management.logMessages.tex.cancelled', {});
+              'data-set-management.log-messages.tex.cancelled', {});
             uploadImageCount++;
             uploadImages();
           });
@@ -51,7 +51,7 @@ angular.module('metadatamanagementApp').service('QuestionUploadService',
           .id === '') {
           var index = uploadQuestionCount;
           JobLoggingService.error(
-            'question-management.logMessages.question.missingId', {
+            'question-management.log-messages.question.missing-id', {
               index: index + 1
             });
           uploadQuestionCount++;
@@ -96,7 +96,7 @@ angular.module('metadatamanagementApp').service('QuestionUploadService',
                   }else {
                     JobLoggingService
                     .error('data-acquisition-project-management.' +
-                      'logMessages.notFoundImageFile', {
+                      'log-messages.not-found-image-file', {
                         id: question.id
                       });
                   }
@@ -122,7 +122,7 @@ angular.module('metadatamanagementApp').service('QuestionUploadService',
           }
         }, function() {
           JobLoggingService.cancel(
-            'global.logMessages.unsupported-zip-file', {});
+            'global.log-messages.unsupported-zip-file', {});
         });
     };
 

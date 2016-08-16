@@ -17,7 +17,7 @@
     <md-dialog-content>
         <div>
           <ul style="list-style: none; padding: 0;">
-            <li style="margin: 1em;" ng-repeat="logMessage in job.log-messages track by $index" ng-class="{'fdz-log-error-text': logMessage.type ==='error'}">{{logMessage.message | translate:logMessage.translationParams }}
+            <li style="margin: 1em;" ng-repeat="logMessage in job.logMessages track by $index" ng-class="{'fdz-log-error-text': logMessage.type ==='error'}">{{logMessage.message | translate:logMessage.translationParams }}
               <ul style="list-style-type: square;" ng-show="logMessage.subMessages.length > 0">
                 <li ng-repeat="subMessage in logMessage.subMessages">{{subMessage.message | translate}}
                 </li>
