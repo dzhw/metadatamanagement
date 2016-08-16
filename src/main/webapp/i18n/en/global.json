@@ -93,17 +93,17 @@
     },
     "log-messages": {
       "intro": "Following errors occurred during the last upload:",
-      "internalServerError": "An internal server error occurred.",
-      "unsupportedZipFile": "Zip File could not be read",
-      "unsupportedExcelFile": "Excel File could not be read",
-      "unsupportedTexFile": "Tex File could not be read",
-      "unsupportedDirectoryStructure": "The zip file must contain a folder 'variables' and a file 'variables.xlsx'!",
-      "malformedJsonFile": "JSON File for Variable with RDC-ID {{ id }} could not be parsed.",
-      "notFoundJsonFile": "JSON File for Variable with RDC-ID {{ id }} could not be found.",
-      "postValidationTerminated": "The Post-Validation terminated with {{successes}} Successes und {{errors}} Errors."
+      "internal-server-error": "An internal server error occurred.",
+      "unsupported-zip-file": "Zip File could not be read",
+      "unsupported-excel-file": "Excel File could not be read",
+      "unsupported-tex-file": "Tex File could not be read",
+      "unsupported-directory-structure": "The zip file must contain a folder 'variables' and a file 'variables.xlsx'!",
+      "malformed-json-file": "JSON File for Variable with RDC-ID {{ id }} could not be parsed.",
+      "not-found-json-file": "JSON File for Variable with RDC-ID {{ id }} could not be found.",
+      "post-validation-terminated": "The Post-Validation terminated with {{successes}} Successes und {{errors}} Errors."
     },
     "field": {
-      "rdcId": "RDC-ID",
+      "rdc-id": "RDC-ID",
       "id": "ID"
     },
     "entity": {
@@ -136,7 +136,7 @@
         "pattern": "This field should follow pattern {{pattern}}.",
         "number": "This field should be a number.",
         "datetimelocal": "This field should be a date and time.",
-        "rdcId": "The RDC ID must contain only letters, digits and underscore.",
+        "rdc-id": "The RDC ID must contain only letters, digits and underscore.",
         "variable": {
           "name": "The name of a variable must contain only letters, digits and underscore."
         },
@@ -149,15 +149,15 @@
       }
     },
     "error": {
-      "serverNotReachable": "Server not reachable",
-      "NotNull": "Field {{fieldName}} cannot be empty!",
+      "server-not-reachable": "Server not reachable",
+      "not-null": "Field {{fieldName}} cannot be empty!",
       "entity": {
         "exists": "There is already a {{params[0]}} with RDC-ID \"{{params[1]}}\"!",
         "compoundexists": "There is already a \"{{params[0]}}\" with the field combination \"{{params[1]}}\"!",
         "notfound": "{{params[0]}} with RDC-ID \"{{params[1]}}\" not found!"
       },
       "period": {
-        "validPeriod": "The start and end date have to be set and the dates have to be in the correct order!"
+        "valid-period": "The start and end date have to be set and the dates have to be in the correct order!"
       }
     },
     "logos": {

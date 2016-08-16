@@ -63,7 +63,7 @@ angular.module('metadatamanagementApp').service('DataSetUploadService',
       }, function(error) {
         console.log(error);
         JobLoggingService.cancel(
-          'global.log-messages.unsupportedExcelFile', {});
+          'global.log-messages.unsupported-excel-file', {});
       });
     };
     return {

@@ -122,7 +122,7 @@ angular.module('metadatamanagementApp').service('QuestionUploadService',
           }
         }, function() {
           JobLoggingService.cancel(
-            'global.logMessages.unsupportedZipFile', {});
+            'global.logMessages.unsupported-zip-file', {});
         });
     };
 

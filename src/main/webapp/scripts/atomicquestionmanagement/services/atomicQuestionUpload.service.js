@@ -62,7 +62,7 @@ angular.module('metadatamanagementApp').service('AtomicQuestionUploadService',
           });
       }, function() {
         JobLoggingService.cancel(
-          'global.log-messages.unsupportedExcelFile', {});
+          'global.log-messages.unsupported-excel-file', {});
       });
     };
     return {

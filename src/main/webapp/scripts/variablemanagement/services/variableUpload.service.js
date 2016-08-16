@@ -64,7 +64,7 @@ angular.module('metadatamanagementApp').service('VariableUploadService',
           }
         }, function() {
           JobLoggingService.cancel(
-            'global.log-messages.unsupportedZipFile', {});
+            'global.log-messages.unsupported-zip-file', {});
         }).then(function(variables) {
           objects = VariableBuilderService.getVariables(variables, zip,
             dataAcquisitionProjectId);
@@ -88,10 +88,10 @@ angular.module('metadatamanagementApp').service('VariableUploadService',
         }, function(error) {
           if (error === 'unsupportedDirectoryStructure') {
             JobLoggingService.cancel(
-              'global.log-messages.unsupportedDirectoryStructure', {});
+              'global.log-messages.unsupported-directory-structure', {});
           } else {
             JobLoggingService.cancel(
-              'global.log-messages.unsupportedExcelFile', {});
+              'global.log-messages.unsupported-excel-file', {});
           }
         });
     };

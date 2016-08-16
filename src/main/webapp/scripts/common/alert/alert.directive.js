@@ -50,7 +50,7 @@ angular
                     // connection refused, server not reachable
                     case 0:
                       addErrorAlert('Server not reachable',
-                        'error.serverNotReachable');
+                        'error.server-not-reachable');
                       break;
 
                     case 400:

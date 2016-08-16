@@ -21,7 +21,7 @@ angular.module('metadatamanagementApp').service('ErrorMessageResolverService',
         });
       } else if (messageObj.data && messageObj.data.status === 500) {
         subMessages.push({
-          message: 'global.log-messages.internalServerError'
+          message: 'global.log-messages.internal-server-error'
         });
       } else if (messageObj.data && messageObj.data.message) {
         subMessages.push({

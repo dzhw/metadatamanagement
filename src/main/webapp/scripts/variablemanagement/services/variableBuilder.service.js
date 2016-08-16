@@ -20,7 +20,7 @@ angular.module('metadatamanagementApp').service('VariableBuilderService',
                 id: variables[i].id
               },
               errorMessage: 'dataAcquisitionProject-management.' +
-                'logMessages.notFoundJsonFile'
+                'logMessages.not-found-json-file'
             });
             continue;
           }
@@ -30,7 +30,7 @@ angular.module('metadatamanagementApp').service('VariableBuilderService',
               id: variables[i].id
             },
             errorMessage: 'dataAcquisitionProject-management.' +
-              'logMessages.malformedJsonFile'
+              'logMessages.malformed-json-file'
           });
           continue;
         }

@@ -93,17 +93,17 @@
     },
     "log-messages": {
       "intro": "Die folgenden Fehler traten beim letzten Upload auf:",
-      "internalServerError": "Es ist ein interner Server Fehler aufgetreten.",
-      "unsupportedZipFile": "Zip Datei konnte nicht gelesen werden",
-      "unsupportedExcelFile": "Excel Datei konnte nicht gelesen werden",
-      "unsupportedTexFile": "Tex Datei konnte nicht gelesen werden",
-      "unsupportedDirectoryStructure": "Die ZIP Datei muss ein Verzeichnis 'variables' und eine Datei 'variables.xlsx' enthalten.",
-      "malformedJsonFile": "JSON Datei für die Variable mit FDZ-ID {{ id }} konnte nicht geparst werden.",
-      "notFoundJsonFile": "JSON Datei für die Variable mit FDZ-ID {{ id }} konnte nicht gefunden werden.",
-      "postValidationTerminated": "Die Post-Validierung wurde mit {{successes}} Erfolgen und {{errors}} Fehlern beendet."
+      "internal-server-error": "Es ist ein interner Server Fehler aufgetreten.",
+      "unsupported-zip-file": "Zip Datei konnte nicht gelesen werden",
+      "unsupported-excel-file": "Excel Datei konnte nicht gelesen werden",
+      "unsupported-tex-file": "Tex Datei konnte nicht gelesen werden",
+      "unsupported-directory-structure": "Die ZIP Datei muss ein Verzeichnis 'variables' und eine Datei 'variables.xlsx' enthalten.",
+      "malformed-json-file": "JSON Datei für die Variable mit FDZ-ID {{ id }} konnte nicht geparst werden.",
+      "not-found-json-file": "JSON Datei für die Variable mit FDZ-ID {{ id }} konnte nicht gefunden werden.",
+      "post-validation-terminated": "Die Post-Validierung wurde mit {{successes}} Erfolgen und {{errors}} Fehlern beendet."
     },
     "field": {
-      "rdcId": "FDZ-ID",
+      "rdc-id": "FDZ-ID",
       "id": "ID"
     },
     "entity": {
@@ -136,7 +136,7 @@
         "pattern": "Dieses Feld muss das Muster {{pattern}} erfüllen.",
         "number": "Dieses Feld muss eine Zahl sein.",
         "datetimelocal": "Dieses Feld muss eine Datums- und Zeitangabe enthalten.",
-        "rdcId": "Die FDZ-ID darf nur aus Zahlen, Buchstaben und \"_\" bestehen.",
+        "rdc-id": "Die FDZ-ID darf nur aus Zahlen, Buchstaben und \"_\" bestehen.",
         "variable": {
           "name": "Der Name einer Variablen darf nur aus Zahlen, Buchstaben und \"_\" bestehen."
         },
@@ -149,15 +149,15 @@
       }
     },
     "error": {
-      "serverNotReachable": "Der Server ist nicht erreichbar!",
-      "NotNull": "Das Feld {{fieldName}} darf nicht leer sein!",
+      "server-not-reachable": "Der Server ist nicht erreichbar!",
+      "not-null": "Das Feld {{fieldName}} darf nicht leer sein!",
       "entity": {
         "exists": "Ein Datensatz vom Typ \"{{params[0]}}\" mit FDZ-ID \"{{params[1]}}\" existiert bereits!",
         "compoundexists": "Ein Datensatz vom Typ \"{{params[0]}}\" und der Felderkombination \"{{params[1]}}\" existiert bereits!",
         "notfound": "Ein Datensatz vom Typ \"{{params[0]}}\" mit FDZ-ID \"{{params[1]}}\" wurde nicht gefunden!"
       },
       "period": {
-        "validPeriod": "Der Start und Endzeitpunkt müssen gesetzt sein und müssen in der richtigen Reihenfolge sein."
+        "valid-period": "Der Start und Endzeitpunkt müssen gesetzt sein und müssen in der richtigen Reihenfolge sein."
       }
     },
     "logos": {
