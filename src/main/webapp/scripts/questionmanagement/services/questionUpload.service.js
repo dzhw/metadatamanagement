@@ -57,6 +57,7 @@ angular.module('metadatamanagementApp').service('QuestionUploadService',
           uploadQuestionCount++;
           return uploadQuestion();
         } else {
+          objects[uploadQuestionCount].imageType = 'PNG';
           objects[uploadQuestionCount].$save().then(function() {
             JobLoggingService.success();
             successfullyUploadedQuestions.push(objects[uploadQuestionCount]);
