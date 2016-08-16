@@ -152,10 +152,10 @@
         }
       },
       "post-validation": {
-        "variable-has-invalid-survey-id": "Die Variable {{id}} referenziert eine unbekannte Erhebung ({{toBereferenzedId}}).",
-        "variable-has-invalid-data-set-id": "Die Variable {{id}} referenziert einen unbekannten Datensatz ({{toBereferenzedId}}).",
-        "variable-id-is-not-in-invalid-variables-panel": "Die Variable {{id}} referenziert eine unbekannte Panelvariable ({{toBereferenzedId}}).",
-        "variable-has-invalid-question-id": "Die Variable {{id}} referenziert eine unbekannte atomare Frage ({{toBereferenzedId}})."
+        "variable-has-invalid-survey-id": "Die Variable {{id}} referenziert auf eine unbekannte Erhebung ({{toBereferenzedId}}).",
+        "variable-has-invalid-data-set-id": "Die Variable {{id}} referenziert auf einen unbekannten Datensatz ({{toBereferenzedId}}).",
+        "variable-id-is-not-in-invalid-variables-panel": "Die Variable {{id}} referenziert auf eine unbekannte Panelvariable ({{toBereferenzedId}}).",
+        "variable-has-invalid-question-id": "Die Variable {{id}} referenziert auf eine unbekannte atomare Frage ({{toBereferenzedId}})."
       }
     }
   }

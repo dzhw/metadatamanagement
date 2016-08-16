@@ -100,7 +100,7 @@
       "unsupported-directory-structure": "The zip file must contain a folder 'variables' and a file 'variables.xlsx'!",
       "malformed-json-file": "JSON File for Variable with RDC-ID {{ id }} could not be parsed.",
       "not-found-json-file": "JSON File for Variable with RDC-ID {{ id }} could not be found.",
-      "post-validation-terminated": "The Post-Validation terminated with {{successes}} Successes und {{errors}} Errors."
+      "post-validation-terminated": "The Post-Validation terminated with {{errors}} Errors."
     },
     "field": {
       "rdc-id": "RDC-ID",

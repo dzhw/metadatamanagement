@@ -62,8 +62,8 @@
         }
       },
       "post-validation": {
-        "question-has-invalid-variable-id": "The Question {{id}} references an unknown Variable ({{toBereferenzedId}}).",
-        "question-has-invalid-questionnaire-id": "The Question {{id}} references an unknown Questionnaire ({{toBereferenzedId}})."
+        "question-has-invalid-variable-id": "The Question {{id}} references to an unknown Variable ({{toBereferenzedId}}).",
+        "question-has-invalid-questionnaire-id": "The Question {{id}} references to an unknown Questionnaire ({{toBereferenzedId}})."
       }
     }
   }

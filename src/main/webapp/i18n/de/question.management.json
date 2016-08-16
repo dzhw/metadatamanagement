@@ -62,8 +62,8 @@
         }
       },
       "post-validation": {
-        "question-has-invalid-variable-id": "Die Frage {{id}} referenziert eine unbekannte Variable ({{toBereferenzedId}}).",
-        "question-has-invalid-questionnaire-id": "Die Frage {{id}} referenziert einen unbekannten Fragebogen ({{toBereferenzedId}})."
+        "question-has-invalid-variable-id": "Die Frage {{id}} referenziert auf eine unbekannte Variable ({{toBereferenzedId}}).",
+        "question-has-invalid-questionnaire-id": "Die Frage {{id}} referenziert auf einen unbekannten Fragebogen ({{toBereferenzedId}})."
       }
     }
   }

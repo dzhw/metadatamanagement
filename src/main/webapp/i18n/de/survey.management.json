@@ -40,8 +40,8 @@
         }
       },
       "post-validation": {
-        "survey-has-invalid-questionnaire-id": "Die Erhebung {{id}} referenziert einen unbekannten Fragebogen ({{toBereferenzedId}}).",
-        "survey-has-invalid-data-set-id": "Die Erhebung {{id}} referenziert einen unbekannten Datensatz ({{toBereferenzedId}})."
+        "survey-has-invalid-questionnaire-id": "Die Erhebung {{id}} referenziert auf einen unbekannten Fragebogen ({{toBereferenzedId}}).",
+        "survey-has-invalid-data-set-id": "Die Erhebung {{id}} referenziert auf einen unbekannten Datensatz ({{toBereferenzedId}})."
       }
     }
   }
