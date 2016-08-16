@@ -95,7 +95,7 @@ angular.module('metadatamanagementApp').service('QuestionUploadService',
                     objects.push(new QuestionResource(question));
                   }else {
                     JobLoggingService
-                    .error('dataAcquisitionProject-management.' +
+                    .error('data-acquisition-project-management.' +
                       'logMessages.notFoundImageFile', {
                         id: question.id
                       });

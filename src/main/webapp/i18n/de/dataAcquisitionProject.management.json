@@ -1,5 +1,5 @@
 {
-  "dataAcquisitionProject-management": {
+  "data-acquisition-project-management": {
     "home": {
       "title": "Datenaufbereitungsprojekte",
       "createLabel": "Neues Datenaufbereitungsprojekt anlegen"
@@ -10,11 +10,11 @@
     "log-messages": {
       "data-acquisition-project": {
         "saved": "Datenaufbereitungsprojekt '{{ id }}' wurde erfolgreich gespeichert!",
-        "serverError": "Ein Fehler ist auf dem Server aufgetreten: ",
-        "deleteTitle": "Projekt '{{ id }}' löschen?",
+        "server-error": "Ein Fehler ist auf dem Server aufgetreten: ",
+        "delete-title": "Projekt '{{ id }}' löschen?",
         "delete": "Möchten Sie wirklich das Projekt '{{ id }}' löschen? Das Projekt kann hiernach nicht wieder hergestellt werden.",
-        "deletedSuccessfullyProject": "Das Datenaufbereitungsprojekt '{{ id }}' wurde erfolgreich gelöscht.",
-        "deletedNotSuccessfullyProject": "Das Datenaufbereitungsprojekt'{{ id }}' konnte nicht gelöscht werden!"
+        "deleted-successfully-project": "Das Datenaufbereitungsprojekt '{{ id }}' wurde erfolgreich gelöscht.",
+        "deleted-not-successfully-project": "Das Datenaufbereitungsprojekt'{{ id }}' konnte nicht gelöscht werden!"
       }
     },
     "error": {
@@ -24,10 +24,10 @@
           "pattern": "Die FDZ-ID darf nur alphanumerische Zeichen, deutsche Umlaute und ß beinhalten.",
           "size": "Die Maximallänge der FDZ-ID ist 32 Zeichen."
         },
-        "surveySeries": {
+        "survey-series": {
           "i18n-string-size": "Die Maximallänge der Erhebungsreihe ist 128 Zeichen."
         },
-        "panelName": {
+        "panel-name": {
           "i18n-string-size": "Die Maximallänge des Panelnamen ist 128 Zeichen."
         }
       },

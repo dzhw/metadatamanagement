@@ -1,5 +1,5 @@
 {
-  "dataAcquisitionProject-management": {
+  "data-acquisition-project-management": {
     "home": {
       "title": "Data Acquisition Projects",
       "createLabel": "Create a new Data Acquisition Project"
@@ -10,11 +10,11 @@
     "log-messages": {
       "data-acquisition-project": {
         "saved": "Successfully saved the Data Acquisition Project '{{ id }}'!",
-        "serverError": "An error on the server has occurred: ",
-        "deleteTitle": "Delete Project '{{ id }}'?",
+        "server-error": "An error on the server has occurred: ",
+        "delete-title": "Delete Project '{{ id }}'?",
         "delete": "Do you really want to delete the Project '{{ id }}'? This can't be undone.",
-        "deletedSuccessfullyProject": "Successfully deleted Data Acquisition Project '{{ id }}'!",
-        "deletedNotSuccessfullyProject": "Couldn't delete Data Acquisition Project '{{ id }}'!"
+        "deleted-successfully-project": "Successfully deleted Data Acquisition Project '{{ id }}'!",
+        "deleted-not-successfully-project": "Couldn't delete Data Acquisition Project '{{ id }}'!"
       }
     },
     "error": {
@@ -24,10 +24,10 @@
           "pattern": "The RDC-ID must contain only alphanumeric signs, german umlauts and ß.",
           "size": "The max length of the RDC-ID is 32 signs."
         },
-        "surveySeries": {
+        "survey-series": {
           "i18n-string-size": "The max length of the survey series is 128 signs."
         },
-        "panelName": {
+        "panel-name": {
           "i18n-string-size": "The max length of the panel name is 128 signs."
         }
       },

@@ -19,7 +19,7 @@ angular.module('metadatamanagementApp').service('VariableBuilderService',
               translationParams: {
                 id: variables[i].id
               },
-              errorMessage: 'dataAcquisitionProject-management.' +
+              errorMessage: 'data-acquisition-project-management.' +
                 'logMessages.not-found-json-file'
             });
             continue;
@@ -29,7 +29,7 @@ angular.module('metadatamanagementApp').service('VariableBuilderService',
             translationParams: {
               id: variables[i].id
             },
-            errorMessage: 'dataAcquisitionProject-management.' +
+            errorMessage: 'data-acquisition-project-management.' +
               'logMessages.malformed-json-file'
           });
           continue;
