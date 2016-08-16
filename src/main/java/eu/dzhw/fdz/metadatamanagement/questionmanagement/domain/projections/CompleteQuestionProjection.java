@@ -22,6 +22,8 @@ public interface CompleteQuestionProjection
   String getDataAcquisitionProjectId();
     
   String getNumber();
+  
+  String getSurveyId();
     
   I18nString getQuestionText();
     

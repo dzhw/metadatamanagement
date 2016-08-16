@@ -24,6 +24,9 @@ public interface QuestionRepository
 
   @RestResource(exported = false)
   List<Question> findByDataAcquisitionProjectId(String dataAcquisitionProjectId);
+  
+  @RestResource(exported = false)
+  List<Question> findBySurveyId(String surveyId);
 
   @RestResource(exported = false)
   Slice<Question> findBy(Pageable pageable);

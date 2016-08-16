@@ -23,6 +23,7 @@ public class Question extends AbstractRdcDomainObject {
   @Id
   private String id;
   private String number;
+  private String surveyId;
   private I18nString questionText;
   private I18nString instruction;
   private I18nString introduction;
@@ -52,6 +53,14 @@ public class Question extends AbstractRdcDomainObject {
   
   public void setNumber(String number) {
     this.number = number;
+  }
+  
+  public String getSurveyId() {
+    return surveyId;
+  }
+  
+  public void setSurveyId(String surveyId) {
+    this.surveyId = surveyId;
   }
   
   public I18nString getQuestionText() {
@@ -144,7 +153,8 @@ public class Question extends AbstractRdcDomainObject {
 
   @Override
   public String toString() {
-    return "Frage [id=" + id + ", number=" + number + ", questionText=" + questionText
+    return "Frage [id=" + id + ", number=" + number + ", surveyId=" + surveyId
+        + ", questionText=" + questionText
         + ", instruction=" + instruction + ", introduction=" + introduction + ", type=" + type
         + ", additionalQuestionText=" + additionalQuestionText + ", imageType=" + imageType 
         + ", technicalRepresentation="
@@ -152,6 +162,6 @@ public class Question extends AbstractRdcDomainObject {
         + ", successor=" + successor + ", dataAcquisitionProjectId=" + dataAcquisitionProjectId
         + ", variableIds=" + variableIds + "]";
   }
-  
+
 
 }

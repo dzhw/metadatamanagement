@@ -14,6 +14,7 @@ public class QuestionSearchDocument {
   private String id;
   private String dataAcquisitionProjectId;
   private String number;
+  private String surveyId;
   private String questionText;
   private String instruction;
   private String introduction;
@@ -30,6 +31,8 @@ public class QuestionSearchDocument {
    */
   public QuestionSearchDocument(Question question, ElasticsearchIndices index) {
     this.id = question.getId();
+    this.number = question.getNumber();
+    this.surveyId = question.getSurveyId();
     this.dataAcquisitionProjectId = question.getDataAcquisitionProjectId();
     this.technicalRepresentation = question.getTechnicalRepresentation();
     this.imageType = question.getImageType().name();
@@ -46,10 +49,6 @@ public class QuestionSearchDocument {
           .getDe() : null;
         instruction = question.getInstruction() != null ? question.getInstruction()
           .getDe() : null;
-        questionText = question.getQuestionText() != null ? question.getQuestionText()
-          .getDe() : null;
-        instruction = question.getInstruction() != null ? question.getInstruction()
-          .getDe() : null;
         introduction = question.getIntroduction() != null ? question.getIntroduction()
           .getDe() : null;
         type = question.getType() != null ? question.getType()
@@ -62,10 +61,6 @@ public class QuestionSearchDocument {
             .getEn() : null;
         instruction = question.getInstruction() != null ? question.getInstruction()
             .getEn() : null;
-        questionText = question.getQuestionText() != null ? question.getQuestionText()
-          .getEn() : null;
-        instruction = question.getInstruction() != null ? question.getInstruction()
-          .getEn() : null;
         introduction = question.getIntroduction() != null ? question.getIntroduction()
           .getEn() : null;
         type = question.getType() != null ? question.getType()
@@ -100,6 +95,14 @@ public class QuestionSearchDocument {
 
   public void setNumber(String number) {
     this.number = number;
+  }
+  
+  public String getSurveyId() {
+    return surveyId;
+  }
+  
+  public void setSurveyId(String surveyId) {
+    this.surveyId = surveyId;
   }
 
   public String getQuestionText() {
