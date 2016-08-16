@@ -1,5 +1,6 @@
 {
   "data-acquisition-project-management": {
+    "name": "Name of the Data Acquisition Projects",
     "home": {
       "title": "Data Acquisition Projects",
       "createLabel": "Create a new Data Acquisition Project"

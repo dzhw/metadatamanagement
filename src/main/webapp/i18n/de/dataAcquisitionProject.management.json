@@ -1,5 +1,6 @@
 {
   "data-acquisition-project-management": {
+    "name": "Name des Datenaufbereitungsprojekts",
     "home": {
       "title": "Datenaufbereitungsprojekte",
       "createLabel": "Neues Datenaufbereitungsprojekt anlegen"

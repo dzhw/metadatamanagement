@@ -70,7 +70,7 @@ angular.module('metadatamanagementApp')
                 SimpleMessageToastService
                   .openSimpleMessageToast(
                     'data-acquisition-project-management.log-messages.' +
-                    'dataAcquisitionProject.saved', {
+                    'data-acquisition-project.saved', {
                       id: project.id
                     });
                 CurrentProjectService.setCurrentProject(project);
@@ -81,7 +81,7 @@ angular.module('metadatamanagementApp')
                 SimpleMessageToastService
                   .openSimpleMessageToast(
                     'data-acquisition-project-management.log-messages.' +
-                    'dataAcquisitionProject.server-error' + errorMsg);
+                    'data-acquisition-project.server-error' + errorMsg);
                 loadProjects();
               }
             );
@@ -93,17 +93,17 @@ angular.module('metadatamanagementApp')
         var confirm = $mdDialog.confirm()
           .title($translate.instant(
             'data-acquisition-project-management.log-messages.' +
-            'dataAcquisitionProject.delete-title', {
+            'data-acquisition-project.delete-title', {
               id: ctrl.selectedProject.id
             }))
           .textContent($translate.instant(
             'data-acquisition-project-management.log-messages.' +
-            'dataAcquisitionProject.delete', {
+            'data-acquisition-project.delete', {
               id: ctrl.selectedProject.id
             }))
           .ariaLabel($translate.instant(
             'data-acquisition-project-management.log-messages.' +
-            'dataAcquisitionProject.delete', {
+            'data-acquisition-project.delete', {
               id: ctrl.selectedProject.id
             }))
           .ok($translate.instant('global.buttons.ok'))
@@ -120,7 +120,7 @@ angular.module('metadatamanagementApp')
                 function() {
                   SimpleMessageToastService.openSimpleMessageToast(
                     'data-acquisition-project-management.log-messages.' +
-                    'dataAcquisitionProject.deleted-successfully-project', {
+                    'data-acquisition-project.deleted-successfully-project', {
                       id: ctrl.selectedProject.id
                     });
                   loadProjects();
@@ -130,7 +130,7 @@ angular.module('metadatamanagementApp')
               SimpleMessageToastService.openSimpleMessageToast(
 
                 'data-acquisition-project-management.log-messages.' +
-                'dataAcquisitionProject.deleted-not-successfully-project', {
+                'data-acquisition-project.deleted-not-successfully-project', {
                   id: ctrl.selectedProject.id
                 });
             });
