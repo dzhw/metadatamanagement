@@ -24,7 +24,7 @@
         <commons-io.version>2.5</commons-io.version>
         <commons-lang.version>2.6</commons-lang.version>
         <dropwizard-metrics.version>3.1.2</dropwizard-metrics.version>
-        <elasticsearch.version>2.2.2</elasticsearch.version>
+        <elasticsearch.version>2.3.3</elasticsearch.version>
         <gatling-maven-plugin.version>2.2.0</gatling-maven-plugin.version>
         <gatling.version>2.2.2</gatling.version>
         <jacoco-maven-plugin.version>0.7.7.201606060606</jacoco-maven-plugin.version>
