@@ -119,7 +119,7 @@ public class QuestionResourceTest extends AbstractTest {
       .andExpect(status().isCreated());
     
       question.setQuestionText(new I18nStringBuilder().withDe("Angepasst")
-          .withEn(null)
+          .withEn("Different Value")
           .build());
       question.setNumber("1");
    

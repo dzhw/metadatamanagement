@@ -11,6 +11,8 @@ import java.util.List;
 
 import eu.dzhw.fdz.metadatamanagement.citationmanagement.domain.Citation;
 import eu.dzhw.fdz.metadatamanagement.citationmanagement.domain.builders.CitationBuilder;
+import eu.dzhw.fdz.metadatamanagement.common.domain.I18nString;
+import eu.dzhw.fdz.metadatamanagement.common.domain.ImageType;
 import eu.dzhw.fdz.metadatamanagement.common.domain.builders.I18nStringBuilder;
 import eu.dzhw.fdz.metadatamanagement.common.domain.builders.PeriodBuilder;
 import eu.dzhw.fdz.metadatamanagement.datasetmanagement.domain.DataSet;
@@ -20,6 +22,7 @@ import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.Release;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.builders.DataAcquisitionProjectBuilder;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.builders.ReleaseBuilder;
 import eu.dzhw.fdz.metadatamanagement.questionmanagement.domain.Question;
+import eu.dzhw.fdz.metadatamanagement.questionmanagement.domain.QuestionTypes;
 import eu.dzhw.fdz.metadatamanagement.questionmanagement.domain.builders.AtomicQuestionBuilder;
 import eu.dzhw.fdz.metadatamanagement.questionmanagement.domain.builders.QuestionBuilder;
 import eu.dzhw.fdz.metadatamanagement.questionmanagementold.domain.AtomicQuestion;
@@ -178,6 +181,20 @@ public class UnitTestCreateDomainObjectUtils {
   public static Question buildQuestion(String projectId) {
     return new QuestionBuilder().withDataAcquisitionProjectId(projectId)
       .withId(projectId + "-Question")
+      .withAdditionalQuestionText(new I18nString("Zusätzlicher Fragetext", "Additional Question Text"))
+      .withDataAcquisitionProjectId(projectId)
+      .withImageType(ImageType.PNG)
+      .withInstruction(new I18nString("Instruktionen", "Instruction"))
+      .withInstrumentId("Instrument-Id")
+      .withIntroduction(new I18nString("Einleitung", "Introduction"))
+      .withNumber("123.12")
+      .withPredecessor(new ArrayList<>())
+      .withSuccessor(new ArrayList<>())
+      .withQuestionText(new I18nString("Fragetext","Question text"))
+      .withSurveyId("Survey-Id")
+      .withTechnicalRepresentation("Technical representation")
+      .withType(QuestionTypes.SINGLE_CHOICE)
+      .withVariableIds(new ArrayList<>())
       .build();
   }
   
