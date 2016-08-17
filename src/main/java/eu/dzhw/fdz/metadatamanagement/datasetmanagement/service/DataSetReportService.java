@@ -22,8 +22,8 @@ import eu.dzhw.fdz.metadatamanagement.common.rest.util.ZipUtil;
 import eu.dzhw.fdz.metadatamanagement.datasetmanagement.domain.DataSet;
 import eu.dzhw.fdz.metadatamanagement.datasetmanagement.repository.DataSetRepository;
 import eu.dzhw.fdz.metadatamanagement.filemanagement.service.FileService;
-import eu.dzhw.fdz.metadatamanagement.questionmanagementold.domain.AtomicQuestion;
-import eu.dzhw.fdz.metadatamanagement.questionmanagementold.repository.AtomicQuestionRepository;
+import eu.dzhw.fdz.metadatamanagement.questionmanagement.domain.Question;
+import eu.dzhw.fdz.metadatamanagement.questionmanagement.repository.QuestionRepository;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.ValidResponse;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.Variable;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.repository.VariableRepository;
@@ -51,7 +51,7 @@ public class DataSetReportService {
   private VariableRepository variableRepository;
 
   @Inject
-  private AtomicQuestionRepository atomicQuestionRepository;
+  private QuestionRepository questionRepository;
 
   /**
    * The Escape Prefix handles the escaping of special latex signs within data information. This
@@ -257,7 +257,7 @@ public class DataSetReportService {
     dataForTemplate.put("variables", variablesMap);
 
     // Create different information from the variable   
-    Map<String, AtomicQuestion> questionsMap = new HashMap<>();
+    Map<String, Question> questionsMap = new HashMap<>();
     Map<String, List<ValidResponse>> firstTenValidResponses = new HashMap<>();
     Map<String, List<ValidResponse>> lastTenValidResponses = new HashMap<>();
     
@@ -274,9 +274,9 @@ public class DataSetReportService {
 
       // Create a Map with Atomic Questions
       if (variable.getAtomicQuestionId() != null) {
-        AtomicQuestion atomicQuestion =
-            this.atomicQuestionRepository.findOne(variable.getAtomicQuestionId());
-        questionsMap.put(variable.getAtomicQuestionId(), atomicQuestion);
+        Question question =
+            this.questionRepository.findOne(variable.getAtomicQuestionId());
+        questionsMap.put(variable.getAtomicQuestionId(), question);
       }
         
       // Create the first and last ten isAMissing Values to different list, if there are more

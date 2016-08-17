@@ -19,8 +19,6 @@ import eu.dzhw.fdz.metadatamanagement.datasetmanagement.domain.DataSet;
 import eu.dzhw.fdz.metadatamanagement.datasetmanagement.repository.DataSetRepository;
 import eu.dzhw.fdz.metadatamanagement.questionmanagement.domain.Question;
 import eu.dzhw.fdz.metadatamanagement.questionmanagement.repository.QuestionRepository;
-import eu.dzhw.fdz.metadatamanagement.questionmanagementold.domain.AtomicQuestion;
-import eu.dzhw.fdz.metadatamanagement.questionmanagementold.repository.AtomicQuestionRepository;
 import eu.dzhw.fdz.metadatamanagement.searchmanagement.dao.ElasticsearchDao;
 import eu.dzhw.fdz.metadatamanagement.searchmanagement.domain.ElasticsearchUpdateQueueAction;
 import eu.dzhw.fdz.metadatamanagement.surveymanagement.domain.Survey;
@@ -48,9 +46,6 @@ public class ElasticsearchAdminService {
   private DataSetRepository dataSetRepository;
   
   @Inject
-  private AtomicQuestionRepository atomicQuestionRepository;
-  
-  @Inject
   private QuestionRepository questionRepository;
   
   @Inject
@@ -71,7 +66,6 @@ public class ElasticsearchAdminService {
     this.enqueueAllVariables();
     this.enqueueAllSurveys();
     this.enqueueAllDataSets();
-    this.enqueueAllAtomicQuestions();
     this.enqueueAllQuestions();
     updateQueueService.processQueue();
   }
@@ -132,26 +126,7 @@ public class ElasticsearchAdminService {
       dataSets = dataSetRepository.findBy(pageable);
     }
   }
-  
-  /**
-   * Load all atomicQuestions from mongo and enqueue them for updating.
-   */
-  private void enqueueAllAtomicQuestions() {
-    Pageable pageable = new PageRequest(0, 100);
-    Slice<AtomicQuestion> atomicQuestions = atomicQuestionRepository.findBy(pageable);
-
-    while (atomicQuestions.hasContent()) {
-      atomicQuestions.forEach(atomicQuestion -> {
-        updateQueueService.enqueue(
-            atomicQuestion.getId(), 
-            ElasticsearchType.atomic_questions, 
-            ElasticsearchUpdateQueueAction.UPSERT);
-      });
-      pageable = pageable.next();
-      atomicQuestions = atomicQuestionRepository.findBy(pageable);
-    }
-  }
-  
+    
   /**
    * Load all questions from mongo and enqueue them for updating.
    */

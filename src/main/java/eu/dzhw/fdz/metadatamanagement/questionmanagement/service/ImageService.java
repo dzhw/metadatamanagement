@@ -22,7 +22,7 @@ public class ImageService {
   /**
    * This method save an image into GridFS/MongoDB based on a byteArrayOutputStream.
    * Existing image should be deleted before saving/updating an image
-   * @param intputStream The image as byteArrayOutputStream
+   * @param inputStream The image as byteArrayOutputStream
    * @param imageName The name of the image to be saved
    * @return return the name of the saved image in the GridFS / MongoDB.
    */

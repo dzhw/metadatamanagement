@@ -10,8 +10,8 @@ import org.springframework.stereotype.Service;
 import eu.dzhw.fdz.metadatamanagement.datasetmanagement.domain.DataSet;
 import eu.dzhw.fdz.metadatamanagement.datasetmanagement.repository.DataSetRepository;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.rest.dto.PostValidationMessageDto;
-import eu.dzhw.fdz.metadatamanagement.questionmanagementold.domain.AtomicQuestion;
-import eu.dzhw.fdz.metadatamanagement.questionmanagementold.repository.AtomicQuestionRepository;
+import eu.dzhw.fdz.metadatamanagement.questionmanagement.domain.Question;
+import eu.dzhw.fdz.metadatamanagement.questionmanagement.repository.QuestionRepository;
 import eu.dzhw.fdz.metadatamanagement.questionnairemanagement.repository.QuestionnaireRepository;
 import eu.dzhw.fdz.metadatamanagement.surveymanagement.domain.Survey;
 import eu.dzhw.fdz.metadatamanagement.surveymanagement.repository.SurveyRepository;
@@ -41,9 +41,9 @@ public class PostValidationService {
 
   @Inject
   private QuestionnaireRepository questionnaireRepository;
-
+  
   @Inject
-  private AtomicQuestionRepository atomicQuestionRepository;
+  private QuestionRepository questionRepository;
 
 
   /**
@@ -57,9 +57,9 @@ public class PostValidationService {
     List<PostValidationMessageDto> errors = new ArrayList<>();
 
     // Check atomic questions
-    List<AtomicQuestion> atomicQuestions =
-        this.atomicQuestionRepository.findByDataAcquisitionProjectId(dataAcquisitionProjectId);
-    errors = this.postValidateAtomicQuestions(atomicQuestions, errors);
+    List<Question> questions =
+        this.questionRepository.findByDataAcquisitionProjectId(dataAcquisitionProjectId);
+    errors = this.postValidateQuestions(questions, errors);
 
     // check data sets
     List<DataSet> dataSets =
@@ -85,23 +85,32 @@ public class PostValidationService {
    * 
    * @return a list of errors of the post validation of atomic questions.
    */
-  private List<PostValidationMessageDto> postValidateAtomicQuestions(
-      List<AtomicQuestion> atomicQuestions, List<PostValidationMessageDto> errors) {
+  private List<PostValidationMessageDto> postValidateQuestions(
+      List<Question> questions, List<PostValidationMessageDto> errors) {
 
-    for (AtomicQuestion atomicQuestion : atomicQuestions) {
+    for (Question question : questions) {
 
-      // atomicQuestion.VariableId: there must be a variable with that id
-      if (this.variableRepository.findOne(atomicQuestion.getVariableId()) == null) {
-        String[] information = {atomicQuestion.getId(), atomicQuestion.getVariableId()};
-        errors.add(new PostValidationMessageDto("question-management.error." 
-            + "post-validation.question-has-invalid-variable-id", information));
+      // question.VariableIds: there must be variables with that id
+      for (String variableId : question.getVariableIds()) {
+        if (this.variableRepository.findOne(variableId) == null) {
+          String[] information = {question.getId(), variableId};
+          errors.add(new PostValidationMessageDto("question-management.error." 
+              + "post-validation.question-has-invalid-variable-id", information));
+        }
       }
 
-      // atomicQuestion.QuestionnaireId: there must be a questionaire with that id
-      if (this.questionnaireRepository.findOne(atomicQuestion.getQuestionnaireId()) == null) {
-        String[] information = {atomicQuestion.getId(), atomicQuestion.getQuestionnaireId()};
+      // question.QuestionnaireId: there must be a questionaire with that id
+      if (this.questionnaireRepository.findOne(question.getInstrumentId()) == null) {
+        String[] information = {question.getId(), question.getInstrumentId()};
         errors.add(new PostValidationMessageDto("question-management.error." 
             + "post-validation.question-has-invalid-questionnaire-id", information));
+      }
+      
+      // question.QuestionnaireId: there must be a survey with that id
+      if (this.surveyRepository.findOne(question.getSurveyId()) == null) {
+        String[] information = {question.getId(), question.getSurveyId()};
+        errors.add(new PostValidationMessageDto("question-management.error." 
+            + "post-validation.question-has-invalid-survey-id", information));
       }
     }
 
@@ -210,10 +219,10 @@ public class PostValidationService {
         }        
       }
 
-      // variable.atomicQuestionId: If there is no genereationDetail every variable needs a
-      // atomicQuestionId (and vice versa)
+      // variable.questionId: If there is no genereationDetail every variable needs a
+      // questionId (and vice versa)
       if (variable.getAtomicQuestionId() != null
-          && this.atomicQuestionRepository.findOne(variable.getAtomicQuestionId()) == null) {
+          && this.questionRepository.findOne(variable.getAtomicQuestionId()) == null) {
         String[] information = {variable.getId(), variable.getAtomicQuestionId()};
         errors.add(new PostValidationMessageDto("variable-management.error." 
             + "post-validation.variable-has-invalid-question-id", information));

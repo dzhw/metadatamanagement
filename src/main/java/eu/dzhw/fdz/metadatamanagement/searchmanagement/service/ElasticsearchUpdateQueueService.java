@@ -18,10 +18,7 @@ import eu.dzhw.fdz.metadatamanagement.datasetmanagement.domain.DataSet;
 import eu.dzhw.fdz.metadatamanagement.datasetmanagement.repository.DataSetRepository;
 import eu.dzhw.fdz.metadatamanagement.questionmanagement.domain.Question;
 import eu.dzhw.fdz.metadatamanagement.questionmanagement.repository.QuestionRepository;
-import eu.dzhw.fdz.metadatamanagement.questionmanagementold.domain.AtomicQuestion;
-import eu.dzhw.fdz.metadatamanagement.questionmanagementold.repository.AtomicQuestionRepository;
 import eu.dzhw.fdz.metadatamanagement.searchmanagement.dao.ElasticsearchDao;
-import eu.dzhw.fdz.metadatamanagement.searchmanagement.documents.AtomicQuestionSearchDocument;
 import eu.dzhw.fdz.metadatamanagement.searchmanagement.documents.DataSetSearchDocument;
 import eu.dzhw.fdz.metadatamanagement.searchmanagement.documents.QuestionSearchDocument;
 import eu.dzhw.fdz.metadatamanagement.searchmanagement.documents.SurveySearchDocument;
@@ -72,13 +69,7 @@ public class ElasticsearchUpdateQueueService {
    */
   @Inject
   private SurveyRepository surveyRepository;
-  
-  /**
-   * DAO for Elasticsearch synchronization.
-   */
-  @Inject
-  private AtomicQuestionRepository atomicQuestionRepository;
-  
+    
   @Inject
   private QuestionRepository questionRepository;
   
@@ -225,10 +216,7 @@ public class ElasticsearchUpdateQueueService {
         break;
       case data_sets:
         addUpsertActionForDataSet(lockedItem, bulkBuilder);
-        break;
-      case atomic_questions:
-        addUpsertActionForAtomicQuestion(lockedItem, bulkBuilder);
-        break; 
+        break;     
       case questions:
         addUpsertActionForQuestion(lockedItem, bulkBuilder);
         break; 
@@ -237,24 +225,7 @@ public class ElasticsearchUpdateQueueService {
             + lockedItem.getDocumentType() + " has not been implemented!");
     }
   }
-  
-  private void addUpsertActionForAtomicQuestion(ElasticsearchUpdateQueueItem lockedItem,
-      Builder bulkBuilder) {
-    AtomicQuestion atomicQuestion = atomicQuestionRepository.findOne(lockedItem.getDocumentId());
-    if (atomicQuestion != null) {
-      for (ElasticsearchIndices index : ElasticsearchIndices.values()) {
-        AtomicQuestionSearchDocument searchDocument =
-            new AtomicQuestionSearchDocument(atomicQuestion, index);
-
-        bulkBuilder.addAction(new Index.Builder(searchDocument)
-            .index(index.getIndexName())
-            .type(lockedItem.getDocumentType().name())
-            .id(searchDocument.getId())
-            .build());
-      }
-    }
-  }
-  
+   
   private void addUpsertActionForDataSet(ElasticsearchUpdateQueueItem lockedItem,
       Builder bulkBuilder) {
     DataSet dataSet = dataSetRepository.findOne(lockedItem.getDocumentId());

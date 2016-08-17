@@ -23,10 +23,7 @@ import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.builders.DataAcqu
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.builders.ReleaseBuilder;
 import eu.dzhw.fdz.metadatamanagement.questionmanagement.domain.Question;
 import eu.dzhw.fdz.metadatamanagement.questionmanagement.domain.QuestionTypes;
-import eu.dzhw.fdz.metadatamanagement.questionmanagement.domain.builders.AtomicQuestionBuilder;
 import eu.dzhw.fdz.metadatamanagement.questionmanagement.domain.builders.QuestionBuilder;
-import eu.dzhw.fdz.metadatamanagement.questionmanagementold.domain.AtomicQuestion;
-import eu.dzhw.fdz.metadatamanagement.questionmanagementold.domain.AtomicQuestionTypes;
 import eu.dzhw.fdz.metadatamanagement.questionnairemanagement.domain.Questionnaire;
 import eu.dzhw.fdz.metadatamanagement.questionnairemanagement.domain.builders.QuestionnaireBuilder;
 import eu.dzhw.fdz.metadatamanagement.surveymanagement.domain.Survey;
@@ -104,37 +101,7 @@ public class UnitTestCreateDomainObjectUtils {
         .withEn("En Description")
         .build())
       .build();
-  }
-
-  public static AtomicQuestion buildAtomicQuestion(String projectId, String questionnaireId,
-      String variableName) {
-    return new AtomicQuestionBuilder().withCompositeQuestionName("CompositeQuestioName")
-      .withDataAcquisitionProjectId(projectId)
-      .withFootnote(new I18nStringBuilder().withDe("De Fussnote")
-        .withEn("En Fussnote")
-        .build())
-      .withId("testAtomicQuestion")
-      .withInstruction(new I18nStringBuilder().withDe("De Instruktion")
-        .withEn("En Instruction")
-        .build())
-      .withIntroduction(new I18nStringBuilder().withDe("De Einführung")
-        .withEn("En Introduction")
-        .build())
-      .withName("Name")
-      .withQuestionnaireId(questionnaireId)
-      .withQuestionText(new I18nStringBuilder().withDe("De Frage")
-        .withEn("En Question")
-        .build())
-      .withSectionHeader(new I18nStringBuilder().withDe("De Kapitelüberschrift")
-        .withEn("En Section header")
-        .build())
-      .withType(new I18nStringBuilder().withDe(AtomicQuestionTypes.OPEN.getDe())
-          .withEn(AtomicQuestionTypes.OPEN.getEn())
-          .build())
-      .withVariableId(projectId + "-" + variableName)
-      .withId(projectId + "-" + variableName)
-      .build();
-  }
+  } 
 
   public static Variable buildVariable(String projectId, String surveyId) {
 
@@ -178,14 +145,17 @@ public class UnitTestCreateDomainObjectUtils {
       .build();
   }
   
-  public static Question buildQuestion(String projectId) {
+  public static Question buildQuestion(String projectId, String instrumentId, String variableId) {
+    List<String> variableIds = new ArrayList<>();
+    variableIds.add(variableId);
+    
     return new QuestionBuilder().withDataAcquisitionProjectId(projectId)
       .withId(projectId + "-Question")
       .withAdditionalQuestionText(new I18nString("Zusätzlicher Fragetext", "Additional Question Text"))
       .withDataAcquisitionProjectId(projectId)
       .withImageType(ImageType.PNG)
       .withInstruction(new I18nString("Instruktionen", "Instruction"))
-      .withInstrumentId("Instrument-Id")
+      .withInstrumentId(instrumentId)
       .withIntroduction(new I18nString("Einleitung", "Introduction"))
       .withNumber("123.12")
       .withPredecessor(new ArrayList<>())
@@ -194,7 +164,7 @@ public class UnitTestCreateDomainObjectUtils {
       .withSurveyId("Survey-Id")
       .withTechnicalRepresentation("Technical representation")
       .withType(QuestionTypes.SINGLE_CHOICE)
-      .withVariableIds(new ArrayList<>())
+      .withVariableIds(variableIds)
       .build();
   }
   
