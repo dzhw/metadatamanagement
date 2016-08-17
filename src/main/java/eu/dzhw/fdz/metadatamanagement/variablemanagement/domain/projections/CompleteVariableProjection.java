@@ -49,7 +49,7 @@ public interface CompleteVariableProjection
   /* Foreign Keys */
   List<String> getDataSetIds();
 
-  String atomicQuestionId();
+  String getQuestionId();
 
   String getDataAcquisitionProjectId();
 

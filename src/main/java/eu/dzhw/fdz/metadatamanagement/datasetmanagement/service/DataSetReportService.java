@@ -34,7 +34,7 @@ import freemarker.template.TemplateExceptionHandler;
 
 /**
  * This service fill tex templates with data and put it into the gridfs / mongodb.
- * 
+ *
  * @author Daniel Katzberg
  *
  */
@@ -91,7 +91,7 @@ public class DataSetReportService {
    * This service method will receive a tex template as a string and an id of a data set. With this
    * id, the service will load the data set for receiving all depending information, which are
    * needed for filling of the tex template with data.
-   * 
+   *
    * @param multiPartFile The uploaded zip file
    * @param dataSetId An id of the data set.
    * @return The name of the saved tex template in the GridFS / MongoDB.
@@ -144,7 +144,7 @@ public class DataSetReportService {
 
   /**
    * This method filles the tex templates.
-   * 
+   *
    * @param templateContent The content of a tex template.
    * @param templateConfiguration The configuration for freemarker.
    * @param dataForTemplateThe data for a tex template. All variables, questions and dataset
@@ -171,7 +171,7 @@ public class DataSetReportService {
 
   /**
    * This method save a latex file into GridFS/MongoDB based on a byteArrayOutputStream.
-   * 
+   *
    * @param byteArrayOutputStream The latex file as byteArrayOutputStream
    * @param fileName The name of the file to be saved
    * @return return the file name of the saved latex template in the GridFS / MongoDB.
@@ -192,7 +192,7 @@ public class DataSetReportService {
 
   /**
    * This method load all needed objects from the db for filling the tex template.
-   * 
+   *
    * @param dataSetId An id of the data acquision project id.
    * @return A HashMap with all data for the template filling. The Key is the name of the Object,
    *         which is used in the template.
@@ -212,7 +212,7 @@ public class DataSetReportService {
   /**
    * This is a "fluent" method for the Map with created Objects of the latex template. Added data
    * set information to the map of objects for the template.
-   * 
+   *
    * @param dataForTemplate The map for the template with all added objects before this method.
    * @param dataSetId The id of the used data set; Root Element of the report.
    * @return The map for the template as fluent result. Added some created elements within this
@@ -234,11 +234,11 @@ public class DataSetReportService {
   /**
    * Fluent Method for creating Map Objects for the latex template. Creates the follow Maps:
    * questions : Map with all question, which are connected by variables of a given data set (key is
-   * variable.atomicQuestionId) 
-   * isAMissingCounterMap: A map with counter, how many isAMissing Values a variable has 
-   *    (key is variable.id) 
-   * firstTenValues: The first ten isAMissing values for one tex template layout. 
-   *    (key is variable.id) 
+   * variable.questionId) 
+   * isAMissingCounterMap: A map with counter, how many isAMissing Values a variable has
+   *    (key is variable.id)
+   * firstTenValues: The first ten isAMissing values for one tex template layout.
+   *    (key is variable.id)
    * lastTenValues: The last ten isAMissing values for one tex template layout.
    *    (key is variable.id)
    * @param dataForTemplate The map for the template with all added objects before this method.
@@ -256,12 +256,12 @@ public class DataSetReportService {
         Maps.uniqueIndex(variables, new VariableFunction());
     dataForTemplate.put("variables", variablesMap);
 
-    // Create different information from the variable   
+    // Create different information from the variable
     Map<String, Question> questionsMap = new HashMap<>();
     Map<String, List<ValidResponse>> firstTenValidResponses = new HashMap<>();
     Map<String, List<ValidResponse>> lastTenValidResponses = new HashMap<>();
-    
-    
+
+
     for (Variable variable : variables) {
 
       int sizeValidResponses = 0;
@@ -273,18 +273,18 @@ public class DataSetReportService {
       }
 
       // Create a Map with Atomic Questions
-      if (variable.getAtomicQuestionId() != null) {
+      if (variable.getQuestionId() != null) {
         Question question =
-            this.questionRepository.findOne(variable.getAtomicQuestionId());
-        questionsMap.put(variable.getAtomicQuestionId(), question);
+            this.questionRepository.findOne(variable.getQuestionId());
+        questionsMap.put(variable.getQuestionId(), question);
       }
-        
+
       // Create the first and last ten isAMissing Values to different list, if there are more
       // than 20.
 
-      if (sizeValidResponses > 20) { 
+      if (sizeValidResponses > 20) {
         firstTenValidResponses.put(variable.getId(),
-            variable.getDistribution().getValidResponses().subList(0, 9)); 
+            variable.getDistribution().getValidResponses().subList(0, 9));
         lastTenValidResponses.put(variable.getId(),
             variable.getDistribution()
               .getValidResponses()
@@ -301,14 +301,14 @@ public class DataSetReportService {
 
   /**
    * Inner class for get the variable ids as index for the variables hashmap.
-   * 
+   *
    * @author Daniel Katzberg
    *
    */
   static class VariableFunction implements Function<Variable, String> {
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see com.google.common.base.Function#apply(java.lang.Object)
      */
     @Override

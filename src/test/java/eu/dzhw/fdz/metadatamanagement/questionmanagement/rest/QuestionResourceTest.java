@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 package eu.dzhw.fdz.metadatamanagement.questionmanagement.rest;
 
@@ -88,7 +88,7 @@ public class QuestionResourceTest extends AbstractTest {
 
     elasticsearchUpdateQueueService.processQueue();
 
-    // check that there are two atomic question documents
+    // check that there are two question documents
     elasticsearchAdminService.refreshAllIndices();
     assertThat(elasticsearchAdminService.countAllDocuments(), equalTo(2.0));
 
@@ -118,12 +118,12 @@ public class QuestionResourceTest extends AbstractTest {
     mockMvc.perform(put(API_QUESTIONS_URI + "/" + question.getId())
       .content(TestUtil.convertObjectToJsonBytes(question)))
       .andExpect(status().isCreated());
-    
+
       question.setQuestionText(new I18nStringBuilder().withDe("Angepasst")
           .withEn("Different Value")
           .build());
       question.setNumber("1");
-   
+
     // update the Question with the given id
     mockMvc.perform(put(API_QUESTIONS_URI + "/" + question.getId())
       .content(TestUtil.convertObjectToJsonBytes(question)))
@@ -171,7 +171,7 @@ public class QuestionResourceTest extends AbstractTest {
       .content(TestUtil.convertObjectToJsonBytes(question)))
       .andExpect(status().is4xxClientError());
   }
-  
+
   @Test
   public void testUpdateQuestionWithWrongNumber() throws Exception {
     // Arrange
@@ -195,7 +195,7 @@ public class QuestionResourceTest extends AbstractTest {
       .content(TestUtil.convertObjectToJsonBytes(question)))
       .andExpect(status().is4xxClientError());
   }
-  
+
   @Test
   public void testUpdateQuestionWithoutSurveyid() throws Exception {
     // Arrange
@@ -236,7 +236,7 @@ public class QuestionResourceTest extends AbstractTest {
       .content(TestUtil.convertObjectToJsonBytes(question)))
       .andExpect(status().isBadRequest());
   }
-  
+
   @Test
   public void testCreateQuestionWithoutImageType() throws Exception {
     // Arrange
@@ -253,7 +253,7 @@ public class QuestionResourceTest extends AbstractTest {
       .content(TestUtil.convertObjectToJsonBytes(question)))
       .andExpect(status().isBadRequest());
   }
-  
+
   @Test
   public void testCreateQuestionWithoutNumber() throws Exception {
     // Arrange
@@ -270,7 +270,7 @@ public class QuestionResourceTest extends AbstractTest {
       .content(TestUtil.convertObjectToJsonBytes(question)))
       .andExpect(status().isBadRequest());
   }
-  
+
   @Test
   public void testCreateQuestionWithoutInstrumentId() throws Exception {
     // Arrange

@@ -293,7 +293,7 @@ public class DataAcquisitionProjectPostValidationResourceTest extends AbstractTe
     Variable variable2 = UnitTestCreateDomainObjectUtils.buildVariable(project.getId(), survey.getId());
     variable2.setId("testProject-name3");
     variable2.setName("name3");
-    variable2.setAtomicQuestionId(project.getId()+  "-WrongAtomicQuestionId");
+    variable2.setQuestionId(project.getId()+  "-WrongAtomicQuestionId");
     List<String> dataSetIds = new ArrayList<>();
     dataSetIds.add(project.getId() + "-WrongDataSetId");
     List<String> surveyIds = new ArrayList<>();

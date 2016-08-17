@@ -22,7 +22,7 @@ import eu.dzhw.fdz.metadatamanagement.variablemanagement.repository.VariableRepo
  * This service handels the post-validation of projects. It checks the foreign keys and references
  * between different domain objects. If a foreign key or reference is not valid, the service adds a
  * error message to a list. If everthing is checked, the service returns a list with all errors.
- * 
+ *
  * @author dkatzberg
  *
  */
@@ -41,14 +41,14 @@ public class PostValidationService {
 
   @Inject
   private QuestionnaireRepository questionnaireRepository;
-  
+
   @Inject
   private QuestionRepository questionRepository;
 
 
   /**
    * This method handels the complete post validation of a project.
-   * 
+   *
    * @param dataAcquisitionProjectId The id of the data acquisition project id.
    * @return a list of all post validation errors.
    */
@@ -56,7 +56,7 @@ public class PostValidationService {
 
     List<PostValidationMessageDto> errors = new ArrayList<>();
 
-    // Check atomic questions
+    // Check questions
     List<Question> questions =
         this.questionRepository.findByDataAcquisitionProjectId(dataAcquisitionProjectId);
     errors = this.postValidateQuestions(questions, errors);
@@ -80,10 +80,10 @@ public class PostValidationService {
   }
 
   /**
-   * This method checks all foreign keys and references within atomic questions to other domain
+   * This method checks all foreign keys and references within questions to other domain
    * objects.
-   * 
-   * @return a list of errors of the post validation of atomic questions.
+   *
+   * @return a list of errors of the post validation of questions.
    */
   private List<PostValidationMessageDto> postValidateQuestions(
       List<Question> questions, List<PostValidationMessageDto> errors) {
@@ -94,7 +94,7 @@ public class PostValidationService {
       for (String variableId : question.getVariableIds()) {
         if (this.variableRepository.findOne(variableId) == null) {
           String[] information = {question.getId(), variableId};
-          errors.add(new PostValidationMessageDto("question-management.error." 
+          errors.add(new PostValidationMessageDto("question-management.error."
               + "post-validation.question-has-invalid-variable-id", information));
         }
       }
@@ -102,14 +102,14 @@ public class PostValidationService {
       // question.QuestionnaireId: there must be a questionaire with that id
       if (this.questionnaireRepository.findOne(question.getInstrumentId()) == null) {
         String[] information = {question.getId(), question.getInstrumentId()};
-        errors.add(new PostValidationMessageDto("question-management.error." 
+        errors.add(new PostValidationMessageDto("question-management.error."
             + "post-validation.question-has-invalid-questionnaire-id", information));
       }
-      
+
       // question.QuestionnaireId: there must be a survey with that id
       if (this.surveyRepository.findOne(question.getSurveyId()) == null) {
         String[] information = {question.getId(), question.getSurveyId()};
-        errors.add(new PostValidationMessageDto("question-management.error." 
+        errors.add(new PostValidationMessageDto("question-management.error."
             + "post-validation.question-has-invalid-survey-id", information));
       }
     }
@@ -119,10 +119,10 @@ public class PostValidationService {
 
   /**
    * This method checks all foreign keys and references within data sets to other domain objects.
-   * 
+   *
    * @return a list of errors of the post validation of data sets.
    */
-  private List<PostValidationMessageDto> postValidateDataSets(List<DataSet> dataSets, 
+  private List<PostValidationMessageDto> postValidateDataSets(List<DataSet> dataSets,
       List<PostValidationMessageDto> errors) {
 
     for (DataSet dataSet : dataSets) {
@@ -131,7 +131,7 @@ public class PostValidationService {
       for (String surveyId : dataSet.getSurveyIds()) {
         if (this.surveyRepository.findOne(surveyId) == null) {
           String[] information = {dataSet.getId(), surveyId};
-          errors.add(new PostValidationMessageDto("data-set-management.error." 
+          errors.add(new PostValidationMessageDto("data-set-management.error."
               + "post-validation.data-set-has-invalid-survey-id", information));
         }
       }
@@ -140,7 +140,7 @@ public class PostValidationService {
       for (String variableId : dataSet.getVariableIds()) {
         if (this.variableRepository.findOne(variableId) == null) {
           String[] information = {dataSet.getId(), variableId};
-          errors.add(new PostValidationMessageDto("data-set-management.error." 
+          errors.add(new PostValidationMessageDto("data-set-management.error."
               + "post-validation.data-set-has-invalid-variable-id", information));
         }
       }
@@ -152,10 +152,10 @@ public class PostValidationService {
 
   /**
    * This method checks all all foreign keys and references within surveys to other domain objects.
-   * 
+   *
    * @return a list of errors of the post validation of surveys.
    */
-  private List<PostValidationMessageDto> postValidateSurverys(List<Survey> surveys, 
+  private List<PostValidationMessageDto> postValidateSurverys(List<Survey> surveys,
       List<PostValidationMessageDto> errors) {
 
     for (Survey survey : surveys) {
@@ -163,7 +163,7 @@ public class PostValidationService {
       // survey.QuestionnaireId: there must be a questionaire with that id
       if (this.questionnaireRepository.findOne(survey.getQuestionnaireId()) == null) {
         String[] information = {survey.getId(), survey.getQuestionnaireId()};
-        errors.add(new PostValidationMessageDto("survey-management.error." 
+        errors.add(new PostValidationMessageDto("survey-management.error."
             + "post-validation.survey-has-invalid-questionnaire-id", information));
       }
 
@@ -171,7 +171,7 @@ public class PostValidationService {
       for (String dataSetId : survey.getDataSetIds()) {
         if (this.dataSetRepository.findOne(dataSetId) == null) {
           String[] information = {survey.getId(), dataSetId};
-          errors.add(new PostValidationMessageDto("survey-management.error." 
+          errors.add(new PostValidationMessageDto("survey-management.error."
               + "post-validation.survey-has-invalid-data-set-id", information));
         }
       }
@@ -182,10 +182,10 @@ public class PostValidationService {
 
   /**
    * This method checks all foreign keys and references within variables to other domain objects.
-   * 
+   *
    * @return a list of errors of the post validation of variables.
    */
-  private List<PostValidationMessageDto> postValidateVariables(List<Variable> variables, 
+  private List<PostValidationMessageDto> postValidateVariables(List<Variable> variables,
       List<PostValidationMessageDto> errors) {
 
     for (Variable variable : variables) {
@@ -194,7 +194,7 @@ public class PostValidationService {
       for (String surveyId : variable.getSurveyIds()) {
         if (this.surveyRepository.findOne(surveyId) == null) {
           String[] information = {variable.getId(), surveyId};
-          errors.add(new PostValidationMessageDto("variable-management.error." 
+          errors.add(new PostValidationMessageDto("variable-management.error."
               + "post-validation.variable-has-invalid-survey-id", information));
         }
       }
@@ -203,7 +203,7 @@ public class PostValidationService {
       for (String dataSetId : variable.getDataSetIds()) {
         if (this.dataSetRepository.findOne(dataSetId) == null) {
           String[] information = {variable.getId(), dataSetId};
-          errors.add(new PostValidationMessageDto("variable-management.error." 
+          errors.add(new PostValidationMessageDto("variable-management.error."
               + "post-validation.variable-has-invalid-data-set-id", information));
         }
       }
@@ -213,18 +213,18 @@ public class PostValidationService {
         for (String variableId : variable.getSameVariablesInPanel()) {
           if (this.variableRepository.findOne(variableId) == null) {
             String[] information = {variable.getId(), variableId};
-            errors.add(new PostValidationMessageDto("variable-management.error." 
+            errors.add(new PostValidationMessageDto("variable-management.error."
                 + "post-validation.variable-id-is-not-in-invalid-variables-panel", information));
-          }        
-        }        
+          }
+        }
       }
 
       // variable.questionId: If there is no genereationDetail every variable needs a
       // questionId (and vice versa)
-      if (variable.getAtomicQuestionId() != null
-          && this.questionRepository.findOne(variable.getAtomicQuestionId()) == null) {
-        String[] information = {variable.getId(), variable.getAtomicQuestionId()};
-        errors.add(new PostValidationMessageDto("variable-management.error." 
+      if (variable.getQuestionId() != null
+          && this.questionRepository.findOne(variable.getQuestionId()) == null) {
+        String[] information = {variable.getId(), variable.getQuestionId()};
+        errors.add(new PostValidationMessageDto("variable-management.error."
             + "post-validation.variable-has-invalid-question-id", information));
       }
     }

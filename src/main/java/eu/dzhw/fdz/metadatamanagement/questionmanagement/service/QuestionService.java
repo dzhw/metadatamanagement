@@ -30,22 +30,22 @@ public class QuestionService {
 
   @Inject
   private ElasticsearchUpdateQueueService elasticsearchUpdateQueueService;
-  
+
   @Inject
   private ImageService imageService;
-  
+
   public static final String CONTENT_TYPE_IMAGE = "image/png";
 
   /**
-   * Delete all atomic questions when the dataAcquisitionProject was deleted.
-   * 
+   * Delete all questions when the dataAcquisitionProject was deleted.
+   *
    * @param dataAcquisitionProject the dataAcquisitionProject which has been deleted.
    */
   @HandleAfterDelete
   public void onDataAcquisitionProjectDeleted(DataAcquisitionProject dataAcquisitionProject) {
     deleteQuestionsByProjectId(dataAcquisitionProject.getId());
   }
-  
+
   /**
    * A service method for deletion of questions within a data acquisition project.
    * @param dataAcquisitionProjectId the id for to the data acquisition project.
@@ -57,37 +57,37 @@ public class QuestionService {
     deletedQuestions.forEach(question -> {
       imageService.deleteQuestionImage(question.getId());
       elasticsearchUpdateQueueService.enqueue(
-          question.getId(), 
-          ElasticsearchType.questions, 
-          ElasticsearchUpdateQueueAction.DELETE);      
+          question.getId(),
+          ElasticsearchType.questions,
+          ElasticsearchUpdateQueueAction.DELETE);
     });
     return deletedQuestions;
   }
-  
+
   /**
    * Enqueue deletion of question search document when the question is deleted.
-   * 
+   *
    * @param question the deleted question.
    */
   @HandleAfterDelete
   public void onQuestionDeleted(Question question) {
     elasticsearchUpdateQueueService.enqueue(
-        question.getId(), 
-        ElasticsearchType.questions, 
+        question.getId(),
+        ElasticsearchType.questions,
         ElasticsearchUpdateQueueAction.DELETE);
   }
-  
+
   /**
    * Enqueue update of question search document when the question is updated.
-   * 
+   *
    * @param question the updated or created question.
    */
   @HandleAfterCreate
   @HandleAfterSave
   public void onQuestionSaved(Question question) {
     elasticsearchUpdateQueueService.enqueue(
-        question.getId(), 
-        ElasticsearchType.questions, 
+        question.getId(),
+        ElasticsearchType.questions,
         ElasticsearchUpdateQueueAction.UPSERT);
-  }  
+  }
 }
