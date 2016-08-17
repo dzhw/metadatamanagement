@@ -30,6 +30,7 @@ import eu.dzhw.fdz.metadatamanagement.common.unittesthelper.util.UnitTestCreateD
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.DataAcquisitionProject;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.repository.DataAcquisitionProjectRepository;
 import eu.dzhw.fdz.metadatamanagement.questionmanagement.domain.Question;
+import eu.dzhw.fdz.metadatamanagement.questionmanagement.domain.QuestionTypes;
 import eu.dzhw.fdz.metadatamanagement.questionmanagement.repository.QuestionRepository;
 import eu.dzhw.fdz.metadatamanagement.searchmanagement.service.ElasticsearchAdminService;
 import eu.dzhw.fdz.metadatamanagement.searchmanagement.service.ElasticsearchUpdateQueueService;
@@ -145,7 +146,6 @@ public class QuestionResourceTest extends AbstractTest {
   }
 
   // add this test when validation is on
-  /*
   @Test
   public void testUpdateWithWrongTypeQuestion() throws Exception {
     // Arrange
@@ -171,6 +171,54 @@ public class QuestionResourceTest extends AbstractTest {
       .content(TestUtil.convertObjectToJsonBytes(question)))
       .andExpect(status().is4xxClientError());
   }
+  
+  @Test
+  public void testUpdateQuestionWithWrongNumber() throws Exception {
+    // Arrange
+    DataAcquisitionProject project = UnitTestCreateDomainObjectUtils.buildDataAcquisitionProject();
+    this.dataAcquisitionProjectRepository.save(project);
+
+    Question question = UnitTestCreateDomainObjectUtils
+      .buildQuestion(project.getId());
+
+    // Act and Assert
+    // create the question with the given id
+    mockMvc.perform(put(API_QUESTIONS_URI + "/" + question.getId())
+      .content(TestUtil.convertObjectToJsonBytes(question)))
+      .andExpect(status().isCreated());
+
+    // set inconsistent type
+    question.setNumber("123456789.123456789123456789123456789123456789");
+
+    // update the Question with the given id
+    mockMvc.perform(put(API_QUESTIONS_URI + "/" + question.getId())
+      .content(TestUtil.convertObjectToJsonBytes(question)))
+      .andExpect(status().is4xxClientError());
+  }
+  
+  @Test
+  public void testUpdateQuestionWithoutSurveyid() throws Exception {
+    // Arrange
+    DataAcquisitionProject project = UnitTestCreateDomainObjectUtils.buildDataAcquisitionProject();
+    this.dataAcquisitionProjectRepository.save(project);
+
+    Question question = UnitTestCreateDomainObjectUtils
+      .buildQuestion(project.getId());
+
+    // Act and Assert
+    // create the question with the given id
+    mockMvc.perform(put(API_QUESTIONS_URI + "/" + question.getId())
+      .content(TestUtil.convertObjectToJsonBytes(question)))
+      .andExpect(status().isCreated());
+
+    // set inconsistent type
+    question.setSurveyId(null);
+
+    // update the Question with the given id
+    mockMvc.perform(put(API_QUESTIONS_URI + "/" + question.getId())
+      .content(TestUtil.convertObjectToJsonBytes(question)))
+      .andExpect(status().is4xxClientError());
+  }
 
   @Test
   public void testCreateQuestionWithoutType() throws Exception {
@@ -187,7 +235,58 @@ public class QuestionResourceTest extends AbstractTest {
     mockMvc.perform(put(API_QUESTIONS_URI + "/" + question.getId())
       .content(TestUtil.convertObjectToJsonBytes(question)))
       .andExpect(status().isBadRequest());
-  }*/
+  }
+  
+  @Test
+  public void testCreateQuestionWithoutImageType() throws Exception {
+    // Arrange
+    DataAcquisitionProject project = UnitTestCreateDomainObjectUtils.buildDataAcquisitionProject();
+    this.dataAcquisitionProjectRepository.save(project);
+
+    Question question = UnitTestCreateDomainObjectUtils
+        .buildQuestion(project.getId());
+    question.setImageType(null);
+
+    // Act and Assert
+    // create the variable with the given id
+    mockMvc.perform(put(API_QUESTIONS_URI + "/" + question.getId())
+      .content(TestUtil.convertObjectToJsonBytes(question)))
+      .andExpect(status().isBadRequest());
+  }
+  
+  @Test
+  public void testCreateQuestionWithoutNumber() throws Exception {
+    // Arrange
+    DataAcquisitionProject project = UnitTestCreateDomainObjectUtils.buildDataAcquisitionProject();
+    this.dataAcquisitionProjectRepository.save(project);
+
+    Question question = UnitTestCreateDomainObjectUtils
+        .buildQuestion(project.getId());
+    question.setNumber(null);
+
+    // Act and Assert
+    // create the variable with the given id
+    mockMvc.perform(put(API_QUESTIONS_URI + "/" + question.getId())
+      .content(TestUtil.convertObjectToJsonBytes(question)))
+      .andExpect(status().isBadRequest());
+  }
+  
+  @Test
+  public void testCreateQuestionWithoutInstrumentId() throws Exception {
+    // Arrange
+    DataAcquisitionProject project = UnitTestCreateDomainObjectUtils.buildDataAcquisitionProject();
+    this.dataAcquisitionProjectRepository.save(project);
+
+    Question question = UnitTestCreateDomainObjectUtils
+        .buildQuestion(project.getId());
+    question.setInstrumentId(null);
+
+    // Act and Assert
+    // create the variable with the given id
+    mockMvc.perform(put(API_QUESTIONS_URI + "/" + question.getId())
+      .content(TestUtil.convertObjectToJsonBytes(question)))
+      .andExpect(status().isBadRequest());
+  }
 
   @Test
   public void testDeletingProjectDeletesQuestion() throws Exception {
