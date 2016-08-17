@@ -4,61 +4,53 @@
       "question": {
         "saved": "Atomare Frage mit FDZ-ID {{ id }} erfolgreich gespeichert!",
         "not-saved": "Atomare Frage mit FDZ-ID {{ id }} wurde nicht gespeichert!",
-        "missing-id": "Die {{ index }}. atomare Frage enthält keine FDZ-ID und wurde nicht gespeichert!",
-        "upload-terminated": "Upload von {{ total }} atomaren Fragen mit {{ errors }} Fehlern beendet!",
-        "cancelled": "Upload von atomaren Fragen Abgebrochen!"
+        "missing-id": "Die {{ index }}. Frage enthält keine FDZ-ID und wurde nicht gespeichert!",
+        "upload-terminated": "Upload von {{ total }} Fragen mit {{ errors }} Fehlern beendet!",
+        "cancelled": "Upload von Fragen Abgebrochen!"
       }
     },
     "error": {
       "question": {
         "valid-atomic-question-id-name": "Die FDZ - ID muss mit der Projekt ID beginnen(Beispiel: ProjektID - Variablenname) und muss der ID der zugehörigen Variable entsprechen!",
-        "unique-question-name": "Der Name einer atomaren Frage muss eindeutig innerhalb einer Befragung sein.",
+        "unique-question-name": "Der Name einer Frage muss eindeutig innerhalb einer Befragung sein.",
         "id": {
-          "not-empty": "Die FDZ - ID der atomaren Frage darf nicht leer sein!",
+          "not-empty": "Die FDZ - ID der Frage darf nicht leer sein!",
           "size": "Die Maximallänge der FDZ - ID ist 128 Zeichen.",
           "pattern": "Es dürfen nur alphanumerische Zeichen, deutsche Umlaute, ß, Leerzeichen und Minus für die FDZ - ID verwendet werden."
         },
-        "type": {
-          "not-null": "Der Typ der atomaren Frage darf nicht leer sein.",
-          "question-type-consistence": "Der Typ der atomaren Frage verwendet entweder nicht die gültigen Werte oder ist zwischen den Sprachen inkonsistent."
-        },
-        "name": {
-          "not-empty": "Der Name einer atomaren Frage darf nicht leer sein!",
-          "size": "Die Maximallänge des Namens ist 32 Zeichen."
-        },
-        "composite-question-name": {
-          "not-empty": "Der Name der zusammengesetzten Frage darf nicht leer sein!",
-          "size": "Die Maximallänge des Namens einer zusammengesetzten Frage ist 32 Zeichen."
-        },
-        "footnote": {
-          "i18n-string-size": "Die Maximallänge der Fußnote ist 2048 Zeichen."
+        "number": {
+          "not-empty": "Die Nummer der Frage darf nicht leer sein.",
+          "size": "Die Maximallänge der Nummer ist 32 Zeichen."
         },
         "question-text": {
-          "i18n-string-size": "Die Maximallänge der Fußnote ist 2048 Zeichen."
+          "not-null": "Der Fragetext der Frage darf nicht leer sein.",
+          "i18n-string-size": "Die Maximallänge der des Fragetextes ist 2048 Zeichen."
         },
         "instruction": {
-          "i18n-string-size": "Die Maximallänge der Fußnote ist 2048 Zeichen."
+          "i18n-string-size": "Die Maximallänge der Instruktion ist 2048 Zeichen."
         },
         "introduction": {
-          "i18n-string-size": "Die Maximallänge der Fußnote ist 2048 Zeichen."
+          "i18n-string-size": "Die Maximallänge der Einleitung ist 2048 Zeichen."
         },
-        "section-header": {
-          "i18n-string-size": "Die Maximallänge der Fußnote ist 128 Zeichen."
+        "type": {
+          "not-null": "Der Typ der Frage darf nicht leer sein.",
+          "valid-question-type": "Der Typ der Frage verwendet entweder nicht die gültigen Werte oder ist zwischen den Sprachen inkonsistent."
         },
-        "data-acquisition-project": {
-          "id": {
-            "not-empty": "Die FDZ - ID des Datenaufbereitungsprojektes darf nicht leer sein!"
-          }
+        "additional-question-text": {
+          "i18n-string-size": "Die Maximallänge des zusätzlichen Fragetextes ist 1048576 Zeichen."
         },
-        "questionnaire": {
-          "id": {
-            "not-empty": "Die FDZ - ID des Fragebogens darf nicht leer sein!"
-          }
+        "image-type": {
+          "not-null": "Der Bildtyp der Frage darf nicht leer sein.",
+          "valid-question-image-type": "Der Bildtyp der Frage muss PNG sein."
         },
-        "variable": {
-          "id": {
-            "not-empty": "Die FDZ - ID der Variable darf nicht leer sein!"
-          }
+        "technical-representation": {
+          "size": "Die Maximallänge der technischen Darstellung ist 1048576 Zeichen."
+        },
+        "instrument-id": {
+          "not-empty": "The RDC-ID of the Instrument must not be empty!"
+        },
+        "survey-id": {
+          "not-empty": "The RDC-ID of the Survey must not be empty!"
         }
       },
       "post-validation": {

@@ -47,15 +47,15 @@ public class Question extends AbstractRdcDomainObject {
   
   @NotNull(message = "question-management.error.question.question-text.not-null")
   @I18nStringSize(min = 1, max = StringLengths.LARGE, 
-      message = "question-management.error.question.question-text.size")
+      message = "question-management.error.question.question-text.i18n-string-size")
   private I18nString questionText;
   
   @I18nStringSize(max = StringLengths.LARGE, 
-      message = "question-management.error.question.instruction.size")
+      message = "question-management.error.question.instruction.i18n-string-size")
   private I18nString instruction;
   
   @I18nStringSize(max = StringLengths.LARGE, 
-      message = "question-management.error.question.introduction.size")
+      message = "question-management.error.question.introduction.i18n-string-size")
   private I18nString introduction;
   
   @NotNull(message = "question-management.error.question.type.not-null")
@@ -63,7 +63,7 @@ public class Question extends AbstractRdcDomainObject {
   private I18nString type;
   
   @I18nStringSize(max = StringLengths.X_LARGE, 
-      message = "question-management.error.question.introduction.size")
+      message = "question-management.error.question.additional-question-text.i18n-string-size")
   private I18nString additionalQuestionText;
   
   @ValidQuestionImageType(
