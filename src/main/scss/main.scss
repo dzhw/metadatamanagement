@@ -243,7 +243,11 @@ only screen and (                min-resolution: 2dppx) {
         background-size: contain;
     }
 }
-
+@media (max-width: 730px) {
+    .fdz-hide-text-button {
+        display: none;;
+    }
+}
 /* make sure browsers use the pointer cursor for anchors, even with no href */
 a:hover {
   cursor: pointer;
