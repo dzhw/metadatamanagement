@@ -13,11 +13,15 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
+import eu.dzhw.fdz.metadatamanagement.AbstractTest;
 import eu.dzhw.fdz.metadatamanagement.common.unittesthelper.util.UnitTestCreateDomainObjectUtils;
 import eu.dzhw.fdz.metadatamanagement.datasetmanagement.domain.DataSet;
 import eu.dzhw.fdz.metadatamanagement.datasetmanagement.repository.DataSetRepository;
@@ -36,8 +40,7 @@ import eu.dzhw.fdz.metadatamanagement.variablemanagement.repository.VariableRepo
  * @author Daniel Katzberg
  *
  */
-public class DataAcquisitionProjectPostValidationResourceTest {
-    //extends AbstractTest{
+public class DataAcquisitionProjectPostValidationResourceTest extends AbstractTest{
   private static final String PROJECT_NAME = "testProject";
   private static final String API_DATA_ACQUISITION_PROJECTS_POST_VALIDATION_URI = "/api/data-acquisition-projects/" + PROJECT_NAME + "/post-validate";
   
@@ -65,13 +68,13 @@ public class DataAcquisitionProjectPostValidationResourceTest {
 
   private MockMvc mockMvc;
 
-  //@Before
+  @Before
   public void setup() {
     this.mockMvc = MockMvcBuilders.webAppContextSetup(this.wac)
       .build();
   }
 
-  //@After
+  @After
   public void cleanUp() {
     this.rdcProjectRepository.deleteAll();
     this.surveyRepository.deleteAll();
@@ -81,7 +84,7 @@ public class DataAcquisitionProjectPostValidationResourceTest {
     this.questionRepository.deleteAll();
   }
   
-  //@Test
+  @Test
   public void testSimpleProjectForPostValidation() throws IOException, Exception {
     
     //Arrange
@@ -112,17 +115,18 @@ public class DataAcquisitionProjectPostValidationResourceTest {
     this.questionnaireRepository.save(questionnaire);
     
     //Atomic Question
-    Question question = UnitTestCreateDomainObjectUtils.buildQuestion(project.getId(), questionnaire.getId(), variable1.getName());
+    Question question = UnitTestCreateDomainObjectUtils.buildQuestion(project.getId(), questionnaire.getId(), 
+        variable1.getId(), survey.getId());
     this.questionRepository.save(question);
     
 
     // Act & Assert
     mockMvc.perform(post(API_DATA_ACQUISITION_PROJECTS_POST_VALIDATION_URI))
       .andExpect(status().isOk())
-      .andExpect(jsonPath("$.errors", hasSize(0)));//no errors
+      .andExpect(jsonPath("$.errors", hasSize(0)));//no errors      
   }
   
-  //@Test
+  @Test
   public void testSimpleProjectForPostValidationWithWrongInformationForAtomicQuestion() throws IOException, Exception {
     
     //Arrange
@@ -153,7 +157,8 @@ public class DataAcquisitionProjectPostValidationResourceTest {
     this.questionnaireRepository.save(questionnaire);
     
     //Atomic Question
-    Question question = UnitTestCreateDomainObjectUtils.buildQuestion(project.getId(), questionnaire.getId(), variable1.getName());
+    Question question = UnitTestCreateDomainObjectUtils.buildQuestion(project.getId(), questionnaire.getId(), 
+        variable1.getId(), survey.getId());
     question.getVariableIds().add("testProject-Wrongname1");
     question.setInstrumentId("testProject-WrongQuestionname1");
     question.setId("testProject-Wrongname1");
@@ -168,7 +173,7 @@ public class DataAcquisitionProjectPostValidationResourceTest {
       .andExpect(jsonPath("$.errors[1].messageId", containsString("error.post-validation.question-has-invalid-questionnaire-id")));    
   }
   
-  //@Test
+  @Test
   public void testSimpleProjectForPostValidationWithWrongInformationForDataSet() throws IOException, Exception {
     
     //Arrange
@@ -205,7 +210,8 @@ public class DataAcquisitionProjectPostValidationResourceTest {
     this.questionnaireRepository.save(questionnaire);
     
     //Atomic Question
-    Question question = UnitTestCreateDomainObjectUtils.buildQuestion(project.getId(), questionnaire.getId(), variable1.getName());    
+    Question question = UnitTestCreateDomainObjectUtils.buildQuestion(project.getId(), questionnaire.getId(), 
+        variable1.getId(), survey.getId());    
     this.questionRepository.save(question);
     
 
@@ -218,7 +224,7 @@ public class DataAcquisitionProjectPostValidationResourceTest {
   }
   
   
-  //@Test
+  @Test
   public void testSimpleProjectForPostValidationWithWrongInformationForSurvey() throws IOException, Exception {
     
     //Arrange
@@ -253,7 +259,8 @@ public class DataAcquisitionProjectPostValidationResourceTest {
     this.questionnaireRepository.save(questionnaire);
     
     //Atomic Question
-    Question question = UnitTestCreateDomainObjectUtils.buildQuestion(project.getId(), questionnaire.getId(), variable1.getName());    
+    Question question = UnitTestCreateDomainObjectUtils.buildQuestion(project.getId(), questionnaire.getId(), 
+        variable1.getId(), survey.getId());    
     this.questionRepository.save(question);
     
 
@@ -265,7 +272,7 @@ public class DataAcquisitionProjectPostValidationResourceTest {
       .andExpect(jsonPath("$.errors[1].messageId", containsString("error.post-validation.survey-has-invalid-data-set-id")));    
   }
   
-  //@Test
+  @Test
   public void testSimpleProjectForPostValidationWithWrongInformationForVariable() throws IOException, Exception {
     
     //Arrange
@@ -304,7 +311,8 @@ public class DataAcquisitionProjectPostValidationResourceTest {
     this.questionnaireRepository.save(questionnaire);
     
     //Atomic Question
-    Question question = UnitTestCreateDomainObjectUtils.buildQuestion(project.getId(), questionnaire.getId(), variable1.getName());    
+    Question question = UnitTestCreateDomainObjectUtils.buildQuestion(project.getId(), questionnaire.getId(), 
+        variable1.getId(), survey.getId());    
     this.questionRepository.save(question);
     
 

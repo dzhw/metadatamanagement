@@ -145,7 +145,7 @@ public class UnitTestCreateDomainObjectUtils {
       .build();
   }
   
-  public static Question buildQuestion(String projectId, String instrumentId, String variableId) {
+  public static Question buildQuestion(String projectId, String instrumentId, String variableId, String surveyId) {
     List<String> variableIds = new ArrayList<>();
     variableIds.add(variableId);
     
@@ -161,7 +161,7 @@ public class UnitTestCreateDomainObjectUtils {
       .withPredecessor(new ArrayList<>())
       .withSuccessor(new ArrayList<>())
       .withQuestionText(new I18nString("Fragetext","Question text"))
-      .withSurveyId("Survey-Id")
+      .withSurveyId(surveyId)
       .withTechnicalRepresentation("Technical representation")
       .withType(QuestionTypes.SINGLE_CHOICE)
       .withVariableIds(variableIds)
