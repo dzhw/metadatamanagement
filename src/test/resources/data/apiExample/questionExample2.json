@@ -1,0 +1,31 @@
+{
+  "id": "Question002",
+  "dataAcquisitionProjectId": "ATestProject",
+  "variableIds": ["FDZID_Variable_002"],
+  "instrumentIdId": "InstrumentId001",
+  "type": {
+    "de": "offen",
+    "en": "open"
+  },
+  "imageType": "PNG",
+  "name": "G25UP21",
+  "questionText": {
+    "de": "Wohin gehen Sie?",
+    "en": "Where do you go?"
+  },
+  "instruction": {
+    "de": "Lesen Sie die Frage aufmerksam.",
+    "en": "Read the question carefully."
+  },
+  "introduction": {
+    "de": "Dies ist ein zweiter Testdatensatz für Questions.",
+    "en": "This is a second test for questions."
+  },
+  "additionalQuestionText": {
+        "de": "hurz2Valid",
+        "en": "hurz2englischValid"
+      },
+    "technicalRepresentation":"HurzJunior",
+    "predecessors": ["id0"],
+    "successors": ["id2"]
+}

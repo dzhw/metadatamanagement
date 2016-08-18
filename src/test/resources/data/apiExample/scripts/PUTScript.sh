@@ -40,8 +40,8 @@ variableExample2.json,variables/FDZID_Variable_002
 variableExample3.json,variables/FDZID_Variable_003
 questionnaireExample.json,questionnaires/QuestionnaireId001
 dataSetExample.json,data-sets/DataSet_001
-atomicQuestionExample.json,atomic-questions/AtomicQuestion001
-atomicQuestionExample2.json,atomic-questions/AtomicQuestion002
+questionExample.json,questions/question001
+questionExample2.json,questions/question002
 citationExample.json,citations/Reference001"
 
 #Simulates line break for IFS at files array.

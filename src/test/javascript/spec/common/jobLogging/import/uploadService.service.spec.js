@@ -18,7 +18,7 @@ xdescribe('UploadService', function() {
   var ExcelReader;
   var ZipReader;
   var $httpBackend;
-  var AtomicQuestionDeleteResource;
+  var QuestionDeleteResource;
   var DataSetDeleteResource;
   var SurveyDeleteResource;
   var VariableDeleteResource;
@@ -51,7 +51,7 @@ xdescribe('UploadService', function() {
         };
       }
     });
-    $provide.value('AtomicQuestionDeleteResource', {
+    $provide.value('QuestionDeleteResource', {
       deleteByDataAcquisitionProjectId: function(project, error) {
         error({});
       }
@@ -80,8 +80,8 @@ xdescribe('UploadService', function() {
     ZipReader = $injector.get('ZipReader');
     $translate = $injector.get('$translate');
     $rootScope = $injector.get('$rootScope');
-    AtomicQuestionDeleteResource = $injector.
-    get('AtomicQuestionDeleteResource');
+    QuestionDeleteResource = $injector.
+    get('QuestionDeleteResource');
     DataSetDeleteResource = $injector.get('DataSetDeleteResource');
     SurveyDeleteResource = $injector.get('SurveyDeleteResource');
     VariableDeleteResource = $injector.get('VariableDeleteResource');
@@ -93,7 +93,7 @@ xdescribe('UploadService', function() {
     respond({});
     $httpBackend.expectGET(/api\/account\?cacheBuster=\d+/).respond(
       200, '');
-    $httpBackend.whenPUT(/api\/atomic-questions\/testId\?cacheBuster=\d+/)
+    $httpBackend.whenPUT(/api\/questions\/testId\?cacheBuster=\d+/)
     .respond(200,{});
     $httpBackend.whenPUT(/api\/data-sets\/testId\?cacheBuster=\d+/).respond(
       200,{});
@@ -108,7 +108,7 @@ xdescribe('UploadService', function() {
     .and.callThrough();
     spyOn(ZipReader,'readZipFileAsync')
     .and.callThrough();
-    spyOn(AtomicQuestionDeleteResource,'deleteByDataAcquisitionProjectId')
+    spyOn(QuestionDeleteResource,'deleteByDataAcquisitionProjectId')
     .and.callThrough();
     spyOn(SurveyDeleteResource,'deleteByDataAcquisitionProjectId')
     .and.callThrough();

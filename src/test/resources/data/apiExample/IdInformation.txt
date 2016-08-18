@@ -6,5 +6,5 @@ survey: FDZID001
 variable: FDZID_Variable_001
 questionnaire: QuestionnaireId001
 dataSet: DataSet_001
-atomicQuestion: AtomicQuestion_001
+question: question_001
 citation: Reference001

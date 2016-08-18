@@ -1,22 +1,18 @@
 {
-  "id": "AtomicQuestion001",	
+  "id": "AtomicQuestion001",
   "dataAcquisitionProjectId": "ATestProject",
-  "variableId": "FDZID_Variable_001",
-  "questionnaireId": "QuestionnaireId001",
+  "variableIds": ["FDZID_Variable_001"],
+  "instrumentId": "instrumentId001",
   "type": {
     "de": "offen",
     "en": "open"
   },
   "name": "M23APGD",
-  "compositeQuestionName": "ACompositeQuestionName",
-  "footnote": {
-    "de": "Eine deutsche Fussnote.",
-    "en": "A english footnote."
-  },
   "questionText": {
     "de": "Woher kommen Sie?",
     "en": "Where you come from?"
   },
+  "imageType": "PNG",
   "instruction": {
     "de": "Lesen Sie die Frage aufmerksam.",
     "en": "Read the question carefully."
@@ -25,8 +21,11 @@
     "de": "Dies ist ein Testdatensatz für AtomicQuestions.",
     "en": "This is a test for atomic questions."
   },
-  "sectionHeader": {
-    "de": "Abschnitt 4",
-    "en": "Section 4"
-  }
+  "additionalQuestionText": {
+        "de": "hurz2Valid",
+        "en": "hurz2englischValid"
+      },
+    "technicalRepresentation":"HurzJunior",
+    "predecessors": ["id0"],
+    "successors": ["id2"]
 }

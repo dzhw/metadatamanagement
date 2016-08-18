@@ -46,7 +46,10 @@ angular.module('metadatamanagementApp').service('VariableBuilderService',
           },
           accessWays: CleanJSObjectService.
           removeWhiteSpace(variables[i].accessWays),
-
+          atomicQuestionText: {
+            en: variables[i]['atomicQuestionText.en'],
+            de: variables[i]['atomicQuestionText.de']
+          },
           filterDetails: {
             expression: variables[i]['filterDetails.expression'],
             description: {
@@ -63,8 +66,6 @@ angular.module('metadatamanagementApp').service('VariableBuilderService',
             generatedVariable.surveyIds : undefined,
           dataSetIds: generatedVariable ?
             generatedVariable.dataSetIds : undefined,
-          atomicQuestionId: generatedVariable ?
-            generatedVariable.atomicQuestionId : undefined,
           dataAcquisitionProjectId: dataAcquisitionProjectId,
           generationDetails: {
             rule: variables[i]['generationDetails.rule'],

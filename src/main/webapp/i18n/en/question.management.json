@@ -11,7 +11,7 @@
     },
     "error": {
       "question": {
-        "valid-atomic-question-id-name": "The RDC-ID must start with the project ID (e.g. projectID-variableName) and must be equal to variable ID!",
+        "valid-question-id-name": "The RDC-ID must start with the project ID (e.g. projectID-variableName) and must be equal to variable ID!",
         "unique-question-name": "The name of a question has to be unique within a questionnaire.",
         "id": {
           "not-empty": "The RDC-ID of an Atomic Question must not be empty!",
