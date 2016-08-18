@@ -1,7 +1,7 @@
 {
   "id": "FDZID_Variable_003",
   "name": "A_Variable_Test3",
-  "atomicQuestionText": {
+  "questionText": {
     "de": "string",
     "en": "string"
   },

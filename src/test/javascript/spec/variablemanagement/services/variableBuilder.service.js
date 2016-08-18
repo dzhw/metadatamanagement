@@ -17,7 +17,7 @@ function(Variable, CleanJSObjectService, JobLoggingService) {
       for (var i = 0; i < jsonContent.length; i++) {
         var variableObj = {
         id: jsonContent[i].id,
-        atomicQuestionId: jsonContent[i].atomicQuestionId,
+        questionId: jsonContent[i].questionId,
         accessWays: CleanJSObjectService.
         removeWhiteSpace(jsonContent[i].accessWays),
         dataAcquisitionProjectId: dataAcquisitionProjectId,

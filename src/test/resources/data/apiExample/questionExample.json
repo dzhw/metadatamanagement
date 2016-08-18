@@ -19,13 +19,13 @@
   },
   "introduction": {
     "de": "Dies ist ein Testdatensatz für AtomicQuestions.",
-    "en": "This is a test for atomic questions."
+    "en": "This is a test for questions."
   },
   "additionalQuestionText": {
-        "de": "hurz2Valid",
-        "en": "hurz2englischValid"
-      },
-    "technicalRepresentation":"HurzJunior",
-    "predecessors": ["id0"],
-    "successors": ["id2"]
+    "de": "hurz2Valid",
+    "en": "hurz2englischValid"
+  },
+  "technicalRepresentation": "HurzJunior",
+  "predecessors": ["id0"],
+  "successors": ["id2"]
 }
