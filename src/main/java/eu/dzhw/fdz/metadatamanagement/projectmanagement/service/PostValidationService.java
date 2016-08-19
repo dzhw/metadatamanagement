@@ -99,7 +99,7 @@ public class PostValidationService {
         }
       }
 
-      // question.InstrumentId: there must be a questionaire with that id
+      // question.InstrumentId: there must be a instrument with that id
       if (this.instrumentRepository.findOne(question.getInstrumentId()) == null) {
         String[] information = {question.getId(), question.getInstrumentId()};
         errors.add(new PostValidationMessageDto("question-management.error."
@@ -160,7 +160,7 @@ public class PostValidationService {
 
     for (Survey survey : surveys) {
 
-      // survey.InstrumentId: there must be a questionaire with that id
+      // survey.InstrumentId: there must be a instrument with that id
       if (this.instrumentRepository.findOne(survey.getInstrumentId()) == null) {
         String[] information = {survey.getId(), survey.getInstrumentId()};
         errors.add(new PostValidationMessageDto("survey-management.error."
