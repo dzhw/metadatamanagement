@@ -1,4 +1,4 @@
-package eu.dzhw.fdz.metadatamanagement.questionnairemanagement.service;
+package eu.dzhw.fdz.metadatamanagement.instrumentmanagement.service;
 
 import java.util.List;
 
@@ -10,22 +10,22 @@ import org.springframework.data.rest.core.annotation.RepositoryEventHandler;
 import org.springframework.data.rest.core.event.AfterDeleteEvent;
 import org.springframework.stereotype.Service;
 
+import eu.dzhw.fdz.metadatamanagement.instrumentmanagement.domain.Instrument;
+import eu.dzhw.fdz.metadatamanagement.instrumentmanagement.repository.InstrumentRepository;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.DataAcquisitionProject;
-import eu.dzhw.fdz.metadatamanagement.questionnairemanagement.domain.Questionnaire;
-import eu.dzhw.fdz.metadatamanagement.questionnairemanagement.repository.QuestionnaireRepository;
 
 /**
- * The service for the questionnaires. This service handels delete events.
+ * The service for the instruments. This service handels delete events.
  * 
  * @author Daniel Katzberg
  *
  */
 @Service
 @RepositoryEventHandler
-public class QuestionnaireService {
+public class InstrumentService {
 
   @Inject
-  private QuestionnaireRepository questionnaireRepository;
+  private InstrumentRepository instrumentRepository;
 
   @Inject
   private ApplicationEventPublisher eventPublisher;
@@ -37,9 +37,9 @@ public class QuestionnaireService {
    */
   @HandleAfterDelete
   public void onDataAcquisitionProjectDeleted(DataAcquisitionProject dataAcquisitionProject) {
-    List<Questionnaire> deletedQuestionnaires =
-        questionnaireRepository.deleteByDataAcquisitionProjectId(dataAcquisitionProject.getId());
-    deletedQuestionnaires
-      .forEach(questionnaire -> eventPublisher.publishEvent(new AfterDeleteEvent(questionnaire)));
+    List<Instrument> deletedInstruments =
+        instrumentRepository.deleteByDataAcquisitionProjectId(dataAcquisitionProject.getId());
+    deletedInstruments
+      .forEach(instrument -> eventPublisher.publishEvent(new AfterDeleteEvent(instrument)));
   }
 }

@@ -1,4 +1,4 @@
-package eu.dzhw.fdz.metadatamanagement.questionnairemanagement.domain;
+package eu.dzhw.fdz.metadatamanagement.instrumentmanagement.domain;
 
 import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.data.annotation.Id;
@@ -8,24 +8,24 @@ import eu.dzhw.fdz.metadatamanagement.common.domain.AbstractRdcDomainObject;
 import net.karneim.pojobuilder.GeneratePojoBuilder;
 
 /**
- * A Questionnaire.
+ * A Instrument.
  * 
  * @author Daniel Katzberg
  *
  */
-@Document(collection = "questionnaires")
+@Document(collection = "instruments")
 @GeneratePojoBuilder(
-    intoPackage = "eu.dzhw.fdz.metadatamanagement.questionnairemanagement.domain.builders")
-public class Questionnaire extends AbstractRdcDomainObject {
+    intoPackage = "eu.dzhw.fdz.metadatamanagement.instrumentmanagement.domain.builders")
+public class Instrument extends AbstractRdcDomainObject {
 
   @Id
-  @NotEmpty(message = "{error.questionnaire.id.not-empty}")
+  @NotEmpty(message = "{error.instrument.id.not-empty}")
   private String id;
 
-  @NotEmpty(message = "{error.questionnaire.data-acquisition-project.id.not-empty}")
+  @NotEmpty(message = "{error.instrument.data-acquisition-project.id.not-empty}")
   private String dataAcquisitionProjectId;
   
-  @NotEmpty(message = "{error.questionnaire.survey.id.not-empty}")
+  @NotEmpty(message = "{error.instrument.survey.id.not-empty}")
   private String surveyId;
 
   /*

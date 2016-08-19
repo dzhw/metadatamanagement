@@ -4,7 +4,7 @@ The Ids are part of the url for saving the examples. The listed order is tested 
 dataAcquisitionProject: ATestProject
 survey: FDZID001
 variable: FDZID_Variable_001
-questionnaire: QuestionnaireId001
+instrument: InstrumentId001
 dataSet: DataSet_001
 question: question_001
 citation: Reference001

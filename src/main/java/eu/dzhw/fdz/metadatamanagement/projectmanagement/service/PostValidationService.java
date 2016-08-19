@@ -9,10 +9,10 @@ import org.springframework.stereotype.Service;
 
 import eu.dzhw.fdz.metadatamanagement.datasetmanagement.domain.DataSet;
 import eu.dzhw.fdz.metadatamanagement.datasetmanagement.repository.DataSetRepository;
+import eu.dzhw.fdz.metadatamanagement.instrumentmanagement.repository.InstrumentRepository;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.rest.dto.PostValidationMessageDto;
 import eu.dzhw.fdz.metadatamanagement.questionmanagement.domain.Question;
 import eu.dzhw.fdz.metadatamanagement.questionmanagement.repository.QuestionRepository;
-import eu.dzhw.fdz.metadatamanagement.questionnairemanagement.repository.QuestionnaireRepository;
 import eu.dzhw.fdz.metadatamanagement.surveymanagement.domain.Survey;
 import eu.dzhw.fdz.metadatamanagement.surveymanagement.repository.SurveyRepository;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.Variable;
@@ -40,7 +40,7 @@ public class PostValidationService {
   private DataSetRepository dataSetRepository;
 
   @Inject
-  private QuestionnaireRepository questionnaireRepository;
+  private InstrumentRepository instrumentRepository;
 
   @Inject
   private QuestionRepository questionRepository;
@@ -99,14 +99,14 @@ public class PostValidationService {
         }
       }
 
-      // question.QuestionnaireId: there must be a questionaire with that id
-      if (this.questionnaireRepository.findOne(question.getInstrumentId()) == null) {
+      // question.InstrumentId: there must be a questionaire with that id
+      if (this.instrumentRepository.findOne(question.getInstrumentId()) == null) {
         String[] information = {question.getId(), question.getInstrumentId()};
         errors.add(new PostValidationMessageDto("question-management.error."
-            + "post-validation.question-has-invalid-questionnaire-id", information));
+            + "post-validation.question-has-invalid-instrument-id", information));
       }
 
-      // question.QuestionnaireId: there must be a survey with that id
+      // question.InstrumentId: there must be a survey with that id
       if (this.surveyRepository.findOne(question.getSurveyId()) == null) {
         String[] information = {question.getId(), question.getSurveyId()};
         errors.add(new PostValidationMessageDto("question-management.error."
@@ -160,11 +160,11 @@ public class PostValidationService {
 
     for (Survey survey : surveys) {
 
-      // survey.QuestionnaireId: there must be a questionaire with that id
-      if (this.questionnaireRepository.findOne(survey.getQuestionnaireId()) == null) {
-        String[] information = {survey.getId(), survey.getQuestionnaireId()};
+      // survey.InstrumentId: there must be a questionaire with that id
+      if (this.instrumentRepository.findOne(survey.getInstrumentId()) == null) {
+        String[] information = {survey.getId(), survey.getInstrumentId()};
         errors.add(new PostValidationMessageDto("survey-management.error."
-            + "post-validation.survey-has-invalid-questionnaire-id", information));
+            + "post-validation.survey-has-invalid-instrument-id", information));
       }
 
       // survey.DataSetId: there must be a dataset with that id

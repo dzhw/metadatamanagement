@@ -9,7 +9,7 @@
     "end": "2016-02-21"
   },
   "dataAcquisitionProjectId": "ATestProject",
-  "questionnaireId": "QuestionnaireId001",
+  "instrumentId": "InstrumentId001",
   "dataSetIds": [
   	"DataSet_001"
   ]

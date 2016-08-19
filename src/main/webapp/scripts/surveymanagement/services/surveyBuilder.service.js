@@ -9,7 +9,7 @@ angular.module('metadatamanagementApp').service('SurveyBuilderService',
         var surveyObj = {
           id: data.id,
           dataAcquisitionProjectId: projectId,
-          questionnaireId: data.questionnaireId,
+          instrumentId: data.instrumentId,
           title: {
             en: data['title.en'],
             de: data['title.de']

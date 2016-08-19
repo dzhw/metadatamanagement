@@ -25,12 +25,12 @@ import eu.dzhw.fdz.metadatamanagement.AbstractTest;
 import eu.dzhw.fdz.metadatamanagement.common.unittesthelper.util.UnitTestCreateDomainObjectUtils;
 import eu.dzhw.fdz.metadatamanagement.datasetmanagement.domain.DataSet;
 import eu.dzhw.fdz.metadatamanagement.datasetmanagement.repository.DataSetRepository;
+import eu.dzhw.fdz.metadatamanagement.instrumentmanagement.domain.Instrument;
+import eu.dzhw.fdz.metadatamanagement.instrumentmanagement.repository.InstrumentRepository;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.DataAcquisitionProject;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.repository.DataAcquisitionProjectRepository;
 import eu.dzhw.fdz.metadatamanagement.questionmanagement.domain.Question;
 import eu.dzhw.fdz.metadatamanagement.questionmanagement.repository.QuestionRepository;
-import eu.dzhw.fdz.metadatamanagement.questionnairemanagement.domain.Questionnaire;
-import eu.dzhw.fdz.metadatamanagement.questionnairemanagement.repository.QuestionnaireRepository;
 import eu.dzhw.fdz.metadatamanagement.surveymanagement.domain.Survey;
 import eu.dzhw.fdz.metadatamanagement.surveymanagement.repository.SurveyRepository;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.Variable;
@@ -61,7 +61,7 @@ public class DataAcquisitionProjectPostValidationResourceTest extends AbstractTe
   private DataSetRepository dataSetRepository;
 
   @Autowired
-  private QuestionnaireRepository questionnaireRepository;
+  private InstrumentRepository instrumentRepository;
   
   @Autowired
   private QuestionRepository questionRepository;
@@ -80,7 +80,7 @@ public class DataAcquisitionProjectPostValidationResourceTest extends AbstractTe
     this.surveyRepository.deleteAll();
     this.variableRepository.deleteAll();
     this.dataSetRepository.deleteAll();
-    this.questionnaireRepository.deleteAll();
+    this.instrumentRepository.deleteAll();
     this.questionRepository.deleteAll();
   }
   
@@ -110,12 +110,12 @@ public class DataAcquisitionProjectPostValidationResourceTest extends AbstractTe
     DataSet dataSet = UnitTestCreateDomainObjectUtils.buildDataSet(project.getId(), survey.getId());
     this.dataSetRepository.save(dataSet);
     
-    //Questionnaire
-    Questionnaire questionnaire = UnitTestCreateDomainObjectUtils.buildQuestionnaire(project.getId());
-    this.questionnaireRepository.save(questionnaire);
+    //Instrument
+    Instrument instrument = UnitTestCreateDomainObjectUtils.buildInstrument(project.getId());
+    this.instrumentRepository.save(instrument);
     
     //Atomic Question
-    Question question = UnitTestCreateDomainObjectUtils.buildQuestion(project.getId(), questionnaire.getId(), 
+    Question question = UnitTestCreateDomainObjectUtils.buildQuestion(project.getId(), instrument.getId(), 
         variable1.getId(), survey.getId());
     this.questionRepository.save(question);
     
@@ -152,12 +152,12 @@ public class DataAcquisitionProjectPostValidationResourceTest extends AbstractTe
     DataSet dataSet = UnitTestCreateDomainObjectUtils.buildDataSet(project.getId(), survey.getId());
     this.dataSetRepository.save(dataSet);
     
-    //Questionnaire
-    Questionnaire questionnaire = UnitTestCreateDomainObjectUtils.buildQuestionnaire(project.getId());
-    this.questionnaireRepository.save(questionnaire);
+    //Instrument
+    Instrument instrument = UnitTestCreateDomainObjectUtils.buildInstrument(project.getId());
+    this.instrumentRepository.save(instrument);
     
     //Atomic Question
-    Question question = UnitTestCreateDomainObjectUtils.buildQuestion(project.getId(), questionnaire.getId(), 
+    Question question = UnitTestCreateDomainObjectUtils.buildQuestion(project.getId(), instrument.getId(), 
         variable1.getId(), survey.getId());
     question.getVariableIds().add("testProject-Wrongname1");
     question.setInstrumentId("testProject-WrongQuestionname1");
@@ -170,7 +170,7 @@ public class DataAcquisitionProjectPostValidationResourceTest extends AbstractTe
       .andExpect(status().isOk())
       .andExpect(jsonPath("$.errors", hasSize(2)))
       .andExpect(jsonPath("$.errors[0].messageId", containsString("error.post-validation.question-has-invalid-variable-id")))
-      .andExpect(jsonPath("$.errors[1].messageId", containsString("error.post-validation.question-has-invalid-questionnaire-id")));    
+      .andExpect(jsonPath("$.errors[1].messageId", containsString("error.post-validation.question-has-invalid-instrument-id")));    
   }
   
   @Test
@@ -205,12 +205,12 @@ public class DataAcquisitionProjectPostValidationResourceTest extends AbstractTe
     dataSet.setSurveyIds(surveyIds);
     this.dataSetRepository.save(dataSet);
     
-    //Questionnaire
-    Questionnaire questionnaire = UnitTestCreateDomainObjectUtils.buildQuestionnaire(project.getId());
-    this.questionnaireRepository.save(questionnaire);
+    //Instrument
+    Instrument instrument = UnitTestCreateDomainObjectUtils.buildInstrument(project.getId());
+    this.instrumentRepository.save(instrument);
     
     //Atomic Question
-    Question question = UnitTestCreateDomainObjectUtils.buildQuestion(project.getId(), questionnaire.getId(), 
+    Question question = UnitTestCreateDomainObjectUtils.buildQuestion(project.getId(), instrument.getId(), 
         variable1.getId(), survey.getId());    
     this.questionRepository.save(question);
     
@@ -234,7 +234,7 @@ public class DataAcquisitionProjectPostValidationResourceTest extends AbstractTe
     
     //Survey
     Survey survey = UnitTestCreateDomainObjectUtils.buildSurvey(project.getId());
-    survey.setQuestionnaireId(project.getId() + "-WrongQuestionnaireId");
+    survey.setInstrumentId(project.getId() + "-WrongInstrumentId");
     List<String> dataSetIds = new ArrayList<>();
     dataSetIds.add(project.getId() + "-WrongDataSetId");
     survey.setDataSetIds(dataSetIds);
@@ -254,12 +254,12 @@ public class DataAcquisitionProjectPostValidationResourceTest extends AbstractTe
     DataSet dataSet = UnitTestCreateDomainObjectUtils.buildDataSet(project.getId(), survey.getId());
     this.dataSetRepository.save(dataSet);
     
-    //Questionnaire
-    Questionnaire questionnaire = UnitTestCreateDomainObjectUtils.buildQuestionnaire(project.getId());
-    this.questionnaireRepository.save(questionnaire);
+    //Instrument
+    Instrument instrument = UnitTestCreateDomainObjectUtils.buildInstrument(project.getId());
+    this.instrumentRepository.save(instrument);
     
     //Atomic Question
-    Question question = UnitTestCreateDomainObjectUtils.buildQuestion(project.getId(), questionnaire.getId(), 
+    Question question = UnitTestCreateDomainObjectUtils.buildQuestion(project.getId(), instrument.getId(), 
         variable1.getId(), survey.getId());    
     this.questionRepository.save(question);
     
@@ -268,7 +268,7 @@ public class DataAcquisitionProjectPostValidationResourceTest extends AbstractTe
     mockMvc.perform(post(API_DATA_ACQUISITION_PROJECTS_POST_VALIDATION_URI))
       .andExpect(status().isOk())
       .andExpect(jsonPath("$.errors", hasSize(2)))
-      .andExpect(jsonPath("$.errors[0].messageId", containsString("error.post-validation.survey-has-invalid-questionnaire-id")))
+      .andExpect(jsonPath("$.errors[0].messageId", containsString("error.post-validation.survey-has-invalid-instrument-id")))
       .andExpect(jsonPath("$.errors[1].messageId", containsString("error.post-validation.survey-has-invalid-data-set-id")));    
   }
   
@@ -306,12 +306,12 @@ public class DataAcquisitionProjectPostValidationResourceTest extends AbstractTe
     DataSet dataSet = UnitTestCreateDomainObjectUtils.buildDataSet(project.getId(), survey.getId());
     this.dataSetRepository.save(dataSet);
     
-    //Questionnaire
-    Questionnaire questionnaire = UnitTestCreateDomainObjectUtils.buildQuestionnaire(project.getId());
-    this.questionnaireRepository.save(questionnaire);
+    //Instrument
+    Instrument instrument = UnitTestCreateDomainObjectUtils.buildInstrument(project.getId());
+    this.instrumentRepository.save(instrument);
     
     //Atomic Question
-    Question question = UnitTestCreateDomainObjectUtils.buildQuestion(project.getId(), questionnaire.getId(), 
+    Question question = UnitTestCreateDomainObjectUtils.buildQuestion(project.getId(), instrument.getId(), 
         variable1.getId(), survey.getId());    
     this.questionRepository.save(question);
     

@@ -38,7 +38,7 @@ surveyExample.json,surveys/FDZID001
 variableExample.json,variables/FDZID_Variable_001
 variableExample2.json,variables/FDZID_Variable_002
 variableExample3.json,variables/FDZID_Variable_003
-questionnaireExample.json,questionnaires/QuestionnaireId001
+instrumentExample.json,instruments/InstrumentId001
 dataSetExample.json,data-sets/DataSet_001
 questionExample.json,questions/question001
 questionExample2.json,questions/question002

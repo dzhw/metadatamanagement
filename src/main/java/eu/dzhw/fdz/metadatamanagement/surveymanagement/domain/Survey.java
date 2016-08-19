@@ -55,8 +55,8 @@ public class Survey extends AbstractRdcDomainObject {
   @NotEmpty(message = "survey-management.error.survey.data-acquisition-project.id.not-empty")
   private String dataAcquisitionProjectId;
 
-  @NotEmpty(message = "survey-management.error.survey.questionnaire.id.not-empty")
-  private String questionnaireId;
+  @NotEmpty(message = "survey-management.error.survey.instrument.id.not-empty")
+  private String instrumentId;
   
   @NotEmpty(message = "survey-management.error.survey.data-set.ids.not-empty")
   private List<String> dataSetIds;
@@ -115,12 +115,12 @@ public class Survey extends AbstractRdcDomainObject {
     this.dataAcquisitionProjectId = dataAcquisitionProjectId;
   }
 
-  public String getQuestionnaireId() {
-    return questionnaireId;
+  public String getInstrumentId() {
+    return instrumentId;
   }
 
-  public void setQuestionnaireId(String questionnaireId) {
-    this.questionnaireId = questionnaireId;
+  public void setInstrumentId(String instrumentId) {
+    this.instrumentId = instrumentId;
   }
 
   public List<String> getDataSetIds() {

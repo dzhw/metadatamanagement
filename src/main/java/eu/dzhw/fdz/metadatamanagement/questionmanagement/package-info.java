@@ -1,4 +1,4 @@
 /**
- * All layers (domain, service ...) for the questionnaire management.
+ * All layers (domain, service ...) for the instrument management.
  */
 package eu.dzhw.fdz.metadatamanagement.questionmanagement;

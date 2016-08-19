@@ -1,7 +1,7 @@
 {
-  "questionnaire-management": {
+  "instrument-management": {
     "error": {
-      "questionnaire": {
+      "instrument": {
         "id": {
           "not-empty": "Die FDZ-ID des Fragebogens darf nicht leer sein!"
         },

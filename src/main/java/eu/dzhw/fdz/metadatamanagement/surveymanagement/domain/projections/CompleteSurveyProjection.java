@@ -24,7 +24,7 @@ public interface CompleteSurveyProjection extends AbstractRdcDomainObjectProject
 
   String getDataAcquisitionProjectId();
 
-  String getQuestionnaireId();
+  String getInstrumentId();
   
   List<String> getDataSetIds();
 }

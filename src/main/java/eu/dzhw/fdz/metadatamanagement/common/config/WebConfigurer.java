@@ -106,7 +106,7 @@ public class WebConfigurer
     cachingHttpHeadersFilter.addMappingForUrlPatterns(disps, true, "/bower_components/*");
     cachingHttpHeadersFilter.addMappingForUrlPatterns(disps, true, "/officetemplates/*");
     cachingHttpHeadersFilter.addMappingForUrlPatterns(disps, true, "/pdfviewer/*");
-    cachingHttpHeadersFilter.addMappingForUrlPatterns(disps, true, "/questionnaires/*");
+    cachingHttpHeadersFilter.addMappingForUrlPatterns(disps, true, "/instruments/*");
     cachingHttpHeadersFilter.addMappingForUrlPatterns(disps, true, "/favicon.ico");
     cachingHttpHeadersFilter.addMappingForUrlPatterns(disps, true, "/i18n/*");
     cachingHttpHeadersFilter.setAsyncSupported(true);

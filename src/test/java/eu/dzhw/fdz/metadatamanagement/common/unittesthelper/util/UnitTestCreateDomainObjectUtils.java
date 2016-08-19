@@ -17,6 +17,7 @@ import eu.dzhw.fdz.metadatamanagement.common.domain.builders.I18nStringBuilder;
 import eu.dzhw.fdz.metadatamanagement.common.domain.builders.PeriodBuilder;
 import eu.dzhw.fdz.metadatamanagement.datasetmanagement.domain.DataSet;
 import eu.dzhw.fdz.metadatamanagement.datasetmanagement.domain.builders.DataSetBuilder;
+import eu.dzhw.fdz.metadatamanagement.instrumentmanagement.domain.Instrument;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.DataAcquisitionProject;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.Release;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.builders.DataAcquisitionProjectBuilder;
@@ -24,8 +25,7 @@ import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.builders.ReleaseB
 import eu.dzhw.fdz.metadatamanagement.questionmanagement.domain.Question;
 import eu.dzhw.fdz.metadatamanagement.questionmanagement.domain.QuestionTypes;
 import eu.dzhw.fdz.metadatamanagement.questionmanagement.domain.builders.QuestionBuilder;
-import eu.dzhw.fdz.metadatamanagement.questionnairemanagement.domain.Questionnaire;
-import eu.dzhw.fdz.metadatamanagement.questionnairemanagement.domain.builders.QuestionnaireBuilder;
+import eu.dzhw.fdz.metadatamanagement.instrumentmanagement.domain.builders.InstrumentBuilder;
 import eu.dzhw.fdz.metadatamanagement.surveymanagement.domain.Survey;
 import eu.dzhw.fdz.metadatamanagement.surveymanagement.domain.builders.SurveyBuilder;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.AccessWays;
@@ -81,7 +81,7 @@ public class UnitTestCreateDomainObjectUtils {
       .withTitle(new I18nStringBuilder().withDe("Titel")
         .withEn("title")
         .build())
-      .withQuestionnaireId(projectId + "-Questionnaire")
+      .withInstrumentId(projectId + "-Instrument")
       .withDataSetIds(Arrays.asList(projectId + "-ds1"))
       .build();
   }
@@ -168,9 +168,9 @@ public class UnitTestCreateDomainObjectUtils {
       .build();
   }
   
-  public static Questionnaire buildQuestionnaire(String projectId) {
-    return new QuestionnaireBuilder().withDataAcquisitionProjectId(projectId)
-      .withId(projectId + "-Questionnaire")
+  public static Instrument buildInstrument(String projectId) {
+    return new InstrumentBuilder().withDataAcquisitionProjectId(projectId)
+      .withId(projectId + "-Instrument")
       .withSurveyId(projectId + "-sy1")
       .build();
   }

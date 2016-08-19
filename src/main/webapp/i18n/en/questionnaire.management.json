@@ -1,9 +1,9 @@
 {
-  "questionnaire-management": {
+  "instrument-management": {
     "error": {
-      "questionnaire": {
+      "instrument": {
         "id": {
-          "not-empty": "The RDC-ID of Questionnaire must not be empty!"
+          "not-empty": "The RDC-ID of Instrument must not be empty!"
         },
         "survey": {
           "id": {
