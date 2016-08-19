@@ -1,0 +1,77 @@
+<div ng-if="!question.$resolved">
+    <!-- Todo replace with loading directive -->
+    Lade Daten...
+</div>
+<div ng-if="question.$resolved" id="popupContainer">
+    <md-card>
+        <md-card-header>
+            <md-card-header-text>
+                <h1>Question TODO:instrument.title {{question.number}}</h1>
+            </md-card-header-text>
+        </md-card-header>
+        <md-content class="md-padding" layout="column">
+   <div layout="row" layout-xs="column">
+     <md-card flex="50" flex-xs="100" ng-click="showQuestion($event)">
+       <a flex-gt-sm="33" layout-align="center center" layout="column" ng-href="public/files/questions/{{question.id}}"
+       alt="Image description" target="_blank">
+       <img  alt="" class="md-card-image"  ng-src="public/files/questions/{{question.id}}"/></a>
+     </md-card>
+     <md-card flex="50" flex-xs="100">
+       <md-card-title>
+         <md-card-title-text>
+           <span class="md-headline" style="text-decoration:underline;">Zugehörige Informationen</span>
+         </md-card-title-text>
+       </md-card-title>
+       <md-card-content>
+         <section>
+             <md-button>
+           <a ui-sref="study({id:question.study})">
+               <md-icon md-svg-src="/assets/images/icons/study.svg" class="fdz-search-result-icon"></md-icon>
+               <span>Study</span>
+           </a>
+         </md-button>
+         <md-button ng-click="addTodo('suf-1')">
+           <a>
+               <md-icon md-svg-src="/assets/images/icons/addToshop.svg" class="fdz-search-result-icon"></md-icon>
+             <span>Merkzettel</span>
+           </a>
+         </md-button>
+          </section>
+         <section>
+  <md-button>
+           <a ui-sref="instrument({id:question.instrumentId})" alt>
+              <md-icon md-svg-src="/assets/images/icons/instrument.svg" class="fdz-search-result-icon"></md-icon>
+              <span>Instrument</span>
+           </a>
+         </md-button>
+          </section>
+           <section>
+            <md-button ng-click="showVariables()">
+              <a>
+              <md-icon md-svg-src="/assets/images/icons/variable.svg" class="fdz-search-result-icon"></md-icon>
+              <span>Variables</span>
+            </a>
+            </md-button>
+           </section>
+        </md-card-content>
+     </md-card>
+   </div>
+   <div layout="row" layout-xs="column">
+     <md-card flex="50" flex-xs="100">
+       <md-card-title>
+         <md-card-title-text>
+           <span class="md-headline">Vorgänger</span>
+         </md-card-title-text>
+       </md-card-title>
+     </md-card>
+     <md-card flex="50" flex-xs="100">
+       <md-card-title>
+         <md-card-title-text>
+           <span class="md-headline">Nachfolger</span>
+         </md-card-title-text>
+       </md-card-title>
+     </md-card>
+   </div>
+ </md-content>
+    </md-card>
+</div>

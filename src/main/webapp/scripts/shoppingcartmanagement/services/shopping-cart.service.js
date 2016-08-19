@@ -2,11 +2,12 @@
 
 angular.module('metadatamanagementApp').service('ShoppingCartService',
     function($rootScope, localStorageService) {
+      var basket = [];
       var getShoppingCart = function() {
         if (localStorageService.get('shoppingCart') === null) {
           localStorageService.set('shoppingCart', JSON.stringify([]));
         }
-        var basket = JSON.parse(localStorageService.get('shoppingCart'));
+        basket = JSON.parse(localStorageService.get('shoppingCart'));
         return basket;
       };
 
@@ -15,12 +16,25 @@ angular.module('metadatamanagementApp').service('ShoppingCartService',
         $rootScope.$broadcast('itemsCount', items.length);
       };
 
+      var searchInShoppingCart = function(item) {
+        var search = {};
+        for (var i = 0, len = basket.length; i < len; i++) {
+          search[basket[i].id] = basket[i];
+        }
+        try {
+          return search[item].id;
+        } catch (e) {
+          return 'notFound';
+        }
+      };
+
       var removeFromShoppingCart = function(json) {
         return json;
       };
       return {
         getShoppingCart: getShoppingCart,
         addToShoppingCart: addToShoppingCart,
-        removeFromShoppingCart: removeFromShoppingCart
+        removeFromShoppingCart: removeFromShoppingCart,
+        searchInShoppingCart: searchInShoppingCart
       };
     });

@@ -1,0 +1,13 @@
+<md-dialog flex="60" aria-label="List dialog">
+  <md-dialog-content>
+    <section ng-repeat="item in items" md-ink-ripple ui-sref="variableDetail({id:item})" class="fdz-search-result fdz-card-header-border">
+      <a ui-sref="instrument({id:question.instrumentId})">
+         <md-icon md-svg-src="/assets/images/icons/variable.svg" class="fdz-search-result-icon"></md-icon>
+         <span>{{item}}</span>
+      </a>
+     </section>
+  </md-dialog-content>
+<md-dialog-actions>
+   <md-button ng-click="closeDialog()" class="md-primary"><span data-translate="global.buttons.close"></span></md-button>
+ </md-dialog-actions>
+</md-dialog>
