@@ -4,13 +4,14 @@
 angular.module('metadatamanagementApp')
   .controller('QuestionDetailController',
 
-    function($scope, entity, localStorageService, ShoppingCartService,
-    DialogService) {
+    function($scope, $rootScope, entity, localStorageService,
+      ShoppingCartService, DialogService) {
       $scope.question = entity;
       console.log($scope.question);
       $scope.todos = ShoppingCartService.getShoppingCart();
       $scope.showVariables = function() {
-        DialogService.showDialog($scope.question.variableIds);
+        DialogService.showDialog($scope.question.variableIds,
+          $rootScope.currentLanguage);
       };
       $scope.addTodo = function(id) {
         var lookup = {};
