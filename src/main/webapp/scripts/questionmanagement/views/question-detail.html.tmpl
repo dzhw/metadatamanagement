@@ -12,9 +12,11 @@
         <md-content class="md-padding" layout="column">
    <div layout="row" layout-xs="column">
      <md-card flex="50" flex-xs="100" ng-click="showQuestion($event)">
-       <a flex-gt-sm="33" layout-align="center center" layout="column" ng-href="public/files/questions/{{question.id}}"
-       alt="Image description" target="_blank">
-       <img  alt="" class="md-card-image"  ng-src="public/files/questions/{{question.id}}"/></a>
+       <div style="max-height: 600px; overflow: auto;" flex>
+         <a flex-gt-sm="33" layout-align="center center" layout="column" ng-href="public/files/questions/{{question.id}}"
+         alt="Image description" target="_blank">
+         <img  alt="" class="md-card-image"  ng-src="public/files/questions/{{question.id}}"/></a>
+       </div>
      </md-card>
      <md-card flex="50" flex-xs="100">
        <md-card-title>
