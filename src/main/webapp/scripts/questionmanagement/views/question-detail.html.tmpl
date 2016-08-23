@@ -25,7 +25,7 @@
                             <span class="md-headline" style="text-decoration:underline;">Zugehörige Informationen</span>
                         </md-card-header-text>
                     </md-card-header>
-                    <md-card-content>
+                    <md-content>
                         <section>
                             <md-button>
                                 <a ui-sref="study({id:question.study})">
@@ -56,7 +56,7 @@
                                 </a>
                             </md-button>
                         </section>
-                    </md-card-content>
+                    </md-content>
                 </md-card>
             </div>
             <div layout="row" layout-xs="column">
@@ -66,12 +66,12 @@
                             <span class="md-headline">Vorgänger</span>
                         </md-card-header-text>
                     </md-card-header>
-                    <md-card-content>
-                      <section ng-repeat="predecessor in predecessors" md-ink-ripple ui-sref="questionDetail({id:predecessor.id})" class="fdz-search-result fdz-card-header-border">
+                    <md-content>
+                      <section ng-repeat="predecessor in predecessors" md-ink-ripple ui-sref="questionDetail({id:predecessor.id})" style="width:100%;" class="fdz-search-result fdz-card-header-border">
                         <md-icon md-svg-src="/assets/images/icons/question.svg" class="fdz-search-result-icon"></md-icon>
                         <span>{{predecessor.questionText[currentLanguage]}}</span>
                       </section>
-                    </md-card-content>
+                    </md-content>
                 </md-card>
                 <md-card flex="50" flex-xs="100">
                     <md-card-header>
@@ -79,12 +79,12 @@
                             <span class="md-headline">Nachfolger</span>
                         </md-card-header-text>
                     </md-card-header>
-                    <md-card-content>
+                    <md-content>
                       <section ng-repeat="successor in successors" md-ink-ripple ui-sref="questionDetail({id:successor.id})" class="fdz-search-result fdz-card-header-border">
                         <md-icon md-svg-src="/assets/images/icons/question.svg" class="fdz-search-result-icon"></md-icon>
                         <span>{{successor.questionText[currentLanguage]}}</span>
                       </section>
-                    </md-card-content>
+                    </md-content>
                 </md-card>
             </div>
         </md-card-content>
