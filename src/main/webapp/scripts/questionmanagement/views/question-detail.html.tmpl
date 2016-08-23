@@ -6,8 +6,7 @@
     <md-card>
         <md-card-header>
             <md-card-header-text>
-                <h1>Question TODO:instrument.title
-                    {{question.number}}</h1>
+                <h1>Question (instrument.title) {{question.number}}</h1>
             </md-card-header-text>
         </md-card-header>
         <md-content class="md-padding" layout="column">
@@ -66,10 +65,10 @@
                         </md-card-title-text>
                     </md-card-title>
                     <md-dialog-content>
-                      <section ng-repeat="successor in question.successor" md-ink-ripple ui-sref="questionDetail({id:item})" class="fdz-search-result fdz-card-header-border">
-                           <md-icon md-svg-src="/assets/images/icons/question.svg" class="fdz-search-result-icon"></md-icon>
-                           <span>{{successor}}</span>
-                       </section>
+                      <section ng-repeat="predecessor in predecessors" md-ink-ripple ui-sref="questionDetail({id:predecessor.id})" class="fdz-search-result fdz-card-header-border">
+                        <md-icon md-svg-src="/assets/images/icons/question.svg" class="fdz-search-result-icon"></md-icon>
+                        <span>{{predecessor.questionText[currentLanguage]}}</span>
+                      </section>
                     </md-dialog-content>
                 </md-card>
                 <md-card flex="50" flex-xs="100">
@@ -79,10 +78,10 @@
                         </md-card-title-text>
                     </md-card-title>
                     <md-dialog-content>
-                      <section ng-repeat="predecessor in question.predecessor" md-ink-ripple ui-sref="questionDetail({id:item})" class="fdz-search-result fdz-card-header-border">
-                           <md-icon md-svg-src="/assets/images/icons/question.svg" class="fdz-search-result-icon"></md-icon>
-                           <span>{{predecessor}}</span>
-                       </section>
+                      <section ng-repeat="successor in successors" md-ink-ripple ui-sref="questionDetail({id:successor.id})" class="fdz-search-result fdz-card-header-border">
+                        <md-icon md-svg-src="/assets/images/icons/question.svg" class="fdz-search-result-icon"></md-icon>
+                        <span>{{successor.questionText[currentLanguage]}}</span>
+                      </section>
                     </md-dialog-content>
                 </md-card>
             </div>

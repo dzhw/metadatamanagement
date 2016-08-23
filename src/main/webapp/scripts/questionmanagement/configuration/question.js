@@ -22,14 +22,7 @@ angular.module('metadatamanagementApp')
             function($translatePartialLoader) {
               $translatePartialLoader.addPart('question.management');
             }
-          ],
-          entity: ['$stateParams', 'QuestionResource',
-            function($stateParams, QuestionResource) {
-              return QuestionResource.get({
-                id: $stateParams.id
-              });
-            }
           ]
-        },
+        }
       });
   });
