@@ -1,0 +1,27 @@
+{
+  "study-management": {
+    "error": {
+      "data-acquisition-project": {
+        "survey-series": {
+          "i18n-string-size": "The max length of the survey series is 128 signs."
+        }
+      },
+      "release": {
+        "version": {
+          "not-empty": "The version of a release must not be empty!",
+          "size": "The max length of the version is 32 signs.",
+          "pattern": "Use only numbers and the dot for the version."
+        },
+        "doi": {
+          "size": "The max length of the doi is 128 signs."
+        },
+        "date": {
+          "not-null": "The date of a Release must not be empty!"
+        },
+        "notes": {
+          "size": "The max length of the version is 2048 signs."
+        }
+      }
+    }
+  }
+}
