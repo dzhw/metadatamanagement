@@ -1,4 +1,4 @@
-package eu.dzhw.fdz.metadatamanagement.projectmanagement.domain;
+package eu.dzhw.fdz.metadatamanagement.studymanagement.domain;
 
 import java.time.LocalDateTime;
 

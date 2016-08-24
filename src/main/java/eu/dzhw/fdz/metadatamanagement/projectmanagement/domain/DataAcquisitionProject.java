@@ -1,8 +1,5 @@
 package eu.dzhw.fdz.metadatamanagement.projectmanagement.domain;
 
-import java.util.List;
-
-import javax.validation.Valid;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
@@ -51,8 +48,6 @@ public class DataAcquisitionProject extends AbstractRdcDomainObject {
   private I18nString panelName;
 
   /* Nested Objects */
-  @Valid
-  private List<Release> releases;
 
   /*
    * (non-Javadoc)
@@ -77,7 +72,6 @@ public class DataAcquisitionProject extends AbstractRdcDomainObject {
       .add("id", id)
       .add("surveySeries", surveySeries)
       .add("panelName", panelName)
-      .add("releases", releases)
       .toString();
   }
 
@@ -102,11 +96,4 @@ public class DataAcquisitionProject extends AbstractRdcDomainObject {
     this.panelName = panelName;
   }
 
-  public List<Release> getReleases() {
-    return releases;
-  }
-
-  public void setReleases(List<Release> releases) {
-    this.releases = releases;
-  }
 }

@@ -1,5 +1,9 @@
 package eu.dzhw.fdz.metadatamanagement.studymanagement.domain;
 
+import java.util.List;
+
+import javax.validation.Valid;
+
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.DataAcquisitionProject;
 
 /**
@@ -11,4 +15,18 @@ import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.DataAcquisitionPr
  */
 public class Study {
 
+  /* Nested Objects */
+  @Valid
+  private List<Release> releases;
+  
+  
+  /* GETTER / SETTER */
+  public List<Release> getReleases() {
+    return releases;
+  }
+
+  public void setReleases(List<Release> releases) {
+    this.releases = releases;
+  }
+  
 }
