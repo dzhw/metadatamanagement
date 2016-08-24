@@ -9,21 +9,23 @@
                 <h1>Question (instrument.title) {{question.number}}</h1>
             </md-card-header-text>
         </md-card-header>
-        <md-content class="md-padding" layout="column">
+        <md-card-content class="md-padding" layout="column">
             <div layout="row" layout-xs="column">
                 <md-card flex="50" flex-xs="100" ng-click="showQuestion($event)">
                     <div style="max-height: 600px; overflow: auto;" flex>
+                      <md-card-content>
                         <a flex-gt-sm="33" layout-align="center center" layout="column" ng-href="public/files/questions/{{question.id}}" alt="Image description" target="_blank">
                             <img alt="" class="md-card-image" ng-src="public/files/questions/{{question.id}}"/></a>
+                      </md-card-content>
                     </div>
                 </md-card>
                 <md-card flex="50" flex-xs="100">
-                    <md-card-title>
-                        <md-card-title-text>
+                    <md-card-header>
+                        <md-card-header-text>
                             <span class="md-headline" style="text-decoration:underline;">Zugehörige Informationen</span>
-                        </md-card-title-text>
-                    </md-card-title>
-                    <md-card-content>
+                        </md-card-header-text>
+                    </md-card-header>
+                    <md-content>
                         <section>
                             <md-button>
                                 <a ui-sref="study({id:question.study})">
@@ -54,37 +56,37 @@
                                 </a>
                             </md-button>
                         </section>
-                    </md-card-content>
+                    </md-content>
                 </md-card>
             </div>
             <div layout="row" layout-xs="column">
                 <md-card flex="50" flex-xs="100">
-                    <md-card-title>
-                        <md-card-title-text>
+                    <md-card-header>
+                        <md-card-header-text>
                             <span class="md-headline">Vorgänger</span>
-                        </md-card-title-text>
-                    </md-card-title>
-                    <md-dialog-content>
-                      <section ng-repeat="predecessor in predecessors" md-ink-ripple ui-sref="questionDetail({id:predecessor.id})" class="fdz-search-result fdz-card-header-border">
+                        </md-card-header-text>
+                    </md-card-header>
+                    <md-content>
+                      <section ng-repeat="predecessor in predecessors" md-ink-ripple ui-sref="questionDetail({id:predecessor.id})" style="width:100%;" class="fdz-search-result fdz-card-header-border">
                         <md-icon md-svg-src="/assets/images/icons/question.svg" class="fdz-search-result-icon"></md-icon>
                         <span>{{predecessor.questionText[currentLanguage]}}</span>
                       </section>
-                    </md-dialog-content>
+                    </md-content>
                 </md-card>
                 <md-card flex="50" flex-xs="100">
-                    <md-card-title>
-                        <md-card-title-text>
+                    <md-card-header>
+                        <md-card-header-text>
                             <span class="md-headline">Nachfolger</span>
-                        </md-card-title-text>
-                    </md-card-title>
-                    <md-dialog-content>
+                        </md-card-header-text>
+                    </md-card-header>
+                    <md-content>
                       <section ng-repeat="successor in successors" md-ink-ripple ui-sref="questionDetail({id:successor.id})" class="fdz-search-result fdz-card-header-border">
                         <md-icon md-svg-src="/assets/images/icons/question.svg" class="fdz-search-result-icon"></md-icon>
                         <span>{{successor.questionText[currentLanguage]}}</span>
                       </section>
-                    </md-dialog-content>
+                    </md-content>
                 </md-card>
             </div>
-        </md-content>
+        </md-card-content>
     </md-card>
 </div>
