@@ -4,8 +4,11 @@ import java.util.List;
 
 import javax.validation.Valid;
 
+import org.springframework.data.mongodb.core.mapping.Document;
+
 import com.google.common.base.MoreObjects;
 
+import eu.dzhw.fdz.metadatamanagement.common.domain.AbstractRdcDomainObject;
 import eu.dzhw.fdz.metadatamanagement.common.domain.I18nString;
 import eu.dzhw.fdz.metadatamanagement.common.domain.validation.I18nStringSize;
 import eu.dzhw.fdz.metadatamanagement.common.domain.validation.StringLengths;
@@ -19,9 +22,12 @@ import net.karneim.pojobuilder.GeneratePojoBuilder;
  * @author Daniel Katzberg
  *
  */
+@Document(collection = "studies")
 @GeneratePojoBuilder(
      intoPackage = "eu.dzhw.fdz.metadatamanagement.studymanagement.domain.builders")
-public class Study {
+public class Study extends AbstractRdcDomainObject {
+  
+  private String id;
   
   private I18nString title;
   
@@ -62,6 +68,7 @@ public class Study {
   @Override
   public String toString() {
     return MoreObjects.toStringHelper(this)
+      .add("id", id)
       .add("title", title)
       .add("descripion", descripion)
       .add("institution", institution)
@@ -78,7 +85,21 @@ public class Study {
       .toString();
   }
 
+  /*
+   * (non-Javadoc)
+   * @see eu.dzhw.fdz.metadatamanagement.common.domain.AbstractRdcDomainObject#getId()
+   */
+  @Override
+  public String getId() {
+    return id;
+  }
+
+
   /* GETTER / SETTER */
+  public void setId(String id) {
+    this.id = id;
+  }
+  
   public List<Release> getReleases() {
     return releases;
   }
