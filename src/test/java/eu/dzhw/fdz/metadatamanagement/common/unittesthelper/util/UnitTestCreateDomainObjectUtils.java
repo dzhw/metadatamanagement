@@ -26,6 +26,8 @@ import eu.dzhw.fdz.metadatamanagement.questionmanagement.domain.Question;
 import eu.dzhw.fdz.metadatamanagement.questionmanagement.domain.QuestionTypes;
 import eu.dzhw.fdz.metadatamanagement.questionmanagement.domain.builders.QuestionBuilder;
 import eu.dzhw.fdz.metadatamanagement.studymanagement.domain.Release;
+import eu.dzhw.fdz.metadatamanagement.studymanagement.domain.Study;
+import eu.dzhw.fdz.metadatamanagement.studymanagement.domain.builders.StudyBuilder;
 import eu.dzhw.fdz.metadatamanagement.surveymanagement.domain.Survey;
 import eu.dzhw.fdz.metadatamanagement.surveymanagement.domain.builders.SurveyBuilder;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.AccessWays;
@@ -60,11 +62,26 @@ public class UnitTestCreateDomainObjectUtils {
 
   public static DataAcquisitionProject buildDataAcquisitionProject() {
 
+
+    return new DataAcquisitionProjectBuilder()
+        .withId("testProject")
+        .withStudy(buildStudy())
+        .build();
+  }
+  
+  public static Study buildStudy() {
+    
     List<Release> releases = new ArrayList<>();
     releases.add(buildRelease());
-
-    return new DataAcquisitionProjectBuilder().withId("testProject")
-      .build();
+    
+    return new StudyBuilder()
+        .withSurveySeries(new I18nStringBuilder()
+            .withDe("Survey Series De")
+            .withEn("Survey Series En")
+            .build())
+        .withReleases(releases)
+        .build();
+    
   }
 
   public static Survey buildSurvey(String projectId) {

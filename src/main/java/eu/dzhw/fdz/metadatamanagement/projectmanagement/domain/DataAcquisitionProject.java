@@ -1,5 +1,6 @@
 package eu.dzhw.fdz.metadatamanagement.projectmanagement.domain;
 
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
@@ -12,6 +13,7 @@ import com.google.common.base.MoreObjects;
 import eu.dzhw.fdz.metadatamanagement.common.domain.AbstractRdcDomainObject;
 import eu.dzhw.fdz.metadatamanagement.common.domain.util.Patterns;
 import eu.dzhw.fdz.metadatamanagement.common.domain.validation.StringLengths;
+import eu.dzhw.fdz.metadatamanagement.studymanagement.domain.Study;
 import net.karneim.pojobuilder.GeneratePojoBuilder;
 
 /**
@@ -36,6 +38,8 @@ public class DataAcquisitionProject extends AbstractRdcDomainObject {
   private String id;
   
   /* Nested Objects */
+  @NotNull(message = "data-acquisition-project.error.data-acquisition-project.study.not-null")
+  private Study study;
 
   /*
    * (non-Javadoc)
@@ -58,11 +62,22 @@ public class DataAcquisitionProject extends AbstractRdcDomainObject {
     return MoreObjects.toStringHelper(this)
       .add("super", super.toString())
       .add("id", id)
+      .add("study", study)
       .toString();
   }
 
   /* GETTER / SETTER */
   public void setId(String id) {
     this.id = id;
+  }
+
+
+  public Study getStudy() {
+    return study;
+  }
+
+
+  public void setStudy(Study study) {
+    this.study = study;
   }
 }

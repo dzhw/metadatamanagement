@@ -8,6 +8,7 @@ import eu.dzhw.fdz.metadatamanagement.common.domain.I18nString;
 import eu.dzhw.fdz.metadatamanagement.common.domain.validation.I18nStringSize;
 import eu.dzhw.fdz.metadatamanagement.common.domain.validation.StringLengths;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.DataAcquisitionProject;
+import net.karneim.pojobuilder.GeneratePojoBuilder;
 
 /**
  * The study domain object represents a study. A study can has more than one release. 
@@ -16,6 +17,8 @@ import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.DataAcquisitionPr
  * @author Daniel Katzberg
  *
  */
+@GeneratePojoBuilder(
+     intoPackage = "eu.dzhw.fdz.metadatamanagement.studymanagement.domain.builders")
 public class Study {
   
   @I18nStringSize(max = StringLengths.MEDIUM,
