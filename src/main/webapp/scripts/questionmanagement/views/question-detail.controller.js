@@ -68,34 +68,34 @@ angular.module('metadatamanagementApp')
         loadPredecessors();
       });
       /*Shopping Cart*/
-      $scope.todos = ShoppingCartService.getShoppingCart();
+      $scope.markedItems = ShoppingCartService.getShoppingCart();
       $scope.showVariables = function() {
         DialogService.showDialog($scope.variables,
           $rootScope.currentLanguage);
       };
-      $scope.addTodo = function(id) {
+      $scope.addToNotepad = function(id) {
         var lookup = {};
-        for (var i = 0, len = $scope.todos.length; i < len; i++) {
-          lookup[$scope.todos[i].id] = $scope.todos[i];
+        for (var i = 0, len = $scope.markedItems.length; i < len; i++) {
+          lookup[$scope.markedItems[i].id] = $scope.markedItems[i];
         }
         if (ShoppingCartService.searchInShoppingCart(id) === 'notFound') {
-          $scope.todos.push({
+          $scope.markedItems.push({
             id: id,
             text: 'title',
             date:  new Date()
           });
-          ShoppingCartService.addToShoppingCart($scope.todos);
+          ShoppingCartService.addToShoppingCart($scope.markedItems);
         }
       };
 
       $scope.archive = function() {
-        var oldTodos = $scope.todos;
-        $scope.todos = [];
+        var oldTodos = $scope.markedItems;
+        $scope.markedItems = [];
         angular.forEach(oldTodos, function(todo) {
           if (!todo.done) {
-            $scope.todos.push(todo);
+            $scope.markedItems.push(todo);
           }
         });
-        ShoppingCartService.addToShoppingCart($scope.todos);
+        ShoppingCartService.addToShoppingCart($scope.markedItems);
       };
     });

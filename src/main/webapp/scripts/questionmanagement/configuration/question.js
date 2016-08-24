@@ -21,6 +21,7 @@ angular.module('metadatamanagementApp')
           translatePartialLoader: ['$translatePartialLoader',
             function($translatePartialLoader) {
               $translatePartialLoader.addPart('question.management');
+              $translatePartialLoader.addPart('variable.management');
             }
           ]
         }

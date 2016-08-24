@@ -6,7 +6,6 @@ angular.module('metadatamanagementApp')
     $scope.variables = variables;
     $scope.currentLanguage = currentLanguage;
     $scope.goToVariable = function(variable) {
-      console.log(variable.id);
       $scope.closeDialog();
       $state.go(variable.id);
     };

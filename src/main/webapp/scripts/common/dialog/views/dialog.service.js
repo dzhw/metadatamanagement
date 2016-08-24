@@ -1,9 +1,10 @@
+/* global document */
 'use strict';
 
 angular.module('metadatamanagementApp').service('DialogService',
   function($mdDialog) {
     var showDialog = function(variables, currentLanguage) {
-      var dialogParent = angular.element('#root-container');
+      var dialogParent = angular.element(document.body);
       $mdDialog.show({
         controller: 'DialogController',
         parent: dialogParent,
