@@ -9,6 +9,13 @@
         "cancelled": "Upload von Fragen Abgebrochen!"
       }
     },
+    "detail": {
+      "title": "Fragen Detail",
+      "question": "Frage",
+      "predecessors":"Vorgänger",
+      "successors": "Nachfolger",
+      "related-informations":"Zugehörige Informationen"
+    },
     "error": {
       "question": {
         "valid-question-id-name": "Die FDZ - ID muss mit der Projekt ID beginnen(Beispiel: ProjektID - Variablenname) und muss der ID der zugehörigen Variable entsprechen!",

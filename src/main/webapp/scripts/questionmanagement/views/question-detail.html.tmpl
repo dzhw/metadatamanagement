@@ -2,90 +2,99 @@
     <!-- Todo replace with loading directive -->
     Lade Daten...
 </div>
-<div ng-if="question.$resolved" id="popupContainer">
+<div ng-if="question.$resolved">
     <md-card>
         <md-card-header>
             <md-card-header-text>
-                <h1>Question (instrument.title) {{question.number}}</h1>
+                <h1>{{'question-management.detail.question' | translate }}: (instrument.title) {{question.number}}</h1>
             </md-card-header-text>
         </md-card-header>
         <md-card-content class="md-padding" layout="column">
-            <div layout="row" layout-xs="column">
-                <md-card flex="50" flex-xs="100" ng-click="showQuestion($event)">
-                    <div style="max-height: 600px; overflow: auto;" flex>
-                      <md-card-content>
-                        <a flex-gt-sm="33" layout-align="center center" layout="column" ng-href="public/files/questions/{{question.id}}" alt="Image description" target="_blank">
-                            <img alt="" class="md-card-image" ng-src="public/files/questions/{{question.id}}"/></a>
-                      </md-card-content>
-                    </div>
-                </md-card>
-                <md-card flex="50" flex-xs="100">
-                    <md-card-header>
+            <div layout="row" layout-xs="column" flex>
+              <md-card flex="50" flex-xs="100">
+                <div style="max-height: 400px; overflow-y:auto;">
+                  <a ng-href="public/files/questions/{{question.id}}" alt="{{question.questionText[currentLanguage] }}" target="_blank">
+                    <md-tooltip md-direction="right">
+                      {{'variable-management.home.title' | translate }}: {{variables.length}}
+                      {{'question-management.detail.successors' | translate }}: {{successors.length}}
+                    {{'question-management.detail.predecessors' | translate }}: {{predecessors.length}}
+                    </md-tooltip>
+                    <img alt="" style="width:auto; max-width:100%; height:auto;" ng-src="public/files/questions/{{question.id}}"/>
+                  </a>
+                </div>
+              </md-card>
+              <md-card flex="50" flex-xs="100">
+                <md-card-header>
                         <md-card-header-text>
-                            <span class="md-headline" style="text-decoration:underline;">Zugehörige Informationen</span>
+                            <span class="md-headline">{{'question-management.detail.related-informations' | translate }}</span>
                         </md-card-header-text>
                     </md-card-header>
-                    <md-content>
+                    <md-card-content>
                         <section>
                             <md-button>
-                                <a ui-sref="study({id:question.study})">
+                                <section ui-sref="study({id:question.study})">
                                     <md-icon md-svg-src="/assets/images/icons/study.svg" class="fdz-search-result-icon"></md-icon>
-                                    <span>Study</span>
-                                </a>
+                                    <!-- ToBeTranslated-->
+                                    <span>Study(ToBeTranslated)</span>
+                                </section>
                             </md-button>
-                            <md-button ng-click="addTodo('suf-1')">
-                                <a>
+                            <md-button ng-click="addToNotepad('suf-1')">
+                                <section>
                                     <md-icon md-svg-src="/assets/images/icons/addToshop.svg" class="fdz-search-result-icon"></md-icon>
-                                    <span>Merkzettel</span>
-                                </a>
+                                    <!-- ToBeTranslated-->
+                                    <span>Merkzettel/Notepad(ToBeTranslated)</span>
+                                </section>
                             </md-button>
                         </section>
                         <section>
                             <md-button>
-                                <a ui-sref="instrument({id:question.instrumentId})" alt>
+                                <section ui-sref="instrument({id:question.instrumentId})" alt>
                                     <md-icon md-svg-src="/assets/images/icons/instrument.svg" class="fdz-search-result-icon"></md-icon>
-                                    <span>Instrument</span>
-                                </a>
+                                    <!-- ToBeTranslated-->
+                                    <span>Instrument(ToBeTranslated)</span>
+                                </section>
                             </md-button>
                         </section>
                         <section>
                             <md-button ng-click="showVariables()">
-                                <a>
+                                <section>
                                     <md-icon md-svg-src="/assets/images/icons/variable.svg" class="fdz-search-result-icon"></md-icon>
-                                    <span>Variables</span>
-                                </a>
+                                    <span>{{'variable-management.home.title' | translate }}</span>
+                                </section>
                             </md-button>
                         </section>
-                    </md-content>
-                </md-card>
+              </md-card-content>
+            </md-card>
             </div>
-            <div layout="row" layout-xs="column">
-                <md-card flex="50" flex-xs="100">
-                    <md-card-header>
-                        <md-card-header-text>
-                            <span class="md-headline">Vorgänger</span>
-                        </md-card-header-text>
-                    </md-card-header>
-                    <md-content>
-                      <section ng-repeat="predecessor in predecessors" md-ink-ripple ui-sref="questionDetail({id:predecessor.id})" style="width:100%;" class="fdz-search-result fdz-card-header-border">
-                        <md-icon md-svg-src="/assets/images/icons/question.svg" class="fdz-search-result-icon"></md-icon>
-                        <span>{{predecessor.questionText[currentLanguage]}}</span>
-                      </section>
-                    </md-content>
-                </md-card>
-                <md-card flex="50" flex-xs="100">
-                    <md-card-header>
-                        <md-card-header-text>
-                            <span class="md-headline">Nachfolger</span>
-                        </md-card-header-text>
-                    </md-card-header>
-                    <md-content>
-                      <section ng-repeat="successor in successors" md-ink-ripple ui-sref="questionDetail({id:successor.id})" class="fdz-search-result fdz-card-header-border">
-                        <md-icon md-svg-src="/assets/images/icons/question.svg" class="fdz-search-result-icon"></md-icon>
-                        <span>{{successor.questionText[currentLanguage]}}</span>
-                      </section>
-                    </md-content>
-                </md-card>
+            <div layout="row" layout-xs="column" flex>
+              <md-card flex="50" flex-xs="100">
+                <md-card-header>
+                  <md-card-header-text>
+                    <span class="md-headline">{{'question-management.detail.predecessors' | translate }}</span>
+                  </md-card-header-text>
+                </md-card-header>
+                <md-content>
+                  <section ng-repeat="predecessor in predecessors" md-ink-ripple ui-sref="questionDetail({id:predecessor.id})"
+                  class="fdz-search-result fdz-card-header-border">
+                    <md-icon md-svg-src="/assets/images/icons/question.svg" class="fdz-search-result-icon"></md-icon>
+                    <span>{{predecessor.number}}: {{predecessor.questionText[currentLanguage]}}</span>
+                  </section>
+                </md-content>
+              </md-card>
+              <md-card flex="50" flex-xs="100">
+                <md-card-header>
+                  <md-card-header-text>
+                    <span class="md-headline">{{'question-management.detail.successors' | translate }}</span>
+                  </md-card-header-text>
+                  </md-card-header>
+                  <md-content>
+                    <section ng-repeat="successor in successors" ui-sref="questionDetail({id:successor.id})" md-ink-ripple
+                    class="fdz-search-result fdz-card-header-border">
+                         <md-icon md-svg-src="/assets/images/icons/question.svg" class="fdz-search-result-icon"></md-icon>
+                           <span>{{successor.number}}: {{successor.questionText[currentLanguage]}}</span>
+                     </section>
+                  </md-content>
+              </md-card>
             </div>
         </md-card-content>
     </md-card>

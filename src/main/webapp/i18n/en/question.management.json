@@ -9,6 +9,13 @@
         "cancelled": "Question upload cancelled!"
       }
     },
+    "detail": {
+      "title": "Question Detail",
+      "question": "Question",
+      "predecessors":"Predecessors",
+      "successors": "Successors",
+      "related-informations":"Related Informations"
+    },
     "error": {
       "question": {
         "valid-question-id-name": "The RDC-ID must start with the project ID (e.g. projectID-variableName) and must be equal to variable ID!",

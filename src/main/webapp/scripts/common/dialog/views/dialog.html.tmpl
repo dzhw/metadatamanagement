@@ -1,25 +1,24 @@
-<md-dialog  flex="60" style="max-height: 600px; margin: auto;" aria-label="List dialog">
-  <md-toolbar>
-    <div class="md-toolbar-tools">
-      <h2>{Surprise!}</h2>
-    </div>
-  </md-toolbar>
-  <md-dialog-content>
-    <section ng-repeat="variable in variables" ng-click="closeDialog()" md-ink-ripple class="fdz-search-result fdz-card-header-border">
-      <a ui-sref="variableDetail({id:variable.id})" style="text-decoration: none;">
-        <section layout="row">
-         <md-icon md-svg-src="/assets/images/icons/variable.svg" class="fdz-search-result-icon" style= "margin-right: 10px; margin-left: 10px;"></md-icon>
-         <section layout="column">
-         <span>{{variable.label[currentLanguage]}}</span>
-         <span>{{variable.name}}
-             ({{variable.dataType[currentLanguage]}},
-             {{variable.scaleLevel[currentLanguage]}})</span>
+<md-dialog aria-label="{{'variable-management.home.title' | translate }}" style="width: 70%;">
+    <md-toolbar>
+      <div class="md-toolbar-tools">
+        <h2>{{'variable-management.home.title' | translate }}</h2>
+        <span flex></span>
+        <md-button class="md-icon-button" ng-click="closeDialog()">
+          <md-icon md-svg-src="/assets/images/icons/ic_close_white_24px.svg" aria-label="Close dialog"></md-icon>
+        </md-button>
+      </div>
+    </md-toolbar>
+    <md-dialog-content>
+        <section ng-repeat="variable in variables" ng-click="closeDialog()" md-ink-ripple class="fdz-search-result fdz-card-header-border">
+          <div ui-sref="variableDetail({id:variable.id})" style="text-decoration: none;">
+            <section layout="row">
+             <md-icon md-svg-src="/assets/images/icons/variable.svg" class="fdz-search-result-icon" style= "margin-right: 10px; margin-left: 10px;"></md-icon>
+             <section layout="column">
+             <span>{{variable.label[currentLanguage]}}</span>
+             <span>{{variable.name}} ({{variable.dataType[currentLanguage]}}, {{variable.scaleLevel[currentLanguage]}})</span>
+            </section>
+          </section>
+        </div>
         </section>
-      </section>
-      </a>
-     </section>
-  </md-dialog-content>
-<md-dialog-actions>
-   <md-button aria-label="close" ng-click="closeDialog()" class="md-primary"><span data-translate="global.buttons.close"></span></md-button>
- </md-dialog-actions>
+    </md-dialog-content>
 </md-dialog>
