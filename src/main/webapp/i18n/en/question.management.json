@@ -14,7 +14,8 @@
       "question": "Question",
       "predecessors":"Predecessors",
       "successors": "Successors",
-      "related-informations":"Related Informations"
+      "related-informations":"Related Informations",
+      "not-found": "The Question {{id}} references to an unknown Question."
     },
     "error": {
       "question": {

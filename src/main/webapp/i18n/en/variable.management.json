@@ -14,7 +14,8 @@
       "refresh": "Refresh"
     },
     "detail": {
-      "title": "Variable"
+      "title": "Variable",
+      "not-found": "The Question {{id}} references to an unknown Variable."
     },
     "name": "Name",
     "data-type": "DataType",

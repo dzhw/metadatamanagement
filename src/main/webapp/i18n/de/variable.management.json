@@ -14,7 +14,8 @@
       "refresh": "Aktualisieren"
     },
     "detail": {
-      "title": "Variable"
+      "title": "Variable",
+      "not-found": "Die id {{id}} referenziert auf eine unbekannte Variable."
     },
     "name": "Name",
     "data-type": "Datentyp",

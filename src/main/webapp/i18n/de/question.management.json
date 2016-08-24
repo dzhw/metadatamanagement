@@ -14,7 +14,8 @@
       "question": "Frage",
       "predecessors":"Vorgänger",
       "successors": "Nachfolger",
-      "related-informations":"Zugehörige Informationen"
+      "related-informations":"Zugehörige Informationen",
+      "not-found": "Die id {{id}} referenziert auf eine unbekannte Frage."
     },
     "error": {
       "question": {

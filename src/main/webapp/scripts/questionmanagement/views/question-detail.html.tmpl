@@ -1,5 +1,4 @@
-<div ng-if="!question.$resolved">
-    <!-- Todo replace with loading directive -->
+<div ng-if="!question.$resolved" ng-init="startBlockUI()">
     Lade Daten...
 </div>
 <div ng-if="question.$resolved">
@@ -74,11 +73,17 @@
                   </md-card-header-text>
                 </md-card-header>
                 <md-content>
-                  <section ng-repeat="predecessor in predecessors" md-ink-ripple ui-sref="questionDetail({id:predecessor.id})"
+                  <section ng-repeat="predecessor in predecessors" md-ink-ripple
                   class="fdz-search-result fdz-card-header-border">
-                    <md-icon md-svg-src="/assets/images/icons/question.svg" class="fdz-search-result-icon"></md-icon>
-                    <span>{{predecessor.number}}: {{predecessor.questionText[currentLanguage]}}</span>
-                  </section>
+                  <section ng-if="predecessor.name === 'notFoundQuestion'">
+                       <md-icon md-svg-src="/assets/images/icons/question.svg" style="fill:red;" class="fdz-search-result-icon"></md-icon>
+                         <span>{{'question-management.detail.not-found' | translate :'{id:"'+ predecessor.id +'"}'}}</span>
+                    </section>
+                    <section ng-if="predecessor.name != 'notFoundQuestion'" ui-sref="questionDetail({id:predecessor.id})">
+                         <md-icon md-svg-src="/assets/images/icons/question.svg" class="fdz-search-result-icon"></md-icon>
+                           <span>{{predecessor.number}}: {{predecessor.questionText[currentLanguage]}}</span>
+                      </section>
+                   </section>
                 </md-content>
               </md-card>
               <md-card flex="50" flex-xs="100">
@@ -88,10 +93,16 @@
                   </md-card-header-text>
                   </md-card-header>
                   <md-content>
-                    <section ng-repeat="successor in successors" ui-sref="questionDetail({id:successor.id})" md-ink-ripple
+                    <section ng-repeat="successor in successors" md-ink-ripple
                     class="fdz-search-result fdz-card-header-border">
-                         <md-icon md-svg-src="/assets/images/icons/question.svg" class="fdz-search-result-icon"></md-icon>
-                           <span>{{successor.number}}: {{successor.questionText[currentLanguage]}}</span>
+                    <section ng-if="successor.name === 'notFoundQuestion'">
+                         <md-icon md-svg-src="/assets/images/icons/question.svg" style="fill:red;" class="fdz-search-result-icon"></md-icon>
+                           <span>{{'question-management.detail.not-found' | translate :'{id:"'+ successor.id +'"}'}}</span>
+                      </section>
+                      <section ng-if="successor.name != 'notFoundQuestion'" ui-sref="questionDetail({id:successor.id})">
+                           <md-icon md-svg-src="/assets/images/icons/question.svg" class="fdz-search-result-icon"></md-icon>
+                             <span>{{successor.number}}: {{successor.questionText[currentLanguage]}}</span>
+                        </section>
                      </section>
                   </md-content>
               </md-card>
