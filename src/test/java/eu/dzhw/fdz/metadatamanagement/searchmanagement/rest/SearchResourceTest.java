@@ -15,11 +15,9 @@ import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.util.NestedServletException;
 
 import eu.dzhw.fdz.metadatamanagement.AbstractTest;
-import eu.dzhw.fdz.metadatamanagement.common.domain.builders.I18nStringBuilder;
 import eu.dzhw.fdz.metadatamanagement.common.unittesthelper.util.UnitTestCreateDomainObjectUtils;
 import eu.dzhw.fdz.metadatamanagement.common.unittesthelper.util.UnitTestUserManagementUtils;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.DataAcquisitionProject;
-import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.builders.DataAcquisitionProjectBuilder;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.repository.DataAcquisitionProjectRepository;
 import eu.dzhw.fdz.metadatamanagement.searchmanagement.service.ElasticsearchAdminService;
 import eu.dzhw.fdz.metadatamanagement.surveymanagement.domain.Survey;
@@ -85,10 +83,7 @@ public class SearchResourceTest extends AbstractTest {
   @Test
   public void testRecreateIndicesWithExistingVariablesAndSurveys() throws Exception {
     UnitTestUserManagementUtils.login("admin", "admin");
-    DataAcquisitionProject project = new DataAcquisitionProjectBuilder().withId("testId")
-      .withSurveySeries(new I18nStringBuilder().build())
-      .withPanelName(new I18nStringBuilder().build())
-      .build();
+    DataAcquisitionProject project = UnitTestCreateDomainObjectUtils.buildDataAcquisitionProject();
     dataAcquisitionProjectRepository.save(project);
 
     Survey survey = UnitTestCreateDomainObjectUtils.buildSurvey(project.getId());

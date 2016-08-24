@@ -10,9 +10,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 import com.google.common.base.MoreObjects;
 
 import eu.dzhw.fdz.metadatamanagement.common.domain.AbstractRdcDomainObject;
-import eu.dzhw.fdz.metadatamanagement.common.domain.I18nString;
 import eu.dzhw.fdz.metadatamanagement.common.domain.util.Patterns;
-import eu.dzhw.fdz.metadatamanagement.common.domain.validation.I18nStringSize;
 import eu.dzhw.fdz.metadatamanagement.common.domain.validation.StringLengths;
 import net.karneim.pojobuilder.GeneratePojoBuilder;
 
@@ -36,17 +34,7 @@ public class DataAcquisitionProject extends AbstractRdcDomainObject {
   @Size(max = StringLengths.SMALL,
       message = "data-acquisition-project.error.data-acquisition-project.id.size")
   private String id;
-
-  @I18nStringSize(max = StringLengths.MEDIUM,
-      message = "data-acquisition-project."
-          + "error.data-acquisition-project.survey-series.i18n-string-size")
-  private I18nString surveySeries;
-
-  @I18nStringSize(max = StringLengths.MEDIUM,
-      message = "data-acquisition-project."
-          + "error.data-acquisition-project.panel-name.i18n-string-size")
-  private I18nString panelName;
-
+  
   /* Nested Objects */
 
   /*
@@ -70,8 +58,6 @@ public class DataAcquisitionProject extends AbstractRdcDomainObject {
     return MoreObjects.toStringHelper(this)
       .add("super", super.toString())
       .add("id", id)
-      .add("surveySeries", surveySeries)
-      .add("panelName", panelName)
       .toString();
   }
 
@@ -79,21 +65,4 @@ public class DataAcquisitionProject extends AbstractRdcDomainObject {
   public void setId(String id) {
     this.id = id;
   }
-
-  public I18nString getSurveySeries() {
-    return surveySeries;
-  }
-
-  public void setSurveySeries(I18nString surveySeries) {
-    this.surveySeries = surveySeries;
-  }
-
-  public I18nString getPanelName() {
-    return panelName;
-  }
-
-  public void setPanelName(I18nString panelName) {
-    this.panelName = panelName;
-  }
-
 }

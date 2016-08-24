@@ -2,7 +2,6 @@ package eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.projections;
 
 import org.springframework.data.rest.core.config.Projection;
 
-import eu.dzhw.fdz.metadatamanagement.common.domain.I18nString;
 import eu.dzhw.fdz.metadatamanagement.common.domain.projections.AbstractRdcDomainObjectProjection;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.DataAcquisitionProject;
 
@@ -16,7 +15,4 @@ import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.DataAcquisitionPr
 @Projection(name = "complete", types = DataAcquisitionProject.class)
 public interface CompleteDataAcquisitionProjectProjection
     extends AbstractRdcDomainObjectProjection {
-  I18nString getSurveySeries();
-
-  I18nString getPanelName();
 }

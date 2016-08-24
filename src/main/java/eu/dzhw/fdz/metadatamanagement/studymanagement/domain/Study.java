@@ -4,6 +4,9 @@ import java.util.List;
 
 import javax.validation.Valid;
 
+import eu.dzhw.fdz.metadatamanagement.common.domain.I18nString;
+import eu.dzhw.fdz.metadatamanagement.common.domain.validation.I18nStringSize;
+import eu.dzhw.fdz.metadatamanagement.common.domain.validation.StringLengths;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.DataAcquisitionProject;
 
 /**
@@ -14,6 +17,11 @@ import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.DataAcquisitionPr
  *
  */
 public class Study {
+  
+  @I18nStringSize(max = StringLengths.MEDIUM,
+      message = "data-acquisition-project."
+          + "error.data-acquisition-project.survey-series.i18n-string-size")
+  private I18nString surveySeries;
 
   /* Nested Objects */
   @Valid
@@ -27,6 +35,14 @@ public class Study {
 
   public void setReleases(List<Release> releases) {
     this.releases = releases;
+  }
+  
+  public I18nString getSurveySeries() {
+    return surveySeries;
+  }
+
+  public void setSurveySeries(I18nString surveySeries) {
+    this.surveySeries = surveySeries;
   }
   
 }

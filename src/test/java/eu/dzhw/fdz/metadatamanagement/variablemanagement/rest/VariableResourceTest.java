@@ -33,7 +33,6 @@ import eu.dzhw.fdz.metadatamanagement.common.domain.builders.I18nStringBuilder;
 import eu.dzhw.fdz.metadatamanagement.common.rest.TestUtil;
 import eu.dzhw.fdz.metadatamanagement.common.unittesthelper.util.UnitTestCreateDomainObjectUtils;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.DataAcquisitionProject;
-import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.builders.DataAcquisitionProjectBuilder;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.repository.DataAcquisitionProjectRepository;
 import eu.dzhw.fdz.metadatamanagement.searchmanagement.service.ElasticsearchAdminService;
 import eu.dzhw.fdz.metadatamanagement.searchmanagement.service.ElasticsearchUpdateQueueService;
@@ -97,10 +96,7 @@ public class VariableResourceTest extends AbstractTest {
 
   @Test
   public void testCreateVariable() throws Exception {
-    DataAcquisitionProject project = new DataAcquisitionProjectBuilder().withId("testProject")
-      .withSurveySeries(new I18nStringBuilder().build())
-      .withPanelName(new I18nStringBuilder().build())
-      .build();
+    DataAcquisitionProject project = UnitTestCreateDomainObjectUtils.buildDataAcquisitionProject();
     dataAcquisitionProjectRepository.save(project);
 
     Survey survey = UnitTestCreateDomainObjectUtils.buildSurvey(project.getId());
@@ -134,10 +130,7 @@ public class VariableResourceTest extends AbstractTest {
 
   @Test
   public void testCreateVariableWithSurveyButWithoutProject() throws Exception {
-    DataAcquisitionProject project = new DataAcquisitionProjectBuilder().withId("testProject")
-      .withSurveySeries(new I18nStringBuilder().build())
-      .withPanelName(new I18nStringBuilder().build())
-      .build();
+    DataAcquisitionProject project = UnitTestCreateDomainObjectUtils.buildDataAcquisitionProject();
     dataAcquisitionProjectRepository.save(project);
 
     Survey survey = UnitTestCreateDomainObjectUtils.buildSurvey(project.getId());
@@ -153,10 +146,7 @@ public class VariableResourceTest extends AbstractTest {
 
   @Test
   public void testCreateVariableWithoutScaleLevel() throws Exception {
-    DataAcquisitionProject project = new DataAcquisitionProjectBuilder().withId("testProject")
-      .withSurveySeries(new I18nStringBuilder().build())
-      .withPanelName(new I18nStringBuilder().build())
-      .build();
+    DataAcquisitionProject project = UnitTestCreateDomainObjectUtils.buildDataAcquisitionProject();
     dataAcquisitionProjectRepository.save(project);
 
     Survey survey = UnitTestCreateDomainObjectUtils.buildSurvey(project.getId());
@@ -174,10 +164,7 @@ public class VariableResourceTest extends AbstractTest {
   
   @Test
   public void testCreateVariableWithoutLabel() throws Exception {
-    DataAcquisitionProject project = new DataAcquisitionProjectBuilder().withId("testProject")
-      .withSurveySeries(new I18nStringBuilder().build())
-      .withPanelName(new I18nStringBuilder().build())
-      .build();
+    DataAcquisitionProject project = UnitTestCreateDomainObjectUtils.buildDataAcquisitionProject();
     dataAcquisitionProjectRepository.save(project);
 
     Survey survey = UnitTestCreateDomainObjectUtils.buildSurvey(project.getId());
@@ -203,10 +190,7 @@ public class VariableResourceTest extends AbstractTest {
 
   @Test
   public void testGenerationDetailsWithExpressionLanguageButWithoutRule() throws Exception {
-    DataAcquisitionProject project = new DataAcquisitionProjectBuilder().withId("testProject")
-      .withSurveySeries(new I18nStringBuilder().build())
-      .withPanelName(new I18nStringBuilder().build())
-      .build();
+    DataAcquisitionProject project = UnitTestCreateDomainObjectUtils.buildDataAcquisitionProject();
     dataAcquisitionProjectRepository.save(project);
 
     Survey survey = UnitTestCreateDomainObjectUtils.buildSurvey(project.getId());
@@ -227,10 +211,7 @@ public class VariableResourceTest extends AbstractTest {
   @Test
   public void testCreateVariableWithNonUniqueCode() throws Exception {
 
-    DataAcquisitionProject project = new DataAcquisitionProjectBuilder().withId("testProject")
-      .withSurveySeries(new I18nStringBuilder().build())
-      .withPanelName(new I18nStringBuilder().build())
-      .build();
+    DataAcquisitionProject project = UnitTestCreateDomainObjectUtils.buildDataAcquisitionProject();
     dataAcquisitionProjectRepository.save(project);
 
     Survey survey = UnitTestCreateDomainObjectUtils.buildSurvey(project.getId());
@@ -264,10 +245,7 @@ public class VariableResourceTest extends AbstractTest {
   public void testCreateVariableWithNonUniqueValueClass() throws Exception {
     
     // Arrange
-    DataAcquisitionProject project = new DataAcquisitionProjectBuilder().withId("testProject")
-      .withSurveySeries(new I18nStringBuilder().build())
-      .withPanelName(new I18nStringBuilder().build())
-      .build();
+    DataAcquisitionProject project = UnitTestCreateDomainObjectUtils.buildDataAcquisitionProject();
     dataAcquisitionProjectRepository.save(project);
       
     Survey survey = UnitTestCreateDomainObjectUtils.buildSurvey(project.getId());
@@ -303,10 +281,7 @@ public class VariableResourceTest extends AbstractTest {
   public void testCreateVariableWithNonNumericValueOnContinouosScaleLevel() throws Exception {
 
     // Arrange
-    DataAcquisitionProject project = new DataAcquisitionProjectBuilder().withId("testProject")
-      .withSurveySeries(new I18nStringBuilder().build())
-      .withPanelName(new I18nStringBuilder().build())
-      .build();
+    DataAcquisitionProject project = UnitTestCreateDomainObjectUtils.buildDataAcquisitionProject();
     dataAcquisitionProjectRepository.save(project);
 
     Survey survey = UnitTestCreateDomainObjectUtils.buildSurvey(project.getId());
@@ -329,10 +304,7 @@ public class VariableResourceTest extends AbstractTest {
 
   @Test
   public void testCreateVariableWithInvalidScaleLevel() throws Exception {
-    DataAcquisitionProject project = new DataAcquisitionProjectBuilder().withId("testProject")
-      .withSurveySeries(new I18nStringBuilder().build())
-      .withPanelName(new I18nStringBuilder().build())
-      .build();
+    DataAcquisitionProject project = UnitTestCreateDomainObjectUtils.buildDataAcquisitionProject();
     dataAcquisitionProjectRepository.save(project);
 
     Survey survey = UnitTestCreateDomainObjectUtils.buildSurvey(project.getId());
@@ -352,10 +324,7 @@ public class VariableResourceTest extends AbstractTest {
 
   @Test
   public void testCreateVariableWithoutDataType() throws Exception {
-    DataAcquisitionProject project = new DataAcquisitionProjectBuilder().withId("testProject")
-      .withSurveySeries(new I18nStringBuilder().build())
-      .withPanelName(new I18nStringBuilder().build())
-      .build();
+    DataAcquisitionProject project = UnitTestCreateDomainObjectUtils.buildDataAcquisitionProject();
     dataAcquisitionProjectRepository.save(project);
 
     Survey survey = UnitTestCreateDomainObjectUtils.buildSurvey(project.getId());
@@ -373,10 +342,7 @@ public class VariableResourceTest extends AbstractTest {
 
   @Test
   public void testCreateVariableWithInvalidDataType() throws Exception {
-    DataAcquisitionProject project = new DataAcquisitionProjectBuilder().withId("testProject")
-      .withSurveySeries(new I18nStringBuilder().build())
-      .withPanelName(new I18nStringBuilder().build())
-      .build();
+    DataAcquisitionProject project = UnitTestCreateDomainObjectUtils.buildDataAcquisitionProject();
     dataAcquisitionProjectRepository.save(project);
 
     Survey survey = UnitTestCreateDomainObjectUtils.buildSurvey(project.getId());
@@ -396,10 +362,7 @@ public class VariableResourceTest extends AbstractTest {
 
   @Test
   public void testCreateVariableWithoutAccessWays() throws Exception {
-    DataAcquisitionProject project = new DataAcquisitionProjectBuilder().withId("testProject")
-      .withSurveySeries(new I18nStringBuilder().build())
-      .withPanelName(new I18nStringBuilder().build())
-      .build();
+    DataAcquisitionProject project = UnitTestCreateDomainObjectUtils.buildDataAcquisitionProject();
     dataAcquisitionProjectRepository.save(project);
 
     Survey survey = UnitTestCreateDomainObjectUtils.buildSurvey(project.getId());
@@ -417,10 +380,7 @@ public class VariableResourceTest extends AbstractTest {
 
   @Test
   public void testCreateVariableWithInvalidAccessWays() throws Exception {
-    DataAcquisitionProject project = new DataAcquisitionProjectBuilder().withId("testProject")
-      .withSurveySeries(new I18nStringBuilder().build())
-      .withPanelName(new I18nStringBuilder().build())
-      .build();
+    DataAcquisitionProject project = UnitTestCreateDomainObjectUtils.buildDataAcquisitionProject();
     dataAcquisitionProjectRepository.save(project);
 
     Survey survey = UnitTestCreateDomainObjectUtils.buildSurvey(project.getId());
@@ -440,10 +400,7 @@ public class VariableResourceTest extends AbstractTest {
 
   @Test
   public void testCreateVariableWithNoMinusInId() throws Exception {
-    DataAcquisitionProject project = new DataAcquisitionProjectBuilder().withId("testProject")
-      .withSurveySeries(new I18nStringBuilder().build())
-      .withPanelName(new I18nStringBuilder().build())
-      .build();
+    DataAcquisitionProject project = UnitTestCreateDomainObjectUtils.buildDataAcquisitionProject();
     dataAcquisitionProjectRepository.save(project);
 
     Survey survey = UnitTestCreateDomainObjectUtils.buildSurvey(project.getId());
@@ -462,10 +419,7 @@ public class VariableResourceTest extends AbstractTest {
 
   @Test
   public void testCreateVariableWithInvalidId() throws Exception {
-    DataAcquisitionProject project = new DataAcquisitionProjectBuilder().withId("testProject")
-      .withSurveySeries(new I18nStringBuilder().build())
-      .withPanelName(new I18nStringBuilder().build())
-      .build();
+    DataAcquisitionProject project = UnitTestCreateDomainObjectUtils.buildDataAcquisitionProject();
     dataAcquisitionProjectRepository.save(project);
 
     Survey survey = UnitTestCreateDomainObjectUtils.buildSurvey(project.getId());
@@ -485,10 +439,7 @@ public class VariableResourceTest extends AbstractTest {
 
   @Test
   public void testCreateVariableWithDuplicateNameWithinProject() throws Exception {
-    DataAcquisitionProject project = new DataAcquisitionProjectBuilder().withId("testProject")
-      .withSurveySeries(new I18nStringBuilder().build())
-      .withPanelName(new I18nStringBuilder().build())
-      .build();
+    DataAcquisitionProject project = UnitTestCreateDomainObjectUtils.buildDataAcquisitionProject();
     dataAcquisitionProjectRepository.save(project);
 
     Survey survey = UnitTestCreateDomainObjectUtils.buildSurvey(project.getId());
@@ -515,10 +466,7 @@ public class VariableResourceTest extends AbstractTest {
 
   @Test
   public void deleteVariable() throws JsonSyntaxException, IOException, Exception {
-    DataAcquisitionProject project = new DataAcquisitionProjectBuilder().withId("testProject")
-      .withSurveySeries(new I18nStringBuilder().build())
-      .withPanelName(new I18nStringBuilder().build())
-      .build();
+    DataAcquisitionProject project = UnitTestCreateDomainObjectUtils.buildDataAcquisitionProject();
     dataAcquisitionProjectRepository.save(project);
 
     Survey survey = UnitTestCreateDomainObjectUtils.buildSurvey(project.getId());
@@ -551,10 +499,7 @@ public class VariableResourceTest extends AbstractTest {
 
   @Test
   public void testUpdateVariable() throws Exception {
-    DataAcquisitionProject project = new DataAcquisitionProjectBuilder().withId("testProject")
-      .withSurveySeries(new I18nStringBuilder().build())
-      .withPanelName(new I18nStringBuilder().build())
-      .build();
+    DataAcquisitionProject project = UnitTestCreateDomainObjectUtils.buildDataAcquisitionProject();
     dataAcquisitionProjectRepository.save(project);
 
     Survey survey = UnitTestCreateDomainObjectUtils.buildSurvey(project.getId());
@@ -717,10 +662,7 @@ public class VariableResourceTest extends AbstractTest {
 
   @Test
   public void testDeletingProjectDeletesVariable() throws Exception {
-    DataAcquisitionProject project = new DataAcquisitionProjectBuilder().withId("testProject")
-      .withSurveySeries(new I18nStringBuilder().build())
-      .withPanelName(new I18nStringBuilder().build())
-      .build();
+    DataAcquisitionProject project = UnitTestCreateDomainObjectUtils.buildDataAcquisitionProject();
     dataAcquisitionProjectRepository.save(project);
 
     Survey survey = UnitTestCreateDomainObjectUtils.buildSurvey(project.getId());
@@ -748,10 +690,7 @@ public class VariableResourceTest extends AbstractTest {
 
   @Test
   public void testVariableWithDataTypeDateWithError() throws Exception {
-    DataAcquisitionProject project = new DataAcquisitionProjectBuilder().withId("testProject")
-      .withSurveySeries(new I18nStringBuilder().build())
-      .withPanelName(new I18nStringBuilder().build())
-      .build();
+    DataAcquisitionProject project = UnitTestCreateDomainObjectUtils.buildDataAcquisitionProject();
     dataAcquisitionProjectRepository.save(project);
 
     Survey survey = UnitTestCreateDomainObjectUtils.buildSurvey(project.getId());
@@ -769,10 +708,7 @@ public class VariableResourceTest extends AbstractTest {
 
   @Test
   public void testVariableWithDataTypeDate() throws Exception {
-    DataAcquisitionProject project = new DataAcquisitionProjectBuilder().withId("testProject")
-      .withSurveySeries(new I18nStringBuilder().build())
-      .withPanelName(new I18nStringBuilder().build())
-      .build();
+    DataAcquisitionProject project = UnitTestCreateDomainObjectUtils.buildDataAcquisitionProject();
     dataAcquisitionProjectRepository.save(project);
 
     Survey survey = UnitTestCreateDomainObjectUtils.buildSurvey(project.getId());

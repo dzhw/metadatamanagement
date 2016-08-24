@@ -26,7 +26,6 @@ import eu.dzhw.fdz.metadatamanagement.common.domain.builders.PeriodBuilder;
 import eu.dzhw.fdz.metadatamanagement.common.rest.TestUtil;
 import eu.dzhw.fdz.metadatamanagement.common.unittesthelper.util.UnitTestCreateDomainObjectUtils;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.DataAcquisitionProject;
-import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.builders.DataAcquisitionProjectBuilder;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.repository.DataAcquisitionProjectRepository;
 import eu.dzhw.fdz.metadatamanagement.searchmanagement.service.ElasticsearchAdminService;
 import eu.dzhw.fdz.metadatamanagement.searchmanagement.service.ElasticsearchUpdateQueueService;
@@ -75,10 +74,7 @@ public class SurveyResourceTest extends AbstractTest {
 
   @Test
   public void testCreateValidSurvey() throws Exception {
-    DataAcquisitionProject project = new DataAcquisitionProjectBuilder().withId("testId")
-      .withSurveySeries(new I18nStringBuilder().build())
-      .withPanelName(new I18nStringBuilder().build())
-      .build();
+    DataAcquisitionProject project = UnitTestCreateDomainObjectUtils.buildDataAcquisitionProject();
     rdcProjectRepository.save(project);
 
     Survey survey = UnitTestCreateDomainObjectUtils.buildSurvey(project.getId());
@@ -104,10 +100,7 @@ public class SurveyResourceTest extends AbstractTest {
 
   @Test
   public void testCreateSurveyWithInvalidPeriod() throws Exception {
-    DataAcquisitionProject project = new DataAcquisitionProjectBuilder().withId("testId")
-      .withSurveySeries(new I18nStringBuilder().build())
-      .withPanelName(new I18nStringBuilder().build())
-      .build();
+    DataAcquisitionProject project = UnitTestCreateDomainObjectUtils.buildDataAcquisitionProject();
     rdcProjectRepository.save(project);
 
     Survey survey = new SurveyBuilder().withId("testId")
@@ -130,10 +123,7 @@ public class SurveyResourceTest extends AbstractTest {
 
   @Test
   public void testCreateSurveyWithUnlimitedPeriod() throws Exception {
-    DataAcquisitionProject project = new DataAcquisitionProjectBuilder().withId("testId")
-      .withSurveySeries(new I18nStringBuilder().build())
-      .withPanelName(new I18nStringBuilder().build())
-      .build();
+    DataAcquisitionProject project = UnitTestCreateDomainObjectUtils.buildDataAcquisitionProject();
     rdcProjectRepository.save(project);
 
     Survey survey = UnitTestCreateDomainObjectUtils.buildSurvey(project.getId());
@@ -149,10 +139,7 @@ public class SurveyResourceTest extends AbstractTest {
 
   @Test
   public void testCreateSurveyWithInvalidProject() throws Exception {
-    DataAcquisitionProject project = new DataAcquisitionProjectBuilder().withId("testId")
-      .withSurveySeries(new I18nStringBuilder().build())
-      .withPanelName(new I18nStringBuilder().build())
-      .build();
+    DataAcquisitionProject project = UnitTestCreateDomainObjectUtils.buildDataAcquisitionProject();
 
     Survey survey = new SurveyBuilder().withId("testId")
       .withDataAcquisitionProjectId(project.getId())
@@ -205,10 +192,7 @@ public class SurveyResourceTest extends AbstractTest {
 
   @Test
   public void testDeleteSurvey() throws Exception {
-    DataAcquisitionProject project = new DataAcquisitionProjectBuilder().withId("testId")
-      .withSurveySeries(new I18nStringBuilder().build())
-      .withPanelName(new I18nStringBuilder().build())
-      .build();
+    DataAcquisitionProject project = UnitTestCreateDomainObjectUtils.buildDataAcquisitionProject();
     rdcProjectRepository.save(project);
 
     Survey survey = UnitTestCreateDomainObjectUtils.buildSurvey(project.getId());
@@ -235,10 +219,7 @@ public class SurveyResourceTest extends AbstractTest {
 
   @Test
   public void testUpdateSurvey() throws Exception {
-    DataAcquisitionProject project = new DataAcquisitionProjectBuilder().withId("testId")
-      .withSurveySeries(new I18nStringBuilder().build())
-      .withPanelName(new I18nStringBuilder().build())
-      .build();
+    DataAcquisitionProject project = UnitTestCreateDomainObjectUtils.buildDataAcquisitionProject();
     rdcProjectRepository.save(project);
 
     Survey survey = UnitTestCreateDomainObjectUtils.buildSurvey(project.getId());
@@ -271,10 +252,7 @@ public class SurveyResourceTest extends AbstractTest {
 
   @Test
   public void testDeletingProjectDeletesSurvey() throws Exception {
-    DataAcquisitionProject project = new DataAcquisitionProjectBuilder().withId("testId")
-      .withSurveySeries(new I18nStringBuilder().build())
-      .withPanelName(new I18nStringBuilder().build())
-      .build();
+    DataAcquisitionProject project = UnitTestCreateDomainObjectUtils.buildDataAcquisitionProject();
     rdcProjectRepository.save(project);
 
     Survey survey = UnitTestCreateDomainObjectUtils.buildSurvey(project.getId());

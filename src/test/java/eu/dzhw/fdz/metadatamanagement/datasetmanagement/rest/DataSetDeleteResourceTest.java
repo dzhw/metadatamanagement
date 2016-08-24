@@ -19,12 +19,10 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
 import eu.dzhw.fdz.metadatamanagement.AbstractTest;
-import eu.dzhw.fdz.metadatamanagement.common.domain.builders.I18nStringBuilder;
 import eu.dzhw.fdz.metadatamanagement.common.unittesthelper.util.UnitTestCreateDomainObjectUtils;
 import eu.dzhw.fdz.metadatamanagement.datasetmanagement.domain.DataSet;
 import eu.dzhw.fdz.metadatamanagement.datasetmanagement.repository.DataSetRepository;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.DataAcquisitionProject;
-import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.builders.DataAcquisitionProjectBuilder;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.repository.DataAcquisitionProjectRepository;
 import eu.dzhw.fdz.metadatamanagement.surveymanagement.domain.Survey;
 import eu.dzhw.fdz.metadatamanagement.surveymanagement.repository.SurveyRepository;
@@ -70,20 +68,17 @@ public class DataSetDeleteResourceTest extends AbstractTest {
   public void testDeletingProjectDeletesDataSets() throws Exception {
     
     // create the DataAcquisitionProject
-    DataAcquisitionProject project = new DataAcquisitionProjectBuilder().withId("testId")
-      .withSurveySeries(new I18nStringBuilder().build())
-      .withPanelName(new I18nStringBuilder().build())
-      .build();
+    DataAcquisitionProject project = UnitTestCreateDomainObjectUtils.buildDataAcquisitionProject();
     rdcProjectRepository.save(project);
     
     // create the Survey
     Survey survey = UnitTestCreateDomainObjectUtils.buildSurvey(project.getId());
     surveyRepository.save(survey);
     
-    List<String> variablesId = new ArrayList<String>();
+    List<String> variablesId = new ArrayList<>();
     variablesId.add("testID");
     
-    List<String> surveyIds = new ArrayList<String>();
+    List<String> surveyIds = new ArrayList<>();
     surveyIds.add(survey.getId());
     
     // create the dataSet
