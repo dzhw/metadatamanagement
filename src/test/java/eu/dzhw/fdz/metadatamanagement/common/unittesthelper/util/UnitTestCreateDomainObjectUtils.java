@@ -62,26 +62,52 @@ public class UnitTestCreateDomainObjectUtils {
 
   public static DataAcquisitionProject buildDataAcquisitionProject() {
 
+    String projectId = "testProject";
 
     return new DataAcquisitionProjectBuilder()
-        .withId("testProject")
-        .withStudy(buildStudy())
+        .withId(projectId)
+        .withStudy(buildStudy(projectId))
         .build();
   }
   
-  public static Study buildStudy() {
+  public static Study buildStudy(String projectId) {
     
     List<Release> releases = new ArrayList<>();
     releases.add(buildRelease());
     
     return new StudyBuilder()
+        .withId(projectId + "-TestStudie")
+        .withAuthors("Test Author")
+        .withCitationHint(new I18nStringBuilder()
+            .withDe("Citation Hint De")
+            .withEn("Citation Hint En")
+            .build())
+        .withDescripion(new I18nStringBuilder()
+            .withDe("Description De")
+            .withEn("Description En")
+            .build())
+        .withInstitution(new I18nStringBuilder()
+            .withDe("Institution De")
+            .withEn("Institution En")
+            .build())
         .withSurveySeries(new I18nStringBuilder()
             .withDe("Survey Series De")
             .withEn("Survey Series En")
             .build())
         .withReleases(releases)
-        .build();
-    
+        .withSponsor(new I18nStringBuilder()
+            .withDe("Sponsor De")
+            .withEn("Sponsor En")
+            .build())
+        .withSurveySeries(new I18nStringBuilder()
+            .withDe("Survey Series De")
+            .withEn("Survey Series En")
+            .build())
+        .withTitle(new I18nStringBuilder()
+            .withDe("Titel De")
+            .withEn("Title En")
+            .build())
+        .build();    
   }
 
   public static Survey buildSurvey(String projectId) {
