@@ -1,13 +1,10 @@
 package eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.projections;
 
-import java.util.List;
-
 import org.springframework.data.rest.core.config.Projection;
 
 import eu.dzhw.fdz.metadatamanagement.common.domain.I18nString;
 import eu.dzhw.fdz.metadatamanagement.common.domain.projections.AbstractRdcDomainObjectProjection;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.DataAcquisitionProject;
-import eu.dzhw.fdz.metadatamanagement.studymanagement.domain.Release;
 
 /**
  * Projection used to expose all attributes (including ids and versions). Spring Data rest does not
@@ -22,6 +19,4 @@ public interface CompleteDataAcquisitionProjectProjection
   I18nString getSurveySeries();
 
   I18nString getPanelName();
-
-  List<Release> getReleases();
 }
