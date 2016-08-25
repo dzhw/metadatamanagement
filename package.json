@@ -45,7 +45,7 @@
     "load-grunt-tasks": "3.5.2",
     "lodash": "4.15.0",
     "phantomjs-prebuilt": "2.1.12",
-    "protractor": "4.0.3",
+    "protractor": "4.0.4",
     "requirejs": "2.2",
     "time-grunt": "1.4.0",
     "wiredep": "4.0.0",
