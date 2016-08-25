@@ -188,7 +188,7 @@ public class UnitTestCreateDomainObjectUtils {
     variableIds.add(variableId);
     
     return new QuestionBuilder().withDataAcquisitionProjectId(projectId)
-      .withId(projectId + "-Question")
+      .withId(projectId + "-Question-1.1")
       .withAdditionalQuestionText(new I18nString("Zusätzlicher Fragetext", "Additional Question Text"))
       .withDataAcquisitionProjectId(projectId)
       .withImageType(ImageType.PNG)
