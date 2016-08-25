@@ -23,7 +23,6 @@ import eu.dzhw.fdz.metadatamanagement.AbstractTest;
 import eu.dzhw.fdz.metadatamanagement.common.rest.TestUtil;
 import eu.dzhw.fdz.metadatamanagement.common.unittesthelper.util.UnitTestCreateDomainObjectUtils;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.DataAcquisitionProject;
-import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.builders.DataAcquisitionProjectBuilder;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.repository.DataAcquisitionProjectRepository;
 
 /**
@@ -80,20 +79,6 @@ public class DataAcquisitionProjectResourceTest extends AbstractTest {
       .content(TestUtil.convertObjectToJsonBytes(project)))
       .andExpect(status().is4xxClientError()).andExpect(jsonPath("$.errors[0].message", containsString("error.data-acquisition-project.id.size")));
   }
-  
-  //TODO move test to study junit tests @Test
-  public void testCreateDataAcquisitionProjectWithTooSurveySeries() throws IOException, Exception {
-    DataAcquisitionProject project = new DataAcquisitionProjectBuilder().withId("testId")
-//      .withSurveySeries(new I18nStringBuilder()
-//          .withDe("Zufallsstringhsdfosdhgfodsfvfsdhvdfaghscdqwdpqwubdpiempfuvgnrtgfnoeugfudgsfvoudgsvnauehgvenogfweuigfuzegnfvouiegsnfgaoseiufgvnuzewgfvnouagesfuenpvugfupewgn")
-//          .withEn("Randomstringhsdfosdhgfodsfvfsdhvdfaghscdqwdpqwubdpiempfuvgnrtgfnoeugfudgsfvoudgsvnauehgvenogfweuigfuzegnfvouiegsnfgaoseiufgvnuzewgfvnouagesfuenpvugfupewgn")
-//          .build())
-      .build();
-    // create the project with the given id
-    mockMvc.perform(put(API_DATA_ACQUISITION_PROJECTS_URI + "/" + project.getId())
-      .content(TestUtil.convertObjectToJsonBytes(project)))
-      .andExpect(status().is4xxClientError());
-  }
 
   @Test
   public void testDeleteDataAcquisitionProject() throws IOException, Exception {
@@ -128,7 +113,7 @@ public class DataAcquisitionProjectResourceTest extends AbstractTest {
       .andExpect(jsonPath("$.version", is(0)));
   }
 
-  //TODO rewrite the @Test
+  @Test
   public void testUpdateProject() throws IOException, Exception {
     DataAcquisitionProject project = UnitTestCreateDomainObjectUtils.buildDataAcquisitionProject();
 
@@ -136,11 +121,8 @@ public class DataAcquisitionProjectResourceTest extends AbstractTest {
     mockMvc.perform(put(API_DATA_ACQUISITION_PROJECTS_URI + "/" + project.getId())
       .content(TestUtil.convertObjectToJsonBytes(project)))
       .andExpect(status().isCreated());
-//
-//    project.getPanelName()
-//      .setDe("germanTest");
-//    project.getPanelName()
-//      .setEn("englishTest");
+
+    project.setStudyId("AnotherId");
 
     // update the project
     mockMvc.perform(put(API_DATA_ACQUISITION_PROJECTS_URI + "/" + project.getId())
@@ -153,8 +135,7 @@ public class DataAcquisitionProjectResourceTest extends AbstractTest {
       .andExpect(status().isOk())
       .andExpect(jsonPath("$.id", is(project.getId())))
       .andExpect(jsonPath("$.version", is(1)))
-      .andExpect(jsonPath("$.panelName.de", is("germanTest")))
-      .andExpect(jsonPath("$.panelName.en", is("englishTest")));
+      .andExpect(jsonPath("$.studyId", is("AnotherId")));
   }
 
   @Test

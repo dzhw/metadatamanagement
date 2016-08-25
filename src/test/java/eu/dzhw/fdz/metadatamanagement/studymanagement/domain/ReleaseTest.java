@@ -1,7 +1,7 @@
 /**
  * 
  */
-package eu.dzhw.fdz.metadatamanagement.projectmanagement.domain;
+package eu.dzhw.fdz.metadatamanagement.studymanagement.domain;
 
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertThat;
