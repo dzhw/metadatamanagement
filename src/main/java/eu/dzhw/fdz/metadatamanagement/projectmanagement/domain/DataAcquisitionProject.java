@@ -36,7 +36,6 @@ public class DataAcquisitionProject extends AbstractRdcDomainObject {
   private String id;
   
   /* Foreign Keys */
-  @NotEmpty(message = "data-acquisition-project.error.data-acquisition-project.study-id.not-empty")
   private String studyId;
 
   /*

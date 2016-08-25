@@ -24,9 +24,6 @@
           "not-empty": "Die FDZ-ID des Datenaufbereitungsprojekts darf nicht leer sein!",
           "pattern": "Die FDZ-ID darf nur alphanumerische Zeichen, deutsche Umlaute und ß beinhalten.",
           "size": "Die Maximallänge der FDZ-ID ist 32 Zeichen."
-        },
-        "study-id": {
-          "not-empty": "Die Studien-Id darf nicht leer sein."
         }
       }
     }

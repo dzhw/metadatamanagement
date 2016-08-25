@@ -24,9 +24,6 @@
           "not-empty": "The RDC-ID of Data Acquisition Project must not be empty!",
           "pattern": "The RDC-ID must contain only alphanumeric signs, german umlauts and ß.",
           "size": "The max length of the RDC-ID is 32 signs."
-        },
-        "study-id": {
-          "not-empty": "The Study-ID must be not empty!"
         }
       }
     }
