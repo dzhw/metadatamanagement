@@ -9,37 +9,15 @@ angular.module('metadatamanagementApp')
       QuestionResource, blockUI, $resource) {
 
       $scope.question = {};
-      $scope.variables = [];
       $scope.predecessors = [];
       $scope.successors = [];
       $scope.counter = {
-        variables: 0,
         successors: 0,
         predecessors: 0,
         sum: 0
       };
       $scope.startBlockUI = function() {
         blockUI.start();
-      };
-      var loadVariables = function() {
-        if ($scope.counter.variables < $scope.question.variableIds.length) {
-          $resource('api/variables/:id')
-          .get({id: $scope.question.variableIds[$scope.counter.variables],
-            projection: 'complete'})
-          .$promise.then(function(resource) {
-            $scope.variables.push(resource);
-            $scope.counter.variables++;
-            loadVariables();
-          }, function() {
-            var notFoundVariable = {
-              id: $scope.question.variableIds[$scope.counter.variables],
-              name: 'notFoundVariable'
-            };
-            $scope.variables.push(notFoundVariable);
-            $scope.counter.variables++;
-            loadVariables();
-          });
-        }
       };
       var loadSuccesors = function() {
         if ($scope.counter.successors < $scope.question.successor.length) {
@@ -91,18 +69,15 @@ angular.module('metadatamanagementApp')
       */
       QuestionResource.get({id: $stateParams.id})
       .$promise.then(function(question) {
-        $scope.counter.sum = question.variableIds.length +
-        question.successor.length +
+        $scope.counter.sum = question.successor.length +
         question.predecessor.length;
         $scope.question = question;
-        loadVariables();
         loadSuccesors();
         loadPredecessors();
       });
       $scope.$watch('counter', function() {
-        var tempSum = $scope.counter.variables +
-                  $scope.counter.successors +
-                  $scope.counter.predecessors;
+        var tempSum = $scope.counter.successors +
+                      $scope.counter.predecessors;
         if (($scope.counter.sum === tempSum) && (tempSum > 0)) {
           blockUI.stop();
         }
@@ -111,7 +86,8 @@ angular.module('metadatamanagementApp')
       /*Shopping Cart*/
       $scope.markedItems = ShoppingCartService.getShoppingCart();
       $scope.showVariables = function() {
-        DialogService.showDialog($scope.variables,
+        blockUI.start();
+        DialogService.showDialog($scope.question.variableIds,
           $rootScope.currentLanguage);
       };
       $scope.addToNotepad = function(id) {
