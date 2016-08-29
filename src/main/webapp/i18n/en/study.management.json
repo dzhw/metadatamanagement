@@ -6,6 +6,11 @@
     "error": {
       "study": {
         "title": {
+          "id": {
+            "not-empty": "The RDC-ID of the Study must not be empty!",
+            "size": "The max length of the RDC-ID is 128 signs.",
+            "pattern": "Use only alphanumeric signs, german umlauts, ß and space, underscore and minus for the RDC-ID."
+          },
           "not-null": "The title of the study must not be empty!",
           "i18n-string-size": "The max length of the study title is 128."
         },
