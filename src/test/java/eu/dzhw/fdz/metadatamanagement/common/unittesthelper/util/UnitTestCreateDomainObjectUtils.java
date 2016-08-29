@@ -113,6 +113,7 @@ public class UnitTestCreateDomainObjectUtils {
             .withEn("Title En")
             .build())
         .withAccessWays(accessWays)
+        .withDataAcquisitionProjectId(projectId)
         .build();    
   }
 

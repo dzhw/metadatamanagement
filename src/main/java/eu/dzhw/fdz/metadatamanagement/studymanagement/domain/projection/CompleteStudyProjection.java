@@ -43,6 +43,8 @@ public interface CompleteStudyProjection extends AbstractRdcDomainObjectProjecti
   
   List<String> getInstrumentIds();
   
-  List<String> getRelatedPublicationIds();  
+  List<String> getRelatedPublicationIds();
+  
+  String getDataAcquisitionProjectId();
 
 }

@@ -14,7 +14,6 @@ import org.junit.Before;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
@@ -66,10 +65,9 @@ public class StudyResourceTest extends AbstractTest {
     Study study = UnitTestCreateDomainObjectUtils.buildStudy(project.getId());
     
     // create the study with the given id
-    MvcResult mvcResult = mockMvc.perform(put(API_STUDY_URI + "/" + study.getId())
+    mockMvc.perform(put(API_STUDY_URI + "/" + study.getId())
       .content(TestUtil.convertObjectToJsonBytes(study)))
-      .andExpect(status().isCreated())
-      .andReturn();
+      .andExpect(status().isCreated());
 
     // read the study under the new url
     mockMvc.perform(get(API_STUDY_URI + "/" + study.getId()))

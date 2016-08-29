@@ -44,6 +44,9 @@ public class PostValidationService {
 
   @Inject
   private QuestionRepository questionRepository;
+  
+//  @Inject
+//  private StudyRepository studyRepository;
 
 
   /**
@@ -75,6 +78,10 @@ public class PostValidationService {
     List<Variable> variables =
         this.variableRepository.findByDataAcquisitionProjectId(dataAcquisitionProjectId);
     errors = this.postValidateVariables(variables, errors);
+    
+//    List<Study> studies =
+//        this.studyRepository.findByDataAcquisitionProjectId(dataAcquisitionProjectId);
+    //TODO Post Validation for Study
 
     return errors;
   }

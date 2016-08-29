@@ -7,6 +7,7 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 import org.hibernate.validator.constraints.NotEmpty;
+import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import com.google.common.base.MoreObjects;
@@ -82,6 +83,9 @@ public class Study extends AbstractRdcDomainObject {
   
   private List<String> relatedPublicationIds;
   
+  @Indexed
+  private String dataAcquisitionProjectId;
+  
   /*
    * (non-Javadoc)
    * @see java.lang.Object#toString()
@@ -103,6 +107,7 @@ public class Study extends AbstractRdcDomainObject {
       .add("surveyIds", surveyIds)
       .add("instrumentIds", instrumentIds)
       .add("relatedPublicationIds", relatedPublicationIds)
+      .add("dataAcquisitionProjectId", dataAcquisitionProjectId)
       .toString();
   }
 
@@ -224,5 +229,12 @@ public class Study extends AbstractRdcDomainObject {
   public void setRelatedPublicationIds(List<String> relatedPublicationIds) {
     this.relatedPublicationIds = relatedPublicationIds;
   }
-  
+
+  public String getDataAcquisitionProjectId() {
+    return dataAcquisitionProjectId;
+  }
+
+  public void setDataAcquisitionProjectId(String dataAcquisitionProjectId) {
+    this.dataAcquisitionProjectId = dataAcquisitionProjectId;
+  }
 }
