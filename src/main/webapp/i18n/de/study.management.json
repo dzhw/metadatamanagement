@@ -1,5 +1,8 @@
 {
   "study-management": {
+    "home": {
+      "title": "Studie"
+    },
     "error": {
       "study": {
         "survey-series": {

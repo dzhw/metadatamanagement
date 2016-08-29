@@ -11,14 +11,19 @@ angular.module('metadatamanagementApp')
       $scope.question = {};
       $scope.predecessors = [];
       $scope.successors = [];
+      /* number of load sequences */
       $scope.counter = {
         successors: 0,
         predecessors: 0,
         sum: 0
       };
+
+      /* function to start blockUI */
       $scope.startBlockUI = function() {
         blockUI.start();
       };
+
+      /* function to load successors sequentially */
       var loadSuccesors = function() {
         if ($scope.counter.successors < $scope.question.successor.length) {
           $resource('api/questions/:id')
@@ -39,6 +44,8 @@ angular.module('metadatamanagementApp')
           });
         }
       };
+
+      /* function to load predecessors sequentially */
       var loadPredecessors = function() {
         if ($scope.counter.predecessors < $scope.question.predecessor.length) {
           $resource('api/questions/:id')
@@ -83,13 +90,17 @@ angular.module('metadatamanagementApp')
         }
       }, true);
 
-      /*Shopping Cart*/
-      $scope.markedItems = ShoppingCartService.getShoppingCart();
+      /* function to open dialog for variables */
       $scope.showVariables = function() {
         blockUI.start();
         DialogService.showDialog($scope.question.variableIds,
           $rootScope.currentLanguage);
       };
+
+      /* get all items from localStorage */
+      $scope.markedItems = ShoppingCartService.getShoppingCart();
+
+      /* add new  item to localStorage */
       $scope.addToNotepad = function(id) {
         var lookup = {};
         for (var i = 0, len = $scope.markedItems.length; i < len; i++) {

@@ -22,6 +22,9 @@ angular.module('metadatamanagementApp')
             function($translatePartialLoader) {
               $translatePartialLoader.addPart('question.management');
               $translatePartialLoader.addPart('variable.management');
+              $translatePartialLoader.addPart('study.management');
+              $translatePartialLoader.addPart('notepad.management');
+              $translatePartialLoader.addPart('instrument.management');
             }
           ]
         }
