@@ -83,6 +83,7 @@ public class PostValidationService {
     
     List<Study> studies =
         this.studyRepository.findByDataAcquisitionProjectId(dataAcquisitionProjectId);
+    errors = this.postValidateStudy(studies, errors);
     
 
     return errors;
