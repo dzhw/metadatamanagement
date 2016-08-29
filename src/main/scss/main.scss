@@ -170,7 +170,12 @@ body {
   flex-shrink: 0;
   width: 12em;
 }
-
+.fdz-detail-icon {
+  min-width: 40px;
+  min-height: 40px;
+  margin: 0px 5px auto 0px;
+  color: $brand-primary;
+}
 .fdz-inline-icon {
   width: 20px;
   height: 20px;

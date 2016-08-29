@@ -13,7 +13,7 @@
         <section ng-repeat="variable in variables" ng-click="closeDialog()" md-ink-ripple class="fdz-search-result fdz-card-header-border">
           <div ng-if="variable.name != 'notFoundVariable'" ui-sref="variableDetail({id:variable.id})">
             <section layout="row">
-             <md-icon md-svg-src="/assets/images/icons/variable.svg" class="fdz-search-result-icon" style= "margin-right: 10px; margin-left: 10px;"></md-icon>
+             <md-icon md-svg-src="/assets/images/icons/variable.svg" class="fdz-detail-icon"></md-icon>
              <section layout="column">
              <span>{{variable.label[currentLanguage]}}</span>
              <span>{{variable.name}} ({{variable.dataType[currentLanguage]}}, {{variable.scaleLevel[currentLanguage]}})</span>
@@ -22,7 +22,7 @@
         </div>
         <div ng-if="variable.name === 'notFoundVariable'">
           <section layout="row">
-          <md-icon md-svg-src="/assets/images/icons/variable.svg" class="fdz-search-result-icon" style= "margin-right: 10px; margin-left: 10px;fill:red;"></md-icon>
+          <md-icon md-svg-src="/assets/images/icons/variable.svg" class="fdz-detail-icon" style="fill:red;"></md-icon>
           <span style="margin:auto 0px;">{{'variable-management.detail.not-found' | translate :'{id:"'+ variable.id +'"}'}}</span>
         </section>
       </div>

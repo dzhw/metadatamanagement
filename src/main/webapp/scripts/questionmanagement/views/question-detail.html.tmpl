@@ -32,13 +32,13 @@
                         <section>
                             <md-button ng-disabled="true">
                                 <section>
-                                    <md-icon md-svg-src="/assets/images/icons/study.svg" class="fdz-search-result-icon"></md-icon>
+                                    <md-icon md-svg-src="/assets/images/icons/study.svg" class="fdz-detail-icon"></md-icon>
                                     <span>{{'study-management.home.title' | translate }}</span>
                                 </section>
                             </md-button>
                             <md-button ng-click="addToNotepad('suf-1')">
                                 <section>
-                                    <md-icon md-svg-src="/assets/images/icons/addToshop.svg" class="fdz-search-result-icon"></md-icon>
+                                    <md-icon md-svg-src="/assets/images/icons/addToshop.svg" class="fdz-detail-icon"></md-icon>
                                     <span>{{'notepad-management.home.title' | translate }}</span>
                                 </section>
                             </md-button>
@@ -46,7 +46,7 @@
                         <section>
                             <md-button ng-disabled="true">
                                 <section>
-                                    <md-icon md-svg-src="/assets/images/icons/instrument.svg" class="fdz-search-result-icon"></md-icon>
+                                    <md-icon md-svg-src="/assets/images/icons/instrument.svg" class="fdz-detail-icon"></md-icon>
                                     <span>{{'instrument-management.home.title' | translate }}</span>
                                 </section>
                             </md-button>
@@ -54,7 +54,7 @@
                         <section>
                             <md-button ng-click="showVariables()">
                                 <section>
-                                    <md-icon md-svg-src="/assets/images/icons/variable.svg" class="fdz-search-result-icon"></md-icon>
+                                    <md-icon md-svg-src="/assets/images/icons/variable.svg" class="fdz-detail-icon"></md-icon>
                                     <span>{{'variable-management.home.title' | translate }}</span>
                                 </section>
                             </md-button>
@@ -73,11 +73,11 @@
                   <section ng-repeat="predecessor in predecessors" md-ink-ripple
                   class="fdz-search-result fdz-card-header-border">
                   <section ng-if="predecessor.name === 'notFoundQuestion'" layout="row">
-                       <md-icon md-svg-src="/assets/images/icons/question.svg" class="fdz-search-result-icon" style="margin-right:10px;fill:red;"></md-icon>
+                       <md-icon md-svg-src="/assets/images/icons/question.svg" class="fdz-detail-icon" style="fill:red;"></md-icon>
                          <span>{{'question-management.detail.not-found' | translate :'{id:"'+ predecessor.id +'"}'}}</span>
                     </section>
                     <section ng-if="predecessor.name != 'notFoundQuestion'" ui-sref="questionDetail({id:predecessor.id})" layout="row">
-                         <md-icon md-svg-src="/assets/images/icons/question.svg" class="fdz-search-result-icon" style="margin-right:10px;"></md-icon>
+                         <md-icon md-svg-src="/assets/images/icons/question.svg" class="fdz-detail-icon"></md-icon>
                            <span>{{predecessor.number}}: {{predecessor.questionText[currentLanguage]}}</span>
                       </section>
                    </section>
@@ -93,11 +93,11 @@
                     <section ng-repeat="successor in successors" md-ink-ripple
                     class="fdz-search-result fdz-card-header-border">
                     <section ng-if="successor.name === 'notFoundQuestion'" layout="row">
-                         <md-icon md-svg-src="/assets/images/icons/question.svg" class="fdz-search-result-icon" style="margin-right:10px;fill:red;"></md-icon>
+                         <md-icon md-svg-src="/assets/images/icons/question.svg" class="fdz-detail-icon" style="fill:red;"></md-icon>
                           <span>{{'question-management.detail.not-found' | translate :'{id:"'+ successor.id +'"}'}}</span>
                       </section>
                       <section ng-if="successor.name != 'notFoundQuestion'" ui-sref="questionDetail({id:successor.id})" layout="row">
-                           <md-icon md-svg-src="/assets/images/icons/question.svg" class="fdz-search-result-icon" style="margin-right:10px;"></md-icon>
+                           <md-icon md-svg-src="/assets/images/icons/question.svg" class="fdz-detail-icon"></md-icon>
                              <span>{{successor.number}}: {{successor.questionText[currentLanguage]}}</span>
                         </section>
                      </section>
