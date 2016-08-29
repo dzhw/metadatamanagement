@@ -3,30 +3,46 @@
 
 angular.module('metadatamanagementApp').service('DialogService',
   function($mdDialog, blockUI, $resource) {
-    var showDialog = function(variables, currentLanguage) {
-      var variableResources = [];
+    var showDialog = function(entities, type, toBeDisplayedInformations,
+      currentLanguage) {
+      var entitiesResources = [];
       var dialogParent = angular.element(document.body);
       /* number of load sequences */
       var counter = 0;
 
-      /* function to load successors sequentially */
-      var loadVariables = function() {
-        if (counter < variables.length) {
-          $resource('api/variables/:id').get({
-            id: variables[counter],
+      /* function to load resources sequentially */
+      var loadEntities = function() {
+        if (counter < entities.length) {
+          $resource('api/' + type + 's/:id').get({
+            id: entities[counter],
             projection: 'complete'
           }).$promise.then(function(resource) {
-            variableResources.push(resource);
+            var rows = [];
+            var entity = {};
+            toBeDisplayedInformations.forEach(function(rowName) {
+              if ((resource[rowName].hasOwnProperty('en')) ||
+              (resource[rowName].hasOwnProperty('de'))) {
+                var obj = resource[rowName];
+                rows.push(obj[currentLanguage]);
+              } else {
+                rows.push(resource[rowName]);
+              }
+            });
+            entity.id = resource.id;
+            entity.found = true;
+            entity.type = type + 'Detail';
+            entity.rows = rows;
+            entitiesResources.push(entity);
             counter++;
-            loadVariables();
+            loadEntities();
           }, function() {
-            var notFoundVariable = {
-              id: variables[counter],
-              name: 'notFoundVariable'
+            var resourceNotFound = {
+              id: entities[counter],
+              found: false
             };
-            variableResources.push(notFoundVariable);
+            entitiesResources.push(resourceNotFound);
             counter++;
-            loadVariables();
+            loadEntities();
           });
         } else {
           blockUI.stop();
@@ -35,14 +51,15 @@ angular.module('metadatamanagementApp').service('DialogService',
             parent: dialogParent,
             clickOutsideToClose: true,
             locals: {
-              variables: variableResources,
-              currentLanguage: currentLanguage
+              entities: entitiesResources,
+              currentLanguage: currentLanguage,
+              type: type
             },
             templateUrl: 'scripts/common/dialog/views/dialog.html.tmpl',
           });
         }
       };
-      loadVariables();
+      loadEntities();
     };
     return {
       showDialog: showDialog
