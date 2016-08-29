@@ -5,8 +5,38 @@
     },
     "error": {
       "study": {
+        "id": {
+          "not-empty": "Die FDZ - ID der Studie darf nicht leer sein!",
+          "size": "Die Maximallänge der FDZ - ID ist 128 Zeichen.",
+          "pattern": "Es dürfen für die FDZ - ID nur alphanumerische Zeichen, deutsche Umlaute, ß, Minus und der Unterstrich verwendet werden."
+        },
+        "title": {
+          "not-null": "Der Titel einer Studie darf nicht leer sein!",
+          "i18n-string-size": "Die Maximallänge des Titels einer Studie ist 128 Zeichen."
+        },
+        "description": {
+          "not-null": "Die Beschreibung einer Studie darf nicht leer sein!",
+          "i18n-string-size": "Die Maximallänge der Beschreibung einer Studie ist 2048 Zeichen."
+        },
+        "institution": {
+          "not-null": "Die Institution einer Studie darf nicht leer sein!",
+          "i18n-string-size": "Die Maximallänge der Institution einer Studie ist 32 Zeichen."
+        },
+        "sponsor": {
+          "i18n-string-size": "Die Maximallänge des Sponsors einer Studie ist 128 Zeichen."
+        },
+        "citation-hint": {
+          "i18n-string-size": "Die Maximallänge des Zitationshinweises einer Studie ist 128 Zeichen."
+        },
+        "authors": {
+          "i18n-string-size": "Die Maximallänge der Autoren einer Studie ist 128 Zeichen."
+        },
         "survey-series": {
-          "i18n-string-size": "Die Maximallänge der Erhebungsreihe ist 128 Zeichen."
+          "i18n-string-size": "Die Maximallänge der Erhebungsreihe einer Studie ist 128 Zeichen."
+        },
+        "access-ways": {
+          "not-empty": "Die Liste der Zugangswege einer Variable benötigt mindest ein Element und darf nicht leer sein!",
+          "validAccessWays": "Die Liste der Zugangswege enthält ungültige Werte. Erlaubt sind nur: suf, cuf und remote."
         }
       },
       "release": {
@@ -24,6 +54,11 @@
         "notes": {
           "size": "Die Maximallänge einer Notiz ist 2048 Zeichen."
         }
+      },
+      "post-validation": {
+        "study-has-invalid-survey-id": "Die Studie {{id}} referenziert auf eine unbekannte Erhebung ({{toBereferenzedId}}).",
+        "study-has-invalid-data-set-id": "Die Studie {{id}} referenziert auf einen unbekannten Datensatz ({{toBereferenzedId}}).",
+        "study-has-invalid-instrument-id": "Die Variable {{id}} referenziert auf ein unbekanntes Instrument ({{toBereferenzedId}})."
       }
     }
   }

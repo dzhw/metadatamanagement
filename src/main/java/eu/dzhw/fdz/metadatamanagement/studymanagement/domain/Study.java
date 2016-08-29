@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
 import org.hibernate.validator.constraints.NotEmpty;
@@ -14,6 +15,7 @@ import com.google.common.base.MoreObjects;
 
 import eu.dzhw.fdz.metadatamanagement.common.domain.AbstractRdcDomainObject;
 import eu.dzhw.fdz.metadatamanagement.common.domain.I18nString;
+import eu.dzhw.fdz.metadatamanagement.common.domain.util.Patterns;
 import eu.dzhw.fdz.metadatamanagement.common.domain.validation.I18nStringSize;
 import eu.dzhw.fdz.metadatamanagement.common.domain.validation.StringLengths;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.DataAcquisitionProject;
@@ -32,6 +34,11 @@ import net.karneim.pojobuilder.GeneratePojoBuilder;
      intoPackage = "eu.dzhw.fdz.metadatamanagement.studymanagement.domain.builders")
 public class Study extends AbstractRdcDomainObject {
   
+  @NotEmpty(message = "study-management.error.study.id.not-empty")
+  @Size(max = StringLengths.MEDIUM,
+      message = "study-management.error.study.id.size")
+  @Pattern(regexp = Patterns.GERMAN_ALPHANUMERIC_WITH_UNDERSCORE_AND_MINUS,
+      message = "study-management.error.study.id.pattern")
   private String id;
   
   @NotNull(message = "study-management.error.study.title.not-null")
