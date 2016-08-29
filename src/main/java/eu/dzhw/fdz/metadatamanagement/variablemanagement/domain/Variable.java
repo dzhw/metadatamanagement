@@ -92,7 +92,7 @@ public class Variable extends AbstractRdcDomainObject {
   // checks for min size too.
   @NotEmpty(message = "variable-management.error.variable.access-ways.not-empty")
   @ValidAccessWays(
-      message = "variable-management.error.variable.access-ways.validAccessWays")
+      message = "variable-management.error.variable.access-ways.valid-access-ways")
   private List<String> accessWays;
 
   private List<String> sameVariablesInPanel;

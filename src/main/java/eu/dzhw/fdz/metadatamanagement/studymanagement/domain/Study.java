@@ -3,7 +3,10 @@ package eu.dzhw.fdz.metadatamanagement.studymanagement.domain;
 import java.util.List;
 
 import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
+import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import com.google.common.base.MoreObjects;
@@ -13,6 +16,7 @@ import eu.dzhw.fdz.metadatamanagement.common.domain.I18nString;
 import eu.dzhw.fdz.metadatamanagement.common.domain.validation.I18nStringSize;
 import eu.dzhw.fdz.metadatamanagement.common.domain.validation.StringLengths;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.DataAcquisitionProject;
+import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.validation.ValidAccessWays;
 import net.karneim.pojobuilder.GeneratePojoBuilder;
 
 /**
@@ -29,23 +33,40 @@ public class Study extends AbstractRdcDomainObject {
   
   private String id;
   
+  @NotNull(message = "study-management.error.study.title.not-null")
+  @I18nStringSize(max = StringLengths.MEDIUM,
+      message = "study-management.error.study.title.i18n-string-size")
   private I18nString title;
   
+  @NotNull(message = "study-management.error.study.description.not-null")
+  @I18nStringSize(max = StringLengths.LARGE,
+      message = "study-management.error.study.description.i18n-string-size")
   private I18nString descripion;
   
+  @NotNull(message = "study-management.error.study.institution.not-null")
+  @I18nStringSize(max = StringLengths.SMALL,
+      message = "study-management.error.study.institution.i18n-string-size")
   private I18nString institution;
   
   @I18nStringSize(max = StringLengths.MEDIUM,
-      message = "data-acquisition-project."
-          + "error.data-acquisition-project.survey-series.i18n-string-size")
+      message = "study-management.error.study.survey-series.i18n-string-size")
   private I18nString surveySeries;
   
+  @I18nStringSize(max = StringLengths.MEDIUM,
+      message = "study-management.error.study.sponsor.i18n-string-size")
   private I18nString sponsor;
   
+  @I18nStringSize(max = StringLengths.MEDIUM,
+      message = "study-management.error.study.citation-hint.i18n-string-size")
   private I18nString citationHint;
   
+  @Size(max = StringLengths.MEDIUM,
+      message = "study-management.error.study.authors.i18n-string-size")
   private String authors;
   
+  @NotEmpty(message = "study-management.error.study.access-ways.not-empty")
+  @ValidAccessWays(
+      message = "study-management.error.study.access-ways.valid-access-ways")
   private List<String> accessWays;
 
   /* Nested Objects */

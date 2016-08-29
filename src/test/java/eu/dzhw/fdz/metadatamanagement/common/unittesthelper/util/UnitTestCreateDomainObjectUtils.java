@@ -75,6 +75,11 @@ public class UnitTestCreateDomainObjectUtils {
     List<Release> releases = new ArrayList<>();
     releases.add(buildRelease());
     
+    List<String> accessWays = new ArrayList<>();
+    accessWays.add(AccessWays.CUF);
+    accessWays.add(AccessWays.REMOTE);
+    accessWays.add(AccessWays.SUF);
+    
     return new StudyBuilder()
         .withId(projectId + "-TestStudie")
         .withAuthors("Test Author")
@@ -107,6 +112,7 @@ public class UnitTestCreateDomainObjectUtils {
             .withDe("Titel De")
             .withEn("Title En")
             .build())
+        .withAccessWays(accessWays)
         .build();    
   }
 
