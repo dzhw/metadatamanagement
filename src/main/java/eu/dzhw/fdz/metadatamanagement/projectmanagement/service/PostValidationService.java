@@ -13,6 +13,8 @@ import eu.dzhw.fdz.metadatamanagement.instrumentmanagement.repository.Instrument
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.rest.dto.PostValidationMessageDto;
 import eu.dzhw.fdz.metadatamanagement.questionmanagement.domain.Question;
 import eu.dzhw.fdz.metadatamanagement.questionmanagement.repository.QuestionRepository;
+import eu.dzhw.fdz.metadatamanagement.studymanagement.domain.Study;
+import eu.dzhw.fdz.metadatamanagement.studymanagement.repository.StudyRepository;
 import eu.dzhw.fdz.metadatamanagement.surveymanagement.domain.Survey;
 import eu.dzhw.fdz.metadatamanagement.surveymanagement.repository.SurveyRepository;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.Variable;
@@ -45,8 +47,8 @@ public class PostValidationService {
   @Inject
   private QuestionRepository questionRepository;
   
-//  @Inject
-//  private StudyRepository studyRepository;
+  @Inject
+  private StudyRepository studyRepository;
 
 
   /**
@@ -79,9 +81,9 @@ public class PostValidationService {
         this.variableRepository.findByDataAcquisitionProjectId(dataAcquisitionProjectId);
     errors = this.postValidateVariables(variables, errors);
     
-//    List<Study> studies =
-//        this.studyRepository.findByDataAcquisitionProjectId(dataAcquisitionProjectId);
-    //TODO Post Validation for Study
+    List<Study> studies =
+        this.studyRepository.findByDataAcquisitionProjectId(dataAcquisitionProjectId);
+    
 
     return errors;
   }
@@ -155,7 +157,50 @@ public class PostValidationService {
 
     return errors;
   }
+  
+  
+  /**
+   * This method checks all foreign keys and references within variables to other domain objects.
+   *
+   * @return a list of errors of the post validation of variables.
+   */
+  private List<PostValidationMessageDto> postValidateStudy(List<Study> studies,
+      List<PostValidationMessageDto> errors) {
 
+    for (Study study : studies) {
+
+      // variable.SurveyId: there must be a survey with that id
+      for (String surveyId : study.getSurveyIds()) {
+        if (this.surveyRepository.findOne(surveyId) == null) {
+          String[] information = {study.getId(), surveyId};
+          errors.add(new PostValidationMessageDto("study-management.error."
+              + "post-validation.study-has-invalid-survey-id", information));
+        }
+      }
+
+      // variable.DataSetIds: there must be a dataset with that id
+      for (String dataSetId : study.getDataSetIds()) {
+        if (this.dataSetRepository.findOne(dataSetId) == null) {
+          String[] information = {study.getId(), dataSetId};
+          errors.add(new PostValidationMessageDto("study-management.error."
+              + "post-validation.study-has-invalid-data-set-id", information));
+        }
+      }
+      
+      // study.InstrumentIds: there must be instruments with that id
+      for (String instrumentId : study.getInstrumentIds()) {
+        if (this.instrumentRepository.findOne(instrumentId) == null) {
+          String[] information = {study.getId(), instrumentId};
+          errors.add(new PostValidationMessageDto("study-management.error."
+              + "post-validation.study-has-invalid-instrument-id", information));
+        }
+      }
+      
+      //TODO implement the check for related publication ids for the study
+    }
+
+    return errors;
+  }
 
   /**
    * This method checks all all foreign keys and references within surveys to other domain objects.
