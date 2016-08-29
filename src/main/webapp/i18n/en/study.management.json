@@ -4,9 +4,34 @@
       "title": "Study"
     },
     "error": {
-      "data-acquisition-project": {
+      "study": {
+        "title": {
+          "not-null": "The title of the study must not be empty!",
+          "i18n-string-size": "The max length of the study title is 128."
+        },
+        "description": {
+          "not-null": "The description of the study must not be empty!",
+          "i18n-string-size": "The max length of the study description is 2048."
+        },
+        "institution": {
+          "not-null": "The institution of the study must not be empty!",
+          "i18n-string-size": "The max length of the institution is 32."
+        },
+        "sponsor": {
+          "i18n-string-size": "The max length of the sponsor of the study is 128."
+        },
+        "citation-hint": {
+          "i18n-string-size": "The max length of the citation hint of the study is 128."
+        },
+        "authors": {
+          "i18n-string-size": "The max length of the authors of the study is 128."
+        },
         "survey-series": {
           "i18n-string-size": "The max length of the survey series is 128 signs."
+        },
+        "access-ways": {
+          "not-empty": "The list of access ways of a variable needs min. one element and must not be empty!",
+          "validAccessWays": "The values of access ways are invalid. Valid values are: suf, cuf and remote."
         }
       },
       "release": {
