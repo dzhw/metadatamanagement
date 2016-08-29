@@ -93,11 +93,11 @@
                     <section ng-repeat="successor in successors" md-ink-ripple
                     class="fdz-search-result fdz-card-header-border">
                     <section ng-if="successor.name === 'notFoundQuestion'" layout="row">
-                         <md-icon md-svg-src="/assets/images/icons/question.svg" class="fdz-search-result-icon" style= "margin-right: 10px;fill:red;"></md-icon>
+                         <md-icon md-svg-src="/assets/images/icons/question.svg" class="fdz-search-result-icon" style="margin-right:10px;fill:red;"></md-icon>
                           <span>{{'question-management.detail.not-found' | translate :'{id:"'+ successor.id +'"}'}}</span>
                       </section>
-                      <section ng-if="successor.name != 'notFoundQuestion'" ui-sref="questionDetail({id:successor.id})" layout-align="row">
-                           <md-icon md-svg-src="/assets/images/icons/question.svg" class="fdz-search-result-icon" style= "margin-right: 10px;"></md-icon>
+                      <section ng-if="successor.name != 'notFoundQuestion'" ui-sref="questionDetail({id:successor.id})" layout="row">
+                           <md-icon md-svg-src="/assets/images/icons/question.svg" class="fdz-search-result-icon" style="margin-right:10px;"></md-icon>
                              <span>{{successor.number}}: {{successor.questionText[currentLanguage]}}</span>
                         </section>
                      </section>
