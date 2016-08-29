@@ -23,6 +23,11 @@
         },
         "notes": {
           "size": "The max length of the version is 2048 signs."
+        },
+        "post-validation": {
+          "study-has-invalid-survey-id": "The study {{id}} references to an unknown Survey ({{toBereferenzedId}}).",
+          "study-has-invalid-data-set-id": "The study {{id}} references to an unknown Data Set ({{toBereferenzedId}}).",
+          "study-has-invalid-instrument-id": "The study {{id}} references to an unknown Instrument ({{toBereferenzedId}})."
         }
       }
     }

@@ -24,6 +24,11 @@
         "notes": {
           "size": "Die Maximallänge einer Notiz ist 2048 Zeichen."
         }
+      },
+      "post-validation": {
+        "study-has-invalid-survey-id": "Die Studie {{id}} referenziert auf eine unbekannte Erhebung ({{toBereferenzedId}}).",
+        "study-has-invalid-data-set-id": "Die Studie {{id}} referenziert auf einen unbekannten Datensatz ({{toBereferenzedId}}).",
+        "study-has-invalid-instrument-id": "Die Variable {{id}} referenziert auf ein unbekanntes Instrument ({{toBereferenzedId}})."
       }
     }
   }
