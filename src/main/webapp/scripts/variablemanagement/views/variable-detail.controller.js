@@ -4,6 +4,12 @@ angular.module('metadatamanagementApp')
   .controller('VariableDetailController', function(DialogService,
     blockUI, $scope, entity, $rootScope) {
     $scope.variable = entity;
+    $scope.selected = [];
+    $scope.query = {
+      order: 'name',
+      limit: 5,
+      page: 1
+    };
     console.log(entity);
     /* function to start blockUI */
     $scope.startBlockUI = function() {
