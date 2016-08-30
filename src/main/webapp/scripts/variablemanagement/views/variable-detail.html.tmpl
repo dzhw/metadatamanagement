@@ -110,25 +110,25 @@
                 </md-card-header>
                 <md-content style="background-color:white;">
                   <md-table-container>
-                    <table md-table md-row-select multiple  md-progress="promise">
-                      <thead md-head md-order="query.order" md-on-reorder="getDesserts">
+                    <table md-table md-progress="promise">
+                      <thead md-head md-order="query.order" md-on-reorder="reorder">
                         <tr md-row>
-                          <th md-column md-order-by="nameToLower"><span> Value</span></th>
-                          <th md-column md-numeric md-order-by="calories.value"><span>Label</span></th>
+                          <th md-column md-numeric md-order-by="value"><span>Value</span></th>
+                          <th md-column md-order-by="nameToLower"><span>Label</span></th>
                           <th md-column md-numeric>M</th>
                           <th md-column md-numeric>Absolute Frequency</th>
-                          <th md-column md-numeric>Valid Frequency</th>
+                          <th md-column md-numeric>Valid Relative Frequency</th>
                           <th md-column md-numeric>Relative Frequency</th>
                         </tr>
                      </thead>
                      <tbody md-body>
-                       <tr md-row md-select="dessert" md-select-id="name" md-auto-select ng-repeat="dessert in desserts.data">
-                         <td md-cell>{{dessert.name}}</td>
-                         <td md-cell>{{dessert.calories.value}}</td>
-                         <td md-cell>{{dessert.fat.value | number: 1}}</td>
-                         <td md-cell>{{dessert.carbs.value}}</td>
-                         <td md-cell>{{dessert.protein.value | number: 1}}</td>
-                         <td md-cell>{{dessert.sodium.value}}</td>
+                       <tr md-row  md-auto-select ng-repeat="row in variable.distribution.validResponses">
+                         <td md-cell>{{row.value}}</td>
+                         <td md-cell>{{row.label[currentLanguage]}}</td>
+                         <td md-cell></td>
+                         <td md-cell>{{row.absoluteFrequency}}</td>
+                         <td md-cell>{{row.validRelativeFrequency}}</td>
+                         <td md-cell>{{row.relativeFrequency}}</td>
                       </tr>
                     </tbody>
                   </table>

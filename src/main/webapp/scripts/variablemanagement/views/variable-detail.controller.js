@@ -5,11 +5,20 @@ angular.module('metadatamanagementApp')
     blockUI, $scope, entity, $rootScope) {
     $scope.variable = entity;
     $scope.selected = [];
+    $scope.reorder = function() {
+      $scope.promise = $scope.variable.distribution.validResponses
+    };
     $scope.query = {
-      order: 'name',
+      order: 'value',
       limit: 5,
       page: 1
     };
+    $scope.$watch('variable', function() {
+      if ($scope.variable.$resolved) {
+        $scope.reorder();
+        console.log($scope.variable.distribution.validResponses);
+      }
+    });
     console.log(entity);
     /* function to start blockUI */
     $scope.startBlockUI = function() {
