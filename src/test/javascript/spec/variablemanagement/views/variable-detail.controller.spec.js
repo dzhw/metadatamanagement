@@ -5,7 +5,7 @@
 /* global expect */
 'use strict';
 
-describe('Variable Detail Controller', function() {
+xdescribe('Variable Detail Controller', function() {
   var $scope;
   var $rootScope;
   var MockEntity;

@@ -9,6 +9,9 @@
         "cancelled": "Upload von Fragen Abgebrochen!"
       }
     },
+    "home": {
+      "title": "Fragen"
+    },
     "detail": {
       "title": "Fragen Detail",
       "question": "Frage",

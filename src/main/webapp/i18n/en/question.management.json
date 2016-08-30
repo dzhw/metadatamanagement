@@ -9,13 +9,16 @@
         "cancelled": "Question upload cancelled!"
       }
     },
+    "home": {
+      "title": "Questions"
+    },
     "detail": {
       "title": "Question Detail",
       "question": "Question",
       "predecessors":"Predecessors",
       "successors": "Successors",
       "related-informations":"Related Informations",
-      "not-found": "The Question {{id}} references to an unknown Question."
+      "not-found": "The {{id}} references to an unknown Question."
     },
     "error": {
       "question": {

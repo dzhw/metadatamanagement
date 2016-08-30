@@ -14,6 +14,12 @@
         "cancelled": "Tex file creation cancelled!"
       }
     },
+    "home": {
+      "title": "Data Sets"
+    },
+    "detail": {
+      "not-found": "The {{id}} references to an unknown Data Set."
+    },
     "error": {
       "data-set": {
         "id": {

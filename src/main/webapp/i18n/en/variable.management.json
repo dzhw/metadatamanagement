@@ -14,8 +14,15 @@
       "refresh": "Refresh"
     },
     "detail": {
-      "title": "Variable",
-      "not-found": "The Question {{id}} references to an unknown Variable."
+      "title": "Variable Details",
+      "variable": "Variable",
+      "variable-informations":"Variable Informations",
+      "related-informations":"Related Informations",
+      "histogram": "Histogram",
+      "statistics": "Statistics",
+      "frequencies": "Frequencies",
+      "generation-details": "Generation Details",
+      "not-found": "The {{id}} references to an unknown Variable."
     },
     "name": "Name",
     "data-type": "DataType",

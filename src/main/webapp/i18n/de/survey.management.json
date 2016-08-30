@@ -9,6 +9,12 @@
         "cancelled": "Upload von Erhebungen Abgebrochen!"
       }
     },
+    "home": {
+      "title": "Erhebungen"
+    },
+    "detail": {
+      "not-found": "Die id {{id}} referenziert auf eine unbekannte Erhebung."
+    },
     "error": {
       "survey": {
         "id": {

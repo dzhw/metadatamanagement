@@ -3,7 +3,7 @@
 angular.module('metadatamanagementApp')
   .config(function($stateProvider) {
     $stateProvider
-      .state('dataSetDetail', {
+      .state('data-setDetail', {
         parent: 'site',
         url: '/data-sets/{id}',
         data: {

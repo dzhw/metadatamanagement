@@ -14,7 +14,14 @@
       "refresh": "Aktualisieren"
     },
     "detail": {
-      "title": "Variable",
+      "title": "Variablen Detail",
+      "variable": "Variable",
+      "variable-informations":"Variableninformationen",
+      "related-informations":"Zugehörige Informationen",
+      "histogram": "Histogramm",
+      "statistics": "Statistiken",
+      "frequencies": "Frequenzen",
+      "generation-details": "Details der Generierung",
       "not-found": "Die id {{id}} referenziert auf eine unbekannte Variable."
     },
     "name": "Name",

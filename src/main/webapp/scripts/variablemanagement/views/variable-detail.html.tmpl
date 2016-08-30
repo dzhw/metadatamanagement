@@ -1,100 +1,127 @@
-<div class="container">
-    <jh-alert-error></jh-alert-error>
-    <div ng-if="!variable.$resolved">
-        <!-- Todo replace with loading directive -->
-        Lade Daten...
-    </div>
-    <div ng-if="variable.$resolved">
-        <h2>
-            <span data-translate="variable-management.detail.title">Variable</span>
-            {{variable.id}}</h2>
-
-        <div class="row">
-            <div class="col-md-12">
-                <div class="table-responsive">
-                    <table class="table table-striped">
-                        <thead>
-                            <tr>
-                                <th data-translate="global.entity.detail.field">Field</th>
-                                <th data-translate="global.entity.detail.value">Value</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>
-                                    <span data-translate="global.field.rdc-id">rdcId</span>
-                                </td>
-                                <td>
-                                    <span class="form-control-static">{{variable.id}}</span>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <span data-translate="variable-management.data-acquisition-project-id">RDC Proect Name</span>
-                                </td>
-                                <td>
-                                    <span class="form-control-static">{{variable.dataAcquisitionProjectId}}</span>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <span data-translate="variable-management.survey-ids">SurveyIds</span>
-                                </td>
-                                <td>
-                                    <span class="form-control-static">{{variable.surveyIds.toString()}}</span>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <span data-translate="variable-management.name">Name</span>
-                                </td>
-                                <td>
-                                    <span class="form-control-static">{{variable.name}}</span>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <span data-translate="variable-management.data-type">DataType</span>
-                                </td>
-                                <td>
-                                    <span class="form-control-static">{{variable.dataType[currentLanguage]}}</span>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <span data-translate="variable-management.scale-level">ScaleLevel</span>
-                                </td>
-                                <td>
-                                    <span class="form-control-static">{{variable.scaleLevel[currentLanguage]}}</span>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <span data-translate="variable-management.label">Label</span>
-                                </td>
-                                <td>
-                                    <span class="form-control-static">{{variable.label[currentLanguage]}}</span>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
+<div ng-if="!variable.$resolved" ng-init="startBlockUI()">
+    Lade Daten...
+</div>
+<div ng-if="variable.$resolved" ng-init="stopBlockUI()">
+    <md-card>
+        <md-card-header>
+            <md-card-header-text>
+                <h1>{{'variable-management.detail.variable' | translate }}: {{variable.label[currentLanguage]}}</h1>
+            </md-card-header-text>
+        </md-card-header>
+        <md-card-content class="md-padding" layout="column">
+            <div layout="row" layout-xs="column" flex>
+              <md-card flex="50" flex-xs="100">
+                <md-card-header>
+                        <md-card-header-text>
+                            <span class="md-headline">{{'variable-management.detail.variable-informations' | translate }}</span>
+                        </md-card-header-text>
+                    </md-card-header>
+                    <md-content style="background-color:white;">
+                        <section>
+                        </section>
+                        <section>
+                        </section>
+                        <section>
+                        </section>
+              </md-content>
+              </md-card>
+              <md-card flex="50" flex-xs="100">
+                <md-card-header>
+                        <md-card-header-text>
+                            <span class="md-headline">{{'variable-management.detail.related-informations' | translate }}</span>
+                        </md-card-header-text>
+                    </md-card-header>
+                    <md-content style="background-color:white;">
+                        <section>
+                            <md-button ng-disabled="true">
+                                <section>
+                                    <md-icon md-svg-src="/assets/images/icons/study.svg" class="fdz-detail-icon"></md-icon>
+                                    <span>{{'study-management.home.title' | translate }}</span>
+                                </section>
+                            </md-button>
+                            <md-button ng-disabled="true" ng-click="addToNotepad('suf-1')">
+                                <section>
+                                    <md-icon md-svg-src="/assets/images/icons/addToshop.svg" class="fdz-detail-icon"></md-icon>
+                                    <span>{{'notepad-management.home.title' | translate }}</span>
+                                </section>
+                            </md-button>
+                        </section>
+                        <section>
+                            <md-button ng-click="showSurveys()">
+                                <section>
+                                    <md-icon md-svg-src="/assets/images/icons/survey.svg" class="fdz-detail-icon"></md-icon>
+                                    <span>{{'survey-management.home.title' | translate }}</span>
+                                </section>
+                            </md-button>
+                        </section>
+                        <section>
+                            <md-button ng-disabled="true" ng-click="showQuestion()">
+                                <section>
+                                    <md-icon md-svg-src="/assets/images/icons/question.svg" class="fdz-detail-icon"></md-icon>
+                                    <span>{{'question-management.home.title' | translate }}</span>
+                                </section>
+                            </md-button>
+                        </section>
+                        <section>
+                            <md-button ng-click="showDataSets()">
+                                <section>
+                                    <md-icon md-svg-src="/assets/images/icons/data-set.svg" class="fdz-detail-icon"></md-icon>
+                                    <span>{{'data-set-management.home.title' | translate }}</span>
+                                </section>
+                            </md-button>
+                        </section>
+                        <section>
+                            <md-button ng-disabled="true" ng-click="showRelatedPublications()">
+                                <section>
+                                    <md-icon md-svg-src="/assets/images/icons/variable.svg" class="fdz-detail-icon"></md-icon>
+                                    <span>Related Publications</span>
+                                </section>
+                            </md-button>
+                        </section>
+              </md-content>
+            </md-card>
             </div>
-        </div>
-        <div class="row">
-            <div class="col-md-10">
-                <nvd3 options='optionsAbsoluteFrequencyChart' data='dataFrequencyCharts'></nvd3>
+            <div layout="row" layout-xs="column" flex>
+              <md-card flex="50" flex-xs="100">
+                <md-card-header>
+                  <md-card-header-text>
+                    <span class="md-headline">{{'variable-management.detail.histogram' | translate }}</span>
+                  </md-card-header-text>
+                </md-card-header>
+                <md-content style="background-color:white;">
+                </md-content>
+              </md-card>
+              <md-card flex="50" flex-xs="100">
+                <md-card-header>
+                  <md-card-header-text>
+                    <span class="md-headline">Statistics</span>
+                  </md-card-header-text>
+                  </md-card-header>
+                  <md-content style="background-color:white;">
+                  </md-content>
+              </md-card>
             </div>
-            <div class="col-md-2">
-                <nvd3 options="optionsBoxPlot" data="dataBoxPlot"></nvd3>
+            <div layout="row" layout-xs="column" flex>
+              <md-card flex="100">
+                <md-card-header>
+                  <md-card-header-text>
+                    <span class="md-headline">{{'variable-management.detail.frequencies' | translate }}</span>
+                  </md-card-header-text>
+                </md-card-header>
+                <md-content style="background-color:white;">
+                </md-content>
             </div>
-        </div>
-        <div class="row">
-            <button type="submit" onclick="window.history.back()" class="btn btn-info">
-                <span class="glyphicon glyphicon-arrow-left"></span>&nbsp;
-                <span data-translate="global.entity.action.back">
-                    Back</span>
-            </button>
-        </div>
-    </div>
+            <div layout="row" layout-xs="column" flex>
+              <md-card flex="100">
+                <md-card-header>
+                  <md-card-header-text>
+                    <span class="md-headline">{{'variable-management.detail.generation-details' | translate }}</span>
+                  </md-card-header-text>
+                </md-card-header>
+                <md-content style="background-color:white;">
+                </md-content>
+              </md-card>
+            </div>
+        </md-card-content>
+    </md-card>
 </div>
