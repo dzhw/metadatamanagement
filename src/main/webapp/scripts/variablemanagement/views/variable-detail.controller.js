@@ -6,7 +6,7 @@ angular.module('metadatamanagementApp')
     $scope.variable = entity;
     $scope.selected = [];
     $scope.reorder = function() {
-      $scope.promise = $scope.variable.distribution.validResponses
+      $scope.promise = $scope.variable.distribution.validResponses;
     };
     $scope.query = {
       order: 'value',
