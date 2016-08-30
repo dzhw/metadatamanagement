@@ -1,26 +1,30 @@
-
 <md-dialog aria-label="{{type + '-management.home.title' | translate }}" style="width: 70%;">
     <md-toolbar>
-      <div class="md-toolbar-tools">
-        <h2>{{type + '-management.home.title' | translate }}</h2>
-        <span flex></span>
-        <md-button class="md-icon-button" ng-click="closeDialog()">
-          <md-icon md-svg-src="/assets/images/icons/ic_close_white_24px.svg" aria-label="Close dialog"></md-icon>
-        </md-button>
-      </div>
+        <div class="md-toolbar-tools">
+            <h2>{{type + '-management.home.title' | translate }}</h2>
+            <span flex></span>
+            <md-button class="md-icon-button" ng-click="closeDialog()">
+                <md-icon md-svg-src="/assets/images/icons/ic_close_white_24px.svg" aria-label="Close dialog"></md-icon>
+            </md-button>
+        </div>
     </md-toolbar>
     <md-dialog-content>
-        <section ng-repeat="entity in entities" md-ink-ripple class="fdz-search-result fdz-card-header-border">
-            <section layout="row"  ng-if="entity.found" ng-click="goToEntity(entity.type, {id:entity.id})">
-             <md-icon md-svg-src="/assets/images/icons/variable.svg" class="fdz-detail-icon"></md-icon>
-             <section layout="column">
-               <span ng-repeat="row in entity.rows">{{row}}</span>
-            </section>
-          </section>
-          <section layout="row" ng-if="!entity.found">
-          <md-icon md-svg-src="/assets/images/icons/variable.svg" class="fdz-detail-icon" style="fill:red;"></md-icon>
-          <span style="margin:auto 0px;">{{'variable-management.detail.not-found' | translate :'{id:"'+ entity.id +'"}'}}</span>
-        </section>
-        </section>
+        <md-list style="padding:0px;" flex>
+            <md-list-item class="md-2-line md-long-text fdz-search-result fdz-card-header-border" style="padding:0px; margin:0px;" ng-repeat="entity in entities" ng-click="goToEntity(entity, {id:entity.id})">
+                <section layout="row" ng-if="entity.found">
+                    <md-icon md-svg-src="/assets/images/icons/{{type}}.svg" class="fdz-detail-icon"></md-icon>
+                    <div class="md-list-item-text">
+                        <p style="color:black" ng-repeat="row in entity.rows">{{row}}
+                        </p>
+                    </div>
+                </section>
+                <section layout="row" ng-if="!entity.found">
+                    <md-icon md-svg-src="/assets/images/icons/{{type}}.svg" class="fdz-detail-icon" style="fill:red;"></md-icon>
+                    <div class="md-list-item-text">
+                    <p style="color:black">{{type + '-management.detail.not-found' | translate :'{id:"'+ entity.id +'"}'}}</p>
+                  </div>
+                </section>
+            </md-list-item>
+        </md-list>
     </md-dialog-content>
 </md-dialog>

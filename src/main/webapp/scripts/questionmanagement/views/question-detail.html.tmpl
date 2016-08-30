@@ -5,25 +5,29 @@
     <md-card>
         <md-card-header>
             <md-card-header-text>
-                <h1>{{'question-management.detail.question' | translate }}: (instrument.title) {{question.number}}</h1>
+                <h1>{{'question-management.detail.question' | translate }}: (instrument.title)
+                    {{question.number}}</h1>
             </md-card-header-text>
         </md-card-header>
         <md-card-content class="md-padding" layout="column">
             <div layout="row" layout-xs="column" flex>
-              <md-card flex="50" flex-xs="100">
-                <div style="max-height: 400px; overflow-y:auto;">
-                  <a ng-href="public/files/questions/{{question.id}}" alt="{{question.questionText[currentLanguage] }}" target="_blank">
-                    <md-tooltip md-direction="right">
-                      {{'variable-management.home.title' | translate }}: {{question.variableIds.length}}
-                      {{'question-management.detail.successors' | translate }}: {{successors.length}}
-                    {{'question-management.detail.predecessors' | translate }}: {{predecessors.length}}
-                    </md-tooltip>
-                    <img alt="" style="width:auto; max-width:100%; height:auto;" ng-src="public/files/questions/{{question.id}}"/>
-                  </a>
-                </div>
-              </md-card>
-              <md-card flex="50" flex-xs="100">
-                <md-card-header>
+                <md-card flex="50" flex-xs="100">
+                    <div style="max-height: 400px; overflow-y:auto;">
+                        <a ng-href="public/files/questions/{{question.id}}" alt="{{question.questionText[currentLanguage] }}" target="_blank">
+                            <md-tooltip md-direction="right">
+                                {{'variable-management.home.title' | translate }}:
+                                {{question.variableIds.length}}
+                                {{'question-management.detail.successors' | translate }}:
+                                {{successors.length}}
+                                {{'question-management.detail.predecessors' | translate }}:
+                                {{predecessors.length}}
+                            </md-tooltip>
+                            <img alt="" style="width:auto; max-width:100%; height:auto;" ng-src="public/files/questions/{{question.id}}"/>
+                        </a>
+                    </div>
+                </md-card>
+                <md-card flex="50" flex-xs="100">
+                    <md-card-header>
                         <md-card-header-text>
                             <span class="md-headline">{{'question-management.detail.related-informations' | translate }}</span>
                         </md-card-header-text>
@@ -59,50 +63,50 @@
                                 </section>
                             </md-button>
                         </section>
-              </md-content>
-            </md-card>
+                    </md-content>
+                </md-card>
             </div>
             <div layout="row" layout-xs="column" flex>
-              <md-card flex="50" flex-xs="100">
-                <md-card-header>
-                  <md-card-header-text>
-                    <span class="md-headline">{{'question-management.detail.predecessors' | translate }}</span>
-                  </md-card-header-text>
-                </md-card-header>
-                <md-content style="background-color:white;">
-                  <section ng-repeat="predecessor in predecessors" md-ink-ripple
-                  class="fdz-search-result fdz-card-header-border">
-                  <section ng-if="predecessor.name === 'notFoundQuestion'" layout="row">
-                       <md-icon md-svg-src="/assets/images/icons/question.svg" class="fdz-detail-icon" style="fill:red;"></md-icon>
-                         <span>{{'question-management.detail.not-found' | translate :'{id:"'+ predecessor.id +'"}'}}</span>
-                    </section>
-                    <section ng-if="predecessor.name != 'notFoundQuestion'" ui-sref="questionDetail({id:predecessor.id})" layout="row">
-                         <md-icon md-svg-src="/assets/images/icons/question.svg" class="fdz-detail-icon"></md-icon>
-                           <span>{{predecessor.number}}: {{predecessor.questionText[currentLanguage]}}</span>
-                      </section>
-                   </section>
-                </md-content>
-              </md-card>
-              <md-card flex="50" flex-xs="100">
-                <md-card-header>
-                  <md-card-header-text>
-                    <span class="md-headline">{{'question-management.detail.successors' | translate }}</span>
-                  </md-card-header-text>
-                  </md-card-header>
-                  <md-content style="background-color:white;">
-                    <section ng-repeat="successor in successors" md-ink-ripple
-                    class="fdz-search-result fdz-card-header-border">
-                    <section ng-if="successor.name === 'notFoundQuestion'" layout="row">
-                         <md-icon md-svg-src="/assets/images/icons/question.svg" class="fdz-detail-icon" style="fill:red;"></md-icon>
-                          <span>{{'question-management.detail.not-found' | translate :'{id:"'+ successor.id +'"}'}}</span>
-                      </section>
-                      <section ng-if="successor.name != 'notFoundQuestion'" ui-sref="questionDetail({id:successor.id})" layout="row">
-                           <md-icon md-svg-src="/assets/images/icons/question.svg" class="fdz-detail-icon"></md-icon>
-                             <span>{{successor.number}}: {{successor.questionText[currentLanguage]}}</span>
+                <md-card flex="50" flex-xs="100">
+                    <md-card-header>
+                        <md-card-header-text>
+                            <span class="md-headline">{{'question-management.detail.predecessors' | translate }}</span>
+                        </md-card-header-text>
+                    </md-card-header>
+                    <md-content style="background-color:white;">
+                        <section ng-repeat="predecessor in predecessors" md-ink-ripple class="fdz-search-result fdz-card-header-border">
+                            <section ng-if="predecessor.name === 'notFoundQuestion'" layout="row">
+                                <md-icon md-svg-src="/assets/images/icons/question.svg" class="fdz-detail-icon" style="fill:red;"></md-icon>
+                                <span>{{'question-management.detail.not-found' | translate :'{id:"'+ predecessor.id +'"}'}}</span>
+                            </section>
+                            <section ng-if="predecessor.name != 'notFoundQuestion'" ui-sref="questionDetail({id:predecessor.id})" layout="row">
+                                <md-icon md-svg-src="/assets/images/icons/question.svg" class="fdz-detail-icon"></md-icon>
+                                <span>{{predecessor.number}}:
+                                    {{predecessor.questionText[currentLanguage]}}</span>
+                            </section>
                         </section>
-                     </section>
-                  </md-content>
-              </md-card>
+                    </md-content>
+                </md-card>
+                <md-card flex="50" flex-xs="100">
+                    <md-card-header>
+                        <md-card-header-text>
+                            <span class="md-headline">{{'question-management.detail.successors' | translate }}</span>
+                        </md-card-header-text>
+                    </md-card-header>
+                    <md-content style="background-color:white;">
+                        <section ng-repeat="successor in successors" md-ink-ripple class="fdz-search-result fdz-card-header-border">
+                            <section ng-if="successor.name === 'notFoundQuestion'" layout="row">
+                                <md-icon md-svg-src="/assets/images/icons/question.svg" class="fdz-detail-icon" style="fill:red;"></md-icon>
+                                <span>{{'question-management.detail.not-found' | translate :'{id:"'+ successor.id +'"}'}}</span>
+                            </section>
+                            <section ng-if="successor.name != 'notFoundQuestion'" ui-sref="questionDetail({id:successor.id})" layout="row">
+                                <md-icon md-svg-src="/assets/images/icons/question.svg" class="fdz-detail-icon"></md-icon>
+                                <span>{{successor.number}}:
+                                    {{successor.questionText[currentLanguage]}}</span>
+                            </section>
+                        </section>
+                    </md-content>
+                </md-card>
             </div>
         </md-card-content>
     </md-card>
