@@ -93,8 +93,8 @@ angular.module('metadatamanagementApp')
       /* function to open dialog for variables */
       $scope.showVariables = function() {
         blockUI.start();
-        DialogService.showDialog($scope.question.variableIds,
-          $rootScope.currentLanguage);
+        DialogService.showDialog($scope.question.variableIds, 'variable',
+          ['label', 'name'], $rootScope.currentLanguage);
       };
 
       /* get all items from localStorage */
