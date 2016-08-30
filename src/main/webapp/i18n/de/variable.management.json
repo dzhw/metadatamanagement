@@ -20,7 +20,7 @@
       "related-informations":"Zugehörige Informationen",
       "histogram": "Histogramm",
       "statistics": "Statistiken",
-      "frequencies": "Frequenzen",
+      "frequencies": "Häufigkeiten",
       "generation-details": "Details der Generierung",
       "not-found": "Die id {{id}} referenziert auf eine unbekannte Variable."
     },
