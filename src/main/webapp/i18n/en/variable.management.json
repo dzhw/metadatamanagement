@@ -22,7 +22,13 @@
       "statistics": "Statistics",
       "frequencies": "Frequencies",
       "generation-details": "Generation Details",
-      "not-found": "The {{id}} references to an unknown Variable."
+      "not-found": "The {{id}} references to an unknown Variable.",
+      "label": {
+        "all": "All",
+        "page":"Page",
+        "rowsPerPage":"Rows per Page",
+        "of":"Of"
+      }
     },
     "name": "Name",
     "data-type": "DataType",

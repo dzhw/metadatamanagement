@@ -22,7 +22,13 @@
       "statistics": "Statistiken",
       "frequencies": "Häufigkeiten",
       "generation-details": "Details der Generierung",
-      "not-found": "Die id {{id}} referenziert auf eine unbekannte Variable."
+      "not-found": "Die id {{id}} referenziert auf eine unbekannte Variable.",
+      "label": {
+        "all": "Alle",
+        "page":"Seite",
+        "rowsPerPage":"Zeilen Pro Seite",
+        "of":"von"
+      }
     },
     "name": "Name",
     "data-type": "Datentyp",

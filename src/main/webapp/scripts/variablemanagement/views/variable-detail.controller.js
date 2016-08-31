@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('metadatamanagementApp')
-  .controller('VariableDetailController', function(DialogService,
-    blockUI, $scope, $stateParams, VariableResource, $rootScope) {
+  .controller('VariableDetailController', function(DialogService, $translate,
+    blockUI, $scope, $stateParams, $filter, VariableResource, $rootScope) {
     /* paged frequencies */
     $scope.frequencies = [];
     /* all frequencies */
@@ -14,6 +14,9 @@ angular.module('metadatamanagementApp')
       count: 0,
       page: 1
     };
+    /* options for pager */
+    $scope.options = {};
+
     /* see https://github.com/angular-ui/ui-router/issues/582 */
     VariableResource.get({id: $stateParams.id})
     .$promise.then(function(variable) {
@@ -21,6 +24,22 @@ angular.module('metadatamanagementApp')
       $scope.allFrequencies = $scope.variable.distribution.validResponses
       .concat($scope.variable.distribution.missings);
       $scope.query.count = $scope.allFrequencies.length;
+      $scope.options = {
+        boundaryLinks: true,
+        pageSelect: true,
+        label: {
+          page: $translate.instant('variable-management.detail.label.page'),
+          rowsPerPage:
+           $translate.instant('variable-management.detail.label.rowsPerPage'),
+          of: $translate.instant('variable-management.detail.label.of')
+        },
+        limitOptions: [5, 10, 15,{
+          label: $translate.instant('variable-management.detail.label.all'),
+          value: function() {
+            return $scope.allFrequencies.length;
+          }
+        }]
+      };
       $scope.getStatistics();
     });
     /* function to update table */

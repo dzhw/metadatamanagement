@@ -133,10 +133,12 @@
                     </tbody>
                   </table>
                 </md-table-container>
-                <md-table-pagination md-limit="query.limit" md-limit-options="[5, 10, 15]"
-                                     md-page="query.page" md-total="{{query.count}}" md-on-paginate="getStatistics"
-                                     md-page-select>
-                </md-table-pagination>
+                <md-table-pagination md-limit="query.limit" md-limit-options="options.limitOptions"
+                                     md-page="query.page" md-total="{{query.count}}"
+                                     md-page-select="options.pageSelect"
+                                     md-boundary-links="options.boundaryLinks"
+                                     md-on-paginate="getStatistics"
+                                     md-label="{{options.label}}"></md-table-pagination>
                 </md-content>
               </md-card>
             </div>
