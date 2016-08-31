@@ -83,7 +83,7 @@
             </div>
         </md-button>
         <!-- Index 5 = Study Tab -->
-        <md-button aria-label="{{'search-management.buttons.upload-study' | translate}}" ng-if="selectedTabIndex===5" type="file" ngf-select="uploadDataSets($file)" class="md-accent md-fab" accept=".zip" ng-disabled="!currentProject">
+        <md-button aria-label="{{'search-management.buttons.upload-study' | translate}}" ng-if="selectedTabIndex===5" type="file" ngf-select="uploadStudy($file)" class="md-accent md-fab" accept=".zip" ng-disabled="!currentProject">
             <div>
                 <md-tooltip md-direction="left">
                     {{'search-management.buttons.upload-study' | translate}}

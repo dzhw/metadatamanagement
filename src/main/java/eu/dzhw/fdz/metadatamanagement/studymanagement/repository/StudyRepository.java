@@ -21,4 +21,7 @@ public interface StudyRepository extends MongoRepository<Study, String>,
   @RestResource(exported = false)
   List<Study> findByDataAcquisitionProjectId(String dataAcquisitionProjectId);
   
+  @RestResource(exported = false)
+  List<Study> deleteByDataAcquisitionProjectId(String dataAcquisitionProjectId);
+  
 }

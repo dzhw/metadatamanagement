@@ -44,8 +44,7 @@ angular.module('metadatamanagementApp').service('StudyUploadService',
         }
       }
     };
-    var uploadStudies = function(file, dataAcquisitionProjectId) {
-      var zip;
+    var uploadStudy = function(file, dataAcquisitionProjectId) {
       uploadCount = 0;
       JobLoggingService.start('studies');
       ZipReaderService.readZipFileAsync(file)
@@ -54,10 +53,10 @@ angular.module('metadatamanagementApp').service('StudyUploadService',
             var excelFileStudy = zipFile.files['study.xlsx'];
             var excelFileReleases = zipFile.files['releases.xlsx'];
             if (excelFileReleases && excelFileStudy) {
-              zip = zipFile;
               var study = ExcelReaderService.readFileAsync(excelFileStudy);
               study.releases =
                 ExcelReaderService.readFileAsync(excelFileReleases);
+              study.dataAcquisitionProjectId = dataAcquisitionProjectId;
               return study;
             } else {
               return $q.reject('unsupportedDirectoryStructure');
@@ -69,8 +68,7 @@ angular.module('metadatamanagementApp').service('StudyUploadService',
           JobLoggingService.cancel(
             'global.log-messages.unsupported-zip-file', {});
         }).then(function(study) {
-          objects = StudyBuilderService.getStudies(study, zip,
-            dataAcquisitionProjectId);
+          objects = StudyBuilderService.getStudies(study);
           StudyBuilderService.getParseErrors
             .forEach(function(errorMessage) {
               JobLoggingService.error(errorMessage.errorMessage,
@@ -82,7 +80,7 @@ angular.module('metadatamanagementApp').service('StudyUploadService',
             upload,
             function(error) {
               var errorMessages = ErrorMessageResolverService
-                .getErrorMessages(error, 'study');
+                .getErrorMessages(error, 'studies');
               errorMessages.forEach(function(errorMessage) {
                 JobLoggingService.error(errorMessage.message,
                   errorMessage.translationParams);
@@ -101,6 +99,6 @@ angular.module('metadatamanagementApp').service('StudyUploadService',
     };
 
     return {
-      uploadStudies: uploadStudies
+      uploadStudy: uploadStudy
     };
   });

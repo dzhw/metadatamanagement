@@ -1,8 +1,8 @@
 {
-  "variables": {
+  "studies": {
   	  "_all" : {	
   		 "enabled" : true,
-  		 "analyzer": "german"
+  		 "analyzer": "english"
   	  },
     "properties": {
       "allStringsAsNgrams" : {
