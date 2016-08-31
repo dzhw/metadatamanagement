@@ -66,9 +66,9 @@ public class Question extends AbstractRdcDomainObject {
       message = "question-management.error.question.additional-question-text.i18n-string-size")
   private I18nString additionalQuestionText;
   
+  @NotNull(message = "question-management.error.question.image-type.not-null")
   @ValidQuestionImageType(
       message = "question-management.error.question.image-type.valid-question-image-type")
-  @NotNull(message = "question-management.error.question.image-type.not-null")
   private ImageType imageType;
   
   @Size(max = StringLengths.X_LARGE, 

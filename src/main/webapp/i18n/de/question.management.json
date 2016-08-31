@@ -15,9 +15,9 @@
     "detail": {
       "title": "Fragen Detail",
       "question": "Frage",
-      "predecessors":"Vorgänger",
+      "predecessors": "Vorgänger",
       "successors": "Nachfolger",
-      "related-informations":"Zugehörige Informationen",
+      "related-informations": "Zugehörige Informationen",
       "not-found": "Die id {{id}} referenziert auf eine unbekannte Frage."
     },
     "error": {
@@ -58,10 +58,10 @@
           "size": "Die Maximallänge der technischen Darstellung ist 1048576 Zeichen."
         },
         "instrument-id": {
-          "not-empty": "The RDC-ID of the Instrument must not be empty!"
+          "not-empty": "Die FDZ-ID des Instruments darf nicht leer sein."
         },
         "survey-id": {
-          "not-empty": "The RDC-ID of the Survey must not be empty!"
+          "not-empty": "Die FDZ-ID der Erhebung darf nicht leer sein."
         }
       },
       "post-validation": {

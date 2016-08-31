@@ -37,7 +37,7 @@ public class ValidQuestionTypeValidator implements
     }
 
     if (Strings.isNullOrEmpty(questionType.getDe()) 
-        || Strings.isNullOrEmpty(questionType.getEn())) {
+        && Strings.isNullOrEmpty(questionType.getEn())) {
       return true;
     }
 
