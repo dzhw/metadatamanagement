@@ -5,7 +5,7 @@
   "private": true,
   "dependencies": {},
   "devDependencies": {
-    "browser-sync": "^2.14.0",
+    "browser-sync": "^2.14.3",
     "event-stream": "3.3.4",
     "grunt": "1.0.1",
     "grunt-angular-templates": "1.1.0",
@@ -32,7 +32,7 @@
     "grunt-text-replace": "0.4.0",
     "grunt-usemin": "3.1.1",
     "grunt-wiredep": "3.0.1",
-    "jasmine-core": "2.4.1",
+    "jasmine-core": "2.5.0",
     "jshint-stylish": "2.2.1",
     "karma": "1.2.0",
     "karma-chrome-launcher": "2.0.0",
