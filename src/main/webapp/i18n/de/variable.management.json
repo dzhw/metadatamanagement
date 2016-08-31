@@ -27,7 +27,12 @@
         "all": "Alle",
         "page":"Seite",
         "rowsPerPage":"Zeilen Pro Seite",
-        "of":"von"
+        "of":"von",
+        "value": "Wert",
+        "label": "Label",
+        "absoluteFrequency": "Absolute Häufigkeit",
+        "validRelativeFrequency": "Valide Relative Häufigkeit ",
+        "relativeFrequency": "Relative Häufigkeit"
       }
     },
     "name": "Name",

@@ -27,7 +27,12 @@
         "all": "All",
         "page":"Page",
         "rowsPerPage":"Rows per Page",
-        "of":"Of"
+        "of":"of",
+        "value": "Value",
+        "label": "Label",
+        "absoluteFrequency": "Absolute Frequency",
+        "validRelativeFrequency": "Valid Relative Frequency",
+        "relativeFrequency": "Relative Frequency"
       }
     },
     "name": "Name",
