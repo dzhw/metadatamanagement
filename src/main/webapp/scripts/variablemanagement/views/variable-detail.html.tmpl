@@ -125,8 +125,7 @@
                        <tr md-row ng-repeat="row in frequencies">
                          <td md-cell style="text-align:center;">{{row.value}}{{row.code}}</td>
                          <td md-cell style="text-align:center;">{{row.label[currentLanguage]}}</td>
-                         <td md-cell style="text-align:center;" ng-if="row.value">-</td>
-                         <td md-cell style="text-align:center;" ng-if="row.code">m</td>
+                         <td md-cell style="text-align:center;">{{row.code ? 'm' : ''}}</td>
                          <td md-cell style="text-align:center;">{{row.absoluteFrequency}}</td>
                          <td md-cell style="text-align:center;">{{row.validRelativeFrequency}}</td>
                          <td md-cell style="text-align:center;">{{row.relativeFrequency}}</td>

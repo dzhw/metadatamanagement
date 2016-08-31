@@ -32,7 +32,7 @@ angular.module('metadatamanagementApp')
     $scope.startBlockUI = function() {
       blockUI.start();
     };
-    /* function to start blockUI */
+    /* function to stop blockUI */
     $scope.stopBlockUI = function() {
       blockUI.stop();
     };
