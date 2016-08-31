@@ -16,6 +16,7 @@ import com.google.common.base.MoreObjects;
 import eu.dzhw.fdz.metadatamanagement.common.domain.AbstractRdcDomainObject;
 import eu.dzhw.fdz.metadatamanagement.common.domain.I18nString;
 import eu.dzhw.fdz.metadatamanagement.common.domain.util.Patterns;
+import eu.dzhw.fdz.metadatamanagement.common.domain.validation.I18nStringNotEmpty;
 import eu.dzhw.fdz.metadatamanagement.common.domain.validation.I18nStringSize;
 import eu.dzhw.fdz.metadatamanagement.common.domain.validation.StringLengths;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.DataAcquisitionProject;
@@ -44,16 +45,22 @@ public class Study extends AbstractRdcDomainObject {
   @NotNull(message = "study-management.error.study.title.not-null")
   @I18nStringSize(max = StringLengths.MEDIUM,
       message = "study-management.error.study.title.i18n-string-size")
+  @I18nStringNotEmpty(
+      message = "study-management.error.study.title.i18n-string-not-empty")
   private I18nString title;
   
   @NotNull(message = "study-management.error.study.description.not-null")
   @I18nStringSize(max = StringLengths.LARGE,
       message = "study-management.error.study.description.i18n-string-size")
+  @I18nStringNotEmpty(
+      message = "study-management.error.study.description.i18n-string-not-empty")
   private I18nString descripion;
   
   @NotNull(message = "study-management.error.study.institution.not-null")
   @I18nStringSize(max = StringLengths.SMALL,
       message = "study-management.error.study.institution.i18n-string-size")
+  @I18nStringNotEmpty(
+      message = "study-management.error.study.institution.i18n-string-not-empty")
   private I18nString institution;
   
   @I18nStringSize(max = StringLengths.MEDIUM,

@@ -5,22 +5,25 @@
     },
     "error": {
       "study": {
+        "id": {
+          "not-empty": "The RDC-ID of the Study must not be empty!",
+          "size": "The max length of the RDC-ID is 128 signs.",
+          "pattern": "Use only alphanumeric signs, german umlauts, ß and space, underscore and minus for the RDC-ID."
+        },
         "title": {
-          "id": {
-            "not-empty": "The RDC-ID of the Study must not be empty!",
-            "size": "The max length of the RDC-ID is 128 signs.",
-            "pattern": "Use only alphanumeric signs, german umlauts, ß and space, underscore and minus for the RDC-ID."
-          },
           "not-null": "The title of the study must not be empty!",
-          "i18n-string-size": "The max length of the study title is 128."
+          "i18n-string-size": "The max length of the study title is 128.",
+          "i18n-string-not-empty": "The title of the study must not be empty at least for one language."
         },
         "description": {
           "not-null": "The description of the study must not be empty!",
-          "i18n-string-size": "The max length of the study description is 2048."
+          "i18n-string-size": "The max length of the study description is 2048.",
+          "i18n-string-not-empty": "The description of the study must not be empty at least for one language."
         },
         "institution": {
           "not-null": "The institution of the study must not be empty!",
-          "i18n-string-size": "The max length of the institution is 32."
+          "i18n-string-size": "The max length of the institution is 32.",
+          "i18n-string-not-empty": "The institution of the study must not be empty at least for one language."
         },
         "sponsor": {
           "i18n-string-size": "The max length of the sponsor of the study is 128."

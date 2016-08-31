@@ -12,15 +12,18 @@
         },
         "title": {
           "not-null": "Der Titel einer Studie darf nicht leer sein!",
-          "i18n-string-size": "Die Maximallänge des Titels einer Studie ist 128 Zeichen."
+          "i18n-string-size": "Die Maximallänge des Titels einer Studie ist 128 Zeichen.",
+          "i18n-string-not-empty": "Der Titel einer Studie muss in mindestens einer Sprache vorhanden sein."
         },
         "description": {
           "not-null": "Die Beschreibung einer Studie darf nicht leer sein!",
-          "i18n-string-size": "Die Maximallänge der Beschreibung einer Studie ist 2048 Zeichen."
+          "i18n-string-size": "Die Maximallänge der Beschreibung einer Studie ist 2048 Zeichen.",
+          "i18n-string-not-empty": "Die Beschreibung einer Studie muss in mindestens einer Sprache vorhanden sein."
         },
         "institution": {
           "not-null": "Die Institution einer Studie darf nicht leer sein!",
-          "i18n-string-size": "Die Maximallänge der Institution einer Studie ist 32 Zeichen."
+          "i18n-string-size": "Die Maximallänge der Institution einer Studie ist 32 Zeichen.",
+          "i18n-string-not-empty": "Die Institution einer Studie muss in mindestens einer Sprache vorhanden sein."
         },
         "sponsor": {
           "i18n-string-size": "Die Maximallänge des Sponsors einer Studie ist 128 Zeichen."
