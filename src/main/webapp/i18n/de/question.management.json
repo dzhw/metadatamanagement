@@ -34,7 +34,7 @@
           "size": "Die Maximallänge der Nummer ist 32 Zeichen."
         },
         "question-text": {
-          "not-null": "Der Fragetext der Frage darf nicht leer sein.",
+          "i18n-string-not-empty": "Der Fragetext muss in mind. einer Sprache vorliegen.",
           "i18n-string-size": "Die Maximallänge der des Fragetextes ist 2048 Zeichen."
         },
         "instruction": {

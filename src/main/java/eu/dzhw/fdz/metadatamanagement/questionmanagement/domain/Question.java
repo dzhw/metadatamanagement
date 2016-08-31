@@ -17,6 +17,7 @@ import eu.dzhw.fdz.metadatamanagement.common.domain.AbstractRdcDomainObject;
 import eu.dzhw.fdz.metadatamanagement.common.domain.I18nString;
 import eu.dzhw.fdz.metadatamanagement.common.domain.ImageType;
 import eu.dzhw.fdz.metadatamanagement.common.domain.util.Patterns;
+import eu.dzhw.fdz.metadatamanagement.common.domain.validation.I18nStringNotEmpty;
 import eu.dzhw.fdz.metadatamanagement.common.domain.validation.I18nStringSize;
 import eu.dzhw.fdz.metadatamanagement.common.domain.validation.StringLengths;
 import eu.dzhw.fdz.metadatamanagement.questionmanagement.domain.validation.ValidQuestionImageType;
@@ -45,7 +46,8 @@ public class Question extends AbstractRdcDomainObject {
   @Size(max = StringLengths.SMALL, message = "question-management.error.question.number.size")
   private String number;
   
-  @NotNull(message = "question-management.error.question.question-text.not-null")
+  @I18nStringNotEmpty(
+      message = "question-management.error.question.question-text.i18n-string-not-empty")
   @I18nStringSize(max = StringLengths.LARGE, 
       message = "question-management.error.question.question-text.i18n-string-size")
   private I18nString questionText;

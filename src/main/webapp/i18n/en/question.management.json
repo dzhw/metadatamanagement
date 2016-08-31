@@ -15,9 +15,9 @@
     "detail": {
       "title": "Question Detail",
       "question": "Question",
-      "predecessors":"Predecessors",
+      "predecessors": "Predecessors",
       "successors": "Successors",
-      "related-informations":"Related Informations",
+      "related-informations": "Related Informations",
       "not-found": "The {{id}} references to an unknown Question."
     },
     "error": {
@@ -34,7 +34,7 @@
           "size": "The max length of the number of the question is 32 signs."
         },
         "question-text": {
-          "not-null": "The question text of the question must not be empty.",
+          "i18n-string-not-empty": "The question text of the question must not be empty at least for one language.",
           "i18n-string-size": "The max length of the question text is 2048 signs."
         },
         "instruction": {
