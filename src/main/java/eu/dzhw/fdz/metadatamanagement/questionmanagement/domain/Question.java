@@ -46,6 +46,7 @@ public class Question extends AbstractRdcDomainObject {
   @Size(max = StringLengths.SMALL, message = "question-management.error.question.number.size")
   private String number;
   
+  @NotNull(message = "question-management.error.question.question-text.not-null")
   @I18nStringNotEmpty(
       message = "question-management.error.question.question-text.i18n-string-not-empty")
   @I18nStringSize(max = StringLengths.LARGE, 

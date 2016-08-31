@@ -16,8 +16,8 @@
     "detail": {
       "title": "Variablen Detail",
       "variable": "Variable",
-      "variable-informations":"Variableninformationen",
-      "related-informations":"Zugehörige Informationen",
+      "variable-informations": "Variableninformationen",
+      "related-informations": "Zugehörige Informationen",
       "histogram": "Histogramm",
       "statistics": "Statistiken",
       "frequencies": "Häufigkeiten",
@@ -139,7 +139,7 @@
         "label": {
           "not-null": "Das Label der Variable darf nicht leer sein!",
           "i18n-string-size": "Die die Maximallänge für die Label ist 128 Zeichen.",
-          "at-least-one-language": "Mindestens ein deutsches oder ein englisches Label muss angegeben werden!"
+          "i18n-string-not-empty": "Mindestens ein deutsches oder ein englisches Label muss angegeben werden!"
         },
         "description": {
           "i18n-string-size": "Die Maximallänge der Beschreibung ist 2048 Zeichen."

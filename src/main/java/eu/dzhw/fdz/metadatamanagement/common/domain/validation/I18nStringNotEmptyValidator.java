@@ -38,12 +38,7 @@ public class I18nStringNotEmptyValidator implements
     }
     
     //Check De /En Empty String    
-    if (Strings.isNullOrEmpty(value.getDe()) && Strings.isNullOrEmpty(value.getEn())) { 
-      return false;
-    }
-        
-    //if one element is set, return true. 
-    return true;
+    return !Strings.isNullOrEmpty(value.getDe()) || !Strings.isNullOrEmpty(value.getEn());
   }
 
 }

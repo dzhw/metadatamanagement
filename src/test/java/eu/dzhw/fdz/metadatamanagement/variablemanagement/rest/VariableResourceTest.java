@@ -185,7 +185,7 @@ public class VariableResourceTest extends AbstractTest {
     mockMvc.perform(put(API_VARIABLES_URI + "/" + variable.getId())
       .content(TestUtil.convertObjectToJsonBytes(variable)))
       .andExpect(status().isBadRequest())
-      .andExpect(jsonPath("$.errors[0].message", containsString("variable-management.error.variable.label.at-least-one-language")));
+      .andExpect(jsonPath("$.errors[0].message", containsString("variable-management.error.variable.label.i18n-string-not-empty")));
   }
 
   @Test

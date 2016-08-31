@@ -18,7 +18,7 @@ import com.google.common.base.MoreObjects;
 import eu.dzhw.fdz.metadatamanagement.common.domain.AbstractRdcDomainObject;
 import eu.dzhw.fdz.metadatamanagement.common.domain.I18nString;
 import eu.dzhw.fdz.metadatamanagement.common.domain.util.Patterns;
-import eu.dzhw.fdz.metadatamanagement.common.domain.validation.AtLeastOneLanguage;
+import eu.dzhw.fdz.metadatamanagement.common.domain.validation.I18nStringNotEmpty;
 import eu.dzhw.fdz.metadatamanagement.common.domain.validation.I18nStringSize;
 import eu.dzhw.fdz.metadatamanagement.common.domain.validation.StringLengths;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.validation.MandatoryScaleLevelForNumericDataType;
@@ -81,8 +81,8 @@ public class Variable extends AbstractRdcDomainObject {
   @NotNull(message = "variable-management.error.variable.label.not-null")
   @I18nStringSize(max = StringLengths.MEDIUM,
       message = "variable-management.error.variable.label.i18n-string-size")
-  @AtLeastOneLanguage(
-      message = "variable-management.error.variable.label.at-least-one-language")
+  @I18nStringNotEmpty(
+      message = "variable-management.error.variable.label.i18n-string-not-empty")
   private I18nString label;
 
   @I18nStringSize(max = StringLengths.LARGE,

@@ -16,8 +16,8 @@
     "detail": {
       "title": "Variable Details",
       "variable": "Variable",
-      "variable-informations":"Variable Informations",
-      "related-informations":"Related Informations",
+      "variable-informations": "Variable Informations",
+      "related-informations": "Related Informations",
       "histogram": "Histogram",
       "statistics": "Statistics",
       "frequencies": "Frequencies",
@@ -139,14 +139,14 @@
         "label": {
           "not-null": "The label of the Variable must not be empty!",
           "i18n-string-size": "The max length of the label is 128 signs.",
-          "at-least-one-language": "At least an english or a german label must be given!"
+          "i18n-string-not-empty": "At least an english or a german label must be given!"
         },
         "description": {
           "i18n-string-size": "The max length of the description is 2048 signs."
         },
         "access-ways": {
           "not-empty": "The list of access ways of a variable needs min. one element and must not be empty!",
-          "validAccessWays": "The values of access ways are invalid. Valid values are: suf, cuf and remote."
+          "valid-access-ways": "The values of access ways are invalid. Valid values are: suf, cuf and remote."
         },
         "data-set": {
           "ids": {
