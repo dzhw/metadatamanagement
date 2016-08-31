@@ -28,14 +28,15 @@ angular.module('metadatamanagementApp')
               $translatePartialLoader.addPart('notepad.management');
               $translatePartialLoader.addPart('instrument.management');
             }
-          ],
+          ]
+          /*,
           entity: ['$stateParams', 'VariableResource',
             function($stateParams, VariableResource) {
               return VariableResource.get({
                 id: $stateParams.id
               });
             }
-          ]
+          ]*/
         },
       });
   });

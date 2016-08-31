@@ -52,7 +52,8 @@
         "post-validation": "Das ausgewählte Datenaufbereitungsprojekt validieren."
       },
       "language": "Sprache",
-      "disclosure": "Impressum"
+      "disclosure": "Impressum",
+      "notepad": "Merkzettel"
     },
     "form": {
       "username": "Benutzername",

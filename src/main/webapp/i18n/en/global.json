@@ -52,7 +52,8 @@
         "post-validation": "Validate a choosen Data Acquisition Project."
       },
       "language": "Language",
-      "disclosure": "Disclosure"
+      "disclosure": "Disclosure",
+      "notepad": "Notepad"
     },
     "form": {
       "username": "Username",
