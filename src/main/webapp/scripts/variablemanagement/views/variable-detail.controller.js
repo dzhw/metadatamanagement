@@ -4,22 +4,30 @@ angular.module('metadatamanagementApp')
   .controller('VariableDetailController', function(DialogService,
     blockUI, $scope, entity, $rootScope) {
     $scope.variable = entity;
-    $scope.selected = [];
-    $scope.reorder = function() {
-      $scope.promise = $scope.variable.distribution.validResponses;
-    };
+    $scope.frequencies = [];
+    $scope.allFrequencies = [];
     $scope.query = {
       order: 'value',
       limit: 5,
+      count: 0,
       page: 1
     };
     $scope.$watch('variable', function() {
       if ($scope.variable.$resolved) {
-        $scope.reorder();
-        console.log($scope.variable.distribution.validResponses);
+        console.log(entity);
+        $scope.allFrequencies = $scope.variable.distribution.validResponses
+        .concat($scope.variable.distribution.missings);
+        $scope.query.count = $scope.allFrequencies.length;
+        $scope.getStatistics();
       }
     });
-    console.log(entity);
+    $scope.getStatistics = function() {
+      console.log($scope.query);
+      var startPosition = ($scope.query.page - 1) * $scope.query.limit;
+      var endPosition = startPosition + $scope.query.limit;
+      $scope.frequencies = $scope.allFrequencies.slice(startPosition,
+        endPosition);
+    };
     /* function to start blockUI */
     $scope.startBlockUI = function() {
       blockUI.start();
