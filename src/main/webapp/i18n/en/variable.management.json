@@ -32,7 +32,17 @@
         "label": "Label",
         "absoluteFrequency": "Absolute Frequency",
         "validRelativeFrequency": "Valid Relative Frequency",
-        "relativeFrequency": "Relative Frequency"
+        "relativeFrequency": "Relative Frequency",
+        "firstQuartile": "First Quartile",
+        "highWhisker": "High Whisker",
+        "lowWhisker": "Low Whisker",
+        "maximum": "Maximum",
+        "median": "Median",
+        "minimum": "Minimum",
+        "thirdQuartile": "Third Quartile",
+        "totalAbsoluteFrequency": "Total Absolute Frequency",
+        "totalValidAbsoluteFrequency": "Total Valid Absolute Frequency",
+        "totalValidRelativeFrequency": "Total Valid Relative Frequency"
       }
     },
     "name": "Name",

@@ -39,7 +39,7 @@
                                     <span>{{'study-management.home.title' | translate }}</span>
                                 </section>
                             </md-button>
-                            <md-button ng-disabled="true" ng-click="addToNotepad('suf-1')">
+                            <md-button ng-disabled="true">
                                 <section>
                                     <md-icon md-svg-src="/assets/images/icons/addToshop.svg" class="fdz-detail-icon"></md-icon>
                                     <span>{{'notepad-management.home.title' | translate }}</span>
@@ -55,7 +55,7 @@
                             </md-button>
                         </section>
                         <section>
-                            <md-button ng-disabled="true" ng-click="showQuestion()">
+                            <md-button ng-disabled="true">
                                 <section>
                                     <md-icon md-svg-src="/assets/images/icons/question.svg" class="fdz-detail-icon"></md-icon>
                                     <span>{{'question-management.home.title' | translate }}</span>
@@ -71,7 +71,7 @@
                             </md-button>
                         </section>
                         <section>
-                            <md-button ng-disabled="true" ng-click="showRelatedPublications()">
+                            <md-button ng-disabled="true">
                                 <section>
                                     <md-icon md-svg-src="/assets/images/icons/variable.svg" class="fdz-detail-icon"></md-icon>
                                     <span>Related Publications</span>
@@ -97,8 +97,60 @@
                     <span class="md-headline">{{'variable-management.detail.statistics' | translate }}</span>
                   </md-card-header-text>
                   </md-card-header>
-                  <md-content style="background-color:white;">
-                  </md-content>
+                  <md-card-content>
+                  <section>
+                      <section>
+                        <md-icon md-svg-src="/assets/images/icons/functions.svg" class="fdz-detail-icon"></md-icon>
+                        <span>{{'variable-management.detail.label.firstQuartile' | translate}}: </span>
+                        <span>{{variable.distribution.statistics.firstQuartile}}</span>
+                      </section>
+                      <section>
+                        <md-icon md-svg-src="/assets/images/icons/functions.svg" class="fdz-detail-icon" style="fill:red;"></md-icon>
+                        <span>{{'variable-management.detail.label.highWhisker' | translate}}: </span>
+                        <span>{{variable.distribution.statistics.highWhisker}}</span>
+                      </section>
+                      <section>
+                        <md-icon md-svg-src="/assets/images/icons/functions.svg" class="fdz-detail-icon"></md-icon>
+                        <span>{{'variable-management.detail.label.lowWhisker' | translate}}: </span>
+                        <span>{{variable.distribution.statistics.lowWhisker}}</span>
+                      </section>
+                      <section>
+                        <md-icon md-svg-src="/assets/images/icons/functions.svg" class="fdz-detail-icon"></md-icon>
+                        <span>{{'variable-management.detail.label.maximum' | translate}}: </span>
+                        <span>{{variable.distribution.statistics.maximum}}</span>
+                      </section>
+                      <section>
+                        <md-icon md-svg-src="/assets/images/icons/functions.svg" class="fdz-detail-icon"></md-icon>
+                        <span>{{'variable-management.detail.label.median' | translate}}: </span>
+                        <span>{{variable.distribution.statistics.median}}</span>
+                      </section>
+                      <section>
+                        <md-icon md-svg-src="/assets/images/icons/functions.svg" class="fdz-detail-icon"></md-icon>
+                        <span>{{'variable-management.detail.label.minimum' | translate}}: </span>
+                        <span>{{variable.distribution.statistics.minimum}}</span>
+                      </section>
+                      <section>
+                        <md-icon md-svg-src="/assets/images/icons/functions.svg" class="fdz-detail-icon"></md-icon>
+                        <span>{{'variable-management.detail.label.thirdQuartile' | translate}}: </span>
+                        <span>{{variable.distribution.statistics.thirdQuartile}}</span>
+                      </section>
+                      <section>
+                        <md-icon md-svg-src="/assets/images/icons/functions.svg" class="fdz-detail-icon"></md-icon>
+                        <span>{{'variable-management.detail.label.totalAbsoluteFrequency' | translate}}: </span>
+                        <span>{{variable.distribution.totalAbsoluteFrequency}}</span>
+                      </section>
+                      <section>
+                        <md-icon md-svg-src="/assets/images/icons/functions.svg" class="fdz-detail-icon"></md-icon>
+                        <span>{{'variable-management.detail.label.totalValidAbsoluteFrequency' | translate}}: </span>
+                        <span>{{variable.distribution.totalValidAbsoluteFrequency}}</span>
+                      </section>
+                      <section>
+                        <md-icon md-svg-src="/assets/images/icons/functions.svg" class="fdz-detail-icon"></md-icon>
+                        <span>{{'variable-management.detail.label.totalValidRelativeFrequency' | translate}}: </span>
+                        <span>{{variable.distribution.totalValidRelativeFrequency}}</span>
+                      </section>
+                    </section>
+                  </md-card-content>
               </md-card>
             </div>
             <div layout="row" layout-xs="column" flex>

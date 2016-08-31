@@ -21,6 +21,7 @@ angular.module('metadatamanagementApp')
     VariableResource.get({id: $stateParams.id})
     .$promise.then(function(variable) {
       $scope.variable = variable;
+      console.log(variable);
       $scope.allFrequencies = $scope.variable.distribution.validResponses
       .concat($scope.variable.distribution.missings);
       $scope.query.count = $scope.allFrequencies.length;

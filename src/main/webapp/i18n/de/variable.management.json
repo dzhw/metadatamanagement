@@ -31,8 +31,18 @@
         "value": "Wert",
         "label": "Label",
         "absoluteFrequency": "Absolute Häufigkeit",
-        "validRelativeFrequency": "Valide Relative Häufigkeit ",
-        "relativeFrequency": "Relative Häufigkeit"
+        "validRelativeFrequency": "Valide Relative Häufigkeit",
+        "relativeFrequency": "Relative Häufigkeit",
+        "firstQuartile": "Oberes Quartil",
+        "highWhisker": "Oberer Whisker",
+        "lowWhisker": "Unterer Whisker",
+        "maximum": "Maximum",
+        "median": "Median",
+        "minimum": "Minimum",
+        "thirdQuartile": "Unteres Quartil",
+        "totalAbsoluteFrequency": "Totale Absolute Häufigkeit",
+        "totalValidAbsoluteFrequency": "Totale Valide Absolute Häufigkeit",
+        "totalValidRelativeFrequency": "Totale Valide Relative Häufigkeit"
       }
     },
     "name": "Name",
