@@ -2,16 +2,18 @@
 'use strict';
 
 angular.module('metadatamanagementApp').service('StudyUploadService',
-  function(ExcelReaderService, StudyBuilderService,
-    StudyDeleteResource, JobLoggingService,
-    ErrorMessageResolverService, ElasticSearchAdminService) {
+  function(ZipReaderService,
+    StudyBuilderService, StudyDeleteResource, JobLoggingService,
+    ErrorMessageResolverService, ExcelReaderService, $q,
+    ElasticSearchAdminService) {
     var objects;
     var uploadCount;
+
     var upload = function() {
       if (uploadCount === objects.length) {
         ElasticSearchAdminService.processUpdateQueue().then(function() {
           JobLoggingService.finish(
-            'study-management.log-messages.study.upload-terminated', {
+            'study-management.log-messages.studies.upload-terminated', {
               total: JobLoggingService.getCurrentJob().total,
               errors: JobLoggingService.getCurrentJob().errors
             });
@@ -20,7 +22,7 @@ angular.module('metadatamanagementApp').service('StudyUploadService',
         if (!objects[uploadCount].id || objects[uploadCount].id === '') {
           var index = uploadCount;
           JobLoggingService.error(
-            'study-management.log-messages.study.missing-id', {
+            'study-management.log-messages.studies.missing-id', {
               index: index + 1
             });
           uploadCount++;
@@ -32,7 +34,7 @@ angular.module('metadatamanagementApp').service('StudyUploadService',
             return upload();
           }).catch(function(error) {
             var errorMessages = ErrorMessageResolverService
-              .getErrorMessages(error, 'study');
+              .getErrorMessages(error, 'studies');
             JobLoggingService.error(errorMessages.message,
               errorMessages.translationParams, errorMessages.subMessages
             );
@@ -43,28 +45,61 @@ angular.module('metadatamanagementApp').service('StudyUploadService',
       }
     };
     var uploadStudies = function(file, dataAcquisitionProjectId) {
+      var zip;
       uploadCount = 0;
-      JobLoggingService.start('study');
-      ExcelReaderService.readFileAsync(file).then(function(data) {
-        objects = StudyBuilderService.getStudies(data,
-          dataAcquisitionProjectId);
-        StudyDeleteResource.deleteByDataAcquisitionProjectId({
-            dataAcquisitionProjectId: dataAcquisitionProjectId
-          },
-          upload,
-          function(error) {
-            var errorMessages = ErrorMessageResolverService
-              .getErrorMessages(error, 'study');
-            errorMessages.forEach(function(errorMessage) {
-              JobLoggingService.error(errorMessage.message,
+      JobLoggingService.start('studies');
+      ZipReaderService.readZipFileAsync(file)
+        .then(function(zipFile) {
+          try {
+            var excelFileStudy = zipFile.files['study.xlsx'];
+            var excelFileReleases = zipFile.files['releases.xlsx'];
+            if (excelFileReleases && excelFileStudy) {
+              zip = zipFile;
+              var study = ExcelReaderService.readFileAsync(excelFileStudy);
+              study.releases =
+                ExcelReaderService.readFileAsync(excelFileReleases);
+              return study;
+            } else {
+              return $q.reject('unsupportedDirectoryStructure');
+            }
+          } catch (e) {
+            return $q.reject('unsupportedDirectoryStructure');
+          }
+        }, function() {
+          JobLoggingService.cancel(
+            'global.log-messages.unsupported-zip-file', {});
+        }).then(function(study) {
+          objects = StudyBuilderService.getStudies(study, zip,
+            dataAcquisitionProjectId);
+          StudyBuilderService.getParseErrors
+            .forEach(function(errorMessage) {
+              JobLoggingService.error(errorMessage.errorMessage,
                 errorMessage.translationParams);
             });
-          });
-      }, function() {
-        JobLoggingService.cancel(
-          'global.log-messages.unsupported-excel-file', {});
-      });
+          StudyDeleteResource.deleteByDataAcquisitionProjectId({
+              dataAcquisitionProjectId: dataAcquisitionProjectId
+            },
+            upload,
+            function(error) {
+              var errorMessages = ErrorMessageResolverService
+                .getErrorMessages(error, 'study');
+              errorMessages.forEach(function(errorMessage) {
+                JobLoggingService.error(errorMessage.message,
+                  errorMessage.translationParams);
+              });
+            });
+        }, function(error) {
+          if (error === 'unsupportedDirectoryStructure') {
+            JobLoggingService.cancel(
+              'global.log-messages.unsupported-directory-structure', {}
+            );
+          } else {
+            JobLoggingService.cancel(
+              'global.log-messages.unsupported-excel-file', {});
+          }
+        });
     };
+
     return {
       uploadStudies: uploadStudies
     };
