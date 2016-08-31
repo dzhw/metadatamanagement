@@ -3,6 +3,15 @@
     "home": {
       "title": "Study"
     },
+    "log-messages": {
+      "study": {
+        "saved": "Study with RDC-ID {{ id }} was saved successfully!",
+        "not-saved": "Study with RDC-ID {{ id }} has not been saved!",
+        "missing-id": "Study {{ index }} does not contain a RDC-ID and has not been saved:",
+        "upload-terminated": "Finished upload of {{ total }} Studies with {{ errors }} errors.",
+        "cancelled": "Studies upload cancelled!"
+      }
+    },
     "error": {
       "study": {
         "id": {

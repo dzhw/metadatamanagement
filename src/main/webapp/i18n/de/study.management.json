@@ -3,6 +3,24 @@
     "home": {
       "title": "Studie"
     },
+    "log-messages": {
+      "study": {
+        "saved": "Studie mit FDZ-ID {{ id }} erfolgreich gespeichert!",
+        "not-saved": "Studie mit FDZ-ID {{ id }} wurde nicht gespeichert:",
+        "missing-id": "Die {{ index }}. Studie enthält keine FDZ-ID und wurde nicht gespeichert!",
+        "upload-terminated": "Upload von {{ total }} Studien mit {{ errors }} Fehlern beendet!",
+        "cancelled": "Upload von Studien Abgebrochen!"
+      }
+    },
+    "log-messages": {
+      "variable": {
+        "saved": "Variable mit FDZ-ID {{ id }} erfolgreich gespeichert!",
+        "not-saved": "Variable mit FDZ-ID {{ id }} wurde nicht gespeichert:",
+        "missing-id": "Die {{ index }}. Variable enthält keine FDZ-ID und wurde nicht gespeichert!",
+        "upload-terminated": "Upload von {{ total }} Variablen mit {{ errors }} Fehlern beendet!",
+        "cancelled": "Upload von Variablen Abgebrochen!"
+      }
+    },
     "error": {
       "study": {
         "id": {

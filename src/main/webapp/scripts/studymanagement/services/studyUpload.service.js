@@ -13,7 +13,7 @@ angular.module('metadatamanagementApp').service('StudyUploadService',
       if (uploadCount === objects.length) {
         ElasticSearchAdminService.processUpdateQueue().then(function() {
           JobLoggingService.finish(
-            'study-management.log-messages.studies.upload-terminated', {
+            'study-management.log-messages.study.upload-terminated', {
               total: JobLoggingService.getCurrentJob().total,
               errors: JobLoggingService.getCurrentJob().errors
             });
@@ -22,7 +22,7 @@ angular.module('metadatamanagementApp').service('StudyUploadService',
         if (!objects[uploadCount].id || objects[uploadCount].id === '') {
           var index = uploadCount;
           JobLoggingService.error(
-            'study-management.log-messages.studies.missing-id', {
+            'study-management.log-messages.study.missing-id', {
               index: index + 1
             });
           uploadCount++;

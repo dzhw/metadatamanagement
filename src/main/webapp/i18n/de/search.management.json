@@ -8,7 +8,9 @@
       "delete-questions-title": "Alle Fragen löschen?",
       "delete-questions": "Sind Sie sicher dass, Sie alle Fragen innerhalb des Datenaufbereitungsprojekts mit der FDZ-ID \"{{ id }}\" löschen möchten?",
       "delete-data-sets-title": "Alle Datensätze löschen?",
-      "delete-data-sets": "Sind Sie sicher dass, Sie alle Datensätze innerhalb des Datenaufbereitungsprojekts mit der FDZ-ID \"{{ id }}\" löschen möchten?"
+      "delete-data-sets": "Sind Sie sicher dass, Sie alle Datensätze innerhalb des Datenaufbereitungsprojekts mit der FDZ-ID \"{{ id }}\" löschen möchten?",
+      "delete-studies-title": "Alle Studien löschen?",
+      "delete-studies": "Sind Sie sicher dass, Sie alle Studien innerhalb des Datenaufbereitungsprojekts mit der FDZ-ID \"{{ id }}\" löschen möchten?"
     },
     "buttons": {
       "refresh": "Suche aktualisieren",
@@ -16,20 +18,23 @@
       "upload-surveys": "Erhebungen für ausgewähltes Datenaufbereitungsprojekt hochladen",
       "upload-data-sets": "Datensätze für ausgewähltes Datenaufbereitungsprojekt hochladen",
       "upload-questions": "Fragen für ausgewähltes Datenaufbereitungsprojekt hochladen",
+      "upload-studies": "Studien für ausgewähltes Datenaufbereitungsprojekt hochladen",
       "generate-variable-report": "Erzeuge Variablenreport"
     },
     "input-label": {
-      "all": "Suchen Sie Variablen, Fragen, Erhebungen oder Datensätze?",
+      "all": "Suchen Sie Studien, Variablen, Fragen, Erhebungen oder Datensätze?",
       "variables": "Suchen Sie Variablen?",
       "questions": "Suchen Sie Fragen?",
       "surveys": "Suchen Sie Erhebungen?",
-      "data-sets": "Suchen Sie Datensätze?"
+      "data-sets": "Suchen Sie Datensätze?",
+      "studies": "Suchen Sie Studien?"
     },
     "tabs": {
       "variables": "Variablen",
       "questions": "Fragen",
       "surveys": "Erhebungen",
       "data-sets": "Datensätze",
+      "studies": "Studien",
       "all": "Alle"
     }
   }

@@ -21,8 +21,7 @@ angular.module('metadatamanagementApp')
         resolve: {
           translatePartialLoader: ['$translatePartialLoader',
             function($translatePartialLoader) {
-              // TODO should be changed
-              $translatePartialLoader.addPart('variable.management');
+              $translatePartialLoader.addPart('study.management');
             }
           ]
         },

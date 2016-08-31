@@ -268,14 +268,13 @@ angular.module('metadatamanagementApp').controller('SearchController',
       if (!CleanJSObjectService.isNullOrEmpty(dataAcquisitionProject)) {
         var confirm = $mdDialog.confirm()
           .title($translate.instant(
-            'search-management.delete-messages.' +
-            'study-title'))
+            'search-management.delete-messages.delete-studies-title'))
           .textContent($translate.instant(
-            'search-management.delete-messages.delete-study', {
+            'search-management.delete-messages.delete-studies', {
               id: dataAcquisitionProject.id
             }))
           .ariaLabel($translate.instant(
-            'search-management.delete-messages.delete-study', {
+            'search-management.delete-messages.delete-studies', {
               id: dataAcquisitionProject.id
             }))
           .ok($translate.instant('global.buttons.ok'))

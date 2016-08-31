@@ -8,7 +8,9 @@
       "delete-questions-title": "Delete all Questions?",
       "delete-questions": "Are you sure you want to delete all Questions within the Data Acquisition Project with RDC-ID \"{{ id }}\"?",
       "delete-data-sets-title": "Delete all Data Sets?",
-      "delete-data-sets": "Are you sure you want to delete all Data Sets within the Data Acquisition Project with RDC-ID \"{{ id }}\"?"
+      "delete-data-sets": "Are you sure you want to delete all Data Sets within the Data Acquisition Project with RDC-ID \"{{ id }}\"?",
+      "delete-studies-title": "Delete all Studies?",
+      "delete-studies": "Are you sure you want to delete all Studies within the Data Acquisition Project with RDC-ID \"{{ id }}\"?"
     },
     "buttons": {
       "refresh": "Refresh search results",
@@ -16,20 +18,23 @@
       "upload-surveys": "Upload Surveys for selected Data Acquisition Project",
       "upload-data-sets": "Upload Data Sets for selected Data Acquisition Project",
       "upload-questions": "Upload Questions for selected Data Acquisition Project",
+      "upload-studies": "Upload Studies for selected Data Acquisition Project",
       "generate-variable-report": "Generate Variable report"
     },
     "input-label": {
-      "all": "Are you searching for Variables, Questions, Surveys or Data Sets?",
+      "all": "Are you searching for Studies, Variables, Questions, Surveys or Data Sets?",
       "variables": "Are you searching for Variables?",
       "questions": "Are you searching for Questions?",
       "surveys": "Are you searching for Surveys?",
-      "data-sets": "Are you searching for Data Sets?"
+      "data-sets": "Are you searching for Data Sets?",
+      "studies": "Are you searching for Studies?"
     },
     "tabs": {
       "variables": "Variables",
       "questions": "Questions",
       "surveys": "Surveys",
       "data-sets": "Data Sets",
+      "studies": "Studies",
       "all": "All"
     }
   }
