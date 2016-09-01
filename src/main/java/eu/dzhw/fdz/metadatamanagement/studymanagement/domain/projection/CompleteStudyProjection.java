@@ -21,7 +21,7 @@ public interface CompleteStudyProjection extends AbstractRdcDomainObjectProjecti
   
   I18nString getTitle();
   
-  I18nString getDescripion();
+  I18nString getDescription();
   
   I18nString getInstitution();
   

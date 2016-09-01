@@ -87,7 +87,7 @@ public class UnitTestCreateDomainObjectUtils {
             .withDe("Citation Hint De")
             .withEn("Citation Hint En")
             .build())
-        .withDescripion(new I18nStringBuilder()
+        .withDescription(new I18nStringBuilder()
             .withDe("Description De")
             .withEn("Description En")
             .build())

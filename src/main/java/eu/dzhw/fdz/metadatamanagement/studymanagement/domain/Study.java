@@ -54,7 +54,7 @@ public class Study extends AbstractRdcDomainObject {
       message = "study-management.error.study.description.i18n-string-size")
   @I18nStringNotEmpty(
       message = "study-management.error.study.description.i18n-string-not-empty")
-  private I18nString descripion;
+  private I18nString description;
   
   @NotNull(message = "study-management.error.study.institution.not-null")
   @I18nStringSize(max = StringLengths.SMALL,
@@ -109,7 +109,7 @@ public class Study extends AbstractRdcDomainObject {
     return MoreObjects.toStringHelper(this)
       .add("id", id)
       .add("title", title)
-      .add("descripion", descripion)
+      .add("description", description)
       .add("institution", institution)
       .add("surveySeries", surveySeries)
       .add("sponsor", sponsor)
@@ -164,12 +164,12 @@ public class Study extends AbstractRdcDomainObject {
     this.title = title;
   }
 
-  public I18nString getDescripion() {
-    return descripion;
+  public I18nString getDescription() {
+    return description;
   }
 
-  public void setDescripion(I18nString descripion) {
-    this.descripion = descripion;
+  public void setDescription(I18nString description) {
+    this.description = description;
   }
 
   public I18nString getInstitution() {
