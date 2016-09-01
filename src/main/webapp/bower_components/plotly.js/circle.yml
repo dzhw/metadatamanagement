@@ -1,0 +1,26 @@
+general:
+  artifacts:
+      - "build/test_images/"
+      - "build/test_images_diff/"
+
+machine:
+  node:
+    version: 4.2.1
+  services:
+    - docker
+
+dependencies:
+  pre:
+    - docker pull plotly/testbed:latest
+  post:
+    - npm run cibuild
+    - npm run pretest
+
+test:
+  override:
+    - npm run test-image
+    - npm run test-export
+    - npm run citest-jasmine
+    - npm run test-bundle
+    - npm run test-syntax
+    - eslint .

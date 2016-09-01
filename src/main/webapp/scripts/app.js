@@ -4,7 +4,6 @@ angular
   .module(
     'metadatamanagementApp', ['LocalStorageModule', 'tmh.dynamicLocale',
       'pascalprecht.translate',
-      'nvd3', //for charts
       'ui.bootstrap', // for modal dialogs
       'elasticsearch',
       'ngResource', 'ui.router', 'ngCookies', 'ngAria', 'ngCacheBuster',
