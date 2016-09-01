@@ -5,9 +5,6 @@ angular.module('metadatamanagementApp').service('StudyBuilderService',
   function(StudyResource, CleanJSObjectService) {
     var parseErrors = [];
     var getStudies = function(study) {
-      console.log('Beginn');
-      console.log(study);
-      console.log('Beginn_1');
       var studiesObjArray = [];
       parseErrors.length = 0;
       for (var i = 0; i < study.length; i++) {
@@ -50,14 +47,8 @@ angular.module('metadatamanagementApp').service('StudyBuilderService',
           relatedPublicationIds: CleanJSObjectService.
           removeWhiteSpace(study[i].relatedPublicationIds)
         };
-        console.log('2');
-        console.log(studyObj);
         CleanJSObjectService.removeEmptyJsonObjects(studyObj);
-        console.log('3');
-        console.log(studyObj);
         studiesObjArray.push(new StudyResource(studyObj));
-        console.log('4');
-        console.log(studyObj);
       }
       return studiesObjArray;
     };
