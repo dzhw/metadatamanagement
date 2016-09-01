@@ -15,12 +15,6 @@
                             {{tab.count != null? '(' + tab.count + ')' : ''}}</span>
                     </md-tab-label>
                 </md-tab>
-                <md-tab>
-                    <md-tab-label>
-                       <md-icon md-svg-src="/assets/images/icons/study.svg"></md-icon>
-                        <span>Studien (1)</span>
-                    </md-tab-label>
-                </md-tab>
             </md-tabs>
         </div>
         <md-progress-linear md-mode="indeterminate" ng-if="isSearching"></md-progress-linear>
@@ -30,12 +24,8 @@
         <survey-search-result ng-switch-when="surveys" search-result="result._source"></survey-search-result>
         <question-search-result ng-switch-when="questions" search-result="result._source"></question-search-result>
         <dataset-search-result ng-switch-when="data_sets" search-result="result._source"></dataset-search-result>
-    </div>
-    <!-- this should be removed... -->
-    <div ng-if="selectedTabIndex === 5">
-      <study-search-result></study-search-result>
-    </div>
-    <!-- -->
+        <study-search-result ng-switch-when="studies" search-result="result._source"></study-search-result>
+    </div>    
     <div ng-if="page.totalHits" layout="row" layout-align="center">
         <ul uib-pagination next-text="{{'global.pagination.next'|translate}}" previous-text="{{'global.pagination.previous'|translate}}" total-items="page.totalHits" ng-model="page.currentPageNumber" max-size="5" ng-change="throttledSearch()" items-per-page="page.size" class="pagination-sm"></ul>
     </div>

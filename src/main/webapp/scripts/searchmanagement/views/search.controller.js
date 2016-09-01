@@ -61,6 +61,12 @@ angular.module('metadatamanagementApp').controller('SearchController',
       icon: 'assets/images/icons/data-set.svg',
       elasticSearchType: 'data_sets',
       count: null
+    }, {
+      title: 'search-management.tabs.studies',
+      inputLabel: 'search-management.input-label.studies',
+      icon: 'assets/images/icons/study.svg',
+      elasticSearchType: 'studies',
+      count: null
     }];
 
     //The current index of the active tab
