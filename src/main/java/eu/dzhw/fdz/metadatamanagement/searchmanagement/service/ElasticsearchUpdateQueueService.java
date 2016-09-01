@@ -21,11 +21,14 @@ import eu.dzhw.fdz.metadatamanagement.questionmanagement.repository.QuestionRepo
 import eu.dzhw.fdz.metadatamanagement.searchmanagement.dao.ElasticsearchDao;
 import eu.dzhw.fdz.metadatamanagement.searchmanagement.documents.DataSetSearchDocument;
 import eu.dzhw.fdz.metadatamanagement.searchmanagement.documents.QuestionSearchDocument;
+import eu.dzhw.fdz.metadatamanagement.searchmanagement.documents.StudySearchDocument;
 import eu.dzhw.fdz.metadatamanagement.searchmanagement.documents.SurveySearchDocument;
 import eu.dzhw.fdz.metadatamanagement.searchmanagement.documents.VariableSearchDocument;
 import eu.dzhw.fdz.metadatamanagement.searchmanagement.domain.ElasticsearchUpdateQueueAction;
 import eu.dzhw.fdz.metadatamanagement.searchmanagement.domain.ElasticsearchUpdateQueueItem;
 import eu.dzhw.fdz.metadatamanagement.searchmanagement.repository.ElasticsearchUpdateQueueItemRepository;
+import eu.dzhw.fdz.metadatamanagement.studymanagement.domain.Study;
+import eu.dzhw.fdz.metadatamanagement.studymanagement.repository.StudyRepository;
 import eu.dzhw.fdz.metadatamanagement.surveymanagement.domain.Survey;
 import eu.dzhw.fdz.metadatamanagement.surveymanagement.repository.SurveyRepository;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.Variable;
@@ -39,6 +42,7 @@ import io.searchbox.core.Index;
  * Service which manages asynchronous Elasticsearch updates as a FIFO queue.
  * 
  * @author René Reitmann
+ * @author Daniel Katzberg
  */
 @Service
 public class ElasticsearchUpdateQueueService {
@@ -72,6 +76,9 @@ public class ElasticsearchUpdateQueueService {
     
   @Inject
   private QuestionRepository questionRepository;
+  
+  @Inject 
+  private StudyRepository studyRepository;
   
   @Inject
   private ElasticsearchDao elasticsearchDao;
@@ -220,6 +227,9 @@ public class ElasticsearchUpdateQueueService {
       case questions:
         addUpsertActionForQuestion(lockedItem, bulkBuilder);
         break; 
+      case studies:
+        addUpsertActionForStudy(lockedItem, bulkBuilder);
+        break;
       default:
         throw new NotImplementedException("Processing queue item with type "
             + lockedItem.getDocumentType() + " has not been implemented!");
@@ -302,6 +312,28 @@ public class ElasticsearchUpdateQueueService {
       for (ElasticsearchIndices index : ElasticsearchIndices.values()) {
         QuestionSearchDocument searchDocument =
             new QuestionSearchDocument(question, index);
+
+        bulkBuilder.addAction(new Index.Builder(searchDocument)
+            .index(index.getIndexName())
+            .type(lockedItem.getDocumentType().name())
+            .id(searchDocument.getId())
+            .build());
+      }
+    }
+  }
+  
+  /**
+   * This method creates for the study repository update / insert actions.
+   * @param lockedItem A locked item.
+   * @param bulkBuilder A bulk builder for building the actions.
+   */
+  private void addUpsertActionForStudy(ElasticsearchUpdateQueueItem lockedItem,
+      Builder bulkBuilder) {
+    Study study = this.studyRepository.findOne(lockedItem.getDocumentId());
+    if (study != null) {
+      for (ElasticsearchIndices index : ElasticsearchIndices.values()) {
+        StudySearchDocument searchDocument =
+            new StudySearchDocument(study, index);
 
         bulkBuilder.addAction(new Index.Builder(searchDocument)
             .index(index.getIndexName())

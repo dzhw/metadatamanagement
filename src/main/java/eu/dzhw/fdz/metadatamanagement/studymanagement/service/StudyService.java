@@ -4,7 +4,9 @@ import java.util.List;
 
 import javax.inject.Inject;
 
+import org.springframework.data.rest.core.annotation.HandleAfterCreate;
 import org.springframework.data.rest.core.annotation.HandleAfterDelete;
+import org.springframework.data.rest.core.annotation.HandleAfterSave;
 import org.springframework.data.rest.core.annotation.RepositoryEventHandler;
 import org.springframework.stereotype.Service;
 
@@ -57,4 +59,18 @@ public class StudyService {
     });
     return deletedStudies;
   }  
+  
+  /**
+   * Enqueue update of study search document when the study is updated.
+   * 
+   * @param study the updated or created study.
+   */
+  @HandleAfterCreate
+  @HandleAfterSave
+  public void onStudySaved(Study study) {
+    elasticsearchUpdateQueueService.enqueue(
+        study.getId(), 
+        ElasticsearchType.studies, 
+        ElasticsearchUpdateQueueAction.UPSERT);
+  }
 }
