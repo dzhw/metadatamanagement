@@ -12,6 +12,7 @@ angular.module('metadatamanagementApp')
       order: 'value',
       limit: 5,
       count: 0,
+      allLabel: {},
       page: 1
     };
     /* options for pager */
@@ -25,6 +26,17 @@ angular.module('metadatamanagementApp')
       $scope.allFrequencies = $scope.variable.distribution.validResponses
       .concat($scope.variable.distribution.missings);
       $scope.query.count = $scope.allFrequencies.length;
+      var tempLimitOptions = [];
+      if ($scope.allFrequencies.length === $scope.query.limit) {
+        tempLimitOptions = [$scope.query.limit];
+      }else {
+        tempLimitOptions = [5, 10, {
+            label: $translate.instant('variable-management.detail.label.all'),
+            value: function() {
+                return $scope.allFrequencies.length;
+              }
+          }];
+      }
       $scope.options = {
         boundaryLinks: true,
         pageSelect: true,
@@ -34,12 +46,7 @@ angular.module('metadatamanagementApp')
            $translate.instant('variable-management.detail.label.rowsPerPage'),
           of: $translate.instant('variable-management.detail.label.of')
         },
-        limitOptions: [5, 10, 15,{
-          label: $translate.instant('variable-management.detail.label.all'),
-          value: function() {
-            return $scope.allFrequencies.length;
-          }
-        }]
+        limitOptions: tempLimitOptions
       };
       $scope.getStatistics();
     });
