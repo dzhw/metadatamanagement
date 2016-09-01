@@ -34,7 +34,7 @@ angular.module('metadatamanagementApp').service('StudyUploadService',
             return upload();
           }).catch(function(error) {
             var errorMessages = ErrorMessageResolverService
-              .getErrorMessages(error, 'studies');
+              .getErrorMessages(error, 'study');
             JobLoggingService.error(errorMessages.message,
               errorMessages.translationParams, errorMessages.subMessages
             );
@@ -46,7 +46,7 @@ angular.module('metadatamanagementApp').service('StudyUploadService',
     };
     var uploadStudy = function(file, dataAcquisitionProjectId) {
       uploadCount = 0;
-      JobLoggingService.start('studies');
+      JobLoggingService.start('study');
       ZipReaderService.readZipFileAsync(file)
         .then(function(zipFile) {
           try {
@@ -80,7 +80,7 @@ angular.module('metadatamanagementApp').service('StudyUploadService',
             upload,
             function(error) {
               var errorMessages = ErrorMessageResolverService
-                .getErrorMessages(error, 'studies');
+                .getErrorMessages(error, 'study');
               errorMessages.forEach(function(errorMessage) {
                 JobLoggingService.error(errorMessage.message,
                   errorMessage.translationParams);
