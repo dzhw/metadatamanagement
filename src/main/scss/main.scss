@@ -515,15 +515,3 @@ md-tooltip {
     text-overflow: ellipsis;
     overflow: hidden;
 }
-.fdz-table-hide{
-  visibility: none;
-    -webkit-transition: max-height 1.5s cubic-bezier(0, 1.05, 0, 1);
-    -moz-transition: max-height 1.5s cubic-bezier(0, 1.05, 0, 1);
-    transition: max-height 1.5s ease cubic-bezier(0, 1.05, 0, 1);
-}
-
-.fdz-table-hide:hover{
-    -webkit-transition: max-height 2s ease;
-    -moz-transition: max-height 2s ease;
-    transition: max-height 2s ease;
-}

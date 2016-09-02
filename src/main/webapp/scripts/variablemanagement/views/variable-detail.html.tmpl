@@ -162,7 +162,7 @@
                   </md-card-header-text>
                 </md-card-header>
                 <md-content style="background-color:white;">
-                <div class="fdz-table" id="fdz-table" ng-click="showRows()">
+                <div class="fdz-table" id="fdz-table">
                   <div class="fdz-table-row">
                     <div class="fdz-table-cell fdz-table-cell-fixed">
                       <div class="content">
@@ -195,7 +195,7 @@
                       </div>
                     </div>
                   </div>
-                  <div class="fdz-table-row" ng-repeat="row in frequencies" id="row{{$index}}" ng-class="(4 > {{$index}}) || ({{$index}} > (frequencies.length-3)) ? 'fdz-table-show' : 'fdz-table-hide ng-hide'">
+                  <div class="fdz-table-row" ng-repeat="row in frequencies" id="row{{$index}}" ng-class="(4 > {{$index}}) || ({{$index}} > (frequencies.length-3)) ? '' : 'ng-hide'">
                     <div class="fdz-table-cell">{{row.value}}{{row.code}}</div>
                     <div class="fdz-table-cell fdz-table-cell-fixed">
                       <div class="content">
@@ -207,6 +207,14 @@
                     <div class="fdz-table-cell">{{row.validRelativeFrequency}}</div>
                     <div class="fdz-table-cell">{{row.relativeFrequency}}</div>
                   </div>
+                  <md-fab-speed-dial md-direction="up" ng-click="showRows()" class="md-fling md-fab-bottom-right md-hover-full speed-dial">
+                      <md-button ng-hide="tableFlag" aria-label="Menu" class="md-accent md-fab">
+                        <md-icon md-font-set="material-icons">add</md-icon>
+                      </md-button>
+                      <md-button ng-hide="!tableFlag" aria-label="Menu" class="md-accent md-fab">
+                        <md-icon md-font-set="material-icons">remove</md-icon>
+                      </md-button>
+                  </md-fab-speed-dial>
                 </div>
                 </md-content>
               </md-card>
