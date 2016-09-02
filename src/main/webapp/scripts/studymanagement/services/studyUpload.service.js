@@ -53,10 +53,11 @@ angular.module('metadatamanagementApp').service('StudyUploadService',
             var excelFileStudy = zipFile.files['study.xlsx'];
             var excelFileReleases = zipFile.files['releases.xlsx'];
             if (excelFileReleases && excelFileStudy) {
-              var study = ExcelReaderService.readFileAsync(excelFileStudy);
-              study.releases =
-                ExcelReaderService.readFileAsync(excelFileReleases);
-              study.dataAcquisitionProjectId = dataAcquisitionProjectId;
+              var study = {};
+              study = ExcelReaderService.readFileAsync(excelFileStudy);
+              //study.releases =
+              //  ExcelReaderService.readFileAsync(excelFileReleases);
+              //study.dataAcquisitionProjectId = dataAcquisitionProjectId;
               return study;
             } else {
               return $q.reject('unsupportedDirectoryStructure');
@@ -68,6 +69,7 @@ angular.module('metadatamanagementApp').service('StudyUploadService',
           JobLoggingService.cancel(
             'global.log-messages.unsupported-zip-file', {});
         }).then(function(study) {
+          study.dataAcquisitionProjectId = dataAcquisitionProjectId;
           objects = StudyBuilderService.getStudies(study);
           StudyBuilderService.getParseErrors
             .forEach(function(errorMessage) {
