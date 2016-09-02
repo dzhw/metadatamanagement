@@ -162,36 +162,52 @@
                   </md-card-header-text>
                 </md-card-header>
                 <md-content style="background-color:white;">
-                  <md-table-container>
-                    <table md-table>
-                      <thead md-head md-order="query.order">
-                        <tr md-row>
-                          <th md-column style="text-align:center;"><span>{{'variable-management.detail.label.value' | translate }}</span></th>
-                          <th md-column style="text-align:center;"><span>{{'variable-management.detail.label.label' | translate }}</span></th>
-                          <th md-column style="text-align:center;">M</th>
-                          <th md-column style="text-align:center;">{{'variable-management.detail.label.absoluteFrequency' | translate }}</th>
-                          <th md-column style="text-align:center;">{{'variable-management.detail.label.validRelativeFrequency' | translate }}</th>
-                          <th md-column style="text-align:center;">{{'variable-management.detail.label.relativeFrequency' | translate }}</th>
-                        </tr>
-                     </thead>
-                     <tbody md-body>
-                       <tr md-row ng-repeat="row in frequencies">
-                         <td md-cell style="text-align:center;">{{row.value}}{{row.code}}</td>
-                         <td md-cell style="text-align:center;">{{row.label[currentLanguage]}}</td>
-                         <td md-cell style="text-align:center;">{{row.code ? 'm' : ''}}</td>
-                         <td md-cell style="text-align:center;">{{row.absoluteFrequency}}</td>
-                         <td md-cell style="text-align:center;">{{row.validRelativeFrequency}}</td>
-                         <td md-cell style="text-align:center;">{{row.relativeFrequency}}</td>
-                      </tr>
-                    </tbody>
-                  </table>
-                </md-table-container>
-                <md-table-pagination md-limit="query.limit" md-limit-options="options.limitOptions"
-                                     md-page="query.page" md-total="{{query.count}}"
-                                     md-page-select="options.pageSelect"
-                                     md-boundary-links="options.boundaryLinks"
-                                     md-on-paginate="getStatistics"
-                                     md-label="{{options.label}}"></md-table-pagination>
+                <div class="fdz-table" id="fdz-table" ng-click="showRows()">
+                  <div class="fdz-table-row">
+                    <div class="fdz-table-cell fdz-table-cell-fixed">
+                      <div class="content">
+                        <div class="ellipsis">{{'variable-management.detail.label.value' | translate }}</div>
+                      </div>
+                    </div>
+                    <div class="fdz-table-cell fdz-table-cell-fixed">
+                      <div class="content">
+                        <div class="ellipsis">{{'variable-management.detail.label.label' | translate }}</div>
+                      </div>
+                    </div>
+                    <div class="fdz-table-cell fdz-table-cell-fixed">
+                      <div class="content">
+                        <div class="ellipsis">M</div>
+                      </div>
+                    </div>
+                    <div class="fdz-table-cell fdz-table-cell-fixed">
+                      <div class="content">
+                        <div class="ellipsis">{{'variable-management.detail.label.absoluteFrequency' | translate }}</div>
+                      </div>
+                    </div>
+                    <div class="fdz-table-cell fdz-table-cell-fixed">
+                      <div class="content">
+                        <div class="ellipsis">{{'variable-management.detail.label.validRelativeFrequency' | translate }}</div>
+                      </div>
+                    </div>
+                    <div class="fdz-table-cell fdz-table-cell-fixed">
+                      <div class="content">
+                        <div class="ellipsis">{{'variable-management.detail.label.relativeFrequency' | translate }}</div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="fdz-table-row" ng-repeat="row in frequencies" id="row{{$index}}" ng-class="(4 > {{$index}}) || ({{$index}} > (frequencies.length-3)) ? 'fdz-table-show' : 'fdz-table-hide ng-hide'">
+                    <div class="fdz-table-cell">{{row.value}}{{row.code}}</div>
+                    <div class="fdz-table-cell fdz-table-cell-fixed">
+                      <div class="content">
+                        <div class="ellipsis">{{row.label[currentLanguage]}}</div>
+                      </div>
+                    </div>
+                    <div class="fdz-table-cell">{{row.code ? 'm' : ''}}</div>
+                    <div class="fdz-table-cell">{{row.absoluteFrequency}}</div>
+                    <div class="fdz-table-cell">{{row.validRelativeFrequency}}</div>
+                    <div class="fdz-table-cell">{{row.relativeFrequency}}</div>
+                  </div>
+                </div>
                 </md-content>
               </md-card>
             </div>

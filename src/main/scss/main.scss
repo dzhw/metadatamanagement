@@ -478,3 +478,52 @@ md-tooltip {
 .md-table-pagination div div.label {
   color: #757575;
 }
+.fdz-table {
+    display: table;
+    border-collapse: collapse;
+}
+.fdz-table:focus {
+    outline: none;
+}
+.fdz-table-row {
+    display: table-row;
+    border: 1px solid lightgray;
+    border-left: 0px;
+    border-right: 0px;
+    border-top: 0px;
+}
+.fdz-table-row:first-child {
+    font-weight: bold;
+}
+.fdz-table-row:last-child {
+    border-bottom: 0px;
+}
+.fdz-table-cell {
+    display: table-cell;
+    padding: 5px;
+    text-align: center;
+}
+.fdz-table-cell-fixed .content {
+    display: table;
+    margin:0px;
+    table-layout: fixed;
+    width: 100%;
+}
+.fdz-table-cell-fixed  .content .ellipsis {
+    display: table-cell;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+}
+.fdz-table-hide{
+  visibility: none;
+    -webkit-transition: max-height 1.5s cubic-bezier(0, 1.05, 0, 1);
+    -moz-transition: max-height 1.5s cubic-bezier(0, 1.05, 0, 1);
+    transition: max-height 1.5s ease cubic-bezier(0, 1.05, 0, 1);
+}
+
+.fdz-table-hide:hover{
+    -webkit-transition: max-height 2s ease;
+    -moz-transition: max-height 2s ease;
+    transition: max-height 2s ease;
+}

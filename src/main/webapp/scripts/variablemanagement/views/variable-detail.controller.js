@@ -7,6 +7,8 @@ angular.module('metadatamanagementApp')
     $scope.frequencies = [];
     /* all frequencies */
     $scope.allFrequencies = [];
+
+    $scope.tableFlag = false;
     /* params for table */
     $scope.query = {
       order: 'value',
@@ -24,42 +26,43 @@ angular.module('metadatamanagementApp')
       $scope.variable = variable;
       console.log(variable);
       if ($scope.variable.distribution.validResponses) {
-        $scope.allFrequencies = $scope.variable.distribution.validResponses
+        $scope.frequencies = $scope.variable.distribution.validResponses
         .concat($scope.variable.distribution.missings);
+        if ($scope.frequencies.length > 5) {
+          $scope.frequencies.splice(3, 0, {
+            value: '...',
+            label: {
+              de: '...',
+              en: '...'
+            },
+            absoluteFrequency: '...',
+            validRelativeFrequency: '...',
+            relativeFrequency: '...'
+          });
+        }
       } else {
-        $scope.allFrequencies = $scope.variable.distribution.missings;
+        $scope.frequencies = $scope.variable.distribution.missings;
       }
-      $scope.query.count = $scope.allFrequencies.length;
-      var tempLimitOptions = [];
-      if ($scope.allFrequencies.length === $scope.query.limit) {
-        tempLimitOptions = [$scope.query.limit];
-      }else {
-        tempLimitOptions = [5, 10, {
-            label: $translate.instant('variable-management.detail.label.all'),
-            value: function() {
-                return $scope.allFrequencies.length;
-              }
-          }];
-      }
-      $scope.options = {
-        boundaryLinks: false,
-        pageSelect: true,
-        label: {
-          page: $translate.instant('variable-management.detail.label.page'),
-          rowsPerPage:
-           $translate.instant('variable-management.detail.label.rowsPerPage'),
-          of: $translate.instant('variable-management.detail.label.of')
-        },
-        limitOptions: tempLimitOptions
-      };
-      $scope.getStatistics();
     });
-    /* function to update table */
-    $scope.getStatistics = function() {
-      var startPosition = ($scope.query.page - 1) * $scope.query.limit;
-      var endPosition = startPosition + $scope.query.limit;
-      $scope.frequencies = $scope.allFrequencies.slice(startPosition,
-        endPosition);
+
+    $scope.showRows = function() {
+      if ($scope.tableFlag === false) {
+        var hiddenRows = angular.element('.ng-hide');
+        $scope.tableFlag = true;
+        for (var i = 0; i < hiddenRows.length; i++) {
+          angular.element('#' + hiddenRows[i]
+            .getAttribute('id')).addClass('ng-show').removeClass('ng-hide');
+        }
+        angular.element('#row3').addClass('ng-hide').removeClass('ng-show');
+      }else {
+        var displayedRows = angular.element('.ng-show');
+        $scope.tableFlag = false;
+        for (var j = 0; j < displayedRows.length; j++) {
+          angular.element('#' + displayedRows[j]
+            .getAttribute('id')).addClass('ng-hide').removeClass('ng-show');
+        }
+        angular.element('#row3').addClass('ng-show').removeClass('ng-hide');
+      }
     };
     /* function to start blockUI */
     $scope.startBlockUI = function() {
