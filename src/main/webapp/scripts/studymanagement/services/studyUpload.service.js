@@ -47,18 +47,15 @@ angular.module('metadatamanagementApp').service('StudyUploadService',
     var uploadStudy = function(file, dataAcquisitionProjectId) {
       uploadCount = 0;
       JobLoggingService.start('study');
+      var zip;
+      var releasesForStudy;
       ZipReaderService.readZipFileAsync(file)
         .then(function(zipFile) {
           try {
-            var excelFileStudy = zipFile.files['study.xlsx'];
+            zip = zipFile;
             var excelFileReleases = zipFile.files['releases.xlsx'];
-            if (excelFileReleases && excelFileStudy) {
-              var study = {};
-              study = ExcelReaderService.readFileAsync(excelFileStudy);
-              //study.releases =
-              //  ExcelReaderService.readFileAsync(excelFileReleases);
-              //study.dataAcquisitionProjectId = dataAcquisitionProjectId;
-              return study;
+            if (excelFileReleases) {
+              return ExcelReaderService.readFileAsync(excelFileReleases);
             } else {
               return $q.reject('unsupportedDirectoryStructure');
             }
@@ -68,8 +65,25 @@ angular.module('metadatamanagementApp').service('StudyUploadService',
         }, function() {
           JobLoggingService.cancel(
             'global.log-messages.unsupported-zip-file', {});
-        }).then(function(study) {
+        }).then(function(releases) {
+          try {
+            releasesForStudy = releases;
+            var excelFileStudy = zip.files['study.xlsx'];
+            if (excelFileStudy) {
+              return ExcelReaderService.readFileAsync(excelFileStudy);
+            } else {
+              return $q.reject('unsupportedDirectoryStructure');
+            }
+          } catch (e) {
+            return $q.reject('unsupportedDirectoryStructure');
+          }
+        }, function() {
+          JobLoggingService.cancel(
+            'global.log-messages.unsupported-zip-file', {});
+        })
+        .then(function(study) {
           study.dataAcquisitionProjectId = dataAcquisitionProjectId;
+          study.releases = releasesForStudy;
           objects = StudyBuilderService.getStudies(study);
           StudyBuilderService.getParseErrors
             .forEach(function(errorMessage) {

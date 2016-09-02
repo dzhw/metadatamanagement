@@ -7,7 +7,6 @@ angular.module('metadatamanagementApp').service('StudyBuilderService',
     var getStudies = function(study) {
       var studiesObjArray = [];
       parseErrors.length = 0;
-      console.log(study);
       for (var i = 0; i < study.length; i++) {
         var studyObj = {
           id: study[i].id,
@@ -39,8 +38,7 @@ angular.module('metadatamanagementApp').service('StudyBuilderService',
           accessWays: CleanJSObjectService.
           removeWhiteSpace(study[i].accessWays),
           dataAcquisitionProjectId: study.dataAcquisitionProjectId,
-          releases: CleanJSObjectService.
-          removeWhiteSpace(study[i].releases),
+          releases: study.releases,
           surveyIds: CleanJSObjectService.
           removeWhiteSpace(study[i].surveyIds),
           dataSetIds: CleanJSObjectService.
@@ -50,7 +48,6 @@ angular.module('metadatamanagementApp').service('StudyBuilderService',
           relatedPublicationIds: CleanJSObjectService.
           removeWhiteSpace(study[i].relatedPublicationIds)
         };
-        console.log(studyObj);
         CleanJSObjectService.removeEmptyJsonObjects(studyObj);
         studiesObjArray.push(new StudyResource(studyObj));
       }
