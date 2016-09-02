@@ -195,7 +195,7 @@
                       </div>
                     </div>
                   </div>
-                  <div class="fdz-table-row" ng-repeat="row in frequencies" id="row{{$index}}" ng-class="(4 > {{$index}}) || ({{$index}} > (frequencies.length-3)) ? '' : 'ng-hide'">
+                  <div class="fdz-table-row" ng-repeat="row in frequencies" id="row{{$index}}" ng-class="(4 > {{$index}}) || ({{$index}} > (frequencies.length-4)) ? '' : 'ng-hide'">
                     <div class="fdz-table-cell">{{row.value}}{{row.code}}</div>
                     <div class="fdz-table-cell fdz-table-cell-fixed">
                       <div class="content">
@@ -207,7 +207,7 @@
                     <div class="fdz-table-cell">{{row.validRelativeFrequency}}</div>
                     <div class="fdz-table-cell">{{row.relativeFrequency}}</div>
                   </div>
-                  <md-fab-speed-dial md-direction="up" ng-click="showRows()" class="md-fling md-fab-bottom-right md-hover-full speed-dial">
+                  <md-fab-speed-dial ng-if="frequencies.length > 10" md-direction="up" ng-click="showRows()" class="md-fling md-fab-bottom-right md-hover-full speed-dial">
                       <md-button ng-hide="tableFlag" aria-label="Menu" class="md-accent md-fab">
                         <md-icon md-font-set="material-icons">add</md-icon>
                       </md-button>

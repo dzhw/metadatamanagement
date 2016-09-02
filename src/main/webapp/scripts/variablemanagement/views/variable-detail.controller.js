@@ -28,7 +28,7 @@ angular.module('metadatamanagementApp')
       if ($scope.variable.distribution.validResponses) {
         $scope.frequencies = $scope.variable.distribution.validResponses
         .concat($scope.variable.distribution.missings);
-        if ($scope.frequencies.length > 5) {
+        if ($scope.frequencies.length > 10) {
           $scope.frequencies.splice(3, 0, {
             value: '...',
             label: {
