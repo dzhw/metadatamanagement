@@ -5,7 +5,7 @@ angular.module('metadatamanagementApp').directive('histogram', ['$window',
   function($window) {
     return {
       restrict: 'E',
-      templateUrl: '/scripts/variablemanagement/directives/histogram.html.tmpl',
+      templateUrl: 'scripts/variablemanagement/directives/histogram.html.tmpl',
       scope: {
         statistics: '=',
         language: '='
