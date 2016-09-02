@@ -23,8 +23,12 @@ angular.module('metadatamanagementApp')
     .$promise.then(function(variable) {
       $scope.variable = variable;
       console.log(variable);
-      $scope.allFrequencies = $scope.variable.distribution.validResponses
-      .concat($scope.variable.distribution.missings);
+      if ($scope.variable.distribution.validResponses) {
+        $scope.allFrequencies = $scope.variable.distribution.validResponses
+        .concat($scope.variable.distribution.missings);
+      } else {
+        $scope.allFrequencies = $scope.variable.distribution.missings;
+      }
       $scope.query.count = $scope.allFrequencies.length;
       var tempLimitOptions = [];
       if ($scope.allFrequencies.length === $scope.query.limit) {
@@ -38,7 +42,7 @@ angular.module('metadatamanagementApp')
           }];
       }
       $scope.options = {
-        boundaryLinks: true,
+        boundaryLinks: false,
         pageSelect: true,
         label: {
           page: $translate.instant('variable-management.detail.label.page'),

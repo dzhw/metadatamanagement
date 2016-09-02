@@ -12,14 +12,25 @@
         <md-list style="padding:0px;" flex>
             <md-list-item class="md-2-line md-long-text fdz-search-result fdz-card-header-border" style="padding:0px; margin:0px;" ng-repeat="entity in entities" ng-click="goToEntity(entity, {id:entity.id})">
                 <section layout="row" ng-if="entity.found">
+                  <!--
                     <md-icon md-svg-src="/assets/images/icons/{{type}}.svg" class="fdz-detail-icon"></md-icon>
+                  -->
+                  <md-icon ng-if="type === 'variable'" md-svg-src="/assets/images/icons/variable.svg" class="fdz-detail-icon"></md-icon>
+                  <md-icon ng-if="type === 'survey'" md-svg-src="/assets/images/icons/survey.svg" class="fdz-detail-icon"></md-icon>
+                  <md-icon ng-if="type === 'study'" md-svg-src="/assets/images/icons/study.svg" class="fdz-detail-icon"></md-icon>
+                  <md-icon ng-if="type === 'data-set'" md-svg-src="/assets/images/icons/data-set.svg" class="fdz-detail-icon"></md-icon>
+                  <md-icon ng-if="type === 'question'" md-svg-src="/assets/images/icons/question.svg" class="fdz-detail-icon"></md-icon>
                     <div class="md-list-item-text">
                         <p style="color:black" ng-repeat="row in entity.rows">{{row}}
                         </p>
                     </div>
                 </section>
                 <section layout="row" ng-if="!entity.found">
-                    <md-icon md-svg-src="/assets/images/icons/{{type}}.svg" class="fdz-detail-icon" style="fill:red;"></md-icon>
+                    <md-icon ng-if="type === 'variable'" md-svg-src="/assets/images/icons/variable.svg" class="fdz-detail-icon" style="fill:red;"></md-icon>
+                    <md-icon ng-if="type === 'survey'" md-svg-src="/assets/images/icons/survey.svg" class="fdz-detail-icon" style="fill:red;"></md-icon>
+                    <md-icon ng-if="type === 'study'" md-svg-src="/assets/images/icons/study.svg" class="fdz-detail-icon" style="fill:red;"></md-icon>
+                    <md-icon ng-if="type === 'data-set'" md-svg-src="/assets/images/icons/data-set.svg" class="fdz-detail-icon" style="fill:red;"></md-icon>
+                    <md-icon ng-if="type === 'question'" md-svg-src="/assets/images/icons/question.svg" class="fdz-detail-icon" style="fill:red;"></md-icon>
                     <div class="md-list-item-text">
                     <p style="color:black">{{type + '-management.detail.not-found' | translate :'{id:"'+ entity.id +'"}'}}</p>
                   </div>
