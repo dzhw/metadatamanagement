@@ -14,16 +14,15 @@ angular.module('metadatamanagementApp').directive('diagram', ['$window',
       controller: ['$scope',
         function($scope) {
           var data = [{
-            x: [],
-            y: [],
-            type: '',
             marker: {
               color: 'rgb(49,130,189)',
               opacity: 0.7
             }}];
           if (($scope.type === 'nominal') || ($scope.type === 'ordinal')) {
+            data[0].x = [];
+            data[0].y = [];
+            data[0].type = 'bar';
             $scope.statistics.validResponses.forEach(function(obj) {
-              data[0].type = 'bar';
               data[0].x.push('-' + obj.label[$scope.language] + '-');
               data[0].y.push(obj.absoluteFrequency);
             });
@@ -31,6 +30,7 @@ angular.module('metadatamanagementApp').directive('diagram', ['$window',
           if (($scope.type === 'kontinuierlich') ||
           ($scope.type === 'continous')) {
             //$scope.statistics.validResponses.forEach(function(obj) {
+            data[0].x = [];
             data[0].type = 'histogram';
             //data[0].x.push('-' + obj.label[$scope.language] + '-');
             //data[0].y.push(obj.absoluteFrequency);
