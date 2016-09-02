@@ -37,11 +37,13 @@ angular.module('metadatamanagementApp').service('StudyBuilderService',
           authors: study[i].authors,
           accessWays: CleanJSObjectService.
           removeWhiteSpace(study[i].accessWays),
-          studyAcquisitionProjectId: study[i].studyAcquisitionProjectId,
+          dataAcquisitionProjectId: study[i].dataAcquisitionProjectId,
           releases: CleanJSObjectService.
           removeWhiteSpace(study[i].releases),
-          studyIds: CleanJSObjectService.
-          removeWhiteSpace(study[i].studyIds),
+          surveyIds: CleanJSObjectService.
+          removeWhiteSpace(study[i].surveyIds),
+          dataSetIds: CleanJSObjectService.
+          removeWhiteSpace(study[i].dataSetIds),
           instrumentIds: CleanJSObjectService.
           removeWhiteSpace(study[i].instrumentIds),
           relatedPublicationIds: CleanJSObjectService.
