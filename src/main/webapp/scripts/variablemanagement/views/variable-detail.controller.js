@@ -46,7 +46,7 @@ angular.module('metadatamanagementApp')
     });
 
     $scope.showRows = function() {
-      if($scope.frequencies.length > 8) {
+      if ($scope.frequencies.length > 8) {
         if ($scope.tableFlag === 'expand') {
           var hiddenRows = angular.element('.ng-hide');
           $scope.tableFlag = 'collapse';
