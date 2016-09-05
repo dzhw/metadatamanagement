@@ -46,22 +46,24 @@ angular.module('metadatamanagementApp')
     });
 
     $scope.showRows = function() {
-      if ($scope.tableFlag === 'expand') {
-        var hiddenRows = angular.element('.ng-hide');
-        $scope.tableFlag = 'collapse';
-        for (var i = 0; i < hiddenRows.length; i++) {
-          angular.element('#' + hiddenRows[i]
+      if($scope.frequencies.length > 8) {
+        if ($scope.tableFlag === 'expand') {
+          var hiddenRows = angular.element('.ng-hide');
+          $scope.tableFlag = 'collapse';
+          for (var i = 0; i < hiddenRows.length; i++) {
+            angular.element('#' + hiddenRows[i]
             .getAttribute('id')).addClass('ng-show').removeClass('ng-hide');
-        }
-        angular.element('#row3').addClass('ng-hide').removeClass('ng-show');
-      }else {
-        var displayedRows = angular.element('.ng-show');
-        $scope.tableFlag = 'expand';
-        for (var j = 0; j < displayedRows.length; j++) {
-          angular.element('#' + displayedRows[j]
+          }
+          angular.element('#row3').addClass('ng-hide').removeClass('ng-show');
+        }else {
+          var displayedRows = angular.element('.ng-show');
+          $scope.tableFlag = 'expand';
+          for (var j = 0; j < displayedRows.length; j++) {
+            angular.element('#' + displayedRows[j]
             .getAttribute('id')).addClass('ng-hide').removeClass('ng-show');
+          }
+          angular.element('#row3').addClass('ng-show').removeClass('ng-hide');
         }
-        angular.element('#row3').addClass('ng-show').removeClass('ng-hide');
       }
     };
     /* function to start blockUI */
