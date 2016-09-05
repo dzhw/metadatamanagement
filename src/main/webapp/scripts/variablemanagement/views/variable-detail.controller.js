@@ -8,7 +8,7 @@ angular.module('metadatamanagementApp')
     /* all frequencies */
     $scope.allFrequencies = [];
 
-    $scope.tableFlag = false;
+    $scope.tableFlag = 'expand';
     /* params for table */
     $scope.query = {
       order: 'value',
@@ -28,7 +28,7 @@ angular.module('metadatamanagementApp')
       if ($scope.variable.distribution.validResponses) {
         $scope.frequencies = $scope.variable.distribution.validResponses
         .concat($scope.variable.distribution.missings);
-        if ($scope.frequencies.length > 10) {
+        if ($scope.frequencies.length > 8) {
           $scope.frequencies.splice(3, 0, {
             value: '...',
             label: {
@@ -46,9 +46,9 @@ angular.module('metadatamanagementApp')
     });
 
     $scope.showRows = function() {
-      if ($scope.tableFlag === false) {
+      if ($scope.tableFlag === 'expand') {
         var hiddenRows = angular.element('.ng-hide');
-        $scope.tableFlag = true;
+        $scope.tableFlag = 'collapse';
         for (var i = 0; i < hiddenRows.length; i++) {
           angular.element('#' + hiddenRows[i]
             .getAttribute('id')).addClass('ng-show').removeClass('ng-hide');
@@ -56,7 +56,7 @@ angular.module('metadatamanagementApp')
         angular.element('#row3').addClass('ng-hide').removeClass('ng-show');
       }else {
         var displayedRows = angular.element('.ng-show');
-        $scope.tableFlag = false;
+        $scope.tableFlag = 'expand';
         for (var j = 0; j < displayedRows.length; j++) {
           angular.element('#' + displayedRows[j]
             .getAttribute('id')).addClass('ng-hide').removeClass('ng-show');

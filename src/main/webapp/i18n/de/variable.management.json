@@ -23,6 +23,10 @@
       "frequencies": "Häufigkeiten",
       "generation-details": "Details der Generierung",
       "not-found": "Die id {{id}} referenziert auf eine unbekannte Variable.",
+      "table": {
+        "expand":"Klicken zum maximieren",
+        "collapse":"Klicken zum minimieren"
+      },
       "label": {
         "all": "Alle",
         "page":"Seite",
