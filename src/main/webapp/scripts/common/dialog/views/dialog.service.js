@@ -1,65 +1,92 @@
-/* global document */
+/* global document*/
+
 'use strict';
-
 angular.module('metadatamanagementApp').service('DialogService',
-  function($mdDialog, blockUI, $resource) {
-    var showDialog = function(entities, type, toBeDisplayedInformations,
-      currentLanguage) {
-      var entitiesResources = [];
+  function($mdDialog, blockUI, QuestionSearchResource, VariableSearchResource,
+    SurveySearchResource, DataSetSearchResource, $rootScope) {
+    var showDialog = function(ids, type) {
+      var entityResources = [];
       var dialogParent = angular.element(document.body);
-      /* number of load sequences */
-      var counter = 0;
-
-      /* function to load resources sequentially */
-      var loadEntities = function() {
-        if (counter < entities.length) {
-          $resource('api/' + type + 's/:id').get({
-            id: entities[counter],
-            projection: 'complete'
-          }).$promise.then(function(resource) {
-            var rows = [];
-            var entity = {};
-            toBeDisplayedInformations.forEach(function(rowName) {
-              if ((resource[rowName].hasOwnProperty('en')) ||
-              (resource[rowName].hasOwnProperty('de'))) {
-                var obj = resource[rowName];
-                rows.push(obj[currentLanguage]);
-              } else {
-                rows.push(resource[rowName]);
-              }
-            });
-            entity.id = resource.id;
-            entity.found = true;
-            entity.type = type + 'Detail';
-            entity.rows = rows;
-            entitiesResources.push(entity);
-            counter++;
-            loadEntities();
-          }, function() {
-            var resourceNotFound = {
-              id: entities[counter],
-              found: false
-            };
-            entitiesResources.push(resourceNotFound);
-            counter++;
-            loadEntities();
-          });
-        } else {
-          blockUI.stop();
-          $mdDialog.show({
-            controller: 'DialogController',
-            parent: dialogParent,
-            clickOutsideToClose: true,
-            locals: {
-              entities: entitiesResources,
-              currentLanguage: currentLanguage,
-              type: type
-            },
-            templateUrl: 'scripts/common/dialog/views/dialog.html.tmpl',
-          });
-        }
+      var idsAsString = '"' + ids + '"';
+      idsAsString = idsAsString.replace(/[\(\)\[\]{}'"]/g, '');
+      var dialogConfig = function() {
+        blockUI.stop();
+        $mdDialog.show({
+          controller: 'DialogController',
+          parent: dialogParent,
+          clickOutsideToClose: true,
+          locals: {
+            entities: entityResources,
+            currentLanguage: $rootScope.currentLanguage,
+            type: type
+          },
+          templateUrl: 'scripts/common/dialog/views/dialog.html.tmpl',
+        });
       };
-      loadEntities();
+      var checkInvalidIds = function(customItems) {
+        ids.forEach(function(id) {
+          for (var i = 0; i < customItems.length; i++) {
+            if (customItems[i].id === id) {
+              var rows = [];
+              var entity = {};
+              for (var key in customItems[i]) {
+                if (key !== '_links') {
+                  if ((customItems[i][key].hasOwnProperty('en')) ||
+                  (customItems[i][key].hasOwnProperty('de'))) {
+                    var obj = customItems[i][key];
+                    rows.push(obj[$rootScope.currentLanguage]);
+                  }else {
+                    rows.push(customItems[i][key]);
+                  }
+                }
+              }
+              entity.id = id;
+              entity.found = true;
+              entity.type = type + 'Detail';
+              entity.rows = rows;
+              entityResources.push(entity);
+              break;
+            }else {
+              if (i === (customItems.length - 1)) {
+                var resourceNotFound = {
+                  id: id,
+                  found: false
+                };
+                entityResources.push(resourceNotFound);
+              }
+            }
+          }
+        });
+      };
+
+      switch (type) {
+        case 'variable': VariableSearchResource.findByIdIn({ids: idsAsString})
+          .$promise.then(function(customVariables) {
+            checkInvalidIds(customVariables._embedded.variables);
+            dialogConfig();
+          });
+          break;
+        case 'survey': SurveySearchResource.findByIdIn({ids: idsAsString})
+          .$promise.then(function(customSurveys) {
+            checkInvalidIds(customSurveys._embedded.surveys);
+            dialogConfig();
+          });
+          break;
+        case 'data-set': DataSetSearchResource.findByIdIn({ids: idsAsString})
+          .$promise.then(function(customDataSets) {
+            checkInvalidIds(customDataSets._embedded.dataSets);
+            dialogConfig();
+          });
+          break;
+        case 'question': QuestionSearchResource.findByIdIn({ids: idsAsString})
+         .$promise.then(function(customQuestions) {
+            checkInvalidIds(customQuestions._embedded.questions);
+            dialogConfig();
+          });
+          break;
+        default: console.log('nsnsnd');
+          break;
+      }
     };
     return {
       showDialog: showDialog

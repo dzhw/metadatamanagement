@@ -2,7 +2,7 @@
 
 angular.module('metadatamanagementApp')
   .controller('VariableDetailController', function(DialogService, $translate,
-    blockUI, $scope, $stateParams, $filter, VariableResource, $rootScope) {
+    blockUI, $scope, $stateParams, $filter, VariableResource) {
     /* paged frequencies */
     $scope.frequencies = [];
     /* all frequencies */
@@ -77,13 +77,11 @@ angular.module('metadatamanagementApp')
     /* function to open dialog for variables */
     $scope.showSurveys = function() {
       blockUI.start();
-      DialogService.showDialog($scope.variable.surveyIds, 'survey',
-        ['label', 'name'], $rootScope.currentLanguage);
+      DialogService.showDialog($scope.variable.surveyIds, 'survey');
     };
     /* function to open dialog for data-sets */
     $scope.showDataSets = function() {
       blockUI.start();
-      DialogService.showDialog($scope.variable.dataSetIds, 'data-set',
-        ['label', 'name'], $rootScope.currentLanguage);
+      DialogService.showDialog($scope.variable.dataSetIds, 'data-set');
     };
   });
