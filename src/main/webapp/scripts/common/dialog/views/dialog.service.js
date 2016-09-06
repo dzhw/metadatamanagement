@@ -25,66 +25,69 @@ angular.module('metadatamanagementApp').service('DialogService',
       };
       var checkInvalidIds = function(customItems) {
         ids.forEach(function(id) {
-          for (var i = 0; i < customItems.length; i++) {
-            if (customItems[i].id === id) {
-              var rows = [];
-              var entity = {};
-              for (var key in customItems[i]) {
-                if (key !== '_links') {
-                  if ((customItems[i][key].hasOwnProperty('en')) ||
-                  (customItems[i][key].hasOwnProperty('de'))) {
-                    var obj = customItems[i][key];
-                    rows.push(obj[$rootScope.currentLanguage]);
-                  }else {
-                    rows.push(customItems[i][key]);
+          if (customItems.length > 0) {
+            for (var i = 0; i < customItems.length; i++) {
+              if (customItems[i].id === id) {
+                var rows = [];
+                var entity = {};
+                for (var key in customItems[i]) {
+                  if (key !== '_links') {
+                    if ((customItems[i][key].hasOwnProperty('en')) ||
+                    (customItems[i][key].hasOwnProperty('de'))) {
+                      var obj = customItems[i][key];
+                      rows.push(obj[$rootScope.currentLanguage]);
+                    }else {
+                      rows.push(customItems[i][key]);
+                    }
                   }
                 }
-              }
-              entity.id = id;
-              entity.found = true;
-              entity.type = type + 'Detail';
-              entity.rows = rows;
-              entityResources.push(entity);
-              break;
-            }else {
-              if (i === (customItems.length - 1)) {
-                var resourceNotFound = {
-                  id: id,
-                  found: false
-                };
-                entityResources.push(resourceNotFound);
+                entity.id = id;
+                entity.found = true;
+                entity.type = type + 'Detail';
+                entity.rows = rows;
+                entityResources.push(entity);
+                break;
+              }else {
+                if (i === (customItems.length - 1)) {
+                  entityResources.push({
+                    id: id,
+                    found: false
+                  });
+                }
               }
             }
+          } else {
+            entityResources.push({
+              id: id,
+              found: false
+            });
           }
         });
+        dialogConfig();
       };
 
       switch (type) {
         case 'variable': VariableSearchResource.findByIdIn({ids: idsAsString})
           .$promise.then(function(customVariables) {
             checkInvalidIds(customVariables._embedded.variables);
-            dialogConfig();
           });
           break;
         case 'survey': SurveySearchResource.findByIdIn({ids: idsAsString})
           .$promise.then(function(customSurveys) {
             checkInvalidIds(customSurveys._embedded.surveys);
-            dialogConfig();
           });
           break;
         case 'data-set': DataSetSearchResource.findByIdIn({ids: idsAsString})
           .$promise.then(function(customDataSets) {
             checkInvalidIds(customDataSets._embedded.dataSets);
-            dialogConfig();
           });
           break;
         case 'question': QuestionSearchResource.findByIdIn({ids: idsAsString})
          .$promise.then(function(customQuestions) {
             checkInvalidIds(customQuestions._embedded.questions);
-            dialogConfig();
           });
           break;
-        default: console.log('nsnsnd');
+        default: console.log(type + ' not implemented');
           break;
       }
     };
