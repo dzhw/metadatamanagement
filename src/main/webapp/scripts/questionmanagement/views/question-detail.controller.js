@@ -6,87 +6,58 @@ angular.module('metadatamanagementApp')
 
     function($scope, $rootScope, localStorageService,
       ShoppingCartService, $stateParams, DialogService,
-      QuestionResource, blockUI, $resource) {
-
-      $scope.question = {};
+      QuestionSearchResource, blockUI, entity, $q) {
+      $scope.question = entity;
       $scope.predecessors = [];
       $scope.successors = [];
-      /* number of load sequences */
-      $scope.counter = {
-        successors: 0,
-        predecessors: 0,
-        sum: 0
+
+      /* function to load only texts and ids for successors and predecessors */
+      var loadQuestionTextOnly = function(items) {
+        var deferred = $q.defer();
+        var itemsAsString = '"' + items + '"';
+        itemsAsString = itemsAsString.replace(/[\(\)\[\]{}'"]/g, '');
+        QuestionSearchResource.findByIdIn({ids: itemsAsString})
+        .$promise.then(function(customQuestions) {
+          deferred.resolve(customQuestions);
+        });
+        return deferred.promise;
       };
 
-      /* function to start blockUI */
-      $scope.startBlockUI = function() {
-        blockUI.start();
+      var checkInvalidQuestionIds = function(allIds, customItems) {
+        var tempQuestions = [];
+        allIds.forEach(function(id) {
+          for (var i = 0; i < customItems.length; i++) {
+            if (customItems[i].id === id) {
+              tempQuestions.push(customItems[i]);
+              break;
+            }else {
+              if (i === (customItems.length - 1)) {
+                var notFoundQuestion = {
+                  id: id,
+                  name: 'notFoundQuestion',
+                  number: '-',
+                  questionText: 'not-found'
+                };
+                tempQuestions.push(notFoundQuestion);
+              }
+            }
+          }
+        });
+        return tempQuestions;
       };
-
-      /* function to load successors sequentially */
-      var loadSuccesors = function() {
-        if ($scope.counter.successors < $scope.question.successor.length) {
-          $resource('api/questions/:id')
-          .get({id: $scope.question.successor[$scope.counter.successors],
-            projection: 'complete'})
-          .$promise.then(function(resource) {
-            $scope.successors.push(resource);
-            $scope.counter.successors++;
-            loadSuccesors();
-          }, function() {
-            var notFoundQuestion = {
-              id: $scope.question.successor[$scope.counter.successors],
-              name: 'notFoundQuestion'
-            };
-            $scope.successors.push(notFoundQuestion);
-            $scope.counter.successors++;
-            loadSuccesors();
+      $scope.$watch('question', function() {
+        if ($scope.question.$resolved) {
+          loadQuestionTextOnly($scope.question.successor)
+          .then(function(customSuccesors) {
+            $scope.successors = checkInvalidQuestionIds(
+              $scope.question.successor, customSuccesors._embedded.questions);
           });
-        }
-      };
-
-      /* function to load predecessors sequentially */
-      var loadPredecessors = function() {
-        if ($scope.counter.predecessors < $scope.question.predecessor.length) {
-          $resource('api/questions/:id')
-          .get({id: $scope.question.predecessor[$scope.counter.predecessors],
-            projection: 'complete'})
-          .$promise.then(function(resource) {
-            $scope.predecessors.push(resource);
-            $scope.counter.predecessors++;
-            loadPredecessors();
-          }, function() {
-            var notFoundQuestion = {
-              id: $scope.question.predecessor[$scope.counter.predecessors],
-              name: 'notFoundQuestion',
-              number: '-',
-              questionText: 'not-found'
-            };
-            $scope.predecessors.push(notFoundQuestion);
-            $scope.counter.predecessors++;
-            loadPredecessors();
+          loadQuestionTextOnly($scope.question.predecessor)
+          .then(function(customPredecessors) {
+            $scope.predecessors = checkInvalidQuestionIds(
+              $scope.question.predecessor,
+              customPredecessors._embedded.questions);
           });
-        }
-      };
-
-      /* load question resource. the entity resolver dont work properly by
-      backbutton click because the state and controller are not .einitialized.
-      The controller should be always reinitialized
-      see https://github.com/angular-ui/ui-router/issues/582
-      */
-      QuestionResource.get({id: $stateParams.id})
-      .$promise.then(function(question) {
-        $scope.counter.sum = question.successor.length +
-        question.predecessor.length;
-        $scope.question = question;
-        loadSuccesors();
-        loadPredecessors();
-      });
-      $scope.$watch('counter', function() {
-        var tempSum = $scope.counter.successors +
-                      $scope.counter.predecessors;
-        if (($scope.counter.sum === tempSum) && (tempSum > 0)) {
-          blockUI.stop();
         }
       }, true);
 

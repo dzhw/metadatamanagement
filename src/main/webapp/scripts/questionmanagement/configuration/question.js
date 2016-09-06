@@ -26,6 +26,13 @@ angular.module('metadatamanagementApp')
               $translatePartialLoader.addPart('notepad.management');
               $translatePartialLoader.addPart('instrument.management');
             }
+          ],
+          entity: ['$stateParams', 'QuestionResource',
+            function($stateParams, QuestionResource) {
+              return QuestionResource.get({
+                id: $stateParams.id
+              });
+            }
           ]
         }
       });
