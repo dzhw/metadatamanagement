@@ -8,7 +8,7 @@ angular.module('metadatamanagementApp').service('DialogService',
       var entityResources = [];
       var dialogParent = angular.element(document.body);
       var idsAsString = '"' + ids + '"';
-      idsAsString = idsAsString.replace(/[\(\)\[\]{}'"]/g, '');
+      idsAsString = idsAsString.replace(/[\[\]'"]/g, '');
       var dialogConfig = function() {
         blockUI.stop();
         $mdDialog.show({

@@ -15,7 +15,7 @@ angular.module('metadatamanagementApp')
       var loadQuestionTextOnly = function(items) {
         var deferred = $q.defer();
         var itemsAsString = '"' + items + '"';
-        itemsAsString = itemsAsString.replace(/[\(\)\[\]{}'"]/g, '');
+        itemsAsString = itemsAsString.replace(/[\[\]'"]/g, '');
         QuestionSearchResource.findByIdIn({ids: itemsAsString})
         .$promise.then(function(customQuestions) {
           deferred.resolve(customQuestions);
