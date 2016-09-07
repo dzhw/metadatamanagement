@@ -25,7 +25,7 @@
                           <span style="font-weight: bold;">Scalelevel: </span><span>{{variable.scaleLevel[currentLanguage]}}</span>
                         </section>
                         <section ng-if="variable.atomicQuestionText[currentLanguage]">
-                          <span style="font-weight: bold;">QuestionText: </span><p>{{variable.atomicQuestionText[currentLanguage]}}</p>
+                          <span style="font-weight: bold;">QuestionText: </span><span>{{variable.atomicQuestionText[currentLanguage]}}</span>
                         </section>
                         <section ng-if="variable.accessWays">
                           <span style="font-weight: bold;">Access ways: </span><span>{{cleanedAccessWays}}</span>
@@ -253,10 +253,14 @@
                     <span class="md-headline">{{'variable-management.detail.generation-details' | translate }}</span>
                   </md-card-header-text>
                 </md-card-header>
-                <md-content style="background-color:white;" layout-padding>
+                <md-content style="background-color:white;">
+                  <section layout-margin>
                   <section ng-if="variable.generationDetails.description[currentLanguage]">
-                    <p><span style="font-weight: bold;">Description: </span>{{variable.generationDetails.description[currentLanguage]}}</p>
-                    <p><span style="font-weight: bold;">ExpressionLanguage: </span>{{variable.generationDetails.ruleExpressionLanguage}}</p>
+                    <span style="font-weight: bold;">Description: </span><span>{{variable.generationDetails.description[currentLanguage]}}</span>
+                  </section>
+                  <section ng-if="variable.generationDetails.ruleExpressionLanguage">
+                    <span style="font-weight: bold;">ExpressionLanguage: </span><span>{{variable.generationDetails.ruleExpressionLanguage}}</span>
+                  </section>
                   <section ng-if="variable.generationDetails.rule">
                     <span style="font-weight: bold;">Rule: </span>
                     <pre style="white-space: pre-wrap;">{{variable.generationDetails.rule}}</pre>
