@@ -28,7 +28,7 @@
                           <span style="font-weight: bold;">QuestionText: </span><p>{{variable.atomicQuestionText[currentLanguage]}}</p>
                         </section>
                         <section ng-if="variable.accessWays">
-                          <span style="font-weight: bold;">Access ways: </span><span>{{variable.accessWays}}</span>
+                          <span style="font-weight: bold;">Access ways: </span><span>{{cleanedAccessWays}}</span>
                         </section>
                         <section ng-if="variable.description[currentLanguage]">
                           <span style="font-weight: bold;">Description: </span><span>{{variable.description[currentLanguage]}}</span>

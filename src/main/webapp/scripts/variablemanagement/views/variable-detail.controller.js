@@ -5,13 +5,15 @@ angular.module('metadatamanagementApp')
     blockUI, $scope, $stateParams, $filter, entity) {
 
     $scope.variable = entity;
-    /* paged frequencies */
     $scope.frequencies = [];
-
+    $scope.cleanedAccessWays = '';
     $scope.tableFlag = 'expand';
 
     $scope.$watch('variable', function() {
       if ($scope.variable.$resolved) {
+        $scope.cleanedAccessWays = '' + $scope.variable.accessWays + '"';
+        $scope.cleanedAccessWays = $scope.cleanedAccessWays
+        .replace(/[\[\]'"]/g, '');
         console.log($scope.variable);
         if ($scope.variable.distribution.validResponses) {
           $scope.frequencies = $scope.variable.distribution.validResponses
