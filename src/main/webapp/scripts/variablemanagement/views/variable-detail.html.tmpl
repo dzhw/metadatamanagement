@@ -1,7 +1,7 @@
-<div ng-if="!variable.$resolved" ng-init="startBlockUI()">
+<div ng-if="!variable.$resolved">
     Lade Daten...
 </div>
-<div ng-if="variable.$resolved" ng-init="stopBlockUI()">
+<div ng-if="variable.$resolved">
     <md-card>
         <md-card-header>
             <md-card-header-text>
@@ -18,25 +18,25 @@
                     </md-card-header>
                     <md-content style="background-color:white;">
                       <section layout-margin>
-                        <section>
+                        <section ng-if="variable.dataType[currentLanguage]">
                           <span style="font-weight: bold;">Type: </span><span>{{variable.dataType[currentLanguage]}}</span>
                         </section>
-                        <section>
+                        <section ng-if="variable.scaleLevel[currentLanguage]">
                           <span style="font-weight: bold;">Scalelevel: </span><span>{{variable.scaleLevel[currentLanguage]}}</span>
                         </section>
-                        <section>
-                          <span style="font-weight: bold;">Questiontext: </span><span>{{variable.atomicQuestionText[currentLanguage]}}</span>
+                        <section ng-if="variable.atomicQuestionText[currentLanguage]">
+                          <span style="font-weight: bold;">QuestionText: </span><p>{{variable.atomicQuestionText[currentLanguage]}}</p>
                         </section>
-                        <section>
+                        <section ng-if="variable.accessWays">
                           <span style="font-weight: bold;">Access ways: </span><span>{{variable.accessWays}}</span>
                         </section>
-                        <section>
+                        <section ng-if="variable.description[currentLanguage]">
                           <span style="font-weight: bold;">Description: </span><span>{{variable.description[currentLanguage]}}</span>
                         </section>
-                        <section>
+                        <section ng-if="variable.filterDetails.expressionLanguage">
                           <span style="font-weight: bold;">FilterDetailslanguage: </span><span>{{variable.filterDetails.expressionLanguage}}</span>
                         </section>
-                        <section>
+                        <section ng-if="variable.filterDetails.expression">
                         <span style="font-weight: bold;">FilterDetailsExpression: </span>
                         <pre>{{variable.filterDetails.expression}}</pre>
                         </section>
@@ -254,10 +254,10 @@
                   </md-card-header-text>
                 </md-card-header>
                 <md-content style="background-color:white;" layout-padding>
-                  <section>
+                  <section ng-if="variable.generationDetails.description[currentLanguage]">
                     <p><span style="font-weight: bold;">Description: </span>{{variable.generationDetails.description[currentLanguage]}}</p>
                     <p><span style="font-weight: bold;">ExpressionLanguage: </span>{{variable.generationDetails.ruleExpressionLanguage}}</p>
-                  <section>
+                  <section ng-if="variable.generationDetails.rule">
                     <span style="font-weight: bold;">Rule: </span>
                     <pre style="white-space: pre-wrap;">{{variable.generationDetails.rule}}</pre>
                   </section>

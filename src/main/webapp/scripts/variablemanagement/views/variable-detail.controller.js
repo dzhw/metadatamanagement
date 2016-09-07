@@ -2,48 +2,37 @@
 
 angular.module('metadatamanagementApp')
   .controller('VariableDetailController', function(DialogService, $translate,
-    blockUI, $scope, $stateParams, $filter, VariableResource) {
+    blockUI, $scope, $stateParams, $filter, entity) {
+
+    $scope.variable = entity;
     /* paged frequencies */
     $scope.frequencies = [];
-    /* all frequencies */
-    $scope.allFrequencies = [];
 
     $scope.tableFlag = 'expand';
-    /* params for table */
-    $scope.query = {
-      order: 'value',
-      limit: 5,
-      count: 0,
-      allLabel: {},
-      page: 1
-    };
-    /* options for pager */
-    $scope.options = {};
 
-    /* see https://github.com/angular-ui/ui-router/issues/582 */
-    VariableResource.get({id: $stateParams.id})
-    .$promise.then(function(variable) {
-      $scope.variable = variable;
-      console.log(variable);
-      if ($scope.variable.distribution.validResponses) {
-        $scope.frequencies = $scope.variable.distribution.validResponses
-        .concat($scope.variable.distribution.missings);
-        if ($scope.frequencies.length > 8) {
-          $scope.frequencies.splice(3, 0, {
-            value: '...',
-            label: {
-              de: '...',
-              en: '...'
-            },
-            absoluteFrequency: '...',
-            validRelativeFrequency: '...',
-            relativeFrequency: '...'
-          });
+    $scope.$watch('variable', function() {
+      if ($scope.variable.$resolved) {
+        console.log($scope.variable);
+        if ($scope.variable.distribution.validResponses) {
+          $scope.frequencies = $scope.variable.distribution.validResponses
+          .concat($scope.variable.distribution.missings);
+          if ($scope.frequencies.length > 8) {
+            $scope.frequencies.splice(3, 0, {
+              value: '...',
+              label: {
+                de: '...',
+                en: '...'
+              },
+              absoluteFrequency: '...',
+              validRelativeFrequency: '...',
+              relativeFrequency: '...'
+            });
+          }
+        } else {
+          $scope.frequencies = $scope.variable.distribution.missings;
         }
-      } else {
-        $scope.frequencies = $scope.variable.distribution.missings;
       }
-    });
+    }, true);
 
     $scope.showRows = function() {
       if ($scope.frequencies.length > 8) {
@@ -66,14 +55,6 @@ angular.module('metadatamanagementApp')
         }
       }
     };
-    /* function to start blockUI */
-    $scope.startBlockUI = function() {
-      blockUI.start();
-    };
-    /* function to stop blockUI */
-    $scope.stopBlockUI = function() {
-      blockUI.stop();
-    };
     /* function to open dialog for variables */
     $scope.showSurveys = function() {
       blockUI.start();
@@ -88,6 +69,6 @@ angular.module('metadatamanagementApp')
     $scope.showSimilarVariables = function() {
       blockUI.start();
       DialogService.showDialog($scope.variable.sameVariablesInPanel,
-        'data-set');
+        'variable');
     };
   });
