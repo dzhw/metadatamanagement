@@ -263,7 +263,10 @@
                   </section>
                   <section ng-if="variable.generationDetails.rule">
                     <span style="font-weight: bold;">Rule: </span>
-                    <pre style="white-space: pre-wrap;">{{variable.generationDetails.rule}}</pre>
+                    <md-tooltip md-direction="top">
+                      {{'variable-management.detail.table.'+codeFlag | translate }}
+                    </md-tooltip>
+                    <pre ng-click="showCode()" ng-class="codeFlag === 'collapse'? 'fdz-code-container': 'fdz-code-container fdz-hidden-code'">{{variable.generationDetails.rule}}</pre>
                   </section>
                 </section>
                 </md-content>

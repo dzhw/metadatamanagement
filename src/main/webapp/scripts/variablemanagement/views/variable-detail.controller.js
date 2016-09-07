@@ -8,6 +8,7 @@ angular.module('metadatamanagementApp')
     $scope.frequencies = [];
     $scope.cleanedAccessWays = '';
     $scope.tableFlag = 'expand';
+    $scope.codeFlag = 'expand';
 
     $scope.$watch('variable', function() {
       if ($scope.variable.$resolved) {
@@ -55,6 +56,13 @@ angular.module('metadatamanagementApp')
           }
           angular.element('#row3').addClass('ng-show').removeClass('ng-hide');
         }
+      }
+    };
+    $scope.showCode = function() {
+      if ($scope.codeFlag === 'collapse') {
+        $scope.codeFlag = 'expand';
+      } else {
+        $scope.codeFlag = 'collapse';
       }
     };
     /* function to open dialog for variables */

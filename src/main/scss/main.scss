@@ -515,3 +515,14 @@ md-tooltip {
     text-overflow: ellipsis;
     overflow: hidden;
 }
+.fdz-code-container {
+  white-space: pre-wrap;
+  overflow:hidden;
+  cursor: pointer;
+}
+.fdz-code-container:focus {
+    outline: none;
+}
+.fdz-hidden-code {
+  height:50px;
+}
