@@ -39,7 +39,6 @@ public interface CompleteVariableProjection
   
   I18nString getAtomicQuestionText();
   
-  String getPanelVariable();
 
   /* Nested Objects */
   FilterDetails getFilterDetails();

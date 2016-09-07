@@ -24,7 +24,7 @@
         "index": "not_analyzed",
         "copy_to": "allStringsAsNgrams"
       },
-       "panelVariable": {
+       "sameVariablesInPanel": {
       	"type": "string",
         "index": "not_analyzed",
         "copy_to": "allStringsAsNgrams"

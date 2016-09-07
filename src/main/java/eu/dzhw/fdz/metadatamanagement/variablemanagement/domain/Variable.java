@@ -110,9 +110,6 @@ public class Variable extends AbstractRdcDomainObject {
   @Valid
   private Distribution distribution;
   
-  @Valid
-  private String panelVariable;
-  
   /* Foreign Keys */
   private String questionId;
 
@@ -153,7 +150,6 @@ public class Variable extends AbstractRdcDomainObject {
       .add("accessWays", accessWays)
       .add("sameVariablesInPanel", sameVariablesInPanel)
       .add("atomicQuestionText", atomicQuestionText)
-      .add("panelVariable", panelVariable)
       .add("filterDetails", filterDetails)
       .add("generationDetails", generationDetails)
       .add("distribution", distribution)
@@ -231,14 +227,6 @@ public class Variable extends AbstractRdcDomainObject {
 
   public void setAtomicQuestionText(I18nString atomicQuestionText) {
     this.atomicQuestionText = atomicQuestionText;
-  }
-
-  public String getPanelVariable() {
-    return panelVariable;
-  }
-
-  public void setPanelVariable(String panelVariable) {
-    this.panelVariable = panelVariable;
   }
 
   public GenerationDetails getGenerationDetails() {

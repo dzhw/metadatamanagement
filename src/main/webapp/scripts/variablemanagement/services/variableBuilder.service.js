@@ -50,7 +50,6 @@ angular.module('metadatamanagementApp').service('VariableBuilderService',
             en: variables[i]['atomicQuestionText.en'],
             de: variables[i]['atomicQuestionText.de']
           },
-          panelVariable: variables[i].panelvariable,
           filterDetails: {
             expression: variables[i]['filterDetails.expression'],
             description: {
