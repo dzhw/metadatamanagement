@@ -17,32 +17,37 @@
                         </md-card-header-text>
                     </md-card-header>
                     <md-content style="background-color:white;">
+                      <section layout-margin>
                         <section>
-                          type: {{variable.dataType[currentLanguage]}}
+                          <span style="font-weight: bold;">Type: </span><span>{{variable.dataType[currentLanguage]}}</span>
                         </section>
                         <section>
-                          scalelevel: {{variable.scaleLevel[currentLanguage]}}
+                          <span style="font-weight: bold;">Scalelevel: </span><span>{{variable.scaleLevel[currentLanguage]}}</span>
                         </section>
                         <section>
-                          question: --
+                          <span style="font-weight: bold;">Questiontext: </span><span>{{variable.atomicQuestionText[currentLanguage]}}</span>
                         </section>
                         <section>
-                          access ways: {{variable.accessWays}}
+                          <span style="font-weight: bold;">Access ways: </span><span>{{variable.accessWays}}</span>
                         </section>
                         <section>
-                          discription
+                          <span style="font-weight: bold;">Description: </span><span>{{variable.description[currentLanguage]}}</span>
                         </section>
                         <section>
-                            <md-button ng-click="showDataSets()">
+                          filterDetailslanguage: {{variable.filterDetails.expressionLanguage}} filterDetailsExpression: <pre>{{variable.filterDetails.expression}}</pre>
+                        </section>
+                      </section>
+                        <section>
+                            <md-button ng-disabled="variable.sameVariablesInPanel === undefined" ng-click="showSimilarVariables()">
                                 <section>
-                                    <md-icon md-svg-src="/assets/images/icons/data-set.svg" class="fdz-detail-icon"></md-icon>
-                                    <span>Link var Panel</span>
+                                    <md-icon md-svg-src="/assets/images/icons/variable.svg" class="fdz-detail-icon"></md-icon>
+                                    <span>showSimilarVariables {{ variable.sameVariablesInPanel.length || '(' + 0 + ')'}}</span>
                                 </section>
                             </md-button>
                             <md-button ng-disabled="true">
                               <section>
                                 <md-icon md-svg-src="/assets/images/icons/variable.svg" class="fdz-detail-icon"></md-icon>
-                                <span>Link var gffgfgfg</span>
+                                <span>ToDo(-)</span>
                               </section>
                             </md-button>
                         </section>
@@ -78,10 +83,10 @@
                             </md-button>
                         </section>
                         <section>
-                            <md-button ng-disabled="true">
+                            <md-button ng-disabled="variable.questionId === undefined" ui-sref="questionDetail({id:variable.questionId})">
                                 <section>
                                     <md-icon md-svg-src="/assets/images/icons/question.svg" class="fdz-detail-icon"></md-icon>
-                                    <span>{{'question-management.home.title' | translate }}</span>
+                                    <span>{{'question-management.detail.question' | translate }}</span>
                                 </section>
                             </md-button>
                         </section>
@@ -129,7 +134,7 @@
                         <span>{{variable.distribution.statistics.firstQuartile}}</span>
                       </section>
                       <section ng-if="variable.distribution.statistics.highWhisker">
-                        <md-icon md-svg-src="/assets/images/icons/functions.svg" class="fdz-detail-icon" style="fill:red;"></md-icon>
+                        <md-icon md-svg-src="/assets/images/icons/functions.svg" class="fdz-detail-icon"></md-icon>
                         <span>{{'variable-management.detail.label.highWhisker' | translate}}: </span>
                         <span>{{variable.distribution.statistics.highWhisker}}</span>
                       </section>
@@ -244,7 +249,15 @@
                     <span class="md-headline">{{'variable-management.detail.generation-details' | translate }}</span>
                   </md-card-header-text>
                 </md-card-header>
-                <md-content style="background-color:white;">
+                <md-content style="background-color:white;" layout-padding>
+                  <section>
+                    <p><span style="font-weight: bold;">Description: </span>{{variable.generationDetails.description[currentLanguage]}}</p>
+                    <p><span style="font-weight: bold;">ExpressionLanguage: </span>{{variable.generationDetails.ruleExpressionLanguage}}</p>
+                  <section>
+                    <span style="font-weight: bold;">Rule: </span>
+                    <pre style="white-space: pre-wrap;">{{variable.generationDetails.rule}}</pre>
+                  </section>
+                </section>
                 </md-content>
               </md-card>
             </div>

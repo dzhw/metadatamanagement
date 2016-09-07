@@ -84,4 +84,10 @@ angular.module('metadatamanagementApp')
       blockUI.start();
       DialogService.showDialog($scope.variable.dataSetIds, 'data-set');
     };
+    /* function to open dialog for similar variables */
+    $scope.showSimilarVariables = function() {
+      blockUI.start();
+      DialogService.showDialog($scope.variable.sameVariablesInPanel,
+        'data-set');
+    };
   });

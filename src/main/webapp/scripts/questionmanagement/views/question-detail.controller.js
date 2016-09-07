@@ -24,25 +24,30 @@ angular.module('metadatamanagementApp')
       };
 
       var checkInvalidQuestionIds = function(allIds, customItems) {
-        var tempQuestions = [];
-        allIds.forEach(function(id) {
-          for (var i = 0; i < customItems.length; i++) {
-            if (customItems[i].id === id) {
-              tempQuestions.push(customItems[i]);
-              break;
-            }else {
-              if (i === (customItems.length - 1)) {
-                var notFoundQuestion = {
-                  id: id,
-                  name: 'notFoundQuestion',
-                  number: '-',
-                  questionText: 'not-found'
-                };
-                tempQuestions.push(notFoundQuestion);
+        var tempQuestions;
+        try {
+          tempQuestions = [];
+          allIds.forEach(function(id) {
+            for (var i = 0; i < customItems.length; i++) {
+              if (customItems[i].id === id) {
+                tempQuestions.push(customItems[i]);
+                break;
+              }else {
+                if (i === (customItems.length - 1)) {
+                  var notFoundQuestion = {
+                    id: id,
+                    name: 'notFoundQuestion',
+                    number: '-',
+                    questionText: 'not-found'
+                  };
+                  tempQuestions.push(notFoundQuestion);
+                }
               }
             }
-          }
-        });
+          });
+        } catch (e) {
+          tempQuestions = [];
+        }
         return tempQuestions;
       };
       $scope.$watch('question', function() {
