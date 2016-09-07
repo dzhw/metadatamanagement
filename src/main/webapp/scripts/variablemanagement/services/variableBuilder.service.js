@@ -46,10 +46,11 @@ angular.module('metadatamanagementApp').service('VariableBuilderService',
           },
           accessWays: CleanJSObjectService.
           removeWhiteSpace(variables[i].accessWays),
-          questionText: {
-            en: variables[i]['questionText.en'],
-            de: variables[i]['questionText.de']
+          atomicQuestionText: {
+            en: variables[i]['atomicQuestionText.en'],
+            de: variables[i]['atomicQuestionText.de']
           },
+          panelVariable: variables[i].panelvariable,
           filterDetails: {
             expression: variables[i]['filterDetails.expression'],
             description: {

@@ -36,7 +36,10 @@ public interface CompleteVariableProjection
   List<String> getAccessWays();
 
   List<String> getSameVariablesInPanel();
-
+  
+  I18nString getAtomicQuestionText();
+  
+  String getPanelVariable();
 
   /* Nested Objects */
   FilterDetails getFilterDetails();
