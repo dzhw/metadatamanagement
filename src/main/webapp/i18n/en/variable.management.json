@@ -18,16 +18,29 @@
       "variable": "Variable",
       "variable-informations": "Variable Informations",
       "related-informations": "Related Informations",
-      "grafics": "Statistical Graphs",
-      "statistics": "Statistics",
       "frequencies": "Frequencies",
       "generation-details": "Generation Details",
+      "name": "Name",
+      "data-type": "Datatype",
+      "scale-level": "Scalelevel",
+      "question-text": "Question text",
+      "description": "Description",
+      "access-ways": "Access Ways",
+      "filter-description": "Filter Description",
+      "filter-details-language": "Filtering Language",
+      "filter-details-expression": "Filter Expression",
+      "generation-details-description":"Generation Details Description",
+      "generation-details-expression-language": "Generation Expression Language",
+      "generation-details-rule": "Generation Rule",
+      "label": "Label",
       "not-found": "The {{id}} references to an unknown Variable.",
       "table": {
         "expand":"Click to maximize",
         "collapse":"Click to minimize"
       },
-      "label": {
+      "statistics": {
+        "grafics": "Statistical Graphs",
+        "statistics": "Statistics",
         "all": "All",
         "page":"Page",
         "rowsPerPage":"Rows per Page",
@@ -49,21 +62,10 @@
         "totalValidRelativeFrequency": "Total Valid Relative Frequency"
       }
     },
-    "name": "Name",
-    "data-type": "DataType",
-    "scale-level": "ScaleLevel",
-    "label": "Label",
-    "data-acquisition-project-id": "Data Acquisition Project-ID",
-    "survey-ids": "Survey-IDs",
-    "description": "Description",
-    "chart": {
-      "figure": "Figure",
-      "absolute-frequency": "Absolute frequencies of values"
-    },
     "labels": {
-      "part-of-data-set": "Part of Data Set:",
-      "surveyed-in": "Surveyed in:"
-    },
+     "part-of-data-set": "Part of Data Set:",
+     "surveyed-in": "Surveyed in:"
+   },
     "error": {
       "distribution": {
         "valid-responses": {

@@ -503,13 +503,13 @@ md-tooltip {
     padding: 5px;
     text-align: center;
 }
-.fdz-table-cell-fixed .content {
+.fdz-table-cell-fixed .fdz-table-cell-content {
     display: table;
     margin:0px;
     table-layout: fixed;
     width: 100%;
 }
-.fdz-table-cell-fixed  .content .ellipsis {
+.fdz-table-cell-fixed  .fdz-table-cell-content .fdz-table-cell-ellipsis {
     display: table-cell;
     white-space: nowrap;
     text-overflow: ellipsis;

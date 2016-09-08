@@ -18,16 +18,29 @@
       "variable": "Variable",
       "variable-informations": "Variableninformationen",
       "related-informations": "Zugehörige Informationen",
-      "grafics": "Statistische Grafik",
-      "statistics": "Statistiken",
       "frequencies": "Häufigkeiten",
       "generation-details": "Details der Generierung",
+      "name": "Name",
+      "data-type": "Datentyp",
+      "scale-level": "Skalenniveau",
+      "question-text": "Fragentext",
+      "access-ways": "Zugangswege",
+      "description": "Beschreibung",
+      "filter-description": "Beschreibung des Filters",
+      "filter-details-language": "Filterausdruckssprache",
+      "filter-details-expression": "Filterausdruck",
+      "generation-details-description": "Beschreibung der Generierung",
+      "generation-details-expression-language": "Generierungsausdruckssprache",
+      "generation-details-rule": "Generierungsregel",
+      "label": "Label",
       "not-found": "Die id {{id}} referenziert auf eine unbekannte Variable.",
-      "table": {
+      "content": {
         "expand":"Klicken zum maximieren",
         "collapse":"Klicken zum minimieren"
       },
-      "label": {
+      "statistics": {
+        "grafics": "Statistische Grafik",
+        "statistics": "Statistiken",
         "all": "Alle",
         "page":"Seite",
         "rowsPerPage":"Zeilen Pro Seite",
@@ -48,17 +61,6 @@
         "totalValidAbsoluteFrequency": "Totale Valide Absolute Häufigkeit",
         "totalValidRelativeFrequency": "Totale Valide Relative Häufigkeit"
       }
-    },
-    "name": "Name",
-    "data-type": "Datentyp",
-    "scale-level": "Skalenniveau",
-    "label": "Label",
-    "data-acquisition-project-id": "Datenaufbereitungsprojekt-ID",
-    "survey-ids": "Erhebung-IDs",
-    "description": "Beschreibung",
-    "chart": {
-      "figure": "Abbildung",
-      "absolute-frequency": "Absolute Häufigkeit von Werten"
     },
     "labels": {
       "part-of-data-set": "Enthalten in Datensatz:",

@@ -8,7 +8,7 @@ angular.module('metadatamanagementApp')
     $scope.frequencies = [];
     $scope.cleanedAccessWays = '';
     $scope.tableFlag = 'expand';
-    $scope.codeFlag = 'expand';
+    $scope.generationCodeFlag = 'expand';
 
     $scope.$watch('variable', function() {
       if ($scope.variable.$resolved) {
@@ -19,8 +19,8 @@ angular.module('metadatamanagementApp')
         if ($scope.variable.distribution.validResponses) {
           $scope.frequencies = $scope.variable.distribution.validResponses
           .concat($scope.variable.distribution.missings);
-          if ($scope.frequencies.length > 8) {
-            $scope.frequencies.splice(3, 0, {
+          if ($scope.frequencies.length > 10) {
+            $scope.frequencies.splice(5, 0, {
               value: '...',
               label: {
                 de: '...',
@@ -38,7 +38,7 @@ angular.module('metadatamanagementApp')
     }, true);
 
     $scope.showRows = function() {
-      if ($scope.frequencies.length > 8) {
+      if ($scope.frequencies.length > 10) {
         if ($scope.tableFlag === 'expand') {
           var hiddenRows = angular.element('.ng-hide');
           $scope.tableFlag = 'collapse';
@@ -46,7 +46,7 @@ angular.module('metadatamanagementApp')
             angular.element('#' + hiddenRows[i]
             .getAttribute('id')).addClass('ng-show').removeClass('ng-hide');
           }
-          angular.element('#row3').addClass('ng-hide').removeClass('ng-show');
+          angular.element('#row5').addClass('ng-hide').removeClass('ng-show');
         }else {
           var displayedRows = angular.element('.ng-show');
           $scope.tableFlag = 'expand';
@@ -54,15 +54,15 @@ angular.module('metadatamanagementApp')
             angular.element('#' + displayedRows[j]
             .getAttribute('id')).addClass('ng-hide').removeClass('ng-show');
           }
-          angular.element('#row3').addClass('ng-show').removeClass('ng-hide');
+          angular.element('#row5').addClass('ng-show').removeClass('ng-hide');
         }
       }
     };
-    $scope.showCode = function() {
-      if ($scope.codeFlag === 'collapse') {
-        $scope.codeFlag = 'expand';
+    $scope.showGenerationCode = function() {
+      if ($scope.generationCodeFlag === 'collapse') {
+        $scope.generationCodeFlag = 'expand';
       } else {
-        $scope.codeFlag = 'collapse';
+        $scope.generationCodeFlag = 'collapse';
       }
     };
     /* function to open dialog for variables */
