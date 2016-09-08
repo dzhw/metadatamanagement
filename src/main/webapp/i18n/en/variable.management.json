@@ -34,6 +34,7 @@
       "generation-details-rule": "Generation Rule",
       "label": "Label",
       "not-found": "The {{id}} references to an unknown Variable.",
+      "same-in-panel": "Same Variables",
       "table": {
         "expand":"Click to maximize",
         "collapse":"Click to minimize"

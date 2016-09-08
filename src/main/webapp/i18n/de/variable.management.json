@@ -34,6 +34,7 @@
       "generation-details-rule": "Generierungsregel",
       "label": "Label",
       "not-found": "Die id {{id}} referenziert auf eine unbekannte Variable.",
+      "same-in-panel": "Ähnliche Variablen",
       "content": {
         "expand":"Klicken zum maximieren",
         "collapse":"Klicken zum minimieren"

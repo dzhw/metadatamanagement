@@ -48,7 +48,7 @@
                             <md-button ng-disabled="variable.sameVariablesInPanel === undefined" ng-click="showSimilarVariables()">
                                 <section>
                                     <md-icon md-svg-src="/assets/images/icons/variable.svg" class="fdz-detail-icon"></md-icon>
-                                    <span>showSimilarVariables {{ variable.sameVariablesInPanel.length || '(' + 0 + ')'}}</span>
+                                    <span>{{'variable-management.detail.same-in-panel' | translate}} {{ variable.sameVariablesInPanel.length || '(' + 0 + ')'}}</span>
                                 </section>
                             </md-button>
                             <md-button ng-disabled="true">
@@ -136,53 +136,53 @@
                   <md-card-content>
                   <section>
                       <section ng-if="variable.distribution.statistics.firstQuartile">
-                        <md-icon md-svg-src="/assets/images/icons/functions.svg" class="fdz-detail-icon"></md-icon>
-                        <span>{{'variable-management.detail.statistics.firstQuartile' | translate}}: </span>
+                        <md-icon md-svg-src="/assets/images/icons/boxplot.svg" class="fdz-detail-icon"></md-icon>
+                        <span style="font-weight: bold;">{{'variable-management.detail.statistics.firstQuartile' | translate}}: </span>
                         <span>{{variable.distribution.statistics.firstQuartile}}</span>
                       </section>
                       <section ng-if="variable.distribution.statistics.highWhisker">
-                        <md-icon md-svg-src="/assets/images/icons/functions.svg" class="fdz-detail-icon"></md-icon>
-                        <span>{{'variable-management.detail.statistics.highWhisker' | translate}}: </span>
+                        <md-icon md-svg-src="/assets/images/icons/boxplot.svg" class="fdz-detail-icon"></md-icon>
+                        <span style="font-weight: bold;">{{'variable-management.detail.statistics.highWhisker' | translate}}: </span>
                         <span>{{variable.distribution.statistics.highWhisker}}</span>
                       </section>
                       <section ng-if="variable.distribution.statistics.lowWhisker">
-                        <md-icon md-svg-src="/assets/images/icons/functions.svg" class="fdz-detail-icon"></md-icon>
-                        <span>{{'variable-management.detail.statistics.lowWhisker' | translate}}: </span>
+                        <md-icon md-svg-src="/assets/images/icons/boxplot.svg" class="fdz-detail-icon"></md-icon>
+                        <span style="font-weight: bold;">{{'variable-management.detail.statistics.lowWhisker' | translate}}: </span>
                         <span>{{variable.distribution.statistics.lowWhisker}}</span>
                       </section>
                       <section ng-if="variable.distribution.statistics.maximum">
-                        <md-icon md-svg-src="/assets/images/icons/functions.svg" class="fdz-detail-icon"></md-icon>
-                        <span>{{'variable-management.detail.statistics.maximum' | translate}}: </span>
+                        <md-icon md-svg-src="/assets/images/icons/boxplot.svg" class="fdz-detail-icon"></md-icon>
+                        <span style="font-weight: bold;">{{'variable-management.detail.statistics.maximum' | translate}}: </span>
                         <span>{{variable.distribution.statistics.maximum}}</span>
                       </section>
                       <section ng-if="variable.distribution.statistics.median">
-                        <md-icon md-svg-src="/assets/images/icons/functions.svg" class="fdz-detail-icon"></md-icon>
-                        <span>{{'variable-management.detail.statistics.median' | translate}}: </span>
+                        <md-icon md-svg-src="/assets/images/icons/boxplot.svg" class="fdz-detail-icon"></md-icon>
+                        <span style="font-weight: bold;">{{'variable-management.detail.statistics.median' | translate}}: </span>
                         <span>{{variable.distribution.statistics.median}}</span>
                       </section>
                       <section ng-if="variable.distribution.statistics.minimum">
-                        <md-icon md-svg-src="/assets/images/icons/functions.svg" class="fdz-detail-icon"></md-icon>
-                        <span>{{'variable-management.detail.statistics.minimum' | translate}}: </span>
+                        <md-icon md-svg-src="/assets/images/icons/boxplot.svg" class="fdz-detail-icon"></md-icon>
+                        <span style="font-weight: bold;">{{'variable-management.detail.statistics.minimum' | translate}}: </span>
                         <span>{{variable.distribution.statistics.minimum}}</span>
                       </section>
                       <section ng-if="variable.distribution.statistics.thirdQuartile">
-                        <md-icon md-svg-src="/assets/images/icons/functions.svg" class="fdz-detail-icon"></md-icon>
-                        <span>{{'variable-management.detail.statistics.thirdQuartile' | translate}}: </span>
+                        <md-icon md-svg-src="/assets/images/icons/boxplot.svg" class="fdz-detail-icon"></md-icon>
+                        <span style="font-weight: bold;">{{'variable-management.detail.statistics.thirdQuartile' | translate}}: </span>
                         <span>{{variable.distribution.statistics.thirdQuartile}}</span>
                       </section>
                       <section ng-if="variable.distribution.totalAbsoluteFrequency">
-                        <md-icon md-svg-src="/assets/images/icons/functions.svg" class="fdz-detail-icon"></md-icon>
-                        <span>{{'variable-management.detail.statistics.totalAbsoluteFrequency' | translate}}: </span>
+                        <md-icon md-svg-src="/assets/images/icons/statistics.svg" class="fdz-detail-icon"></md-icon>
+                        <span style="font-weight: bold;">{{'variable-management.detail.statistics.totalAbsoluteFrequency' | translate}}: </span>
                         <span>{{variable.distribution.totalAbsoluteFrequency}}</span>
                       </section>
                       <section ng-if="variable.distribution.totalValidAbsoluteFrequency">
-                        <md-icon md-svg-src="/assets/images/icons/functions.svg" class="fdz-detail-icon"></md-icon>
-                        <span>{{'variable-management.detail.statistics.totalValidAbsoluteFrequency' | translate}}: </span>
+                        <md-icon md-svg-src="/assets/images/icons/statistics.svg" class="fdz-detail-icon"></md-icon>
+                        <span style="font-weight: bold;">{{'variable-management.detail.statistics.totalValidAbsoluteFrequency' | translate}}: </span>
                         <span>{{variable.distribution.totalValidAbsoluteFrequency}}</span>
                       </section>
                       <section ng-if="variable.distribution.totalValidRelativeFrequency">
-                        <md-icon md-svg-src="/assets/images/icons/functions.svg" class="fdz-detail-icon"></md-icon>
-                        <span>{{'variable-management.detail.statistics.totalValidRelativeFrequency' | translate}}: </span>
+                        <md-icon md-svg-src="/assets/images/icons/statistics.svg" class="fdz-detail-icon"></md-icon>
+                        <span style="font-weight: bold;">{{'variable-management.detail.statistics.totalValidRelativeFrequency' | translate}}: </span>
                         <span>{{variable.distribution.totalValidRelativeFrequency}}</span>
                       </section>
                     </section>
