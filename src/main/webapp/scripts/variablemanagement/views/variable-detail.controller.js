@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('metadatamanagementApp')
-  .controller('VariableDetailController', function(DialogService, $translate,
-    blockUI, $scope, $stateParams, $filter, entity) {
+  .controller('VariableDetailController', function(DialogService, blockUI,
+    $scope, entity) {
 
     $scope.variable = entity;
     $scope.frequencies = [];
@@ -36,7 +36,6 @@ angular.module('metadatamanagementApp')
         }
       }
     }, true);
-
     $scope.showRows = function() {
       if ($scope.frequencies.length > 10) {
         if ($scope.tableFlag === 'expand') {
