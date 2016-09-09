@@ -122,7 +122,7 @@ public class DataAcquisitionProjectPostValidationResourceTest extends AbstractTe
     
     //Atomic Question
     Question question = UnitTestCreateDomainObjectUtils.buildQuestion(project.getId(), instrument.getId(), 
-        variable1.getId(), survey.getId());
+        survey.getId());
     this.questionRepository.save(question);
     
     Study study = UnitTestCreateDomainObjectUtils.buildStudy(project.getId());    
@@ -173,8 +173,7 @@ public class DataAcquisitionProjectPostValidationResourceTest extends AbstractTe
     
     //Atomic Question
     Question question = UnitTestCreateDomainObjectUtils.buildQuestion(project.getId(), instrument.getId(), 
-        variable1.getId(), survey.getId());
-    question.getVariableIds().add("testProject-Wrongname1");
+        survey.getId());
     question.setInstrumentId("testProject-WrongQuestionname1");
     question.setId("testProject-Wrongname1");
     this.questionRepository.save(question);
@@ -183,9 +182,8 @@ public class DataAcquisitionProjectPostValidationResourceTest extends AbstractTe
     // Act & Assert
     mockMvc.perform(post(API_DATA_ACQUISITION_PROJECTS_POST_VALIDATION_URI))
       .andExpect(status().isOk())
-      .andExpect(jsonPath("$.errors", hasSize(2)))
-      .andExpect(jsonPath("$.errors[0].messageId", containsString("error.post-validation.question-has-invalid-variable-id")))
-      .andExpect(jsonPath("$.errors[1].messageId", containsString("error.post-validation.question-has-invalid-instrument-id")));    
+      .andExpect(jsonPath("$.errors", hasSize(1)))
+      .andExpect(jsonPath("$.errors[0].messageId", containsString("error.post-validation.question-has-invalid-instrument-id")));    
   }
   
   @Test
@@ -226,7 +224,7 @@ public class DataAcquisitionProjectPostValidationResourceTest extends AbstractTe
     
     //Atomic Question
     Question question = UnitTestCreateDomainObjectUtils.buildQuestion(project.getId(), instrument.getId(), 
-        variable1.getId(), survey.getId());    
+        survey.getId());    
     this.questionRepository.save(question);
     
 
@@ -275,7 +273,7 @@ public class DataAcquisitionProjectPostValidationResourceTest extends AbstractTe
     
     //Atomic Question
     Question question = UnitTestCreateDomainObjectUtils.buildQuestion(project.getId(), instrument.getId(), 
-        variable1.getId(), survey.getId());    
+        survey.getId());    
     this.questionRepository.save(question);
     
 
@@ -325,7 +323,7 @@ public class DataAcquisitionProjectPostValidationResourceTest extends AbstractTe
     
     //Atomic Question
     Question question = UnitTestCreateDomainObjectUtils.buildQuestion(project.getId(), instrument.getId(), 
-        variable1.getId(), survey.getId());    
+        survey.getId());    
     this.questionRepository.save(question);
     
 

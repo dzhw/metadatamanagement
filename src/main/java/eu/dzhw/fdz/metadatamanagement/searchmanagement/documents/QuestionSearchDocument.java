@@ -22,9 +22,7 @@ public class QuestionSearchDocument {
   private String additionalQuestionText;
   private String imageType;
   private String technicalRepresentation;
-  private List<String> predecessor;
   private List<String> successor;
-  private List<String> variableIds;
 
   /**
    * Create the search document from the domain object depending on the language (index).
@@ -37,8 +35,6 @@ public class QuestionSearchDocument {
     this.technicalRepresentation = question.getTechnicalRepresentation();
     this.imageType = question.getImageType().name();
     this.successor = question.getSuccessor();
-    this.predecessor = question.getPredecessor();
-    this.variableIds = question.getVariableIds();
     createI18nAttributes(question, index);
   }
   
@@ -161,13 +157,6 @@ public class QuestionSearchDocument {
     this.technicalRepresentation = technicalRepresentation;
   }
 
-  public List<String> getPredecessor() {
-    return predecessor;
-  }
-
-  public void setPredecessor(List<String> predecessor) {
-    this.predecessor = predecessor;
-  }
 
   public List<String> getSuccessor() {
     return successor;
@@ -176,12 +165,4 @@ public class QuestionSearchDocument {
   public void setSuccessor(List<String> successor) {
     this.successor = successor;
   }
-
-  public List<String> getVariableIds() {
-    return variableIds;
-  }
-
-  public void setVariableIds(List<String> variableIds) {
-    this.variableIds = variableIds;
-  } 
 }

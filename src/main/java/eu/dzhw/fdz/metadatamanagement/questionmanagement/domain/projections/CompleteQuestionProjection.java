@@ -39,10 +39,7 @@ public interface CompleteQuestionProjection
     
   String getTechnicalRepresentation();
     
-  List<String> getPredecessor();
-    
   List<String> getSuccessor();
-
-  List<String> getVariableIds();
-
+  
+  String getInstrumentId();
 }

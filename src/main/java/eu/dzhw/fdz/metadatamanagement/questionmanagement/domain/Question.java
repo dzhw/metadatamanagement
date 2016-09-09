@@ -77,8 +77,6 @@ public class Question extends AbstractRdcDomainObject {
   @Size(max = StringLengths.X_LARGE, 
       message = "question-management.error.question.technical-representation.size")
   private String technicalRepresentation;
-    
-  private List<String> predecessor;
   
   private List<String> successor;
   
@@ -89,8 +87,6 @@ public class Question extends AbstractRdcDomainObject {
   
   @NotEmpty(message = "question-management.error.question.survey-id.not-empty")
   private String surveyId;
-    
-  private List<String> variableIds;
   
   @NotEmpty(message = "question-management.error.question.instrument-id.not-empty")
   private String instrumentId;
@@ -121,11 +117,9 @@ public class Question extends AbstractRdcDomainObject {
       .add("additionalQuestionText", additionalQuestionText)
       .add("imageType", imageType)
       .add("technicalRepresentation", technicalRepresentation)
-      .add("predecessor", predecessor)
       .add("successor", successor)
       .add("dataAcquisitionProjectId", dataAcquisitionProjectId)
       .add("surveyId", surveyId)
-      .add("variableIds", variableIds)
       .add("instrumentId", instrumentId)
       .toString();
   }
@@ -206,14 +200,6 @@ public class Question extends AbstractRdcDomainObject {
   public void setTechnicalRepresentation(String technicalRepresentation) {
     this.technicalRepresentation = technicalRepresentation;
   }
-  
-  public List<String> getPredecessor() {
-    return predecessor;
-  }
-
-  public void setPredecessor(List<String> predecessor) {
-    this.predecessor = predecessor;
-  }
 
   public List<String> getSuccessor() {
     return successor;
@@ -229,14 +215,6 @@ public class Question extends AbstractRdcDomainObject {
   
   public void setDataAcquisitionProjectId(String dataAcquisitionProjectId) {
     this.dataAcquisitionProjectId = dataAcquisitionProjectId;
-  }
-  
-  public List<String> getVariableIds() {
-    return variableIds;
-  }
-  
-  public void setVariableIds(List<String> variableIds) {
-    this.variableIds = variableIds;
   }
 
   public String getInstrumentId() {

@@ -84,16 +84,6 @@ public class PostValidationService {
       List<Question> questions, List<PostValidationMessageDto> errors) {
 
     for (Question question : questions) {
-
-      // question.VariableIds: there must be variables with that id
-      for (String variableId : question.getVariableIds()) {
-        if (this.variableRepository.findOne(variableId) == null) {
-          String[] information = {question.getId(), variableId};
-          errors.add(new PostValidationMessageDto("question-management.error."
-              + "post-validation.question-has-invalid-variable-id", information));
-        }
-      }
-
       // question.InstrumentId: there must be a instrument with that id
       if (this.instrumentRepository.findOne(question.getInstrumentId()) == null) {
         String[] information = {question.getId(), question.getInstrumentId()};
@@ -108,6 +98,8 @@ public class PostValidationService {
             + "post-validation.question-has-invalid-survey-id", information));
       }
     }
+    
+    // TODO rreitmann add post validation for successors
 
     return errors;
   }
