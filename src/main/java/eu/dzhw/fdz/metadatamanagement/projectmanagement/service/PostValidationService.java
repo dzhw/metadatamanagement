@@ -1,6 +1,7 @@
 package eu.dzhw.fdz.metadatamanagement.projectmanagement.service;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -84,22 +85,31 @@ public class PostValidationService {
       List<Question> questions, List<PostValidationMessageDto> errors) {
 
     for (Question question : questions) {
-      // question.InstrumentId: there must be a instrument with that id
+      // question.instrumentId: there must be a instrument with that id
       if (this.instrumentRepository.findOne(question.getInstrumentId()) == null) {
         String[] information = {question.getId(), question.getInstrumentId()};
         errors.add(new PostValidationMessageDto("question-management.error."
-            + "post-validation.question-has-invalid-instrument-id", information));
+            + "post-validation.question-has-invalid-instrument-id", Arrays.asList(information)));
       }
 
-      // question.InstrumentId: there must be a survey with that id
+      // question.surveyId: there must be a survey with that id
       if (this.surveyRepository.findOne(question.getSurveyId()) == null) {
         String[] information = {question.getId(), question.getSurveyId()};
         errors.add(new PostValidationMessageDto("question-management.error."
-            + "post-validation.question-has-invalid-survey-id", information));
+            + "post-validation.question-has-invalid-survey-id", Arrays.asList(information)));
+      }
+      
+      // question.successors: there must be a question with that id
+      if (question.getSuccessors() != null && !question.getSuccessors().isEmpty()) {
+        for (String successor : question.getSuccessors()) {
+          if (questionRepository.findOne(successor) == null) {
+            String[] information = {question.getId(), successor};
+            errors.add(new PostValidationMessageDto("question-management.error."
+                + "post-validation.question-has-invalid-successor", Arrays.asList(information)));
+          }
+        }
       }
     }
-    
-    // TODO rreitmann add post validation for successors
 
     return errors;
   }
@@ -119,7 +129,7 @@ public class PostValidationService {
         if (this.surveyRepository.findOne(surveyId) == null) {
           String[] information = {dataSet.getId(), surveyId};
           errors.add(new PostValidationMessageDto("data-set-management.error."
-              + "post-validation.data-set-has-invalid-survey-id", information));
+              + "post-validation.data-set-has-invalid-survey-id", Arrays.asList(information)));
         }
       }
 
@@ -128,7 +138,7 @@ public class PostValidationService {
         if (this.variableRepository.findOne(variableId) == null) {
           String[] information = {dataSet.getId(), variableId};
           errors.add(new PostValidationMessageDto("data-set-management.error."
-              + "post-validation.data-set-has-invalid-variable-id", information));
+              + "post-validation.data-set-has-invalid-variable-id", Arrays.asList(information)));
         }
       }
     }
@@ -151,7 +161,7 @@ public class PostValidationService {
         if (this.surveyRepository.findOne(surveyId) == null) {
           String[] information = {variable.getId(), surveyId};
           errors.add(new PostValidationMessageDto("variable-management.error."
-              + "post-validation.variable-has-invalid-survey-id", information));
+              + "post-validation.variable-has-invalid-survey-id", Arrays.asList(information)));
         }
       }
 
@@ -160,7 +170,7 @@ public class PostValidationService {
         if (this.dataSetRepository.findOne(dataSetId) == null) {
           String[] information = {variable.getId(), dataSetId};
           errors.add(new PostValidationMessageDto("variable-management.error."
-              + "post-validation.variable-has-invalid-data-set-id", information));
+              + "post-validation.variable-has-invalid-data-set-id", Arrays.asList(information)));
         }
       }
 
@@ -170,7 +180,8 @@ public class PostValidationService {
           if (this.variableRepository.findOne(variableId) == null) {
             String[] information = {variable.getId(), variableId};
             errors.add(new PostValidationMessageDto("variable-management.error."
-                + "post-validation.variable-id-is-not-in-invalid-variables-panel", information));
+                + "post-validation.variable-id-is-not-in-invalid-variables-panel",
+                Arrays.asList(information)));
           }
         }
       }
@@ -181,7 +192,7 @@ public class PostValidationService {
           && this.questionRepository.findOne(variable.getQuestionId()) == null) {
         String[] information = {variable.getId(), variable.getQuestionId()};
         errors.add(new PostValidationMessageDto("variable-management.error."
-            + "post-validation.variable-has-invalid-question-id", information));
+            + "post-validation.variable-has-invalid-question-id", Arrays.asList(information)));
       }
     }
 

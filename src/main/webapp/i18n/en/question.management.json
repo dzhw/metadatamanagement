@@ -66,8 +66,9 @@
         }
       },
       "post-validation": {
-        "question-has-invalid-instrument-id": "The Question {{id}} references to an unknown Instrument ({{toBereferenzedId}}).",
-        "question-has-invalid-survey-id": "The Question {{id}} references to an unknown Survey ({{toBereferenzedId}})."
+        "question-has-invalid-instrument-id": "The Question {{id}} references an unknown Instrument ({{toBereferenzedId}}).",
+        "question-has-invalid-successor": "The Question {{id}} references an unknown successor ({{toBereferenzedId}}).",
+        "question-has-invalid-survey-id": "The Question {{id}} references an unknown Survey ({{toBereferenzedId}})."
       }
     }
   }

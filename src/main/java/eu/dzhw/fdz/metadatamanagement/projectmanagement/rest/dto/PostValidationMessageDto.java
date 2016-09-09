@@ -1,5 +1,7 @@
 package eu.dzhw.fdz.metadatamanagement.projectmanagement.rest.dto;
 
+import java.util.List;
+
 /**
  * This Message DTO is for transfering the id of a error message with all depending parameter 
  * to the client. 
@@ -10,11 +12,11 @@ public class PostValidationMessageDto {
   
   private String messageId;
   
-  private String[] messageParameter;
+  private List<String> messageParameter;
   
-  public PostValidationMessageDto(String messageId, String[] messageParameter) { 
+  public PostValidationMessageDto(String messageId, List<String> messageParameter) { 
     this.messageId = messageId;
-    this.messageParameter = messageParameter.clone();
+    this.messageParameter = messageParameter;
   }
 
   /* GETTER / SETTER */
@@ -26,11 +28,7 @@ public class PostValidationMessageDto {
     this.messageId = messageId;
   }
 
-  public String[] getMessageParameter() {
-    return this.messageParameter.clone();
-  }
-
-  public void setMessageParameter(String[] messageParameter) {
-    this.messageParameter = messageParameter.clone();
+  public List<String> getMessageParameter() {
+    return this.messageParameter;
   }
 }

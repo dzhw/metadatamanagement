@@ -176,14 +176,16 @@ public class DataAcquisitionProjectPostValidationResourceTest extends AbstractTe
         survey.getId());
     question.setInstrumentId("testProject-WrongQuestionname1");
     question.setId("testProject-Wrongname1");
+    question.getSuccessors().add("testProject-WrongQuestion");
     this.questionRepository.save(question);
     
 
     // Act & Assert
     mockMvc.perform(post(API_DATA_ACQUISITION_PROJECTS_POST_VALIDATION_URI))
       .andExpect(status().isOk())
-      .andExpect(jsonPath("$.errors", hasSize(1)))
-      .andExpect(jsonPath("$.errors[0].messageId", containsString("error.post-validation.question-has-invalid-instrument-id")));    
+      .andExpect(jsonPath("$.errors", hasSize(2)))
+      .andExpect(jsonPath("$.errors[0].messageId", containsString("error.post-validation.question-has-invalid-instrument-id")))    
+      .andExpect(jsonPath("$.errors[1].messageId", containsString("error.post-validation.question-has-invalid-successor")));
   }
   
   @Test

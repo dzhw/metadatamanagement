@@ -74,10 +74,7 @@ public class SearchResourceTest extends AbstractTest {
   @Test(expected = NestedServletException.class)
   public void testRecreateAllIndicesWithoutValidCredentials() throws Exception {
     // test recreation of all elasticsearch indices
-    mockMvc.perform(post("/api/search/recreate"))
-      .andExpect(status().isOk());
-
-    // TODO this should result in a more user friendly error message
+    mockMvc.perform(post("/api/search/recreate"));
   }
 
   @Test
