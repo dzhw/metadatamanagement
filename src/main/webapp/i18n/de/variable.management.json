@@ -40,7 +40,9 @@
         "collapse":"Klicken zum minimieren"
       },
       "statistics": {
-        "grafics": "Statistische Grafik",
+        "graphics": "Statistische Grafik",
+        "graphic-is-loading": "wird geladen...",
+        "graphic-is-not-available": "Keine Grafische Darstellung Der Statistiken",
         "statistics": "Statistiken",
         "all": "Alle",
         "page": "Seite",

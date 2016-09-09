@@ -40,7 +40,9 @@
         "collapse": "Click to minimize"
       },
       "statistics": {
-        "grafics": "Statistical Graphs",
+        "graphics": "Statistical Graphs",
+        "grafic-is-loading": "is loading...",
+        "grafic-is-not-available": "No plotting available",
         "statistics": "Statistics",
         "all": "All",
         "page": "Page",

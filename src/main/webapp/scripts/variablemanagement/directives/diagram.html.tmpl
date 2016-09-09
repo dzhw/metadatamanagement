@@ -1,1 +1,8 @@
-<div id="diagram"></div>
+<div ng-if="isNotLoaded" layout-margin>
+  <span> {{'variable-management.detail.statistics.graphic-is-loading'  | translate }}</span>
+</div>
+<div ng-if="isNotAvailable && !isNotLoaded" layout-margin>
+  <md-icon md-svg-src="/assets/images/icons/dissatisfied.svg" class="fdz-detail-icon"></md-icon>
+  <span> {{'variable-management.detail.statistics.graphic-is-not-available'  | translate }}</span>
+</div>
+<div ng-hide="isNotAvailable" id="diagram"></div>
