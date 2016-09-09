@@ -36,16 +36,16 @@
       "not-found": "The {{id}} references to an unknown Variable.",
       "same-in-panel": "Same Variables",
       "table": {
-        "expand":"Click to maximize",
-        "collapse":"Click to minimize"
+        "expand": "Click to maximize",
+        "collapse": "Click to minimize"
       },
       "statistics": {
         "grafics": "Statistical Graphs",
         "statistics": "Statistics",
         "all": "All",
-        "page":"Page",
-        "rowsPerPage":"Rows per Page",
-        "of":"of",
+        "page": "Page",
+        "rowsPerPage": "Rows per Page",
+        "of": "of",
         "value": "Value",
         "label": "Label",
         "absoluteFrequency": "Absolute Frequency",
@@ -176,11 +176,6 @@
           "not-empty": "The list of access ways of a variable needs min. one element and must not be empty!",
           "valid-access-ways": "The values of access ways are invalid. Valid values are: suf, cuf and remote."
         },
-        "data-set": {
-          "ids": {
-            "not-empty": "The Variable must be assigned to at least one Data Set!"
-          }
-        },
         "survey": {
           "ids": {
             "not-empty": "The Variable must be assigned to at least one Survey!"
@@ -189,7 +184,6 @@
       },
       "post-validation": {
         "variable-has-invalid-survey-id": "The Variable {{id}} references to an unknown Survey ({{toBereferenzedId}}).",
-        "variable-has-invalid-data-set-id": "The Variable {{id}} references to an unknown Data Set ({{toBereferenzedId}}).",
         "variable-id-is-not-in-invalid-variables-panel": "The Variable {{id}} references to an unknown Panel Variable ({{toBereferenzedId}}).",
         "variable-has-invalid-question-id": "The Variable {{id}} references to an unknown Question ({{toBereferenzedId}})."
       }

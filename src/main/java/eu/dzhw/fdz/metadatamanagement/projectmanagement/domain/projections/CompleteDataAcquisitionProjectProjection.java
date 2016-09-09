@@ -16,5 +16,4 @@ import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.DataAcquisitionPr
 public interface CompleteDataAcquisitionProjectProjection
     extends AbstractRdcDomainObjectProjection {
   
-  String getStudyId();
 }

@@ -33,21 +33,7 @@
           "id": {
             "not-empty": "The RDC-ID of the Data Acquisition Project for the Survey must not be empty!"
           }
-        },
-        "instrument": {
-          "id": {
-            "not-empty": "The RDC-ID of the Instrument for the Survey must not be empty!"
-          }
-        },
-        "data-set": {
-          "ids": {
-            "not-empty": "The Survey must have at least one Data Set!"
-          }
         }
-      },
-      "post-validation": {
-        "survey-has-invalid-instrument-id": "The Survey {{id}} references to an unknown Instrument ({{toBereferenzedId}}).",
-        "survey-has-invalid-data-set-id": "The Survey {{id}} references to an unknown Data Set ({{toBereferenzedId}})."
       }
     }
   }

@@ -43,7 +43,7 @@
         },
         "survey": {
           "ids": {
-            "not-empty": "The Data Set must contain at least one Survey!"
+            "not-empty": "The Data Set must reference at least one Survey!"
           }
         }
       },

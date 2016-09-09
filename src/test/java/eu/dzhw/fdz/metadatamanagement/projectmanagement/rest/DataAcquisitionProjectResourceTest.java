@@ -122,8 +122,6 @@ public class DataAcquisitionProjectResourceTest extends AbstractTest {
       .content(TestUtil.convertObjectToJsonBytes(project)))
       .andExpect(status().isCreated());
 
-    project.setStudyId("AnotherId");
-
     // update the project
     mockMvc.perform(put(API_DATA_ACQUISITION_PROJECTS_URI + "/" + project.getId())
       .content(TestUtil.convertObjectToJsonBytes(project)))
@@ -134,8 +132,7 @@ public class DataAcquisitionProjectResourceTest extends AbstractTest {
         get(API_DATA_ACQUISITION_PROJECTS_URI + "/" + project.getId() + "?projection=complete"))
       .andExpect(status().isOk())
       .andExpect(jsonPath("$.id", is(project.getId())))
-      .andExpect(jsonPath("$.version", is(1)))
-      .andExpect(jsonPath("$.studyId", is("AnotherId")));
+      .andExpect(jsonPath("$.version", is(1)));
   }
 
   @Test

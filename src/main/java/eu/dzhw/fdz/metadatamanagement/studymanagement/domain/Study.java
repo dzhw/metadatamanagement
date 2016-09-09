@@ -88,16 +88,8 @@ public class Study extends AbstractRdcDomainObject {
   @Valid
   private List<Release> releases;
   
-  /* Foreign Keys */
-  private List<String> dataSetIds;
-  
-  private List<String> surveyIds;
-  
-  private List<String> instrumentIds;
-  
-  private List<String> relatedPublicationIds;
-  
   @Indexed
+  //TODO rreitmann add validation for equality
   private String dataAcquisitionProjectId;
   
   /*
@@ -117,10 +109,6 @@ public class Study extends AbstractRdcDomainObject {
       .add("authors", authors)
       .add("accessWays", accessWays)
       .add("releases", releases)
-      .add("dataSetIds", dataSetIds)
-      .add("surveyIds", surveyIds)
-      .add("instrumentIds", instrumentIds)
-      .add("relatedPublicationIds", relatedPublicationIds)
       .add("dataAcquisitionProjectId", dataAcquisitionProjectId)
       .toString();
   }
@@ -210,38 +198,6 @@ public class Study extends AbstractRdcDomainObject {
 
   public void setAccessWays(List<String> accessWays) {
     this.accessWays = accessWays;
-  }
-
-  public List<String> getDataSetIds() {
-    return dataSetIds;
-  }
-
-  public void setDataSetIds(List<String> dataSetIds) {
-    this.dataSetIds = dataSetIds;
-  }
-
-  public List<String> getSurveyIds() {
-    return surveyIds;
-  }
-
-  public void setSurveyIds(List<String> surveyIds) {
-    this.surveyIds = surveyIds;
-  }
-
-  public List<String> getInstrumentIds() {
-    return instrumentIds;
-  }
-
-  public void setInstrumentIds(List<String> instrumentIds) {
-    this.instrumentIds = instrumentIds;
-  }
-
-  public List<String> getRelatedPublicationIds() {
-    return relatedPublicationIds;
-  }
-
-  public void setRelatedPublicationIds(List<String> relatedPublicationIds) {
-    this.relatedPublicationIds = relatedPublicationIds;
   }
 
   public String getDataAcquisitionProjectId() {

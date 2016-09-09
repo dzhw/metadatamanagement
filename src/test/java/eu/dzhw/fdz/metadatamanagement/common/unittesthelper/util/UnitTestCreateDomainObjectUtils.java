@@ -66,7 +66,6 @@ public class UnitTestCreateDomainObjectUtils {
 
     return new DataAcquisitionProjectBuilder()
         .withId(projectId)
-        .withStudyId(buildStudy(projectId).getId())
         .build();
   }
   

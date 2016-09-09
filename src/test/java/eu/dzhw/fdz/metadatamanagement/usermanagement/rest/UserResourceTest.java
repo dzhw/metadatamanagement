@@ -33,7 +33,6 @@ import eu.dzhw.fdz.metadatamanagement.usermanagement.domain.User;
 import eu.dzhw.fdz.metadatamanagement.usermanagement.domain.builders.UserBuilder;
 import eu.dzhw.fdz.metadatamanagement.usermanagement.repository.AuthorityRepository;
 import eu.dzhw.fdz.metadatamanagement.usermanagement.repository.UserRepository;
-import eu.dzhw.fdz.metadatamanagement.usermanagement.rest.UserResource;
 import eu.dzhw.fdz.metadatamanagement.usermanagement.rest.dto.ManagedUserDto;
 import eu.dzhw.fdz.metadatamanagement.usermanagement.service.UserService;
 
@@ -125,7 +124,7 @@ public class UserResourceTest extends AbstractTest {
 
     // Assert
     assertThat(content, not(nullValue()));
-    assertThat(jsonArray.length(), is(8));
+    assertThat(jsonArray.length(), is(4));
   }
 
   @Test
@@ -138,8 +137,6 @@ public class UserResourceTest extends AbstractTest {
     User user = userO.get();
     user.setEmail("userMod@localhost");
     ManagedUserDto dto = new ManagedUserDto(user);
-
-    System.out.println(new String(TestUtil.convertObjectToJsonBytes(dto)));
 
     // Act
     MvcResult mvcResult =

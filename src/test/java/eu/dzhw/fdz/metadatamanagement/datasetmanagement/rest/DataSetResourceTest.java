@@ -74,6 +74,7 @@ public class DataSetResourceTest extends AbstractTest {
     this.surveyRepository.deleteAll();
     this.dataSetRepository.deleteAll();
     this.elasticsearchUpdateQueueService.clearQueue();
+    this.elasticsearchAdminService.recreateAllIndices();
   }
 
 
@@ -194,7 +195,7 @@ public class DataSetResourceTest extends AbstractTest {
     
     elasticsearchUpdateQueueService.processQueue();
 
-    // check that there are no more data set documents but two surveys
+    // check that there are no more data set documents
     elasticsearchAdminService.refreshAllIndices();
     assertThat(elasticsearchAdminService.countAllDocuments(), equalTo(0.0));
   }

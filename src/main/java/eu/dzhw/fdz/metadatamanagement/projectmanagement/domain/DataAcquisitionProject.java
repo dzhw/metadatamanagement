@@ -34,9 +34,6 @@ public class DataAcquisitionProject extends AbstractRdcDomainObject {
   @Size(max = StringLengths.SMALL,
       message = "data-acquisition-project.error.data-acquisition-project.id.size")
   private String id;
-  
-  /* Foreign Keys */
-  private String studyId;
 
   /*
    * (non-Javadoc)
@@ -59,22 +56,11 @@ public class DataAcquisitionProject extends AbstractRdcDomainObject {
     return MoreObjects.toStringHelper(this)
       .add("super", super.toString())
       .add("id", id)
-      .add("studyId", studyId)
       .toString();
   }
 
   /* GETTER / SETTER */
   public void setId(String id) {
     this.id = id;
-  }
-
-
-  public String getStudyId() {
-    return studyId;
-  }
-
-
-  public void setStudyId(String studyId) {
-    this.studyId = studyId;
   }
 }

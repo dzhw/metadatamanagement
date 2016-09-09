@@ -33,21 +33,7 @@
           "id": {
             "not-empty": "Die FDZ - ID des Projektes darf bei der Erhebung nicht leer sein!"
           }
-        },
-        "instrument": {
-          "id": {
-            "not-empty": "Die FDZ - ID des Fragebogens darf bei der Erhebung nicht leer sein!"
-          }
-        },
-        "data-set": {
-          "ids": {
-            "not-empty": "Die Erhebung muss mindestens einen Datensatz haben!"
-          }
         }
-      },
-      "post-validation": {
-        "survey-has-invalid-instrument-id": "Die Erhebung {{id}} referenziert auf einen unbekannten Fragebogen ({{toBereferenzedId}}).",
-        "survey-has-invalid-data-set-id": "Die Erhebung {{id}} referenziert auf einen unbekannten Datensatz ({{toBereferenzedId}})."
       }
     }
   }

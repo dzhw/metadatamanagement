@@ -97,8 +97,10 @@ public class AccountResourceTest extends AbstractTest {
   }
 
   @After
-  public void logout() {
+  public void cleanUp() {
     UnitTestUserManagementUtils.logout();
+    //assert that all tests remove their users!
+    assertThat(userRepository.count()).isEqualTo(4);
   }
 
   @Test
@@ -324,7 +326,6 @@ public class AccountResourceTest extends AbstractTest {
   }
 
   @Test
-  // @Transactional
   public void testRegisterValid() throws Exception {
     UserDto u = new UserDto("joe", // login
         "password", // password
@@ -341,10 +342,11 @@ public class AccountResourceTest extends AbstractTest {
 
     Optional<User> user = userRepository.findOneByLogin("joe");
     assertThat(user.isPresent()).isTrue();
+    
+    userRepository.deleteByEmail(u.getEmail());
   }
 
   @Test
-  // @Transactional
   public void testRegisterInvalidLogin() throws Exception {
     UserDto u = new UserDto("funky-log!n", // login <-- invalid
         "password", // password
@@ -364,7 +366,6 @@ public class AccountResourceTest extends AbstractTest {
   }
 
   @Test
-  // @Transactional
   public void testRegisterInvalidEmail() throws Exception {
     UserDto u = new UserDto("bob", // login
         "password", // password
@@ -384,7 +385,6 @@ public class AccountResourceTest extends AbstractTest {
   }
 
   @Test
-  // @Transactional
   public void testRegisterDuplicateLogin() throws Exception {
     // Good
     UserDto u = new UserDto("alice", // login
@@ -412,10 +412,11 @@ public class AccountResourceTest extends AbstractTest {
 
     Optional<User> userDup = userRepository.findOneByEmail("alicejr@example.com");
     assertThat(userDup.isPresent()).isFalse();
+    
+    userRepository.deleteByEmail(u.getEmail());
   }
 
   @Test
-  // @Transactional
   public void testRegisterDuplicateEmail() throws Exception {
     // Good
     UserDto u = new UserDto("john", // login
@@ -443,10 +444,11 @@ public class AccountResourceTest extends AbstractTest {
 
     Optional<User> userDup = userRepository.findOneByLogin("johnjr");
     assertThat(userDup.isPresent()).isFalse();
+    
+    userRepository.deleteByEmail(u.getEmail());
   }
 
   @Test
-  // @Transactional
   public void testRegisterAdminIsIgnored() throws Exception {
     UserDto u = new UserDto("badguy", // login
         "password", // password
@@ -468,5 +470,7 @@ public class AccountResourceTest extends AbstractTest {
     assertThat(userDup.get()
       .getAuthorities()).hasSize(1)
         .containsExactly(authorityRepository.findOne(AuthoritiesConstants.USER));
+    
+    userRepository.deleteByEmail(u.getEmail());
   }
 }

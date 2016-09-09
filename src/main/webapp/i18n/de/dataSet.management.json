@@ -43,7 +43,7 @@
         },
         "survey": {
           "ids": {
-            "not-empty": "Der Datensatz muss mindestens eine Erhebung beinhalten!"
+            "not-empty": "Der Datensatz muss zu mindestens einer Erhebung gehören!"
           }
         }
       },
