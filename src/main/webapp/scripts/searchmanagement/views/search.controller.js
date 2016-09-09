@@ -71,12 +71,16 @@ angular.module('metadatamanagementApp').controller('SearchController',
 
     //The current index of the active tab
     $scope.selectedTabIndex = 0;
-    for (var i = 0; i < $scope.tabs.length; i++) {
-      if ($scope.tabs[i].elasticSearchType === $location.search().type) {
-        $scope.selectedTabIndex = i;
-      }
-    }
-
+    //Set active tab
+    $scope.$watch(function() {
+            return $location.search().type;
+          }, function(value) {
+            for (var i = 0; i < $scope.tabs.length; i++) {
+              if ($scope.tabs[i].elasticSearchType === value) {
+                $scope.selectedTabIndex = i;
+              }
+            }
+          });
     //Search function
     $scope.search = function() {
       $scope.isSearching = true;
