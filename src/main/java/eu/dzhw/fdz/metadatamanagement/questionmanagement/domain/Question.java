@@ -78,7 +78,7 @@ public class Question extends AbstractRdcDomainObject {
       message = "question-management.error.question.technical-representation.size")
   private String technicalRepresentation;
   
-  private List<String> successor;
+  private List<String> successors;
   
       
   /* Foreign Keys */
@@ -117,7 +117,7 @@ public class Question extends AbstractRdcDomainObject {
       .add("additionalQuestionText", additionalQuestionText)
       .add("imageType", imageType)
       .add("technicalRepresentation", technicalRepresentation)
-      .add("successor", successor)
+      .add("successors", successors)
       .add("dataAcquisitionProjectId", dataAcquisitionProjectId)
       .add("surveyId", surveyId)
       .add("instrumentId", instrumentId)
@@ -201,12 +201,12 @@ public class Question extends AbstractRdcDomainObject {
     this.technicalRepresentation = technicalRepresentation;
   }
 
-  public List<String> getSuccessor() {
-    return successor;
+  public List<String> getSuccessors() {
+    return successors;
   }
 
-  public void setSuccessor(List<String> successor) {
-    this.successor = successor;
+  public void setSuccessors(List<String> successors) {
+    this.successors = successors;
   }
 
   public String getDataAcquisitionProjectId() {

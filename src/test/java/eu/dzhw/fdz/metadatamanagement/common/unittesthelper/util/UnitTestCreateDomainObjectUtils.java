@@ -197,7 +197,7 @@ public class UnitTestCreateDomainObjectUtils {
       .withInstrumentId(instrumentId)
       .withIntroduction(new I18nString("Einleitung", "Introduction"))
       .withNumber("123.12")
-      .withSuccessor(new ArrayList<>())
+      .withSuccessors(new ArrayList<>())
       .withQuestionText(new I18nString("Fragetext","Question text"))
       .withSurveyId(surveyId)
       .withTechnicalRepresentation("Technical representation")

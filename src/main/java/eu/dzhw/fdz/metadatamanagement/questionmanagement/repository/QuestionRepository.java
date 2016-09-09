@@ -33,5 +33,7 @@ public interface QuestionRepository
   @RestResource(exported = false)
   Slice<Question> findBy(Pageable pageable);
   
+  List<Question> findBySuccessorsContaining(@Param("id") String id);
+  
   List<Question> findByIdIn(@Param("ids") Collection<String> ids);
 }
