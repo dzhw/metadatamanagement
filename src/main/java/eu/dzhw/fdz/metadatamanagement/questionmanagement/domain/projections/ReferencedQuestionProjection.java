@@ -6,12 +6,12 @@ import eu.dzhw.fdz.metadatamanagement.common.domain.I18nString;
 import eu.dzhw.fdz.metadatamanagement.questionmanagement.domain.Question;
 
 /**
- * The 'questionTextOnly' Projection of a question domain object.
- * 'questionTextOnly' means only some attributes will be
+ * The 'referenced' Projection of a question domain object.
+ * 'referenced' means only some attributes will be
  * displayed.
  */
-@Projection(name = "questionTextOnly", types = Question.class)
-public interface QuestionSearchProjection {
+@Projection(name = "referenced", types = Question.class)
+public interface ReferencedQuestionProjection {
   String getId();
   
   String getNumber();

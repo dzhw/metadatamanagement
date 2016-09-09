@@ -6,7 +6,7 @@ angular.module('metadatamanagementApp')
 
     function($scope, $rootScope, localStorageService,
       ShoppingCartService, $stateParams, DialogService,
-      QuestionSearchResource, blockUI, entity, $q) {
+      QuestionReferencedResource, blockUI, entity, $q) {
       $scope.question = entity;
       $scope.predecessors = [];
       $scope.successors = [];
@@ -16,7 +16,7 @@ angular.module('metadatamanagementApp')
         var deferred = $q.defer();
         var itemsAsString = '"' + items + '"';
         itemsAsString = itemsAsString.replace(/[\[\]'"]/g, '');
-        QuestionSearchResource.findByIdIn({ids: itemsAsString})
+        QuestionReferencedResource.findByIdIn({ids: itemsAsString})
         .$promise.then(function(customQuestions) {
           deferred.resolve(customQuestions);
         });

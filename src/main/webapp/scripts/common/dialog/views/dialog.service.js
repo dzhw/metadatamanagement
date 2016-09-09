@@ -2,8 +2,9 @@
 
 'use strict';
 angular.module('metadatamanagementApp').service('DialogService',
-  function($mdDialog, blockUI, QuestionSearchResource, VariableSearchResource,
-    SurveySearchResource, DataSetSearchResource, $rootScope) {
+  function($mdDialog, blockUI, QuestionReferencedResource,
+    VariableReferencedResource,
+    SurveyReferencedResource, DataSetReferencedResource, $rootScope) {
     var showDialog = function(ids, type) {
       var entityResources = [];
       var dialogParent = angular.element(document.body);
@@ -71,22 +72,26 @@ angular.module('metadatamanagementApp').service('DialogService',
       };
 
       switch (type) {
-        case 'variable': VariableSearchResource.findByIdIn({ids: idsAsString})
+        case 'variable': VariableReferencedResource
+        .findByIdIn({ids: idsAsString})
           .$promise.then(function(customVariables) {
             checkInvalidIds(customVariables._embedded.variables);
           });
           break;
-        case 'survey': SurveySearchResource.findByIdIn({ids: idsAsString})
+        case 'survey': SurveyReferencedResource
+        .findByIdIn({ids: idsAsString})
           .$promise.then(function(customSurveys) {
             checkInvalidIds(customSurveys._embedded.surveys);
           });
           break;
-        case 'data-set': DataSetSearchResource.findByIdIn({ids: idsAsString})
+        case 'data-set': DataSetReferencedResource
+        .findByIdIn({ids: idsAsString})
           .$promise.then(function(customDataSets) {
             checkInvalidIds(customDataSets._embedded.dataSets);
           });
           break;
-        case 'question': QuestionSearchResource.findByIdIn({ids: idsAsString})
+        case 'question': QuestionReferencedResource
+        .findByIdIn({ids: idsAsString})
          .$promise.then(function(customQuestions) {
             checkInvalidIds(customQuestions._embedded.questions);
           });

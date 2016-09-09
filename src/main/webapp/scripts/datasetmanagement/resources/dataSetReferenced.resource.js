@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('metadatamanagementApp').factory('DataSetSearchResource',
+angular.module('metadatamanagementApp').factory('DataSetReferencedResource',
 function($resource) {
   return $resource('api/data-sets/search', {},
   {
@@ -9,7 +9,7 @@ function($resource) {
       method: 'GET',
       url: 'api/data-sets/search/findByIdIn',
       params: {
-        projection: 'dataSetTextOnly',
+        projection: 'referenced',
         ids: '@ids'
       }
     }

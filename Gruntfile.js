@@ -191,7 +191,9 @@ module.exports = function(grunt) {
             'Attribute “items-per-page” not allowed on element' +
             ' “ul” at this point.',
             'Consider adding a “lang” attribute to the “html” start tag to' +
-            ' declare the language of this document.'
+            ' declare the language of this document.',
+            'Element “md-icon” not allowed as child of element “div” in this' +
+            ' context. (Suppressing further errors from this subtree.)'
           ],
           customattrs: [
             'show-validation',

@@ -6,12 +6,12 @@ import eu.dzhw.fdz.metadatamanagement.common.domain.I18nString;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.Variable;
 
 /**
- * The 'avriableTextOnly' Projection of a variable domain object.
- * 'variableTextOnly' means only some attributes will be
+ * The 'referenced' Projection of a variable domain object.
+ * 'referenced' means only some attributes will be
  * displayed.
  */
-@Projection(name = "variableTextOnly", types = Variable.class)
-public interface VariableSearchProjection {
+@Projection(name = "referenced", types = Variable.class)
+public interface ReferencedVariableProjection {
   String getId();
   
   String getName();

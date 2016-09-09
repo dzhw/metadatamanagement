@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('metadatamanagementApp').factory('QuestionSearchResource',
+angular.module('metadatamanagementApp').factory('QuestionReferencedResource',
 function($resource) {
   return $resource('api/questions/search', {},
   {
@@ -9,7 +9,7 @@ function($resource) {
       method: 'GET',
       url: 'api/questions/search/findByIdIn',
       params: {
-        projection: 'questionTextOnly',
+        projection: 'referenced',
         ids: '@ids'
       }
     }

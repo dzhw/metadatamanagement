@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('metadatamanagementApp').factory('VariableSearchResource',
+angular.module('metadatamanagementApp').factory('VariableReferencedResource',
 function($resource) {
   return $resource('api/variables/search', {},
   {
@@ -9,7 +9,7 @@ function($resource) {
       method: 'GET',
       url: 'api/variables/search/findByIdIn',
       params: {
-        projection: 'variableTextOnly',
+        projection: 'referenced',
         ids: '@ids'
       }
     }
