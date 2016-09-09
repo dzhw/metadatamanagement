@@ -1,7 +1,5 @@
 package eu.dzhw.fdz.metadatamanagement.surveymanagement.domain.projections;
 
-import java.util.List;
-
 import org.springframework.data.rest.core.config.Projection;
 
 import eu.dzhw.fdz.metadatamanagement.common.domain.I18nString;
@@ -24,7 +22,4 @@ public interface CompleteSurveyProjection extends AbstractRdcDomainObjectProject
 
   String getDataAcquisitionProjectId();
 
-  String getInstrumentId();
-  
-  List<String> getDataSetIds();
 }

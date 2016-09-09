@@ -125,8 +125,6 @@ public class UnitTestCreateDomainObjectUtils {
       .withTitle(new I18nStringBuilder().withDe("Titel")
         .withEn("title")
         .build())
-      .withInstrumentId(projectId + "-Instrument")
-      .withDataSetIds(Arrays.asList(projectId + "-ds1"))
       .build();
   }
 

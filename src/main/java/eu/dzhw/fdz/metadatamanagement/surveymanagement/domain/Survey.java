@@ -1,7 +1,5 @@
 package eu.dzhw.fdz.metadatamanagement.surveymanagement.domain;
 
-import java.util.List;
-
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
@@ -55,12 +53,6 @@ public class Survey extends AbstractRdcDomainObject {
   @NotEmpty(message = "survey-management.error.survey.data-acquisition-project.id.not-empty")
   private String dataAcquisitionProjectId;
 
-  @NotEmpty(message = "survey-management.error.survey.instrument.id.not-empty")
-  private String instrumentId;
-  
-  @NotEmpty(message = "survey-management.error.survey.data-set.ids.not-empty")
-  private List<String> dataSetIds;
-
   /*
    * (non-Javadoc)
    * 
@@ -113,21 +105,5 @@ public class Survey extends AbstractRdcDomainObject {
 
   public void setDataAcquisitionProjectId(String dataAcquisitionProjectId) {
     this.dataAcquisitionProjectId = dataAcquisitionProjectId;
-  }
-
-  public String getInstrumentId() {
-    return instrumentId;
-  }
-
-  public void setInstrumentId(String instrumentId) {
-    this.instrumentId = instrumentId;
-  }
-
-  public List<String> getDataSetIds() {
-    return dataSetIds;
-  }
-
-  public void setDataSetIds(List<String> dataSetIds) {
-    this.dataSetIds = dataSetIds;
   }
 }

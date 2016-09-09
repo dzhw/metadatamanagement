@@ -247,10 +247,6 @@ public class DataAcquisitionProjectPostValidationResourceTest extends AbstractTe
     
     //Survey
     Survey survey = UnitTestCreateDomainObjectUtils.buildSurvey(project.getId());
-    survey.setInstrumentId(project.getId() + "-WrongInstrumentId");
-    List<String> dataSetIds = new ArrayList<>();
-    dataSetIds.add(project.getId() + "-WrongDataSetId");
-    survey.setDataSetIds(dataSetIds);
     this.surveyRepository.save(survey);
     
     //Variables
