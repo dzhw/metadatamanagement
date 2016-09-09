@@ -35,13 +35,12 @@ angular.module('metadatamanagementApp').directive('diagram',
             data[0].type = 'histogram';
           }
           var drawDiagram = function() {
-            Plotly.newPlot('diagram', data);
+            $timeout(function() {
+              Plotly.newPlot('diagram', data);
+            }, 1000);
           };
           angular.element($window).bind('resize', function() {
-            $timeout(function() {
-              $scope.$apply();
-              drawDiagram();
-            }, 1000);
+            drawDiagram();
           });
           drawDiagram();
         }]
