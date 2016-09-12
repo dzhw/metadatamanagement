@@ -6,12 +6,12 @@ import eu.dzhw.fdz.metadatamanagement.common.domain.I18nString;
 import eu.dzhw.fdz.metadatamanagement.surveymanagement.domain.Survey;
 
 /**
- * The 'surveyTextOnly' Projection of a survey domain object.
- * 'surveyTextOnly' means only some attributes will be
+ * The 'referenced' Projection of a survey domain object.
+ * 'referenced' means only some attributes will be
  * displayed.
  */
-@Projection(name = "surveyTextOnly", types = Survey.class)
-public interface SurveySearchProjection {
+@Projection(name = "referenced", types = Survey.class)
+public interface ReferencedSurveyProjection {
   String getId();
   
   I18nString getTitle();

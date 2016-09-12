@@ -7,7 +7,6 @@ angular.module('metadatamanagementApp').service('DialogService',
     SurveyReferencedResource, DataSetReferencedResource, $rootScope) {
     var showDialog = function(ids, type) {
       var entityResources = [];
-      var hasReferences = false;
       var dialogParent = angular.element(document.body);
       var idsAsString = '"' + ids + '"';
       idsAsString = idsAsString.replace(/[\[\]'"]/g, '');
@@ -42,12 +41,12 @@ angular.module('metadatamanagementApp').service('DialogService',
         entity.id = id;
         entity.found = true;
         entity.type = type + 'Detail';
+        entity.hasNoReferences = false;
         entity.rows = rows;
         entityResources.push(entity);
       };
       var checkInvalidIds = function(customItems) {
         if (ids instanceof Array) {
-          hasReferences = true;
           ids.forEach(function(id) {
             if (customItems.length > 0) {
               for (var i = 0; i < customItems.length; i++) {
@@ -58,7 +57,8 @@ angular.module('metadatamanagementApp').service('DialogService',
                   if (i === (customItems.length - 1)) {
                     entityResources.push({
                       id: id,
-                      found: false
+                      found: false,
+                      hasNoReferences: false
                     });
                   }
                 }
@@ -66,21 +66,21 @@ angular.module('metadatamanagementApp').service('DialogService',
             } else {
               entityResources.push({
                 id: id,
-                found: false
+                found: false,
+                hasNoReferences: false
               });
             }
           });
         } else {
           if (customItems.length > 0) {
-            hasReferences = true;
             for (var i = 0; i < customItems.length; i++) {
               createCustomEntities(customItems[i], customItems[i].id);
             }
           } else {
-            hasReferences = false;
             entityResources.push({
               id: ids,
-              found: false
+              found: false,
+              hasNoReferences: true
             });
           }
         }
