@@ -20,6 +20,7 @@ public class QuestionSearchDocument {
   private String additionalQuestionText;
   private String imageType;
   private String technicalRepresentation;
+  private String instrumentId;
 
   /**
    * Create the search document from the domain object depending on the language (index).
@@ -28,6 +29,7 @@ public class QuestionSearchDocument {
     this.id = question.getId();
     this.number = question.getNumber();
     this.surveyId = question.getSurveyId();
+    this.instrumentId = question.getInstrumentId();
     this.dataAcquisitionProjectId = question.getDataAcquisitionProjectId();
     this.technicalRepresentation = question.getTechnicalRepresentation();
     this.imageType = question.getImageType().name();
@@ -151,5 +153,13 @@ public class QuestionSearchDocument {
 
   public void setTechnicalRepresentation(String technicalRepresentation) {
     this.technicalRepresentation = technicalRepresentation;
+  }
+
+  public String getInstrumentId() {
+    return instrumentId;
+  }
+
+  public void setInstrumentId(String instrumentId) {
+    this.instrumentId = instrumentId;
   }
 }
