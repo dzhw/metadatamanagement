@@ -20,6 +20,7 @@ import eu.dzhw.fdz.metadatamanagement.common.domain.validation.I18nStringNotEmpt
 import eu.dzhw.fdz.metadatamanagement.common.domain.validation.I18nStringSize;
 import eu.dzhw.fdz.metadatamanagement.common.domain.validation.StringLengths;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.DataAcquisitionProject;
+import eu.dzhw.fdz.metadatamanagement.studymanagement.domain.validation.ValidStudyId;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.validation.ValidAccessWays;
 import net.karneim.pojobuilder.GeneratePojoBuilder;
 
@@ -33,6 +34,7 @@ import net.karneim.pojobuilder.GeneratePojoBuilder;
 @Document(collection = "studies")
 @GeneratePojoBuilder(
      intoPackage = "eu.dzhw.fdz.metadatamanagement.studymanagement.domain.builders")
+@ValidStudyId(message = "study-management.error.study.id.not-equal-to-project-id") 
 public class Study extends AbstractRdcDomainObject {
   
   @NotEmpty(message = "study-management.error.study.id.not-empty")
@@ -89,7 +91,6 @@ public class Study extends AbstractRdcDomainObject {
   private List<Release> releases;
   
   @Indexed
-  //TODO rreitmann add validation for equality
   private String dataAcquisitionProjectId;
   
   /*
