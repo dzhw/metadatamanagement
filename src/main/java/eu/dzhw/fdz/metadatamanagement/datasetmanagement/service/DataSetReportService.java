@@ -204,7 +204,7 @@ public class DataSetReportService {
 
     // Create Information for the latex template.
     dataForTemplate = this.createDataSetMap(dataForTemplate, dataSetId);
-    dataForTemplate = this.createVariableDependingMaps(dataForTemplate, dataSetId);
+    dataForTemplate = this.createVariableDependingMaps(dataForTemplate);
 
     return dataForTemplate;
   }
@@ -242,16 +242,15 @@ public class DataSetReportService {
    * lastTenValues: The last ten isAMissing values for one tex template layout.
    *    (key is variable.id)
    * @param dataForTemplate The map for the template with all added objects before this method.
-   * @param dataSetId The id of the used data set; Root Element of the report.
    * @return The map for the template as fluent result. Added some created elements within this
    *     method.
    */
-  private Map<String, Object> createVariableDependingMaps(Map<String, Object> dataForTemplate,
-      String dataSetId) {
+  private Map<String, Object> createVariableDependingMaps(Map<String, Object> dataForTemplate) {
 
     // Create a Map of Variables
     List<Variable> variables =
-        this.variableRepository.findByDataSetIdsContaining(dataSetId);
+        this.variableRepository.findByIdIn(
+            ((DataSet)dataForTemplate.get("dataSet")).getVariableIds());
     Map<String, Variable> variablesMap =
         Maps.uniqueIndex(variables, new VariableFunction());
     dataForTemplate.put("variables", variablesMap);

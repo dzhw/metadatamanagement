@@ -174,15 +174,6 @@ public class PostValidationService {
         }
       }
 
-      // variable.DataSetIds: there must be a dataset with that id
-      for (String dataSetId : variable.getDataSetIds()) {
-        if (this.dataSetRepository.findOne(dataSetId) == null) {
-          String[] information = {variable.getId(), dataSetId};
-          errors.add(new PostValidationMessageDto("variable-management.error."
-              + "post-validation.variable-has-invalid-data-set-id", Arrays.asList(information)));
-        }
-      }
-
       // variable.SameVariablesInPanel: there must be a variable with that id
       if (variable.getSameVariablesInPanel() != null) {
         for (String variableId : variable.getSameVariablesInPanel()) {

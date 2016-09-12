@@ -113,9 +113,6 @@ public class Variable extends AbstractRdcDomainObject {
   /* Foreign Keys */
   private String questionId;
 
-  @NotEmpty(message = "variable-management.error.variable.data-set.ids.not-empty")
-  private List<String> dataSetIds;
-
   @Indexed
   private String dataAcquisitionProjectId;
 
@@ -154,7 +151,6 @@ public class Variable extends AbstractRdcDomainObject {
       .add("generationDetails", generationDetails)
       .add("distribution", distribution)
       .add("questionId", questionId)
-      .add("dataSetIds", dataSetIds)
       .add("dataAcquisitionProjectId", dataAcquisitionProjectId)
       .add("surveyIds", surveyIds)
       .toString();
@@ -243,14 +239,6 @@ public class Variable extends AbstractRdcDomainObject {
 
   public void setQuestionId(String questionId) {
     this.questionId = questionId;
-  }
-
-  public List<String> getDataSetIds() {
-    return dataSetIds;
-  }
-
-  public void setDataSetIds(List<String> dataSetIds) {
-    this.dataSetIds = dataSetIds;
   }
 
   public FilterDetails getFilterDetails() {

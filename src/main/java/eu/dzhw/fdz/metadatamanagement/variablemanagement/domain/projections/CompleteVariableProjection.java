@@ -47,10 +47,6 @@ public interface CompleteVariableProjection
 
   Distribution getDistribution();
 
-
-  /* Foreign Keys */
-  List<String> getDataSetIds();
-
   String getQuestionId();
 
   String getDataAcquisitionProjectId();

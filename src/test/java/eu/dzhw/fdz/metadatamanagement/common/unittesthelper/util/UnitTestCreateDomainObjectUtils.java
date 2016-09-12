@@ -6,7 +6,6 @@ package eu.dzhw.fdz.metadatamanagement.common.unittesthelper.util;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import eu.dzhw.fdz.metadatamanagement.citationmanagement.domain.Citation;
@@ -165,7 +164,6 @@ public class UnitTestCreateDomainObjectUtils {
       .withScaleLevel(ScaleLevels.CONTINOUS)
       .withDataAcquisitionProjectId(projectId)
       .withSurveyIds(surveyIds)
-      .withDataSetIds(Arrays.asList(projectId + "-ds1"))
       .withLabel(new I18nStringBuilder().withDe("label")
         .withEn("label")
         .build())
