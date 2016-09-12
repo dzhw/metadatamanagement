@@ -12,6 +12,15 @@ function($resource) {
         projection: 'referenced',
         ids: '@ids'
       }
+    },
+    'findByQuestionId':
+    {
+      method: 'GET',
+      url: 'api/variables/search/findByQuestionId',
+      params: {
+        projection: 'referenced',
+        id: '@id'
+      }
     }
   });
 });

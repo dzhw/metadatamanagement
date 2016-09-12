@@ -13,14 +13,6 @@
                 <md-card flex="50" flex-xs="100">
                     <div style="max-height: 400px; overflow-y:auto;">
                         <a ng-href="public/files/questions/{{question.id}}" alt="{{question.questionText[currentLanguage] }}" target="_blank">
-                            <md-tooltip md-direction="right">
-                                {{'variable-management.home.title' | translate }}:
-                                {{question.variableIds.length}}
-                                {{'question-management.detail.successors' | translate }}:
-                                {{successors.length}}
-                                {{'question-management.detail.predecessors' | translate }}:
-                                {{predecessors.length}}
-                            </md-tooltip>
                             <img alt="" style="width:auto; max-width:100%; height:auto;" ng-src="public/files/questions/{{question.id}}"/>
                         </a>
                     </div>

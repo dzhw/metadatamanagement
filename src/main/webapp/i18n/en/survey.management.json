@@ -13,7 +13,8 @@
       "title": "Surveys"
     },
     "detail": {
-      "not-found": "The {{id}} references to an unknown Survey."
+      "not-found": "The {{id}} references to an unknown Survey.",
+      "not-found-references": "The id {{id}} has no references to Surveys."
     },
     "error": {
       "survey": {

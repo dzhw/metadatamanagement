@@ -39,4 +39,7 @@ public interface VariableRepository
   Slice<Variable> findBy(Pageable pageable);
   
   List<Variable> findByIdIn(@Param("ids") Collection<String> ids);
+  
+  List<Variable> findByQuestionId(@Param("id") String questionId);
+  
 }

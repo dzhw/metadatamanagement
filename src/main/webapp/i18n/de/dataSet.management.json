@@ -18,7 +18,8 @@
       "title": "Datensätze"
     },
     "detail": {
-      "not-found": "Die id {{id}} referenziert auf einen unbekannten Datensatz"
+      "not-found": "Die id {{id}} referenziert auf einen unbekannten Datensatz",
+      "not-found-references": "Die id {{id}} hat keine referenzen auf Datensätzen."
     },
     "error": {
       "data-set": {

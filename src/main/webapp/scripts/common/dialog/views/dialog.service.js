@@ -7,10 +7,11 @@ angular.module('metadatamanagementApp').service('DialogService',
     SurveyReferencedResource, DataSetReferencedResource, $rootScope) {
     var showDialog = function(ids, type) {
       var entityResources = [];
+      var hasReferences = false;
       var dialogParent = angular.element(document.body);
       var idsAsString = '"' + ids + '"';
       idsAsString = idsAsString.replace(/[\[\]'"]/g, '');
-      var dialogConfig = function() {
+      var openDialog = function() {
         blockUI.stop();
         $mdDialog.show({
           controller: 'DialogController',
@@ -24,30 +25,34 @@ angular.module('metadatamanagementApp').service('DialogService',
           templateUrl: 'scripts/common/dialog/views/dialog.html.tmpl',
         });
       };
+      var createCustomEntities = function(customItem, id) {
+        var rows = [];
+        var entity = {};
+        for (var key in customItem) {
+          if (key !== '_links') {
+            if ((customItem[key].hasOwnProperty('en')) ||
+            (customItem[key].hasOwnProperty('de'))) {
+              var obj = customItem[key];
+              rows.push(obj[$rootScope.currentLanguage]);
+            }else {
+              rows.push(customItem[key]);
+            }
+          }
+        }
+        entity.id = id;
+        entity.found = true;
+        entity.type = type + 'Detail';
+        entity.rows = rows;
+        entityResources.push(entity);
+      };
       var checkInvalidIds = function(customItems) {
-        try {
+        if (ids instanceof Array) {
+          hasReferences = true;
           ids.forEach(function(id) {
             if (customItems.length > 0) {
               for (var i = 0; i < customItems.length; i++) {
                 if (customItems[i].id === id) {
-                  var rows = [];
-                  var entity = {};
-                  for (var key in customItems[i]) {
-                    if (key !== '_links') {
-                      if ((customItems[i][key].hasOwnProperty('en')) ||
-                      (customItems[i][key].hasOwnProperty('de'))) {
-                        var obj = customItems[i][key];
-                        rows.push(obj[$rootScope.currentLanguage]);
-                      }else {
-                        rows.push(customItems[i][key]);
-                      }
-                    }
-                  }
-                  entity.id = id;
-                  entity.found = true;
-                  entity.type = type + 'Detail';
-                  entity.rows = rows;
-                  entityResources.push(entity);
+                  createCustomEntities(customItems[i], id);
                   break;
                 }else {
                   if (i === (customItems.length - 1)) {
@@ -65,15 +70,25 @@ angular.module('metadatamanagementApp').service('DialogService',
               });
             }
           });
-          dialogConfig();
-        } catch (e) {
-          blockUI.stop();
+        } else {
+          if (customItems.length > 0) {
+            hasReferences = true;
+            for (var i = 0; i < customItems.length; i++) {
+              createCustomEntities(customItems[i], customItems[i].id);
+            }
+          } else {
+            hasReferences = false;
+            entityResources.push({
+              id: ids,
+              found: false
+            });
+          }
         }
+        openDialog();
       };
-
       switch (type) {
         case 'variable': VariableReferencedResource
-        .findByIdIn({ids: idsAsString})
+        .findByQuestionId({id: ids})
           .$promise.then(function(customVariables) {
             checkInvalidIds(customVariables._embedded.variables);
           });

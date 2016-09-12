@@ -12,6 +12,14 @@ function($resource) {
         projection: 'referenced',
         ids: '@ids'
       }
+    },
+    'findBySuccessorsContaining': {
+      method: 'GET',
+      url: 'api/questions/search/findBySuccessorsContaining',
+      params: {
+        projection: 'referenced',
+        id: '@id'
+      }
     }
   });
 });

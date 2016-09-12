@@ -12,13 +12,22 @@ angular.module('metadatamanagementApp')
       $scope.successors = [];
 
       /* function to load only texts and ids for successors and predecessors */
-      var loadQuestionTextOnly = function(items) {
+      var loadSuccessorsQuestionTextOnly = function(items) {
         var deferred = $q.defer();
         var itemsAsString = '"' + items + '"';
         itemsAsString = itemsAsString.replace(/[\[\]'"]/g, '');
         QuestionReferencedResource.findByIdIn({ids: itemsAsString})
-        .$promise.then(function(customQuestions) {
-          deferred.resolve(customQuestions);
+        .$promise.then(function(successors) {
+          deferred.resolve(successors);
+        });
+        return deferred.promise;
+      };
+      /* function to load only texts and ids for successors and predecessors */
+      var loadPredecessorsQuestionTextOnly = function(id) {
+        var deferred = $q.defer();
+        QuestionReferencedResource.findBySuccessorsContaining({id: id})
+        .$promise.then(function(predecessors) {
+          deferred.resolve(predecessors);
         });
         return deferred.promise;
       };
@@ -52,16 +61,15 @@ angular.module('metadatamanagementApp')
       };
       $scope.$watch('question', function() {
         if ($scope.question.$resolved) {
-          loadQuestionTextOnly($scope.question.successor)
+          console.log($scope.question);
+          loadSuccessorsQuestionTextOnly($scope.question.successors)
           .then(function(customSuccesors) {
             $scope.successors = checkInvalidQuestionIds(
-              $scope.question.successor, customSuccesors._embedded.questions);
+              $scope.question.successors, customSuccesors._embedded.questions);
           });
-          loadQuestionTextOnly($scope.question.predecessor)
-          .then(function(customPredecessors) {
-            $scope.predecessors = checkInvalidQuestionIds(
-              $scope.question.predecessor,
-              customPredecessors._embedded.questions);
+          loadPredecessorsQuestionTextOnly($scope.question.id)
+          .then(function(predecessors) {
+            $scope.predecessors = predecessors._embedded.questions;
           });
         }
       }, true);
@@ -69,7 +77,7 @@ angular.module('metadatamanagementApp')
       /* function to open dialog for variables */
       $scope.showVariables = function() {
         blockUI.start();
-        DialogService.showDialog($scope.question.variableIds, 'variable');
+        DialogService.showDialog($scope.question.id, 'variable');
       };
 
       /* get all items from localStorage */
