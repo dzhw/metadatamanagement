@@ -14,6 +14,7 @@ import eu.dzhw.fdz.metadatamanagement.instrumentmanagement.repository.Instrument
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.rest.dto.PostValidationMessageDto;
 import eu.dzhw.fdz.metadatamanagement.questionmanagement.domain.Question;
 import eu.dzhw.fdz.metadatamanagement.questionmanagement.repository.QuestionRepository;
+import eu.dzhw.fdz.metadatamanagement.studymanagement.repository.StudyRepository;
 import eu.dzhw.fdz.metadatamanagement.surveymanagement.repository.SurveyRepository;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.Variable;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.repository.VariableRepository;
@@ -44,6 +45,9 @@ public class PostValidationService {
 
   @Inject
   private QuestionRepository questionRepository;
+  
+  @Inject
+  private StudyRepository studyRepository;
 
   /**
    * This method handels the complete post validation of a project.
@@ -70,7 +74,12 @@ public class PostValidationService {
         this.variableRepository.findByDataAcquisitionProjectId(dataAcquisitionProjectId);
     errors = this.postValidateVariables(variables, errors);
     
-    // TODO rreitmann validate that the project has a study
+    // check that there is a study for the project (all other domain objects might link to it)
+    if (studyRepository.findOne(dataAcquisitionProjectId) == null) {
+      String[] information = {dataAcquisitionProjectId};
+      errors.add(new PostValidationMessageDto("data-acquisition-project-management.error."
+          + "post-validation.project-has-no-study", Arrays.asList(information)));
+    }
 
     return errors;
   }

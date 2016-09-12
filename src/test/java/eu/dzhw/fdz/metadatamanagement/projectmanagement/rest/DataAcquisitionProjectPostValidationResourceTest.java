@@ -149,6 +149,10 @@ public class DataAcquisitionProjectPostValidationResourceTest extends AbstractTe
     DataAcquisitionProject project = UnitTestCreateDomainObjectUtils.buildDataAcquisitionProject();    
     this.rdcProjectRepository.save(project);
     
+    //Study (each project must have one)
+    Study study = UnitTestCreateDomainObjectUtils.buildStudy(project.getId());
+    this.studyRepository.save(study);
+    
     //Survey
     Survey survey = UnitTestCreateDomainObjectUtils.buildSurvey(project.getId());
     this.surveyRepository.save(survey);
@@ -195,6 +199,10 @@ public class DataAcquisitionProjectPostValidationResourceTest extends AbstractTe
     //Project
     DataAcquisitionProject project = UnitTestCreateDomainObjectUtils.buildDataAcquisitionProject();    
     this.rdcProjectRepository.save(project);
+    
+    //Study (each project must have one)
+    Study study = UnitTestCreateDomainObjectUtils.buildStudy(project.getId());
+    this.studyRepository.save(study);
     
     //Survey
     Survey survey = UnitTestCreateDomainObjectUtils.buildSurvey(project.getId());
@@ -247,6 +255,10 @@ public class DataAcquisitionProjectPostValidationResourceTest extends AbstractTe
     DataAcquisitionProject project = UnitTestCreateDomainObjectUtils.buildDataAcquisitionProject();    
     this.rdcProjectRepository.save(project);
     
+    //Study (each project must have one)
+    Study study = UnitTestCreateDomainObjectUtils.buildStudy(project.getId());
+    this.studyRepository.save(study);
+    
     //Survey
     Survey survey = UnitTestCreateDomainObjectUtils.buildSurvey(project.getId());
     this.surveyRepository.save(survey);
@@ -274,7 +286,6 @@ public class DataAcquisitionProjectPostValidationResourceTest extends AbstractTe
         survey.getId());    
     this.questionRepository.save(question);
     
-
     // Act & Assert
     mockMvc.perform(post(API_DATA_ACQUISITION_PROJECTS_POST_VALIDATION_URI))
       .andExpect(status().isOk())
@@ -328,14 +339,15 @@ public class DataAcquisitionProjectPostValidationResourceTest extends AbstractTe
     // Act & Assert
     mockMvc.perform(post(API_DATA_ACQUISITION_PROJECTS_POST_VALIDATION_URI))
       .andExpect(status().isOk())
-      .andExpect(jsonPath("$.errors", hasSize(7)))
+      .andExpect(jsonPath("$.errors", hasSize(8)))
       .andExpect(jsonPath("$.errors[0].messageId", containsString("error.post-validation.data-set-has-invalid-variable-id")))
       .andExpect(jsonPath("$.errors[1].messageId", containsString("error.post-validation.variable-id-is-not-in-invalid-variables-panel")))
       .andExpect(jsonPath("$.errors[2].messageId", containsString("error.post-validation.variable-id-is-not-in-invalid-variables-panel")))
       .andExpect(jsonPath("$.errors[3].messageId", containsString("error.post-validation.variable-has-invalid-survey-id")))
       .andExpect(jsonPath("$.errors[4].messageId", containsString("error.post-validation.variable-has-invalid-data-set-id")))
       .andExpect(jsonPath("$.errors[5].messageId", containsString("error.post-validation.variable-id-is-not-in-invalid-variables-panel")))
-      .andExpect(jsonPath("$.errors[6].messageId", containsString("error.post-validation.variable-has-invalid-question-id")));
+      .andExpect(jsonPath("$.errors[6].messageId", containsString("error.post-validation.variable-has-invalid-question-id")))
+      .andExpect(jsonPath("$.errors[7].messageId", containsString("error.post-validation.project-has-no-study")));
   }
   
 }

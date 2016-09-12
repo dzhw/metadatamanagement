@@ -25,6 +25,9 @@
           "pattern": "Die FDZ-ID darf nur alphanumerische Zeichen, deutsche Umlaute und ß beinhalten.",
           "size": "Die Maximallänge der FDZ-ID ist 32 Zeichen."
         }
+      },
+      "post-validation": {
+        "project-has-no-study": "Das Projekt enthält keine Studie mit der ID {{ id }}."
       }
     }
   }

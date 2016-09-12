@@ -80,7 +80,7 @@ public class UnitTestCreateDomainObjectUtils {
     accessWays.add(AccessWays.SUF);
     
     return new StudyBuilder()
-        .withId(projectId + "-TestStudie")
+        .withId(projectId)
         .withAuthors("Test Author")
         .withCitationHint(new I18nStringBuilder()
             .withDe("Citation Hint De")

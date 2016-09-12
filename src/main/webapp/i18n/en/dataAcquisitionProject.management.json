@@ -25,6 +25,9 @@
           "pattern": "The RDC-ID must contain only alphanumeric signs, german umlauts and ß.",
           "size": "The max length of the RDC-ID is 32 signs."
         }
+      },
+      "post-validation": {
+        "project-has-no-study": "The Project has no study with ID {{ id }}."
       }
     }
   }
