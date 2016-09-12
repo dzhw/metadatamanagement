@@ -36,4 +36,6 @@ public interface DataSetRepository
   List<DataSet> findBySurveyIdsContaining(String surveyId);
   
   List<DataSet> findByIdIn(@Param("ids") Collection<String> ids);
+  
+  List<DataSet> findByVariableIdsContaining(@Param("id") String variableId);
 }

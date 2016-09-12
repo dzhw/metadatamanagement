@@ -100,7 +100,7 @@ angular.module('metadatamanagementApp').service('DialogService',
           });
           break;
         case 'data-set': DataSetReferencedResource
-        .findByIdIn({ids: idsAsString})
+        .findByVariableIdsContaining({id: ids})
           .$promise.then(function(customDataSets) {
             checkInvalidIds(customDataSets._embedded.dataSets);
           });

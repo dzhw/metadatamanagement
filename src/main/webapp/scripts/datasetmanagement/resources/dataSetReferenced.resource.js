@@ -12,6 +12,15 @@ function($resource) {
         projection: 'referenced',
         ids: '@ids'
       }
+    },
+    'findByVariableIdsContaining':
+    {
+      method: 'GET',
+      url: 'api/data-sets/search/findByVariableIdsContaining',
+      params: {
+        projection: 'referenced',
+        id: '@id'
+      }
     }
   });
 });
