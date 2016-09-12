@@ -76,7 +76,7 @@ public class PostValidationService {
     
     // check that there is a study for the project (all other domain objects might link to it)
     if (studyRepository.findOne(dataAcquisitionProjectId) == null) {
-      String[] information = {dataAcquisitionProjectId};
+      String[] information = {dataAcquisitionProjectId, dataAcquisitionProjectId};
       errors.add(new PostValidationMessageDto("data-acquisition-project-management.error."
           + "post-validation.project-has-no-study", Arrays.asList(information)));
     }
