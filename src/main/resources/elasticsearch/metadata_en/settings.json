@@ -7,7 +7,7 @@
                     "min_gram": 3,
                     "max_gram": 5,
                     "token_chars": [
-            			"letter","digit"
+            			"letter","digit", "punctuation", "symbol"
           			]
                 }
             },
