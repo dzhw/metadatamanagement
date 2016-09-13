@@ -34,7 +34,7 @@
         "UP": "UP",
         "DOWN": "DOWN"
       },
-      "elasticsearch-management": {
+      "elasticsearch": {
         "reindex": "Reindex",
         "reindex-success": "Successfully created elasticsearch indices."
       }

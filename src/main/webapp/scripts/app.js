@@ -109,6 +109,7 @@ angular
           translatePartialLoader: ['$translatePartialLoader',
           function($translatePartialLoader) {
             $translatePartialLoader.addPart('global');
+            $translatePartialLoader.addPart('dataAcquisitionProject.management');
           }
         ]
         }
@@ -145,7 +146,7 @@ angular
         '<div flex layout="row" layout-align="center center">' +
         '<md-progress-circular md-mode="indeterminate"' +
         ' md-diameter="75px"></md-progress-circular>' +
-        '<span style="font-size: 24px;"' +
+        '<span style="font-size: 24px; margin-left: 1em;"' +
         'ng-if="job.state === \'running\' && job.id !== \'postValidation\'' +
         '" data-translate="global.joblogging.block-ui-message"' +
         ' data-translate-values="{ errors: job.errors, ' +

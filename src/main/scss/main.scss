@@ -248,11 +248,7 @@ only screen and (                min-resolution: 2dppx) {
         background-size: contain;
     }
 }
-@media (max-width: 730px) {
-    .fdz-hide-text-button {
-        display: none;;
-    }
-}
+
 /* make sure browsers use the pointer cursor for anchors, even with no href */
 a:hover {
   cursor: pointer;
@@ -471,6 +467,7 @@ md-tooltip {
 }
 .fdz-toast {
   background-color:black;
+  color: white;
   padding:0 18px;
   border-radius: 2px;
   margin: 4px;

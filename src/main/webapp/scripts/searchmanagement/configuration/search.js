@@ -19,8 +19,6 @@ angular.module('metadatamanagementApp').config(
         mainTranslatePartialLoader: ['$translatePartialLoader',
           function($translatePartialLoader) {
             $translatePartialLoader.addPart('search.management');
-            $translatePartialLoader.addPart(
-              'dataAcquisitionProject.management');
             $translatePartialLoader.addPart('variable.management');
             $translatePartialLoader.addPart('question.management');
             $translatePartialLoader.addPart('dataSet.management');

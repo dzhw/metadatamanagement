@@ -184,7 +184,7 @@
         "error": "Fehler"
       },
       "job-complete-toast": {
-        "show-log": "Zeige Protokoll"
+        "show-log": "Protokoll"
       },
       "block-ui-message": "{{ errors }} Fehler bei {{ total }} Datensätzen"
     }

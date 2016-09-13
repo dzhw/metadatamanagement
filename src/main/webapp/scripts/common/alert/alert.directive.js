@@ -91,12 +91,8 @@ angular
                       if (httpResponse.data &&
                         httpResponse.data.message) {
                         addErrorAlert(httpResponse.data.message);
-                      } else {
-                        try {
-                          addErrorAlert(JSON.stringify(httpResponse));
-                        } catch (e) {
-                          addErrorAlert(httpResponse);
-                        }
+                      } else if (httpResponse.data) {
+                        addErrorAlert(JSON.stringify(httpResponse.data));
                       }
                   }
                 });

@@ -32,7 +32,7 @@ angular.module('metadatamanagementApp').service('DataSetUploadService',
             return upload();
           }).catch(function(error) {
             var errorMessages = ErrorMessageResolverService
-              .getErrorMessages(error, 'dataSet');
+              .getErrorMessages(error, 'data-set');
             JobLoggingService.error(errorMessages.message,
               errorMessages.translationParams, errorMessages.subMessages
             );
@@ -44,7 +44,7 @@ angular.module('metadatamanagementApp').service('DataSetUploadService',
     };
     var uploadDataSets = function(file, dataAcquisitionProjectId) {
       uploadCount = 0;
-      JobLoggingService.start('dataSet');
+      JobLoggingService.start('data-set');
       ExcelReaderService.readFileAsync(file).then(function(data) {
         objects = DataSetBuilderService.getDataSets(data,
           dataAcquisitionProjectId);
@@ -54,7 +54,7 @@ angular.module('metadatamanagementApp').service('DataSetUploadService',
           upload,
           function(error) {
             var errorMessages = ErrorMessageResolverService
-              .getErrorMessages(error, 'dataSet');
+              .getErrorMessages(error, 'data-set');
             errorMessages.forEach(function(errorMessage) {
               JobLoggingService.error(errorMessage.message,
                 errorMessage.translationParams);

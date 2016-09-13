@@ -120,7 +120,7 @@ public class SearchResource {
     log.debug("REST request to recreate all elasticsearch indices.");
     elasticsearchAdminService.recreateAllIndices();
     return ResponseEntity.ok()
-      .headers(HeaderUtil.createAlert("health.elasticsearch.reindex-success"))
+      .headers(HeaderUtil.createAlert("administration.health.elasticsearch.reindex-success"))
       .build();
   }
 
