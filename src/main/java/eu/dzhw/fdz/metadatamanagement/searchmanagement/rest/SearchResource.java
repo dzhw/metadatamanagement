@@ -133,6 +133,7 @@ public class SearchResource {
   public ResponseEntity<?> processElasticsearchUpdateQueue() throws URISyntaxException {
     log.debug("REST request to process update queue.");
     elasticsearchUpdateQueueService.processQueue();
+    elasticsearchAdminService.refreshAllIndices();
     return ResponseEntity.ok()
       .build();
   }

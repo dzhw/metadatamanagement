@@ -6,7 +6,8 @@
         "not-saved": "Frage mit FDZ-ID {{ id }} wurde nicht gespeichert!",
         "missing-id": "Die {{ index }}. Frage enthält keine FDZ-ID und wurde nicht gespeichert!",
         "upload-terminated": "Upload von {{ total }} Fragen mit {{ errors }} Fehlern beendet!",
-        "cancelled": "Upload von Fragen Abgebrochen!"
+        "cancelled": "Upload von Fragen Abgebrochen!",
+        "not-found-image-file": "Zu der Frage mit der FDZ-ID {{ id }} konnte kein Bild gefunden werden!"
       }
     },
     "home": {

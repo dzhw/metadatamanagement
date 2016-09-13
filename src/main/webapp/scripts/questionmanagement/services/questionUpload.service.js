@@ -5,7 +5,7 @@
 angular.module('metadatamanagementApp').service('QuestionUploadService',
   function(ZipReaderService, QuestionResource, QuestionDeleteResource,
     JobLoggingService, ImageUploadService,
-    ErrorMessageResolverService, $q, ElasticSearchAdminService) {
+    ErrorMessageResolverService, $q, ElasticSearchAdminService, $rootScope) {
     var files;
     var objects;
     var successfullyUploadedQuestions;
@@ -19,6 +19,7 @@ angular.module('metadatamanagementApp').service('QuestionUploadService',
             total: JobLoggingService.getCurrentJob().total,
             errors: JobLoggingService.getCurrentJob().errors
           });
+        $rootScope.$broadcast('upload-completed');
       } else {
         var path = 'images/' +
         successfullyUploadedQuestions[uploadImageCount].id + '.png';
@@ -96,8 +97,8 @@ angular.module('metadatamanagementApp').service('QuestionUploadService',
                     objects.push(new QuestionResource(question));
                   }else {
                     JobLoggingService
-                    .error('data-acquisition-project-management.' +
-                      'log-messages.not-found-image-file', {
+                    .error('question-management.' +
+                      'log-messages.question.not-found-image-file', {
                         id: question.id
                       });
                   }

@@ -302,4 +302,8 @@ angular.module('metadatamanagementApp').controller('SearchController',
     $scope.refresh = function() {
       $scope.search();
     };
+
+    $scope.$on('upload-completed', function() {
+      $scope.refresh();
+    });
   });

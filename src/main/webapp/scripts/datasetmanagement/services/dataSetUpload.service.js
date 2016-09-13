@@ -4,7 +4,7 @@
 angular.module('metadatamanagementApp').service('DataSetUploadService',
   function(ExcelReaderService, DataSetBuilderService,
     DataSetDeleteResource, JobLoggingService,
-    ErrorMessageResolverService, ElasticSearchAdminService) {
+    ErrorMessageResolverService, ElasticSearchAdminService, $rootScope) {
     var objects;
     var uploadCount;
     var upload = function() {
@@ -15,6 +15,7 @@ angular.module('metadatamanagementApp').service('DataSetUploadService',
               total: JobLoggingService.getCurrentJob().total,
               errors: JobLoggingService.getCurrentJob().errors
             });
+          $rootScope.$broadcast('upload-completed');
         });
       } else {
         if (!objects[uploadCount].id || objects[uploadCount].id === '') {

@@ -5,7 +5,7 @@ angular.module('metadatamanagementApp').service('VariableUploadService',
   function(ZipReaderService,
     VariableBuilderService, VariableDeleteResource, JobLoggingService,
     ErrorMessageResolverService, ExcelReaderService, $q,
-    ElasticSearchAdminService) {
+    ElasticSearchAdminService, $rootScope) {
     var objects;
     var uploadCount;
 
@@ -17,6 +17,7 @@ angular.module('metadatamanagementApp').service('VariableUploadService',
               total: JobLoggingService.getCurrentJob().total,
               errors: JobLoggingService.getCurrentJob().errors
             });
+          $rootScope.$broadcast('upload-completed');
         });
       } else {
         if (!objects[uploadCount].id || objects[uploadCount].id === '') {
