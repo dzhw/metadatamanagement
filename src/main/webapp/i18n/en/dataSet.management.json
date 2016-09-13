@@ -19,7 +19,7 @@
     },
     "detail": {
       "not-found": "The {{id}} references to an unknown Data Set.",
-      "not-found-references": "The id {{id}} has no references to Data Sets."
+      "not-found-references": "The id {{id}} has no References to Data Sets."
     },
     "error": {
       "data-set": {

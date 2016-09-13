@@ -23,6 +23,13 @@ angular.module('metadatamanagementApp')
             function($translatePartialLoader) {
               $translatePartialLoader.addPart('study.management');
             }
+          ],
+          entity: ['$stateParams', 'StudyResource',
+            function($stateParams, StudyResource) {
+              return StudyResource.get({
+                id: $stateParams.id
+              });
+            }
           ]
         },
       });

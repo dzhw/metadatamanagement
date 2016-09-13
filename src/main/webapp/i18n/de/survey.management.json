@@ -14,7 +14,7 @@
     },
     "detail": {
       "not-found": "Die id {{id}} referenziert auf eine unbekannte Erhebung.",
-      "not-found-references": "Die id {{id}} hat keine referenzen auf Erhebungen."
+      "not-found-references": "Die id {{id}} hat keine Referenzen auf Erhebungen."
     },
     "error": {
       "survey": {

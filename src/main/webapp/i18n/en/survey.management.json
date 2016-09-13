@@ -14,7 +14,7 @@
     },
     "detail": {
       "not-found": "The {{id}} references to an unknown Survey.",
-      "not-found-references": "The id {{id}} has no references to Surveys."
+      "not-found-references": "The id {{id}} has no References to Surveys."
     },
     "error": {
       "survey": {
