@@ -109,7 +109,8 @@ angular
           translatePartialLoader: ['$translatePartialLoader',
           function($translatePartialLoader) {
             $translatePartialLoader.addPart('global');
-            $translatePartialLoader.addPart('dataAcquisitionProject.management');
+            $translatePartialLoader.addPart(
+              'dataAcquisitionProject.management');
           }
         ]
         }
