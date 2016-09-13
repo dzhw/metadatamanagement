@@ -20,7 +20,13 @@ angular.module('metadatamanagementApp')
         resolve: {
           translatePartialLoader: ['$translatePartialLoader',
             function($translatePartialLoader) {
+              $translatePartialLoader.addPart('variable.management');
+              $translatePartialLoader.addPart('question.management');
+              $translatePartialLoader.addPart('survey.management');
+              $translatePartialLoader.addPart('dataSet.management');
               $translatePartialLoader.addPart('study.management');
+              $translatePartialLoader.addPart('notepad.management');
+              $translatePartialLoader.addPart('instrument.management');
             }
           ],
           entity: ['$stateParams', 'StudyResource',

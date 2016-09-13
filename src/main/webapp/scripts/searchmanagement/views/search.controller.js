@@ -38,6 +38,12 @@ angular.module('metadatamanagementApp').controller('SearchController',
       elasticSearchType: '',
       count: null
     }, {
+      title: 'search-management.tabs.studies',
+      inputLabel: 'search-management.input-label.studies',
+      icon: 'assets/images/icons/study.svg',
+      elasticSearchType: 'studies',
+      count: null
+    }, {
       title: 'search-management.tabs.variables',
       inputLabel: 'search-management.input-label.variables',
       icon: 'assets/images/icons/variable.svg',
@@ -60,12 +66,6 @@ angular.module('metadatamanagementApp').controller('SearchController',
       inputLabel: 'search-management.input-label.data-sets',
       icon: 'assets/images/icons/data-set.svg',
       elasticSearchType: 'data_sets',
-      count: null
-    }, {
-      title: 'search-management.tabs.studies',
-      inputLabel: 'search-management.input-label.studies',
-      icon: 'assets/images/icons/study.svg',
-      elasticSearchType: 'studies',
       count: null
     }];
 

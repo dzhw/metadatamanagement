@@ -3,6 +3,17 @@
     "home": {
       "title": "Studie"
     },
+    "detail": {
+      "study": "Study",
+      "study-informations": "Details der Studie",
+      "related-informations": "Zugehörige Informationen",
+      "not-found": "Die id {{id}} referenziert auf eine unbekannte Studie.",
+      "not-found-references": "Die id {{id}} hat keine Referenzen auf Studien.",
+      "description": "Beschreibung der Studie",
+      "survey-details": "Erhebungsdetails",
+      "data-set-details": "Datensatzinformationen",
+      "instrument-information": "Instrumenteninformationen"
+    },
     "log-messages": {
       "study": {
         "saved": "Studie mit FDZ-ID {{ id }} erfolgreich gespeichert!",

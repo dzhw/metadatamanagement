@@ -6,7 +6,7 @@ angular.module('metadatamanagementApp')
       $scope.study = entity;
       $scope.$watch('study', function() {
         if ($scope.study.$resolved) {
-          console.log(true);
+          console.log($scope.study);
         } else {
           console.log(false);
         }
