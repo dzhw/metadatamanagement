@@ -2,7 +2,7 @@
 
 angular.module('metadatamanagementApp')
   .controller('VariableDetailController', function(DialogService, blockUI,
-    $scope, entity) {
+    $scope, entity, $state, ShoppingCartService) {
 
     $scope.variable = entity;
     $scope.frequencies = [];
@@ -79,5 +79,13 @@ angular.module('metadatamanagementApp')
       blockUI.start();
       DialogService.showDialog($scope.variable.sameVariablesInPanel,
         'variable');
+    };
+    $scope.showStudy = function() {
+      $state.go('studyDetail', {id: $scope.variable.dataAcquisitionProjectId});
+    };
+    /* add new  item to localStorage */
+    $scope.addToNotepad = function() {
+      ShoppingCartService
+      .addToShoppingCart($scope.variable.dataAcquisitionProjectId);
     };
   });

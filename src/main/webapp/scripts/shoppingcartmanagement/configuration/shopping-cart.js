@@ -7,8 +7,7 @@ angular.module('metadatamanagementApp').config(
       url: '/basket',
       data: {
         authorities: [],
-        //TODO SHould be an i18n String
-        pageTitle: 'Shopping cart'
+        pageTitle: 'notepad-management.home.title'
       },
       views: {
         'content@': {
@@ -20,8 +19,7 @@ angular.module('metadatamanagementApp').config(
       resolve: {
         mainTranslatePartialLoader: ['$translatePartialLoader',
           function($translatePartialLoader) {
-            //TODO should be changed...
-            $translatePartialLoader.addPart('disclosure');
+            $translatePartialLoader.addPart('notepad.management');
           }
         ]
       }

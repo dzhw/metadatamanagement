@@ -21,13 +21,7 @@ angular.module('metadatamanagementApp').controller('ShoppingCartController',
     };
 
     $scope.removeFromShoppingCart = function() {
-      var oldItems = $scope.basket.items;
-      $scope.basket.items = [];
-      angular.forEach(oldItems, function(item) {
-        if (!item.done) {
-          $scope.basket.items.push(item);
-        }
-      });
-      ShoppingCartService.addToShoppingCart($scope.basket.items);
+      $scope.basket.items = ShoppingCartService
+      .removeFromShoppingCart($scope.basket.items);
     };
   });

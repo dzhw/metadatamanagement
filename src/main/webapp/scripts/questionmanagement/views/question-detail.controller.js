@@ -6,7 +6,7 @@ angular.module('metadatamanagementApp')
 
     function($scope, $rootScope, localStorageService,
       ShoppingCartService, $stateParams, DialogService,
-      QuestionReferencedResource, blockUI, entity, $q) {
+      QuestionReferencedResource, blockUI, entity, $q, $state) {
       $scope.question = entity;
       $scope.predecessors = [];
       $scope.successors = [];
@@ -80,22 +80,13 @@ angular.module('metadatamanagementApp')
         DialogService.showDialog($scope.question.id, 'variable');
       };
 
-      /* get all items from localStorage */
-      $scope.markedItems = ShoppingCartService.getShoppingCart();
-
+      $scope.showStudy = function() {
+        $state.go('studyDetail',
+        {id: $scope.question.dataAcquisitionProjectId});
+      };
       /* add new  item to localStorage */
-      $scope.addToNotepad = function(id) {
-        var lookup = {};
-        for (var i = 0, len = $scope.markedItems.length; i < len; i++) {
-          lookup[$scope.markedItems[i].id] = $scope.markedItems[i];
-        }
-        if (ShoppingCartService.searchInShoppingCart(id) === 'notFound') {
-          $scope.markedItems.push({
-            id: id,
-            text: 'title',
-            date:  new Date()
-          });
-          ShoppingCartService.addToShoppingCart($scope.markedItems);
-        }
+      $scope.addToNotepad = function() {
+        ShoppingCartService
+        .addToShoppingCart($scope.question.dataAcquisitionProjectId);
       };
     });

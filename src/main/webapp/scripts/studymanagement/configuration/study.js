@@ -8,8 +8,7 @@ angular.module('metadatamanagementApp')
         url: '/studies/{id}',
         data: {
           authorities: [],
-          //TODO should be a i18n string
-          pageTitle: 'Studie'
+          pageTitle: 'study-management.home.title'
         },
         views: {
           'content@': {
