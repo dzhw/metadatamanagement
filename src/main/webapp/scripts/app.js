@@ -18,6 +18,12 @@ angular
       $rootScope.ENV = ENV;
       $rootScope.VERSION = VERSION;
 
+      if (typeof String.prototype.endsWith !== 'function') {
+        String.prototype.endsWith = function(suffix) {
+            return this.indexOf(suffix, this.length - suffix.length) !== -1;
+          };
+      }
+
       //init the current language
       if ($location.path().indexOf('/en/') > -1) {
         Language.setCurrent('en');

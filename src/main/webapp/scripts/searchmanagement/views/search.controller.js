@@ -156,7 +156,7 @@ angular.module('metadatamanagementApp').controller('SearchController',
     $scope.throttledSearch = _.throttle($scope.search, 500);
 
     $scope.uploadVariables = function(file) {
-      if (!file) {
+      if (!file || !file.name.endsWith('zip')) {
         return;
       }
       var dataAcquisitionProject = $scope.currentProject;
@@ -185,7 +185,7 @@ angular.module('metadatamanagementApp').controller('SearchController',
     };
 
     $scope.uploadQuestions = function(file) {
-      if (!file) {
+      if (!file || !file.name.endsWith('zip')) {
         return;
       }
       var dataAcquisitionProject = $scope.currentProject;
@@ -214,7 +214,7 @@ angular.module('metadatamanagementApp').controller('SearchController',
     };
 
     $scope.uploadSurveys = function(file) {
-      if (!file) {
+      if (!file || !file.name.endsWith('xlsx')) {
         return;
       }
       var dataAcquisitionProject = $scope.currentProject;
@@ -242,7 +242,7 @@ angular.module('metadatamanagementApp').controller('SearchController',
     };
 
     $scope.uploadDataSets = function(file) {
-      if (!file) {
+      if (!file || !file.name.endsWith('xlsx')) {
         return;
       }
       var dataAcquisitionProject = $scope.currentProject;
@@ -271,7 +271,7 @@ angular.module('metadatamanagementApp').controller('SearchController',
     };
 
     $scope.uploadStudy = function(file) {
-      if (!file) {
+      if (!file || !file.name.endsWith('zip')) {
         return;
       }
       var dataAcquisitionProject = $scope.currentProject;

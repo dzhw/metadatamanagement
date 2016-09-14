@@ -523,3 +523,9 @@ md-tooltip {
 .fdz-hidden-code {
   height:50px;
 }
+.fdz-file-drop-accept {
+  background-color:$brand-success !important;
+}
+.fdz-file-drop-reject {
+  background-color:$brand-danger !important;
+}
