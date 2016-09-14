@@ -2,7 +2,7 @@
 'use strict';
 
 angular.module('metadatamanagementApp').service('StudyBuilderService',
-  function(StudyResource, CleanJSObjectService) {
+  function(StudyResource, CleanJSObjectService, CurrentProjectService) {
     var parseErrors = [];
     var getStudies = function(study) {
       var studiesObjArray = [];
@@ -24,6 +24,7 @@ angular.module('metadatamanagementApp').service('StudyBuilderService',
       parseErrors.length = 0;
       for (var i = 0; i < study.length; i++) {
         var studyObj = {
+          id: CurrentProjectService.getCurrentProject().id,
           title: {
             en: study[i]['title.en'],
             de: study[i]['title.de']
