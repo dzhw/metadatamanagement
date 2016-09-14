@@ -25,8 +25,8 @@ public interface SurveyRepository
   @RestResource(exported = false)
   List<Survey> deleteByDataAcquisitionProjectId(String dataAcquisitionProjectId);
   
-  @RestResource(exported = false)
-  List<Survey> findByDataAcquisitionProjectId(String dataAcquisitionProjectId);
+  
+  List<Survey> findByDataAcquisitionProjectId(@Param("id") String dataAcquisitionProjectId);
 
   @RestResource(exported = false)
   Slice<Survey> findBy(Pageable pageable);

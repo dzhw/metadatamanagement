@@ -83,6 +83,7 @@ angular.module('metadatamanagementApp').service('StudyUploadService',
             'global.log-messages.unsupported-zip-file', {});
         })
         .then(function(study) {
+          study.id = dataAcquisitionProjectId;
           study.dataAcquisitionProjectId = dataAcquisitionProjectId;
           study.releases = releasesForStudy;
           objects = StudyBuilderService.getStudies(study);

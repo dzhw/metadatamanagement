@@ -17,7 +17,42 @@
                     <span class="md-headline">{{'study-management.detail.study-informations' | translate }}</span>
                   </md-card-header-text>
                  </md-card-header>
-                <md-content style="background-color:white;"></md-content>
+                <md-content style="background-color:white;">
+                  <section layout-margin>
+                    <section ng-if="study.surveySeries[currentLanguage]">
+                      <span style="font-weight: bold;">{{'surveySeries' | translate }}: </span><span>{{study.surveySeries[currentLanguage]}}</span>
+                    </section>
+                    <section ng-if="study.institution[currentLanguage]">
+                      <span style="font-weight: bold;">{{'institution' | translate }}: </span><span>{{study.institution[currentLanguage]}}</span>
+                    </section>
+                    <section ng-if="study.authors">
+                      <span style="font-weight: bold;">{{'authors' | translate }}: </span><span>{{study.authors}}</span>
+                    </section>
+                    <section ng-if="study.sponsor[currentLanguage]">
+                      <span style="font-weight: bold;">{{'sponsor' | translate }}: </span><span>{{study.sponsor[currentLanguage]}}</span>
+                    </section>
+                    <section ng-if="study.accessWays">
+                      <span style="font-weight: bold;">{{'accessWays' | translate }}: </span><span>{{cleanedAccessWays}}</span>
+                    </section>
+                    <section ng-if="study.releases.length > 0">
+                      <span style="font-weight: bold;">{{'releases' | translate }}: </span>
+                      <section ng-repeat="release in study.releases" layout-margin>
+                           <section>
+                             <span style="font-weight: bold;">doi: </span><span>{{release.doi}}</span>
+                           </section>
+                           <section>
+                             <span style="font-weight: bold;">version: </span><span>{{release.version}}</span>
+                           </section>
+                           <section>
+                             <span style="font-weight: bold;">notes: </span><span>{{release.notes[currentLanguage]}}</span>
+                           </section>
+                       </section>
+                   </section>
+                   <section ng-if="study.citationHint[currentLanguage]">
+                     <span style="font-weight: bold;">{{'citationHint' | translate }}: </span><span>{{study.citationHint[currentLanguage]}}</span>
+                   </section>
+                 </section>
+                </md-content>
               </md-card>
               <md-card flex="50" flex-xs="100">
                 <md-card-header>
@@ -77,17 +112,16 @@
               </md-content>
             </md-card>
             </div>
-
-
-            <div layout="row">
+          <div layout="row">
               <md-card flex="100">
                 <md-card-header>
                   <md-card-header-text>
                     <span class="md-headline">{{'study-management.detail.description' | translate }}</span>
                   </md-card-header-text>
                 </md-card-header>
-                <md-content style="background-color:white;">
-                </md-content>
+                <md-card-content>
+                  <p ng-if="study.description[currentLanguage]">{{study.description[currentLanguage]}}</p>
+                </md-card-content>
               </md-card>
             </div>
 
@@ -100,6 +134,15 @@
                   </md-card-header-text>
                 </md-card-header>
                 <md-content style="background-color:white;">
+                    <section ng-repeat="survey in surveys" md-ink-ripple class="fdz-search-result fdz-card-header-border">
+                        <section  ui-sref="surveyDetail({id:survey.id})" layout="row">
+                            <md-icon md-svg-src="/assets/images/icons/survey.svg" class="fdz-detail-icon"></md-icon>
+                            <section layout="column">
+                              <span>{{survey.title[currentLanguage]}}</span>
+                              <span>{{survey.fieldPeriod.start | date}} - {{survey.fieldPeriod.end | date}}</span>
+                          </section>
+                        </section>
+                    </section>
                 </md-content>
               </md-card>
               <md-card flex="50" flex-xs="100">
@@ -108,8 +151,17 @@
                     <span class="md-headline">{{'study-management.detail.data-set-details' | translate }}</span>
                   </md-card-header-text>
                   </md-card-header>
-                  <md-card-content>
-                  </md-card-content>
+                  <md-content style="background-color:white;">
+                      <section ng-repeat="dataSet in dataSets" md-ink-ripple class="fdz-search-result fdz-card-header-border">
+                          <section  ui-sref="data-setDetail({id:dataSet.id})" layout="row">
+                              <md-icon md-svg-src="/assets/images/icons/data-set.svg" class="fdz-detail-icon"></md-icon>
+                              <section layout="column">
+                                <span>{{dataSet.description[currentLanguage]}}</span>
+                                <span></span>
+                            </section>
+                          </section>
+                      </section>
+                  </md-content>
               </md-card>
             </div>
 

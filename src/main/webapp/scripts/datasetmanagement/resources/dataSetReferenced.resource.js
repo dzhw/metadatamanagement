@@ -13,6 +13,15 @@ function($resource) {
         ids: '@ids'
       }
     },
+    'findByDataAcquisitionProjectId':
+    {
+      method: 'GET',
+      url: 'api/data-sets/search/findByDataAcquisitionProjectId',
+      params: {
+        projection: 'complete',
+        id: '@id'
+      }
+    },
     'findByVariableIdsContaining':
     {
       method: 'GET',

@@ -24,7 +24,6 @@ angular.module('metadatamanagementApp').service('StudyBuilderService',
       parseErrors.length = 0;
       for (var i = 0; i < study.length; i++) {
         var studyObj = {
-          id: study[i].id,
           title: {
             en: study[i]['title.en'],
             de: study[i]['title.de']
