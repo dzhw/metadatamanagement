@@ -1,5 +1,4 @@
-<jh-alert></jh-alert>
-<div ng-switch="isAuthenticated()">
+<div flex layout="column" ng-switch="isAuthenticated()">
     <md-card>
         <div class="fdz-search-input-container">
             <md-input-container class="fdz-search-input">
@@ -19,15 +18,26 @@
         </div>
         <md-progress-linear md-mode="indeterminate" ng-if="isSearching"></md-progress-linear>
     </md-card>
-    <div ng-repeat="result in searchResult" ng-switch="result._type" ng-if="selectedTabIndex <= 5">
-        <variable-search-result ng-switch-when="variables" search-result="result._source"></variable-search-result>
-        <survey-search-result ng-switch-when="surveys" search-result="result._source"></survey-search-result>
-        <question-search-result ng-switch-when="questions" search-result="result._source"></question-search-result>
-        <dataset-search-result ng-switch-when="data_sets" search-result="result._source"></dataset-search-result>
-        <study-search-result ng-switch-when="studies" search-result="result._source"></study-search-result>
-    </div>
-    <div ng-if="page.totalHits" layout="row" layout-align="center">
-        <ul uib-pagination next-text="{{'global.pagination.next'|translate}}" previous-text="{{'global.pagination.previous'|translate}}" total-items="page.totalHits" ng-model="page.currentPageNumber" max-size="5" ng-change="throttledSearch()" items-per-page="page.size" class="pagination-sm"></ul>
+    <div flex ngf-drop="tabs[selectedTabIndex].uploadFunction($file)" ngf-drag-over-class="{pattern:tabs[selectedTabIndex].acceptedFileUploadType, accept:'fdz-file-drop-accept', reject:'fdz-file-drop-reject', delay:0}" ngf-drop-disabled="!currentProject || !isAuthenticated() || !tabs[selectedTabIndex].uploadFunction">
+        <div ng-repeat="result in searchResult" ng-switch="result._type" ng-if="selectedTabIndex <= 5">
+            <variable-search-result ng-switch-when="variables" search-result="result._source"></variable-search-result>
+            <survey-search-result ng-switch-when="surveys" search-result="result._source"></survey-search-result>
+            <question-search-result ng-switch-when="questions" search-result="result._source"></question-search-result>
+            <dataset-search-result ng-switch-when="data_sets" search-result="result._source"></dataset-search-result>
+            <study-search-result ng-switch-when="studies" search-result="result._source"></study-search-result>
+        </div>
+        <div ng-if="page.totalHits" layout="row" layout-align="center">
+            <ul
+                uib-pagination
+                next-text="{{'global.pagination.next'|translate}}"
+                previous-text="{{'global.pagination.previous'|translate}}"
+                total-items="page.totalHits"
+                ng-model="page.currentPageNumber"
+                max-size="5"
+                ng-change="throttledSearch()"
+                items-per-page="page.size"
+                class="pagination-sm"></ul>
+        </div>
     </div>
     <div ng-switch-when="true" has-any-authority="ROLE_ADMIN, ROLE_USER" class="fdz-fab-button-container" layout="column">
         <md-button aria-label="{{'search-management.buttons.refresh' | translate}}" class="md-primary md-fab" ng-click="refresh()" style="margin-bottom: 1em;">
@@ -37,18 +47,30 @@
             <md-icon md-font-set="material-icons">refresh</md-icon>
         </md-button>
         <!-- Index 1 = Study Tab -->
-        <md-button aria-label="{{'search-management.buttons.upload-studies' | translate}}" ng-if="selectedTabIndex===1" type="file" ngf-select="uploadStudy($file)" class="md-accent md-fab" accept=".zip"
-          ngf-drop="uploadStudy($file)" ngf-drag-over-class="{pattern:'application/zip', accept:'fdz-file-drop-accept', reject:'fdz-file-drop-reject', delay:0}" ng-disabled="!currentProject">
-          <div>
-            <md-tooltip md-direction="left">
-              {{'search-management.buttons.upload-studies' | translate}}
-            </md-tooltip>
-            <md-icon md-font-set="material-icons">add</md-icon>
-          </div>
+        <md-button
+            aria-label="{{'search-management.buttons.upload-studies' | translate}}"
+            ng-if="selectedTabIndex===1"
+            type="file"
+            ngf-select="uploadStudy($file)"
+            class="md-accent md-fab"
+            accept=".zip"
+            ng-disabled="!currentProject">
+            <div>
+                <md-tooltip md-direction="left">
+                    {{'search-management.buttons.upload-studies' | translate}}
+                </md-tooltip>
+                <md-icon md-font-set="material-icons">add</md-icon>
+            </div>
         </md-button>
         <!-- Index 2 = Variables Tab -->
-        <md-button aria-label="{{'search-management.buttons.upload-variables' | translate}}" ng-if="selectedTabIndex===2" type="file" ngf-select="uploadVariables($file)" class="md-accent md-fab" accept=".zip"
-          ngf-drop="uploadVariables($file)" ngf-drag-over-class="{pattern:'application/zip', accept:'fdz-file-drop-accept', reject:'fdz-file-drop-reject', delay:0}" ng-disabled="!currentProject">
+        <md-button
+            aria-label="{{'search-management.buttons.upload-variables' | translate}}"
+            ng-if="selectedTabIndex===2"
+            type="file"
+            ngf-select="uploadVariables($file)"
+            class="md-accent md-fab"
+            accept=".zip"
+            ng-disabled="!currentProject">
             <div>
                 <md-tooltip md-direction="left">
                     {{'search-management.buttons.upload-variables' | translate}}
@@ -57,8 +79,14 @@
             </div>
         </md-button>
         <!-- Index 3 = Questions Tab -->
-        <md-button aria-label="{{'search-management.buttons.upload-questions' | translate}}" ng-if="selectedTabIndex===3" type="file" ngf-select="uploadQuestions($file)" class="md-accent md-fab" accept=".zip"
-          ngf-drop="uploadQuestions($file)" ngf-drag-over-class="{pattern:'application/zip', accept:'fdz-file-drop-accept', reject:'fdz-file-drop-reject', delay:0}" ng-disabled="!currentProject">
+        <md-button
+            aria-label="{{'search-management.buttons.upload-questions' | translate}}"
+            ng-if="selectedTabIndex===3"
+            type="file"
+            ngf-select="uploadQuestions($file)"
+            class="md-accent md-fab"
+            accept=".zip"
+            ng-disabled="!currentProject">
             <div>
                 <md-tooltip md-direction="left">
                     {{'search-management.buttons.upload-questions' | translate}}
@@ -67,8 +95,14 @@
             </div>
         </md-button>
         <!-- Index 4 = Surveys Tab -->
-        <md-button aria-label="{{'search-management.buttons.upload-surveys' | translate}}" ng-if="selectedTabIndex===4" type="file" ngf-select="uploadSurveys($file)" class="md-accent md-fab" accept=".xlsx"
-          ngf-drop="uploadSurveys($file)" ngf-drag-over-class="{pattern:'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet', accept:'fdz-file-drop-accept', reject:'fdz-file-drop-reject', delay:0}" ng-disabled="!currentProject">
+        <md-button
+            aria-label="{{'search-management.buttons.upload-surveys' | translate}}"
+            ng-if="selectedTabIndex===4"
+            type="file"
+            ngf-select="uploadSurveys($file)"
+            class="md-accent md-fab"
+            accept=".xlsx"
+            ng-disabled="!currentProject">
             <div>
                 <md-tooltip md-direction="left">
                     {{'search-management.buttons.upload-surveys' | translate}}
@@ -77,8 +111,14 @@
             </div>
         </md-button>
         <!-- Index 5 = Data Sets Tab -->
-        <md-button aria-label="{{'search-management.buttons.upload-data-sets' | translate}}" ng-if="selectedTabIndex===5" type="file" ngf-select="uploadDataSets($file)" class="md-accent md-fab" accept=".xlsx"
-          ngf-drop="uploadDataSets($file)" ngf-drag-over-class="{pattern:'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet', accept:'fdz-file-drop-accept', reject:'fdz-file-drop-reject', delay:0}" ng-disabled="!currentProject">
+        <md-button
+            aria-label="{{'search-management.buttons.upload-data-sets' | translate}}"
+            ng-if="selectedTabIndex===5"
+            type="file"
+            ngf-select="uploadDataSets($file)"
+            class="md-accent md-fab"
+            accept=".xlsx"
+            ng-disabled="!currentProject">
             <div>
                 <md-tooltip md-direction="left">
                     {{'search-management.buttons.upload-data-sets' | translate}}

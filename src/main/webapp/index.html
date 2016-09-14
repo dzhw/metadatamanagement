@@ -35,8 +35,8 @@
         <div flex layout="column" id= "root-container" ng-cloak>
             <div ui-view="toolbar"></div>
             <div id="toast-container"></div>
-            <md-content flex id="content">
-                <ui-view name="content"></ui-view>
+            <md-content layout="column" flex id="content">
+                <ui-view layout="column" flex name="content"></ui-view>
             </md-content>
         </div>
         <!-- Google Analytics: uncomment and change UA-XXXXX-X to be your site's ID.

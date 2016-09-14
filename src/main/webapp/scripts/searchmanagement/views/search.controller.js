@@ -31,44 +31,6 @@ angular.module('metadatamanagementApp').controller('SearchController',
     //Need for interpretation of the query element in the url.
     $scope.query = $location.search().query;
 
-    //Information for the different tabs
-    $scope.tabs = [{
-      title: 'search-management.tabs.all',
-      inputLabel: 'search-management.input-label.all',
-      elasticSearchType: '',
-      count: null
-    }, {
-      title: 'search-management.tabs.studies',
-      inputLabel: 'search-management.input-label.studies',
-      icon: 'assets/images/icons/study.svg',
-      elasticSearchType: 'studies',
-      count: null
-    }, {
-      title: 'search-management.tabs.variables',
-      inputLabel: 'search-management.input-label.variables',
-      icon: 'assets/images/icons/variable.svg',
-      elasticSearchType: 'variables',
-      count: null
-    }, {
-      title: 'search-management.tabs.questions',
-      inputLabel: 'search-management.input-label.questions',
-      icon: 'assets/images/icons/question.svg',
-      elasticSearchType: 'questions',
-      count: null
-    }, {
-      title: 'search-management.tabs.surveys',
-      inputLabel: 'search-management.input-label.surveys',
-      icon: 'assets/images/icons/survey.svg',
-      elasticSearchType: 'surveys',
-      count: null
-    }, {
-      title: 'search-management.tabs.data-sets',
-      inputLabel: 'search-management.input-label.data-sets',
-      icon: 'assets/images/icons/data-set.svg',
-      elasticSearchType: 'data_sets',
-      count: null
-    }];
-
     //The current index of the active tab
     $scope.selectedTabIndex = 0;
     //Set active tab
@@ -306,4 +268,56 @@ angular.module('metadatamanagementApp').controller('SearchController',
     $scope.$on('upload-completed', function() {
       $scope.refresh();
     });
+
+    //Information for the different tabs
+    $scope.tabs = [{
+      title: 'search-management.tabs.all',
+      inputLabel: 'search-management.input-label.all',
+      elasticSearchType: '',
+      count: null,
+      acceptedFileUploadType: null,
+      uploadFunction: null
+    }, {
+      title: 'search-management.tabs.studies',
+      inputLabel: 'search-management.input-label.studies',
+      icon: 'assets/images/icons/study.svg',
+      elasticSearchType: 'studies',
+      count: null,
+      acceptedFileUploadType: 'application/zip',
+      uploadFunction: $scope.uploadStudy
+    }, {
+      title: 'search-management.tabs.variables',
+      inputLabel: 'search-management.input-label.variables',
+      icon: 'assets/images/icons/variable.svg',
+      elasticSearchType: 'variables',
+      count: null,
+      acceptedFileUploadType: 'application/zip',
+      uploadFunction: $scope.uploadVariables
+    }, {
+      title: 'search-management.tabs.questions',
+      inputLabel: 'search-management.input-label.questions',
+      icon: 'assets/images/icons/question.svg',
+      elasticSearchType: 'questions',
+      count: null,
+      acceptedFileUploadType: 'application/zip',
+      uploadFunction: $scope.uploadQuestions
+    }, {
+      title: 'search-management.tabs.surveys',
+      inputLabel: 'search-management.input-label.surveys',
+      icon: 'assets/images/icons/survey.svg',
+      elasticSearchType: 'surveys',
+      count: null,
+      acceptedFileUploadType:
+        'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+      uploadFunction: $scope.uploadSurveys
+    }, {
+      title: 'search-management.tabs.data-sets',
+      inputLabel: 'search-management.input-label.data-sets',
+      icon: 'assets/images/icons/data-set.svg',
+      elasticSearchType: 'data_sets',
+      count: null,
+      acceptedFileUploadType:
+        'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+      uploadFunction: $scope.uploadDataSets
+    }];
   });
