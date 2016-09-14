@@ -70,15 +70,7 @@
                             </md-button>
                         </section>
                         <section>
-                            <md-button ng-click="showSurveys()">
-                                <section>
-                                    <md-icon md-svg-src="/assets/images/icons/survey.svg" class="fdz-detail-icon"></md-icon>
-                                    <span>{{'survey-management.home.title' | translate }}</span>
-                                </section>
-                            </md-button>
-                        </section>
-                        <section>
-                            <md-button ng-disabled="variable.questionId === undefined" ui-sref="questionDetail({id:variable.questionId})">
+                            <md-button ng-click="showQuestions()">
                                 <section>
                                     <md-icon md-svg-src="/assets/images/icons/question.svg" class="fdz-detail-icon"></md-icon>
                                     <span>{{'question-management.home.title' | translate }}</span>
@@ -86,25 +78,17 @@
                             </md-button>
                         </section>
                         <section>
-                            <md-button ng-click="showDataSets()">
+                            <md-button ng-disabled="true" ng-click="showInstruments()">
                                 <section>
-                                    <md-icon md-svg-src="/assets/images/icons/data-set.svg" class="fdz-detail-icon"></md-icon>
-                                    <span>{{'data-set-management.home.title' | translate }}</span>
-                                </section>
-                            </md-button>
-                        </section>
-                        <section>
-                            <md-button ng-disabled="instrument.questionId === undefined" ui-sref="questionDetail({id:variable.questionId})">
-                                <section>
-                                    <md-icon md-svg-src="/assets/images/icons/question.svg" class="fdz-detail-icon"></md-icon>
+                                    <md-icon md-svg-src="/assets/images/icons/instrument.svg" class="fdz-detail-icon"></md-icon>
                                     <span>{{'instrument-management.home.title' | translate }}</span>
                                 </section>
                             </md-button>
                         </section>
                         <section>
-                            <md-button ng-disabled="true">
+                            <md-button ng-disabled="true" ng-click="showRelatedPublication()">
                                 <section>
-                                    <md-icon md-svg-src="/assets/images/icons/variable.svg" class="fdz-detail-icon"></md-icon>
+                                    <md-icon md-svg-src="/assets/images/icons/survey.svg" class="fdz-detail-icon"></md-icon>
                                     <span>Related Publications</span>
                                 </section>
                             </md-button>
@@ -124,8 +108,6 @@
                 </md-card-content>
               </md-card>
             </div>
-
-
             <div layout="row" layout-xs="column">
               <md-card flex="50" flex-xs="100">
                 <md-card-header>
@@ -153,18 +135,22 @@
                   </md-card-header>
                   <md-content style="background-color:white;">
                       <section ng-repeat="dataSet in dataSets" md-ink-ripple class="fdz-search-result fdz-card-header-border">
-                          <section  ui-sref="data-setDetail({id:dataSet.id})" layout="row">
-                              <md-icon md-svg-src="/assets/images/icons/data-set.svg" class="fdz-detail-icon"></md-icon>
-                              <section layout="column">
+                          <section  ui-sref="data-setDetail({id:dataSet.id})" layout="row" layout-align="space-between end">
+                              <section layout="row" layout-align="start center">
+                                <md-icon md-svg-src="/assets/images/icons/data-set.svg" class="fdz-detail-icon"></md-icon>
                                 <span>{{dataSet.description[currentLanguage]}}</span>
-                                <span></span>
-                            </section>
+                              </section>
+                                <md-button hide-xs class="md-primary md-raised md-icon-button" aria-label="{{'search-management.buttons.generate-variable-report' | translate}}" ng-if="isAuthenticated()" type="file" ngf-select="uploadTexTemplate($file, searchResult.id)" accept=".zip">
+                                    <md-tooltip md-direction="left">
+                                        {{'search-management.buttons.generate-variable-report' | translate}}
+                                    </md-tooltip>
+                                    <md-icon md-font-set="material-icons">note_add</md-icon>
+                                </md-button>
                           </section>
                       </section>
                   </md-content>
               </md-card>
             </div>
-
             <div layout="row">
               <md-card flex="100">
                 <md-card-header>

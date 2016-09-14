@@ -2,8 +2,13 @@
 
 angular.module('metadatamanagementApp')
   .controller('StudyDetailController',
-    function($scope, entity, SurveyReferencedResource,
-      DataSetReferencedResource) {
+    function($scope, entity, Principal, SurveyReferencedResource,
+      DataSetReferencedResource, DataSetReportService, blockUI, DialogService,
+      ShoppingCartService) {
+      Principal.identity().then(function(account) {
+        $scope.account = account;
+        $scope.isAuthenticated = Principal.isAuthenticated;
+      });
       $scope.study = entity;
       $scope.cleanedAccessWays = '';
 
@@ -21,11 +26,24 @@ angular.module('metadatamanagementApp')
             {id: $scope.study.id},
             function(dataSets) {
               $scope.dataSets = dataSets._embedded.dataSets;
-              console.log($scope.dataSets);
             });
           console.log($scope.study);
         } else {
           console.log(false);
         }
       }, true);
+      $scope.uploadTexTemplate = function(file, dataSetId) {
+        DataSetReportService.uploadTexTemplate(file, dataSetId);
+      };
+      $scope.showQuestions = function() {
+        blockUI.start();
+        DialogService.showDialog($scope.study.id,
+          'question', 'findByDataAcquisitionProjectId');
+      };
+      $scope.showInstruments = function() {};
+      $scope.showRelatedPublication = function() {};
+      $scope.addToNotepad = function() {
+        ShoppingCartService
+        .addToShoppingCart($scope.study.id);
+      };
     });

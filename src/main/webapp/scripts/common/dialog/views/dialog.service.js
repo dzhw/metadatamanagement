@@ -5,7 +5,7 @@ angular.module('metadatamanagementApp').service('DialogService',
   function($mdDialog, blockUI, QuestionReferencedResource,
     VariableReferencedResource,
     SurveyReferencedResource, DataSetReferencedResource, $rootScope) {
-    var showDialog = function(ids, type) {
+    var showDialog = function(ids, type, methode) {
       var entityResources = [];
       var dialogParent = angular.element(document.body);
       var idsAsString = '"' + ids + '"';
@@ -105,11 +105,20 @@ angular.module('metadatamanagementApp').service('DialogService',
             checkInvalidIds(customDataSets._embedded.dataSets);
           });
           break;
-        case 'question': QuestionReferencedResource
-        .findByIdIn({ids: idsAsString})
-         .$promise.then(function(customQuestions) {
-            checkInvalidIds(customQuestions._embedded.questions);
-          });
+        case 'question':
+          if (methode === 'findByDataAcquisitionProjectId') {
+            QuestionReferencedResource
+            .findByDataAcquisitionProjectId({id: ids})
+            .$promise.then(function(customQuestions) {
+              checkInvalidIds(customQuestions._embedded.questions);
+            });
+          }else {
+            QuestionReferencedResource
+            .findByIdIn({ids: idsAsString})
+             .$promise.then(function(customQuestions) {
+                checkInvalidIds(customQuestions._embedded.questions);
+              });
+          }
           break;
         default: console.log(type + ' not implemented');
           break;

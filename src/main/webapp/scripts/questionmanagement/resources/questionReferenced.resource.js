@@ -13,6 +13,15 @@ function($resource) {
         ids: '@ids'
       }
     },
+    'findByDataAcquisitionProjectId':
+    {
+      method: 'GET',
+      url: 'api/questions/search/findByDataAcquisitionProjectId',
+      params: {
+        projection: 'referenced',
+        ids: '@ids'
+      }
+    },
     'findBySuccessorsContaining': {
       method: 'GET',
       url: 'api/questions/search/findBySuccessorsContaining',
