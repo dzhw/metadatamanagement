@@ -40,6 +40,7 @@ angular.module('metadatamanagementApp').service('VariableBuilderService',
             generatedVariable.scaleLevel : undefined,
           name: generatedVariable ? generatedVariable.name : undefined,
           label: generatedVariable ? generatedVariable.label : undefined,
+          questionId: variables[i].questionId,
           description: {
             en: variables[i]['description.en'],
             de: variables[i]['description.de']
