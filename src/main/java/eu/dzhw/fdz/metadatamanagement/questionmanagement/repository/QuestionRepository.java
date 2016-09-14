@@ -24,8 +24,7 @@ public interface QuestionRepository
   @RestResource(exported = false)
   List<Question> deleteByDataAcquisitionProjectId(String dataAcquisitionProjectId);
 
-  @RestResource(exported = false)
-  List<Question> findByDataAcquisitionProjectId(String dataAcquisitionProjectId);
+  List<Question> findByDataAcquisitionProjectId(@Param("id") String dataAcquisitionProjectId);
   
   @RestResource(exported = false)
   List<Question> findBySurveyId(String surveyId);
