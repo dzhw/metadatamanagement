@@ -12,7 +12,7 @@
 var d3 = require('d3');
 var isNumeric = require('fast-isnumeric');
 
-var Plotly = require('../../plotly');
+var Registry = require('../../registry');
 var Lib = require('../../lib');
 var svgTextUtils = require('../../lib/svg_text_utils');
 var Titles = require('../../components/titles');
@@ -55,7 +55,7 @@ axes.coerceRef = function(containerIn, containerOut, gd, axLetter, dflt) {
     return Lib.coerce(containerIn, containerOut, attrDef, refAttr);
 };
 
-//todo: duplicated per github PR 610. Should be consolidated with axes.coerceRef.
+// todo: duplicated per github PR 610. Should be consolidated with axes.coerceRef.
 // find the list of possible axes to reference with an axref or ayref attribute
 // and coerce it to that list
 axes.coerceARef = function(containerIn, containerOut, gd, axLetter, dflt) {
@@ -689,7 +689,7 @@ axes.autoTicks = function(ax, roughDTick) {
             ax.dtick = roundDTick(roughDTick, 1000, roundBase60);
         }
         else {
-            //milliseconds
+            // milliseconds
             base = Math.pow(10, Math.floor(Math.log(roughDTick) / Math.LN10));
             ax.dtick = roundDTick(roughDTick, base, roundBase10);
         }
@@ -697,7 +697,7 @@ axes.autoTicks = function(ax, roughDTick) {
     else if(ax.type === 'log') {
         ax.tick0 = 0;
 
-        //only show powers of 10
+        // only show powers of 10
         if(roughDTick > 0.7) ax.dtick = Math.ceil(roughDTick);
         else if(Math.abs(ax.range[1] - ax.range[0]) < 1) {
             // span is less than one power of 10
@@ -1092,7 +1092,8 @@ function numFormat(v, ax, fmtoverride, hover) {
         tickRound = ax._tickround,
         exponentFormat = fmtoverride || ax.exponentformat || 'B',
         exponent = ax._tickexponent,
-        tickformat = ax.tickformat;
+        tickformat = ax.tickformat,
+        separatethousands = ax.separatethousands;
 
     // special case for hover: set exponent just for this value, and
     // add a couple more digits of precision over tick labels
@@ -1156,7 +1157,7 @@ function numFormat(v, ax, fmtoverride, hover) {
             if(dp) v = v.substr(0, dp + tickRound).replace(/\.?0+$/, '');
         }
         // insert appropriate decimal point and thousands separator
-        v = Lib.numSeparate(v, ax._gd._fullLayout.separators);
+        v = Lib.numSeparate(v, ax._gd._fullLayout.separators, separatethousands);
     }
 
     // add exponent
@@ -1212,8 +1213,7 @@ axes.getSubplots = function(gd, ax) {
         var trace = data[i];
 
         if(trace.visible === false || trace.visible === 'legendonly' ||
-            !(Plotly.Plots.traceIs(trace, 'cartesian') ||
-                Plotly.Plots.traceIs(trace, 'gl2d'))
+            !(Registry.traceIs(trace, 'cartesian') || Registry.traceIs(trace, 'gl2d'))
         ) continue;
 
         var xId = trace.xaxis || 'x',
@@ -1762,7 +1762,7 @@ axes.doTicks = function(gd, axid, skipTitle) {
 
     function traceHasBarsOrFill(trace, subplot) {
         if(trace.visible !== true || trace.xaxis + trace.yaxis !== subplot) return false;
-        if(Plotly.Plots.traceIs(trace, 'bar') && trace.orientation === {x: 'h', y: 'v'}[axletter]) return true;
+        if(Registry.traceIs(trace, 'bar') && trace.orientation === {x: 'h', y: 'v'}[axletter]) return true;
         return trace.fill && trace.fill.charAt(trace.fill.length - 1) === axletter;
     }
 

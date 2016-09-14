@@ -1,22 +1,22 @@
 {
   "name": "angular-translate-handler-log",
   "description": "A plugin for Angular Translate",
-  "version": "2.11.1",
+  "version": "2.12.0",
   "main": "./angular-translate-handler-log.js",
   "ignore": [],
   "author": "Pascal Precht",
   "license": "MIT",
   "dependencies": {
-    "angular-translate": "~2.11.1"
+    "angular-translate": "~2.12.0"
   },
   "homepage": "https://github.com/PascalPrecht/bower-angular-translate-handler-log",
-  "_release": "2.11.1",
+  "_release": "2.12.0",
   "_resolution": {
     "type": "version",
-    "tag": "2.11.1",
-    "commit": "faa488d51970c09198e36251bfc58c0fd4f51692"
+    "tag": "2.12.0",
+    "commit": "e50a70cf8f3a9d0e2fd03f563d700bbcedb8f345"
   },
   "_source": "https://github.com/PascalPrecht/bower-angular-translate-handler-log.git",
-  "_target": "^2.11.1",
+  "_target": "^2.12.0",
   "_originalSource": "angular-translate-handler-log"
 }

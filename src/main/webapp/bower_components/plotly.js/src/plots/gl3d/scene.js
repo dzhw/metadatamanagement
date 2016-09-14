@@ -13,7 +13,6 @@ var createPlot = require('gl-plot3d');
 
 var Lib = require('../../lib');
 
-var Plots = require('../../plots/plots');
 var Axes = require('../../plots/cartesian/axes');
 var Fx = require('../../plots/cartesian/graph_interact');
 
@@ -50,7 +49,7 @@ function render(scene) {
     var selection = scene.glplot.selection;
     for(var i = 0; i < keys.length; ++i) {
         trace = scene.traces[keys[i]];
-        if(trace.handlePick(selection)) {
+        if(trace.data.hoverinfo !== 'skip' && trace.handlePick(selection)) {
             lastPicked = trace;
         }
 
@@ -210,7 +209,7 @@ function initializeGLPlot(scene, fullLayout, canvas, gl) {
 
     scene.glplot.onrender = render.bind(null, scene);
 
-    //List of scene objects
+    // List of scene objects
     scene.traces = {};
 
     return true;
@@ -248,7 +247,7 @@ function Scene(options, fullLayout) {
     this.id = options.id || 'scene';
     this.fullSceneLayout = fullLayout[this.id];
 
-    //Saved from last call to plot()
+    // Saved from last call to plot()
     this.plotArgs = [ [], {}, {} ];
 
     /*
@@ -260,7 +259,7 @@ function Scene(options, fullLayout) {
     this.staticMode = !!options.staticPlot;
     this.pixelRatio = options.plotGlPixelRatio || 2;
 
-    //Coordinate rescaling
+    // Coordinate rescaling
     this.dataScale = [1, 1, 1];
 
     this.contourLevels = [ [], [], [] ];
@@ -322,7 +321,7 @@ function computeTraceBounds(scene, trace, bounds) {
 }
 
 proto.plot = function(sceneData, fullLayout, layout) {
-    //Save parameters
+    // Save parameters
     this.plotArgs = [sceneData, fullLayout, layout];
 
     if(this.glplot.contextLost) return;
@@ -337,7 +336,7 @@ proto.plot = function(sceneData, fullLayout, layout) {
 
     this.glplot.snapToData = true;
 
-    //Update layout
+    // Update layout
     this.fullSceneLayout = fullSceneLayout;
 
     this.glplotLayout = fullSceneLayout;
@@ -347,7 +346,7 @@ proto.plot = function(sceneData, fullLayout, layout) {
     // Update camera mode
     this.updateFx(fullSceneLayout.dragmode, fullSceneLayout.hovermode);
 
-    //Update scene
+    // Update scene
     this.glplot.update({});
 
     // Update axes functions BEFORE updating traces
@@ -356,11 +355,11 @@ proto.plot = function(sceneData, fullLayout, layout) {
         setConvert(axis);
     }
 
-    //Convert scene data
+    // Convert scene data
     if(!sceneData) sceneData = [];
     else if(!Array.isArray(sceneData)) sceneData = [sceneData];
 
-    //Compute trace bounding box
+    // Compute trace bounding box
     var dataBounds = [
         [Infinity, Infinity, Infinity],
         [-Infinity, -Infinity, -Infinity]
@@ -386,10 +385,10 @@ proto.plot = function(sceneData, fullLayout, layout) {
         }
     }
 
-    //Save scale
+    // Save scale
     this.dataScale = dataScale;
 
-    //Update traces
+    // Update traces
     for(i = 0; i < sceneData.length; ++i) {
         data = sceneData[i];
         if(data.visible !== true) {
@@ -399,14 +398,13 @@ proto.plot = function(sceneData, fullLayout, layout) {
         if(trace) {
             trace.update(data);
         } else {
-            var traceModule = Plots.getModule(data.type);
-            trace = traceModule.plot(this, data);
+            trace = data._module.plot(this, data);
             this.traces[data.uid] = trace;
         }
         trace.name = data.name;
     }
 
-    //Remove empty traces
+    // Remove empty traces
     var traceIds = Object.keys(this.traces);
 
     trace_id_loop:
@@ -421,7 +419,7 @@ proto.plot = function(sceneData, fullLayout, layout) {
         delete this.traces[traceIds[i]];
     }
 
-    //Update ranges (needs to be called *after* objects are added due to updates)
+    // Update ranges (needs to be called *after* objects are added due to updates)
     var sceneBounds = [[0, 0, 0], [0, 0, 0]],
         axisDataRange = [],
         axisTypeRatios = {};
@@ -474,14 +472,14 @@ proto.plot = function(sceneData, fullLayout, layout) {
         }
         axisDataRange[i] = sceneBounds[1][i] - sceneBounds[0][i];
 
-        //Update plot bounds
+        // Update plot bounds
         this.glplot.bounds[0][i] = sceneBounds[0][i] * dataScale[i];
         this.glplot.bounds[1][i] = sceneBounds[1][i] * dataScale[i];
     }
 
     var axesScaleRatio = [1, 1, 1];
 
-    //Compute axis scale per category
+    // Compute axis scale per category
     for(i = 0; i < 3; ++i) {
         axis = fullSceneLayout[axisProperties[i]];
         axisType = axis.type;
@@ -541,7 +539,7 @@ proto.plot = function(sceneData, fullLayout, layout) {
     this.glplot.aspect = aspectRatio;
 
 
-    //Update frame position for multi plots
+    // Update frame position for multi plots
     var domain = fullSceneLayout.domain || null,
         size = fullLayout._size || null;
 
@@ -562,7 +560,7 @@ proto.destroy = function() {
     this.glplot.dispose();
     this.container.parentNode.removeChild(this.container);
 
-    //Remove reference to glplot
+    // Remove reference to glplot
     this.glplot = null;
 };
 
@@ -675,10 +673,10 @@ proto.toImage = function(format) {
 
     if(this.staticMode) this.container.appendChild(STATIC_CANVAS);
 
-    //Force redraw
+    // Force redraw
     this.glplot.redraw();
 
-    //Grab context and yank out pixels
+    // Grab context and yank out pixels
     var gl = this.glplot.gl;
     var w = gl.drawingBufferWidth;
     var h = gl.drawingBufferHeight;
@@ -688,7 +686,7 @@ proto.toImage = function(format) {
     var pixels = new Uint8Array(w * h * 4);
     gl.readPixels(0, 0, w, h, gl.RGBA, gl.UNSIGNED_BYTE, pixels);
 
-    //Flip pixels
+    // Flip pixels
     for(var j = 0, k = h - 1; j < k; ++j, --k) {
         for(var i = 0; i < w; ++i) {
             for(var l = 0; l < 4; ++l) {
