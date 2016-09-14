@@ -2,7 +2,7 @@
  * AngularJS file upload directives and services. Supoorts: file upload/drop/paste, resume, cancel/abort,
  * progress, resize, thumbnail, preview, validation and CORS
  * @author  Danial  <danial.farid@gmail.com>
- * @version 12.2.5
+ * @version 12.2.9
  */
 
 if (window.XMLHttpRequest && !(window.FileAPI && FileAPI.shouldLoad)) {
@@ -23,7 +23,7 @@ if (window.XMLHttpRequest && !(window.FileAPI && FileAPI.shouldLoad)) {
 
 var ngFileUpload = angular.module('ngFileUpload', []);
 
-ngFileUpload.version = '12.2.5';
+ngFileUpload.version = '12.2.9';
 
 ngFileUpload.service('UploadBase', ['$http', '$q', '$timeout', function ($http, $q, $timeout) {
   var upload = this;
@@ -485,7 +485,7 @@ ngFileUpload.service('Upload', ['$parse', '$timeout', '$compile', '$q', 'UploadE
     if (!resizeVal || !upload.isResizeSupported() || !files.length) return upload.emptyPromise();
     if (resizeVal instanceof Function) {
       var defer = $q.defer();
-      resizeVal(files).then(function (p) {
+      return resizeVal(files).then(function (p) {
         resizeWithParams(p, files, attr, scope).then(function (r) {
           defer.resolve(r);
         }, function (e) {
@@ -1072,7 +1072,8 @@ ngFileUpload.directive('ngfSelect', ['$parse', '$timeout', '$compile', 'Upload',
         var size = resizeParams;
         if (directiveName === 'ngfThumbnail') {
           if (!size) {
-            size = {width: elem[0].clientWidth, height: elem[0].clientHeight};
+            size = {width: elem[0].naturalWidth || elem[0].clientWidth,
+              height: elem[0].naturalHeight || elem[0].clientHeight};
           }
           if (size.width === 0 && window.getComputedStyle) {
             var style = getComputedStyle(elem[0]);
@@ -1338,10 +1339,10 @@ ngFileUpload.service('UploadValidate', ['UploadDataUrl', '$q', '$timeout', funct
                   if (!runAllValidation) {
                     files.splice(i, 1);
                   }
+                  valid = false;
                 } else {
                   files.splice(i, 1);
                 }
-                valid = false;
               }
             }
           }
@@ -1391,10 +1392,11 @@ ngFileUpload.service('UploadValidate', ['UploadDataUrl', '$q', '$timeout', funct
               if (!runAllValidation) {
                 files.splice(files.indexOf(file), 1);
               }
+              defer.resolve(false);
             } else {
               files.splice(files.indexOf(file), 1);
+              defer.resolve(true);
             }
-            defer.resolve(false);
           } else {
             defer.resolve(true);
           }
@@ -1415,7 +1417,7 @@ ngFileUpload.service('UploadValidate', ['UploadDataUrl', '$q', '$timeout', funct
         }
       }
 
-      var promises = [upload.emptyPromise()];
+      var promises = [upload.emptyPromise(true)];
       if (files) {
         files = files.length === undefined ? [files] : files;
         angular.forEach(files, function (file) {
@@ -1446,14 +1448,16 @@ ngFileUpload.service('UploadValidate', ['UploadDataUrl', '$q', '$timeout', funct
         });
       }
       var deffer = $q.defer();
-      $q.all(promises).then(function (value) {
-        if (value) {
-          ngModel.$ngfValidations.push({name: name, valid: true});
-          deffer.resolve(true);
-        } else {
-          ngModel.$ngfValidations.push({name: name, valid: false});
-          deffer.resolve(false);
+      $q.all(promises).then(function (values) {
+        var isValid = true;
+        for (var i = 0; i < values.length; i++) {
+          if (!values[i]) {
+            isValid = false;
+            break;
+          }
         }
+        ngModel.$ngfValidations.push({name: name, valid: isValid});
+        deffer.resolve(isValid);
       });
       return deffer.promise;
     }
@@ -1566,8 +1570,8 @@ ngFileUpload.service('UploadValidate', ['UploadDataUrl', '$q', '$timeout', funct
           .css('max-width', 'none !important').css('max-height', 'none !important');
 
         function success() {
-          var width = img[0].clientWidth;
-          var height = img[0].clientHeight;
+          var width = img[0].naturalWidth || img[0].clientWidth;
+          var height = img[0].naturalHeight || img[0].clientHeight;
           img.remove();
           file.$ngfWidth = width;
           file.$ngfHeight = height;
@@ -1581,23 +1585,23 @@ ngFileUpload.service('UploadValidate', ['UploadDataUrl', '$q', '$timeout', funct
 
         img.on('load', success);
         img.on('error', error);
-        var count = 0;
 
-        function checkLoadError() {
+        var secondsCounter = 0;
+        function checkLoadErrorInCaseOfNoCallback() {
           $timeout(function () {
             if (img[0].parentNode) {
               if (img[0].clientWidth) {
                 success();
-              } else if (count > 10) {
+              } else if (secondsCounter++ > 10) {
                 error();
               } else {
-                checkLoadError();
+                checkLoadErrorInCaseOfNoCallback();
               }
             }
           }, 1000);
         }
 
-        checkLoadError();
+        checkLoadErrorInCaseOfNoCallback();
 
         angular.element(document.getElementsByTagName('body')[0]).append(img);
       }, function () {
