@@ -59,7 +59,7 @@ public class Study extends AbstractRdcDomainObject {
   private I18nString description;
   
   @NotNull(message = "study-management.error.study.institution.not-null")
-  @I18nStringSize(max = StringLengths.SMALL,
+  @I18nStringSize(max = StringLengths.MEDIUM,
       message = "study-management.error.study.institution.i18n-string-size")
   @I18nStringNotEmpty(
       message = "study-management.error.study.institution.i18n-string-not-empty")
@@ -73,7 +73,7 @@ public class Study extends AbstractRdcDomainObject {
       message = "study-management.error.study.sponsor.i18n-string-size")
   private I18nString sponsor;
   
-  @I18nStringSize(max = StringLengths.MEDIUM,
+  @I18nStringSize(max = StringLengths.LARGE,
       message = "study-management.error.study.citation-hint.i18n-string-size")
   private I18nString citationHint;
   
