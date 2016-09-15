@@ -27,7 +27,8 @@
       "questions": "Suchen Sie Fragen?",
       "surveys": "Suchen Sie Erhebungen?",
       "data-sets": "Suchen Sie Datensätze?",
-      "studies": "Suchen Sie Studien?"
+      "studies": "Suchen Sie Studien?",
+      "related-publications": "Suchen Sie Publikationen?"
     },
     "tabs": {
       "variables": "Variablen",
@@ -35,7 +36,8 @@
       "surveys": "Erhebungen",
       "data-sets": "Datensätze",
       "studies": "Studien",
-      "all": "Alle"
+      "all": "Alle",
+      "related-publications": "Publikationen"
     }
   }
 }

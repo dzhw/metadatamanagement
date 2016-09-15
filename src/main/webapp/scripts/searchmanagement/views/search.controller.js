@@ -35,14 +35,14 @@ angular.module('metadatamanagementApp').controller('SearchController',
     $scope.selectedTabIndex = 0;
     //Set active tab
     $scope.$watch(function() {
-            return $location.search().type;
-          }, function(value) {
-            for (var i = 0; i < $scope.tabs.length; i++) {
-              if ($scope.tabs[i].elasticSearchType === value) {
-                $scope.selectedTabIndex = i;
-              }
-            }
-          });
+      return $location.search().type;
+    }, function(value) {
+      for (var i = 0; i < $scope.tabs.length; i++) {
+        if ($scope.tabs[i].elasticSearchType === value) {
+          $scope.selectedTabIndex = i;
+        }
+      }
+    });
     //Search function
     $scope.search = function() {
       $scope.isSearching = true;
@@ -307,8 +307,8 @@ angular.module('metadatamanagementApp').controller('SearchController',
       icon: 'assets/images/icons/survey.svg',
       elasticSearchType: 'surveys',
       count: null,
-      acceptedFileUploadType:
-        'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+      acceptedFileUploadType: 'application/vnd.openxmlformats-' +
+        'officedocument.spreadsheetml.sheet',
       uploadFunction: $scope.uploadSurveys
     }, {
       title: 'search-management.tabs.data-sets',
@@ -316,8 +316,16 @@ angular.module('metadatamanagementApp').controller('SearchController',
       icon: 'assets/images/icons/data-set.svg',
       elasticSearchType: 'data_sets',
       count: null,
-      acceptedFileUploadType:
-        'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+      acceptedFileUploadType: 'application/vnd.openxmlformats-' +
+        'officedocument.spreadsheetml.sheet',
       uploadFunction: $scope.uploadDataSets
+    }, {
+      title: 'search-management.tabs.related-publications',
+      inputLabel: 'search-management.input-label.related-publications',
+      icon: 'assets/images/icons/related-publication.svg',
+      elasticSearchType: 'related-publications',
+      count: 1,
+      acceptedFileUploadType: '',
+      uploadFunction: null
     }];
   });

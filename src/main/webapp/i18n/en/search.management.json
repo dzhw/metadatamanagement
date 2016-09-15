@@ -27,7 +27,8 @@
       "questions": "Are you searching for Questions?",
       "surveys": "Are you searching for Surveys?",
       "data-sets": "Are you searching for Data Sets?",
-      "studies": "Are you searching for Studies?"
+      "studies": "Are you searching for Studies?",
+      "related-publications": "Are you searching for publications?"
     },
     "tabs": {
       "variables": "Variables",
@@ -35,7 +36,8 @@
       "surveys": "Surveys",
       "data-sets": "Data Sets",
       "studies": "Studies",
-      "all": "All"
+      "all": "All",
+      "related-publications": "Publications"
     }
   }
 }
