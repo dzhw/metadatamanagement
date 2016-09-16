@@ -370,24 +370,6 @@ md-tooltip {
   content: ":";
 }
 
-.fdz-table {
-  overflow: auto;
-}
-
-.fdz-table > table {
-  border-collapse: collapse;
-  white-space: nowrap;
-  width: 100%;
-  border: 1px solid #ddd;
-  text-align: left;
-}
-
-.fdz-table td, .fdz-table th {
-  border: 1px solid #ddd;
-  text-align: left;
-  padding: 10px;
-}
-
 .fdz-truncate-string {
   white-space: nowrap;
   overflow: hidden;
@@ -499,6 +481,9 @@ md-tooltip {
     display: table-cell;
     padding: 5px;
     text-align: center;
+}
+.fdz-table-cell-ellipsis:hover {
+    white-space:normal !important;
 }
 .fdz-table-cell-fixed .fdz-table-cell-content {
     display: table;
