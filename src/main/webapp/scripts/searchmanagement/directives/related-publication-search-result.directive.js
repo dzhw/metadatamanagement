@@ -1,11 +1,11 @@
 'use strict';
 
-angular.module('metadatamanagementApp').directive('studySearchResult',
-  function() {
+angular.module('metadatamanagementApp')
+  .directive('relatedPublicationSearchResult', function() {
     return {
       restrict: 'E',
       templateUrl: 'scripts/searchmanagement/directives/' +
-        'study-search-result.html.tmpl',
+        'related-publication-search-result.html.tmpl',
       scope: {
         searchResult: '='
       },

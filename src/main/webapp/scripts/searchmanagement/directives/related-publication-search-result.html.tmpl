@@ -1,16 +1,16 @@
 <md-card>
-  <md-card-header md-ink-ripple ui-sref="studyDetail({id: searchResult.id})" class="fdz-search-result fdz-card-header-border">
+  <md-card-header md-ink-ripple ui-sref="relatedPublicationDetail({id: 'publication01'})" class="fdz-search-result fdz-card-header-border">
       <md-card-avatar>
-          <md-icon md-svg-src="/assets/images/icons/study.svg" class="fdz-search-result-icon"></md-icon>
+          <md-icon md-svg-src="/assets/images/icons/related-publication.svg" class="fdz-search-result-icon"></md-icon>
       </md-card-avatar>
       <md-card-header-text class="fdz-truncate-string">
-          <div class="md-title fdz-truncate-string">{{searchResult.title}}</div>
-          <div class="md-subhead fdz-truncate-string">{{searchResult.id}}</div>
+          <div class="md-title fdz-truncate-string">Publikation Titel</div>
+          <div class="md-subhead fdz-truncate-string">Publikation ID</div>
       </md-card-header-text>
   </md-card-header>
     <md-card-content>
       <div layout="row">
-        <div class="md-subhead fdz-truncate-string">{{searchResult.description}}</div>
+        <div class="md-subhead fdz-truncate-string">Eine Beschreibung</div>
       </div>
     </md-card-content>
 </md-card>
