@@ -33,7 +33,7 @@
         },
         "title": {
           "not-null": "Der Titel einer Studie darf nicht leer sein!",
-          "i18n-string-size": "Die Maximallänge des Titels einer Studie ist 128 Zeichen.",
+          "i18n-string-size": "Die Maximallänge des Titels einer Studie ist 2048 Zeichen.",
           "i18n-string-not-empty": "Der Titel einer Studie muss in mindestens einer Sprache vorhanden sein."
         },
         "description": {

@@ -45,7 +45,7 @@ public class Study extends AbstractRdcDomainObject {
   private String id;
   
   @NotNull(message = "study-management.error.study.title.not-null")
-  @I18nStringSize(max = StringLengths.MEDIUM,
+  @I18nStringSize(max = StringLengths.LARGE,
       message = "study-management.error.study.title.i18n-string-size")
   @I18nStringNotEmpty(
       message = "study-management.error.study.title.i18n-string-not-empty")
