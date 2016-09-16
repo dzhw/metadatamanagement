@@ -324,7 +324,7 @@ angular.module('metadatamanagementApp').controller('SearchController',
       inputLabel: 'search-management.input-label.related-publications',
       icon: 'assets/images/icons/related-publication.svg',
       elasticSearchType: 'related-publications',
-      count: 1,
+      count: null,
       acceptedFileUploadType: '',
       uploadFunction: null
     }];
