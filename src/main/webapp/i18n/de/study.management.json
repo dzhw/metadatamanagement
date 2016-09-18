@@ -12,7 +12,16 @@
       "description": "Beschreibung der Studie",
       "survey-details": "Erhebungsdetails",
       "data-set-details": "Datensatzinformationen",
-      "instrument-information": "Instrumenteninformationen"
+      "instrument-information": "Instrumenteninformationen",
+      "surveySeries": "Erhebungsreihe",
+      "institution": "Institution",
+      "authors": "Autoren",
+      "sponsors": "Sponsoren",
+      "accessWays": "Zugangswege",
+      "releases": "Veröffentlichungen",
+      "version": "Version",
+      "notes": "Notizen",
+      "citationHint": "Zitat Hinweis"
     },
     "log-messages": {
       "study": {

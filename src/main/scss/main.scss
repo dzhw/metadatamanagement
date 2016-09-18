@@ -26,6 +26,10 @@ $state-danger-border:            $brand-danger !default;
 @import "bootstrap-sass/assets/stylesheets/_bootstrap.scss";
 // endbower
 
+h1, h2, h3 {
+  margin: 0px;
+}
+
 body {
     font-family: "Verdana", Helvetica, Arial, sans-serif;
 }
@@ -169,12 +173,6 @@ body {
   flex-grow: 0;
   flex-shrink: 0;
   width: 12em;
-}
-.fdz-detail-icon {
-  min-width: 40px;
-  min-height: 40px;
-  margin: 0px 5px auto 0px;
-  color: $brand-primary;
 }
 .fdz-inline-icon {
   width: 20px;

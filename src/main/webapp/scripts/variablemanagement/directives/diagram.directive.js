@@ -3,7 +3,7 @@
 
 angular.module('metadatamanagementApp').directive('diagram',
   function($window, $timeout) {
-    var link = function(scope) {
+    var link = function(scope, element) {
       scope.isNotLoaded = true;
       scope.isNotAvailable = false;
       var data = [{
@@ -11,22 +11,10 @@ angular.module('metadatamanagementApp').directive('diagram',
           color: '#006AB2',
           opacity: 0.7
         }}];
-      var layout = {
-        xaxis: {
-          type: 'category',
-          autotick: true,
-          showticklabels: true,
-          tickangle: 45,
-          tickcolor: '#000'
-        },
-        yaxis: {
-          tickangle: 45,
-        }
-      };
       var drawDiagram = function() {
         $timeout(function() {
           scope.isNotLoaded = false;
-          Plotly.newPlot('diagram', data, layout);
+          Plotly.newPlot('diagram', data);
         }, 1000);
       };
       function createString(object) {
@@ -62,8 +50,11 @@ angular.module('metadatamanagementApp').directive('diagram',
         */
         scope.isNotAvailable = true;
       }
-      angular.element($window).bind('resize', function() {
+      angular.element($window).on('resize', function() {
         drawDiagram();
+      });
+      element.on('$destroy', function() {
+        angular.element($window).off('resize');
       });
       drawDiagram();
     };

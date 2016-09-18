@@ -5,275 +5,267 @@
     <md-card>
         <md-card-header>
             <md-card-header-text>
-                <h1>{{variable.label[currentLanguage]}} ({{variable.name}})</h1>
+                <h1>{{variable.label[currentLanguage]}}
+                    ({{variable.name}})</h1>
             </md-card-header-text>
         </md-card-header>
-        <md-card-content class="md-padding" layout="column">
-            <div layout="row" layout-xs="column">
-              <md-card flex="50" flex-xs="100">
-                <md-card-header>
+        <md-card-content style="padding-top: 0px;" layout="column">
+            <div layout="row" layout-sm="column" layout-xs="column">
+                <md-card flex>
+                    <md-card-header>
                         <md-card-header-text>
-                            <span class="md-headline">{{'variable-management.detail.variable-informations' | translate }}</span>
+                            <h2 class="md-headline">{{'variable-management.detail.variable-informations' | translate }}</h2>
                         </md-card-header-text>
                     </md-card-header>
-                    <md-content style="background-color:white;">
-                      <section layout-margin>
-                        <section ng-if="variable.dataType[currentLanguage]">
-                          <span style="font-weight: bold;">{{'variable-management.detail.data-type' | translate }}: </span><span>{{variable.dataType[currentLanguage]}}</span>
+                    <md-divider></md-divider>
+                    <md-card-content>
+                        <section style="margin-bottom: 0.5em;" ng-if="variable.dataType[currentLanguage]">
+                            <span style="font-weight: bold;">{{'variable-management.detail.data-type' | translate }}:
+                            </span>
+                            <span>{{variable.dataType[currentLanguage]}}</span>
                         </section>
-                        <section ng-if="variable.scaleLevel[currentLanguage]">
-                          <span style="font-weight: bold;">{{'variable-management.detail.scale-level' | translate }}: </span><span>{{variable.scaleLevel[currentLanguage]}}</span>
+                        <section style="margin-bottom: 0.5em;" ng-if="variable.scaleLevel[currentLanguage]">
+                            <span style="font-weight: bold;">{{'variable-management.detail.scale-level' | translate }}:
+                            </span>
+                            <span>{{variable.scaleLevel[currentLanguage]}}</span>
                         </section>
-                        <section ng-if="variable.atomicQuestionText[currentLanguage]">
-                          <span style="font-weight: bold;">{{'variable-management.detail.question-text' | translate }}: </span><span>{{variable.atomicQuestionText[currentLanguage]}}</span>
+                        <section style="margin-bottom: 0.5em;" ng-if="variable.accessWays">
+                            <span style="font-weight: bold;">{{'variable-management.detail.access-ways' | translate }}:
+                            </span>
+                            <span>{{cleanedAccessWays}}</span>
                         </section>
-                        <section ng-if="variable.accessWays">
-                          <span style="font-weight: bold;">{{'variable-management.detail.access-ways' | translate }}: </span><span>{{cleanedAccessWays}}</span>
+                        <section style="margin-bottom: 0.5em;" ng-if="variable.description[currentLanguage]">
+                            <span style="font-weight: bold;">{{'variable-management.detail.description' | translate }}:
+                            </span>
+                            <span>{{variable.description[currentLanguage]}}</span>
                         </section>
-                        <section ng-if="variable.description[currentLanguage]">
-                          <span style="font-weight: bold;">{{'variable-management.detail.description' | translate }}: </span><span>{{variable.description[currentLanguage]}}</span>
+                        <section style="margin-bottom: 0.5em;" ng-if="variable.filterDetails.filterDescription">
+                            <span style="font-weight: bold;">{{'variable-management.detail.filter-description' | translate }}:
+                            </span>
+                            <span>{{variable.filterDetails.expressionLanguage}}</span>
                         </section>
-                        <section ng-if="variable.filterDetails.filterDescription">
-                          <span style="font-weight: bold;">{{'variable-management.detail.filter-description' | translate }}: </span><span>{{variable.filterDetails.expressionLanguage}}</span>
+                        <section style="margin-bottom: 0.5em;" ng-if="variable.filterDetails.expressionLanguage">
+                            <span style="font-weight: bold;">{{'variable-management.detail.filter-details-language' | translate }}:
+                            </span>
+                            <span>{{variable.filterDetails.expressionLanguage}}</span>
                         </section>
-                        <section ng-if="variable.filterDetails.expressionLanguage">
-                          <span style="font-weight: bold;">{{'variable-management.detail.filter-details-language' | translate }}: </span><span>{{variable.filterDetails.expressionLanguage}}</span>
+                        <section style="margin-bottom: 0.5em;" ng-if="variable.filterDetails.expression">
+                            <span style="font-weight: bold;">{{'variable-management.detail.filter-details-expression' | translate }}:
+                            </span>
+                            <pre class="fdz-code-container">{{variable.filterDetails.expression}}</pre>
                         </section>
-                        <section ng-if="variable.filterDetails.expression">
-                        <span style="font-weight: bold;">{{'variable-management.detail.filter-details-expression' | translate }}: </span>
-                        <pre class="fdz-code-container">{{variable.filterDetails.expression}}</pre>
-                        </section>
-                      </section>
-                        <section>
-                            <md-button ng-disabled="variable.sameVariablesInPanel === undefined" ng-click="showSimilarVariables()">
-                                <section>
-                                    <md-icon md-svg-src="/assets/images/icons/variable.svg" class="fdz-detail-icon"></md-icon>
-                                    <span>{{'variable-management.detail.same-in-panel' | translate}} {{ variable.sameVariablesInPanel.length || '(' + 0 + ')'}}</span>
-                                </section>
-                            </md-button>
-                            <md-button ng-disabled="true">
-                              <section>
-                                <md-icon md-svg-src="/assets/images/icons/variable.svg" class="fdz-detail-icon"></md-icon>
-                                <span>ToDo(-)</span>
-                              </section>
-                            </md-button>
-                        </section>
-              </md-content>
-              </md-card>
-              <md-card flex="50" flex-xs="100">
-                <md-card-header>
+                    </md-card-content>
+                </md-card>
+                <md-card>
+                    <md-card-header>
                         <md-card-header-text>
-                            <span class="md-headline">{{'variable-management.detail.related-informations' | translate }}</span>
+                            <h2 class="md-headline">{{'variable-management.detail.related-informations' | translate }}</h2>
                         </md-card-header-text>
                     </md-card-header>
-                    <md-content style="background-color:white;">
+                    <md-divider></md-divider>
+                    <md-card-content>
                         <section>
                             <md-button ng-click="showStudy()">
-                                <section>
-                                    <md-icon md-svg-src="/assets/images/icons/study.svg" class="fdz-detail-icon"></md-icon>
-                                    <span>{{'study-management.home.title' | translate }}</span>
-                                </section>
+                                <md-icon md-svg-src="/assets/images/icons/study.svg"></md-icon>
+                                <span>{{'study-management.home.title' | translate }}</span>
                             </md-button>
-                            <md-button ng-click="addToNotepad()">
-                                <section>
-                                    <md-icon md-svg-src="/assets/images/icons/addToshop.svg" class="fdz-detail-icon"></md-icon>
-                                    <span>{{'notepad-management.home.title' | translate }}</span>
-                                </section>
+                            <md-button class="md-raised" ng-click="addToNotepad()">
+                                <md-icon md-svg-src="/assets/images/icons/addToshop.svg"></md-icon>
+                                <span>{{'notepad-management.home.title' | translate }}</span>
                             </md-button>
                         </section>
                         <section>
-                            <md-button ng-click="showSurveys()">
-                                <section>
-                                    <md-icon md-svg-src="/assets/images/icons/survey.svg" class="fdz-detail-icon"></md-icon>
-                                    <span>{{'survey-management.home.title' | translate }}</span>
-                                </section>
+                            <md-button class="md-raised" ng-click="showSurveys()">
+                                <md-icon md-svg-src="/assets/images/icons/survey.svg"></md-icon>
+                                <span>{{'survey-management.home.title' | translate }}</span>
                             </md-button>
                         </section>
                         <section>
-                            <md-button ng-disabled="variable.questionId === undefined" ui-sref="questionDetail({id:variable.questionId})">
-                                <section>
-                                    <md-icon md-svg-src="/assets/images/icons/question.svg" class="fdz-detail-icon"></md-icon>
-                                    <span>{{'question-management.detail.question' | translate }}</span>
-                                </section>
+                            <md-button class="md-raised" ui-sref="questionDetail({id:variable.questionId})">
+                                <md-icon md-svg-src="/assets/images/icons/question.svg"></md-icon>
+                                <span>{{'question-management.detail.question' | translate }}</span>
                             </md-button>
                         </section>
                         <section>
-                            <md-button ng-click="showDataSets()">
-                                <section>
-                                    <md-icon md-svg-src="/assets/images/icons/data-set.svg" class="fdz-detail-icon"></md-icon>
-                                    <span>{{'data-set-management.home.title' | translate }}</span>
-                                </section>
+                            <md-button class="md-raised" ng-click="showDataSets()">
+                                <md-icon md-svg-src="/assets/images/icons/data-set.svg"></md-icon>
+                                <span>{{'data-set-management.home.title' | translate }}</span>
                             </md-button>
                         </section>
                         <section>
-                            <md-button ng-disabled="true">
-                                <section>
-                                    <md-icon md-svg-src="/assets/images/icons/variable.svg" class="fdz-detail-icon"></md-icon>
-                                    <span>Related Publications</span>
-                                </section>
+                            <md-button class="md-raised" ui-sref="relatedPublicationDetail({id: 'publication01'})">
+                                <md-icon md-svg-src="/assets/images/icons/variable.svg"></md-icon>
+                                <span>Related Publications</span>
                             </md-button>
                         </section>
-              </md-content>
-            </md-card>
+                    </md-card-content>
+                </md-card>
             </div>
-            <div layout="row" layout-xs="column">
-              <md-card flex="50" flex-xs="100">
-                <md-card-header>
-                  <md-card-header-text>
-                    <span class="md-headline">{{'variable-management.detail.statistics.graphics' | translate }}</span>
-                  </md-card-header-text>
-                </md-card-header>
-                <md-content style="background-color:white;" layout-padding>
-                  <diagram statistics="variable.distribution" type="variable.scaleLevel[currentLanguage]" language="currentLanguage" ng-cloak></diagram>
-                </md-content>
-              </md-card>
-              <md-card flex="50" flex-xs="100">
-                <md-card-header>
-                  <md-card-header-text>
-                    <span class="md-headline">{{'variable-management.detail.statistics.statistics' | translate }}</span>
-                  </md-card-header-text>
-                  </md-card-header>
-                  <md-card-content>
-                  <section>
-                      <section ng-if="variable.distribution.statistics.firstQuartile">
-                        <md-icon md-svg-src="/assets/images/icons/boxplot.svg" class="fdz-detail-icon"></md-icon>
-                        <span style="font-weight: bold;">{{'variable-management.detail.statistics.firstQuartile' | translate}}: </span>
-                        <span>{{variable.distribution.statistics.firstQuartile}}</span>
-                      </section>
-                      <section ng-if="variable.distribution.statistics.highWhisker">
-                        <md-icon md-svg-src="/assets/images/icons/boxplot.svg" class="fdz-detail-icon"></md-icon>
-                        <span style="font-weight: bold;">{{'variable-management.detail.statistics.highWhisker' | translate}}: </span>
-                        <span>{{variable.distribution.statistics.highWhisker}}</span>
-                      </section>
-                      <section ng-if="variable.distribution.statistics.lowWhisker">
-                        <md-icon md-svg-src="/assets/images/icons/boxplot.svg" class="fdz-detail-icon"></md-icon>
-                        <span style="font-weight: bold;">{{'variable-management.detail.statistics.lowWhisker' | translate}}: </span>
-                        <span>{{variable.distribution.statistics.lowWhisker}}</span>
-                      </section>
-                      <section ng-if="variable.distribution.statistics.maximum">
-                        <md-icon md-svg-src="/assets/images/icons/boxplot.svg" class="fdz-detail-icon"></md-icon>
-                        <span style="font-weight: bold;">{{'variable-management.detail.statistics.maximum' | translate}}: </span>
-                        <span>{{variable.distribution.statistics.maximum}}</span>
-                      </section>
-                      <section ng-if="variable.distribution.statistics.median">
-                        <md-icon md-svg-src="/assets/images/icons/boxplot.svg" class="fdz-detail-icon"></md-icon>
-                        <span style="font-weight: bold;">{{'variable-management.detail.statistics.median' | translate}}: </span>
-                        <span>{{variable.distribution.statistics.median}}</span>
-                      </section>
-                      <section ng-if="variable.distribution.statistics.minimum">
-                        <md-icon md-svg-src="/assets/images/icons/boxplot.svg" class="fdz-detail-icon"></md-icon>
-                        <span style="font-weight: bold;">{{'variable-management.detail.statistics.minimum' | translate}}: </span>
-                        <span>{{variable.distribution.statistics.minimum}}</span>
-                      </section>
-                      <section ng-if="variable.distribution.statistics.thirdQuartile">
-                        <md-icon md-svg-src="/assets/images/icons/boxplot.svg" class="fdz-detail-icon"></md-icon>
-                        <span style="font-weight: bold;">{{'variable-management.detail.statistics.thirdQuartile' | translate}}: </span>
-                        <span>{{variable.distribution.statistics.thirdQuartile}}</span>
-                      </section>
-                      <section ng-if="variable.distribution.totalAbsoluteFrequency">
-                        <md-icon md-svg-src="/assets/images/icons/statistics.svg" class="fdz-detail-icon"></md-icon>
-                        <span style="font-weight: bold;">{{'variable-management.detail.statistics.totalAbsoluteFrequency' | translate}}: </span>
-                        <span>{{variable.distribution.totalAbsoluteFrequency}}</span>
-                      </section>
-                      <section ng-if="variable.distribution.totalValidAbsoluteFrequency">
-                        <md-icon md-svg-src="/assets/images/icons/statistics.svg" class="fdz-detail-icon"></md-icon>
-                        <span style="font-weight: bold;">{{'variable-management.detail.statistics.totalValidAbsoluteFrequency' | translate}}: </span>
-                        <span>{{variable.distribution.totalValidAbsoluteFrequency}}</span>
-                      </section>
-                      <section ng-if="variable.distribution.totalValidRelativeFrequency">
-                        <md-icon md-svg-src="/assets/images/icons/statistics.svg" class="fdz-detail-icon"></md-icon>
-                        <span style="font-weight: bold;">{{'variable-management.detail.statistics.totalValidRelativeFrequency' | translate}}: </span>
-                        <span>{{variable.distribution.totalValidRelativeFrequency}}</span>
-                      </section>
-                    </section>
-                  </md-card-content>
-              </md-card>
+            <div layout="row" layout-sm="column" layout-xs="column">
+                <md-card flex="70" flex-sm="100" flex-xs="100">
+                    <md-card-header>
+                        <md-card-header-text>
+                            <h2 class="md-headline">{{'variable-management.detail.statistics.graphics' | translate }}</h2>
+                        </md-card-header-text>
+                    </md-card-header>
+                    <md-divider></md-divider>
+                    <md-card-content>
+                        <diagram statistics="variable.distribution" type="variable.scaleLevel[currentLanguage]" language="currentLanguage" ng-cloak></diagram>
+                    </md-card-content>
+                </md-card>
+                <md-card flex="30" flex-sm="100" flex-xs="100">
+                    <md-card-header>
+                        <md-card-header-text>
+                            <h2 class="md-headline">{{'variable-management.detail.statistics.statistics' | translate }}</h2>
+                        </md-card-header-text>
+                    </md-card-header>
+                    <md-divider></md-divider>
+                    <md-card-content>
+                        <section>
+                            <section ng-if="variable.distribution.statistics.firstQuartile">
+                                <span style="font-weight: bold;">{{'variable-management.detail.statistics.firstQuartile' | translate}}:
+                                </span>
+                                <span>{{variable.distribution.statistics.firstQuartile}}</span>
+                            </section>
+                            <section ng-if="variable.distribution.statistics.highWhisker">
+                                <span style="font-weight: bold;">{{'variable-management.detail.statistics.highWhisker' | translate}}:
+                                </span>
+                                <span>{{variable.distribution.statistics.highWhisker}}</span>
+                            </section>
+                            <section ng-if="variable.distribution.statistics.lowWhisker">
+                                <span style="font-weight: bold;">{{'variable-management.detail.statistics.lowWhisker' | translate}}:
+                                </span>
+                                <span>{{variable.distribution.statistics.lowWhisker}}</span>
+                            </section>
+                            <section ng-if="variable.distribution.statistics.maximum">
+                                <span style="font-weight: bold;">{{'variable-management.detail.statistics.maximum' | translate}}:
+                                </span>
+                                <span>{{variable.distribution.statistics.maximum}}</span>
+                            </section>
+                            <section ng-if="variable.distribution.statistics.median">
+                                <span style="font-weight: bold;">{{'variable-management.detail.statistics.median' | translate}}:
+                                </span>
+                                <span>{{variable.distribution.statistics.median}}</span>
+                            </section>
+                            <section ng-if="variable.distribution.statistics.minimum">
+                                <span style="font-weight: bold;">{{'variable-management.detail.statistics.minimum' | translate}}:
+                                </span>
+                                <span>{{variable.distribution.statistics.minimum}}</span>
+                            </section>
+                            <section ng-if="variable.distribution.statistics.thirdQuartile">
+                                <span style="font-weight: bold;">{{'variable-management.detail.statistics.thirdQuartile' | translate}}:
+                                </span>
+                                <span>{{variable.distribution.statistics.thirdQuartile}}</span>
+                            </section>
+                            <section ng-if="variable.distribution.totalAbsoluteFrequency">
+                                <span style="font-weight: bold;">{{'variable-management.detail.statistics.totalAbsoluteFrequency' | translate}}:
+                                </span>
+                                <span>{{variable.distribution.totalAbsoluteFrequency}}</span>
+                            </section>
+                            <section ng-if="variable.distribution.totalValidAbsoluteFrequency">
+                                <span style="font-weight: bold;">{{'variable-management.detail.statistics.totalValidAbsoluteFrequency' | translate}}:
+                                </span>
+                                <span>{{variable.distribution.totalValidAbsoluteFrequency}}</span>
+                            </section>
+                            <section ng-if="variable.distribution.totalValidRelativeFrequency">
+                                <span style="font-weight: bold;">{{'variable-management.detail.statistics.totalValidRelativeFrequency' | translate}}:
+                                </span>
+                                <span>{{variable.distribution.totalValidRelativeFrequency}}</span>
+                            </section>
+                        </section>
+                    </md-card-content>
+                </md-card>
             </div>
             <div layout="row">
-              <md-card flex="100">
-                <md-card-header>
-                  <md-card-header-text>
-                    <span class="md-headline">{{'variable-management.detail.frequencies' | translate }}</span>
-                  </md-card-header-text>
-                </md-card-header>
-                <md-content style="background-color:white;">
-                <div class="fdz-table" id="fdz-table" ng-click="showRows()">
-                  <md-tooltip md-direction="top">
-                    {{'variable-management.detail.content.'+tableFlag | translate }}
-                  </md-tooltip>
-                  <div class="fdz-table-row">
-                    <div class="fdz-table-cell fdz-table-cell-fixed">
-                      <div class="fdz-table-cell-content">
-                        <div class="fdz-table-cell-ellipsis">{{'variable-management.detail.statistics.value' | translate }}</div>
-                      </div>
-                    </div>
-                    <div class="fdz-table-cell fdz-table-cell-fixed">
-                      <div class="fdz-table-cell-content">
-                        <div class="fdz-table-cell-ellipsis">{{'variable-management.detail.statistics.label' | translate }}</div>
-                      </div>
-                    </div>
-                    <div class="fdz-table-cell fdz-table-cell-fixed">
-                      <div class="fdz-table-cell-content">
-                        <div class="fdz-table-cell-ellipsis">M</div>
-                      </div>
-                    </div>
-                    <div class="fdz-table-cell fdz-table-cell-fixed">
-                      <div class="fdz-table-cell-content">
-                        <div class="fdz-table-cell-ellipsis">{{'variable-management.detail.statistics.absoluteFrequency' | translate }}</div>
-                      </div>
-                    </div>
-                    <div class="fdz-table-cell fdz-table-cell-fixed">
-                      <div class="fdz-table-cell-content">
-                        <div class="fdz-table-cell-ellipsis">{{'variable-management.detail.statistics.validRelativeFrequency' | translate }}</div>
-                      </div>
-                    </div>
-                    <div class="fdz-table-cell fdz-table-cell-fixed">
-                      <div class="fdz-table-cell-content">
-                        <div class="fdz-table-cell-ellipsis">{{'variable-management.detail.statistics.relativeFrequency' | translate }}</div>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="fdz-table-row" ng-repeat="row in frequencies" id="row{{$index}}" ng-class="(6 > {{$index}}) || ({{$index}} > ({{frequencies.length-5}})) ? '' : 'ng-hide'">
-                    <div class="fdz-table-cell">{{row.value}}{{row.code}}</div>
-                    <div class="fdz-table-cell fdz-table-cell-fixed">
-                      <div class="fdz-table-cell-content">
-                        <div class="fdz-table-cell-ellipsis">{{row.label[currentLanguage]}}</div>
-                      </div>
-                    </div>
-                    <div class="fdz-table-cell">{{row.code ? 'm' : ''}}</div>
-                    <div class="fdz-table-cell">{{row.absoluteFrequency}}</div>
-                    <div class="fdz-table-cell">{{row.validRelativeFrequency}}</div>
-                    <div class="fdz-table-cell">{{row.relativeFrequency}}</div>
-                  </div>
-                </div>
-                </md-content>
-              </md-card>
+                <md-card flex>
+                    <md-card-header>
+                        <md-card-header-text>
+                            <h2 class="md-headline">{{'variable-management.detail.frequencies' | translate }}</h2>
+                        </md-card-header-text>
+                    </md-card-header>
+                    <md-divider></md-divider>
+                    <md-card-content>
+                        <div class="fdz-table" id="fdz-table" ng-click="showRows()">
+                            <md-tooltip md-direction="top">
+                                {{'variable-management.detail.content.'+tableFlag | translate }}
+                            </md-tooltip>
+                            <div class="fdz-table-row">
+                                <div class="fdz-table-cell fdz-table-cell-fixed">
+                                    <div class="fdz-table-cell-content">
+                                        <div class="fdz-table-cell-ellipsis">{{'variable-management.detail.statistics.value' | translate }}</div>
+                                    </div>
+                                </div>
+                                <div class="fdz-table-cell fdz-table-cell-fixed">
+                                    <div class="fdz-table-cell-content">
+                                        <div class="fdz-table-cell-ellipsis">{{'variable-management.detail.statistics.label' | translate }}</div>
+                                    </div>
+                                </div>
+                                <div class="fdz-table-cell fdz-table-cell-fixed">
+                                    <div class="fdz-table-cell-content">
+                                        <div class="fdz-table-cell-ellipsis">M</div>
+                                    </div>
+                                </div>
+                                <div class="fdz-table-cell fdz-table-cell-fixed">
+                                    <div class="fdz-table-cell-content">
+                                        <div class="fdz-table-cell-ellipsis">{{'variable-management.detail.statistics.absoluteFrequency' | translate }}</div>
+                                    </div>
+                                </div>
+                                <div class="fdz-table-cell fdz-table-cell-fixed">
+                                    <div class="fdz-table-cell-content">
+                                        <div class="fdz-table-cell-ellipsis">{{'variable-management.detail.statistics.validRelativeFrequency' | translate }}</div>
+                                    </div>
+                                </div>
+                                <div class="fdz-table-cell fdz-table-cell-fixed">
+                                    <div class="fdz-table-cell-content">
+                                        <div class="fdz-table-cell-ellipsis">{{'variable-management.detail.statistics.relativeFrequency' | translate }}</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="fdz-table-row" ng-repeat="row in frequencies" id="row{{$index}}" ng-class="(6 > {{$index}}) || ({{$index}} > ({{frequencies.length-5}})) ? '' : 'ng-hide'">
+                                <div class="fdz-table-cell">{{row.value}}{{row.code}}</div>
+                                <div class="fdz-table-cell fdz-table-cell-fixed">
+                                    <div class="fdz-table-cell-content">
+                                        <div class="fdz-table-cell-ellipsis">{{row.label[currentLanguage]}}</div>
+                                    </div>
+                                </div>
+                                <div class="fdz-table-cell">{{row.code ? 'm' : ''}}</div>
+                                <div class="fdz-table-cell">{{row.absoluteFrequency}}</div>
+                                <div class="fdz-table-cell">{{row.validRelativeFrequency}}</div>
+                                <div class="fdz-table-cell">{{row.relativeFrequency}}</div>
+                            </div>
+                        </div>
+                    </md-card-content>
+                </md-card>
             </div>
             <div layout="row">
-              <md-card flex="100">
-                <md-card-header>
-                  <md-card-header-text>
-                    <span class="md-headline">{{'variable-management.detail.generation-details' | translate }}</span>
-                  </md-card-header-text>
-                </md-card-header>
-                <md-content style="background-color:white;">
-                  <section layout-margin>
-                  <section ng-if="variable.generationDetails.description[currentLanguage]">
-                    <span style="font-weight: bold;">{{'variable-management.detail.generation-details-description' | translate }}: </span><span>{{variable.generationDetails.description[currentLanguage]}}</span>
-                  </section>
-                  <section ng-if="variable.generationDetails.ruleExpressionLanguage">
-                    <span style="font-weight: bold;">{{'variable-management.detail.generation-details-expression-language' | translate }}: </span><span>{{variable.generationDetails.ruleExpressionLanguage}}</span>
-                  </section>
-                  <section ng-if="variable.generationDetails.rule">
-                    <span style="font-weight: bold;">{{'variable-management.detail.generation-details-rule' | translate }}: </span>
-                    <md-tooltip md-direction="top">
-                      {{'variable-management.detail.content.' + generationCodeFlag | translate }}
-                    </md-tooltip>
-                    <pre ng-click="showGenerationCode()" ng-class="generationCodeFlag === 'collapse'? 'fdz-code-container': 'fdz-code-container fdz-hidden-code'">{{variable.generationDetails.rule}}</pre>
-                  </section>
-                </section>
-                </md-content>
-              </md-card>
+                <md-card flex>
+                    <md-card-header>
+                        <md-card-header-text>
+                            <h2 class="md-headline">{{'variable-management.detail.generation-details' | translate }}</h2>
+                        </md-card-header-text>
+                    </md-card-header>
+                    <md-divider></md-divider>
+                    <md-card-content>
+                        <section ng-if="variable.generationDetails.description[currentLanguage]">
+                            <span style="font-weight: bold;">{{'variable-management.detail.generation-details-description' | translate }}:
+                            </span>
+                            <span>{{variable.generationDetails.description[currentLanguage]}}</span>
+                        </section>
+                        <section ng-if="variable.generationDetails.ruleExpressionLanguage">
+                            <span style="font-weight: bold;">{{'variable-management.detail.generation-details-expression-language' | translate }}:
+                            </span>
+                            <span>{{variable.generationDetails.ruleExpressionLanguage}}</span>
+                        </section>
+                        <section ng-if="variable.generationDetails.rule">
+                            <span style="font-weight: bold;">{{'variable-management.detail.generation-details-rule' | translate }}:
+                            </span>
+                            <md-tooltip md-direction="top">
+                                {{'variable-management.detail.content.' + generationCodeFlag | translate }}
+                            </md-tooltip>
+                            <pre ng-click="showGenerationCode()" ng-class="generationCodeFlag === 'collapse'? 'fdz-code-container': 'fdz-code-container fdz-hidden-code'">{{variable.generationDetails.rule}}</pre>
+                        </section>
+                    </md-card-content>
+                </md-card>
             </div>
         </md-card-content>
     </md-card>

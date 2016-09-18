@@ -5,65 +5,60 @@
     <md-card>
         <md-card-header>
             <md-card-header-text>
-                <h1>(instrument.title) {{question.number}}</h1>
+                <h1>(instrument.title)
+                    {{question.number}}</h1>
             </md-card-header-text>
         </md-card-header>
-        <md-card-content class="md-padding" layout="column">
-            <div layout="row" layout-xs="column" flex>
-                <md-card flex="50" flex-xs="100">
+        <md-card-content style="padding-top: 0px;" layout="column">
+            <div layout="row" layout-sm="column" layout-xs="column">
+                <md-card flex="50" flex-sm="100" flex-xs="100">
                     <div style="max-height: 400px; overflow-y:auto;">
                         <a ng-href="public/files/questions/{{question.id}}" alt="{{question.questionText[currentLanguage] }}" target="_blank">
                             <img alt="" style="width:auto; max-width:100%; height:auto;" ng-src="public/files/questions/{{question.id}}"/>
                         </a>
                     </div>
                 </md-card>
-                <md-card flex="50" flex-xs="100">
+                <md-card flex="50" flex-sm="100" flex-xs="100">
                     <md-card-header>
                         <md-card-header-text>
-                            <span class="md-headline">{{'question-management.detail.related-informations' | translate }}</span>
+                            <h2 class="md-headline">{{'question-management.detail.related-informations' | translate }}</h2>
                         </md-card-header-text>
                     </md-card-header>
-                    <md-content style="background-color:white;">
+                    <md-divider></md-divider>
+                    <md-card-content>
                         <section>
-                            <md-button ng-click="showStudy()">
-                                <section>
-                                    <md-icon md-svg-src="/assets/images/icons/study.svg" class="fdz-detail-icon"></md-icon>
-                                    <span>{{'study-management.home.title' | translate }}</span>
-                                </section>
+                            <md-button class="md-raised" ng-click="showStudy()">
+                                <md-icon md-svg-src="/assets/images/icons/study.svg" class="fdz-detail-icon"></md-icon>
+                                <span>{{'study-management.home.title' | translate }}</span>
                             </md-button>
-                            <md-button ng-click="addToNotepad()">
-                                <section>
-                                    <md-icon md-svg-src="/assets/images/icons/addToshop.svg" class="fdz-detail-icon"></md-icon>
-                                    <span>{{'notepad-management.home.title' | translate }}</span>
-                                </section>
+                            <md-button class="md-raised" ng-click="addToNotepad()">
+                                <md-icon md-svg-src="/assets/images/icons/addToshop.svg" class="fdz-detail-icon"></md-icon>
+                                <span>{{'notepad-management.home.title' | translate }}</span>
                             </md-button>
                         </section>
                         <section>
-                            <md-button ng-disabled="true">
-                                <section>
-                                    <md-icon md-svg-src="/assets/images/icons/instrument.svg" class="fdz-detail-icon"></md-icon>
-                                    <span>{{'instrument-management.home.title' | translate }}</span>
-                                </section>
+                            <md-button class="md-raised" ng-disabled="true">
+                                <md-icon md-svg-src="/assets/images/icons/instrument.svg" class="fdz-detail-icon"></md-icon>
+                                <span>{{'instrument-management.home.title' | translate }}</span>
                             </md-button>
                         </section>
                         <section>
-                            <md-button ng-click="showVariables()">
-                                <section>
-                                    <md-icon md-svg-src="/assets/images/icons/variable.svg" class="fdz-detail-icon"></md-icon>
-                                    <span>{{'variable-management.home.title' | translate }}</span>
-                                </section>
+                            <md-button class="md-raised" ng-click="showVariables()">
+                                <md-icon md-svg-src="/assets/images/icons/variable.svg" class="fdz-detail-icon"></md-icon>
+                                <span>{{'variable-management.home.title' | translate }}</span>
                             </md-button>
                         </section>
-                    </md-content>
+                    </md-card-content>
                 </md-card>
             </div>
-            <div layout="row" layout-xs="column" flex>
-                <md-card flex="50" flex-xs="100">
+            <div layout="row" layout-xs="column" layout-sm="column">
+                <md-card flex="50" flex-xs="100" flex-sm="100">
                     <md-card-header>
                         <md-card-header-text>
-                            <span class="md-headline">{{'question-management.detail.predecessors' | translate }}</span>
+                            <h2 class="md-headline">{{'question-management.detail.predecessors' | translate }}</h2>
                         </md-card-header-text>
                     </md-card-header>
+                    <md-divider></md-divider>
                     <md-content style="background-color:white;">
                         <section ng-repeat="predecessor in predecessors" md-ink-ripple class="fdz-search-result fdz-card-header-border">
                             <section ng-if="predecessor.name === 'notFoundQuestion'" layout="row">
@@ -78,12 +73,13 @@
                         </section>
                     </md-content>
                 </md-card>
-                <md-card flex="50" flex-xs="100">
+                <md-card flex="50" flex-xs="100" flex-sm="100">
                     <md-card-header>
                         <md-card-header-text>
-                            <span class="md-headline">{{'question-management.detail.successors' | translate }}</span>
+                            <h2 class="md-headline">{{'question-management.detail.successors' | translate }}</h2>
                         </md-card-header-text>
                     </md-card-header>
+                    <md-divider></md-divider>
                     <md-content style="background-color:white;">
                         <section ng-repeat="successor in successors" md-ink-ripple class="fdz-search-result fdz-card-header-border">
                             <section ng-if="successor.name === 'notFoundQuestion'" layout="row">
