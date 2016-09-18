@@ -39,7 +39,8 @@ angular.module('metadatamanagementApp')
     $scope.showRows = function() {
       if ($scope.frequencies.length > 10) {
         if ($scope.tableFlag === 'expand') {
-          var hiddenRows = angular.element('.ng-hide');
+          var hiddenRows = angular.element('.fdz-table-row.ng-hide');
+          console.log(hiddenRows);
           $scope.tableFlag = 'collapse';
           for (var i = 0; i < hiddenRows.length; i++) {
             angular.element('#' + hiddenRows[i]
@@ -47,7 +48,7 @@ angular.module('metadatamanagementApp')
           }
           angular.element('#row5').addClass('ng-hide').removeClass('ng-show');
         }else {
-          var displayedRows = angular.element('.ng-show');
+          var displayedRows = angular.element('.fdz-table-row.ng-show');
           $scope.tableFlag = 'expand';
           for (var j = 0; j < displayedRows.length; j++) {
             angular.element('#' + displayedRows[j]
