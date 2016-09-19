@@ -15,7 +15,6 @@ angular.module('metadatamanagementApp')
         $scope.cleanedAccessWays = '' + $scope.variable.accessWays + '"';
         $scope.cleanedAccessWays = $scope.cleanedAccessWays
         .replace(/[\[\]'"]/g, '');
-        console.log($scope.variable);
         if ($scope.variable.distribution.validResponses) {
           $scope.frequencies = $scope.variable.distribution.validResponses
           .concat($scope.variable.distribution.missings);
@@ -40,7 +39,6 @@ angular.module('metadatamanagementApp')
       if ($scope.frequencies.length > 10) {
         if ($scope.tableFlag === 'expand') {
           var hiddenRows = angular.element('.fdz-table-row.ng-hide');
-          console.log(hiddenRows);
           $scope.tableFlag = 'collapse';
           for (var i = 0; i < hiddenRows.length; i++) {
             angular.element('#' + hiddenRows[i]

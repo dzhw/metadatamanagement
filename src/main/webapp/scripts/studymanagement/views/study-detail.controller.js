@@ -27,9 +27,6 @@ angular.module('metadatamanagementApp')
             function(dataSets) {
               $scope.dataSets = dataSets._embedded.dataSets;
             });
-          console.log($scope.study);
-        } else {
-          console.log(false);
         }
       }, true);
       $scope.uploadTexTemplate = function(file, dataSetId) {

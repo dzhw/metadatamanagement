@@ -26,7 +26,6 @@ angular.module('metadatamanagementApp').service('ShoppingCartService',
         if (searchInShoppingCart(studyId) === 'notFound') {
           StudyReferencedResource.getCustomStudy({id: studyId})
           .$promise.then(function(study) {
-            console.log(study);
             markedStudies.push({
               id: studyId,
               text: study.title[$rootScope.currentLanguage],

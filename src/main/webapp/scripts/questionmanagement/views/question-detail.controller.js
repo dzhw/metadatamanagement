@@ -61,7 +61,6 @@ angular.module('metadatamanagementApp')
       };
       $scope.$watch('question', function() {
         if ($scope.question.$resolved) {
-          console.log($scope.question);
           loadSuccessorsQuestionTextOnly($scope.question.successors)
           .then(function(customSuccesors) {
             $scope.successors = checkInvalidQuestionIds(

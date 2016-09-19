@@ -86,7 +86,6 @@ angular.module('metadatamanagementApp').service('StudyUploadService',
           study.dataAcquisitionProjectId = dataAcquisitionProjectId;
           study.releases = releasesForStudy;
           objects = StudyBuilderService.getStudies(study);
-          console.log(study);
           StudyBuilderService.getParseErrors
             .forEach(function(errorMessage) {
               JobLoggingService.error(errorMessage.errorMessage,
