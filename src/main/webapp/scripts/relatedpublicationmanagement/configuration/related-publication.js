@@ -8,8 +8,7 @@ angular.module('metadatamanagementApp')
         url: '/related-publications/{id}',
         data: {
           authorities: [],
-          //TODO replace with i18n.
-          pageTitle: 'Publikation'
+          pageTitle: 'related-publication-management.home.title'
         },
         views: {
           'content@': {
@@ -21,12 +20,8 @@ angular.module('metadatamanagementApp')
         resolve: {
           translatePartialLoader: ['$translatePartialLoader',
             function($translatePartialLoader) {
-              //TODO replace. just fake at the moment
               $translatePartialLoader.addPart(
                 'relatedPublication.management');
-              $translatePartialLoader.addPart('study.management');
-              $translatePartialLoader.addPart('question.management');
-              $translatePartialLoader.addPart('variable.management');
             }
           ]
         },

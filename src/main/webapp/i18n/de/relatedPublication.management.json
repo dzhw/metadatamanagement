@@ -1,7 +1,16 @@
 {
   "related-publication-management": {
+    "home": {
+      "title": "Publikation"
+    },
     "detail": {
-      "related-information": "Zugehörige Informationen"
+      "related-information": "Zugehörige Informationen",
+      "study-title": "Study",
+      "questions-title": "Questions",
+      "variables-title": "Variables",
+      "citation-text": "Zitationstext",
+      "abstract": "Abstrakt",
+      "doi": "DOI"
     }
   }
 }
