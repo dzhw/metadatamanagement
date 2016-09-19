@@ -101,20 +101,6 @@ public class ElasticsearchUpdateQueueService {
   }
 
   /**
-   * Attach multiple items to the queue.
-   * 
-   * @param documentIds The ids of the documents to be updated or deleted
-   * @param documentType the type of the document to be updated or deleted
-   * @param action delete or update
-   */
-  public void enqueue(Iterable<String> documentIds, ElasticsearchType documentType,
-      ElasticsearchUpdateQueueAction action) {
-    for (String documentId : documentIds) {
-      this.enqueue(documentId, documentType, action);
-    }
-  }
-
-  /**
    * Process the update queue every 5 minutes.
    */
   @Scheduled(fixedRate = 1000 * 60 * 5, initialDelay = 1000 * 60 * 5)

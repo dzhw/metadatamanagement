@@ -4,8 +4,6 @@ import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertThat;
 
 import java.time.LocalDateTime;
-import java.util.Arrays;
-import java.util.List;
 
 import org.junit.After;
 import org.junit.Test;
@@ -35,20 +33,6 @@ public class ElasticsearchUpdateQueueServiceTest extends AbstractTest {
         ElasticsearchUpdateQueueAction.DELETE);
 
     assertThat(itemRepository.count(), is(1L));
-
-    elasticsearchUpdateQueueService.processQueue();
-
-    assertThat(itemRepository.count(), is(0L));
-  }
-
-  @Test
-  public void testEnqueuingOfMultipleDocuments() {
-    List<String> documentIds = Arrays.asList("id1", "id2", "id3");
-
-    elasticsearchUpdateQueueService.enqueue(documentIds, ElasticsearchType.variables,
-        ElasticsearchUpdateQueueAction.DELETE);
-
-    assertThat(itemRepository.count(), is(3L));
 
     elasticsearchUpdateQueueService.processQueue();
 
