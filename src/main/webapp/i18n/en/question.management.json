@@ -18,7 +18,7 @@
       "question": "Question",
       "predecessors": "Predecessors",
       "successors": "Successors",
-      "related-informations": "Related Informations",
+      "related-information": "Related Information",
       "not-found": "The {{id}} references to an unknown Question.",
       "not-found-references": "The id {{id}} has no References to Questions."
     },

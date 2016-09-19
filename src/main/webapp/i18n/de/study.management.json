@@ -6,7 +6,7 @@
     "detail": {
       "study": "Study",
       "study-informations": "Details der Studie",
-      "related-informations": "Zugehörige Informationen",
+      "related-information": "Zugehörige Informationen",
       "not-found": "Die id {{id}} referenziert auf eine unbekannte Studie.",
       "not-found-references": "Die id {{id}} hat keine Referenzen auf Studien.",
       "description": "Beschreibung der Studie",

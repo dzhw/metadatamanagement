@@ -7,7 +7,7 @@
         </md-card-header>
         <md-card-content class="md-padding" layout="column">
             <div layout="row" layout-xs="column">
-                <md-card flex="50" flex-xs="100">
+                <md-card flex>
                     <md-card-header>
                         <md-card-header-text>
                             <span class="md-headline">Informationen im Header</span>
@@ -16,6 +16,35 @@
                     <md-content style="background-color:white;">
                         <span style="font-weight: bold;">Eine weitere Information</span>
                     </md-content>
+                </md-card>
+                <md-card>
+                    <md-card-header>
+                        <md-card-header-text>
+                            <h2 class="md-headline">{{'related-publication-management.detail.related-information' | translate }}</h2>
+                        </md-card-header-text>
+                    </md-card-header>
+                    <md-divider></md-divider>
+                    <md-card-content>
+                      <section>
+                          <md-button class="md-raised" ng-disabled="true" ng-click="showStudy()">
+                              <md-icon md-svg-src="/assets/images/icons/study.svg" class="fdz-detail-icon"></md-icon>
+                              <span>{{'study-management.home.title' | translate }}</span>
+                          </md-button>
+                      </section>
+                        <section>
+                            <md-button class="md-raised" ng-disabled="true" ng-click="showQuestions()">
+                                <md-icon md-svg-src="/assets/images/icons/question.svg" class="fdz-detail-icon"></md-icon>
+                                <span>{{'question-management.home.title' | translate }}</span>
+                            </md-button>
+                        </section>
+
+                        <section>
+                            <md-button class="md-raised" ng-disabled="true" ng-click="showVariable()">
+                                <md-icon md-svg-src="/assets/images/icons/variable.svg" class="fdz-detail-icon"></md-icon>
+                                <span>{{'variable-management.home.title' | translate }}</span>
+                            </md-button>
+                        </section>
+                    </md-card-content>
                 </md-card>
             </div>
         </md-card-content>

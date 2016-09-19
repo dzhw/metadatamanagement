@@ -18,7 +18,7 @@
       "question": "Frage",
       "predecessors": "Vorgänger",
       "successors": "Nachfolger",
-      "related-informations": "Zugehörige Informationen",
+      "related-information": "Zugehörige Informationen",
       "not-found": "Die id {{id}} referenziert auf eine unbekannte Frage.",
       "not-found-references": "Die id {{id}} hat keine Referenzen auf Fragen."
     },

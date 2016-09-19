@@ -22,6 +22,10 @@ angular.module('metadatamanagementApp')
           translatePartialLoader: ['$translatePartialLoader',
             function($translatePartialLoader) {
               //TODO replace. just fake at the moment
+              $translatePartialLoader.addPart(
+                'relatedPublication.management');
+              $translatePartialLoader.addPart('study.management');
+              $translatePartialLoader.addPart('question.management');
               $translatePartialLoader.addPart('variable.management');
             }
           ]
