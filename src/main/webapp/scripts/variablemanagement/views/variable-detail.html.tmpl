@@ -32,7 +32,7 @@
                         <section style="margin-bottom: 0.5em;" ng-if="variable.accessWays">
                             <span style="font-weight: bold;">{{'variable-management.detail.access-ways' | translate }}:
                             </span>
-                            <span>{{cleanedAccessWays}}</span>
+                            <span>{{variable.accessWays.join(', ')}}</span>
                         </section>
                         <section style="margin-bottom: 0.5em;" ng-if="variable.description[currentLanguage]">
                             <span style="font-weight: bold;">{{'variable-management.detail.description' | translate }}:
@@ -260,7 +260,7 @@
                             <md-tooltip md-direction="top">
                                 {{'variable-management.detail.content.' + generationCodeFlag | translate }}
                             </md-tooltip>
-                            <pre ng-click="showGenerationCode()" ng-class="generationCodeFlag === 'collapse'? 'fdz-code-container': 'fdz-code-container fdz-hidden-code'">{{variable.generationDetails.rule}}</pre>
+                            <pre ng-click="switchGenerationCode()" class="fdz-code-container" ng-class="{'fdz-hidden-code': generationCodeHidden}">{{variable.generationDetails.rule}}</pre>
                         </section>
                     </md-card-content>
                 </md-card>

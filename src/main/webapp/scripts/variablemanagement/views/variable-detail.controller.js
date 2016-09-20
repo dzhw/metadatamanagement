@@ -6,13 +6,10 @@ angular.module('metadatamanagementApp')
     $scope.frequencies = [];
     $scope.cleanedAccessWays = '';
     $scope.tableFlag = 'expand';
-    $scope.generationCodeFlag = 'expand';
+    $scope.generationCodeHidden = true;
 
     entity.$promise.then(function(variable) {
       $scope.variable = variable;
-      $scope.cleanedAccessWays = '' + $scope.variable.accessWays + '"';
-      $scope.cleanedAccessWays = $scope.cleanedAccessWays
-      .replace(/[\[\]'"]/g, '');
       if ($scope.variable.distribution.validResponses) {
         $scope.frequencies = $scope.variable.distribution.validResponses
         .concat($scope.variable.distribution.missings);
@@ -53,12 +50,8 @@ angular.module('metadatamanagementApp')
         }
       }
     };
-    $scope.showGenerationCode = function() {
-      if ($scope.generationCodeFlag === 'collapse') {
-        $scope.generationCodeFlag = 'expand';
-      } else {
-        $scope.generationCodeFlag = 'collapse';
-      }
+    $scope.switchGenerationCode = function() {
+      $scope.generationCodeHidden = !$scope.generationCodeHidden;
     };
     /* function to open dialog for variables */
     $scope.showSurveys = function() {
