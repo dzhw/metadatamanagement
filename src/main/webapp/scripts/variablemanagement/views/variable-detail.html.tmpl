@@ -5,7 +5,7 @@
     <md-card>
         <md-card-header>
             <md-card-header-text>
-                <h1>{{variable.label[currentLanguage]}}
+                <h1 class="md-headline">{{variable.label[currentLanguage]}}
                     ({{variable.name}})</h1>
             </md-card-header-text>
         </md-card-header>
@@ -14,7 +14,7 @@
                 <md-card flex>
                     <md-card-header>
                         <md-card-header-text>
-                            <h2 class="md-headline">{{'variable-management.detail.variable-informations' | translate }}</h2>
+                            <h2 class="md-title">{{'variable-management.detail.variable-informations' | translate }}</h2>
                         </md-card-header-text>
                     </md-card-header>
                     <md-divider></md-divider>
@@ -59,7 +59,7 @@
                 <md-card>
                     <md-card-header>
                         <md-card-header-text>
-                            <h2 class="md-headline">{{'variable-management.detail.related-information' | translate }}</h2>
+                            <h2 class="md-title">{{'variable-management.detail.related-information' | translate }}</h2>
                         </md-card-header-text>
                     </md-card-header>
                     <md-divider></md-divider>
@@ -105,7 +105,7 @@
                 <md-card flex="70" flex-sm="100" flex-xs="100">
                     <md-card-header>
                         <md-card-header-text>
-                            <h2 class="md-headline">{{'variable-management.detail.statistics.graphics' | translate }}</h2>
+                            <h2 class="md-title">{{'variable-management.detail.statistics.graphics' | translate }}</h2>
                         </md-card-header-text>
                     </md-card-header>
                     <md-divider></md-divider>
@@ -116,7 +116,7 @@
                 <md-card flex="30" flex-sm="100" flex-xs="100">
                     <md-card-header>
                         <md-card-header-text>
-                            <h2 class="md-headline">{{'variable-management.detail.statistics.statistics' | translate }}</h2>
+                            <h2 class="md-title">{{'variable-management.detail.statistics.statistics' | translate }}</h2>
                         </md-card-header-text>
                     </md-card-header>
                     <md-divider></md-divider>
@@ -126,16 +126,6 @@
                                 <span style="font-weight: bold;">{{'variable-management.detail.statistics.firstQuartile' | translate}}:
                                 </span>
                                 <span>{{variable.distribution.statistics.firstQuartile}}</span>
-                            </section>
-                            <section ng-if="variable.distribution.statistics.highWhisker">
-                                <span style="font-weight: bold;">{{'variable-management.detail.statistics.highWhisker' | translate}}:
-                                </span>
-                                <span>{{variable.distribution.statistics.highWhisker}}</span>
-                            </section>
-                            <section ng-if="variable.distribution.statistics.lowWhisker">
-                                <span style="font-weight: bold;">{{'variable-management.detail.statistics.lowWhisker' | translate}}:
-                                </span>
-                                <span>{{variable.distribution.statistics.lowWhisker}}</span>
                             </section>
                             <section ng-if="variable.distribution.statistics.maximum">
                                 <span style="font-weight: bold;">{{'variable-management.detail.statistics.maximum' | translate}}:
@@ -157,21 +147,6 @@
                                 </span>
                                 <span>{{variable.distribution.statistics.thirdQuartile}}</span>
                             </section>
-                            <section ng-if="variable.distribution.totalAbsoluteFrequency">
-                                <span style="font-weight: bold;">{{'variable-management.detail.statistics.totalAbsoluteFrequency' | translate}}:
-                                </span>
-                                <span>{{variable.distribution.totalAbsoluteFrequency}}</span>
-                            </section>
-                            <section ng-if="variable.distribution.totalValidAbsoluteFrequency">
-                                <span style="font-weight: bold;">{{'variable-management.detail.statistics.totalValidAbsoluteFrequency' | translate}}:
-                                </span>
-                                <span>{{variable.distribution.totalValidAbsoluteFrequency}}</span>
-                            </section>
-                            <section ng-if="variable.distribution.totalValidRelativeFrequency">
-                                <span style="font-weight: bold;">{{'variable-management.detail.statistics.totalValidRelativeFrequency' | translate}}:
-                                </span>
-                                <span>{{variable.distribution.totalValidRelativeFrequency}}</span>
-                            </section>
                         </section>
                     </md-card-content>
                 </md-card>
@@ -180,7 +155,7 @@
                 <md-card flex>
                     <md-card-header>
                         <md-card-header-text>
-                            <h2 class="md-headline">{{'variable-management.detail.frequencies' | translate }}</h2>
+                            <h2 class="md-title">{{'variable-management.detail.frequencies' | translate }}</h2>
                         </md-card-header-text>
                     </md-card-header>
                     <md-divider></md-divider>
@@ -233,6 +208,29 @@
                                 <div class="fdz-table-cell">{{row.validRelativeFrequency}}</div>
                                 <div class="fdz-table-cell">{{row.relativeFrequency}}</div>
                             </div>
+                            <div class="fdz-table-row">
+                                <div class="fdz-table-cell fdz-table-cell-fixed">
+                                </div>
+                                <div class="fdz-table-cell fdz-table-cell-fixed">
+                                </div>
+                                <div class="fdz-table-cell fdz-table-cell-fixed">
+                                </div>
+                                <div class="fdz-table-cell fdz-table-cell-fixed">
+                                    <div class="fdz-table-cell-content">
+                                        <div class="fdz-table-cell-ellipsis">{{variable.distribution.totalAbsoluteFrequency}}</div>
+                                    </div>
+                                </div>
+                                <div class="fdz-table-cell fdz-table-cell-fixed">
+                                    <div class="fdz-table-cell-content">
+                                        <div class="fdz-table-cell-ellipsis">{{variable.distribution.totalValidRelativeFrequency}}</div>
+                                    </div>
+                                </div>
+                                <div class="fdz-table-cell fdz-table-cell-fixed">
+                                    <div class="fdz-table-cell-content">
+                                        <div class="fdz-table-cell-ellipsis">100</div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </md-card-content>
                 </md-card>
@@ -241,7 +239,7 @@
                 <md-card flex>
                     <md-card-header>
                         <md-card-header-text>
-                            <h2 class="md-headline">{{'variable-management.detail.generation-details' | translate }}</h2>
+                            <h2 class="md-title">{{'variable-management.detail.generation-details' | translate }}</h2>
                         </md-card-header-text>
                     </md-card-header>
                     <md-divider></md-divider>
