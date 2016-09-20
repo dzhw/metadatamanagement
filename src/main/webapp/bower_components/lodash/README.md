@@ -1,4 +1,4 @@
-# lodash v4.15.0
+# lodash v4.16.0
 
 [Site](https://lodash.com/) |
 [Docs](https://lodash.com/docs) |
@@ -12,7 +12,7 @@
 The [Lodash](https://lodash.com/) library exported as a [UMD](https://github.com/umdjs/umd) module.
 
 Generated using [lodash-cli](https://www.npmjs.com/package/lodash-cli):
-```bash
+```shell
 $ npm run build
 $ lodash -o ./dist/lodash.js
 $ lodash core -o ./dist/lodash.core.js
@@ -20,12 +20,46 @@ $ lodash core -o ./dist/lodash.core.js
 
 ## Download
 
-Lodash is released under the [MIT license](https://raw.githubusercontent.com/lodash/lodash/4.15.0/LICENSE) & supports [modern environments](#support).<br>
+ * [Core build](https://raw.githubusercontent.com/lodash/lodash/4.16.0/dist/lodash.core.js) ([~4 kB gzipped](https://raw.githubusercontent.com/lodash/lodash/4.16.0/dist/lodash.core.min.js))
+ * [Full build](https://raw.githubusercontent.com/lodash/lodash/4.16.0/dist/lodash.js) ([~23 kB gzipped](https://raw.githubusercontent.com/lodash/lodash/4.16.0/dist/lodash.min.js))
+ * [CDN copies](https://www.jsdelivr.com/projects/lodash)
+
+Lodash is released under the [MIT license](https://raw.githubusercontent.com/lodash/lodash/4.16.0/LICENSE) & supports [modern environments](#support).<br>
 Review the [build differences](https://github.com/lodash/lodash/wiki/build-differences) & pick one that’s right for you.
 
- * [Core build](https://raw.githubusercontent.com/lodash/lodash/4.15.0/dist/lodash.core.js) ([~4 kB gzipped](https://raw.githubusercontent.com/lodash/lodash/4.15.0/dist/lodash.core.min.js))
- * [Full build](https://raw.githubusercontent.com/lodash/lodash/4.15.0/dist/lodash.js) ([~23 kB gzipped](https://raw.githubusercontent.com/lodash/lodash/4.15.0/dist/lodash.min.js))
- * [CDN copies](https://www.jsdelivr.com/projects/lodash)
+## Installation
+
+In a browser:
+```html
+<script src="lodash.js"></script>
+```
+
+Using npm:
+```shell
+$ npm i -g npm
+$ npm i --save lodash
+```
+
+In Node.js:
+```js
+// Load the full build.
+var _ = require('lodash');
+// Load the core build.
+var _ = require('lodash/core');
+// Load the FP build for immutable auto-curried iteratee-first data-last methods.
+var fp = require('lodash/fp');
+
+// Load method categories.
+var array = require('lodash/array');
+var object = require('lodash/fp/object');
+
+// Cherry-pick methods for smaller browserify/rollup/webpack bundles.
+var chunk = require('lodash/chunk');
+var extend = require('lodash/fp/extend');
+```
+
+**Note:**<br>
+Install [n_](https://www.npmjs.com/package/n_) for Lodash use in the Node.js < 6 REPL.
 
 ## Why Lodash?
 
