@@ -3,38 +3,35 @@
 angular.module('metadatamanagementApp')
   .controller('VariableDetailController', function(DialogService, blockUI,
     $scope, entity, $state, ShoppingCartService) {
-
-    $scope.variable = entity;
     $scope.frequencies = [];
     $scope.cleanedAccessWays = '';
     $scope.tableFlag = 'expand';
     $scope.generationCodeFlag = 'expand';
 
-    $scope.$watch('variable', function() {
-      if ($scope.variable.$resolved) {
-        $scope.cleanedAccessWays = '' + $scope.variable.accessWays + '"';
-        $scope.cleanedAccessWays = $scope.cleanedAccessWays
-        .replace(/[\[\]'"]/g, '');
-        if ($scope.variable.distribution.validResponses) {
-          $scope.frequencies = $scope.variable.distribution.validResponses
-          .concat($scope.variable.distribution.missings);
-          if ($scope.frequencies.length > 10) {
-            $scope.frequencies.splice(5, 0, {
-              value: '...',
-              label: {
-                de: '...',
-                en: '...'
-              },
-              absoluteFrequency: '...',
-              validRelativeFrequency: '...',
-              relativeFrequency: '...'
-            });
-          }
-        } else {
-          $scope.frequencies = $scope.variable.distribution.missings;
+    entity.$promise.then(function(variable) {
+      $scope.variable = variable;
+      $scope.cleanedAccessWays = '' + $scope.variable.accessWays + '"';
+      $scope.cleanedAccessWays = $scope.cleanedAccessWays
+      .replace(/[\[\]'"]/g, '');
+      if ($scope.variable.distribution.validResponses) {
+        $scope.frequencies = $scope.variable.distribution.validResponses
+        .concat($scope.variable.distribution.missings);
+        if ($scope.frequencies.length > 10) {
+          $scope.frequencies.splice(5, 0, {
+            value: '...',
+            label: {
+              de: '...',
+              en: '...'
+            },
+            absoluteFrequency: '...',
+            validRelativeFrequency: '...',
+            relativeFrequency: '...'
+          });
         }
+      } else {
+        $scope.frequencies = $scope.variable.distribution.missings;
       }
-    }, true);
+    });
     $scope.showRows = function() {
       if ($scope.frequencies.length > 10) {
         if ($scope.tableFlag === 'expand') {
