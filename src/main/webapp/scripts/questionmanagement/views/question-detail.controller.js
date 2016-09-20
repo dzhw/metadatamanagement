@@ -8,7 +8,6 @@ angular.module('metadatamanagementApp')
       ShoppingCartService, $stateParams, DialogService,
       QuestionReferencedResource, blockUI, entity, $q, $state,
       StudyReferencedResource) {
-      $scope.question = entity;
       $scope.predecessors = [];
       $scope.successors = [];
 
@@ -60,24 +59,23 @@ angular.module('metadatamanagementApp')
         }
         return tempQuestions;
       };
-      $scope.$watch('question', function() {
-        if ($scope.question.$resolved) {
-          StudyReferencedResource
-          .getReferencedStudy({id: $scope.question.dataAcquisitionProjectId})
-          .$promise.then(function(study) {
-            $scope.study = study;
-          });
-          loadSuccessorsQuestionTextOnly($scope.question.successors)
-          .then(function(customSuccesors) {
-            $scope.successors = checkInvalidQuestionIds(
-              $scope.question.successors, customSuccesors._embedded.questions);
-          });
-          loadPredecessorsQuestionTextOnly($scope.question.id)
-          .then(function(predecessors) {
-            $scope.predecessors = predecessors._embedded.questions;
-          });
-        }
-      }, true);
+      entity.$promise.then(function(question) {
+        $scope.question = question;
+        StudyReferencedResource
+        .getReferencedStudy({id: $scope.question.dataAcquisitionProjectId})
+        .$promise.then(function(study) {
+          $scope.study = study;
+        });
+        loadSuccessorsQuestionTextOnly($scope.question.successors)
+        .then(function(customSuccesors) {
+          $scope.successors = checkInvalidQuestionIds(
+            $scope.question.successors, customSuccesors._embedded.questions);
+        });
+        loadPredecessorsQuestionTextOnly($scope.question.id)
+        .then(function(predecessors) {
+          $scope.predecessors = predecessors._embedded.questions;
+        });
+      });
 
       /* function to open dialog for variables */
       $scope.showVariables = function() {
