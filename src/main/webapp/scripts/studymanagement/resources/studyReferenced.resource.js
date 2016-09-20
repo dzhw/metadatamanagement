@@ -4,7 +4,7 @@ angular.module('metadatamanagementApp').factory('StudyReferencedResource',
 function($resource) {
   return $resource('', {},
   {
-    'getCustomStudy':
+    'getReferencedStudy':
     {
       method: 'GET',
       url: '/api/studies/:id',

@@ -6,7 +6,8 @@ angular.module('metadatamanagementApp')
 
     function($scope, $rootScope, localStorageService,
       ShoppingCartService, $stateParams, DialogService,
-      QuestionReferencedResource, blockUI, entity, $q, $state) {
+      QuestionReferencedResource, blockUI, entity, $q, $state,
+      StudyReferencedResource) {
       $scope.question = entity;
       $scope.predecessors = [];
       $scope.successors = [];
@@ -61,6 +62,11 @@ angular.module('metadatamanagementApp')
       };
       $scope.$watch('question', function() {
         if ($scope.question.$resolved) {
+          StudyReferencedResource
+          .getReferencedStudy({id: $scope.question.dataAcquisitionProjectId})
+          .$promise.then(function(study) {
+            $scope.study = study;
+          });
           loadSuccessorsQuestionTextOnly($scope.question.successors)
           .then(function(customSuccesors) {
             $scope.successors = checkInvalidQuestionIds(

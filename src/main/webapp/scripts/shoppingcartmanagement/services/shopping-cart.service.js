@@ -24,7 +24,7 @@ angular.module('metadatamanagementApp').service('ShoppingCartService',
       var addToShoppingCart = function(studyId) {
         var markedStudies = getShoppingCart();
         if (searchInShoppingCart(studyId) === 'notFound') {
-          StudyReferencedResource.getCustomStudy({id: studyId})
+          StudyReferencedResource.getReferencedStudy({id: studyId})
           .$promise.then(function(study) {
             markedStudies.push({
               id: studyId,
