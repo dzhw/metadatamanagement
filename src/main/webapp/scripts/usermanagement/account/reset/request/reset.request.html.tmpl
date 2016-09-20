@@ -1,19 +1,19 @@
 <div class="container">
     <div class="row">
         <div class="col-md-8 col-md-offset-2">
-            <h1 data-translate="reset.request.title">Reset your password</h1>
+            <h1 class="md-headline fdz-bootstrap-headline" data-translate="user-management.reset.request.title">Reset your password</h1>
 
-            <div class="alert alert-danger" data-translate="reset.request.messages.notfound" ng-show="errorEmailNotExists">
+            <div class="alert alert-danger" data-translate="user-management.reset.request.messages.notfound" ng-show="errorEmailNotExists">
                 <strong>E-Mail address isn't registered!</strong>
                 Please check and try again.
             </div>
 
             <div class="alert alert-warning" ng-hide="success">
-                <p data-translate="reset.request.messages.info">Enter the e-mail address you used to register.</p>
+                <p data-translate="user-management.reset.request.messages.info">Enter the e-mail address you used to register.</p>
             </div>
 
             <div class="alert alert-success" ng-show="success == 'OK'">
-                <p data-translate="reset.request.messages.success">Check your e-mails for details on how to reset your password.</p>
+                <p data-translate="user-management.reset.request.messages.success">Check your e-mails for details on how to reset your password.</p>
             </div>
 
             <form ng-show="!success" name="form" novalidate ng-submit="requestReset()" show-validation>
@@ -35,7 +35,7 @@
                         </p>
                     </div>
                 </div>
-                <button type="submit" ng-disabled="form.$invalid" class="btn btn-primary" data-translate="reset.request.form.button">Register</button>
+                <button type="submit" ng-disabled="form.$invalid" class="btn btn-primary" data-translate="user-management.reset.request.form.button">Register</button>
             </form>
 
         </div>

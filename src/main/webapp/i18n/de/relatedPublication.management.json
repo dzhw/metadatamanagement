@@ -6,9 +6,9 @@
     "detail": {
       "title": "Informationen zu der Publikation",
       "related-information": "Zugehörige Informationen",
-      "study-title": "Study",
-      "questions-title": "Questions",
-      "variables-title": "Variables",
+      "studies-title": "Studien",
+      "questions-title": "Fragen",
+      "variables-title": "Variablen",
       "citation-text": "Zitationstext",
       "abstract": "Abstrakt",
       "doi": "DOI"

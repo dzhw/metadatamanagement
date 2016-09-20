@@ -2,7 +2,7 @@
     <md-card>
         <md-card-header>
             <md-card-header-text>
-                <h1>Kratz, F., & Netz, N. (2016). Which mechanisms explain monetary returns to international student mobility? Studies in Higher Education, S. 1-26.</h1>
+                <h1 class="md-headline">Kratz, F., & Netz, N. (2016). Which mechanisms explain monetary returns to international student mobility? Studies in Higher Education, S. 1-26.</h1>
             </md-card-header-text>
         </md-card-header>
         <md-card-content style="padding-top: 0px;" layout="column">
@@ -10,7 +10,7 @@
                 <md-card flex>
                     <md-card-header>
                         <md-card-header-text>
-                            <span class="md-headline">{{'related-publication-management.detail.title' | translate }}</span>
+                            <h2 class="md-title">{{'related-publication-management.detail.title' | translate }}</h2>
                         </md-card-header-text>
                     </md-card-header>
                     <md-divider></md-divider>
@@ -35,27 +35,27 @@
                 <md-card>
                     <md-card-header>
                         <md-card-header-text>
-                            <h2 class="md-headline">{{'related-publication-management.detail.related-information' | translate }}</h2>
+                            <h2 class="md-title">{{'related-publication-management.detail.related-information' | translate }}</h2>
                         </md-card-header-text>
                     </md-card-header>
                     <md-divider></md-divider>
                     <md-card-content>
                       <section>
                           <md-button class="md-raised" ng-disabled="true" ng-click="showStudy()">
-                              <md-icon md-svg-src="/assets/images/icons/study.svg" class="fdz-detail-icon"></md-icon>
-                              <span>{{'related-publication-management.detail.study-title' | translate }}</span>
+                              <md-icon md-svg-src="/assets/images/icons/study.svg"></md-icon>
+                              <span>{{'related-publication-management.detail.studies-title' | translate }}</span>
                           </md-button>
                       </section>
                         <section>
                             <md-button class="md-raised" ng-disabled="true" ng-click="showQuestions()">
-                                <md-icon md-svg-src="/assets/images/icons/question.svg" class="fdz-detail-icon"></md-icon>
+                                <md-icon md-svg-src="/assets/images/icons/question.svg"></md-icon>
                                 <span>{{'related-publication-management.detail.questions-title' | translate }}</span>
                             </md-button>
                         </section>
 
                         <section>
                             <md-button class="md-raised" ng-disabled="true" ng-click="showVariable()">
-                                <md-icon md-svg-src="/assets/images/icons/variable.svg" class="fdz-detail-icon"></md-icon>
+                                <md-icon md-svg-src="/assets/images/icons/variable.svg"></md-icon>
                                 <span>{{'related-publication-management.detail.variables-title' | translate }}</span>
                             </md-button>
                         </section>
