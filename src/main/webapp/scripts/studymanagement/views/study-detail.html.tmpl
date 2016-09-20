@@ -5,7 +5,7 @@
     <md-card>
         <md-card-header>
             <md-card-header-text>
-                <h1>{{study.title[currentLanguage]}}</h1>
+                <h1 class="md-headline">{{study.title[currentLanguage]}}</h1>
             </md-card-header-text>
         </md-card-header>
         <md-card-content style="padding-top: 0px;" layout="column">
@@ -13,7 +13,7 @@
                 <md-card flex>
                     <md-card-header>
                         <md-card-header-text>
-                            <h2 class="md-headline">{{'study-management.detail.study-informations' | translate }}</h2>
+                            <h2 class="md-title">{{'study-management.detail.study-informations' | translate }}</h2>
                         </md-card-header-text>
                     </md-card-header>
                     <md-divider></md-divider>
@@ -74,32 +74,32 @@
                 <md-card>
                     <md-card-header>
                         <md-card-header-text>
-                            <h2 class="md-headline">{{'study-management.detail.related-information' | translate }}</h2>
+                            <h2 class="md-title">{{'study-management.detail.related-information' | translate }}</h2>
                         </md-card-header-text>
                     </md-card-header>
                     <md-divider></md-divider>
                     <md-card-content>
                         <section>
                             <md-button class="md-raised" ng-click="addToNotepad()">
-                                <md-icon md-svg-src="/assets/images/icons/addToshop.svg" class="fdz-detail-icon"></md-icon>
+                                <md-icon md-svg-src="/assets/images/icons/addToshop.svg"></md-icon>
                                 <span>{{'notepad-management.home.title' | translate }}</span>
                             </md-button>
                         </section>
                         <section>
                             <md-button class="md-raised" ng-click="showQuestions()">
-                                <md-icon md-svg-src="/assets/images/icons/question.svg" class="fdz-detail-icon"></md-icon>
+                                <md-icon md-svg-src="/assets/images/icons/question.svg"></md-icon>
                                 <span>{{'question-management.home.title' | translate }}</span>
                             </md-button>
                         </section>
                         <section>
                             <md-button class="md-raised" ng-disabled="true" ng-click="showInstruments()">
-                                <md-icon md-svg-src="/assets/images/icons/instrument.svg" class="fdz-detail-icon"></md-icon>
+                                <md-icon md-svg-src="/assets/images/icons/instrument.svg"></md-icon>
                                 <span>{{'instrument-management.home.title' | translate }}</span>
                             </md-button>
                         </section>
                         <section>
                             <md-button class="md-raised" ui-sref="relatedPublicationDetail({id: 'publication01'})">
-                                <md-icon md-svg-src="/assets/images/icons/survey.svg" class="fdz-detail-icon"></md-icon>
+                                <md-icon md-svg-src="/assets/images/icons/related-publication.svg"></md-icon>
                                 <span>Related Publications</span>
                             </md-button>
                         </section>
@@ -110,7 +110,7 @@
                 <md-card flex>
                     <md-card-header>
                         <md-card-header-text>
-                            <h2 class="md-headline">{{'study-management.detail.description' | translate }}</h2>
+                            <h2 class="md-title">{{'study-management.detail.description' | translate }}</h2>
                         </md-card-header-text>
                     </md-card-header>
                     <md-divider></md-divider>
@@ -123,22 +123,20 @@
                 <md-card flex="50" flex-sm="100" flex-xs="100">
                     <md-card-header>
                         <md-card-header-text>
-                            <h2 class="md-headline">{{'study-management.detail.survey-details' | translate }}</h2>
+                            <h2 class="md-title">{{'study-management.detail.survey-details' | translate }}</h2>
                         </md-card-header-text>
                     </md-card-header>
                     <md-divider></md-divider>
                     <md-content style="background-color:white;">
-                        <section ng-repeat="survey in surveys" md-ink-ripple class="fdz-search-result fdz-card-header-border">
-                            <section ui-sref="surveyDetail({id:survey.id})" layout="row">
+                        <div ng-repeat="survey in surveys" md-ink-ripple class="fdz-search-result fdz-card-header-border">
+                            <div ui-sref="surveyDetail({id:survey.id})" layout="row">
                                 <md-icon md-svg-src="/assets/images/icons/survey.svg" class="fdz-detail-icon"></md-icon>
-                                <section layout="column">
+                                <div layout="column">
                                     <span>{{survey.title[currentLanguage]}}</span>
-                                    <span>{{survey.fieldPeriod.start | date}}
-                                        -
-                                        {{survey.fieldPeriod.end | date}}</span>
-                                </section>
-                            </section>
-                        </section>
+                                    <span>{{survey.fieldPeriod.start | date}} - {{survey.fieldPeriod.end | date}}</span>
+                                </div>
+                            </div>
+                        </div>
                     </md-content>
                 </md-card>
                 <md-card flex="50" flex-sm="100" flex-xs="100">
@@ -149,27 +147,12 @@
                     </md-card-header>
                     <md-divider></md-divider>
                     <md-content style="background-color:white;">
-                        <section ng-repeat="dataSet in dataSets" md-ink-ripple class="fdz-search-result fdz-card-header-border">
-                            <section ui-sref="data-setDetail({id:dataSet.id})" layout="row" layout-align="space-between end">
-                                <section layout="row" layout-align="start center">
+                        <div ng-repeat="dataSet in dataSets" md-ink-ripple class="fdz-search-result fdz-card-header-border">
+                            <div ui-sref="data-setDetail({id:dataSet.id})" layout="row">
                                     <md-icon md-svg-src="/assets/images/icons/data-set.svg" class="fdz-detail-icon"></md-icon>
                                     <span>{{dataSet.description[currentLanguage]}}</span>
-                                </section>
-                                <md-button
-                                    hide-xs
-                                    class="md-primary md-raised md-icon-button"
-                                    aria-label="{{'search-management.buttons.generate-variable-report' | translate}}"
-                                    ng-if="isAuthenticated()"
-                                    type="file"
-                                    ngf-select="uploadTexTemplate($file, searchResult.id)"
-                                    accept=".zip">
-                                    <md-tooltip md-direction="left">
-                                        {{'search-management.buttons.generate-variable-report' | translate}}
-                                    </md-tooltip>
-                                    <md-icon md-font-set="material-icons">note_add</md-icon>
-                                </md-button>
-                            </section>
-                        </section>
+                                </div>
+                            </div>
                     </md-content>
                 </md-card>
             </div>
