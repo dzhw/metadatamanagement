@@ -14,7 +14,8 @@ angular.module('metadatamanagementApp')
           'content@': {
             templateUrl: 'scripts/relatedpublicationmanagement/views/' +
               'related-publication-detail.html.tmpl',
-            controller: 'RelatedPublicationDetailController'
+            controller: 'RelatedPublicationDetailController',
+            controllerAs: 'ctrl'
           }
         },
         resolve: {
