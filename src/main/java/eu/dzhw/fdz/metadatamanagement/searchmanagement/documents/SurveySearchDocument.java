@@ -9,6 +9,7 @@ import io.searchbox.annotations.JestId;
  * Representation of a survey which is stored in elasticsearch.
  *
  * @author René Reitmann
+ * @author Daniel Katzberg
  */
 public class SurveySearchDocument {
   @JestId
@@ -19,6 +20,12 @@ public class SurveySearchDocument {
   private String title;
 
   private Period fieldPeriod;
+  
+  private String population;
+  
+  private String sample;
+  
+  private String surveyMethod;
 
   /**
    * Create the search document from the domain object depending on the language (index).
@@ -34,9 +41,15 @@ public class SurveySearchDocument {
     switch (index) {
       case METADATA_DE:
         title = survey.getTitle() != null ? survey.getTitle().getDe() : null;
+        population = survey.getPopulation() != null ? survey.getPopulation().getDe() : null;
+        sample = survey.getSample() != null ? survey.getSample().getDe() : null;
+        surveyMethod = survey.getSurveyMethod() != null ? survey.getSurveyMethod().getDe() : null;
         break;
       case METADATA_EN:
         title = survey.getTitle() != null ? survey.getTitle().getEn() : null;
+        population = survey.getPopulation() != null ? survey.getPopulation().getEn() : null;
+        sample = survey.getSample() != null ? survey.getSample().getEn() : null;
+        surveyMethod = survey.getSurveyMethod() != null ? survey.getSurveyMethod().getEn() : null;
         break;
       default:
         throw new RuntimeException("Unknown index:" + index);
@@ -73,5 +86,29 @@ public class SurveySearchDocument {
 
   public void setDataAcquisitionProjectId(String dataAcquisitionProjectId) {
     this.dataAcquisitionProjectId = dataAcquisitionProjectId;
+  }
+
+  public String getPopulation() {
+    return population;
+  }
+
+  public void setPopulation(String population) {
+    this.population = population;
+  }
+
+  public String getSample() {
+    return sample;
+  }
+
+  public void setSample(String sample) {
+    this.sample = sample;
+  }
+
+  public String getSurveyMethod() {
+    return surveyMethod;
+  }
+
+  public void setSurveyMethod(String surveyMethod) {
+    this.surveyMethod = surveyMethod;
   }
 }
