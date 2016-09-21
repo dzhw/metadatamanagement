@@ -21,5 +21,11 @@ public interface CompleteSurveyProjection extends AbstractRdcDomainObjectProject
   Period getFieldPeriod();
 
   String getDataAcquisitionProjectId();
+  
+  I18nString getPopulation();
+  
+  I18nString getSample();
+  
+  I18nString getSurveyMethod();
 
 }
