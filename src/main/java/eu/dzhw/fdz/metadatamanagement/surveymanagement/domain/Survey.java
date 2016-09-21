@@ -52,6 +52,12 @@ public class Survey extends AbstractRdcDomainObject {
   @Indexed
   @NotEmpty(message = "survey-management.error.survey.data-acquisition-project.id.not-empty")
   private String dataAcquisitionProjectId;
+  
+  private I18nString population;
+  
+  private I18nString sample;
+  
+  private I18nString surveyMethod;
 
   /*
    * (non-Javadoc)
@@ -62,19 +68,22 @@ public class Survey extends AbstractRdcDomainObject {
   public String getId() {
     return id;
   }
-
+ 
   /*
    * (non-Javadoc)
-   * 
-   * @see eu.dzhw.fdz.metadatamanagement.domain.AbstractRdcDomainObject#toString()
+   * @see eu.dzhw.fdz.metadatamanagement.common.domain.AbstractRdcDomainObject#toString()
    */
   @Override
   public String toString() {
     return MoreObjects.toStringHelper(this)
       .add("super", super.toString())
+      .add("id", id)
       .add("title", title)
       .add("fieldPeriod", fieldPeriod)
       .add("dataAcquisitionProjectId", dataAcquisitionProjectId)
+      .add("population", population)
+      .add("sample", sample)
+      .add("surveyMethod", surveyMethod)
       .toString();
   }
 
@@ -97,6 +106,30 @@ public class Survey extends AbstractRdcDomainObject {
 
   public void setId(String id) {
     this.id = id;
+  }
+  
+  public I18nString getPopulation() {
+    return population;
+  }
+
+  public void setPopulation(I18nString population) {
+    this.population = population;
+  }
+
+  public I18nString getSample() {
+    return sample;
+  }
+
+  public void setSample(I18nString sample) {
+    this.sample = sample;
+  }
+
+  public I18nString getSurveyMethod() {
+    return surveyMethod;
+  }
+
+  public void setSurveyMethod(I18nString surveyMethod) {
+    this.surveyMethod = surveyMethod;
   }
 
   public String getDataAcquisitionProjectId() {
