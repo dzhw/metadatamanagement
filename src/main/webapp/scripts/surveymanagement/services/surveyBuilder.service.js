@@ -6,6 +6,7 @@ angular.module('metadatamanagementApp').service('SurveyBuilderService',
       var surveysObjArray = [];
       for (var i = 0; i < surveys.length; i++) {
         var data = surveys[i];
+        console.log(data);
         var surveyObj = {
           id: data.id,
           dataAcquisitionProjectId: projectId,
@@ -17,6 +18,18 @@ angular.module('metadatamanagementApp').service('SurveyBuilderService',
           fieldPeriod: {
             start: data['fieldPeriod.start'],
             end: data['fieldPeriod.end']
+          },
+          population: {
+            en: data['population.en'],
+            de: data['population.de']
+          },
+          sample: {
+            en: data['sample.en'],
+            de: data['sample.de']
+          },
+          surveyMethod: {
+            en: data['surveyMethod.en'],
+            de: data['surveyMethod.de']
           },
           dataSetIds: CleanJSObjectService.removeWhiteSpace(data.dataSetIds)
         };
