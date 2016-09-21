@@ -160,9 +160,9 @@
                     </md-card-header>
                     <md-divider></md-divider>
                     <md-card-content>
-                        <div class="fdz-table" id="fdz-table" ng-click="showRows()">
+                        <div class="fdz-table" id="fdz-table" ng-click="toggleRows()">
                             <md-tooltip md-direction="top">
-                                {{'variable-management.detail.content.'+tableFlag | translate }}
+                                {{'variable-management.detail.content.' + toggleRowsFlag | translate }}
                             </md-tooltip>
                             <div class="fdz-table-row">
                                 <div class="fdz-table-cell fdz-table-cell-fixed">
@@ -196,7 +196,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="fdz-table-row" ng-repeat="row in frequencies" id="row{{$index}}" ng-class="(6 > {{$index}}) || ({{$index}} > ({{frequencies.length-5}})) ? '' : 'ng-hide'">
+                            <div class="fdz-table-row" ng-repeat="row in frequencies" id="row{{$index}}" ng-hide="rowToggleCondition({{$index}})">
                                 <div class="fdz-table-cell">{{row.value}}{{row.code}}</div>
                                 <div class="fdz-table-cell fdz-table-cell-fixed">
                                     <div class="fdz-table-cell-content">
@@ -258,9 +258,9 @@
                             <span style="font-weight: bold;">{{'variable-management.detail.generation-details-rule' | translate }}:
                             </span>
                             <md-tooltip md-direction="top">
-                                {{'variable-management.detail.content.' + generationCodeFlag | translate }}
+                                {{'variable-management.detail.content.' + generationCodeToggleFlag | translate }}
                             </md-tooltip>
-                            <pre ng-click="switchGenerationCode()" class="fdz-code-container" ng-class="{'fdz-hidden-code': generationCodeHidden}">{{variable.generationDetails.rule}}</pre>
+                            <pre ng-click="toggleGenerationCode()" class="fdz-code-container" ng-class="{'fdz-hidden-code': generationCodeToggleFlag}">{{variable.generationDetails.rule}}</pre>
                         </section>
                     </md-card-content>
                 </md-card>

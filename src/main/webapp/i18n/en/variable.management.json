@@ -37,8 +37,8 @@
       "not-found-references": "The id {{id}} has no References to Variables.",
       "same-in-panel": "Same Variables",
       "table": {
-        "expand": "Click to maximize",
-        "collapse": "Click to minimize"
+        "true": "Click to maximize",
+        "false": "Click to minimize"
       },
       "statistics": {
         "graphics": "Statistical Graphs",

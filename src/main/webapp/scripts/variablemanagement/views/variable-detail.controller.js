@@ -4,10 +4,8 @@ angular.module('metadatamanagementApp')
   .controller('VariableDetailController', function(DialogService, blockUI,
     $scope, entity, $state, ShoppingCartService) {
     $scope.frequencies = [];
-    $scope.cleanedAccessWays = '';
-    $scope.tableFlag = 'expand';
-    $scope.generationCodeHidden = true;
-
+    $scope.generationCodeToggleFlag = true;
+    $scope.toggleRowsFlag = true;
     entity.$promise.then(function(variable) {
       $scope.variable = variable;
       if ($scope.variable.distribution.validResponses) {
@@ -29,29 +27,21 @@ angular.module('metadatamanagementApp')
         $scope.frequencies = $scope.variable.distribution.missings;
       }
     });
-    $scope.showRows = function() {
-      if ($scope.frequencies.length > 10) {
-        if ($scope.tableFlag === 'expand') {
-          var hiddenRows = angular.element('.fdz-table-row.ng-hide');
-          $scope.tableFlag = 'collapse';
-          for (var i = 0; i < hiddenRows.length; i++) {
-            angular.element('#' + hiddenRows[i]
-            .getAttribute('id')).addClass('ng-show').removeClass('ng-hide');
-          }
-          angular.element('#row5').addClass('ng-hide').removeClass('ng-show');
-        }else {
-          var displayedRows = angular.element('.fdz-table-row.ng-show');
-          $scope.tableFlag = 'expand';
-          for (var j = 0; j < displayedRows.length; j++) {
-            angular.element('#' + displayedRows[j]
-            .getAttribute('id')).addClass('ng-hide').removeClass('ng-show');
-          }
-          angular.element('#row5').addClass('ng-show').removeClass('ng-hide');
-        }
+    $scope.rowToggleCondition = function(index) {
+      if ((index >= 6) && (index < ($scope.frequencies.length - 5)) &&
+      $scope.toggleRowsFlag) {
+        return true;
       }
+      if (index === 5 && !$scope.toggleRowsFlag) {
+        return true;
+      }
+      return false;
     };
-    $scope.switchGenerationCode = function() {
-      $scope.generationCodeHidden = !$scope.generationCodeHidden;
+    $scope.toggleRows = function() {
+      $scope.toggleRowsFlag = !$scope.toggleRowsFlag;
+    };
+    $scope.toggleGenerationCode = function() {
+      $scope.generationCodeToggleFlag = !$scope.generationCodeToggleFlag;
     };
     /* function to open dialog for variables */
     $scope.showSurveys = function() {
