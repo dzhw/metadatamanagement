@@ -38,7 +38,22 @@
         		"copy_to": "allStringsAsNgrams"
             }
       	  }
-    	} 
+    	},
+      "population": {
+        "type": "string",
+        "index": "not_analyzed",
+        "copy_to": "allStringsAsNgrams"
+      },
+      "sample": {
+        "type": "string",
+        "index": "not_analyzed",
+        "copy_to": "allStringsAsNgrams"
+      },
+      "surveyMethod": {
+        "type": "string",
+        "index": "not_analyzed",
+        "copy_to": "allStringsAsNgrams"
+      }
      }
   }
 }
