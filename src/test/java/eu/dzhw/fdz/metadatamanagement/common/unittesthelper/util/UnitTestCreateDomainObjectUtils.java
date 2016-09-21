@@ -124,6 +124,15 @@ public class UnitTestCreateDomainObjectUtils {
       .withTitle(new I18nStringBuilder().withDe("Titel")
         .withEn("title")
         .build())
+      .withPopulation(new I18nStringBuilder().withDe("Population DE")
+          .withEn("Population EN")
+          .build())
+      .withSample(new I18nStringBuilder().withDe("Sample DE")
+        .withEn("Sample EN")
+        .build())
+      .withSurveyMethod(new I18nStringBuilder().withDe("Survey Method DE")
+          .withEn("Survey Method EN")
+          .build())
       .build();
   }
 
