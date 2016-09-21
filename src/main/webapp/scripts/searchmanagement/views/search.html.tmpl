@@ -66,26 +66,10 @@
                 <md-icon md-font-set="material-icons">add</md-icon>
             </div>
         </md-button>
-        <!-- Index 2 = Variables Tab -->
-        <md-button
-            aria-label="{{'search-management.buttons.upload-variables' | translate}}"
-            ng-if="selectedTabIndex===2"
-            type="file"
-            ngf-select="uploadVariables($file)"
-            class="md-accent md-fab"
-            accept=".zip"
-            ng-disabled="!currentProject">
-            <div>
-                <md-tooltip md-direction="left">
-                    {{'search-management.buttons.upload-variables' | translate}}
-                </md-tooltip>
-                <md-icon md-font-set="material-icons">add</md-icon>
-            </div>
-        </md-button>
-        <!-- Index 3 = Questions Tab -->
+        <!-- Index 2 = Questions Tab -->
         <md-button
             aria-label="{{'search-management.buttons.upload-questions' | translate}}"
-            ng-if="selectedTabIndex===3"
+            ng-if="selectedTabIndex===2"
             type="file"
             ngf-select="uploadQuestions($file)"
             class="md-accent md-fab"
@@ -94,6 +78,22 @@
             <div>
                 <md-tooltip md-direction="left">
                     {{'search-management.buttons.upload-questions' | translate}}
+                </md-tooltip>
+                <md-icon md-font-set="material-icons">add</md-icon>
+            </div>
+        </md-button>
+        <!-- Index 3 = Variables Tab -->
+        <md-button
+            aria-label="{{'search-management.buttons.upload-variables' | translate}}"
+            ng-if="selectedTabIndex===3"
+            type="file"
+            ngf-select="uploadVariables($file)"
+            class="md-accent md-fab"
+            accept=".zip"
+            ng-disabled="!currentProject">
+            <div>
+                <md-tooltip md-direction="left">
+                    {{'search-management.buttons.upload-variables' | translate}}
                 </md-tooltip>
                 <md-icon md-font-set="material-icons">add</md-icon>
             </div>

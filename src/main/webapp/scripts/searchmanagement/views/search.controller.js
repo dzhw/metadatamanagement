@@ -286,14 +286,6 @@ angular.module('metadatamanagementApp').controller('SearchController',
       acceptedFileUploadType: 'application/zip',
       uploadFunction: $scope.uploadStudy
     }, {
-      title: 'search-management.tabs.variables',
-      inputLabel: 'search-management.input-label.variables',
-      icon: 'assets/images/icons/variable.svg',
-      elasticSearchType: 'variables',
-      count: null,
-      acceptedFileUploadType: 'application/zip',
-      uploadFunction: $scope.uploadVariables
-    }, {
       title: 'search-management.tabs.questions',
       inputLabel: 'search-management.input-label.questions',
       icon: 'assets/images/icons/question.svg',
@@ -301,6 +293,14 @@ angular.module('metadatamanagementApp').controller('SearchController',
       count: null,
       acceptedFileUploadType: 'application/zip',
       uploadFunction: $scope.uploadQuestions
+    }, {
+      title: 'search-management.tabs.variables',
+      inputLabel: 'search-management.input-label.variables',
+      icon: 'assets/images/icons/variable.svg',
+      elasticSearchType: 'variables',
+      count: null,
+      acceptedFileUploadType: 'application/zip',
+      uploadFunction: $scope.uploadVariables
     }, {
       title: 'search-management.tabs.surveys',
       inputLabel: 'search-management.input-label.surveys',
