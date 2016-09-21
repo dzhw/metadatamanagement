@@ -10,9 +10,6 @@ angular.module('metadatamanagementApp')
 
       entity.$promise.then(function(study) {
         $scope.study = study;
-        $scope.cleanedAccessWays = '' + $scope.study.accessWays + '"';
-        $scope.cleanedAccessWays = $scope.cleanedAccessWays
-        .replace(/[\[\]'"]/g, '');
         SurveyReferencedResource.findByDataAcquisitionProjectId(
           {id: $scope.study.id},
           function(surveys) {
@@ -24,9 +21,6 @@ angular.module('metadatamanagementApp')
             $scope.dataSets = dataSets._embedded.dataSets;
           });
       });
-      $scope.uploadTexTemplate = function(file, dataSetId) {
-        DataSetReportService.uploadTexTemplate(file, dataSetId);
-      };
       $scope.showQuestions = function() {
         blockUI.start();
         DialogService.showDialog($scope.study.id,

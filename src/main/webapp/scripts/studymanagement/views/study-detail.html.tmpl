@@ -18,32 +18,32 @@
                     </md-card-header>
                     <md-divider></md-divider>
                     <md-card-content>
-                        <section ng-if="study.surveySeries[currentLanguage]">
+                        <section style="margin-bottom: 0.5em;" ng-if="study.surveySeries[currentLanguage]">
                             <span style="font-weight: bold;">{{'study-management.detail.surveySeries' | translate }}:
                             </span>
                             <span>{{study.surveySeries[currentLanguage]}}</span>
                         </section>
-                        <section ng-if="study.institution[currentLanguage]">
+                        <section style="margin-bottom: 0.5em;" ng-if="study.institution[currentLanguage]">
                             <span style="font-weight: bold;">{{'study-management.detail.institution' | translate }}:
                             </span>
                             <span>{{study.institution[currentLanguage]}}</span>
                         </section>
-                        <section ng-if="study.authors">
+                        <section style="margin-bottom: 0.5em;" ng-if="study.authors">
                             <span style="font-weight: bold;">{{'study-management.detail.authors' | translate }}:
                             </span>
                             <span>{{study.authors}}</span>
                         </section>
-                        <section ng-if="study.sponsor[currentLanguage]">
+                        <section style="margin-bottom: 0.5em;" ng-if="study.sponsor[currentLanguage]">
                             <span style="font-weight: bold;">{{'study-management.detail.sponsors' | translate }}:
                             </span>
                             <span>{{study.sponsor[currentLanguage]}}</span>
                         </section>
-                        <section ng-if="study.accessWays">
+                        <section style="margin-bottom: 0.5em;" ng-if="study.accessWays">
                             <span style="font-weight: bold;">{{'study-management.detail.accessWays' | translate }}:
                             </span>
-                            <span>{{cleanedAccessWays}}</span>
+                            <span>{{study.accessWays.join(', ')}}</span>
                         </section>
-                        <section ng-if="study.releases.length > 0">
+                        <section style="margin-bottom: 0.5em;" ng-if="study.releases.length > 0">
                             <span style="font-weight: bold;">{{'study-management.detail.releases' | translate }}:
                             </span>
                             <section ng-repeat="release in study.releases" style="margin-left: 30px;">
@@ -64,7 +64,7 @@
                                 </section>
                             </section>
                         </section>
-                        <section ng-if="study.citationHint[currentLanguage]">
+                        <section style="margin-bottom: 0.5em;" ng-if="study.citationHint[currentLanguage]">
                             <span style="font-weight: bold;">{{'study-management.detail.citationHint' | translate }}:
                             </span>
                             <span>{{study.citationHint[currentLanguage]}}</span>
@@ -142,7 +142,7 @@
                 <md-card flex="50" flex-sm="100" flex-xs="100">
                     <md-card-header>
                         <md-card-header-text>
-                            <h2 class="md-headline">{{'study-management.detail.data-set-details' | translate }}</h2>
+                            <h2 class="md-title">{{'study-management.detail.data-set-details' | translate }}</h2>
                         </md-card-header-text>
                     </md-card-header>
                     <md-divider></md-divider>
@@ -160,7 +160,7 @@
                 <md-card flex>
                     <md-card-header>
                         <md-card-header-text>
-                            <h2 class="md-headline">{{'study-management.detail.instrument-information' | translate }}</h2>
+                            <h2 class="md-title">{{'study-management.detail.instrument-information' | translate }}</h2>
                         </md-card-header-text>
                     </md-card-header>
                     <md-content style="background-color:white;"></md-content>
