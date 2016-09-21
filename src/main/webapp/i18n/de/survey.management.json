@@ -34,6 +34,21 @@
           "id": {
             "not-empty": "Die FDZ - ID des Projektes darf bei der Erhebung nicht leer sein!"
           }
+        },
+        "population": {
+          "not-null": "Die Population der Erhebung darf nicht leer sein!",
+          "i18n-string-not-empty": "Die Population der Erhebung muss mindestens in einer Sprache vorliegen.",
+          "i18n-string-size": "Die Maximallänge der Population der Erhebung ist 2048 Zeichen."
+        },
+        "sample": {
+          "not-null": "Das Beispiel der Erhebung darf nicht leer sein!",
+          "i18n-string-not-empty": "Das Beispiel der Erhebung muss mindestens in einer Sprache vorliegen.",
+          "i18n-string-size": "Die Maximallänge des Beispiels der Erhebung ist 2048 Zeichen."
+        },
+        "survey-method": {
+          "not-null": "Die Erhebungsmethode darf nicht leer sein!",
+          "i18n-string-not-empty": "Die Erhebungsmethode muss mindestens in einer Sprache vorliegen.",
+          "i18n-string-size": "Die Maximallänge der Erhebungsmethode ist 128 Zeichen."
         }
       }
     }

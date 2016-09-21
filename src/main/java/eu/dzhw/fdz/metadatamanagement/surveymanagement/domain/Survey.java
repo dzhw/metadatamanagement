@@ -16,6 +16,7 @@ import eu.dzhw.fdz.metadatamanagement.common.domain.AbstractRdcDomainObject;
 import eu.dzhw.fdz.metadatamanagement.common.domain.I18nString;
 import eu.dzhw.fdz.metadatamanagement.common.domain.Period;
 import eu.dzhw.fdz.metadatamanagement.common.domain.util.Patterns;
+import eu.dzhw.fdz.metadatamanagement.common.domain.validation.I18nStringNotEmpty;
 import eu.dzhw.fdz.metadatamanagement.common.domain.validation.I18nStringSize;
 import eu.dzhw.fdz.metadatamanagement.common.domain.validation.StringLengths;
 import eu.dzhw.fdz.metadatamanagement.surveymanagement.domain.validation.ValidSurveyIdName;
@@ -53,10 +54,23 @@ public class Survey extends AbstractRdcDomainObject {
   @NotEmpty(message = "survey-management.error.survey.data-acquisition-project.id.not-empty")
   private String dataAcquisitionProjectId;
   
+  @NotNull(message = "survey-management.error.survey.population.not-null")
+  @I18nStringNotEmpty(message = "survey-management.error.survey.population.i18n-string-not-empty")
+  @I18nStringSize(max = StringLengths.LARGE, 
+      message = "survey-management.error.survey.population.i18n-string-size")
   private I18nString population;
   
+  @NotNull(message = "survey-management.error.survey.sample.not-null")
+  @I18nStringNotEmpty(message = "survey-management.error.survey.sample.i18n-string-not-empty")
+  @I18nStringSize(max = StringLengths.LARGE, 
+      message = "survey-management.error.survey.sample.i18n-string-size")
   private I18nString sample;
   
+  @NotNull(message = "survey-management.error.survey.survey-method.not-null")
+  @I18nStringNotEmpty(
+      message = "survey-management.error.survey.survey-method.i18n-string-not-empty")
+  @I18nStringSize(max = StringLengths.MEDIUM, 
+      message = "survey-management.error.survey.survey-method.i18n-string-size")
   private I18nString surveyMethod;
 
   /*
