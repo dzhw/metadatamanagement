@@ -5464,12 +5464,6 @@
       assert.strictEqual(_.escape(unescaped), escaped);
     });
 
-    QUnit.test('should not escape the "/" character', function(assert) {
-      assert.expect(1);
-
-      assert.strictEqual(_.escape('/'), '/');
-    });
-
     QUnit.test('should handle strings with nothing to escape', function(assert) {
       assert.expect(1);
 
@@ -5480,6 +5474,14 @@
       assert.expect(1);
 
       assert.strictEqual(_.escape(_.unescape(escaped)), escaped);
+    });
+
+    lodashStable.each(['`', '/'], function(chr) {
+      QUnit.test('should not escape the "' + chr + '" character', function(assert) {
+        assert.expect(1);
+
+        assert.strictEqual(_.escape(chr), chr);
+      });
     });
   }());
 
@@ -24244,12 +24246,6 @@
       assert.strictEqual(_.unescape(escaped), unescaped);
     });
 
-    QUnit.test('should not unescape the "&#x2F;" entity', function(assert) {
-      assert.expect(1);
-
-      assert.strictEqual(_.unescape('&#x2F;'), '&#x2F;');
-    });
-
     QUnit.test('should handle strings with nothing to unescape', function(assert) {
       assert.expect(1);
 
@@ -24260,6 +24256,14 @@
       assert.expect(1);
 
       assert.strictEqual(_.unescape(_.escape(unescaped)), unescaped);
+    });
+
+    lodashStable.each(['&#96;', '&#x2F;'], function(entity) {
+      QUnit.test('should not unescape the "' + entity + '" entity', function(assert) {
+        assert.expect(1);
+
+        assert.strictEqual(_.unescape(entity), entity);
+      });
     });
   }());
 
@@ -25138,7 +25142,7 @@
     QUnit.test('should create a wrapped function', function(assert) {
       assert.expect(1);
 
-      var p = _.wrap(_.escape, function(func, text) {
+      var p = _.wrap(lodashStable.escape, function(func, text) {
         return '<p>' + func(text) + '</p>';
       });
 
@@ -25175,7 +25179,7 @@
     QUnit.test('should use `this` binding of function', function(assert) {
       assert.expect(1);
 
-      var p = _.wrap(_.escape, function(func) {
+      var p = _.wrap(lodashStable.escape, function(func) {
         return '<p>' + func(this.text) + '</p>';
       });
 
