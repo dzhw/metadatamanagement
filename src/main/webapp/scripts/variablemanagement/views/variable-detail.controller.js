@@ -5,40 +5,20 @@ angular.module('metadatamanagementApp')
     $scope, entity, $state, ShoppingCartService) {
     $scope.frequencies = [];
     $scope.generationCodeToggleFlag = true;
-    $scope.toggleRowsFlag = true;
+    $scope.allRowsVisible = true;
     entity.$promise.then(function(variable) {
       $scope.variable = variable;
-      if ($scope.variable.distribution.validResponses) {
-        $scope.frequencies = $scope.variable.distribution.validResponses
-        .concat($scope.variable.distribution.missings);
-        if ($scope.frequencies.length > 10) {
-          $scope.frequencies.splice(5, 0, {
-            value: '...',
-            label: {
-              de: '...',
-              en: '...'
-            },
-            absoluteFrequency: '...',
-            validRelativeFrequency: '...',
-            relativeFrequency: '...'
-          });
-        }
-      } else {
-        $scope.frequencies = $scope.variable.distribution.missings;
-      }
     });
-    $scope.rowToggleCondition = function(index) {
-      if ((index >= 6) && (index < ($scope.frequencies.length - 5)) &&
-      $scope.toggleRowsFlag) {
-        return true;
+    $scope.isRowHidden = function(index) {
+      if (index <= 4 || index >= $scope
+        .variable.distribution.validResponses.length - 5) {
+        return false;
+      } else {
+        return $scope.allRowsVisible;
       }
-      if (index === 5 && !$scope.toggleRowsFlag) {
-        return true;
-      }
-      return false;
     };
-    $scope.toggleRows = function() {
-      $scope.toggleRowsFlag = !$scope.toggleRowsFlag;
+    $scope.toggleAllRowsVisible = function() {
+      $scope.allRowsVisible = !$scope.allRowsVisible;
     };
     $scope.toggleGenerationCode = function() {
       $scope.generationCodeToggleFlag = !$scope.generationCodeToggleFlag;

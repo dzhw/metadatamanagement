@@ -160,9 +160,9 @@
                     </md-card-header>
                     <md-divider></md-divider>
                     <md-card-content>
-                        <div class="fdz-table" id="fdz-table" ng-click="toggleRows()">
+                        <div class="fdz-table" id="fdz-table" ng-click="toggleAllRowsVisible()">
                             <md-tooltip md-direction="top">
-                                {{'variable-management.detail.content.' + toggleRowsFlag | translate }}
+                                {{'variable-management.detail.content.' + allRowsVisible | translate }}
                             </md-tooltip>
                             <div class="fdz-table-row">
                                 <div class="fdz-table-cell fdz-table-cell-fixed">
@@ -196,25 +196,45 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="fdz-table-row" ng-repeat="row in frequencies" id="row{{$index}}" ng-hide="rowToggleCondition({{$index}})">
+
+                            <div ng-repeat-start="row in variable.distribution.validResponses" class="fdz-table-row" ng-hide="isRowHidden($index)">
                                 <div class="fdz-table-cell">{{row.value}}{{row.code}}</div>
                                 <div class="fdz-table-cell fdz-table-cell-fixed">
                                     <div class="fdz-table-cell-content">
                                         <div class="fdz-table-cell-ellipsis">{{row.label[currentLanguage]}}</div>
                                     </div>
                                 </div>
-                                <div class="fdz-table-cell">{{row.code ? 'm' : ''}}</div>
+                                <div class="fdz-table-cell"></div>
                                 <div class="fdz-table-cell">{{row.absoluteFrequency}}</div>
                                 <div class="fdz-table-cell">{{row.validRelativeFrequency}}</div>
                                 <div class="fdz-table-cell">{{row.relativeFrequency}}</div>
                             </div>
+
+                            <div ng-repeat-end class="fdz-table-row" ng-if="$index === 4 && variable.distribution.validResponses.length > 10" ng-hide="!allRowsVisible">
+                                <div class="fdz-table-cell">...</div>
+                                <div class="fdz-table-cell">...</div>
+                                <div class="fdz-table-cell">...</div>
+                                <div class="fdz-table-cell">...</div>
+                                <div class="fdz-table-cell">...</div>
+                                <div class="fdz-table-cell">...</div>
+                            </div>
+
+                            <div class="fdz-table-row" ng-repeat="row in variable.distribution.missings">
+                                <div class="fdz-table-cell">{{row.value}}{{row.code}}</div>
+                                <div class="fdz-table-cell fdz-table-cell-fixed">
+                                    <div class="fdz-table-cell-content">
+                                        <div class="fdz-table-cell-ellipsis">{{row.label[currentLanguage]}}</div>
+                                    </div>
+                                </div>
+                                <div class="fdz-table-cell">m</div>
+                                <div class="fdz-table-cell">{{row.absoluteFrequency}}</div>
+                                <div class="fdz-table-cell"></div>
+                                <div class="fdz-table-cell">{{row.relativeFrequency}}</div>
+                            </div>
                             <div class="fdz-table-row">
-                                <div class="fdz-table-cell fdz-table-cell-fixed">
-                                </div>
-                                <div class="fdz-table-cell fdz-table-cell-fixed">
-                                </div>
-                                <div class="fdz-table-cell fdz-table-cell-fixed">
-                                </div>
+                                <div class="fdz-table-cell fdz-table-cell-fixed"></div>
+                                <div class="fdz-table-cell fdz-table-cell-fixed"></div>
+                                <div class="fdz-table-cell fdz-table-cell-fixed"></div>
                                 <div class="fdz-table-cell fdz-table-cell-fixed">
                                     <div class="fdz-table-cell-content">
                                         <div class="fdz-table-cell-ellipsis">{{variable.distribution.totalAbsoluteFrequency}}</div>
