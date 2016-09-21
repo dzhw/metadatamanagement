@@ -34,7 +34,8 @@ angular.module('metadatamanagementApp').directive('diagram',
         data[0].type = 'bar';
         if (scope.statistics.validResponses) {
           scope.statistics.validResponses.forEach(function(obj) {
-            var tempValue = truncate(obj.label[scope.language], 10);
+            var tempValue = truncate(' - ' + obj.label[scope.language] + ' - ',
+            11);
             data[0].x.push(tempValue);
             data[0].text.push(obj.label[scope.language]);
             data[0].y.push(obj.absoluteFrequency);
