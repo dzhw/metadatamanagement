@@ -37,7 +37,7 @@ public interface CompleteVariableProjection
 
   List<String> getSameVariablesInPanel();
   
-  I18nString getAtomicQuestionText();
+  I18nString getRelatedQuestionStrings();
   
 
   /* Nested Objects */

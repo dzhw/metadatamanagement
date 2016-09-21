@@ -98,7 +98,7 @@ public class Variable extends AbstractRdcDomainObject {
   private List<String> sameVariablesInPanel;
   
   @Valid
-  private I18nString atomicQuestionText;
+  private I18nString relatedQuestionStrings;
 
   /* Nested Objects */
   @Valid
@@ -146,7 +146,7 @@ public class Variable extends AbstractRdcDomainObject {
       .add("description", description)
       .add("accessWays", accessWays)
       .add("sameVariablesInPanel", sameVariablesInPanel)
-      .add("atomicQuestionText", atomicQuestionText)
+      .add("relatedQuestionStrings", relatedQuestionStrings)
       .add("filterDetails", filterDetails)
       .add("generationDetails", generationDetails)
       .add("distribution", distribution)
@@ -217,12 +217,12 @@ public class Variable extends AbstractRdcDomainObject {
     this.sameVariablesInPanel = sameVariablesInPanel;
   }
 
-  public I18nString getAtomicQuestionText() {
-    return atomicQuestionText;
+  public I18nString getRelatedQuestionStrings() {
+    return relatedQuestionStrings;
   }
 
-  public void setAtomicQuestionText(I18nString atomicQuestionText) {
-    this.atomicQuestionText = atomicQuestionText;
+  public void setRelatedQuestionStrings(I18nString relatedQuestionStrings) {
+    this.relatedQuestionStrings = relatedQuestionStrings;
   }
 
   public GenerationDetails getGenerationDetails() {

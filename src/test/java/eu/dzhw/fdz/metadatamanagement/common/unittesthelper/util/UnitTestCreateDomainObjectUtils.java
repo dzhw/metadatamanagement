@@ -182,6 +182,10 @@ public class UnitTestCreateDomainObjectUtils {
       .withSameVariablesInPanel(withSameVariablesInPanel)
       .withDistribution(buildDistribution())
       .withGenerationDetails(buildGenerationDetails())
+      .withRelatedQuestionStrings(new I18nStringBuilder()
+          .withDe("Related Question String DE")
+          .withEn("Related Question String EN")
+          .build())
       .build();
   }
   
