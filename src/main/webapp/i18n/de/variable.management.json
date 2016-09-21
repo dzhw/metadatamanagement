@@ -37,8 +37,8 @@
       "not-found-references": "Die id {{id}} hat keine Referenzen auf Variablen.",
       "same-in-panel": "Ähnliche Variablen",
       "content": {
-        "true":"Klicken zum maximieren",
-        "false":"Klicken zum minimieren"
+        "true": "Klicken zum maximieren",
+        "false": "Klicken zum minimieren"
       },
       "statistics": {
         "graphics": "Statistische Grafik",
@@ -183,6 +183,9 @@
           "ids": {
             "not-empty": "Die Variable muss mindestens einer Erhebung zugewiesen sein!"
           }
+        },
+        "related-question-strings": {
+          "i18n-string-size": "Die Maximallänge der zugehörigen Frage-Strings ist 2048 Zeichen."
         }
       },
       "post-validation": {

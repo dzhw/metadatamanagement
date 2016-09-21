@@ -29,7 +29,7 @@
       "filter-description": "Filter Description",
       "filter-details-language": "Filtering Language",
       "filter-details-expression": "Filter Expression",
-      "generation-details-description":"Generation Details Description",
+      "generation-details-description": "Generation Details Description",
       "generation-details-expression-language": "Generation Expression Language",
       "generation-details-rule": "Generation Rule",
       "label": "Label",
@@ -67,9 +67,9 @@
       }
     },
     "labels": {
-     "part-of-data-set": "Part of Data Set:",
-     "surveyed-in": "Surveyed in:"
-   },
+      "part-of-data-set": "Part of Data Set:",
+      "surveyed-in": "Surveyed in:"
+    },
     "error": {
       "distribution": {
         "valid-responses": {
@@ -183,6 +183,9 @@
           "ids": {
             "not-empty": "The Variable must be assigned to at least one Survey!"
           }
+        },
+        "related-question-strings": {
+          "i18n-string-size": "The max length of the related question strings is 2048 signs."
         }
       },
       "post-validation": {

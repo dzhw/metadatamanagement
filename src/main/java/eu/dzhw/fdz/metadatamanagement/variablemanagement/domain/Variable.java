@@ -97,7 +97,8 @@ public class Variable extends AbstractRdcDomainObject {
 
   private List<String> sameVariablesInPanel;
   
-  @Valid
+  @I18nStringSize(max = StringLengths.LARGE, 
+      message = "variable-management.error.variable.related-question-strings.i18n-string-size")
   private I18nString relatedQuestionStrings;
 
   /* Nested Objects */
