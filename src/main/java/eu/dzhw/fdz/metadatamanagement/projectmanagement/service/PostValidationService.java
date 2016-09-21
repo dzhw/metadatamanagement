@@ -24,7 +24,7 @@ import eu.dzhw.fdz.metadatamanagement.variablemanagement.repository.VariableRepo
  * between different domain objects. If a foreign key or reference is not valid, the service adds a
  * error message to a list. If everthing is checked, the service returns a list with all errors.
  *
- * @author dkatzberg
+ * @author Daniel Katzberg
  *
  */
 @Service

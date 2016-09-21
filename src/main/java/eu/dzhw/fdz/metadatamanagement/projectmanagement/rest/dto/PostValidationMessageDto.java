@@ -6,7 +6,7 @@ import java.util.List;
  * This Message DTO is for transfering the id of a error message with all depending parameter 
  * to the client. 
  * 
- * @author dkatzberg
+ * @author Daniel Katzberg
  */
 public class PostValidationMessageDto {
   

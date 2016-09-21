@@ -11,7 +11,7 @@ import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.GenerationDetail
  * Validates the rule or description field of the generation details. Checks for the not emptyness
  * of these fields. One of the fields have to be set. Both is acceptable too.
  * 
- * @author dkatzberg
+ * @author Daniel Katzberg
  *
  */
 public class NotEmptyGenerationDetailsDescriptionOrRuleValidator

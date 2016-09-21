@@ -13,7 +13,7 @@ import javax.validation.Payload;
  * Annotation for the validation if a rule or description of the generation details is set. Both is
  * acceptable too.
  * 
- * @author dkatzberg
+ * @author Daniel Katzberg
  *
  */
 @Documented

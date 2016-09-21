@@ -16,7 +16,7 @@ import org.springframework.web.multipart.MultipartFile;
 /**
  * This class zip and unzip Zip-Files.
  * 
- * @author dkatzberg
+ * @author Daniel Katzberg
  *
  */
 public class ZipUtil {

@@ -7,7 +7,7 @@ import net.karneim.pojobuilder.GeneratePojoBuilder;
 /**
  * Representation of data for a histogram.
  * 
- * @author dkatzberg
+ * @author Daniel Katzberg
  *
  */
 @GeneratePojoBuilder(

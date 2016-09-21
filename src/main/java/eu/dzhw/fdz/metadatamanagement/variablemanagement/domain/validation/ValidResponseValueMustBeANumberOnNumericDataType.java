@@ -13,7 +13,7 @@ import javax.validation.Payload;
  * Annotation for the validation of the valid responses of a variable. It checks the values has a
  * numeric string, if the variable has a numeric data type.
  * 
- * @author dkatzberg
+ * @author Daniel Katzberg
  *
  */
 @Documented

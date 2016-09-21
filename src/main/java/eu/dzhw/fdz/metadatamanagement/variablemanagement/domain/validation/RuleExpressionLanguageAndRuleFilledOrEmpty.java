@@ -13,7 +13,7 @@ import javax.validation.Payload;
  * Annotation for the validation of the rule expression language field. If a the rule field is set
  * in the generation details, the rule expression language have to be non empty.
  * 
- * @author dkatzberg
+ * @author Daniel Katzberg
  *
  */
 @Documented

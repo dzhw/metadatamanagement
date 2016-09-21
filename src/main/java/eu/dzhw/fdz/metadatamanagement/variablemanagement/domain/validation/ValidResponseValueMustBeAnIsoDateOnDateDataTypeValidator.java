@@ -14,7 +14,7 @@ import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.Variable;
  * Validates the valid responses of a variable. It checks the values has a numeric string, if the
  * variable has a numeric data type.
  * 
- * @author dkatzberg
+ * @author Daniel Katzberg
  *
  */
 public class ValidResponseValueMustBeAnIsoDateOnDateDataTypeValidator implements
