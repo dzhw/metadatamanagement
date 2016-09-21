@@ -27,6 +27,8 @@ public class VariableSearchDocument {
   private String dataType;
 
   private String scaleLevel;
+  
+  private String relatedQuestionStrings;
 
   private List<String> surveyTitles;
 
@@ -68,11 +70,15 @@ public class VariableSearchDocument {
         label = variable.getLabel() != null ? variable.getLabel().getDe() : null;
         dataType = variable.getDataType() != null ? variable.getDataType().getDe() : null;
         scaleLevel = variable.getScaleLevel() != null ? variable.getScaleLevel().getDe() : null;
+        setRelatedQuestionStrings(variable.getRelatedQuestionStrings() != null 
+            ? variable.getRelatedQuestionStrings().getDe() : null);
         break;
       case METADATA_EN:
         label = variable.getLabel() != null ? variable.getLabel().getEn() : null;
         dataType = variable.getDataType() != null ? variable.getDataType().getEn() : null;
         scaleLevel = variable.getScaleLevel() != null ? variable.getScaleLevel().getEn() : null;
+        setRelatedQuestionStrings(variable.getRelatedQuestionStrings() != null 
+            ? variable.getRelatedQuestionStrings().getEn() : null);
         break;
       default:
         throw new RuntimeException("Unknown index:" + index);
@@ -133,5 +139,13 @@ public class VariableSearchDocument {
 
   public void setSurveyTitles(List<String> surveyTitles) {
     this.surveyTitles = surveyTitles;
+  }
+
+  public String getRelatedQuestionStrings() {
+    return relatedQuestionStrings;
+  }
+
+  public void setRelatedQuestionStrings(String relatedQuestionStrings) {
+    this.relatedQuestionStrings = relatedQuestionStrings;
   }
 }
