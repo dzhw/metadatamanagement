@@ -57,14 +57,22 @@
           "not-null": "Der Bildtyp der Frage darf nicht leer sein.",
           "valid-question-image-type": "Der Bildtyp der Frage muss PNG sein."
         },
-        "technical-representation": {
-          "size": "Die Maximallänge der technischen Darstellung ist 1048576 Zeichen."
-        },
         "instrument-id": {
           "not-empty": "Die FDZ-ID des Instruments darf nicht leer sein."
         },
         "survey-id": {
           "not-empty": "Die FDZ-ID der Erhebung darf nicht leer sein."
+        }
+      },
+      "technical-representation": {
+        "type": {
+          "size": "Die Maximallänge des Typs einer technischen Darstellung ist 32 Zeichen."
+        },
+        "language": {
+          "size": "Die Maximallänge der Sprache einer technischen Darstellung ist 32 Zeichen."
+        },
+        "source": {
+          "size": "Die Maximallänge der technischen Darstellung ist 1048576 Zeichen."
         }
       },
       "post-validation": {

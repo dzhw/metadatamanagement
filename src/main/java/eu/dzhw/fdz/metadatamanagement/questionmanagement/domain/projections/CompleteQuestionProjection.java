@@ -8,6 +8,7 @@ import eu.dzhw.fdz.metadatamanagement.common.domain.I18nString;
 import eu.dzhw.fdz.metadatamanagement.common.domain.ImageType;
 import eu.dzhw.fdz.metadatamanagement.common.domain.projections.AbstractRdcDomainObjectProjection;
 import eu.dzhw.fdz.metadatamanagement.questionmanagement.domain.Question;
+import eu.dzhw.fdz.metadatamanagement.questionmanagement.domain.TechnicalRepresentation;
 
 /**
  * The 'complete' Projection of a question domain object. 'complete' means all attributes will be
@@ -17,6 +18,7 @@ import eu.dzhw.fdz.metadatamanagement.questionmanagement.domain.Question;
 public interface CompleteQuestionProjection
     extends AbstractRdcDomainObjectProjection {
   
+  @Override
   String getId();
     
   String getDataAcquisitionProjectId();
@@ -37,7 +39,7 @@ public interface CompleteQuestionProjection
   
   ImageType geImageType();
     
-  String getTechnicalRepresentation();
+  TechnicalRepresentation getTechnicalRepresentation();
     
   List<String> getSuccessors();
   

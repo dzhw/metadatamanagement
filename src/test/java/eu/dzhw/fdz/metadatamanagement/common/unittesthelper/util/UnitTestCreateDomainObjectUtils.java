@@ -23,7 +23,9 @@ import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.builders.DataAcqu
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.builders.ReleaseBuilder;
 import eu.dzhw.fdz.metadatamanagement.questionmanagement.domain.Question;
 import eu.dzhw.fdz.metadatamanagement.questionmanagement.domain.QuestionTypes;
+import eu.dzhw.fdz.metadatamanagement.questionmanagement.domain.TechnicalRepresentation;
 import eu.dzhw.fdz.metadatamanagement.questionmanagement.domain.builders.QuestionBuilder;
+import eu.dzhw.fdz.metadatamanagement.questionmanagement.domain.builders.TechnicalRepresentationBuilder;
 import eu.dzhw.fdz.metadatamanagement.studymanagement.domain.Release;
 import eu.dzhw.fdz.metadatamanagement.studymanagement.domain.Study;
 import eu.dzhw.fdz.metadatamanagement.studymanagement.domain.builders.StudyBuilder;
@@ -198,6 +200,14 @@ public class UnitTestCreateDomainObjectUtils {
       .build();
   }
   
+  public static TechnicalRepresentation buildTechnicalRepresentation() {
+    return new TechnicalRepresentationBuilder()
+        .withLanguage("TR Language")
+        .withType("Technical Representation Type")
+        .withSource("Technical Representation Source")
+        .build();
+  }
+  
   public static Question buildQuestion(String projectId, String instrumentId, String surveyId) {
     return new QuestionBuilder().withDataAcquisitionProjectId(projectId)
       .withId(projectId + "-Question-1.1")
@@ -211,7 +221,7 @@ public class UnitTestCreateDomainObjectUtils {
       .withSuccessors(new ArrayList<>())
       .withQuestionText(new I18nString("Fragetext","Question text"))
       .withSurveyId(surveyId)
-      .withTechnicalRepresentation("Technical representation")
+      .withTechnicalRepresentation(buildTechnicalRepresentation())
       .withType(QuestionTypes.SINGLE_CHOICE)
       .build();
   }

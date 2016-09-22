@@ -57,14 +57,22 @@
           "not-null": "The image type of the question must not be empty.",
           "valid-question-image-type": "The image type of a question must be PNG."
         },
-        "technical-representation": {
-          "size": "The max length of the technical representation is 1048576 signs."
-        },
         "instrument-id": {
           "not-empty": "The RDC-ID of the Instrument must not be empty!"
         },
         "survey-id": {
           "not-empty": "The RDC-ID of the Survey must not be empty!"
+        }
+      },
+      "technical-representation": {
+        "type": {
+          "size": "The max length of the type of the technical representation is 32 signs."
+        },
+        "language": {
+          "size": "The max length of the language of the technical representation is 32 signs."
+        },
+        "source": {
+          "size": "The max length of the technical representation is 1048576 signs."
         }
       },
       "post-validation": {

@@ -118,7 +118,7 @@ public class QuestionResourceTest extends AbstractTest {
     mockMvc.perform(put(API_QUESTIONS_URI + "/" + question.getId())
       .content(TestUtil.convertObjectToJsonBytes(question)))
       .andExpect(status().isCreated());
-
+    
       question.setQuestionText(new I18nStringBuilder().withDe("Angepasst")
           .withEn("Different Value")
           .build());

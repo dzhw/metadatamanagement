@@ -2,6 +2,7 @@ package eu.dzhw.fdz.metadatamanagement.questionmanagement.domain;
 
 import java.util.List;
 
+import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
@@ -74,9 +75,8 @@ public class Question extends AbstractRdcDomainObject {
       message = "question-management.error.question.image-type.valid-question-image-type")
   private ImageType imageType;
   
-  @Size(max = StringLengths.X_LARGE, 
-      message = "question-management.error.question.technical-representation.size")
-  private String technicalRepresentation;
+  @Valid
+  private TechnicalRepresentation technicalRepresentation;
   
   private List<String> successors;
   
@@ -193,11 +193,11 @@ public class Question extends AbstractRdcDomainObject {
     this.imageType = imageType;
   }
 
-  public String getTechnicalRepresentation() {
+  public TechnicalRepresentation getTechnicalRepresentation() {
     return technicalRepresentation;
   }
-  
-  public void setTechnicalRepresentation(String technicalRepresentation) {
+
+  public void setTechnicalRepresentation(TechnicalRepresentation technicalRepresentation) {
     this.technicalRepresentation = technicalRepresentation;
   }
 

@@ -19,7 +19,6 @@ public class QuestionSearchDocument {
   private String type;
   private String additionalQuestionText;
   private String imageType;
-  private String technicalRepresentation;
   private String instrumentId;
 
   /**
@@ -31,7 +30,6 @@ public class QuestionSearchDocument {
     this.surveyId = question.getSurveyId();
     this.instrumentId = question.getInstrumentId();
     this.dataAcquisitionProjectId = question.getDataAcquisitionProjectId();
-    this.technicalRepresentation = question.getTechnicalRepresentation();
     this.imageType = question.getImageType().name();
     createI18nAttributes(question, index);
   }
@@ -145,14 +143,6 @@ public class QuestionSearchDocument {
 
   public void setImageType(String imageType) {
     this.imageType = imageType;
-  }
-
-  public String getTechnicalRepresentation() {
-    return technicalRepresentation;
-  }
-
-  public void setTechnicalRepresentation(String technicalRepresentation) {
-    this.technicalRepresentation = technicalRepresentation;
   }
 
   public String getInstrumentId() {
