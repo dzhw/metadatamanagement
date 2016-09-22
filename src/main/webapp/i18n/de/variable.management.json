@@ -29,6 +29,7 @@
       "filter-description": "Beschreibung des Filters",
       "filter-details-language": "Filterausdruckssprache",
       "filter-details-expression": "Filterausdruck",
+      "input-filter": "Eingangsfilter",
       "generation-details-description": "Beschreibung der Generierung",
       "generation-details-expression-language": "Generierungsausdruckssprache",
       "generation-details-rule": "Generierungsregel",
@@ -41,10 +42,10 @@
         "false": "Klicken zum minimieren"
       },
       "statistics": {
-        "graphics": "Statistische Grafik",
+        "graphics": "Abbildung Häufigkeiten/Verteilung",
         "graphic-is-loading": "wird geladen...",
         "graphic-is-not-available": "Keine Grafische Darstellung Der Statistiken",
-        "statistics": "Statistiken",
+        "statistics": "Deskriptive Maßzahlen",
         "all": "Alle",
         "page": "Seite",
         "rowsPerPage": "Zeilen Pro Seite",

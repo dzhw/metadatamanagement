@@ -29,6 +29,7 @@
       "filter-description": "Filter Description",
       "filter-details-language": "Filtering Language",
       "filter-details-expression": "Filter Expression",
+      "input-filter": "Input Filter",
       "generation-details-description": "Generation Details Description",
       "generation-details-expression-language": "Generation Expression Language",
       "generation-details-rule": "Generation Rule",
@@ -41,10 +42,10 @@
         "false": "Click to minimize"
       },
       "statistics": {
-        "graphics": "Statistical Graphs",
-        "grafic-is-loading": "is loading...",
-        "grafic-is-not-available": "No plotting available",
-        "statistics": "Statistics",
+        "graphics": "Figure Frequencies/Distribution",
+        "graphic-is-loading": "is loading...",
+        "graphic-is-not-available": "No plotting available",
+        "statistics": "Descriptive Metrics",
         "all": "All",
         "page": "Page",
         "rowsPerPage": "Rows per Page",

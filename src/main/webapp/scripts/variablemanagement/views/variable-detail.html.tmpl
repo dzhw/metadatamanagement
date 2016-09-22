@@ -11,7 +11,7 @@
         </md-card-header>
         <md-card-content style="padding-top: 0px;" layout="column">
             <div layout="row" layout-sm="column" layout-xs="column">
-                <md-card flex>
+                <md-card flex-gt-sm>
                     <md-card-header>
                         <md-card-header-text>
                             <h2 class="md-title">{{'variable-management.detail.variable-informations' | translate }}</h2>
@@ -19,6 +19,16 @@
                     </md-card-header>
                     <md-divider></md-divider>
                     <md-card-content>
+                      <section style="margin-bottom: 0.5em;" ng-if="variable.name">
+                          <span style="font-weight: bold;">{{'variable-management.detail.name' | translate }}:
+                          </span>
+                          <span>{{variable.name}}</span>
+                      </section>
+                      <section style="margin-bottom: 0.5em;" ng-if="variable.label[currentLanguage]">
+                          <span style="font-weight: bold;">{{'variable-management.detail.label' | translate }}:
+                          </span>
+                          <span>{{variable.label[currentLanguage]}}</span>
+                      </section>
                         <section style="margin-bottom: 0.5em;" ng-if="variable.dataType[currentLanguage]">
                             <span style="font-weight: bold;">{{'variable-management.detail.data-type' | translate }}:
                             </span>
@@ -44,15 +54,10 @@
                             </span>
                             <span>{{variable.filterDetails.expressionLanguage}}</span>
                         </section>
-                        <section style="margin-bottom: 0.5em;" ng-if="variable.filterDetails.expressionLanguage">
-                            <span style="font-weight: bold;">{{'variable-management.detail.filter-details-language' | translate }}:
+                        <section ng-if="variable.filterDetails.expressionLanguage">
+                            <span style="font-weight: bold;">{{'variable-management.detail.input-filter' | translate }} ({{variable.filterDetails.expressionLanguage}}):
                             </span>
-                            <span>{{variable.filterDetails.expressionLanguage}}</span>
-                        </section>
-                        <section style="margin-bottom: 0.5em;" ng-if="variable.filterDetails.expression">
-                            <span style="font-weight: bold;">{{'variable-management.detail.filter-details-expression' | translate }}:
-                            </span>
-                            <pre class="fdz-code-container">{{variable.filterDetails.expression}}</pre>
+                            <pre style="margin-top: 0.5em;" class="fdz-code-container">{{variable.filterDetails.expression}}</pre>
                         </section>
                     </md-card-content>
                 </md-card>
@@ -102,7 +107,7 @@
                 </md-card>
             </div>
             <div layout="row" layout-sm="column" layout-xs="column">
-                <md-card flex="70" flex-sm="100" flex-xs="100">
+                <md-card flex-gt-sm="70">
                     <md-card-header>
                         <md-card-header-text>
                             <h2 class="md-title">{{'variable-management.detail.statistics.graphics' | translate }}</h2>
@@ -113,7 +118,7 @@
                         <diagram statistics="variable.distribution" type="variable.scaleLevel[currentLanguage]" language="currentLanguage" ng-cloak></diagram>
                     </md-card-content>
                 </md-card>
-                <md-card flex="30" flex-sm="100" flex-xs="100">
+                <md-card flex-gt-sm="30">
                     <md-card-header>
                         <md-card-header-text>
                             <h2 class="md-title">{{'variable-management.detail.statistics.statistics' | translate }}</h2>
@@ -255,7 +260,7 @@
                     </md-card-content>
                 </md-card>
             </div>
-            <div layout="row">
+            <div layout="row" ng-if="variable.generationDetails.description[currentLanguage] || variable.generationDetails.ruleExpressionLanguage || variable.generationDetails.rule">
                 <md-card flex>
                     <md-card-header>
                         <md-card-header-text>
@@ -264,23 +269,18 @@
                     </md-card-header>
                     <md-divider></md-divider>
                     <md-card-content>
-                        <section ng-if="variable.generationDetails.description[currentLanguage]">
+                        <section style="margin-bottom: 0.5em;" ng-if="variable.generationDetails.description[currentLanguage]">
                             <span style="font-weight: bold;">{{'variable-management.detail.generation-details-description' | translate }}:
                             </span>
                             <span>{{variable.generationDetails.description[currentLanguage]}}</span>
                         </section>
-                        <section ng-if="variable.generationDetails.ruleExpressionLanguage">
-                            <span style="font-weight: bold;">{{'variable-management.detail.generation-details-expression-language' | translate }}:
-                            </span>
-                            <span>{{variable.generationDetails.ruleExpressionLanguage}}</span>
-                        </section>
                         <section ng-if="variable.generationDetails.rule">
-                            <span style="font-weight: bold;">{{'variable-management.detail.generation-details-rule' | translate }}:
+                            <span style="font-weight: bold;">{{'variable-management.detail.generation-details-rule' | translate }} ({{variable.generationDetails.ruleExpressionLanguage}}):
                             </span>
                             <md-tooltip md-direction="top">
                                 {{'variable-management.detail.content.' + generationCodeToggleFlag | translate }}
                             </md-tooltip>
-                            <pre ng-click="toggleGenerationCode()" class="fdz-code-container" ng-class="{'fdz-hidden-code': generationCodeToggleFlag}">{{variable.generationDetails.rule}}</pre>
+                            <pre style="margin-top: 0.5em;" ng-click="toggleGenerationCode()" class="fdz-code-container" ng-class="{'fdz-hidden-code': generationCodeToggleFlag}">{{variable.generationDetails.rule}}</pre>
                         </section>
                     </md-card-content>
                 </md-card>
