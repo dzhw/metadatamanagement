@@ -2,6 +2,10 @@
   "instrument-management": {
     "home": {
       "title": "Instrument"
+    },
+    "detail": {
+      "instrument": "Instrument",
+      "instruments": "Instrumente"
     }
   }
 }

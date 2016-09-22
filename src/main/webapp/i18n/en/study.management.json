@@ -5,6 +5,7 @@
     },
     "detail": {
       "study": "Study",
+      "studies": "Studies",
       "study-informations": "Study Detail",
       "related-information": "Related Information",
       "not-found": "The {{id}} references to an unknown Study.",
@@ -16,12 +17,13 @@
       "surveySeries": "Survey Series",
       "institution": "Institution",
       "authors": "Authors",
-      "sponsors": "Sponsors",
+      "sponsors": "Sponsored by",
       "accessWays": "Access Ways",
       "releases": "Releases",
       "version": "Version",
       "notes": "Botes",
-      "citationHint": "Citation Hint"
+      "citationHint": "Citation Hint",
+      "instruments": "Instruments"
     },
     "log-messages": {
       "study": {

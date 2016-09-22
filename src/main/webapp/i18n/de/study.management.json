@@ -4,7 +4,8 @@
       "title": "Studie"
     },
     "detail": {
-      "study": "Study",
+      "study": "Studie",
+      "studies": "Studien",
       "study-informations": "Details der Studie",
       "related-information": "Zugehörige Informationen",
       "not-found": "Die id {{id}} referenziert auf eine unbekannte Studie.",
@@ -14,14 +15,15 @@
       "data-set-details": "Datensatzinformationen",
       "instrument-information": "Instrumenteninformationen",
       "surveySeries": "Erhebungsreihe",
-      "institution": "Institution",
-      "authors": "Autoren",
-      "sponsors": "Sponsoren",
+      "institution": "Erhebende Institution",
+      "authors": "Projektmitarbeiter(innen)",
+      "sponsors": "Gefördert von",
       "accessWays": "Zugangswege",
       "releases": "Veröffentlichungen",
       "version": "Version",
       "notes": "Notizen",
-      "citationHint": "Zitat Hinweis"
+      "citationHint": "Zitation",
+      "instruments": "Instrumente"
     },
     "log-messages": {
       "study": {

@@ -43,26 +43,17 @@
                             </span>
                             <span>{{study.accessWays.join(', ')}}</span>
                         </section>
-                        <section style="margin-bottom: 0.5em;" ng-if="study.releases.length > 0">
-                            <span style="font-weight: bold;">{{'study-management.detail.releases' | translate }}:
-                            </span>
-                            <section ng-repeat="release in study.releases" style="margin-left: 30px;">
-                                <section>
+                            <section ng-if="study.releases.length > 0" ng-repeat="release in study.releases">
+                                <section style="margin-bottom: 0.5em;">
                                     <span style="font-weight: bold;">doi:
                                     </span>
                                     <span>{{release.doi}}</span>
                                 </section>
-                                <section>
+                                <section style="margin-bottom: 0.5em;">
                                     <span style="font-weight: bold;">{{'study-management.detail.version' | translate }}:
                                     </span>
                                     <span>{{release.version}}</span>
                                 </section>
-                                <section>
-                                    <span style="font-weight: bold;">{{'study-management.detail.notes' | translate }}:
-                                    </span>
-                                    <span>{{release.notes[currentLanguage]}}</span>
-                                </section>
-                            </section>
                         </section>
                         <section style="margin-bottom: 0.5em;" ng-if="study.citationHint[currentLanguage]">
                             <span style="font-weight: bold;">{{'study-management.detail.citationHint' | translate }}:
@@ -88,19 +79,19 @@
                         <section>
                             <md-button class="md-raised" ng-click="showQuestions()">
                                 <md-icon md-svg-src="/assets/images/icons/question.svg"></md-icon>
-                                <span>{{'question-management.home.title' | translate }}</span>
+                                <span>{{'question-management.detail.questions' | translate }}</span>
                             </md-button>
                         </section>
                         <section>
                             <md-button class="md-raised" ng-disabled="true" ng-click="showInstruments()">
                                 <md-icon md-svg-src="/assets/images/icons/instrument.svg"></md-icon>
-                                <span>{{'instrument-management.home.title' | translate }}</span>
+                                <span>{{'instrument-management.detail.instruments' | translate }}</span>
                             </md-button>
                         </section>
                         <section>
                             <md-button class="md-raised" ui-sref="relatedPublicationDetail({id: 'publication01'})">
                                 <md-icon md-svg-src="/assets/images/icons/related-publication.svg"></md-icon>
-                                <span>Related Publications</span>
+                                <span>{{'related-publication-management.detail.publications' | translate }}</span>
                             </md-button>
                         </section>
                     </md-card-content>
@@ -123,7 +114,7 @@
                 <md-card flex-gt-sm="50">
                     <md-card-header>
                         <md-card-header-text>
-                            <h2 class="md-title">{{'study-management.detail.survey-details' | translate }}</h2>
+                            <h2 class="md-title">{{'survey-management.detail.surveys' | translate }}</h2>
                         </md-card-header-text>
                     </md-card-header>
                     <md-divider></md-divider>
@@ -142,7 +133,7 @@
                 <md-card flex-gt-sm="50">
                     <md-card-header>
                         <md-card-header-text>
-                            <h2 class="md-title">{{'study-management.detail.data-set-details' | translate }}</h2>
+                            <h2 class="md-title">{{'data-set-management.detail.data-sets' | translate }}</h2>
                         </md-card-header-text>
                     </md-card-header>
                     <md-divider></md-divider>
@@ -160,7 +151,7 @@
                 <md-card flex>
                     <md-card-header>
                         <md-card-header-text>
-                            <h2 class="md-title">{{'study-management.detail.instrument-information' | translate }}</h2>
+                            <h2 class="md-title">{{'instrument-management.detail.instruments' | translate }}</h2>
                         </md-card-header-text>
                     </md-card-header>
                     <md-content style="background-color:white;"></md-content>

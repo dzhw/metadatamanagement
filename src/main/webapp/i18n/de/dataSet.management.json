@@ -18,6 +18,8 @@
       "title": "Datensätze"
     },
     "detail": {
+      "data-set": "Datensatz",
+      "data-sets": "Datensätze",
       "not-found": "Die id {{id}} referenziert auf einen unbekannten Datensatz",
       "not-found-references": "Die id {{id}} hat keine Referenzen auf Datensätze."
     },

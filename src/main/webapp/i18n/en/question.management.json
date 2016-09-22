@@ -16,6 +16,7 @@
     "detail": {
       "title": "Question Detail",
       "question": "Question",
+      "questions": "Questions",
       "predecessors": "Predecessors",
       "successors": "Successors",
       "related-information": "Related Information",

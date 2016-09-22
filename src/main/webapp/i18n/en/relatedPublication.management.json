@@ -5,6 +5,8 @@
     },
     "detail": {
       "title": "Information of the related publication",
+      "publication": "Publication",
+      "publications": "Publications",
       "related-information": "Related Information",
       "studies-title": "Studies",
       "questions-title": "Questions",

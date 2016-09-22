@@ -16,6 +16,7 @@
     "detail": {
       "title": "Fragen Detail",
       "question": "Frage",
+      "questions": "Fragen",
       "predecessors": "Vorgänger",
       "successors": "Nachfolger",
       "related-information": "Zugehörige Informationen",

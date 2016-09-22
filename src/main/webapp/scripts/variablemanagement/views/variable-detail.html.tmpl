@@ -72,7 +72,7 @@
                         <section>
                             <md-button class="md-raised" ng-click="showStudy()">
                                 <md-icon md-svg-src="/assets/images/icons/study.svg"></md-icon>
-                                <span>{{'study-management.home.title' | translate }}</span>
+                                <span>{{'study-management.detail.study' | translate }}</span>
                             </md-button>
                             <md-button class="md-raised" ng-click="addToNotepad()">
                                 <md-icon md-svg-src="/assets/images/icons/addToshop.svg"></md-icon>
@@ -82,7 +82,7 @@
                         <section>
                             <md-button class="md-raised" ng-click="showSurveys()">
                                 <md-icon md-svg-src="/assets/images/icons/survey.svg"></md-icon>
-                                <span>{{'survey-management.home.title' | translate }}</span>
+                                <span>{{'survey-management.detail.surveys' | translate }}</span>
                             </md-button>
                         </section>
                         <section>
@@ -94,14 +94,14 @@
                         <section>
                             <md-button class="md-raised" ng-click="showDataSets()">
                                 <md-icon md-svg-src="/assets/images/icons/data-set.svg"></md-icon>
-                                <span>{{'data-set-management.home.title' | translate }}</span>
+                                <span>{{'data-set-management.detail.data-sets' | translate }}</span>
                             </md-button>
                         </section>
                         <section>
-                            <md-button class="md-raised" ui-sref="relatedPublicationDetail({id: 'publication01'})">
-                                <md-icon md-svg-src="/assets/images/icons/variable.svg"></md-icon>
-                                <span>Related Publications</span>
-                            </md-button>
+                          <md-button class="md-raised" ui-sref="relatedPublicationDetail({id: 'publication01'})">
+                              <md-icon md-svg-src="/assets/images/icons/related-publication.svg"></md-icon>
+                              <span>{{'related-publication-management.detail.publications' | translate }}</span>
+                          </md-button>
                         </section>
                     </md-card-content>
                 </md-card>
@@ -151,6 +151,11 @@
                                 <span style="font-weight: bold;">{{'variable-management.detail.statistics.thirdQuartile' | translate}}:
                                 </span>
                                 <span>{{variable.distribution.statistics.thirdQuartile}}</span>
+                            </section>
+                            <section ng-if="variable.distribution.totalAbsoluteFrequency">
+                                <span style="font-weight: bold;">{{'variable-management.detail.statistics.absoluteFrequency' | translate}}:
+                                </span>
+                                <span>{{variable.distribution.totalAbsoluteFrequency}}</span>
                             </section>
                         </section>
                     </md-card-content>
