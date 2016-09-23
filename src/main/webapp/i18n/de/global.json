@@ -98,7 +98,7 @@
       "unsupported-zip-file": "Zip Datei konnte nicht gelesen werden",
       "unsupported-excel-file": "Excel Datei konnte nicht gelesen werden",
       "unsupported-tex-file": "Tex Datei konnte nicht gelesen werden",
-      "unsupported-directory-structure": "Die ZIP Datei muss ein Verzeichnis 'variables' und eine Datei 'variables.xlsx' enthalten.",
+      "unable-to-parse-json-file": "Die JSON Datei '{{file}}' enthält kein valides JSON!",
       "malformed-json-file": "JSON Datei für die Variable mit FDZ-ID {{ id }} konnte nicht geparst werden.",
       "not-found-json-file": "JSON Datei für die Variable mit FDZ-ID {{ id }} konnte nicht gefunden werden.",
       "post-validation-terminated": "Die Post-Validierung wurde mit {{errors}} Fehlern beendet."

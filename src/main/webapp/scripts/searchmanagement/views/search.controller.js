@@ -146,8 +146,8 @@ angular.module('metadatamanagementApp').controller('SearchController',
       }
     };
 
-    $scope.uploadQuestions = function(file) {
-      if (!file || !file.name.endsWith('zip')) {
+    $scope.uploadQuestions = function(files) {
+      if (!files) {
         return;
       }
       var dataAcquisitionProject = $scope.currentProject;
@@ -169,7 +169,7 @@ angular.module('metadatamanagementApp').controller('SearchController',
         $mdDialog.show(confirm).then(function() {
           //start upload
           QuestionUploadService
-            .uploadQuestions(file, dataAcquisitionProject.id);
+            .uploadQuestions(files, dataAcquisitionProject.id);
           //Cancel. Nothing happens
         }, function() {});
       }
@@ -232,8 +232,8 @@ angular.module('metadatamanagementApp').controller('SearchController',
       }
     };
 
-    $scope.uploadStudy = function(file) {
-      if (!file || !file.name.endsWith('zip')) {
+    $scope.uploadStudy = function(files) {
+      if (!files) {
         return;
       }
       var dataAcquisitionProject = $scope.currentProject;
@@ -254,7 +254,7 @@ angular.module('metadatamanagementApp').controller('SearchController',
         $mdDialog.show(confirm).then(function() {
           //start upload
           StudyUploadService
-            .uploadStudy(file, dataAcquisitionProject.id);
+            .uploadStudy(files, dataAcquisitionProject.id);
           //Cancel. Nothing happens
         }, function() {});
       }

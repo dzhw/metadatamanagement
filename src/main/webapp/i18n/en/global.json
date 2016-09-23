@@ -98,7 +98,7 @@
       "unsupported-zip-file": "Zip File could not be read",
       "unsupported-excel-file": "Excel File could not be read",
       "unsupported-tex-file": "Tex File could not be read",
-      "unsupported-directory-structure": "The zip file must contain a folder 'variables' and a file 'variables.xlsx'!",
+      "unable-to-parse-json-file": "The JSON file '{{file}}' does not contain valid JSON!",
       "malformed-json-file": "JSON File for Variable with RDC-ID {{ id }} could not be parsed.",
       "not-found-json-file": "JSON File for Variable with RDC-ID {{ id }} could not be found.",
       "post-validation-terminated": "The Post-Validation terminated with {{errors}} Errors."

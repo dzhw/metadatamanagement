@@ -9,8 +9,8 @@
       "delete-questions": "Sind Sie sicher dass, Sie alle Fragen innerhalb des Datenaufbereitungsprojekts mit der FDZ-ID \"{{ id }}\" löschen möchten?",
       "delete-data-sets-title": "Alle Datensätze löschen?",
       "delete-data-sets": "Sind Sie sicher dass, Sie alle Datensätze innerhalb des Datenaufbereitungsprojekts mit der FDZ-ID \"{{ id }}\" löschen möchten?",
-      "delete-studies-title": "Alle Studien löschen?",
-      "delete-studies": "Sind Sie sicher dass, Sie alle Studien innerhalb des Datenaufbereitungsprojekts mit der FDZ-ID \"{{ id }}\" löschen möchten?"
+      "delete-studies-title": "Studie löschen?",
+      "delete-studies": "Sind Sie sicher dass, Sie die Studie des Datenaufbereitungsprojekts mit der FDZ-ID \"{{ id }}\" löschen möchten?"
     },
     "buttons": {
       "refresh": "Suche aktualisieren",
@@ -18,7 +18,7 @@
       "upload-surveys": "Erhebungen für ausgewähltes Datenaufbereitungsprojekt hochladen",
       "upload-data-sets": "Datensätze für ausgewähltes Datenaufbereitungsprojekt hochladen",
       "upload-questions": "Fragen für ausgewähltes Datenaufbereitungsprojekt hochladen",
-      "upload-studies": "Studien für ausgewähltes Datenaufbereitungsprojekt hochladen",
+      "upload-studies": "Studie für ausgewähltes Datenaufbereitungsprojekt hochladen",
       "generate-variable-report": "Erzeuge Variablenreport"
     },
     "input-label": {

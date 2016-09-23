@@ -29,9 +29,12 @@
       "study": {
         "saved": "Study with RDC-ID {{ id }} was saved successfully!",
         "not-saved": "Study with RDC-ID {{ id }} has not been saved!",
+        "study-file-not-found": "The selected directory does not contain the following file: study.xlsx!",
+        "releases-file-not-found": "The selected directory does not contain the following file: releases.xlsx!",
+        "unable-to-delete": "The study could not be deleted!",
         "missing-id": "Study {{ index }} does not contain a RDC-ID and has not been saved:",
-        "upload-terminated": "Finished upload of {{ total }} Studies with {{ errors }} errors.",
-        "cancelled": "Studies upload cancelled!"
+        "upload-terminated": "Finished upload of {{ total }} Study with {{ errors }} errors.",
+        "cancelled": "Study upload cancelled!"
       }
     },
     "error": {

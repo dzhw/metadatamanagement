@@ -55,9 +55,9 @@
             aria-label="{{'search-management.buttons.upload-studies' | translate}}"
             ng-if="selectedTabIndex===1"
             type="file"
-            ngf-select="uploadStudy($file)"
+            ngf-select="uploadStudy($files)"
             class="md-accent md-fab"
-            accept=".zip"
+            directory webkitdirectory
             ng-disabled="!currentProject">
             <div>
                 <md-tooltip md-direction="left">
@@ -71,9 +71,9 @@
             aria-label="{{'search-management.buttons.upload-questions' | translate}}"
             ng-if="selectedTabIndex===2"
             type="file"
-            ngf-select="uploadQuestions($file)"
+            ngf-select="uploadQuestions($files)"
             class="md-accent md-fab"
-            accept=".zip"
+            directory webkitdirectory
             ng-disabled="!currentProject">
             <div>
                 <md-tooltip md-direction="left">
@@ -86,10 +86,10 @@
         <md-button
             aria-label="{{'search-management.buttons.upload-variables' | translate}}"
             ng-if="selectedTabIndex===3"
-            type="file"
-            ngf-select="uploadVariables($file)"
+            ngf-select="uploadVariables()"
+            ng-model="selectedDirectory"
             class="md-accent md-fab"
-            accept=".zip"
+            directory webkitdirectory
             ng-disabled="!currentProject">
             <div>
                 <md-tooltip md-direction="left">

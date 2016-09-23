@@ -2,8 +2,7 @@
 'use strict';
 
 angular.module('metadatamanagementApp').service('StudyUploadService',
-  function(ZipReaderService,
-    StudyBuilderService, StudyDeleteResource, JobLoggingService,
+  function(StudyBuilderService, StudyDeleteResource, JobLoggingService,
     ErrorMessageResolverService, ExcelReaderService, $q,
     ElasticSearchAdminService, $rootScope) {
     var objects;
@@ -45,42 +44,37 @@ angular.module('metadatamanagementApp').service('StudyUploadService',
         }
       }
     };
-    var uploadStudy = function(file, dataAcquisitionProjectId) {
+    var uploadStudy = function(files, dataAcquisitionProjectId) {
       uploadCount = 0;
       JobLoggingService.start('study');
-      var zip;
+      var releasesFile;
+      var studyFile;
       var releasesForStudy;
-      ZipReaderService.readZipFileAsync(file)
-        .then(function(zipFile) {
-          try {
-            zip = zipFile;
-            var excelFileReleases = zipFile.files['releases.xlsx'];
-            if (excelFileReleases) {
-              return ExcelReaderService.readFileAsync(excelFileReleases);
-            } else {
-              return $q.reject('unsupportedDirectoryStructure');
-            }
-          } catch (e) {
-            return $q.reject('unsupportedDirectoryStructure');
-          }
-        }, function() {
-          JobLoggingService.cancel(
-            'global.log-messages.unsupported-zip-file', {});
-        }).then(function(releases) {
-          try {
+      files.forEach(function(file) {
+        if (file.name === 'study.xlsx') {
+          studyFile = file;
+        }
+        if (file.name === 'releases.xlsx') {
+          releasesFile = file;
+        }
+      });
+      if (!studyFile) {
+        JobLoggingService.cancel(
+          'study-management.log-messages.study.study-file-not-found', {});
+        return;
+      }
+      if (!releasesFile) {
+        JobLoggingService.cancel(
+          'study-management.log-messages.study.releases-file-not-found', {});
+        return;
+      }
+      ExcelReaderService.readFileAsync(releasesFile)
+        .then(function(releases) {
             releasesForStudy = releases;
-            var excelFileStudy = zip.files['study.xlsx'];
-            if (excelFileStudy) {
-              return ExcelReaderService.readFileAsync(excelFileStudy);
-            } else {
-              return $q.reject('unsupportedDirectoryStructure');
-            }
-          } catch (e) {
-            return $q.reject('unsupportedDirectoryStructure');
-          }
-        }, function() {
+            return ExcelReaderService.readFileAsync(studyFile);
+          }, function() {
           JobLoggingService.cancel(
-            'global.log-messages.unsupported-zip-file', {});
+            'global.log-messages.unsupported-excel-file', {});
         })
         .then(function(study) {
           study.dataAcquisitionProjectId = dataAcquisitionProjectId;
@@ -95,24 +89,14 @@ angular.module('metadatamanagementApp').service('StudyUploadService',
               dataAcquisitionProjectId: dataAcquisitionProjectId
             },
             upload,
-            function(error) {
-              var errorMessages = ErrorMessageResolverService
-                .getErrorMessages(error, 'study');
-              errorMessages.forEach(function(errorMessage) {
-                JobLoggingService.error(errorMessage.message,
-                  errorMessage.translationParams);
-              });
+            function() {
+              JobLoggingService.cancel(
+                'study-management.log-messages.study.unable-to-delete', {});
             });
-        }, function(error) {
-          if (error === 'unsupportedDirectoryStructure') {
-            JobLoggingService.cancel(
-              'global.log-messages.unsupported-directory-structure', {}
-            );
-          } else {
+        }, function() {
             JobLoggingService.cancel(
               'global.log-messages.unsupported-excel-file', {});
-          }
-        });
+          });
     };
 
     return {
