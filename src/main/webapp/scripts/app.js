@@ -85,8 +85,7 @@ angular
     function($windowProvider, $stateProvider, $urlRouterProvider,
       $httpProvider, $locationProvider, $translateProvider,
       tmhDynamicLocaleProvider, httpRequestInterceptorCacheBusterProvider,
-      blockUIConfig, $mdThemingProvider, localStorageServiceProvider,
-      hljsServiceProvider) {
+      blockUIConfig, $mdThemingProvider, localStorageServiceProvider) {
       localStorageServiceProvider
         .setPrefix('metadatamanagementApp')
         .setStorageType('localStorage')
