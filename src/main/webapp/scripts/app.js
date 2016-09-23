@@ -173,8 +173,6 @@ angular
         }
       };
 
-      console.log(hljsServiceProvider);
-
       $mdThemingProvider.definePalette('dzhwPrimaryPalette', {
         '50': 'F2F7F8',
         '100': 'E5F0F7',

@@ -1,3 +1,5 @@
+/* global html_beautify */
+/* @Author Daniel Katzberg */
 'use strict';
 
 angular.module('metadatamanagementApp')
@@ -65,10 +67,19 @@ angular.module('metadatamanagementApp')
       };
       entity.$promise.then(function(question) {
         $scope.question = question;
-        // jscs:disable
+
+        //default value is no beautify
         $scope.technicalRepresentationBeauty =
-          html_beautify($scope.question.technicalRepresentation.source);
-        // jscs:enable
+          $scope.question.technicalRepresentation.source;
+
+        //beautify xml, html, xhtml files.
+        if ($scope.question.technicalRepresentation.language === 'xml' ||
+          $scope.question.technicalRepresentation.language === 'xhtml' ||
+          $scope.question.technicalRepresentation.language === 'html') {
+          $scope.technicalRepresentationBeauty =
+            html_beautify($scope.question.technicalRepresentation.source); //jscs:ignore
+        }
+
         StudyReferencedResource
           .getReferencedStudy({
             id: $scope.question.dataAcquisitionProjectId
