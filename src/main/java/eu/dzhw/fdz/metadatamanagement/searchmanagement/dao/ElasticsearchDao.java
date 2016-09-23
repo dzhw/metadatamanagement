@@ -1,6 +1,7 @@
 package eu.dzhw.fdz.metadatamanagement.searchmanagement.dao;
 
 import java.io.IOException;
+import java.util.Collection;
 
 import javax.inject.Inject;
 
@@ -112,13 +113,13 @@ public class ElasticsearchDao {
   }
 
   /**
-   * Refresh the given index synchronously.
-   * @param index the index to refresh.
+   * Refresh the given indices synchronously.
+   * @param indices the indices to refresh.
    */
-  public void refresh(String index) {
-    JestResult result = execute(new Refresh.Builder().addIndex(index).build());
+  public void refresh(Collection<String> indices) {
+    JestResult result = execute(new Refresh.Builder().addIndex(indices).refresh(true).build());
     if (!result.isSucceeded()) {
-      log.warn("Unable to refresh index " + index + ": " + result.getErrorMessage());
+      log.warn("Unable to refresh indices " + indices + ": " + result.getErrorMessage());
     }
   }
 

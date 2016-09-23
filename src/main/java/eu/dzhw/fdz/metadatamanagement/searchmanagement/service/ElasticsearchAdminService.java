@@ -3,6 +3,7 @@ package eu.dzhw.fdz.metadatamanagement.searchmanagement.service;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.Reader;
+import java.util.Arrays;
 
 import javax.inject.Inject;
 
@@ -154,7 +155,7 @@ public class ElasticsearchAdminService {
     if (elasticsearchDao.exists(index)) {
       elasticsearchDao.delete(index);
       // deleting is asynchronous and thus searchly complains if we create the new index to early
-      elasticsearchDao.refresh(index);
+      elasticsearchDao.refresh(Arrays.asList(index));
     }
     elasticsearchDao.createIndex(index, loadSettings(index));
     for (ElasticsearchType type : ElasticsearchType.values()) {
@@ -206,9 +207,9 @@ public class ElasticsearchAdminService {
    * Refresh all elasticsearch indices.
    */
   public void refreshAllIndices() {
-    for (ElasticsearchIndices index : ElasticsearchIndices.values()) {      
-      elasticsearchDao.refresh(index.getIndexName());
-    }
+    elasticsearchDao.refresh(Arrays.asList(
+        ElasticsearchIndices.METADATA_DE.getIndexName(),
+        ElasticsearchIndices.METADATA_EN.getIndexName()));
   }
   
   /**
