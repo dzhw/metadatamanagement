@@ -38,7 +38,8 @@
     "plotly.js": "^1.10.1",
     "highlightjs": "^9.6.0",
     "angular-highlightjs": "^0.6.2",
-    "js-beautify": "^1.6.4"
+    "js-beautify": "^1.6.4",
+    "ngclipboard": "^1.1.1"
   },
   "devDependencies": {
     "angular-mocks": "1.5.8",
