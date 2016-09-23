@@ -22,6 +22,7 @@
       "questions": "Questions",
       "predecessors": "Predecessors",
       "successors": "Successors",
+      "technical-representation": "Technical Representation",
       "related-information": "Related Information",
       "not-found": "The {{id}} references to an unknown Question.",
       "not-found-references": "The id {{id}} has no References to Questions."

@@ -22,6 +22,7 @@
       "questions": "Fragen",
       "predecessors": "Vorgänger",
       "successors": "Nachfolger",
+      "technical-representation": "Technische Representation",
       "related-information": "Zugehörige Informationen",
       "not-found": "Die id {{id}} referenziert auf eine unbekannte Frage.",
       "not-found-references": "Die id {{id}} hat keine Referenzen auf Fragen."
