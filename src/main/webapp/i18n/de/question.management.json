@@ -17,6 +17,11 @@
       "title": "Fragen"
     },
     "detail": {
+      "button": {
+        "aria-label": {
+          "copy-to-clipboard": "Kopiere in die Zwischenablage"
+        }
+      },
       "title": "Fragen Detail",
       "question": "Frage",
       "questions": "Fragen",

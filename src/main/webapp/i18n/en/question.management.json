@@ -17,6 +17,11 @@
       "title": "Questions"
     },
     "detail": {
+      "button": {
+        "aria-label": {
+          "copy-to-clipboard": "Copy to Clipboard"
+        }
+      },
       "title": "Question Detail",
       "question": "Question",
       "questions": "Questions",
