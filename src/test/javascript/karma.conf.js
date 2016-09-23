@@ -50,6 +50,9 @@ module.exports = function(config) {
       'src/main/webapp/bower_components/plotly.js/dist/plotly.min.js',
       'src/main/webapp/bower_components/highlightjs/highlight.pack.js',
       'src/main/webapp/bower_components/angular-highlightjs/build/angular-highlightjs.js',
+      'src/main/webapp/bower_components/js-beautify/js/lib/beautify.js',
+      'src/main/webapp/bower_components/js-beautify/js/lib/beautify-css.js',
+      'src/main/webapp/bower_components/js-beautify/js/lib/beautify-html.js',
       'src/main/webapp/bower_components/angular-mocks/angular-mocks.js',
       // endbower
       'src/main/webapp/bower_components/elasticsearch/elasticsearch.angular.js',

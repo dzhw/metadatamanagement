@@ -20,8 +20,8 @@ angular
 
       if (typeof String.prototype.endsWith !== 'function') {
         String.prototype.endsWith = function(suffix) {
-            return this.indexOf(suffix, this.length - suffix.length) !== -1;
-          };
+          return this.indexOf(suffix, this.length - suffix.length) !== -1;
+        };
       }
 
       //init the current language
@@ -85,11 +85,12 @@ angular
     function($windowProvider, $stateProvider, $urlRouterProvider,
       $httpProvider, $locationProvider, $translateProvider,
       tmhDynamicLocaleProvider, httpRequestInterceptorCacheBusterProvider,
-      blockUIConfig, $mdThemingProvider, localStorageServiceProvider) {
+      blockUIConfig, $mdThemingProvider, localStorageServiceProvider,
+      hljsServiceProvider) {
       localStorageServiceProvider
-      .setPrefix('metadatamanagementApp')
-      .setStorageType('localStorage')
-      .setNotify(true, true);
+        .setPrefix('metadatamanagementApp')
+        .setStorageType('localStorage')
+        .setNotify(true, true);
       // Cache everything except rest api requests
       httpRequestInterceptorCacheBusterProvider.setMatchlist([/.*api.*/,
         /.*protected.*/
@@ -113,12 +114,12 @@ angular
             return Auth.authorize();
           }],
           translatePartialLoader: ['$translatePartialLoader',
-          function($translatePartialLoader) {
-            $translatePartialLoader.addPart('global');
-            $translatePartialLoader.addPart(
-              'dataAcquisitionProject.management');
-          }
-        ]
+            function($translatePartialLoader) {
+              $translatePartialLoader.addPart('global');
+              $translatePartialLoader.addPart(
+                'dataAcquisitionProject.management');
+            }
+          ]
         }
       });
       $urlRouterProvider.when('', '/de/');
@@ -171,6 +172,8 @@ angular
           return false; // ... don't block it.
         }
       };
+
+      console.log(hljsServiceProvider);
 
       $mdThemingProvider.definePalette('dzhwPrimaryPalette', {
         '50': 'F2F7F8',

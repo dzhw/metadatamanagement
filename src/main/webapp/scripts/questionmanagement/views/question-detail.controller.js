@@ -1,4 +1,3 @@
-
 'use strict';
 
 angular.module('metadatamanagementApp')
@@ -8,6 +7,7 @@ angular.module('metadatamanagementApp')
       ShoppingCartService, $stateParams, DialogService,
       QuestionReferencedResource, blockUI, entity, $q, $state,
       StudyReferencedResource) {
+
       $scope.predecessors = [];
       $scope.successors = [];
 
@@ -16,19 +16,23 @@ angular.module('metadatamanagementApp')
         var deferred = $q.defer();
         var itemsAsString = '"' + items + '"';
         itemsAsString = itemsAsString.replace(/[\[\]'"]/g, '');
-        QuestionReferencedResource.findByIdIn({ids: itemsAsString})
-        .$promise.then(function(successors) {
-          deferred.resolve(successors);
-        });
+        QuestionReferencedResource.findByIdIn({
+            ids: itemsAsString
+          })
+          .$promise.then(function(successors) {
+            deferred.resolve(successors);
+          });
         return deferred.promise;
       };
       /* function to load only texts and ids for successors and predecessors */
       var loadPredecessorsQuestionTextOnly = function(id) {
         var deferred = $q.defer();
-        QuestionReferencedResource.findBySuccessorsContaining({id: id})
-        .$promise.then(function(predecessors) {
-          deferred.resolve(predecessors);
-        });
+        QuestionReferencedResource.findBySuccessorsContaining({
+            id: id
+          })
+          .$promise.then(function(predecessors) {
+            deferred.resolve(predecessors);
+          });
         return deferred.promise;
       };
 
@@ -41,7 +45,7 @@ angular.module('metadatamanagementApp')
               if (customItems[i].id === id) {
                 tempQuestions.push(customItems[i]);
                 break;
-              }else {
+              } else {
                 if (i === (customItems.length - 1)) {
                   var notFoundQuestion = {
                     id: id,
@@ -61,20 +65,27 @@ angular.module('metadatamanagementApp')
       };
       entity.$promise.then(function(question) {
         $scope.question = question;
+        // jscs:disable
+        $scope.technicalRepresentationBeauty =
+          html_beautify($scope.question.technicalRepresentation.source);
+        // jscs:enable
         StudyReferencedResource
-        .getReferencedStudy({id: $scope.question.dataAcquisitionProjectId})
-        .$promise.then(function(study) {
-          $scope.study = study;
-        });
+          .getReferencedStudy({
+            id: $scope.question.dataAcquisitionProjectId
+          })
+          .$promise.then(function(study) {
+            $scope.study = study;
+          });
         loadSuccessorsQuestionTextOnly($scope.question.successors)
-        .then(function(customSuccesors) {
-          $scope.successors = checkInvalidQuestionIds(
-            $scope.question.successors, customSuccesors._embedded.questions);
-        });
+          .then(function(customSuccesors) {
+            $scope.successors = checkInvalidQuestionIds(
+              $scope.question.successors, customSuccesors._embedded.questions
+            );
+          });
         loadPredecessorsQuestionTextOnly($scope.question.id)
-        .then(function(predecessors) {
-          $scope.predecessors = predecessors._embedded.questions;
-        });
+          .then(function(predecessors) {
+            $scope.predecessors = predecessors._embedded.questions;
+          });
       });
 
       /* function to open dialog for variables */
@@ -84,12 +95,13 @@ angular.module('metadatamanagementApp')
       };
 
       $scope.showStudy = function() {
-        $state.go('studyDetail',
-        {id: $scope.question.dataAcquisitionProjectId});
+        $state.go('studyDetail', {
+          id: $scope.question.dataAcquisitionProjectId
+        });
       };
       /* add new  item to localStorage */
       $scope.addToNotepad = function() {
         ShoppingCartService
-        .addToShoppingCart($scope.question.dataAcquisitionProjectId);
+          .addToShoppingCart($scope.question.dataAcquisitionProjectId);
       };
     });
