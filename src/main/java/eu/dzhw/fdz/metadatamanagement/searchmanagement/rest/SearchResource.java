@@ -26,6 +26,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
@@ -84,9 +85,10 @@ public class SearchResource {
    *
    * @return The search results
    */
-  @RequestMapping(value = "/api/search/**/_search")
+  @RequestMapping(value = {"/api/search/**/_search","/api/search/**/_mget"})
   @Timed
-  public ResponseEntity<String> search(@RequestBody String body, HttpMethod method,
+  public ResponseEntity<String> search(@RequestParam("filter_path") String filter,
+      @RequestBody String body, HttpMethod method,
       @RequestHeader MultiValueMap<String, String> headers, HttpServletRequest request)
       throws RestClientException, URISyntaxException {
     headers.remove("authorization");
@@ -103,7 +105,7 @@ public class SearchResource {
 
     String completePath =
         (String) request.getAttribute(HandlerMapping.PATH_WITHIN_HANDLER_MAPPING_ATTRIBUTE);
-    String path = completePath.replaceFirst("/api/search", "");
+    String path = completePath.replaceFirst("/api/search", "") + "?filter_path=" + filter;
     ResponseEntity<String> response = restTemplate.exchange(connectionUrl + path, method,
         new HttpEntity<>(body, headers), String.class);
     return response;
