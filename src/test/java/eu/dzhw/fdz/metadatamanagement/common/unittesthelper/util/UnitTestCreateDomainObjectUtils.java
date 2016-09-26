@@ -76,9 +76,10 @@ public class UnitTestCreateDomainObjectUtils {
     releases.add(buildRelease());
     
     List<String> accessWays = new ArrayList<>();
-    accessWays.add(AccessWays.CUF);
-    accessWays.add(AccessWays.REMOTE);
-    accessWays.add(AccessWays.SUF);
+    accessWays.add(AccessWays.DOWNLOAD_CUF);
+    accessWays.add(AccessWays.REMOTE_DESKTOP);
+    accessWays.add(AccessWays.DOWNLOAD_SUF);
+    accessWays.add(AccessWays.ONSITE_SUF);
     
     return new StudyBuilder()
         .withId(projectId)
@@ -158,10 +159,12 @@ public class UnitTestCreateDomainObjectUtils {
   public static Variable buildVariable(String projectId, String surveyId) {
 
     // Prepare Variable
-    List<String> accessWays = new ArrayList<>();
-    accessWays.add(AccessWays.CUF);
-    accessWays.add(AccessWays.REMOTE);
-    accessWays.add(AccessWays.SUF);
+    List<String> accessWays = new ArrayList<>(); 
+    accessWays.add(AccessWays.DOWNLOAD_CUF);
+    accessWays.add(AccessWays.REMOTE_DESKTOP);
+    accessWays.add(AccessWays.DOWNLOAD_SUF);
+    accessWays.add(AccessWays.ONSITE_SUF);
+    
     List<String> withSameVariablesInPanel = new ArrayList<>();
     withSameVariablesInPanel.add("testProject-name1");
     withSameVariablesInPanel.add("testProject-name2");
