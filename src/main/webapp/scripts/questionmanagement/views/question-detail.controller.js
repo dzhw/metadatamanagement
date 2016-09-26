@@ -6,8 +6,8 @@ angular.module('metadatamanagementApp')
   .controller('QuestionDetailController',
 
     function($scope, $rootScope, localStorageService,
-      ShoppingCartService, $stateParams, DialogService,
-      QuestionReferencedResource, blockUI, entity, $q, $state,
+      ShoppingCartService, $stateParams, VariableSearchDialogService,
+      QuestionReferencedResource, entity, $q, $state,
       StudyReferencedResource, QuestionSearchResource) {
 
       $scope.predecessors = [];
@@ -15,7 +15,6 @@ angular.module('metadatamanagementApp')
 
       entity.$promise.then(function(question) {
         $scope.question = question;
-        console.log(question);
         QuestionSearchResource.findPredeccessors(question.id)
         .then(function(predecessors) {
           $scope.predecessors = predecessors.hits.hits;
@@ -49,8 +48,8 @@ angular.module('metadatamanagementApp')
 
       /* function to open dialog for variables */
       $scope.showVariables = function() {
-        blockUI.start();
-        DialogService.showDialog($scope.question.id, 'variable');
+        VariableSearchDialogService
+        .findVariablesByQuestionId($scope.question.id);
       };
 
       $scope.showStudy = function() {

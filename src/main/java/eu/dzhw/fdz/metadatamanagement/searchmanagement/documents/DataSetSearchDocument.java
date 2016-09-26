@@ -22,6 +22,8 @@ public class DataSetSearchDocument {
   private String description;
 
   private List<String> surveyTitles;
+  
+  private List<String> variableIds;
 
   /**
    * Create the search document from the domain object depending on the language (index).
@@ -30,6 +32,7 @@ public class DataSetSearchDocument {
       ElasticsearchIndices index) {
     this.id = dataSet.getId();
     this.dataAcquisitionProjectId = dataSet.getDataAcquisitionProjectId();
+    this.variableIds = dataSet.getVariableIds();
     createI18nAttributes(dataSet, index);
     createSurveyTitles(surveys, index);
   }
@@ -97,5 +100,13 @@ public class DataSetSearchDocument {
 
   public void setDataAcquisitionProjectId(String dataAcquisitionProjectId) {
     this.dataAcquisitionProjectId = dataAcquisitionProjectId;
+  }
+
+  public List<String> getVariableIds() {
+    return variableIds;
+  }
+
+  public void setVariableIds(List<String> variableIds) {
+    this.variableIds = variableIds;
   }
 }

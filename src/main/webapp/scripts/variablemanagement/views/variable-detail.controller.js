@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('metadatamanagementApp')
-  .controller('VariableDetailController', function(DialogService, blockUI,
-    $scope, entity, $state, ShoppingCartService) {
+  .controller('VariableDetailController', function(SurveySearchDialogService,
+    DataSetSearchDialogService, $scope, entity, $state, ShoppingCartService) {
     $scope.frequencies = [];
     $scope.generationCodeToggleFlag = true;
     $scope.allRowsVisible = true;
@@ -23,21 +23,11 @@ angular.module('metadatamanagementApp')
     $scope.toggleGenerationCode = function() {
       $scope.generationCodeToggleFlag = !$scope.generationCodeToggleFlag;
     };
-    /* function to open dialog for variables */
     $scope.showSurveys = function() {
-      blockUI.start();
-      DialogService.showDialog($scope.variable.surveyIds, 'survey');
+      SurveySearchDialogService.findSurveys($scope.variable.surveyIds);
     };
-    /* function to open dialog for data-sets */
     $scope.showDataSets = function() {
-      blockUI.start();
-      DialogService.showDialog($scope.variable.id, 'data-set');
-    };
-    /* function to open dialog for similar variables */
-    $scope.showSimilarVariables = function() {
-      blockUI.start();
-      DialogService.showDialog($scope.variable.sameVariablesInPanel,
-        'variable');
+      DataSetSearchDialogService.findDataSetsByVariableId($scope.variable.id);
     };
     $scope.showStudy = function() {
       $state.go('studyDetail', {id: $scope.variable.dataAcquisitionProjectId});
