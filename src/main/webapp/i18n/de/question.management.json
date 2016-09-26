@@ -43,7 +43,8 @@
         },
         "number": {
           "not-empty": "Die Nummer der Frage darf nicht leer sein.",
-          "size": "Die Maximallänge der Nummer ist 32 Zeichen."
+          "size": "Die Maximallänge der Nummer ist 32 Zeichen.",
+          "unique-question-number-in-instrument": "Eine Nummer einer Frage ist nicht eindeutig innerhalb des Instrumentes."
         },
         "question-text": {
           "not-null": "Der Fragetext einer Frage darf nicht leer sein!",

@@ -43,7 +43,8 @@
         },
         "number": {
           "not-empty": "The number of the Question must not be empty.",
-          "size": "The max length of the number of the question is 32 signs."
+          "size": "The max length of the number of the question is 32 signs.",
+          "unique-question-number-in-instrument": "A number of a question is not unique within an instrument."
         },
         "question-text": {
           "not-null": "The question text of the Question must not be empty!",

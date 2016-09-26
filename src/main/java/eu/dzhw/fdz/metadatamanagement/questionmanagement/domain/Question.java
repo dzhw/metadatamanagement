@@ -21,6 +21,7 @@ import eu.dzhw.fdz.metadatamanagement.common.domain.util.Patterns;
 import eu.dzhw.fdz.metadatamanagement.common.domain.validation.I18nStringNotEmpty;
 import eu.dzhw.fdz.metadatamanagement.common.domain.validation.I18nStringSize;
 import eu.dzhw.fdz.metadatamanagement.common.domain.validation.StringLengths;
+import eu.dzhw.fdz.metadatamanagement.questionmanagement.domain.validation.UniqueQuestionNumberInInstrument;
 import eu.dzhw.fdz.metadatamanagement.questionmanagement.domain.validation.ValidQuestionImageType;
 import eu.dzhw.fdz.metadatamanagement.questionmanagement.domain.validation.ValidQuestionType;
 import net.karneim.pojobuilder.GeneratePojoBuilder;
@@ -45,6 +46,8 @@ public class Question extends AbstractRdcDomainObject {
   
   @NotEmpty(message = "question-management.error.question.number.not-empty")
   @Size(max = StringLengths.SMALL, message = "question-management.error.question.number.size")
+  @UniqueQuestionNumberInInstrument(
+      message = "question-management.error.question.number.unique-question-number-in-instrument")
   private String number;
   
   @NotNull(message = "question-management.error.question.question-text.not-null")
