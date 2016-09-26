@@ -68,16 +68,18 @@ angular.module('metadatamanagementApp')
       entity.$promise.then(function(question) {
         $scope.question = question;
 
-        //default value is no beautify
-        $scope.technicalRepresentationBeauty =
+        if ($scope.question.technicalRepresentation) {
+          //default value is no beautify
+          $scope.technicalRepresentationBeauty =
           $scope.question.technicalRepresentation.source;
 
-        //beautify xml, html, xhtml files.
-        if ($scope.question.technicalRepresentation.language === 'xml' ||
+          //beautify xml, html, xhtml files.
+          if ($scope.question.technicalRepresentation.language === 'xml' ||
           $scope.question.technicalRepresentation.language === 'xhtml' ||
           $scope.question.technicalRepresentation.language === 'html') {
-          $scope.technicalRepresentationBeauty =
+            $scope.technicalRepresentationBeauty =
             html_beautify($scope.question.technicalRepresentation.source); //jscs:ignore
+          }
         }
 
         StudyReferencedResource
