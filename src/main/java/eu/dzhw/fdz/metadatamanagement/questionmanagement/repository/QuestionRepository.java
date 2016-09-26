@@ -26,6 +26,8 @@ public interface QuestionRepository
 
   List<Question> findByDataAcquisitionProjectId(@Param("id") String dataAcquisitionProjectId);
   
+  List<Question> findByInstrumentIdAndNumber(String instrumentId, String number);
+  
   @RestResource(exported = false)
   List<Question> findBySurveyId(String surveyId);
 

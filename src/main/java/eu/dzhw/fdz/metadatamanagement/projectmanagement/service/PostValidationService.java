@@ -94,6 +94,7 @@ public class PostValidationService {
       List<Question> questions, List<PostValidationMessageDto> errors) {
 
     for (Question question : questions) {
+      
       // question.instrumentId: there must be a instrument with that id
       if (this.instrumentRepository.findOne(question.getInstrumentId()) == null) {
         String[] information = {question.getId(), question.getInstrumentId()};
@@ -117,6 +118,16 @@ public class PostValidationService {
                 + "post-validation.question-has-invalid-successor", Arrays.asList(information)));
           }
         }
+      }
+      
+      if (question.getInstrumentId() != null
+          && question.getNumber() != null
+          && this.questionRepository
+            .findByInstrumentIdAndNumber(
+                question.getInstrumentId(), question.getNumber()).size() != 1) {        
+        String[] information = {question.getId(), question.getInstrumentId(), question.getNumber()};
+        errors.add(new PostValidationMessageDto("question-management.error.post-validation."
+            + "non-unique-question-number-in-instrument", Arrays.asList(information)));
       }
     }
 

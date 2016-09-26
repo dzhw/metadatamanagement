@@ -43,8 +43,7 @@
         },
         "number": {
           "not-empty": "The number of the Question must not be empty.",
-          "size": "The max length of the number of the question is 32 signs.",
-          "unique-question-number-in-instrument": "A number of a question is not unique within an instrument."
+          "size": "The max length of the number of the question is 32 signs."
         },
         "question-text": {
           "not-null": "The question text of the Question must not be empty!",
@@ -89,7 +88,8 @@
       "post-validation": {
         "question-has-invalid-instrument-id": "The Question {{id}} references an unknown Instrument ({{toBereferenzedId}}).",
         "question-has-invalid-successor": "The Question {{id}} references an unknown successor ({{toBereferenzedId}}).",
-        "question-has-invalid-survey-id": "The Question {{id}} references an unknown Survey ({{toBereferenzedId}})."
+        "question-has-invalid-survey-id": "The Question {{id}} references an unknown Survey ({{toBereferenzedId}}).",
+        "non-unique-question-number-in-instrument": "The Question {{id}} with the number {{number}} is not unique within the Insturment {{instrumentId}}."
       }
     }
   }

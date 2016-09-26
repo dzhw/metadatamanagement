@@ -43,8 +43,7 @@
         },
         "number": {
           "not-empty": "Die Nummer der Frage darf nicht leer sein.",
-          "size": "Die Maximallänge der Nummer ist 32 Zeichen.",
-          "unique-question-number-in-instrument": "Eine Nummer einer Frage ist nicht eindeutig innerhalb des Instrumentes."
+          "size": "Die Maximallänge der Nummer ist 32 Zeichen."
         },
         "question-text": {
           "not-null": "Der Fragetext einer Frage darf nicht leer sein!",
@@ -89,7 +88,8 @@
       "post-validation": {
         "question-has-invalid-instrument-id": "Die Frage {{id}} referenziert auf einen unbekannten Fragebogen ({{toBereferenzedId}}).",
         "question-has-invalid-successor": "Die Frage {{id}} referenziert auf eine unbekannte Nachfolgefrage ({{toBereferenzedId}}).",
-        "question-has-invalid-survey-id": "Die Frage {{id}} referenziert auf einen unbekannte Erhebung ({{toBereferenzedId}})."
+        "question-has-invalid-survey-id": "Die Frage {{id}} referenziert auf einen unbekannte Erhebung ({{toBereferenzedId}}).",
+        "non-unique-question-number-in-instrument": "Die Frage {{id}} mit der Nummer {{additionalId}} ist nicht eindeutig innerhalb des Instruments {{toBereferenzedId}}."
       }
     }
   }
