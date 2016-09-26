@@ -179,7 +179,7 @@
         },
         "access-ways": {
           "not-empty": "Die Liste der Zugangswege einer Variable benötigt mindest ein Element und darf nicht leer sein!",
-          "validAccessWays": "Die Liste der Zugangswege enthält ungültige Werte. Erlaubt sind nur: download-cuf, download-suf, remote-desktop-suf, onsite-suf, not-accessible."
+          "valid-access-ways": "Die Liste der Zugangswege enthält ungültige Werte. Erlaubt sind nur: download-cuf, download-suf, remote-desktop-suf, onsite-suf, not-accessible."
         },
         "survey": {
           "ids": {
