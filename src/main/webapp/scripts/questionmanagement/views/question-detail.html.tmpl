@@ -60,12 +60,8 @@
                     </md-card-header>
                     <md-divider></md-divider>
                     <md-content style="background-color:white;">
-                        <div ng-repeat="predecessor in predecessors" md-ink-ripple class="fdz-search-result fdz-card-header-border">
-                            <div ui-sref="questionDetail({id:predecessor.id})" layout="row">
-                                <md-icon md-svg-src="/assets/images/icons/question.svg" class="fdz-detail-icon"></md-icon>
-                                <span>{{predecessor.number}}:
-                                    {{predecessor.questionText[currentLanguage]}}</span>
-                            </div>
+                        <div ng-repeat="predecessor in predecessors">
+                            <question-search-result search-result="predecessor._source"></question-search-result>
                         </div>
                     </md-content>
                 </md-card>
@@ -77,12 +73,8 @@
                     </md-card-header>
                     <md-divider></md-divider>
                     <md-content style="background-color:white;">
-                        <div ng-repeat="successor in successors" md-ink-ripple class="fdz-search-result fdz-card-header-border">
-                            <div ui-sref="questionDetail({id:successor.id})" layout="row">
-                                <md-icon md-svg-src="/assets/images/icons/question.svg" class="fdz-detail-icon"></md-icon>
-                                <span>{{successor.number}}:
-                                    {{successor.questionText[currentLanguage]}}</span>
-                            </div>
+                        <div ng-repeat="successor in successors">
+                            <question-search-result search-result="successor._source"></question-search-result>
                         </div>
                     </md-content>
                 </md-card>

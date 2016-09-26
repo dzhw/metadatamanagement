@@ -1,5 +1,7 @@
 package eu.dzhw.fdz.metadatamanagement.searchmanagement.documents;
 
+import java.util.List;
+
 import eu.dzhw.fdz.metadatamanagement.questionmanagement.domain.Question;
 import eu.dzhw.fdz.metadatamanagement.searchmanagement.service.ElasticsearchIndices;
 import io.searchbox.annotations.JestId;
@@ -20,6 +22,7 @@ public class QuestionSearchDocument {
   private String additionalQuestionText;
   private String imageType;
   private String instrumentId;
+  private List<String> successors;
 
   /**
    * Create the search document from the domain object depending on the language (index).
@@ -31,6 +34,7 @@ public class QuestionSearchDocument {
     this.instrumentId = question.getInstrumentId();
     this.dataAcquisitionProjectId = question.getDataAcquisitionProjectId();
     this.imageType = question.getImageType().name();
+    this.successors = question.getSuccessors();
     createI18nAttributes(question, index);
   }
   
@@ -151,5 +155,13 @@ public class QuestionSearchDocument {
 
   public void setInstrumentId(String instrumentId) {
     this.instrumentId = instrumentId;
+  }
+
+  public List<String> getSuccessors() {
+    return successors;
+  }
+
+  public void setSuccessors(List<String> successors) {
+    this.successors = successors;
   }
 }
