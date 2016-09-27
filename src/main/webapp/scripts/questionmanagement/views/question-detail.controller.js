@@ -7,7 +7,7 @@ angular.module('metadatamanagementApp')
 
     function($scope, $rootScope, localStorageService,
       ShoppingCartService, $stateParams, VariableSearchDialogService,
-      QuestionReferencedResource, entity, $q, $state,
+      QuestionReferencedResource, entity, $q, $state, SimpleMessageToastService,
       StudyReferencedResource, QuestionSearchResource) {
 
       $scope.predecessors = [];
@@ -16,24 +16,24 @@ angular.module('metadatamanagementApp')
       entity.$promise.then(function(question) {
         $scope.question = question;
         QuestionSearchResource.findPredeccessors(question.id)
-        .then(function(predecessors) {
-          $scope.predecessors = predecessors.hits.hits;
-        });
+          .then(function(predecessors) {
+            $scope.predecessors = predecessors.hits.hits;
+          });
         QuestionSearchResource.findSuccessors(question.successors)
-        .then(function(successors) {
-          $scope.successors = successors.docs;
-        });
+          .then(function(successors) {
+            $scope.successors = successors.docs;
+          });
         if ($scope.question.technicalRepresentation) {
           //default value is no beautify
           $scope.technicalRepresentationBeauty =
-          $scope.question.technicalRepresentation.source;
+            $scope.question.technicalRepresentation.source;
 
           //beautify xml, html, xhtml files.
           if ($scope.question.technicalRepresentation.language === 'xml' ||
-          $scope.question.technicalRepresentation.language === 'xhtml' ||
-          $scope.question.technicalRepresentation.language === 'html') {
+            $scope.question.technicalRepresentation.language === 'xhtml' ||
+            $scope.question.technicalRepresentation.language === 'html') {
             $scope.technicalRepresentationBeauty =
-            html_beautify($scope.question.technicalRepresentation.source); //jscs:ignore
+              html_beautify($scope.question.technicalRepresentation.source); //jscs:ignore
           }
         }
 
@@ -49,7 +49,7 @@ angular.module('metadatamanagementApp')
       /* function to open dialog for variables */
       $scope.showVariables = function() {
         VariableSearchDialogService
-        .findVariablesByQuestionId($scope.question.id);
+          .findVariablesByQuestionId($scope.question.id);
       };
 
       $scope.showStudy = function() {
@@ -61,5 +61,12 @@ angular.module('metadatamanagementApp')
       $scope.addToNotepad = function() {
         ShoppingCartService
           .addToShoppingCart($scope.question.dataAcquisitionProjectId);
+      };
+
+      $scope.openSuccessCopyToClipboardToast = function() {
+        SimpleMessageToastService.openSimpleMessageToast(
+          'question-management.log-messages.question.' +
+          'technical-representation-success-copy-to-clipboard', []
+        );
       };
     });

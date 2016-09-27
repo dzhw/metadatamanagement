@@ -85,7 +85,7 @@
                         <md-card-header-text>
                             <h2 class="md-title">{{'question-management.detail.technical-representation' | translate }}</h2>
                         </md-card-header-text>
-                        <md-button class="md-icon-button md-primary" ngclipboard data-clipboard-target="#technicalRepresentation" aria-label="{{'question-management.detail.button.aria-label.copy-to-clipboard' | translate}}">
+                        <md-button class="md-icon-button md-primary" ng-click="openSuccessCopyToClipboardToast()" ngclipboard data-clipboard-target="#technicalRepresentation" aria-label="{{'question-management.detail.button.aria-label.copy-to-clipboard' | translate}}">
                             <md-icon md-svg-src="/assets/images/icons/content-copy.svg" aria-hidden="true"></md-icon>
                         </md-button>
                     </md-card-header>

@@ -10,7 +10,8 @@
         "unable-to-upload-image-file": "Die Bilddatei '{{ file }}' konnte nicht hochgeladen werden!",
         "unable-to-read-image-file": "Die Bilddatei '{{ file }}' konnte nicht gelesen werden!",
         "cancelled": "Upload von Fragen Abgebrochen!",
-        "not-found-image-file": "Zu der Frage mit der FDZ-ID {{ id }} konnte kein Bild gefunden werden!"
+        "not-found-image-file": "Zu der Frage mit der FDZ-ID {{ id }} konnte kein Bild gefunden werden!",
+        "technical-representation-success-copy-to-clipboard": "Die technische Representation wurde erfolgreich in die Zwischenablage kopiert."
       }
     },
     "home": {
