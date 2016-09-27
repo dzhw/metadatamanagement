@@ -10,7 +10,7 @@ angular.module('metadatamanagementApp').controller('SearchController',
     QuestionUploadService,
     DataSetUploadService, StudyUploadService, SurveyUploadService, $mdDialog,
     CleanJSObjectService,
-    CurrentProjectService) {
+    CurrentProjectService, $timeout) {
 
     //Check the login status
     Principal.identity().then(function(account) {
@@ -147,7 +147,7 @@ angular.module('metadatamanagementApp').controller('SearchController',
     };
 
     $scope.uploadQuestions = function(files) {
-      if (!files) {
+      if (!files || files.length === 0) {
         return;
       }
       var dataAcquisitionProject = $scope.currentProject;
@@ -176,6 +176,9 @@ angular.module('metadatamanagementApp').controller('SearchController',
     };
 
     $scope.uploadSurveys = function(file) {
+      if (Array.isArray(file)) {
+        file = file[0];
+      }
       if (!file || !file.name.endsWith('xlsx')) {
         return;
       }
@@ -204,6 +207,9 @@ angular.module('metadatamanagementApp').controller('SearchController',
     };
 
     $scope.uploadDataSets = function(file) {
+      if (Array.isArray(file)) {
+        file = file[0];
+      }
       if (!file || !file.name.endsWith('xlsx')) {
         return;
       }
@@ -233,7 +239,7 @@ angular.module('metadatamanagementApp').controller('SearchController',
     };
 
     $scope.uploadStudy = function(files) {
-      if (!files) {
+      if (!files || files.length === 0) {
         return;
       }
       var dataAcquisitionProject = $scope.currentProject;
@@ -266,7 +272,9 @@ angular.module('metadatamanagementApp').controller('SearchController',
     };
 
     $scope.$on('upload-completed', function() {
-      $scope.refresh();
+      //wait for 2 seconds until refresh
+      //in order to wait for elasticsearch reindex
+      $timeout($scope.refresh, 1000);
     });
 
     //Information for the different tabs
@@ -283,7 +291,6 @@ angular.module('metadatamanagementApp').controller('SearchController',
       icon: 'assets/images/icons/study.svg',
       elasticSearchType: 'studies',
       count: null,
-      acceptedFileUploadType: 'application/zip',
       uploadFunction: $scope.uploadStudy
     }, {
       title: 'search-management.tabs.questions',
@@ -291,7 +298,6 @@ angular.module('metadatamanagementApp').controller('SearchController',
       icon: 'assets/images/icons/question.svg',
       elasticSearchType: 'questions',
       count: null,
-      acceptedFileUploadType: 'application/zip',
       uploadFunction: $scope.uploadQuestions
     }, {
       title: 'search-management.tabs.variables',
@@ -299,7 +305,6 @@ angular.module('metadatamanagementApp').controller('SearchController',
       icon: 'assets/images/icons/variable.svg',
       elasticSearchType: 'variables',
       count: null,
-      acceptedFileUploadType: 'application/zip',
       uploadFunction: $scope.uploadVariables
     }, {
       title: 'search-management.tabs.surveys',
@@ -307,8 +312,6 @@ angular.module('metadatamanagementApp').controller('SearchController',
       icon: 'assets/images/icons/survey.svg',
       elasticSearchType: 'surveys',
       count: null,
-      acceptedFileUploadType: 'application/vnd.openxmlformats-' +
-        'officedocument.spreadsheetml.sheet',
       uploadFunction: $scope.uploadSurveys
     }, {
       title: 'search-management.tabs.data-sets',
@@ -316,8 +319,6 @@ angular.module('metadatamanagementApp').controller('SearchController',
       icon: 'assets/images/icons/data-set.svg',
       elasticSearchType: 'data_sets',
       count: null,
-      acceptedFileUploadType: 'application/vnd.openxmlformats-' +
-        'officedocument.spreadsheetml.sheet',
       uploadFunction: $scope.uploadDataSets
     }, {
       title: 'search-management.tabs.related-publications',
