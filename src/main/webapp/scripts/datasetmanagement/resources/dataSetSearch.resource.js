@@ -8,7 +8,6 @@ function(Language, ElasticSearchClient) {
   query.body = {};
 
   var findByVariableId = function(variableId) {
-    console.log(variableId);
     query.filterPath = '';
     query.body.query = {
       'bool': {

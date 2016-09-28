@@ -20,10 +20,8 @@ angular.module('metadatamanagementApp')
     };
     var findByVariableId = function(variableId) {
       blockUI.start();
-      console.log('sds');
       DataSetSearchResource.findByVariableId(variableId)
       .then(function(items) {
-        console.log(items);
         dataSets = items.hits.hits;
         blockUI.stop();
         showDialog();
