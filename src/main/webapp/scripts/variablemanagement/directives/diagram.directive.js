@@ -14,7 +14,9 @@ angular.module('metadatamanagementApp').directive('diagram',
       var drawDiagram = function() {
         $timeout(function() {
           scope.isNotLoaded = false;
-          Plotly.newPlot('diagram', data);
+          if (angular.element('diagram').length > 0) {
+            Plotly.newPlot('diagram', data);
+          }
         }, 1000);
       };
       function createString(object) {
