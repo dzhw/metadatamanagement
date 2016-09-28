@@ -480,20 +480,24 @@ md-tooltip {
     padding: 5px;
     text-align: center;
 }
-.fdz-table-cell-ellipsis:hover {
+.fdz-table-cell-content {
+  display: table;
+  margin:0px;
+  table-layout: fixed;
+  width: 100%;
+}
+.fdz-table-cell-content:hover, .fdz-table-cell-content:focus {
+  table-layout: auto !important;
+}
+.fdz-table-cell-ellipsis:hover, .fdz-table-cell-ellipsis:focus {
     white-space:normal !important;
+    overflow: visible !important;
 }
-.fdz-table-cell-fixed .fdz-table-cell-content {
-    display: table;
-    margin:0px;
-    table-layout: fixed;
-    width: 100%;
-}
-.fdz-table-cell-fixed  .fdz-table-cell-content .fdz-table-cell-ellipsis {
-    display: table-cell;
-    white-space: nowrap;
-    text-overflow: ellipsis;
-    overflow: hidden;
+.fdz-table-cell-ellipsis {
+  display: table-cell;
+  white-space: nowrap;
+  text-overflow: ellipsis;;
+  overflow: hidden;
 }
 .fdz-code-container {
   white-space: pre-wrap;
