@@ -19,7 +19,6 @@ import com.codahale.metrics.jvm.GarbageCollectorMetricSet;
 import com.codahale.metrics.jvm.MemoryUsageGaugeSet;
 import com.codahale.metrics.jvm.ThreadStatesGaugeSet;
 import com.codahale.metrics.servlet.InstrumentedFilter;
-import com.ryantenney.metrics.spring.config.annotation.EnableMetrics;
 
 /**
  * Attach spring-metrics and custom jvm metrics to spring boot actuator metrics endpoint.
@@ -27,7 +26,7 @@ import com.ryantenney.metrics.spring.config.annotation.EnableMetrics;
  * @author René Reitmann
  */
 @Configuration
-@EnableMetrics(proxyTargetClass = true)
+//@EnableMetrics(proxyTargetClass = true)
 public class MetricsConfiguration implements ServletContextInitializer {
   private static final String PROP_METRIC_REG_JVM_MEMORY = "jvm.memory";
   private static final String PROP_METRIC_REG_JVM_GARBAGE = "jvm.garbage";

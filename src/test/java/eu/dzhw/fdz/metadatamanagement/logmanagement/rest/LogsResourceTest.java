@@ -23,7 +23,6 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import eu.dzhw.fdz.metadatamanagement.AbstractTest;
 import eu.dzhw.fdz.metadatamanagement.common.rest.TestUtil;
 import eu.dzhw.fdz.metadatamanagement.common.rest.dto.LoggerDto;
-import eu.dzhw.fdz.metadatamanagement.logmanagement.rest.LogsResource;
 
 /**
  * @author Daniel Katzberg
@@ -49,7 +48,7 @@ public class LogsResourceTest extends AbstractTest {
     MvcResult mvcResult =
         this.restUserMockMvc.perform(get("/api/logs").accept(MediaType.APPLICATION_JSON))
           .andExpect(status().isOk())
-          .andExpect(content().contentType("application/json"))
+          .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
           .andReturn();
 
     String content = mvcResult.getResponse()
