@@ -12,7 +12,7 @@
     "angular-cookies": "1.5.8",
     "angular-dynamic-locale": "0.1.32",
     "angular-i18n": "1.5.8",
-    "angular-local-storage": "0.5.1",
+    "angular-local-storage": "0.5.2",
     "angular-resource": "1.5.8",
     "angular-sanitize": "1.5.8",
     "angular-translate": "2.12.1",
