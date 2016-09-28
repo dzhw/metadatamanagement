@@ -4,7 +4,7 @@
             <md-icon md-svg-src="/assets/images/icons/data-set.svg" class="fdz-search-result-icon"></md-icon>
         </md-card-avatar>
         <md-card-header-text class="fdz-truncate-string">
-            <div class="md-title fdz-truncate-string">Data Set</div>
+            <div class="md-title fdz-truncate-string">{{'data-set-management.detail.data-set' | translate}}</div>
             <div class="md-subhead fdz-truncate-string">{{searchResult.id}}</div>
         </md-card-header-text>
     </md-card-header>
@@ -12,7 +12,7 @@
         <div layout="column">
             <div layout="row" layout-xs="column" style="margin-bottom: 8px;">
                 <div class="fdz-search-result-label">
-                    Beschreibung:
+                    {{'data-set-management.detail.description' | translate}}:
                 </div>
                 <div>
                     {{searchResult.description}}
@@ -20,7 +20,7 @@
             </div>
             <div layout="row" layout-xs="column">
                 <div class="fdz-search-result-label">
-                    Erhebungen:
+                    {{'survey-management.detail.surveys' | translate}}:
                 </div>
                 <div layout="column">
                     <div ng-repeat="title in searchResult.surveyTitles" class="fdz-truncate-string">{{title}}</div>
