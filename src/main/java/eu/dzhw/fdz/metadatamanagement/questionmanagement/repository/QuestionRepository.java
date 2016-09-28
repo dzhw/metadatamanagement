@@ -1,6 +1,5 @@
 package eu.dzhw.fdz.metadatamanagement.questionmanagement.repository;
 
-import java.util.Collection;
 import java.util.List;
 
 import org.springframework.data.domain.Pageable;
@@ -34,7 +33,4 @@ public interface QuestionRepository
   @RestResource(exported = false)
   Slice<Question> findBy(Pageable pageable);
   
-  List<Question> findBySuccessorsContaining(@Param("id") String id);
-  
-  List<Question> findByIdIn(@Param("ids") Collection<String> ids);
 }

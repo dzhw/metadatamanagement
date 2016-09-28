@@ -1,6 +1,5 @@
 package eu.dzhw.fdz.metadatamanagement.datasetmanagement.repository;
 
-import java.util.Collection;
 import java.util.List;
 
 import org.springframework.data.domain.Pageable;
@@ -34,7 +33,4 @@ public interface DataSetRepository
   @RestResource(exported = false)
   List<DataSet> findBySurveyIdsContaining(String surveyId);
   
-  List<DataSet> findByIdIn(@Param("ids") Collection<String> ids);
-  
-  List<DataSet> findByVariableIdsContaining(@Param("id") String variableId);
 }
