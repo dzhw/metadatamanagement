@@ -17,9 +17,9 @@ angular.module('metadatamanagementApp').service('VariableSearchDialogService',
         'directives/variableSearchDialog.html.tmpl',
       });
     };
-    var findVariablesByQuestionId = function(questionId) {
+    var findByQuestionId = function(questionId) {
       blockUI.start();
-      VariableSearchResource.findVariablesByQuestionId(questionId)
+      VariableSearchResource.findByQuestionId(questionId)
       .then(function(items) {
         variables = items.hits.hits;
         blockUI.stop();
@@ -27,6 +27,6 @@ angular.module('metadatamanagementApp').service('VariableSearchDialogService',
       });
     };
     return {
-      findVariablesByQuestionId: findVariablesByQuestionId
+      findByQuestionId: findByQuestionId
     };
   });

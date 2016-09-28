@@ -14,7 +14,28 @@ function(Language, ElasticSearchClient) {
     };
     return ElasticSearchClient.mget(query);
   };
+  var findByProjectId = function(dataAcquisitionProjectId) {
+    query.filterPath = 'hits.hits._source';
+    query.body.query = {
+      'bool': {
+        'must': [
+          {
+            'match_all': {}
+          }
+        ],
+        'filter': [
+          {
+            'term': {
+              'dataAcquisitionProjectId': dataAcquisitionProjectId
+            }
+          }
+        ]
+      }
+    };
+    return ElasticSearchClient.search(query);
+  };
   return {
-    findSurveys: findSurveys
+    findSurveys: findSurveys,
+    findByProjectId: findByProjectId
   };
 });

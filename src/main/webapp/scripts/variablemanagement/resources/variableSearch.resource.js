@@ -7,7 +7,7 @@ function(Language, ElasticSearchClient) {
   query.type = 'variables';
   query.body = {};
 
-  var findVariablesByQuestionId = function(questionId) {
+  var findByQuestionId = function(questionId) {
     query.filterPath = 'hits.hits._source';
     query.body.query = {
       'bool': {
@@ -28,6 +28,6 @@ function(Language, ElasticSearchClient) {
     return ElasticSearchClient.search(query);
   };
   return {
-    findVariablesByQuestionId: findVariablesByQuestionId
+    findByQuestionId: findByQuestionId
   };
 });

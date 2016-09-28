@@ -34,8 +34,29 @@ function(Language, ElasticSearchClient) {
     };
     return ElasticSearchClient.search(query);
   };
+  var findByProjectId = function(dataAcquisitionProjectId) {
+    query.filterPath = 'hits.hits._source';
+    query.body.query = {
+      'bool': {
+        'must': [
+          {
+            'match_all': {}
+          }
+        ],
+        'filter': [
+          {
+            'term': {
+              'dataAcquisitionProjectId': dataAcquisitionProjectId
+            }
+          }
+        ]
+      }
+    };
+    return ElasticSearchClient.search(query);
+  };
   return {
     findPredeccessors: findPredeccessors,
-    findSuccessors: findSuccessors
+    findSuccessors: findSuccessors,
+    findByProjectId: findByProjectId
   };
 });

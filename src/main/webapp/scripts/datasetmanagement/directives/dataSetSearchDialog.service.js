@@ -18,10 +18,10 @@ angular.module('metadatamanagementApp')
         'dataSetSearchDialog.html.tmpl',
       });
     };
-    var findDataSetsByVariableId = function(variableId) {
+    var findByVariableId = function(variableId) {
       blockUI.start();
       console.log('sds');
-      DataSetSearchResource.findDataSetsByVariableId(variableId)
+      DataSetSearchResource.findByVariableId(variableId)
       .then(function(items) {
         console.log(items);
         dataSets = items.hits.hits;
@@ -30,6 +30,6 @@ angular.module('metadatamanagementApp')
       });
     };
     return {
-      findDataSetsByVariableId: findDataSetsByVariableId
+      findByVariableId: findByVariableId
     };
   });

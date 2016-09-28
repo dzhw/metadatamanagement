@@ -5,10 +5,9 @@
 angular.module('metadatamanagementApp')
   .controller('QuestionDetailController',
 
-    function($scope, $rootScope, localStorageService,
-      ShoppingCartService, $stateParams, VariableSearchDialogService,
-      QuestionReferencedResource, entity, $q, $state, SimpleMessageToastService,
-      StudyReferencedResource, QuestionSearchResource) {
+    function($scope, StudyReferencedResource,
+      ShoppingCartService, VariableSearchDialogService, entity, $state,
+      SimpleMessageToastService, QuestionSearchResource) {
 
       $scope.predecessors = [];
       $scope.successors = [];
@@ -49,7 +48,7 @@ angular.module('metadatamanagementApp')
       /* function to open dialog for variables */
       $scope.showVariables = function() {
         VariableSearchDialogService
-          .findVariablesByQuestionId($scope.question.id);
+          .findByQuestionId($scope.question.id);
       };
 
       $scope.showStudy = function() {

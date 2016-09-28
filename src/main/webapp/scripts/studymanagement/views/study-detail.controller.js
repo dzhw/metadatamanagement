@@ -2,29 +2,25 @@
 
 angular.module('metadatamanagementApp')
   .controller('StudyDetailController',
-    function($scope, entity, SurveyReferencedResource,
-      DataSetReferencedResource, DataSetReportService, blockUI, DialogService,
-      ShoppingCartService) {
+    function($scope, entity, DataSetSearchResource, SurveySearchResource,
+      ShoppingCartService, QuestionSearchDialogService) {
       $scope.study = entity;
       $scope.cleanedAccessWays = '';
 
       entity.$promise.then(function(study) {
         $scope.study = study;
-        SurveyReferencedResource.findByDataAcquisitionProjectId(
-          {id: $scope.study.id},
-          function(surveys) {
-            $scope.surveys = surveys._embedded.surveys;
-          });
-        DataSetReferencedResource.findByDataAcquisitionProjectId(
-          {id: $scope.study.id},
-          function(dataSets) {
-            $scope.dataSets = dataSets._embedded.dataSets;
-          });
+        SurveySearchResource.findByProjectId($scope.study.id)
+        .then(function(surveys) {
+          $scope.surveys = surveys.hits.hits;
+        });
+        DataSetSearchResource.findByProjectId($scope.study.id)
+        .then(function(dataSets) {
+          $scope.dataSets = dataSets.hits.hits;
+        });
       });
       $scope.showQuestions = function() {
-        blockUI.start();
-        DialogService.showDialog($scope.study.id,
-          'question', 'findByDataAcquisitionProjectId');
+        QuestionSearchDialogService
+        .findByProjectId($scope.study.dataAcquisitionProjectId);
       };
       $scope.showInstruments = function() {};
       $scope.showRelatedPublication = function() {};

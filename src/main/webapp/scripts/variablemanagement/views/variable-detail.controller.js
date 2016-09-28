@@ -27,7 +27,7 @@ angular.module('metadatamanagementApp')
       SurveySearchDialogService.findSurveys($scope.variable.surveyIds);
     };
     $scope.showDataSets = function() {
-      DataSetSearchDialogService.findDataSetsByVariableId($scope.variable.id);
+      DataSetSearchDialogService.findByVariableId($scope.variable.id);
     };
     $scope.showStudy = function() {
       $state.go('studyDetail', {id: $scope.variable.dataAcquisitionProjectId});

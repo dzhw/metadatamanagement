@@ -119,14 +119,8 @@
                     </md-card-header>
                     <md-divider></md-divider>
                     <md-content style="background-color:white;">
-                        <div ng-repeat="survey in surveys" md-ink-ripple class="fdz-search-result fdz-card-header-border">
-                            <div ui-sref="surveyDetail({id:survey.id})" layout="row">
-                                <md-icon md-svg-src="/assets/images/icons/survey.svg" class="fdz-detail-icon"></md-icon>
-                                <div layout="column">
-                                    <span>{{survey.title[currentLanguage]}}</span>
-                                    <span>{{survey.fieldPeriod.start | date}} - {{survey.fieldPeriod.end | date}}</span>
-                                </div>
-                            </div>
+                        <div ng-repeat="survey in surveys">
+                          <survey-search-result search-result="survey._source"></survey-search-result>
                         </div>
                     </md-content>
                 </md-card>
@@ -138,12 +132,9 @@
                     </md-card-header>
                     <md-divider></md-divider>
                     <md-content style="background-color:white;">
-                        <div ng-repeat="dataSet in dataSets" md-ink-ripple class="fdz-search-result fdz-card-header-border">
-                            <div ui-sref="data-setDetail({id:dataSet.id})" layout="row">
-                                    <md-icon md-svg-src="/assets/images/icons/data-set.svg" class="fdz-detail-icon"></md-icon>
-                                    <span>{{dataSet.description[currentLanguage]}}</span>
-                                </div>
-                            </div>
+                        <div ng-repeat="dataSet in dataSets">
+                          <dataset-search-result search-result="dataSet._source"></dataset-search-result>
+                        </div>
                     </md-content>
                 </md-card>
             </div>

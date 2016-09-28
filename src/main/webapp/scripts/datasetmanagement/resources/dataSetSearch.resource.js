@@ -7,7 +7,7 @@ function(Language, ElasticSearchClient) {
   query.type = 'data_sets';
   query.body = {};
 
-  var findDataSetsByVariableId = function(variableId) {
+  var findByVariableId = function(variableId) {
     console.log(variableId);
     query.filterPath = '';
     query.body.query = {
@@ -28,7 +28,28 @@ function(Language, ElasticSearchClient) {
     };
     return ElasticSearchClient.search(query);
   };
+  var findByProjectId = function(dataAcquisitionProjectId) {
+    query.filterPath = 'hits.hits._source';
+    query.body.query = {
+      'bool': {
+        'must': [
+          {
+            'match_all': {}
+          }
+        ],
+        'filter': [
+          {
+            'term': {
+              'dataAcquisitionProjectId': dataAcquisitionProjectId
+            }
+          }
+        ]
+      }
+    };
+    return ElasticSearchClient.search(query);
+  };
   return {
-    findDataSetsByVariableId: findDataSetsByVariableId
+    findByVariableId: findByVariableId,
+    findByProjectId: findByProjectId
   };
 });
