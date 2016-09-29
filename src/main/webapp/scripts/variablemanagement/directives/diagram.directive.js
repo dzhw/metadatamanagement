@@ -48,11 +48,28 @@ angular.module('metadatamanagementApp').directive('diagram',
         }
       }
       if ((scope.type === 'kontinuierlich') || (scope.type === 'continous')) {
-        /* should be discussed....
+        var size = ((parseInt(scope.statistics.histogram.end) -
+        parseInt(scope.statistics.histogram.start)) / parseInt(scope.statistics
+          .histogram.numberOfBins));
         data[0].x = [];
         data[0].type = 'histogram';
-        */
-        scope.isNotAvailable = true;
+        data[0].autobinx = false;
+
+        data[0].xbins = {
+          start: scope.statistics.histogram.start,
+          end: scope.statistics.histogram.end,
+          size: size
+        };
+        if (scope.statistics.validResponses) {
+          for (var j = 0; j < scope.statistics.validResponses.length; j++) {
+            for (var k = 0; k < scope.statistics.validResponses[j]
+              .absoluteFrequency; k++) {
+              data[0].x.push(scope.statistics.validResponses[j].value);
+            }
+          }
+        } else {
+          scope.isNotAvailable = true;
+        }
       }
       angular.element($window).on('resize', function() {
         drawDiagram();
