@@ -22,7 +22,6 @@ import org.junit.Before;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
@@ -296,15 +295,10 @@ public class VariableResourceTest extends AbstractTest {
     validResponse.setValue("hurz");
 
     // create the variable with duplicate value classes
-    MvcResult result = mockMvc.perform(put(API_VARIABLES_URI + "/" + variable.getId())
+    mockMvc.perform(put(API_VARIABLES_URI + "/" + variable.getId())
       .content(TestUtil.convertObjectToJsonBytes(variable)))
       .andExpect(status().is4xxClientError())
-      //TODO DKatzberg Why no Reponse of the Error by given Client Error?
-      // .andExpect(jsonPath("$.errors[0].message", containsString("variable-management.error.variable.valid-response-value-must-be-a-number-on-numeric-data-type")));
       .andReturn();
-    
-    System.out.println(result.getResponse().getContentAsString());
-
   }
 
   @Test
