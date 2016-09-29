@@ -169,8 +169,7 @@
                         </md-card-header-text>
                         <div>
                         <i class="material-icons" ng-click="toggleAllRowsVisible()">open_in_new</i>
-                        <md-tooltip ng-if="$scope
-                          .variable.distribution.validResponses > 10" md-direction="top">
+                        <md-tooltip ng-if="variable.distribution.validResponses.length > 10" md-direction="top">
                           {{'variable-management.detail.content.' + allRowsVisible | translate }}
                         </md-tooltip>
                       </div>
