@@ -3,7 +3,6 @@
 angular.module('metadatamanagementApp')
   .controller('VariableDetailController', function(SurveySearchDialogService,
     DataSetSearchDialogService, $scope, entity, $state, ShoppingCartService) {
-    $scope.frequencies = [];
     $scope.generationCodeToggleFlag = true;
     $scope.allRowsVisible = true;
     entity.$promise.then(function(variable) {

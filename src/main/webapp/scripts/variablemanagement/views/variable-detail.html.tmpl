@@ -167,20 +167,20 @@
                         <md-card-header-text>
                             <h2 class="md-title">{{'variable-management.detail.frequencies' | translate }}</h2>
                         </md-card-header-text>
+                        <div>
+                        <i class="material-icons" ng-click="toggleAllRowsVisible()">open_in_new</i>
+                        <md-tooltip ng-if="$scope
+                          .variable.distribution.validResponses > 10" md-direction="top">
+                          {{'variable-management.detail.content.' + allRowsVisible | translate }}
+                        </md-tooltip>
+                      </div>
                     </md-card-header>
                     <md-divider></md-divider>
                     <md-card-content>
                         <div class="fdz-table" id="fdz-table">
-                            <md-tooltip md-direction="top">
-                                {{'variable-management.detail.content.' + allRowsVisible | translate }}
-                            </md-tooltip>
                             <div class="fdz-table-row">
-                                <div class="fdz-table-cell" ng-click="toggleAllRowsVisible()">
-                                  <!-- muss bearbeitet werden -->
-                                  <div>
-                                  <span>{{'variable-management.detail.statistics.value' | translate }}<i class="material-icons">open_in_new</i></span>
-                                  </div>
-                                  <!-- -->
+                                <div class="fdz-table-cell">
+                                  <span>{{'variable-management.detail.statistics.value' | translate }}
                                 </div>
                                 <div class="fdz-table-cell">
                                     <div class="fdz-table-cell-content">
