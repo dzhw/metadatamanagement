@@ -1,6 +1,6 @@
 /* global document*/
-
 'use strict';
+
 angular.module('metadatamanagementApp').service('QuestionSearchDialogService',
   function($mdDialog, blockUI, QuestionSearchResource, CleanJSObjectService) {
     var questions = [];
@@ -8,13 +8,14 @@ angular.module('metadatamanagementApp').service('QuestionSearchDialogService',
       var dialogParent = angular.element(document.body);
       $mdDialog.show({
         controller: 'QuestionSearchDialogController',
+        controllerAs: 'questionSearchDialogController',
         parent: dialogParent,
         clickOutsideToClose: true,
         locals: {
           questions: questions
         },
         templateUrl: 'scripts/questionmanagement/' +
-        'directives/questionSearchDialog.html.tmpl',
+          'directives/questionSearchDialog.html.tmpl',
       });
     };
     var findByProjectId = function(dataAcquisitionProjectId) {
