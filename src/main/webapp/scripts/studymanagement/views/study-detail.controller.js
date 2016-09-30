@@ -3,7 +3,7 @@
 angular.module('metadatamanagementApp')
   .controller('StudyDetailController',
     function($scope, entity, DataSetSearchResource, SurveySearchResource,
-      ShoppingCartService, QuestionSearchDialogService) {
+      ShoppingCartService, QuestionSearchDialogService, CleanJSObjectService) {
       $scope.study = entity;
       $scope.cleanedAccessWays = '';
 
@@ -11,11 +11,15 @@ angular.module('metadatamanagementApp')
         $scope.study = study;
         SurveySearchResource.findByProjectId($scope.study.id)
         .then(function(surveys) {
-          $scope.surveys = surveys.hits.hits;
+          if (!CleanJSObjectService.isNullOrEmpty(surveys)) {
+            $scope.surveys = surveys.hits.hits;
+          }
         });
         DataSetSearchResource.findByProjectId($scope.study.id)
         .then(function(dataSets) {
-          $scope.dataSets = dataSets.hits.hits;
+          if (!CleanJSObjectService.isNullOrEmpty(dataSets)) {
+            $scope.dataSets = dataSets.hits.hits;
+          }
         });
       });
       $scope.showQuestions = function() {

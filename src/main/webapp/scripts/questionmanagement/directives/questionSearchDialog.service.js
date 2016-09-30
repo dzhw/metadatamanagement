@@ -2,7 +2,7 @@
 
 'use strict';
 angular.module('metadatamanagementApp').service('QuestionSearchDialogService',
-  function($mdDialog, blockUI, QuestionSearchResource) {
+  function($mdDialog, blockUI, QuestionSearchResource, CleanJSObjectService) {
     var questions = [];
     var showDialog = function() {
       var dialogParent = angular.element(document.body);
@@ -21,9 +21,13 @@ angular.module('metadatamanagementApp').service('QuestionSearchDialogService',
       blockUI.start();
       QuestionSearchResource.findByProjectId(dataAcquisitionProjectId).
       then(function(items) {
-        questions = items.hits.hits;
-        blockUI.stop();
-        showDialog();
+        if (!CleanJSObjectService.isNullOrEmpty(items)) {
+          questions = items.hits.hits;
+          blockUI.stop();
+          showDialog();
+        } else {
+          blockUI.stop();
+        }
       });
     };
     return {

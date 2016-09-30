@@ -3,7 +3,7 @@
 'use strict';
 angular.module('metadatamanagementApp')
 .service('SurveySearchDialogService',
-  function($mdDialog, blockUI, SurveySearchResource) {
+  function($mdDialog, blockUI, SurveySearchResource, CleanJSObjectService) {
     var surveys = [];
     var showDialog = function() {
       var dialogParent = angular.element(document.body);
@@ -22,9 +22,13 @@ angular.module('metadatamanagementApp')
       blockUI.start();
       SurveySearchResource.findSurveys(surveysIds)
       .then(function(items) {
-        surveys = items.docs;
-        blockUI.stop();
-        showDialog();
+        if (!CleanJSObjectService.isNullOrEmpty(items)) {
+          surveys = items.docs;
+          blockUI.stop();
+          showDialog();
+        } else {
+          blockUI.stop();
+        }
       });
     };
     return {

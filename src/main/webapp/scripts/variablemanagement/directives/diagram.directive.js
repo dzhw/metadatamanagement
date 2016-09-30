@@ -54,7 +54,6 @@ angular.module('metadatamanagementApp').directive('diagram',
         data[0].x = [];
         data[0].type = 'histogram';
         data[0].autobinx = false;
-
         data[0].xbins = {
           start: scope.statistics.histogram.start,
           end: scope.statistics.histogram.end,

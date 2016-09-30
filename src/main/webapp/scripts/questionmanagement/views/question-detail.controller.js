@@ -7,7 +7,7 @@ angular.module('metadatamanagementApp')
 
     function($scope, StudyReferencedResource,
       ShoppingCartService, VariableSearchDialogService, entity, $state,
-      SimpleMessageToastService, QuestionSearchResource) {
+      SimpleMessageToastService, QuestionSearchResource, CleanJSObjectService) {
 
       $scope.predecessors = [];
       $scope.successors = [];
@@ -16,11 +16,15 @@ angular.module('metadatamanagementApp')
         $scope.question = question;
         QuestionSearchResource.findPredeccessors(question.id)
           .then(function(predecessors) {
-            $scope.predecessors = predecessors.hits.hits;
+            if (!CleanJSObjectService.isNullOrEmpty(predecessors)) {
+              $scope.predecessors = predecessors.hits.hits;
+            }
           });
         QuestionSearchResource.findSuccessors(question.successors)
           .then(function(successors) {
-            $scope.successors = successors.docs;
+            if (!CleanJSObjectService.isNullOrEmpty(successors)) {
+              $scope.successors = successors.docs;
+            }
           });
         if ($scope.question.technicalRepresentation) {
           //default value is no beautify

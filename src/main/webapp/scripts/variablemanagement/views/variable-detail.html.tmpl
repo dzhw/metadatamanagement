@@ -163,16 +163,16 @@
             </div>
             <div layout="row">
                 <md-card flex>
-                    <md-card-header>
+                    <md-card-header layout-align="center center">
                         <md-card-header-text>
                             <h2 class="md-title">{{'variable-management.detail.frequencies' | translate }}</h2>
                         </md-card-header-text>
-                        <div>
-                        <i class="material-icons" ng-click="toggleAllRowsVisible()">open_in_new</i>
-                        <md-tooltip ng-if="variable.distribution.validResponses.length > 10" md-direction="top">
-                          {{'variable-management.detail.content.' + allRowsVisible | translate }}
-                        </md-tooltip>
-                      </div>
+                          <md-button ng-disabled="variable.distribution.validResponses.length <= 10" class="md-fab md-mini md-primary" ng-click="toggleAllRowsVisible()">
+                            <md-icon md-font-library="material-icons">open_in_new</md-icon>
+                            <md-tooltip ng-if="variable.distribution.validResponses.length > 10" md-direction="top">
+                              {{'variable-management.detail.content.' + allRowsVisible | translate }}
+                            </md-tooltip>
+                          </md-button>
                     </md-card-header>
                     <md-divider></md-divider>
                     <md-card-content>

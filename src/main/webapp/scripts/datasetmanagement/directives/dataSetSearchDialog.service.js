@@ -3,7 +3,7 @@
 'use strict';
 angular.module('metadatamanagementApp')
 .service('DataSetSearchDialogService',
-  function($mdDialog, blockUI, DataSetSearchResource) {
+  function($mdDialog, blockUI, DataSetSearchResource, CleanJSObjectService) {
     var dataSets = [];
     var showDialog = function() {
       var dialogParent = angular.element(document.body);
@@ -22,9 +22,13 @@ angular.module('metadatamanagementApp')
       blockUI.start();
       DataSetSearchResource.findByVariableId(variableId)
       .then(function(items) {
-        dataSets = items.hits.hits;
-        blockUI.stop();
-        showDialog();
+        if (!CleanJSObjectService.isNullOrEmpty(items)) {
+          dataSets = items.hits.hits;
+          blockUI.stop();
+          showDialog();
+        } else {
+          blockUI.stop();
+        }
       });
     };
     return {
