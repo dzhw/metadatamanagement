@@ -2,10 +2,11 @@
 
 angular.module('metadatamanagementApp')
   .controller('SurveySearchDialogController',
-  function($mdDialog, $scope, surveys) {
-    $scope.surveys = surveys;
-    $scope.closeDialog = $mdDialog.hide;
-    $scope.$on('$stateChangeStart', function() {
-      $scope.closeDialog();
+    function($mdDialog, $scope, surveys) {
+      var ctlr = this;
+      ctlr.surveys = surveys;
+      ctlr.closeDialog = $mdDialog.hide;
+      $scope.$on('$stateChangeStart', function() {
+        ctlr.closeDialog();
+      });
     });
-  });
