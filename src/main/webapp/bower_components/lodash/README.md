@@ -1,4 +1,4 @@
-# lodash v4.16.2
+# lodash v4.16.3
 
 [Site](https://lodash.com/) |
 [Docs](https://lodash.com/docs) |
@@ -20,11 +20,11 @@ $ lodash core -o ./dist/lodash.core.js
 
 ## Download
 
- * [Core build](https://raw.githubusercontent.com/lodash/lodash/4.16.2/dist/lodash.core.js) ([~4 kB gzipped](https://raw.githubusercontent.com/lodash/lodash/4.16.2/dist/lodash.core.min.js))
- * [Full build](https://raw.githubusercontent.com/lodash/lodash/4.16.2/dist/lodash.js) ([~23 kB gzipped](https://raw.githubusercontent.com/lodash/lodash/4.16.2/dist/lodash.min.js))
+ * [Core build](https://raw.githubusercontent.com/lodash/lodash/4.16.3/dist/lodash.core.js) ([~4 kB gzipped](https://raw.githubusercontent.com/lodash/lodash/4.16.3/dist/lodash.core.min.js))
+ * [Full build](https://raw.githubusercontent.com/lodash/lodash/4.16.3/dist/lodash.js) ([~23 kB gzipped](https://raw.githubusercontent.com/lodash/lodash/4.16.3/dist/lodash.min.js))
  * [CDN copies](https://www.jsdelivr.com/projects/lodash)
 
-Lodash is released under the [MIT license](https://raw.githubusercontent.com/lodash/lodash/4.16.2/LICENSE) & supports [modern environments](#support).<br>
+Lodash is released under the [MIT license](https://raw.githubusercontent.com/lodash/lodash/4.16.3/LICENSE) & supports [modern environments](#support).<br>
 Review the [build differences](https://github.com/lodash/lodash/wiki/build-differences) & pick one that’s right for you.
 
 ## Installation
@@ -66,9 +66,9 @@ Install [n_](https://www.npmjs.com/package/n_) for Lodash use in the Node.js < 6
 Lodash makes JavaScript easier by taking the hassle out of working with arrays,<br>
 numbers, objects, strings, etc. Lodash’s modular methods are great for:
 
-* Iterating arrays, objects, & strings
-* Manipulating & testing values
-* Creating composite functions
+ * Iterating arrays, objects, & strings
+ * Manipulating & testing values
+ * Creating composite functions
 
 ## Module Formats
 
