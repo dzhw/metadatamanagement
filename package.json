@@ -5,7 +5,7 @@
   "private": true,
   "dependencies": {},
   "devDependencies": {
-    "browser-sync": "^2.16.1",
+    "browser-sync": "^2.17.0",
     "event-stream": "3.3.4",
     "grunt": "1.0.1",
     "grunt-angular-templates": "1.1.0",
@@ -44,7 +44,7 @@
     "karma-script-launcher": "1.0.0",
     "load-grunt-tasks": "3.5.2",
     "lodash": "4.16.3",
-    "phantomjs-prebuilt": "2.1.12",
+    "phantomjs-prebuilt": "2.1.13",
     "protractor": "4.0.9",
     "requirejs": "2.3",
     "time-grunt": "1.4.0",
