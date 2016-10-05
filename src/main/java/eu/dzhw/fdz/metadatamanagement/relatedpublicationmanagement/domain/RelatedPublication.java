@@ -34,14 +34,30 @@ public class RelatedPublication extends AbstractRdcDomainObject {
       message = "related-publication-management.error.related-publication.id.pattern")
   private String id;
  
+  @NotEmpty(message = "related-publication-management.error.related-publication." 
+      + "source-reference.not-empty")
+  @Size(max = StringLengths.LARGE,
+      message = "related-publication-management.error.related-publication." 
+          + "source-reference.size")
   private String sourceReference;
   
+  @Size(max = StringLengths.X_LARGE,
+      message = "related-publication-management.error.related-publication." 
+          + "publication-abstract.size")
   private String publicationAbstract;
   
+  @Size(max = StringLengths.MEDIUM,
+      message = "related-publication-management.error.related-publication." 
+          + "doi.size")
   private String doi;
   
+  @Pattern(regexp = Patterns.VALID_URL,
+      message = "related-publication-management.error.related-publication.source-link.pattern")
   private String sourceLink;
   
+  @Size(max = StringLengths.MEDIUM,
+      message = "related-publication-management.error.related-publication." 
+          + "title.size")
   private String title;
   
   /* Foreign Keys */
