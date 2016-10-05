@@ -1,7 +1,10 @@
 package eu.dzhw.fdz.metadatamanagement.relatedpublicationmanagement.rest;
 
+import static org.hamcrest.Matchers.is;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import java.io.IOException;
@@ -11,7 +14,6 @@ import org.junit.Before;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
@@ -49,19 +51,82 @@ public class RelatedPublicationResourceTest  extends AbstractTest {
   }
   
   @Test
-  public void testCreateStudy() throws IOException, Exception {
-    
+  public void testCreateRelatedPublications() throws IOException, Exception {
+    //ARRANGE
     RelatedPublication relatedPublication = UnitTestCreateDomainObjectUtils.buildRelatedPublication();
     
-    // create the study with the given id
-    MvcResult mvcResult = this.mockMvc.perform(put(API_RELATED_PUBLICATION_URI + "/" + relatedPublication.getId())
+    //ACT
+    // create the related publication with the given id
+    this.mockMvc.perform(put(API_RELATED_PUBLICATION_URI + "/" + relatedPublication.getId())
       .content(TestUtil.convertObjectToJsonBytes(relatedPublication)))
-      //.andExpect(status().isCreated());
-      .andReturn();
-    System.out.println(mvcResult.getResponse().getContentAsString());
+      .andExpect(status().isCreated());
 
-    // read the study under the new url
+    //ASSERT
+    // read the related publication under the new url
     this.mockMvc.perform(get(API_RELATED_PUBLICATION_URI + "/" + relatedPublication.getId()))
       .andExpect(status().isOk());
+  }
+  
+
+  @Test
+  public void testUpdateRelatedPublications() throws IOException, Exception {
+    //ARRANGE
+    RelatedPublication relatedPublication = UnitTestCreateDomainObjectUtils.buildRelatedPublication();
+    
+    //ACT
+    // create the related publication with the given id
+    this.mockMvc.perform(put(API_RELATED_PUBLICATION_URI + "/" + relatedPublication.getId())
+      .content(TestUtil.convertObjectToJsonBytes(relatedPublication)))
+      .andExpect(status().isCreated());
+    
+    relatedPublication.setDoi("Another DOI");
+    
+    //update the related publication with the given id
+    mockMvc.perform(put(API_RELATED_PUBLICATION_URI + "/" + relatedPublication.getId())
+      .content(TestUtil.convertObjectToJsonBytes(relatedPublication)))
+      .andExpect(status().is2xxSuccessful());
+
+    //ASSERT
+    // read the related publication under the new url
+    mockMvc.perform(get(API_RELATED_PUBLICATION_URI + "/" + relatedPublication.getId() + "?projection=complete"))
+      .andExpect(status().isOk())
+      .andExpect(jsonPath("$.id", is(relatedPublication.getId())))
+      .andExpect(jsonPath("$.doi", is("Another DOI")));
+  }
+  
+  @Test
+  public void testDeleteRelatedPublications() throws IOException, Exception {
+    //ARRANGE
+    RelatedPublication relatedPublication = UnitTestCreateDomainObjectUtils.buildRelatedPublication();
+    
+    //ACT
+    // create the related publication with the given id
+    this.mockMvc.perform(put(API_RELATED_PUBLICATION_URI + "/" + relatedPublication.getId())
+      .content(TestUtil.convertObjectToJsonBytes(relatedPublication)))
+      .andExpect(status().isCreated());
+    
+    // delete the related publication under the new url
+    mockMvc.perform(delete(API_RELATED_PUBLICATION_URI + "/" + relatedPublication.getId()))
+      .andExpect(status().is2xxSuccessful());
+
+    // ensure it is really deleted
+    mockMvc.perform(get(API_RELATED_PUBLICATION_URI + "/" + relatedPublication.getId()))
+      .andExpect(status().isNotFound());
+  }
+  
+  @Test
+  public void testUpdateStudyWithInvalidReleaseDoi() throws IOException, Exception {
+  //ARRANGE
+    RelatedPublication relatedPublication = UnitTestCreateDomainObjectUtils.buildRelatedPublication();
+    
+    
+    relatedPublication.setDoi("ThisDoiIsTooLong.ThisDoiIsTooLong.ThisDoiIsTooLong.ThisDoiIsTooLong.ThisDoiIsTooLong.ThisDoiIsTooLong.ThisDoiIsTooLong." + 
+        "ThisDoiIsTooLong.ThisDoiIsTooLong.ThisDoiIsTooLong.ThisDoiIsTooLong.ThisDoiIsTooLong.");
+    
+    //ACT and ASSERT
+    // create the related publication with the given id
+    this.mockMvc.perform(put(API_RELATED_PUBLICATION_URI + "/" + relatedPublication.getId())
+      .content(TestUtil.convertObjectToJsonBytes(relatedPublication)))
+      .andExpect(status().is4xxClientError());
   }
 }
