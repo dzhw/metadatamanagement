@@ -14,6 +14,32 @@
       "citation-text": "Zitationstext",
       "abstract": "Abstrakt",
       "doi": "DOI"
+    },
+    "error": {
+      "related-publication": {
+        "id": {
+          "not-empty": "Die FDZ - ID der zugehörigen Veröffentlichung darf nicht leer sein!",
+          "size": "Die Maximallänge der FDZ - ID ist 128 Zeichen.",
+          "pattern": "Es dürfen für die FDZ - ID nur alphanumerische Zeichen, deutsche Umlaute, ß, Minus und der Unterstrich verwendet werden."
+        },
+        "source-reference": {
+          "not-empty": "Die Source-Referenz der zugehörigen Veröffentlichung darf nicht leer sein!",
+          "size": "Die Maximallänge der Source-Referenz der zugehörigen Veröffentlichung ist 2048 Zeichen."
+        },
+        "publication-abstract": {
+          "size": "Die Maximallänge des Abstracts der zugehörigen Veröffentlichung ist 1048576 Zeichen."
+        },
+        "doi": {
+          "size": "Die Maximallänge der DOI der zugehörigen Veröffentlichung ist 128 Zeichen."
+        },
+        "source-link": {
+          "pattern": "Der Link der Source der zugehörigen Veröffentlichung ist keine gültige URL"
+        },
+        "title": {
+          "not-empty": "Der Titel der zugehörigen Veröffentlichung darf nicht leer sein!",
+          "size": "Die Maximallänge des Titels der zugehörigen Veröffentlichung ist 128 Zeichen."
+        }
+      }
     }
   }
 }

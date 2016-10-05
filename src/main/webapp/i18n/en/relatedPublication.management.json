@@ -14,6 +14,32 @@
       "citation-text": "Citation Text",
       "abstract": "Abstract",
       "doi": "DOI"
+    },
+    "error": {
+      "related-publication": {
+        "id": {
+          "not-empty": "The RDC-ID of the related Publication must not be empty!",
+          "size": "The max length of the RDC-ID is 128 signs.",
+          "pattern": "Use only alphanumeric signs, german umlauts, ß and space, underscore and minus for the RDC-ID."
+        },
+        "source-reference": {
+          "not-empty": "The source reference of the related Publication must not be empty!",
+          "size": "The max length of the source reference of the related Publication is 2048 signs."
+        },
+        "publication-abstract": {
+          "size": "The max length of the publication abstract of the related Publication is 1048576 signs."
+        },
+        "doi": {
+          "size": "The max length of the DOI of the related Publication is 128 signs."
+        },
+        "source-link": {
+          "pattern": "The source link of the related publication is not a valid URL."
+        },
+        "title": {
+          "not-empty": "The title of the related Publication must not be empty!",
+          "size": "The max length of the title of the related Publication is 128 signs."
+        }
+      }
     }
   }
 }
