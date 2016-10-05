@@ -26,6 +26,8 @@ import eu.dzhw.fdz.metadatamanagement.questionmanagement.domain.QuestionTypes;
 import eu.dzhw.fdz.metadatamanagement.questionmanagement.domain.TechnicalRepresentation;
 import eu.dzhw.fdz.metadatamanagement.questionmanagement.domain.builders.QuestionBuilder;
 import eu.dzhw.fdz.metadatamanagement.questionmanagement.domain.builders.TechnicalRepresentationBuilder;
+import eu.dzhw.fdz.metadatamanagement.relatedpublicationmanagement.domain.RelatedPublication;
+import eu.dzhw.fdz.metadatamanagement.relatedpublicationmanagement.domain.builders.RelatedPublicationBuilder;
 import eu.dzhw.fdz.metadatamanagement.studymanagement.domain.Release;
 import eu.dzhw.fdz.metadatamanagement.studymanagement.domain.Study;
 import eu.dzhw.fdz.metadatamanagement.studymanagement.domain.builders.StudyBuilder;
@@ -348,6 +350,17 @@ public class UnitTestCreateDomainObjectUtils {
             .build())
       .withExpression("A Filter Expression")
       .withExpressionLanguage(FilterExpressionLanguages.STATA)
+        .build();
+  }
+  
+  public static RelatedPublication buildRelatedPublication() {
+    return new RelatedPublicationBuilder()
+        .withDoi("A DOI")
+        .withId("HurzId123")
+        .withPublicationAbstract("A publication Abstract")
+        .withSourceLink("http://www.hurzexample.de/")
+        .withSourceReference("A Source Reference")
+        .withTitle("A Title of a Related Publication")
         .build();
   }
 }

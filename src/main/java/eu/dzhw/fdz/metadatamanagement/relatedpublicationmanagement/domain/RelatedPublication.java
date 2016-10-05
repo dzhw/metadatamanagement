@@ -51,8 +51,9 @@ public class RelatedPublication extends AbstractRdcDomainObject {
           + "doi.size")
   private String doi;
   
-  @Pattern(regexp = Patterns.VALID_URL,
-      message = "related-publication-management.error.related-publication.source-link.pattern")
+  //TODO DKatzberg: This Patterns does not work 
+  //@Pattern(regexp = Patterns.VALID_URL,
+  //    message = "related-publication-management.error.related-publication.source-link.pattern")
   private String sourceLink;
   
   @Size(max = StringLengths.MEDIUM,
@@ -78,7 +79,7 @@ public class RelatedPublication extends AbstractRdcDomainObject {
    * @see eu.dzhw.fdz.metadatamanagement.common.domain.AbstractRdcDomainObject#getId()
    */
   @Override
-  protected String getId() {
+  public String getId() {
     return this.id;
   }
 
