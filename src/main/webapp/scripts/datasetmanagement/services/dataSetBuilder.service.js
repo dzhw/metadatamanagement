@@ -14,7 +14,12 @@ angular.module('metadatamanagementApp').service('DataSetBuilderService',
             de: data['description.de']
           },
           variableIds: CleanJSObjectService.removeWhiteSpace(data.variableIds),
-          surveyIds: CleanJSObjectService.removeWhiteSpace(data.surveyIds)
+          surveyIds: CleanJSObjectService.removeWhiteSpace(data.surveyIds),
+          type: {
+            en: data['type.en'],
+            de: data['type.de']
+          },
+          subDataSets: CleanJSObjectService.removeWhiteSpace(data.subDataSetIds)
         };
         var cleanedDataSetObject = CleanJSObjectService
           .removeEmptyJsonObjects(dataSetObj);

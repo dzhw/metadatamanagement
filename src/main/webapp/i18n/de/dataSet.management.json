@@ -49,6 +49,24 @@
           "ids": {
             "not-empty": "Der Datensatz muss zu mindestens einer Erhebung gehören!"
           }
+        },
+        "sub-data-sets": "Der (Sub)Datensatz des Datensatzes darf nicht leer sein!"
+      },
+      "sub-data-set": {
+        "name": {
+          "not-null": "Der Name des (Sub)Datensatzes darf bei dem Datensatz nicht leer sein!",
+          "not-empty": "Der Name des (Sub)Datensatzes darf bei dem Datensatz nicht leer sein!",
+          "size": "Die Maximallänge des Namens ist 32 Zeichen."
+        },
+        "description": {
+          "not-null": "Die Beschreibung darf nicht leer sein!",
+          "not-empty": "Die Beschreibung darf nicht leer sein!",
+          "i18n-string-size": "Die Maximallänge der Beschreibung ist 128 Zeichen."
+        },
+        "access-ways": {
+          "not-null": "Die Liste der Zugangswege benötigt mindest ein Element und darf nicht leer sein!",
+          "not-empty": "Die Liste der Zugangswege benötigt mindest ein Element und darf nicht leer sein!",
+          "valid-access-ways": "Die Liste der Zugangswege enthält ungültige Werte. Erlaubt sind nur: download-cuf, download-suf, remote-desktop-suf, onsite-suf, not-accessible."
         }
       },
       "post-validation": {
