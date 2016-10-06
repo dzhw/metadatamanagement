@@ -1,12 +1,12 @@
 {
   "name": "lodash",
   "homepage": "https://github.com/lodash/lodash",
-  "version": "4.16.3",
-  "_release": "4.16.3",
+  "version": "4.16.4",
+  "_release": "4.16.4",
   "_resolution": {
     "type": "version",
-    "tag": "4.16.3",
-    "commit": "dbe131087e5dd6da87eeb7bcb7d3fcacda3ff78e"
+    "tag": "4.16.4",
+    "commit": "301a4eec89bbf3570d21bd1711dacc981e8853c5"
   },
   "_source": "https://github.com/lodash/lodash.git",
   "_target": "^4.16.1",
