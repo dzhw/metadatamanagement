@@ -2,7 +2,7 @@
     <md-card>
         <md-card-header>
             <md-card-header-text>
-                <h1 class="md-headline">Kratz, F. & Netz, N. (2016). Which mechanisms explain monetary returns to international student mobility? Studies in Higher Education, S. 1-26.</h1>
+                <h1 class="md-headline">{{ctrl.relatedPublication.sourceReference}}</h1>
             </md-card-header-text>
         </md-card-header>
         <md-card-content style="padding-top: 0px;" layout="column">
@@ -18,12 +18,12 @@
                         <section>
                               <span style="font-weight: bold;">{{'related-publication-management.detail.abstract' | translate }}:
                               </span>
-                              <span>The authors develop a conceptual framework explaining monetary returns to international student mobility (ISM). Based on data from two German graduate panel surveys, they test this framework using growth curve models and Oaxaca–Blinder decompositions. The results indicate that ISM-experienced graduates enjoy a steeper wage growth after graduation and that they receive higher medium-term wages. This is partly attributable to their favourable self-selection. Under control of selection effects and competency gains from ISM, two mechanisms so far disregarded in the literature explain monetary returns to ISM: the steeper wage growth results from the higher likelihood of ISM-experienced graduates to increase their wage through employer changes. Linked to this, their higher likelihood of working in large and multinational companies explains their medium-term wage advantage.The authors develop a conceptual framework explaining monetary returns to international student mobility (ISM). Based on data from two German graduate panel surveys, they test this framework using growth curve models and Oaxaca–Blinder decompositions. The results indicate that ISM-experienced graduates enjoy a steeper wage growth after graduation and that they receive higher medium-term wages. This is partly attributable to their favourable self-selection. Under control of selection effects and competency gains from ISM, two mechanisms so far disregarded in the literature explain monetary returns to ISM: the steeper wage growth results from the higher likelihood of ISM-experienced graduates to increase their wage through employer changes. Linked to this, their higher likelihood of working in large and multinational companies explains their medium-term wage advantage.</span>
+                              <span>{{ctrl.relatedPublication.publicationAbstract}}</span>
                           </section>
                           <section>
                                 <span style="font-weight: bold;">{{'related-publication-management.detail.doi' | translate }}:
                                 </span>
-                                <span>10.1080/03075079.2016.1172307</span>
+                                <span>{{ctrl.relatedPublication.doi}}</span>
                             </section>
                     </md-card-content>
                 </md-card>

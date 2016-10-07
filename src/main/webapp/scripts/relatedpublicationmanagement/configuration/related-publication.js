@@ -24,6 +24,13 @@ angular.module('metadatamanagementApp')
               $translatePartialLoader.addPart(
                 'relatedPublication.management');
             }
+          ],
+          entity: ['$stateParams', 'RelatedPublicationResource',
+            function($stateParams, RelatedPublicationResource) {
+              return RelatedPublicationResource.get({
+                id: $stateParams.id
+              });
+            }
           ]
         },
       });
