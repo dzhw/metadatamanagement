@@ -233,6 +233,7 @@ public class ElasticsearchUpdateQueueService {
   
   private void addUpsertActionForRelatedPublication(ElasticsearchUpdateQueueItem lockedItem,
       Builder bulkBuilder) {
+    
     RelatedPublication relatedPublication = 
         relatedPublicationRepository.findOne(lockedItem.getDocumentId());
     if (relatedPublication != null) {      
@@ -252,6 +253,7 @@ public class ElasticsearchUpdateQueueService {
   private void addUpsertActionForDataSet(ElasticsearchUpdateQueueItem lockedItem,
       Builder bulkBuilder) {
     DataSet dataSet = dataSetRepository.findOne(lockedItem.getDocumentId());
+    
     if (dataSet != null) {
       Iterable<Survey> surveys = null;
       if (dataSet.getSurveyIds() != null) {

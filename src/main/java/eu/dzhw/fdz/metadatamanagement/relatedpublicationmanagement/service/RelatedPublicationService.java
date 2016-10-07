@@ -73,7 +73,7 @@ public class RelatedPublicationService {
    */
   @HandleAfterCreate
   @HandleAfterSave
-  public void onDataSetSaved(RelatedPublication relatedPublication) {
+  public void onRelatedPublicationSaved(RelatedPublication relatedPublication) {
     elasticsearchUpdateQueueService.enqueue(
         relatedPublication.getId(), 
         ElasticsearchType.related_publications, 
