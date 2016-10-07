@@ -11,7 +11,7 @@ angular.module('metadatamanagementApp')
         var relatedPublicationObj = {
           id: data.id,
           sourceReference: data.sourceReference,
-          publicationAbstract: data.RelatedPublication,
+          publicationAbstract: data.publicationAbstract,
           doi: data.doi,
           sourceLink: data.sourceLink,
           title: data.title

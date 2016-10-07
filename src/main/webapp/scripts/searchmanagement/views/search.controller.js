@@ -70,8 +70,6 @@ angular.module('metadatamanagementApp').controller('SearchController',
           $scope.page.totalHits = data.hits.total;
           selectedTab.count = data.hits.total;
 
-          console.log($scope.searchResult);
-
           //Count information by aggregations
           if (selectedTab.elasticSearchType === '') {
             $scope.tabs.forEach(function(tab) {
