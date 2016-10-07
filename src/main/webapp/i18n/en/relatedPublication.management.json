@@ -3,6 +3,15 @@
     "home": {
       "title": "Publikation"
     },
+    "log-messages": {
+      "data-set": {
+        "saved": "Related Publication with RDC-ID {{ id }} was saved successfully!",
+        "not-saved": "Related Publication with RDC-ID {{ id }} has not been saved!",
+        "missing-id": "Related Publication {{ index }} does not contain a RDC-ID and has not been saved!",
+        "upload-terminated": "Finished upload of {{ total }} related Publications with {{ errors }} errors.",
+        "cancelled": "Related Publications upload cancelled!"
+      }
+    },
     "detail": {
       "title": "Information of the related publication",
       "publication": "Publication",
