@@ -54,15 +54,18 @@ angular.module('metadatamanagementApp').service('SearchDao',
                   }
                 };
               }
-              //filter by projectId
-              if (!CleanJSObjectService.isNullOrEmpty(currentProject)) {
-                projectFilter = {
-                  'term': {'dataAcquisitionProjectId': currentProject.id}
-                };
-                if (!query.body.query.bool.filter) {
-                  query.body.query.bool.filter = [];
+              //related publications have no data acquisition project id.
+              if (elasticsearchType !== 'related_publications') {
+                //filter by projectId
+                if (!CleanJSObjectService.isNullOrEmpty(currentProject)) {
+                  projectFilter = {
+                    'term': {'dataAcquisitionProjectId': currentProject.id}
+                  };
+                  if (!query.body.query.bool.filter) {
+                    query.body.query.bool.filter = [];
+                  }
+                  query.body.query.bool.filter.push(projectFilter);
                 }
-                query.body.query.bool.filter.push(projectFilter);
               }
               return ElasticSearchClient.search(query);
             }
