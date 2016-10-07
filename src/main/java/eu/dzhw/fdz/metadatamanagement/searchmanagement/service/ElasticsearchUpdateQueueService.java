@@ -18,9 +18,12 @@ import eu.dzhw.fdz.metadatamanagement.datasetmanagement.domain.DataSet;
 import eu.dzhw.fdz.metadatamanagement.datasetmanagement.repository.DataSetRepository;
 import eu.dzhw.fdz.metadatamanagement.questionmanagement.domain.Question;
 import eu.dzhw.fdz.metadatamanagement.questionmanagement.repository.QuestionRepository;
+import eu.dzhw.fdz.metadatamanagement.relatedpublicationmanagement.domain.RelatedPublication;
+import eu.dzhw.fdz.metadatamanagement.relatedpublicationmanagement.repository.RelatedPublicationRepository;
 import eu.dzhw.fdz.metadatamanagement.searchmanagement.dao.ElasticsearchDao;
 import eu.dzhw.fdz.metadatamanagement.searchmanagement.documents.DataSetSearchDocument;
 import eu.dzhw.fdz.metadatamanagement.searchmanagement.documents.QuestionSearchDocument;
+import eu.dzhw.fdz.metadatamanagement.searchmanagement.documents.RelatedPublicationSearchDocument;
 import eu.dzhw.fdz.metadatamanagement.searchmanagement.documents.StudySearchDocument;
 import eu.dzhw.fdz.metadatamanagement.searchmanagement.documents.SurveySearchDocument;
 import eu.dzhw.fdz.metadatamanagement.searchmanagement.documents.VariableSearchDocument;
@@ -79,6 +82,9 @@ public class ElasticsearchUpdateQueueService {
   
   @Inject 
   private StudyRepository studyRepository;
+  
+  @Inject
+  private RelatedPublicationRepository relatedPublicationRepository;
   
   @Inject
   private ElasticsearchDao elasticsearchDao;
@@ -216,9 +222,30 @@ public class ElasticsearchUpdateQueueService {
       case studies:
         addUpsertActionForStudy(lockedItem, bulkBuilder);
         break;
+      case related_publications:
+        addUpsertActionForRelatedPublication(lockedItem, bulkBuilder);
+        break;
       default:
         throw new NotImplementedException("Processing queue item with type "
             + lockedItem.getDocumentType() + " has not been implemented!");
+    }
+  }
+  
+  private void addUpsertActionForRelatedPublication(ElasticsearchUpdateQueueItem lockedItem,
+      Builder bulkBuilder) {
+    RelatedPublication relatedPublication = 
+        relatedPublicationRepository.findOne(lockedItem.getDocumentId());
+    if (relatedPublication != null) {      
+      for (ElasticsearchIndices index : ElasticsearchIndices.values()) {
+        RelatedPublicationSearchDocument searchDocument =
+            new RelatedPublicationSearchDocument(relatedPublication);
+
+        bulkBuilder.addAction(new Index.Builder(searchDocument)
+            .index(index.getIndexName())
+            .type(lockedItem.getDocumentType().name())
+            .id(searchDocument.getId())
+            .build());
+      }
     }
   }
    

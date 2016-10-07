@@ -5,5 +5,5 @@ package eu.dzhw.fdz.metadatamanagement.searchmanagement.service;
  * @author René Reitmann
  */
 public enum ElasticsearchType {
-  variables, surveys, data_sets, questions, studies
+  variables, surveys, data_sets, questions, studies, related_publications
 }

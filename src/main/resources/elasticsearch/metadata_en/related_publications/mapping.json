@@ -1,8 +1,8 @@
 {
-  "questions": {
+  "related_publications": {
       "_all" : {    
          "enabled" : true,
-         "analyzer": "german"
+         "analyzer": "english"
       },
     "properties": {
       "allStringsAsNgrams" : {

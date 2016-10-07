@@ -7,7 +7,7 @@ a result of a type like variable or dataSet and so on. */
 angular.module('metadatamanagementApp').controller('SearchController',
   function($scope, Principal, ElasticSearchProperties, $location,
     AlertService, SearchDao, $translate, VariableUploadService,
-    QuestionUploadService,
+    QuestionUploadService, RelatedPublicationUploadService,
     DataSetUploadService, StudyUploadService, SurveyUploadService, $mdDialog,
     CleanJSObjectService,
     CurrentProjectService, $timeout) {
@@ -238,6 +238,30 @@ angular.module('metadatamanagementApp').controller('SearchController',
       }
     };
 
+    $scope.uploadRelatedPublications = function(file) {
+      if (Array.isArray(file)) {
+        file = file[0];
+      }
+      if (!file || !file.name.endsWith('xlsx')) {
+        return;
+      }
+      var confirm = $mdDialog.confirm()
+        .title($translate.instant(
+          'search-management.delete-messages.' +
+          'delete-related-publications-title'))
+        .textContent($translate.instant(
+          'search-management.delete-messages.delete-related-publications'))
+        .ariaLabel($translate.instant(
+          'search-management.delete-messages.delete-related-publications'))
+        .ok($translate.instant('global.buttons.ok'))
+        .cancel($translate.instant('global.buttons.cancel'));
+      $mdDialog.show(confirm).then(function() {
+        //start upload
+        RelatedPublicationUploadService.uploadRelatedPublications(file);
+        //Cancel. Nothing happens
+      }, function() {});
+    };
+
     $scope.uploadStudy = function(files) {
       if (!files || files.length === 0) {
         return;
@@ -324,9 +348,8 @@ angular.module('metadatamanagementApp').controller('SearchController',
       title: 'search-management.tabs.related-publications',
       inputLabel: 'search-management.input-label.related-publications',
       icon: 'assets/images/icons/related-publication.svg',
-      elasticSearchType: 'related-publications',
+      elasticSearchType: 'related_publications',
       count: null,
-      acceptedFileUploadType: '',
-      uploadFunction: null
+      uploadFunction: $scope.uploadRelatedPublications
     }];
   });
