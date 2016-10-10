@@ -95,12 +95,10 @@
     "log-messages": {
       "intro": "Following errors occurred during the last upload:",
       "internal-server-error": "An internal server error occurred.",
-      "unsupported-zip-file": "Zip File could not be read",
       "unsupported-excel-file": "Excel File could not be read",
       "unsupported-tex-file": "Tex File could not be read",
       "unable-to-parse-json-file": "The JSON file '{{file}}' does not contain valid JSON!",
-      "malformed-json-file": "JSON File for Variable with RDC-ID {{ id }} could not be parsed.",
-      "not-found-json-file": "JSON File for Variable with RDC-ID {{ id }} could not be found.",
+      "unable-to-read-file": "The file '{{file}}' could not be read!",
       "post-validation-terminated": "The Post-Validation terminated with {{errors}} Errors."
     },
     "field": {

@@ -9,7 +9,7 @@ angular.module('metadatamanagementApp').service('DataSetUploadService',
     var uploadCount;
     var upload = function() {
       if (uploadCount === objects.length) {
-        ElasticSearchAdminService.processUpdateQueue().then(function() {
+        ElasticSearchAdminService.processUpdateQueue().finally(function() {
           JobLoggingService.finish(
             'data-set-management.log-messages.data-set.upload-terminated', {
               total: JobLoggingService.getCurrentJob().total,

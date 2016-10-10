@@ -2,91 +2,59 @@
 
 angular.module('metadatamanagementApp').service('VariableBuilderService',
   function(VariableResource, CleanJSObjectService) {
-    var parseErrors = [];
-    var getVariables = function(variables, zip, dataAcquisitionProjectId) {
-      var variablesObjArray = [];
-      parseErrors.length = 0;
-      for (var i = 0; i < variables.length; i++) {
-        var generatedVariable = {};
-        try {
-          generatedVariable = zip.files['variables/' + variables[i].id +
-              '.json'] ?
-            JSON.
-          parse(zip.files['variables/' + variables[i].id + '.json'].asText()) :
-            undefined;
-          if (generatedVariable === undefined && variables[i].id) {
-            parseErrors.push({
-              translationParams: {
-                id: variables[i].id
-              },
-              errorMessage: 'global.log-messages.not-found-json-file'
-            });
-            continue;
-          }
-        } catch (e) {
-          parseErrors.push({
-            translationParams: {
-              id: variables[i].id
-            },
-            errorMessage: 'data-acquisition-project-management.' +
-              'log-messages.malformed-json-file'
-          });
-          continue;
-        }
-        var variableObj = {
-          id: variables[i].id,
-          dataType: generatedVariable ? generatedVariable.dataType : undefined,
-          scaleLevel: generatedVariable ?
-            generatedVariable.scaleLevel : undefined,
-          name: generatedVariable ? generatedVariable.name : undefined,
-          label: generatedVariable ? generatedVariable.label : undefined,
-          questionId: variables[i].questionId,
-          description: {
-            en: variables[i]['description.en'],
-            de: variables[i]['description.de']
-          },
-          accessWays: CleanJSObjectService.
-          removeWhiteSpace(variables[i].accessWays),
-          relatedQuestionStrings: {
-            en: variables[i]['relatedQuestionStrings.en'],
-            de: variables[i]['relatedQuestionStrings.de']
-          },
-          filterDetails: {
-            expression: variables[i]['filterDetails.expression'],
-            description: {
-              en: variables[i]['filterDetails.description.de'],
-              de: variables[i]['filterDetails.description.en']
-            },
-            expressionLanguage: variables[i][
-              'filterDetails.expressionLanguage'
-            ]
-          },
-          sameVariablesInPanel: generatedVariable ?
-            generatedVariable.sameVariablesInPanel : undefined,
-          surveyIds: generatedVariable ?
-            generatedVariable.surveyIds : undefined,
-          dataSetIds: generatedVariable ?
-            generatedVariable.dataSetIds : undefined,
-          dataAcquisitionProjectId: dataAcquisitionProjectId,
-          generationDetails: {
-            rule: variables[i]['generationDetails.rule'],
-            ruleExpressionLanguage: variables[i]
-              ['generationDetails.ruleExpressionLanguage'],
-            description: {
-              en: variables[i]['generationDetails.description.en'],
-              de: variables[i]['generationDetails.description.de']
-            }
-          },
-          distribution: generatedVariable ?
-            generatedVariable.distribution : undefined
-        };
-        CleanJSObjectService.removeEmptyJsonObjects(variableObj);
-        variablesObjArray.push(new VariableResource(variableObj));
+    var buildVariable = function(variableFromExcel, variableFromJson,
+      dataAcquisitionProjectId) {
+      if (!variableFromExcel || !variableFromJson ||
+        !dataAcquisitionProjectId) {
+        return null;
       }
-      return variablesObjArray;
+
+      var variableObj = {
+        id: variableFromExcel.id,
+        dataType: variableFromJson.dataType,
+        scaleLevel: variableFromJson.scaleLevel,
+        name: variableFromJson.name,
+        label: variableFromJson.label,
+        questionId: variableFromExcel.questionId,
+        description: {
+          en: variableFromExcel['description.en'],
+          de: variableFromExcel['description.de']
+        },
+        accessWays: CleanJSObjectService.
+          removeWhiteSpace(variableFromExcel.accessWays),
+        relatedQuestionStrings: {
+          en: variableFromExcel['relatedQuestionStrings.en'],
+          de: variableFromExcel['relatedQuestionStrings.de']
+        },
+        filterDetails: {
+          expression: variableFromExcel['filterDetails.expression'],
+          description: {
+            en: variableFromExcel['filterDetails.description.de'],
+            de: variableFromExcel['filterDetails.description.en']
+          },
+          expressionLanguage: variableFromExcel[
+              'filterDetails.expressionLanguage'
+          ]
+        },
+        sameVariablesInPanel: variableFromJson.sameVariablesInPanel,
+        surveyIds: variableFromJson.surveyIds,
+        dataSetIds: variableFromJson.dataSetIds,
+        dataAcquisitionProjectId: dataAcquisitionProjectId,
+        generationDetails: {
+          rule: variableFromExcel['generationDetails.rule'],
+          ruleExpressionLanguage: variableFromExcel
+            ['generationDetails.ruleExpressionLanguage'],
+          description: {
+            en: variableFromExcel['generationDetails.description.en'],
+            de: variableFromExcel['generationDetails.description.de']
+          }
+        },
+        distribution: variableFromJson.distribution,
+      };
+      return new VariableResource(CleanJSObjectService.removeEmptyJsonObjects(
+        variableObj));
     };
     return {
-      getVariables: getVariables,
-      getParseErrors: parseErrors
+      buildVariable: buildVariable
     };
   });

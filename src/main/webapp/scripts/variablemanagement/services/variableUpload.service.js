@@ -2,16 +2,15 @@
 'use strict';
 
 angular.module('metadatamanagementApp').service('VariableUploadService',
-  function(ZipReaderService,
-    VariableBuilderService, VariableDeleteResource, JobLoggingService,
-    ErrorMessageResolverService, ExcelReaderService, $q,
+  function(VariableBuilderService, VariableDeleteResource, JobLoggingService,
+    ErrorMessageResolverService, ExcelReaderService, $q, FileReaderService,
     ElasticSearchAdminService, $rootScope) {
     var objects;
     var uploadCount;
 
     var upload = function() {
       if (uploadCount === objects.length) {
-        ElasticSearchAdminService.processUpdateQueue().then(function() {
+        ElasticSearchAdminService.processUpdateQueue().finally(function() {
           JobLoggingService.finish(
             'variable-management.log-messages.variable.upload-terminated', {
               total: JobLoggingService.getCurrentJob().total,
@@ -20,7 +19,10 @@ angular.module('metadatamanagementApp').service('VariableUploadService',
           $rootScope.$broadcast('upload-completed');
         });
       } else {
-        if (!objects[uploadCount].id || objects[uploadCount].id === '') {
+        if (objects[uploadCount] === null) {
+          uploadCount++;
+          return upload();
+        } else if (!objects[uploadCount].id || objects[uploadCount].id === '') {
           var index = uploadCount;
           JobLoggingService.error(
             'variable-management.log-messages.variable.missing-id', {
@@ -45,56 +47,75 @@ angular.module('metadatamanagementApp').service('VariableUploadService',
         }
       }
     };
-    var uploadVariables = function(file, dataAcquisitionProjectId) {
-      var zip;
+
+    var uploadVariables = function(files, dataAcquisitionProjectId) {
       uploadCount = 0;
+      objects = [];
       JobLoggingService.start('variable');
-      ZipReaderService.readZipFileAsync(file)
-        .then(function(zipFile) {
-          try {
-            var hasVariablesFolder = zipFile.files['variables/'].dir;
-            var excelFile = zipFile.files['variables.xlsx'];
-            if (hasVariablesFolder && excelFile) {
-              zip = zipFile;
-              return ExcelReaderService.readFileAsync(excelFile);
-            } else {
-              return $q.reject('unsupportedDirectoryStructure');
+      VariableDeleteResource.deleteByDataAcquisitionProjectId({
+        dataAcquisitionProjectId: dataAcquisitionProjectId}).$promise.then(
+        function() {
+          var excelFile;
+          var jsonFiles = {};
+          var jsonFileReaders = [];
+
+          files.forEach(function(file) {
+            if (file.name === 'variables.xlsx') {
+              excelFile = file;
             }
-          } catch (e) {
-            return $q.reject('unsupportedDirectoryStructure');
+            if (file.name.endsWith('.json')) {
+              var variableId = file.name.substring(
+                0, file.name.indexOf('.json'));
+              jsonFiles[variableId] = file;
+            }
+          });
+
+          if (!excelFile) {
+            JobLoggingService.cancel('global.log-messages.unable-to-read-file',
+              {file: 'variables.xlsx'});
+            return;
           }
+
+          ExcelReaderService.readFileAsync(excelFile).then(function(variables) {
+            variables.forEach(function(variableFromExcel) {
+              if (jsonFiles[variableFromExcel.id]) {
+                jsonFileReaders.push(FileReaderService.readAsText(
+                  jsonFiles[variableFromExcel.id]).then(
+                    function(variableAsText) {
+                    try {
+                      var variableFromJson = JSON.parse(variableAsText);
+                      objects.push(VariableBuilderService.buildVariable(
+                        variableFromExcel, variableFromJson,
+                        dataAcquisitionProjectId));
+                    } catch (e) {
+                      JobLoggingService.error(
+                        'global.log-messages.unable-to-parse-json-file',
+                        {file: jsonFiles[variableFromExcel.id].name});
+                    }
+                  }), function() {
+                    JobLoggingService.error(
+                      'global.log-messages.unable-to-read-file',
+                      {file: jsonFiles[variableFromExcel.id].name});
+                  });
+              } else {
+                JobLoggingService.error(
+                  'variable-management.log-messages.missing-json-file',
+                  {id: variableFromExcel.id});
+              }
+            });
+          }, function() {
+            JobLoggingService.cancel('global.log-messages.unable-to-read-file',
+              {file: 'variables.xlsx'});
+            return $q.reject();
+          }).then(function() {
+              return $q.all(jsonFileReaders);
+            }).then(upload);
         }, function() {
           JobLoggingService.cancel(
-            'global.log-messages.unsupported-zip-file', {});
-        }).then(function(variables) {
-          objects = VariableBuilderService.getVariables(variables, zip,
-            dataAcquisitionProjectId);
-          VariableBuilderService.getParseErrors
-            .forEach(function(errorMessage) {
-              JobLoggingService.error(errorMessage.errorMessage,
-                errorMessage.translationParams);
-            });
-          VariableDeleteResource.deleteByDataAcquisitionProjectId({
-              dataAcquisitionProjectId: dataAcquisitionProjectId
-            },
-            upload,
-            function(error) {
-              var errorMessages = ErrorMessageResolverService
-                .getErrorMessages(error, 'variable');
-              errorMessages.forEach(function(errorMessage) {
-                JobLoggingService.error(errorMessage.message,
-                  errorMessage.translationParams);
-              });
-            });
-        }, function(error) {
-          if (error === 'unsupportedDirectoryStructure') {
-            JobLoggingService.cancel(
-              'global.log-messages.unsupported-directory-structure', {});
-          } else {
-            JobLoggingService.cancel(
-              'global.log-messages.unsupported-excel-file', {});
-          }
-        });
+            'variable-management.log-messages.variable.unable-to-delete');
+          return $q.reject();
+        }
+      );
     };
 
     return {

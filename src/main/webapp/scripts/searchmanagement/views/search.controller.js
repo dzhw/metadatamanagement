@@ -117,8 +117,8 @@ angular.module('metadatamanagementApp').controller('SearchController',
 
     $scope.throttledSearch = _.throttle($scope.search, 500);
 
-    $scope.uploadVariables = function(file) {
-      if (!file || !file.name.endsWith('zip')) {
+    $scope.uploadVariables = function(files) {
+      if (!files || files.length === 0) {
         return;
       }
       var dataAcquisitionProject = $scope.currentProject;
@@ -140,7 +140,7 @@ angular.module('metadatamanagementApp').controller('SearchController',
         $mdDialog.show(confirm).then(function() {
           //start upload and open log toast
           VariableUploadService
-            .uploadVariables(file, dataAcquisitionProject.id);
+            .uploadVariables(files, dataAcquisitionProject.id);
           //Cancel. Nothing happens
         }, function() {});
       }

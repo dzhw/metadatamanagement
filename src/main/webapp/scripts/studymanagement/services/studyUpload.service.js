@@ -10,7 +10,7 @@ angular.module('metadatamanagementApp').service('StudyUploadService',
 
     var upload = function() {
       if (uploadCount === objects.length) {
-        ElasticSearchAdminService.processUpdateQueue().then(function() {
+        ElasticSearchAdminService.processUpdateQueue().finally(function() {
           JobLoggingService.finish(
             'study-management.log-messages.study.upload-terminated', {
               total: JobLoggingService.getCurrentJob().total,

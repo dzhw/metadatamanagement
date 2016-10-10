@@ -6,7 +6,9 @@
         "not-saved": "Variable with RDC-ID {{ id }} has not been saved!",
         "missing-id": "Variable {{ index }} does not contain a RDC-ID and has not been saved:",
         "upload-terminated": "Finished upload of {{ total }} Variables with {{ errors }} errors.",
-        "cancelled": "Variables upload cancelled!"
+        "unable-to-delete": "The variables could not be deleted!",
+        "cancelled": "Variables upload cancelled!",
+        "missing-json-file": "There is no JSON file for Variable {{ id }}!"
       }
     },
     "home": {

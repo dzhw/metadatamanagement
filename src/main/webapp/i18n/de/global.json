@@ -95,12 +95,10 @@
     "log-messages": {
       "intro": "Die folgenden Fehler traten beim letzten Upload auf:",
       "internal-server-error": "Es ist ein interner Server Fehler aufgetreten.",
-      "unsupported-zip-file": "Zip Datei konnte nicht gelesen werden",
       "unsupported-excel-file": "Excel Datei konnte nicht gelesen werden",
       "unsupported-tex-file": "Tex Datei konnte nicht gelesen werden",
       "unable-to-parse-json-file": "Die JSON Datei '{{file}}' enthält kein valides JSON!",
-      "malformed-json-file": "JSON Datei für die Variable mit FDZ-ID {{ id }} konnte nicht geparst werden.",
-      "not-found-json-file": "JSON Datei für die Variable mit FDZ-ID {{ id }} konnte nicht gefunden werden.",
+      "unable-to-read-file": "Die Datei '{{file}}' konnte nicht gelesen werden!",
       "post-validation-terminated": "Die Post-Validierung wurde mit {{errors}} Fehlern beendet."
     },
     "field": {

@@ -90,9 +90,10 @@
             aria-label="{{'search-management.buttons.upload-variables' | translate}}"
             ng-if="selectedTabIndex===3"
             type="file"
-            ngf-select="uploadVariables($file)"
+            ngf-select="uploadVariables($files)"
             class="md-accent md-fab"
-            accept=".zip"
+            ngf-multiple="true"
+            directory webkitdirectory
             ng-disabled="!currentProject">
             <div>
                 <md-tooltip md-direction="left">

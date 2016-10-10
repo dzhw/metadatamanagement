@@ -4,7 +4,7 @@
 
 angular.module('metadatamanagementApp').service('QuestionUploadService',
   function(FileReaderService, QuestionResource, QuestionDeleteResource,
-    JobLoggingService, ImageUploadService,
+    JobLoggingService, ImageUploadService, CleanJSObjectService,
     ErrorMessageResolverService, $q, ElasticSearchAdminService, $rootScope) {
     var questions = [];
     var images = {};
@@ -12,7 +12,7 @@ angular.module('metadatamanagementApp').service('QuestionUploadService',
 
     var uploadNextQuestion = function() {
       if (uploadQuestionCount === questions.length) {
-        ElasticSearchAdminService.processUpdateQueue().then(function() {
+        ElasticSearchAdminService.processUpdateQueue().finally(function() {
           JobLoggingService.finish(
             'question-management.log-messages.question.upload-terminated', {
               total: JobLoggingService.getCurrentJob().total,
@@ -81,7 +81,8 @@ angular.module('metadatamanagementApp').service('QuestionUploadService',
           questionFileReaders.push(FileReaderService.readAsText(file)
             .then(function(result) {
               try {
-                var question = JSON.parse(result);
+                var question = CleanJSObjectService.removeEmptyJsonObjects(
+                  JSON.parse(result));
                 question.dataAcquisitionProjectId = dataAcquisitionProjectId;
                 question.imageType = 'PNG';
                 if (!images[question.id]) {
@@ -98,6 +99,10 @@ angular.module('metadatamanagementApp').service('QuestionUploadService',
                   'global.log-messages.unable-to-parse-json-file',
                   {file: file.name});
               }
+            }, function() {
+              JobLoggingService.error(
+                'global.log-messages.unable-to-read-file',
+                {file: file.name});
             }));
         }
         if (file.name.endsWith('.png')) {

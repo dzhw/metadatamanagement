@@ -11,7 +11,7 @@ angular.module('metadatamanagementApp')
     var uploadCount;
     var upload = function() {
       if (uploadCount === objects.length) {
-        ElasticSearchAdminService.processUpdateQueue().then(function() {
+        ElasticSearchAdminService.processUpdateQueue().finally(function() {
           JobLoggingService.finish(
             'related-publication-management.log-messages.' +
             'related-publication.upload-terminated', {
