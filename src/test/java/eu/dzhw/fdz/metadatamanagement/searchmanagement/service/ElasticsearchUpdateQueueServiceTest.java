@@ -40,7 +40,7 @@ public class ElasticsearchUpdateQueueServiceTest extends AbstractTest {
   }
 
   @Test
-  public void testEnqueuingOfDuplicateEntryIsIgnored() {
+  public void testEnqueuingOfDuplicateEntryIsNotIgnored() {
     elasticsearchUpdateQueueService.enqueue("testId", ElasticsearchType.variables,
         ElasticsearchUpdateQueueAction.DELETE);
 
@@ -49,7 +49,7 @@ public class ElasticsearchUpdateQueueServiceTest extends AbstractTest {
     elasticsearchUpdateQueueService.enqueue("testId", ElasticsearchType.variables,
         ElasticsearchUpdateQueueAction.DELETE);
 
-    assertThat(itemRepository.count(), is(1L));
+    assertThat(itemRepository.count(), is(2L));
   }
 
   @Test
