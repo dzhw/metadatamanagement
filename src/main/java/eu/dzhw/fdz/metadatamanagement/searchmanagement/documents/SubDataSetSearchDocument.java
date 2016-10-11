@@ -2,14 +2,13 @@ package eu.dzhw.fdz.metadatamanagement.searchmanagement.documents;
 
 import eu.dzhw.fdz.metadatamanagement.datasetmanagement.domain.SubDataSet;
 import eu.dzhw.fdz.metadatamanagement.searchmanagement.service.ElasticsearchIndices;
-import io.searchbox.annotations.JestId;
 
 /**
  * Representation of a subDataSet which is stored in elasticsearch.
  *
  */
 public class SubDataSetSearchDocument {
-  @JestId
+  
   private String name;
   
   private String description;
