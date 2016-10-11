@@ -123,9 +123,10 @@
             aria-label="{{'search-management.buttons.upload-data-sets' | translate}}"
             ng-if="selectedTabIndex===5"
             type="file"
-            ngf-select="uploadDataSets($file)"
+            ngf-select="uploadDataSets($files)"
             class="md-accent md-fab"
-            accept=".xlsx"
+            ngf-multiple="true"
+            directory webkitdirectory
             ng-disabled="!currentProject">
             <div>
                 <md-tooltip md-direction="left">

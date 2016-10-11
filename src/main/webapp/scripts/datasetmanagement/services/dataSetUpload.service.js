@@ -3,7 +3,7 @@
 
 angular.module('metadatamanagementApp').service('DataSetUploadService',
   function(ExcelReaderService, DataSetBuilderService,
-    DataSetDeleteResource, JobLoggingService,
+    DataSetDeleteResource, JobLoggingService, $q,
     ErrorMessageResolverService, ElasticSearchAdminService, $rootScope) {
     var objects;
     var uploadCount;
@@ -43,29 +43,70 @@ angular.module('metadatamanagementApp').service('DataSetUploadService',
         }
       }
     };
-    var uploadDataSets = function(file, dataAcquisitionProjectId) {
+    var uploadDataSets = function(files, dataAcquisitionProjectId) {
       uploadCount = 0;
-      JobLoggingService.start('data-set');
-      ExcelReaderService.readFileAsync(file).then(function(data) {
-        objects = DataSetBuilderService.getDataSets(data,
-          dataAcquisitionProjectId);
-        DataSetDeleteResource.deleteByDataAcquisitionProjectId({
-            dataAcquisitionProjectId: dataAcquisitionProjectId
-          },
-          upload,
-          function(error) {
-            var errorMessages = ErrorMessageResolverService
-              .getErrorMessages(error, 'data-set');
-            errorMessages.forEach(function(errorMessage) {
-              JobLoggingService.error(errorMessage.message,
-                errorMessage.translationParams);
-            });
+      objects = [];
+      var allFileReaders = [];
+      JobLoggingService.start('variable');
+      DataSetDeleteResource.deleteByDataAcquisitionProjectId({
+        dataAcquisitionProjectId: dataAcquisitionProjectId}).$promise.then(
+        function() {
+          var dataSetExcelFile;
+          var subDataSetsExcelFiles = {};
+
+          files.forEach(function(file) {
+            if (file.name.endsWith('.xlsx')) {
+              if (file.name !== 'dataSets.xlsx') {
+                subDataSetsExcelFiles[file.name.replace('.xlsx', '')] = file;
+              } else {
+                dataSetExcelFile = file;
+              }
+            }
           });
-      }, function(error) {
-        console.log(error);
-        JobLoggingService.cancel(
-          'global.log-messages.unsupported-excel-file', {});
-      });
+          if (!dataSetExcelFile) {
+            JobLoggingService.cancel('global.log-messages.unable-to-read-file',
+              {file: 'dataSets.xlsx'});
+            return;
+          }
+
+          ExcelReaderService.readFileAsync(dataSetExcelFile)
+          .then(function(dataSets) {
+            dataSets.forEach(function(dataSetFromExcel) {
+              if (subDataSetsExcelFiles[dataSetFromExcel.id]) {
+                allFileReaders.push(ExcelReaderService.
+                readFileAsync(subDataSetsExcelFiles[dataSetFromExcel.id]).
+                then(function(subDataSetsFile) {
+                  var subDataSets = DataSetBuilderService
+                  .buildSubDataSets(subDataSetsFile);
+                  objects.push(DataSetBuilderService
+                    .buildDataSet(dataSetFromExcel,
+                    subDataSets, dataAcquisitionProjectId));
+                }, function() {
+                  JobLoggingService
+                  .cancel('global.log-messages.unable-to-read-file',
+                    {file: dataSetFromExcel.id});
+                  return $q.reject();
+                }));
+              } else {
+                JobLoggingService.error(
+                  'data-set-management.' +
+                  'log-messages.data-set.missing-sub-data-set-file',
+                  {id: dataSetFromExcel.id});
+              }
+            });
+          }, function() {
+            JobLoggingService.cancel('global.log-messages.unable-to-read-file',
+              {file: 'dataSets.xlsx'});
+            return $q.reject();
+          }).then(function() {
+              return $q.all(allFileReaders);
+            }).then(upload);
+        }, function() {
+          JobLoggingService.cancel(
+            'data-set-management.log-messages.data.unable-to-delete');
+          return $q.reject();
+        }
+      );
     };
     return {
       uploadDataSets: uploadDataSets

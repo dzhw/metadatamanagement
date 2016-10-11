@@ -6,7 +6,9 @@
         "not-saved": "Dataset with RDC-ID {{ id }} has not been saved!",
         "missing-id": "Dataset {{ index }} does not contain a RDC-ID and has not been saved!",
         "upload-terminated": "Finished upload of {{ total }} Data Sets with {{ errors }} errors.",
-        "cancelled": "Datasets upload cancelled!"
+        "cancelled": "Datasets upload cancelled!",
+        "unable-to-delete": "The Data Sets could not be deleted!",
+        "missing-sub-data-set-file": "There is no Sub Data Set Excel file for Data Set {{ id }}!"
       },
       "tex": {
         "upload-terminated": "Tex file upload terminated!",

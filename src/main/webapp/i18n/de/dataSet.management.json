@@ -6,7 +6,9 @@
         "not-saved": "Datensatz mit FDZ-ID {{ id }} wurde nicht gespeichert!",
         "missing-id": "Der {{ index }}. Datensatz enthält keine FDZ-ID und wurde nicht gespeichert!",
         "upload-terminated": "Upload von {{ total }} Datensätzen mit {{ errors }} Fehlern beendet!",
-        "cancelled": "Upload von Datensätzen Abgebrochen"
+        "cancelled": "Upload von Datensätzen Abgebrochen",
+        "unable-to-delete": "Die Datensätze konnten nicht gelöscht werden!",
+        "missing-sub-data-set-file": "Keine (Sub Data Set) Excel Datei zu Datensatz {{ id }} gefunden!"
       },
       "tex": {
         "upload-terminated": "Upload von Tex Template beendet!",

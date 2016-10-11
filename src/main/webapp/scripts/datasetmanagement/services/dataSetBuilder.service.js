@@ -1,36 +1,53 @@
 'use strict';
 
 angular.module('metadatamanagementApp').service('DataSetBuilderService',
-  function(DataSetResource, CleanJSObjectService) {
-    var getDataSets = function(dataSets, projectId) {
-      var dataSetsObjArray = [];
-      for (var i = 0; i < dataSets.length; i++) {
-        var data = dataSets[i];
+    function(DataSetResource, CleanJSObjectService) {
+      var buildDataSet = function(dataSet, subDataSets,
+        dataAcquisitionProjectId) {
+        if (!dataSet || !dataAcquisitionProjectId) {
+          return null;
+        }
+
         var dataSetObj = {
-          id: data.id,
-          dataAcquisitionProjectId: projectId,
-          description: {
-            en: data['description.en'],
-            de: data['description.de']
-          },
-          variableIds: CleanJSObjectService.removeWhiteSpace(data.variableIds),
-          surveyIds: CleanJSObjectService.removeWhiteSpace(data.surveyIds),
-          type: {
-            en: 'Personal Record',
-            de: 'Personendatensatz'
-          },
-          subDataSets: [{name: 'abs2005-ds1',description: {de:
-            'Personendatensatz Absolventenpanel 2005',
-            en: 'Personal record data - Graduates 2005'},
-            accessWay: 'remote-desktop-suf'}]
-        };
+            id: dataSet.id,
+            dataAcquisitionProjectId: dataAcquisitionProjectId,
+            description: {
+              en: dataSet['description.en'],
+              de: dataSet['description.de']
+            },
+            variableIds:
+            CleanJSObjectService.removeWhiteSpace(dataSet.variableIds),
+            surveyIds: CleanJSObjectService.removeWhiteSpace(dataSet.surveyIds),
+            type: {
+              en: dataSet['type.en'],
+              de: dataSet['type.de']
+            },
+            subDataSets: subDataSets
+          };
         var cleanedDataSetObject = CleanJSObjectService
-          .removeEmptyJsonObjects(dataSetObj);
-        dataSetsObjArray[i] = new DataSetResource(cleanedDataSetObject);
-      }
-      return dataSetsObjArray;
-    };
-    return {
-      getDataSets: getDataSets
-    };
-  });
+        .removeEmptyJsonObjects(dataSetObj);
+        return new DataSetResource(cleanedDataSetObject);
+      };
+      var buildSubDataSets = function(subDataSets) {
+        var subDataSetsArray = [];
+        for (var i = 0; i < subDataSets.length; i++) {
+          var subDataSet = subDataSets[i];
+          var subDataSetObj = {
+            name: subDataSet.name,
+            description: {
+              de: subDataSet['description.de'],
+              en: subDataSet['description.en']
+            },
+            accessWay: subDataSet.accessWay
+          };
+          var cleanedDataSetObject = CleanJSObjectService
+          .removeEmptyJsonObjects(subDataSetObj);
+          subDataSetsArray[i] = cleanedDataSetObject;
+        }
+        return subDataSetsArray;
+      };
+      return {
+        buildDataSet: buildDataSet,
+        buildSubDataSets: buildSubDataSets
+      };
+    });

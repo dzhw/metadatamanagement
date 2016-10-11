@@ -69,7 +69,7 @@ angular.module('metadatamanagementApp').controller('SearchController',
           $scope.searchResult = data.hits.hits;
           $scope.page.totalHits = data.hits.total;
           selectedTab.count = data.hits.total;
-
+          console.log($scope.searchResult);
           //Count information by aggregations
           if (selectedTab.elasticSearchType === '') {
             $scope.tabs.forEach(function(tab) {
@@ -206,11 +206,9 @@ angular.module('metadatamanagementApp').controller('SearchController',
       }
     };
 
-    $scope.uploadDataSets = function(file) {
-      if (Array.isArray(file)) {
-        file = file[0];
-      }
-      if (!file || !file.name.endsWith('xlsx')) {
+    $scope.uploadDataSets = function(files) {
+      console.log(files);
+      if (!files || files.length === 0) {
         return;
       }
       var dataAcquisitionProject = $scope.currentProject;
@@ -232,7 +230,7 @@ angular.module('metadatamanagementApp').controller('SearchController',
         $mdDialog.show(confirm).then(function() {
           //start upload
           DataSetUploadService
-            .uploadDataSets(file, dataAcquisitionProject.id);
+            .uploadDataSets(files, dataAcquisitionProject.id);
           //Cancel. Nothing happens
         }, function() {});
       }
