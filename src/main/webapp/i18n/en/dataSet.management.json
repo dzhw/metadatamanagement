@@ -50,7 +50,10 @@
             "not-empty": "The Data Set must reference at least one Survey!"
           }
         },
-        "sub-data-sets": "The Sub Data Sets must not be empty!"
+        "sub-data-sets": {
+          "not-null": "The Sub Data Set must not be empty!",
+          "not-empty": "The Sub Data Set must not be empty!"
+          }
       },
       "sub-data-set": {
         "name": {
@@ -63,10 +66,10 @@
           "not-empty": "The Description must not be empty!",
           "i18n-string-size": "The max length of the Name is 32 signs."
         },
-        "access-ways": {
+        "access-way": {
           "not-null": "The list of access ways needs min. one element and must not be empty!",
           "not-empty": "The list of access ways needs min. one element and must not be empty!",
-          "valid-access-ways": "The values of access ways are invalid. Valid values are: download-cuf, download-suf, remote-desktop-suf, onsite-suf, not-accessible."
+          "valid-access-way": "The value of access way is invalid. Valid values are: download-cuf, download-suf, remote-desktop-suf or onsite-suf."
         }
       },
       "post-validation": {

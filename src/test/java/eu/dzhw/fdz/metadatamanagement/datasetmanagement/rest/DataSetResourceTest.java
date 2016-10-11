@@ -162,12 +162,11 @@ public class DataSetResourceTest extends AbstractTest {
 
     DataSet dataSet =
         UnitTestCreateDomainObjectUtils.buildDataSet(project1.getId(), survey.getId());
-
     // Act and Assert
     // create the DataSet with the given id but with a survey from a different project
     mockMvc.perform(put(API_DATASETS_URI + "/" + dataSet.getId())
       .content(TestUtil.convertObjectToJsonBytes(dataSet)))
-      .andExpect(status().is2xxSuccessful());
+      .andExpect(status().is2xxSuccessful()).andReturn();
   }
 
   @Test

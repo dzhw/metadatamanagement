@@ -16,10 +16,13 @@ angular.module('metadatamanagementApp').service('DataSetBuilderService',
           variableIds: CleanJSObjectService.removeWhiteSpace(data.variableIds),
           surveyIds: CleanJSObjectService.removeWhiteSpace(data.surveyIds),
           type: {
-            en: data['type.en'],
-            de: data['type.de']
+            en: 'Personal Record',
+            de: 'Personendatensatz'
           },
-          subDataSets: CleanJSObjectService.removeWhiteSpace(data.subDataSetIds)
+          subDataSets: [{name: 'abs2005-ds1',description: {de:
+            'Personendatensatz Absolventenpanel 2005',
+            en: 'Personal record data - Graduates 2005'},
+            accessWay: 'remote-desktop-suf'}]
         };
         var cleanedDataSetObject = CleanJSObjectService
           .removeEmptyJsonObjects(dataSetObj);

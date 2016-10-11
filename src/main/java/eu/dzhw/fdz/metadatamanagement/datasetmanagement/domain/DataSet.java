@@ -2,6 +2,8 @@ package eu.dzhw.fdz.metadatamanagement.datasetmanagement.domain;
 
 import java.util.List;
 
+import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
@@ -18,6 +20,7 @@ import eu.dzhw.fdz.metadatamanagement.common.domain.util.Patterns;
 import eu.dzhw.fdz.metadatamanagement.common.domain.validation.I18nStringSize;
 import eu.dzhw.fdz.metadatamanagement.common.domain.validation.StringLengths;
 import eu.dzhw.fdz.metadatamanagement.datasetmanagement.domain.validation.ValidDataSetIdName;
+import eu.dzhw.fdz.metadatamanagement.datasetmanagement.domain.validation.ValidDataSetType;
 import net.karneim.pojobuilder.GeneratePojoBuilder;
 
 /**
@@ -44,6 +47,9 @@ public class DataSet extends AbstractRdcDomainObject {
       message = "data-set-management.error.data-set.description.i18n-string-size")
   private I18nString description;
   
+  @NotNull(message = "data-set-management.error.data-set.type.not-null")
+  @ValidDataSetType(message = "data-set-management.error.data-set.type.valid-type")
+  private I18nString type;
   
   /* Foreign Keys */
   @Indexed
@@ -55,6 +61,12 @@ public class DataSet extends AbstractRdcDomainObject {
   
   @NotEmpty(message = "data-set-management.error.data-set.variable.ids.not-empty")
   private List<String> variableIds;
+  
+  /* Nested Objects */
+  @Valid
+  @NotNull(message = "data-set-management.error.data-set.sub-data-sets.not-null")
+  @NotEmpty(message = "data-set-management.error.data-set.sub-data-sets.not-empty")
+  private List<SubDataSet> subDataSets;
 
   /*
    * (non-Javadoc)
@@ -81,6 +93,8 @@ public class DataSet extends AbstractRdcDomainObject {
       .add("description", description)
       .add("variableIds", variableIds)
       .add("surveyIds", surveyIds)
+      .add("type", type)
+      .add("subDataSets", subDataSets)
       .toString();
   }
 
@@ -92,6 +106,14 @@ public class DataSet extends AbstractRdcDomainObject {
 
   public void setDescription(I18nString description) {
     this.description = description;
+  }
+  
+  public I18nString getType() {
+    return type;
+  }
+  
+  public void setType(I18nString type) {
+    this.type = type;
   }
 
   public List<String> getVariableIds() {
@@ -110,18 +132,23 @@ public class DataSet extends AbstractRdcDomainObject {
     return dataAcquisitionProjectId;
   }
 
-
   public void setDataAcquisitionProjectId(String dataAcquisitionProjectId) {
     this.dataAcquisitionProjectId = dataAcquisitionProjectId;
   }
-
 
   public List<String> getSurveyIds() {
     return surveyIds;
   }
 
-
   public void setSurveyIds(List<String> surveyIds) {
     this.surveyIds = surveyIds;
   }
+  
+  public List<SubDataSet> getSubDataSets() {
+    return subDataSets;
+  }
+
+  public void setSubDataSets(List<SubDataSet> subDataSets) {
+    this.subDataSets = subDataSets;
+  } 
 }

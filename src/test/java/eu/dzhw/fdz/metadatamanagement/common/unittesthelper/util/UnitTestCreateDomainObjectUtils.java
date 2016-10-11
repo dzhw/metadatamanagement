@@ -15,7 +15,10 @@ import eu.dzhw.fdz.metadatamanagement.common.domain.ImageType;
 import eu.dzhw.fdz.metadatamanagement.common.domain.builders.I18nStringBuilder;
 import eu.dzhw.fdz.metadatamanagement.common.domain.builders.PeriodBuilder;
 import eu.dzhw.fdz.metadatamanagement.datasetmanagement.domain.DataSet;
+import eu.dzhw.fdz.metadatamanagement.datasetmanagement.domain.DataSetTypes;
+import eu.dzhw.fdz.metadatamanagement.datasetmanagement.domain.SubDataSet;
 import eu.dzhw.fdz.metadatamanagement.datasetmanagement.domain.builders.DataSetBuilder;
+import eu.dzhw.fdz.metadatamanagement.datasetmanagement.domain.builders.SubDataSetBuilder;
 import eu.dzhw.fdz.metadatamanagement.instrumentmanagement.domain.Instrument;
 import eu.dzhw.fdz.metadatamanagement.instrumentmanagement.domain.builders.InstrumentBuilder;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.DataAcquisitionProject;
@@ -145,16 +148,29 @@ public class UnitTestCreateDomainObjectUtils {
     List<String> variableIds = new ArrayList<>();
     variableIds.add("testProject-name1");
     variableIds.add("testProject-name2");
+    
     List<String> surveyIds = new ArrayList<>();
     surveyIds.add(surveyId);
+        
+    List<SubDataSet> subDataSets = new ArrayList<>(); 
+    subDataSets.add(new SubDataSetBuilder().withName(projectId + "-ds1")
+        .withNumberOfAnalyzableVariables(1)
+        .withNumberOfObservations(1)
+        .withAccessWay(AccessWays.DOWNLOAD_SUF)
+        .withDescription(new I18nStringBuilder().withDe("Description DE")
+          .withEn("Description EN")
+          .build()).build());
+    
     return new DataSetBuilder().withSurveyIds(surveyIds)
       .withDataAcquisitionProjectId(projectId)
       .withId(projectId + "-ds1")
       .withVariableIds(variableIds)
       .withSurveyIds(surveyIds)
+      .withType(DataSetTypes.PERSONAL_RECORD)
       .withDescription(new I18nStringBuilder().withDe("De Beschreibung")
         .withEn("En Description")
         .build())
+      .withSubDataSets(subDataSets)
       .build();
   } 
 

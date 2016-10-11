@@ -50,7 +50,10 @@
             "not-empty": "Der Datensatz muss zu mindestens einer Erhebung gehören!"
           }
         },
-        "sub-data-sets": "Der (Sub)Datensatz des Datensatzes darf nicht leer sein!"
+        "sub-data-sets": {
+          "not-null": "Der (Sub)Datensatz des Datensatzes darf nicht leer sein!",
+          "not-empty": "Der (Sub)Datensatz des Datensatzes darf nicht leer sein!"
+          }
       },
       "sub-data-set": {
         "name": {
@@ -63,10 +66,10 @@
           "not-empty": "Die Beschreibung darf nicht leer sein!",
           "i18n-string-size": "Die Maximallänge der Beschreibung ist 128 Zeichen."
         },
-        "access-ways": {
+        "access-way": {
           "not-null": "Die Liste der Zugangswege benötigt mindest ein Element und darf nicht leer sein!",
           "not-empty": "Die Liste der Zugangswege benötigt mindest ein Element und darf nicht leer sein!",
-          "valid-access-ways": "Die Liste der Zugangswege enthält ungültige Werte. Erlaubt sind nur: download-cuf, download-suf, remote-desktop-suf, onsite-suf, not-accessible."
+          "valid-access-way": "Der Zugangsweg ist ungültig. Erlaubt sind nur: download-cuf, download-suf, remote-desktop-suf oder onsite-suf."
         }
       },
       "post-validation": {
