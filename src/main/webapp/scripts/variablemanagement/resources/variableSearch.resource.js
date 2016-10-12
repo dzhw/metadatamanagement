@@ -7,6 +7,14 @@ function(Language, ElasticSearchClient) {
   query.type = 'variables';
   query.body = {};
 
+  var findVariables = function(variableIds) {
+    query.filterPath = 'docs._source';
+    query.body.query = {};
+    query.body.query.docs = {
+      'ids': variableIds
+    };
+    return ElasticSearchClient.mget(query);
+  };
   var findByQuestionId = function(questionId) {
     query.filterPath = 'hits.hits._source';
     query.body.query = {
@@ -28,6 +36,7 @@ function(Language, ElasticSearchClient) {
     return ElasticSearchClient.search(query);
   };
   return {
-    findByQuestionId: findByQuestionId
+    findByQuestionId: findByQuestionId,
+    findVariables: findVariables
   };
 });

@@ -9,7 +9,7 @@ angular
       'ngResource', 'ui.router', 'ngCookies', 'ngAria', 'ngCacheBuster',
       'ngFileUpload', 'ngMaterial',
       'blockUI', 'LocalStorageModule',
-      'ngMessages', 'md.data.table'
+      'ngMessages'
     ])
 
 .run(

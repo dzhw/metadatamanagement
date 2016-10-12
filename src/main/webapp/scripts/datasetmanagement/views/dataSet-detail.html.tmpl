@@ -1,20 +1,152 @@
-<jh-alert-error></jh-alert-error>
 <div ng-if="!dataSet.$resolved">
-  <!-- Todo replace with loading directive -->
-  Lade Daten...
+    Lade Daten...
 </div>
 <div ng-if="dataSet.$resolved">
-  <md-card>
-    <md-card-header>
-      <md-card-header-text>
-        In development
-      </md-card-header-text>
-    </md-card-header>
-    <md-card-content>
-       <md-button type="submit" onclick="window.history.back()" class="md-raised">
-         <span class="glyphicon glyphicon-arrow-left"></span>&nbsp;
-         <span data-translate="global.entity.action.back">Back</span>
-       </md-button>
-     </md-card-content>
-   </md-card>
-  </div>
+    <md-card>
+        <md-card-header>
+            <md-card-header-text>
+                <h1 class="md-headline">TITLE???</h1>
+            </md-card-header-text>
+        </md-card-header>
+        <md-card-content style="padding-top: 0px;" layout="column">
+            <div layout="row" layout-sm="column" layout-xs="column">
+                <md-card flex-gt-sm>
+                    <md-card-header>
+                        <md-card-header-text>
+                            <h2 class="md-title">{{'data-set-management.detail.data-set-informations' | translate }}</h2>
+                        </md-card-header-text>
+                    </md-card-header>
+                    <md-divider></md-divider>
+                    <md-card-content>
+                      <section style="margin-bottom: 0.5em;" ng-if="dataSet.description">
+                          <span style="font-weight: bold;">{{'data-set-management.detail.description' | translate }}:
+                          </span>
+                          <span>{{dataSet.description[currentLanguage]}}</span>
+                      </section>
+                      <section style="margin-bottom: 0.5em;" ng-if="dataSet.type">
+                          <span style="font-weight: bold;">{{'data-set-management.detail.type' | translate }}:
+                          </span>
+                          <span>{{dataSet.type[currentLanguage]}}</span>
+                      </section>
+                    </md-card-content>
+                </md-card>
+                <md-card>
+                    <md-card-header>
+                        <md-card-header-text>
+                            <h2 class="md-title">{{'data-set-management.detail.related-information' | translate }}</h2>
+                        </md-card-header-text>
+                    </md-card-header>
+                    <md-divider></md-divider>
+                    <md-card-content>
+                        <section>
+                            <md-button class="md-raised" ng-click="showStudy()">
+                                <md-icon md-svg-src="/assets/images/icons/study.svg"></md-icon>
+                                <span>{{'study-management.detail.study' | translate }}</span>
+                            </md-button>
+                            <md-button class="md-raised" ng-click="addToNotepad()">
+                                <md-icon md-svg-src="/assets/images/icons/addToshop.svg"></md-icon>
+                                <span>{{'notepad-management.home.title' | translate }}</span>
+                            </md-button>
+                        </section>
+                        <section>
+                            <md-button class="md-raised" ng-click="showSurveys()">
+                                <md-icon md-svg-src="/assets/images/icons/survey.svg"></md-icon>
+                                <span>{{'survey-management.detail.surveys' | translate }}</span>
+                            </md-button>
+                        </section>
+                        <section>
+                            <md-button class="md-raised" ng-click="showVariables()">
+                                <md-icon md-svg-src="/assets/images/icons/data-set.svg"></md-icon>
+                                <span>{{'variable-management.detail.variables' | translate }}</span>
+                            </md-button>
+                        </section>
+                    </md-card-content>
+                </md-card>
+            </div>
+            <div layout="row">
+                <md-card flex>
+                    <md-card-header layout-align="center center">
+                        <md-card-header-text>
+                            <h2 class="md-title">{{'data-set-management.detail.sub-data-sets.title' | translate }}</h2>
+                        </md-card-header-text>
+                          <md-button ng-disabled="dataSet.subDataSets.length <= 10" class="md-fab md-mini md-primary" ng-click="toggleAllRowsVisible()">
+                            <md-icon md-font-library="material-icons">open_in_new</md-icon>
+                            <md-tooltip ng-if="dataSet.subDataSets.length > 10" md-direction="top">
+                              {{'data-set-management.detail.content.' + allRowsVisible | translate }}
+                            </md-tooltip>
+                          </md-button>
+                    </md-card-header>
+                    <md-divider></md-divider>
+                    <md-card-content>
+                        <div class="fdz-table" id="fdz-table">
+                            <div class="fdz-table-row">
+                              <div class="fdz-table-cell">
+                                  <div class="fdz-table-cell-content">
+                                      <div class="fdz-table-cell-ellipsis">{{'data-set-management.detail.sub-data-sets.name' | translate }}</div>
+                                  </div>
+                              </div>
+                                <div class="fdz-table-cell">
+                                    <div class="fdz-table-cell-content">
+                                        <div class="fdz-table-cell-ellipsis">{{'data-set-management.detail.sub-data-sets.description' | translate }}</div>
+                                    </div>
+                                </div>
+                                <div class="fdz-table-cell">
+                                    <div class="fdz-table-cell-content">
+                                        <div class="fdz-table-cell-ellipsis">{{'data-set-management.detail.sub-data-sets.accessWay' | translate }}</div>
+                                    </div>
+                                </div>
+                                <div class="fdz-table-cell">
+                                    <div class="fdz-table-cell-content">
+                                        <div class="fdz-table-cell-ellipsis">{{'data-set-management.detail.sub-data-sets.numberOfAnalyzableVariables' | translate }}</div>
+                                    </div>
+                                </div>
+                                <div class="fdz-table-cell">
+                                    <div class="fdz-table-cell-content">
+                                        <div class="fdz-table-cell-ellipsis">{{'data-set-management.detail.sub-data-sets.numberOfObservations' | translate }}</div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div ng-repeat-start="row in dataSet.subDataSets" class="fdz-table-row" ng-hide="isRowHidden($index)">
+                                <div class="fdz-table-cell">
+                                    <div class="fdz-table-cell-content">
+                                        <div class="fdz-table-cell-ellipsis">{{row.name}}</div>
+                                    </div>
+                                </div>
+                                <div class="fdz-table-cell">
+                                    <div class="fdz-table-cell-content">
+                                        <div class="fdz-table-cell-ellipsis">{{row.description[currentLanguage]}}</div>
+                                    </div>
+                                </div>
+                                <div class="fdz-table-cell">
+                                    <div class="fdz-table-cell-content">
+                                        <div class="fdz-table-cell-ellipsis">{{row.accessWay}}</div>
+                                    </div>
+                                </div>
+                                <div class="fdz-table-cell">
+                                    <div class="fdz-table-cell-content">
+                                        <div class="fdz-table-cell-ellipsis">{{row.numberOfAnalyzableVariables}}</div>
+                                    </div>
+                                </div>
+                                <div class="fdz-table-cell">
+                                    <div class="fdz-table-cell-content">
+                                        <div class="fdz-table-cell-ellipsis">{{row.numberOfObservations}}</div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div ng-repeat-end class="fdz-table-row" ng-if="$index === 4 && dataSet.subDataSets.length > 10" ng-hide="!allRowsVisible">
+                                <div class="fdz-table-cell">...</div>
+                                <div class="fdz-table-cell">...</div>
+                                <div class="fdz-table-cell">...</div>
+                                <div class="fdz-table-cell">...</div>
+                                <div class="fdz-table-cell">...</div>
+                            </div>
+
+                        </div>
+                    </md-card-content>
+                </md-card>
+            </div>
+        </md-card-content>
+    </md-card>
+</div>

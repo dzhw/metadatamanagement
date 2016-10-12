@@ -46,7 +46,6 @@ module.exports = function(config) {
       'src/main/webapp/bower_components/angular-material/angular-material.js',
       'src/main/webapp/bower_components/angular-block-ui/dist/angular-block-ui.js',
       'src/main/webapp/bower_components/lodash/lodash.js',
-      'src/main/webapp/bower_components/angular-material-data-table/dist/md-data-table.js',
       'src/main/webapp/bower_components/plotly.js/dist/plotly.min.js',
       'src/main/webapp/bower_components/highlightjs/highlight.pack.js',
       'src/main/webapp/bower_components/angular-highlightjs/build/angular-highlightjs.js',

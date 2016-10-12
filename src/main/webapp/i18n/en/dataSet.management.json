@@ -22,9 +22,21 @@
     "detail": {
       "data-set": "Data Set",
       "data-sets": "Data Sets",
+      "title": "Data Set Details",
+      "type": "Typ",
+      "data-set-informations": "Data Set Informations",
+      "related-information": "Related Information",
       "description": "Description",
       "not-found": "The {{id}} references to an unknown Data Set.",
-      "not-found-references": "The id {{id}} has no References to Data Sets."
+      "not-found-references": "The id {{id}} has no References to Data Sets.",
+      "sub-data-sets": {
+        "title":  "Sub Data Sets",
+        "name": "Name",
+        "accessWay": "Access Way",
+        "description": "Description",
+        "numberOfAnalyzableVariables":"Number Of Analyzable Variables",
+        "numberOfObservations" : "Number Of Observations"
+      }
     },
     "error": {
       "data-set": {

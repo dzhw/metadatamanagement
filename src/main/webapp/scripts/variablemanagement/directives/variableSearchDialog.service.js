@@ -31,7 +31,20 @@ angular.module('metadatamanagementApp').service('VariableSearchDialogService',
           }
         });
     };
+    var findVariables = function(variableIds) {
+      blockUI.start();
+      VariableSearchResource.findVariables(variableIds).then(function(items) {
+        if (!CleanJSObjectService.isNullOrEmpty(items)) {
+          variables = items.docs;
+          blockUI.stop();
+          showDialog();
+        } else {
+          blockUI.stop();
+        }
+      });
+    };
     return {
-      findByQuestionId: findByQuestionId
+      findByQuestionId: findByQuestionId,
+      findVariables: findVariables
     };
   });

@@ -207,7 +207,6 @@ angular.module('metadatamanagementApp').controller('SearchController',
     };
 
     $scope.uploadDataSets = function(files) {
-      console.log(files);
       if (!files || files.length === 0) {
         return;
       }

@@ -7,6 +7,7 @@ import org.springframework.data.rest.core.config.Projection;
 import eu.dzhw.fdz.metadatamanagement.common.domain.I18nString;
 import eu.dzhw.fdz.metadatamanagement.common.domain.projections.AbstractRdcDomainObjectProjection;
 import eu.dzhw.fdz.metadatamanagement.datasetmanagement.domain.DataSet;
+import eu.dzhw.fdz.metadatamanagement.datasetmanagement.domain.SubDataSet;
 
 /**
  * The 'complete' Projection of a data set domain object. 'complete' means all attributes will be
@@ -26,4 +27,9 @@ public interface CompleteDataSetProjection
   List<String> getVariableIds();
   
   List<String> getSurveyIds();
+  
+  List<SubDataSet> getSubDataSets();
+  
+  I18nString getType();
+  
 }
