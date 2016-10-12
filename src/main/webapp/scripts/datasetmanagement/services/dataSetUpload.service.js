@@ -6,6 +6,7 @@ angular.module('metadatamanagementApp').service('DataSetUploadService',
     DataSetDeleteResource, JobLoggingService, $q,
     ErrorMessageResolverService, ElasticSearchAdminService, $rootScope) {
     var objects;
+    var subDataSets = [];
     var uploadCount;
     var upload = function() {
       if (uploadCount === objects.length) {
@@ -34,6 +35,16 @@ angular.module('metadatamanagementApp').service('DataSetUploadService',
           }).catch(function(error) {
             var errorMessages = ErrorMessageResolverService
               .getErrorMessages(error, 'data-set');
+            if (errorMessages.subMessages.length > 0) {
+              errorMessages.subMessages.forEach(function(subMessage) {
+                if (subMessage.translationParams
+                  .indexOf('subDataSets[') !== -1) {
+                  var index = subMessage
+                  .translationParams.replace('subDataSets[', '').split(']')[0];
+                  subMessage.translationParams = subDataSets[index].name;
+                }
+              });
+            }
             JobLoggingService.error(errorMessages.message,
               errorMessages.translationParams, errorMessages.subMessages
             );
@@ -76,7 +87,7 @@ angular.module('metadatamanagementApp').service('DataSetUploadService',
                 allFileReaders.push(ExcelReaderService.
                 readFileAsync(subDataSetsExcelFiles[dataSetFromExcel.id]).
                 then(function(subDataSetsFile) {
-                  var subDataSets = DataSetBuilderService
+                  subDataSets = DataSetBuilderService
                   .buildSubDataSets(subDataSetsFile);
                   objects.push(DataSetBuilderService
                     .buildDataSet(dataSetFromExcel,
@@ -103,7 +114,7 @@ angular.module('metadatamanagementApp').service('DataSetUploadService',
             }).then(upload);
         }, function() {
           JobLoggingService.cancel(
-            'data-set-management.log-messages.data.unable-to-delete');
+            'data-set-management.log-messages.data-set.unable-to-delete');
           return $q.reject();
         }
       );

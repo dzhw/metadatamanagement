@@ -16,7 +16,8 @@ angular.module('metadatamanagementApp').service('ErrorMessageResolverService',
       if (messageObj.data && messageObj.data.errors) {
         messageObj.data.errors.forEach(function(messageObj) {
           subMessages.push({
-            message: messageObj.message
+            message: messageObj.message,
+            translationParams: messageObj.property
           });
         });
       } else if (messageObj.data && messageObj.data.status === 500) {
