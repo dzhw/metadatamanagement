@@ -34,8 +34,8 @@
         "name": "Name",
         "accessWay": "Zugangsweg",
         "description": "Beschreibung",
-        "numberOfAnalyzableVariables":"Anzahl der analysierten Variablen",
-        "numberOfObservations" : "Anzahl der Betrachtungen"
+        "numberOfAnalyzableVariables":"Analysierbare Variablen",
+        "numberOfObservations" : "Beobachtungen"
       }
     },
     "error": {
