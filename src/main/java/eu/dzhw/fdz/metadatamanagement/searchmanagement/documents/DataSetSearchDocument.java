@@ -46,6 +46,9 @@ public class DataSetSearchDocument {
 
   private void createSubDataSetAttributes(DataSet dataSet, ElasticsearchIndices index) {
     subDataSets = new ArrayList<SubDataSetSearchDocument>();
+    if (dataSet.getSubDataSets() == null) {
+      return; 
+    }
     
     for (SubDataSet subDataSet : dataSet.getSubDataSets()) {
       subDataSets.add(new SubDataSetSearchDocument(subDataSet, index));

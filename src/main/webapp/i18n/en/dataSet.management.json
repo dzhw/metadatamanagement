@@ -8,7 +8,7 @@
         "upload-terminated": "Finished upload of {{ total }} Data Sets with {{ errors }} errors.",
         "cancelled": "Datasets upload cancelled!",
         "unable-to-delete": "The Data Sets could not be deleted!",
-        "missing-sub-data-set-file": "There is no Excel file {{ id }}.xlsx!"
+        "missing-sub-data-set-file": "There is no Excel file \"{{ id }}.xlsx\"!"
       },
       "tex": {
         "upload-terminated": "Tex file upload terminated!",
@@ -30,12 +30,12 @@
       "not-found": "The {{id}} references to an unknown Data Set.",
       "not-found-references": "The id {{id}} has no References to Data Sets.",
       "sub-data-sets": {
-        "title":  "Sub Data Sets",
+        "title": "Sub Data Sets",
         "name": "Name",
         "accessWay": "Access Way",
         "description": "Description",
-        "numberOfAnalyzableVariables":"Number Of Analyzable Variables",
-        "numberOfObservations" : "Number Of Observations"
+        "numberOfAnalyzableVariables": "Number Of Analyzable Variables",
+        "numberOfObservations": "Number Of Observations"
       },
       "content": {
         "true": "Click to maximize",
@@ -69,25 +69,25 @@
           }
         },
         "sub-data-sets": {
-          "not-empty": "The Sub Data Set must not be empty!"
+          "not-empty": "There must be at least one Sub Data Set!"
         },
-        "type" : {
-          "valid-type": "The value of Type is invalid. Valid value is: Personal Record or Episode Record.",
+        "type": {
+          "valid-type": "The value of Type is invalid. Valid values are: Personal Record or Episode Record.",
           "not-null": "The Type Set must not be empty!"
-          }
+        }
       },
       "sub-data-set": {
         "name": {
-          "not-empty": "The Name of the Sub Data Set {{name}} must not be empty!",
-          "size": "The max length of the Name the Sub Data Set {{name}} is 32 signs."
+          "not-empty": "The Name of the {{index}}. Sub Data Set must not be empty!",
+          "size": "The max length of the Name the {{index}}. Sub Data Set is 32 signs."
         },
         "description": {
-          "not-empty": "The Description of the Sub Data Set {{name}} must not be empty!",
-          "i18n-string-size": "The max length of the Name of the Sub Data Set {{name}} is 32 signs."
+          "i18n-string-not-empty": "The Description of the {{index}}. Sub Data Set must not be empty!",
+          "i18n-string-size": "The max length of the Name of the {{index}}. Sub Data Set is 32 signs."
         },
         "access-way": {
-          "not-null": "The value of access way of the Sub Data Set {{name}} must not be empty!",
-          "valid-access-way": "The value of access way of the Sub Data Set {{name}} is invalid. Valid value is: download-cuf, download-suf, remote-desktop-suf or onsite-suf."
+          "not-null": "The value of Access Way of the {{index}}. Sub Data Set must not be empty!",
+          "valid-access-way": "The value of Access Way of the {{index}}. Sub Data Set is invalid. Valid values are: download-cuf, download-suf, remote-desktop-suf or onsite-suf."
         }
       },
       "post-validation": {

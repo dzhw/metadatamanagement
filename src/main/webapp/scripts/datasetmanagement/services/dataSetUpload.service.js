@@ -39,10 +39,14 @@ angular.module('metadatamanagementApp').service('DataSetUploadService',
               errorMessages.subMessages.forEach(function(subMessage) {
                 if (subMessage.translationParams
                   .indexOf('subDataSets[') !== -1) {
-                  var index = subMessage
-                  .translationParams.replace('subDataSets[', '').split(']')[0];
-                  subMessage.translationParams = subDataSets[index].name;
+                  var index = parseInt(subMessage
+                  .translationParams.replace('subDataSets[', '').split(']')[0]);
+                  subMessage.translationParams = {index: index + 1};
                 }
+              });
+              errorMessages.subMessages.sort(function(message1, message2) {
+                return message1.translationParams.index -
+                  message2.translationParams.index;
               });
             }
             JobLoggingService.error(errorMessages.message,
@@ -94,9 +98,8 @@ angular.module('metadatamanagementApp').service('DataSetUploadService',
                     subDataSets, dataAcquisitionProjectId));
                 }, function() {
                   JobLoggingService
-                  .cancel('global.log-messages.unable-to-read-file',
-                    {file: dataSetFromExcel.id});
-                  return $q.reject();
+                  .error('global.log-messages.unable-to-read-file',
+                    {file: dataSetFromExcel.id + '.xlsx'});
                 }));
               } else {
                 JobLoggingService.error(

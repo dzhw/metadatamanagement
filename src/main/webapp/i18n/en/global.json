@@ -184,7 +184,7 @@
       "job-complete-toast": {
         "show-log": "Protocol"
       },
-      "block-ui-message": "{{ errors }} Errors on {{ total }} Data"
+      "block-ui-message": "{{ errors }} Errors on {{ total }} Objects"
     }
   }
 }

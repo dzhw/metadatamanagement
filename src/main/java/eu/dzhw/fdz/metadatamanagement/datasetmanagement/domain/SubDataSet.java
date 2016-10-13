@@ -29,7 +29,7 @@ public class SubDataSet {
   
   private int numberOfAnalyzableVariables;
   
-  @NotNull(message = "data-set-management.error.sub-data-set.access-ways.not-null")
+  @NotNull(message = "data-set-management.error.sub-data-set.access-way.not-null")
   @ValidAccessWay(
       message = "data-set-management.error.sub-data-set.access-way.valid-access-way")
   private String accessWay;
