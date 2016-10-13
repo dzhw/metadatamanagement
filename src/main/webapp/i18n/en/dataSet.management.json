@@ -36,7 +36,11 @@
         "description": "Description",
         "numberOfAnalyzableVariables":"Number Of Analyzable Variables",
         "numberOfObservations" : "Number Of Observations"
-      }
+      },
+      "content": {
+        "true": "Click to maximize",
+        "false": "Click to minimize"
+      },
     },
     "error": {
       "data-set": {

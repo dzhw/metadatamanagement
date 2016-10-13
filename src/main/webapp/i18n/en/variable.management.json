@@ -40,7 +40,7 @@
       "not-found": "The {{id}} references to an unknown Variable.",
       "not-found-references": "The id {{id}} has no References to Variables.",
       "same-in-panel": "Same Variables",
-      "table": {
+      "content": {
         "true": "Click to maximize",
         "false": "Click to minimize"
       },

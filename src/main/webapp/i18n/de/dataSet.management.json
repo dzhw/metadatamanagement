@@ -36,7 +36,11 @@
         "description": "Beschreibung",
         "numberOfAnalyzableVariables":"Analysierbare Variablen",
         "numberOfObservations" : "Beobachtungen"
-      }
+      },
+      "content": {
+        "true": "Klicken zum maximieren",
+        "false": "Klicken zum minimieren"
+      },
     },
     "error": {
       "data-set": {
