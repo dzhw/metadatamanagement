@@ -458,6 +458,7 @@ md-tooltip {
 .fdz-table {
     display: table;
     border-collapse: collapse;
+    cursor:default;
 }
 .fdz-table:focus {
     outline: none;
@@ -488,10 +489,14 @@ md-tooltip {
 }
 .fdz-table-cell-content:hover, .fdz-table-cell-content:focus {
   table-layout: auto !important;
+  transition-delay: 1s; /* delays for 1 second */
+  -webkit-transition-delay: 1s; /* for Safari & Chrome */
 }
 .fdz-table-cell-ellipsis:hover, .fdz-table-cell-ellipsis:focus {
     white-space:normal !important;
     overflow: visible !important;
+    transition-delay: 1s; /* delays for 1 second */
+    -webkit-transition-delay: 1s; /* for Safari & Chrome */
 }
 .fdz-table-cell-ellipsis {
   display: table-cell;

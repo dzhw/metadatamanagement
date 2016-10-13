@@ -64,7 +64,6 @@ public class DataSet extends AbstractRdcDomainObject {
   
   /* Nested Objects */
   @Valid
-  @NotNull(message = "data-set-management.error.data-set.sub-data-sets.not-null")
   @NotEmpty(message = "data-set-management.error.data-set.sub-data-sets.not-empty")
   private List<SubDataSet> subDataSets;
 

@@ -20,7 +20,6 @@ import net.karneim.pojobuilder.GeneratePojoBuilder;
     intoPackage = "eu.dzhw.fdz.metadatamanagement.datasetmanagement.domain.builders")
 public class SubDataSet {
   
-  @NotNull(message = "data-set-management.error.sub-data-set.name.not-null")
   @NotEmpty(message = "data-set-management.error.sub-data-set.name.not-empty")
   @Size(max = StringLengths.SMALL,
       message = "data-set-management.error.sub-data-set.name.size")
@@ -35,7 +34,6 @@ public class SubDataSet {
       message = "data-set-management.error.sub-data-set.access-way.valid-access-way")
   private String accessWay;
   
-  @NotNull(message = "data-set-management.error.sub-data-set.description.not-null")
   @I18nStringSize(max = StringLengths.MEDIUM,
       message = "data-set-management.error.sub-data-set.description.i18n-string-size")
   @I18nStringNotEmpty(
