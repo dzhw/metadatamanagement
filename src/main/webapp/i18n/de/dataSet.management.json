@@ -8,7 +8,7 @@
         "upload-terminated": "Upload von {{ total }} Datensätzen mit {{ errors }} Fehlern beendet!",
         "cancelled": "Upload von Datensätzen Abgebrochen",
         "unable-to-delete": "Die Datensätze konnten nicht gelöscht werden!",
-        "missing-sub-data-set-file": "Keine Sub-Datensatz Excel Datei zu Datensatz {{ id }} gefunden!"
+        "missing-sub-data-set-file": "Keine Excel Datei mit dem Name {{ id }}.xlsx gefunden!"
       },
       "tex": {
         "upload-terminated": "Upload von Tex Template beendet!",
@@ -69,28 +69,24 @@
           }
         },
         "sub-data-sets": {
-          "not-null": "Der Sub-Datensatz des Datensatzes darf nicht leer sein!",
           "not-empty": "Der Sub-Datensatz des Datensatzes darf nicht leer sein!"
         },
         "type" : {
-          "valid-type": "Der Type ist ungültig. Erlaubt sind nur: Personendaten oder Episodendaten.",
-          "not-null": "Der Type des Datensatzes darf nicht leer sein!"
+          "valid-type": "Der Typ ist ungültig. Erlaubt sind nur: Personendatensatz oder Episodendatensatz.",
+          "not-null": "Der Typ des Datensatzes darf nicht leer sein!"
           }
       },
       "sub-data-set": {
         "name": {
-          "not-null": "Der Name des Sub-Daten-Satzes darf bei dem Datensatz nicht leer sein!",
-          "not-empty": "Der Name des Sub-Daten-Satzes darf bei dem Datensatz nicht leer sein!",
-          "size": "Die Maximallänge des Namens Sub-Daten-Satzes ist 32 Zeichen."
+          "not-empty": "Der Name des Sub-Daten-Satzes {{name}} darf bei dem Datensatz nicht leer sein!",
+          "size": "Die Maximallänge des Namens des Sub-Daten-Satzes {{name}} ist 32 Zeichen."
         },
         "description": {
-          "not-null": "Die Beschreibung darf nicht leer sein!",
-          "not-empty": "Die Beschreibung darf nicht leer sein!",
-          "i18n-string-size": "Die Maximallänge der Beschreibung ist 128 Zeichen."
+          "not-empty": "Die Beschreibung des Sub-Daten-Satzes {{name}} darf nicht leer sein!",
+          "i18n-string-size": "Die Maximallänge der Beschreibung des Sub-Daten-Satzes {{name}} ist 128 Zeichen."
         },
         "access-way": {
-          "not-null": "Die Liste der Zugangswege des Sub-Daten-Satzes {{name}} benötigt mindest ein Element und darf nicht leer sein!",
-          "not-empty": "Die Liste der Zugangswege des Sub-Daten-Satzes {{name}} benötigt mindest ein Element und darf nicht leer sein!",
+          "not-null": "Der Zugangsweg des Sub-Daten-Satzes {{name}} darf nicht leer sein!",
           "valid-access-way": "Der Zugangsweg des Sub-Daten-Satzes {{name}} ist ungültig. Erlaubt sind nur: download-cuf, download-suf, remote-desktop-suf oder onsite-suf."
         }
       },

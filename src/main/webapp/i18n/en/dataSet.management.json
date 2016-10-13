@@ -8,7 +8,7 @@
         "upload-terminated": "Finished upload of {{ total }} Data Sets with {{ errors }} errors.",
         "cancelled": "Datasets upload cancelled!",
         "unable-to-delete": "The Data Sets could not be deleted!",
-        "missing-sub-data-set-file": "There is no Sub Data Set Excel file for Data Set {{ id }}!"
+        "missing-sub-data-set-file": "There is no Excel file {{ id }}.xlsx!"
       },
       "tex": {
         "upload-terminated": "Tex file upload terminated!",
@@ -69,7 +69,6 @@
           }
         },
         "sub-data-sets": {
-          "not-null": "The Sub Data Set must not be empty!",
           "not-empty": "The Sub Data Set must not be empty!"
         },
         "type" : {
@@ -79,19 +78,16 @@
       },
       "sub-data-set": {
         "name": {
-          "not-null": "The Name of the Sub Data Set must not be empty!",
-          "not-empty": "The Name of the Sub Data Set must not be empty!",
-          "size": "The max length of the Name is 32 signs."
+          "not-empty": "The Name of the Sub Data Set {{name}} must not be empty!",
+          "size": "The max length of the Name the Sub Data Set {{name}} is 32 signs."
         },
         "description": {
-          "not-null": "The Description must not be empty!",
-          "not-empty": "The Description must not be empty!",
-          "i18n-string-size": "The max length of the Name is 32 signs."
+          "not-empty": "The Description of the Sub Data Set {{name}} must not be empty!",
+          "i18n-string-size": "The max length of the Name of the Sub Data Set {{name}} is 32 signs."
         },
         "access-way": {
-          "not-null": "The list of access ways of {{name}} needs min. one element and must not be empty!",
-          "not-empty": "The list of access ways of {{name}} needs min. one element and must not be empty!",
-          "valid-access-way": "The value of access way of {{name}} is invalid. Valid value is: download-cuf, download-suf, remote-desktop-suf or onsite-suf."
+          "not-null": "The value of access way of the Sub Data Set {{name}} must not be empty!",
+          "valid-access-way": "The value of access way of the Sub Data Set {{name}} is invalid. Valid value is: download-cuf, download-suf, remote-desktop-suf or onsite-suf."
         }
       },
       "post-validation": {
