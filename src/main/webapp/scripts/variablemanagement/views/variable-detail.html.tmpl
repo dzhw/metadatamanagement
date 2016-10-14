@@ -179,6 +179,7 @@
                       <div id="fdz-table-container">
                         <table>
                           <thead>
+                            <tr>
                             <th>{{'variable-management.detail.statistics.value' | translate }}
                               <md-tooltip ng-if="isSmallDisplay" md-direction="right">
                                 {{'variable-management.detail.statistics.value' | translate }}
@@ -206,15 +207,16 @@
                                 {{'variable-management.detail.statistics.relativeFrequency' | translate }}
                               </md-tooltip>
                             </th>
+                          </tr>
                           </thead>
                           <tbody>
                             <tr ng-repeat-start="row in variable.distribution.validResponses" ng-hide="isRowHidden($index)">
-                              <td>{{row.value}}{{row.code}}</td>
-                              <td>{{row.label[currentLanguage]}}</td>
+                              <td>{{row.value}}{{row.code}}&nbsp;</td>
+                              <td>{{row.label[currentLanguage]}}&nbsp;</td>
                               <td>&nbsp;</td>
-                              <td>{{row.absoluteFrequency}}</td>
-                              <td>{{row.validRelativeFrequency}}</td>
-                              <td>{{row.relativeFrequency}}</td>
+                              <td>{{row.absoluteFrequency}}&nbsp;</td>
+                              <td>{{row.validRelativeFrequency}}&nbsp;</td>
+                              <td>{{row.relativeFrequency}}&nbsp;</td>
                             </tr>
                             <tr ng-repeat-end class="fdz-table-row" ng-if="$index === 4 && variable.distribution.validResponses.length > 10" ng-hide="!allRowsVisible">
                               <td>...</td>
@@ -225,25 +227,25 @@
                               <td>...</td>
                             </tr>
                             <tr ng-repeat="row in variable.distribution.missings">
-                              <td>{{row.value}}{{row.code}}</td>
-                              <td>{{row.label[currentLanguage]}}</td>
+                              <td>{{row.value}}{{row.code}}&nbsp;</td>
+                              <td>{{row.label[currentLanguage]}}&nbsp;</td>
                               <td>m</td>
-                              <td>{{row.absoluteFrequency}}</td>
+                              <td>{{row.absoluteFrequency}}&nbsp;</td>
                               <td>&nbsp;</td>
-                              <td>{{row.relativeFrequency}}</td>
+                              <td>{{row.relativeFrequency}}&nbsp;</td>
                             </tr>
                             <tr>
                               <td>&nbsp;</td>
                               <td>&nbsp;</td>
                               <td>&nbsp;</td>
-                              <td>{{variable.distribution.totalAbsoluteFrequency}}</td>
-                              <td>{{variable.distribution.totalValidRelativeFrequency}}</td>
+                              <td>{{variable.distribution.totalAbsoluteFrequency}}&nbsp;</td>
+                              <td>{{variable.distribution.totalValidRelativeFrequency}}&nbsp;</td>
                               <td>100</td>
                             </tr>
                           </tbody>
                         </table>
                       </div>
-                    </md-card-content>
+                    </md-content>
                 </md-card>
             </div>
             <div layout="row" ng-if="variable.generationDetails.description[currentLanguage] || variable.generationDetails.ruleExpressionLanguage || variable.generationDetails.rule">

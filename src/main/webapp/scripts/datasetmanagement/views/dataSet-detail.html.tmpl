@@ -75,6 +75,7 @@
                         <div id="fdz-table-container">
                           <table>
                             <thead>
+                              <tr>
                               <th>{{'data-set-management.detail.sub-data-sets.name' | translate }}
                                 <md-tooltip ng-if="isSmallDisplay" md-direction="right">
                                   {{'data-set-management.detail.sub-data-sets.name' | translate }}
@@ -100,14 +101,15 @@
                                   {{'data-set-management.detail.sub-data-sets.numberOfObservations' | translate }}
                                 </md-tooltip>
                               </th>
+                            </tr>
                             </thead>
                             <tbody>
                               <tr ng-repeat="row in dataSet.subDataSets">
-                                <td>{{row.name}}</td>
-                                <td>{{row.description[currentLanguage]}}</td>
+                                <td>{{row.name}}&nbsp;</td>
+                                <td>{{row.description[currentLanguage]}}&nbsp;</td>
                                 <td>{{row.accessWay}}</td>
-                                <td>{{row.numberOfAnalyzableVariables}}</td>
-                                <td>{{row.numberOfObservations}}</td>
+                                <td>{{row.numberOfAnalyzableVariables}}&nbsp;</td>
+                                <td>{{row.numberOfObservations}}&nbsp;</td>
                              </tr>
                             </tbody>
                           </table>
