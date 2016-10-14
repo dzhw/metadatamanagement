@@ -46,6 +46,10 @@ security:
         
 management:
   context-path: /management
+  info:
+    git:
+      mode:
+        full
 
 # ===================================================================
 # JHipster specific properties
