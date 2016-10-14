@@ -3,12 +3,16 @@
 angular.module('metadatamanagementApp')
   .controller('DataSetDetailController', ['$scope', '$state', 'entity',
   'SurveySearchDialogService', 'VariableSearchDialogService',
-  'ShoppingCartService',
+  'ShoppingCartService', '$mdMedia',
     function($scope, $state, entity, SurveySearchDialogService,
-    VariableSearchDialogService, ShoppingCartService) {
+    VariableSearchDialogService, ShoppingCartService, $mdMedia) {
       $scope.allRowsVisible = true;
       entity.$promise.then(function(dataSet) {
         $scope.dataSet = dataSet;
+      });
+      $scope.$watch(function() {
+        return $mdMedia('xs'); }, function(small) {
+        $scope.isSmallDisplay = small;
       });
       $scope.isRowHidden = function(index) {
         if (index <= 4 || index >= $scope
