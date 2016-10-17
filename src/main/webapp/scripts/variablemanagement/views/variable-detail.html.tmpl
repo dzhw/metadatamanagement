@@ -176,34 +176,33 @@
                     </md-card-header>
                     <md-divider></md-divider>
                     <md-content style="background-color: white;">
-                      <div id="fdz-table-container">
-                        <table>
+                        <table class="fdz-table">
                           <thead>
                             <tr>
                             <th>{{'variable-management.detail.statistics.value' | translate }}
-                              <md-tooltip ng-if="isSmallDisplay" md-direction="right">
+                              <md-tooltip hide-gt-xs md-direction="right">
                                 {{'variable-management.detail.statistics.value' | translate }}
                               </md-tooltip>
                             </th>
                             <th>{{'variable-management.detail.statistics.label' | translate }}
-                              <md-tooltip ng-if="isSmallDisplay" md-direction="right">
+                              <md-tooltip hide-gt-xs md-direction="right">
                                 {{'variable-management.detail.statistics.label' | translate }}
                               </md-tooltip>
                             </th>
                             <th>M
                             </th>
                             <th>{{'variable-management.detail.statistics.absoluteFrequency' | translate }}
-                              <md-tooltip ng-if="isSmallDisplay" md-direction="right">
+                              <md-tooltip hide-gt-xs md-direction="right">
                                 {{'variable-management.detail.statistics.absoluteFrequency' | translate }}
                               </md-tooltip>
                             </th>
                             <th>{{'variable-management.detail.statistics.validRelativeFrequency' | translate }}
-                              <md-tooltip ng-if="isSmallDisplay" md-direction="right">
+                              <md-tooltip hide-gt-xs md-direction="right">
                                 {{'variable-management.detail.statistics.validRelativeFrequency' | translate }}
                               </md-tooltip>
                             </th>
                             <th>{{'variable-management.detail.statistics.relativeFrequency' | translate }}
-                              <md-tooltip ng-if="isSmallDisplay" md-direction="right">
+                              <md-tooltip hide-gt-xs md-direction="right">
                                 {{'variable-management.detail.statistics.relativeFrequency' | translate }}
                               </md-tooltip>
                             </th>
@@ -244,7 +243,6 @@
                             </tr>
                           </tbody>
                         </table>
-                      </div>
                     </md-content>
                 </md-card>
             </div>

@@ -2,8 +2,7 @@
 
 angular.module('metadatamanagementApp')
   .controller('VariableDetailController', function(SurveySearchDialogService,
-    DataSetSearchDialogService, $scope, entity, $state, ShoppingCartService,
-    $mdMedia) {
+    DataSetSearchDialogService, $scope, entity, $state, ShoppingCartService) {
     $scope.generationCodeToggleFlag = true;
     $scope.allRowsVisible = true;
     entity.$promise.then(function(variable) {
@@ -17,10 +16,6 @@ angular.module('metadatamanagementApp')
         return $scope.allRowsVisible;
       }
     };
-    $scope.$watch(function() {
-      return $mdMedia('xs'); }, function(small) {
-      $scope.isSmallDisplay = small;
-    });
     $scope.toggleAllRowsVisible = function() {
       $scope.allRowsVisible = !$scope.allRowsVisible;
     };

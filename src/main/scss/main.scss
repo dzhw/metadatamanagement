@@ -480,23 +480,23 @@ md-tooltip {
   margin-bottom: 0.5em;
 }
 
-#fdz-table-container table {
+.fdz-table {
     border-collapse: collapse;
     width: 100%;
     text-align: center;
 }
 
-#fdz-table-container th, #fdz-table-container td {
+.fdz-table th, .fdz-table td {
     padding: 8px;
     border-bottom: 1px solid #ddd;
     text-align: center;
 }
 
-#fdz-table-container tr:hover{background-color:#f5f5f5}
+.fdz-table tr:hover{background-color:#f5f5f5}
 
 @media only screen and (max-width: 600px) {
 
-	#fdz-table-container table {
+	.fdz-table {
 		display: block;
 		position: relative;
 		width: 100%;
@@ -504,45 +504,45 @@ md-tooltip {
     border-collapse: collapse;
     border: 0;
 	}
-	#fdz-table-container thead {
+	.fdz-table thead {
 		display: block;
 		float: left;
     width: 70px;
     background-color: LightGray ;
 	}
-	#fdz-table-container tbody {
+	.fdz-table tbody {
 		display: block;
 		width: auto;
 		position: relative;
 		overflow-x: auto;
 		white-space: nowrap;
 	}
-	#fdz-table-container th,
-	#fdz-table-container td {
+	.fdz-table th,
+	.fdz-table td {
 		margin: 0;
 		vertical-align: top;
     text-align: left;
 	}
-	#fdz-table-container th {
+	.fdz-table th {
 		display: block;
     white-space: nowrap;
     text-overflow: ellipsis;;
     overflow: hidden;
     border: 0;
 	}
-  #fdz-table-container th:last-child {
+  .fdz-table th:last-child {
       border-bottom: 0px;
   }
-	#fdz-table-container td {
+	.fdz-table td {
 		display: block;
 		text-align: left;
 		border: 0;
   }
-	#fdz-table-container thead tr {
+	.fdz-table thead tr {
 		display: block;
 	}
 
-	#fdz-table-container tbody tr {
+	.fdz-table tbody tr {
 		display: inline-block;
 		vertical-align: top;
     border-collapse: collapse;
