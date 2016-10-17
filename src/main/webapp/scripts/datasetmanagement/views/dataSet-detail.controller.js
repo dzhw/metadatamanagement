@@ -3,16 +3,12 @@
 angular.module('metadatamanagementApp')
   .controller('DataSetDetailController', ['$scope', '$state', 'entity',
   'SurveySearchDialogService', 'VariableSearchDialogService',
-  'ShoppingCartService', '$mdMedia',
+  'ShoppingCartService',
     function($scope, $state, entity, SurveySearchDialogService,
-    VariableSearchDialogService, ShoppingCartService, $mdMedia) {
+    VariableSearchDialogService, ShoppingCartService) {
       $scope.allRowsVisible = true;
       entity.$promise.then(function(dataSet) {
         $scope.dataSet = dataSet;
-      });
-      $scope.$watch(function() {
-        return $mdMedia('xs'); }, function(small) {
-        $scope.isSmallDisplay = small;
       });
       $scope.isRowHidden = function(index) {
         if (index <= 4 || index >= $scope
@@ -32,7 +28,6 @@ angular.module('metadatamanagementApp')
         VariableSearchDialogService.findVariables($scope.dataSet.variableIds);
       };
       $scope.showStudy = function() {
-        console.log($scope.dataSet.dataAcquisitionProjectId);
         $state.go('studyDetail', {id: $scope.dataSet.dataAcquisitionProjectId});
       };
       /* add new  item to localStorage */
