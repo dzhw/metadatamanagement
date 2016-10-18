@@ -119,16 +119,6 @@ public class PostValidationService {
           }
         }
       }
-      
-      if (question.getInstrumentId() != null
-          && question.getNumber() != null
-          && this.questionRepository
-            .findByInstrumentIdAndNumber(
-                question.getInstrumentId(), question.getNumber()).size() != 1) {        
-        String[] information = {question.getId(), question.getInstrumentId(), question.getNumber()};
-        errors.add(new PostValidationMessageDto("question-management.error.post-validation."
-            + "non-unique-question-number-in-instrument", Arrays.asList(information)));
-      }
     }
 
     return errors;

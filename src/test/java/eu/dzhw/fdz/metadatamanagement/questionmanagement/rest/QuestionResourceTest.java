@@ -122,8 +122,7 @@ public class QuestionResourceTest extends AbstractTest {
       question.setQuestionText(new I18nStringBuilder().withDe("Angepasst")
           .withEn("Different Value")
           .build());
-      question.setNumber("1");
-
+      
     // update the Question with the given id
     mockMvc.perform(put(API_QUESTIONS_URI + "/" + question.getId())
       .content(TestUtil.convertObjectToJsonBytes(question)))
@@ -135,8 +134,7 @@ public class QuestionResourceTest extends AbstractTest {
       .andExpect(status().isOk())
       .andExpect(jsonPath("$.id", is(question.getId())))
       .andExpect(jsonPath("$.version", is(1)))
-      .andExpect(jsonPath("$.questionText.de", is("Angepasst")))
-      .andExpect(jsonPath("$.number", is("1")));
+      .andExpect(jsonPath("$.questionText.de", is("Angepasst")));
 
     elasticsearchUpdateQueueService.processQueue();
 
