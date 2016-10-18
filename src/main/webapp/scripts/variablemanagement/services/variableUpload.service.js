@@ -99,7 +99,7 @@ angular.module('metadatamanagementApp').service('VariableUploadService',
                   });
               } else {
                 JobLoggingService.error(
-                  'variable-management.log-messages.missing-json-file',
+                  'variable-management.log-messages.variable.missing-json-file',
                   {id: variableFromExcel.id});
               }
             });

@@ -9,6 +9,7 @@ import javax.validation.constraints.Size;
 
 import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.index.CompoundIndex;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -21,8 +22,10 @@ import eu.dzhw.fdz.metadatamanagement.common.domain.util.Patterns;
 import eu.dzhw.fdz.metadatamanagement.common.domain.validation.I18nStringNotEmpty;
 import eu.dzhw.fdz.metadatamanagement.common.domain.validation.I18nStringSize;
 import eu.dzhw.fdz.metadatamanagement.common.domain.validation.StringLengths;
+import eu.dzhw.fdz.metadatamanagement.questionmanagement.domain.validation.ValidQuestionIdName;
 import eu.dzhw.fdz.metadatamanagement.questionmanagement.domain.validation.ValidQuestionImageType;
 import eu.dzhw.fdz.metadatamanagement.questionmanagement.domain.validation.ValidQuestionType;
+import eu.dzhw.fdz.metadatamanagement.questionmanagement.domain.validation.ValidUniqueQuestionNumber;
 import net.karneim.pojobuilder.GeneratePojoBuilder;
 
 /**
@@ -33,6 +36,11 @@ import net.karneim.pojobuilder.GeneratePojoBuilder;
 @Document(collection = "questions")
 @GeneratePojoBuilder(
     intoPackage = "eu.dzhw.fdz.metadatamanagement.questionmanagement.domain.builders")
+@CompoundIndex(def = "{instrumentId: 1, number: 1}", unique = false)
+@ValidUniqueQuestionNumber(message = "question-management.error"
+    + ".question.unique-question-number")
+@ValidQuestionIdName(message = "question-management.error"
+    + ".question.valid-question-id-name")
 public class Question extends AbstractRdcDomainObject {
   
   /* Domain Object Attributes */

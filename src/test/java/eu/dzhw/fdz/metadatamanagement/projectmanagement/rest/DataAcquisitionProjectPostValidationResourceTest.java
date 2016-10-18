@@ -175,11 +175,9 @@ public class DataAcquisitionProjectPostValidationResourceTest extends AbstractTe
     Instrument instrument = UnitTestCreateDomainObjectUtils.buildInstrument(project.getId());
     this.instrumentRepository.save(instrument);
     
-    //Atomic Question
+    //Question
     Question question = UnitTestCreateDomainObjectUtils.buildQuestion(project.getId(), instrument.getId(), 
         survey.getId());
-    question.setInstrumentId("testProject-WrongQuestionname1");
-    question.setId("testProject-Wrongname1");
     question.getSuccessors().add("testProject-WrongQuestion");
     this.questionRepository.save(question);
     
@@ -187,9 +185,8 @@ public class DataAcquisitionProjectPostValidationResourceTest extends AbstractTe
     // Act & Assert
     mockMvc.perform(post(API_DATA_ACQUISITION_PROJECTS_POST_VALIDATION_URI))
       .andExpect(status().isOk())
-      .andExpect(jsonPath("$.errors", hasSize(2)))
-      .andExpect(jsonPath("$.errors[0].messageId", containsString("error.post-validation.question-has-invalid-instrument-id")))    
-      .andExpect(jsonPath("$.errors[1].messageId", containsString("error.post-validation.question-has-invalid-successor")));
+      .andExpect(jsonPath("$.errors", hasSize(1)))
+      .andExpect(jsonPath("$.errors[0].messageId", containsString("error.post-validation.question-has-invalid-successor")));
   }
   
   @Test
