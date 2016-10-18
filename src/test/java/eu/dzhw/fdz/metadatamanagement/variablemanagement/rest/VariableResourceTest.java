@@ -297,8 +297,9 @@ public class VariableResourceTest extends AbstractTest {
     // create the variable with duplicate value classes
     mockMvc.perform(put(API_VARIABLES_URI + "/" + variable.getId())
       .content(TestUtil.convertObjectToJsonBytes(variable)))
-      .andExpect(status().is4xxClientError())
-      .andReturn();
+      .andExpect(status().isBadRequest())
+      .andExpect(jsonPath("$.errors[0].message", containsString("variable-management.error.variable.valid-response-value-must-be-a-number-on-numeric-data-type")));
+
   }
 
   @Test

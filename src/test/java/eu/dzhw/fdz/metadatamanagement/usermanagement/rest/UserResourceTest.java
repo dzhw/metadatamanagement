@@ -79,7 +79,7 @@ public class UserResourceTest extends AbstractTest {
     // Assert
     restUserMockMvc.perform(get("/api/users/admin").accept(MediaType.APPLICATION_JSON))
       .andExpect(status().isOk())
-      .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
+      .andExpect(content().contentType(MediaType.APPLICATION_JSON))
       .andExpect(jsonPath("$.lastName").value("Administrator"));
   }
 
@@ -115,7 +115,7 @@ public class UserResourceTest extends AbstractTest {
     // Act
     MvcResult mvcResult = restUserMockMvc.perform(get("/api/users"))
       .andExpect(status().isOk())
-      .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
+      .andExpect(content().contentType(MediaType.APPLICATION_JSON))
       .andExpect(status().is2xxSuccessful())
       .andReturn();
     String content = mvcResult.getResponse()
