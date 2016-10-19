@@ -28,7 +28,7 @@
       "questions": "Fragen",
       "predecessors": "Vorgänger",
       "successors": "Nachfolger",
-      "technical-representation": "Technische Representation",
+      "technical-representation": "Technische Repräsentation",
       "related-information": "Zugehörige Informationen",
       "not-found": "Die id {{id}} referenziert auf eine unbekannte Frage.",
       "not-found-references": "Die id {{id}} hat keine Referenzen auf Fragen."
@@ -78,13 +78,16 @@
       },
       "technical-representation": {
         "type": {
-          "size": "Die Maximallänge des Typs einer technischen Darstellung ist 32 Zeichen."
+          "size": "Die Maximallänge des Typs einer technischen Repräsentation ist 32 Zeichen.",
+          "not-empty": "Der Typ der technischen Repräsentation darf nicht leer sein."
         },
         "language": {
-          "size": "Die Maximallänge der Sprache einer technischen Darstellung ist 32 Zeichen."
+          "size": "Die Maximallänge der Sprache einer technischen Repräsentation ist 32 Zeichen.",
+          "not-empty": "Die Sprache der technischen Repräsentation darf nicht leer sein."
         },
         "source": {
-          "size": "Die Maximallänge der technischen Darstellung ist 1048576 Zeichen."
+          "size": "Die Maximallänge des Quellcodes der technischen Repräsentation ist 1048576 Zeichen.",
+          "not-empty": "Der Quellcode der technischen Repräsentation darf nicht leer sein."
         }
       },
       "post-validation": {

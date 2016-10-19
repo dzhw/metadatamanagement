@@ -78,13 +78,16 @@
       },
       "technical-representation": {
         "type": {
-          "size": "The max length of the type of the technical representation is 32 signs."
+          "size": "The max length of the type of the technical representation is 32 signs.",
+          "not-empty": "The type of the technical representation must not be empty."
         },
         "language": {
-          "size": "The max length of the language of the technical representation is 32 signs."
+          "size": "The max length of the language of the technical representation is 32 signs.",
+          "not-empty": "The language of the technical representation must not be empty."
         },
         "source": {
-          "size": "The max length of the technical representation is 1048576 signs."
+          "size": "The max length of the source of the technical representation is 1048576 signs.",
+          "not-empty": "The source of the technical representation must not be empty."
         }
       },
       "post-validation": {
