@@ -28,7 +28,7 @@ public class ValidQuestionIdNameValidator
   @Override
   public boolean isValid(Question question, ConstraintValidatorContext context) {
 
-    // check for set project id
+    // check precondition
     if (question.getInstrumentId() == null || question.getNumber() == null) {
       return false;
     }

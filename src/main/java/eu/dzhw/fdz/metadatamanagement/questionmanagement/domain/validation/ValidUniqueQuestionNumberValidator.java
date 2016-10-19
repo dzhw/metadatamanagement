@@ -35,27 +35,20 @@ public class ValidUniqueQuestionNumberValidator
   @Override
   public boolean isValid(Question question, ConstraintValidatorContext context) {
     if (question.getInstrumentId() != null
-        && question.getNumber() != null
-        && !toBeUpdated(questionRepository
-            .findByInstrumentIdAndNumber(question.getInstrumentId(),
-                question.getNumber()), question)) {
-      return false;
-    }
-    return true;
-  }
-  
-  /**
-   * For question update is redundant of questions allowed .
-   * @param questions the list of questions
-   * @param question the new object
-   * @return result of check
-   */
-  public boolean toBeUpdated(List<Question> questions, Question question ) {
-    if (questions.size() == 1) {
-      if (questions.get(0).getId().equals(question.getId())) {
+        && question.getNumber() != null) {
+        
+      List<Question> existingQuestions = 
+          questionRepository.findByInstrumentIdAndNumber(question.getInstrumentId(),
+          question.getNumber());
+      if (existingQuestions.isEmpty()) {
         return true;
       } else {
-        return false;
+        if (existingQuestions.get(0).getId().equals(question.getId())) {
+          //we are updating this question
+          return true;
+        } else {
+          return false;
+        }
       }
     }
     return true;

@@ -36,7 +36,7 @@ import net.karneim.pojobuilder.GeneratePojoBuilder;
 @Document(collection = "questions")
 @GeneratePojoBuilder(
     intoPackage = "eu.dzhw.fdz.metadatamanagement.questionmanagement.domain.builders")
-@CompoundIndex(def = "{instrumentId: 1, number: 1}", unique = false)
+@CompoundIndex(def = "{instrumentId: 1, number: 1}", unique = true)
 @ValidUniqueQuestionNumber(message = "question-management.error"
     + ".question.unique-question-number")
 @ValidQuestionIdName(message = "question-management.error"
