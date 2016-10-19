@@ -22,6 +22,7 @@ $state-danger-text:              #000000 !default;
 $state-danger-bg:                #F5D0D0 !default;
 $state-danger-border:            $brand-danger !default;
 
+$fdz-table-header-color:         rgba(0,0,0,0.12) !default;
 // bower:scss
 @import "bootstrap-sass/assets/stylesheets/_bootstrap.scss";
 // endbower
@@ -485,7 +486,9 @@ md-tooltip {
     width: 100%;
     text-align: center;
 }
-
+.fdz-table thead {
+  background-color: $fdz-table-header-color;
+}
 .fdz-table th, .fdz-table td {
     padding: 8px;
     border-bottom: 1px solid #ddd;
@@ -508,7 +511,6 @@ md-tooltip {
 		display: block;
 		float: left;
     width: 70px;
-    background-color: LightGray ;
 	}
 	.fdz-table tbody {
 		display: block;
