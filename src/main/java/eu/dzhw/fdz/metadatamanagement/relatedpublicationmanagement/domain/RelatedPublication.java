@@ -12,6 +12,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 import eu.dzhw.fdz.metadatamanagement.common.domain.AbstractRdcDomainObject;
 import eu.dzhw.fdz.metadatamanagement.common.domain.util.Patterns;
 import eu.dzhw.fdz.metadatamanagement.common.domain.validation.StringLengths;
+import eu.dzhw.fdz.metadatamanagement.relatedpublicationmanagement.domain.validation.ValidUrl;
 import net.karneim.pojobuilder.GeneratePojoBuilder;
 
 /**
@@ -51,14 +52,15 @@ public class RelatedPublication extends AbstractRdcDomainObject {
           + "doi.size")
   private String doi;
   
-  //TODO DKatzberg: This Patterns does not work 
-  //@Pattern(regexp = Patterns.VALID_URL,
-  //    message = "related-publication-management.error.related-publication.source-link.pattern")
+  @ValidUrl(message = "related-publication-management.error."
+      + "related-publication.source-link.pattern")
   private String sourceLink;
   
   @Size(max = StringLengths.MEDIUM,
       message = "related-publication-management.error.related-publication." 
           + "title.size")
+  @NotEmpty(message = "related-publication-management.error.related-publication." 
+      + "title.not-empty")
   private String title;
   
   /* Foreign Keys */
