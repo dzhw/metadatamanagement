@@ -37,7 +37,7 @@
       "question": {
         "valid-question-id-name": "Die FDZ-ID der Frage entspricht nicht dem Muster: InstrumentID-Fragennummer.",
         "unique-question-name": "Der Name einer Frage muss eindeutig innerhalb einer Befragung sein.",
-        "unique-question-number": "Der Nummer einer Frage muss eindeutig innerhalb einer Befragung sein.",
+        "unique-question-number": "Die Nummer einer Frage muss eindeutig innerhalb einer Befragung sein.",
         "id": {
           "not-empty": "Die FDZ - ID der Frage darf nicht leer sein!",
           "size": "Die Maximallänge der FDZ - ID ist 128 Zeichen.",
