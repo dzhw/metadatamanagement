@@ -239,7 +239,7 @@ angular.module('metadatamanagementApp').controller('SearchController',
       if (Array.isArray(file)) {
         file = file[0];
       }
-      if (!file || !file.name.endsWith('xlsx')) {
+      if (!file || !file.name.endsWith('xls')) {
         return;
       }
       var confirm = $mdDialog.confirm()

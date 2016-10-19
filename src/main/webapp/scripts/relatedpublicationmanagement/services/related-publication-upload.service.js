@@ -47,27 +47,27 @@ angular.module('metadatamanagementApp')
         }
       }
     };
-    var uploadRelatedPublications = function(file, dataAcquisitionProjectId) {
+    var uploadRelatedPublications = function(file) {
       uploadCount = 0;
+      objects = [];
       JobLoggingService.start('related-publication');
-      ExcelReaderService.readFileAsync(file).then(function(data) {
-        objects = RelatedPublicationBuilderService.getRelatedPublications(data,
-          dataAcquisitionProjectId);
-        RelatedPublicationDeleteResource.deleteAll({},
-          upload,
-          function(error) {
-            var errorMessages = ErrorMessageResolverService
-              .getErrorMessages(error, 'related-publication');
-            errorMessages.forEach(function(errorMessage) {
-              JobLoggingService.error(errorMessage.message,
-                errorMessage.translationParams);
-            });
+      RelatedPublicationDeleteResource.deleteAll().$promise.then(
+        function() {
+          ExcelReaderService.readFileAsync(file)
+          .then(function(relatedPublications) {
+              objects = RelatedPublicationBuilderService
+              .getRelatedPublications(relatedPublications);
+              upload();
+            }, function() {
+            JobLoggingService.cancel('global.log-messages.unable-to-read-file',
+              {file: 'relatedPublications.xls'});
           });
-      }, function(error) {
-        console.log(error);
-        JobLoggingService.cancel(
-          'global.log-messages.unsupported-excel-file', {});
-      });
+        }, function() {
+          JobLoggingService.cancel(
+            'related-publication.log-messages.' +
+            'related-publication.unable-to-delete');
+        }
+      );
     };
     return {
       uploadRelatedPublications: uploadRelatedPublications

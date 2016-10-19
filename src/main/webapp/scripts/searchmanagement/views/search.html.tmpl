@@ -141,8 +141,9 @@
             ng-if="selectedTabIndex===6"
             type="file"
             ngf-select="uploadRelatedPublications($file)"
+            accept=".xls"
             class="md-accent md-fab"
-            accept=".xlsx">
+            directory webkitdirectory>
             <div>
                 <md-tooltip md-direction="left">
                     {{'search-management.buttons.upload-related-publications' | translate}}
