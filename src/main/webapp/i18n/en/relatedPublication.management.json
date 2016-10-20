@@ -4,7 +4,7 @@
       "title": "Publikation"
     },
     "log-messages": {
-      "data-set": {
+      "related-publication": {
         "saved": "Related Publication with RDC-ID {{ id }} was saved successfully!",
         "not-saved": "Related Publication with RDC-ID {{ id }} has not been saved!",
         "missing-id": "Related Publication {{ index }} does not contain a RDC-ID and has not been saved!",
@@ -22,7 +22,9 @@
       "variables-title": "Variables",
       "citation-text": "Citation Text",
       "abstract": "Abstract",
-      "doi": "DOI"
+      "doi": "DOI",
+      "sourceReference": "Source Reference",
+      "sourceLink": "URL"
     },
     "error": {
       "related-publication": {

@@ -32,7 +32,21 @@ angular.module('metadatamanagementApp')
             }
           });
       };
+      var findDataSets = function(dataSetIds) {
+        blockUI.start();
+        DataSetSearchResource.findDataSets(dataSetIds)
+          .then(function(items) {
+            if (!CleanJSObjectService.isNullOrEmpty(items)) {
+              dataSets = items.docs;
+              blockUI.stop();
+              showDialog();
+            } else {
+              blockUI.stop();
+            }
+          });
+      };
       return {
-        findByVariableId: findByVariableId
+        findByVariableId: findByVariableId,
+        findDataSets: findDataSets
       };
     });

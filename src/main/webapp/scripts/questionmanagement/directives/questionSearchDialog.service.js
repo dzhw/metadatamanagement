@@ -31,7 +31,21 @@ angular.module('metadatamanagementApp').service('QuestionSearchDialogService',
         }
       });
     };
+    var findQuestions = function(ids) {
+      blockUI.start();
+      QuestionSearchResource.findQuestions(ids).
+      then(function(items) {
+        if (!CleanJSObjectService.isNullOrEmpty(items)) {
+          questions = items.docs;
+          blockUI.stop();
+          showDialog();
+        } else {
+          blockUI.stop();
+        }
+      });
+    };
     return {
-      findByProjectId: findByProjectId
+      findByProjectId: findByProjectId,
+      findQuestions: findQuestions
     };
   });

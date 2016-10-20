@@ -6,7 +6,7 @@ function(Language, ElasticSearchClient) {
   query.index = 'metadata_' + Language.getCurrentInstantly();
   query.type = 'questions';
   query.body = {};
-  var findSuccessors = function(questionIds) {
+  var findQuestions = function(questionIds) {
     query.filterPath = 'docs._source';
     query.body.query = {};
     query.body.query.docs = {
@@ -56,7 +56,8 @@ function(Language, ElasticSearchClient) {
   };
   return {
     findPredeccessors: findPredeccessors,
-    findSuccessors: findSuccessors,
+    findSuccessors: findQuestions,
+    findQuestions: findQuestions,
     findByProjectId: findByProjectId
   };
 });

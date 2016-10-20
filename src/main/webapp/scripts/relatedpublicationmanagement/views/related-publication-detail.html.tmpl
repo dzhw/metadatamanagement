@@ -1,8 +1,11 @@
-<div>
+<div ng-if="!ctrl.relatedPublication.$resolved">
+  Lade Daten...
+</div>
+<div ng-if="ctrl.relatedPublication.$resolved">
     <md-card>
         <md-card-header>
             <md-card-header-text>
-                <h1 class="md-headline">{{ctrl.relatedPublication.sourceReference}}</h1>
+                <h1 class="md-headline">{{ctrl.relatedPublication.title}}</h1>
             </md-card-header-text>
         </md-card-header>
         <md-card-content style="padding-top: 0px;" layout="column">
@@ -15,16 +18,26 @@
                     </md-card-header>
                     <md-divider></md-divider>
                     <md-card-content>
-                        <section>
-                              <span style="font-weight: bold;">{{'related-publication-management.detail.abstract' | translate }}:
-                              </span>
-                              <span>{{ctrl.relatedPublication.publicationAbstract}}</span>
-                          </section>
-                          <section>
-                                <span style="font-weight: bold;">{{'related-publication-management.detail.doi' | translate }}:
-                                </span>
-                                <span>{{ctrl.relatedPublication.doi}}</span>
-                            </section>
+                        <section style="margin-bottom: 0.5em;" ng-if="ctrl.relatedPublication.publicationAbstract">
+                            <span style="font-weight: bold;">{{'related-publication-management.detail.abstract' | translate }}:
+                            </span>
+                            <span>{{ctrl.relatedPublication.publicationAbstract}}</span>
+                        </section>
+                        <section style="margin-bottom: 0.5em;" ng-if="ctrl.relatedPublication.doi">
+                            <span style="font-weight: bold;">{{'related-publication-management.detail.doi' | translate }}:
+                            </span>
+                            <span>{{ctrl.relatedPublication.doi}}</span>
+                        </section>
+                        <section style="margin-bottom: 0.5em;" ng-if="ctrl.relatedPublication.sourceReference">
+                            <span style="font-weight: bold;">{{'related-publication-management.detail.sourceReference' | translate }}:
+                            </span>
+                            <span>{{ctrl.relatedPublication.sourceReference}}</span>
+                        </section>
+                        <section style="margin-bottom: 0.5em;" ng-if="ctrl.relatedPublication.sourceLink">
+                            <span style="font-weight: bold;">{{'related-publication-management.detail.sourceLink' | translate }}:
+                            </span>
+                            <a target="_blank" ng-href="{{ctrl.relatedPublication.sourceLink}}">{{ctrl.relatedPublication.sourceLink}}</a>
+                        </section>
                     </md-card-content>
                 </md-card>
                 <md-card>
@@ -35,23 +48,40 @@
                     </md-card-header>
                     <md-divider></md-divider>
                     <md-card-content>
-                      <section>
-                          <md-button class="md-raised" ng-disabled="true" ng-click="showStudy()">
-                              <md-icon md-svg-src="/assets/images/icons/study.svg"></md-icon>
-                              <span>{{'related-publication-management.detail.studies-title' | translate }}</span>
-                          </md-button>
-                      </section>
                         <section>
-                            <md-button class="md-raised" ng-disabled="true" ng-click="showQuestions()">
-                                <md-icon md-svg-src="/assets/images/icons/question.svg"></md-icon>
-                                <span>{{'related-publication-management.detail.questions-title' | translate }}</span>
+                            <md-button class="md-raised" ng-click="ctrl.showStudies()">
+                                <md-icon md-svg-src="/assets/images/icons/study.svg"></md-icon>
+                                <span>{{'study-management.detail.studies' | translate }}</span>
                             </md-button>
                         </section>
-
                         <section>
-                            <md-button class="md-raised" ng-disabled="true" ng-click="showVariable()">
+                            <md-button class="md-raised" ng-click="ctrl.showQuestions()">
+                                <md-icon md-svg-src="/assets/images/icons/question.svg"></md-icon>
+                                <span>{{'question-management.detail.questions' | translate }}</span>
+                            </md-button>
+                        </section>
+                        <section>
+                            <md-button class="md-raised" ng-click="ctrl.showSurveys()">
+                                <md-icon md-svg-src="/assets/images/icons/survey.svg"></md-icon>
+                                <span>{{'survey-management.detail.surveys' | translate }}</span>
+                            </md-button>
+                        </section>
+                        <section>
+                            <md-button class="md-raised" ng-click="ctrl.showVariables()">
                                 <md-icon md-svg-src="/assets/images/icons/variable.svg"></md-icon>
-                                <span>{{'related-publication-management.detail.variables-title' | translate }}</span>
+                                <span>{{'variable-management.detail.variables' | translate }}</span>
+                            </md-button>
+                        </section>
+                        <section>
+                            <md-button class="md-raised" ng-click="ctrl.showDataSets()">
+                                <md-icon md-svg-src="/assets/images/icons/variable.svg"></md-icon>
+                                <span>{{'data-set-management.detail.data-sets' | translate }}</span>
+                            </md-button>
+                        </section>
+                        <section>
+                            <md-button class="md-raised" ng-disabled="true " ng-click="ctrl.showInstruments()">
+                                <md-icon md-svg-src="/assets/images/icons/instrument.svg"></md-icon>
+                                <span>{{'instrument-management.detail.instruments' | translate }}</span>
                             </md-button>
                         </section>
                     </md-card-content>

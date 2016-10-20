@@ -7,6 +7,9 @@ angular.module('metadatamanagementApp').service('CleanJSObjectService',
       var cleanedArray;
       if (data) {
         cleanedArray = data.replace(/ /g, '').split(',');
+        cleanedArray = cleanedArray.filter(function(value) {
+          return value !== '';
+        });
       }
       return cleanedArray;
     };

@@ -22,7 +22,9 @@
       "variables-title": "Variablen",
       "citation-text": "Zitationstext",
       "abstract": "Abstrakt",
-      "doi": "DOI"
+      "doi": "DOI",
+      "sourceReference": "Quelle",
+      "sourceLink": "URL"
     },
     "error": {
       "related-publication": {

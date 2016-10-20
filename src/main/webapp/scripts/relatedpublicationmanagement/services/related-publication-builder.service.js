@@ -14,7 +14,14 @@ angular.module('metadatamanagementApp')
           publicationAbstract: data.publicationAbstract,
           doi: data.doi,
           sourceLink: data.sourceLink,
-          title: data.title
+          title: data.title,
+          questionIds: CleanJSObjectService.removeWhiteSpace(data.questionIds),
+          surveyIds: CleanJSObjectService.removeWhiteSpace(data.surveyIds),
+          variableIds: CleanJSObjectService.removeWhiteSpace(data.variableIds),
+          dataSetIds: CleanJSObjectService.removeWhiteSpace(data.dataSetIds),
+          studyIds: CleanJSObjectService.removeWhiteSpace(data.studyIds),
+          instrumentIds: CleanJSObjectService
+          .removeWhiteSpace(data.instrumentIds)
         };
         var cleanedRelatedPublicationObject = CleanJSObjectService
           .removeEmptyJsonObjects(relatedPublicationObj);

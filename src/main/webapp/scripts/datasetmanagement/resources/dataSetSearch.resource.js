@@ -7,6 +7,14 @@ function(Language, ElasticSearchClient) {
   query.type = 'data_sets';
   query.body = {};
 
+  var findDataSets = function(dataSetIds) {
+    query.filterPath = 'docs._source';
+    query.body.query = {};
+    query.body.query.docs = {
+      'ids': dataSetIds
+    };
+    return ElasticSearchClient.mget(query);
+  };
   var findByVariableId = function(variableId) {
     query.filterPath = '';
     query.body.query = {
@@ -49,6 +57,7 @@ function(Language, ElasticSearchClient) {
   };
   return {
     findByVariableId: findByVariableId,
-    findByProjectId: findByProjectId
+    findByProjectId: findByProjectId,
+    findDataSets: findDataSets
   };
 });
