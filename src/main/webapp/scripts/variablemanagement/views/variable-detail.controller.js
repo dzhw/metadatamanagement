@@ -4,7 +4,7 @@ angular.module('metadatamanagementApp')
   .controller('VariableDetailController', function(SurveySearchDialogService,
     DataSetSearchDialogService, $scope, entity, $state, ShoppingCartService) {
     $scope.generationCodeToggleFlag = true;
-    $scope.allRowsVisible = true;
+    $scope.notAllRowsVisible = true;
     entity.$promise.then(function(variable) {
       $scope.variable = variable;
     });
@@ -13,11 +13,11 @@ angular.module('metadatamanagementApp')
         .variable.distribution.validResponses.length - 5) {
         return false;
       } else {
-        return $scope.allRowsVisible;
+        return $scope.notAllRowsVisible;
       }
     };
     $scope.toggleAllRowsVisible = function() {
-      $scope.allRowsVisible = !$scope.allRowsVisible;
+      $scope.notAllRowsVisible = !$scope.notAllRowsVisible;
     };
     $scope.toggleGenerationCode = function() {
       $scope.generationCodeToggleFlag = !$scope.generationCodeToggleFlag;

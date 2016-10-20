@@ -36,13 +36,17 @@
       "generation-details-description": "Beschreibung der Generierung",
       "generation-details-expression-language": "Generierungsausdruckssprache",
       "generation-details-rule": "Generierungsregel",
+      "show-complete-rule": {
+        "true": "Zeige gesamte Generierungsregel",
+        "false": "Minimiere Generierungsregel"
+      },
       "label": "Label",
       "not-found": "Die id {{id}} referenziert auf eine unbekannte Variable.",
       "not-found-references": "Die id {{id}} hat keine Referenzen auf Variablen.",
       "same-in-panel": "Ähnliche Variablen",
-      "content": {
-        "true": "Klicken zum maximieren",
-        "false": "Klicken zum minimieren"
+      "show-complete-distribution": {
+        "true": "Zeige gesamte Verteilung",
+        "false": "Minimiere Verteilungstabelle"
       },
       "statistics": {
         "graphics": "Abbildung Häufigkeiten/Verteilung",
@@ -58,16 +62,20 @@
         "absoluteFrequency": "Absolute Häufigkeit",
         "validRelativeFrequency": "Valide Relative Häufigkeit",
         "relativeFrequency": "Relative Häufigkeit",
-        "firstQuartile": "Oberes Quartil",
+        "firstQuartile": "Unteres Quartil",
         "highWhisker": "Oberer Whisker",
         "lowWhisker": "Unterer Whisker",
         "maximum": "Maximum",
         "median": "Median",
         "minimum": "Minimum",
-        "thirdQuartile": "Unteres Quartil",
+        "thirdQuartile": "Oberes Quartil",
         "totalAbsoluteFrequency": "Totale Absolute Häufigkeit",
         "totalValidAbsoluteFrequency": "Totale Valide Absolute Häufigkeit",
-        "totalValidRelativeFrequency": "Totale Valide Relative Häufigkeit"
+        "totalValidRelativeFrequency": "Totale Valide Relative Häufigkeit",
+        "meanValue": "Mittelwert",
+        "skewness": "Schiefe",
+        "kurtosis": "Wölbung",
+        "standardDeviation": "Standardabweichung"
       }
     },
     "labels": {

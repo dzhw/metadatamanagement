@@ -459,13 +459,10 @@ md-tooltip {
 .fdz-code-container {
   white-space: pre-wrap;
   overflow:hidden;
-  cursor: pointer;
-}
-.fdz-code-container:focus {
-    outline: none;
 }
 .fdz-hidden-code {
-  height:50px;
+  height:65px;
+  border-bottom: 1px solid #ccc;
 }
 .fdz-file-drop-accept {
   background-color:$brand-success !important;

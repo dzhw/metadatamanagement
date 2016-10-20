@@ -20,21 +20,27 @@
 </md-autocomplete>
 <div style="margin-top: 1em;">
     <md-button aria-label="{{'global.menu.tooltipps.create-project' | translate}}" class="md-primary md-raised md-icon-button" ng-click="ctrl.createProject()" style="margin-right: 0px; margin-left: 0px;">
+        <div>
             <md-tooltip md-direction="bottom">
                 {{'global.menu.tooltipps.create-project' | translate}}
             </md-tooltip>
             <md-icon md-font-set="material-icons">add</md-icon>
+        </div>
     </md-button>
     <md-button aria-label="{{'global.menu.tooltipps.delete-project' | translate}}" class="md-primary md-raised md-icon-button" ng-click="ctrl.deleteProject()" style="margin-right: 0px;" ng-disabled="!ctrl.selectedProject">
+        <div>
             <md-tooltip md-direction="bottom">
-              {{'global.menu.tooltipps.delete-project' | translate}}
+                {{'global.menu.tooltipps.delete-project' | translate}}
             </md-tooltip>
             <md-icon md-font-set="material-icons">delete</md-icon>
+        </div>
     </md-button>
     <md-button aria-label="{{'global.menu.tooltipps.post-validation' | translate}}" class="md-primary md-raised md-icon-button" ng-click="ctrl.postValidateProject()" style="margin-right: 0px;" ng-disabled="!ctrl.selectedProject">
+        <div>
             <md-tooltip md-direction="bottom">
                 {{'global.menu.tooltipps.post-validation' | translate}}
             </md-tooltip>
             <md-icon md-font-set="material-icons">playlist_add_check</md-icon>
+        </div>
     </md-button>
 </div>

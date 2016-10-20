@@ -2,44 +2,49 @@
 'use strict';
 
 angular.module('metadatamanagementApp').directive('diagram',
-  function($window, $timeout) {
+  function($window, $timeout, $filter) {
     var link = function(scope, element) {
       scope.isNotLoaded = true;
       scope.isNotAvailable = false;
       var data = [{
         marker: {
-          color: '#006AB2',
-          opacity: 0.7
-        }}];
+          color: '#006AB2'
+        }
+      }];
+      var layout = {
+        margin: {
+          l: 30,
+          r: 30,
+          t: 15,
+          b: 30
+        }
+      };
+      if (scope.language === 'de') {
+        layout.separators = ',.';
+      }
       var drawDiagram = function() {
         $timeout(function() {
           scope.isNotLoaded = false;
           if (angular.element('diagram').length > 0) {
-            Plotly.newPlot('diagram', data);
+            Plotly.newPlot('diagram', data, layout, {
+              showLink: false,
+              displayModeBar: true,
+              modeBarButtonsToRemove: ['hoverClosestCartesian',
+                'hoverCompareCartesian'
+              ]
+            });
           }
         }, 1000);
       };
-      function createString(object) {
-        if (object === null) {
-          return '';
-        }
-        return String(object);
-      }
-      function truncate(str, length) {
-        str = createString(str);
-        return str.length > length ? str.slice(0, length) + '...' : str;
-      }
+
       if ((scope.type === 'nominal') || (scope.type === 'ordinal')) {
         data[0].x = [];
         data[0].text = [];
         data[0].y = [];
         data[0].type = 'bar';
-        if (scope.statistics.validResponses) {
-          scope.statistics.validResponses.forEach(function(obj) {
-            var tempValue =
-              truncate(' - ' + (obj.label[scope.language] || obj.value) + ' - ',
-              11);
-            data[0].x.push(tempValue);
+        if (scope.distribution.validResponses) {
+          scope.distribution.validResponses.forEach(function(obj) {
+            data[0].x.push(obj.value);
             data[0].text.push((obj.label[scope.language] || obj.value));
             data[0].y.push(obj.absoluteFrequency);
           });
@@ -48,22 +53,30 @@ angular.module('metadatamanagementApp').directive('diagram',
         }
       }
       if ((scope.type === 'kontinuierlich') || (scope.type === 'continous')) {
-        var size = ((parseInt(scope.statistics.histogram.end) -
-        parseInt(scope.statistics.histogram.start)) / parseInt(scope.statistics
-          .histogram.numberOfBins));
+        var size = (scope.distribution.histogram.end -
+            scope.distribution.histogram.start) /
+          scope.distribution.histogram.numberOfBins;
         data[0].x = [];
         data[0].type = 'histogram';
         data[0].autobinx = false;
         data[0].xbins = {
-          start: scope.statistics.histogram.start,
-          end: scope.statistics.histogram.end,
+          start: scope.distribution.histogram.start,
+          end: scope.distribution.histogram.end,
           size: size
         };
-        if (scope.statistics.validResponses) {
-          for (var j = 0; j < scope.statistics.validResponses.length; j++) {
-            for (var k = 0; k < scope.statistics.validResponses[j]
+        data[0].hoverinfo = 'text+y';
+        data[0].text = [];
+        for (var i = 0; i < scope.distribution.histogram.numberOfBins; i++) {
+          data[0].text.push('[' + $filter('number')(scope.distribution.histogram
+              .start + size * i, 2) + '; ' +
+            $filter('number')(scope.distribution.histogram.start +
+              size * (i + 1), 2) + ')');
+        }
+        if (scope.distribution.validResponses) {
+          for (var j = 0; j < scope.distribution.validResponses.length; j++) {
+            for (var k = 0; k < scope.distribution.validResponses[j]
               .absoluteFrequency; k++) {
-              data[0].x.push(scope.statistics.validResponses[j].value);
+              data[0].x.push(scope.distribution.validResponses[j].value);
             }
           }
         } else {
@@ -83,7 +96,7 @@ angular.module('metadatamanagementApp').directive('diagram',
       templateUrl: 'scripts/variablemanagement/directives/diagram.html.tmpl',
       link: link,
       scope: {
-        statistics: '=',
+        distribution: '=',
         language: '=',
         type: '='
       }

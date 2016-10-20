@@ -36,13 +36,17 @@
       "generation-details-description": "Generation Details Description",
       "generation-details-expression-language": "Generation Expression Language",
       "generation-details-rule": "Generation Rule",
+      "show-complete-rule": {
+        "true": "Show complete Generation Rule",
+        "false": "Minimize Generation Rule "
+      },
       "label": "Label",
       "not-found": "The {{id}} references to an unknown Variable.",
       "not-found-references": "The id {{id}} has no References to Variables.",
       "same-in-panel": "Same Variables",
-      "content": {
-        "true": "Click to maximize",
-        "false": "Click to minimize"
+      "show-complete-distribution": {
+        "true": "Show complete distribution",
+        "false": "Minimize table of distribution"
       },
       "statistics": {
         "graphics": "Figure Frequencies/Distribution",
@@ -67,7 +71,11 @@
         "thirdQuartile": "Third Quartile",
         "totalAbsoluteFrequency": "Total Absolute Frequency",
         "totalValidAbsoluteFrequency": "Total Valid Absolute Frequency",
-        "totalValidRelativeFrequency": "Total Valid Relative Frequency"
+        "totalValidRelativeFrequency": "Total Valid Relative Frequency",
+        "meanValue": "Mean Value",
+        "skewness": "Skewness",
+        "kurtosis": "Kurtosis",
+        "standardDeviation": "Standard Deviation"
       }
     },
     "labels": {
