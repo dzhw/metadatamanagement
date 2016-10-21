@@ -5,7 +5,7 @@ angular.module('metadatamanagementApp')
 function(Language, ElasticSearchClient) {
   var query = {};
   query.index = 'metadata_' + Language.getCurrentInstantly();
-  query.type = 'data_sets';
+  query.type = 'related_publications';
   query.body = {};
 
   var findBySurveyId = function(surveyId) {
