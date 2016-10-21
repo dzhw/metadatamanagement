@@ -33,7 +33,63 @@ angular.module('metadatamanagementApp')
             }
           });
       };
+      var findByQuestionId = function(questionId) {
+        blockUI.start();
+        RelatedPublicationSearchResource.findByQuestionId(questionId)
+          .then(function(items) {
+            if (!CleanJSObjectService.isNullOrEmpty(items)) {
+              relatedPublications = items.hits.hits;
+              blockUI.stop();
+              showDialog();
+            } else {
+              blockUI.stop();
+            }
+          });
+      };
+      var findByVariableId = function(variableId) {
+        blockUI.start();
+        RelatedPublicationSearchResource.findByVariableId(variableId)
+          .then(function(items) {
+            if (!CleanJSObjectService.isNullOrEmpty(items)) {
+              relatedPublications = items.hits.hits;
+              blockUI.stop();
+              showDialog();
+            } else {
+              blockUI.stop();
+            }
+          });
+      };
+      var findByDataSetId = function(dataSetId) {
+        blockUI.start();
+        RelatedPublicationSearchResource.findByDataSetId(dataSetId)
+          .then(function(items) {
+            if (!CleanJSObjectService.isNullOrEmpty(items)) {
+              relatedPublications = items.hits.hits;
+              blockUI.stop();
+              showDialog();
+            } else {
+              blockUI.stop();
+            }
+          });
+      };
+      var findByStudyId = function(studyId) {
+        blockUI.start();
+        RelatedPublicationSearchResource.findByStudyId(studyId)
+          .then(function(items) {
+            if (!CleanJSObjectService.isNullOrEmpty(items)) {
+              relatedPublications = items.hits.hits;
+              blockUI.stop();
+              showDialog();
+            } else {
+              blockUI.stop();
+            }
+          });
+      };
       return {
-        findBySurveyId: findBySurveyId
+        findBySurveyId: findBySurveyId,
+        findByQuestionId: findByQuestionId,
+        findByVariableId: findByVariableId,
+        findByDataSetId: findByDataSetId,
+        findByStudyId: findByStudyId
       };
     });

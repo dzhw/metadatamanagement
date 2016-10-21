@@ -3,9 +3,10 @@
 angular.module('metadatamanagementApp')
   .controller('DataSetDetailController', ['$scope', '$state', 'entity',
   'SurveySearchDialogService', 'VariableSearchDialogService',
-  'ShoppingCartService',
+  'ShoppingCartService', 'RelatedPublicationSearchDialogService',
     function($scope, $state, entity, SurveySearchDialogService,
-    VariableSearchDialogService, ShoppingCartService) {
+    VariableSearchDialogService, ShoppingCartService,
+    RelatedPublicationSearchDialogService) {
       $scope.allRowsVisible = true;
       entity.$promise.then(function(dataSet) {
         $scope.dataSet = dataSet;
@@ -29,6 +30,10 @@ angular.module('metadatamanagementApp')
       };
       $scope.showStudy = function() {
         $state.go('studyDetail', {id: $scope.dataSet.dataAcquisitionProjectId});
+      };
+      $scope.showRelatedPublications = function() {
+        RelatedPublicationSearchDialogService
+        .findByDataSetId($scope.dataSet.id);
       };
       /* add new  item to localStorage */
       $scope.addToNotepad = function() {

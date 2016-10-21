@@ -2,7 +2,8 @@
 
 angular.module('metadatamanagementApp')
   .controller('VariableDetailController', function(SurveySearchDialogService,
-    DataSetSearchDialogService, $scope, entity, $state, ShoppingCartService) {
+    DataSetSearchDialogService, $scope, entity, $state, ShoppingCartService,
+    RelatedPublicationSearchDialogService) {
     $scope.generationCodeToggleFlag = true;
     $scope.notAllRowsVisible = true;
     entity.$promise.then(function(variable) {
@@ -30,6 +31,10 @@ angular.module('metadatamanagementApp')
     };
     $scope.showStudy = function() {
       $state.go('studyDetail', {id: $scope.variable.dataAcquisitionProjectId});
+    };
+    $scope.showRelatedPublications = function() {
+      RelatedPublicationSearchDialogService
+      .findByVariableId($scope.variable.id);
     };
     /* add new  item to localStorage */
     $scope.addToNotepad = function() {

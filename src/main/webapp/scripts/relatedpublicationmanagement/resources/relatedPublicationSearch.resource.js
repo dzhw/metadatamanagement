@@ -28,7 +28,91 @@ function(Language, ElasticSearchClient) {
     };
     return ElasticSearchClient.search(query);
   };
+  var findByQuestionId = function(questionId) {
+    query.filterPath = '';
+    query.body.query = {
+      'bool': {
+        'must': [
+          {
+            'match_all': {}
+          }
+        ],
+        'filter': [
+          {
+            'term': {
+              'questionIds': questionId
+            }
+          }
+        ]
+      }
+    };
+    return ElasticSearchClient.search(query);
+  };
+  var findByVariableId = function(variableId) {
+    query.filterPath = '';
+    query.body.query = {
+      'bool': {
+        'must': [
+          {
+            'match_all': {}
+          }
+        ],
+        'filter': [
+          {
+            'term': {
+              'variableIds': variableId
+            }
+          }
+        ]
+      }
+    };
+    return ElasticSearchClient.search(query);
+  };
+  var findByDataSetId = function(dataSetId) {
+    query.filterPath = '';
+    query.body.query = {
+      'bool': {
+        'must': [
+          {
+            'match_all': {}
+          }
+        ],
+        'filter': [
+          {
+            'term': {
+              'dataSetIds': dataSetId
+            }
+          }
+        ]
+      }
+    };
+    return ElasticSearchClient.search(query);
+  };
+  var findByStudyId = function(studyId) {
+    query.filterPath = '';
+    query.body.query = {
+      'bool': {
+        'must': [
+          {
+            'match_all': {}
+          }
+        ],
+        'filter': [
+          {
+            'term': {
+              'studyIds': studyId
+            }
+          }
+        ]
+      }
+    };
+    return ElasticSearchClient.search(query);
+  };
   return {
-    findBySurveyId: findBySurveyId
+    findBySurveyId: findBySurveyId,
+    findByVariableId: findByVariableId,
+    findByDataSetId: findByDataSetId,
+    findByQuestionId: findByQuestionId,
+    findByStudyId: findByStudyId
   };
 });

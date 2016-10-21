@@ -25,6 +25,7 @@ angular.module('metadatamanagementApp')
               $translatePartialLoader.addPart('survey.management');
               $translatePartialLoader.addPart('study.management');
               $translatePartialLoader.addPart('notepad.management');
+              $translatePartialLoader.addPart('relatedPublication.management');
             }
           ],
           entity: ['$stateParams', 'DataSetResource',

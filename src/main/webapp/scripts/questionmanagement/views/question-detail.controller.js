@@ -7,7 +7,8 @@ angular.module('metadatamanagementApp')
 
     function($scope, StudyReferencedResource,
       ShoppingCartService, VariableSearchDialogService, entity, $state,
-      SimpleMessageToastService, QuestionSearchResource, CleanJSObjectService) {
+      SimpleMessageToastService, QuestionSearchResource, CleanJSObjectService,
+      RelatedPublicationSearchDialogService) {
 
       $scope.predecessors = [];
       $scope.successors = [];
@@ -59,6 +60,11 @@ angular.module('metadatamanagementApp')
         $state.go('studyDetail', {
           id: $scope.question.dataAcquisitionProjectId
         });
+      };
+
+      $scope.showRelatedPublications = function() {
+        RelatedPublicationSearchDialogService
+        .findByQuestionId($scope.question.id);
       };
       /* add new  item to localStorage */
       $scope.addToNotepad = function() {
