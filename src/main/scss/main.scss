@@ -548,6 +548,16 @@ md-tooltip {
     border-right: 1px solid #ddd;
     border-bottom: 0px;
 	}
+
+  .fdz-table-last-row {
+    border-right: 3px solid #ddd !important;
+  }
+}
+
+@media only screen and (min-width: 601px) {
+  .fdz-table-last-row {
+    border-bottom: 3px solid #ddd;
+  }
 }
 
 .hljs {

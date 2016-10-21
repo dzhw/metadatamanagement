@@ -227,7 +227,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr ng-repeat-start="row in variable.distribution.validResponses" ng-hide="isRowHidden($index)">
+                            <tr ng-class="{'fdz-table-last-row':$last}" ng-repeat-start="row in variable.distribution.validResponses" ng-hide="isRowHidden($index)">
                                 <td>{{row.value}}{{row.code | number:0}}&nbsp;</td>
                                 <td>{{row.label[currentLanguage]}}&nbsp;</td>
                                 <td>&nbsp;</td>
@@ -235,7 +235,7 @@
                                 <td>{{row.validRelativeFrequency | number:2}} %</td>
                                 <td>{{row.relativeFrequency | number:2}} %</td>
                             </tr>
-                            <tr ng-repeat-end class="fdz-table-row" ng-if="$index === 4 && variable.distribution.validResponses.length > 10" ng-hide="!notAllRowsVisible">
+                            <tr ng-repeat-end ng-if="$index === 4 && variable.distribution.validResponses.length > 10" ng-hide="!notAllRowsVisible">
                                 <td>...</td>
                                 <td>...</td>
                                 <td>...</td>
@@ -243,8 +243,16 @@
                                 <td>...</td>
                                 <td>...</td>
                             </tr>
-                            <tr ng-repeat="row in variable.distribution.missings">
-                                <td>{{row.value}}{{row.code}}&nbsp;</td>
+                            <tr ng-if="variable.distribution.validResponses.length > 0">
+                                <td>&nbsp;</td>
+                                <td>&nbsp;</td>
+                                <td>&nbsp;</td>
+                                <td>{{variable.distribution.totalValidAbsoluteFrequency | number:0}}</td>
+                                <td>100 %</td>
+                                <td>{{variable.distribution.totalValidRelativeFrequency | number:2}} %</td>
+                            </tr>
+                            <tr ng-class="{'fdz-table-last-row':$last}" ng-repeat="row in variable.distribution.missings">
+                                <td>{{row.code}}&nbsp;</td>
                                 <td>{{row.label[currentLanguage]}}&nbsp;</td>
                                 <td>m</td>
                                 <td>{{row.absoluteFrequency | number:0}}&nbsp;</td>
@@ -256,7 +264,7 @@
                                 <td>&nbsp;</td>
                                 <td>&nbsp;</td>
                                 <td>{{variable.distribution.totalAbsoluteFrequency | number:0}}</td>
-                                <td>{{variable.distribution.totalValidRelativeFrequency | number:2}} %</td>
+                                <td>&nbsp;</td>
                                 <td>100 %</td>
                             </tr>
                         </tbody>
@@ -269,7 +277,7 @@
                         <md-card-header-text>
                             <h2 class="md-title">{{'variable-management.detail.generation-details' | translate }}</h2>
                         </md-card-header-text>
-                        <md-button class="md-fab md-mini md-primary" ng-click="toggleGenerationCode()">
+                        <md-button ng-if="variable.generationDetails.rule" class="md-fab md-mini md-primary" ng-click="toggleGenerationCode()">
                           <div>
                             <md-icon ng-if="generationCodeToggleFlag" md-svg-src="/assets/images/icons/arrow-expand.svg"></md-icon>
                             <md-icon ng-if="!generationCodeToggleFlag" md-svg-src="/assets/images/icons/arrow-compress.svg"></md-icon>
