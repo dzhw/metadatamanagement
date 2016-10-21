@@ -15,7 +15,7 @@ angular.module('metadatamanagementApp').service('QuestionSearchDialogService',
           questions: questions
         },
         templateUrl: 'scripts/questionmanagement/' +
-          'directives/questionSearchDialog.html.tmpl',
+          'views/questionSearchDialog.html.tmpl',
       });
     };
     var findByProjectId = function(dataAcquisitionProjectId) {

@@ -15,7 +15,7 @@ angular.module('metadatamanagementApp').service('VariableSearchDialogService',
           variables: variables
         },
         templateUrl: 'scripts/variablemanagement/' +
-          'directives/variableSearchDialog.html.tmpl',
+          'views/variableSearchDialog.html.tmpl',
       });
     };
     var findByQuestionId = function(questionId) {

@@ -16,7 +16,7 @@ angular.module('metadatamanagementApp')
           locals: {
             relatedPublications: relatedPublications
           },
-          templateUrl: 'scripts/relatedpublicationmanagement/directives/' +
+          templateUrl: 'scripts/relatedpublicationmanagement/views/' +
             'relatedPublicationSearchDialog.html.tmpl',
         });
       };

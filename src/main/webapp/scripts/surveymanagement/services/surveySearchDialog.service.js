@@ -15,7 +15,7 @@ angular.module('metadatamanagementApp')
           locals: {
             surveys: surveys
           },
-          templateUrl: 'scripts/surveymanagement/directives/' +
+          templateUrl: 'scripts/surveymanagement/views/' +
             'surveySearchDialog.html.tmpl',
         });
       };

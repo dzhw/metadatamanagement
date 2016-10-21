@@ -15,7 +15,7 @@ angular.module('metadatamanagementApp')
           locals: {
             dataSets: dataSets
           },
-          templateUrl: 'scripts/datasetmanagement/directives/' +
+          templateUrl: 'scripts/datasetmanagement/views/' +
             'dataSetSearchDialog.html.tmpl',
         });
       };

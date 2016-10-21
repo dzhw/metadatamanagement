@@ -15,7 +15,7 @@ angular.module('metadatamanagementApp').service('StudySearchDialogService',
           studies: studies
         },
         templateUrl: 'scripts/studymanagement/' +
-          'directives/studySearchDialog.html.tmpl',
+          'views/studySearchDialog.html.tmpl',
       });
     };
     var findStudies = function(ids) {
