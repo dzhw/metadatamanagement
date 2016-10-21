@@ -18,7 +18,7 @@
         </div>
         <md-progress-linear md-mode="indeterminate" ng-if="isSearching"></md-progress-linear>
     </md-card>
-    <div flex ngf-drop="tabs[selectedTabIndex].uploadFunction($files)" ngf-multiple="true" ngf-drag-over-class="{accept:'fdz-file-drop-accept', delay:0}" ngf-drop-disabled="!currentProject || !isAuthenticated() || !tabs[selectedTabIndex].uploadFunction">
+    <div flex ngf-drop="tabs[selectedTabIndex].uploadFunction($files)" ngf-multiple="true" ngf-drag-over-class="{accept:'fdz-file-drop-accept', delay:0}" ngf-drop-disabled="(!currentProject && selectedTabIndex !== 6) || !isAuthenticated() || !tabs[selectedTabIndex].uploadFunction">
         <div ng-repeat="result in searchResult" ng-switch="result._type" ng-if="selectedTabIndex <= 6">
             <variable-search-result ng-switch-when="variables" search-result="result._source"></variable-search-result>
             <survey-search-result ng-switch-when="surveys" search-result="result._source"></survey-search-result>
@@ -142,8 +142,7 @@
             type="file"
             ngf-select="uploadRelatedPublications($file)"
             accept=".xls"
-            class="md-accent md-fab"
-            directory webkitdirectory>
+            class="md-accent md-fab">
             <div>
                 <md-tooltip md-direction="left">
                     {{'search-management.buttons.upload-related-publications' | translate}}

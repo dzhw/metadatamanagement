@@ -13,7 +13,7 @@ angular.module('metadatamanagementApp')
         views: {
           'content@': {
             templateUrl: 'scripts/relatedpublicationmanagement/views/' +
-              'related-publication-detail.html.tmpl',
+              'relatedPublicationDetail.html.tmpl',
             controller: 'RelatedPublicationDetailController',
             controllerAs: 'ctrl'
           }

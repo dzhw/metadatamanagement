@@ -35,6 +35,26 @@ function(Language, ElasticSearchClient) {
     };
     return ElasticSearchClient.search(query);
   };
+  var findBySurveyTitle = function(surveyTitle) {
+    query.filterPath = '';
+    query.body.query = {
+      'bool': {
+        'must': [
+          {
+            'match_all': {}
+          }
+        ],
+        'filter': [
+          {
+            'term': {
+              'surveyTitles': surveyTitle
+            }
+          }
+        ]
+      }
+    };
+    return ElasticSearchClient.search(query);
+  };
   var findByProjectId = function(dataAcquisitionProjectId) {
     query.filterPath = 'hits.hits._source';
     query.body.query = {
@@ -57,6 +77,7 @@ function(Language, ElasticSearchClient) {
   };
   return {
     findByVariableId: findByVariableId,
+    findBySurveyTitle: findBySurveyTitle,
     findByProjectId: findByProjectId,
     findDataSets: findDataSets
   };

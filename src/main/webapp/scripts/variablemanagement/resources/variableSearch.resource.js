@@ -15,6 +15,26 @@ function(Language, ElasticSearchClient) {
     };
     return ElasticSearchClient.mget(query);
   };
+  var findBySurveyTitle = function(surveyTitle) {
+    query.filterPath = '';
+    query.body.query = {
+      'bool': {
+        'must': [
+          {
+            'match_all': {}
+          }
+        ],
+        'filter': [
+          {
+            'term': {
+              'surveyTitles': surveyTitle
+            }
+          }
+        ]
+      }
+    };
+    return ElasticSearchClient.search(query);
+  };
   var findByQuestionId = function(questionId) {
     query.filterPath = 'hits.hits._source';
     query.body.query = {
@@ -37,6 +57,7 @@ function(Language, ElasticSearchClient) {
   };
   return {
     findByQuestionId: findByQuestionId,
+    findBySurveyTitle: findBySurveyTitle,
     findVariables: findVariables
   };
 });

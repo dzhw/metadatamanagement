@@ -8,20 +8,26 @@ angular.module('metadatamanagementApp')
         url: '/surveys/{id}',
         data: {
           authorities: [],
-          //TODO should be a i18n string
-          pageTitle: 'Erhebung'
+          pageTitle: 'survey-management.home.title'
         },
         views: {
           'content@': {
             templateUrl: 'scripts/surveymanagement/views/' +
               'survey-detail.html.tmpl',
-            controller: 'SurveyDetailController'
+            controller: 'SurveyDetailController',
+            controllerAs: 'ctrl'
           }
         },
         resolve: {
           translatePartialLoader: ['$translatePartialLoader',
             function($translatePartialLoader) {
+              $translatePartialLoader.addPart('relatedPublication.management');
+              $translatePartialLoader.addPart('variable.management');
+              $translatePartialLoader.addPart('question.management');
               $translatePartialLoader.addPart('survey.management');
+              $translatePartialLoader.addPart('dataSet.management');
+              $translatePartialLoader.addPart('study.management');
+              $translatePartialLoader.addPart('instrument.management');
             }
           ],
           entity: ['$stateParams', 'SurveyResource',

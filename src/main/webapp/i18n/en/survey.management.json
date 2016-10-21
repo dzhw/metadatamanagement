@@ -15,6 +15,12 @@
     "detail": {
       "survey": "Survey",
       "surveys": "Surveys",
+      "survey-informations": "Survey Informations",
+      "related-information": "Related Information",
+      "fieldPeriod": "Field Period",
+      "population": "Population",
+      "survey-method": "Survey Method",
+      "sample": "Sample",
       "not-found": "The {{id}} references to an unknown Survey.",
       "not-found-references": "The id {{id}} has no References to Surveys."
     },

@@ -32,6 +32,19 @@ angular.module('metadatamanagementApp')
             }
           });
       };
+      var findBySurveyTitle = function(surveyTitle) {
+        blockUI.start();
+        DataSetSearchResource.findBySurveyTitle(surveyTitle)
+          .then(function(items) {
+            if (!CleanJSObjectService.isNullOrEmpty(items)) {
+              dataSets = items.hits.hits;
+              blockUI.stop();
+              showDialog();
+            } else {
+              blockUI.stop();
+            }
+          });
+      };
       var findDataSets = function(dataSetIds) {
         blockUI.start();
         DataSetSearchResource.findDataSets(dataSetIds)
@@ -47,6 +60,7 @@ angular.module('metadatamanagementApp')
       };
       return {
         findByVariableId: findByVariableId,
+        findBySurveyTitle: findBySurveyTitle,
         findDataSets: findDataSets
       };
     });
