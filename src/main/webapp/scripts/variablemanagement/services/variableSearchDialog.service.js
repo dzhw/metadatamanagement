@@ -24,11 +24,10 @@ angular.module('metadatamanagementApp').service('VariableSearchDialogService',
         .then(function(items) {
           if (!CleanJSObjectService.isNullOrEmpty(items)) {
             variables = items.hits.hits;
-            blockUI.stop();
             showDialog();
-          } else {
-            blockUI.stop();
           }
+        }).finally(function() {
+          blockUI.stop();
         });
     };
     var findBySurveyTitle = function(surveyTitle) {
@@ -37,11 +36,10 @@ angular.module('metadatamanagementApp').service('VariableSearchDialogService',
         .then(function(items) {
           if (!CleanJSObjectService.isNullOrEmpty(items)) {
             variables = items.hits.hits;
-            blockUI.stop();
             showDialog();
-          } else {
-            blockUI.stop();
           }
+        }).finally(function() {
+          blockUI.stop();
         });
     };
     var findVariables = function(variableIds) {
@@ -49,11 +47,10 @@ angular.module('metadatamanagementApp').service('VariableSearchDialogService',
       VariableSearchResource.findVariables(variableIds).then(function(items) {
         if (!CleanJSObjectService.isNullOrEmpty(items)) {
           variables = items.docs;
-          blockUI.stop();
           showDialog();
-        } else {
-          blockUI.stop();
         }
+      }).finally(function() {
+        blockUI.stop();
       });
     };
     return {

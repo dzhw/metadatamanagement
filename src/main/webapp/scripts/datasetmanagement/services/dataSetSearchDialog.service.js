@@ -25,11 +25,10 @@ angular.module('metadatamanagementApp')
           .then(function(items) {
             if (!CleanJSObjectService.isNullOrEmpty(items)) {
               dataSets = items.hits.hits;
-              blockUI.stop();
               showDialog();
-            } else {
-              blockUI.stop();
             }
+          }).finally(function() {
+            blockUI.stop();
           });
       };
       var findBySurveyTitle = function(surveyTitle) {
@@ -38,11 +37,10 @@ angular.module('metadatamanagementApp')
           .then(function(items) {
             if (!CleanJSObjectService.isNullOrEmpty(items)) {
               dataSets = items.hits.hits;
-              blockUI.stop();
               showDialog();
-            } else {
-              blockUI.stop();
             }
+          }).finally(function() {
+            blockUI.stop();
           });
       };
       var findDataSets = function(dataSetIds) {
@@ -51,11 +49,10 @@ angular.module('metadatamanagementApp')
           .then(function(items) {
             if (!CleanJSObjectService.isNullOrEmpty(items)) {
               dataSets = items.docs;
-              blockUI.stop();
               showDialog();
-            } else {
-              blockUI.stop();
             }
+          }).finally(function() {
+            blockUI.stop();
           });
       };
       return {

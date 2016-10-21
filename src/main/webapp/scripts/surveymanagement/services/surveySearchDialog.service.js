@@ -27,9 +27,9 @@ angular.module('metadatamanagementApp')
               surveys = items.docs;
               blockUI.stop();
               showDialog();
-            } else {
-              blockUI.stop();
             }
+          }).finally(function() {
+            blockUI.stop();
           });
       };
       return {

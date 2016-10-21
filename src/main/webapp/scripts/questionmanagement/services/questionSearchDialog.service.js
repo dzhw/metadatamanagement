@@ -24,11 +24,10 @@ angular.module('metadatamanagementApp').service('QuestionSearchDialogService',
       then(function(items) {
         if (!CleanJSObjectService.isNullOrEmpty(items)) {
           questions = items.hits.hits;
-          blockUI.stop();
           showDialog();
-        } else {
-          blockUI.stop();
         }
+      }).finally(function() {
+        blockUI.stop();
       });
     };
     var findQuestions = function(ids) {
@@ -37,11 +36,10 @@ angular.module('metadatamanagementApp').service('QuestionSearchDialogService',
       then(function(items) {
         if (!CleanJSObjectService.isNullOrEmpty(items)) {
           questions = items.docs;
-          blockUI.stop();
           showDialog();
-        } else {
-          blockUI.stop();
         }
+      }).finally(function() {
+        blockUI.stop();
       });
     };
     return {

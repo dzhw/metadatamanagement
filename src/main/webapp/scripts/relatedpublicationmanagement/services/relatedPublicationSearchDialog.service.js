@@ -26,11 +26,10 @@ angular.module('metadatamanagementApp')
           .then(function(items) {
             if (!CleanJSObjectService.isNullOrEmpty(items)) {
               relatedPublications = items.hits.hits;
-              blockUI.stop();
               showDialog();
-            } else {
-              blockUI.stop();
             }
+          }).finally(function() {
+            blockUI.stop();
           });
       };
       var findByQuestionId = function(questionId) {
@@ -39,11 +38,10 @@ angular.module('metadatamanagementApp')
           .then(function(items) {
             if (!CleanJSObjectService.isNullOrEmpty(items)) {
               relatedPublications = items.hits.hits;
-              blockUI.stop();
               showDialog();
-            } else {
-              blockUI.stop();
             }
+          }).finally(function() {
+            blockUI.stop();
           });
       };
       var findByVariableId = function(variableId) {
@@ -52,11 +50,10 @@ angular.module('metadatamanagementApp')
           .then(function(items) {
             if (!CleanJSObjectService.isNullOrEmpty(items)) {
               relatedPublications = items.hits.hits;
-              blockUI.stop();
               showDialog();
-            } else {
-              blockUI.stop();
             }
+          }).finally(function() {
+            blockUI.stop();
           });
       };
       var findByDataSetId = function(dataSetId) {
@@ -65,11 +62,10 @@ angular.module('metadatamanagementApp')
           .then(function(items) {
             if (!CleanJSObjectService.isNullOrEmpty(items)) {
               relatedPublications = items.hits.hits;
-              blockUI.stop();
               showDialog();
-            } else {
-              blockUI.stop();
             }
+          }).finally(function() {
+            blockUI.stop();
           });
       };
       var findByStudyId = function(studyId) {
@@ -78,11 +74,10 @@ angular.module('metadatamanagementApp')
           .then(function(items) {
             if (!CleanJSObjectService.isNullOrEmpty(items)) {
               relatedPublications = items.hits.hits;
-              blockUI.stop();
               showDialog();
-            } else {
-              blockUI.stop();
             }
+          }).finally(function() {
+            blockUI.stop();
           });
       };
       return {
