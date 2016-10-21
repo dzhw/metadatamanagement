@@ -45,8 +45,8 @@
       "not-found-references": "Die id {{id}} hat keine Referenzen auf Variablen.",
       "same-in-panel": "Ähnliche Variablen",
       "show-complete-distribution": {
-        "true": "Zeige gesamte Verteilung",
-        "false": "Minimiere Verteilungstabelle"
+        "true": "Zeige gesamte Häufigkeitstabelle",
+        "false": "Minimiere Häufigkeitstabelle"
       },
       "statistics": {
         "graphics": "Abbildung Häufigkeiten/Verteilung",

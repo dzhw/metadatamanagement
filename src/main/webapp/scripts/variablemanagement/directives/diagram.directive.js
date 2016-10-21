@@ -1,4 +1,5 @@
-/* global Plotly */
+/* global Plotly*/
+/* global _*/
 'use strict';
 
 angular.module('metadatamanagementApp').directive('diagram',
@@ -13,8 +14,8 @@ angular.module('metadatamanagementApp').directive('diagram',
       }];
       var layout = {
         margin: {
-          l: 30,
-          r: 30,
+          l: 35,
+          r: 35,
           t: 15,
           b: 30
         }
@@ -26,7 +27,7 @@ angular.module('metadatamanagementApp').directive('diagram',
         $timeout(function() {
           scope.isNotLoaded = false;
           if (angular.element('diagram').length > 0) {
-            Plotly.newPlot('diagram', data, layout, {
+            Plotly.newPlot('diagram', data, _.cloneDeep(layout), {
               showLink: false,
               displayModeBar: true,
               modeBarButtonsToRemove: ['hoverClosestCartesian',
