@@ -15,9 +15,9 @@ angular.module('metadatamanagementApp').directive('diagram',
       var layout = {
         margin: {
           l: 35,
-          r: 35,
+          r: 15,
           t: 15,
-          b: 30
+          b: 20
         }
       };
       if (scope.language === 'de') {

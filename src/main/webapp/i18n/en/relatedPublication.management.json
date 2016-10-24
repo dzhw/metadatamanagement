@@ -1,20 +1,20 @@
 {
   "related-publication-management": {
     "home": {
-      "title": "Publikation"
+      "title": "Publication"
     },
     "log-messages": {
       "related-publication": {
-        "saved": "Related Publication with RDC-ID {{ id }} was saved successfully!",
-        "not-saved": "Related Publication with RDC-ID {{ id }} has not been saved!",
-        "missing-id": "Related Publication {{ index }} does not contain a RDC-ID and has not been saved!",
-        "upload-terminated": "Finished upload of {{ total }} related Publications with {{ errors }} errors.",
-        "unable-to-delete": "The Related Publications could not be deleted!",
-        "cancelled": "Related Publications upload cancelled!"
+        "saved": "Publication with RDC-ID {{ id }} was saved successfully!",
+        "not-saved": "Publication with RDC-ID {{ id }} has not been saved!",
+        "missing-id": "Publication {{ index }} does not contain a RDC-ID and has not been saved!",
+        "upload-terminated": "Finished upload of {{ total }} Publications with {{ errors }} errors.",
+        "unable-to-delete": "Publications could not be deleted!",
+        "cancelled": "Publications upload cancelled!"
       }
     },
     "detail": {
-      "title": "Information of the related publication",
+      "title": "Information of the Publication",
       "publication": "Publication",
       "publications": "Publications",
       "related-information": "Related Information",
@@ -30,26 +30,26 @@
     "error": {
       "related-publication": {
         "id": {
-          "not-empty": "The RDC-ID of the related Publication must not be empty!",
+          "not-empty": "The RDC-ID of the Publication must not be empty!",
           "size": "The max length of the RDC-ID is 128 signs.",
           "pattern": "Use only alphanumeric signs, german umlauts, ß and space, underscore and minus for the RDC-ID."
         },
         "source-reference": {
-          "not-empty": "The source reference of the related Publication must not be empty!",
-          "size": "The max length of the source reference of the related Publication is 2048 signs."
+          "not-empty": "The source reference of the Publication must not be empty!",
+          "size": "The max length of the source reference of the Publication is 2048 signs."
         },
         "publication-abstract": {
-          "size": "The max length of the publication abstract of the related Publication is 1048576 signs."
+          "size": "The max length of the publication abstract of the Publication is 1048576 signs."
         },
         "doi": {
-          "size": "The max length of the DOI of the related Publication is 128 signs."
+          "size": "The max length of the DOI of the Publication is 128 signs."
         },
         "source-link": {
-          "pattern": "The source link of the related publication is not a valid URL."
+          "pattern": "The source link of the Publication is not a valid URL."
         },
         "title": {
-          "not-empty": "The title of the related Publication must not be empty!",
-          "size": "The max length of the title of the related Publication is 128 signs."
+          "not-empty": "The title of the Publication must not be empty!",
+          "size": "The max length of the title of the Publication is 128 signs."
         }
       }
     }

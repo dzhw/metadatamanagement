@@ -49,9 +49,8 @@ public class QuestionService {
   /**
    * A service method for deletion of questions within a data acquisition project.
    * @param dataAcquisitionProjectId the id for to the data acquisition project.
-   * @return List of deleted Questions
    */
-  public List<Question> deleteQuestionsByProjectId(String dataAcquisitionProjectId) {
+  public void deleteQuestionsByProjectId(String dataAcquisitionProjectId) {
     List<Question> deletedQuestions = this.questionRepository
         .deleteByDataAcquisitionProjectId(dataAcquisitionProjectId);
     deletedQuestions.forEach(question -> {
@@ -61,7 +60,6 @@ public class QuestionService {
           ElasticsearchType.questions,
           ElasticsearchUpdateQueueAction.DELETE);
     });
-    return deletedQuestions;
   }
 
   /**

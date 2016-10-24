@@ -20,6 +20,8 @@ import eu.dzhw.fdz.metadatamanagement.datasetmanagement.domain.DataSet;
 import eu.dzhw.fdz.metadatamanagement.datasetmanagement.repository.DataSetRepository;
 import eu.dzhw.fdz.metadatamanagement.questionmanagement.domain.Question;
 import eu.dzhw.fdz.metadatamanagement.questionmanagement.repository.QuestionRepository;
+import eu.dzhw.fdz.metadatamanagement.relatedpublicationmanagement.domain.RelatedPublication;
+import eu.dzhw.fdz.metadatamanagement.relatedpublicationmanagement.repository.RelatedPublicationRepository;
 import eu.dzhw.fdz.metadatamanagement.searchmanagement.dao.ElasticsearchDao;
 import eu.dzhw.fdz.metadatamanagement.searchmanagement.domain.ElasticsearchUpdateQueueAction;
 import eu.dzhw.fdz.metadatamanagement.surveymanagement.domain.Survey;
@@ -50,6 +52,9 @@ public class ElasticsearchAdminService {
   private QuestionRepository questionRepository;
   
   @Inject
+  private RelatedPublicationRepository relatedPublicationRepository;
+  
+  @Inject
   private ElasticsearchUpdateQueueService updateQueueService;
 
   @Inject
@@ -68,6 +73,7 @@ public class ElasticsearchAdminService {
     this.enqueueAllSurveys();
     this.enqueueAllDataSets();
     this.enqueueAllQuestions();
+    this.enqueueAllRelatedPublications();
     updateQueueService.processQueue();
   }
   
@@ -144,6 +150,25 @@ public class ElasticsearchAdminService {
       });
       pageable = pageable.next();
       questions = questionRepository.findBy(pageable);
+    }
+  }
+  
+  /**
+   * Load all related publications from mongo and enqueue them for updating.
+   */
+  private void enqueueAllRelatedPublications() {
+    Pageable pageable = new PageRequest(0, 100);
+    Slice<RelatedPublication> relatedPublications = relatedPublicationRepository.findBy(pageable);
+
+    while (relatedPublications.hasContent()) {
+      relatedPublications.forEach(relatedPublication -> {
+        updateQueueService.enqueue(
+            relatedPublication.getId(), 
+            ElasticsearchType.related_publications, 
+            ElasticsearchUpdateQueueAction.UPSERT);
+      });
+      pageable = pageable.next();
+      relatedPublications = relatedPublicationRepository.findBy(pageable);
     }
   }
 

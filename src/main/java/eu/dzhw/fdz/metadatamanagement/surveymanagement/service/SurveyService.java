@@ -44,9 +44,8 @@ public class SurveyService {
   /**
    * A service method for deletion of surveys within a data acquisition project.
    * @param dataAcquisitionProjectId the id for to the data acquisition project.
-   * @return List of deleted surveys
    */
-  public List<Survey> deleteAllSurveysByProjectId(String dataAcquisitionProjectId) {
+  public void deleteAllSurveysByProjectId(String dataAcquisitionProjectId) {
     List<Survey> deletedSurveys =
         surveyRepository.deleteByDataAcquisitionProjectId(dataAcquisitionProjectId);
     deletedSurveys.forEach(survey -> {
@@ -55,7 +54,6 @@ public class SurveyService {
           ElasticsearchType.surveys, 
           ElasticsearchUpdateQueueAction.DELETE);      
     });
-    return deletedSurveys;
   }
    
   /**

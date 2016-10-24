@@ -1,16 +1,16 @@
 package eu.dzhw.fdz.metadatamanagement.relatedpublicationmanagement.service;
 
-import java.util.List;
-
 import javax.inject.Inject;
 
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Slice;
 import org.springframework.data.rest.core.annotation.HandleAfterCreate;
 import org.springframework.data.rest.core.annotation.HandleAfterDelete;
 import org.springframework.data.rest.core.annotation.HandleAfterSave;
 import org.springframework.data.rest.core.annotation.RepositoryEventHandler;
 import org.springframework.stereotype.Service;
 
-import eu.dzhw.fdz.metadatamanagement.datasetmanagement.domain.DataSet;
 import eu.dzhw.fdz.metadatamanagement.relatedpublicationmanagement.domain.RelatedPublication;
 import eu.dzhw.fdz.metadatamanagement.relatedpublicationmanagement.repository.RelatedPublicationRepository;
 import eu.dzhw.fdz.metadatamanagement.searchmanagement.domain.ElasticsearchUpdateQueueAction;
@@ -18,8 +18,8 @@ import eu.dzhw.fdz.metadatamanagement.searchmanagement.service.ElasticsearchType
 import eu.dzhw.fdz.metadatamanagement.searchmanagement.service.ElasticsearchUpdateQueueService;
 
 /**
- * This service for {@link DataSet} will wait for delete events of a survey or a data acquisition
- * project.
+ * This service for {@link RelatedPublicationService} will wait for delete events 
+ * of a {@link RelatedPublication}.
  * 
  * @author Daniel Katzberg
  *
@@ -36,20 +36,21 @@ public class RelatedPublicationService {
   
   /**
    * A service method for deletion of relatedPublications within a data acquisition project.
-   * 
-   * @return List of deleted relatedPublications
    */
-  public List<RelatedPublication> deleteAll() {
-    List<RelatedPublication> deletedRelatedPublications =
-        this.relatedPublicationRepository.findAll();
-    this.relatedPublicationRepository.deleteAll();
-    deletedRelatedPublications.forEach(relatedPublication -> {
-      elasticsearchUpdateQueueService.enqueue(
-          relatedPublication.getId(), 
-          ElasticsearchType.related_publications, 
-          ElasticsearchUpdateQueueAction.DELETE);      
-    });
-    return deletedRelatedPublications;
+  public void deleteAll() {
+    Pageable pageable = new PageRequest(0, 100);
+    Slice<RelatedPublication> relatedPublications = relatedPublicationRepository.findBy(pageable);
+
+    while (relatedPublications.hasContent()) {
+      relatedPublications.forEach(relatedPublication -> {
+        relatedPublicationRepository.delete(relatedPublication);
+        elasticsearchUpdateQueueService.enqueue(
+            relatedPublication.getId(), 
+            ElasticsearchType.related_publications, 
+            ElasticsearchUpdateQueueAction.DELETE);      
+      });
+      relatedPublications = relatedPublicationRepository.findBy(pageable);
+    }
   }
   
   /**

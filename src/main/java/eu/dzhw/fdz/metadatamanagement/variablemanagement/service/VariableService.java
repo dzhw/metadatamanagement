@@ -48,9 +48,8 @@ public class VariableService {
   /**
    * A service method for deletion of variables within a data acquisition project.
    * @param dataAcquisitionProjectId the id for to the data acquisition project.
-   * @return List of deleted variables
    */
-  public List<Variable> deleteAllVariablesByProjectId(String dataAcquisitionProjectId) {
+  public void deleteAllVariablesByProjectId(String dataAcquisitionProjectId) {
     List<Variable> deletedVariables =
         variableRepository.deleteByDataAcquisitionProjectId(dataAcquisitionProjectId);
     deletedVariables.forEach(variable -> {
@@ -59,7 +58,6 @@ public class VariableService {
           ElasticsearchType.variables, 
           ElasticsearchUpdateQueueAction.DELETE);      
     });
-    return deletedVariables;
   }
   
   /**

@@ -238,7 +238,7 @@ angular.module('metadatamanagementApp').controller('SearchController',
       if (Array.isArray(file)) {
         file = file[0];
       }
-      if (!file || !file.name.endsWith('xls')) {
+      if (!file || !file.name.endsWith('.xls')) {
         return;
       }
       var confirm = $mdDialog.confirm()
@@ -246,9 +246,11 @@ angular.module('metadatamanagementApp').controller('SearchController',
           'search-management.delete-messages.' +
           'delete-related-publications-title'))
         .textContent($translate.instant(
-          'search-management.delete-messages.delete-related-publications'))
+          'search-management.delete-messages.delete-related-publications'
+        ))
         .ariaLabel($translate.instant(
-          'search-management.delete-messages.delete-related-publications'))
+          'search-management.delete-messages.delete-related-publications'
+        ))
         .ok($translate.instant('global.buttons.ok'))
         .cancel($translate.instant('global.buttons.cancel'));
       $mdDialog.show(confirm).then(function() {
