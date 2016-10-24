@@ -6,6 +6,7 @@
         "not-saved": "Survey with RDC-ID {{ id }} has not been saved!",
         "missing-id": "Survey {{ index }} does not contain a RDC-ID and has not been saved!",
         "upload-terminated": "Finished upload of {{ total }} Surveys with {{ errors }} errors.",
+        "unable-to-delete": "The Surveys could not be deleted!",
         "cancelled": "Surveys upload cancelled!"
       }
     },

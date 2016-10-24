@@ -9,6 +9,7 @@
         "not-saved": "Related Publication with RDC-ID {{ id }} has not been saved!",
         "missing-id": "Related Publication {{ index }} does not contain a RDC-ID and has not been saved!",
         "upload-terminated": "Finished upload of {{ total }} related Publications with {{ errors }} errors.",
+        "unable-to-delete": "The Related Publications could not be deleted!",
         "cancelled": "Related Publications upload cancelled!"
       }
     },

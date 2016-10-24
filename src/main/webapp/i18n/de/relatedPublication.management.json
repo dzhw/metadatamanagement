@@ -9,6 +9,7 @@
         "not-saved": "Die zugehörige Publikation mit FDZ-ID {{ id }} wurde nicht gespeichert!",
         "missing-id": "Der {{ index }}. Die zugehörige Publikation enthält keine FDZ-ID und wurde nicht gespeichert!",
         "upload-terminated": "Upload von {{ total }} zugehörigen Publikationen mit {{ errors }} Fehlern beendet!",
+        "unable-to-delete": "Die Publikationen konnten nicht gelöscht werden!",
         "cancelled": "Upload von zugehörigen Publikationen abgebrochen"
       }
     },

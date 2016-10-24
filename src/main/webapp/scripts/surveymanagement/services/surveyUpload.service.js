@@ -45,26 +45,27 @@ angular.module('metadatamanagementApp').service('SurveyUploadService',
     };
     var uploadSurveys = function(file, dataAcquisitionProjectId) {
       uploadCount = 0;
+      objects = [];
       JobLoggingService.start('survey');
-      ExcelReaderService.readFileAsync(file).then(function(data) {
-        objects = SurveyBuilderService.getSurveys(data,
-          dataAcquisitionProjectId);
-        SurveyDeleteResource.deleteByDataAcquisitionProjectId({
-            dataAcquisitionProjectId: dataAcquisitionProjectId
-          },
-          upload,
-          function(error) {
-            var errorMessages = ErrorMessageResolverService
-              .getErrorMessages(error, 'survey');
-            errorMessages.forEach(function(errorMessage) {
-              JobLoggingService.error(errorMessage.message,
-                errorMessage.translationParams);
-            });
+      SurveyDeleteResource.deleteByDataAcquisitionProjectId({
+          dataAcquisitionProjectId: dataAcquisitionProjectId
+        }).$promise.then(
+        function() {
+          ExcelReaderService.readFileAsync(file)
+          .then(function(surveys) {
+              objects = SurveyBuilderService.getSurveys(surveys,
+                dataAcquisitionProjectId);
+              upload();
+            }, function() {
+            JobLoggingService.cancel('global.log-messages.unable-to-read-file',
+              {file: 'surveys.xlsx'});
           });
-      }, function() {
-        JobLoggingService.cancel(
-          'global.log-messages.unsupported-excel-file', {});
-      });
+        }, function() {
+          JobLoggingService.cancel(
+            'survey.log-messages.' +
+            'survey.unable-to-delete');
+        }
+      );
     };
     return {
       uploadSurveys: uploadSurveys
