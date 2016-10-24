@@ -1,6 +1,3 @@
-<div ng-if="!ctrl.relatedPublication.$resolved">
-  Lade Daten...
-</div>
 <div ng-if="ctrl.relatedPublication.$resolved">
     <md-card>
         <md-card-header>
@@ -33,10 +30,10 @@
                             </span>
                             <span>{{ctrl.relatedPublication.sourceReference}}</span>
                         </section>
-                        <section style="margin-bottom: 0.5em;" ng-if="ctrl.relatedPublication.sourceLink">
-                            <span style="font-weight: bold;">{{'related-publication-management.detail.sourceLink' | translate }}:
-                            </span>
-                            <a target="_blank" ng-href="{{ctrl.relatedPublication.sourceLink}}">{{ctrl.relatedPublication.sourceLink}}</a>
+                        <section style="margin-bottom: 0.5em;" ng-if="ctrl.relatedPublication.sourceLink" layout="row">
+                            <div style="font-weight: bold;">{{'related-publication-management.detail.sourceLink' | translate }}:&nbsp;
+                            </div>
+                            <a flex target="_blank" style="display: block;" class="fdz-truncate-string" ng-href="{{ctrl.relatedPublication.sourceLink}}">{{ctrl.relatedPublication.sourceLink}}</a>
                         </section>
                     </md-card-content>
                 </md-card>
@@ -74,7 +71,7 @@
                         </section>
                         <section>
                             <md-button class="md-raised" ng-click="ctrl.showDataSets()">
-                                <md-icon md-svg-src="/assets/images/icons/variable.svg"></md-icon>
+                                <md-icon md-svg-src="/assets/images/icons/data-set.svg"></md-icon>
                                 <span>{{'data-set-management.detail.data-sets' | translate }}</span>
                             </md-button>
                         </section>

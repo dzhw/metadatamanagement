@@ -31,7 +31,7 @@ public class RelatedPublication extends AbstractRdcDomainObject {
   @NotEmpty(message = "related-publication-management.error.related-publication.id.not-empty")
   @Size(max = StringLengths.MEDIUM, 
       message = "related-publication-management.error.related-publication.id.size")
-  @Pattern(regexp = Patterns.GERMAN_ALPHANUMERIC_WITH_UNDERSCORE_AND_MINUS_AND_DOT,
+  @Pattern(regexp = Patterns.NO_WHITESPACE,
       message = "related-publication-management.error.related-publication.id.pattern")
   private String id;
  

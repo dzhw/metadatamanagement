@@ -30,9 +30,9 @@
     "error": {
       "related-publication": {
         "id": {
-          "not-empty": "Die FDZ - ID der Publikation darf nicht leer sein!",
-          "size": "Die Maximallänge der FDZ - ID ist 128 Zeichen.",
-          "pattern": "Es dürfen für die FDZ - ID nur alphanumerische Zeichen, deutsche Umlaute, ß, Minus und der Unterstrich verwendet werden."
+          "not-empty": "Die FDZ-ID der Publikation darf nicht leer sein!",
+          "size": "Die Maximallänge der FDZ-ID ist 128 Zeichen.",
+          "pattern": "Die FDZ-ID darf keine Leerzeichen enthalten."
         },
         "source-reference": {
           "not-empty": "Die Source-Referenz der Publikation darf nicht leer sein!",

@@ -32,7 +32,7 @@
         "id": {
           "not-empty": "The RDC-ID of the Publication must not be empty!",
           "size": "The max length of the RDC-ID is 128 signs.",
-          "pattern": "Use only alphanumeric signs, german umlauts, ß and space, underscore and minus for the RDC-ID."
+          "pattern": "The RDC-ID must not contain any whitespaces."
         },
         "source-reference": {
           "not-empty": "The source reference of the Publication must not be empty!",
