@@ -1,0 +1,25 @@
+<md-card>
+    <md-card-header>
+        <md-card-header-text>
+            <h2 class="md-title">{{'survey-management.detail.surveys' | translate }}</h2>
+        </md-card-header-text>
+    </md-card-header>
+    <md-divider></md-divider>
+    <div block-ui="blockRelatedSurveyCard">
+      <div ng-repeat="Survey in relatedSurveyController.Surveys">
+        <survey-search-result search-result="Survey._source"></survey-search-result>
+      </div>
+      <div ng-if="relatedSurveyController.page.totalHits > relatedSurveyController.page.size" layout="row" layout-align="center">
+          <ul
+              uib-pagination
+              next-text="{{'global.pagination.next'|translate}}"
+              previous-text="{{'global.pagination.previous'|translate}}"
+              total-items="relatedSurveyController.page.totalHits"
+              ng-model="relatedSurveyController.page.currentPageNumber"
+              max-size="5"
+              ng-change="relatedSurveyController.search()"
+              items-per-page="relatedSurveyController.page.size"
+              class="pagination-sm"></ul>
+      </div>
+    </div>
+</md-card>

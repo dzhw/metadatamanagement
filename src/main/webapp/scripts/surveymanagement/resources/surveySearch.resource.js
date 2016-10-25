@@ -13,7 +13,9 @@ function(Language, ElasticSearchClient) {
     };
     return ElasticSearchClient.mget(query);
   };
-  var findByProjectId = function(dataAcquisitionProjectId) {
+  var findByProjectId = function(dataAcquisitionProjectId, from, size) {
+    query.body.from = from;
+    query.body.size = size;
     query.body.query = {
       'bool': {
         'must': [

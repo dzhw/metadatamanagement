@@ -14,7 +14,9 @@ function(Language, ElasticSearchClient) {
     };
     return ElasticSearchClient.mget(query);
   };
-  var findBySurveyTitle = function(surveyTitle) {
+  var findBySurveyTitle = function(surveyTitle, from, size) {
+    query.body.from = from;
+    query.body.size = size;
     query.body.query = {
       'bool': {
         'must': [
@@ -33,7 +35,9 @@ function(Language, ElasticSearchClient) {
     };
     return ElasticSearchClient.search(query);
   };
-  var findByQuestionId = function(questionId) {
+  var findByQuestionId = function(questionId, from, size) {
+    query.body.from = from;
+    query.body.size = size;
     query.body.query = {
       'bool': {
         'must': [

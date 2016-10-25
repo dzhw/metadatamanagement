@@ -1,0 +1,25 @@
+<md-card>
+    <md-card-header>
+        <md-card-header-text>
+            <h2 class="md-title">{{'data-set-management.detail.data-sets' | translate }}</h2>
+        </md-card-header-text>
+    </md-card-header>
+    <md-divider></md-divider>
+    <div block-ui="blockRelatedDataSetCard">
+      <div ng-repeat="dataSet in relatedDataSetController.dataSets">
+        <dataset-search-result search-result="dataSet._source"></dataset-search-result>
+      </div>
+      <div ng-if="relatedDataSetController.page.totalHits > relatedDataSetController.page.size" layout="row" layout-align="center">
+          <ul
+              uib-pagination
+              next-text="{{'global.pagination.next'|translate}}"
+              previous-text="{{'global.pagination.previous'|translate}}"
+              total-items="relatedDataSetController.page.totalHits"
+              ng-model="relatedDataSetController.page.currentPageNumber"
+              max-size="5"
+              ng-change="relatedDataSetController.search()"
+              items-per-page="relatedDataSetController.page.size"
+              class="pagination-sm"></ul>
+      </div>
+    </div>
+</md-card>
