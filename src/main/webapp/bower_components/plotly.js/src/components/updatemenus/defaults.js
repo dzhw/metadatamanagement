@@ -11,9 +11,9 @@
 var Lib = require('../../lib');
 
 var attributes = require('./attributes');
-var contants = require('./constants');
+var constants = require('./constants');
 
-var name = contants.name;
+var name = constants.name;
 var buttonAttrs = attributes.buttons;
 
 
@@ -49,6 +49,9 @@ function menuDefaults(menuIn, menuOut, layoutOut) {
     if(!visible) return;
 
     coerce('active');
+    coerce('direction');
+    coerce('type');
+    coerce('showactive');
 
     coerce('x');
     coerce('y');
@@ -56,6 +59,11 @@ function menuDefaults(menuIn, menuOut, layoutOut) {
 
     coerce('xanchor');
     coerce('yanchor');
+
+    coerce('pad.t');
+    coerce('pad.r');
+    coerce('pad.b');
+    coerce('pad.l');
 
     Lib.coerceFont(coerce, 'font', layoutOut.font);
 

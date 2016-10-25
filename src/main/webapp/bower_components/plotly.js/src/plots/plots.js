@@ -16,7 +16,9 @@ var Plotly = require('../plotly');
 var Registry = require('../registry');
 var Lib = require('../lib');
 var Color = require('../components/color');
+
 var plots = module.exports = {};
+
 var animationAttrs = require('./animation_attributes');
 var frameAttrs = require('./frame_attributes');
 
@@ -367,7 +369,7 @@ plots.supplyDefaults = function(gd) {
 
     // then do the data
     newFullLayout._globalTransforms = (gd._context || {}).globalTransforms;
-    plots.supplyDataDefaults(newData, newFullData, newFullLayout);
+    plots.supplyDataDefaults(newData, newFullData, newLayout, newFullLayout);
 
     // attach helper method to check whether a plot type is present on graph
     newFullLayout._has = plots._hasPlotType.bind(newFullLayout);
@@ -399,6 +401,9 @@ plots.supplyDefaults = function(gd) {
 
     // clean subplots and other artifacts from previous plot calls
     plots.cleanPlot(newFullData, newFullLayout, oldFullData, oldFullLayout);
+
+    // relink / initialize subplot axis objects
+    plots.linkSubplots(newFullData, newFullLayout, oldFullData, oldFullLayout);
 
     // relink functions and _ attributes to promote consistency between plots
     relinkPrivateKeys(newFullLayout, oldFullLayout);
@@ -525,7 +530,7 @@ function relinkPrivateKeys(toContainer, fromContainer) {
     var isPlainObject = Lib.isPlainObject,
         isArray = Array.isArray;
 
-    var keys = Object.keys(fromContainer);
+    var keys = Object.keys(fromContainer || {});
 
     for(var i = 0; i < keys.length; i++) {
         var k = keys[i],
@@ -559,9 +564,38 @@ function relinkPrivateKeys(toContainer, fromContainer) {
     }
 }
 
-plots.supplyDataDefaults = function(dataIn, dataOut, layout) {
-    var modules = layout._modules = [],
-        basePlotModules = layout._basePlotModules = [],
+plots.linkSubplots = function(newFullData, newFullLayout, oldFullData, oldFullLayout) {
+    var oldSubplots = oldFullLayout._plots || {},
+        newSubplots = newFullLayout._plots = {};
+
+    var mockGd = {
+        data: newFullData,
+        _fullLayout: newFullLayout
+    };
+
+    var ids = Plotly.Axes.getSubplots(mockGd);
+
+    for(var i = 0; i < ids.length; i++) {
+        var id = ids[i],
+            oldSubplot = oldSubplots[id],
+            plotinfo;
+
+        if(oldSubplot) {
+            plotinfo = newSubplots[id] = oldSubplot;
+        }
+        else {
+            plotinfo = newSubplots[id] = {};
+            plotinfo.id = id;
+        }
+
+        plotinfo.xaxis = Plotly.Axes.getFromId(mockGd, id, 'x');
+        plotinfo.yaxis = Plotly.Axes.getFromId(mockGd, id, 'y');
+    }
+};
+
+plots.supplyDataDefaults = function(dataIn, dataOut, layout, fullLayout) {
+    var modules = fullLayout._modules = [],
+        basePlotModules = fullLayout._basePlotModules = [],
         cnt = 0;
 
     function pushModule(fullTrace) {
@@ -578,18 +612,18 @@ plots.supplyDataDefaults = function(dataIn, dataOut, layout) {
 
     for(var i = 0; i < dataIn.length; i++) {
         var trace = dataIn[i],
-            fullTrace = plots.supplyTraceDefaults(trace, cnt, layout);
+            fullTrace = plots.supplyTraceDefaults(trace, cnt, fullLayout);
 
         fullTrace.index = i;
         fullTrace._input = trace;
         fullTrace._expandedIndex = cnt;
 
         if(fullTrace.transforms && fullTrace.transforms.length) {
-            var expandedTraces = applyTransforms(fullTrace, dataOut, layout);
+            var expandedTraces = applyTransforms(fullTrace, dataOut, layout, fullLayout);
 
             for(var j = 0; j < expandedTraces.length; j++) {
                 var expandedTrace = expandedTraces[j],
-                    fullExpandedTrace = plots.supplyTraceDefaults(expandedTrace, cnt, layout);
+                    fullExpandedTrace = plots.supplyTraceDefaults(expandedTrace, cnt, fullLayout);
 
                 // mutate uid here using parent uid and expanded index
                 // to promote consistency between update calls
@@ -771,7 +805,7 @@ function supplyTransformDefaults(traceIn, traceOut, layout) {
         if(!_module) Lib.warn('Unrecognized transform type ' + type + '.');
 
         if(_module && _module.supplyDefaults) {
-            transformOut = _module.supplyDefaults(transformIn, traceOut, layout);
+            transformOut = _module.supplyDefaults(transformIn, traceOut, layout, traceIn);
             transformOut.type = type;
         }
         else {
@@ -782,21 +816,22 @@ function supplyTransformDefaults(traceIn, traceOut, layout) {
     }
 }
 
-function applyTransforms(fullTrace, fullData, layout) {
+function applyTransforms(fullTrace, fullData, layout, fullLayout) {
     var container = fullTrace.transforms,
         dataOut = [fullTrace];
 
     for(var i = 0; i < container.length; i++) {
         var transform = container[i],
-            type = transform.type,
-            _module = transformsRegistry[type];
+            _module = transformsRegistry[transform.type];
 
-        if(_module) {
+        if(_module && _module.transform) {
             dataOut = _module.transform(dataOut, {
                 transform: transform,
                 fullTrace: fullTrace,
                 fullData: fullData,
-                layout: layout
+                layout: layout,
+                fullLayout: fullLayout,
+                transformIndex: i
             });
         }
     }
@@ -1264,7 +1299,7 @@ plots.modifyFrames = function(gd, operations) {
  */
 plots.computeFrame = function(gd, frameName) {
     var frameLookup = gd._transitionData._frameHash;
-    var i, traceIndices, traceIndex, expandedObj, destIndex, copy;
+    var i, traceIndices, traceIndex, destIndex;
 
     var framePtr = frameLookup[frameName];
 
@@ -1291,9 +1326,7 @@ plots.computeFrame = function(gd, frameName) {
     // Merge, starting with the last and ending with the desired frame:
     while((framePtr = frameStack.pop())) {
         if(framePtr.layout) {
-            copy = Lib.extendDeepNoArrays({}, framePtr.layout);
-            expandedObj = Lib.expandObjectPaths(copy);
-            result.layout = Lib.extendDeepNoArrays(result.layout || {}, expandedObj);
+            result.layout = plots.extendLayout(result.layout, framePtr.layout);
         }
 
         if(framePtr.data) {
@@ -1328,14 +1361,97 @@ plots.computeFrame = function(gd, frameName) {
                     result.traces[destIndex] = traceIndex;
                 }
 
-                copy = Lib.extendDeepNoArrays({}, framePtr.data[i]);
-                expandedObj = Lib.expandObjectPaths(copy);
-                result.data[destIndex] = Lib.extendDeepNoArrays(result.data[destIndex] || {}, expandedObj);
+                result.data[destIndex] = plots.extendTrace(result.data[destIndex], framePtr.data[i]);
             }
         }
     }
 
     return result;
+};
+
+/**
+ * Extend an object, treating container arrays very differently by extracting
+ * their contents and merging them separately.
+ *
+ * This exists so that we can extendDeepNoArrays and avoid stepping into data
+ * arrays without knowledge of the plot schema, but so that we may also manually
+ * recurse into known container arrays, such as transforms.
+ *
+ * See extendTrace and extendLayout below for usage.
+ */
+plots.extendObjectWithContainers = function(dest, src, containerPaths) {
+    var containerProp, containerVal, i, j, srcProp, destProp, srcContainer, destContainer;
+    var copy = Lib.extendDeepNoArrays({}, src || {});
+    var expandedObj = Lib.expandObjectPaths(copy);
+    var containerObj = {};
+
+    // Step through and extract any container properties. Otherwise extendDeepNoArrays
+    // will clobber any existing properties with an empty array and then supplyDefaults
+    // will reset everything to defaults.
+    if(containerPaths && containerPaths.length) {
+        for(i = 0; i < containerPaths.length; i++) {
+            containerProp = Lib.nestedProperty(expandedObj, containerPaths[i]);
+            containerVal = containerProp.get();
+            containerProp.set(null);
+            Lib.nestedProperty(containerObj, containerPaths[i]).set(containerVal);
+        }
+    }
+
+    dest = Lib.extendDeepNoArrays(dest || {}, expandedObj);
+
+    if(containerPaths && containerPaths.length) {
+        for(i = 0; i < containerPaths.length; i++) {
+            srcProp = Lib.nestedProperty(containerObj, containerPaths[i]);
+            srcContainer = srcProp.get();
+
+            if(!srcContainer) continue;
+
+            destProp = Lib.nestedProperty(dest, containerPaths[i]);
+
+            destContainer = destProp.get();
+            if(!Array.isArray(destContainer)) {
+                destContainer = [];
+                destProp.set(destContainer);
+            }
+
+            for(j = 0; j < srcContainer.length; j++) {
+                destContainer[j] = plots.extendObjectWithContainers(destContainer[j], srcContainer[j]);
+            }
+        }
+    }
+
+    return dest;
+};
+
+/*
+ * Extend a trace definition. This method:
+ *
+ *  1. directly transfers any array references
+ *  2. manually recurses into container arrays like transforms
+ *
+ * The result is the original object reference with the new contents merged in.
+ */
+plots.extendTrace = function(destTrace, srcTrace) {
+    return plots.extendObjectWithContainers(destTrace, srcTrace, ['transforms']);
+};
+
+/*
+ * Extend a layout definition. This method:
+ *
+ *  1. directly transfers any array references (not critically important for
+ *     layout since there aren't really data arrays)
+ *  2. manually recurses into container arrays like annotations
+ *
+ * The result is the original object reference with the new contents merged in.
+ */
+plots.extendLayout = function(destLayout, srcLayout) {
+    return plots.extendObjectWithContainers(destLayout, srcLayout, [
+        'annotations',
+        'shapes',
+        'images',
+        'sliders',
+        'updatemenus'
+    ]);
 };
 
 /**
@@ -1363,7 +1479,8 @@ plots.transition = function(gd, data, layout, traces, frameOpts, transitionOpts)
     var transitionedTraces = [];
 
     function prepareTransitions() {
-        var plotinfo, i;
+        var i;
+
         for(i = 0; i < traceIndices.length; i++) {
             var traceIdx = traceIndices[i];
             var trace = gd._fullData[traceIdx];
@@ -1375,16 +1492,7 @@ plots.transition = function(gd, data, layout, traces, frameOpts, transitionOpts)
 
             transitionedTraces.push(traceIdx);
 
-            // This is a multi-step process. First clone w/o arrays so that
-            // we're not modifying the original:
-            var update = Lib.extendDeepNoArrays({}, data[i]);
-
-            // Then expand object paths since we don't obey object-overwrite
-            // semantics here:
-            update = Lib.expandObjectPaths(update);
-
-            // Finally apply the update (without copying arrays, of course):
-            Lib.extendDeepNoArrays(gd.data[traceIndices[i]], update);
+            gd.data[traceIndices[i]] = plots.extendTrace(gd.data[traceIndices[i]], data[i]);
         }
 
         // Follow the same procedure. Clone it so we don't mangle the input, then
@@ -1409,19 +1517,6 @@ plots.transition = function(gd, data, layout, traces, frameOpts, transitionOpts)
         // supplyDefaults even though it's heavier than would otherwise be desired for
         // transitions:
         plots.supplyDefaults(gd);
-
-        // This step fies the .xaxis and .yaxis references that otherwise
-        // aren't updated by the supplyDefaults step:
-        var subplots = Plotly.Axes.getSubplots(gd);
-
-        // Polar does not have _plots:
-        if(gd._fullLayout._plots) {
-            for(i = 0; i < subplots.length; i++) {
-                plotinfo = gd._fullLayout._plots[subplots[i]];
-                plotinfo.xaxis = plotinfo.x();
-                plotinfo.yaxis = plotinfo.y();
-            }
-        }
 
         plots.doCalcdata(gd);
 
@@ -1580,7 +1675,7 @@ plots.doCalcdata = function(gd, traces) {
     var axList = Plotly.Axes.list(gd),
         fullData = gd._fullData,
         fullLayout = gd._fullLayout,
-        i;
+        i, j;
 
     // XXX: Is this correct? Needs a closer look so that *some* traces can be recomputed without
     // *all* needing doCalcdata:
@@ -1618,7 +1713,6 @@ plots.doCalcdata = function(gd, traces) {
         }
 
         var trace = fullData[i],
-            _module = trace._module,
             cd = [];
 
         // If traces were specified and this trace was not included, then transfer it over from
@@ -1628,14 +1722,42 @@ plots.doCalcdata = function(gd, traces) {
             continue;
         }
 
-        if(_module && trace.visible === true) {
-            if(_module.calc) cd = _module.calc(gd, trace);
+        var _module;
+        if(trace.visible === true) {
+
+            // call calcTransform method if any
+            if(trace.transforms) {
+
+                // we need one round of trace module calc before
+                // the calc transform to 'fill in' the categories list
+                // used for example in the data-to-coordinate method
+                _module = trace._module;
+                if(_module && _module.calc) _module.calc(gd, trace);
+
+                for(j = 0; j < trace.transforms.length; j++) {
+                    var transform = trace.transforms[j];
+
+                    _module = transformsRegistry[transform.type];
+                    if(_module && _module.calcTransform) {
+                        _module.calcTransform(gd, trace, transform);
+                    }
+                }
+            }
+
+            _module = trace._module;
+            if(_module && _module.calc) cd = _module.calc(gd, trace);
         }
 
-        // make sure there is a first point
-        // this ensures there is a calcdata item for every trace,
-        // even if cartesian logic doesn't handle it
-        if(!Array.isArray(cd) || !cd[0]) cd = [{x: false, y: false}];
+        // Make sure there is a first point.
+        //
+        // This ensures there is a calcdata item for every trace,
+        // even if cartesian logic doesn't handle it (for things like legends).
+        //
+        // Tag this artificial calc point with 'placeholder: true',
+        // to make it easier to skip over them in during the plot and hover step.
+        if(!Array.isArray(cd) || !cd[0]) {
+            cd = [{x: false, y: false, placeholder: true}];
+        }
 
         // add the trace-wide properties to the first point,
         // per point properties to every point

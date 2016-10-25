@@ -15,7 +15,7 @@
 var Plotly = require('./plotly');
 
 // package version injected by `npm run preprocess`
-exports.version = '1.17.3';
+exports.version = '1.18.1';
 
 // inject promise polyfill
 require('es6-promise').polyfill();
@@ -58,6 +58,7 @@ exports.register([
     require('./components/shapes'),
     require('./components/images'),
     require('./components/updatemenus'),
+    require('./components/sliders'),
     require('./components/rangeslider'),
     require('./components/rangeselector')
 ]);

@@ -10,6 +10,7 @@
 
 var Plotly = require('./core');
 
+// traces
 Plotly.register([
     require('./bar'),
     require('./box'),
@@ -19,15 +20,37 @@ Plotly.register([
     require('./histogram2dcontour'),
     require('./pie'),
     require('./contour'),
+    require('./scatterternary'),
+
     require('./scatter3d'),
     require('./surface'),
     require('./mesh3d'),
+
     require('./scattergeo'),
     require('./choropleth'),
+
     require('./scattergl'),
     require('./pointcloud'),
-    require('./scatterternary'),
-    require('./scattermapbox')
+
+    require('./scattermapbox'),
+
+    require('./ohlc'),
+    require('./candlestick')
+]);
+
+// transforms
+//
+// Please note that all *transform* methods are executed before
+// all *calcTransform* methods - which could possibly lead to
+// unexpected results when applying multiple transforms of different types
+// to a given trace.
+//
+// For more info, see:
+// https://github.com/plotly/plotly.js/pull/978#pullrequestreview-2403353
+//
+Plotly.register([
+    require('./filter'),
+    require('./groupby')
 ]);
 
 module.exports = Plotly;
