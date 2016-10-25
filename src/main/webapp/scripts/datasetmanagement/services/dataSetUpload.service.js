@@ -1,4 +1,5 @@
 /*jshint loopfunc: true */
+/* global _ */
 'use strict';
 
 angular.module('metadatamanagementApp').service('DataSetUploadService',
@@ -6,7 +7,6 @@ angular.module('metadatamanagementApp').service('DataSetUploadService',
     DataSetDeleteResource, JobLoggingService, $q,
     ErrorMessageResolverService, ElasticSearchAdminService, $rootScope) {
     var objects;
-    var subDataSets = [];
     var uploadCount;
     var upload = function() {
       if (uploadCount === objects.length) {
@@ -87,15 +87,32 @@ angular.module('metadatamanagementApp').service('DataSetUploadService',
           ExcelReaderService.readFileAsync(dataSetExcelFile)
           .then(function(dataSets) {
             dataSets.forEach(function(dataSetFromExcel) {
+              var errors = [];
               if (subDataSetsExcelFiles[dataSetFromExcel.id]) {
                 allFileReaders.push(ExcelReaderService.
                 readFileAsync(subDataSetsExcelFiles[dataSetFromExcel.id]).
                 then(function(subDataSetsFile) {
-                  subDataSets = DataSetBuilderService
-                  .buildSubDataSets(subDataSetsFile);
-                  objects.push(DataSetBuilderService
-                    .buildDataSet(dataSetFromExcel,
-                    subDataSets, dataAcquisitionProjectId));
+                  var subDataSets = [];
+                  for (var i = 0; i < subDataSetsFile.length; i++) {
+                    try {
+                      subDataSets.push(DataSetBuilderService
+                      .buildSubDataSet(subDataSetsFile[i]));
+                    }catch (e) {
+                      errors = _.concat(errors, e);
+                    }
+                  }
+                  if (errors.length === 0) {
+                    objects.push(DataSetBuilderService
+                      .buildDataSet(dataSetFromExcel,
+                        subDataSets, dataAcquisitionProjectId));
+                  } else {
+                    JobLoggingService.error(
+                      'data-set-management.' +
+                      'log-messages.data-set.not-saved',
+                      {id: dataSetFromExcel.id},
+                      errors);
+                    return;
+                  }
                 }, function() {
                   JobLoggingService
                   .error('global.log-messages.unable-to-read-file',

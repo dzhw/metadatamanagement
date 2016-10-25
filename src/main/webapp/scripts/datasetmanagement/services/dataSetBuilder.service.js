@@ -28,26 +28,51 @@ angular.module('metadatamanagementApp').service('DataSetBuilderService',
         .removeEmptyJsonObjects(dataSetObj);
         return new DataSetResource(cleanedDataSetObject);
       };
-      var buildSubDataSets = function(subDataSets) {
-        var subDataSetsArray = [];
-        for (var i = 0; i < subDataSets.length; i++) {
-          var subDataSet = subDataSets[i];
-          var subDataSetObj = {
-            name: subDataSet.name,
-            description: {
-              de: subDataSet['description.de'],
-              en: subDataSet['description.en']
-            },
-            accessWay: subDataSet.accessWay
-          };
-          var cleanedDataSetObject = CleanJSObjectService
-          .removeEmptyJsonObjects(subDataSetObj);
-          subDataSetsArray[i] = cleanedDataSetObject;
-        }
-        return subDataSetsArray;
-      };
+      var buildSubDataSet = function(subDataSet) {
+          var errors = [];
+          var error;
+          if (!parseInt(subDataSet.numberOfObservations)) {
+            error = {
+              message: 'data-set-management.log-messages.data-set.sub-' +
+              'data-set.number-of-observations-parse-error',
+              translationParams: {
+                name: subDataSet.name
+              }
+            };
+            errors.push(error);
+          }
+          if (!parseInt(subDataSet.numberOfAnalyzedVariables)) {
+            error = {
+              message: 'data-set-management.log-messages.data-set.sub-' +
+              'data-set.number-of-analyzed-variables-parse-error',
+              translationParams: {
+                name: subDataSet.name
+              }
+            };
+            errors.push(error);
+          }
+          if (errors.length === 0) {
+            var subDataSetObj = {
+                name: subDataSet.name,
+                description: {
+                  de: subDataSet['description.de'],
+                  en: subDataSet['description.en']
+                },
+                accessWay: subDataSet.accessWay,
+                numberOfObservations:
+                parseInt(subDataSet.numberOfObservations),
+                numberOfAnalyzedVariables:
+                parseInt(subDataSet.numberOfAnalyzedVariables)
+              };
+            var cleanedDataSetObject = CleanJSObjectService
+              .removeEmptyJsonObjects(subDataSetObj);
+            return cleanedDataSetObject;
+          } else {
+            throw errors;
+          }
+        };
       return {
         buildDataSet: buildDataSet,
-        buildSubDataSets: buildSubDataSets
+        buildSubDataSet: buildSubDataSet
       };
     });

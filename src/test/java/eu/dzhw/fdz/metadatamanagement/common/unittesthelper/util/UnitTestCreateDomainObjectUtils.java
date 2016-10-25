@@ -154,7 +154,7 @@ public class UnitTestCreateDomainObjectUtils {
         
     List<SubDataSet> subDataSets = new ArrayList<>(); 
     subDataSets.add(new SubDataSetBuilder().withName(projectId + "-ds1")
-        .withNumberOfAnalyzableVariables(1)
+        .withNumberOfAnalyzedVariables(1)
         .withNumberOfObservations(1)
         .withAccessWay(AccessWays.DOWNLOAD_SUF)
         .withDescription(new I18nStringBuilder().withDe("Description DE")
