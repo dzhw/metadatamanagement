@@ -29,9 +29,9 @@ angular.module('metadatamanagementApp').service('DataSetBuilderService',
         return new DataSetResource(cleanedDataSetObject);
       };
       var buildSubDataSet = function(subDataSet) {
-          var errors = [];
+          var subDataSetErrors = [];
           var error;
-          if (!parseInt(subDataSet.numberOfObservations)) {
+          if (!Number(subDataSet.numberOfObservations)) {
             error = {
               message: 'data-set-management.log-messages.data-set.sub-' +
               'data-set.number-of-observations-parse-error',
@@ -39,9 +39,9 @@ angular.module('metadatamanagementApp').service('DataSetBuilderService',
                 name: subDataSet.name
               }
             };
-            errors.push(error);
+            subDataSetErrors .push(error);
           }
-          if (!parseInt(subDataSet.numberOfAnalyzedVariables)) {
+          if (!Number(subDataSet.numberOfAnalyzedVariables)) {
             error = {
               message: 'data-set-management.log-messages.data-set.sub-' +
               'data-set.number-of-analyzed-variables-parse-error',
@@ -49,9 +49,9 @@ angular.module('metadatamanagementApp').service('DataSetBuilderService',
                 name: subDataSet.name
               }
             };
-            errors.push(error);
+            subDataSetErrors .push(error);
           }
-          if (errors.length === 0) {
+          if (subDataSetErrors.length === 0) {
             var subDataSetObj = {
                 name: subDataSet.name,
                 description: {
@@ -68,7 +68,7 @@ angular.module('metadatamanagementApp').service('DataSetBuilderService',
               .removeEmptyJsonObjects(subDataSetObj);
             return cleanedDataSetObject;
           } else {
-            throw errors;
+            throw subDataSetErrors;
           }
         };
       return {

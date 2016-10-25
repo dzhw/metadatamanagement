@@ -87,21 +87,21 @@ angular.module('metadatamanagementApp').service('DataSetUploadService',
           ExcelReaderService.readFileAsync(dataSetExcelFile)
           .then(function(dataSets) {
             dataSets.forEach(function(dataSetFromExcel) {
-              var errors = [];
               if (subDataSetsExcelFiles[dataSetFromExcel.id]) {
                 allFileReaders.push(ExcelReaderService.
                 readFileAsync(subDataSetsExcelFiles[dataSetFromExcel.id]).
                 then(function(subDataSetsFile) {
+                  var subDataSetErrors = [];
                   var subDataSets = [];
                   for (var i = 0; i < subDataSetsFile.length; i++) {
                     try {
                       subDataSets.push(DataSetBuilderService
                       .buildSubDataSet(subDataSetsFile[i]));
                     }catch (e) {
-                      errors = _.concat(errors, e);
+                      subDataSetErrors = _.concat(subDataSetErrors, e);
                     }
                   }
-                  if (errors.length === 0) {
+                  if (subDataSetErrors.length === 0) {
                     objects.push(DataSetBuilderService
                       .buildDataSet(dataSetFromExcel,
                         subDataSets, dataAcquisitionProjectId));
@@ -110,7 +110,7 @@ angular.module('metadatamanagementApp').service('DataSetUploadService',
                       'data-set-management.' +
                       'log-messages.data-set.not-saved',
                       {id: dataSetFromExcel.id},
-                      errors);
+                      subDataSetErrors);
                     return;
                   }
                 }, function() {
