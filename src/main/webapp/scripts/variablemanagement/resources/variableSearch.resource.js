@@ -8,7 +8,6 @@ function(Language, ElasticSearchClient) {
   query.body = {};
 
   var findVariables = function(variableIds) {
-    query.filterPath = 'docs._source';
     query.body.query = {};
     query.body.query.docs = {
       'ids': variableIds
@@ -16,7 +15,6 @@ function(Language, ElasticSearchClient) {
     return ElasticSearchClient.mget(query);
   };
   var findBySurveyTitle = function(surveyTitle) {
-    query.filterPath = '';
     query.body.query = {
       'bool': {
         'must': [
@@ -36,7 +34,6 @@ function(Language, ElasticSearchClient) {
     return ElasticSearchClient.search(query);
   };
   var findByQuestionId = function(questionId) {
-    query.filterPath = 'hits.hits._source';
     query.body.query = {
       'bool': {
         'must': [

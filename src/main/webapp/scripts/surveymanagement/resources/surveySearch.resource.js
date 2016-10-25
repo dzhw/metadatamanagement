@@ -7,7 +7,6 @@ function(Language, ElasticSearchClient) {
   query.type = 'surveys';
   query.body = {};
   var findSurveys = function(surveyIds) {
-    query.filterPath = 'docs._source';
     query.body.query = {};
     query.body.query.docs = {
       'ids': surveyIds
@@ -15,7 +14,6 @@ function(Language, ElasticSearchClient) {
     return ElasticSearchClient.mget(query);
   };
   var findByProjectId = function(dataAcquisitionProjectId) {
-    query.filterPath = 'hits.hits._source';
     query.body.query = {
       'bool': {
         'must': [

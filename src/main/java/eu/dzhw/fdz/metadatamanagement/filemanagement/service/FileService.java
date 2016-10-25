@@ -77,29 +77,4 @@ public class FileService {
     gridFsFile.validate();
     return gridFsFile.getFilename();
   }
-  
-  /**
-   * Save the given stream to mongo in a "questions directory" and return the final imageName.
-   * 
-   * @param stream The bytes to save
-   * @param imageName The name which gets prefixed with /questions/
-   * @param contentType the content type of the image
-   * @return the final imageName
-   */
-  public String saveQuestionImage(InputStream stream, String imageName, String contentType) {
-    GridFSFile gridFsFile = this.operations.store(stream, "/questions/" + imageName, contentType);
-    gridFsFile.validate();
-    return gridFsFile.getFilename();
-  }
-  
-  /**
-   * Delete the image with the given imageName.
-   * 
-   * @param imageName the name of the image.
-   */
-  public void deleteOldImage(String imageName) {
-    Query query = new Query(GridFsCriteria.whereFilename()
-        .is("/questions/" + imageName));
-    this.operations.delete(query);
-  }
 }

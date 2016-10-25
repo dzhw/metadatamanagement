@@ -8,7 +8,6 @@ function(Language, ElasticSearchClient) {
   query.body = {};
 
   var findDataSets = function(dataSetIds) {
-    query.filterPath = 'docs._source';
     query.body.query = {};
     query.body.query.docs = {
       'ids': dataSetIds
@@ -16,7 +15,6 @@ function(Language, ElasticSearchClient) {
     return ElasticSearchClient.mget(query);
   };
   var findByVariableId = function(variableId) {
-    query.filterPath = '';
     query.body.query = {
       'bool': {
         'must': [
@@ -36,7 +34,6 @@ function(Language, ElasticSearchClient) {
     return ElasticSearchClient.search(query);
   };
   var findBySurveyTitle = function(surveyTitle) {
-    query.filterPath = '';
     query.body.query = {
       'bool': {
         'must': [
@@ -56,7 +53,6 @@ function(Language, ElasticSearchClient) {
     return ElasticSearchClient.search(query);
   };
   var findByProjectId = function(dataAcquisitionProjectId) {
-    query.filterPath = 'hits.hits._source';
     query.body.query = {
       'bool': {
         'must': [

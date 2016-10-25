@@ -9,7 +9,6 @@ function(Language, ElasticSearchClient) {
   query.body = {};
 
   var findBySurveyId = function(surveyId) {
-    query.filterPath = '';
     query.body.query = {
       'bool': {
         'must': [
@@ -29,7 +28,6 @@ function(Language, ElasticSearchClient) {
     return ElasticSearchClient.search(query);
   };
   var findByQuestionId = function(questionId) {
-    query.filterPath = '';
     query.body.query = {
       'bool': {
         'must': [
@@ -49,7 +47,6 @@ function(Language, ElasticSearchClient) {
     return ElasticSearchClient.search(query);
   };
   var findByVariableId = function(variableId) {
-    query.filterPath = '';
     query.body.query = {
       'bool': {
         'must': [
@@ -69,7 +66,6 @@ function(Language, ElasticSearchClient) {
     return ElasticSearchClient.search(query);
   };
   var findByDataSetId = function(dataSetId) {
-    query.filterPath = '';
     query.body.query = {
       'bool': {
         'must': [
@@ -89,7 +85,6 @@ function(Language, ElasticSearchClient) {
     return ElasticSearchClient.search(query);
   };
   var findByStudyId = function(studyId) {
-    query.filterPath = '';
     query.body.query = {
       'bool': {
         'must': [

@@ -38,7 +38,8 @@ public class QuestionImageResource {
   public ResponseEntity<String> uploadImage(@RequestParam("image") MultipartFile multiPartFile,
       @RequestParam("id") String id) throws IOException {
     if (!multiPartFile.isEmpty()) {
-      String imageName = imageService.saveQuestionImage(multiPartFile.getInputStream(), id);
+      String imageName = imageService.saveQuestionImage(multiPartFile.getInputStream(), 
+          id, multiPartFile.getContentType());
       return ResponseEntity.ok()
         .contentLength(imageName.length())
         .contentType(MediaType.TEXT_PLAIN)

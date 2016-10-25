@@ -8,7 +8,6 @@ function(Language, ElasticSearchClient) {
   query.body = {};
 
   var findStudies = function(studyIds) {
-    query.filterPath = 'docs._source';
     query.body.query = {};
     query.body.query.docs = {
       'ids': studyIds

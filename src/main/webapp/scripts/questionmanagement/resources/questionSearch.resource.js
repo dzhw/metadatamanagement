@@ -7,7 +7,6 @@ function(Language, ElasticSearchClient) {
   query.type = 'questions';
   query.body = {};
   var findQuestions = function(questionIds) {
-    query.filterPath = 'docs._source';
     query.body.query = {};
     query.body.query.docs = {
       'ids': questionIds
@@ -15,7 +14,6 @@ function(Language, ElasticSearchClient) {
     return ElasticSearchClient.mget(query);
   };
   var findPredeccessors = function(questionId) {
-    query.filterPath = 'hits.hits._source';
     query.body.query = {
       'bool': {
         'must': [
@@ -35,7 +33,6 @@ function(Language, ElasticSearchClient) {
     return ElasticSearchClient.search(query);
   };
   var findByProjectId = function(dataAcquisitionProjectId) {
-    query.filterPath = 'hits.hits._source';
     query.body.query = {
       'bool': {
         'must': [
