@@ -110,7 +110,7 @@ angular.module('metadatamanagementApp').controller('SearchController',
 
     $scope.$on('current-project-changed', function(event, currentProject) {
       $scope.currentProject = currentProject;
-      $scope.page.currentPageNumber = $location.search().page || 1;
+      $scope.page.currentPageNumber = 1;
       $scope.search();
     });
 

@@ -8,8 +8,8 @@ angular.module('metadatamanagementApp').service('SearchDao',
               elasticsearchType, pageSize) {
               var query = {};
               var projectFilter;
+              var studiesFilter;
               query.index = 'metadata_' + Language.getCurrentInstantly();
-              query.filterPath = '';
               query.type = elasticsearchType;
               query.body = {};
               //a query term
@@ -54,19 +54,23 @@ angular.module('metadatamanagementApp').service('SearchDao',
                   }
                 };
               }
-              //related publications have no data acquisition project id.
-              if (elasticsearchType !== 'related_publications') {
-                //filter by projectId
-                if (!CleanJSObjectService.isNullOrEmpty(currentProject)) {
-                  projectFilter = {
-                    'term': {'dataAcquisitionProjectId': currentProject.id}
-                  };
-                  if (!query.body.query.bool.filter) {
-                    query.body.query.bool.filter = [];
-                  }
-                  query.body.query.bool.filter.push(projectFilter);
+              //filter by projectId
+              if (!CleanJSObjectService.isNullOrEmpty(currentProject)) {
+                projectFilter = {
+                  'term': {'dataAcquisitionProjectId': currentProject.id}
+                };
+                studiesFilter = {
+                  'term': {'studyIds': currentProject.id}
+                };
+                if (!query.body.query.bool.filter) {
+                  query.body.query.bool.filter = {};
+                  query.body.query.bool.filter.bool = {};
+                  query.body.query.bool.filter.bool.should = [];
                 }
+                query.body.query.bool.filter.bool.should.push(projectFilter);
+                query.body.query.bool.filter.bool.should.push(studiesFilter);
               }
+
               return ElasticSearchClient.search(query);
             }
           };
