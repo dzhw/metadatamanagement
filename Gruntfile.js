@@ -276,6 +276,11 @@ module.exports = function(grunt) {
         // usemin
       },
       uglify: {
+        options: {
+          compress: {
+            unused: false
+          }
+        }
         // src and dest is configured in a subtask called "generated" by
         // usemin
       },
