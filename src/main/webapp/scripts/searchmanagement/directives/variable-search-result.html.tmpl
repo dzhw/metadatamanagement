@@ -1,5 +1,5 @@
-<md-card>
-    <md-card-header md-ink-ripple ui-sref="variableDetail({id:searchResult.id})" class="fdz-search-result fdz-card-header-border">
+<md-card ui-sref="variableDetail({id:searchResult.id})" class="fdz-search-result">
+    <md-card-header class="fdz-card-header-border">
         <md-card-avatar>
             <md-icon md-svg-src="/assets/images/icons/variable.svg" class="fdz-search-result-icon"></md-icon>
         </md-card-avatar>
@@ -10,7 +10,7 @@
                 {{searchResult.scaleLevel}})</div>
         </md-card-header-text>
     </md-card-header>
-    <md-card-content>      
+    <md-card-content>
       <div layout="row" layout-xs="column" >
           <div class="fdz-search-result-label">
               {{ 'variable-management.labels.surveyed-in' | translate}}
