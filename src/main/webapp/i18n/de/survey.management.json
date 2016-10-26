@@ -18,7 +18,7 @@
       "surveys": "Erhebungen",
       "survey-informations": "Informationen zu der Erhebung",
       "related-information": "Zugehörige Informationen",
-      "fieldPeriod": "Erhebungszeitraum",
+      "field-period": "Erhebungszeitraum",
       "population": "Population",
       "survey-method": "Erhebungsmethode",
       "sample": "Stichprobe",
@@ -36,7 +36,7 @@
         "title": {
           "i18n-string-size": "Die Maximallänge des Titels der Erhebung ist 128 Zeichen."
         },
-        "fieldPeriod": {
+        "field-period": {
           "not-null": "Der Zeitraum der Erhebung darf nicht leer sein!"
         },
         "data-acquisition-project": {

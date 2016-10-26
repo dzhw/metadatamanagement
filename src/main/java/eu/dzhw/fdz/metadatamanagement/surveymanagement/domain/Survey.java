@@ -24,7 +24,7 @@ import net.karneim.pojobuilder.GeneratePojoBuilder;
 
 /**
  * A Survey.
- * 
+ *
  * @author Daniel Katzberg
  */
 @Document(collection = "surveys")
@@ -41,11 +41,11 @@ public class Survey extends AbstractRdcDomainObject {
       message = "survey-management.error.survey.id.pattern")
   private String id;
 
-  @I18nStringSize(max = StringLengths.MEDIUM, 
+  @I18nStringSize(max = StringLengths.MEDIUM,
       message = "survey-management.error.survey.title.i18n-string-size")
   private I18nString title;
 
-  @NotNull(message = "survey-management.error.survey.fieldPeriod.not-null")
+  @NotNull(message = "survey-management.error.survey.field-period.not-null")
   @Valid
   private Period fieldPeriod;
 
@@ -53,36 +53,36 @@ public class Survey extends AbstractRdcDomainObject {
   @Indexed
   @NotEmpty(message = "survey-management.error.survey.data-acquisition-project.id.not-empty")
   private String dataAcquisitionProjectId;
-  
+
   @NotNull(message = "survey-management.error.survey.population.not-null")
   @I18nStringNotEmpty(message = "survey-management.error.survey.population.i18n-string-not-empty")
-  @I18nStringSize(max = StringLengths.LARGE, 
+  @I18nStringSize(max = StringLengths.LARGE,
       message = "survey-management.error.survey.population.i18n-string-size")
   private I18nString population;
-  
+
   @NotNull(message = "survey-management.error.survey.sample.not-null")
   @I18nStringNotEmpty(message = "survey-management.error.survey.sample.i18n-string-not-empty")
-  @I18nStringSize(max = StringLengths.LARGE, 
+  @I18nStringSize(max = StringLengths.LARGE,
       message = "survey-management.error.survey.sample.i18n-string-size")
   private I18nString sample;
-  
+
   @NotNull(message = "survey-management.error.survey.survey-method.not-null")
   @I18nStringNotEmpty(
       message = "survey-management.error.survey.survey-method.i18n-string-not-empty")
-  @I18nStringSize(max = StringLengths.MEDIUM, 
+  @I18nStringSize(max = StringLengths.MEDIUM,
       message = "survey-management.error.survey.survey-method.i18n-string-size")
   private I18nString surveyMethod;
 
   /*
    * (non-Javadoc)
-   * 
+   *
    * @see eu.dzhw.fdz.metadatamanagement.domain.AbstractRdcDomainObject#getId()
    */
   @Override
   public String getId() {
     return id;
   }
- 
+
   /*
    * (non-Javadoc)
    * @see eu.dzhw.fdz.metadatamanagement.common.domain.AbstractRdcDomainObject#toString()
@@ -121,7 +121,7 @@ public class Survey extends AbstractRdcDomainObject {
   public void setId(String id) {
     this.id = id;
   }
-  
+
   public I18nString getPopulation() {
     return population;
   }

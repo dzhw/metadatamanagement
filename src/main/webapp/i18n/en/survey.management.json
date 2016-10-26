@@ -18,7 +18,7 @@
       "surveys": "Surveys",
       "survey-informations": "Survey Informations",
       "related-information": "Related Information",
-      "fieldPeriod": "Field Period",
+      "field-period": "Field Period",
       "population": "Population",
       "survey-method": "Survey Method",
       "sample": "Sample",
@@ -36,7 +36,7 @@
         "title": {
           "i18n-string-size": "The max length of the title is 128 signs."
         },
-        "fieldPeriod": {
+        "field-period": {
           "not-null": "The Field Period of a Survey must not be empty!"
         },
         "data-acquisition-project": {
