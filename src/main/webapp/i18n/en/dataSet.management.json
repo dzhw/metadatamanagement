@@ -44,7 +44,8 @@
       "content": {
         "true": "Click to maximize",
         "false": "Click to minimize"
-      }
+      },
+      "generate-variable-report": "Generate Variable report"
     },
     "error": {
       "data-set": {

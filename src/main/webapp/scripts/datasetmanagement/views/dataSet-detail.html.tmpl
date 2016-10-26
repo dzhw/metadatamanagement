@@ -63,6 +63,12 @@
                                 <span>{{'related-publication-management.detail.publications' | translate }}</span>
                             </md-button>
                         </section>
+                        <section>
+                          <md-button class="md-raised" ng-if="isAuthenticated()" type="file" ngf-select="uploadTexTemplate($file, searchResult.id)" accept=".zip">
+                            <md-icon md-font-set="material-icons">note_add</md-icon>
+                            <span>{{'data-set-management.detail.generate-variable-report' | translate}}</span>
+                          </md-button>
+                        </section>
                     </md-card-content>
                 </md-card>
             </div>

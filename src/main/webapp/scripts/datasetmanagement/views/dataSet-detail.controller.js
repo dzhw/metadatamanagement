@@ -4,13 +4,19 @@ angular.module('metadatamanagementApp')
   .controller('DataSetDetailController', ['$scope', '$state', 'entity',
   'SurveySearchDialogService', 'VariableSearchDialogService',
   'ShoppingCartService', 'RelatedPublicationSearchDialogService',
+  'DataSetReportService', 'Principal',
     function($scope, $state, entity, SurveySearchDialogService,
     VariableSearchDialogService, ShoppingCartService,
-    RelatedPublicationSearchDialogService) {
+    RelatedPublicationSearchDialogService, DataSetReportService, Principal) {
       $scope.allRowsVisible = true;
       entity.$promise.then(function(dataSet) {
         $scope.dataSet = dataSet;
       });
+      $scope.isAuthenticated = Principal.isAuthenticated;
+
+      $scope.uploadTexTemplate = function(file, dataSetId) {
+        DataSetReportService.uploadTexTemplate(file, dataSetId);
+      };
       $scope.isRowHidden = function(index) {
         if (index <= 4 || index >= $scope
           .dataSet.subDataSets.length - 5) {
