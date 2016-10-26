@@ -25,7 +25,8 @@
       "abstract": "Abstract",
       "doi": "DOI",
       "sourceReference": "Source Reference",
-      "sourceLink": "URL"
+      "sourceLink": "URL",
+      "no-related-publications": "No related publications."
     },
     "error": {
       "related-publication": {

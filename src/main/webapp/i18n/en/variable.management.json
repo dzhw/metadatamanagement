@@ -76,7 +76,8 @@
         "skewness": "Skewness",
         "kurtosis": "Kurtosis",
         "standardDeviation": "Standard Deviation"
-      }
+      },
+      "no-related-variables": "No related Variables."
     },
     "labels": {
       "part-of-data-set": "Part of Data Set:",

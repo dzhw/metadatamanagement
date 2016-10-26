@@ -23,7 +23,8 @@
       "survey-method": "Erhebungsmethode",
       "sample": "Stichprobe",
       "not-found": "Die id {{id}} referenziert auf eine unbekannte Erhebung.",
-      "not-found-references": "Die id {{id}} hat keine Referenzen auf Erhebungen."
+      "not-found-references": "Die id {{id}} hat keine Referenzen auf Erhebungen.",
+      "no-related-surveys": "No related Surveys."
     },
     "error": {
       "survey": {

@@ -76,7 +76,8 @@
         "skewness": "Schiefe",
         "kurtosis": "Wölbung",
         "standardDeviation": "Standardabweichung"
-      }
+      },
+      "no-related-variables": "Keine zugehörige Variablen."
     },
     "labels": {
       "part-of-data-set": "Enthalten in Datensatz:",

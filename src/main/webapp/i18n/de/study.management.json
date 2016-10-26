@@ -23,7 +23,8 @@
       "version": "Version",
       "notes": "Notizen",
       "citationHint": "Zitation",
-      "instruments": "Instrumente"
+      "instruments": "Instrumente",
+      "no-related-studies":"Keine zugehörige Studien."
     },
     "log-messages": {
       "study": {

@@ -21,5 +21,8 @@
               items-per-page="relatedDataSetController.page.size"
               class="pagination-sm"></ul>
       </div>
+      <div ng-if="relatedDataSetController.page.totalHits === 0" layout-margin>
+            <span>{{'data-set-management.detail.no-related-data-sets' | translate }}</span>
+      <div>
     </div>
 </md-card>

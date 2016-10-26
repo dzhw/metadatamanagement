@@ -21,5 +21,8 @@
               items-per-page="relatedQuestionController.page.size"
               class="pagination-sm"></ul>
       </div>
+      <div ng-if="relatedQuestionController.page.totalHits === 0" layout-margin>
+            <span>{{'question-management.detail.no-related-questions' | translate }}</span>
+      <div>
     </div>
 </md-card>

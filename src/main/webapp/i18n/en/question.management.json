@@ -31,7 +31,8 @@
       "technical-representation": "Technical Representation",
       "related-information": "Related Information",
       "not-found": "The {{id}} references to an unknown Question.",
-      "not-found-references": "The id {{id}} has no References to Questions."
+      "not-found-references": "The id {{id}} has no References to Questions.",
+      "no-related-questions": "No related Questions."
     },
     "error": {
       "question": {

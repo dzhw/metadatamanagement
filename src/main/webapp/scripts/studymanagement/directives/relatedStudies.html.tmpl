@@ -21,5 +21,8 @@
               items-per-page="relatedStudyController.page.size"
               class="pagination-sm"></ul>
       </div>
+      <div ng-if="relatedStudyController.page.totalHits === 0" layout-margin>
+            <span>{{'study-management.detail.no-related-studies' | translate }}</span>
+      <div>
     </div>
 </md-card>

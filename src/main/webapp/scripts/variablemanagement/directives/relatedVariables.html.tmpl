@@ -21,5 +21,8 @@
               items-per-page="relatedVariableController.page.size"
               class="pagination-sm"></ul>
       </div>
+      <div ng-if="relatedVariableController.page.totalHits === 0" layout-margin>
+            <span>{{'variable-management.detail.no-related-variables' | translate }}</span>
+      <div>
     </div>
 </md-card>

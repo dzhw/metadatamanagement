@@ -45,7 +45,8 @@
         "true": "Klicken zum maximieren",
         "false": "Klicken zum minimieren"
       },
-      "generate-variable-report": "Erzeuge Variablenreport"
+      "generate-variable-report": "Erzeuge Variablenreport",
+      "no-related-data-sets": "Keine zugehörige Datensätze."
     },
     "error": {
       "data-set": {

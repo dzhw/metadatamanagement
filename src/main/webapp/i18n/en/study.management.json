@@ -23,7 +23,8 @@
       "version": "Version",
       "notes": "Botes",
       "citationHint": "Citation Hint",
-      "instruments": "Instruments"
+      "instruments": "Instruments",
+      "no-related-studies":"No related Studies."
     },
     "log-messages": {
       "study": {

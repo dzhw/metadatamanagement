@@ -21,5 +21,8 @@
               items-per-page="relatedSurveyController.page.size"
               class="pagination-sm"></ul>
       </div>
+      <div ng-if="relatedSurveyController.page.totalHits === 0" layout-margin>
+            <span>{{'survey-management.detail.no-related-surveys' | translate }}</span>
+      <div>
     </div>
 </md-card>

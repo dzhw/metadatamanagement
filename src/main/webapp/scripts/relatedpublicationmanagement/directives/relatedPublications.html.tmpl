@@ -21,5 +21,8 @@
               items-per-page="relatedPublicationController.page.size"
               class="pagination-sm"></ul>
       </div>
+      <div ng-if="relatedPublicationController.page.totalHits === 0" layout-margin>
+            <span>{{'related-publication-management.detail.no-related-publications' | translate }}</span>
+      <div>
     </div>
 </md-card>

@@ -23,7 +23,8 @@
       "survey-method": "Survey Method",
       "sample": "Sample",
       "not-found": "The {{id}} references to an unknown Survey.",
-      "not-found-references": "The id {{id}} has no References to Surveys."
+      "not-found-references": "The id {{id}} has no References to Surveys.",
+      "no-related-surveys": "Keine zugehörige Erhebungen."
     },
     "error": {
       "survey": {
