@@ -15,6 +15,7 @@ angular.module('metadatamanagementApp')
 
       entity.$promise.then(function(question) {
         $scope.question = question;
+        $scope.questionIdAsArray = question.id.split(',');
         QuestionSearchResource.findPredeccessors(question.id)
           .then(function(predecessors) {
             if (!CleanJSObjectService.isNullOrEmpty(predecessors)) {

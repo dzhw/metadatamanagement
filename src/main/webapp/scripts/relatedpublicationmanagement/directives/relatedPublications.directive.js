@@ -7,6 +7,7 @@ angular.module('metadatamanagementApp').directive('relatedPublications',
         restrict: 'E',
         templateUrl: 'scripts/relatedpublicationmanagement/directives/' +
           'relatedPublications.html.tmpl',
+        scope: {},
         controllerAs: 'relatedPublicationController',
         controller: function() {
           var relatedPublicationController = this;

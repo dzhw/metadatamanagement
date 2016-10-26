@@ -7,6 +7,7 @@ angular.module('metadatamanagementApp').directive('relatedSurveys',
         restrict: 'E',
         templateUrl: 'scripts/surveymanagement/directives/' +
           'relatedSurveys.html.tmpl',
+        scope: {},
         controllerAs: 'relatedSurveyController',
         controller: function() {
           var relatedSurveyController = this;

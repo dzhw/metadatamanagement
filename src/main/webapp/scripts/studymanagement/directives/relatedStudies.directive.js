@@ -7,6 +7,7 @@ angular.module('metadatamanagementApp').directive('relatedStudies',
         restrict: 'E',
         templateUrl: 'scripts/studymanagement/directives/' +
           'relatedStudies.html.tmpl',
+        scope: {},
         controllerAs: 'relatedStudyController',
         controller: function() {
           var relatedStudyController = this;

@@ -7,6 +7,7 @@ angular.module('metadatamanagementApp').directive('relatedDataSets',
         restrict: 'E',
         templateUrl: 'scripts/datasetmanagement/directives/' +
           'relatedDataSets.html.tmpl',
+        scope: {},
         controllerAs: 'relatedDataSetController',
         controller: function() {
           var relatedDataSetController = this;

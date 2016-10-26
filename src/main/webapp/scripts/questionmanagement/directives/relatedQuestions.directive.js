@@ -7,6 +7,7 @@ angular.module('metadatamanagementApp').directive('relatedQuestions',
         restrict: 'E',
         templateUrl: 'scripts/questionmanagement/directives/' +
           'relatedQuestions.html.tmpl',
+        scope: {},
         controllerAs: 'relatedQuestionController',
         controller: function() {
           var relatedQuestionController = this;

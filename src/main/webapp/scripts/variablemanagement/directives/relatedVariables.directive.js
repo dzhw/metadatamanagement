@@ -7,6 +7,7 @@ angular.module('metadatamanagementApp').directive('relatedVariables',
       restrict: 'E',
       templateUrl: 'scripts/variablemanagement/directives/' +
         'relatedVariables.html.tmpl',
+      scope: {},
       controllerAs: 'relatedVariableController',
       controller: function() {
         var relatedVariableController = this;
