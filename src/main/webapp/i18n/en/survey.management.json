@@ -24,7 +24,8 @@
       "sample": "Sample",
       "not-found": "The {{id}} references to an unknown Survey.",
       "not-found-references": "The id {{id}} has no References to Surveys.",
-      "no-related-surveys": "Keine zugehörige Erhebungen."
+      "no-related-surveys": "No related Surveys.",
+      "related-surveys": "Related Surveys"
     },
     "error": {
       "survey": {

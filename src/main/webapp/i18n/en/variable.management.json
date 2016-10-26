@@ -77,7 +77,8 @@
         "kurtosis": "Kurtosis",
         "standardDeviation": "Standard Deviation"
       },
-      "no-related-variables": "No related Variables."
+      "no-related-variables": "No related Variables.",
+      "related-variables": "Related Variables"
     },
     "labels": {
       "part-of-data-set": "Part of Data Set:",

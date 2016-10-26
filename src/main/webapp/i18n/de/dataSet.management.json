@@ -46,7 +46,8 @@
         "false": "Klicken zum minimieren"
       },
       "generate-variable-report": "Erzeuge Variablenreport",
-      "no-related-data-sets": "Keine zugehörige Datensätze."
+      "no-related-data-sets": "Keine zugehörige Datensätze.",
+      "related-data-sets": "Zugehörige Datensätze"
     },
     "error": {
       "data-set": {

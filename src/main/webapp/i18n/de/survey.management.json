@@ -24,7 +24,8 @@
       "sample": "Stichprobe",
       "not-found": "Die id {{id}} referenziert auf eine unbekannte Erhebung.",
       "not-found-references": "Die id {{id}} hat keine Referenzen auf Erhebungen.",
-      "no-related-surveys": "No related Surveys."
+      "no-related-surveys": "Keine zugehörige Erhebungen.",
+      "related-surveys": "Zugehörige Erhebungen"
     },
     "error": {
       "survey": {

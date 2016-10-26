@@ -77,7 +77,8 @@
         "kurtosis": "Wölbung",
         "standardDeviation": "Standardabweichung"
       },
-      "no-related-variables": "Keine zugehörige Variablen."
+      "no-related-variables": "Keine zugehörige Variablen.",
+      "related-variables": "Zugehörige Variablen"
     },
     "labels": {
       "part-of-data-set": "Enthalten in Datensatz:",

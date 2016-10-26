@@ -32,7 +32,8 @@
       "related-information": "Related Information",
       "not-found": "The {{id}} references to an unknown Question.",
       "not-found-references": "The id {{id}} has no References to Questions.",
-      "no-related-questions": "No related Questions."
+      "no-related-questions": "No related Questions.",
+      "related-questions": "Related Questions"
     },
     "error": {
       "question": {

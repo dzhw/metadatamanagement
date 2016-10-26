@@ -24,7 +24,8 @@
       "notes": "Botes",
       "citationHint": "Citation Hint",
       "instruments": "Instruments",
-      "no-related-studies":"No related Studies."
+      "no-related-studies":"No related Studies.",
+      "related-studies":"Related Studies"
     },
     "log-messages": {
       "study": {

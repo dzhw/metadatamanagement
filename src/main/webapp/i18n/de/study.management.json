@@ -24,7 +24,8 @@
       "notes": "Notizen",
       "citationHint": "Zitation",
       "instruments": "Instrumente",
-      "no-related-studies":"Keine zugehörige Studien."
+      "no-related-studies":"Keine zugehörige Studien.",
+      "related-studies":"Zugehörige Studien"
     },
     "log-messages": {
       "study": {

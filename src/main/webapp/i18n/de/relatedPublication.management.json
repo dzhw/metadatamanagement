@@ -26,7 +26,8 @@
       "doi": "DOI",
       "sourceReference": "Quelle",
       "sourceLink": "URL",
-      "no-related-publications": "Keine zugehörige Publikationen."
+      "no-related-publications": "Keine zugehörige Publikationen.",
+      "related-publications": "Zugehörige Publikationen"
     },
     "error": {
       "related-publication": {
