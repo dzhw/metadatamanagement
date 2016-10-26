@@ -1,0 +1,25 @@
+<md-card>
+    <md-card-header>
+        <md-card-header-text>
+            <h2 class="md-title">{{'related-publication-management.detail.publications' | translate }}</h2>
+        </md-card-header-text>
+    </md-card-header>
+    <md-divider></md-divider>
+    <div block-ui="blockrelatedPublicationCard">
+      <div ng-repeat="relatedPublication in relatedPublicationController.questions">
+        <related-publication-search-result search-result="relatedPublication._source"></related-publication-search-result>
+      </div>
+      <div ng-if="relatedPublicationController.page.totalHits > relatedPublicationController.page.size" layout="row" layout-align="center">
+          <ul
+              uib-pagination
+              next-text="{{'global.pagination.next'|translate}}"
+              previous-text="{{'global.pagination.previous'|translate}}"
+              total-items="relatedPublicationController.page.totalHits"
+              ng-model="relatedPublicationController.page.currentPageNumber"
+              max-size="5"
+              ng-change="relatedPublicationController.search()"
+              items-per-page="relatedPublicationController.page.size"
+              class="pagination-sm"></ul>
+      </div>
+    </div>
+</md-card>

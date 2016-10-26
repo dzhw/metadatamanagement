@@ -270,6 +270,7 @@
             </div>
             <related-surveys method-name="findSurveys" method-params="variable.surveyIds"></related-surveys>
             <related-data-sets method-name="findByVariableId" method-params="variable.id"></related-data-sets>
+            <related-questions method-name="findQuestion" method-params="variable.questionId"></related-questions>
             <div layout="row" ng-if="variable.generationDetails">
                 <md-card flex>
                     <md-card-header class="fdz-card-header-with-button" layout-align="center center">

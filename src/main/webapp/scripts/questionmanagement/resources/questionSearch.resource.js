@@ -13,7 +13,30 @@ function(Language, ElasticSearchClient) {
     };
     return ElasticSearchClient.mget(query);
   };
-  var findPredeccessors = function(questionId) {
+  var findQuestion = function(questionId, from, size) {
+    query.body.from = from;
+    query.body.size = size;
+    query.body.query = {
+      'bool': {
+        'must': [
+          {
+            'match_all': {}
+          }
+        ],
+        'filter': [
+          {
+            'term': {
+              'id': questionId
+            }
+          }
+        ]
+      }
+    };
+    return ElasticSearchClient.search(query);
+  };
+  var findPredeccessors = function(questionId, from, size) {
+    query.body.from = from;
+    query.body.size = size;
     query.body.query = {
       'bool': {
         'must': [
@@ -32,7 +55,9 @@ function(Language, ElasticSearchClient) {
     };
     return ElasticSearchClient.search(query);
   };
-  var findByProjectId = function(dataAcquisitionProjectId) {
+  var findByProjectId = function(dataAcquisitionProjectId, from, size) {
+    query.body.from = from;
+    query.body.size = size;
     query.body.query = {
       'bool': {
         'must': [
@@ -55,6 +80,7 @@ function(Language, ElasticSearchClient) {
     findPredeccessors: findPredeccessors,
     findSuccessors: findQuestions,
     findQuestions: findQuestions,
+    findQuestion: findQuestion,
     findByProjectId: findByProjectId
   };
 });

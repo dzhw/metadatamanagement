@@ -1,0 +1,25 @@
+<md-card>
+    <md-card-header>
+        <md-card-header-text>
+            <h2 class="md-title">{{'question-management.detail.questions' | translate }}</h2>
+        </md-card-header-text>
+    </md-card-header>
+    <md-divider></md-divider>
+    <div block-ui="blockRelatedQuestionCard">
+      <div ng-repeat="question in relatedQuestionController.questions">
+        <question-search-result search-result="question._source"></question-search-result>
+      </div>
+      <div ng-if="relatedQuestionController.page.totalHits > relatedQuestionController.page.size" layout="row" layout-align="center">
+          <ul
+              uib-pagination
+              next-text="{{'global.pagination.next'|translate}}"
+              previous-text="{{'global.pagination.previous'|translate}}"
+              total-items="relatedQuestionController.page.totalHits"
+              ng-model="relatedQuestionController.page.currentPageNumber"
+              max-size="5"
+              ng-change="relatedQuestionController.search()"
+              items-per-page="relatedQuestionController.page.size"
+              class="pagination-sm"></ul>
+      </div>
+    </div>
+</md-card>

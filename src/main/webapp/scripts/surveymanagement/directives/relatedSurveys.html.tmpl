@@ -6,8 +6,8 @@
     </md-card-header>
     <md-divider></md-divider>
     <div block-ui="blockRelatedSurveyCard">
-      <div ng-repeat="Survey in relatedSurveyController.Surveys">
-        <survey-search-result search-result="Survey._source"></survey-search-result>
+      <div ng-repeat="survey in relatedSurveyController.surveys">
+        <survey-search-result search-result="survey._source"></survey-search-result>
       </div>
       <div ng-if="relatedSurveyController.page.totalHits > relatedSurveyController.page.size" layout="row" layout-align="center">
           <ul

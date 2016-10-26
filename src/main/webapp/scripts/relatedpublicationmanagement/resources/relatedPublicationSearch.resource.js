@@ -8,7 +8,9 @@ function(Language, ElasticSearchClient) {
   query.type = 'related_publications';
   query.body = {};
 
-  var findBySurveyId = function(surveyId) {
+  var findBySurveyId = function(surveyId, from, size) {
+    query.body.from = from;
+    query.body.size = size;
     query.body.query = {
       'bool': {
         'must': [
@@ -27,7 +29,9 @@ function(Language, ElasticSearchClient) {
     };
     return ElasticSearchClient.search(query);
   };
-  var findByQuestionId = function(questionId) {
+  var findByQuestionId = function(questionId, from, size) {
+    query.body.from = from;
+    query.body.size = size;
     query.body.query = {
       'bool': {
         'must': [
@@ -46,7 +50,9 @@ function(Language, ElasticSearchClient) {
     };
     return ElasticSearchClient.search(query);
   };
-  var findByVariableId = function(variableId) {
+  var findByVariableId = function(variableId, from, size) {
+    query.body.from = from;
+    query.body.size = size;
     query.body.query = {
       'bool': {
         'must': [
@@ -65,7 +71,9 @@ function(Language, ElasticSearchClient) {
     };
     return ElasticSearchClient.search(query);
   };
-  var findByDataSetId = function(dataSetId) {
+  var findByDataSetId = function(dataSetId, from, size) {
+    query.body.from = from;
+    query.body.size = size;
     query.body.query = {
       'bool': {
         'must': [
@@ -84,7 +92,9 @@ function(Language, ElasticSearchClient) {
     };
     return ElasticSearchClient.search(query);
   };
-  var findByStudyId = function(studyId) {
+  var findByProjectId = function(studyId, from, size) {
+    query.body.from = from;
+    query.body.size = size;
     query.body.query = {
       'bool': {
         'must': [
@@ -108,6 +118,7 @@ function(Language, ElasticSearchClient) {
     findByVariableId: findByVariableId,
     findByDataSetId: findByDataSetId,
     findByQuestionId: findByQuestionId,
-    findByStudyId: findByStudyId
+    findByProjectId: findByProjectId,
+    findByStudyId: findByProjectId
   };
 });
