@@ -84,11 +84,17 @@
                     </md-card-content>
                 </md-card>
             </div>
-            <related-variables method-name="findVariables" method-params="ctrl.relatedPublication.variableIds"></related-variables>
-            <related-data-sets method-name="findDataSets" method-params="ctrl.relatedPublication.dataSetIds"></related-data-sets>
-            <related-surveys method-name="findSurveys" method-params="ctrl.relatedPublication.surveyIds"></related-surveys>
-            <related-questions method-name="findQuestions" method-params="ctrl.relatedPublication.questionIds"></related-questions>
-            <related-studies method-name="findStudies" method-params="ctrl.relatedPublication.studyIds"></related-studies>
+            <div layout="row" layout-sm="column" layout-xs="column">
+              <related-studies method-name="findStudies" method-params="ctrl.relatedPublication.studyIds"></related-studies>
+            </div>
+            <div layout="row" layout-sm="column" layout-xs="column">
+              <related-data-sets flex-gt-sm="50" method-name="findDataSets" method-params="ctrl.relatedPublication.dataSetIds"></related-data-sets>
+              <related-surveys flex-gt-sm="50" method-name="findSurveys" method-params="ctrl.relatedPublication.surveyIds"></related-surveys>
+            </div>
+            <div layout="row" layout-sm="column" layout-xs="column">
+              <related-variables flex-gt-sm="50" method-name="findVariables" method-params="ctrl.relatedPublication.variableIds"></related-variables>
+              <related-questions flex-gt-sm="50" method-name="findQuestions" method-params="ctrl.relatedPublication.questionIds"></related-questions>
+            </div>
         </md-card-content>
     </md-card>
 </div>

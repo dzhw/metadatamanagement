@@ -107,10 +107,14 @@
                     </md-card-content>
                 </md-card>
             </div>
-            <related-surveys method-name="findByProjectId" method-params="study.id"></related-surveys>
-            <related-data-sets method-name="findByProjectId" method-params="study.id"></related-data-sets>
-            <related-questions method-name="findByProjectId" method-params="study.id"></related-questions>
-            <related-publications method-name="findByProjectId" method-params="study.id"></related-publications>
+            <div layout="row" layout-sm="column" layout-xs="column">
+              <related-surveys flex-gt-sm="50" method-name="findByProjectId" method-params="study.id"></related-surveys>
+              <related-data-sets flex-gt-sm="50" method-name="findByProjectId" method-params="study.id"></related-data-sets>
+            </div>
+            <div layout="row" layout-sm="column" layout-xs="column">
+              <related-questions flex-gt-sm="50" method-name="findByProjectId" method-params="study.id"></related-questions>
+              <related-publications flex-gt-sm="50" method-name="findByProjectId" method-params="study.id"></related-publications>
+            </div>
             <div layout="row">
                 <md-card flex>
                     <md-card-header>

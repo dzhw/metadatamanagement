@@ -78,10 +78,14 @@
                     </md-card-content>
                 </md-card>
             </div>
-            <related-variables method-name="findBySurveyTitle" method-params="ctrl.survey.title[currentLanguage]"></related-variables>
-            <related-data-sets method-name="findBySurveyTitle" method-params="ctrl.survey.title[currentLanguage]"></related-data-sets>
-            <related-publications method-name="findBySurveyId" method-params="ctrl.survey.id"></related-publications>
-            <related-studies method-name="findStudy" method-params="ctrl.survey.dataAcquisitionProjectId"></related-studies>
+            <div layout="row" layout-sm="column" layout-xs="column">
+              <related-variables flex-gt-sm="50" method-name="findBySurveyTitle" method-params="ctrl.survey.title[currentLanguage]"></related-variables>
+              <related-data-sets flex-gt-sm="50" method-name="findBySurveyTitle" method-params="ctrl.survey.title[currentLanguage]"></related-data-sets>
+            </div>
+            <div layout="row" layout-sm="column" layout-xs="column">
+              <related-publications flex-gt-sm="50" method-name="findBySurveyId" method-params="ctrl.survey.id"></related-publications>
+              <related-studies flex-gt-sm="50" method-name="findStudy" method-params="ctrl.survey.dataAcquisitionProjectId"></related-studies>
+          </div>
         </md-card-content>
     </md-card>
 </div>
