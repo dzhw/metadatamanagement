@@ -271,6 +271,8 @@
             <related-surveys method-name="findSurveys" method-params="variable.surveyIds"></related-surveys>
             <related-data-sets method-name="findByVariableId" method-params="variable.id"></related-data-sets>
             <related-questions method-name="findQuestion" method-params="variable.questionId"></related-questions>
+            <related-publications method-name="findByVariableId" method-params="variable.id"></related-publications>
+            <related-studies method-name="findStudy" method-params="variable.dataAcquisitionProjectId"></related-studies>
             <div layout="row" ng-if="variable.generationDetails">
                 <md-card flex>
                     <md-card-header class="fdz-card-header-with-button" layout-align="center center">

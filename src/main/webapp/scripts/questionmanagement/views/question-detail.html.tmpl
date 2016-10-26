@@ -102,6 +102,8 @@
                 </md-card>
             </div>
             <related-variables method-name="findByQuestionId" method-params="question.id"></related-variables>
+            <related-publications method-name="findByQuestionId" method-params="question.id"></related-publications>
+            <related-studies method-name="findStudy" method-params="question.dataAcquisitionProjectId"></related-studies>
         </md-card-content>
     </md-card>
 </div>

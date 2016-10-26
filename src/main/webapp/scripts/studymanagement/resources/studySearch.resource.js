@@ -14,7 +14,29 @@ function(Language, ElasticSearchClient) {
     };
     return ElasticSearchClient.mget(query);
   };
+  var findStudy = function(studyId, from, size) {
+    query.body.from = from;
+    query.body.size = size;
+    query.body.query = {
+      'bool': {
+        'must': [
+          {
+            'match_all': {}
+          }
+        ],
+        'filter': [
+          {
+            'term': {
+              'id': studyId
+            }
+          }
+        ]
+      }
+    };
+    return ElasticSearchClient.search(query);
+  };
   return {
-    findStudies: findStudies
+    findStudies: findStudies,
+    findStudy: findStudy
   };
 });

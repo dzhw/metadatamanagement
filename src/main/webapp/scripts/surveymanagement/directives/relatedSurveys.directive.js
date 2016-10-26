@@ -25,8 +25,8 @@ angular.module('metadatamanagementApp').directive('relatedSurveys',
               .methodParams.length;
               SurveySearchResource[relatedSurveyController.methodName]
               (searchTerms[relatedSurveyController.page.currentPageNumber - 1])
-                .then(function(Surveys) {
-                  relatedSurveyController.Surveys = Surveys.docs;
+                .then(function(surveys) {
+                  relatedSurveyController.surveys = surveys.docs;
                 }).finally(function() {
                   blockArea.stop();
                 });

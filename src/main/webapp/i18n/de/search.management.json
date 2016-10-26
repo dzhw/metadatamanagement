@@ -21,8 +21,7 @@
       "upload-data-sets": "Datensätze für ausgewähltes Datenaufbereitungsprojekt hochladen",
       "upload-questions": "Fragen für ausgewähltes Datenaufbereitungsprojekt hochladen",
       "upload-studies": "Studie für ausgewähltes Datenaufbereitungsprojekt hochladen",
-      "upload-related-publications": "Publikationen hochladen",
-      "generate-variable-report": "Erzeuge Variablenreport"
+      "upload-related-publications": "Publikationen hochladen"
     },
     "input-label": {
       "all": "Suchen Sie Studien, Variablen, Fragen, Erhebungen oder Datensätze?",

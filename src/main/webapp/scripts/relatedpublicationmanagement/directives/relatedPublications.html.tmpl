@@ -6,7 +6,7 @@
     </md-card-header>
     <md-divider></md-divider>
     <div block-ui="blockrelatedPublicationCard">
-      <div ng-repeat="relatedPublication in relatedPublicationController.questions">
+      <div ng-repeat="relatedPublication in relatedPublicationController.relatedPublications">
         <related-publication-search-result search-result="relatedPublication._source"></related-publication-search-result>
       </div>
       <div ng-if="relatedPublicationController.page.totalHits > relatedPublicationController.page.size" layout="row" layout-align="center">

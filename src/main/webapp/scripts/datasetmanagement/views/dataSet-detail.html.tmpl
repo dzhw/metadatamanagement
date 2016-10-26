@@ -126,6 +126,8 @@
             </div>
             <related-surveys method-name="findSurveys" method-params="dataSet.surveyIds"></related-surveys>
             <related-variables method-name="findVariables" method-params="dataSet.variableIds"></related-variables>
+            <related-publications method-name="findByDataSetId" method-params="dataSet.id"></related-publications>
+            <related-studies method-name="findStudy" method-params="dataSet.dataAcquisitionProjectId"></related-studies>
         </md-card-content>
     </md-card>
 </div>

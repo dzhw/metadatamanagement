@@ -26,8 +26,10 @@ angular.module('metadatamanagementApp').directive('relatedPublications',
                 relatedPublicationController.methodParams.length;
                 RelatedPublicationSearchResource[relatedPublicationController
                   .methodName](searchTerms[relatedPublicationController.page
-                    .currentPageNumber - 1]).then(function(questions) {
-                      relatedPublicationController.questions = questions.docs;
+                    .currentPageNumber - 1])
+                    .then(function(relatedPublications) {
+                      relatedPublicationController.relatedPublications =
+                      relatedPublications.docs;
                     }).finally(function() {
                       blockArea.stop();
                     });
@@ -38,11 +40,11 @@ angular.module('metadatamanagementApp').directive('relatedPublications',
                 RelatedPublicationSearchResource[relatedPublicationController
                   .methodName](relatedPublicationController.methodParams, from,
                   relatedPublicationController.page.size)
-                  .then(function(questions) {
+                  .then(function(relatedPublications) {
                           relatedPublicationController.page.totalHits =
-                          questions.hits.total;
-                          relatedPublicationController.questions =
-                          questions.hits.hits;
+                          relatedPublications.hits.total;
+                          relatedPublicationController.relatedPublications =
+                          relatedPublications.hits.hits;
                         }).finally(function() {
                           blockArea.stop();
                         });

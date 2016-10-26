@@ -21,8 +21,7 @@
       "upload-data-sets": "Upload Data Sets for selected Data Acquisition Project",
       "upload-questions": "Upload Questions for selected Data Acquisition Project",
       "upload-studies": "Upload Study for selected Data Acquisition Project",
-      "upload-related-publications": "Upload Publications",
-      "generate-variable-report": "Generate Variable report"
+      "upload-related-publications": "Upload Publications"
     },
     "input-label": {
       "all": "Are you searching for Studies, Variables, Questions, Surveys or Data Sets?",
