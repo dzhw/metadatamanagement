@@ -244,6 +244,7 @@ public class UnitTestCreateDomainObjectUtils {
       .withSurveyId(surveyId)
       .withTechnicalRepresentation(buildTechnicalRepresentation())
       .withType(QuestionTypes.SINGLE_CHOICE)
+      .withTopic(new I18nString("Topic De", "Topic EN"))
       .build();
   }
   
