@@ -23,11 +23,12 @@ angular.module('metadatamanagementApp').directive('relatedQuestions',
               if (_.isArray(relatedQuestionController.methodParams)) {
                 var searchTerms = _.chunk(relatedQuestionController
                   .methodParams, relatedQuestionController.page.size);
-                relatedQuestionController.page.totalHits =
-                relatedQuestionController.methodParams.length;
                 QuestionSearchResource[relatedQuestionController.methodName]
                   (searchTerms[relatedQuestionController.page
                     .currentPageNumber - 1]).then(function(questions) {
+                      _.pullAllBy(questions.docs, [{'found': false}], 'found');
+                      relatedQuestionController.page.totalHits = questions.docs
+                      .length;
                       relatedQuestionController.questions = questions.docs;
                     }).finally(function() {
                       blockArea.stop();

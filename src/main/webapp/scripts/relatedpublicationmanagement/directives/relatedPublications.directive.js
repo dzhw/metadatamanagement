@@ -23,12 +23,15 @@ angular.module('metadatamanagementApp').directive('relatedPublications',
               if (_.isArray(relatedPublicationController.methodParams)) {
                 var searchTerms = _.chunk(relatedPublicationController
                   .methodParams, relatedPublicationController.page.size);
-                relatedPublicationController.page.totalHits =
-                relatedPublicationController.methodParams.length;
                 RelatedPublicationSearchResource[relatedPublicationController
                   .methodName](searchTerms[relatedPublicationController.page
                     .currentPageNumber - 1])
                     .then(function(relatedPublications) {
+                      _.pullAllBy(relatedPublications.docs,
+                        [{'found': false}], 'found');
+                      relatedPublicationController.page.totalHits =
+                      relatedPublications.docs
+                      .length;
                       relatedPublicationController.relatedPublications =
                       relatedPublications.docs;
                     }).finally(function() {

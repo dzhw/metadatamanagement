@@ -22,11 +22,12 @@ angular.module('metadatamanagementApp').directive('relatedDataSets',
             if (_.isArray(relatedDataSetController.methodParams)) {
               var searchTerms = _.chunk(relatedDataSetController
                 .methodParams, relatedDataSetController.page.size);
-              relatedDataSetController.page.totalHits = relatedDataSetController
-              .methodParams.length;
               DataSetSearchResource[relatedDataSetController.methodName]
               (searchTerms[relatedDataSetController.page.currentPageNumber - 1])
                 .then(function(dataSets) {
+                  _.pullAllBy(dataSets.docs, [{'found': false}], 'found');
+                  relatedDataSetController.page.totalHits = dataSets.docs
+                  .length;
                   relatedDataSetController.dataSets = dataSets.docs;
                 }).finally(function() {
                   blockArea.stop();

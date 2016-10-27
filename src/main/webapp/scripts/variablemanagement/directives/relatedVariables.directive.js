@@ -22,11 +22,12 @@ angular.module('metadatamanagementApp').directive('relatedVariables',
           if (_.isArray(relatedVariableController.methodParams)) {
             var searchTerms = _.chunk(relatedVariableController
               .methodParams, relatedVariableController.page.size);
-            relatedVariableController.page.totalHits =
-            relatedVariableController.methodParams.length;
             VariableSearchResource[relatedVariableController.methodName]
             (searchTerms[relatedVariableController.page.currentPageNumber - 1])
               .then(function(variables) {
+                _.pullAllBy(variables.docs, [{'found': false}], 'found');
+                relatedVariableController.page.totalHits = variables.docs
+                .length;
                 relatedVariableController.variables = variables.docs;
               }).finally(function() {
                 blockArea.stop();

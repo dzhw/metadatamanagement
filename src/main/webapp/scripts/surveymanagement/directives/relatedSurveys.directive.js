@@ -22,11 +22,12 @@ angular.module('metadatamanagementApp').directive('relatedSurveys',
             if (_.isArray(relatedSurveyController.methodParams)) {
               var searchTerms = _.chunk(relatedSurveyController
                 .methodParams, relatedSurveyController.page.size);
-              relatedSurveyController.page.totalHits = relatedSurveyController
-              .methodParams.length;
               SurveySearchResource[relatedSurveyController.methodName]
               (searchTerms[relatedSurveyController.page.currentPageNumber - 1])
                 .then(function(surveys) {
+                  _.pullAllBy(surveys.docs, [{'found': false}], 'found');
+                  relatedSurveyController.page.totalHits = surveys.docs
+                  .length;
                   relatedSurveyController.surveys = surveys.docs;
                 }).finally(function() {
                   blockArea.stop();

@@ -23,11 +23,12 @@ angular.module('metadatamanagementApp').directive('relatedStudies',
               if (_.isArray(relatedStudyController.methodParams)) {
                 var searchTerms = _.chunk(relatedStudyController
                   .methodParams, relatedStudyController.page.size);
-                relatedStudyController.page.totalHits =
-                relatedStudyController.methodParams.length;
                 StudySearchResource[relatedStudyController.methodName]
                   (searchTerms[relatedStudyController.page
                     .currentPageNumber - 1]).then(function(studies) {
+                      _.pullAllBy(studies.docs, [{'found': false}], 'found');
+                      relatedStudyController.page.totalHits = studies.docs
+                      .length;
                       relatedStudyController.studies = studies.docs;
                     }).finally(function() {
                       blockArea.stop();
