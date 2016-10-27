@@ -71,6 +71,9 @@
           "not-null": "The image type of the question must not be empty.",
           "valid-question-image-type": "The image type of a question must be PNG."
         },
+        "topic": {
+          "i18n-string-size": "The max length of the topic is 2048 signs."
+        },
         "instrument-id": {
           "not-empty": "The RDC-ID of the Instrument must not be empty!"
         },

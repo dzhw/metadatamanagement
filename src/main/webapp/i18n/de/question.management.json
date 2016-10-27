@@ -71,6 +71,9 @@
           "not-null": "Der Bildtyp der Frage darf nicht leer sein.",
           "valid-question-image-type": "Der Bildtyp der Frage muss PNG sein."
         },
+        "topic": {
+          "i18n-string-size": "Die Maximallänge des Topics ist 2048 Zeichen."
+        },
         "instrument-id": {
           "not-empty": "Die FDZ-ID des Instruments darf nicht leer sein."
         },

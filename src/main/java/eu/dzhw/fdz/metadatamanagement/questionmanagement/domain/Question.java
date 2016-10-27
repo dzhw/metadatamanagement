@@ -83,6 +83,10 @@ public class Question extends AbstractRdcDomainObject {
       message = "question-management.error.question.image-type.valid-question-image-type")
   private ImageType imageType;
   
+  @I18nStringSize(max = StringLengths.LARGE, 
+      message = "question-management.error.question.topic.i18n-string-size")
+  private I18nString topic;
+  
   @Valid
   private TechnicalRepresentation technicalRepresentation;
   
@@ -124,6 +128,7 @@ public class Question extends AbstractRdcDomainObject {
       .add("type", type)
       .add("additionalQuestionText", additionalQuestionText)
       .add("imageType", imageType)
+      .add("topic", topic)
       .add("technicalRepresentation", technicalRepresentation)
       .add("successors", successors)
       .add("dataAcquisitionProjectId", dataAcquisitionProjectId)
@@ -232,4 +237,13 @@ public class Question extends AbstractRdcDomainObject {
   public void setInstrumentId(String instrumentId) {
     this.instrumentId = instrumentId;
   }
+
+  public I18nString getTopic() {
+    return topic;
+  }
+
+  public void setTopic(I18nString topic) {
+    this.topic = topic;
+  }
+  
 }
