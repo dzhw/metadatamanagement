@@ -73,6 +73,12 @@ public class Survey extends AbstractRdcDomainObject {
       message = "survey-management.error.survey.survey-method.i18n-string-size")
   private I18nString surveyMethod;
 
+  private Integer grossSampleSize;
+  
+  private Integer sampleSize;
+  
+  private Double responseRate;
+  
   /*
    * (non-Javadoc)
    *
@@ -83,6 +89,7 @@ public class Survey extends AbstractRdcDomainObject {
     return id;
   }
 
+ 
   /*
    * (non-Javadoc)
    * @see eu.dzhw.fdz.metadatamanagement.common.domain.AbstractRdcDomainObject#toString()
@@ -98,6 +105,9 @@ public class Survey extends AbstractRdcDomainObject {
       .add("population", population)
       .add("sample", sample)
       .add("surveyMethod", surveyMethod)
+      .add("grossSampleSize", grossSampleSize)
+      .add("sampleSize", sampleSize)
+      .add("responseRate", responseRate)
       .toString();
   }
 
@@ -152,5 +162,29 @@ public class Survey extends AbstractRdcDomainObject {
 
   public void setDataAcquisitionProjectId(String dataAcquisitionProjectId) {
     this.dataAcquisitionProjectId = dataAcquisitionProjectId;
+  }
+
+  public Integer getGrossSampleSize() {
+    return grossSampleSize;
+  }
+
+  public void setGrossSampleSize(Integer grossSampleSize) {
+    this.grossSampleSize = grossSampleSize;
+  }
+
+  public Integer getSampleSize() {
+    return sampleSize;
+  }
+
+  public void setSampleSize(Integer sampleSize) {
+    this.sampleSize = sampleSize;
+  }
+
+  public Double getResponseRate() {
+    return responseRate;
+  }
+
+  public void setResponseRate(Double responseRate) {
+    this.responseRate = responseRate;
   }
 }
