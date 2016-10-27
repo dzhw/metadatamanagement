@@ -21,6 +21,7 @@ public class QuestionSearchDocument {
   private String type;
   private String additionalQuestionText;
   private String imageType;
+  private String topic;
   private String instrumentId;
   private List<String> successors;
 
@@ -34,7 +35,7 @@ public class QuestionSearchDocument {
     this.instrumentId = question.getInstrumentId();
     this.dataAcquisitionProjectId = question.getDataAcquisitionProjectId();
     this.imageType = question.getImageType().name();
-    this.successors = question.getSuccessors();
+    this.successors = question.getSuccessors();    
     createI18nAttributes(question, index);
   }
   
@@ -51,6 +52,7 @@ public class QuestionSearchDocument {
           .getDe() : null;
         additionalQuestionText = question.getAdditionalQuestionText() != null ? question
           .getAdditionalQuestionText().getDe() : null;
+        topic = question.getTopic() != null ? question.getTopic().getDe() : null;  
         break;
       case METADATA_EN:
         questionText = question.getQuestionText() != null ? question.getQuestionText()
@@ -63,6 +65,7 @@ public class QuestionSearchDocument {
           .getEn() : null;
         additionalQuestionText = question.getAdditionalQuestionText() != null ? question
           .getAdditionalQuestionText().getEn() : null;
+        topic = question.getTopic() != null ? question.getTopic().getEn() : null;
         break;
       default:
         throw new RuntimeException("Unknown index:" + index);
@@ -163,5 +166,13 @@ public class QuestionSearchDocument {
 
   public void setSuccessors(List<String> successors) {
     this.successors = successors;
+  }
+
+  public String getTopic() {
+    return topic;
+  }
+
+  public void setTopic(String topic) {
+    this.topic = topic;
   }
 }
