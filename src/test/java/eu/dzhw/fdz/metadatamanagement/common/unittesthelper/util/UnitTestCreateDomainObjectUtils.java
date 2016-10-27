@@ -141,6 +141,9 @@ public class UnitTestCreateDomainObjectUtils {
       .withSurveyMethod(new I18nStringBuilder().withDe("Survey Method DE")
           .withEn("Survey Method EN")
           .build())
+      .withGrossSampleSize(100)
+      .withSampleSize(100)
+      .withResponseRate(100.0)
       .build();
   }
 
