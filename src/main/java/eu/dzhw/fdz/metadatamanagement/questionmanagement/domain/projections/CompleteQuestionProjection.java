@@ -38,6 +38,8 @@ public interface CompleteQuestionProjection
   I18nString getAdditionalQuestionText();
   
   ImageType geImageType();
+  
+  I18nString getTopic();
     
   TechnicalRepresentation getTechnicalRepresentation();
     
