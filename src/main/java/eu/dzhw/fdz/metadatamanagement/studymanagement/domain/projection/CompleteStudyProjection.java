@@ -38,5 +38,9 @@ public interface CompleteStudyProjection extends AbstractRdcDomainObjectProjecti
   List<Release> getReleases();
   
   String getDataAcquisitionProjectId();
+  
+  I18nString getDataAvaibility();
+  
+  I18nString getSurveyDesign();
 
 }
