@@ -81,6 +81,10 @@ public class Study extends AbstractRdcDomainObject {
       message = "study-management.error.study.authors.i18n-string-size")
   private String authors;
   
+  private I18nString dataAvaibility;
+  
+  private I18nString surveyDesign;
+  
   @NotEmpty(message = "study-management.error.study.access-ways.not-empty")
   @ValidAccessWays(
       message = "study-management.error.study.access-ways.valid-access-ways")
@@ -93,13 +97,15 @@ public class Study extends AbstractRdcDomainObject {
   @Indexed
   private String dataAcquisitionProjectId;
   
+  
   /*
    * (non-Javadoc)
-   * @see java.lang.Object#toString()
+   * @see eu.dzhw.fdz.metadatamanagement.common.domain.AbstractRdcDomainObject#toString()
    */
   @Override
   public String toString() {
     return MoreObjects.toStringHelper(this)
+      .add("super", super.toString())
       .add("id", id)
       .add("title", title)
       .add("description", description)
@@ -108,11 +114,14 @@ public class Study extends AbstractRdcDomainObject {
       .add("sponsor", sponsor)
       .add("citationHint", citationHint)
       .add("authors", authors)
+      .add("dataAvaibility", dataAvaibility)
+      .add("surveyDesign", surveyDesign)
       .add("accessWays", accessWays)
       .add("releases", releases)
       .add("dataAcquisitionProjectId", dataAcquisitionProjectId)
       .toString();
   }
+
 
   /*
    * (non-Javadoc)
@@ -207,5 +216,21 @@ public class Study extends AbstractRdcDomainObject {
 
   public void setDataAcquisitionProjectId(String dataAcquisitionProjectId) {
     this.dataAcquisitionProjectId = dataAcquisitionProjectId;
+  }
+
+  public I18nString getDataAvaibility() {
+    return dataAvaibility;
+  }
+
+  public void setDataAvaibility(I18nString dataAvaibility) {
+    this.dataAvaibility = dataAvaibility;
+  }
+
+  public I18nString getSurveyDesign() {
+    return surveyDesign;
+  }
+
+  public void setSurveyDesign(I18nString surveyDesign) {
+    this.surveyDesign = surveyDesign;
   }
 }
