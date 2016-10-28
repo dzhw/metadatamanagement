@@ -81,8 +81,10 @@ public class Study extends AbstractRdcDomainObject {
       message = "study-management.error.study.authors.i18n-string-size")
   private String authors;
   
+  @NotNull(message = "study-management.error.study.data-avaibility.not-null")
   private I18nString dataAvaibility;
   
+  @NotNull(message = "study-management.error.study.survey-design.not-null")
   private I18nString surveyDesign;
   
   @NotEmpty(message = "study-management.error.study.access-ways.not-empty")

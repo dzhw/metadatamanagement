@@ -24,8 +24,8 @@
       "notes": "Botes",
       "citationHint": "Citation Hint",
       "instruments": "Instruments",
-      "no-related-studies":"No related Studies.",
-      "related-studies":"Related Studies"
+      "no-related-studies": "No related Studies.",
+      "related-studies": "Related Studies"
     },
     "log-messages": {
       "study": {
@@ -73,6 +73,12 @@
         },
         "survey-series": {
           "i18n-string-size": "The max length of the survey series is 128 signs."
+        },
+        "data-avaibility": {
+          "not-null": "The data avaibility of the study must not be empty!"
+        },
+        "survey-design": {
+          "not-null": "The survey design of the study must not be empty!"
         },
         "access-ways": {
           "not-empty": "The list of access ways of a variable needs min. one element and must not be empty!",

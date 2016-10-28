@@ -24,8 +24,8 @@
       "notes": "Notizen",
       "citationHint": "Zitation",
       "instruments": "Instrumente",
-      "no-related-studies":"Keine zugehörige Studien.",
-      "related-studies":"Zugehörige Studien"
+      "no-related-studies": "Keine zugehörige Studien.",
+      "related-studies": "Zugehörige Studien"
     },
     "log-messages": {
       "study": {
@@ -73,6 +73,12 @@
         },
         "survey-series": {
           "i18n-string-size": "Die Maximallänge der Erhebungsreihe einer Studie ist 128 Zeichen."
+        },
+        "data-avaibility": {
+          "not-null": "Die Datenerreichbarkeit einer Studie darf nicht leer sein!"
+        },
+        "survey-design": {
+          "not-null": "Das Erhebungsdesign einer Studie darf nicht leer sein!"
         },
         "access-ways": {
           "not-empty": "Die Liste der Zugangswege einer Variable benötigt mindest ein Element und darf nicht leer sein!",
