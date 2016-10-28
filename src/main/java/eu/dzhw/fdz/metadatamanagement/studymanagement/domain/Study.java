@@ -20,6 +20,7 @@ import eu.dzhw.fdz.metadatamanagement.common.domain.validation.I18nStringNotEmpt
 import eu.dzhw.fdz.metadatamanagement.common.domain.validation.I18nStringSize;
 import eu.dzhw.fdz.metadatamanagement.common.domain.validation.StringLengths;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.DataAcquisitionProject;
+import eu.dzhw.fdz.metadatamanagement.studymanagement.domain.validation.ValidDataAvaibility;
 import eu.dzhw.fdz.metadatamanagement.studymanagement.domain.validation.ValidStudyId;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.validation.ValidAccessWays;
 import net.karneim.pojobuilder.GeneratePojoBuilder;
@@ -82,6 +83,8 @@ public class Study extends AbstractRdcDomainObject {
   private String authors;
   
   @NotNull(message = "study-management.error.study.data-avaibility.not-null")
+  @ValidDataAvaibility(
+      message = "study-management.error.study.data-avaibility.valid-data-avaibility")
   private I18nString dataAvaibility;
   
   @NotNull(message = "study-management.error.study.survey-design.not-null")
