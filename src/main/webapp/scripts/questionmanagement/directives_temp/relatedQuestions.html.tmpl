@@ -1,0 +1,20 @@
+    <div block-ui="blockRelatedQuestionCard">
+      <div ng-repeat="question in relatedQuestionController.questions">
+        {{question}}
+      </div>
+      <div ng-if="relatedQuestionController.page.totalHits > relatedQuestionController.page.size" layout="row" layout-align="center">
+          <ul
+              uib-pagination
+              next-text="{{'global.pagination.next'|translate}}"
+              previous-text="{{'global.pagination.previous'|translate}}"
+              total-items="relatedQuestionController.page.totalHits"
+              ng-model="relatedQuestionController.page.currentPageNumber"
+              max-size="5"
+              ng-change="relatedQuestionController.search()"
+              items-per-page="relatedQuestionController.page.size"
+              class="pagination-sm"></ul>
+      </div>
+      <div ng-if="relatedQuestionController.page.totalHits === 0" layout-margin>
+            <span>{{'question-management.detail.no-related-questions' | translate }}</span>
+      </div>
+    </div>

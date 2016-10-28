@@ -54,6 +54,7 @@ module.exports = function(config) {
       'src/main/webapp/bower_components/js-beautify/js/lib/beautify-html.js',
       'src/main/webapp/bower_components/clipboard/dist/clipboard.js',
       'src/main/webapp/bower_components/ngclipboard/dist/ngclipboard.js',
+      'src/main/webapp/bower_components/angular-material-expansion-panel/dist/md-expansion-panel.js',
       'src/main/webapp/bower_components/angular-mocks/angular-mocks.js',
       // endbower
       'src/main/webapp/bower_components/elasticsearch/elasticsearch.angular.js',

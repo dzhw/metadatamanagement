@@ -1,0 +1,20 @@
+<div block-ui="blockrelatedPublicationCard">
+      <div ng-repeat="relatedPublication in relatedPublicationController.relatedPublications">
+        <related-publication-search-result search-result="relatedPublication._source"></related-publication-search-result>
+      </div>
+      <div ng-if="relatedPublicationController.page.totalHits > relatedPublicationController.page.size" layout="row" layout-align="center">
+          <ul
+              uib-pagination
+              next-text="{{'global.pagination.next'|translate}}"
+              previous-text="{{'global.pagination.previous'|translate}}"
+              total-items="relatedPublicationController.page.totalHits"
+              ng-model="relatedPublicationController.page.currentPageNumber"
+              max-size="5"
+              ng-change="relatedPublicationController.search()"
+              items-per-page="relatedPublicationController.page.size"
+              class="pagination-sm"></ul>
+      </div>
+      <div ng-if="relatedPublicationController.page.totalHits === 0" layout-margin>
+            <span>{{'related-publication-management.detail.no-related-publications' | translate }}</span>
+      </div>
+  </div>

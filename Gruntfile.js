@@ -196,7 +196,10 @@ module.exports = function(grunt) {
             'Consider adding a “lang” attribute to the “html” start tag to' +
             ' declare the language of this document.',
             'Element “md-icon” not allowed as child of element “div” in this' +
-            ' context. (Suppressing further errors from this subtree.)'
+            ' context. (Suppressing further errors from this subtree.)',
+            'Attribute “layout-margin” not ' +
+            'allowed on element “div” at this point.',
+            'Attribute “block-ui” not allowed on element “div” at this point.'
           ],
           customattrs: [
             'show-validation',

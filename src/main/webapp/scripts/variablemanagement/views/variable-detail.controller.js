@@ -3,7 +3,8 @@
 angular.module('metadatamanagementApp')
   .controller('VariableDetailController', function(SurveySearchDialogService,
     DataSetSearchDialogService, $scope, entity, $state, ShoppingCartService,
-    RelatedPublicationSearchDialogService) {
+    RelatedPublicationSearchDialogService, $mdExpansionPanelGroup,
+    $mdExpansionPanel) {
     $scope.generationCodeToggleFlag = true;
     $scope.notAllRowsVisible = true;
     entity.$promise.then(function(variable) {
@@ -40,5 +41,8 @@ angular.module('metadatamanagementApp')
     $scope.addToNotepad = function() {
       ShoppingCartService
       .addToShoppingCart($scope.variable.dataAcquisitionProjectId);
+    };
+    $scope.collapseOne = function(name) {
+      $mdExpansionPanel(name).collapse();
     };
   });

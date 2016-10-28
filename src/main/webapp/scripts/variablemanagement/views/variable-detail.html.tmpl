@@ -8,7 +8,7 @@
         </md-card-header>
         <md-card-content style="padding-top: 0px;" layout="column">
             <div layout="row" layout-sm="column" layout-xs="column">
-                <md-card flex-gt-sm>
+                <md-card flex-gt-sm="60">
                     <md-card-header>
                         <md-card-header-text>
                             <h2 class="md-title">{{'variable-management.detail.variable-informations' | translate }}</h2>
@@ -59,7 +59,7 @@
                         </section>
                     </md-card-content>
                 </md-card>
-                <md-card>
+                <md-card flex-gt-sm="40">
                     <md-card-header>
                         <md-card-header-text>
                             <h2 class="md-title">{{'variable-management.detail.related-information' | translate }}</h2>
@@ -67,6 +67,118 @@
                     </md-card-header>
                     <md-divider></md-divider>
                     <md-card-content>
+                      <md-expansion-panel-group md-component-id='panelGroup'>
+                        <md-expansion-panel md-component-id='surveyPanel'>
+                          <md-expansion-panel-collapsed>{{'survey-management.detail.related-surveys' | translate }}
+                            <md-expansion-panel-icon></md-expansion-panel-icon>
+                          </md-expansion-panel-collapsed>
+                          <md-expansion-panel-expanded>
+                            <md-expansion-panel-header>
+                                <div class="md-title">{{'survey-management.detail.related-surveys' | translate }}</div>
+                                <div class="md-summary"></div>
+                                <md-expansion-panel-icon></md-expansion-panel-icon>
+                            </md-expansion-panel-header>
+                            <md-expansion-panel-content>
+                              <related-temp-surveys flex-gt-sm="50" method-name="findSurveys" method-params="variable.surveyIds"></related-temp-surveys>
+                            </md-expansion-panel-content>
+                            <md-expansion-panel-footer>
+                              <div flex></div>
+                              <button class="md-warn md-button ng-scope md-ink-ripple" type="button" ng-click="collapseOne('surveyPanel')">
+                                <div>{{'global.buttons.close' | translate }}</div>
+                              </button>
+                            </md-expansion-panel-footer>
+                          </md-expansion-panel-expanded>
+                        </md-expansion-panel>
+
+                        <md-expansion-panel md-component-id='dataSetPanel'>
+                          <md-expansion-panel-collapsed>{{'data-set-management.detail.related-data-sets' | translate }}
+                            <md-expansion-panel-icon></md-expansion-panel-icon>
+                          </md-expansion-panel-collapsed>
+                          <md-expansion-panel-expanded>
+                            <md-expansion-panel-header>
+                                <div class="md-title">{{'data-set-management.detail.related-data-sets' | translate }}</div>
+                                <div class="md-summary"></div>
+                                <md-expansion-panel-icon></md-expansion-panel-icon>
+                            </md-expansion-panel-header>
+                            <md-expansion-panel-content>
+                              <related-data flex-gt-sm="50" method-name="findByVariableId" method-params="variable.id"></related-data>
+                            </md-expansion-panel-content>
+                            <md-expansion-panel-footer>
+                              <div flex></div>
+                              <button class="md-warn md-button ng-scope md-ink-ripple" type="button" ng-click="collapseOne('dataSetPanel')">
+                                <div>{{'global.buttons.close' | translate }}</div>
+                              </button>
+                            </md-expansion-panel-footer>
+                          </md-expansion-panel-expanded>
+                        </md-expansion-panel>
+
+                        <md-expansion-panel md-component-id='questionPanel'>
+                          <md-expansion-panel-collapsed>{{'question-management.detail.related-questions' | translate }}
+                            <md-expansion-panel-icon></md-expansion-panel-icon>
+                          </md-expansion-panel-collapsed>
+                          <md-expansion-panel-expanded>
+                            <md-expansion-panel-header>
+                                <div class="md-title">{{'question-management.detail.related-questions' | translate }}</div>
+                                <div class="md-summary"></div>
+                                <md-expansion-panel-icon></md-expansion-panel-icon>
+                            </md-expansion-panel-header>
+                            <md-expansion-panel-content>
+                              <related-temp-questions method-name="findQuestion" method-params="variable.questionId"></related-temp-questions>
+                            </md-expansion-panel-content>
+                            <md-expansion-panel-footer>
+                              <div flex></div>
+                              <button class="md-warn md-button ng-scope md-ink-ripple" type="button" ng-click="collapseOne('questionPanel')">
+                                <div>{{'global.buttons.close' | translate }}</div>
+                              </button>
+                            </md-expansion-panel-footer>
+                          </md-expansion-panel-expanded>
+                        </md-expansion-panel>
+
+                        <md-expansion-panel md-component-id='publicationPanel'>
+                          <md-expansion-panel-collapsed>{{'related-publication-management.detail.related-publications' | translate }}
+                            <md-expansion-panel-icon></md-expansion-panel-icon>
+                          </md-expansion-panel-collapsed>
+                          <md-expansion-panel-expanded>
+                            <md-expansion-panel-header>
+                                <div class="md-title">{{'related-publication-management.detail.related-publications' | translate }}</div>
+                                <div class="md-summary"></div>
+                                <md-expansion-panel-icon></md-expansion-panel-icon>
+                            </md-expansion-panel-header>
+                            <md-expansion-panel-content>
+                              <related-temp-publications method-name="findByVariableId" method-params="variable.id"></related-temp-publications>
+                            </md-expansion-panel-content>
+                            <md-expansion-panel-footer>
+                              <div flex></div>
+                              <button class="md-warn md-button ng-scope md-ink-ripple" type="button" ng-click="collapseOne('publicationPanel')">
+                                <div>{{'global.buttons.close' | translate }}</div>
+                              </button>
+                            </md-expansion-panel-footer>
+                          </md-expansion-panel-expanded>
+                        </md-expansion-panel>
+
+                        <md-expansion-panel md-component-id='studyPanel'>
+                          <md-expansion-panel-collapsed>{{'study-management.detail.related-studies' | translate }}
+                            <md-expansion-panel-icon></md-expansion-panel-icon>
+                          </md-expansion-panel-collapsed>
+                          <md-expansion-panel-expanded>
+                            <md-expansion-panel-header>
+                                <div class="md-title">{{'study-management.detail.related-studies' | translate }}</div>
+                                <div class="md-summary"></div>
+                                <md-expansion-panel-icon></md-expansion-panel-icon>
+                            </md-expansion-panel-header>
+                            <md-expansion-panel-content>
+                              <related-temp-studies method-name="findStudy" method-params="variable.dataAcquisitionProjectId"></related-temp-studies>
+                            </md-expansion-panel-content>
+                            <md-expansion-panel-footer>
+                              <div flex></div>
+                              <button class="md-warn md-button ng-scope md-ink-ripple" type="button" ng-click="collapseOne('studyPanel')">
+                                <div>{{'global.buttons.close' | translate }}</div>
+                              </button>
+                            </md-expansion-panel-footer>
+                          </md-expansion-panel-expanded>
+                        </md-expansion-panel>
+                      </md-expansion-panel-group>
+                      <!--
                         <section>
                             <md-button class="md-raised" ng-click="showStudy()">
                                 <md-icon md-svg-src="/assets/images/icons/study.svg"></md-icon>
@@ -101,6 +213,7 @@
                                 <span>{{'related-publication-management.detail.publications' | translate }}</span>
                             </md-button>
                         </section>
+                      -->
                     </md-card-content>
                 </md-card>
             </div>
@@ -268,6 +381,7 @@
                     </table>
                 </md-card>
             </div>
+            <!--
             <div layout="row" layout-sm="column" layout-xs="column">
               <related-surveys flex-gt-sm="50" method-name="findSurveys" method-params="variable.surveyIds"></related-surveys>
               <related-data-sets flex-gt-sm="50" method-name="findByVariableId" method-params="variable.id"></related-data-sets>
@@ -279,6 +393,7 @@
             <div layout="row" layout-sm="column" layout-xs="column">
                <related-studies method-name="findStudy" method-params="variable.dataAcquisitionProjectId"></related-studies>
             </div>
+          -->
             <div layout="row" ng-if="variable.generationDetails">
                 <md-card flex>
                     <md-card-header class="fdz-card-header-with-button" layout-align="center center">

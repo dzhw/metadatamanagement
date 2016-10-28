@@ -1,0 +1,20 @@
+  <div block-ui="blockRelatedStudyCard">
+      <div ng-repeat="study in relatedStudyController.studies">
+        {{study}}
+      </div>
+      <div ng-if="relatedStudyController.page.totalHits > relatedStudyController.page.size" layout="row" layout-align="center">
+          <ul
+              uib-pagination
+              next-text="{{'global.pagination.next'|translate}}"
+              previous-text="{{'global.pagination.previous'|translate}}"
+              total-items="relatedStudyController.page.totalHits"
+              ng-model="relatedStudyController.page.currentPageNumber"
+              max-size="5"
+              ng-change="relatedStudyController.search()"
+              items-per-page="relatedStudyController.page.size"
+              class="pagination-sm"></ul>
+      </div>
+      <div ng-if="relatedStudyController.page.totalHits === 0" layout-margin>
+            <span>{{'study-management.detail.no-related-studies' | translate }}</span>
+      </div>
+    </div>
