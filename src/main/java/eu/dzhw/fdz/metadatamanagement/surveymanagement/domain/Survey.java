@@ -73,11 +73,11 @@ public class Survey extends AbstractRdcDomainObject {
       message = "survey-management.error.survey.survey-method.i18n-string-size")
   private I18nString surveyMethod;
 
-  private Integer grossSampleSize;
+  private int grossSampleSize;
   
-  private Integer sampleSize;
+  private int sampleSize;
   
-  private Double responseRate;
+  private double responseRate;
   
   /*
    * (non-Javadoc)
@@ -164,27 +164,33 @@ public class Survey extends AbstractRdcDomainObject {
     this.dataAcquisitionProjectId = dataAcquisitionProjectId;
   }
 
-  public Integer getGrossSampleSize() {
+
+  public int getGrossSampleSize() {
     return grossSampleSize;
   }
 
-  public void setGrossSampleSize(Integer grossSampleSize) {
+
+  public void setGrossSampleSize(int grossSampleSize) {
     this.grossSampleSize = grossSampleSize;
   }
 
-  public Integer getSampleSize() {
+
+  public int getSampleSize() {
     return sampleSize;
   }
 
-  public void setSampleSize(Integer sampleSize) {
+
+  public void setSampleSize(int sampleSize) {
     this.sampleSize = sampleSize;
   }
 
-  public Double getResponseRate() {
+
+  public double getResponseRate() {
     return responseRate;
   }
 
-  public void setResponseRate(Double responseRate) {
+
+  public void setResponseRate(double responseRate) {
     this.responseRate = responseRate;
   }
 }
