@@ -1,4 +1,4 @@
-package eu.dzhw.fdz.metadatamanagement.studymanagement;
+package eu.dzhw.fdz.metadatamanagement.studymanagement.domain;
 
 import java.util.Arrays;
 import java.util.Collections;
