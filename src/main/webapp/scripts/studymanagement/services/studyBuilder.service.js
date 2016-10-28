@@ -49,6 +49,14 @@ angular.module('metadatamanagementApp').service('StudyBuilderService',
             en: study[i]['citationHint.en'],
             de: study[i]['citationHint.de']
           },
+          dataAvaibility: {
+            en: study[i]['dataAvaibility.en'],
+            de: study[i]['dataAvaibility.de']
+          },
+          surveyDesign: {
+            en: study[i]['surveyDesign.en'],
+            de: study[i]['surveyDesign.de']
+          },
           authors: study[i].authors,
           accessWays: CleanJSObjectService.
           removeWhiteSpace(study[i].accessWays),
