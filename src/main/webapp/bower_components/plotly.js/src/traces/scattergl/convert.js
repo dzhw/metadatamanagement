@@ -17,9 +17,10 @@ var isNumeric = require('fast-isnumeric');
 
 var Lib = require('../../lib');
 var Axes = require('../../plots/cartesian/axes');
+var autoType = require('../../plots/cartesian/axis_autotype');
 var ErrorBars = require('../../components/errorbars');
 var str2RGBArray = require('../../lib/str2rgbarray');
-var truncate = require('../../lib/float32_truncate');
+var truncate = require('../../lib/typed_array_truncate');
 var formatColor = require('../../lib/gl_format_color');
 var subTypes = require('../scatter/subtypes');
 var makeBubbleSizeFn = require('../scatter/make_bubble_size_func');
@@ -50,7 +51,7 @@ function LineWithMarkers(scene, uid) {
 
     this.hasLines = false;
     this.lineOptions = {
-        positions: new Float32Array(0),
+        positions: new Float64Array(0),
         color: [0, 0, 0, 1],
         width: 1,
         fill: [false, false, false, false],
@@ -66,8 +67,8 @@ function LineWithMarkers(scene, uid) {
 
     this.hasErrorX = false;
     this.errorXOptions = {
-        positions: new Float32Array(0),
-        errors: new Float32Array(0),
+        positions: new Float64Array(0),
+        errors: new Float64Array(0),
         lineWidth: 1,
         capSize: 0,
         color: [0, 0, 0, 1]
@@ -77,8 +78,8 @@ function LineWithMarkers(scene, uid) {
 
     this.hasErrorY = false;
     this.errorYOptions = {
-        positions: new Float32Array(0),
-        errors: new Float32Array(0),
+        positions: new Float64Array(0),
+        errors: new Float64Array(0),
         lineWidth: 1,
         capSize: 0,
         color: [0, 0, 0, 1]
@@ -88,7 +89,7 @@ function LineWithMarkers(scene, uid) {
 
     this.hasMarkers = false;
     this.scatterOptions = {
-        positions: new Float32Array(0),
+        positions: new Float64Array(0),
         sizes: [],
         colors: [],
         glyphs: [],
@@ -114,11 +115,13 @@ proto.handlePick = function(pickResult) {
         index = this.idToIndex[pickResult.pointId];
     }
 
+    var x = this.pickXData[index];
+
     return {
         trace: this,
         dataCoord: pickResult.dataCoord,
         traceCoord: [
-            this.pickXData[index],
+            isNumeric(x) || !Lib.isDateTime(x) ? x : Lib.dateTime2ms(x),
             this.pickYData[index]
         ],
         textLabel: Array.isArray(this.textLabels) ?
@@ -135,7 +138,7 @@ proto.handlePick = function(pickResult) {
 
 // check if trace is fancy
 proto.isFancy = function(options) {
-    if(this.scene.xaxis.type !== 'linear') return true;
+    if(this.scene.xaxis.type !== 'linear' && this.scene.xaxis.type !== 'date') return true;
     if(this.scene.yaxis.type !== 'linear') return true;
 
     if(!options.x || !options.y) return true;
@@ -259,37 +262,70 @@ proto.update = function(options) {
     this.color = getTraceColor(options, {});
 };
 
+// We'd ideally know that all values are of fast types; sampling gives no certainty but faster
+//     (for the future, typed arrays can guarantee it, and Date values can be done with
+//      representing the epoch milliseconds in a typed array;
+//      also, perhaps the Python / R interfaces take care of String->Date conversions
+//      such that there's no need to check for string dates in plotly.js)
+// Patterned from axis_defaults.js:moreDates
+// Code DRYing is not done to preserve the most direct compilation possible for speed;
+// also, there are quite a few differences
+function allFastTypesLikely(a) {
+    var len = a.length,
+        inc = Math.max(0, (len - 1) / Math.min(Math.max(len, 1), 1000)),
+        ai;
+
+    for(var i = 0; i < len; i += inc) {
+        ai = a[Math.floor(i)];
+        if(!isNumeric(ai) && !(ai instanceof Date)) {
+            return false;
+        }
+    }
+
+    return true;
+}
+
 proto.updateFast = function(options) {
     var x = this.xData = this.pickXData = options.x;
     var y = this.yData = this.pickYData = options.y;
 
     var len = x.length,
         idToIndex = new Array(len),
-        positions = new Float32Array(2 * len),
+        positions = new Float64Array(2 * len),
         bounds = this.bounds,
         pId = 0,
         ptr = 0;
 
     var xx, yy;
 
+    var fastType = allFastTypesLikely(x);
+    var isDateTime = !fastType && autoType(x) === 'date';
+
     // TODO add 'very fast' mode that bypasses this loop
     // TODO bypass this on modebar +/- zoom
-    for(var i = 0; i < len; ++i) {
-        xx = x[i];
-        yy = y[i];
+    if(fastType || isDateTime) {
 
-        // check for isNaN is faster but doesn't skip over nulls
-        if(!isNumeric(xx) || !isNumeric(yy)) continue;
+        for(var i = 0; i < len; ++i) {
+            xx = x[i];
+            yy = y[i];
 
-        idToIndex[pId++] = i;
+            if(isNumeric(yy)) {
 
-        positions[ptr++] = xx;
-        positions[ptr++] = yy;
+                if(!fastType) {
+                    xx = Lib.dateTime2ms(xx);
+                }
 
-        bounds[0] = Math.min(bounds[0], xx);
-        bounds[1] = Math.min(bounds[1], yy);
-        bounds[2] = Math.max(bounds[2], xx);
-        bounds[3] = Math.max(bounds[3], yy);
+                idToIndex[pId++] = i;
+
+                positions[ptr++] = xx;
+                positions[ptr++] = yy;
+
+                bounds[0] = Math.min(bounds[0], xx);
+                bounds[1] = Math.min(bounds[1], yy);
+                bounds[2] = Math.max(bounds[2], xx);
+                bounds[3] = Math.max(bounds[3], yy);
+            }
+        }
     }
 
     positions = truncate(positions, ptr);
@@ -321,13 +357,13 @@ proto.updateFast = function(options) {
         this.scatter.update(this.scatterOptions);
     }
     else {
-        this.scatterOptions.positions = new Float32Array(0);
+        this.scatterOptions.positions = new Float64Array(0);
         this.scatterOptions.glyphs = [];
         this.scatter.update(this.scatterOptions);
     }
 
     // turn off fancy scatter plot
-    this.scatterOptions.positions = new Float32Array(0);
+    this.scatterOptions.positions = new Float64Array(0);
     this.scatterOptions.glyphs = [];
     this.fancyScatter.update(this.scatterOptions);
 
@@ -353,9 +389,9 @@ proto.updateFancy = function(options) {
 
     var len = x.length,
         idToIndex = new Array(len),
-        positions = new Float32Array(2 * len),
-        errorsX = new Float32Array(4 * len),
-        errorsY = new Float32Array(4 * len),
+        positions = new Float64Array(2 * len),
+        errorsX = new Float64Array(4 * len),
+        errorsY = new Float64Array(4 * len),
         pId = 0,
         ptr = 0,
         ptrX = 0,
@@ -446,13 +482,13 @@ proto.updateFancy = function(options) {
         this.fancyScatter.update(this.scatterOptions);
     }
     else {
-        this.scatterOptions.positions = new Float32Array(0);
+        this.scatterOptions.positions = new Float64Array(0);
         this.scatterOptions.glyphs = [];
         this.fancyScatter.update(this.scatterOptions);
     }
 
     // turn off fast scatter plot
-    this.scatterOptions.positions = new Float32Array(0);
+    this.scatterOptions.positions = new Float64Array(0);
     this.scatterOptions.glyphs = [];
     this.scatter.update(this.scatterOptions);
 
@@ -470,7 +506,7 @@ proto.updateLines = function(options, positions) {
             var p = 0;
             var x = this.xData;
             var y = this.yData;
-            linePositions = new Float32Array(2 * x.length);
+            linePositions = new Float64Array(2 * x.length);
 
             for(i = 0; i < x.length; ++i) {
                 linePositions[p++] = x[i];
@@ -506,7 +542,7 @@ proto.updateLines = function(options, positions) {
         this.lineOptions.fillColor = [fillColor, fillColor, fillColor, fillColor];
     }
     else {
-        this.lineOptions.positions = new Float32Array(0);
+        this.lineOptions.positions = new Float64Array(0);
     }
 
     this.line.update(this.lineOptions);
@@ -529,7 +565,7 @@ proto.updateError = function(axLetter, options, positions, errors) {
         errorObjOptions.color = convertColor(errorOptions.color, 1, 1);
     }
     else {
-        errorObjOptions.positions = new Float32Array(0);
+        errorObjOptions.positions = new Float64Array(0);
     }
 
     errorObj.update(errorObjOptions);
@@ -552,7 +588,7 @@ proto.expandAxesFast = function(bounds, markerSize) {
     }
 };
 
-// not quite on-par with 'scatter' (scatter fill in several other expand options),
+// not quite on-par with 'scatter' (scatter fill in several other expand options)
 // but close enough for now
 proto.expandAxesFancy = function(x, y, ppad) {
     var scene = this.scene,
