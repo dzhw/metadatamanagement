@@ -75,10 +75,12 @@
           "i18n-string-size": "The max length of the survey series is 128 signs."
         },
         "data-avaibility": {
-          "not-null": "The data avaibility of the study must not be empty!"
+          "not-null": "The data avaibility of the study must not be empty!",
+          "valid-data-avaibility": "The allowed values for data avaibility of the study are: Available, In preparation, Not available."
         },
         "survey-design": {
-          "not-null": "The survey design of the study must not be empty!"
+          "not-null": "The survey design of the study must not be empty!",
+          "valid-survey-design": "The allowed values for the survey design of the study are: Cross-section, Panel."
         },
         "access-ways": {
           "not-empty": "The list of access ways of a variable needs min. one element and must not be empty!",

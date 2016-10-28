@@ -75,10 +75,12 @@
           "i18n-string-size": "Die Maximallänge der Erhebungsreihe einer Studie ist 128 Zeichen."
         },
         "data-avaibility": {
-          "not-null": "Die Datenerreichbarkeit einer Studie darf nicht leer sein!"
+          "not-null": "Die Datenerreichbarkeit einer Studie darf nicht leer sein!",
+          "valid-data-avaibility": "Die erlaubten Werte für Datenverfügbarkeit der Studie sind: Verfügbar, In Aufbereitung, Nicht verfügbar."
         },
         "survey-design": {
-          "not-null": "Das Erhebungsdesign einer Studie darf nicht leer sein!"
+          "not-null": "Das Erhebungsdesign einer Studie darf nicht leer sein!",
+          "valid-survey-design": "Die erlaubten Werte für das Erhebungsdesign der Studie sind: Querschnitt, Panel."
         },
         "access-ways": {
           "not-empty": "Die Liste der Zugangswege einer Variable benötigt mindest ein Element und darf nicht leer sein!",
