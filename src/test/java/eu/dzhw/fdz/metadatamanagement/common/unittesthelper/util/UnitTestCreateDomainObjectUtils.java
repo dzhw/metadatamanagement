@@ -31,8 +31,10 @@ import eu.dzhw.fdz.metadatamanagement.questionmanagement.domain.builders.Questio
 import eu.dzhw.fdz.metadatamanagement.questionmanagement.domain.builders.TechnicalRepresentationBuilder;
 import eu.dzhw.fdz.metadatamanagement.relatedpublicationmanagement.domain.RelatedPublication;
 import eu.dzhw.fdz.metadatamanagement.relatedpublicationmanagement.domain.builders.RelatedPublicationBuilder;
+import eu.dzhw.fdz.metadatamanagement.studymanagement.DataAvaibilities;
 import eu.dzhw.fdz.metadatamanagement.studymanagement.domain.Release;
 import eu.dzhw.fdz.metadatamanagement.studymanagement.domain.Study;
+import eu.dzhw.fdz.metadatamanagement.studymanagement.domain.SurveyDesigns;
 import eu.dzhw.fdz.metadatamanagement.studymanagement.domain.builders.StudyBuilder;
 import eu.dzhw.fdz.metadatamanagement.surveymanagement.domain.Survey;
 import eu.dzhw.fdz.metadatamanagement.surveymanagement.domain.builders.SurveyBuilder;
@@ -118,6 +120,8 @@ public class UnitTestCreateDomainObjectUtils {
             .withDe("Titel De")
             .withEn("Title En")
             .build())
+        .withDataAvaibility(DataAvaibilities.AVAILABLE)
+        .withSurveyDesign(SurveyDesigns.PANEL)
         .withAccessWays(accessWays)
         .withDataAcquisitionProjectId(projectId)
         .build();    
