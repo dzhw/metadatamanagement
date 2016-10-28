@@ -28,6 +28,10 @@ public class StudySearchDocument {
   private String authors;  
 
   private String dataAcquisitionProjectId;
+  
+  private String dataAvaibility;
+  
+  private String surveyDesign;
 
   
 
@@ -52,6 +56,10 @@ public class StudySearchDocument {
         this.sponsor = study.getSponsor() != null ? study.getSponsor().getDe() : null;
         this.citationHint = study.getCitationHint() != null 
             ? study.getCitationHint().getDe() : null;
+        this.dataAvaibility = study.getDataAvaibility() != null 
+            ? study.getDataAvaibility().getDe() : null;
+        this.surveyDesign = study.getSurveyDesign() != null
+            ? study.getSurveyDesign().getDe() : null;
         break;
       case METADATA_EN:
         this.title = study.getTitle() != null ? study.getTitle().getEn() : null;
@@ -62,6 +70,10 @@ public class StudySearchDocument {
         this.sponsor = study.getSponsor() != null ? study.getSponsor().getEn() : null;
         this.citationHint = study.getCitationHint() != null 
             ? study.getCitationHint().getEn() : null;
+        this.dataAvaibility = study.getDataAvaibility() != null 
+                ? study.getDataAvaibility().getEn() : null;
+        this.surveyDesign = study.getSurveyDesign() != null
+                    ? study.getSurveyDesign().getEn() : null;        
         break;
       default:
         throw new RuntimeException("Unknown index:" + index);
@@ -139,5 +151,21 @@ public class StudySearchDocument {
 
   public void setDataAcquisitionProjectId(String dataAcquisitionProjectId) {
     this.dataAcquisitionProjectId = dataAcquisitionProjectId;
+  }
+
+  public String getDataAvaibility() {
+    return dataAvaibility;
+  }
+
+  public void setDataAvaibility(String dataAvaibility) {
+    this.dataAvaibility = dataAvaibility;
+  }
+
+  public String getSurveyDesign() {
+    return surveyDesign;
+  }
+
+  public void setSurveyDesign(String surveyDesign) {
+    this.surveyDesign = surveyDesign;
   }
 }
