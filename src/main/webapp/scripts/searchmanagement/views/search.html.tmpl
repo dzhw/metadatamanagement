@@ -107,9 +107,10 @@
             aria-label="{{'search-management.buttons.upload-surveys' | translate}}"
             ng-if="selectedTabIndex===4"
             type="file"
-            ngf-select="uploadSurveys($file)"
+            ngf-select="uploadSurveys($files)"
             class="md-accent md-fab"
-            accept=".xlsx"
+            ngf-multiple="true"
+            directory webkitdirectory
             ng-disabled="!currentProject">
             <div>
                 <md-tooltip md-direction="left">

@@ -174,11 +174,8 @@ angular.module('metadatamanagementApp').controller('SearchController',
       }
     };
 
-    $scope.uploadSurveys = function(file) {
-      if (Array.isArray(file)) {
-        file = file[0];
-      }
-      if (!file || !file.name.endsWith('xlsx')) {
+    $scope.uploadSurveys = function(files) {
+      if (!files || files.length === 0) {
         return;
       }
       var dataAcquisitionProject = $scope.currentProject;
@@ -199,7 +196,7 @@ angular.module('metadatamanagementApp').controller('SearchController',
         $mdDialog.show(confirm).then(function() {
           //start upload
           SurveyUploadService
-            .uploadSurveys(file, dataAcquisitionProject.id);
+            .uploadSurveys(files, dataAcquisitionProject.id);
           //Cancel. Nothing happens
         }, function() {});
       }
