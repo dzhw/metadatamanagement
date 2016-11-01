@@ -60,6 +60,15 @@
           "not-null": "Die Erhebungsmethode darf nicht leer sein!",
           "i18n-string-not-empty": "Die Erhebungsmethode muss mindestens in einer Sprache vorliegen.",
           "i18n-string-size": "Die Maximallänge der Erhebungsmethode ist 128 Zeichen."
+        },
+        "gross-sample-size": {
+          "not-null": "Die Gross-Sample-Size der Erhebung darf nicht leer sein!"
+        },
+        "sample-size": {
+          "not-null": "Die Sample-Size der Erhebung darf nicht leer sein!"
+        },
+        "response-rate": {
+          "not-null": "Die Rücklaufquote der Erhebung darf nicht leer sein!"
         }
       }
     }
