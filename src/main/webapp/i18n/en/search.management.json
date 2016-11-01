@@ -11,8 +11,10 @@
       "delete-data-sets": "Are you sure you want to delete all Data Sets within the Data Acquisition Project with RDC-ID \"{{ id }}\"?",
       "delete-studies-title": "Delete Study?",
       "delete-studies": "Are you sure you want to the Study of the Data Acquisition Project with RDC-ID \"{{ id }}\"?",
-      "delete-related-publications-title": "Delete Publications?",
-      "delete-related-publications": "Are you sure you want to the Publications?"
+      "delete-related-publications-title": "Delete all Publications?",
+      "delete-related-publications": "Are you sure you want to delete all Publications?",
+      "delete-instruments-title": "Delete all Instruments?",
+      "delete-instruments": "Are you sure you want to delete all Instruments within the Data Acquisition Project with RDC-ID \"{{ id }}\"?"
     },
     "buttons": {
       "refresh": "Refresh search results",
@@ -21,16 +23,18 @@
       "upload-data-sets": "Upload Data Sets for selected Data Acquisition Project",
       "upload-questions": "Upload Questions for selected Data Acquisition Project",
       "upload-studies": "Upload Study for selected Data Acquisition Project",
-      "upload-related-publications": "Upload Publications"
+      "upload-related-publications": "Upload Publications",
+      "upload-instruments": "Upload Instruments for selected Data Acquisition Project"
     },
     "input-label": {
-      "all": "Are you searching for Studies, Variables, Questions, Surveys or Data Sets?",
+      "all": "Are you searching for Studies, Variables, Questions, Surveys, Data Sets, Instruments or Publications?",
       "variables": "Are you searching for Variables?",
       "questions": "Are you searching for Questions?",
       "surveys": "Are you searching for Surveys?",
       "data-sets": "Are you searching for Data Sets?",
       "studies": "Are you searching for Studies?",
-      "related-publications": "Are you searching for Publications?"
+      "related-publications": "Are you searching for Publications?",
+      "instruments": "Are you searching for Instruments?"
     },
     "tabs": {
       "variables": "Variables",
@@ -39,7 +43,8 @@
       "data-sets": "Data Sets",
       "studies": "Studies",
       "all": "All",
-      "related-publications": "Publications"
+      "related-publications": "Publications",
+      "instruments": "Instruments"
     }
   }
 }

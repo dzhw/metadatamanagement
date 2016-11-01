@@ -11,8 +11,10 @@
       "delete-data-sets": "Sind Sie sicher dass, Sie alle Datensätze innerhalb des Datenaufbereitungsprojekts mit der FDZ-ID \"{{ id }}\" löschen möchten?",
       "delete-studies-title": "Studie löschen?",
       "delete-studies": "Sind Sie sicher dass, Sie die Studie des Datenaufbereitungsprojekts mit der FDZ-ID \"{{ id }}\" löschen möchten?",
-      "delete-related-publications-title": "Publikationen löschen?",
-      "delete-related-publications": "Sind Sie sicher dass, Sie die Publikationen löschen möchten?"
+      "delete-related-publications-title": "Alle Publikationen löschen?",
+      "delete-related-publications": "Sind Sie sicher dass, Sie die Publikationen löschen möchten?",
+      "delete-instruments-title": "Alle Instrumente löschen?",
+      "delete-instruments": "Sind Sie sicher dass, Sie alle Instrumente innerhalb des Datenaufbereitungsprojekts mit der FDZ-ID \"{{ id }}\" löschen möchten?"
     },
     "buttons": {
       "refresh": "Suche aktualisieren",
@@ -21,16 +23,18 @@
       "upload-data-sets": "Datensätze für ausgewähltes Datenaufbereitungsprojekt hochladen",
       "upload-questions": "Fragen für ausgewähltes Datenaufbereitungsprojekt hochladen",
       "upload-studies": "Studie für ausgewähltes Datenaufbereitungsprojekt hochladen",
-      "upload-related-publications": "Publikationen hochladen"
+      "upload-related-publications": "Publikationen hochladen",
+      "upload-instruments": "Instrumente für ausgewähltes Datenaufbereitungsprojekt hochladen"
     },
     "input-label": {
-      "all": "Suchen Sie Studien, Variablen, Fragen, Erhebungen oder Datensätze?",
+      "all": "Suchen Sie Studien, Variablen, Fragen, Erhebungen, Datensätze, Instrumente oder Publikationen?",
       "variables": "Suchen Sie Variablen?",
       "questions": "Suchen Sie Fragen?",
       "surveys": "Suchen Sie Erhebungen?",
       "data-sets": "Suchen Sie Datensätze?",
       "studies": "Suchen Sie Studien?",
-      "related-publications": "Suchen Sie Publikationen?"
+      "related-publications": "Suchen Sie Publikationen?",
+      "instruments": "Suchen Sie Instrumente?"
     },
     "tabs": {
       "variables": "Variablen",
@@ -39,7 +43,8 @@
       "data-sets": "Datensätze",
       "studies": "Studien",
       "all": "Alle",
-      "related-publications": "Publikationen"
+      "related-publications": "Publikationen",
+      "instruments": "Instrumente"
     }
   }
 }

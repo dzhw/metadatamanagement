@@ -9,7 +9,7 @@ angular.module('metadatamanagementApp').controller('SearchController',
     AlertService, SearchDao, $translate, VariableUploadService,
     QuestionUploadService, RelatedPublicationUploadService,
     DataSetUploadService, StudyUploadService, SurveyUploadService, $mdDialog,
-    CleanJSObjectService,
+    CleanJSObjectService, InstrumentUploadService,
     CurrentProjectService, $timeout) {
 
     //Check the login status
@@ -285,6 +285,34 @@ angular.module('metadatamanagementApp').controller('SearchController',
       }
     };
 
+    $scope.uploadInstruments = function(files) {
+      if (!files || files.length === 0) {
+        return;
+      }
+      var dataAcquisitionProject = $scope.currentProject;
+      if (!CleanJSObjectService.isNullOrEmpty(dataAcquisitionProject)) {
+        var confirm = $mdDialog.confirm()
+          .title($translate.instant(
+            'search-management.delete-messages.delete-instruments-title'))
+          .textContent($translate.instant(
+            'search-management.delete-messages.delete-instruments', {
+              id: dataAcquisitionProject.id
+            }))
+          .ariaLabel($translate.instant(
+            'search-management.delete-messages.delete-instruments', {
+              id: dataAcquisitionProject.id
+            }))
+          .ok($translate.instant('global.buttons.ok'))
+          .cancel($translate.instant('global.buttons.cancel'));
+        $mdDialog.show(confirm).then(function() {
+          //start upload
+          InstrumentUploadService
+            .uploadInstruments(files, dataAcquisitionProject.id);
+          //Cancel. Nothing happens
+        }, function() {});
+      }
+    };
+
     //Refresh function for the refresh button
     $scope.refresh = function() {
       $scope.search();
@@ -339,6 +367,13 @@ angular.module('metadatamanagementApp').controller('SearchController',
       elasticSearchType: 'data_sets',
       count: null,
       uploadFunction: $scope.uploadDataSets
+    }, {
+      title: 'search-management.tabs.instruments',
+      inputLabel: 'search-management.input-label.instruments',
+      icon: 'assets/images/icons/instrument.svg',
+      elasticSearchType: 'instruments',
+      count: null,
+      uploadFunction: $scope.uploadInstruments
     }, {
       title: 'search-management.tabs.related-publications',
       inputLabel: 'search-management.input-label.related-publications',
