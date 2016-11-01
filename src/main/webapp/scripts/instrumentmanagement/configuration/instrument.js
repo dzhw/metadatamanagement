@@ -1,0 +1,36 @@
+'use strict';
+
+angular.module('metadatamanagementApp')
+  .config(function($stateProvider) {
+    $stateProvider
+      .state('instrumentDetail', {
+        parent: 'site',
+        url: '/instruments/{id}',
+        data: {
+          authorities: [],
+          pageTitle: 'instrument-management.home.title'
+        },
+        views: {
+          'content@': {
+            templateUrl: 'scripts/instrumentmanagement/views/' +
+              'instrument-detail.html.tmpl',
+            controller: 'InstrumentDetailController',
+            controllerAs: 'ctrl'
+          }
+        },
+        resolve: {
+          translatePartialLoader: ['$translatePartialLoader',
+            function($translatePartialLoader) {
+              $translatePartialLoader.addPart('instrument.management');
+            }
+          ],
+          entity: ['$stateParams', 'InstrumentResource',
+            function($stateParams, InstrumentResource) {
+              return InstrumentResource.get({
+                id: $stateParams.id
+              });
+            }
+          ]
+        },
+      });
+  });

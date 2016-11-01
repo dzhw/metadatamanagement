@@ -18,6 +18,8 @@ import com.google.gson.JsonParser;
 
 import eu.dzhw.fdz.metadatamanagement.datasetmanagement.domain.DataSet;
 import eu.dzhw.fdz.metadatamanagement.datasetmanagement.repository.DataSetRepository;
+import eu.dzhw.fdz.metadatamanagement.instrumentmanagement.domain.Instrument;
+import eu.dzhw.fdz.metadatamanagement.instrumentmanagement.repository.InstrumentRepository;
 import eu.dzhw.fdz.metadatamanagement.questionmanagement.domain.Question;
 import eu.dzhw.fdz.metadatamanagement.questionmanagement.repository.QuestionRepository;
 import eu.dzhw.fdz.metadatamanagement.relatedpublicationmanagement.domain.RelatedPublication;
@@ -55,6 +57,9 @@ public class ElasticsearchAdminService {
   private RelatedPublicationRepository relatedPublicationRepository;
   
   @Inject
+  private InstrumentRepository instrumentRepository;
+  
+  @Inject
   private ElasticsearchUpdateQueueService updateQueueService;
 
   @Inject
@@ -74,9 +79,26 @@ public class ElasticsearchAdminService {
     this.enqueueAllDataSets();
     this.enqueueAllQuestions();
     this.enqueueAllRelatedPublications();
+    this.enqueueAllInstruments();
     updateQueueService.processQueue();
   }
   
+  private void enqueueAllInstruments() {
+    Pageable pageable = new PageRequest(0, 100);
+    Slice<Instrument> instruments = instrumentRepository.findBy(pageable);
+
+    while (instruments.hasContent()) {
+      instruments.forEach(instrument -> {
+        updateQueueService.enqueue(
+            instrument.getId(), 
+            ElasticsearchType.variables, 
+            ElasticsearchUpdateQueueAction.UPSERT);
+      });
+      pageable = pageable.next();
+      instruments = instrumentRepository.findBy(pageable);
+    }
+  }
+
   /**
    * Load all variables from mongo and enqueue them for updating.
    */

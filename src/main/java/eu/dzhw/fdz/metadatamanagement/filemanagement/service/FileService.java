@@ -2,8 +2,12 @@ package eu.dzhw.fdz.metadatamanagement.filemanagement.service;
 
 import java.io.InputStream;
 
+import javax.annotation.PostConstruct;
 import javax.inject.Inject;
 
+import org.springframework.data.domain.Sort.Direction;
+import org.springframework.data.mongodb.core.MongoOperations;
+import org.springframework.data.mongodb.core.index.Index;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.gridfs.GridFsCriteria;
 import org.springframework.data.mongodb.gridfs.GridFsOperations;
@@ -23,10 +27,23 @@ import com.mongodb.gridfs.GridFSFile;
 public class FileService {
 
   @Inject
-  private GridFsOperations operations;
+  private GridFsOperations gridfOperations;
+  
+  @Inject
+  private MongoOperations mongoOperations;
+  
+  /**
+   * We expect filenames in GridFS to be unique.
+   */
+  @PostConstruct
+  protected void setupFileNameIndex() {
+    mongoOperations.indexOps("fs.files").ensureIndex(
+        new Index().on("filename", Direction.ASC).unique());   
+  }
 
   /**
-   * This method find a latex template in the GridFS / MongoDB by a given file name.
+   * This method load the gridfs file by its fileName. We expect filenames
+   * to be unique. Thus the fileName has to include a path.
    * 
    * @param fileName The name of the file.
    * @return The GridFS representation of the file in the database.
@@ -36,7 +53,7 @@ public class FileService {
     Query query = new Query(GridFsCriteria.whereFilename()
         .is(fileName));
         
-    return this.operations.findOne(query);
+    return this.gridfOperations.findOne(query);
   }
 
   /**
@@ -49,7 +66,7 @@ public class FileService {
     Query query = new Query(GridFsCriteria.whereFilename()
         .regex("^/tmp/"));
 
-    this.operations.delete(query);
+    this.gridfOperations.delete(query);
   }
   
   /**
@@ -61,7 +78,7 @@ public class FileService {
     Query query = new Query(GridFsCriteria.whereFilename()
         .is("/tmp/" + fileName));
 
-    this.operations.delete(query);
+    this.gridfOperations.delete(query);
   }
   
   /**
@@ -73,7 +90,7 @@ public class FileService {
    * @return the final filename
    */
   public String saveTempFile(InputStream stream, String fileName, String contentType) {
-    GridFSFile gridFsFile = this.operations.store(stream, "/tmp/" + fileName, contentType);
+    GridFSFile gridFsFile = this.gridfOperations.store(stream, "/tmp/" + fileName, contentType);
     gridFsFile.validate();
     return gridFsFile.getFilename();
   }

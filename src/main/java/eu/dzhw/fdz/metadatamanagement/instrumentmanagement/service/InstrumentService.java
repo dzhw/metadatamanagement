@@ -4,20 +4,23 @@ import java.util.List;
 
 import javax.inject.Inject;
 
-import org.springframework.context.ApplicationEventPublisher;
+import org.springframework.data.rest.core.annotation.HandleAfterCreate;
 import org.springframework.data.rest.core.annotation.HandleAfterDelete;
+import org.springframework.data.rest.core.annotation.HandleAfterSave;
 import org.springframework.data.rest.core.annotation.RepositoryEventHandler;
-import org.springframework.data.rest.core.event.AfterDeleteEvent;
 import org.springframework.stereotype.Service;
 
 import eu.dzhw.fdz.metadatamanagement.instrumentmanagement.domain.Instrument;
 import eu.dzhw.fdz.metadatamanagement.instrumentmanagement.repository.InstrumentRepository;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.DataAcquisitionProject;
+import eu.dzhw.fdz.metadatamanagement.searchmanagement.domain.ElasticsearchUpdateQueueAction;
+import eu.dzhw.fdz.metadatamanagement.searchmanagement.service.ElasticsearchType;
+import eu.dzhw.fdz.metadatamanagement.searchmanagement.service.ElasticsearchUpdateQueueService;
 
 /**
  * The service for the instruments. This service handels delete events.
  * 
- * @author Daniel Katzberg
+ * @author René Reitmann
  *
  */
 @Service
@@ -28,18 +31,57 @@ public class InstrumentService {
   private InstrumentRepository instrumentRepository;
 
   @Inject
-  private ApplicationEventPublisher eventPublisher;
+  private ElasticsearchUpdateQueueService elasticsearchUpdateQueueService;
 
   /**
-   * Listener, which will be activate by a deletion of a data acquisition project.
+   * Delete all instruments when the dataAcquisitionProject was deleted.
    * 
-   * @param dataAcquisitionProject A reference to the data acquisition project.
+   * @param dataAcquisitionProject the dataAcquisitionProject which has been deleted.
    */
   @HandleAfterDelete
   public void onDataAcquisitionProjectDeleted(DataAcquisitionProject dataAcquisitionProject) {
+    deleteAllInstrumentsByProjectId(dataAcquisitionProject.getId());
+  }
+  
+  /**
+   * A service method for deletion of instruments within a data acquisition project.
+   * @param dataAcquisitionProjectId the id for to the data acquisition project.
+   */
+  public void deleteAllInstrumentsByProjectId(String dataAcquisitionProjectId) {
     List<Instrument> deletedInstruments =
-        instrumentRepository.deleteByDataAcquisitionProjectId(dataAcquisitionProject.getId());
-    deletedInstruments
-      .forEach(instrument -> eventPublisher.publishEvent(new AfterDeleteEvent(instrument)));
+        instrumentRepository.deleteByDataAcquisitionProjectId(dataAcquisitionProjectId);
+    deletedInstruments.forEach(instrument -> {
+      elasticsearchUpdateQueueService.enqueue(
+          instrument.getId(), 
+          ElasticsearchType.instruments, 
+          ElasticsearchUpdateQueueAction.DELETE);      
+    });
+  }
+  
+  /**
+   * Enqueue deletion of instrument search document when the instrument is deleted.
+   * 
+   * @param instrument the deleted instrument.
+   */
+  @HandleAfterDelete
+  public void onInstrumentDeleted(Instrument instrument) {
+    elasticsearchUpdateQueueService.enqueue(
+        instrument.getId(), 
+        ElasticsearchType.instruments, 
+        ElasticsearchUpdateQueueAction.DELETE);
+  }
+  
+  /**
+   * Enqueue update of instrument search document when the instrument is updated.
+   * 
+   * @param instrument the updated or created instrument.
+   */
+  @HandleAfterCreate
+  @HandleAfterSave
+  public void onInstrumentSaved(Instrument instrument) {
+    elasticsearchUpdateQueueService.enqueue(
+        instrument.getId(), 
+        ElasticsearchType.instruments, 
+        ElasticsearchUpdateQueueAction.UPSERT);
   }
 }

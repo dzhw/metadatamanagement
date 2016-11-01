@@ -74,6 +74,9 @@
         "topic": {
           "i18n-string-size": "The max length of the topic is 2048 signs."
         },
+        "data-acquisition-project-id": {
+          "not-empty": "The RDC-ID of the Project must not be empty!"
+        },
         "instrument-id": {
           "not-empty": "The RDC-ID of the Instrument must not be empty!"
         },
