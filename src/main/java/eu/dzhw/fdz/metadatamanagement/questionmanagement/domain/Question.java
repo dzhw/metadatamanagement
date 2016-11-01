@@ -95,6 +95,7 @@ public class Question extends AbstractRdcDomainObject {
       
   /* Foreign Keys */
   @Indexed
+  @NotEmpty(message = "question-management.error.question.data-acquisition-project-id.not-empty")
   private String dataAcquisitionProjectId;
   
   @NotEmpty(message = "question-management.error.question.survey-id.not-empty")

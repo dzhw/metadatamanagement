@@ -32,7 +32,7 @@ public class QuestionService {
   private ElasticsearchUpdateQueueService elasticsearchUpdateQueueService;
 
   @Inject
-  private ImageService imageService;
+  private QuestionImageService imageService;
 
   public static final String CONTENT_TYPE_IMAGE = "image/png";
 

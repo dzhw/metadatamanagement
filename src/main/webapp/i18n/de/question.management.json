@@ -74,6 +74,9 @@
         "topic": {
           "i18n-string-size": "Die Maximallänge des Topics ist 2048 Zeichen."
         },
+        "data-acquisition-project-id": {
+          "not-empty": "Die FDZ-ID des Projektes darf nicht leer sein!"
+        },
         "instrument-id": {
           "not-empty": "Die FDZ-ID des Instruments darf nicht leer sein."
         },

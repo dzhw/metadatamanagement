@@ -258,7 +258,13 @@ public class UnitTestCreateDomainObjectUtils {
   public static Instrument buildInstrument(String projectId) {
     return new InstrumentBuilder().withDataAcquisitionProjectId(projectId)
       .withId(projectId + "-Instrument")
+      .withTitle(new I18nStringBuilder()
+          .withDe("Instrument.de")
+          .withEn("Instrument.en")
+          .build())
       .withSurveyId(projectId + "-sy1")
+      .withDataAcquisitionProjectId(projectId)
+      .withType("type")
       .build();
   }
 

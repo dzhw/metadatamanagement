@@ -14,7 +14,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.codahale.metrics.annotation.Timed;
 
-import eu.dzhw.fdz.metadatamanagement.questionmanagement.service.ImageService;
+import eu.dzhw.fdz.metadatamanagement.questionmanagement.service.QuestionImageService;
 
 /**
  * REST controller for uploading an image.
@@ -24,7 +24,7 @@ import eu.dzhw.fdz.metadatamanagement.questionmanagement.service.ImageService;
 public class QuestionImageResource {
 
   @Inject
-  private ImageService imageService;
+  private QuestionImageService imageService;
   
   /**
    * REST method for for uploading an image.
