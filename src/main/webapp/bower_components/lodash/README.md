@@ -1,11 +1,11 @@
-# lodash v4.16.4
+# lodash v4.16.6
 
 [Site](https://lodash.com/) |
 [Docs](https://lodash.com/docs) |
 [FP Guide](https://github.com/lodash/lodash/wiki/FP-Guide) |
 [Contributing](https://github.com/lodash/lodash/blob/master/.github/CONTRIBUTING.md) |
 [Wiki](https://github.com/lodash/lodash/wiki "Changelog, Roadmap, etc.") |
-[Code of Conduct](https://jquery.org/conduct/) |
+[Code of Conduct](https://js.foundation/conduct/) |
 [Twitter](https://twitter.com/bestiejs) |
 [Chat](https://gitter.im/lodash/lodash)
 
@@ -20,11 +20,11 @@ $ lodash core -o ./dist/lodash.core.js
 
 ## Download
 
- * [Core build](https://raw.githubusercontent.com/lodash/lodash/4.16.4/dist/lodash.core.js) ([~4 kB gzipped](https://raw.githubusercontent.com/lodash/lodash/4.16.4/dist/lodash.core.min.js))
- * [Full build](https://raw.githubusercontent.com/lodash/lodash/4.16.4/dist/lodash.js) ([~23 kB gzipped](https://raw.githubusercontent.com/lodash/lodash/4.16.4/dist/lodash.min.js))
+ * [Core build](https://raw.githubusercontent.com/lodash/lodash/4.16.6/dist/lodash.core.js) ([~4 kB gzipped](https://raw.githubusercontent.com/lodash/lodash/4.16.6/dist/lodash.core.min.js))
+ * [Full build](https://raw.githubusercontent.com/lodash/lodash/4.16.6/dist/lodash.js) ([~23 kB gzipped](https://raw.githubusercontent.com/lodash/lodash/4.16.6/dist/lodash.min.js))
  * [CDN copies](https://www.jsdelivr.com/projects/lodash)
 
-Lodash is released under the [MIT license](https://raw.githubusercontent.com/lodash/lodash/4.16.4/LICENSE) & supports [modern environments](#support).<br>
+Lodash is released under the [MIT license](https://raw.githubusercontent.com/lodash/lodash/4.16.6/LICENSE) & supports [modern environments](#support).<br>
 Review the [build differences](https://github.com/lodash/lodash/wiki/build-differences) & pick one that’s right for you.
 
 ## Installation
