@@ -43,7 +43,8 @@ angular.module('metadatamanagementApp').service('SurveyUploadService',
         }
       }
     };
-    var uploadSurveys = function(file, dataAcquisitionProjectId) {
+
+    var uploadSurveys = function(files, dataAcquisitionProjectId) {
       uploadCount = 0;
       objects = [];
       JobLoggingService.start('survey');
@@ -51,14 +52,19 @@ angular.module('metadatamanagementApp').service('SurveyUploadService',
           dataAcquisitionProjectId: dataAcquisitionProjectId
         }).$promise.then(
         function() {
-          ExcelReaderService.readFileAsync(file)
-          .then(function(surveys) {
-              objects = SurveyBuilderService.getSurveys(surveys,
-                dataAcquisitionProjectId);
-              upload();
-            }, function() {
-            JobLoggingService.cancel('global.log-messages.unable-to-read-file',
-              {file: 'surveys.xlsx'});
+          files.forEach(function(file) {
+            if (file.name === 'surveys.xlsx') {
+              ExcelReaderService.readFileAsync(file)
+              .then(function(surveys) {
+                  objects = SurveyBuilderService.getSurveys(surveys,
+                    dataAcquisitionProjectId);
+                  upload();
+                }, function() {
+                JobLoggingService.cancel('global.log-messages.' +
+                  'unable-to-read-file',
+                  {file: 'surveys.xlsx'});
+              });
+            }
           });
         }, function() {
           JobLoggingService.cancel(
