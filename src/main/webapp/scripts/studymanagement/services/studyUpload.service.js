@@ -44,6 +44,7 @@ angular.module('metadatamanagementApp').service('StudyUploadService',
         }
       }
     };
+
     var uploadStudy = function(files, dataAcquisitionProjectId) {
       uploadCount = 0;
       JobLoggingService.start('study');

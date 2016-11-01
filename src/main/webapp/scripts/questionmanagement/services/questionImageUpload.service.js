@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('metadatamanagementApp').service('ImageUploadService',
+angular.module('metadatamanagementApp').service('QuestionImageUploadService',
   function(Upload, $q) {
     var deferred = $q.defer();
     var uploadImage = function(image, imageId) {

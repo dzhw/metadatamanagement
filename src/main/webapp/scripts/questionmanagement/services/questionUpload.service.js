@@ -4,7 +4,7 @@
 
 angular.module('metadatamanagementApp').service('QuestionUploadService',
   function(FileReaderService, QuestionResource, QuestionDeleteResource,
-    JobLoggingService, ImageUploadService, CleanJSObjectService,
+    JobLoggingService, QuestionImageUploadService, CleanJSObjectService,
     ErrorMessageResolverService, $q, ElasticSearchAdminService, $rootScope) {
     var questions = [];
     var images = {};
@@ -42,7 +42,7 @@ angular.module('metadatamanagementApp').service('QuestionUploadService',
             return $q.reject('previouslyHandledError');})
           .then(function(imageFile) {
             var image = new Blob([imageFile], {type: 'image/png'});
-            return ImageUploadService.uploadImage(image,
+            return QuestionImageUploadService.uploadImage(image,
               questions[uploadQuestionCount].id);
           }, function(error) {
             if (error !== 'previouslyHandledError') {
