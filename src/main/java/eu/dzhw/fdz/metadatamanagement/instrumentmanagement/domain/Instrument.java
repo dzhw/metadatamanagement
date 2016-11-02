@@ -1,6 +1,8 @@
 package eu.dzhw.fdz.metadatamanagement.instrumentmanagement.domain;
 
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
 
 import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.data.annotation.Id;
@@ -8,8 +10,11 @@ import org.springframework.data.mongodb.core.mapping.Document;
 
 import eu.dzhw.fdz.metadatamanagement.common.domain.AbstractRdcDomainObject;
 import eu.dzhw.fdz.metadatamanagement.common.domain.I18nString;
+import eu.dzhw.fdz.metadatamanagement.common.domain.util.Patterns;
 import eu.dzhw.fdz.metadatamanagement.common.domain.validation.I18nStringSize;
 import eu.dzhw.fdz.metadatamanagement.common.domain.validation.StringLengths;
+import eu.dzhw.fdz.metadatamanagement.instrumentmanagement.domain.validation.ValidInstrumentIdPattern;
+import eu.dzhw.fdz.metadatamanagement.instrumentmanagement.domain.validation.ValidInstrumentType;
 import net.karneim.pojobuilder.GeneratePojoBuilder;
 
 /**
@@ -21,26 +26,31 @@ import net.karneim.pojobuilder.GeneratePojoBuilder;
 @Document(collection = "instruments")
 @GeneratePojoBuilder(
     intoPackage = "eu.dzhw.fdz.metadatamanagement.instrumentmanagement.domain.builders")
+@ValidInstrumentIdPattern(message = "instrument-management.error"
+    + ".instrument.valid-instrument-id-pattern")
 public class Instrument extends AbstractRdcDomainObject {
 
   @Id
   @NotEmpty(message = "instrument-management.error.instrument.id.not-empty")
+  @Pattern(regexp = Patterns.GERMAN_ALPHANUMERIC_WITH_UNDERSCORE_AND_MINUS,
+      message = "instrument-management.error.instrument.id.pattern")
+  @Size(max = StringLengths.MEDIUM, message = "instrument-management.error.instrument.id.size")
   private String id;
   
   @NotNull(message = "instrument-management.error.instrument.title.not-null")
-  @I18nStringSize(max = StringLengths.MEDIUM, 
+  @I18nStringSize(max = StringLengths.MEDIUM, min = 1,
       message = "instrument-management.error.instrument.title.i18n-string-size")
   private I18nString title;
   
-  //TODO rreitmann add validTypeValidator
   @NotEmpty(message = "instrument-management.error.instrument.type.not-empty")
+  @ValidInstrumentType(message = "instrument-management.error.instrument.type.valid")
   private String type;
 
   @NotEmpty(message = 
       "instrument-management.error.instrument.data-acquisition-project-id.not-empty")
   private String dataAcquisitionProjectId;
   
-  @NotEmpty(message = "instrument-management.error.instrument.survey.id.not-empty")
+  @NotEmpty(message = "instrument-management.error.instrument.survey-id.not-empty")
   private String surveyId;
 
   /*

@@ -41,8 +41,8 @@
         "unique-question-name": "Der Name einer Frage muss eindeutig innerhalb einer Befragung sein.",
         "unique-question-number": "Die Nummer einer Frage muss eindeutig innerhalb einer Befragung sein.",
         "id": {
-          "not-empty": "Die FDZ - ID der Frage darf nicht leer sein!",
-          "size": "Die Maximallänge der FDZ - ID ist 128 Zeichen.",
+          "not-empty": "Die FDZ-ID der Frage darf nicht leer sein!",
+          "size": "Die Maximallänge der FDZ-ID ist 128 Zeichen.",
           "pattern": "Es dürfen nur alphanumerische Zeichen, deutsche Umlaute, ß, Leerzeichen und Minus für die FDZ - ID verwendet werden."
         },
         "number": {

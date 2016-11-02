@@ -8,12 +8,6 @@ angular.module('metadatamanagementApp').directive('studySearchResult',
         'study-search-result.html.tmpl',
       scope: {
         searchResult: '='
-      },
-      controller: ['$scope', 'Principal',
-        function($scope, Principal) {
-          //Check the login status
-          $scope.isAuthenticated = Principal.isAuthenticated;
-        }
-      ],
+      }
     };
   });

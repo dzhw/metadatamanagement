@@ -6,7 +6,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.data.querydsl.QueryDslPredicateExecutor;
-import org.springframework.data.repository.query.Param;
 import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 import org.springframework.data.rest.core.annotation.RestResource;
 
@@ -23,8 +22,10 @@ public interface QuestionRepository
   @RestResource(exported = false)
   List<Question> deleteByDataAcquisitionProjectId(String dataAcquisitionProjectId);
 
-  List<Question> findByDataAcquisitionProjectId(@Param("id") String dataAcquisitionProjectId);
+  @RestResource(exported = false)
+  List<Question> findByDataAcquisitionProjectId(String dataAcquisitionProjectId);
   
+  @RestResource(exported = false)
   List<Question> findByInstrumentIdAndNumber(String instrumentId, String number);
   
   @RestResource(exported = false)

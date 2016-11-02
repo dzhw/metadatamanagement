@@ -8,7 +8,7 @@ angular.module('metadatamanagementApp')
         url: '/instruments/{id}',
         data: {
           authorities: [],
-          pageTitle: 'instrument-management.home.title'
+          pageTitle: 'instrument-management.detail.title'
         },
         views: {
           'content@': {

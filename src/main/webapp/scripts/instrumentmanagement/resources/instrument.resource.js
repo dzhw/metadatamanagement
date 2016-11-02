@@ -3,7 +3,7 @@
 /* Instrument Resource */
 angular.module('metadatamanagementApp')
   .factory('InstrumentResource', function($resource, $state) {
-    return $resource('/api/instrument/:id', {
+    return $resource('/api/instruments/:id', {
       id: '@id'
     }, {
       'get': {

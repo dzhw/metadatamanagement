@@ -10,8 +10,8 @@
         "unable-to-delete": "Die Datensätze konnten nicht gelöscht werden!",
         "missing-sub-data-set-file": "Keine Excel Datei mit dem Namen \"{{ id }}.xlsx\" gefunden!",
         "sub-data-set": {
-          "number-of-observations-parse-error":"Anzahl der Beobachtungen des Sub-Datensatzes {{name}} ist keine Zahl!",
-          "number-of-analyzed-variables-parse-error":"Anzahl der analysierten Variablen des Sub-Datensatzes {{name}} ist keine Zahl!"
+          "number-of-observations-parse-error": "Anzahl der Beobachtungen des Sub-Datensatzes {{name}} ist keine Zahl!",
+          "number-of-analyzed-variables-parse-error": "Anzahl der analysierten Variablen des Sub-Datensatzes {{name}} ist keine Zahl!"
         }
       },
       "tex": {
@@ -98,8 +98,8 @@
         }
       },
       "post-validation": {
-        "data-set-has-invalid-survey-id": "Der Datensatz {{id}} referenziert auf eine unbekannte Erhebung({{toBereferenzedId}}).",
-        "data-set-has-invalid-variable-id": "Der Datensatz {{id}} referenziert auf eine unbekannte Variable({{toBereferenzedId}})."
+        "data-set-has-invalid-survey-id": "Der Datensatz {{id}} referenziert eine unbekannte Erhebung({{toBereferenzedId}}).",
+        "data-set-has-invalid-variable-id": "Der Datensatz {{id}} referenziert eine unbekannte Variable({{toBereferenzedId}})."
       }
     }
   }

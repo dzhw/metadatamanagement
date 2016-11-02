@@ -16,12 +16,15 @@ import org.springframework.stereotype.Service;
 
 import eu.dzhw.fdz.metadatamanagement.datasetmanagement.domain.DataSet;
 import eu.dzhw.fdz.metadatamanagement.datasetmanagement.repository.DataSetRepository;
+import eu.dzhw.fdz.metadatamanagement.instrumentmanagement.domain.Instrument;
+import eu.dzhw.fdz.metadatamanagement.instrumentmanagement.repository.InstrumentRepository;
 import eu.dzhw.fdz.metadatamanagement.questionmanagement.domain.Question;
 import eu.dzhw.fdz.metadatamanagement.questionmanagement.repository.QuestionRepository;
 import eu.dzhw.fdz.metadatamanagement.relatedpublicationmanagement.domain.RelatedPublication;
 import eu.dzhw.fdz.metadatamanagement.relatedpublicationmanagement.repository.RelatedPublicationRepository;
 import eu.dzhw.fdz.metadatamanagement.searchmanagement.dao.ElasticsearchDao;
 import eu.dzhw.fdz.metadatamanagement.searchmanagement.documents.DataSetSearchDocument;
+import eu.dzhw.fdz.metadatamanagement.searchmanagement.documents.InstrumentSearchDocument;
 import eu.dzhw.fdz.metadatamanagement.searchmanagement.documents.QuestionSearchDocument;
 import eu.dzhw.fdz.metadatamanagement.searchmanagement.documents.RelatedPublicationSearchDocument;
 import eu.dzhw.fdz.metadatamanagement.searchmanagement.documents.StudySearchDocument;
@@ -85,6 +88,9 @@ public class ElasticsearchUpdateQueueService {
   
   @Inject
   private RelatedPublicationRepository relatedPublicationRepository;
+  
+  @Inject
+  private InstrumentRepository instrumentRepository;
   
   @Inject
   private ElasticsearchDao elasticsearchDao;
@@ -225,9 +231,30 @@ public class ElasticsearchUpdateQueueService {
       case related_publications:
         addUpsertActionForRelatedPublication(lockedItem, bulkBuilder);
         break;
+      case instruments:
+        addUpsertActionForInstrument(lockedItem, bulkBuilder);
+        break;
       default:
         throw new NotImplementedException("Processing queue item with type "
             + lockedItem.getDocumentType() + " has not been implemented!");
+    }
+  }
+  
+  private void addUpsertActionForInstrument(ElasticsearchUpdateQueueItem lockedItem,
+      Builder bulkBuilder) {
+    Instrument instrument = instrumentRepository.findOne(lockedItem.getDocumentId());
+    
+    if (instrument != null) {
+      for (ElasticsearchIndices index : ElasticsearchIndices.values()) {
+        InstrumentSearchDocument searchDocument =
+            new InstrumentSearchDocument(instrument, index);
+
+        bulkBuilder.addAction(new Index.Builder(searchDocument)
+            .index(index.getIndexName())
+            .type(lockedItem.getDocumentType().name())
+            .id(searchDocument.getId())
+            .build());
+      }
     }
   }
   

@@ -124,6 +124,7 @@ module.exports = function(grunt) {
             'survey-search-result',
             'question-search-result',
             'dataset-search-result',
+            'instrument-search-result',
             'md-progress-linear'
           ],
           relaxerror: [

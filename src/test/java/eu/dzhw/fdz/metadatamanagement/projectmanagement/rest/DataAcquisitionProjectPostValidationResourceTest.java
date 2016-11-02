@@ -118,6 +118,7 @@ public class DataAcquisitionProjectPostValidationResourceTest extends AbstractTe
     
     //Instrument
     Instrument instrument = UnitTestCreateDomainObjectUtils.buildInstrument(project.getId());
+    instrument.setSurveyId(survey.getId());
     this.instrumentRepository.save(instrument);
     
     //Atomic Question

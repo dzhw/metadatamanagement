@@ -10,8 +10,8 @@
         "unable-to-delete": "The Data Sets could not be deleted!",
         "missing-sub-data-set-file": "There is no Excel file \"{{ id }}.xlsx\"!",
         "sub-data-set": {
-          "number-of-observations-parse-error":"Number Of Observations of Sub Data Set {{name}} is not a Number",
-          "number-of-analyzed-variables-parse-error":"Number Of Analyzed Variables of Sub Data Set {{name}} is not a Number!"
+          "number-of-observations-parse-error": "Number Of Observations of Sub Data Set {{name}} is not a Number",
+          "number-of-analyzed-variables-parse-error": "Number Of Analyzed Variables of Sub Data Set {{name}} is not a Number!"
         }
       },
       "tex": {
@@ -98,8 +98,8 @@
         }
       },
       "post-validation": {
-        "data-set-has-invalid-survey-id": "The Data Set {{id}} references to an unknown Survey ({{toBereferenzedId}}).",
-        "data-set-has-invalid-variable-id": "The Data Set {{id}} references to an unknown Variable ({{toBereferenzedId}})."
+        "data-set-has-invalid-survey-id": "The Data Set {{id}} references an unknown Survey ({{toBereferenzedId}}).",
+        "data-set-has-invalid-variable-id": "The Data Set {{id}} references an unknown Variable ({{toBereferenzedId}})."
       }
     }
   }

@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import eu.dzhw.fdz.metadatamanagement.datasetmanagement.domain.DataSet;
 import eu.dzhw.fdz.metadatamanagement.datasetmanagement.repository.DataSetRepository;
+import eu.dzhw.fdz.metadatamanagement.instrumentmanagement.domain.Instrument;
 import eu.dzhw.fdz.metadatamanagement.instrumentmanagement.repository.InstrumentRepository;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.rest.dto.PostValidationMessageDto;
 import eu.dzhw.fdz.metadatamanagement.questionmanagement.domain.Question;
@@ -74,12 +75,19 @@ public class PostValidationService {
         this.variableRepository.findByDataAcquisitionProjectId(dataAcquisitionProjectId);
     errors = this.postValidateVariables(variables, errors);
     
+    // check instruments
+    List<Instrument> instruments =
+        this.instrumentRepository.findByDataAcquisitionProjectId(dataAcquisitionProjectId);
+    errors = this.postValidateInstruments(instruments, errors);
+    
     // check that there is a study for the project (all other domain objects might link to it)
     if (studyRepository.findOne(dataAcquisitionProjectId) == null) {
       String[] information = {dataAcquisitionProjectId, dataAcquisitionProjectId};
       errors.add(new PostValidationMessageDto("data-acquisition-project-management.error."
           + "post-validation.project-has-no-study", Arrays.asList(information)));
     }
+    
+    // TODO rreitmann post-validate surveyIds of instruments
 
     return errors;
   }
@@ -151,6 +159,27 @@ public class PostValidationService {
               + "post-validation.data-set-has-invalid-variable-id", Arrays.asList(information)));
         }
       }
+    }
+
+    return errors;
+  }
+  
+  /**
+   * This method checks all foreign keys and references within instruments to other domain objects.
+   *
+   * @return a list of errors of the post validation of instruments.
+   */
+  private List<PostValidationMessageDto> postValidateInstruments(List<Instrument> instruments,
+      List<PostValidationMessageDto> errors) {
+
+    for (Instrument instrument : instruments) {
+
+      // instrument.surveyId: there must be a survey with that id
+      if (this.surveyRepository.findOne(instrument.getSurveyId()) == null) {
+        String[] information = {instrument.getId(), instrument.getSurveyId()};
+        errors.add(new PostValidationMessageDto("instrument-management.error."
+            + "post-validation.instrument-has-invalid-survey-id", Arrays.asList(information)));
+      }      
     }
 
     return errors;

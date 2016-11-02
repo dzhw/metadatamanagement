@@ -26,4 +26,7 @@ public interface InstrumentRepository
   
   @RestResource(exported = false)
   Slice<Instrument> findBy(Pageable pageable);
+
+  @RestResource(exported = false)
+  List<Instrument> findByDataAcquisitionProjectId(String dataAcquisitionProjectId);
 }

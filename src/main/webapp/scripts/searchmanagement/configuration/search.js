@@ -26,6 +26,7 @@ angular.module('metadatamanagementApp').config(
             $translatePartialLoader.addPart('study.management');
             $translatePartialLoader.addPart('dataSet.management');
             $translatePartialLoader.addPart('relatedPublication.management');
+            $translatePartialLoader.addPart('instrument.management');
             $translatePartialLoader.addPart('global');
           }
         ]
