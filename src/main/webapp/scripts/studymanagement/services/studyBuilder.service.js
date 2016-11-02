@@ -31,9 +31,9 @@ angular.module('metadatamanagementApp').service('StudyBuilderService',
             en: studyFromExcel['citationHint.en'],
             de: studyFromExcel['citationHint.de']
           },
-          dataAvaibility: {
-            en: studyFromExcel['dataAvaibility.en'],
-            de: studyFromExcel['dataAvaibility.de']
+          dataAvailability: {
+            en: studyFromExcel['dataAvailability.en'],
+            de: studyFromExcel['dataAvailability.de']
           },
           surveyDesign: {
             en: studyFromExcel['surveyDesign.en'],
