@@ -74,7 +74,7 @@
         "survey-series": {
           "i18n-string-size": "The max length of the survey series is 128 signs."
         },
-        "data-avaibility": {
+        "data-availability": {
           "not-null": "The data avaibility of the study must not be empty!",
           "valid-data-avaibility": "The allowed values for data avaibility of the study are: Available, In preparation, Not available."
         },

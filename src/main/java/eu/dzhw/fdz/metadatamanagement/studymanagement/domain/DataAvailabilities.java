@@ -14,7 +14,7 @@ import eu.dzhw.fdz.metadatamanagement.common.domain.I18nString;
  * @author Daniel Katzberg
  *
  */
-public class DataAvaibilities {
+public class DataAvailabilities {
   public static final I18nString AVAILABLE = new I18nString("Verfügbar", "Available");
   public static final I18nString IN_PREPARATION = 
       new I18nString("In Aufbereitung", "In preparation");

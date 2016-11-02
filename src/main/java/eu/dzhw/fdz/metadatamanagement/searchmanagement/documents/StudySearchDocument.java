@@ -29,7 +29,7 @@ public class StudySearchDocument {
 
   private String dataAcquisitionProjectId;
   
-  private String dataAvaibility;
+  private String dataAvailability;
   
   private String surveyDesign;
 
@@ -56,8 +56,8 @@ public class StudySearchDocument {
         this.sponsor = study.getSponsor() != null ? study.getSponsor().getDe() : null;
         this.citationHint = study.getCitationHint() != null 
             ? study.getCitationHint().getDe() : null;
-        this.dataAvaibility = study.getDataAvaibility() != null 
-            ? study.getDataAvaibility().getDe() : null;
+        this.dataAvailability = study.getDataAvailability() != null 
+            ? study.getDataAvailability().getDe() : null;
         this.surveyDesign = study.getSurveyDesign() != null
             ? study.getSurveyDesign().getDe() : null;
         break;
@@ -70,8 +70,8 @@ public class StudySearchDocument {
         this.sponsor = study.getSponsor() != null ? study.getSponsor().getEn() : null;
         this.citationHint = study.getCitationHint() != null 
             ? study.getCitationHint().getEn() : null;
-        this.dataAvaibility = study.getDataAvaibility() != null 
-                ? study.getDataAvaibility().getEn() : null;
+        this.dataAvailability = study.getDataAvailability() != null 
+                ? study.getDataAvailability().getEn() : null;
         this.surveyDesign = study.getSurveyDesign() != null
                     ? study.getSurveyDesign().getEn() : null;        
         break;
@@ -153,12 +153,12 @@ public class StudySearchDocument {
     this.dataAcquisitionProjectId = dataAcquisitionProjectId;
   }
 
-  public String getDataAvaibility() {
-    return dataAvaibility;
+  public String getDataAvailability() {
+    return dataAvailability;
   }
 
-  public void setDataAvaibility(String dataAvaibility) {
-    this.dataAvaibility = dataAvaibility;
+  public void setDataAvailability(String dataAvailability) {
+    this.dataAvailability = dataAvailability;
   }
 
   public String getSurveyDesign() {

@@ -9,19 +9,19 @@ import java.lang.annotation.Target;
 import javax.validation.Constraint;
 import javax.validation.Payload;
 
-import eu.dzhw.fdz.metadatamanagement.studymanagement.domain.DataAvaibilities;
+import eu.dzhw.fdz.metadatamanagement.studymanagement.domain.DataAvailabilities;
 
 /**
  * Data Avaibility is limited to some values, which are define by the 
- * class {@link DataAvaibilities}. This is the annotation for the validation of the valid values.
+ * class {@link DataAvailabilities}. This is the annotation for the validation of the valid values.
  * 
  * @author Daniel Katzberg
  */
 @Documented
-@Constraint(validatedBy = {ValidDataAvaibilityValidator.class})
+@Constraint(validatedBy = {ValidDataAvailabilityValidator.class})
 @Target({ElementType.FIELD})
 @Retention(RetentionPolicy.RUNTIME)
-public @interface ValidDataAvaibility {
+public @interface ValidDataAvailability {
   
   /**
    * Defines the default error message.

@@ -20,7 +20,7 @@ import eu.dzhw.fdz.metadatamanagement.common.domain.validation.I18nStringNotEmpt
 import eu.dzhw.fdz.metadatamanagement.common.domain.validation.I18nStringSize;
 import eu.dzhw.fdz.metadatamanagement.common.domain.validation.StringLengths;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.DataAcquisitionProject;
-import eu.dzhw.fdz.metadatamanagement.studymanagement.domain.validation.ValidDataAvaibility;
+import eu.dzhw.fdz.metadatamanagement.studymanagement.domain.validation.ValidDataAvailability;
 import eu.dzhw.fdz.metadatamanagement.studymanagement.domain.validation.ValidStudyId;
 import eu.dzhw.fdz.metadatamanagement.studymanagement.domain.validation.ValidSurveyDesign;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.validation.ValidAccessWays;
@@ -83,14 +83,14 @@ public class Study extends AbstractRdcDomainObject {
       message = "study-management.error.study.authors.i18n-string-size")
   private String authors;
   
-  @NotNull(message = "study-management.error.study.data-avaibility.not-null")
-  @ValidDataAvaibility(
-      message = "study-management.error.study.data-avaibility.valid-data-avaibility")
-  private I18nString dataAvaibility;
+  @NotNull(message = "study-management.error.study.data-availability.not-null")
+  @ValidDataAvailability(
+      message = "study-management.error.study.data-availability.valid-data-availability")
+  private I18nString dataAvailability;
   
   @NotNull(message = "study-management.error.study.survey-design.not-null")
   @ValidSurveyDesign(
-      message = "study-management.error.study.survey-design.valid-data-avaibility")
+      message = "study-management.error.study.survey-design.valid-survey-design")
   private I18nString surveyDesign;
   
   @NotEmpty(message = "study-management.error.study.access-ways.not-empty")
@@ -122,7 +122,7 @@ public class Study extends AbstractRdcDomainObject {
       .add("sponsor", sponsor)
       .add("citationHint", citationHint)
       .add("authors", authors)
-      .add("dataAvaibility", dataAvaibility)
+      .add("dataAvailability", dataAvailability)
       .add("surveyDesign", surveyDesign)
       .add("accessWays", accessWays)
       .add("releases", releases)
@@ -226,12 +226,12 @@ public class Study extends AbstractRdcDomainObject {
     this.dataAcquisitionProjectId = dataAcquisitionProjectId;
   }
 
-  public I18nString getDataAvaibility() {
-    return dataAvaibility;
+  public I18nString getDataAvailability() {
+    return dataAvailability;
   }
 
-  public void setDataAvaibility(I18nString dataAvaibility) {
-    this.dataAvaibility = dataAvaibility;
+  public void setDataAvailability(I18nString dataAvailability) {
+    this.dataAvailability = dataAvailability;
   }
 
   public I18nString getSurveyDesign() {

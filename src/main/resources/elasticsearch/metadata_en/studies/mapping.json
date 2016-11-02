@@ -49,7 +49,7 @@
         "index": "not_analyzed",
         "copy_to": "allStringsAsNgrams"
       },
-      "dataAvaibility": {
+      "dataAvailability": {
         "type": "string",
         "index": "not_analyzed",
         "copy_to": "allStringsAsNgrams"
