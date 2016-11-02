@@ -18,14 +18,18 @@
       "surveys": "Erhebungen",
       "survey-informations": "Informationen zu der Erhebung",
       "related-information": "Zugehörige Informationen",
-      "field-period": "Erhebungszeitraum",
-      "population": "Population",
+      "related-objects": "Zugehörige Objekte",
+      "field-period": "Feldzeit",
+      "population": "Grundgesamtheit",
       "survey-method": "Erhebungsmethode",
       "sample": "Stichprobe",
       "not-found": "Die id {{id}} referenziert auf eine unbekannte Erhebung.",
       "not-found-references": "Die id {{id}} hat keine Referenzen auf Erhebungen.",
       "no-related-surveys": "Keine zugehörige Erhebungen.",
-      "related-surveys": "Zugehörige Erhebungen"
+      "related-surveys": "Zugehörige Erhebungen",
+      "grossSampleSize": "Bruttostichprobe",
+      "sampleSize": "Nettostichprobe",
+      "responseRate": "Rücklaufquote"
     },
     "error": {
       "survey": {

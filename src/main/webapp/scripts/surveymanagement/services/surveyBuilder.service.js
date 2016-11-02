@@ -30,7 +30,10 @@ angular.module('metadatamanagementApp').service('SurveyBuilderService',
             en: data['surveyMethod.en'],
             de: data['surveyMethod.de']
           },
-          dataSetIds: CleanJSObjectService.removeWhiteSpace(data.dataSetIds)
+          dataSetIds: CleanJSObjectService.removeWhiteSpace(data.dataSetIds),
+          grossSampleSize: data.grossSampleSize,
+          sampleSize: data.sampleSize,
+          responseRate: data.responseRate
         };
         var cleanedSurveyObject = CleanJSObjectService
           .removeEmptyJsonObjects(surveyObj);

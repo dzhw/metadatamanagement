@@ -1,11 +1,4 @@
-<md-card>
-    <md-card-header>
-        <md-card-header-text>
-            <h2 class="md-title">{{'data-set-management.detail.related-data-sets' | translate }}</h2>
-        </md-card-header-text>
-    </md-card-header>
-    <md-divider></md-divider>
-    <div block-ui="blockRelatedDataSetCard">
+<div block-ui="blockRelatedDataSetContainer">
       <div ng-repeat="dataSet in relatedDataSetController.dataSets">
         <dataset-search-result search-result="dataSet._source"></dataset-search-result>
       </div>
@@ -24,5 +17,4 @@
       <div ng-if="relatedDataSetController.page.totalHits === 0" layout-margin>
             <span>{{'data-set-management.detail.no-related-data-sets' | translate }}</span>
       </div>
-    </div>
-</md-card>
+</div>

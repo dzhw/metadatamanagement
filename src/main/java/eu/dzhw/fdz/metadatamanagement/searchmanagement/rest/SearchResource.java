@@ -84,7 +84,7 @@ public class SearchResource {
    *
    * @return The search results
    */
-  @RequestMapping(value = {"/api/search/**/_search","/api/search/**/_mget"})
+  @RequestMapping(value = {"/api/search/**/_search","/api/search/**/_mget","/api/search/**/_count"})
   @Timed
   public ResponseEntity<String> search(@RequestBody String body, HttpMethod method,
       @RequestHeader MultiValueMap<String, String> headers, HttpServletRequest request)

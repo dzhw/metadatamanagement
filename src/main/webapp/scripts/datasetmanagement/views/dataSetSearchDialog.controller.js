@@ -2,11 +2,12 @@
 
 angular.module('metadatamanagementApp')
   .controller('DataSetSearchDialogController',
-    function($mdDialog, $scope, dataSets) {
-      var ctlr = this;
-      ctlr.dataSets = dataSets;
-      ctlr.closeDialog = $mdDialog.hide;
+    function($mdDialog, $scope, methodName, methodParams) {
+      var DataSetSearchDialogController = this;
+      DataSetSearchDialogController.methodName = methodName;
+      DataSetSearchDialogController.methodParams = methodParams;
+      DataSetSearchDialogController.closeDialog = $mdDialog.hide;
       $scope.$on('$stateChangeStart', function() {
-        ctlr.closeDialog();
+        DataSetSearchDialogController.closeDialog();
       });
     });

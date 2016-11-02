@@ -18,6 +18,7 @@
       "surveys": "Surveys",
       "survey-informations": "Survey Informations",
       "related-information": "Related Information",
+      "related-objects": "Related Objects",
       "field-period": "Field Period",
       "population": "Population",
       "survey-method": "Survey Method",
@@ -25,7 +26,10 @@
       "not-found": "The {{id}} references to an unknown Survey.",
       "not-found-references": "The id {{id}} has no References to Surveys.",
       "no-related-surveys": "No related Surveys.",
-      "related-surveys": "Related Surveys"
+      "related-surveys": "Related Surveys",
+      "grossSampleSize": "Gross Sample Size",
+      "sampleSize": "Net Sample Size",
+      "responseRate": "Response Rate"
     },
     "error": {
       "survey": {

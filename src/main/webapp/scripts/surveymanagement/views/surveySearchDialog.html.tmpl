@@ -3,14 +3,12 @@
         <div class="md-toolbar-tools">
             <h2>{{'survey-management.home.title' | translate }}</h2>
             <span flex></span>
-            <md-button class="md-icon-button" ng-click="surveySearchDialogController.closeDialog()">
+            <md-button class="md-icon-button" ng-click="SurveySearchDialogController.closeDialog()">
                 <md-icon md-svg-src="/assets/images/icons/ic_close_white_24px.svg" aria-label="Close dialog"></md-icon>
             </md-button>
         </div>
     </md-toolbar>
     <md-dialog-content>
-      <div ng-repeat="survey in surveySearchDialogController.surveys">
-            <survey-search-result search-result="survey._source"></survey-search-result>
-      </div>
+        <related-surveys method-name="{{SurveySearchDialogController.methodName}}" method-params="SurveySearchDialogController.methodParams"></related-surveys>
     </md-dialog-content>
 </md-dialog>

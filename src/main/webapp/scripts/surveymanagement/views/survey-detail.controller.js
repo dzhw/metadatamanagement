@@ -2,26 +2,41 @@
 
 angular.module('metadatamanagementApp')
   .controller('SurveyDetailController',
-    function(entity, VariableSearchDialogService, DataSetSearchDialogService,
-      RelatedPublicationSearchDialogService, $state, $rootScope) {
+    function(entity, $state, StudySearchResource, SurveySearchDialogService,
+      DataSetSearchDialogService, $rootScope, DataSetSearchResource,
+      SurveySearchResource) {
 
       var ctrl = this;
       ctrl.survey = entity;
+      ctrl.counts = {};
       entity.$promise.then(function(survey) {
         ctrl.survey = survey;
+        StudySearchResource
+        .findStudy(ctrl.survey.dataAcquisitionProjectId).then(function(study) {
+            ctrl.study = study.hits.hits[0]._source;
+          });
+        DataSetSearchResource
+        .getCounts('surveyTitles',
+        ctrl.survey.title[$rootScope.currentLanguage])
+        .then(function(dataSetsCount) {
+              ctrl.counts.dataSetsCount = dataSetsCount.count;
+            });
+        SurveySearchResource
+          .getCounts('dataAcquisitionProjectId',
+          ctrl.survey.dataAcquisitionProjectId).then(function(surveysCount) {
+              ctrl.counts.surveysCount = surveysCount.count;
+            });
       });
-      ctrl.showVariables = function() {
-        VariableSearchDialogService
-          .findBySurveyTitle(ctrl.survey.title[$rootScope.currentLanguage]);
-      };
       ctrl.showStudy = function() {
         $state.go('studyDetail', {id: ctrl.survey.dataAcquisitionProjectId});
       };
-      ctrl.showDataSets = function() {
-        DataSetSearchDialogService
-          .findBySurveyTitle(ctrl.survey.title[$rootScope.currentLanguage]);
+      ctrl.showRelatedInstruments = function() {};
+      ctrl.showRelatedDataSets = function() {
+        DataSetSearchDialogService.findDataSets('findBySurveyTitle',
+        ctrl.survey.title[$rootScope.currentLanguage]);
       };
-      ctrl.showRelatedPublications = function() {
-        RelatedPublicationSearchDialogService.findBySurveyId(ctrl.survey.id);
+      ctrl.showRelatedSurveys = function() {
+        SurveySearchDialogService.findSurveys('findByProjectId',
+        ctrl.survey.dataAcquisitionProjectId);
       };
     });

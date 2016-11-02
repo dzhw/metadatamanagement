@@ -77,10 +77,18 @@ function(Language, ElasticSearchClient) {
     };
     return ElasticSearchClient.search(query);
   };
+  var getCounts = function(term, value) {
+    query.body.query = {
+      'term': {}
+    };
+    query.body.query.term[term] = value;
+    return ElasticSearchClient.count(query);
+  };
   return {
     findByVariableId: findByVariableId,
     findBySurveyTitle: findBySurveyTitle,
     findByProjectId: findByProjectId,
-    findDataSets: findDataSets
+    findDataSets: findDataSets,
+    getCounts: getCounts
   };
 });

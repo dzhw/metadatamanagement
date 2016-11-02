@@ -15,77 +15,84 @@
                     </md-card-header>
                     <md-divider></md-divider>
                     <md-card-content>
-                        <section style="margin-bottom: 0.5em;" ng-if="ctrl.survey.fieldPeriod">
-                            <span style="font-weight: bold;">{{'survey-management.detail.field-period' | translate }}:
-                            </span>
-                            <span>{{ctrl.survey.fieldPeriod.start | date}} - {{ctrl.survey.fieldPeriod.end | date}}</span>
-                        </section>
-                        <section style="margin-bottom: 0.5em;" ng-if="ctrl.survey.population">
-                            <span style="font-weight: bold;">{{'survey-management.detail.population' | translate }}:
-                            </span>
-                            <span>{{ctrl.survey.population[currentLanguage]}}</span>
-                        </section>
-                        <section style="margin-bottom: 0.5em;" ng-if="ctrl.survey.surveyMethod">
-                            <span style="font-weight: bold;">{{'survey-management.detail.survey-method' | translate }}:
-                            </span>
-                            <span>{{ctrl.survey.surveyMethod[currentLanguage]}}</span>
-                        </section>
-                        <section style="margin-bottom: 0.5em;" ng-if="ctrl.survey.sample">
-                            <span style="font-weight: bold;">{{'survey-management.detail.sample' | translate }}:
-                            </span>
-                            <span>{{ctrl.survey.sample[currentLanguage]}}</span>
-                        </section>
+                      <section style="margin-bottom: 0.5em;" ng-if="ctrl.survey.population">
+                        <span style="font-weight: bold;">{{'survey-management.detail.population' | translate }}:
+                        </span>
+                        <span>{{ctrl.survey.population[currentLanguage]}}</span>
+                      </section>
+                      <section style="margin-bottom: 0.5em;" ng-if="ctrl.survey.sample">
+                        <span style="font-weight: bold;">{{'survey-management.detail.sample' | translate }}:
+                        </span>
+                        <span>{{ctrl.survey.sample[currentLanguage]}}</span>
+                      </section>
+                      <section style="margin-bottom: 0.5em;" ng-if="ctrl.survey.surveyMethod">
+                        <span style="font-weight: bold;">{{'survey-management.detail.survey-method' | translate }}:
+                        </span>
+                        <span>{{ctrl.survey.surveyMethod[currentLanguage]}}</span>
+                      </section>
+                      <section style="margin-bottom: 0.5em;" ng-if="ctrl.survey.fieldPeriod">
+                          <span style="font-weight: bold;">{{'survey-management.detail.field-period' | translate }}:
+                          </span>
+                          <span>{{ctrl.survey.fieldPeriod.start | date}} - {{ctrl.survey.fieldPeriod.end | date}}</span>
+                      </section>
+                      <section style="margin-bottom: 0.5em;" ng-if="ctrl.survey.grossSampleSize">
+                          <span style="font-weight: bold;">{{'survey-management.detail.grossSampleSize' | translate }}:
+                          </span>
+                          <span>N = {{ctrl.survey.grossSampleSize}}</span>
+                      </section>
+                      <section style="margin-bottom: 0.5em;" ng-if="ctrl.survey.sampleSize">
+                        <span style="font-weight: bold;">{{'survey-management.detail.sampleSize' | translate }}:
+                        </span>
+                        <span>N = {{ctrl.survey.sampleSize}}</span>
+                      </section>
+                      <section style="margin-bottom: 0.5em;" ng-if="ctrl.survey.responseRate">
+                        <span style="font-weight: bold;">{{'survey-management.detail.responseRate' | translate }}:
+                        </span>
+                        <span>{{ctrl.survey.responseRate}}%</span>
+                      </section>
                     </md-card-content>
                 </md-card>
                 <md-card>
                     <md-card-header>
                         <md-card-header-text>
-                            <h2 class="md-title">{{'survey-management.detail.related-information' | translate }}</h2>
+                            <h2 class="md-title">{{'survey-management.detail.related-objects' | translate }}</h2>
                         </md-card-header-text>
                     </md-card-header>
                     <md-divider></md-divider>
-                    <md-card-content>
-                        <section>
-                            <md-button class="md-raised" ng-click="ctrl.showStudy()">
-                                <md-icon md-svg-src="/assets/images/icons/study.svg"></md-icon>
-                                <span>{{'study-management.detail.study' | translate }}</span>
-                            </md-button>
+                    <md-card-content layout="column" layout-align="center start">
+                        <section style="margin-bottom: 0.5em;" layout="row" layout-align="center center" layout-sm="column" layout-xs="column">
+                          <div>
+                            <md-icon md-svg-src="/assets/images/icons/study.svg"></md-icon>
+                            <span>{{'study-management.detail.study' | translate }}:</span>
+                          </div>
+                            <a ui-sref="studyDetail({id:ctrl.study.id})">{{ctrl.study.title}}</a>
                         </section>
-                        <section>
-                            <md-button class="md-raised" ng-click="ctrl.showVariables()">
-                                <md-icon md-svg-src="/assets/images/icons/variable.svg"></md-icon>
-                                <span>{{'variable-management.detail.variables' | translate }}</span>
-                            </md-button>
+                        <section style="margin-bottom: 0.5em;" layout="row" layout-sm="column" layout-xs="column">
+                          <div>
+                            <md-icon md-svg-src="/assets/images/icons/instrument.svg"></md-icon>
+                            <span>{{'instrument-management.detail.instruments' | translate }}:</span>
+                          </div>
+                            <a ng-click="ctrl.showRelatedInstruments()">[...]</a>
                         </section>
-                        <section>
-                            <md-button class="md-raised" ng-click="ctrl.showDataSets()">
-                                <md-icon md-svg-src="/assets/images/icons/data-set.svg"></md-icon>
-                                <span>{{'data-set-management.detail.data-sets' | translate }}</span>
-                            </md-button>
+                        <section style="margin-bottom: 0.5em;" layout="row" layout-sm="column" layout-xs="column">
+                          <div>
+                            <md-icon md-svg-src="/assets/images/icons/data-set.svg"></md-icon>
+                            <span>{{'data-set-management.detail.data-sets' | translate }}:</span>
+                          </div>
+                            <a ng-click="ctrl.showRelatedDataSets()">[{{ctrl.counts.dataSetsCount}}]</a>
                         </section>
-                        <section>
-                            <md-button class="md-raised" ng-disabled="true " ng-click="ctrl.showInstruments()">
-                                <md-icon md-svg-src="/assets/images/icons/instrument.svg"></md-icon>
-                                <span>{{'instrument-management.detail.instruments' | translate }}</span>
-                            </md-button>
-                        </section>
-                        <section>
-                            <md-button class="md-raised" ng-click="ctrl.showRelatedPublications()">
-                                <md-icon md-svg-src="/assets/images/icons/related-publication.svg"></md-icon>
-                                <span>{{'related-publication-management.detail.publications' | translate }}</span>
-                            </md-button>
+                        <section style="margin-bottom: 0.5em;" layout="row" layout-sm="column" layout-xs="column">
+                          <div>
+                            <md-icon md-svg-src="/assets/images/icons/survey.svg"></md-icon>
+                            <span>{{'survey-management.detail.surveys' | translate }}:</span>
+                          </div>
+                          <div >
+                            <a ng-click="ctrl.showRelatedSurveys()">[{{ctrl.counts.surveysCount}}]</a>
+                          </div>
                         </section>
                     </md-card-content>
                 </md-card>
             </div>
-            <div layout="row" layout-sm="column" layout-xs="column">
-              <related-variables flex-gt-sm="50" method-name="findBySurveyTitle" method-params="ctrl.survey.title[currentLanguage]"></related-variables>
-              <related-data-sets flex-gt-sm="50" method-name="findBySurveyTitle" method-params="ctrl.survey.title[currentLanguage]"></related-data-sets>
-            </div>
-            <div layout="row" layout-sm="column" layout-xs="column">
-              <related-publications flex-gt-sm="50" method-name="findBySurveyId" method-params="ctrl.survey.id"></related-publications>
-              <related-studies flex-gt-sm="50" method-name="findStudy" method-params="ctrl.survey.dataAcquisitionProjectId"></related-studies>
-          </div>
         </md-card-content>
     </md-card>
 </div>

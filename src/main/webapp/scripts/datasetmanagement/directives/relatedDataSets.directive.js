@@ -11,7 +11,7 @@ angular.module('metadatamanagementApp').directive('relatedDataSets',
         controllerAs: 'relatedDataSetController',
         controller: function() {
           var relatedDataSetController = this;
-          var blockArea = blockUI.instances.get('blockRelatedDataSetCard');
+          var blockArea = blockUI.instances.get('blockRelatedDataSetContainer');
           relatedDataSetController.page = {
             currentPageNumber: 1,
             totalHits: 0,

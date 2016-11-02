@@ -1,28 +1,20 @@
-<md-card>
-    <md-card-header>
-        <md-card-header-text>
-            <h2 class="md-title">{{'survey-management.detail.related-surveys' | translate }}</h2>
-        </md-card-header-text>
-    </md-card-header>
-    <md-divider></md-divider>
-    <div block-ui="blockRelatedSurveyCard">
-      <div ng-repeat="survey in relatedSurveyController.surveys">
-        <survey-search-result search-result="survey._source"></survey-search-result>
-      </div>
-      <div ng-if="relatedSurveyController.page.totalHits > relatedSurveyController.page.size" layout="row" layout-align="center">
-          <ul
-              uib-pagination
-              next-text="{{'global.pagination.next'|translate}}"
-              previous-text="{{'global.pagination.previous'|translate}}"
-              total-items="relatedSurveyController.page.totalHits"
-              ng-model="relatedSurveyController.page.currentPageNumber"
-              max-size="5"
-              ng-change="relatedSurveyController.search()"
-              items-per-page="relatedSurveyController.page.size"
-              class="pagination-sm"></ul>
-      </div>
-      <div ng-if="relatedSurveyController.page.totalHits === 0" layout-margin>
-            <span>{{'survey-management.detail.no-related-surveys' | translate }}</span>
-      </div>
-    </div>
-</md-card>
+<div block-ui="blockRelatedSurveyContainer">
+  <div ng-repeat="survey in relatedSurveyController.surveys">
+    <survey-search-result search-result="survey._source"></survey-search-result>
+  </div>
+  <div ng-if="relatedSurveyController.page.totalHits > relatedSurveyController.page.size" layout="row" layout-align="center">
+    <ul uib-pagination
+        next-text="{{'global.pagination.next'|translate}}"
+        previous-text="{{'global.pagination.previous'|translate}}"
+        total-items="relatedSurveyController.page.totalHits"
+        ng-model="relatedSurveyController.page.currentPageNumber"
+        max-size="relatedSurveyController.page.maxSize"
+        ng-change="relatedSurveyController.search()"
+        items-per-page="relatedSurveyController.page.size"
+        class="pagination-sm">
+    </ul>
+  </div>
+  <div ng-if="relatedSurveyController.page.totalHits === 0" layout-margin>
+    <span>{{'survey-management.detail.no-related-surveys' | translate }}</span>
+  </div>
+</div>

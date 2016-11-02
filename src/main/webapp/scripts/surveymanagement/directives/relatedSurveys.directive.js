@@ -11,10 +11,11 @@ angular.module('metadatamanagementApp').directive('relatedSurveys',
         controllerAs: 'relatedSurveyController',
         controller: function() {
           var relatedSurveyController = this;
-          var blockArea = blockUI.instances.get('blockRelatedSurveyCard');
+          var blockArea = blockUI.instances.get('blockRelatedSurveyContainer');
           relatedSurveyController.page = {
             currentPageNumber: 1,
             totalHits: 0,
+            maxSize: 5,
             size: 5
           };
           relatedSurveyController.search = function() {
