@@ -64,9 +64,9 @@ angular.module('metadatamanagementApp').service('DataSetBuilderService',
                 numberOfAnalyzedVariables:
                 parseInt(subDataSet.numberOfAnalyzedVariables)
               };
-            var cleanedDataSetObject = CleanJSObjectService
+            var cleanedSubDataSetObject = CleanJSObjectService
               .removeEmptyJsonObjects(subDataSetObj);
-            return cleanedDataSetObject;
+            return cleanedSubDataSetObject;
           } else {
             throw subDataSetErrors;
           }

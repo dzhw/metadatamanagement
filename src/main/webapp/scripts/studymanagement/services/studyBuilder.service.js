@@ -2,82 +2,79 @@
 'use strict';
 
 angular.module('metadatamanagementApp').service('StudyBuilderService',
-  function(StudyResource, CleanJSObjectService, CurrentProjectService) {
-    var parseErrors = [];
-    var getStudies = function(study) {
-      var studiesObjArray = [];
-
-      //Create releases
-      var releases = [];
-      for (var j = 0; j < study.releases.length; j++) {
-        var releaseObj = {
-          version: study.releases[j].version,
-          doi: study.releases[j].doi,
-          date: study.releases[j].date,
-          notes: {
-            en: study.releases[j]['notes.en'],
-            de: study.releases[j]['notes.de'],
-          }
-        };
-        releases.push(releaseObj);
-      }
-      parseErrors.length = 0;
-      for (var i = 0; i < study.length; i++) {
-        var studyObj = {
-          id: CurrentProjectService.getCurrentProject().id,
+  function(StudyResource, CleanJSObjectService) {
+    var buildStudy = function(studyFromExcel, releases,
+      dataAcquisitionProjectId) {
+        var study = {
+          id: dataAcquisitionProjectId,
           title: {
-            en: study[i]['title.en'],
-            de: study[i]['title.de']
+            en: studyFromExcel['title.en'],
+            de: studyFromExcel['title.de']
           },
           description: {
-            en: study[i]['description.en'],
-            de: study[i]['description.de']
+            en: studyFromExcel['description.en'],
+            de: studyFromExcel['description.de']
           },
           institution: {
-            en: study[i]['institution.en'],
-            de: study[i]['institution.de']
+            en: studyFromExcel['institution.en'],
+            de: studyFromExcel['institution.de']
           },
           surveySeries: {
-            en: study[i]['surveySeries.en'],
-            de: study[i]['surveySeries.de']
+            en: studyFromExcel['surveySeries.en'],
+            de: studyFromExcel['surveySeries.de']
           },
           sponsor: {
-            en: study[i]['sponsor.en'],
-            de: study[i]['sponsor.de']
+            en: studyFromExcel['sponsor.en'],
+            de: studyFromExcel['sponsor.de']
           },
           citationHint: {
-            en: study[i]['citationHint.en'],
-            de: study[i]['citationHint.de']
+            en: studyFromExcel['citationHint.en'],
+            de: studyFromExcel['citationHint.de']
           },
           dataAvaibility: {
-            en: study[i]['dataAvaibility.en'],
-            de: study[i]['dataAvaibility.de']
+            en: studyFromExcel['dataAvaibility.en'],
+            de: studyFromExcel['dataAvaibility.de']
           },
           surveyDesign: {
-            en: study[i]['surveyDesign.en'],
-            de: study[i]['surveyDesign.de']
+            en: studyFromExcel['surveyDesign.en'],
+            de: studyFromExcel['surveyDesign.de']
           },
-          authors: study[i].authors,
+          authors: studyFromExcel.authors,
           accessWays: CleanJSObjectService.
-          removeWhiteSpace(study[i].accessWays),
-          dataAcquisitionProjectId: study.dataAcquisitionProjectId,
+          removeWhiteSpace(studyFromExcel.accessWays),
+          dataAcquisitionProjectId: dataAcquisitionProjectId,
           releases: releases,
           surveyIds: CleanJSObjectService.
-          removeWhiteSpace(study[i].surveyIds),
+          removeWhiteSpace(studyFromExcel.surveyIds),
           dataSetIds: CleanJSObjectService.
-          removeWhiteSpace(study[i].dataSetIds),
+          removeWhiteSpace(studyFromExcel.dataSetIds),
           instrumentIds: CleanJSObjectService.
-          removeWhiteSpace(study[i].instrumentIds),
+          removeWhiteSpace(studyFromExcel.instrumentIds),
           relatedPublicationIds: CleanJSObjectService.
-          removeWhiteSpace(study[i].relatedPublicationIds)
+          removeWhiteSpace(studyFromExcel.relatedPublicationIds)
         };
-        CleanJSObjectService.removeEmptyJsonObjects(studyObj);
-        studiesObjArray.push(new StudyResource(studyObj));
-      }
-      return studiesObjArray;
+        var cleanedStudyObject = CleanJSObjectService
+        .removeEmptyJsonObjects(study);
+        return new StudyResource(cleanedStudyObject);
+      };
+    var buildReleases = function(releasesFromExcel) {
+      var releases = [];
+      releasesFromExcel.forEach(function(releaseFromExcel) {
+        var release = {
+          version: releaseFromExcel.version,
+          doi: releaseFromExcel.doi,
+          date: releaseFromExcel.date,
+          notes: {
+            en: releaseFromExcel['notes.en'],
+            de: releaseFromExcel['notes.de'],
+          }
+        };
+        releases.push(release);
+      });
+      return releases;
     };
     return {
-      getStudies: getStudies,
-      getParseErrors: parseErrors
+      buildStudy: buildStudy,
+      buildReleases: buildReleases
     };
   });
