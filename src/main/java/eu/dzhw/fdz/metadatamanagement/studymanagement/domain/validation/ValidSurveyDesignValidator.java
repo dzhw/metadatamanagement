@@ -3,8 +3,6 @@ package eu.dzhw.fdz.metadatamanagement.studymanagement.domain.validation;
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 
-import com.google.common.base.Strings;
-
 import eu.dzhw.fdz.metadatamanagement.common.domain.I18nString;
 import eu.dzhw.fdz.metadatamanagement.studymanagement.domain.SurveyDesigns;
 
@@ -35,12 +33,7 @@ public class ValidSurveyDesignValidator implements
       return true;
     }
 
-    if (Strings.isNullOrEmpty(surveyDesign.getDe())
-        && Strings.isNullOrEmpty(surveyDesign.getEn())) {
-      return true;
-    }
-
-    // check for scale levels
+    // check for survey designs
     return SurveyDesigns.ALL.contains(surveyDesign);
   }
 
