@@ -32,54 +32,53 @@ angular.module('metadatamanagementApp').service('SurveyUploadService',
           uploadSurveyCount++;
           return upload();
         } else {
-          var imageResponseRateNameDe =
-            surveys[uploadSurveyCount].id + '_responserate_de';
-          surveys[uploadSurveyCount].$save()
-            .then(function() {
-              var responseRateDe = images[imageResponseRateNameDe];
-              return FileReaderService.readAsArrayBuffer(responseRateDe);
-            }, function(error) {
-              //unable to save question object
-              var errorMessages = ErrorMessageResolverService
-                .getErrorMessages(error, 'question');
-              JobLoggingService.error(errorMessages.message,
-                errorMessages.translationParams, errorMessages.subMessages
-              );
-              return $q.reject('previouslyHandledError');
-            })
-            .then(function(responseRateDe) {
-              var image = new Blob([responseRateDe], {
-                type: 'image/svg+xml'
-              });
 
-              return SurveyImageUploadService.uploadImage(image,
-                surveys[uploadSurveyCount].id, imageResponseRateNameDe);
-            }, function(error) {
-              if (error !== 'previouslyHandledError') {
-                var imageResponseRateNameDe =
-                  surveys[uploadSurveyCount].id + '_responserate_de';
-                //image file read error
-                JobLoggingService.error(
-                  'question-management.log-messages.' +
-                  'question.unable-to-read-image-file', {
-                    file: images[imageResponseRateNameDe]
-                  });
-              }
-              return $q.reject('previouslyHandledError');
-            })
-            .then(function() {
-              JobLoggingService.success();
-              uploadSurveyCount++;
-              return upload();
-            }).catch(function(error) {
-              var errorMessages = ErrorMessageResolverService
-                .getErrorMessages(error, 'survey');
-              JobLoggingService.error(errorMessages.message,
-                errorMessages.translationParams, errorMessages.subMessages
-              );
-              uploadSurveyCount++;
-              return upload();
-            });
+          var imageKeys = Object.keys(images);
+          imageKeys.forEach(function(imageName) {
+            surveys[uploadSurveyCount].$save()
+              .then(function() {
+                var responseRateDe = images[imageName];
+                return FileReaderService.readAsArrayBuffer(responseRateDe);
+              }, function(error) {
+                //unable to save survey object
+                var errorMessages = ErrorMessageResolverService
+                  .getErrorMessages(error, 'survey');
+                JobLoggingService.error(errorMessages.message,
+                  errorMessages.translationParams, errorMessages.subMessages
+                );
+                return $q.reject('previouslyHandledError');
+              })
+              .then(function(responseRateDe) {
+                var image = new Blob([responseRateDe], {
+                  type: 'image/svg+xml'
+                });
+                return SurveyImageUploadService.uploadImage(image,
+                  surveys[uploadSurveyCount].id, imageName);
+              }, function(error) {
+                if (error !== 'previouslyHandledError') {
+                  //image file read error
+                  JobLoggingService.error(
+                    'survey-management.log-messages.' +
+                    'survey.unable-to-read-image-file', {
+                      file: images[imageName]
+                    });
+                }
+                return $q.reject('previouslyHandledError');
+              })
+              .then(function() {
+                JobLoggingService.success();
+                uploadSurveyCount++;
+                return upload();
+              }).catch(function(error) {
+                var errorMessages = ErrorMessageResolverService
+                  .getErrorMessages(error, 'survey');
+                JobLoggingService.error(errorMessages.message,
+                  errorMessages.translationParams, errorMessages.subMessages
+                );
+                uploadSurveyCount++;
+                return upload();
+              });
+          });
         }
       }
     };
