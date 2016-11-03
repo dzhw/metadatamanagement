@@ -44,6 +44,7 @@ public class SurveyImageService {
    * @param imageName The name of the image to be deleted
    */
   public void deleteSurveyImage(String imageName) {
+        
     Query query = new Query(GridFsCriteria.whereFilename()
         .is("/surveys/" + imageName));
     this.operations.delete(query);

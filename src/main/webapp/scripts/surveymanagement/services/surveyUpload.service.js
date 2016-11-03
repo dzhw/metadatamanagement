@@ -1,14 +1,18 @@
 /*jshint loopfunc: true */
+/* global Blob */
 'use strict';
 
 angular.module('metadatamanagementApp').service('SurveyUploadService',
   function(ExcelReaderService, SurveyBuilderService,
-    SurveyDeleteResource, JobLoggingService,
-    ErrorMessageResolverService, ElasticSearchAdminService, $rootScope) {
-    var objects;
-    var uploadCount;
+    SurveyDeleteResource, JobLoggingService, SurveyImageUploadService,
+    ErrorMessageResolverService, ElasticSearchAdminService, $rootScope,
+    FileReaderService, $q) {
+    var surveys;
+    var images = {};
+    var uploadSurveyCount;
+
     var upload = function() {
-      if (uploadCount === objects.length) {
+      if (uploadSurveyCount === surveys.length) {
         ElasticSearchAdminService.processUpdateQueue().finally(function() {
           JobLoggingService.finish(
             'survey-management.log-messages.survey.upload-terminated', {
@@ -18,55 +22,99 @@ angular.module('metadatamanagementApp').service('SurveyUploadService',
           $rootScope.$broadcast('upload-completed');
         });
       } else {
-        if (!objects[uploadCount].id || objects[uploadCount].id === '') {
-          var index = uploadCount;
+        if (!surveys[uploadSurveyCount].id ||
+          surveys[uploadSurveyCount].id === '') {
+          var index = uploadSurveyCount;
           JobLoggingService.error(
             'survey-management.log-messages.survey.missing-id', {
               index: index + 1
             });
-          uploadCount++;
+          uploadSurveyCount++;
           return upload();
         } else {
-          objects[uploadCount].$save().then(function() {
-            JobLoggingService.success();
-            uploadCount++;
-            return upload();
-          }).catch(function(error) {
-            var errorMessages = ErrorMessageResolverService
-              .getErrorMessages(error, 'survey');
-            JobLoggingService.error(errorMessages.message,
-              errorMessages.translationParams, errorMessages.subMessages
-            );
-            uploadCount++;
-            return upload();
-          });
+          surveys[uploadSurveyCount].$save()
+            .then(function() {
+              var imageResponseRateNameDe =
+                surveys[uploadSurveyCount].id + '_responserate_de';
+              var responseRateDe = images[imageResponseRateNameDe];
+
+              return FileReaderService.readAsArrayBuffer(responseRateDe);
+            }, function(error) {
+              //unable to save question object
+              var errorMessages = ErrorMessageResolverService
+                .getErrorMessages(error, 'question');
+              JobLoggingService.error(errorMessages.message,
+                errorMessages.translationParams, errorMessages.subMessages
+              );
+              return $q.reject('previouslyHandledError');
+            })
+            .then(function(responseRateDe) {
+              var image = new Blob([responseRateDe], {
+                type: 'image/svg+xml'
+              });
+              return SurveyImageUploadService.uploadImage(image,
+                surveys[uploadSurveyCount].id);
+            }, function(error) {
+              if (error !== 'previouslyHandledError') {
+                var imageResponseRateNameDe =
+                  surveys[uploadSurveyCount].id + '_responserate_de';
+                //image file read error
+                JobLoggingService.error(
+                  'question-management.log-messages.' +
+                  'question.unable-to-read-image-file', {
+                    file: images[imageResponseRateNameDe]
+                  });
+              }
+              return $q.reject('previouslyHandledError');
+            })
+            .then(function() {
+              JobLoggingService.success();
+              uploadSurveyCount++;
+              return upload();
+            }).catch(function(error) {
+              var errorMessages = ErrorMessageResolverService
+                .getErrorMessages(error, 'survey');
+              JobLoggingService.error(errorMessages.message,
+                errorMessages.translationParams, errorMessages.subMessages
+              );
+              uploadSurveyCount++;
+              return upload();
+            });
         }
       }
     };
 
     var uploadSurveys = function(files, dataAcquisitionProjectId) {
-      uploadCount = 0;
-      objects = [];
+      uploadSurveyCount = 0;
+      surveys = [];
+      images = {};
       JobLoggingService.start('survey');
       SurveyDeleteResource.deleteByDataAcquisitionProjectId({
-          dataAcquisitionProjectId: dataAcquisitionProjectId
-        }).$promise.then(
+        dataAcquisitionProjectId: dataAcquisitionProjectId
+      }).$promise.then(
         function() {
           files.forEach(function(file) {
             if (file.name === 'surveys.xlsx') {
               ExcelReaderService.readFileAsync(file)
-              .then(function(surveys) {
-                  objects = SurveyBuilderService.getSurveys(surveys,
-                    dataAcquisitionProjectId);
+                .then(function(rawSurveys) {
+                  surveys = SurveyBuilderService.getSurveys(
+                    rawSurveys, dataAcquisitionProjectId);
                   upload();
                 }, function() {
-                JobLoggingService.cancel('global.log-messages.' +
-                  'unable-to-read-file',
-                  {file: 'surveys.xlsx'});
-              });
+                  JobLoggingService.cancel('global.log-messages.' +
+                    'unable-to-read-file', {
+                      file: 'surveys.xlsx'
+                    });
+                });
+            }
+            if (file.name.endsWith('.svg')) {
+              var surveyResponseName =
+                file.name.substring(0, file.name.indexOf('.svg'));
+              images[surveyResponseName] = file;
             }
           });
-        }, function() {
+        },
+        function() {
           JobLoggingService.cancel(
             'survey.log-messages.' +
             'survey.unable-to-delete');
