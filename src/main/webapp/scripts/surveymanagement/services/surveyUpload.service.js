@@ -32,12 +32,11 @@ angular.module('metadatamanagementApp').service('SurveyUploadService',
           uploadSurveyCount++;
           return upload();
         } else {
+          var imageResponseRateNameDe =
+            surveys[uploadSurveyCount].id + '_responserate_de';
           surveys[uploadSurveyCount].$save()
             .then(function() {
-              var imageResponseRateNameDe =
-                surveys[uploadSurveyCount].id + '_responserate_de';
               var responseRateDe = images[imageResponseRateNameDe];
-
               return FileReaderService.readAsArrayBuffer(responseRateDe);
             }, function(error) {
               //unable to save question object
@@ -52,8 +51,9 @@ angular.module('metadatamanagementApp').service('SurveyUploadService',
               var image = new Blob([responseRateDe], {
                 type: 'image/svg+xml'
               });
+
               return SurveyImageUploadService.uploadImage(image,
-                surveys[uploadSurveyCount].id);
+                surveys[uploadSurveyCount].id, imageResponseRateNameDe);
             }, function(error) {
               if (error !== 'previouslyHandledError') {
                 var imageResponseRateNameDe =

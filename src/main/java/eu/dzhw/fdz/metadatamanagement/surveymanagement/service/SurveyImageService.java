@@ -31,10 +31,10 @@ public class SurveyImageService {
    * @return return the name of the saved image in the GridFS / MongoDB.
    */
   public String saveSurveyImage(InputStream inputStream,
-      String surveyId, String contentType) {
+      String surveyId, String fileName, String contentType) {
     deleteSurveyImage(surveyId);
-    GridFSFile gridFsFile = this.operations.store(inputStream, 
-        "/surveys/" + surveyId, contentType);
+    String relativePathWithName = "/surveys/" + surveyId + "/" + fileName;
+    GridFSFile gridFsFile = this.operations.store(inputStream, relativePathWithName, contentType);
     gridFsFile.validate();
     return gridFsFile.getFilename();
   }
