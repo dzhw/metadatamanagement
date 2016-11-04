@@ -30,6 +30,8 @@ public class SurveyService {
   private SurveyRepository surveyRepository;
   @Inject
   private ElasticsearchUpdateQueueService elasticsearchUpdateQueueService;
+  
+  @Inject SurveyImageService imageService;
 
   /**
    * Listener, which will be activate by a deletion of a data acquisition project.
@@ -49,6 +51,7 @@ public class SurveyService {
     List<Survey> deletedSurveys =
         surveyRepository.deleteByDataAcquisitionProjectId(dataAcquisitionProjectId);
     deletedSurveys.forEach(survey -> {
+      this.imageService.deleteSurveyImage(survey.getId());
       elasticsearchUpdateQueueService.enqueue(
           survey.getId(), 
           ElasticsearchType.surveys, 

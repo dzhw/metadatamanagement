@@ -41,12 +41,16 @@ public class SurveyImageService {
   
   /**
    * This method delete an image from GridFS/MongoDB.
-   * @param imageName The name of the image to be deleted
+   * @param surveyId The id of the image to be deleted
    */
-  public void deleteSurveyImage(String imageName) {
+  public void deleteSurveyImage(String surveyId) {
         
-    Query query = new Query(GridFsCriteria.whereFilename()
-        .is("/surveys/" + imageName));
-    this.operations.delete(query);
+    Query queryDe = new Query(GridFsCriteria.whereFilename()
+        .is("/surveys/" + surveyId + "/" + surveyId + "_responserate_de"));
+    this.operations.delete(queryDe);
+    
+    Query queryEn = new Query(GridFsCriteria.whereFilename()
+        .is("/surveys/" + surveyId + "/" + surveyId + "_responserate_en"));
+    this.operations.delete(queryEn);
   }
 }
