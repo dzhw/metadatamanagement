@@ -38,6 +38,9 @@ angular.module('metadatamanagementApp').service('SurveyUploadService',
           .then(function() {
             var imageKeys = Object.keys(images);
             imageKeys.forEach(function(imageName) {
+              if (imageName.indexOf(survey.id) !== -1) {
+                return;
+              }
               FileReaderService.readAsArrayBuffer(images[imageName])
               .then(function(imageArrayBuffer) {
                 var image = new Blob([imageArrayBuffer], {
