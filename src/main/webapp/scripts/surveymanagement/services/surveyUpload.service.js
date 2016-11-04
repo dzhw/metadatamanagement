@@ -33,27 +33,18 @@ angular.module('metadatamanagementApp').service('SurveyUploadService',
           return upload();
         } else {
 
-          var imageKeys = Object.keys(images);
-          imageKeys.forEach(function(imageName) {
-            surveys[uploadSurveyCount].$save()
-              .then(function() {
-                var responseRateDe = images[imageName];
-                return FileReaderService.readAsArrayBuffer(responseRateDe);
-              }, function(error) {
-                //unable to save survey object
-                var errorMessages = ErrorMessageResolverService
-                  .getErrorMessages(error, 'survey');
-                JobLoggingService.error(errorMessages.message,
-                  errorMessages.translationParams, errorMessages.subMessages
-                );
-                return $q.reject('previouslyHandledError');
-              })
-              .then(function(responseRateDe) {
-                var image = new Blob([responseRateDe], {
+          var survey = surveys[uploadSurveyCount];
+          survey.$save()
+          .then(function() {
+            var imageKeys = Object.keys(images);
+            imageKeys.forEach(function(imageName) {
+              FileReaderService.readAsArrayBuffer(images[imageName])
+              .then(function(imageArrayBuffer) {
+                var image = new Blob([imageArrayBuffer], {
                   type: 'image/svg+xml'
                 });
                 return SurveyImageUploadService.uploadImage(image,
-                  surveys[uploadSurveyCount].id, imageName);
+                  survey.id, imageName);
               }, function(error) {
                 if (error !== 'previouslyHandledError') {
                   //image file read error
@@ -64,23 +55,26 @@ angular.module('metadatamanagementApp').service('SurveyUploadService',
                     });
                 }
                 return $q.reject('previouslyHandledError');
-              })
-              .then(function() {
-                JobLoggingService.success();
-                uploadSurveyCount++;
-                return upload();
-              }).catch(function(error) {
-                var errorMessages = ErrorMessageResolverService
-                  .getErrorMessages(error, 'survey');
-                JobLoggingService.error(errorMessages.message,
-                  errorMessages.translationParams, errorMessages.subMessages
-                );
-                uploadSurveyCount++;
-                return upload();
               });
+            });
+          })
+          .then(function() {
+            JobLoggingService.success();
+            uploadSurveyCount++;
+            return upload();
+          }).catch(function(error) {
+            var errorMessages = ErrorMessageResolverService
+              .getErrorMessages(error, 'survey');
+            JobLoggingService.error(errorMessages.message,
+              errorMessages.translationParams, errorMessages.subMessages
+            );
+            uploadSurveyCount++;
+            return upload();
           });
         }
+
       }
+
     };
 
     var uploadSurveys = function(files, dataAcquisitionProjectId) {
