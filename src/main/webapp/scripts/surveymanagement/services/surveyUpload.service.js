@@ -38,7 +38,7 @@ angular.module('metadatamanagementApp').service('SurveyUploadService',
           .then(function() {
             var imageKeys = Object.keys(images);
             imageKeys.forEach(function(imageName) {
-              if (imageName.indexOf(survey.id) !== -1) {
+              if (imageName.indexOf(survey.id) === -1) {
                 return;
               }
               FileReaderService.readAsArrayBuffer(images[imageName])
