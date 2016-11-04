@@ -200,7 +200,10 @@ module.exports = function(grunt) {
             ' context. (Suppressing further errors from this subtree.)',
             'Attribute “layout-margin” not ' +
             'allowed on element “div” at this point.',
-            'Attribute “block-ui” not allowed on element “div” at this point.'
+            'Attribute “block-ui” not allowed on element “div” at this point.',
+            'Element “md-virtual-repeat-container” not allowed as child of ' +
+            'element “div” in this context. (Suppressing further errors ' +
+            'from this subtree.)'
           ],
           customattrs: [
             'show-validation',

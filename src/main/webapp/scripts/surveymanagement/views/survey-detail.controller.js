@@ -37,6 +37,6 @@ angular.module('metadatamanagementApp')
       };
       ctrl.showRelatedSurveys = function() {
         SurveySearchDialogService.findSurveys('findByProjectId',
-        ctrl.survey.dataAcquisitionProjectId);
+        ctrl.survey.dataAcquisitionProjectId, ctrl.counts.surveysCount);
       };
     });

@@ -67,7 +67,7 @@
                           </div>
                             <a ui-sref="studyDetail({id:ctrl.study.id})">{{ctrl.study.title}}</a>
                         </section>
-                        <section style="margin-bottom: 0.5em;" layout="row" layout-sm="column" layout-xs="column">
+                        <section ng-hide="true" style="margin-bottom: 0.5em;" layout="row" layout-sm="column" layout-xs="column">
                           <div>
                             <md-icon md-svg-src="/assets/images/icons/instrument.svg"></md-icon>
                             <span>{{'instrument-management.detail.instruments' | translate }}:</span>
@@ -79,7 +79,7 @@
                             <md-icon md-svg-src="/assets/images/icons/data-set.svg"></md-icon>
                             <span>{{'data-set-management.detail.data-sets' | translate }}:</span>
                           </div>
-                            <a ng-click="ctrl.showRelatedDataSets()">[{{ctrl.counts.dataSetsCount}}]</a>
+                            <a ng-click="ctrl.showRelatedDataSets()">({{ctrl.counts.dataSetsCount}})</a>
                         </section>
                         <section style="margin-bottom: 0.5em;" layout="row" layout-sm="column" layout-xs="column">
                           <div>
@@ -87,12 +87,12 @@
                             <span>{{'survey-management.detail.surveys' | translate }}:</span>
                           </div>
                           <div >
-                            <a ng-click="ctrl.showRelatedSurveys()">[{{ctrl.counts.surveysCount}}]</a>
+                            <a ng-click="ctrl.showRelatedSurveys()">({{ctrl.counts.surveysCount}})</a>
                           </div>
                         </section>
                     </md-card-content>
                 </md-card>
             </div>
-        </md-card-content>
+    </md-card-content>
     </md-card>
 </div>
