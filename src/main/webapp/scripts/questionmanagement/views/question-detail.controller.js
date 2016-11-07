@@ -8,10 +8,12 @@ angular.module('metadatamanagementApp')
     function($scope, StudyReferencedResource,
       ShoppingCartService, VariableSearchDialogService, entity, $state,
       SimpleMessageToastService, QuestionSearchResource, CleanJSObjectService,
-      RelatedPublicationSearchDialogService) {
+      RelatedPublicationSearchDialogService, VariableSearchResource,
+      RelatedPublicationSearchResource) {
 
       $scope.predecessors = [];
       $scope.successors = [];
+      $scope.counts = {};
 
       entity.$promise.then(function(question) {
         $scope.question = question;
@@ -49,12 +51,20 @@ angular.module('metadatamanagementApp')
           .$promise.then(function(study) {
             $scope.study = study;
           });
+        VariableSearchResource.getCounts('questionId',
+            $scope.question.id).then(function(variablesCount) {
+                $scope.counts.variablesCount = variablesCount.count;
+              });
+        RelatedPublicationSearchResource.getCounts('questionIds',
+            $scope.question.id).then(function(publicationsCount) {
+                $scope.counts.publicationsCount = publicationsCount.count;
+              });
       });
 
       /* function to open dialog for variables */
       $scope.showVariables = function() {
-        VariableSearchDialogService
-          .findByQuestionId($scope.question.id);
+        VariableSearchDialogService.findVariables('findByQuestionId',
+        $scope.question.id, $scope.counts.variablesCount);
       };
 
       $scope.showStudy = function() {
@@ -64,8 +74,9 @@ angular.module('metadatamanagementApp')
       };
 
       $scope.showRelatedPublications = function() {
-        RelatedPublicationSearchDialogService
-        .findByQuestionId($scope.question.id);
+        RelatedPublicationSearchDialogService.
+        findRelatedPublications('findByQuestionId', $scope.question.id,
+        $scope.counts.publicationsCount);
       };
       /* add new  item to localStorage */
       $scope.addToNotepad = function() {

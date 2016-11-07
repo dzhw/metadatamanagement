@@ -11,46 +11,62 @@ angular.module('metadatamanagementApp').directive('relatedDataSets',
         controllerAs: 'relatedDataSetController',
         controller: function() {
           var relatedDataSetController = this;
+          relatedDataSetController.count =
+          Number(relatedDataSetController.count);
           var blockArea = blockUI.instances.get('blockRelatedDataSetContainer');
-          relatedDataSetController.page = {
-            currentPageNumber: 1,
-            totalHits: 0,
-            size: 5
+          relatedDataSetController.dataSets = {
+            pageToLoad: 0,
+            items: [],
+            totalHits: relatedDataSetController.count,
+            currentlyLoadingPage: -1,
+            getItemAtIndex: function(index) {
+              if (index >= this.items.length && index < this.totalHits) {
+                this.fetchMoreItems_(index);
+                return null;
+              }
+              return this.items[index];
+            },
+            getLength: function() {
+              if (this.items.length === this.totalHits) {
+                return this.items.length;
+              }
+              return this.items.length + 1;
+            },
+            fetchMoreItems_: function() {
+                if (this.currentlyLoadingPage !== this.pageToLoad) {
+                  this.currentlyLoadingPage = this.pageToLoad;
+                  blockArea.start();
+                  if (_.isArray(relatedDataSetController.methodParams)) {
+                    var searchTerms = _.chunk(relatedDataSetController
+                      .methodParams, 5);
+                    DataSetSearchResource[relatedDataSetController.methodName]
+                    (searchTerms[this.pageToLoad])
+                      .then(angular.bind(this, function(dataSets) {
+                        _.pullAllBy(dataSets.docs, [{'found': false}], 'found');
+                        this.items = _.concat(this.items, dataSets.docs);
+                        this.pageToLoad += 1;
+                      })).finally(function() {
+                        blockArea.stop();
+                      });
+                  } else {
+                    DataSetSearchResource[relatedDataSetController.methodName](
+                    relatedDataSetController.methodParams,
+                    this.pageToLoad * 5, 5)
+                    .then(angular.bind(this, function(dataSets) {
+                      this.items = _.concat(this.items, dataSets.hits.hits);
+                      this.pageToLoad += 1;
+                    })).finally(function() {
+                        blockArea.stop();
+                      });
+                  }
+                }
+              }
           };
-          relatedDataSetController.search = function() {
-            blockArea.start();
-            if (_.isArray(relatedDataSetController.methodParams)) {
-              var searchTerms = _.chunk(relatedDataSetController
-                .methodParams, relatedDataSetController.page.size);
-              DataSetSearchResource[relatedDataSetController.methodName]
-              (searchTerms[relatedDataSetController.page.currentPageNumber - 1])
-                .then(function(dataSets) {
-                  _.pullAllBy(dataSets.docs, [{'found': false}], 'found');
-                  relatedDataSetController.page.totalHits = dataSets.docs
-                  .length;
-                  relatedDataSetController.dataSets = dataSets.docs;
-                }).finally(function() {
-                  blockArea.stop();
-                });
-            } else {
-              var from = (relatedDataSetController.page.currentPageNumber - 1) *
-                relatedDataSetController.page.size;
-              DataSetSearchResource[relatedDataSetController.methodName](
-                relatedDataSetController.methodParams, from,
-                relatedDataSetController.page.size)
-                .then(function(dataSets) {
-                  relatedDataSetController.page.totalHits = dataSets.hits.total;
-                  relatedDataSetController.dataSets = dataSets.hits.hits;
-                }).finally(function() {
-                  blockArea.stop();
-                });
-            }
-          };
-          relatedDataSetController.search();
         },
         bindToController: {
           methodName: '@',
-          methodParams: '='
+          methodParams: '=',
+          count: '@'
         }
       };
     });

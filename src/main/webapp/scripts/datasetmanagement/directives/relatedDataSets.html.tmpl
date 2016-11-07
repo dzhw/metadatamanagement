@@ -1,20 +1,13 @@
 <div block-ui="blockRelatedDataSetContainer">
-      <div ng-repeat="dataSet in relatedDataSetController.dataSets">
-        <dataset-search-result search-result="dataSet._source"></dataset-search-result>
-      </div>
-      <div ng-if="relatedDataSetController.page.totalHits > relatedDataSetController.page.size" layout="row" layout-align="center">
-          <ul
-              uib-pagination
-              next-text="{{'global.pagination.next'|translate}}"
-              previous-text="{{'global.pagination.previous'|translate}}"
-              total-items="relatedDataSetController.page.totalHits"
-              ng-model="relatedDataSetController.page.currentPageNumber"
-              max-size="5"
-              ng-change="relatedDataSetController.search()"
-              items-per-page="relatedDataSetController.page.size"
-              class="pagination-sm"></ul>
-      </div>
-      <div ng-if="relatedDataSetController.page.totalHits === 0" layout-margin>
-            <span>{{'data-set-management.detail.no-related-data-sets' | translate }}</span>
-      </div>
+<div  ng-if="relatedDataSetController.dataSets.totalHits !== 0" class="fdz-InfiniteScroll">
+    <md-virtual-repeat-container id="vertical-container">
+     <div md-virtual-repeat="dataSet in relatedDataSetController.dataSets" md-on-demand
+         class="fdz-repeated-item" flex>
+         <dataset-search-result search-result="dataSet._source"></dataset-search-result>
+     </div>
+   </md-virtual-repeat-container>
+</div>
+  <div ng-if="relatedDataSetController.dataSets.totalHits === 0" layout-margin>
+    <span>{{'data-set-management.detail.no-related-data-sets' | translate }}</span>
+  </div>
 </div>

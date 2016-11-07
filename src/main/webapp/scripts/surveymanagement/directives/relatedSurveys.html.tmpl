@@ -1,13 +1,13 @@
 <div block-ui="blockRelatedSurveyContainer">
-<div  ng-if="relatedSurveyController.infiniteItems.totalHits !== 0" class="virtualRepeatdemoInfiniteScroll">
+<div  ng-if="RelatedSurveyController.surveys.totalHits !== 0" class="fdz-InfiniteScroll">
     <md-virtual-repeat-container id="vertical-container">
-     <div md-virtual-repeat="survey in relatedSurveyController.infiniteItems" md-on-demand
-         class="repeated-item" flex>
+     <div md-virtual-repeat="survey in RelatedSurveyController.surveys" md-on-demand
+         class="fdz-repeated-item" flex>
          <survey-search-result search-result="survey._source"></survey-search-result>
      </div>
    </md-virtual-repeat-container>
 </div>
-  <div ng-if="relatedSurveyController.infiniteItems.totalHits === 0" layout-margin>
+  <div ng-if="RelatedSurveyController.surveys.totalHits === 0" layout-margin>
     <span>{{'survey-management.detail.no-related-surveys' | translate }}</span>
   </div>
 </div>

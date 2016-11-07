@@ -33,7 +33,8 @@ angular.module('metadatamanagementApp')
       ctrl.showRelatedInstruments = function() {};
       ctrl.showRelatedDataSets = function() {
         DataSetSearchDialogService.findDataSets('findBySurveyTitle',
-        ctrl.survey.title[$rootScope.currentLanguage]);
+        ctrl.survey.title[$rootScope.currentLanguage],
+        ctrl.counts.dataSetsCount);
       };
       ctrl.showRelatedSurveys = function() {
         SurveySearchDialogService.findSurveys('findByProjectId',

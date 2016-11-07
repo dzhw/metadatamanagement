@@ -8,58 +8,67 @@ angular.module('metadatamanagementApp').directive('relatedPublications',
         templateUrl: 'scripts/relatedpublicationmanagement/directives/' +
           'relatedPublications.html.tmpl',
         scope: {},
-        controllerAs: 'relatedPublicationController',
+        controllerAs: 'RelatedPublicationController',
         controller: function() {
-          var relatedPublicationController = this;
-          var blockArea = blockUI.instances.get('blockrelatedPublicationCard');
-          relatedPublicationController.page = {
-            currentPageNumber: 1,
-            totalHits: 0,
-            size: 5
-          };
-          relatedPublicationController.search = function() {
-            if (relatedPublicationController.methodParams) {
-              blockArea.start();
-              if (_.isArray(relatedPublicationController.methodParams)) {
-                var searchTerms = _.chunk(relatedPublicationController
-                  .methodParams, relatedPublicationController.page.size);
-                RelatedPublicationSearchResource[relatedPublicationController
-                  .methodName](searchTerms[relatedPublicationController.page
-                    .currentPageNumber - 1])
-                    .then(function(relatedPublications) {
-                      _.pullAllBy(relatedPublications.docs,
-                        [{'found': false}], 'found');
-                      relatedPublicationController.page.totalHits =
-                      relatedPublications.docs
-                      .length;
-                      relatedPublicationController.relatedPublications =
-                      relatedPublications.docs;
-                    }).finally(function() {
-                      blockArea.stop();
-                    });
-              } else {
-                var from = (relatedPublicationController
-                  .page.currentPageNumber - 1) * relatedPublicationController
-                  .page.size;
-                RelatedPublicationSearchResource[relatedPublicationController
-                  .methodName](relatedPublicationController.methodParams, from,
-                  relatedPublicationController.page.size)
-                  .then(function(relatedPublications) {
-                          relatedPublicationController.page.totalHits =
-                          relatedPublications.hits.total;
-                          relatedPublicationController.relatedPublications =
-                          relatedPublications.hits.hits;
-                        }).finally(function() {
-                          blockArea.stop();
-                        });
+          var RelatedPublicationController = this;
+          RelatedPublicationController.count =
+          Number(RelatedPublicationController.count);
+          var blockArea = blockUI.instances.get('blockRelatedSurveyContainer');
+          RelatedPublicationController.relatedPublications = {
+            pageToLoad: 0,
+            items: [],
+            totalHits: RelatedPublicationController.count,
+            currentlyLoadingPage: -1,
+            getItemAtIndex: function(index) {
+              if (index >= this.items.length && index < this.totalHits) {
+                this.fetchMoreItems_(index);
+                return null;
               }
-            }
+              return this.items[index];
+            },
+            getLength: function() {
+              if (this.items.length === this.totalHits) {
+                return this.items.length;
+              }
+              return this.items.length + 1;
+            },
+            fetchMoreItems_: function() {
+                if (this.currentlyLoadingPage !== this.pageToLoad) {
+                  this.currentlyLoadingPage = this.pageToLoad;
+                  blockArea.start();
+                  if (_.isArray(RelatedPublicationController.methodParams)) {
+                    var searchTerms = _.chunk(RelatedPublicationController
+                      .methodParams, 5);
+                    RelatedPublicationSearchResource
+                    [RelatedPublicationController.methodName]
+                    (searchTerms[this.pageToLoad])
+                      .then(angular.bind(this, function(surveys) {
+                        _.pullAllBy(surveys.docs, [{'found': false}], 'found');
+                        this.items = _.concat(this.items, surveys.docs);
+                        this.pageToLoad += 1;
+                      })).finally(function() {
+                        blockArea.stop();
+                      });
+                  } else {
+                    RelatedPublicationSearchResource
+                    [RelatedPublicationController.methodName](
+                    RelatedPublicationController.methodParams,
+                    this.pageToLoad * 5, 5)
+                    .then(angular.bind(this, function(surveys) {
+                      this.items = _.concat(this.items, surveys.hits.hits);
+                      this.pageToLoad += 1;
+                    })).finally(function() {
+                        blockArea.stop();
+                      });
+                  }
+                }
+              }
           };
-          relatedPublicationController.search();
         },
         bindToController: {
           methodName: '@',
-          methodParams: '='
+          methodParams: '=',
+          count: '@'
         }
       };
     });

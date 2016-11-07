@@ -1,16 +1,14 @@
 <md-dialog aria-label="{{'related-publication-management.home.title' | translate }}" style="width: 70%;">
     <md-toolbar>
         <div class="md-toolbar-tools">
-            <h2>{{'related-publication-management.home.title' | translate }}</h2>
+            <h2>{{'related-publication-management.detail.publications' | translate }}</h2>
             <span flex></span>
-            <md-button class="md-icon-button" ng-click="ctrl.closeDialog()">
+            <md-button class="md-icon-button" ng-click="RelatedPublicationSearchDialogController.closeDialog()">
                 <md-icon md-svg-src="/assets/images/icons/ic_close_white_24px.svg" aria-label="Close dialog"></md-icon>
             </md-button>
         </div>
     </md-toolbar>
     <md-dialog-content>
-      <div ng-repeat="relatedPublication in ctrl.relatedPublications">
-            <related-publication-search-result search-result="relatedPublication._source"></related-publication-search-result>
-      </div>
+        <related-publications method-name="{{RelatedPublicationSearchDialogController.methodName}}" method-params="RelatedPublicationSearchDialogController.methodParams" count="{{RelatedPublicationSearchDialogController.count}}"></related-publications>
     </md-dialog-content>
 </md-dialog>

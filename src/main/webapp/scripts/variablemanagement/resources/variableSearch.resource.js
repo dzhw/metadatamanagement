@@ -56,9 +56,17 @@ function(Language, ElasticSearchClient) {
     };
     return ElasticSearchClient.search(query);
   };
+  var getCounts = function(term, value) {
+    query.body.query = {
+      'term': {}
+    };
+    query.body.query.term[term] = value;
+    return ElasticSearchClient.count(query);
+  };
   return {
     findByQuestionId: findByQuestionId,
     findBySurveyTitle: findBySurveyTitle,
-    findVariables: findVariables
+    findVariables: findVariables,
+    getCounts: getCounts
   };
 });

@@ -2,11 +2,13 @@
 
 angular.module('metadatamanagementApp')
   .controller('RelatedPublicationSearchDialogController',
-    function($mdDialog, $scope, relatedPublications) {
-      var ctlr = this;
-      ctlr.relatedPublications = relatedPublications;
-      ctlr.closeDialog = $mdDialog.hide;
+    function($mdDialog, $scope, methodName, methodParams, count) {
+      var RelatedPublicationSearchDialogController = this;
+      RelatedPublicationSearchDialogController.methodName = methodName;
+      RelatedPublicationSearchDialogController.methodParams = methodParams;
+      RelatedPublicationSearchDialogController.count = count;
+      RelatedPublicationSearchDialogController.closeDialog = $mdDialog.hide;
       $scope.$on('$stateChangeStart', function() {
-        ctlr.closeDialog();
+        RelatedPublicationSearchDialogController.closeDialog();
       });
     });

@@ -3,14 +3,12 @@
         <div class="md-toolbar-tools">
             <h2>{{'variable-management.home.title' | translate }}</h2>
             <span flex></span>
-            <md-button class="md-icon-button" ng-click="variableSearchDialogController.closeDialog()">
+            <md-button class="md-icon-button" ng-click="VariableSearchDialogController.closeDialog()">
                 <md-icon md-svg-src="/assets/images/icons/ic_close_white_24px.svg" aria-label="Close dialog"></md-icon>
             </md-button>
         </div>
     </md-toolbar>
     <md-dialog-content>
-      <div ng-repeat="variable in variableSearchDialogController.variables">
-          <variable-search-result search-result="variable._source"></variable-search-result>
-      </div>
+        <related-variables method-name="{{VariableSearchDialogController.methodName}}" method-params="VariableSearchDialogController.methodParams" count="{{VariableSearchDialogController.count}}"></related-variables>
     </md-dialog-content>
 </md-dialog>
