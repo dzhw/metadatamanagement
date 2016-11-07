@@ -108,12 +108,16 @@
                 </md-card>
             </div>
             <div layout="row" layout-sm="column" layout-xs="column">
-              <related-surveys flex-gt-sm="50" method-name="findByProjectId" method-params="study.id"></related-surveys>
-              <related-data-sets flex-gt-sm="50" method-name="findByProjectId" method-params="study.id"></related-data-sets>
-            </div>
-            <div layout="row" layout-sm="column" layout-xs="column">
-              <related-questions flex-gt-sm="50" method-name="findByProjectId" method-params="study.id"></related-questions>
-              <related-publications flex-gt-sm="50" method-name="findByProjectId" method-params="study.id"></related-publications>
+              <div flex-gt-sm="50">
+                <div ng-repeat="survey in surveys">
+                  <survey-search-result search-result="survey._source"></survey-search-result>
+                </div>
+              </div>
+              <div flex-gt-sm="50">
+                <div ng-repeat="dataSet in dataSets">
+                  <dataset-search-result ng search-result="dataSet._source"></dataset-search-result>
+                </div>
+              </div>
             </div>
             <div layout="row">
                 <md-card flex>

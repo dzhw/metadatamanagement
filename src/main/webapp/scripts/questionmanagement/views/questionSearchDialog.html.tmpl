@@ -3,14 +3,12 @@
         <div class="md-toolbar-tools">
             <h2>{{'question-management.home.title' | translate }}</h2>
             <span flex></span>
-            <md-button class="md-icon-button" ng-click="questionSearchDialogController.closeDialog()">
+            <md-button class="md-icon-button" ng-click="QuestionSearchDialogController.closeDialog()">
                 <md-icon md-svg-src="/assets/images/icons/ic_close_white_24px.svg" aria-label="Close dialog"></md-icon>
             </md-button>
         </div>
     </md-toolbar>
     <md-dialog-content>
-      <div ng-repeat="question in questionSearchDialogController.questions">
-          <question-search-result search-result="question._source"></question-search-result>
-      </div>
+        <related-questions method-name="{{QuestionSearchDialogController.methodName}}" method-params="QuestionSearchDialogController.methodParams" count="{{QuestionSearchDialogController.count}}"></related-questions>
     </md-dialog-content>
 </md-dialog>

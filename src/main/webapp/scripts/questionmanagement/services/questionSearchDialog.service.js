@@ -2,48 +2,24 @@
 'use strict';
 
 angular.module('metadatamanagementApp').service('QuestionSearchDialogService',
-  function($mdDialog, blockUI, QuestionSearchResource, CleanJSObjectService) {
-    var questions = [];
-    var showDialog = function() {
+  function($mdDialog) {
+    var findQuestions = function(methodName, methodParams, count) {
       var dialogParent = angular.element(document.body);
       $mdDialog.show({
         controller: 'QuestionSearchDialogController',
-        controllerAs: 'questionSearchDialogController',
+        controllerAs: 'QuestionSearchDialogController',
         parent: dialogParent,
         clickOutsideToClose: true,
         locals: {
-          questions: questions
+          methodName: methodName,
+          methodParams: methodParams,
+          count: count
         },
         templateUrl: 'scripts/questionmanagement/' +
           'views/questionSearchDialog.html.tmpl',
       });
     };
-    var findByProjectId = function(dataAcquisitionProjectId) {
-      blockUI.start();
-      QuestionSearchResource.findByProjectId(dataAcquisitionProjectId).
-      then(function(items) {
-        if (!CleanJSObjectService.isNullOrEmpty(items)) {
-          questions = items.hits.hits;
-          showDialog();
-        }
-      }).finally(function() {
-        blockUI.stop();
-      });
-    };
-    var findQuestions = function(ids) {
-      blockUI.start();
-      QuestionSearchResource.findQuestions(ids).
-      then(function(items) {
-        if (!CleanJSObjectService.isNullOrEmpty(items)) {
-          questions = items.docs;
-          showDialog();
-        }
-      }).finally(function() {
-        blockUI.stop();
-      });
-    };
     return {
-      findByProjectId: findByProjectId,
       findQuestions: findQuestions
     };
   });

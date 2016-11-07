@@ -4,9 +4,11 @@ angular.module('metadatamanagementApp')
   .controller('StudyDetailController',
     function($scope, entity, DataSetSearchResource, SurveySearchResource,
       ShoppingCartService, QuestionSearchDialogService, CleanJSObjectService,
-      RelatedPublicationSearchDialogService) {
+      RelatedPublicationSearchDialogService, QuestionSearchResource,
+      RelatedPublicationSearchResource) {
       $scope.study = entity;
       $scope.cleanedAccessWays = '';
+      $scope.counts = {};
 
       entity.$promise.then(function(study) {
         $scope.study = study;
@@ -22,15 +24,26 @@ angular.module('metadatamanagementApp')
             $scope.dataSets = dataSets.hits.hits;
           }
         });
+        QuestionSearchResource.getCounts('dataAcquisitionProjectId',
+            $scope.study.id).then(function(questionsCount) {
+                $scope.counts.questionsCount = questionsCount.count;
+              });
+        RelatedPublicationSearchResource.getCounts('studyIds',
+            $scope.study.id).then(function(publicationsCount) {
+                $scope.counts.publicationsCount = publicationsCount.count;
+              });
       });
       $scope.showQuestions = function() {
         QuestionSearchDialogService
-        .findByProjectId($scope.study.dataAcquisitionProjectId);
+        .findQuestions('findByStudyId', $scope.study.id,
+        $scope.counts.questionsCount);
+      };
+      $scope.showRelatedPublications = function() {
+        RelatedPublicationSearchDialogService.
+        findRelatedPublications('findByStudyId', $scope.study.id,
+        $scope.counts.publicationsCount);
       };
       $scope.showInstruments = function() {};
-      $scope.showRelatedPublications = function() {
-        RelatedPublicationSearchDialogService.findByStudyId($scope.study.id);
-      };
       $scope.addToNotepad = function() {
         ShoppingCartService
         .addToShoppingCart($scope.study.id);

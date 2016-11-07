@@ -55,15 +55,16 @@
                 </md-card>
             </div>
             <div layout="row" layout-sm="column" layout-xs="column">
-              <related-questions flex-gt-sm="50" method-name="findPredeccessors" method-params="question.id"></related-questions>
-              <related-questions flex-gt-sm="50" method-name="findSuccessors" method-params="question.successors"></related-questions>
-            </div>
-            <div layout="row" layout-sm="column" layout-xs="column">
-              <related-variables flex-gt-sm="50" method-name="findByQuestionId" method-params="question.id"></related-variables>
-              <related-publications flex-gt-sm="50" method-name="findByQuestionId" method-params="question.id"></related-publications>
-            </div>
-            <div layout="row" layout-sm="column" layout-xs="column">
-              <related-studies method-name="findStudy" method-params="question.dataAcquisitionProjectId"></related-studies>
+              <div flex-gt-sm="50">
+                <div ng-repeat="predecessor in predecessors">
+                  <question-search-result search-result="predecessor._source"></question-search-result>
+                </div>
+              </div>
+              <div flex-gt-sm="50">
+                <div ng-repeat="successor in successors">
+                  <question-search-result ng search-result="successor._source"></question-search-result>
+                </div>
+              </div>
             </div>
             <div ng-if="question.technicalRepresentation" layout="row">
                 <md-card flex>
