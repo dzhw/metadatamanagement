@@ -42,9 +42,11 @@ angular.module('metadatamanagementApp').directive('relatedPublications',
                     RelatedPublicationSearchResource
                     [RelatedPublicationController.methodName]
                     (searchTerms[this.pageToLoad])
-                      .then(angular.bind(this, function(surveys) {
-                        _.pullAllBy(surveys.docs, [{'found': false}], 'found');
-                        this.items = _.concat(this.items, surveys.docs);
+                      .then(angular.bind(this, function(relatedPublications) {
+                        _.pullAllBy(relatedPublications.docs,
+                          [{'found': false}], 'found');
+                        this.items = _.concat(this.items,
+                          relatedPublications.docs);
                         this.pageToLoad += 1;
                       })).finally(function() {
                         blockArea.stop();
@@ -54,8 +56,9 @@ angular.module('metadatamanagementApp').directive('relatedPublications',
                     [RelatedPublicationController.methodName](
                     RelatedPublicationController.methodParams,
                     this.pageToLoad * 5, 5)
-                    .then(angular.bind(this, function(surveys) {
-                      this.items = _.concat(this.items, surveys.hits.hits);
+                    .then(angular.bind(this, function(relatedPublications) {
+                      this.items = _.concat(this.items,
+                        relatedPublications.hits.hits);
                       this.pageToLoad += 1;
                     })).finally(function() {
                         blockArea.stop();

@@ -13,22 +13,27 @@ angular.module('metadatamanagementApp')
       });
       ctrl.showStudies = function() {
         StudySearchDialogService
-        .findStudies(ctrl.relatedPublication.studyIds);
+        .findStudies('findStudies', ctrl.relatedPublication.studyIds,
+        ctrl.relatedPublication.studyIds.length);
       };
       ctrl.showQuestions = function() {
         QuestionSearchDialogService
-        .findQuestions(ctrl.relatedPublication.questionIds);
+        .findQuestions('findQuestions', ctrl.relatedPublication.questionIds,
+        ctrl.relatedPublication.questionIds.length);
       };
       ctrl.showVariables = function() {
         VariableSearchDialogService
-          .findVariables(ctrl.relatedPublication.variableIds);
+        .findVariables('findVariables', ctrl.relatedPublication.variableIds,
+        ctrl.relatedPublication.variableIds.length);
       };
       ctrl.showSurveys = function() {
         SurveySearchDialogService
-          .findSurveys(ctrl.relatedPublication.surveyIds);
+        .findSurveys('findSurveys', ctrl.relatedPublication.surveyIds,
+        ctrl.relatedPublication.surveyIds.length);
       };
       ctrl.showDataSets = function() {
         DataSetSearchDialogService
-          .findDataSets(ctrl.relatedPublication.dataSetIds);
+          .findDataSets('findDataSets', ctrl.relatedPublication.dataSetIds,
+        ctrl.relatedPublication.dataSetIds.length);
       };
     });

@@ -8,54 +8,67 @@ angular.module('metadatamanagementApp').directive('relatedStudies',
         templateUrl: 'scripts/studymanagement/directives/' +
           'relatedStudies.html.tmpl',
         scope: {},
-        controllerAs: 'relatedStudyController',
+        controllerAs: 'RelatedStudyController',
         controller: function() {
-          var relatedStudyController = this;
-          var blockArea = blockUI.instances.get('blockRelatedStudyCard');
-          relatedStudyController.page = {
-            currentPageNumber: 1,
-            totalHits: 0,
-            size: 5
-          };
-          relatedStudyController.search = function() {
-            if (relatedStudyController.methodParams) {
-              blockArea.start();
-              if (_.isArray(relatedStudyController.methodParams)) {
-                var searchTerms = _.chunk(relatedStudyController
-                  .methodParams, relatedStudyController.page.size);
-                StudySearchResource[relatedStudyController.methodName]
-                  (searchTerms[relatedStudyController.page
-                    .currentPageNumber - 1]).then(function(studies) {
-                      _.pullAllBy(studies.docs, [{'found': false}], 'found');
-                      relatedStudyController.page.totalHits = studies.docs
-                      .length;
-                      relatedStudyController.studies = studies.docs;
-                    }).finally(function() {
-                      blockArea.stop();
-                    });
-              } else {
-                var from = (relatedStudyController
-                  .page.currentPageNumber - 1) * relatedStudyController
-                  .page.size;
-                StudySearchResource[relatedStudyController.methodName](
-                  relatedStudyController.methodParams, from,
-                  relatedStudyController.page.size)
-                  .then(function(studies) {
-                          relatedStudyController.page.totalHits =
-                          studies.hits.total;
-                          relatedStudyController.studies =
-                          studies.hits.hits;
-                        }).finally(function() {
-                          blockArea.stop();
-                        });
+          var RelatedStudyController = this;
+          RelatedStudyController.count =
+          Number(RelatedStudyController.count);
+          var blockArea = blockUI.instances.get('blockRelatedSurveyContainer');
+          RelatedStudyController.studies = {
+            pageToLoad: 0,
+            items: [],
+            totalHits: RelatedStudyController.count,
+            currentlyLoadingPage: -1,
+            getItemAtIndex: function(index) {
+              if (index >= this.items.length && index < this.totalHits) {
+                this.fetchMoreItems_(index);
+                return null;
               }
-            }
+              return this.items[index];
+            },
+            getLength: function() {
+              if (this.items.length === this.totalHits) {
+                return this.items.length;
+              }
+              return this.items.length + 1;
+            },
+            fetchMoreItems_: function() {
+                if (this.currentlyLoadingPage !== this.pageToLoad) {
+                  this.currentlyLoadingPage = this.pageToLoad;
+                  blockArea.start();
+                  if (_.isArray(RelatedStudyController.methodParams)) {
+                    var searchTerms = _.chunk(RelatedStudyController
+                      .methodParams, 5);
+                    StudySearchResource
+                    [RelatedStudyController.methodName]
+                    (searchTerms[this.pageToLoad])
+                      .then(angular.bind(this, function(studies) {
+                        _.pullAllBy(studies.docs, [{'found': false}], 'found');
+                        this.items = _.concat(this.items, studies.docs);
+                        this.pageToLoad += 1;
+                      })).finally(function() {
+                        blockArea.stop();
+                      });
+                  } else {
+                    StudySearchResource
+                    [RelatedStudyController.methodName](
+                    RelatedStudyController.methodParams,
+                    this.pageToLoad * 5, 5)
+                    .then(angular.bind(this, function(studies) {
+                      this.items = _.concat(this.items, studies.hits.hits);
+                      this.pageToLoad += 1;
+                    })).finally(function() {
+                        blockArea.stop();
+                      });
+                  }
+                }
+              }
           };
-          relatedStudyController.search();
         },
         bindToController: {
           methodName: '@',
-          methodParams: '='
+          methodParams: '=',
+          count: '@'
         }
       };
     });

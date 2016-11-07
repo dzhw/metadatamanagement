@@ -1,28 +1,13 @@
-<md-card>
-    <md-card-header>
-        <md-card-header-text>
-            <h2 class="md-title">{{'study-management.detail.related-studies' | translate }}</h2>
-        </md-card-header-text>
-    </md-card-header>
-    <md-divider></md-divider>
-    <div block-ui="blockRelatedStudyCard">
-      <div ng-repeat="study in relatedStudyController.studies">
-        <study-search-result search-result="study._source"></study-search-result>
-      </div>
-      <div ng-if="relatedStudyController.page.totalHits > relatedStudyController.page.size" layout="row" layout-align="center">
-          <ul
-              uib-pagination
-              next-text="{{'global.pagination.next'|translate}}"
-              previous-text="{{'global.pagination.previous'|translate}}"
-              total-items="relatedStudyController.page.totalHits"
-              ng-model="relatedStudyController.page.currentPageNumber"
-              max-size="5"
-              ng-change="relatedStudyController.search()"
-              items-per-page="relatedStudyController.page.size"
-              class="pagination-sm"></ul>
-      </div>
-      <div ng-if="relatedStudyController.page.totalHits === 0" layout-margin>
-            <span>{{'study-management.detail.no-related-studies' | translate }}</span>
-      </div>
-    </div>
-</md-card>
+<div block-ui="blockStudyContainer">
+<div  ng-if="RelatedStudyController.studies.totalHits !== 0" class="fdz-InfiniteScroll">
+    <md-virtual-repeat-container id="vertical-container">
+     <div md-virtual-repeat="study in RelatedStudyController.studies" md-on-demand
+         class="fdz-repeated-item" flex>
+         <study-search-result search-result="study._source"></study-search-result>
+     </div>
+   </md-virtual-repeat-container>
+</div>
+  <div ng-if="RelatedStudyController.studies.totalHits === 0" layout-margin>
+    <span>{{'study-management.detail.no-related-studies' | translate }}</span>
+  </div>
+</div>

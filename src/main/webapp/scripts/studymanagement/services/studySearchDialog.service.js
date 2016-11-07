@@ -2,32 +2,21 @@
 'use strict';
 
 angular.module('metadatamanagementApp').service('StudySearchDialogService',
-  function($mdDialog, blockUI, StudySearchResource, CleanJSObjectService) {
-    var studies = [];
-    var showDialog = function() {
+  function($mdDialog) {
+    var findStudies = function(methodName, methodParams, count) {
       var dialogParent = angular.element(document.body);
       $mdDialog.show({
         controller: 'StudySearchDialogController',
-        controllerAs: 'ctrl',
+        controllerAs: 'StudySearchDialogController',
         parent: dialogParent,
         clickOutsideToClose: true,
         locals: {
-          studies: studies
+          methodName: methodName,
+          methodParams: methodParams,
+          count: count
         },
         templateUrl: 'scripts/studymanagement/' +
           'views/studySearchDialog.html.tmpl',
-      });
-    };
-    var findStudies = function(ids) {
-      blockUI.start();
-      StudySearchResource.findStudies(ids).
-      then(function(items) {
-        if (!CleanJSObjectService.isNullOrEmpty(items)) {
-          studies = items.docs;
-          showDialog();
-        }
-      }).finally(function() {
-        blockUI.stop();
       });
     };
     return {

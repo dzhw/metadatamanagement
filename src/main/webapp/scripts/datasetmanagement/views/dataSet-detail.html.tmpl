@@ -124,14 +124,6 @@
                     </md-content>
                 </md-card>
             </div>
-            <div layout="row" layout-sm="column" layout-xs="column">
-              <related-surveys flex-gt-sm="50" method-name="findSurveys" method-params="dataSet.surveyIds"></related-surveys>
-              <related-variables flex-gt-sm="50" method-name="findVariables" method-params="dataSet.variableIds"></related-variables>
-            </div>
-            <div layout="row" layout-sm="column" layout-xs="column">
-              <related-publications flex-gt-sm="50" method-name="findByDataSetId" method-params="dataSet.id"></related-publications>
-              <related-studies flex-gt-sm="50" method-name="findStudy" method-params="dataSet.dataAcquisitionProjectId"></related-studies>
-            </div>
         </md-card-content>
     </md-card>
 </div>
