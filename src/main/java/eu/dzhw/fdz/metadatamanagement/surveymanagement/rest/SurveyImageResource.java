@@ -40,6 +40,7 @@ public class SurveyImageResource {
   public ResponseEntity<String> uploadImage(@RequestParam("image") MultipartFile multiPartFile,
       @RequestParam("id") String id, @RequestParam("filename") String filename) throws IOException {
     if (!multiPartFile.isEmpty()) {
+      
       String imageName = surveyImageService.saveSurveyImage(multiPartFile.getInputStream(), 
           id, filename, multiPartFile.getContentType());
       return ResponseEntity.ok()

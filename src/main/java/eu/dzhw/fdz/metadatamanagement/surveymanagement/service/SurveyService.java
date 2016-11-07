@@ -51,7 +51,7 @@ public class SurveyService {
     List<Survey> deletedSurveys =
         surveyRepository.deleteByDataAcquisitionProjectId(dataAcquisitionProjectId);
     deletedSurveys.forEach(survey -> {
-      this.imageService.deleteSurveyImage(survey.getId());
+      this.imageService.deleteAllSurveyImagesById(survey.getId());
       elasticsearchUpdateQueueService.enqueue(
           survey.getId(), 
           ElasticsearchType.surveys, 

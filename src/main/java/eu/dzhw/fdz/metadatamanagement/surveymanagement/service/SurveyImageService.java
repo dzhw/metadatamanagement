@@ -32,18 +32,33 @@ public class SurveyImageService {
    */
   public String saveSurveyImage(InputStream inputStream,
       String surveyId, String fileName, String contentType) {
-    deleteSurveyImage(surveyId);
+    
+    
     String relativePathWithName = "/surveys/" + surveyId + "/" + fileName;
+    this.deleteSurveyImage(relativePathWithName);
+    
     GridFSFile gridFsFile = this.operations.store(inputStream, relativePathWithName, contentType);
     gridFsFile.validate();
+    
     return gridFsFile.getFilename();
   }
   
   /**
    * This method delete an image from GridFS/MongoDB.
+   * @param relativePathWithName The path of the image which should be deleted.
+   */
+  public void deleteSurveyImage(String relativePathWithName) {
+        
+    Query query = new Query(GridFsCriteria.whereFilename()
+        .is(relativePathWithName));
+    this.operations.delete(query);
+  }
+  
+  /**
+   * This method deletes all images of a survey from GridFS/MongoDB.
    * @param surveyId The id of the image to be deleted
    */
-  public void deleteSurveyImage(String surveyId) {
+  public void deleteAllSurveyImagesById(String surveyId) {
         
     Query queryDe = new Query(GridFsCriteria.whereFilename()
         .is("/surveys/" + surveyId + "/" + surveyId + "_responserate_de"));
