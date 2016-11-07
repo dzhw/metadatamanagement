@@ -29,6 +29,9 @@ public class InstrumentService {
 
   @Inject
   private InstrumentRepository instrumentRepository;
+  
+  @Inject 
+  private InstrumentAttachmentService instrumentAttachmentService;
 
   @Inject
   private ElasticsearchUpdateQueueService elasticsearchUpdateQueueService;
@@ -51,6 +54,7 @@ public class InstrumentService {
     List<Instrument> deletedInstruments =
         instrumentRepository.deleteByDataAcquisitionProjectId(dataAcquisitionProjectId);
     deletedInstruments.forEach(instrument -> {
+      instrumentAttachmentService.deleteAllByInstrument(instrument.getId());
       elasticsearchUpdateQueueService.enqueue(
           instrument.getId(), 
           ElasticsearchType.instruments, 
@@ -65,6 +69,7 @@ public class InstrumentService {
    */
   @HandleAfterDelete
   public void onInstrumentDeleted(Instrument instrument) {
+    instrumentAttachmentService.deleteAllByInstrument(instrument.getId());
     elasticsearchUpdateQueueService.enqueue(
         instrument.getId(), 
         ElasticsearchType.instruments, 

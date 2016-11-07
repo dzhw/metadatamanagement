@@ -4,12 +4,14 @@
 angular.module('metadatamanagementApp').service('InstrumentUploadService',
   function(InstrumentBuilderService, InstrumentDeleteResource,
     JobLoggingService, ErrorMessageResolverService, ExcelReaderService, $q,
-    FileReaderService, ElasticSearchAdminService, $rootScope) {
-    var objects;
+    FileReaderService, ElasticSearchAdminService, $rootScope,
+    InstrumentAttachmentUploadService) {
+    var instrumentsToSave;
+    var attachmentsToUpload;
     var uploadCount;
 
     var upload = function() {
-      if (uploadCount === objects.length) {
+      if (uploadCount === instrumentsToSave.length) {
         ElasticSearchAdminService.processUpdateQueue().finally(function() {
           JobLoggingService.finish(
             'instrument-management.log-messages.instrument.upload-terminated', {
@@ -19,10 +21,11 @@ angular.module('metadatamanagementApp').service('InstrumentUploadService',
           $rootScope.$broadcast('upload-completed');
         });
       } else {
-        if (objects[uploadCount] === null) {
+        if (instrumentsToSave[uploadCount] === null) {
           uploadCount++;
           return upload();
-        } else if (!objects[uploadCount].id || objects[uploadCount].id === '') {
+        } else if (!instrumentsToSave[uploadCount].id ||
+          instrumentsToSave[uploadCount].id === '') {
           var index = uploadCount;
           JobLoggingService.error(
             'instrument-management.log-messages.instrument.missing-id', {
@@ -31,7 +34,15 @@ angular.module('metadatamanagementApp').service('InstrumentUploadService',
           uploadCount++;
           return upload();
         } else {
-          objects[uploadCount].$save().then(function() {
+          instrumentsToSave[uploadCount].$save().then(function() {
+            for (var fileName in attachmentsToUpload[
+              instrumentsToSave[uploadCount].id]) {
+              InstrumentAttachmentUploadService.uploadAttachment(
+                attachmentsToUpload[instrumentsToSave[uploadCount].id]
+                [fileName].attachment,
+                attachmentsToUpload[instrumentsToSave[uploadCount].id]
+                [fileName].metadata);
+            }
             JobLoggingService.success();
             uploadCount++;
             return upload();
@@ -50,16 +61,20 @@ angular.module('metadatamanagementApp').service('InstrumentUploadService',
 
     var uploadInstruments = function(files, dataAcquisitionProjectId) {
       uploadCount = 0;
-      objects = [];
+      instrumentsToSave = [];
+      attachmentsToUpload = {};
       JobLoggingService.start('instrument');
       InstrumentDeleteResource.deleteByDataAcquisitionProjectId({
         dataAcquisitionProjectId: dataAcquisitionProjectId}).$promise.then(
         function() {
           var excelFile;
+          var attachmentFiles = {};
 
           files.forEach(function(file) {
             if (file.name === 'instruments.xlsx') {
               excelFile = file;
+            } else if (file.path.startsWith('attachments')) {
+              attachmentFiles[file.name] = file;
             }
           });
 
@@ -69,12 +84,54 @@ angular.module('metadatamanagementApp').service('InstrumentUploadService',
             return;
           }
 
-          ExcelReaderService.readFileAsync(excelFile).then(
-            function(instruments) {
-            instruments.forEach(function(instrumentFromExcel) {
-              objects.push(InstrumentBuilderService.buildInstrument(
-                instrumentFromExcel, dataAcquisitionProjectId));
-            });
+          ExcelReaderService.readFileAsync(excelFile, true).then(
+            function(excelContent) {
+            var instruments = excelContent.instruments;
+            var attachments = excelContent.attachments;
+            if (instruments) {
+              instruments.forEach(function(instrumentFromExcel) {
+                  instrumentsToSave.push(
+                    InstrumentBuilderService.buildInstrument(
+                    instrumentFromExcel, dataAcquisitionProjectId));
+                });
+            } else {
+              JobLoggingService.cancel(
+                'global.log-messages.unable-to-read-excel-sheet',
+                {sheet: 'instruments'});
+              return $q.reject();
+            }
+
+            if (attachments) {
+              attachments.forEach(function(metadataFromExcel) {
+                if (!metadataFromExcel.instrumentId) {
+                  //TODO log error
+                }
+                if (!metadataFromExcel.filename) {
+                  //TODO log error
+                }
+                if (!attachmentsToUpload[metadataFromExcel.instrumentId]) {
+                  attachmentsToUpload[metadataFromExcel.instrumentId] = {};
+                }
+                if (!attachmentsToUpload[metadataFromExcel.instrumentId]
+                  [metadataFromExcel.filename]) {
+                  attachmentsToUpload[metadataFromExcel.instrumentId]
+                  [metadataFromExcel.filename] = {};
+                }
+                attachmentsToUpload[metadataFromExcel.instrumentId]
+                  [metadataFromExcel.filename].metadata =
+                InstrumentBuilderService.buildInstrumentAttachmentMetadata(
+                  metadataFromExcel, dataAcquisitionProjectId);
+                attachmentsToUpload[metadataFromExcel.instrumentId]
+                  [metadataFromExcel.filename].attachment =
+                  attachmentFiles[metadataFromExcel.filename];
+              });
+              console.log(attachmentsToUpload);
+            } else {
+              JobLoggingService.cancel(
+                'global.log-messages.unable-to-read-excel-sheet',
+                {sheet: 'attachments'});
+              return $q.reject();
+            }
 
           }, function() {
             JobLoggingService.cancel('global.log-messages.unable-to-read-file',

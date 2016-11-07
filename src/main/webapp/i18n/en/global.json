@@ -99,6 +99,7 @@
       "unsupported-tex-file": "Tex File could not be read",
       "unable-to-parse-json-file": "The JSON file '{{file}}' does not contain valid JSON!",
       "unable-to-read-file": "The file '{{file}}' could not be read!",
+      "unable-to-read-excel-sheet": "Unable to read Excel sheet '{{sheet}}'!",
       "post-validation-terminated": "The Post-Validation terminated with {{errors}} Errors."
     },
     "field": {

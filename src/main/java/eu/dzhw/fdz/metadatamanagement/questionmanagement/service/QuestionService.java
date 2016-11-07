@@ -34,8 +34,6 @@ public class QuestionService {
   @Inject
   private QuestionImageService imageService;
 
-  public static final String CONTENT_TYPE_IMAGE = "image/png";
-
   /**
    * Delete all questions when the dataAcquisitionProject was deleted.
    *

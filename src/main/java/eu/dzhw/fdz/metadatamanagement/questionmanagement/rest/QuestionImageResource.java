@@ -1,10 +1,11 @@
 package eu.dzhw.fdz.metadatamanagement.questionmanagement.rest;
 
 import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
 
 import javax.inject.Inject;
 
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -32,18 +33,17 @@ public class QuestionImageResource {
    * @param id id of image
    * @return response
    * @throws IOException write Exception 
+   * @throws URISyntaxException if the file has an invalid URI
    */
   @RequestMapping(path = "/questions/images", method = RequestMethod.POST)
   @Timed
   public ResponseEntity<String> uploadImage(@RequestParam("image") MultipartFile multiPartFile,
-      @RequestParam("id") String id) throws IOException {
+      @RequestParam("id") String id) throws IOException, URISyntaxException {
     if (!multiPartFile.isEmpty()) {
-      String imageName = imageService.saveQuestionImage(multiPartFile.getInputStream(), 
+      String gridFsFileName = imageService.saveQuestionImage(multiPartFile.getInputStream(), 
           id, multiPartFile.getContentType());
-      return ResponseEntity.ok()
-        .contentLength(imageName.length())
-        .contentType(MediaType.TEXT_PLAIN)
-        .body(imageName);
+      return ResponseEntity.created(new URI("/public/files" + gridFsFileName))
+        .body(null);
     } else {
       return ResponseEntity.badRequest()
         .body(null);

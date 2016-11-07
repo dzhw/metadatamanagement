@@ -18,7 +18,28 @@ angular.module('metadatamanagementApp').service('InstrumentBuilderService',
           .removeEmptyJsonObjects(instrument);
         return new InstrumentResource(cleanedInstrument);
       };
+
+    var buildInstrumentAttachmentMetadata = function(metadataFromExcel,
+      dataAcquisitionProjectId) {
+        var instrumentAttachmentMetadata = {
+          instrumentId: metadataFromExcel.instrumentId,
+          dataAcquisitionProjectId: dataAcquisitionProjectId,
+          title: {
+            en: metadataFromExcel['title.en'],
+            de: metadataFromExcel['title.de']
+          },
+          type: {
+            en: metadataFromExcel['type.en'],
+            de: metadataFromExcel['type.de']
+          },
+          fileName: metadataFromExcel.filename
+        };
+        var cleanedMetadata = CleanJSObjectService
+          .removeEmptyJsonObjects(instrumentAttachmentMetadata);
+        return cleanedMetadata;
+      };
     return {
-      buildInstrument: buildInstrument
+      buildInstrument: buildInstrument,
+      buildInstrumentAttachmentMetadata: buildInstrumentAttachmentMetadata
     };
   });

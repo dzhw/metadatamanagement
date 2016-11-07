@@ -3,7 +3,7 @@
 
 angular.module('metadatamanagementApp').service('ExcelReaderService',
   function($q) {
-    this.readFileAsync = function(file) {
+    this.readFileAsync = function(file, readAllSheets) {
       var deferred = $q.defer();
       var readExcel = function(data) {
         var jsonContent = {};
@@ -13,9 +13,19 @@ angular.module('metadatamanagementApp').service('ExcelReaderService',
           });
           var sheetList = content.SheetNames;
           var worksheet = content.Sheets[sheetList[0]];
-          // jscs:disable
-          jsonContent = XLSX.utils.sheet_to_json(worksheet);
-          // jscs:enable
+
+          if (!readAllSheets) {
+            // jscs:disable
+            jsonContent = XLSX.utils.sheet_to_json(worksheet);
+            // jscs:enable
+          } else {
+            sheetList.forEach(function(sheetName) {
+              // jscs:disable
+              jsonContent[sheetName] = XLSX.utils.sheet_to_json(
+                content.Sheets[sheetName]);
+              // jscs:enable
+            });
+          }
           deferred.resolve(jsonContent);
         } catch (e) {
           deferred.reject(e);
