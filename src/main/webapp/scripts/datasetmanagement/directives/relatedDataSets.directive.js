@@ -8,16 +8,24 @@ angular.module('metadatamanagementApp').directive('relatedDataSets',
         templateUrl: 'scripts/datasetmanagement/directives/' +
           'relatedDataSets.html.tmpl',
         scope: {},
-        controllerAs: 'relatedDataSetController',
+        link: function(scope, element, attrs) {
+          scope.RelatedDataSetController.style = {};
+          if (attrs.count > 3) {
+            scope.RelatedDataSetController.style.height = '400';
+          } else {
+            scope.RelatedDataSetController.style.height = attrs.count * 165;
+          }
+        },
+        controllerAs: 'RelatedDataSetController',
         controller: function() {
-          var relatedDataSetController = this;
-          relatedDataSetController.count =
-          Number(relatedDataSetController.count);
+          var RelatedDataSetController = this;
+          RelatedDataSetController.count =
+          Number(RelatedDataSetController.count);
           var blockArea = blockUI.instances.get('blockRelatedDataSetContainer');
-          relatedDataSetController.dataSets = {
+          RelatedDataSetController.dataSets = {
             pageToLoad: 0,
             items: [],
-            totalHits: relatedDataSetController.count,
+            totalHits: RelatedDataSetController.count,
             currentlyLoadingPage: -1,
             getItemAtIndex: function(index) {
               if (index >= this.items.length && index < this.totalHits) {
@@ -36,10 +44,10 @@ angular.module('metadatamanagementApp').directive('relatedDataSets',
                 if (this.currentlyLoadingPage !== this.pageToLoad) {
                   this.currentlyLoadingPage = this.pageToLoad;
                   blockArea.start();
-                  if (_.isArray(relatedDataSetController.methodParams)) {
-                    var searchTerms = _.chunk(relatedDataSetController
+                  if (_.isArray(RelatedDataSetController.methodParams)) {
+                    var searchTerms = _.chunk(RelatedDataSetController
                       .methodParams, 5);
-                    DataSetSearchResource[relatedDataSetController.methodName]
+                    DataSetSearchResource[RelatedDataSetController.methodName]
                     (searchTerms[this.pageToLoad])
                       .then(angular.bind(this, function(dataSets) {
                         _.pullAllBy(dataSets.docs, [{'found': false}], 'found');
@@ -49,8 +57,8 @@ angular.module('metadatamanagementApp').directive('relatedDataSets',
                         blockArea.stop();
                       });
                   } else {
-                    DataSetSearchResource[relatedDataSetController.methodName](
-                    relatedDataSetController.methodParams,
+                    DataSetSearchResource[RelatedDataSetController.methodName](
+                    RelatedDataSetController.methodParams,
                     this.pageToLoad * 5, 5)
                     .then(angular.bind(this, function(dataSets) {
                       this.items = _.concat(this.items, dataSets.hits.hits);

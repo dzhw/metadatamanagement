@@ -9,6 +9,14 @@ angular.module('metadatamanagementApp').directive('relatedQuestions',
           'relatedQuestions.html.tmpl',
         scope: {},
         controllerAs: 'RelatedQuestionController',
+        link: function(scope, element, attrs) {
+          scope.RelatedQuestionController.style = {};
+          if (attrs.count > 3) {
+            scope.RelatedQuestionController.style.height = '400';
+          } else {
+            scope.RelatedQuestionController.style.height = attrs.count * 138;
+          }
+        },
         controller: function() {
           var RelatedQuestionController = this;
           RelatedQuestionController.count =

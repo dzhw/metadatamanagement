@@ -1,6 +1,6 @@
 <div block-ui="blockRelatedSurveyContainer">
 <div  ng-if="RelatedSurveyController.surveys.totalHits !== 0" class="fdz-InfiniteScroll">
-    <md-virtual-repeat-container id="vertical-container">
+    <md-virtual-repeat-container id="vertical-container" ng-style="{{RelatedSurveyController.style}}">
      <div md-virtual-repeat="survey in RelatedSurveyController.surveys" md-on-demand
          class="fdz-repeated-item" flex>
          <survey-search-result search-result="survey._source"></survey-search-result>

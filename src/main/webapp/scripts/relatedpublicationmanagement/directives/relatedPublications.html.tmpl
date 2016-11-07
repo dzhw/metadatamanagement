@@ -1,6 +1,6 @@
 <div block-ui="blockRelatedPublicationContainer">
 <div  ng-if="RelatedPublicationController.relatedPublications.totalHits !== 0" class="fdz-InfiniteScroll">
-    <md-virtual-repeat-container id="vertical-container">
+    <md-virtual-repeat-container id="vertical-container"  ng-style="{{RelatedPublicationController.style}}">
      <div md-virtual-repeat="relatedPublication in RelatedPublicationController.relatedPublications" md-on-demand
          class="fdz-repeated-item" flex>
          <related-publication-search-result search-result="relatedPublication._source"></related-publication-search-result>

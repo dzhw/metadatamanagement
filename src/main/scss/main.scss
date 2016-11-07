@@ -575,10 +575,10 @@ pre {
 
 .md-dialog-container {
   z-index: 10000;
+  counter-reset: section;
 }
 
 .fdz-InfiniteScroll #vertical-container {
-  height:400px;
   width: 100%;
 }
 .fdz-repeated-item {

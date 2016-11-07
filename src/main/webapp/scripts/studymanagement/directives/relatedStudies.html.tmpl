@@ -1,6 +1,6 @@
 <div block-ui="blockStudyContainer">
 <div  ng-if="RelatedStudyController.studies.totalHits !== 0" class="fdz-InfiniteScroll">
-    <md-virtual-repeat-container id="vertical-container">
+    <md-virtual-repeat-container id="vertical-container" ng-style="{{RelatedStudyController.style}}">
      <div md-virtual-repeat="study in RelatedStudyController.studies" md-on-demand
          class="fdz-repeated-item" flex>
          <study-search-result search-result="study._source"></study-search-result>

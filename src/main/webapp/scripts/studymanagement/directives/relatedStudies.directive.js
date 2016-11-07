@@ -8,6 +8,14 @@ angular.module('metadatamanagementApp').directive('relatedStudies',
         templateUrl: 'scripts/studymanagement/directives/' +
           'relatedStudies.html.tmpl',
         scope: {},
+        link: function(scope, element, attrs) {
+          scope.RelatedStudyController.style = {};
+          if (attrs.count > 3) {
+            scope.RelatedStudyController.style.height = '400';
+          } else {
+            scope.RelatedStudyController.style.height = attrs.count * 218;
+          }
+        },
         controllerAs: 'RelatedStudyController',
         controller: function() {
           var RelatedStudyController = this;

@@ -8,6 +8,14 @@ angular.module('metadatamanagementApp').directive('relatedVariables',
       templateUrl: 'scripts/variablemanagement/directives/' +
         'relatedVariables.html.tmpl',
       scope: {},
+      link: function(scope, element, attrs) {
+        scope.RelatedVariableController.style = {};
+        if (attrs.count > 3) {
+          scope.RelatedVariableController.style.height = '400';
+        } else {
+          scope.RelatedVariableController.style.height = attrs.count * 142;
+        }
+      },
       controllerAs: 'RelatedVariableController',
       controller: function() {
         var RelatedVariableController = this;
