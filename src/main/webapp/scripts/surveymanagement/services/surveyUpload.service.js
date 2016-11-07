@@ -61,11 +61,21 @@ angular.module('metadatamanagementApp').service('SurveyUploadService',
                   type: images[imageName].type
                 });
 
-                //TODO Write catch
                 return SurveyImageUploadService.uploadImage(image,
-                  survey.id, imageName);
+                  survey.id, imageName)
+                  .catch(function(error) {
+                    if (error !== 'previouslyHandledError') {
+                      //image file read error
+                      JobLoggingService.error(
+                        'survey-management.log-messages.' +
+                        'survey.unable-to-upload-image-file', {
+                          file: images[imageName]
+                        });
+                    }
+                    return $q.reject('previouslyHandledError');
+                  });
 
-              //Error Handler for not reading an image file
+                //Error Handler for not reading an image file
               }, function(error) {
                 if (error !== 'previouslyHandledError') {
                   //image file read error
@@ -91,7 +101,7 @@ angular.module('metadatamanagementApp').service('SurveyUploadService',
             JobLoggingService.error(errorMessages.message,
               errorMessages.translationParams, errorMessages.subMessages
             );
-              //Everything went well. Start uploading next survey
+            //Everything went well. Start uploading next survey
             uploadSurveyCount++;
             return upload();
           });
@@ -121,7 +131,7 @@ angular.module('metadatamanagementApp').service('SurveyUploadService',
                   surveys = SurveyBuilderService.getSurveys(
                     rawSurveys, dataAcquisitionProjectId);
                   upload(); //Start uploading of surveys and depending images
-                //Error Handling for non readable excel file
+                  //Error Handling for non readable excel file
                 }, function() {
                   JobLoggingService.cancel('global.log-messages.' +
                     'unable-to-read-file', {
@@ -147,7 +157,7 @@ angular.module('metadatamanagementApp').service('SurveyUploadService',
       );
     };
 
-    //Global methods 
+    //Global methods
     return {
       uploadSurveys: uploadSurveys
     };
