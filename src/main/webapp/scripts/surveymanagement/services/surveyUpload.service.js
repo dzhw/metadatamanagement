@@ -94,16 +94,6 @@ angular.module('metadatamanagementApp').service('SurveyUploadService',
             JobLoggingService.success();
             uploadSurveyCount++;
             return upload();
-          }).catch(function(error) {
-            //TODO better error message
-            var errorMessages = ErrorMessageResolverService
-              .getErrorMessages(error, 'survey');
-            JobLoggingService.error(errorMessages.message,
-              errorMessages.translationParams, errorMessages.subMessages
-            );
-            //Everything went well. Start uploading next survey
-            uploadSurveyCount++;
-            return upload();
           });
         }
       }

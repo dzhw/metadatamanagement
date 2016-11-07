@@ -6,6 +6,8 @@
         "not-saved": "Erhebung mit FDZ-ID {{ id }} wurde nicht gespeichert!",
         "missing-id": "Die {{ index }}. Erhebung enthält keine FDZ-ID und wurde nicht gespeichert!",
         "upload-terminated": "Upload von {{ total }} Erhebungen mit {{ errors }} Fehlern beendet!",
+        "unable-to-upload-image-file": "Die Bilddatei '{{ file }}' konnte nicht hochgeladen werden!",
+        "unable-to-read-image-file": "Die Bilddatei '{{ file }}' konnte nicht gelesen werden!",
         "unable-to-delete": "Die Erhebungen konnten nicht gelöscht werden!",
         "cancelled": "Upload von Erhebungen Abgebrochen!"
       }
