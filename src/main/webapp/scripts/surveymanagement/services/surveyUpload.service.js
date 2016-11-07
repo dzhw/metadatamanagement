@@ -41,10 +41,11 @@ angular.module('metadatamanagementApp').service('SurveyUploadService',
               if (imageName.indexOf(survey.id) === -1) {
                 return;
               }
+
               FileReaderService.readAsArrayBuffer(images[imageName])
               .then(function(imageArrayBuffer) {
                 var image = new Blob([imageArrayBuffer], {
-                  type: 'image/svg+xml'
+                  type: images[imageName].type
                 });
                 return SurveyImageUploadService.uploadImage(image,
                   survey.id, imageName);

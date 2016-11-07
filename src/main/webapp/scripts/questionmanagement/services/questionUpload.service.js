@@ -41,7 +41,8 @@ angular.module('metadatamanagementApp').service('QuestionUploadService',
               errorMessages.translationParams, errorMessages.subMessages);
             return $q.reject('previouslyHandledError');})
           .then(function(imageFile) {
-            var image = new Blob([imageFile], {type: 'image/png'});
+            var imageObj = images[questions[uploadQuestionCount].id];
+            var image = new Blob([imageFile], {type: imageObj.type});
             return QuestionImageUploadService.uploadImage(image,
               questions[uploadQuestionCount].id);
           }, function(error) {
