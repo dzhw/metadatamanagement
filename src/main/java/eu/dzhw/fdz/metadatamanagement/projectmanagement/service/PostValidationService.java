@@ -222,7 +222,22 @@ public class PostValidationService {
         errors.add(new PostValidationMessageDto("variable-management.error."
             + "post-validation.variable-has-invalid-question-id", Arrays.asList(information)));
       }
+      
+      
+      if (variable.getRelatedVariables() != null) {
+        for (String variableId : variable.getRelatedVariables()) {
+          if (this.variableRepository.findOne(variableId) == null) {
+            String[] information = {variable.getId(), variableId};
+            errors.add(new PostValidationMessageDto("variable-management.error."
+                + "post-validation.variable-id-is-not-valid-in-related-variables",
+                Arrays.asList(information)));
+          }
+        }
+      }
+      
     }
+    
+    
 
     return errors;
   }
