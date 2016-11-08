@@ -31,7 +31,8 @@
       "related-surveys": "Zugehörige Erhebungen",
       "grossSampleSize": "Bruttostichprobe",
       "sampleSize": "Nettostichprobe",
-      "responseRate": "Rücklaufquote"
+      "responseRate": "Rücklaufquote",
+      "response-rate-informations": "Weitere Informationen zum Rücklauf"
     },
     "error": {
       "survey": {

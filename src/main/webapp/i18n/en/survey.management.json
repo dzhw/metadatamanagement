@@ -31,7 +31,8 @@
       "related-surveys": "Related Surveys",
       "grossSampleSize": "Gross Sample Size",
       "sampleSize": "Net Sample Size",
-      "responseRate": "Response Rate"
+      "responseRate": "Response Rate",
+      "response-rate-informations": "Further information about the Response Rate"
     },
     "error": {
       "survey": {
