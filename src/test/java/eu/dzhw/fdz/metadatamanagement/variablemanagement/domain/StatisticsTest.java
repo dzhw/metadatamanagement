@@ -9,7 +9,6 @@ import static org.junit.Assert.assertThat;
 import org.junit.Test;
 
 import eu.dzhw.fdz.metadatamanagement.common.unittesthelper.util.UnitTestCreateDomainObjectUtils;
-import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.Statistics;
 
 /**
  * @author Daniel Katzberg
@@ -49,7 +48,7 @@ public class StatisticsTest {
 
     // Assert
     assertThat(toString, is(
-        "Statistics{meanValue=87.5, minimum=0.0, maximum=140.0, skewness=123.0, kurtosis=234.0, median=90.0, standardDeviation=40.0, firstQuartile=70.0, thirdQuartile=110.0, lowWhisker=30.0, highWhisker=130.0}"));
+        "Statistics{meanValue=87.5, minimum=0.0, maximum=140.0, skewness=123.0, kurtosis=234.0, median=90.0, standardDeviation=40.0, firstQuartile=70.0, thirdQuartile=110.0, lowWhisker=30.0, highWhisker=130.0, mode=Mode, deviance=12.4, meanDeviation=58.7}"));
 
   }
 

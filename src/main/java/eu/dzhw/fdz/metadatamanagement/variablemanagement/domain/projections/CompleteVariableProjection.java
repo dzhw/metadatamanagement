@@ -52,5 +52,7 @@ public interface CompleteVariableProjection
   String getDataAcquisitionProjectId();
 
   List<String> getSurveyIds();
+  
+  List<String> getRelatedVariables();
 
 }

@@ -194,6 +194,9 @@ public class UnitTestCreateDomainObjectUtils {
     withSameVariablesInPanel.add("testProject-name1");
     withSameVariablesInPanel.add("testProject-name2");
     String name = "name";
+    
+    List<String> relatedVariables = new ArrayList<>();
+    relatedVariables.add("testProject-name3");
 
     // Create Variable
     List<String> surveyIds = new ArrayList<>();
@@ -225,6 +228,7 @@ public class UnitTestCreateDomainObjectUtils {
           .withDe("Related Question String DE")
           .withEn("Related Question String EN")
           .build())
+      .withRelatedVariables(relatedVariables)
       .build();
   }
   

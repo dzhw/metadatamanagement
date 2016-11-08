@@ -119,6 +119,8 @@ public class Variable extends AbstractRdcDomainObject {
 
   @NotEmpty(message = "variable-management.error.variable.survey.ids.not-empty")
   private List<String> surveyIds;
+  
+  public List<String> relatedVariables;
 
   /*
    * (non-Javadoc)
@@ -129,10 +131,9 @@ public class Variable extends AbstractRdcDomainObject {
   public String getId() {
     return id;
   }
-
+  
   /*
    * (non-Javadoc)
-   *
    * @see eu.dzhw.fdz.metadatamanagement.common.domain.AbstractRdcDomainObject#toString()
    */
   @Override
@@ -154,6 +155,7 @@ public class Variable extends AbstractRdcDomainObject {
       .add("questionId", questionId)
       .add("dataAcquisitionProjectId", dataAcquisitionProjectId)
       .add("surveyIds", surveyIds)
+      .add("relatedVariables", relatedVariables)
       .toString();
   }
 
@@ -272,5 +274,13 @@ public class Variable extends AbstractRdcDomainObject {
 
   public void setDistribution(Distribution distribution) {
     this.distribution = distribution;
+  }
+
+  public List<String> getRelatedVariables() {
+    return relatedVariables;
+  }
+
+  public void setRelatedVariables(List<String> relatedVariables) {
+    this.relatedVariables = relatedVariables;
   }
 }
