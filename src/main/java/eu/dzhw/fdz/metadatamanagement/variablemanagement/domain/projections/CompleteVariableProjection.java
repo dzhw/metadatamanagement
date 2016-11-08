@@ -31,13 +31,15 @@ public interface CompleteVariableProjection
 
   I18nString getLabel();
 
-  I18nString getDescription();
+  I18nString getAnnotations();
 
   List<String> getAccessWays();
 
   List<String> getSameVariablesInPanel();
   
   I18nString getRelatedQuestionStrings();
+  
+  List<String> getRelatedVariables();
   
 
   /* Nested Objects */
@@ -52,7 +54,5 @@ public interface CompleteVariableProjection
   String getDataAcquisitionProjectId();
 
   List<String> getSurveyIds();
-  
-  List<String> getRelatedVariables();
 
 }

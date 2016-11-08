@@ -211,7 +211,7 @@ public class UnitTestCreateDomainObjectUtils {
         .build())
       .withName(name)
       .withAccessWays(accessWays)
-      .withDescription(new I18nStringBuilder().withDe("De Beschreibung")
+      .withAnnotations(new I18nStringBuilder().withDe("De Beschreibung")
         .withEn("En Description")
         .build())
       .withFilterDetails(new FilterDetailsBuilder()

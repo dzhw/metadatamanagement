@@ -21,7 +21,7 @@ angular.module('metadatamanagementApp').service('VariableBuilderService',
           de: variableFromExcel['description.de']
         },
         accessWays: CleanJSObjectService.
-          removeWhiteSpace(variableFromExcel.accessWays),
+        removeWhiteSpace(variableFromExcel.accessWays),
         relatedQuestionStrings: {
           en: variableFromExcel['relatedQuestionStrings.en'],
           de: variableFromExcel['relatedQuestionStrings.de']
@@ -33,7 +33,7 @@ angular.module('metadatamanagementApp').service('VariableBuilderService',
             de: variableFromExcel['filterDetails.description.en']
           },
           expressionLanguage: variableFromExcel[
-              'filterDetails.expressionLanguage'
+            'filterDetails.expressionLanguage'
           ]
         },
         sameVariablesInPanel: variableFromJson.sameVariablesInPanel,
@@ -42,11 +42,11 @@ angular.module('metadatamanagementApp').service('VariableBuilderService',
         dataAcquisitionProjectId: dataAcquisitionProjectId,
         generationDetails: {
           rule: variableFromExcel['generationDetails.rule'],
-          ruleExpressionLanguage: variableFromExcel
-            ['generationDetails.ruleExpressionLanguage'],
-          description: {
-            en: variableFromExcel['generationDetails.description.en'],
-            de: variableFromExcel['generationDetails.description.de']
+          ruleExpressionLanguage: variableFromExcel[
+            'generationDetails.ruleExpressionLanguage'],
+          annotations: {
+            en: variableFromExcel['generationDetails.annotations.en'],
+            de: variableFromExcel['generationDetails.annotations.de']
           }
         },
         distribution: variableFromJson.distribution,

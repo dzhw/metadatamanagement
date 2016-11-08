@@ -86,8 +86,8 @@ public class Variable extends AbstractRdcDomainObject {
   private I18nString label;
 
   @I18nStringSize(max = StringLengths.LARGE,
-      message = "variable-management.error.variable.description.i18n-string-size")
-  private I18nString description;
+      message = "variable-management.error.variable.annotations.i18n-string-size")
+  private I18nString annotations;
 
   // checks for min size too.
   @NotEmpty(message = "variable-management.error.variable.access-ways.not-empty")
@@ -145,7 +145,7 @@ public class Variable extends AbstractRdcDomainObject {
       .add("scaleLevel", scaleLevel)
       .add("name", name)
       .add("label", label)
-      .add("description", description)
+      .add("annotations", annotations)
       .add("accessWays", accessWays)
       .add("sameVariablesInPanel", sameVariablesInPanel)
       .add("relatedQuestionStrings", relatedQuestionStrings)
@@ -192,12 +192,12 @@ public class Variable extends AbstractRdcDomainObject {
     this.label = label;
   }
 
-  public I18nString getDescription() {
-    return description;
+  public I18nString getAnnotations() {
+    return annotations;
   }
 
-  public void setDescription(I18nString description) {
-    this.description = description;
+  public void setAnnotations(I18nString annotations) {
+    this.annotations = annotations;
   }
 
   public List<String> getAccessWays() {

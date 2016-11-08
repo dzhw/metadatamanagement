@@ -31,6 +31,8 @@ public class VariableSearchDocument {
   private String scaleLevel;
   
   private String relatedQuestionStrings;
+  
+  private String annotations;
 
   private List<String> surveyTitles;
 
@@ -49,12 +51,12 @@ public class VariableSearchDocument {
 
   private void createSurveyTitles(Iterable<Survey> surveys, ElasticsearchIndices index) {
     if (surveys != null) {
-      surveyTitles = new ArrayList<String>();
+      surveyTitles = new ArrayList<>();
       for (Survey survey : surveys) {
         switch (index) {
           case METADATA_DE:
             surveyTitles.add(survey.getTitle()
-                .getDe());
+                .getDe());            
             break;
           case METADATA_EN:
             surveyTitles.add(survey.getTitle()
@@ -75,6 +77,7 @@ public class VariableSearchDocument {
         scaleLevel = variable.getScaleLevel() != null ? variable.getScaleLevel().getDe() : null;
         setRelatedQuestionStrings(variable.getRelatedQuestionStrings() != null 
             ? variable.getRelatedQuestionStrings().getDe() : null);
+        annotations = variable.getAnnotations() != null ? variable.getAnnotations().getDe() : null;
         break;
       case METADATA_EN:
         label = variable.getLabel() != null ? variable.getLabel().getEn() : null;
@@ -82,6 +85,7 @@ public class VariableSearchDocument {
         scaleLevel = variable.getScaleLevel() != null ? variable.getScaleLevel().getEn() : null;
         setRelatedQuestionStrings(variable.getRelatedQuestionStrings() != null 
             ? variable.getRelatedQuestionStrings().getEn() : null);
+        annotations = variable.getAnnotations() != null ? variable.getAnnotations().getEn() : null;
         break;
       default:
         throw new RuntimeException("Unknown index:" + index);
@@ -158,5 +162,13 @@ public class VariableSearchDocument {
 
   public void setRelatedQuestionStrings(String relatedQuestionStrings) {
     this.relatedQuestionStrings = relatedQuestionStrings;
+  }
+
+  public String getAnnotations() {
+    return annotations;
+  }
+
+  public void setAnnotations(String annotations) {
+    this.annotations = annotations;
   }
 }

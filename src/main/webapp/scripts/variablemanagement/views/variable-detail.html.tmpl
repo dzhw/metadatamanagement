@@ -41,10 +41,10 @@
                             </span>
                             <span>{{variable.accessWays.join(', ')}}</span>
                         </section>
-                        <section style="margin-bottom: 0.5em;" ng-if="variable.description[currentLanguage]">
-                            <span style="font-weight: bold;">{{'variable-management.detail.description' | translate }}:
+                        <section style="margin-bottom: 0.5em;" ng-if="variable.annotations[currentLanguage]">
+                            <span style="font-weight: bold;">{{'variable-management.detail.annotations' | translate }}:
                             </span>
-                            <span>{{variable.description[currentLanguage]}}</span>
+                            <span>{{variable.annotations[currentLanguage]}}</span>
                         </section>
                         <section style="margin-bottom: 0.5em;" ng-if="variable.filterDetails.description">
                             <span style="font-weight: bold;">{{'variable-management.detail.filter-description' | translate }}:
