@@ -8,6 +8,9 @@
         "upload-terminated": "Finished upload of {{ total }} Instruments with {{ errors }} errors.",
         "unable-to-delete": "The Instruments could not be deleted!",
         "cancelled": "Instrument upload cancelled!"
+      },
+      "instrument-attachment": {
+        "not-saved": "Attachment \"{{ id }}\" has not been saved:"
       }
     },
     "detail": {
@@ -37,6 +40,25 @@
           "not-empty": "The ID of the corresponding Survey must not be empty!"
         },
         "valid-instrument-id-pattern": "The RDC-ID of the Instrument is not valid for the Pattern: DataAcquisitionProjectId + \"-\" + \"ins\" + Number"
+      },
+      "instrument-attachment-metadata": {
+        "instrument-id": {
+          "not-empty": "The ID of the corresponding Instrument must not be empty."
+        },
+        "project-id": {
+          "not-empty": "The ID of the Data Acquisition Project must not be empty!"
+        },
+        "type": {
+          "not-null": "The type of the attachment must not be empty!",
+          "i18n-string-size": "The type is mandatory in both languages and must not contain more than 32 characters."
+        },
+        "title": {
+          "not-null": "The titel of the attachment must not be empty!",
+          "i18n-string-size": "The titel is mandatory in both languages and must not contain more than 128 characters."
+        },
+        "filename": {
+          "not-empty": "The filename of the attachment must not be empty!"
+        }
       },
       "post-validation": {
         "instrument-has-invalid-survey-id": "The Instrument {{id}} references an unknown Survey ({{toBereferenzedId}})."

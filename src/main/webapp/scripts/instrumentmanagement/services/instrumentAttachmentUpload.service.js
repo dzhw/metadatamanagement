@@ -3,8 +3,8 @@
 angular.module('metadatamanagementApp').service(
   'InstrumentAttachmentUploadService',
   function(Upload, $q) {
-    var deferred = $q.defer();
     var uploadAttachment = function(attachment, metadata) {
+        var deferred = $q.defer();
         Upload.upload({
           url: '/api/instruments/attachments',
           data: {

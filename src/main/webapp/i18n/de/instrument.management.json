@@ -8,6 +8,9 @@
         "upload-terminated": "Upload von {{ total }} Instrumenten mit {{ errors }} Fehlern beendet!",
         "unable-to-delete": "Die Instrumente konnten nicht gelöscht werden!",
         "cancelled": "Upload von Instrumenten Abgebrochen!"
+      },
+      "instrument-attachment": {
+        "not-saved": "Attachment \"{{ id }}\" wurde nicht gespeichert:"
       }
     },
     "detail": {
@@ -31,12 +34,31 @@
           "valid": "Der Typ des Instruments muss einer der folgenden sein: PAPI, CAPI, CATI, CAWI"
         },
         "data-acquisition-project-id": {
-          "not-empty": "Die ID des Datenerhebungsprojektes darf nicht leer sein!"
+          "not-empty": "Die ID des Datenaufbereitungsprojektes darf nicht leer sein!"
         },
         "survey-id": {
           "not-empty": "Die ID der zugehörigen Erhebung darf nicht leer sein!"
         },
         "valid-instrument-id-pattern": "Die FDZ-ID des Instruments hat nicht die folgende Form: ProjektId + \"-\" + \"ins\" + Nummer"
+      },
+      "instrument-attachment-metadata": {
+        "instrument-id": {
+          "not-empty": "Die ID des zugehörigen Instrumentes darf nicht leer sein."
+        },
+        "project-id": {
+          "not-empty": "Die ID des zugehörigen Datenaufbereitungsprojektes darf nicht leer sein."
+        },
+        "type": {
+          "not-null": "Der Typ des Attachments darf nicht leer sein.",
+          "i18n-string-size": "Der Typ muss in beiden Sprachen angegeben werden und darf nicht länger als 32 Zeichen sein."
+        },
+        "title": {
+          "not-null": "Der Titel des Attachments darf nicht leer sein.",
+          "i18n-string-size": "Der Titel muss in beiden Sprachen angegeben werden und darf nicht länger als 128 Zeichen sein."
+        },
+        "filename": {
+          "not-empty": "Der Dateiname des Attachments darf nicht leer sein."
+        }
       },
       "post-validation": {
         "instrument-has-invalid-survey-id": "Das Instrument {{id}} referenziert eine unbekannte Erhebung ({{toBereferenzedId}})."

@@ -2,15 +2,24 @@
 
 angular.module('metadatamanagementApp').service('ErrorMessageResolverService',
   function() {
-    var getErrorMessage = function(messageObj, jobId) {
+    var getErrorMessage = function(messageObj, domainObjectType, subObjectType,
+      subObjectId) {
       var errorMessage = {};
       var subMessages = [];
       if (messageObj.config &&
         messageObj.config.data && messageObj.config.data.id) {
         errorMessage.message =
-          jobId + '-management.log-messages.' + jobId + '.not-saved';
+          domainObjectType + '-management.log-messages.' +
+          domainObjectType + '.not-saved';
         errorMessage.translationParams = {
           id: messageObj.config.data.id
+        };
+      } else if (subObjectType && subObjectId) {
+        errorMessage.message =
+          domainObjectType + '-management.log-messages.' +
+          subObjectType + '.not-saved';
+        errorMessage.translationParams = {
+          id: subObjectId
         };
       }
       if (messageObj.data && messageObj.data.errors) {
@@ -18,6 +27,12 @@ angular.module('metadatamanagementApp').service('ErrorMessageResolverService',
           subMessages.push({
             message: messageObj.message,
             translationParams: messageObj.property
+          });
+        });
+      } else if (messageObj.fieldErrors) {
+        messageObj.fieldErrors.forEach(function(fieldError) {
+          subMessages.push({
+            message: fieldError.message
           });
         });
       } else if (messageObj.data && messageObj.data.status === 500) {

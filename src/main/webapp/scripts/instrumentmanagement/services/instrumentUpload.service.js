@@ -45,28 +45,27 @@ angular.module('metadatamanagementApp').service('InstrumentUploadService',
                   attachmentsToUpload[instrumentsToSave[uploadCount].id]
                   [fileName].attachment,
                   attachmentsToUpload[instrumentsToSave[uploadCount].id]
-                  [fileName].metadata);
-              }).then(function() {
-                  console.log('success');
-                }).catch(function(error) {
-                  if (error === 'previouslyHandledError') {
-                    console.log('success');
-                  } else {
-                    //TODO log error
-                    console.log('error');
-                  }
-                  return $q.reject('previouslyHandledError');
-                });
+                  [fileName].metadata).then(function() {
+                    JobLoggingService.success();
+                  } , function(error) {
+                    var errorMessage = ErrorMessageResolverService
+                    .getErrorMessage(error, 'instrument',
+                    'instrument-attachment', fileName);
+                    JobLoggingService.error(errorMessage.message,
+                      errorMessage.translationParams, errorMessage.subMessages
+                    );
+                  });
+              });
             });
             sequentialChain.finally(function() {
               uploadCount++;
               return upload();
             });
           }).catch(function(error) {
-            var errorMessages = ErrorMessageResolverService
+            var errorMessage = ErrorMessageResolverService
               .getErrorMessage(error, 'instrument');
-            JobLoggingService.error(errorMessages.message,
-              errorMessages.translationParams, errorMessages.subMessages
+            JobLoggingService.error(errorMessage.message,
+              errorMessage.translationParams, errorMessage.subMessages
             );
             uploadCount++;
             return upload();
