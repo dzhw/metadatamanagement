@@ -36,10 +36,15 @@ public class Statistics {
   private Double lowWhisker;
 
   private Double highWhisker;
-
+  
+  private String mode;
+  
+  private Double deviance;
+ 
+  private Double meanDeviation;
+  
   /*
    * (non-Javadoc)
-   * 
    * @see java.lang.Object#toString()
    */
   @Override
@@ -56,6 +61,9 @@ public class Statistics {
       .add("thirdQuartile", thirdQuartile)
       .add("lowWhisker", lowWhisker)
       .add("highWhisker", highWhisker)
+      .add("mode", mode)
+      .add("deviance", deviance)
+      .add("meanDeviation", meanDeviation)
       .toString();
   }
 
@@ -146,6 +154,30 @@ public class Statistics {
 
   public void setHighWhisker(Double highWhisker) {
     this.highWhisker = highWhisker;
+  }
+
+  public String getMode() {
+    return mode;
+  }
+
+  public void setMode(String mode) {
+    this.mode = mode;
+  }
+
+  public Double getDeviance() {
+    return deviance;
+  }
+
+  public void setDeviance(Double deviance) {
+    this.deviance = deviance;
+  }
+
+  public Double getMeanDeviation() {
+    return meanDeviation;
+  }
+
+  public void setMeanDeviation(Double meanDeviation) {
+    this.meanDeviation = meanDeviation;
   }
 
 }

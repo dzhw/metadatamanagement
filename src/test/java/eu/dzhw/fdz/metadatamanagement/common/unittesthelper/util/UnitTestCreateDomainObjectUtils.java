@@ -280,6 +280,9 @@ public class UnitTestCreateDomainObjectUtils {
       .withSkewness(123.0)
       .withStandardDeviation(40.0)
       .withThirdQuartile(110.0)
+      .withMode("Mode")
+      .withDeviance(12.4)
+      .withMeanDeviation(58.7)
       .build();
   }
 
