@@ -3,11 +3,11 @@
 angular.module('metadatamanagementApp').factory('StudySearchResource',
 function(Language, ElasticSearchClient) {
   var query = {};
-  query.index = 'metadata_' + Language.getCurrentInstantly();
   query.type = 'studies';
   query.body = {};
 
   var findStudies = function(studyIds) {
+    query.index = 'metadata_' + Language.getCurrentInstantly();
     query.body.query = {};
     query.body.query.docs = {
       'ids': studyIds
@@ -15,6 +15,7 @@ function(Language, ElasticSearchClient) {
     return ElasticSearchClient.mget(query);
   };
   var findStudy = function(studyId, from, size) {
+    query.index = 'metadata_' + Language.getCurrentInstantly();
     query.body.from = from;
     query.body.size = size;
     query.body.query = {

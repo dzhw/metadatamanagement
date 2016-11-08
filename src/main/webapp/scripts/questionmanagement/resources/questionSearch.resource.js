@@ -3,10 +3,10 @@
 angular.module('metadatamanagementApp').factory('QuestionSearchResource',
 function(Language, ElasticSearchClient) {
   var query = {};
-  query.index = 'metadata_' + Language.getCurrentInstantly();
   query.type = 'questions';
   query.body = {};
   var findQuestions = function(questionIds) {
+    query.index = 'metadata_' + Language.getCurrentInstantly();
     query.body.query = {};
     query.body.query.docs = {
       'ids': questionIds
@@ -14,6 +14,7 @@ function(Language, ElasticSearchClient) {
     return ElasticSearchClient.mget(query);
   };
   var findQuestion = function(questionId, from, size) {
+    query.index = 'metadata_' + Language.getCurrentInstantly();
     query.body.from = from;
     query.body.size = size;
     query.body.query = {
@@ -35,6 +36,7 @@ function(Language, ElasticSearchClient) {
     return ElasticSearchClient.search(query);
   };
   var findPredeccessors = function(questionId, from, size) {
+    query.index = 'metadata_' + Language.getCurrentInstantly();
     query.body.from = from;
     query.body.size = size;
     query.body.query = {
@@ -56,6 +58,7 @@ function(Language, ElasticSearchClient) {
     return ElasticSearchClient.search(query);
   };
   var findByProjectId = function(dataAcquisitionProjectId, from, size) {
+    query.index = 'metadata_' + Language.getCurrentInstantly();
     query.body.from = from;
     query.body.size = size;
     query.body.query = {
@@ -77,6 +80,7 @@ function(Language, ElasticSearchClient) {
     return ElasticSearchClient.search(query);
   };
   var getCounts = function(term, value) {
+    query.index = 'metadata_' + Language.getCurrentInstantly();
     query.body.query = {
       'term': {}
     };
