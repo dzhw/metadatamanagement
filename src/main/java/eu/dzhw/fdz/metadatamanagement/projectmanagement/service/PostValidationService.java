@@ -86,8 +86,6 @@ public class PostValidationService {
       errors.add(new PostValidationMessageDto("data-acquisition-project-management.error."
           + "post-validation.project-has-no-study", Arrays.asList(information)));
     }
-    
-    // TODO rreitmann post-validate surveyIds of instruments
 
     return errors;
   }

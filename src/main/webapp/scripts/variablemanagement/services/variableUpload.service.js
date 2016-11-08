@@ -37,7 +37,7 @@ angular.module('metadatamanagementApp').service('VariableUploadService',
             return upload();
           }).catch(function(error) {
             var errorMessages = ErrorMessageResolverService
-              .getErrorMessages(error, 'variable');
+              .getErrorMessage(error, 'variable');
             JobLoggingService.error(errorMessages.message,
               errorMessages.translationParams, errorMessages.subMessages
             );

@@ -36,13 +36,12 @@ angular.module('metadatamanagementApp').service('QuestionUploadService',
           }, function(error) {
             //unable to save question object
             var errorMessages = ErrorMessageResolverService
-            .getErrorMessages(error, 'question');
+            .getErrorMessage(error, 'question');
             JobLoggingService.error(errorMessages.message,
               errorMessages.translationParams, errorMessages.subMessages);
             return $q.reject('previouslyHandledError');})
           .then(function(imageFile) {
-            var imageObj = images[questions[uploadQuestionCount].id];
-            var image = new Blob([imageFile], {type: imageObj.type});
+            var image = new Blob([imageFile], {type: 'image/png'});
             return QuestionImageUploadService.uploadImage(image,
               questions[uploadQuestionCount].id);
           }, function(error) {

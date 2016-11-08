@@ -7,29 +7,38 @@ import org.hibernate.validator.constraints.NotEmpty;
 import eu.dzhw.fdz.metadatamanagement.common.domain.I18nString;
 import eu.dzhw.fdz.metadatamanagement.common.domain.validation.I18nStringSize;
 import eu.dzhw.fdz.metadatamanagement.common.domain.validation.StringLengths;
+import net.karneim.pojobuilder.GeneratePojoBuilder;
 
 /**
  * Metadata which will be stored in GridFS with each attachment for instruments.
  * 
  * @author René Reitmann
  */
+@GeneratePojoBuilder(
+    intoPackage = "eu.dzhw.fdz.metadatamanagement.instrumentmanagement.domain.builders")
 public class InstrumentAttachmentMetadata {
-  @NotEmpty
+  @NotEmpty(message = 
+      "instrument-management.error.instrument-attachment-metadata.instrument-id.not-empty")
   private String instrumentId;
   
-  @NotEmpty
+  @NotEmpty(message = 
+      "instrument-management.error.instrument-attachment-metadata.project-id.not-empty")
   private String dataAcquisitionProjectId;
   
-  @NotNull
-  @I18nStringSize(min = 1, max = StringLengths.SMALL)
+  @NotNull(message = 
+      "instrument-management.error.instrument-attachment-metadata.type.not-null")
+  @I18nStringSize(min = 1, max = StringLengths.SMALL, message = 
+      "instrument-management.error.instrument-attachment-metadata.type.i18n-string-size")
   private I18nString type;
   
-  @NotNull
-  @I18nStringSize(min = 1, max = StringLengths.MEDIUM)
+  @NotNull(message = 
+      "instrument-management.error.instrument-attachment-metadata.title.not-null")
+  @I18nStringSize(min = 1, max = StringLengths.MEDIUM, message =
+      "instrument-management.error.instrument-attachment-metadata.title.i18n-string-size")
   private I18nString title;
   
-  //TODO rreitmann: add validation messages
-  @NotEmpty
+  @NotEmpty(message = 
+      "instrument-management.error.instrument-attachment-metadata.filename.not-empty")
   private String fileName;
 
   public String getInstrumentId() {

@@ -34,7 +34,7 @@ angular.module('metadatamanagementApp').service('DataSetUploadService',
             return upload();
           }).catch(function(error) {
             var errorMessages = ErrorMessageResolverService
-              .getErrorMessages(error, 'data-set');
+              .getErrorMessage(error, 'data-set');
             if (errorMessages.subMessages.length > 0) {
               errorMessages.subMessages.forEach(function(subMessage) {
                 if (subMessage.translationParams

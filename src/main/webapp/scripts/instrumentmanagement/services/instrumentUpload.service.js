@@ -35,20 +35,36 @@ angular.module('metadatamanagementApp').service('InstrumentUploadService',
           return upload();
         } else {
           instrumentsToSave[uploadCount].$save().then(function() {
-            for (var fileName in attachmentsToUpload[
-              instrumentsToSave[uploadCount].id]) {
-              InstrumentAttachmentUploadService.uploadAttachment(
-                attachmentsToUpload[instrumentsToSave[uploadCount].id]
-                [fileName].attachment,
-                attachmentsToUpload[instrumentsToSave[uploadCount].id]
-                [fileName].metadata);
-            }
             JobLoggingService.success();
-            uploadCount++;
-            return upload();
+            var sequentialChain = $q.when();
+            var fileNames = Object.keys(attachmentsToUpload[
+              instrumentsToSave[uploadCount].id]);
+            fileNames.forEach(function(fileName) {
+              sequentialChain = sequentialChain.then(function() {
+                return InstrumentAttachmentUploadService.uploadAttachment(
+                  attachmentsToUpload[instrumentsToSave[uploadCount].id]
+                  [fileName].attachment,
+                  attachmentsToUpload[instrumentsToSave[uploadCount].id]
+                  [fileName].metadata);
+              }).then(function() {
+                  console.log('success');
+                }).catch(function(error) {
+                  if (error === 'previouslyHandledError') {
+                    console.log('success');
+                  } else {
+                    //TODO log error
+                    console.log('error');
+                  }
+                  return $q.reject('previouslyHandledError');
+                });
+            });
+            sequentialChain.finally(function() {
+              uploadCount++;
+              return upload();
+            });
           }).catch(function(error) {
             var errorMessages = ErrorMessageResolverService
-              .getErrorMessages(error, 'instrument');
+              .getErrorMessage(error, 'instrument');
             JobLoggingService.error(errorMessages.message,
               errorMessages.translationParams, errorMessages.subMessages
             );
@@ -125,7 +141,6 @@ angular.module('metadatamanagementApp').service('InstrumentUploadService',
                   [metadataFromExcel.filename].attachment =
                   attachmentFiles[metadataFromExcel.filename];
               });
-              console.log(attachmentsToUpload);
             } else {
               JobLoggingService.cancel(
                 'global.log-messages.unable-to-read-excel-sheet',

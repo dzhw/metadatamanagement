@@ -18,7 +18,7 @@ angular.module('metadatamanagementApp').service('StudyUploadService',
             JobLoggingService.success();
           }).catch(function(error) {
             var errorMessages = ErrorMessageResolverService
-              .getErrorMessages(error, 'study');
+              .getErrorMessage(error, 'study');
             JobLoggingService.error(errorMessages.message,
               errorMessages.translationParams, errorMessages.subMessages
             );

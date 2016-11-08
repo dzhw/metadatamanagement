@@ -2,14 +2,14 @@
 
 angular.module('metadatamanagementApp').service('ErrorMessageResolverService',
   function() {
-    var getErrorMessages = function(messageObj, jobId) {
-      var errorMessages = {};
+    var getErrorMessage = function(messageObj, jobId) {
+      var errorMessage = {};
       var subMessages = [];
       if (messageObj.config &&
         messageObj.config.data && messageObj.config.data.id) {
-        errorMessages.message =
+        errorMessage.message =
           jobId + '-management.log-messages.' + jobId + '.not-saved';
-        errorMessages.translationParams = {
+        errorMessage.translationParams = {
           id: messageObj.config.data.id
         };
       }
@@ -29,10 +29,10 @@ angular.module('metadatamanagementApp').service('ErrorMessageResolverService',
           message: messageObj.data.message
         });
       }
-      errorMessages.subMessages = subMessages;
-      return errorMessages;
+      errorMessage.subMessages = subMessages;
+      return errorMessage;
     };
     return {
-      getErrorMessages: getErrorMessages
+      getErrorMessage: getErrorMessage
     };
   });
