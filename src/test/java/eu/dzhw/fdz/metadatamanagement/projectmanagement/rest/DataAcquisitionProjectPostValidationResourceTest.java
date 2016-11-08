@@ -111,6 +111,10 @@ public class DataAcquisitionProjectPostValidationResourceTest extends AbstractTe
     variable2.setId("testProject-name2");
     variable2.setName("name2");
     this.variableRepository.save(variable2);
+    Variable variable3 = UnitTestCreateDomainObjectUtils.buildVariable(project.getId(), survey.getId());
+    variable3.setId("testProject-name3");
+    variable3.setName("name3");
+    this.variableRepository.save(variable3);
     
     //DataSet
     DataSet dataSet = UnitTestCreateDomainObjectUtils.buildDataSet(project.getId(), survey.getId());
@@ -167,6 +171,10 @@ public class DataAcquisitionProjectPostValidationResourceTest extends AbstractTe
     variable2.setId("testProject-name2");
     variable2.setName("name2");
     this.variableRepository.save(variable2);
+    Variable variable3 = UnitTestCreateDomainObjectUtils.buildVariable(project.getId(), survey.getId());
+    variable3.setId("testProject-name3");
+    variable3.setName("name3");
+    this.variableRepository.save(variable3);
     
     //DataSet
     DataSet dataSet = UnitTestCreateDomainObjectUtils.buildDataSet(project.getId(), survey.getId());
@@ -216,6 +224,10 @@ public class DataAcquisitionProjectPostValidationResourceTest extends AbstractTe
     variable2.setId("testProject-name2");
     variable2.setName("name2");
     this.variableRepository.save(variable2);
+    Variable variable3 = UnitTestCreateDomainObjectUtils.buildVariable(project.getId(), survey.getId());
+    variable3.setId("testProject-name3");
+    variable3.setName("name3");
+    this.variableRepository.save(variable3);
     
     //DataSet
     DataSet dataSet = UnitTestCreateDomainObjectUtils.buildDataSet(project.getId(), survey.getId());
@@ -271,6 +283,10 @@ public class DataAcquisitionProjectPostValidationResourceTest extends AbstractTe
     variable2.setId("testProject-name2");
     variable2.setName("name2");
     this.variableRepository.save(variable2);
+    Variable variable3 = UnitTestCreateDomainObjectUtils.buildVariable(project.getId(), survey.getId());
+    variable3.setId("testProject-name3");
+    variable3.setName("name3");
+    this.variableRepository.save(variable3);
     
     //DataSet
     DataSet dataSet = UnitTestCreateDomainObjectUtils.buildDataSet(project.getId(), survey.getId());
