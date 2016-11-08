@@ -88,7 +88,13 @@ angular.module('metadatamanagementApp').service('SurveyUploadService',
                 return $q.reject('previouslyHandledError');
               });
             });
-          })
+          }, function(error) {
+            //unable to save survey object
+            var errorMessages = ErrorMessageResolverService
+            .getErrorMessage(error, 'survey');
+            JobLoggingService.error(errorMessages.message,
+              errorMessages.translationParams, errorMessages.subMessages);
+            return $q.reject('previouslyHandledError');})
           //Everything went well. Start uploading next survey
           .then(function() {
             JobLoggingService.success();
