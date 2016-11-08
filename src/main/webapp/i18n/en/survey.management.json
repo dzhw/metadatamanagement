@@ -18,6 +18,7 @@
     "detail": {
       "survey": "Survey",
       "surveys": "Surveys",
+      "surveys-same-study": "Surveys of the same Study",
       "survey-informations": "Survey Informations",
       "related-information": "Related Information",
       "related-objects": "Related Objects",
