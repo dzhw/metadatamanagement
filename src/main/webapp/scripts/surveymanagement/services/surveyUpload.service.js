@@ -61,9 +61,12 @@ angular.module('metadatamanagementApp').service('SurveyUploadService',
                   type: images[imageName].type
                 });
 
-                return SurveyImageUploadService.uploadImage(image,
+                SurveyImageUploadService.uploadImage(image,
                   survey.id, imageName)
-                  .catch(function(error) {
+                  .then(function(uploadedImage) {
+                    JobLoggingService.success();
+                    return uploadedImage;
+                  }, function(error) {
                     if (error !== 'previouslyHandledError') {
                       //image file read error
                       JobLoggingService.error(
@@ -88,16 +91,19 @@ angular.module('metadatamanagementApp').service('SurveyUploadService',
                 return $q.reject('previouslyHandledError');
               });
             });
-          }, function(error) {
+          })
+          //Everything went well. Start uploading next survey
+          .then(function() {
+            JobLoggingService.success();
+            uploadSurveyCount++;
+            return upload();
+          })
+          .catch(function(error) {
             //unable to save survey object
             var errorMessages = ErrorMessageResolverService
             .getErrorMessage(error, 'survey');
             JobLoggingService.error(errorMessages.message,
               errorMessages.translationParams, errorMessages.subMessages);
-            return $q.reject('previouslyHandledError');})
-          //Everything went well. Start uploading next survey
-          .then(function() {
-            JobLoggingService.success();
             uploadSurveyCount++;
             return upload();
           });
