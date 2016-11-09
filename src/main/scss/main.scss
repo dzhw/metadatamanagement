@@ -584,3 +584,16 @@ pre {
 .fdz-repeated-item {
   border-bottom: 1px solid #ddd;
 }
+
+
+.fdz-overlay-outer-box {
+  width: 100%;
+  display: block;
+  position: relative;
+}
+
+.fdz-overlay-outer-box .fdz-overlay-inner-box {
+  top:0;
+  right:0;
+  position: absolute;
+}

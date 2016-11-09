@@ -74,7 +74,7 @@
                             <a ui-sref="studyDetail({id:study.id})">{{study.title}}</a>
                           </div>
                         </section>
-                        <section style="margin-bottom: 0.5em;" layout="row">
+                        <section ng-if="question" style="margin-bottom: 0.5em;" layout="row">
                           <md-icon md-svg-src="/assets/images/icons/question.svg" style="margin-top:0px; margin-right:4px;"></md-icon>
                           <div layout="row" layout-sm="column" layout-xs="column">
                             <span  style="margin-right:3px;">{{'question-management.detail.question' | translate }}:</span>
@@ -269,34 +269,12 @@
                     </table>
                 </md-card>
             </div>
-            <!--
-            <div layout="row" layout-sm="column" layout-xs="column">
-              <related-surveys flex-gt-sm="50" method-name="findSurveys" method-params="variable.surveyIds"></related-surveys>
-              <related-data-sets flex-gt-sm="50" method-name="findByVariableId" method-params="variable.id"></related-data-sets>
-            </div>
-            <div layout="row" layout-sm="column" layout-xs="column">
-              <related-questions flex-gt-sm="50" method-name="findQuestion" method-params="variable.questionId"></related-questions>
-              <related-publications flex-gt-sm="50" method-name="findByVariableId" method-params="variable.id"></related-publications>
-            </div>
-            <div layout="row" layout-sm="column" layout-xs="column">
-               <related-studies method-name="findStudy" method-params="variable.dataAcquisitionProjectId"></related-studies>
-            </div>
-          -->
             <div layout="row" ng-if="variable.generationDetails">
                 <md-card flex>
-                    <md-card-header class="fdz-card-header-with-button" layout-align="center center">
+                    <md-card-header layout-align="center center">
                         <md-card-header-text>
                             <h2 class="md-title">{{'variable-management.detail.generation-details' | translate }}</h2>
                         </md-card-header-text>
-                        <md-button ng-if="variable.generationDetails.rule" class="md-fab md-mini md-primary" ng-click="toggleGenerationCode()">
-                          <div>
-                            <md-icon ng-if="generationCodeToggleFlag" md-svg-src="/assets/images/icons/arrow-expand.svg"></md-icon>
-                            <md-icon ng-if="!generationCodeToggleFlag" md-svg-src="/assets/images/icons/arrow-compress.svg"></md-icon>
-                            <md-tooltip md-direction="left">
-                                {{'variable-management.detail.show-complete-rule.' + generationCodeToggleFlag | translate }}
-                            </md-tooltip>
-                          </div>
-                        </md-button>
                     </md-card-header>
                     <md-divider></md-divider>
                     <md-card-content>
@@ -306,11 +284,32 @@
                             <span>{{variable.generationDetails.description[currentLanguage]}}</span>
                         </section>
                         <section ng-if="variable.generationDetails.rule">
-                            <span style="font-weight: bold;">{{'variable-management.detail.generation-details-rule' | translate }}
+                            <span style="font-weight: bold; margin-right:0px;">{{'variable-management.detail.generation-details-rule' | translate }}
                                 ({{variable.generationDetails.ruleExpressionLanguage}}):
                             </span>
-                            <div hljs hljs-source="variable.generationDetails.rule" hljs-language="{{variable.generationDetails.ruleExpressionLanguage}}" style="margin-top: 0.5em;" class="fdz-code-container" ng-class="{'fdz-hidden-code': generationCodeToggleFlag}"></div>
-                        </section>
+                            <div class="fdz-overlay-outer-box">
+                              <div hljs hljs-source="variable.generationDetails.rule" hljs-language="{{variable.generationDetails.ruleExpressionLanguage}}" style="margin-top: 0.5em;" class="fdz-code-container" ng-class="{'fdz-hidden-code': generationCodeToggleFlag}"></div>
+                              <div class="fdz-overlay-inner-box">
+                                <md-card layout="row" style="background: #f8f8f8;">
+                                <md-button ng-click="openSuccessCopyToClipboardToast()" class="md-icon-button md-primary" ngclipboard data-clipboard-text="{{variable.generationDetails.rule}}" aria-label="{{'variable-management.detail.button.aria-label.copy-to-clipboard' | translate}}">
+                                  <md-icon md-font-library="material-icons">content_copy</md-icon>
+                                  <md-tooltip md-direction="top">
+                                    {{'variable-management.detail.button.aria-label.copy-to-clipboard' | translate}}
+                                  </md-tooltip>
+                                </md-button>
+                                <md-button ng-if="variable.generationDetails.rule" class="md-icon-button md-primary" ng-click="toggleGenerationCode()">
+                                  <div>
+                                    <md-icon ng-if="generationCodeToggleFlag" md-svg-src="/assets/images/icons/arrow-expand.svg"></md-icon>
+                                    <md-icon ng-if="!generationCodeToggleFlag" md-svg-src="/assets/images/icons/arrow-compress.svg"></md-icon>
+                                    <md-tooltip md-direction="top">
+                                      {{'variable-management.detail.show-complete-rule.' + generationCodeToggleFlag | translate }}
+                                    </md-tooltip>
+                                  </div>
+                                </md-button>
+                              </md-card>
+                              </div>
+                            </div>
+                          </section>
                     </md-card-content>
                 </md-card>
             </div>

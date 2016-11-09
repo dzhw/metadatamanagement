@@ -8,7 +8,8 @@
         "upload-terminated": "Finished upload of {{ total }} Variables with {{ errors }} errors.",
         "unable-to-delete": "The variables could not be deleted!",
         "cancelled": "Variables upload cancelled!",
-        "missing-json-file": "There is no JSON file for Variable {{ id }}!"
+        "missing-json-file": "There is no JSON file for Variable {{ id }}!",
+        "generation-details-rule-success-copy-to-clipboard": "The Generation Rule was successfully copied into the clipboard."
       }
     },
     "home": {
@@ -39,6 +40,11 @@
       "show-complete-rule": {
         "true": "Show complete Generation Rule",
         "false": "Minimize Generation Rule "
+      },
+      "button": {
+        "aria-label": {
+          "copy-to-clipboard": "Copy to Clipboard"
+        }
       },
       "label": "Label",
       "not-found": "The {{id}} references to an unknown Variable.",

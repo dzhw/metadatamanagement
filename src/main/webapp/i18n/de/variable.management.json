@@ -8,7 +8,8 @@
         "upload-terminated": "Upload von {{ total }} Variablen mit {{ errors }} Fehlern beendet!",
         "unable-to-delete": "Die Variablen konnten nicht gelöscht werden!",
         "cancelled": "Upload von Variablen Abgebrochen!",
-        "missing-json-file": "Keine JSON Datei zu Variable {{ id }} gefunden!"
+        "missing-json-file": "Keine JSON Datei zu Variable {{ id }} gefunden!",
+        "generation-details-rule-success-copy-to-clipboard": "Die Generierungsregel wurde erfolgreich in die Zwischenablage kopiert."
       }
     },
     "home": {
@@ -39,6 +40,11 @@
       "show-complete-rule": {
         "true": "Zeige gesamte Generierungsregel",
         "false": "Minimiere Generierungsregel"
+      },
+      "button": {
+        "aria-label": {
+          "copy-to-clipboard": "Kopiere in die Zwischenablage"
+        }
       },
       "label": "Label",
       "not-found": "Die id {{id}} referenziert auf eine unbekannte Variable.",

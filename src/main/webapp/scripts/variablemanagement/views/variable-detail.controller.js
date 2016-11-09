@@ -4,8 +4,9 @@ angular.module('metadatamanagementApp')
   .controller('VariableDetailController', function($scope, entity, $state,
     SurveySearchDialogService, DataSetSearchDialogService,
     RelatedPublicationSearchDialogService, QuestionSearchDialogService,
-    SurveySearchResource, DataSetSearchResource, QuestionSearchResource,
-    RelatedPublicationSearchResource, StudySearchResource) {
+    DataSetSearchResource, QuestionSearchResource,
+    RelatedPublicationSearchResource, StudySearchResource,
+    SimpleMessageToastService) {
     $scope.generationCodeToggleFlag = true;
     $scope.notAllRowsVisible = true;
     $scope.counts = {};
@@ -16,12 +17,13 @@ angular.module('metadatamanagementApp')
       .then(function(study) {
         $scope.study = study.hits.hits[0]._source;
       });
-      QuestionSearchResource
-      .findQuestion($scope.variable.questionId)
-      .then(function(question) {
-        console.log(question);
-        $scope.question = question.hits.hits[0]._source;
-      });
+      if ($scope.variable.questionId) {
+        QuestionSearchResource
+        .findQuestion($scope.variable.questionId)
+        .then(function(question) {
+          $scope.question = question.hits.hits[0]._source;
+        });
+      }
       DataSetSearchResource
       .getCounts('variableIds', $scope.variable.id)
       .then(function(dataSetsCount) {
@@ -60,5 +62,11 @@ angular.module('metadatamanagementApp')
       RelatedPublicationSearchDialogService.
       findRelatedPublications('findByVariableId', $scope.variable.id,
       $scope.counts.publicationsCount);
+    };
+    $scope.openSuccessCopyToClipboardToast = function() {
+      SimpleMessageToastService.openSimpleMessageToast(
+        'variable-management.log-messages.variable.' +
+        'generation-details-rule-success-copy-to-clipboard', []
+      );
     };
   });
