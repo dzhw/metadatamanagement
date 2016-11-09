@@ -2,8 +2,24 @@
 
 angular.module('metadatamanagementApp').service('JobLoggingService',
   function(JobCompleteToastService, blockUI) {
+    var createNewCountsByObjectType = function() {
+      return {
+        successes: 0,
+        errors: 0,
+        total: 0
+      };
+    };
+
     var job = {
-      state: ''
+      state: '',
+      getCounts: function(objectType) {
+        if (objectType && this.countsByObjectType &&
+            this.countsByObjectType[objectType]) {
+          return this.countsByObjectType[objectType];
+        } else {
+          return createNewCountsByObjectType();
+        }
+      }
     };
     var getCurrentJob = function() {
       return job;
@@ -15,6 +31,7 @@ angular.module('metadatamanagementApp').service('JobLoggingService',
       job.successes = 0;
       job.logMessages = [];
       job.state = 'running';
+      job.countsByObjectType = {};
       blockUI.start();
       return job;
     };
@@ -26,6 +43,14 @@ angular.module('metadatamanagementApp').service('JobLoggingService',
         subMessages: parameters.subMessages,
         type: 'error'
       });
+      if (parameters && parameters.objectType) {
+        if (!job.countsByObjectType[parameters.objectType]) {
+          job.countsByObjectType[parameters.objectType] =
+            createNewCountsByObjectType();
+        }
+        job.countsByObjectType[parameters.objectType].errors++;
+        job.countsByObjectType[parameters.objectType].total++;
+      }
       job.total++;
     };
     var success = function(parameters) {
@@ -37,6 +62,14 @@ angular.module('metadatamanagementApp').service('JobLoggingService',
           translationParams: parameters.messageParams,
           type: 'info'
         });
+      }
+      if (parameters && parameters.objectType) {
+        if (!job.countsByObjectType[parameters.objectType]) {
+          job.countsByObjectType[parameters.objectType] =
+            createNewCountsByObjectType();
+        }
+        job.countsByObjectType[parameters.objectType].successes++;
+        job.countsByObjectType[parameters.objectType].total++;
       }
     };
     var finish = function(finishMsg, translationParams) {

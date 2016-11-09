@@ -13,11 +13,16 @@ angular.module('metadatamanagementApp').service('InstrumentUploadService',
     var upload = function() {
       if (uploadCount === instrumentsToSave.length) {
         ElasticSearchAdminService.processUpdateQueue().finally(function() {
+          var job = JobLoggingService.getCurrentJob();
           JobLoggingService.finish(
-            'instrument-management.log-messages.instrument.upload-terminated', {
-              total: JobLoggingService.getCurrentJob().total,
-              errors: JobLoggingService.getCurrentJob().errors
-            });
+            'instrument-management.log-messages.instrument.upload-terminated',
+            {
+              totalInstruments: job.getCounts('instrument').total,
+              totalAttachments:
+                job.getCounts('instrument-attachment').total,
+              totalErrors: job.errors
+            }
+          );
           $rootScope.$broadcast('upload-completed');
         });
       } else {
@@ -29,12 +34,16 @@ angular.module('metadatamanagementApp').service('InstrumentUploadService',
           var index = uploadCount;
           JobLoggingService.error({
             message: 'instrument-management.log-messages.instrument.missing-id',
-            messageParams: {index: index + 1}});
+            messageParams: {index: index + 1},
+            objectType: 'instrument'
+          });
           uploadCount++;
           return upload();
         } else {
           instrumentsToSave[uploadCount].$save().then(function() {
-            JobLoggingService.success();
+            JobLoggingService.success({
+              objectType: 'instrument'
+            });
             var sequentialChain = $q.when();
             var fileNames = Object.keys(attachmentsToUpload[
               instrumentsToSave[uploadCount].id]);
@@ -45,7 +54,9 @@ angular.module('metadatamanagementApp').service('InstrumentUploadService',
                   [fileName].attachment,
                   attachmentsToUpload[instrumentsToSave[uploadCount].id]
                   [fileName].metadata).then(function() {
-                    JobLoggingService.success('instrument-attachment');
+                    JobLoggingService.success({
+                      objectType: 'instrument-attachment'
+                    });
                   } , function(error) {
                     var errorMessage = ErrorMessageResolverService
                     .getErrorMessage(error, 'instrument',
@@ -67,7 +78,8 @@ angular.module('metadatamanagementApp').service('InstrumentUploadService',
               .getErrorMessage(error, 'instrument');
             JobLoggingService.error({message: errorMessage.message,
               messageParams: errorMessage.translationParams,
-              subMessages: errorMessage.subMessages
+              subMessages: errorMessage.subMessages,
+              objectType: 'instrument'
             });
             uploadCount++;
             return upload();

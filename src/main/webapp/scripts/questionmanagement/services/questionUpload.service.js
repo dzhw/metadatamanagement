@@ -13,11 +13,15 @@ angular.module('metadatamanagementApp').service('QuestionUploadService',
     var uploadNextQuestion = function() {
       if (uploadQuestionCount === questions.length) {
         ElasticSearchAdminService.processUpdateQueue().finally(function() {
+          var job = JobLoggingService.getCurrentJob();
           JobLoggingService.finish(
-            'question-management.log-messages.question.upload-terminated', {
-              total: JobLoggingService.getCurrentJob().total,
-              errors: JobLoggingService.getCurrentJob().errors
-            });
+            'question-management.log-messages.question.upload-terminated',
+            {
+              totalQuestions: job.getCounts('question').total,
+              totalImages: job.getCounts('image').total,
+              totalErrors: job.errors
+            }
+          );
           $rootScope.$broadcast('upload-completed');
         });
       } else {
@@ -26,11 +30,13 @@ angular.module('metadatamanagementApp').service('QuestionUploadService',
           var index = uploadQuestionCount;
           JobLoggingService.error({
             message: 'question-management.log-messages.question.missing-id',
-            messageParams: {index: index + 1}
+            messageParams: {index: index + 1},
+            objectType: 'question'
           });
         } else {
           questions[uploadQuestionCount].$save()
           .then(function() {
+            JobLoggingService.success({objectType: 'question'});
             var imageFile = images[questions[uploadQuestionCount].id];
             return FileReaderService.readAsArrayBuffer(imageFile);
           }, function(error) {
@@ -39,7 +45,8 @@ angular.module('metadatamanagementApp').service('QuestionUploadService',
             .getErrorMessage(error, 'question');
             JobLoggingService.error({message: errorMessages.message,
               messageParams: errorMessages.translationParams,
-              subMessages: errorMessages.subMessages});
+              subMessages: errorMessages.subMessages,
+              objectType: 'question'});
             return $q.reject('previouslyHandledError');})
           .then(function(imageFile) {
             var image = new Blob([imageFile], {type: 'image/png'});
@@ -52,11 +59,12 @@ angular.module('metadatamanagementApp').service('QuestionUploadService',
                 message: 'question-management.log-messages.' +
                 'question.unable-to-read-image-file',
                 messageParams:
-                {file: images[questions[uploadQuestionCount].id].name}});
+                {file: images[questions[uploadQuestionCount].id].name},
+                objectType: 'image'});
             }
             return $q.reject('previouslyHandledError');})
           .then(function() {
-            JobLoggingService.success();
+            JobLoggingService.success({objectType: 'image'});
           }, function(error) {
             if (error !== 'previouslyHandledError') {
               //image file upload error
@@ -64,7 +72,8 @@ angular.module('metadatamanagementApp').service('QuestionUploadService',
                 message: 'question-management.log-messages.' +
                 'question.unable-to-upload-image-file',
                 messageParams:
-                {file: images[questions[uploadQuestionCount].id].name}});
+                {file: images[questions[uploadQuestionCount].id].name},
+                objectType: 'image'});
             }
             return $q.reject('previouslyHandledError');})
           .finally(function() {
@@ -94,7 +103,8 @@ angular.module('metadatamanagementApp').service('QuestionUploadService',
                   JobLoggingService.error({
                     message: 'question-management.' +
                     'log-messages.question.not-found-image-file',
-                    messageParams: {id: question.id}
+                    messageParams: {id: question.id},
+                    objectType: 'image'
                   });
                 } else {
                   questions.push(new QuestionResource(question));
@@ -102,13 +112,15 @@ angular.module('metadatamanagementApp').service('QuestionUploadService',
               } catch (e) {
                 JobLoggingService.error({
                   message: 'global.log-messages.unable-to-parse-json-file',
-                  messageParams: {file: file.name}
+                  messageParams: {file: file.name},
+                  objectType: 'question'
                 });
               }
             }, function() {
               JobLoggingService.error({
                 message: 'global.log-messages.unable-to-read-file',
-                messageParams: {file: file.name}
+                messageParams: {file: file.name},
+                objectType: 'question'
               });
             }));
         }
