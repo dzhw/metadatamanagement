@@ -37,8 +37,8 @@ angular.module('metadatamanagementApp').service(
               toBereferenzedId: result.errors[i].messageParameter[1],
               additionalId: result.errors[i].messageParameter[2]
             };
-            JobLoggingService.error(result.errors[i].messageId,
-              messageParameter);
+            JobLoggingService.error({message: result.errors[i].messageId,
+              messageParams: messageParameter});
           }
           //no errors by post validation
         } else {

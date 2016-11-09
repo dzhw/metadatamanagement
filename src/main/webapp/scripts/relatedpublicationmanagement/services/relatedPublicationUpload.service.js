@@ -23,11 +23,11 @@ angular.module('metadatamanagementApp')
       } else {
         if (!objects[uploadCount].id || objects[uploadCount].id === '') {
           var index = uploadCount;
-          JobLoggingService.error(
-            'related-publication-management.log-messages.' +
-            'related-publication.missing-id', {
-              index: index + 1
-            });
+          JobLoggingService.error({
+            message: 'related-publication-management.log-messages.' +
+            'related-publication.missing-id',
+            messageParams: {index: index + 1}
+          });
           uploadCount++;
           return upload();
         } else {
@@ -38,9 +38,10 @@ angular.module('metadatamanagementApp')
           }).catch(function(error) {
             var errorMessages = ErrorMessageResolverService
               .getErrorMessage(error, 'related-publication');
-            JobLoggingService.error(errorMessages.message,
-              errorMessages.translationParams, errorMessages.subMessages
-            );
+            JobLoggingService.error({message: errorMessages.message,
+              messageParams: errorMessages.translationParams,
+              subMessages: errorMessages.subMessages
+            });
             uploadCount++;
             return upload();
           });

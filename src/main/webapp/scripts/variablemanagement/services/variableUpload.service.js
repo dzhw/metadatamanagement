@@ -24,10 +24,10 @@ angular.module('metadatamanagementApp').service('VariableUploadService',
           return upload();
         } else if (!objects[uploadCount].id || objects[uploadCount].id === '') {
           var index = uploadCount;
-          JobLoggingService.error(
-            'variable-management.log-messages.variable.missing-id', {
-              index: index + 1
-            });
+          JobLoggingService.error({
+            message: 'variable-management.log-messages.variable.missing-id',
+            messageParams: {index: index + 1}
+          });
           uploadCount++;
           return upload();
         } else {
@@ -38,9 +38,10 @@ angular.module('metadatamanagementApp').service('VariableUploadService',
           }).catch(function(error) {
             var errorMessages = ErrorMessageResolverService
               .getErrorMessage(error, 'variable');
-            JobLoggingService.error(errorMessages.message,
-              errorMessages.translationParams, errorMessages.subMessages
-            );
+            JobLoggingService.error({message: errorMessages.message,
+              messageParams: errorMessages.translationParams,
+              subMessages: errorMessages.subMessages
+            });
             uploadCount++;
             return upload();
           });
@@ -88,19 +89,27 @@ angular.module('metadatamanagementApp').service('VariableUploadService',
                         variableFromExcel, variableFromJson,
                         dataAcquisitionProjectId));
                     } catch (e) {
-                      JobLoggingService.error(
-                        'global.log-messages.unable-to-parse-json-file',
-                        {file: jsonFiles[variableFromExcel.id].name});
+                      JobLoggingService.error({
+                        message:
+                          'global.log-messages.unable-to-parse-json-file',
+                        messageParams:
+                          {file: jsonFiles[variableFromExcel.id].name}
+                      });
                     }
                   }), function() {
-                    JobLoggingService.error(
-                      'global.log-messages.unable-to-read-file',
-                      {file: jsonFiles[variableFromExcel.id].name});
+                    JobLoggingService.error({
+                      message:
+                        'global.log-messages.unable-to-read-file',
+                      messageParams:
+                        {file: jsonFiles[variableFromExcel.id].name}
+                    });
                   });
               } else {
-                JobLoggingService.error(
+                JobLoggingService.error({
+                  message:
                   'variable-management.log-messages.variable.missing-json-file',
-                  {id: variableFromExcel.id});
+                  messageParams: {id: variableFromExcel.id}
+                });
               }
             });
           }, function() {

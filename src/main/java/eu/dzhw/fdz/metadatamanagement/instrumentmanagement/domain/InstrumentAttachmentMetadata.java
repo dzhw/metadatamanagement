@@ -24,7 +24,7 @@ public class InstrumentAttachmentMetadata {
   @NotEmpty(message = 
       "instrument-management.error.instrument-attachment-metadata.project-id.not-empty")
   private String dataAcquisitionProjectId;
-  
+  //TODO validate valid types
   @NotNull(message = 
       "instrument-management.error.instrument-attachment-metadata.type.not-null")
   @I18nStringSize(min = 1, max = StringLengths.SMALL, message = 

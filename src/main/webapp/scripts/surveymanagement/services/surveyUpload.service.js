@@ -33,10 +33,10 @@ angular.module('metadatamanagementApp').service('SurveyUploadService',
         if (!surveys[uploadSurveyCount].id ||
           surveys[uploadSurveyCount].id === '') {
           var index = uploadSurveyCount;
-          JobLoggingService.error(
-            'survey-management.log-messages.survey.missing-id', {
-              index: index + 1
-            });
+          JobLoggingService.error({
+            message: 'survey-management.log-messages.survey.missing-id',
+            messageParams: {index: index + 1}
+          });
           uploadSurveyCount++;
           return upload(); //Start next iteration of uploading a survey
         //Survey is and will be uploaded
@@ -69,11 +69,11 @@ angular.module('metadatamanagementApp').service('SurveyUploadService',
                   }, function(error) {
                     if (error !== 'previouslyHandledError') {
                       //image file read error
-                      JobLoggingService.error(
-                        'survey-management.log-messages.' +
-                        'survey.unable-to-upload-image-file', {
-                          file: images[imageName]
-                        });
+                      JobLoggingService.error({
+                        message: 'survey-management.log-messages.' +
+                        'survey.unable-to-upload-image-file',
+                        messageParams: {file: images[imageName]}
+                      });
                     }
                     return $q.reject('previouslyHandledError');
                   });
@@ -82,11 +82,11 @@ angular.module('metadatamanagementApp').service('SurveyUploadService',
               }, function(error) {
                 if (error !== 'previouslyHandledError') {
                   //image file read error
-                  JobLoggingService.error(
-                    'survey-management.log-messages.' +
-                    'survey.unable-to-read-image-file', {
-                      file: images[imageName]
-                    });
+                  JobLoggingService.error({
+                    message: 'survey-management.log-messages.' +
+                    'survey.unable-to-read-image-file',
+                    messageParams: {file: images[imageName]}
+                  });
                 }
                 return $q.reject('previouslyHandledError');
               });
@@ -102,8 +102,9 @@ angular.module('metadatamanagementApp').service('SurveyUploadService',
             //unable to save survey object
             var errorMessages = ErrorMessageResolverService
             .getErrorMessage(error, 'survey');
-            JobLoggingService.error(errorMessages.message,
-              errorMessages.translationParams, errorMessages.subMessages);
+            JobLoggingService.error({message: errorMessages.message,
+              messageParams: errorMessages.translationParams,
+              subMessages: errorMessages.subMessages});
             uploadSurveyCount++;
             return upload();
           });

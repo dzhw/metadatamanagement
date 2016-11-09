@@ -24,10 +24,10 @@ angular.module('metadatamanagementApp').service('QuestionUploadService',
         if (!questions[uploadQuestionCount].id || questions[uploadQuestionCount]
           .id === '') {
           var index = uploadQuestionCount;
-          JobLoggingService.error(
-            'question-management.log-messages.question.missing-id', {
-              index: index + 1
-            });
+          JobLoggingService.error({
+            message: 'question-management.log-messages.question.missing-id',
+            messageParams: {index: index + 1}
+          });
         } else {
           questions[uploadQuestionCount].$save()
           .then(function() {
@@ -37,8 +37,9 @@ angular.module('metadatamanagementApp').service('QuestionUploadService',
             //unable to save question object
             var errorMessages = ErrorMessageResolverService
             .getErrorMessage(error, 'question');
-            JobLoggingService.error(errorMessages.message,
-              errorMessages.translationParams, errorMessages.subMessages);
+            JobLoggingService.error({message: errorMessages.message,
+              messageParams: errorMessages.translationParams,
+              subMessages: errorMessages.subMessages});
             return $q.reject('previouslyHandledError');})
           .then(function(imageFile) {
             var image = new Blob([imageFile], {type: 'image/png'});
@@ -47,9 +48,11 @@ angular.module('metadatamanagementApp').service('QuestionUploadService',
           }, function(error) {
             if (error !== 'previouslyHandledError') {
               //image file read error
-              JobLoggingService.error('question-management.log-messages.' +
+              JobLoggingService.error({
+                message: 'question-management.log-messages.' +
                 'question.unable-to-read-image-file',
-                {file: images[questions[uploadQuestionCount].id].name});
+                messageParams:
+                {file: images[questions[uploadQuestionCount].id].name}});
             }
             return $q.reject('previouslyHandledError');})
           .then(function() {
@@ -57,9 +60,11 @@ angular.module('metadatamanagementApp').service('QuestionUploadService',
           }, function(error) {
             if (error !== 'previouslyHandledError') {
               //image file upload error
-              JobLoggingService.error('question-management.log-messages.' +
+              JobLoggingService.error({
+                message: 'question-management.log-messages.' +
                 'question.unable-to-upload-image-file',
-                {file: images[questions[uploadQuestionCount].id].name});
+                messageParams:
+                {file: images[questions[uploadQuestionCount].id].name}});
             }
             return $q.reject('previouslyHandledError');})
           .finally(function() {
@@ -86,23 +91,25 @@ angular.module('metadatamanagementApp').service('QuestionUploadService',
                 question.dataAcquisitionProjectId = dataAcquisitionProjectId;
                 question.imageType = 'PNG';
                 if (!images[question.id]) {
-                  JobLoggingService
-                  .error('question-management.' +
-                    'log-messages.question.not-found-image-file', {
-                      id: question.id
-                    });
+                  JobLoggingService.error({
+                    message: 'question-management.' +
+                    'log-messages.question.not-found-image-file',
+                    messageParams: {id: question.id}
+                  });
                 } else {
                   questions.push(new QuestionResource(question));
                 }
               } catch (e) {
-                JobLoggingService.error(
-                  'global.log-messages.unable-to-parse-json-file',
-                  {file: file.name});
+                JobLoggingService.error({
+                  message: 'global.log-messages.unable-to-parse-json-file',
+                  messageParams: {file: file.name}
+                });
               }
             }, function() {
-              JobLoggingService.error(
-                'global.log-messages.unable-to-read-file',
-                {file: file.name});
+              JobLoggingService.error({
+                message: 'global.log-messages.unable-to-read-file',
+                messageParams: {file: file.name}
+              });
             }));
         }
         if (file.name.endsWith('.png')) {

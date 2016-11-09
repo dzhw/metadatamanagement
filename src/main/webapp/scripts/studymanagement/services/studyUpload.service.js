@@ -9,19 +9,20 @@ angular.module('metadatamanagementApp').service('StudyUploadService',
 
     var upload = function() {
       if (!study.id || study.id === '') {
-        JobLoggingService.error(
-          'study-management.log-messages.study.missing-id', {
-            index: 1
-          });
+        JobLoggingService.error({
+          message: 'study-management.log-messages.study.missing-id',
+          messageParams: {index: 1}});
       } else {
         study.$save().then(function() {
             JobLoggingService.success();
           }).catch(function(error) {
             var errorMessages = ErrorMessageResolverService
               .getErrorMessage(error, 'study');
-            JobLoggingService.error(errorMessages.message,
-              errorMessages.translationParams, errorMessages.subMessages
-            );
+            JobLoggingService.error({
+              message: errorMessages.message,
+              messageParams: errorMessages.translationParams,
+              subMessages: errorMessages.subMessages
+            });
           }).then(function() {
             ElasticSearchAdminService.processUpdateQueue().finally(function() {
               JobLoggingService.finish(

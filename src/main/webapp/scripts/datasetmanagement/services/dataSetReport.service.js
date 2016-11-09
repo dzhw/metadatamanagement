@@ -16,14 +16,14 @@ angular.module('metadatamanagementApp').service('DataSetReportService',
           //Upload and document could filled with data successfully
           //Download automaticly data filled tex template
           FileResource.download(gridFsFileName).then(function(response) {
-            JobLoggingService.success(
-              'data-set-management.log-messages.tex.upload-terminated', {}
-            );
+            JobLoggingService.success({
+              message: 'data-set-management.log-messages.tex.upload-terminated'
+            });
             saveAs(response.data.blob, file.name);
             JobLoggingService.finish(
               'data-set-management.log-messages.tex.saved', {});
           }).catch(function(error) {
-            JobLoggingService.error(error);
+            JobLoggingService.error({message: error});
             JobLoggingService.cancel(
               'data-set-management.log-messages.tex.cancelled', {});
           });
@@ -31,7 +31,7 @@ angular.module('metadatamanagementApp').service('DataSetReportService',
         }).error(function(error) {
           var endErrorIndex = error.message.indexOf('----');
           var messageShort = error.message.substr(0, endErrorIndex).trim();
-          JobLoggingService.error(messageShort);
+          JobLoggingService.error({message: messageShort});
           JobLoggingService.cancel(
             'data-set-management.log-messages.tex.cancelled', {});
         });

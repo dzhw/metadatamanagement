@@ -8,8 +8,8 @@ angular.module('metadatamanagementApp').service('JobLoggingService',
     var getCurrentJob = function() {
       return job;
     };
-    var start = function(nameOfDomainObj) {
-      job.id = nameOfDomainObj;
+    var start = function(jobId) {
+      job.id = jobId;
       job.errors = 0;
       job.total = 0;
       job.successes = 0;
@@ -18,23 +18,23 @@ angular.module('metadatamanagementApp').service('JobLoggingService',
       blockUI.start();
       return job;
     };
-    var error = function(errorMsg, translationParams, subMessages) {
+    var error = function(parameters) {
       job.errors++;
       job.logMessages.push({
-        message: errorMsg,
-        translationParams: translationParams,
-        subMessages: subMessages,
+        message: parameters.message,
+        translationParams: parameters.messageParams,
+        subMessages: parameters.subMessages,
         type: 'error'
       });
       job.total++;
     };
-    var success = function(successMsg, translationParams) {
+    var success = function(parameters) {
       job.successes++;
       job.total++;
-      if (successMsg) {
+      if (parameters && parameters.message) {
         job.logMessages.push({
-          message: successMsg,
-          translationParams: translationParams,
+          message: parameters.message,
+          translationParams: parameters.messageParams,
           type: 'info'
         });
       }

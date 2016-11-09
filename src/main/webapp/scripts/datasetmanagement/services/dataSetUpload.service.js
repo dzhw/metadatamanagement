@@ -21,10 +21,12 @@ angular.module('metadatamanagementApp').service('DataSetUploadService',
       } else {
         if (!objects[uploadCount].id || objects[uploadCount].id === '') {
           var index = uploadCount;
-          JobLoggingService.error(
-            'data-set-management.log-messages.data-set.missing-id', {
+          JobLoggingService.error({
+            message: 'data-set-management.log-messages.data-set.missing-id',
+            messageParams: {
               index: index + 1
-            });
+            }
+          });
           uploadCount++;
           return upload();
         } else {
@@ -49,9 +51,10 @@ angular.module('metadatamanagementApp').service('DataSetUploadService',
                   message2.translationParams.index;
               });
             }
-            JobLoggingService.error(errorMessages.message,
-              errorMessages.translationParams, errorMessages.subMessages
-            );
+            JobLoggingService.error({message: errorMessages.message,
+              messageParams: errorMessages.translationParams,
+              subMessages: errorMessages.subMessages
+            });
             uploadCount++;
             return upload();
           });
@@ -106,23 +109,23 @@ angular.module('metadatamanagementApp').service('DataSetUploadService',
                       .buildDataSet(dataSetFromExcel,
                         subDataSets, dataAcquisitionProjectId));
                   } else {
-                    JobLoggingService.error(
-                      'data-set-management.' +
-                      'log-messages.data-set.not-saved',
-                      {id: dataSetFromExcel.id},
-                      subDataSetErrors);
+                    JobLoggingService.error({
+                      message: 'data-set-management.' +
+                        'log-messages.data-set.not-saved',
+                      messageParams: {id: dataSetFromExcel.id},
+                      subMessages: subDataSetErrors});
                     return;
                   }
                 }, function() {
                   JobLoggingService
-                  .error('global.log-messages.unable-to-read-file',
-                    {file: dataSetFromExcel.id + '.xlsx'});
+                  .error({message: 'global.log-messages.unable-to-read-file',
+                    messageParams: {file: dataSetFromExcel.id + '.xlsx'}});
                 }));
               } else {
-                JobLoggingService.error(
-                  'data-set-management.' +
+                JobLoggingService.error({
+                  message: 'data-set-management.' +
                   'log-messages.data-set.missing-sub-data-set-file',
-                  {id: dataSetFromExcel.id});
+                  messageParams: {id: dataSetFromExcel.id}});
               }
             });
           }, function() {

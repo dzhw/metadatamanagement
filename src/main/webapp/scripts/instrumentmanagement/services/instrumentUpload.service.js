@@ -27,10 +27,9 @@ angular.module('metadatamanagementApp').service('InstrumentUploadService',
         } else if (!instrumentsToSave[uploadCount].id ||
           instrumentsToSave[uploadCount].id === '') {
           var index = uploadCount;
-          JobLoggingService.error(
-            'instrument-management.log-messages.instrument.missing-id', {
-              index: index + 1
-            });
+          JobLoggingService.error({
+            message: 'instrument-management.log-messages.instrument.missing-id',
+            messageParams: {index: index + 1}});
           uploadCount++;
           return upload();
         } else {
@@ -46,14 +45,16 @@ angular.module('metadatamanagementApp').service('InstrumentUploadService',
                   [fileName].attachment,
                   attachmentsToUpload[instrumentsToSave[uploadCount].id]
                   [fileName].metadata).then(function() {
-                    JobLoggingService.success();
+                    JobLoggingService.success('instrument-attachment');
                   } , function(error) {
                     var errorMessage = ErrorMessageResolverService
                     .getErrorMessage(error, 'instrument',
                     'instrument-attachment', fileName);
-                    JobLoggingService.error(errorMessage.message,
-                      errorMessage.translationParams, errorMessage.subMessages
-                    );
+                    JobLoggingService.error({message: errorMessage.message,
+                      messageParams: errorMessage.translationParams,
+                      subMessages: errorMessage.subMessages,
+                      objectType: 'instrument-attachment'
+                    });
                   });
               });
             });
@@ -64,9 +65,10 @@ angular.module('metadatamanagementApp').service('InstrumentUploadService',
           }).catch(function(error) {
             var errorMessage = ErrorMessageResolverService
               .getErrorMessage(error, 'instrument');
-            JobLoggingService.error(errorMessage.message,
-              errorMessage.translationParams, errorMessage.subMessages
-            );
+            JobLoggingService.error({message: errorMessage.message,
+              messageParams: errorMessage.translationParams,
+              subMessages: errorMessage.subMessages
+            });
             uploadCount++;
             return upload();
           });
