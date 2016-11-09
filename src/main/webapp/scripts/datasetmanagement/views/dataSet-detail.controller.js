@@ -3,10 +3,10 @@
 angular.module('metadatamanagementApp')
   .controller('DataSetDetailController', ['$scope', '$state', 'entity',
   'SurveySearchDialogService', 'VariableSearchDialogService',
-  'ShoppingCartService', 'RelatedPublicationSearchDialogService',
+  'RelatedPublicationSearchDialogService',
   'DataSetReportService', 'Principal', 'RelatedPublicationSearchResource',
     function($scope, $state, entity, SurveySearchDialogService,
-    VariableSearchDialogService, ShoppingCartService,
+    VariableSearchDialogService,
     RelatedPublicationSearchDialogService, DataSetReportService, Principal,
     RelatedPublicationSearchResource) {
       $scope.allRowsVisible = true;
@@ -49,11 +49,6 @@ angular.module('metadatamanagementApp')
         RelatedPublicationSearchDialogService.
         findRelatedPublications('findByDataSetId', $scope.dataSet.id,
         $scope.counts.publicationsCount);
-      };
-      /* add new  item to localStorage */
-      $scope.addToNotepad = function() {
-        ShoppingCartService
-        .addToShoppingCart($scope.dataSet.dataAcquisitionProjectId);
       };
     }
   ]);
