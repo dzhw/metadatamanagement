@@ -3,7 +3,7 @@
 angular.module('metadatamanagementApp')
   .controller('StudyDetailController',
     function($scope, entity, DataSetSearchResource, SurveySearchResource,
-      ShoppingCartService, QuestionSearchDialogService, CleanJSObjectService,
+      QuestionSearchDialogService, CleanJSObjectService,
       RelatedPublicationSearchDialogService, QuestionSearchResource,
       RelatedPublicationSearchResource) {
       $scope.study = entity;
@@ -44,8 +44,4 @@ angular.module('metadatamanagementApp')
         $scope.counts.publicationsCount);
       };
       $scope.showInstruments = function() {};
-      $scope.addToNotepad = function() {
-        ShoppingCartService
-        .addToShoppingCart($scope.study.id);
-      };
     });
