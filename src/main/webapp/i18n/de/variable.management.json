@@ -9,7 +9,8 @@
         "unable-to-delete": "Die Variablen konnten nicht gelöscht werden!",
         "cancelled": "Upload von Variablen Abgebrochen!",
         "missing-json-file": "Keine JSON Datei zu Variable {{ id }} gefunden!",
-        "generation-details-rule-success-copy-to-clipboard": "Die Generierungsregel wurde erfolgreich in die Zwischenablage kopiert."
+        "generation-details-rule-success-copy-to-clipboard": "Die Generierungsregel wurde erfolgreich in die Zwischenablage kopiert.",
+        "filter-details-success-copy-to-clipboard": "Der Filterausdruck wurde erfolgreich in die Zwischenablage kopiert."
       }
     },
     "home": {

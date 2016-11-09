@@ -33,25 +33,11 @@ public class SurveyImageService {
   public String saveSurveyImage(InputStream inputStream,
       String surveyId, String fileName, String contentType) {
     
-    
-    String relativePathWithName = "/surveys/" + surveyId + "/" + fileName;
-    this.deleteSurveyImage(relativePathWithName);
-    
+    String relativePathWithName = "/surveys/" + surveyId + "/" + fileName;    
     GridFSFile gridFsFile = this.operations.store(inputStream, relativePathWithName, contentType);
     gridFsFile.validate();
     
     return gridFsFile.getFilename();
-  }
-  
-  /**
-   * This method delete an image from GridFS/MongoDB.
-   * @param relativePathWithName The path of the image which should be deleted.
-   */
-  public void deleteSurveyImage(String relativePathWithName) {
-        
-    Query query = new Query(GridFsCriteria.whereFilename()
-        .is(relativePathWithName));
-    this.operations.delete(query);
   }
   
   /**
@@ -61,11 +47,11 @@ public class SurveyImageService {
   public void deleteAllSurveyImagesById(String surveyId) {
         
     Query queryDe = new Query(GridFsCriteria.whereFilename()
-        .is("/surveys/" + surveyId + "/" + surveyId + "_responserate_de"));
+        .is("/surveys/" + surveyId + "/" + surveyId + "_responserate_de.svg"));
     this.operations.delete(queryDe);
     
     Query queryEn = new Query(GridFsCriteria.whereFilename()
-        .is("/surveys/" + surveyId + "/" + surveyId + "_responserate_en"));
+        .is("/surveys/" + surveyId + "/" + surveyId + "_responserate_en.svg"));
     this.operations.delete(queryEn);
   }
 }

@@ -55,7 +55,18 @@
                             <span style="font-weight: bold;">{{'variable-management.detail.input-filter' | translate }}
                                 ({{variable.filterDetails.expressionLanguage}}):
                             </span>
-                            <div hljs hljs-language="{{variable.filterDetails.expressionLanguage}}" hljs-source="variable.filterDetails.expression" style="margin-top: 0.5em;"></div>
+                            <div class="fdz-overlay-outer-box">
+                              <div hljs hljs-language="{{variable.filterDetails.expressionLanguage}}" hljs-source="variable.filterDetails.expression" style="margin-top: 0.5em;"></div>
+                              <div class="fdz-overlay-inner-box">
+                                <md-button ng-click="openSuccessCopyToClipboardToast('variable-management.log-messages.variable.filter-details-success-copy-to-clipboard')" class="md-icon-button md-primary" ngclipboard data-clipboard-text="{{variable.filterDetails.expression}}" aria-label="{{'variable-management.detail.button.aria-label.copy-to-clipboard' | translate}}">
+                                  <md-icon md-font-library="material-icons">content_copy</md-icon>
+                                  <md-tooltip md-direction="top">
+                                    {{'variable-management.detail.button.aria-label.copy-to-clipboard' | translate}}
+                                  </md-tooltip>
+                                </md-button>
+                              </div>
+                            </div>
+
                         </section>
                     </md-card-content>
                 </md-card>
@@ -71,14 +82,14 @@
                           <md-icon md-svg-src="/assets/images/icons/study.svg" style="margin-top:0px; margin-right:4px;"></md-icon>
                           <div layout="row" layout-sm="column" layout-xs="column">
                             <span  style="margin-right:3px;">{{'study-management.detail.study' | translate }}:</span>
-                            <a ui-sref="studyDetail({id:study.id})">{{study.title}}</a>
+                            <a ui-sref="studyDetail({id:study.id})" class="fdz-truncate-string" style="width: 250px;">{{study.title}}</a>
                           </div>
                         </section>
                         <section ng-if="question" style="margin-bottom: 0.5em;" layout="row">
                           <md-icon md-svg-src="/assets/images/icons/question.svg" style="margin-top:0px; margin-right:4px;"></md-icon>
                           <div layout="row" layout-sm="column" layout-xs="column">
                             <span  style="margin-right:3px;">{{'question-management.detail.question' | translate }}:</span>
-                            <a ui-sref="questionDetail({id:question.id})">{{question.number}} {{question.questionText}}</a>
+                            <a ui-sref="questionDetail({id:question.id})" class="fdz-truncate-string" style="width: 250px;">{{question.number}} {{question.questionText}}</a>
                           </div>
                         </section>
                         <section style="margin-bottom: 0.5em;" layout="row">
@@ -290,8 +301,7 @@
                             <div class="fdz-overlay-outer-box">
                               <div hljs hljs-source="variable.generationDetails.rule" hljs-language="{{variable.generationDetails.ruleExpressionLanguage}}" style="margin-top: 0.5em;" class="fdz-code-container" ng-class="{'fdz-hidden-code': generationCodeToggleFlag}"></div>
                               <div class="fdz-overlay-inner-box">
-                                <md-card layout="row" style="background: #f8f8f8;">
-                                <md-button ng-click="openSuccessCopyToClipboardToast()" class="md-icon-button md-primary" ngclipboard data-clipboard-text="{{variable.generationDetails.rule}}" aria-label="{{'variable-management.detail.button.aria-label.copy-to-clipboard' | translate}}">
+                                <md-button ng-click="openSuccessCopyToClipboardToast('variable-management.log-messages.variable.generation-details-rule-success-copy-to-clipboard')" class="md-icon-button md-primary" ngclipboard data-clipboard-text="{{variable.generationDetails.rule}}" aria-label="{{'variable-management.detail.button.aria-label.copy-to-clipboard' | translate}}">
                                   <md-icon md-font-library="material-icons">content_copy</md-icon>
                                   <md-tooltip md-direction="top">
                                     {{'variable-management.detail.button.aria-label.copy-to-clipboard' | translate}}
@@ -306,7 +316,6 @@
                                     </md-tooltip>
                                   </div>
                                 </md-button>
-                              </md-card>
                               </div>
                             </div>
                           </section>
