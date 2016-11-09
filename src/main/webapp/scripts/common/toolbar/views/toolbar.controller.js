@@ -2,13 +2,9 @@
 
 angular.module('metadatamanagementApp').controller(
   'ToolbarController',
-  function($scope, $state, Auth, Principal, $mdSidenav, Language, $mdMedia,
-    ShoppingCartService) {
+  function($scope, $state, Auth, Principal, $mdSidenav, Language, $mdMedia) {
     $scope.isAuthenticated = Principal.isAuthenticated;
-    $scope.itemsInBasket = ShoppingCartService.getShoppingCart().length;
-    $scope.$on('itemsCount', function(event, args) {
-      $scope.itemsInBasket = args;
-    });
+
     //Set Languages
     $scope.changeLanguage = function(languageKey) {
       Language.setCurrent(languageKey);
@@ -30,11 +26,6 @@ angular.module('metadatamanagementApp').controller(
     //Register function
     $scope.register = function() {
       $state.go('register');
-    };
-
-    //Basket function
-    $scope.basket = function() {
-      $state.go('basket');
     };
 
     //Toggle Function

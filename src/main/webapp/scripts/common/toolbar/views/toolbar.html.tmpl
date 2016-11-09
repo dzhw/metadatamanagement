@@ -5,14 +5,26 @@
             <md-icon md-font-set="material-icons">menu</md-icon>
         </md-button>
         <span class="md-headline fdz-truncate-string" flex>{{pageTitle | translate }}</span>
-        <md-button  id="changeLanguageToEn" aria-label="{{'global.toolbar.buttons.change-language' | translate}}" class="md-primary md-raised md-hue-1" ng-class="{'md-icon-button': $mdMedia('xs')}" ng-click="changeLanguage('en')" ng-if="currentLanguage!='en'">
-          <md-tooltip>
-              {{'global.toolbar.buttons.change-language' | translate}}
-          </md-tooltip>
+        <md-button
+            id="changeLanguageToEn"
+            aria-label="{{'global.toolbar.buttons.change-language' | translate}}"
+            class="md-primary md-raised md-hue-1"
+            ng-class="{'md-icon-button': $mdMedia('xs')}"
+            ng-click="changeLanguage('en')"
+            ng-if="currentLanguage!='en'">
+            <md-tooltip>
+                {{'global.toolbar.buttons.change-language' | translate}}
+            </md-tooltip>
             <md-icon md-font-set="material-icons">language</md-icon>
             <span hide-xs>English</span>
         </md-button>
-        <md-button id="changeLanguageToDe" aria-label="{{'global.toolbar.buttons.change-language' | translate}}" class="md-primary md-raised md-hue-1" ng-class="{'md-icon-button': $mdMedia('xs')}" ng-click="changeLanguage('de')" ng-if="currentLanguage!='de'">
+        <md-button
+            id="changeLanguageToDe"
+            aria-label="{{'global.toolbar.buttons.change-language' | translate}}"
+            class="md-primary md-raised md-hue-1"
+            ng-class="{'md-icon-button': $mdMedia('xs')}"
+            ng-click="changeLanguage('de')"
+            ng-if="currentLanguage!='de'">
             <md-tooltip>
                 {{'global.toolbar.buttons.change-language' | translate}}
             </md-tooltip>
@@ -46,12 +58,5 @@
                 <span hide-xs data-translate="global.toolbar.buttons.register">Register</span>
             </md-button>
         </div>
-            <md-button id="basket" aria-label="Warenkorb" class="md-primary md-raised md-hue-1" ng-class="{'md-icon-button': $mdMedia('xs')}" ng-click="basket()">
-                <md-tooltip>
-                  Warenkorb
-                </md-tooltip>
-                <md-icon md-svg-src="/assets/images/icons/basket.svg"></md-icon>
-                <span hide-xs>{{'global.menu.notepad' | translate }} ({{itemsInBasket || 0}})</span>
-            </md-button>
-        </div>
+    </div>
 </md-toolbar>
