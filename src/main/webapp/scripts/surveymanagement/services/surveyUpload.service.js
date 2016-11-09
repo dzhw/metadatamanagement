@@ -16,10 +16,12 @@ angular.module('metadatamanagementApp').service('SurveyUploadService', function(
     if (uploadSurveyCount === surveys.length) {
       ElasticSearchAdminService.processUpdateQueue().finally(
         function() {
+          var job = JobLoggingService.getCurrentJob();
           JobLoggingService.finish(
             'survey-management.log-messages.survey.upload-terminated', {
-              total: JobLoggingService.getCurrentJob().total,
-              errors: JobLoggingService.getCurrentJob().errors
+              totalSurveys: job.getCounts('survey').total,
+              totalImages: job.getCounts('image').total,
+              totalErrors: JobLoggingService.getCurrentJob().errors
             });
           $rootScope.$broadcast('upload-completed');
         });
@@ -33,7 +35,8 @@ angular.module('metadatamanagementApp').service('SurveyUploadService', function(
           message: 'survey-management.log-messages.survey.missing-id',
           messageParams: {
             index: index + 1
-          }
+          },
+          objectType: 'survey'
         });
         uploadSurveyCount++;
         return upload(); //Start next iteration of uploading a survey
@@ -42,6 +45,9 @@ angular.module('metadatamanagementApp').service('SurveyUploadService', function(
         var survey = surveys[uploadSurveyCount];
         //Upload Survey
         survey.$save().then(function() {
+            JobLoggingService.success({
+              objectType: 'survey'
+            });
             //Get ImageNames of all images as an array
             var imageKeys = Object.keys(images);
             imageKeys.forEach(function(imageName) {
@@ -52,7 +58,9 @@ angular.module('metadatamanagementApp').service('SurveyUploadService', function(
               //TODO Sequence Chain
               SurveyImageUploadService.uploadImage(images[imageName], survey.id)
                 .then(function(uploadedImage) {
-                    JobLoggingService.success();
+                    JobLoggingService.success({
+                      objectType: 'image'
+                    });
                     return uploadedImage;
                   },
                   function(error) {
@@ -63,7 +71,8 @@ angular.module('metadatamanagementApp').service('SurveyUploadService', function(
                           'survey.unable-to-upload-image-file',
                         messageParams: {
                           file: images[imageName]
-                        }
+                        },
+                        objectType: 'image'
                       });
                     }
                     return $q.reject(
@@ -74,7 +83,6 @@ angular.module('metadatamanagementApp').service('SurveyUploadService', function(
           })
           //Everything went well. Start uploading next survey
           .then(function() {
-            JobLoggingService.success();
             uploadSurveyCount++;
             return upload();
           }).catch(function(error) {
@@ -84,7 +92,8 @@ angular.module('metadatamanagementApp').service('SurveyUploadService', function(
             JobLoggingService.error({
               message: errorMessages.message,
               messageParams: errorMessages.translationParams,
-              subMessages: errorMessages.subMessages
+              subMessages: errorMessages.subMessages,
+              objectType: 'survey'
             });
             uploadSurveyCount++;
             return upload();

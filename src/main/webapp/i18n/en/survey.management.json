@@ -7,7 +7,7 @@
         "missing-id": "Survey {{ index }} does not contain a RDC-ID and has not been saved!",
         "unable-to-upload-image-file": "Image file '{{ file }}' could not be uploaded!",
         "unable-to-read-image-file": "Image file '{{ file }}' could not be read!",
-        "upload-terminated": "Finished upload of {{ total }} Surveys incl. Attachments with {{ errors }} errors.",
+        "upload-terminated": "Finished upload of {{ totalSurveys }} Surveys and {{ totalImages }} Images with {{ totalErrors }} errors.",
         "unable-to-delete": "The Surveys could not be deleted!",
         "cancelled": "Surveys upload cancelled!"
       }
