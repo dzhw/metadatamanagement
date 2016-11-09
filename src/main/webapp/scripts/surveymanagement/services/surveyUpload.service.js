@@ -18,10 +18,8 @@ angular.module('metadatamanagementApp').service('SurveyUploadService', function(
         function() {
           JobLoggingService.finish(
             'survey-management.log-messages.survey.upload-terminated', {
-              total: JobLoggingService.getCurrentJob()
-                .total,
-              errors: JobLoggingService.getCurrentJob()
-                .errors
+              total: JobLoggingService.getCurrentJob().total,
+              errors: JobLoggingService.getCurrentJob().errors
             });
           $rootScope.$broadcast('upload-completed');
         });
@@ -50,16 +48,13 @@ angular.module('metadatamanagementApp').service('SurveyUploadService', function(
               if (imageName.indexOf(survey.id) === -1) {
                 return;
               }
-              SurveyImageUploadService.uploadImage(
-                  images[imageName], survey.id)
+              SurveyImageUploadService.uploadImage(images[imageName], survey.id)
                 .then(function(uploadedImage) {
                     JobLoggingService.success();
                     return uploadedImage;
                   },
                   function(error) {
-                    if (error !==
-                      'previouslyHandledError'
-                    ) {
+                    if (error !== 'previouslyHandledError') {
                       //image file read error
                       JobLoggingService.error({
                         message: 'survey-management.log-messages.' +
@@ -106,27 +101,22 @@ angular.module('metadatamanagementApp').service('SurveyUploadService', function(
     //Delete all old Surveys by Project Id
     SurveyDeleteResource.deleteByDataAcquisitionProjectId({
       dataAcquisitionProjectId: dataAcquisitionProjectId
-    }).$promise.then(
+    }).$promise
+    .then(
       //After deleting read the excel file for survey information
       function() {
         files.forEach(function(file) {
           if (file.name === 'surveys.xlsx') {
-            ExcelReaderService.readFileAsync(
-                file)
+            ExcelReaderService.readFileAsync(file)
               //Save survey information in an array
               .then(function(rawSurveys) {
-                surveys =
-                  SurveyBuilderService
-                  .getSurveys(
-                    rawSurveys,
-                    dataAcquisitionProjectId
-                  );
+                surveys = SurveyBuilderService
+                  .getSurveys(rawSurveys, dataAcquisitionProjectId);
                 upload(); //Start uploading of surveys and depending images
                 //Error Handling for non readable excel file
               }, function() {
                 JobLoggingService.cancel(
-                  'global.log-messages.' +
-                  'unable-to-read-file', {
+                  'global.log-messages.unable-to-read-file', {
                     file: 'surveys.xlsx'
                   });
               });
@@ -134,17 +124,14 @@ angular.module('metadatamanagementApp').service('SurveyUploadService', function(
           //Prepare svg images for uploading
           if (file.name.endsWith('.svg')) {
             var surveyResponseName = file.name
-              .substring(0, file.name.indexOf(
-                '.svg'));
-            images[surveyResponseName] =
-              file;
+              .substring(0, file.name.indexOf('.svg'));
+            images[surveyResponseName] = file;
           }
         });
       },
       //Error Handling for non deleteable surveys
       function() {
-        JobLoggingService.cancel('survey.log-messages.' +
-          'survey.unable-to-delete');
+        JobLoggingService.cancel('survey.log-messages.survey.unable-to-delete');
       });
   };
   //Global methods
