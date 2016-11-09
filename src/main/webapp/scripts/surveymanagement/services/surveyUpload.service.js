@@ -48,43 +48,49 @@ angular.module('metadatamanagementApp').service('SurveyUploadService', function(
             JobLoggingService.success({
               objectType: 'survey'
             });
+            //Asyn Chain waits for all async uploaded images
+            var asynChain = $q.when();
+
             //Get ImageNames of all images as an array
             var imageKeys = Object.keys(images);
             imageKeys.forEach(function(imageName) {
-              if (imageName.indexOf(survey.id) === -1) {
-                return;
-              }
+              asynChain = asynChain.then(function() {
+                if (imageName.indexOf(survey.id) === -1) {
+                  return;
+                }
 
-              //TODO Sequence Chain
-              SurveyImageUploadService.uploadImage(images[imageName], survey.id)
-                .then(function(uploadedImage) {
-                    JobLoggingService.success({
-                      objectType: 'image'
-                    });
-                    return uploadedImage;
-                  },
-                  function(error) {
-                    if (error !== 'previouslyHandledError') {
-                      //image file read error
-                      JobLoggingService.error({
-                        message: 'survey-management.log-messages.' +
-                          'survey.unable-to-upload-image-file',
-                        messageParams: {
-                          file: images[imageName]
-                        },
+                //Upload Images.
+                SurveyImageUploadService.uploadImage(images[
+                    imageName], survey.id)
+                  .then(function(uploadedImage) {
+                      JobLoggingService.success({
                         objectType: 'image'
                       });
-                    }
-                    return $q.reject(
-                      'previouslyHandledError'
-                    );
-                  });
+                      return uploadedImage;
+                    },
+                    function(error) {
+                      if (error !== 'previouslyHandledError') {
+                        //image file read error
+                        JobLoggingService.error({
+                          message: 'survey-management.log-messages.' +
+                            'survey.unable-to-upload-image-file',
+                          messageParams: {
+                            file: images[imageName]
+                          },
+                          objectType: 'image'
+                        });
+                      }
+                      return $q.reject(
+                        'previouslyHandledError'
+                      );
+                    });
+              });
             });
-          })
-          //Everything went well. Start uploading next survey
-          .then(function() {
-            uploadSurveyCount++;
-            return upload();
+            //Everything went well. Start uploading next survey
+            asynChain.finally(function() {
+              uploadSurveyCount++;
+              return upload();
+            });
           }).catch(function(error) {
             //unable to save survey object
             var errorMessages = ErrorMessageResolverService
@@ -111,39 +117,41 @@ angular.module('metadatamanagementApp').service('SurveyUploadService', function(
     JobLoggingService.start('survey');
     //Delete all old Surveys by Project Id
     SurveyDeleteResource.deleteByDataAcquisitionProjectId({
-      dataAcquisitionProjectId: dataAcquisitionProjectId
-    }).$promise
-    .then(
-      //After deleting read the excel file for survey information
-      function() {
-        files.forEach(function(file) {
-          if (file.name === 'surveys.xlsx') {
-            ExcelReaderService.readFileAsync(file)
-              //Save survey information in an array
-              .then(function(rawSurveys) {
-                surveys = SurveyBuilderService
-                  .getSurveys(rawSurveys, dataAcquisitionProjectId);
-                upload(); //Start uploading of surveys and depending images
-                //Error Handling for non readable excel file
-              }, function() {
-                JobLoggingService.cancel(
-                  'global.log-messages.unable-to-read-file', {
-                    file: 'surveys.xlsx'
-                  });
-              });
-          }
-          //Prepare svg images for uploading
-          if (file.name.endsWith('.svg')) {
-            var surveyResponseName = file.name
-              .substring(0, file.name.indexOf('.svg'));
-            images[surveyResponseName] = file;
-          }
+        dataAcquisitionProjectId: dataAcquisitionProjectId
+      }).$promise
+      .then(
+        //After deleting read the excel file for survey information
+        function() {
+          files.forEach(function(file) {
+            if (file.name === 'surveys.xlsx') {
+              ExcelReaderService.readFileAsync(file)
+                //Save survey information in an array
+                .then(function(rawSurveys) {
+                  surveys = SurveyBuilderService
+                    .getSurveys(rawSurveys,
+                      dataAcquisitionProjectId);
+                  upload(); //Start uploading of surveys and depending images
+                  //Error Handling for non readable excel file
+                }, function() {
+                  JobLoggingService.cancel(
+                    'global.log-messages.unable-to-read-file', {
+                      file: 'surveys.xlsx'
+                    });
+                });
+            }
+            //Prepare svg images for uploading
+            if (file.name.endsWith('.svg')) {
+              var surveyResponseName = file.name
+                .substring(0, file.name.indexOf('.svg'));
+              images[surveyResponseName] = file;
+            }
+          });
+        },
+        //Error Handling for non deleteable surveys
+        function() {
+          JobLoggingService.cancel(
+            'survey.log-messages.survey.unable-to-delete');
         });
-      },
-      //Error Handling for non deleteable surveys
-      function() {
-        JobLoggingService.cancel('survey.log-messages.survey.unable-to-delete');
-      });
   };
   //Global methods
   return {
