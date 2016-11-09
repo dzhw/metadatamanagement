@@ -41,17 +41,6 @@ public class SurveyImageService {
   }
   
   /**
-   * This method delete an image from GridFS/MongoDB.
-   * @param relativePathWithName The path of the image which should be deleted.
-   */
-  public void deleteSurveyImage(String relativePathWithName) {
-        
-    Query query = new Query(GridFsCriteria.whereFilename()
-        .is(relativePathWithName));
-    this.operations.delete(query);
-  }
-  
-  /**
    * This method deletes all images of a survey from GridFS/MongoDB.
    * @param surveyId The id of the image to be deleted
    */

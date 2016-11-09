@@ -48,6 +48,8 @@ angular.module('metadatamanagementApp').service('SurveyUploadService', function(
               if (imageName.indexOf(survey.id) === -1) {
                 return;
               }
+
+              //TODO Sequence Chain
               SurveyImageUploadService.uploadImage(images[imageName], survey.id)
                 .then(function(uploadedImage) {
                     JobLoggingService.success();
