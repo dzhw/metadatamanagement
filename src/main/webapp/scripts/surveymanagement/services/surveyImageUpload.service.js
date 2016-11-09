@@ -2,13 +2,12 @@
 
 angular.module('metadatamanagementApp').service('SurveyImageUploadService',
   function(Upload, $q) {
-    var uploadImage = function(image, imageId, fileName) {
+    var uploadImage = function(image, imageId) {
       var deferred = $q.defer();
       Upload.upload({
         url: '/api/surveys/images',
         fields: {
           'id': imageId,
-          'filename': fileName,
           'image': image
         },
       }).success(function() {

@@ -38,11 +38,11 @@ public class SurveyImageResource {
   @RequestMapping(path = "/surveys/images", method = RequestMethod.POST)
   @Timed
   public ResponseEntity<String> uploadImage(@RequestParam("image") MultipartFile multiPartFile,
-      @RequestParam("id") String id, @RequestParam("filename") String filename) throws IOException {
+      @RequestParam("id") String id) throws IOException {
     if (!multiPartFile.isEmpty()) {
       
-      String imageName = surveyImageService.saveSurveyImage(multiPartFile.getInputStream(), 
-          id, filename, multiPartFile.getContentType());
+      String imageName = this.surveyImageService.saveSurveyImage(multiPartFile.getInputStream(), 
+          id, multiPartFile.getOriginalFilename(), multiPartFile.getContentType());
       return ResponseEntity.ok()
         .contentLength(imageName.length())
         .contentType(MediaType.TEXT_PLAIN)
