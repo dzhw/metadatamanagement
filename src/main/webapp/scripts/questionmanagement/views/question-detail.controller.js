@@ -6,7 +6,7 @@ angular.module('metadatamanagementApp')
   .controller('QuestionDetailController',
 
     function($scope, StudyReferencedResource,
-      ShoppingCartService, VariableSearchDialogService, entity, $state,
+      VariableSearchDialogService, entity, $state,
       SimpleMessageToastService, QuestionSearchResource, CleanJSObjectService,
       RelatedPublicationSearchDialogService, VariableSearchResource,
       RelatedPublicationSearchResource) {
@@ -77,11 +77,6 @@ angular.module('metadatamanagementApp')
         RelatedPublicationSearchDialogService.
         findRelatedPublications('findByQuestionId', $scope.question.id,
         $scope.counts.publicationsCount);
-      };
-      /* add new  item to localStorage */
-      $scope.addToNotepad = function() {
-        ShoppingCartService
-          .addToShoppingCart($scope.question.dataAcquisitionProjectId);
       };
 
       $scope.openSuccessCopyToClipboardToast = function() {
