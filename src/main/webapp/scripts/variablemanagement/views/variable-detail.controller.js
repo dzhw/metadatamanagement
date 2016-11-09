@@ -63,10 +63,8 @@ angular.module('metadatamanagementApp')
       findRelatedPublications('findByVariableId', $scope.variable.id,
       $scope.counts.publicationsCount);
     };
-    $scope.openSuccessCopyToClipboardToast = function() {
-      SimpleMessageToastService.openSimpleMessageToast(
-        'variable-management.log-messages.variable.' +
-        'generation-details-rule-success-copy-to-clipboard', []
+    $scope.openSuccessCopyToClipboardToast = function(message) {
+      SimpleMessageToastService.openSimpleMessageToast(message, []
       );
     };
   });

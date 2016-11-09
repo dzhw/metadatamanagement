@@ -9,7 +9,8 @@
         "unable-to-delete": "The variables could not be deleted!",
         "cancelled": "Variables upload cancelled!",
         "missing-json-file": "There is no JSON file for Variable {{ id }}!",
-        "generation-details-rule-success-copy-to-clipboard": "The Generation Rule was successfully copied into the clipboard."
+        "generation-details-rule-success-copy-to-clipboard": "The Generation Rule was successfully copied into the clipboard.",
+        "filter-details-success-copy-to-clipboard": "The Filter Expression was successfully copied into the clipboard."
       }
     },
     "home": {
