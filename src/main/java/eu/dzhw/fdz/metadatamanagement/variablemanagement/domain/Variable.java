@@ -100,7 +100,10 @@ public class Variable extends AbstractRdcDomainObject {
   @I18nStringSize(max = StringLengths.LARGE, 
       message = "variable-management.error.variable.related-question-strings.i18n-string-size")
   private I18nString relatedQuestionStrings;
+  
+  public List<String> relatedVariables;
 
+  
   /* Nested Objects */
   @Valid
   private FilterDetails filterDetails;
@@ -111,6 +114,7 @@ public class Variable extends AbstractRdcDomainObject {
   @Valid
   private Distribution distribution;
   
+  
   /* Foreign Keys */
   private String questionId;
 
@@ -120,8 +124,6 @@ public class Variable extends AbstractRdcDomainObject {
   @NotEmpty(message = "variable-management.error.variable.survey.ids.not-empty")
   private List<String> surveyIds;
   
-  public List<String> relatedVariables;
-
   /*
    * (non-Javadoc)
    *

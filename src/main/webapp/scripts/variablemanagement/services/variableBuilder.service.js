@@ -37,6 +37,7 @@ angular.module('metadatamanagementApp').service('VariableBuilderService',
           ]
         },
         sameVariablesInPanel: variableFromJson.sameVariablesInPanel,
+        relatedVariables: variableFromJson.relatedVariables,
         surveyIds: variableFromJson.surveyIds,
         dataSetIds: variableFromJson.dataSetIds,
         dataAcquisitionProjectId: dataAcquisitionProjectId,
