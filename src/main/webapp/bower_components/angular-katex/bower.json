@@ -1,0 +1,20 @@
+{
+  "name": "angular-katex",
+  "main": "./angular-katex.js",
+  "homepage": "https://github.com/tfoxy/angular-katex",
+  "dependencies": {
+    "angular": "1.x.x",
+    "katex": ">=0.4.0"
+  },
+  "devDependencies": {
+    "angular-mocks": "1.x.x"
+  },
+  "ignore": [
+    "**/*",
+    "!angular-katex.js",
+    "!angular-katex.min.js",
+    "!LICENSE"
+  ],
+  "author": "Tomás Fox <tomas.c.fox@gmail.com>",
+  "license": "MIT"
+}

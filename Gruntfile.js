@@ -75,7 +75,6 @@ module.exports = function(grunt) {
             'bower_components/bootstrap/', // Exclude Bootstrap
             // LESS as
             // we use bootstrap-sass
-            'bower_components/MathJax/',
           ],
           // remove ../webapp/bower_components/
           // from paths of injected sass files

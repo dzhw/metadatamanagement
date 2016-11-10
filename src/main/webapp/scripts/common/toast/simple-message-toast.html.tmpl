@@ -1,6 +1,9 @@
 <md-toast>
     <span translate="{{messageId}}" translate-values="messageParams"></span>
-    <md-button class="md-raised md-primary" ng-click="closeToast()" aria-label="{{search-management.buttons.close}}">
-        <span data-translate="global.buttons.close"></span>
+    <md-button aria-label="{{'global.buttons.close' | translate}}" ng-click="closeToast()">
+        <md-tooltip>
+            {{'global.buttons.close' | translate}}
+        </md-tooltip>
+        <md-icon style="color: white;" md-font-set="material-icons">close</md-icon>
     </md-button>
 </md-toast>
