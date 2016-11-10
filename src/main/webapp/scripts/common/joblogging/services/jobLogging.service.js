@@ -2,6 +2,7 @@
 
 angular.module('metadatamanagementApp').service('JobLoggingService',
   function(JobCompleteToastService, blockUI) {
+    //init a new counts object which can be used in job.countsByObjectType
     var createNewCountsByObjectType = function() {
       return {
         successes: 0,
@@ -10,8 +11,10 @@ angular.module('metadatamanagementApp').service('JobLoggingService',
       };
     };
 
+    //init the job object managed by this service
     var job = {
       state: '',
+      //return errors, successes and total for the given objectType
       getCounts: function(objectType) {
         if (objectType && this.countsByObjectType &&
             this.countsByObjectType[objectType]) {
@@ -21,9 +24,13 @@ angular.module('metadatamanagementApp').service('JobLoggingService',
         }
       }
     };
+
+    //return the current job managed by this services
     var getCurrentJob = function() {
       return job;
     };
+
+    //reset the job object holding counts and log messages
     var start = function(jobId) {
       job.id = jobId;
       job.errors = 0;
@@ -31,10 +38,14 @@ angular.module('metadatamanagementApp').service('JobLoggingService',
       job.successes = 0;
       job.logMessages = [];
       job.state = 'running';
+      //init the counts per objectType
       job.countsByObjectType = {};
       blockUI.start();
       return job;
     };
+
+    //log failing execution of a step of the current job
+    //parameters contains the message, messageParams, subMessages and objectType
     var error = function(parameters) {
       job.errors++;
       job.logMessages.push({
@@ -43,6 +54,7 @@ angular.module('metadatamanagementApp').service('JobLoggingService',
         subMessages: parameters.subMessages,
         type: 'error'
       });
+      //increase counters for the given object type
       if (parameters && parameters.objectType) {
         if (!job.countsByObjectType[parameters.objectType]) {
           job.countsByObjectType[parameters.objectType] =
@@ -53,6 +65,9 @@ angular.module('metadatamanagementApp').service('JobLoggingService',
       }
       job.total++;
     };
+
+    //log successfull execution of a step of the current job
+    //parameters contains the message, messageParams and objectType
     var success = function(parameters) {
       job.successes++;
       job.total++;
@@ -72,6 +87,8 @@ angular.module('metadatamanagementApp').service('JobLoggingService',
         job.countsByObjectType[parameters.objectType].total++;
       }
     };
+
+    //log successfull completion of the entire job
     var finish = function(finishMsg, translationParams) {
       job.state = 'finished';
       job.logMessages.push({
@@ -83,18 +100,30 @@ angular.module('metadatamanagementApp').service('JobLoggingService',
       JobCompleteToastService.openJobCompleteToast(finishMsg,
         translationParams);
     };
-    var cancel = function(cancelMsg, translationParams) {
+
+    //log cancellation of the entire job
+    var cancel = function(cancelMsg, translationParams, objectType) {
       job.state = 'cancelled';
       job.errors++;
+      job.total++;
       job.logMessages.push({
         message: cancelMsg,
         translationParams: translationParams,
         type: 'error'
       });
+      if (objectType) {
+        if (!job.countsByObjectType[objectType]) {
+          job.countsByObjectType[objectType] =
+            createNewCountsByObjectType();
+        }
+        job.countsByObjectType[objectType].errors++;
+        job.countsByObjectType[objectType].total++;
+      }
       blockUI.stop();
       JobCompleteToastService.openJobCompleteToast(cancelMsg,
         translationParams);
     };
+
     return {
       getCurrentJob: getCurrentJob,
       start: start,
