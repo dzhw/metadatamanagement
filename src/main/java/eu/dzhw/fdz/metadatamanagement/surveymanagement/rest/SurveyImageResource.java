@@ -1,6 +1,8 @@
 package eu.dzhw.fdz.metadatamanagement.surveymanagement.rest;
 
 import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
 
 import javax.inject.Inject;
 
@@ -34,16 +36,18 @@ public class SurveyImageResource {
    * @param id id of image
    * @return response
    * @throws IOException write Exception 
+   * @throws URISyntaxException write uri exception
    */
   @RequestMapping(path = "/surveys/images", method = RequestMethod.POST)
   @Timed
   public ResponseEntity<String> uploadImage(@RequestParam("image") MultipartFile multiPartFile,
-      @RequestParam("id") String id) throws IOException {
+      @RequestParam("id") String id) throws IOException, URISyntaxException {
     if (!multiPartFile.isEmpty()) {
       
       String imageName = this.surveyImageService.saveSurveyImage(multiPartFile.getInputStream(), 
           id, multiPartFile.getOriginalFilename(), multiPartFile.getContentType());
-      return ResponseEntity.ok()
+      return ResponseEntity
+        .created(new URI("/public/files" + imageName))
         .contentLength(imageName.length())
         .contentType(MediaType.TEXT_PLAIN)
         .body(imageName);

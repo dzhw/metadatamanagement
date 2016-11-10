@@ -49,12 +49,12 @@ angular.module('metadatamanagementApp').service('SurveyUploadService', function(
               objectType: 'survey'
             });
             //Asyn Chain waits for all async uploaded images
-            var asynChain = $q.when();
+            var asyncChain = $q.when();
 
             //Get ImageNames of all images as an array
             var imageKeys = Object.keys(images);
             imageKeys.forEach(function(imageName) {
-              asynChain = asynChain.then(function() {
+              asyncChain = asyncChain.then(function() {
                 if (imageName.indexOf(survey.id) === -1) {
                   return;
                 }
@@ -62,11 +62,10 @@ angular.module('metadatamanagementApp').service('SurveyUploadService', function(
                 //Upload Images.
                 SurveyImageUploadService.uploadImage(images[
                     imageName], survey.id)
-                  .then(function(uploadedImage) {
+                  .then(function() {
                       JobLoggingService.success({
                         objectType: 'image'
                       });
-                      return uploadedImage;
                     },
                     function(error) {
                       if (error !== 'previouslyHandledError') {
@@ -87,7 +86,7 @@ angular.module('metadatamanagementApp').service('SurveyUploadService', function(
               });
             });
             //Everything went well. Start uploading next survey
-            asynChain.finally(function() {
+            asyncChain.finally(function() {
               uploadSurveyCount++;
               return upload();
             });

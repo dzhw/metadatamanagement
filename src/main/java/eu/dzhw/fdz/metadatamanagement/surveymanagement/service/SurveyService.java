@@ -66,6 +66,7 @@ public class SurveyService {
    */
   @HandleAfterDelete
   public void onSurveyDeleted(Survey survey) {
+    this.imageService.deleteAllSurveyImagesById(survey.getId());
     elasticsearchUpdateQueueService.enqueue(
         survey.getId(), 
         ElasticsearchType.surveys, 
