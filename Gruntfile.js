@@ -413,7 +413,8 @@ module.exports = function(grunt) {
             flatten: true,
             cwd: 'src/main/webapp',
             dest: '<%= yeoman.dist %>/assets/fonts',
-            src: ['bower_components/bootstrap/fonts/*.*']
+            src: ['bower_components/bootstrap/fonts/*.*',
+            'bower_components/katex/dist/fonts/*.*']
           }]
         },
         dist: {
