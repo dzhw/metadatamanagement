@@ -163,9 +163,30 @@ public class UnitTestCreateDomainObjectUtils {
     subDataSets.add(new SubDataSetBuilder().withName(projectId + "-ds1")
         .withNumberOfAnalyzedVariables(1)
         .withNumberOfObservations(1)
-        .withAccessWay(AccessWays.DOWNLOAD_SUF)
+        .withAccessWay(AccessWays.DOWNLOAD_SUF) 
         .withDescription(new I18nStringBuilder().withDe("Description DE")
-          .withEn("Description EN")
+          .withEn("Description 3 EN")
+          .build()).build());
+    subDataSets.add(new SubDataSetBuilder().withName(projectId + "-ds2")
+        .withNumberOfAnalyzedVariables(1)
+        .withNumberOfObservations(1)
+        .withAccessWay(AccessWays.REMOTE_DESKTOP) 
+        .withDescription(new I18nStringBuilder().withDe("Description 2 DE")
+          .withEn("Description 3 EN")
+          .build()).build());
+    subDataSets.add(new SubDataSetBuilder().withName(projectId + "-ds3")
+        .withNumberOfAnalyzedVariables(1)
+        .withNumberOfObservations(1)
+        .withAccessWay(AccessWays.DOWNLOAD_CUF) 
+        .withDescription(new I18nStringBuilder().withDe("Description 3 DE")
+          .withEn("Description 3 EN")
+          .build()).build());
+    subDataSets.add(new SubDataSetBuilder().withName(projectId + "-ds4")
+        .withNumberOfAnalyzedVariables(1)
+        .withNumberOfObservations(1)
+        .withAccessWay(AccessWays.ONSITE_SUF) 
+        .withDescription(new I18nStringBuilder().withDe("Description 4 DE")
+          .withEn("Description 4 EN")
           .build()).build());
     
     return new DataSetBuilder().withSurveyIds(surveyIds)

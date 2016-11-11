@@ -102,6 +102,9 @@
         "notes": {
           "size": "The max length of the version is 2048 signs."
         }
+      },
+      "post-validation": {
+        "survey-has-an-accessway-with-was-not-found-in-sub-data-set": "The study {{id}} has an accessway ({{toBereferenzedId}}) which was not found in a Sub-Dataset."
       }
     }
   }

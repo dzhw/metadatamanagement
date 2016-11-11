@@ -9,6 +9,7 @@ import javax.inject.Inject;
 import org.springframework.stereotype.Service;
 
 import eu.dzhw.fdz.metadatamanagement.datasetmanagement.domain.DataSet;
+import eu.dzhw.fdz.metadatamanagement.datasetmanagement.domain.SubDataSet;
 import eu.dzhw.fdz.metadatamanagement.datasetmanagement.repository.DataSetRepository;
 import eu.dzhw.fdz.metadatamanagement.instrumentmanagement.domain.Instrument;
 import eu.dzhw.fdz.metadatamanagement.instrumentmanagement.repository.InstrumentRepository;
@@ -16,6 +17,7 @@ import eu.dzhw.fdz.metadatamanagement.projectmanagement.rest.dto.PostValidationM
 import eu.dzhw.fdz.metadatamanagement.questionmanagement.domain.Question;
 import eu.dzhw.fdz.metadatamanagement.questionmanagement.repository.QuestionRepository;
 import eu.dzhw.fdz.metadatamanagement.questionmanagement.service.QuestionImageService;
+import eu.dzhw.fdz.metadatamanagement.studymanagement.domain.Study;
 import eu.dzhw.fdz.metadatamanagement.studymanagement.repository.StudyRepository;
 import eu.dzhw.fdz.metadatamanagement.surveymanagement.repository.SurveyRepository;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.Variable;
@@ -63,6 +65,11 @@ public class PostValidationService {
   public List<PostValidationMessageDto> postValidate(String dataAcquisitionProjectId) {
 
     List<PostValidationMessageDto> errors = new ArrayList<>();
+    
+    //Check Study
+    List<Study> studies = 
+        this.studyRepository.findByDataAcquisitionProjectId(dataAcquisitionProjectId);
+    errors = this.postValidateStudies(studies, errors);
 
     // Check questions
     List<Question> questions =
@@ -93,6 +100,76 @@ public class PostValidationService {
 
     return errors;
   }
+  
+  
+  /**
+   * This method checks all potential issues for study by post-validation.
+   * @param studies All studies of a project.
+   * @param errors The list of known errors.
+   * @return The updated list of errors.
+   */
+  private List<PostValidationMessageDto> postValidateStudies(List<Study> studies,
+      List<PostValidationMessageDto> errors) {
+    
+    
+    //check for all studies
+    for (Study study : studies) {
+      
+      //Check all AccessWays (if there some saved)
+      if (study.getAccessWays().size() > 0) {
+        List<DataSet> dataSets = 
+            this.dataSetRepository.findByDataAcquisitionProjectId(study.getId());
+        
+        boolean found = false;
+        List<String> notFoundAccessWays = new ArrayList<>();
+        for (String accessWay : study.getAccessWays()) {
+          found = false; //Next Accessway is found yet
+          for (DataSet dataSet : dataSets) {
+            for (SubDataSet subDataSet : dataSet.getSubDataSets()) {
+              if (subDataSet.getAccessWay().equals(accessWay)) {
+                found = true;
+                break;
+              }
+              
+              //Access Way from study was found in SubDataSet
+              if (found) {
+                break;
+              }
+            } //END FOR SUBDATASET
+            
+            //Access Way from study was found in SubDataSet, break for-DataSet too
+            if (found) {
+              break;
+            }
+          } //END FOR DATASET
+          
+          //check if no AccessWay was found.
+          if (!found) {
+            notFoundAccessWays.add(accessWay);
+          } 
+        } // END FOR ACCESSWAY
+        
+        //The last found is true? All Access Ways was found!
+        //Found is false, min one AccessWay was found
+        if (notFoundAccessWays.size() > 0) {
+          
+          for (String notfoundAccessWay : notFoundAccessWays) {
+            String[] information = {study.getId(), notfoundAccessWay};
+            errors.add(new PostValidationMessageDto("question-management.error.post-validation."
+                + "survey-has-an-accessway-with-was-not-found-in-"
+                + "sub-data-set", Arrays.asList(information)));
+          }
+        }
+        
+      }
+      
+    }
+    
+    
+    return errors;
+  }
+
+
 
   /**
    * This method checks all foreign keys and references within questions to other domain
