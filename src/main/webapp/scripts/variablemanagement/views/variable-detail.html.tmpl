@@ -78,18 +78,16 @@
                     </md-card-header>
                     <md-divider></md-divider>
                     <md-card-content layout="column" layout-align="center start">
-                        <section style="margin-bottom: 0.5em;" layout="row">
-                          <md-icon md-svg-src="/assets/images/icons/study.svg" style="margin-top:0px; margin-right:4px;"></md-icon>
-                          <div layout="row" layout-sm="column" layout-xs="column">
-                            <span  style="margin-right:3px;">{{'study-management.detail.study' | translate }}:</span>
-                            <a ui-sref="studyDetail({id:study.id})" class="fdz-truncate-string" style="width: 250px;">{{study.title}}</a>
-                          </div>
+                        <section style="margin-bottom: 0.5em; width: 100%;" layout="row">
+                          <md-icon class="fdz-truncate-string" md-svg-src="/assets/images/icons/study.svg" style="margin-top:0px; margin-right:4px;"></md-icon>
+                          <div style="margin-right:3px;">{{'study-management.detail.study' | translate }}:</div>
+                          <a ui-sref="studyDetail({id:study.id})" class="fdz-truncate-string" flex>{{study.title}}</a>
                         </section>
                         <section ng-if="question" style="margin-bottom: 0.5em;" layout="row">
                           <md-icon md-svg-src="/assets/images/icons/question.svg" style="margin-top:0px; margin-right:4px;"></md-icon>
-                          <div layout="row" layout-sm="column" layout-xs="column">
+                          <div layout="row">
                             <span  style="margin-right:3px;">{{'question-management.detail.question' | translate }}:</span>
-                            <a ui-sref="questionDetail({id:question.id})" class="fdz-truncate-string" style="width: 250px;">{{question.number}} {{question.questionText}}</a>
+                            <a ui-sref="questionDetail({id:question.id})" class="fdz-truncate-string">{{question.number}} {{question.questionText}}</a>
                           </div>
                         </section>
                         <section style="margin-bottom: 0.5em;" layout="row">
