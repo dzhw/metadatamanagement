@@ -273,6 +273,60 @@ public class DataAcquisitionProjectPostValidationResourceTest extends AbstractTe
   }
   
   @Test
+  public void testPostValidationWithMissingSubDataAccessWays() throws IOException, Exception {
+    
+    //Arrange
+    //Project
+    DataAcquisitionProject project = UnitTestCreateDomainObjectUtils.buildDataAcquisitionProject();    
+    this.rdcProjectRepository.save(project);
+    
+    //Study (each project must have one)
+    Study study = UnitTestCreateDomainObjectUtils.buildStudy(project.getId());
+    this.studyRepository.save(study);
+    
+    //Survey
+    Survey survey = UnitTestCreateDomainObjectUtils.buildSurvey(project.getId());
+    this.surveyRepository.save(survey);
+    
+    //Variables
+    Variable variable1 = UnitTestCreateDomainObjectUtils.buildVariable(project.getId(), survey.getId());
+    variable1.setId("testProject-name1");
+    variable1.setName("name1");
+    this.variableRepository.save(variable1);    
+    Variable variable2 = UnitTestCreateDomainObjectUtils.buildVariable(project.getId(), survey.getId());
+    variable2.setId("testProject-name2");
+    variable2.setName("name2");
+    this.variableRepository.save(variable2);
+    Variable variable3 = UnitTestCreateDomainObjectUtils.buildVariable(project.getId(), survey.getId());
+    variable3.setId("testProject-name3");
+    variable3.setName("name3");
+    this.variableRepository.save(variable3);
+    
+    //DataSet
+    DataSet dataSet = UnitTestCreateDomainObjectUtils.buildDataSet(project.getId(), survey.getId());
+    dataSet.getSubDataSets().remove(3);
+    this.dataSetRepository.save(dataSet);
+    
+    //Instrument
+    Instrument instrument = UnitTestCreateDomainObjectUtils.buildInstrument(project.getId());
+    this.instrumentRepository.save(instrument);
+    
+    //Question
+    Question question = UnitTestCreateDomainObjectUtils.buildQuestion(project.getId(), instrument.getId(), 
+        survey.getId());
+    this.questionRepository.save(question);
+    this.questionId = question.getId();
+    UnitTestImageHelper.saveQuestionImage(this.questionImageService, question.getId());
+    
+
+    // Act & Assert
+    mockMvc.perform(post(API_DATA_ACQUISITION_PROJECTS_POST_VALIDATION_URI))
+      .andExpect(status().isOk())
+      .andExpect(jsonPath("$.errors", hasSize(1)))
+      .andExpect(jsonPath("$.errors[0].messageId", containsString("question-management.error.post-validation.survey-has-an-accessway-with-was-not-found-in-sub-data-set")));
+  }
+  
+  @Test
   public void testSimpleProjectForPostValidationWithWrongInformationForDataSet() throws IOException, Exception {
     
     //Arrange
