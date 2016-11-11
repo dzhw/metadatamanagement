@@ -104,7 +104,7 @@ angular.module('metadatamanagementApp').service('QuestionUploadService',
                     message: 'question-management.' +
                     'log-messages.question.not-found-image-file',
                     messageParams: {id: question.id},
-                    objectType: 'image'
+                    objectType: 'question'
                   });
                 } else {
                   questions.push(new QuestionResource(question));
