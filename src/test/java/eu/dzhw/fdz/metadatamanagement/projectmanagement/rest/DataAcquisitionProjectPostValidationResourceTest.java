@@ -23,6 +23,7 @@ import org.springframework.web.context.WebApplicationContext;
 
 import eu.dzhw.fdz.metadatamanagement.AbstractTest;
 import eu.dzhw.fdz.metadatamanagement.common.unittesthelper.util.UnitTestCreateDomainObjectUtils;
+import eu.dzhw.fdz.metadatamanagement.common.unittesthelper.util.UnitTestImageHelper;
 import eu.dzhw.fdz.metadatamanagement.datasetmanagement.domain.DataSet;
 import eu.dzhw.fdz.metadatamanagement.datasetmanagement.repository.DataSetRepository;
 import eu.dzhw.fdz.metadatamanagement.instrumentmanagement.domain.Instrument;
@@ -31,6 +32,7 @@ import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.DataAcquisitionPr
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.repository.DataAcquisitionProjectRepository;
 import eu.dzhw.fdz.metadatamanagement.questionmanagement.domain.Question;
 import eu.dzhw.fdz.metadatamanagement.questionmanagement.repository.QuestionRepository;
+import eu.dzhw.fdz.metadatamanagement.questionmanagement.service.QuestionImageService;
 import eu.dzhw.fdz.metadatamanagement.studymanagement.domain.Study;
 import eu.dzhw.fdz.metadatamanagement.studymanagement.repository.StudyRepository;
 import eu.dzhw.fdz.metadatamanagement.surveymanagement.domain.Survey;
@@ -70,8 +72,12 @@ public class DataAcquisitionProjectPostValidationResourceTest extends AbstractTe
   
   @Autowired
   private StudyRepository studyRepository;
+  
+  @Autowired QuestionImageService questionImageService;
 
   private MockMvc mockMvc;
+  
+  private String questionId;
 
   @Before
   public void setup() {
@@ -88,6 +94,9 @@ public class DataAcquisitionProjectPostValidationResourceTest extends AbstractTe
     this.instrumentRepository.deleteAll();
     this.questionRepository.deleteAll();
     this.studyRepository.deleteAll();
+    if (questionId != null) {
+      this.questionRepository.delete(questionId);
+    }
   }
   
   @Test
@@ -129,6 +138,9 @@ public class DataAcquisitionProjectPostValidationResourceTest extends AbstractTe
     Question question = UnitTestCreateDomainObjectUtils.buildQuestion(project.getId(), instrument.getId(), 
         survey.getId());
     this.questionRepository.save(question);
+    this.questionId = question.getId();
+    UnitTestImageHelper.saveQuestionImage(this.questionImageService, question.getId());
+    
     
     Study study = UnitTestCreateDomainObjectUtils.buildStudy(project.getId());    
     List<String> surveyIds = new ArrayList<>();
@@ -143,7 +155,7 @@ public class DataAcquisitionProjectPostValidationResourceTest extends AbstractTe
     // Act & Assert
     mockMvc.perform(post(API_DATA_ACQUISITION_PROJECTS_POST_VALIDATION_URI))
       .andExpect(status().isOk())
-      .andExpect(jsonPath("$.errors", hasSize(0)));//no errors      
+      .andExpect(jsonPath("$.errors", hasSize(0)));//no errors 
   }
   
   @Test
@@ -189,6 +201,8 @@ public class DataAcquisitionProjectPostValidationResourceTest extends AbstractTe
         survey.getId());
     question.getSuccessors().add("testProject-WrongQuestion");
     this.questionRepository.save(question);
+    this.questionId = question.getId();
+    UnitTestImageHelper.saveQuestionImage(this.questionImageService, question.getId());
     
 
     // Act & Assert
@@ -247,6 +261,8 @@ public class DataAcquisitionProjectPostValidationResourceTest extends AbstractTe
     Question question = UnitTestCreateDomainObjectUtils.buildQuestion(project.getId(), instrument.getId(), 
         survey.getId());    
     this.questionRepository.save(question);
+    this.questionId = question.getId();
+    UnitTestImageHelper.saveQuestionImage(this.questionImageService, question.getId());
     
 
     // Act & Assert
@@ -300,6 +316,8 @@ public class DataAcquisitionProjectPostValidationResourceTest extends AbstractTe
     Question question = UnitTestCreateDomainObjectUtils.buildQuestion(project.getId(), instrument.getId(), 
         survey.getId());    
     this.questionRepository.save(question);
+    this.questionId = question.getId();
+    UnitTestImageHelper.saveQuestionImage(this.questionImageService, question.getId());
     
     // Act & Assert
     mockMvc.perform(post(API_DATA_ACQUISITION_PROJECTS_POST_VALIDATION_URI))
@@ -348,6 +366,8 @@ public class DataAcquisitionProjectPostValidationResourceTest extends AbstractTe
     Question question = UnitTestCreateDomainObjectUtils.buildQuestion(project.getId(), instrument.getId(), 
         survey.getId());    
     this.questionRepository.save(question);
+    this.questionId = question.getId();
+    UnitTestImageHelper.saveQuestionImage(this.questionImageService, question.getId());
     
 
     // Act & Assert

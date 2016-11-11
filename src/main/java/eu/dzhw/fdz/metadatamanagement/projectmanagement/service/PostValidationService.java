@@ -15,6 +15,7 @@ import eu.dzhw.fdz.metadatamanagement.instrumentmanagement.repository.Instrument
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.rest.dto.PostValidationMessageDto;
 import eu.dzhw.fdz.metadatamanagement.questionmanagement.domain.Question;
 import eu.dzhw.fdz.metadatamanagement.questionmanagement.repository.QuestionRepository;
+import eu.dzhw.fdz.metadatamanagement.questionmanagement.service.QuestionImageService;
 import eu.dzhw.fdz.metadatamanagement.studymanagement.repository.StudyRepository;
 import eu.dzhw.fdz.metadatamanagement.surveymanagement.repository.SurveyRepository;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.Variable;
@@ -49,6 +50,9 @@ public class PostValidationService {
   
   @Inject
   private StudyRepository studyRepository;
+  
+  @Inject
+  private QuestionImageService questionImageService;
 
   /**
    * This method handels the complete post validation of a project.
@@ -124,6 +128,13 @@ public class PostValidationService {
                 + "post-validation.question-has-invalid-successor", Arrays.asList(information)));
           }
         }
+      }
+      
+      //check the image for question
+      if (this.questionImageService.findQuestionImage(question.getId()) == null) {
+        String[] information = {question.getId()};
+        errors.add(new PostValidationMessageDto("question-management.error."
+            + "post-validation.question-has-no-image", Arrays.asList(information)));
       }
     }
 

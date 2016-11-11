@@ -9,6 +9,7 @@ import org.springframework.data.mongodb.gridfs.GridFsCriteria;
 import org.springframework.data.mongodb.gridfs.GridFsOperations;
 import org.springframework.stereotype.Service;
 
+import com.mongodb.gridfs.GridFSDBFile;
 import com.mongodb.gridfs.GridFSFile;
 
 /**
@@ -35,6 +36,17 @@ public class QuestionImageService {
         "/questions/" + questionId, contentType);
     gridFsFile.validate();
     return gridFsFile.getFilename();
+  }
+  
+  /**
+   * This method  finds an image from GridFS/MongoDB. If no image was found, it returns by default
+   * a null value.
+   * @param questionId The id of a question
+   */
+  public GridFSDBFile findQuestionImage(String questionId) {
+    Query query = new Query(GridFsCriteria.whereFilename()
+        .is("/questions/" + questionId));
+    return this.operations.findOne(query);
   }
   
   /**

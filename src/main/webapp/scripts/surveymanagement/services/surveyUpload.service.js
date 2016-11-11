@@ -129,13 +129,14 @@ angular.module('metadatamanagementApp').service('SurveyUploadService', function(
                   surveys = SurveyBuilderService
                     .getSurveys(rawSurveys,
                       dataAcquisitionProjectId);
-                  upload(); //Start uploading of surveys and depending images
                   //Error Handling for non readable excel file
                 }, function() {
                   JobLoggingService.cancel(
                     'global.log-messages.unable-to-read-file', {
                       file: 'surveys.xlsx'
                     });
+                }).finally(function() {
+                  upload(); //Start uploading of surveys and depending images
                 });
             }
             //Prepare svg images for uploading
