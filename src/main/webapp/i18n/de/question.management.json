@@ -102,7 +102,8 @@
         "question-has-invalid-instrument-id": "Die Frage {{id}} referenziert auf einen unbekannten Fragebogen ({{toBereferenzedId}}).",
         "question-has-invalid-successor": "Die Frage {{id}} referenziert auf eine unbekannte Nachfolgefrage ({{toBereferenzedId}}).",
         "question-has-invalid-survey-id": "Die Frage {{id}} referenziert auf einen unbekannte Erhebung ({{toBereferenzedId}}).",
-        "non-unique-question-number-in-instrument": "Die Frage {{id}} mit der Nummer {{additionalId}} ist nicht eindeutig innerhalb des Instruments {{toBereferenzedId}}."
+        "non-unique-question-number-in-instrument": "Die Frage {{id}} mit der Nummer {{additionalId}} ist nicht eindeutig innerhalb des Instruments {{toBereferenzedId}}.",
+        "question-has-no-image": "Bei der Frage {{id}} kann kein dazugehöriges Bild gefunden werden."
       }
     }
   }

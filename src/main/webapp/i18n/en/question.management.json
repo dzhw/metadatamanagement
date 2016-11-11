@@ -11,7 +11,8 @@
         "not-found-image-file": "There is no image for the question with RDC-ID {{ id }}!",
         "unable-to-upload-image-file": "Image file '{{ file }}' could not be uploaded!",
         "unable-to-read-image-file": "Image file '{{ file }}' could not be read!",
-        "technical-representation-success-copy-to-clipboard": "The Technical Representation was successfully copied into the clipboard."
+        "technical-representation-success-copy-to-clipboard": "The Technical Representation was successfully copied into the clipboard.",
+        "question-has-no-image": "No image was found for the question {{id}}."
       }
     },
     "home": {
