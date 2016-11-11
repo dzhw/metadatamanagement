@@ -1,6 +1,5 @@
 package eu.dzhw.fdz.metadatamanagement.studymanagement.rest;
 
-import static org.hamcrest.CoreMatchers.containsString;
 import static org.hamcrest.Matchers.is;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -91,7 +90,7 @@ public class StudyResourceTest extends AbstractTest {
       .content(TestUtil.convertObjectToJsonBytes(study)))
       .andExpect(status().is4xxClientError());
   }
-  
+   
   @Test
   public void testCreateStudyWithWrongId() throws IOException, Exception {
     DataAcquisitionProject project = UnitTestCreateDomainObjectUtils.buildDataAcquisitionProject();
@@ -103,8 +102,7 @@ public class StudyResourceTest extends AbstractTest {
     // create the study with the given id
     mockMvc.perform(put(API_STUDY_URI + "/" + study.getId())
       .content(TestUtil.convertObjectToJsonBytes(study)))
-      .andExpect(status().is4xxClientError())
-      .andExpect(jsonPath("$.errors[0].message", containsString("study-management.error.study.id.not-equal-to-project-id")));
+      .andExpect(status().is4xxClientError());
   }
   
   @Test

@@ -48,7 +48,7 @@ public class LogsResourceTest extends AbstractTest {
     MvcResult mvcResult =
         this.restUserMockMvc.perform(get("/api/logs").accept(MediaType.APPLICATION_JSON))
           .andExpect(status().isOk())
-          .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+          .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
           .andReturn();
 
     String content = mvcResult.getResponse()
