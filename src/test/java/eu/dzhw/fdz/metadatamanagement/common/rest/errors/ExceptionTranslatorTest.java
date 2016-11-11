@@ -12,8 +12,11 @@ import static org.mockito.Mockito.when;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.inject.Inject;
+
 import org.junit.Test;
 import org.mockito.Mockito;
+import org.springframework.context.MessageSource;
 import org.springframework.core.MethodParameter;
 import org.springframework.dao.ConcurrencyFailureException;
 import org.springframework.security.access.AccessDeniedException;
@@ -21,11 +24,6 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
-
-import eu.dzhw.fdz.metadatamanagement.common.rest.errors.CustomParameterizedException;
-import eu.dzhw.fdz.metadatamanagement.common.rest.errors.ErrorDto;
-import eu.dzhw.fdz.metadatamanagement.common.rest.errors.ExceptionTranslator;
-import eu.dzhw.fdz.metadatamanagement.common.rest.errors.ParameterizedErrorDto;
 
 /**
  * No Integration Test. No need for application Context.
@@ -35,10 +33,13 @@ import eu.dzhw.fdz.metadatamanagement.common.rest.errors.ParameterizedErrorDto;
  */
 public class ExceptionTranslatorTest {
 
+  @Inject
+  private MessageSource messageSource;
+  
   @Test
   public void testProcessConcurencyError() {
     // Arrange
-    ExceptionTranslator exceptionTranslator = new ExceptionTranslator();
+    ExceptionTranslator exceptionTranslator = new ExceptionTranslator(messageSource);
 
     // Act
     ErrorDto dto =
@@ -53,7 +54,7 @@ public class ExceptionTranslatorTest {
   @Test
   public void testProcessValidationError() {
     // Arrange
-    ExceptionTranslator exceptionTranslator = new ExceptionTranslator();
+    ExceptionTranslator exceptionTranslator = new ExceptionTranslator(messageSource);
     BindingResult bindingResult = Mockito.mock(BindingResult.class);
     List<FieldError> fieldErrors = new ArrayList<>();
     fieldErrors.add(new FieldError("objectName", "field", "message"));
@@ -72,7 +73,7 @@ public class ExceptionTranslatorTest {
   @Test
   public void testProcessParameterizedValidationError() {
     // Arrange
-    ExceptionTranslator exceptionTranslator = new ExceptionTranslator();
+    ExceptionTranslator exceptionTranslator = new ExceptionTranslator(messageSource);
 
     // Act
     ParameterizedErrorDto dto = exceptionTranslator
@@ -87,7 +88,7 @@ public class ExceptionTranslatorTest {
   @Test
   public void testProcessAccessDeniedExcpetion() {
     // Arrange
-    ExceptionTranslator exceptionTranslator = new ExceptionTranslator();
+    ExceptionTranslator exceptionTranslator = new ExceptionTranslator(messageSource);
 
     // Act
     ErrorDto dto =
@@ -102,7 +103,7 @@ public class ExceptionTranslatorTest {
   @Test
   public void testProcessMethodNotSupportedException() {
     // Arrange
-    ExceptionTranslator exceptionTranslator = new ExceptionTranslator();
+    ExceptionTranslator exceptionTranslator = new ExceptionTranslator(messageSource);
 
     // Act
     ErrorDto dto = exceptionTranslator.processMethodNotSupportedException(

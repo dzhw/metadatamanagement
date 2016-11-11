@@ -2,7 +2,11 @@ package eu.dzhw.fdz.metadatamanagement.common.rest.errors;
 
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.MessageSource;
+import org.springframework.context.support.MessageSourceAccessor;
 import org.springframework.dao.ConcurrencyFailureException;
+import org.springframework.data.rest.core.RepositoryConstraintViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.security.access.AccessDeniedException;
@@ -21,6 +25,13 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 @ControllerAdvice
 public class ExceptionTranslator {
 
+  private MessageSourceAccessor messageSourceAccessor;
+  
+  @Autowired
+  public ExceptionTranslator(MessageSource messageSource) {
+    this.messageSourceAccessor = new MessageSourceAccessor(messageSource);
+  }
+  
   @ExceptionHandler(ConcurrencyFailureException.class)
   @ResponseStatus(HttpStatus.CONFLICT)
   @ResponseBody
@@ -90,5 +101,21 @@ public class ExceptionTranslator {
       errorMessage = exception.getLocalizedMessage();
     }
     return new JsonParsingError(errorMessage);
+  }
+  
+  /**
+   * Handles {@link RepositoryConstraintViolationException}s by returning {@code 400 Bad Request}.
+   * Introduces a custom dto for validation errors of spring data rest repositories.
+   * This is necessary due to issue #706. 
+   * @param exception the exception to handle.
+   * @return 400 bad request
+   */
+  @ExceptionHandler
+  @ResponseBody
+  @ResponseStatus(HttpStatus.BAD_REQUEST)
+  CustomRepositoryConstraintViolationExceptionMessage handleRepositoryConstraintViolationException(
+          RepositoryConstraintViolationException exception) {
+    return new CustomRepositoryConstraintViolationExceptionMessage(
+        exception, messageSourceAccessor);
   }
 }
