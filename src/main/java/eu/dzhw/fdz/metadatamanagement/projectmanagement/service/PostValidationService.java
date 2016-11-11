@@ -137,7 +137,7 @@ public class PostValidationService {
             + "post-validation.question-has-no-image", Arrays.asList(information)));
       }
     }
-
+    
     return errors;
   }
 

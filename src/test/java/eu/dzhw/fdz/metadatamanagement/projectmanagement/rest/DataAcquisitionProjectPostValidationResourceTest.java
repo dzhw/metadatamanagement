@@ -95,7 +95,8 @@ public class DataAcquisitionProjectPostValidationResourceTest extends AbstractTe
     this.questionRepository.deleteAll();
     this.studyRepository.deleteAll();
     if (questionId != null) {
-      this.questionRepository.delete(questionId);
+      this.questionImageService.deleteQuestionImage(this.questionId);
+      this.questionId = null;
     }
   }
   
@@ -157,6 +158,64 @@ public class DataAcquisitionProjectPostValidationResourceTest extends AbstractTe
       .andExpect(status().isOk())
       .andExpect(jsonPath("$.errors", hasSize(0)));//no errors 
   }
+  
+  @Test
+  public void testPostValidationQuestionImageIsMissing() throws IOException, Exception {
+    
+    //Arrange
+    //Project
+    DataAcquisitionProject project = UnitTestCreateDomainObjectUtils.buildDataAcquisitionProject();    
+    this.rdcProjectRepository.save(project);
+    
+    //Survey
+    Survey survey = UnitTestCreateDomainObjectUtils.buildSurvey(project.getId());
+    this.surveyRepository.save(survey);
+    
+    //Variables
+    Variable variable1 = UnitTestCreateDomainObjectUtils.buildVariable(project.getId(), survey.getId());
+    variable1.setId("testProject-name1");
+    variable1.setName("name1");
+    this.variableRepository.save(variable1);    
+    Variable variable2 = UnitTestCreateDomainObjectUtils.buildVariable(project.getId(), survey.getId());
+    variable2.setId("testProject-name2");
+    variable2.setName("name2");
+    this.variableRepository.save(variable2);
+    Variable variable3 = UnitTestCreateDomainObjectUtils.buildVariable(project.getId(), survey.getId());
+    variable3.setId("testProject-name3");
+    variable3.setName("name3");
+    this.variableRepository.save(variable3);
+    
+    //DataSet
+    DataSet dataSet = UnitTestCreateDomainObjectUtils.buildDataSet(project.getId(), survey.getId());
+    this.dataSetRepository.save(dataSet);
+    
+    //Instrument
+    Instrument instrument = UnitTestCreateDomainObjectUtils.buildInstrument(project.getId());
+    instrument.setSurveyId(survey.getId());
+    this.instrumentRepository.save(instrument);
+    
+    //Atomic Question
+    Question question = UnitTestCreateDomainObjectUtils.buildQuestion(project.getId(), instrument.getId(), 
+        survey.getId());
+    this.questionRepository.save(question);
+    
+    Study study = UnitTestCreateDomainObjectUtils.buildStudy(project.getId());    
+    List<String> surveyIds = new ArrayList<>();
+    surveyIds.add(survey.getId());
+    List<String> instrumentIds = new ArrayList<>();
+    instrumentIds.add(instrument.getId());
+    List<String> dataSetIds = new ArrayList<>();
+    dataSetIds.add(dataSet.getId());
+    this.studyRepository.save(study);
+    
+
+    // Act & Assert
+    mockMvc.perform(post(API_DATA_ACQUISITION_PROJECTS_POST_VALIDATION_URI))
+      .andExpect(status().isOk())
+      .andExpect(jsonPath("$.errors", hasSize(1)))
+      .andExpect(jsonPath("$.errors[0].messageId", containsString("question-management.error.post-validation.question-has-no-image")));//no errors 
+  }
+  
   
   @Test
   public void testSimpleProjectForPostValidationWithWrongInformationForQuestion() throws IOException, Exception {
