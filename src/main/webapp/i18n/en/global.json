@@ -70,7 +70,8 @@
         "register": "You don't have an account yet? "
       },
       "error": {
-        "dontmatch": "The password and its confirmation do not match!"
+        "dontmatch": "The password and its confirmation do not match!",
+        "unavailable":"Unavailable!"
       },
       "validate": {
         "newpassword": {

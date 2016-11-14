@@ -60,12 +60,11 @@
                     </md-card-header>
                     <md-divider></md-divider>
                     <md-card-content layout="column" layout-align="center start">
-                        <section style="margin-bottom: 0.5em;" layout="row">
+                        <section style="margin-bottom: 0.5em; width: 100%;" layout="row">
                           <md-icon md-svg-src="/assets/images/icons/study.svg" style="margin-top:0px; margin-right:4px;"></md-icon>
-                          <div layout="row" layout-sm="column" layout-xs="column">
-                            <span  style="margin-right:3px;">{{'study-management.detail.study' | translate }}:</span>
-                            <a ui-sref="studyDetail({id:ctrl.study.id})">{{ctrl.study.title}}</a>
-                          </div>
+                          <div style="margin-right:3px;">{{'study-management.detail.study' | translate }}:</div>
+                          <div ng-if="!ctrl.study" class="fdz-truncate-string" flex>{{'global.messages.error.unavailable' | translate}}</div>
+                          <a ng-if="ctrl.study" ui-sref="studyDetail({id:ctrl.study.id})" class="fdz-truncate-string" flex>{{ctrl.study.title}}</a>
                         </section>
                         <section ng-hide="true" style="margin-bottom: 0.5em;" layout="row">
                             <md-icon md-svg-src="/assets/images/icons/instrument.svg" style="margin-top:0px; margin-right:4px;"></md-icon>

@@ -1,19 +1,21 @@
 'use strict';
 
-angular.module('metadatamanagementApp').factory('SurveySearchResource',
+angular.module('metadatamanagementApp').factory('SurveySearchService',
 function(Language, ElasticSearchClient) {
   var query = {};
-  query.index = 'metadata_' + Language.getCurrentInstantly();
   query.type = 'surveys';
   query.body = {};
   var findSurveys = function(surveyIds) {
+    query.index = 'metadata_' + Language.getCurrentInstantly();
     query.body.query = {};
     query.body.query.docs = {
       'ids': surveyIds
     };
     return ElasticSearchClient.mget(query);
   };
-  var findByProjectId = function(dataAcquisitionProjectId, from, size) {
+  var findByProjectId = function(dataAcquisitionProjectId, from, size,
+    excludSurvey) {
+    query.index = 'metadata_' + Language.getCurrentInstantly();
     query.body.from = from;
     query.body.size = size;
     query.body.query = {
@@ -23,6 +25,11 @@ function(Language, ElasticSearchClient) {
             'match_all': {}
           }
         ],
+        'must_not': {
+          'term': {
+            'id': excludSurvey || ''
+          }
+        },
         'filter': [
           {
             'term': {
@@ -34,7 +41,8 @@ function(Language, ElasticSearchClient) {
     };
     return ElasticSearchClient.search(query);
   };
-  var getCounts = function(term, value) {
+  var countBy = function(term, value) {
+    query.index = 'metadata_' + Language.getCurrentInstantly();
     query.body.query = {
       'term': {}
     };
@@ -44,6 +52,6 @@ function(Language, ElasticSearchClient) {
   return {
     findSurveys: findSurveys,
     findByProjectId: findByProjectId,
-    getCounts: getCounts
+    countBy: countBy
   };
 });

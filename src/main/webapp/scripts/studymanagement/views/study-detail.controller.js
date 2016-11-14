@@ -2,7 +2,7 @@
 
 angular.module('metadatamanagementApp')
   .controller('StudyDetailController',
-    function($scope, entity, DataSetSearchResource, SurveySearchResource,
+    function($scope, entity, DataSetSearchResource, SurveySearchService,
       QuestionSearchDialogService, CleanJSObjectService,
       RelatedPublicationSearchDialogService, QuestionSearchResource,
       RelatedPublicationSearchResource) {
@@ -12,7 +12,7 @@ angular.module('metadatamanagementApp')
 
       entity.$promise.then(function(study) {
         $scope.study = study;
-        SurveySearchResource.findByProjectId($scope.study.id)
+        SurveySearchService.findByProjectId($scope.study.id)
         .then(function(surveys) {
           if (!CleanJSObjectService.isNullOrEmpty(surveys)) {
             $scope.surveys = surveys.hits.hits;

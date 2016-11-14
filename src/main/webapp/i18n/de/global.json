@@ -70,7 +70,8 @@
         "register": "Sie haben noch keinen Zugang? "
       },
       "error": {
-        "dontmatch": "Das bestätigte Passwort entspricht nicht dem neuen Passwort!"
+        "dontmatch": "Das bestätigte Passwort entspricht nicht dem neuen Passwort!",
+        "unavailable":"Nicht vorhanden!"
       },
       "validate": {
         "newpassword": {

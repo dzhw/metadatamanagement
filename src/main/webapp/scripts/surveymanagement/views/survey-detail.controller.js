@@ -3,8 +3,8 @@
 angular.module('metadatamanagementApp')
   .controller('SurveyDetailController',
     function(entity, $state, StudySearchResource, SurveySearchDialogService,
-      DataSetSearchDialogService, $rootScope, DataSetSearchResource,
-      SurveySearchResource) {
+      DataSetSearchDialogService, Language, DataSetSearchResource,
+      SurveySearchService) {
 
       var ctrl = this;
       ctrl.survey = entity;
@@ -12,19 +12,22 @@ angular.module('metadatamanagementApp')
       entity.$promise.then(function(survey) {
         ctrl.survey = survey;
         StudySearchResource
-        .findStudy(ctrl.survey.dataAcquisitionProjectId).then(function(study) {
-            ctrl.study = study.hits.hits[0]._source;
+        .findStudy(ctrl.survey.dataAcquisitionProjectId)
+        .then(function(study) {
+            if (study.hits.hits.length > 0) {
+              ctrl.study = study.hits.hits[0]._source;
+            }
           });
         DataSetSearchResource
         .getCounts('surveyTitles',
-        ctrl.survey.title[$rootScope.currentLanguage])
+        ctrl.survey.title[Language.getCurrentInstantly()])
         .then(function(dataSetsCount) {
               ctrl.counts.dataSetsCount = dataSetsCount.count;
             });
-        SurveySearchResource
-          .getCounts('dataAcquisitionProjectId',
+        SurveySearchService
+          .countBy('dataAcquisitionProjectId',
           ctrl.survey.dataAcquisitionProjectId).then(function(surveysCount) {
-              ctrl.counts.surveysCount = surveysCount.count;
+              ctrl.counts.surveysCount = surveysCount.count - 1;
             });
       });
       ctrl.showStudy = function() {
@@ -33,7 +36,7 @@ angular.module('metadatamanagementApp')
       ctrl.showRelatedInstruments = function() {};
       ctrl.showRelatedDataSets = function() {
         DataSetSearchDialogService.findDataSets('findBySurveyTitle',
-        ctrl.survey.title[$rootScope.currentLanguage],
+        ctrl.survey.title[Language.getCurrentInstantly()],
         ctrl.counts.dataSetsCount);
       };
       ctrl.showRelatedSurveys = function() {

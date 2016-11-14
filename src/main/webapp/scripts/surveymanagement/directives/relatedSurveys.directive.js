@@ -2,7 +2,7 @@
 'use strict';
 
 angular.module('metadatamanagementApp').directive('relatedSurveys',
-    function(SurveySearchResource, blockUI) {
+    function(SurveySearchService, blockUI) {
       return {
         restrict: 'E',
         templateUrl: 'scripts/surveymanagement/directives/' +
@@ -46,7 +46,7 @@ angular.module('metadatamanagementApp').directive('relatedSurveys',
                   if (_.isArray(RelatedSurveyController.methodParams)) {
                     var searchTerms = _.chunk(RelatedSurveyController
                       .methodParams, 5);
-                    SurveySearchResource[RelatedSurveyController.methodName]
+                    SurveySearchService[RelatedSurveyController.methodName]
                     (searchTerms[this.pageToLoad])
                       .then(angular.bind(this, function(surveys) {
                         _.pullAllBy(surveys.docs, [{'found': false}], 'found');
@@ -56,7 +56,7 @@ angular.module('metadatamanagementApp').directive('relatedSurveys',
                         blockArea.stop();
                       });
                   } else {
-                    SurveySearchResource[RelatedSurveyController.methodName](
+                    SurveySearchService[RelatedSurveyController.methodName](
                     RelatedSurveyController.methodParams,
                     this.pageToLoad * 5, 5)
                     .then(angular.bind(this, function(surveys) {
