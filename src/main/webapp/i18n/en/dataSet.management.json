@@ -99,7 +99,8 @@
       },
       "post-validation": {
         "data-set-has-invalid-survey-id": "The Data Set {{id}} references an unknown Survey ({{toBereferenzedId}}).",
-        "data-set-has-invalid-variable-id": "The Data Set {{id}} references an unknown Variable ({{toBereferenzedId}})."
+        "data-set-has-invalid-variable-id": "The Data Set {{id}} references an unknown Variable ({{toBereferenzedId}}).",
+        "sub-data-set-has-an-accessway-with-which-not-found-in-study": "The Sub-Data-Set {{id}} has an accessway ({{toBereferenzedId}}) which was not found in the Study."
       }
     }
   }

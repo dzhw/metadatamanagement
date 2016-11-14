@@ -104,7 +104,7 @@
         }
       },
       "post-validation": {
-        "survey-has-an-accessway-which-was-not-found-in-sub-data-sets": "Die Studie {{id}} hat eine Zugangsweg ({{toBereferenzedId}}) aufgelistet, der nicht in Sub-Datensätzen gefunden wurde."
+        "study-has-an-accessway-which-was-not-found-in-sub-data-sets": "Die Studie {{id}} hat einen Zugangsweg ({{toBereferenzedId}}) aufgelistet, der nicht in Sub-Datensätzen gefunden wurde."
       }
     }
   }
