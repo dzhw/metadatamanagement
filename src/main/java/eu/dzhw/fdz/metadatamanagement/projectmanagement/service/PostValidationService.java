@@ -119,30 +119,20 @@ public class PostValidationService {
       boolean found = false;
       for (String accessWay : study.getAccessWays()) {
         found = false; //Next Accessway is found yet
-        for (DataSet dataSet : dataSets) {
+        dataSetLoop: for (DataSet dataSet : dataSets) {
           for (SubDataSet subDataSet : dataSet.getSubDataSets()) {
             if (subDataSet.getAccessWay().equals(accessWay)) {
               found = true;
-              break;
-            }
-            
-            //Access Way from study was found in SubDataSet
-            if (found) {
-              break;
+              break dataSetLoop;
             }
           } //END FOR SUBDATASET
-          
-          //Access Way from study was found in SubDataSet, break for-DataSet too
-          if (found) {
-            break;
-          }
         } //END FOR DATASET
         
         //check if no AccessWay was found.
         if (!found) {
           String[] information = {study.getId(), accessWay};
           errors.add(new PostValidationMessageDto("study-management.error.post-validation."
-              + "survey-has-an-accessway-which-was-not-found-in-"
+              + "study-has-an-accessway-which-was-not-found-in-"
               + "sub-data-sets", Arrays.asList(information)));
         } 
       } // END FOR ACCESSWAY

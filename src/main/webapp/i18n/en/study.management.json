@@ -104,7 +104,7 @@
         }
       },
       "post-validation": {
-        "study-has-an-accessway-with-which-not-found-in-sub-data-sets": "The study {{id}} has an accessway ({{toBereferenzedId}}) which was not found in Sub-Datasets."
+        "study-has-an-accessway-which-was-not-found-in-sub-data-sets": "The study {{id}} has an accessway ({{toBereferenzedId}}) which was not found in Sub-Datasets."
       }
     }
   }

@@ -316,10 +316,9 @@ public class DataAcquisitionProjectPostValidationResourceTest extends AbstractTe
     mockMvc.perform(post(API_DATA_ACQUISITION_PROJECTS_POST_VALIDATION_URI))
       .andExpect(status().isOk())
       .andExpect(jsonPath("$.errors", hasSize(1)))
-      .andExpect(jsonPath("$.errors[0].messageId", containsString("study-management.error.post-validation.survey-has-an-accessway-which-was-not-found-in-sub-data-sets")));
+      .andExpect(jsonPath("$.errors[0].messageId", containsString("study-management.error.post-validation.study-has-an-accessway-which-was-not-found-in-sub-data-sets")));
   }
   
-  //TODO
   @Test
   public void testPostValidationWithMissingStudyAccessWays() throws IOException, Exception {
     
