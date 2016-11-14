@@ -4,17 +4,18 @@
 angular.module('metadatamanagementApp')
   .service('SurveySearchDialogService',
     function($mdDialog) {
-      var findSurveys = function(methodName, methodParams, count) {
+      var findSurveys = function(methodName, methodParams, count, surveyId) {
         var dialogParent = angular.element(document.body);
         $mdDialog.show({
           controller: 'SurveySearchDialogController',
-          controllerAs: 'SurveySearchDialogController',
+          controllerAs: 'ctrl',
           parent: dialogParent,
           clickOutsideToClose: true,
           locals: {
             methodName: methodName,
             methodParams: methodParams,
-            count: count
+            count: count,
+            surveyId: surveyId
           },
           templateUrl: 'scripts/surveymanagement/views/' +
             'surveySearchDialog.html.tmpl',

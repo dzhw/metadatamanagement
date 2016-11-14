@@ -25,11 +25,6 @@ function(Language, ElasticSearchClient) {
             'match_all': {}
           }
         ],
-        'must_not': {
-          'term': {
-            'id': excludSurvey || ''
-          }
-        },
         'filter': [
           {
             'term': {
@@ -39,14 +34,34 @@ function(Language, ElasticSearchClient) {
         ]
       }
     };
+    if (excludSurvey) {
+      // jscs:disable
+      query.body.query.must_not = {
+        'term': {
+          'id': excludSurvey
+        }
+      };
+      // jscs:enable
+    }
+    console.log(query);
     return ElasticSearchClient.search(query);
   };
   var countBy = function(term, value) {
     query.index = 'metadata_' + Language.getCurrentInstantly();
+    query.body.query = {};
     query.body.query = {
-      'term': {}
+      'bool': {
+        'must': [
+          {
+            'match_all': {}
+          }
+        ],
+        'filter': []
+      }
     };
-    query.body.query.term[term] = value;
+    var subQuery = {'term': {}};
+    subQuery.term[term] = value;
+    query.body.query.bool.filter.push(subQuery);
     return ElasticSearchClient.count(query);
   };
   return {
