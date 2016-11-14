@@ -3090,7 +3090,7 @@
           if (value) {
             var object = { 'a': value, 'b': { 'c': value } },
                 actual = func(object),
-                expected = (typeof value == 'function' && !!value.c) ? { 'c': Foo.c } : {};
+                expected = value === Foo ? { 'c': Foo.c } : {};
 
             assert.deepEqual(actual, object);
             assert.notStrictEqual(actual, object);
@@ -15315,7 +15315,7 @@
       });
     });
 
-    QUnit.test('should return `undefined` with deep paths when `object` is nullish', function(assert) {
+    QUnit.test('should return `undefined` for deep paths when `object` is nullish', function(assert) {
       assert.expect(2);
 
       var values = [, null, undefined],
@@ -15469,7 +15469,7 @@
       });
     });
 
-    QUnit.test('should return `undefined` with deep paths when `object` is nullish', function(assert) {
+    QUnit.test('should return `undefined` for deep paths when `object` is nullish', function(assert) {
       assert.expect(2);
 
       var values = [, null, undefined],
@@ -16343,13 +16343,32 @@
 
   (function() {
     var args = toArgs(['a', 'c']),
-        object = { 'a': 1, 'b': 2, 'c': 3, 'd': 4 };
+        object = { 'a': 1, 'b': 2, 'c': 3, 'd': 4 },
+        nested = { 'a': 1, 'b': { 'c': 2, 'd': 3 } };
 
-    QUnit.test('should flatten `props`', function(assert) {
+    QUnit.test('should flatten `paths`', function(assert) {
       assert.expect(2);
 
       assert.deepEqual(_.omit(object, 'a', 'c'), { 'b': 2, 'd': 4 });
       assert.deepEqual(_.omit(object, ['a', 'd'], 'c'), { 'b': 2 });
+    });
+
+    QUnit.test('should support deep paths', function(assert) {
+      assert.expect(1);
+
+      assert.deepEqual(_.omit(nested, 'b.c'), { 'a': 1, 'b': { 'd': 3} });
+    });
+
+    QUnit.test('should coerce property names to strings', function(assert) {
+      assert.expect(1);
+
+      assert.deepEqual(_.omit({ '0': 'a' }, 0), {});
+    });
+
+    QUnit.test('should work with `arguments` objects as secondary arguments', function(assert) {
+      assert.expect(1);
+
+      assert.deepEqual(_.omit(object, args), { 'b': 2, 'd': 4 });
     });
 
     QUnit.test('should work with a primitive `object`', function(assert) {
@@ -16373,18 +16392,6 @@
         delete objectProto.a;
         assert.deepEqual(actual, {});
       });
-    });
-
-    QUnit.test('should work with `arguments` objects as secondary arguments', function(assert) {
-      assert.expect(1);
-
-      assert.deepEqual(_.omit(object, args), { 'b': 2, 'd': 4 });
-    });
-
-    QUnit.test('should coerce property names to strings', function(assert) {
-      assert.expect(1);
-
-      assert.deepEqual(_.omit({ '0': 'a' }, 0), {});
     });
   }());
 
@@ -16457,7 +16464,7 @@
       assert.deepEqual(actual, expected);
     });
 
-    QUnit.test('`_.' + methodName + '` should include symbol properties', function(assert) {
+    QUnit.test('`_.' + methodName + '` should include symbols', function(assert) {
       assert.expect(2);
 
       function Foo() {
@@ -16480,7 +16487,7 @@
       }
     });
 
-    QUnit.test('`_.' + methodName + '` should create an object with omitted symbol properties', function(assert) {
+    QUnit.test('`_.' + methodName + '` should create an object with omitted symbols', function(assert) {
       assert.expect(6);
 
       function Foo() {
@@ -17574,13 +17581,32 @@
 
   (function() {
     var args = toArgs(['a', 'c']),
-        object = { 'a': 1, 'b': 2, 'c': 3, 'd': 4 };
+        object = { 'a': 1, 'b': 2, 'c': 3, 'd': 4 },
+        nested = { 'a': 1, 'b': { 'c': 2, 'd': 3 } };
 
-    QUnit.test('should flatten `props`', function(assert) {
+    QUnit.test('should flatten `paths`', function(assert) {
       assert.expect(2);
 
       assert.deepEqual(_.pick(object, 'a', 'c'), { 'a': 1, 'c': 3 });
       assert.deepEqual(_.pick(object, ['a', 'd'], 'c'), { 'a': 1, 'c': 3, 'd': 4 });
+    });
+
+    QUnit.test('should support deep paths', function(assert) {
+      assert.expect(1);
+
+      assert.deepEqual(_.pick(nested, 'b.c'), { 'b': { 'c': 2 } });
+    });
+
+    QUnit.test('should coerce property names to strings', function(assert) {
+      assert.expect(1);
+
+      assert.deepEqual(_.pick({ '0': 'a', '1': 'b' }, 0), { '0': 'a' });
+    });
+
+    QUnit.test('should work with `arguments` objects as secondary arguments', function(assert) {
+      assert.expect(1);
+
+      assert.deepEqual(_.pick(object, args), { 'a': 1, 'c': 3 });
     });
 
     QUnit.test('should work with a primitive `object`', function(assert) {
@@ -17595,18 +17621,6 @@
       lodashStable.each([null, undefined], function(value) {
         assert.deepEqual(_.pick(value, 'valueOf'), {});
       });
-    });
-
-    QUnit.test('should work with `arguments` objects as secondary arguments', function(assert) {
-      assert.expect(1);
-
-      assert.deepEqual(_.pick(object, args), { 'a': 1, 'c': 3 });
-    });
-
-    QUnit.test('should coerce property names to strings', function(assert) {
-      assert.expect(1);
-
-      assert.deepEqual(_.pick({ '0': 'a', '1': 'b' }, 0), { '0': 'a' });
     });
   }());
 
@@ -17680,7 +17694,7 @@
       assert.deepEqual(actual, expected);
     });
 
-    QUnit.test('`_.' + methodName + '` should pick symbol properties', function(assert) {
+    QUnit.test('`_.' + methodName + '` should pick symbols', function(assert) {
       assert.expect(2);
 
       function Foo() {
@@ -17823,7 +17837,7 @@
       });
     });
 
-    QUnit.test('should return `undefined` with deep paths when `object` is nullish', function(assert) {
+    QUnit.test('should return `undefined` for deep paths when `object` is nullish', function(assert) {
       assert.expect(2);
 
       var values = [, null, undefined],
@@ -17967,7 +17981,7 @@
       });
     });
 
-    QUnit.test('should return `undefined` with deep paths when `object` is nullish', function(assert) {
+    QUnit.test('should return `undefined` for deep paths when `object` is nullish', function(assert) {
       assert.expect(2);
 
       var values = [, null, undefined],
@@ -18220,7 +18234,7 @@
       assert.deepEqual(actual, [[-2], [-2], [-1], [-1]]);
     });
 
-    QUnit.test('should work with deep paths', function(assert) {
+    QUnit.test('should support deep paths', function(assert) {
       assert.expect(3);
 
       var array = [];
@@ -19244,7 +19258,7 @@
       });
     });
 
-    QUnit.test('`_.' + methodName + '` should return `undefined` with deep paths when `object` is nullish', function(assert) {
+    QUnit.test('`_.' + methodName + '` should return `undefined` for deep paths when `object` is nullish', function(assert) {
       assert.expect(2);
 
       var values = [null, undefined],
@@ -20836,10 +20850,12 @@
     }
 
     QUnit.test('should spread arguments to `func`', function(assert) {
-      assert.expect(1);
+      assert.expect(2);
 
       var spread = _.spread(fn);
-      assert.deepEqual(spread([4, 2]), [4, 2]);
+
+      assert.deepEqual(spread([1, 2]), [1, 2]);
+      assert.deepEqual(spread([1, 2], 3), [1, 2, 3]);
     });
 
     QUnit.test('should accept a falsey `array`', function(assert) {
@@ -20857,45 +20873,36 @@
       assert.deepEqual(actual, expected);
     });
 
-    QUnit.test('should provide correct `func` arguments', function(assert) {
-      assert.expect(1);
-
-      var args;
-
-      var spread = _.spread(function() {
-        args = slice.call(arguments);
-      });
-
-      spread([4, 2], 'ignored');
-      assert.deepEqual(args, [4, 2]);
-    });
-
     QUnit.test('should work with `start`', function(assert) {
-      assert.expect(1);
+      assert.expect(2);
 
       var spread = _.spread(fn, 1);
-      assert.deepEqual(spread(1, [2, 3, 4]), [1, 2, 3, 4]);
+
+      assert.deepEqual(spread(1, [2, 3]), [1, 2, 3]);
+      assert.deepEqual(spread(1, [2, 3], 4), [1, 2, 3, 4]);
     });
 
     QUnit.test('should treat `start` as `0` for negative or `NaN` values', function(assert) {
       assert.expect(1);
 
       var values = [-1, NaN, 'a'],
-          expected = lodashStable.map(values, lodashStable.constant([1, 2, 3, 4]));
+          expected = lodashStable.map(values, lodashStable.constant([1, 2]));
 
       var actual = lodashStable.map(values, function(value) {
         var spread = _.spread(fn, value);
-        return spread([1, 2, 3, 4]);
+        return spread([1, 2]);
       });
 
       assert.deepEqual(actual, expected);
     });
 
     QUnit.test('should coerce `start` to an integer', function(assert) {
-      assert.expect(1);
+      assert.expect(2);
 
       var spread = _.spread(fn, 1.6);
+
       assert.deepEqual(spread(1, [2, 3]), [1, 2, 3]);
+      assert.deepEqual(spread(1, [2, 3], 4), [1, 2, 3, 4]);
     });
   }());
 
