@@ -19,7 +19,7 @@ public interface StudyRepository extends MongoRepository<Study, String>,
     QueryDslPredicateExecutor<Study> {
   
   @RestResource(exported = false)
-  List<Study> findByDataAcquisitionProjectId(String dataAcquisitionProjectId);
+  Study findOneByDataAcquisitionProjectId(String dataAcquisitionProjectId);
   
   @RestResource(exported = false)
   List<Study> deleteByDataAcquisitionProjectId(String dataAcquisitionProjectId);

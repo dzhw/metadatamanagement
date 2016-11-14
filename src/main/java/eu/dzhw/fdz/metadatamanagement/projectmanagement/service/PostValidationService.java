@@ -67,9 +67,9 @@ public class PostValidationService {
     List<PostValidationMessageDto> errors = new ArrayList<>();
     
     //Check Study
-    List<Study> studies = 
-        this.studyRepository.findByDataAcquisitionProjectId(dataAcquisitionProjectId);
-    errors = this.postValidateStudies(studies, errors);
+    Study study = 
+        this.studyRepository.findOneByDataAcquisitionProjectId(dataAcquisitionProjectId);
+    errors = this.postValidateStudies(study, errors);
 
     // Check questions
     List<Question> questions =
@@ -108,64 +108,55 @@ public class PostValidationService {
    * @param errors The list of known errors.
    * @return The updated list of errors.
    */
-  private List<PostValidationMessageDto> postValidateStudies(List<Study> studies,
+  private List<PostValidationMessageDto> postValidateStudies(Study study,
       List<PostValidationMessageDto> errors) {
     
-    
-    //check for all studies
-    for (Study study : studies) {
+    //Check all AccessWays (if there some saved)
+    if (study != null && study.getAccessWays().size() > 0) {
+      List<DataSet> dataSets = 
+          this.dataSetRepository.findByDataAcquisitionProjectId(study.getId());
       
-      //Check all AccessWays (if there some saved)
-      if (study.getAccessWays().size() > 0) {
-        List<DataSet> dataSets = 
-            this.dataSetRepository.findByDataAcquisitionProjectId(study.getId());
-        
-        boolean found = false;
-        List<String> notFoundAccessWays = new ArrayList<>();
-        for (String accessWay : study.getAccessWays()) {
-          found = false; //Next Accessway is found yet
-          for (DataSet dataSet : dataSets) {
-            for (SubDataSet subDataSet : dataSet.getSubDataSets()) {
-              if (subDataSet.getAccessWay().equals(accessWay)) {
-                found = true;
-                break;
-              }
-              
-              //Access Way from study was found in SubDataSet
-              if (found) {
-                break;
-              }
-            } //END FOR SUBDATASET
+      boolean found = false;
+      List<String> notFoundAccessWays = new ArrayList<>();
+      for (String accessWay : study.getAccessWays()) {
+        found = false; //Next Accessway is found yet
+        for (DataSet dataSet : dataSets) {
+          for (SubDataSet subDataSet : dataSet.getSubDataSets()) {
+            if (subDataSet.getAccessWay().equals(accessWay)) {
+              found = true;
+              break;
+            }
             
-            //Access Way from study was found in SubDataSet, break for-DataSet too
+            //Access Way from study was found in SubDataSet
             if (found) {
               break;
             }
-          } //END FOR DATASET
+          } //END FOR SUBDATASET
           
-          //check if no AccessWay was found.
-          if (!found) {
-            notFoundAccessWays.add(accessWay);
-          } 
-        } // END FOR ACCESSWAY
-        
-        //The last found is true? All Access Ways was found!
-        //Found is false, min one AccessWay was found
-        if (notFoundAccessWays.size() > 0) {
-          
-          for (String notfoundAccessWay : notFoundAccessWays) {
-            String[] information = {study.getId(), notfoundAccessWay};
-            errors.add(new PostValidationMessageDto("question-management.error.post-validation."
-                + "survey-has-an-accessway-with-was-not-found-in-"
-                + "sub-data-set", Arrays.asList(information)));
+          //Access Way from study was found in SubDataSet, break for-DataSet too
+          if (found) {
+            break;
           }
-        }
+        } //END FOR DATASET
         
-      }
+        //check if no AccessWay was found.
+        if (!found) {
+          notFoundAccessWays.add(accessWay);
+        } 
+      } // END FOR ACCESSWAY
       
+      //Found is false, min one AccessWay was found
+      if (notFoundAccessWays.size() > 0) {
+        
+        for (String notfoundAccessWay : notFoundAccessWays) {
+          String[] information = {study.getId(), notfoundAccessWay};
+          errors.add(new PostValidationMessageDto("study-management.error.post-validation."
+              + "survey-has-an-accessway-which-was-not-found-in-"
+              + "sub-data-sets", Arrays.asList(information)));
+        }
+      }
     }
-    
-    
+      
     return errors;
   }
 
@@ -227,7 +218,7 @@ public class PostValidationService {
       List<PostValidationMessageDto> errors) {
 
     for (DataSet dataSet : dataSets) {
-
+      
       // dataSet.SurveyIds: there must be a survey with that id
       for (String surveyId : dataSet.getSurveyIds()) {
         if (this.surveyRepository.findOne(surveyId) == null) {
@@ -243,6 +234,28 @@ public class PostValidationService {
           String[] information = {dataSet.getId(), variableId};
           errors.add(new PostValidationMessageDto("data-set-management.error."
               + "post-validation.data-set-has-invalid-variable-id", Arrays.asList(information)));
+        }
+      }
+      
+      //check if all access ways of all sub dataset are in the study list of accessways.     
+      Study study = this.studyRepository
+          .findOneByDataAcquisitionProjectId(dataSet.getDataAcquisitionProjectId());
+      if (study != null) {
+        List<String> notFoundAccessWays = new ArrayList<>();
+        for (SubDataSet subDataSet : dataSet.getSubDataSets()) {
+          if (!study.getAccessWays().contains(subDataSet.getAccessWay())) {
+            notFoundAccessWays.add(subDataSet.getAccessWay());
+          }        
+        }
+       
+        //Found is false, min one AccessWay was found
+        if (notFoundAccessWays.size() > 0) {        
+          for (String notfoundAccessWay : notFoundAccessWays) {
+            String[] information = {dataSet.getId(), notfoundAccessWay};
+            errors.add(new PostValidationMessageDto("data-set-management.error.post-validation."
+                + "sub-data-set-has-an-accessway-which-was-not-found-in-"
+                + "study", Arrays.asList(information)));
+          }
         }
       }
     }
