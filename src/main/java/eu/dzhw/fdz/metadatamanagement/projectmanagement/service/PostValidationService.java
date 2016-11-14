@@ -117,7 +117,6 @@ public class PostValidationService {
           this.dataSetRepository.findByDataAcquisitionProjectId(study.getId());
       
       boolean found = false;
-      List<String> notFoundAccessWays = new ArrayList<>();
       for (String accessWay : study.getAccessWays()) {
         found = false; //Next Accessway is found yet
         for (DataSet dataSet : dataSets) {
@@ -141,20 +140,12 @@ public class PostValidationService {
         
         //check if no AccessWay was found.
         if (!found) {
-          notFoundAccessWays.add(accessWay);
-        } 
-      } // END FOR ACCESSWAY
-      
-      //Found is false, min one AccessWay was found
-      if (notFoundAccessWays.size() > 0) {
-        
-        for (String notfoundAccessWay : notFoundAccessWays) {
-          String[] information = {study.getId(), notfoundAccessWay};
+          String[] information = {study.getId(), accessWay};
           errors.add(new PostValidationMessageDto("study-management.error.post-validation."
               + "survey-has-an-accessway-which-was-not-found-in-"
               + "sub-data-sets", Arrays.asList(information)));
-        }
-      }
+        } 
+      } // END FOR ACCESSWAY
     }
       
     return errors;
