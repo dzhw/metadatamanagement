@@ -27,7 +27,7 @@ angular.module('metadatamanagementApp')
         SurveySearchService
           .countBy('dataAcquisitionProjectId',
           ctrl.survey.dataAcquisitionProjectId).then(function(surveysCount) {
-              ctrl.counts.surveysCount = surveysCount.count - 1;
+              ctrl.counts.surveysCount = surveysCount.count;
             });
       });
       ctrl.showStudy = function() {
@@ -41,6 +41,7 @@ angular.module('metadatamanagementApp')
       };
       ctrl.showRelatedSurveys = function() {
         SurveySearchDialogService.findSurveys('findByProjectId',
-        ctrl.survey.dataAcquisitionProjectId, ctrl.counts.surveysCount);
+        ctrl.survey.dataAcquisitionProjectId, ctrl.counts.surveysCount,
+        ctrl.survey.id);
       };
     });

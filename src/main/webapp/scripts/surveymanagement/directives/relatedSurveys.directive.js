@@ -9,22 +9,22 @@ angular.module('metadatamanagementApp').directive('relatedSurveys',
           'relatedSurveys.html.tmpl',
         scope: {},
         link: function(scope, element, attrs) {
-          scope.RelatedSurveyController.style = {};
+          scope.ctrl.style = {};
           if (attrs.count > 3) {
-            scope.RelatedSurveyController.style.height = '400';
+            scope.ctrl.style.height = '400';
           } else {
-            scope.RelatedSurveyController.style.height = attrs.count * 138;
+            scope.ctrl.style.height = attrs.count * 138;
           }
         },
-        controllerAs: 'RelatedSurveyController',
+        controllerAs: 'ctrl',
         controller: function() {
-          var RelatedSurveyController = this;
-          RelatedSurveyController.count = Number(RelatedSurveyController.count);
+          var ctrl = this;
+          ctrl.count = Number(ctrl.count);
           var blockArea = blockUI.instances.get('blockRelatedSurveyContainer');
-          RelatedSurveyController.surveys = {
+          ctrl.surveys = {
             pageToLoad: 0,
             items: [],
-            totalHits: RelatedSurveyController.count,
+            totalHits: ctrl.count,
             currentlyLoadingPage: -1,
             getItemAtIndex: function(index) {
               if (index >= this.items.length && index < this.totalHits) {
@@ -43,10 +43,10 @@ angular.module('metadatamanagementApp').directive('relatedSurveys',
                 if (this.currentlyLoadingPage !== this.pageToLoad) {
                   this.currentlyLoadingPage = this.pageToLoad;
                   blockArea.start();
-                  if (_.isArray(RelatedSurveyController.methodParams)) {
-                    var searchTerms = _.chunk(RelatedSurveyController
+                  if (_.isArray(ctrl.methodParams)) {
+                    var searchTerms = _.chunk(ctrl
                       .methodParams, 5);
-                    SurveySearchService[RelatedSurveyController.methodName]
+                    SurveySearchService[ctrl.methodName]
                     (searchTerms[this.pageToLoad])
                       .then(angular.bind(this, function(surveys) {
                         _.pullAllBy(surveys.docs, [{'found': false}], 'found');
@@ -56,8 +56,8 @@ angular.module('metadatamanagementApp').directive('relatedSurveys',
                         blockArea.stop();
                       });
                   } else {
-                    SurveySearchService[RelatedSurveyController.methodName](
-                    RelatedSurveyController.methodParams,
+                    SurveySearchService[ctrl.methodName](
+                    ctrl.methodParams,
                     this.pageToLoad * 5, 5)
                     .then(angular.bind(this, function(surveys) {
                       this.items = _.concat(this.items, surveys.hits.hits);
@@ -73,7 +73,8 @@ angular.module('metadatamanagementApp').directive('relatedSurveys',
         bindToController: {
           methodName: '@',
           methodParams: '=',
-          count: '@'
+          count: '@',
+          surveyId: '@'
         }
       };
     });
