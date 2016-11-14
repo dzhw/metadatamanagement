@@ -31,7 +31,6 @@ public class QuestionImageService {
    */
   public String saveQuestionImage(InputStream inputStream,
       String questionId, String contentType) {
-    deleteQuestionImage(questionId);
     GridFSFile gridFsFile = this.operations.store(inputStream, 
         "/questions/" + questionId, contentType);
     gridFsFile.validate();
@@ -56,6 +55,15 @@ public class QuestionImageService {
   public void deleteQuestionImage(String imageName) {
     Query query = new Query(GridFsCriteria.whereFilename()
         .is("/questions/" + imageName));
+    this.operations.delete(query);
+  }
+  
+  /**
+   * Delete all question images.
+   */
+  public void deleteAll() {
+    Query query = new Query(GridFsCriteria.whereFilename()
+        .regex("^/questions/"));
     this.operations.delete(query);
   }
 }
