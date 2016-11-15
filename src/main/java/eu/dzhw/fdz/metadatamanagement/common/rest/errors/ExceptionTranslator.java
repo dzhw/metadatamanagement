@@ -14,6 +14,7 @@ import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
+import org.springframework.validation.ObjectError;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -52,9 +53,10 @@ public class ExceptionTranslator {
   @ResponseBody
   public ErrorDto processValidationError(MethodArgumentNotValidException ex) {
     BindingResult result = ex.getBindingResult();
+    List<ObjectError> globalErrors = result.getGlobalErrors();
     List<FieldError> fieldErrors = result.getFieldErrors();
 
-    return processFieldErrors(fieldErrors);
+    return processFieldErrors(globalErrors, fieldErrors);
   }
 
   @ExceptionHandler(CustomParameterizedException.class)
@@ -72,9 +74,13 @@ public class ExceptionTranslator {
     return new ErrorDto(ErrorConstants.ERR_ACCESS_DENIED, exception.getMessage());
   }
 
-  private ErrorDto processFieldErrors(List<FieldError> fieldErrors) {
+  private ErrorDto processFieldErrors(List<ObjectError> globalErrors, 
+      List<FieldError> fieldErrors) {
     ErrorDto dto = new ErrorDto(ErrorConstants.ERR_VALIDATION);
-
+    for (ObjectError globalError: globalErrors) {
+      dto.add(globalError.getObjectName(), null, globalError.getDefaultMessage());
+    }
+    
     for (FieldError fieldError : fieldErrors) {
       dto.add(fieldError.getObjectName(), fieldError.getField(), fieldError.getDefaultMessage());
     }
