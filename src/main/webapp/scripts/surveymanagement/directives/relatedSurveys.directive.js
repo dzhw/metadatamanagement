@@ -8,14 +8,6 @@ angular.module('metadatamanagementApp').directive('relatedSurveys',
         templateUrl: 'scripts/surveymanagement/directives/' +
           'relatedSurveys.html.tmpl',
         scope: {},
-        link: function(scope, element, attrs) {
-          scope.ctrl.style = {};
-          if (attrs.count > 3) {
-            scope.ctrl.style.height = '400';
-          } else {
-            scope.ctrl.style.height = attrs.count * 138;
-          }
-        },
         controllerAs: 'ctrl',
         controller: function() {
           var ctrl = this;

@@ -9,6 +9,7 @@ angular.module('metadatamanagementApp')
       var ctrl = this;
       ctrl.survey = entity;
       ctrl.counts = {};
+      var paramObject = {};
       entity.$promise.then(function(survey) {
         ctrl.survey = survey;
         StudySearchResource
@@ -40,8 +41,10 @@ angular.module('metadatamanagementApp')
         ctrl.counts.dataSetsCount);
       };
       ctrl.showRelatedSurveys = function() {
-        SurveySearchDialogService.findSurveys('findByProjectId',
-        ctrl.survey.dataAcquisitionProjectId, ctrl.counts.surveysCount,
-        ctrl.survey.id);
+        paramObject.methodName = 'findByProjectId';
+        paramObject.methodParams = ctrl.survey.dataAcquisitionProjectId;
+        paramObject.count = ctrl.counts.surveysCount;
+        paramObject.surveyId = ctrl.survey.id;
+        SurveySearchDialogService.findSurveys(paramObject);
       };
     });

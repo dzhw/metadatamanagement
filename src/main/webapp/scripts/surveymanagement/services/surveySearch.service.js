@@ -43,7 +43,6 @@ function(Language, ElasticSearchClient) {
       };
       // jscs:enable
     }
-    console.log(query);
     return ElasticSearchClient.search(query);
   };
   var countBy = function(term, value) {

@@ -9,6 +9,49 @@
         </div>
     </md-toolbar>
     <md-dialog-content>
-        <related-surveys method-name="{{ctrl.methodName}}" method-params="ctrl.methodParams" count="{{ctrl.count}}" survey-id="{{ctrl.surveyId}}"></related-surveys>
+      <div block-ui="blockRelatedSurveyContainer">
+   <div  class="fdz-InfiniteScroll">
+<md-virtual-repeat-container id="vertical-container">
+      <div md-virtual-repeat="item in ctrl.infiniteItems" md-on-demand
+          class="repeated-item" flex>
+          <md-card ui-sref="surveyDetail({id:item._source.id})" class="fdz-search-result">
+            <md-card-header class="fdz-card-header-border">
+                <md-card-avatar>
+                    <md-icon md-svg-src="/assets/images/icons/survey.svg" class="fdz-search-result-icon"></md-icon>
+                </md-card-avatar>
+                <md-card-header-text class="fdz-truncate-string">
+                    <div class="md-title fdz-truncate-string">{{item._source.title}}</div>
+                    <div class="md-subhead fdz-truncate-string">{{item._source.id}}</div>
+                </md-card-header-text>
+            </md-card-header>
+              <md-card-content>
+                    <div layout="row" layout-xs="column" class="fdz-truncate-string">
+                      <div class="fdz-search-result-label">
+                        Feldzeit:
+                      </div>
+                      <div class="fdz-truncate-string">
+                        {{item._source.fieldPeriod.start | date}} - {{item._source.fieldPeriod.end | date}}
+                      </div>
+                    </div>
+              </md-card-content>
+          </md-card>
+
+      </div>
+    </md-virtual-repeat-container>
+</div>
+   <!--
+     <div  ng-if="ctrl.surveys.totalHits !== 0" class="fdz-InfiniteScroll">
+          <md-virtual-repeat-container id="vertical-container">
+           <div md-virtual-repeat="survey in ctrl.surveys" md-on-demand
+               class="fdz-repeated-item" flex>
+               <survey-search-result search-result="survey._source"></survey-search-result>
+           </div>
+         </md-virtual-repeat-container>
+      </div>
+    -->
+        <div ng-if="ctrl.surveys.totalHits === 0" layout-margin>
+          <span>{{'survey-management.detail.no-related-surveys' | translate }}</span>
+        </div>
+      </div>
     </md-dialog-content>
 </md-dialog>
