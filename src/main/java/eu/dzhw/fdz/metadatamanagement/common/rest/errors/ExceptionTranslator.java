@@ -1,9 +1,11 @@
 package eu.dzhw.fdz.metadatamanagement.common.rest.errors;
 
+import java.io.IOException;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
+import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.context.support.MessageSourceAccessor;
 import org.springframework.dao.ConcurrencyFailureException;
 import org.springframework.data.rest.core.RepositoryConstraintViolationException;
@@ -18,6 +20,9 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
+
+import com.fasterxml.jackson.core.json.UTF8StreamJsonParser;
+import com.fasterxml.jackson.databind.exc.InvalidFormatException;
 
 /**
  * Controller advice to translate the server side exceptions to client-friendly json structures.
@@ -91,16 +96,47 @@ public class ExceptionTranslator {
   @ExceptionHandler(HttpMessageNotReadableException.class)
   @ResponseBody
   @ResponseStatus(HttpStatus.BAD_REQUEST)
+  //TODO DKatzberg: Clean up, upgrade
   public JsonParsingError processHttpMessageNotReadableException(
       HttpMessageNotReadableException exception) {
-    String errorMessage;
-    if (exception.getRootCause() != null) {
-      errorMessage = exception.getRootCause()
-        .getLocalizedMessage();
+    
+    Throwable throwable = exception.getMostSpecificCause();
+    if (throwable instanceof InvalidFormatException) {  
+      InvalidFormatException jsonMappingException = ((InvalidFormatException) throwable);
+      UTF8StreamJsonParser processor = 
+          (UTF8StreamJsonParser) jsonMappingException.getProcessor();      
+      
+      try {
+                       
+        String domainObject = processor.getCurrentValue().getClass().getSimpleName()
+            .toLowerCase(LocaleContextHolder.getLocale());
+        String property = processor.getCurrentName();
+//        String invalidValue = (String)jsonMappingException.getValue();
+        String messageKey = domainObject + "-management.error.import." 
+            + domainObject + "." + property;
+        
+//        return new CustomRepositoryConstraintViolationExceptionMessage
+//        .ValidationError(domainObject, messageKey, invalidValue, property);
+        return new JsonParsingError(messageKey);
+        
+        
+      } catch (IOException e) {
+        // TODO Auto-generated catch block
+        e.printStackTrace();
+      }
+      
+      return new JsonParsingError("");
+      
     } else {
-      errorMessage = exception.getLocalizedMessage();
+      String errorMessage;
+      if (exception.getRootCause() != null) {
+        errorMessage = exception.getRootCause()
+          .getLocalizedMessage();
+      } else {
+        errorMessage = exception.getLocalizedMessage();
+      }
+      return new JsonParsingError(errorMessage);
     }
-    return new JsonParsingError(errorMessage);
   }
   
   /**

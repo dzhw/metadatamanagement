@@ -78,6 +78,11 @@
         "response-rate": {
           "not-null": "Die Rücklaufquote der Erhebung darf nicht leer sein!"
         }
+      },
+      "import": {
+        "survey": {
+          "responseRate": "Die Antwortrate der Erhebung hat beim Import kein Double-Wert."
+        }
       }
     }
   }
