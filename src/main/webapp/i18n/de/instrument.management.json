@@ -14,9 +14,18 @@
       }
     },
     "detail": {
+      "instrument": "Erhebungsinstrument",
+      "instruments": "Instrumente",
+      "instrument-informations": "Details zum Instrument",
       "title": "Instrument",
-      "instrument": "Instrument",
-      "instruments": "Instrumente"
+      "type": "Typ",
+      "related-information": "Verbundene Objekte",
+      "attachments": {
+        "table-title": "Materialien zum Instrument",
+        "type": "Typ",
+        "title": "Titel",
+        "file": "Datei"
+      }
     },
     "error": {
       "instrument": {

@@ -76,7 +76,7 @@
         },
         "data-availability": {
           "not-null": "The data avaibility of the study must not be empty!",
-          "valid-data-avaibility": "The allowed values for data avaibility of the study are: Available, In preparation, Not available."
+          "valid-data-availability": "The allowed values for data availability of the study are: Available, In preparation, Not available."
         },
         "survey-design": {
           "not-null": "The survey design of the study must not be empty!",

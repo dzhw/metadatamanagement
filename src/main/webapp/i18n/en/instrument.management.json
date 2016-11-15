@@ -14,9 +14,18 @@
       }
     },
     "detail": {
+      "instrument": "Survey Instrument",
+      "instruments": "Instruments",
+      "instrument-informations": "Details for the Instrument",
       "title": "Instrument",
-      "instrument": "Instrument",
-      "instruments": "Instruments"
+      "type": "Type",
+      "related-information": "Related Objects",
+      "attachments": {
+        "table-title": "Documents related to the Instrument",
+        "type": "Type",
+        "title": "Title",
+        "file": "File"
+      }
     },
     "error": {
       "instrument": {

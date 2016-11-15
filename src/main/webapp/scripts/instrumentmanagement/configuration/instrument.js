@@ -22,6 +22,9 @@ angular.module('metadatamanagementApp')
           translatePartialLoader: ['$translatePartialLoader',
             function($translatePartialLoader) {
               $translatePartialLoader.addPart('instrument.management');
+              $translatePartialLoader.addPart('question.management');
+              $translatePartialLoader.addPart('survey.management');
+              $translatePartialLoader.addPart('study.management');
             }
           ],
           entity: ['$stateParams', 'InstrumentResource',
