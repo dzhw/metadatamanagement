@@ -48,7 +48,8 @@ angular.module('metadatamanagementApp')
                     } else {
                       blockArea.start();
                       SurveySearchService[ctrl.paramObject.methodName](
-                        ctrl.paramObject.methodParams, this.from, this.size)
+                        ctrl.paramObject.methodParams, this.from, this.size,
+                        ctrl.paramObject.surveyId)
                         .then(angular.bind(this, function(surveys) {
                           this.items = _.concat(this.items, surveys.hits.hits);
                           this.numLoaded_ = this.items.length;

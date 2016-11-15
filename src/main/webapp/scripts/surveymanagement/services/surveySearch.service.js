@@ -36,7 +36,7 @@ function(Language, ElasticSearchClient) {
     };
     if (excludSurvey) {
       // jscs:disable
-      query.body.query.must_not = {
+      query.body.query.bool.must_not = {
         'term': {
           'id': excludSurvey
         }
