@@ -4,6 +4,7 @@ import javax.validation.constraints.NotNull;
 
 import org.hibernate.validator.constraints.NotEmpty;
 
+import eu.dzhw.fdz.metadatamanagement.common.domain.AbstractRdcDomainObject;
 import eu.dzhw.fdz.metadatamanagement.common.domain.I18nString;
 import eu.dzhw.fdz.metadatamanagement.common.domain.validation.I18nStringSize;
 import eu.dzhw.fdz.metadatamanagement.common.domain.validation.StringLengths;
@@ -16,7 +17,7 @@ import net.karneim.pojobuilder.GeneratePojoBuilder;
  */
 @GeneratePojoBuilder(
     intoPackage = "eu.dzhw.fdz.metadatamanagement.instrumentmanagement.domain.builders")
-public class InstrumentAttachmentMetadata {
+public class InstrumentAttachmentMetadata extends AbstractRdcDomainObject {
   @NotEmpty(message = 
       "instrument-management.error.instrument-attachment-metadata.instrument-id.not-empty")
   private String instrumentId;
@@ -79,5 +80,10 @@ public class InstrumentAttachmentMetadata {
 
   public void setFileName(String fileName) {
     this.fileName = fileName;
+  }
+
+  @Override
+  public String getId() {
+    return "/public/files/instruments/" + instrumentId + "/attachments/" + fileName;
   }
 }

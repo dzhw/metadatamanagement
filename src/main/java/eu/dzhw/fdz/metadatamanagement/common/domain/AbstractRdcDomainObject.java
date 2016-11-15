@@ -32,7 +32,7 @@ public abstract class AbstractRdcDomainObject {
   @LastModifiedBy
   private String lastModifiedBy;
 
-  protected abstract String getId();
+  public abstract String getId();
 
   public Long getVersion() {
     return version;

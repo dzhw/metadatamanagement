@@ -10,6 +10,8 @@ import javax.validation.Valid;
 
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -46,13 +48,14 @@ public class InstrumentAttachmentResource {
   public ResponseEntity<String> uploadAttachment(
       @RequestPart("file") MultipartFile multiPartFile,
       @RequestPart("instrumentAttachmentMetadata") @Valid
-      InstrumentAttachmentMetadata instrumentAttachmentMetadata) 
+      InstrumentAttachmentMetadata instrumentAttachmentMetadata, 
+      @AuthenticationPrincipal UserDetails userDetails) 
           throws URISyntaxException, IOException {
     if (!multiPartFile.isEmpty()) {
-      String gridFsFileName = instrumentAttachmentService.saveInstrumentAttachment(
+      instrumentAttachmentService.saveInstrumentAttachment(
           multiPartFile.getInputStream(), multiPartFile.getContentType(),
-          instrumentAttachmentMetadata);
-      return ResponseEntity.created(new URI("/public/files" + gridFsFileName)).body(null);
+          instrumentAttachmentMetadata, userDetails.getUsername());
+      return ResponseEntity.created(new URI(instrumentAttachmentMetadata.getId())).body(null);
     } else {
       return ResponseEntity.badRequest().body(null);
     }

@@ -1,6 +1,7 @@
 package eu.dzhw.fdz.metadatamanagement.instrumentmanagement.service;
 
 import java.io.InputStream;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
@@ -36,10 +37,15 @@ public class InstrumentAttachmentService {
    * @param inputStream The inputStream of the attachment.
    * @param contentType The contentType of the attachment.
    * @param metadata The metadata of the attachment.
+   * @param currentUser the name of the currentUser
    * @return The GridFs filename.
    */
   public String saveInstrumentAttachment(InputStream inputStream,
-      String contentType, InstrumentAttachmentMetadata metadata) {
+      String contentType, InstrumentAttachmentMetadata metadata, String currentUser) {
+    metadata.setCreatedDate(LocalDateTime.now());
+    metadata.setCreatedBy(currentUser);
+    metadata.setLastModifiedBy(currentUser);
+    metadata.setLastModifiedDate(LocalDateTime.now());
     GridFSFile gridFsFile = this.operations.store(inputStream, 
         buildFileName(metadata), contentType, metadata);
     gridFsFile.validate();
