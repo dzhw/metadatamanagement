@@ -39,7 +39,7 @@
                         <div style="margin-bottom: 0.5em; width: 100%;" layout="row">
                             <md-icon md-svg-src="/assets/images/icons/question.svg" style="margin-top:0px; margin-right:4px;"></md-icon>
                             <div style="margin-right:3px;">{{'question-management.detail.questions' | translate }}:</div>
-                            <span class="fdz-truncate-string" flex>Noch nicht implementiert</span>
+                            <a ng-click="ctrl.showRelatedQuestions()" class="fdz-truncate-string" flex>({{ctrl.questionCount}})</a>
                         </div>
                         <div style="margin-bottom: 0.5em;" layout="row">
                             <md-icon md-svg-src="/assets/images/icons/survey.svg" style="margin-top:0px; margin-right:4px;"></md-icon>

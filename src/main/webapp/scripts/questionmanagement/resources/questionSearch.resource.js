@@ -13,28 +13,6 @@ function(Language, ElasticSearchClient) {
     };
     return ElasticSearchClient.mget(query);
   };
-  var findQuestion = function(questionId, from, size) {
-    query.index = 'metadata_' + Language.getCurrentInstantly();
-    query.body.from = from;
-    query.body.size = size;
-    query.body.query = {
-      'bool': {
-        'must': [
-          {
-            'match_all': {}
-          }
-        ],
-        'filter': [
-          {
-            'term': {
-              'id': questionId
-            }
-          }
-        ]
-      }
-    };
-    return ElasticSearchClient.search(query);
-  };
   var findPredeccessors = function(questionId, from, size) {
     query.index = 'metadata_' + Language.getCurrentInstantly();
     query.body.from = from;
@@ -79,6 +57,28 @@ function(Language, ElasticSearchClient) {
     };
     return ElasticSearchClient.search(query);
   };
+  var findByInstrumentId = function(instrumentId, from, size) {
+    query.index = 'metadata_' + Language.getCurrentInstantly();
+    query.body.from = from;
+    query.body.size = size;
+    query.body.query = {
+      'bool': {
+        'must': [
+          {
+            'match_all': {}
+          }
+        ],
+        'filter': [
+          {
+            'term': {
+              'instrumentId': instrumentId
+            }
+          }
+        ]
+      }
+    };
+    return ElasticSearchClient.search(query);
+  };
   var getCounts = function(term, value) {
     query.index = 'metadata_' + Language.getCurrentInstantly();
     query.body.query = {
@@ -91,7 +91,7 @@ function(Language, ElasticSearchClient) {
     findPredeccessors: findPredeccessors,
     findSuccessors: findQuestions,
     findQuestions: findQuestions,
-    findQuestion: findQuestion,
+    findByInstrumentId: findByInstrumentId,
     findByProjectId: findByProjectId,
     findByStudyId: findByProjectId,
     getCounts: getCounts
