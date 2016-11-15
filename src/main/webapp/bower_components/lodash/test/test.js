@@ -17597,6 +17597,15 @@
       assert.deepEqual(_.pick(nested, 'b.c'), { 'b': { 'c': 2 } });
     });
 
+    QUnit.test('should support path arrays', function(assert) {
+      assert.expect(1);
+
+      var object = { 'a.b.c': 1 },
+          actual = _.pick(object, [['a.b.c']]);
+
+      assert.deepEqual(actual, { 'a.b.c': 1 });
+    });
+
     QUnit.test('should coerce property names to strings', function(assert) {
       assert.expect(1);
 
@@ -17639,6 +17648,15 @@
       });
 
       assert.deepEqual(actual, { 'a': 1, 'c': 3 });
+    });
+
+    QUnit.test('should not treat keys with dots as deep paths', function(assert) {
+      assert.expect(1);
+
+      var object = { 'a.b.c': 1 },
+          actual = _.pickBy(object, stubTrue);
+
+      assert.deepEqual(actual, { 'a.b.c': 1 });
     });
   }());
 
@@ -23576,7 +23594,7 @@
       });
     });
 
-    QUnit.test('should a new path array', function(assert) {
+    QUnit.test('should return new path array', function(assert) {
       assert.expect(1);
 
       assert.notStrictEqual(_.toPath('a.b.c'), _.toPath('a.b.c'));
