@@ -3,7 +3,7 @@
 
 angular.module('metadatamanagementApp').service('StudyUploadService',
   function(StudyBuilderService, StudyDeleteResource, JobLoggingService,
-    ErrorMessageResolverService, ExcelReaderService, $q,
+    ErrorMessageResolverService, ExcelReaderService,
     ElasticSearchAdminService, $rootScope) {
     var study;
 
@@ -37,7 +37,6 @@ angular.module('metadatamanagementApp').service('StudyUploadService',
     };
 
     var uploadStudy = function(files, dataAcquisitionProjectId) {
-      var allFileReaders = [];
       JobLoggingService.start('study');
       StudyDeleteResource.deleteByDataAcquisitionProjectId({
         dataAcquisitionProjectId: dataAcquisitionProjectId}).$promise.then(
@@ -67,28 +66,24 @@ angular.module('metadatamanagementApp').service('StudyUploadService',
           ExcelReaderService.readFileAsync(releasesExcelFile)
           .then(function(releasesFromExcel) {
             var releases = StudyBuilderService.buildReleases(releasesFromExcel);
-            allFileReaders.push(ExcelReaderService.readFileAsync(studyExcelFile)
+            ExcelReaderService.readFileAsync(studyExcelFile)
             .then(function(studyFromExcel) {
               study = StudyBuilderService
               .buildStudy(studyFromExcel[0], releases,
               dataAcquisitionProjectId);
+              upload();
             }, function() {
               JobLoggingService.cancel(
                 'global.log-messages.unable-to-read-file',
                 {file: 'study.xlsx'});
-              return $q.reject();
-            }));
+            });
           }, function() {
             JobLoggingService.cancel('global.log-messages.unable-to-read-file',
               {file: 'releases.xlsx'});
-            return $q.reject();
-          }).then(function() {
-              return $q.all(allFileReaders);
-            }).then(upload);
+          });
         }, function() {
           JobLoggingService.cancel(
             'study-management.log-messages.study.unable-to-delete');
-          return $q.reject();
         }
       );
     };
