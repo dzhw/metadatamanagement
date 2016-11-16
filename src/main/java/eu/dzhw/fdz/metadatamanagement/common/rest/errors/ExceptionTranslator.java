@@ -123,7 +123,7 @@ public class ExceptionTranslator {
         
 //        return new CustomRepositoryConstraintViolationExceptionMessage
 //        .ValidationError(domainObject, messageKey, invalidValue, property);
-        return new JsonParsingError(messageKey);
+        return new JsonParsingError(messageKey, null, null, null);
         
         
       } catch (IOException e) {
@@ -131,7 +131,7 @@ public class ExceptionTranslator {
         e.printStackTrace();
       }
       
-      return new JsonParsingError("");
+      return new JsonParsingError("", null, null, null);
       
     } else {
       String errorMessage;
@@ -141,7 +141,7 @@ public class ExceptionTranslator {
       } else {
         errorMessage = exception.getLocalizedMessage();
       }
-      return new JsonParsingError(errorMessage);
+      return new JsonParsingError(errorMessage, null, null, null);
     }
   }
   
