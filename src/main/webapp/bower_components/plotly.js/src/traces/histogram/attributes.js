@@ -73,7 +73,7 @@ module.exports = {
 
     autobinx: {
         valType: 'boolean',
-        dflt: true,
+        dflt: null,
         role: 'style',
         description: [
             'Determines whether or not the x axis bin attributes are picked',
@@ -97,7 +97,7 @@ module.exports = {
 
     autobiny: {
         valType: 'boolean',
-        dflt: true,
+        dflt: null,
         role: 'style',
         description: [
             'Determines whether or not the y axis bin attributes are picked',
@@ -121,11 +121,8 @@ module.exports = {
 
     marker: barAttrs.marker,
 
-    _nestedModules: {
-        'error_y': 'ErrorBars',
-        'error_x': 'ErrorBars',
-        'marker.colorbar': 'Colorbar'
-    },
+    error_y: barAttrs.error_y,
+    error_x: barAttrs.error_x,
 
     _deprecated: {
         bardir: barAttrs._deprecated.bardir
@@ -135,7 +132,7 @@ module.exports = {
 function makeBinsAttr(axLetter) {
     return {
         start: {
-            valType: 'number',
+            valType: 'any', // for date axes
             dflt: null,
             role: 'style',
             description: [
@@ -144,7 +141,7 @@ function makeBinsAttr(axLetter) {
             ].join(' ')
         },
         end: {
-            valType: 'number',
+            valType: 'any', // for date axes
             dflt: null,
             role: 'style',
             description: [
@@ -154,7 +151,7 @@ function makeBinsAttr(axLetter) {
         },
         size: {
             valType: 'any', // for date axes
-            dflt: 1,
+            dflt: null,
             role: 'style',
             description: [
                 'Sets the step in-between value each', axLetter,

@@ -23,19 +23,15 @@ lib.coerce = coerceModule.coerce;
 lib.coerce2 = coerceModule.coerce2;
 lib.coerceFont = coerceModule.coerceFont;
 lib.validate = coerceModule.validate;
-lib.isValObject = coerceModule.isValObject;
-lib.crawl = coerceModule.crawl;
-lib.findArrayAttributes = coerceModule.findArrayAttributes;
-lib.IS_SUBPLOT_OBJ = coerceModule.IS_SUBPLOT_OBJ;
-lib.IS_LINKED_TO_ARRAY = coerceModule.IS_LINKED_TO_ARRAY;
-lib.DEPRECATED = coerceModule.DEPRECATED;
-lib.UNDERSCORE_ATTRS = coerceModule.UNDERSCORE_ATTRS;
 
 var datesModule = require('./dates');
 lib.dateTime2ms = datesModule.dateTime2ms;
 lib.isDateTime = datesModule.isDateTime;
 lib.ms2DateTime = datesModule.ms2DateTime;
-lib.parseDate = datesModule.parseDate;
+lib.cleanDate = datesModule.cleanDate;
+lib.isJSDate = datesModule.isJSDate;
+lib.MIN_MS = datesModule.MIN_MS;
+lib.MAX_MS = datesModule.MAX_MS;
 
 var searchModule = require('./search');
 lib.findBin = searchModule.findBin;
@@ -76,6 +72,10 @@ lib.error = loggersModule.error;
 lib.notifier = require('./notifier');
 
 lib.filterUnique = require('./filter_unique');
+lib.filterVisible = require('./filter_visible');
+
+
+lib.cleanNumber = require('./clean_number');
 
 /**
  * swap x and y of the same attribute in container cont
@@ -252,7 +252,7 @@ lib.smooth = function(arrayIn, FWHM) {
  * as long as its returns are not promises (ie have no .then)
  * includes one argument arg to send to all functions...
  * this is mainly just to prevent us having to make wrapper functions
- * when the only purpose of the wrapper is to reference gd / td
+ * when the only purpose of the wrapper is to reference gd
  * and a final step to be executed at the end
  * TODO: if there's an error and everything is sync,
  * this doesn't happen yet because we want to make sure

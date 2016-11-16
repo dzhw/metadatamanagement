@@ -47,7 +47,9 @@ function draw(gd) {
     fullLayout._infolayer.selectAll('.annotation').remove();
 
     for(var i = 0; i < fullLayout.annotations.length; i++) {
-        drawOne(gd, i);
+        if(fullLayout.annotations[i].visible) {
+            drawOne(gd, i);
+        }
     }
 
     return Plots.previousPromises(gd);
@@ -140,8 +142,6 @@ function drawOne(gd, index, opt, value) {
     // where we fail here when they add/remove annotations
     if(!optionsIn) return;
 
-    var oldRef = {xref: optionsIn.xref, yref: optionsIn.yref};
-
     // alter the input annotation as requested
     var optionsEdit = {};
     if(typeof opt === 'string' && opt) optionsEdit[opt] = value;
@@ -153,7 +153,11 @@ function drawOne(gd, index, opt, value) {
         Lib.nestedProperty(optionsIn, k).set(optionsEdit[k]);
     }
 
+    // return early in visible: false updates
+    if(optionsIn.visible === false) return;
+
     var gs = fullLayout._size;
+    var oldRef = {xref: optionsIn.xref, yref: optionsIn.yref};
 
     var axLetters = ['x', 'y'];
     for(i = 0; i < 2; i++) {
@@ -168,12 +172,19 @@ function drawOne(gd, index, opt, value) {
             continue;
         }
 
-        var axOld = Axes.getFromId(gd, Axes.coerceRef(oldRef, {}, gd, axLetter)),
-            axNew = Axes.getFromId(gd, Axes.coerceRef(optionsIn, {}, gd, axLetter)),
+        var axOld = Axes.getFromId(gd, Axes.coerceRef(oldRef, {}, gd, axLetter, '', 'paper')),
+            axNew = Axes.getFromId(gd, Axes.coerceRef(optionsIn, {}, gd, axLetter, '', 'paper')),
             position = optionsIn[axLetter],
             axTypeOld = oldPrivate['_' + axLetter + 'type'];
 
         if(optionsEdit[axLetter + 'ref'] !== undefined) {
+
+            // TODO: include ax / ay / axref / ayref here if not 'pixel'
+            // or even better, move all of this machinery out of here and into
+            // streambed as extra attributes to a regular relayout call
+            // we should do this after v2.0 when it can work equivalently for
+            // annotations, shapes, and images.
+
             var autoAnchor = optionsIn[axLetter + 'anchor'] === 'auto',
                 plotSize = (axLetter === 'x' ? gs.w : gs.h),
                 halfSizeFrac = (oldPrivate['_' + axLetter + 'size'] || 0) /
@@ -182,18 +193,11 @@ function drawOne(gd, index, opt, value) {
                 // go to the same fraction of the axis length
                 // whether or not these axes share a domain
 
-                // first convert to fraction of the axis
-                position = (position - axOld.range[0]) /
-                    (axOld.range[1] - axOld.range[0]);
-
-                // then convert to new data coordinates at the same fraction
-                position = axNew.range[0] +
-                    position * (axNew.range[1] - axNew.range[0]);
+                position = axNew.fraction2r(axOld.r2fraction(position));
             }
             else if(axOld) { // data -> paper
                 // first convert to fraction of the axis
-                position = (position - axOld.range[0]) /
-                    (axOld.range[1] - axOld.range[0]);
+                position = axOld.r2fraction(position);
 
                 // next scale the axis to the whole plot
                 position = axOld.domain[0] +
@@ -221,8 +225,7 @@ function drawOne(gd, index, opt, value) {
                     (axNew.domain[1] - axNew.domain[0]);
 
                 // finally convert to data coordinates
-                position = axNew.range[0] +
-                    position * (axNew.range[1] - axNew.range[0]);
+                position = axNew.fraction2r(position);
             }
         }
 
@@ -239,7 +242,8 @@ function drawOne(gd, index, opt, value) {
         optionsIn[axLetter] = position;
     }
 
-    var options = handleAnnotationDefaults(optionsIn, fullLayout);
+    var options = {};
+    handleAnnotationDefaults(optionsIn, options, fullLayout);
     fullLayout.annotations[index] = options;
 
     var xa = Axes.getFromId(gd, options.xref),
@@ -353,20 +357,21 @@ function drawOne(gd, index, opt, value) {
                 // outside the visible plot (as long as the axis
                 // isn't autoranged - then we need to draw it
                 // anyway to get its bounding box)
-                if(!ax.autorange && ((options[axLetter] - ax.range[0]) *
-                                     (options[axLetter] - ax.range[1]) > 0)) {
+                var posFraction = ax.r2fraction(options[axLetter]);
+                if(!ax.autorange && (posFraction < 0 || posFraction > 1)) {
                     if(options['a' + axLetter + 'ref'] === axRef) {
-                        if((options['a' + axLetter] - ax.range[0]) *
-                            (options['a' + axLetter] - ax.range[1]) > 0) {
+                        posFraction = ax.r2fraction(options['a' + axLetter]);
+                        if(posFraction < 0 || posFraction > 1) {
                             annotationIsOffscreen = true;
                         }
-                    } else {
+                    }
+                    else {
                         annotationIsOffscreen = true;
                     }
 
                     if(annotationIsOffscreen) return;
                 }
-                annPosPx[axLetter] = ax._offset + ax.l2p(options[axLetter]);
+                annPosPx[axLetter] = ax._offset + ax.r2p(options[axLetter]);
                 alignPosition = 0.5;
             }
             else {
@@ -379,7 +384,7 @@ function drawOne(gd, index, opt, value) {
 
             var alignShift = 0;
             if(options['a' + axLetter + 'ref'] === axRef) {
-                annPosPx['aa' + axLetter] = ax._offset + ax.l2p(options['a' + axLetter]);
+                annPosPx['aa' + axLetter] = ax._offset + ax.r2p(options['a' + axLetter]);
             } else {
                 if(options.showarrow) {
                     alignShift = options['a' + axLetter];
@@ -579,22 +584,22 @@ function drawOne(gd, index, opt, value) {
                         ann.call(Lib.setTranslate, xcenter, ycenter);
 
                         update[annbase + '.x'] = xa ?
-                            (options.x + dx / xa._m) :
+                            xa.p2r(xa.r2p(options.x) + dx) :
                             ((arrowX + dx - gs.l) / gs.w);
                         update[annbase + '.y'] = ya ?
-                            (options.y + dy / ya._m) :
+                            ya.p2r(ya.r2p(options.y) + dy) :
                             (1 - ((arrowY + dy - gs.t) / gs.h));
 
                         if(options.axref === options.xref) {
                             update[annbase + '.ax'] = xa ?
-                              (options.ax + dx / xa._m) :
-                              ((arrowX + dx - gs.l) / gs.w);
+                                xa.p2r(xa.r2p(options.ax) + dx) :
+                                ((arrowX + dx - gs.l) / gs.w);
                         }
 
                         if(options.ayref === options.yref) {
                             update[annbase + '.ay'] = ya ?
-                              (options.ay + dy / ya._m) :
-                              (1 - ((arrowY + dy - gs.t) / gs.h));
+                                ya.p2r(ya.r2p(options.ay) + dy) :
+                                (1 - ((arrowY + dy - gs.t) / gs.h));
                         }
 
                         anng.attr({
@@ -640,13 +645,13 @@ function drawOne(gd, index, opt, value) {
                     var csr = 'pointer';
                     if(options.showarrow) {
                         if(options.axref === options.xref) {
-                            update[annbase + '.ax'] = xa.p2l(xa.l2p(options.ax) + dx);
+                            update[annbase + '.ax'] = xa.p2r(xa.r2p(options.ax) + dx);
                         } else {
                             update[annbase + '.ax'] = options.ax + dx;
                         }
 
                         if(options.ayref === options.yref) {
-                            update[annbase + '.ay'] = ya.p2l(ya.l2p(options.ay) + dy);
+                            update[annbase + '.ay'] = ya.p2r(ya.r2p(options.ay) + dy);
                         } else {
                             update[annbase + '.ay'] = options.ay + dy;
                         }
