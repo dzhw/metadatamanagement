@@ -9,10 +9,10 @@ function changeLanguage(htmlElementId, currentUrl, targetLanguage) {
   var deferred = protractor.promise.defer();
   var currentLanguage;
   var changeLanguageButton;
-  if (currentUrl.indexOf('#/de') !== -1) {
+  if (currentUrl.indexOf('/de/') !== -1) {
     changeLanguageButton = element(by.id('changeLanguageToEn'));
     currentLanguage = 'de';
-  }else {
+  } else {
     changeLanguageButton = element(by.id('changeLanguageToDe'));
     currentLanguage = 'en';
   }
