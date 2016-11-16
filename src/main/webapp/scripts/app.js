@@ -96,10 +96,7 @@ angular
       ], true);
 
       // enable urls without #
-      $locationProvider.html5Mode({
-        enabled: true,
-        rewriteLinks: false
-      });
+      $locationProvider.html5Mode(true);
 
       $stateProvider.state('site', {
         'abstract': true,

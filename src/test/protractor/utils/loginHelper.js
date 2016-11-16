@@ -5,8 +5,9 @@
 
 'use strict';
 var protractorHelper = require('../utils/protractorWaitHelper');
+
 function login() {
-  /*browser.get('#/de/login');
+  /*browser.get('/de/login');
   browser.waitForAngular();*/
   protractorHelper.protractorWaitHelper('login').then(function(el) {
     el.click();

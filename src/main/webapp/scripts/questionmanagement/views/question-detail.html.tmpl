@@ -10,7 +10,7 @@
             <div layout="row" layout-sm="column" layout-xs="column">
                 <md-card flex-gt-sm="50">
                     <div style="max-height: 400px; overflow-y:auto;">
-                        <a ng-href="public/files/questions/{{question.id}}" alt="{{question.questionText[currentLanguage] }}" target="_blank">
+                        <a ng-href="/public/files/questions/{{question.id}}" alt="{{question.questionText[currentLanguage] }}" target="_blank">
                             <img alt="" style="width:auto; max-width:100%; height:auto;" ng-src="public/files/questions/{{question.id}}"/>
                         </a>
                     </div>
@@ -27,7 +27,7 @@
                             <md-button class="md-raised" ng-click="showStudy()">
                                 <md-icon md-svg-src="/assets/images/icons/study.svg"></md-icon>
                                 <span>{{'study-management.detail.study' | translate }}</span>
-                            </md-button>                            
+                            </md-button>
                         </section>
                         <section>
                             <md-button class="md-raised" ng-disabled="true">
