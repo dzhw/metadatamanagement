@@ -26,7 +26,9 @@ angular.module('metadatamanagementApp').service('ErrorMessageResolverService',
         messageObj.data.errors.forEach(function(messageObj) {
           subMessages.push({
             message: messageObj.message,
-            translationParams: messageObj.property
+            translationParams: {'property': messageObj.property,
+                                'invalidValue': messageObj.invalidValue,
+                                'entity': messageObj.entity}
           });
         });
       } else if (messageObj.fieldErrors) {
