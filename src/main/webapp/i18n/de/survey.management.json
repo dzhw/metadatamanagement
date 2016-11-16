@@ -78,11 +78,6 @@
         "response-rate": {
           "not-null": "Die Rücklaufquote der Erhebung darf nicht leer sein!"
         }
-      },
-      "import": {
-        "survey": {
-          "json-parsing-error": "Das Feld '{{property}}' bei der Erhebung hat beim Import einen ungültigen Wert: {{invalidValue}}"
-        }
       }
     }
   }

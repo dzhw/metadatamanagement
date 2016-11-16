@@ -71,7 +71,7 @@
       },
       "error": {
         "dontmatch": "The password and its confirmation do not match!",
-        "unavailable":"Unavailable!"
+        "unavailable": "Unavailable!"
       },
       "validate": {
         "newpassword": {
@@ -150,6 +150,8 @@
       }
     },
     "error": {
+      "title": "Error page!",
+      "403": "You are not authorized to access the page.",
       "server-not-reachable": "Server not reachable",
       "not-null": "Field {{fieldName}} cannot be empty!",
       "entity": {
@@ -159,6 +161,10 @@
       },
       "period": {
         "valid-period": "The start and end date have to be set and the dates have to be in the correct order!"
+      },
+      "import": {
+        "json-parsing-error": "The import of the domain object '{{entity}}' failed, because the field '{{property}}' has an invalid value: {{invalidValue}}",
+        "no-json-mapping": "A server side error happens at the import of a domain object."
       }
     },
     "logos": {
@@ -168,10 +174,6 @@
     },
     "main": {
       "title": "Welcome to the RDC of the DZHW. You are looking for ..."
-    },
-    "error": {
-      "title": "Error page!",
-      "403": "You are not authorized to access the page."
     },
     "pagination": {
       "next": "Next",

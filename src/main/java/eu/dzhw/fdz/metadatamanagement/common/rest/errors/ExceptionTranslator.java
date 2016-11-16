@@ -5,7 +5,6 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
-import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.context.support.MessageSourceAccessor;
 import org.springframework.dao.ConcurrencyFailureException;
 import org.springframework.data.rest.core.RepositoryConstraintViolationException;
@@ -113,19 +112,15 @@ public class ExceptionTranslator {
       
       //Create Json Parsing Error. Just the first will be return
       try {            
-        String domainObject = processor.getCurrentValue().getClass().getSimpleName()
-            .toLowerCase(LocaleContextHolder.getLocale());
+        String domainObject = processor.getCurrentValue().getClass().getSimpleName();
         String property = processor.getCurrentName();
         String invalidValue = (String)jsonMappingException.getValue();
-        String messageKey = domainObject + "-management.error.import." 
-            + domainObject + ".json-parsing-error";
+        String messageKey = "global.error.import.json-parsing-error";
         return new JsonParsingError(messageKey, domainObject, invalidValue, property);
         
         
       } catch (IOException e) {
-        // TODO DKatzberg Update this error Message
-        e.printStackTrace();
-        return new JsonParsingError("", null, null, null);
+        return new JsonParsingError("global.error.import.no-json-mapping", null, null, null);
       }
     } else {
       String errorMessage;

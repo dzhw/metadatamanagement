@@ -71,7 +71,7 @@
       },
       "error": {
         "dontmatch": "Das bestätigte Passwort entspricht nicht dem neuen Passwort!",
-        "unavailable":"Nicht vorhanden!"
+        "unavailable": "Nicht vorhanden!"
       },
       "validate": {
         "newpassword": {
@@ -150,6 +150,8 @@
       }
     },
     "error": {
+      "title": "Fehlerseite!",
+      "403": "Sie haben nicht die nötigen Berechtigungen diese Seite anzuzeigen.",
       "server-not-reachable": "Der Server ist nicht erreichbar!",
       "not-null": "Das Feld {{fieldName}} darf nicht leer sein!",
       "entity": {
@@ -159,6 +161,10 @@
       },
       "period": {
         "valid-period": "Der Start und Endzeitpunkt müssen gesetzt sein und müssen in der richtigen Reihenfolge sein."
+      },
+      "import": {
+        "json-parsing-error": "Der Import des Domainobjektes '{{entity}}' schlug fehl, denn das Feld '{{property}}' hat einen ungültigen Wert: {{invalidValue}}",
+        "no-json-mapping": "Ein serverseitiger Fehler trat beim Import eines Domänenobjektes auf."
       }
     },
     "logos": {
@@ -168,10 +174,6 @@
     },
     "main": {
       "title": "Willkommen beim FDZ des DZHW. Sie suchen ..."
-    },
-    "error": {
-      "title": "Fehlerseite!",
-      "403": "Sie haben nicht die nötigen Berechtigungen diese Seite anzuzeigen."
     },
     "pagination": {
       "next": "Weiter",

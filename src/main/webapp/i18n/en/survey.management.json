@@ -78,11 +78,6 @@
         "response-rate": {
           "not-null": "The Response Rate of a Survey must not be empty!"
         }
-      },
-      "import": {
-        "survey": {
-          "json-parsing-error": "The field '{{entity}}' of the Survey has an invalid value: {{invalidValue}}"
-        }
       }
     }
   }
