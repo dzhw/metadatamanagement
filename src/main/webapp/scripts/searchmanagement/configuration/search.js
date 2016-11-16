@@ -4,7 +4,7 @@ angular.module('metadatamanagementApp').config(
   function($stateProvider) {
     $stateProvider.state('search', {
       parent: 'site',
-      url: '/',
+      url: '/search',
       data: {
         authorities: [],
         pageTitle: 'global.menu.search.title'
@@ -25,7 +25,8 @@ angular.module('metadatamanagementApp').config(
             $translatePartialLoader.addPart('survey.management');
             $translatePartialLoader.addPart('study.management');
             $translatePartialLoader.addPart('dataSet.management');
-            $translatePartialLoader.addPart('relatedPublication.management');
+            $translatePartialLoader.addPart(
+              'relatedPublication.management');
             $translatePartialLoader.addPart('instrument.management');
             $translatePartialLoader.addPart('global');
           }

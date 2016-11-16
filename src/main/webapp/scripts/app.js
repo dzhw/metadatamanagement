@@ -95,6 +95,12 @@ angular
         /.*protected.*/
       ], true);
 
+      // enable urls without #
+      $locationProvider.html5Mode({
+        enabled: true,
+        rewriteLinks: false
+      });
+
       $stateProvider.state('site', {
         'abstract': true,
         url: '/{lang:(?:de|en)}',
@@ -121,7 +127,11 @@ angular
           ]
         }
       });
-      $urlRouterProvider.when('', '/de/');
+      $urlRouterProvider.when('/', '/de/search');
+      $urlRouterProvider.when('/de', '/de/search');
+      $urlRouterProvider.when('/de/', '/de/search');
+      $urlRouterProvider.when('/en', '/en/search');
+      $urlRouterProvider.when('/en/', '/en/search');
       $urlRouterProvider.otherwise('/de/error');
       $httpProvider.interceptors.push('errorHandlerInterceptor');
       $httpProvider.interceptors.push('authExpiredInterceptor');

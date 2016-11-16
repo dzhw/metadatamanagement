@@ -13,7 +13,7 @@ var translateHelper = require('../utils/translateHelper');
 //protractor.conf.js
 describe('Home page', function() {
   function callHomePage() {
-    browser.get('#/de/');
+    browser.get('/de/');
   }
 
   function testHomePage(description, language) {
