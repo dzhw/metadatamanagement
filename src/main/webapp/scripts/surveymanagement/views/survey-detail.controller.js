@@ -7,6 +7,7 @@ angular.module('metadatamanagementApp')
       SurveySearchService) {
 
       var ctrl = this;
+      ctrl.imgResolved = false;
       ctrl.survey = entity;
       ctrl.counts = {};
       var paramObject = {};
@@ -46,5 +47,9 @@ angular.module('metadatamanagementApp')
         paramObject.count = ctrl.counts.surveysCount;
         paramObject.surveyId = ctrl.survey.id;
         SurveySearchDialogService.findSurveys(paramObject);
+      };
+
+      ctrl.setImgResolved = function() {
+        ctrl.imgResolved = true;
       };
     });
