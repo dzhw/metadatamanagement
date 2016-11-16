@@ -102,7 +102,6 @@ public class ExceptionTranslator {
   @ExceptionHandler(HttpMessageNotReadableException.class)
   @ResponseBody
   @ResponseStatus(HttpStatus.BAD_REQUEST)
-  //TODO DKatzberg: Clean up, upgrade
   public JsonParsingError processHttpMessageNotReadableException(
       HttpMessageNotReadableException exception) {
     
@@ -112,27 +111,22 @@ public class ExceptionTranslator {
       UTF8StreamJsonParser processor = 
           (UTF8StreamJsonParser) jsonMappingException.getProcessor();      
       
-      try {
-                       
+      //Create Json Parsing Error. Just the first will be return
+      try {            
         String domainObject = processor.getCurrentValue().getClass().getSimpleName()
             .toLowerCase(LocaleContextHolder.getLocale());
         String property = processor.getCurrentName();
-//        String invalidValue = (String)jsonMappingException.getValue();
+        String invalidValue = (String)jsonMappingException.getValue();
         String messageKey = domainObject + "-management.error.import." 
-            + domainObject + "." + property;
-        
-//        return new CustomRepositoryConstraintViolationExceptionMessage
-//        .ValidationError(domainObject, messageKey, invalidValue, property);
-        return new JsonParsingError(messageKey, null, null, null);
+            + domainObject + ".json-parsing-error";
+        return new JsonParsingError(messageKey, domainObject, invalidValue, property);
         
         
       } catch (IOException e) {
-        // TODO Auto-generated catch block
+        // TODO DKatzberg Update this error Message
         e.printStackTrace();
+        return new JsonParsingError("", null, null, null);
       }
-      
-      return new JsonParsingError("", null, null, null);
-      
     } else {
       String errorMessage;
       if (exception.getRootCause() != null) {

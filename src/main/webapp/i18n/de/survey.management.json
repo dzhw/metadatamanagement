@@ -81,7 +81,7 @@
       },
       "import": {
         "survey": {
-          "responseRate": "Die Antwortrate der Erhebung hat beim Import kein Double-Wert."
+          "json-parsing-error": "Das Feld '{{property}}' bei der Erhebung hat beim Import einen ungültigen Wert: {{invalidValue}}"
         }
       }
     }

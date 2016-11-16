@@ -81,7 +81,7 @@
       },
       "import": {
         "survey": {
-          "responseRate": "The Response Rate of the Survey has no double value. at the import."
+          "json-parsing-error": "The field '{{entity}}' of the Survey has an invalid value: {{invalidValue}}"
         }
       }
     }
