@@ -1,21 +1,21 @@
 'use strict';
 
-angular.module('metadatamanagementApp').factory('DataSetSearchResource',
+angular.module('metadatamanagementApp').factory('QuestionSearchService',
 function(Language, ElasticSearchClient) {
   var query = {};
-  query.type = 'data_sets';
-  query.body = {};
-
-  var findDataSets = function(dataSetIds) {
+  query.type = 'questions';
+  var findQuestions = function(questionIds) {
     query.index = 'metadata_' + Language.getCurrentInstantly();
+    query.body = {};
     query.body.query = {};
     query.body.query.docs = {
-      'ids': dataSetIds
+      'ids': questionIds
     };
     return ElasticSearchClient.mget(query);
   };
-  var findByVariableId = function(variableId, from, size) {
+  var findPredeccessors = function(questionId, from, size) {
     query.index = 'metadata_' + Language.getCurrentInstantly();
+    query.body = {};
     query.body.from = from;
     query.body.size = size;
     query.body.query = {
@@ -28,29 +28,7 @@ function(Language, ElasticSearchClient) {
         'filter': [
           {
             'term': {
-              'variableIds': variableId
-            }
-          }
-        ]
-      }
-    };
-    return ElasticSearchClient.search(query);
-  };
-  var findBySurveyTitle = function(surveyTitle, from, size) {
-    query.index = 'metadata_' + Language.getCurrentInstantly();
-    query.body.from = from;
-    query.body.size = size;
-    query.body.query = {
-      'bool': {
-        'must': [
-          {
-            'match_all': {}
-          }
-        ],
-        'filter': [
-          {
-            'term': {
-              'surveyTitles': surveyTitle
+              'successors': questionId
             }
           }
         ]
@@ -60,6 +38,7 @@ function(Language, ElasticSearchClient) {
   };
   var findByProjectId = function(dataAcquisitionProjectId, from, size) {
     query.index = 'metadata_' + Language.getCurrentInstantly();
+    query.body = {};
     query.body.from = from;
     query.body.size = size;
     query.body.query = {
@@ -80,8 +59,32 @@ function(Language, ElasticSearchClient) {
     };
     return ElasticSearchClient.search(query);
   };
-  var getCounts = function(term, value) {
+  var findByInstrumentId = function(instrumentId, from, size) {
     query.index = 'metadata_' + Language.getCurrentInstantly();
+    query.body = {};
+    query.body.from = from;
+    query.body.size = size;
+    query.body.query = {
+      'bool': {
+        'must': [
+          {
+            'match_all': {}
+          }
+        ],
+        'filter': [
+          {
+            'term': {
+              'instrumentId': instrumentId
+            }
+          }
+        ]
+      }
+    };
+    return ElasticSearchClient.search(query);
+  };
+  var countBy = function(term, value) {
+    query.index = 'metadata_' + Language.getCurrentInstantly();
+    query.body = {};
     query.body.query = {
       'term': {}
     };
@@ -89,10 +92,12 @@ function(Language, ElasticSearchClient) {
     return ElasticSearchClient.count(query);
   };
   return {
-    findByVariableId: findByVariableId,
-    findBySurveyTitle: findBySurveyTitle,
+    findPredeccessors: findPredeccessors,
+    findSuccessors: findQuestions,
+    findQuestions: findQuestions,
+    findByInstrumentId: findByInstrumentId,
     findByProjectId: findByProjectId,
-    findDataSets: findDataSets,
-    getCounts: getCounts
+    findByStudyId: findByProjectId,
+    countBy: countBy
   };
 });

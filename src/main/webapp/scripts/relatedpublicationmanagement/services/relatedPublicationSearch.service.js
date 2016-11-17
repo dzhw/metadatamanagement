@@ -1,19 +1,13 @@
 'use strict';
 
-angular.module('metadatamanagementApp').factory('QuestionSearchResource',
+angular.module('metadatamanagementApp')
+.factory('RelatedPublicationSearchService',
 function(Language, ElasticSearchClient) {
   var query = {};
-  query.type = 'questions';
+  query.type = 'related_publications';
   query.body = {};
-  var findQuestions = function(questionIds) {
-    query.index = 'metadata_' + Language.getCurrentInstantly();
-    query.body.query = {};
-    query.body.query.docs = {
-      'ids': questionIds
-    };
-    return ElasticSearchClient.mget(query);
-  };
-  var findPredeccessors = function(questionId, from, size) {
+
+  var findBySurveyId = function(surveyId, from, size) {
     query.index = 'metadata_' + Language.getCurrentInstantly();
     query.body.from = from;
     query.body.size = size;
@@ -27,7 +21,7 @@ function(Language, ElasticSearchClient) {
         'filter': [
           {
             'term': {
-              'successors': questionId
+              'surveyIds': surveyId
             }
           }
         ]
@@ -35,7 +29,7 @@ function(Language, ElasticSearchClient) {
     };
     return ElasticSearchClient.search(query);
   };
-  var findByProjectId = function(dataAcquisitionProjectId, from, size) {
+  var findByQuestionId = function(questionId, from, size) {
     query.index = 'metadata_' + Language.getCurrentInstantly();
     query.body.from = from;
     query.body.size = size;
@@ -49,7 +43,7 @@ function(Language, ElasticSearchClient) {
         'filter': [
           {
             'term': {
-              'dataAcquisitionProjectId': dataAcquisitionProjectId
+              'questionIds': questionId
             }
           }
         ]
@@ -57,7 +51,7 @@ function(Language, ElasticSearchClient) {
     };
     return ElasticSearchClient.search(query);
   };
-  var findByInstrumentId = function(instrumentId, from, size) {
+  var findByVariableId = function(variableId, from, size) {
     query.index = 'metadata_' + Language.getCurrentInstantly();
     query.body.from = from;
     query.body.size = size;
@@ -71,7 +65,7 @@ function(Language, ElasticSearchClient) {
         'filter': [
           {
             'term': {
-              'instrumentId': instrumentId
+              'variableIds': variableId
             }
           }
         ]
@@ -79,7 +73,51 @@ function(Language, ElasticSearchClient) {
     };
     return ElasticSearchClient.search(query);
   };
-  var getCounts = function(term, value) {
+  var findByDataSetId = function(dataSetId, from, size) {
+    query.index = 'metadata_' + Language.getCurrentInstantly();
+    query.body.from = from;
+    query.body.size = size;
+    query.body.query = {
+      'bool': {
+        'must': [
+          {
+            'match_all': {}
+          }
+        ],
+        'filter': [
+          {
+            'term': {
+              'dataSetIds': dataSetId
+            }
+          }
+        ]
+      }
+    };
+    return ElasticSearchClient.search(query);
+  };
+  var findByProjectId = function(studyId, from, size) {
+    query.index = 'metadata_' + Language.getCurrentInstantly();
+    query.body.from = from;
+    query.body.size = size;
+    query.body.query = {
+      'bool': {
+        'must': [
+          {
+            'match_all': {}
+          }
+        ],
+        'filter': [
+          {
+            'term': {
+              'studyIds': studyId
+            }
+          }
+        ]
+      }
+    };
+    return ElasticSearchClient.search(query);
+  };
+  var countBy = function(term, value) {
     query.index = 'metadata_' + Language.getCurrentInstantly();
     query.body.query = {
       'term': {}
@@ -88,12 +126,12 @@ function(Language, ElasticSearchClient) {
     return ElasticSearchClient.count(query);
   };
   return {
-    findPredeccessors: findPredeccessors,
-    findSuccessors: findQuestions,
-    findQuestions: findQuestions,
-    findByInstrumentId: findByInstrumentId,
+    findBySurveyId: findBySurveyId,
+    findByVariableId: findByVariableId,
+    findByDataSetId: findByDataSetId,
+    findByQuestionId: findByQuestionId,
     findByProjectId: findByProjectId,
     findByStudyId: findByProjectId,
-    getCounts: getCounts
+    countBy: countBy
   };
 });

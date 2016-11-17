@@ -1,36 +1,45 @@
+/* global _ */
 'use strict';
 
 angular.module('metadatamanagementApp')
   .controller('VariableDetailController', function($scope, entity, $state,
     SurveySearchDialogService, DataSetSearchDialogService,
     RelatedPublicationSearchDialogService, QuestionSearchDialogService,
-    DataSetSearchResource, QuestionSearchResource,
-    RelatedPublicationSearchResource, StudySearchResource,
+    DataSetSearchService, QuestionSearchService,
+    RelatedPublicationSearchService, StudySearchService,
     SimpleMessageToastService) {
     $scope.generationCodeToggleFlag = true;
     $scope.notAllRowsVisible = true;
     $scope.counts = {};
     entity.$promise.then(function(variable) {
       $scope.variable = variable;
-      StudySearchResource
+      StudySearchService
       .findStudy($scope.variable.dataAcquisitionProjectId)
       .then(function(study) {
-        $scope.study = study.hits.hits[0]._source;
+        if (study.hits.hits.length > 0) {
+          $scope.study = study.hits.hits[0]._source;
+        }
       });
       if ($scope.variable.questionId) {
-        QuestionSearchResource
-        .findQuestion($scope.variable.questionId)
+        var questionIdAsArray = [];
+        questionIdAsArray.push($scope.variable.questionId);
+        QuestionSearchService
+        .findQuestions(questionIdAsArray)
         .then(function(question) {
-          $scope.question = question.hits.hits[0]._source;
+          _.pullAllBy(question.docs, [{'found': false}],
+          'found');
+          if (question.docs.length > 0) {
+            $scope.question = question.docs[0]._source;
+          }
         });
       }
-      DataSetSearchResource
-      .getCounts('variableIds', $scope.variable.id)
+      DataSetSearchService
+      .countBy('variableIds', $scope.variable.id)
       .then(function(dataSetsCount) {
         $scope.counts.dataSetsCount = dataSetsCount.count;
       });
-      RelatedPublicationSearchResource
-      .getCounts('variableIds', $scope.variable.id)
+      RelatedPublicationSearchService
+      .countBy('variableIds', $scope.variable.id)
       .then(function(publicationsCount) {
         $scope.counts.publicationsCount = publicationsCount.count;
       });
@@ -51,17 +60,23 @@ angular.module('metadatamanagementApp')
       $scope.generationCodeToggleFlag = !$scope.generationCodeToggleFlag;
     };
     $scope.showRelatedSurveys = function() {
-      SurveySearchDialogService.findSurveys('findSurveys',
-      $scope.variable.surveyIds, $scope.counts.surveysCount);
+      var paramObject = {};
+      paramObject.methodName = 'findSurveys';
+      paramObject.methodParams = $scope.variable.surveyIds;
+      SurveySearchDialogService.findSurveys(paramObject);
     };
     $scope.showRelatedDataSets = function() {
-      DataSetSearchDialogService.findDataSets('findByVariableId',
-      $scope.variable.id, $scope.counts.dataSetsCount);
+      var paramObject = {};
+      paramObject.methodName = 'findByVariableId';
+      paramObject.methodParams = $scope.variable.id;
+      DataSetSearchDialogService.findDataSets(paramObject);
     };
     $scope.showRelatedPublications = function() {
-      RelatedPublicationSearchDialogService.
-      findRelatedPublications('findByVariableId', $scope.variable.id,
-      $scope.counts.publicationsCount);
+      var paramObject = {};
+      paramObject.methodName = 'findByVariableId';
+      paramObject.methodParams = $scope.variable.id;
+      RelatedPublicationSearchDialogService
+      .findRelatedPublications(paramObject);
     };
     $scope.openSuccessCopyToClipboardToast = function(message) {
       SimpleMessageToastService.openSimpleMessageToast(message, []

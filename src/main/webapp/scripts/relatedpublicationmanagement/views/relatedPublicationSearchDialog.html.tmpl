@@ -3,12 +3,36 @@
         <div class="md-toolbar-tools">
             <h2>{{'related-publication-management.detail.publications' | translate }}</h2>
             <span flex></span>
-            <md-button class="md-icon-button" ng-click="RelatedPublicationSearchDialogController.closeDialog()">
+            <md-button class="md-icon-button" ng-click="ctrl.closeDialog()">
                 <md-icon md-svg-src="/assets/images/icons/ic_close_white_24px.svg" aria-label="Close dialog"></md-icon>
             </md-button>
         </div>
     </md-toolbar>
     <md-dialog-content>
-        <related-publications method-name="{{RelatedPublicationSearchDialogController.methodName}}" method-params="RelatedPublicationSearchDialogController.methodParams" count="{{RelatedPublicationSearchDialogController.count}}"></related-publications>
+      <div block-ui="blockRelatedPublicationContainer">
+          <div ng-if="ctrl.count !== 0" class="fdz-InfiniteScroll">
+              <md-virtual-repeat-container id="vertical-container">
+                  <div md-virtual-repeat="item in ctrl.infiniteItems" md-on-demand  flex>
+                    <md-card ui-sref="relatedPublicationDetail({id:item._source.id})" class="fdz-search-result">
+                      <md-card-header class="fdz-card-header-border">
+                          <md-card-avatar>
+                              <md-icon md-svg-src="/assets/images/icons/related-publication.svg" class="fdz-search-result-icon"></md-icon>
+                          </md-card-avatar>
+                          <md-card-header-text class="fdz-truncate-string">
+                              <div class="md-title fdz-truncate-string">{{item._source.sourceReference}}</div>
+                              <div class="md-subhead fdz-truncate-string">{{item._source.doi}}</div>
+                          </md-card-header-text>
+                      </md-card-header>
+                        <md-card-content>
+                          <div class="fdz-truncate-string">{{item._source.publicationAbstract}}</div>
+                        </md-card-content>
+                    </md-card>
+                  </div>
+              </md-virtual-repeat-container>
+          </div>
+          <div ng-if="ctrl.count === 0" layout-margin>
+              <span>{{'related-publication-management.detail.no-related-publications' | translate }}</span>
+          </div>
+      </div>
     </md-dialog-content>
 </md-dialog>

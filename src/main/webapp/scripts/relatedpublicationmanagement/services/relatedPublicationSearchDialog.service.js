@@ -4,17 +4,15 @@
 angular.module('metadatamanagementApp')
   .service('RelatedPublicationSearchDialogService',
     function($mdDialog) {
-      var findRelatedPublications = function(methodName, methodParams, count) {
+      var findRelatedPublications = function(paramObject) {
         var dialogParent = angular.element(document.body);
         $mdDialog.show({
           controller: 'RelatedPublicationSearchDialogController',
-          controllerAs: 'RelatedPublicationSearchDialogController',
+          controllerAs: 'ctrl',
           parent: dialogParent,
           clickOutsideToClose: true,
           locals: {
-            methodName: methodName,
-            methodParams: methodParams,
-            count: count
+            paramObject: paramObject
           },
           templateUrl: 'scripts/relatedpublicationmanagement/views/' +
             'relatedPublicationSearchDialog.html.tmpl',
