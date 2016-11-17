@@ -14,6 +14,10 @@
         "register": "Registrieren"
       }
     },
+    "cards": {
+      "details": "Details",
+      "related-objects": "Verbundene Objekte"
+    },
     "buttons": {
       "close": "Schließen",
       "ok": "OK",
