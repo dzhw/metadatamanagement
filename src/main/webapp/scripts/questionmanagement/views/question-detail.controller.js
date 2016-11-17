@@ -63,17 +63,21 @@ angular.module('metadatamanagementApp')
               });
       });
       ctrl.showRelatedVariables = function() {
-        var paramObject = {};
-        paramObject.methodName = 'findByQuestionId';
-        paramObject.methodParams = ctrl.question.id;
-        VariableSearchDialogService.findVariables(paramObject);
+        if (ctrl.counts.variablesCount > 0) {
+          var paramObject = {};
+          paramObject.methodName = 'findByQuestionId';
+          paramObject.methodParams = ctrl.question.id;
+          VariableSearchDialogService.findVariables(paramObject);
+        }
       };
       ctrl.showRelatedPublications = function() {
-        var paramObject = {};
-        paramObject.methodName = 'findByQuestionId';
-        paramObject.methodParams = ctrl.question.id;
-        RelatedPublicationSearchDialogService.
-        findRelatedPublications(paramObject);
+        if (ctrl.counts.publicationsCount > 0) {
+          var paramObject = {};
+          paramObject.methodName = 'findByQuestionId';
+          paramObject.methodParams = ctrl.question.id;
+          RelatedPublicationSearchDialogService.
+          findRelatedPublications(paramObject);
+        }
       };
       ctrl.openSuccessCopyToClipboardToast = function() {
         SimpleMessageToastService.openSimpleMessageToast(

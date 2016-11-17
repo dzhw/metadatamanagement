@@ -35,28 +35,36 @@ angular.module('metadatamanagementApp')
             });
       });
       ctrl.showRelatedQuestions = function() {
-        var paramObject = {};
-        paramObject.methodName = 'findByProjectId';
-        paramObject.methodParams = ctrl.study.id;
-        QuestionSearchDialogService.findQuestions(paramObject);
+        if (ctrl.counts.questionsCount > 0) {
+          var paramObject = {};
+          paramObject.methodName = 'findByProjectId';
+          paramObject.methodParams = ctrl.study.id;
+          QuestionSearchDialogService.findQuestions(paramObject);
+        }
       };
       ctrl.showRelatedDataSets = function() {
-        var paramObject = {};
-        paramObject.methodName = 'findByProjectId';
-        paramObject.methodParams = ctrl.study.id;
-        DataSetSearchDialogService.findDataSets(paramObject);
+        if (ctrl.counts.dataSetsCount > 0) {
+          var paramObject = {};
+          paramObject.methodName = 'findByProjectId';
+          paramObject.methodParams = ctrl.study.id;
+          DataSetSearchDialogService.findDataSets(paramObject);
+        }
       };
       ctrl.showRelatedSurveys = function() {
-        var paramObject = {};
-        paramObject.methodName = 'findByProjectId';
-        paramObject.methodParams = ctrl.study.id;
-        SurveySearchDialogService.findSurveys(paramObject);
+        if (ctrl.counts.surveysCount > 0) {
+          var paramObject = {};
+          paramObject.methodName = 'findByProjectId';
+          paramObject.methodParams = ctrl.study.id;
+          SurveySearchDialogService.findSurveys(paramObject);
+        }
       };
       ctrl.showRelatedPublications = function() {
-        var paramObject = {};
-        paramObject.methodName = 'findByStudyId';
-        paramObject.methodParams = ctrl.study.id;
-        RelatedPublicationSearchDialogService.
-        findRelatedPublications(paramObject);
+        if (ctrl.counts.publicationsCount > 0) {
+          var paramObject = {};
+          paramObject.methodName = 'findByStudyId';
+          paramObject.methodParams = ctrl.study.id;
+          RelatedPublicationSearchDialogService.
+          findRelatedPublications(paramObject);
+        }
       };
     });

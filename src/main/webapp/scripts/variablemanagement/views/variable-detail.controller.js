@@ -60,23 +60,29 @@ angular.module('metadatamanagementApp')
       $scope.generationCodeToggleFlag = !$scope.generationCodeToggleFlag;
     };
     $scope.showRelatedSurveys = function() {
-      var paramObject = {};
-      paramObject.methodName = 'findSurveys';
-      paramObject.methodParams = $scope.variable.surveyIds;
-      SurveySearchDialogService.findSurveys(paramObject);
+      if ($scope.counts.surveysCount > 0) {
+        var paramObject = {};
+        paramObject.methodName = 'findSurveys';
+        paramObject.methodParams = $scope.variable.surveyIds;
+        SurveySearchDialogService.findSurveys(paramObject);
+      }
     };
     $scope.showRelatedDataSets = function() {
-      var paramObject = {};
-      paramObject.methodName = 'findByVariableId';
-      paramObject.methodParams = $scope.variable.id;
-      DataSetSearchDialogService.findDataSets(paramObject);
+      if ($scope.counts.dataSetsCount > 0) {
+        var paramObject = {};
+        paramObject.methodName = 'findByVariableId';
+        paramObject.methodParams = $scope.variable.id;
+        DataSetSearchDialogService.findDataSets(paramObject);
+      }
     };
     $scope.showRelatedPublications = function() {
-      var paramObject = {};
-      paramObject.methodName = 'findByVariableId';
-      paramObject.methodParams = $scope.variable.id;
-      RelatedPublicationSearchDialogService
-      .findRelatedPublications(paramObject);
+      if ($scope.counts.publicationsCount > 0) {
+        var paramObject = {};
+        paramObject.methodName = 'findByVariableId';
+        paramObject.methodParams = $scope.variable.id;
+        RelatedPublicationSearchDialogService
+        .findRelatedPublications(paramObject);
+      }
     };
     $scope.openSuccessCopyToClipboardToast = function(message) {
       SimpleMessageToastService.openSimpleMessageToast(message, []

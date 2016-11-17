@@ -23,7 +23,7 @@
                     {{'survey-management.detail.surveys' | translate}}:
                 </div>
                 <div layout="column">
-                    <div ng-repeat="title in searchResult.surveyTitles" class="fdz-truncate-string">{{title}}</div>
+                    <div ng-repeat="title in searchResult.surveyTitles track by $index" class="fdz-truncate-string">{{title}}</div>
                 </div>
             </div>
         </div>

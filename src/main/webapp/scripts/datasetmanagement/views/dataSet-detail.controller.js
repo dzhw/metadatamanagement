@@ -4,16 +4,16 @@ angular.module('metadatamanagementApp')
   .controller('DataSetDetailController', ['$scope', '$state', 'entity',
   'SurveySearchDialogService', 'VariableSearchDialogService',
   'RelatedPublicationSearchDialogService',
-  'DataSetReportService', 'Principal', 'RelatedPublicationSearchResource',
+  'DataSetReportService', 'Principal', 'RelatedPublicationSearchService',
     function($scope, $state, entity, SurveySearchDialogService,
     VariableSearchDialogService,
     RelatedPublicationSearchDialogService, DataSetReportService, Principal,
-    RelatedPublicationSearchResource) {
+    RelatedPublicationSearchService) {
       $scope.allRowsVisible = true;
       $scope.counts = {};
       entity.$promise.then(function(dataSet) {
         $scope.dataSet = dataSet;
-        RelatedPublicationSearchResource.getCounts('dataSetIds',
+        RelatedPublicationSearchService.countBy('dataSetIds',
             $scope.dataSet.id).then(function(publicationsCount) {
                 $scope.counts.publicationsCount = publicationsCount.count;
               });

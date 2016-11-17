@@ -33,17 +33,21 @@ angular.module('metadatamanagementApp')
             });
       });
       ctrl.showRelatedDataSets = function() {
-        var paramObject = {};
-        paramObject.methodName = 'findBySurveyId';
-        paramObject.methodParams = ctrl.survey.id;
-        DataSetSearchDialogService.findDataSets(paramObject);
+        if (ctrl.counts.dataSetsCount > 0) {
+          var paramObject = {};
+          paramObject.methodName = 'findBySurveyId';
+          paramObject.methodParams = ctrl.survey.id;
+          DataSetSearchDialogService.findDataSets(paramObject);
+        }
       };
       ctrl.showRelatedSurveys = function() {
-        var paramObject = {};
-        paramObject.methodName = 'findByProjectId';
-        paramObject.methodParams = ctrl.survey.dataAcquisitionProjectId;
-        paramObject.surveyId = ctrl.survey.id;
-        SurveySearchDialogService.findSurveys(paramObject);
+        if (ctrl.counts.surveysCount > 0) {
+          var paramObject = {};
+          paramObject.methodName = 'findByProjectId';
+          paramObject.methodParams = ctrl.survey.dataAcquisitionProjectId;
+          paramObject.surveyId = ctrl.survey.id;
+          SurveySearchDialogService.findSurveys(paramObject);
+        }
       };
       ctrl.setImgResolved = function() {
         ctrl.imgResolved = true;
