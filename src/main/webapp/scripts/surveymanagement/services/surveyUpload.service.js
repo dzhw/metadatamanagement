@@ -55,7 +55,11 @@ angular.module('metadatamanagementApp').service('SurveyUploadService', function(
             var imageKeys = Object.keys(images);
             imageKeys.forEach(function(imageName) {
               asyncChain = asyncChain.then(function() {
-                if (imageName.indexOf(survey.id) === -1) {
+                //check for valid name at import. no valid name, no import!
+                var imageNameGerman = survey.id + '_responserate_de';
+                var imageNameEnglish = survey.id + '_responserate_en';
+                if (imageName !== imageNameGerman &&
+                    imageName !== imageNameEnglish) {
                   return;
                 }
 
@@ -140,6 +144,9 @@ angular.module('metadatamanagementApp').service('SurveyUploadService', function(
                 });
             }
             //Prepare svg images for uploading
+            //No valid name check at this moment,
+            //because there are no survey ids
+            //Just a check for svg image
             if (file.name.endsWith('.svg')) {
               var surveyResponseName = file.name
                 .substring(0, file.name.indexOf('.svg'));
