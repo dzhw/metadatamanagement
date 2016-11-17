@@ -20,7 +20,7 @@ angular.module('metadatamanagementApp')
             }
           });
         DataSetSearchService
-        .countBy('surveyTitles',
+        .countBy('surveyIds',
         ctrl.survey.title[Language.getCurrentInstantly()])
         .then(function(dataSetsCount) {
               ctrl.counts.dataSetsCount = dataSetsCount.count;
@@ -45,7 +45,6 @@ angular.module('metadatamanagementApp')
         paramObject.surveyId = ctrl.survey.id;
         SurveySearchDialogService.findSurveys(paramObject);
       };
-
       ctrl.setImgResolved = function() {
         ctrl.imgResolved = true;
       };

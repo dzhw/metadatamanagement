@@ -1,90 +1,92 @@
-<div ng-if="study.$resolved">
+<div ng-if="ctrl.study.$resolved">
     <md-card>
         <md-card-header>
             <md-card-header-text>
-                <h1 class="md-headline">{{study.title[currentLanguage]}}</h1>
+                <h1 class="md-headline">{{ctrl.study.title[currentLanguage]}}</h1>
             </md-card-header-text>
         </md-card-header>
         <md-card-content style="padding-top: 0px;" layout="column">
             <div layout="row" layout-sm="column" layout-xs="column">
-                <md-card flex-gt-sm>
+                <md-card flex-gt-sm="60">
                     <md-card-header>
                         <md-card-header-text>
-                            <h2 class="md-title">{{'study-management.detail.study-informations' | translate }}</h2>
+                            <h2 class="md-title">{{'global.cards.details' | translate }}</h2>
                         </md-card-header-text>
                     </md-card-header>
                     <md-divider></md-divider>
                     <md-card-content>
-                        <section style="margin-bottom: 0.5em;" ng-if="study.surveySeries[currentLanguage]">
+                        <div style="margin-bottom: 0.5em;" ng-if="ctrl.study.surveySeries[currentLanguage]">
                             <span style="font-weight: bold;">{{'study-management.detail.surveySeries' | translate }}:
                             </span>
-                            <span>{{study.surveySeries[currentLanguage]}}</span>
-                        </section>
-                        <section style="margin-bottom: 0.5em;" ng-if="study.institution[currentLanguage]">
+                            <span>{{ctrl.study.surveySeries[currentLanguage]}}</span>
+                        </div>
+                        <div style="margin-bottom: 0.5em;" ng-if="ctrl.study.institution[currentLanguage]">
                             <span style="font-weight: bold;">{{'study-management.detail.institution' | translate }}:
                             </span>
-                            <span>{{study.institution[currentLanguage]}}</span>
-                        </section>
-                        <section style="margin-bottom: 0.5em;" ng-if="study.authors">
+                            <span>{{ctrl.study.institution[currentLanguage]}}</span>
+                        </div>
+                        <div style="margin-bottom: 0.5em;" ng-if="ctrl.study.authors">
                             <span style="font-weight: bold;">{{'study-management.detail.authors' | translate }}:
                             </span>
-                            <span>{{study.authors}}</span>
-                        </section>
-                        <section style="margin-bottom: 0.5em;" ng-if="study.sponsor[currentLanguage]">
+                            <span>{{ctrl.study.authors}}</span>
+                        </div>
+                        <div style="margin-bottom: 0.5em;" ng-if="ctrl.study.sponsor[currentLanguage]">
                             <span style="font-weight: bold;">{{'study-management.detail.sponsors' | translate }}:
                             </span>
-                            <span>{{study.sponsor[currentLanguage]}}</span>
-                        </section>
-                        <section style="margin-bottom: 0.5em;" ng-if="study.accessWays">
+                            <span>{{ctrl.study.sponsor[currentLanguage]}}</span>
+                        </div>
+                        <div style="margin-bottom: 0.5em;" ng-if="ctrl.study.accessWays">
                             <span style="font-weight: bold;">{{'study-management.detail.accessWays' | translate }}:
                             </span>
-                            <span>{{study.accessWays.join(', ')}}</span>
-                        </section>
-                            <section ng-if="study.releases.length > 0" ng-repeat="release in study.releases">
-                                <section style="margin-bottom: 0.5em;">
+                            <span>{{ctrl.study.accessWays.join(', ')}}</span>
+                        </div>
+                            <div ng-if="ctrl.study.releases.length > 0" ng-repeat="release in ctrl.study.releases">
+                                <div style="margin-bottom: 0.5em;">
                                     <span style="font-weight: bold;">doi:
                                     </span>
                                     <span>{{release.doi}}</span>
-                                </section>
-                                <section style="margin-bottom: 0.5em;">
+                                </div>
+                                <div style="margin-bottom: 0.5em;">
                                     <span style="font-weight: bold;">{{'study-management.detail.version' | translate }}:
                                     </span>
                                     <span>{{release.version}}</span>
-                                </section>
-                        </section>
-                        <section style="margin-bottom: 0.5em;" ng-if="study.citationHint[currentLanguage]">
+                                </div>
+                        </div>
+                        <div style="margin-bottom: 0.5em;" ng-if="ctrl.study.citationHint[currentLanguage]">
                             <span style="font-weight: bold;">{{'study-management.detail.citationHint' | translate }}:
                             </span>
-                            <span>{{study.citationHint[currentLanguage]}}</span>
-                        </section>
+                            <span>{{ctrl.study.citationHint[currentLanguage]}}</span>
+                        </div>
                     </md-card-content>
                 </md-card>
-                <md-card>
+                <md-card flex-gt-sm="40">
                     <md-card-header>
                         <md-card-header-text>
-                            <h2 class="md-title">{{'study-management.detail.related-information' | translate }}</h2>
+                            <h2 class="md-title">{{'global.cards.related-objects' | translate }}</h2>
                         </md-card-header-text>
                     </md-card-header>
                     <md-divider></md-divider>
-                    <md-card-content>
-                        <section>
-                            <md-button class="md-raised" ng-click="showQuestions()">
-                                <md-icon md-svg-src="/assets/images/icons/question.svg"></md-icon>
-                                <span>{{'question-management.detail.questions' | translate }}</span>
-                            </md-button>
-                        </section>
-                        <section>
-                            <md-button class="md-raised" ng-disabled="true" ng-click="showInstruments()">
-                                <md-icon md-svg-src="/assets/images/icons/instrument.svg"></md-icon>
-                                <span>{{'instrument-management.detail.instruments' | translate }}</span>
-                            </md-button>
-                        </section>
-                        <section>
-                            <md-button class="md-raised" ng-click="showRelatedPublications()">
-                                <md-icon md-svg-src="/assets/images/icons/related-publication.svg"></md-icon>
-                                <span>{{'related-publication-management.detail.publications' | translate }}</span>
-                            </md-button>
-                        </section>
+                    <md-card-content layout="column" layout-align="center start">
+                        <div style="margin-bottom: 0.5em; width: 100%;" layout="row">
+                            <md-icon md-svg-src="/assets/images/icons/question.svg" style="margin-top:0px; margin-right:4px;"></md-icon>
+                            <div style="margin-right:3px;">{{'question-management.detail.questions' | translate }}:</div>
+                            <a ng-click="ctrl.showRelatedQuestions()" class="fdz-truncate-string" flex>({{ctrl.counts.questionsCount}})</a>
+                        </div>
+                        <div style="margin-bottom: 0.5em; width: 100%;" layout="row">
+                            <md-icon md-svg-src="/assets/images/icons/data-set.svg" style="margin-top:0px; margin-right:4px;"></md-icon>
+                            <div style="margin-right:3px;">{{'data-set-management.detail.data-sets' | translate }}:</div>
+                            <a ng-click="ctrl.showRelatedDataSets()" class="fdz-truncate-string" flex>({{ctrl.counts.dataSetsCount}})</a>
+                        </div>
+                        <div style="margin-bottom: 0.5em; width: 100%;" layout="row">
+                            <md-icon md-svg-src="/assets/images/icons/survey.svg" style="margin-top:0px; margin-right:4px;"></md-icon>
+                            <div style="margin-right:3px;">{{'survey-management.detail.surveys' | translate }}:</div>
+                            <a ng-click="ctrl.showRelatedSurveys()" class="fdz-truncate-string" flex>({{ctrl.counts.surveysCount}})</a>
+                        </div>
+                        <div style="margin-bottom: 0.5em; width: 100%;" layout="row">
+                            <md-icon md-svg-src="/assets/images/icons/related-publication.svg" style="margin-top:0px; margin-right:4px;"></md-icon>
+                            <div style="margin-right:3px;">{{'related-publication-management.detail.publications' | translate }}:</div>
+                            <a ng-click="ctrl.showRelatedPublications()" class="fdz-truncate-string" flex>({{ctrl.counts.publicationsCount}})</a>
+                        </div>
                     </md-card-content>
                 </md-card>
             </div>
@@ -97,30 +99,56 @@
                     </md-card-header>
                     <md-divider></md-divider>
                     <md-card-content>
-                        <p ng-if="study.description[currentLanguage]">{{study.description[currentLanguage]}}</p>
+                        <p ng-if="ctrl.study.description[currentLanguage]">{{ctrl.study.description[currentLanguage]}}</p>
                     </md-card-content>
                 </md-card>
-            </div>
-            <div layout="row" layout-sm="column" layout-xs="column">
-              <div flex-gt-sm="50">
-                <div ng-repeat="survey in surveys">
-                  <survey-search-result search-result="survey._source"></survey-search-result>
-                </div>
-              </div>
-              <div flex-gt-sm="50">
-                <div ng-repeat="dataSet in dataSets">
-                  <dataset-search-result ng search-result="dataSet._source"></dataset-search-result>
-                </div>
-              </div>
             </div>
             <div layout="row">
                 <md-card flex>
                     <md-card-header>
                         <md-card-header-text>
-                            <h2 class="md-title">{{'instrument-management.detail.instruments' | translate }}</h2>
+                            <h2 class="md-title">....</h2>
                         </md-card-header-text>
                     </md-card-header>
-                    <md-content style="background-color:white;"></md-content>
+                    <md-divider></md-divider>
+                    <md-card-content>
+                    </md-card-content>
+                </md-card>
+            </div>
+            <div layout="row">
+                <md-card flex>
+                    <md-card-header>
+                        <md-card-header-text>
+                            <h2 class="md-title">....</h2>
+                        </md-card-header-text>
+                    </md-card-header>
+                    <md-divider></md-divider>
+                    <md-card-content>
+                    </md-card-content>
+                </md-card>
+            </div>
+            <div layout="row">
+                <md-card flex>
+                    <md-card-header>
+                        <md-card-header-text>
+                            <h2 class="md-title">....</h2>
+                        </md-card-header-text>
+                    </md-card-header>
+                    <md-divider></md-divider>
+                    <md-card-content>
+                    </md-card-content>
+                </md-card>
+            </div>
+            <div layout="row">
+                <md-card flex>
+                    <md-card-header>
+                        <md-card-header-text>
+                            <h2 class="md-title">....</h2>
+                        </md-card-header-text>
+                    </md-card-header>
+                    <md-divider></md-divider>
+                    <md-card-content>
+                    </md-card-content>
                 </md-card>
             </div>
         </md-card-content>

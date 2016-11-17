@@ -2,46 +2,62 @@
 
 angular.module('metadatamanagementApp')
   .controller('StudyDetailController',
-    function($scope, entity, DataSetSearchResource, SurveySearchService,
-      QuestionSearchDialogService, CleanJSObjectService,
-      RelatedPublicationSearchDialogService, QuestionSearchResource,
-      RelatedPublicationSearchResource) {
-      $scope.study = entity;
-      $scope.cleanedAccessWays = '';
-      $scope.counts = {};
+    function($scope, entity, DataSetSearchService, DataSetSearchDialogService,
+      SurveySearchService, SurveySearchDialogService, QuestionSearchService,
+      QuestionSearchDialogService, RelatedPublicationSearchDialogService,
+      RelatedPublicationSearchService) {
+
+      var ctrl = this;
+      ctrl.study = entity;
+      ctrl.counts = {};
+      ctrl.counts = {};
 
       entity.$promise.then(function(study) {
-        $scope.study = study;
-        SurveySearchService.findByProjectId($scope.study.id)
-        .then(function(surveys) {
-          if (!CleanJSObjectService.isNullOrEmpty(surveys)) {
-            $scope.surveys = surveys.hits.hits;
-          }
-        });
-        DataSetSearchResource.findByProjectId($scope.study.id)
-        .then(function(dataSets) {
-          if (!CleanJSObjectService.isNullOrEmpty(dataSets)) {
-            $scope.dataSets = dataSets.hits.hits;
-          }
-        });
-        QuestionSearchResource.getCounts('dataAcquisitionProjectId',
-            $scope.study.id).then(function(questionsCount) {
-                $scope.counts.questionsCount = questionsCount.count;
-              });
-        RelatedPublicationSearchResource.getCounts('studyIds',
-            $scope.study.id).then(function(publicationsCount) {
-                $scope.counts.publicationsCount = publicationsCount.count;
-              });
+        ctrl.study = study;
+        DataSetSearchService
+        .countBy('dataAcquisitionProjectId', ctrl.study.id)
+        .then(function(dataSetsCount) {
+              ctrl.counts.dataSetsCount = dataSetsCount.count;
+            });
+        SurveySearchService
+          .countBy('dataAcquisitionProjectId', ctrl.study.id)
+          .then(function(surveysCount) {
+              ctrl.counts.surveysCount = surveysCount.count;
+            });
+        QuestionSearchService
+           .countBy('dataAcquisitionProjectId', ctrl.study.id)
+           .then(function(questionsCount) {
+              ctrl.counts.questionsCount = questionsCount.count;
+            });
+        RelatedPublicationSearchService
+           .countBy('studyIds', ctrl.study.id)
+           .then(function(publicationsCount) {
+              ctrl.counts.publicationsCount = publicationsCount.count;
+            });
       });
-      $scope.showQuestions = function() {
-        QuestionSearchDialogService
-        .findQuestions('findByStudyId', $scope.study.id,
-        $scope.counts.questionsCount);
+      ctrl.showRelatedQuestions = function() {
+        var paramObject = {};
+        paramObject.methodName = 'findByProjectId';
+        paramObject.methodParams = ctrl.study.id;
+        QuestionSearchDialogService.findQuestions(paramObject);
       };
-      $scope.showRelatedPublications = function() {
+      ctrl.showRelatedDataSets = function() {
+        var paramObject = {};
+        paramObject.methodName = 'findByProjectId';
+        paramObject.methodParams = ctrl.study.id;
+        DataSetSearchDialogService.findDataSets(paramObject);
+      };
+      ctrl.showRelatedSurveys = function() {
+        var paramObject = {};
+        paramObject.methodName = 'findByProjectId';
+        paramObject.methodParams = ctrl.study.id;
+        SurveySearchDialogService.findSurveys(paramObject);
+      };
+      ctrl.showRelatedPublications = function() {
+        var paramObject = {};
+        paramObject.methodName = 'findByStudyId';
+        paramObject.methodParams = ctrl.study.id;
         RelatedPublicationSearchDialogService.
-        findRelatedPublications('findByStudyId', $scope.study.id,
-        $scope.counts.publicationsCount);
+        findRelatedPublications(paramObject);
       };
-      $scope.showInstruments = function() {};
     });

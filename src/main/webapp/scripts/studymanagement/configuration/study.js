@@ -14,7 +14,8 @@ angular.module('metadatamanagementApp')
           'content@': {
             templateUrl: 'scripts/studymanagement/views/' +
               'study-detail.html.tmpl',
-            controller: 'StudyDetailController'
+            controller: 'StudyDetailController',
+            controllerAs: 'ctrl'
           }
         },
         resolve: {
