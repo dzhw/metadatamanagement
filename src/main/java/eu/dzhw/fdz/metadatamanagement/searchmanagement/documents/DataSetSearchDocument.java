@@ -26,6 +26,8 @@ public class DataSetSearchDocument {
   
   private List<String> surveyTitles;
   
+  private List<String> surveyIds;
+  
   private List<String> variableIds;
   
   private List<SubDataSetSearchDocument> subDataSets;
@@ -39,6 +41,7 @@ public class DataSetSearchDocument {
     this.id = dataSet.getId();
     this.dataAcquisitionProjectId = dataSet.getDataAcquisitionProjectId();
     this.variableIds = dataSet.getVariableIds();
+    this.setSurveyIds(dataSet.getSurveyIds());
     createSubDataSetAttributes(dataSet, index);
     createI18nAttributes(dataSet, index);
     createSurveyTitles(surveys, index);
@@ -120,6 +123,14 @@ public class DataSetSearchDocument {
 
   public void setSurveyTitles(List<String> surveyTitles) {
     this.surveyTitles = surveyTitles;
+  }
+
+  public List<String> getSurveyIds() {
+    return surveyIds;
+  }
+
+  public void setSurveyIds(List<String> surveyIds) {
+    this.surveyIds = surveyIds;
   }
 
   public String getDataAcquisitionProjectId() {

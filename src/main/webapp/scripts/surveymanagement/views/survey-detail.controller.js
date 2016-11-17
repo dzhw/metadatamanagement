@@ -2,49 +2,46 @@
 
 angular.module('metadatamanagementApp')
   .controller('SurveyDetailController',
-    function(entity, $state, StudySearchResource, SurveySearchDialogService,
-      DataSetSearchDialogService, Language, DataSetSearchResource,
+    function(entity, $state, StudySearchService, SurveySearchDialogService,
+      DataSetSearchDialogService, Language, DataSetSearchService,
       SurveySearchService) {
 
       var ctrl = this;
       ctrl.imgResolved = false;
       ctrl.survey = entity;
       ctrl.counts = {};
-      var paramObject = {};
       entity.$promise.then(function(survey) {
         ctrl.survey = survey;
-        StudySearchResource
+        StudySearchService
         .findStudy(ctrl.survey.dataAcquisitionProjectId)
         .then(function(study) {
             if (study.hits.hits.length > 0) {
               ctrl.study = study.hits.hits[0]._source;
             }
           });
-        DataSetSearchResource
-        .getCounts('surveyTitles',
+        DataSetSearchService
+        .countBy('surveyTitles',
         ctrl.survey.title[Language.getCurrentInstantly()])
         .then(function(dataSetsCount) {
               ctrl.counts.dataSetsCount = dataSetsCount.count;
             });
         SurveySearchService
           .countBy('dataAcquisitionProjectId',
-          ctrl.survey.dataAcquisitionProjectId).then(function(surveysCount) {
-              ctrl.counts.surveysCount = surveysCount.count - 1;
+          ctrl.survey.dataAcquisitionProjectId, ctrl.survey.id)
+          .then(function(surveysCount) {
+              ctrl.counts.surveysCount = surveysCount.count;
             });
       });
-      ctrl.showStudy = function() {
-        $state.go('studyDetail', {id: ctrl.survey.dataAcquisitionProjectId});
-      };
-      ctrl.showRelatedInstruments = function() {};
       ctrl.showRelatedDataSets = function() {
-        DataSetSearchDialogService.findDataSets('findBySurveyTitle',
-        ctrl.survey.title[Language.getCurrentInstantly()],
-        ctrl.counts.dataSetsCount);
+        var paramObject = {};
+        paramObject.methodName = 'findBySurveyId';
+        paramObject.methodParams = ctrl.survey.id;
+        DataSetSearchDialogService.findDataSets(paramObject);
       };
       ctrl.showRelatedSurveys = function() {
+        var paramObject = {};
         paramObject.methodName = 'findByProjectId';
         paramObject.methodParams = ctrl.survey.dataAcquisitionProjectId;
-        paramObject.count = ctrl.counts.surveysCount;
         paramObject.surveyId = ctrl.survey.id;
         SurveySearchDialogService.findSurveys(paramObject);
       };

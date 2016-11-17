@@ -4,17 +4,15 @@
 angular.module('metadatamanagementApp')
   .service('DataSetSearchDialogService',
     function($mdDialog) {
-      var findDataSets = function(methodName, methodParams, count) {
+      var findDataSets = function(paramObject) {
         var dialogParent = angular.element(document.body);
         $mdDialog.show({
           controller: 'DataSetSearchDialogController',
-          controllerAs: 'DataSetSearchDialogController',
+          controllerAs: 'ctrl',
           parent: dialogParent,
           clickOutsideToClose: true,
           locals: {
-            methodName: methodName,
-            methodParams: methodParams,
-            count: count
+            paramObject: paramObject
           },
           templateUrl: 'scripts/datasetmanagement/views/' +
             'dataSetSearchDialog.html.tmpl',

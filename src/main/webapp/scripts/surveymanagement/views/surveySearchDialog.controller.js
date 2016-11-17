@@ -6,7 +6,6 @@ angular.module('metadatamanagementApp')
     function($mdDialog, $scope, blockUI, paramObject, SurveySearchService) {
       var ctrl = this;
       ctrl.paramObject = paramObject;
-      ctrl.count = Number(ctrl.paramObject.count);
       var blockArea = blockUI.instances.get('blockRelatedSurveyContainer');
       ctrl.infiniteItems = {
         numLoaded_: 0,
@@ -23,7 +22,7 @@ angular.module('metadatamanagementApp')
                   return this.items[index];
                 },
         getLength: function() {
-          if (this.numLoaded_ >= ctrl.paramObject.count) {
+          if (this.numLoaded_ >= ctrl.count) {
             return this.items.length;
           }
           return this.items.length + this.size;
@@ -51,6 +50,7 @@ angular.module('metadatamanagementApp')
                         ctrl.paramObject.methodParams, this.from, this.size,
                         ctrl.paramObject.surveyId)
                         .then(angular.bind(this, function(surveys) {
+                          ctrl.count = surveys.hits.total;
                           this.items = _.concat(this.items, surveys.hits.hits);
                           this.numLoaded_ = this.items.length;
                           this.from += this.size;

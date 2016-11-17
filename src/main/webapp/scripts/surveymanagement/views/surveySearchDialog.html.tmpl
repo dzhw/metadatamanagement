@@ -10,9 +10,9 @@
     </md-toolbar>
     <md-dialog-content>
         <div block-ui="blockRelatedSurveyContainer">
-            <div ng-if="ctrl.paramObject.count !== 0" class="fdz-InfiniteScroll">
+            <div ng-if="ctrl.count !== 0" class="fdz-InfiniteScroll">
                 <md-virtual-repeat-container id="vertical-container">
-                    <div md-virtual-repeat="item in ctrl.infiniteItems" md-on-demand class="repeated-item" flex>
+                    <div md-virtual-repeat="item in ctrl.infiniteItems" md-on-demand  flex>
                         <md-card ui-sref="surveyDetail({id:item._source.id})" class="fdz-search-result">
                             <md-card-header class="fdz-card-header-border">
                                 <md-card-avatar>
@@ -40,16 +40,7 @@
                     </div>
                 </md-virtual-repeat-container>
             </div>
-            <!--
-            <div ng-if="ctrl.surveys.totalHits !== 0" class="fdz-InfiniteScroll">
-                <md-virtual-repeat-container id="vertical-container">
-                    <div md-virtual-repeat="survey in ctrl.surveys" md-on-demand class="fdz-repeated-item" flex>
-                        <survey-search-result search-result="survey._source"></survey-search-result>
-                    </div>
-                </md-virtual-repeat-container>
-            </div>
-            -->
-            <div ng-if="ctrl.paramObject.count === 0" layout-margin>
+            <div ng-if="ctrl.count === 0" layout-margin>
                 <span>{{'survey-management.detail.no-related-surveys' | translate }}</span>
             </div>
         </div>

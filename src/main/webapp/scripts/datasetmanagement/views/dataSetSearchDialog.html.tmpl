@@ -1,14 +1,56 @@
-<md-dialog aria-label="{{'data-set-management.home.title' | translate }}" style="width: 70%;">
+<md-dialog aria-label="{{'survey-management.home.title' | translate }}" style="width: 70%;">
     <md-toolbar>
         <div class="md-toolbar-tools">
-            <h2>{{'data-set-management.home.title' | translate }}</h2>
+            <h2>{{'survey-management.home.title' | translate }}</h2>
             <span flex></span>
-            <md-button class="md-icon-button" ng-click="DataSetSearchDialogController.closeDialog()">
+            <md-button class="md-icon-button" ng-click="ctrl.closeDialog()">
                 <md-icon md-svg-src="/assets/images/icons/ic_close_white_24px.svg" aria-label="Close dialog"></md-icon>
             </md-button>
         </div>
     </md-toolbar>
     <md-dialog-content>
-      <related-data-sets method-name="{{DataSetSearchDialogController.methodName}}" method-params="DataSetSearchDialogController.methodParams" count="{{DataSetSearchDialogController.count}}"></related-data-sets>
+        <div block-ui="blockRelatedSurveyContainer">
+            <div ng-if="ctrl.count !== 0" class="fdz-InfiniteScroll">
+                <md-virtual-repeat-container id="vertical-container">
+                    <div md-virtual-repeat="item in ctrl.infiniteItems" md-on-demand flex>
+                      <md-card ui-sref="data-setDetail({id:item._source.id})" class="fdz-search-result">
+                          <md-card-header class="fdz-card-header-border">
+                              <md-card-avatar>
+                                  <md-icon md-svg-src="/assets/images/icons/data-set.svg" class="fdz-search-result-icon"></md-icon>
+                              </md-card-avatar>
+                              <md-card-header-text class="fdz-truncate-string">
+                                  <div class="md-title fdz-truncate-string">{{'data-set-management.detail.data-set' | translate}}</div>
+                                  <div class="md-subhead fdz-truncate-string">{{item._source.id}}</div>
+                              </md-card-header-text>
+                          </md-card-header>
+                          <md-card-content layout="row" layout-xs="column" layout-align="space-between none">
+                              <div layout="column">
+                                  <div layout="row" layout-xs="column" style="margin-bottom: 8px;">
+                                      <div class="fdz-search-result-label">
+                                          {{'data-set-management.detail.description' | translate}}:
+                                      </div>
+                                      <div>
+                                          {{item._source.description}}
+                                      </div>
+                                  </div>
+                                  <div layout="row" layout-xs="column">
+                                      <div class="fdz-search-result-label">
+                                          {{'survey-management.detail.surveys' | translate}}:
+                                      </div>
+                                      <div layout="column">
+                                          <div ng-repeat="title in item._source.surveyTitles track by $index" class="fdz-truncate-string">{{title}}</div>
+                                      </div>
+                                  </div>
+                              </div>
+                          </md-card-content>
+                      </md-card>
+
+                    </div>
+                </md-virtual-repeat-container>
+            </div>
+            <div ng-if="ctrl.count === 0" layout-margin>
+                <span>{{'survey-management.detail.no-related-surveys' | translate }}</span>
+            </div>
+        </div>
     </md-dialog-content>
 </md-dialog>
