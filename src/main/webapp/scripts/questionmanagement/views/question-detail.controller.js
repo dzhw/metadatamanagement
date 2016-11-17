@@ -62,25 +62,19 @@ angular.module('metadatamanagementApp')
                 ctrl.counts.publicationsCount = publicationsCount.count;
               });
       });
-
-      /* function to open dialog for variables */
-      ctrl.showVariables = function() {
-        VariableSearchDialogService.findVariables('findByQuestionId',
-        ctrl.question.id, ctrl.counts.variablesCount);
+      ctrl.showRelatedVariables = function() {
+        var paramObject = {};
+        paramObject.methodName = 'findByQuestionId';
+        paramObject.methodParams = ctrl.question.id;
+        VariableSearchDialogService.findVariables(paramObject);
       };
-
-      ctrl.showStudy = function() {
-        $state.go('studyDetail', {
-          id: ctrl.question.dataAcquisitionProjectId
-        });
-      };
-
       ctrl.showRelatedPublications = function() {
+        var paramObject = {};
+        paramObject.methodName = 'findByQuestionId';
+        paramObject.methodParams = ctrl.question.id;
         RelatedPublicationSearchDialogService.
-        findRelatedPublications('findByQuestionId', ctrl.question.id,
-        ctrl.counts.publicationsCount);
+        findRelatedPublications(paramObject);
       };
-
       ctrl.openSuccessCopyToClipboardToast = function() {
         SimpleMessageToastService.openSimpleMessageToast(
           'question-management.log-messages.question.' +

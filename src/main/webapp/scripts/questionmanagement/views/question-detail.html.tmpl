@@ -8,59 +8,67 @@
         </md-card-header>
         <md-card-content style="padding-top: 0px;" layout="column">
             <div layout="row" layout-sm="column" layout-xs="column">
-                <md-card flex-gt-sm="50">
+                <md-card flex-gt-sm="60">
                     <div style="max-height: 400px; overflow-y:auto;">
                         <a ng-href="/public/files/questions/{{ctrl.question.id}}" alt="{{ctrl.question.questionText[currentLanguage] }}" target="_blank">
                             <img alt="" style="width:auto; max-width:100%; height:auto;" ng-src="public/files/questions/{{ctrl.question.id}}"/>
                         </a>
                     </div>
                 </md-card>
-                <md-card flex-gt-sm="50">
+                <md-card flex-gt-sm="40">
                     <md-card-header>
                         <md-card-header-text>
                             <h2 class="md-title">{{'question-management.detail.related-information' | translate }}</h2>
                         </md-card-header-text>
                     </md-card-header>
                     <md-divider></md-divider>
-                    <md-card-content>
-                        <section>
-                            <md-button class="md-raised" ng-click="showStudy()">
-                                <md-icon md-svg-src="/assets/images/icons/study.svg"></md-icon>
-                                <span>{{'study-management.detail.study' | translate }}</span>
-                            </md-button>
-                        </section>
-                        <section>
-                            <md-button class="md-raised" ng-disabled="true">
-                                <md-icon md-svg-src="/assets/images/icons/instrument.svg"></md-icon>
-                                <span>{{'instrument-management.detail.instrument' | translate }}</span>
-                            </md-button>
-                        </section>
-                        <section>
-                            <md-button class="md-raised" ng-click="showVariables()">
-                                <md-icon md-svg-src="/assets/images/icons/variable.svg"></md-icon>
-                                <span>{{'variable-management.detail.variables' | translate }}</span>
-                            </md-button>
-                        </section>
-                        <section>
-                            <md-button class="md-raised" ng-click="showRelatedPublications()">
-                                <md-icon md-svg-src="/assets/images/icons/related-publication.svg"></md-icon>
-                                <span>{{'related-publication-management.detail.publications' | translate }}</span>
-                            </md-button>
-                        </section>
+                    <md-card-content layout="column" layout-align="center start">
+                        <div style="margin-bottom: 0.5em; width: 100%;" layout="row">
+                          <md-icon md-svg-src="/assets/images/icons/study.svg" style="margin-top:0px; margin-right:4px;"></md-icon>
+                          <div style="margin-right:3px;">{{'study-management.detail.study' | translate }}:</div>
+                          <div ng-if="!ctrl.study" class="fdz-truncate-string" flex>{{'global.messages.error.unavailable' | translate}}</div>
+                          <a ng-if="ctrl.study" ui-sref="studyDetail({id:ctrl.study.dataAcquisitionProjectId})" class="fdz-truncate-string" flex>{{ctrl.study.title[currentLanguage]}}</a>
+                        </div>
+                        <div style="margin-bottom: 0.5em; width: 100%;" layout="row">
+                            <md-icon md-svg-src="/assets/images/icons/variable.svg" style="margin-top:0px; margin-right:4px;"></md-icon>
+                            <div style="margin-right:3px;">{{'variable-management.detail.variables' | translate }}:</div>
+                            <a ng-click="ctrl.showRelatedVariables()" class="fdz-truncate-string" flex>({{ctrl.counts.variablesCount}})</a>
+                        </div>
+                        <div style="margin-bottom: 0.5em; width: 100%;" layout="row">
+                            <md-icon md-svg-src="/assets/images/icons/related-publication.svg" style="margin-top:0px; margin-right:4px;"></md-icon>
+                            <div style="margin-right:3px;">{{'related-publication-management.detail.publications' | translate }}:</div>
+                            <a ng-click="ctrl.showRelatedPublications()" class="fdz-truncate-string" flex>({{ctrl.counts.publicationsCount}})</a>
+                        </div>
                     </md-card-content>
                 </md-card>
             </div>
-            <div layout="row" layout-sm="column" layout-xs="column">
-              <div flex-gt-sm="50">
-                <div ng-repeat="predecessor in predecessors">
-                  <question-search-result search-result="predecessor._source"></question-search-result>
-                </div>
-              </div>
-              <div flex-gt-sm="50">
-                <div ng-repeat="successor in successors">
-                  <question-search-result ng search-result="successor._source"></question-search-result>
-                </div>
-              </div>
+            <div layout="row" layout-xs="column" layout-sm="column">
+                <md-card flex-gt-sm="50">
+                    <md-card-header>
+                        <md-card-header-text>
+                            <h2 class="md-title">{{'question-management.detail.predecessors' | translate }}</h2>
+                        </md-card-header-text>
+                    </md-card-header>
+                    <md-divider></md-divider>
+                    <md-content style="background-color:white;">
+                      <div ng-repeat="predecessor in ctrl.predecessors">
+                        <question-search-result search-result="predecessor._source"></question-search-result>
+                      </div>
+                    </md-content>
+                </md-card>
+                <md-card flex-gt-sm="50">
+                    <md-card-header>
+                        <md-card-header-text>
+                            <h2 class="md-title">{{'question-management.detail.successors' | translate }}</h2>
+                        </md-card-header-text>
+                    </md-card-header>
+                    <md-divider></md-divider>
+                    <md-content style="background-color:white;">
+                      <div ng-repeat="successor in ctrl.successors">
+                        <question-search-result ng search-result="successor._source"></question-search-result>
+                      </div>
+                    </md-content>
+                </md-card>
             </div>
             <div ng-if="ctrl.question.technicalRepresentation" layout="row">
                 <md-card flex>
