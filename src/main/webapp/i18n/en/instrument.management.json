@@ -10,7 +10,10 @@
         "cancelled": "Instrument upload cancelled!"
       },
       "instrument-attachment": {
-        "not-saved": "Attachment \"{{ id }}\" has not been saved:"
+        "not-saved": "Attachment \"{{ id }}\" has not been saved:",
+        "missing-instrument-id": "Attachment {{ index }} does not have an Instrument ID and has not been saved.",
+        "missing-filename": "Attachment {{ index }} does not have a filename and has not been saved.",
+        "file-not-found": "The File {{ filename }} was not found and has not been saved."
       }
     },
     "detail": {
@@ -59,7 +62,8 @@
         },
         "type": {
           "not-null": "The type of the attachment must not be empty!",
-          "i18n-string-size": "The type is mandatory in both languages and must not contain more than 32 characters."
+          "i18n-string-size": "The type is mandatory in both languages and must not contain more than 32 characters.",
+          "valid-type": "The type must be one of the following: Questionnaire, Question Flow, Variable Questionnaire, Other."
         },
         "title": {
           "not-null": "The titel of the attachment must not be empty!",

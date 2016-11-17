@@ -10,7 +10,10 @@
         "cancelled": "Upload von Instrumenten Abgebrochen!"
       },
       "instrument-attachment": {
-        "not-saved": "Attachment \"{{ id }}\" wurde nicht gespeichert:"
+        "not-saved": "Attachment \"{{ id }}\" wurde nicht gespeichert:",
+        "missing-instrument-id": "Das {{ index }}. Attachment hat keine Instrument ID und wurde daher nicht gespeichert,",
+        "missing-filename": "Das {{ index }}. Attachment hat keinen Dateinamen und wurde daher nicht gespeichert.",
+        "file-not-found": "Die Datei {{ filename }} wurde nicht gefunden und wurde daher nicht gespeichert!"
       }
     },
     "detail": {
@@ -59,7 +62,8 @@
         },
         "type": {
           "not-null": "Der Typ des Attachments darf nicht leer sein.",
-          "i18n-string-size": "Der Typ muss in beiden Sprachen angegeben werden und darf nicht länger als 32 Zeichen sein."
+          "i18n-string-size": "Der Typ muss in beiden Sprachen angegeben werden und darf nicht länger als 32 Zeichen sein.",
+          "valid-type": "Der Typ muss einer der folgenden Werte sein: Fragebogen, Filterdiagramm, Variablenfragebogen, Sonstige."
         },
         "title": {
           "not-null": "Der Titel des Attachments darf nicht leer sein.",

@@ -3,10 +3,11 @@ package eu.dzhw.fdz.metadatamanagement.instrumentmanagement.domain.validation;
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 
+import eu.dzhw.fdz.metadatamanagement.instrumentmanagement.domain.Instrument;
 import eu.dzhw.fdz.metadatamanagement.instrumentmanagement.domain.InstrumentTypes;
 
 /**
- * Validates the name of a id.
+ * Validates the type of an {@link Instrument}.
  */
 public class ValidInstrumentTypeValidator
     implements ConstraintValidator<ValidInstrumentType, String> {
