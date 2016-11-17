@@ -3,12 +3,49 @@
         <div class="md-toolbar-tools">
             <h2>{{'variable-management.home.title' | translate }}</h2>
             <span flex></span>
-            <md-button class="md-icon-button" ng-click="VariableSearchDialogController.closeDialog()">
+            <md-button class="md-icon-button" ng-click="ctrl.closeDialog()">
                 <md-icon md-svg-src="/assets/images/icons/ic_close_white_24px.svg" aria-label="Close dialog"></md-icon>
             </md-button>
         </div>
     </md-toolbar>
     <md-dialog-content>
-        <related-variables method-name="{{VariableSearchDialogController.methodName}}" method-params="VariableSearchDialogController.methodParams" count="{{VariableSearchDialogController.count}}"></related-variables>
+      <div block-ui="blockRelatedSurveyContainer">
+          <div ng-if="ctrl.count !== 0" class="fdz-InfiniteScroll">
+              <md-virtual-repeat-container id="vertical-container">
+                  <div md-virtual-repeat="item in ctrl.infiniteItems" md-on-demand  flex>
+                    <md-card ui-sref="variableDetail({id:item._source.id})" class="fdz-search-result">
+                        <md-card-header class="fdz-card-header-border">
+                            <md-card-avatar>
+                                <md-icon md-svg-src="/assets/images/icons/variable.svg" class="fdz-search-result-icon"></md-icon>
+                            </md-card-avatar>
+                            <md-card-header-text class="fdz-truncate-string">
+                                <div class="md-title fdz-truncate-string">{{item._source.label}}</div>
+                                <div class="md-subhead fdz-truncate-string">{{item._source.name}}
+                                    ({{item._source.dataType}},
+                                    {{item._source.scaleLevel}})</div>
+                            </md-card-header-text>
+                        </md-card-header>
+                        <md-card-content>
+                          <div layout="row" layout-xs="column" >
+                              <div class="fdz-search-result-label">
+                                  {{ 'variable-management.labels.surveyed-in' | translate}}
+                              </div>
+                              <div layout="column">
+                                  <div class="fdz-truncate-string" ng-repeat="title in item._source.surveyTitles track by $index">
+                                      <md-icon md-svg-src="/assets/images/icons/survey.svg" class="fdz-inline-icon"></md-icon>
+                                      {{title}}
+                                  </div>
+                              </div>
+                          </div>
+                        </md-card-content>
+                    </md-card>
+
+                  </div>
+              </md-virtual-repeat-container>
+          </div>
+          <div ng-if="ctrl.count === 0" layout-margin>
+              <span>{{'variable-management.detail.no-related-variables' | translate }}</span>
+          </div>
+      </div>
     </md-dialog-content>
 </md-dialog>

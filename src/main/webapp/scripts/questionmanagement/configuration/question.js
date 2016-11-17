@@ -14,12 +14,14 @@ angular.module('metadatamanagementApp')
           'content@': {
             templateUrl: 'scripts/questionmanagement/views/' +
               'question-detail.html.tmpl',
-            controller: 'QuestionDetailController'
+            controller: 'QuestionDetailController',
+            controllerAs: 'ctrl'
           }
         },
         resolve: {
           translatePartialLoader: ['$translatePartialLoader',
             function($translatePartialLoader) {
+              $translatePartialLoader.addPart('global');
               $translatePartialLoader.addPart('question.management');
               $translatePartialLoader.addPart('variable.management');
               $translatePartialLoader.addPart('study.management');

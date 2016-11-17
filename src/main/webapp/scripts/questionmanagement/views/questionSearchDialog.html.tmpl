@@ -3,12 +3,38 @@
         <div class="md-toolbar-tools">
             <h2>{{'question-management.home.title' | translate }}</h2>
             <span flex></span>
-            <md-button class="md-icon-button" ng-click="QuestionSearchDialogController.closeDialog()">
+            <md-button class="md-icon-button" ng-click="ctrl.closeDialog()">
                 <md-icon md-svg-src="/assets/images/icons/ic_close_white_24px.svg" aria-label="Close dialog"></md-icon>
             </md-button>
         </div>
     </md-toolbar>
     <md-dialog-content>
-        <related-questions method-name="{{QuestionSearchDialogController.methodName}}" method-params="QuestionSearchDialogController.methodParams" count="{{QuestionSearchDialogController.count}}"></related-questions>
+      <div block-ui="blockRelatedQuestionContainer">
+          <div ng-if="ctrl.count !== 0" class="fdz-InfiniteScroll">
+              <md-virtual-repeat-container id="vertical-container">
+                  <div md-virtual-repeat="item in ctrl.infiniteItems" md-on-demand  flex>
+                    <md-card ui-sref="questionDetail({id:item._source.id})" class="fdz-search-result">
+                        <md-card-header class="fdz-card-header-border">
+                            <md-card-avatar>
+                                <md-icon md-svg-src="/assets/images/icons/question.svg" class="fdz-search-result-icon"></md-icon>
+                            </md-card-avatar>
+                            <md-card-header-text class="fdz-truncate-string">
+                                <div class="md-title fdz-truncate-string">Fragebogen
+                                    {{item._source.dataAcquisitionProjectId}}</div>
+                                <div class="md-subhead fdz-truncate-string">{{item._source.compositeQuestionName}}
+                                    ({{item._source.type}})</div>
+                            </md-card-header-text>
+                        </md-card-header>
+                        <md-card-content>
+                            <div>{{item._source.number}}: {{item._source.questionText}}</div>
+                        </md-card-content>
+                    </md-card>
+                  </div>
+              </md-virtual-repeat-container>
+          </div>
+          <div ng-if="ctrl.count === 0" layout-margin>
+              <span>{{'question-management.detail.no-related-questions' | translate }}</span>
+          </div>
+      </div>
     </md-dialog-content>
 </md-dialog>

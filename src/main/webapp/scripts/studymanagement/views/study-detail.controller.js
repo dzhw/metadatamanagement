@@ -10,7 +10,6 @@ angular.module('metadatamanagementApp')
       var ctrl = this;
       ctrl.study = entity;
       ctrl.counts = {};
-      ctrl.counts = {};
 
       entity.$promise.then(function(study) {
         ctrl.study = study;

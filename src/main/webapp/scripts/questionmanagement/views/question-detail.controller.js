@@ -5,81 +5,83 @@
 angular.module('metadatamanagementApp')
   .controller('QuestionDetailController',
 
-    function($scope, StudyReferencedResource,
+    function(StudyReferencedResource,
       VariableSearchDialogService, entity, $state,
-      SimpleMessageToastService, QuestionSearchResource, CleanJSObjectService,
-      RelatedPublicationSearchDialogService, VariableSearchResource,
-      RelatedPublicationSearchResource) {
+      SimpleMessageToastService, QuestionSearchService, CleanJSObjectService,
+      RelatedPublicationSearchDialogService, VariableSearchService,
+      RelatedPublicationSearchService) {
 
-      $scope.predecessors = [];
-      $scope.successors = [];
-      $scope.counts = {};
+      var ctrl = this;
+      ctrl.study = entity;
+      ctrl.predecessors = [];
+      ctrl.successors = [];
+      ctrl.counts = {};
 
       entity.$promise.then(function(question) {
-        $scope.question = question;
-        $scope.questionIdAsArray = question.id.split(',');
-        QuestionSearchResource.findPredeccessors(question.id)
+        ctrl.question = question;
+        ctrl.questionIdAsArray = question.id.split(',');
+        QuestionSearchService.findPredeccessors(question.id)
           .then(function(predecessors) {
             if (!CleanJSObjectService.isNullOrEmpty(predecessors)) {
-              $scope.predecessors = predecessors.hits.hits;
+              ctrl.predecessors = predecessors.hits.hits;
             }
           });
-        QuestionSearchResource.findSuccessors(question.successors)
+        QuestionSearchService.findSuccessors(question.successors)
           .then(function(successors) {
             if (!CleanJSObjectService.isNullOrEmpty(successors)) {
-              $scope.successors = successors.docs;
+              ctrl.successors = successors.docs;
             }
           });
-        if ($scope.question.technicalRepresentation) {
+        if (ctrl.question.technicalRepresentation) {
           //default value is no beautify
-          $scope.technicalRepresentationBeauty =
-            $scope.question.technicalRepresentation.source;
+          ctrl.technicalRepresentationBeauty =
+            ctrl.question.technicalRepresentation.source;
 
           //beautify xml, html, xhtml files.
-          if ($scope.question.technicalRepresentation.language === 'xml' ||
-            $scope.question.technicalRepresentation.language === 'xhtml' ||
-            $scope.question.technicalRepresentation.language === 'html') {
-            $scope.technicalRepresentationBeauty =
-              html_beautify($scope.question.technicalRepresentation.source); //jscs:ignore
+          if (ctrl.question.technicalRepresentation.language === 'xml' ||
+            ctrl.question.technicalRepresentation.language === 'xhtml' ||
+            ctrl.question.technicalRepresentation.language === 'html') {
+            ctrl.technicalRepresentationBeauty =
+              html_beautify(ctrl.question.technicalRepresentation.source); //jscs:ignore
           }
         }
 
         StudyReferencedResource
           .getReferencedStudy({
-            id: $scope.question.dataAcquisitionProjectId
+            id: ctrl.question.dataAcquisitionProjectId
           })
           .$promise.then(function(study) {
-            $scope.study = study;
+            ctrl.study = study;
           });
-        VariableSearchResource.getCounts('questionId',
-            $scope.question.id).then(function(variablesCount) {
-                $scope.counts.variablesCount = variablesCount.count;
+        VariableSearchService.countBy('questionId',
+            ctrl.question.id).then(function(variablesCount) {
+                ctrl.counts.variablesCount = variablesCount.count;
               });
-        RelatedPublicationSearchResource.getCounts('questionIds',
-            $scope.question.id).then(function(publicationsCount) {
-                $scope.counts.publicationsCount = publicationsCount.count;
+        RelatedPublicationSearchService.countBy('questionIds',
+            ctrl.question.id).then(function(publicationsCount) {
+                ctrl.counts.publicationsCount = publicationsCount.count;
               });
       });
 
       /* function to open dialog for variables */
-      $scope.showVariables = function() {
+      ctrl.showVariables = function() {
         VariableSearchDialogService.findVariables('findByQuestionId',
-        $scope.question.id, $scope.counts.variablesCount);
+        ctrl.question.id, ctrl.counts.variablesCount);
       };
 
-      $scope.showStudy = function() {
+      ctrl.showStudy = function() {
         $state.go('studyDetail', {
-          id: $scope.question.dataAcquisitionProjectId
+          id: ctrl.question.dataAcquisitionProjectId
         });
       };
 
-      $scope.showRelatedPublications = function() {
+      ctrl.showRelatedPublications = function() {
         RelatedPublicationSearchDialogService.
-        findRelatedPublications('findByQuestionId', $scope.question.id,
-        $scope.counts.publicationsCount);
+        findRelatedPublications('findByQuestionId', ctrl.question.id,
+        ctrl.counts.publicationsCount);
       };
 
-      $scope.openSuccessCopyToClipboardToast = function() {
+      ctrl.openSuccessCopyToClipboardToast = function() {
         SimpleMessageToastService.openSimpleMessageToast(
           'question-management.log-messages.question.' +
           'technical-representation-success-copy-to-clipboard', []

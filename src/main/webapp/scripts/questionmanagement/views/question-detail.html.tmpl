@@ -1,17 +1,17 @@
-<div ng-if="question.$resolved">
+<div ng-if="ctrl.question.$resolved">
     <md-card>
         <md-card-header>
             <md-card-header-text>
                 <h1 class="md-headline">{{study.title[currentLanguage]}}
-                    {{question.number}}</h1>
+                    {{ctrl.question.number}}</h1>
             </md-card-header-text>
         </md-card-header>
         <md-card-content style="padding-top: 0px;" layout="column">
             <div layout="row" layout-sm="column" layout-xs="column">
                 <md-card flex-gt-sm="50">
                     <div style="max-height: 400px; overflow-y:auto;">
-                        <a ng-href="/public/files/questions/{{question.id}}" alt="{{question.questionText[currentLanguage] }}" target="_blank">
-                            <img alt="" style="width:auto; max-width:100%; height:auto;" ng-src="public/files/questions/{{question.id}}"/>
+                        <a ng-href="/public/files/questions/{{ctrl.question.id}}" alt="{{ctrl.question.questionText[currentLanguage] }}" target="_blank">
+                            <img alt="" style="width:auto; max-width:100%; height:auto;" ng-src="public/files/questions/{{ctrl.question.id}}"/>
                         </a>
                     </div>
                 </md-card>
@@ -62,11 +62,11 @@
                 </div>
               </div>
             </div>
-            <div ng-if="question.technicalRepresentation" layout="row">
+            <div ng-if="ctrl.question.technicalRepresentation" layout="row">
                 <md-card flex>
                     <md-card-header class="fdz-card-header-with-button" layout-align="center center">
                         <md-card-header-text>
-                            <h2 class="md-title">{{'question-management.detail.technical-representation' | translate }} ({{question.technicalRepresentation.type}})</h2>
+                            <h2 class="md-title">{{'question-management.detail.technical-representation' | translate }} ({{ctrl.question.technicalRepresentation.type}})</h2>
                         </md-card-header-text>
                         <md-button ng-click="openSuccessCopyToClipboardToast()" class="md-fab md-mini md-primary" ngclipboard data-clipboard-text="{{technicalRepresentationBeauty}}" aria-label="{{'question-management.detail.button.aria-label.copy-to-clipboard' | translate}}">
                           <md-icon md-font-library="material-icons">content_copy</md-icon>
@@ -77,7 +77,7 @@
                     </md-card-header>
                     <md-divider></md-divider>
                     <md-card-content>
-                      <div hljs hljs-language="{{question.technicalRepresentation.language}}" hljs-source="technicalRepresentationBeauty"></div>
+                      <div hljs hljs-language="{{ctrl.question.technicalRepresentation.language}}" hljs-source="technicalRepresentationBeauty"></div>
                     </md-card-content>
                 </md-card>
             </div>

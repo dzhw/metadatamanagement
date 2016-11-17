@@ -3,17 +3,15 @@
 
 angular.module('metadatamanagementApp').service('QuestionSearchDialogService',
   function($mdDialog) {
-    var findQuestions = function(methodName, methodParams, count) {
+    var findQuestions = function(paramObject) {
       var dialogParent = angular.element(document.body);
       $mdDialog.show({
         controller: 'QuestionSearchDialogController',
-        controllerAs: 'QuestionSearchDialogController',
+        controllerAs: 'ctrl',
         parent: dialogParent,
         clickOutsideToClose: true,
         locals: {
-          methodName: methodName,
-          methodParams: methodParams,
-          count: count
+          paramObject: paramObject
         },
         templateUrl: 'scripts/questionmanagement/' +
           'views/questionSearchDialog.html.tmpl',

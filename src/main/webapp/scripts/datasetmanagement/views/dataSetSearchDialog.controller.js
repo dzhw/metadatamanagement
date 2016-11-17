@@ -6,7 +6,7 @@ angular.module('metadatamanagementApp')
     function($mdDialog, $scope, blockUI, paramObject, DataSetSearchService) {
       var ctrl = this;
       ctrl.paramObject = paramObject;
-      var blockArea = blockUI.instances.get('blockRelatedSurveyContainer');
+      var blockArea = blockUI.instances.get('blockRelatedDataSetContainer');
       ctrl.infiniteItems = {
         numLoaded_: 0,
         toLoad_: 0,
