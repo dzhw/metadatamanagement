@@ -16,7 +16,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.codahale.metrics.annotation.Timed;
 
-import eu.dzhw.fdz.metadatamanagement.surveymanagement.service.SurveyImageService;
+import eu.dzhw.fdz.metadatamanagement.surveymanagement.service.SurveyResponseRateImageService;
 
 /**
  * REST controller for uploading an survey image.
@@ -25,10 +25,10 @@ import eu.dzhw.fdz.metadatamanagement.surveymanagement.service.SurveyImageServic
  */
 @Controller
 @RequestMapping("/api")
-public class SurveyImageResource {
+public class SurveyResponseRateImageResource {
 
   @Inject
-  private SurveyImageService surveyImageService;
+  private SurveyResponseRateImageService surveyResponseRateImageService;
   
   /**
    * REST method for for uploading an image.
@@ -42,11 +42,12 @@ public class SurveyImageResource {
   @Timed
   public ResponseEntity<String> uploadImage(@RequestParam("image") MultipartFile multiPartFile,
       @RequestParam("id") String id) throws IOException, URISyntaxException {
-    if (!multiPartFile.isEmpty() && this.surveyImageService
+    if (!multiPartFile.isEmpty() && this.surveyResponseRateImageService
             .checkResponseRateFileName(id, multiPartFile.getOriginalFilename())) {    
       //We need the original file, because we do not know if it is a german or english file.
       //We just know it is a valid name.
-      String imageName = this.surveyImageService.saveSurveyImage(multiPartFile.getInputStream(), 
+      String imageName = this.surveyResponseRateImageService
+          .saveSurveyImage(multiPartFile.getInputStream(), 
           id, multiPartFile.getOriginalFilename(), multiPartFile.getContentType());
       return ResponseEntity
         .created(new URI("/public/files" + imageName))

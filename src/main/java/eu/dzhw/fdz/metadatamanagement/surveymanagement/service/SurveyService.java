@@ -31,7 +31,7 @@ public class SurveyService {
   @Inject
   private ElasticsearchUpdateQueueService elasticsearchUpdateQueueService;
   
-  @Inject SurveyImageService imageService;
+  @Inject SurveyResponseRateImageService imageService;
 
   /**
    * Listener, which will be activate by a deletion of a data acquisition project.

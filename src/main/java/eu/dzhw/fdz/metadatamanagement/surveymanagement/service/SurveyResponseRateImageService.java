@@ -17,7 +17,7 @@ import com.mongodb.gridfs.GridFSFile;
  * @author Daniel Katzberg
  */
 @Service
-public class SurveyImageService {
+public class SurveyResponseRateImageService {
 
   @Inject
   private GridFsOperations operations;
