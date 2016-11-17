@@ -42,15 +42,17 @@ public class SurveyImageResource {
   @Timed
   public ResponseEntity<String> uploadImage(@RequestParam("image") MultipartFile multiPartFile,
       @RequestParam("id") String id) throws IOException, URISyntaxException {
-    if (!multiPartFile.isEmpty()) {
-      
+    if (!multiPartFile.isEmpty() && this.surveyImageService
+            .checkResponseRateFileName(id, multiPartFile.getOriginalFilename())) {    
+      //We need the original file, because we do not know if it is a german or english file.
+      //We just know it is a valid name.
       String imageName = this.surveyImageService.saveSurveyImage(multiPartFile.getInputStream(), 
           id, multiPartFile.getOriginalFilename(), multiPartFile.getContentType());
       return ResponseEntity
         .created(new URI("/public/files" + imageName))
         .contentLength(imageName.length())
         .contentType(MediaType.TEXT_PLAIN)
-        .body(imageName);
+        .body(imageName);      
     } else {
       return ResponseEntity.badRequest()
         .body(null);

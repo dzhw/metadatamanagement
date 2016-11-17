@@ -47,11 +47,40 @@ public class SurveyImageService {
   public void deleteAllSurveyImagesById(String surveyId) {
         
     Query queryDe = new Query(GridFsCriteria.whereFilename()
-        .is("/surveys/" + surveyId + "/" + surveyId + "_responserate_de.svg"));
+        .is("/surveys/" + surveyId + "/" + this.getResponseRateFileNameGerman(surveyId)));
     this.operations.delete(queryDe);
     
     Query queryEn = new Query(GridFsCriteria.whereFilename()
-        .is("/surveys/" + surveyId + "/" + surveyId + "_responserate_en.svg"));
+        .is("/surveys/" + surveyId + "/" + this.getResponseRateFileNameEnglish(surveyId)));
     this.operations.delete(queryEn);
   }
+  
+  /**
+   * This method checks the response rate file name, if it is correct. 
+   * If it is a valid response rate file name, it returns true.
+   * @param surveyId The id of the survey.
+   * @param fileName The original file name of an uploaded reponserate file
+   * @return returns true, if fileName is a valid name.
+   */
+  public boolean checkResponseRateFileName(String surveyId, String fileName) {
+    return this.getResponseRateFileNameGerman(surveyId).equals(fileName)
+        || this.getResponseRateFileNameEnglish(surveyId).equals(fileName);
+  }
+  
+  /** 
+   * @param surveyId The id of a survey.
+   * @return The name of a response rate image in german. 
+   */
+  public String getResponseRateFileNameGerman(String surveyId) {
+    return surveyId + "_responserate_de.svg";
+  }
+  
+  /**
+   * @param surveyId The id of a survey.
+   * @return The name of a response rate image in english.
+   */
+  public String getResponseRateFileNameEnglish(String surveyId) {
+    return surveyId + "_responserate_en.svg";
+  }
+  
 }
