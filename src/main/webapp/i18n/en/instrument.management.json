@@ -20,7 +20,7 @@
       "instrument": "Survey Instrument",
       "instruments": "Instruments",
       "instrument-informations": "Details for the Instrument",
-      "title": "Instrument",
+      "title": "title",
       "type": "Type",
       "related-information": "Related Objects",
       "attachments": {
