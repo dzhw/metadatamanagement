@@ -7,6 +7,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.http.CacheControl;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -44,14 +45,26 @@ public class FileResource {
     if (gridFsFile == null) {
       return ResponseEntity.notFound().build();
     }
-    
+    HttpHeaders headers = new HttpHeaders();
+    headers.set(HttpHeaders.CONTENT_DISPOSITION, 
+        "filename=" + removeFolders(gridFsFile.getFilename())); 
     // Return Status 200 or 304 if not modified
     return ResponseEntity.ok()
+      .headers(headers)
       .contentLength(gridFsFile.getLength())
       .cacheControl(CacheControl.maxAge(0, TimeUnit.MILLISECONDS).mustRevalidate())
       .eTag(String.valueOf(gridFsFile.getUploadDate().getTime()))
+      .lastModified(gridFsFile.getUploadDate().getTime())
       .contentType(MediaType.parseMediaType(gridFsFile.getContentType()))
       .body(new InputStreamResource(gridFsFile.getInputStream()));
   }
-
+  
+  private String removeFolders(String filename) {
+    int index = filename.lastIndexOf('/');
+    if (index > -1) {
+      return filename.substring(index + 1, filename.length());
+    } else {
+      return filename;
+    }
+  }
 }
