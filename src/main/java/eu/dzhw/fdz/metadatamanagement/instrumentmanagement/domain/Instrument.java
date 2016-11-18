@@ -8,6 +8,8 @@ import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import com.google.common.base.MoreObjects;
+
 import eu.dzhw.fdz.metadatamanagement.common.domain.AbstractRdcDomainObject;
 import eu.dzhw.fdz.metadatamanagement.common.domain.I18nString;
 import eu.dzhw.fdz.metadatamanagement.common.domain.util.Patterns;
@@ -99,4 +101,16 @@ public class Instrument extends AbstractRdcDomainObject {
   public void setSurveyId(String surveyId) {
     this.surveyId = surveyId;
   }
+
+  @Override
+  public String toString() {
+    return MoreObjects.toStringHelper(this)
+      .add("super", super.toString())
+      .add("id", id)
+      .add("title", title)
+      .add("type", type)
+      .add("dataAcquisitionProjectId", dataAcquisitionProjectId)
+      .add("surveyId", surveyId)
+      .toString();
+  } 
 }

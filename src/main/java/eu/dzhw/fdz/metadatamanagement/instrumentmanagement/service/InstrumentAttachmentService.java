@@ -12,6 +12,7 @@ import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.gridfs.GridFsCriteria;
 import org.springframework.data.mongodb.gridfs.GridFsOperations;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import com.mongodb.gridfs.GridFSFile;
@@ -37,11 +38,12 @@ public class InstrumentAttachmentService {
    * @param inputStream The inputStream of the attachment.
    * @param contentType The contentType of the attachment.
    * @param metadata The metadata of the attachment.
-   * @param currentUser the name of the currentUser
    * @return The GridFs filename.
    */
-  public String saveInstrumentAttachment(InputStream inputStream,
-      String contentType, InstrumentAttachmentMetadata metadata, String currentUser) {
+  public String createInstrumentAttachment(InputStream inputStream,
+      String contentType, InstrumentAttachmentMetadata metadata) {
+    String currentUser = SecurityContextHolder.getContext().getAuthentication().getName();
+    metadata.setVersion(0L);
     metadata.setCreatedDate(LocalDateTime.now());
     metadata.setCreatedBy(currentUser);
     metadata.setLastModifiedBy(currentUser);
@@ -82,5 +84,14 @@ public class InstrumentAttachmentService {
   
   private String buildFileNamePrefix(String instrumentId) {
     return "/instruments/" + instrumentId + "/attachments/";
+  }
+
+  /**
+   * Delete all attachments of all instruments.
+   */
+  public void deleteAll() {
+    Query query = new Query(GridFsCriteria.whereFilename()
+        .regex("^" + Pattern.quote("/instruments/") + ".*" + Pattern.quote("/attachments/")));
+    this.operations.delete(query);
   }
 }

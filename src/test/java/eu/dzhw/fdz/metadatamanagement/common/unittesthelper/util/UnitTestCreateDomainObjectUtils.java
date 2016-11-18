@@ -20,6 +20,9 @@ import eu.dzhw.fdz.metadatamanagement.datasetmanagement.domain.SubDataSet;
 import eu.dzhw.fdz.metadatamanagement.datasetmanagement.domain.builders.DataSetBuilder;
 import eu.dzhw.fdz.metadatamanagement.datasetmanagement.domain.builders.SubDataSetBuilder;
 import eu.dzhw.fdz.metadatamanagement.instrumentmanagement.domain.Instrument;
+import eu.dzhw.fdz.metadatamanagement.instrumentmanagement.domain.InstrumentAttachmentMetadata;
+import eu.dzhw.fdz.metadatamanagement.instrumentmanagement.domain.InstrumentAttachmentTypes;
+import eu.dzhw.fdz.metadatamanagement.instrumentmanagement.domain.builders.InstrumentAttachmentMetadataBuilder;
 import eu.dzhw.fdz.metadatamanagement.instrumentmanagement.domain.builders.InstrumentBuilder;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.DataAcquisitionProject;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.builders.DataAcquisitionProjectBuilder;
@@ -420,5 +423,29 @@ public class UnitTestCreateDomainObjectUtils {
         .withSourceReference("A Source Reference")
         .withTitle("A Title of a Related Publication")
         .build();
+  }
+
+  public static Instrument buildInstrument(
+      String projectId, String surveyId) {
+    return new InstrumentBuilder()
+        .withId(projectId + "-ins1")
+        .withDataAcquisitionProjectId(projectId)
+        .withSurveyId(surveyId)
+        .withTitle(new I18nStringBuilder()
+            .withDe("Hurz")
+            .withEn("Hurz")
+            .build())
+        .withType("CAPI")
+        .build();
+  }
+  
+  public static InstrumentAttachmentMetadata buildInstrumentAttachmentMetadata(String projectId, String instrumentId) {
+    return new InstrumentAttachmentMetadataBuilder()
+          .withDataAcquisitionProjectId(projectId)
+          .withInstrumentId(instrumentId)
+          .withFileName("filename.txt")
+          .withTitle(new I18nString("Titel", "Title"))
+          .withType(InstrumentAttachmentTypes.QUESTION_FLOW)
+          .build();
   }
 }

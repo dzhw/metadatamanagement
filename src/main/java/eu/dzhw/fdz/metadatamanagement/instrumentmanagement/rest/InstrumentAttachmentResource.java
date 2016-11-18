@@ -10,8 +10,6 @@ import javax.validation.Valid;
 
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -34,9 +32,10 @@ public class InstrumentAttachmentResource {
 
   @Inject
   private InstrumentAttachmentService instrumentAttachmentService;
-  
+
   /**
    * REST method for for uploading an instrument attachment.
+   * 
    * @param multiPartFile the attachment
    * @param instrumentAttachmentMetadata the metadata for the attachment
    * @return response 201 if the attachment was created
@@ -45,37 +44,44 @@ public class InstrumentAttachmentResource {
    */
   @RequestMapping(path = "/instruments/attachments", method = RequestMethod.POST)
   @Timed
-  public ResponseEntity<String> uploadAttachment(
-      @RequestPart("file") MultipartFile multiPartFile,
-      @RequestPart("instrumentAttachmentMetadata") @Valid
-      InstrumentAttachmentMetadata instrumentAttachmentMetadata, 
-      @AuthenticationPrincipal UserDetails userDetails) 
-          throws URISyntaxException, IOException {
+  public ResponseEntity<String> uploadAttachment(@RequestPart("file") MultipartFile multiPartFile,
+      @RequestPart("instrumentAttachmentMetadata") 
+      @Valid InstrumentAttachmentMetadata instrumentAttachmentMetadata)
+      throws URISyntaxException, IOException {
     if (!multiPartFile.isEmpty()) {
-      instrumentAttachmentService.saveInstrumentAttachment(
-          multiPartFile.getInputStream(), multiPartFile.getContentType(),
-          instrumentAttachmentMetadata, userDetails.getUsername());
-      return ResponseEntity.created(new URI(instrumentAttachmentMetadata.getId())).body(null);
+      instrumentAttachmentService.createInstrumentAttachment(multiPartFile.getInputStream(),
+          multiPartFile.getContentType(), instrumentAttachmentMetadata);
+      return ResponseEntity.created(new URI(instrumentAttachmentMetadata.getId()))
+        .body(null);
     } else {
-      return ResponseEntity.badRequest().body(null);
+      return ResponseEntity.badRequest()
+        .body(null);
     }
   }
-  
+
   /**
    * Load all attachment metadata objects for the given instrument id.
+   * 
    * @param instrumentId The id of an instrument.
    * @return A list of metadata objects.
    */
   @RequestMapping(path = "/instruments/{instrumentId}/attachments", method = RequestMethod.GET,
       produces = MediaType.APPLICATION_JSON_VALUE)
   @Timed
-  public ResponseEntity<List<InstrumentAttachmentMetadata>> findByInstrumentId(
-      @PathVariable("instrumentId") String instrumentId) {
+  public ResponseEntity<?> findByInstrumentId(@PathVariable("instrumentId") String instrumentId) {
     if (!StringUtils.isEmpty(instrumentId)) {
-      return ResponseEntity.ok().body(
-          instrumentAttachmentService.findAllByInstrument(instrumentId));
+      List<InstrumentAttachmentMetadata> metadata =
+          instrumentAttachmentService.findAllByInstrument(instrumentId);
+      if (metadata.isEmpty()) {
+        return ResponseEntity.notFound()
+          .build();
+      } else {
+        return ResponseEntity.ok()
+          .body(metadata);
+      }
     } else {
-      return ResponseEntity.badRequest().body(null);
+      return ResponseEntity.badRequest()
+        .body(null);
     }
   }
 }
