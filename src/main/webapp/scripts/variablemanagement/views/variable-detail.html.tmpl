@@ -104,6 +104,14 @@
                             <div style="margin-right:3px;">{{'survey-management.detail.surveys' | translate }}:</div>
                             <a ng-click="showRelatedSurveys()" class="fdz-truncate-string" flex>({{counts.surveysCount}})</a>
                         </div>
+
+                        <div style="margin-bottom: 0.5em;" layout="row">
+                            <md-icon md-svg-src="/assets/images/icons/variable.svg" style="margin-top:0px; margin-right:4px;"></md-icon>
+                            <div style="margin-right:3px;">{{'variable-management.detail.same-variables-in-panel' | translate }}:</div>
+                            <a ng-click="showSameVariablesInPanel()" class="fdz-truncate-string" flex>({{counts.sameVariablesInPanel}})</a>
+                        </div>
+
+
                         <div style="margin-bottom: 0.5em;" layout="row">
                             <md-icon md-svg-src="/assets/images/icons/related-publication.svg" style="margin-top:0px; margin-right:4px;"></md-icon>
                             <div style="margin-right:3px;">{{'related-publication-management.detail.publications' | translate }}:</div>
