@@ -119,7 +119,10 @@ angular.module('metadatamanagementApp').service('InstrumentUploadService',
           files.forEach(function(file) {
             if (file.name === 'instruments.xlsx') {
               excelFile = file;
-            } else if (file.path.indexOf('attachments') > -1) {
+            } else if ((file.path && file.path.indexOf('attachments') >
+                -1) ||
+              (file.webkitRelativePath &&
+                file.webkitRelativePath.indexOf('attachments') > -1)) {
               attachmentFiles[file.name] = file;
             }
           });
