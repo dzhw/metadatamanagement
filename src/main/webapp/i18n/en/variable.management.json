@@ -76,16 +76,22 @@
         "median": "Median",
         "minimum": "Minimum",
         "thirdQuartile": "Third Quartile",
-        "totalAbsoluteFrequency": "Total Absolute Frequency",
+        "total-absolute-frequency": "Number of different Observations",
         "totalValidAbsoluteFrequency": "Total Valid Absolute Frequency",
         "totalValidRelativeFrequency": "Total Valid Relative Frequency",
-        "meanValue": "Mean Value",
+        "mean-value": "Mean Value",
         "skewness": "Skewness",
         "kurtosis": "Kurtosis",
-        "standardDeviation": "Standard Deviation"
+        "standardDeviation": "Standard Deviation",
+        "mode": "Mode",
+        "deviance": "Deviation",
+        "mean-deviation": "Mean absolute Deviation"
       },
       "no-related-variables": "No related Variables.",
-      "related-variables": "Related Variables"
+      "related-variables": "Related Variables",
+      "central-tendency": "Central Tendency",
+      "dispersion": "Dispersion",
+      "distribution": "Distribution"
     },
     "labels": {
       "part-of-data-set": "Part of Data Set:",

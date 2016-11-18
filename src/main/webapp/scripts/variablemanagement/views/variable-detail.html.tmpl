@@ -56,15 +56,20 @@
                                 ({{variable.filterDetails.expressionLanguage}}):
                             </span>
                             <div class="fdz-overlay-outer-box">
-                              <div hljs hljs-language="{{variable.filterDetails.expressionLanguage}}" hljs-source="variable.filterDetails.expression" style="margin-top: 0.5em;"></div>
-                              <div class="fdz-overlay-inner-box">
-                                <md-button ng-click="openSuccessCopyToClipboardToast('variable-management.log-messages.variable.filter-details-success-copy-to-clipboard')" class="md-icon-button md-primary" ngclipboard data-clipboard-text="{{variable.filterDetails.expression}}" aria-label="{{'variable-management.detail.button.aria-label.copy-to-clipboard' | translate}}">
-                                  <md-icon md-font-library="material-icons">content_copy</md-icon>
-                                  <md-tooltip md-direction="top">
-                                    {{'variable-management.detail.button.aria-label.copy-to-clipboard' | translate}}
-                                  </md-tooltip>
-                                </md-button>
-                              </div>
+                                <div hljs hljs-language="{{variable.filterDetails.expressionLanguage}}" hljs-source="variable.filterDetails.expression" style="margin-top: 0.5em;"></div>
+                                <div class="fdz-overlay-inner-box">
+                                    <md-button
+                                        ng-click="openSuccessCopyToClipboardToast('variable-management.log-messages.variable.filter-details-success-copy-to-clipboard')"
+                                        class="md-icon-button md-primary"
+                                        ngclipboard
+                                        data-clipboard-text="{{variable.filterDetails.expression}}"
+                                        aria-label="{{'variable-management.detail.button.aria-label.copy-to-clipboard' | translate}}">
+                                        <md-icon md-font-library="material-icons">content_copy</md-icon>
+                                        <md-tooltip md-direction="top">
+                                            {{'variable-management.detail.button.aria-label.copy-to-clipboard' | translate}}
+                                        </md-tooltip>
+                                    </md-button>
+                                </div>
                             </div>
 
                         </div>
@@ -79,14 +84,15 @@
                     <md-divider></md-divider>
                     <md-card-content layout="column" layout-align="center start">
                         <div style="margin-bottom: 0.5em; width: 100%;" layout="row">
-                          <md-icon md-svg-src="/assets/images/icons/study.svg" style="margin-top:0px; margin-right:4px;"></md-icon>
-                          <div style="margin-right:3px;">{{'study-management.detail.study' | translate }}:</div>
-                          <a ui-sref="studyDetail({id:study.id})" class="fdz-truncate-string" flex>{{study.title}}</a>
+                            <md-icon md-svg-src="/assets/images/icons/study.svg" style="margin-top:0px; margin-right:4px;"></md-icon>
+                            <div style="margin-right:3px;">{{'study-management.detail.study' | translate }}:</div>
+                            <a ui-sref="studyDetail({id:study.id})" class="fdz-truncate-string" flex>{{study.title}}</a>
                         </div>
                         <div ng-if="question" style="margin-bottom: 0.5em; width: 100%;" layout="row">
-                          <md-icon md-svg-src="/assets/images/icons/question.svg" style="margin-top:0px; margin-right:4px;"></md-icon>
-                          <div  style="margin-right:3px;">{{'question-management.detail.question' | translate }}:</div>
-                          <a ui-sref="questionDetail({id:question.id})" class="fdz-truncate-string" flex>{{question.number}} {{question.questionText}}</a>
+                            <md-icon md-svg-src="/assets/images/icons/question.svg" style="margin-top:0px; margin-right:4px;"></md-icon>
+                            <div style="margin-right:3px;">{{'question-management.detail.question' | translate }}:</div>
+                            <a ui-sref="questionDetail({id:question.id})" class="fdz-truncate-string" flex>{{question.number}}
+                                {{question.questionText}}</a>
                         </div>
                         <div style="margin-bottom: 0.5em;" layout="row">
                             <md-icon md-svg-src="/assets/images/icons/data-set.svg" style="margin-top:0px; margin-right:4px;"></md-icon>
@@ -127,58 +133,93 @@
                     <md-divider></md-divider>
                     <md-card-content ng-cloak="true">
                         <div>
-                          <div style="margin-bottom: 0.5em;" ng-if="variable.distribution.statistics.minimum != null">
-                            <span style="font-weight: bold;">{{'variable-management.detail.statistics.minimum' | translate}}
-                            </span>
-                            <span>: {{variable.distribution.statistics.minimum | number:2}}</span>
-                          </div>
-                            <div style="margin-bottom: 0.5em;" ng-if="variable.distribution.statistics.firstQuartile != null">
-                                <span style="font-weight: bold;">{{'variable-management.detail.statistics.firstQuartile' | translate}}
+                            <div style="margin-bottom: 0.5em;" ng-if="variable.distribution.totalAbsoluteFrequency != null">
+                                <span style="font-weight: bold;">{{'variable-management.detail.statistics.total-absolute-frequency' | translate}}
                                 </span>
-                                (<span katex>Q_{.25}</span>)
-                              <span>: {{variable.distribution.statistics.firstQuartile | number:2}}</span>
+                                <span>:
+                                    {{variable.distribution.totalAbsoluteFrequency}}</span>
+                            </div>
+                            <div style="margin-bottom: 0.5em;" ng-if="variable.distribution.statistics.minimum != null">
+                                <span style="font-weight: bold;">{{'variable-management.detail.statistics.minimum' | translate}}
+                                </span>
+                                <span>:
+                                    {{variable.distribution.statistics.minimum | number:2}}</span>
+                            </div>
+                            <div style="margin-bottom: 0.5em;" ng-if="variable.distribution.statistics.maximum != null">
+                                <span style="font-weight: bold;">{{'variable-management.detail.statistics.maximum' | translate}}
+                                </span>
+                                <span>:
+                                    {{variable.distribution.statistics.maximum | number:2}}</span>
+                            </div>
+
+                            <h3>
+                                <small>{{'variable-management.detail.central-tendency' | translate}}</small>
+                            </h3>
+                            <div style="margin-bottom: 0.5em;" ng-if="variable.distribution.statistics.meanValue != null">
+                                <span style="font-weight: bold;">{{'variable-management.detail.statistics.mean-value' | translate}}
+                                </span>
+                                (<span katex>\bar X</span>)
+                                <span>:
+                                    {{variable.distribution.statistics.meanValue | number:2}}</span>
                             </div>
                             <div style="margin-bottom: 0.5em;" ng-if="variable.distribution.statistics.median != null">
                                 <span style="font-weight: bold;">{{'variable-management.detail.statistics.median' | translate}}
-                              </span>
-                              (<span katex>\tilde x</span>)
-                                <span>: {{variable.distribution.statistics.median | number:2}}</span>
+                                </span>
+                                (<span katex>\tilde x</span>)
+                                <span>:
+                                    {{variable.distribution.statistics.median | number:2}}</span>
                             </div>
-                            <div style="margin-bottom: 0.5em;" ng-if="variable.distribution.statistics.meanValue != null">
-                              <span style="font-weight: bold;">{{'variable-management.detail.statistics.meanValue' | translate}}
-                              </span>
-                            (<span katex>\bar X</span>)
-                            <span>: {{variable.distribution.statistics.meanValue | number:2}}</span>
+                            <div style="margin-bottom: 0.5em;" ng-if="variable.distribution.statistics.mode != null">
+                                <span style="font-weight: bold;">{{'variable-management.detail.statistics.mode' | translate}}
+                                </span>
+                                (<span katex>h</span>)
+                                <span>:
+                                    {{variable.distribution.statistics.mode}}</span>
                             </div>
-                            <div style="margin-bottom: 0.5em;" ng-if="variable.distribution.statistics.thirdQuartile != null">
-                              <span style="font-weight: bold;">{{'variable-management.detail.statistics.thirdQuartile' | translate}}
-                              </span>
-                              (<span katex>Q_{.75}</span>)
-                              <span>: {{variable.distribution.statistics.thirdQuartile | number:2}}</span>
+
+                            <h3>
+                                <small>{{'variable-management.detail.dispersion' | translate}}</small>
+                            </h3>
+                            <div style="margin-bottom: 0.5em;" ng-if="variable.distribution.statistics.standardDeviation != null">
+                                <span style="font-weight: bold;">{{'variable-management.detail.statistics.standardDeviation' | translate}}
+                                </span>
+                                (<span katex>s</span>)
+                                <span>:
+                                    {{variable.distribution.statistics.standardDeviation | number:2}}</span>
                             </div>
-                            <div style="margin-bottom: 0.5em;" ng-if="variable.distribution.statistics.maximum != null">
-                              <span style="font-weight: bold;">{{'variable-management.detail.statistics.maximum' | translate}}
-                              </span>
-                              <span>: {{variable.distribution.statistics.maximum | number:2}}</span>
+                            <div style="margin-bottom: 0.5em;" ng-if="variable.distribution.statistics.meanDeviation != null">
+                                <span style="font-weight: bold;">{{'variable-management.detail.statistics.mean-deviation' | translate}}
+                                </span>
+                                (<span katex>MAD</span>)
+                                <span>:
+                                    {{variable.distribution.statistics.meanDeviation | number:2}}</span>
                             </div>
+                            <div style="margin-bottom: 0.5em;" ng-if="variable.distribution.statistics.deviance != null">
+                                <span style="font-weight: bold;">{{'variable-management.detail.statistics.deviance' | translate}}
+                                </span>
+                                (<span katex>d</span>)
+                                <span>:
+                                    {{variable.distribution.statistics.deviance | number:2}}</span>
+                            </div>
+
+                            <h3>
+                                <small>{{'variable-management.detail.distribution' | translate}}</small>
+                            </h3>
                             <div style="margin-bottom: 0.5em;" ng-if="variable.distribution.statistics.skewness != null">
-                              <span style="font-weight: bold;">{{'variable-management.detail.statistics.skewness' | translate}}
-                              </span>
-                              (<span katex>\vartheta</span>)
-                              <span>: {{variable.distribution.statistics.skewness | number:2}}</span>
+                                <span style="font-weight: bold;">{{'variable-management.detail.statistics.skewness' | translate}}
+                                </span>
+                                (<span katex>\vartheta</span>)
+                                <span>:
+                                    {{variable.distribution.statistics.skewness | number:2}}</span>
                             </div>
                             <div style="margin-bottom: 0.5em;" ng-if="variable.distribution.statistics.kurtosis != null">
-                              <span style="font-weight: bold;">{{'variable-management.detail.statistics.kurtosis' | translate}}
-                              </span>
-                              (<span katex>\omega</span>)
-                              <span>: {{variable.distribution.statistics.kurtosis | number:2}}</span>
+                                <span style="font-weight: bold;">{{'variable-management.detail.statistics.kurtosis' | translate}}
+                                </span>
+                                (<span katex>\omega</span>)
+                                <span>:
+                                    {{variable.distribution.statistics.kurtosis | number:2}}</span>
                             </div>
-                            <div style="margin-bottom: 0.5em;" ng-if="variable.distribution.statistics.standardDeviation != null">
-                              <span style="font-weight: bold;">{{'variable-management.detail.statistics.standardDeviation' | translate}}
-                              </span>
-                              (<span katex>\sigma</span>)
-                              <span>: {{variable.distribution.statistics.standardDeviation | number:2}}</span>
-                            </div>
+
                         </div>
                     </md-card-content>
                 </md-card>
@@ -190,13 +231,13 @@
                             <h2 class="md-title">{{'variable-management.detail.frequencies' | translate }}</h2>
                         </md-card-header-text>
                         <md-button ng-disabled="variable.distribution.validResponses.length <= 10" class="md-fab md-mini md-primary" ng-click="toggleAllRowsVisible()">
-                          <div>
-                            <md-icon ng-if="notAllRowsVisible" md-svg-src="/assets/images/icons/arrow-expand.svg"></md-icon>
-                            <md-icon ng-if="!notAllRowsVisible" md-svg-src="/assets/images/icons/arrow-compress.svg"></md-icon>
-                            <md-tooltip md-direction="left">
-                                {{'variable-management.detail.show-complete-distribution.' + notAllRowsVisible | translate }}
-                            </md-tooltip>
-                          </div>
+                            <div>
+                                <md-icon ng-if="notAllRowsVisible" md-svg-src="/assets/images/icons/arrow-expand.svg"></md-icon>
+                                <md-icon ng-if="!notAllRowsVisible" md-svg-src="/assets/images/icons/arrow-compress.svg"></md-icon>
+                                <md-tooltip md-direction="left">
+                                    {{'variable-management.detail.show-complete-distribution.' + notAllRowsVisible | translate }}
+                                </md-tooltip>
+                            </div>
                         </md-button>
                     </md-card-header>
                     <md-divider></md-divider>
@@ -238,8 +279,10 @@
                                 <td>{{row.label[currentLanguage]}}&nbsp;</td>
                                 <td>&nbsp;</td>
                                 <td>{{row.absoluteFrequency | number:0}}&nbsp;</td>
-                                <td>{{row.validRelativeFrequency | number:2}} %</td>
-                                <td>{{row.relativeFrequency | number:2}} %</td>
+                                <td>{{row.validRelativeFrequency | number:2}}
+                                    %</td>
+                                <td>{{row.relativeFrequency | number:2}}
+                                    %</td>
                             </tr>
                             <tr ng-repeat-end ng-if="$index === 4 && variable.distribution.validResponses.length > 10" ng-hide="!notAllRowsVisible">
                                 <td>...</td>
@@ -255,7 +298,8 @@
                                 <td>&nbsp;</td>
                                 <td>{{variable.distribution.totalValidAbsoluteFrequency | number:0}}</td>
                                 <td>100 %</td>
-                                <td>{{variable.distribution.totalValidRelativeFrequency | number:2}} %</td>
+                                <td>{{variable.distribution.totalValidRelativeFrequency | number:2}}
+                                    %</td>
                             </tr>
                             <tr ng-class="{'fdz-table-last-row':$last}" ng-repeat="row in variable.distribution.missings">
                                 <td>{{row.code}}&nbsp;</td>
@@ -263,7 +307,8 @@
                                 <td>m</td>
                                 <td>{{row.absoluteFrequency | number:0}}&nbsp;</td>
                                 <td>&nbsp;</td>
-                                <td>{{row.relativeFrequency | number:2}} %</td>
+                                <td>{{row.relativeFrequency | number:2}}
+                                    %</td>
                             </tr>
                             <tr>
                                 <td>&nbsp;</td>
@@ -296,26 +341,31 @@
                                 ({{variable.generationDetails.ruleExpressionLanguage}}):
                             </span>
                             <div class="fdz-overlay-outer-box">
-                              <div hljs hljs-source="variable.generationDetails.rule" hljs-language="{{variable.generationDetails.ruleExpressionLanguage}}" style="margin-top: 0.5em;" class="fdz-code-container" ng-class="{'fdz-hidden-code': generationCodeToggleFlag}"></div>
-                              <div class="fdz-overlay-inner-box">
-                                <md-button ng-click="openSuccessCopyToClipboardToast('variable-management.log-messages.variable.generation-details-rule-success-copy-to-clipboard')" class="md-icon-button md-primary" ngclipboard data-clipboard-text="{{variable.generationDetails.rule}}" aria-label="{{'variable-management.detail.button.aria-label.copy-to-clipboard' | translate}}">
-                                  <md-icon md-font-library="material-icons">content_copy</md-icon>
-                                  <md-tooltip md-direction="top">
-                                    {{'variable-management.detail.button.aria-label.copy-to-clipboard' | translate}}
-                                  </md-tooltip>
-                                </md-button>
-                                <md-button ng-if="variable.generationDetails.rule" class="md-icon-button md-primary" ng-click="toggleGenerationCode()">
-                                  <div>
-                                    <md-icon ng-if="generationCodeToggleFlag" md-svg-src="/assets/images/icons/arrow-expand.svg"></md-icon>
-                                    <md-icon ng-if="!generationCodeToggleFlag" md-svg-src="/assets/images/icons/arrow-compress.svg"></md-icon>
-                                    <md-tooltip md-direction="top">
-                                      {{'variable-management.detail.show-complete-rule.' + generationCodeToggleFlag | translate }}
-                                    </md-tooltip>
-                                  </div>
-                                </md-button>
-                              </div>
+                                <div hljs hljs-source="variable.generationDetails.rule" hljs-language="{{variable.generationDetails.ruleExpressionLanguage}}" style="margin-top: 0.5em;" class="fdz-code-container" ng-class="{'fdz-hidden-code': generationCodeToggleFlag}"></div>
+                                <div class="fdz-overlay-inner-box">
+                                    <md-button
+                                        ng-click="openSuccessCopyToClipboardToast('variable-management.log-messages.variable.generation-details-rule-success-copy-to-clipboard')"
+                                        class="md-icon-button md-primary"
+                                        ngclipboard
+                                        data-clipboard-text="{{variable.generationDetails.rule}}"
+                                        aria-label="{{'variable-management.detail.button.aria-label.copy-to-clipboard' | translate}}">
+                                        <md-icon md-font-library="material-icons">content_copy</md-icon>
+                                        <md-tooltip md-direction="top">
+                                            {{'variable-management.detail.button.aria-label.copy-to-clipboard' | translate}}
+                                        </md-tooltip>
+                                    </md-button>
+                                    <md-button ng-if="variable.generationDetails.rule" class="md-icon-button md-primary" ng-click="toggleGenerationCode()">
+                                        <div>
+                                            <md-icon ng-if="generationCodeToggleFlag" md-svg-src="/assets/images/icons/arrow-expand.svg"></md-icon>
+                                            <md-icon ng-if="!generationCodeToggleFlag" md-svg-src="/assets/images/icons/arrow-compress.svg"></md-icon>
+                                            <md-tooltip md-direction="top">
+                                                {{'variable-management.detail.show-complete-rule.' + generationCodeToggleFlag | translate }}
+                                            </md-tooltip>
+                                        </div>
+                                    </md-button>
+                                </div>
                             </div>
-                          </div>
+                        </div>
                     </md-card-content>
                 </md-card>
             </div>
