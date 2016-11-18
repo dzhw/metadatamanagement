@@ -3,7 +3,7 @@
 angular.module('metadatamanagementApp')
   .controller('InstrumentDetailController',
     function(entity, SurveySearchService, InstrumentAttachmentResource,
-      StudySearchResource, QuestionSearchResource,
+      StudySearchService, QuestionSearchService,
       QuestionSearchDialogService) {
       var ctrl = this;
       ctrl.instrument = entity;
@@ -27,14 +27,14 @@ angular.module('metadatamanagementApp')
               ctrl.survey = searchResult.docs[0]._source;
             }
           });
-        StudySearchResource.findStudies(
+        StudySearchService.findStudies(
           [ctrl.instrument.dataAcquisitionProjectId]).then(
           function(searchResult) {
             if (searchResult.docs[0].found) {
               ctrl.study = searchResult.docs[0]._source;
             }
           });
-        QuestionSearchResource.getCounts('instrumentId', ctrl.instrument.id)
+        QuestionSearchService.countBy('instrumentId', ctrl.instrument.id)
           .then(function(result) {
             ctrl.questionCount = result.count;
           });
