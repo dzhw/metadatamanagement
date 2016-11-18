@@ -167,8 +167,8 @@
         "valid-period": "The start and end date have to be set and the dates have to be in the correct order!"
       },
       "import": {
-        "json-parsing-error": "The import of the domain object '{{entity}}' failed, because the field '{{property}}' has an invalid value: {{invalidValue}}",
-        "no-json-mapping": "A server side error happens at the import of a domain object."
+        "json-parsing-error": "The import of the object '{{entity}}' failed, because the field '{{property}}' has an invalid value: {{invalidValue}}",
+        "no-json-mapping": "A server side error happened during the import of an object."
       }
     },
     "logos": {

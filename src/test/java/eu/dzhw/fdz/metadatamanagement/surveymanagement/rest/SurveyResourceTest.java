@@ -1,7 +1,6 @@
 package eu.dzhw.fdz.metadatamanagement.surveymanagement.rest;
 
 import static org.hamcrest.CoreMatchers.equalTo;
-import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertThat;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
@@ -178,7 +177,7 @@ public class SurveyResourceTest extends AbstractTest {
   }
 
   @Test
-  public void testCreateUnparsableSurvey() throws Exception {
+  public void testCreateSurveyWithUnparsableDate() throws Exception {
     String survey = "{\"id\":\"6\"," + "\"dataAcquisitionProjectId\":\"Renes Projekt\","
         + "\"title\":{\"en\":\"High school graduates 2008: Third Wave\","
         + "\"de\":\"Bildungs-, Berufs- und Lebenswege - Dritte Befragung der Schulabsolventinnen und -absolventen des Jahrgangs 2007/2008\"},"
@@ -187,7 +186,44 @@ public class SurveyResourceTest extends AbstractTest {
     // create the survey with the given id but without a project
     mockMvc.perform(put(API_SURVEYS_URI + "/6").content(survey))
       .andExpect(status().isBadRequest())
-      .andExpect(jsonPath("$.errors[0].message", containsString("2013-04-01d")));
+      .andExpect(jsonPath("$.errors[0].invalidValue", is("2013-04-01d")))
+      .andExpect(jsonPath("$.errors[0].property", is("end")))
+      .andExpect(jsonPath("$.errors[0].entity", is("Period")))
+      .andExpect(jsonPath("$.errors[0].message", is("global.error.import.json-parsing-error")));
+  }
+  
+  @Test
+  public void testCreateSurveyWithUnparsableSampleSize() throws Exception {
+    String survey = "{\"id\":\"6\"," + "\"dataAcquisitionProjectId\":\"Renes Projekt\","
+        + "\"title\":{\"en\":\"High school graduates 2008: Third Wave\","
+        + "\"de\":\"Bildungs-, Berufs- und Lebenswege - Dritte Befragung der Schulabsolventinnen und -absolventen des Jahrgangs 2007/2008\"},"
+        + "\"sampleSize\":\"6te\","
+        + "\"fieldPeriod\":{\"start\":\"2012-12-01\",\"end\":\"2013-04-01\"}}";
+
+    // create the survey with the given id but without a project
+    mockMvc.perform(put(API_SURVEYS_URI + "/6").content(survey))
+      .andExpect(status().isBadRequest())
+      .andExpect(jsonPath("$.errors[0].invalidValue", is("6te")))
+      .andExpect(jsonPath("$.errors[0].property", is("sampleSize")))
+      .andExpect(jsonPath("$.errors[0].entity", is("Survey")))
+      .andExpect(jsonPath("$.errors[0].message", is("global.error.import.json-parsing-error")));
+  }
+  
+  @Test
+  public void testCreateSurveyWithUnparsableResponseRate() throws Exception {
+    String survey = "{\"id\":\"6\"," + "\"dataAcquisitionProjectId\":\"Renes Projekt\","
+        + "\"title\":{\"en\":\"High school graduates 2008: Third Wave\","
+        + "\"de\":\"Bildungs-, Berufs- und Lebenswege - Dritte Befragung der Schulabsolventinnen und -absolventen des Jahrgangs 2007/2008\"},"
+        + "\"responseRate\":\"6te\","
+        + "\"fieldPeriod\":{\"start\":\"2012-12-01\",\"end\":\"2013-04-01\"}}";
+
+    // create the survey with the given id but without a project
+    mockMvc.perform(put(API_SURVEYS_URI + "/6").content(survey))
+      .andExpect(status().isBadRequest())
+      .andExpect(jsonPath("$.errors[0].invalidValue", is("6te")))
+      .andExpect(jsonPath("$.errors[0].property", is("responseRate")))
+      .andExpect(jsonPath("$.errors[0].entity", is("Survey")))
+      .andExpect(jsonPath("$.errors[0].message", is("global.error.import.json-parsing-error")));
   }
 
   @Test

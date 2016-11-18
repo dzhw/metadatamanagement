@@ -33,7 +33,7 @@ public class SurveyResponseRateImageResource {
   /**
    * REST method for for uploading an image.
    * @param multiPartFile the image
-   * @param id id of image
+   * @param surveyId id of the survey
    * @return response
    * @throws IOException write Exception 
    * @throws URISyntaxException write uri exception
@@ -41,14 +41,14 @@ public class SurveyResponseRateImageResource {
   @RequestMapping(path = "/surveys/images", method = RequestMethod.POST)
   @Timed
   public ResponseEntity<String> uploadImage(@RequestParam("image") MultipartFile multiPartFile,
-      @RequestParam("id") String id) throws IOException, URISyntaxException {
+      @RequestParam("surveyId") String surveyId) throws IOException, URISyntaxException {
     if (!multiPartFile.isEmpty() && this.surveyResponseRateImageService
-            .checkResponseRateFileName(id, multiPartFile.getOriginalFilename())) {    
+            .checkResponseRateFileName(surveyId, multiPartFile.getOriginalFilename())) {    
       //We need the original file, because we do not know if it is a german or english file.
       //We just know it is a valid name.
       String imageName = this.surveyResponseRateImageService
           .saveSurveyImage(multiPartFile.getInputStream(), 
-          id, multiPartFile.getOriginalFilename(), multiPartFile.getContentType());
+           surveyId, multiPartFile.getOriginalFilename(), multiPartFile.getContentType());
       return ResponseEntity
         .created(new URI("/public/files" + imageName))
         .contentLength(imageName.length())

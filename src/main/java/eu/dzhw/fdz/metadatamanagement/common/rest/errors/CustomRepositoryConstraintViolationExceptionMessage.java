@@ -21,7 +21,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  */
 public class CustomRepositoryConstraintViolationExceptionMessage {
 
-  private final List<ValidationError> errors = new ArrayList<ValidationError>();
+  private final List<Error> errors = new ArrayList<Error>();
 
   /**
    * Construct the list of error dtos.
@@ -34,7 +34,7 @@ public class CustomRepositoryConstraintViolationExceptionMessage {
 
     for (ObjectError globalError : violationException.getErrors().getGlobalErrors()) {
       String message = accessor.getMessage(globalError);
-      this.errors.add(new ValidationError(globalError.getObjectName(), message, null, null));
+      this.errors.add(new Error(globalError.getObjectName(), message, null, null));
     }
     
     for (FieldError fieldError : violationException.getErrors()
@@ -42,56 +42,13 @@ public class CustomRepositoryConstraintViolationExceptionMessage {
 
       String message = accessor.getMessage(fieldError);
 
-      this.errors.add(new ValidationError(fieldError.getObjectName(), message,
+      this.errors.add(new Error(fieldError.getObjectName(), message,
           String.format("%s", fieldError.getRejectedValue()), fieldError.getField()));
     }
   }
 
   @JsonProperty("errors")
-  public List<ValidationError> getErrors() {
+  public List<Error> getErrors() {
     return errors;
-  }
-
-  /**
-   * The error dto.
-   * 
-   * @author René Reitmann
-   */
-  public static class ValidationError {
-
-    private final String entity;
-    private final String message;
-    private final String invalidValue;
-    private final String property;
-
-    /**
-     * Construct the error dto.
-     * @param entity the name of the entity
-     * @param message the internationalized message
-     * @param invalidValue the rejected value of the property
-     * @param property the name of the property (empty for global errors)
-     */
-    public ValidationError(String entity, String message, String invalidValue, String property) {
-      this.entity = entity;
-      this.message = message;
-      this.invalidValue = invalidValue;
-      this.property = property;
-    }
-
-    public String getEntity() {
-      return entity;
-    }
-
-    public String getMessage() {
-      return message;
-    }
-
-    public String getInvalidValue() {
-      return invalidValue;
-    }
-
-    public String getProperty() {
-      return property;
-    }
   }
 }

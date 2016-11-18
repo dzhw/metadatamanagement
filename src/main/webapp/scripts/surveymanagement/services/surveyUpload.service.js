@@ -3,7 +3,7 @@
 'use strict';
 angular.module('metadatamanagementApp').service('SurveyUploadService', function(
   ExcelReaderService, SurveyBuilderService, SurveyDeleteResource,
-  JobLoggingService, SurveyImageUploadService,
+  JobLoggingService, SurveyResponseRateImageUploadService,
   ErrorMessageResolverService, ElasticSearchAdminService, $rootScope,
   FileReaderService, $q) {
   //Create variables
@@ -64,7 +64,7 @@ angular.module('metadatamanagementApp').service('SurveyUploadService', function(
                 }
 
                 //Upload Images.
-                SurveyImageUploadService.uploadImage(images[
+                SurveyResponseRateImageUploadService.uploadImage(images[
                     imageName], survey.id)
                   .then(function() {
                       JobLoggingService.success({

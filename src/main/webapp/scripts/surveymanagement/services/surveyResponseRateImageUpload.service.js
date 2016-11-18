@@ -1,13 +1,14 @@
 'use strict';
 
-angular.module('metadatamanagementApp').service('SurveyImageUploadService',
+angular.module('metadatamanagementApp').service(
+  'SurveyResponseRateImageUploadService',
   function(Upload, $q) {
-    var uploadImage = function(image, imageId) {
+    var uploadImage = function(image, surveyId) {
       var deferred = $q.defer();
       Upload.upload({
         url: '/api/surveys/images',
         fields: {
-          'id': imageId,
+          'surveyId': surveyId,
           'image': image
         },
       }).success(function() {

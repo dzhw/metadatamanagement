@@ -167,8 +167,8 @@
         "valid-period": "Der Start und Endzeitpunkt müssen gesetzt sein und müssen in der richtigen Reihenfolge sein."
       },
       "import": {
-        "json-parsing-error": "Der Import des Domainobjektes '{{entity}}' schlug fehl, denn das Feld '{{property}}' hat einen ungültigen Wert: {{invalidValue}}",
-        "no-json-mapping": "Ein serverseitiger Fehler trat beim Import eines Domänenobjektes auf."
+        "json-parsing-error": "Der Import des Objektes '{{entity}}' schlug fehl, denn das Feld '{{property}}' hat einen ungültigen Wert: {{invalidValue}}",
+        "no-json-mapping": "Ein serverseitiger Fehler trat beim Import eines Objektes auf."
       }
     },
     "logos": {

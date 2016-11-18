@@ -103,25 +103,10 @@ public class ExceptionTranslator {
   @ResponseStatus(HttpStatus.BAD_REQUEST)
   public JsonParsingError processHttpMessageNotReadableException(
       HttpMessageNotReadableException exception) {
-    
-    Throwable throwable = exception.getMostSpecificCause();
-    if (throwable instanceof InvalidFormatException) {  
-      InvalidFormatException jsonMappingException = ((InvalidFormatException) throwable);
-      UTF8StreamJsonParser processor = 
-          (UTF8StreamJsonParser) jsonMappingException.getProcessor();      
-      
-      //Create Json Parsing Error. Just the first will be return
-      try {            
-        String domainObject = processor.getCurrentValue().getClass().getSimpleName();
-        String property = processor.getCurrentName();
-        String invalidValue = (String)jsonMappingException.getValue();
-        String messageKey = "global.error.import.json-parsing-error";
-        return new JsonParsingError(messageKey, domainObject, invalidValue, property);
-        
-        
-      } catch (IOException e) {
-        return new JsonParsingError("global.error.import.no-json-mapping", null, null, null);
-      }
+    InvalidFormatException invalidFormatException =  
+        findInvalidFormatException(exception.getCause());
+    if (invalidFormatException != null) {  
+      return createJsonParsingError(invalidFormatException);
     } else {
       String errorMessage;
       if (exception.getRootCause() != null) {
@@ -131,6 +116,30 @@ public class ExceptionTranslator {
         errorMessage = exception.getLocalizedMessage();
       }
       return new JsonParsingError(errorMessage, null, null, null);
+    }
+  }
+  
+  private InvalidFormatException findInvalidFormatException(Throwable cause) {
+    if (cause == null || cause instanceof InvalidFormatException) {
+      return (InvalidFormatException) cause;
+    } else {
+      return findInvalidFormatException(cause.getCause());
+    }
+  }
+  
+  private JsonParsingError createJsonParsingError(InvalidFormatException invalidFormatException) {
+    UTF8StreamJsonParser processor = 
+        (UTF8StreamJsonParser) invalidFormatException.getProcessor();      
+    
+    //Create Json Parsing Error. Just the first will be returned
+    try {            
+      String domainObject = processor.getCurrentValue().getClass().getSimpleName();
+      String property = processor.getCurrentName();
+      String invalidValue = (String)invalidFormatException.getValue();
+      String messageKey = "global.error.import.json-parsing-error";
+      return new JsonParsingError(messageKey, domainObject, invalidValue, property);
+    } catch (IOException e) {
+      return new JsonParsingError("global.error.import.no-json-mapping", null, null, null);
     }
   }
   

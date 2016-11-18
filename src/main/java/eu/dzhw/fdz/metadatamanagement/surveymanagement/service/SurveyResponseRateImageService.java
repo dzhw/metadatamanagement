@@ -71,7 +71,7 @@ public class SurveyResponseRateImageService {
    * @param surveyId The id of a survey.
    * @return The name of a response rate image in german. 
    */
-  public String getResponseRateFileNameGerman(String surveyId) {
+  private String getResponseRateFileNameGerman(String surveyId) {
     return surveyId + "_responserate_de.svg";
   }
   
@@ -79,7 +79,7 @@ public class SurveyResponseRateImageService {
    * @param surveyId The id of a survey.
    * @return The name of a response rate image in english.
    */
-  public String getResponseRateFileNameEnglish(String surveyId) {
+  private String getResponseRateFileNameEnglish(String surveyId) {
     return surveyId + "_responserate_en.svg";
   }
   
