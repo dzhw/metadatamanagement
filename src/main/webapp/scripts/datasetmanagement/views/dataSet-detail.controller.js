@@ -1,54 +1,63 @@
 'use strict';
 
 angular.module('metadatamanagementApp')
-  .controller('DataSetDetailController', ['$scope', '$state', 'entity',
-  'SurveySearchDialogService', 'VariableSearchDialogService',
-  'RelatedPublicationSearchDialogService',
-  'DataSetReportService', 'Principal', 'RelatedPublicationSearchService',
-    function($scope, $state, entity, SurveySearchDialogService,
-    VariableSearchDialogService,
-    RelatedPublicationSearchDialogService, DataSetReportService, Principal,
-    RelatedPublicationSearchService) {
-      $scope.allRowsVisible = true;
-      $scope.counts = {};
-      entity.$promise.then(function(dataSet) {
-        $scope.dataSet = dataSet;
+  .controller('DataSetDetailController',
+  function(entity, Principal, StudySearchService,
+    SurveySearchDialogService, VariableSearchDialogService,
+    VariableSearchService, RelatedPublicationSearchService,
+    RelatedPublicationSearchDialogService, DataSetReportService) {
+      var ctrl = this;
+      ctrl.isAuthenticated = Principal.isAuthenticated;
+      ctrl.allRowsVisible = true;
+      ctrl.counts = {};
+      ctrl.dataSet = entity;
+      ctrl.counts = {};
+      entity.$promise.then(function() {
+        StudySearchService.findStudy(ctrl.dataSet.dataAcquisitionProjectId)
+        .then(function(study) {
+          if (study.hits.hits.length > 0) {
+            ctrl.study = study.hits.hits[0]._source;
+          }
+        });
         RelatedPublicationSearchService.countBy('dataSetIds',
-            $scope.dataSet.id).then(function(publicationsCount) {
-                $scope.counts.publicationsCount = publicationsCount.count;
-              });
+        ctrl.dataSet.id).then(function(publicationsCount) {
+          ctrl.counts.publicationsCount = publicationsCount.count;
+        });
+        ctrl.counts.surveysCount = ctrl.dataSet.surveyIds.length;
+        ctrl.counts.variablesCount = ctrl.dataSet.variableIds.length;
       });
-      $scope.isAuthenticated = Principal.isAuthenticated;
 
-      $scope.uploadTexTemplate = function(file, dataSetId) {
+      ctrl.uploadTexTemplate = function(file, dataSetId) {
         DataSetReportService.uploadTexTemplate(file, dataSetId);
       };
-      $scope.isRowHidden = function(index) {
-        if (index <= 4 || index >= $scope
+      ctrl.isRowHidden = function(index) {
+        if (index <= 4 || index >= ctrl
           .dataSet.subDataSets.length - 5) {
           return false;
         } else {
-          return $scope.allRowsVisible;
+          return ctrl.allRowsVisible;
         }
       };
-      $scope.toggleAllRowsVisible = function() {
-        $scope.allRowsVisible = !$scope.allRowsVisible;
+      ctrl.toggleAllRowsVisible = function() {
+        ctrl.allRowsVisible = !ctrl.allRowsVisible;
       };
-      $scope.showSurveys = function() {
-        SurveySearchDialogService.findSurveys('findSurveys',
-        $scope.dataSet.surveyIds, $scope.dataSet.surveyIds.length);
+      ctrl.showRelatedSurveys = function() {
+        var paramObject = {};
+        paramObject.methodName = 'findSurveys';
+        paramObject.methodParams =   ctrl.dataSet.surveyIds;
+        SurveySearchDialogService.findSurveys(paramObject);
       };
-      $scope.showVariables = function() {
-        VariableSearchDialogService.findVariables('findVariables',
-        $scope.dataSet.variableIds, $scope.dataSet.variableIds.length);
+      ctrl.showRelatedVariables = function() {
+        var paramObject = {};
+        paramObject.methodName = 'findVariables';
+        paramObject.methodParams =   ctrl.dataSet.variableIds;
+        VariableSearchDialogService.findVariables(paramObject);
       };
-      $scope.showStudy = function() {
-        $state.go('studyDetail', {id: $scope.dataSet.dataAcquisitionProjectId});
-      };
-      $scope.showRelatedPublications = function() {
+      ctrl.showRelatedPublications = function() {
+        var paramObject = {};
+        paramObject.methodName = 'findByDataSetId';
+        paramObject.methodParams =   ctrl.dataSet.id;
         RelatedPublicationSearchDialogService.
-        findRelatedPublications('findByDataSetId', $scope.dataSet.id,
-        $scope.counts.publicationsCount);
+        findRelatedPublications(paramObject);
       };
-    }
-  ]);
+    });

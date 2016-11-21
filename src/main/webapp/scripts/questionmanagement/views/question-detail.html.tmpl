@@ -32,12 +32,14 @@
                         <div style="margin-bottom: 0.5em; width: 100%;" layout="row">
                             <md-icon md-svg-src="/assets/images/icons/variable.svg" style="margin-top:0px; margin-right:4px;"></md-icon>
                             <div style="margin-right:3px;">{{'variable-management.detail.variables' | translate }}:</div>
-                            <a ng-click="ctrl.showRelatedVariables()" class="fdz-truncate-string" flex>({{ctrl.counts.variablesCount}})</a>
+                            <div ng-if="ctrl.counts.variablesCount == 0" class="fdz-truncate-string" flex>{{'global.messages.error.unavailable' | translate}}</div>
+                            <a ng-if="ctrl.counts.variablesCount > 0" ng-click="ctrl.showRelatedVariables()" class="fdz-truncate-string" flex>({{ctrl.counts.variablesCount}})</a>
                         </div>
                         <div style="margin-bottom: 0.5em; width: 100%;" layout="row">
                             <md-icon md-svg-src="/assets/images/icons/related-publication.svg" style="margin-top:0px; margin-right:4px;"></md-icon>
                             <div style="margin-right:3px;">{{'related-publication-management.detail.publications' | translate }}:</div>
-                            <a ng-click="ctrl.showRelatedPublications()" class="fdz-truncate-string" flex>({{ctrl.counts.publicationsCount}})</a>
+                            <div ng-if="ctrl.counts.publicationsCount == 0" class="fdz-truncate-string" flex>{{'global.messages.error.unavailable' | translate}}</div>
+                            <a ng-if="ctrl.counts.publicationsCount > 0" ng-click="ctrl.showRelatedPublications()" class="fdz-truncate-string" flex>({{ctrl.counts.publicationsCount}})</a>
                         </div>
                     </md-card-content>
                 </md-card>

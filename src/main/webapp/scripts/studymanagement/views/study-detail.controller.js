@@ -11,8 +11,7 @@ angular.module('metadatamanagementApp')
       ctrl.study = entity;
       ctrl.counts = {};
 
-      entity.$promise.then(function(study) {
-        ctrl.study = study;
+      entity.$promise.then(function() {
         DataSetSearchService
         .countBy('dataAcquisitionProjectId', ctrl.study.id)
         .then(function(dataSetsCount) {
@@ -35,36 +34,28 @@ angular.module('metadatamanagementApp')
             });
       });
       ctrl.showRelatedQuestions = function() {
-        if (ctrl.counts.questionsCount > 0) {
-          var paramObject = {};
-          paramObject.methodName = 'findByProjectId';
-          paramObject.methodParams = ctrl.study.id;
-          QuestionSearchDialogService.findQuestions(paramObject);
-        }
+        var paramObject = {};
+        paramObject.methodName = 'findByProjectId';
+        paramObject.methodParams = ctrl.study.id;
+        QuestionSearchDialogService.findQuestions(paramObject);
       };
       ctrl.showRelatedDataSets = function() {
-        if (ctrl.counts.dataSetsCount > 0) {
-          var paramObject = {};
-          paramObject.methodName = 'findByProjectId';
-          paramObject.methodParams = ctrl.study.id;
-          DataSetSearchDialogService.findDataSets(paramObject);
-        }
+        var paramObject = {};
+        paramObject.methodName = 'findByProjectId';
+        paramObject.methodParams = ctrl.study.id;
+        DataSetSearchDialogService.findDataSets(paramObject);
       };
       ctrl.showRelatedSurveys = function() {
-        if (ctrl.counts.surveysCount > 0) {
-          var paramObject = {};
-          paramObject.methodName = 'findByProjectId';
-          paramObject.methodParams = ctrl.study.id;
-          SurveySearchDialogService.findSurveys(paramObject);
-        }
+        var paramObject = {};
+        paramObject.methodName = 'findByProjectId';
+        paramObject.methodParams = ctrl.study.id;
+        SurveySearchDialogService.findSurveys(paramObject);
       };
       ctrl.showRelatedPublications = function() {
-        if (ctrl.counts.publicationsCount > 0) {
-          var paramObject = {};
-          paramObject.methodName = 'findByStudyId';
-          paramObject.methodParams = ctrl.study.id;
-          RelatedPublicationSearchDialogService.
-          findRelatedPublications(paramObject);
-        }
+        var paramObject = {};
+        paramObject.methodName = 'findByStudyId';
+        paramObject.methodParams = ctrl.study.id;
+        RelatedPublicationSearchDialogService.
+        findRelatedPublications(paramObject);
       };
     });

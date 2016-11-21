@@ -1,4 +1,4 @@
-<div ng-if="dataSet.$resolved">
+<div ng-if="ctrl.dataSet.$resolved">
     <md-card>
         <md-card-header>
             <md-card-header-text>
@@ -7,64 +7,64 @@
         </md-card-header>
         <md-card-content style="padding-top: 0px;" layout="column">
             <div layout="row" layout-sm="column" layout-xs="column">
-                <md-card flex-gt-sm>
+                <md-card flex-gt-sm="60">
                     <md-card-header>
-                        <md-card-header-text>
-                            <h2 class="md-title">{{'data-set-management.detail.data-set-informations' | translate }}</h2>
-                        </md-card-header-text>
+                      <md-card-header-text>
+                          <h2 class="md-title">{{'global.cards.details' | translate }}</h2>
+                      </md-card-header-text>
                     </md-card-header>
                     <md-divider></md-divider>
                     <md-card-content>
-                      <section style="margin-bottom: 0.5em;" ng-if="dataSet.description">
+                      <div style="margin-bottom: 0.5em;" ng-if="ctrl.dataSet.description">
                           <span style="font-weight: bold;">{{'data-set-management.detail.description' | translate }}:
                           </span>
-                          <span>{{dataSet.description[currentLanguage]}}</span>
-                      </section>
-                      <section style="margin-bottom: 0.5em;" ng-if="dataSet.type">
+                          <span>{{ctrl.dataSet.description[currentLanguage]}}</span>
+                      </div>
+                      <div style="margin-bottom: 0.5em;" ng-if="ctrl.dataSet.type">
                           <span style="font-weight: bold;">{{'data-set-management.detail.type' | translate }}:
                           </span>
-                          <span>{{dataSet.type[currentLanguage]}}</span>
-                      </section>
+                          <span>{{ctrl.dataSet.type[currentLanguage]}}</span>
+                      </div>
                     </md-card-content>
                 </md-card>
-                <md-card>
+                <md-card flex-gt-sm="40">
                     <md-card-header>
-                        <md-card-header-text>
-                            <h2 class="md-title">{{'data-set-management.detail.related-information' | translate }}</h2>
-                        </md-card-header-text>
+                      <md-card-header-text>
+                          <h2 class="md-title">{{'global.cards.related-objects' | translate }}</h2>
+                      </md-card-header-text>
                     </md-card-header>
                     <md-divider></md-divider>
                     <md-card-content>
-                        <section>
-                            <md-button class="md-raised" ng-click="showStudy()">
-                                <md-icon md-svg-src="/assets/images/icons/study.svg"></md-icon>
-                                <span>{{'study-management.detail.study' | translate }}</span>
-                            </md-button>                            
-                        </section>
-                        <section>
-                            <md-button class="md-raised" ng-click="showSurveys()">
-                                <md-icon md-svg-src="/assets/images/icons/survey.svg"></md-icon>
-                                <span>{{'survey-management.detail.surveys' | translate }}</span>
-                            </md-button>
-                        </section>
-                        <section>
-                            <md-button class="md-raised" ng-click="showVariables()">
-                                <md-icon md-svg-src="/assets/images/icons/data-set.svg"></md-icon>
-                                <span>{{'variable-management.detail.variables' | translate }}</span>
-                            </md-button>
-                        </section>
-                        <section>
-                            <md-button class="md-raised" ng-click="showRelatedPublications()">
-                                <md-icon md-svg-src="/assets/images/icons/related-publication.svg"></md-icon>
-                                <span>{{'related-publication-management.detail.publications' | translate }}</span>
-                            </md-button>
-                        </section>
-                        <section>
-                          <md-button class="md-raised" ng-if="isAuthenticated()" type="file" ngf-select="uploadTexTemplate($file, dataSet.id)" accept=".zip">
-                            <md-icon md-font-set="material-icons">note_add</md-icon>
-                            <span>{{'data-set-management.detail.generate-variable-report' | translate}}</span>
-                          </md-button>
-                        </section>
+                      <div style="margin-bottom: 0.5em; width: 100%;" layout="row">
+                        <md-icon md-svg-src="/assets/images/icons/study.svg" style="margin-top:0px; margin-right:4px;"></md-icon>
+                        <div style="margin-right:3px;">{{'study-management.detail.study' | translate }}:</div>
+                        <div ng-if="!ctrl.study" class="fdz-truncate-string" flex>{{'global.messages.error.unavailable' | translate}}</div>
+                        <a ng-if="ctrl.study" ui-sref="studyDetail({id:ctrl.study.id})" class="fdz-truncate-string" flex>{{ctrl.study.title}}</a>
+                      </div>
+                      <div style="margin-bottom: 0.5em; width: 100%;" layout="row">
+                          <md-icon md-svg-src="/assets/images/icons/survey.svg" style="margin-top:0px; margin-right:4px;"></md-icon>
+                          <div style="margin-right:3px;">{{'survey-management.detail.surveys' | translate }}:</div>
+                          <div ng-if="ctrl.counts.surveysCount == 0" class="fdz-truncate-string" flex>{{'global.messages.error.unavailable' | translate}}</div>
+                          <a ng-if="ctrl.counts.surveysCount > 0" ng-click="ctrl.showRelatedSurveys()" class="fdz-truncate-string" flex>({{ctrl.counts.surveysCount}})</a>
+                      </div>
+                      <div style="margin-bottom: 0.5em; width: 100%;" layout="row">
+                          <md-icon md-svg-src="/assets/images/icons/variable.svg" style="margin-top:0px; margin-right:4px;"></md-icon>
+                          <div style="margin-right:3px;">{{'variable-management.detail.variables' | translate }}:</div>
+                          <div ng-if="ctrl.counts.variablesCount == 0" class="fdz-truncate-string" flex>{{'global.messages.error.unavailable' | translate}}</div>
+                          <a ng-if="ctrl.counts.variablesCount > 0" ng-click="ctrl.showRelatedVariables()" class="fdz-truncate-string" flex>({{ctrl.counts.variablesCount}})</a>
+                      </div>
+                      <div style="margin-bottom: 0.5em; width: 100%;" layout="row">
+                          <md-icon md-svg-src="/assets/images/icons/related-publication.svg" style="margin-top:0px; margin-right:4px;"></md-icon>
+                          <div style="margin-right:3px;">{{'related-publication-management.detail.publications' | translate }}:</div>
+                          <div ng-if="ctrl.counts.publicationsCount == 0" class="fdz-truncate-string" flex>{{'global.messages.error.unavailable' | translate}}</div>
+                          <a ng-if="ctrl.counts.publicationsCount > 0" ng-click="ctrl.showRelatedPublications()" class="fdz-truncate-string" flex>({{ctrl.counts.publicationsCount}})</a>
+                      </div>
+                      <div>
+                        <md-button class="md-raised" ng-if="ctrl.isAuthenticated()" type="file" ngf-select="ctrl.uploadTexTemplate($file, dataSet.id)" accept=".zip">
+                          <md-icon md-font-set="material-icons">note_add</md-icon>
+                          <span>{{'data-set-management.detail.generate-variable-report' | translate}}</span>
+                        </md-button>
+                      </div>
                     </md-card-content>
                 </md-card>
             </div>
@@ -108,7 +108,7 @@
                             </tr>
                             </thead>
                             <tbody>
-                              <tr ng-repeat="row in dataSet.subDataSets">
+                              <tr ng-repeat="row in ctrl.dataSet.subDataSets">
                                 <td>{{row.name}}&nbsp;</td>
                                 <td>{{row.description[currentLanguage]}}&nbsp;</td>
                                 <td>{{row.accessWay}}</td>

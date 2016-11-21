@@ -70,22 +70,26 @@
                         <div style="margin-bottom: 0.5em; width: 100%;" layout="row">
                             <md-icon md-svg-src="/assets/images/icons/question.svg" style="margin-top:0px; margin-right:4px;"></md-icon>
                             <div style="margin-right:3px;">{{'question-management.detail.questions' | translate }}:</div>
-                            <a ng-click="ctrl.showRelatedQuestions()" class="fdz-truncate-string" flex>({{ctrl.counts.questionsCount}})</a>
+                            <div ng-if="ctrl.counts.questionsCount == 0" class="fdz-truncate-string" flex>{{'global.messages.error.unavailable' | translate}}</div>
+                            <a ng-if="ctrl.counts.questionsCount > 0" ng-click="ctrl.showRelatedQuestions()" class="fdz-truncate-string" flex>({{ctrl.counts.questionsCount}})</a>
                         </div>
                         <div style="margin-bottom: 0.5em; width: 100%;" layout="row">
                             <md-icon md-svg-src="/assets/images/icons/data-set.svg" style="margin-top:0px; margin-right:4px;"></md-icon>
                             <div style="margin-right:3px;">{{'data-set-management.detail.data-sets' | translate }}:</div>
-                            <a ng-click="ctrl.showRelatedDataSets()" class="fdz-truncate-string" flex>({{ctrl.counts.dataSetsCount}})</a>
+                            <div ng-if="ctrl.counts.dataSetsCount == 0" class="fdz-truncate-string" flex>{{'global.messages.error.unavailable' | translate}}</div>
+                            <a ng-if="ctrl.counts.dataSetsCount > 0" ng-click="ctrl.showRelatedDataSets()" class="fdz-truncate-string" flex>({{ctrl.counts.dataSetsCount}})</a>
                         </div>
                         <div style="margin-bottom: 0.5em; width: 100%;" layout="row">
                             <md-icon md-svg-src="/assets/images/icons/survey.svg" style="margin-top:0px; margin-right:4px;"></md-icon>
                             <div style="margin-right:3px;">{{'survey-management.detail.surveys' | translate }}:</div>
-                            <a ng-click="ctrl.showRelatedSurveys()" class="fdz-truncate-string" flex>({{ctrl.counts.surveysCount}})</a>
+                            <div ng-if="ctrl.counts.surveysCount == 0" class="fdz-truncate-string" flex>{{'global.messages.error.unavailable' | translate}}</div>
+                            <a ng-if="ctrl.counts.surveysCount > 0" ng-click="ctrl.showRelatedSurveys()" class="fdz-truncate-string" flex>({{ctrl.counts.surveysCount}})</a>
                         </div>
                         <div style="margin-bottom: 0.5em; width: 100%;" layout="row">
                             <md-icon md-svg-src="/assets/images/icons/related-publication.svg" style="margin-top:0px; margin-right:4px;"></md-icon>
                             <div style="margin-right:3px;">{{'related-publication-management.detail.publications' | translate }}:</div>
-                            <a ng-click="ctrl.showRelatedPublications()" class="fdz-truncate-string" flex>({{ctrl.counts.publicationsCount}})</a>
+                            <div ng-if="ctrl.counts.publicationsCount == 0" class="fdz-truncate-string" flex>{{'global.messages.error.unavailable' | translate}}</div>
+                            <a ng-if="ctrl.counts.publicationsCount > 0" ng-click="ctrl.showRelatedPublications()" class="fdz-truncate-string" flex>({{ctrl.counts.publicationsCount}})</a>
                         </div>
                     </md-card-content>
                 </md-card>

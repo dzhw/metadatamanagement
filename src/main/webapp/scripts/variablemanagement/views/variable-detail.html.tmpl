@@ -86,36 +86,42 @@
                         <div style="margin-bottom: 0.5em; width: 100%;" layout="row">
                             <md-icon md-svg-src="/assets/images/icons/study.svg" style="margin-top:0px; margin-right:4px;"></md-icon>
                             <div style="margin-right:3px;">{{'study-management.detail.study' | translate }}:</div>
-                            <a ui-sref="studyDetail({id:study.id})" class="fdz-truncate-string" flex>{{study.title}}</a>
+                            <div ng-if="!study" class="fdz-truncate-string" flex>{{'global.messages.error.unavailable' | translate}}</div>
+                            <a ng-if="study" ui-sref="studyDetail({id:study.id})" class="fdz-truncate-string" flex>{{study.title}}</a>
                         </div>
                         <div ng-if="question" style="margin-bottom: 0.5em; width: 100%;" layout="row">
                             <md-icon md-svg-src="/assets/images/icons/question.svg" style="margin-top:0px; margin-right:4px;"></md-icon>
                             <div style="margin-right:3px;">{{'question-management.detail.question' | translate }}:</div>
-                            <a ui-sref="questionDetail({id:question.id})" class="fdz-truncate-string" flex>{{question.number}}
+                            <div ng-if="!question" class="fdz-truncate-string" flex>{{'global.messages.error.unavailable' | translate}}</div>
+                            <a ng-if="question" ui-sref="questionDetail({id:question.id})" class="fdz-truncate-string" flex>{{question.number}}
                                 {{question.questionText}}</a>
                         </div>
                         <div style="margin-bottom: 0.5em;" layout="row">
                             <md-icon md-svg-src="/assets/images/icons/data-set.svg" style="margin-top:0px; margin-right:4px;"></md-icon>
                             <div style="margin-right:3px;">{{'data-set-management.detail.data-sets' | translate }}:</div>
-                            <a ng-click="showRelatedDataSets()" class="fdz-truncate-string" flex>({{counts.dataSetsCount}})</a>
+                            <div ng-if="counts.dataSetsCount == 0" class="fdz-truncate-string" flex>{{'global.messages.error.unavailable' | translate}}</div>
+                            <a ng-if="counts.dataSetsCount > 0" ng-click="showRelatedDataSets()" class="fdz-truncate-string" flex>({{counts.dataSetsCount}})</a>
                         </div>
                         <div style="margin-bottom: 0.5em;" layout="row">
                             <md-icon md-svg-src="/assets/images/icons/survey.svg" style="margin-top:0px; margin-right:4px;"></md-icon>
                             <div style="margin-right:3px;">{{'survey-management.detail.surveys' | translate }}:</div>
-                            <a ng-click="showRelatedSurveys()" class="fdz-truncate-string" flex>({{counts.surveysCount}})</a>
+                            <div ng-if="counts.surveysCount == 0" class="fdz-truncate-string" flex>{{'global.messages.error.unavailable' | translate}}</div>
+                            <a ng-if="counts.surveysCount > 0" ng-click="showRelatedSurveys()" class="fdz-truncate-string" flex>({{counts.surveysCount}})</a>
                         </div>
 
                         <div style="margin-bottom: 0.5em;" layout="row">
                             <md-icon md-svg-src="/assets/images/icons/variable.svg" style="margin-top:0px; margin-right:4px;"></md-icon>
                             <div style="margin-right:3px;">{{'variable-management.detail.same-variables-in-panel' | translate }}:</div>
-                            <a ng-click="showSameVariablesInPanel()" class="fdz-truncate-string" flex>({{counts.sameVariablesInPanel}})</a>
+                            <div ng-if="counts.sameVariablesInPanel == 0" class="fdz-truncate-string" flex>{{'global.messages.error.unavailable' | translate}}</div>
+                            <a ng-if="counts.sameVariablesInPanel > 0" ng-click="showSameVariablesInPanel()" class="fdz-truncate-string" flex>({{counts.sameVariablesInPanel}})</a>
                         </div>
 
 
                         <div style="margin-bottom: 0.5em;" layout="row">
                             <md-icon md-svg-src="/assets/images/icons/related-publication.svg" style="margin-top:0px; margin-right:4px;"></md-icon>
                             <div style="margin-right:3px;">{{'related-publication-management.detail.publications' | translate }}:</div>
-                            <a ng-click="showRelatedPublications()" class="fdz-truncate-string" flex>({{counts.publicationsCount}})</a>
+                            <div ng-if="counts.publicationsCount == 0" class="fdz-truncate-string" flex>{{'global.messages.error.unavailable' | translate}}</div>
+                            <a ng-if="counts.publicationsCount > 0" ng-click="showRelatedPublications()" class="fdz-truncate-string" flex>({{counts.publicationsCount}})</a>
                         </div>
                     </md-card-content>
                 </md-card>

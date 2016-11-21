@@ -11,8 +11,8 @@ angular.module('metadatamanagementApp')
     $scope.generationCodeToggleFlag = true;
     $scope.notAllRowsVisible = true;
     $scope.counts = {};
-    entity.$promise.then(function(variable) {
-      $scope.variable = variable;
+    $scope.variable = entity;
+    entity.$promise.then(function() {
       StudySearchService
       .findStudy($scope.variable.dataAcquisitionProjectId)
       .then(function(study) {
@@ -60,29 +60,23 @@ angular.module('metadatamanagementApp')
       $scope.generationCodeToggleFlag = !$scope.generationCodeToggleFlag;
     };
     $scope.showRelatedSurveys = function() {
-      if ($scope.counts.surveysCount > 0) {
-        var paramObject = {};
-        paramObject.methodName = 'findSurveys';
-        paramObject.methodParams = $scope.variable.surveyIds;
-        SurveySearchDialogService.findSurveys(paramObject);
-      }
+      var paramObject = {};
+      paramObject.methodName = 'findSurveys';
+      paramObject.methodParams = $scope.variable.surveyIds;
+      SurveySearchDialogService.findSurveys(paramObject);
     };
     $scope.showRelatedDataSets = function() {
-      if ($scope.counts.dataSetsCount > 0) {
-        var paramObject = {};
-        paramObject.methodName = 'findByVariableId';
-        paramObject.methodParams = $scope.variable.id;
-        DataSetSearchDialogService.findDataSets(paramObject);
-      }
+      var paramObject = {};
+      paramObject.methodName = 'findByVariableId';
+      paramObject.methodParams = $scope.variable.id;
+      DataSetSearchDialogService.findDataSets(paramObject);
     };
     $scope.showRelatedPublications = function() {
-      if ($scope.counts.publicationsCount > 0) {
-        var paramObject = {};
-        paramObject.methodName = 'findByVariableId';
-        paramObject.methodParams = $scope.variable.id;
-        RelatedPublicationSearchDialogService
-        .findRelatedPublications(paramObject);
-      }
+      var paramObject = {};
+      paramObject.methodName = 'findByVariableId';
+      paramObject.methodParams = $scope.variable.id;
+      RelatedPublicationSearchDialogService
+      .findRelatedPublications(paramObject);
     };
     $scope.openSuccessCopyToClipboardToast = function(message) {
       SimpleMessageToastService.openSimpleMessageToast(message, []

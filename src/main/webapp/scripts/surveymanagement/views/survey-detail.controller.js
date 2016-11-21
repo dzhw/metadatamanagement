@@ -10,8 +10,7 @@ angular.module('metadatamanagementApp')
       ctrl.imgResolved = false;
       ctrl.survey = entity;
       ctrl.counts = {};
-      entity.$promise.then(function(survey) {
-        ctrl.survey = survey;
+      entity.$promise.then(function() {
         StudySearchService
         .findStudy(ctrl.survey.dataAcquisitionProjectId)
         .then(function(study) {

@@ -14,7 +14,7 @@ function(Language, ElasticSearchClient) {
     return ElasticSearchClient.mget(query);
   };
   var findByProjectId = function(dataAcquisitionProjectId, from, size,
-    excludSurvey) {
+    excludedSurveyId) {
     query.index = 'metadata_' + Language.getCurrentInstantly();
     query.body = {};
     query.body.from = from;
@@ -35,18 +35,18 @@ function(Language, ElasticSearchClient) {
         ]
       }
     };
-    if (excludSurvey) {
+    if (excludedSurveyId) {
       // jscs:disable
       query.body.query.bool.must_not = {
         'term': {
-          'id': excludSurvey
+          'id': excludedSurveyId
         }
       };
       // jscs:enable
     }
     return ElasticSearchClient.search(query);
   };
-  var countBy = function(term, value, excludSurvey) {
+  var countBy = function(term, value, excludedSurveyId) {
     query.index = 'metadata_' + Language.getCurrentInstantly();
     query.body = {};
     query.body.query = {};
@@ -60,11 +60,11 @@ function(Language, ElasticSearchClient) {
         'filter': []
       }
     };
-    if (excludSurvey) {
+    if (excludedSurveyId) {
       // jscs:disable
       query.body.query.bool.must_not = {
         'term': {
-          'id': excludSurvey
+          'id': excludedSurveyId
         }
       };
       // jscs:enable

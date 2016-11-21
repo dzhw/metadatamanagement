@@ -14,7 +14,8 @@ angular.module('metadatamanagementApp')
           'content@': {
             templateUrl: 'scripts/datasetmanagement/views/' +
               'dataSet-detail.html.tmpl',
-            controller: 'DataSetDetailController'
+            controller: 'DataSetDetailController',
+            controllerAs: 'ctrl'
           }
         },
         resolve: {

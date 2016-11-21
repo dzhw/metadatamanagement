@@ -12,21 +12,20 @@ angular.module('metadatamanagementApp')
       RelatedPublicationSearchService) {
 
       var ctrl = this;
-      ctrl.study = entity;
+      ctrl.question = entity;
       ctrl.predecessors = [];
       ctrl.successors = [];
       ctrl.counts = {};
 
-      entity.$promise.then(function(question) {
-        ctrl.question = question;
-        ctrl.questionIdAsArray = question.id.split(',');
-        QuestionSearchService.findPredeccessors(question.id)
+      entity.$promise.then(function() {
+        ctrl.questionIdAsArray = ctrl.question.id.split(',');
+        QuestionSearchService.findPredeccessors(ctrl.question.id)
           .then(function(predecessors) {
             if (!CleanJSObjectService.isNullOrEmpty(predecessors)) {
               ctrl.predecessors = predecessors.hits.hits;
             }
           });
-        QuestionSearchService.findSuccessors(question.successors)
+        QuestionSearchService.findSuccessors(ctrl.question.successors)
           .then(function(successors) {
             if (!CleanJSObjectService.isNullOrEmpty(successors)) {
               ctrl.successors = successors.docs;
@@ -63,21 +62,17 @@ angular.module('metadatamanagementApp')
               });
       });
       ctrl.showRelatedVariables = function() {
-        if (ctrl.counts.variablesCount > 0) {
-          var paramObject = {};
-          paramObject.methodName = 'findByQuestionId';
-          paramObject.methodParams = ctrl.question.id;
-          VariableSearchDialogService.findVariables(paramObject);
-        }
+        var paramObject = {};
+        paramObject.methodName = 'findByQuestionId';
+        paramObject.methodParams = ctrl.question.id;
+        VariableSearchDialogService.findVariables(paramObject);
       };
       ctrl.showRelatedPublications = function() {
-        if (ctrl.counts.publicationsCount > 0) {
-          var paramObject = {};
-          paramObject.methodName = 'findByQuestionId';
-          paramObject.methodParams = ctrl.question.id;
-          RelatedPublicationSearchDialogService.
-          findRelatedPublications(paramObject);
-        }
+        var paramObject = {};
+        paramObject.methodName = 'findByQuestionId';
+        paramObject.methodParams = ctrl.question.id;
+        RelatedPublicationSearchDialogService.
+        findRelatedPublications(paramObject);
       };
       ctrl.openSuccessCopyToClipboardToast = function() {
         SimpleMessageToastService.openSimpleMessageToast(
