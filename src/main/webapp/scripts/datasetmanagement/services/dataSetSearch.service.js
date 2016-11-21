@@ -86,10 +86,23 @@ function(Language, ElasticSearchClient) {
   var countBy  = function(term, value) {
     query.index = 'metadata_' + Language.getCurrentInstantly();
     query.body = {};
+    query.body.query = {};
     query.body.query = {
-      'term': {}
+      'bool': {
+        'must': [
+          {
+            'match_all': {}
+          }
+        ],
+        'filter': []
+      }
     };
-    query.body.query.term[term] = value;
+    var subQuery = {'bool': {}};
+    subQuery.bool.must = [];
+    var mustSubQuery = {'term': {}};
+    mustSubQuery.term[term] = value;
+    subQuery.bool.must.push(mustSubQuery);
+    query.body.query.bool.filter.push(subQuery);
     return ElasticSearchClient.count(query);
   };
   return {
