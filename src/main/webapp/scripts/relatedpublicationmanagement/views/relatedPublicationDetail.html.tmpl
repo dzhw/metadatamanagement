@@ -76,12 +76,6 @@
                           <a ng-if="ctrl.counts.dataSetsCount > 0" ng-click="ctrl.showRelatedDataSets()" class="fdz-truncate-string" flex>({{ctrl.counts.dataSetsCount}})</a>
                       </div>
                       <div style="margin-bottom: 0.5em; width: 100%;" layout="row">
-                          <md-icon md-svg-src="/assets/images/icons/survey.svg" style="margin-top:0px; margin-right:4px;"></md-icon>
-                          <div style="margin-right:3px;">{{'study-management.detail.studies' | translate }}:</div>
-                          <div ng-if="ctrl.counts.studiesCount == 0" class="fdz-truncate-string" flex>{{'global.messages.error.unavailable' | translate}}</div>
-                          <a ng-if="ctrl.counts.studiesCount > 0" ng-click="ctrl.showRelatedStudies()" class="fdz-truncate-string" flex>({{ctrl.counts.surveysCount}})</a>
-                      </div>
-                      <div style="margin-bottom: 0.5em; width: 100%;" layout="row">
                           <md-icon md-svg-src="/assets/images/icons/instrument.svg" style="margin-top:0px; margin-right:4px;"></md-icon>
                           <div style="margin-right:3px;">{{'instrument-management.detail.instruments' | translate }}:</div>
                           <div ng-if="ctrl.counts.instrumentsCount == 0" class="fdz-truncate-string" flex>{{'global.messages.error.unavailable' | translate}}</div>
