@@ -59,13 +59,15 @@
                           <div ng-if="ctrl.counts.publicationsCount == 0" class="fdz-truncate-string" flex>{{'global.messages.error.unavailable' | translate}}</div>
                           <a ng-if="ctrl.counts.publicationsCount > 0" ng-click="ctrl.showRelatedPublications()" class="fdz-truncate-string" flex>({{ctrl.counts.publicationsCount}})</a>
                       </div>
-                      <div>
-                        <md-button class="md-raised" ng-if="ctrl.isAuthenticated()" type="file" ngf-select="ctrl.uploadTexTemplate($file, dataSet.id)" accept=".zip">
-                          <md-icon md-font-set="material-icons">note_add</md-icon>
-                          <span>{{'data-set-management.detail.generate-variable-report' | translate}}</span>
-                        </md-button>
-                      </div>
                     </md-card-content>
+                    <md-card-actions layout="row" layout-align="end center">
+                      <md-button aria-label="{{'data-set-management.detail.generate-variable-report' | translate}}" class="md-fab md-mini md-primary" ng-if="ctrl.isAuthenticated()" type="file" ngf-select="ctrl.uploadTexTemplate($file, dataSet.id)" accept=".zip">
+                        <md-icon md-font-set="material-icons">note_add</md-icon>
+                        <md-tooltip md-direction="left">
+                            {{'data-set-management.detail.generate-variable-report' | translate}}
+                        </md-tooltip>
+                      </md-button>
+                    </md-card-actions>
                 </md-card>
             </div>
             <div layout="row">
