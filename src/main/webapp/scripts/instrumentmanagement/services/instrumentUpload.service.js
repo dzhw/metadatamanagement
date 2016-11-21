@@ -8,7 +8,7 @@ angular.module('metadatamanagementApp').service('InstrumentUploadService',
     InstrumentAttachmentUploadService) {
     //array holding all instrument resources
     var instrumentsToSave;
-    //a map instrumentId -> map filename -> {attachment, metadata}
+    //a map instrumentId -> (map filename -> (attachment, metadata))
     var attachmentsToUpload;
     var uploadCount;
 
@@ -32,6 +32,7 @@ angular.module('metadatamanagementApp').service('InstrumentUploadService',
           return upload();
         } else if (!instrumentsToSave[uploadCount].id ||
           instrumentsToSave[uploadCount].id === '') {
+          // instrument does not have an id
           var index = uploadCount;
           JobLoggingService.error({
             message: 'instrument-management.log-messages.instrument.missing-id',
@@ -47,7 +48,7 @@ angular.module('metadatamanagementApp').service('InstrumentUploadService',
             JobLoggingService.success({
               objectType: 'instrument'
             });
-            // get the map filename -> { attachment, metadata}
+            // get the map filename -> {attachment, metadata}
             var attachments = attachmentsToUpload[
               instrumentsToSave[uploadCount].id];
             //upload attachments if there are some
@@ -66,6 +67,7 @@ angular.module('metadatamanagementApp').service('InstrumentUploadService',
                       });
                     },
                     function(error) {
+                      // attachment upload failed
                       var errorMessage =
                         ErrorMessageResolverService
                         .getErrorMessage(error, 'instrument',
@@ -80,15 +82,17 @@ angular.module('metadatamanagementApp').service('InstrumentUploadService',
                 });
               });
               sequentialChain.finally(function() {
+                // finished attachment upload => continue with next instrument
                 uploadCount++;
                 return upload();
               });
             } else {
-              //no attachments to upload continue with next instrument
+              //no attachments to upload => continue with next instrument
               uploadCount++;
               return upload();
             }
           }).catch(function(error) {
+            // instrument upload failed
             var errorMessage = ErrorMessageResolverService
               .getErrorMessage(error, 'instrument');
             JobLoggingService.error({
@@ -104,23 +108,29 @@ angular.module('metadatamanagementApp').service('InstrumentUploadService',
       }
     };
 
+    // upload instruments for the given projects
     var uploadInstruments = function(files, dataAcquisitionProjectId) {
+      // reset the instrument upload count
       uploadCount = 0;
+      // reset the array of instrument resources
       instrumentsToSave = [];
+      // reset the map instrumentId -> (map filename -> (attachment, metadata))
       attachmentsToUpload = {};
       JobLoggingService.start('instrument');
       InstrumentDeleteResource.deleteByDataAcquisitionProjectId({
         dataAcquisitionProjectId: dataAcquisitionProjectId
       }).$promise.then(
         function() {
+          // the excel file containing instruments and attachment metadata
           var excelFile;
+          // map filename -> file
           var attachmentFiles = {};
 
           files.forEach(function(file) {
             if (file.name === 'instruments.xlsx') {
               excelFile = file;
-            } else if ((file.path && file.path.indexOf('attachments') >
-                -1) ||
+            } else if ((file.path &&
+                file.path.indexOf('attachments') > -1) ||
               (file.webkitRelativePath &&
                 file.webkitRelativePath.indexOf('attachments') > -1)) {
               attachmentFiles[file.name] = file;
