@@ -7,12 +7,16 @@ angular.module('metadatamanagementApp')
     RelatedPublicationSearchDialogService, QuestionSearchDialogService,
     DataSetSearchService, QuestionSearchService,
     RelatedPublicationSearchService, StudySearchService,
-    SimpleMessageToastService) {
+    SimpleMessageToastService, PageTitleService, LanguageService) {
+
     $scope.generationCodeToggleFlag = true;
     $scope.notAllRowsVisible = true;
     $scope.counts = {};
     $scope.variable = entity;
     entity.$promise.then(function() {
+      PageTitleService.setPageTitle(
+        $scope.variable.label[LanguageService.getCurrentInstantly()] +
+        ' (' + $scope.variable.name + ')');
       StudySearchService
         .findStudy($scope.variable.dataAcquisitionProjectId)
         .then(function(study) {

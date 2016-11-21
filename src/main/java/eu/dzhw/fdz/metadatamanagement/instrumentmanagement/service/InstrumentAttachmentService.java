@@ -12,12 +12,12 @@ import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.gridfs.GridFsCriteria;
 import org.springframework.data.mongodb.gridfs.GridFsOperations;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import com.mongodb.gridfs.GridFSFile;
 
 import eu.dzhw.fdz.metadatamanagement.instrumentmanagement.domain.InstrumentAttachmentMetadata;
+import eu.dzhw.fdz.metadatamanagement.usermanagement.security.SecurityUtils;
 
 /**
  * Service for managing attachments for instruments.
@@ -42,7 +42,7 @@ public class InstrumentAttachmentService {
    */
   public String createInstrumentAttachment(InputStream inputStream,
       String contentType, InstrumentAttachmentMetadata metadata) {
-    String currentUser = SecurityContextHolder.getContext().getAuthentication().getName();
+    String currentUser = SecurityUtils.getCurrentUserLogin();
     metadata.setVersion(0L);
     metadata.setCreatedDate(LocalDateTime.now());
     metadata.setCreatedBy(currentUser);

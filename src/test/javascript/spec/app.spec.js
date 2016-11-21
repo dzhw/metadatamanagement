@@ -18,20 +18,21 @@ describe('Specification for app ', function() {
   var $httpBackend;
   var $rootScope;
   var $location;
-  var Language;
+  var LanguageService;
   var $state;
   var $stateParams;
 
   describe('metadatamanagementApp run function', function() {
     beforeEach(function() {
       inject(function(_$rootScope_, _$location_,
-        _$httpBackend_, _Language_, _$state_, _$stateParams_) {
+        _$httpBackend_, _LanguageService_, _$state_,
+        _$stateParams_) {
         $rootScope = _$rootScope_;
         $scope = _$rootScope_.$new();
         $location = _$location_;
         $httpBackend = _$httpBackend_;
         $state = _$state_;
-        Language = _Language_;
+        LanguageService = _LanguageService_;
         $state = _$state_;
         $stateParams = _$stateParams_;
       });
@@ -56,13 +57,13 @@ describe('Specification for app ', function() {
       $httpBackend.expectGET(/api\/account\?cacheBuster=\d+/)
         .respond(200, '');
     });
-    it('should set Language to de ', function() {
-      expect(Language.getCurrentInstantly()).toBe('de');
+    it('should set LanguageService to de ', function() {
+      expect(LanguageService.getCurrentInstantly()).toBe('de');
     });
-    it('should set Language to en ', function() {
+    it('should set LanguageService to en ', function() {
       $location.path('/en/');
       $rootScope.$apply();
-      expect(Language.getCurrentInstantly()).toBe('en');
+      expect(LanguageService.getCurrentInstantly()).toBe('en');
     });
     describe('run functions', function() {
       describe('on stateChangeStart', function() {
@@ -126,33 +127,6 @@ describe('Specification for app ', function() {
           });
       });
     });
-  });
-  describe('translateProvider ', function() {
-    beforeEach(module(function($translateProvider, $provide) {
-      $translateProvider.useLoader('customLoader');
-      $provide.service('customLoader', function($q) {
-        return function() {
-          var deferred = $q.defer();
-          deferred.resolve({
-            'global.title': 'metadatamanagement'
-          });
-          return deferred.promise;
-        };
-      });
-    }));
-    it('should translates page title', inject(function($rootScope,
-      $httpBackend, $window) {
-      var globalJson = new RegExp('i18n\/.*\/global.json');
-      var mainJson = new RegExp('i18n\/.*\/home.json');
-      $httpBackend.whenGET(globalJson).respond({});
-      $httpBackend.whenGET(mainJson).respond({});
-      $httpBackend.expectGET(/api\/account\?cacheBuster=\d+/).respond(
-        200, '');
-      $rootScope.$broadcast('$stateChangeSuccess', event, toState,
-        toParams);
-      $rootScope.$apply();
-      expect($window.document.title).toEqual('metadatamanagement');
-    }));
   });
   describe('back function', function() {
     it('should call back function', function() {

@@ -2,12 +2,12 @@
 
 angular.module('metadatamanagementApp').controller(
   'LanguageController',
-  function($rootScope, $scope, $location, $translate, Language) {
+  function($rootScope, $scope, $location, $translate, LanguageService) {
     $scope.changeLanguage = function(languageKey) {
-      Language.setCurrent(languageKey);
+      LanguageService.setCurrent(languageKey);
     };
 
-    Language.getAll().then(function(languages) {
+    LanguageService.getAll().then(function(languages) {
       $scope.languages = languages;
     });
   }).filter('findLanguageFromKey', function() {

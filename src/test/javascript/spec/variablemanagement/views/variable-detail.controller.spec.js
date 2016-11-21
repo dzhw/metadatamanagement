@@ -10,12 +10,12 @@ xdescribe('Variable Detail Controller', function() {
   var $rootScope;
   var MockEntity;
   var createController;
-  var Language;
+  var LanguageService;
   var $translate;
 
   beforeEach(inject(function($injector) {
     $rootScope = $injector.get('$rootScope');
-    Language = $injector.get('Language');
+    LanguageService = $injector.get('LanguageService');
     $translate = $injector.get('$translate');
     $scope = $rootScope.$new();
     MockEntity = {
@@ -44,7 +44,7 @@ xdescribe('Variable Detail Controller', function() {
     var locals = {
       '$scope': $scope,
       'entity': MockEntity,
-      'Language': Language,
+      'LanguageService': LanguageService,
       '$translate': $translate
     };
     createController = function() {
@@ -87,8 +87,8 @@ xdescribe('Variable Detail Controller', function() {
 
   it('check options with german', function() {
     createController();
-    var currentLanguage = Language.getCurrentInstantly();
-    Language.setCurrent('de');
+    var currentLanguage = LanguageService.getCurrentInstantly();
+    LanguageService.setCurrent('de');
     var d = {};
     d.label = {};
 
@@ -102,13 +102,13 @@ xdescribe('Variable Detail Controller', function() {
     expect($scope.optionsAbsoluteFrequencyChart.chart.x(d)).toBe(
       'german');
 
-    Language.setCurrent(currentLanguage);
+    LanguageService.setCurrent(currentLanguage);
   });
 
   it('check options with english', function() {
     createController();
-    var currentLanguage = Language.getCurrentInstantly();
-    Language.setCurrent('en');
+    var currentLanguage = LanguageService.getCurrentInstantly();
+    LanguageService.setCurrent('en');
     var d = {};
     d.label = {};
 
@@ -122,6 +122,6 @@ xdescribe('Variable Detail Controller', function() {
     expect($scope.optionsAbsoluteFrequencyChart.chart.x(d)).toBe(
       'english');
 
-    Language.setCurrent(currentLanguage);
+    LanguageService.setCurrent(currentLanguage);
   });
 });

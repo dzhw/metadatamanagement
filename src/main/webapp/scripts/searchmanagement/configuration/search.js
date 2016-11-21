@@ -6,8 +6,7 @@ angular.module('metadatamanagementApp').config(
       parent: 'site',
       url: '/search',
       data: {
-        authorities: [],
-        pageTitle: 'global.menu.search.title'
+        authorities: []
       },
       views: {
         'content@': {

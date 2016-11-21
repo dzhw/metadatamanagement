@@ -3,7 +3,7 @@
 angular.module('metadatamanagementApp')
   .controller('SurveyDetailController',
     function(entity, $state, StudySearchService, SurveySearchDialogService,
-      DataSetSearchDialogService, Language, DataSetSearchService,
+      DataSetSearchDialogService, LanguageService, DataSetSearchService,
       SurveySearchService) {
 
       var ctrl = this;
@@ -12,24 +12,24 @@ angular.module('metadatamanagementApp')
       ctrl.counts = {};
       entity.$promise.then(function() {
         StudySearchService
-        .findStudy(ctrl.survey.dataAcquisitionProjectId)
-        .then(function(study) {
+          .findStudy(ctrl.survey.dataAcquisitionProjectId)
+          .then(function(study) {
             if (study.hits.hits.length > 0) {
               ctrl.study = study.hits.hits[0]._source;
             }
           });
         DataSetSearchService
-        .countBy('surveyIds',
-        ctrl.survey.title[Language.getCurrentInstantly()])
-        .then(function(dataSetsCount) {
-              ctrl.counts.dataSetsCount = dataSetsCount.count;
-            });
+          .countBy('surveyIds',
+            ctrl.survey.title[LanguageService.getCurrentInstantly()])
+          .then(function(dataSetsCount) {
+            ctrl.counts.dataSetsCount = dataSetsCount.count;
+          });
         SurveySearchService
           .countBy('dataAcquisitionProjectId',
-          ctrl.survey.dataAcquisitionProjectId, ctrl.survey.id)
+            ctrl.survey.dataAcquisitionProjectId, ctrl.survey.id)
           .then(function(surveysCount) {
-              ctrl.counts.surveysCount = surveysCount.count;
-            });
+            ctrl.counts.surveysCount = surveysCount.count;
+          });
       });
       ctrl.showRelatedDataSets = function() {
         var paramObject = {};

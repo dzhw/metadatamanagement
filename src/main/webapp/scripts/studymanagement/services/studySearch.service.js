@@ -1,43 +1,39 @@
 'use strict';
 
 angular.module('metadatamanagementApp').factory('StudySearchService',
-function(Language, ElasticSearchClient) {
-  var query = {};
-  query.type = 'studies';
-  query.body = {};
+  function(LanguageService, ElasticSearchClient) {
+    var query = {};
+    query.type = 'studies';
+    query.body = {};
 
-  var findStudies = function(studyIds) {
-    query.index = 'metadata_' + Language.getCurrentInstantly();
-    query.body.query = {};
-    query.body.query.docs = {
-      'ids': studyIds
+    var findStudies = function(studyIds) {
+      query.index = 'metadata_' + LanguageService.getCurrentInstantly();
+      query.body.query = {};
+      query.body.query.docs = {
+        'ids': studyIds
+      };
+      return ElasticSearchClient.mget(query);
     };
-    return ElasticSearchClient.mget(query);
-  };
-  var findStudy = function(studyId, from, size) {
-    query.index = 'metadata_' + Language.getCurrentInstantly();
-    query.body.from = from;
-    query.body.size = size;
-    query.body.query = {
-      'bool': {
-        'must': [
-          {
+    var findStudy = function(studyId, from, size) {
+      query.index = 'metadata_' + LanguageService.getCurrentInstantly();
+      query.body.from = from;
+      query.body.size = size;
+      query.body.query = {
+        'bool': {
+          'must': [{
             'match_all': {}
-          }
-        ],
-        'filter': [
-          {
+          }],
+          'filter': [{
             'term': {
               'id': studyId
             }
-          }
-        ]
-      }
+          }]
+        }
+      };
+      return ElasticSearchClient.search(query);
     };
-    return ElasticSearchClient.search(query);
-  };
-  return {
-    findStudies: findStudies,
-    findStudy: findStudy
-  };
-});
+    return {
+      findStudies: findStudies,
+      findStudy: findStudy
+    };
+  });

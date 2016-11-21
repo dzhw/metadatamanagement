@@ -211,7 +211,9 @@ module.exports = function(grunt) {
             'ascending',
             'callback',
             'accept',
-            'ngf-*'
+            'ngf-*',
+            'layout-sm',
+            'layout-xs'
           ]
         },
         files: {
@@ -414,8 +416,7 @@ module.exports = function(grunt) {
             cwd: 'src/main/webapp',
             dest: '<%= yeoman.dist %>/assets/fonts',
             src: ['bower_components/bootstrap/fonts/*.*']
-          },
-          {
+          }, {
             expand: true,
             dot: true,
             flatten: true,

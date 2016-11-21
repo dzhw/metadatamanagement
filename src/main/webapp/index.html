@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html class="no-js" ng-app="metadatamanagementApp">
+<html class="no-js">
 
     <head>
         <meta charset="utf-8">
@@ -7,8 +7,9 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
         <meta name="description" content="">
         <meta name="google" content="notranslate">
+        <meta name="fragment" content="!"> 
         <base href="/">
-        <title>metadatamanagement</title>
+        <title>Metadatamanagement</title>
         <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
         <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
         <!-- build:css assets/styles/vendor.css -->
@@ -26,7 +27,7 @@
         <!-- endbuild -->
     </head>
 
-    <body layout="row" block-ui="main" class="block-ui-main">
+    <body layout="row" block-ui="main" class="block-ui-main" ng-app="metadatamanagementApp">
         <!--[if lt IE 10]> <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p> <![endif]-->
         <div class="fdz-splash" ng-cloak>
             <div>
@@ -175,6 +176,7 @@
         <script src="scripts/common/toast/simpleMessageToast.controller.js"></script>
         <script src="scripts/common/blockui/blockUI.controller.js"></script>
         <script src="scripts/common/fdzonload/fdzOnload.directive.js"></script>
+        <script src="scripts/common/pagetitle/pageTitle.service.js"></script>
 
         <script src="scripts/filemanagement/resources/file.resource.js"></script>
         <script src="scripts/filemanagement/services/zipReader.service.js"></script>

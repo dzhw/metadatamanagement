@@ -14,7 +14,7 @@ angular
 
 .run(
     function($rootScope, $location, $window, $http, $state, $translate,
-      Language, Auth, Principal, ENV, VERSION) {
+      LanguageService, Auth, Principal, ENV, VERSION) {
       $rootScope.ENV = ENV;
       $rootScope.VERSION = VERSION;
 
@@ -26,9 +26,9 @@ angular
 
       //init the current language
       if ($location.path().indexOf('/en/') > -1) {
-        Language.setCurrent('en');
+        LanguageService.setCurrent('en');
       } else {
-        Language.setCurrent('de');
+        LanguageService.setCurrent('de');
       }
 
       $rootScope.$on('$stateChangeStart', function(event, toState,
@@ -39,11 +39,10 @@ angular
           Auth.authorize();
         }
         // Update the language
-        Language.setCurrent(toStateParams.lang);
+        LanguageService.setCurrent(toStateParams.lang);
       });
       $rootScope.$on('$stateChangeSuccess', function(event, toState,
         toParams, fromState, fromParams) {
-        var titleKey = 'global.title';
         // Remember previous state unless we've been redirected to login or
         // we've just
         // reset the state memory after logout. If we're redirected to
@@ -56,18 +55,6 @@ angular
           $rootScope.previousStateName = fromState.name;
           $rootScope.previousStateParams = fromParams;
         }
-
-        // Set the page title key to the one configured in state or use
-        // default one
-        if (toState.data.pageTitle) {
-          titleKey = toState.data.pageTitle;
-          $rootScope.pageTitle = toState.data.pageTitle;
-        }
-
-        $translate(titleKey).then(function(title) {
-          // Change window title with translated one
-          $window.document.title = title;
-        });
       });
 
       $rootScope.back = function() {
