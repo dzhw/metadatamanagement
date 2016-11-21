@@ -9,6 +9,30 @@
         </div>
     </md-toolbar>
     <md-dialog-content>
-        <related-studies method-name="{{StudySearchDialogController.methodName}}" method-params="StudySearchDialogController.methodParams" count="{{StudySearchDialogController.count}}"></related-studies>
+      <div block-ui="blockRelatedStudyContainer">
+          <div ng-if="ctrl.count !== 0" class="fdz-InfiniteScroll">
+              <md-virtual-repeat-container id="vertical-container">
+                  <div md-virtual-repeat="item in ctrl.infiniteItems" md-on-demand  flex>
+                    <md-card ui-sref="studyDetail({id: item._source.id})" class="fdz-search-result">
+                        <md-card-header class="fdz-card-header-border">
+                            <md-card-avatar>
+                                <md-icon md-svg-src="/assets/images/icons/study.svg" class="fdz-search-result-icon"></md-icon>
+                            </md-card-avatar>
+                            <md-card-header-text class="fdz-truncate-string">
+                                <div class="md-title fdz-truncate-string">{{item._source.title}}</div>
+                                <div class="md-subhead fdz-truncate-string">{{item._source.id}}</div>
+                            </md-card-header-text>
+                        </md-card-header>
+                        <md-card-content>
+                            <div>{{item._source.description}}</div>
+                        </md-card-content>
+                    </md-card>
+                  </div>
+              </md-virtual-repeat-container>
+          </div>
+          <div ng-if="ctrl.count === 0" layout-margin>
+              <span>{{'study-management.detail.no-related-studies' | translate }}</span>
+          </div>
+      </div>
     </md-dialog-content>
 </md-dialog>

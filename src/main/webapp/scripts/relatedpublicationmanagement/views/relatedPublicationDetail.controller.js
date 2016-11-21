@@ -4,36 +4,60 @@ angular.module('metadatamanagementApp')
   .controller('RelatedPublicationDetailController',
     function(entity, QuestionSearchDialogService, VariableSearchDialogService,
     SurveySearchDialogService, StudySearchDialogService,
-    DataSetSearchDialogService) {
+    DataSetSearchDialogService, InstrumentSearchDialogService) {
 
       var ctrl = this;
+      ctrl.counts = {};
       ctrl.relatedPublication = entity;
-      entity.$promise.then(function(relatedPublication) {
-        ctrl.relatedPublication = relatedPublication;
+      entity.$promise.then(function() {
+        ctrl.counts.dataSetsCount = ctrl.relatedPublication.dataSetIds.length;
+        ctrl.counts.questionsCount = ctrl.relatedPublication.questionIds.length;
+        ctrl.counts.variablesCount = ctrl.relatedPublication.variableIds.length;
+        ctrl.counts.surveysCount = ctrl.relatedPublication.surveyIds.length;
+        ctrl.counts.studiesCount = ctrl.relatedPublication.studyIds.length;
+        ctrl.counts.instrumentsCount = ctrl.relatedPublication
+        .instrumentIds.length;
       });
-      ctrl.showStudies = function() {
+      ctrl.showRelatedStudies = function() {
+        var paramObject = {};
+        paramObject.methodName = 'findStudies';
+        paramObject.methodParams = ctrl.relatedPublication.studyIds;
         StudySearchDialogService
-        .findStudies('findStudies', ctrl.relatedPublication.studyIds,
-        ctrl.relatedPublication.studyIds.length);
+        .findStudies(paramObject);
       };
-      ctrl.showQuestions = function() {
+      ctrl.showRelatedQuestions = function() {
+        var paramObject = {};
+        paramObject.methodName = 'findQuestions';
+        paramObject.methodParams = ctrl.relatedPublication.questionIds;
         QuestionSearchDialogService
-        .findQuestions('findQuestions', ctrl.relatedPublication.questionIds,
-        ctrl.relatedPublication.questionIds.length);
+        .findQuestions(paramObject);
       };
-      ctrl.showVariables = function() {
+      ctrl.showRelatedVariables = function() {
+        var paramObject = {};
+        paramObject.methodName = 'findVariables';
+        paramObject.methodParams = ctrl.relatedPublication.variableIds;
         VariableSearchDialogService
-        .findVariables('findVariables', ctrl.relatedPublication.variableIds,
-        ctrl.relatedPublication.variableIds.length);
+        .findVariables(paramObject);
       };
-      ctrl.showSurveys = function() {
+      ctrl.showRelatedSurveys = function() {
+        var paramObject = {};
+        paramObject.methodName = 'findSurveys';
+        paramObject.methodParams = ctrl.relatedPublication.surveyIds;
         SurveySearchDialogService
-        .findSurveys('findSurveys', ctrl.relatedPublication.surveyIds,
-        ctrl.relatedPublication.surveyIds.length);
+        .findSurveys(paramObject);
       };
-      ctrl.showDataSets = function() {
+      ctrl.showRelatedDataSets = function() {
+        var paramObject = {};
+        paramObject.methodName = 'findDataSets';
+        paramObject.methodParams = ctrl.relatedPublication.dataSetIds;
         DataSetSearchDialogService
-          .findDataSets('findDataSets', ctrl.relatedPublication.dataSetIds,
-        ctrl.relatedPublication.dataSetIds.length);
+          .findDataSets(paramObject);
+      };
+      ctrl.showRelatedInstruments = function() {
+        var paramObject = {};
+        paramObject.methodName = 'findInstruments';
+        paramObject.methodParams = ctrl.relatedPublication.instrumentIds;
+        InstrumentSearchDialogService
+          .findInstruments(paramObject);
       };
     });

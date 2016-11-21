@@ -3,17 +3,15 @@
 
 angular.module('metadatamanagementApp').service('StudySearchDialogService',
   function($mdDialog) {
-    var findStudies = function(methodName, methodParams, count) {
+    var findStudies = function(paramObject) {
       var dialogParent = angular.element(document.body);
       $mdDialog.show({
         controller: 'StudySearchDialogController',
-        controllerAs: 'StudySearchDialogController',
+        controllerAs: 'ctrl',
         parent: dialogParent,
         clickOutsideToClose: true,
         locals: {
-          methodName: methodName,
-          methodParams: methodParams,
-          count: count
+          paramObject: paramObject
         },
         templateUrl: 'scripts/studymanagement/' +
           'views/studySearchDialog.html.tmpl',
