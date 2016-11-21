@@ -82,4 +82,27 @@ angular.module('metadatamanagementApp')
       SimpleMessageToastService.openSimpleMessageToast(message, []
       );
     };
+
+    /* Show headline for Central Tendency,
+      if one element is filled with data. */
+    $scope.checkCentralTendencyElements = function() {
+      return $scope.variable.distribution.statistics.meanValue !== undefined ||
+        $scope.variable.distribution.statistics.median !== undefined ||
+        $scope.variable.distribution.statistics.mode !== undefined;
+    };
+
+    /* Show headline for Dispersion, if one element is filled with data. */
+    $scope.checkDispersionElements = function() {
+      return $scope.variable.distribution.statistics.standardDeviation !==
+        undefined ||
+        $scope.variable.distribution.statistics.meanDeviation !== undefined ||
+        $scope.variable.distribution.statistics.deviance !== undefined;
+    };
+
+    /* Show headline for Distribution, if one element is filled with data. */
+    $scope.checkDistributionElements = function() {
+      return $scope.variable.distribution.statistics.skewness !== undefined ||
+        $scope.variable.distribution.statistics.kurtosis !== undefined;
+    };
+
   });

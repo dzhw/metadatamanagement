@@ -166,7 +166,7 @@
                                     {{variable.distribution.statistics.maximum | number:2}}</span>
                             </div>
 
-                            <h3>
+                            <h3 ng-if="checkCentralTendencyElements()">
                                 <small>{{'variable-management.detail.central-tendency' | translate}}</small>
                             </h3>
                             <div style="margin-bottom: 0.5em;" ng-if="variable.distribution.statistics.meanValue != null">
@@ -191,7 +191,7 @@
                                     {{variable.distribution.statistics.mode}}</span>
                             </div>
 
-                            <h3>
+                            <h3 ng-if="checkDispersionElements()">
                                 <small>{{'variable-management.detail.dispersion' | translate}}</small>
                             </h3>
                             <div style="margin-bottom: 0.5em;" ng-if="variable.distribution.statistics.standardDeviation != null">
@@ -216,7 +216,7 @@
                                     {{variable.distribution.statistics.deviance | number:2}}</span>
                             </div>
 
-                            <h3>
+                            <h3 ng-if="checkDistributionElements()">
                                 <small>{{'variable-management.detail.distribution' | translate}}</small>
                             </h3>
                             <div style="margin-bottom: 0.5em;" ng-if="variable.distribution.statistics.skewness != null">
