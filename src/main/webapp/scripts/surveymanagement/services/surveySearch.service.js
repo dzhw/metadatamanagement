@@ -60,17 +60,20 @@ function(Language, ElasticSearchClient) {
         'filter': []
       }
     };
+    var subQuery = {'bool': {}};
+    subQuery.bool.must = [];
+    var mustSubQuery = {'term': {}};
+    mustSubQuery.term[term] = value;
+    subQuery.bool.must.push(mustSubQuery);
     if (excludedSurveyId) {
       // jscs:disable
-      query.body.query.bool.must_not = {
+      subQuery.bool.must_not = [{
         'term': {
           'id': excludedSurveyId
         }
-      };
+      }];
       // jscs:enable
     }
-    var subQuery = {'term': {}};
-    subQuery.term[term] = value;
     query.body.query.bool.filter.push(subQuery);
     return ElasticSearchClient.count(query);
   };
