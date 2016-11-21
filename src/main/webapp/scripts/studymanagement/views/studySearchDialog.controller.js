@@ -1,5 +1,5 @@
 /* global _ */
-'use strict';;
+'use strict';
 
 angular.module('metadatamanagementApp')
   .controller('StudySearchDialogController',
