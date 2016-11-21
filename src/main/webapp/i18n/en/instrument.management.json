@@ -16,6 +16,9 @@
         "file-not-found": "The File {{ filename }} was not found and has not been saved."
       }
     },
+    "home": {
+      "title": "Instruments"
+    },
     "detail": {
       "instrument": "Survey Instrument",
       "instruments": "Instruments",
@@ -23,6 +26,7 @@
       "title": "title",
       "type": "Type",
       "related-information": "Related Objects",
+      "no-related-instruments": "No related Instruments.",
       "attachments": {
         "table-title": "Documents related to the Instrument",
         "type": "Type",

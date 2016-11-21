@@ -16,6 +16,9 @@
         "file-not-found": "Die Datei {{ filename }} wurde nicht gefunden und wurde daher nicht gespeichert!"
       }
     },
+    "home": {
+      "title": "Instrumente"
+    },
     "detail": {
       "instrument": "Erhebungsinstrument",
       "instruments": "Instrumente",
@@ -23,6 +26,7 @@
       "title": "Titel",
       "type": "Typ",
       "related-information": "Verbundene Objekte",
+      "no-related-instruments": "Keine zugehörige Instrumente.",
       "attachments": {
         "table-title": "Materialien zum Instrument",
         "type": "Typ",

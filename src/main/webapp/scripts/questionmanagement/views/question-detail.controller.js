@@ -9,7 +9,7 @@ angular.module('metadatamanagementApp')
       VariableSearchDialogService, entity, $state,
       SimpleMessageToastService, QuestionSearchService, CleanJSObjectService,
       RelatedPublicationSearchDialogService, VariableSearchService,
-      RelatedPublicationSearchService) {
+      RelatedPublicationSearchService, InstrumentSearchService) {
 
       var ctrl = this;
       ctrl.question = entity;
@@ -60,6 +60,12 @@ angular.module('metadatamanagementApp')
             ctrl.question.id).then(function(publicationsCount) {
                 ctrl.counts.publicationsCount = publicationsCount.count;
               });
+        InstrumentSearchService.findBySurveyId(ctrl.question.surveyId)
+        .then(function(instrument) {
+          if (instrument.hits.hits.length > 0) {
+            ctrl.instrument = instrument.hits.hits[0]._source;
+          }
+        });
       });
       ctrl.showRelatedVariables = function() {
         var paramObject = {};
