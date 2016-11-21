@@ -148,19 +148,19 @@
                     <md-card-content ng-cloak="true">
                         <div>
                             <div style="margin-bottom: 0.5em;" ng-if="variable.distribution.totalAbsoluteFrequency != null">
-                                <span style="font-weight: bold;">{{'variable-management.detail.statistics.total-absolute-frequency' | translate}}
+                                <span>{{'variable-management.detail.statistics.total-absolute-frequency' | translate}}
                                 </span>
                                 <span>:
                                     {{variable.distribution.totalAbsoluteFrequency}}</span>
                             </div>
                             <div style="margin-bottom: 0.5em;" ng-if="variable.distribution.statistics.minimum != null">
-                                <span style="font-weight: bold;">{{'variable-management.detail.statistics.minimum' | translate}}
+                                <span>{{'variable-management.detail.statistics.minimum' | translate}}
                                 </span>
                                 <span>:
                                     {{variable.distribution.statistics.minimum | number:2}}</span>
                             </div>
                             <div style="margin-bottom: 0.5em;" ng-if="variable.distribution.statistics.maximum != null">
-                                <span style="font-weight: bold;">{{'variable-management.detail.statistics.maximum' | translate}}
+                                <span>{{'variable-management.detail.statistics.maximum' | translate}}
                                 </span>
                                 <span>:
                                     {{variable.distribution.statistics.maximum | number:2}}</span>
@@ -171,21 +171,21 @@
                                 {{'variable-management.detail.central-tendency' | translate}}
                             </h3>
                             <div style="margin-bottom: 0.5em;" ng-if="variable.distribution.statistics.meanValue != null">
-                                <span style="font-weight: bold;">{{'variable-management.detail.statistics.mean-value' | translate}}
+                                <span>{{'variable-management.detail.statistics.mean-value' | translate}}
                                 </span>
                                 (<span katex>\bar x</span>)
                                 <span>:
                                     {{variable.distribution.statistics.meanValue | number:2}}</span>
                             </div>
                             <div style="margin-bottom: 0.5em;" ng-if="variable.distribution.statistics.median != null">
-                                <span style="font-weight: bold;">{{'variable-management.detail.statistics.median' | translate}}
+                                <span>{{'variable-management.detail.statistics.median' | translate}}
                                 </span>
                                 (<span katex>\tilde x</span>)
                                 <span>:
                                     {{variable.distribution.statistics.median | number:2}}</span>
                             </div>
                             <div style="margin-bottom: 0.5em;" ng-if="variable.distribution.statistics.mode != null">
-                                <span style="font-weight: bold;">{{'variable-management.detail.statistics.mode' | translate}}
+                                <span>{{'variable-management.detail.statistics.mode' | translate}}
                                 </span>
                                 (<span katex>h</span>)
                                 <span>:
@@ -196,21 +196,21 @@
                                 {{'variable-management.detail.dispersion' | translate}}
                             </h3>
                             <div style="margin-bottom: 0.5em;" ng-if="variable.distribution.statistics.standardDeviation != null">
-                                <span style="font-weight: bold;">{{'variable-management.detail.statistics.standardDeviation' | translate}}
+                                <span style="font-weight: none;">{{'variable-management.detail.statistics.standardDeviation' | translate}}
                                 </span>
                                 (<span katex>s</span>)
                                 <span>:
                                     {{variable.distribution.statistics.standardDeviation | number:2}}</span>
                             </div>
                             <div style="margin-bottom: 0.5em;" ng-if="variable.distribution.statistics.meanDeviation != null">
-                                <span style="font-weight: bold;">{{'variable-management.detail.statistics.mean-deviation' | translate}}
+                                <span style="font-weight: none;">{{'variable-management.detail.statistics.mean-deviation' | translate}}
                                 </span>
                                 (<span katex>MAD</span>)
                                 <span>:
                                     {{variable.distribution.statistics.meanDeviation | number:2}}</span>
                             </div>
                             <div style="margin-bottom: 0.5em;" ng-if="variable.distribution.statistics.deviance != null">
-                                <span style="font-weight: bold;">{{'variable-management.detail.statistics.deviance' | translate}}
+                                <span style="font-weight: none;">{{'variable-management.detail.statistics.deviance' | translate}}
                                 </span>
                                 (<span katex>d</span>)
                                 <span>:
@@ -221,14 +221,14 @@
                                 {{'variable-management.detail.distribution' | translate}}
                             </h3>
                             <div style="margin-bottom: 0.5em;" ng-if="variable.distribution.statistics.skewness != null">
-                                <span style="font-weight: bold;">{{'variable-management.detail.statistics.skewness' | translate}}
+                                <span>{{'variable-management.detail.statistics.skewness' | translate}}
                                 </span>
                                 (<span katex>\vartheta</span>)
                                 <span>:
                                     {{variable.distribution.statistics.skewness | number:2}}</span>
                             </div>
                             <div style="margin-bottom: 0.5em;" ng-if="variable.distribution.statistics.kurtosis != null">
-                                <span style="font-weight: bold;">{{'variable-management.detail.statistics.kurtosis' | translate}}
+                                <span>{{'variable-management.detail.statistics.kurtosis' | translate}}
                                 </span>
                                 (<span katex>\omega</span>)
                                 <span>:
