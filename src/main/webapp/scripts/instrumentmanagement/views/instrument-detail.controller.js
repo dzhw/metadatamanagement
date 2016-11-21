@@ -46,7 +46,9 @@ angular.module('metadatamanagementApp')
       });
 
       ctrl.showRelatedQuestions = function() {
-        QuestionSearchDialogService.findQuestions('findByInstrumentId',
-          ctrl.instrument.id, ctrl.questionCount);
+        var paramObject = {};
+        paramObject.methodName = 'findByInstrumentId';
+        paramObject.methodParams = ctrl.instrument.id;
+        QuestionSearchDialogService.findQuestions(paramObject);
       };
     });
