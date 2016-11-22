@@ -6,7 +6,7 @@ angular.module('metadatamanagementApp')
   .controller('VariableDetailController', function($scope, entity, $state,
     SurveySearchDialogService, DataSetSearchDialogService,
     RelatedPublicationSearchDialogService, QuestionSearchDialogService,
-    DataSetSearchService, QuestionSearchService,
+    DataSetSearchService, QuestionSearchService, VariableSearchDialogService,
     RelatedPublicationSearchService, StudySearchService,
     SimpleMessageToastService, PageTitleService, LanguageService) {
 
@@ -70,6 +70,12 @@ angular.module('metadatamanagementApp')
     };
     $scope.toggleGenerationCode = function() {
       $scope.generationCodeToggleFlag = !$scope.generationCodeToggleFlag;
+    };
+    $scope.showSameVariablesInPanel = function() {
+      var paramObject = {};
+      paramObject.methodName = 'findVariables';
+      paramObject.methodParams = $scope.variable.sameVariablesInPanel;
+      VariableSearchDialogService.findVariables(paramObject);
     };
     $scope.showRelatedSurveys = function() {
       var paramObject = {};
