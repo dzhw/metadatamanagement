@@ -27,6 +27,8 @@
       "questions": "Fragen",
       "predecessors": "Vorangegangene Fragen im Fragebogen",
       "successors": "Nachfolgende Fragen im Fragebogen",
+      "no-predecessors": "Keine vorangegangenen Fragen im Fragebogen",
+      "no-successors": "Keine nachfolgenden Fragen im Fragebogen",
       "technical-representation": "Technische Repräsentation",
       "related-information": "Zugehörige Informationen",
       "not-found": "Die id {{id}} referenziert auf eine unbekannte Frage.",

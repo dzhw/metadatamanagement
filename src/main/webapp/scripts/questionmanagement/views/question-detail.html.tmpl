@@ -54,6 +54,9 @@
                 <div ng-repeat="predecessor in ctrl.predecessors">
                     <question-search-result search-result="predecessor._source"></question-search-result>
                 </div>
+                <div layout="row" layout-align="center center" ng-if="ctrl.predecessors.length == 0" layout-padding>
+                  {{'question-management.detail.no-predecessors' | translate}}
+                </div>
             </md-content>
         </md-card>
         <md-card flex-gt-sm="50" class="fdz-reset-top-margin" ng-class="{'fdz-reset-left-margin': $mdMedia('gt-sm')}">
@@ -66,6 +69,9 @@
             <md-content style="background-color:white;">
                 <div ng-repeat="successor in ctrl.successors">
                     <question-search-result ng search-result="successor._source"></question-search-result>
+                </div>
+                  <div layout="row" layout-align="center center" ng-if="ctrl.successors.length == 0" layout-padding>
+                  {{'question-management.detail.no-successors' | translate }}
                 </div>
             </md-content>
         </md-card>
