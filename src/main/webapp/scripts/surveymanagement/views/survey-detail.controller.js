@@ -20,7 +20,7 @@ angular.module('metadatamanagementApp')
           });
         DataSetSearchService
           .countBy('surveyIds',
-            ctrl.survey.title[LanguageService.getCurrentInstantly()])
+            ctrl.survey.id)
           .then(function(dataSetsCount) {
             ctrl.counts.dataSetsCount = dataSetsCount.count;
           });

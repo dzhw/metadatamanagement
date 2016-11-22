@@ -26,7 +26,6 @@ angular.module('metadatamanagementApp')
         ctrl.counts.surveysCount = ctrl.dataSet.surveyIds.length;
         ctrl.counts.variablesCount = ctrl.dataSet.variableIds.length;
       });
-
       ctrl.uploadTexTemplate = function(file, dataSetId) {
         DataSetReportService.uploadTexTemplate(file, dataSetId);
       };
