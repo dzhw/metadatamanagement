@@ -7,8 +7,7 @@ angular.module('metadatamanagementApp')
         parent: 'site',
         url: '/variables/{id}',
         data: {
-          authorities: [],
-          pageTitle: 'variable-management.detail.title'
+          authorities: []
         },
         views: {
           'content@': {
@@ -27,7 +26,8 @@ angular.module('metadatamanagementApp')
               $translatePartialLoader.addPart('study.management');
               $translatePartialLoader.addPart('notepad.management');
               $translatePartialLoader.addPart('instrument.management');
-              $translatePartialLoader.addPart('relatedPublication.management');
+              $translatePartialLoader.addPart(
+                'relatedPublication.management');
             }
           ],
           entity: ['$stateParams', 'VariableResource',

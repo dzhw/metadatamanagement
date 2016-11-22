@@ -7,8 +7,7 @@ angular.module('metadatamanagementApp')
         parent: 'site',
         url: '/studies/{id}',
         data: {
-          authorities: [],
-          pageTitle: 'study-management.home.title'
+          authorities: []
         },
         views: {
           'content@': {
@@ -28,7 +27,8 @@ angular.module('metadatamanagementApp')
               $translatePartialLoader.addPart('study.management');
               $translatePartialLoader.addPart('notepad.management');
               $translatePartialLoader.addPart('instrument.management');
-              $translatePartialLoader.addPart('relatedPublication.management');
+              $translatePartialLoader.addPart(
+                'relatedPublication.management');
             }
           ],
           entity: ['$stateParams', 'StudyResource',

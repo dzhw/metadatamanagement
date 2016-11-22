@@ -6,8 +6,7 @@ angular.module('metadatamanagementApp').config(
       parent: 'site',
       url: '/basket',
       data: {
-        authorities: [],
-        pageTitle: 'notepad-management.home.title'
+        authorities: []
       },
       views: {
         'content@': {

@@ -4,13 +4,15 @@ angular.module('metadatamanagementApp')
   .controller('SurveyDetailController',
     function(entity, $state, StudySearchService, SurveySearchDialogService,
       DataSetSearchDialogService, LanguageService, DataSetSearchService,
-      SurveySearchService) {
+      SurveySearchService, PageTitleService) {
 
       var ctrl = this;
       ctrl.imgResolved = false;
       ctrl.survey = entity;
       ctrl.counts = {};
       entity.$promise.then(function() {
+        PageTitleService.setPageTitle(
+          ctrl.survey.title[LanguageService.getCurrentInstantly()]);
         StudySearchService
           .findStudy(ctrl.survey.dataAcquisitionProjectId)
           .then(function(study) {

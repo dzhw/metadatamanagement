@@ -12,9 +12,6 @@
         "cancelled": "Surveys upload cancelled!"
       }
     },
-    "home": {
-      "title": "Surveys"
-    },
     "detail": {
       "survey": "Survey",
       "surveys": "Surveys",

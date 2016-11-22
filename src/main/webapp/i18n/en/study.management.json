@@ -1,8 +1,5 @@
 {
   "study-management": {
-    "home": {
-      "title": "Study"
-    },
     "detail": {
       "study": "Study",
       "studies": "Studies",

@@ -7,8 +7,7 @@ angular.module('metadatamanagementApp')
         parent: 'site',
         url: '/surveys/{id}',
         data: {
-          authorities: [],
-          pageTitle: 'survey-management.home.title'
+          authorities: []
         },
         views: {
           'content@': {
@@ -21,7 +20,8 @@ angular.module('metadatamanagementApp')
         resolve: {
           translatePartialLoader: ['$translatePartialLoader',
             function($translatePartialLoader) {
-              $translatePartialLoader.addPart('relatedPublication.management');
+              $translatePartialLoader.addPart(
+                'relatedPublication.management');
               $translatePartialLoader.addPart('variable.management');
               $translatePartialLoader.addPart('question.management');
               $translatePartialLoader.addPart('survey.management');

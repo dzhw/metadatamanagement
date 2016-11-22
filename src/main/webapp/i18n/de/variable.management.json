@@ -13,10 +13,6 @@
         "filter-details-success-copy-to-clipboard": "Der Filterausdruck wurde erfolgreich in die Zwischenablage kopiert."
       }
     },
-    "home": {
-      "title": "Variablen",
-      "refresh": "Aktualisieren"
-    },
     "detail": {
       "title": "Variable",
       "variable": "Variable",

@@ -24,7 +24,6 @@
           "copy-to-clipboard": "Copy to Clipboard"
         }
       },
-      "title": "Question Detail",
       "question": "Question",
       "questions": "Questions",
       "predecessors": "Previous Questions in Questionnaire",

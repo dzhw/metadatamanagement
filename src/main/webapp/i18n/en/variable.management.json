@@ -13,10 +13,6 @@
         "filter-details-success-copy-to-clipboard": "The Filter Expression was successfully copied into the clipboard."
       }
     },
-    "home": {
-      "title": "Variables",
-      "refresh": "Refresh"
-    },
     "detail": {
       "title": "Variable",
       "variable": "Variable",

@@ -23,7 +23,6 @@
           "copy-to-clipboard": "Kopiere in die Zwischenablage"
         }
       },
-      "title": "Fragen Detail",
       "question": "Frage",
       "questions": "Fragen",
       "predecessors": "Vorangegangene Fragen im Fragebogen",

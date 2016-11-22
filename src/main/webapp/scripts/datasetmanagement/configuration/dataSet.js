@@ -7,8 +7,7 @@ angular.module('metadatamanagementApp')
         parent: 'site',
         url: '/data-sets/{id}',
         data: {
-          authorities: [],
-          pageTitle: 'data-set-management.detail.title'
+          authorities: []
         },
         views: {
           'content@': {
@@ -26,7 +25,8 @@ angular.module('metadatamanagementApp')
               $translatePartialLoader.addPart('survey.management');
               $translatePartialLoader.addPart('study.management');
               $translatePartialLoader.addPart('notepad.management');
-              $translatePartialLoader.addPart('relatedPublication.management');
+              $translatePartialLoader.addPart(
+                'relatedPublication.management');
             }
           ],
           entity: ['$stateParams', 'DataSetResource',
