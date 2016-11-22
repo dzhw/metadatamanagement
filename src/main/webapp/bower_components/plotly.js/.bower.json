@@ -23,14 +23,14 @@
     "tasks",
     "test"
   ],
-  "version": "1.20.2",
-  "_release": "1.20.2",
+  "version": "1.20.4",
+  "_release": "1.20.4",
   "_resolution": {
     "type": "version",
-    "tag": "v1.20.2",
-    "commit": "db88570dfa175ac59ae43a467f027f7149a1d93a"
+    "tag": "v1.20.4",
+    "commit": "ef079bee27b5c194fd7215b437b08187c97d4d2d"
   },
   "_source": "https://github.com/plotly/plotly.js.git",
-  "_target": "^1.20.2",
+  "_target": "^1.20.4",
   "_originalSource": "plotly.js"
 }
