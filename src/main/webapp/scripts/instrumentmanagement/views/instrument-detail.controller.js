@@ -4,7 +4,7 @@ angular.module('metadatamanagementApp')
   .controller('InstrumentDetailController',
     function(entity, SurveySearchService, InstrumentAttachmentResource,
       StudySearchService, QuestionSearchService,
-      QuestionSearchDialogService) {
+      QuestionSearchDialogService, PageTitleService, $translate) {
       //Controller Init
       var ctrl = this;
       ctrl.instrument = entity;
@@ -28,6 +28,16 @@ angular.module('metadatamanagementApp')
           function(searchResult) {
             if (searchResult.docs[0].found) {
               ctrl.survey = searchResult.docs[0]._source;
+              $translate('instrument-management.detail.instrument').then(
+                function(text) {
+                  PageTitleService.setPageTitle(text + ' ' +
+                    ctrl.survey.title);
+                });
+            } else {
+              $translate('instrument-management.detail.instrument').then(
+                function(text) {
+                  PageTitleService.setPageTitle(text);
+                });
             }
           });
         //Find Studies

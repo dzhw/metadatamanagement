@@ -13,8 +13,9 @@ angular.module('metadatamanagementApp').controller('SearchController',
     CurrentProjectService, $timeout, PageTitleService) {
 
     // set the page title in toolbar and window.title
-    PageTitleService.setPageTitle($translate.instant(
-      'global.menu.search.title'));
+    $translate('global.menu.search.title').then(function(title) {
+      PageTitleService.setPageTitle(title);
+    });
 
     //Check the login status
     Principal.identity().then(function(account) {

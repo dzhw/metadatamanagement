@@ -1,5 +1,5 @@
 <div ng-if="variable.$resolved">
-    <div layout="row" layout-sm="column" layout-xs="column">
+    <div layout="column" layout-gt-sm="row">
         <md-card flex-gt-sm="60">
             <md-card-header>
                 <md-card-header-text>
@@ -67,7 +67,7 @@
                 </div>
             </md-card-content>
         </md-card>
-        <md-card flex-gt-sm="40">
+        <md-card flex-gt-sm="40" ng-class="{'fdz-reset-left-margin': $mdMedia('gt-sm')}">
             <md-card-header>
                 <md-card-header-text>
                     <h2 class="md-title">{{'global.cards.related-objects' | translate }}</h2>
@@ -117,8 +117,8 @@
             </md-card-content>
         </md-card>
     </div>
-    <div layout="row" layout-sm="column" layout-xs="column">
-        <md-card flex-gt-sm="60">
+    <div layout="column" layout-gt-sm="row">
+        <md-card flex-gt-sm="60" class="fdz-reset-top-margin">
             <md-card-header>
                 <md-card-header-text>
                     <h2 class="md-title">{{'variable-management.detail.statistics.graphics' | translate }}</h2>
@@ -129,7 +129,7 @@
                 <diagram distribution="variable.distribution" type="variable.scaleLevel[currentLanguage]" language="currentLanguage" ng-cloak></diagram>
             </md-card-content>
         </md-card>
-        <md-card flex-gt-sm="40">
+        <md-card flex-gt-sm="40" class="fdz-reset-top-margin" ng-class="{'fdz-reset-left-margin': $mdMedia('gt-sm') }">
             <md-card-header>
                 <md-card-header-text>
                     <h2 class="md-title">{{'variable-management.detail.statistics.statistics' | translate }}</h2>
@@ -230,7 +230,7 @@
         </md-card>
     </div>
     <div layout="row">
-        <md-card flex>
+        <md-card flex class="fdz-reset-top-margin">
             <md-card-header class="fdz-card-header-with-button" layout-align="center center">
                 <md-card-header-text>
                     <h2 class="md-title">{{'variable-management.detail.frequencies' | translate }}</h2>
@@ -328,7 +328,7 @@
         </md-card>
     </div>
     <div layout="row" ng-if="variable.generationDetails">
-        <md-card flex>
+        <md-card flex class="fdz-reset-top-margin">
             <md-card-header layout-align="center center">
                 <md-card-header-text>
                     <h2 class="md-title">{{'variable-management.detail.generation-details' | translate }}</h2>

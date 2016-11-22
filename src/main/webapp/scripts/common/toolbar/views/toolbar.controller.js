@@ -3,7 +3,7 @@
 angular.module('metadatamanagementApp').controller(
   'ToolbarController',
   function($scope, $state, Auth, Principal, $mdSidenav, LanguageService,
-    $mdMedia, PageTitleService) {
+    PageTitleService) {
     $scope.isAuthenticated = Principal.isAuthenticated;
     $scope.pageTitle = PageTitleService.getPageTitle();
 
@@ -15,8 +15,6 @@ angular.module('metadatamanagementApp').controller(
     $scope.changeLanguage = function(languageKey) {
       LanguageService.setCurrent(languageKey);
     };
-
-    $scope.$mdMedia = $mdMedia;
 
     //Goto Logout Page
     $scope.logout = function() {

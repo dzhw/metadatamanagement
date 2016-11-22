@@ -14,9 +14,10 @@ angular
 
 .run(
     function($rootScope, $location, $window, $http, $state, $translate,
-      LanguageService, Auth, Principal, ENV, VERSION) {
+      LanguageService, Auth, Principal, ENV, VERSION, $mdMedia) {
       $rootScope.ENV = ENV;
       $rootScope.VERSION = VERSION;
+      $rootScope.$mdMedia = $mdMedia;
 
       if (typeof String.prototype.endsWith !== 'function') {
         String.prototype.endsWith = function(suffix) {

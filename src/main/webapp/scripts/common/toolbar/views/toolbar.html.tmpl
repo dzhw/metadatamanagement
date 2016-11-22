@@ -4,7 +4,11 @@
         <md-button class="md-primary md-raised md-hue-1 md-icon-button" hide-gt-md ng-click="toggleLeft()">
             <md-icon md-font-set="material-icons">menu</md-icon>
         </md-button>
-        <h1 class="md-headline fdz-truncate-string" flex>{{ pageTitle }}</h1>
+        <h1 class="md-headline fdz-truncate-string" flex>{{ pageTitle }}
+          <md-tooltip>
+            {{ pageTitle }}
+          </md-tooltip>
+        </h1>
         <md-button
             id="changeLanguageToEn"
             aria-label="{{'global.toolbar.buttons.change-language' | translate}}"
