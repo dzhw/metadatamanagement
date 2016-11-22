@@ -10,7 +10,7 @@
     </md-toolbar>
     <md-dialog-content>
       <div block-ui="blockRelatedPublicationContainer">
-          <div ng-if="ctrl.count !== 0" class="fdz-InfiniteScroll">
+          <div ng-show="ctrl.count != 0 && ctrl.infiniteItems.items.length != 0" class="fdz-InfiniteScroll">
               <md-virtual-repeat-container id="vertical-container">
                   <div md-virtual-repeat="item in ctrl.infiniteItems" md-on-demand  flex>
                     <md-card ui-sref="relatedPublicationDetail({id:item._source.id})" class="fdz-search-result">
@@ -30,7 +30,7 @@
                   </div>
               </md-virtual-repeat-container>
           </div>
-          <div ng-if="ctrl.count === 0" layout-margin>
+          <div ng-show="ctrl.count == 0 || ctrl.infiniteItems.items.length == 0" layout-margin>
               <span>{{'related-publication-management.detail.no-related-publications' | translate }}</span>
           </div>
       </div>

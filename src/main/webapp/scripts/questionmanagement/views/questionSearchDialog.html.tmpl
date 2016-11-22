@@ -10,7 +10,7 @@
     </md-toolbar>
     <md-dialog-content>
       <div block-ui="blockRelatedQuestionContainer">
-          <div ng-if="ctrl.count !== 0" class="fdz-InfiniteScroll">
+          <div ng-show="ctrl.count != 0 && ctrl.infiniteItems.items.length != 0" class="fdz-InfiniteScroll">
               <md-virtual-repeat-container id="vertical-container">
                   <div md-virtual-repeat="item in ctrl.infiniteItems" md-on-demand  flex>
                     <md-card ui-sref="questionDetail({id:item._source.id})" class="fdz-search-result">
@@ -32,7 +32,7 @@
                   </div>
               </md-virtual-repeat-container>
           </div>
-          <div ng-if="ctrl.count === 0" layout-margin>
+          <div ng-show="ctrl.count == 0 || ctrl.infiniteItems.items.length == 0" layout-margin>
               <span>{{'question-management.detail.no-related-questions' | translate }}</span>
           </div>
       </div>
