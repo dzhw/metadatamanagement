@@ -1,4 +1,5 @@
 /* global _ */
+/* Author: Daniel Katzberg */
 'use strict';
 
 angular.module('metadatamanagementApp')
@@ -50,6 +51,11 @@ angular.module('metadatamanagementApp')
           $scope.counts.publicationsCount = publicationsCount.count;
         });
       $scope.counts.surveysCount = $scope.variable.surveyIds.length;
+
+      if ($scope.variable.sameVariablesInPanel != null) {
+        $scope.counts.sameVariablesInPanel =
+          $scope.variable.sameVariablesInPanel.length;
+      }
     });
     $scope.isRowHidden = function(index) {
       if (index <= 4 || index >= $scope
@@ -91,23 +97,29 @@ angular.module('metadatamanagementApp')
     /* Show headline for Central Tendency,
       if one element is filled with data. */
     $scope.checkCentralTendencyElements = function() {
-      return $scope.variable.distribution.statistics.meanValue != null ||
-        $scope.variable.distribution.statistics.median != null ||
-        $scope.variable.distribution.statistics.mode != null;
+
+      return $scope.variable.distribution != null &&
+        $scope.variable.distribution.statistics != null &&
+        ($scope.variable.distribution.statistics.meanValue != null ||
+          $scope.variable.distribution.statistics.median != null ||
+          $scope.variable.distribution.statistics.mode != null);
     };
 
     /* Show headline for Dispersion, if one element is filled with data. */
     $scope.checkDispersionElements = function() {
-      return $scope.variable.distribution.statistics.standardDeviation !=
-        null ||
-        $scope.variable.distribution.statistics.meanDeviation != null ||
-        $scope.variable.distribution.statistics.deviance != null;
+      return $scope.variable.distribution != null &&
+        $scope.variable.distribution.statistics != null &&
+        ($scope.variable.distribution.statistics.standardDeviation != null ||
+          $scope.variable.distribution.statistics.meanDeviation != null ||
+          $scope.variable.distribution.statistics.deviance != null);
     };
 
     /* Show headline for Distribution, if one element is filled with data. */
     $scope.checkDistributionElements = function() {
-      return $scope.variable.distribution.statistics.skewness != null ||
-        $scope.variable.distribution.statistics.kurtosis != null;
+      return $scope.variable.distribution != null &&
+        $scope.variable.distribution.statistics != null &&
+        ($scope.variable.distribution.statistics.skewness != null ||
+          $scope.variable.distribution.statistics.kurtosis != null);
     };
 
   });

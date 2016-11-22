@@ -96,14 +96,14 @@ public class Variable extends AbstractRdcDomainObject {
   private List<String> accessWays;
 
   private List<String> sameVariablesInPanel;
-  
-  @I18nStringSize(max = StringLengths.LARGE, 
+
+  @I18nStringSize(max = StringLengths.LARGE,
       message = "variable-management.error.variable.related-question-strings.i18n-string-size")
   private I18nString relatedQuestionStrings;
-  
+
   public List<String> relatedVariables;
 
-  
+
   /* Nested Objects */
   @Valid
   private FilterDetails filterDetails;
@@ -113,8 +113,8 @@ public class Variable extends AbstractRdcDomainObject {
 
   @Valid
   private Distribution distribution;
-  
-  
+
+
   /* Foreign Keys */
   private String questionId;
 
@@ -123,7 +123,7 @@ public class Variable extends AbstractRdcDomainObject {
 
   @NotEmpty(message = "variable-management.error.variable.survey.ids.not-empty")
   private List<String> surveyIds;
-  
+
   /*
    * (non-Javadoc)
    *
@@ -133,7 +133,7 @@ public class Variable extends AbstractRdcDomainObject {
   public String getId() {
     return id;
   }
-  
+
   /*
    * (non-Javadoc)
    * @see eu.dzhw.fdz.metadatamanagement.common.domain.AbstractRdcDomainObject#toString()
