@@ -5,7 +5,8 @@ angular.module('metadatamanagementApp')
   function(entity, Principal, StudySearchService,
     SurveySearchDialogService, VariableSearchDialogService,
     VariableSearchService, RelatedPublicationSearchService,
-    RelatedPublicationSearchDialogService, DataSetReportService) {
+    RelatedPublicationSearchDialogService, DataSetSearchDialogService,
+    DataSetSearchService, DataSetReportService) {
       var ctrl = this;
       ctrl.isAuthenticated = Principal.isAuthenticated;
       ctrl.allRowsVisible = true;
@@ -23,6 +24,12 @@ angular.module('metadatamanagementApp')
         ctrl.dataSet.id).then(function(publicationsCount) {
           ctrl.counts.publicationsCount = publicationsCount.count;
         });
+        DataSetSearchService
+          .countBy('dataAcquisitionProjectId',
+            ctrl.dataSet.dataAcquisitionProjectId)
+          .then(function(dataSetsCount) {
+            ctrl.counts.dataSetsCount = dataSetsCount.count;
+          });
         ctrl.counts.surveysCount = ctrl.dataSet.surveyIds.length;
         ctrl.counts.variablesCount = ctrl.dataSet.variableIds.length;
       });
@@ -51,6 +58,12 @@ angular.module('metadatamanagementApp')
         paramObject.methodName = 'findVariables';
         paramObject.methodParams =   ctrl.dataSet.variableIds;
         VariableSearchDialogService.findVariables(paramObject);
+      };
+      ctrl.showRelatedDataSets = function() {
+        var paramObject = {};
+        paramObject.methodName = 'findByProjectId';
+        paramObject.methodParams =   ctrl.dataSet.dataAcquisitionProjectId;
+        DataSetSearchDialogService.findDataSets(paramObject);
       };
       ctrl.showRelatedPublications = function() {
         var paramObject = {};

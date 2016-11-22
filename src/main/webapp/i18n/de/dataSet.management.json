@@ -30,6 +30,7 @@
       "type": "Typ",
       "data-set-informations": "Datensatz Informationen",
       "related-information": "Zugehörige Informationen",
+      "data-set-same-study": "Datensätze der gleichen Studie",
       "description": "Beschreibung",
       "not-found": "Die id {{id}} referenziert auf einen unbekannten Datensatz",
       "not-found-references": "Die id {{id}} hat keine Referenzen auf Datensätze.",
