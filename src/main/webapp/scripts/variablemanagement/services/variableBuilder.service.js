@@ -52,7 +52,6 @@ angular.module('metadatamanagementApp').service('VariableBuilderService',
         },
         distribution: variableFromJson.distribution,
       };
-      console.log(variableObj);
       return new VariableResource(CleanJSObjectService.removeEmptyJsonObjects(
         variableObj));
     };
