@@ -1,32 +1,34 @@
 'use strict';
 
 angular.module('metadatamanagementApp').controller('RequestResetController',
-    function($rootScope, $scope, $state, $timeout, Auth) {
+  function($rootScope, $scope, $state, $timeout, Auth, PageTitleService,
+    $translate) {
+    $translate('user-management.reset.request.title').then(
+      PageTitleService.setPageTitle);
+    $scope.success = null;
+    $scope.error = null;
+    $scope.errorEmailNotExists = null;
+    $scope.resetAccount = {};
+    $timeout(function() {
+      angular.element('[ng-model="resetAccount.email"]').focus();
+    });
 
-      $scope.success = null;
+    $scope.requestReset = function() {
+
       $scope.error = null;
       $scope.errorEmailNotExists = null;
-      $scope.resetAccount = {};
-      $timeout(function() {
-        angular.element('[ng-model="resetAccount.email"]').focus();
+
+      Auth.resetPasswordInit($scope.resetAccount.email).then(function() {
+        $scope.success = 'OK';
+      }).catch(function(response) {
+        $scope.success = null;
+        if (response.status === 400 &&
+          response.data === 'e-mail address not registered') {
+          $scope.errorEmailNotExists = 'ERROR';
+        } else {
+          $scope.error = 'ERROR';
+        }
       });
+    };
 
-      $scope.requestReset = function() {
-
-        $scope.error = null;
-        $scope.errorEmailNotExists = null;
-
-        Auth.resetPasswordInit($scope.resetAccount.email).then(function() {
-          $scope.success = 'OK';
-        }).catch(function(response) {
-          $scope.success = null;
-          if (response.status === 400 &&
-            response.data === 'e-mail address not registered') {
-            $scope.errorEmailNotExists = 'ERROR';
-          } else {
-            $scope.error = 'ERROR';
-          }
-        });
-      };
-
-    });
+  });

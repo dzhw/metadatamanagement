@@ -6,8 +6,7 @@ angular.module('metadatamanagementApp').config(
       parent: 'account',
       url: '/activate?key',
       data: {
-        authorities: [],
-        pageTitle: 'user-management.activate.title'
+        authorities: []
       },
       views: {
         'content@': {

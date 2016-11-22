@@ -1,7 +1,9 @@
 'use strict';
 
 angular.module('metadatamanagementApp').controller('PasswordController',
-  function($scope, Auth, Principal) {
+  function($scope, Auth, Principal, PageTitleService, $translate) {
+    $translate('global.menu.account.password').then(
+      PageTitleService.setPageTitle);
     Principal.identity().then(function(account) {
       $scope.account = account;
     });

@@ -1,7 +1,7 @@
 {
   "user-management": {
     "home": {
-      "title": "Benutzer",
+      "title": "Benutzer verwalten",
       "createLabel": "Neuen Benutzer erstellen",
       "createOrEditLabel": "Benutzer erstellen oder bearbeiten"
     },
@@ -45,7 +45,7 @@
       }
     },
     "login": {
-      "login": "Login",
+      "login": "Anmelden",
       "title": "Anmeldung",
       "form": {
         "password": "Passwort",

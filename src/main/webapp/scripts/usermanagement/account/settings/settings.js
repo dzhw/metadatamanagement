@@ -6,8 +6,7 @@ angular.module('metadatamanagementApp').config(
       parent: 'account',
       url: '/settings',
       data: {
-        authorities: ['ROLE_USER'],
-        pageTitle: 'global.menu.account.settings'
+        authorities: ['ROLE_USER']
       },
       views: {
         'content@': {

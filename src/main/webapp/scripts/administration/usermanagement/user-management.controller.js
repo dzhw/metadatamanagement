@@ -2,7 +2,10 @@
 'use strict';
 
 angular.module('metadatamanagementApp').controller('UserManagementController',
-  function($scope, UserResource, ParseLinks, LanguageService) {
+  function($scope, UserResource, ParseLinks, LanguageService, $translate,
+    PageTitleService) {
+    $translate('user-management.home.title').then(
+      PageTitleService.setPageTitle);
     $scope.users = [];
     $scope.authorities = ['ROLE_USER', 'ROLE_ADMIN'];
     LanguageService.getAll().then(function(languages) {

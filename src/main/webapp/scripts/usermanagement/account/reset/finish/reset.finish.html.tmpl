@@ -1,7 +1,7 @@
 <div class="container">
     <div class="row">
         <div class="col-md-4 col-md-offset-4">
-            <h1 class="md-headline fdz-bootstrap-headline" data-translate="user-management.reset.finish.title">Reset password</h1>
+            <h2 class="md-headline fdz-bootstrap-headline" data-translate="user-management.reset.finish.title">Reset password</h2>
 
             <div class="alert alert-danger" data-translate="user-management.reset.finish.messages.keymissing" ng-show="keyMissing">
                 <strong>The password reset key is missing.</strong>
@@ -19,7 +19,7 @@
                 <span data-translate="user-management.reset.finish.messages.success">
                     <strong>Your password has been reset.</strong>
                     Please</span>
-                <a class="alert-link" ng-href="/{{currentLanguage}}/login">sign in</a>
+                <a class="alert-link" ng-href="/{{currentLanguage}}/login" data-translate="user-management.login.login">sign in</a>
             </div>
 
             <div class="alert alert-danger" ng-show="doNotMatch" data-translate="global.messages.error.dontmatch">

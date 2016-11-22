@@ -2,7 +2,9 @@
 
 angular.module('metadatamanagementApp').controller('SettingsController',
   function($scope, $rootScope, $location, Principal,
-    Auth, LanguageService) {
+    Auth, LanguageService, PageTitleService, $translate) {
+    $translate('global.menu.account.settings').then(
+      PageTitleService.setPageTitle);
     $scope.success = null;
     $scope.error = null;
     Principal.identity(true).then(function(account) {

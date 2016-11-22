@@ -2,7 +2,10 @@
 
 angular.module('metadatamanagementApp').controller(
   'HealthController',
-  function($scope, MonitoringService, $uibModal, ElasticSearchAdminService) {
+  function($scope, MonitoringService, $uibModal, ElasticSearchAdminService,
+    PageTitleService, $translate) {
+    $translate('administration.health.title').then(
+      PageTitleService.setPageTitle);
     $scope.isRecreatingIndices = false;
     $scope.updatingHealth = true;
     $scope.separator = '.';

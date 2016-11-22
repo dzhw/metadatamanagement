@@ -1,7 +1,9 @@
 'use strict';
 
 angular.module('metadatamanagementApp').controller('MetricsController',
-  function($scope, MonitoringService, $uibModal) {
+  function($scope, MonitoringService, $uibModal, PageTitleService, $translate) {
+    $translate('administration.metrics.title').then(
+      PageTitleService.setPageTitle);
     $scope.metrics = {};
     $scope.updatingMetrics = true;
 

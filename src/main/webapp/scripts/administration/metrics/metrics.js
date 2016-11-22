@@ -6,8 +6,7 @@ angular.module('metadatamanagementApp').config(
       parent: 'admin',
       url: '/metrics',
       data: {
-        authorities: ['ROLE_ADMIN'],
-        pageTitle: 'administration.metrics.title'
+        authorities: ['ROLE_ADMIN']
       },
       views: {
         'content@': {

@@ -10,8 +10,7 @@ angular
             parent: 'admin',
             url: '/user-management',
             data: {
-              authorities: ['ROLE_ADMIN'],
-              pageTitle: 'user-management.home.title'
+              authorities: ['ROLE_ADMIN']
             },
             views: {
               'content@': {
@@ -34,8 +33,7 @@ angular
             parent: 'admin',
             url: '/user-management/:login',
             data: {
-              authorities: ['ROLE_ADMIN'],
-              pageTitle: 'user-management.detail.title'
+              authorities: ['ROLE_ADMIN']
             },
             views: {
               'content@': {
