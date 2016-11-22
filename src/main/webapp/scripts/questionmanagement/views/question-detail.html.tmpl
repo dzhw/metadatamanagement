@@ -78,26 +78,39 @@
     </div>
     <div ng-if="ctrl.question.technicalRepresentation" layout="row">
         <md-card flex class="fdz-reset-top-margin">
-            <md-card-header class="fdz-card-header-with-button" layout-align="center center">
+            <md-card-header layout-align="center center">
                 <md-card-header-text>
                     <h2 class="md-title">{{'question-management.detail.technical-representation' | translate }}
                         ({{ctrl.question.technicalRepresentation.type}})</h2>
                 </md-card-header-text>
-                <md-button
-                    ng-click="openSuccessCopyToClipboardToast()"
-                    class="md-fab md-mini md-primary"
-                    ngclipboard
-                    data-clipboard-text="{{technicalRepresentationBeauty}}"
-                    aria-label="{{'question-management.detail.button.aria-label.copy-to-clipboard' | translate}}">
-                    <md-icon md-font-library="material-icons">content_copy</md-icon>
-                    <md-tooltip md-direction="top">
-                        {{'question-management.detail.button.aria-label.copy-to-clipboard' | translate}}
-                    </md-tooltip>
-                </md-button>
             </md-card-header>
             <md-divider></md-divider>
             <md-card-content>
-                <div hljs hljs-language="{{ctrl.question.technicalRepresentation.language}}" hljs-source="technicalRepresentationBeauty"></div>
+                <div class="fdz-overlay-outer-box">
+                    <div hljs hljs-language="{{ctrl.question.technicalRepresentation.language}}" hljs-source="{{ctrl.technicalRepresentationBeauty}}" style="margin-top: 0.5em;" class="fdz-code-container" ng-class="{'fdz-hidden-code': ctrl.representationCodeToggleFlag}"></div>
+                    <div class="fdz-overlay-inner-box">
+                        <md-button
+                            ng-click="ctrl.openSuccessCopyToClipboardToast('question-management.log-messages.question.technical-representation-success-copy-to-clipboard')"
+                            class="md-icon-button md-primary"
+                            ngclipboard
+                            data-clipboard-text="{{ctrl.technicalRepresentationBeauty}}"
+                            aria-label="{{'question-management.detail.button.aria-label.copy-to-clipboard' | translate}">
+                            <md-icon md-font-library="material-icons">content_copy</md-icon>
+                            <md-tooltip md-direction="top">
+                                {{'question-management.detail.button.aria-label.copy-to-clipboard' | translate}}
+                            </md-tooltip>
+                        </md-button>
+                        <md-button  class="md-icon-button md-primary" ng-click="ctrl.toggleRepresentationCode()">
+                            <div>
+                                <md-icon ng-if="ctrl.representationCodeToggleFlag" md-svg-src="/assets/images/icons/arrow-expand.svg"></md-icon>
+                                <md-icon ng-if="!ctrl.representationCodeToggleFlag" md-svg-src="/assets/images/icons/arrow-compress.svg"></md-icon>
+                                <md-tooltip md-direction="top">
+                                    {{'question-management.detail.show-complete-technical-representation.' + ctrl.representationCodeToggleFlag | translate }}
+                                </md-tooltip>
+                            </div>
+                        </md-button>
+                    </div>
+                </div>
             </md-card-content>
         </md-card>
     </div>

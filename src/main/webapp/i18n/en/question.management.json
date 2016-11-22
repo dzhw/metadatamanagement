@@ -35,7 +35,11 @@
       "not-found": "The {{id}} references to an unknown Question.",
       "not-found-references": "The id {{id}} has no References to Questions.",
       "no-related-questions": "No related Questions.",
-      "related-questions": "Related Questions"
+      "related-questions": "Related Questions",
+      "show-complete-technical-representation": {
+        "true": "Show complete Technical Representation",
+        "false": "Minimize Technical Representation "
+      }
     },
     "error": {
       "question": {

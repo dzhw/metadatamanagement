@@ -13,6 +13,7 @@ angular.module('metadatamanagementApp')
       PageTitleService, LanguageService) {
 
       var ctrl = this;
+      this.representationCodeToggleFlag = true;
       ctrl.question = entity;
       ctrl.predecessors = [];
       ctrl.successors = [];
@@ -41,8 +42,7 @@ angular.module('metadatamanagementApp')
           if (ctrl.question.technicalRepresentation.language === 'xml' ||
             ctrl.question.technicalRepresentation.language === 'xhtml' ||
             ctrl.question.technicalRepresentation.language === 'html') {
-            ctrl.technicalRepresentationBeauty =
-              html_beautify(ctrl.question.technicalRepresentation.source); //jscs:ignore
+            html_beautify(ctrl.question.technicalRepresentation.source); //jscs:ignore
           }
         }
 
@@ -87,10 +87,10 @@ angular.module('metadatamanagementApp')
         RelatedPublicationSearchDialogService.
         findRelatedPublications(paramObject);
       };
-      ctrl.openSuccessCopyToClipboardToast = function() {
-        SimpleMessageToastService.openSimpleMessageToast(
-          'question-management.log-messages.question.' +
-          'technical-representation-success-copy-to-clipboard', []
-        );
+      ctrl.openSuccessCopyToClipboardToast = function(message) {
+        SimpleMessageToastService.openSimpleMessageToast(message, []);
+      };
+      ctrl.toggleRepresentationCode = function() {
+        ctrl.representationCodeToggleFlag = !ctrl.representationCodeToggleFlag;
       };
     });

@@ -34,7 +34,11 @@
       "not-found": "Die id {{id}} referenziert auf eine unbekannte Frage.",
       "not-found-references": "Die id {{id}} hat keine Referenzen auf Fragen.",
       "no-related-questions": "Keine zugehörige Fragen.",
-      "related-questions": "Zugehörige Fragen"
+      "related-questions": "Zugehörige Fragen",
+      "show-complete-technical-representation": {
+        "true": "Zeige gesamte technische Representation",
+        "false": "Minimiere technische Representation"
+      }
     },
     "error": {
       "question": {
