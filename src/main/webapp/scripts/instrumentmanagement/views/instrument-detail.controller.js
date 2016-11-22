@@ -33,11 +33,6 @@ angular.module('metadatamanagementApp')
                   PageTitleService.setPageTitle(text + ' ' +
                     ctrl.survey.title);
                 });
-            } else {
-              $translate('instrument-management.detail.instrument').then(
-                function(text) {
-                  PageTitleService.setPageTitle(text);
-                });
             }
           });
         //Find Studies

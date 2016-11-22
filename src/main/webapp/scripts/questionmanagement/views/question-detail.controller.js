@@ -9,7 +9,8 @@ angular.module('metadatamanagementApp')
       VariableSearchDialogService, entity, $state,
       SimpleMessageToastService, QuestionSearchService, CleanJSObjectService,
       RelatedPublicationSearchDialogService, VariableSearchService,
-      RelatedPublicationSearchService, InstrumentSearchService) {
+      RelatedPublicationSearchService, InstrumentSearchService,
+      PageTitleService, LanguageService) {
 
       var ctrl = this;
       ctrl.question = entity;
@@ -51,21 +52,27 @@ angular.module('metadatamanagementApp')
           })
           .$promise.then(function(study) {
             ctrl.study = study;
+            if (ctrl.study) {
+              PageTitleService.setPageTitle(
+                study.title[LanguageService.getCurrentInstantly()] +
+                ' ' +
+                ctrl.question.number);
+            }
           });
         VariableSearchService.countBy('questionId',
-            ctrl.question.id).then(function(variablesCount) {
-                ctrl.counts.variablesCount = variablesCount.count;
-              });
-        RelatedPublicationSearchService.countBy('questionIds',
-            ctrl.question.id).then(function(publicationsCount) {
-                ctrl.counts.publicationsCount = publicationsCount.count;
-              });
-        InstrumentSearchService.findBySurveyId(ctrl.question.surveyId)
-        .then(function(instrument) {
-          if (instrument.hits.hits.length > 0) {
-            ctrl.instrument = instrument.hits.hits[0]._source;
-          }
+          ctrl.question.id).then(function(variablesCount) {
+          ctrl.counts.variablesCount = variablesCount.count;
         });
+        RelatedPublicationSearchService.countBy('questionIds',
+          ctrl.question.id).then(function(publicationsCount) {
+          ctrl.counts.publicationsCount = publicationsCount.count;
+        });
+        InstrumentSearchService.findBySurveyId(ctrl.question.surveyId)
+          .then(function(instrument) {
+            if (instrument.hits.hits.length > 0) {
+              ctrl.instrument = instrument.hits.hits[0]._source;
+            }
+          });
       });
       ctrl.showRelatedVariables = function() {
         var paramObject = {};
