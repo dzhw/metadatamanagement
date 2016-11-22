@@ -1,133 +1,124 @@
 <div ng-if="ctrl.dataSet.$resolved">
-    <md-card>
-        <md-card-header>
-            <md-card-header-text>
-                <h1 class="md-headline">{{ctrl.dataSet.description[currentLanguage]}}</h1>
-            </md-card-header-text>
-        </md-card-header>
-        <md-card-content style="padding-top: 0px;" layout="column">
-            <div layout="row" layout-sm="column" layout-xs="column">
-                <md-card flex-gt-sm="60">
-                    <md-card-header>
-                      <md-card-header-text>
-                          <h2 class="md-title">{{'global.cards.details' | translate }}</h2>
-                      </md-card-header-text>
-                    </md-card-header>
-                    <md-divider></md-divider>
-                    <md-card-content>
-                      <div style="margin-bottom: 0.5em;" ng-if="ctrl.dataSet.description">
-                          <span style="font-weight: bold;">{{'data-set-management.detail.description' | translate }}:
-                          </span>
-                          <span>{{ctrl.dataSet.description[currentLanguage]}}</span>
-                      </div>
-                      <div style="margin-bottom: 0.5em;" ng-if="ctrl.dataSet.type">
-                          <span style="font-weight: bold;">{{'data-set-management.detail.type' | translate }}:
-                          </span>
-                          <span>{{ctrl.dataSet.type[currentLanguage]}}</span>
-                      </div>
-                    </md-card-content>
-                </md-card>
-                <md-card flex-gt-sm="40">
-                    <md-card-header>
-                      <md-card-header-text>
-                          <h2 class="md-title">{{'global.cards.related-objects' | translate }}</h2>
-                      </md-card-header-text>
-                    </md-card-header>
-                    <md-divider></md-divider>
-                    <md-card-content>
-                      <div style="margin-bottom: 0.5em; width: 100%;" layout="row">
-                        <md-icon md-svg-src="/assets/images/icons/study.svg" style="margin-top:0px; margin-right:4px;"></md-icon>
-                        <div style="margin-right:3px;">{{'study-management.detail.study' | translate }}:</div>
-                        <div ng-if="!ctrl.study" class="fdz-truncate-string" flex>{{'global.messages.error.unavailable' | translate}}</div>
-                        <a ng-if="ctrl.study" ui-sref="studyDetail({id:ctrl.study.id})" class="fdz-truncate-string" flex>{{ctrl.study.title}}</a>
-                      </div>
-                      <div style="margin-bottom: 0.5em; width: 100%;" layout="row">
-                          <md-icon md-svg-src="/assets/images/icons/survey.svg" style="margin-top:0px; margin-right:4px;"></md-icon>
-                          <div style="margin-right:3px;">{{'survey-management.detail.surveys' | translate }}:</div>
-                          <div ng-if="ctrl.counts.surveysCount == 0" class="fdz-truncate-string" flex>{{'global.messages.error.unavailable' | translate}}</div>
-                          <a ng-if="ctrl.counts.surveysCount > 0" ng-click="ctrl.showRelatedSurveys()" class="fdz-truncate-string" flex>({{ctrl.counts.surveysCount}})</a>
-                      </div>
-                      <div style="margin-bottom: 0.5em; width: 100%;" layout="row">
-                          <md-icon md-svg-src="/assets/images/icons/variable.svg" style="margin-top:0px; margin-right:4px;"></md-icon>
-                          <div style="margin-right:3px;">{{'variable-management.detail.variables' | translate }}:</div>
-                          <div ng-if="ctrl.counts.variablesCount == 0" class="fdz-truncate-string" flex>{{'global.messages.error.unavailable' | translate}}</div>
-                          <a ng-if="ctrl.counts.variablesCount > 0" ng-click="ctrl.showRelatedVariables()" class="fdz-truncate-string" flex>({{ctrl.counts.variablesCount}})</a>
-                      </div>
-                      <div style="margin-bottom: 0.5em; width: 100%;" layout="row">
-                          <md-icon md-svg-src="/assets/images/icons/data-set.svg" style="margin-top:0px; margin-right:4px;"></md-icon>
-                          <div style="margin-right:3px;">{{'data-set-management.detail.data-set-same-study' | translate }}:</div>
-                          <div ng-if="ctrl.counts.dataSetsCount == 0" class="fdz-truncate-string" flex>{{'global.messages.error.unavailable' | translate}}</div>
-                          <a ng-if="ctrl.counts.dataSetsCount > 0" ng-click="ctrl.showRelatedDataSets()" class="fdz-truncate-string" flex>({{ctrl.counts.dataSetsCount}})</a>
-                      </div>
-                      <div style="margin-bottom: 0.5em; width: 100%;" layout="row">
-                          <md-icon md-svg-src="/assets/images/icons/related-publication.svg" style="margin-top:0px; margin-right:4px;"></md-icon>
-                          <div style="margin-right:3px;">{{'related-publication-management.detail.publications' | translate }}:</div>
-                          <div ng-if="ctrl.counts.publicationsCount == 0" class="fdz-truncate-string" flex>{{'global.messages.error.unavailable' | translate}}</div>
-                          <a ng-if="ctrl.counts.publicationsCount > 0" ng-click="ctrl.showRelatedPublications()" class="fdz-truncate-string" flex>({{ctrl.counts.publicationsCount}})</a>
-                      </div>
-                    </md-card-content>
-                    <md-card-actions layout="row" layout-align="end center">
-                      <md-button aria-label="{{'data-set-management.detail.generate-variable-report' | translate}}" class="md-fab md-mini md-primary" ng-if="ctrl.isAuthenticated()" type="file" ngf-select="ctrl.uploadTexTemplate($file, dataSet.id)" accept=".zip">
-                        <md-icon md-font-set="material-icons">note_add</md-icon>
-                        <md-tooltip md-direction="left">
-                            {{'data-set-management.detail.generate-variable-report' | translate}}
-                        </md-tooltip>
-                      </md-button>
-                    </md-card-actions>
-                </md-card>
-            </div>
-            <div layout="row">
-                <md-card flex>
-                    <md-card-header layout-align="center center">
-                        <md-card-header-text>
-                            <h2 class="md-title">{{'data-set-management.detail.sub-data-sets.title' | translate }}</h2>
-                        </md-card-header-text>
-                    </md-card-header>
-                    <md-divider></md-divider>
-                    <md-content style="background-color: white;">
-                          <table class="fdz-table">
-                            <thead>
-                              <tr>
-                              <th>{{'data-set-management.detail.sub-data-sets.name' | translate }}
+    <div layout="column" layout-gt-sm="row">
+        <md-card flex-gt-sm="60">
+            <md-card-header>
+                <md-card-header-text>
+                    <h2 class="md-title">{{'global.cards.details' | translate }}</h2>
+                </md-card-header-text>
+            </md-card-header>
+            <md-divider></md-divider>
+            <md-card-content>
+                <div style="margin-bottom: 0.5em;" ng-if="ctrl.dataSet.description">
+                    <span style="font-weight: bold;">{{'data-set-management.detail.description' | translate }}:
+                    </span>
+                    <span>{{ctrl.dataSet.description[currentLanguage]}}</span>
+                </div>
+                <div style="margin-bottom: 0.5em;" ng-if="ctrl.dataSet.type">
+                    <span style="font-weight: bold;">{{'data-set-management.detail.type' | translate }}:
+                    </span>
+                    <span>{{ctrl.dataSet.type[currentLanguage]}}</span>
+                </div>
+            </md-card-content>
+        </md-card>
+        <md-card flex-gt-sm="40" ng-class="{'fdz-reset-left-margin': $mdMedia('gt-sm'), 'fdz-reset-top-margin': $mdMedia('sm') || $mdMedia('xs')}">
+            <md-card-header>
+                <md-card-header-text>
+                    <h2 class="md-title">{{'global.cards.related-objects' | translate }}</h2>
+                </md-card-header-text>
+            </md-card-header>
+            <md-divider></md-divider>
+            <md-card-content>
+                <div style="margin-bottom: 0.5em; width: 100%;" layout="row">
+                    <md-icon md-svg-src="/assets/images/icons/study.svg" style="margin-top:0px; margin-right:4px;"></md-icon>
+                    <div style="margin-right:3px;">{{'study-management.detail.study' | translate }}:</div>
+                    <div ng-if="!ctrl.study" class="fdz-truncate-string" flex>{{'global.messages.error.unavailable' | translate}}</div>
+                    <a ng-if="ctrl.study" ui-sref="studyDetail({id:ctrl.study.id})" class="fdz-truncate-string" flex>{{ctrl.study.title}}</a>
+                </div>
+                <div style="margin-bottom: 0.5em; width: 100%;" layout="row">
+                    <md-icon md-svg-src="/assets/images/icons/survey.svg" style="margin-top:0px; margin-right:4px;"></md-icon>
+                    <div style="margin-right:3px;">{{'survey-management.detail.surveys' | translate }}:</div>
+                    <div ng-if="ctrl.counts.surveysCount == 0" class="fdz-truncate-string" flex>{{'global.messages.error.unavailable' | translate}}</div>
+                    <a ng-if="ctrl.counts.surveysCount > 0" ng-click="ctrl.showRelatedSurveys()" class="fdz-truncate-string" flex>({{ctrl.counts.surveysCount}})</a>
+                </div>
+                <div style="margin-bottom: 0.5em; width: 100%;" layout="row">
+                    <md-icon md-svg-src="/assets/images/icons/variable.svg" style="margin-top:0px; margin-right:4px;"></md-icon>
+                    <div style="margin-right:3px;">{{'variable-management.detail.variables' | translate }}:</div>
+                    <div ng-if="ctrl.counts.variablesCount == 0" class="fdz-truncate-string" flex>{{'global.messages.error.unavailable' | translate}}</div>
+                    <a ng-if="ctrl.counts.variablesCount > 0" ng-click="ctrl.showRelatedVariables()" class="fdz-truncate-string" flex>({{ctrl.counts.variablesCount}})</a>
+                </div>
+                <div style="margin-bottom: 0.5em; width: 100%;" layout="row">
+                    <md-icon md-svg-src="/assets/images/icons/data-set.svg" style="margin-top:0px; margin-right:4px;"></md-icon>
+                    <div style="margin-right:3px;">{{'data-set-management.detail.data-set-same-study' | translate }}:</div>
+                    <div ng-if="ctrl.counts.dataSetsCount == 0" class="fdz-truncate-string" flex>{{'global.messages.error.unavailable' | translate}}</div>
+                    <a ng-if="ctrl.counts.dataSetsCount > 0" ng-click="ctrl.showRelatedDataSets()" class="fdz-truncate-string" flex>({{ctrl.counts.dataSetsCount}})</a>
+                </div>
+                <div style="margin-bottom: 0.5em; width: 100%;" layout="row">
+                    <md-icon md-svg-src="/assets/images/icons/related-publication.svg" style="margin-top:0px; margin-right:4px;"></md-icon>
+                    <div style="margin-right:3px;">{{'related-publication-management.detail.publications' | translate }}:</div>
+                    <div ng-if="ctrl.counts.publicationsCount == 0" class="fdz-truncate-string" flex>{{'global.messages.error.unavailable' | translate}}</div>
+                    <a ng-if="ctrl.counts.publicationsCount > 0" ng-click="ctrl.showRelatedPublications()" class="fdz-truncate-string" flex>({{ctrl.counts.publicationsCount}})</a>
+                </div>
+            </md-card-content>
+            <md-card-actions layout="row" layout-align="end center">
+                <md-button aria-label="{{'data-set-management.detail.generate-variable-report' | translate}}" class="md-fab md-mini md-primary" ng-if="ctrl.isAuthenticated()" type="file" ngf-select="ctrl.uploadTexTemplate($file, dataSet.id)" accept=".zip">
+                    <md-icon md-font-set="material-icons">note_add</md-icon>
+                    <md-tooltip md-direction="left">
+                        {{'data-set-management.detail.generate-variable-report' | translate}}
+                    </md-tooltip>
+                </md-button>
+            </md-card-actions>
+        </md-card>
+    </div>
+    <div layout="row">
+        <md-card flex class="fdz-reset-top-margin">
+            <md-card-header layout-align="center center">
+                <md-card-header-text>
+                    <h2 class="md-title">{{'data-set-management.detail.sub-data-sets.title' | translate }}</h2>
+                </md-card-header-text>
+            </md-card-header>
+            <md-divider></md-divider>
+            <md-content style="background-color: white;">
+                <table class="fdz-table">
+                    <thead>
+                        <tr>
+                            <th>{{'data-set-management.detail.sub-data-sets.name' | translate }}
                                 <md-tooltip hide-gt-xs md-direction="right">
-                                  {{'data-set-management.detail.sub-data-sets.name' | translate }}
+                                    {{'data-set-management.detail.sub-data-sets.name' | translate }}
                                 </md-tooltip>
-                              </th>
-                              <th>{{'data-set-management.detail.sub-data-sets.description' | translate }}
+                            </th>
+                            <th>{{'data-set-management.detail.sub-data-sets.description' | translate }}
                                 <md-tooltip hide-gt-xs md-direction="right">
-                                  {{'data-set-management.detail.sub-data-sets.description' | translate }}
+                                    {{'data-set-management.detail.sub-data-sets.description' | translate }}
                                 </md-tooltip>
-                              </th>
-                              <th>{{'data-set-management.detail.sub-data-sets.accessWay' | translate }}
+                            </th>
+                            <th>{{'data-set-management.detail.sub-data-sets.accessWay' | translate }}
                                 <md-tooltip hide-gt-xs md-direction="right">
-                                  {{'data-set-management.detail.sub-data-sets.accessWay' | translate }}
+                                    {{'data-set-management.detail.sub-data-sets.accessWay' | translate }}
                                 </md-tooltip>
-                              </th>
-                              <th>{{'data-set-management.detail.sub-data-sets.numberOfAnalyzedVariables' | translate }}
+                            </th>
+                            <th>{{'data-set-management.detail.sub-data-sets.numberOfAnalyzedVariables' | translate }}
                                 <md-tooltip hide-gt-xs md-direction="right">
-                                  {{'data-set-management.detail.sub-data-sets.numberOfAnalyzedVariables' | translate }}
+                                    {{'data-set-management.detail.sub-data-sets.numberOfAnalyzedVariables' | translate }}
                                 </md-tooltip>
-                              </th>
-                              <th>{{'data-set-management.detail.sub-data-sets.numberOfObservations' | translate }}
+                            </th>
+                            <th>{{'data-set-management.detail.sub-data-sets.numberOfObservations' | translate }}
                                 <md-tooltip hide-gt-xs md-direction="right">
-                                  {{'data-set-management.detail.sub-data-sets.numberOfObservations' | translate }}
+                                    {{'data-set-management.detail.sub-data-sets.numberOfObservations' | translate }}
                                 </md-tooltip>
-                              </th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                              <tr ng-repeat="row in ctrl.dataSet.subDataSets">
-                                <td>{{row.name}}&nbsp;</td>
-                                <td>{{row.description[currentLanguage]}}&nbsp;</td>
-                                <td>{{row.accessWay}}</td>
-                                <td>{{row.numberOfAnalyzedVariables}}&nbsp;</td>
-                                <td>{{row.numberOfObservations}}&nbsp;</td>
-                             </tr>
-                            </tbody>
-                          </table>
-                    </md-content>
-                </md-card>
-            </div>
-        </md-card-content>
-    </md-card>
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="row in ctrl.dataSet.subDataSets">
+                            <td>{{row.name}}&nbsp;</td>
+                            <td>{{row.description[currentLanguage]}}&nbsp;</td>
+                            <td>{{row.accessWay}}</td>
+                            <td>{{row.numberOfAnalyzedVariables}}&nbsp;</td>
+                            <td>{{row.numberOfObservations}}&nbsp;</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </md-content>
+        </md-card>
+    </div>
 </div>

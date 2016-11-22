@@ -2,11 +2,12 @@
 
 angular.module('metadatamanagementApp')
   .controller('DataSetDetailController',
-  function(entity, Principal, StudySearchService,
-    SurveySearchDialogService, VariableSearchDialogService,
-    VariableSearchService, RelatedPublicationSearchService,
-    RelatedPublicationSearchDialogService, DataSetSearchDialogService,
-    DataSetSearchService, DataSetReportService) {
+    function(entity, Principal, StudySearchService,
+      SurveySearchDialogService, VariableSearchDialogService,
+      VariableSearchService, RelatedPublicationSearchService,
+      RelatedPublicationSearchDialogService, DataSetSearchDialogService,
+      DataSetSearchService, DataSetReportService, PageTitleService,
+      LanguageService) {
       var ctrl = this;
       ctrl.isAuthenticated = Principal.isAuthenticated;
       ctrl.allRowsVisible = true;
@@ -14,14 +15,17 @@ angular.module('metadatamanagementApp')
       ctrl.dataSet = entity;
       ctrl.counts = {};
       entity.$promise.then(function() {
+        PageTitleService.setPageTitle(
+          ctrl.dataSet.description[LanguageService.getCurrentInstantly()]
+        );
         StudySearchService.findStudy(ctrl.dataSet.dataAcquisitionProjectId)
-        .then(function(study) {
-          if (study.hits.hits.length > 0) {
-            ctrl.study = study.hits.hits[0]._source;
-          }
-        });
+          .then(function(study) {
+            if (study.hits.hits.length > 0) {
+              ctrl.study = study.hits.hits[0]._source;
+            }
+          });
         RelatedPublicationSearchService.countBy('dataSetIds',
-        ctrl.dataSet.id).then(function(publicationsCount) {
+          ctrl.dataSet.id).then(function(publicationsCount) {
           ctrl.counts.publicationsCount = publicationsCount.count;
         });
         DataSetSearchService
@@ -50,25 +54,25 @@ angular.module('metadatamanagementApp')
       ctrl.showRelatedSurveys = function() {
         var paramObject = {};
         paramObject.methodName = 'findSurveys';
-        paramObject.methodParams =   ctrl.dataSet.surveyIds;
+        paramObject.methodParams = ctrl.dataSet.surveyIds;
         SurveySearchDialogService.findSurveys(paramObject);
       };
       ctrl.showRelatedVariables = function() {
         var paramObject = {};
         paramObject.methodName = 'findVariables';
-        paramObject.methodParams =   ctrl.dataSet.variableIds;
+        paramObject.methodParams = ctrl.dataSet.variableIds;
         VariableSearchDialogService.findVariables(paramObject);
       };
       ctrl.showRelatedDataSets = function() {
         var paramObject = {};
         paramObject.methodName = 'findByProjectId';
-        paramObject.methodParams =   ctrl.dataSet.dataAcquisitionProjectId;
+        paramObject.methodParams = ctrl.dataSet.dataAcquisitionProjectId;
         DataSetSearchDialogService.findDataSets(paramObject);
       };
       ctrl.showRelatedPublications = function() {
         var paramObject = {};
         paramObject.methodName = 'findByDataSetId';
-        paramObject.methodParams =   ctrl.dataSet.id;
+        paramObject.methodParams = ctrl.dataSet.id;
         RelatedPublicationSearchDialogService.
         findRelatedPublications(paramObject);
       };
