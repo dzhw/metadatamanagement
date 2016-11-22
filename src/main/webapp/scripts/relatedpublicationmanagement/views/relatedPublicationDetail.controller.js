@@ -48,7 +48,6 @@ angular.module('metadatamanagementApp')
       };
       ctrl.showRelatedDataSets = function() {
         var paramObject = {};
-        console.log('hd');
         paramObject.methodName = 'findDataSets';
         paramObject.methodParams = ctrl.relatedPublication.dataSetIds;
         DataSetSearchDialogService
