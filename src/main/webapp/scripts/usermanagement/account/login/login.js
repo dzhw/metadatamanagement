@@ -6,8 +6,7 @@ angular.module('metadatamanagementApp').config(
       parent: 'account',
       url: '/login',
       data: {
-        authorities: [],
-        pageTitle: 'user-management.login.title'
+        authorities: []
       },
       views: {
         'content@': {

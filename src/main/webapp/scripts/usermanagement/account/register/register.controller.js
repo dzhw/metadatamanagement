@@ -1,7 +1,10 @@
 'use strict';
 
 angular.module('metadatamanagementApp').controller('RegisterController',
-  function($scope, LanguageService, $timeout, Auth) {
+  function($scope, LanguageService, $timeout, Auth, PageTitleService,
+    $translate) {
+    $translate('user-management.register.title').then(
+      PageTitleService.setPageTitle);
     $scope.success = null;
     $scope.error = null;
     $scope.doNotMatch = null;
