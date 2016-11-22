@@ -10,7 +10,6 @@ angular.module('metadatamanagementApp')
       LanguageService) {
       var ctrl = this;
       ctrl.isAuthenticated = Principal.isAuthenticated;
-      ctrl.allRowsVisible = true;
       ctrl.counts = {};
       ctrl.dataSet = entity;
       ctrl.counts = {};
@@ -39,17 +38,6 @@ angular.module('metadatamanagementApp')
       });
       ctrl.uploadTexTemplate = function(file, dataSetId) {
         DataSetReportService.uploadTexTemplate(file, dataSetId);
-      };
-      ctrl.isRowHidden = function(index) {
-        if (index <= 4 || index >= ctrl
-          .dataSet.subDataSets.length - 5) {
-          return false;
-        } else {
-          return ctrl.allRowsVisible;
-        }
-      };
-      ctrl.toggleAllRowsVisible = function() {
-        ctrl.allRowsVisible = !ctrl.allRowsVisible;
       };
       ctrl.showRelatedSurveys = function() {
         var paramObject = {};
