@@ -5,33 +5,35 @@ angular.module('metadatamanagementApp')
     function($scope, entity, DataSetSearchService, DataSetSearchDialogService,
       SurveySearchService, SurveySearchDialogService, QuestionSearchService,
       QuestionSearchDialogService, RelatedPublicationSearchDialogService,
-      RelatedPublicationSearchService) {
+      RelatedPublicationSearchService, PageTitleService, LanguageService) {
 
       var ctrl = this;
       ctrl.study = entity;
       ctrl.counts = {};
 
       entity.$promise.then(function() {
+        PageTitleService.setPageTitle(
+          ctrl.study.title[LanguageService.getCurrentInstantly()]);
         DataSetSearchService
-        .countBy('dataAcquisitionProjectId', ctrl.study.id)
-        .then(function(dataSetsCount) {
-              ctrl.counts.dataSetsCount = dataSetsCount.count;
-            });
+          .countBy('dataAcquisitionProjectId', ctrl.study.id)
+          .then(function(dataSetsCount) {
+            ctrl.counts.dataSetsCount = dataSetsCount.count;
+          });
         SurveySearchService
           .countBy('dataAcquisitionProjectId', ctrl.study.id)
           .then(function(surveysCount) {
-              ctrl.counts.surveysCount = surveysCount.count;
-            });
+            ctrl.counts.surveysCount = surveysCount.count;
+          });
         QuestionSearchService
-           .countBy('dataAcquisitionProjectId', ctrl.study.id)
-           .then(function(questionsCount) {
-              ctrl.counts.questionsCount = questionsCount.count;
-            });
+          .countBy('dataAcquisitionProjectId', ctrl.study.id)
+          .then(function(questionsCount) {
+            ctrl.counts.questionsCount = questionsCount.count;
+          });
         RelatedPublicationSearchService
-           .countBy('studyIds', ctrl.study.id)
-           .then(function(publicationsCount) {
-              ctrl.counts.publicationsCount = publicationsCount.count;
-            });
+          .countBy('studyIds', ctrl.study.id)
+          .then(function(publicationsCount) {
+            ctrl.counts.publicationsCount = publicationsCount.count;
+          });
       });
       ctrl.showRelatedQuestions = function() {
         var paramObject = {};
