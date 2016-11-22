@@ -50,7 +50,7 @@ angular.module('metadatamanagementApp')
                     blockArea.start();
                     StudySearchService[ctrl.paramObject.methodName](
                       ctrl.paramObject.methodParams, this.from, this.size,
-                      ctrl.paramObject.surveyId)
+                      ctrl.paramObject.studyId)
                       .then(angular.bind(this, function(studies) {
                         ctrl.count = studies.hits.total;
                         this.items = _.concat(this.items, studies.hits.hits);

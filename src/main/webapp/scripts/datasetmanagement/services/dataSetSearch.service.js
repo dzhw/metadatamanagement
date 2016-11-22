@@ -52,7 +52,8 @@ angular.module('metadatamanagementApp').factory('DataSetSearchService',
       };
       return ElasticSearchClient.search(query);
     };
-    var findByProjectId = function(dataAcquisitionProjectId, from, size) {
+    var findByProjectId = function(dataAcquisitionProjectId, from, size,
+      excludedDataSetId) {
       query.index = 'metadata_' + LanguageService.getCurrentInstantly();
       query.body = {};
       query.body.from = from;
@@ -69,9 +70,18 @@ angular.module('metadatamanagementApp').factory('DataSetSearchService',
           }]
         }
       };
+      if (excludedDataSetId) {
+        // jscs:disable
+        query.body.query.bool.must_not = {
+          'term': {
+            'id': excludedDataSetId
+          }
+        };
+        // jscs:enable
+      }
       return ElasticSearchClient.search(query);
     };
-    var countBy = function(term, value) {
+    var countBy = function(term, value, excludedDataSetId) {
       query.index = 'metadata_' + LanguageService.getCurrentInstantly();
       query.body = {};
       query.body.query = {};
@@ -92,6 +102,15 @@ angular.module('metadatamanagementApp').factory('DataSetSearchService',
       };
       mustSubQuery.term[term] = value;
       subQuery.bool.must.push(mustSubQuery);
+      if (excludedDataSetId) {
+        // jscs:disable
+        subQuery.bool.must_not = [{
+          'term': {
+            'id': excludedDataSetId
+          }
+        }];
+        // jscs:enable
+      }
       query.body.query.bool.filter.push(subQuery);
       return ElasticSearchClient.count(query);
     };

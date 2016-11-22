@@ -30,7 +30,7 @@ angular.module('metadatamanagementApp')
         });
         DataSetSearchService
           .countBy('dataAcquisitionProjectId',
-            ctrl.dataSet.dataAcquisitionProjectId)
+            ctrl.dataSet.dataAcquisitionProjectId, ctrl.dataSet.id)
           .then(function(dataSetsCount) {
             ctrl.counts.dataSetsCount = dataSetsCount.count;
           });
@@ -67,6 +67,7 @@ angular.module('metadatamanagementApp')
         var paramObject = {};
         paramObject.methodName = 'findByProjectId';
         paramObject.methodParams = ctrl.dataSet.dataAcquisitionProjectId;
+        paramObject.dataSetId = ctrl.dataSetId.id;
         DataSetSearchDialogService.findDataSets(paramObject);
       };
       ctrl.showRelatedPublications = function() {

@@ -50,7 +50,7 @@ angular.module('metadatamanagementApp')
                       blockArea.start();
                       DataSetSearchService[ctrl.paramObject.methodName](
                         ctrl.paramObject.methodParams, this.from, this.size,
-                        ctrl.paramObject.surveyId)
+                        ctrl.paramObject.dataSetId)
                         .then(angular.bind(this, function(dataSets) {
                           ctrl.count = dataSets.hits.total;
                           this.items = _.concat(this.items, dataSets.hits.hits);
