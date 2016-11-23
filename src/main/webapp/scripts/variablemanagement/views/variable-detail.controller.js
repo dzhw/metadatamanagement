@@ -1,4 +1,5 @@
 /* global _ */
+/* global html_beautify */
 /* Author: Daniel Katzberg */
 'use strict';
 
@@ -11,6 +12,7 @@ angular.module('metadatamanagementApp')
     SimpleMessageToastService, PageTitleService, LanguageService) {
 
     $scope.generationCodeToggleFlag = true;
+    $scope.filterDetailsCodeToggleFlag = true;
     $scope.notAllRowsVisible = true;
     $scope.counts = {};
     $scope.variable = entity;
@@ -56,6 +58,12 @@ angular.module('metadatamanagementApp')
         $scope.counts.sameVariablesInPanel =
           $scope.variable.sameVariablesInPanel.length;
       }
+      if ($scope.variable.filterDetails) {
+        html_beautify($scope.variable.filterDetails.expression); //jscs:ignore
+      }
+      if ($scope.variable.generationDetails) {
+        html_beautify($scope.variable.generationDetails.rule); //jscs:ignore
+      }
     });
     $scope.isRowHidden = function(index) {
       if (index <= 4 || index >= $scope
@@ -70,6 +78,9 @@ angular.module('metadatamanagementApp')
     };
     $scope.toggleGenerationCode = function() {
       $scope.generationCodeToggleFlag = !$scope.generationCodeToggleFlag;
+    };
+    $scope.toggleFilterDetailsCode = function() {
+      $scope.filterDetailsCodeToggleFlag = !$scope.filterDetailsCodeToggleFlag;
     };
     $scope.showSameVariablesInPanel = function() {
       var paramObject = {};

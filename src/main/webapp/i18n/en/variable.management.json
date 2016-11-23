@@ -39,6 +39,10 @@
         "true": "Show complete Generation Rule",
         "false": "Minimize Generation Rule "
       },
+      "show-complete-filter-details": {
+        "true": "Show complete Input Filter",
+        "false": "Minimize Input Filter"
+      },
       "button": {
         "aria-label": {
           "copy-to-clipboard": "Copy to Clipboard"
