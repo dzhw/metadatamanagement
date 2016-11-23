@@ -132,7 +132,7 @@ public class ExceptionTranslator {
       } else {
         errorMessage = exception.getLocalizedMessage();
       }
-      return new ErrorListDto(errorMessage, null, null, null);
+      return new ErrorListDto(new ErrorDto(null, errorMessage, null, null));
     }
   }
   
@@ -154,9 +154,10 @@ public class ExceptionTranslator {
       String property = processor.getCurrentName();
       String invalidValue = (String)invalidFormatException.getValue();
       String messageKey = "global.error.import.json-parsing-error";
-      return new ErrorListDto(messageKey, domainObject, invalidValue, property);
+      return new ErrorListDto(new ErrorDto(domainObject, messageKey,invalidValue, property));
     } catch (IOException e) {
-      return new ErrorListDto("global.error.import.no-json-mapping", null, null, null);
+      return new ErrorListDto(
+          new ErrorDto(null, "global.error.import.no-json-mapping", null, null));
     }
   }
   
@@ -183,12 +184,12 @@ public class ExceptionTranslator {
     FileSizeLimitExceededException fileSizeException = 
         findFileSizeLimitExceededException(exception);
     if (fileSizeException != null) {
-      return new ErrorListDto("global.error.import.file-size-limit-exceeded", 
-          fileSizeException.getFileName(), 
-          String.valueOf(fileSizeException.getActualSize()), null);
+      return new ErrorListDto(new ErrorDto(fileSizeException.getFileName(), 
+          "global.error.import.file-size-limit-exceeded",
+          String.valueOf(fileSizeException.getActualSize()), null));
     }
     // return the message as it is 
-    return new ErrorListDto(exception.getLocalizedMessage(), null, null, null);
+    return new ErrorListDto(new ErrorDto(null, exception.getLocalizedMessage(), null, null));
   }
   
   private FileSizeLimitExceededException findFileSizeLimitExceededException(Throwable exception) {

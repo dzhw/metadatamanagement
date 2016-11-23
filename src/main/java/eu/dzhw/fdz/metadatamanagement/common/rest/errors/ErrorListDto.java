@@ -12,19 +12,21 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  * @author René Reitmann
  * @author Daniel Katzberg
  */
-//TODO DKatzberg Comments
 public class ErrorListDto {
+  /* A List for ErrorDtos */
   private List<ErrorDto> errorDtos = new ArrayList<>();
   
-  public ErrorListDto(String errorMessage, String entity, 
-      String invalidValue, String property) {
-    errorDtos.add(new ErrorDto(entity, errorMessage, invalidValue, property));
-  }
-  
+  /**
+   * A constructor with a first errorDto.
+   * @param errorDto A first errorDto for the List of errorDtos.
+   */
   public ErrorListDto(ErrorDto errorDto) {
     errorDtos.add(errorDto);
   }
   
+  /**
+   * Constructor with no first error dto. The list will be empty after this constructor.
+   */
   public ErrorListDto() { }
   
   /**
