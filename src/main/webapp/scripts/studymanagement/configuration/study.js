@@ -1,7 +1,9 @@
 'use strict';
 
 angular.module('metadatamanagementApp')
-  .config(function($stateProvider) {
+  .config(function($stateProvider, $urlRouterProvider) {
+    $urlRouterProvider.when('/de/studies/', '/de/error');
+    $urlRouterProvider.when('/en/studies/', '/en/error');
     $stateProvider
       .state('studyDetail', {
         parent: 'site',
