@@ -17,7 +17,7 @@ public class CustomParameterizedException extends RuntimeException {
 
   private static final long serialVersionUID = 1L;
 
-  private final Error error;
+  private final ErrorDto errorDto;
 
   /**
    * Create the {@link RuntimeException}.
@@ -25,15 +25,15 @@ public class CustomParameterizedException extends RuntimeException {
   public CustomParameterizedException(String message, String entity, String invalidValue, 
       String property) {
     super(message);
-    Error error = new Error(entity, message, invalidValue, property);
-    this.error = error;
+    ErrorDto errorDto = new ErrorDto(entity, message, invalidValue, property);
+    this.errorDto = errorDto;
   }
 
   /**
    * Get the {@link ParameterizedErrorDto}.
    */
-  public Error getErrorDto() {
-    return this.error;
+  public ErrorDto getErrorDto() {
+    return this.errorDto;
   }
 
 }

@@ -25,7 +25,7 @@ public class CustomParameterizedExceptionTest {
         new CustomParameterizedException("message", "entityId", null, null);
 
     // Act
-    Error dto = exception.getErrorDto();
+    ErrorDto dto = exception.getErrorDto();
 
     // Assert
     assertThat(exception, not(nullValue()));

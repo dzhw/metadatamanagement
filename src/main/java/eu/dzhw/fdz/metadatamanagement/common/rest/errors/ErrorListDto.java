@@ -11,16 +11,16 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  * 
  * @author René Reitmann
  */
-public class JsonParsingError {
-  private List<Error> errors = new ArrayList<>();
+public class ErrorListDto {
+  private List<ErrorDto> errorDtos = new ArrayList<>();
   
-  public JsonParsingError(String errorMessage, String entity, 
+  public ErrorListDto(String errorMessage, String entity, 
       String invalidValue, String property) {
-    errors.add(new Error(entity, errorMessage, invalidValue, property));
+    errorDtos.add(new ErrorDto(entity, errorMessage, invalidValue, property));
   }
   
   @JsonProperty("errors")
-  public List<Error> getErrors() {
-    return this.errors;
+  public List<ErrorDto> getErrors() {
+    return this.errorDtos;
   }
 }

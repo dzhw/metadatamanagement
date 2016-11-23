@@ -21,7 +21,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  */
 public class CustomRepositoryConstraintViolationExceptionMessage {
 
-  private final List<Error> errors = new ArrayList<Error>();
+  private final List<ErrorDto> errors = new ArrayList<>();
 
   /**
    * Construct the list of error dtos.
@@ -34,7 +34,7 @@ public class CustomRepositoryConstraintViolationExceptionMessage {
 
     for (ObjectError globalError : violationException.getErrors().getGlobalErrors()) {
       String message = accessor.getMessage(globalError);
-      this.errors.add(new Error(globalError.getObjectName(), message, null, null));
+      this.errors.add(new ErrorDto(globalError.getObjectName(), message, null, null));
     }
     
     for (FieldError fieldError : violationException.getErrors()
@@ -42,13 +42,13 @@ public class CustomRepositoryConstraintViolationExceptionMessage {
 
       String message = accessor.getMessage(fieldError);
 
-      this.errors.add(new Error(fieldError.getObjectName(), message,
+      this.errors.add(new ErrorDto(fieldError.getObjectName(), message,
           String.format("%s", fieldError.getRejectedValue()), fieldError.getField()));
     }
   }
 
   @JsonProperty("errors")
-  public List<Error> getErrors() {
+  public List<ErrorDto> getErrors() {
     return errors;
   }
 }

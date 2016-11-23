@@ -44,8 +44,8 @@ public class ExceptionTranslator {
   @ExceptionHandler(ConcurrencyFailureException.class)
   @ResponseStatus(HttpStatus.CONFLICT)
   @ResponseBody
-  public ErrorDto processConcurencyError(ConcurrencyFailureException ex) {
-    return new ErrorDto(ErrorConstants.ERR_CONCURRENCY_FAILURE);
+  public ErrorDtoDeprecated processConcurencyError(ConcurrencyFailureException ex) {
+    return new ErrorDtoDeprecated(ErrorConstants.ERR_CONCURRENCY_FAILURE);
   }
 
   /**
@@ -54,7 +54,7 @@ public class ExceptionTranslator {
   @ExceptionHandler(MethodArgumentNotValidException.class)
   @ResponseStatus(HttpStatus.BAD_REQUEST)
   @ResponseBody
-  public ErrorDto processValidationError(MethodArgumentNotValidException ex) {
+  public ErrorDtoDeprecated processValidationError(MethodArgumentNotValidException ex) {
     BindingResult result = ex.getBindingResult();
     List<ObjectError> globalErrors = result.getGlobalErrors();
     List<FieldError> fieldErrors = result.getFieldErrors();
@@ -65,20 +65,20 @@ public class ExceptionTranslator {
   @ExceptionHandler(CustomParameterizedException.class)
   @ResponseStatus(HttpStatus.BAD_REQUEST)
   @ResponseBody
-  public Error processParameterizedValidationError(CustomParameterizedException ex) {
+  public ErrorDto processParameterizedValidationError(CustomParameterizedException ex) {
     return ex.getErrorDto();
   }
 
   @ExceptionHandler(AccessDeniedException.class)
   @ResponseStatus(HttpStatus.FORBIDDEN)
   @ResponseBody
-  public ErrorDto processAccessDeniedExcpetion(AccessDeniedException exception) {
-    return new ErrorDto(ErrorConstants.ERR_ACCESS_DENIED, exception.getMessage());
+  public ErrorDtoDeprecated processAccessDeniedExcpetion(AccessDeniedException exception) {
+    return new ErrorDtoDeprecated(ErrorConstants.ERR_ACCESS_DENIED, exception.getMessage());
   }
 
-  private ErrorDto processFieldErrors(List<ObjectError> globalErrors, 
+  private ErrorDtoDeprecated processFieldErrors(List<ObjectError> globalErrors, 
       List<FieldError> fieldErrors) {
-    ErrorDto dto = new ErrorDto(ErrorConstants.ERR_VALIDATION);
+    ErrorDtoDeprecated dto = new ErrorDtoDeprecated(ErrorConstants.ERR_VALIDATION);
     for (ObjectError globalError: globalErrors) {
       dto.add(globalError.getObjectName(), null, globalError.getDefaultMessage());
     }
@@ -93,9 +93,9 @@ public class ExceptionTranslator {
   @ExceptionHandler(HttpRequestMethodNotSupportedException.class)
   @ResponseBody
   @ResponseStatus(HttpStatus.METHOD_NOT_ALLOWED)
-  public ErrorDto processMethodNotSupportedException(
+  public ErrorDtoDeprecated processMethodNotSupportedException(
       HttpRequestMethodNotSupportedException exception) {
-    return new ErrorDto(ErrorConstants.ERR_METHOD_NOT_SUPPORTED, exception.getMessage());
+    return new ErrorDtoDeprecated(ErrorConstants.ERR_METHOD_NOT_SUPPORTED, exception.getMessage());
   }
 
   /**
@@ -104,7 +104,7 @@ public class ExceptionTranslator {
   @ExceptionHandler(HttpMessageNotReadableException.class)
   @ResponseBody
   @ResponseStatus(HttpStatus.BAD_REQUEST)
-  public JsonParsingError processHttpMessageNotReadableException(
+  public ErrorListDto processHttpMessageNotReadableException(
       HttpMessageNotReadableException exception) {
     InvalidFormatException invalidFormatException =  
         findInvalidFormatException(exception.getCause());
@@ -118,7 +118,7 @@ public class ExceptionTranslator {
       } else {
         errorMessage = exception.getLocalizedMessage();
       }
-      return new JsonParsingError(errorMessage, null, null, null);
+      return new ErrorListDto(errorMessage, null, null, null);
     }
   }
   
@@ -130,7 +130,7 @@ public class ExceptionTranslator {
     }
   }
   
-  private JsonParsingError createJsonParsingError(InvalidFormatException invalidFormatException) {
+  private ErrorListDto createJsonParsingError(InvalidFormatException invalidFormatException) {
     UTF8StreamJsonParser processor = 
         (UTF8StreamJsonParser) invalidFormatException.getProcessor();      
     
@@ -140,9 +140,9 @@ public class ExceptionTranslator {
       String property = processor.getCurrentName();
       String invalidValue = (String)invalidFormatException.getValue();
       String messageKey = "global.error.import.json-parsing-error";
-      return new JsonParsingError(messageKey, domainObject, invalidValue, property);
+      return new ErrorListDto(messageKey, domainObject, invalidValue, property);
     } catch (IOException e) {
-      return new JsonParsingError("global.error.import.no-json-mapping", null, null, null);
+      return new ErrorListDto("global.error.import.no-json-mapping", null, null, null);
     }
   }
   
@@ -165,16 +165,16 @@ public class ExceptionTranslator {
   @ExceptionHandler
   @ResponseBody
   @ResponseStatus(HttpStatus.BAD_REQUEST)
-  JsonParsingError handleMultipartException(MultipartException exception) {
+  ErrorListDto handleMultipartException(MultipartException exception) {
     FileSizeLimitExceededException fileSizeException = 
         findFileSizeLimitExceededException(exception);
     if (fileSizeException != null) {
-      return new JsonParsingError("global.error.import.file-size-limit-exceeded", 
+      return new ErrorListDto("global.error.import.file-size-limit-exceeded", 
           fileSizeException.getFileName(), 
           String.valueOf(fileSizeException.getActualSize()), null);
     }
     // return the message as it is 
-    return new JsonParsingError(exception.getLocalizedMessage(), null, null, null);
+    return new ErrorListDto(exception.getLocalizedMessage(), null, null, null);
   }
   
   private FileSizeLimitExceededException findFileSizeLimitExceededException(Throwable exception) {

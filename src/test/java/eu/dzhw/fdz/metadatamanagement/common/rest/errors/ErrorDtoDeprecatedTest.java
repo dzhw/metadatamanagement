@@ -12,7 +12,7 @@ import java.util.ArrayList;
 
 import org.junit.Test;
 
-import eu.dzhw.fdz.metadatamanagement.common.rest.errors.ErrorDto;
+import eu.dzhw.fdz.metadatamanagement.common.rest.errors.ErrorDtoDeprecated;
 
 /**
  * No Integration Test. No need for application Context.
@@ -20,15 +20,15 @@ import eu.dzhw.fdz.metadatamanagement.common.rest.errors.ErrorDto;
  * @author Daniel Katzberg
  *
  */
-public class ErrorDtoTest {
+public class ErrorDtoDeprecatedTest {
 
   @Test
   public void testErrorDto() {
     // Arrange
-    ErrorDto dto = new ErrorDto("message");
-    ErrorDto dtoWithDescription = new ErrorDto("message", "description");
-    ErrorDto dtoWithDescriptionAndFieldErrors =
-        new ErrorDto("message", "description", new ArrayList<>());
+    ErrorDtoDeprecated dto = new ErrorDtoDeprecated("message");
+    ErrorDtoDeprecated dtoWithDescription = new ErrorDtoDeprecated("message", "description");
+    ErrorDtoDeprecated dtoWithDescriptionAndFieldErrors =
+        new ErrorDtoDeprecated("message", "description", new ArrayList<>());
 
     // Act
     dto.add("objectName", "field", "messageAdd");
