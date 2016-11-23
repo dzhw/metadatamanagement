@@ -15,9 +15,13 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 public class ErrorListDto {
   private List<ErrorDto> errorDtos = new ArrayList<>();
   
-  public ErrorListDto(String errorMessage, String entity, 
+  public ErrorListDto(String entity, String errorMessage, 
       String invalidValue, String property) {
     errorDtos.add(new ErrorDto(entity, errorMessage, invalidValue, property));
+  }
+  
+  public ErrorListDto(ErrorDto errorDto) {
+    errorDtos.add(errorDto);
   }
   
   /**
