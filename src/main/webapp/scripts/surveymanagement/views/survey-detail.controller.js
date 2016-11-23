@@ -4,7 +4,7 @@ angular.module('metadatamanagementApp')
   .controller('SurveyDetailController',
     function(entity, $state, StudySearchService, SurveySearchDialogService,
       DataSetSearchDialogService, LanguageService, DataSetSearchService,
-      SurveySearchService, PageTitleService) {
+      SurveySearchService, PageTitleService, InstrumentSearchService) {
 
       var ctrl = this;
       ctrl.imgResolved = false;
@@ -32,6 +32,12 @@ angular.module('metadatamanagementApp')
           .then(function(surveysCount) {
             ctrl.counts.surveysCount = surveysCount.count;
           });
+        InstrumentSearchService.findBySurveyId(ctrl.survey.id)
+        .then(function(instrument) {
+          if (instrument.hits.hits.length > 0) {
+            ctrl.instrument = instrument.hits.hits[0]._source;
+          }
+        });
       });
       ctrl.showRelatedDataSets = function() {
         var paramObject = {};
