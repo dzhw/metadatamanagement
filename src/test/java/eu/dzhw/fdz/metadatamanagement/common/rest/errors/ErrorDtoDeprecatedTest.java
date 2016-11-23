@@ -8,11 +8,7 @@ import static org.hamcrest.CoreMatchers.not;
 import static org.hamcrest.CoreMatchers.nullValue;
 import static org.junit.Assert.assertThat;
 
-import java.util.ArrayList;
-
 import org.junit.Test;
-
-import eu.dzhw.fdz.metadatamanagement.common.rest.errors.ErrorDtoDeprecated;
 
 /**
  * No Integration Test. No need for application Context.
@@ -25,26 +21,24 @@ public class ErrorDtoDeprecatedTest {
   @Test
   public void testErrorDto() {
     // Arrange
-    ErrorDtoDeprecated dto = new ErrorDtoDeprecated("message");
-    ErrorDtoDeprecated dtoWithDescription = new ErrorDtoDeprecated("message", "description");
-    ErrorDtoDeprecated dtoWithDescriptionAndFieldErrors =
-        new ErrorDtoDeprecated("message", "description", new ArrayList<>());
+    ErrorDto dto = new ErrorDto(null, "message", null, null);
+    ErrorDto dtoWithEntity = new ErrorDto("entityId", "message", null, null);
+    ErrorDto dtoWithDescriptionAndInvalidError =
+        new ErrorDto("entityId", "message", "InvalidValue", null);
+    ErrorDto dtoWithDescriptionAndInvalidErrorAndProperty =
+        new ErrorDto("entityId", "message", "InvalidValue", "Property");
 
     // Act
-    dto.add("objectName", "field", "messageAdd");
 
     // Assert
     assertThat(dto, not(nullValue()));
-    assertThat(dto.getMessage(), is("message"));
-    assertThat(dtoWithDescription.getDescription(), is("description"));
-    assertThat(dto.getFieldErrors()
-      .size(), is(1));
-    assertThat(dto.getFieldErrors()
-      .get(0)
-      .getMessage(), is("messageAdd"));
-    assertThat(dto, not(nullValue()));
-    assertThat(dtoWithDescription, not(nullValue()));
-    assertThat(dtoWithDescriptionAndFieldErrors, not(nullValue()));
+    assertThat(dto.getMessage(), is("message"));    
+    assertThat(dtoWithEntity, not(nullValue()));
+    assertThat(dtoWithEntity.getEntity(), is("entityId"));
+    assertThat(dtoWithDescriptionAndInvalidError, not(nullValue()));
+    assertThat(dtoWithDescriptionAndInvalidError.getInvalidValue(), is("InvalidValue"));
+    assertThat(dtoWithDescriptionAndInvalidErrorAndProperty, not(nullValue()));
+    assertThat(dtoWithDescriptionAndInvalidErrorAndProperty.getProperty(), is("Property"));
   }
 
 }

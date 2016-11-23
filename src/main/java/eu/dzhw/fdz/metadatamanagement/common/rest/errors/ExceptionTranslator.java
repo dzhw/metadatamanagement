@@ -44,8 +44,9 @@ public class ExceptionTranslator {
   @ExceptionHandler(ConcurrencyFailureException.class)
   @ResponseStatus(HttpStatus.CONFLICT)
   @ResponseBody
-  public ErrorDtoDeprecated processConcurencyError(ConcurrencyFailureException ex) {
-    return new ErrorDtoDeprecated(ErrorConstants.ERR_CONCURRENCY_FAILURE);
+  public ErrorDto processConcurencyError(ConcurrencyFailureException ex) {
+    //TODO DKatzberg replaxe the test key with a real key
+    return new ErrorDto(null, "error.concurrencyError.DEMO.test", null, null);
   }
 
   /**
@@ -54,7 +55,8 @@ public class ExceptionTranslator {
   @ExceptionHandler(MethodArgumentNotValidException.class)
   @ResponseStatus(HttpStatus.BAD_REQUEST)
   @ResponseBody
-  public ErrorDtoDeprecated processValidationError(MethodArgumentNotValidException ex) {
+  //TODO DKatzberg replace with the new dtos
+  public ErrorListDto processValidationError(MethodArgumentNotValidException ex) {
     BindingResult result = ex.getBindingResult();
     List<ObjectError> globalErrors = result.getGlobalErrors();
     List<FieldError> fieldErrors = result.getFieldErrors();
@@ -72,30 +74,36 @@ public class ExceptionTranslator {
   @ExceptionHandler(AccessDeniedException.class)
   @ResponseStatus(HttpStatus.FORBIDDEN)
   @ResponseBody
-  public ErrorDtoDeprecated processAccessDeniedExcpetion(AccessDeniedException exception) {
-    return new ErrorDtoDeprecated(ErrorConstants.ERR_ACCESS_DENIED, exception.getMessage());
+  public ErrorDto processAccessDeniedExcpetion(AccessDeniedException exception) {
+    //TODO DKatzberg other field? orther message? Change later
+    return new ErrorDto(null, "error.AccessDenied.DEMO.test", null, null);
   }
 
-  private ErrorDtoDeprecated processFieldErrors(List<ObjectError> globalErrors, 
+  private ErrorListDto processFieldErrors(List<ObjectError> globalErrors, 
       List<FieldError> fieldErrors) {
-    ErrorDtoDeprecated dto = new ErrorDtoDeprecated(ErrorConstants.ERR_VALIDATION);
+    //TODO DKatzberg replace the test key with a real key
+    ErrorListDto errorListDto =  new ErrorListDto(null, "error.validation.DEMO.test", null, null);
     for (ObjectError globalError: globalErrors) {
-      dto.add(globalError.getObjectName(), null, globalError.getDefaultMessage());
+      //TODO DKatzberg possibly add more elements?
+      errorListDto.add(new ErrorDto(globalError.getObjectName(), 
+          globalError.getDefaultMessage(), null, null));
     }
     
     for (FieldError fieldError : fieldErrors) {
-      dto.add(fieldError.getObjectName(), fieldError.getField(), fieldError.getDefaultMessage());
+      errorListDto.add(new ErrorDto(fieldError.getObjectName(), fieldError.getDefaultMessage(), 
+          fieldError.getRejectedValue().toString(), fieldError.getField()));
     }
 
-    return dto;
+    return errorListDto;
   }
 
   @ExceptionHandler(HttpRequestMethodNotSupportedException.class)
   @ResponseBody
   @ResponseStatus(HttpStatus.METHOD_NOT_ALLOWED)
-  public ErrorDtoDeprecated processMethodNotSupportedException(
+  public ErrorDto processMethodNotSupportedException(
       HttpRequestMethodNotSupportedException exception) {
-    return new ErrorDtoDeprecated(ErrorConstants.ERR_METHOD_NOT_SUPPORTED, exception.getMessage());
+    //TODO DKatzberg: Check the Message, ggf other fields.
+    return new ErrorDto(null, "error.MethodNotSupported.DEMO.test", null, null);
   }
 
   /**

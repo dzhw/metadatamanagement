@@ -10,6 +10,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  * Object.
  * 
  * @author René Reitmann
+ * @author Daniel Katzberg
  */
 public class ErrorListDto {
   private List<ErrorDto> errorDtos = new ArrayList<>();
@@ -17,6 +18,16 @@ public class ErrorListDto {
   public ErrorListDto(String errorMessage, String entity, 
       String invalidValue, String property) {
     errorDtos.add(new ErrorDto(entity, errorMessage, invalidValue, property));
+  }
+  
+  /**
+   * Add an Error Dto to the ErrorDtoList.
+   * 
+   * @param errorDto An Error Dto.
+   * @return Returns the boolean value from the List.add Command.
+   */
+  public boolean add(ErrorDto errorDto) {
+    return this.errorDtos.add(errorDto);
   }
   
   @JsonProperty("errors")
