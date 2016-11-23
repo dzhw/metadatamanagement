@@ -7,7 +7,6 @@ angular.module('metadatamanagementApp')
     RelatedPublicationSearchService) {
     var ctrl = this;
     ctrl.paramObject = paramObject;
-    console.log(ctrl.paramObject);
     var blockArea = blockUI.instances.get('blockRelatedPublicationContainer');
     ctrl.infiniteItems = {
       numLoaded_: 0,
