@@ -48,7 +48,7 @@
                         ({{variable.filterDetails.expressionLanguage}}):
                     </span>
                     <div class="fdz-overlay-outer-box">
-                        <div hljs hljs-language="{{variable.filterDetails.expressionLanguage}}" hljs-source="variable.filterDetails.expression" style="margin-top: 0.5em;"></div>
+                        <div hljs hljs-language="{{variable.filterDetails.expressionLanguage}}" hljs-source="variable.filterDetails.expression" style="margin-top: 0.5em;" class="fdz-code-container" ng-class="{'fdz-hidden-code': filterDetailsCodeToggleFlag}"></div>
                         <div class="fdz-overlay-inner-box">
                             <md-button
                                 ng-click="openSuccessCopyToClipboardToast('variable-management.log-messages.variable.filter-details-success-copy-to-clipboard')"
@@ -61,9 +61,17 @@
                                     {{'variable-management.detail.button.aria-label.copy-to-clipboard' | translate}}
                                 </md-tooltip>
                             </md-button>
+                            <md-button class="md-icon-button md-primary" ng-click="toggleFilterDetailsCode()">
+                                <div>
+                                    <md-icon ng-if="filterDetailsCodeToggleFlag" md-svg-src="/assets/images/icons/arrow-expand.svg"></md-icon>
+                                    <md-icon ng-if="!filterDetailsCodeToggleFlag" md-svg-src="/assets/images/icons/arrow-compress.svg"></md-icon>
+                                    <md-tooltip md-direction="top">
+                                        {{'variable-management.detail.show-complete-input-filter.' + filterDetailsCodeToggleFlag | translate }}
+                                    </md-tooltip>
+                                </div>
+                            </md-button>
                         </div>
                     </div>
-
                 </div>
             </md-card-content>
         </md-card>
@@ -359,7 +367,7 @@
                                     {{'variable-management.detail.button.aria-label.copy-to-clipboard' | translate}}
                                 </md-tooltip>
                             </md-button>
-                            <md-button ng-if="variable.generationDetails.rule" class="md-icon-button md-primary" ng-click="toggleGenerationCode()">
+                            <md-button class="md-icon-button md-primary" ng-click="toggleGenerationCode()">
                                 <div>
                                     <md-icon ng-if="generationCodeToggleFlag" md-svg-src="/assets/images/icons/arrow-expand.svg"></md-icon>
                                     <md-icon ng-if="!generationCodeToggleFlag" md-svg-src="/assets/images/icons/arrow-compress.svg"></md-icon>

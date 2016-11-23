@@ -35,7 +35,11 @@
       "generation-details-description": "Beschreibung der Generierung",
       "generation-details-expression-language": "Generierungsausdruckssprache",
       "generation-details-rule": "Generierungsregel",
-      "show-complete-rule": {
+      "show-complete-input-filter": {
+        "true": "Zeige gesamte Inhalt des Eingangsfilters",
+        "false": "Minimiere Eingangsfilter"
+      },
+      "show-complete-filter-details": {
         "true": "Zeige gesamte Generierungsregel",
         "false": "Minimiere Generierungsregel"
       },
