@@ -1,16 +1,17 @@
 /* global html_beautify */
+/* global _ */
 /* @Author Daniel Katzberg */
 'use strict';
 
 angular.module('metadatamanagementApp')
   .controller('QuestionDetailController',
 
-    function(StudyReferencedResource,
+    function(StudySearchService,
       VariableSearchDialogService, entity, $state,
       SimpleMessageToastService, QuestionSearchService, CleanJSObjectService,
       RelatedPublicationSearchDialogService, VariableSearchService,
       RelatedPublicationSearchService, InstrumentSearchService,
-      PageTitleService, LanguageService) {
+      PageTitleService) {
 
       var ctrl = this;
       this.representationCodeToggleFlag = true;
@@ -27,12 +28,13 @@ angular.module('metadatamanagementApp')
               ctrl.predecessors = predecessors.hits.hits;
             }
           });
-        QuestionSearchService.findSuccessors(ctrl.question.successors)
+        if (ctrl.question.successors) {
+          QuestionSearchService.findSuccessors(ctrl.question.successors)
           .then(function(successors) {
-            if (!CleanJSObjectService.isNullOrEmpty(successors)) {
+              _.pullAllBy(successors.docs, [{'found': false}], 'found');
               ctrl.successors = successors.docs;
-            }
-          });
+            });
+        }
         if (ctrl.question.technicalRepresentation) {
           //default value is no beautify
           ctrl.technicalRepresentationBeauty =
@@ -45,20 +47,16 @@ angular.module('metadatamanagementApp')
             html_beautify(ctrl.question.technicalRepresentation.source); //jscs:ignore
           }
         }
-
-        StudyReferencedResource
-          .getReferencedStudy({
-            id: ctrl.question.dataAcquisitionProjectId
-          })
-          .$promise.then(function(study) {
-            ctrl.study = study;
-            if (ctrl.study) {
-              PageTitleService.setPageTitle(
-                study.title[LanguageService.getCurrentInstantly()] +
-                ' ' +
-                ctrl.question.number);
-            }
-          });
+        StudySearchService.findStudy(ctrl.question.dataAcquisitionProjectId)
+        .then(function(study) {
+          if (study.hits.hits.length > 0) {
+            ctrl.study = study.hits.hits[0]._source;
+            PageTitleService.setPageTitle(
+              ctrl.study.title +
+              ' ' +
+              ctrl.question.number);
+          }
+        });
         VariableSearchService.countBy('questionId',
           ctrl.question.id).then(function(variablesCount) {
           ctrl.counts.variablesCount = variablesCount.count;

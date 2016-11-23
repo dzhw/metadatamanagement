@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('metadatamanagementApp').service('ShoppingCartService',
-    function($rootScope, localStorageService, StudyReferencedResource) {
+    function($rootScope, localStorageService, StudySearchService) {
       var basket = [];
       var getShoppingCart = function() {
         if (localStorageService.get('shoppingCart') === null) {
@@ -24,17 +24,19 @@ angular.module('metadatamanagementApp').service('ShoppingCartService',
       var addToShoppingCart = function(studyId) {
         var markedStudies = getShoppingCart();
         if (searchInShoppingCart(studyId) === 'notFound') {
-          StudyReferencedResource.getReferencedStudy({id: studyId})
-          .$promise.then(function(study) {
-            markedStudies.push({
-              id: studyId,
-              text: study.title[$rootScope.currentLanguage],
-              authors: study.authors,
-              date:  new Date()
-            });
-            localStorageService
-            .set('shoppingCart', JSON.stringify(markedStudies));
-            $rootScope.$broadcast('itemsCount', markedStudies.length);
+          StudySearchService.findStudy(studyId)
+          .then(function(study) {
+            if (study.hits.hits.length > 0) {
+              markedStudies.push({
+                id: studyId,
+                text: study.hits.hits[0]._source.title,
+                authors: study.hits.hits[0]._source.authors,
+                date:  new Date()
+              });
+              localStorageService
+              .set('shoppingCart', JSON.stringify(markedStudies));
+              $rootScope.$broadcast('itemsCount', markedStudies.length);
+            }
           });
         }
       };
