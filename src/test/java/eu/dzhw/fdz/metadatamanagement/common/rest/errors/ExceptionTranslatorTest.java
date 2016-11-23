@@ -51,8 +51,8 @@ public class ExceptionTranslatorTest {
     assertThat(dto.getMessage(), is("error.concurrencyError.DEMO.test"));
   }
 
-  //TODO DKatzberg NullPointer in Line 64
-  //@Test
+  
+  @Test
   public void testProcessValidationError() {
     // Arrange
     ExceptionTranslator exceptionTranslator = new ExceptionTranslator(messageSource);
@@ -68,7 +68,7 @@ public class ExceptionTranslatorTest {
     // Assert
     assertThat(exceptionTranslator, not(nullValue()));
     assertThat(dto, not(nullValue()));
-    assertThat(dto.getErrors().get(0).getMessage(), is("error.validation.DEMO.test"));
+    assertThat(dto.getErrors().get(0).getMessage(), is("message"));
   }
 
   @Test

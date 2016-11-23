@@ -95,7 +95,7 @@ public class InstrumentAttachmentResourceTest extends AbstractTest {
       .file(attachment)
       .file(metadata))
       .andExpect(status().isBadRequest())
-      .andExpect(jsonPath("$.errors[1].message",
+      .andExpect(jsonPath("$.errors[0].message",
           is("instrument-management.error.instrument-attachment-metadata.type.valid-type")));
   }
   
@@ -118,7 +118,7 @@ public class InstrumentAttachmentResourceTest extends AbstractTest {
       .file(attachment)
       .file(metadata))
       .andExpect(status().isBadRequest())
-      .andExpect(jsonPath("$.errors[1].message",
+      .andExpect(jsonPath("$.errors[0].message",
           is("instrument-management.error.instrument-attachment-metadata.title.i18n-string-size")));
   }
   

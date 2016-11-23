@@ -82,7 +82,7 @@ public class ExceptionTranslator {
   private ErrorListDto processFieldErrors(List<ObjectError> globalErrors, 
       List<FieldError> fieldErrors) {
     //TODO DKatzberg replace the test key with a real key
-    ErrorListDto errorListDto =  new ErrorListDto(null, "error.validation.DEMO.test", null, null);
+    ErrorListDto errorListDto =  new ErrorListDto();
     for (ObjectError globalError: globalErrors) {
       //TODO DKatzberg possibly add more elements?
       errorListDto.add(new ErrorDto(globalError.getObjectName(), 
@@ -90,8 +90,14 @@ public class ExceptionTranslator {
     }
     
     for (FieldError fieldError : fieldErrors) {
+      String rejectedValue = null;
+      
+      if (fieldError.getRejectedValue() != null) {
+        rejectedValue = fieldError.getRejectedValue().toString();
+      }
+      
       errorListDto.add(new ErrorDto(fieldError.getObjectName(), fieldError.getDefaultMessage(), 
-          fieldError.getRejectedValue().toString(), fieldError.getField()));
+          rejectedValue, fieldError.getField()));
     }
 
     return errorListDto;
