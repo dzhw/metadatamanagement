@@ -14,7 +14,7 @@ angular.module('metadatamanagementApp').service('QuestionSearchDialogService',
           paramObject: paramObject
         },
         templateUrl: 'scripts/questionmanagement/' +
-          'views/questionSearchDialog.html.tmpl',
+          'views/questionSearchDialog.html.tmpl'
       });
     };
     return {

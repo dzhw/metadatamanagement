@@ -15,7 +15,7 @@ angular.module('metadatamanagementApp')
             paramObject: paramObject
           },
           templateUrl: 'scripts/relatedpublicationmanagement/views/' +
-            'relatedPublicationSearchDialog.html.tmpl',
+            'relatedPublicationSearchDialog.html.tmpl'
         });
       };
       return {

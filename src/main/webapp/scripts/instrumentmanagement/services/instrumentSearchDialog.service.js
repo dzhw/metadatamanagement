@@ -15,7 +15,7 @@ angular.module('metadatamanagementApp')
             paramObject: paramObject
           },
           templateUrl: 'scripts/instrumentmanagement/views/' +
-            'instrumentSearchDialog.html.tmpl',
+            'instrumentSearchDialog.html.tmpl'
         });
       };
       return {

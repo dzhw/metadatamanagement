@@ -14,7 +14,7 @@ angular.module('metadatamanagementApp').service('StudySearchDialogService',
           paramObject: paramObject
         },
         templateUrl: 'scripts/studymanagement/' +
-          'views/studySearchDialog.html.tmpl',
+          'views/studySearchDialog.html.tmpl'
       });
     };
     return {

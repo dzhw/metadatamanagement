@@ -7,6 +7,7 @@ angular.module('metadatamanagementApp')
     RelatedPublicationSearchService) {
     var ctrl = this;
     ctrl.paramObject = paramObject;
+    console.log(ctrl.paramObject);
     var blockArea = blockUI.instances.get('blockRelatedPublicationContainer');
     ctrl.infiniteItems = {
       numLoaded_: 0,
@@ -34,13 +35,13 @@ angular.module('metadatamanagementApp')
                   if (_.isArray(ctrl.paramObject.methodParams)) {
                     var searchTerms = _.chunk(ctrl.paramObject
                       .methodParams, this.size);
-                    ctrl.count = ctrl.paramObject.methodParams.length;
                     blockArea.start();
                     RelatedPublicationSearchService[ctrl.paramObject.methodName]
                     (searchTerms[this.pageToLoad])
                     .then(angular.bind(this, function(publications) {
                           _.pullAllBy(publications.docs, [{'found': false}],
                           'found');
+                          ctrl.count = publications.docs.length;
                           this.items = _.concat(this.items, publications.docs);
                           this.numLoaded_ = this.items.length;
                           this.pageToLoad += 1;

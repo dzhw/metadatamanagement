@@ -10,7 +10,7 @@
     </md-toolbar>
     <md-dialog-content>
         <div block-ui="blockRelatedInstrumentContainer">
-            <div ng-show="ctrl.count != 0 && ctrl.infiniteItems.items.length != 0" class="fdz-InfiniteScroll">
+            <div ng-hide="ctrl.count == 0 || ctrl.infiniteItems.items.length == 0" class="fdz-InfiniteScroll">
                 <md-virtual-repeat-container id="vertical-container">
                     <div md-virtual-repeat="item in ctrl.infiniteItems" md-on-demand flex>
                       <md-card ui-sref="instrumentDetail({id: item._source.id})" class="fdz-search-result">

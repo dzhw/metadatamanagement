@@ -15,7 +15,7 @@ angular.module('metadatamanagementApp')
             paramObject: paramObject
           },
           templateUrl: 'scripts/datasetmanagement/views/' +
-            'dataSetSearchDialog.html.tmpl',
+            'dataSetSearchDialog.html.tmpl'
         });
       };
       return {

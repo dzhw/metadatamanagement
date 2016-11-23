@@ -14,7 +14,7 @@ angular.module('metadatamanagementApp').service('VariableSearchDialogService',
               paramObject: paramObject
             },
             templateUrl: 'scripts/variablemanagement/' +
-              'views/variableSearchDialog.html.tmpl',
+              'views/variableSearchDialog.html.tmpl'
           });
         };
         return {

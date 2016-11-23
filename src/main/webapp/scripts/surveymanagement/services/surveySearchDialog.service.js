@@ -15,7 +15,7 @@ angular.module('metadatamanagementApp')
             paramObject: paramObject
           },
           templateUrl: 'scripts/surveymanagement/views/' +
-            'surveySearchDialog.html.tmpl',
+            'surveySearchDialog.html.tmpl'
         });
       };
       return {

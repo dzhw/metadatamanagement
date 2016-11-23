@@ -40,6 +40,7 @@ angular.module('metadatamanagementApp')
                     .then(angular.bind(this, function(questions) {
                           _.pullAllBy(questions.docs, [{'found': false}],
                           'found');
+                          ctrl.count = questions.docs.length;
                           this.items = _.concat(this.items, questions.docs);
                           this.numLoaded_ = this.items.length;
                           this.pageToLoad += 1;

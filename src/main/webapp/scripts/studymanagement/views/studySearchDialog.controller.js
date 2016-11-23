@@ -33,13 +33,13 @@ angular.module('metadatamanagementApp')
                   if (_.isArray(ctrl.paramObject.methodParams)) {
                     var searchTerms = _.chunk(ctrl.paramObject
                       .methodParams, this.size);
-                    ctrl.count = ctrl.paramObject.methodParams.length;
                     blockArea.start();
                     StudySearchService[ctrl.paramObject.methodName]
                     (searchTerms[this.pageToLoad])
                     .then(angular.bind(this, function(studies) {
                           _.pullAllBy(studies.docs, [{'found': false}],
                           'found');
+                          ctrl.count = studies.docs.length;
                           this.items = _.concat(this.items, studies.docs);
                           this.numLoaded_ = this.items.length;
                           this.pageToLoad += 1;
