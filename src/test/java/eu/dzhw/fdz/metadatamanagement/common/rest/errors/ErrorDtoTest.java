@@ -16,7 +16,7 @@ import org.junit.Test;
  * @author Daniel Katzberg
  *
  */
-public class ErrorDtoDeprecatedTest {
+public class ErrorDtoTest {
 
   @Test
   public void testErrorDto() {
