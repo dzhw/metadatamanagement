@@ -2,7 +2,7 @@
 
 angular.module('metadatamanagementApp').controller('LoginController',
   function($rootScope, $scope, $state, $timeout, Auth, PageTitleService,
-    $translate) {
+    $translate, LanguageService) {
     $translate('user-management.login.title')
       .then(PageTitleService.setPageTitle);
     $scope.user = {};
@@ -20,7 +20,9 @@ angular.module('metadatamanagementApp').controller('LoginController',
       }).then(function() {
         $scope.authenticationError = false;
         if ($rootScope.previousStateName === 'register') {
-          $state.go('search');
+          $state.go('search', {
+            lang: LanguageService.getCurrentInstantly()
+          });
         } else {
           $rootScope.back();
         }

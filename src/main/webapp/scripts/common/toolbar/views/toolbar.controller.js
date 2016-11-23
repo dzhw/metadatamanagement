@@ -19,17 +19,23 @@ angular.module('metadatamanagementApp').controller(
     //Goto Logout Page
     $scope.logout = function() {
       Auth.logout();
-      $state.go('search');
+      $state.go('search', {
+        lang: LanguageService.getCurrentInstantly()
+      });
     };
 
     //Goto Login Page
     $scope.login = function() {
-      $state.go('login');
+      $state.go('login', {
+        lang: LanguageService.getCurrentInstantly()
+      });
     };
 
     //Register function
     $scope.register = function() {
-      $state.go('register');
+      $state.go('register', {
+        lang: LanguageService.getCurrentInstantly()
+      });
     };
 
     //Toggle Function

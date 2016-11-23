@@ -3,7 +3,7 @@
 
 /* Study Resource */
 angular.module('metadatamanagementApp')
-  .factory('StudyResource', function($resource, $state) {
+  .factory('StudyResource', function($resource, $state, LanguageService) {
     return $resource('/api/studies/:id', {
       id: '@id'
     }, {
@@ -15,7 +15,9 @@ angular.module('metadatamanagementApp')
         interceptor: {
           responseError: function(response) {
             if (response.status === 404) {
-              $state.go('error');
+              $state.go('error', {
+                lang: LanguageService.getCurrentInstantly()
+              });
             }
           }
         },

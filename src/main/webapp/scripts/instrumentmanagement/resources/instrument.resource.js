@@ -2,7 +2,7 @@
 
 /* Instrument Resource */
 angular.module('metadatamanagementApp')
-  .factory('InstrumentResource', function($resource, $state) {
+  .factory('InstrumentResource', function($resource, $state, LanguageService) {
     return $resource('/api/instruments/:id', {
       id: '@id'
     }, {
@@ -14,7 +14,9 @@ angular.module('metadatamanagementApp')
         interceptor: {
           responseError: function(response) {
             if (response.status === 404) {
-              $state.go('error');
+              $state.go('error', {
+                lang: LanguageService.getCurrentInstantly()
+              });
             }
           }
         },

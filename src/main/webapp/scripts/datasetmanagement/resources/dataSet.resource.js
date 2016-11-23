@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('metadatamanagementApp')
-  .factory('DataSetResource', function($resource, $state) {
+  .factory('DataSetResource', function($resource, $state, LanguageService) {
     return $resource('api/data-sets/:id', {
       id: '@id'
     }, {
@@ -13,7 +13,9 @@ angular.module('metadatamanagementApp')
         interceptor: {
           responseError: function(response) {
             if (response.status === 404) {
-              $state.go('error');
+              $state.go('error', {
+                lang: LanguageService.getCurrentInstantly()
+              });
             }
           }
         }

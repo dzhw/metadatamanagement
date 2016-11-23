@@ -7,7 +7,7 @@ angular
     function Auth($rootScope, $state, $q, Principal,
       AuthServerProvider, AccountResource, RegisterResource, ActivateResource,
       PasswordResource, PasswordResetInitResource,
-      PasswordResetFinishResource) {
+      PasswordResetFinishResource, LanguageService) {
       return {
         login: function(credentials, callback) {
           var cb = callback || angular.noop;
@@ -56,7 +56,9 @@ angular
                   $rootScope.toState.parent === 'account' &&
                   ($rootScope.toState.name === 'login' ||
                     $rootScope.toState.name === 'register')) {
-                  $state.go('search');
+                  $state.go('search', {
+                    lang: LanguageService.getCurrentInstantly()
+                  });
                 }
 
                 if ($rootScope.toState.data.authorities &&
@@ -66,7 +68,9 @@ angular
                   if (isAuthenticated) {
                     // user is signed in but not authorized for
                     // desired state
-                    $state.go('accessdenied');
+                    $state.go('accessdenied', {
+                      lang: LanguageService.getCurrentInstantly()
+                    });
                   } else {
                     // user is not authenticated. stow the state
                     // they wanted before you
@@ -79,7 +83,7 @@ angular
                     // now, send them to the signin state so they
                     // can log in
                     $state.go('login', {
-                      'lang': $rootScope.toStateParams.lang
+                      lang: LanguageService.getCurrentInstantly()
                     });
                   }
                 }

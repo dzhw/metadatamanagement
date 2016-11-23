@@ -2,7 +2,8 @@
 /* @author Daniel Katzberg */
 
 angular.module('metadatamanagementApp')
-  .factory('RelatedPublicationResource', function($resource, $state) {
+  .factory('RelatedPublicationResource', function($resource, $state,
+    LanguageService) {
     return $resource('api/related-publications/:id', {
       id: '@id'
     }, {
@@ -14,7 +15,9 @@ angular.module('metadatamanagementApp')
         interceptor: {
           responseError: function(response) {
             if (response.status === 404) {
-              $state.go('error');
+              $state.go('error', {
+                lang: LanguageService.getCurrentInstantly()
+              });
             }
           }
         }

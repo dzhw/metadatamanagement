@@ -81,7 +81,9 @@ describe('Controllers Tests ', function() {
       $rootScope.previousStateName = 'register';
       $scope.login(event);
       $scope.$apply(createController);
-      expect(MockState.go).toHaveBeenCalledWith('search');
+      expect(MockState.go).toHaveBeenCalledWith('search', {
+        lang: 'de'
+      });
     });
   });
 });

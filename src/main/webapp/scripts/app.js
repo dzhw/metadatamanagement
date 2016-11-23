@@ -62,7 +62,9 @@ angular
         // If previous state is 'activate' or do not exist go to 'search'
         if ($rootScope.previousStateName === 'activate' ||
           $state.get($rootScope.previousStateName) === null) {
-          $state.go('search');
+          $state.go('search', {
+            lang: LanguageService.getCurrentInstantly()
+          });
         } else {
           $state.go($rootScope.previousStateName,
             $rootScope.previousStateParams);

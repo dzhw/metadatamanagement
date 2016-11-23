@@ -150,7 +150,9 @@ describe('Factory Tests ', function() {
       };
       $rootScope.toState = toState;
       Auth.authorize('');
-      expect($state.go).toHaveBeenCalledWith('search');
+      expect($state.go).toHaveBeenCalledWith('search', {
+        lang: 'de'
+      });
     });
     it('should redirect to search', function() {
       spyOn(Principal, 'isAuthenticated').and.callFake(function() {
@@ -162,7 +164,9 @@ describe('Factory Tests ', function() {
       };
       $rootScope.toState = toState;
       Auth.authorize('');
-      expect($state.go).toHaveBeenCalledWith('search');
+      expect($state.go).toHaveBeenCalledWith('search', {
+        lang: 'de'
+      });
     });
     it('should redirect to accessdenied', function() {
       spyOn(Principal, 'isAuthenticated').and.callFake(function() {
@@ -175,7 +179,9 @@ describe('Factory Tests ', function() {
       };
       $rootScope.toState = toState;
       Auth.authorize('');
-      expect($state.go).toHaveBeenCalledWith('accessdenied');
+      expect($state.go).toHaveBeenCalledWith('accessdenied', {
+        lang: 'de'
+      });
     });
     it('should redirect to login', function() {
       spyOn(Principal, 'isAuthenticated').and.callFake(function() {
@@ -194,7 +200,7 @@ describe('Factory Tests ', function() {
       };
       Auth.authorize();
       expect($state.go).toHaveBeenCalledWith('login', {
-        'lang': 'de'
+        lang: 'de'
       });
     });
     it('should call Register.save', function() {

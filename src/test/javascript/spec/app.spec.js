@@ -153,7 +153,9 @@ describe('Specification for app ', function() {
       $scope.previousStateName = 'activate';
       $scope.back();
       expect($scope.back).toHaveBeenCalled();
-      expect($state.go).toHaveBeenCalledWith('search');
+      expect($state.go).toHaveBeenCalledWith('search', {
+        lang: 'de'
+      });
     });
   });
   describe('metadatamanagementApp configuration ', function() {
