@@ -55,7 +55,7 @@ angular.module('metadatamanagementApp')
         var paramObject = {};
         paramObject.methodName = 'findByProjectId';
         paramObject.methodParams = ctrl.dataSet.dataAcquisitionProjectId;
-        paramObject.dataSetId = ctrl.dataSetId.id;
+        paramObject.dataSetId = ctrl.dataSet.id;
         DataSetSearchDialogService.findDataSets(paramObject);
       };
       ctrl.showRelatedPublications = function() {
