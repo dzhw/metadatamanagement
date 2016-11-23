@@ -2,7 +2,8 @@
 
 angular.module('metadatamanagementApp').service('ErrorMessageResolverService',
   function() {
-    var getErrorMessage = function(messageObj, domainObjectType, subObjectType,
+    var getErrorMessage = function(messageObj, domainObjectType,
+      subObjectType,
       subObjectId) {
       var errorMessage = {};
       var subMessages = [];
@@ -26,15 +27,28 @@ angular.module('metadatamanagementApp').service('ErrorMessageResolverService',
         messageObj.data.errors.forEach(function(messageObj) {
           subMessages.push({
             message: messageObj.message,
-            translationParams: {'property': messageObj.property,
-                                'invalidValue': messageObj.invalidValue,
-                                'entity': messageObj.entity}
+            translationParams: {
+              'property': messageObj.property,
+              'invalidValue': messageObj.invalidValue,
+              'entity': messageObj.entity
+            }
           });
         });
       } else if (messageObj.fieldErrors) {
         messageObj.fieldErrors.forEach(function(fieldError) {
           subMessages.push({
             message: fieldError.message
+          });
+        });
+      } else if (messageObj.errors) {
+        messageObj.errors.forEach(function(messageObj) {
+          subMessages.push({
+            message: messageObj.message,
+            translationParams: {
+              'property': messageObj.property,
+              'invalidValue': messageObj.invalidValue,
+              'entity': messageObj.entity
+            }
           });
         });
       } else if (messageObj.data && messageObj.data.status === 500) {

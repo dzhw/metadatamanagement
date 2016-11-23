@@ -3,6 +3,7 @@ package eu.dzhw.fdz.metadatamanagement.common.rest.errors;
 import java.io.IOException;
 import java.util.List;
 
+import org.apache.tomcat.util.http.fileupload.FileUploadBase.FileSizeLimitExceededException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.context.support.MessageSourceAccessor;
@@ -20,6 +21,7 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.multipart.MultipartException;
 
 import com.fasterxml.jackson.core.json.UTF8StreamJsonParser;
 import com.fasterxml.jackson.databind.exc.InvalidFormatException;
@@ -157,5 +159,28 @@ public class ExceptionTranslator {
           RepositoryConstraintViolationException exception) {
     return new CustomRepositoryConstraintViolationExceptionMessage(
         exception, messageSourceAccessor);
+  }
+  
+  @ExceptionHandler
+  @ResponseBody
+  @ResponseStatus(HttpStatus.BAD_REQUEST)
+  JsonParsingError handleMultipartException(MultipartException exception) {
+    FileSizeLimitExceededException fileSizeException = 
+        findFileSizeLimitExceededException(exception);
+    if (fileSizeException != null) {
+      return new JsonParsingError("global.error.import.file-size-limit-exceeded", 
+          fileSizeException.getFileName(), 
+          String.valueOf(fileSizeException.getActualSize()), null);
+    }
+    // return the message as it is 
+    return new JsonParsingError(exception.getLocalizedMessage(), null, null, null);
+  }
+  
+  private FileSizeLimitExceededException findFileSizeLimitExceededException(Throwable exception) {
+    if (exception == null || exception instanceof FileSizeLimitExceededException) {
+      return (FileSizeLimitExceededException) exception;
+    } else {
+      return findFileSizeLimitExceededException(exception.getCause());
+    }
   }
 }

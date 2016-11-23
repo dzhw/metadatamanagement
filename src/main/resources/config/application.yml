@@ -29,6 +29,9 @@ spring:
     http:
       encoding:
         force: false
+      multipart:
+        max-file-size: 10MB
+        max-request-size: 15MB
 
 server:
     port: 8080

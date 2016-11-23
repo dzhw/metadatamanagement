@@ -168,7 +168,8 @@
       },
       "import": {
         "json-parsing-error": "The import of the object '{{entity}}' failed, because the field '{{property}}' has an invalid value: {{invalidValue}}",
-        "no-json-mapping": "A server side error happened during the import of an object."
+        "no-json-mapping": "A server side error happened during the import of an object.",
+        "file-size-limit-exceeded": "The file '{{ entity }}' exceeds the limit of 10MB!"
       }
     },
     "logos": {
