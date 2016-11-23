@@ -28,6 +28,8 @@ import com.fasterxml.jackson.databind.exc.InvalidFormatException;
 
 /**
  * Controller advice to translate the server side exceptions to client-friendly json structures.
+ * 
+ * @author Daniel Katzberg
  */
 @ControllerAdvice
 public class ExceptionTranslator {
@@ -63,8 +65,7 @@ public class ExceptionTranslator {
   @ExceptionHandler(CustomParameterizedException.class)
   @ResponseStatus(HttpStatus.BAD_REQUEST)
   @ResponseBody
-  public ParameterizedErrorDto processParameterizedValidationError(
-      CustomParameterizedException ex) {
+  public Error processParameterizedValidationError(CustomParameterizedException ex) {
     return ex.getErrorDto();
   }
 

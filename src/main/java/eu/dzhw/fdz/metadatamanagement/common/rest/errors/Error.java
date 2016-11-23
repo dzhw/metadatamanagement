@@ -1,12 +1,17 @@
 package eu.dzhw.fdz.metadatamanagement.common.rest.errors;
 
+import java.io.Serializable;
+
 /**
  * The error dto.
  * 
  * @author René Reitmann
+ * @author Daniel Katzberg
  */
-public class Error {
+public class Error implements Serializable {
 
+  private static final long serialVersionUID = 1L;
+    
   private final String entity;
   private final String message;
   private final String invalidValue;

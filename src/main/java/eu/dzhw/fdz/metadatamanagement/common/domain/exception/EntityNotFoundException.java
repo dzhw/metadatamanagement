@@ -1,7 +1,6 @@
 package eu.dzhw.fdz.metadatamanagement.common.domain.exception;
 
 import eu.dzhw.fdz.metadatamanagement.common.rest.errors.CustomParameterizedException;
-import eu.dzhw.fdz.metadatamanagement.common.rest.errors.ErrorConstants;
 
 /**
  * This exception is thrown when for instance an entity needs to be updated but is not found.
@@ -18,6 +17,6 @@ public class EntityNotFoundException extends CustomParameterizedException {
    * @param entityId The id of the entity which was not found.
    */
   public EntityNotFoundException(Class<?> entityClass, String entityId) {
-    super(ErrorConstants.ERR_ENTITY_NOT_FOUND,entityClass.getSimpleName(),entityId);
+    super("entity.notFound.DEMO.String", entityId, null, entityClass.getSimpleName());
   }
 }

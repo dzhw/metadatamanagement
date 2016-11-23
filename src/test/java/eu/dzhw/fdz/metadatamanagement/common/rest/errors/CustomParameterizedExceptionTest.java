@@ -10,9 +10,6 @@ import static org.junit.Assert.assertThat;
 
 import org.junit.Test;
 
-import eu.dzhw.fdz.metadatamanagement.common.rest.errors.CustomParameterizedException;
-import eu.dzhw.fdz.metadatamanagement.common.rest.errors.ParameterizedErrorDto;
-
 /**
  * No Integration Test. No need for application Context.
  * 
@@ -25,17 +22,15 @@ public class CustomParameterizedExceptionTest {
   public void testCustomParameterizedException() {
     // Arrange
     CustomParameterizedException exception =
-        new CustomParameterizedException("message", "param", "param2");
+        new CustomParameterizedException("message", "entityId", null, null);
 
     // Act
-    ParameterizedErrorDto dto = exception.getErrorDto();
+    Error dto = exception.getErrorDto();
 
     // Assert
     assertThat(exception, not(nullValue()));
     assertThat(dto, not(nullValue()));
     assertThat(dto.getMessage(), is("message"));
-    assertThat(dto.getParams().length, is(2));
-    assertThat(dto.getParams()[0], is("param"));
-    assertThat(dto.getParams()[1], is("param2"));
+    assertThat(dto.getEntity(), is("entityId"));
   }
 }

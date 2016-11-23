@@ -76,8 +76,8 @@ public class ExceptionTranslatorTest {
     ExceptionTranslator exceptionTranslator = new ExceptionTranslator(messageSource);
 
     // Act
-    ParameterizedErrorDto dto = exceptionTranslator
-      .processParameterizedValidationError(new CustomParameterizedException("message"));
+    Error dto = exceptionTranslator
+      .processParameterizedValidationError(new CustomParameterizedException("message", null, null, null));
 
     // Assert
     assertThat(exceptionTranslator, not(nullValue()));
