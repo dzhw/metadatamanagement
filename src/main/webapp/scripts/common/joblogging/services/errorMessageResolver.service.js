@@ -34,23 +34,6 @@ angular.module('metadatamanagementApp').service('ErrorMessageResolverService',
             }
           });
         });
-      } else if (messageObj.fieldErrors) {
-        messageObj.fieldErrors.forEach(function(fieldError) {
-          subMessages.push({
-            message: fieldError.message
-          });
-        });
-      } else if (messageObj.errors) {
-        messageObj.errors.forEach(function(messageObj) {
-          subMessages.push({
-            message: messageObj.message,
-            translationParams: {
-              'property': messageObj.property,
-              'invalidValue': messageObj.invalidValue,
-              'entity': messageObj.entity
-            }
-          });
-        });
       } else if (messageObj.data && messageObj.data.status === 500) {
         subMessages.push({
           message: 'global.log-messages.internal-server-error'
