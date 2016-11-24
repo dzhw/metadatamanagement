@@ -68,49 +68,46 @@
                     <h2 class="md-title">{{'data-set-management.detail.sub-data-sets.title' | translate }}</h2>
                 </md-card-header-text>
             </md-card-header>
-            <md-divider></md-divider>
-            <md-content style="background-color: white;">
-                <table class="fdz-table">
-                    <thead>
-                        <tr>
-                            <th>{{'data-set-management.detail.sub-data-sets.name' | translate }}
-                                <md-tooltip hide-gt-xs md-direction="right">
-                                    {{'data-set-management.detail.sub-data-sets.name' | translate }}
-                                </md-tooltip>
-                            </th>
-                            <th>{{'data-set-management.detail.sub-data-sets.description' | translate }}
-                                <md-tooltip hide-gt-xs md-direction="right">
-                                    {{'data-set-management.detail.sub-data-sets.description' | translate }}
-                                </md-tooltip>
-                            </th>
-                            <th>{{'data-set-management.detail.sub-data-sets.accessWay' | translate }}
-                                <md-tooltip hide-gt-xs md-direction="right">
-                                    {{'data-set-management.detail.sub-data-sets.accessWay' | translate }}
-                                </md-tooltip>
-                            </th>
-                            <th>{{'data-set-management.detail.sub-data-sets.numberOfAnalyzedVariables' | translate }}
-                                <md-tooltip hide-gt-xs md-direction="right">
-                                    {{'data-set-management.detail.sub-data-sets.numberOfAnalyzedVariables' | translate }}
-                                </md-tooltip>
-                            </th>
-                            <th>{{'data-set-management.detail.sub-data-sets.numberOfObservations' | translate }}
-                                <md-tooltip hide-gt-xs md-direction="right">
-                                    {{'data-set-management.detail.sub-data-sets.numberOfObservations' | translate }}
-                                </md-tooltip>
-                            </th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr ng-repeat="row in ctrl.dataSet.subDataSets">
-                            <td>{{row.name}}&nbsp;</td>
-                            <td>{{row.description[currentLanguage]}}&nbsp;</td>
-                            <td>{{row.accessWay}}</td>
-                            <td>{{row.numberOfAnalyzedVariables}}&nbsp;</td>
-                            <td>{{row.numberOfObservations}}&nbsp;</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </md-content>
+            <table class="fdz-table">
+              <thead>
+                <tr>
+                  <th>{{'data-set-management.detail.sub-data-sets.name' | translate }}
+                    <md-tooltip hide-gt-xs md-direction="right">
+                      {{'data-set-management.detail.sub-data-sets.name' | translate }}
+                    </md-tooltip>
+                  </th>
+                  <th>{{'data-set-management.detail.sub-data-sets.description' | translate }}
+                    <md-tooltip hide-gt-xs md-direction="right">
+                      {{'data-set-management.detail.sub-data-sets.description' | translate }}
+                    </md-tooltip>
+                  </th>
+                  <th>{{'data-set-management.detail.sub-data-sets.accessWay' | translate }}
+                    <md-tooltip hide-gt-xs md-direction="right">
+                      {{'data-set-management.detail.sub-data-sets.accessWay' | translate }}
+                    </md-tooltip>
+                  </th>
+                  <th>{{'data-set-management.detail.sub-data-sets.numberOfAnalyzedVariables' | translate }}
+                    <md-tooltip hide-gt-xs md-direction="right">
+                      {{'data-set-management.detail.sub-data-sets.numberOfAnalyzedVariables' | translate }}
+                    </md-tooltip>
+                  </th>
+                  <th>{{'data-set-management.detail.sub-data-sets.numberOfObservations' | translate }}
+                    <md-tooltip hide-gt-xs md-direction="right">
+                      {{'data-set-management.detail.sub-data-sets.numberOfObservations' | translate }}
+                    </md-tooltip>
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr ng-repeat="row in ctrl.dataSet.subDataSets">
+                  <td>{{row.name}}&nbsp;</td>
+                  <td>{{row.description[currentLanguage]}}&nbsp;</td>
+                  <td>{{row.accessWay}}</td>
+                  <td>{{row.numberOfAnalyzedVariables}}&nbsp;</td>
+                  <td>{{row.numberOfObservations}}&nbsp;</td>
+                </tr>
+              </tbody>
+            </table>
         </md-card>
     </div>
     <div ng-if="ctrl.isAuthenticated()" class="fdz-fab-button-container" layout="column">
