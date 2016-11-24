@@ -4,6 +4,7 @@ import java.util.List;
 
 import eu.dzhw.fdz.metadatamanagement.questionmanagement.domain.Question;
 import eu.dzhw.fdz.metadatamanagement.searchmanagement.service.ElasticsearchIndices;
+import eu.dzhw.fdz.metadatamanagement.surveymanagement.domain.Survey;
 import io.searchbox.annotations.JestId;
 
 /**
@@ -24,11 +25,13 @@ public class QuestionSearchDocument {
   private String topic;
   private String instrumentId;
   private List<String> successors;
+  private String surveyTitle;
 
   /**
    * Create the search document from the domain object depending on the language (index).
    */
-  public QuestionSearchDocument(Question question, ElasticsearchIndices index) {
+  public QuestionSearchDocument(Question question, Survey survey,
+      ElasticsearchIndices index) {
     this.id = question.getId();
     this.number = question.getNumber();
     this.surveyId = question.getSurveyId();
@@ -37,6 +40,7 @@ public class QuestionSearchDocument {
     this.imageType = question.getImageType().name();
     this.successors = question.getSuccessors();    
     createI18nAttributes(question, index);
+    createSurveyTitles(survey, index);
   }
   
   private void createI18nAttributes(Question question, ElasticsearchIndices index) {
@@ -69,6 +73,21 @@ public class QuestionSearchDocument {
         break;
       default:
         throw new RuntimeException("Unknown index:" + index);
+    }
+  }
+  
+  private void createSurveyTitles(Survey survey, ElasticsearchIndices index) {
+    if (survey != null) {
+      switch (index) {
+        case METADATA_DE:
+          surveyTitle = survey.getTitle().getDe();
+          break;
+        case METADATA_EN:
+          surveyTitle = survey.getTitle().getEn();
+          break;
+        default:
+          throw new RuntimeException("Unknown index:" + index);
+      }
     }
   }
   
@@ -174,5 +193,13 @@ public class QuestionSearchDocument {
 
   public void setTopic(String topic) {
     this.topic = topic;
+  }
+  
+  public String getSurveyTitle() {
+    return surveyTitle;
+  }
+
+  public void setSurveyTitles(String surveyTitle) {
+    this.surveyTitle = surveyTitle;
   }
 }

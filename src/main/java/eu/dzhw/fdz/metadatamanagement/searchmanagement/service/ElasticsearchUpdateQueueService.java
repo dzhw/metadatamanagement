@@ -351,9 +351,13 @@ public class ElasticsearchUpdateQueueService {
       Builder bulkBuilder) {
     Question question = questionRepository.findOne(lockedItem.getDocumentId());
     if (question != null) {
+      Survey survey = null;
+      if (question.getSurveyId() != null) {
+        survey = surveyRepository.findById(question.getSurveyId());
+      }
       for (ElasticsearchIndices index : ElasticsearchIndices.values()) {
         QuestionSearchDocument searchDocument =
-            new QuestionSearchDocument(question, index);
+            new QuestionSearchDocument(question, survey, index);
 
         bulkBuilder.addAction(new Index.Builder(searchDocument)
             .index(index.getIndexName())
