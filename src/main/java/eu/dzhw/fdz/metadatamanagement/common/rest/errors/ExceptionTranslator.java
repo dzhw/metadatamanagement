@@ -64,13 +64,6 @@ public class ExceptionTranslator {
     return processFieldErrors(globalErrors, fieldErrors);
   }
 
-  @ExceptionHandler(CustomParameterizedException.class)
-  @ResponseStatus(HttpStatus.BAD_REQUEST)
-  @ResponseBody
-  public ErrorDto processParameterizedValidationError(CustomParameterizedException ex) {
-    return ex.getErrorDto();
-  }
-
   @ExceptionHandler(AccessDeniedException.class)
   @ResponseStatus(HttpStatus.FORBIDDEN)
   @ResponseBody
