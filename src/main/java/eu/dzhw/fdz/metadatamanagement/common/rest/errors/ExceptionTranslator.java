@@ -164,10 +164,26 @@ public class ExceptionTranslator {
   @ExceptionHandler
   @ResponseBody
   @ResponseStatus(HttpStatus.BAD_REQUEST)
-  CustomRepositoryConstraintViolationExceptionMessage handleRepositoryConstraintViolationException(
-          RepositoryConstraintViolationException exception) {
-    return new CustomRepositoryConstraintViolationExceptionMessage(
-        exception, messageSourceAccessor);
+  ErrorListDto handleRepositoryConstraintViolationException(
+      RepositoryConstraintViolationException exception) {
+    
+    ErrorListDto errorListDto = new ErrorListDto();
+    
+    for (ObjectError globalError : exception.getErrors().getGlobalErrors()) {
+      String message = this.messageSourceAccessor.getMessage(globalError);
+      errorListDto.add(new ErrorDto(globalError.getObjectName(), message, null, null));
+    }
+    
+    for (FieldError fieldError : exception.getErrors()
+        .getFieldErrors()) {
+
+      String message = this.messageSourceAccessor.getMessage(fieldError);
+
+      errorListDto.add(new ErrorDto(fieldError.getObjectName(), message,
+          String.format("%s", fieldError.getRejectedValue()), fieldError.getField()));
+    }
+    
+    return errorListDto;
   }
   
   @ExceptionHandler
