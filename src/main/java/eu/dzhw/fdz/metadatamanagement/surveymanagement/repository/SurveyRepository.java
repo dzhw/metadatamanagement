@@ -25,4 +25,7 @@ public interface SurveyRepository
   
   @RestResource(exported = false)
   Slice<Survey> findBy(Pageable pageable);
+  
+  @RestResource(exported = false)
+  Survey findById(String id);
 }

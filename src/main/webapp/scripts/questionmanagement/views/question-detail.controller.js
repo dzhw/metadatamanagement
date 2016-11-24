@@ -11,7 +11,7 @@ angular.module('metadatamanagementApp')
       SimpleMessageToastService, QuestionSearchService, CleanJSObjectService,
       RelatedPublicationSearchDialogService, VariableSearchService,
       RelatedPublicationSearchService, InstrumentSearchService,
-      PageTitleService) {
+      PageTitleService, SurveySearchService, $translate) {
 
       var ctrl = this;
       this.representationCodeToggleFlag = true;
@@ -51,10 +51,6 @@ angular.module('metadatamanagementApp')
         .then(function(study) {
           if (study.hits.hits.length > 0) {
             ctrl.study = study.hits.hits[0]._source;
-            PageTitleService.setPageTitle(
-              ctrl.study.title +
-              ' ' +
-              ctrl.question.number);
           }
         });
         VariableSearchService.countBy('questionId',
@@ -71,6 +67,20 @@ angular.module('metadatamanagementApp')
               ctrl.instrument = instrument.hits.hits[0]._source;
             }
           });
+        var surveyId = [ctrl.question.surveyId];
+        SurveySearchService.findSurveys(surveyId)
+        .then(function(survey) {
+          _.pullAllBy(survey.docs, [{'found': false}], 'found');
+          if (survey.docs.length > 0) {
+            ctrl.survey = survey.docs[0]._source;
+            $translate('question-management.detail.question')
+            .then(function(questionAsString) {
+                PageTitleService.setPageTitle(
+                questionAsString + ' ' +
+                ctrl.question.number + ' ' + ctrl.survey.title);
+              });
+          }
+        });
       });
       ctrl.showRelatedVariables = function() {
         var paramObject = {};
