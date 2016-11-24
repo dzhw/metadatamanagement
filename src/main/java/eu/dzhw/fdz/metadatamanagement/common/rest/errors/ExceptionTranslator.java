@@ -7,15 +7,12 @@ import org.apache.tomcat.util.http.fileupload.FileUploadBase.FileSizeLimitExceed
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.context.support.MessageSourceAccessor;
-import org.springframework.dao.ConcurrencyFailureException;
 import org.springframework.data.rest.core.RepositoryConstraintViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.converter.HttpMessageNotReadableException;
-import org.springframework.security.access.AccessDeniedException;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.validation.ObjectError;
-import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -40,14 +37,6 @@ public class ExceptionTranslator {
   public ExceptionTranslator(MessageSource messageSource) {
     this.messageSourceAccessor = new MessageSourceAccessor(messageSource);
   }
-  
-  @ExceptionHandler(ConcurrencyFailureException.class)
-  @ResponseStatus(HttpStatus.CONFLICT)
-  @ResponseBody
-  public ErrorDto processConcurencyError(ConcurrencyFailureException ex) {
-    //TODO DKatzberg replaxe the test key with a real key
-    return new ErrorDto(null, "error.concurrencyError.DEMO.test", null, null);
-  }
 
   /**
    * Handle validation errors.
@@ -55,33 +44,24 @@ public class ExceptionTranslator {
   @ExceptionHandler(MethodArgumentNotValidException.class)
   @ResponseStatus(HttpStatus.BAD_REQUEST)
   @ResponseBody
-  //TODO DKatzberg replace with the new dtos
   public ErrorListDto processValidationError(MethodArgumentNotValidException ex) {
     BindingResult result = ex.getBindingResult();
     List<ObjectError> globalErrors = result.getGlobalErrors();
     List<FieldError> fieldErrors = result.getFieldErrors();
-
     return processFieldErrors(globalErrors, fieldErrors);
   }
-
-  @ExceptionHandler(AccessDeniedException.class)
-  @ResponseStatus(HttpStatus.FORBIDDEN)
-  @ResponseBody
-  public ErrorDto processAccessDeniedExcpetion(AccessDeniedException exception) {
-    //TODO DKatzberg other field? orther message? Change later
-    return new ErrorDto(null, "error.AccessDenied.DEMO.test", null, null);
-  }
-
+  
   private ErrorListDto processFieldErrors(List<ObjectError> globalErrors, 
       List<FieldError> fieldErrors) {
-    //TODO DKatzberg replace the test key with a real key
     ErrorListDto errorListDto =  new ErrorListDto();
+
+    //handle global errors
     for (ObjectError globalError: globalErrors) {
-      //TODO DKatzberg possibly add more elements?
       errorListDto.add(new ErrorDto(globalError.getObjectName(), 
           globalError.getDefaultMessage(), null, null));
     }
     
+    //handle field errors
     for (FieldError fieldError : fieldErrors) {
       String rejectedValue = null;
       
@@ -94,15 +74,6 @@ public class ExceptionTranslator {
     }
 
     return errorListDto;
-  }
-
-  @ExceptionHandler(HttpRequestMethodNotSupportedException.class)
-  @ResponseBody
-  @ResponseStatus(HttpStatus.METHOD_NOT_ALLOWED)
-  public ErrorDto processMethodNotSupportedException(
-      HttpRequestMethodNotSupportedException exception) {
-    //TODO DKatzberg: Check the Message, ggf other fields.
-    return new ErrorDto(null, "error.MethodNotSupported.DEMO.test", null, null);
   }
 
   /**
