@@ -10,6 +10,7 @@ import static org.hamcrest.Matchers.not;
 import static org.junit.Assert.assertThat;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -18,15 +19,18 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
 import eu.dzhw.fdz.metadatamanagement.AbstractTest;
+import eu.dzhw.fdz.metadatamanagement.common.domain.I18nString;
 import eu.dzhw.fdz.metadatamanagement.common.domain.ImageType;
 import eu.dzhw.fdz.metadatamanagement.common.domain.builders.I18nStringBuilder;
 import eu.dzhw.fdz.metadatamanagement.common.rest.TestUtil;
 import eu.dzhw.fdz.metadatamanagement.common.unittesthelper.util.UnitTestCreateDomainObjectUtils;
+import eu.dzhw.fdz.metadatamanagement.common.unittesthelper.util.UnitTestUserManagementUtils;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.DataAcquisitionProject;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.repository.DataAcquisitionProjectRepository;
 import eu.dzhw.fdz.metadatamanagement.questionmanagement.domain.Question;
@@ -34,6 +38,8 @@ import eu.dzhw.fdz.metadatamanagement.questionmanagement.domain.QuestionTypes;
 import eu.dzhw.fdz.metadatamanagement.questionmanagement.repository.QuestionRepository;
 import eu.dzhw.fdz.metadatamanagement.searchmanagement.service.ElasticsearchAdminService;
 import eu.dzhw.fdz.metadatamanagement.searchmanagement.service.ElasticsearchUpdateQueueService;
+import eu.dzhw.fdz.metadatamanagement.surveymanagement.domain.Survey;
+import eu.dzhw.fdz.metadatamanagement.surveymanagement.repository.SurveyRepository;
 
 
 public class QuestionResourceTest extends AbstractTest {
@@ -47,6 +53,9 @@ public class QuestionResourceTest extends AbstractTest {
 
   @Autowired
   private QuestionRepository questionRepository;
+  
+  @Autowired
+  private SurveyRepository surveyRepository;
 
   @Autowired
   private ElasticsearchUpdateQueueService elasticsearchUpdateQueueService;
@@ -67,6 +76,7 @@ public class QuestionResourceTest extends AbstractTest {
   public void cleanUp() {
     this.dataAcquisitionProjectRepository.deleteAll();
     this.questionRepository.deleteAll();
+    this.surveyRepository.deleteAll();
     this.elasticsearchUpdateQueueService.clearQueue();
   }
 
@@ -312,4 +322,33 @@ public class QuestionResourceTest extends AbstractTest {
     elasticsearchAdminService.refreshAllIndices();
     assertThat(elasticsearchAdminService.countAllDocuments(), equalTo(0.0));
   }
+  
+  @Test
+  public void testQuestionWithSurveyTitle() throws Exception {
+    UnitTestUserManagementUtils.login("admin", "admin");
+    DataAcquisitionProject project = UnitTestCreateDomainObjectUtils.buildDataAcquisitionProject();
+    this.dataAcquisitionProjectRepository.save(project);
+
+    Survey survey = UnitTestCreateDomainObjectUtils.buildSurvey(project.getId());
+    survey.setTitle(new I18nString("Title De", "Title En"));
+    surveyRepository.save(survey);
+ 
+    Question question = UnitTestCreateDomainObjectUtils
+      .buildQuestion(project.getId(), "instrument-Id", survey.getId());
+    questionRepository.save(question);
+    
+    mockMvc.perform(post("/api/search/recreate"))
+    .andExpect(status().isOk());
+    
+    elasticsearchAdminService.refreshAllIndices();
+    
+    mockMvc.perform(get("/api/search/metadata_de/questions/_search").contentType(MediaType.APPLICATION_JSON)
+        .content("{'query': {'bool': {'must': [{'match_all': {}}],'filter': [ {'term': {'id': '" + question.getId() + "'}}]}}}"))
+        .andExpect(jsonPath("$.hits.hits[0]._source.surveyTitle").value("Title De"));
+     
+    mockMvc.perform(get("/api/search/metadata_en/questions/_search").contentType(MediaType.APPLICATION_JSON)
+         .content("{'query': {'bool': {'must': [{'match_all': {}}],'filter': [ {'term': {'id': '" + question.getId() + "'}}]}}}"))
+         .andExpect(jsonPath("$.hits.hits[0]._source.surveyTitle").value("Title En"));
+  }
+  
 }
