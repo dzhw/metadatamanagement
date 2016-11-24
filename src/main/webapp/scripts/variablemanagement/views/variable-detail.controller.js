@@ -57,6 +57,8 @@ angular.module('metadatamanagementApp')
       if ($scope.variable.sameVariablesInPanel != null) {
         $scope.counts.sameVariablesInPanel =
           $scope.variable.sameVariablesInPanel.length;
+      } else {
+        $scope.counts.sameVariablesInPanel = 0;
       }
       if ($scope.variable.filterDetails) {
         html_beautify($scope.variable.filterDetails.expression); //jscs:ignore
