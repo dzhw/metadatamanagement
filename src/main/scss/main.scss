@@ -1,33 +1,28 @@
 $icon-font-path: "../../bower_components/bootstrap-sass/assets/fonts/bootstrap/";
-
-$brand-primary:         #006AB2 !default;
-$brand-success:         #B2B109 !default;
-$brand-info:            #028AA4 !default;
-$brand-warning:         #F69F24 !default;
-$brand-danger:          #C91630 !default;
-
-$state-success-text:             #000000 !default;
-$state-success-bg:               #F0EFCE !default;
-$state-success-border:           $brand-success !default;
-
-$state-info-text:                #000000 !default;
-$state-info-bg:                  #CCE8ED !default;
-$state-info-border:              $brand-info !default;
-
-$state-warning-text:             #000000 !default;
-$state-warning-bg:               #FDECD3 !default;
-$state-warning-border:           $brand-warning !default;
-
-$state-danger-text:              #000000 !default;
-$state-danger-bg:                #F5D0D0 !default;
-$state-danger-border:            $brand-danger !default;
-
+$brand-primary: #006AB2 !default;
+$brand-success: #B2B109 !default;
+$brand-info: #028AA4 !default;
+$brand-warning: #F69F24 !default;
+$brand-danger: #C91630 !default;
+$state-success-text: #000000 !default;
+$state-success-bg: #F0EFCE !default;
+$state-success-border: $brand-success !default;
+$state-info-text: #000000 !default;
+$state-info-bg: #CCE8ED !default;
+$state-info-border: $brand-info !default;
+$state-warning-text: #000000 !default;
+$state-warning-bg: #FDECD3 !default;
+$state-warning-border: $brand-warning !default;
+$state-danger-text: #000000 !default;
+$state-danger-bg: #F5D0D0 !default;
+$state-danger-border: $brand-danger !default;
 // bower:scss
-@import "bootstrap-sass/assets/stylesheets/_bootstrap.scss";
-// endbower
+@import "bootstrap-sass/assets/stylesheets/_bootstrap.scss"; // endbower
 
-h1, h2, h3 {
-  margin: 0px;
+h1,
+h2,
+h3 {
+    margin: 0;
 }
 
 body {
@@ -35,73 +30,81 @@ body {
 }
 
 .content {
-	margin-top: 50px;
+    margin-top: 50px;
 }
 
-[ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng-cloak {
-  display: none !important;
+.ng-cloak,
+.x-ng-cloak,
+[data-ng-cloak],
+[ng-cloak],
+[ng\:cloak],
+[x-ng-cloak] {
+    display: none !important;
 }
 
 [ng-cloak].fdz-splash {
-  display: table !important;
+    display: table !important;
 }
 
 .fdz-splash {
-  display: none;
-  width: 100%;
-  height: 100%;
-  background-color: #006AB2;
-  color: white;
+    display: none;
+    width: 100%;
+    height: 100%;
+    background-color: #006AB2;
+    color: white;
 }
 
 .fdz-splash div {
-  display: table-cell;
-  vertical-align: middle;
-  text-align: center;
-  font-size: 26px;
+    display: table-cell;
+    vertical-align: middle;
+    text-align: center;
+    font-size: 26px;
 }
 
 .fdz-splash i {
-  font-size: 40px;
-  animation:spin 2s linear infinite;
+    font-size: 40px;
+    animation: spin 2s linear infinite;
 }
 
 .fdz-block-ui-overlay {
-  width: 100%;
-  height: 100%;
-  background-color: rgba(255, 255, 255, 0.5);
+    width: 100%;
+    height: 100%;
+    background-color: rgba(255, 255, 255, 0.5);
+}
+@keyframes spin {
+    100% {
+        transform: rotate(360deg);
+    }
 }
 
-@keyframes spin { 100% { transform:rotate(360deg); } }
-
 .ribbon {
-  /* positioning */
-  position: absolute;
-  padding: 5px 0px;
-  width: 200px;
-  /* top left of the page */
-  top: 40px;
-  left: -40px;
-  text-align: center;
-  overflow: hidden;
-  -webkit-transform: rotate(315deg);
-  -moz-transform: rotate(315deg);
-  -ms-transform: rotate(315deg);
-  transform: rotate(315deg);
-  /* effects with some shadow */
-  box-shadow: 0 0 0 3px #C91630, 0 0 20px -3px rgba(0, 0, 0, 0.5);
-  text-shadow: 0 0 0 #ffffff, 0 0 5px rgba(0, 0, 0, 0.3);
-  /* looks */
-  background-color: #C91630;
-  color: #ffffff;
-  font-size: 13px;
-  font-weight: bold;
-  text-transform: capitalize;
-  /* ribbon effects */
-  border: 2px dotted #ffffff;
-  /* webkit antialias fix */
-  -webkit-backface-visibility: hidden;
-  z-index: 2000;
+    /* positioning */
+    position: absolute;
+    padding: 5px 0;
+    width: 200px;
+    /* top left of the page */
+    top: 40px;
+    left: -40px;
+    text-align: center;
+    overflow: hidden;
+    -webkit-transform: rotate(315deg);
+    -moz-transform: rotate(315deg);
+    -ms-transform: rotate(315deg);
+    transform: rotate(315deg);
+    /* effects with some shadow */
+    box-shadow: 0 0 0 3px #C91630, 0 0 20px -3px rgba(0, 0, 0, 0.5);
+    text-shadow: 0 0 0 #ffffff, 0 0 5px rgba(0, 0, 0, 0.3);
+    /* looks */
+    background-color: #C91630;
+    color: #ffffff;
+    font-size: 13px;
+    font-weight: bold;
+    text-transform: capitalize;
+    /* ribbon effects */
+    border: 2px dotted #ffffff;
+    /* webkit antialias fix */
+    -webkit-backface-visibility: hidden;
+    z-index: 2000;
 }
 
 .dzhw_logo {
@@ -113,83 +116,89 @@ body {
 }
 
 .bmbf_logo_de {
-   background-image: url("../images/BMBF_Logo_L_de.png");
+    background-image: url("../images/BMBF_Logo_L_de.png");
 }
 
 .bmbf_logo_en {
-   background-image: url("../images/BMBF_Logo_L_en.png");
+    background-image: url("../images/BMBF_Logo_L_en.png");
 }
 
 .fdz_logo {
-   width: 190px;
-   height: 45px;
-   padding-right: 190px;
-   background-size: 190px 45px;
-   background-image: url("../images/FDZ_Logo.svg");
+    width: 190px;
+    height: 45px;
+    padding-right: 190px;
+    background-size: 190px 45px;
+    background-image: url("../images/FDZ_Logo.svg");
 }
 
-.fdz_logo, .dzhw_logo, .bmbf_logo_de, .bmbf_logo_en {
-   background-color: transparent;
-   background-position: center center;
-   background-repeat: no-repeat;
+.bmbf_logo_de,
+.bmbf_logo_en,
+.dzhw_logo,
+.fdz_logo {
+    background-color: transparent;
+    background-position: center center;
+    background-repeat: no-repeat;
 }
 
 .dzhw_logo {
-   width: 221px;
-   height: 157px;
-   background-size: 215px 90px;
+    width: 221px;
+    height: 157px;
+    background-size: 215px 90px;
 }
 
-.bmbf_logo_de, .bmbf_logo_en {
-   width: 221px;
-   height: 157px;
-   background-size: 221px 157px;
+.bmbf_logo_de,
+.bmbf_logo_en {
+    width: 221px;
+    height: 157px;
+    background-size: 221px 157px;
 }
 
 .fdz-search-result-icon {
-  width: 40px;
-  height: 40px;
-  color: $brand-primary;
-  background-color: transparent;
-  padding: 0px;
+    width: 40px;
+    height: 40px;
+    color: $brand-primary;
+    background-color: transparent;
+    padding: 0;
 }
 
 .fdz-search-result {
-  color : black;
-  text-decoration: none;
-  cursor:pointer;
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
 }
 
-.fdz-search-result:hover, .fdz-search-result:focus {
-  color : black;
-  text-decoration: none;
-  background-color: rgba(158, 158, 158, 0.2);
+.fdz-search-result:focus,
+.fdz-search-result:hover {
+    color: black;
+    text-decoration: none;
+    background-color: rgba(158, 158, 158, 0.2);
 }
 
 .fdz-search-result md-card {
-  background-color: inherit;
+    background-color: inherit;
 }
 
 .fdz-search-result-label {
-  flex-grow: 0;
-  flex-shrink: 0;
-  width: 12em;
+    flex-grow: 0;
+    flex-shrink: 0;
+    width: 12em;
 }
+
 .fdz-inline-icon {
-  width: 20px;
-  height: 20px;
-  vertical-align: bottom;
+    width: 20px;
+    height: 20px;
+    vertical-align: bottom;
 }
 
 .fdz-card-header-border {
-  border-bottom: 1px rgba(0,0,0,0.12) solid;
-  position:relative;
-  padding:1em;
+    border-bottom: 1px rgba(0,0,0,0.12) solid;
+    position: relative;
+    padding: 1em;
 }
 
 .fdz-svg-container > svg {
-  display: block;
-  margin: auto;
+    display: block;
+    margin: auto;
 }
 
 .browserupgrade {
@@ -200,7 +209,7 @@ body {
 }
 
 .hero-unit {
-    margin: 50px auto 0 auto;
+    margin: 50px auto 0;
     width: 300px;
     font-size: 18px;
     font-weight: 200;
@@ -232,31 +241,24 @@ body {
 .pad {
     padding: 10px;
 }
-
 /* wait autoprefixer update to allow simple generation of high pixel density media query */
-@media
-only screen and (-webkit-min-device-pixel-ratio: 2),
-only screen and (   min--moz-device-pixel-ratio: 2),
-only screen and (     -o-min-device-pixel-ratio: 2/1),
-only screen and (        min-device-pixel-ratio: 2),
-only screen and (                min-resolution: 192dpi),
-only screen and (                min-resolution: 2dppx) {
+@media only screen and (-webkit-min-device-pixel-ratio: 2), only screen and ( min--moz-device-pixel-ratio: 2), only screen and ( -o-min-device-pixel-ratio: 2/1), only screen and ( min-device-pixel-ratio: 2), only screen and ( min-resolution: 192dpi), only screen and ( min-resolution: 2dppx) {
     .hipster {
         background: url("../images/hipster2x.png") no-repeat center top;
         background-size: contain;
     }
 }
-
 /* make sure browsers use the pointer cursor for anchors, even with no href */
 a:hover {
-  cursor: pointer;
+    cursor: pointer;
 }
 
 .hand {
     cursor: pointer;
 }
 
-#threadDump .popover, #healthCheck .popover {
+#healthCheck .popover,
+#threadDump .popover {
     top: inherit;
     display: block;
     font-size: 10px;
@@ -274,37 +276,34 @@ a:hover {
 .alert .popover pre {
     font-size: 10px;
 }
-
 /* start Password strength bar style */
 ul#strength {
-    display:inline;
-    list-style:none;
-    margin:0;
-    margin-left:15px;
-    padding:0;
-    vertical-align:2px;
+    display: inline;
+    list-style: none;
+    margin: 0 0 0 15px;
+    padding: 0;
+    vertical-align: 2px;
 }
 
 .point:last {
-    margin:0 !important;
+    margin: 0 !important;
 }
 
 .point {
-    background:#DDD;
-    border-radius:2px;
-    display:inline-block;
-    height:5px;
-    margin-right:1px;
-    width:20px;
+    background: #DDD;
+    border-radius: 2px;
+    display: inline-block;
+    height: 5px;
+    margin-right: 1px;
+    width: 20px;
 }
-
 /* end Password strength bar style */
 /* Custom alerts for notification */
-.alerts .alert{
+.alerts .alert {
     text-overflow: ellipsis;
 }
 
-.alert pre{
+.alert pre {
     background: none;
     border: none;
     font: inherit;
@@ -313,167 +312,174 @@ ul#strength {
     margin: 0;
 }
 /* end of Custom alerts for notification */
-
 /* disable links */
- .inactive {
-   pointer-events: none;
-   cursor: default;
- }
-
-.label-as-badge {
-  border-radius: 1em;
-  padding: 0.2em 0.6em 0.2em 0.6em;
-  line-height: inherit;
+.inactive {
+    pointer-events: none;
+    cursor: default;
 }
 
+.label-as-badge {
+    border-radius: 1em;
+    padding: 0.2em 0.6em;
+    line-height: inherit;
+}
 /*
 style for datapackage
 */
-
-.md-tab , .md-button {
-  text-transform: none;
+.md-button,
+.md-tab {
+    text-transform: none;
 }
 
 md-tooltip {
-  font-size: 12px;
+    font-size: 12px;
 }
 
 .fdz-tab-heading {
-  margin: 0px;
-  font-size: 1em;
-  font-weight: normal;
-  line-height: 24px;
+    margin: 0;
+    font-size: 1em;
+    font-weight: normal;
+    line-height: 24px;
 }
 
 .fdz-group {
-  margin: 1em;
-  display: block;
+    margin: 1em;
+    display: block;
 }
 
 .fdz-group-text {
-  margin: 0px;
+    margin: 0;
 }
 
 .fdz-group-label {
-  flex-grow:0;
-  flex-shrink:0;
-  width: 20em;
-  margin: 0px;
-  font-size: 14px;
-  line-height: 1.428571429;
-  font-weight: bold;
+    flex-grow: 0;
+    flex-shrink: 0;
+    width: 20em;
+    margin: 0;
+    font-size: 14px;
+    line-height: 1.428571429;
+    font-weight: bold;
 }
 
 .fdz-group-label::after {
-  content: ":";
+    content: ":";
 }
 
 .fdz-truncate-string {
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .fdz-navbar-menu {
-  border-left: 5px solid $brand-primary;
+    border-left: 5px solid $brand-primary;
 }
 
 .fdz-navbar-menu-accent {
-  border-left: 5px solid $brand-warning;
+    border-left: 5px solid $brand-warning;
 }
 
 .fdz-navbar-menu-items {
-  padding: 0px;
-  margin: 0px;
+    padding: 0;
+    margin: 0;
 }
 
 .fdz-navbar-menu-toggle {
-  display: block;
-  padding: 0 0 0 1em;
-  margin: 0px;
-  width: 100%;
-  height: 100%;
-  text-align: left;
+    display: block;
+    padding: 0 0 0 1em;
+    margin: 0;
+    width: 100%;
+    height: 100%;
+    text-align: left;
 }
 
 .fdz-navbar-menu-toggle > span {
-  display: inline-block;
-  width: 90%;
+    display: inline-block;
+    width: 90%;
 }
 
 .fdz-navbar-button {
-  display: block;
-  margin: 0px;
-  padding: 0 0 0 1em;
-  width: 100%;
-  height: 100%;
-  text-align: left;
+    display: block;
+    margin: 0;
+    padding: 0 0 0 1em;
+    width: 100%;
+    height: 100%;
+    text-align: left;
 }
 
 .fdz-navbar-menu-items .fdz-navbar-button {
-  padding: 0 0 0 2em;
+    padding: 0 0 0 2em;
 }
 
 .fdz-navbar-button-active {
-  background-color: #E5F0F7;
+    background-color: #E5F0F7;
 }
 
 .fdz-fab-button-container {
-  position:fixed;
-  bottom: 1em;
-  right: 1em;
+    position: fixed;
+    bottom: 1em;
+    right: 1em;
 }
 
 .fdz-search-input {
-  display: block;
-  margin-bottom: 0px;
-  margin-left: 1.5em;
-  margin-right: 2em;
+    display: block;
+    margin-bottom: 0;
+    margin-left: 1.5em;
+    margin-right: 2em;
 }
 
 .fdz-search-input-container {
-  border-left: 3px solid $brand-warning;
+    border-left: 3px solid $brand-warning;
 }
 
 .fdz-search-input .md-errors-spacer {
-  display: none;
+    display: none;
 }
 
 .fdz-log-error-text {
-  color: $brand-danger;
+    color: $brand-danger;
 }
+
 .fdz-text-through {
-  text-decoration: line-through;
+    text-decoration: line-through;
 }
+
 .fdz-toast {
-  background-color:black;
-  color: white;
-  padding:0 18px;
-  border-radius: 2px;
-  margin: 4px;
+    background-color: black;
+    color: white;
+    padding: 0 18px;
+    border-radius: 2px;
+    margin: 4px;
 }
+
 .md-table-pagination div div.label {
-  color: #757575;
+    color: #757575;
 }
+
 .fdz-code-container {
-  white-space: pre-wrap;
-  overflow:hidden;
+    white-space: pre-wrap;
+    overflow: hidden;
 }
+
 .fdz-hidden-code {
-  height:65px;
+    height: 52px;
 }
+
 .fdz-file-drop-accept {
-  background-color:$brand-success !important;
+    background-color: $brand-success !important;
 }
+
 .fdz-detail-icon {
-  min-width: 30px;
-  min-height: 30px;
-  margin: 0px 5px auto 0px;
-  color: $brand-primary;
+    min-width: 30px;
+    min-height: 30px;
+    margin: 0 5px auto 0;
+    color: $brand-primary;
 }
-.fdz-bootstrap-headline, md-dialog h2 {
-  margin-top: 0.5em;
-  margin-bottom: 0.5em;
+
+.fdz-bootstrap-headline,
+md-dialog h2 {
+    margin-top: 0.5em;
+    margin-bottom: 0.5em;
 }
 
 .fdz-table {
@@ -481,130 +487,138 @@ md-tooltip {
     width: 100%;
     text-align: center;
 }
+
 .fdz-table thead {
-  background-color: white;
-  color: black;
+    background-color: white;
+    color: black;
 }
-.fdz-table th, .fdz-table td {
-    padding: 8px 16px 8px 16px;
+
+.fdz-table td,
+.fdz-table th {
+    padding: 8px 16px;
     border-bottom: 1px solid #ddd;
     text-align: left;
     font-weight: normal;
 }
 
-.fdz-table tbody > tr:hover{background-color:#f5f5f5}
-
-@media only screen and (max-width: 600px) {
-
-	.fdz-table {
-		display: block;
-		position: relative;
-		width: 100%;
-    text-align: left;
-    border-collapse: collapse;
-    border: 0;
-	}
-	.fdz-table thead {
-		display: block;
-		float: left;
-    width: 100px;
-	}
-	.fdz-table tbody {
-		display: block;
-		width: auto;
-		position: relative;
-		overflow-x: auto;
-		white-space: nowrap;
-	}
-	.fdz-table th,
-	.fdz-table td {
-		margin: 0;
-		vertical-align: top;
-    text-align: left;
-	}
-	.fdz-table th {
-		display: block;
-    white-space: nowrap;
-    text-overflow: ellipsis;;
-    overflow: hidden;
-    border: 0;
-	}
-  .fdz-table th:last-child {
-      border-bottom: 0px;
-  }
-	.fdz-table td {
-		display: block;
-		text-align: left;
-		border: 0;
-  }
-	.fdz-table thead tr {
-		display: block;
-    border-right: 1px solid #ddd;
-	}
-
-	.fdz-table tbody tr {
-		display: inline-block;
-		vertical-align: top;
-    border-collapse: collapse;
-    border-right: 1px solid #ddd;
-    border-bottom: 0px;
-	}
-
-  .fdz-table-last-row {
-    border-right: 3px solid #ddd !important;
-  }
+.fdz-table tbody > tr:hover {
+    background-color: #f5f5f5;
 }
+@media only screen and (max-width: 600px) {
+    .fdz-table {
+        display: block;
+        position: relative;
+        width: 100%;
+        text-align: left;
+        border-collapse: collapse;
+        border: 0;
+    }
 
+    .fdz-table thead {
+        display: block;
+        float: left;
+        width: 100px;
+    }
+
+    .fdz-table tbody {
+        display: block;
+        width: auto;
+        position: relative;
+        overflow-x: auto;
+        white-space: nowrap;
+    }
+
+    .fdz-table td,
+    .fdz-table th {
+        margin: 0;
+        vertical-align: top;
+        text-align: left;
+    }
+
+    .fdz-table th {
+        display: block;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        overflow: hidden;
+        border: 0;
+    }
+
+    .fdz-table th:last-child {
+        border-bottom: 0;
+    }
+
+    .fdz-table td {
+        display: block;
+        text-align: left;
+        border: 0;
+    }
+
+    .fdz-table thead tr {
+        display: block;
+        border-right: 1px solid #ddd;
+    }
+
+    .fdz-table tbody tr {
+        display: inline-block;
+        vertical-align: top;
+        border-collapse: collapse;
+        border-right: 1px solid #ddd;
+        border-bottom: 0;
+    }
+
+    .fdz-table-last-row {
+        border-right: 3px solid #ddd !important;
+    }
+}
 @media only screen and (min-width: 601px) {
-  .fdz-table-last-row {
-    border-bottom: 3px solid #ddd;
-  }
+    .fdz-table-last-row {
+        border-bottom: 3px solid #ddd;
+    }
 }
 
 .hljs {
-  background-color: inherit;
+    background-color: inherit;
 }
 
 pre {
-  margin: 0px;
+    margin: 0;
 }
 
 .fdz-card-header-with-button {
-  padding-top: 1px;
-  padding-bottom: 1px;
+    padding-top: 1px;
+    padding-bottom: 1px;
 }
 
 .md-dialog-container {
-  z-index: 10000;
-  counter-reset: section;
+    z-index: 10000;
+    counter-reset: section;
 }
 
 .fdz-InfiniteScroll #vertical-container {
     width: 100%;
     min-height: 300px;
-  }
-
-.fdz-repeated-item {
-  border-bottom: 1px solid #ddd;
 }
 
+.fdz-repeated-item {
+    border-bottom: 1px solid #ddd;
+}
 
 .fdz-overlay-outer-box {
-  width: 100%;
-  display: block;
-  position: relative;
+    width: 100%;
+    display: block;
+    position: relative;
 }
 
 .fdz-overlay-outer-box .fdz-overlay-inner-box {
-  top:0;
-  right:0;
-  position: absolute;
+    top: 0;
+    right: 0;
+    position: absolute;
 }
 
 .fdz-reset-top-margin {
-  margin-top: 0px;
+    margin-top: 0;
 }
 
 .fdz-reset-left-margin {
-  margin-left: 0px;
+    margin-left: 0;
 }
