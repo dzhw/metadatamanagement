@@ -6,6 +6,7 @@ angular.module('metadatamanagementApp')
   function($mdDialog, $scope, blockUI, paramObject, VariableSearchService) {
     var ctrl = this;
     ctrl.paramObject = paramObject;
+    console.log(ctrl.paramObject = paramObject);
     var blockArea = blockUI.instances.get('blockRelatedVariableContainer');
     ctrl.infiniteItems = {
       numLoaded_: 0,
@@ -31,6 +32,7 @@ angular.module('metadatamanagementApp')
                 if (this.toLoad_ < index) {
                   this.toLoad_ += this.size;
                   if (_.isArray(ctrl.paramObject.methodParams)) {
+                    ctrl.count = ctrl.paramObject.methodParams.length;
                     var searchTerms = _.chunk(ctrl.paramObject
                       .methodParams, this.size);
                     blockArea.start();
@@ -39,7 +41,6 @@ angular.module('metadatamanagementApp')
                     .then(angular.bind(this, function(variables) {
                           _.pullAllBy(variables.docs, [{'found': false}],
                           'found');
-                          ctrl.count = variables.docs.length;
                           this.items = _.concat(this.items, variables.docs);
                           this.numLoaded_ = this.items.length;
                           this.pageToLoad += 1;

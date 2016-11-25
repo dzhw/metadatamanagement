@@ -31,6 +31,7 @@ angular.module('metadatamanagementApp')
                   if (this.toLoad_ < index) {
                     this.toLoad_ += this.size;
                     if (_.isArray(ctrl.paramObject.methodParams)) {
+                      ctrl.count = ctrl.paramObject.methodParams.length;
                       var searchTerms = _.chunk(ctrl.paramObject
                         .methodParams, this.size);
                       blockArea.start();
@@ -39,7 +40,6 @@ angular.module('metadatamanagementApp')
                       .then(angular.bind(this, function(surveys) {
                             _.pullAllBy(surveys.docs, [{'found': false}],
                             'found');
-                            ctrl.count = surveys.docs.length;
                             this.items = _.concat(this.items, surveys.docs);
                             this.numLoaded_ = this.items.length;
                             this.pageToLoad += 1;

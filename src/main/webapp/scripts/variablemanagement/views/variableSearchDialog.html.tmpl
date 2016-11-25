@@ -10,7 +10,7 @@
     </md-toolbar>
     <md-dialog-content>
       <div block-ui="blockRelatedVariableContainer">
-          <div ng-hide="ctrl.count == 0 || ctrl.infiniteItems.items.length == 0" class="fdz-InfiniteScroll">
+          <div class="fdz-InfiniteScroll">
               <md-virtual-repeat-container id="vertical-container">
                   <div md-virtual-repeat="item in ctrl.infiniteItems" md-on-demand  flex>
                     <md-card ui-sref="variableDetail({id:item._source.id})" class="fdz-search-result">
@@ -39,12 +39,8 @@
                           </div>
                         </md-card-content>
                     </md-card>
-
                   </div>
               </md-virtual-repeat-container>
-          </div>
-          <div ng-show="ctrl.count == 0 || ctrl.infiniteItems.items.length == 0" layout-margin>
-              <span>{{'variable-management.detail.no-related-variables' | translate }}</span>
           </div>
       </div>
     </md-dialog-content>

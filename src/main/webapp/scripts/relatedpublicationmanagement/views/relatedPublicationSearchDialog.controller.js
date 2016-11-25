@@ -32,6 +32,7 @@ angular.module('metadatamanagementApp')
                 if (this.toLoad_ < index) {
                   this.toLoad_ += this.size;
                   if (_.isArray(ctrl.paramObject.methodParams)) {
+                    ctrl.count = ctrl.paramObject.methodParams.length;
                     var searchTerms = _.chunk(ctrl.paramObject
                       .methodParams, this.size);
                     blockArea.start();
@@ -40,7 +41,6 @@ angular.module('metadatamanagementApp')
                     .then(angular.bind(this, function(publications) {
                           _.pullAllBy(publications.docs, [{'found': false}],
                           'found');
-                          ctrl.count = publications.docs.length;
                           this.items = _.concat(this.items, publications.docs);
                           this.numLoaded_ = this.items.length;
                           this.pageToLoad += 1;

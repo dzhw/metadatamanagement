@@ -10,7 +10,7 @@
     </md-toolbar>
     <md-dialog-content>
         <div block-ui="blockRelatedDataSetContainer">
-            <div ng-hide="ctrl.count == 0 || ctrl.infiniteItems.items.length == 0" class="fdz-InfiniteScroll">
+            <div class="fdz-InfiniteScroll">
                 <md-virtual-repeat-container id="vertical-container">
                     <div md-virtual-repeat="item in ctrl.infiniteItems" md-on-demand flex>
                       <md-card ui-sref="data-setDetail({id:item._source.id})" class="fdz-search-result">
@@ -47,9 +47,6 @@
 
                     </div>
                 </md-virtual-repeat-container>
-            </div>
-            <div ng-show="ctrl.count == 0 || ctrl.infiniteItems.items.length == 0" layout-margin>
-                <span>{{'data-set-management.detail.no-related-data-sets' | translate }}</span>
             </div>
         </div>
     </md-dialog-content>
