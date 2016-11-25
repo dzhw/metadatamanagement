@@ -9,6 +9,10 @@ angular.module('metadatamanagementApp').factory(
             .indexOf('/api/account') === 0)) {
           $rootScope.$emit('httpError', response);
         }
+        if (response.status === 500) {
+          console.log('server Fehler');
+          $rootScope.$broadcast('serverError', 'some data');
+        }
         return $q.reject(response);
       }
     };
