@@ -34,18 +34,18 @@
                     <span style="font-weight: bold;">{{'survey-management.detail.grossSampleSize' | translate }}:
                     </span>
                     <span>N =
-                        {{ctrl.survey.grossSampleSize}}</span>
+                        {{ctrl.survey.grossSampleSize | number}}</span>
                 </div>
                 <div style="margin-bottom: 0.5em;" ng-if="ctrl.survey.sampleSize">
                     <span style="font-weight: bold;">{{'survey-management.detail.sampleSize' | translate }}:
                     </span>
                     <span>N =
-                        {{ctrl.survey.sampleSize}}</span>
+                        {{ctrl.survey.sampleSize | number}}</span>
                 </div>
                 <div style="margin-bottom: 0.5em;" ng-if="ctrl.survey.responseRate">
                     <span style="font-weight: bold;">{{'survey-management.detail.responseRate' | translate }}:
                     </span>
-                    <span>{{ctrl.survey.responseRate}}%</span>
+                    <span>{{ctrl.survey.responseRate | number}}%</span>
                 </div>
             </md-card-content>
         </md-card>
