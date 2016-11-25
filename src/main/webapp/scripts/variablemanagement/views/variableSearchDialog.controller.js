@@ -6,7 +6,6 @@ angular.module('metadatamanagementApp')
   function($mdDialog, $scope, blockUI, paramObject, VariableSearchService) {
     var ctrl = this;
     ctrl.paramObject = paramObject;
-    console.log(ctrl.paramObject = paramObject);
     var blockArea = blockUI.instances.get('blockRelatedVariableContainer');
     ctrl.infiniteItems = {
       numLoaded_: 0,
