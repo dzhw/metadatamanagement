@@ -75,7 +75,7 @@
       },
       "error": {
         "dontmatch": "The password and its confirmation do not match!",
-        "unavailable": "Not available yet!"
+        "unavailable": "Not available!"
       },
       "validate": {
         "newpassword": {

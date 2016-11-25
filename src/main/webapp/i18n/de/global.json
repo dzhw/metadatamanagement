@@ -75,7 +75,7 @@
       },
       "error": {
         "dontmatch": "Das bestätigte Passwort entspricht nicht dem neuen Passwort!",
-        "unavailable": "Noch nicht vorhanden!"
+        "unavailable": "Nicht vorhanden!"
       },
       "validate": {
         "newpassword": {
