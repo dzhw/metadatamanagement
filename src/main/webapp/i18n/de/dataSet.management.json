@@ -34,12 +34,12 @@
       "not-found": "Die id {{id}} referenziert auf einen unbekannten Datensatz",
       "not-found-references": "Die id {{id}} hat keine Referenzen auf Datensätze.",
       "sub-data-sets": {
-        "title": "Sub-Datensätze",
+        "title": "Datenprodukte",
         "name": "Name",
-        "accessWay": "Zugangsweg",
+        "accessWay": "Datenprodukt",
         "description": "Beschreibung",
-        "numberOfAnalyzedVariables": "Analysierte Variablen",
-        "numberOfObservations": "Beobachtungen"
+        "numberOfAnalyzedVariables": " Analysierbare Variablen",
+        "numberOfObservations": "Fälle"
       },
       "content": {
         "true": "Klicken zum maximieren",
