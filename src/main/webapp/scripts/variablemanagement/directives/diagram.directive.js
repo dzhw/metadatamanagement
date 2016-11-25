@@ -1,4 +1,5 @@
 /* global Plotly*/
+/* global  document */
 /* global _*/
 'use strict';
 
@@ -85,8 +86,13 @@ angular.module('metadatamanagementApp').directive('diagram',
         }
       }
       angular.element($window).on('resize', function() {
-        drawDiagram();
-      });
+          $timeout(function() {
+            var update = {
+              width: document.getElementById('diagramContainer').offsetWidth
+            };
+            Plotly.relayout('diagram', update);
+          }, 500);
+        });
       element.on('$destroy', function() {
         angular.element($window).off('resize');
       });

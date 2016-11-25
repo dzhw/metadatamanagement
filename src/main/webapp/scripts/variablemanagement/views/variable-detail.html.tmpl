@@ -124,16 +124,16 @@
         </md-card>
     </div>
     <div layout="column" layout-gt-sm="row">
-        <md-card flex-gt-sm class="fdz-reset-top-margin">
+        <md-card flex-gt-sm class="fdz-reset-top-margin" flex>
             <md-card-header>
                 <md-card-header-text>
                     <h2 class="md-title">{{'variable-management.detail.statistics.graphics' | translate }}</h2>
                 </md-card-header-text>
             </md-card-header>
             <md-divider></md-divider>
-            <md-card-content>
+            <div id="diagramContainer">
                 <diagram distribution="variable.distribution" type="variable.scaleLevel[currentLanguage]" language="currentLanguage" ng-cloak></diagram>
-            </md-card-content>
+            </div>
         </md-card>
         <md-card flex-gt-sm="40" class="fdz-reset-top-margin" ng-class="{'fdz-reset-left-margin': $mdMedia('gt-sm') }">
             <md-card-header>
