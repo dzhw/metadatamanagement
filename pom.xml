@@ -20,7 +20,7 @@
     </prerequisites>
 
     <properties>
-        <assertj-core.version>3.5.2</assertj-core.version>
+        <assertj-core.version>3.6.0</assertj-core.version>
         <commons-io.version>2.5</commons-io.version>
         <commons-lang.version>2.6</commons-lang.version>
         <dropwizard-metrics.version>3.1.2</dropwizard-metrics.version>
