@@ -91,7 +91,7 @@ angular.module('metadatamanagementApp').directive('diagram',
               width: document.getElementById('diagramContainer').offsetWidth
             };
             Plotly.relayout('diagram', update);
-          }, 500);
+          }, 1000);
         });
       element.on('$destroy', function() {
         angular.element($window).off('resize');

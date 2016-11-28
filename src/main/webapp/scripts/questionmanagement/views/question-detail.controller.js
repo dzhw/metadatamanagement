@@ -44,7 +44,7 @@ angular.module('metadatamanagementApp')
           if (ctrl.question.technicalRepresentation.language === 'xml' ||
             ctrl.question.technicalRepresentation.language === 'xhtml' ||
             ctrl.question.technicalRepresentation.language === 'html') {
-            html_beautify(ctrl.question.technicalRepresentation.source); //jscs:ignore
+            html_beautify(ctrl.technicalRepresentationBeauty); //jscs:ignore
           }
         }
         StudySearchService.findStudy(ctrl.question.dataAcquisitionProjectId)

@@ -144,21 +144,23 @@
             <md-divider></md-divider>
             <md-card-content ng-cloak="true">
                 <div>
-                    <div style="margin-bottom: 0.5em;" ng-if="variable.distribution.totalAbsoluteFrequency != null">
-                        <span>{{'variable-management.detail.statistics.total-absolute-frequency' | translate}}
+                    <div style="margin-bottom: 0.5em;" ng-if="variable.distribution.validResponses">
+                        <span>{{'variable-management.detail.statistics.validResponses' | translate}}
                         </span>
                         <span>:
-                            {{variable.distribution.totalAbsoluteFrequency}}</span>
+                            {{variable.distribution.validResponses.length}}</span>
                     </div>
                     <div style="margin-bottom: 0.5em;" ng-if="variable.distribution.statistics.minimum != null">
                         <span>{{'variable-management.detail.statistics.minimum' | translate}}
                         </span>
+                        (<span katex>min</span>)
                         <span>:
                             {{variable.distribution.statistics.minimum | number:2}}</span>
                     </div>
                     <div style="margin-bottom: 0.5em;" ng-if="variable.distribution.statistics.maximum != null">
                         <span>{{'variable-management.detail.statistics.maximum' | translate}}
                         </span>
+                        (<span katex>max</span>)
                         <span>:
                             {{variable.distribution.statistics.maximum | number:2}}</span>
                     </div>
@@ -219,14 +221,14 @@
                     <div style="margin-bottom: 0.5em;" ng-if="variable.distribution.statistics.skewness != null">
                         <span>{{'variable-management.detail.statistics.skewness' | translate}}
                         </span>
-                        (<span katex>\vartheta</span>)
+                        (<span katex>v</span>)
                         <span>:
                             {{variable.distribution.statistics.skewness | number:2}}</span>
                     </div>
                     <div style="margin-bottom: 0.5em;" ng-if="variable.distribution.statistics.kurtosis != null">
                         <span>{{'variable-management.detail.statistics.kurtosis' | translate}}
                         </span>
-                        (<span katex>\omega</span>)
+                        (<span katex>w</span>)
                         <span>:
                             {{variable.distribution.statistics.kurtosis | number:2}}</span>
                     </div>
@@ -369,7 +371,7 @@
                                     <md-icon ng-if="generationCodeToggleFlag" md-svg-src="/assets/images/icons/arrow-expand.svg"></md-icon>
                                     <md-icon ng-if="!generationCodeToggleFlag" md-svg-src="/assets/images/icons/arrow-compress.svg"></md-icon>
                                     <md-tooltip md-direction="top">
-                                        {{'variable-management.detail.show-complete-rule.' + generationCodeToggleFlag | translate }}
+                                        {{'variable-management.detail.show-complete-filter-details.' + generationCodeToggleFlag | translate }}
                                     </md-tooltip>
                                 </div>
                             </md-button>

@@ -22,7 +22,10 @@
       "citationHint": "Citation Hint",
       "instruments": "Instruments",
       "no-related-studies": "No related Studies.",
-      "related-studies": "Related Studies"
+      "related-studies": "Related Studies",
+      "available-data-products": "Available Data Products",
+      "basic-data-of-surveys": "Basic Data of Surveys",
+      "downloads": "Downloads"
     },
     "log-messages": {
       "study": {

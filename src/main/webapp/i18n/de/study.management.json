@@ -7,7 +7,7 @@
       "related-information": "Zugehörige Informationen",
       "not-found": "Die id {{id}} referenziert auf eine unbekannte Studie.",
       "not-found-references": "Die id {{id}} hat keine Referenzen auf Studien.",
-      "description": "Beschreibung der Studie",
+      "description": "Studienbeschreibung",
       "survey-details": "Erhebungsdetails",
       "data-set-details": "Datensatzinformationen",
       "instrument-information": "Instrumenteninformationen",
@@ -22,7 +22,10 @@
       "citationHint": "Zitation",
       "instruments": "Instrumente",
       "no-related-studies": "Keine zugehörige Studien.",
-      "related-studies": "Zugehörige Studien"
+      "related-studies": "Zugehörige Studien",
+      "available-data-products": "Verfügbare Datenprodukte",
+      "basic-data-of-surveys": "Eckdaten der Erhebungen",
+      "downloads": "Materialien zum Download"
     },
     "log-messages": {
       "study": {
