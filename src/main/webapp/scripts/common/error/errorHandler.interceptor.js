@@ -11,7 +11,7 @@ angular.module('metadatamanagementApp').factory(
         }
         if (response.status === 500) {
           console.log('server Fehler');
-          $rootScope.$broadcast('serverError', 'some data');
+          $rootScope.$emit('serverError', 'some data');
         }
         return $q.reject(response);
       }
