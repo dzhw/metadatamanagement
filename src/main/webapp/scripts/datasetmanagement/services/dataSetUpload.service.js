@@ -39,10 +39,11 @@ angular.module('metadatamanagementApp').service('DataSetUploadService',
               .getErrorMessage(error, 'data-set');
             if (errorMessages.subMessages.length > 0) {
               errorMessages.subMessages.forEach(function(subMessage) {
-                if (subMessage.translationParams
+                if (subMessage.translationParams.property &&
+                  subMessage.translationParams.property
                   .indexOf('subDataSets[') !== -1) {
-                  var index = parseInt(subMessage
-                  .translationParams.replace('subDataSets[', '').split(']')[0]);
+                  var index = parseInt(subMessage.translationParams
+                  .property.replace('subDataSets[', '').split(']')[0]);
                   subMessage.translationParams = {index: index + 1};
                 }
               });
