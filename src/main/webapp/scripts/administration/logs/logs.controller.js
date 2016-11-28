@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('metadatamanagementApp').controller('LogsController',
-  function($scope, LogsResource, PageTitleService, $translate) {
-    $translate('administration.logs.title').then(PageTitleService.setPageTitle);
+  function($scope, LogsResource, PageTitleService) {
+    PageTitleService.setPageTitle('administration.logs.title');
     $scope.loggers = LogsResource.findAll();
 
     $scope.changeLevel = function(name, level) {

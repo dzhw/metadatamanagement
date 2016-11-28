@@ -20,6 +20,7 @@
       "title": "Instrumente"
     },
     "detail": {
+      "page-title": "Erhebungsinstrument {{ surveyTitle }}",
       "instrument": "Erhebungsinstrument",
       "instruments": "Instrumente",
       "instrument-informations": "Details zum Instrument",

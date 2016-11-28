@@ -72,6 +72,8 @@ public class MongoDbConfiguration {
 
   /**
    * Configure Mongeez for schema management.
+   * 
+   * @deprecated It is not working on cloudfoundry!
    */
   @Bean
   @Profile({Constants.SPRING_PROFILE_LOCAL, Constants.SPRING_PROFILE_UNITTEST})

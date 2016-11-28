@@ -17,9 +17,10 @@ angular.module('metadatamanagementApp')
     $scope.counts = {};
     $scope.variable = entity;
     entity.$promise.then(function() {
-      PageTitleService.setPageTitle(
-        $scope.variable.label[LanguageService.getCurrentInstantly()] +
-        ' (' + $scope.variable.name + ')');
+      PageTitleService.setPageTitle('variable-management.detail.title', {
+        label: $scope.variable.label[LanguageService.getCurrentInstantly()],
+        name: $scope.variable.name
+      });
       StudySearchService
         .findStudy($scope.variable.dataAcquisitionProjectId)
         .then(function(study) {

@@ -14,6 +14,7 @@
       }
     },
     "detail": {
+      "title": "{{ title }}",
       "publication": "Publikation",
       "publications": "Publikationen",
       "related-information": "Zugehörige Informationen",

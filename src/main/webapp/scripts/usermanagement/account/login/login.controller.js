@@ -2,9 +2,8 @@
 
 angular.module('metadatamanagementApp').controller('LoginController',
   function($rootScope, $scope, $state, $timeout, Auth, PageTitleService,
-    $translate, LanguageService) {
-    $translate('user-management.login.title')
-      .then(PageTitleService.setPageTitle);
+    LanguageService) {
+    PageTitleService.setPageTitle('user-management.login.title');
     $scope.user = {};
     $scope.errors = {};
     $scope.rememberMe = true;

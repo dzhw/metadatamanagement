@@ -13,19 +13,21 @@ angular.module('metadatamanagementApp').directive('diagram',
           color: '#006AB2'
         }
       }];
-      var layout = {
-        margin: {
-          l: 35,
-          r: 15,
-          t: 15,
-          b: 20
-        }
-      };
-      if (scope.language === 'de') {
-        layout.separators = ',.';
-      }
+
       var drawDiagram = function() {
         $timeout(function() {
+          var layout = {
+            margin: {
+              l: 35,
+              r: 35,
+              t: 15,
+              b: 20
+            },
+            width: document.getElementById('diagramContainer').offsetWidth - 10
+          };
+          if (scope.language === 'de') {
+            layout.separators = ',.';
+          }
           scope.isNotLoaded = false;
           if (angular.element('diagram').length > 0) {
             Plotly.newPlot('diagram', data, _.cloneDeep(layout), {

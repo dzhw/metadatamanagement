@@ -1,9 +1,8 @@
 'use strict';
 
 angular.module('metadatamanagementApp').controller('ConfigurationController',
-  function($scope, ConfigurationService, $translate, PageTitleService) {
-    $translate('administration.configuration.title').then(
-      PageTitleService.setPageTitle);
+  function($scope, ConfigurationService, PageTitleService) {
+    PageTitleService.setPageTitle('administration.configuration.title');
     ConfigurationService.get().then(function(configuration) {
       $scope.configuration = configuration;
     });

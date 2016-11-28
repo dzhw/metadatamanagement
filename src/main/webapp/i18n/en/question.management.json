@@ -24,6 +24,7 @@
           "copy-to-clipboard": "Copy to Clipboard"
         }
       },
+      "title": "Question {{ questionNumber }} {{ surveyTitle}}",
       "question": "Question",
       "questions": "Questions",
       "predecessors": "Previous Questions in Questionnaire",

@@ -11,8 +11,9 @@ angular.module('metadatamanagementApp')
       ctrl.survey = entity;
       ctrl.counts = {};
       entity.$promise.then(function() {
-        PageTitleService.setPageTitle(
-          ctrl.survey.title[LanguageService.getCurrentInstantly()]);
+        PageTitleService.setPageTitle('survey-management.detail.title', {
+          title: ctrl.survey.title[LanguageService.getCurrentInstantly()]
+        });
         StudySearchService
           .findStudy(ctrl.survey.dataAcquisitionProjectId)
           .then(function(study) {

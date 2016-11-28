@@ -14,7 +14,7 @@
       }
     },
     "detail": {
-      "title": "Variable",
+      "title": "{{ label }} ({{ name }})",
       "variable": "Variable",
       "variables": "Variables",
       "variable-informations": "Informations",

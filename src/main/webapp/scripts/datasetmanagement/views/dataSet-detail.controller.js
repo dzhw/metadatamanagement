@@ -14,9 +14,10 @@ angular.module('metadatamanagementApp')
       ctrl.dataSet = entity;
       ctrl.counts = {};
       entity.$promise.then(function() {
-        PageTitleService.setPageTitle(
-          ctrl.dataSet.description[LanguageService.getCurrentInstantly()]
-        );
+        PageTitleService.setPageTitle('data-set-management.detail.title', {
+          description: ctrl.dataSet.description[
+            LanguageService.getCurrentInstantly()]
+        });
         StudySearchService.findStudy(ctrl.dataSet.dataAcquisitionProjectId)
           .then(function(study) {
             if (study.hits.hits.length > 0) {

@@ -1,10 +1,9 @@
 'use strict';
 
 angular.module('metadatamanagementApp').controller('ResetFinishController',
-  function($scope, $stateParams, $timeout, Auth, $translate,
+  function($scope, $stateParams, $timeout, Auth,
     PageTitleService) {
-    $translate('user-management.reset.finish.title').then(
-      PageTitleService.setPageTitle);
+    PageTitleService.setPageTitle('user-management.reset.finish.title');
 
     $scope.keyMissing = $stateParams.key === undefined;
     $scope.doNotMatch = null;

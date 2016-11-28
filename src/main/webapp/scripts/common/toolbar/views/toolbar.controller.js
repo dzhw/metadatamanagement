@@ -2,14 +2,8 @@
 
 angular.module('metadatamanagementApp').controller(
   'ToolbarController',
-  function($scope, $state, Auth, Principal, $mdSidenav, LanguageService,
-    PageTitleService) {
+  function($scope, $state, Auth, Principal, $mdSidenav, LanguageService) {
     $scope.isAuthenticated = Principal.isAuthenticated;
-    $scope.pageTitle = PageTitleService.getPageTitle();
-
-    $scope.$on('page-title-changed', function(event, currentTitle) {
-      $scope.pageTitle = currentTitle;
-    });
 
     //Set Languages
     $scope.changeLanguage = function(languageKey) {

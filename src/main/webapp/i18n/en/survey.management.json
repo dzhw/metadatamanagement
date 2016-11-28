@@ -13,6 +13,7 @@
       }
     },
     "detail": {
+      "title": "{{ title }}",
       "survey": "Survey",
       "surveys": "Surveys",
       "surveys-same-study": "Surveys of the same Study",

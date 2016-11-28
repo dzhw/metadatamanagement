@@ -1,6 +1,7 @@
 {
   "study-management": {
     "detail": {
+      "title": "{{ title }}",
       "study": "Studie",
       "studies": "Studien",
       "study-informations": "Details der Studie",

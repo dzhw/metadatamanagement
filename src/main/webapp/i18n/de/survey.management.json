@@ -13,6 +13,7 @@
       }
     },
     "detail": {
+      "title": "{{ title }}",
       "survey": "Erhebung",
       "surveys": "Erhebungen",
       "surveys-same-study": "Erhebungen der gleichen Studie",

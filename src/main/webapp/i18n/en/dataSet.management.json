@@ -24,6 +24,7 @@
       "title": "Data Sets"
     },
     "detail": {
+      "title": "{{ description }}",
       "data-set": "Data Set",
       "data-sets": "Data Sets",
       "type": "Typ",

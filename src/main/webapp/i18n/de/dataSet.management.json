@@ -24,6 +24,7 @@
       "title": "Datensätze"
     },
     "detail": {
+      "title": "{{ description }}",
       "data-set": "Datensatz",
       "data-sets": "Datensätze",
       "type": "Typ",

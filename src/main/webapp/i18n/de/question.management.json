@@ -23,6 +23,7 @@
           "copy-to-clipboard": "Kopiere in die Zwischenablage"
         }
       },
+      "title": "Frage {{ questionNumber }} {{ surveyTitle}}",
       "question": "Frage",
       "questions": "Fragen",
       "predecessors": "Vorangegangene Fragen im Fragebogen",

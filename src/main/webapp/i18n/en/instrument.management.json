@@ -20,6 +20,7 @@
       "title": "Instruments"
     },
     "detail": {
+      "page-title": "Survey Instrument {{ surveyTitle }}",
       "instrument": "Survey Instrument",
       "instruments": "Instruments",
       "instrument-informations": "Details for the Instrument",
