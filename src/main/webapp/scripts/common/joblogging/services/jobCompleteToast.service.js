@@ -13,7 +13,6 @@ angular.module('metadatamanagementApp').service('JobCompleteToastService',
           'job-complete-toast.html.tmpl',
         hideDelay: 0,
         position: 'top right',
-        autoWrap: false,
         parent: toastParent,
         locals: {
           resultMessage: resultMessage,
