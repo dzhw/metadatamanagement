@@ -3,8 +3,8 @@
 angular.module('metadatamanagementApp')
   .controller('StudyDetailController',
     function($scope, entity, DataSetSearchService, DataSetSearchDialogService,
-      SurveySearchService, SurveySearchDialogService, QuestionSearchService,
-      QuestionSearchDialogService, RelatedPublicationSearchDialogService,
+      SurveySearchService, SurveySearchDialogService,
+      RelatedPublicationSearchDialogService,
       RelatedPublicationSearchService, PageTitleService, LanguageService) {
 
       var ctrl = this;
@@ -25,23 +25,12 @@ angular.module('metadatamanagementApp')
           .then(function(surveysCount) {
             ctrl.counts.surveysCount = surveysCount.count;
           });
-        QuestionSearchService
-          .countBy('dataAcquisitionProjectId', ctrl.study.id)
-          .then(function(questionsCount) {
-            ctrl.counts.questionsCount = questionsCount.count;
-          });
         RelatedPublicationSearchService
           .countBy('studyIds', ctrl.study.id)
           .then(function(publicationsCount) {
             ctrl.counts.publicationsCount = publicationsCount.count;
           });
       });
-      ctrl.showRelatedQuestions = function() {
-        var paramObject = {};
-        paramObject.methodName = 'findByProjectId';
-        paramObject.methodParams = ctrl.study.id;
-        QuestionSearchDialogService.findQuestions(paramObject);
-      };
       ctrl.showRelatedDataSets = function() {
         var paramObject = {};
         paramObject.methodName = 'findByProjectId';
