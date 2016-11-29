@@ -5,7 +5,7 @@ angular.module('metadatamanagementApp').service('SurveyUploadService', function(
   ExcelReaderService, SurveyBuilderService, SurveyDeleteResource,
   JobLoggingService, SurveyResponseRateImageUploadService,
   ErrorMessageResolverService, ElasticSearchAdminService, $rootScope,
-  FileReaderService, $q) {
+  FileReaderService, $q, $translate, $mdDialog, CleanJSObjectService) {
   //Create variables
   var surveys; //Array of Surveys
   var images = {}; //An object with all images
@@ -113,52 +113,70 @@ angular.module('metadatamanagementApp').service('SurveyUploadService', function(
   /* This method can called by external scripts/classes.
       It prepates the Upload. Survey information will be read out of the
       excel file. */
-  var uploadSurveys = function(files, dataAcquisitionProjectId) {
-    uploadSurveyCount = 0;
-    surveys = [];
-    images = {};
-    JobLoggingService.start('survey');
-    //Delete all old Surveys by Project Id
-    SurveyDeleteResource.deleteByDataAcquisitionProjectId({
-        dataAcquisitionProjectId: dataAcquisitionProjectId
-      }).$promise
-      .then(
-        //After deleting read the excel file for survey information
-        function() {
-          files.forEach(function(file) {
-            if (file.name === 'surveys.xlsx') {
-              ExcelReaderService.readFileAsync(file)
-                //Save survey information in an array
-                .then(function(rawSurveys) {
-                  surveys = SurveyBuilderService
-                    .getSurveys(rawSurveys,
-                      dataAcquisitionProjectId);
-                  //Error Handling for non readable excel file
-                }, function() {
-                  JobLoggingService.cancel(
-                    'global.log-messages.unable-to-read-file', {
-                      file: 'surveys.xlsx'
+  var uploadSurveys = function(files, dataAcquisitionProject) {
+    if (!CleanJSObjectService.isNullOrEmpty(dataAcquisitionProject)) {
+      var confirm = $mdDialog.confirm()
+        .title($translate.instant(
+          'search-management.delete-messages.delete-surveys-title'))
+        .textContent($translate.instant(
+          'search-management.delete-messages.delete-surveys', {
+            id: dataAcquisitionProject.id
+          }))
+        .ariaLabel($translate.instant(
+          'search-management.delete-messages.delete-surveys', {
+            id: dataAcquisitionProject.id
+          }))
+        .ok($translate.instant('global.buttons.ok'))
+        .cancel($translate.instant('global.buttons.cancel'));
+      $mdDialog.show(confirm).then(function() {
+        uploadSurveyCount = 0;
+        surveys = [];
+        images = {};
+        JobLoggingService.start('survey');
+        //Delete all old Surveys by Project Id
+        SurveyDeleteResource.deleteByDataAcquisitionProjectId({
+            dataAcquisitionProjectId: dataAcquisitionProject.id
+          }).$promise
+          .then(
+            //After deleting read the excel file for survey information
+            function() {
+              files.forEach(function(file) {
+                if (file.name === 'surveys.xlsx') {
+                  ExcelReaderService.readFileAsync(file)
+                    //Save survey information in an array
+                    .then(function(rawSurveys) {
+                      surveys = SurveyBuilderService
+                        .getSurveys(rawSurveys,
+                          dataAcquisitionProject.id);
+                      //Error Handling for non readable excel file
+                    }, function() {
+                      JobLoggingService.cancel(
+                        'global.log-messages.unable-to-read-file', {
+                          file: 'surveys.xlsx'
+                        });
+                    }).finally(function() {
+                      upload();//Start uploading of surveys and depending images
                     });
-                }).finally(function() {
-                  upload(); //Start uploading of surveys and depending images
-                });
-            }
-            //Prepare svg images for uploading
-            //No valid name check at this moment,
-            //because there are no survey ids
-            //Just a check for svg image
-            if (file.name.endsWith('.svg')) {
-              var surveyResponseName = file.name
-                .substring(0, file.name.indexOf('.svg'));
-              images[surveyResponseName] = file;
-            }
-          });
-        },
-        //Error Handling for non deleteable surveys
-        function() {
-          JobLoggingService.cancel(
-            'survey.log-messages.survey.unable-to-delete');
-        });
+                }
+                //Prepare svg images for uploading
+                //No valid name check at this moment,
+                //because there are no survey ids
+                //Just a check for svg image
+                if (file.name.endsWith('.svg')) {
+                  var surveyResponseName = file.name
+                    .substring(0, file.name.indexOf('.svg'));
+                  images[surveyResponseName] = file;
+                }
+              });
+            },
+            //Error Handling for non deleteable surveys
+            function() {
+              JobLoggingService.cancel(
+                'survey.log-messages.survey.unable-to-delete');
+            });
+
+      }, function() {});
+    }
   };
   //Global methods
   return {

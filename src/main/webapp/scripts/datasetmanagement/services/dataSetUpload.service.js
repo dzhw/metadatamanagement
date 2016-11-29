@@ -5,7 +5,8 @@
 angular.module('metadatamanagementApp').service('DataSetUploadService',
   function(ExcelReaderService, DataSetBuilderService,
     DataSetDeleteResource, JobLoggingService, $q,
-    ErrorMessageResolverService, ElasticSearchAdminService, $rootScope) {
+    ErrorMessageResolverService, ElasticSearchAdminService, $rootScope,
+    $translate, $mdDialog, CleanJSObjectService) {
     var objects;
     var uploadCount;
     var upload = function() {
@@ -62,86 +63,109 @@ angular.module('metadatamanagementApp').service('DataSetUploadService',
         }
       }
     };
-    var uploadDataSets = function(files, dataAcquisitionProjectId) {
-      uploadCount = 0;
-      objects = [];
-      var allFileReaders = [];
-      JobLoggingService.start('variable');
-      DataSetDeleteResource.deleteByDataAcquisitionProjectId({
-        dataAcquisitionProjectId: dataAcquisitionProjectId}).$promise.then(
-        function() {
-          var dataSetExcelFile;
-          var subDataSetsExcelFiles = {};
+    var uploadDataSets = function(files, dataAcquisitionProject) {
+      if (!CleanJSObjectService.isNullOrEmpty(dataAcquisitionProject)) {
+        var confirm = $mdDialog.confirm()
+          .title($translate.instant(
+            'search-management.delete-messages.' +
+            'delete-data-sets-title'))
+          .textContent($translate.instant(
+            'search-management.delete-messages.delete-data-sets', {
+              id: dataAcquisitionProject.id
+            }))
+          .ariaLabel($translate.instant(
+            'search-management.delete-messages.delete-data-sets', {
+              id: dataAcquisitionProject.id
+            }))
+          .ok($translate.instant('global.buttons.ok'))
+          .cancel($translate.instant('global.buttons.cancel'));
+        $mdDialog.show(confirm).then(function() {
+          uploadCount = 0;
+          objects = [];
+          var allFileReaders = [];
+          JobLoggingService.start('variable');
+          DataSetDeleteResource.deleteByDataAcquisitionProjectId({
+            dataAcquisitionProjectId: dataAcquisitionProject.id}).$promise.then(
+            function() {
+              var dataSetExcelFile;
+              var subDataSetsExcelFiles = {};
 
-          files.forEach(function(file) {
-            if (file.name.endsWith('.xlsx')) {
-              if (file.name !== 'dataSets.xlsx') {
-                subDataSetsExcelFiles[file.name.replace('.xlsx', '')] = file;
-              } else {
-                dataSetExcelFile = file;
-              }
-            }
-          });
-          if (!dataSetExcelFile) {
-            JobLoggingService.cancel('global.log-messages.unable-to-read-file',
-              {file: 'dataSets.xlsx'});
-            return;
-          }
-
-          ExcelReaderService.readFileAsync(dataSetExcelFile)
-          .then(function(dataSets) {
-            dataSets.forEach(function(dataSetFromExcel) {
-              if (subDataSetsExcelFiles[dataSetFromExcel.id]) {
-                allFileReaders.push(ExcelReaderService.
-                readFileAsync(subDataSetsExcelFiles[dataSetFromExcel.id]).
-                then(function(subDataSetsFile) {
-                  var subDataSetErrors = [];
-                  var subDataSets = [];
-                  for (var i = 0; i < subDataSetsFile.length; i++) {
-                    try {
-                      subDataSets.push(DataSetBuilderService
-                      .buildSubDataSet(subDataSetsFile[i]));
-                    }catch (e) {
-                      subDataSetErrors = _.concat(subDataSetErrors, e);
-                    }
+              files.forEach(function(file) {
+                if (file.name.endsWith('.xlsx')) {
+                  if (file.name !== 'dataSets.xlsx') {
+                    subDataSetsExcelFiles[file
+                      .name.replace('.xlsx', '')] = file;
+                  } else {
+                    dataSetExcelFile = file;
                   }
-                  if (subDataSetErrors.length === 0) {
-                    objects.push(DataSetBuilderService
-                      .buildDataSet(dataSetFromExcel,
-                        subDataSets, dataAcquisitionProjectId));
+                }
+              });
+              if (!dataSetExcelFile) {
+                JobLoggingService.cancel('global.log-messages.' +
+                'unable-to-read-file',
+                  {file: 'dataSets.xlsx'});
+                return;
+              }
+
+              ExcelReaderService.readFileAsync(dataSetExcelFile)
+              .then(function(dataSets) {
+                dataSets.forEach(function(dataSetFromExcel) {
+                  if (subDataSetsExcelFiles[dataSetFromExcel.id]) {
+                    allFileReaders.push(ExcelReaderService.
+                    readFileAsync(subDataSetsExcelFiles[dataSetFromExcel.id]).
+                    then(function(subDataSetsFile) {
+                      var subDataSetErrors = [];
+                      var subDataSets = [];
+                      for (var i = 0; i < subDataSetsFile.length; i++) {
+                        try {
+                          subDataSets.push(DataSetBuilderService
+                          .buildSubDataSet(subDataSetsFile[i]));
+                        }catch (e) {
+                          subDataSetErrors = _.concat(subDataSetErrors, e);
+                        }
+                      }
+                      if (subDataSetErrors.length === 0) {
+                        objects.push(DataSetBuilderService
+                          .buildDataSet(dataSetFromExcel,
+                            subDataSets, dataAcquisitionProject.id));
+                      } else {
+                        JobLoggingService.error({
+                          message: 'data-set-management.' +
+                            'log-messages.data-set.not-saved',
+                          messageParams: {id: dataSetFromExcel.id},
+                          subMessages: subDataSetErrors});
+                        return;
+                      }
+                    }, function() {
+                      JobLoggingService
+                      .error({message: 'global.log-messages.' +
+                      'unable-to-read-file',
+                        messageParams: {file: dataSetFromExcel.id + '.xlsx'}});
+                    }));
                   } else {
                     JobLoggingService.error({
                       message: 'data-set-management.' +
-                        'log-messages.data-set.not-saved',
-                      messageParams: {id: dataSetFromExcel.id},
-                      subMessages: subDataSetErrors});
-                    return;
+                      'log-messages.data-set.missing-sub-data-set-file',
+                      messageParams: {id: dataSetFromExcel.id}});
                   }
-                }, function() {
-                  JobLoggingService
-                  .error({message: 'global.log-messages.unable-to-read-file',
-                    messageParams: {file: dataSetFromExcel.id + '.xlsx'}});
-                }));
-              } else {
-                JobLoggingService.error({
-                  message: 'data-set-management.' +
-                  'log-messages.data-set.missing-sub-data-set-file',
-                  messageParams: {id: dataSetFromExcel.id}});
-              }
-            });
-          }, function() {
-            JobLoggingService.cancel('global.log-messages.unable-to-read-file',
-              {file: 'dataSets.xlsx'});
-            return $q.reject();
-          }).then(function() {
-              return $q.all(allFileReaders);
-            }).then(upload);
-        }, function() {
-          JobLoggingService.cancel(
-            'data-set-management.log-messages.data-set.unable-to-delete');
-          return $q.reject();
-        }
-      );
+                });
+              }, function() {
+                JobLoggingService.cancel('global.log-messages.' +
+                'unable-to-read-file',
+                  {file: 'dataSets.xlsx'});
+                return $q.reject();
+              }).then(function() {
+                  return $q.all(allFileReaders);
+                }).then(upload);
+            }, function() {
+              JobLoggingService.cancel(
+                'data-set-management.log-messages.data-set.unable-to-delete');
+              return $q.reject();
+            }
+          );
+
+        }, function() {});
+      }
     };
     return {
       uploadDataSets: uploadDataSets

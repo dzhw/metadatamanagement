@@ -5,7 +5,8 @@
 angular.module('metadatamanagementApp').service('QuestionUploadService',
   function(FileReaderService, QuestionResource, QuestionDeleteResource,
     JobLoggingService, QuestionImageUploadService, CleanJSObjectService,
-    ErrorMessageResolverService, $q, ElasticSearchAdminService, $rootScope) {
+    ErrorMessageResolverService, $q, ElasticSearchAdminService, $rootScope,
+    $translate, $mdDialog) {
     var questions = [];
     var images = {};
     var uploadQuestionCount;
@@ -84,61 +85,83 @@ angular.module('metadatamanagementApp').service('QuestionUploadService',
       }
     };
 
-    var uploadQuestions = function(files, dataAcquisitionProjectId) {
-      images = {};
-      questions = [];
-      uploadQuestionCount = 0;
-      JobLoggingService.start('question');
-      var questionFileReaders = [];
-      files.forEach(function(file) {
-        if (file.name.endsWith('.json')) {
-          questionFileReaders.push(FileReaderService.readAsText(file)
-            .then(function(result) {
-              try {
-                var question = CleanJSObjectService.removeEmptyJsonObjects(
-                  JSON.parse(result));
-                question.dataAcquisitionProjectId = dataAcquisitionProjectId;
-                question.imageType = 'PNG';
-                if (!images[question.id]) {
+    var uploadQuestions = function(files, dataAcquisitionProject) {
+      if (!CleanJSObjectService.isNullOrEmpty(dataAcquisitionProject)) {
+        var confirm = $mdDialog.confirm()
+          .title($translate.instant(
+            'search-management.delete-messages.' +
+            'delete-questions-title'))
+          .textContent($translate.instant(
+            'search-management.delete-messages.delete-questions', {
+              id: dataAcquisitionProject.id
+            }))
+          .ariaLabel($translate.instant(
+            'search-management.delete-messages.delete-questions', {
+              id: dataAcquisitionProject.id
+            }))
+          .ok($translate.instant('global.buttons.ok'))
+          .cancel($translate.instant('global.buttons.cancel'));
+        $mdDialog.show(confirm).then(function() {
+          images = {};
+          questions = [];
+          uploadQuestionCount = 0;
+          JobLoggingService.start('question');
+          var questionFileReaders = [];
+          files.forEach(function(file) {
+            if (file.name.endsWith('.json')) {
+              questionFileReaders.push(FileReaderService.readAsText(file)
+                .then(function(result) {
+                  try {
+                    var question = CleanJSObjectService.removeEmptyJsonObjects(
+                      JSON.parse(result));
+                    question
+                    .dataAcquisitionProjectId = dataAcquisitionProject.id;
+                    question.imageType = 'PNG';
+                    if (!images[question.id]) {
+                      JobLoggingService.error({
+                        message: 'question-management.' +
+                        'log-messages.question.not-found-image-file',
+                        messageParams: {id: question.id},
+                        objectType: 'question'
+                      });
+                    } else {
+                      questions.push(new QuestionResource(question));
+                    }
+                  } catch (e) {
+                    JobLoggingService.error({
+                      message: 'global.log-messages.unable-to-parse-json-file',
+                      messageParams: {file: file.name},
+                      objectType: 'question'
+                    });
+                  }
+                }, function() {
                   JobLoggingService.error({
-                    message: 'question-management.' +
-                    'log-messages.question.not-found-image-file',
-                    messageParams: {id: question.id},
+                    message: 'global.log-messages.unable-to-read-file',
+                    messageParams: {file: file.name},
                     objectType: 'question'
                   });
-                } else {
-                  questions.push(new QuestionResource(question));
-                }
-              } catch (e) {
-                JobLoggingService.error({
-                  message: 'global.log-messages.unable-to-parse-json-file',
-                  messageParams: {file: file.name},
-                  objectType: 'question'
-                });
-              }
-            }, function() {
-              JobLoggingService.error({
-                message: 'global.log-messages.unable-to-read-file',
-                messageParams: {file: file.name},
-                objectType: 'question'
-              });
-            }));
-        }
-        if (file.name.endsWith('.png')) {
-          var questionId = file.name.substring(0, file.name.indexOf('.png'));
-          images[questionId] = file;
-        }
-      });
-      //after reading all jsons (in parallel) the questions are deleted
-      $q.all(questionFileReaders).then(function() {
-        return QuestionDeleteResource.deleteByDataAcquisitionProjectId({
-            dataAcquisitionProjectId: dataAcquisitionProjectId}).$promise;
-      }).then(uploadNextQuestion, function(error) {
-        //delete failed
-        JobLoggingService.cancel(
-            'question-management.log-messages.question.unable-to-delete', {});
-        return $q.reject(error);
-      });
+                }));
+            }
+            if (file.name.endsWith('.png')) {
+              var questionId = file.name.substring(0, file
+                .name.indexOf('.png'));
+              images[questionId] = file;
+            }
+          });
+          //after reading all jsons (in parallel) the questions are deleted
+          $q.all(questionFileReaders).then(function() {
+            return QuestionDeleteResource.deleteByDataAcquisitionProjectId({
+                dataAcquisitionProjectId: dataAcquisitionProject.id}).$promise;
+          }).then(uploadNextQuestion, function(error) {
+            //delete failed
+            JobLoggingService.cancel(
+                'question-management.log-messages.question.' +
+                'unable-to-delete', {});
+            return $q.reject(error);
+          });
+
+        }, function() {});
+      }
     };
 
     return {

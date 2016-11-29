@@ -6,7 +6,8 @@ angular.module('metadatamanagementApp')
   .service('RelatedPublicationUploadService',
   function(ExcelReaderService, RelatedPublicationBuilderService,
     RelatedPublicationDeleteResource, JobLoggingService,
-    ErrorMessageResolverService, ElasticSearchAdminService, $rootScope) {
+    ErrorMessageResolverService, ElasticSearchAdminService, $rootScope,
+    $translate, $mdDialog) {
     var objects;
     var uploadCount;
     var upload = function() {
@@ -49,26 +50,44 @@ angular.module('metadatamanagementApp')
       }
     };
     var uploadRelatedPublications = function(file) {
-      uploadCount = 0;
-      objects = [];
-      JobLoggingService.start('related-publication');
-      RelatedPublicationDeleteResource.deleteAll().$promise.then(
-        function() {
-          ExcelReaderService.readFileAsync(file)
-          .then(function(relatedPublications) {
-              objects = RelatedPublicationBuilderService
-              .getRelatedPublications(relatedPublications);
-              upload();
-            }, function() {
-            JobLoggingService.cancel('global.log-messages.unable-to-read-file',
-              {file: 'relatedPublications.xls'});
-          });
-        }, function() {
-          JobLoggingService.cancel(
-            'related-publication.log-messages.' +
-            'related-publication.unable-to-delete');
-        }
-      );
+      if (!file || !file.name.endsWith('.xls')) {
+        return;
+      }
+      var confirm = $mdDialog.confirm()
+        .title($translate.instant(
+          'search-management.delete-messages.' +
+          'delete-related-publications-title'))
+        .textContent($translate.instant(
+          'search-management.delete-messages.delete-related-publications'
+        ))
+        .ariaLabel($translate.instant(
+          'search-management.delete-messages.delete-related-publications'
+        ))
+        .ok($translate.instant('global.buttons.ok'))
+        .cancel($translate.instant('global.buttons.cancel'));
+      $mdDialog.show(confirm).then(function() {
+        uploadCount = 0;
+        objects = [];
+        JobLoggingService.start('related-publication');
+        RelatedPublicationDeleteResource.deleteAll().$promise.then(
+          function() {
+            ExcelReaderService.readFileAsync(file)
+            .then(function(relatedPublications) {
+                objects = RelatedPublicationBuilderService
+                .getRelatedPublications(relatedPublications);
+                upload();
+              }, function() {
+              JobLoggingService
+              .cancel('global.log-messages.unable-to-read-file',
+                {file: 'relatedPublications.xls'});
+            });
+          }, function() {
+            JobLoggingService.cancel(
+              'related-publication.log-messages.' +
+              'related-publication.unable-to-delete');
+          }
+        );
+      }, function() {});
     };
     return {
       uploadRelatedPublications: uploadRelatedPublications

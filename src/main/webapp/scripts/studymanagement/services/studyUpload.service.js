@@ -4,7 +4,8 @@
 angular.module('metadatamanagementApp').service('StudyUploadService',
   function(StudyBuilderService, StudyDeleteResource, JobLoggingService,
     ErrorMessageResolverService, ExcelReaderService,
-    ElasticSearchAdminService, $rootScope) {
+    ElasticSearchAdminService, $rootScope, $translate, $mdDialog,
+    CleanJSObjectService) {
     var study;
 
     var upload = function() {
@@ -36,56 +37,76 @@ angular.module('metadatamanagementApp').service('StudyUploadService',
       }
     };
 
-    var uploadStudy = function(files, dataAcquisitionProjectId) {
-      JobLoggingService.start('study');
-      StudyDeleteResource.deleteByDataAcquisitionProjectId({
-        dataAcquisitionProjectId: dataAcquisitionProjectId}).$promise.then(
-        function() {
-          var studyExcelFile;
-          var releasesExcelFile;
-          files.forEach(function(file) {
-            if (file.name === 'releases.xlsx') {
-              releasesExcelFile = file;
-            } else {
-              if (file.name === 'study.xlsx') {
-                studyExcelFile = file;
+    var uploadStudy = function(files, dataAcquisitionProject) {
+      if (!CleanJSObjectService.isNullOrEmpty(dataAcquisitionProject)) {
+        var confirm = $mdDialog.confirm()
+          .title($translate.instant(
+            'search-management.delete-messages.delete-studies-title'))
+          .textContent($translate.instant(
+            'search-management.delete-messages.delete-studies', {
+              id: dataAcquisitionProject.id
+            }))
+          .ariaLabel($translate.instant(
+            'search-management.delete-messages.delete-studies', {
+              id: dataAcquisitionProject.id
+            }))
+          .ok($translate.instant('global.buttons.ok'))
+          .cancel($translate.instant('global.buttons.cancel'));
+        $mdDialog.show(confirm).then(function() {
+          JobLoggingService.start('study');
+          StudyDeleteResource.deleteByDataAcquisitionProjectId({
+            dataAcquisitionProjectId: dataAcquisitionProject.id}).$promise.then(
+            function() {
+              var studyExcelFile;
+              var releasesExcelFile;
+              files.forEach(function(file) {
+                if (file.name === 'releases.xlsx') {
+                  releasesExcelFile = file;
+                } else {
+                  if (file.name === 'study.xlsx') {
+                    studyExcelFile = file;
+                  }
+                }
+              });
+              if (!studyExcelFile) {
+                JobLoggingService.cancel(
+                  'study-management.log-messages.study.study-file-not-found',
+                  {});
+                return;
               }
-            }
-          });
-          if (!studyExcelFile) {
-            JobLoggingService.cancel(
-              'study-management.log-messages.study.study-file-not-found', {});
-            return;
-          }
-          if (!releasesExcelFile) {
-            JobLoggingService.cancel(
-              'study-management.log-messages.study.releases-file-not-found',
-              {});
-            return;
-          }
-          ExcelReaderService.readFileAsync(releasesExcelFile)
-          .then(function(releasesFromExcel) {
-            var releases = StudyBuilderService.buildReleases(releasesFromExcel);
-            ExcelReaderService.readFileAsync(studyExcelFile)
-            .then(function(studyFromExcel) {
-              study = StudyBuilderService
-              .buildStudy(studyFromExcel[0], releases,
-              dataAcquisitionProjectId);
-              upload();
+              if (!releasesExcelFile) {
+                JobLoggingService.cancel(
+                  'study-management.log-messages.study.releases-file-not-found',
+                  {});
+                return;
+              }
+              ExcelReaderService.readFileAsync(releasesExcelFile)
+              .then(function(releasesFromExcel) {
+                var releases = StudyBuilderService
+                .buildReleases(releasesFromExcel);
+                ExcelReaderService.readFileAsync(studyExcelFile)
+                .then(function(studyFromExcel) {
+                  study = StudyBuilderService
+                  .buildStudy(studyFromExcel[0], releases,
+                  dataAcquisitionProject.id);
+                  upload();
+                }, function() {
+                  JobLoggingService.cancel(
+                    'global.log-messages.unable-to-read-file',
+                    {file: 'study.xlsx'});
+                });
+              }, function() {
+                JobLoggingService
+                .cancel('global.log-messages.unable-to-read-file',
+                  {file: 'releases.xlsx'});
+              });
             }, function() {
               JobLoggingService.cancel(
-                'global.log-messages.unable-to-read-file',
-                {file: 'study.xlsx'});
-            });
-          }, function() {
-            JobLoggingService.cancel('global.log-messages.unable-to-read-file',
-              {file: 'releases.xlsx'});
-          });
-        }, function() {
-          JobLoggingService.cancel(
-            'study-management.log-messages.study.unable-to-delete');
-        }
-      );
+                'study-management.log-messages.study.unable-to-delete');
+            }
+          );
+        }, function() {});
+      }
     };
     return {
       uploadStudy: uploadStudy

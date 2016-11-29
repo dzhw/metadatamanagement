@@ -123,197 +123,49 @@ angular.module('metadatamanagementApp').controller('SearchController',
       if (!files || files.length === 0) {
         return;
       }
-      var dataAcquisitionProject = $scope.currentProject;
-      if (!CleanJSObjectService.isNullOrEmpty(dataAcquisitionProject)) {
-        var confirm = $mdDialog.confirm()
-          .title($translate.instant(
-            'search-management.delete-messages.' +
-            'delete-variables-title'))
-          .textContent($translate.instant(
-            'search-management.delete-messages.delete-variables', {
-              id: dataAcquisitionProject.id
-            }))
-          .ariaLabel($translate.instant(
-            'search-management.delete-messages.delete-variables', {
-              id: dataAcquisitionProject.id
-            }))
-          .ok($translate.instant('global.buttons.ok'))
-          .cancel($translate.instant('global.buttons.cancel'));
-        $mdDialog.show(confirm).then(function() {
-          //start upload and open log toast
-          VariableUploadService
-            .uploadVariables(files, dataAcquisitionProject.id);
-          //Cancel. Nothing happens
-        }, function() {});
-      }
+      VariableUploadService.uploadVariables(files, $scope.currentProject);
     };
 
     $scope.uploadQuestions = function(files) {
       if (!files || files.length === 0) {
         return;
       }
-      var dataAcquisitionProject = $scope.currentProject;
-      if (!CleanJSObjectService.isNullOrEmpty(dataAcquisitionProject)) {
-        var confirm = $mdDialog.confirm()
-          .title($translate.instant(
-            'search-management.delete-messages.' +
-            'delete-questions-title'))
-          .textContent($translate.instant(
-            'search-management.delete-messages.delete-questions', {
-              id: dataAcquisitionProject.id
-            }))
-          .ariaLabel($translate.instant(
-            'search-management.delete-messages.delete-questions', {
-              id: dataAcquisitionProject.id
-            }))
-          .ok($translate.instant('global.buttons.ok'))
-          .cancel($translate.instant('global.buttons.cancel'));
-        $mdDialog.show(confirm).then(function() {
-          //start upload
-          QuestionUploadService
-            .uploadQuestions(files, dataAcquisitionProject.id);
-          //Cancel. Nothing happens
-        }, function() {});
-      }
+      QuestionUploadService.uploadQuestions(files, $scope.currentProject);
     };
 
     $scope.uploadSurveys = function(files) {
       if (!files || files.length === 0) {
         return;
       }
-      var dataAcquisitionProject = $scope.currentProject;
-      if (!CleanJSObjectService.isNullOrEmpty(dataAcquisitionProject)) {
-        var confirm = $mdDialog.confirm()
-          .title($translate.instant(
-            'search-management.delete-messages.delete-surveys-title'))
-          .textContent($translate.instant(
-            'search-management.delete-messages.delete-surveys', {
-              id: dataAcquisitionProject.id
-            }))
-          .ariaLabel($translate.instant(
-            'search-management.delete-messages.delete-surveys', {
-              id: dataAcquisitionProject.id
-            }))
-          .ok($translate.instant('global.buttons.ok'))
-          .cancel($translate.instant('global.buttons.cancel'));
-        $mdDialog.show(confirm).then(function() {
-          //start upload
-          SurveyUploadService
-            .uploadSurveys(files, dataAcquisitionProject.id);
-          //Cancel. Nothing happens
-        }, function() {});
-      }
+      SurveyUploadService.uploadSurveys(files, $scope.currentProject);
     };
 
     $scope.uploadDataSets = function(files) {
       if (!files || files.length === 0) {
         return;
       }
-      var dataAcquisitionProject = $scope.currentProject;
-      if (!CleanJSObjectService.isNullOrEmpty(dataAcquisitionProject)) {
-        var confirm = $mdDialog.confirm()
-          .title($translate.instant(
-            'search-management.delete-messages.' +
-            'delete-data-sets-title'))
-          .textContent($translate.instant(
-            'search-management.delete-messages.delete-data-sets', {
-              id: dataAcquisitionProject.id
-            }))
-          .ariaLabel($translate.instant(
-            'search-management.delete-messages.delete-data-sets', {
-              id: dataAcquisitionProject.id
-            }))
-          .ok($translate.instant('global.buttons.ok'))
-          .cancel($translate.instant('global.buttons.cancel'));
-        $mdDialog.show(confirm).then(function() {
-          //start upload
-          DataSetUploadService
-            .uploadDataSets(files, dataAcquisitionProject.id);
-          //Cancel. Nothing happens
-        }, function() {});
-      }
+      DataSetUploadService.uploadDataSets(files, $scope.currentProject);
     };
 
     $scope.uploadRelatedPublications = function(file) {
       if (Array.isArray(file)) {
         file = file[0];
       }
-      if (!file || !file.name.endsWith('.xls')) {
-        return;
-      }
-      var confirm = $mdDialog.confirm()
-        .title($translate.instant(
-          'search-management.delete-messages.' +
-          'delete-related-publications-title'))
-        .textContent($translate.instant(
-          'search-management.delete-messages.delete-related-publications'
-        ))
-        .ariaLabel($translate.instant(
-          'search-management.delete-messages.delete-related-publications'
-        ))
-        .ok($translate.instant('global.buttons.ok'))
-        .cancel($translate.instant('global.buttons.cancel'));
-      $mdDialog.show(confirm).then(function() {
-        //start upload
-        RelatedPublicationUploadService.uploadRelatedPublications(file);
-        //Cancel. Nothing happens
-      }, function() {});
+      RelatedPublicationUploadService.uploadRelatedPublications(file);
     };
 
     $scope.uploadStudy = function(files) {
       if (!files || files.length === 0) {
         return;
       }
-      var dataAcquisitionProject = $scope.currentProject;
-      if (!CleanJSObjectService.isNullOrEmpty(dataAcquisitionProject)) {
-        var confirm = $mdDialog.confirm()
-          .title($translate.instant(
-            'search-management.delete-messages.delete-studies-title'))
-          .textContent($translate.instant(
-            'search-management.delete-messages.delete-studies', {
-              id: dataAcquisitionProject.id
-            }))
-          .ariaLabel($translate.instant(
-            'search-management.delete-messages.delete-studies', {
-              id: dataAcquisitionProject.id
-            }))
-          .ok($translate.instant('global.buttons.ok'))
-          .cancel($translate.instant('global.buttons.cancel'));
-        $mdDialog.show(confirm).then(function() {
-          //start upload
-          StudyUploadService
-            .uploadStudy(files, dataAcquisitionProject.id);
-          //Cancel. Nothing happens
-        }, function() {});
-      }
+      StudyUploadService.uploadStudy(files, $scope.currentProject);
     };
 
     $scope.uploadInstruments = function(files) {
       if (!files || files.length === 0) {
         return;
       }
-      var dataAcquisitionProject = $scope.currentProject;
-      if (!CleanJSObjectService.isNullOrEmpty(dataAcquisitionProject)) {
-        var confirm = $mdDialog.confirm()
-          .title($translate.instant(
-            'search-management.delete-messages.delete-instruments-title'))
-          .textContent($translate.instant(
-            'search-management.delete-messages.delete-instruments', {
-              id: dataAcquisitionProject.id
-            }))
-          .ariaLabel($translate.instant(
-            'search-management.delete-messages.delete-instruments', {
-              id: dataAcquisitionProject.id
-            }))
-          .ok($translate.instant('global.buttons.ok'))
-          .cancel($translate.instant('global.buttons.cancel'));
-        $mdDialog.show(confirm).then(function() {
-          //start upload
-          InstrumentUploadService
-            .uploadInstruments(files, dataAcquisitionProject.id);
-          //Cancel. Nothing happens
-        }, function() {});
-      }
+      InstrumentUploadService.uploadInstruments(files, $scope.currentProject);
     };
 
     //Refresh function for the refresh button
