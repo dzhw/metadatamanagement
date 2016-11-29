@@ -15,12 +15,12 @@ angular.module('metadatamanagementApp')
         size: 5,
         items: [],
         getItemAtIndex: function(index) {
-                  if (index > this.numLoaded_) {
-                    this.fetchMoreItems_(index);
-                    return null;
-                  }
-                  return this.items[index];
-                },
+          if (index > this.numLoaded_) {
+            this.fetchMoreItems_(index);
+            return null;
+          }
+          return this.items[index];
+        },
         getLength: function() {
           if (this.numLoaded_ >= ctrl.count) {
             return this.items.length;
@@ -28,40 +28,42 @@ angular.module('metadatamanagementApp')
           return this.items.length + this.size;
         },
         fetchMoreItems_: function(index) {
-                  if (this.toLoad_ < index) {
-                    this.toLoad_ += this.size;
-                    if (_.isArray(ctrl.paramObject.methodParams)) {
-                      ctrl.count = ctrl.paramObject.methodParams.length;
-                      var searchTerms = _.chunk(ctrl.paramObject
-                        .methodParams, this.size);
-                      blockArea.start();
-                      DataSetSearchService[ctrl.paramObject.methodName]
-                      (searchTerms[this.pageToLoad])
-                      .then(angular.bind(this, function(dataSets) {
-                            _.pullAllBy(dataSets.docs, [{'found': false}],
-                            'found');
-                            this.items = _.concat(this.items, dataSets.docs);
-                            this.numLoaded_ = this.items.length;
-                            this.pageToLoad += 1;
-                          })).finally(function() {
-                            blockArea.stop();
-                          });
-                    } else {
-                      blockArea.start();
-                      DataSetSearchService[ctrl.paramObject.methodName](
-                        ctrl.paramObject.methodParams, this.from, this.size,
-                        ctrl.paramObject.dataSetId)
-                        .then(angular.bind(this, function(dataSets) {
-                          ctrl.count = dataSets.hits.total;
-                          this.items = _.concat(this.items, dataSets.hits.hits);
-                          this.numLoaded_ = this.items.length;
-                          this.from += this.size;
-                        })).finally(function() {
-                          blockArea.stop();
-                        });
-                    }
-                  }
-                }
+          if (this.toLoad_ < index) {
+            this.toLoad_ += this.size;
+            if (_.isArray(ctrl.paramObject.methodParams)) {
+              ctrl.count = ctrl.paramObject.methodParams.length;
+              var searchTerms = _.chunk(ctrl.paramObject
+                .methodParams, this.size);
+              blockArea.start();
+              DataSetSearchService[ctrl.paramObject.methodName]
+                (searchTerms[this.pageToLoad])
+                .then(angular.bind(this, function(dataSets) {
+                  _.pullAllBy(dataSets.docs, [{
+                      'found': false
+                    }],
+                    'found');
+                  this.items = _.concat(this.items, dataSets.docs);
+                  this.numLoaded_ = this.items.length;
+                  this.pageToLoad += 1;
+                })).finally(function() {
+                  blockArea.stop();
+                });
+            } else {
+              blockArea.start();
+              DataSetSearchService[ctrl.paramObject.methodName](
+                  ctrl.paramObject.methodParams, this.from, this.size,
+                  ctrl.paramObject.dataSetId)
+                .then(angular.bind(this, function(dataSets) {
+                  ctrl.count = dataSets.hits.total;
+                  this.items = _.concat(this.items, dataSets.hits.hits);
+                  this.numLoaded_ = this.items.length;
+                  this.from += this.size;
+                })).finally(function() {
+                  blockArea.stop();
+                });
+            }
+          }
+        }
       };
       ctrl.closeDialog = $mdDialog.hide;
       $scope.$on('$stateChangeStart', function() {

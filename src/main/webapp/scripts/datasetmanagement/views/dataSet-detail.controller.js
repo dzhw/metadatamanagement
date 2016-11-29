@@ -38,6 +38,7 @@ angular.module('metadatamanagementApp')
         ctrl.counts.variablesCount = ctrl.dataSet.variableIds.length;
       });
       ctrl.uploadTexTemplate = function(file, dataSetId) {
+        //TODO DKatzberg add condition file == null
         DataSetReportService.uploadTexTemplate(file, dataSetId);
       };
       ctrl.showRelatedSurveys = function() {

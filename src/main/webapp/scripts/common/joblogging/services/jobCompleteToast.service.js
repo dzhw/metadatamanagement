@@ -7,16 +7,18 @@ angular.module('metadatamanagementApp').service('JobCompleteToastService',
 
     //The Toast for the upload complete
     function openJobCompleteToast(resultMessage, translationParams) {
+      console.log('job complete');
+      $mdToast.hide();
+      console.log($mdToast);
       $mdToast.show({
-        controller: 'JobCompleteToastController',
-        templateUrl: 'scripts/common/joblogging/views/' +
-          'job-complete-toast.html.tmpl',
+        controller: 'SimpleMessageToastController',
+        templateUrl: 'scripts/common/toast/simple-message-toast.html.tmpl',
         hideDelay: 0,
         position: 'top right',
         parent: toastParent,
         locals: {
-          resultMessage: resultMessage,
-          translationParams: translationParams
+          messageId: resultMessage,
+          messageParams: translationParams
         }
       });
     }

@@ -17,7 +17,7 @@ angular.module('metadatamanagementApp').service('JobLoggingService',
       //return errors, successes and total for the given objectType
       getCounts: function(objectType) {
         if (objectType && this.countsByObjectType &&
-            this.countsByObjectType[objectType]) {
+          this.countsByObjectType[objectType]) {
           return this.countsByObjectType[objectType];
         } else {
           return createNewCountsByObjectType();
