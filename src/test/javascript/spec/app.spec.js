@@ -56,6 +56,8 @@ describe('Specification for app ', function() {
       $httpBackend.whenGET(questionJson).respond({});
       $httpBackend.expectGET(/api\/account\?cacheBuster=\d+/)
         .respond(200, '');
+      $httpBackend.expectGET(/scripts\/common\/navbar\/views\/navbar.html.tmpl/)
+        .respond(200, '');
     });
     it('should set LanguageService to de ', function() {
       expect(LanguageService.getCurrentInstantly()).toBe('de');
