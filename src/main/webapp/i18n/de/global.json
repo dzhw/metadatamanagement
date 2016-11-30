@@ -173,6 +173,11 @@
       },
       "server-error": {
         "internal-server-error": "Ein Fehler auf dem Server trat auf."
+      },
+      "client-error": {
+        "unauthorized-error": "Es liegt keine notwendige Authentifizierung vor.",
+        "forbidden-error": "Die getätigte Interaktion ist verboten, da wahrscheinlich notwendige Rechte fehlen.",
+        "not-found-error": "Die aufgerufene Seite ist unbekannt und konnte nicht gefunden werden."
       }
     },
     "logos": {

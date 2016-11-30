@@ -8,7 +8,27 @@ based on the Error Event.*/
 
 angular.module('metadatamanagementApp').run(
   function($rootScope, SimpleMessageToastService) {
-    $rootScope.$on('serverError', function() {
+
+    //Client Error 401
+    $rootScope.$on('unauthorizedError', function() {
+      SimpleMessageToastService.openSimpleMessageToast('global.error.' +
+        'client-error.unauthorized-error');
+    });
+
+    //Client Error 403
+    $rootScope.$on('forbiddenError', function() {
+      SimpleMessageToastService.openSimpleMessageToast('global.error.' +
+        'client-error.forbidden-error');
+    });
+
+    //Client Error 404
+    $rootScope.$on('notFoundError', function() {
+      SimpleMessageToastService.openSimpleMessageToast('global.error.' +
+        'client-error.not-found-error');
+    });
+
+    //Server Error 500 to 511
+    $rootScope.$on('internalServerError', function() {
       SimpleMessageToastService.openSimpleMessageToast('global.error.' +
         'server-error.internal-server-error');
     });

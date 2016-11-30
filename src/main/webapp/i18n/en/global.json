@@ -173,6 +173,11 @@
       },
       "server-error": {
         "internal-server-error": "An internal error happened on the server."
+      },
+      "client-error": {
+        "unauthorized-error": "The authorization is not valid for the interaction.",
+        "forbidden-error": "The interaction is forbidden. One reasion could be missing authorizations.",
+        "not-found-error": "The called page is unknown and couldn't be found."
       }
     },
     "logos": {
