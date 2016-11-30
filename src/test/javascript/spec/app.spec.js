@@ -54,9 +54,9 @@ describe('Specification for app ', function() {
       $httpBackend.whenGET(dataAcquisitionProjectJson).respond({});
       $httpBackend.whenGET(variableJson).respond({});
       $httpBackend.whenGET(questionJson).respond({});
-      $httpBackend.expectGET(/api\/account\?cacheBuster=\d+/)
-        .respond(200, '');
       $httpBackend.expectGET(/scripts\/common\/navbar\/views\/navbar.html.tmpl/)
+        .respond(200, '');
+      $httpBackend.expectGET(/scripts\/common\/toolbar\/views\/toolbar.html.tmpl/)
         .respond(200, '');
     });
     it('should set LanguageService to de ', function() {
