@@ -9,7 +9,7 @@ angular.module('metadatamanagementApp').factory(
         if (response.status === 404) {
           $rootScope.$emit('notFoundError', response);
         }
-        if (response.status === 500) {
+        if (500 <= response.status && response.status <= 511) {
           $rootScope.$emit('serverError', response);
         }
         return $q.reject(response);
