@@ -23,25 +23,5 @@ angular.module('metadatamanagementApp').config(
             }
           ]
         }
-      }).state(
-      'accessdenied', {
-        parent: 'site',
-        url: '/accessdenied',
-        data: {
-          authorities: []
-        },
-        views: {
-          'content@': {
-            templateUrl: 'scripts/common/error/' +
-              'accessdenied.html.tmpl'
-          }
-        },
-        resolve: {
-          mainTranslatePartialLoader: ['$translatePartialLoader',
-            function($translatePartialLoader) {
-              $translatePartialLoader.addPart('global');
-            }
-          ]
-        }
       });
   });

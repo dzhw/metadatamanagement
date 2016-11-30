@@ -65,13 +65,7 @@ angular
                   $rootScope.toState.data.authorities.length > 0 &&
                   !Principal.hasAnyAuthority(
                     $rootScope.toState.data.authorities)) {
-                  if (isAuthenticated) {
-                    // user is signed in but not authorized for
-                    // desired state
-                    $state.go('accessdenied', {
-                      lang: LanguageService.getCurrentInstantly()
-                    });
-                  } else {
+                  if (!isAuthenticated) {
                     // user is not authenticated. stow the state
                     // they wanted before you
                     // send them to the signin state, so you can

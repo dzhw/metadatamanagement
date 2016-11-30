@@ -2,7 +2,7 @@
 
 angular.module('metadatamanagementApp').factory(
   'Principal',
-  function Principal($q, AccountResource) {
+  function Principal($q, AccountResource, AuthServerProvider) {
     var _identity;
     var _authenticated = false;
 
@@ -62,15 +62,21 @@ angular.module('metadatamanagementApp').factory(
 
         // retrieve the identity data from the server, update the
         // identity object, and then resolve.
-        AccountResource.get().$promise.then(function(account) {
-          _identity = account.data;
-          _authenticated = true;
-          deferred.resolve(_identity);
-        }).catch(function() {
+        if (AuthServerProvider.hasValidToken()) {
+          AccountResource.get().$promise.then(function(account) {
+            _identity = account.data;
+            _authenticated = true;
+            deferred.resolve(_identity);
+          }).catch(function() {
+            _identity = null;
+            _authenticated = false;
+            deferred.resolve(_identity);
+          });
+        } else {
           _identity = null;
           _authenticated = false;
           deferred.resolve(_identity);
-        });
+        }
         return deferred.promise;
       }
     };
