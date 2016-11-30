@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('metadatamanagementApp')
-  .factory('VariableResource', function($resource, $state, LanguageService) {
+  .factory('VariableResource', function($resource) {
     return $resource('api/variables/:id', {
       id: '@id'
     }, {
@@ -9,15 +9,6 @@ angular.module('metadatamanagementApp')
         method: 'GET',
         params: {
           projection: 'complete'
-        },
-        interceptor: {
-          responseError: function(response) {
-            if (response.status === 404) {
-              $state.go('error', {
-                lang: LanguageService.getCurrentInstantly()
-              });
-            }
-          }
         }
       },
       'save': {

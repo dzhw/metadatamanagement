@@ -1,8 +1,7 @@
 'use strict';
 
 angular.module('metadatamanagementApp')
-  .factory('DataAcquisitionProjectResource', function($resource, $state,
-    LanguageService) {
+  .factory('DataAcquisitionProjectResource', function($resource) {
     return $resource('/api/data-acquisition-projects/:id', {
       id: '@id'
     }, {
@@ -10,15 +9,6 @@ angular.module('metadatamanagementApp')
         method: 'GET',
         params: {
           projection: 'complete'
-        },
-        interceptor: {
-          responseError: function(response) {
-            if (response.status === 404) {
-              $state.go('error', {
-                lang: LanguageService.getCurrentInstantly()
-              });
-            }
-          }
         }
       },
       'save': {

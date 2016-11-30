@@ -2,8 +2,7 @@
 /* @author Daniel Katzberg */
 
 angular.module('metadatamanagementApp')
-  .factory('RelatedPublicationResource', function($resource, $state,
-    LanguageService) {
+  .factory('RelatedPublicationResource', function($resource) {
     return $resource('api/related-publications/:id', {
       id: '@id'
     }, {
@@ -11,15 +10,6 @@ angular.module('metadatamanagementApp')
         method: 'GET',
         params: {
           projection: 'complete'
-        },
-        interceptor: {
-          responseError: function(response) {
-            if (response.status === 404) {
-              $state.go('error', {
-                lang: LanguageService.getCurrentInstantly()
-              });
-            }
-          }
         }
       },
       'save': {
