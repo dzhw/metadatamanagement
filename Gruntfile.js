@@ -213,7 +213,8 @@ module.exports = function(grunt) {
             'accept',
             'ngf-*',
             'layout-sm',
-            'layout-xs'
+            'layout-xs',
+            'flex-gt-sm'
           ]
         },
         files: {

@@ -84,8 +84,8 @@
             </md-card-content>
         </md-card>
     </div>
-    <div>
-        <md-card ng-hide="!ctrl.imgResolved" class="fdz-reset-top-margin">
+    <div layout="column" layout-gt-sm="row">
+        <md-card flex-gt-sm ng-hide="!ctrl.imgResolved" class="fdz-reset-top-margin">
             <md-card-header>
                 <md-card-header-text>
                     <h2 class="md-title">{{'survey-management.detail.response-rate-informations' | translate }}</h2>
@@ -96,5 +96,6 @@
                 <img fdz-onload="ctrl.setImgResolved()" alt="" style="width:100%;height:100%;top:0;left:0;bottom:0;right:0;" ng-src="{{'/public/files/surveys/' + ctrl.survey.id + '/' + ctrl.survey.id + '_responserate_' + currentLanguage + '.svg'}}"/>
             </a>
         </md-card>
+        <div flex-gt-sm="40" class="fdz-fake-empty-card fdz-reset-top-margin" ng-class="{'fdz-reset-left-margin': $mdMedia('gt-sm')}"></div>
     </div>
 </div>
