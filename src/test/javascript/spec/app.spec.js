@@ -36,6 +36,7 @@ describe('Specification for app ', function() {
         $state = _$state_;
         $stateParams = _$stateParams_;
       });
+      localStorage.clear();
       var globalJson = new RegExp('i18n\/.*\/global.json');
       var searchJson = new RegExp(
         'i18n\/.*\/search.management.json');
