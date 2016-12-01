@@ -203,7 +203,8 @@ module.exports = function(grunt) {
             'Attribute “block-ui” not allowed on element “div” at this point.',
             'Element “md-virtual-repeat-container” not allowed as child of ' +
             'element “div” in this context. (Suppressing further errors ' +
-            'from this subtree.)'
+            'from this subtree.)', 'Attribute “items-per-pageobject” ' +
+            'not allowed on element “ul” at this point.'
           ],
           customattrs: [
             'show-validation',
