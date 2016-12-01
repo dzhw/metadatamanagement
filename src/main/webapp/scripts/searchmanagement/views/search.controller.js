@@ -140,32 +140,28 @@ angular.module('metadatamanagementApp').controller('SearchController',
         if (!files || files.length === 0) {
           return;
         }
-        VariableUploadService.uploadVariables(files, $scope
-          .pageObject['rdc-project']);
+        VariableUploadService.uploadVariables(files, $scope.currentProject);
       };
 
       $scope.uploadQuestions = function(files) {
         if (!files || files.length === 0) {
           return;
         }
-        QuestionUploadService.uploadQuestions(files, $scope
-          .pageObject['rdc-project']);
+        QuestionUploadService.uploadQuestions(files, $scope.currentProject);
       };
 
       $scope.uploadSurveys = function(files) {
         if (!files || files.length === 0) {
           return;
         }
-        SurveyUploadService.uploadSurveys(files, $scope
-          .pageObject['rdc-project']);
+        SurveyUploadService.uploadSurveys(files, $scope.currentProject);
       };
 
       $scope.uploadDataSets = function(files) {
         if (!files || files.length === 0) {
           return;
         }
-        DataSetUploadService.uploadDataSets(files, $scope
-          .pageObject['rdc-project']);
+        DataSetUploadService.uploadDataSets(files, $scope.currentProject);
       };
 
       $scope.uploadRelatedPublications = function(file) {
@@ -179,15 +175,14 @@ angular.module('metadatamanagementApp').controller('SearchController',
         if (!files || files.length === 0) {
           return;
         }
-        StudyUploadService.uploadStudy(files, $scope.pageObject['rdc-project']);
+        StudyUploadService.uploadStudy(files, $scope.currentProject);
       };
 
       $scope.uploadInstruments = function(files) {
         if (!files || files.length === 0) {
           return;
         }
-        InstrumentUploadService.uploadInstruments(files, $scope
-          .pageObject['rdc-project']);
+        InstrumentUploadService.uploadInstruments(files, $scope.currentProject);
       };
 
       //Refresh function for the refresh button
