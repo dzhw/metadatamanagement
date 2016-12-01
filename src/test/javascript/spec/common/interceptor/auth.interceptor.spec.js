@@ -1,7 +1,7 @@
 'use strict';
 
 xdescribe('Factory Tests ', function () {
-  var authInterceptor, authExpiredInterceptor, localStorageService, response, $q, $scope;
+  var authInterceptor, localStorageService, response, $q, $scope;
     describe('authInterceptor', function() {
         beforeEach(inject(function($injector) {
             authInterceptor = $injector.get('authInterceptor');
@@ -24,23 +24,4 @@ xdescribe('Factory Tests ', function () {
           expect(authInterceptor).toBeDefined();
         });
       });
-    describe('authExpiredInterceptor', function() {
-      beforeEach(inject(function($injector) {
-        authExpiredInterceptor = $injector.get('authExpiredInterceptor');
-        $q = $injector.get('$q');
-        $scope = $injector.get('$rootScope').$new();
-        response = {
-          'data':{
-            'path':'/test',
-            'error': 'invalid_token'
-          },
-          'status':401
-        };
-        spyOn($q,'reject').and.callThrough();
-      }));
-      it('should call $q.reject', function() {
-        authExpiredInterceptor.responseError(response);
-        expect($q.reject).toHaveBeenCalled();
-      });
-    });
   });

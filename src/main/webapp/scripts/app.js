@@ -121,7 +121,6 @@ angular
       $urlRouterProvider.when('/en/', '/en/search');
       $urlRouterProvider.otherwise('/de/error');
       $httpProvider.interceptors.push('errorHandlerInterceptor');
-      $httpProvider.interceptors.push('authExpiredInterceptor');
       $httpProvider.interceptors.push('authInterceptor');
       // Initialize angular-translate
       $translateProvider.useLoader('$translatePartialLoader', {
