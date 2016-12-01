@@ -6,7 +6,7 @@
 a result of a type like variable or dataSet and so on. */
 angular.module('metadatamanagementApp').controller('SearchController',
   function($scope, Principal, ElasticSearchProperties, $location,
-    AlertService, SearchDao, $translate, VariableUploadService,
+    SearchDao, $translate, VariableUploadService,
     QuestionUploadService, RelatedPublicationUploadService,
     DataSetUploadService, StudyUploadService, SurveyUploadService, $mdDialog,
     CleanJSObjectService, InstrumentUploadService,
@@ -91,7 +91,8 @@ angular.module('metadatamanagementApp').controller('SearchController',
           $scope.isSearching = false;
           //If something going wrong: send an alert
         }, function(error) {
-          AlertService.error(error.message);
+          //TODO DKatzberg replace with toast and remove alert line
+          //AlertService.error(error.message);
           console.trace(error);
           $scope.isSearching = false;
         });
