@@ -2,12 +2,12 @@
 'use strict';
 
 angular.module('metadatamanagementApp')
-  .controller('DataAcquisitionProjectNavbarController', [
+  .controller('DataAcquisitionProjectNavbarController', ['$scope',
     'CurrentProjectService', 'DataAcquisitionProjectPostValidationService',
     'DataAcquisitionProjectSearchResource', 'DataAcquisitionProjectResource',
     '$mdDialog', 'SimpleMessageToastService', '$translate',
     'ElasticSearchAdminService', '$location', '$filter',
-    function(CurrentProjectService,
+    function($scope, CurrentProjectService,
       DataAcquisitionProjectPostValidationService,
       DataAcquisitionProjectSearchResource, DataAcquisitionProjectResource,
       $mdDialog, SimpleMessageToastService, $translate,
@@ -16,7 +16,6 @@ angular.module('metadatamanagementApp')
       //For Project Handling
       ctrl.dataAcquisitionProjects = null;
       ctrl.searchText = '';
-
       //Load the projects for the drop menu
       function loadProjects() {
         var rdcId = $location.search()['rdc-project'];
@@ -34,7 +33,6 @@ angular.module('metadatamanagementApp')
             }
           });
       }
-
       //Helper method for query the project list
       function createFilterFor(query) {
         var lowercaseQuery = angular.lowercase(query);
@@ -146,5 +144,11 @@ angular.module('metadatamanagementApp')
           .postValidate(ctrl.selectedProject.id);
       };
       loadProjects();
+      $scope.$watch(function() {
+        return $location.search()['rdc-project'];
+      }, function(value) {
+        //loadProject() ;
+        ctrl.searchText = value;
+      });
     }
   ]);
