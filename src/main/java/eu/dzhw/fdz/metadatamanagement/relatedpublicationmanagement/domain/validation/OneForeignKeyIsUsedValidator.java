@@ -30,12 +30,38 @@ public class OneForeignKeyIsUsedValidator
   public boolean isValid(RelatedPublication relatedPublication, 
       ConstraintValidatorContext context) {
     
-    return !relatedPublication.getDataSetIds().isEmpty()
-          || !relatedPublication.getInstrumentIds().isEmpty()
-          || !relatedPublication.getQuestionIds().isEmpty()
-          || !relatedPublication.getStudyIds().isEmpty()
-          || !relatedPublication.getSurveyIds().isEmpty()
-          || !relatedPublication.getVariableIds().isEmpty();
+    //boolean vars 
+    boolean notEmptyDataSetIds = false;
+    boolean notEmptyInstrumentIds = false;
+    boolean notEmptyQuestionIds = false;
+    boolean notEmptyStudyIds = false;
+    boolean notEmptySurveyIds = false;
+    boolean notEmptyVariableIds = false;
+    
+    
+    //check all lists for null and set the isEmpty Value
+    if (relatedPublication.getDataSetIds() != null) {
+      notEmptyDataSetIds = !relatedPublication.getDataSetIds().isEmpty();
+    }
+    if (relatedPublication.getInstrumentIds() != null) {
+      notEmptyInstrumentIds = !relatedPublication.getInstrumentIds().isEmpty();
+    }
+    if (relatedPublication.getQuestionIds() != null) {
+      notEmptyQuestionIds = !relatedPublication.getQuestionIds().isEmpty();
+    }
+    if (relatedPublication.getStudyIds() != null) {
+      notEmptyStudyIds = !relatedPublication.getStudyIds().isEmpty();
+    }
+    if (relatedPublication.getSurveyIds() != null) {
+      notEmptySurveyIds = !relatedPublication.getSurveyIds().isEmpty();
+    }
+    if (relatedPublication.getVariableIds() != null) {
+      notEmptyVariableIds = !relatedPublication.getVariableIds().isEmpty();
+    }
+       
+    
+    return notEmptyDataSetIds || notEmptyInstrumentIds || notEmptyQuestionIds || notEmptyStudyIds
+          || notEmptySurveyIds || notEmptyVariableIds;
   }
 
 }

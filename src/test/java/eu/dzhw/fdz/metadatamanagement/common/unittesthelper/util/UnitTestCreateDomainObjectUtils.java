@@ -415,6 +415,10 @@ public class UnitTestCreateDomainObjectUtils {
   }
   
   public static RelatedPublication buildRelatedPublication() {
+    
+    List<String> studyIds = new ArrayList<>();
+    studyIds.add("Study-IdExample");
+    
     return new RelatedPublicationBuilder()
         .withDoi("A DOI")
         .withId("HurzId123")
@@ -422,7 +426,9 @@ public class UnitTestCreateDomainObjectUtils {
         .withSourceLink("http://www.hurzexample.de/")
         .withSourceReference("A Source Reference")
         .withTitle("A Title of a Related Publication")
+        .withStudyIds(studyIds)
         .build();
+    
   }
 
   public static Instrument buildInstrument(

@@ -29,6 +29,9 @@ public class OneStudyIsUsedValidator
   @Override
   public boolean isValid(RelatedPublication relatedPublication, 
       ConstraintValidatorContext context) {
+    if (relatedPublication.getStudyIds() == null) {
+      return false;
+    }
     
     return !relatedPublication.getStudyIds().isEmpty();
   }
