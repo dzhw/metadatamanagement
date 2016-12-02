@@ -13,6 +13,7 @@ import eu.dzhw.fdz.metadatamanagement.common.domain.AbstractRdcDomainObject;
 import eu.dzhw.fdz.metadatamanagement.common.domain.util.Patterns;
 import eu.dzhw.fdz.metadatamanagement.common.domain.validation.StringLengths;
 import eu.dzhw.fdz.metadatamanagement.relatedpublicationmanagement.domain.validation.OneForeignKeyIsUsed;
+import eu.dzhw.fdz.metadatamanagement.relatedpublicationmanagement.domain.validation.OneStudyIsUsed;
 import eu.dzhw.fdz.metadatamanagement.relatedpublicationmanagement.domain.validation.ValidUrl;
 import net.karneim.pojobuilder.GeneratePojoBuilder;
 
@@ -24,6 +25,7 @@ import net.karneim.pojobuilder.GeneratePojoBuilder;
  */
 @Document(collection = "related_publications")
 @OneForeignKeyIsUsed
+@OneStudyIsUsed
 @GeneratePojoBuilder(
     intoPackage = "eu.dzhw.fdz.metadatamanagement.relatedpublicationmanagement.domain.builders")
 public class RelatedPublication extends AbstractRdcDomainObject {
