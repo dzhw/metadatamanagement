@@ -14,6 +14,7 @@ angular.module('metadatamanagementApp').controller('SearchController',
     CurrentProjectService, $timeout, PageTitleService) {
 
       $scope.searchResult = {};
+      $scope.location = $location;
 
       // set the page title in toolbar and window.title
       PageTitleService.setPageTitle('global.menu.search.title');
@@ -42,22 +43,22 @@ angular.module('metadatamanagementApp').controller('SearchController',
           $scope.searchParams = {};
           $scope.pageObject.page = 1;
           $scope.selectedTabIndex = 0;
+          $scope.isInitializing = true;
         } else {
           for (var paramName in locationParams) {
             $scope.searchParams[paramName] = locationParams[paramName];
           }
+          $scope.isInitializing = false;
           $scope.selectedTabIndex = _.findIndex($scope.tabs, function(tab) {
               return tab.elasticSearchType === $scope.searchParams.type;
             });
         }
       };
 
-      $scope.$watch(function() {
-        return $location.search();
-      }, function() {
+      $scope.$watch('location.search()', function() {
         readAllSearchParams();
         $scope.search();
-      });
+      }, true);
 
       //Search function
       $scope.search = function() {
@@ -90,7 +91,6 @@ angular.module('metadatamanagementApp').controller('SearchController',
           $scope.isSearching = false;
         });
       };
-
       $scope.$on('current-project-changed', function(event, currentProject) {
         if (currentProject) {
           $scope.currentProject = currentProject;
@@ -105,8 +105,11 @@ angular.module('metadatamanagementApp').controller('SearchController',
       });
 
       $scope.onTabSelected = function() {
-        $scope.searchParams.page = 1;
         $scope.pageObject.page = 1;
+        if (!$scope.isInitializing) {
+          $scope.searchParams.page = 1;
+        }
+
         var selectedTab = $scope.tabs[$scope.selectedTabIndex];
         $scope.tabs.forEach(function(tab) {
           tab.count = null;
@@ -116,8 +119,8 @@ angular.module('metadatamanagementApp').controller('SearchController',
       };
 
       $scope.onQueryChanged = function() {
-        $scope.searchParams.page = 1;
         $scope.pageObject.page = 1;
+        $scope.searchParams.page = 1;
         writeAllSearchParams();
       };
 
