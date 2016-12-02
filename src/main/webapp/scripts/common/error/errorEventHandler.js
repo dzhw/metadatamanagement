@@ -8,28 +8,33 @@ based on the Error Event.*/
 
 angular.module('metadatamanagementApp').run(
   function($rootScope, SimpleMessageToastService) {
+    // Server or network down
+    $rootScope.$on('serverNotReachableError', function() {
+      SimpleMessageToastService.openSimpleMessageToast('global.error.' +
+        'server-not-reachable');
+    });
 
     //Client Error 401
-    $rootScope.$on('unauthorizedError', function() {
+    $rootScope.$on('unauthorizedError', function(response) {
       SimpleMessageToastService.openSimpleMessageToast('global.error.' +
-        'client-error.unauthorized-error');
+        'client-error.unauthorized-error', {status: response.status});
     });
 
     //Client Error 403
-    $rootScope.$on('forbiddenError', function() {
+    $rootScope.$on('forbiddenError', function(response) {
       SimpleMessageToastService.openSimpleMessageToast('global.error.' +
-        'client-error.forbidden-error');
+        'client-error.forbidden-error', {status: response.status});
     });
 
     //Client Error 404
-    $rootScope.$on('notFoundError', function() {
+    $rootScope.$on('notFoundError', function(response) {
       SimpleMessageToastService.openSimpleMessageToast('global.error.' +
-        'client-error.not-found-error');
+        'client-error.not-found-error', {status: response.status});
     });
 
     //Server Error 500 to 511
-    $rootScope.$on('internalServerError', function() {
+    $rootScope.$on('internalServerError', function(response) {
       SimpleMessageToastService.openSimpleMessageToast('global.error.' +
-        'server-error.internal-server-error');
+        'server-error.internal-server-error', {status: response.status});
     });
   });

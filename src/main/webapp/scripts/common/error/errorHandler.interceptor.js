@@ -6,6 +6,9 @@ angular.module('metadatamanagementApp').factory(
   function($q, $rootScope) {
     return {
       'responseError': function(response) {
+        if (response.status === -1) {
+          $rootScope.$emit('serverNotReachableError', response);
+        }
         if (response.status === 401) {
           $rootScope.$emit('unauthorizedError', response);
         }

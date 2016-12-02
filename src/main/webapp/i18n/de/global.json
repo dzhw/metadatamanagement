@@ -172,12 +172,12 @@
         "file-size-limit-exceeded": "Die Datei '{{ entity }}' ist größer 10MB!"
       },
       "server-error": {
-        "internal-server-error": "Ein Fehler auf dem Server trat auf."
+        "internal-server-error": "Sorry, etwas ist schief gelaufen :-( ({{ status }})."
       },
       "client-error": {
-        "unauthorized-error": "Es liegt keine notwendige Autorisation vor.",
-        "forbidden-error": "Die getätigte Interaktion ist verboten, da wahrscheinlich notwendige Rechte fehlen.",
-        "not-found-error": "Die aufgerufene Seite ist unbekannt und konnte nicht gefunden werden."
+        "unauthorized-error": "Sie sind nicht berechtigt diese Aktion durchzuführen (Status {{ status }}).",
+        "forbidden-error": "Sie sind nicht berechtigt diese Aktion durchzuführen (Status {{ status }}).",
+        "not-found-error": "Sorry, etwas ist schief gelaufen :-( ({{ status }})."
       }
     },
     "logos": {

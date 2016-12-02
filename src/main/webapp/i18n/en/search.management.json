@@ -45,9 +45,6 @@
       "all": "All",
       "related-publications": "Publications",
       "instruments": "Instruments"
-    },
-    "error": {
-      "error-on-search": "An error happens at the search: {{error}}"
     }
   }
 }

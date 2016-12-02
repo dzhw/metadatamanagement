@@ -172,12 +172,12 @@
         "file-size-limit-exceeded": "The file '{{ entity }}' exceeds the limit of 10MB!"
       },
       "server-error": {
-        "internal-server-error": "An internal error happened on the server."
+        "internal-server-error": "Sorry, something went wrong :-( ({{ status }})."
       },
       "client-error": {
-        "unauthorized-error": "The authorization is not valid for the interaction.",
-        "forbidden-error": "The interaction is forbidden. One reasion could be missing authorizations.",
-        "not-found-error": "The called page is unknown and couldn't be found."
+        "unauthorized-error": "You are not authorized to do this (Status {{ status }}).",
+        "forbidden-error": "You are not authorized to do this (Status {{ status }}).",
+        "not-found-error": "Sorry, something went wrong :-( ({{ status }})."
       }
     },
     "logos": {
