@@ -122,7 +122,6 @@ angular
       $urlRouterProvider.otherwise('/de/error');
       $httpProvider.interceptors.push('errorHandlerInterceptor');
       $httpProvider.interceptors.push('authInterceptor');
-      $httpProvider.interceptors.push('authExpiredInterceptor');
       // Initialize angular-translate
       $translateProvider.useLoader('$translatePartialLoader', {
         urlTemplate: 'i18n/{lang}/{part}.json'
