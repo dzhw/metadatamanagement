@@ -14,7 +14,6 @@ angular.module('metadatamanagementApp').controller('SearchController',
     CurrentProjectService, $timeout, PageTitleService) {
 
       $scope.searchResult = {};
-      $scope.isInitializing = true;
 
       // set the page title in toolbar and window.title
       PageTitleService.setPageTitle('global.menu.search.title');
@@ -110,11 +109,8 @@ angular.module('metadatamanagementApp').controller('SearchController',
       });
 
       $scope.onTabSelected = function() {
-        if (!$scope.isInitializing) {
-          $scope.searchParams.page = 1;
-          $scope.pageObject.page = 1;
-        }
-        $scope.isInitializing = false;
+        $scope.searchParams.page = 1;
+        $scope.pageObject.page = 1;
         var selectedTab = $scope.tabs[$scope.selectedTabIndex];
         $scope.tabs.forEach(function(tab) {
           tab.count = null;
