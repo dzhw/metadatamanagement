@@ -3,13 +3,14 @@
 
 angular.module('metadatamanagementApp')
   .controller('JobCompleteToastController',
-    function($scope, $mdToast, $mdDialog, resultMessage, translationParams) {
+    function($scope, SynchronizedMdToast, $mdDialog, resultMessage,
+      translationParams) {
       $scope.resultMessage = resultMessage;
       $scope.translationParams = translationParams;
 
       /* Close Function for Toasts. */
       $scope.closeToast = function() {
-        $mdToast.hide();
+        SynchronizedMdToast.hide();
       };
 
       /* Dialog for the Log of Uploading data */
