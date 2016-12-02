@@ -24,6 +24,7 @@
       "upload-questions": "Fragen für ausgewähltes Datenaufbereitungsprojekt hochladen",
       "upload-studies": "Studie für ausgewähltes Datenaufbereitungsprojekt hochladen",
       "upload-related-publications": "Publikationen hochladen",
+      "post-validate-related-publications": "Publikationen validieren",
       "upload-instruments": "Instrumente für ausgewähltes Datenaufbereitungsprojekt hochladen"
     },
     "input-label": {

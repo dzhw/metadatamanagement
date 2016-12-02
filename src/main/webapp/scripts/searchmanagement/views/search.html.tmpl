@@ -161,5 +161,17 @@
                 <md-icon md-font-set="material-icons">add</md-icon>
             </div>
         </md-button>
+            <md-button
+              ng-if="tabs[selectedTabIndex].elasticSearchType==='related_publications'"
+              aria-label="{{'search-management.buttons.post-validate-related-publications' | translate}}"
+              ngf-select="postValidateRelatedPublications()"
+              class="md-accent md-fab">
+                <div>
+                  <md-tooltip md-direction="left">
+                      {{'search-management.buttons.post-validate-related-publications' | translate}}
+                  </md-tooltip>
+                    <md-icon md-font-set="material-icons">playlist_add_check</md-icon>
+                </div>
+            </md-button>
     </div>
 </div>
