@@ -2,12 +2,12 @@
 
 angular.module('metadatamanagementApp')
   .config(function($stateProvider, $urlRouterProvider) {
-    $urlRouterProvider.when('/de/related-publications/', '/de/error');
-    $urlRouterProvider.when('/en/related-publications/', '/en/error');
+    $urlRouterProvider.when('/de/publications/', '/de/error');
+    $urlRouterProvider.when('/en/publications/', '/en/error');
     $stateProvider
       .state('relatedPublicationDetail', {
         parent: 'site',
-        url: '/related-publications/{id}',
+        url: '/publications/{id}',
         data: {
           authorities: []
         },
