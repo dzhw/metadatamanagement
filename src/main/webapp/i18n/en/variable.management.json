@@ -217,6 +217,11 @@
         },
         "related-question-strings": {
           "i18n-string-size": "The max length of the related question strings is 2048 signs."
+        },
+        "data-acquisition-project": {
+          "id": {
+            "not-empty": "The RDC-ID of the Data Acquisition Project for the Variable must not be empty!"
+          }
         }
       },
       "post-validation": {

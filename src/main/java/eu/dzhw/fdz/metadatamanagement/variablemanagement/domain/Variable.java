@@ -119,6 +119,7 @@ public class Variable extends AbstractRdcDomainObject {
   private String questionId;
 
   @Indexed
+  @NotEmpty(message = "variable-management.error.variable.data-acquisition-project.id.not-empty")
   private String dataAcquisitionProjectId;
 
   @NotEmpty(message = "variable-management.error.variable.survey.ids.not-empty")

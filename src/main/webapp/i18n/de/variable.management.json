@@ -217,6 +217,11 @@
         },
         "related-question-strings": {
           "i18n-string-size": "Die Maximallänge der zugehörigen Frage-Strings ist 2048 Zeichen."
+        },
+        "data-acquisition-project": {
+          "id": {
+            "not-empty": "Die FDZ - ID des Projektes darf bei der Variable nicht leer sein!"
+          }
         }
       },
       "post-validation": {
