@@ -86,6 +86,11 @@
         "access-ways": {
           "not-empty": "The list of access ways of a variable needs min. one element and must not be empty!",
           "valid-access-ways": "The values of access ways are invalid. Valid values are: download-cuf, download-suf, remote-desktop-suf, onsite-suf, not-accessible."
+        },
+        "data-acquisition-project": {
+          "id": {
+            "not-empty": "The RDC-ID of the Data Acquisition Project for the Study must not be empty!"
+          }
         }
       },
       "release": {

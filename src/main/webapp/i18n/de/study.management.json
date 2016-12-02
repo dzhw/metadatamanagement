@@ -86,6 +86,11 @@
         "access-ways": {
           "not-empty": "Die Liste der Zugangswege einer Variable benötigt mindest ein Element und darf nicht leer sein!",
           "valid-access-ways": "Die Liste der Zugangswege enthält ungültige Werte. Erlaubt sind nur: download-cuf, download-suf, remote-desktop-suf, onsite-suf, not-accessible."
+        },
+        "data-acquisition-project": {
+          "id": {
+            "not-empty": "Die FDZ - ID des Projektes darf bei der Studie nicht leer sein!"
+          }
         }
       },
       "release": {

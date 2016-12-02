@@ -103,6 +103,7 @@ public class Study extends AbstractRdcDomainObject {
   private List<Release> releases;
   
   @Indexed
+  @NotEmpty(message = "study-management.error.study.data-acquisition-project.id.not-empty")
   private String dataAcquisitionProjectId;
   
   
