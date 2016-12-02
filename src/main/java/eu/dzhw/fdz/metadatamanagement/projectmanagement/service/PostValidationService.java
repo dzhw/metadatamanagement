@@ -297,7 +297,7 @@ public class PostValidationService {
             + "post-validation.variable-has-invalid-question-id", Arrays.asList(information)));
       }
       
-      
+      //variable.relatedVariables: Check for variable ids
       if (variable.getRelatedVariables() != null) {
         for (String variableId : variable.getRelatedVariables()) {
           if (this.variableRepository.findOne(variableId) == null) {
