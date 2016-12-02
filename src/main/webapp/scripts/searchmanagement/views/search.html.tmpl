@@ -164,7 +164,7 @@
             <md-button
               ng-if="tabs[selectedTabIndex].elasticSearchType==='related_publications'"
               aria-label="{{'search-management.buttons.post-validate-related-publications' | translate}}"
-              ngf-select="postValidateRelatedPublications()"
+              ng-click="postValidateRelatedPublications()"
               class="md-accent md-fab">
                 <div>
                   <md-tooltip md-direction="left">

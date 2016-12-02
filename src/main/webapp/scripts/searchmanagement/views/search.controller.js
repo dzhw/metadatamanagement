@@ -8,6 +8,7 @@ a result of a type like variable or dataSet and so on. */
 angular.module('metadatamanagementApp').controller('SearchController',
   function($scope, Principal, ElasticSearchProperties, $location,
     SearchDao, $translate, VariableUploadService,
+    RelatedPublicationsPostValidationService,
     QuestionUploadService, RelatedPublicationUploadService,
     DataSetUploadService, StudyUploadService, SurveyUploadService, $mdDialog,
     CleanJSObjectService, InstrumentUploadService,
@@ -162,6 +163,10 @@ angular.module('metadatamanagementApp').controller('SearchController',
           file = file[0];
         }
         RelatedPublicationUploadService.uploadRelatedPublications(file);
+      };
+
+      $scope.postValidateRelatedPublications = function() {
+        RelatedPublicationsPostValidationService.postValidate();
       };
 
       $scope.uploadStudy = function(files) {
