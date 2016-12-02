@@ -25,6 +25,7 @@ angular.module('metadatamanagementApp').controller('SearchController',
         $scope.isAuthenticated = Principal.isAuthenticated;
       });
 
+      $scope.searchParams = {};
       $scope.pageObject = {
         page: 1,
         totalHits: 0,
@@ -32,24 +33,22 @@ angular.module('metadatamanagementApp').controller('SearchController',
       };
 
       var writeAllSearchParams = function() {
-        $location.search($scope.pageObject);
+        $location.search($scope.searchParams);
       };
 
       var readAllSearchParams = function() {
         var locationParams = $location.search();
         if (CleanJSObjectService.isNullOrEmpty(locationParams)) {
           CurrentProjectService.setCurrentProject(null);
-          $scope.pageObject['rdc-project'] = undefined;
-          $scope.pageObject.type = undefined;
+          $scope.searchParams = {};
           $scope.pageObject.page = 1;
-          $scope.pageObject.query = undefined;
           $scope.selectedTabIndex = 0;
         } else {
           for (var paramName in locationParams) {
-            $scope.pageObject[paramName] = locationParams[paramName];
+            $scope.searchParams[paramName] = locationParams[paramName];
           }
           $scope.selectedTabIndex = _.findIndex($scope.tabs, function(tab) {
-              return tab.elasticSearchType === $scope.pageObject.type;
+              return tab.elasticSearchType === $scope.searchParams.type;
             });
         }
       };
@@ -64,8 +63,8 @@ angular.module('metadatamanagementApp').controller('SearchController',
       //Search function
       $scope.search = function() {
         $scope.isSearching = true;
-        SearchDao.search($scope.pageObject.query, $scope.pageObject.page,
-          $scope.currentProject, $scope.pageObject.type,
+        SearchDao.search($scope.searchParams.query, $scope.searchParams.page,
+          $scope.currentProject, $scope.searchParams.type,
           $scope.pageObject.size)
         .then(function(data) {
           $scope.searchResult = data.hits.hits;
@@ -100,17 +99,19 @@ angular.module('metadatamanagementApp').controller('SearchController',
       $scope.$on('current-project-changed', function(event, currentProject) {
         if (currentProject) {
           $scope.currentProject = currentProject;
-          $scope.pageObject['rdc-project'] = $scope.currentProject.id;
+          $scope.searchParams['rdc-project'] = $scope.currentProject.id;
         } else {
           $scope.currentProject = null;
-          $scope.pageObject['rdc-project'] = '';
+          $scope.searchParams['rdc-project'] = '';
         }
+        $scope.searchParams.page = 1;
         $scope.pageObject.page = 1;
         writeAllSearchParams();
       });
 
       $scope.onTabSelected = function() {
         if (!$scope.isInitializing) {
+          $scope.searchParams.page = 1;
           $scope.pageObject.page = 1;
         }
         $scope.isInitializing = false;
@@ -118,17 +119,18 @@ angular.module('metadatamanagementApp').controller('SearchController',
         $scope.tabs.forEach(function(tab) {
           tab.count = null;
         });
-        $scope.pageObject.type = selectedTab.elasticSearchType;
+        $scope.searchParams.type = selectedTab.elasticSearchType;
         writeAllSearchParams();
       };
 
       $scope.onQueryChanged = function() {
+        $scope.searchParams.page = 1;
         $scope.pageObject.page = 1;
-        console.log($scope.pageObject.query);
         writeAllSearchParams();
       };
 
       $scope.onPageChanged = function() {
+        $scope.searchParams.page = $scope.pageObject.page;
         writeAllSearchParams();
       };
 
