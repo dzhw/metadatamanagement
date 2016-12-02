@@ -6,8 +6,10 @@ angular.module('metadatamanagementApp').service('CurrentProjectService',
     //Define current Project field with get and set methods
     var currentProject = null;
     var setCurrentProject = function(chosenProject) {
-      currentProject = chosenProject;
-      $rootScope.$broadcast('current-project-changed', currentProject);
+      if (currentProject !== chosenProject) {
+        currentProject = chosenProject;
+        $rootScope.$broadcast('current-project-changed', currentProject);
+      }
     };
     var getCurrentProject = function() {
       return currentProject;

@@ -144,11 +144,5 @@ angular.module('metadatamanagementApp')
           .postValidate(ctrl.selectedProject.id);
       };
       loadProjects();
-      $scope.$watch(function() {
-        return $location.search()['rdc-project'];
-      }, function(value) {
-        //loadProject() ;
-        ctrl.searchText = value;
-      });
     }
   ]);

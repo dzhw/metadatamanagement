@@ -12,9 +12,10 @@ angular.module('metadatamanagementApp').controller('SearchController',
     DataSetUploadService, StudyUploadService, SurveyUploadService, $mdDialog,
     CleanJSObjectService, InstrumentUploadService,
     CurrentProjectService, $timeout, PageTitleService) {
+
       $scope.searchResult = {};
       $scope.isInitializing = true;
-      $scope.currentProject = CurrentProjectService.getCurrentProject();
+
       // set the page title in toolbar and window.title
       PageTitleService.setPageTitle('global.menu.search.title');
 
@@ -27,26 +28,21 @@ angular.module('metadatamanagementApp').controller('SearchController',
       $scope.pageObject = {
         page: 1,
         totalHits: 0,
-        size: 5,
-        type: '',
-        query: ''
+        size: 5
       };
 
       var writeAllSearchParams = function() {
-        var params = $scope.pageObject;
-        params = _.omit(params, ['totalHits', 'size']);
-        $location.search(params);
+        $location.search($scope.pageObject);
       };
 
       var readAllSearchParams = function() {
         var locationParams = $location.search();
         if (CleanJSObjectService.isNullOrEmpty(locationParams)) {
-          $scope.currentProject = null;
-          $scope.pageObject['rdc-project'] = '';
-          $scope.pageObject.type = '';
+          CurrentProjectService.setCurrentProject(null);
+          $scope.pageObject['rdc-project'] = undefined;
+          $scope.pageObject.type = undefined;
           $scope.pageObject.page = 1;
-          $scope.pageObject.query = '';
-          $scope.query = '';
+          $scope.pageObject.query = undefined;
           $scope.selectedTabIndex = 0;
         } else {
           for (var paramName in locationParams) {
@@ -126,15 +122,15 @@ angular.module('metadatamanagementApp').controller('SearchController',
         writeAllSearchParams();
       };
 
-      $scope.onQueryChanged = _.throttle(function() {
+      $scope.onQueryChanged = function() {
         $scope.pageObject.page = 1;
-        $scope.pageObject.query = $scope.query;
+        console.log($scope.pageObject.query);
         writeAllSearchParams();
-      }, 500);
+      };
 
-      $scope.onPageChanged = _.throttle(function() {
+      $scope.onPageChanged = function() {
         writeAllSearchParams();
-      }, 500);
+      };
 
       $scope.uploadVariables = function(files) {
         if (!files || files.length === 0) {
@@ -200,7 +196,7 @@ angular.module('metadatamanagementApp').controller('SearchController',
       $scope.tabs = [{
         title: 'search-management.tabs.all',
         inputLabel: 'search-management.input-label.all',
-        elasticSearchType: '',
+        elasticSearchType: undefined,
         count: null,
         acceptedFileUploadType: null,
         uploadFunction: null
