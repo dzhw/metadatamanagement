@@ -97,7 +97,10 @@ angular.module('metadatamanagementApp').controller('SearchController',
         }, function(newValue, oldValue) {
         if (newValue !== oldValue) {
           readSearchParamsFromLocation();
-          $scope.search();
+          //do not search if page has not been set yet
+          if (newValue.page != null) {
+            $scope.search();
+          }
         }
       });
 
@@ -113,9 +116,6 @@ angular.module('metadatamanagementApp').controller('SearchController',
 
       //Search function
       $scope.search = function() {
-        if ($scope.isSearching) {
-          return;
-        }
         $scope.isSearching = true;
         SearchDao.search($scope.searchParams.query, $scope.pageObject.page,
           $scope.searchParams.projectId,
