@@ -17,6 +17,8 @@ import eu.dzhw.fdz.metadatamanagement.questionmanagement.domain.Question;
 import eu.dzhw.fdz.metadatamanagement.questionmanagement.repository.QuestionRepository;
 import eu.dzhw.fdz.metadatamanagement.relatedpublicationmanagement.domain.RelatedPublication;
 import eu.dzhw.fdz.metadatamanagement.relatedpublicationmanagement.repository.RelatedPublicationRepository;
+import eu.dzhw.fdz.metadatamanagement.surveymanagement.domain.Survey;
+import eu.dzhw.fdz.metadatamanagement.surveymanagement.repository.SurveyRepository;
 
 /**
  * This service handels the post-validation of related publications. It checks the foreign keys and 
@@ -34,9 +36,9 @@ public class RelatedPublicationPostValidationService {
   private RelatedPublicationRepository relatedPublicationRepository;
 //  @Inject
 //  private VariableRepository variableRepository;
-//
-//  @Inject
-//  private SurveyRepository surveyRepository;
+
+  @Inject
+  private SurveyRepository surveyRepository;
 
   @Inject
   private DataSetRepository dataSetRepository;
@@ -63,7 +65,7 @@ public class RelatedPublicationPostValidationService {
     for (RelatedPublication relatedPublication : relatedPublications) {
       
       //Validate Surveys
-      //errors = this.postValidateSurveys(relatedPublication, errors);
+      errors = this.postValidateSurveys(relatedPublication, errors);
       
       //Validate DataSets
       errors = this.postValidateDataSets(relatedPublication, errors);
@@ -78,7 +80,38 @@ public class RelatedPublicationPostValidationService {
     return errors;
   }
 
-  
+  /**
+   * This method checks all post validation from related publication to the surveys.
+   * @param relatedPublication The actual related publication.
+   * @param errors The list with all recognized errors.    
+   * @return The updated list of errors.
+   */
+  private List<PostValidationMessageDto> postValidateSurveys(RelatedPublication relatedPublication,
+      List<PostValidationMessageDto> errors) {
+    List<String> surveyIds = relatedPublication.getSurveyIds();
+    
+    //check all referenced survey ids
+    for (String surveyId : surveyIds) {
+      Survey survey = this.surveyRepository.findOne(surveyId);
+      
+      //check for exting referenced
+      if (survey == null) {
+        String[] information = {surveyId, relatedPublication.getId()};
+        errors.add(new PostValidationMessageDto("survey-management.error."
+            + "post-validation.survey-unknown", Arrays.asList(information)));
+      } else { //All other checks, where survey is != null
+        //is the same study id referenced to the related publication
+        if (!relatedPublication.getStudyIds().contains(survey.getDataAcquisitionProjectId())) {
+          String[] information = {surveyId, relatedPublication.getId(), 
+              survey.getDataAcquisitionProjectId()};
+          errors.add(new PostValidationMessageDto("survey-management.error."
+              + "post-validation.survey-has-not-a-referenced-study", Arrays.asList(information)));
+        }
+      }      
+    }
+    
+    return errors;
+  }
 
   /**
    * This method checks all post validation from related publication to the data sets.
@@ -139,8 +172,8 @@ public class RelatedPublicationPostValidationService {
         if (!relatedPublication.getStudyIds().contains(instrument.getDataAcquisitionProjectId())) {
           String[] information = {instrumentId, relatedPublication.getId(), 
               instrument.getDataAcquisitionProjectId()};
-          errors.add(new PostValidationMessageDto("instrument-management.error."
-              + "post-validation.instrument-has-not-a-referenced-study", Arrays.asList(information)));
+          errors.add(new PostValidationMessageDto("instrument-management.error.post-validation." 
+              + "instrument-has-not-a-referenced-study", Arrays.asList(information)));
         }
       }      
     }
