@@ -8,6 +8,8 @@ import javax.inject.Inject;
 
 import org.springframework.stereotype.Service;
 
+import eu.dzhw.fdz.metadatamanagement.datasetmanagement.domain.DataSet;
+import eu.dzhw.fdz.metadatamanagement.datasetmanagement.repository.DataSetRepository;
 import eu.dzhw.fdz.metadatamanagement.instrumentmanagement.domain.Instrument;
 import eu.dzhw.fdz.metadatamanagement.instrumentmanagement.repository.InstrumentRepository;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.rest.dto.PostValidationMessageDto;
@@ -35,9 +37,9 @@ public class RelatedPublicationPostValidationService {
 //
 //  @Inject
 //  private SurveyRepository surveyRepository;
-//
-//  @Inject
-//  private DataSetRepository dataSetRepository;
+
+  @Inject
+  private DataSetRepository dataSetRepository;
 
   @Inject
   private InstrumentRepository instrumentRepository;
@@ -60,6 +62,12 @@ public class RelatedPublicationPostValidationService {
     
     for (RelatedPublication relatedPublication : relatedPublications) {
       
+      //Validate Surveys
+      //errors = this.postValidateSurveys(relatedPublication, errors);
+      
+      //Validate DataSets
+      errors = this.postValidateDataSets(relatedPublication, errors);
+      
       //Validate Instruments
       errors = this.postValidateInstruments(relatedPublication, errors);
       
@@ -70,9 +78,45 @@ public class RelatedPublicationPostValidationService {
     return errors;
   }
 
+  
+
   /**
-   * 
-   * @param questionIds A list of ids of all referenced questions.
+   * This method checks all post validation from related publication to the data sets.
+   * @param relatedPublication The actual related publication.
+   * @param errors The list with all recognized errors.    
+   * @return The updated list of errors.
+   */
+  private List<PostValidationMessageDto> postValidateDataSets(RelatedPublication relatedPublication,
+      List<PostValidationMessageDto> errors) {
+    
+    List<String> dataSetIds = relatedPublication.getDataSetIds();
+    
+    //check all referenced data set ids
+    for (String dataSetId : dataSetIds) {
+      DataSet dataSet = this.dataSetRepository.findOne(dataSetId);
+      
+      //check for exting referenced
+      if (dataSet == null) {
+        String[] information = {dataSetId, relatedPublication.getId()};
+        errors.add(new PostValidationMessageDto("data-set-management.error."
+            + "post-validation.data-set-unknown", Arrays.asList(information)));
+      } else { //All other checks, where data sets is != null
+        //is the same study id referenced to the related publication
+        if (!relatedPublication.getStudyIds().contains(dataSet.getDataAcquisitionProjectId())) {
+          String[] information = {dataSetId, relatedPublication.getId(), 
+              dataSet.getDataAcquisitionProjectId()};
+          errors.add(new PostValidationMessageDto("data-set-management.error."
+              + "post-validation.data-set-has-not-a-referenced-study", Arrays.asList(information)));
+        }
+      }      
+    }
+
+    return errors;
+  }
+
+  /**
+   * This method checks all post validation from related publication to the instruments.
+   * @param relatedPublication The actual related publication.
    * @param errors The list with all recognized errors.    
    * @return The updated list of errors.
    */
@@ -81,7 +125,7 @@ public class RelatedPublicationPostValidationService {
     
     List<String> instrumentIds = relatedPublication.getInstrumentIds();
     
-    //check all referenced question ids
+    //check all referenced instrument ids
     for (String instrumentId : instrumentIds) {
       Instrument instrument = this.instrumentRepository.findOne(instrumentId);
       
@@ -89,14 +133,14 @@ public class RelatedPublicationPostValidationService {
       if (instrument == null) {
         String[] information = {instrumentId, relatedPublication.getId()};
         errors.add(new PostValidationMessageDto("instrument-management.error."
-            + "post-validation.question-unknown", Arrays.asList(information)));
-      } else { //All other checks, where question is != null
+            + "post-validation.instrument-unknown", Arrays.asList(information)));
+      } else { //All other checks, where instrument is != null
         //is the same study id referenced to the related publication
         if (!relatedPublication.getStudyIds().contains(instrument.getDataAcquisitionProjectId())) {
           String[] information = {instrumentId, relatedPublication.getId(), 
               instrument.getDataAcquisitionProjectId()};
           errors.add(new PostValidationMessageDto("instrument-management.error."
-              + "post-validation.question-has-not-a-referenced-study", Arrays.asList(information)));
+              + "post-validation.instrument-has-not-a-referenced-study", Arrays.asList(information)));
         }
       }      
     }
@@ -105,8 +149,8 @@ public class RelatedPublicationPostValidationService {
   }
 
   /**
-   * 
-   * @param relatedPublication The actual related publication 
+   * This method checks all post validation from related publication to the questions.
+   * @param relatedPublication The actual related publication.
    * @param errors The list with all recognized errors.    
    * @return The updated list of errors.
    */
