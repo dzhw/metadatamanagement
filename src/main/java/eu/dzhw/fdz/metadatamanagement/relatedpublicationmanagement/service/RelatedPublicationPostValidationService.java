@@ -19,6 +19,8 @@ import eu.dzhw.fdz.metadatamanagement.relatedpublicationmanagement.domain.Relate
 import eu.dzhw.fdz.metadatamanagement.relatedpublicationmanagement.repository.RelatedPublicationRepository;
 import eu.dzhw.fdz.metadatamanagement.surveymanagement.domain.Survey;
 import eu.dzhw.fdz.metadatamanagement.surveymanagement.repository.SurveyRepository;
+import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.Variable;
+import eu.dzhw.fdz.metadatamanagement.variablemanagement.repository.VariableRepository;
 
 /**
  * This service handels the post-validation of related publications. It checks the foreign keys and 
@@ -33,9 +35,10 @@ public class RelatedPublicationPostValidationService {
 
   /* Repositories for loading data from the repository */
   @Inject
-  private RelatedPublicationRepository relatedPublicationRepository;
-//  @Inject
-//  private VariableRepository variableRepository;
+ private RelatedPublicationRepository relatedPublicationRepository;
+  
+  @Inject
+  private VariableRepository variableRepository;
 
   @Inject
   private SurveyRepository surveyRepository;
@@ -64,6 +67,9 @@ public class RelatedPublicationPostValidationService {
     
     for (RelatedPublication relatedPublication : relatedPublications) {
       
+      //Validate Variables
+      errors = this.postValidateVariables(relatedPublication, errors);
+      
       //Validate Surveys
       errors = this.postValidateSurveys(relatedPublication, errors);
       
@@ -75,6 +81,39 @@ public class RelatedPublicationPostValidationService {
       
       //Validate Questions
       errors = this.postValidateQuestions(relatedPublication, errors);
+    }
+    
+    return errors;
+  }
+
+  /**
+   * This method checks all post validation from related publication to the variables.
+   * @param relatedPublication The actual related publication.
+   * @param errors The list with all recognized errors.    
+   * @return The updated list of errors.
+   */
+  private List<PostValidationMessageDto> postValidateVariables(
+      RelatedPublication relatedPublication, List<PostValidationMessageDto> errors) {
+    List<String> variableIds = relatedPublication.getVariableIds();
+    
+    //check all referenced variable ids
+    for (String variableId : variableIds) {
+      Variable variable = this.variableRepository.findOne(variableId);
+      
+      //check for exting referenced
+      if (variable == null) {
+        String[] information = {variableId, relatedPublication.getId()};
+        errors.add(new PostValidationMessageDto("variable-management.error."
+            + "post-validation.variable-unknown", Arrays.asList(information)));
+      } else { //All other checks, where variable is != null
+        //is the same study id referenced to the related publication
+        if (!relatedPublication.getStudyIds().contains(variable.getDataAcquisitionProjectId())) {
+          String[] information = {variableId, relatedPublication.getId(), 
+              variable.getDataAcquisitionProjectId()};
+          errors.add(new PostValidationMessageDto("variable-management.error."
+              + "post-validation.variable-has-not-a-referenced-study", Arrays.asList(information)));
+        }
+      }      
     }
     
     return errors;
