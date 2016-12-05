@@ -4,7 +4,7 @@ angular.module('metadatamanagementApp').service('SearchDao',
   function(ElasticSearchProperties, LanguageService, ElasticSearchClient,
     CleanJSObjectService) {
     return {
-      search: function(queryterm, pageNumber, currentProject,
+      search: function(queryterm, pageNumber, dataAcquisitionProjectId,
         elasticsearchType, pageSize) {
         var query = {};
         var projectFilter;
@@ -55,15 +55,15 @@ angular.module('metadatamanagementApp').service('SearchDao',
           };
         }
         //filter by projectId
-        if (!CleanJSObjectService.isNullOrEmpty(currentProject)) {
+        if (dataAcquisitionProjectId) {
           projectFilter = {
             'term': {
-              'dataAcquisitionProjectId': currentProject.id
+              'dataAcquisitionProjectId': dataAcquisitionProjectId
             }
           };
           studiesFilter = {
             'term': {
-              'studyIds': currentProject.id
+              'studyIds': dataAcquisitionProjectId
             }
           };
           if (!query.body.query.bool.filter) {

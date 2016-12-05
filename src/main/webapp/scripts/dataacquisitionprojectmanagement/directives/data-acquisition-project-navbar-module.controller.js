@@ -18,7 +18,7 @@ angular.module('metadatamanagementApp')
       ctrl.searchText = '';
       //Load the projects for the drop menu
       function loadProjects() {
-        var rdcId = $location.search()['rdc-project'];
+        var rdcId = $location.search().project;
         DataAcquisitionProjectSearchResource.findAll(
           function(result) {
             ctrl.dataAcquisitionProjects =
@@ -52,6 +52,10 @@ angular.module('metadatamanagementApp')
       ctrl.onSelectedProjectChanged = function(project) {
         CurrentProjectService.setCurrentProject(project);
       };
+
+      $scope.$on('current-project-changed', function(event, project) {
+        ctrl.selectedProject = project;
+      });
 
       /* Function for opening a dialog for creating a new project */
       ctrl.createProject = function() {

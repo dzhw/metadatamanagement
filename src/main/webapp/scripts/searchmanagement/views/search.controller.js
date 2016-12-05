@@ -14,9 +14,6 @@ angular.module('metadatamanagementApp').controller('SearchController',
     CleanJSObjectService, InstrumentUploadService,
     CurrentProjectService, $timeout, PageTitleService) {
 
-      $scope.searchResult = {};
-      $scope.location = $location;
-
       // set the page title in toolbar and window.title
       PageTitleService.setPageTitle('global.menu.search.title');
 
@@ -26,57 +23,109 @@ angular.module('metadatamanagementApp').controller('SearchController',
         $scope.isAuthenticated = Principal.isAuthenticated;
       });
 
-      $scope.searchParams = {};
-      $scope.pageObject = {
-        page: 1,
-        totalHits: 0,
-        size: 5
+      // write the searchParams object to the location with the correct types
+      var writeSearchParamsToLocation = function() {
+        var locationSearch = {};
+        locationSearch.page = '' + $scope.pageObject.page;
+        locationSearch.project = $scope.searchParams.projectId;
+        locationSearch.type = $scope.tabs[
+          $scope.searchParams.selectedTabIndex].elasticSearchType;
+        if ($scope.searchParams.query && $scope.searchParams.query !== '') {
+          locationSearch.query = $scope.searchParams.query;
+        }
+        $location.search(locationSearch);
       };
 
-      var writeAllSearchParams = function() {
-        $location.search($scope.searchParams);
-      };
-
-      var readAllSearchParams = function() {
-        var locationParams = $location.search();
-        if (CleanJSObjectService.isNullOrEmpty(locationParams)) {
+      // read the searchParams object from the location with the correct types
+      var readSearchParamsFromLocation = function() {
+        var locationSearch = $location.search();
+        if (CleanJSObjectService.isNullOrEmpty(locationSearch)) {
           CurrentProjectService.setCurrentProject(null);
-          $scope.searchParams = {};
-          $scope.pageObject.page = 1;
-          $scope.selectedTabIndex = 0;
-          $scope.isInitializing = true;
+          $scope.pageObject.page  = 1;
+          $scope.searchParams = {
+            projectId: undefined,
+            query: '',
+            selectedTabIndex: 0
+          };
         } else {
-          for (var paramName in locationParams) {
-            $scope.searchParams[paramName] = locationParams[paramName];
+          if (locationSearch.project) {
+            CurrentProjectService.setCurrentProject({
+              id: locationSearch.project});
+          } else {
+            CurrentProjectService.setCurrentProject(null);
           }
-          $scope.isInitializing = false;
-          $scope.selectedTabIndex = _.findIndex($scope.tabs, function(tab) {
-              return tab.elasticSearchType === $scope.searchParams.type;
+          $scope.searchParams.projectId = locationSearch.project;
+          if (locationSearch.page != null) {
+            $scope.pageObject.page = parseInt(locationSearch.page);
+          } else {
+            $scope.pageObject.page = 1;
+          }
+          if (locationSearch.query) {
+            $scope.searchParams.query = locationSearch.query;
+          } else {
+            $scope.searchParams.query = '';
+          }
+          $scope.searchParams.selectedTabIndex = _.findIndex($scope.tabs,
+            function(tab) {
+              return tab.elasticSearchType === locationSearch.type;
             });
         }
       };
 
-      $scope.$watch('location.search()', function() {
-        readAllSearchParams();
+      // init the controller and its scope objects
+      var init = function() {
+        $scope.searchResult = {};
+        $scope.pageObject = {
+          totalHits: 0,
+          size: 5,
+          page: 1
+        };
+        $scope.searchParams = {
+          projectId: undefined,
+          query: '',
+          selectedTabIndex: 0
+        };
+
+        readSearchParamsFromLocation();
+        writeSearchParamsToLocation();
         $scope.search();
-      }, true);
+      };
+
+      // watch for location changes
+      $scope.$watchCollection(function() {
+          return $location.search();
+        }, function(newValue, oldValue) {
+        if (newValue !== oldValue) {
+          readSearchParamsFromLocation();
+          $scope.search();
+        }
+      });
+
+      // watch for searchParams changes
+      $scope.$watchCollection(function() {
+          return $scope.searchParams;
+        }, function(newValue, oldValue) {
+        if (newValue !== oldValue) {
+          $scope.pageObject.page = 1;
+          writeSearchParamsToLocation();
+        }
+      });
 
       //Search function
       $scope.search = function() {
         $scope.isSearching = true;
-        SearchDao.search($scope.searchParams.query, $scope.searchParams.page,
-          $scope.currentProject, $scope.searchParams.type,
+        SearchDao.search($scope.searchParams.query, $scope.pageObject.page,
+          $scope.searchParams.projectId,
+          $scope.tabs[$scope.searchParams.selectedTabIndex].elasticSearchType,
           $scope.pageObject.size)
         .then(function(data) {
           $scope.searchResult = data.hits.hits;
           $scope.pageObject.totalHits = data.hits.total;
-          $scope.tabs[$scope.selectedTabIndex].count = data.hits.total;
           //Count information by aggregations
-          if ($scope.tabs[$scope.selectedTabIndex].elasticSearchType === '') {
-            $scope.tabs.forEach(function(tab) {
-              if (tab.elasticSearchType !== '') {
-                tab.count = 0;
-              }
+          $scope.tabs.forEach(function(tab) {
+            if ($scope.tabs[$scope.searchParams.selectedTabIndex].
+              elasticSearchType === undefined) {
+              tab.count = 0;
               data.aggregations.countByType.buckets.forEach(
                 function(bucket) {
                   if (bucket.key === tab.elasticSearchType) {
@@ -85,77 +134,60 @@ angular.module('metadatamanagementApp').controller('SearchController',
                     // jscs:enable
                   }
                 });
-            });
-          }
+            } else {
+              tab.count = null;
+            }
+            $scope.tabs[$scope.searchParams.selectedTabIndex].count =
+              data.hits.total;
+          });
           $scope.isSearching = false;
         }, function() {
           $scope.isSearching = false;
         });
       };
+
       $scope.$on('current-project-changed', function(event, currentProject) {
         if (currentProject) {
-          $scope.currentProject = currentProject;
-          $scope.searchParams['rdc-project'] = $scope.currentProject.id;
+          $scope.searchParams.projectId = currentProject.id;
         } else {
-          $scope.currentProject = null;
-          $scope.searchParams['rdc-project'] = '';
+          $scope.searchParams.projectId = undefined;
         }
-        $scope.searchParams.page = 1;
-        $scope.pageObject.page = 1;
-        writeAllSearchParams();
       });
 
-      $scope.onTabSelected = function() {
-        $scope.pageObject.page = 1;
-        if (!$scope.isInitializing) {
-          $scope.searchParams.page = 1;
-        }
-
-        var selectedTab = $scope.tabs[$scope.selectedTabIndex];
-        $scope.tabs.forEach(function(tab) {
-          tab.count = null;
-        });
-        $scope.searchParams.type = selectedTab.elasticSearchType;
-        writeAllSearchParams();
-      };
-
-      $scope.onQueryChanged = function() {
-        $scope.pageObject.page = 1;
-        $scope.searchParams.page = 1;
-        writeAllSearchParams();
-      };
-
       $scope.onPageChanged = function() {
-        $scope.searchParams.page = $scope.pageObject.page;
-        writeAllSearchParams();
+        writeSearchParamsToLocation();
       };
 
       $scope.uploadVariables = function(files) {
         if (!files || files.length === 0) {
           return;
         }
-        VariableUploadService.uploadVariables(files, $scope.currentProject);
+        VariableUploadService.uploadVariables(files,
+          $scope.searchParams.projectId);
       };
 
       $scope.uploadQuestions = function(files) {
         if (!files || files.length === 0) {
           return;
         }
-        QuestionUploadService.uploadQuestions(files, $scope.currentProject);
+        QuestionUploadService.uploadQuestions(files,
+          $scope.searchParams.projectId);
       };
 
       $scope.uploadSurveys = function(files) {
         if (!files || files.length === 0) {
           return;
         }
-        SurveyUploadService.uploadSurveys(files, $scope.currentProject);
+        SurveyUploadService.uploadSurveys(files,
+          $scope.searchParams.projectId);
       };
 
       $scope.uploadDataSets = function(files) {
         if (!files || files.length === 0) {
           return;
         }
-        DataSetUploadService.uploadDataSets(files, $scope.currentProject);
+        DataSetUploadService.uploadDataSets(files,
+          $scope.searchParams.projectId);
       };
 
       $scope.uploadRelatedPublications = function(file) {
@@ -173,14 +205,15 @@ angular.module('metadatamanagementApp').controller('SearchController',
         if (!files || files.length === 0) {
           return;
         }
-        StudyUploadService.uploadStudy(files, $scope.currentProject);
+        StudyUploadService.uploadStudy(files, $scope.searchParams.projectId);
       };
 
       $scope.uploadInstruments = function(files) {
         if (!files || files.length === 0) {
           return;
         }
-        InstrumentUploadService.uploadInstruments(files, $scope.currentProject);
+        InstrumentUploadService.uploadInstruments(files,
+          $scope.searchParams.projectId);
       };
 
       //Refresh function for the refresh button
@@ -191,7 +224,7 @@ angular.module('metadatamanagementApp').controller('SearchController',
       $scope.$on('upload-completed', function() {
         //wait for 1 seconds until refresh
         //in order to wait for elasticsearch reindex
-        $timeout($scope.refresh, 1000);
+        $timeout($scope.search, 1000);
       });
 
       //Information for the different tabs
@@ -252,4 +285,6 @@ angular.module('metadatamanagementApp').controller('SearchController',
         count: null,
         uploadFunction: $scope.uploadRelatedPublications
       }];
+
+      init();
     });
