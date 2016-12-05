@@ -113,6 +113,9 @@ angular.module('metadatamanagementApp').controller('SearchController',
 
       //Search function
       $scope.search = function() {
+        if ($scope.isSearching) {
+          return;
+        }
         $scope.isSearching = true;
         SearchDao.search($scope.searchParams.query, $scope.pageObject.page,
           $scope.searchParams.projectId,

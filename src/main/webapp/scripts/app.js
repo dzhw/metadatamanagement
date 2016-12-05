@@ -86,7 +86,8 @@ angular
       ], true);
 
       // enable urls without #
-      $locationProvider.html5Mode(true);
+      $locationProvider.html5Mode(false);
+      $locationProvider.hashPrefix('!');
 
       $stateProvider.state('site', {
         'abstract': true,
@@ -114,6 +115,7 @@ angular
           ]
         }
       });
+      $urlRouterProvider.when('', '/de/search');
       $urlRouterProvider.when('/', '/de/search');
       $urlRouterProvider.when('/de', '/de/search');
       $urlRouterProvider.when('/de/', '/de/search');

@@ -18,7 +18,6 @@ import org.springframework.boot.web.servlet.ServletContextInitializer;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.env.Environment;
 
-import eu.dzhw.fdz.metadatamanagement.common.rest.filter.AngularUrlsFilter;
 import eu.dzhw.fdz.metadatamanagement.common.rest.filter.CachingHttpHeadersFilter;
 import eu.dzhw.fdz.metadatamanagement.common.rest.filter.StaticResourcesProductionFilter;
 
@@ -40,7 +39,6 @@ public class WebConfigurer
         Arrays.toString(env.getActiveProfiles()));
     EnumSet<DispatcherType> disps =
         EnumSet.of(DispatcherType.REQUEST, DispatcherType.FORWARD, DispatcherType.ASYNC);
-    initAngularAppFilter(servletContext, disps);
     if (env.acceptsProfiles("!" + Constants.SPRING_PROFILE_LOCAL)) {
       initCachingHttpHeadersFilter(servletContext, disps);
       initStaticResourcesProductionFilter(servletContext, disps);
@@ -106,21 +104,8 @@ public class WebConfigurer
     cachingHttpHeadersFilter.addMappingForUrlPatterns(disps, true, "/dist/assets/*");
     cachingHttpHeadersFilter.addMappingForUrlPatterns(disps, true, "/dist/scripts/*");
     cachingHttpHeadersFilter.addMappingForUrlPatterns(disps, true, "/bower_components/*");
-    cachingHttpHeadersFilter.addMappingForUrlPatterns(disps, true, "/officetemplates/*");
-    cachingHttpHeadersFilter.addMappingForUrlPatterns(disps, true, "/pdfviewer/*");
     cachingHttpHeadersFilter.addMappingForUrlPatterns(disps, true, "/favicon.ico");
     cachingHttpHeadersFilter.addMappingForUrlPatterns(disps, true, "/i18n/*");
     cachingHttpHeadersFilter.setAsyncSupported(true);
-  }
-  
-  private void initAngularAppFilter(ServletContext servletContext, EnumSet<DispatcherType> disps) {
-    log.debug("Registering Angular App Filter");
-    FilterRegistration.Dynamic angularAppFilter =
-        servletContext.addFilter("angularAppFilter", new AngularUrlsFilter());
-
-    angularAppFilter.addMappingForUrlPatterns(disps, true, "/de/*");
-    angularAppFilter.addMappingForUrlPatterns(disps, true, "/en/*");
-    angularAppFilter.setAsyncSupported(true);
-    
   }
 }
