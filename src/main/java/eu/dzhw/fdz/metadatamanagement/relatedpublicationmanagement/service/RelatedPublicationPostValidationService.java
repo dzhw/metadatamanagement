@@ -17,13 +17,15 @@ import eu.dzhw.fdz.metadatamanagement.questionmanagement.domain.Question;
 import eu.dzhw.fdz.metadatamanagement.questionmanagement.repository.QuestionRepository;
 import eu.dzhw.fdz.metadatamanagement.relatedpublicationmanagement.domain.RelatedPublication;
 import eu.dzhw.fdz.metadatamanagement.relatedpublicationmanagement.repository.RelatedPublicationRepository;
+import eu.dzhw.fdz.metadatamanagement.studymanagement.domain.Study;
+import eu.dzhw.fdz.metadatamanagement.studymanagement.repository.StudyRepository;
 import eu.dzhw.fdz.metadatamanagement.surveymanagement.domain.Survey;
 import eu.dzhw.fdz.metadatamanagement.surveymanagement.repository.SurveyRepository;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.Variable;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.repository.VariableRepository;
 
 /**
- * This service handels the post-validation of related publications. It checks the foreign keys and 
+ * This service handles the post-validation of related publications. It checks the foreign keys and 
  * references between to other domain objects. If a foreign key or reference is not valid, 
  * the service adds an error message to a list. Finally the service returns a list with all errors.
  *
@@ -51,12 +53,12 @@ public class RelatedPublicationPostValidationService {
 
   @Inject
   private QuestionRepository questionRepository;
-//  
-//  @Inject
-//  private StudyRepository studyRepository;
+  
+  @Inject
+  private StudyRepository studyRepository;
 
   /**
-   * This method handels the complete post validation of all relatedPublications.
+   * This method handles the complete post validation of all relatedPublications.
    * 
    * @return a list of all post validation errors.
    */
@@ -66,6 +68,9 @@ public class RelatedPublicationPostValidationService {
     List<RelatedPublication> relatedPublications = this.relatedPublicationRepository.findAll();
     
     for (RelatedPublication relatedPublication : relatedPublications) {
+      
+      //Validate Studies
+      errors = this.postValidateStudies(relatedPublication, errors);
       
       //Validate Variables
       errors = this.postValidateVariables(relatedPublication, errors);
@@ -81,6 +86,33 @@ public class RelatedPublicationPostValidationService {
       
       //Validate Questions
       errors = this.postValidateQuestions(relatedPublication, errors);
+    }
+    
+    return errors;
+  }
+
+  /**
+   * This method checks all post validation from related publication to the studies.
+   * @param relatedPublication The actual related publication.
+   * @param errors The list with all recognized errors.    
+   * @return The updated list of errors.
+   */
+  private List<PostValidationMessageDto> postValidateStudies(RelatedPublication relatedPublication,
+      List<PostValidationMessageDto> errors) {
+    
+    List<String> studyIds = relatedPublication.getStudyIds();
+    
+    //check all referenced study ids
+    for (String studyId : studyIds) {
+      Study study = this.studyRepository.findOne(studyId);
+      
+      //check for exting referenced
+      if (study == null) {
+        String[] information = {studyId, relatedPublication.getId()};
+        errors.add(new PostValidationMessageDto("study-management.error."
+            + "post-validation.study-unknown", Arrays.asList(information)));
+      } 
+      //no else case. no further checks for studies.
     }
     
     return errors;
