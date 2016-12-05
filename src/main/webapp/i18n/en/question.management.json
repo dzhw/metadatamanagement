@@ -109,7 +109,9 @@
         "question-has-invalid-instrument-id": "The Question {{id}} references an unknown Instrument ({{toBereferenzedId}}).",
         "question-has-invalid-successor": "The Question {{id}} references an unknown successor ({{toBereferenzedId}}).",
         "question-has-invalid-survey-id": "The Question {{id}} references an unknown Survey ({{toBereferenzedId}}).",
-        "non-unique-question-number-in-instrument": "The Question {{id}} with the number {{number}} is not unique within the Insturment {{instrumentId}}."
+        "non-unique-question-number-in-instrument": "The Question {{id}} with the number {{number}} is not unique within the Insturment {{instrumentId}}.",
+        "question-unknown": "The question {{id}} could be found. It is referenced to the related publication ({{toBereferenzedId}}).",
+        "question-has-not-a-referenced-study": "The question {{id}} has a reference to the Study ({{additionalId}}). This Study is not refereced by the related publication ({{toBereferenzedId}})."
       }
     }
   }
