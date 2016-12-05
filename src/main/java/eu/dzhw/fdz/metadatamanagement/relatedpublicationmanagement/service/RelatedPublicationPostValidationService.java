@@ -8,6 +8,8 @@ import javax.inject.Inject;
 
 import org.springframework.stereotype.Service;
 
+import eu.dzhw.fdz.metadatamanagement.instrumentmanagement.domain.Instrument;
+import eu.dzhw.fdz.metadatamanagement.instrumentmanagement.repository.InstrumentRepository;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.rest.dto.PostValidationMessageDto;
 import eu.dzhw.fdz.metadatamanagement.questionmanagement.domain.Question;
 import eu.dzhw.fdz.metadatamanagement.questionmanagement.repository.QuestionRepository;
@@ -36,9 +38,9 @@ public class RelatedPublicationPostValidationService {
 //
 //  @Inject
 //  private DataSetRepository dataSetRepository;
-//
-//  @Inject
-//  private InstrumentRepository instrumentRepository;
+
+  @Inject
+  private InstrumentRepository instrumentRepository;
 
   @Inject
   private QuestionRepository questionRepository;
@@ -57,8 +59,12 @@ public class RelatedPublicationPostValidationService {
     List<RelatedPublication> relatedPublications = this.relatedPublicationRepository.findAll();
     
     for (RelatedPublication relatedPublication : relatedPublications) {
-      errors = this.postValidateQuestions(relatedPublication.getQuestionIds(), 
-          relatedPublication, errors);
+      
+      //Validate Instruments
+      errors = this.postValidateInstruments(relatedPublication, errors);
+      
+      //Validate Questions
+      errors = this.postValidateQuestions(relatedPublication, errors);
     }
     
     return errors;
@@ -67,12 +73,47 @@ public class RelatedPublicationPostValidationService {
   /**
    * 
    * @param questionIds A list of ids of all referenced questions.
-   * @param relatedPublication The actual related publication.
    * @param errors The list with all recognized errors.    
    * @return The updated list of errors.
    */
-  private List<PostValidationMessageDto> postValidateQuestions(List<String> questionIds,
+  private List<PostValidationMessageDto> postValidateInstruments(
       RelatedPublication relatedPublication, List<PostValidationMessageDto> errors) {
+    
+    List<String> instrumentIds = relatedPublication.getInstrumentIds();
+    
+    //check all referenced question ids
+    for (String instrumentId : instrumentIds) {
+      Instrument instrument = this.instrumentRepository.findOne(instrumentId);
+      
+      //check for exting referenced
+      if (instrument == null) {
+        String[] information = {instrumentId, relatedPublication.getId()};
+        errors.add(new PostValidationMessageDto("instrument-management.error."
+            + "post-validation.question-unknown", Arrays.asList(information)));
+      } else { //All other checks, where question is != null
+        //is the same study id referenced to the related publication
+        if (!relatedPublication.getStudyIds().contains(instrument.getDataAcquisitionProjectId())) {
+          String[] information = {instrumentId, relatedPublication.getId(), 
+              instrument.getDataAcquisitionProjectId()};
+          errors.add(new PostValidationMessageDto("instrument-management.error."
+              + "post-validation.question-has-not-a-referenced-study", Arrays.asList(information)));
+        }
+      }      
+    }
+    
+    return errors;
+  }
+
+  /**
+   * 
+   * @param relatedPublication The actual related publication 
+   * @param errors The list with all recognized errors.    
+   * @return The updated list of errors.
+   */
+  private List<PostValidationMessageDto> postValidateQuestions(
+      RelatedPublication relatedPublication, List<PostValidationMessageDto> errors) {
+    
+    List<String> questionIds = relatedPublication.getQuestionIds();
     
     //check all referenced question ids
     for (String questionId : questionIds) {
