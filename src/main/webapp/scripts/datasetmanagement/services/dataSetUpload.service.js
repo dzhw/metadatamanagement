@@ -63,19 +63,19 @@ angular.module('metadatamanagementApp').service('DataSetUploadService',
         }
       }
     };
-    var uploadDataSets = function(files, dataAcquisitionProject) {
-      if (!CleanJSObjectService.isNullOrEmpty(dataAcquisitionProject)) {
+    var uploadDataSets = function(files, dataAcquisitionProjectId) {
+      if (!CleanJSObjectService.isNullOrEmpty(dataAcquisitionProjectId)) {
         var confirm = $mdDialog.confirm()
           .title($translate.instant(
             'search-management.delete-messages.' +
             'delete-data-sets-title'))
           .textContent($translate.instant(
             'search-management.delete-messages.delete-data-sets', {
-              id: dataAcquisitionProject.id
+              id: dataAcquisitionProjectId
             }))
           .ariaLabel($translate.instant(
             'search-management.delete-messages.delete-data-sets', {
-              id: dataAcquisitionProject.id
+              id: dataAcquisitionProjectId
             }))
           .ok($translate.instant('global.buttons.ok'))
           .cancel($translate.instant('global.buttons.cancel'));
@@ -85,7 +85,7 @@ angular.module('metadatamanagementApp').service('DataSetUploadService',
           var allFileReaders = [];
           JobLoggingService.start('variable');
           DataSetDeleteResource.deleteByDataAcquisitionProjectId({
-            dataAcquisitionProjectId: dataAcquisitionProject.id}).$promise.then(
+            dataAcquisitionProjectId: dataAcquisitionProjectId}).$promise.then(
             function() {
               var dataSetExcelFile;
               var subDataSetsExcelFiles = {};
@@ -127,7 +127,7 @@ angular.module('metadatamanagementApp').service('DataSetUploadService',
                       if (subDataSetErrors.length === 0) {
                         objects.push(DataSetBuilderService
                           .buildDataSet(dataSetFromExcel,
-                            subDataSets, dataAcquisitionProject.id));
+                            subDataSets, dataAcquisitionProjectId));
                       } else {
                         JobLoggingService.error({
                           message: 'data-set-management.' +
@@ -164,7 +164,7 @@ angular.module('metadatamanagementApp').service('DataSetUploadService',
             }
           );
 
-        }, function() {});
+        });
       }
     };
     return {

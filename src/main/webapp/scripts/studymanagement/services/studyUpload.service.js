@@ -37,25 +37,25 @@ angular.module('metadatamanagementApp').service('StudyUploadService',
       }
     };
 
-    var uploadStudy = function(files, dataAcquisitionProject) {
-      if (!CleanJSObjectService.isNullOrEmpty(dataAcquisitionProject)) {
+    var uploadStudy = function(files, dataAcquisitionProjectId) {
+      if (!CleanJSObjectService.isNullOrEmpty(dataAcquisitionProjectId)) {
         var confirm = $mdDialog.confirm()
           .title($translate.instant(
             'search-management.delete-messages.delete-studies-title'))
           .textContent($translate.instant(
             'search-management.delete-messages.delete-studies', {
-              id: dataAcquisitionProject.id
+              id: dataAcquisitionProjectId
             }))
           .ariaLabel($translate.instant(
             'search-management.delete-messages.delete-studies', {
-              id: dataAcquisitionProject.id
+              id: dataAcquisitionProjectId
             }))
           .ok($translate.instant('global.buttons.ok'))
           .cancel($translate.instant('global.buttons.cancel'));
         $mdDialog.show(confirm).then(function() {
           JobLoggingService.start('study');
           StudyDeleteResource.deleteByDataAcquisitionProjectId({
-            dataAcquisitionProjectId: dataAcquisitionProject.id}).$promise.then(
+            dataAcquisitionProjectId: dataAcquisitionProjectId}).$promise.then(
             function() {
               var studyExcelFile;
               var releasesExcelFile;
@@ -88,7 +88,7 @@ angular.module('metadatamanagementApp').service('StudyUploadService',
                 .then(function(studyFromExcel) {
                   study = StudyBuilderService
                   .buildStudy(studyFromExcel[0], releases,
-                  dataAcquisitionProject.id);
+                  dataAcquisitionProjectId);
                   upload();
                 }, function() {
                   JobLoggingService.cancel(
@@ -105,7 +105,7 @@ angular.module('metadatamanagementApp').service('StudyUploadService',
                 'study-management.log-messages.study.unable-to-delete');
             }
           );
-        }, function() {});
+        });
       }
     };
     return {

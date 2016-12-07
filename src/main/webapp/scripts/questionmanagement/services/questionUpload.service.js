@@ -85,19 +85,19 @@ angular.module('metadatamanagementApp').service('QuestionUploadService',
       }
     };
 
-    var uploadQuestions = function(files, dataAcquisitionProject) {
-      if (!CleanJSObjectService.isNullOrEmpty(dataAcquisitionProject)) {
+    var uploadQuestions = function(files, dataAcquisitionProjectId) {
+      if (!CleanJSObjectService.isNullOrEmpty(dataAcquisitionProjectId)) {
         var confirm = $mdDialog.confirm()
           .title($translate.instant(
             'search-management.delete-messages.' +
             'delete-questions-title'))
           .textContent($translate.instant(
             'search-management.delete-messages.delete-questions', {
-              id: dataAcquisitionProject.id
+              id: dataAcquisitionProjectId
             }))
           .ariaLabel($translate.instant(
             'search-management.delete-messages.delete-questions', {
-              id: dataAcquisitionProject.id
+              id: dataAcquisitionProjectId
             }))
           .ok($translate.instant('global.buttons.ok'))
           .cancel($translate.instant('global.buttons.cancel'));
@@ -115,7 +115,7 @@ angular.module('metadatamanagementApp').service('QuestionUploadService',
                     var question = CleanJSObjectService.removeEmptyJsonObjects(
                       JSON.parse(result));
                     question
-                    .dataAcquisitionProjectId = dataAcquisitionProject.id;
+                    .dataAcquisitionProjectId = dataAcquisitionProjectId;
                     question.imageType = 'PNG';
                     if (!images[question.id]) {
                       JobLoggingService.error({
@@ -151,7 +151,7 @@ angular.module('metadatamanagementApp').service('QuestionUploadService',
           //after reading all jsons (in parallel) the questions are deleted
           $q.all(questionFileReaders).then(function() {
             return QuestionDeleteResource.deleteByDataAcquisitionProjectId({
-                dataAcquisitionProjectId: dataAcquisitionProject.id}).$promise;
+                dataAcquisitionProjectId: dataAcquisitionProjectId}).$promise;
           }).then(uploadNextQuestion, function(error) {
             //delete failed
             JobLoggingService.cancel(
@@ -160,7 +160,7 @@ angular.module('metadatamanagementApp').service('QuestionUploadService',
             return $q.reject(error);
           });
 
-        }, function() {});
+        });
       }
     };
 

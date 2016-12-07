@@ -110,18 +110,18 @@ angular.module('metadatamanagementApp').service('InstrumentUploadService',
     };
 
     // upload instruments for the given projects
-    var uploadInstruments = function(files, dataAcquisitionProject) {
-      if (!CleanJSObjectService.isNullOrEmpty(dataAcquisitionProject)) {
+    var uploadInstruments = function(files, dataAcquisitionProjectId) {
+      if (!CleanJSObjectService.isNullOrEmpty(dataAcquisitionProjectId)) {
         var confirm = $mdDialog.confirm()
           .title($translate.instant(
             'search-management.delete-messages.delete-instruments-title'))
           .textContent($translate.instant(
             'search-management.delete-messages.delete-instruments', {
-              id: dataAcquisitionProject.id
+              id: dataAcquisitionProjectId
             }))
           .ariaLabel($translate.instant(
             'search-management.delete-messages.delete-instruments', {
-              id: dataAcquisitionProject.id
+              id: dataAcquisitionProjectId
             }))
           .ok($translate.instant('global.buttons.ok'))
           .cancel($translate.instant('global.buttons.cancel'));
@@ -135,7 +135,7 @@ angular.module('metadatamanagementApp').service('InstrumentUploadService',
           attachmentsToUpload = {};
           JobLoggingService.start('instrument');
           InstrumentDeleteResource.deleteByDataAcquisitionProjectId({
-            dataAcquisitionProjectId: dataAcquisitionProject.id
+            dataAcquisitionProjectId: dataAcquisitionProjectId
           }).$promise.then(
             function() {
               // the excel file containing instruments and attachment metadata
@@ -171,7 +171,7 @@ angular.module('metadatamanagementApp').service('InstrumentUploadService',
                       instrumentsToSave.push(
                         InstrumentBuilderService.buildInstrument(
                           instrumentFromExcel,
-                          dataAcquisitionProject.id));
+                          dataAcquisitionProjectId));
                     });
                   } else {
                     JobLoggingService.cancel(
@@ -230,7 +230,7 @@ angular.module('metadatamanagementApp').service('InstrumentUploadService',
                         [metadataFromExcel.filename].metadata =
                         InstrumentBuilderService
                         .buildInstrumentAttachmentMetadata(
-                          metadataFromExcel, dataAcquisitionProject.id);
+                          metadataFromExcel, dataAcquisitionProjectId);
                       attachmentsToUpload[metadataFromExcel.instrumentId]
                         [metadataFromExcel.filename].attachment =
                         attachmentFiles[metadataFromExcel.filename];
@@ -258,7 +258,7 @@ angular.module('metadatamanagementApp').service('InstrumentUploadService',
               return $q.reject();
             }
           );
-        }, function() {});
+        });
       }
     };
 

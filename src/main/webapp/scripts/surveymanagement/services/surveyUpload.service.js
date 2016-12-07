@@ -113,18 +113,18 @@ angular.module('metadatamanagementApp').service('SurveyUploadService', function(
   /* This method can called by external scripts/classes.
       It prepates the Upload. Survey information will be read out of the
       excel file. */
-  var uploadSurveys = function(files, dataAcquisitionProject) {
-    if (!CleanJSObjectService.isNullOrEmpty(dataAcquisitionProject)) {
+  var uploadSurveys = function(files, dataAcquisitionProjectId) {
+    if (!CleanJSObjectService.isNullOrEmpty(dataAcquisitionProjectId)) {
       var confirm = $mdDialog.confirm()
         .title($translate.instant(
           'search-management.delete-messages.delete-surveys-title'))
         .textContent($translate.instant(
           'search-management.delete-messages.delete-surveys', {
-            id: dataAcquisitionProject.id
+            id: dataAcquisitionProjectId
           }))
         .ariaLabel($translate.instant(
           'search-management.delete-messages.delete-surveys', {
-            id: dataAcquisitionProject.id
+            id: dataAcquisitionProjectId
           }))
         .ok($translate.instant('global.buttons.ok'))
         .cancel($translate.instant('global.buttons.cancel'));
@@ -135,7 +135,7 @@ angular.module('metadatamanagementApp').service('SurveyUploadService', function(
         JobLoggingService.start('survey');
         //Delete all old Surveys by Project Id
         SurveyDeleteResource.deleteByDataAcquisitionProjectId({
-            dataAcquisitionProjectId: dataAcquisitionProject.id
+            dataAcquisitionProjectId: dataAcquisitionProjectId
           }).$promise
           .then(
             //After deleting read the excel file for survey information
@@ -147,7 +147,7 @@ angular.module('metadatamanagementApp').service('SurveyUploadService', function(
                     .then(function(rawSurveys) {
                       surveys = SurveyBuilderService
                         .getSurveys(rawSurveys,
-                          dataAcquisitionProject.id);
+                          dataAcquisitionProjectId);
                       //Error Handling for non readable excel file
                     }, function() {
                       JobLoggingService.cancel(
@@ -175,7 +175,7 @@ angular.module('metadatamanagementApp').service('SurveyUploadService', function(
                 'survey.log-messages.survey.unable-to-delete');
             });
 
-      }, function() {});
+      });
     }
   };
   //Global methods

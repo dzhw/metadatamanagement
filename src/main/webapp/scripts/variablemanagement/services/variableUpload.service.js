@@ -50,19 +50,19 @@ angular.module('metadatamanagementApp').service('VariableUploadService',
       }
     };
 
-    var uploadVariables = function(files, dataAcquisitionProject) {
-      if (!CleanJSObjectService.isNullOrEmpty(dataAcquisitionProject)) {
+    var uploadVariables = function(files, dataAcquisitionProjectId) {
+      if (!CleanJSObjectService.isNullOrEmpty(dataAcquisitionProjectId)) {
         var confirm = $mdDialog.confirm()
           .title($translate.instant(
             'search-management.delete-messages.' +
             'delete-variables-title'))
           .textContent($translate.instant(
             'search-management.delete-messages.delete-variables', {
-              id: dataAcquisitionProject.id
+              id: dataAcquisitionProjectId
             }))
           .ariaLabel($translate.instant(
             'search-management.delete-messages.delete-variables', {
-              id: dataAcquisitionProject.id
+              id: dataAcquisitionProjectId
             }))
           .ok($translate.instant('global.buttons.ok'))
           .cancel($translate.instant('global.buttons.cancel'));
@@ -71,7 +71,7 @@ angular.module('metadatamanagementApp').service('VariableUploadService',
           objects = [];
           JobLoggingService.start('variable');
           VariableDeleteResource.deleteByDataAcquisitionProjectId({
-            dataAcquisitionProjectId: dataAcquisitionProject.id}).$promise.then(
+            dataAcquisitionProjectId: dataAcquisitionProjectId}).$promise.then(
             function() {
               var excelFile;
               var jsonFiles = {};
@@ -106,7 +106,7 @@ angular.module('metadatamanagementApp').service('VariableUploadService',
                           var variableFromJson = JSON.parse(variableAsText);
                           objects.push(VariableBuilderService.buildVariable(
                             variableFromExcel, variableFromJson,
-                            dataAcquisitionProject.id));
+                            dataAcquisitionProjectId));
                         } catch (e) {
                           JobLoggingService.error({
                             message:
@@ -146,7 +146,7 @@ angular.module('metadatamanagementApp').service('VariableUploadService',
               return $q.reject();
             }
           );
-        }, function() {});
+        });
       }
     };
 
