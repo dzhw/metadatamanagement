@@ -23,14 +23,25 @@ angular.module('metadatamanagementApp').service('ErrorMessageResolverService',
           id: subObjectId
         };
       }
-      if (messageObj.data && messageObj.data.errors) {
-        messageObj.data.errors.forEach(function(messageObj) {
+      if (messageObj.errors) {
+        messageObj.errors.forEach(function(error) {
           subMessages.push({
-            message: messageObj.message,
+            message: error.message,
             translationParams: {
-              'property': messageObj.property,
-              'invalidValue': messageObj.invalidValue,
-              'entity': messageObj.entity
+              'property': error.property,
+              'invalidValue': error.invalidValue,
+              'entity': error.entity
+            }
+          });
+        });
+      } else if (messageObj.data && messageObj.data.errors) {
+        messageObj.data.errors.forEach(function(error) {
+          subMessages.push({
+            message: error.message,
+            translationParams: {
+              'property': error.property,
+              'invalidValue': error.invalidValue,
+              'entity': error.entity
             }
           });
         });
