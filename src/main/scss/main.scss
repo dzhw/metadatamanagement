@@ -1,4 +1,5 @@
-$icon-font-path: "../../bower_components/bootstrap-sass/assets/fonts/bootstrap/";
+// bootstrap icons are not found when running locally
+$icon-font-path: "./fonts/";
 $brand-primary: #006AB2 !default;
 $brand-success: #B2B109 !default;
 $brand-info: #028AA4 !default;

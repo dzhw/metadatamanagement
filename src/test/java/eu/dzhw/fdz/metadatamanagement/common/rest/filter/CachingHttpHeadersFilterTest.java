@@ -20,8 +20,6 @@ import org.junit.Test;
 import org.mockito.Mockito;
 import org.springframework.core.env.Environment;
 
-import eu.dzhw.fdz.metadatamanagement.common.rest.filter.CachingHttpHeadersFilter;
-
 /**
  * No Integration Test. No need for application Context.
  * 
@@ -57,6 +55,7 @@ public class CachingHttpHeadersFilterTest {
     // Arrange
     CachingHttpHeadersFilter filter = this.createDefaultCachingHttpHeadersFilter();
     HttpServletRequest request = Mockito.mock(HttpServletRequest.class);
+    when(request.getRequestURI()).thenReturn("index.html");
     HttpServletResponse response = Mockito.mock(HttpServletResponse.class);
     FilterChain chain = Mockito.mock(FilterChain.class);
 

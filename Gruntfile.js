@@ -410,14 +410,24 @@ module.exports = function(grunt) {
       },
       // Put files not handled in other tasks here
       copy: {
+        localfonts: {
+          files: [{
+            expand: true,
+            dot: true,
+            flatten: true,
+            cwd: 'src/main/webapp',
+            dest: 'src/main/webapp/assets/styles/fonts',
+            src: ['bower_components/bootstrap-sass/assets/fonts/bootstrap/*.*']
+          }]
+        },
         fonts: {
           files: [{
             expand: true,
             dot: true,
             flatten: true,
             cwd: 'src/main/webapp',
-            dest: '<%= yeoman.dist %>/assets/fonts',
-            src: ['bower_components/bootstrap/fonts/*.*']
+            dest: '<%= yeoman.dist %>/assets/styles/fonts',
+            src: ['bower_components/bootstrap-sass/assets/fonts/bootstrap/*.*']
           }, {
             expand: true,
             dot: true,
@@ -434,8 +444,7 @@ module.exports = function(grunt) {
             cwd: 'src/main/webapp',
             dest: '<%= yeoman.dist %>',
             src: ['*.html', 'scripts/**/*.html',
-              'assets/images/**/*.{png,gif,webp,jpg,jpeg,svg}',
-              'assets/fonts/*'
+              'assets/images/**/*.{png,gif,webp,jpg,jpeg,svg}'
             ]
           }, {
             expand: true,
@@ -443,11 +452,6 @@ module.exports = function(grunt) {
             dest: '<%= yeoman.dist %>/assets/images',
             src: ['generated/*']
           }]
-        },
-        generateOpenshiftDirectory: {
-          expand: true,
-          dest: 'deploy/openshift',
-          src: ['pom.xml', 'src/main/**']
         }
       },
       karma: {
@@ -533,7 +537,7 @@ module.exports = function(grunt) {
     });
 
   grunt.registerTask('serve', ['clean:server', 'wiredep', 'ngconstant:local',
-    'sass:server', 'browserSync', 'watch'
+    'sass:server', 'copy:localfonts', 'browserSync', 'watch'
   ]);
 
   grunt.registerTask('server', function(target) {
@@ -561,8 +565,8 @@ module.exports = function(grunt) {
     'autoprefixer', 'uglify', 'rev', 'usemin', 'htmlmin'
   ]);
 
-  grunt.registerTask('buildlocal', ['test', 'clean:dist', 'wiredep:app',
-    'ngconstant:local', 'ngAnnotate'
+  grunt.registerTask('buildlocal', ['test', 'clean:dist', 'copy:localfonts',
+    'wiredep:app', 'ngconstant:local', 'ngAnnotate'
   ]);
 
   grunt.registerTask('default', ['serve']);

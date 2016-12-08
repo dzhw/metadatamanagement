@@ -8,11 +8,14 @@ import javax.servlet.FilterConfig;
 import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.springframework.http.HttpHeaders;
+
 /**
- * This filter is used in production, to put HTTP cache headers with a long (1 month) expiration
- * time.
+ * This filter is used in test, dev and prod to put HTTP cache headers with a 
+ * long (1 month) expiration time for static resources (in /dist). 
  */
 public class CachingHttpHeadersFilter implements Filter {
 
@@ -33,13 +36,23 @@ public class CachingHttpHeadersFilter implements Filter {
   public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
       throws IOException, ServletException {
 
-    if (response instanceof HttpServletResponse) {
+    if (response instanceof HttpServletResponse && request instanceof HttpServletRequest) {
+      HttpServletRequest httpRequest = (HttpServletRequest) request;
       HttpServletResponse httpResponse = (HttpServletResponse) response;      
-      httpResponse.setHeader("Cache-Control", "max-age=0, must-revalidate");
-      httpResponse.setHeader("Pragma", "cache");
+      String requestUri = httpRequest.getRequestURI();
+      if (requestUri.endsWith("index.html")) {
+        // index.html can be cached but must be revalidated
+        httpResponse.setHeader(HttpHeaders.CACHE_CONTROL, 
+            "max-age=0, must-revalidate, public");
+      } else {
+        httpResponse.setHeader(HttpHeaders.CACHE_CONTROL, 
+            "max-age=2629000, must-revalidate, public");        
+      }
+      httpResponse.setHeader(HttpHeaders.PRAGMA, "cache");
       
-      // Setting the Last-Modified header, for browser caching
-      httpResponse.setDateHeader("Last-Modified", LAST_MODIFIED);
+      // Setting the Last-Modified and etag header, for browser caching
+      httpResponse.setDateHeader(HttpHeaders.LAST_MODIFIED, LAST_MODIFIED);
+      httpResponse.setHeader(HttpHeaders.ETAG, String.valueOf(LAST_MODIFIED));
       
       chain.doFilter(request, response);
     }

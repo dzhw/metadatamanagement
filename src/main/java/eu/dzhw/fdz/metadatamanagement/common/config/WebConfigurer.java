@@ -40,8 +40,8 @@ public class WebConfigurer
     EnumSet<DispatcherType> disps =
         EnumSet.of(DispatcherType.REQUEST, DispatcherType.FORWARD, DispatcherType.ASYNC);
     if (env.acceptsProfiles("!" + Constants.SPRING_PROFILE_LOCAL)) {
-      initCachingHttpHeadersFilter(servletContext, disps);
       initStaticResourcesProductionFilter(servletContext, disps);
+      initCachingHttpHeadersFilter(servletContext, disps);
     }
     log.info("Web application fully configured");
   }
@@ -80,7 +80,6 @@ public class WebConfigurer
    */
   private void initStaticResourcesProductionFilter(ServletContext servletContext,
       EnumSet<DispatcherType> disps) {
-
     log.debug("Registering static resources production Filter");
     FilterRegistration.Dynamic staticResourcesProductionFilter = servletContext
         .addFilter("staticResourcesProductionFilter", new StaticResourcesProductionFilter());
@@ -101,8 +100,8 @@ public class WebConfigurer
     FilterRegistration.Dynamic cachingHttpHeadersFilter =
         servletContext.addFilter("cachingHttpHeadersFilter", new CachingHttpHeadersFilter());
 
-    cachingHttpHeadersFilter.addMappingForUrlPatterns(disps, true, "/dist/assets/*");
-    cachingHttpHeadersFilter.addMappingForUrlPatterns(disps, true, "/dist/scripts/*");
+    cachingHttpHeadersFilter.addMappingForUrlPatterns(disps, true, "/dist/*");
+    cachingHttpHeadersFilter.addMappingForUrlPatterns(disps, true, "/index.html");
     cachingHttpHeadersFilter.addMappingForUrlPatterns(disps, true, "/bower_components/*");
     cachingHttpHeadersFilter.addMappingForUrlPatterns(disps, true, "/favicon.ico");
     cachingHttpHeadersFilter.addMappingForUrlPatterns(disps, true, "/i18n/*");

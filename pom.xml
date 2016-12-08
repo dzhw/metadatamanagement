@@ -676,11 +676,13 @@
                                 <fileset>
                                     <directory>.tmp</directory>
                                 </fileset>
-                                <!-- Removed to save time -->
-                                <!-- <fileset> -->
-                                <!-- <directory>node_modules</directory> -->
-                                <!-- </fileset> -->
                             </filesets>
+                        </configuration>
+                    </plugin>
+                    <plugin>
+                        <artifactId>maven-war-plugin</artifactId>
+                        <configuration>
+                            <warSourceExcludes>/index.html,%regex[bower_components/(?!angular-i18n).*],/scripts/**,/assets/**</warSourceExcludes>
                         </configuration>
                     </plugin>
                     <!-- deploy fat jar to cloudfoundry -->
@@ -793,11 +795,13 @@
                                 <fileset>
                                     <directory>.tmp</directory>
                                 </fileset>
-                                <!-- Removed to save time -->
-                                <!-- <fileset> -->
-                                <!-- <directory>node_modules</directory> -->
-                                <!-- </fileset> -->
                             </filesets>
+                        </configuration>
+                    </plugin>
+                    <plugin>
+                        <artifactId>maven-war-plugin</artifactId>
+                        <configuration>
+                            <warSourceExcludes>/index.html,%regex[bower_components/(?!angular-i18n).*],/scripts/**,/assets/**</warSourceExcludes>
                         </configuration>
                     </plugin>
                     <!-- deploy fat jar to cloudfoundry -->
