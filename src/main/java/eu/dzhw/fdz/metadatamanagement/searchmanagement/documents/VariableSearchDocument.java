@@ -74,9 +74,11 @@ public class VariableSearchDocument {
   }
   
   private void createDataSetIds(Iterable<DataSet> dataSets) {
-    dataSetIds = new ArrayList<>();
-    for (DataSet dataSet : dataSets) {
-      dataSetIds.add(dataSet.getId());
+    if (dataSets != null) {
+      dataSetIds = new ArrayList<>();
+      for (DataSet dataSet : dataSets) {
+        dataSetIds.add(dataSet.getId());
+      }
     }
   }
   
