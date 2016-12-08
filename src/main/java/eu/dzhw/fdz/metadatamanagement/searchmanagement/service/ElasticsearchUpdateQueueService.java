@@ -326,12 +326,14 @@ public class ElasticsearchUpdateQueueService {
     Variable variable = variableRepository.findOne(lockedItem.getDocumentId());
     if (variable != null) {
       Iterable<Survey> surveys = null;
+      Iterable<DataSet> dataSets = null;
       if (variable.getSurveyIds() != null) {
         surveys = surveyRepository.findAll(variable.getSurveyIds());
       }
+      dataSets = dataSetRepository.findByVariableIdsContaining(variable.getId());
       for (ElasticsearchIndices index : ElasticsearchIndices.values()) {
         VariableSearchDocument searchDocument =
-            new VariableSearchDocument(variable, surveys, index);
+            new VariableSearchDocument(variable, surveys, dataSets, index);
 
         bulkBuilder.addAction(new Index.Builder(searchDocument)
             .index(index.getIndexName())

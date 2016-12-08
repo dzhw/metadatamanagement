@@ -33,4 +33,7 @@ public interface DataSetRepository
   @RestResource(exported = false)
   List<DataSet> findBySurveyIdsContaining(String surveyId);
   
+  @RestResource(exported = false)
+  List<DataSet> findByVariableIdsContaining(String variableId);
+  
 }

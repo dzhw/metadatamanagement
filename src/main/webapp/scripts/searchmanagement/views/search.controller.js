@@ -23,6 +23,8 @@ angular.module('metadatamanagementApp').controller('SearchController',
         $scope.isAuthenticated = Principal.isAuthenticated;
       });
 
+      var filter = {};
+
       // write the searchParams object to the location with the correct types
       var writeSearchParamsToLocation = function() {
         var locationSearch = {};
@@ -33,6 +35,7 @@ angular.module('metadatamanagementApp').controller('SearchController',
         if ($scope.searchParams.query && $scope.searchParams.query !== '') {
           locationSearch.query = $scope.searchParams.query;
         }
+        _.assign(locationSearch, filter);
         $location.search(locationSearch);
       };
 
@@ -65,6 +68,7 @@ angular.module('metadatamanagementApp').controller('SearchController',
           } else {
             $scope.searchParams.query = '';
           }
+          filter =  _.omit(locationSearch, ['page', 'project', 'type']);
           $scope.searchParams.selectedTabIndex = _.findIndex($scope.tabs,
             function(tab) {
               return tab.elasticSearchType === locationSearch.type;
@@ -109,6 +113,7 @@ angular.module('metadatamanagementApp').controller('SearchController',
           return $scope.searchParams;
         }, function(newValue, oldValue) {
         if (newValue !== oldValue) {
+          filter = {};
           $scope.pageObject.page = 1;
           writeSearchParamsToLocation();
         }
@@ -118,7 +123,7 @@ angular.module('metadatamanagementApp').controller('SearchController',
       $scope.search = function() {
         $scope.isSearching = true;
         SearchDao.search($scope.searchParams.query, $scope.pageObject.page,
-          $scope.searchParams.projectId,
+          $scope.searchParams.projectId, filter,
           $scope.tabs[$scope.searchParams.selectedTabIndex].elasticSearchType,
           $scope.pageObject.size)
         .then(function(data) {

@@ -10,6 +10,7 @@ import org.springframework.data.rest.core.annotation.HandleAfterSave;
 import org.springframework.data.rest.core.annotation.RepositoryEventHandler;
 import org.springframework.stereotype.Service;
 
+import eu.dzhw.fdz.metadatamanagement.datasetmanagement.domain.DataSet;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.DataAcquisitionProject;
 import eu.dzhw.fdz.metadatamanagement.searchmanagement.domain.ElasticsearchUpdateQueueAction;
 import eu.dzhw.fdz.metadatamanagement.searchmanagement.service.ElasticsearchType;
@@ -97,6 +98,24 @@ public class VariableService {
   @HandleAfterDelete
   public void onSurveySaved(Survey survey) {
     List<Variable> variables = variableRepository.findBySurveyIdsContaining(survey.getId());
+    variables.forEach(variable -> {
+      elasticsearchUpdateQueueService.enqueue(
+          variable.getId(), 
+          ElasticsearchType.variables, 
+          ElasticsearchUpdateQueueAction.UPSERT);      
+    });
+  }
+  
+  /**
+   * Enqueue update of variable search document when the dataSet is updated.
+   * 
+   * @param dataSet the updated or created dataSet.
+   */
+  @HandleAfterCreate
+  @HandleAfterSave
+  @HandleAfterDelete
+  public void onDataSetSaved(DataSet dataSet) {
+    List<Variable> variables = variableRepository.findByIdIn(dataSet.getVariableIds());
     variables.forEach(variable -> {
       elasticsearchUpdateQueueService.enqueue(
           variable.getId(), 

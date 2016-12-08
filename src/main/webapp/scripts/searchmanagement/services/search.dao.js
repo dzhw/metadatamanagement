@@ -1,10 +1,12 @@
+/* global _*/
 'use strict';
 
 angular.module('metadatamanagementApp').service('SearchDao',
   function(ElasticSearchProperties, LanguageService, ElasticSearchClient,
     CleanJSObjectService) {
+    var keyMapping = {'data-set': 'dataSetIds'};
     return {
-      search: function(queryterm, pageNumber, dataAcquisitionProjectId,
+      search: function(queryterm, pageNumber, dataAcquisitionProjectId, filter,
         elasticsearchType, pageSize) {
         var query = {};
         var projectFilter;
@@ -54,8 +56,10 @@ angular.module('metadatamanagementApp').service('SearchDao',
             }
           };
         }
-        //filter by projectId
-        if (dataAcquisitionProjectId) {
+        // this filter section should be refactored
+        // filter by projectId
+        if (dataAcquisitionProjectId && CleanJSObjectService
+          .isNullOrEmpty(filter)) {
           projectFilter = {
             'term': {
               'dataAcquisitionProjectId': dataAcquisitionProjectId
@@ -66,15 +70,31 @@ angular.module('metadatamanagementApp').service('SearchDao',
               'studyIds': dataAcquisitionProjectId
             }
           };
-          if (!query.body.query.bool.filter) {
-            query.body.query.bool.filter = {};
-            query.body.query.bool.filter.bool = {};
-            query.body.query.bool.filter.bool.should = [];
-          }
+          query.body.query.bool.filter = {};
+          query.body.query.bool.filter.bool = {};
+          query.body.query.bool.filter.bool.should = [];
           query.body.query.bool.filter.bool.should.push(projectFilter);
           query.body.query.bool.filter.bool.should.push(studiesFilter);
         }
 
+        if (!CleanJSObjectService.isNullOrEmpty(filter)) {
+          projectFilter = {
+            'term': {
+              'dataAcquisitionProjectId': dataAcquisitionProjectId
+            }
+          };
+          query.body.query.bool.filter = [];
+          query.body.query.bool.filter.push(projectFilter);
+          _.each(filter, function(value, key) {
+            var oldKey = key;
+            var filterKeyValue = {'term': {}};
+            key = keyMapping[key] || key;
+            filter[key] = value;
+            filter = _.omit(filter, [oldKey]);
+            filterKeyValue.term[key] = value;
+            query.body.query.bool.filter.push(filterKeyValue);
+          });
+        }
         return ElasticSearchClient.search(query);
       }
     };

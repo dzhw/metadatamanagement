@@ -3,6 +3,7 @@ package eu.dzhw.fdz.metadatamanagement.searchmanagement.documents;
 import java.util.ArrayList;
 import java.util.List;
 
+import eu.dzhw.fdz.metadatamanagement.datasetmanagement.domain.DataSet;
 import eu.dzhw.fdz.metadatamanagement.searchmanagement.service.ElasticsearchIndices;
 import eu.dzhw.fdz.metadatamanagement.surveymanagement.domain.Survey;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.Variable;
@@ -35,18 +36,21 @@ public class VariableSearchDocument {
   private String annotations;
 
   private List<String> surveyTitles;
+  
+  private List<String> dataSetIds;
 
   /**
    * Create the search document from the domain object depending on the language (index).
    */
   public VariableSearchDocument(Variable variable, Iterable<Survey> surveys,
-      ElasticsearchIndices index) {
+      Iterable<DataSet> dataSets, ElasticsearchIndices index) {
     this.id = variable.getId();
     this.name = variable.getName();
     this.dataAcquisitionProjectId = variable.getDataAcquisitionProjectId();
     this.questionId = variable.getQuestionId();
     createI18nAttributes(variable, index);
     createSurveyTitles(surveys, index);
+    createDataSetIds(dataSets);
   }
 
   private void createSurveyTitles(Iterable<Survey> surveys, ElasticsearchIndices index) {
@@ -68,7 +72,14 @@ public class VariableSearchDocument {
       }
     }
   }
-
+  
+  private void createDataSetIds(Iterable<DataSet> dataSets) {
+    dataSetIds = new ArrayList<>();
+    for (DataSet dataSet : dataSets) {
+      dataSetIds.add(dataSet.getId());
+    }
+  }
+  
   private void createI18nAttributes(Variable variable, ElasticsearchIndices index) {
     switch (index) {
       case METADATA_DE:
@@ -154,6 +165,14 @@ public class VariableSearchDocument {
 
   public void setSurveyTitles(List<String> surveyTitles) {
     this.surveyTitles = surveyTitles;
+  }
+
+  public List<String> getDataSetIds() {
+    return dataSetIds;
+  }
+
+  public void setDataSetIds(List<String> dataSetIds) {
+    this.dataSetIds = dataSetIds;
   }
 
   public String getRelatedQuestionStrings() {
