@@ -181,14 +181,14 @@ public class RelatedPublicationPostValidationService {
       //check for exting referenced
       if (survey == null) {
         String[] information = {surveyId, relatedPublication.getId()};
-        errors.add(new PostValidationMessageDto("survey-management.error."
+        errors.add(new PostValidationMessageDto("related-publication-management.error."
             + "post-validation.survey-unknown", Arrays.asList(information)));
       } else { //All other checks, where survey is != null
         //is the same study id referenced to the related publication
         if (!relatedPublication.getStudyIds().contains(survey.getDataAcquisitionProjectId())) {
           String[] information = {surveyId, relatedPublication.getId(), 
               survey.getDataAcquisitionProjectId()};
-          errors.add(new PostValidationMessageDto("survey-management.error."
+          errors.add(new PostValidationMessageDto("related-publication-management.error."
               + "post-validation.survey-has-not-a-referenced-study", Arrays.asList(information)));
         }
       }      

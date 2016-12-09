@@ -62,7 +62,9 @@ angular.module('metadatamanagementApp').config(
           'post-validation': {
             'study-unknown': 'The Study {{id}} could not be found. It is referenced to the publication ({{toBereferenzedId}}).',
             'variable-unknown': 'The Variable {{id}} could not be found. It is referenced to the publication ({{toBereferenzedId}}).',
-            'variable-has-not-a-referenced-study': 'The Variable {{id}} has a reference to the Study ({{additionalId}}). This Study is not refereced by the publication ({{toBereferenzedId}}).'
+            'variable-has-not-a-referenced-study': 'The Variable {{id}} has a reference to the Study ({{additionalId}}). This Study is not refereced by the publication ({{toBereferenzedId}}).',
+            'survey-unknown': 'The Survey {{id}} could not be found. It is referenced to the publication ({{toBereferenzedId}}).',
+            'survey-has-not-a-referenced-study': 'The Survey {{id}} has a reference to the Study ({{additionalId}}). This Study is not refereced by the publication ({{toBereferenzedId}}).'
           }
         }
       }

@@ -81,10 +81,6 @@ angular.module('metadatamanagementApp').config(
             'response-rate': {
               'not-null': 'Die Rücklaufquote der Erhebung darf nicht leer sein!'
             }
-          },
-          'post-validation': {
-            'survey-unknown': 'Die Erhebung {{id}}, die bei der Publikation ({{toBereferenzedId}}) verlinkt ist, konnte nicht gefunden werden.',
-            'survey-has-not-a-referenced-study': 'Die Erhebung {{id}} referenziert auf eine Studie ({{additionalId}}), die nicht mit der Publikation ({{toBereferenzedId}}) verknüpft ist.'
           }
         }
       }
