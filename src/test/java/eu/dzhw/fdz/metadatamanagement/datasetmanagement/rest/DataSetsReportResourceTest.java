@@ -60,7 +60,7 @@ public class DataSetsReportResourceTest extends AbstractTest {
     this.fileService.deleteTempFiles();
   }
 
-  //TODO DKatzberg @Test
+  @Test
   public void testValidUpload() throws Exception {
 
     // Arrange

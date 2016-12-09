@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.io.Writer;
 import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -90,7 +91,7 @@ public class DataSetReportService {
   /**
    * List of missing tex files.
    */
-  //private List<String> missingTexFiles;
+  private List<String> missingTexFiles;
 
   /**
    * This service method will receive a tex template as a string and an id of a data set. With this
@@ -116,7 +117,7 @@ public class DataSetReportService {
     // Unzip the zip file
     Map<String, String> texTemplates = ZipUtil.unzip(multiPartFile);
     
-    if (! this.validateDataSetReportStructure(texTemplates)) {
+    if (!this.validateDataSetReportStructure(texTemplates)) {
       return null; 
     }
     
@@ -152,20 +153,36 @@ public class DataSetReportService {
     return this.saveCompleteTexTemplate(byteArrayOutputStreamArchive, multiPartFile.getName());
   }
   
-  //TODO DKatzberg
+  /**
+   * Checks for all files which are included for the tex template.
+   * @param texTemplates All uploaded texTemplates 
+   * @return True if all files are included. False min one file is missing.
+   */
   private boolean validateDataSetReportStructure(Map<String, String> texTemplates) {
+    this.missingTexFiles = new ArrayList<>();
     
-    if (!texTemplates.containsKey(KEY_REFERENCES)) {
-      return false;
+    // NO Check for References.bib. This file is just optional has has to be added manually.
+    
+    if (!texTemplates.containsKey(KEY_INTRODUCTION)) {
+      this.missingTexFiles.add(KEY_INTRODUCTION);
     }
     
-    //all files are correct.
-    return true;
+    if (!texTemplates.containsKey(KEY_MAIN)) {
+      this.missingTexFiles.add(KEY_MAIN);
+    }
+    
+    if (!texTemplates.containsKey(KEY_VARIABLE)) {
+      this.missingTexFiles.add(KEY_VARIABLE);
+    }
+    
+    return this.missingTexFiles.isEmpty();
   }
 
-  //TODO DKatzberg
-  public String getMissingFiles() {
-    return "";
+  /**
+   * @return The missing files from the last validate data set report structure.
+   */
+  public List<String> getMissingFiles() {
+    return this.missingTexFiles;
   }
 
   /**

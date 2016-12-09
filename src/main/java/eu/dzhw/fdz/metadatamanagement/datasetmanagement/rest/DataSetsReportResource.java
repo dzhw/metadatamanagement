@@ -4,6 +4,7 @@ import java.io.IOException;
 
 import javax.inject.Inject;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -44,14 +45,13 @@ public class DataSetsReportResource {
 
       // fill the data with data and store the template into mongodb / gridfs
       String fileName = this.dataSetReportService.generateReport(multiPartFile, id);
-
       
-//      if (fileName == null) {
-//        return ResponseEntity
-//            .status(HttpStatus.NOT_EXTENDED)
-//            .contentType(MediaType.TEXT_PLAIN)
-//            .body(this.dataSetReportService.getMissingFiles());
-//      }
+      if (fileName == null) {
+        return ResponseEntity
+            .status(HttpStatus.INTERNAL_SERVER_ERROR)
+            .contentType(MediaType.TEXT_PLAIN)
+            .body(this.dataSetReportService.getMissingFiles().toString()); //TODO DKatzberg change
+      }
 
       // Return ok. Status 200.
       return ResponseEntity.ok()
