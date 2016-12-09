@@ -116,7 +116,7 @@ angular.module('metadatamanagementApp').config(
           },
           'post-validation': {
             'study-has-an-accessway-which-was-not-found-in-sub-data-sets': 'The study {{id}} has an accessway ({{toBereferenzedId}}) which was not found in Sub-Datasets.',
-            'study-unknown': 'The Study {{id}} could not be found. It is referenced to the related publication ({{toBereferenzedId}}).'
+            'study-unknown': 'The Study {{id}} could not be found. It is referenced to the publication ({{toBereferenzedId}}).'
           }
         }
       }

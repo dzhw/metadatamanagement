@@ -31,8 +31,8 @@ angular.module('metadatamanagementApp').config(
           'doi': 'DOI',
           'sourceReference': 'Quellenangabe',
           'sourceLink': 'URL',
-          'no-related-publications': 'Keine zugehörige Publikationen.',
-          'related-publications': 'Zugehörige Publikationen'
+          'no-related-publications': 'Keine Publikationen.',
+          'related-publications': 'Publikationen'
         },
         'error': {
           'related-publication': {

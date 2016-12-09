@@ -83,8 +83,8 @@ angular.module('metadatamanagementApp').config(
             }
           },
           'post-validation': {
-            'survey-unknown': 'The Survey {{id}} could not be found. It is referenced to the related publication ({{toBereferenzedId}}).',
-            'survey-has-not-a-referenced-study': 'The Survey {{id}} has a reference to the Study ({{additionalId}}). This Study is not refereced by the related publication ({{toBereferenzedId}}).'
+            'survey-unknown': 'The Survey {{id}} could not be found. It is referenced to the publication ({{toBereferenzedId}}).',
+            'survey-has-not-a-referenced-study': 'The Survey {{id}} has a reference to the Study ({{additionalId}}). This Study is not refereced by the publication ({{toBereferenzedId}}).'
           }
         }
       }

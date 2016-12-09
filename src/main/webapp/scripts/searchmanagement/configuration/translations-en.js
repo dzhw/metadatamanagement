@@ -29,7 +29,7 @@ angular.module('metadatamanagementApp').config(
           'upload-questions': 'Upload Questions for selected Data Acquisition Project',
           'upload-studies': 'Upload Study for selected Data Acquisition Project',
           'upload-related-publications': 'Upload Publications',
-          'post-validate-related-publications': 'Validate Related Publications',
+          'post-validate-related-publications': 'Validate Publications',
           'upload-instruments': 'Upload Instruments for selected Data Acquisition Project'
         },
         'input-label': {

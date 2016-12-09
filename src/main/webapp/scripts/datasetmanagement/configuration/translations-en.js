@@ -107,8 +107,8 @@ angular.module('metadatamanagementApp').config(
             'data-set-has-invalid-survey-id': 'The Data Set {{id}} references an unknown Survey ({{toBereferenzedId}}).',
             'data-set-has-invalid-variable-id': 'The Data Set {{id}} references an unknown Variable ({{toBereferenzedId}}).',
             'sub-data-set-has-an-accessway-which-was-not-found-in-study': 'The Sub-Data-Set {{id}} has an accessway ({{toBereferenzedId}}) which was not found in the Study.',
-            'data-set-unknown': 'The Data Set {{id}} could not be found. It is referenced to the related publication ({{toBereferenzedId}}).',
-            'data-set-has-not-a-referenced-study': 'The Data Set {{id}} has a reference to the Study ({{additionalId}}). This Study is not refereced by the related publication ({{toBereferenzedId}}).'
+            'data-set-unknown': 'The Data Set {{id}} could not be found. It is referenced to the publication ({{toBereferenzedId}}).',
+            'data-set-has-not-a-referenced-study': 'The Data Set {{id}} has a reference to the Study ({{additionalId}}). This Study is not refereced by the publication ({{toBereferenzedId}}).'
           }
         }
       }
