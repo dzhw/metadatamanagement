@@ -42,6 +42,7 @@ angular.module('metadatamanagementApp').controller('SearchController',
       // read the searchParams object from the location with the correct types
       var readSearchParamsFromLocation = function() {
         var locationSearch = $location.search();
+        filter = {};
         if (CleanJSObjectService.isNullOrEmpty(locationSearch)) {
           CurrentProjectService.setCurrentProject(null);
           $scope.pageObject.page  = 1;

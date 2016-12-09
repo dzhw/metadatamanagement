@@ -87,12 +87,9 @@ angular.module('metadatamanagementApp').service('SearchDao',
           };
           query.body.query.bool.filter.bool.must = [];
           _.each(filter, function(value, key) {
-            var oldKey = key;
             var filterKeyValue = {'term': {}};
             var subKeyMapping = keyMapping[elasticsearchType];
             key = subKeyMapping[key] || key;
-            filter[key] = value;
-            filter = _.omit(filter, [oldKey]);
             filterKeyValue.term[key] = value;
             query.body.query.bool.filter.bool.must.push(filterKeyValue);
           });
