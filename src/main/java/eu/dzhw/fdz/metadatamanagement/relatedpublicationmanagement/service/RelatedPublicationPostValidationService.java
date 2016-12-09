@@ -249,15 +249,16 @@ public class RelatedPublicationPostValidationService {
       //check for exting referenced
       if (instrument == null) {
         String[] information = {instrumentId, relatedPublication.getId()};
-        errors.add(new PostValidationMessageDto("instrument-management.error."
+        errors.add(new PostValidationMessageDto("related-publication-management.error."
             + "post-validation.instrument-unknown", Arrays.asList(information)));
       } else { //All other checks, where instrument is != null
         //is the same study id referenced to the related publication
         if (!relatedPublication.getStudyIds().contains(instrument.getDataAcquisitionProjectId())) {
           String[] information = {instrumentId, relatedPublication.getId(), 
               instrument.getDataAcquisitionProjectId()};
-          errors.add(new PostValidationMessageDto("instrument-management.error.post-validation." 
-              + "instrument-has-not-a-referenced-study", Arrays.asList(information)));
+          errors.add(new PostValidationMessageDto("related-publication-management.error."
+              + "post-validation.instrument-has-not-a-referenced-study", 
+              Arrays.asList(information)));
         }
       }      
     }

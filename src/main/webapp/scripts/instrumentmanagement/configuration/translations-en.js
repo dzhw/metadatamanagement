@@ -84,9 +84,7 @@ angular.module('metadatamanagementApp').config(
             }
           },
           'post-validation': {
-            'instrument-has-invalid-survey-id': 'The Instrument {{id}} references an unknown Survey ({{toBereferenzedId}}).',
-            'instrument-unknown': 'The instrument {{id}} could not be found. It is referenced to the publication ({{toBereferenzedId}}).',
-            'instrument-has-not-a-referenced-study': 'The instrument {{id}} has a reference to the Study ({{additionalId}}). This Study is not refereced by the publication ({{toBereferenzedId}}).'
+            'instrument-has-invalid-survey-id': 'The Instrument {{id}} references an unknown Survey ({{toBereferenzedId}}).'            
           }
         }
       }
