@@ -45,6 +45,13 @@ public class DataSetsReportResource {
       // fill the data with data and store the template into mongodb / gridfs
       String fileName = this.dataSetReportService.generateReport(multiPartFile, id);
 
+      
+//      if (fileName == null) {
+//        return ResponseEntity
+//            .status(HttpStatus.NOT_EXTENDED)
+//            .contentType(MediaType.TEXT_PLAIN)
+//            .body(this.dataSetReportService.getMissingFiles());
+//      }
 
       // Return ok. Status 200.
       return ResponseEntity.ok()

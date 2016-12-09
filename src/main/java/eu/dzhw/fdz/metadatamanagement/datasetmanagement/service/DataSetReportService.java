@@ -86,6 +86,11 @@ public class DataSetReportService {
   public static final String KEY_MAIN = "Main.tex";
   public static final String KEY_REFERENCES = "References.bib";
   public static final String KEY_VARIABLE = "variables/Variable.tex";
+  
+  /**
+   * List of missing tex files.
+   */
+  //private List<String> missingTexFiles;
 
   /**
    * This service method will receive a tex template as a string and an id of a data set. With this
@@ -110,6 +115,11 @@ public class DataSetReportService {
 
     // Unzip the zip file
     Map<String, String> texTemplates = ZipUtil.unzip(multiPartFile);
+    
+    if (! this.validateDataSetReportStructure(texTemplates)) {
+      return null; 
+    }
+    
     Map<String, byte[]> filledTemplates = new HashMap<>();
 
     // Load data for template only once
@@ -140,6 +150,22 @@ public class DataSetReportService {
     // Save into MongoDB / GridFS
     ByteArrayOutputStream byteArrayOutputStreamArchive = ZipUtil.zip(filledTemplates);
     return this.saveCompleteTexTemplate(byteArrayOutputStreamArchive, multiPartFile.getName());
+  }
+  
+  //TODO DKatzberg
+  private boolean validateDataSetReportStructure(Map<String, String> texTemplates) {
+    
+    if (!texTemplates.containsKey(KEY_REFERENCES)) {
+      return false;
+    }
+    
+    //all files are correct.
+    return true;
+  }
+
+  //TODO DKatzberg
+  public String getMissingFiles() {
+    return "";
   }
 
   /**
