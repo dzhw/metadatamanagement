@@ -30,6 +30,10 @@ angular.module('metadatamanagementApp').service('DataSetReportService',
           //Server hat issues with the tex file, send error to error output
         }).error(function(error) {
           var endErrorIndex = error.message.indexOf('----');
+          //if no ---- symbol is in the error message
+          if (endErrorIndex <= 0) {
+            endErrorIndex = error.message.length;
+          }
           var messageShort = error.message.substr(0, endErrorIndex).trim();
           JobLoggingService.error({message: messageShort});
           JobLoggingService.cancel(

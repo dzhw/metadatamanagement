@@ -91,6 +91,7 @@ public class DataSetReportService {
   /**
    * List of missing tex files.
    */
+  //TODO DKatzberg: Do we need this?
   private List<String> missingTexFiles;
 
   /**
@@ -118,7 +119,8 @@ public class DataSetReportService {
     Map<String, String> texTemplates = ZipUtil.unzip(multiPartFile);
     
     if (!this.validateDataSetReportStructure(texTemplates)) {
-      return null; 
+      //TODO DKatzberg Change the string after i18n changes
+      throw new TemplateException("error.files-in-zip-incomplete", null);
     }
     
     Map<String, byte[]> filledTemplates = new HashMap<>();
