@@ -89,6 +89,36 @@ public class DataSetsReportResourceTest extends AbstractTest {
       .param("id", dataSet.getId()))
       .andExpect(status().isOk());
   }
+  
+  @Test
+  public void testValidButIncompleteUpload() throws Exception {
+
+    // Arrange
+    Path currentRelativePath = Paths.get("");
+    String basicPath = currentRelativePath.toAbsolutePath()
+      .toString();
+    File templatePath = new File(basicPath + "/src/test/resources/data/latexExample/");
+
+    FileInputStream fileInputStream = new FileInputStream(templatePath + "/TemplateExampleIncomplete.zip");
+    byte[] texTemplate = new byte[fileInputStream.available()];
+    fileInputStream.read(texTemplate);
+    fileInputStream.close();
+
+    DataAcquisitionProject project = UnitTestCreateDomainObjectUtils.buildDataAcquisitionProject();
+    this.dataAcquisitionProjectRepository.save(project);
+
+    DataSet dataSet = UnitTestCreateDomainObjectUtils.buildDataSet(project.getId(), null);
+    this.dataSetRepository.save(dataSet);
+
+    // Act and Assert
+    MockMultipartFile multipartFile =
+        new MockMultipartFile("file", "TemplateExample.zip", "application/zip", texTemplate);
+
+    this.mockMvc.perform(MockMvcRequestBuilders.fileUpload(API_DATASETS_REPORTS_URI)
+      .file(multipartFile)
+      .param("id", dataSet.getId()))
+      .andExpect(status().is5xxServerError());
+  }
 
   @Test
   public void testNonValidUpload() throws Exception {
