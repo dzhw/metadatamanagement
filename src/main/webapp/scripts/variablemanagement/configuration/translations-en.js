@@ -233,9 +233,7 @@ angular.module('metadatamanagementApp').config(
             'variable-has-invalid-survey-id': 'The Variable {{id}} references to an unknown Survey ({{toBereferenzedId}}).',
             'variable-id-is-not-in-invalid-variables-panel': 'The Variable {{id}} references to an unknown Panel Variable ({{toBereferenzedId}}).',
             'variable-id-is-not-valid-in-related-variables': 'The Variable {{id}} references to an unknown related Variable ({{toBereferenzedId}}).',
-            'variable-has-invalid-question-id': 'The Variable {{id}} references to an unknown Question ({{toBereferenzedId}}).',
-            'question-unknown': 'The Variable {{id}} could not be found. It is referenced to the publication ({{toBereferenzedId}}).',
-            'question-has-not-a-referenced-study': 'The Variable {{id}} has a reference to the Study ({{additionalId}}). This Study is not refereced by the publication ({{toBereferenzedId}}).'
+            'variable-has-invalid-question-id': 'The Variable {{id}} references to an unknown Question ({{toBereferenzedId}}).'            
           }
         }
       }

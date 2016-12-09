@@ -148,14 +148,14 @@ public class RelatedPublicationPostValidationService {
       //check for exting referenced
       if (variable == null) {
         String[] information = {variableId, relatedPublication.getId()};
-        errors.add(new PostValidationMessageDto("variable-management.error."
+        errors.add(new PostValidationMessageDto("related-publication-management.error."
             + "post-validation.variable-unknown", Arrays.asList(information)));
       } else { //All other checks, where variable is != null
         //is the same study id referenced to the related publication
         if (!relatedPublication.getStudyIds().contains(variable.getDataAcquisitionProjectId())) {
           String[] information = {variableId, relatedPublication.getId(), 
               variable.getDataAcquisitionProjectId()};
-          errors.add(new PostValidationMessageDto("variable-management.error."
+          errors.add(new PostValidationMessageDto("related-publication-management.error."
               + "post-validation.variable-has-not-a-referenced-study", Arrays.asList(information)));
         }
       }      
