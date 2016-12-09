@@ -25,7 +25,6 @@ module.exports = function(config) {
       'src/main/webapp/bower_components/angular-translate/angular-translate.js',
       'src/main/webapp/bower_components/messageformat/messageformat.js',
       'src/main/webapp/bower_components/angular-translate-interpolation-messageformat/angular-translate-interpolation-messageformat.js',
-      'src/main/webapp/bower_components/angular-translate-loader-partial/angular-translate-loader-partial.js',
       'src/main/webapp/bower_components/angular-translate-storage-cookie/angular-translate-storage-cookie.js',
       'src/main/webapp/bower_components/angular-ui-router/release/angular-ui-router.js',
       'src/main/webapp/bower_components/bootstrap-sass/assets/javascripts/bootstrap.js',

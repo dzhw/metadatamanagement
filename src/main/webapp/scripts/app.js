@@ -105,14 +105,7 @@ angular
         resolve: {
           authorize: ['Auth', function(Auth) {
             return Auth.authorize();
-          }],
-          translatePartialLoader: ['$translatePartialLoader',
-            function($translatePartialLoader) {
-              $translatePartialLoader.addPart('global');
-              $translatePartialLoader.addPart(
-                'dataAcquisitionProject.management');
-            }
-          ]
+          }]
         }
       });
       $urlRouterProvider.when('', '/de/search');
@@ -124,12 +117,9 @@ angular
       $urlRouterProvider.otherwise('/de/error');
       $httpProvider.interceptors.push('errorHandlerInterceptor');
       $httpProvider.interceptors.push('authInterceptor');
-      // Initialize angular-translate
-      $translateProvider.useLoader('$translatePartialLoader', {
-        urlTemplate: 'i18n/{lang}/{part}.json'
-      });
-      $translateProvider.preferredLanguage('de');
 
+      // Initialize angular-translate
+      $translateProvider.preferredLanguage('de');
       $translateProvider.useCookieStorage();
       $translateProvider.useSanitizeValueStrategy('escaped');
       $translateProvider

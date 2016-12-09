@@ -25,9 +25,7 @@ angular.module('metadatamanagementApp').factory('LanguageService',
         $rootScope.currentLanguage = language;
         $translate.storage().set('NG_TRANSLATE_LANG_KEY', language);
         tmhDynamicLocale.set(language).then(function() {
-          $translate.use(language).then(function() {
-            $translate.refresh();
-          });
+          $translate.use(language);
           var currentPath = $location.path();
           if (language === 'en' && currentPath.indexOf('/de/') === 0) {
             currentPath = currentPath.replace('/de/', '/en/');

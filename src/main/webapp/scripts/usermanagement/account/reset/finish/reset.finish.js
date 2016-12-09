@@ -15,13 +15,6 @@ angular.module('metadatamanagementApp').config(
             'reset.finish.html.tmpl',
           controller: 'ResetFinishController'
         }
-      },
-      resolve: {
-        translatePartialLoader: ['$translatePartialLoader',
-          function($translatePartialLoader) {
-            $translatePartialLoader.addPart('user.management');
-          }
-        ]
       }
     });
   });

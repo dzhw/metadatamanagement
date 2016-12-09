@@ -14,13 +14,6 @@ angular.module('metadatamanagementApp').config(
             'health/health.html.tmpl',
           controller: 'HealthController'
         }
-      },
-      resolve: {
-        translatePartialLoader: ['$translatePartialLoader',
-          function($translatePartialLoader) {
-            $translatePartialLoader.addPart('administration');
-          }
-        ]
       }
     });
   });

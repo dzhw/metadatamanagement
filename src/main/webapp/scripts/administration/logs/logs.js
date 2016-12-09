@@ -13,13 +13,6 @@ angular.module('metadatamanagementApp').config(
           templateUrl: 'scripts/administration/logs/logs.html.tmpl',
           controller: 'LogsController'
         }
-      },
-      resolve: {
-        translatePartialLoader: ['$translatePartialLoader',
-          function($translatePartialLoader) {
-            $translatePartialLoader.addPart('administration');
-          }
-        ]
       }
     });
   });

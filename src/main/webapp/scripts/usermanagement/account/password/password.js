@@ -14,13 +14,6 @@ angular.module('metadatamanagementApp').config(
             'password/password.html.tmpl',
           controller: 'PasswordController'
         }
-      },
-      resolve: {
-        translatePartialLoader: ['$translatePartialLoader',
-          function($translatePartialLoader) {
-            $translatePartialLoader.addPart('user.management');
-          }
-        ]
       }
     });
   });

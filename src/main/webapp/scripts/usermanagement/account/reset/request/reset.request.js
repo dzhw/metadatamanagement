@@ -18,13 +18,6 @@ angular
                   'reset/request/reset.request.html.tmpl',
                 controller: 'RequestResetController'
               }
-            },
-            resolve: {
-              translatePartialLoader: ['$translatePartialLoader',
-                function($translatePartialLoader) {
-                  $translatePartialLoader.addPart('user.management');
-                }
-              ]
             }
           });
     });

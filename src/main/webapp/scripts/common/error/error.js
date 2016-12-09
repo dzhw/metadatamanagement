@@ -15,13 +15,6 @@ angular.module('metadatamanagementApp').config(
             templateUrl: 'scripts/common/error/' +
               'error.html.tmpl'
           }
-        },
-        resolve: {
-          mainTranslatePartialLoader: ['$translatePartialLoader',
-            function($translatePartialLoader) {
-              $translatePartialLoader.addPart('global');
-            }
-          ]
         }
       });
   });

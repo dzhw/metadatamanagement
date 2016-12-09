@@ -14,13 +14,6 @@ angular.module('metadatamanagementApp').config(
             'register/register.html.tmpl',
           controller: 'RegisterController'
         }
-      },
-      resolve: {
-        translatePartialLoader: ['$translatePartialLoader',
-          function($translatePartialLoader) {
-            $translatePartialLoader.addPart('user.management');
-          }
-        ]
       }
     });
   });

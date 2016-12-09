@@ -20,17 +20,6 @@ angular.module('metadatamanagementApp')
           }
         },
         resolve: {
-          translatePartialLoader: ['$translatePartialLoader',
-            function($translatePartialLoader) {
-              $translatePartialLoader.addPart('dataSet.management');
-              $translatePartialLoader.addPart('variable.management');
-              $translatePartialLoader.addPart('survey.management');
-              $translatePartialLoader.addPart('study.management');
-              $translatePartialLoader.addPart('notepad.management');
-              $translatePartialLoader.addPart(
-                'relatedPublication.management');
-            }
-          ],
           entity: ['$stateParams', 'DataSetResource',
             function($stateParams, DataSetResource) {
               return DataSetResource.get({

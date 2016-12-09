@@ -17,7 +17,6 @@
     "angular-sanitize": "1.6.0",
     "angular-translate": "2.13.1",
     "angular-translate-interpolation-messageformat": "2.13.1",
-    "angular-translate-loader-partial": "2.13.1",
     "angular-translate-storage-cookie": "2.13.1",
     "angular-ui-router": "0.3.2",
     "bootstrap-sass": "3.3.7",

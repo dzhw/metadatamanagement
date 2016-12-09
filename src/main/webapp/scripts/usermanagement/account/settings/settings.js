@@ -14,13 +14,6 @@ angular.module('metadatamanagementApp').config(
             'settings.html.tmpl',
           controller: 'SettingsController'
         }
-      },
-      resolve: {
-        translatePartialLoader: ['$translatePartialLoader',
-          function($translatePartialLoader) {
-            $translatePartialLoader.addPart('user.management');
-          }
-        ]
       }
     });
   });

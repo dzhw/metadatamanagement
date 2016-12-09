@@ -18,14 +18,6 @@ angular
                   'user-management.html.tmpl',
                 controller: 'UserManagementController'
               }
-            },
-            resolve: {
-              translatePartialLoader: [
-                '$translatePartialLoader',
-                function($translatePartialLoader) {
-                  $translatePartialLoader.addPart('user.management');
-                }
-              ]
             }
           })
         .state(
@@ -41,14 +33,6 @@ angular
                   'usermanagement/user-management-detail.html.tmpl',
                 controller: 'UserManagementDetailController'
               }
-            },
-            resolve: {
-              translatePartialLoader: [
-                '$translatePartialLoader',
-                function($translatePartialLoader) {
-                  $translatePartialLoader.addPart('user.management');
-                }
-              ]
             }
           });
     });

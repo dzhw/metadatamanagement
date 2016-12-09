@@ -104,7 +104,6 @@ public class WebConfigurer
     cachingHttpHeadersFilter.addMappingForUrlPatterns(disps, true, "/index.html");
     cachingHttpHeadersFilter.addMappingForUrlPatterns(disps, true, "/bower_components/*");
     cachingHttpHeadersFilter.addMappingForUrlPatterns(disps, true, "/favicon.ico");
-    cachingHttpHeadersFilter.addMappingForUrlPatterns(disps, true, "/i18n/*");
     cachingHttpHeadersFilter.setAsyncSupported(true);
   }
 }

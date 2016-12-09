@@ -14,13 +14,6 @@ angular.module('metadatamanagementApp').config(
             'shopping-cart.html.tmpl',
           controller: 'ShoppingCartController'
         }
-      },
-      resolve: {
-        mainTranslatePartialLoader: ['$translatePartialLoader',
-          function($translatePartialLoader) {
-            $translatePartialLoader.addPart('notepad.management');
-          }
-        ]
       }
     });
   });

@@ -14,13 +14,6 @@ angular.module('metadatamanagementApp').config(
             'metrics.html.tmpl',
           controller: 'MetricsController'
         }
-      },
-      resolve: {
-        translatePartialLoader: ['$translatePartialLoader',
-          function($translatePartialLoader) {
-            $translatePartialLoader.addPart('administration');
-          }
-        ]
       }
     });
   });

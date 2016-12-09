@@ -20,18 +20,6 @@ angular.module('metadatamanagementApp')
           }
         },
         resolve: {
-          translatePartialLoader: ['$translatePartialLoader',
-            function($translatePartialLoader) {
-              $translatePartialLoader.addPart('global');
-              $translatePartialLoader.addPart('question.management');
-              $translatePartialLoader.addPart('variable.management');
-              $translatePartialLoader.addPart('study.management');
-              $translatePartialLoader.addPart('notepad.management');
-              $translatePartialLoader.addPart('instrument.management');
-              $translatePartialLoader.addPart(
-                'relatedPublication.management');
-            }
-          ],
           entity: ['$stateParams', 'QuestionResource',
             function($stateParams, QuestionResource) {
               return QuestionResource.get({
