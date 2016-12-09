@@ -115,8 +115,7 @@ angular.module('metadatamanagementApp').config(
             }
           },
           'post-validation': {
-            'study-has-an-accessway-which-was-not-found-in-sub-data-sets': 'Die Studie {{id}} hat einen Zugangsweg ({{toBereferenzedId}}) aufgelistet, der nicht in Sub-Datensätzen gefunden wurde.',
-            'study-unknown': 'Die Studie {{id}}, die bei der Publikation ({{toBereferenzedId}}) verlinkt ist, konnte nicht gefunden werden.'
+            'study-has-an-accessway-which-was-not-found-in-sub-data-sets': 'Die Studie {{id}} hat einen Zugangsweg ({{toBereferenzedId}}) aufgelistet, der nicht in Sub-Datensätzen gefunden wurde.'
           }
         }
       }

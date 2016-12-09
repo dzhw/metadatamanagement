@@ -58,6 +58,9 @@ angular.module('metadatamanagementApp').config(
               'not-empty': 'The title of the Publication must not be empty!',
               'size': 'The max length of the title of the Publication is 128 signs.'
             }
+          },
+          'post-validation': {            
+            'study-unknown': 'The Study {{id}} could not be found. It is referenced to the publication ({{toBereferenzedId}}).'
           }
         }
       }

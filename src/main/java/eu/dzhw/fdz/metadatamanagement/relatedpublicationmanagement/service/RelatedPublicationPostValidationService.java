@@ -122,7 +122,7 @@ public class RelatedPublicationPostValidationService {
       //check for exting referenced
       if (study == null) {
         String[] information = {studyId, relatedPublication.getId()};
-        errors.add(new PostValidationMessageDto("study-management.error."
+        errors.add(new PostValidationMessageDto("related-publication-management.error."
             + "post-validation.study-unknown", Arrays.asList(information)));
       } 
       //no else case. no further checks for studies.

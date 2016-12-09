@@ -58,6 +58,9 @@ angular.module('metadatamanagementApp').config(
               'not-empty': 'Der Titel der Publikation darf nicht leer sein!',
               'size': 'Die Maximallänge des Titels der Publikation ist 128 Zeichen.'
             }
+          },
+          'post-validation': {
+            'study-unknown': 'Die Studie {{id}}, die bei der Publikation ({{toBereferenzedId}}) verlinkt ist, konnte nicht gefunden werden.'
           }
         }
       }
