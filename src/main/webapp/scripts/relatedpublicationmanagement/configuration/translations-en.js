@@ -36,6 +36,8 @@ angular.module('metadatamanagementApp').config(
         },
         'error': {
           'related-publication': {
+            'one-foreign-key-is-used':'The Publication has no connection to an another object.',
+            'one-study-is-used':'The publication has no connection to a study.',
             'id': {
               'not-empty': 'The RDC-ID of the Publication must not be empty!',
               'size': 'The max length of the RDC-ID is 128 signs.',

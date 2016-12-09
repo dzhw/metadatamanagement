@@ -24,8 +24,10 @@ import net.karneim.pojobuilder.GeneratePojoBuilder;
  *
  */
 @Document(collection = "related_publications")
-@OneForeignKeyIsUsed
-@OneStudyIsUsed
+@OneForeignKeyIsUsed(
+    message = "related-publication-management.error.related-publication.one-foreign-key-is-used")
+@OneStudyIsUsed(
+    message = "related-publication-management.error.related-publication.one-study-is-used")
 @GeneratePojoBuilder(
     intoPackage = "eu.dzhw.fdz.metadatamanagement.relatedpublicationmanagement.domain.builders")
 public class RelatedPublication extends AbstractRdcDomainObject {
