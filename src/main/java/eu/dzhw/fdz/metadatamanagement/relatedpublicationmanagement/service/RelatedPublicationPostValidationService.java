@@ -215,14 +215,14 @@ public class RelatedPublicationPostValidationService {
       //check for exting referenced
       if (dataSet == null) {
         String[] information = {dataSetId, relatedPublication.getId()};
-        errors.add(new PostValidationMessageDto("data-set-management.error."
+        errors.add(new PostValidationMessageDto("related-publication-management.error."
             + "post-validation.data-set-unknown", Arrays.asList(information)));
       } else { //All other checks, where data sets is != null
         //is the same study id referenced to the related publication
         if (!relatedPublication.getStudyIds().contains(dataSet.getDataAcquisitionProjectId())) {
           String[] information = {dataSetId, relatedPublication.getId(), 
               dataSet.getDataAcquisitionProjectId()};
-          errors.add(new PostValidationMessageDto("data-set-management.error."
+          errors.add(new PostValidationMessageDto("related-publication-management.error."
               + "post-validation.data-set-has-not-a-referenced-study", Arrays.asList(information)));
         }
       }      
