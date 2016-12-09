@@ -68,7 +68,9 @@ angular.module('metadatamanagementApp').config(
             'data-set-unknown': 'The Data Set {{id}} could not be found. It is referenced to the publication ({{toBereferenzedId}}).',
             'data-set-has-not-a-referenced-study': 'The Data Set {{id}} has a reference to the Study ({{additionalId}}). This Study is not refereced by the publication ({{toBereferenzedId}}).',
             'instrument-unknown': 'The instrument {{id}} could not be found. It is referenced to the publication ({{toBereferenzedId}}).',
-            'instrument-has-not-a-referenced-study': 'The instrument {{id}} has a reference to the Study ({{additionalId}}). This Study is not refereced by the publication ({{toBereferenzedId}}).'
+            'instrument-has-not-a-referenced-study': 'The instrument {{id}} has a reference to the Study ({{additionalId}}). This Study is not refereced by the publication ({{toBereferenzedId}}).',
+            'question-unknown': 'The Question {{id}} could not be found. It is referenced to the publication ({{toBereferenzedId}}).',
+            'question-has-not-a-referenced-study': 'The Question {{id}} has a reference to the Study ({{additionalId}}). This Study is not refereced by the publication ({{toBereferenzedId}}).'
           }
         }
       }

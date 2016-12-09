@@ -284,14 +284,14 @@ public class RelatedPublicationPostValidationService {
       //check for exting referenced
       if (question == null) {
         String[] information = {questionId, relatedPublication.getId()};
-        errors.add(new PostValidationMessageDto("question-management.error."
+        errors.add(new PostValidationMessageDto("related-publication-management.error."
             + "post-validation.question-unknown", Arrays.asList(information)));
       } else { //All other checks, where question is != null
         //is the same study id referenced to the related publication
         if (!relatedPublication.getStudyIds().contains(question.getDataAcquisitionProjectId())) {
           String[] information = {questionId, relatedPublication.getId(), 
               question.getDataAcquisitionProjectId()};
-          errors.add(new PostValidationMessageDto("question-management.error."
+          errors.add(new PostValidationMessageDto("related-publication-management.error."
               + "post-validation.question-has-not-a-referenced-study", Arrays.asList(information)));
         }
       }      
