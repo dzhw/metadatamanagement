@@ -4,7 +4,9 @@
 angular.module('metadatamanagementApp').service('SearchDao',
   function(ElasticSearchProperties, LanguageService, ElasticSearchClient,
     CleanJSObjectService) {
-    var keyMapping = {'data-set': 'dataSetIds'};
+    var keyMapping = {
+      'variables': {'data-set': 'dataSetIds'}
+    };
     return {
       search: function(queryterm, pageNumber, dataAcquisitionProjectId, filter,
         elasticsearchType, pageSize) {
@@ -45,6 +47,8 @@ angular.module('metadatamanagementApp').service('SearchDao',
         query.body.from = (pageNumber - 1) * pageSize;
         //define size
         query.body.size = pageSize;
+        query.body.query.bool.filter = {};
+        query.body.query.bool.filter.bool = {};
         //aggregations if user is on the all tab
         if (CleanJSObjectService.isNullOrEmpty(elasticsearchType)) {
           //define aggregations
@@ -70,8 +74,6 @@ angular.module('metadatamanagementApp').service('SearchDao',
               'studyIds': dataAcquisitionProjectId
             }
           };
-          query.body.query.bool.filter = {};
-          query.body.query.bool.filter.bool = {};
           query.body.query.bool.filter.bool.should = [];
           query.body.query.bool.filter.bool.should.push(projectFilter);
           query.body.query.bool.filter.bool.should.push(studiesFilter);
@@ -83,17 +85,18 @@ angular.module('metadatamanagementApp').service('SearchDao',
               'dataAcquisitionProjectId': dataAcquisitionProjectId
             }
           };
-          query.body.query.bool.filter = [];
-          query.body.query.bool.filter.push(projectFilter);
+          query.body.query.bool.filter.bool.must = [];
           _.each(filter, function(value, key) {
             var oldKey = key;
             var filterKeyValue = {'term': {}};
-            key = keyMapping[key] || key;
+            var subKeyMapping = keyMapping[elasticsearchType];
+            key = subKeyMapping[key] || key;
             filter[key] = value;
             filter = _.omit(filter, [oldKey]);
             filterKeyValue.term[key] = value;
-            query.body.query.bool.filter.push(filterKeyValue);
+            query.body.query.bool.filter.bool.must.push(filterKeyValue);
           });
+          query.body.query.bool.filter.bool.must.push(projectFilter);
         }
         return ElasticSearchClient.search(query);
       }

@@ -68,7 +68,8 @@ angular.module('metadatamanagementApp').controller('SearchController',
           } else {
             $scope.searchParams.query = '';
           }
-          filter =  _.omit(locationSearch, ['page', 'project', 'type']);
+          filter =  _.omit(locationSearch, ['page', 'project', 'type',
+          'query']);
           $scope.searchParams.selectedTabIndex = _.findIndex($scope.tabs,
             function(tab) {
               return tab.elasticSearchType === locationSearch.type;
