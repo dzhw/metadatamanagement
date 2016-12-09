@@ -114,7 +114,9 @@ angular.module('metadatamanagementApp').controller('SearchController',
           return $scope.searchParams;
         }, function(newValue, oldValue) {
         if (newValue !== oldValue) {
-          filter = {};
+          if (newValue.query === oldValue.query) {
+            filter = {};
+          }
           $scope.pageObject.page = 1;
           writeSearchParamsToLocation();
         }
