@@ -6,6 +6,9 @@ import java.util.List;
 
 import javax.inject.Inject;
 
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Slice;
 import org.springframework.stereotype.Service;
 
 import eu.dzhw.fdz.metadatamanagement.datasetmanagement.domain.DataSet;
@@ -65,27 +68,37 @@ public class RelatedPublicationPostValidationService {
   public List<PostValidationMessageDto> postValidate() {
 
     List<PostValidationMessageDto> errors = new ArrayList<>();
-    List<RelatedPublication> relatedPublications = this.relatedPublicationRepository.findAll();
     
-    for (RelatedPublication relatedPublication : relatedPublications) {
+    Pageable pageable = new PageRequest(0, 100);
+    Slice<RelatedPublication> relatedPublicationsPage = 
+        this.relatedPublicationRepository.findBy(pageable);
+    
+    while (relatedPublicationsPage.hasContent()) {
       
-      //Validate Studies
-      errors = this.postValidateStudies(relatedPublication, errors);
+      for (RelatedPublication relatedPublication : relatedPublicationsPage.getContent()) {
+        
+        //Validate Studies
+        errors = this.postValidateStudies(relatedPublication, errors);
+        
+        //Validate Variables
+        errors = this.postValidateVariables(relatedPublication, errors);
+        
+        //Validate Surveys
+        errors = this.postValidateSurveys(relatedPublication, errors);
+        
+        //Validate DataSets
+        errors = this.postValidateDataSets(relatedPublication, errors);
+        
+        //Validate Instruments
+        errors = this.postValidateInstruments(relatedPublication, errors);
+        
+        //Validate Questions
+        errors = this.postValidateQuestions(relatedPublication, errors);
+      }
       
-      //Validate Variables
-      errors = this.postValidateVariables(relatedPublication, errors);
       
-      //Validate Surveys
-      errors = this.postValidateSurveys(relatedPublication, errors);
-      
-      //Validate DataSets
-      errors = this.postValidateDataSets(relatedPublication, errors);
-      
-      //Validate Instruments
-      errors = this.postValidateInstruments(relatedPublication, errors);
-      
-      //Validate Questions
-      errors = this.postValidateQuestions(relatedPublication, errors);
+      pageable = pageable.next();
+      relatedPublicationsPage = this.relatedPublicationRepository.findBy(pageable);
     }
     
     return errors;
