@@ -20,20 +20,20 @@ exports.config = {
     'common/toolbar.spec.js',
   ],
   multiCapabilities: [{
-    'name': 'Win8.1/Chrome',
-    'platform': 'Windows 8.1',
+    'name': 'Win10/Chrome',
+    'platform': 'Windows 10',
     'browserName': 'chrome',
     'version': 'latest',
     'screenResolution': '1280x1024'
   }, {
-    'name': 'Win8.1/Firefox',
-    'platform': 'Windows 8.1',
+    'name': 'Win10/Firefox',
+    'platform': 'Windows 10',
     'browserName': 'firefox',
     'screenResolution': '1280x1024',
     'version': 'latest'
   }, {
-    'name': 'Win8.1/IE11',
-    'platform': 'Windows 8.1',
+    'name': 'Win10/IE',
+    'platform': 'Windows 10',
     'browserName': 'internet explorer',
     'version': 'latest',
     'screenResolution': '1280x1024'
