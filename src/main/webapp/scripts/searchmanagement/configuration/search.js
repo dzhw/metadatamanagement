@@ -4,7 +4,7 @@ angular.module('metadatamanagementApp').config(
   function($stateProvider) {
     $stateProvider.state('search', {
       parent: 'site',
-      url: '/search',
+      url: '/search?{type}{data-set}',
       data: {
         authorities: []
       },

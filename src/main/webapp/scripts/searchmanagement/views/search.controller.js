@@ -14,6 +14,7 @@ angular.module('metadatamanagementApp').controller('SearchController',
     CleanJSObjectService, InstrumentUploadService,
     CurrentProjectService, $timeout, PageTitleService) {
 
+      var filter = {};
       // set the page title in toolbar and window.title
       PageTitleService.setPageTitle('global.menu.search.title');
 
@@ -23,15 +24,18 @@ angular.module('metadatamanagementApp').controller('SearchController',
         $scope.isAuthenticated = Principal.isAuthenticated;
       });
 
-      var filter = {};
-
       // write the searchParams object to the location with the correct types
       var writeSearchParamsToLocation = function() {
         var locationSearch = {};
         locationSearch.page = '' + $scope.pageObject.page;
-        locationSearch.project = $scope.searchParams.projectId;
-        locationSearch.type = $scope.tabs[
-          $scope.searchParams.selectedTabIndex].elasticSearchType;
+        try {
+          locationSearch.type = $scope.tabs[
+            $scope.searchParams.selectedTabIndex].elasticSearchType;
+        } catch (e) {
+          $scope.searchParams.selectedTabIndex = 0;
+          locationSearch.type = $scope.tabs[
+            $scope.searchParams.selectedTabIndex].elasticSearchType;
+        }
         if ($scope.searchParams.query && $scope.searchParams.query !== '') {
           locationSearch.query = $scope.searchParams.query;
         }
@@ -42,23 +46,20 @@ angular.module('metadatamanagementApp').controller('SearchController',
       // read the searchParams object from the location with the correct types
       var readSearchParamsFromLocation = function() {
         var locationSearch = $location.search();
-        filter = {};
         if (CleanJSObjectService.isNullOrEmpty(locationSearch)) {
-          CurrentProjectService.setCurrentProject(null);
+          $scope.projectId = undefined;
           $scope.pageObject.page  = 1;
           $scope.searchParams = {
-            projectId: undefined,
             query: '',
             selectedTabIndex: 0
           };
         } else {
-          if (locationSearch.project) {
-            CurrentProjectService.setCurrentProject({
-              id: locationSearch.project});
+          var project = CurrentProjectService.getCurrentProject();
+          if (project) {
+            $scope.projectId = project.id;
           } else {
-            CurrentProjectService.setCurrentProject(null);
+            $scope.projectId = undefined;
           }
-          $scope.searchParams.projectId = locationSearch.project;
           if (locationSearch.page != null) {
             $scope.pageObject.page = parseInt(locationSearch.page);
           } else {
@@ -69,8 +70,8 @@ angular.module('metadatamanagementApp').controller('SearchController',
           } else {
             $scope.searchParams.query = '';
           }
-          filter =  _.omit(locationSearch, ['page', 'project', 'type',
-          'query']);
+          filter =  _.omit(locationSearch,
+            ['page', 'type', 'query']);
           $scope.searchParams.selectedTabIndex = _.findIndex($scope.tabs,
             function(tab) {
               return tab.elasticSearchType === locationSearch.type;
@@ -87,7 +88,6 @@ angular.module('metadatamanagementApp').controller('SearchController',
           page: 1
         };
         $scope.searchParams = {
-          projectId: undefined,
           query: '',
           selectedTabIndex: 0
         };
@@ -103,10 +103,7 @@ angular.module('metadatamanagementApp').controller('SearchController',
         }, function(newValue, oldValue) {
         if (newValue !== oldValue) {
           readSearchParamsFromLocation();
-          //do not search if page has not been set yet
-          if (newValue.page != null) {
-            $scope.search();
-          }
+          $scope.search();
         }
       });
 
@@ -115,9 +112,6 @@ angular.module('metadatamanagementApp').controller('SearchController',
           return $scope.searchParams;
         }, function(newValue, oldValue) {
         if (newValue !== oldValue) {
-          if (newValue.query === oldValue.query) {
-            filter = {};
-          }
           $scope.pageObject.page = 1;
           writeSearchParamsToLocation();
         }
@@ -127,7 +121,7 @@ angular.module('metadatamanagementApp').controller('SearchController',
       $scope.search = function() {
         $scope.isSearching = true;
         SearchDao.search($scope.searchParams.query, $scope.pageObject.page,
-          $scope.searchParams.projectId, filter,
+          $scope.projectId, filter,
           $scope.tabs[$scope.searchParams.selectedTabIndex].elasticSearchType,
           $scope.pageObject.size)
         .then(function(data) {
@@ -159,11 +153,13 @@ angular.module('metadatamanagementApp').controller('SearchController',
       };
 
       $scope.$on('current-project-changed', function(event, currentProject) {
+        filter = undefined;
         if (currentProject) {
-          $scope.searchParams.projectId = currentProject.id;
+          $scope.projectId = currentProject.id;
         } else {
-          $scope.searchParams.projectId = undefined;
+          $scope.projectId = undefined;
         }
+        $scope.search();
       });
 
       $scope.onPageChanged = function() {
@@ -175,7 +171,7 @@ angular.module('metadatamanagementApp').controller('SearchController',
           return;
         }
         VariableUploadService.uploadVariables(files,
-          $scope.searchParams.projectId);
+          $scope.projectId);
       };
 
       $scope.uploadQuestions = function(files) {
@@ -183,7 +179,7 @@ angular.module('metadatamanagementApp').controller('SearchController',
           return;
         }
         QuestionUploadService.uploadQuestions(files,
-          $scope.searchParams.projectId);
+          $scope.projectId);
       };
 
       $scope.uploadSurveys = function(files) {
@@ -191,7 +187,7 @@ angular.module('metadatamanagementApp').controller('SearchController',
           return;
         }
         SurveyUploadService.uploadSurveys(files,
-          $scope.searchParams.projectId);
+          $scope.projectId);
       };
 
       $scope.uploadDataSets = function(files) {
@@ -199,7 +195,7 @@ angular.module('metadatamanagementApp').controller('SearchController',
           return;
         }
         DataSetUploadService.uploadDataSets(files,
-          $scope.searchParams.projectId);
+          $scope.projectId);
       };
 
       $scope.uploadRelatedPublications = function(file) {
@@ -217,7 +213,7 @@ angular.module('metadatamanagementApp').controller('SearchController',
         if (!files || files.length === 0) {
           return;
         }
-        StudyUploadService.uploadStudy(files, $scope.searchParams.projectId);
+        StudyUploadService.uploadStudy(files, $scope.projectId);
       };
 
       $scope.uploadInstruments = function(files) {
@@ -225,7 +221,7 @@ angular.module('metadatamanagementApp').controller('SearchController',
           return;
         }
         InstrumentUploadService.uploadInstruments(files,
-          $scope.searchParams.projectId);
+          $scope.projectId);
       };
 
       //Refresh function for the refresh button

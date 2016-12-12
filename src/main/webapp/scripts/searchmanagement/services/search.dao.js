@@ -88,12 +88,18 @@ angular.module('metadatamanagementApp').service('SearchDao',
           query.body.query.bool.filter.bool.must = [];
           _.each(filter, function(value, key) {
             var filterKeyValue = {'term': {}};
-            var subKeyMapping = keyMapping[elasticsearchType];
-            key = subKeyMapping[key] || key;
-            filterKeyValue.term[key] = value;
-            query.body.query.bool.filter.bool.must.push(filterKeyValue);
+            if (elasticsearchType) {
+              try {
+                var subKeyMapping = keyMapping[elasticsearchType];
+                key = subKeyMapping[key];
+                filterKeyValue.term[key] = value;
+                query.body.query.bool.filter.bool.must.push(filterKeyValue);
+              } catch (e) {
+                //SimpleMessage
+                console.log(key);
+              }
+            }
           });
-          query.body.query.bool.filter.bool.must.push(projectFilter);
         }
         return ElasticSearchClient.search(query);
       }
