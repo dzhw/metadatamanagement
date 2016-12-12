@@ -1,6 +1,6 @@
 {
   "name": "elasticsearch",
-  "version": "12.1.0",
+  "version": "12.1.1",
   "authors": [
     "Spencer Alger <spencer@spenceralger.com>"
   ],
@@ -12,13 +12,13 @@
   ],
   "license": "Apache 2.0",
   "homepage": "https://github.com/elasticsearch/bower-elasticsearch-js",
-  "_release": "12.1.0",
+  "_release": "12.1.1",
   "_resolution": {
     "type": "version",
-    "tag": "v12.1.0",
-    "commit": "062b19b1c3453a4229edb81767ff249ab3e04cfc"
+    "tag": "v12.1.1",
+    "commit": "be3dd1c673a34c99d3a6e4ddbb7b3031a16c87e4"
   },
   "_source": "https://github.com/elasticsearch/bower-elasticsearch-js.git",
-  "_target": "12.1.0",
+  "_target": "12.1.1",
   "_originalSource": "elasticsearch"
 }
