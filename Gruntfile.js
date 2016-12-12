@@ -204,7 +204,9 @@ module.exports = function(grunt) {
             'Element “md-virtual-repeat-container” not allowed as child of ' +
             'element “div” in this context. (Suppressing further errors ' +
             'from this subtree.)', 'Attribute “items-per-pageobject” ' +
-            'not allowed on element “ul” at this point.'
+            'not allowed on element “ul” at this point.',
+            'Consider avoiding viewport values that prevent ' +
+            'users from resizing documents.'
           ],
           customattrs: [
             'show-validation',
