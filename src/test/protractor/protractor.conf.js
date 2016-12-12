@@ -23,18 +23,19 @@ exports.config = {
     'name': 'Win8.1/Chrome',
     'platform': 'Windows 8.1',
     'browserName': 'chrome',
+    'version': 'latest',
     'screenResolution': '1280x1024'
   }, {
     'name': 'Win8.1/Firefox',
     'platform': 'Windows 8.1',
     'browserName': 'firefox',
     'screenResolution': '1280x1024',
-    'version': '46.0'
+    'version': 'latest'
   }, {
     'name': 'Win8.1/IE11',
     'platform': 'Windows 8.1',
     'browserName': 'internet explorer',
-    'version': '11.0',
+    'version': 'latest',
     'screenResolution': '1280x1024'
   }],
   //enable this for local tests without selenium
