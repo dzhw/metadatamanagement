@@ -23,6 +23,8 @@ import org.springframework.web.multipart.MultipartException;
 import com.fasterxml.jackson.core.json.UTF8StreamJsonParser;
 import com.fasterxml.jackson.databind.exc.InvalidFormatException;
 
+import eu.dzhw.fdz.metadatamanagement.datasetmanagement.exception.TemplateIncompleteException;
+
 /**
  * Controller advice to translate the server side exceptions to client-friendly json structures.
  * 
@@ -152,6 +154,26 @@ public class ExceptionTranslator {
 
       errorListDto.add(new ErrorDto(fieldError.getObjectName(), message,
           String.format("%s", fieldError.getRejectedValue()), fieldError.getField()));
+    }
+    
+    return errorListDto;
+  }
+  
+  /**
+   * Handles the Dataset Report Template incomplete exception. This exception will be thrown, 
+   * if the Tex Template Zip file is incomplete and has not every necessary Tex file.
+   * @param exception The incomplete tex template exception to handle.
+   * @return 400 Bad Request and a list of missing files within the exception.
+   */
+  @ExceptionHandler(TemplateIncompleteException.class)
+  @ResponseBody
+  @ResponseStatus(HttpStatus.BAD_REQUEST)
+  ErrorListDto handleIncompleteTemplateException(TemplateIncompleteException exception) {
+    ErrorListDto errorListDto = new ErrorListDto();
+    
+    //All missing files
+    for (String missingFile : exception.getMissingFiles()) {
+      errorListDto.add(new ErrorDto(null, exception.getMessage(), missingFile, null));
     }
     
     return errorListDto;

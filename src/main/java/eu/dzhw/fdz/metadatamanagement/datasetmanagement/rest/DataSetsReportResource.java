@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
+import eu.dzhw.fdz.metadatamanagement.datasetmanagement.exception.TemplateIncompleteException;
 import eu.dzhw.fdz.metadatamanagement.datasetmanagement.service.DataSetReportService;
 import freemarker.template.TemplateException;
 
@@ -37,13 +38,23 @@ public class DataSetsReportResource {
    */
   @RequestMapping(value = "/data-sets/report")
   public ResponseEntity<String> uploadFile(@RequestParam("file") MultipartFile multiPartFile,
-      @RequestParam("id") String id) throws IOException, TemplateException {
+      @RequestParam("id") String id) throws IOException, TemplateException, 
+      TemplateIncompleteException {
 
     // Handles no empty latex templates
     if (!multiPartFile.isEmpty()) {
 
       // fill the data with data and store the template into mongodb / gridfs
       String fileName = this.dataSetReportService.generateReport(multiPartFile, id);
+      
+      if (fileName == null) {
+        // Return bad request, if tex template is incomplete
+        //The cration of the error json object happens in the ExceptionTranslationHandler
+        return ResponseEntity
+          .badRequest()
+          .body(null);
+      }
+      
 
       // Return ok. Status 200.
       return ResponseEntity.ok()
