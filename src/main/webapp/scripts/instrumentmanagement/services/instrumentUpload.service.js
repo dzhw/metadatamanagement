@@ -4,7 +4,7 @@
 angular.module('metadatamanagementApp').service('InstrumentUploadService',
   function(InstrumentBuilderService, InstrumentDeleteResource,
     JobLoggingService, ErrorMessageResolverService, ExcelReaderService, $q,
-    FileReaderService, ElasticSearchAdminService, $rootScope,
+    ElasticSearchAdminService, $rootScope,
     InstrumentAttachmentUploadService, $translate, $mdDialog,
     CleanJSObjectService) {
     //array holding all instrument resources

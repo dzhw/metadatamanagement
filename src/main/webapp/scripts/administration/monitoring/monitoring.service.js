@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('metadatamanagementApp').factory('MonitoringService',
-  function($rootScope, $http) {
+  function($http) {
     return {
       getMetrics: function() {
         return $http.get('/management/metrics').then(function(response) {

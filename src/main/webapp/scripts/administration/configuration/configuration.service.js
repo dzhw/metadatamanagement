@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('metadatamanagementApp').factory('ConfigurationService',
-  function($rootScope, $filter, $http) {
+  function($filter, $http) {
     return {
       get: function() {
         return $http.get('management/configprops').then(function(response) {

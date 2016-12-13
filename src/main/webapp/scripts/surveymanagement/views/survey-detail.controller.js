@@ -2,7 +2,7 @@
 
 angular.module('metadatamanagementApp')
   .controller('SurveyDetailController',
-    function(entity, $state, StudySearchService, SurveySearchDialogService,
+    function(entity, StudySearchService, SurveySearchDialogService,
       DataSetSearchDialogService, LanguageService, DataSetSearchService,
       SurveySearchService, PageTitleService, InstrumentSearchService) {
 

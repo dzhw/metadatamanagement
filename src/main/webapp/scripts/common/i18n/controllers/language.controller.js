@@ -2,7 +2,7 @@
 
 angular.module('metadatamanagementApp').controller(
   'LanguageController',
-  function($rootScope, $scope, $location, $translate, LanguageService) {
+  function($scope, LanguageService) {
     $scope.changeLanguage = function(languageKey) {
       LanguageService.setCurrent(languageKey);
     };

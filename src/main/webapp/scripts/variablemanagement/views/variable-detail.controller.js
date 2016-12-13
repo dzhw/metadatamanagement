@@ -4,9 +4,9 @@
 'use strict';
 
 angular.module('metadatamanagementApp')
-  .controller('VariableDetailController', function($scope, entity, $state,
+  .controller('VariableDetailController', function($scope, entity,
     SurveySearchDialogService, DataSetSearchDialogService,
-    RelatedPublicationSearchDialogService, QuestionSearchDialogService,
+    RelatedPublicationSearchDialogService,
     DataSetSearchService, QuestionSearchService, VariableSearchDialogService,
     RelatedPublicationSearchService, StudySearchService,
     SimpleMessageToastService, PageTitleService, LanguageService) {

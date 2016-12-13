@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('metadatamanagementApp').factory('LanguageService',
-  function($q, $http, $translate, $location, $rootScope,
+  function($q, $translate, $location, $rootScope,
     tmhDynamicLocale, LANGUAGES) {
     return {
       getCurrent: function() {

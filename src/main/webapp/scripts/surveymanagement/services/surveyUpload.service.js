@@ -5,7 +5,7 @@ angular.module('metadatamanagementApp').service('SurveyUploadService', function(
   ExcelReaderService, SurveyBuilderService, SurveyDeleteResource,
   JobLoggingService, SurveyResponseRateImageUploadService,
   ErrorMessageResolverService, ElasticSearchAdminService, $rootScope,
-  FileReaderService, $q, $translate, $mdDialog, CleanJSObjectService) {
+  $q, $translate, $mdDialog, CleanJSObjectService) {
   //Create variables
   var surveys; //Array of Surveys
   var images = {}; //An object with all images

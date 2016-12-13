@@ -8,7 +8,7 @@ var parseString = require('xml2js').parseString;
 var parseVersionFromPomXml = function() {
   var version;
   var pomXml = fs.readFileSync('pom.xml', 'utf8');
-  parseString(pomXml, function(err, result) {
+  parseString(pomXml, function(err, result) { // jshint ignore:line
     version = result.project.version[0];
   });
   return version;

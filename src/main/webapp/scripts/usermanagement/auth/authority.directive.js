@@ -6,7 +6,7 @@ angular.module('metadatamanagementApp').directive(
     function(Principal) {
       return {
         restrict: 'A',
-        link: function(scope, element, attrs) {
+        link: function(scope, element, attrs) { // jshint ignore:line
           var setVisible = function() {
             element.removeClass('hidden');
           };
@@ -38,7 +38,7 @@ angular.module('metadatamanagementApp').directive(
   ]).directive('hasAuthority', ['Principal', function(Principal) {
   return {
     restrict: 'A',
-    link: function(scope, element, attrs) {
+    link: function(scope, element, attrs) { // jshint ignore:line
       var setVisible = function() {
         element.removeClass('hidden');
       };

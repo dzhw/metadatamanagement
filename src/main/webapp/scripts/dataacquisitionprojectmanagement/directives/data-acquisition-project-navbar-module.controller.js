@@ -53,7 +53,8 @@ angular.module('metadatamanagementApp')
         CurrentProjectService.setCurrentProject(project);
       };
 
-      $scope.$on('current-project-changed', function(event, project) {
+      $scope.$on('current-project-changed',
+      function(event, project) { // jshint ignore:line
         ctrl.selectedProject = project;
       });
 

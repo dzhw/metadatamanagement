@@ -13,7 +13,7 @@ angular
     ])
 
 .run(
-    function($rootScope, $location, $window, $http, $state, $translate,
+    function($rootScope, $location, $state,
       LanguageService, Auth, Principal, ENV, VERSION, $mdMedia) {
       $rootScope.ENV = ENV;
       $rootScope.VERSION = VERSION;
@@ -32,8 +32,8 @@ angular
         LanguageService.setCurrent('de');
       }
 
-      $rootScope.$on('$stateChangeStart', function(event, toState,
-        toStateParams) {
+      $rootScope.$on('$stateChangeStart',
+      function(event, toState, toStateParams) { // jshint ignore:line
         $rootScope.toState = toState;
         $rootScope.toStateParams = toStateParams;
         if (Principal.isIdentityResolved()) {
@@ -42,8 +42,9 @@ angular
         // Update the language
         LanguageService.setCurrent(toStateParams.lang);
       });
-      $rootScope.$on('$stateChangeSuccess', function(event, toState,
-        toParams, fromState, fromParams) {
+      $rootScope.$on('$stateChangeSuccess',
+      function(event, toState, toParams,  // jshint ignore:line
+        fromState, fromParams) {
         // Remember previous state unless we've been redirected to login or
         // we've just
         // reset the state memory after logout. If we're redirected to
@@ -72,7 +73,7 @@ angular
       };
     })
   .config(
-    function($windowProvider, $stateProvider, $urlRouterProvider,
+    function($stateProvider, $urlRouterProvider,
       $httpProvider, $locationProvider, $translateProvider,
       tmhDynamicLocaleProvider, httpRequestInterceptorCacheBusterProvider,
       blockUIConfig, $mdThemingProvider, localStorageServiceProvider) {

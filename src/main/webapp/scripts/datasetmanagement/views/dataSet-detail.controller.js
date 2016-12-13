@@ -4,7 +4,7 @@ angular.module('metadatamanagementApp')
   .controller('DataSetDetailController',
     function(entity, Principal, StudySearchService,
       SurveySearchDialogService, VariableSearchDialogService,
-      VariableSearchService, RelatedPublicationSearchService,
+      RelatedPublicationSearchService,
       RelatedPublicationSearchDialogService, DataSetSearchDialogService,
       DataSetSearchService, DataSetReportService, PageTitleService,
       LanguageService) {

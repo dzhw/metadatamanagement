@@ -5,11 +5,11 @@
 /* The Controller for the search. It differs between tabs and a tab represent
 a result of a type like variable or dataSet and so on. */
 angular.module('metadatamanagementApp').controller('SearchController',
-  function($scope, Principal, ElasticSearchProperties, $location,
-    SearchDao, $translate, VariableUploadService,
+  function($scope, Principal, $location,
+    SearchDao, VariableUploadService,
     RelatedPublicationsPostValidationService,
     QuestionUploadService, RelatedPublicationUploadService,
-    DataSetUploadService, StudyUploadService, SurveyUploadService, $mdDialog,
+    DataSetUploadService, StudyUploadService, SurveyUploadService,
     CleanJSObjectService, InstrumentUploadService,
     CurrentProjectService, $timeout, PageTitleService) {
 
@@ -48,19 +48,12 @@ angular.module('metadatamanagementApp').controller('SearchController',
     var readSearchParamsFromLocation = function() {
       var locationSearch = $location.search();
       if (CleanJSObjectService.isNullOrEmpty(locationSearch)) {
-        $scope.projectId = undefined;
         $scope.pageObject.page = 1;
         $scope.searchParams = {
           query: '',
           selectedTabIndex: 0
         };
       } else {
-        var project = CurrentProjectService.getCurrentProject();
-        if (project) {
-          $scope.projectId = project.id;
-        } else {
-          $scope.projectId = undefined;
-        }
         if (locationSearch.page != null) {
           $scope.pageObject.page = parseInt(locationSearch.page);
         } else {
@@ -85,6 +78,12 @@ angular.module('metadatamanagementApp').controller('SearchController',
     var init = function() {
       tabChangedOnInitFlag = true;
       $scope.searchResult = {};
+      var project = CurrentProjectService.getCurrentProject();
+      if (project) {
+        $scope.projectId = project.id;
+      } else {
+        $scope.projectId = undefined;
+      }
       $scope.pageObject = {
         totalHits: 0,
         size: 5,
@@ -141,12 +140,17 @@ angular.module('metadatamanagementApp').controller('SearchController',
     }, function(newValue, oldValue) {
       if (newValue !== oldValue && !$scope.locationChanged) {
         readSearchParamsFromLocation();
-        $scope.search();
+        // type changes are already handled by $scope.onSelectedTabChanged
+        if (newValue.type === oldValue.type) {
+          $scope.search();
+        }
       } else {
         $scope.locationChanged = false;
       }
     });
-    $scope.$on('current-project-changed', function(event, currentProject) {
+
+    $scope.$on('current-project-changed',
+      function(event, currentProject) { // jshint ignore:line
       $scope.searchParams.filter = undefined;
       if (currentProject) {
         $scope.projectId = currentProject.id;

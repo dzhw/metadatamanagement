@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('metadatamanagementApp').controller('ShoppingCartController',
-  function($scope, localStorageService, ShoppingCartService,
+  function($scope, ShoppingCartService,
     SimpleMessageToastService) {
     $scope.basket = {
       firstname: '',

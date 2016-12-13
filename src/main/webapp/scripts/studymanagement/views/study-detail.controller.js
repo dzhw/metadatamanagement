@@ -2,7 +2,7 @@
 
 angular.module('metadatamanagementApp')
   .controller('StudyDetailController',
-    function($scope, entity, DataSetSearchService, DataSetSearchDialogService,
+    function(entity, DataSetSearchService, DataSetSearchDialogService,
       SurveySearchService, SurveySearchDialogService,
       RelatedPublicationSearchDialogService,
       RelatedPublicationSearchService, PageTitleService, LanguageService) {

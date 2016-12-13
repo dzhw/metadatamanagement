@@ -2,7 +2,7 @@
 'use strict';
 
 angular.module('metadatamanagementApp').service('SearchDao',
-  function(ElasticSearchProperties, LanguageService, ElasticSearchClient,
+  function(LanguageService, ElasticSearchClient,
     CleanJSObjectService) {
     var keyMapping = {
       'variables': {'data-set': 'dataSetIds'}
@@ -89,14 +89,10 @@ angular.module('metadatamanagementApp').service('SearchDao',
           _.each(filter, function(value, key) {
             var filterKeyValue = {'term': {}};
             if (elasticsearchType) {
-              try {
-                var subKeyMapping = keyMapping[elasticsearchType];
-                key = subKeyMapping[key];
-                filterKeyValue.term[key] = value;
-                query.body.query.bool.filter.bool.must.push(filterKeyValue);
-              } catch (e) {
-                //SimpleMessage
-              }
+              var subKeyMapping = keyMapping[elasticsearchType];
+              key = subKeyMapping[key];
+              filterKeyValue.term[key] = value;
+              query.body.query.bool.filter.bool.must.push(filterKeyValue);
             }
           });
         }

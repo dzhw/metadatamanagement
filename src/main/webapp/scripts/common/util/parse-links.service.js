@@ -20,8 +20,7 @@ angular.module('metadatamanagementApp').service(
         var url = section[0].replace(/<(.*)>/, '$1').trim();
         var queryString = {};
         url.replace(new RegExp('([^?=&]+)(=([^&]*))?', 'g'), function(
-          $0, $1,
-          $2, $3) {
+          $0, $1, $2, $3) { // jshint ignore:line
           queryString[$1] = $3;
         });
         var page = queryString.page;

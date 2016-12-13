@@ -78,7 +78,7 @@ cheet('h u r z', function() {
       }
     }
 
-    function ballHitBrick(_ball, _brick) {
+    function ballHitBrick(_ball, _brick) {  // jshint ignore:line
       _brick.kill();
       score += 10;
       scoreText.text = 'score: ' + score;

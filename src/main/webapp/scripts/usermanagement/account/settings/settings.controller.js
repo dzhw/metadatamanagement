@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('metadatamanagementApp').controller('SettingsController',
-  function($scope, $rootScope, $location, Principal,
+  function($scope, Principal,
     Auth, LanguageService, PageTitleService) {
     PageTitleService.setPageTitle('global.menu.account.settings');
     $scope.success = null;

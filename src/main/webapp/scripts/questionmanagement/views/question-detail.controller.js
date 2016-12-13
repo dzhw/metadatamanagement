@@ -7,7 +7,7 @@ angular.module('metadatamanagementApp')
   .controller('QuestionDetailController',
 
     function(StudySearchService,
-      VariableSearchDialogService, entity, $state,
+      VariableSearchDialogService, entity,
       SimpleMessageToastService, QuestionSearchService, CleanJSObjectService,
       RelatedPublicationSearchDialogService, VariableSearchService,
       RelatedPublicationSearchService, InstrumentSearchService,

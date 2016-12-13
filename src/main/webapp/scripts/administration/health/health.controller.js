@@ -146,7 +146,7 @@ angular.module('metadatamanagementApp').controller(
 
     $scope.isHealthObject = function(healthObject) {
       var result = false;
-      angular.forEach(healthObject, function(value, key) {
+      angular.forEach(healthObject, function(value, key) { // jshint ignore:line
         if (key === 'status') {
           result = true;
         }
