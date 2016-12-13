@@ -4,7 +4,7 @@
             <md-input-container class="fdz-search-input">
                 <label>{{tabs[searchParams.selectedTabIndex].inputLabel|translate}}</label>
                 <md-icon md-font-set="material-icons">search</md-icon>
-                <input id="query" type="text" ng-model="searchParams.query" ng-model-options="{debounce: 100}" autocomplete="off">
+                <input id="query" type="text" ng-model="searchParams.query" ng-change="onQueryChanged()" ng-model-options="{debounce: 100}" autocomplete="off">
             </md-input-container>
             <md-tabs md-selected="searchParams.selectedTabIndex" md-dynamic-height>
                 <md-tab ng-repeat="tab in tabs">

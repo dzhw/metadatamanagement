@@ -1,4 +1,3 @@
-/* Author: Daniel Katzberg */
 /* global _ */
 
 'use strict';
@@ -14,7 +13,6 @@ angular.module('metadatamanagementApp').controller('SearchController',
     CleanJSObjectService, InstrumentUploadService,
     CurrentProjectService, $timeout, PageTitleService) {
 
-      var filter = {};
       // set the page title in toolbar and window.title
       PageTitleService.setPageTitle('global.menu.search.title');
 
@@ -30,7 +28,7 @@ angular.module('metadatamanagementApp').controller('SearchController',
         locationSearch.page = '' + $scope.pageObject.page;
         try {
           locationSearch.type = $scope.tabs[
-            $scope.searchParams.selectedTabIndex].elasticSearchType;
+           $scope.searchParams.selectedTabIndex].elasticSearchType;
         } catch (e) {
           $scope.searchParams.selectedTabIndex = 0;
           locationSearch.type = $scope.tabs[
@@ -39,7 +37,7 @@ angular.module('metadatamanagementApp').controller('SearchController',
         if ($scope.searchParams.query && $scope.searchParams.query !== '') {
           locationSearch.query = $scope.searchParams.query;
         }
-        _.assign(locationSearch, filter);
+        _.assign(locationSearch, $scope.searchParams.filter);
         $location.search(locationSearch);
       };
 
@@ -70,7 +68,7 @@ angular.module('metadatamanagementApp').controller('SearchController',
           } else {
             $scope.searchParams.query = '';
           }
-          filter =  _.omit(locationSearch,
+          $scope.searchParams.filter =  _.omit(locationSearch,
             ['page', 'type', 'query']);
           $scope.searchParams.selectedTabIndex = _.findIndex($scope.tabs,
             function(tab) {
@@ -91,37 +89,16 @@ angular.module('metadatamanagementApp').controller('SearchController',
           query: '',
           selectedTabIndex: 0
         };
-
         readSearchParamsFromLocation();
         writeSearchParamsToLocation();
         $scope.search();
       };
 
-      // watch for location changes
-      $scope.$watchCollection(function() {
-          return $location.search();
-        }, function(newValue, oldValue) {
-        if (newValue !== oldValue) {
-          readSearchParamsFromLocation();
-          $scope.search();
-        }
-      });
-
-      // watch for searchParams changes
-      $scope.$watchCollection(function() {
-          return $scope.searchParams;
-        }, function(newValue, oldValue) {
-        if (newValue !== oldValue) {
-          $scope.pageObject.page = 1;
-          writeSearchParamsToLocation();
-        }
-      });
-
       //Search function
       $scope.search = function() {
         $scope.isSearching = true;
         SearchDao.search($scope.searchParams.query, $scope.pageObject.page,
-          $scope.projectId, filter,
+          $scope.projectId, $scope.searchParams.filter,
           $scope.tabs[$scope.searchParams.selectedTabIndex].elasticSearchType,
           $scope.pageObject.size)
         .then(function(data) {
@@ -152,19 +129,38 @@ angular.module('metadatamanagementApp').controller('SearchController',
         });
       };
 
+      // watch for location changes
+      $scope.$watchCollection(function() {
+        return $location.search();
+      }, function(newValue, oldValue) {
+        if (newValue !== oldValue) {
+          readSearchParamsFromLocation();
+          $scope.search();
+        }
+      });
       $scope.$on('current-project-changed', function(event, currentProject) {
-        filter = undefined;
+        $scope.searchParams.filter = undefined;
         if (currentProject) {
           $scope.projectId = currentProject.id;
         } else {
           $scope.projectId = undefined;
         }
+        $scope.pageObject.page = 1;
         $scope.search();
       });
 
       $scope.onPageChanged = function() {
         writeSearchParamsToLocation();
       };
+      $scope.onQueryChanged = function() {
+        $scope.pageObject.page = 1;
+        writeSearchParamsToLocation();
+      };
+
+      $scope.$watch('searchParams.selectedTabIndex', function() {
+        $scope.pageObject.page = 1;
+        writeSearchParamsToLocation();
+      });
 
       $scope.uploadVariables = function(files) {
         if (!files || files.length === 0) {
@@ -293,6 +289,5 @@ angular.module('metadatamanagementApp').controller('SearchController',
         count: null,
         uploadFunction: $scope.uploadRelatedPublications
       }];
-
       init();
     });

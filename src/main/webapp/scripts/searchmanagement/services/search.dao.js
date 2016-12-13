@@ -96,7 +96,6 @@ angular.module('metadatamanagementApp').service('SearchDao',
                 query.body.query.bool.filter.bool.must.push(filterKeyValue);
               } catch (e) {
                 //SimpleMessage
-                console.log(key);
               }
             }
           });
