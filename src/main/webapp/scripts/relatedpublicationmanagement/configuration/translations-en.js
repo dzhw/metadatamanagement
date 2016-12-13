@@ -36,8 +36,8 @@ angular.module('metadatamanagementApp').config(
         },
         'error': {
           'related-publication': {
-            'one-foreign-key-is-used':'The Publication has no connection to an another object.',
-            'one-study-is-used':'The publication has no connection to a study.',
+            'one-foreign-key-is-used': 'The Publication has no connection to any other object.',
+            'one-study-is-used': 'The publication has no connection to any study.',
             'id': {
               'not-empty': 'The RDC-ID of the Publication must not be empty!',
               'size': 'The max length of the RDC-ID is 128 signs.',
@@ -62,16 +62,16 @@ angular.module('metadatamanagementApp').config(
             }
           },
           'post-validation': {
-            'study-unknown': 'The Study {{id}} could not be found. It is referenced to the publication ({{toBereferenzedId}}).',
-            'variable-unknown': 'The Variable {{id}} could not be found. It is referenced to the publication ({{toBereferenzedId}}).',
+            'study-unknown': 'The Study {{id}} could not be found. It is referenced by the publication ({{toBereferenzedId}}).',
+            'variable-unknown': 'The Variable {{id}} could not be found. It is referenced by the publication ({{toBereferenzedId}}).',
             'variable-has-not-a-referenced-study': 'The Variable {{id}} has a reference to the Study ({{additionalId}}). This Study is not refereced by the publication ({{toBereferenzedId}}).',
-            'survey-unknown': 'The Survey {{id}} could not be found. It is referenced to the publication ({{toBereferenzedId}}).',
+            'survey-unknown': 'The Survey {{id}} could not be found. It is referenced by the publication ({{toBereferenzedId}}).',
             'survey-has-not-a-referenced-study': 'The Survey {{id}} has a reference to the Study ({{additionalId}}). This Study is not refereced by the publication ({{toBereferenzedId}}).',
-            'data-set-unknown': 'The Data Set {{id}} could not be found. It is referenced to the publication ({{toBereferenzedId}}).',
+            'data-set-unknown': 'The Data Set {{id}} could not be found. It is referenced by the publication ({{toBereferenzedId}}).',
             'data-set-has-not-a-referenced-study': 'The Data Set {{id}} has a reference to the Study ({{additionalId}}). This Study is not refereced by the publication ({{toBereferenzedId}}).',
-            'instrument-unknown': 'The instrument {{id}} could not be found. It is referenced to the publication ({{toBereferenzedId}}).',
+            'instrument-unknown': 'The instrument {{id}} could not be found. It is referenced by the publication ({{toBereferenzedId}}).',
             'instrument-has-not-a-referenced-study': 'The instrument {{id}} has a reference to the Study ({{additionalId}}). This Study is not refereced by the publication ({{toBereferenzedId}}).',
-            'question-unknown': 'The Question {{id}} could not be found. It is referenced to the publication ({{toBereferenzedId}}).',
+            'question-unknown': 'The Question {{id}} could not be found. It is referenced by the publication ({{toBereferenzedId}}).',
             'question-has-not-a-referenced-study': 'The Question {{id}} has a reference to the Study ({{additionalId}}). This Study is not refereced by the publication ({{toBereferenzedId}}).'
           }
         }
