@@ -7,7 +7,7 @@
                 <input id="query" type="text" ng-model="searchParams.query" ng-change="onQueryChanged()" ng-model-options="{debounce: 100}" autocomplete="off">
             </md-input-container>
             <md-tabs md-selected="searchParams.selectedTabIndex" md-dynamic-height>
-                <md-tab ng-repeat="tab in tabs">
+                <md-tab ng-repeat="tab in tabs" md-on-select="onSelectedTabChanged()">
                     <md-tab-label>
                         <md-icon ng-if="tab.icon" md-svg-icon="{{tab.icon}}"></md-icon>
                         <span>{{tab.title|translate}}

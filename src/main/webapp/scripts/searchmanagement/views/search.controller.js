@@ -13,93 +13,96 @@ angular.module('metadatamanagementApp').controller('SearchController',
     CleanJSObjectService, InstrumentUploadService,
     CurrentProjectService, $timeout, PageTitleService) {
 
-      var tabChangedOnInitFlag;
-      // set the page title in toolbar and window.title
-      PageTitleService.setPageTitle('global.menu.search.title');
+    var tabChangedOnInitFlag;
+    // set the page title in toolbar and window.title
+    PageTitleService.setPageTitle('global.menu.search.title');
 
-      //Check the login status
-      Principal.identity().then(function(account) {
-        $scope.account = account;
-        $scope.isAuthenticated = Principal.isAuthenticated;
-      });
+    //Check the login status
+    Principal.identity().then(function(account) {
+      $scope.account = account;
+      $scope.isAuthenticated = Principal.isAuthenticated;
+    });
 
-      // write the searchParams object to the location with the correct types
-      var writeSearchParamsToLocation = function() {
-        var locationSearch = {};
-        locationSearch.page = '' + $scope.pageObject.page;
-        try {
-          locationSearch.type = $scope.tabs[
-           $scope.searchParams.selectedTabIndex].elasticSearchType;
-        } catch (e) {
-          $scope.searchParams.selectedTabIndex = 0;
-          locationSearch.type = $scope.tabs[
-            $scope.searchParams.selectedTabIndex].elasticSearchType;
-        }
-        if ($scope.searchParams.query && $scope.searchParams.query !== '') {
-          locationSearch.query = $scope.searchParams.query;
-        }
-        _.assign(locationSearch, $scope.searchParams.filter);
-        $location.search(locationSearch);
-      };
+    // write the searchParams object to the location with the correct types
+    var writeSearchParamsToLocation = function() {
+      var locationSearch = {};
+      locationSearch.page = '' + $scope.pageObject.page;
+      try {
+        locationSearch.type = $scope.tabs[
+          $scope.searchParams.selectedTabIndex].elasticSearchType;
+      } catch (e) {
+        $scope.searchParams.selectedTabIndex = 0;
+        locationSearch.type = $scope.tabs[
+          $scope.searchParams.selectedTabIndex].elasticSearchType;
+      }
+      if ($scope.searchParams.query && $scope.searchParams.query !== '') {
+        locationSearch.query = $scope.searchParams.query;
+      }
+      _.assign(locationSearch, $scope.searchParams.filter);
+      $scope.locationChanged = !angular.equals($location.search(),
+        locationSearch);
+      $location.search(locationSearch);
+    };
 
-      // read the searchParams object from the location with the correct types
-      var readSearchParamsFromLocation = function() {
-        var locationSearch = $location.search();
-        if (CleanJSObjectService.isNullOrEmpty(locationSearch)) {
-          $scope.projectId = undefined;
-          $scope.pageObject.page  = 1;
-          $scope.searchParams = {
-            query: '',
-            selectedTabIndex: 0
-          };
-        } else {
-          var project = CurrentProjectService.getCurrentProject();
-          if (project) {
-            $scope.projectId = project.id;
-          } else {
-            $scope.projectId = undefined;
-          }
-          if (locationSearch.page != null) {
-            $scope.pageObject.page = parseInt(locationSearch.page);
-          } else {
-            $scope.pageObject.page = 1;
-          }
-          if (locationSearch.query) {
-            $scope.searchParams.query = locationSearch.query;
-          } else {
-            $scope.searchParams.query = '';
-          }
-          $scope.searchParams.filter =  _.omit(locationSearch,
-            ['page', 'type', 'query']);
-          $scope.searchParams.selectedTabIndex = _.findIndex($scope.tabs,
-            function(tab) {
-              return tab.elasticSearchType === locationSearch.type;
-            });
-        }
-      };
-
-      // init the controller and its scope objects
-      var init = function() {
-        tabChangedOnInitFlag = true;
-        $scope.searchResult = {};
-        $scope.pageObject = {
-          totalHits: 0,
-          size: 5,
-          page: 1
-        };
+    // read the searchParams object from the location with the correct types
+    var readSearchParamsFromLocation = function() {
+      var locationSearch = $location.search();
+      if (CleanJSObjectService.isNullOrEmpty(locationSearch)) {
+        $scope.projectId = undefined;
+        $scope.pageObject.page = 1;
         $scope.searchParams = {
           query: '',
           selectedTabIndex: 0
         };
-        readSearchParamsFromLocation();
-        writeSearchParamsToLocation();
-        $scope.search();
-      };
+      } else {
+        var project = CurrentProjectService.getCurrentProject();
+        if (project) {
+          $scope.projectId = project.id;
+        } else {
+          $scope.projectId = undefined;
+        }
+        if (locationSearch.page != null) {
+          $scope.pageObject.page = parseInt(locationSearch.page);
+        } else {
+          $scope.pageObject.page = 1;
+        }
+        if (locationSearch.query) {
+          $scope.searchParams.query = locationSearch.query;
+        } else {
+          $scope.searchParams.query = '';
+        }
+        $scope.searchParams.filter = _.omit(locationSearch, ['page', 'type',
+          'query'
+        ]);
+        $scope.searchParams.selectedTabIndex = _.findIndex($scope.tabs,
+          function(tab) {
+            return tab.elasticSearchType === locationSearch.type;
+          });
+      }
+    };
 
-      //Search function
-      $scope.search = function() {
-        $scope.isSearching = true;
-        SearchDao.search($scope.searchParams.query, $scope.pageObject.page,
+    // init the controller and its scope objects
+    var init = function() {
+      tabChangedOnInitFlag = true;
+      $scope.searchResult = {};
+      $scope.pageObject = {
+        totalHits: 0,
+        size: 5,
+        page: 1
+      };
+      $scope.searchParams = {
+        query: '',
+        selectedTabIndex: 0
+      };
+      readSearchParamsFromLocation();
+      writeSearchParamsToLocation();
+      $scope.search();
+    };
+
+    //Search function
+    $scope.search = function() {
+      $scope.isSearching = true;
+      SearchDao.search($scope.searchParams.query, $scope.pageObject.page,
           $scope.projectId, $scope.searchParams.filter,
           $scope.tabs[$scope.searchParams.selectedTabIndex].elasticSearchType,
           $scope.pageObject.size)
@@ -108,8 +111,9 @@ angular.module('metadatamanagementApp').controller('SearchController',
           $scope.pageObject.totalHits = data.hits.total;
           //Count information by aggregations
           $scope.tabs.forEach(function(tab) {
-            if ($scope.tabs[$scope.searchParams.selectedTabIndex].
-              elasticSearchType === undefined) {
+            if ($scope.tabs[
+                $scope.searchParams.selectedTabIndex].elasticSearchType ===
+              undefined) {
               tab.count = 0;
               data.aggregations.countByType.buckets.forEach(
                 function(bucket) {
@@ -129,170 +133,176 @@ angular.module('metadatamanagementApp').controller('SearchController',
         }, function() {
           $scope.isSearching = false;
         });
-      };
+    };
 
-      // watch for location changes
-      $scope.$watchCollection(function() {
-        return $location.search();
-      }, function(newValue, oldValue) {
-        if (newValue !== oldValue) {
-          readSearchParamsFromLocation();
-          $scope.search();
-        }
-      });
-      $scope.$on('current-project-changed', function(event, currentProject) {
-        $scope.searchParams.filter = undefined;
-        if (currentProject) {
-          $scope.projectId = currentProject.id;
-        } else {
-          $scope.projectId = undefined;
-        }
-        $scope.pageObject.page = 1;
-        writeSearchParamsToLocation();
-      });
-
-      $scope.onPageChanged = function() {
-        writeSearchParamsToLocation();
-      };
-      $scope.onQueryChanged = function() {
-        $scope.pageObject.page = 1;
-        writeSearchParamsToLocation();
-      };
-
-      $scope.$watch('searchParams.selectedTabIndex', function() {
-        if (!tabChangedOnInitFlag) {
-          $scope.pageObject.page = 1;
-        }
-        writeSearchParamsToLocation();
-        tabChangedOnInitFlag = false;
-      });
-
-      $scope.uploadVariables = function(files) {
-        if (!files || files.length === 0) {
-          return;
-        }
-        VariableUploadService.uploadVariables(files,
-          $scope.projectId);
-      };
-
-      $scope.uploadQuestions = function(files) {
-        if (!files || files.length === 0) {
-          return;
-        }
-        QuestionUploadService.uploadQuestions(files,
-          $scope.projectId);
-      };
-
-      $scope.uploadSurveys = function(files) {
-        if (!files || files.length === 0) {
-          return;
-        }
-        SurveyUploadService.uploadSurveys(files,
-          $scope.projectId);
-      };
-
-      $scope.uploadDataSets = function(files) {
-        if (!files || files.length === 0) {
-          return;
-        }
-        DataSetUploadService.uploadDataSets(files,
-          $scope.projectId);
-      };
-
-      $scope.uploadRelatedPublications = function(file) {
-        if (Array.isArray(file)) {
-          file = file[0];
-        }
-        RelatedPublicationUploadService.uploadRelatedPublications(file);
-      };
-
-      $scope.postValidateRelatedPublications = function() {
-        RelatedPublicationsPostValidationService.postValidate();
-      };
-
-      $scope.uploadStudy = function(files) {
-        if (!files || files.length === 0) {
-          return;
-        }
-        StudyUploadService.uploadStudy(files, $scope.projectId);
-      };
-
-      $scope.uploadInstruments = function(files) {
-        if (!files || files.length === 0) {
-          return;
-        }
-        InstrumentUploadService.uploadInstruments(files,
-          $scope.projectId);
-      };
-
-      //Refresh function for the refresh button
-      $scope.refresh = function() {
+    // watch for location changes not triggered by our code
+    $scope.$watchCollection(function() {
+      return $location.search();
+    }, function(newValue, oldValue) {
+      if (newValue !== oldValue && !$scope.locationChanged) {
+        readSearchParamsFromLocation();
         $scope.search();
-      };
-
-      $scope.$on('upload-completed', function() {
-        //wait for 1 seconds until refresh
-        //in order to wait for elasticsearch reindex
-        $timeout($scope.search, 1000);
-      });
-
-      //Information for the different tabs
-      $scope.tabs = [{
-        title: 'search-management.tabs.all',
-        inputLabel: 'search-management.input-label.all',
-        elasticSearchType: undefined,
-        count: null,
-        acceptedFileUploadType: null,
-        uploadFunction: null
-      }, {
-        title: 'search-management.tabs.studies',
-        inputLabel: 'search-management.input-label.studies',
-        icon: 'assets/images/icons/study.svg',
-        elasticSearchType: 'studies',
-        count: null,
-        uploadFunction: $scope.uploadStudy
-      }, {
-        title: 'search-management.tabs.questions',
-        inputLabel: 'search-management.input-label.questions',
-        icon: 'assets/images/icons/question.svg',
-        elasticSearchType: 'questions',
-        count: null,
-        uploadFunction: $scope.uploadQuestions
-      }, {
-        title: 'search-management.tabs.variables',
-        inputLabel: 'search-management.input-label.variables',
-        icon: 'assets/images/icons/variable.svg',
-        elasticSearchType: 'variables',
-        count: null,
-        uploadFunction: $scope.uploadVariables
-      }, {
-        title: 'search-management.tabs.surveys',
-        inputLabel: 'search-management.input-label.surveys',
-        icon: 'assets/images/icons/survey.svg',
-        elasticSearchType: 'surveys',
-        count: null,
-        uploadFunction: $scope.uploadSurveys
-      }, {
-        title: 'search-management.tabs.data-sets',
-        inputLabel: 'search-management.input-label.data-sets',
-        icon: 'assets/images/icons/data-set.svg',
-        elasticSearchType: 'data_sets',
-        count: null,
-        uploadFunction: $scope.uploadDataSets
-      }, {
-        title: 'search-management.tabs.instruments',
-        inputLabel: 'search-management.input-label.instruments',
-        icon: 'assets/images/icons/instrument.svg',
-        elasticSearchType: 'instruments',
-        count: null,
-        uploadFunction: $scope.uploadInstruments
-      }, {
-        title: 'search-management.tabs.related-publications',
-        inputLabel: 'search-management.input-label.related-publications',
-        icon: 'assets/images/icons/related-publication.svg',
-        elasticSearchType: 'related_publications',
-        count: null,
-        uploadFunction: $scope.uploadRelatedPublications
-      }];
-      init();
+      } else {
+        $scope.locationChanged = false;
+      }
     });
+    $scope.$on('current-project-changed', function(event, currentProject) {
+      $scope.searchParams.filter = undefined;
+      if (currentProject) {
+        $scope.projectId = currentProject.id;
+      } else {
+        $scope.projectId = undefined;
+      }
+      $scope.pageObject.page = 1;
+      writeSearchParamsToLocation();
+      $scope.search();
+    });
+
+    $scope.onPageChanged = function() {
+      writeSearchParamsToLocation();
+      $scope.search();
+    };
+    $scope.onQueryChanged = function() {
+      $scope.pageObject.page = 1;
+      writeSearchParamsToLocation();
+      $scope.search();
+    };
+
+    $scope.onSelectedTabChanged = function() {
+      if (!tabChangedOnInitFlag) {
+        $scope.pageObject.page = 1;
+        writeSearchParamsToLocation();
+        $scope.search();
+      }
+      tabChangedOnInitFlag = false;
+    };
+
+    $scope.uploadVariables = function(files) {
+      if (!files || files.length === 0) {
+        return;
+      }
+      VariableUploadService.uploadVariables(files,
+        $scope.projectId);
+    };
+
+    $scope.uploadQuestions = function(files) {
+      if (!files || files.length === 0) {
+        return;
+      }
+      QuestionUploadService.uploadQuestions(files,
+        $scope.projectId);
+    };
+
+    $scope.uploadSurveys = function(files) {
+      if (!files || files.length === 0) {
+        return;
+      }
+      SurveyUploadService.uploadSurveys(files,
+        $scope.projectId);
+    };
+
+    $scope.uploadDataSets = function(files) {
+      if (!files || files.length === 0) {
+        return;
+      }
+      DataSetUploadService.uploadDataSets(files,
+        $scope.projectId);
+    };
+
+    $scope.uploadRelatedPublications = function(file) {
+      if (Array.isArray(file)) {
+        file = file[0];
+      }
+      RelatedPublicationUploadService.uploadRelatedPublications(file);
+    };
+
+    $scope.postValidateRelatedPublications = function() {
+      RelatedPublicationsPostValidationService.postValidate();
+    };
+
+    $scope.uploadStudy = function(files) {
+      if (!files || files.length === 0) {
+        return;
+      }
+      StudyUploadService.uploadStudy(files, $scope.projectId);
+    };
+
+    $scope.uploadInstruments = function(files) {
+      if (!files || files.length === 0) {
+        return;
+      }
+      InstrumentUploadService.uploadInstruments(files,
+        $scope.projectId);
+    };
+
+    //Refresh function for the refresh button
+    $scope.refresh = function() {
+      $scope.search();
+    };
+
+    $scope.$on('upload-completed', function() {
+      //wait for 1 seconds until refresh
+      //in order to wait for elasticsearch reindex
+      $timeout($scope.search, 1000);
+    });
+
+    //Information for the different tabs
+    $scope.tabs = [{
+      title: 'search-management.tabs.all',
+      inputLabel: 'search-management.input-label.all',
+      elasticSearchType: undefined,
+      count: null,
+      acceptedFileUploadType: null,
+      uploadFunction: null
+    }, {
+      title: 'search-management.tabs.studies',
+      inputLabel: 'search-management.input-label.studies',
+      icon: 'assets/images/icons/study.svg',
+      elasticSearchType: 'studies',
+      count: null,
+      uploadFunction: $scope.uploadStudy
+    }, {
+      title: 'search-management.tabs.questions',
+      inputLabel: 'search-management.input-label.questions',
+      icon: 'assets/images/icons/question.svg',
+      elasticSearchType: 'questions',
+      count: null,
+      uploadFunction: $scope.uploadQuestions
+    }, {
+      title: 'search-management.tabs.variables',
+      inputLabel: 'search-management.input-label.variables',
+      icon: 'assets/images/icons/variable.svg',
+      elasticSearchType: 'variables',
+      count: null,
+      uploadFunction: $scope.uploadVariables
+    }, {
+      title: 'search-management.tabs.surveys',
+      inputLabel: 'search-management.input-label.surveys',
+      icon: 'assets/images/icons/survey.svg',
+      elasticSearchType: 'surveys',
+      count: null,
+      uploadFunction: $scope.uploadSurveys
+    }, {
+      title: 'search-management.tabs.data-sets',
+      inputLabel: 'search-management.input-label.data-sets',
+      icon: 'assets/images/icons/data-set.svg',
+      elasticSearchType: 'data_sets',
+      count: null,
+      uploadFunction: $scope.uploadDataSets
+    }, {
+      title: 'search-management.tabs.instruments',
+      inputLabel: 'search-management.input-label.instruments',
+      icon: 'assets/images/icons/instrument.svg',
+      elasticSearchType: 'instruments',
+      count: null,
+      uploadFunction: $scope.uploadInstruments
+    }, {
+      title: 'search-management.tabs.related-publications',
+      inputLabel: 'search-management.input-label.related-publications',
+      icon: 'assets/images/icons/related-publication.svg',
+      elasticSearchType: 'related_publications',
+      count: null,
+      uploadFunction: $scope.uploadRelatedPublications
+    }];
+    init();
+  });
