@@ -23,7 +23,7 @@
         ngf-drop="tabs[searchParams.selectedTabIndex].uploadFunction($files)"
         ngf-multiple="true"
         ngf-drag-over-class="{accept:'fdz-file-drop-accept', delay:0}"
-        ngf-drop-disabled="(!searchParams.projectId && tabs[searchParams.selectedTabIndex].elasticSearchType !== 'related_publications') || !isAuthenticated() || !tabs[searchParams.selectedTabIndex].uploadFunction">
+        ngf-drop-disabled="(!projectId && tabs[searchParams.selectedTabIndex].elasticSearchType !== 'related_publications') || !isAuthenticated() || !tabs[searchParams.selectedTabIndex].uploadFunction">
         <div ng-repeat="result in searchResult" ng-switch="result._type">
             <variable-search-result ng-switch-when="variables" search-result="result._source"></variable-search-result>
             <survey-search-result ng-switch-when="surveys" search-result="result._source"></survey-search-result>
@@ -64,7 +64,7 @@
             class="md-accent md-fab"
             directory
             webkitdirectory
-            ng-disabled="!searchParams.projectId">
+            ng-disabled="!projectId">
             <div>
                 <md-tooltip md-direction="left">
                     {{'search-management.buttons.upload-studies' | translate}}
@@ -82,7 +82,7 @@
             class="md-accent md-fab"
             directory
             webkitdirectory
-            ng-disabled="!searchParams.projectId">
+            ng-disabled="!projectId">
             <div>
                 <md-tooltip md-direction="left">
                     {{'search-management.buttons.upload-questions' | translate}}
@@ -99,7 +99,7 @@
             ngf-multiple="true"
             directory
             webkitdirectory
-            ng-disabled="!searchParams.projectId">
+            ng-disabled="!projectId">
             <div>
                 <md-tooltip md-direction="left">
                     {{'search-management.buttons.upload-variables' | translate}}
@@ -116,7 +116,7 @@
             ngf-multiple="true"
             directory
             webkitdirectory
-            ng-disabled="!searchParams.projectId">
+            ng-disabled="!projectId">
             <div>
                 <md-tooltip md-direction="left">
                     {{'search-management.buttons.upload-surveys' | translate}}
@@ -133,7 +133,7 @@
             ngf-multiple="true"
             directory
             webkitdirectory
-            ng-disabled="!searchParams.projectId">
+            ng-disabled="!projectId">
             <div>
                 <md-tooltip md-direction="left">
                     {{'search-management.buttons.upload-data-sets' | translate}}
@@ -150,7 +150,7 @@
             ngf-multiple="true"
             directory
             webkitdirectory
-            ng-disabled="!searchParams.projectId">
+            ng-disabled="!projectId">
             <div>
                 <md-tooltip md-direction="left">
                     {{'search-management.buttons.upload-instruments' | translate}}
