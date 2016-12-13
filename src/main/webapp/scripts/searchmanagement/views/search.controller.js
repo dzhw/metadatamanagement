@@ -148,7 +148,7 @@ angular.module('metadatamanagementApp').controller('SearchController',
           $scope.projectId = undefined;
         }
         $scope.pageObject.page = 1;
-        $scope.search();
+        writeSearchParamsToLocation();
       });
 
       $scope.onPageChanged = function() {
