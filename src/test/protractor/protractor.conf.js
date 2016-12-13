@@ -34,7 +34,7 @@ exports.config = {
   }, {
     'name': 'Win10/Edge',
     'platform': 'Windows 10',
-    'browserName': 'edge',
+    'browserName': 'MicrosoftEdge',
     'version': 'latest',
     'screenResolution': '1280x1024'
   }],
