@@ -13,6 +13,7 @@ angular.module('metadatamanagementApp').controller('SearchController',
     CleanJSObjectService, InstrumentUploadService,
     CurrentProjectService, $timeout, PageTitleService) {
 
+      var tabChangedOnIntiFlag;
       // set the page title in toolbar and window.title
       PageTitleService.setPageTitle('global.menu.search.title');
 
@@ -79,6 +80,7 @@ angular.module('metadatamanagementApp').controller('SearchController',
 
       // init the controller and its scope objects
       var init = function() {
+        tabChangedOnIntiFlag = true;
         $scope.searchResult = {};
         $scope.pageObject = {
           totalHits: 0,
@@ -158,8 +160,11 @@ angular.module('metadatamanagementApp').controller('SearchController',
       };
 
       $scope.$watch('searchParams.selectedTabIndex', function() {
-        $scope.pageObject.page = 1;
+        if (!tabChangedOnIntiFlag) {
+          $scope.pageObject.page = 1;
+        }
         writeSearchParamsToLocation();
+        tabChangedOnIntiFlag = false;
       });
 
       $scope.uploadVariables = function(files) {
