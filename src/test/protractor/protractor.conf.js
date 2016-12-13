@@ -32,9 +32,9 @@ exports.config = {
     'screenResolution': '1280x1024',
     'version': '46.0'
   }, {
-    'name': 'Win10/IE',
+    'name': 'Win10/Edge',
     'platform': 'Windows 10',
-    'browserName': 'internet explorer',
+    'browserName': 'edge',
     'version': 'latest',
     'screenResolution': '1280x1024'
   }],
