@@ -21,6 +21,7 @@ import com.google.common.collect.Maps;
 
 import eu.dzhw.fdz.metadatamanagement.common.rest.util.ZipUtil;
 import eu.dzhw.fdz.metadatamanagement.datasetmanagement.domain.DataSet;
+import eu.dzhw.fdz.metadatamanagement.datasetmanagement.exception.TemplateIncompleteException;
 import eu.dzhw.fdz.metadatamanagement.datasetmanagement.repository.DataSetRepository;
 import eu.dzhw.fdz.metadatamanagement.filemanagement.service.FileService;
 import eu.dzhw.fdz.metadatamanagement.questionmanagement.domain.Question;
@@ -91,7 +92,6 @@ public class DataSetReportService {
   /**
    * List of missing tex files.
    */
-  //TODO DKatzberg: Do we need this?
   private List<String> missingTexFiles;
 
   /**
@@ -107,7 +107,7 @@ public class DataSetReportService {
    */
   @SuppressWarnings("unchecked")
   public String generateReport(MultipartFile multiPartFile,
-      String dataSetId) throws TemplateException, IOException {
+      String dataSetId) throws TemplateException, TemplateIncompleteException, IOException {
 
     // Configuration, based on Freemarker Version 2.3.23
     Configuration templateConfiguration = new Configuration(Configuration.VERSION_2_3_23);
@@ -120,7 +120,8 @@ public class DataSetReportService {
     
     if (!this.validateDataSetReportStructure(texTemplates)) {
       //TODO DKatzberg Change the string after i18n changes
-      throw new TemplateException("error.files-in-zip-incomplete", null);
+      throw new TemplateIncompleteException("data-set-management.error"
+          + ".files-in-template-zip-incomplete", this.missingTexFiles);
     }
     
     Map<String, byte[]> filledTemplates = new HashMap<>();
@@ -188,7 +189,7 @@ public class DataSetReportService {
   }
 
   /**
-   * This method filles the tex templates.
+   * This method fills the tex templates.
    *
    * @param templateContent The content of a tex template.
    * @param templateConfiguration The configuration for freemarker.
