@@ -31,6 +31,7 @@ Plotly.register([
 
     require('./scattergl'),
     require('./pointcloud'),
+    require('./heatmapgl'),
 
     require('./scattermapbox'),
 
@@ -51,6 +52,11 @@ Plotly.register([
 Plotly.register([
     require('./filter'),
     require('./groupby')
+]);
+
+// components
+Plotly.register([
+    require('./calendars')
 ]);
 
 module.exports = Plotly;
