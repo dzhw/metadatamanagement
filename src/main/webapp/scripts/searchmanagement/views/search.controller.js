@@ -13,7 +13,8 @@ angular.module('metadatamanagementApp').controller('SearchController',
     CleanJSObjectService, InstrumentUploadService,
     CurrentProjectService, $timeout, PageTitleService) {
 
-    var tabChangedOnInitFlag;
+    var tabChangedOnInitFlag = false;
+    var locationChanged = false;
     // set the page title in toolbar and window.title
     PageTitleService.setPageTitle('global.menu.search.title');
 
@@ -39,7 +40,7 @@ angular.module('metadatamanagementApp').controller('SearchController',
         locationSearch.query = $scope.searchParams.query;
       }
       _.assign(locationSearch, $scope.searchParams.filter);
-      $scope.locationChanged = !angular.equals($location.search(),
+      locationChanged = !angular.equals($location.search(),
         locationSearch);
       $location.search(locationSearch);
     };
@@ -138,14 +139,14 @@ angular.module('metadatamanagementApp').controller('SearchController',
     $scope.$watchCollection(function() {
       return $location.search();
     }, function(newValue, oldValue) {
-      if (newValue !== oldValue && !$scope.locationChanged) {
+      if (newValue !== oldValue && !locationChanged) {
         readSearchParamsFromLocation();
         // type changes are already handled by $scope.onSelectedTabChanged
         if (newValue.type === oldValue.type) {
           $scope.search();
         }
       } else {
-        $scope.locationChanged = false;
+        locationChanged = false;
       }
     });
 
