@@ -33,19 +33,19 @@ angular.module('metadatamanagementApp').service('DataSetReportService',
           });
           //Server hat issues with the tex file, send error to error output
         }).error(function(error) {
-          console.log('Error Upload');
-          console.log(error);
-          console.log(error.errors[0].message);
-          //TODO DKatzberg
+          //TODO DKatzberg Delete this code later, after the extension for
+          //TemplateException
           //var endErrorIndex = error.message.indexOf('----');
           //if no ---- symbol is in the error message
           //if (endErrorIndex <= 0) {
           //  endErrorIndex = error.message.length;
           //}
           //var messageShort = error.message.substr(0, endErrorIndex).trim();
-          JobLoggingService.error({
-            message: error.errors[0].message,
-            messageParams: error.errors[0].invalidValue
+          error.errors.forEach(function(error) {
+            JobLoggingService.error({
+              message: error.message,
+              messageParams: error.invalidValue
+            });
           });
           JobLoggingService.cancel(
             'data-set-management.log-messages.tex.cancelled', {});
