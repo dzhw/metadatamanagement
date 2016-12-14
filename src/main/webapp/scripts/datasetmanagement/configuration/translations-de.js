@@ -56,6 +56,7 @@ angular.module('metadatamanagementApp').config(
           'related-data-sets': 'Zugehörige Datensätze'
         },
         'error': {
+          'files-in-template-zip-incomplete': 'Die bereitgestellten Dateien für die Erzeugung eines Datensatzreports sind unvollständig. Es fehlte die Datei: {{missingFile}}',
           'data-set': {
             'id': {
               'valid-data-set-id-name': 'Die FDZ-ID des Datensatzes entspricht nicht dem Muster: FDZID-ds{Number}.',
@@ -106,7 +107,7 @@ angular.module('metadatamanagementApp').config(
           'post-validation': {
             'data-set-has-invalid-survey-id': 'Der Datensatz {{id}} referenziert eine unbekannte Erhebung({{toBereferenzedId}}).',
             'data-set-has-invalid-variable-id': 'Der Datensatz {{id}} referenziert eine unbekannte Variable({{toBereferenzedId}}).',
-            'sub-data-set-has-an-accessway-which-was-not-found-in-study': 'Der Sub-Datensatz {{id}} hat einen Zugangsweg ({{toBereferenzedId}}) aufgelistet, der nicht den Zugangswegen der Studie gefunden wurde.'  
+            'sub-data-set-has-an-accessway-which-was-not-found-in-study': 'Der Sub-Datensatz {{id}} hat einen Zugangsweg ({{toBereferenzedId}}) aufgelistet, der nicht den Zugangswegen der Studie gefunden wurde.'
           }
         }
       }

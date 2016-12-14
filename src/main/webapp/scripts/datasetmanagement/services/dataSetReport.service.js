@@ -42,9 +42,13 @@ angular.module('metadatamanagementApp').service('DataSetReportService',
           //}
           //var messageShort = error.message.substr(0, endErrorIndex).trim();
           error.errors.forEach(function(error) {
+            var messageParams = {
+              missingFile: error.invalidValue
+            };
+
             JobLoggingService.error({
               message: error.message,
-              messageParams: error.invalidValue
+              messageParams: messageParams
             });
           });
           JobLoggingService.cancel(

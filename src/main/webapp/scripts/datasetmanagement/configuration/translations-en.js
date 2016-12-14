@@ -56,6 +56,7 @@ angular.module('metadatamanagementApp').config(
           'related-data-sets': 'Related Data Sets'
         },
         'error': {
+          'files-in-template-zip-incomplete': 'The uploaded files for the data set report were not complete. The missing file is: {{missingFiles}}',
           'data-set': {
             'id': {
               'valid-data-set-id-name': 'The RDC-ID of the Data Set is not valid for the Pattern: RDCID-ds{Number}',
