@@ -2,28 +2,27 @@
 'use strict';
 
 angular.module('metadatamanagementApp')
-  .controller('DataAcquisitionProjectNavbarController', ['$scope',
+  .controller('DataAcquisitionProjectNavbarController', [
     'CurrentProjectService', 'DataAcquisitionProjectPostValidationService',
     'DataAcquisitionProjectSearchResource', 'DataAcquisitionProjectResource',
     '$mdDialog', 'SimpleMessageToastService', '$translate',
-    'ElasticSearchAdminService', '$location', '$filter',
-    function($scope, CurrentProjectService,
+    'ElasticSearchAdminService',
+    function(CurrentProjectService,
       DataAcquisitionProjectPostValidationService,
       DataAcquisitionProjectSearchResource, DataAcquisitionProjectResource,
       $mdDialog, SimpleMessageToastService, $translate,
-      ElasticSearchAdminService, $location) {
+      ElasticSearchAdminService) {
       var ctrl = this;
       //For Project Handling
       ctrl.dataAcquisitionProjects = null;
       ctrl.searchText = '';
       //Load the projects for the drop menu
       function loadProjects() {
-        var rdcId = $location.search().project;
         DataAcquisitionProjectSearchResource.findAll(
           function(result) {
             ctrl.dataAcquisitionProjects =
               result._embedded.dataAcquisitionProjects;
-            var projects = ctrl.searchProjects(rdcId);
+            var projects = ctrl.searchProjects(ctrl.searchText);
             if (projects.length === 1) {
               ctrl.selectedProject = projects[0];
               ctrl.searchText = projects[0].id;
@@ -53,11 +52,6 @@ angular.module('metadatamanagementApp')
         CurrentProjectService.setCurrentProject(project);
       };
 
-      $scope.$on('current-project-changed',
-      function(event, project) { // jshint ignore:line
-        ctrl.selectedProject = project;
-      });
-
       /* Function for opening a dialog for creating a new project */
       ctrl.createProject = function() {
         $mdDialog.show({
@@ -76,6 +70,7 @@ angular.module('metadatamanagementApp')
                     'data-acquisition-project.saved', {
                       id: project.id
                     });
+                ctrl.selectedProject = project;
                 CurrentProjectService.setCurrentProject(project);
                 loadProjects();
               },
