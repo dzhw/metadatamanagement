@@ -16,7 +16,12 @@ angular.module('metadatamanagementApp')
     $scope.notAllRowsVisible = true;
     $scope.counts = {};
     $scope.variable = entity;
+    $scope.validresponsesOrMissingsAvailable = false;
     entity.$promise.then(function() {
+      if ($scope.variable.distribution.missings.length > 0 || $scope.variable
+        .distribution.validResponses.length > 0) {
+        $scope.validresponsesOrMissingsAvailable = true;
+      }
       PageTitleService.setPageTitle('variable-management.detail.title', {
         label: $scope.variable.label[LanguageService.getCurrentInstantly()],
         name: $scope.variable.name
