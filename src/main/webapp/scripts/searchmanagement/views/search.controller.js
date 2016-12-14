@@ -175,6 +175,7 @@ angular.module('metadatamanagementApp').controller('SearchController',
 
     $scope.onSelectedTabChanged = function() {
       if (!tabChangedOnInitFlag) {
+        $scope.searchParams.filter = undefined;
         $scope.pageObject.page = 1;
         writeSearchParamsToLocation();
         $scope.search();
