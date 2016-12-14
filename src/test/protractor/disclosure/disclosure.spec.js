@@ -16,29 +16,35 @@ describe('Disclosure Page', function() {
     describe(description, function() {
       var currentUrl;
       beforeAll(function() {
-        var disclosureState = element(by.css('[ui-sref="disclosure"]'));
+        var disclosureState = element(by.css(
+          '[ui-sref="disclosure"]'));
         disclosureState.click();
         browser.getCurrentUrl().then(function(url) {
           currentUrl = url;
-          translateHelper.changeLanguage('content', url, language)
-          .then(function(el) {
-            content = el;
-          });
+          translateHelper.changeLanguage('content', url,
+              language)
+            .then(function(el) {
+              content = el;
+            });
         });
       });
       it('should check translated strings', function() {
         htmlContentHelper
-        .findNotTranslationedStrings(content, currentUrl)
-        .then(function(result) {
-          expect(result.length).toBe(0, result.message);
-        });
+          .findNotTranslationedStrings(content, currentUrl)
+          .then(function(result) {
+            expect(result.length).toBe(0, result.message);
+          });
       });
       it('should check the external URL', function(done) {
         content.all(by.css('a')).then(function(items) {
           items[1].getAttribute('href').then(function(href) {
+            if (href.indexOf(browser.baseUrl) === -1) {
+              href = browser.baseUrl + href;
+            }
             browser.getCurrentUrl().then(function(url) {
-              expect(url).toEqual(href + 'disclosure', 'Home link ' +
-            url + ' is not correct...');
+              expect(url).toEqual(href + 'disclosure',
+                'Home link ' +
+                url + ' is not correct...');
               done();
             });
           });

@@ -21,6 +21,9 @@ function checkHREFs(toBeCheckedURL, pageUrl) {
 }
 
 function checkStates(toBeCheckedURL, pageUrl, stateName) {
+  if (toBeCheckedURL.indexOf(browser.baseUrl) === -1) {
+    toBeCheckedURL = browser.baseUrl + toBeCheckedURL;
+  }
   var deferred = protractor.promise.defer();
   var result = {
     isValidUrl: true
