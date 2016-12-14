@@ -17,13 +17,13 @@ angular.module('metadatamanagementApp')
     $scope.notAllRowsVisible = true;
     $scope.counts = {};
     $scope.variable = entity;
-    $scope.validresponsesOrMissingsAvailable = false;
+    $scope.validResponsesOrMissingsAvailable = false;
     entity.$promise.then(function() {
       if (!CleanJSObjectService.isNullOrEmpty($scope
         .variable.distribution.missings) || !CleanJSObjectService
         .isNullOrEmpty($scope.variable
           .distribution.validResponses)) {
-        $scope.validresponsesOrMissingsAvailable = true;
+        $scope.validResponsesOrMissingsAvailable = true;
       }
       PageTitleService.setPageTitle('variable-management.detail.title', {
         label: $scope.variable.label[LanguageService.getCurrentInstantly()],
