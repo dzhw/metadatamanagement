@@ -4,6 +4,9 @@ import java.util.List;
 
 import javax.inject.Inject;
 
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Slice;
 import org.springframework.data.rest.core.annotation.HandleAfterCreate;
 import org.springframework.data.rest.core.annotation.HandleAfterDelete;
 import org.springframework.data.rest.core.annotation.HandleAfterSave;
@@ -97,13 +100,18 @@ public class VariableService {
   @HandleAfterSave
   @HandleAfterDelete
   public void onSurveySaved(Survey survey) {
-    List<Variable> variables = variableRepository.findBySurveyIdsContaining(survey.getId());
-    variables.forEach(variable -> {
-      elasticsearchUpdateQueueService.enqueue(
-          variable.getId(), 
-          ElasticsearchType.variables, 
-          ElasticsearchUpdateQueueAction.UPSERT);      
-    });
+    Pageable page = new PageRequest(0, 100);
+    Slice<Variable> variables = variableRepository.findBySurveyIdsContaining(survey.getId(), page);
+    while (variables.hasContent()) {
+      variables.forEach(variable -> {
+        elasticsearchUpdateQueueService.enqueue(
+            variable.getId(), 
+            ElasticsearchType.variables, 
+            ElasticsearchUpdateQueueAction.UPSERT);      
+      });
+      page = page.next();
+      variables = variableRepository.findBySurveyIdsContaining(survey.getId(), page);
+    }
   }
   
   /**
@@ -115,13 +123,18 @@ public class VariableService {
   @HandleAfterSave
   @HandleAfterDelete
   public void onDataSetSaved(DataSet dataSet) {
-    List<Variable> variables = variableRepository.findByIdIn(dataSet.getVariableIds());
-    variables.forEach(variable -> {
-      elasticsearchUpdateQueueService.enqueue(
-          variable.getId(), 
-          ElasticsearchType.variables, 
-          ElasticsearchUpdateQueueAction.UPSERT);      
-    });
+    Pageable page = new PageRequest(0, 100);
+    Slice<Variable> variables = variableRepository.findByIdIn(dataSet.getVariableIds(), page);
+    while (variables.hasContent()) {
+      variables.forEach(variable -> {
+        elasticsearchUpdateQueueService.enqueue(
+            variable.getId(), 
+            ElasticsearchType.variables, 
+            ElasticsearchUpdateQueueAction.UPSERT);      
+      });
+      page = page.next();
+      variables = variableRepository.findByIdIn(dataSet.getVariableIds(), page);
+    }
   }
   
 }
