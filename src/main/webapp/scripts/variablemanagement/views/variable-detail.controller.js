@@ -9,7 +9,8 @@ angular.module('metadatamanagementApp')
     RelatedPublicationSearchDialogService,
     DataSetSearchService, QuestionSearchService, VariableSearchDialogService,
     RelatedPublicationSearchService, StudySearchService,
-    SimpleMessageToastService, PageTitleService, LanguageService) {
+    SimpleMessageToastService, PageTitleService, LanguageService,
+    CleanJSObjectService) {
 
     $scope.generationCodeToggleFlag = true;
     $scope.filterDetailsCodeToggleFlag = true;
@@ -18,8 +19,10 @@ angular.module('metadatamanagementApp')
     $scope.variable = entity;
     $scope.validresponsesOrMissingsAvailable = false;
     entity.$promise.then(function() {
-      if ($scope.variable.distribution.missings.length > 0 || $scope.variable
-        .distribution.validResponses.length > 0) {
+      if (!CleanJSObjectService.isNullOrEmpty($scope
+        .variable.distribution.missings) || !CleanJSObjectService
+        .isNullOrEmpty($scope.variable
+          .distribution.validResponses)) {
         $scope.validresponsesOrMissingsAvailable = true;
       }
       PageTitleService.setPageTitle('variable-management.detail.title', {
