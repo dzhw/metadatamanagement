@@ -24,6 +24,7 @@ import com.fasterxml.jackson.core.json.UTF8StreamJsonParser;
 import com.fasterxml.jackson.databind.exc.InvalidFormatException;
 
 import eu.dzhw.fdz.metadatamanagement.datasetmanagement.exception.TemplateIncompleteException;
+import freemarker.template.TemplateException;
 
 /**
  * Controller advice to translate the server side exceptions to client-friendly json structures.
@@ -160,8 +161,28 @@ public class ExceptionTranslator {
   }
   
   /**
+   * Handles the Dataset Report Template exception. This exception will be thrown, 
+   * if something gone wrong on creating latex code by the given freemarker code.
+   * @param exception The exception by the template handling.
+   * @return 400 Bad Request and the error message.
+   */
+  @ExceptionHandler(TemplateException.class)
+  @ResponseBody
+  @ResponseStatus(HttpStatus.BAD_REQUEST)
+  ErrorListDto handleTemplateException(TemplateException exception) {
+    
+    //The message of the exception is the error message of freemarker.
+    //The manually added message for the dto can be translated into i18n strings
+    String messageKey = "data-set-management.error.tex-template-error";
+    ErrorListDto errorListDto = new ErrorListDto(
+        new ErrorDto(null, messageKey, exception.getMessage(), null));
+    
+    return errorListDto;
+  }
+  
+  /**
    * Handles the Dataset Report Template incomplete exception. This exception will be thrown, 
-   * if the Tex Template Zip file is incomplete and has not every necessary Tex file.
+   * if the uploaded tex template files are incomplete and files are missing.
    * @param exception The incomplete tex template exception to handle.
    * @return 400 Bad Request and a list of missing files within the exception.
    */

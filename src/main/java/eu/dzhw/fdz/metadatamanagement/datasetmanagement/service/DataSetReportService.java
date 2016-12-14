@@ -119,7 +119,6 @@ public class DataSetReportService {
     Map<String, String> texTemplates = ZipUtil.unzip(multiPartFile);
     
     if (!this.validateDataSetReportStructure(texTemplates)) {
-      //TODO DKatzberg Change the string after i18n changes
       throw new TemplateIncompleteException("data-set-management.error"
           + ".files-in-template-zip-incomplete", this.missingTexFiles);
     }

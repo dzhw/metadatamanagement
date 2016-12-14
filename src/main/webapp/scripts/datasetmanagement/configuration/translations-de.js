@@ -56,7 +56,8 @@ angular.module('metadatamanagementApp').config(
           'related-data-sets': 'Zugehörige Datensätze'
         },
         'error': {
-          'files-in-template-zip-incomplete': 'Die bereitgestellten Dateien für die Erzeugung eines Datensatzreports sind unvollständig. Es fehlte die Datei: {{missingFile}}',
+          'files-in-template-zip-incomplete': 'Die bereitgestellten Dateien für die Erzeugung eines Datensatzreports sind unvollständig. Es fehlte die Datei: {{invalidValue}}',
+          'tex-template-error': 'Die Generierung eines Datensatzreports war nicht erfolgreich. Folgender Fehler trat auf: {{invalidValue}}',
           'data-set': {
             'id': {
               'valid-data-set-id-name': 'Die FDZ-ID des Datensatzes entspricht nicht dem Muster: FDZID-ds{Number}.',

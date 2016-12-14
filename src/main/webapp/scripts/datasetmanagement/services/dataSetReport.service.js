@@ -42,8 +42,16 @@ angular.module('metadatamanagementApp').service('DataSetReportService',
           //}
           //var messageShort = error.message.substr(0, endErrorIndex).trim();
           error.errors.forEach(function(error) {
+
+            var invalidValue = error.invalidValue;
+            if (error.message.indexOf('----') > -1) {
+              var endErrorIndex = error.message.indexOf('----');
+              invalidValue = error.message.substr(0, endErrorIndex)
+                .trim();
+            }
+
             var messageParams = {
-              missingFile: error.invalidValue
+              invalidValue: invalidValue
             };
 
             JobLoggingService.error({
