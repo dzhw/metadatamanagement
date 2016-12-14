@@ -7,7 +7,6 @@ angular.module('metadatamanagementApp').directive('diagram',
   function($window, $timeout, $filter) {
     var link = function(scope, element) {
       scope.isNotLoaded = true;
-      scope.isNotAvailable = false;
       var data = [{
         marker: {
           color: '#006AB2'
