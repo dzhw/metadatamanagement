@@ -38,10 +38,10 @@ exports.config = {
     'version': 'latest',
     'screenResolution': '1280x1024'
   }, {
-    'name': 'Win7/IE10',
-    'platform': 'Windows 7',
+    'name': 'Win8/IE11',
+    'platform': 'Windows 8',
     'browserName': 'internet explorer',
-    'version': '10.0',
+    'version': '11.0',
     'screenResolution': '1280x1024'
   }, {
     'name': 'Win7/IE11',
