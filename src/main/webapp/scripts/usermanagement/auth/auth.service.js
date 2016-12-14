@@ -14,8 +14,7 @@ angular
           var deferred = $q.defer();
 
           AuthServerProvider.login(credentials).then(function(data) {
-            // retrieve the logged account information
-            //Principal.identity(true).then(function(account) {
+            // retrieve the logged account information            
             Principal.identity(true).then(function(identity) {
               deferred.resolve(data);
               $rootScope.identity = identity;
