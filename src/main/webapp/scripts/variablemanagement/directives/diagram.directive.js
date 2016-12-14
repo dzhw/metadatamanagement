@@ -7,7 +7,6 @@ angular.module('metadatamanagementApp').directive('diagram',
   function($window, $timeout, $filter) {
     var link = function(scope, element) {
       scope.isNotLoaded = true;
-      scope.isNotAvailable = false;
       var data = [{
         marker: {
           color: '#006AB2'
@@ -21,7 +20,7 @@ angular.module('metadatamanagementApp').directive('diagram',
               l: 35,
               r: 35,
               t: 15,
-              b: 20
+              b: 30
             },
             width: document.getElementById('diagramContainer').offsetWidth - 10
           };
@@ -41,21 +40,6 @@ angular.module('metadatamanagementApp').directive('diagram',
         }, 1000);
       };
 
-      if ((scope.type === 'nominal') || (scope.type === 'ordinal')) {
-        data[0].x = [];
-        data[0].text = [];
-        data[0].y = [];
-        data[0].type = 'bar';
-        if (scope.distribution.validResponses) {
-          scope.distribution.validResponses.forEach(function(obj) {
-            data[0].x.push(obj.value);
-            data[0].text.push((obj.label[scope.language] || obj.value));
-            data[0].y.push(obj.absoluteFrequency);
-          });
-        } else {
-          scope.isNotAvailable = true;
-        }
-      }
       if ((scope.type === 'kontinuierlich') || (scope.type === 'continous')) {
         var size = (scope.distribution.histogram.end -
             scope.distribution.histogram.start) /
@@ -83,8 +67,22 @@ angular.module('metadatamanagementApp').directive('diagram',
               data[0].x.push(scope.distribution.validResponses[j].value);
             }
           }
-        } else {
-          scope.isNotAvailable = true;
+        }
+      } else {
+        data[0].x = [];
+        data[0].text = [];
+        data[0].y = [];
+        data[0].type = 'bar';
+        if (scope.distribution.validResponses) {
+          scope.distribution.validResponses.forEach(function(obj) {
+            data[0].x.push(obj.value);
+            try {
+              data[0].text.push(obj.label[scope.language]);
+            }catch (e) {
+              data[0].text.push(obj.value);
+            }
+            data[0].y.push(obj.absoluteFrequency);
+          });
         }
       }
       angular.element($window).on('resize', function() {
