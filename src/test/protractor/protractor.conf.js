@@ -37,6 +37,18 @@ exports.config = {
     'browserName': 'MicrosoftEdge',
     'version': 'latest',
     'screenResolution': '1280x1024'
+  }, {
+    'name': 'Win7/IE10',
+    'platform': 'Windows 7',
+    'browserName': 'internet explorer',
+    'version': '10.0',
+    'screenResolution': '1280x1024'
+  }, {
+    'name': 'Win7/IE11',
+    'platform': 'Windows 7',
+    'browserName': 'internet explorer',
+    'version': '11.0',
+    'screenResolution': '1280x1024'
   }],
   //enable this for local tests without selenium
   //directConnect: true,
