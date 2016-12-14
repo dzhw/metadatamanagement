@@ -90,7 +90,7 @@ public class DataSetsReportResourceTest extends AbstractTest {
       .andExpect(status().isOk());
   }
   
-  //TODO DKatzberg Disable for the moment, until upload is complete implemented @Test
+  @Test
   public void testValidButIncompleteUpload() throws Exception {
 
     // Arrange
@@ -117,7 +117,7 @@ public class DataSetsReportResourceTest extends AbstractTest {
     this.mockMvc.perform(MockMvcRequestBuilders.fileUpload(API_DATASETS_REPORTS_URI)
       .file(multipartFile)
       .param("id", dataSet.getId()))
-      .andExpect(status().is5xxServerError());
+      .andExpect(status().isBadRequest());
   }
 
   @Test
