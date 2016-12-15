@@ -276,7 +276,6 @@ public class UnitTestCreateDomainObjectUtils {
       .withNumber("123.12")
       .withSuccessors(new ArrayList<>())
       .withQuestionText(new I18nString("Fragetext","Question text"))
-      .withSurveyId(surveyId)
       .withTechnicalRepresentation(buildTechnicalRepresentation())
       .withType(QuestionTypes.SINGLE_CHOICE)
       .withTopic(new I18nString("Topic De", "Topic EN"))

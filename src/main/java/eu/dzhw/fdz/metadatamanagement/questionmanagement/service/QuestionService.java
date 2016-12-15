@@ -16,7 +16,6 @@ import eu.dzhw.fdz.metadatamanagement.questionmanagement.repository.QuestionRepo
 import eu.dzhw.fdz.metadatamanagement.searchmanagement.domain.ElasticsearchUpdateQueueAction;
 import eu.dzhw.fdz.metadatamanagement.searchmanagement.service.ElasticsearchType;
 import eu.dzhw.fdz.metadatamanagement.searchmanagement.service.ElasticsearchUpdateQueueService;
-import eu.dzhw.fdz.metadatamanagement.surveymanagement.domain.Survey;
 
 /**
  * Service for creating and updating questions. Used for updating questions in mongo
@@ -87,23 +86,5 @@ public class QuestionService {
         question.getId(),
         ElasticsearchType.questions,
         ElasticsearchUpdateQueueAction.UPSERT);
-  }
-  
-  /**
-   * Enqueue update of dataSet search documents when the survey is updated.
-   * 
-   * @param survey the updated or created survey.
-   */
-  @HandleAfterCreate
-  @HandleAfterSave
-  @HandleAfterDelete
-  public void onSurveySaved(Survey survey) {
-    List<Question> questions = questionRepository.findBySurveyId(survey.getId());
-    questions.forEach(question -> {
-      elasticsearchUpdateQueueService.enqueue(
-          question.getId(), 
-          ElasticsearchType.questions, 
-          ElasticsearchUpdateQueueAction.UPSERT);      
-    });
   }
 }

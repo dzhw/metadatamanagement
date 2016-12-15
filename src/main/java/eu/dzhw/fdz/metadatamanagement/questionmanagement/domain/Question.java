@@ -97,10 +97,7 @@ public class Question extends AbstractRdcDomainObject {
   @Indexed
   @NotEmpty(message = "question-management.error.question.data-acquisition-project-id.not-empty")
   private String dataAcquisitionProjectId;
-  
-  @NotEmpty(message = "question-management.error.question.survey-id.not-empty")
-  private String surveyId;
-  
+    
   @NotEmpty(message = "question-management.error.question.instrument-id.not-empty")
   private String instrumentId;
   
@@ -133,7 +130,6 @@ public class Question extends AbstractRdcDomainObject {
       .add("technicalRepresentation", technicalRepresentation)
       .add("successors", successors)
       .add("dataAcquisitionProjectId", dataAcquisitionProjectId)
-      .add("surveyId", surveyId)
       .add("instrumentId", instrumentId)
       .toString();
   }
@@ -149,14 +145,6 @@ public class Question extends AbstractRdcDomainObject {
   
   public void setNumber(String number) {
     this.number = number;
-  }
-  
-  public String getSurveyId() {
-    return surveyId;
-  }
-  
-  public void setSurveyId(String surveyId) {
-    this.surveyId = surveyId;
   }
   
   public I18nString getQuestionText() {

@@ -160,13 +160,6 @@ public class PostValidationService {
         errors.add(new PostValidationMessageDto("question-management.error."
             + "post-validation.question-has-invalid-instrument-id", Arrays.asList(information)));
       }
-
-      // question.surveyId: there must be a survey with that id
-      if (this.surveyRepository.findOne(question.getSurveyId()) == null) {
-        String[] information = {question.getId(), question.getSurveyId()};
-        errors.add(new PostValidationMessageDto("question-management.error."
-            + "post-validation.question-has-invalid-survey-id", Arrays.asList(information)));
-      }
       
       // question.successors: there must be a question with that id
       if (question.getSuccessors() != null && !question.getSuccessors().isEmpty()) {

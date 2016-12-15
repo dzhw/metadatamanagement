@@ -27,9 +27,6 @@ public interface QuestionRepository
   
   @RestResource(exported = false)
   List<Question> findByInstrumentIdAndNumber(String instrumentId, String number);
-  
-  @RestResource(exported = false)
-  List<Question> findBySurveyId(String surveyId);
 
   @RestResource(exported = false)
   Slice<Question> findBy(Pageable pageable);

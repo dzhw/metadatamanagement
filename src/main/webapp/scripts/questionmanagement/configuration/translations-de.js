@@ -90,9 +90,6 @@ angular.module('metadatamanagementApp').config(
             },
             'instrument-id': {
               'not-empty': 'Die FDZ-ID des Instruments darf nicht leer sein.'
-            },
-            'survey-id': {
-              'not-empty': 'Die FDZ-ID der Erhebung darf nicht leer sein.'
             }
           },
           'technical-representation': {
@@ -114,7 +111,7 @@ angular.module('metadatamanagementApp').config(
             'question-has-invalid-successor': 'Die Frage {{id}} referenziert auf eine unbekannte Nachfolgefrage ({{toBereferenzedId}}).',
             'question-has-invalid-survey-id': 'Die Frage {{id}} referenziert auf einen unbekannte Erhebung ({{toBereferenzedId}}).',
             'non-unique-question-number-in-instrument': 'Die Frage {{id}} mit der Nummer {{additionalId}} ist nicht eindeutig innerhalb des Instruments {{toBereferenzedId}}.',
-            'question-has-no-image': 'Bei der Frage {{id}} kann kein dazugehöriges Bild gefunden werden.'  
+            'question-has-no-image': 'Bei der Frage {{id}} kann kein dazugehöriges Bild gefunden werden.'
           }
         }
       }

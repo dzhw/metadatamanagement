@@ -91,9 +91,6 @@ angular.module('metadatamanagementApp').config(
             },
             'instrument-id': {
               'not-empty': 'The RDC-ID of the Instrument must not be empty!'
-            },
-            'survey-id': {
-              'not-empty': 'The RDC-ID of the Survey must not be empty!'
             }
           },
           'technical-representation': {
@@ -114,7 +111,7 @@ angular.module('metadatamanagementApp').config(
             'question-has-invalid-instrument-id': 'The Question {{id}} references an unknown Instrument ({{toBereferenzedId}}).',
             'question-has-invalid-successor': 'The Question {{id}} references an unknown successor ({{toBereferenzedId}}).',
             'question-has-invalid-survey-id': 'The Question {{id}} references an unknown Survey ({{toBereferenzedId}}).',
-            'non-unique-question-number-in-instrument': 'The Question {{id}} with the number {{number}} is not unique within the Insturment {{instrumentId}}.'  
+            'non-unique-question-number-in-instrument': 'The Question {{id}} with the number {{number}} is not unique within the Insturment {{instrumentId}}.'
           }
         }
       }
