@@ -28,7 +28,7 @@ angular.module('metadatamanagementApp').config(
               'copy-to-clipboard': 'Kopiere in die Zwischenablage'
             }
           },
-          'title': 'Frage {{ questionNumber }} {{ surveyTitle}}',
+          'title': 'Frage {{ questionNumber }}: {{ instrumentDescription }} ({{ questionId }})',
           'question': 'Frage',
           'questions': 'Fragen',
           'predecessors': 'Vorangegangene Fragen im Fragebogen',

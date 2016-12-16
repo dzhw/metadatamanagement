@@ -30,8 +30,10 @@ angular.module('metadatamanagementApp')
           });
         if (ctrl.question.successors) {
           QuestionSearchService.findSuccessors(ctrl.question.successors)
-          .then(function(successors) {
-              _.pullAllBy(successors.docs, [{'found': false}], 'found');
+            .then(function(successors) {
+              _.pullAllBy(successors.docs, [{
+                'found': false
+              }], 'found');
               ctrl.successors = successors.docs;
             });
         }
@@ -48,11 +50,11 @@ angular.module('metadatamanagementApp')
           }
         }
         StudySearchService.findStudy(ctrl.question.dataAcquisitionProjectId)
-        .then(function(study) {
-          if (study.hits.hits.length > 0) {
-            ctrl.study = study.hits.hits[0]._source;
-          }
-        });
+          .then(function(study) {
+            if (study.hits.hits.length > 0) {
+              ctrl.study = study.hits.hits[0]._source;
+            }
+          });
         VariableSearchService.countBy('questionId',
           ctrl.question.id).then(function(variablesCount) {
           ctrl.counts.variablesCount = variablesCount.count;
@@ -61,24 +63,28 @@ angular.module('metadatamanagementApp')
           ctrl.question.id).then(function(publicationsCount) {
           ctrl.counts.publicationsCount = publicationsCount.count;
         });
-        InstrumentSearchService.findBySurveyId(ctrl.question.surveyId)
-          .then(function(instrument) {
-            if (instrument.hits.hits.length > 0) {
-              ctrl.instrument = instrument.hits.hits[0]._source;
+        InstrumentSearchService.findInstruments([ctrl.question.instrumentId])
+          .then(function(searchResult) {
+            if (searchResult.docs[0].found) {
+              ctrl.instrument = searchResult.docs[0]._source;
+              PageTitleService.setPageTitle(
+                'question-management.detail.title', {
+                  questionNumber: ctrl.question.number,
+                  questionId: ctrl.question.id,
+                  instrumentDescription: ctrl.instrument.description
+                });
             }
           });
         var surveyId = [ctrl.question.surveyId];
         SurveySearchService.findSurveys(surveyId)
-        .then(function(survey) {
-          _.pullAllBy(survey.docs, [{'found': false}], 'found');
-          if (survey.docs.length > 0) {
-            ctrl.survey = survey.docs[0]._source;
-            PageTitleService.setPageTitle('question-management.detail.title', {
-              questionNumber: ctrl.question.number,
-              surveyTitle: ctrl.survey.title
-            });
-          }
-        });
+          .then(function(survey) {
+            _.pullAllBy(survey.docs, [{
+              'found': false
+            }], 'found');
+            if (survey.docs.length > 0) {
+              ctrl.survey = survey.docs[0]._source;
+            }
+          });
       });
       ctrl.showRelatedVariables = function() {
         var paramObject = {};

@@ -2,6 +2,7 @@ package eu.dzhw.fdz.metadatamanagement.searchmanagement.documents;
 
 import java.util.List;
 
+import eu.dzhw.fdz.metadatamanagement.instrumentmanagement.domain.Instrument;
 import eu.dzhw.fdz.metadatamanagement.questionmanagement.domain.Question;
 import eu.dzhw.fdz.metadatamanagement.searchmanagement.service.ElasticsearchIndices;
 import io.searchbox.annotations.JestId;
@@ -22,23 +23,26 @@ public class QuestionSearchDocument {
   private String imageType;
   private String topic;
   private String instrumentId;
+  private String instrumentDescription;
   private List<String> successors;
   private String surveyTitle;
 
   /**
    * Create the search document from the domain object depending on the language (index).
    */
-  public QuestionSearchDocument(Question question, ElasticsearchIndices index) {
+  public QuestionSearchDocument(Question question, 
+      Instrument instrument, ElasticsearchIndices index) {
     this.id = question.getId();
     this.number = question.getNumber();
     this.instrumentId = question.getInstrumentId();
     this.dataAcquisitionProjectId = question.getDataAcquisitionProjectId();
     this.imageType = question.getImageType().name();
     this.successors = question.getSuccessors();    
-    createI18nAttributes(question, index);
+    createI18nAttributes(question, instrument, index);
   }
   
-  private void createI18nAttributes(Question question, ElasticsearchIndices index) {
+  private void createI18nAttributes(Question question, 
+      Instrument instrument, ElasticsearchIndices index) {
     switch (index) {
       case METADATA_DE:
         questionText = question.getQuestionText() != null ? question.getQuestionText()
@@ -52,6 +56,8 @@ public class QuestionSearchDocument {
         additionalQuestionText = question.getAdditionalQuestionText() != null ? question
           .getAdditionalQuestionText().getDe() : null;
         topic = question.getTopic() != null ? question.getTopic().getDe() : null;  
+        instrumentDescription = instrument != null && instrument.getDescription() != null 
+            ? instrument.getDescription().getDe() : null;
         break;
       case METADATA_EN:
         questionText = question.getQuestionText() != null ? question.getQuestionText()
@@ -65,6 +71,8 @@ public class QuestionSearchDocument {
         additionalQuestionText = question.getAdditionalQuestionText() != null ? question
           .getAdditionalQuestionText().getEn() : null;
         topic = question.getTopic() != null ? question.getTopic().getEn() : null;
+        instrumentDescription = instrument != null && instrument.getDescription() != null 
+              ? instrument.getDescription().getEn() : null;
         break;
       default:
         throw new RuntimeException("Unknown index:" + index);
@@ -149,6 +157,14 @@ public class QuestionSearchDocument {
 
   public void setInstrumentId(String instrumentId) {
     this.instrumentId = instrumentId;
+  }
+  
+  public String getInstrumentDescription() {
+    return instrumentDescription;
+  }
+
+  public void setInstrumentDescription(String instrumentDescription) {
+    this.instrumentDescription = instrumentDescription;
   }
 
   public List<String> getSuccessors() {

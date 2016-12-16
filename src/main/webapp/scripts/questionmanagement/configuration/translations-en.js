@@ -29,7 +29,7 @@ angular.module('metadatamanagementApp').config(
               'copy-to-clipboard': 'Copy to Clipboard'
             }
           },
-          'title': 'Question {{ questionNumber }} {{ surveyTitle}}',
+          'title': 'Question {{ questionNumber }}: {{ instrumentDescription }} ({{ questionId }})',
           'question': 'Question',
           'questions': 'Questions',
           'predecessors': 'Previous Questions in Questionnaire',

@@ -4,12 +4,16 @@ import java.util.List;
 
 import javax.inject.Inject;
 
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Slice;
 import org.springframework.data.rest.core.annotation.HandleAfterCreate;
 import org.springframework.data.rest.core.annotation.HandleAfterDelete;
 import org.springframework.data.rest.core.annotation.HandleAfterSave;
 import org.springframework.data.rest.core.annotation.RepositoryEventHandler;
 import org.springframework.stereotype.Service;
 
+import eu.dzhw.fdz.metadatamanagement.instrumentmanagement.domain.Instrument;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.DataAcquisitionProject;
 import eu.dzhw.fdz.metadatamanagement.questionmanagement.domain.Question;
 import eu.dzhw.fdz.metadatamanagement.questionmanagement.repository.QuestionRepository;
@@ -27,7 +31,7 @@ public class QuestionService {
 
   @Inject
   private QuestionRepository questionRepository;
-
+ 
   @Inject
   private ElasticsearchUpdateQueueService elasticsearchUpdateQueueService;
 
@@ -86,5 +90,28 @@ public class QuestionService {
         question.getId(),
         ElasticsearchType.questions,
         ElasticsearchUpdateQueueAction.UPSERT);
+  }
+  
+  /**
+   * Enqueue update of question search documents when the instrument is updated.
+   * 
+   * @param instrument the updated or created instrument.
+   */
+  @HandleAfterCreate
+  @HandleAfterSave
+  @HandleAfterDelete
+  public void onInstrumentChanged(Instrument instrument) {
+    Pageable page = new PageRequest(0, 100);
+    Slice<Question> questions = questionRepository.findByInstrumentId(instrument.getId(), page);
+    while (questions.hasContent()) {
+      questions.forEach(question -> {
+        elasticsearchUpdateQueueService.enqueue(
+            question.getId(), 
+            ElasticsearchType.questions, 
+            ElasticsearchUpdateQueueAction.UPSERT);      
+      });
+      page = page.next();
+      questions = questionRepository.findByInstrumentId(instrument.getId(), page);
+    }
   }
 }

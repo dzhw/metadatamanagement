@@ -19,13 +19,12 @@
                                 <md-icon md-svg-src="/assets/images/icons/question.svg" class="fdz-search-result-icon"></md-icon>
                             </md-card-avatar>
                             <md-card-header-text class="fdz-truncate-string">
-                                <div class="md-title fdz-truncate-string">{{'question-management.detail.question' | translate}} {{item._source.number}} {{item._source.surveyTitle}}</div>
-                                <div class="md-subhead fdz-truncate-string">{{item._source.compositeQuestionName}}
-                                    ({{item._source.type}})</div>
+                                <div class="md-title fdz-truncate-string">{{'question-management.detail.question' | translate}} {{item._source.number}}: {{item._source.instrumentDescription}} ({{item._source.id}})</div>
+                                <div class="md-subhead fdz-truncate-string">{{item._source.type}}</div>
                             </md-card-header-text>
                         </md-card-header>
                         <md-card-content>
-                            <div>{{item._source.number}}: {{item._source.questionText}}</div>
+                            <div>{{item._source.questionText}}</div>
                         </md-card-content>
                     </md-card>
                   </div>
