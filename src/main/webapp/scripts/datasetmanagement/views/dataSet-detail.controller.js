@@ -38,9 +38,9 @@ angular.module('metadatamanagementApp')
         ctrl.counts.surveysCount = ctrl.dataSet.surveyIds.length;
         ctrl.counts.variablesCount = ctrl.dataSet.variableIds.length;
       });
-      ctrl.uploadTexTemplate = function(file, dataSetId) {
-        if (file != null) {
-          DataSetReportService.uploadTexTemplate(file, dataSetId);
+      ctrl.uploadTexTemplate = function(files) {
+        if (files != null) {
+          DataSetReportService.uploadTexTemplate(files, ctrl.dataSet.id);
         }
       };
       ctrl.showRelatedSurveys = function() {

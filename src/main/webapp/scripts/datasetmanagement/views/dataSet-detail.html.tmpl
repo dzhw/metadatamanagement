@@ -1,4 +1,11 @@
 <div ng-if="ctrl.dataSet.$resolved && ctrl.dataSet.id">
+  <div
+      flex
+      ngf-drop="ctrl.uploadTexTemplate($files)"
+      ngf-multiple="true"
+      ngf-include-dir="false"
+      ngf-drag-over-class="{accept:'fdz-file-drop-accept', delay:0}"
+      ngf-drop-disabled="!ctrl.isAuthenticated()">
     <div layout="column" layout-gt-sm="row">
         <md-card flex-gt-sm>
             <md-card-header>
@@ -109,8 +116,10 @@
         <md-button
           aria-label="{{'data-set-management.detail.generate-variable-report' | translate}}"
           type="file"
-          ngf-select="ctrl.uploadTexTemplate($file, ctrl.dataSet.id)"
-          accept=".zip"
+          ngf-select="ctrl.uploadTexTemplate($files)"
+          ngf-multiple="true"
+          directory
+          webkitdirectory
           class="md-accent md-fab">
             <div>
               <md-tooltip md-direction="left">
@@ -120,4 +129,5 @@
             </div>
         </md-button>
     </div>
+  </div>
 </div>
