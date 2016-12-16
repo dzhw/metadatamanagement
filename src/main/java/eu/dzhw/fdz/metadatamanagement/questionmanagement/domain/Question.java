@@ -90,6 +90,10 @@ public class Question extends AbstractRdcDomainObject {
   @Valid
   private TechnicalRepresentation technicalRepresentation;
   
+  private Integer instrumentNumber;
+  
+  private List<String> successorNumbers;
+  
   private List<String> successors;
   
       
@@ -131,6 +135,8 @@ public class Question extends AbstractRdcDomainObject {
       .add("successors", successors)
       .add("dataAcquisitionProjectId", dataAcquisitionProjectId)
       .add("instrumentId", instrumentId)
+      .add("instrumentNumber", instrumentNumber)
+      .add("successorNumbers", successorNumbers)
       .toString();
   }
 
@@ -234,5 +240,20 @@ public class Question extends AbstractRdcDomainObject {
   public void setTopic(I18nString topic) {
     this.topic = topic;
   }
-  
+
+  public Integer getInstrumentNumber() {
+    return instrumentNumber;
+  }
+
+  public void setInstrumentNumber(Integer instrumentNumber) {
+    this.instrumentNumber = instrumentNumber;
+  }
+
+  public List<String> getSuccessorNumbers() {
+    return successorNumbers;
+  }
+
+  public void setSuccessorNumbers(List<String> successorNumbers) {
+    this.successorNumbers = successorNumbers;
+  }
 }

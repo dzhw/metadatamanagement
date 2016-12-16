@@ -279,6 +279,8 @@ public class UnitTestCreateDomainObjectUtils {
       .withTechnicalRepresentation(buildTechnicalRepresentation())
       .withType(QuestionTypes.SINGLE_CHOICE)
       .withTopic(new I18nString("Topic De", "Topic EN"))
+      .withInstrumentNumber(123)
+      .withSuccessorNumbers(new ArrayList<>())
       .build();
   }
   

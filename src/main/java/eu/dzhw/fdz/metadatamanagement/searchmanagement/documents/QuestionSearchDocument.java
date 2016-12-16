@@ -26,6 +26,9 @@ public class QuestionSearchDocument {
   private String instrumentDescription;
   private List<String> successors;
   private String surveyTitle;
+  private Integer instrumentNumber;
+  private List<String> successorNumbers;
+  
 
   /**
    * Create the search document from the domain object depending on the language (index).
@@ -38,6 +41,8 @@ public class QuestionSearchDocument {
     this.dataAcquisitionProjectId = question.getDataAcquisitionProjectId();
     this.imageType = question.getImageType().name();
     this.successors = question.getSuccessors();    
+    this.instrumentNumber = question.getInstrumentNumber();
+    this.successorNumbers = question.getSuccessorNumbers();
     createI18nAttributes(question, instrument, index);
   }
   
@@ -188,6 +193,26 @@ public class QuestionSearchDocument {
   }
 
   public void setSurveyTitles(String surveyTitle) {
+    this.surveyTitle = surveyTitle;
+  }
+
+  public Integer getInstrumentNumber() {
+    return instrumentNumber;
+  }
+
+  public void setInstrumentNumber(Integer instrumentNumber) {
+    this.instrumentNumber = instrumentNumber;
+  }
+
+  public List<String> getSuccessorNumbers() {
+    return successorNumbers;
+  }
+
+  public void setSuccessorNumbers(List<String> successorNumbers) {
+    this.successorNumbers = successorNumbers;
+  }
+
+  public void setSurveyTitle(String surveyTitle) {
     this.surveyTitle = surveyTitle;
   }
 }

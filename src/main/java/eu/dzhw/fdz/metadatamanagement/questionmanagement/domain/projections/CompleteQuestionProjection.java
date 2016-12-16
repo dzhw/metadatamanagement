@@ -44,4 +44,8 @@ public interface CompleteQuestionProjection
   List<String> getSuccessors();
   
   String getInstrumentId();
+  
+  Integer getInstrumentNumber();
+  
+  List<String> getSuccessorNumbers();
 }
