@@ -10,6 +10,20 @@ https://github.com/plotly/plotly.js/compare/vX.Y.Z...master
 where X.Y.Z is the semver of most recent plotly.js release.
 
 
+## [1.21.2] -- 2016-12-14
+- Fix handling of calendar in `filter` transforms where distinct calendars can
+  now be set for both the `target` and `value` [#1253]
+- Make `Plotly.addFrames` skip over non-plain-objects inputs [#1254]
+- Make `Plots.graphJson` aware of `frames` [#1255]
+
+
+## [1.21.1] -- 2016-12-14
+
+### Fixed
+- Fix `ms2datetime` routine for Chinese calendar [#1252]
+- Fix `tickformat` for world calendars [#1252]
+
+
 ## [1.21.0] -- 2016-12-12
 
 ### Added
