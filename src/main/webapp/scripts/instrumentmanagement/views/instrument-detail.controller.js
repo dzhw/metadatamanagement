@@ -4,7 +4,7 @@ angular.module('metadatamanagementApp')
   .controller('InstrumentDetailController',
     function(entity, SurveySearchService, InstrumentAttachmentResource,
       StudySearchService, QuestionSearchService,
-      QuestionSearchDialogService, PageTitleService) {
+      QuestionSearchDialogService, PageTitleService, LanguageService) {
       //Controller Init
       var ctrl = this;
       ctrl.instrument = entity;
@@ -14,6 +14,12 @@ angular.module('metadatamanagementApp')
       ctrl.questionCount = null;
       //Wait for instrument Promise
       ctrl.instrument.$promise.then(function() {
+        PageTitleService.setPageTitle('instrument-management.' +
+          'detail.page-title', {
+            description: ctrl.instrument.description[
+              LanguageService.getCurrentInstantly()],
+            instrumentId: ctrl.instrument.id,
+          });
         //load all related objects in parallel
         InstrumentAttachmentResource.findByInstrumentId({
           id: ctrl.instrument.id
@@ -28,10 +34,6 @@ angular.module('metadatamanagementApp')
           function(searchResult) {
             if (searchResult.docs[0].found) {
               ctrl.survey = searchResult.docs[0]._source;
-              PageTitleService.setPageTitle('instrument-management.' +
-              'detail.page-title', {
-                surveyTitle: ctrl.survey.title
-              });
             }
           });
         //Find Studies

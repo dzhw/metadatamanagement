@@ -25,7 +25,7 @@ angular.module('metadatamanagementApp').config(
           'title': 'Instrumente'
         },
         'detail': {
-          'page-title': 'Erhebungsinstrument {{ surveyTitle }}',
+          'page-title': '{{ description }} ({{ instrumentId }})',
           'instrument': 'Erhebungsinstrument',
           'instruments': 'Instrumente',
           'instrument-informations': 'Details zum Instrument',
@@ -50,6 +50,10 @@ angular.module('metadatamanagementApp').config(
             'title': {
               'not-null': 'Der Titel des Instruments darf nicht leer sein!',
               'i18n-string-size': 'Der Titel muss in beiden Sprachen angegeben werden und darf nicht länger als 128 Zeichen sein.'
+            },
+            'description': {
+              'not-null': 'Die Beschreibung des Instruments darf nicht leer sein!',
+              'i18n-string-size': 'Die Beschreibung muss in beiden Sprachen angegeben werden und darf nicht länger als 128 Zeichen sein.'
             },
             'type': {
               'not-empty': 'Der Typ des Instruments darf nicht leer sein!',
@@ -84,7 +88,7 @@ angular.module('metadatamanagementApp').config(
             }
           },
           'post-validation': {
-            'instrument-has-invalid-survey-id': 'Das Instrument {{id}} referenziert eine unbekannte Erhebung ({{toBereferenzedId}}).'            
+            'instrument-has-invalid-survey-id': 'Das Instrument {{id}} referenziert eine unbekannte Erhebung ({{toBereferenzedId}}).'
           }
         }
       }

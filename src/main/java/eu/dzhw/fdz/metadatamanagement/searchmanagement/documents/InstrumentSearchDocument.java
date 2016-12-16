@@ -15,8 +15,9 @@ public class InstrumentSearchDocument {
   
   private String title;
   
+  private String description;
+  
   private String type;
-  //TODO rreitmann add attachment metadata
   
   private String surveyId;
   
@@ -37,9 +38,13 @@ public class InstrumentSearchDocument {
     switch (index) {
       case METADATA_DE:
         title = instrument.getTitle() != null ? instrument.getTitle().getDe() : null;
+        description = instrument.getDescription() != null 
+            ? instrument.getDescription().getDe() : null;
         break;
       case METADATA_EN:
         title = instrument.getTitle() != null ? instrument.getTitle().getEn() : null;
+        description = instrument.getDescription() != null 
+            ? instrument.getDescription().getEn() : null;
         break;
       default:
         throw new RuntimeException("Unknown index:" + index);
@@ -60,6 +65,14 @@ public class InstrumentSearchDocument {
 
   public void setTitle(String title) {
     this.title = title;
+  }
+  
+  public String getDescription() {
+    return description;
+  }
+
+  public void setDescription(String description) {
+    this.description = description;
   }
 
   public String getType() {

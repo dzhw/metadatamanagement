@@ -17,6 +17,8 @@ import eu.dzhw.fdz.metadatamanagement.instrumentmanagement.domain.Instrument;
 public interface CompleteInstrumentProjection extends AbstractRdcDomainObjectProjection {
   I18nString getTitle();
   
+  I18nString getDescription();
+  
   String getType();
   
   String getDataAcquisitionProjectId();
