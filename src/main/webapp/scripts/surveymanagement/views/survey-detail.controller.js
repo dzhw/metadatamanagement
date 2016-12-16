@@ -12,7 +12,8 @@ angular.module('metadatamanagementApp')
       ctrl.counts = {};
       entity.$promise.then(function() {
         PageTitleService.setPageTitle('survey-management.detail.title', {
-          title: ctrl.survey.title[LanguageService.getCurrentInstantly()]
+          title: ctrl.survey.title[LanguageService.getCurrentInstantly()],
+          surveyId: ctrl.survey.id
         });
         StudySearchService
           .findStudy(ctrl.survey.dataAcquisitionProjectId)
@@ -34,11 +35,11 @@ angular.module('metadatamanagementApp')
             ctrl.counts.surveysCount = surveysCount.count;
           });
         InstrumentSearchService.findBySurveyId(ctrl.survey.id)
-        .then(function(instrument) {
-          if (instrument.hits.hits.length > 0) {
-            ctrl.instrument = instrument.hits.hits[0]._source;
-          }
-        });
+          .then(function(instrument) {
+            if (instrument.hits.hits.length > 0) {
+              ctrl.instrument = instrument.hits.hits[0]._source;
+            }
+          });
       });
       ctrl.showRelatedDataSets = function() {
         var paramObject = {};

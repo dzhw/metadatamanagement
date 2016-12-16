@@ -2,6 +2,8 @@ package eu.dzhw.fdz.metadatamanagement.studymanagement.repository;
 
 import java.util.List;
 
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Slice;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.data.querydsl.QueryDslPredicateExecutor;
 import org.springframework.data.rest.core.annotation.RepositoryRestResource;
@@ -23,5 +25,8 @@ public interface StudyRepository extends MongoRepository<Study, String>,
   
   @RestResource(exported = false)
   List<Study> deleteByDataAcquisitionProjectId(String dataAcquisitionProjectId);
+  
+  @RestResource(exported = false)
+  Slice<Study> findBy(Pageable pageable);
   
 }

@@ -6,7 +6,7 @@ angular.module('metadatamanagementApp').config(
       //jscs:disable
       'study-management': {
         'detail': {
-          'title': '{{ title }}',
+          'title': '{{ title }} ({{ studyId }})',
           'study': 'Studie',
           'studies': 'Studien',
           'study-informations': 'Details der Studie',

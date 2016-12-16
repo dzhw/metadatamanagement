@@ -19,29 +19,21 @@
                                   <md-icon md-svg-src="/assets/images/icons/data-set.svg" class="fdz-search-result-icon"></md-icon>
                               </md-card-avatar>
                               <md-card-header-text class="fdz-truncate-string">
-                                  <div class="md-title fdz-truncate-string">{{'data-set-management.detail.data-set' | translate}}</div>
-                                  <div class="md-subhead fdz-truncate-string">{{item._source.id}}</div>
+                                  <div class="md-title fdz-truncate-string">{{item._source.description}} ({{item._source.id}})</div>
+                                  <div class="md-subhead fdz-truncate-string">{{item._source.type}}</div>
                               </md-card-header-text>
                           </md-card-header>
                           <md-card-content layout="row" layout-xs="column" layout-align="space-between none">
-                              <div layout="column">
-                                  <div layout="row" layout-xs="column" style="margin-bottom: 8px;">
-                                      <div class="fdz-search-result-label">
-                                          {{'data-set-management.detail.description' | translate}}:
-                                      </div>
-                                      <div>
-                                          {{item._source.description}}
-                                      </div>
-                                  </div>
-                                  <div layout="row" layout-xs="column">
-                                      <div class="fdz-search-result-label">
-                                          {{'survey-management.detail.surveys' | translate}}:
-                                      </div>
-                                      <div layout="column">
-                                          <div ng-repeat="title in item._source.surveyTitles track by $index" class="fdz-truncate-string">{{title}}</div>
-                                      </div>
-                                  </div>
-                              </div>
+                            <div layout="column">
+                                <div layout="row" layout-xs="column">
+                                    <div class="fdz-search-result-label">
+                                        {{'survey-management.detail.surveys' | translate}}:
+                                    </div>
+                                    <div layout="column">
+                                        <div ng-repeat="title in item._source.surveyTitles track by $index" class="fdz-truncate-string">{{title}}</div>
+                                    </div>
+                                </div>
+                            </div>
                           </md-card-content>
                       </md-card>
 

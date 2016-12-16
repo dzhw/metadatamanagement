@@ -18,7 +18,7 @@ angular.module('metadatamanagementApp').config(
           }
         },
         'detail': {
-          'title': '{{ title }}',
+          'title': '{{ title }} ({{ surveyId }})',
           'survey': 'Erhebung',
           'surveys': 'Erhebungen',
           'surveys-same-study': 'Erhebungen der gleichen Studie',

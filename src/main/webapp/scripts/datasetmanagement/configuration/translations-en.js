@@ -29,7 +29,7 @@ angular.module('metadatamanagementApp').config(
           'title': 'Data Sets'
         },
         'detail': {
-          'title': '{{ description }}',
+          'title': '{{ description }} ({{ dataSetId }})',
           'data-set': 'Data Set',
           'data-sets': 'Data Sets',
           'type': 'Typ',

@@ -26,6 +26,8 @@ import eu.dzhw.fdz.metadatamanagement.relatedpublicationmanagement.domain.Relate
 import eu.dzhw.fdz.metadatamanagement.relatedpublicationmanagement.repository.RelatedPublicationRepository;
 import eu.dzhw.fdz.metadatamanagement.searchmanagement.dao.ElasticsearchDao;
 import eu.dzhw.fdz.metadatamanagement.searchmanagement.domain.ElasticsearchUpdateQueueAction;
+import eu.dzhw.fdz.metadatamanagement.studymanagement.domain.Study;
+import eu.dzhw.fdz.metadatamanagement.studymanagement.repository.StudyRepository;
 import eu.dzhw.fdz.metadatamanagement.surveymanagement.domain.Survey;
 import eu.dzhw.fdz.metadatamanagement.surveymanagement.repository.SurveyRepository;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.Variable;
@@ -60,6 +62,9 @@ public class ElasticsearchAdminService {
   private InstrumentRepository instrumentRepository;
   
   @Inject
+  private StudyRepository studyRepository;
+  
+  @Inject
   private ElasticsearchUpdateQueueService updateQueueService;
 
   @Inject
@@ -80,7 +85,24 @@ public class ElasticsearchAdminService {
     this.enqueueAllQuestions();
     this.enqueueAllRelatedPublications();
     this.enqueueAllInstruments();
+    this.enqueueAllStudies();
     updateQueueService.processQueue();
+  }
+  
+  private void enqueueAllStudies() {
+    Pageable pageable = new PageRequest(0, 100);
+    Slice<Study> studies = studyRepository.findBy(pageable);
+
+    while (studies.hasContent()) {
+      studies.forEach(instrument -> {
+        updateQueueService.enqueue(
+            instrument.getId(), 
+            ElasticsearchType.studies, 
+            ElasticsearchUpdateQueueAction.UPSERT);
+      });
+      pageable = pageable.next();
+      studies = studyRepository.findBy(pageable);
+    }
   }
   
   private void enqueueAllInstruments() {
@@ -91,7 +113,7 @@ public class ElasticsearchAdminService {
       instruments.forEach(instrument -> {
         updateQueueService.enqueue(
             instrument.getId(), 
-            ElasticsearchType.variables, 
+            ElasticsearchType.instruments, 
             ElasticsearchUpdateQueueAction.UPSERT);
       });
       pageable = pageable.next();

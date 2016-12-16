@@ -20,14 +20,14 @@ angular.module('metadatamanagementApp')
     $scope.validResponsesOrMissingsAvailable = false;
     entity.$promise.then(function() {
       if (!CleanJSObjectService.isNullOrEmpty($scope
-        .variable.distribution.missings) || !CleanJSObjectService
+          .variable.distribution.missings) || !CleanJSObjectService
         .isNullOrEmpty($scope.variable
           .distribution.validResponses)) {
         $scope.validResponsesOrMissingsAvailable = true;
       }
       PageTitleService.setPageTitle('variable-management.detail.title', {
         label: $scope.variable.label[LanguageService.getCurrentInstantly()],
-        name: $scope.variable.name
+        variableId: $scope.variable.id
       });
       StudySearchService
         .findStudy($scope.variable.dataAcquisitionProjectId)

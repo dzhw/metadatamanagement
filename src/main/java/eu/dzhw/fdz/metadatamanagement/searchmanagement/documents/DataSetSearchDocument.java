@@ -62,11 +62,11 @@ public class DataSetSearchDocument {
     switch (index) {
       case METADATA_DE:
         description = dataSet.getDescription() != null ? dataSet.getDescription().getDe() : null;
-        type = dataSet.getType() != null ? dataSet.getDescription().getDe() : null;
+        type = dataSet.getType() != null ? dataSet.getType().getDe() : null;
         break;
       case METADATA_EN:
         description = dataSet.getDescription() != null ? dataSet.getDescription().getEn() : null;
-        type = dataSet.getType() != null ? dataSet.getDescription().getEn() : null;
+        type = dataSet.getType() != null ? dataSet.getType().getEn() : null;
         break;
       default:
         throw new RuntimeException("Unknown index:" + index);

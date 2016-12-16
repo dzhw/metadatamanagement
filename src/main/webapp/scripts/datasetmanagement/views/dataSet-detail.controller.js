@@ -16,7 +16,8 @@ angular.module('metadatamanagementApp')
       entity.$promise.then(function() {
         PageTitleService.setPageTitle('data-set-management.detail.title', {
           description: ctrl.dataSet.description[
-            LanguageService.getCurrentInstantly()]
+            LanguageService.getCurrentInstantly()],
+          dataSetId: ctrl.dataSet.id
         });
         StudySearchService.findStudy(ctrl.dataSet.dataAcquisitionProjectId)
           .then(function(study) {

@@ -19,7 +19,7 @@ angular.module('metadatamanagementApp').config(
           }
         },
         'detail': {
-          'title': '{{ label }} ({{ name }})',
+          'title': '{{ label }} ({{ variableId }})',
           'variable': 'Variable',
           'variables': 'Variables',
           'variable-informations': 'Informations',
@@ -233,7 +233,7 @@ angular.module('metadatamanagementApp').config(
             'variable-has-invalid-survey-id': 'The Variable {{id}} references to an unknown Survey ({{toBereferenzedId}}).',
             'variable-id-is-not-in-invalid-variables-panel': 'The Variable {{id}} references to an unknown Panel Variable ({{toBereferenzedId}}).',
             'variable-id-is-not-valid-in-related-variables': 'The Variable {{id}} references to an unknown related Variable ({{toBereferenzedId}}).',
-            'variable-has-invalid-question-id': 'The Variable {{id}} references to an unknown Question ({{toBereferenzedId}}).'            
+            'variable-has-invalid-question-id': 'The Variable {{id}} references to an unknown Question ({{toBereferenzedId}}).'
           }
         }
       }

@@ -12,9 +12,10 @@ angular.module('metadatamanagementApp')
       ctrl.relatedPublication = entity;
       entity.$promise.then(function() {
         PageTitleService.setPageTitle('related-publication-management.' +
-        'detail.title', {
-          title: ctrl.relatedPublication.title
-        });
+          'detail.title', {
+            title: ctrl.relatedPublication.title,
+            publicationId: ctrl.relatedPublication.id
+          });
         ctrl.counts.dataSetsCount = ctrl.relatedPublication.dataSetIds.length;
         ctrl.counts.questionsCount = ctrl.relatedPublication.questionIds.length;
         ctrl.counts.variablesCount = ctrl.relatedPublication.variableIds.length;

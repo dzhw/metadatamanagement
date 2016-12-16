@@ -19,7 +19,7 @@ angular.module('metadatamanagementApp').config(
           }
         },
         'detail': {
-          'title': '{{ title }}',
+          'title': '{{ title }} ({{publicationId}})',
           'publication': 'Publication',
           'publications': 'Publications',
           'related-information': 'Related Information',
