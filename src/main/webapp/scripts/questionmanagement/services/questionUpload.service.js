@@ -42,7 +42,7 @@ angular.module('metadatamanagementApp').service('QuestionUploadService',
               JobLoggingService.success({
                 objectType: 'question'
               });
-              var imageFile = images[questions[uploadQuestionCount].id];
+              var imageFile = images[questions[uploadQuestionCount].number];
               return FileReaderService.readAsArrayBuffer(imageFile);
             }, function(error) {
               //unable to save question object
@@ -61,7 +61,7 @@ angular.module('metadatamanagementApp').service('QuestionUploadService',
                 type: 'image/png'
               });
               return QuestionImageUploadService.uploadImage(image,
-                questions[uploadQuestionCount].number);
+                questions[uploadQuestionCount].id);
             }, function(error) {
               if (error !== 'previouslyHandledError') {
                 //image file read error
