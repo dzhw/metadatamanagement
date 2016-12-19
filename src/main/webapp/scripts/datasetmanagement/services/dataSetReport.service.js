@@ -22,7 +22,6 @@ angular.module('metadatamanagementApp').service('DataSetReportService',
                       'data-set-management.log-messages.tex.upload-terminated'
                     });
                   saveAs(response.data.blob, file.name);
-                  console.log('Error Download');
                   JobLoggingService.finish(
                   'data-set-management.log-messages.tex.saved', {});
                 }).catch(function(error) {

@@ -8,6 +8,18 @@ function(FileReaderService, $q) {
     var deferred = $q.defer();
     var zip = new JSZip();
     var i = 0;
+    var rootFoldersArray = [];
+    var rootFolderShouldBeRemoved = true;
+    files.forEach(function(file) {
+      if (file.path) {
+        rootFoldersArray.push(_.split(file.path, '/')[0]);
+      }
+    });
+    for (var j = 1; j < rootFoldersArray.length; j++) {
+      if (rootFoldersArray[i] !== rootFoldersArray[j - 1]) {
+        rootFolderShouldBeRemoved = false;
+      }
+    }
     files.forEach(function(file) {
       FileReaderService.readAsArrayBuffer(file).then(function(result) {
         switch (file.name) {
@@ -24,16 +36,21 @@ function(FileReaderService, $q) {
             zip.file(file.name, result);
           break;
           default:
+            var path;
             var pathAsArray;
             if (_.hasIn(file, 'path')) {
-              pathAsArray = _.split(file.path, '/');
+              path = _.split(file.path, '/');
+              if (rootFolderShouldBeRemoved) {
+                pathAsArray = _.slice(path, 1, path.length);
+              } else {
+                pathAsArray = path;
+              }
             } else {
               if (_.hasIn(file, 'webkitRelativePath')) {
-                var path = _.split(file.webkitRelativePath, '/');
+                path = _.split(file.webkitRelativePath, '/');
                 pathAsArray = _.slice(path, 1, path.length);
               }
             }
-            console.log(pathAsArray);
             var pathToFile = '';
             pathAsArray.forEach(function(pathName, index) {
               if (index === (pathAsArray.length - 1)) {
