@@ -2,7 +2,7 @@
     <md-toolbar>
         <div class="md-toolbar-tools">
             <h2>{{'survey-management.detail.surveys' | translate }}</h2>
-            <span flex></span>
+            <div flex></div>
             <md-button class="md-icon-button" ng-click="ctrl.closeDialog()">
                 <md-icon md-svg-src="/assets/images/icons/ic_close_white_24px.svg" aria-label="Close dialog"></md-icon>
             </md-button>
@@ -12,14 +12,15 @@
         <div block-ui="blockRelatedSurveyContainer">
             <div class="fdz-InfiniteScroll">
                 <md-virtual-repeat-container id="vertical-container">
-                    <div md-virtual-repeat="item in ctrl.infiniteItems" md-on-demand  flex>
+                    <div data-md-virtual-repeat="item in ctrl.infiniteItems" data-md-on-demand flex>
                         <md-card ui-sref="surveyDetail({id:item._source.id})" class="fdz-search-result">
                             <md-card-header class="fdz-card-header-border">
                                 <md-card-avatar>
                                     <md-icon md-svg-src="/assets/images/icons/survey.svg" class="fdz-search-result-icon"></md-icon>
                                 </md-card-avatar>
                                 <md-card-header-text class="fdz-truncate-string">
-                                    <div class="md-title fdz-truncate-string">{{item._source.title}} ({{item._source.id}})</div>
+                                    <div class="md-title fdz-truncate-string">{{item._source.title}}
+                                        ({{item._source.id}})</div>
                                     <div class="md-subhead fdz-truncate-string">{{item._source.surveyMethod}}</div>
                                 </md-card-header-text>
                             </md-card-header>

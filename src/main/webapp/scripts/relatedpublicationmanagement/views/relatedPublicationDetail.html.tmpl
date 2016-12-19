@@ -26,7 +26,9 @@
                 <div style="margin-bottom: 0.5em;" ng-if="ctrl.relatedPublication.sourceLink" layout="row">
                     <div style="font-weight: bold;">{{'related-publication-management.detail.sourceLink' | translate }}:&nbsp;
                     </div>
-                    <a flex target="_blank" style="display: block;" class="fdz-truncate-string" ng-href="{{ctrl.relatedPublication.sourceLink}}">{{ctrl.relatedPublication.sourceLink}}</a>
+                    <div class="fdz-truncate-string" flex>
+                        <a target="_blank" style="display: block;" ng-href="{{ctrl.relatedPublication.sourceLink}}">{{ctrl.relatedPublication.sourceLink}}</a>
+                    </div>
                 </div>
             </md-card-content>
         </md-card>
@@ -42,37 +44,49 @@
                     <md-icon md-svg-src="/assets/images/icons/study.svg" style="margin-top:0px; margin-right:4px;"></md-icon>
                     <div style="margin-right:3px;">{{'study-management.detail.studies' | translate }}:</div>
                     <div ng-if="ctrl.counts.studiesCount == 0" class="fdz-truncate-string" flex>{{'global.messages.error.unavailable' | translate}}</div>
-                    <a ng-if="ctrl.counts.studiesCount > 0" ng-click="ctrl.showRelatedStudies()" class="fdz-truncate-string" flex>({{ctrl.counts.studiesCount}})</a>
+                    <div ng-if="ctrl.counts.studiesCount > 0" class="fdz-truncate-string" flex>
+                        <a ng-click="ctrl.showRelatedStudies()">({{ctrl.counts.studiesCount}})</a>
+                    </div>
                 </div>
                 <div style="margin-bottom: 0.5em; width: 100%;" layout="row">
                     <md-icon md-svg-src="/assets/images/icons/question.svg" style="margin-top:0px; margin-right:4px;"></md-icon>
                     <div style="margin-right:3px;">{{'question-management.detail.questions' | translate }}:</div>
                     <div ng-if="ctrl.counts.questionsCount == 0" class="fdz-truncate-string" flex>{{'global.messages.error.unavailable' | translate}}</div>
-                    <a ng-if="ctrl.counts.questionsCount > 0" ng-click="ctrl.showRelatedQuestions()" class="fdz-truncate-string" flex>({{ctrl.counts.questionsCount}})</a>
+                    <div ng-if="ctrl.counts.questionsCount > 0" class="fdz-truncate-string" flex>
+                        <a ng-click="ctrl.showRelatedQuestions()">({{ctrl.counts.questionsCount}})</a>
+                    </div>
                 </div>
                 <div style="margin-bottom: 0.5em; width: 100%;" layout="row">
                     <md-icon md-svg-src="/assets/images/icons/survey.svg" style="margin-top:0px; margin-right:4px;"></md-icon>
                     <div style="margin-right:3px;">{{'survey-management.detail.surveys' | translate }}:</div>
                     <div ng-if="ctrl.counts.surveysCount == 0" class="fdz-truncate-string" flex>{{'global.messages.error.unavailable' | translate}}</div>
-                    <a ng-if="ctrl.counts.surveysCount > 0" ng-click="ctrl.showRelatedSurveys()" class="fdz-truncate-string" flex>({{ctrl.counts.surveysCount}})</a>
+                    <div ng-if="ctrl.counts.surveysCount > 0" class="fdz-truncate-string" flex>
+                        <a ng-click="ctrl.showRelatedSurveys()">({{ctrl.counts.surveysCount}})</a>
+                    </div>
                 </div>
                 <div style="margin-bottom: 0.5em; width: 100%;" layout="row">
                     <md-icon md-svg-src="/assets/images/icons/variable.svg" style="margin-top:0px; margin-right:4px;"></md-icon>
                     <div style="margin-right:3px;">{{'variable-management.detail.variables' | translate }}:</div>
                     <div ng-if="ctrl.counts.variablesCount == 0" class="fdz-truncate-string" flex>{{'global.messages.error.unavailable' | translate}}</div>
-                    <a ng-if="ctrl.counts.variablesCount > 0" ng-click="ctrl.showRelatedVariables()" class="fdz-truncate-string" flex>({{ctrl.counts.variablesCount}})</a>
+                    <div ng-if="ctrl.counts.variablesCount > 0" class="fdz-truncate-string" flex>
+                        <a ng-click="ctrl.showRelatedVariables()">({{ctrl.counts.variablesCount}})</a>
+                    </div>
                 </div>
                 <div style="margin-bottom: 0.5em; width: 100%;" layout="row">
                     <md-icon md-svg-src="/assets/images/icons/data-set.svg" style="margin-top:0px; margin-right:4px;"></md-icon>
                     <div style="margin-right:3px;">{{'data-set-management.detail.data-sets' | translate }}:</div>
                     <div ng-if="ctrl.counts.dataSetsCount == 0" class="fdz-truncate-string" flex>{{'global.messages.error.unavailable' | translate}}</div>
-                    <a ng-if="ctrl.counts.dataSetsCount > 0" ng-click="ctrl.showRelatedDataSets()" class="fdz-truncate-string" flex>({{ctrl.counts.dataSetsCount}})</a>
+                    <div ng-if="ctrl.counts.dataSetsCount > 0" class="fdz-truncate-string" flex>
+                        <a ng-click="ctrl.showRelatedDataSets()">({{ctrl.counts.dataSetsCount}})</a>
+                    </div>
                 </div>
                 <div style="margin-bottom: 0.5em; width: 100%;" layout="row">
                     <md-icon md-svg-src="/assets/images/icons/instrument.svg" style="margin-top:0px; margin-right:4px;"></md-icon>
                     <div style="margin-right:3px;">{{'instrument-management.detail.instruments' | translate }}:</div>
                     <div ng-if="ctrl.counts.instrumentsCount == 0" class="fdz-truncate-string" flex>{{'global.messages.error.unavailable' | translate}}</div>
-                    <a ng-if="ctrl.counts.instrumentsCount > 0" ng-click="ctrl.showRelatedInstruments()" class="fdz-truncate-string" flex>({{ctrl.counts.instrumentsCount}})</a>
+                    <div ng-if="ctrl.counts.instrumentsCount > 0" class="fdz-truncate-string" flex>
+                        <a ng-click="ctrl.showRelatedInstruments()">({{ctrl.counts.instrumentsCount}})</a>
+                    </div>
                 </div>
             </md-card-content>
         </md-card>

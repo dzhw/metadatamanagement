@@ -9,17 +9,17 @@
             <md-checkbox class="md-secondary" ng-model="item.done"></md-checkbox>
           </div>
         </md-list-item>
-        <section layout="row" layout-align="end end">
+        <div layout="row" layout-align="end end">
           <md-button ng-disabled="isDisabled()" class="md-raised md-warn" ng-click="removeFromShoppingCart()">{{'notepad-management.home.empty' | translate }}</md-button>
-        </section>
+        </div>
     </md-card>
     <md-card>
             <form name="basketForm" ng-submit="basketForm.$valid && submitForm()" novalidate>
                 <md-input-container class="md-block" md-is-error="!basketForm.firstname.$valid">
                     <label>{{'notepad-management.home.user-name' | translate }}</label>
                     <md-icon md-svg-src="/assets/images/icons/person.svg"></md-icon>
-                    <input type="text" name="firstname" ng-model="basket.firstname" minlength="5" md-maxlength="10" ng-required="true">
-                    <div ng-messages="basketForm.firstname.$error" multiple md-auto-hide="false">
+                    <input type="text" name="firstname" ng-model="basket.firstname" data-minlength="5" data-md-maxlength="10" ng-required="true">
+                    <div ng-messages="basketForm.firstname.$error" data-multiple data-md-auto-hide="false">
                         <p ng-message="minlength">{{'notepad-management.home.user-name-too-short' | translate }}</p>
                         <p ng-message="md-maxlength">{{'notepad-management.home.user-name-too-long' | translate }}</p>
                         <p ng-message="required">{{'notepad-management.home.user-name-required' | translate }}</p>
@@ -28,14 +28,14 @@
                 <md-input-container class="md-block" md-is-error="!basketForm.email.$valid">
                     <md-icon md-svg-src="/assets/images/icons/email.svg"></md-icon>
                     <input ng-model="basket.email" type="email" name="email" placeholder="Email" ng-required="true">
-                    <div ng-messages="basketForm.email.$error" multiple md-auto-hide="false">
+                    <div ng-messages="basketForm.email.$error" data-multiple data-md-auto-hide="false">
                         <p ng-message="required">{{'notepad-management.home.user-email-required' | translate }}</p>
                         <p ng-message="email">{{'notepad-management.home.user-email-invalid' | translate }}</p>
                     </div>
                 </md-input-container>
-                <section layout="row" layout-align="end end">
+                <div layout="row" layout-align="end end">
                     <md-button ng-disabled="isDisabled()" type="submit" class="md-raised md-primary">{{'notepad-management.home.send' | translate }}</md-button>
-                </section>
+                </div>
             </form>
     </md-card>
 </div>

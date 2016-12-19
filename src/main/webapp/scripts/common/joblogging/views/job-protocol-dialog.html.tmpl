@@ -4,7 +4,7 @@
             <h2 style="margin-right: 1em;">
                 <span>{{'global.joblogging.protocol-dialog.title' | translate}}</span>
             </h2>
-            <span flex></span>
+            <div flex></div>
             <span style="margin-right: 1em;" class="label label-as-badge label-success">{{'global.joblogging.protocol-dialog.success' | translate}}:
                 {{job.successes || 0}}</span>
             <span class="label label-as-badge label-danger">{{'global.joblogging.protocol-dialog.error' | translate}}:
@@ -16,14 +16,14 @@
     </md-toolbar>
     <md-dialog-content>
         <div>
-          <ul style="list-style: none; padding: 0;">
-            <li style="margin: 1em;" ng-repeat="logMessage in job.logMessages track by $index" ng-class="{'fdz-log-error-text': logMessage.type ==='error'}">{{logMessage.message | translate:logMessage.translationParams }}
-              <ul style="list-style-type: square;" ng-show="logMessage.subMessages.length > 0">
-                <li ng-repeat="subMessage in logMessage.subMessages">{{subMessage.message | translate: subMessage.translationParams }}
+            <ul style="list-style: none; padding: 0;">
+                <li style="margin: 1em;" ng-repeat="logMessage in job.logMessages track by $index" ng-class="{'fdz-log-error-text': logMessage.type ==='error'}">{{logMessage.message | translate:logMessage.translationParams }}
+                    <ul style="list-style-type: square;" ng-show="logMessage.subMessages.length > 0">
+                        <li ng-repeat="subMessage in logMessage.subMessages">{{subMessage.message | translate: subMessage.translationParams }}
+                        </li>
+                    </ul>
                 </li>
-              </ul>
-            </li>
-          </ul>
+            </ul>
         </div>
     </md-dialog-content>
 </md-dialog>

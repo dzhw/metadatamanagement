@@ -206,7 +206,17 @@ module.exports = function(grunt) {
             'from this subtree.)', 'Attribute “items-per-pageobject” ' +
             'not allowed on element “ul” at this point.',
             'Consider avoiding viewport values that prevent ' +
-            'users from resizing documents.'
+            'users from resizing documents.', 'Element “md-divider” not' +
+            'allowed as child of element “ul” in this context.', 'Attribute' +
+            ' “md-highlight-text” not allowed on element “span” at this point.',
+            'Attribute “layout-padding” not allowed on ' +
+            'element “div” at this point.', 'Attribute “hljs” not ' +
+            'allowed on element “div” at this point.', 'Attribute ' +
+            '“hljs-language” not allowed on element “div” at this point.',
+            'Attribute “hljs-source” not allowed on element “div” at this ' +
+            'point.', 'Attribute “katex” not allowed on element “span” at ' +
+            'this point.', 'Element “diagram” not allowed as child of element' +
+            ' “div” in this context.'
           ],
           customattrs: [
             'show-validation',

@@ -4,12 +4,14 @@
         <md-button class="md-primary md-raised md-hue-1 md-icon-button" hide-gt-md ng-click="toggleLeft()">
             <md-icon md-font-set="material-icons">menu</md-icon>
         </md-button>
-        <h1 class="md-headline fdz-truncate-string" flex>
-          <span data-translate="{{pageTitleKey}}" data-translate-values="{{pageTitleParams}}" data-translate-default="Metadatamanagement">Metadatamanagement</span>
-          <md-tooltip>
-            <span data-translate="{{pageTitleKey}}" data-translate-values="{{pageTitleParams}}" data-translate-default="Metadatamanagement">Metadatamanagement</span>
-          </md-tooltip>
-        </h1>
+        <div flex>
+            <h1 class="md-headline fdz-truncate-string">
+                <span data-translate="{{pageTitleKey}}" data-translate-values="{{pageTitleParams}}" data-translate-default="Metadatamanagement">Metadatamanagement</span>
+                <md-tooltip>
+                    <span data-translate="{{pageTitleKey}}" data-translate-values="{{pageTitleParams}}" data-translate-default="Metadatamanagement">Metadatamanagement</span>
+                </md-tooltip>
+            </h1>
+        </div>
         <md-button
             id="changeLanguageToEn"
             aria-label="{{'global.toolbar.buttons.change-language' | translate}}"
@@ -21,7 +23,7 @@
                 {{'global.toolbar.buttons.change-language' | translate}}
             </md-tooltip>
             <md-icon md-font-set="material-icons">language</md-icon>
-            <span hide-xs>English</span>
+            <span class="hide-xs">English</span>
         </md-button>
         <md-button
             id="changeLanguageToDe"
@@ -34,7 +36,7 @@
                 {{'global.toolbar.buttons.change-language' | translate}}
             </md-tooltip>
             <md-icon md-font-set="material-icons">language</md-icon>
-            <span hide-xs>Deutsch</span>
+            <span class="hide-xs">Deutsch</span>
         </md-button>
         <div ng-switch-when="true">
             <md-button id="logout" aria-label="{{'global.toolbar.buttons.logout' | translate}}" class="md-primary md-raised md-hue-1" ng-class="{'md-icon-button': $mdMedia('xs')}" ng-click="logout()">
@@ -42,7 +44,7 @@
                     {{'global.toolbar.buttons.logout' | translate}}
                 </md-tooltip>
                 <md-icon md-svg-src="/assets/images/icons/logout.svg"></md-icon>
-                <span hide-xs>{{identity.login}}</span>
+                <span class="hide-xs">{{identity.login}}</span>
             </md-button>
         </div>
         <div ng-switch-when="false">
@@ -51,7 +53,7 @@
                     {{'global.toolbar.buttons.login' | translate}}
                 </md-tooltip>
                 <md-icon md-svg-src="/assets/images/icons/login.svg"></md-icon>
-                <span hide-xs data-translate="global.toolbar.buttons.login">Login</span>
+                <span class="hide-xs" data-translate="global.toolbar.buttons.login">Login</span>
             </md-button>
         </div>
         <div ng-switch-when="false">
@@ -60,7 +62,7 @@
                     {{'global.toolbar.buttons.register' | translate}}
                 </md-tooltip>
                 <md-icon md-svg-src="/assets/images/icons/account-plus.svg"></md-icon>
-                <span hide-xs data-translate="global.toolbar.buttons.register">Register</span>
+                <span class="hide-xs" data-translate="global.toolbar.buttons.register">Register</span>
             </md-button>
         </div>
     </div>

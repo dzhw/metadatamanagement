@@ -2,7 +2,7 @@
     <md-toolbar>
         <div class="md-toolbar-tools">
             <h2>{{'study-management.detail.studies' | translate }}</h2>
-            <span flex></span>
+            <div flex></div>
             <md-button class="md-icon-button" ng-click="ctrl.closeDialog()">
                 <md-icon md-svg-src="/assets/images/icons/ic_close_white_24px.svg" aria-label="Close dialog"></md-icon>
             </md-button>
@@ -12,7 +12,7 @@
       <div block-ui="blockRelatedStudyContainer">
           <div class="fdz-InfiniteScroll">
               <md-virtual-repeat-container id="vertical-container">
-                  <div md-virtual-repeat="item in ctrl.infiniteItems" md-on-demand  flex>
+                  <div data-md-virtual-repeat="item in ctrl.infiniteItems" data-md-on-demand  flex>
                     <md-card ui-sref="studyDetail({id: item._source.id})" class="fdz-search-result">
                         <md-card-header class="fdz-card-header-border">
                             <md-card-avatar>
