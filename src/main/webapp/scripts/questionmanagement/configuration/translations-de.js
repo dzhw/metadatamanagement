@@ -88,8 +88,8 @@ angular.module('metadatamanagementApp').config(
             'data-acquisition-project-id': {
               'not-empty': 'Die FDZ-ID des Projektes darf nicht leer sein!'
             },
-            'instrument-id': {
-              'not-empty': 'Die FDZ-ID des Instruments darf nicht leer sein.'
+            'instrument-number': {
+              'not-null': 'Die Nummer des Instruments darf nicht leer sein.'
             }
           },
           'technical-representation': {

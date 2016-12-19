@@ -39,6 +39,7 @@ import net.karneim.pojobuilder.GeneratePojoBuilder;
 @CompoundIndex(def = "{instrumentId: 1, number: 1}", unique = true)
 @ValidUniqueQuestionNumber(message = "question-management.error"
     + ".question.unique-question-number")
+//TODO DKatzberg change id validation
 @ValidQuestionIdName(message = "question-management.error"
     + ".question.valid-question-id-name")
 public class Question extends AbstractRdcDomainObject {
@@ -90,6 +91,7 @@ public class Question extends AbstractRdcDomainObject {
   @Valid
   private TechnicalRepresentation technicalRepresentation;
   
+  @NotNull(message = "question-management.error.question.instrument-number.not-null")
   private Integer instrumentNumber;
   
   private List<String> successorNumbers;
@@ -102,7 +104,6 @@ public class Question extends AbstractRdcDomainObject {
   @NotEmpty(message = "question-management.error.question.data-acquisition-project-id.not-empty")
   private String dataAcquisitionProjectId;
     
-  @NotEmpty(message = "question-management.error.question.instrument-id.not-empty")
   private String instrumentId;
   
   /*
