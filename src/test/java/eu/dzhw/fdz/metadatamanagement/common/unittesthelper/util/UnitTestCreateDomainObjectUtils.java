@@ -264,9 +264,10 @@ public class UnitTestCreateDomainObjectUtils {
         .build();
   }
   
-  public static Question buildQuestion(String projectId, String instrumentId, String surveyId) {
+  public static Question buildQuestion(String projectId, Integer instrumentNumber, 
+      String instrumentId, String surveyId) {
     return new QuestionBuilder().withDataAcquisitionProjectId(projectId)
-      .withId(instrumentId + "-123.12")
+      .withId(projectId +"-ins" + instrumentNumber + "-123.12")
       .withAdditionalQuestionText(new I18nString("Zusätzlicher Fragetext", "Additional Question Text"))
       .withDataAcquisitionProjectId(projectId)
       .withImageType(ImageType.PNG)
@@ -279,7 +280,7 @@ public class UnitTestCreateDomainObjectUtils {
       .withTechnicalRepresentation(buildTechnicalRepresentation())
       .withType(QuestionTypes.SINGLE_CHOICE)
       .withTopic(new I18nString("Topic De", "Topic EN"))
-      .withInstrumentNumber(123)
+      .withInstrumentNumber(instrumentNumber)
       .withSuccessorNumbers(new ArrayList<>())
       .build();
   }

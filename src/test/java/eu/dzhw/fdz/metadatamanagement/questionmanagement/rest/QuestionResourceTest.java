@@ -83,7 +83,7 @@ public class QuestionResourceTest extends AbstractTest {
     this.dataAcquisitionProjectRepository.save(project);
 
     Question question = UnitTestCreateDomainObjectUtils
-      .buildQuestion(project.getId(), "instrument-Id", "SurveyId");
+      .buildQuestion(project.getId(), 123, "instrument-Id", "SurveyId");
     question.setImageType(ImageType.PNG);
     // Act and Assert
     // create the Question with the given id
@@ -116,7 +116,7 @@ public class QuestionResourceTest extends AbstractTest {
     this.dataAcquisitionProjectRepository.save(project);
 
     Question question = UnitTestCreateDomainObjectUtils
-      .buildQuestion(project.getId(), "instrument-Id", "SurveyId");
+      .buildQuestion(project.getId(), 123, "instrument-Id", "SurveyId");
     question.setImageType(ImageType.PNG);
     // Act and Assert
     // create the variable with the given id
@@ -156,7 +156,7 @@ public class QuestionResourceTest extends AbstractTest {
     this.dataAcquisitionProjectRepository.save(project);
 
     Question question = UnitTestCreateDomainObjectUtils
-      .buildQuestion(project.getId(), "instrument-Id", "SurveyId");
+      .buildQuestion(project.getId(), 123, "instrument-Id", "SurveyId");
 
     // Act and Assert
     // create the question with the given id
@@ -182,7 +182,7 @@ public class QuestionResourceTest extends AbstractTest {
     this.dataAcquisitionProjectRepository.save(project);
 
     Question question = UnitTestCreateDomainObjectUtils
-      .buildQuestion(project.getId(), "instrument-Id", "SurveyId");
+      .buildQuestion(project.getId(), 123, "instrument-Id", "SurveyId");
 
     // Act and Assert
     // create the question with the given id
@@ -206,7 +206,7 @@ public class QuestionResourceTest extends AbstractTest {
     this.dataAcquisitionProjectRepository.save(project);
 
     Question question = UnitTestCreateDomainObjectUtils
-        .buildQuestion(project.getId(), "instrument-Id", "SurveyId");
+        .buildQuestion(project.getId(), 123, "instrument-Id", "SurveyId");
     question.setType(null);
 
     // Act and Assert
@@ -223,7 +223,7 @@ public class QuestionResourceTest extends AbstractTest {
     this.dataAcquisitionProjectRepository.save(project);
 
     Question question = UnitTestCreateDomainObjectUtils
-        .buildQuestion(project.getId(), "instrument-Id", "SurveyId");
+        .buildQuestion(project.getId(), 123, "instrument-Id", "SurveyId");
     question.setImageType(null);
 
     // Act and Assert
@@ -240,7 +240,7 @@ public class QuestionResourceTest extends AbstractTest {
     this.dataAcquisitionProjectRepository.save(project);
 
     Question question = UnitTestCreateDomainObjectUtils
-        .buildQuestion(project.getId(), "instrument-Id", "SurveyId");
+        .buildQuestion(project.getId(), 123, "instrument-Id", "SurveyId");
     question.setNumber(null);
 
     // Act and Assert
@@ -257,7 +257,7 @@ public class QuestionResourceTest extends AbstractTest {
     this.dataAcquisitionProjectRepository.save(project);
 
     Question question = UnitTestCreateDomainObjectUtils
-        .buildQuestion(project.getId(), "instrument-Id", "SurveyId");
+        .buildQuestion(project.getId(), 123, "instrument-Id", "SurveyId");
     question.setInstrumentId(null);
 
     // Act and Assert
@@ -274,7 +274,7 @@ public class QuestionResourceTest extends AbstractTest {
     this.dataAcquisitionProjectRepository.save(project);
 
     Question question = UnitTestCreateDomainObjectUtils
-        .buildQuestion(project.getId(), "instrument-Id", "SurveyId");
+        .buildQuestion(project.getId(), 123, "instrument-Id", "SurveyId");
 
     // Act and Assert
     // create the Question with the given id

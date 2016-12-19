@@ -49,7 +49,7 @@ angular.module('metadatamanagementApp').config(
         },
         'error': {
           'question': {
-            'valid-question-id-name': 'The RDC-ID of the Question is not valid for the Pattern: InstrumentID-QuestionNumber.',
+            'valid-question-id-name': 'The RDC-ID of the Question is not valid for the Pattern: StudyId-insInstrumentNumber-QuestionNumber.',
             'unique-question-name': 'The name of a question has to be unique within a instrument.',
             'unique-question-number': 'The number of a question has to be unique within a instrument.',
             'id': {

@@ -132,7 +132,7 @@ public class DataAcquisitionProjectPostValidationResourceTest extends AbstractTe
     this.instrumentRepository.save(instrument);
     
     //Atomic Question
-    Question question = UnitTestCreateDomainObjectUtils.buildQuestion(project.getId(), instrument.getId(), 
+    Question question = UnitTestCreateDomainObjectUtils.buildQuestion(project.getId(), 123, instrument.getId(), 
         survey.getId());
     this.questionRepository.save(question);
     UnitTestImageHelper.saveQuestionImage(this.questionImageService, question.getId());
@@ -190,7 +190,7 @@ public class DataAcquisitionProjectPostValidationResourceTest extends AbstractTe
     this.instrumentRepository.save(instrument);
     
     //Atomic Question
-    Question question = UnitTestCreateDomainObjectUtils.buildQuestion(project.getId(), instrument.getId(), 
+    Question question = UnitTestCreateDomainObjectUtils.buildQuestion(project.getId(), 123, instrument.getId(), 
         survey.getId());
     this.questionRepository.save(question);
     
@@ -251,7 +251,7 @@ public class DataAcquisitionProjectPostValidationResourceTest extends AbstractTe
     this.instrumentRepository.save(instrument);
     
     //Question
-    Question question = UnitTestCreateDomainObjectUtils.buildQuestion(project.getId(),"testProject-WrongQuestionname1", 
+    Question question = UnitTestCreateDomainObjectUtils.buildQuestion(project.getId(), 123, "testProject-WrongQuestionname1", 
         survey.getId());
     question.getSuccessors().add("testProject-WrongQuestion");
     this.questionRepository.save(question);
@@ -306,7 +306,7 @@ public class DataAcquisitionProjectPostValidationResourceTest extends AbstractTe
     this.instrumentRepository.save(instrument);
     
     //Question
-    Question question = UnitTestCreateDomainObjectUtils.buildQuestion(project.getId(), instrument.getId(), 
+    Question question = UnitTestCreateDomainObjectUtils.buildQuestion(project.getId(), 123, instrument.getId(), 
         survey.getId());
     this.questionRepository.save(question);
     UnitTestImageHelper.saveQuestionImage(this.questionImageService, question.getId());
@@ -359,7 +359,7 @@ public class DataAcquisitionProjectPostValidationResourceTest extends AbstractTe
     this.instrumentRepository.save(instrument);
     
     //Question
-    Question question = UnitTestCreateDomainObjectUtils.buildQuestion(project.getId(), instrument.getId(), 
+    Question question = UnitTestCreateDomainObjectUtils.buildQuestion(project.getId(), 123, instrument.getId(), 
         survey.getId());
     this.questionRepository.save(question);
     UnitTestImageHelper.saveQuestionImage(this.questionImageService, question.getId());
@@ -417,7 +417,7 @@ public class DataAcquisitionProjectPostValidationResourceTest extends AbstractTe
     this.instrumentRepository.save(instrument);
     
     //Atomic Question
-    Question question = UnitTestCreateDomainObjectUtils.buildQuestion(project.getId(), instrument.getId(), 
+    Question question = UnitTestCreateDomainObjectUtils.buildQuestion(project.getId(), 123, instrument.getId(), 
         survey.getId());    
     this.questionRepository.save(question);
     UnitTestImageHelper.saveQuestionImage(this.questionImageService, question.getId());
@@ -471,7 +471,7 @@ public class DataAcquisitionProjectPostValidationResourceTest extends AbstractTe
     this.instrumentRepository.save(instrument);
     
     //Atomic Question
-    Question question = UnitTestCreateDomainObjectUtils.buildQuestion(project.getId(), instrument.getId(), 
+    Question question = UnitTestCreateDomainObjectUtils.buildQuestion(project.getId(), 123, instrument.getId(), 
         survey.getId());    
     this.questionRepository.save(question);
     UnitTestImageHelper.saveQuestionImage(this.questionImageService, question.getId());
@@ -520,7 +520,7 @@ public class DataAcquisitionProjectPostValidationResourceTest extends AbstractTe
     this.instrumentRepository.save(instrument);
     
     //Atomic Question
-    Question question = UnitTestCreateDomainObjectUtils.buildQuestion(project.getId(), instrument.getId(), 
+    Question question = UnitTestCreateDomainObjectUtils.buildQuestion(project.getId(), 123, instrument.getId(), 
         survey.getId());    
     this.questionRepository.save(question);
     UnitTestImageHelper.saveQuestionImage(this.questionImageService, question.getId());

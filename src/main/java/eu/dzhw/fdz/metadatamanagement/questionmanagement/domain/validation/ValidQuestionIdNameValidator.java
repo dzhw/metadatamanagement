@@ -33,7 +33,8 @@ public class ValidQuestionIdNameValidator
       return false;
     }
     if (!question.getId()
-        .equals(question.getInstrumentId() + "-" + question.getNumber())) {
+        .equals(question.getDataAcquisitionProjectId() + "-ins" + question.getInstrumentNumber() 
+        + "-" + question.getNumber())) {
       return false;
     }
     return true;

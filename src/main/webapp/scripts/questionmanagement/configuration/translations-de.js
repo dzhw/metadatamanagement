@@ -48,7 +48,7 @@ angular.module('metadatamanagementApp').config(
         },
         'error': {
           'question': {
-            'valid-question-id-name': 'Die FDZ-ID der Frage entspricht nicht dem Muster: InstrumentID-Fragennummer.',
+            'valid-question-id-name': 'Die FDZ-ID der Frage entspricht nicht dem Muster: StudienID-insInstrumentNummer-FragenNummer.',
             'unique-question-name': 'Der Name einer Frage muss eindeutig innerhalb einer Befragung sein.',
             'unique-question-number': 'Die Nummer einer Frage muss eindeutig innerhalb einer Befragung sein.',
             'id': {
