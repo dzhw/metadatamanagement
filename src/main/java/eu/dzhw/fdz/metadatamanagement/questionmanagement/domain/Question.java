@@ -39,7 +39,6 @@ import net.karneim.pojobuilder.GeneratePojoBuilder;
 @CompoundIndex(def = "{instrumentId: 1, number: 1}", unique = true)
 @ValidUniqueQuestionNumber(message = "question-management.error"
     + ".question.unique-question-number")
-//TODO DKatzberg change id validation
 @ValidQuestionIdName(message = "question-management.error"
     + ".question.valid-question-id-name")
 public class Question extends AbstractRdcDomainObject {
