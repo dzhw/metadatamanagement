@@ -7,7 +7,8 @@ angular.module('metadatamanagementApp')
     $stateProvider
       .state('questionDetail', {
         parent: 'site',
-        url: '/study/{projectId}/instruments/{instrumentNumber}/questions/{questionNumber}',
+        url: '/study/{projectId}/instruments/{instrumentNumber}' +
+          '/questions/{questionNumber}',
         data: {
           authorities: []
         },
