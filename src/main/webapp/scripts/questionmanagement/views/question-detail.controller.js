@@ -11,7 +11,7 @@ angular.module('metadatamanagementApp')
       SimpleMessageToastService, QuestionSearchService, CleanJSObjectService,
       RelatedPublicationSearchDialogService, VariableSearchService,
       RelatedPublicationSearchService, InstrumentSearchService,
-      PageTitleService, SurveySearchService) {
+      PageTitleService) {
 
       var ctrl = this;
       this.representationCodeToggleFlag = true;
@@ -73,16 +73,6 @@ angular.module('metadatamanagementApp')
                   questionId: ctrl.question.id,
                   instrumentDescription: ctrl.instrument.description
                 });
-            }
-          });
-        var surveyId = [ctrl.question.surveyId];
-        SurveySearchService.findSurveys(surveyId)
-          .then(function(survey) {
-            _.pullAllBy(survey.docs, [{
-              'found': false
-            }], 'found');
-            if (survey.docs.length > 0) {
-              ctrl.survey = survey.docs[0]._source;
             }
           });
       });
