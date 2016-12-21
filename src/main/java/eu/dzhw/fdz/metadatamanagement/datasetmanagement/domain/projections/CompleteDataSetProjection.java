@@ -32,4 +32,6 @@ public interface CompleteDataSetProjection
   
   I18nString getType();
   
+  Integer getNumber();
+  
 }

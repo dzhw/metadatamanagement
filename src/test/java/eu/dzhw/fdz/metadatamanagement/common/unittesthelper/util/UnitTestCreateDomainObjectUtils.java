@@ -196,6 +196,7 @@ public class UnitTestCreateDomainObjectUtils {
       .withId(projectId + "-ds1")
       .withSurveyNumbers(surveyNumbers)
       .withSurveyIds(surveyIds)
+      .withNumber(1)
       .withType(DataSetTypes.PERSONAL_RECORD)
       .withDescription(new I18nStringBuilder().withDe("De Beschreibung")
         .withEn("En Description")

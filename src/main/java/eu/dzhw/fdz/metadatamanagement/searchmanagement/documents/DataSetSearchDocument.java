@@ -30,6 +30,8 @@ public class DataSetSearchDocument {
   
   private List<Integer> surveyNumbers;
   
+  private Integer number;
+  
   private List<SubDataSetSearchDocument> subDataSets;
  
 
@@ -42,6 +44,7 @@ public class DataSetSearchDocument {
     this.dataAcquisitionProjectId = dataSet.getDataAcquisitionProjectId();
     this.setSurveyIds(dataSet.getSurveyIds());
     this.surveyNumbers = dataSet.getSurveyNumbers();
+    this.number = dataSet.getNumber();
     createSubDataSetAttributes(dataSet, index);
     createI18nAttributes(dataSet, index);
     createSurveyTitles(surveys, index);
@@ -156,6 +159,12 @@ public class DataSetSearchDocument {
   public void setSurveyNumbers(List<Integer> surveyNumbers) {
     this.surveyNumbers = surveyNumbers;
   }
-  
-  
+
+  public Integer getNumber() {
+    return number;
+  }
+
+  public void setNumber(Integer number) {
+    this.number = number;
+  }
 }

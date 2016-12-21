@@ -54,6 +54,8 @@ public class DataSet extends AbstractRdcDomainObject {
   @NotEmpty(message = "data-set-management.error.data-set.survey-numbers.not-empty")
   private List<Integer> surveyNumbers;
   
+  private Integer number;
+  
   /* Foreign Keys */
   @Indexed
   @NotEmpty(message = "data-set-management.error.data-set.data-acquisition-project.id.not-empty")
@@ -77,27 +79,25 @@ public class DataSet extends AbstractRdcDomainObject {
     return this.id;
   }
 
-
   /*
    * (non-Javadoc)
-   * 
-   * @see eu.dzhw.fdz.metadatamanagement.domain.AbstractRdcDomainObject#toString()
+   * @see eu.dzhw.fdz.metadatamanagement.common.domain.AbstractRdcDomainObject#toString()
    */
   @Override
   public String toString() {
     return MoreObjects.toStringHelper(this)
       .add("super", super.toString())
       .add("id", id)
-      .add("dataAcquisitionProjectId", dataAcquisitionProjectId)
       .add("description", description)
-      .add("variableIds", surveyNumbers)
-      .add("surveyIds", surveyIds)
       .add("type", type)
+      .add("surveyNumbers", surveyNumbers)
+      .add("number", number)
+      .add("dataAcquisitionProjectId", dataAcquisitionProjectId)
+      .add("surveyIds", surveyIds)
       .add("subDataSets", subDataSets)
       .toString();
   }
-
-
+  
   /* GETTER / SETTER */
   public I18nString getDescription() {
     return description;
@@ -149,5 +149,13 @@ public class DataSet extends AbstractRdcDomainObject {
 
   public void setSubDataSets(List<SubDataSet> subDataSets) {
     this.subDataSets = subDataSets;
+  }
+
+  public Integer getNumber() {
+    return number;
+  }
+
+  public void setNumber(Integer number) {
+    this.number = number;
   } 
 }
