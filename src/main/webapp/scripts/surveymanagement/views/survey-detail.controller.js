@@ -11,8 +11,11 @@ angular.module('metadatamanagementApp')
       ctrl.survey = entity;
       ctrl.counts = {};
       entity.$promise.then(function() {
+        var currenLanguage = LanguageService.getCurrentInstantly();
+        var secondLanguage = currenLanguage === 'de' ? 'en' : 'de';
         PageTitleService.setPageTitle('survey-management.detail.title', {
-          title: ctrl.survey.title[LanguageService.getCurrentInstantly()],
+          title: ctrl.survey.title[currenLanguage] ? ctrl
+          .survey.title[currenLanguage] : ctrl.survey.title[secondLanguage],
           surveyId: ctrl.survey.id
         });
         StudySearchService

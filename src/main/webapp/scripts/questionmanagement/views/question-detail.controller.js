@@ -65,15 +65,16 @@ angular.module('metadatamanagementApp')
         });
         InstrumentSearchService.findInstruments([ctrl.question.instrumentId])
           .then(function(searchResult) {
+            var title = {
+              questionNumber: ctrl.question.number,
+              questionId: ctrl.question.id
+            };
             if (searchResult.docs[0].found) {
               ctrl.instrument = searchResult.docs[0]._source;
-              PageTitleService.setPageTitle(
-                'question-management.detail.title', {
-                  questionNumber: ctrl.question.number,
-                  questionId: ctrl.question.id,
-                  instrumentDescription: ctrl.instrument.description
-                });
+              title.instrumentDescription = ctrl.instrument.description;
             }
+            PageTitleService.setPageTitle(
+              'question-management.detail.title', title);
           });
       });
       ctrl.showRelatedVariables = function() {

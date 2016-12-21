@@ -25,8 +25,11 @@ angular.module('metadatamanagementApp')
           .distribution.validResponses)) {
         $scope.validResponsesOrMissingsAvailable = true;
       }
+      var currenLanguage = LanguageService.getCurrentInstantly();
+      var secondLanguage = currenLanguage === 'de' ? 'en' : 'de';
       PageTitleService.setPageTitle('variable-management.detail.title', {
-        label: $scope.variable.label[LanguageService.getCurrentInstantly()],
+        label: $scope.variable.label[currenLanguage] ? $scope.variable
+        .label[currenLanguage] : $scope.variable.label[secondLanguage],
         variableId: $scope.variable.id
       });
       StudySearchService

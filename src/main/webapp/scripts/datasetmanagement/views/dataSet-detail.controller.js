@@ -14,9 +14,12 @@ angular.module('metadatamanagementApp')
       ctrl.dataSet = entity;
       ctrl.counts = {};
       entity.$promise.then(function() {
+        var currenLanguage = LanguageService.getCurrentInstantly();
+        var secondLanguage = currenLanguage === 'de' ? 'en' : 'de';
         PageTitleService.setPageTitle('data-set-management.detail.title', {
-          description: ctrl.dataSet.description[
-            LanguageService.getCurrentInstantly()],
+          description: ctrl.dataSet.description[currenLanguage] ? ctrl.dataSet
+          .description[currenLanguage] : ctrl
+          .dataSet.description[secondLanguage],
           dataSetId: ctrl.dataSet.id
         });
         StudySearchService.findStudy(ctrl.dataSet.dataAcquisitionProjectId)

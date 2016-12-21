@@ -14,12 +14,15 @@ angular.module('metadatamanagementApp')
       ctrl.questionCount = null;
       //Wait for instrument Promise
       ctrl.instrument.$promise.then(function() {
+        var currenLanguage = LanguageService.getCurrentInstantly();
+        var secondLanguage = currenLanguage === 'de' ? 'en' : 'de';
         PageTitleService.setPageTitle('instrument-management.' +
           'detail.page-title', {
-            description: ctrl.instrument.description[
-              LanguageService.getCurrentInstantly()],
-            instrumentId: ctrl.instrument.id,
-          });
+          description: ctrl.instrument.description[currenLanguage] ? ctrl
+          .instrument.description[currenLanguage] : ctrl
+          .instrument.description[secondLanguage],
+          instrumentId: ctrl.instrument.id
+        });
         //load all related objects in parallel
         InstrumentAttachmentResource.findByInstrumentId({
           id: ctrl.instrument.id

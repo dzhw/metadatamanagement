@@ -3,7 +3,7 @@
 
 angular.module('metadatamanagementApp').factory(
   'errorHandlerInterceptor',
-  function($q, $rootScope) {
+  function($q, $rootScope, PageTitleService) {
     return {
       'responseError': function(response) {
         if (response.status === -1) {
@@ -17,6 +17,7 @@ angular.module('metadatamanagementApp').factory(
         }
         if (response.status === 404) {
           $rootScope.$emit('notFoundError', response);
+          PageTitleService.setPageTitle('global.title');
         }
         if (500 <= response.status && response.status <= 511) {
           $rootScope.$emit('internalServerError', response);
